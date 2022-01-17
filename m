@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E47EC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 04:35:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC8FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 04:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234180AbiAQEfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jan 2022 23:35:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43634 "EHLO
+        id S237071AbiAQEiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jan 2022 23:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiAQEfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 23:35:53 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0CEC061574
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:35:53 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id j27so9775876pgj.3
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:35:53 -0800 (PST)
+        with ESMTP id S229563AbiAQEiS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 23:38:18 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5045AC061574
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:38:18 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id c14-20020a17090a674e00b001b31e16749cso29043018pjm.4
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
         bh=F0MbqCaPiKm4q2p6r0Typh4mMMxZw5tTZZEGaZ+tyjw=;
-        b=gJIcf5ZE1CGXdNoo118zvaHixNooF8VAFBLyiLBVXClF9sxPl41Actl5qujSFhZKqd
-         4yeKjDp2vleDkoB1TxfXDH0DMWiDTqUy8jWwFfCTgR9aM/qBWSbAH05z4PfUp4nzUi2I
-         f155a5VOKetdDK44Ob5BqKlkrvQ2axbkViNzmqIONNPC+mOmC6ebUOKiYXSwtfAhWo/P
-         f0msLnhRrFuZFtjTbRUrYwBCwnlxn2x/508Jpc7SZolQVcV5PMUUPOBkEdL/Pvsb4fyt
-         gE+6k9VXc4sUkNapxlXDDKsF2mqRDjOoMKlqB/3qvltVBuJJiwbttVxhjzp6GKGV73ZB
-         NxdQ==
+        b=fWbtqkxQaK6hKWIhcQfcbE8JwdpjHcp4FIADgiu/lZDhZ+XU6WhEWQyhNbw2397tNQ
+         J3ynO5AgqJ2XW/PeNroPj2q4kjlIAMwtfHjnCVpAHcwE77/erFRljoZuKtAYdW8Gh8yU
+         UBjrwGwtwr51mjrJ3+4feLcPHq6HdLJXpehZvfYa55UTxEa8A/doPkinn454VNuWahT8
+         W/s0gMa5uEihf7wBL+s0CRF0cmk6lGr+8Ql8WT52H0OmMiJVEsOlHah582niJnQI5fGk
+         //go2E45M9qn5NoyAMLAgnjfdAryrrS6N+YgwHYvvJqDdcOttk1eKJaloEqw5/tWx/nx
+         fnkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
         bh=F0MbqCaPiKm4q2p6r0Typh4mMMxZw5tTZZEGaZ+tyjw=;
-        b=x+sV6UNyiD6AfkNO6KP5nhenQewYcGx1uGp4/pSpscnY5IKDeewF/jKqxQ3W6xAStq
-         ElhdJNozrdBLkLDfSJCzbTZyIllB/CaCmbwmkCXjhyUIiDH8FdWd2bWWvtPUvsagglMX
-         CEeUk+xR96twvVC47W8/UQ7mZS+B47oJyVfS/oJ0aPWt9OtvWdQ1gMDjfM5i55onhlXS
-         5YzRSjdfvpWMqsWvfYrM6MkQdqaiTGXJAwFuHbjmUpGxzF6zwPsKOUdnF6gyErZcRS3/
-         PKYsu5RmYCUJFaLnWCcs/0JYN4OcuHBeSV28R21v4L9U1Me81IykUEnQV0N0gCtUkYwR
-         6dxg==
-X-Gm-Message-State: AOAM530a6fiJHBhSFfq7q1xXGREyG6KIWLEf8Jgn+qEZRHk36JaEDdLj
-        YO91eXrELH+gYuBnFz2k+ZAAia392N4=
-X-Google-Smtp-Source: ABdhPJyncbGYHICaMT9JCO0VXefHtaLeJt01uYceah6eCdzdH/zTUOq2IY6lVX1EVK6DlbdeCJCpKQ==
-X-Received: by 2002:a63:7b46:: with SMTP id k6mr17985402pgn.204.1642394152923;
-        Sun, 16 Jan 2022 20:35:52 -0800 (PST)
+        b=OFGsE8DVHLlyxa4nkqK743116e8pc7ucZFoGHUaIxk9AJm6QB8Y/ak7jN4ebslMyFJ
+         HUHFJVa4J5o0p6lThj2dgBv3Tkf+EVNSJbbJ3Jg/sKu1VHBo+QVMOReLAZ4V/WdO4fFl
+         3noqW7DwQSSCvKhhCx4iyCOf8tLKM3IVxcIjVxTBDwMdkqlLtdwHnO7+WsymZd8zGzOd
+         oypB9nLD3pVyqwn+On/iKcrkej2+Um2MuGNRV/Hapa1GxPX3tSVysgMmnRigOgmeS+wz
+         Onf+FzjbpbxqDSvXJZ+eit589ARg+YKVtZOksdx8o+/mcLVEoIVOjpkCAQXUmzpoWe84
+         3O+g==
+X-Gm-Message-State: AOAM532YQxKeYFuFNlp6dZnNokqcIYAAp4N1jmapqaOMvbkStfVqZAMx
+        00g2pictCDuNlaUvV883jWI=
+X-Google-Smtp-Source: ABdhPJwh2n7/lKpX297Z3vytuOhb/Je5PkCWNXAyWpV7baIA4OGVx++ZgY+Sl4jyv8oxiIJ5siIE5g==
+X-Received: by 2002:a17:902:a50f:b0:149:bc1a:2c98 with SMTP id s15-20020a170902a50f00b00149bc1a2c98mr21342100plq.35.1642394297823;
+        Sun, 16 Jan 2022 20:38:17 -0800 (PST)
 Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id 14sm1689099pgp.86.2022.01.16.20.35.51
+        by smtp.gmail.com with ESMTPSA id c24sm9798112pgj.57.2022.01.16.20.38.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jan 2022 20:35:52 -0800 (PST)
+        Sun, 16 Jan 2022 20:38:17 -0800 (PST)
 From:   cgel.zte@gmail.com
 X-Google-Original-From: xu.xin16@zte.com.cn
 To:     sterlingteng@gmail.com, seakeel@gmail.com, corbet@lwn.net
@@ -54,9 +54,11 @@ Cc:     siyanteng01@gmail.com, linux-doc@vger.kernel.org,
         xu.xin16@zte.com.cn, cgel.zte@gmail.com,
         Yang Yang <yang.yang29@zte.com.cn>
 Subject: [PATCH v2 1/3] zh_CN: Add Chinese translation for vm/ksm.rst
-Date:   Mon, 17 Jan 2022 04:35:48 +0000
-Message-Id: <20220117043548.861607-1-xu.xin16@zte.com.cn>
+Date:   Mon, 17 Jan 2022 04:38:13 +0000
+Message-Id: <20220117043813.861663-1-xu.xin16@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220117043455.861550-1-xu.xin16@zte.com.cn>
+References: <20220117043455.861550-1-xu.xin16@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
