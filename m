@@ -2,179 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C11BC433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jan 2022 20:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 520A3C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 04:35:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236147AbiAPUTH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jan 2022 15:19:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49528 "EHLO
+        id S234217AbiAQEfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jan 2022 23:35:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236138AbiAPUTE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 15:19:04 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACD2C061574;
-        Sun, 16 Jan 2022 12:19:04 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id w16so56902038edc.11;
-        Sun, 16 Jan 2022 12:19:04 -0800 (PST)
+        with ESMTP id S229563AbiAQEfC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 23:35:02 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473EDC061574
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:35:02 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id a1-20020a17090a688100b001b3fd52338eso19819752pjd.1
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:35:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
-        b=f1jP+h+11ucBSDdzQ7G1vw72x0PMZncsFsuunsZCQFnPbg0RxfalgYe+6am79+pO32
-         57iFSGZ7OrWZVdWeTvIQG0yizer1cfC0M+coHR2dMDMWVH5DVcHE9/6n8OzTXECCQlc+
-         kcr9otJ5FLElCBSqvDIKBUy1X9AILBl/R+GBfKjye9wpPp1/ebK63cvYYcYK9Sxw9Lrm
-         Ry+LPzkZG1cSHhFP/TtgV2vVGNRBZOGEFmkKIOiAEqMsB1YakQadidZ4vj0VH4ydfG0r
-         fMEVJwpsNwkT3tyf4U39AxlRg10DQF02XPxV+4wYIrhh/XfLKEFlWtgJZMT02ysaELm1
-         M7DA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GW6Cr2EDnoiYE6Z38XaMDMd0d2DMS0he+uNelARpcj4=;
+        b=PkQH+/FdeLpR+qUGPhZsv1lzQOSdE/ko2kod8sxSZZFR7TN32XPUeEPaXVOdIPNr/8
+         oDfC7lBKiwbdXBXlt6AV6qb0A0NfUl0OOXt+KqY8kzE9dK2ESmjy8JGHK05N5GAb9tzz
+         3dW4VKWPIvI0gIz1fLVmxZsp75CSX/ssS+M+CH4gmpUuoPMGbACz9CPr0fl+iLCxCuR5
+         DpA34Wmty2MmmZ9BMwT/0LSfmdeBnhuMunhvUg40Y0ZY/LKfwl3sySV5GjibBOuZxheM
+         wnWtcUWoaO8/GIg6YBMmm8unggtecOf2sJGiBUGVZH8ldNkmaPpZ00NDXyEqeZpeGYbR
+         U4XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
-        b=HCIKu34ie4Cs7dxvdLJzUumvCC9imE/16FqXLqVm2qh0f21+7xvP71DqStpbcGn55n
-         vrE5gIFrmJ2ios8h605w+BQQ7tCWOTtcHar71UZY5oHoDYmS7MjHR6pU6bUstZ2PcII3
-         bwAaWChiiPL6z0w9AdHCsIJQU8mZJUQUkjYxXxA+qvjeaddgfDHrj0f0W06d8AXntvZp
-         58ZsmvupDDyMnAgaThnLP2Zbz+NerA99Nq7J3NhcOXStkO3bMcWSfgPfo4ECobiwjG+x
-         cNS0Y72ZIuhnofdnxlMq531FNrh6uLsrENOayc0vhAc3UyYDuF4hQN3jld+i0ABfb7Sg
-         iQ+w==
-X-Gm-Message-State: AOAM532F1JXhCS/GzTVzBKySpwdsH/FEFSkW2D8oVEYA3FYZMU6HUq1r
-        hh8thk/nGqkN5QGJUF0Gvb4=
-X-Google-Smtp-Source: ABdhPJzcLLyC48Yh5bXkJHxZfEu7RDTXaB+tF+SVBZKpz7O9lvjOScvlLKpCiSDkSfhrFm3qumOOuw==
-X-Received: by 2002:a05:6402:4387:: with SMTP id o7mr18181206edc.266.1642364343177;
-        Sun, 16 Jan 2022 12:19:03 -0800 (PST)
-Received: from tiger.museclub.art (p200300cf9f4053004b601b67b388bdb4.dip0.t-ipconnect.de. [2003:cf:9f40:5300:4b60:1b67:b388:bdb4])
-        by smtp.googlemail.com with ESMTPSA id eg30sm2529452edb.85.2022.01.16.12.19.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GW6Cr2EDnoiYE6Z38XaMDMd0d2DMS0he+uNelARpcj4=;
+        b=cNKAd1RXfk07i9as7t9New9FgbyxzakhkdupTI+5C8ZRm1JVYVgF11h8kY6St9yCBS
+         SRFHGnel/8AF7J7+dCdQ7Urc1q6LrWo7QvnFImLdFoRSrEKguRSu3n6wwfnv1Qhi0/Sq
+         YPnptjQw8SAzBBSQ8FtQ2zgRiWGXg3l8JroCpDUnCmHYI6TBkkAMqtX01asc8E4tU9Rk
+         vOJ6I12hLOIcv7+05MHPPBHZf8gbYFP9Tbj3rEYK/MwkemRZJZxsDOjoPkmvgBy5ghAD
+         +3gfsdWbQPm7jl0RXgWRJ3I8KcaMmSGYLML3d2zrCOlUNML+9laymuAf/DSK+B6W8Igf
+         X+3A==
+X-Gm-Message-State: AOAM531CdPDRZcR9W62eFd3nV9b62rT9yNNzjALHnu/KlxaKP1w0SHjV
+        F29d7me5xQsoRoEbhFMeZSw=
+X-Google-Smtp-Source: ABdhPJxh0De5KE0747bUsFB30nGfCR5eN+DyyZ0j/LdkVDKBC8jlZXW5Nn418t99DaNqRU8f0BdbVg==
+X-Received: by 2002:a17:90a:5996:: with SMTP id l22mr4696105pji.27.1642394101834;
+        Sun, 16 Jan 2022 20:35:01 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id om7sm11623830pjb.47.2022.01.16.20.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jan 2022 12:19:02 -0800 (PST)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [ASUS EC Sensors V6 v6 2/3] hwmon: (asus-ec-sensors) update documentation
-Date:   Sun, 16 Jan 2022 21:18:40 +0100
-Message-Id: <20220116201843.2301438-3-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220116201843.2301438-1-eugene.shalygin@gmail.com>
-References: <20220116201843.2301438-1-eugene.shalygin@gmail.com>
+        Sun, 16 Jan 2022 20:35:01 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: xu.xin16@zte.com.cn
+To:     sterlingteng@gmail.com, seakeel@gmail.com, corbet@lwn.net
+Cc:     siyanteng01@gmail.com, linux-doc@vger.kernel.org,
+        xu.xin16@zte.com.cn, cgel.zte@gmail.com
+Subject: [PATCH v2 0/3] Add Chinese translations for KSM documents
+Date:   Mon, 17 Jan 2022 04:34:55 +0000
+Message-Id: <20220117043455.861550-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst     | 51 +++++++++++++++++++++
- Documentation/hwmon/asus_wmi_ec_sensors.rst | 38 ---------------
- 2 files changed, 51 insertions(+), 38 deletions(-)
- create mode 100644 Documentation/hwmon/asus_ec_sensors.rst
- delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
+From: xu xin <xu.xin16@zte.com.cn>
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-new file mode 100644
-index 000000000000..b8820cd1bd62
---- /dev/null
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -0,0 +1,51 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver asus_ec_sensors
-+=================================
-+
-+Supported boards:
-+ * PRIME X570-PRO,
-+ * Pro WS X570-ACE,
-+ * ROG CROSSHAIR VIII DARK HERO,
-+ * ROG CROSSHAIR VIII FORMULA,
-+ * ROG CROSSHAIR VIII HERO,
-+ * ROG CROSSHAIR VIII IMPACT,
-+ * ROG STRIX B550-E GAMING,
-+ * ROG STRIX B550-I GAMING,
-+ * ROG STRIX X570-E GAMING,
-+ * ROG STRIX X570-I GAMING
-+
-+Authors:
-+    - Eugene Shalygin <eugene.shalygin@gmail.com>
-+
-+Description:
-+------------
-+ASUS mainboards publish hardware monitoring information via Super I/O
-+chip and the ACPI embedded controller (EC) registers. Some of the sensors
-+are only available via the EC.
-+
-+The driver is aware of and reads the following sensors:
-+
-+1. Chipset (PCH) temperature
-+2. CPU package temperature
-+3. Motherboard temperature
-+4. Readings from the T_Sensor header
-+5. VRM temperature
-+6. CPU_Opt fan RPM
-+7. VRM heatsink fan RPM
-+8. Chipset fan RPM
-+9. Readings from the "Water flow meter" header (RPM)
-+10. Readings from the "Water In" and "Water Out" temperature headers
-+11. CPU current
-+
-+Sensor values are read from EC registers, and to avoid race with the board
-+firmware the driver acquires ACPI mutex, the one used by the WMI when its
-+methods access the EC.
-+
-+Module Parameters
-+-----------------
-+ * mutex_path: string
-+		The driver holds path to the ACPI mutex for each board (actually,
-+		the path is mostly identical for them). If ASUS changes this path
-+		in a future BIOS update, this parameter can be used to override
-+		the stored in the driver value until it gets updated.
-diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_wmi_ec_sensors.rst
-deleted file mode 100644
-index 1b287f229e86..000000000000
---- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
-+++ /dev/null
-@@ -1,38 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0-or-later
--
--Kernel driver asus_wmi_ec_sensors
--=================================
--
--Supported boards:
-- * PRIME X570-PRO,
-- * Pro WS X570-ACE,
-- * ROG CROSSHAIR VIII DARK HERO,
-- * ROG CROSSHAIR VIII FORMULA,
-- * ROG CROSSHAIR VIII HERO,
-- * ROG STRIX B550-E GAMING,
-- * ROG STRIX B550-I GAMING,
-- * ROG STRIX X570-E GAMING.
--
--Authors:
--    - Eugene Shalygin <eugene.shalygin@gmail.com>
--
--Description:
--------------
--ASUS mainboards publish hardware monitoring information via Super I/O
--chip and the ACPI embedded controller (EC) registers. Some of the sensors
--are only available via the EC.
--
--ASUS WMI interface provides a method (BREC) to read data from EC registers,
--which is utilized by this driver to publish those sensor readings to the
--HWMON system. The driver is aware of and reads the following sensors:
--
--1. Chipset (PCH) temperature
--2. CPU package temperature
--3. Motherboard temperature
--4. Readings from the T_Sensor header
--5. VRM temperature
--6. CPU_Opt fan RPM
--7. Chipset fan RPM
--8. Readings from the "Water flow meter" header (RPM)
--9. Readings from the "Water In" and "Water Out" temperature headers
--10. CPU current
+According to the suggestions from Yanteng Si, Alex Shi and
+Jonathan Corbet, I have modified my patches. Here are my specific
+changelog:
+
+	1. Remove Redundant Labels in added Documents like ``.. _ksm_sysfs:``
+
+	   Yanteng Si said: Too many tags will cause a compilation
+	   warning, because an identical one already exists for the Origin
+	   document. Jonathan Corbet think so.
+
+	2. Align with standard Chinese format on the 'original', 'translator',
+	   etc.
+
+	3. fix some translation error like “pages_unshared”, I remove  '独享'.
+
+	   Alex Shi suggest to remove '独享'.
+
+	4. Refactor translations/zh_CN/admin-guide/mm/index.rst.
+
+	   Yanteng Si: Compile pass is only one of the basis for checking
+	   through, we also have to check the html for any problems, as
+	   far as I know, the above treatment is very ugly.
+
+I have rebased this patch series on top of Yanteng Si's series on his
+commit:
+https://lore.kernel.org/linux-doc/60c579b34792c4c76194c4843a695263a982b37d.1641866889.git.siyanteng@loongson.cn/
+
+xu xin (3):
+  Add Chinese translation for vm/ksm.rst
+  Add Chinese translations for admin-guide/mm/ksm.rst
+  Add admin-guide/mm/index.rst
+
+ .../translations/zh_CN/admin-guide/index.rst       |   2 +-
+ .../translations/zh_CN/admin-guide/mm/index.rst    |  49 +++++++
+ .../translations/zh_CN/admin-guide/mm/ksm.rst      | 148
++++++++++++++++++++++
+ Documentation/translations/zh_CN/vm/index.rst      |   1 +
+ Documentation/translations/zh_CN/vm/ksm.rst        |  70 ++++++++++
+ 5 files changed, 269 insertions(+), 1 deletion(-)
+ create mode 100644
+Documentation/translations/zh_CN/admin-guide/mm/index.rst
+ create mode 100644
+Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/ksm.rst
 -- 
-2.34.1
+2.15.2
 
