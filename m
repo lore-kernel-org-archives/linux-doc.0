@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91079C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 05:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D959DC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 05:34:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232636AbiAQFef (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 00:34:35 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:47192 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232142AbiAQFe3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 00:34:29 -0500
+        id S234317AbiAQFey (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 00:34:54 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:40836 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234302AbiAQFek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 00:34:40 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 68E30B80DCF;
-        Mon, 17 Jan 2022 05:34:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26EE9C36AEF;
-        Mon, 17 Jan 2022 05:34:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B17AD60DFF;
+        Mon, 17 Jan 2022 05:34:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D02C36AED;
+        Mon, 17 Jan 2022 05:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642397666;
-        bh=q4T/HWnrX6MkEzrYkY7huTX+IcB2Gc3XmNqnnQXC/gg=;
+        s=k20201202; t=1642397679;
+        bh=5sO+DVq/B8LfLiCRXoo9vrGP1/bmz/YXbgCFN+RtTx0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Om3bJIbmdNRZs8qjTT5TswBGLL5mkxGSGm0fAQSiR5aec7qi9q7IcpHkoJzU9yte+
-         +IuCyUCTduDfCTpB4hy3Tb7it42V+vUHwapvNZ8aWMR4W0iYULH7P7IgbF/0EzNVhx
-         OsYz14KHAtOKKT/MeUymGMRc52jU9Tc4XOMRubm8c++7Z+10RfO21IZvGCxJvlpl8W
-         luhs47wLhCLCf5RcBBxty+fRDwHmWb8tF5mLEGoXx5L9XI3TiGMh5DYEaMhVr46U4M
-         6hSqZPD0hA1VUe5l/5OxQ6k0+x85+ECq8EOYYxMqP1uafRbtc1F8TYI/tnlDNBHC61
-         74vbbURyPs2hg==
+        b=IUn1GUnKX2r0MiWblWp4CWoPAnflgTGFC12IMZvNlbd8ekmTxqUzCuw9LjWD4aXTO
+         b3zMELQcDY1kzPEnh6FZAsP86O0nLUcta4d5lU1jPKnTMXumryAgSkYGFPQXV7mL+Y
+         CYBRrgmSxFSzLTzJafi2GbllCYxXKokksqSwvr2npRlRi0UWS3gAuEn5i1ndj4TQ45
+         3Lj2rY8ZI/z9/u9/lGvH3+c0NLTdcKoeHnhNlOUdS0ErmctxpPQ+k81gnSJC0Z/zKl
+         VFN5+dgM+zLSibErbCEf7gxl9/YWrsIa+pEwiZk/pgDaZ9eYT3J/8YUpSAu78uOzlu
+         uI8/bXGLydEFQ==
 From:   Miguel Ojeda <ojeda@kernel.org>
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@google.com>
-Subject: [PATCH v3 07/19] rust: add `build_error` crate
-Date:   Mon, 17 Jan 2022 06:33:37 +0100
-Message-Id: <20220117053349.6804-8-ojeda@kernel.org>
+Subject: [PATCH v3 10/19] rust: export generated symbols
+Date:   Mon, 17 Jan 2022 06:33:40 +0100
+Message-Id: <20220117053349.6804-11-ojeda@kernel.org>
 In-Reply-To: <20220117053349.6804-1-ojeda@kernel.org>
 References: <20220117053349.6804-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -47,63 +47,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Gary Guo <gary@garyguo.net>
+All symbols are reexported reusing the `EXPORT_SYMBOL_GPL` macro
+from C. The lists of symbols are generated on the fly.
 
-The `build_error` crate provides the `build_error` function which
-is then used to provide the `build_error!` and the `build_assert!`
-macros.
+There are three main sets of symbols to distinguish:
 
-`build_assert!` is intended to be used when `static_assert!` cannot
-be used, e.g. when the condition refers to generic parameters or
-parameters of an inline function.
+  - The ones from the `core` and `alloc` crates (from the Rust
+    standard library). The code is licensed as Apache/MIT.
+
+  - The ones from our abstractions in the `kernel` crate.
+
+  - The helpers (already exported since they are not generated).
+
+We export everything as GPL. This ensures we do not mistakenly
+expose GPL kernel symbols/features as non-GPL, even indirectly.
 
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
 Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
 Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-Signed-off-by: Gary Guo <gary@garyguo.net>
-Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/build_error.rs | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 rust/build_error.rs
+ rust/exports.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 rust/exports.c
 
-diff --git a/rust/build_error.rs b/rust/build_error.rs
+diff --git a/rust/exports.c b/rust/exports.c
 new file mode 100644
-index 000000000000..34e589149d3e
+index 000000000000..d7dff1b3b919
 --- /dev/null
-+++ b/rust/build_error.rs
-@@ -0,0 +1,29 @@
++++ b/rust/exports.c
+@@ -0,0 +1,16 @@
 +// SPDX-License-Identifier: GPL-2.0
++//
++// A hack to export Rust symbols for loadable modules without having to redo
++// the entire `include/linux/export.h` logic in Rust.
++//
++// This requires the Rust's new/future `v0` mangling scheme because the default
++// one ("legacy") uses invalid characters for C identifiers (thus we cannot use
++// the `EXPORT_SYMBOL_*` macros).
 +
-+//! Build-time error.
-+//!
-+//! This crate provides a function `build_error`, which will panic in
-+//! compile-time if executed in const context, and will cause a build error
-+//! if not executed at compile time and the optimizer does not optimise away the
-+//! call.
-+//!
-+//! It is used by `build_assert!` in the kernel crate, allowing checking of
-+//! conditions that could be checked statically, but could not be enforced in
-+//! Rust yet (e.g. perform some checks in const functions, but those
-+//! functions could still be called in the runtime).
++#include <linux/module.h>
 +
-+#![no_std]
++#define EXPORT_SYMBOL_RUST_GPL(sym) extern int sym; EXPORT_SYMBOL_GPL(sym);
 +
-+/// Panics if executed in const context, or triggers a build error if not.
-+#[inline(never)]
-+#[cold]
-+#[no_mangle]
-+#[track_caller]
-+pub const fn build_error(msg: &'static str) -> ! {
-+    panic!("{}", msg);
-+}
-+
-+#[cfg(CONFIG_RUST_BUILD_ASSERT_WARN)]
-+#[link_section = ".gnu.warning.build_error"]
-+#[used]
-+static BUILD_ERROR_WARNING: [u8; 45] = *b"call to build_error present after compilation";
++#include "exports_core_generated.h"
++#include "exports_alloc_generated.h"
++#include "exports_kernel_generated.h"
 -- 
 2.34.1
 
