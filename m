@@ -2,59 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7917BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 12:59:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7897C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 21:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240051AbiAQM7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 07:59:53 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:33880 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiAQM7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 07:59:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Eg4+CosmprUBdxkImyooL59klv9lZlKadW6+i0O7cP8=; b=sntxkZuvPeh6aFkf1a9ueaM5Ju
-        3FwcaI0mWgaeqFQRJwR4etxyrW4UWuW5tLL/6YC2cwHiqjHZBB+zaZF4/9BYHlwHtHMf9cPhd4QjN
-        IVfar5wwSIJTvaQOUNkTSOYTm71RjzulBlKh4dAtSByp2t6yop+nHmundgg8IbDC5epDiTv7p0lLD
-        lETSa2rSK8F82qt+w+hWSCIsOHmVLITeHJR2qYfJlTQuJNi8ORH1sIXgJM9YhuhxKkv9c4VawqPv1
-        asCoR5jHBMCLLqGPLpApoDBBya+E87A1rDm2QXMpdUj/vHHe1VdsLxaG6pJPAdQrqym1zXKwb+i64
-        XQO8lJtg==;
-Received: from [179.98.77.138] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1n9Rbv-0003zn-Gb; Mon, 17 Jan 2022 13:59:47 +0100
-Message-ID: <7fd2b15c-0b62-2501-5078-0ee6046c8d04@igalia.com>
-Date:   Mon, 17 Jan 2022 09:59:30 -0300
+        id S243380AbiAQVzU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 16:55:20 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51136 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231401AbiAQVzT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jan 2022 16:55:19 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 56BAB2D3;
+        Mon, 17 Jan 2022 21:55:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 56BAB2D3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1642456519; bh=bbke6icTjajJgZMPYn2uTwxiatvWG9/Q/cTcoI855hI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=FDLpfoUDbmhG7MZrYoW38nFeNs7SLbKk8N6pCPv+a0Gq/FqnTgKNuvRumSROqgRUv
+         vtHUEQY2Kgb+LduBupEZz4GlB9tSwiZgavOL3JgH4aikuh6UAZUT2tbD/VsFxrjtiY
+         ZB71XKWYn7xI+2iRI6me5V6bvr+njvOE9ndHyI+g6KFs871jIadKLRaf075mZvl8mE
+         nmiHN0eG4d3RZwbixF1b5CAKIMRi58M3BneK2LHSgUOqgIyG5pnvNZJcMej/jzQBeu
+         U+JGtyziVjt6BT2eQKkUOmzVmc2wckByiiTU0j1UD+RZL18J1xTg8UJ9Gycu85sSMj
+         A2+ALN6fj5qDQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wang Cheng <wanngchenng@gmail.com>, jens.wiklander@linaro.org
+Cc:     op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: staging/tee.rst: fix two typos found while reading
+In-Reply-To: <20220115125236.34886-1-wanngchenng@gmail.com>
+References: <20220115125236.34886-1-wanngchenng@gmail.com>
+Date:   Mon, 17 Jan 2022 14:55:39 -0700
+Message-ID: <87k0ey3u3o.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     Baoquan He <bhe@redhat.com>
-Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
-        stern@rowland.harvard.edu, akpm@linux-foundation.org,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        halves@canonical.com, kernel@gpiccoli.net
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <20220116131129.GD2388@MiWiFi-R3L-srv>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220116131129.GD2388@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16/01/2022 10:11, Baoquan He wrote:
-> [...]
-> This patch looks good to me, thx.
-> 
-> Acked-by: Baoquan He <bhe@redhat.com>
-> 
+Wang Cheng <wanngchenng@gmail.com> writes:
 
-Thanks a lot Baoquan He !
+> Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
+> ---
+>  Documentation/staging/tee.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
+> index 3c63d8dcd61e..498343c7ab08 100644
+> --- a/Documentation/staging/tee.rst
+> +++ b/Documentation/staging/tee.rst
+> @@ -255,7 +255,7 @@ The following picture shows a high level overview of AMD-TEE::
+>   +--------------------------+      +---------+--------------------+
+>  
+>  At the lowest level (in x86), the AMD Secure Processor (ASP) driver uses the
+> -CPU to PSP mailbox regsister to submit commands to the PSP. The format of the
+> +CPU to PSP mailbox register to submit commands to the PSP. The format of the
+>  command buffer is opaque to the ASP driver. It's role is to submit commands to
+>  the secure processor and return results to AMD-TEE driver. The interface
+>  between AMD-TEE driver and AMD Secure Processor driver can be found in [6].
+> @@ -290,7 +290,7 @@ cancel_req driver callback is not supported by AMD-TEE.
+>  
+>  The GlobalPlatform TEE Client API [5] can be used by the user space (client) to
+>  talk to AMD's TEE. AMD's TEE provides a secure environment for loading, opening
+> -a session, invoking commands and clossing session with TA.
+> +a session, invoking commands and closing session with TA.
+
+Applied, thanks.
+
+jon
