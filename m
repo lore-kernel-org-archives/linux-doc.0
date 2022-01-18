@@ -2,84 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E58C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 18:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E160BC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 18:54:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348004AbiARS0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 13:26:18 -0500
-Received: from mail-yb1-f174.google.com ([209.85.219.174]:33733 "EHLO
-        mail-yb1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347803AbiARS0S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 13:26:18 -0500
-Received: by mail-yb1-f174.google.com with SMTP id v45so8377263ybi.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:26:18 -0800 (PST)
+        id S1348465AbiARSy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 13:54:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348459AbiARSyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 13:54:55 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6299C061574
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:54:53 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id o80so7195328yba.6
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:54:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
+        b=jQFQQg8xNBNZ796rZm7JSGtcgk/RVRlUMQOrW3OprZAwIy/2ezKxTUPzerHa5MEWoA
+         +kfQjBOqWihjoI8v514cV21UvUHS5JntgpKuZ/16liMkZGbbSOZYF4w1r6JCuqamghHv
+         vowP4DYmSxtE//fgZqRAITszSqg91cqu9Gg64FsXe9W1savFkk2plmXtLm5fBBA0jF0b
+         oImfjSzLxxePgVhSUZSsFU9ZJ84ZiyGtkbd0T7VyhnxMEoyDyxlSw/pOQe3BAymEfuQ2
+         L/UK5sx9cvQq7XnTqbleIw48nFYsStzQLbt2Y29R65fkhq5UTeKah55mvbCMv7n+zmyV
+         rtAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=nNs5o4VvLJblkKkIVcPmYPx10yy3hUKHbFmbQiq0e2c=;
-        b=bCDnq72AqOmZF7AnjliVE+jvuFb2cVFcTRDgVEmyVmTiOZ27q2uTsBsIfXISMKE7vK
-         T0ZrMDwS1DWqBbQnG5VY/hxKm0Prlw+fgZhCWIzCp0ChBoqwxFrf+6IqkJ8ogPRfKLE6
-         yqp82jFf54oJamDlPOSt7ttnZ1VFnYf0k7rcviayToeQot7t/kpvKH1wXxLhrouaau58
-         LShphEkECYGzyk02Kti30QrtRn9bFMnsbDlUJ6aEHfPA0HeWvU0wVNNopLFkeacqOWnF
-         QUgpfluvIeLN1/FLI3TMl8ySjz8z/jmTL860OCOcQfTJiOVjLEbq+ECH1MHIxWeOsl38
-         bdQA==
-X-Gm-Message-State: AOAM533Tn/n2s/QSnVPpzKKuDsb81Y/bpn/AeuEAfRKBqLB/gonWaE86
-        /AEE69LZEcH237XnWf0HN8qMNs2QmZ8QYH6IWPguIQ==
-X-Google-Smtp-Source: ABdhPJx5/up8OyqXZHlIHqf4NfI6Tfjq2cViE0P7N9WMB4LYAqgwwLReT8UFbDuDxxQ69bbIL88CvfRTEhI+2+iMALI=
-X-Received: by 2002:a25:1388:: with SMTP id 130mr35201366ybt.321.1642530376588;
- Tue, 18 Jan 2022 10:26:16 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
+        b=OjVFQcIBmZamV1nDwtuSyFoK7WbUy3UOq9h9J1qH1fmRjCLra1TaHRkd5ahOF+aTgq
+         +SrK1fqXUpLG5oVZY1BvOiE/Y5zEdM6rlRgPILgfdMKfInmNNq4qKMxZzRmpef7yWCUr
+         CzS33NWQc9KC9wF0K+X4ylEj5U6Dc8J5lfVTQpobLNCcsxGFRl+rVRiZOCIdU9iBVY2f
+         vMX+EwoIQ3nNeTiSxQENxKrd04sIACbhY777iodm6REBY/uJHtUjS2wwjZEGfgdPzaiN
+         9ThoddNCwSr/SzZOGQrw5YlwYQAj9Nw7FvVxzvKbmxA5Jc46fZZ0wUxog3cOW1HNjTEE
+         cLIA==
+X-Gm-Message-State: AOAM531gQir9JHd0+emeKS04m8NHiS3N2I4n5Hep/JRB1X4V3bHQvP6t
+        tyVhBWobubFbB0IGjyf0cn8/hDmod7nmYVVW2zijoA==
+X-Google-Smtp-Source: ABdhPJwmF0diEuNSgYDq6VwVG2sEv2wSXB4R4GhA8CrKDHbQBq+Cp6d2D+RYzxyanPD1WMMgcwbQ0BJ4awu2dbq2mt8=
+X-Received: by 2002:a25:388a:: with SMTP id f132mr35653202yba.102.1642532092017;
+ Tue, 18 Jan 2022 10:54:52 -0800 (PST)
 MIME-Version: 1.0
-From:   Martin Ross <mross@pobox.com>
-Date:   Tue, 18 Jan 2022 13:26:05 -0500
-Message-ID: <CA++MVV3Jse4WZ-zr-SUWQz3Gk_dByU6JduVfUkvQNW+jgm9O4Q@mail.gmail.com>
-Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
- decrypted data
-To:     jarkko@kernel.org
-Cc:     corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
-        jmorris@namei.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, serge@hallyn.com,
-        Yael Tiomkin <yaelt@google.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
+References: <20220115010622.3185921-1-hridya@google.com> <20220115010622.3185921-5-hridya@google.com>
+ <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
+In-Reply-To: <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
+From:   Hridya Valsaraju <hridya@google.com>
+Date:   Tue, 18 Jan 2022 10:54:16 -0800
+Message-ID: <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
+Subject: Re: [RFC 4/6] dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF to
+ a cgroup.
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <christian@brauner.io>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Hang Lu <hangl@codeaurora.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Chris Down <chris@chrisdown.name>,
+        Vipin Sharma <vipinsh@google.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, Kenny.Ho@amd.com, daniels@collabora.com,
+        kaleshsingh@google.com, tjmercier@google.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarkko,
+On Sun, Jan 16, 2022 at 11:46 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 15.01.22 um 02:06 schrieb Hridya Valsaraju:
+> > The optional exporter op provides a way for processes to transfer
+> > charge of a buffer to a different process. This is essential for the
+> > cases where a central allocator process does allocations for various
+> > subsystems, hands over the fd to the client who
+> > requested the memory and drops all references to the allocated memory.
+> >
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > ---
+> >   include/linux/dma-buf.h | 18 ++++++++++++++++++
+> >   1 file changed, 18 insertions(+)
+> >
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 7ab50076e7a6..d5e52f81cc6f 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -13,6 +13,7 @@
+> >   #ifndef __DMA_BUF_H__
+> >   #define __DMA_BUF_H__
+> >
+> > +#include <linux/cgroup_gpu.h>
+> >   #include <linux/dma-buf-map.h>
+> >   #include <linux/file.h>
+> >   #include <linux/err.h>
+> > @@ -285,6 +286,23 @@ struct dma_buf_ops {
+> >
+> >       int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >       void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> > +
+> > +     /**
+> > +      * @charge_to_cgroup:
+> > +      *
+> > +      * This is called by an exporter to charge a buffer to the specif=
+ied
+> > +      * cgroup.
+>
+> Well that sentence makes absolutely no sense at all.
+>
+> The dma_buf_ops are supposed to be called by the DMA-buf subsystem on
+> behalves of the importer and never by the exporter itself.
+>
+> I hope that this is just a documentation mixup.
 
-I have been working with Yael on this project so I thought I might add
-a bit of background here around the use case that this series of
-patches is trying to address.
+Thank you for taking a look Christian!
 
-At a high level we are trying to provide users of encryption that have
-key management hierarchies a better tradeoff between security and
-availability.  For available and performance reasons master keys often
-need to be released (or derived/wrapped keys created) outside of a KMS
-to clients (which may in turn further wrap those keys in a series of
-levels).  What we are trying to do is provide a mechanism where the
-wrapping/unwrapping of these keys is not dependent on a remote call at
-runtime.  e.g.  To unwrap a key if you are using AWS KMS or Google
-Service you need to make an RPC.  In practice to defend against
-availability or performance issues, designers end up building their
-own kms and effectively encrypting everything with a DEK.  The DEK
-encrypts same set as the master key thereby eliminating the security
-benefit of keeping the master key segregated in the first place.
+Yes, that was poor wording, sorry about that. It should instead say
+that the op would be called by the process the buffer is currently
+charged to in order to transfer the buffer's charge to a different
+cgroup. This is helpful in the case where a process acts as an
+allocator for multiple client processes and we would like the
+allocated buffers to be charged to the clients who requested their
+allocation(instead of the allocating process as is the default
+behavior). In Android, the graphics allocator HAL process[1] does
+most of the graphics allocations on behalf of various clients. After
+allocation, the HAL process passes the fd to the client over binder
+IPC and the binder driver invokes the charge_to_cgroup() DMA-BUF op to
+uncharge the buffer from the HAL process and charge it to the client
+process instead.
 
-We are building a mechanism to  create a security boundary in the
-kernel that allows these master keys to be stored in the kernel and
-used to wrap/unwrap keys via less trusted user processes.  The other
-goal here is to eliminate the complexity and statefulness required to
-do this today which would be to create a trusted daemon or process on
-the machine.  Concretely this means that since the user process will
-not have the master key the system designer has better options.  One
-obvious advantage is that any core dumps or code injection attacks
-won't be able to trivially grab the master key from the process or the
-linux keyring.  Once in the kernel this functionality can be
-transparently integrated into user space crypto libraries that have
-existing key management functionality.
+[1]: https://source.android.com/devices/graphics/arch-bq-gralloc
 
-Hope this helps and happy to answer any further questions!
+Regards,
+Hridya
 
-M
+
+>
+> Regards,
+> Christian.
+>
+> >   The caller must hold a reference to @gpucg obtained via
+> > +      * gpucg_get(). The DMA-BUF will be uncharged from the cgroup it =
+is
+> > +      * currently charged to before being charged to @gpucg. The calle=
+r must
+> > +      * belong to the cgroup the buffer is currently charged to.
+> > +      *
+> > +      * This callback is optional.
+> > +      *
+> > +      * Returns:
+> > +      *
+> > +      * 0 on success or negative error code on failure.
+> > +      */
+> > +     int (*charge_to_cgroup)(struct dma_buf *dmabuf, struct gpucg *gpu=
+cg);
+> >   };
+> >
+> >   /**
+>
