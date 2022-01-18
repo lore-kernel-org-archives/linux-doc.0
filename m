@@ -2,180 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94154C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 16:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4EDC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 17:28:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346559AbiARQxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 11:53:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346515AbiARQxi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 11:53:38 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5211DC06161C;
-        Tue, 18 Jan 2022 08:53:37 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id c2so23544373wml.1;
-        Tue, 18 Jan 2022 08:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Nn7E+xJeR5ilUnsYFGL6Lm5NVc/T4m/9M7mSORyUNAE=;
-        b=I9Y+mZSWvmD8sDM3qG8vwiXe9OoFhRKQut9yfEo2gS+qguoV/mXIdPQmVHbiO8Ql0m
-         sGftFqmf6aE1EhcUq4Ws3xqE463Bh9g70zqkMqWLXsIfU22wgh/tB16fywczd4HG55h+
-         lTn8vMM74LxNr8ucQ3W//rwbLk1hnLHcgGlkzcV8/hsO2lMkz1y57eRAC45u7cJskyQz
-         WiC3oevewUAYn+xGM0Zr6arRoih+I7BJUpX61v+5A20LAhML63+JFn5DO/taD1JqJ5Wf
-         MuP9GlIW7AgCUjrM87ZKQ5tb5aCfyY20kceGXR3Q096wZjmRWccOQiSMJvnNytMEenlv
-         f6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Nn7E+xJeR5ilUnsYFGL6Lm5NVc/T4m/9M7mSORyUNAE=;
-        b=CZ99fifSYU9VCye6exDjrE6gNIS7UpspRVthV3rXqAaO4cKF6AjP1X3GfG1sn7KYhx
-         h7KV/DUTd8jfEobWv0slFs4nwe1hRy5QzQucnR2OLXHpBLOHO13R6f7qLryRFllZsls5
-         o9BPDoeTHajhxe25SQTNCGvKW2TWt18vnTyHekaZ2vdyQveF2UcyUyJREEe2ipi9wIW0
-         nUReZ8NlI1gjCIm1TavKgF+OJKzL8b1P3MjpmIGUMb8z8MdQ8mc86YWkYpcSHXhoZgOk
-         2DTsQ2FXXOHQDuCRH/OvaHgp+hIzW4EyKyMQ4uGbM87IJ5oszph2gsR2tzbhuYSoS25O
-         Ol5g==
-X-Gm-Message-State: AOAM5327+uyZZeyyFbOBReSw1x0TfDET4bS4MxzgFgPOtEuLdkTHe1GM
-        lYEX6ACe/sGbzkPH3XZJvcR76sTSqz2bJw==
-X-Google-Smtp-Source: ABdhPJxRNNdmM0xRRugA+CSzazc2Lwxlq1cNqtxXo5F6aDJ/VTfplVa8CaqbLDU9DPRURZvixmyWMA==
-X-Received: by 2002:a05:600c:3d18:: with SMTP id bh24mr8710757wmb.49.1642524815829;
-        Tue, 18 Jan 2022 08:53:35 -0800 (PST)
-Received: from tiger.museclub.art (p200300cf9f235800e668694710673d4b.dip0.t-ipconnect.de. [2003:cf:9f23:5800:e668:6947:1067:3d4b])
-        by smtp.googlemail.com with ESMTPSA id o12sm10634141wrc.51.2022.01.18.08.53.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 08:53:35 -0800 (PST)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [ASUS EC Sensors v7 2/3] hwmon: (asus-ec-sensors) update documentation
-Date:   Tue, 18 Jan 2022 17:53:08 +0100
-Message-Id: <20220118165316.412735-3-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118165316.412735-1-eugene.shalygin@gmail.com>
-References: <20220118165316.412735-1-eugene.shalygin@gmail.com>
+        id S243770AbiARR2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 12:28:51 -0500
+Received: from mga17.intel.com ([192.55.52.151]:57294 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235427AbiARR2t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jan 2022 12:28:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642526929; x=1674062929;
+  h=to:cc:references:from:subject:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=k4eJH2zoU91Kl9uf4FCGcvt/8O88IEchGIaQVuOy/n8=;
+  b=nerDM3vl20D3blaYkn3ET5kzoRYfP5UXAgBiiGpn3RYgh3DH5dbE96wd
+   CwhyS5KI99BB4b73tzfBIZUL9Wb/E+cgV4IpsvjH2vbiv9nfYGa4ZemWz
+   /7g7yWHu8HG+vY1oyMFtIGji6Tmsjb8vHzKB0tLir2CMTINvWMiPWBsMt
+   7XMWC73wUfvapC47uwwMgb1RjvC4DBy+xVAZ5+F9KSQr8GNGILPrwtI6R
+   3YygNGtdDYfTJ0MAMeQEkKQPp5Tbzdu06HG+ceif3rlCOB6LYJm13EMQb
+   ZaWNbmqajXCil9yMBMypndKMFd+HFuB8MBZBhCU+fPZt/Itb0t+YvRTAd
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="225545861"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
+   d="scan'208";a="225545861"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 09:28:48 -0800
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
+   d="scan'208";a="764657295"
+Received: from ssrikan2-mobl2.amr.corp.intel.com (HELO [10.209.52.128]) ([10.209.52.128])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 09:28:47 -0800
+To:     Nicholas Piggin <npiggin@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Kefeng Wang <wangkefeng.wang@huawei.com>, x86@kernel.org
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
+ <20211227145903.187152-4-wangkefeng.wang@huawei.com>
+ <70ff58bc-3a92-55c2-2da8-c5877af72e44@intel.com>
+ <3858de1f-cdbc-ff52-2890-4254d0f48b0a@huawei.com>
+ <31a75f95-6e6e-b640-2d95-08a95ea8cf51@intel.com>
+ <1642472965.lgfksp6krp.astroid@bobo.none>
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v2 3/3] x86: Support huge vmalloc mappings
+Message-ID: <4488d39f-0698-7bfd-b81c-1e609821818f@intel.com>
+Date:   Tue, 18 Jan 2022 09:28:45 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <1642472965.lgfksp6krp.astroid@bobo.none>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst     | 52 +++++++++++++++++++++
- Documentation/hwmon/asus_wmi_ec_sensors.rst | 38 ---------------
- 2 files changed, 52 insertions(+), 38 deletions(-)
- create mode 100644 Documentation/hwmon/asus_ec_sensors.rst
- delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
+On 1/17/22 6:46 PM, Nicholas Piggin wrote:
+>> This all sounds very fragile to me.  Every time a new architecture would
+>> get added for huge vmalloc() support, the developer needs to know to go
+>> find that architecture's module_alloc() and add this flag.
+> This is documented in the Kconfig.
+> 
+>  #
+>  #  Archs that select this would be capable of PMD-sized vmaps (i.e.,
+>  #  arch_vmap_pmd_supported() returns true), and they must make no assumptions
+>  #  that vmalloc memory is mapped with PAGE_SIZE ptes. The VM_NO_HUGE_VMAP flag
+>  #  can be used to prohibit arch-specific allocations from using hugepages to
+>  #  help with this (e.g., modules may require it).
+>  #
+>  config HAVE_ARCH_HUGE_VMALLOC
+>          depends on HAVE_ARCH_HUGE_VMAP
+>          bool
+> 
+> Is it really fair to say it's *very* fragile? Surely it's reasonable to 
+> read the (not very long) documentation ad understand the consequences for
+> the arch code before enabling it.
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-new file mode 100644
-index 000000000000..b12ac7ebeb1a
---- /dev/null
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -0,0 +1,52 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver asus_ec_sensors
-+=================================
-+
-+Supported boards:
-+ * PRIME X570-PRO,
-+ * Pro WS X570-ACE,
-+ * ROG CROSSHAIR VIII DARK HERO,
-+ * ROG CROSSHAIR VIII FORMULA,
-+ * ROG CROSSHAIR VIII HERO,
-+ * ROG CROSSHAIR VIII IMPACT,
-+ * ROG STRIX B550-E GAMING,
-+ * ROG STRIX B550-I GAMING,
-+ * ROG STRIX X570-E GAMING,
-+ * ROG STRIX X570-F GAMING,
-+ * ROG STRIX X570-I GAMING
-+
-+Authors:
-+    - Eugene Shalygin <eugene.shalygin@gmail.com>
-+
-+Description:
-+------------
-+ASUS mainboards publish hardware monitoring information via Super I/O
-+chip and the ACPI embedded controller (EC) registers. Some of the sensors
-+are only available via the EC.
-+
-+The driver is aware of and reads the following sensors:
-+
-+1. Chipset (PCH) temperature
-+2. CPU package temperature
-+3. Motherboard temperature
-+4. Readings from the T_Sensor header
-+5. VRM temperature
-+6. CPU_Opt fan RPM
-+7. VRM heatsink fan RPM
-+8. Chipset fan RPM
-+9. Readings from the "Water flow meter" header (RPM)
-+10. Readings from the "Water In" and "Water Out" temperature headers
-+11. CPU current
-+
-+Sensor values are read from EC registers, and to avoid race with the board
-+firmware the driver acquires ACPI mutex, the one used by the WMI when its
-+methods access the EC.
-+
-+Module Parameters
-+-----------------
-+ * mutex_path: string
-+		The driver holds path to the ACPI mutex for each board (actually,
-+		the path is mostly identical for them). If ASUS changes this path
-+		in a future BIOS update, this parameter can be used to override
-+		the stored in the driver value until it gets updated.
-diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_wmi_ec_sensors.rst
-deleted file mode 100644
-index 1b287f229e86..000000000000
---- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
-+++ /dev/null
-@@ -1,38 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0-or-later
--
--Kernel driver asus_wmi_ec_sensors
--=================================
--
--Supported boards:
-- * PRIME X570-PRO,
-- * Pro WS X570-ACE,
-- * ROG CROSSHAIR VIII DARK HERO,
-- * ROG CROSSHAIR VIII FORMULA,
-- * ROG CROSSHAIR VIII HERO,
-- * ROG STRIX B550-E GAMING,
-- * ROG STRIX B550-I GAMING,
-- * ROG STRIX X570-E GAMING.
--
--Authors:
--    - Eugene Shalygin <eugene.shalygin@gmail.com>
--
--Description:
--------------
--ASUS mainboards publish hardware monitoring information via Super I/O
--chip and the ACPI embedded controller (EC) registers. Some of the sensors
--are only available via the EC.
--
--ASUS WMI interface provides a method (BREC) to read data from EC registers,
--which is utilized by this driver to publish those sensor readings to the
--HWMON system. The driver is aware of and reads the following sensors:
--
--1. Chipset (PCH) temperature
--2. CPU package temperature
--3. Motherboard temperature
--4. Readings from the T_Sensor header
--5. VRM temperature
--6. CPU_Opt fan RPM
--7. Chipset fan RPM
--8. Readings from the "Water flow meter" header (RPM)
--9. Readings from the "Water In" and "Water Out" temperature headers
--10. CPU current
--- 
-2.34.1
+Very fragile or not, I think folks are likely to get it wrong.  It would
+be nice to have it default *everyone* to safe and slow and make *sure*
+they go look at the architecture modules code itself before enabling
+this for modules.
 
+Just from that Kconfig text, I don't think I'd know off the top of my
+head what do do for x86, or what code I needed to go touch.
