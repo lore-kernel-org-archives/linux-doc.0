@@ -2,121 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D7BC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 09:43:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AFEC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 12:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231224AbiARJnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 04:43:39 -0500
-Received: from my.chaos-reins.com ([104.248.178.247]:48486 "EHLO
-        my.chaos-reins.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiARJni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 04:43:38 -0500
-X-Greylist: delayed 455 seconds by postgrey-1.27 at vger.kernel.org; Tue, 18 Jan 2022 04:43:38 EST
-Received: (Haraka outbound); Tue, 18 Jan 2022 09:36:01 +0000
-Authentication-Results: my.chaos-reins.com;
-        auth=pass (login)
-Received: from m.chaos-reins.com (21d594ba-beef-4400-bc88-b496d6dacd5a.cloudron [172.18.16.1])
-        by my.chaos-reins.com (Haraka/2.8.28) with ESMTPA id 8630A604-7CDC-4F56-BC02-9865974B8D06.1
-        envelope-from <d@chaos-reins.com> (authenticated bits=0);
-        Tue, 18 Jan 2022 09:36:01 +0000
+        id S236244AbiARMit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 07:38:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232927AbiARMit (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 07:38:49 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273D3C061574;
+        Tue, 18 Jan 2022 04:38:49 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id cx27so5331268edb.1;
+        Tue, 18 Jan 2022 04:38:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=giqSwPUWjiHUPnyssgYdEuVWMZ2dXDJUtAKotE6rGaM=;
+        b=fciRrSY/1qXsi3cijprTseE5sDv/N1k7x0b6GBLyBVEfR+3OXnmtDReSPI4CloyuAE
+         79p3ELAAbMmebrFsiPZSVb78V8crUa5NlEZ557+2PK+JeVPpY/cR1+Ol59pRsBIUXdnT
+         zGEMblbQbaQ483/tXNB0+beRlqNESPOGfLsIc8LherNvX55PqIxcforSlcRVsAmI/hw5
+         Ykip3pGVME71LtZq5G6jBKBbTB3r3j8vQMZOwrzgRMeEb9hJ7CYyCfpLQZ9HlSwAVryC
+         u7TLD/sZ0WbEt/4i6o5SKIMn90EkXdfKHXIQEqvmbayQWfrlgzNiWyry7rs44DL6ZDQ/
+         JyaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=giqSwPUWjiHUPnyssgYdEuVWMZ2dXDJUtAKotE6rGaM=;
+        b=4tN/H1M3C8FxY6uOOvnawH5GewMrh+jPw7WLED/vm5jGB60M1h8FnFZIVK7qVSbLe/
+         C7EtHn2NmNifGodjcyJEm300tShduqttjunfvXnh+5jWSIQb2tJV858XPdYZtSiB8fSh
+         Q9AatzkQuCn/M5nldREOwfwtMXxpSm++tilTDXQL2XVhvnSnmg5jfgAecgTxHbLe7w2k
+         Jm+aFkonudeeZXwCtNa7yiZXmqqbHHIVtcHQ1i+DlLeRIsZB32trKx8Tdeg/rKx4/9sd
+         i6V6NBKZs4JecFaguj2jO7WmTaVtz5KOoxOe84fiJA15MU0uJtacAOBrTt4C+YWiXdO6
+         AQlw==
+X-Gm-Message-State: AOAM530wAN/QyoFLYWWS/N/fFwoTebQdiilH+8ZmciRF4yeEuIkd+XtA
+        VPx2WTQnPDk7sRvCK56BCpQH8Me1EH6G+FESHbM=
+X-Google-Smtp-Source: ABdhPJwqVDIgIjz4XFyGfH2mOQXWMGKutp0EPGmRa3pyLpBvDKfrXt2ayucK2GzX9mri6O79EyqLaURuG9fu3AgkVBU=
+X-Received: by 2002:a17:906:f2c8:: with SMTP id gz8mr19495096ejb.220.1642509527757;
+ Tue, 18 Jan 2022 04:38:47 -0800 (PST)
 MIME-Version: 1.0
-Date:   Tue, 18 Jan 2022 09:36:01 +0000
-Content-Type: text/plain; charset="utf-8"
+References: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
+ <CAMU9jJquKLfzLOjN3xTLHgPJFWONpeVgUDG-0vsf_8ia3r3ALQ@mail.gmail.com> <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
+In-Reply-To: <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
+From:   yong w <yongw.pur@gmail.com>
+Date:   Tue, 18 Jan 2022 20:38:30 +0800
+Message-ID: <CAOH5QeAka4QsLCOHaNK8NBp1BUFsu3HqEqiOhWOewabA58fVqw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, wang.yong12@zte.com.cn,
+        yang.yang29@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: RainLoop/1.16.0
-From:   "Donald Carr" <d@chaos-reins.com>
-Message-ID: <e2db335efc02c61f4a4035dd2270e256@chaos-reins.com>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     "Yu Zhao" <yuzhao@google.com>
-Cc:     "Andi Kleen" <ak@linux.intel.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Hillf Danton" <hdanton@sina.com>, "Jens Axboe" <axboe@kernel.dk>,
-        "Jesse Barnes" <jsbarnes@google.com>,
-        "Johannes Weiner" <hannes@cmpxchg.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Matthew Wilcox" <willy@infradead.org>,
-        "Mel Gorman" <mgorman@suse.de>,
-        "Michael Larabel" <Michael@michaellarabel.com>,
-        "Michal Hocko" <mhocko@kernel.org>,
-        "Rik van Riel" <riel@surriel.com>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Will Deacon" <will@kernel.org>,
-        "Ying Huang" <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>
-In-Reply-To: <YeaGkZ50n7/mDuJX@google.com>
-References: <YeaGkZ50n7/mDuJX@google.com>
- <20220104202227.2903605-1-yuzhao@google.com> <YdSuSHa/Vjl6bPkg@google.com>
- <Yd1Css8+jsspeZHh@google.com>
-DKIM-Signature: v=1;a=rsa-sha256;bh=hOtzxRssqC3l7oqL8Wf80/oCWxDs7JXspEQpiCwzMik=;c=relaxed/simple;d=chaos-reins.com;h=from:subject:date:message-id:to:cc:mime-version;s=cloudron;b=IgaPi/pt7BRp7bjlfgUvPiJN7/YwMQCMwsmNETelA7tikFfLy570SUa2bNHmc4quqjevtpMhwUDXzURBvYqJNzY1ROqcKc2c6ZLQ04ELbm4JAkFFawva0U7U81kmDAYKFrN4lAY/5PPvwisV1HrpK4vOvwuSe45R9CPeWA44Hpw=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-January 18, 2022 1:21 AM, "Yu Zhao" <yuzhao@google.com> wrote:
+Hello,
+Is this patch OK?
 
-> On Tue, Jan 11, 2022 at 01:41:22AM -0700, Yu Zhao wrote:
->=20
->>=20On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
->> On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
->>> TLDR
->>> =3D=3D=3D=3D
->>> The current page reclaim is too expensive in terms of CPU usage and i=
-t
->>> often makes poor choices about what to evict. This patchset offers an
->>> alternative solution that is performant, versatile and
->>> straightforward.
->>=20
->>=20<snipped>
->>=20
->>>=20Summery
->>> =3D=3D=3D=3D=3D=3D=3D
->>> The facts are:
->>> 1. The independent lab results and the real-world applications
->>> indicate substantial improvements; there are no known regressions.
->>> 2. Thrashing prevention, working set estimation and proactive reclaim
->>> work out of the box; there are no equivalent solutions.
->>> 3. There is a lot of new code; nobody has demonstrated smaller change=
-s
->>> with similar effects.
->>>=20
->>>=20Our options, accordingly, are:
->>> 1. Given the amount of evidence, the reported improvements will likel=
-y
->>> materialize for a wide range of workloads.
->>> 2. Gauging the interest from the past discussions [14][15][16], the
->>> new features will likely be put to use for both personal computers
->>> and data centers.
->>> 3. Based on Google's track record, the new code will likely be well
->>> maintained in the long term. It'd be more difficult if not
->>> impossible to achieve similar effects on top of the existing
->>> design.
->>=20
->>=20Hi Andrew, Linus,
->>=20
->>=20Can you please take a look at this patchset and let me know if it's
->> 5.17 material?
->>=20
->>=20My goal is to get it merged asap so that users can reap the benefits
->> and I can push the sequels. Please examine the data provided -- I
->> think the unprecedented coverage and the magnitude of the improvements
->> warrant a green light.
->=20
->=20My gratitude to Donald who has been helping test MGLRU since v2:
->=20
->=20Donald Carr (d@chaos-reins.com)
->=20
->=20Founder of Chaos Reins (http://chaos-reins.com), an SF based
-> consultancy company specializing in designing/creating embedded
-> Linux appliances.
-
-Tested-by: Donald Carr <d@chaos-reins.com>
-
-> Can you please provide your Tested-by tags? This will ensure the credit
-> for your contributions.
->=20
->=20Thanks!
+yong w <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=A5=E5=
+=91=A8=E5=9B=9B 22:56=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hello,
+> teng sterling <sterlingteng@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=
+=E6=97=A5=E5=91=A8=E5=9B=9B 10:11=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > Hi Yong,
+> > <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=A5=E5=91=
+=A8=E5=9B=9B 07:27=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > From: wangyong <wang.yong12@zte.com.cn>
+> > >
+> > > Update zh_CN/accounting/delay-accounting.rst.
+> > > The document modification has been merged which refers to the followi=
+ng link:
+> > > https://lore.kernel.org/all/1639583021-92977-1-git-send-email-wang.yo=
+ng12@zte.com.cn/
+> > The normal way to handle this is to add an appropriate Fixes tag.
+> >
+> > By the way, this patch should be submitted together as part of that
+> > patch series where you modified the original documentation. Also check
+> > out the documentation for other languages and send it in the same way.
+> > If you get stuck, simply --CC the maintainer is an elegant way to
+> > handle it. >_<
+> The previous patch has been merged into linux-next. There was no
+> Chinese translation when I submitted it.
+> At present, this document is only translated into Chinese, which was
+> translated not long ago.
+> So I update it in this patch.
+> >
+> > >
+> > > Signed-off-by: wangyong <wang.yong12@zte.com.cn>
+> > > Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+> > This looks like the first version of the patch and doesn't seem to
+> > have been reviewed by anyone yet, so you can't sign it instead of
+> > someone else.
+> Yang Yang reviewed it offline.
+> >
+> > Thanks,
+> > Yanteng
+> Thanks for your reply.
