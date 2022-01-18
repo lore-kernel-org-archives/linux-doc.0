@@ -2,101 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4EDC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 17:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E58C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 18:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243770AbiARR2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 12:28:51 -0500
-Received: from mga17.intel.com ([192.55.52.151]:57294 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235427AbiARR2t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jan 2022 12:28:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642526929; x=1674062929;
-  h=to:cc:references:from:subject:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=k4eJH2zoU91Kl9uf4FCGcvt/8O88IEchGIaQVuOy/n8=;
-  b=nerDM3vl20D3blaYkn3ET5kzoRYfP5UXAgBiiGpn3RYgh3DH5dbE96wd
-   CwhyS5KI99BB4b73tzfBIZUL9Wb/E+cgV4IpsvjH2vbiv9nfYGa4ZemWz
-   /7g7yWHu8HG+vY1oyMFtIGji6Tmsjb8vHzKB0tLir2CMTINvWMiPWBsMt
-   7XMWC73wUfvapC47uwwMgb1RjvC4DBy+xVAZ5+F9KSQr8GNGILPrwtI6R
-   3YygNGtdDYfTJ0MAMeQEkKQPp5Tbzdu06HG+ceif3rlCOB6LYJm13EMQb
-   ZaWNbmqajXCil9yMBMypndKMFd+HFuB8MBZBhCU+fPZt/Itb0t+YvRTAd
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="225545861"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
-   d="scan'208";a="225545861"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 09:28:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
-   d="scan'208";a="764657295"
-Received: from ssrikan2-mobl2.amr.corp.intel.com (HELO [10.209.52.128]) ([10.209.52.128])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 09:28:47 -0800
-To:     Nicholas Piggin <npiggin@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, x86@kernel.org
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
- <20211227145903.187152-4-wangkefeng.wang@huawei.com>
- <70ff58bc-3a92-55c2-2da8-c5877af72e44@intel.com>
- <3858de1f-cdbc-ff52-2890-4254d0f48b0a@huawei.com>
- <31a75f95-6e6e-b640-2d95-08a95ea8cf51@intel.com>
- <1642472965.lgfksp6krp.astroid@bobo.none>
-From:   Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH v2 3/3] x86: Support huge vmalloc mappings
-Message-ID: <4488d39f-0698-7bfd-b81c-1e609821818f@intel.com>
-Date:   Tue, 18 Jan 2022 09:28:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S1348004AbiARS0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 13:26:18 -0500
+Received: from mail-yb1-f174.google.com ([209.85.219.174]:33733 "EHLO
+        mail-yb1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347803AbiARS0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 13:26:18 -0500
+Received: by mail-yb1-f174.google.com with SMTP id v45so8377263ybi.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:26:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=nNs5o4VvLJblkKkIVcPmYPx10yy3hUKHbFmbQiq0e2c=;
+        b=bCDnq72AqOmZF7AnjliVE+jvuFb2cVFcTRDgVEmyVmTiOZ27q2uTsBsIfXISMKE7vK
+         T0ZrMDwS1DWqBbQnG5VY/hxKm0Prlw+fgZhCWIzCp0ChBoqwxFrf+6IqkJ8ogPRfKLE6
+         yqp82jFf54oJamDlPOSt7ttnZ1VFnYf0k7rcviayToeQot7t/kpvKH1wXxLhrouaau58
+         LShphEkECYGzyk02Kti30QrtRn9bFMnsbDlUJ6aEHfPA0HeWvU0wVNNopLFkeacqOWnF
+         QUgpfluvIeLN1/FLI3TMl8ySjz8z/jmTL860OCOcQfTJiOVjLEbq+ECH1MHIxWeOsl38
+         bdQA==
+X-Gm-Message-State: AOAM533Tn/n2s/QSnVPpzKKuDsb81Y/bpn/AeuEAfRKBqLB/gonWaE86
+        /AEE69LZEcH237XnWf0HN8qMNs2QmZ8QYH6IWPguIQ==
+X-Google-Smtp-Source: ABdhPJx5/up8OyqXZHlIHqf4NfI6Tfjq2cViE0P7N9WMB4LYAqgwwLReT8UFbDuDxxQ69bbIL88CvfRTEhI+2+iMALI=
+X-Received: by 2002:a25:1388:: with SMTP id 130mr35201366ybt.321.1642530376588;
+ Tue, 18 Jan 2022 10:26:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1642472965.lgfksp6krp.astroid@bobo.none>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Martin Ross <mross@pobox.com>
+Date:   Tue, 18 Jan 2022 13:26:05 -0500
+Message-ID: <CA++MVV3Jse4WZ-zr-SUWQz3Gk_dByU6JduVfUkvQNW+jgm9O4Q@mail.gmail.com>
+Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
+ decrypted data
+To:     jarkko@kernel.org
+Cc:     corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
+        jmorris@namei.org, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, serge@hallyn.com,
+        Yael Tiomkin <yaelt@google.com>,
+        Mimi Zohar <zohar@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/17/22 6:46 PM, Nicholas Piggin wrote:
->> This all sounds very fragile to me.  Every time a new architecture would
->> get added for huge vmalloc() support, the developer needs to know to go
->> find that architecture's module_alloc() and add this flag.
-> This is documented in the Kconfig.
-> 
->  #
->  #  Archs that select this would be capable of PMD-sized vmaps (i.e.,
->  #  arch_vmap_pmd_supported() returns true), and they must make no assumptions
->  #  that vmalloc memory is mapped with PAGE_SIZE ptes. The VM_NO_HUGE_VMAP flag
->  #  can be used to prohibit arch-specific allocations from using hugepages to
->  #  help with this (e.g., modules may require it).
->  #
->  config HAVE_ARCH_HUGE_VMALLOC
->          depends on HAVE_ARCH_HUGE_VMAP
->          bool
-> 
-> Is it really fair to say it's *very* fragile? Surely it's reasonable to 
-> read the (not very long) documentation ad understand the consequences for
-> the arch code before enabling it.
+Hi Jarkko,
 
-Very fragile or not, I think folks are likely to get it wrong.  It would
-be nice to have it default *everyone* to safe and slow and make *sure*
-they go look at the architecture modules code itself before enabling
-this for modules.
+I have been working with Yael on this project so I thought I might add
+a bit of background here around the use case that this series of
+patches is trying to address.
 
-Just from that Kconfig text, I don't think I'd know off the top of my
-head what do do for x86, or what code I needed to go touch.
+At a high level we are trying to provide users of encryption that have
+key management hierarchies a better tradeoff between security and
+availability.  For available and performance reasons master keys often
+need to be released (or derived/wrapped keys created) outside of a KMS
+to clients (which may in turn further wrap those keys in a series of
+levels).  What we are trying to do is provide a mechanism where the
+wrapping/unwrapping of these keys is not dependent on a remote call at
+runtime.  e.g.  To unwrap a key if you are using AWS KMS or Google
+Service you need to make an RPC.  In practice to defend against
+availability or performance issues, designers end up building their
+own kms and effectively encrypting everything with a DEK.  The DEK
+encrypts same set as the master key thereby eliminating the security
+benefit of keeping the master key segregated in the first place.
+
+We are building a mechanism to  create a security boundary in the
+kernel that allows these master keys to be stored in the kernel and
+used to wrap/unwrap keys via less trusted user processes.  The other
+goal here is to eliminate the complexity and statefulness required to
+do this today which would be to create a trusted daemon or process on
+the machine.  Concretely this means that since the user process will
+not have the master key the system designer has better options.  One
+obvious advantage is that any core dumps or code injection attacks
+won't be able to trivially grab the master key from the process or the
+linux keyring.  Once in the kernel this functionality can be
+transparently integrated into user space crypto libraries that have
+existing key management functionality.
+
+Hope this helps and happy to answer any further questions!
+
+M
