@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE2DC43217
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 02:52:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B56BC43219
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343652AbiARCtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 21:49:31 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:48498 "EHLO
+        id S235045AbiARCwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:52:55 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:57406 "EHLO
         dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345488AbiARCbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 21:31:35 -0500
+        with ESMTP id S1346792AbiARCjy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 21:39:54 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 82A41611D4;
-        Tue, 18 Jan 2022 02:31:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1F5C36AEF;
-        Tue, 18 Jan 2022 02:31:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 27C4360C96;
+        Tue, 18 Jan 2022 02:39:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCC4C36AEF;
+        Tue, 18 Jan 2022 02:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473095;
+        s=k20201202; t=1642473593;
         bh=f3jC77ynaSTB8B4PFcxF+om2SUl/1JBzStOOMLauPeU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ELNds69ppMV9Pvg66ovZcZT9p2Xr3xD8G4op6HY1pVFciqZIRSx9gQT98qvMGjm1M
-         27bXL/rJ+K8CNMZxpVJVntHQ659Yf0eT6FRy/97YJOLPsKdlhHR/1HF/DfY4BskhOX
-         LPII5zFyGpLyOJGsYUPTvck+CzF9bNXccp285bvyYRuBpVCbYEKAJbJCYJH7/sxgYQ
-         UoKY960aBzJo3DL8KdSkw2uRSGQH8LFAzXcJk+TD/cUBY4LfKmx6gZbhZ5M/S0L3/p
-         EmaKSam/gB05fMYE75AQUIxipjmhHY7r05xFn4EDaZUKDTJaHPTTXXZJ7WkFtlS5kl
-         HVDmcM0CWanmg==
+        b=H2K3K6zhyGCk08V6jM/6+DKNODCkBRziuVCKtfGvIeTZUG+5u4/eZRYSUGadXN/jZ
+         u6HxiRj8sZguDqXkFMEsSfRLLrEY4XwEiV2FAseKCwV2vjmzQbd4iAlsN93yJdE+Cd
+         HENwjIPx7LAxO785sDnydIaVWKPcLc1TwejHhX7D2qcO7/iRzcWAcGHIpG3l+xYsIY
+         7IY2b6Ca77gpFTAebzNlLVwAEkx5PD/Ec92FU5TUNOqz0qgP4vJN8aqyb4C4yB5agO
+         yOpQBKk8Cf5MYMx/K4yofFZmCtgFI/ZTL7oeeipafQS/aWARjjpsmiRi9zSJYr92D+
+         jh20XFfGGcysA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 212/217] scripts: sphinx-pre-install: Fix ctex support on Debian
-Date:   Mon, 17 Jan 2022 21:19:35 -0500
-Message-Id: <20220118021940.1942199-212-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 183/188] scripts: sphinx-pre-install: Fix ctex support on Debian
+Date:   Mon, 17 Jan 2022 21:31:47 -0500
+Message-Id: <20220118023152.1948105-183-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
-References: <20220118021940.1942199-1-sashal@kernel.org>
+In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
+References: <20220118023152.1948105-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
