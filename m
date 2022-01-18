@@ -2,82 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B14C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 01:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE2DC43217
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 02:52:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbiARBFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 20:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiARBFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 20:05:19 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B45EC061574;
-        Mon, 17 Jan 2022 17:05:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=+D+1Fa35JempJQJICO+SIPds0O/uLmaQUC0VXum/YyM=; b=NZxlFVrpBRLAUL8dK/V1ZuRh14
-        wtwbRLnL9kX4xDJMiXH4H/hFpXUxIPzuIieedpPy/gCG+uAYH/ivsycWcwEVu96WGNZCXoqZRpAlQ
-        adL4GXmJ7+gdpxWQolmfG/EquZPy8RaWgSfx3wP9eYTaW0iNDfzLMh5M+TZ929R4sFS754759VnFk
-        FuJqjfKG+QBCE4GnBq07FnZZDWFFhSRGReKsYSR6AlYKKvyOaS0x0cRnM5SQPvKqV1zT5KjybsC7N
-        rSRWI2ht86hpDaLvM5Xu84NzM0ULUu3AlH4EW3Clblklk3h9osbW60NEHgNui4SmIAN59Lv9xGkCI
-        lzT6YeNA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n9cw2-00GkoG-Gf; Tue, 18 Jan 2022 01:05:18 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH -next] Documentation: fix firewire.rst ABI file path error
-Date:   Mon, 17 Jan 2022 17:05:17 -0800
-Message-Id: <20220118010517.20826-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S1343652AbiARCtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:49:31 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:48498 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345488AbiARCbf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 21:31:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 82A41611D4;
+        Tue, 18 Jan 2022 02:31:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1F5C36AEF;
+        Tue, 18 Jan 2022 02:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642473095;
+        bh=f3jC77ynaSTB8B4PFcxF+om2SUl/1JBzStOOMLauPeU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ELNds69ppMV9Pvg66ovZcZT9p2Xr3xD8G4op6HY1pVFciqZIRSx9gQT98qvMGjm1M
+         27bXL/rJ+K8CNMZxpVJVntHQ659Yf0eT6FRy/97YJOLPsKdlhHR/1HF/DfY4BskhOX
+         LPII5zFyGpLyOJGsYUPTvck+CzF9bNXccp285bvyYRuBpVCbYEKAJbJCYJH7/sxgYQ
+         UoKY960aBzJo3DL8KdSkw2uRSGQH8LFAzXcJk+TD/cUBY4LfKmx6gZbhZ5M/S0L3/p
+         EmaKSam/gB05fMYE75AQUIxipjmhHY7r05xFn4EDaZUKDTJaHPTTXXZJ7WkFtlS5kl
+         HVDmcM0CWanmg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 212/217] scripts: sphinx-pre-install: Fix ctex support on Debian
+Date:   Mon, 17 Jan 2022 21:19:35 -0500
+Message-Id: <20220118021940.1942199-212-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adjust the path of the ABI files for firewire.rst to prevent a
-documentation build error. Prevents this problem:
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Sphinx parallel build error:
-docutils.utils.SystemMessage: /work/lnx/next/linux-next-20220117/Documentation/driver-api/firewire.rst:22: (SEVERE/4) Problems with "include" directive path:
-InputError: [Errno 2] No such file or directory: '../Documentation/driver-api/ABI/stable/firewire-cdev'.
+[ Upstream commit 87d6576ddf8ac25f36597bc93ca17f6628289c16 ]
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+The name of the package with ctexhook.sty is different on
+Debian/Ubuntu.
+
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/r/63882425609a2820fac78f5e94620abeb7ed5f6f.1641429634.git.mchehab@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-I don't see what is causing this problem...
+ scripts/sphinx-pre-install | 3 +++
+ 1 file changed, 3 insertions(+)
 
- Documentation/driver-api/firewire.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 288e86a9d1e58..61a79ce705ccf 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -369,6 +369,9 @@ sub give_debian_hints()
+ 	);
+ 
+ 	if ($pdf) {
++		check_missing_file(["/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty"],
++				   "texlive-lang-chinese", 2);
++
+ 		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
+ 				   "fonts-dejavu", 2);
+ 
+-- 
+2.34.1
 
---- linux-next-20220117.orig/Documentation/driver-api/firewire.rst
-+++ linux-next-20220117/Documentation/driver-api/firewire.rst
-@@ -19,7 +19,7 @@ of kernel interfaces is available via ex
- Firewire char device data structures
- ====================================
- 
--.. include:: /ABI/stable/firewire-cdev
-+.. include:: ../ABI/stable/firewire-cdev
-     :literal:
- 
- .. kernel-doc:: include/uapi/linux/firewire-cdev.h
-@@ -28,7 +28,7 @@ Firewire char device data structures
- Firewire device probing and sysfs interfaces
- ============================================
- 
--.. include:: /ABI/stable/sysfs-bus-firewire
-+.. include:: ../ABI/stable/sysfs-bus-firewire
-     :literal:
- 
- .. kernel-doc:: drivers/firewire/core-device.c
