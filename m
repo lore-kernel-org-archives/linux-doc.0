@@ -2,66 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4425AC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 13:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94154C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 16:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242909AbiARNWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 08:22:52 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:50602 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242130AbiARNWi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 08:22:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6iWnYS8XyWG1DmjmjynBSZoQD6FN7rBC0D+KrV9pXxs=; b=gqtGY+8TNLjzSStOy86qX5veBf
-        1umoXON+XEO3cNpFPaODa8bGLsy1lffQqop0bM6TwtPyJMV7Sugdz1DFZnJmOdoCx8cxaZVjPXxpW
-        2g7BZ844a00hvO5h8LJ+Mf8YpBnyYnRGJIWFFJVj0/VFflMgoz4/NhsC8Xufn1S2s9Ad81UBKk0Sc
-        8cQwHgYhngAKne64ksCo7YmNWPcmBiTvvVJjXBI9XY68UG6dB5/nLeWVQJ8aGmll2Kmun4Tcb7Zhp
-        79YLNcSH9Y5UWnLiyLciOs0mTC3Pouo9iwvEKxCZr+8/1fV//UosomEDbPNvruX3b6Sn9kiicfgF2
-        FS1vOYUA==;
-Received: from [179.98.77.138] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1n9oRO-000CJp-SN; Tue, 18 Jan 2022 14:22:27 +0100
-Message-ID: <0651945b-ade2-c8b6-9963-df995049fcd6@igalia.com>
-Date:   Tue, 18 Jan 2022 10:22:09 -0300
+        id S1346559AbiARQxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 11:53:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346515AbiARQxi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 11:53:38 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5211DC06161C;
+        Tue, 18 Jan 2022 08:53:37 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id c2so23544373wml.1;
+        Tue, 18 Jan 2022 08:53:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Nn7E+xJeR5ilUnsYFGL6Lm5NVc/T4m/9M7mSORyUNAE=;
+        b=I9Y+mZSWvmD8sDM3qG8vwiXe9OoFhRKQut9yfEo2gS+qguoV/mXIdPQmVHbiO8Ql0m
+         sGftFqmf6aE1EhcUq4Ws3xqE463Bh9g70zqkMqWLXsIfU22wgh/tB16fywczd4HG55h+
+         lTn8vMM74LxNr8ucQ3W//rwbLk1hnLHcgGlkzcV8/hsO2lMkz1y57eRAC45u7cJskyQz
+         WiC3oevewUAYn+xGM0Zr6arRoih+I7BJUpX61v+5A20LAhML63+JFn5DO/taD1JqJ5Wf
+         MuP9GlIW7AgCUjrM87ZKQ5tb5aCfyY20kceGXR3Q096wZjmRWccOQiSMJvnNytMEenlv
+         f6+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Nn7E+xJeR5ilUnsYFGL6Lm5NVc/T4m/9M7mSORyUNAE=;
+        b=CZ99fifSYU9VCye6exDjrE6gNIS7UpspRVthV3rXqAaO4cKF6AjP1X3GfG1sn7KYhx
+         h7KV/DUTd8jfEobWv0slFs4nwe1hRy5QzQucnR2OLXHpBLOHO13R6f7qLryRFllZsls5
+         o9BPDoeTHajhxe25SQTNCGvKW2TWt18vnTyHekaZ2vdyQveF2UcyUyJREEe2ipi9wIW0
+         nUReZ8NlI1gjCIm1TavKgF+OJKzL8b1P3MjpmIGUMb8z8MdQ8mc86YWkYpcSHXhoZgOk
+         2DTsQ2FXXOHQDuCRH/OvaHgp+hIzW4EyKyMQ4uGbM87IJ5oszph2gsR2tzbhuYSoS25O
+         Ol5g==
+X-Gm-Message-State: AOAM5327+uyZZeyyFbOBReSw1x0TfDET4bS4MxzgFgPOtEuLdkTHe1GM
+        lYEX6ACe/sGbzkPH3XZJvcR76sTSqz2bJw==
+X-Google-Smtp-Source: ABdhPJxRNNdmM0xRRugA+CSzazc2Lwxlq1cNqtxXo5F6aDJ/VTfplVa8CaqbLDU9DPRURZvixmyWMA==
+X-Received: by 2002:a05:600c:3d18:: with SMTP id bh24mr8710757wmb.49.1642524815829;
+        Tue, 18 Jan 2022 08:53:35 -0800 (PST)
+Received: from tiger.museclub.art (p200300cf9f235800e668694710673d4b.dip0.t-ipconnect.de. [2003:cf:9f23:5800:e668:6947:1067:3d4b])
+        by smtp.googlemail.com with ESMTPSA id o12sm10634141wrc.51.2022.01.18.08.53.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jan 2022 08:53:35 -0800 (PST)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [ASUS EC Sensors v7 2/3] hwmon: (asus-ec-sensors) update documentation
+Date:   Tue, 18 Jan 2022 17:53:08 +0100
+Message-Id: <20220118165316.412735-3-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118165316.412735-1-eugene.shalygin@gmail.com>
+References: <20220118165316.412735-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     Dave Young <dyoung@redhat.com>
-Cc:     kexec@lists.infradead.org,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        bhe <bhe@redhat.com>, "Goyal, Vivek" <vgoyal@redhat.com>,
-        stern@rowland.harvard.edu, akpm <akpm@linux-foundation.org>,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        halves@canonical.com, kernel@gpiccoli.net
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <16f01572-7d23-9455-ef52-67fc87f73730@igalia.com>
- <CALu+AoR+GrCpf0gqsx_XYETBGUAfRyP+SPNarK179hT7iQmCqQ@mail.gmail.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <CALu+AoR+GrCpf0gqsx_XYETBGUAfRyP+SPNarK179hT7iQmCqQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/01/2022 23:31, Dave Young wrote:
-> [...]
-> Hi Guilherme,  thank you for making it a formal patch!  Yes, it is a
-> nice improvement.
-> I'm sorry I did not get time to review the code,  I will leave it to
-> other people to review :)
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst     | 52 +++++++++++++++++++++
+ Documentation/hwmon/asus_wmi_ec_sensors.rst | 38 ---------------
+ 2 files changed, 52 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/hwmon/asus_ec_sensors.rst
+ delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
 
-Hi Dave, no worries - thanks for your opinion, much appreciated!
-Cheers,
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+new file mode 100644
+index 000000000000..b12ac7ebeb1a
+--- /dev/null
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -0,0 +1,52 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Kernel driver asus_ec_sensors
++=================================
++
++Supported boards:
++ * PRIME X570-PRO,
++ * Pro WS X570-ACE,
++ * ROG CROSSHAIR VIII DARK HERO,
++ * ROG CROSSHAIR VIII FORMULA,
++ * ROG CROSSHAIR VIII HERO,
++ * ROG CROSSHAIR VIII IMPACT,
++ * ROG STRIX B550-E GAMING,
++ * ROG STRIX B550-I GAMING,
++ * ROG STRIX X570-E GAMING,
++ * ROG STRIX X570-F GAMING,
++ * ROG STRIX X570-I GAMING
++
++Authors:
++    - Eugene Shalygin <eugene.shalygin@gmail.com>
++
++Description:
++------------
++ASUS mainboards publish hardware monitoring information via Super I/O
++chip and the ACPI embedded controller (EC) registers. Some of the sensors
++are only available via the EC.
++
++The driver is aware of and reads the following sensors:
++
++1. Chipset (PCH) temperature
++2. CPU package temperature
++3. Motherboard temperature
++4. Readings from the T_Sensor header
++5. VRM temperature
++6. CPU_Opt fan RPM
++7. VRM heatsink fan RPM
++8. Chipset fan RPM
++9. Readings from the "Water flow meter" header (RPM)
++10. Readings from the "Water In" and "Water Out" temperature headers
++11. CPU current
++
++Sensor values are read from EC registers, and to avoid race with the board
++firmware the driver acquires ACPI mutex, the one used by the WMI when its
++methods access the EC.
++
++Module Parameters
++-----------------
++ * mutex_path: string
++		The driver holds path to the ACPI mutex for each board (actually,
++		the path is mostly identical for them). If ASUS changes this path
++		in a future BIOS update, this parameter can be used to override
++		the stored in the driver value until it gets updated.
+diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_wmi_ec_sensors.rst
+deleted file mode 100644
+index 1b287f229e86..000000000000
+--- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
++++ /dev/null
+@@ -1,38 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0-or-later
+-
+-Kernel driver asus_wmi_ec_sensors
+-=================================
+-
+-Supported boards:
+- * PRIME X570-PRO,
+- * Pro WS X570-ACE,
+- * ROG CROSSHAIR VIII DARK HERO,
+- * ROG CROSSHAIR VIII FORMULA,
+- * ROG CROSSHAIR VIII HERO,
+- * ROG STRIX B550-E GAMING,
+- * ROG STRIX B550-I GAMING,
+- * ROG STRIX X570-E GAMING.
+-
+-Authors:
+-    - Eugene Shalygin <eugene.shalygin@gmail.com>
+-
+-Description:
+-------------
+-ASUS mainboards publish hardware monitoring information via Super I/O
+-chip and the ACPI embedded controller (EC) registers. Some of the sensors
+-are only available via the EC.
+-
+-ASUS WMI interface provides a method (BREC) to read data from EC registers,
+-which is utilized by this driver to publish those sensor readings to the
+-HWMON system. The driver is aware of and reads the following sensors:
+-
+-1. Chipset (PCH) temperature
+-2. CPU package temperature
+-3. Motherboard temperature
+-4. Readings from the T_Sensor header
+-5. VRM temperature
+-6. CPU_Opt fan RPM
+-7. Chipset fan RPM
+-8. Readings from the "Water flow meter" header (RPM)
+-9. Readings from the "Water In" and "Water Out" temperature headers
+-10. CPU current
+-- 
+2.34.1
 
-
-Guilherme
