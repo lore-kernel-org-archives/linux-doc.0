@@ -2,194 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E160BC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 18:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33F6C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 22:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348465AbiARSy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 13:54:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34230 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348459AbiARSyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 13:54:55 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6299C061574
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:54:53 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id o80so7195328yba.6
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 10:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
-        b=jQFQQg8xNBNZ796rZm7JSGtcgk/RVRlUMQOrW3OprZAwIy/2ezKxTUPzerHa5MEWoA
-         +kfQjBOqWihjoI8v514cV21UvUHS5JntgpKuZ/16liMkZGbbSOZYF4w1r6JCuqamghHv
-         vowP4DYmSxtE//fgZqRAITszSqg91cqu9Gg64FsXe9W1savFkk2plmXtLm5fBBA0jF0b
-         oImfjSzLxxePgVhSUZSsFU9ZJ84ZiyGtkbd0T7VyhnxMEoyDyxlSw/pOQe3BAymEfuQ2
-         L/UK5sx9cvQq7XnTqbleIw48nFYsStzQLbt2Y29R65fkhq5UTeKah55mvbCMv7n+zmyV
-         rtAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
-        b=OjVFQcIBmZamV1nDwtuSyFoK7WbUy3UOq9h9J1qH1fmRjCLra1TaHRkd5ahOF+aTgq
-         +SrK1fqXUpLG5oVZY1BvOiE/Y5zEdM6rlRgPILgfdMKfInmNNq4qKMxZzRmpef7yWCUr
-         CzS33NWQc9KC9wF0K+X4ylEj5U6Dc8J5lfVTQpobLNCcsxGFRl+rVRiZOCIdU9iBVY2f
-         vMX+EwoIQ3nNeTiSxQENxKrd04sIACbhY777iodm6REBY/uJHtUjS2wwjZEGfgdPzaiN
-         9ThoddNCwSr/SzZOGQrw5YlwYQAj9Nw7FvVxzvKbmxA5Jc46fZZ0wUxog3cOW1HNjTEE
-         cLIA==
-X-Gm-Message-State: AOAM531gQir9JHd0+emeKS04m8NHiS3N2I4n5Hep/JRB1X4V3bHQvP6t
-        tyVhBWobubFbB0IGjyf0cn8/hDmod7nmYVVW2zijoA==
-X-Google-Smtp-Source: ABdhPJwmF0diEuNSgYDq6VwVG2sEv2wSXB4R4GhA8CrKDHbQBq+Cp6d2D+RYzxyanPD1WMMgcwbQ0BJ4awu2dbq2mt8=
-X-Received: by 2002:a25:388a:: with SMTP id f132mr35653202yba.102.1642532092017;
- Tue, 18 Jan 2022 10:54:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com> <20220115010622.3185921-5-hridya@google.com>
- <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
-In-Reply-To: <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
-From:   Hridya Valsaraju <hridya@google.com>
-Date:   Tue, 18 Jan 2022 10:54:16 -0800
-Message-ID: <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
-Subject: Re: [RFC 4/6] dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF to
- a cgroup.
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <christian@brauner.io>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Matthew Auld <matthew.auld@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Hang Lu <hangl@codeaurora.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Chris Down <chris@chrisdown.name>,
-        Vipin Sharma <vipinsh@google.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        id S237625AbiARWdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 17:33:19 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51140 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237457AbiARWdT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jan 2022 17:33:19 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4B127608;
+        Tue, 18 Jan 2022 22:33:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4B127608
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1642545198; bh=2z6M/7nnhiDVsJMiSppLJzTLsH7M2OTGB1+SpVQEPgQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pFmru28CcULMP1iHDMOzW2/gUJbeQXA+YMLBFs4aHip5m6pEeQPgi7O4SC4PONPva
+         8glJH+wAB3nI038vlMZYX4FJFl5RmeaEjp0LkJSow4fgvTKADMz8i3zIWugDR/FvCj
+         sza+AkmTZZGDjVQiU+FR4mOO/CF9vvY5slqMQY3SIFLfWVy9RHbq0uZdkpwQnXCDaU
+         hQLW1+rOOemsFMIFirG1wBkMjTvO5JcEfRN+pqXNC1zJdPm1Sv0H6bpfbWgF8t9v1U
+         JK82OEmgh6PlG908ddA15TG7KPC0yQrcLm1oTH/+h2IBshYCbzOosBdY+Us1IpPy2R
+         uoWE13X/KnKxg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org, Kenny.Ho@amd.com, daniels@collabora.com,
-        kaleshsingh@google.com, tjmercier@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>
+Subject: Re: [PATCH v3 14/19] docs: add Rust documentation
+In-Reply-To: <20220117053349.6804-15-ojeda@kernel.org>
+References: <20220117053349.6804-1-ojeda@kernel.org>
+ <20220117053349.6804-15-ojeda@kernel.org>
+Date:   Tue, 18 Jan 2022 15:33:39 -0700
+Message-ID: <87fspk1xoc.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 16, 2022 at 11:46 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 15.01.22 um 02:06 schrieb Hridya Valsaraju:
-> > The optional exporter op provides a way for processes to transfer
-> > charge of a buffer to a different process. This is essential for the
-> > cases where a central allocator process does allocations for various
-> > subsystems, hands over the fd to the client who
-> > requested the memory and drops all references to the allocated memory.
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > ---
-> >   include/linux/dma-buf.h | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 7ab50076e7a6..d5e52f81cc6f 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -13,6 +13,7 @@
-> >   #ifndef __DMA_BUF_H__
-> >   #define __DMA_BUF_H__
-> >
-> > +#include <linux/cgroup_gpu.h>
-> >   #include <linux/dma-buf-map.h>
-> >   #include <linux/file.h>
-> >   #include <linux/err.h>
-> > @@ -285,6 +286,23 @@ struct dma_buf_ops {
-> >
-> >       int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >       void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> > +
-> > +     /**
-> > +      * @charge_to_cgroup:
-> > +      *
-> > +      * This is called by an exporter to charge a buffer to the specif=
-ied
-> > +      * cgroup.
->
-> Well that sentence makes absolutely no sense at all.
->
-> The dma_buf_ops are supposed to be called by the DMA-buf subsystem on
-> behalves of the importer and never by the exporter itself.
->
-> I hope that this is just a documentation mixup.
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-Thank you for taking a look Christian!
-
-Yes, that was poor wording, sorry about that. It should instead say
-that the op would be called by the process the buffer is currently
-charged to in order to transfer the buffer's charge to a different
-cgroup. This is helpful in the case where a process acts as an
-allocator for multiple client processes and we would like the
-allocated buffers to be charged to the clients who requested their
-allocation(instead of the allocating process as is the default
-behavior). In Android, the graphics allocator HAL process[1] does
-most of the graphics allocations on behalf of various clients. After
-allocation, the HAL process passes the fd to the client over binder
-IPC and the binder driver invokes the charge_to_cgroup() DMA-BUF op to
-uncharge the buffer from the HAL process and charge it to the client
-process instead.
-
-[1]: https://source.android.com/devices/graphics/arch-bq-gralloc
-
-Regards,
-Hridya
-
-
+> Most of the documentation for Rust is written within the source code
+> itself, as it is idiomatic for Rust projects. This applies to both
+> the shared infrastructure at `rust/` as well as any other Rust module
+> (e.g. drivers) written across the kernel.
 >
-> Regards,
-> Christian.
+> However, these documents contain general information that does not
+> fit particularly well in the source code, like the Quick Start guide.
 >
-> >   The caller must hold a reference to @gpucg obtained via
-> > +      * gpucg_get(). The DMA-BUF will be uncharged from the cgroup it =
-is
-> > +      * currently charged to before being charged to @gpucg. The calle=
-r must
-> > +      * belong to the cgroup the buffer is currently charged to.
-> > +      *
-> > +      * This callback is optional.
-> > +      *
-> > +      * Returns:
-> > +      *
-> > +      * 0 on success or negative error code on failure.
-> > +      */
-> > +     int (*charge_to_cgroup)(struct dma_buf *dmabuf, struct gpucg *gpu=
-cg);
-> >   };
-> >
-> >   /**
->
+> It also contains a few binary assets used for the `rustdoc` target
+> and a few other small changes elsewhere in the documentation folder.
+
+Glad to see documentation!
+
+That said, I have one little request...
+
+>  Documentation/doc-guide/kernel-doc.rst      |   3 +
+>  Documentation/index.rst                     |   1 +
+>  Documentation/kbuild/kbuild.rst             |   4 +
+>  Documentation/process/changes.rst           |  42 ++++
+>  Documentation/rust/arch-support.rst         |  35 +++
+>  Documentation/rust/assets/favicon-16x16.png | Bin 0 -> 798 bytes
+>  Documentation/rust/assets/favicon-32x32.png | Bin 0 -> 2076 bytes
+>  Documentation/rust/assets/rust-logo.png     | Bin 0 -> 53976 bytes
+
+We have really tried to keep binary files (like PNG images) out of the
+documentation tree.  If we really need these images, can they be
+provided in SVG form?
+
+Thanks,
+
+jon
