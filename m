@@ -2,103 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C30C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 03:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EFFCC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jan 2022 03:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351088AbiARDSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 22:18:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
+        id S245652AbiARDhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 22:37:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349986AbiARDJn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 22:09:43 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C426BC06177B;
-        Mon, 17 Jan 2022 18:53:04 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id j64so949180pgd.6;
-        Mon, 17 Jan 2022 18:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:subject:to:cc:references:in-reply-to:mime-version
-         :message-id:content-transfer-encoding;
-        bh=+dXow2D6kovl8GlAwap0AWMuajUQM5lAihY8qrTDEBQ=;
-        b=Uv5L+1MPSrZqYe6Y8HG3UarPEcwEh0vkALvNOq2xAcgsltUatlSZhvAu4ZkCRlnxRP
-         FG+LVXfusldaMUz7UqtURH52quTwxGC4/yimq+EOUpXqGwqor+DRCSsIvtYOcwN5QHl5
-         W0R7HB/qG+3G2BxsGHl3Nt2xl43WRVP2gKUNTM1deSRo/DtHOwmzXiqK7q8tBs2HSebO
-         pWYwrS/JgPs0ZJX5DjKnNjoEiljdIijhBH8X5esopzUOPtLubpjKOZixwwD4k2cn7/xZ
-         xKKuycvIHwFIBOdVyt2yBQlZk3YaT50+wDcE8ANxk8CcAe3Avs5rNQ0FcOr7XVPi1ovc
-         soLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
-         :mime-version:message-id:content-transfer-encoding;
-        bh=+dXow2D6kovl8GlAwap0AWMuajUQM5lAihY8qrTDEBQ=;
-        b=gAFgnmpcQT1OztvzzvkDSFRT3bONZmZf1XfTN7NnVTcsLd6hts+D0CB+/RkbdopkP2
-         2jMlEpfHbp5b71XRXH1rY5rrAvufsRj/O954OT4xf4cXVg1+tbsBOINuD55lnMyrnPrf
-         J3llr4whsEhCv//N0/2D3YElykPvYlc4yVr7hDCMe3SKJVHmSJJ20cbUUfNLArXchJSa
-         Z06fwlJK+xITK7CPDr9n/kL+LB++f0SyLO4MHvVjZx9rlshh5azdGdB6e5k7wC5Ogv1A
-         K561637vzr05qwhJzmxIXSptJblalifN3XBspaKpIzNsMfEzxsUYsCdxKokzmL5x2uJy
-         5idQ==
-X-Gm-Message-State: AOAM5314dax8JK3pGW9lzXf9E81dr1xMx0z5Sv4mKwsic5LbM7i9r21R
-        pLVzuWWAbchbm5QBP/OBpdE=
-X-Google-Smtp-Source: ABdhPJwyL7zGIsi9bIicvksHnAC4wjZ/DiXJE76/NAwmIpYKT6kHX1pZelN6IF0T1eLHS2LvHWGV5g==
-X-Received: by 2002:a05:6a00:23c8:b0:4c2:6a7:95c5 with SMTP id g8-20020a056a0023c800b004c206a795c5mr21194442pfc.53.1642474382328;
-        Mon, 17 Jan 2022 18:53:02 -0800 (PST)
-Received: from localhost (124-171-74-95.tpgi.com.au. [124.171.74.95])
-        by smtp.gmail.com with ESMTPSA id i4sm617438pjj.30.2022.01.17.18.53.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jan 2022 18:53:01 -0800 (PST)
-Date:   Tue, 18 Jan 2022 12:52:56 +1000
-From:   Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 1/3] mm: vmalloc: Let user to control huge vmalloc
- default behavior
-To:     Andrew Morton <akpm@linux-foundation.org>,
+        with ESMTP id S1353203AbiARDek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 22:34:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55550C02B751;
+        Mon, 17 Jan 2022 18:44:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AAEAE6130B;
+        Tue, 18 Jan 2022 02:44:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68211C36AF3;
+        Tue, 18 Jan 2022 02:44:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642473865;
+        bh=EFtw07ghmDhsLRYEMt7OcljBkB5I335EQOUAD3LHu60=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hS7FHgnQp6Bv90KyG2+5MyQBrfl7Zb0kUxf8e2aErVI744szuVlr/SP0YSiyaUdRl
+         eDWaIJlLqocaHXB1QllXmVa2Kgao1IqiLpcYQ3xLkyDs384r3eFY8FD+qr9kSAVkwr
+         B4b0ad+boQDhprNh/eSN8IrXq+H01b/b7qdgzteVnxcLbPBvwjcx4LPyxD89TKk6TS
+         ZTCijMCu381oxAEywZ9wmb9Ez4WZxSfvmafMbQ5QxPHYqCHnQGCDxSns3Vl5HF9Owk
+         lTS9g1kQjHAgWCWUbw26lmXW6XUCAyzh2SHvXwY7h8nJpWqPmvyeYYPEue2LBiouiy
+         Xd4dxZaez4Usw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, x86@kernel.org
-Cc:     =?iso-8859-1?q?Benjamin=0A?= Herrenschmidt 
-        <benh@kernel.crashing.org>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
-        <20211227145903.187152-2-wangkefeng.wang@huawei.com>
-In-Reply-To: <20211227145903.187152-2-wangkefeng.wang@huawei.com>
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 114/116] scripts: sphinx-pre-install: Fix ctex support on Debian
+Date:   Mon, 17 Jan 2022 21:40:05 -0500
+Message-Id: <20220118024007.1950576-114-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
-Message-Id: <1642473992.qrnqczjfna.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Excerpts from Kefeng Wang's message of December 28, 2021 12:59 am:
-> Introduce HUGE_VMALLOC_DEFAULT_ENABLED and make it default y, this
-> let user to choose whether or not enable huge vmalloc mappings by
-> default.
->=20
-> Meanwhile, add new hugevmalloc=3Don/off parameter to enable or disable
-> this feature at boot time, nohugevmalloc is still supported and
-> equivalent to hugevmalloc=3Doff.
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Runtime options are bad enough, Kconfig and boot options are even worse.
+[ Upstream commit 87d6576ddf8ac25f36597bc93ca17f6628289c16 ]
 
-The 'nohugevmalloc' option mirrors 'nohugeiomap' and is not expected to
-ever be understood by an administrator unless a kernel developer is=20
-working with them to hunt down a regression.
+The name of the package with ctexhook.sty is different on
+Debian/Ubuntu.
 
-IMO there should be no new options. You could switch it off for=20
-CONFIG_BASE_SMALL perhaps, and otherwise just try to work on heuristics
-first. Bring in new options once it's proven they're needed.
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/r/63882425609a2820fac78f5e94620abeb7ed5f6f.1641429634.git.mchehab@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/sphinx-pre-install | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Aside from that, thanks for working on these ports, great work.
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 828a8615a9181..b32a20782c851 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -370,6 +370,9 @@ sub give_debian_hints()
+ 	);
+ 
+ 	if ($pdf) {
++		check_missing_file(["/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty"],
++				   "texlive-lang-chinese", 2);
++
+ 		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
+ 				   "fonts-dejavu", 2);
+ 
+-- 
+2.34.1
 
-Thanks,
-Nick
