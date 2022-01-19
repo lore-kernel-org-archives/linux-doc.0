@@ -2,115 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2530C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 12:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34603C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 13:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240986AbiASM6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 07:58:02 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:17354 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232897AbiASM6C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 07:58:02 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Jf5Hx5S6gz9s5T;
-        Wed, 19 Jan 2022 20:56:45 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 19 Jan 2022 20:57:59 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Wed, 19 Jan 2022 20:57:58 +0800
-Message-ID: <f0dd59eb-6eb8-5b60-508d-7f4022f655ec@huawei.com>
-Date:   Wed, 19 Jan 2022 20:57:58 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/3] mm: vmalloc: Let user to control huge vmalloc
- default behavior
-Content-Language: en-US
-To:     Nicholas Piggin <npiggin@gmail.com>,
+        id S1354570AbiASNWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 08:22:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232897AbiASNWT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 08:22:19 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E994DC061574;
+        Wed, 19 Jan 2022 05:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=XdBwF/RjhbWIU5o6Jz7HpuQNLjSadEnmWI/i7GCW5y0=; b=Cc09zlkLM5/Ab6cb+M3cwSs7PG
+        huGqk0aJjbCMfwx7cGINmtqiWpkOY2MZWDoKt5SA8m0jllV54qtTq+XMW167egJYN43cWA6wmB1kT
+        NSiw6gsSlTYaYYCOytDuMJy4dFx/vs+lSzcFzo9SptNPM3xm07UEtjKPEEPZNEk8oivGNJkbVOLpd
+        5E4WhC0Wuj3mmjvZ3xxOdSBKLgCT1DGgCxproJPPwnGtPAjYjE7oVogDUTUmyoh8RSR3wa/r3oLCM
+        BAkDt2EQRiO5AzaEt+RVfOvnIvPA1+sAN1KiGh40QWfqiVw95Gyi1Xn2ZGs2zJNxe5PnYpg//wkd6
+        sU6IJtWA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nAAua-00AsKQ-Da; Wed, 19 Jan 2022 13:22:04 +0000
+Date:   Wed, 19 Jan 2022 13:22:04 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <x86@kernel.org>
-CC:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Borislav Petkov <bp@alien8.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Paul Mackerras <paulus@samba.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 1/3] mm: vmalloc: Let user to control huge vmalloc
+ default behavior
+Message-ID: <YegQfIQibQi993dp@casper.infradead.org>
 References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
  <20211227145903.187152-2-wangkefeng.wang@huawei.com>
  <1642473992.qrnqczjfna.astroid@bobo.none>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <1642473992.qrnqczjfna.astroid@bobo.none>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <f0dd59eb-6eb8-5b60-508d-7f4022f655ec@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+In-Reply-To: <f0dd59eb-6eb8-5b60-508d-7f4022f655ec@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jan 19, 2022 at 08:57:58PM +0800, Kefeng Wang wrote:
+> Only parts of our products wants this feature,  we add some interfaces which
+> only
+> 
+> alloc hugevmalloc for them, eg,
+> vmap_hugepage/vmalloc_hugepage/remap_vmalloc_hugepage_range..
+> 
+> for our products, but it's not the choice of most products, also add
+> nohugevmalloc
+> 
+> for most products is expensive, so this is the reason for adding the patch.
+> 
+> more config/cmdline are more flexible for test/products，
 
-On 2022/1/18 10:52, Nicholas Piggin wrote:
-> Excerpts from Kefeng Wang's message of December 28, 2021 12:59 am:
->> Introduce HUGE_VMALLOC_DEFAULT_ENABLED and make it default y, this
->> let user to choose whether or not enable huge vmalloc mappings by
->> default.
->>
->> Meanwhile, add new hugevmalloc=on/off parameter to enable or disable
->> this feature at boot time, nohugevmalloc is still supported and
->> equivalent to hugevmalloc=off.
-> Runtime options are bad enough, Kconfig and boot options are even worse.
-
-nohugevmalloc is like blacklists, on the other hand, Add a 
-HUGE_VMALLOC_DEFAULT_ENABLED
-
-to close hugevmalloc default and enable it only via hugevmalloc=on is 
-whiteList.
-
-
-Only parts of our products wants this feature,  we add some interfaces 
-which only
-
-alloc hugevmalloc for them, eg, 
-vmap_hugepage/vmalloc_hugepage/remap_vmalloc_hugepage_range..
-
-for our products, but it's not the choice of most products, also add 
-nohugevmalloc
-
-for most products is expensive, so this is the reason for adding the patch.
-
-more config/cmdline are more flexible for test/products，
-
->
-> The 'nohugevmalloc' option mirrors 'nohugeiomap' and is not expected to
-> ever be understood by an administrator unless a kernel developer is
-> working with them to hunt down a regression.
->
-> IMO there should be no new options. You could switch it off for
-> CONFIG_BASE_SMALL perhaps, and otherwise just try to work on heuristics
-> first. Bring in new options once it's proven they're needed.
-
-but yes, this patch is optional， could others give some more comments 
-about this way？
-
-Thanks.
-
-> Aside from that, thanks for working on these ports, great work.
->
-> Thanks,
-> Nick
-> .
+But why do only some products want it?  What goes wrong if all products
+enable it?  Features should be auto-tuning, not relying on admins to
+understand them.
