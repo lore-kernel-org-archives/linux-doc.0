@@ -2,180 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A00C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 07:09:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B96E2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 09:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245702AbiASHJd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 02:09:33 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:49969 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230223AbiASHJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 02:09:31 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id E91585C0051;
-        Wed, 19 Jan 2022 02:09:29 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 19 Jan 2022 02:09:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-         h=date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=dsFZk3OV8wFHLwBUcIdejqKR+2u
-        r7cWYhm0QCOUx9y4=; b=ldQ0dqI4JJPbTI7hYUcX4Ver9v0walFYsc6173VhOF2
-        mFeIQOELr6sq4DbTIF6pIXUzZdUMaulLC+ggwDN52OgjgIVyU7sLg6JzsoRSGUU9
-        7AG0Qp5lwvScjPRmkQteuZbD86wgo797zyDRlyRzgr3iFyyhtRatNlYH1mH1E8jn
-        BulT21H+i7uSmqmwNgbrXCvec7jke7sZqAa9MbOz1Ceg0ySRU0yfy5Tag4kKbsku
-        4GmVwYlaIj92FFec2WFoxpe8ytImTA8SlVhsvw5Z2HkaogLxwKLVtvIxV4JSpmyZ
-        JID0BIIkguRq73UXY8KNqdltRXSNvbW6T8+eVrFb24g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dsFZk3
-        OV8wFHLwBUcIdejqKR+2ur7cWYhm0QCOUx9y4=; b=Y7KYK+ScVvH/o1L+RwuK/C
-        yWQe6IoPzmEbHjddN15rDgY7sl7Tg3z0e1ZvFLIWuWNoCY25qbPKAY9AcWggWcuM
-        HRdUa7bCuZAoXKhFaf09jzNLtUJFF1OfBRw+INN0MPfOgySaV76fMmQW6QOcbpTu
-        17bBeGFfzjr6PsTSFwW3WpJM9l7s7+x9wQSSy6hcF2Di1l1+i/EaH1563Inapacn
-        Njjg0ysaDnoqRY7ZRIRnEUJMhz3JtCjEqs9ZGo8rmWtzjbj/Z9ONENZF+MvNkX9e
-        3NN6z/CTiAlQwfQr/7qhLXeFmW66ah+HC/6kZhEf5ssYLmEPbRP0hs2SkuRKdmSw
-        ==
-X-ME-Sender: <xms:KbnnYdRz1zBKoi9DPrJ-eTTo4ZCLDPVVHVsnvtjN-hQMG_SKYkbcLQ>
-    <xme:KbnnYWzlMkXrPss76YqqIgIz_SKa89kCH1m0CEwvjwIOSKnymfPzOT2VDPx5mgpsD
-    E6K7BuzFzPE12PbFmA>
-X-ME-Received: <xmr:KbnnYS0Pu08rScJr7HO20yXl7yKjhsFug3hOPteQSOzwvU_BxCr97g7Y-Ug2MezVQWfFygOIPlr75UBoA14RNXA36Xa1PkKGSA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggddutdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghs
-    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
-    hpqeenucggtffrrghtthgvrhhnpeegkeeuvdffieelledvleeufffhleduueeufefhieek
-    ffehhfejgfeuleduffeggfenucffohhmrghinhepshhouhhrtggvfhhorhhgvgdrihhopd
-    duhedrshhonecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-X-ME-Proxy: <xmx:KbnnYVBQp0p7dWFpUrm6JXc0Ksm53cHQKto7EgSASIWw9QEW4r9T9w>
-    <xmx:KbnnYWjWaMGHAwxoQXBGgGZEeqmKDH5U7VQotTufzYi_hapreaUYRA>
-    <xmx:KbnnYZpWC-PHKdOzr5AFIoi0vDsQ2ZdRwue-2d0UF62TKRCru2QWQw>
-    <xmx:KbnnYYbQXkZF7YxO78d09Cmli0fQXdxTbH0fcHtO027wW8NSdBAtMA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Jan 2022 02:09:27 -0500 (EST)
-Date:   Wed, 19 Jan 2022 16:09:24 +0900
-From:   Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH -next] Documentation: fix firewire.rst ABI file path error
-Message-ID: <Yee5JHUa53dj2ErZ@workstation>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20220118010517.20826-1-rdunlap@infradead.org>
- <dc527b05-2b65-cf88-c174-6fec6d458de4@gmail.com>
- <7f4e454c-5f79-7fd7-2866-8db682cc656b@infradead.org>
- <99e1e781-0761-2d47-954f-f75aac6e5049@gmail.com>
+        id S1352835AbiASJKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 04:10:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53229 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1352842AbiASJJ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 04:09:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1642583396;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kCH0AjI3eFPY2q8NUP5gdOrSh0DwHQxcSUH1oIghDG8=;
+        b=ivQ1ixBInev1Vr72a7lTSKrpFuLVejpKHewy2mqBX3psV4VclHoj+xHMjsGIGsFC66Ef2p
+        H/vlmjZInhGNrJZeLl0ayHSd7IxjolRoSWKuR4nR1Q+uD6vmzLx0dy0a9CFMQZOHivKoD7
+        C4tZX29IFIpTgNX22Idwvxl5Oa0n84Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-610-DzEasOt2PMOzsnMJqH5PCw-1; Wed, 19 Jan 2022 04:09:55 -0500
+X-MC-Unique: DzEasOt2PMOzsnMJqH5PCw-1
+Received: by mail-wm1-f71.google.com with SMTP id az10-20020a05600c600a00b0034d64b1203aso2512959wmb.4
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jan 2022 01:09:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kCH0AjI3eFPY2q8NUP5gdOrSh0DwHQxcSUH1oIghDG8=;
+        b=LQoQ59QQy9H4IxwcggNQh6U0lh86VuND68kBDff37Bh6kMbTFhdknhQy3UTgklGSg3
+         1vvBRm1DKPGb+3uLgKkaRYZ6CiMIjLAGPiKAVPeI+Z0YDKH2Gy55vSeAtTFTqkmrU+pH
+         qTR/fdEGWB57i92Pk/Z6FT8RNx6xfFG3KTjxobv0PbnU/7xWmZZDbz6jE+53Ih4XHsw1
+         OZ0NW6E9LMMrLIOSg3vADW9s+G6U4QN6lcM/JjlRJvHr41JBDBo+HMioiIX9HdxZpwVR
+         DwLmGyvpN68APNZzX87y1hIlfT+LGCUIgGfqRLuKbG6LRR4D6K1bL6atz0uHS8LN4GYQ
+         HoDQ==
+X-Gm-Message-State: AOAM530tUjCqL75lOeNjd53BI/oikRa4mNqH8OKNb4pS/dpKPl2Xytqm
+        +rnC9G0mitc8SQ+WKc6hOrLh/UiiGzCC15H4RThOBNCPWN6xS8HivR860sNU3N+RHS2BU9VqUHV
+        E6KYQblzIhnHNlpyfkCGZ
+X-Received: by 2002:a5d:64a3:: with SMTP id m3mr27550836wrp.36.1642583393957;
+        Wed, 19 Jan 2022 01:09:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw4mSSy7TajapoJ7PW82ft7hU8P4SXnM3bPyypID6clEBCjm4UngytWsRKI1DJf9NWdr4q8Mw==
+X-Received: by 2002:a5d:64a3:: with SMTP id m3mr27550816wrp.36.1642583393706;
+        Wed, 19 Jan 2022 01:09:53 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id p9sm5550805wmb.32.2022.01.19.01.09.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jan 2022 01:09:53 -0800 (PST)
+Message-ID: <e956363f-d62a-3c73-6dae-6c691c63dedc@redhat.com>
+Date:   Wed, 19 Jan 2022 10:09:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99e1e781-0761-2d47-954f-f75aac6e5049@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
+ parameter
+Content-Language: en-US
+To:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     Brian Starkey <brian.starkey@arm.com>,
+        Chen Feng <puck.chen@hisilicon.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        "James (Qian) Wang" <james.qian.wang@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tian Tao <tiantao6@hisilicon.com>,
+        Xinliang Liu <xinliang.liu@linaro.org>,
+        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211222082831.196562-1-javierm@redhat.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 12/22/21 09:28, Javier Martinez Canillas wrote:
+> The nomodeset kernel command line parameter is used to prevent the KMS/DRM
+> drivers to be registered/probed. But only a few drivers implement support
+> for this and most DRM drivers just ignore it.
+> 
+> This patch series is a v3 to make DRM drivers to honour nomodeset. It is
+> posted as separate patches to make easier for drivers maintainers to ack
+> or pick them independently at their own pace.
+> 
 
-On Tue, Jan 18, 2022 at 03:30:40PM +0900, Akira Yokosawa wrote:
-> (+Cc: Takashi)
-> On Mon, 17 Jan 2022 22:05:21 -0800,
-> Randy Dunlap wrote:
-> > 
-> > On 1/17/22 20:08, Akira Yokosawa wrote:
-> >> On Mon, 17 Jan 2022 17:05:17 -0800,
-> >> Randy Dunlap wrote:
-> >>> Adjust the path of the ABI files for firewire.rst to prevent a
-> >>> documentation build error. Prevents this problem:
-> >>>
-> >>> Sphinx parallel build error:
-> >>> docutils.utils.SystemMessage: /work/lnx/next/linux-next-20220117/Documentation/driver-api/firewire.rst:22: (SEVERE/4) Problems with "include" directive path:
-> >>> InputError: [Errno 2] No such file or directory: '../Documentation/driver-api/ABI/stable/firewire-cdev'.
-> >>>
-> >>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> >>> Cc: Jonathan Corbet <corbet@lwn.net>
-> >>> Cc: linux-doc@vger.kernel.org
-> >>> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> >>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >>> ---
-> >>> I don't see what is causing this problem...
-> >>
-> >> Randy, did you run "make SPHINXDIRS=driver-api htmldocs"?
-> > 
-> > Yes.
-> > Does that cause a problem when just "make htmldocs" does not?
+[snip]
+
 > 
-> No, that should not cause such a problem.
-> 
-> https://docutils.sourceforge.io/docs/ref/rst/directives.html#include
-> says (emphasis by me):
-> 
->     The "include" directive reads a text file. The directive argument
->     is the path to the file to be included, *relative* to the document
->     containing the directive. 
-> 
-> So I think your patch is the right fix.
-> You might like to add:
-> 
-> Fixes: 2f4830ef96d2 ("FireWire: add driver-api Introduction section")
-> 
-> And please feel free to add:
-> 
-> Tested-by: Akira Yokosawa <akiyks@gmail.com>
-> 
->         Thanks, Akira
+> Thomas Zimmermann (5):
+>   drm: Provide PCI module-init macros
+>   drm/ast: Replace module-init boiler-plate code with DRM helpers
+>   drm/bochs: Replace module-init boiler-plate code with DRM helpers
+>   drm/cirrus: Replace module-init boiler-plate code with DRM helpers
+>   drm/hisilicon/hibmc: Replace module initialization with DRM helpers
 >
-> > thanks.
-> > 
-> >> I remember seeing similar errors with v5.14 or v5.15.
-> >> So I don't think this is a new issue.
-> >>
-> >> Without "SPHINXDIRS=driver-api", I don't get this error on -next.
-> >>
-> >> I didn't report it at the time as I was not sure it was expected
-> >> or not.
-> >>
-> >>         Thanks, Akira
-> >>
-> >>>
-> >>>  Documentation/driver-api/firewire.rst |    4 ++--
-> >>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> --- linux-next-20220117.orig/Documentation/driver-api/firewire.rst
-> >>> +++ linux-next-20220117/Documentation/driver-api/firewire.rst
-> >>> @@ -19,7 +19,7 @@ of kernel interfaces is available via ex
-> >>>  Firewire char device data structures
-> >>>  ====================================
-> >>>  
-> >>> -.. include:: /ABI/stable/firewire-cdev
-> >>> +.. include:: ../ABI/stable/firewire-cdev
-> >>>      :literal:
-> >>>  
-> >>>  .. kernel-doc:: include/uapi/linux/firewire-cdev.h
-> >>> @@ -28,7 +28,7 @@ Firewire char device data structures
-> >>>  Firewire device probing and sysfs interfaces
-> >>>  ============================================
-> >>>  
-> >>> -.. include:: /ABI/stable/sysfs-bus-firewire
-> >>> +.. include:: ../ABI/stable/sysfs-bus-firewire
-> >>>      :literal:
-> >>>  
-> >>>  .. kernel-doc:: drivers/firewire/core-device.c
 
-I can regenerate the problem and check that the patch can solve it.
+For Thomas' patches (1-5)
 
-Tested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Thanks
-
-Takashi Sakamoto
