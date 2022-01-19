@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A3AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 09:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36EBBC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 09:44:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239989AbiASJmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 04:42:50 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:59690 "EHLO
+        id S1353081AbiASJob (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 04:44:31 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:60270 "EHLO
         smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235918AbiASJmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 04:42:49 -0500
+        with ESMTP id S1353101AbiASJoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 04:44:23 -0500
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 6F7542177B;
-        Wed, 19 Jan 2022 09:42:48 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id 040BC218B1;
+        Wed, 19 Jan 2022 09:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1642585368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1642585462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=bYZCV4bYim71AB+/QlUD1eg456naM2OEMt3lf0LO1HA=;
-        b=jIi92zpelf8mzF+0yk4eI/jvO3S6FlNCteJxLfwc7T8r1uHCbr7xuG4zEadbUA/uJV4yzZ
-        qUQfgJaXQeUFgTaqS6NtO++fEMmXmUkTiNdIpnj+ThLeu6yvWmkf7ciEjfnvm3GgpYz4Tv
-        4NRE1rxPOGuRTlwRVhHfBgsSxBQjA0Q=
+        bh=wd3d1acncrN3IVV5mgX/L/jJbqedR5eFN/1PmkMkzAg=;
+        b=Kdg2KeeNAASnM5cZJcAIdy1LlLKxEhnP795ZWM/tTUl0SuDKuXKu07ycmgfMZP4eVMdt/8
+        hpTrsN+B6Qmr7E79NcMHHeXOsBAYUaHIJmTRW4xNlmLl6Bd10zA9wrSEzBVAuISXaJ4nsD
+        auQfHN9ea7Nv7WOWSEnm8oZyZY9sCHs=
 Received: from suse.cz (unknown [10.100.201.86])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 83C7EA3B8D;
-        Wed, 19 Jan 2022 09:42:47 +0000 (UTC)
-Date:   Wed, 19 Jan 2022 10:42:47 +0100
+        by relay2.suse.de (Postfix) with ESMTPS id 92218A3BA7;
+        Wed, 19 Jan 2022 09:44:21 +0000 (UTC)
+Date:   Wed, 19 Jan 2022 10:44:21 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -51,90 +51,60 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <YefdFwcoX4+ZcDSY@dhcp22.suse.cz>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <YdhR4vWdWksBALtM@dhcp22.suse.cz>
- <Ydu6fXg2FmrseQOn@google.com>
- <YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz>
- <Yee36hPfWSs+jR0m@google.com>
+Message-ID: <YefddYm8FAfJalNa@dhcp22.suse.cz>
+References: <20220104202227.2903605-7-yuzhao@google.com>
+ <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
+ <Yddh+APQGg8dKRgw@google.com>
+ <Ydf/7DDu94fMs0CG@dhcp22.suse.cz>
+ <YdgBL1dRk1KmyXJS@dhcp22.suse.cz>
+ <Yduuyrk/AZG717Hs@google.com>
+ <YdxEqFPLDf+wI0xX@dhcp22.suse.cz>
+ <Yd/0Sgxy+jLm5cqd@google.com>
+ <YeAU0n1puxyr4N6Y@dhcp22.suse.cz>
+ <YeewK/cYG4MXV4f3@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yee36hPfWSs+jR0m@google.com>
+In-Reply-To: <YeewK/cYG4MXV4f3@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 19-01-22 00:04:10, Yu Zhao wrote:
-> On Mon, Jan 10, 2022 at 11:54:42AM +0100, Michal Hocko wrote:
-> > On Sun 09-01-22 21:47:57, Yu Zhao wrote:
-> > > On Fri, Jan 07, 2022 at 03:44:50PM +0100, Michal Hocko wrote:
-> > > > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> > > > [...]
-> > > > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-> > > > > +{
-> > > > > +	static const struct mm_walk_ops mm_walk_ops = {
-> > > > > +		.test_walk = should_skip_vma,
-> > > > > +		.p4d_entry = walk_pud_range,
-> > > > > +	};
-> > > > > +
-> > > > > +	int err;
-> > > > > +#ifdef CONFIG_MEMCG
-> > > > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > > > > +#endif
-> > > > > +
-> > > > > +	walk->next_addr = FIRST_USER_ADDRESS;
-> > > > > +
-> > > > > +	do {
-> > > > > +		unsigned long start = walk->next_addr;
-> > > > > +		unsigned long end = mm->highest_vm_end;
-> > > > > +
-> > > > > +		err = -EBUSY;
-> > > > > +
-> > > > > +		rcu_read_lock();
-> > > > > +#ifdef CONFIG_MEMCG
-> > > > > +		if (memcg && atomic_read(&memcg->moving_account))
-> > > > > +			goto contended;
-> > > > > +#endif
-> > > > > +		if (!mmap_read_trylock(mm))
-> > > > > +			goto contended;
+On Tue 18-01-22 23:31:07, Yu Zhao wrote:
+> On Thu, Jan 13, 2022 at 01:02:26PM +0100, Michal Hocko wrote:
+> > On Thu 13-01-22 02:43:38, Yu Zhao wrote:
+> > [...]
+> > > > > The bottom line is I can try various optimizations, e.g., preallocate
+> > > > > a few buffers for a limited number of page walkers and if this number
+> > > > > has been reached, fallback to the rmap-based function. But I have yet
+> > > > > to see evidence that calls for additional complexity.
 > > > > 
-> > > > Have you evaluated the behavior under mmap_sem contention? I mean what
-> > > > would be an effect of some mms being excluded from the walk? This path
-> > > > is called from direct reclaim and we do allocate with exclusive mmap_sem
-> > > > IIRC and the trylock can fail in a presence of pending writer if I am
-> > > > not mistaken so even the read lock holder (e.g. an allocation from the #PF)
-> > > > can bypass the walk.
+> > > > I would disagree here. This is not an optimization. You should be
+> > > > avoiding allocations from the memory reclaim because any allocation just
+> > > > add a runtime behavior complexity and potential corner cases.
 > > > 
-> > > You are right. Here it must be a trylock; otherwise it can deadlock.
+> > > Would __GFP_NOMEMALLOC address your concern? It prevents allocations
+> > > from accessing the reserves even under PF_MEMALLOC.
 > > 
-> > Yeah, this is clear.
+> > __GFP_NOMEMALLOC would deal with the complete memory depletion concern
+> > for sure but I am not sure how any of these allocations would succeed
+> > when called from the direct reclaim. Some access to memory reserves is
+> > necessary if you insist on allocating from the reclaim process.
 > > 
-> > > I think there might be a misunderstanding: the aging doesn't
-> > > exclusively rely on page table walks to gather the accessed bit. It
-> > > prefers page table walks but it can also fallback to the rmap-based
-> > > function, i.e., lru_gen_look_around(), which only gathers the accessed
-> > > bit from at most 64 PTEs and therefore is less efficient. But it still
-> > > retains about 80% of the performance gains.
-> > 
-> > I have to say that I really have hard time to understand the runtime
-> > behavior depending on that interaction. How does the reclaim behave when
-> > the virtual scan is enabled, partially enabled and almost completely
-> > disabled due to different constrains? I do not see any such an
-> > evaluation described in changelogs and I consider this to be a rather
-> > important information to judge the overall behavior.
+> > You can have a look at the limited memory reserves access by oom victims
+> > for an example of how this can be done.
 > 
-> It doesn't have (partially) enabled/disabled states nor does its
-> behavior change with different reclaim constraints. Having either
-> would make its design too complex to implement or benchmark.
+> Thanks. I'll change GFP_KERNEL to __GFP_HIGH | __GFP_NOMEMALLOC.
+> __GFP_HIGH allows some access to memory reserves and __GFP_NOMEMALLOC
+> prevents the complete depletion. Basically the combination lower the
+> min watermark by 1/2, and we have been using them for
+> add_to_swap_cache().
 
-Let me clarify. By "partially enabled" I really meant behavior depedning
-on runtime conditions. Say mmap_sem cannot be locked for half of scanned
-tasks and/or allocation for the mm walker fails due to lack of memory.
-How does this going to affect reclaim efficiency. How does a user/admin
-know that the memory reclaim is in a "degraded" mode because of the
-contention?
+Yes this will prevent the complete memory depletion. There are other
+users of this portion of memory reserves so the reclaim might be out of
+luck. How this turns out in practice remains to be seen though but it
+certainly is an opportunity for corner cases and hard to test behavior.
+
 -- 
 Michal Hocko
 SUSE Labs
