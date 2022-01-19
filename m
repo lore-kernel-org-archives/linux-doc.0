@@ -2,86 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F40C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 03:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26616C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 03:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351327AbiASDjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 22:39:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38922 "EHLO
+        id S1351364AbiASDmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 22:42:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344436AbiASDjJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 22:39:09 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC12C061574;
-        Tue, 18 Jan 2022 19:39:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=EiVf29ZWa3UvVQ+Z++r4y2NqjonXxCbIKpWNeyKw/Ys=; b=mJVKtwN7WptoTQ+4Md43Z9gq7K
-        bPrzGVkt12QjZyl0S6tkMhYgZ2E+qtaIFUjlY0ugCmdXU9V0VJXGvrzudF0SOO+hhNwin72tuu/Ky
-        H6eokKlaShlOUBHYbZMycdhswkgNTvU6PwgL7yYEqRBEkXHcqKE5epcfEI8hhc5eXst+mvY//QrTw
-        CZjRW5C++mtHUAUj/JEIwbHexZgnh/IqnSUGn3ct3ZiViaLiN/vqaPqiD9i6+P5JIAkDjaQIoEW6e
-        i+arJziPge9IWig6oVqUctNlpUa/ltlmsK5m38Uij1c1SyzqXOVI4Mg5S+qdn2LOttQrLuWVc8vE8
-        5jt0fDkg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nA1oQ-003gb6-Fw; Wed, 19 Jan 2022 03:39:06 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -next v2] Documentation: fix firewire.rst ABI file path error
-Date:   Tue, 18 Jan 2022 19:39:05 -0800
-Message-Id: <20220119033905.4779-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S1351362AbiASDmU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 22:42:20 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D445C061574;
+        Tue, 18 Jan 2022 19:42:19 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id d14so1083204ila.1;
+        Tue, 18 Jan 2022 19:42:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=r7JMEviKgX7h7dwTMY/Scut1yLu5dIsiftxrDpb7xA4=;
+        b=FwecmbS5j43h2MdrGoTc/SA07Kt3B1rkC8h4gpljYPb73LyIoubYgHRN9UaZ7c8WYF
+         5mIZLpFUdoyVBg6Nu7xioqJPsxrU6taF4Met/zLrBPMWEld0/19Id5AJ0g3v3jewZ1xL
+         K5MG6MMlQhnU0NRHZIHnvHU8JJCpoipZAG73/nSRd4fe1S3NGv4eX1O7U7ifTxPcgmmP
+         eLQroS3P5Pybr76JPSVxaOXfCcx5Kn6FucRifppfipVEi9eDvsWZ8V6DO/7N+T2X20jA
+         nNyiM7FkEFzQiJ2G5b05oUt3JFYnIqWOHxj58k+OyblcV65qqc3tRWCgSj+lpTq/DPo6
+         I1cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=r7JMEviKgX7h7dwTMY/Scut1yLu5dIsiftxrDpb7xA4=;
+        b=OXF2/1vXmyqhqLWd5Rw6lzXooWQ6z/o2wMmqoTchHr0U+/oR+qDUI1kU3yR4Y0GM9L
+         XWvz6Ty2K8jQ4OIVQmD4OMnyXyoolvbeWi+A6R1kfR0PxsptLQ8t6Lh8QK+HOuEIk5cp
+         tV4Y1B7C7267vppGk/+xly3asWILSqfDbV2pFGc3dj9cfpGNzeRK8zVGp5D0r4YUlKCI
+         1lqUcQQP2S+hLaZWR00INYOTaMWi8YAWZDsdjlbXEfyf6/6qdHFRnsPL8WTK/lTGr5Vi
+         VN+5azJEh6lu0JGhLohfEy7ThjTBVE3fX5osuGRyyPXcFjkz3OY0szXKJFw2WWonZR5s
+         fgZg==
+X-Gm-Message-State: AOAM531FO6XxDSsraU9eWjl2sayYmfrzobSzBLsOkyZhUh/KiuWQTgh+
+        U47tY6te5L0aYZP9a2bbH+ZbpLF/bx+BoxpbXSs=
+X-Google-Smtp-Source: ABdhPJxLRPu+hUwMNgV6oFE1Pv54GbsGaXtQPkntOSn/upzk8UtPVN8k7Cnk2z17zKcquQa6gBv2O1e03N2meKMiU6M=
+X-Received: by 2002:a92:8750:: with SMTP id d16mr14349699ilm.103.1642563738987;
+ Tue, 18 Jan 2022 19:42:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
+ <CAMU9jJquKLfzLOjN3xTLHgPJFWONpeVgUDG-0vsf_8ia3r3ALQ@mail.gmail.com>
+ <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
+ <CAOH5QeAka4QsLCOHaNK8NBp1BUFsu3HqEqiOhWOewabA58fVqw@mail.gmail.com> <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
+In-Reply-To: <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Wed, 19 Jan 2022 11:41:43 +0800
+Message-ID: <CAJy-Amne22+2cApoeEAGSc7d7ppSQja7pLX6SY_3+0wr8i3Asw@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     yong w <yongw.pur@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, wang.yong12@zte.com.cn,
+        Yang Yang <yang.yang29@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adjust the path of the ABI files for firewire.rst to prevent a
-documentation build error. Prevents this problem:
+On Wed, Jan 19, 2022 at 11:28 AM teng sterling <sterlingteng@gmail.com> wro=
+te:
+>
+> yong w <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8818=E6=97=A5=
+=E5=91=A8=E4=BA=8C 20:38=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > Hello,
+> > Is this patch OK?
+> >
+> > yong w <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=
+=A5=E5=91=A8=E5=9B=9B 22:56=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > Hello,
+> > > teng sterling <sterlingteng@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=
+=8813=E6=97=A5=E5=91=A8=E5=9B=9B 10:11=E5=86=99=E9=81=93=EF=BC=9A
+> > > >
+> > > > Hi Yong,
+> > > > <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=A5=
+=E5=91=A8=E5=9B=9B 07:27=E5=86=99=E9=81=93=EF=BC=9A
+> > > > >
+> > > > > From: wangyong <wang.yong12@zte.com.cn>
+> > > > >
+> > > > > Update zh_CN/accounting/delay-accounting.rst.
+> > > > > The document modification has been merged which refers to the fol=
+lowing link:
+> > > > > https://lore.kernel.org/all/1639583021-92977-1-git-send-email-wan=
+g.yong12@zte.com.cn/
+> > > > The normal way to handle this is to add an appropriate Fixes tag.
+> Since 4d3959d65968(Documentation/accounting/delay-accounting.rst: add
+> thrashing page cache and direct compact) Modified the original
+> document=EF=BC=8C
+> It seems we forgot to update the Chinese documentation, let's update it n=
+ow.
+> > > >
+> > > > By the way, this patch should be submitted together as part of that
+> > > > patch series where you modified the original documentation. Also ch=
+eck
+> > > > out the documentation for other languages and send it in the same w=
+ay.
+> > > > If you get stuck, simply --CC the maintainer is an elegant way to
+> > > > handle it. >_<
+> > > The previous patch has been merged into linux-next. There was no
+> > > Chinese translation when I submitted it.
+> > > At present, this document is only translated into Chinese, which was
+> > > translated not long ago.
+> > > So I update it in this patch.
+> > > >
+> > > > >
+> > > > > Signed-off-by: wangyong <wang.yong12@zte.com.cn>
+> > > > > Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+> > > > This looks like the first version of the patch and doesn't seem to
+> > > > have been reviewed by anyone yet, so you can't sign it instead of
+> > > > someone else.
+> > > Yang Yang reviewed it offline.
+> I'm not sure if this is appropriate, but lore is missing the review
+> process and the mailing list developers don't know what's going on,
+> which in a way makes it more difficult for future developers to learn.
 
-Sphinx parallel build error:
-docutils.utils.SystemMessage: Documentation/driver-api/firewire.rst:22: (SEVERE/4) Problems with "include" directive path:
-InputError: [Errno 2] No such file or directory: '../Documentation/driver-api/ABI/stable/firewire-cdev'.
+Right. The better way is asking Yang Yang to give a reviewed-by in
+mailing list next time. Otherwise, the private tag can't give a good
+support.
 
-Fixes: 2f4830ef96d2 ("FireWire: add driver-api Introduction section")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
----
-v2: Add Tested-by: and Fixes: from Akira (thanks!)
-    shorten path in error message;
 
- Documentation/driver-api/firewire.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+for this patch. Reviewed-by: Alex Shi <alexs@kernel.org>
 
---- linux-next-20220118.orig/Documentation/driver-api/firewire.rst
-+++ linux-next-20220118/Documentation/driver-api/firewire.rst
-@@ -19,7 +19,7 @@ of kernel interfaces is available via ex
- Firewire char device data structures
- ====================================
- 
--.. include:: /ABI/stable/firewire-cdev
-+.. include:: ../ABI/stable/firewire-cdev
-     :literal:
- 
- .. kernel-doc:: include/uapi/linux/firewire-cdev.h
-@@ -28,7 +28,7 @@ Firewire char device data structures
- Firewire device probing and sysfs interfaces
- ============================================
- 
--.. include:: /ABI/stable/sysfs-bus-firewire
-+.. include:: ../ABI/stable/sysfs-bus-firewire
-     :literal:
- 
- .. kernel-doc:: drivers/firewire/core-device.c
+>
+> Apart from the above=EF=BC=8CLGTM.
+>
+> Thanks,
+> Yanteng
+> > > >
+> > > > Thanks,
+> > > > Yanteng
+> > > Thanks for your reply.
