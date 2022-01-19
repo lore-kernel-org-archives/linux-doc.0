@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5C0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 06:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB945C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 07:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351206AbiASGbN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 01:31:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48340 "EHLO
+        id S231423AbiASHES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 02:04:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbiASGbN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 01:31:13 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD21C061574
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 22:31:12 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id r15so1327880ilj.7
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 22:31:12 -0800 (PST)
+        with ESMTP id S229560AbiASHER (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 02:04:17 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD70FC061574
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 23:04:16 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id w7so1694795ioj.5
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jan 2022 23:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=UkxAceZxhajO8BZgkx8KrSGLctag3Zj1oQU14fV01lI=;
-        b=Al/uDi3lg+lN09USLdsbvITyPec67cN5Pi0OUqyCegJg47rd3VhCxspvMZpaV1wT+W
-         SvDRoVhrHnzyuI9uW2Gx6O40x+11XZAEE1mWZ2oDkglCgZRBiuLMienpZwn1dXxuVxZa
-         dVER1xf43OOVYL6tGrvttn0OgbDIUhu2z6BmdN4oPcA1YVTj2vsPuDVyX9N8naFPXLpf
-         s43BvSzaDQpikXXCfDezMayLfKPfhBl4huxVeq4LT9q+BZkxCufxE84ehwGoJ6Eqw0RG
-         d9oaa2p0Itw0RYje0YB8rgjkFpskE4CAwxsTR9a91PU+sHdLdt5Xk2nrxm0O8qiCQohR
-         q4+g==
+        bh=WF2XhxdWcahC6NDYs1rosQPA8N+0DlTVNlcv63XewtM=;
+        b=khTBgUDeaNd9UcmIIpibbFHM09F3LKlr3TK5ulNywzTejrw/DKsawyIYDnirLCXiTO
+         A02mwiiBXy+7XRBWgRcC5E0qynNbb++dGa5R31uCoyzx0k4OJFe6Ssasx+kKrUz9v0Bx
+         FbVDqwa21wOF/m1+/hncxDpD26vALVz3nqexAABzIc2WON754Mbt9UOIGi6TUDwf+eS7
+         mzVjgjl6jHPGGLWaQloSaaIdKbmGrK2bmRNzsTZWIvqAUZM/LiVrhcNBHvbl2ZQFG5Fz
+         CoXEl5NeduyP9Jn4lDbpZh8bDiUmin03FUXBIlIBU9k7QLBqUhTB5WqLZYg5whbArpb2
+         +DTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=UkxAceZxhajO8BZgkx8KrSGLctag3Zj1oQU14fV01lI=;
-        b=PChOyk5vsb6UPIbgXXdbG3rfYhoDLX5AcbhpOwQsXyGEGxGqdbGcdbSuePuyFD5j/2
-         KFHUlxq1dPEBpUaeQV/8nOqrLfgycy4oViOxT7PpdFBZORTYDBhbZ9867zNaHUN0Edy8
-         cfWPb5djE2p1H9ta1u+SCbgMtv3Nd9W8O+XlTwWkPZQW9wEaQ1famOIz56Ijs+qSve9c
-         1/iavb87lP+vJCkq4XGzk2lFUjzOLOndftA65/0ENc1YILEI+5+vdTxN5F5F14WBbjCl
-         4NV289oCorch8UGkhr53W6a5xgIOiWwGc7ru1pPmyxH2CGaBW+MQFKUwd/R4zLTFwlaw
-         hsqA==
-X-Gm-Message-State: AOAM532tkJjlitJ9iVxEAKXCXO3gE8djq+4u1cxSS2a5y5ra9WSxgEiR
-        wwKluhixg8MOztp63LX/Cvb0Wg==
-X-Google-Smtp-Source: ABdhPJx6MTLpNNm2sOsjZA6EPUjb9C5/VI8R+cN1990w1Y2oviGcshouM6+huqzkXNgC6iBpgogcAg==
-X-Received: by 2002:a05:6e02:198a:: with SMTP id g10mr15789393ilf.280.1642573872028;
-        Tue, 18 Jan 2022 22:31:12 -0800 (PST)
+        bh=WF2XhxdWcahC6NDYs1rosQPA8N+0DlTVNlcv63XewtM=;
+        b=XrRV5PzfsrxGW1aLQVwEcpot4tVp4UUe9WlOAXQDmByfVbVePxxcp/nUZJmxKv5qiF
+         DZZVSdNPTjcrS5/W2gG/uRvNqpWe6n9T1vu/DyMorKNZGNmE09gws0gxCf+B7L6FNs+A
+         O96dihgmvGqyC0vpD6GwT89y+WlkSQqaEiHzJ/x8C8KfVDJnGxCZaEEuOwcc0fV2h5HP
+         HXoyhBWFYd6+It9y3VVgtV/1JQ/QyQhYPcAEi02pQyw7aFVNo3JDD0EP+mEteZGCOAxs
+         n5w6Xo/Iaq1XmEYmoiCbXkROPh+dpbPhxvYukJsR1xSZ3UvLxYhFUzcZlmB0xgHSCVsY
+         O8mw==
+X-Gm-Message-State: AOAM530qtNNdq+MLzVB58+9kZT5bcvR2WOCJ3orO5m9lVvfenV3Pxjly
+        82rT5Abs47TGBSHcN/yaECzBFQ==
+X-Google-Smtp-Source: ABdhPJwZIVI0EYafR2e3oyg6eDCnWq2adkd5lzKzCsC1VUUPRKtQvAXZJR5pQTRKLatrdMi5K6n9xQ==
+X-Received: by 2002:a02:3b0d:: with SMTP id c13mr13936220jaa.126.1642575855825;
+        Tue, 18 Jan 2022 23:04:15 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:90fc:e0c9:c69f:bede])
-        by smtp.gmail.com with ESMTPSA id g5sm13398294ioo.21.2022.01.18.22.31.10
+        by smtp.gmail.com with ESMTPSA id j18sm10892127ila.86.2022.01.18.23.04.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 22:31:11 -0800 (PST)
-Date:   Tue, 18 Jan 2022 23:31:07 -0700
+        Tue, 18 Jan 2022 23:04:15 -0800 (PST)
+Date:   Wed, 19 Jan 2022 00:04:10 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -71,50 +71,116 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <YeewK/cYG4MXV4f3@google.com>
+Message-ID: <Yee36hPfWSs+jR0m@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220104202227.2903605-7-yuzhao@google.com>
- <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
- <Yddh+APQGg8dKRgw@google.com>
- <Ydf/7DDu94fMs0CG@dhcp22.suse.cz>
- <YdgBL1dRk1KmyXJS@dhcp22.suse.cz>
- <Yduuyrk/AZG717Hs@google.com>
- <YdxEqFPLDf+wI0xX@dhcp22.suse.cz>
- <Yd/0Sgxy+jLm5cqd@google.com>
- <YeAU0n1puxyr4N6Y@dhcp22.suse.cz>
+ <YdhR4vWdWksBALtM@dhcp22.suse.cz>
+ <Ydu6fXg2FmrseQOn@google.com>
+ <YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YeAU0n1puxyr4N6Y@dhcp22.suse.cz>
+In-Reply-To: <YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 01:02:26PM +0100, Michal Hocko wrote:
-> On Thu 13-01-22 02:43:38, Yu Zhao wrote:
-> [...]
-> > > > The bottom line is I can try various optimizations, e.g., preallocate
-> > > > a few buffers for a limited number of page walkers and if this number
-> > > > has been reached, fallback to the rmap-based function. But I have yet
-> > > > to see evidence that calls for additional complexity.
+On Mon, Jan 10, 2022 at 11:54:42AM +0100, Michal Hocko wrote:
+> On Sun 09-01-22 21:47:57, Yu Zhao wrote:
+> > On Fri, Jan 07, 2022 at 03:44:50PM +0100, Michal Hocko wrote:
+> > > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> > > [...]
+> > > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> > > > +{
+> > > > +	static const struct mm_walk_ops mm_walk_ops = {
+> > > > +		.test_walk = should_skip_vma,
+> > > > +		.p4d_entry = walk_pud_range,
+> > > > +	};
+> > > > +
+> > > > +	int err;
+> > > > +#ifdef CONFIG_MEMCG
+> > > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > > > +#endif
+> > > > +
+> > > > +	walk->next_addr = FIRST_USER_ADDRESS;
+> > > > +
+> > > > +	do {
+> > > > +		unsigned long start = walk->next_addr;
+> > > > +		unsigned long end = mm->highest_vm_end;
+> > > > +
+> > > > +		err = -EBUSY;
+> > > > +
+> > > > +		rcu_read_lock();
+> > > > +#ifdef CONFIG_MEMCG
+> > > > +		if (memcg && atomic_read(&memcg->moving_account))
+> > > > +			goto contended;
+> > > > +#endif
+> > > > +		if (!mmap_read_trylock(mm))
+> > > > +			goto contended;
 > > > 
-> > > I would disagree here. This is not an optimization. You should be
-> > > avoiding allocations from the memory reclaim because any allocation just
-> > > add a runtime behavior complexity and potential corner cases.
+> > > Have you evaluated the behavior under mmap_sem contention? I mean what
+> > > would be an effect of some mms being excluded from the walk? This path
+> > > is called from direct reclaim and we do allocate with exclusive mmap_sem
+> > > IIRC and the trylock can fail in a presence of pending writer if I am
+> > > not mistaken so even the read lock holder (e.g. an allocation from the #PF)
+> > > can bypass the walk.
 > > 
-> > Would __GFP_NOMEMALLOC address your concern? It prevents allocations
-> > from accessing the reserves even under PF_MEMALLOC.
+> > You are right. Here it must be a trylock; otherwise it can deadlock.
 > 
-> __GFP_NOMEMALLOC would deal with the complete memory depletion concern
-> for sure but I am not sure how any of these allocations would succeed
-> when called from the direct reclaim. Some access to memory reserves is
-> necessary if you insist on allocating from the reclaim process.
+> Yeah, this is clear.
 > 
-> You can have a look at the limited memory reserves access by oom victims
-> for an example of how this can be done.
+> > I think there might be a misunderstanding: the aging doesn't
+> > exclusively rely on page table walks to gather the accessed bit. It
+> > prefers page table walks but it can also fallback to the rmap-based
+> > function, i.e., lru_gen_look_around(), which only gathers the accessed
+> > bit from at most 64 PTEs and therefore is less efficient. But it still
+> > retains about 80% of the performance gains.
+> 
+> I have to say that I really have hard time to understand the runtime
+> behavior depending on that interaction. How does the reclaim behave when
+> the virtual scan is enabled, partially enabled and almost completely
+> disabled due to different constrains? I do not see any such an
+> evaluation described in changelogs and I consider this to be a rather
+> important information to judge the overall behavior.
 
-Thanks. I'll change GFP_KERNEL to __GFP_HIGH | __GFP_NOMEMALLOC.
-__GFP_HIGH allows some access to memory reserves and __GFP_NOMEMALLOC
-prevents the complete depletion. Basically the combination lower the
-min watermark by 1/2, and we have been using them for
-add_to_swap_cache().
+It doesn't have (partially) enabled/disabled states nor does its
+behavior change with different reclaim constraints. Having either
+would make its design too complex to implement or benchmark.
+
+There is feedback loop connecting page table walks and rmap walks by
+Bloom filters. The Bloom filters hold dense hot areas. Page table walks
+test whether virtual areas are in the Bloom filters and scan those that
+were tested positive. Anything they miss will be caught by rmap walks
+later (shrink_page_list()). And when rmap walks find new dense hot
+areas, they add those area to the Bloom filters.
+
+A dense hot area means it has many accessed pages belonging to the
+reclaim domain, and clearing the accessed bit in all PTEs within this
+area by one page table walk is more efficient than doing it one by one
+by many rmap walks, in terms of cacheline utilization.
+
+> > > Or is this considered statistically insignificant thus a theoretical
+> > > problem?
+> > 
+> > Yes. People who work on the maple tree and SPF at Google expressed the
+> > same concern during the design review meeting (all stakeholders on the
+> > mailing list were also invited). So we had a counter to monitor the
+> > contention in previous versions, i.e., MM_LOCK_CONTENTION in v4 here:
+> > https://lore.kernel.org/lkml/20210818063107.2696454-8-yuzhao@google.com/
+> > 
+> > And we also combined this patchset with the SPF patchset to see if the
+> > latter makes any difference. Our conclusion was the contention is
+> > statistically insignificant to the performance under memory pressure.
+> > 
+> > This can be explained by how often we create a new generation. (We
+> > only walk page tables when we create a new generation. And it's
+> > similar to the low inactive condition for the active/inactive lru.)
+> > 
+> > Usually we only do so every few seconds. We'd run into problems with
+> > other parts of the kernel, e.g., lru lock contention, i/o congestion,
+> > etc. if we create more than a few generation every second.
+> 
+> This would be a very good information to have in changelogs. Ideally
+> with some numbers and analysis.
+
+Will do. Thanks.
