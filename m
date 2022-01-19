@@ -2,141 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26616C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 03:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AAB2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 04:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351364AbiASDmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jan 2022 22:42:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39652 "EHLO
+        id S239107AbiASERo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jan 2022 23:17:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351362AbiASDmU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 22:42:20 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D445C061574;
-        Tue, 18 Jan 2022 19:42:19 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id d14so1083204ila.1;
-        Tue, 18 Jan 2022 19:42:19 -0800 (PST)
+        with ESMTP id S235242AbiASERo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jan 2022 23:17:44 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D0AC061574;
+        Tue, 18 Jan 2022 20:17:43 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id m8-20020a17090a4d8800b001b4f361964fso1373593pjh.3;
+        Tue, 18 Jan 2022 20:17:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=r7JMEviKgX7h7dwTMY/Scut1yLu5dIsiftxrDpb7xA4=;
-        b=FwecmbS5j43h2MdrGoTc/SA07Kt3B1rkC8h4gpljYPb73LyIoubYgHRN9UaZ7c8WYF
-         5mIZLpFUdoyVBg6Nu7xioqJPsxrU6taF4Met/zLrBPMWEld0/19Id5AJ0g3v3jewZ1xL
-         K5MG6MMlQhnU0NRHZIHnvHU8JJCpoipZAG73/nSRd4fe1S3NGv4eX1O7U7ifTxPcgmmP
-         eLQroS3P5Pybr76JPSVxaOXfCcx5Kn6FucRifppfipVEi9eDvsWZ8V6DO/7N+T2X20jA
-         nNyiM7FkEFzQiJ2G5b05oUt3JFYnIqWOHxj58k+OyblcV65qqc3tRWCgSj+lpTq/DPo6
-         I1cw==
+        h=date:from:subject:to:cc:references:in-reply-to:mime-version
+         :message-id:content-transfer-encoding;
+        bh=AKF/m4crRjUPKaEVyR47iJWpF9556rhB20qICdT0XMw=;
+        b=gAmqQ4rYYDr653fs21as+JGb8WVc3EmyhbYjx0q2IQ5dWwJZKJ4GnqrquUtrvSB9OB
+         yrB2KyU4M340MMrv250jTVTm9egqTgMtoitKsWrnZig7xF0hOskKydBZPGefcGE0csbP
+         AiWdymunWo98bs9atvLMSPnGTL+cKj+CVfnPBiHWx4Exxb8VTZv3RGeCwPszEkMQiHOl
+         7RVADXLKYlCe8CIcbja61x2w0JRXJUjn5z1wkaIVivzwlVoMaedV2Yu12vPxNe4yUID6
+         AI9KiKUKOHS2QOSPlOzLqKoMbfHEMjJecKbks82ZSv6NLKRWAaGowwlsYIP1sXYCr2Nk
+         XDhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=r7JMEviKgX7h7dwTMY/Scut1yLu5dIsiftxrDpb7xA4=;
-        b=OXF2/1vXmyqhqLWd5Rw6lzXooWQ6z/o2wMmqoTchHr0U+/oR+qDUI1kU3yR4Y0GM9L
-         XWvz6Ty2K8jQ4OIVQmD4OMnyXyoolvbeWi+A6R1kfR0PxsptLQ8t6Lh8QK+HOuEIk5cp
-         tV4Y1B7C7267vppGk/+xly3asWILSqfDbV2pFGc3dj9cfpGNzeRK8zVGp5D0r4YUlKCI
-         1lqUcQQP2S+hLaZWR00INYOTaMWi8YAWZDsdjlbXEfyf6/6qdHFRnsPL8WTK/lTGr5Vi
-         VN+5azJEh6lu0JGhLohfEy7ThjTBVE3fX5osuGRyyPXcFjkz3OY0szXKJFw2WWonZR5s
-         fgZg==
-X-Gm-Message-State: AOAM531FO6XxDSsraU9eWjl2sayYmfrzobSzBLsOkyZhUh/KiuWQTgh+
-        U47tY6te5L0aYZP9a2bbH+ZbpLF/bx+BoxpbXSs=
-X-Google-Smtp-Source: ABdhPJxLRPu+hUwMNgV6oFE1Pv54GbsGaXtQPkntOSn/upzk8UtPVN8k7Cnk2z17zKcquQa6gBv2O1e03N2meKMiU6M=
-X-Received: by 2002:a92:8750:: with SMTP id d16mr14349699ilm.103.1642563738987;
- Tue, 18 Jan 2022 19:42:18 -0800 (PST)
-MIME-Version: 1.0
-References: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
- <CAMU9jJquKLfzLOjN3xTLHgPJFWONpeVgUDG-0vsf_8ia3r3ALQ@mail.gmail.com>
- <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
- <CAOH5QeAka4QsLCOHaNK8NBp1BUFsu3HqEqiOhWOewabA58fVqw@mail.gmail.com> <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
-In-Reply-To: <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Wed, 19 Jan 2022 11:41:43 +0800
-Message-ID: <CAJy-Amne22+2cApoeEAGSc7d7ppSQja7pLX6SY_3+0wr8i3Asw@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     yong w <yongw.pur@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
+        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+         :mime-version:message-id:content-transfer-encoding;
+        bh=AKF/m4crRjUPKaEVyR47iJWpF9556rhB20qICdT0XMw=;
+        b=zZekgZJ11lWQ3RsoWrRewO5IAPPZ2rW7l93c2S51mXNUBf/SkOEAO0Ifb1oOcJezxr
+         sOhrtGhLMB2pj4npCxy/52wxrEUJ+UIsiXUHxkTzd5COs2MuIl94nPLmjjd/WZi45ETV
+         c68wzD+IuAL8dMBArMiFK88QQ3bkzKLRR+zkZUPzogdK1cjZ5Odp0O7cuKe8SQLRQIPk
+         NLhuSs9Y8dKbQ7v3AnAHyh0T2N7VBdTdCfVANJz+2TJrcgEdiCUufOhqmk9ORFYUvSiE
+         qkK75qHQYwwRp0rsop+vxczZrFhdvXnOAF00VqDjvx6gx/6ABHMEYu4A9pePTxtJmRpM
+         LH4Q==
+X-Gm-Message-State: AOAM532/FSglE71MJ8tHlOqviQEQ9a7bNeOFT6fDg9s8dLV7pkmHDsni
+        cfsbWwl0eHi+43juY/fyd+Y=
+X-Google-Smtp-Source: ABdhPJx3OvhLmFtcmBgPOWtTOgtFz5eNT+qAc0Hg/uqwpDFNuWOOlw66tKXtoYn5ZRQ3+6wnEZ9b/A==
+X-Received: by 2002:a17:902:6b89:b0:149:7aa8:d98c with SMTP id p9-20020a1709026b8900b001497aa8d98cmr30797727plk.72.1642565863190;
+        Tue, 18 Jan 2022 20:17:43 -0800 (PST)
+Received: from localhost (193-116-82-75.tpgi.com.au. [193.116.82.75])
+        by smtp.gmail.com with ESMTPSA id n5sm18226822pfo.39.2022.01.18.20.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jan 2022 20:17:42 -0800 (PST)
+Date:   Wed, 19 Jan 2022 14:17:37 +1000
+From:   Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 3/3] x86: Support huge vmalloc mappings
+To:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, wang.yong12@zte.com.cn,
-        Yang Yang <yang.yang29@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Hansen <dave.hansen@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Kefeng Wang <wangkefeng.wang@huawei.com>, x86@kernel.org
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
+        <20211227145903.187152-4-wangkefeng.wang@huawei.com>
+        <70ff58bc-3a92-55c2-2da8-c5877af72e44@intel.com>
+        <3858de1f-cdbc-ff52-2890-4254d0f48b0a@huawei.com>
+        <31a75f95-6e6e-b640-2d95-08a95ea8cf51@intel.com>
+        <1642472965.lgfksp6krp.astroid@bobo.none>
+        <4488d39f-0698-7bfd-b81c-1e609821818f@intel.com>
+In-Reply-To: <4488d39f-0698-7bfd-b81c-1e609821818f@intel.com>
+MIME-Version: 1.0
+Message-Id: <1642565468.c0jax91tvn.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 11:28 AM teng sterling <sterlingteng@gmail.com> wro=
-te:
->
-> yong w <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8818=E6=97=A5=
-=E5=91=A8=E4=BA=8C 20:38=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Hello,
-> > Is this patch OK?
-> >
-> > yong w <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=
-=A5=E5=91=A8=E5=9B=9B 22:56=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > Hello,
-> > > teng sterling <sterlingteng@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=
-=8813=E6=97=A5=E5=91=A8=E5=9B=9B 10:11=E5=86=99=E9=81=93=EF=BC=9A
-> > > >
-> > > > Hi Yong,
-> > > > <yongw.pur@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8813=E6=97=A5=
-=E5=91=A8=E5=9B=9B 07:27=E5=86=99=E9=81=93=EF=BC=9A
-> > > > >
-> > > > > From: wangyong <wang.yong12@zte.com.cn>
-> > > > >
-> > > > > Update zh_CN/accounting/delay-accounting.rst.
-> > > > > The document modification has been merged which refers to the fol=
-lowing link:
-> > > > > https://lore.kernel.org/all/1639583021-92977-1-git-send-email-wan=
-g.yong12@zte.com.cn/
-> > > > The normal way to handle this is to add an appropriate Fixes tag.
-> Since 4d3959d65968(Documentation/accounting/delay-accounting.rst: add
-> thrashing page cache and direct compact) Modified the original
-> document=EF=BC=8C
-> It seems we forgot to update the Chinese documentation, let's update it n=
-ow.
-> > > >
-> > > > By the way, this patch should be submitted together as part of that
-> > > > patch series where you modified the original documentation. Also ch=
-eck
-> > > > out the documentation for other languages and send it in the same w=
-ay.
-> > > > If you get stuck, simply --CC the maintainer is an elegant way to
-> > > > handle it. >_<
-> > > The previous patch has been merged into linux-next. There was no
-> > > Chinese translation when I submitted it.
-> > > At present, this document is only translated into Chinese, which was
-> > > translated not long ago.
-> > > So I update it in this patch.
-> > > >
-> > > > >
-> > > > > Signed-off-by: wangyong <wang.yong12@zte.com.cn>
-> > > > > Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
-> > > > This looks like the first version of the patch and doesn't seem to
-> > > > have been reviewed by anyone yet, so you can't sign it instead of
-> > > > someone else.
-> > > Yang Yang reviewed it offline.
-> I'm not sure if this is appropriate, but lore is missing the review
-> process and the mailing list developers don't know what's going on,
-> which in a way makes it more difficult for future developers to learn.
+Excerpts from Dave Hansen's message of January 19, 2022 3:28 am:
+> On 1/17/22 6:46 PM, Nicholas Piggin wrote:
+>>> This all sounds very fragile to me.  Every time a new architecture woul=
+d
+>>> get added for huge vmalloc() support, the developer needs to know to go
+>>> find that architecture's module_alloc() and add this flag.
+>> This is documented in the Kconfig.
+>>=20
+>>  #
+>>  #  Archs that select this would be capable of PMD-sized vmaps (i.e.,
+>>  #  arch_vmap_pmd_supported() returns true), and they must make no assum=
+ptions
+>>  #  that vmalloc memory is mapped with PAGE_SIZE ptes. The VM_NO_HUGE_VM=
+AP flag
+>>  #  can be used to prohibit arch-specific allocations from using hugepag=
+es to
+>>  #  help with this (e.g., modules may require it).
+>>  #
+>>  config HAVE_ARCH_HUGE_VMALLOC
+>>          depends on HAVE_ARCH_HUGE_VMAP
+>>          bool
+>>=20
+>> Is it really fair to say it's *very* fragile? Surely it's reasonable to=20
+>> read the (not very long) documentation ad understand the consequences fo=
+r
+>> the arch code before enabling it.
+>=20
+> Very fragile or not, I think folks are likely to get it wrong.  It would
+> be nice to have it default *everyone* to safe and slow and make *sure*
 
-Right. The better way is asking Yang Yang to give a reviewed-by in
-mailing list next time. Otherwise, the private tag can't give a good
-support.
+It's not safe to enable though. That's the problem. If it was just=20
+modules then you'd have a point but it could be anything.
 
+> they go look at the architecture modules code itself before enabling
+> this for modules.
 
-for this patch. Reviewed-by: Alex Shi <alexs@kernel.org>
+This is required not just for modules for the whole arch code, it
+has to be looked at and decided this will work.
 
->
-> Apart from the above=EF=BC=8CLGTM.
->
-> Thanks,
-> Yanteng
-> > > >
-> > > > Thanks,
-> > > > Yanteng
-> > > Thanks for your reply.
+> Just from that Kconfig text, I don't think I'd know off the top of my
+> head what do do for x86, or what code I needed to go touch.
+
+You have to make sure arch/x86 makes no assumptions that vmalloc memory
+is backed by PAGE_SIZE ptes. If you can't do that then you shouldn't=20
+enable the option. The option can not explain it any more because any
+arch could do anything with its mappings. The module code is an example,
+not the recipe.
+
+Thanks,
+Nick
