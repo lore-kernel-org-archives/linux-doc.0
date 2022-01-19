@@ -2,116 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C166C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 18:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEF8C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 20:21:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243215AbiASStQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 13:49:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21197 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235432AbiASStN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 13:49:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1642618153;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
-        b=CljCLsl/LxKLLJ2O0Eqo0ks61JrNfcVBnCMXIpB6/UGZcUSqhBWrxl7darZr5psbmOUQOV
-        leD0C8qCGLfDBd32CLwZEWfVDrsd0EgOi5ujMFPJ6zO8E9Yt8kMgEvQFfeOSEzi2yr5P/X
-        LBLodxudeMhj2zIDpnUTb7a520Rwp4k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-ASBOd3UlN2aD4aYx94-Wzg-1; Wed, 19 Jan 2022 13:49:11 -0500
-X-MC-Unique: ASBOd3UlN2aD4aYx94-Wzg-1
-Received: by mail-wm1-f70.google.com with SMTP id c16-20020a1c9a10000000b0034dd409329eso1200049wme.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jan 2022 10:49:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
-        b=kJJ6o6hoaJgqsxSBbN506q63Ncusmc96dbrLA33KQj8mtBAje1QYxlRzhcJVUlS6EW
-         hnOuq8kun3RbrExurKYvxEJMYcUvtWnEJdsazjGq4XDloC33s5/jDWDKW5c/ZXGx7CUQ
-         lo8dfxeLY9fPYDwO4PfhFz5dcYQ3SqJg/c8UjtXpdbAoO5KRohSAvs/np29SqqlEL7Q+
-         0g1RbiJYzYk28JSJEuU3rhAQrcrr6V/GIjwjEflwzXETS4WjZTgl5nZG3agritsJpp5h
-         egM5B+KKILR7dVKdBespY4gjOT+ehQO+m+4J/yHvxe7aMzA5xzaKZt2ReZC0u3yr3PPx
-         n0sg==
-X-Gm-Message-State: AOAM53291X97MbjdbeDzgiJYEfQlOMYhR1+9uT2bDcXFxe4bNI9G5bpg
-        U0+rDpCVloury09YilPORnmr4OEnmPhFHvUE7oBQu/FTAeGIV8TcgeU1+dlY4wOtAuFVzlwF8c2
-        MaqyrorHnEs/QFNajXnH0
-X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869497wme.172.1642618150568;
-        Wed, 19 Jan 2022 10:49:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1Kpf6+uldWTCRbZxkUHsgH8cpaLkeUTvW0fxHVDLydb9/z+nKUZFDPKeoNORBlQm9BC+hAA==
-X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869467wme.172.1642618150314;
-        Wed, 19 Jan 2022 10:49:10 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id o3sm835397wry.30.2022.01.19.10.49.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jan 2022 10:49:09 -0800 (PST)
-Message-ID: <bb01c544-66aa-b470-5b09-18f6e42d941a@redhat.com>
-Date:   Wed, 19 Jan 2022 19:49:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-Content-Language: en-US
-To:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     Brian Starkey <brian.starkey@arm.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        id S1357306AbiASUVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 15:21:31 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53733 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1357255AbiASUV2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 15:21:28 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 9CC405803E8;
+        Wed, 19 Jan 2022 15:21:22 -0500 (EST)
+Received: from imap46 ([10.202.2.96])
+  by compute5.internal (MEProxy); Wed, 19 Jan 2022 15:21:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=liquorix.net; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm1; bh=JKT/nV8EFLKtbGZNTCYtvqRmmyTL2Tg
+        sz1tu10VSjNQ=; b=cxdUi+cbXCN+4iHGOELe5QBWZOviFSD8GJEG52aBsXsVaIu
+        8OqmAhi5Dl4e5hDUIQ/qo3cDovmpunrbZqh9j8ocObhnaUCyYae5RuEfMwGEKA1a
+        9+nWS8UwZyKEy+McYZBr78JuzucOxulj8KtwEBGa8sO31HgY7146ViVL1B5CXB9j
+        DWrh7jSSkLCROJagKYmyKHJlt01lll4VRxFzB4oBTyeKF3r0NgN5u6gB4p5Kfb+K
+        /lEPpBYo6jxZfQ/55+CKH9uu4WS7E8TtIUBSGUqPFdmq1Q6jNIJxkUtWhcwJ+lBa
+        pRl+dwNtSJ+aS3Hif3umMzpu90dAjWUSwC3q2LQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=JKT/nV
+        8EFLKtbGZNTCYtvqRmmyTL2Tgsz1tu10VSjNQ=; b=m2pZbC12MWeHg5y4W+U1wf
+        A+eiOYdWpwCNn1IR5Zagic8Fh6gf4A5dVJhpexiDDOsGdYwVt+29u/5G6ivQmq5i
+        DYvn+VLyeZzTFBDBLKx13M4hhiaVuploplxhDN4rcL+tiwoNnoGGTEglzX0k5j9M
+        /Bwut0errFggj63mRR2tn8LNTpbYb7DgINX+2pm5xq72G6Or6lRBd7WsE+9vJajG
+        2eALcaw6Lynz9sIZmYij6smHQx1ScHOOejLzH0ae/UVgs8R3GebM2EpYr2hU1Sra
+        b/7YxD+R5p03hBh+PAyTjBf11uIEl0pt0PBBuI2iTrioWfBDEMM4bVd/723KPb+w
+        ==
+X-ME-Sender: <xms:wHLoYYN6twqNdJW-i0Q6-Nrmr9R_ftzj8qOCG6d4hJJLZjXtoIgSvA>
+    <xme:wHLoYe_36jrc_rHr0EZ2h7NJBqL4F3VEbZt9ETsZdTBKq1w9h3CHPKvIF5Lp0oyf1
+    A3KRHyqB9gGp5dAOek>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigdejiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfufhtvghv
+    vghnuceurghrrhgvthhtfdcuoehsthgvvhgvnheslhhiqhhuohhrihigrdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpeekleffieffheevveeuteduteffkeffvdejuefhuedugfduvdeh
+    fedtueeiffelheenucffohhmrghinhepgigrnhhmohgurdhorhhgpdgthhhrohhmihhumh
+    drohhrghdprghrtghhlhhinhhugidrohhrghdplhhiqhhuohhrihigrdhnvghtpdhgohho
+    ghhlvghsohhurhgtvgdrtghomhdpvgguihdrfihorhhkshenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsthgvvhgvnheslhhiqhhuohhrihig
+    rdhnvght
+X-ME-Proxy: <xmx:wHLoYfSigPo_sVD8ByZMpCGy8Ue4xJhn1mLg81JMiVzekSDG8ukP8g>
+    <xmx:wHLoYQsGAFEFkXhq4wsXvHQxuENDxMrcU-aRtFAeX5IpIHZ03caEiw>
+    <xmx:wHLoYQc52Nrzp770RssFw5kwF5B8OeSkJ88YKCFYTgmbLLlmA_71OQ>
+    <xmx:wnLoYUMSQxFVToPgasnePQ1J5uHPGV5xjL0w0JIWOM9dGIAsVK82qQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 6A2321EE007B; Wed, 19 Jan 2022 15:21:20 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4585-ga9d9773056-fm-20220113.001-ga9d97730
+Mime-Version: 1.0
+Message-Id: <9203f79f-7910-4613-a593-aa6fda665b42@www.fastmail.com>
+In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <YdSuSHa/Vjl6bPkg@google.com> <Yd1Css8+jsspeZHh@google.com>
+Date:   Wed, 19 Jan 2022 14:19:30 -0600
+From:   "Steven Barrett" <steven@liquorix.net>
+To:     "Yu Zhao" <yuzhao@google.com>
+Cc:     "Andi Kleen" <ak@linux.intel.com>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Hillf Danton" <hdanton@sina.com>, "Jens Axboe" <axboe@kernel.dk>,
+        "Jesse Barnes" <jsbarnes@google.com>,
+        "Johannes Weiner" <hannes@cmpxchg.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        "Mel Gorman" <mgorman@suse.de>,
+        "Michael Larabel" <Michael@michaellarabel.com>,
+        "Michal Hocko" <mhocko@kernel.org>,
+        "Rik van Riel" <riel@surriel.com>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Will Deacon" <will@kernel.org>,
+        "Ying Huang" <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211222082831.196562-1-javierm@redhat.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/22/21 09:28, Javier Martinez Canillas wrote:
-> The nomodeset kernel command line parameter is used to prevent the KMS/DRM
-> drivers to be registered/probed. But only a few drivers implement support
-> for this and most DRM drivers just ignore it.
+On Tue, Jan 11, 2022, at 2:41 AM, Yu Zhao wrote:
+> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
+> > On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
+> > > TLDR
+> > > ====
+> > > The current page reclaim is too expensive in terms of CPU usage and it
+> > > often makes poor choices about what to evict. This patchset offers an
+> > > alternative solution that is performant, versatile and
+> > > straightforward.
+> > 
+> > <snipped>
+> > 
+> > > Summery
+> > > =======
+> > > The facts are:
+> > > 1. The independent lab results and the real-world applications
+> > >    indicate substantial improvements; there are no known regressions.
+> > > 2. Thrashing prevention, working set estimation and proactive reclaim
+> > >    work out of the box; there are no equivalent solutions.
+> > > 3. There is a lot of new code; nobody has demonstrated smaller changes
+> > >    with similar effects.
+> > > 
+> > > Our options, accordingly, are:
+> > > 1. Given the amount of evidence, the reported improvements will likely
+> > >    materialize for a wide range of workloads.
+> > > 2. Gauging the interest from the past discussions [14][15][16], the
+> > >    new features will likely be put to use for both personal computers
+> > >    and data centers.
+> > > 3. Based on Google's track record, the new code will likely be well
+> > >    maintained in the long term. It'd be more difficult if not
+> > >    impossible to achieve similar effects on top of the existing
+> > >    design.
+> > 
+> > Hi Andrew, Linus,
+> > 
+> > Can you please take a look at this patchset and let me know if it's
+> > 5.17 material?
+> > 
+> > My goal is to get it merged asap so that users can reap the benefits
+> > and I can push the sequels. Please examine the data provided -- I
+> > think the unprecedented coverage and the magnitude of the improvements
+> > warrant a green light.
 > 
-> This patch series is a v3 to make DRM drivers to honour nomodeset. It is
-> posted as separate patches to make easier for drivers maintainers to ack
-> or pick them independently at their own pace.
+> Downstream kernel maintainers who have been carrying MGLRU for more than
+> 3 versions, can you please provide your Acked-by tags?
 > 
+> Having this patchset in the mainline will make your job easier :)
+> 
+>    Alexandre - the XanMod Kernel maintainer
+>                https://xanmod.org
+>    
+>    Brian     - the Chrome OS kernel memory maintainer
+>                https://www.chromium.org
+>    
+>    Jan       - the Arch Linux Zen kernel maintainer
+>                https://archlinux.org
+>    
+>    Steven    - the Liquorix kernel maintainer
+>                https://liquorix.net
+>    
+>    Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
+>                https://chromium.googlesource.com/chromiumos/third_party/kernel
+> 
+> Also my gratitude to those who have helped test MGLRU:
+> 
+>    Daniel - researcher at Michigan Tech
+>             benchmarked memcached
+>    
+>    Holger - who has been testing/patching/contributing to various
+>             subsystems since ~2008
+>    
+>    Shuang - researcher at University of Rochester
+>             benchmarked fio and provided a report
+>    
+>    Sofia  - EDI https://www.edi.works
+>             benchmarked the top eight memory hogs and provided reports
+> 
+> Can you please provide your Tested-by tags? This will ensure the credit
+> for your contributions.
+> 
+> Thanks!
 
-I've pushed this series to drm-misc-next.
+This feature has been a huge improvement for desktop linux, system
+responsiveness has hit a new level high memory pressure.  Thanks Yu!
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Acked-by: Steven Barrett <steven@liquorix.net>
