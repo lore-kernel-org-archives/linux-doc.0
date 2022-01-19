@@ -2,181 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 417EFC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 22:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 568F2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jan 2022 23:00:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357500AbiASWZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jan 2022 17:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41114 "EHLO
+        id S234681AbiASXAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jan 2022 18:00:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357563AbiASWZy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 17:25:54 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89707C061574
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jan 2022 14:25:54 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id m4so19926369edb.10
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jan 2022 14:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cgjUtIp/NJ23YXRIEjOj0qjbOPGKNdYKcaS2fOswzbc=;
-        b=oGsu4bZqbrZah1XP9hAFPpaAxPc35v4wJQuOPO6BSg+l2m68e9br8SuK66riHukFLH
-         FXIxgXuLCj2g6EufW8wwPm1p/MvkT1nT1blp81zUvRKjiIloJ5HMv/mSEC5Hx1fjZ/gU
-         24pRsKr0zUguTJrpNO/ORsBpWNhlVRjbhQAAAi1Yr+ERmQeLw1l9tVJegpXqqIf6kihG
-         Fr5/fcaS+jKnxNy34qGp5472VvREqU/oI/9IRaT5Myb59dZYQ9AwZzifVIgXEt4SIzIE
-         lNLpwj1O9nQl1h87Mqzo6KjG6z5+7UzbgI5xmzlB53q6vEnT2MCTyzSkMN0jPg0QD6/M
-         DFmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cgjUtIp/NJ23YXRIEjOj0qjbOPGKNdYKcaS2fOswzbc=;
-        b=yWjB/DqmyebHmPgFO3B7/pavJ2+tAixtKV2YyzU7BAVAwdQ3aQBZ/9C5slw75vHpeq
-         geh3sZhUWu+uMI1gYA5gg/SxYM6yoN8FgxyQ5cs7earSpHt2xCdPk+BBfUQMDxscVbOO
-         nyam+nsOE3kmI4BeGFuHWtFpjveVEi5GrUNgunBseRmSXypriJwVudzE7dxO+vbWtdko
-         YaxdeY12oE3irM8F1PAAd0HSrUXRw2HZq6zNk/84yyn+dLiegXbOfQZ9dJ6d/MF2MxRL
-         jKDGIHaZPYCzyrUo7tIb6isT0INZMhPQJ0zXjU+Knv1ILRH7/8HEoqb9VSNuU43Khtbg
-         fhog==
-X-Gm-Message-State: AOAM533O7VRvJGgETMyGXjGtBlghZgsEfzGVRD3KHd1bxqzxep09upoh
-        KJKD97TgNALrC/BfJ4K9UkqSqMnoQiaLv7Ki2D3DaA==
-X-Google-Smtp-Source: ABdhPJzkgP6BEDEgQhuAM2rXNU61+MwKYa2K+ClyYgh+IFMum6eOxwSxae/Wj82WqClt5hDJXhIt8J5jlLwZk0HJSxg=
-X-Received: by 2002:aa7:dc53:: with SMTP id g19mr32773866edu.294.1642631152867;
- Wed, 19 Jan 2022 14:25:52 -0800 (PST)
+        with ESMTP id S234447AbiASXAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jan 2022 18:00:21 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E94AC061574;
+        Wed, 19 Jan 2022 15:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=69M6KMphEDIUOUxds36xj+F/fkNqq7cJu1oHQj03tXo=; b=oMSVG2gAzAEGFzNYEkSw1n6ZeN
+        9t2IPI55TogrWuTYu5ev1LLx/5LuLBgyVrxogr4vVdpGsWC3bUzfjE3lRXz/G6wzKc0TlEnNV5UuQ
+        hRx4Le1cwlOx1HUcv+l68rSk/suScwTEvs/LAwTxm4pYpLNLJF146YwvZDHdVpFlcYwJs13lBTZgo
+        YZaMhrn3KbC1scHsGPEzLQpBTZIeHkzbjpWelg0iyi/TmIV6bAIn2WEmfB4uDm/m0vOZgZq2m1cre
+        wRe+LbEHx7e57C/0jZcWrBOdfVSa4d9ZhaPZcB+EnXVodck2bgKV1elQqusOgiTvxBmBvK0zjButG
+        GWZ56x8Q==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nAJw7-00CX3s-6f; Wed, 19 Jan 2022 23:00:15 +0000
+Message-ID: <d7130556-a8a4-76c0-0fde-b6b1439efda6@infradead.org>
+Date:   Wed, 19 Jan 2022 15:00:09 -0800
 MIME-Version: 1.0
-References: <20220104202227.2903605-1-yuzhao@google.com> <YdSuSHa/Vjl6bPkg@google.com>
- <Yd1Css8+jsspeZHh@google.com>
-In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Wed, 19 Jan 2022 17:25:16 -0500
-Message-ID: <CADyq12z9LtDEURaKTY8qx8nb7mqUL5jLnO682DeweFOmw31LDQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Alexandre Frade <kernel@xanmod.org>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, page-reclaim@google.com,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] docs: Update the preferred line size to 100 characters
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        Joe Perches <joe@perches.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20220119160642.140e84c6@gandalf.local.home>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220119160642.140e84c6@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 3:41 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
-> > On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
-> > > TLDR
-> > > ====
-> > > The current page reclaim is too expensive in terms of CPU usage and it
-> > > often makes poor choices about what to evict. This patchset offers an
-> > > alternative solution that is performant, versatile and
-> > > straightforward.
-> >
-> > <snipped>
-> >
-> > > Summery
-> > > =======
-> > > The facts are:
-> > > 1. The independent lab results and the real-world applications
-> > >    indicate substantial improvements; there are no known regressions.
-> > > 2. Thrashing prevention, working set estimation and proactive reclaim
-> > >    work out of the box; there are no equivalent solutions.
-> > > 3. There is a lot of new code; nobody has demonstrated smaller changes
-> > >    with similar effects.
-> > >
-> > > Our options, accordingly, are:
-> > > 1. Given the amount of evidence, the reported improvements will likely
-> > >    materialize for a wide range of workloads.
-> > > 2. Gauging the interest from the past discussions [14][15][16], the
-> > >    new features will likely be put to use for both personal computers
-> > >    and data centers.
-> > > 3. Based on Google's track record, the new code will likely be well
-> > >    maintained in the long term. It'd be more difficult if not
-> > >    impossible to achieve similar effects on top of the existing
-> > >    design.
-> >
-> > Hi Andrew, Linus,
-> >
-> > Can you please take a look at this patchset and let me know if it's
-> > 5.17 material?
-> >
-> > My goal is to get it merged asap so that users can reap the benefits
-> > and I can push the sequels. Please examine the data provided -- I
-> > think the unprecedented coverage and the magnitude of the improvements
-> > warrant a green light.
->
-> Downstream kernel maintainers who have been carrying MGLRU for more than
-> 3 versions, can you please provide your Acked-by tags?
->
-> Having this patchset in the mainline will make your job easier :)
->
->    Alexandre - the XanMod Kernel maintainer
->                https://xanmod.org
->
->    Brian     - the Chrome OS kernel memory maintainer
->                https://www.chromium.org
-
-MGLRU has been maturing in ChromeOS for quite some time, we've
-maintained it in a number of different kernels between 4.14 and 5.15,
-and it's become the default
-for tens of millions of users. We've seen substantial improvements in
-terms of CPU utilization and memory pressure resulting in fewer OOM
-kills and reduced UI latency. I would love to see this make it
-upstream so more desktop users can benefit.
-
-Acked-by: Brian Geffon <bgeffon@google.com>
 
 
->
->    Jan       - the Arch Linux Zen kernel maintainer
->                https://archlinux.org
->
->    Steven    - the Liquorix kernel maintainer
->                https://liquorix.net
->
->    Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
->                https://chromium.googlesource.com/chromiumos/third_party/kernel
->
-> Also my gratitude to those who have helped test MGLRU:
->
->    Daniel - researcher at Michigan Tech
->             benchmarked memcached
->
->    Holger - who has been testing/patching/contributing to various
->             subsystems since ~2008
->
->    Shuang - researcher at University of Rochester
->             benchmarked fio and provided a report
->
->    Sofia  - EDI https://www.edi.works
->             benchmarked the top eight memory hogs and provided reports
->
-> Can you please provide your Tested-by tags? This will ensure the credit
-> for your contributions.
->
-> Thanks!
+On 1/19/22 13:06, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> As commit bdc48fa11e46f ("checkpatch/coding-style: deprecate 80-column
+> warning") states:
+> 
+>     Increase the default limit to 100 characters.  Not because 100
+>     characters is some hard limit either, but that's certainly a "what are
+>     you doing" kind of value and less likely to be about the occasional
+>     slightly longer lines.
+
+
+Has Linus has changed his view on this since 2016?
+  https://lore.kernel.org/all/CA+55aFxaOFoh+Zrm5tNhU4hWu4Z032+nqV3vXK=QPJyhZsU3_A@mail.gmail.com/
+
+Guess we will see.
+I expect that the answer is "be reasonable," but that's subjective.
+
+To me, it is easier to look below one line for something in context than it is
+to have to scan several inches to the right and then back to the left (or vice versa).
+Maybe I'm alone in that, but I doubt it.
+It's sort of a locality of vision thing.
+
+
+> It's 2022, people are not using 80x24 terminals anymore (well I'm sure
+> someone is, but they are the small minority).
+> 
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
+>  Documentation/process/coding-style.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 03eb53fd029a..73be9edffede 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -101,10 +101,10 @@ Get a decent editor and don't leave whitespace at the end of lines.
+>  Coding style is all about readability and maintainability using commonly
+>  available tools.
+>  
+> -The preferred limit on the length of a single line is 80 columns.
+> +The preferred limit on the length of a single line is 100 columns.
+>  
+> -Statements longer than 80 columns should be broken into sensible chunks,
+> -unless exceeding 80 columns significantly increases readability and does
+> +Statements longer than 100 columns should be broken into sensible chunks,
+> +unless exceeding 100 columns significantly increases readability and does
+>  not hide information.
+>  
+>  Descendants are always substantially shorter than the parent and
+
+-- 
+~Randy
