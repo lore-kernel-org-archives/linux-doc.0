@@ -2,119 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 619B2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 09:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 361CEC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 10:06:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359695AbiATJ4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jan 2022 04:56:04 -0500
-Received: from mga07.intel.com ([134.134.136.100]:51681 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1359683AbiATJz4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jan 2022 04:55:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642672556; x=1674208556;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7Jt2Js2JOtnvL4mYuFnW/EzkdCTVSihhHWbNkdDiFR8=;
-  b=I/K9bIbmw6xDqfj5dYHnlpFuRrdRAMhc0Hvw6qwI2jTD2oFPC9LXioZG
-   JqHrzbkdMF++UPpNTGYRydiSRIzzqAxJrY3H/27CQWIrrdDvCcJbWNjjE
-   SSmXN84UWyQEeuVg3CyyUgZ4Etu65fvK3uy0sponQKbJA5FjWon3Uvkzh
-   YUrNFdysmwA8yyegIgd4fC1wlyMk7J1SpjEm+giSD7tJndDoRQyxJo5Xt
-   p166YjBqSn/4ewIa1F6yfpfFSO6xGS3nONJKbqpzf4JVENC7keqOojJlh
-   HOCDUYaPhwOctGyKpTjuy5XfuhNX+4V25d62/C6LF8uyGGhHzrksFmLwk
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="308651537"
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
-   d="scan'208";a="308651537"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:55:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
-   d="scan'208";a="595700060"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:55:50 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 5ACE9203C8;
-        Thu, 20 Jan 2022 11:55:46 +0200 (EET)
-Date:   Thu, 20 Jan 2022 11:55:46 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Joe Perches <joe@perches.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Update the preferred line size to 100 characters
-Message-ID: <YekxouspRBkzHpKO@paasikivi.fi.intel.com>
-References: <20220119160642.140e84c6@gandalf.local.home>
+        id S1359708AbiATKGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jan 2022 05:06:04 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:40072
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240138AbiATKGD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jan 2022 05:06:03 -0500
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1AC64402A3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jan 2022 10:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1642673158;
+        bh=w26SyRlRb1I1H6K/gmJqzdX3K4fWh5zNRWtuBCu0Vhg=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=VNMt+JsWEOJJunb/ly1GHJWU07VqTDZ1ukJy7obr5XJrK+UViouHuR23qFNNMnVZO
+         67nRg6dKQ2dKbQL+XFUnaEe+wnVsMXj4k9U2pTK5b0xPLDKTJE6HnVz2xmV2ggSTY1
+         PsbX+QkEDvo/vWbu0nc5lmHnEltsKcgmHrUHGHJnckwYZT2rJHarRIC+I6P2BfTg/X
+         P9d3VxbH6MUbXClmwcPEJWLdrVhz48XxTQU/xR0Jx8CftPlGoG8bRMcaYMzYNBxbU7
+         e/3o4gypvdmAXYMAVDYiHT2uJVdTDCQTcOeZ6xmOBnVQvBezZJd74BYM64Zmz8vnrh
+         RplF8oYkvc7YQ==
+Received: by mail-ed1-f71.google.com with SMTP id p17-20020aa7c891000000b004052d1936a5so1088712eds.7
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jan 2022 02:05:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w26SyRlRb1I1H6K/gmJqzdX3K4fWh5zNRWtuBCu0Vhg=;
+        b=W26gAoYyJGaj3XkT/4c0BQ/yq9qUZTVuIBEXKBbz8Xb8vZLksF2AL6+3E8bVj6DiRv
+         8+lh1jKuCzZtNDXZCvII5QaKQMmcWygV4g9OsE8vm4iw+dQKpWLy2RX5BKehCvIWWCb9
+         52XWrS2/SxRJQg4Z32EF/7HLsGYSmk5NdnadM9shfGIfTZH/3Qe1TGYgeHe89cg3JIL+
+         5crcJ1sIf6PeDQbtQBQ2NpioAgah1rGJiaj0Zvo/Fln3wxq4o6Q4zefXN/a4qqkXMnGt
+         da9POcTO78pobQyvpPWh41sF2eJzkhp7R9xqIHP7iLLhwEZcp7C9RhHBOnlg7AcDV3jr
+         dyXw==
+X-Gm-Message-State: AOAM533+4mqSt8EpNQCD80sugCi7RJtldab9Ck6BkzdLYX8KcIQZowE1
+        c9AiS2C8xrNOlJ6MqFVLx+wX53gHMMBeG3z+HndbAquKAu0jNcBp0TRjqAGzgI0xfKmN64lFwp7
+        INhDLzFhisdDoWxnIuqyZVp6Siwafx7PSLPPi1PW4e6FoUxfuaFD/+w==
+X-Received: by 2002:a05:6402:b33:: with SMTP id bo19mr7643834edb.70.1642673157477;
+        Thu, 20 Jan 2022 02:05:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynv0ocn7NF6vgUdF1oJY52IvmBizAszTcAGapgjCakCzI58Vihpn2W5C5OjIWMX2LmXdeXWqskyns8624yTaM=
+X-Received: by 2002:a05:6402:b33:: with SMTP id bo19mr7643811edb.70.1642673157166;
+ Thu, 20 Jan 2022 02:05:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119160642.140e84c6@gandalf.local.home>
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+ <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9> <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
+In-Reply-To: <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date:   Thu, 20 Jan 2022 11:05:46 +0100
+Message-ID: <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
+        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
+        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        keescook@chromium.org, guoren@linux.alibaba.com,
+        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
+        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steven,
+On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
+>
+> On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> >
+> > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
+> > > * Please note notable changes in memory layouts and kasan population *
+> > >
+> > > This patchset allows to have a single kernel for sv39 and sv48 without
+> > > being relocatable.
+> > >
+> > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
+> > > that is mapping the kernel to the end of the address space, which allows
+> > > the kernel to be linked at the same address for both sv39 and sv48 and
+> > > then does not require to be relocated at runtime.
+> > >
+> > > This implements sv48 support at runtime. The kernel will try to
+> > > boot with 4-level page table and will fallback to 3-level if the HW does not
+> > > support it. Folding the 4th level into a 3-level page table has almost no
+> > > cost at runtime.
+> > >
+> > > Note that kasan region had to be moved to the end of the address space
+> > > since its location must be known at compile-time and then be valid for
+> > > both sv39 and sv48 (and sv57 that is coming).
+> > >
+> > > Tested on:
+> > >   - qemu rv64 sv39: OK
+> > >   - qemu rv64 sv48: OK
+> > >   - qemu rv64 sv39 + kasan: OK
+> > >   - qemu rv64 sv48 + kasan: OK
+> > >   - qemu rv32: OK
+> > >
+> > > Changes in v3:
+> > >   - Fix SZ_1T, thanks to Atish
+> > >   - Fix warning create_pud_mapping, thanks to Atish
+> > >   - Fix k210 nommu build, thanks to Atish
+> > >   - Fix wrong rebase as noted by Samuel
+> > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
+> > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
+> > >
+> > > Changes in v2:
+> > >   - Rebase onto for-next
+> > >   - Fix KASAN
+> > >   - Fix stack canary
+> > >   - Get completely rid of MAXPHYSMEM configs
+> > >   - Add documentation
+> > >
+> > > Alexandre Ghiti (13):
+> > >   riscv: Move KASAN mapping next to the kernel mapping
+> > >   riscv: Split early kasan mapping to prepare sv48 introduction
+> > >   riscv: Introduce functions to switch pt_ops
+> > >   riscv: Allow to dynamically define VA_BITS
+> > >   riscv: Get rid of MAXPHYSMEM configs
+> > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+> > >   riscv: Implement sv48 support
+> > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+> > >   riscv: Explicit comment about user virtual address space size
+> > >   riscv: Improve virtual kernel memory layout dump
+> > >   Documentation: riscv: Add sv48 description to VM layout
+> > >   riscv: Initialize thread pointer before calling C functions
+> > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+> > >
+> > >  Documentation/riscv/vm-layout.rst             |  48 ++-
+> > >  arch/riscv/Kconfig                            |  37 +-
+> > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+> > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+> > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+> > >  arch/riscv/include/asm/csr.h                  |   3 +-
+> > >  arch/riscv/include/asm/fixmap.h               |   1
+> > >  arch/riscv/include/asm/kasan.h                |  11 +-
+> > >  arch/riscv/include/asm/page.h                 |  20 +-
+> > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
+> > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
+> > >  arch/riscv/include/asm/pgtable.h              |  47 +-
+> > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
+> > >  arch/riscv/kernel/cpu.c                       |  23 +-
+> > >  arch/riscv/kernel/head.S                      |   4 +-
+> > >  arch/riscv/mm/context.c                       |   4 +-
+> > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
+> > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
+> > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
+> > >  drivers/pci/controller/pci-xgene.c            |   2 +-
+> > >  include/asm-generic/pgalloc.h                 |  24 +-
+> > >  include/linux/sizes.h                         |   1
+> > >  22 files changed, 833 insertions(+), 209 deletions(-)
+> >
+> > Sorry this took a while.  This is on for-next, with a bit of juggling: a
+> > handful of trivial fixes for configs that were failing to build/boot and
+> > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
+> > it'd be easier to backport.  This is bigger than something I'd normally like to
+> > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
+> > and it looks like folks have been testing this I'm just going to go with it.
+> >
+>
+> Yes yes yes! That's fantastic news :)
+>
+> > Let me know if there's any issues with the merge, it was a bit hairy.
+> > Probably best to just send along a fixup patch at this point.
+>
+> I'm going to take a look at that now, and I'll fix anything that comes
+> up quickly :)
 
-Thank you for cc'ing me.
+I see in for-next that you did not take the following patches:
 
-On Wed, Jan 19, 2022 at 04:06:42PM -0500, Steven Rostedt wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> As commit bdc48fa11e46f ("checkpatch/coding-style: deprecate 80-column
-> warning") states:
-> 
->     Increase the default limit to 100 characters.  Not because 100
->     characters is some hard limit either, but that's certainly a "what are
->     you doing" kind of value and less likely to be about the occasional
->     slightly longer lines.
-> 
-> It's 2022, people are not using 80x24 terminals anymore (well I'm sure
-> someone is, but they are the small minority).
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
->  Documentation/process/coding-style.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 03eb53fd029a..73be9edffede 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -101,10 +101,10 @@ Get a decent editor and don't leave whitespace at the end of lines.
->  Coding style is all about readability and maintainability using commonly
->  available tools.
->  
-> -The preferred limit on the length of a single line is 80 columns.
-> +The preferred limit on the length of a single line is 100 columns.
->  
-> -Statements longer than 80 columns should be broken into sensible chunks,
-> -unless exceeding 80 columns significantly increases readability and does
-> +Statements longer than 100 columns should be broken into sensible chunks,
-> +unless exceeding 100 columns significantly increases readability and does
->  not hide information.
+  riscv: Improve virtual kernel memory layout dump
+  Documentation: riscv: Add sv48 description to VM layout
+  riscv: Initialize thread pointer before calling C functions
+  riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
 
-As others have already opined, I agree that increasing the line length from
-80 isn't going to make the code universally (or even mostly) more readable.
-There are probably cases it does but this is not necessarily common.
+I'm not sure this was your intention. If it was, I believe that at
+least the first 2 patches are needed in this series, the 3rd one is a
+useful fix and we can discuss the 4th if that's an issue for you.
 
-I think the original text puts it well: there is a limit of 80 but that is
-not a hard limit. When reviewing code, I often ask to wrap lines if there's
-really no reason to keep them longer (in this case that seldom is the only
-problem with the code). Of course you could argue what these reasons might
-be. At the very least indentation has a higher precedence that the line
-length. This is also written in the documentation.
+I tested for-next on both sv39 and sv48 successfully, I took a glance
+at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
+that. Otherwise nothing obvious has popped.
 
-My view is that this recommendation is not, at least today, relevant for
-the purpose of making the code readable for someone with a VT100 terminal,
-but a part of a recipe for writing good code simply expressed in units
-everyone knows: VT100 terminal size. Also 80x24 is still the default window
-size of many if not most terminal emulators.
+Thanks again,
 
--- 
-Kind regards,
+Alex
 
-Sakari Ailus
+>
+> Thanks!
+>
+> Alex
+>
+> >
+> > Thanks!
