@@ -2,61 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DC1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 09:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 619B2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 09:56:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241686AbiATJYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jan 2022 04:24:01 -0500
-Received: from mail.ithle.pl ([80.211.189.216]:42576 "EHLO mail.ithle.pl"
+        id S1359695AbiATJ4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jan 2022 04:56:04 -0500
+Received: from mga07.intel.com ([134.134.136.100]:51681 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235634AbiATJYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jan 2022 04:24:01 -0500
-X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 Jan 2022 04:24:01 EST
-Received: by mail.ithle.pl (Postfix, from userid 1001)
-        id 0E3E7A40E0; Thu, 20 Jan 2022 09:15:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ithle.pl; s=mail;
-        t=1642670151; bh=EymJn8YK2LHpC0VX6auOoFCWqaw8+QfZy+mv/AChzys=;
-        h=Date:From:To:Subject:From;
-        b=lZ6Y27J451+haRH6DLYX8/pBVSY4efW7MC4DjAZPKYKY+TBl0rrh6lXC7s+hDxOmM
-         U10hzEyBRCR8RqK1EMy1ExkzVIR6Q2IapSU5DP8huBaIWO7YT+uw1txbAKk66YFRJ9
-         1fDct8LGIk2zXmWF/rMKQD3+QiuT2jaRox6K4kaGnRJTrLmZszOZsZkaMJl4+8whzm
-         uvXREiWuuG+44ynhDVD+Q85x+tjc333Xq9BsoJhWFXSV+oD1nDjfAW+N4Dhi8tDNWL
-         ObskOe/wYqHlKUb8xcbYmZnsC+20Kq5ROoKj7qlhlGcqcCAZz9VF53ntYSYWZLWiJR
-         m2doxz6G+/mmQ==
-Received: by mail.ithle.pl for <linux-doc@vger.kernel.org>; Thu, 20 Jan 2022 09:15:27 GMT
-Message-ID: <20220120074500-0.1.48.mrgl.0.1lf6ashnh9@ithle.pl>
-Date:   Thu, 20 Jan 2022 09:15:27 GMT
-From:   =?UTF-8?Q? "Aleksy_Urba=C5=84ski" ?= <aleksy.urbanski@ithle.pl>
-To:     <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?Q?Podwy=C5=BCka_rachunku_za_pr=C4=85d?=
-X-Mailer: mail.ithle.pl
+        id S1359683AbiATJz4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jan 2022 04:55:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642672556; x=1674208556;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7Jt2Js2JOtnvL4mYuFnW/EzkdCTVSihhHWbNkdDiFR8=;
+  b=I/K9bIbmw6xDqfj5dYHnlpFuRrdRAMhc0Hvw6qwI2jTD2oFPC9LXioZG
+   JqHrzbkdMF++UPpNTGYRydiSRIzzqAxJrY3H/27CQWIrrdDvCcJbWNjjE
+   SSmXN84UWyQEeuVg3CyyUgZ4Etu65fvK3uy0sponQKbJA5FjWon3Uvkzh
+   YUrNFdysmwA8yyegIgd4fC1wlyMk7J1SpjEm+giSD7tJndDoRQyxJo5Xt
+   p166YjBqSn/4ewIa1F6yfpfFSO6xGS3nONJKbqpzf4JVENC7keqOojJlh
+   HOCDUYaPhwOctGyKpTjuy5XfuhNX+4V25d62/C6LF8uyGGhHzrksFmLwk
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="308651537"
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
+   d="scan'208";a="308651537"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:55:53 -0800
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
+   d="scan'208";a="595700060"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:55:50 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 5ACE9203C8;
+        Thu, 20 Jan 2022 11:55:46 +0200 (EET)
+Date:   Thu, 20 Jan 2022 11:55:46 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Joe Perches <joe@perches.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: Update the preferred line size to 100 characters
+Message-ID: <YekxouspRBkzHpKO@paasikivi.fi.intel.com>
+References: <20220119160642.140e84c6@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220119160642.140e84c6@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Steven,
 
-prezes Urz=C4=99du Regulacji Energetyki zapowiada wi=C4=99ksze wzrosty ce=
-n pr=C4=85du i gazu ni=C5=BC przed rokiem i wy=C5=BCsze ni=C5=BC wska=C5=BA=
-nik inflacji.=20
+Thank you for cc'ing me.
 
-Czy w zwi=C4=85zku z podwy=C5=BCkami energii chcieliby Pa=C5=84stwo znacz=
-nie zmniejszy=C4=87 rachunki?
+On Wed, Jan 19, 2022 at 04:06:42PM -0500, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> As commit bdc48fa11e46f ("checkpatch/coding-style: deprecate 80-column
+> warning") states:
+> 
+>     Increase the default limit to 100 characters.  Not because 100
+>     characters is some hard limit either, but that's certainly a "what are
+>     you doing" kind of value and less likely to be about the occasional
+>     slightly longer lines.
+> 
+> It's 2022, people are not using 80x24 terminals anymore (well I'm sure
+> someone is, but they are the small minority).
+> 
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
+>  Documentation/process/coding-style.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 03eb53fd029a..73be9edffede 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -101,10 +101,10 @@ Get a decent editor and don't leave whitespace at the end of lines.
+>  Coding style is all about readability and maintainability using commonly
+>  available tools.
+>  
+> -The preferred limit on the length of a single line is 80 columns.
+> +The preferred limit on the length of a single line is 100 columns.
+>  
+> -Statements longer than 80 columns should be broken into sensible chunks,
+> -unless exceeding 80 columns significantly increases readability and does
+> +Statements longer than 100 columns should be broken into sensible chunks,
+> +unless exceeding 100 columns significantly increases readability and does
+>  not hide information.
 
-Instalacja paneli PV jest najlepszym sposobem na obni=C5=BCenie wysoko=C5=
-=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty sta=C5=
-=82e) i na zabezpieczenie Pa=C5=84stwa przed rosn=C4=85cymi cenami energi=
-i.=20
+As others have already opined, I agree that increasing the line length from
+80 isn't going to make the code universally (or even mostly) more readable.
+There are probably cases it does but this is not necessarily common.
 
-Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
-wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
-zak=C5=82adu energetycznego.=20
-=20
-Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99?=20
+I think the original text puts it well: there is a limit of 80 but that is
+not a hard limit. When reviewing code, I often ask to wrap lines if there's
+really no reason to keep them longer (in this case that seldom is the only
+problem with the code). Of course you could argue what these reasons might
+be. At the very least indentation has a higher precedence that the line
+length. This is also written in the documentation.
 
+My view is that this recommendation is not, at least today, relevant for
+the purpose of making the code readable for someone with a VT100 terminal,
+but a part of a recipe for writing good code simply expressed in units
+everyone knows: VT100 terminal size. Also 80x24 is still the default window
+size of many if not most terminal emulators.
 
-Pozdrawiam
-Aleksy Urba=C5=84ski
+-- 
+Kind regards,
+
+Sakari Ailus
