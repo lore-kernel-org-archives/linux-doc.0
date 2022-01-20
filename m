@@ -2,210 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DA0C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 15:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 245C3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 17:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376538AbiATPOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jan 2022 10:14:39 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:54522 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376558AbiATPOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jan 2022 10:14:38 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id D3CDA1F388;
-        Thu, 20 Jan 2022 15:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1642691676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WQQEqKNNxbc6s62M7PExlWeVrhf+Ly/6VnETzkVWTFg=;
-        b=bTTh5nN9bq+eNCJJAa0qKKrTD1towCdvccoRxAs04SNeqCFd7q6OLqOS01nX4ZtFy36JLC
-        fFW6RlEUPCxTvuvmJCeuuiLjnuXtG3kuR/2sltd6hCC1w9TH407L1Du+E4VX3WEts8OsdA
-        B4OhSoBzgSzlQguSI/Uo+E18dGRU+2w=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0BBF3A3B90;
-        Thu, 20 Jan 2022 15:14:36 +0000 (UTC)
-Date:   Thu, 20 Jan 2022 16:14:33 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
-        vgoyal@redhat.com, stern@rowland.harvard.edu,
-        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
-        corbet@lwn.net, halves@canonical.com, kernel@gpiccoli.net,
-        Will Deacon <will@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juergen Gross <jgross@suse.com>
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Message-ID: <Yel8WQiBn/HNQN83@alley>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
+        id S1377260AbiATROE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jan 2022 12:14:04 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60374 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1377264AbiATRNz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jan 2022 12:13:55 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20KGBp7w027507;
+        Thu, 20 Jan 2022 17:13:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cy6JvmbrB4OvjBhbkd9zN86yJGoLMa3Ke4n5j516s7E=;
+ b=YB719x6l25BChElHxBCWxertUHOFGLYeeSXcKK0caSm/ocdx6Br2pxoOy6Oi3WFWTqM+
+ ym/S52KqMplJoLl3natOzm1odGz0xIXj8Py9ciKZJaAZpIM6R7tXB3DYFp8Fxvu6OM8F
+ SyEV4ValtXCOp0QFjzm+lxLsRhCm0fHpK8fEDbuXMgp6mwMoHw2vF328NcKbFsq7Zmch
+ suDGcbgYNvZ1QIghDcx8syoeBaNXu9QKb1len3B5iEo1vyigE48czVdSVFU8eVFbhPu4
+ 32vbKV5CZMqtnaPnJLB5pRQ54zYPSiMEPb1iQIolYvX4GFNOroNFAEVy2YSMmPtj+3jW Hw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3dqb1sse8n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Jan 2022 17:13:42 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20KHBFvJ003183;
+        Thu, 20 Jan 2022 17:13:42 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3dqb1sse8b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Jan 2022 17:13:42 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20KH2BsX023368;
+        Thu, 20 Jan 2022 17:13:41 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
+        by ppma02dal.us.ibm.com with ESMTP id 3dknwd54u1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Jan 2022 17:13:41 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20KHDdju30278014
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 Jan 2022 17:13:39 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F2A69B2074;
+        Thu, 20 Jan 2022 17:13:38 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D9CF5B2065;
+        Thu, 20 Jan 2022 17:13:34 +0000 (GMT)
+Received: from [9.211.61.238] (unknown [9.211.61.238])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 20 Jan 2022 17:13:34 +0000 (GMT)
+Message-ID: <533aa459-f28b-2888-ef9f-3036ece5f023@linux.vnet.ibm.com>
+Date:   Thu, 20 Jan 2022 12:13:33 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220108153451.195121-1-gpiccoli@igalia.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
+ decrypted data
+Content-Language: en-US
+To:     Yael Tiomkin <yaelt@google.com>
+Cc:     linux-integrity@vger.kernel.org, jejb@linux.ibm.com,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
+        dhowells@redhat.com, jmorris@namei.org, serge@hallyn.com,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>
+References: <20211229215330.4134835-1-yaelt@google.com>
+ <e29dc7de-b656-7c27-2294-fb4936e99e69@linux.vnet.ibm.com>
+ <CAKoutNspnn-VuKsxODYdX4P68vCpRveRFG=FKCVG9Vu-vev4fg@mail.gmail.com>
+From:   Nayna <nayna@linux.vnet.ibm.com>
+In-Reply-To: <CAKoutNspnn-VuKsxODYdX4P68vCpRveRFG=FKCVG9Vu-vev4fg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: aZr-kX8pR7U3kzzJouKo7AS08-npRhe7
+X-Proofpoint-GUID: 1rp5NW1T7eVrMQmUmT2IZzyZxrUpL-dD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-20_06,2022-01-20_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201200088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adding some more people into Cc. Some modified the logic in the past.
-Some are familiar with some interesting areas where the panic
-notfiers are used.
 
-On Sat 2022-01-08 12:34:51, Guilherme G. Piccoli wrote:
-> The kernel notifier infrastructure allows function callbacks to be
-> added in multiple lists, which are then called in the proper time,
-> like in a reboot or panic event. The panic_notifier_list specifically
-> contains the callbacks that are executed during a panic event. As any
-> other notifier list, the panic one has no filtering and all functions
-> previously registered are executed.
-> 
-> The kdump infrastructure, on the other hand, enables users to set
-> a crash kernel that is kexec'ed in a panic event, and vmcore/logs
-> are collected in such crash kernel. When kdump is set, by default
-> the panic notifiers are ignored - the kexec jumps to the crash kernel
-> before the list is checked and callbacks executed.
-> 
-> There are some cases though in which kdump users might want to
-> allow panic notifier callbacks to execute _before_ the kexec to
-> the crash kernel, for a variety of reasons - for example, users
-> may think kexec is very prone to fail and want to give a chance
-> to kmsg dumpers to run (and save logs using pstore),
+On 1/13/22 14:01, Yael Tiomkin wrote:
+> On Mon, Jan 10, 2022 at 11:04 AM Nayna <nayna@linux.vnet.ibm.com> wrote:
+>>
+>> On 12/29/21 16:53, Yael Tiomkin wrote:
+>>> The encrypted.c class supports instantiation of encrypted keys with
+>>> either an already-encrypted key material, or by generating new key
+>>> material based on random numbers. This patch defines a new datablob
+>>> format: [<format>] <master-key name> <decrypted data length>
+>>> <decrypted data> that allows to instantiate encrypted keys using
+>>> user-provided decrypted data, and therefore allows to perform key
+>>> encryption from userspace. The decrypted key material will be
+>>> inaccessible from userspace.
+>>>
+>>> Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+>>> Signed-off-by: Yael Tiomkin <yaelt@google.com>
+>>> ---
+>>>
+>>> Notes:
+>>>       v -> v2: fixed compilation error.
+>>>
+>>>       v2 -> v3: modified documentation.
+>>>
+>>>       v3 -> v4: modified commit message.
+>>>
+>>>    .../security/keys/trusted-encrypted.rst       | 25 ++++++--
+>>>    security/keys/encrypted-keys/encrypted.c      | 62 +++++++++++++------
+>>>    2 files changed, 63 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+>>> index 80d5a5af62a1..f614dad7de12 100644
+>>> --- a/Documentation/security/keys/trusted-encrypted.rst
+>>> +++ b/Documentation/security/keys/trusted-encrypted.rst
+>>> @@ -107,12 +107,13 @@ Encrypted Keys
+>>>    --------------
+>>>
+>>>    Encrypted keys do not depend on a trust source, and are faster, as they use AES
+>>> -for encryption/decryption. New keys are created from kernel-generated random
+>>> -numbers, and are encrypted/decrypted using a specified ‘master’ key. The
+>>> -‘master’ key can either be a trusted-key or user-key type. The main disadvantage
+>>> -of encrypted keys is that if they are not rooted in a trusted key, they are only
+>>> -as secure as the user key encrypting them. The master user key should therefore
+>>> -be loaded in as secure a way as possible, preferably early in boot.
+>>> +for encryption/decryption. New keys are created either from kernel-generated
+>>> +random numbers or user-provided decrypted data, and are encrypted/decrypted
+>>> +using a specified ‘master’ key. The ‘master’ key can either be a trusted-key or
+>>> +user-key type. The main disadvantage of encrypted keys is that if they are not
+>>> +rooted in a trusted key, they are only as secure as the user key encrypting
+>>> +them. The master user key should therefore be loaded in as secure a way as
+>>> +possible, preferably early in boot.
+>>>
+>>>
+>>>    Usage
+>>> @@ -199,6 +200,8 @@ Usage::
+>>>
+>>>        keyctl add encrypted name "new [format] key-type:master-key-name keylen"
+>>>            ring
+>>> +    keyctl add encrypted name "new [format] key-type:master-key-name keylen
+>>> +        decrypted-data" ring
+>>>        keyctl add encrypted name "load hex_blob" ring
+>>>        keyctl update keyid "update key-type:master-key-name"
+>>>
+>>> @@ -303,6 +306,16 @@ Load an encrypted key "evm" from saved blob::
+>>>        82dbbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e0
+>>>        24717c64 5972dcb82ab2dde83376d82b2e3c09ffc
+>>>
+>>> +Instantiate an encrypted key "evm" using user-provided decrypted data::
+>>> +
+>>> +    $ keyctl add encrypted evm "new default user:kmk 32 `cat evm_decrypted_data.blob`" @u
+>>> +    794890253
+>>> +
+>>> +    $ keyctl print 794890253
+>>> +    default user:kmk 32 2375725ad57798846a9bbd240de8906f006e66c03af53b1b382d
+>>> +    bbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e0247
+>>> +    17c64 5972dcb82ab2dde83376d82b2e3c09ffc
+>>> +
+>>>    Other uses for trusted and encrypted keys, such as for disk and file encryption
+>>>    are anticipated.  In particular the new format 'ecryptfs' has been defined
+>>>    in order to use encrypted keys to mount an eCryptfs filesystem.  More details
+>>> diff --git a/security/keys/encrypted-keys/encrypted.c b/security/keys/encrypted-keys/encrypted.c
+>>> index 87432b35d771..baf6fba5e05e 100644
+>>> --- a/security/keys/encrypted-keys/encrypted.c
+>>> +++ b/security/keys/encrypted-keys/encrypted.c
+>>> @@ -159,6 +159,7 @@ static int valid_master_desc(const char *new_desc, const char *orig_desc)
+>>>     *
+>>>     * datablob format:
+>>>     * new [<format>] <master-key name> <decrypted data length>
+>>> + * new [<format>] <master-key name> <decrypted data length> <decrypted data>
+>>>     * load [<format>] <master-key name> <decrypted data length>
+>>>     *     <encrypted iv + data>
+>>>     * update <new-master-key name>
+>>> @@ -170,7 +171,7 @@ static int valid_master_desc(const char *new_desc, const char *orig_desc)
+>>>     */
+>>>    static int datablob_parse(char *datablob, const char **format,
+>>>                          char **master_desc, char **decrypted_datalen,
+>>> -                       char **hex_encoded_iv)
+>>> +                       char **hex_encoded_iv, char **decrypted_data)
+>>>    {
+>>>        substring_t args[MAX_OPT_ARGS];
+>>>        int ret = -EINVAL;
+>>> @@ -231,6 +232,8 @@ static int datablob_parse(char *datablob, const char **format,
+>>>                                "when called from .update method\n", keyword);
+>>>                        break;
+>>>                }
+>>> +             *decrypted_data = strsep(&datablob, " \t");
+>>> +
+>>>                ret = 0;
+>>>                break;
+>>>        case Opt_load:
+>>> @@ -595,7 +598,8 @@ static int derived_key_decrypt(struct encrypted_key_payload *epayload,
+>>>    static struct encrypted_key_payload *encrypted_key_alloc(struct key *key,
+>>>                                                         const char *format,
+>>>                                                         const char *master_desc,
+>>> -                                                      const char *datalen)
+>>> +                                                      const char *datalen,
+>>> +                                                      const char *decrypted_data)
+>>>    {
+>>>        struct encrypted_key_payload *epayload = NULL;
+>>>        unsigned short datablob_len;
+>>> @@ -604,6 +608,7 @@ static struct encrypted_key_payload *encrypted_key_alloc(struct key *key,
+>>>        unsigned int encrypted_datalen;
+>>>        unsigned int format_len;
+>>>        long dlen;
+>>> +     int i;
+>>>        int ret;
+>>>
+>>>        ret = kstrtol(datalen, 10, &dlen);
+>>> @@ -613,6 +618,20 @@ static struct encrypted_key_payload *encrypted_key_alloc(struct key *key,
+>>>        format_len = (!format) ? strlen(key_format_default) : strlen(format);
+>>>        decrypted_datalen = dlen;
+>>>        payload_datalen = decrypted_datalen;
+>>> +
+>>> +     if (decrypted_data) {
+>>> +             if (strlen(decrypted_data) != decrypted_datalen) {
+>>> +                     pr_err("encrypted key: decrypted data provided does not match decrypted data length provided\n");
+>>> +                     return ERR_PTR(-EINVAL);
+>>> +             }
+>>> +             for (i = 0; i < strlen(decrypted_data); i++) {
+>>> +                     if (!isalnum(decrypted_data[i])) {
+>> User-provided decrypted data may have special characters, commonly used
+>> in passwords or key phrases, apart from alphanumeric.  Replace isalnum
+>> with !iscntrl() to validate against control characters but allow special
+>> characters.
+>>
+>> Thanks & Regards,
+>>
+>>        - Nayna
+>>
+> Hi Nayna,
+> I wonder if we should use isprint() instead?
 
-Yes, this seems to be original intention for the
-"crash_kexec_post_notifiers" option, see the commit
-f06e5153f4ae2e2f3b0300f ("kernel/panic.c: add
-"crash_kexec_post_notifiers" option for kdump after panic_notifiers")
+I have been thinking more about this. Encrypted keys documentation says, 
+"All user level blobs, are displayed and loaded in hex ascii for 
+convenience."
 
+Should we use a similar hex ascii encoding for user-provided data?  
+Verification would then be isxdigit().
 
-> some panic notifier is required to properly quiesce some hardware
-> that must be used to the crash kernel.
+Users should convert their input to hex ascii before passing it to keyctl.
 
-Do you have any example, please? The above mentioned commit
-says "crash_kexec_post_notifiers" actually increases risk
-of kdump failure.
+Thanks & Regards,
 
-Note that kmsg_dump() is called after the notifiers only because
-some are printing more information, see the commit
-6723734cdff15211bb78a ("panic: call panic handlers before kmsg_dump").
-They might still increase the change that kmsg_dump() will never
-be called.
+      - Nayna
 
-
-> But there's a problem: currently it's an "all-or-nothing" situation,
-> the kdump user choice is either to execute all panic notifiers or
-> none of them. Given that panic notifiers may increase the risk of a
-> kdump failure, this is a tough decision and may affect the debug of
-> hard to reproduce bugs, if for some reason the user choice is to
-> enable panic notifiers, but kdump then fails.
->
-> So, this patch aims to ease this decision: we hereby introduce a filter
-> for the panic notifier list, in which users may select specifically
-> which callbacks they wish to run, allowing a safer kdump. The allowlist
-> should be provided using the parameter "panic_notifier_filter=a,b,..."
-> where a, b are valid callback names. Invalid symbols are discarded.
-
-I am afraid that this is almost unusable solution:
-
-   + requires deep knowledge of what each notifier does
-   + might need debugging what notifier causes problems
-   + the list might need to be updated when new notifiers are added
-   + function names are implementation detail and might change
-   + requires kallsyms
-
-
-It is only workaround for a real problem. The problem is that
-"panic_notifier_list" is used for many purposes that break
-each other.
-
-I checked some notifiers and found few groups:
-
-   + disable watchdogs:
-      + hung_task_panic()
-      + rcu_panic()
-
-   + dump information:
-      + kernel_offset_notifier()
-      + trace_panic_handler()     (duplicate of panic_print=0x10)
-
-   + inform hypervisor
-      + xen_panic_event()
-      + pvpanic_panic_notify()
-      + hyperv_panic_event()
-
-   + misc cleanup / flush / blinking
-      + panic_event()   in ipmi_msghandler.c
-      + panic_happened()   in heartbeat.c
-      + led_trigger_panic_notifier()
-
-
-IMHO, the right solution is to split the callbacks into 2 or more
-notifier list. Then we might rework panic() to do:
-
-void panic(void)
-{
-	[...]
-
-	/* stop watchdogs + extra info */
-	atomic_notifier_call_chain(&panic_disable_watchdogs_notifier_list, 0, buf);
-	atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
-	panic_print_sys_info();
-
-	/* crash_kexec + kmsg_dump in configurable order */
-	if (!_crash_kexec_post_kmsg_dump) {
-		__crash_kexec(NULL);
-		smp_send_stop();
-	} else {
-		crash_smp_send_stop();
-	}
-
-	kmsg_dump();
-	if (_crash_kexec_post_kmsg_dump)
-		__crash_kexec(NULL);
-
-	/* infinite loop or reboot */
-	atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
-	atomic_notifier_call_chain(&panic_rest_notifier_list, 0, buf);
-
-	console_flush_on_panic(CONSOLE_FLUSH_PENDING);
-
-	if (panic_timeout >= 0) {
-		timeout();
-		emergency_restart();
-	}
-
-	for (i = 0; ; i += PANIC_TIMER_STEP) {
-		if (i >= i_next) {
-			i += panic_blink(state ^= 1);
-			i_next = i + 3600 / PANIC_BLINK_SPD;
-		}
-		mdelay(PANIC_TIMER_STEP);
-	}
-}
-
-Two notifier lists might be enough in the above scenario. I would call
-them:
-
-	panic_pre_dump_notifier_list
-	panic_post_dump_notifier_list
-
-
-It is a real solution that will help everyone. It is more complicated now
-but it will makes things much easier in the long term. And it might be done
-step by step:
-
-     1. introduce the two notifier lists
-     2. convert all users: one by one
-     3. remove the original notifier list when there is no user
-
-Best Regards,
-Petr
