@@ -2,203 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 361CEC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 10:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DA0C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jan 2022 15:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359708AbiATKGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jan 2022 05:06:04 -0500
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:40072
-        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240138AbiATKGD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jan 2022 05:06:03 -0500
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        id S1376538AbiATPOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jan 2022 10:14:39 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:54522 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1376558AbiATPOi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jan 2022 10:14:38 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id D3CDA1F388;
+        Thu, 20 Jan 2022 15:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1642691676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WQQEqKNNxbc6s62M7PExlWeVrhf+Ly/6VnETzkVWTFg=;
+        b=bTTh5nN9bq+eNCJJAa0qKKrTD1towCdvccoRxAs04SNeqCFd7q6OLqOS01nX4ZtFy36JLC
+        fFW6RlEUPCxTvuvmJCeuuiLjnuXtG3kuR/2sltd6hCC1w9TH407L1Du+E4VX3WEts8OsdA
+        B4OhSoBzgSzlQguSI/Uo+E18dGRU+2w=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1AC64402A3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jan 2022 10:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1642673158;
-        bh=w26SyRlRb1I1H6K/gmJqzdX3K4fWh5zNRWtuBCu0Vhg=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=VNMt+JsWEOJJunb/ly1GHJWU07VqTDZ1ukJy7obr5XJrK+UViouHuR23qFNNMnVZO
-         67nRg6dKQ2dKbQL+XFUnaEe+wnVsMXj4k9U2pTK5b0xPLDKTJE6HnVz2xmV2ggSTY1
-         PsbX+QkEDvo/vWbu0nc5lmHnEltsKcgmHrUHGHJnckwYZT2rJHarRIC+I6P2BfTg/X
-         P9d3VxbH6MUbXClmwcPEJWLdrVhz48XxTQU/xR0Jx8CftPlGoG8bRMcaYMzYNBxbU7
-         e/3o4gypvdmAXYMAVDYiHT2uJVdTDCQTcOeZ6xmOBnVQvBezZJd74BYM64Zmz8vnrh
-         RplF8oYkvc7YQ==
-Received: by mail-ed1-f71.google.com with SMTP id p17-20020aa7c891000000b004052d1936a5so1088712eds.7
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jan 2022 02:05:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w26SyRlRb1I1H6K/gmJqzdX3K4fWh5zNRWtuBCu0Vhg=;
-        b=W26gAoYyJGaj3XkT/4c0BQ/yq9qUZTVuIBEXKBbz8Xb8vZLksF2AL6+3E8bVj6DiRv
-         8+lh1jKuCzZtNDXZCvII5QaKQMmcWygV4g9OsE8vm4iw+dQKpWLy2RX5BKehCvIWWCb9
-         52XWrS2/SxRJQg4Z32EF/7HLsGYSmk5NdnadM9shfGIfTZH/3Qe1TGYgeHe89cg3JIL+
-         5crcJ1sIf6PeDQbtQBQ2NpioAgah1rGJiaj0Zvo/Fln3wxq4o6Q4zefXN/a4qqkXMnGt
-         da9POcTO78pobQyvpPWh41sF2eJzkhp7R9xqIHP7iLLhwEZcp7C9RhHBOnlg7AcDV3jr
-         dyXw==
-X-Gm-Message-State: AOAM533+4mqSt8EpNQCD80sugCi7RJtldab9Ck6BkzdLYX8KcIQZowE1
-        c9AiS2C8xrNOlJ6MqFVLx+wX53gHMMBeG3z+HndbAquKAu0jNcBp0TRjqAGzgI0xfKmN64lFwp7
-        INhDLzFhisdDoWxnIuqyZVp6Siwafx7PSLPPi1PW4e6FoUxfuaFD/+w==
-X-Received: by 2002:a05:6402:b33:: with SMTP id bo19mr7643834edb.70.1642673157477;
-        Thu, 20 Jan 2022 02:05:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynv0ocn7NF6vgUdF1oJY52IvmBizAszTcAGapgjCakCzI58Vihpn2W5C5OjIWMX2LmXdeXWqskyns8624yTaM=
-X-Received: by 2002:a05:6402:b33:: with SMTP id bo19mr7643811edb.70.1642673157166;
- Thu, 20 Jan 2022 02:05:57 -0800 (PST)
+        by relay2.suse.de (Postfix) with ESMTPS id 0BBF3A3B90;
+        Thu, 20 Jan 2022 15:14:36 +0000 (UTC)
+Date:   Thu, 20 Jan 2022 16:14:33 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
+        vgoyal@redhat.com, stern@rowland.harvard.edu,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        corbet@lwn.net, halves@canonical.com, kernel@gpiccoli.net,
+        Will Deacon <will@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <Yel8WQiBn/HNQN83@alley>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9> <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
-In-Reply-To: <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Thu, 20 Jan 2022 11:05:46 +0100
-Message-ID: <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
-        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
-        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        keescook@chromium.org, guoren@linux.alibaba.com,
-        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220108153451.195121-1-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
-<alexandre.ghiti@canonical.com> wrote:
->
-> On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> >
-> > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
-> > > * Please note notable changes in memory layouts and kasan population *
-> > >
-> > > This patchset allows to have a single kernel for sv39 and sv48 without
-> > > being relocatable.
-> > >
-> > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
-> > > that is mapping the kernel to the end of the address space, which allows
-> > > the kernel to be linked at the same address for both sv39 and sv48 and
-> > > then does not require to be relocated at runtime.
-> > >
-> > > This implements sv48 support at runtime. The kernel will try to
-> > > boot with 4-level page table and will fallback to 3-level if the HW does not
-> > > support it. Folding the 4th level into a 3-level page table has almost no
-> > > cost at runtime.
-> > >
-> > > Note that kasan region had to be moved to the end of the address space
-> > > since its location must be known at compile-time and then be valid for
-> > > both sv39 and sv48 (and sv57 that is coming).
-> > >
-> > > Tested on:
-> > >   - qemu rv64 sv39: OK
-> > >   - qemu rv64 sv48: OK
-> > >   - qemu rv64 sv39 + kasan: OK
-> > >   - qemu rv64 sv48 + kasan: OK
-> > >   - qemu rv32: OK
-> > >
-> > > Changes in v3:
-> > >   - Fix SZ_1T, thanks to Atish
-> > >   - Fix warning create_pud_mapping, thanks to Atish
-> > >   - Fix k210 nommu build, thanks to Atish
-> > >   - Fix wrong rebase as noted by Samuel
-> > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
-> > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
-> > >
-> > > Changes in v2:
-> > >   - Rebase onto for-next
-> > >   - Fix KASAN
-> > >   - Fix stack canary
-> > >   - Get completely rid of MAXPHYSMEM configs
-> > >   - Add documentation
-> > >
-> > > Alexandre Ghiti (13):
-> > >   riscv: Move KASAN mapping next to the kernel mapping
-> > >   riscv: Split early kasan mapping to prepare sv48 introduction
-> > >   riscv: Introduce functions to switch pt_ops
-> > >   riscv: Allow to dynamically define VA_BITS
-> > >   riscv: Get rid of MAXPHYSMEM configs
-> > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-> > >   riscv: Implement sv48 support
-> > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
-> > >   riscv: Explicit comment about user virtual address space size
-> > >   riscv: Improve virtual kernel memory layout dump
-> > >   Documentation: riscv: Add sv48 description to VM layout
-> > >   riscv: Initialize thread pointer before calling C functions
-> > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
-> > >
-> > >  Documentation/riscv/vm-layout.rst             |  48 ++-
-> > >  arch/riscv/Kconfig                            |  37 +-
-> > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
-> > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
-> > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
-> > >  arch/riscv/include/asm/csr.h                  |   3 +-
-> > >  arch/riscv/include/asm/fixmap.h               |   1
-> > >  arch/riscv/include/asm/kasan.h                |  11 +-
-> > >  arch/riscv/include/asm/page.h                 |  20 +-
-> > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
-> > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
-> > >  arch/riscv/include/asm/pgtable.h              |  47 +-
-> > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
-> > >  arch/riscv/kernel/cpu.c                       |  23 +-
-> > >  arch/riscv/kernel/head.S                      |   4 +-
-> > >  arch/riscv/mm/context.c                       |   4 +-
-> > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
-> > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
-> > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
-> > >  drivers/pci/controller/pci-xgene.c            |   2 +-
-> > >  include/asm-generic/pgalloc.h                 |  24 +-
-> > >  include/linux/sizes.h                         |   1
-> > >  22 files changed, 833 insertions(+), 209 deletions(-)
-> >
-> > Sorry this took a while.  This is on for-next, with a bit of juggling: a
-> > handful of trivial fixes for configs that were failing to build/boot and
-> > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
-> > it'd be easier to backport.  This is bigger than something I'd normally like to
-> > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
-> > and it looks like folks have been testing this I'm just going to go with it.
-> >
->
-> Yes yes yes! That's fantastic news :)
->
-> > Let me know if there's any issues with the merge, it was a bit hairy.
-> > Probably best to just send along a fixup patch at this point.
->
-> I'm going to take a look at that now, and I'll fix anything that comes
-> up quickly :)
+Adding some more people into Cc. Some modified the logic in the past.
+Some are familiar with some interesting areas where the panic
+notfiers are used.
 
-I see in for-next that you did not take the following patches:
+On Sat 2022-01-08 12:34:51, Guilherme G. Piccoli wrote:
+> The kernel notifier infrastructure allows function callbacks to be
+> added in multiple lists, which are then called in the proper time,
+> like in a reboot or panic event. The panic_notifier_list specifically
+> contains the callbacks that are executed during a panic event. As any
+> other notifier list, the panic one has no filtering and all functions
+> previously registered are executed.
+> 
+> The kdump infrastructure, on the other hand, enables users to set
+> a crash kernel that is kexec'ed in a panic event, and vmcore/logs
+> are collected in such crash kernel. When kdump is set, by default
+> the panic notifiers are ignored - the kexec jumps to the crash kernel
+> before the list is checked and callbacks executed.
+> 
+> There are some cases though in which kdump users might want to
+> allow panic notifier callbacks to execute _before_ the kexec to
+> the crash kernel, for a variety of reasons - for example, users
+> may think kexec is very prone to fail and want to give a chance
+> to kmsg dumpers to run (and save logs using pstore),
 
-  riscv: Improve virtual kernel memory layout dump
-  Documentation: riscv: Add sv48 description to VM layout
-  riscv: Initialize thread pointer before calling C functions
-  riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+Yes, this seems to be original intention for the
+"crash_kexec_post_notifiers" option, see the commit
+f06e5153f4ae2e2f3b0300f ("kernel/panic.c: add
+"crash_kexec_post_notifiers" option for kdump after panic_notifiers")
 
-I'm not sure this was your intention. If it was, I believe that at
-least the first 2 patches are needed in this series, the 3rd one is a
-useful fix and we can discuss the 4th if that's an issue for you.
 
-I tested for-next on both sv39 and sv48 successfully, I took a glance
-at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
-that. Otherwise nothing obvious has popped.
+> some panic notifier is required to properly quiesce some hardware
+> that must be used to the crash kernel.
 
-Thanks again,
+Do you have any example, please? The above mentioned commit
+says "crash_kexec_post_notifiers" actually increases risk
+of kdump failure.
 
-Alex
+Note that kmsg_dump() is called after the notifiers only because
+some are printing more information, see the commit
+6723734cdff15211bb78a ("panic: call panic handlers before kmsg_dump").
+They might still increase the change that kmsg_dump() will never
+be called.
 
+
+> But there's a problem: currently it's an "all-or-nothing" situation,
+> the kdump user choice is either to execute all panic notifiers or
+> none of them. Given that panic notifiers may increase the risk of a
+> kdump failure, this is a tough decision and may affect the debug of
+> hard to reproduce bugs, if for some reason the user choice is to
+> enable panic notifiers, but kdump then fails.
 >
-> Thanks!
->
-> Alex
->
-> >
-> > Thanks!
+> So, this patch aims to ease this decision: we hereby introduce a filter
+> for the panic notifier list, in which users may select specifically
+> which callbacks they wish to run, allowing a safer kdump. The allowlist
+> should be provided using the parameter "panic_notifier_filter=a,b,..."
+> where a, b are valid callback names. Invalid symbols are discarded.
+
+I am afraid that this is almost unusable solution:
+
+   + requires deep knowledge of what each notifier does
+   + might need debugging what notifier causes problems
+   + the list might need to be updated when new notifiers are added
+   + function names are implementation detail and might change
+   + requires kallsyms
+
+
+It is only workaround for a real problem. The problem is that
+"panic_notifier_list" is used for many purposes that break
+each other.
+
+I checked some notifiers and found few groups:
+
+   + disable watchdogs:
+      + hung_task_panic()
+      + rcu_panic()
+
+   + dump information:
+      + kernel_offset_notifier()
+      + trace_panic_handler()     (duplicate of panic_print=0x10)
+
+   + inform hypervisor
+      + xen_panic_event()
+      + pvpanic_panic_notify()
+      + hyperv_panic_event()
+
+   + misc cleanup / flush / blinking
+      + panic_event()   in ipmi_msghandler.c
+      + panic_happened()   in heartbeat.c
+      + led_trigger_panic_notifier()
+
+
+IMHO, the right solution is to split the callbacks into 2 or more
+notifier list. Then we might rework panic() to do:
+
+void panic(void)
+{
+	[...]
+
+	/* stop watchdogs + extra info */
+	atomic_notifier_call_chain(&panic_disable_watchdogs_notifier_list, 0, buf);
+	atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+	panic_print_sys_info();
+
+	/* crash_kexec + kmsg_dump in configurable order */
+	if (!_crash_kexec_post_kmsg_dump) {
+		__crash_kexec(NULL);
+		smp_send_stop();
+	} else {
+		crash_smp_send_stop();
+	}
+
+	kmsg_dump();
+	if (_crash_kexec_post_kmsg_dump)
+		__crash_kexec(NULL);
+
+	/* infinite loop or reboot */
+	atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+	atomic_notifier_call_chain(&panic_rest_notifier_list, 0, buf);
+
+	console_flush_on_panic(CONSOLE_FLUSH_PENDING);
+
+	if (panic_timeout >= 0) {
+		timeout();
+		emergency_restart();
+	}
+
+	for (i = 0; ; i += PANIC_TIMER_STEP) {
+		if (i >= i_next) {
+			i += panic_blink(state ^= 1);
+			i_next = i + 3600 / PANIC_BLINK_SPD;
+		}
+		mdelay(PANIC_TIMER_STEP);
+	}
+}
+
+Two notifier lists might be enough in the above scenario. I would call
+them:
+
+	panic_pre_dump_notifier_list
+	panic_post_dump_notifier_list
+
+
+It is a real solution that will help everyone. It is more complicated now
+but it will makes things much easier in the long term. And it might be done
+step by step:
+
+     1. introduce the two notifier lists
+     2. convert all users: one by one
+     3. remove the original notifier list when there is no user
+
+Best Regards,
+Petr
