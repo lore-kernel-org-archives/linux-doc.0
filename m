@@ -2,64 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBEFC4321E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jan 2022 08:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67647C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jan 2022 10:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233821AbiAVIGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jan 2022 03:06:45 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:55512 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233736AbiAVIGm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jan 2022 03:06:42 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S233350AbiAVKzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Jan 2022 05:55:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39344 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233074AbiAVKzZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jan 2022 05:55:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1642848924;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=S/aKIEWGP20c/FB8xyA/aRtZKWYn2S9+h6FmEWLndug=;
+        b=fzwil8o7xoy3WfykIm9v8LlwDmmHvXt5YpdYVE+WqtGw2qOMe2NR+X5H3H0+qH5XYz2fWV
+        0M+Y7tZADVB+Cc7EIANY5uu0v2nIvGjoDiOzftDiDDljyiRNCpCXd9W5aILWLpvcEJg6+5
+        hsQHnLSAu68C1ufOu0mrKW9QtpAw864=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-QYK4v5prPBi61kryn1pFCA-1; Sat, 22 Jan 2022 05:55:20 -0500
+X-MC-Unique: QYK4v5prPBi61kryn1pFCA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AB78EB81FC0;
-        Sat, 22 Jan 2022 08:06:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7213CC004E1;
-        Sat, 22 Jan 2022 08:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642838800;
-        bh=Kq91RSlFRlGLUNdLlkTk/r5LqvKgF4HRkpQCrRIDVgE=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=sqaMLf+lHplSGdnEol464wf6BDqjpQ5pPrA2cleWhT3ASEODXJsLM+rCVdZfyDa8D
-         x7eskdU0iNTetD4EXvIDVBx0bKw3FtFEZal6cYG0agtzWgOIUEpB6ysIuNUiBvWM+t
-         U3Nn1FLHEHZmToyc69ks8R1gYowouYNG4sGsZi4DSv9n1HHz6vu7uPfUsP63uI55ea
-         Iu9v5OAX4VM51iqoLO0Xz/6Ap6mMGO644nDDegrF8nryCmvK3SsjAE7binH3uP1aGY
-         Xk1CTZ+N6coRi6kJ7XssborA1QU/bZs65Sz0+l8xBp1hqO94qAOC6soxlmnD/5DcQ2
-         hPG0uoX7F5bWg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5E1F6F60796;
-        Sat, 22 Jan 2022 08:06:40 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87bl05400b.fsf@meer.lwn.net>
-References: <87bl05400b.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87bl05400b.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.17-2
-X-PR-Tracked-Commit-Id: b0ac702f3329cdc8a06dcaac73183d4b5a2b942d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0854dc81e108c90cccda6d1fc54bc270f16a3cc9
-Message-Id: <164283880038.17909.10942191405538846257.pr-tracker-bot@kernel.org>
-Date:   Sat, 22 Jan 2022 08:06:40 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5BBE1006AA4;
+        Sat, 22 Jan 2022 10:55:17 +0000 (UTC)
+Received: from localhost (ovpn-12-78.pek2.redhat.com [10.72.12.78])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 655A3752CE;
+        Sat, 22 Jan 2022 10:55:16 +0000 (UTC)
+Date:   Sat, 22 Jan 2022 18:55:14 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>
+Cc:     Petr Mladek <pmladek@suse.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, dyoung@redhat.com,
+        linux-doc@vger.kernel.org, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, kernel@gpiccoli.net,
+        Will Deacon <will@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <20220122105514.GA18258@MiWiFi-R3L-srv>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <Yel8WQiBn/HNQN83@alley>
+ <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 21 Jan 2022 07:49:24 -0700:
+On 01/21/22 at 05:31pm, Guilherme G. Piccoli wrote:
+......
+> > IMHO, the right solution is to split the callbacks into 2 or more
+> > notifier list. Then we might rework panic() to do:
+> > 
+> > void panic(void)
+> > {
+> > 	[...]
+> > 
+> > 	/* stop watchdogs + extra info */
+> > 	atomic_notifier_call_chain(&panic_disable_watchdogs_notifier_list, 0, buf);
+> > 	atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+> > 	panic_print_sys_info();
+> > 
+> > 	/* crash_kexec + kmsg_dump in configurable order */
+> > 	if (!_crash_kexec_post_kmsg_dump) {
+> > 		__crash_kexec(NULL);
+> > 		smp_send_stop();
+> > 	} else {
+> > 		crash_smp_send_stop();
+> > 	}
+> > 
+> > 	kmsg_dump();
+> > 	if (_crash_kexec_post_kmsg_dump)
+> > 		__crash_kexec(NULL);
+> > 
+> > 	/* infinite loop or reboot */
+> > 	atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+> > 	atomic_notifier_call_chain(&panic_rest_notifier_list, 0, buf);
+> > 
+> > 	console_flush_on_panic(CONSOLE_FLUSH_PENDING);
+> > [...] 
+> > Two notifier lists might be enough in the above scenario. I would call
+> > them:
+> > 
+> > 	panic_pre_dump_notifier_list
+> > 	panic_post_dump_notifier_list
+> > 
+> > 
+> > It is a real solution that will help everyone. It is more complicated now
+> > but it will makes things much easier in the long term. And it might be done
+> > step by step:
+> > 
+> >      1. introduce the two notifier lists
+> >      2. convert all users: one by one
+> >      3. remove the original notifier list when there is no user
+> 
+> That's a great idea! I'm into it, if we have a consensus. The thing that
+> scares me most here is that this is a big change and consumes time to
+> implement - I'd not risk such time if somebody is really against that.
+> So, let's see more opinions, maybe the kdump maintainers have good input.
 
-> git://git.lwn.net/linux.git tags/docs-5.17-2
+I am fine with it. As long as thing is made clear, glad to see code is
+refactored to be more understandable and improved. Earlier, during several
+rounds of discussion between you and Petr, seveal pitfalls have been
+pointed out and avoided.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0854dc81e108c90cccda6d1fc54bc270f16a3cc9
+Meanwhile, I would suggest Masa and HATAYAMA to help give input about
+panic_notifier usage and refactory. AFAIK, they contributed code and use
+panic_notifier in their product or environment a lot, that will be very
+helpful to get the first hand information from them.
 
-Thank you!
+Hi Masa, HATAYANA,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Any comment on this? (Please ignore this if it's not in your care.)
+
