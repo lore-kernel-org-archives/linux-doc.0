@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4651CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 11:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7731C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 12:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238024AbiAXLzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 06:55:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56770 "EHLO
+        id S231180AbiAXMV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jan 2022 07:21:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiAXLzk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 06:55:40 -0500
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 564AEC06173B
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 03:55:40 -0800 (PST)
-Received: by mail-oo1-xc2e.google.com with SMTP id u25-20020a4ad0d9000000b002e8d4370689so886497oor.12
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 03:55:40 -0800 (PST)
+        with ESMTP id S238591AbiAXMV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 07:21:27 -0500
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41268C06173D
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 04:21:27 -0800 (PST)
+Received: by mail-ot1-x32e.google.com with SMTP id l64-20020a9d1b46000000b005983a0a8aaaso21997104otl.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 04:21:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=McNieCwRwqdn4mXgmAvirHEqDHVQd8Qo6rMG0vyrR7Q=;
-        b=HNu+maSSw2VuoPG4z2uqifqYkaqVw+S4RwRek4pz9ohP+yYYdhPtsnebMxEUL9dCg0
-         mz4snKlOEPKfVdw9XFwzbzUnLeeKb7uoLF0m6AVVled4cErVwiFux0F7AqnZypSPj/w9
-         7CUAthYAwmJwcA2SLFnbKmI25IZY9D33wVk2wLeEcSa9iibyrFhSEhyuNBa7vJHGqoq+
-         Mf6xSUvsTspf6F1BnsKbYk4KwExvvwuBI0DekRdYZF96MwMDX5PLcKcdIcKiv8laApGC
-         1OWhuDW9YRtxwBY2fDwBjyzTaVPfHvNFHy2m9pft0LKZrUVxDvZCglgu7+N9C6PFAHDu
-         39hA==
+        bh=5HHwOHpu3DODX4uWQ1+JZsd1/iIv5h6cdRibus7mBoQ=;
+        b=lf093PoaWmusMgbiWy/WDpNTxiGQ8V5bvGmNAVRCS7jWCTTUL3SvfmEUxY+2pcHc7x
+         zhpDlcNUDYTQub/RIKGlX2iDEwmyowOkMcFSp1fD/sSe0PxMuEP6Iqx9L1voRUFeqlt2
+         85EUPdAFScwMwM1thEV/3TbCbQ6SndwlDnZylNYQxLTJRMXIG5dOt7mCubuFU5zvZPeQ
+         PCYslMpSLeZzcQbq+6ho807GRSEOEibqCUZ1e3hoD6Y0M7ifNYMJF2vyaBhBmdVXtsxY
+         Oub8NhYRxSmPX+89FDlveehVTV9p+4MIjScv2djqoYjLokXFVW4wISpaV7KfHCGxmQ2/
+         gAQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=McNieCwRwqdn4mXgmAvirHEqDHVQd8Qo6rMG0vyrR7Q=;
-        b=DgirUtZy2AGoAYSiufcWO07E3tl8MPPBv8hx3qDrvmG0eCFKqUQvNAeMq3y5lpuQ4m
-         V2nf4vfmgrUzlyH5s70bdiNLVjDAEODLNwLw1W7uw/AfI/Hfb1qr0IMtz8PUH3Yz3tMX
-         R3p/+QM8EdVP9+rOByMpv4exQsXw5NGRz91ahFElgmTPo2bGmGXzYLm/ew2IZS53bHw1
-         HoKlyyyvYDkNlui1cv8l0DrocehYN8NolIq8NFrsZ79Ckkc5kQOcuEZ7u4yey99noKFZ
-         dyQ7dalLx41C5xi4Y9njLOKFkgAdI2f/FSxLMTCsAGoWyLSPvQwn+NLckPiQ7VUSaPIm
-         Z22Q==
-X-Gm-Message-State: AOAM533yOVwzoVWKkpWB1kNfuXqsjHgMyScKEHqg73ASVRDdodGQCcdI
-        xjQsLT/RvIz5OOXf/YNoVPc/79gPpi5vIo1GXPDb2Q==
-X-Google-Smtp-Source: ABdhPJw7mc2w5pNFCFGNTs8AQieDdtqWE4vCOvZNY/RlwQ+oYpw5SAwk5nCWs+H6posIOLwEsPgAVLlXQxs+y7bzmRY=
-X-Received: by 2002:a4a:bd84:: with SMTP id k4mr2249718oop.45.1643025339517;
- Mon, 24 Jan 2022 03:55:39 -0800 (PST)
+        bh=5HHwOHpu3DODX4uWQ1+JZsd1/iIv5h6cdRibus7mBoQ=;
+        b=PAtFgy3MQLqwMPipK4iRtMtk3s3FW1cDQSVemqEDrIFG8/XhxX5U289TL1Mw86z97A
+         ttN53N8CTrblz+3FNS4Yv6VtxI38zILsZY2NiUzZqzvX9KmU9+4q+z27wqTOAdhce0zP
+         7VFhxP96CoXPtQVo1i1rJHOmDnykc2pv0w4FQAVTSjlRnClIYVKIJk06WgNg/DOq5+hx
+         P299g26GxouUrd+JlnzRK8Lq5BWljvbjzsJAmIY9iybfxrc1xGV/a2j/5M28cmiybGwJ
+         IuBVQx2d8i+dbDQm/z/m768z7sIZ2nidDvVM9Qgpk4+rIgXEF6dHqYwaSLkUVcpdlQVw
+         1tSw==
+X-Gm-Message-State: AOAM5302EII8WA/oiBTOH1ODfIZD+8CNDR5gbeglXQgQp7D9TCNVyZSs
+        9yRiToQ38RBdoWv7l+V23dPgYSsZULWa0pTyLAGHCQ==
+X-Google-Smtp-Source: ABdhPJwPCK6JVvtPZA/qEwNUZFdTfKV6fNMlNE0y/mgV0d/FLXRv3yIuKlsLt0y/g/mEMvyfH8KcoRBGc9UjO+K2CWU=
+X-Received: by 2002:a9d:58c7:: with SMTP id s7mr11139396oth.246.1643026886411;
+ Mon, 24 Jan 2022 04:21:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20220124025205.329752-1-liupeng256@huawei.com>
- <20220124025205.329752-2-liupeng256@huawei.com> <Ye5hKItk3j7arjaI@elver.google.com>
- <6eb16a68-9a56-7aea-3dd6-bd719a9ce700@huawei.com> <CANpmjNM_bp03RvWYr+PaOxx0DS3LryChweG90QXci3iBgzW4wQ@mail.gmail.com>
-In-Reply-To: <CANpmjNM_bp03RvWYr+PaOxx0DS3LryChweG90QXci3iBgzW4wQ@mail.gmail.com>
+ <20220124025205.329752-4-liupeng256@huawei.com> <CANpmjNNYG=izN12sqaB3dYbGmM=2yQ8gK=8_BMHkuoaKWMmYPw@mail.gmail.com>
+ <261a5287-af0d-424e-d209-db887d952a74@huawei.com>
+In-Reply-To: <261a5287-af0d-424e-d209-db887d952a74@huawei.com>
 From:   Marco Elver <elver@google.com>
-Date:   Mon, 24 Jan 2022 12:55:28 +0100
-Message-ID: <CANpmjNO8g_MB-5T9YxLKHOe=Mo8AWTmSFGh5jmr479s=j-v0Pg@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/3] kfence: Add a module parameter to adjust kfence objects
+Date:   Mon, 24 Jan 2022 13:21:15 +0100
+Message-ID: <CANpmjNNc6F7tRVn=UqLaW0WAgTr67XFm=CUu5X2D0Xbt3nKXwA@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/3] kfence: Make test case compatible with run time
+ set sample interval
 To:     "liupeng (DM)" <liupeng256@huawei.com>
 Cc:     glider@google.com, dvyukov@google.com, corbet@lwn.net,
         sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -63,52 +64,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Jan 2022 at 12:45, Marco Elver <elver@google.com> wrote:
->
-> [ FYI, your reply was not plain text, so LKML may have rejected it. I
-> advise that you switch your email client for LKML emails to plain
-> text. ]
->
-> On Mon, 24 Jan 2022 at 12:24, liupeng (DM) <liupeng256@huawei.com> wrote:
-> [...]
-> > > I think the only reasonable way forward is if you add immediate patching
-> > > support to the kernel as the "Note" suggests.
-> >
-> > May you give us more details about "immediate patching"?
-> [...]
-> > Thank you for your patient suggestions, it's actually helpful and inspired.
-> > We have integrated your latest work "skipping already covered allocations",
-> > and will do more experiments about KFENCE. Finally, we really hope you can
-> > give us more introductions about "immediate patching".
->
-> "Immediate patching" would, similar to "static branches" or
-> "alternatives" be based on code hot patching.
->
-> https://www.kernel.org/doc/html/latest/staging/static-keys.html
->
-> "Patching immediates" would essentially patch the immediate operands
-> of certain (limited) instructions. I think designing this properly to
-> work across various architectures (like static_keys/jump_label) is
-> very complex. So it may not be a viable near-term option.
->
-> What Dmitry suggests using a constant virtual address carveout is more
-> realistic. But this means having to discuss with arch maintainers
-> which virtual address ranges can be reserved. The nice thing about
-> just relying on memblock and nothing else is that it is very portable
-> and simple. You can have a look at how KASAN deals with organizing its
-> shadow memory if you are interested.
+On Mon, 24 Jan 2022 at 13:19, liupeng (DM) <liupeng256@huawei.com> wrote:
+[...]
+> When KFENCE pool size can be adjusted by boot parameters(assumption),
+> automatically test and train KFENCE may be useful. So far, exporting
+> kfence.sample_interval is not necessary.
 
-Hmm, there may be more issues lurking here:
-
-https://lore.kernel.org/all/20200929140226.GB53442@C02TD0UTHF1T.local/
-https://lore.kernel.org/all/20200929142411.GC53442@C02TD0UTHF1T.local/
-
-... and I'm guessing if we assign a fixed virtual address range it'll
-live outside the linear mapping, which is likely to break certain
-requirements of kmalloc()'d allocations in certain situations (a
-problem we had with v1 of KFENCE on arm64).
-
-So I don't even know if that's feasible. :-/
+I'm not opposed to the patch (I've also run into this issue, but not
+too frequently) - feel free to just send it with EXPORT_SYMBOL_GPL.
 
 Thanks,
 -- Marco
