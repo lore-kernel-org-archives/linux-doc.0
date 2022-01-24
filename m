@@ -2,148 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9AC8C43219
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 08:49:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 195E0C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 11:33:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242437AbiAXItQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 03:49:16 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:16733 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242326AbiAXItF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 03:49:05 -0500
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Jj3TM6ZrLzZfJg;
-        Mon, 24 Jan 2022 16:45:11 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 16:49:03 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 24 Jan 2022 16:49:02 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v20 5/5] kdump: update Documentation about crashkernel
-Date:   Mon, 24 Jan 2022 16:47:08 +0800
-Message-ID: <20220124084708.683-6-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20220124084708.683-1-thunder.leizhen@huawei.com>
-References: <20220124084708.683-1-thunder.leizhen@huawei.com>
+        id S237619AbiAXLdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jan 2022 06:33:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237603AbiAXLdA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 06:33:00 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2A9C06173B
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 03:32:59 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id p203so8638918oih.10
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 03:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UFyEedV/4W7XdVLa8Lx8qnPyLjbWcIdiBACIonQnaII=;
+        b=o+RNdaWxjWEA92fpqACsUfCdgaIpmDzO8dAclSEvH/U+3qWxfqG11kzJH8COMl2ICK
+         CtkMuI0xi7S6VMinXQb+z5r0NS4zc9uFE0iWKLbIn5IdFiR8n1WbEFT+vNQKx3fa9RZ+
+         aHjcXudb7GoKH/32gHKWYurC77SsIfsuGQx0LMufgaCs6QdKGdHWTiDVL+82Qae524Vn
+         0IHBoCaAPzqfpCYtbDAGH9XIM5YnZfixxRs7P6VYudmBKdbJEP217pcU2RYJoGRm948q
+         e4BAECeCDxkeIE+mcfR8CBWJcaCZVnYBFgkU+FM+a2ykrPKOYQ330zwZaZML5oXouUjH
+         YxOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UFyEedV/4W7XdVLa8Lx8qnPyLjbWcIdiBACIonQnaII=;
+        b=TkcnFyvtjL1Ki6SpS8FXaFmGMjDfgEv3+j78qs3MPR1s4PAn/m4o/HTP/kT5Legaen
+         hqtV2FkS4Mhg9vqW+iHMJs8lhjrIcvK8sss16YA8tXX8+I/nK4QKgTZ6D3CgJg/ZTbAS
+         Ar4iK4Fl/JOE9g+onYHkx3nq7f/SxgQIX8h9D/FhD1fQ5Z+A7xATIBNu8wXEuuyb2ifB
+         FqBr4WJ+Yc6Kab1c+9KyB25MI5TvFIbH+PkhPCGq7kOVgSV4b0ZQiIH/AxMp35Ajo5o2
+         uo1y+kJ38Ic4S4+WLfXna+9vEz64zQt+chW0w+pmMP3qyGuks9efxr7TTWcGgx9S92YD
+         kWOA==
+X-Gm-Message-State: AOAM531E3/mBH05x68mqPjB3GiFEJB9rLEWZ/74vvOWunPN8wPYLOqJ7
+        hKVuIXGZ+mYn/C8cSoZl9Bf1ZnCUrHyPRoa5LX7bRg==
+X-Google-Smtp-Source: ABdhPJwqjfmWmyfw51mBeC+dqdV1ap2DrEQedAJxR30CSgPvOqXNtQdb36OHY/owlaJwxdUFI/H7VbkQ/Oxz18yxWvQ=
+X-Received: by 2002:a05:6808:120a:: with SMTP id a10mr980600oil.160.1643023977513;
+ Mon, 24 Jan 2022 03:32:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+References: <20220124025205.329752-1-liupeng256@huawei.com>
+ <20220124025205.329752-2-liupeng256@huawei.com> <Ye5hKItk3j7arjaI@elver.google.com>
+ <6eb16a68-9a56-7aea-3dd6-bd719a9ce700@huawei.com>
+In-Reply-To: <6eb16a68-9a56-7aea-3dd6-bd719a9ce700@huawei.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Mon, 24 Jan 2022 12:32:45 +0100
+Message-ID: <CACT4Y+a86X+gH5aJ-o5ituc-+hysFOYBJ7ZvuC234xJnwANWvA@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/3] kfence: Add a module parameter to adjust kfence objects
+To:     "liupeng (DM)" <liupeng256@huawei.com>
+Cc:     Marco Elver <elver@google.com>, glider@google.com, corbet@lwn.net,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        akpm@linux-foundation.org, kasan-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
+On Mon, 24 Jan 2022 at 12:24, liupeng (DM) <liupeng256@huawei.com> wrote:
+>
+>
+> On 2022/1/24 16:19, Marco Elver wrote:
+>
+> On Mon, Jan 24, 2022 at 02:52AM +0000, Peng Liu wrote:
+>
+> KFENCE is designed to be enabled in production kernels, but it can
+> be also useful in some debug situations. For machines with limited
+> memory and CPU resources, KASAN is really hard to run. Fortunately,
+>
+> If these are arm64 based machines, see if CONFIG_KASAN_SW_TAGS works for
+> you. In future, we believe that CONFIG_KASAN_HW_TAGS will be suitable
+> for a variety of scenarios, including debugging scenarios of resource
+> constrained environments.
+>
+> Thank you for your good suggestion, we will try it.
+>
+> KFENCE can be a suitable candidate. For KFENCE running on a single
+> machine, the possibility of discovering existed bugs will increase
+> as the increasing of KFENCE objects, but this will cost more memory.
+> In order to balance the possibility of discovering existed bugs and
+> memory cost, KFENCE objects need to be adjusted according to memory
+> resources for a compiled kernel Image. Add a module parameter to
+> adjust KFENCE objects will make kfence to use in different machines
+> with the same kernel Image.
+>
+> In short, the following reasons motivate us to add this parameter.
+> 1) In some debug situations, this will make kfence flexible.
+> 2) For some production machines with different memory and CPU size,
+> this will reduce the kernel-Image-version burden.
+>
+> [...]
+>
+> This patch (of 3):
+>
+> [ Note for future: No need to add "This patch (of X)" usually -- this is
+>   added by maintainers if deemed appropriate, and usually includes the
+>   cover letter. ]
+>
+> The most important motivation of this patch series is to make
+> KFENCE easy-to-use in business situations.
+>
+> Signed-off-by: Peng Liu <liupeng256@huawei.com>
+> ---
+>  Documentation/dev-tools/kfence.rst |  14 ++--
+>  include/linux/kfence.h             |   3 +-
+>  mm/kfence/core.c                   | 108 ++++++++++++++++++++++++-----
+>  mm/kfence/kfence.h                 |   2 +-
+>  mm/kfence/kfence_test.c            |   2 +-
+>  5 files changed, 103 insertions(+), 26 deletions(-)
+>
+> [...]
+>
+> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> index 4b5e3679a72c..aec4f6b247b5 100644
+> --- a/include/linux/kfence.h
+> +++ b/include/linux/kfence.h
+> @@ -17,12 +17,13 @@
+>  #include <linux/atomic.h>
+>  #include <linux/static_key.h>
+>
+> +extern unsigned long kfence_num_objects;
+>  /*
+>   * We allocate an even number of pages, as it simplifies calculations to map
+>   * address to metadata indices; effectively, the very first page serves as an
+>   * extended guard page, but otherwise has no special purpose.
+>   */
+> -#define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
+> +#define KFENCE_POOL_SIZE ((kfence_num_objects + 1) * 2 * PAGE_SIZE)
+>  extern char *__kfence_pool;
+>
+> I appreciate the effort, but you could have gotten a quicker answer if
+> you had first sent us an email to ask why adjustable number of objects
+> hasn't been done before. Because if it was trivial, we would have
+> already done it.
+>
+> What you've done is turned KFENCE_POOL_SIZE into a function instead of a
+> constant (it still being ALL_CAPS is now also misleading).
+>
+> This is important here:
+>
+> /**
+> * is_kfence_address() - check if an address belongs to KFENCE pool
+> * @addr: address to check
+> *
+> * Return: true or false depending on whether the address is within the KFENCE
+> * object range.
+> *
+> * KFENCE objects live in a separate page range and are not to be intermixed
+> * with regular heap objects (e.g. KFENCE objects must never be added to the
+> * allocator freelists). Failing to do so may and will result in heap
+> * corruptions, therefore is_kfence_address() must be used to check whether
+> * an object requires specific handling.
+> *
+> * Note: This function may be used in fast-paths, and is performance critical.
+> * Future changes should take this into account; for instance, we want to avoid
+> * introducing another load and therefore need to keep KFENCE_POOL_SIZE a
+> * constant (until immediate patching support is added to the kernel).
+> */
+> static __always_inline bool is_kfence_address(const void *addr)
+> {
+> /*
+> * The __kfence_pool != NULL check is required to deal with the case
+> * where __kfence_pool == NULL && addr < KFENCE_POOL_SIZE. Keep it in
+> * the slow-path after the range-check!
+> */
+> return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+> }
+>
+> Unfortunately I think you missed the "Note".
+>
+> Which means that ultimately your patch adds another LOAD to the fast
+> path, which is not an acceptable trade-off.
+>
+> This would mean your change would require benchmarking, but it'd also
+> mean we and everyone else would have to re-benchmark _all_ systems where
+> we've deployed KFENCE.
+>
+> I think the only reasonable way forward is if you add immediate patching
+> support to the kernel as the "Note" suggests.
+>
+> May you give us more details about "immediate patching"?
 
-For arm64, the behavior of crashkernel=X has been changed, which
-tries low allocation in DMA zone and fall back to high allocation
-if it fails.
 
-We can also use "crashkernel=X,high" to select a high region above
-DMA zone, which also tries to allocate at least 256M low memory in
-DMA zone automatically and "crashkernel=Y,low" can be used to allocate
-specified size low memory.
+Another option may be as follows:
+Have a config for _max_ pool size. Always reserve max amount of
+virtual address space, and do the range check for the max amount. But
+actually allocate pages potentially for a smaller number of objects
+(configured with a runtime parameter).
 
-So update the Documentation.
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- Documentation/admin-guide/kdump/kdump.rst       | 11 +++++++++--
- Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++--
- 2 files changed, 18 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index cb30ca3df27c9b2..d4c287044be0c70 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -361,8 +361,15 @@ Boot into System Kernel
-    kernel will automatically locate the crash kernel image within the
-    first 512MB of RAM if X is not given.
- 
--   On arm64, use "crashkernel=Y[@X]".  Note that the start address of
--   the kernel, X if explicitly specified, must be aligned to 2MiB (0x200000).
-+   On arm64, use "crashkernel=X" to try low allocation in DMA zone and
-+   fall back to high allocation if it fails.
-+   We can also use "crashkernel=X,high" to select a high region above
-+   DMA zone, which also tries to allocate at least 256M low memory in
-+   DMA zone automatically.
-+   "crashkernel=Y,low" can be used to allocate specified size low memory.
-+   Use "crashkernel=Y@X" if you really have to reserve memory from
-+   specified start address X. Note that the start address of the kernel,
-+   X if explicitly specified, must be aligned to 2MiB (0x200000).
- 
- Load the Dump-capture Kernel
- ============================
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f5a27f067db9ed9..65780c2ca830be0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -792,6 +792,9 @@
- 			[KNL, X86-64] Select a region under 4G first, and
- 			fall back to reserve region above 4G when '@offset'
- 			hasn't been specified.
-+			[KNL, ARM64] Try low allocation in DMA zone and fall back
-+			to high allocation if it fails when '@offset' hasn't been
-+			specified.
- 			See Documentation/admin-guide/kdump/kdump.rst for further details.
- 
- 	crashkernel=range1:size1[,range2:size2,...][@offset]
-@@ -808,6 +811,8 @@
- 			Otherwise memory region will be allocated below 4G, if
- 			available.
- 			It will be ignored if crashkernel=X is specified.
-+			[KNL, ARM64] range in high memory.
-+			Allow kernel to allocate physical memory region from top.
- 	crashkernel=size[KMG],low
- 			[KNL, X86-64] range under 4G. When crashkernel=X,high
- 			is passed, kernel could allocate physical memory region
-@@ -816,13 +821,15 @@
- 			requires at least 64M+32K low memory, also enough extra
- 			low memory is needed to make sure DMA buffers for 32-bit
- 			devices won't run out. Kernel would try to allocate at
--			at least 256M below 4G automatically.
-+			least 256M below 4G automatically.
- 			This one let user to specify own low range under 4G
- 			for second kernel instead.
- 			0: to disable low allocation.
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
--
-+			[KNL, ARM64] range in low memory.
-+			This one let user to specify a low range in DMA zone for
-+			crash dump kernel.
- 	cryptomgr.notests
- 			[KNL] Disable crypto self-tests
- 
--- 
-2.25.1
-
+> In the meantime, while not a single kernel imagine, we've found that
+> debug scenarios usually are best served with a custom debug kernel, as
+> there are other debug features that are only Kconfig configurable. Thus,
+> having a special debug kernel just configure KFENCE differently
+> shouldn't be an issue in the majority of cases.
+>
+> Should this answer not be satisfying for you, the recently added feature
+> skipping already covered allocations (configurable via
+> kfence.skip_covered_thresh) alleviates some of the issue of a smaller
+> pool with a very low sample interval (viz. high sample rate).
+>
+> The main thing to watch out for is KFENCE's actual sample rate vs
+> intended sample rate (per kfence.sample_interval). If you monitor
+> /sys/kernel/debug/kfence/stats, you can compute the actual sample rate.
+> If the actual sample rate becomes significantly lower than the intended
+> rate, only then does it make sense to increase the pool size. My
+> suggestion for you is therefore to run some experiments, while adjusting
+> kfence.sample_interval and kfence.skip_covered_thresh until you reach a
+> sample rate that is close to intended.
+>
+> Thanks,
+> -- Marco
+> .
+>
+> Thank you for your patient suggestions, it's actually helpful and inspired.
+> We have integrated your latest work "skipping already covered allocations",
+> and will do more experiments about KFENCE. Finally, we really hope you can
+> give us more introductions about "immediate patching".
+>
+> Thanks,
+> -- Peng Liu
+> .
