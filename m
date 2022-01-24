@@ -2,76 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7731C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 12:21:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 222EAC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 13:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231180AbiAXMV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 07:21:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238591AbiAXMV1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 07:21:27 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41268C06173D
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 04:21:27 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id l64-20020a9d1b46000000b005983a0a8aaaso21997104otl.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 04:21:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5HHwOHpu3DODX4uWQ1+JZsd1/iIv5h6cdRibus7mBoQ=;
-        b=lf093PoaWmusMgbiWy/WDpNTxiGQ8V5bvGmNAVRCS7jWCTTUL3SvfmEUxY+2pcHc7x
-         zhpDlcNUDYTQub/RIKGlX2iDEwmyowOkMcFSp1fD/sSe0PxMuEP6Iqx9L1voRUFeqlt2
-         85EUPdAFScwMwM1thEV/3TbCbQ6SndwlDnZylNYQxLTJRMXIG5dOt7mCubuFU5zvZPeQ
-         PCYslMpSLeZzcQbq+6ho807GRSEOEibqCUZ1e3hoD6Y0M7ifNYMJF2vyaBhBmdVXtsxY
-         Oub8NhYRxSmPX+89FDlveehVTV9p+4MIjScv2djqoYjLokXFVW4wISpaV7KfHCGxmQ2/
-         gAQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5HHwOHpu3DODX4uWQ1+JZsd1/iIv5h6cdRibus7mBoQ=;
-        b=PAtFgy3MQLqwMPipK4iRtMtk3s3FW1cDQSVemqEDrIFG8/XhxX5U289TL1Mw86z97A
-         ttN53N8CTrblz+3FNS4Yv6VtxI38zILsZY2NiUzZqzvX9KmU9+4q+z27wqTOAdhce0zP
-         7VFhxP96CoXPtQVo1i1rJHOmDnykc2pv0w4FQAVTSjlRnClIYVKIJk06WgNg/DOq5+hx
-         P299g26GxouUrd+JlnzRK8Lq5BWljvbjzsJAmIY9iybfxrc1xGV/a2j/5M28cmiybGwJ
-         IuBVQx2d8i+dbDQm/z/m768z7sIZ2nidDvVM9Qgpk4+rIgXEF6dHqYwaSLkUVcpdlQVw
-         1tSw==
-X-Gm-Message-State: AOAM5302EII8WA/oiBTOH1ODfIZD+8CNDR5gbeglXQgQp7D9TCNVyZSs
-        9yRiToQ38RBdoWv7l+V23dPgYSsZULWa0pTyLAGHCQ==
-X-Google-Smtp-Source: ABdhPJwPCK6JVvtPZA/qEwNUZFdTfKV6fNMlNE0y/mgV0d/FLXRv3yIuKlsLt0y/g/mEMvyfH8KcoRBGc9UjO+K2CWU=
-X-Received: by 2002:a9d:58c7:: with SMTP id s7mr11139396oth.246.1643026886411;
- Mon, 24 Jan 2022 04:21:26 -0800 (PST)
+        id S237645AbiAXN7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jan 2022 08:59:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21017 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237570AbiAXN7p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 08:59:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643032784;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qwdt38c71LuRfMSTFCZBXvK1kWOIFl6aKokcJctMaAY=;
+        b=gm2Vv3vVmNqcL1T5O4JyOeSxbNnuZoev9mbilVTyredCqVja5L40aD6QnEWwXCk73fOusy
+        UZOQ+ywvBsLa+7pJPl5h1ppCG+qH76S6PT7JO31ETsPL06z6kYFp3uU75e+16Mef65s1Ok
+        3Q9fGzo/24Bi/z/BrJ4YjqkGJLemfqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-10-wEa5CxBANt2ra5d-YXmIXA-1; Mon, 24 Jan 2022 08:59:43 -0500
+X-MC-Unique: wEa5CxBANt2ra5d-YXmIXA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 698F8100C664;
+        Mon, 24 Jan 2022 13:59:40 +0000 (UTC)
+Received: from localhost (ovpn-12-40.pek2.redhat.com [10.72.12.40])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 572E3798B5;
+        Mon, 24 Jan 2022 13:59:10 +0000 (UTC)
+Date:   Mon, 24 Jan 2022 21:59:02 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
+        Petr Mladek <pmladek@suse.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, dyoung@redhat.com,
+        linux-doc@vger.kernel.org, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, kernel@gpiccoli.net,
+        Will Deacon <will@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <20220124135902.GB8305@MiWiFi-R3L-srv>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <Yel8WQiBn/HNQN83@alley>
+ <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
+ <20220122105514.GA18258@MiWiFi-R3L-srv>
+ <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
 MIME-Version: 1.0
-References: <20220124025205.329752-1-liupeng256@huawei.com>
- <20220124025205.329752-4-liupeng256@huawei.com> <CANpmjNNYG=izN12sqaB3dYbGmM=2yQ8gK=8_BMHkuoaKWMmYPw@mail.gmail.com>
- <261a5287-af0d-424e-d209-db887d952a74@huawei.com>
-In-Reply-To: <261a5287-af0d-424e-d209-db887d952a74@huawei.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 24 Jan 2022 13:21:15 +0100
-Message-ID: <CANpmjNNc6F7tRVn=UqLaW0WAgTr67XFm=CUu5X2D0Xbt3nKXwA@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/3] kfence: Make test case compatible with run time
- set sample interval
-To:     "liupeng (DM)" <liupeng256@huawei.com>
-Cc:     glider@google.com, dvyukov@google.com, corbet@lwn.net,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        akpm@linux-foundation.org, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Jan 2022 at 13:19, liupeng (DM) <liupeng256@huawei.com> wrote:
-[...]
-> When KFENCE pool size can be adjusted by boot parameters(assumption),
-> automatically test and train KFENCE may be useful. So far, exporting
-> kfence.sample_interval is not necessary.
+On 01/23/22 at 10:07pm, Masami Hiramatsu wrote:
+> On Sat, 22 Jan 2022 18:55:14 +0800
+> Baoquan He <bhe@redhat.com> wrote:
+> 
+> > On 01/21/22 at 05:31pm, Guilherme G. Piccoli wrote:
+> > ......
+> > > > IMHO, the right solution is to split the callbacks into 2 or more
+> > > > notifier list. Then we might rework panic() to do:
+> > > > 
+> > > > void panic(void)
+> > > > {
+> > > > 	[...]
+> > > > 
+> > > > 	/* stop watchdogs + extra info */
+> > > > 	atomic_notifier_call_chain(&panic_disable_watchdogs_notifier_list, 0, buf);
+> > > > 	atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+> > > > 	panic_print_sys_info();
+> > > > 
+> > > > 	/* crash_kexec + kmsg_dump in configurable order */
+> > > > 	if (!_crash_kexec_post_kmsg_dump) {
+> > > > 		__crash_kexec(NULL);
+> > > > 		smp_send_stop();
+> > > > 	} else {
+> > > > 		crash_smp_send_stop();
+> > > > 	}
+> > > > 
+> > > > 	kmsg_dump();
+> > > > 	if (_crash_kexec_post_kmsg_dump)
+> > > > 		__crash_kexec(NULL);
+> > > > 
+> > > > 	/* infinite loop or reboot */
+> > > > 	atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+> > > > 	atomic_notifier_call_chain(&panic_rest_notifier_list, 0, buf);
+> > > > 
+> > > > 	console_flush_on_panic(CONSOLE_FLUSH_PENDING);
+> > > > [...] 
+> > > > Two notifier lists might be enough in the above scenario. I would call
+> > > > them:
+> > > > 
+> > > > 	panic_pre_dump_notifier_list
+> > > > 	panic_post_dump_notifier_list
+> > > > 
+> > > > 
+> > > > It is a real solution that will help everyone. It is more complicated now
+> > > > but it will makes things much easier in the long term. And it might be done
+> > > > step by step:
+> > > > 
+> > > >      1. introduce the two notifier lists
+> > > >      2. convert all users: one by one
+> > > >      3. remove the original notifier list when there is no user
+> > > 
+> > > That's a great idea! I'm into it, if we have a consensus. The thing that
+> > > scares me most here is that this is a big change and consumes time to
+> > > implement - I'd not risk such time if somebody is really against that.
+> > > So, let's see more opinions, maybe the kdump maintainers have good input.
+> > 
+> > I am fine with it. As long as thing is made clear, glad to see code is
+> > refactored to be more understandable and improved. Earlier, during several
+> > rounds of discussion between you and Petr, seveal pitfalls have been
+> > pointed out and avoided.
+> > 
+> > Meanwhile, I would suggest Masa and HATAYAMA to help give input about
+> > panic_notifier usage and refactory. AFAIK, they contributed code and use
+> > panic_notifier in their product or environment a lot, that will be very
+> > helpful to get the first hand information from them.
+> > 
+> > Hi Masa, HATAYANA,
+> > 
+> > Any comment on this? (Please ignore this if it's not in your care.)
+> 
+> No, that looks good idea to me. BTW, the 'dump' in the new notifieers
+> means both kmsg_dump and crash dump, right?
 
-I'm not opposed to the patch (I've also run into this issue, but not
-too frequently) - feel free to just send it with EXPORT_SYMBOL_GPL.
+Thanks for quick response, Masa.
 
-Thanks,
--- Marco
+I guess it's crash dump, namely kdump.
+
+About pre_dump, if the dump is crash dump, hope those pre_dump notifiers
+will be executed under conditional check, e.g only if 'crash_kexec_post_notifiers'
+is specified in kernel cmdline. 
+
