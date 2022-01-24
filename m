@@ -2,202 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D11C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 08:20:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F6DCC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 08:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236176AbiAXIUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 03:20:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35186 "EHLO
+        id S236174AbiAXIUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jan 2022 03:20:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbiAXIUA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 03:20:00 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04043C06173B
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:20:00 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id v123so22349967wme.2
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:19:59 -0800 (PST)
+        with ESMTP id S242114AbiAXIUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 03:20:30 -0500
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EC1C06173B
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:20:29 -0800 (PST)
+Received: by mail-ot1-x32e.google.com with SMTP id i7-20020a9d68c7000000b0059396529af8so21201937oto.4
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:20:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=c28QaxpAfuOEDq8LtprBB/owZVWinCLNDU++tnPYx8Y=;
-        b=TOc2vC6Sez7B1OJIVhWGrBW+xzr1cTbg1+AY2tKmzzXEd1JTBeTnU5ks/NAzREDOPK
-         m2OidHWrFQtHf/Lac6tDSZaqjyZUGQIwUuFaZ2RQpmJEcFPmUa/n+781xW0RWPX3ajqq
-         nrrHUGXRWWcHmZgBMgQZrLAwPB0yyrZq2YWqKm779yZVIF9bvQoy7zXx5FwZAu7odzlP
-         XM3Y2GfW53kSDAPompeMzMuUUYPZp+i29x+pwYqqvaLnbI6VaD1YGG1HaS/uwpso/aB3
-         EJX0+25VLxPnV8AOsR+ad7Ay7vRFKi+LrfFcMPtr+l7zswHWyc/U+1m2ayUrU7SrracZ
-         B1+g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Fe4pubot63aeTTcTlbwPRtQDcLp34onKse+sfKBfh3g=;
+        b=hbC0p1HgxcZOO8c4bWIlLFPNxwvCGs6Ub4zMCdalps8HkcEOtggdMiekbyEPh6BfgO
+         4uobjusmvFQj9LeEIgWb+tK8VZzkTQbdJg3hP/g+iEXPHcjv4rIUhbYxt+fJCq/5S7Vi
+         oMuTLRyLsaqtbdEbkL0wBWIpQpgMJpvm+atEfWH+rpt50zQOIYrh/tU2xqe5t1nRbizp
+         og7jrskWPDy65dLCj3eWex6wpg5E3BNSuplfpblwi6mf8pP16hdD8yqbb+833/0D7xew
+         FQvVS34vXLTiIvNxMpFSFwhu5F9+m50cxLEn6saAs4oyrzq4K1VTO0PkpqRktNVzql6p
+         et5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=c28QaxpAfuOEDq8LtprBB/owZVWinCLNDU++tnPYx8Y=;
-        b=Ei4zZmmbB0+DIWTHbMt3zCY94uPtSq996FLrXUld0mX6EHjirHdYc5CSj5TpLZxLPc
-         Dcr6CWNW9pgH+HGdT9k0KXt9IS3GoTndAoT9l1OKCpJxX8f7xhPwQzgLCWfSjBcGqMQ5
-         93s73K0jQhOCO6ZD+L0uHCW1+Ba5cI9tRUnCOX3IXDCc2d5YE7Ybo54VHhYrojqtP2PT
-         P6O5AbEILyLCAYM0uqNoDftw0Q8HWtCXFscUQvgmQvSWFIyqowjYI0vxDFI8FfKpGZYx
-         dFtUSYISpbyFOn2ZoTBvklV4ZvdtIYHnPtdoiKCv+a+4K/N17WmOUUIeMvCKjhn5dMC9
-         7bZg==
-X-Gm-Message-State: AOAM533gmsSF/NPQRdR/qBNRegLTCOuSWU2tZjNErKQqfHPueHrwQEzl
-        HJKIfQzt99FDWHLvQdk+Q5URig==
-X-Google-Smtp-Source: ABdhPJx4Pm2pD/O9ccohPZOobd6EDqFPWxBIGeLe+BNc/cqIvHMM7/KeZIO+u+4h+Wqp6jGjKjUAWg==
-X-Received: by 2002:a1c:3b08:: with SMTP id i8mr768071wma.52.1643012398399;
-        Mon, 24 Jan 2022 00:19:58 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:810c:fb1:faa0:df2])
-        by smtp.gmail.com with ESMTPSA id m5sm2460444wrs.22.2022.01.24.00.19.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 00:19:57 -0800 (PST)
-Date:   Mon, 24 Jan 2022 09:19:52 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Fe4pubot63aeTTcTlbwPRtQDcLp34onKse+sfKBfh3g=;
+        b=jp8WORBTq0bDCz9iEkSpDjsnZ8qgvKehMD5MWAUwXBnT89U5gaOPiYD2+wmjPX0F4g
+         ZlHcJ7gBED4Ooh2FIGnnbqc+eWTZm9578QiRa72OnMGleJTOVi8X0B0LAkuxKLRGyQE4
+         MmWZToBV56QAxo9XmDuOQKW2nBxfeDW2P/aRoh1RA0eZnFRAq2ZvA/SPBkb98+/Xp9KD
+         UBOTmIzAwZcKUIOuuYkgScohZ/UyYrh2Ml7eLktGSj7IG6qXqcrUKoHeYFjR3DtG6ZpF
+         Og0ACdmHDDlr+GqqBSbdBe0gyPY1ek2dhvM2SarU6rGou6tyTF1stI1YLH4JtNfrbDDt
+         Bihg==
+X-Gm-Message-State: AOAM532oIAEXOZhJsnfxjbaKyBk7Kufkh+gv1XDpHsVGeT9COeOAe1tB
+        qgBrsJ+64pnCcgQkL8lA2/3klJ/x3SzMyUkvVo/X0Q==
+X-Google-Smtp-Source: ABdhPJwOSQbPzFSjnMIC0k8eXN8NZWLSv40CjBpajvpNz8+4iCNlxNVEC0V+MQKJlFwrUD/QSe/IcXsddnFctH+E070=
+X-Received: by 2002:a9d:7053:: with SMTP id x19mr10625205otj.196.1643012428642;
+ Mon, 24 Jan 2022 00:20:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20220124025205.329752-1-liupeng256@huawei.com> <20220124025205.329752-3-liupeng256@huawei.com>
+In-Reply-To: <20220124025205.329752-3-liupeng256@huawei.com>
 From:   Marco Elver <elver@google.com>
+Date:   Mon, 24 Jan 2022 09:20:17 +0100
+Message-ID: <CANpmjNNBt8LazZMLH2_6rFc8u3bVpPNNyetV0fqmanwB5DLZPQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/3] kfence: Optimize branches prediction when sample
+ interval is zero
 To:     Peng Liu <liupeng256@huawei.com>
 Cc:     glider@google.com, dvyukov@google.com, corbet@lwn.net,
         sumit.semwal@linaro.org, christian.koenig@amd.com,
         akpm@linux-foundation.org, kasan-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Subject: Re: [PATCH RFC 1/3] kfence: Add a module parameter to adjust kfence
- objects
-Message-ID: <Ye5hKItk3j7arjaI@elver.google.com>
-References: <20220124025205.329752-1-liupeng256@huawei.com>
- <20220124025205.329752-2-liupeng256@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124025205.329752-2-liupeng256@huawei.com>
-User-Agent: Mutt/2.1.4 (2021-12-11)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 24, 2022 at 02:52AM +0000, Peng Liu wrote:
-> KFENCE is designed to be enabled in production kernels, but it can
-> be also useful in some debug situations. For machines with limited
-> memory and CPU resources, KASAN is really hard to run. Fortunately,
+On Mon, 24 Jan 2022 at 03:37, Peng Liu <liupeng256@huawei.com> wrote:
+>
+> In order to release a uniform kernel with KFENCE, it is good to
+> compile it with CONFIG_KFENCE_SAMPLE_INTERVAL = 0. For a group of
+> produtions who don't want to use KFENCE, they can use kernel just
+> as original vesion without KFENCE. For KFENCE users, they can open
+> it by setting the kernel boot parameter kfence.sample_interval.
+> Hence, set KFENCE sample interval default to zero is convenient.
+>
+> The current KFENCE is supportted to adjust sample interval via the
+> kernel boot parameter. However, branches prediction in kfence_alloc
+> is not good for situation with CONFIG_KFENCE_SAMPLE_INTERVAL = 0
+> and boot parameter kfence.sample_interval != 0, which is because
+> the current kfence_alloc is likely to return NULL when
+> CONFIG_KFENCE_SAMPLE_INTERVAL = 0. To optimize branches prediction
+> in this situation, kfence_enabled will check firstly.
 
-If these are arm64 based machines, see if CONFIG_KASAN_SW_TAGS works for
-you. In future, we believe that CONFIG_KASAN_HW_TAGS will be suitable
-for a variety of scenarios, including debugging scenarios of resource
-constrained environments.
+This patch doesn't make any sense. You're adding an unconditional LOAD
+to the fast path.
 
-> KFENCE can be a suitable candidate. For KFENCE running on a single
-> machine, the possibility of discovering existed bugs will increase
-> as the increasing of KFENCE objects, but this will cost more memory.
-> In order to balance the possibility of discovering existed bugs and
-> memory cost, KFENCE objects need to be adjusted according to memory
-> resources for a compiled kernel Image. Add a module parameter to
-> adjust KFENCE objects will make kfence to use in different machines
-> with the same kernel Image.
-> 
-> In short, the following reasons motivate us to add this parameter.
-> 1) In some debug situations, this will make kfence flexible.
-> 2) For some production machines with different memory and CPU size,
-> this will reduce the kernel-Image-version burden.
-[...]
-> This patch (of 3):
+And the choice of static_branch_unlikely() if
+CONFIG_KFENCE_SAMPLE_INTERVAL == 0 is very much deliberate, as it
+generates code that is preferable in the common case (KFENCE is
+disabled).
 
-[ Note for future: No need to add "This patch (of X)" usually -- this is
-  added by maintainers if deemed appropriate, and usually includes the
-  cover letter. ]
+Please see include/linux/jump_label.h:430. But even then, CPUs are
+very good at dealing with unconditional branches, so the difference
+really is a wash.
 
-> The most important motivation of this patch series is to make
-> KFENCE easy-to-use in business situations.
-> 
+But that new LOAD is not acceptable.
+
+Sorry, but Nack.
+
 > Signed-off-by: Peng Liu <liupeng256@huawei.com>
 > ---
->  Documentation/dev-tools/kfence.rst |  14 ++--
->  include/linux/kfence.h             |   3 +-
->  mm/kfence/core.c                   | 108 ++++++++++++++++++++++++-----
->  mm/kfence/kfence.h                 |   2 +-
->  mm/kfence/kfence_test.c            |   2 +-
->  5 files changed, 103 insertions(+), 26 deletions(-)
-[...]  
+>  include/linux/kfence.h | 5 ++++-
+>  mm/kfence/core.c       | 2 +-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+>
 > diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> index 4b5e3679a72c..aec4f6b247b5 100644
+> index aec4f6b247b5..bf91b76b87ee 100644
 > --- a/include/linux/kfence.h
 > +++ b/include/linux/kfence.h
-> @@ -17,12 +17,13 @@
+> @@ -17,6 +17,7 @@
 >  #include <linux/atomic.h>
 >  #include <linux/static_key.h>
->  
-> +extern unsigned long kfence_num_objects;
+>
+> +extern bool kfence_enabled;
+>  extern unsigned long kfence_num_objects;
 >  /*
 >   * We allocate an even number of pages, as it simplifies calculations to map
->   * address to metadata indices; effectively, the very first page serves as an
->   * extended guard page, but otherwise has no special purpose.
+> @@ -115,7 +116,9 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags);
 >   */
-> -#define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
-> +#define KFENCE_POOL_SIZE ((kfence_num_objects + 1) * 2 * PAGE_SIZE)
->  extern char *__kfence_pool;
-
-I appreciate the effort, but you could have gotten a quicker answer if
-you had first sent us an email to ask why adjustable number of objects
-hasn't been done before. Because if it was trivial, we would have
-already done it.
-
-What you've done is turned KFENCE_POOL_SIZE into a function instead of a
-constant (it still being ALL_CAPS is now also misleading).
-
-This is important here:
-
-	/**
-	 * is_kfence_address() - check if an address belongs to KFENCE pool
-	 * @addr: address to check
-	 *
-	 * Return: true or false depending on whether the address is within the KFENCE
-	 * object range.
-	 *
-	 * KFENCE objects live in a separate page range and are not to be intermixed
-	 * with regular heap objects (e.g. KFENCE objects must never be added to the
-	 * allocator freelists). Failing to do so may and will result in heap
-	 * corruptions, therefore is_kfence_address() must be used to check whether
-	 * an object requires specific handling.
-	 *
-	 * Note: This function may be used in fast-paths, and is performance critical.
-	 * Future changes should take this into account; for instance, we want to avoid
-	 * introducing another load and therefore need to keep KFENCE_POOL_SIZE a
-	 * constant (until immediate patching support is added to the kernel).
-	 */
-	static __always_inline bool is_kfence_address(const void *addr)
-	{
-		/*
-		 * The __kfence_pool != NULL check is required to deal with the case
-		 * where __kfence_pool == NULL && addr < KFENCE_POOL_SIZE. Keep it in
-		 * the slow-path after the range-check!
-		 */
-		return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-	}
-
-Unfortunately I think you missed the "Note".
-
-Which means that ultimately your patch adds another LOAD to the fast
-path, which is not an acceptable trade-off.
-
-This would mean your change would require benchmarking, but it'd also
-mean we and everyone else would have to re-benchmark _all_ systems where
-we've deployed KFENCE.
-
-I think the only reasonable way forward is if you add immediate patching
-support to the kernel as the "Note" suggests.
-
-In the meantime, while not a single kernel imagine, we've found that
-debug scenarios usually are best served with a custom debug kernel, as
-there are other debug features that are only Kconfig configurable. Thus,
-having a special debug kernel just configure KFENCE differently
-shouldn't be an issue in the majority of cases.
-
-Should this answer not be satisfying for you, the recently added feature
-skipping already covered allocations (configurable via
-kfence.skip_covered_thresh) alleviates some of the issue of a smaller
-pool with a very low sample interval (viz. high sample rate).
-
-The main thing to watch out for is KFENCE's actual sample rate vs
-intended sample rate (per kfence.sample_interval). If you monitor
-/sys/kernel/debug/kfence/stats, you can compute the actual sample rate.
-If the actual sample rate becomes significantly lower than the intended
-rate, only then does it make sense to increase the pool size. My
-suggestion for you is therefore to run some experiments, while adjusting
-kfence.sample_interval and kfence.skip_covered_thresh until you reach a
-sample rate that is close to intended.
-
-Thanks,
--- Marco
+>  static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+>  {
+> -#if defined(CONFIG_KFENCE_STATIC_KEYS) || CONFIG_KFENCE_SAMPLE_INTERVAL == 0
+> +       if (!kfence_enabled)
+> +               return NULL;
+> +#if defined(CONFIG_KFENCE_STATIC_KEYS)
+>         if (!static_branch_unlikely(&kfence_allocation_key))
+>                 return NULL;
+>  #else
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 4655bcc0306e..2301923182b8 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -48,7 +48,7 @@
+>
+>  /* === Data ================================================================= */
+>
+> -static bool kfence_enabled __read_mostly;
+> +bool kfence_enabled __read_mostly;
+>
+>  static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
+>
+> --
+> 2.18.0.huawei.25
+>
