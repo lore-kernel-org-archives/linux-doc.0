@@ -2,78 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EAFC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 08:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D11C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jan 2022 08:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242014AbiAXIPU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 03:15:20 -0500
-Received: from smtp-fw-80007.amazon.com ([99.78.197.218]:16684 "EHLO
-        smtp-fw-80007.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233770AbiAXIPU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 03:15:20 -0500
+        id S236176AbiAXIUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jan 2022 03:20:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232476AbiAXIUA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 03:20:00 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04043C06173B
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:20:00 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id v123so22349967wme.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 00:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1643012121; x=1674548121;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VtZz5pmqt4tS7pR0I4pHhznYpm34nVTG0TzfeIWikKY=;
-  b=fDlI6mWEfsObdBT00zbpO0MUS3ow+k9gNbb1NX5gSV3WWL0XhGGuiJeB
-   /hf6qkIxthnlO0m3FJlhGxnkCxzxC9tH3QLBfufO4N79b32NF/3IDsEX5
-   brWW6DCr6r2Cjpwxy1FcyUvmcrpjZmM1SfsKte1yAzL0eBX+90AiZV9WL
-   8=;
-X-IronPort-AV: E=Sophos;i="5.88,311,1635206400"; 
-   d="scan'208";a="57503450"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-2dbf0206.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP; 24 Jan 2022 08:15:06 +0000
-Received: from EX13MTAUWB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-pdx-2a-2dbf0206.us-west-2.amazon.com (Postfix) with ESMTPS id 99DCAA2832;
-        Mon, 24 Jan 2022 08:15:03 +0000 (UTC)
-Received: from EX13D02ANC003.ant.amazon.com (10.43.157.69) by
- EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
- id 15.0.1497.28; Mon, 24 Jan 2022 08:15:02 +0000
-Received: from 147ddabc1818.ant.amazon.com.com (10.43.160.209) by
- EX13D02ANC003.ant.amazon.com (10.43.157.69) with Microsoft SMTP Server (TLS)
- id 15.0.1497.28; Mon, 24 Jan 2022 08:14:59 +0000
-From:   Takahiro Itazuri <itazur@amazon.com>
-To:     <linux-doc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <trivial@kernel.org>,
-        Takahiro Itazuri <zulinx86@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Takahiro Itazuri <itazur@amazon.com>
-Subject: [PATCH] docs: fix typo in Documentation/kernel-hacking/locking.rst
-Date:   Mon, 24 Jan 2022 17:14:47 +0900
-Message-ID: <20220124081447.34066-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.31.1
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=c28QaxpAfuOEDq8LtprBB/owZVWinCLNDU++tnPYx8Y=;
+        b=TOc2vC6Sez7B1OJIVhWGrBW+xzr1cTbg1+AY2tKmzzXEd1JTBeTnU5ks/NAzREDOPK
+         m2OidHWrFQtHf/Lac6tDSZaqjyZUGQIwUuFaZ2RQpmJEcFPmUa/n+781xW0RWPX3ajqq
+         nrrHUGXRWWcHmZgBMgQZrLAwPB0yyrZq2YWqKm779yZVIF9bvQoy7zXx5FwZAu7odzlP
+         XM3Y2GfW53kSDAPompeMzMuUUYPZp+i29x+pwYqqvaLnbI6VaD1YGG1HaS/uwpso/aB3
+         EJX0+25VLxPnV8AOsR+ad7Ay7vRFKi+LrfFcMPtr+l7zswHWyc/U+1m2ayUrU7SrracZ
+         B1+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=c28QaxpAfuOEDq8LtprBB/owZVWinCLNDU++tnPYx8Y=;
+        b=Ei4zZmmbB0+DIWTHbMt3zCY94uPtSq996FLrXUld0mX6EHjirHdYc5CSj5TpLZxLPc
+         Dcr6CWNW9pgH+HGdT9k0KXt9IS3GoTndAoT9l1OKCpJxX8f7xhPwQzgLCWfSjBcGqMQ5
+         93s73K0jQhOCO6ZD+L0uHCW1+Ba5cI9tRUnCOX3IXDCc2d5YE7Ybo54VHhYrojqtP2PT
+         P6O5AbEILyLCAYM0uqNoDftw0Q8HWtCXFscUQvgmQvSWFIyqowjYI0vxDFI8FfKpGZYx
+         dFtUSYISpbyFOn2ZoTBvklV4ZvdtIYHnPtdoiKCv+a+4K/N17WmOUUIeMvCKjhn5dMC9
+         7bZg==
+X-Gm-Message-State: AOAM533gmsSF/NPQRdR/qBNRegLTCOuSWU2tZjNErKQqfHPueHrwQEzl
+        HJKIfQzt99FDWHLvQdk+Q5URig==
+X-Google-Smtp-Source: ABdhPJx4Pm2pD/O9ccohPZOobd6EDqFPWxBIGeLe+BNc/cqIvHMM7/KeZIO+u+4h+Wqp6jGjKjUAWg==
+X-Received: by 2002:a1c:3b08:: with SMTP id i8mr768071wma.52.1643012398399;
+        Mon, 24 Jan 2022 00:19:58 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:810c:fb1:faa0:df2])
+        by smtp.gmail.com with ESMTPSA id m5sm2460444wrs.22.2022.01.24.00.19.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 00:19:57 -0800 (PST)
+Date:   Mon, 24 Jan 2022 09:19:52 +0100
+From:   Marco Elver <elver@google.com>
+To:     Peng Liu <liupeng256@huawei.com>
+Cc:     glider@google.com, dvyukov@google.com, corbet@lwn.net,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        akpm@linux-foundation.org, kasan-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+Subject: Re: [PATCH RFC 1/3] kfence: Add a module parameter to adjust kfence
+ objects
+Message-ID: <Ye5hKItk3j7arjaI@elver.google.com>
+References: <20220124025205.329752-1-liupeng256@huawei.com>
+ <20220124025205.329752-2-liupeng256@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.209]
-X-ClientProxiedBy: EX13D23UWC003.ant.amazon.com (10.43.162.81) To
- EX13D02ANC003.ant.amazon.com (10.43.157.69)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220124025205.329752-2-liupeng256@huawei.com>
+User-Agent: Mutt/2.1.4 (2021-12-11)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change copy_from_user*( to copy_from_user() .
+On Mon, Jan 24, 2022 at 02:52AM +0000, Peng Liu wrote:
+> KFENCE is designed to be enabled in production kernels, but it can
+> be also useful in some debug situations. For machines with limited
+> memory and CPU resources, KASAN is really hard to run. Fortunately,
 
-Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
----
- Documentation/kernel-hacking/locking.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If these are arm64 based machines, see if CONFIG_KASAN_SW_TAGS works for
+you. In future, we believe that CONFIG_KASAN_HW_TAGS will be suitable
+for a variety of scenarios, including debugging scenarios of resource
+constrained environments.
 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index e6cd40663ea5..4cbd50edf277 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -295,7 +295,7 @@ Pete Zaitcev gives the following summary:
- 
- -  If you are in a process context (any syscall) and want to lock other
-    process out, use a mutex. You can take a mutex and sleep
--   (``copy_from_user*(`` or ``kmalloc(x,GFP_KERNEL)``).
-+   (``copy_from_user()`` or ``kmalloc(x,GFP_KERNEL)``).
- 
- -  Otherwise (== data can be touched in an interrupt), use
-    spin_lock_irqsave() and
--- 
-2.31.1
+> KFENCE can be a suitable candidate. For KFENCE running on a single
+> machine, the possibility of discovering existed bugs will increase
+> as the increasing of KFENCE objects, but this will cost more memory.
+> In order to balance the possibility of discovering existed bugs and
+> memory cost, KFENCE objects need to be adjusted according to memory
+> resources for a compiled kernel Image. Add a module parameter to
+> adjust KFENCE objects will make kfence to use in different machines
+> with the same kernel Image.
+> 
+> In short, the following reasons motivate us to add this parameter.
+> 1) In some debug situations, this will make kfence flexible.
+> 2) For some production machines with different memory and CPU size,
+> this will reduce the kernel-Image-version burden.
+[...]
+> This patch (of 3):
 
+[ Note for future: No need to add "This patch (of X)" usually -- this is
+  added by maintainers if deemed appropriate, and usually includes the
+  cover letter. ]
+
+> The most important motivation of this patch series is to make
+> KFENCE easy-to-use in business situations.
+> 
+> Signed-off-by: Peng Liu <liupeng256@huawei.com>
+> ---
+>  Documentation/dev-tools/kfence.rst |  14 ++--
+>  include/linux/kfence.h             |   3 +-
+>  mm/kfence/core.c                   | 108 ++++++++++++++++++++++++-----
+>  mm/kfence/kfence.h                 |   2 +-
+>  mm/kfence/kfence_test.c            |   2 +-
+>  5 files changed, 103 insertions(+), 26 deletions(-)
+[...]  
+> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+> index 4b5e3679a72c..aec4f6b247b5 100644
+> --- a/include/linux/kfence.h
+> +++ b/include/linux/kfence.h
+> @@ -17,12 +17,13 @@
+>  #include <linux/atomic.h>
+>  #include <linux/static_key.h>
+>  
+> +extern unsigned long kfence_num_objects;
+>  /*
+>   * We allocate an even number of pages, as it simplifies calculations to map
+>   * address to metadata indices; effectively, the very first page serves as an
+>   * extended guard page, but otherwise has no special purpose.
+>   */
+> -#define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
+> +#define KFENCE_POOL_SIZE ((kfence_num_objects + 1) * 2 * PAGE_SIZE)
+>  extern char *__kfence_pool;
+
+I appreciate the effort, but you could have gotten a quicker answer if
+you had first sent us an email to ask why adjustable number of objects
+hasn't been done before. Because if it was trivial, we would have
+already done it.
+
+What you've done is turned KFENCE_POOL_SIZE into a function instead of a
+constant (it still being ALL_CAPS is now also misleading).
+
+This is important here:
+
+	/**
+	 * is_kfence_address() - check if an address belongs to KFENCE pool
+	 * @addr: address to check
+	 *
+	 * Return: true or false depending on whether the address is within the KFENCE
+	 * object range.
+	 *
+	 * KFENCE objects live in a separate page range and are not to be intermixed
+	 * with regular heap objects (e.g. KFENCE objects must never be added to the
+	 * allocator freelists). Failing to do so may and will result in heap
+	 * corruptions, therefore is_kfence_address() must be used to check whether
+	 * an object requires specific handling.
+	 *
+	 * Note: This function may be used in fast-paths, and is performance critical.
+	 * Future changes should take this into account; for instance, we want to avoid
+	 * introducing another load and therefore need to keep KFENCE_POOL_SIZE a
+	 * constant (until immediate patching support is added to the kernel).
+	 */
+	static __always_inline bool is_kfence_address(const void *addr)
+	{
+		/*
+		 * The __kfence_pool != NULL check is required to deal with the case
+		 * where __kfence_pool == NULL && addr < KFENCE_POOL_SIZE. Keep it in
+		 * the slow-path after the range-check!
+		 */
+		return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+	}
+
+Unfortunately I think you missed the "Note".
+
+Which means that ultimately your patch adds another LOAD to the fast
+path, which is not an acceptable trade-off.
+
+This would mean your change would require benchmarking, but it'd also
+mean we and everyone else would have to re-benchmark _all_ systems where
+we've deployed KFENCE.
+
+I think the only reasonable way forward is if you add immediate patching
+support to the kernel as the "Note" suggests.
+
+In the meantime, while not a single kernel imagine, we've found that
+debug scenarios usually are best served with a custom debug kernel, as
+there are other debug features that are only Kconfig configurable. Thus,
+having a special debug kernel just configure KFENCE differently
+shouldn't be an issue in the majority of cases.
+
+Should this answer not be satisfying for you, the recently added feature
+skipping already covered allocations (configurable via
+kfence.skip_covered_thresh) alleviates some of the issue of a smaller
+pool with a very low sample interval (viz. high sample rate).
+
+The main thing to watch out for is KFENCE's actual sample rate vs
+intended sample rate (per kfence.sample_interval). If you monitor
+/sys/kernel/debug/kfence/stats, you can compute the actual sample rate.
+If the actual sample rate becomes significantly lower than the intended
+rate, only then does it make sense to increase the pool size. My
+suggestion for you is therefore to run some experiments, while adjusting
+kfence.sample_interval and kfence.skip_covered_thresh until you reach a
+sample rate that is close to intended.
+
+Thanks,
+-- Marco
