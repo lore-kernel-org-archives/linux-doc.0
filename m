@@ -2,91 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A55C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 12:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE983C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 12:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381676AbiAYMO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jan 2022 07:14:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344235AbiAYMLC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 07:11:02 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D54DDC06175D
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jan 2022 04:10:43 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id p15so30317962ejc.7
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jan 2022 04:10:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E2Or7EOuVFAWdSwKGqZnK74jkCaCCYypnTmbKSXvhDk=;
-        b=eajOZBVMkXgp8q2tQR0NvldNEACMoGcRWQz4sT7LkkL+9fay1LIewB3BXBniT1+4Hu
-         ug0e9p2E+cJk06nbOWX0ebHaL2ILYT7g6W5cFUUJXz6ljvHONM90lbkP30XLdVCo2FaH
-         w4txMZT7RBKEV0TcXJKNKrKhm86rT48U48kbgCQEFb+Dl4MFzocH4kpd8ltCze9YwpfH
-         Y7ERPmnb7JzqNrb7WkbfDUkvJTPcWD/Ve60ytDu3s9OK48R4jIv1waifH87y7MCFGfQ0
-         Q2kNUB+8m1DkMuBtUu6gs0qt0fYs6RigpCoKBKj15UQsr1+Ka74QU//DnDgVFZ0X2hYz
-         GOdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E2Or7EOuVFAWdSwKGqZnK74jkCaCCYypnTmbKSXvhDk=;
-        b=yYRrGCDMj5EY1c5hNT4BE8SUiitH+uNRI8t4Jmi/XYB8Xau7an6kvJHS2mlCxsdJGR
-         uaV+dCR83qfc3vs1QjhOKjxMA5G9c+3VAlQRPDI5XaHAsibgK0LesfAr0r6HIK9g090q
-         0l5yV8jz8yk7YdDbNlkQK/7+b6gql1Na6cMJ0r8E1mWILcPrtykIPtLx38ILkwr7oJFa
-         tlxK2r4ovVRh+mMZm4ul6jmctFSryB/YIsfUPrNpen8rZ2ih6cWySl+pWpkdwjAEmUbQ
-         ZZy5aCssXr5gxFM/aOg/DoCuv5sCtxrNsiRXUtAfc/mKv88eEo6CHxg0Mt32uKwS9DJG
-         1Ozg==
-X-Gm-Message-State: AOAM531piY27UFws/BkxhrkIPko/Qa50YGoaKxUv/Wt+bxsm0kdTvmMh
-        GU1r+hkEOtkCi7BPv0cyxgY4wVi+RNME50LfxR3Yog==
-X-Google-Smtp-Source: ABdhPJzqhDBNaDbY3FnQwZiIXxBTm6b7O6lM49HJyRnPwcvicTcxqP1cxpduVqiYq5cznKXAtxAZuKhRsB1ImLIAQFs=
-X-Received: by 2002:a17:907:3f84:: with SMTP id hr4mr16354442ejc.443.1643112642469;
- Tue, 25 Jan 2022 04:10:42 -0800 (PST)
+        id S1383711AbiAYMjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 07:39:02 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:40434 "EHLO
+        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1383383AbiAYMet (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 07:34:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=M+vFOpEIP37an1qVa4Tcx18DBd85JSmMXYYJr1B8Juo=; b=C7E5MvFAQyqvD+w935ILNjP9el
+        jz6JeKwWmB7nslSM4eIWlO2IEQZqrAmI4qGTh3MAKAHOMIaF4CgSx8ZYokwBZuneOyYPrTNqya3vr
+        cdFBj2v+WEL7hlQv61X3qSTQ9hAmBvbha8oqY+OPJcTVVF36GDZfrIaGpLShqImcW7WIWbU5fNsbV
+        HgFKIimlz0G6sisUbTaoDfzjwFQbetdTH33Q0Cbhdg5odiX1B/aHptvzMBN1MM8NgahFlt4A7rKrc
+        7rnjhGYUjvmCFwZE8bEYwSaeikOIzNZ/+w0+sQrJwHEIdPskuQvGuPw9fCqRF+dvnxbvop2w8cUT+
+        Ke4lD5GA==;
+Received: from 200-207-58-141.dsl.telesp.net.br ([200.207.58.141] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nCL20-0007YA-BU; Tue, 25 Jan 2022 13:34:40 +0100
+Message-ID: <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
+Date:   Tue, 25 Jan 2022 09:34:23 -0300
 MIME-Version: 1.0
-References: <1643110372-85470-1-git-send-email-john.garry@huawei.com> <1643110372-85470-4-git-send-email-john.garry@huawei.com>
-In-Reply-To: <1643110372-85470-4-git-send-email-john.garry@huawei.com>
-From:   Jinpu Wang <jinpu.wang@ionos.com>
-Date:   Tue, 25 Jan 2022 13:10:31 +0100
-Message-ID: <CAMGffEmofF+yhT1Lt8jZp-06+GLXOmNo3SEdNg5VWX0TnzCrPA@mail.gmail.com>
-Subject: Re: [PATCH 03/16] scsi: hisi_sas: Delete unused I_T_NEXUS_RESET_PHYUP_TIMEOUT
-To:     John Garry <john.garry@huawei.com>
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
-        artur.paszkiewicz@intel.com, jinpu.wang@ionos.com,
-        chenxiang66@hisilicon.com, Ajish.Koshy@microchip.com,
-        yanaijie@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com, liuqi115@huawei.com, Viswas.G@microchip.com,
-        damien.lemoal@opensource.wdc.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Content-Language: en-US
+To:     "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dyoung@redhat.com" <dyoung@redhat.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "bhe@redhat.com" <bhe@redhat.com>,
+        "vgoyal@redhat.com" <vgoyal@redhat.com>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "halves@canonical.com" <halves@canonical.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 12:38 PM John Garry <john.garry@huawei.com> wrote:
->
-> There is no user, so delete it.
->
-> Signed-off-by: John Garry <john.garry@huawei.com>
-Reviewed-by: Jack Wang <jinpu.wang@ionos.com>
-Thx!
-> ---
->  drivers/scsi/hisi_sas/hisi_sas_main.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/scsi/hisi_sas/hisi_sas_main.c b/drivers/scsi/hisi_sas/hisi_sas_main.c
-> index f014e458edbb..61414a308906 100644
-> --- a/drivers/scsi/hisi_sas/hisi_sas_main.c
-> +++ b/drivers/scsi/hisi_sas/hisi_sas_main.c
-> @@ -1801,8 +1801,6 @@ static int hisi_sas_abort_task_set(struct domain_device *device, u8 *lun)
->         return rc;
->  }
->
-> -#define I_T_NEXUS_RESET_PHYUP_TIMEOUT  (2 * HZ)
-> -
->  static int hisi_sas_debug_I_T_nexus_reset(struct domain_device *device)
->  {
->         struct sas_phy *local_phy = sas_get_local_phy(device);
-> --
-> 2.26.2
->
+On 25/01/2022 08:50, d.hatayama@fujitsu.com wrote:
+>> +       while ((func = strsep(&buf, ","))) {
+>> +               addr = kallsyms_lookup_name(func);
+>> +               if (!addr) {
+>> +                       pr_warn("panic_notifier_filter: invalid symbol %s\n", func);
+>> +                       continue;
+>> +               }
+> 
+> Could you remove this check?
+> 
+> panic_notifier_list is exported to kernel modules and this check
+> prevents such users from using this feature.
+> 
+> Thanks.
+> HATAYAMA, Daisuke
+
+
+Hi, thanks for the review. First of all, notice that it's very likely
+this patch isn't gonna get merged this way, we are considering a
+refactor that included 2 panic notifiers: one a bit earlier (pre_dump),
+that includes functions less risky, as watchdog unloaders, kernel offset
+dump, etc, and the second panic notifier (post_dump) will keep the
+majority of callbacks, and can be conditionally executed on kdump
+through the usage of "crash_kexec_post_notifiers".
+
+Anyway, I'm curious with your code review - how can we use this filter
+with modules, if the filter setup is invoked as early_param(), before
+modules load? In that case, module functions won't have a valid address,
+correct? So, in that moment, this lookup fails, we cannot record an
+unloaded module address in such list. Please, correct me if I'm wrong.
+
+Cheers,
+
+
+Guilherme
