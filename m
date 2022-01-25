@@ -2,198 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537D9C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 14:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D754C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 14:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239004AbiAYOft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jan 2022 09:35:49 -0500
-Received: from foss.arm.com ([217.140.110.172]:46650 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1579101AbiAYOXH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Jan 2022 09:23:07 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12C1013A1;
-        Tue, 25 Jan 2022 06:21:25 -0800 (PST)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.42.158])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0B9723F793;
-        Tue, 25 Jan 2022 06:21:20 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V3 RESEND 6/7] coresight: trbe: Work around the invalid prohibited states
-Date:   Tue, 25 Jan 2022 19:50:36 +0530
-Message-Id: <1643120437-14352-7-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1643120437-14352-1-git-send-email-anshuman.khandual@arm.com>
-References: <1643120437-14352-1-git-send-email-anshuman.khandual@arm.com>
+        id S1580019AbiAYOll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 09:41:41 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4512 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237434AbiAYOjf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 09:39:35 -0500
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjqBh2kN6z689Mf;
+        Tue, 25 Jan 2022 22:35:08 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 25 Jan 2022 15:39:24 +0100
+Received: from [10.47.95.36] (10.47.95.36) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 25 Jan
+ 2022 14:39:23 +0000
+Subject: Re: [PATCH 05/16] scsi: libsas: Add struct sas_tmf_task
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>,
+        <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>, <damien.lemoal@opensource.wdc.com>
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+ <1643110372-85470-6-git-send-email-john.garry@huawei.com>
+ <Ye/9Fs+JrtlMC+Mb@casper.infradead.org>
+ <6b31b15c-98d9-ee07-0092-cbcc5f5c71fe@huawei.com>
+ <YfAF5nlRBtaA6IVK@casper.infradead.org>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <87dc535f-609f-040a-5c47-5b6bb5b17b59@huawei.com>
+Date:   Tue, 25 Jan 2022 14:38:51 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+MIME-Version: 1.0
+In-Reply-To: <YfAF5nlRBtaA6IVK@casper.infradead.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.95.36]
+X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TRBE implementations affected by Arm erratum #2038923 might get TRBE into
-an inconsistent view on whether trace is prohibited within the CPU. As a
-result, the trace buffer or trace buffer state might be corrupted. This
-happens after TRBE buffer has been enabled by setting TRBLIMITR_EL1.E,
-followed by just a single context synchronization event before execution
-changes from a context, in which trace is prohibited to one where it isn't,
-or vice versa. In these mentioned conditions, the view of whether trace is
-prohibited is inconsistent between parts of the CPU, and the trace buffer
-or the trace buffer state might be corrupted.
+On 25/01/2022 14:15, Matthew Wilcox wrote:
+>> Sure, but the pm8001 HW does has a 32b field, which is strange as the SAS
+>> spec defines a 16b field in the task management Function information unit
+>> "tag of task to be managed" field.
+> My point is that it's only safe because the pm8001 driver already limits
+> it to smaller than u16.
+>  Seeing language like "should be enough" made
+> me think you'd just assumed that it would be.
 
-Work around this problem in the TRBE driver by preventing an inconsistent
-view of whether the trace is prohibited or not based on TRBLIMITR_EL1.E by
-immediately following a change to TRBLIMITR_EL1.E with at least one ISB
-instruction before an ERET, or two ISB instructions if no ERET is to take
-place. This just updates the TRBE driver as required.
+I can update that wording to be confident that u16 is enough.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Suzuki Poulose <suzuki.poulose@arm.com>
-Cc: coresight@lists.linaro.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- arch/arm64/Kconfig                           |  2 +-
- drivers/hwtracing/coresight/coresight-trbe.c | 48 +++++++++++++++-----
- 2 files changed, 37 insertions(+), 13 deletions(-)
+>  Seeing a line like:
+>          u32 tag = 0xdeadbeef, rc = 0, n_elem = 0;
+> made me think it might not be; perhaps 0xdeadbeef was being used as
+> a flag value somewhere in the driver.
+> 
+> For example ...
+> 
+> drivers/scsi/pm8001/pm8001_hwi.c:       int rc, tag = 0xdeadbeef;
+> drivers/scsi/pm8001/pm8001_sas.c:       u32 tag = 0xdeadbeef, rc = 0, n_elem = 0;
+> drivers/scsi/pm8001/pm8001_sas.c:       u32 tag = 0xdeadbeef;
+> drivers/scsi/pm8001/pm80xx_hwi.c:                       if (ibutton0 == 0xdeadbeef && ibutton1 == 0xdeadbeef) {
+> drivers/scsi/pm8001/pm80xx_hwi.c:       int rc, tag = 0xdeadbeef;
+> 
+> That doesn't seem to be the case though; as far as I can tell the
+> tag value is never checked against 0xdeadbeef.
+> .
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 823f7cb128dc..f37c9d2d697d 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -798,7 +798,7 @@ config ARM64_ERRATUM_2064142
- 
- config ARM64_ERRATUM_2038923
- 	bool "Cortex-A510: 2038923: workaround TRBE corruption with enable"
--	depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
-+	depends on CORESIGHT_TRBE
- 	default y
- 	help
- 	  This option adds the workaround for ARM Cortex-A510 erratum 2038923.
-diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
-index 4ef944971d8e..6254ba598df2 100644
---- a/drivers/hwtracing/coresight/coresight-trbe.c
-+++ b/drivers/hwtracing/coresight/coresight-trbe.c
-@@ -92,11 +92,13 @@ struct trbe_buf {
- #define TRBE_WORKAROUND_OVERWRITE_FILL_MODE	0
- #define TRBE_WORKAROUND_WRITE_OUT_OF_RANGE	1
- #define TRBE_NEEDS_DRAIN_AFTER_DISABLE		2
-+#define TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE	3
- 
- static int trbe_errata_cpucaps[] = {
- 	[TRBE_WORKAROUND_OVERWRITE_FILL_MODE] = ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE,
- 	[TRBE_WORKAROUND_WRITE_OUT_OF_RANGE] = ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE,
- 	[TRBE_NEEDS_DRAIN_AFTER_DISABLE] = ARM64_WORKAROUND_2064142,
-+	[TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE] = ARM64_WORKAROUND_2038923,
- 	-1,		/* Sentinel, must be the last entry */
- };
- 
-@@ -179,6 +181,17 @@ static inline bool trbe_needs_drain_after_disable(struct trbe_cpudata *cpudata)
- 	return trbe_has_erratum(cpudata, TRBE_NEEDS_DRAIN_AFTER_DISABLE);
- }
- 
-+static inline bool trbe_needs_ctxt_sync_after_enable(struct trbe_cpudata *cpudata)
-+{
-+	/*
-+	 * Errata affected TRBE implementation will need an additional
-+	 * context synchronization in order to prevent an inconsistent
-+	 * TRBE prohibited region view on the CPU which could possibly
-+	 * corrupt the TRBE buffer or the TRBE state.
-+	 */
-+	return trbe_has_erratum(cpudata, TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE);
-+}
-+
- static int trbe_alloc_node(struct perf_event *event)
- {
- 	if (event->cpu == -1)
-@@ -192,6 +205,22 @@ static inline void trbe_drain_buffer(void)
- 	dsb(nsh);
- }
- 
-+static inline void set_trbe_enabled(struct trbe_cpudata *cpudata, u64 trblimitr)
-+{
-+	/*
-+	 * Enable the TRBE without clearing LIMITPTR which
-+	 * might be required for fetching the buffer limits.
-+	 */
-+	trblimitr |= TRBLIMITR_ENABLE;
-+	write_sysreg_s(trblimitr, SYS_TRBLIMITR_EL1);
-+
-+	/* Synchronize the TRBE enable event */
-+	isb();
-+
-+	if (trbe_needs_ctxt_sync_after_enable(cpudata))
-+		isb();
-+}
-+
- static inline void set_trbe_disabled(struct trbe_cpudata *cpudata)
- {
- 	u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
-@@ -555,9 +584,10 @@ static void clr_trbe_status(void)
- 	write_sysreg_s(trbsr, SYS_TRBSR_EL1);
- }
- 
--static void set_trbe_limit_pointer_enabled(unsigned long addr)
-+static void set_trbe_limit_pointer_enabled(struct trbe_buf *buf)
- {
- 	u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
-+	unsigned long addr = buf->trbe_limit;
- 
- 	WARN_ON(!IS_ALIGNED(addr, (1UL << TRBLIMITR_LIMIT_SHIFT)));
- 	WARN_ON(!IS_ALIGNED(addr, PAGE_SIZE));
-@@ -585,12 +615,7 @@ static void set_trbe_limit_pointer_enabled(unsigned long addr)
- 	trblimitr |= (TRBE_TRIG_MODE_IGNORE & TRBLIMITR_TRIG_MODE_MASK) <<
- 		      TRBLIMITR_TRIG_MODE_SHIFT;
- 	trblimitr |= (addr & PAGE_MASK);
--
--	trblimitr |= TRBLIMITR_ENABLE;
--	write_sysreg_s(trblimitr, SYS_TRBLIMITR_EL1);
--
--	/* Synchronize the TRBE enable event */
--	isb();
-+	set_trbe_enabled(buf->cpudata, trblimitr);
- }
- 
- static void trbe_enable_hw(struct trbe_buf *buf)
-@@ -608,7 +633,7 @@ static void trbe_enable_hw(struct trbe_buf *buf)
- 	 * till now before enabling the TRBE.
- 	 */
- 	isb();
--	set_trbe_limit_pointer_enabled(buf->trbe_limit);
-+	set_trbe_limit_pointer_enabled(buf);
- }
- 
- static enum trbe_fault_action trbe_get_fault_act(struct perf_output_handle *handle,
-@@ -1013,16 +1038,15 @@ static int arm_trbe_disable(struct coresight_device *csdev)
- 
- static void trbe_handle_spurious(struct perf_output_handle *handle)
- {
--	u64 limitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
-+	struct trbe_buf *buf = etm_perf_sink_config(handle);
-+	u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
- 
- 	/*
- 	 * If the IRQ was spurious, simply re-enable the TRBE
- 	 * back without modifying the buffer parameters to
- 	 * retain the trace collected so far.
- 	 */
--	limitr |= TRBLIMITR_ENABLE;
--	write_sysreg_s(limitr, SYS_TRBLIMITR_EL1);
--	isb();
-+	set_trbe_enabled(buf->cpudata, trblimitr);
- }
- 
- static int trbe_handle_overflow(struct perf_output_handle *handle)
--- 
-2.25.1
+Right, 0xdeadbeef is initially assigned just as a safety measure.
 
+Thanks,
+John
