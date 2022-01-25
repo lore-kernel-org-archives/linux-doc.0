@@ -2,227 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03578C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 04:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A4CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 07:39:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343882AbiAYE4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jan 2022 23:56:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57680 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387427AbiAYDxi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jan 2022 22:53:38 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC230C061A83
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 15:23:44 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id i65so17579883pfc.9
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 15:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BUy1cq/aLQFwACsA66qUZgeTjdc6W6p6YIU+kLy4RXI=;
-        b=HMmVLm5Gk4xktbBAU6t3jLyp2yP/6L4jJnClTexhgIce1axDLwVbmNb9kclYALf+x2
-         0eOP9jYiB5WoTm+5qhwtBJz55pfhYca49Ml8+KCXSU5yP+mC++U9lcHxQUOWDgskC1MN
-         2wN/3QGEDEHBI9JYcXZGv9+GYD1bA3s9SGxz8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BUy1cq/aLQFwACsA66qUZgeTjdc6W6p6YIU+kLy4RXI=;
-        b=JAVUg/tnCgK9vmwnYj4M2Ch+NflDOrFE+o4Z7H0CVdSKDx6Z5ltFy1x/+pF9ZFAJ1b
-         aS7w7GQGyC1X2qXCwEigNlQCv3ymeWMD+9RvNPcdjkOLgCnSApK3Rq2/nNEs2EfsEfER
-         cEIesfIYHdaWcBaZq/o6au76ZtEWdqbuiC3YhnMUTDFE6qqG5f52yXI/K73NEk+SoGfX
-         GtUUY2O7QA1G5lH+/9kqLFgXf1eBQ6c6UexEzypPXxVqoBezQq0sQhQVUFK74GJcjFo7
-         CrHw9mYOECQvYZsTWYgdARUeKerB5+7XqDG7aKFGAp/oiqOsYvnjslEU8GPDzooOPcqP
-         Kvfw==
-X-Gm-Message-State: AOAM5316Gc012PBZ/pdwpwCuKXDNe4c2XbuTkxNdKH8R/BLZE/Bhub8I
-        pVGSwxEKnbe/9IWO+um3In2Kvw==
-X-Google-Smtp-Source: ABdhPJzJq/ZflgOy7noX+l1C7fkXGtfuvMQKoRWncNP/9c4/r0pI+i3lo/9e35lzQWKaf5+WOauong==
-X-Received: by 2002:a63:2b01:: with SMTP id r1mr6103116pgr.182.1643066624239;
-        Mon, 24 Jan 2022 15:23:44 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b4sm17120790pfl.106.2022.01.24.15.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 15:23:44 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Keith Busch <kbusch@kernel.org>, Len Baker <len.baker@gmx.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH v2 1/2] test_overflow: Regularize test reporting output
-Date:   Mon, 24 Jan 2022 15:23:41 -0800
-Message-Id: <20220124232342.3113350-2-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220124232342.3113350-1-keescook@chromium.org>
-References: <20220124232342.3113350-1-keescook@chromium.org>
+        id S1446349AbiAYHj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 02:39:26 -0500
+Received: from foss.arm.com ([217.140.110.172]:38178 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1322422AbiAYDVq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jan 2022 22:21:46 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57D826D;
+        Mon, 24 Jan 2022 19:21:45 -0800 (PST)
+Received: from [10.163.42.113] (unknown [10.163.42.113])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63E9A3F766;
+        Mon, 24 Jan 2022 19:21:42 -0800 (PST)
+Subject: Re: [PATCH V3 0/7] coresight: trbe: Workaround Cortex-A510 erratas
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1641872346-3270-1-git-send-email-anshuman.khandual@arm.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <ec21e5da-7b2a-e99f-b24f-89b459e2d5cb@arm.com>
+Date:   Tue, 25 Jan 2022 08:51:47 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5607; h=from:subject; bh=J3Wsxeg4JzBB1opD2cR25s34lPwyOQCvqPa3Egl9H+E=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh7zT96q6+BfVriBVKq/ZNrGoNFi9S0asAOL9Kgk/1 VRdFiCeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYe80/QAKCRCJcvTf3G3AJrzNEA CaRpSkCzT5WizfZbk+asSaEUEu4QhmQO7+JkP1dJubjfRmx4SgGUcq3ibh0ZLFAS2PqF2O6kb5vWaS g+kPJWdYWXDGhicKtiDgIc6266pep3/W5XRYgtoaI8vdzstVWNF3LEmw9YtTq04g9PEJ4kHyqJ5xii 3vhCip9Be/SY4UgfDtu9mSFrWTav91Z6qoNOYqmp/RiVsq9xP5ymUteR8aUfzIe/KPO6QNO+zGPh7i BWZckReajeP1l2Ffc83s8Ao7rSdOXERPxjbXxGkE7EDChDPzA2D16pQFGY4acKFJ/STYwnoVs+e5oG LhTCJf+zODcSDrXRPtFY0PVEiWhI0IMKXhhE2uw9Tw2xidIMRxhSzQUWwIXdJ2dYqOgPUSwWx1Yfqe Ezfjl9nXwUgas7bhyy+9dX6orfJx0Y+YVo/f64TpEpWBBlk6Ly9HMhSMoqeXHjwwHS1CZQm6lk49Qc w9Vrms1Z8uyqa6PEeWN2i3qzKvmvG7UBtCf/ML8Sf2Ue+H4uPCMcr4mxmr+r92ZDuaGsSYceEOlSwq Nhle/GEVIXy7HIOBEkHL/67h6FT9dp0tiRSIAlfVAjeEKwNu+Zw3zCuGqVgd/0RBmwd/vQCKA5Tsrk 7pj0u3jxpaN2caO4M/xN65lxaAJs1xG3xJFDl3VY8NUTd5sR+ykFgk0iSN0w==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1641872346-3270-1-git-send-email-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Report test run summaries more regularly, so it's easier to understand
-the output:
-- Remove noisy "ok" reports for shift and allocator tests.
-- Reorganize per-type output to the end of each type's tests.
-- Replace redundant vmalloc tests with __vmalloc so that __GFP_NO_WARN
-  can be used to keep the expected failure warnings out of dmesg,
-  similar to commit 8e060c21ae2c ("lib/test_overflow.c: avoid tainting
-  the kernel and fix wrap size")
 
-Resulting output:
 
-  test_overflow: 18 u8 arithmetic tests finished
-  test_overflow: 19 s8 arithmetic tests finished
-  test_overflow: 17 u16 arithmetic tests finished
-  test_overflow: 17 s16 arithmetic tests finished
-  test_overflow: 17 u32 arithmetic tests finished
-  test_overflow: 17 s32 arithmetic tests finished
-  test_overflow: 17 u64 arithmetic tests finished
-  test_overflow: 21 s64 arithmetic tests finished
-  test_overflow: 113 shift tests finished
-  test_overflow: 17 overflow size helper tests finished
-  test_overflow: 11 allocation overflow tests finished
-  test_overflow: all tests passed
+On 1/11/22 9:08 AM, Anshuman Khandual wrote:
+> 	This series adds three different workarounds in the TRBE driver for
+> Cortex-A510 specific erratas. But first, this adds Cortex-A510 specific cpu
+> part number definition in the platform. This series applies on 5.16.
+> 
+> Relevant errata documents can be found here.
+> 
+> https://developer.arm.com/documentation/SDEN2397239/900
+> https://developer.arm.com/documentation/SDEN2397589/900
+> 
+> Changes in V3:
+> 
+> - Moved the comment inside trbe_needs_drain_after_disable()
+> - Moved the comment inside trbe_needs_ctxt_sync_after_enable()
+> 
+> Changes in V2:
+> 
+> https://lore.kernel.org/all/1641517808-5735-1-git-send-email-anshuman.khandual@arm.com/
+> 
+> Accommodated most review comments from the previous version.
+> 
+> - Split all patches into CPU errata definition, detection and TRBE workarounds
+> - s/TRBE_WORKAROUND_SYSREG_WRITE_FAILURE/TRBE_NEEDS_DRAIN_AFTER_DISABLE
+> - s/TRBE_WORKAROUND_CORRUPTION_WITH_ENABLE/TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE
+> - s/trbe_may_fail_sysreg_write()/trbe_needs_drain_after_disable()
+> - s/trbe_may_corrupt_with_enable()/trbe_needs_ctxt_sync_after_enable()
+> - Updated Kconfig help message for config ARM64_ERRATUM_1902691
+> - Updated error message for trbe_is_broken() detection
+> - Added new trblimitr parameter to set_trbe_enabled(), improving performance
+> - Added COMPILE_TEST dependency in the errata, until TRBE part is available
+> 
+> Changes in V1:
+> 
+> https://lore.kernel.org/lkml/1641359159-22726-1-git-send-email-anshuman.khandual@arm.com/
+> 
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> Anshuman Khandual (7):
+>   arm64: Add Cortex-A510 CPU part definition
+>   arm64: errata: Add detection for TRBE ignored system register writes
+>   arm64: errata: Add detection for TRBE invalid prohibited states
+>   arm64: errata: Add detection for TRBE trace data corruption
+>   coresight: trbe: Work around the ignored system register writes
+>   coresight: trbe: Work around the invalid prohibited states
+>   coresight: trbe: Work around the trace data corruption
 
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Link: https://lore.kernel.org/all/eb6d02ae-e2ed-e7bd-c700-8a6d004d84ce@rasmusvillemoes.dk/
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Link: https://lore.kernel.org/all/CAKwvOdnYYa+72VhtJ4ug=SJVFn7w+n7Th+hKYE87BRDt4hvqOg@mail.gmail.com/
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- lib/test_overflow.c | 54 +++++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 24 deletions(-)
+Hello Catalin/Mathieu,
 
-diff --git a/lib/test_overflow.c b/lib/test_overflow.c
-index 7a4b6f6c5473..cea37ae82615 100644
---- a/lib/test_overflow.c
-+++ b/lib/test_overflow.c
-@@ -252,10 +252,10 @@ static int __init test_ ## t ## _overflow(void) {			\
- 	int err = 0;							\
- 	unsigned i;							\
- 									\
--	pr_info("%-3s: %zu arithmetic tests\n", #t,			\
--		ARRAY_SIZE(t ## _tests));				\
- 	for (i = 0; i < ARRAY_SIZE(t ## _tests); ++i)			\
- 		err |= do_test_ ## t(&t ## _tests[i]);			\
-+	pr_info("%zu %s arithmetic tests finished\n",			\
-+		ARRAY_SIZE(t ## _tests), #t);				\
- 	return err;							\
- }
- 
-@@ -291,6 +291,7 @@ static int __init test_overflow_calculation(void)
- static int __init test_overflow_shift(void)
- {
- 	int err = 0;
-+	int count = 0;
- 
- /* Args are: value, shift, type, expected result, overflow expected */
- #define TEST_ONE_SHIFT(a, s, t, expect, of) ({				\
-@@ -313,9 +314,7 @@ static int __init test_overflow_shift(void)
- 			pr_warn("got %llu\n", (u64)__d);		\
- 		__failed = 1;						\
- 	}								\
--	if (!__failed)							\
--		pr_info("ok: (%s)(%s << %s) == %s\n", #t, #a, #s,	\
--			of ? "overflow" : #expect);			\
-+	count++;							\
- 	__failed;							\
- })
- 
-@@ -479,6 +478,10 @@ static int __init test_overflow_shift(void)
- 	err |= TEST_ONE_SHIFT(0, 31, s32, 0, false);
- 	err |= TEST_ONE_SHIFT(0, 63, s64, 0, false);
- 
-+	pr_info("%d shift tests finished\n", count);
-+
-+#undef TEST_ONE_SHIFT
-+
- 	return err;
- }
- 
-@@ -530,7 +533,6 @@ static int __init test_ ## func (void *arg)				\
- 		free ## want_arg (free_func, arg, ptr);			\
- 		return 1;						\
- 	}								\
--	pr_info(#func " detected saturation\n");			\
- 	return 0;							\
- }
- 
-@@ -544,10 +546,7 @@ DEFINE_TEST_ALLOC(kmalloc,	 kfree,	     0, 1, 0);
- DEFINE_TEST_ALLOC(kmalloc_node,	 kfree,	     0, 1, 1);
- DEFINE_TEST_ALLOC(kzalloc,	 kfree,	     0, 1, 0);
- DEFINE_TEST_ALLOC(kzalloc_node,  kfree,	     0, 1, 1);
--DEFINE_TEST_ALLOC(vmalloc,	 vfree,	     0, 0, 0);
--DEFINE_TEST_ALLOC(vmalloc_node,  vfree,	     0, 0, 1);
--DEFINE_TEST_ALLOC(vzalloc,	 vfree,	     0, 0, 0);
--DEFINE_TEST_ALLOC(vzalloc_node,  vfree,	     0, 0, 1);
-+DEFINE_TEST_ALLOC(__vmalloc,	 vfree,	     0, 1, 0);
- DEFINE_TEST_ALLOC(kvmalloc,	 kvfree,     0, 1, 0);
- DEFINE_TEST_ALLOC(kvmalloc_node, kvfree,     0, 1, 1);
- DEFINE_TEST_ALLOC(kvzalloc,	 kvfree,     0, 1, 0);
-@@ -559,8 +558,14 @@ static int __init test_overflow_allocation(void)
- {
- 	const char device_name[] = "overflow-test";
- 	struct device *dev;
-+	int count = 0;
- 	int err = 0;
- 
-+#define check_allocation_overflow(alloc)	({	\
-+	count++;					\
-+	test_ ## alloc(dev);				\
-+})
-+
- 	/* Create dummy device for devm_kmalloc()-family tests. */
- 	dev = root_device_register(device_name);
- 	if (IS_ERR(dev)) {
-@@ -568,23 +573,24 @@ static int __init test_overflow_allocation(void)
- 		return 1;
- 	}
- 
--	err |= test_kmalloc(NULL);
--	err |= test_kmalloc_node(NULL);
--	err |= test_kzalloc(NULL);
--	err |= test_kzalloc_node(NULL);
--	err |= test_kvmalloc(NULL);
--	err |= test_kvmalloc_node(NULL);
--	err |= test_kvzalloc(NULL);
--	err |= test_kvzalloc_node(NULL);
--	err |= test_vmalloc(NULL);
--	err |= test_vmalloc_node(NULL);
--	err |= test_vzalloc(NULL);
--	err |= test_vzalloc_node(NULL);
--	err |= test_devm_kmalloc(dev);
--	err |= test_devm_kzalloc(dev);
-+	err |= check_allocation_overflow(kmalloc);
-+	err |= check_allocation_overflow(kmalloc_node);
-+	err |= check_allocation_overflow(kzalloc);
-+	err |= check_allocation_overflow(kzalloc_node);
-+	err |= check_allocation_overflow(__vmalloc);
-+	err |= check_allocation_overflow(kvmalloc);
-+	err |= check_allocation_overflow(kvmalloc_node);
-+	err |= check_allocation_overflow(kvzalloc);
-+	err |= check_allocation_overflow(kvzalloc_node);
-+	err |= check_allocation_overflow(devm_kmalloc);
-+	err |= check_allocation_overflow(devm_kzalloc);
- 
- 	device_unregister(dev);
- 
-+	pr_info("%d allocation overflow tests finished\n", count);
-+
-+#undef check_allocation_overflow
-+
- 	return err;
- }
- 
--- 
-2.30.2
+I am wondering how this series is going to be merged i.e via arm64 or coresight
+tree ? Also will this require rebasing (and resend) against v5.17-rc1 release.
+Please do suggest. Thank you.
 
+- Anshuman
