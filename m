@@ -2,132 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8363C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 08:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E137C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 08:48:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376779AbiAYIZs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jan 2022 03:25:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1449840AbiAYIUz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 03:20:55 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBABC075942
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 22:48:36 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id d188so8189419iof.7
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jan 2022 22:48:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2CO/0VtOREtMtGW71kkDBfMgMYeipJa6iXGHC5VC/RU=;
-        b=X1ftQALT1SX5jUMQWj7RoMqtz2ewnU+L3TGQqWmlcbgo3KSmMxF5sCjshQxkke1ZFA
-         jzg3QMPbXZxTMJpqsuUnVp2tRS/gMu7mDs1i1AXKoC0Yn9NtDnO+jiAMoTVASSnpv88c
-         oxTgFX+w+blwFXMcVO+umvS9Edyq2CPSGETtOkEmOYF6ChWDaI8pDRoItSjToYMdRYUV
-         3zSSoseakDUqj/d4eR4g4BvplCQ0+YE8vHSaImz4kwNEIMnc6CD09VE7b2FyutUNyDch
-         Ve7PL8FasxksLlw2ftA7KN04RdQRMY+YmJqacRaP4Qr2KrglAy9VvNHhS6fn8jyA3DE3
-         tKOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2CO/0VtOREtMtGW71kkDBfMgMYeipJa6iXGHC5VC/RU=;
-        b=XwajSDzFRLF/avHN68v9w70GWju8CXDtpeJlBmD2JsZkNkEMRmVSyPMnyK4KoaNMDf
-         eF3yHY3TGuUpflZXQoh2C4716EM4X7PPNWUJ3tVl9c91SzGA0cYgBwuwxTcb38D5LlTb
-         B/090Q8pneBe3TG5hxKHNvYJ1j1mO6BApo4SZdw1wAvgNkTPLAkf0SoWoniZ/D2mgSkw
-         b5TkpfyL6d15N2VIpykXOsugDf8JTD15u/uW8MfVdBQmL/+GUwdruGNIkLH+SiA/XqDM
-         xQZRQhJJN9raKXF3aNcfK4MQDfvy2kdHUZsqiVsYPJN2Ven0aX3OXehXtW19CWrfjgtp
-         g1ew==
-X-Gm-Message-State: AOAM530Bsl0y8CXiRZq0NT7TK/FUQISy+wiXt1lc5dZ1gFx3FWhSwvOM
-        td+WL7ZP3C7uuqpVtpKgqI4Tww==
-X-Google-Smtp-Source: ABdhPJwDp6hR1qn1SHpSjIF3pYJ7fhWeNimbnilfiMoehjRW8WORjpC4cJ6QnM6/gZMjIwnNZM9XPQ==
-X-Received: by 2002:a02:6d48:: with SMTP id e8mr9063758jaf.250.1643093315535;
-        Mon, 24 Jan 2022 22:48:35 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:c4ed:79a3:8a0e:7ee])
-        by smtp.gmail.com with ESMTPSA id c3sm8292027iow.28.2022.01.24.22.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 22:48:34 -0800 (PST)
-Date:   Mon, 24 Jan 2022 23:48:30 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, page-reclaim@google.com,
-        x86 <x86@kernel.org>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <Ye+dPmO17JN2bNLL@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <CAGsJ_4zULJ5vPwn73Z5Bap3eRkAX+Yv24c-n41+zC7fN8xG60g@mail.gmail.com>
+        id S1379376AbiAYIsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 03:48:03 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:35863 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1452002AbiAYIon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 03:44:43 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JjgPL1sKLzcchp;
+        Tue, 25 Jan 2022 16:43:50 +0800 (CST)
+Received: from huawei.com (10.67.175.31) by dggpemm500024.china.huawei.com
+ (7.185.36.203) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 25 Jan
+ 2022 16:44:39 +0800
+From:   GUO Zihua <guozihua@huawei.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <roberto.sassu@huawei.com>, <wangweiyang2@huawei.com>,
+        <xiujianfeng@huawei.com>
+Subject: [PATCH -next] Documentation: added order requirement for ima_hash=
+Date:   Tue, 25 Jan 2022 16:44:50 +0800
+Message-ID: <20220125084450.116549-1-guozihua@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGsJ_4zULJ5vPwn73Z5Bap3eRkAX+Yv24c-n41+zC7fN8xG60g@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.67.175.31]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500024.china.huawei.com (7.185.36.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 23, 2022 at 06:43:06PM +1300, Barry Song wrote:
-> On Wed, Jan 5, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
+From: Guo Zihua <guozihua@huawei.com>
 
-<snipped>
+Commandline parameter ima_hash= and ima_template= has order requirement
+for them to work correctly together. Namely ima_hash= must be
+specified after ima_template=, otherwise ima_template= will be ignored.
 
-> > Large-scale deployments
-> > -----------------------
-> > We've rolled out MGLRU to tens of millions of Chrome OS users and
-> > about a million Android users. Google's fleetwide profiling [13] shows
-> > an overall 40% decrease in kswapd CPU usage, in addition to
-> 
-> Hi Yu,
-> 
-> Was the overall 40% decrease of kswap CPU usgae seen on x86 or arm64?
-> And I am curious how much we are taking advantage of NONLEAF_PMD_YOUNG.
-> Does it help a lot in decreasing the cpu usage?
+The reason is that when handling ima_hash=, ima template would be set to
+the default value if it has not been initialized already, and that value
+cannot be changed afterwards by ima_template=.
 
-Hi Barry,
+This patch adds this limitation to the documentation.
 
-The fleet-wide profiling data I shared was from x86. For arm64, I only
-have data from synthetic benchmarks at the moment, and it also shows
-similar improvements.
+Signed-off-by: Guo Zihua <guozihua@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-For Chrome OS (individual users), walk_pte_range(), the function that
-would benefit from ARCH_HAS_NONLEAF_PMD_YOUNG, only uses a small
-portion (<4%) of kswapd CPU time. So ARCH_HAS_NONLEAF_PMD_YOUNG isn't
-that helpful.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f5a27f067db9..1b5aa6ca65f8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1843,6 +1843,10 @@
+ 			The list of supported hash algorithms is defined
+ 			in crypto/hash_info.h.
+ 
++			This parameter must be specified after ima_template=,
++			as it would set the default template and that cannot be
++			changed by ima_template= afterwards.
++
+ 	ima_policy=	[IMA]
+ 			The builtin policies to load during IMA setup.
+ 			Format: "tcb | appraise_tcb | secure_boot |
+@@ -1879,6 +1883,9 @@
+ 			Formats: { "ima" | "ima-ng" | "ima-sig" }
+ 			Default: "ima-ng"
+ 
++			This parameter must be specified before ima_hash=.
++			Please refer to ima_hash= for further explanation.
++
+ 	ima_template_fmt=
+ 			[IMA] Define a custom template format.
+ 			Format: { "field1|...|fieldN" }
+-- 
+2.17.1
 
-> If so, this might be
-> a good proof that arm64 also needs this hardware feature?
-> In short, I am curious how much the improvement in this patchset depends
-> on the hardware ability of NONLEAF_PMD_YOUNG.
-
-For data centers, I do think ARCH_HAS_NONLEAF_PMD_YOUNG has some value.
-In addition to cold/hot memory scanning, there are other use cases like
-dirty tracking, which can benefit from the accessed bit on non-leaf
-entries. I know some proprietary software uses this capability on x86
-for different purposes than this patchset does. And AFAIK, x86 is the
-only arch that supports this capability, e.g., risc-v and ppc can only
-set the accessed bit in PTEs.
-
-In fact, I've discussed this with one of the arm maintainers Will. So
-please check with him too if you are interested in moving forward with
-the idea. I might be able to provide with additional data if you need
-it to make a decision.
-
-Thanks.
