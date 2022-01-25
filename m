@@ -2,111 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BFEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 10:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F421C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jan 2022 11:45:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355114AbiAYKte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jan 2022 05:49:34 -0500
-Received: from foss.arm.com ([217.140.110.172]:34182 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355798AbiAYKqE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 25 Jan 2022 05:46:04 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 506C5101E;
-        Tue, 25 Jan 2022 02:46:00 -0800 (PST)
-Received: from [10.163.43.67] (unknown [10.163.43.67])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 40CFD3F7D8;
-        Tue, 25 Jan 2022 02:45:56 -0800 (PST)
-Subject: Re: [PATCH V3 0/7] coresight: trbe: Workaround Cortex-A510 erratas
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1641872346-3270-1-git-send-email-anshuman.khandual@arm.com>
- <ec21e5da-7b2a-e99f-b24f-89b459e2d5cb@arm.com>
- <8a348786-d028-a991-178f-60b17d3d6554@arm.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <94430fa0-0cac-79f4-f167-1ac77077ad23@arm.com>
-Date:   Tue, 25 Jan 2022 16:16:03 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1383886AbiAYLpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 06:45:25 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4493 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1382067AbiAYLin (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 06:38:43 -0500
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JjlBs34Sdz687G4;
+        Tue, 25 Jan 2022 19:35:01 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 25 Jan 2022 12:38:26 +0100
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 25 Jan 2022 11:38:22 +0000
+From:   John Garry <john.garry@huawei.com>
+To:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
+CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>, <damien.lemoal@opensource.wdc.com>,
+        John Garry <john.garry@huawei.com>
+Subject: [PATCH 01/16] scsi: libsas: Use enum for response frame DATAPRES field
+Date:   Tue, 25 Jan 2022 19:32:37 +0800
+Message-ID: <1643110372-85470-2-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <8a348786-d028-a991-178f-60b17d3d6554@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As defined in table 126 of the SAS spec 1.1, use an enum for the DATAPRES
+field, which makes reading the code easier.
 
+Signed-off-by: John Garry <john.garry@huawei.com>
+---
+ drivers/scsi/libsas/sas_task.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-On 1/25/22 3:32 PM, Suzuki K Poulose wrote:
-> On 25/01/2022 03:21, Anshuman Khandual wrote:
->>
->>
->> On 1/11/22 9:08 AM, Anshuman Khandual wrote:
->>>     This series adds three different workarounds in the TRBE driver for
->>> Cortex-A510 specific erratas. But first, this adds Cortex-A510 specific cpu
->>> part number definition in the platform. This series applies on 5.16.
->>>
->>> Relevant errata documents can be found here.
->>>
->>> https://developer.arm.com/documentation/SDEN2397239/900
->>> https://developer.arm.com/documentation/SDEN2397589/900
->>>
->>> Changes in V3:
->>>
->>> - Moved the comment inside trbe_needs_drain_after_disable()
->>> - Moved the comment inside trbe_needs_ctxt_sync_after_enable()
->>>
->>> Changes in V2:
->>>
->>> https://lore.kernel.org/all/1641517808-5735-1-git-send-email-anshuman.khandual@arm.com/
->>>
->>> Accommodated most review comments from the previous version.
->>>
->>> - Split all patches into CPU errata definition, detection and TRBE workarounds
->>> - s/TRBE_WORKAROUND_SYSREG_WRITE_FAILURE/TRBE_NEEDS_DRAIN_AFTER_DISABLE
->>> - s/TRBE_WORKAROUND_CORRUPTION_WITH_ENABLE/TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE
->>> - s/trbe_may_fail_sysreg_write()/trbe_needs_drain_after_disable()
->>> - s/trbe_may_corrupt_with_enable()/trbe_needs_ctxt_sync_after_enable()
->>> - Updated Kconfig help message for config ARM64_ERRATUM_1902691
->>> - Updated error message for trbe_is_broken() detection
->>> - Added new trblimitr parameter to set_trbe_enabled(), improving performance
->>> - Added COMPILE_TEST dependency in the errata, until TRBE part is available
->>>
->>> Changes in V1:
->>>
->>> https://lore.kernel.org/lkml/1641359159-22726-1-git-send-email-anshuman.khandual@arm.com/
->>>
->>> Cc: Catalin Marinas <catalin.marinas@arm.com>
->>> Cc: Will Deacon <will@kernel.org>
->>> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
->>> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
->>> Cc: coresight@lists.linaro.org
->>> Cc: linux-doc@vger.kernel.org
->>> Cc: linux-arm-kernel@lists.infradead.org
->>> Cc: linux-kernel@vger.kernel.org
->>>
->>> Anshuman Khandual (7):
->>>    arm64: Add Cortex-A510 CPU part definition
->>>    arm64: errata: Add detection for TRBE ignored system register writes
->>>    arm64: errata: Add detection for TRBE invalid prohibited states
->>>    arm64: errata: Add detection for TRBE trace data corruption
->>>    coresight: trbe: Work around the ignored system register writes
->>>    coresight: trbe: Work around the invalid prohibited states
->>>    coresight: trbe: Work around the trace data corruption
->>
->> Hello Catalin/Mathieu,
->>
->> I am wondering how this series is going to be merged i.e via arm64 or coresight
->> tree ? Also will this require rebasing (and resend) against v5.17-rc1 release.
->> Please do suggest. Thank you.
-> 
-> I would recommend rebasing on rc1.
+diff --git a/drivers/scsi/libsas/sas_task.c b/drivers/scsi/libsas/sas_task.c
+index 2966ead1d421..7240fd22b154 100644
+--- a/drivers/scsi/libsas/sas_task.c
++++ b/drivers/scsi/libsas/sas_task.c
+@@ -7,6 +7,12 @@
+ #include <scsi/sas.h>
+ #include <scsi/libsas.h>
+ 
++enum {
++	NO_DATA = 0,
++	RESPONSE_DATA = 1,
++	SENSE_DATA = 2,
++};
++
+ /* fill task_status_struct based on SSP response frame */
+ void sas_ssp_task_response(struct device *dev, struct sas_task *task,
+ 			   struct ssp_response_iu *iu)
+@@ -15,11 +21,11 @@ void sas_ssp_task_response(struct device *dev, struct sas_task *task,
+ 
+ 	tstat->resp = SAS_TASK_COMPLETE;
+ 
+-	if (iu->datapres == 0)
++	if (iu->datapres == NO_DATA)
+ 		tstat->stat = iu->status;
+-	else if (iu->datapres == 1)
++	else if (iu->datapres == RESPONSE_DATA)
+ 		tstat->stat = iu->resp_data[3];
+-	else if (iu->datapres == 2) {
++	else if (iu->datapres == SENSE_DATA) {
+ 		tstat->stat = SAS_SAM_STAT_CHECK_CONDITION;
+ 		tstat->buf_valid_size =
+ 			min_t(int, SAS_STATUS_BUF_SIZE,
+-- 
+2.26.2
 
-Sure, will do.
