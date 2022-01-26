@@ -2,82 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C44C5AC75
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 02:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF37BC3525A
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 03:11:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236433AbiAZCcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jan 2022 21:32:50 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:16739 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236468AbiAZCcu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 21:32:50 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Jk72F6gZszZfSK;
-        Wed, 26 Jan 2022 10:28:53 +0800 (CST)
-Received: from [10.67.110.173] (10.67.110.173) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 26 Jan 2022 10:32:47 +0800
-Message-ID: <64bb3746-07b4-aad4-7ee0-dccda6c7d4e1@huawei.com>
-Date:   Wed, 26 Jan 2022 10:32:47 +0800
+        id S236907AbiAZDLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jan 2022 22:11:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22339 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236916AbiAZDKu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jan 2022 22:10:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643166650;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=C0mi9k2Wv36Blei5iDy0iH94DE1WW0Cz3OmUGyH+6Fc=;
+        b=fH6rv8pQBhPPdBMM+hTJedp0+6Gt0gKm/FHACCgE9lj2hMMXm0cH9YJq8OP+0i+oXK1M/R
+        CS6T/lia1pWQZpxXQTT4d6AWz08dG/83brQt8TwUFjWBMVB7OQ/xFnqrggwG5bAzIh36f1
+        uo/YYOdoDk5Zb1wvsJcE+gKUwyt2DmQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-p6hpPyObNz2Txf5tI2kXmQ-1; Tue, 25 Jan 2022 22:10:46 -0500
+X-MC-Unique: p6hpPyObNz2Txf5tI2kXmQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2AEC108088A;
+        Wed, 26 Jan 2022 03:10:43 +0000 (UTC)
+Received: from localhost (ovpn-12-215.pek2.redhat.com [10.72.12.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ECE4E2C4;
+        Wed, 26 Jan 2022 03:10:42 +0000 (UTC)
+Date:   Wed, 26 Jan 2022 11:10:39 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, kernel@gpiccoli.net,
+        Will Deacon <will@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <20220126031039.GA26064@MiWiFi-R3L-srv>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <Yel8WQiBn/HNQN83@alley>
+ <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
+ <20220122105514.GA18258@MiWiFi-R3L-srv>
+ <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
+ <20220124135902.GB8305@MiWiFi-R3L-srv>
+ <ff3bc2cf-80bf-3bb0-0dcd-7f9cacdae45a@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RESEND][PATCH] Documentation: added order requirement for
- ima_hash=
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, <zohar@linux.ibm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <roberto.sassu@huawei.com>, <wangweiyang2@huawei.com>,
-        <xiujianfeng@huawei.com>, <linux-integrity@vger.kernel.org>
-References: <20220125090237.120357-1-guozihua@huawei.com>
- <87o83zwdxm.fsf@meer.lwn.net>
-From:   "Guozihua (Scott)" <guozihua@huawei.com>
-In-Reply-To: <87o83zwdxm.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.110.173]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500024.china.huawei.com (7.185.36.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff3bc2cf-80bf-3bb0-0dcd-7f9cacdae45a@igalia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2022/1/26 8:14, Jonathan Corbet wrote:
-> GUO Zihua <guozihua@huawei.com> writes:
+On 01/24/22 at 11:48am, Guilherme G. Piccoli wrote:
+> On 24/01/2022 10:59, Baoquan He wrote:
+> > [...]
+> > About pre_dump, if the dump is crash dump, hope those pre_dump notifiers
+> > will be executed under conditional check, e.g only if 'crash_kexec_post_notifiers'
+> > is specified in kernel cmdline. 
 > 
->> From: Guo Zihua <guozihua@huawei.com>
->>
->> Commandline parameter ima_hash= and ima_template= has order requirement
->> for them to work correctly together. Namely ima_hash= must be
->> specified after ima_template=, otherwise ima_template= will be ignored.
->>
->> The reason is that when handling ima_hash=, ima template would be set to
->> the default value if it has not been initialized already, and that value
->> cannot be changed afterwards by ima_template=.
->>
->> This patch adds this limitation to the documentation.
->>
->> Reviewed-by: Roberto Sassu <roberto.sassu@huawei.com>
->> Signed-off-by: Guo Zihua <guozihua@huawei.com>
+> Hi Baoquan, based on Petr's suggestion, I think pre_dump would be
+> responsible for really *non-intrusive/non-risky* tasks and should be
+> always executed in the panic path (before kdump), regardless of
+> "crash_kexec_post_notifiers".
 > 
-> I've applied this, but I'm wondering: where did this review take place?
-> I can't find it on the lists...
+> The idea is that the majority of the notifiers would be executed in the
+> post_dump portion, and for that, we have the
+> "crash_kexec_post_notifiers" conditional. I also suggest we have
+> blacklist options (based on function names) for both notifiers, in order
+> to make kdump issues debug easier.
 > 
-> Thanks,
-> 
-> jon
-> .
+> Do you agree with that? Feel free to comment with suggestions!
+> Cheers,
 
-Hi Jonathan,
+I would say "please NO" cautiously.
 
-Thank you very much and sorry for the confusion here. The reviewed by is 
-more like a face-to-face peer review and I would like to mention that in 
-the patch. If this is problematic I would stop doing that from now on.
+As Petr said, kdump mostly works only if people configure it correctly.
+That's because we try best to switch to kdump kernel from the fragile
+panicked kernel immediately. When we try to add anthing before the switching,
+please consider carefully and ask if that adding is mandatory, otherwise
+switching into kdump kernel may fail. If the answer is yes, the adding
+is needed and welcomed. Othewise, any unnecessary action, including any
+"non-intrusive/non-risky" tasks, would be unwelcomed.
 
--- 
-Best
-GUO Zihua
+Surely, we don't oppose the "non-intrusive/non-risky" or completely
+"intrusive/risky" action adding before kdump kernel switching, with a
+conditional limitation. When we handle customers' kdump support, we
+explicitly declare we only support normal and default kdump operation.
+If any action which is done before switching into kdump kernel is specified,
+e.g panic_notifier, panic_print, they need take care of their own kdump
+failure.
+
