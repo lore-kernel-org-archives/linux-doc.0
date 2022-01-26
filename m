@@ -2,107 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E074C2BA4C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 12:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A3DC2BA4C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 13:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241485AbiAZMsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jan 2022 07:48:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48732 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S241501AbiAZMsG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 07:48:06 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QBgWqM011847;
-        Wed, 26 Jan 2022 12:47:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=bOqn32E7OwyoHqZX2dW1RM3mqBL4R4QeMtbk/M2u9uA=;
- b=D7epEC9YhNxPVWLWz4MXbD3AxHLxpKVbY1flAAtmtZRSqlXQ5SbD6uRa2/04MPtk6H4S
- DGh9MHFoZjwHBbJ+55TqqwBql2INnIrxhJ4W9B1tuyTUp2tEdmY3WSrEzYipBlJZT5j8
- 2jAFS+YzxGXP5gZPWXWw6Mc67czW9MpmFWw+lBAHlwNKfsZ4dBZFAZKPLHqPpUNEUIVf
- BY5fSa/x6WFNA5FEuSurOMjgpsfQX9A6diDXbxQx5e2HTmX9/vegh0acpCFR/oCe7Elx
- 4yeUQ0av8kyXFkC8BJmr924+uoqzFDJGOJRcFMu7e7iQe4378hb+ZrlCodFuyWRZdmMU Ew== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3du5ns13wy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Jan 2022 12:47:57 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20QCluQf010811;
-        Wed, 26 Jan 2022 12:47:56 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma04ams.nl.ibm.com with ESMTP id 3dr9j9e0y8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Jan 2022 12:47:56 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20QClrSR18743672
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 26 Jan 2022 12:47:53 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C2AC64C050;
-        Wed, 26 Jan 2022 12:47:53 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 453834C05A;
-        Wed, 26 Jan 2022 12:47:52 +0000 (GMT)
-Received: from sig-9-65-92-33.ibm.com (unknown [9.65.92.33])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 26 Jan 2022 12:47:52 +0000 (GMT)
-Message-ID: <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
-Subject: Re: [RESEND][PATCH] Documentation: added order requirement for
- ima_hash=
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     "Guozihua (Scott)" <guozihua@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        roberto.sassu@huawei.com, wangweiyang2@huawei.com,
-        xiujianfeng@huawei.com, linux-integrity@vger.kernel.org
-Date:   Wed, 26 Jan 2022 07:47:51 -0500
-In-Reply-To: <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
-References: <20220125090237.120357-1-guozihua@huawei.com>
-         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
-         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
-         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
-         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BxUT5QFYw52e_HYlRcgyC0fyfvAtKGfS
-X-Proofpoint-GUID: BxUT5QFYw52e_HYlRcgyC0fyfvAtKGfS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-26_03,2022-01-26_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 clxscore=1015 phishscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201260076
+        id S234798AbiAZNUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jan 2022 08:20:16 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:45488 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238596AbiAZNUQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 08:20:16 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id D37AD1F397;
+        Wed, 26 Jan 2022 13:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1643203214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oJL4Adj+H6C1XkGFJGLoj0TBC596419DIcULA/qs6RA=;
+        b=c7g4DAAdYkWL4aUuiDJ1skfsjqgtSvGuAgQKrVZkC/XsKu8yV9BMFqQG4Rf7B8jKSv2Wgf
+        IbG/yTrhYYLTmO64rTBxrkFfNz1YLywAptmVUOIcsCpUKN813hD/SxAJD4wrOvBaVagtDm
+        1CbK0CfmDIt5+Nnjx35Dqrjc+woFIuo=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 23D67A3B83;
+        Wed, 26 Jan 2022 13:20:14 +0000 (UTC)
+Date:   Wed, 26 Jan 2022 14:20:10 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, kernel@gpiccoli.net,
+        Will Deacon <will@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YfFKiscTVckEy2E8@alley>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <Yel8WQiBn/HNQN83@alley>
+ <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
+ <20220122105514.GA18258@MiWiFi-R3L-srv>
+ <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
+ <20220124135902.GB8305@MiWiFi-R3L-srv>
+ <ff3bc2cf-80bf-3bb0-0dcd-7f9cacdae45a@igalia.com>
+ <20220126031039.GA26064@MiWiFi-R3L-srv>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126031039.GA26064@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
+On Wed 2022-01-26 11:10:39, Baoquan He wrote:
+> On 01/24/22 at 11:48am, Guilherme G. Piccoli wrote:
+> > On 24/01/2022 10:59, Baoquan He wrote:
+> > > [...]
+> > > About pre_dump, if the dump is crash dump, hope those pre_dump notifiers
+> > > will be executed under conditional check, e.g only if 'crash_kexec_post_notifiers'
+> > > is specified in kernel cmdline. 
+> > 
+> > Hi Baoquan, based on Petr's suggestion, I think pre_dump would be
+> > responsible for really *non-intrusive/non-risky* tasks and should be
+> > always executed in the panic path (before kdump), regardless of
+> > "crash_kexec_post_notifiers".
+> > 
+> > The idea is that the majority of the notifiers would be executed in the
+> > post_dump portion, and for that, we have the
+> > "crash_kexec_post_notifiers" conditional. I also suggest we have
+> > blacklist options (based on function names) for both notifiers, in order
+> > to make kdump issues debug easier.
+> > 
+> > Do you agree with that? Feel free to comment with suggestions!
+> > Cheers,
 > 
+> I would say "please NO" cautiously.
 > 
-> The main issue lies in ima_template_desc_current called by hash_setup, 
-> which does not just read ima_template global variable, but also tries to 
-> set it if that hasn't been done already. Causing ima_template_setup to quit.
+> As Petr said, kdump mostly works only if people configure it correctly.
+> That's because we try best to switch to kdump kernel from the fragile
+> panicked kernel immediately. When we try to add anthing before the switching,
+> please consider carefully and ask if that adding is mandatory, otherwise
+> switching into kdump kernel may fail. If the answer is yes, the adding
+> is needed and welcomed. Othewise, any unnecessary action, including any
+> "non-intrusive/non-risky" tasks, would be unwelcomed.
 
-Right, which calls ima_init_template_list().  So part of the solution
-could be to conditionally call ima_init_template_list()
-in ima_template_setup().
+I still do not have the complete picture. But it seems that some
+actions make always sense even for kdump:
 
--       if (ima_template)
--               return 1;
--
--       ima_init_template_list();
-+       if (!ima_template
-+               ima_init_template_list();
+    + Super safe operations that might disable churn from broken
+      system. For examle, disabling watchdogs by setting a single
+      variable, see rcu_panic() notifier
 
-Roberto, what do you think?
+    + Actions needed that allow to kexec the crash kernel a safe
+      way under some hypervisor, see
+      https://lore.kernel.org/r/MWHPR21MB15933573F5C81C5250BF6A1CD75E9@MWHPR21MB1593.namprd21.prod.outlook.com
 
-thanks,
 
-Mimi
+> Surely, we don't oppose the "non-intrusive/non-risky" or completely
+> "intrusive/risky" action adding before kdump kernel switching, with a
+> conditional limitation. When we handle customers' kdump support, we
+> explicitly declare we only support normal and default kdump operation.
+> If any action which is done before switching into kdump kernel is specified,
+> e.g panic_notifier, panic_print, they need take care of their own kdump
+> failure.
 
+All this actually started because of kmsg_dump. It might make sense to
+allow both kmsg_dump and kdump together. The messages stored by
+kmsg_dump might be better than nothing when kdump fails.
+
+It actually seems to be the main motivation to introduce
+"crash_kexec_post_notifier" parameter, see the commit
+f06e5153f4ae2e2f3b03 ("kernel/panic.c: add "crash_kexec_post_notifiers"
+option for kdump after panic_notifers").
+
+And this patch introduces panic_notifier_filter that tries to select
+notifiers that are helpful and harmful. IMHO, it is almost unusable.
+It seems that even kernel developers do not understand what exactly
+some notifiers do and why they are needed. Usually only the author
+and people familiar with the subsystem have some idea. It makes
+it pretty hard for anyone to create a reasonable filter.
+
+I am pretty sure that we could do better. I propose to add more
+notifier lists that will be called at various places with reasonable
+rules and restrictions. Then the susbsystem maintainers could decide
+where exactly a given action must be done.
+
+The result might be that we will need only few options that will
+enable/disable some well defined optional features.
+
+Best Regards,
+Petr
