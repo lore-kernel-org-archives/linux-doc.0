@@ -2,113 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74CA7C28CF5
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 12:43:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E074C2BA4C
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 12:48:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241446AbiAZMnn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jan 2022 07:43:43 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:40940 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234178AbiAZMnm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 07:43:42 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id BA54E1F3B0;
-        Wed, 26 Jan 2022 12:43:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1643201021;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jEyry/y7ddYcBEG1kdxrymhmfsSxjezjz4sqFShAAE8=;
-        b=NOFIBVDzShYH3kMseQ7o1zlWxY0MpPQ5ZBStdU6HxDGNnckIkAkZp01CftK+D4B1htk3Wi
-        QCmWg/axU2gDuxfXrL9B4R/bpoiMPPu4a0exvlv1jmvDJhdOT1Mm5WlT/OFOdS3FxGDSXa
-        DOdFRMWBqm/0sFrvTqFX/IlCiNjhet0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1643201021;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jEyry/y7ddYcBEG1kdxrymhmfsSxjezjz4sqFShAAE8=;
-        b=rFwbsNWVBNE/+x5oSec3+v+rpB2RAHwQyLU/+Pxbnp518NMkQBR+aeC7ngTp+9uyeV32qj
-        kVbMlzpgAhk2GlDg==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-        by relay2.suse.de (Postfix) with ESMTP id 8082AA3B92;
-        Wed, 26 Jan 2022 12:43:41 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id BA0F7DA7A9; Wed, 26 Jan 2022 13:43:00 +0100 (CET)
-Date:   Wed, 26 Jan 2022 13:43:00 +0100
-From:   David Sterba <dsterba@suse.cz>
-To:     Filipe Manana <fdmanana@suse.com>
-Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [kdave-btrfs-devel:misc-next 149/153] fs/btrfs/tree-log.c:6755:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <20220126124300.GW14046@suse.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Filipe Manana <fdmanana@suse.com>,
-        kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>,
-        linux-doc@vger.kernel.org
-References: <202201260759.edlA9lHT-lkp@intel.com>
- <1076a789-76f5-b451-ede3-d0fc283d8616@suse.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1076a789-76f5-b451-ede3-d0fc283d8616@suse.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+        id S241485AbiAZMsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jan 2022 07:48:07 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48732 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S241501AbiAZMsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 07:48:06 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20QBgWqM011847;
+        Wed, 26 Jan 2022 12:47:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=bOqn32E7OwyoHqZX2dW1RM3mqBL4R4QeMtbk/M2u9uA=;
+ b=D7epEC9YhNxPVWLWz4MXbD3AxHLxpKVbY1flAAtmtZRSqlXQ5SbD6uRa2/04MPtk6H4S
+ DGh9MHFoZjwHBbJ+55TqqwBql2INnIrxhJ4W9B1tuyTUp2tEdmY3WSrEzYipBlJZT5j8
+ 2jAFS+YzxGXP5gZPWXWw6Mc67czW9MpmFWw+lBAHlwNKfsZ4dBZFAZKPLHqPpUNEUIVf
+ BY5fSa/x6WFNA5FEuSurOMjgpsfQX9A6diDXbxQx5e2HTmX9/vegh0acpCFR/oCe7Elx
+ 4yeUQ0av8kyXFkC8BJmr924+uoqzFDJGOJRcFMu7e7iQe4378hb+ZrlCodFuyWRZdmMU Ew== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3du5ns13wy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 26 Jan 2022 12:47:57 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20QCluQf010811;
+        Wed, 26 Jan 2022 12:47:56 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma04ams.nl.ibm.com with ESMTP id 3dr9j9e0y8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 26 Jan 2022 12:47:56 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20QClrSR18743672
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Jan 2022 12:47:53 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C2AC64C050;
+        Wed, 26 Jan 2022 12:47:53 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 453834C05A;
+        Wed, 26 Jan 2022 12:47:52 +0000 (GMT)
+Received: from sig-9-65-92-33.ibm.com (unknown [9.65.92.33])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 26 Jan 2022 12:47:52 +0000 (GMT)
+Message-ID: <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
+Subject: Re: [RESEND][PATCH] Documentation: added order requirement for
+ ima_hash=
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     "Guozihua (Scott)" <guozihua@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        roberto.sassu@huawei.com, wangweiyang2@huawei.com,
+        xiujianfeng@huawei.com, linux-integrity@vger.kernel.org
+Date:   Wed, 26 Jan 2022 07:47:51 -0500
+In-Reply-To: <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
+References: <20220125090237.120357-1-guozihua@huawei.com>
+         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
+         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
+         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
+         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: BxUT5QFYw52e_HYlRcgyC0fyfvAtKGfS
+X-Proofpoint-GUID: BxUT5QFYw52e_HYlRcgyC0fyfvAtKGfS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-26_03,2022-01-26_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 clxscore=1015 phishscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201260076
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 10:31:43AM +0000, Filipe Manana wrote:
+On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
 > 
 > 
-> On 25/01/22 23:12, kernel test robot wrote:
-> > tree:   https://github.com/kdave/btrfs-devel.git misc-next
-> > head:   8e5d6a5c062f370d4d0b2dace7e95ab40c6ce3dd
-> > commit: 6bfc5d45946acd8286fb026137f20ee8747a50f1 [149/153] btrfs: pass the dentry to btrfs_log_new_name() instead of the inode
-> > config: nds32-allyesconfig (https://download.01.org/0day-ci/archive/20220126/202201260759.edlA9lHT-lkp@intel.com/config)
-> > compiler: nds32le-linux-gcc (GCC) 11.2.0
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://github.com/kdave/btrfs-devel/commit/6bfc5d45946acd8286fb026137f20ee8747a50f1
-> >         git remote add kdave-btrfs-devel https://github.com/kdave/btrfs-devel.git
-> >         git fetch --no-tags kdave-btrfs-devel misc-next
-> >         git checkout 6bfc5d45946acd8286fb026137f20ee8747a50f1
-> >         # save the config file to linux build tree
-> >         mkdir build_dir
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nds32 SHELL=/bin/bash fs/btrfs/
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >>> fs/btrfs/tree-log.c:6755: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> >     * Update the log after adding a new name for an inode.
-> > 
-> > 
-> > vim +6755 fs/btrfs/tree-log.c
-> > 
-> >   6753	
-> >   6754	/**
-> >> 6755	 * Update the log after adding a new name for an inode.
-> 
-> The patch I submitted did not add the "/**":
-> 
-> https://lore.kernel.org/linux-btrfs/1f0d5aaf498afa64ef3582cb9d9d24bc5f888ab2.1642676248.git.fdmanana@suse.com/T/#u
-> 
-> However I see that David's misc-next branch, the patch adds that:
-> 
-> https://github.com/kdave/btrfs-devel/commit/6bfc5d45946acd8286fb026137f20ee8747a50f1
-> 
-> David, did you edit the patch? Why?
+> The main issue lies in ima_template_desc_current called by hash_setup, 
+> which does not just read ima_template global variable, but also tries to 
+> set it if that hasn't been done already. Causing ima_template_setup to quit.
 
-Yes I did that, because you've added the parameter descriptions and with
-the /** we can ask the kdoc script to verify that they're in order as
-in the function and that the list is complete. That's all what we need
-from kdoc but it mandates a particular format on the first line that
-does not make sense for internal helpers.
+Right, which calls ima_init_template_list().  So part of the solution
+could be to conditionally call ima_init_template_list()
+in ima_template_setup().
+
+-       if (ima_template)
+-               return 1;
+-
+-       ima_init_template_list();
++       if (!ima_template
++               ima_init_template_list();
+
+Roberto, what do you think?
+
+thanks,
+
+Mimi
+
