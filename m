@@ -2,89 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBF6C2BA4C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 16:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1986CC28CF5
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 16:31:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243265AbiAZQUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jan 2022 11:20:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60777 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243113AbiAZQTb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 11:19:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643213970;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j6pQcGPD89sG4ADrFMayB3tHZTvI3inzDB8duhbW++M=;
-        b=b4bAj/2GF3JnNg0GQtUKtEAGERjy4aNq5Lq9KqzMXWl9bTVM4NUzaZ0FT0GIZB7lOMbjuC
-        zC7hS3Hb8COQECGO88AgpotrqI/qOvnnTKrOQ7d26KlXmuLsJ8TVOtVy7TLxWRhABYuYZG
-        Pf+ckhcRvs+hYLoEzr08XmjPYv+/6u4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-VGn9qPstMDiNDITo2fJKYw-1; Wed, 26 Jan 2022 11:19:25 -0500
-X-MC-Unique: VGn9qPstMDiNDITo2fJKYw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S234216AbiAZQbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jan 2022 11:31:23 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51994 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243152AbiAZQbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 26 Jan 2022 11:31:23 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCD761091DA2;
-        Wed, 26 Jan 2022 16:19:23 +0000 (UTC)
-Received: from plouf.redhat.com (unknown [10.39.193.93])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3041C79A22;
-        Wed, 26 Jan 2022 16:19:21 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?Ahelenia=20Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 12/12] Input: docs: add more details on the use of BTN_TOOL
-Date:   Wed, 26 Jan 2022 17:18:32 +0100
-Message-Id: <20220126161832.3193805-13-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
-References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 9096F845;
+        Wed, 26 Jan 2022 16:31:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9096F845
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1643214682; bh=mw/5BIA+HP3FZ2Q/ERDUMG7NkuPkmxw7Inwvb8/Upqs=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=I2YXBvaNewcBOt7keiePkfWIhz78ZraOhRTkJaG+UEH0CUp6UZhoJJpOI+tDKVCgr
+         t8jzfcJ8XcdlH1pu/luNNZh+QDjJYEJ3GB3AAf/4FjsFsZUZQsKqwGYQw7Zye1dOUz
+         xo9nWdNGkBBK9vgG7s1c/Cf7eggZHh5liT5w+D0GHCnfpi+9VsFgYaduWSmnxETB1Y
+         62mjnnBvNLgDp18lPzCD9tOBWElz1kUCAmBAESl4Sniij9cI1xRWB1fywI0NfAPWKo
+         C2krPYDAyJ2pTW4xcDv4asnzejECgWBvQueDRDCD2x0FhL38bSJ+EkRogkjPDSLQyX
+         BPdNnEIWHrwxQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "Guozihua (Scott)" <guozihua@huawei.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        wangweiyang <wangweiyang2@huawei.com>,
+        Xiujianfeng <xiujianfeng@huawei.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
+Subject: RE: [RESEND][PATCH] Documentation: added order requirement for
+ ima_hash=
+In-Reply-To: <220a8c9f3ab34f2183c0a88941c145d0@huawei.com>
+References: <20220125090237.120357-1-guozihua@huawei.com>
+ <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
+ <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
+ <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
+ <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
+ <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
+ <173fffb6cde54ae4ac7676d18a84c79f@huawei.com>
+ <6f0890f135b61c41d81b03bf084ebab1b3e551e1.camel@linux.ibm.com>
+ <220a8c9f3ab34f2183c0a88941c145d0@huawei.com>
+Date:   Wed, 26 Jan 2022 09:31:52 -0700
+Message-ID: <87pmoev4p3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The HID core stack used to be very relaxed considering the BTN_TOOL_*
-usage. With the recent commits, we should now enforce to have only one
-tool at a time, meaning that we can now express that requirement in the
-docs.
+Roberto Sassu <roberto.sassu@huawei.com> writes:
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
----
- Documentation/input/event-codes.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> I understood that Jonathan already applied the patch. If it is possible
+> to make a new patch according to your suggestion, I would ask Zihua
+> to do that.
+>
+> Jonathan, would it be fine for you to discard this patch?
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index b24ae7d292cc..41b1fa647dab 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -137,7 +137,10 @@ A few EV_KEY codes have special meanings:
-     code should be set to a value of 1. When the tool is no longer interacting
-     with the input device, the BTN_TOOL_<name> code should be reset to 0. All
-     trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
--    code when events are generated.
-+    code when events are generated. Likewise all trackpads, tablets, and
-+    touchscreens should export only one BTN_TOOL_<name> at a time. It is
-+    however accepted to switch tool in one EV_SYN frame by setting the old
-+    BTN_TOOL_<name> at a value of 0 and the new one at 1.
- 
- * BTN_TOUCH:
- 
--- 
-2.33.1
+OK, I will drop it.
 
+jon
