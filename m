@@ -2,144 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A3DC2BA4C
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 13:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A318CC3526D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jan 2022 13:24:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234798AbiAZNUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jan 2022 08:20:16 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:45488 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238596AbiAZNUQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 08:20:16 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id D37AD1F397;
-        Wed, 26 Jan 2022 13:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1643203214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oJL4Adj+H6C1XkGFJGLoj0TBC596419DIcULA/qs6RA=;
-        b=c7g4DAAdYkWL4aUuiDJ1skfsjqgtSvGuAgQKrVZkC/XsKu8yV9BMFqQG4Rf7B8jKSv2Wgf
-        IbG/yTrhYYLTmO64rTBxrkFfNz1YLywAptmVUOIcsCpUKN813hD/SxAJD4wrOvBaVagtDm
-        1CbK0CfmDIt5+Nnjx35Dqrjc+woFIuo=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 23D67A3B83;
-        Wed, 26 Jan 2022 13:20:14 +0000 (UTC)
-Date:   Wed, 26 Jan 2022 14:20:10 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
-        stern@rowland.harvard.edu, akpm@linux-foundation.org,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        halves@canonical.com, kernel@gpiccoli.net,
-        Will Deacon <will@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Message-ID: <YfFKiscTVckEy2E8@alley>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <Yel8WQiBn/HNQN83@alley>
- <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
- <20220122105514.GA18258@MiWiFi-R3L-srv>
- <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
- <20220124135902.GB8305@MiWiFi-R3L-srv>
- <ff3bc2cf-80bf-3bb0-0dcd-7f9cacdae45a@igalia.com>
- <20220126031039.GA26064@MiWiFi-R3L-srv>
+        id S234743AbiAZNYf convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jan 2022 08:24:35 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:30308 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234691AbiAZNYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jan 2022 08:24:35 -0500
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JkPYp0yfHzbk74;
+        Wed, 26 Jan 2022 21:23:42 +0800 (CST)
+Received: from dggpemm100022.china.huawei.com (7.185.36.132) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 26 Jan 2022 21:24:32 +0800
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ dggpemm100022.china.huawei.com (7.185.36.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 26 Jan 2022 21:24:31 +0800
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.021;
+ Wed, 26 Jan 2022 14:24:29 +0100
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Mimi Zohar <zohar@linux.ibm.com>,
+        "Guozihua (Scott)" <guozihua@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        wangweiyang <wangweiyang2@huawei.com>,
+        Xiujianfeng <xiujianfeng@huawei.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
+Subject: RE: [RESEND][PATCH] Documentation: added order requirement for
+ ima_hash=
+Thread-Topic: [RESEND][PATCH] Documentation: added order requirement for
+ ima_hash=
+Thread-Index: AQHYEcpHUD88EJ3n70C3otG2igs7kax0bcMAgAAWmYCAACQEgIAAM52AgABVhoCAABLMsA==
+Date:   Wed, 26 Jan 2022 13:24:29 +0000
+Message-ID: <173fffb6cde54ae4ac7676d18a84c79f@huawei.com>
+References: <20220125090237.120357-1-guozihua@huawei.com>
+         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
+         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
+         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
+         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
+ <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
+In-Reply-To: <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.204.63.33]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220126031039.GA26064@MiWiFi-R3L-srv>
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 2022-01-26 11:10:39, Baoquan He wrote:
-> On 01/24/22 at 11:48am, Guilherme G. Piccoli wrote:
-> > On 24/01/2022 10:59, Baoquan He wrote:
-> > > [...]
-> > > About pre_dump, if the dump is crash dump, hope those pre_dump notifiers
-> > > will be executed under conditional check, e.g only if 'crash_kexec_post_notifiers'
-> > > is specified in kernel cmdline. 
-> > 
-> > Hi Baoquan, based on Petr's suggestion, I think pre_dump would be
-> > responsible for really *non-intrusive/non-risky* tasks and should be
-> > always executed in the panic path (before kdump), regardless of
-> > "crash_kexec_post_notifiers".
-> > 
-> > The idea is that the majority of the notifiers would be executed in the
-> > post_dump portion, and for that, we have the
-> > "crash_kexec_post_notifiers" conditional. I also suggest we have
-> > blacklist options (based on function names) for both notifiers, in order
-> > to make kdump issues debug easier.
-> > 
-> > Do you agree with that? Feel free to comment with suggestions!
-> > Cheers,
+> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
+> Sent: Wednesday, January 26, 2022 1:48 PM
+> On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
+> >
+> >
+> > The main issue lies in ima_template_desc_current called by hash_setup,
+> > which does not just read ima_template global variable, but also tries to
+> > set it if that hasn't been done already. Causing ima_template_setup to quit.
 > 
-> I would say "please NO" cautiously.
+> Right, which calls ima_init_template_list().  So part of the solution
+> could be to conditionally call ima_init_template_list()
+> in ima_template_setup().
 > 
-> As Petr said, kdump mostly works only if people configure it correctly.
-> That's because we try best to switch to kdump kernel from the fragile
-> panicked kernel immediately. When we try to add anthing before the switching,
-> please consider carefully and ask if that adding is mandatory, otherwise
-> switching into kdump kernel may fail. If the answer is yes, the adding
-> is needed and welcomed. Othewise, any unnecessary action, including any
-> "non-intrusive/non-risky" tasks, would be unwelcomed.
+> -       if (ima_template)
+> -               return 1;
+> -
+> -       ima_init_template_list();
+> +       if (!ima_template
+> +               ima_init_template_list();
+> 
+> Roberto, what do you think?
 
-I still do not have the complete picture. But it seems that some
-actions make always sense even for kdump:
+Hi Mimi
 
-    + Super safe operations that might disable churn from broken
-      system. For examle, disabling watchdogs by setting a single
-      variable, see rcu_panic() notifier
+I think we wanted to prevent to set a digest algorithm
+incompatible with the chosen template.
 
-    + Actions needed that allow to kexec the crash kernel a safe
-      way under some hypervisor, see
-      https://lore.kernel.org/r/MWHPR21MB15933573F5C81C5250BF6A1CD75E9@MWHPR21MB1593.namprd21.prod.outlook.com
+If we have in the kernel command line:
 
+ima_template=ima ima_hash=sha256
 
-> Surely, we don't oppose the "non-intrusive/non-risky" or completely
-> "intrusive/risky" action adding before kdump kernel switching, with a
-> conditional limitation. When we handle customers' kdump support, we
-> explicitly declare we only support normal and default kdump operation.
-> If any action which is done before switching into kdump kernel is specified,
-> e.g panic_notifier, panic_print, they need take care of their own kdump
-> failure.
+ima_hash_algo would be set to HASH_ALGO_SHA1 despite
+the user choice and the template would be set to 'ima'.
 
-All this actually started because of kmsg_dump. It might make sense to
-allow both kmsg_dump and kdump together. The messages stored by
-kmsg_dump might be better than nothing when kdump fails.
+In the opposite case:	
 
-It actually seems to be the main motivation to introduce
-"crash_kexec_post_notifier" parameter, see the commit
-f06e5153f4ae2e2f3b03 ("kernel/panic.c: add "crash_kexec_post_notifiers"
-option for kdump after panic_notifers").
+ima_hash=sha256 ima_template=ima
 
-And this patch introduces panic_notifier_filter that tries to select
-notifiers that are helpful and harmful. IMHO, it is almost unusable.
-It seems that even kernel developers do not understand what exactly
-some notifiers do and why they are needed. Usually only the author
-and people familiar with the subsystem have some idea. It makes
-it pretty hard for anyone to create a reasonable filter.
+if the default template is 'ima', then ima_hash_algo would be
+set to HASH_ALGO_SHA1. Otherwise, it would be
+HASH_ALGO_SHA256. If we allow the template to be set after
+the digest algorithm is evaluated, the template selection will
+be rejected if the algorithm is incompatible with the template.
 
-I am pretty sure that we could do better. I propose to add more
-notifier lists that will be called at various places with reasonable
-rules and restrictions. Then the susbsystem maintainers could decide
-where exactly a given action must be done.
+I'm trying to remember why we still have the digest recalculation
+in ima_eventdigest_init(). Maybe the only possibility is if we
+set the template from the policy?
 
-The result might be that we will need only few options that will
-enable/disable some well defined optional features.
+Thanks
 
-Best Regards,
-Petr
+Roberto
+
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Li Peng, Zhong Ronghua
+
+> thanks,
+> 
+> Mimi
+
