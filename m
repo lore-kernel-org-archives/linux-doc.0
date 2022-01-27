@@ -2,82 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA2BC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 17:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C070C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 18:29:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244947AbiA0R4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 12:56:52 -0500
-Received: from mga18.intel.com ([134.134.136.126]:31766 "EHLO mga18.intel.com"
+        id S231994AbiA0S3K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 13:29:10 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52004 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245069AbiA0R4E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jan 2022 12:56:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643306164; x=1674842164;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VjGGxTzCVF41Hl7cJRMdJ6bVgo2yimWqvnjX5qwuRt4=;
-  b=f6Chi3tm+lDBnNQkjg1ph41TXPn75LZ81rZzttup0IPAl84qxn5Hrck3
-   WtO4SnWZDXne5HoQOKFqE1eSne14LAt968+Fc0ji15eWJf1LRjkkGg6m9
-   tFON+PCId4O9ScmSiIhIszWPn58RmVt0iPoR9QboCjFh2aHnh3I1nOPa2
-   OyM8U5KvdVzBggW1hXcFUnSHjPgwjguS+WikenX/v8qRaR1aqi8d2B3tZ
-   y+K2BcU2GXP0toS7mDxfYEx6hBvzEHQDsZEqygJU3O62dknk4e6/oLCjn
-   cRqwQHI+poy2TBwpQZfbXIlhSHyhj/pMvGtelRmgk9xHed4pov+m4I4qA
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="230500304"
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="230500304"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 09:56:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="696743411"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 09:56:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nD8z3-00F4xt-5O;
-        Thu, 27 Jan 2022 19:54:57 +0200
-Date:   Thu, 27 Jan 2022 19:54:56 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
-Subject: Re: [PATCH v2 1/1] docs: process: submitting-patches: Clarify the
- Reported-by usage
-Message-ID: <YfLccEk2PKpWH4eX@smile.fi.intel.com>
-References: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
- <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
+        id S231827AbiA0S3K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jan 2022 13:29:10 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id DC21737C;
+        Thu, 27 Jan 2022 18:29:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DC21737C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1643308150; bh=GMXzrPt4iYDG4uZAjWg2xX/NeBALlZYiT8mFZsO7v4g=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Ud7sv3mbQdtTS3LbymcacAGMBtD0fDoFPWaWkzf/VhZwDawssaeqB96r07wBF/c6m
+         I9f9PG4DhMrm9gFkyCZoFyAMOqEfWzuAE0hd/W1cOoX0xJ54Pm/SytvpMCxg4BJWke
+         wSD6hfym6xPS18Craz3rmvGGdwyTApdHrsMXrD9pRPRBJGYooz5es+e3dovDRgIyQK
+         1zkC0nWbwUVP0wbz+A7naZ+jvKjeKjD3fFPKyrsjuV9Rl1N7u2vWrn3w/31gwiCs9z
+         ui873Uk3qhdfeSOGZAytj1dSA+k6LM9HShlz7lZg5CIw9Fw2mfU9ezGrEC9QBF0UMW
+         cZG/UGqedepsg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Tang Yizhou <tangyizhou@huawei.com>, siyanteng@loongson.cn,
+        siyanteng01@gmail.com, alexs@kernel.org, seakeel@gmail.com
+Cc:     linux-doc@vger.kernel.org, zhengbin13@huawei.com,
+        tangyeechou@gmail.com, Tang Yizhou <tangyizhou@huawei.com>
+Subject: Re: [PATCH v3 0/3] Translate opp into Chinese
+In-Reply-To: <20211229024212.32752-1-tangyizhou@huawei.com>
+References: <20211229024212.32752-1-tangyizhou@huawei.com>
+Date:   Thu, 27 Jan 2022 11:29:41 -0700
+Message-ID: <87bkzxrq0a.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 09:21:21AM -0800, Randy Dunlap wrote:
-> On 1/27/22 08:32, Andy Shevchenko wrote:
+Tang Yizhou <tangyizhou@huawei.com> writes:
 
-...
+> Translate power/index.rst and power/opp.rst into Chinese.
+>
+> v3:
+> 1. Translate comments in the pseudocode and chart.
+> 2. Pick Yanteng's Reviewed-by tags.
+>
+> v2:
+> 1. Split a cleanup patch for index.rst.
+> 2. Pick Alex's Reviewed-by tags.
+>
+> Tang Yizhou (3):
+>   docs/zh_CN: Cleanup index.rst
+>   docs/zh_CN: Add power/index Chinese translation
+>   docs/zh_CN: Add opp Chinese translation
+>
+>  Documentation/translations/zh_CN/index.rst    |   8 +-
+>  .../translations/zh_CN/power/index.rst        |  56 +++
+>  .../translations/zh_CN/power/opp.rst          | 341 ++++++++++++++++++
+>  3 files changed, 401 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/power/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/power/opp.rst
 
-> > -Reported-by tag.
-> > +Reported-by tag. The tag is intended for bugs; please do not use it to credit
-> > +feature requests.
-> 
-> LGTM.
-> Although it could refer to Suggested-by.  :)
+Set applied (finally), thanks.
 
-The main issue here is that automated CIs may suggest people to include the tag.
-And people (especially who are new in the community) tend to obey without a
-doubt.
-
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+jon
 
