@@ -2,105 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEBBC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 17:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A78C8C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 17:21:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238757AbiA0RQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 12:16:44 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:59146 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237863AbiA0RQo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 12:16:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=cImWtFyHM1tAc1vEBjvw8nQrN3d7f56KDXmjT7Ki8Sg=; b=C1QtDdhFeqHe1qv2PGOhZzsKNJ
-        ry62lcTCiunx8yiMAAofVVYNIImO9Q2eg0EnPsy20kkhfAsqpjQBwH9nPcvkatgrdsVxsLZtLsXWP
-        DEsyiQi3rbh4tonByXER5ZnXpiDaahv2yaoLRMqC+cxV5YGepmBUo5xjOwf/RU1jdBlmZKcWxV2l8
-        GmK/nelxMe1xzvoBSyjPYcDy/bksCY8cAoO6agI2ZZPBCAa3B9HzSJlv8wjueCcpZhl0UVStVK5xj
-        KK0F7RCB5LoA9IVOORUag+JHzbKd5chJI6nGMS/LeRIQ2Xx9s2DPKbWfSULxkMGh0LWHDGstGstta
-        g3GO2iZg==;
-Received: from 200-207-58-141.dsl.telesp.net.br ([200.207.58.141] helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nD8Ny-00090E-5G; Thu, 27 Jan 2022 18:16:38 +0100
-Message-ID: <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
-Date:   Thu, 27 Jan 2022 14:16:20 -0300
+        id S244570AbiA0RVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 12:21:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244587AbiA0RVo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 12:21:44 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B71C06174A;
+        Thu, 27 Jan 2022 09:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=++lt+r3Y4bab0BW17JDv/wIUj9g0zt5v7cL/jioKeD0=; b=czZbjO7aOmG9ULVsiPLq0AKYyk
+        8qBtfGEiLrKZBGqIHHOzsEZA2c5rbVMKc5G6FbwhDyE3oV4TBssSL9yj5tfHR1ObUh+x1o9qglJ1V
+        mYCQ0I0lkGHUl7RaK9paMq7G66fkz7KefVBUqlvb2qpCKTUjRsRGpoHk1LF2RYE4UsX1g3j+Hgfpf
+        ytc9McdcWB8PJpHiZOCUGw1lGLIkgQuxBi4GMoW3NCXa3PmW9aXD7CjbS1M1OuH7FQvpno3S4L8U2
+        DFszPJcNd4jvHawf813oPG/SoUqbSxiZvXuzF5+IgrcHre7f/D6/fFV7wF0NbM2lPnuZNZF4PA5uT
+        zuGNJhgQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nD8Sd-005Snl-3S; Thu, 27 Jan 2022 17:21:27 +0000
+Message-ID: <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
+Date:   Thu, 27 Jan 2022 09:21:21 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Subject: Re: [PATCH v2 1/1] docs: process: submitting-patches: Clarify the
+ Reported-by usage
 Content-Language: en-US
-To:     "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        Petr Mladek <pmladek@suse.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bhe@redhat.com" <bhe@redhat.com>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
- <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Florian Eckert <fe@dev.tdt.de>
+References: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/01/2022 10:06, d.hatayama@fujitsu.com wrote:
+
+
+On 1/27/22 08:32, Andy Shevchenko wrote:
+> It's unclear from "Submitting Patches" documentation that Reported-by
+> is not supposed to be used against new features. (It's more clear
+> in the section 5.4 "Patch formatting and changelogs" of the "A guide
+> to the Kernel Development Process", where it suggests that change
+> should fix something existing in the kernel. Clarify the Reported-by
+> usage in the "Submitting Patches".
 > 
-> But the pre_dump cannot avoid calling multiple unnecessary handlers, right?
-> It's more risky than the previous idea...
+> Reported-by: Florian Eckert <fe@dev.tdt.de>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> v2: rephrased as suggested by Jonathan
+>  Documentation/process/submitting-patches.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 31ea120ce531..fb496b2ebfd3 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -495,7 +495,8 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+>  The Reported-by tag gives credit to people who find bugs and report them and it
+>  hopefully inspires them to help us again in the future.  Please note that if
+>  the bug was reported in private, then ask for permission first before using the
+> -Reported-by tag.
+> +Reported-by tag. The tag is intended for bugs; please do not use it to credit
+> +feature requests.
+>  
 
-I think we could have 2 kernel parameters then:
+LGTM.
+Although it could refer to Suggested-by.  :)
 
-crash_kernel_disable_pre_notitifers (of course we can think in some
-better name here heh)
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-crash_kernel_enable_post_notifiers (which is the same as the current
-"crash_kernel_post_notifiers", we can keep it)
+thanks.
 
-The point being (if I understand correctly): some callbacks are really
-simple and don't introduce risks for kdump, like the RCU; a bunch of
-them just set one variable. Those could be enable by default, before the
-kdump.
+>  A Tested-by: tag indicates that the patch has been successfully tested (in
+>  some environment) by the person named.  This tag informs maintainers that
 
-The majority would fit in the 2nd group, meaning they are not enabled by
-default, requiring some parameter for that.
-
-Petr, let me know if that makes sense and is aligned with your suggestion.
-
-
-> For example, how about simply maintaining function symbol names in the list
-> as string, not address.
-> 
-
-I considered that before, it was my first idea but it's not great due to
-memory allocation. We'd need to use memblock to allocate a struct to
-hold function names, and the comparison on register time is slower, I
-guess... so it's much easier to pre-allocate some handlers and only
-track the addresses of the function. I personally do not see much use in
-this filter for module callbacks, but if that's a use case, we can think
-on how to do that. But notice that the current implementation of the
-filter wont hold if we end-up following the suggestions in this thread,
-not sure even if we're gonna have a filter...
-
-Cheers,
-
-
-Guilherme
+-- 
+~Randy
