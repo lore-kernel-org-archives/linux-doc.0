@@ -2,184 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60FBCC3526F
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 19:33:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89CCEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 20:22:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245620AbiA0TdK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 14:33:10 -0500
-Received: from mga04.intel.com ([192.55.52.120]:47240 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245568AbiA0TdH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jan 2022 14:33:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643311987; x=1674847987;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=HWFixSIfnxp0SG7pO69qcVjsPaKBwAhzJyrz/TsLEqw=;
-  b=SJ5urMLNuAKBc2IkCQdhpMUi+Es3qLksLF2oQBMl4Q9/m5crdPK8gQ+y
-   mEMi/WYjVrsb8KroKUSEmoCcGbBqYG9xQOrJGkaAqj0SIucnaJvwdLiIw
-   rIg9RhtVPTxMbBGMjNQHfI5vHvm7V79NOMvV2g7FOH+Nfe9wj/aSxvu1Y
-   EkTvDbPKi++EdGu+pZM4f1p29kwKheLnxXevQov7mR72+VH47D50oD5AK
-   ayehXs1EvmGCNTXTmzekMncv0jVi7Nzrkebp2Oq6vXKjw7GYJAJpt+/Eg
-   +KfGtQcuh6b8oWwrZHUTSiMC2gCzOmMM9rwsyr96Kn3KVZN1NNhP8H++j
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="245788382"
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="245788382"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 11:33:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="495844885"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jan 2022 11:33:01 -0800
-From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org
-Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
-        Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        linux-kernel@vger.kernel.org,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Subject: [PATCH v5 1/7] x86/Documentation: Describe the Intel Hardware Feedback Interface
-Date:   Thu, 27 Jan 2022 11:34:48 -0800
-Message-Id: <20220127193454.12814-2-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com>
-References: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com>
+        id S1343996AbiA0UWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 15:22:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234658AbiA0UWX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 15:22:23 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C85C061714
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 12:22:23 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id h20-20020a17090adb9400b001b518bf99ffso8737877pjv.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 12:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iKuuVqdayh65BOs3QlcJ6pbf0rkmkRMe+Lp1oFkny8c=;
+        b=bbAvaOrBiYQC7RFxWBcx8VnN8m184zyOBkf16LekFtzpPyThJ4lx2gNpt/eZEV+wiy
+         Im4jCQzSINPD87Ptw0Do0AmiL01Gc8WgVMJUSQaaWnppa0Ql7QMmxWs7d/uj5aW2thZG
+         +gXMDt3UmgHUGpqJmeNIKGrHLTw1EEJ826Xy1IXiPYOMxipNOk6/HlYxa9GwVmZjU9oG
+         Ck8IOzu+lLqAc4quoZGHI2vN0a1tEdQmf/4LeWrTpB1CkPTnxMHI1uPW4KjH/Yk+CioC
+         QO062WshhfvjMHgzRibp9SknkZkQF0HqZCxk2ClfPL7gjAp+cr4k+r/6JJ7+K4LLVnXk
+         8jZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iKuuVqdayh65BOs3QlcJ6pbf0rkmkRMe+Lp1oFkny8c=;
+        b=3F0px3AglGven9PZ7UNXQIkVxFUsMyS6YK8UOSGUT75hvnggyx42POBK9/UUoHL6zI
+         halMRw8V6uzUL0W76vZ4dpdNOuyeOdl4abEZNvy9ml1esvepyGhaORzBH28EbWMuo1o4
+         EWJHzz1i+FQQ/pCHm2sVCBMRSYaqGStXUDeBsjo9lsi4R1kLyJs4TU/YH2i5b9Dm6aEB
+         7ZbBc3CMBdI9ptyYDSFVNJXDX/hkeLkmFeilxSBhcmOL66Si6atKNwPwGEMEircp3hG0
+         /G6CuQPXD9XeffhdQNEsEOx+lxKzbmdyl4vm2nHf3pVAZvNvNHPBzWbVxwAakHKZQSXa
+         7oQQ==
+X-Gm-Message-State: AOAM531eGV78863Av367hGmy00d1z9LpoY5SzzS7kwphnH/rzexQKEPH
+        ZiEVWJ5+GoLAeSNDyeUS00DOTVfof4yuxw==
+X-Google-Smtp-Source: ABdhPJzwkgUTEXFE1qykze0xRlKlyYYL2dHK+otqpecyQIADcjZz7ovAKDX79mubX2rWygZ5T4NSRQ==
+X-Received: by 2002:a17:902:ce84:: with SMTP id f4mr4634037plg.140.1643314943089;
+        Thu, 27 Jan 2022 12:22:23 -0800 (PST)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id om6sm177678pjb.24.2022.01.27.12.22.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 12:22:22 -0800 (PST)
+Date:   Thu, 27 Jan 2022 13:22:20 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Suzuki Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 RESEND 0/7] coresight: trbe: Workaround Cortex-A510
+ erratas
+Message-ID: <20220127202220.GA2191206@p14s>
+References: <1643120437-14352-1-git-send-email-anshuman.khandual@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1643120437-14352-1-git-send-email-anshuman.khandual@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Start a documentation file to describe the purpose and operation of Intel's
-Hardware Feedback Interface. Describe how this interface is used in Linux
-to relay performance and energy efficiency updates to userspace.
+On Tue, Jan 25, 2022 at 07:50:30PM +0530, Anshuman Khandual wrote:
+> 	This series adds three different workarounds in the TRBE driver for
+> Cortex-A510 specific erratas. But first, this adds Cortex-A510 specific cpu
+> part number definition in the platform. This series applies on 5.17-rc1.
+> 
+> Relevant errata documents can be found here.
+> 
+> https://developer.arm.com/documentation/SDEN2397239/900
+> https://developer.arm.com/documentation/SDEN2397589/900
+> 
+> Changes in V3:
+> 
+> https://lore.kernel.org/all/1641872346-3270-1-git-send-email-anshuman.khandual@arm.com/
+> 
+> - Moved the comment inside trbe_needs_drain_after_disable()
+> - Moved the comment inside trbe_needs_ctxt_sync_after_enable()
+> 
+> Changes in V2:
+> 
+> https://lore.kernel.org/all/1641517808-5735-1-git-send-email-anshuman.khandual@arm.com/
+> 
+> Accommodated most review comments from the previous version.
+> 
+> - Split all patches into CPU errata definition, detection and TRBE workarounds
+> - s/TRBE_WORKAROUND_SYSREG_WRITE_FAILURE/TRBE_NEEDS_DRAIN_AFTER_DISABLE
+> - s/TRBE_WORKAROUND_CORRUPTION_WITH_ENABLE/TRBE_NEEDS_CTXT_SYNC_AFTER_ENABLE
+> - s/trbe_may_fail_sysreg_write()/trbe_needs_drain_after_disable()
+> - s/trbe_may_corrupt_with_enable()/trbe_needs_ctxt_sync_after_enable()
+> - Updated Kconfig help message for config ARM64_ERRATUM_1902691
+> - Updated error message for trbe_is_broken() detection
+> - Added new trblimitr parameter to set_trbe_enabled(), improving performance
+> - Added COMPILE_TEST dependency in the errata, until TRBE part is available
+> 
+> Changes in V1:
+> 
+> https://lore.kernel.org/lkml/1641359159-22726-1-git-send-email-anshuman.khandual@arm.com/
+> 
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> Anshuman Khandual (7):
+>   arm64: Add Cortex-A510 CPU part definition
+>   arm64: errata: Add detection for TRBE ignored system register writes
+>   arm64: errata: Add detection for TRBE invalid prohibited states
+>   arm64: errata: Add detection for TRBE trace data corruption
+>   coresight: trbe: Work around the ignored system register writes
+>   coresight: trbe: Work around the invalid prohibited states
+>   coresight: trbe: Work around the trace data corruption
+> 
+>  Documentation/arm64/silicon-errata.rst       |   6 +
+>  arch/arm64/Kconfig                           |  59 ++++++++++
+>  arch/arm64/include/asm/cputype.h             |   2 +
+>  arch/arm64/kernel/cpu_errata.c               |  27 +++++
+>  arch/arm64/tools/cpucaps                     |   3 +
+>  drivers/hwtracing/coresight/coresight-trbe.c | 114 ++++++++++++++-----
+>  drivers/hwtracing/coresight/coresight-trbe.h |   8 --
+>  7 files changed, 183 insertions(+), 36 deletions(-)
 
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Aubrey Li <aubrey.li@linux.intel.com>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
-Changes since v4:
-  * None
+I have applied this set and sent a pull request to Catalin for the arm64
+portion.
 
-Changes since v3:
-  * None
+Thanks,
+Mathieu
 
-Changes since v2:
-  * None
-
-Changes since v1:
-  * Clarified that HFI capabilities are independent. (Daniel)
-  * Provided examples on changes reflected in the HFI table. (Daniel)
----
- Documentation/x86/index.rst     |  1 +
- Documentation/x86/intel-hfi.rst | 72 +++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 Documentation/x86/intel-hfi.rst
-
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index f498f1d36cd3..982c8af853b9 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -21,6 +21,7 @@ x86-specific Documentation
-    tlb
-    mtrr
-    pat
-+   intel-hfi
-    intel-iommu
-    intel_txt
-    amd-memory-encryption
-diff --git a/Documentation/x86/intel-hfi.rst b/Documentation/x86/intel-hfi.rst
-new file mode 100644
-index 000000000000..49dea58ea4fb
---- /dev/null
-+++ b/Documentation/x86/intel-hfi.rst
-@@ -0,0 +1,72 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================================================
-+Hardware-Feedback Interface for scheduling on Intel Hardware
-+============================================================
-+
-+Overview
-+--------
-+
-+Intel has described the Hardware Feedback Interface (HFI) in the Intel 64 and
-+IA-32 Architectures Software Developer's Manual (Intel SDM) Volume 3 Section
-+14.6 [1]_.
-+
-+The HFI gives the operating system a performance and energy efficiency
-+capability data for each CPU in the system. Linux can use the information from
-+the HFI to influence task placement decisions.
-+
-+The Hardware Feedback Interface
-+-------------------------------
-+
-+The Hardware Feedback Interface provides to the operating system information
-+about the performance and energy efficiency of each CPU in the system. Each
-+capability is given as a unit-less quantity in the range [0-255]. Higher values
-+indicate higher capability. Energy efficiency and performance are reported in
-+separate capabilities. Even though on some systems these two metrics may be
-+related, they are specified as independent capabilities in the Intel SDM.
-+
-+These capabilities may change at runtime as a result of changes in the
-+operating conditions of the system or the action of external factors. The rate
-+at which these capabilities are updated is specific to each processor model. On
-+some models, capabilities are set at boot time and never change. On others,
-+capabilities may change every tens of milliseconds. For instance, a remote
-+mechanism may be used to lower Thermal Design Power. Such change can be
-+reflected in the HFI. Likewise, if the system needs to be throttled due to
-+excessive heat, the HFI may reflect reduced performance on specific CPUs.
-+
-+The kernel or a userspace policy daemon can use these capabilities to modify
-+task placement decisions. For instance, if either the performance or energy
-+capabilities of a given logical processor becomes zero, it is an indication that
-+the hardware recommends to the operating system to not schedule any tasks on
-+that processor for performance or energy efficiency reasons, respectively.
-+
-+Implementation details for Linux
-+--------------------------------
-+
-+The infrastructure to handle thermal event interrupts has two parts. In the
-+Local Vector Table of a CPU's local APIC, there exists a register for the
-+Thermal Monitor Register. This register controls how interrupts are delivered
-+to a CPU when the thermal monitor generates and interrupt. Further details
-+can be found in the Intel SDM Vol. 3 Section 10.5 [1]_.
-+
-+The thermal monitor may generate interrupts per CPU or per package. The HFI
-+generates package-level interrupts. This monitor is configured and initialized
-+via a set of machine-specific registers. Specifically, the HFI interrupt and
-+status are controlled via designated bits in the IA32_PACKAGE_THERM_INTERRUPT
-+and IA32_PACKAGE_THERM_STATUS registers, respectively. There exists one HFI
-+table per package. Further details can be found in the Intel SDM Vol. 3
-+Section 14.9 [1]_.
-+
-+The hardware issues an HFI interrupt after updating the HFI table and is ready
-+for the operating system to consume it. CPUs receive such interrupt via the
-+thermal entry in the Local APIC's Local Vector Table.
-+
-+When servicing such interrupt, the HFI driver parses the updated table and
-+relays the update to userspace using the thermal notification framework. Given
-+that there may be many HFI updates every second, the updates relayed to
-+userspace are throttled at a rate of CONFIG_HZ jiffies.
-+
-+References
-+----------
-+
-+.. [1] https://www.intel.com/sdm
--- 
-2.17.1
-
+> 
+> -- 
+> 2.25.1
+> 
