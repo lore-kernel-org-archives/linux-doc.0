@@ -2,157 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A56BC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 11:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DC6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 12:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240909AbiA0L5K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 06:57:10 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:63514 "EHLO
-        esa4.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240990AbiA0L4s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 06:56:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1643284608; x=1674820608;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0K9fD7qQnc4VGb8wlCEDk+u6ux8RT3G+/u+kJA7nYIc=;
-  b=CsNn20t6J5ViBtrNLfsPC3bQgIPZ9/fSk1rZls+Xvmt5Jwx6zhYwcsnH
-   ieuilXSd7tZHfq7Bq6llre3qf7kVMeRHql7fzej72ZZt2Opi49NBi2UW+
-   Rf2xZmjRB7dWQKxgiq8cd+MeP4JKU1AR/xwaEy3qlc0PXgrg156KR/vRc
-   FooT5sbk5AL4E7IFP8s+iiYyn3iURpHsFTRvKaHL+Yp1mXrxXaFSptd2k
-   ZIeXe3A6Vlltb+ogjXuVoYzEU2VhSHuXlXO8ttez7ncXEpavihqK75cCL
-   vmehHblqIjsDJ/fa89l9lrXmQ+7vj4mlsE0osIE8SIE4SH6UxID/OwC4S
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,320,1635177600"; 
-   d="scan'208";a="190470632"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 27 Jan 2022 19:56:45 +0800
-IronPort-SDR: cymWAdqcA5qxCSCzzF0brOUtXZ0jTx400uejTyZ3J0Hs31UOXQF0/LNsyPr9K2RR3eL/okLPrg
- HRSzQ1KWBWar2kGrl5b22NNelfqQeMBSLMsERVj7JAOIJFid6ryBdQNJ1OkdQyLoRS+NLmXUs/
- Y65PpnuAOyYip1abSOJJ1Je3sxce/YpfDhBE0gC8ife9g7ls55BatHtHJEu81sdgirRZyzHEty
- 21A3ss1elsdTW+UB0Cf5VUdDr8hdgBIpM0eA9heont4Fa8k4I+N4Os8kond0VagLQCqj3chERt
- zst12tbfJmUCeDR0LIoCGl5x
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 03:30:04 -0800
-IronPort-SDR: bB2MsnycCTaY3EPfqEaT49XitqPk3xFjQYcAQWYNNyq+oDLtVQzA9qZm667wbNUPXvaVxQxJsi
- +nGH3TBhbA3JThgXV8W88ecykah1Nv8r03UnnzyYgjbE4lEqBf8fNfuGWaq5thocflzirOmagH
- gPoUlCipeeizJ2SRlncXrz0SKeKln+9bL7w0P2kjqINF6knHEqFVXzjC5+mQ+atNfLZFgTgHhs
- 6II0iNnbLpgzWyQyLPbfzFzXYgRDkkYZMG/KDCLZ7LBOGguIq97Ks3/9nYMhpGWm14+UAIspes
- BZg=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 03:56:47 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jkzb13qhtz1SVp7
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 03:56:45 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1643284604; x=1645876605; bh=0K9fD7qQnc4VGb8wlCEDk+u6ux8RT3G+/u+
-        kJA7nYIc=; b=MRYgURMtdAT0Iz8nKjiy7QOAwMLs4HrHbiQGE0XE0sM73CBhmgE
-        e6fft7fy0LSjIzbdpApMsrodhzPJ03U2eEGEbju/cji66AN++/Z7KmXUjiONEO4B
-        4yur1omjSNK9E/d0WeCvOCD/AcI6fv4eBsrxZ5zKWlLnHrp38YbsyUkB9HIO7IiT
-        tw1mpkzHP5voNQYOV2cn2i4nbwRHsaevxF8qRKuIWNNh6LDgIO91KugF9y8NFvQ+
-        mHDA7zNzVqpFTIN1IxjirNcISr20S6lxGBs2/gdwa1VKwTOs7BO1zedMXAcy3huf
-        xcpI3OWJ8GphEa74Ydb1pUOYoLCWcv2SNVw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id bZq5JgNwu69Y for <linux-doc@vger.kernel.org>;
-        Thu, 27 Jan 2022 03:56:44 -0800 (PST)
-Received: from [10.225.163.56] (unknown [10.225.163.56])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JkzZy2Swgz1RvlN;
-        Thu, 27 Jan 2022 03:56:42 -0800 (PST)
-Message-ID: <b49f8c20-355b-42f4-1910-4cb7b8e1b7fb@opensource.wdc.com>
-Date:   Thu, 27 Jan 2022 20:56:10 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, artur.paszkiewicz@intel.com,
-        jinpu.wang@cloud.ionos.com, chenxiang66@hisilicon.com,
-        Ajish.Koshy@microchip.com
-Cc:     yanaijie@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com, liuqi115@huawei.com, Viswas.G@microchip.com
-References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
- <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
- <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
-Content-Type: text/plain; charset=UTF-8
+        id S236136AbiA0MSp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 07:18:45 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54942 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231872AbiA0MSo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 07:18:44 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20RCBi20016900;
+        Thu, 27 Jan 2022 12:18:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Do8FEFGbYoo3lnA3Z1lDEMymvPkDEEQGl16XdeBo8L4=;
+ b=Qh1M6oWLna47fyrcMWdG+05p3g7yPIvL9zB/KkxDTVNLVGP2oT5dyFJh+ZxlGMlMleIM
+ N+BLLzeut2xm8N39KkoUnoWxdwIgdeh6yMGBY6bsClJ5HQFx36ObnEGrLcRD7wEWRPr/
+ bSNbGkBzq659zL6pL7PxepNXs4FVPrEG0GC/J/DonEDuNcraGzVi/MxhSLuLJPbh7zeF
+ Uw8keu0OHH6eQAq6nX80bmzflyuJEHpzc17EfUtzclZ61gAy2L4splMywm2yIOqeAOe/
+ 3ZR3NRK2xHt+iQ/ErLl3om1kDnE2cxvCw+R1ZBwVvwTPBjD3Ee27aTVl7lodejFuKlup Qg== 
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3duu6a040y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jan 2022 12:18:38 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20RCDvDL022465;
+        Thu, 27 Jan 2022 12:18:36 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma03fra.de.ibm.com with ESMTP id 3dr9j9nmeq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 27 Jan 2022 12:18:36 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20RCIYs147186414
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 Jan 2022 12:18:34 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 34AF142049;
+        Thu, 27 Jan 2022 12:18:34 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 14BC742047;
+        Thu, 27 Jan 2022 12:18:33 +0000 (GMT)
+Received: from sig-9-65-89-165.ibm.com (unknown [9.65.89.165])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 27 Jan 2022 12:18:32 +0000 (GMT)
+Message-ID: <4626844528c5accb70a57870168091e002affb36.camel@linux.ibm.com>
+Subject: Re: [RESEND][PATCH] Documentation: added order requirement for
+ ima_hash=
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     "Guozihua (Scott)" <guozihua@huawei.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        wangweiyang <wangweiyang2@huawei.com>,
+        Xiujianfeng <xiujianfeng@huawei.com>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
+Date:   Thu, 27 Jan 2022 07:18:32 -0500
+In-Reply-To: <df7fffa1-2068-cb0c-e43e-141ccd125b39@huawei.com>
+References: <20220125090237.120357-1-guozihua@huawei.com>
+         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
+         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
+         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
+         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
+         <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
+         <173fffb6cde54ae4ac7676d18a84c79f@huawei.com>
+         <6f0890f135b61c41d81b03bf084ebab1b3e551e1.camel@linux.ibm.com>
+         <220a8c9f3ab34f2183c0a88941c145d0@huawei.com>
+         <df7fffa1-2068-cb0c-e43e-141ccd125b39@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5hfRO9Tb1kJG8NDYaY-EWPFVyOztTvQH
+X-Proofpoint-ORIG-GUID: 5hfRO9Tb1kJG8NDYaY-EWPFVyOztTvQH
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-27_03,2022-01-27_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201270072
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/27/22 19:17, John Garry wrote:
-> On 27/01/2022 06:37, Damien Le Moal wrote:
+On Thu, 2022-01-27 at 14:35 +0800, Guozihua (Scott) wrote:
 > 
-> Hi Damien,
-> 
->> I did some light testing of this series (boot + some fio runs) and
->> everything looks good using my "ATTO Technology, Inc. ExpressSAS 12Gb/s
->> SAS/SATA HBA (rev 06)" HBA (x86_64 host).
-> 
-> Yeah, unfortunately these steps prob won't exercise much of the code 
-> changes here since I figure error handling would not kick in.
+> On 2022/1/26 22:43, Roberto Sassu wrote:
+> >> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
+> >> Sent: Wednesday, January 26, 2022 3:35 PM
+> >> On Wed, 2022-01-26 at 13:24 +0000, Roberto Sassu wrote:
+> >>>> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
+> >>>> Sent: Wednesday, January 26, 2022 1:48 PM
+> >>>> On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
+> >>>>>
+> >>>>>
+> >>>>> The main issue lies in ima_template_desc_current called by hash_setup,
+> >>>>> which does not just read ima_template global variable, but also tries to
+> >>>>> set it if that hasn't been done already. Causing ima_template_setup to quit.
+> >>>>
+> >>>> Right, which calls ima_init_template_list().  So part of the solution
+> >>>> could be to conditionally call ima_init_template_list()
+> >>>> in ima_template_setup().
+> >>>>
+> >>>> -       if (ima_template)
+> >>>> -               return 1;
+> >>>> -
+> >>>> -       ima_init_template_list();
+> >>>> +       if (!ima_template
+> >>>> +               ima_init_template_list();
+> >>>>
+> >>>> Roberto, what do you think?
+> >>>
+> >>> Hi Mimi
+> >>>
+> >>> I think we wanted to prevent to set a digest algorithm
+> >>> incompatible with the chosen template.
+> >>>
+> >>> If we have in the kernel command line:
+> >>>
+> >>> ima_template=ima ima_hash=sha256
+> >>>
+> >>> ima_hash_algo would be set to HASH_ALGO_SHA1 despite
+> >>> the user choice and the template would be set to 'ima'.
+> >>>
+> >>> In the opposite case:
+> >>>
+> >>> ima_hash=sha256 ima_template=ima
+> >>>
+> >>> if the default template is 'ima', then ima_hash_algo would be
+> >>> set to HASH_ALGO_SHA1. Otherwise, it would be
+> >>> HASH_ALGO_SHA256. If we allow the template to be set after
+> >>> the digest algorithm is evaluated, the template selection will
+> >>> be rejected if the algorithm is incompatible with the template.
+> >>
+> >> The only time that would occur is in the unlikely case that the
+> >> template is being set to "ima".   That sounds reasonable.  In fact we
+> >> should consider preventing the template format being set to "ima".
+> > 
+> > Ok.
 
-I have SMR drives on that adapter, and generating errors with these is
-*really* easy :)
-ZBC test suite forces errors to check ASC/ASCQ so it will be a good test.
+< snip >
 
 > 
-> However using this same adapter type on my arm64 system has error 
-> handling kick in almost straight away - and the handling looks sane. A 
-> silver lining, I suppose ..
-> 
->>
->> Of note is that "make W=1 M=drivers/scsi" complains with:
->>
->> drivers/scsi/pm8001/pm80xx_hwi.c:3938: warning: Function parameter or
->> member 'circularQ' not described in 'process_one_iomb'
-> 
-> That's per-existing. I'll send a patch for that now along with another 
-> fix I found for that driver. ....
-> 
->>
->> And sparse/make C=1 complains about:
->>
->> drivers/scsi/libsas/sas_port.c:77:13: warning: context imbalance in
->> 'sas_form_port' - different lock contexts for basic block
-> 
-> I think it's talking about the port->phy_list_lock usage - it prob 
-> doesn't like segments where we fall out a loop with the lock held (which 
-> was grabbed in the loop). Anyway it looks ok. Maybe we can improve this.
-> 
->>
->> But I have not checked if it is something that your series touch.
->>
->> And there is a ton of complaints about __le32 use in the pm80xx code...
->> I can try to have a look at these if you want, on top of your series.
-> 
-> I really need to get make C=1 working for me - it segfaults in any env I 
-> have :(
+> I understand that the solution proposed here is to decommission template 
+> "ima" and potentially removing related algo checks altogether?
 
-Weird... All I did was install sparse (dnf install) and it works for me.
-Running Fedora.
+Eventually we might decide to do that, but right now we just want to
+address not being able to set "ima_template" after setting "ima_hash".
 
-I will send patches for these.
+thanks,
 
-> 
-> Thanks,
-> John
+Mimi
 
 
--- 
-Damien Le Moal
-Western Digital Research
