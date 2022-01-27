@@ -2,128 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A68C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 15:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4405C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 15:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243236AbiA0PxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 10:53:04 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:50362 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243227AbiA0PxD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 10:53:03 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 779451F3A9;
-        Thu, 27 Jan 2022 15:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1643298782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wXU4cZ9WW2zkBTqrANOGu3UWjiXuqFw5EYsSQEt8+Gw=;
-        b=aVQBXKX1clYr/hkiQ8Tq87+/TQd3kPHWkdjbZOTvUJVEMe0u+EGCp7Wxevz61bymgnYP36
-        4gZdDW15wTHQQo/kemfK5Ql3oFilPX6SmbZAS1aDrfcTHMq70rL/gAHyB/Wg4QGcnupXaH
-        2OIUtZEmbmbXwRmAddp1feZHEHcKryc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1643298782;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wXU4cZ9WW2zkBTqrANOGu3UWjiXuqFw5EYsSQEt8+Gw=;
-        b=GH2ipUdLCgRkmV/VuhI1iSYsH7YKxM0/e3IR9Dj1mB8J1hqkiqfRgLnqn5KoFdvepiBskP
-        qeiMS9t11hcV0PDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA37813BE5;
-        Thu, 27 Jan 2022 15:53:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id HBeBN92/8mHTbgAAMHmgww
-        (envelope-from <ptesarik@suse.cz>); Thu, 27 Jan 2022 15:53:01 +0000
-Message-ID: <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
-Date:   Thu, 27 Jan 2022 16:53:01 +0100
+        id S243271AbiA0Px3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 10:53:29 -0500
+Received: from mga06.intel.com ([134.134.136.31]:3117 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237754AbiA0Px2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jan 2022 10:53:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643298808; x=1674834808;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WdEb1ilNidCIDGY6NLsRhMxlByQjbKF0GxWuJf1/mhY=;
+  b=WVg0fNtt84MNxam9Ox2t0o2DL8Pt1SZ22RJtxmTQqgrYVo/qXT7KbpN6
+   3Wmy4XjUAcrl8l5z+hIwhNbwYjFJuAmZFqp1XuNrEkeL5ijZx9gTLr9gc
+   LjlGP04dbdI5GwkQnYb60I8skXM6d9l0MFGwW8ZR46dJR+/gLtU+yPI+N
+   m3nIx4pn4BZ0NWmvsKtF17OH3jtFNx5yOhDBglX8bq6pV2Zljr2aYi4gs
+   R8Ejp26UaPPUjltbenjT/ZsT3eThbNAweeT4lWhT4TyKiiSHrawesKguT
+   AhaAy3h7YiFiPTILkpXj5uFfhnVGy26uW4VIrT0ZTG64Ft0EUFIC7fUl0
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="307603734"
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="307603734"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 07:53:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="674757728"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jan 2022 07:53:26 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id CCD67167; Thu, 27 Jan 2022 17:53:39 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Florian Eckert <fe@dev.tdt.de>
+Subject: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the Reported-by usage
+Date:   Thu, 27 Jan 2022 17:53:34 +0200
+Message-Id: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-From:   =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <ptesarik@suse.cz>
-Subject: Re: [RFC PATCH] kdump: Add support for crashkernel=auto
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1643275911-19489-1-git-send-email-yangtiezhu@loongson.cn>
-Content-Language: en-GB
-In-Reply-To: <1643275911-19489-1-git-send-email-yangtiezhu@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tiezhu Yang,
+It's unclear from "Submitting Patches" documentation that Reported-by
+is not supposed to be used against new features. (It's more clear
+in the section 5.4 "Patch formatting and changelogs" of the "A guide
+to the Kernel Development Process", where it suggests that change
+should fix something existing in the kernel. Clarify the Reported-by
+usage in the "Submitting Patches".
 
-I'm afraid the whole concept is broken by design. See below.
+Reported-by: Florian Eckert <fe@dev.tdt.de>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/process/submitting-patches.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Dne 27. 01. 22 v 10:31 Tiezhu Yang napsal(a):
-> Set the reserved memory automatically for the crash kernel based on
-> architecture.
-> 
-> Most code of this patch come from:
-> https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-8/-/tree/c8s
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 31ea120ce531..24c1a5565385 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -495,7 +495,8 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+ The Reported-by tag gives credit to people who find bugs and report them and it
+ hopefully inspires them to help us again in the future.  Please note that if
+ the bug was reported in private, then ask for permission first before using the
+-Reported-by tag.
++Reported-by tag. A new feature can't be reported since there is no code in the
++kernel to fix.
+ 
+ A Tested-by: tag indicates that the patch has been successfully tested (in
+ some environment) by the person named.  This tag informs maintainers that
+-- 
+2.34.1
 
-And that's the problem, I think. The solution might be good for this 
-specific OS, but not for others.
-
->[...]
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 256cf6d..32c51e2 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -252,6 +252,26 @@ static int __init __parse_crashkernel(char *cmdline,
->   	if (suffix)
->   		return parse_crashkernel_suffix(ck_cmdline, crash_size,
->   				suffix);
-> +
-> +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
-> +#if defined(CONFIG_X86_64) || defined(CONFIG_S390)
-> +		ck_cmdline = "1G-4G:160M,4G-64G:192M,64G-1T:256M,1T-:512M";
-> +#elif defined(CONFIG_ARM64)
-> +		ck_cmdline = "2G-:448M";
-> +#elif defined(CONFIG_PPC64)
-> +		char *fadump_cmdline;
-> +
-> +		fadump_cmdline = get_last_crashkernel(cmdline, "fadump=", NULL);
-> +		fadump_cmdline = fadump_cmdline ?
-> +				fadump_cmdline + strlen("fadump=") : NULL;
-> +		if (!fadump_cmdline || (strncmp(fadump_cmdline, "off", 3) == 0))
-> +			ck_cmdline = "2G-4G:384M,4G-16G:512M,16G-64G:1G,64G-128G:2G,128G-:4G";
-> +		else
-> +			ck_cmdline = "4G-16G:768M,16G-64G:1G,64G-128G:2G,128G-1T:4G,1T-2T:6G,2T-4T:12G,4T-8T:20G,8T-16T:36G,16T-32T:64G,32T-64T:128G,64T-:180G";
-> +#endif
-> +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-> +	}
-> +
-
-How did you even arrive at the above numbers? I've done some research on 
-this topic recently (ie. during the last 7 years or so). My x86_64 
-system with 8G RAM running openSUSE Leap 15.3 seems needs 188M for 
-saving to the local disk, and 203M to save over the network (using 
-SFTP). My PPC64 LPAR with 16G RAM running latest Beta of SLES 15 SP4 
-needs 587M, i.e. with the above numbers it may run out of memory while 
-saving the dump.
-
-Since this is not the first time, I'm trying to explain things, I've 
-written a blog post now:
-
-https://sigillatum.tesarici.cz/2022-01-27-whats-wrong-with-crashkernel-auto.html
-
-HTH
-Petr Tesarik
