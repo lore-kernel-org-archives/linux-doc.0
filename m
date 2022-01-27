@@ -2,91 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A78C8C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 17:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA2BC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 17:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244570AbiA0RVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 12:21:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33762 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244587AbiA0RVo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 12:21:44 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B71C06174A;
-        Thu, 27 Jan 2022 09:21:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=++lt+r3Y4bab0BW17JDv/wIUj9g0zt5v7cL/jioKeD0=; b=czZbjO7aOmG9ULVsiPLq0AKYyk
-        8qBtfGEiLrKZBGqIHHOzsEZA2c5rbVMKc5G6FbwhDyE3oV4TBssSL9yj5tfHR1ObUh+x1o9qglJ1V
-        mYCQ0I0lkGHUl7RaK9paMq7G66fkz7KefVBUqlvb2qpCKTUjRsRGpoHk1LF2RYE4UsX1g3j+Hgfpf
-        ytc9McdcWB8PJpHiZOCUGw1lGLIkgQuxBi4GMoW3NCXa3PmW9aXD7CjbS1M1OuH7FQvpno3S4L8U2
-        DFszPJcNd4jvHawf813oPG/SoUqbSxiZvXuzF5+IgrcHre7f/D6/fFV7wF0NbM2lPnuZNZF4PA5uT
-        zuGNJhgQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nD8Sd-005Snl-3S; Thu, 27 Jan 2022 17:21:27 +0000
-Message-ID: <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
-Date:   Thu, 27 Jan 2022 09:21:21 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+        id S244947AbiA0R4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 12:56:52 -0500
+Received: from mga18.intel.com ([134.134.136.126]:31766 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245069AbiA0R4E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jan 2022 12:56:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643306164; x=1674842164;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VjGGxTzCVF41Hl7cJRMdJ6bVgo2yimWqvnjX5qwuRt4=;
+  b=f6Chi3tm+lDBnNQkjg1ph41TXPn75LZ81rZzttup0IPAl84qxn5Hrck3
+   WtO4SnWZDXne5HoQOKFqE1eSne14LAt968+Fc0ji15eWJf1LRjkkGg6m9
+   tFON+PCId4O9ScmSiIhIszWPn58RmVt0iPoR9QboCjFh2aHnh3I1nOPa2
+   OyM8U5KvdVzBggW1hXcFUnSHjPgwjguS+WikenX/v8qRaR1aqi8d2B3tZ
+   y+K2BcU2GXP0toS7mDxfYEx6hBvzEHQDsZEqygJU3O62dknk4e6/oLCjn
+   cRqwQHI+poy2TBwpQZfbXIlhSHyhj/pMvGtelRmgk9xHed4pov+m4I4qA
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="230500304"
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="230500304"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 09:56:03 -0800
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="696743411"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 09:56:02 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nD8z3-00F4xt-5O;
+        Thu, 27 Jan 2022 19:54:57 +0200
+Date:   Thu, 27 Jan 2022 19:54:56 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
 Subject: Re: [PATCH v2 1/1] docs: process: submitting-patches: Clarify the
  Reported-by usage
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Florian Eckert <fe@dev.tdt.de>
+Message-ID: <YfLccEk2PKpWH4eX@smile.fi.intel.com>
 References: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e2e99f6-e9bf-7d93-9629-3d70275c77f4@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jan 27, 2022 at 09:21:21AM -0800, Randy Dunlap wrote:
+> On 1/27/22 08:32, Andy Shevchenko wrote:
 
+...
 
-On 1/27/22 08:32, Andy Shevchenko wrote:
-> It's unclear from "Submitting Patches" documentation that Reported-by
-> is not supposed to be used against new features. (It's more clear
-> in the section 5.4 "Patch formatting and changelogs" of the "A guide
-> to the Kernel Development Process", where it suggests that change
-> should fix something existing in the kernel. Clarify the Reported-by
-> usage in the "Submitting Patches".
+> > -Reported-by tag.
+> > +Reported-by tag. The tag is intended for bugs; please do not use it to credit
+> > +feature requests.
 > 
-> Reported-by: Florian Eckert <fe@dev.tdt.de>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> v2: rephrased as suggested by Jonathan
->  Documentation/process/submitting-patches.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 31ea120ce531..fb496b2ebfd3 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -495,7 +495,8 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
->  The Reported-by tag gives credit to people who find bugs and report them and it
->  hopefully inspires them to help us again in the future.  Please note that if
->  the bug was reported in private, then ask for permission first before using the
-> -Reported-by tag.
-> +Reported-by tag. The tag is intended for bugs; please do not use it to credit
-> +feature requests.
->  
+> LGTM.
+> Although it could refer to Suggested-by.  :)
 
-LGTM.
-Although it could refer to Suggested-by.  :)
+The main issue here is that automated CIs may suggest people to include the tag.
+And people (especially who are new in the community) tend to obey without a
+doubt.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-thanks.
-
->  A Tested-by: tag indicates that the patch has been successfully tested (in
->  some environment) by the person named.  This tag informs maintainers that
+Thanks!
 
 -- 
-~Randy
+With Best Regards,
+Andy Shevchenko
+
+
