@@ -2,188 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81FCAC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 12:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C6DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 13:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236324AbiA0M6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 07:58:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233390AbiA0M6w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 07:58:52 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA52DC061714
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 04:58:52 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id w7so3443308ioj.5
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 04:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=X7CVs3X9FccbIOBmpJNgESo6bMouIhyAx3jsYwuahN8=;
-        b=SwB76Y8eIXlS4e64NNeDWMaYn4FprFLAR/lEiXDO/dfpVYBfrFRVfxXArRt5qFfTgH
-         FVGqtiig3ZuWiEew1mLQ1FFY3Imbm+HmxerSBs6C5YRUT14iSbt+NsAAZ7jaoqySUioc
-         7CJsidWX2ygXMYc2NcOmdzdtJRSaHlyoqHUDfLGp4XeWl+IXGXvrbTsWcqYfgKoTUyT7
-         b427TbS5QGgiUAckHK73S/+EDaXHqTNbjeSyTST8RafKHIzKXuNPRq6RpB9OO2LNGRyH
-         Tz0vgo91LX0uZYgdvuVafoHWqUoa3rRhCR/eBKtOaSCYSUDRzphEcSIoDrU3HfZpzu8D
-         lQbA==
+        id S241555AbiA0NIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 08:08:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41647 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241485AbiA0NIx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 08:08:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643288932;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UQyYdiBdtNH1VNsfeubJWuB78VJ2++qYCFEjN1L+z1o=;
+        b=Mr9TGbunbicO194BYMP8HvMMi+hjalB146W5UmUxsV/aJr/zGKi+OedSJja8UkKH0UF2J+
+        nklmyKwCETC8/kPvTk9uYHL/ZidUgFVyEvWY8XYxf6e8JLCUj3mO1KO/0ok0NI3a1uEafx
+        1XSwcMvGnRrWDb4ZaiMOWPkqYqGPvdc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-OKQ8TfEuN8y_m-0_QeHNfw-1; Thu, 27 Jan 2022 08:08:51 -0500
+X-MC-Unique: OKQ8TfEuN8y_m-0_QeHNfw-1
+Received: by mail-wr1-f71.google.com with SMTP id t13-20020adfa2cd000000b001d09443ee4fso1077428wra.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 05:08:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=X7CVs3X9FccbIOBmpJNgESo6bMouIhyAx3jsYwuahN8=;
-        b=xoMmu9JQx8c8KLVIutZD00utNSzQqsIeqEOCFQBjGJpduiAEUjskcWEjqrDA6DoIay
-         o+g2CixxD6593rL36Ess7ZOdZfQcNCpcIjlfcL/ZV3nIHO3miHIhfUwqS9iK6QOVmK10
-         zkfLava1deF+0P9pyo8QNBRppvpJmXVW+Omrq6OOG00ktSM7RLMvPXRjHBnWZc64sAr9
-         PCER7/p6QNHJ+s48rauTjdgR7HGF5k56wQgt3zVxxIFHpwKIUsg7Det0nEONX1W5vXcB
-         tA9pQeqoqui4qX+JbVP7p6a0P4OLiWGn1bQCBFuPRD3ccVk821A2PeGg6zxjPwIeLdJZ
-         MaCg==
-X-Gm-Message-State: AOAM531Uhz1m+3WbWblp7pSMRm4PVk3uuZL7EzqxEBSkXMYrnbWw3drd
-        QN9sefvgLFhfPeaPZTbABD0s/6InPMxSrLMa56Y=
-X-Google-Smtp-Source: ABdhPJz3n5b19i99mhk1cIumD2BZTfMF9vq4fj/Z6b2hzE9iFUiaaMka3VQHmSvNvyyzBAP0sRGB/+KCyrYAQCWDQkk=
-X-Received: by 2002:a02:9606:: with SMTP id c6mr1573320jai.169.1643288331898;
- Thu, 27 Jan 2022 04:58:51 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=UQyYdiBdtNH1VNsfeubJWuB78VJ2++qYCFEjN1L+z1o=;
+        b=V/EPzq1f116AjsaxcTEwRzxeL7iM4wIHduXAnXrZIvL63dbV795qr83ombxqzh7xF8
+         NSOqBPO3C7PWY2s94LEC21hbggh8byajEBNlp+JSFi8n7pfPtpD2zttCOiXOTjQUu9L9
+         m9d0YymxMOAOPIXElw1XQgHF0WbMoE0PoRO/Fa1QcHqXzaGIdBHZEsKOZF1fnTPKMUxJ
+         bQc3hUGiJL2ITZqz2avWA8jlFktLb/xGu5TQnqsp3tzqLojJs9sYldfoWw3a3tzmJOi/
+         UkB4kUodK7toQS8LjHJI4wrrs5kFDjcFO+GBtVkEdmYqyHq1dQzQTRuxRESw1ZaSVIIl
+         IXLQ==
+X-Gm-Message-State: AOAM530lfkQA/C7sl0sNSKKGcK0OD3GjCc5CEuFP4kzl8xmTfd/u7jrv
+        VFQN32vwXXouI7mFmTtz02LEeHyrkxRV5mUQzz5luD57n7kdrv/WfNnTeuBvPv2zHZZgRz96ULd
+        UBOtwl0lN/FN92W9zvxN2
+X-Received: by 2002:a5d:4943:: with SMTP id r3mr3001772wrs.130.1643288925758;
+        Thu, 27 Jan 2022 05:08:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8QfFcL0XfIO8hOXFedQuXUsgq2JTBDc2xnb6vs395KWwqaCiCCi/yJzVGlZa/jOkdHUHQ0Q==
+X-Received: by 2002:a5d:4943:: with SMTP id r3mr3001421wrs.130.1643288920603;
+        Thu, 27 Jan 2022 05:08:40 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id s9sm2100610wrr.84.2022.01.27.05.08.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jan 2022 05:08:40 -0800 (PST)
+Message-ID: <b54d8092-c7bc-93b3-c306-b77dd57db6ce@redhat.com>
+Date:   Thu, 27 Jan 2022 14:08:38 +0100
 MIME-Version: 1.0
-References: <cover.1643246827.git.siyanteng@loongson.cn> <51e088d1e8659b9411534a5a3ad03d88c79a5297.1643246827.git.siyanteng@loongson.cn>
-In-Reply-To: <51e088d1e8659b9411534a5a3ad03d88c79a5297.1643246827.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Thu, 27 Jan 2022 20:58:16 +0800
-Message-ID: <CAJy-Amn+9O+iDA-uMHSt5K4hVtJxyc95E0QUtRPYkaGh-1s3Tw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/zh_CN: add highmem translation
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Tang Yizhou <tangyizhou@huawei.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
+ learning material
+Content-Language: en-US
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+References: <20220127082058.434421-1-javierm@redhat.com>
+ <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
+ <b305cb36-1a09-c990-a3e6-98d420c62e3a@redhat.com>
+ <YfKCoOk2sxDzHVXv@phenom.ffwll.local>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YfKCoOk2sxDzHVXv@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCBKYW4gMjcsIDIwMjIgYXQgOTo1MCBBTSBZYW50ZW5nIFNpIDxzaXlhbnRlbmcwMUBn
-bWFpbC5jb20+IHdyb3RlOg0KPg0KPiBUcmFuc2xhdGUgLi4uL3ZtL2hpZ2htZW0ucnN0IGludG8g
-Q2hlbmVzZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25n
-c29uLmNuPg0KDQpSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQoNCj4g
-LS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2hpZ2htZW0ucnN0ICAgICAgICAgfCAx
-MjggKysrKysrKysrKysrKysrKysrDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti92bS9pbmRleC5yc3QgfCAgIDIgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTI5IGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi92bS9oaWdobWVtLnJzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaGlnaG1lbS5yc3QgYi9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9oaWdobWVtLnJzdA0KPiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLmQzMDIxZTIxNzgwYg0KPiAtLS0gL2Rldi9udWxs
-DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2hpZ2htZW0ucnN0
-DQo+IEBAIC0wLDAgKzEsMTI4IEBADQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9D
-Ti5yc3QNCj4gKw0KPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL3ZtL2hpZ2htZW0ucnN0DQo+
-ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5n
-QGxvb25nc29uLmNuPg0KPiArDQo+ICs65qCh6K+ROg0KPiArDQo+ICs9PT09PT09PT09DQo+ICvp
-q5jlhoXlrZjlpITnkIYNCj4gKz09PT09PT09PT0NCj4gKw0KPiAr5L2c6ICFOiBQZXRlciBaaWps
-c3RyYSA8YS5wLnppamxzdHJhQGNoZWxsby5ubD4NCj4gKw0KPiArLi4gY29udGVudHM6OiA6bG9j
-YWw6DQo+ICsNCj4gK+mrmOWGheWtmOaYr+S7gOS5iO+8nw0KPiArPT09PT09PT09PT09PT0NCj4g
-Kw0KPiAr5b2T54mp55CG5YaF5a2Y55qE5aSn5bCP5o6l6L+R5oiW6LaF6L+H6Jma5ouf5YaF5a2Y
-55qE5pyA5aSn5aSn5bCP5pe277yM5bCx5Lya5L2/55So6auY5YaF5a2Y77yIaGlnaG1lbe+8ieOA
-guWcqOi/meS4gOeCueS4iu+8jOWGhQ0KPiAr5qC45LiN5Y+v6IO95Zyo5Lu75L2V5pe25YCZ6YO9
-5L+d5oyB5omA5pyJ5Y+v55So55qE54mp55CG5YaF5a2Y55qE5pig5bCE44CC6L+Z5oSP5ZGz552A
-5YaF5qC46ZyA6KaB5byA5aeL5L2/55So5a6D5oOz6K6/6Zeu55qE54mp55CG5YaFDQo+ICvlrZjn
-moTkuLTml7bmmKDlsITjgIINCj4gKw0KPiAr5rKh5pyJ6KKr5rC45LmF5pig5bCE6KaG55uW55qE
-6YKj6YOo5YiG77yI54mp55CG77yJ5YaF5a2Y5bCx5piv5oiR5Lus5omA6K+055qEICLpq5jlhoXl
-rZgi44CC5a+55LqO6L+Z5Liq6L6555WM55qE56Gu5YiH5L2N572u77yM5pyJDQo+ICvlkITnp43m
-nrbmnoTkuIrnmoTpmZDliLbjgIINCj4gKw0KPiAr5L6L5aaC77yM5ZyoaTM4NuaetuaehOS4re+8
-jOaIkeS7rOmAieaLqeWwhuWGheaguOaYoOWwhOWIsOavj+S4qui/m+eoi+eahOiZmuaLn+epuumX
-tO+8jOi/meagt+aIkeS7rOWwseS4jeW/heS4uuWGheaguOeahOi/m+WFpS/pgIANCj4gK+WHuuS7
-mOWHuuWFqOmDqOeahFRMQuS9nOW6n+S7o+S7t+OAgui/meaEj+WRs+edgOWPr+eUqOeahOiZmuaL
-n+WGheWtmOepuumXtO+8iGkzODbkuIrkuLo0R2lC77yJ5b+F6aG75Zyo55So5oi35ZKM5YaF5qC4
-56m66Ze05LmLDQo+ICvpl7Tov5vooYzliJLliIbjgIINCj4gKw0KPiAr5L2/55So6L+Z56eN5pa5
-5rOV55qE5p625p6E55qE5Lyg57uf5YiG6YWN5pa55byP5pivMzox77yMM0dpQueUqOS6jueUqOaI
-t+epuumXtO+8jOmhtumDqOeahDFHaULnlKjkuo7lhoXmoLjnqbrpl7TjgII6Og0KPiArDQo+ICsg
-ICAgICAgICAgICAgICArLS0tLS0tLS0rIDB4ZmZmZmZmZmYNCj4gKyAgICAgICAgICAgICAgIHwg
-S2VybmVsIHwNCj4gKyAgICAgICAgICAgICAgICstLS0tLS0tLSsgMHhjMDAwMDAwMA0KPiArICAg
-ICAgICAgICAgICAgfCAgICAgICAgfA0KPiArICAgICAgICAgICAgICAgfCBVc2VyICAgfA0KPiAr
-ICAgICAgICAgICAgICAgfCAgICAgICAgfA0KPiArICAgICAgICAgICAgICAgKy0tLS0tLS0tKyAw
-eDAwMDAwMDAwDQo+ICsNCj4gK+i/meaEj+WRs+edgOWGheaguOWcqOS7u+S9leaXtuWAmeacgOWk
-muWPr+S7peaYoOWwhDFHaULnmoTniannkIblhoXlrZjvvIzkvYbmmK/nlLHkuo7miJHku6zpnIDo
-poHomZrmi5/lnLDlnYDnqbrpl7TmnaXlgZrlhbbku5bkuosNCj4gK+aDhS0t5YyF5ous6K6/6Zeu
-5YW25L2Z54mp55CG5YaF5a2Y55qE5Li05pe25pig5bCELS3lrp7pmYXnmoTnm7TmjqXmmKDlsITp
-gJrluLjkvJrmm7TlsJHvvIjpgJrluLjlnKh+ODk2TWlC5bem5Y+z77yJ44CCDQo+ICsNCj4gK+WF
-tuS7luaciW1t5LiK5LiL5paH5qCH562+55qEVExC55qE5p625p6E5Y+v5Lul5pyJ54us56uL55qE
-5YaF5qC45ZKM55So5oi35pig5bCE44CC54S26ICM77yM5LiA5Lqb56Gs5Lu277yI5aaC5LiA5Lqb
-QVJN77yJ5Zyo5L2/DQo+ICvnlKhtbeS4iuS4i+aWh+agh+etvuaXtu+8jOWFtuiZmuaLn+epuumX
-tOaciemZkOOAgg0KPiArDQo+ICsNCj4gK+S4tOaXtuiZmuaLn+aYoOWwhA0KPiArPT09PT09PT09
-PT09DQo+ICsNCj4gK+WGheaguOWMheWQq+WHoOenjeWIm+W7uuS4tOaXtuaYoOWwhOeahOaWueaz
-leOAgjoNCj4gKw0KPiArKiB2bWFwKCkuICDov5nlj6/ku6XnlKjmnaXlsIblpJrkuKrniannkIbp
-obXplb/mnJ/mmKDlsITliLDkuIDkuKrov57nu63nmoTomZrmi5/nqbrpl7TjgILlroPpnIDopoFz
-eW5jaHJvbml6YXRpb24NCj4gKyAg5p2l6Kej6Zmk5pig5bCE44CCDQo+ICsNCj4gKyoga21hcCgp
-LiAg6L+Z5YWB6K645a+55Y2V5Liq6aG16Z2i6L+b6KGM55+t5pyf5pig5bCE44CC5a6D6ZyA6KaB
-c3luY2hyb25pemF0aW9u77yM5L2G5Zyo5LiA5a6a56iL5bqm5LiK6KKr5pGK6ZSA44CCDQo+ICsg
-IOW9k+S7peW1jOWll+aWueW8j+S9v+eUqOaXtu+8jOWug+S5n+W+iOWuueaYk+WHuueOsOatu+mU
-ge+8jOWboOatpOS4jeW7uuiuruWcqOaWsOS7o+eggeS4reS9v+eUqOWug+OAgg0KPiArDQo+ICsq
-IGttYXBfYXRvbWljKCkuICDov5nlhYHorrjlr7nljZXkuKrpobXpnaLov5vooYzpnZ7luLjnn63n
-moTml7bpl7TmmKDlsITjgILnlLHkuo7mmKDlsITooqvpmZDliLblnKjlj5HluIPlroPnmoRDUFXk
-uIrvvIwNCj4gKyAg5a6D6KGo546w5b6X5b6I5aW977yM5L2G5Y+R5biD5Lu75Yqh5Zug5q2k6KKr
-6KaB5rGC55WZ5Zyo6K+lQ1BV5LiK55u05Yiw5a6D5a6M5oiQ77yM5Lul5YWN5YW25LuW5Lu75Yqh
-5Y+W5Luj5a6D55qE5pig5bCE44CCDQo+ICsNCj4gKyAga21hcF9hdG9taWMoKSDkuZ/lj6/ku6Xn
-lLHkuK3mlq3kuIrkuIvmlofkvb/nlKjvvIzlm6DkuLrlroPkuI3nnaHnnKDvvIzogIzkuJTosIPn
-lKjogIXlj6/og73lnKjosIPnlKhrdW5tYXBfYXRvbWljKCkNCj4gKyAg5LmL5ZCO5omN552h55yg
-44CCDQo+ICsNCj4gKyAg5Y+v5Lul5YGH6K6+a1t1bl1tYXBfYXRvbWljKCnkuI3kvJrlpLHotKXj
-gIINCj4gKw0KPiArDQo+ICvkvb/nlKhrbWFwX2F0b21pYw0KPiArPT09PT09PT09PT09PT09DQo+
-ICsNCj4gK+S9leaXtuS9leWcsOS9v+eUqCBrbWFwX2F0b21pYygpIOaYr+W+iOebtOaOpeeahOOA
-guW9k+S7o+eggeaDs+imgeiuv+mXruS4gOS4quWPr+iDveS7jumrmOWGheWtmO+8iOingV9fR0ZQ
-X0hJR0hNRU3vvIkNCj4gK+WIhumFjeeahOmhtemdoueahOWGheWuueaXtu+8jOS+i+WmguWcqOmh
-tee8k+WtmOS4reeahOmhtemdou+8jOWwseS8muS9v+eUqOWug+OAguivpUFQSeacieS4pOS4quWH
-veaVsO+8jOWug+S7rOeahOS9v+eUqOaWueW8j+S4jg0KPiAr5LiL6Z2i57G75Ly8OjoNCj4gKw0K
-PiArICAgICAgIC8qIOaJvuWIsOaEn+WFtOi2o+eahOmhtemdouOAgiAqLw0KPiArICAgICAgIHN0
-cnVjdCBwYWdlICpwYWdlID0gZmluZF9nZXRfcGFnZShtYXBwaW5nLCBvZmZzZXQpOw0KPiArDQo+
-ICsgICAgICAgLyog6I635b6X5a+56K+l6aG15YaF5a6555qE6K6/6Zeu5p2D44CCICovDQo+ICsg
-ICAgICAgdm9pZCAqdmFkZHIgPSBrbWFwX2F0b21pYyhwYWdlKTsNCj4gKw0KPiArICAgICAgIC8q
-IOWvueivpemhteeahOWGheWuueWBmuS4gOS6m+WkhOeQhuOAgiAqLw0KPiArICAgICAgIG1lbXNl
-dCh2YWRkciwgMCwgUEFHRV9TSVpFKTsNCj4gKw0KPiArICAgICAgIC8qIOino+mZpOivpemhtemd
-oueahOaYoOWwhOOAgiAqLw0KPiArICAgICAgIGt1bm1hcF9hdG9taWModmFkZHIpOw0KPiArDQo+
-ICvms6jmhI/vvIxrdW5tYXBfYXRvbWljKCnosIPnlKjnmoTmmK9rbWFwX2F0b21pYygp6LCD55So
-55qE57uT5p6c6ICM5LiN5piv5Y+C5pWw44CCDQo+ICsNCj4gK+WmguaenOS9oOmcgOimgeaYoOWw
-hOS4pOS4qumhtemdou+8jOWboOS4uuS9oOaDs+S7juS4gOS4qumhtemdouWkjeWItuWIsOWPpuS4
-gOS4qumhtemdou+8jOS9oOmcgOimgeS/neaMgWttYXBfYXRvbWlj6LCD55So5LilDQo+ICvmoLzl
-tYzlpZfvvIzlpoI6Og0KPiArDQo+ICsgICAgICAgdmFkZHIxID0ga21hcF9hdG9taWMocGFnZTEp
-Ow0KPiArICAgICAgIHZhZGRyMiA9IGttYXBfYXRvbWljKHBhZ2UyKTsNCj4gKw0KPiArICAgICAg
-IG1lbWNweSh2YWRkcjEsIHZhZGRyMiwgUEFHRV9TSVpFKTsNCj4gKw0KPiArICAgICAgIGt1bm1h
-cF9hdG9taWModmFkZHIyKTsNCj4gKyAgICAgICBrdW5tYXBfYXRvbWljKHZhZGRyMSk7DQo+ICsN
-Cj4gKw0KPiAr5Li05pe25pig5bCE55qE5oiQ5pysDQo+ICs9PT09PT09PT09PT09PQ0KPiArDQo+
-ICvliJvlu7rkuLTml7bmmKDlsITnmoTku6Pku7flj6/og73nm7jlvZPpq5jjgILkvZPns7vmnrbm
-noTlv4Xpobvmk43kvZzlhoXmoLjnmoTpobXooajjgIHmlbDmja5UTELlkowv5oiWTU1V55qE5a+E
-5a2Y5Zmo44CCDQo+ICsNCj4gK+WmguaenENPTkZJR19ISUdITUVN5rKh5pyJ6KKr6K6+572u77yM
-6YKj5LmI5YaF5qC45Lya5bCd6K+V55So5LiA54K56K6h566X5p2l5Yib5bu65pig5bCE77yM5bCG
-6aG16Z2i57uT5p6E5Zyw5Z2A6L2s5o2i5oiQDQo+ICvmjIflkJHpobXpnaLlhoXlrrnnmoTmjIfp
-kojvvIzogIzkuI3mmK/ljrvmjaPpvJPmmKDlsITjgILlnKjov5nnp43mg4XlhrXkuIvvvIzop6Pm
-mKDlsITmk43kvZzlj6/og73mmK/kuIDkuKrnqbrmk43kvZzjgIINCj4gKw0KPiAr5aaC5p6cQ09O
-RklHX01NVeayoeacieiiq+iuvue9ru+8jOmCo+S5iOWwseS4jeWPr+iDveacieS4tOaXtuaYoOWw
-hOWSjOmrmOWGheWtmOOAguWcqOi/meenjeaDheWGteS4i++8jOS5n+WwhuS9v+eUqOiuoeeul+aW
-ueazleOAgg0KPiArDQo+ICsNCj4gK2kzODYgUEFFDQo+ICs9PT09PT09PQ0KPiArDQo+ICvlnKjm
-n5Dkupvmg4XlhrXkuIvvvIxpMzg2IOaetuaehOWwhuWFgeiuuOS9oOWcqCAzMiDkvY3mnLrlmajk
-uIrlronoo4XlpJrovr4gNjRHaUIg55qE5YaF5a2Y44CC5L2G6L+Z5pyJ5LiA5Lqb5ZCO5p6cOg0K
-PiArDQo+ICsqIExpbnV46ZyA6KaB5Li657O757uf5Lit55qE5q+P5Liq6aG16Z2i5bu656uL5LiA
-5Liq6aG15bin57uT5p6E77yM6ICM5LiU6aG15bin6ZyA6KaB6am75Zyo5rC45LmF5pig5bCE5Lit
-77yM6L+Z5oSP5ZGz552A77yaDQo+ICsNCj4gKyog5L2g5pyA5aSa5Y+v5Lul5pyJODk2TS9zaXpl
-b2Yoc3RydWN0IHBhZ2Up6aG15bin77yb55Sx5LqO6aG157uT5p6E5L2T5pivMzLlrZfoioLnmoTv
-vIzmiYDku6XmnIDnu4jkvJrmnIkNCj4gKyAgMTEyR+eahOmhte+8m+eEtuiAjO+8jOWGheaguOmc
-gOimgeWcqOWGheWtmOS4reWtmOWCqOabtOWkmueahOmhteW4py4uLi4uLg0KPiArDQo+ICsqIFBB
-ReS9v+S9oOeahOmhteihqOWPmOWkpy0t6L+Z5L2/57O757uf5Y+Y5oWi77yM5Zug5Li65pu05aSa
-55qE5pWw5o2u6ZyA6KaB5ZyoVExC5aGr5YWF562J5pa56Z2i6KKr6K6/6Zeu44CC5LiA5Liq5aW9
-5aSEDQo+ICsgIOaYr++8jFBBReacieabtOWkmueahFBUReS9je+8jOWPr+S7peaPkOS+m+WDj05Y
-5ZKMUEFU6L+Z5qC355qE6auY57qn5Yqf6IO944CCDQo+ICsNCj4gK+S4gOiIrOeahOW7uuiuruaY
-r++8jOS9oOS4jeimgeWcqDMy5L2N5py65Zmo5LiK5L2/55So6LaF6L+HOEdpQueahOepuumXtC0t
-5bC9566h5pu05aSa55qE56m66Ze05Y+v6IO95a+55L2g5ZKM5L2g55qE5bel5L2cDQo+ICvph4/m
-nInnlKjvvIzkvYbkvaDlh6DkuY7mmK/pnaDkvaDoh6rlt7EtLeS4jeimgeaMh+acm+WGheaguOW8
-gOWPkeiAheecn+eahOS8muW+iOWFs+W/g+S6i+aDheeahOi/m+WxleaDheWGteOAgg0KPiBkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IGIv
-RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0DQo+IGluZGV4IDlj
-ZGZkZTAzNjRmMC4uYTFkMmYwMzU2Y2MxIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0DQo+IEBAIC0yNSwxMyArMjUsMTMgQEAgVE9ETzrl
-voXlvJXnlKjmlofmoaPpm4booqvnv7vor5Hlrozmr5XlkI7or7flj4rml7bkv67mlLnmraTlpITv
-vIkNCj4gICAgIGJhbGFuY2UNCj4gICAgIGRhbW9uL2luZGV4DQo+ICAgICBmcmVlX3BhZ2VfcmVw
-b3J0aW5nDQo+ICsgICBoaWdobWVtDQo+ICAgICBrc20NCj4NCj4gIFRPRE9MSVNUOg0KPiAgKiBh
-cmNoX3BndGFibGVfaGVscGVycw0KPiAgKiBmcmVlX3BhZ2VfcmVwb3J0aW5nDQo+ICAqIGZyb250
-c3dhcA0KPiAtKiBoaWdobWVtDQo+ICAqIGhtbQ0KPiAgKiBod3BvaXNvbg0KPiAgKiBodWdldGxi
-ZnNfcmVzZXJ2DQo+IC0tDQo+IDIuMjcuMA0KPg0K
+On 1/27/22 12:31, Daniel Vetter wrote:
+> On Thu, Jan 27, 2022 at 11:50:30AM +0100, Javier Martinez Canillas wrote:
+
+[snip]
+
+>> Indeed. And we can add such section as a follow-up. Maybe referring to some
+>> of the drivers in drivers/gpu/drm/tiny.
+> 
+> Do we have a talk anywhere for tiny?
+>
+
+I couldn't find one for tiny.
+ 
+> Otherwise I think it'd be good to just add a paragraph about "hey tiny
+> exists" and maybe link to fbdev helpers and simple pipe helpers to get
+> people started with the right entry points for simple drivers.
+>
+
+Ok. I can add some sentences about drm/tiny and point out that the DRM
+drivers there could be used as a good references for simple drivers.
+ 
+> And make it clear that the above pile of links is more for general
+> overview and if you don't yet know what exactly it is you need.
+> 
+
+Sure, I'll add that too.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
