@@ -2,83 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE28C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 16:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9B1C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 16:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235094AbiA0Qcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 11:32:48 -0500
-Received: from mga09.intel.com ([134.134.136.24]:21477 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231582AbiA0Qcs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 27 Jan 2022 11:32:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643301168; x=1674837168;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qHtnmHHl44LJl67NSL8iI4+OJQIdTqauFcVwcSBgZAw=;
-  b=gK1Taf3fJH0sZ5i+Gk9nDy1oq7EvJgi5xeUupfhtITCG6y6sRrtI2NLl
-   vzFgF4ytgN0x0ApbMkv7l+GfXs9r/ftYHPLfPph9vkrp5SKfkRlevv/mX
-   CFK2bQ51qGt1BTItsJbE+7tVaVakSC4rgphdi0ezvr5//bK7t9DLaJeq+
-   yADzoJMmf361ozD1nhOiJ36esFKkoItgw47HrAlEnCv+f3YYdaaZiaQxs
-   mnYHUmnvLtUjC/nPAkBUoqh9Yw3uwRzRYu73TzJTT6e+ozqRKH6sndrLE
-   dd7oNcMpSIdonWb7g2+IIUszsKq+Z2PIbGFrmO06oeX4XTC3M/6vIQB7b
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="246681475"
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="246681475"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 08:32:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
-   d="scan'208";a="696715228"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 27 Jan 2022 08:32:46 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 8F894167; Thu, 27 Jan 2022 18:32:59 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Florian Eckert <fe@dev.tdt.de>
-Subject: [PATCH v2 1/1] docs: process: submitting-patches: Clarify the Reported-by usage
-Date:   Thu, 27 Jan 2022 18:32:58 +0200
-Message-Id: <20220127163258.48482-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+        id S244160AbiA0QyY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 11:54:24 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:54616 "EHLO
+        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244142AbiA0QyW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 11:54:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=z5kdi/2vnGbJelc6HiI/gkWTGI7eeIgVJi2FH4beUag=; b=ngq+lWePz30tCeB65IcaTJtT8K
+        UcVukCW4mUq3DnFnY5W5Cu1z/WyCyo5a3Wdk1aGTv5moZXid4YoD9lucPO3YfCXM+b0d5JY/WD13O
+        68GxmVFoyAfqJQQpjentRJKpRE08CrMZgcIb8R49mww+APimNi5HWwLCuDFqTo0XJ6a3WvSaCdh1b
+        tnc8lVu1eQyhxwwzRIKs9sqwgGhr3m5SulMYr+FLbfoxsv7yvHvB9qd/8H99yvKbsVQLHTmN83MiF
+        i1l074yw6YZC1XTuGUCebt49P1lgmKDSHKaawSzbbMXn4UOgKrpfljVz4DW9l2OfIr8ewFB/+n1Oa
+        fAEZt1rg==;
+Received: from 200-207-58-141.dsl.telesp.net.br ([200.207.58.141] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1nD82H-0006sM-TV; Thu, 27 Jan 2022 17:54:14 +0100
+Message-ID: <7c516696-be5b-c280-7f4e-554834f5e472@igalia.com>
+Date:   Thu, 27 Jan 2022 13:53:58 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
+ kdump
+Content-Language: en-US
+To:     Petr Mladek <pmladek@suse.com>, akpm@linux-foundation.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, feng.tang@intel.com,
+        siglesias@igalia.com, kernel@gpiccoli.net
+References: <20211109202848.610874-1-gpiccoli@igalia.com>
+ <20211109202848.610874-4-gpiccoli@igalia.com> <Yd/qmyz+qSuoUwbs@alley>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <Yd/qmyz+qSuoUwbs@alley>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's unclear from "Submitting Patches" documentation that Reported-by
-is not supposed to be used against new features. (It's more clear
-in the section 5.4 "Patch formatting and changelogs" of the "A guide
-to the Kernel Development Process", where it suggests that change
-should fix something existing in the kernel. Clarify the Reported-by
-usage in the "Submitting Patches".
+Hi Andrew, can I ask you to please remove this patch from linux-next?
 
-Reported-by: Florian Eckert <fe@dev.tdt.de>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: rephrased as suggested by Jonathan
- Documentation/process/submitting-patches.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It shows here:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=56439cb78293
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 31ea120ce531..fb496b2ebfd3 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -495,7 +495,8 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
- The Reported-by tag gives credit to people who find bugs and report them and it
- hopefully inspires them to help us again in the future.  Please note that if
- the bug was reported in private, then ask for permission first before using the
--Reported-by tag.
-+Reported-by tag. The tag is intended for bugs; please do not use it to credit
-+feature requests.
- 
- A Tested-by: tag indicates that the patch has been successfully tested (in
- some environment) by the person named.  This tag informs maintainers that
--- 
-2.34.1
+Baoquan has concerns, and we're discussing that in another thread [0],
+after I submit another change on top of this one. So, I guess it's
+simpler to just drop it.
 
+My apologies for this, I should have definitely loop the kexec list in
+this one , but I forgot.
+
+Cheers,
+
+
+Guilherme
+
+
+[0]
+https://lore.kernel.org/lkml/7b93afff-66a0-44ee-3bb7-3d1e12dd47c2@igalia.com/
