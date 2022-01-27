@@ -2,210 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4679C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 09:05:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64157C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 09:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238185AbiA0JFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 04:05:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234573AbiA0JFm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 04:05:42 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E945C061714;
-        Thu, 27 Jan 2022 01:05:41 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id e17so3305242ljk.5;
-        Thu, 27 Jan 2022 01:05:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=9G7z2L/wIkbdBAgvndKll7pSyf3VWgD5TJfFYJX8Dqc=;
-        b=oDwBPEb03yzvTtKtO6lk9QsrKgFHCgCm6TWY9QX5WG+SCQxV3UNkAQh4rUFntTku5G
-         jL2IvCNjMy8vqCkpnHC6QvHLbIeyn5SqSt/pVmy4Wc4ge/UxoAkTBxIW6SEjs7Tc3NLE
-         YDsP4lG8fjNh0uDUa8a2eMNrMvvG4SDIVmuJ+1ca6FID+vTobiObYsAxVdg3S7LZkPsX
-         q6MpAZFzsr8vfhKSOMO72T6sOlaUAOGHhd6RbkfmjYedJfq3IyASoHb/DMjP2AKn8Kr4
-         inKUQXFOXsSzuURSseWBNFtXU3AtzyNoLmXHrPthW8b4jhxjhZkA2GFP5qRCBsGufJan
-         J8rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=9G7z2L/wIkbdBAgvndKll7pSyf3VWgD5TJfFYJX8Dqc=;
-        b=yO6M1nqzWCMHT9Y5aXcKMo5mHcvbZcui+gGe/zNFhYeTHLgLpMdj5BpB5Xua7bEKDk
-         nT+GJ7Ag66rnPjdudtYFo2sa6Cs4xmUQcSVa/h5WXXEGiTDQsBQEPXOLsBle4AHOazzR
-         ny+mskyzX5gtiE3uqdnnF1qiTV/FVqdzwbDKidv47r2Qo0/V9eDv1svE+ITB02aeg05H
-         gs0wXADYYVdYCm95QhOFH/ik19C4jJC0ab96+lFc4qUPiBBn47FvPYQp0UzzRHOSIzza
-         8M5UmQheCnkV2GB887jaHF4Y8Q5zocrb56dM3zSVarzyVO2E/UY1ZcIXv4HAEkQcYb8Q
-         Jntw==
-X-Gm-Message-State: AOAM533/JHIXquu4Ov40npuFbQVpsGDy2V/I3Qfaicc9xho7W3XZJzFh
-        rsm9Ydz29QmcL7HbliMGfLw=
-X-Google-Smtp-Source: ABdhPJwcN1TN+Dp1Fx06IKRNn0C7H63yo7TJeIAYC6MmlgXoSBZSskbsjjftINgCULZ1QWVU01TEhg==
-X-Received: by 2002:a2e:9b5a:: with SMTP id o26mr2289750ljj.186.1643274339743;
-        Thu, 27 Jan 2022 01:05:39 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id p28sm1658252lfo.79.2022.01.27.01.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 01:05:39 -0800 (PST)
-Date:   Thu, 27 Jan 2022 11:05:28 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        id S238398AbiA0JSc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 04:18:32 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:51608 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238357AbiA0JSb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 04:18:31 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id A60071F76E;
+        Thu, 27 Jan 2022 09:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1643275109; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6W7t61QRyEyhzyVHKUw0QNwmIWHa/l/1xTWkd5q/qcg=;
+        b=r/FEfn8b1KQ1IvDE5tpA8SCjC+LIkJDu0i1ZJgX6vm7f5+BNWjmK8WaqDtajtYpU49BAlB
+        NleNMyx8UyYKSqPNWMqls6xDD9z2fFV1enGRJep3GWBimKXB6fwf6bXymWu3gTiS3pww/E
+        St3+pJj4cT+W6JVvyQGlRAL+HTB/GTg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1643275109;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6W7t61QRyEyhzyVHKUw0QNwmIWHa/l/1xTWkd5q/qcg=;
+        b=yMSfnMTN1XWoO9zAZUkHePN2wqTSmgGVcK368bp4514SuuMkmO/LP3qIJmEmfN7n4EJdzH
+        w/PEAtIxRmaDAfDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 61A2613CFB;
+        Thu, 27 Jan 2022 09:18:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id aIp/FmVj8mEyHAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 09:18:29 +0000
+Message-ID: <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
+Date:   Thu, 27 Jan 2022 10:18:28 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
  learning material
-Message-ID: <20220127110528.20604049@eldfell>
-In-Reply-To: <20220127082058.434421-1-javierm@redhat.com>
+Content-Language: en-US
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 References: <20220127082058.434421-1-javierm@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//82LTiAi=MvHuwuf6=cTHCM";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220127082058.434421-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2ezGz5HvJ4Oa2La6dLfwNVvT"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_//82LTiAi=MvHuwuf6=cTHCM
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2ezGz5HvJ4Oa2La6dLfwNVvT
+Content-Type: multipart/mixed; boundary="------------OFM0Z9Njajkj0EiJ3vAOi5sp";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Message-ID: <c99a7784-7ac4-e305-1a06-dfb514a409ff@suse.de>
+Subject: Re: [PATCH] drm/doc: Add section in the introduction page about
+ learning material
+References: <20220127082058.434421-1-javierm@redhat.com>
+In-Reply-To: <20220127082058.434421-1-javierm@redhat.com>
 
-On Thu, 27 Jan 2022 09:20:58 +0100
-Javier Martinez Canillas <javierm@redhat.com> wrote:
+--------------OFM0Z9Njajkj0EiJ3vAOi5sp
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> The Linux DRM subsystem supports complex graphics devices and it could be
-> quite overwhelming for newcomers to learn about the subsystem's internals.
->=20
-> There are lots of useful talks, slides and articles available that can be
-> used to get familiar with the needed concepts and ease the learning curve.
->=20
-> Add a section to the intro that contains these DRM introductory materials.
->=20
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->=20
->  Documentation/gpu/introduction.rst | 36 ++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->=20
-> diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/intro=
-duction.rst
-> index 25a56e9c0cfd..35986784f916 100644
-> --- a/Documentation/gpu/introduction.rst
-> +++ b/Documentation/gpu/introduction.rst
-> @@ -112,3 +112,39 @@ Please conduct yourself in a respectful and civilise=
-d manner when
->  interacting with community members on mailing lists, IRC, or bug
->  trackers. The community represents the project as a whole, and abusive
->  or bullying behaviour is not tolerated by the project.
-> +
-> +Learning material
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Since the Linux DRM layer supports complex graphics devices, it can be q=
-uite
-> +overwhelming for newcomers to get familiar with all the needed concepts =
-and
-> +learn the subsystem's internals.
+SGkgSmF2aWVyLA0KDQp0aGFua3MgZm9yIHRoaXMgcGF0Y2guDQoNCkFja2VkLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KRmluZCBzb21lIGlkZWFz
+IGZvciBjb25zaWRlcmF0aW9uIGJlbG93Lg0KDQpBbSAyNy4wMS4yMiB1bSAwOToyMCBzY2hy
+aWViIEphdmllciBNYXJ0aW5leiBDYW5pbGxhczoNCj4gVGhlIExpbnV4IERSTSBzdWJzeXN0
+ZW0gc3VwcG9ydHMgY29tcGxleCBncmFwaGljcyBkZXZpY2VzIGFuZCBpdCBjb3VsZCBiZQ0K
+PiBxdWl0ZSBvdmVyd2hlbG1pbmcgZm9yIG5ld2NvbWVycyB0byBsZWFybiBhYm91dCB0aGUg
+c3Vic3lzdGVtJ3MgaW50ZXJuYWxzLg0KPiANCj4gVGhlcmUgYXJlIGxvdHMgb2YgdXNlZnVs
+IHRhbGtzLCBzbGlkZXMgYW5kIGFydGljbGVzIGF2YWlsYWJsZSB0aGF0IGNhbiBiZQ0KPiB1
+c2VkIHRvIGdldCBmYW1pbGlhciB3aXRoIHRoZSBuZWVkZWQgY29uY2VwdHMgYW5kIGVhc2Ug
+dGhlIGxlYXJuaW5nIGN1cnZlLg0KPiANCj4gQWRkIGEgc2VjdGlvbiB0byB0aGUgaW50cm8g
+dGhhdCBjb250YWlucyB0aGVzZSBEUk0gaW50cm9kdWN0b3J5IG1hdGVyaWFscy4NCj4gDQo+
+IFN1Z2dlc3RlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4N
+Cj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJl
+ZGhhdC5jb20+DQo+IC0tLQ0KPiANCj4gICBEb2N1bWVudGF0aW9uL2dwdS9pbnRyb2R1Y3Rp
+b24ucnN0IHwgMzYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2dwdS9pbnRyb2R1Y3Rpb24ucnN0IGIvRG9jdW1lbnRhdGlvbi9ncHUvaW50cm9k
+dWN0aW9uLnJzdA0KPiBpbmRleCAyNWE1NmU5YzBjZmQuLjM1OTg2Nzg0ZjkxNiAxMDA2NDQN
+Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvaW50cm9kdWN0aW9uLnJzdA0KPiArKysgYi9E
+b2N1bWVudGF0aW9uL2dwdS9pbnRyb2R1Y3Rpb24ucnN0DQo+IEBAIC0xMTIsMyArMTEyLDM5
+IEBAIFBsZWFzZSBjb25kdWN0IHlvdXJzZWxmIGluIGEgcmVzcGVjdGZ1bCBhbmQgY2l2aWxp
+c2VkIG1hbm5lciB3aGVuDQo+ICAgaW50ZXJhY3Rpbmcgd2l0aCBjb21tdW5pdHkgbWVtYmVy
+cyBvbiBtYWlsaW5nIGxpc3RzLCBJUkMsIG9yIGJ1Zw0KPiAgIHRyYWNrZXJzLiBUaGUgY29t
+bXVuaXR5IHJlcHJlc2VudHMgdGhlIHByb2plY3QgYXMgYSB3aG9sZSwgYW5kIGFidXNpdmUN
+Cj4gICBvciBidWxseWluZyBiZWhhdmlvdXIgaXMgbm90IHRvbGVyYXRlZCBieSB0aGUgcHJv
+amVjdC4NCj4gKw0KPiArTGVhcm5pbmcgbWF0ZXJpYWwNCj4gKz09PT09PT09PT09PT09PT09
+DQoNCk1heWJlICdFeHRlcm5hbCBSZWZlcmVuY2VzJy4NCg0KPiArDQo+ICtTaW5jZSB0aGUg
+TGludXggRFJNIGxheWVyIHN1cHBvcnRzIGNvbXBsZXggZ3JhcGhpY3MgZGV2aWNlcywgaXQg
+Y2FuIGJlIHF1aXRlDQo+ICtvdmVyd2hlbG1pbmcgZm9yIG5ld2NvbWVycyB0byBnZXQgZmFt
+aWxpYXIgd2l0aCBhbGwgdGhlIG5lZWRlZCBjb25jZXB0cyBhbmQNCj4gK2xlYXJuIHRoZSBz
+dWJzeXN0ZW0ncyBpbnRlcm5hbHMuDQoNCkl0IHNvdW5kcyBhIGJpdCBpbnRpbWRhdGluZyB0
+byBtZS4gQ2FuIHdlIGdpdmUgaXQgYSBwb3NpdGl2ZSBzcGluPw0KDQpJTUhPIHdlIGNvdWxk
+IGFkZCBhIHNlcGFyYXRlIHNlY3Rpb24gdGhhdCB0YWxrcyBhYm91dCBjb21wbGV4aXR5IGFu
+ZCANCnByb3ZpZGVzIGd1aWRlbGluZXMgYWJvdXQgaG93IHRvIGRlYWwgd2l0aCBpdDogIHRy
+aXZpYWwgSFc/IHVzZSBzaW1wbGUgDQpwaXBlOyAgZGVkaWNhdGVkIFZSQU0/IHRyeSBUVE07
+ICBhd2t3YXJkIGNvbG9yIGZvcm1hdHM/ICBzZWUgDQpkcm1fZm9ybWF0X2hlbHBlci5jDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gKw0KPiArVG8gc2hhbGxvdyB0aGUgbGVhcm5p
+bmcgY3VydmUsIHRoaXMgc2VjdGlvbiBjb250YWlucyBhIGxpc3Qgb2YgcHJlc2VudGF0aW9u
+cw0KPiArYW5kIGRvY3VtZW50cyB0aGF0IGNhbiBiZSB1c2VkIHRvIGxlYXJuIGFib3V0IERS
+TS9LTVMgYW5kIGdyYXBoaWNzIGluIGdlbmVyYWwuDQo+ICsNCj4gK1RoZSBsaXN0IGlzIHNv
+cnRlZCBpbiByZXZlcnNlIGNocm9ub2xvZ2ljYWwgb3JkZXIsIHRvIGtlZXAgdGhlIG1vc3Qg
+dXAtdG8tZGF0ZQ0KPiArbWF0ZXJpYWwgYXQgdGhlIHRvcC4gQnV0IGFsbCBvZiB0aGVtIGNv
+bnRhaW4gdXNlZnVsIGluZm9ybWF0aW9uLCBhbmQgaXQgY2FuIGJlDQo+ICt2YWx1YWJsZSB0
+byBnbyB0aHJvdWdoIG9sZGVyIG1hdGVyaWFsIHRvIHVuZGVyc3RhbmQgdGhlIHJhdGlvbmFs
+ZSBhbmQgY29udGV4dA0KPiAraW4gd2hpY2ggdGhlIHJlY2VudCBjaGFuZ2VzIHRvIHRoZSBE
+Uk0gc3Vic3lzdGVtIHdlcmUgbWFkZS4NCj4gKw0KPiArVGFsa3MNCj4gKy0tLS0tDQo+ICsN
+Cj4gKyogYEFuIE92ZXJ2aWV3IG9mIHRoZSBMaW51eCBhbmQgVXNlcnNwYWNlIEdyYXBoaWNz
+IFN0YWNrIDxodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PXdqQUptcXdnNDdrPmBf
+IC0gUGF1bCBLb2NpYWxrb3dza2kgKDIwMjApDQo+ICsqIGBHZXR0aW5nIHBpeGVscyBvbiBz
+Y3JlZW4gb24gTGludXg6IGludHJvZHVjdGlvbiB0byBLZXJuZWwgTW9kZSBTZXR0aW5nIDxo
+dHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PWhhZXM0X1huYzVRPmBfIC0gU2ltb24g
+U2VyICgyMDIwKQ0KPiArKiBgQW4gaW50cm9kdWN0aW9uIHRvIHRoZSBMaW51eCBEUk0gc3Vi
+c3lzdGVtIDxodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PUxiRE9DSmNEUm9vPmBf
+IC0gTWF4aW1lIFJpcGFyZCAoMjAxNykNCj4gKyogYEVtYnJhY2UgdGhlIEF0b21pYyAoRGlz
+cGxheSkgQWdlIDxodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PUxqaUJfSmVEbjJN
+PmBfIC0gRGFuaWVsIFZldHRlciAoMjAxNikNCj4gKyogYEFuYXRvbXkgb2YgYW4gQXRvbWlj
+IEtNUyBEcml2ZXIgPGh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9bGlocVI5c0VO
+cGM+YF8gLSBMYXVyZW50IFBpbmNoYXJ0ICgyMDE1KQ0KPiArKiBgQXRvbWljIE1vZGVzZXR0
+aW5nIGZvciBEcml2ZXJzIDxodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PWtsOXN1
+RmdiVGM4PmBfIC0gRGFuaWVsIFZldHRlciAoMjAxNSkNCj4gKyogYEFuYXRvbXkgb2YgYW4g
+RW1iZWRkZWQgS01TIERyaXZlciA8aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1K
+YThmTTdyVGFlND5gXyAtIExhdXJlbnQgUGluY2hhcnQgKDIwMTMNCj4gKw0KPiArU2xpZGVz
+IGFuZCBhcnRpY2xlcw0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICsqIGBVbmRl
+cnN0YW5kaW5nIHRoZSBMaW51eCBHcmFwaGljcyBTdGFjayA8aHR0cHM6Ly9ib290bGluLmNv
+bS9kb2MvdHJhaW5pbmcvZ3JhcGhpY3MvZ3JhcGhpY3Mtc2xpZGVzLnBkZj5gXyAtIEJvb3Rs
+aW4gKDIwMjIpDQo+ICsqIGBEUk0gS01TIG92ZXJ2aWV3IDxodHRwczovL3dpa2kuc3QuY29t
+L3N0bTMybXB1L3dpa2kvRFJNX0tNU19vdmVydmlldz5gXyAtIFNUTWljcm9lbGVjdHJvbmlj
+cyAoMjAyMSkNCj4gKyogYExpbnV4IGdyYXBoaWMgc3RhY2sgPGh0dHBzOi8vc3R1ZGlvcGl4
+bC5jb20vMjAxNy0wNS0xMy9saW51eC1ncmFwaGljLXN0YWNrLWFuLW92ZXJ2aWV3PmBfIC0g
+TmF0aGFuIEdhdcOrciAoMjAxNykNCj4gKyogYFRoZSBEUk0vS01TIHN1YnN5c3RlbSBmcm9t
+IGEgbmV3Ymll4oCZcyBwb2ludCBvZiB2aWV3IDxodHRwczovL2Jvb3RsaW4uY29tL3B1Yi9j
+b25mZXJlbmNlcy8yMDE0L2VsY2UvYnJlemlsbG9uLWRybS1rbXMvYnJlemlsbG9uLWRybS1r
+bXMucGRmPmBfIC0gQm9yaXMgQnJlemlsbG9uICgyMDE0KQ0KPiArKiBgQSBicmllZiBpbnRy
+b2R1Y3Rpb24gdG8gdGhlIExpbnV4IGdyYXBoaWNzIHN0YWNrIDxodHRwczovL2Jsb2dzLmln
+YWxpYS5jb20vaXRvcmFsLzIwMTQvMDcvMjkvYS1icmllZi1pbnRyb2R1Y3Rpb24tdG8tdGhl
+LWxpbnV4LWdyYXBoaWNzLXN0YWNrLz5gXyAtIElhZ28gVG9yYWwgKDIwMTQpDQo+ICsqIGBU
+aGUgTGludXggR3JhcGhpY3MgU3RhY2sgPGh0dHBzOi8vYmxvZy5tZWNoZXllLm5ldC8yMDEy
+LzA2L3RoZS1saW51eC1ncmFwaGljcy1zdGFjay8+YF8gLSBKYXNwZXIgU3QuIFBpZXJyZSAo
+MjAxMikNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Hi,
+--------------OFM0Z9Njajkj0EiJ3vAOi5sp--
 
-this seems to say that DRM is going to be complicated no matter what
-hardware one wants to drive, but is that true?
-
-Is there no way to say that if your display hardware is simple (no
-GPU), then the driver can be simple to write too?
-
-> +
-> +To shallow the learning curve, this section contains a list of presentat=
-ions
-> +and documents that can be used to learn about DRM/KMS and graphics in ge=
-neral.
-> +
-> +The list is sorted in reverse chronological order, to keep the most up-t=
-o-date
-> +material at the top. But all of them contain useful information, and it =
-can be
-> +valuable to go through older material to understand the rationale and co=
-ntext
-> +in which the recent changes to the DRM subsystem were made.
-> +
-> +Talks
-> +-----
-> +
-> +* `An Overview of the Linux and Userspace Graphics Stack <https://www.yo=
-utube.com/watch?v=3DwjAJmqwg47k>`_ - Paul Kocialkowski (2020)
-> +* `Getting pixels on screen on Linux: introduction to Kernel Mode Settin=
-g <https://www.youtube.com/watch?v=3Dhaes4_Xnc5Q>`_ - Simon Ser (2020)
-> +* `An introduction to the Linux DRM subsystem <https://www.youtube.com/w=
-atch?v=3DLbDOCJcDRoo>`_ - Maxime Ripard (2017)
-> +* `Embrace the Atomic (Display) Age <https://www.youtube.com/watch?v=3DL=
-jiB_JeDn2M>`_ - Daniel Vetter (2016)
-> +* `Anatomy of an Atomic KMS Driver <https://www.youtube.com/watch?v=3Dli=
-hqR9sENpc>`_ - Laurent Pinchart (2015)
-> +* `Atomic Modesetting for Drivers <https://www.youtube.com/watch?v=3Dkl9=
-suFgbTc8>`_ - Daniel Vetter (2015)
-> +* `Anatomy of an Embedded KMS Driver <https://www.youtube.com/watch?v=3D=
-Ja8fM7rTae4>`_ - Laurent Pinchart (2013
-> +
-> +Slides and articles
-> +-------------------
-> +
-> +* `Understanding the Linux Graphics Stack <https://bootlin.com/doc/train=
-ing/graphics/graphics-slides.pdf>`_ - Bootlin (2022)
-> +* `DRM KMS overview <https://wiki.st.com/stm32mpu/wiki/DRM_KMS_overview>=
-`_ - STMicroelectronics (2021)
-> +* `Linux graphic stack <https://studiopixl.com/2017-05-13/linux-graphic-=
-stack-an-overview>`_ - Nathan Gau=C3=ABr (2017)
-> +* `The DRM/KMS subsystem from a newbie=E2=80=99s point of view <https://=
-bootlin.com/pub/conferences/2014/elce/brezillon-drm-kms/brezillon-drm-kms.p=
-df>`_ - Boris Brezillon (2014)
-> +* `A brief introduction to the Linux graphics stack <https://blogs.igali=
-a.com/itoral/2014/07/29/a-brief-introduction-to-the-linux-graphics-stack/>`=
-_ - Iago Toral (2014)
-> +* `The Linux Graphics Stack <https://blog.mecheye.net/2012/06/the-linux-=
-graphics-stack/>`_ - Jasper St. Pierre (2012)
-
-That's an impressive list of links!
-
-However, given the discussions that prompted this doc, I think the gist
-is missing. The reader is just flooded with stuff to read and learn
-which can be discouraging.
-
-Your audience are developers who know nothing about DRM. They may have
-been writing fb drivers instead. The display hardware they want to
-drive has no GPU. Where should they get started? Which presentations to
-read/watch first? Which driver to look at for a simple example?
-
-Maybe add one more section targeting that specific audience?
-
-
-Thanks,
-pq
-
---Sig_//82LTiAi=MvHuwuf6=cTHCM
-Content-Type: application/pgp-signature
+--------------2ezGz5HvJ4Oa2La6dLfwNVvT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmHyYFgACgkQI1/ltBGq
-qqfxDxAAsqipfI+nMvx49JsJxUL2kCMd6pWOEFGM18PL4ZQCotCVrUhF5c9IZ4aj
-f1qN13r3UhzJAyeBjWa4vrS/4YA1K/ILBpEXNZ59dw+C3CsHAfSDVFwqS/Z9PUrA
-InNYC9tmvA1ck2Xv4GT9JXuOf1czRIL3RwMb84LeNUYT3AUHEudPDH9yJpvJCrgB
-WwiOAbm0SERGi3W5wbPPqtmZVvcS+OI8YHqmjJWa7o2eI7KhsoERylPlU1AoPYEW
-PRwueEDGt++NQCjPk1rizM9QEZH/8IQ1GQ2mE3+QXGyEjkmexOAYSS/u+AS3NaMq
-zxuuCd9YFs/xVTZwOsRh+OdZLNiZeqmIR8NOTeWEylipILDhojDhBAa3kn9CGsIE
-Wcqe+Kbax2kVefEbBUx2wRMIINmOPkZFc+B0pSY0UmmxfVjWHWicIC5a8G16kGvn
-nVgUfG0ATmh+xFyRZWjbqlszdlxSiI2KmowiiGsnyilIBraQyB1hf53QxTxjEH2o
-1/1lCHITKO1Ke29LKUHypCgZyu73TOC+NdZPvItjRKHdjJxVcs6/iC8JoWrdhzlk
-huB6CYJiB29fwIRa6DyED1u29vxcG2invauqZEF5QtfYQRi2XcTYv3kUiR3HpAuk
-CyKCZfLnIyfbNu40CZJJV6LAX9AZ0Rd2Xq1hb4LM7iqFDwIDZ2M=
-=r+Et
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHyY2QFAwAAAAAACgkQlh/E3EQov+B7
+mRAAuZQTmYf8C5O2uYTfCjtibkbbDNcbYaOPATwj3L7m3DQ7kPIrs+grLvcRiE3eUJ29TZyiCPOw
+HGnKGLZx96XnA7xH20Mf/cY8AIRfq0l7UVjZdM71M7D1RoUqD8nBl5EkHh6JV1BmLVJDuxwARYpe
+ipx6WQHspx4AQoe4xzp8J46TnBR+KZqroo5+gAh3dUX6j0+XkjPgIQXvI6IvF0NrtOKLI7KpOo21
+w9BMfc+fxTfwZVcs6G+JTsK42fmSTYxptD9nv/MYC3jzlc46I0g6S9j4Ilbgqw70JNK9FL3urSXy
+k9Jhn1prif8pG58vEgOnrqXIwV/z4VjQa/jHgwY0RlmlKktfRBf+1gYkayB0EjIRSIv6DBTyUvQw
+vO2qEwlPLhHzSbaO3dAVlKhfx8wRaMlCFy+bqKyvNhqwvlEuDe/RbQyl8mByeEMuVqC/+pNC0/oL
+/EUUf8EHKXJe97svMboJO9jzmkic+fkmXK7zy0tc2wnHwSSpg0I4El2uNZ842CZoBPQKPP5LTcCe
+eKkOZR5TGrZw0EOvZkmCfBln0YosTmk2JoHx/dDlhFdgvguzBbO91+F6jof/ZoS9RxS+9lNHTmRQ
+EP6bHvM7AkYCp+XAazV6Qt85OAllc53LAPvuxtTapOrxGo71B7Gd8Gj+Ol4fd6sLhyDcsmQLueS1
+JO4=
+=TliH
 -----END PGP SIGNATURE-----
 
---Sig_//82LTiAi=MvHuwuf6=cTHCM--
+--------------2ezGz5HvJ4Oa2La6dLfwNVvT--
