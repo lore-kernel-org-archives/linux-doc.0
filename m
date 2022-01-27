@@ -2,162 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DC6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 12:18:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7FF4C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 12:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236136AbiA0MSp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 07:18:45 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54942 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231872AbiA0MSo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 07:18:44 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20RCBi20016900;
-        Thu, 27 Jan 2022 12:18:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Do8FEFGbYoo3lnA3Z1lDEMymvPkDEEQGl16XdeBo8L4=;
- b=Qh1M6oWLna47fyrcMWdG+05p3g7yPIvL9zB/KkxDTVNLVGP2oT5dyFJh+ZxlGMlMleIM
- N+BLLzeut2xm8N39KkoUnoWxdwIgdeh6yMGBY6bsClJ5HQFx36ObnEGrLcRD7wEWRPr/
- bSNbGkBzq659zL6pL7PxepNXs4FVPrEG0GC/J/DonEDuNcraGzVi/MxhSLuLJPbh7zeF
- Uw8keu0OHH6eQAq6nX80bmzflyuJEHpzc17EfUtzclZ61gAy2L4splMywm2yIOqeAOe/
- 3ZR3NRK2xHt+iQ/ErLl3om1kDnE2cxvCw+R1ZBwVvwTPBjD3Ee27aTVl7lodejFuKlup Qg== 
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3duu6a040y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jan 2022 12:18:38 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20RCDvDL022465;
-        Thu, 27 Jan 2022 12:18:36 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma03fra.de.ibm.com with ESMTP id 3dr9j9nmeq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Jan 2022 12:18:36 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20RCIYs147186414
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 27 Jan 2022 12:18:34 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 34AF142049;
-        Thu, 27 Jan 2022 12:18:34 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 14BC742047;
-        Thu, 27 Jan 2022 12:18:33 +0000 (GMT)
-Received: from sig-9-65-89-165.ibm.com (unknown [9.65.89.165])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu, 27 Jan 2022 12:18:32 +0000 (GMT)
-Message-ID: <4626844528c5accb70a57870168091e002affb36.camel@linux.ibm.com>
-Subject: Re: [RESEND][PATCH] Documentation: added order requirement for
- ima_hash=
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     "Guozihua (Scott)" <guozihua@huawei.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        wangweiyang <wangweiyang2@huawei.com>,
-        Xiujianfeng <xiujianfeng@huawei.com>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
-Date:   Thu, 27 Jan 2022 07:18:32 -0500
-In-Reply-To: <df7fffa1-2068-cb0c-e43e-141ccd125b39@huawei.com>
-References: <20220125090237.120357-1-guozihua@huawei.com>
-         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
-         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
-         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
-         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
-         <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
-         <173fffb6cde54ae4ac7676d18a84c79f@huawei.com>
-         <6f0890f135b61c41d81b03bf084ebab1b3e551e1.camel@linux.ibm.com>
-         <220a8c9f3ab34f2183c0a88941c145d0@huawei.com>
-         <df7fffa1-2068-cb0c-e43e-141ccd125b39@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5hfRO9Tb1kJG8NDYaY-EWPFVyOztTvQH
-X-Proofpoint-ORIG-GUID: 5hfRO9Tb1kJG8NDYaY-EWPFVyOztTvQH
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S234039AbiA0M4A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 07:56:00 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:32126 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229689AbiA0M4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 07:56:00 -0500
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Jl0qs2nGfz8wYh;
+        Thu, 27 Jan 2022 20:52:57 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Thu, 27 Jan 2022 20:55:55 +0800
+Subject: Re: [PATCH 06/16] scsi: libsas: Add sas_task.tmf
+To:     John Garry <john.garry@huawei.com>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <artur.paszkiewicz@intel.com>,
+        <jinpu.wang@cloud.ionos.com>, <Ajish.Koshy@microchip.com>
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+ <1643110372-85470-7-git-send-email-john.garry@huawei.com>
+CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>, <damien.lemoal@opensource.wdc.com>
+From:   "chenxiang (M)" <chenxiang66@hisilicon.com>
+Message-ID: <e349aedb-71ad-8bf2-d3c3-920a83a56eae@hisilicon.com>
+Date:   Thu, 27 Jan 2022 20:55:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-27_03,2022-01-27_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0
- impostorscore=0 clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2201270072
+In-Reply-To: <1643110372-85470-7-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2022-01-27 at 14:35 +0800, Guozihua (Scott) wrote:
-> 
-> On 2022/1/26 22:43, Roberto Sassu wrote:
-> >> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> >> Sent: Wednesday, January 26, 2022 3:35 PM
-> >> On Wed, 2022-01-26 at 13:24 +0000, Roberto Sassu wrote:
-> >>>> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> >>>> Sent: Wednesday, January 26, 2022 1:48 PM
-> >>>> On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
-> >>>>>
-> >>>>>
-> >>>>> The main issue lies in ima_template_desc_current called by hash_setup,
-> >>>>> which does not just read ima_template global variable, but also tries to
-> >>>>> set it if that hasn't been done already. Causing ima_template_setup to quit.
-> >>>>
-> >>>> Right, which calls ima_init_template_list().  So part of the solution
-> >>>> could be to conditionally call ima_init_template_list()
-> >>>> in ima_template_setup().
-> >>>>
-> >>>> -       if (ima_template)
-> >>>> -               return 1;
-> >>>> -
-> >>>> -       ima_init_template_list();
-> >>>> +       if (!ima_template
-> >>>> +               ima_init_template_list();
-> >>>>
-> >>>> Roberto, what do you think?
-> >>>
-> >>> Hi Mimi
-> >>>
-> >>> I think we wanted to prevent to set a digest algorithm
-> >>> incompatible with the chosen template.
-> >>>
-> >>> If we have in the kernel command line:
-> >>>
-> >>> ima_template=ima ima_hash=sha256
-> >>>
-> >>> ima_hash_algo would be set to HASH_ALGO_SHA1 despite
-> >>> the user choice and the template would be set to 'ima'.
-> >>>
-> >>> In the opposite case:
-> >>>
-> >>> ima_hash=sha256 ima_template=ima
-> >>>
-> >>> if the default template is 'ima', then ima_hash_algo would be
-> >>> set to HASH_ALGO_SHA1. Otherwise, it would be
-> >>> HASH_ALGO_SHA256. If we allow the template to be set after
-> >>> the digest algorithm is evaluated, the template selection will
-> >>> be rejected if the algorithm is incompatible with the template.
-> >>
-> >> The only time that would occur is in the unlikely case that the
-> >> template is being set to "ima".   That sounds reasonable.  In fact we
-> >> should consider preventing the template format being set to "ima".
-> > 
-> > Ok.
 
-< snip >
 
-> 
-> I understand that the solution proposed here is to decommission template 
-> "ima" and potentially removing related algo checks altogether?
+ÔÚ 2022/1/25 19:32, John Garry Ð´µÀ:
+> Add a pointer to a sas_tmf_task to the sas_task struct, as this will be
+> used when the common LLDD TMF code is factored out.
+>
+> Also set it for the LLDDs to store per-sas_task TMF info.
+>
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> ---
+>   drivers/scsi/hisi_sas/hisi_sas_main.c | 25 +++++++++---------------
+>   drivers/scsi/mvsas/mv_sas.c           | 15 ++++++--------
+>   drivers/scsi/pm8001/pm8001_sas.c      | 28 ++++++++++-----------------
+>   include/scsi/libsas.h                 |  1 +
+>   4 files changed, 26 insertions(+), 43 deletions(-)
+>
+> diff --git a/drivers/scsi/hisi_sas/hisi_sas_main.c b/drivers/scsi/hisi_sas/hisi_sas_main.c
+> index db6f8ea7864d..4f146aa50423 100644
+> --- a/drivers/scsi/hisi_sas/hisi_sas_main.c
+> +++ b/drivers/scsi/hisi_sas/hisi_sas_main.c
+> @@ -400,8 +400,7 @@ void hisi_sas_task_deliver(struct hisi_hba *hisi_hba,
+>   			   struct hisi_sas_slot *slot,
+>   			   struct hisi_sas_dq *dq,
+>   			   struct hisi_sas_device *sas_dev,
+> -			   struct hisi_sas_internal_abort *abort,
+> -			   struct sas_tmf_task *tmf)
+> +			   struct hisi_sas_internal_abort *abort)
+>   {
+>   	struct hisi_sas_cmd_hdr *cmd_hdr_base;
+>   	int dlvry_queue_slot, dlvry_queue;
+> @@ -427,8 +426,6 @@ void hisi_sas_task_deliver(struct hisi_hba *hisi_hba,
+>   	cmd_hdr_base = hisi_hba->cmd_hdr[dlvry_queue];
+>   	slot->cmd_hdr = &cmd_hdr_base[dlvry_queue_slot];
+>   
+> -	slot->tmf = tmf;
+> -	slot->is_internal = tmf;
 
-Eventually we might decide to do that, but right now we just want to
-address not being able to set "ima_template" after setting "ima_hash".
+In kernel 5.17-rc1(with above two lines on), it seems there is a issue 
+for ata disk reset command as tmf = null while it is internal command.
 
-thanks,
-
-Mimi
-
+>   	task->lldd_task = slot;
+>   
+>   	memset(slot->cmd_hdr, 0, sizeof(struct hisi_sas_cmd_hdr));
+> @@ -471,8 +468,7 @@ void hisi_sas_task_deliver(struct hisi_hba *hisi_hba,
+>   	spin_unlock(&dq->lock);
+>   }
+>   
+> -static int hisi_sas_task_exec(struct sas_task *task, gfp_t gfp_flags,
+> -			      struct sas_tmf_task *tmf)
+> +static int hisi_sas_queue_command(struct sas_task *task, gfp_t gfp_flags)
+>   {
+>   	int n_elem = 0, n_elem_dif = 0, n_elem_req = 0;
+>   	struct domain_device *device = task->dev;
+> @@ -583,11 +579,11 @@ static int hisi_sas_task_exec(struct sas_task *task, gfp_t gfp_flags,
+>   	slot->task = task;
+>   	slot->port = port;
+>   
+> -	slot->tmf = tmf;
+> -	slot->is_internal = tmf;
+> +	slot->tmf = task->tmf;
+> +	slot->is_internal = task->tmf;
+>   
+>   	/* protect task_prep and start_delivery sequence */
+> -	hisi_sas_task_deliver(hisi_hba, slot, dq, sas_dev, NULL, tmf);
+> +	hisi_sas_task_deliver(hisi_hba, slot, dq, sas_dev, NULL);
+>   
+>   	return 0;
+>   
+> @@ -1115,11 +1111,6 @@ static void hisi_sas_dev_gone(struct domain_device *device)
+>   	up(&hisi_hba->sem);
+>   }
+>   
+> -static int hisi_sas_queue_command(struct sas_task *task, gfp_t gfp_flags)
+> -{
+> -	return hisi_sas_task_exec(task, gfp_flags, NULL);
+> -}
+> -
+>   static int hisi_sas_phy_set_linkrate(struct hisi_hba *hisi_hba, int phy_no,
+>   			struct sas_phy_linkrates *r)
+>   {
+> @@ -1273,7 +1264,9 @@ static int hisi_sas_exec_internal_tmf_task(struct domain_device *device,
+>   		task->slow_task->timer.expires = jiffies + TASK_TIMEOUT;
+>   		add_timer(&task->slow_task->timer);
+>   
+> -		res = hisi_sas_task_exec(task, GFP_KERNEL, tmf);
+> +		task->tmf = tmf;
+> +
+> +		res = hisi_sas_queue_command(task, GFP_KERNEL);
+>   		if (res) {
+>   			del_timer_sync(&task->slow_task->timer);
+>   			dev_err(dev, "abort tmf: executing internal task failed: %d\n",
+> @@ -2054,7 +2047,7 @@ hisi_sas_internal_abort_task_exec(struct hisi_hba *hisi_hba, int device_id,
+>   	slot->port = port;
+>   	slot->is_internal = true;
+>   
+> -	hisi_sas_task_deliver(hisi_hba, slot, dq, sas_dev, abort, NULL);
+> +	hisi_sas_task_deliver(hisi_hba, slot, dq, sas_dev, abort);
+>   
+>   	return 0;
+>   
+> diff --git a/drivers/scsi/mvsas/mv_sas.c b/drivers/scsi/mvsas/mv_sas.c
+> index 22bffaaf2eb0..5105d55eb00c 100644
+> --- a/drivers/scsi/mvsas/mv_sas.c
+> +++ b/drivers/scsi/mvsas/mv_sas.c
+> @@ -840,14 +840,14 @@ static int mvs_task_prep(struct sas_task *task, struct mvs_info *mvi, int is_tmf
+>   	return rc;
+>   }
+>   
+> -static int mvs_task_exec(struct sas_task *task, gfp_t gfp_flags,
+> -				struct completion *completion, int is_tmf,
+> -				struct sas_tmf_task *tmf)
+> +int mvs_queue_command(struct sas_task *task, gfp_t gfp_flags)
+>   {
+>   	struct mvs_info *mvi = NULL;
+>   	u32 rc = 0;
+>   	u32 pass = 0;
+>   	unsigned long flags = 0;
+> +	struct sas_tmf_task *tmf = task->tmf;
+> +	int is_tmf = !!task->tmf;
+>   
+>   	mvi = ((struct mvs_device *)task->dev->lldd_dev)->mvi_info;
+>   
+> @@ -864,11 +864,6 @@ static int mvs_task_exec(struct sas_task *task, gfp_t gfp_flags,
+>   	return rc;
+>   }
+>   
+> -int mvs_queue_command(struct sas_task *task, gfp_t gfp_flags)
+> -{
+> -	return mvs_task_exec(task, gfp_flags, NULL, 0, NULL);
+> -}
+> -
+>   static void mvs_slot_free(struct mvs_info *mvi, u32 rx_desc)
+>   {
+>   	u32 slot_idx = rx_desc & RXQ_SLOT_MASK;
+> @@ -1300,7 +1295,9 @@ static int mvs_exec_internal_tmf_task(struct domain_device *dev,
+>   		task->slow_task->timer.expires = jiffies + MVS_TASK_TIMEOUT*HZ;
+>   		add_timer(&task->slow_task->timer);
+>   
+> -		res = mvs_task_exec(task, GFP_KERNEL, NULL, 1, tmf);
+> +		task->tmf = tmf;
+> +
+> +		res = mvs_queue_command(task, GFP_KERNEL);
+>   
+>   		if (res) {
+>   			del_timer(&task->slow_task->timer);
+> diff --git a/drivers/scsi/pm8001/pm8001_sas.c b/drivers/scsi/pm8001/pm8001_sas.c
+> index 0a3701d97549..323b172243b8 100644
+> --- a/drivers/scsi/pm8001/pm8001_sas.c
+> +++ b/drivers/scsi/pm8001/pm8001_sas.c
+> @@ -371,15 +371,14 @@ static int sas_find_local_port_id(struct domain_device *dev)
+>   
+>   #define DEV_IS_GONE(pm8001_dev)	\
+>   	((!pm8001_dev || (pm8001_dev->dev_type == SAS_PHY_UNUSED)))
+> +
+>   /**
+> -  * pm8001_task_exec - queue the task(ssp, smp && ata) to the hardware.
+> +  * pm8001_queue_command - register for upper layer used, all IO commands sent
+> +  * to HBA are from this interface.
+>     * @task: the task to be execute.
+> -  * @gfp_flags: gfp_flags.
+> -  * @is_tmf: if it is task management task.
+> -  * @tmf: the task management IU
+> +  * @gfp_flags: gfp_flags
+>     */
+> -static int pm8001_task_exec(struct sas_task *task,
+> -	gfp_t gfp_flags, int is_tmf, struct sas_tmf_task *tmf)
+> +int pm8001_queue_command(struct sas_task *task, gfp_t gfp_flags)
+>   {
+>   	struct domain_device *dev = task->dev;
+>   	struct pm8001_hba_info *pm8001_ha;
+> @@ -390,6 +389,8 @@ static int pm8001_task_exec(struct sas_task *task,
+>   	u32 tag = 0xdeadbeef, rc = 0, n_elem = 0;
+>   	unsigned long flags = 0;
+>   	enum sas_protocol task_proto = t->task_proto;
+> +	struct sas_tmf_task *tmf = task->tmf;
+> +	int is_tmf = !!task->tmf;
+>   
+>   	if (!dev->port) {
+>   		struct task_status_struct *tsm = &t->task_status;
+> @@ -507,17 +508,6 @@ static int pm8001_task_exec(struct sas_task *task,
+>   	return rc;
+>   }
+>   
+> -/**
+> -  * pm8001_queue_command - register for upper layer used, all IO commands sent
+> -  * to HBA are from this interface.
+> -  * @task: the task to be execute.
+> -  * @gfp_flags: gfp_flags
+> -  */
+> -int pm8001_queue_command(struct sas_task *task, gfp_t gfp_flags)
+> -{
+> -	return pm8001_task_exec(task, gfp_flags, 0, NULL);
+> -}
+> -
+>   /**
+>     * pm8001_ccb_task_free - free the sg for ssp and smp command, free the ccb.
+>     * @pm8001_ha: our hba card information
+> @@ -752,7 +742,9 @@ static int pm8001_exec_internal_tmf_task(struct domain_device *dev,
+>   		task->slow_task->timer.expires = jiffies + PM8001_TASK_TIMEOUT*HZ;
+>   		add_timer(&task->slow_task->timer);
+>   
+> -		res = pm8001_task_exec(task, GFP_KERNEL, 1, tmf);
+> +		task->tmf = tmf;
+> +
+> +		res = pm8001_queue_command(task, GFP_KERNEL);
+>   
+>   		if (res) {
+>   			del_timer(&task->slow_task->timer);
+> diff --git a/include/scsi/libsas.h b/include/scsi/libsas.h
+> index 30b9afec1e1d..802b4e04e3a1 100644
+> --- a/include/scsi/libsas.h
+> +++ b/include/scsi/libsas.h
+> @@ -611,6 +611,7 @@ struct sas_task {
+>   	void   *lldd_task;	  /* for use by LLDDs */
+>   	void   *uldd_task;
+>   	struct sas_task_slow *slow_task;
+> +	struct sas_tmf_task *tmf;
+>   };
+>   
+>   struct sas_task_slow {
 
