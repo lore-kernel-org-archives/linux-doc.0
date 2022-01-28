@@ -2,108 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28973C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 16:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF21C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 17:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbiA1QBc convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 11:01:32 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:17829 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbiA1QBb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 11:01:31 -0500
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JlhxM6DMnz9sVV;
-        Sat, 29 Jan 2022 00:00:07 +0800 (CST)
-Received: from dggpeml100024.china.huawei.com (7.185.36.115) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 29 Jan 2022 00:01:29 +0800
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- dggpeml100024.china.huawei.com (7.185.36.115) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 29 Jan 2022 00:01:28 +0800
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.021;
- Fri, 28 Jan 2022 17:01:26 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Mimi Zohar <zohar@linux.ibm.com>,
-        "Guozihua (Scott)" <guozihua@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        wangweiyang <wangweiyang2@huawei.com>,
-        Xiujianfeng <xiujianfeng@huawei.com>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
-Subject: RE: [RESEND][PATCH] Documentation: added order requirement for
- ima_hash=
-Thread-Topic: [RESEND][PATCH] Documentation: added order requirement for
- ima_hash=
-Thread-Index: AQHYEcpHUD88EJ3n70C3otG2igs7kax0bcMAgAAWmYCAACQEgIAAM52AgABVhoCAAwr2kIAAN1aAgAAnvPA=
-Date:   Fri, 28 Jan 2022 16:01:26 +0000
-Message-ID: <0a2e84d1bed84733b81f3edd91403006@huawei.com>
-References: <20220125090237.120357-1-guozihua@huawei.com>
-         <36b6058f2cdf6bead917c06ecc6e8769bb88130c.camel@linux.ibm.com>
-         <3933adf5-4e9d-6b22-2e46-55643c504f52@huawei.com>
-         <71508a72b042da330d07a624cf499561c46195f0.camel@linux.ibm.com>
-         <97142483-d7e7-e310-0cb0-30a81414cb57@huawei.com>
-         <c1bfe53abaf24feacb676ce940edcb8899924ffc.camel@linux.ibm.com>
-         <ee116b29c27740119d98bc64e55f61e7@huawei.com>
- <9714e2824b35d12ee2f8ad70d65d8c9230be86e4.camel@linux.ibm.com>
-In-Reply-To: <9714e2824b35d12ee2f8ad70d65d8c9230be86e4.camel@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S234535AbiA1Rcp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 12:32:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232607AbiA1Rco (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 12:32:44 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADB2C061714;
+        Fri, 28 Jan 2022 09:32:44 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 71E90383;
+        Fri, 28 Jan 2022 17:32:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71E90383
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1643391164; bh=jx+ObSUowWNN5HDiOCL/F/rjuw/ZGOtTP1IJcLZwKHU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=d47kEcA8taIPAkyeaKVk07a+9R6tdyXuN6A0a9K6XACO4kFQe677Tyg5MsxVGQzeN
+         YTlKbPxFG2aa40ujc0bB97ByIXW4mL2yjeEF/nUTlCdG47YQWnZow6T0LxF0RCORWE
+         bRf/tNskQCx1jgSNnGuBcOD+qaw9+kAfa/YxHHDbgt05yTwzTqLVx5Cqmmf/QSfUfw
+         7xqjgpiTCvqIHSQWa7AI3p5bwjB2CS0rJM1xmWhzBwr2/WZAJlUNUYta4whceD5MnX
+         8b4u9BZG1VHVqsAcl0j2lf0/U7aCnlSH2tznsS4xDr6Poo72b8QsHsl+ZdQMUhandF
+         lcxVFozAl/Gvg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.17
+Date:   Fri, 28 Jan 2022 10:33:17 -0700
+Message-ID: <87bkzvojdu.fsf@meer.lwn.net>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> Sent: Friday, January 28, 2022 3:34 PM
-> On Fri, 2022-01-28 at 10:24 +0000, Roberto Sassu wrote:
-> > > From: Mimi Zohar [mailto:zohar@linux.ibm.com]
-> > > Sent: Wednesday, January 26, 2022 1:48 PM
-> > > On Wed, 2022-01-26 at 15:41 +0800, Guozihua (Scott) wrote:
-> > > >
-> > > >
-> > > > The main issue lies in ima_template_desc_current called by hash_setup,
-> > > > which does not just read ima_template global variable, but also tries to
-> > > > set it if that hasn't been done already. Causing ima_template_setup to quit.
-> > >
-> > > Right, which calls ima_init_template_list().  So part of the solution
-> > > could be to conditionally call ima_init_template_list()
-> > > in ima_template_setup().
-> > >
-> > > -       if (ima_template)
-> > > -               return 1;
-> > > -
-> > > -       ima_init_template_list();
-> > > +       if (!ima_template
-> > > +               ima_init_template_list();
-> >
-> >
-> > is it still necessary to call ima_init_template_list() in
-> > template_setup()? I saw it is called in init_ima().
-> 
-> All of these options are at __setup().
+The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
 
-Yes. ima_init_template_list() should be called before
-lookup_template_desc().
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
 
-Thanks
+are available in the Git repository at:
 
-Roberto
+  git://git.lwn.net/linux.git tags/docs-5.17-3
 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
+for you to fetch changes up to 854d0982eef0e424e8108d09d9275aaf445b1597:
 
-> thanks,
-> 
-> Mimi
+  docs/vm: Fix typo in *harden* (2022-01-27 11:22:34 -0700)
 
+----------------------------------------------------------------
+A few documentation fixes for 5.17
+
+----------------------------------------------------------------
+Jonathan Corbet (1):
+      docs: Hook the RTLA documents into the kernel docs build
+
+Pali Roh=C3=A1r (1):
+      Documentation: arm: marvell: Extend Avanta list
+
+Paul Menzel (1):
+      docs/vm: Fix typo in *harden*
+
+Takahiro Itazuri (1):
+      docs: fix typo in Documentation/kernel-hacking/locking.rst
+
+ Documentation/arm/marvell.rst            |  2 ++
+ Documentation/index.rst                  |  1 +
+ Documentation/kernel-hacking/locking.rst |  2 +-
+ Documentation/tools/index.rst            | 20 ++++++++++++++++++++
+ Documentation/tools/rtla/index.rst       | 26 ++++++++++++++++++++++++++
+ Documentation/vm/page_table_check.rst    |  2 +-
+ 6 files changed, 51 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/tools/index.rst
+ create mode 100644 Documentation/tools/rtla/index.rst
