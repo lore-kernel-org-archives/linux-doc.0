@@ -2,137 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0095C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 09:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D913BC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 09:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347499AbiA1JJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 04:09:44 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4538 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347477AbiA1JJn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 04:09:43 -0500
-Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlWlh0fLrz67xNW;
-        Fri, 28 Jan 2022 17:06:08 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 10:09:41 +0100
-Received: from [10.47.26.192] (10.47.26.192) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
- 2022 09:09:40 +0000
-Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
-        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
-CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
-        <Viswas.G@microchip.com>
-References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
- <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
- <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
- <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
-Date:   Fri, 28 Jan 2022 09:09:03 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-MIME-Version: 1.0
-In-Reply-To: <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.26.192]
-X-ClientProxiedBy: lhreml713-chm.china.huawei.com (10.201.108.64) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+        id S1347634AbiA1JcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 04:32:01 -0500
+Received: from mail.thorsis.com ([92.198.35.195]:58922 "EHLO mail.thorsis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347617AbiA1Jb6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Jan 2022 04:31:58 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 14AFE2984;
+        Fri, 28 Jan 2022 10:31:57 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id cATs4BJi6wes; Fri, 28 Jan 2022 10:31:57 +0100 (CET)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id E6D7CCE9; Fri, 28 Jan 2022 10:31:56 +0100 (CET)
+Date:   Fri, 28 Jan 2022 10:31:45 +0100
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Florian Eckert <fe@dev.tdt.de>
+Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
+ Reported-by usage
+Message-ID: <YfO37KjTS7B2W2bH@ada.ifak-system.com>
+Mail-Followup-To: Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Florian Eckert <fe@dev.tdt.de>
+References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
+ <87o83xrwk9.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o83xrwk9.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/01/2022 06:37, Damien Le Moal wrote:
+Hello,
 
-Hi Damien,
-
->> However using this same adapter type on my arm64 system has error
->> handling kick in almost straight away - and the handling looks sane. A
->> silver lining, I suppose ..
-> I ran some more tests. In particular, I ran libzbc compliance tests on a
-> 20TB SMR drives. All tests pass with 5.17-rc1, but after applying your
-> series, I see command timeout that take forever to recover from, with
-> the drive revalidation failing after that.
+Am Thu, Jan 27, 2022 at 09:08:06AM -0700 schrieb Jonathan Corbet:
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 > 
-> [  385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
-> [  385.108026] sas: sas_scsi_find_task: aborting task 0x000000007068ed73
-> [  405.561099] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
-> timeout.
-> [  405.568236] sas: sas_scsi_find_task: task 0x000000007068ed73 is aborted
-> [  405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007068ed73 is
-> aborted
-> [  411.192602] ata21.00: qc timeout (cmd 0xec)
-> [  431.672122] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
-> timeout.
-> [  431.679282] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
-> [  431.685544] ata21.00: revalidation failed (errno=-5)
-> [  441.911948] ata21.00: qc timeout (cmd 0xec)
-> [  462.391545] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
-> timeout.
-> [  462.398696] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
-> [  462.404992] ata21.00: revalidation failed (errno=-5)
-> [  492.598769] ata21.00: qc timeout (cmd 0xec)
-> ...
+> > It's unclear from "Submitting Patches" documentation that Reported-by
+> > is not supposed to be used against new features. (It's more clear
+> > in the section 5.4 "Patch formatting and changelogs" of the "A guide
+> > to the Kernel Development Process", where it suggests that change
+> > should fix something existing in the kernel. Clarify the Reported-by
+> > usage in the "Submitting Patches".
+> >
+> > Reported-by: Florian Eckert <fe@dev.tdt.de>
 > 
-> So there is a problem. Need to dig into this. I see this issue only with
-> libzbc passthrough tests. fio runs with libaio are fine.
-
-Thanks for the notice. I think that I also saw a hang, but, IIRC, it 
-happened on mainline for me - but it's hard to know if I broke something 
-if it is already broke in another way. That is why I wanted this card 
-working properly...
-
-Anyway, I will investigate more.
-
+> You're sure this added documentation isn't a new feature that shouldn't
+> have a Reported-by? :)
 > 
->>> And sparse/make C=1 complains about:
->>>
->>> drivers/scsi/libsas/sas_port.c:77:13: warning: context imbalance in
->>> 'sas_form_port' - different lock contexts for basic block
->> I think it's talking about the port->phy_list_lock usage - it prob
->> doesn't like segments where we fall out a loop with the lock held (which
->> was grabbed in the loop). Anyway it looks ok. Maybe we can improve this.
->>
->>> But I have not checked if it is something that your series touch.
->>>
->>> And there is a ton of complaints about __le32 use in the pm80xx code...
->>> I can try to have a look at these if you want, on top of your series.
->> I really need to get make C=1 working for me - it segfaults in any env I
->> have:(
-> I now have a 12 patch series that fixes*all*  the sparse warnings. Some
-> of the fixes were trivial, but most of them are simply hard bugs with
-> the handling of le32 struct field values. There is no way that this
-> driver is working as-is on big-endian machines. Some calculations are
-> actually done using cpu_to_le32() values !
-
-Great, I'll have a look when you send them.
-
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index 31ea120ce531..24c1a5565385 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -495,7 +495,8 @@ Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+> >  The Reported-by tag gives credit to people who find bugs and report them and it
+> >  hopefully inspires them to help us again in the future.  Please note that if
+> >  the bug was reported in private, then ask for permission first before using the
+> > -Reported-by tag.
+> > +Reported-by tag. A new feature can't be reported since there is no code in the
+> > +kernel to fix.
 > 
-> But even though these fixes should have essentially no effect on
-> little-endian x86_64, with my series applied, I see the same command
-> timeout problem as with your libsas update, and both series together
-> result in the same timeout issue too.
-> 
-> So it looks like "fixing" the code actually is revealing some other bug
-> that was previously hidden... This will take some time to debug.
-> 
-> Another problem I noticed: doing "rmmod pm80xx; modprobe pm80xx" result
-> in a failure of device scans. I get loops of "link is slow to respond
-> ->reset". For the above tests, I had to reboot every time I changed the
-> driver module code. Another thing to look at.
+> How about instead something like "Reported-by is intended for bugs;
+> please do not use it to credit feature requests"?
 
-Sounds odd, I would expect everything runs from afresh when insmod.
+What should be used for feature requests then? Suggested-by? Would it
+help to mention it here?
 
-Thanks,
-John
+Greets
+Alex
