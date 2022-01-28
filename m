@@ -2,141 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA37C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Jan 2022 20:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56596C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 01:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbiA0U0l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 15:26:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231157AbiA0U0k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 15:26:40 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED816C061747
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 12:26:39 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id c24so5290211edy.4
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 12:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Fi1CjDDx2TurE9KIT9xNPFydS/AJyEq38oGV2uaA61U=;
-        b=zrJPnyAi4QGp6MxlP38emBrpS5F5jPUi1PK1fZWvpwb0xusZzOev1cXwqXD93Ah303
-         Ys26qGM+xFSapbAYx+F93tj/Kg5JrfOi1eaHxcUZPXT2gfuzK3Trv25cghbnsmpduaIp
-         rJEr880xWNlS5IhFzKydfG6n3habeIUecE+dPbH9yYuzu6pIVi66TjU8gPS0Fk/b1YOV
-         z/FwOdNYLUobxS5GHQc1FFk9W41zhXeECZD3ZxDA/9Qi+v+sppG50iWj+WkIXkNCiyK3
-         kq8QpsI70OhvFhB0uMMS2pDWpgN+VgzO7VyqMjXjE2SeWZ3kCOXqSuUUv/zkJHcqesvt
-         6KhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Fi1CjDDx2TurE9KIT9xNPFydS/AJyEq38oGV2uaA61U=;
-        b=a3NCtZVV5Fg4YBJIIkh5LRtTrfZHshFz+F6Lfv1XxOTcTFhYDLJXYefLI5F3jC4u+v
-         4EwUMds4Q7jodHWql9G31RR5czVBcArMnG+cIkXB7qRF0vG4Q9BXmZJf8+9GGGSbFRMu
-         hCzCeabI66ghouOrK42jE8WWvaQO2vy8boCrJxrICMNuBoL25LwcgHpPCDR6KD9rBEuM
-         TsXKLDIQCmtHX1QC9AslkEpt/2Np93HX4P4o3CBMV8d/JZ78VzB0hOd2j+PNMtj1NMfc
-         qpBF3y8EYy8bEpUGBlXwX6mAzhgU+856oGNvvVKygg8cOT1Nd7m0lhDGyPThfq6E7m93
-         aaNA==
-X-Gm-Message-State: AOAM533FkTtd1Pbs0pY+jbmJl4Rcg8fo/pWk2+hHHrgLYlhjgjNwhsGS
-        BK1narGQrupG+eRIw39zh2Jf5cFElpT6KSaDIzt0fQ==
-X-Google-Smtp-Source: ABdhPJznXPKKye7FSdr+lVY9GNZVYl4Rl6/0Ojgh5L4rDb57d3KmHVB5vjBqJr6BFTPH1QZ7Ji/9E0+4jr95RWzgttk=
-X-Received: by 2002:a05:6402:1703:: with SMTP id y3mr5072637edu.239.1643315198479;
- Thu, 27 Jan 2022 12:26:38 -0800 (PST)
+        id S1345005AbiA1BUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 20:20:47 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:60914 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1345001AbiA1BUq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 27 Jan 2022 20:20:46 -0500
+Received: from [10.130.0.135] (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxiuDeRPNh7R0FAA--.15345S3;
+        Fri, 28 Jan 2022 09:20:31 +0800 (CST)
+Subject: Re: [RFC PATCH] kdump: Add support for crashkernel=auto
+To:     =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <ptesarik@suse.cz>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <1643275911-19489-1-git-send-email-yangtiezhu@loongson.cn>
+ <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
+Cc:     Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <f28c65f0-9bbb-6bf8-a223-0e18b861c805@loongson.cn>
+Date:   Fri, 28 Jan 2022 09:20:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <20220113091056.1297982-1-james.clark@arm.com>
-In-Reply-To: <20220113091056.1297982-1-james.clark@arm.com>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Thu, 27 Jan 2022 13:26:26 -0700
-Message-ID: <CANLsYkx4u_+hPNNdmN23g58RprqkcUfhoPeZhu578DKU0qJ_hg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] coresight: Add config flag to enable branch broadcast
-To:     James Clark <james.clark@arm.com>
-Cc:     Suzuki.Poulose@arm.com, coresight@lists.linaro.org,
-        leo.yan@linaro.com, mike.leach@linaro.org,
-        Leo Yan <leo.yan@linaro.org>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxiuDeRPNh7R0FAA--.15345S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxZry8tw1ruryDGFykGF4kZwb_yoW5ur1fpF
+        WUKr4FkryrGryDA348Jws3u3y8tw48Cr9ruwn8Ar18AFnxA3WfGr18Wr43uFW2vr4Y9F1Y
+        qw43KwnIga48ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+        1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+        7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+        1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVAFwVWkMxAIw28IcxkI7VAKI4
+        8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+        wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+        v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20E
+        Y4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+        0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbNzVUUUUUU==
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
 
-I am seriously back-logged in my patch reviews and as such will not be
-able to get to your work in the usual 14 days.  At this time and if
-everything goes well, I should be able to start reviewing this
-patchset during the week of February 7th.
+
+On 01/27/2022 11:53 PM, Petr Tesařík wrote:
+> Hi Tiezhu Yang,
+>
+> I'm afraid the whole concept is broken by design. See below.
+>
+> Dne 27. 01. 22 v 10:31 Tiezhu Yang napsal(a):
+>> Set the reserved memory automatically for the crash kernel based on
+>> architecture.
+>>
+>> Most code of this patch come from:
+>> https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-8/-/tree/c8s
+>>
+>
+> And that's the problem, I think. The solution might be good for this
+> specific OS, but not for others.
+
+Hi Petr,
+
+Thank you for your reply.
+
+This is a RFC patch, the initial aim of this patch is to discuss what is 
+the proper way to support crashkernel=auto.
+
+A moment ago, I find the following patch, it is more flexible, but it is 
+not merged into the upstream kernel now.
+
+kernel/crash_core: Add crashkernel=auto for vmcore creation
+
+https://lore.kernel.org/lkml/20210223174153.72802-1-saeed.mirzamohammadi@oracle.com/
+
+>
+>> [...]
+>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>> index 256cf6d..32c51e2 100644
+>> --- a/kernel/crash_core.c
+>> +++ b/kernel/crash_core.c
+>> @@ -252,6 +252,26 @@ static int __init __parse_crashkernel(char *cmdline,
+>>       if (suffix)
+>>           return parse_crashkernel_suffix(ck_cmdline, crash_size,
+>>                   suffix);
+>> +
+>> +    if (strncmp(ck_cmdline, "auto", 4) == 0) {
+>> +#if defined(CONFIG_X86_64) || defined(CONFIG_S390)
+>> +        ck_cmdline = "1G-4G:160M,4G-64G:192M,64G-1T:256M,1T-:512M";
+>> +#elif defined(CONFIG_ARM64)
+>> +        ck_cmdline = "2G-:448M";
+>> +#elif defined(CONFIG_PPC64)
+>> +        char *fadump_cmdline;
+>> +
+>> +        fadump_cmdline = get_last_crashkernel(cmdline, "fadump=", NULL);
+>> +        fadump_cmdline = fadump_cmdline ?
+>> +                fadump_cmdline + strlen("fadump=") : NULL;
+>> +        if (!fadump_cmdline || (strncmp(fadump_cmdline, "off", 3) == 0))
+>> +            ck_cmdline =
+>> "2G-4G:384M,4G-16G:512M,16G-64G:1G,64G-128G:2G,128G-:4G";
+>> +        else
+>> +            ck_cmdline =
+>> "4G-16G:768M,16G-64G:1G,64G-128G:2G,128G-1T:4G,1T-2T:6G,2T-4T:12G,4T-8T:20G,8T-16T:36G,16T-32T:64G,32T-64T:128G,64T-:180G";
+>>
+>> +#endif
+>> +        pr_info("Using crashkernel=auto, the size chosen is a best
+>> effort estimation.\n");
+>> +    }
+>> +
+>
+> How did you even arrive at the above numbers?
+
+Memory requirements for kdump:
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/supported-kdump-configurations-and-targets_managing-monitoring-and-updating-the-kernel#memory-requirements-for-kdump_supported-kdump-configurations-and-targets
+
+I've done some research on
+> this topic recently (ie. during the last 7 years or so). My x86_64
+> system with 8G RAM running openSUSE Leap 15.3 seems needs 188M for
+> saving to the local disk, and 203M to save over the network (using
+> SFTP). My PPC64 LPAR with 16G RAM running latest Beta of SLES 15 SP4
+> needs 587M, i.e. with the above numbers it may run out of memory while
+> saving the dump.
+>
+> Since this is not the first time, I'm trying to explain things, I've
+> written a blog post now:
+>
+> https://sigillatum.tesarici.cz/2022-01-27-whats-wrong-with-crashkernel-auto.html
+>
+
+Thank you, this is useful.
 
 Thanks,
-Mathieu
+Tiezhu
 
-On Thu, 13 Jan 2022 at 02:11, James Clark <james.clark@arm.com> wrote:
 >
-> This allows enabling branch broadcast for Perf hosted sessions (the option
-> is currently only available for the sysfs interface). Hopefully this could
-> be useful for testing the decode in perf, for example does a determinisitic
-> run with branch broadcast enabled look the same as with it disabled? It
-> could also be used for scenarios like OpenJ9's support for JIT code:
->
->   java -Xjit:perfTool hello.java
->
-> Currently this is not working and you get the usual errors of a missing
-> DSO, but branch broadcast would have to be enabled anyway before working
-> through this next issue:
->
->   CS ETM Trace: Debug data not found for address 0xffff7b94b058 in /tmp/perf-29360.map
->
-> Address range support in Perf for branch broadcast has also not been added
-> here, but could be added later.
->
-> The documentation has been refactored slightly to allow updates to be made
-> that link the Perf format arguments with the existing documentation.
->
-> For Suzuki's comment, I will do it as a separate change that converts all
-> the other hard coded values to a more consistent sysreg.h style:
->
->   nit: While at this, please could you change the hard coded value
->   to ETM4_CFG_BIT_RETSTK ?
->
-> Changes since v1:
->
->   * Added Leo's reviewed by on patch 3
->   * Fix bracket styling
->   * Add documentation
->
-> Applies on top of coresight/next efa56eddf5d5c. But this docs fix is also
-> required to get the links to work:
->   https://marc.info/?l=linux-doc&m=164139331923986&w=2
->
-> Also available at: https://gitlab.arm.com/linux-arm/linux-jc/-/tree/james-branch-broadcast-v2
->
-> James Clark (6):
->   coresight: Add config flag to enable branch broadcast
->   coresight: Fail to open with return stacks if they are unavailable
->   perf cs-etm: Update deduction of TRCCONFIGR register for branch
->     broadcast
->   Documentation: coresight: Turn numbered subsections into real
->     subsections
->   Documentation: coresight: Link config options to existing
->     documentation
->   Documentation: coresight: Expand branch broadcast documentation
->
->  .../coresight/coresight-etm4x-reference.rst   | 14 ++++-
->  Documentation/trace/coresight/coresight.rst   | 56 +++++++++++++++++--
->  .../hwtracing/coresight/coresight-etm-perf.c  |  2 +
->  .../coresight/coresight-etm4x-core.c          | 23 ++++++--
->  include/linux/coresight-pmu.h                 |  2 +
->  tools/include/linux/coresight-pmu.h           |  2 +
->  tools/perf/arch/arm/util/cs-etm.c             |  3 +
->  7 files changed, 92 insertions(+), 10 deletions(-)
->
-> --
-> 2.28.0
->
+> HTH
+> Petr Tesarik
+
