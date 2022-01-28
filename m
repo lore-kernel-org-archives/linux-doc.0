@@ -2,129 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0330AC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 01:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A317C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 03:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235255AbiA1Bly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 20:41:54 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:35879 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230132AbiA1Blx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 20:41:53 -0500
-Received: from kwepemi500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JlKt34L5PzccpN;
-        Fri, 28 Jan 2022 09:40:59 +0800 (CST)
-Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- kwepemi500020.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 09:41:50 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 28 Jan 2022 09:41:49 +0800
-From:   Peng Liu <liupeng256@huawei.com>
-To:     <glider@google.com>, <elver@google.com>, <dvyukov@google.com>,
-        <corbet@lwn.net>, <sumit.semwal@linaro.org>,
-        <christian.koenig@amd.com>, <akpm@linux-foundation.org>
-CC:     <kasan-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-mm@kvack.org>, <liupeng256@huawei.com>
-Subject: [PATCH v2] kfence: Make test case compatible with run time set sample interval
-Date:   Fri, 28 Jan 2022 01:57:52 +0000
-Message-ID: <20220128015752.931256-1-liupeng256@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
+        id S1345726AbiA1DZa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Jan 2022 22:25:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345719AbiA1DZa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 22:25:30 -0500
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEDEC061748
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 19:25:29 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id u129so9916161oib.4
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 19:25:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ty87z8mPFCHS0MY8zzrtuvTZ6oO3QjVwryu3eYeSmWE=;
+        b=aA4k4kzFiuRhBh0BXgbfcuq9ufCLBzxhy1n0nwDOnZXENDHrVV3z+4G5d/GWGxhcNM
+         pMKBbjQ5jFw18zS67w5KowD3E5kf/fEq8XhfTJx89V3aiCZxVVotsCtsqnNxMLte11Zf
+         +Kxy/ppfbleRr3MmklXr1SaofYtbx+INtlz5zAPzbHrOiM2so7lpUmN6Y5nh0HfwpIli
+         n9VqUgU9ftpDJg5XbaLIuJs8cuvmPTFA9fRLAwicE2mCLRaMinnky3xL+4Q5P6NZ/wuf
+         Bcd3aoXHFsfkdpOrjukeRMi8AD/yBy0SmGQPBj25ODZQLQoyM+8SqEzlFhlOQ+sxDQmw
+         Ikng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ty87z8mPFCHS0MY8zzrtuvTZ6oO3QjVwryu3eYeSmWE=;
+        b=hBakhmz1xMO3hwq27cMyW/tx9DpvnwPKnm+0TQPg+e/RUbnn7o3p3jVqGWVsAe9L0T
+         3gGbor4K2tVMvmz0Sqj40TDCSOJTQ1zCDHq2wnc1rwpfxi+adyFlsTiDibcc6DJRr0LR
+         9ICi9ollfw4zKJBAlb6/F2LaAzrasFGbl7v9HB3rgQq6McSYbvReXhLnP57VtogMholH
+         GbQVR2ddaL/JyaySFpD0Dt2xtqcqVGOr3Wj5iwFki/Qux2OJuZaoAAAfiS412B1NIvC/
+         vrHkYtVLl39AT33Yd8gvaJ8l5Q9NDDqiGzN4wYP52LRJGcKQWOpV6VQf68YYLb0t2Hze
+         pAMw==
+X-Gm-Message-State: AOAM533mfmlUVBuN4/MoPxQOFTIyFVOlffElqIKYUbI3x9//sB4ipxjZ
+        NTrZoQ9xWgD6Oaau5pIjpbxGVQ==
+X-Google-Smtp-Source: ABdhPJw9dlFq8qPZGHIulSa2/+LOOD2gAlQuQmCu96B//4BKOIXSHLybARCtI4aZqIubJ3AWVEq1OQ==
+X-Received: by 2002:aca:a88f:: with SMTP id r137mr4169824oie.51.1643340329274;
+        Thu, 27 Jan 2022 19:25:29 -0800 (PST)
+Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id l63sm5447242oia.2.2022.01.27.19.25.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 19:25:28 -0800 (PST)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2 1/2] cpufreq: Reintroduce ready() callback
+Date:   Thu, 27 Jan 2022 19:25:53 -0800
+Message-Id: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemm600017.china.huawei.com (7.193.23.234)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The parameter kfence_sample_interval can be set via boot parameter
-and late shell command, which is convenient for automatical tests
-and KFENCE parameter optimation. However, KFENCE test case just use
-compile time CONFIG_KFENCE_SAMPLE_INTERVAL, this will make KFENCE
-test case not run as user desired. This patch will make KFENCE test
-case compatible with run-time-set sample interval.
+This effectively revert '4bf8e582119e ("cpufreq: Remove ready()
+callback")' (except the Chinese translation), in order to reintroduce
+the ready callback.
 
-v1->v2:
-- Use EXPORT_SYMBOL_GPL replace EXPORT_SYMBOL
+This is needed in order to be able to leave the thermal pressure
+interrupts in the Qualcomm CPUfreq driver disabled during
+initialization, so that it doesn't fire while related_cpus are still 0.
 
-Signed-off-by: Peng Liu <liupeng256@huawei.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- include/linux/kfence.h  | 2 ++
- mm/kfence/core.c        | 3 ++-
- mm/kfence/kfence_test.c | 8 ++++----
- 3 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 4b5e3679a72c..f49e64222628 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -17,6 +17,8 @@
- #include <linux/atomic.h>
- #include <linux/static_key.h>
+Changes since v1:
+- New patch
+
+ Documentation/cpu-freq/cpu-drivers.rst | 3 +++
+ drivers/cpufreq/cpufreq.c              | 4 ++++
+ include/linux/cpufreq.h                | 3 +++
+ 3 files changed, 10 insertions(+)
+
+diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
+index 3b32336a7803..d84ededb66f9 100644
+--- a/Documentation/cpu-freq/cpu-drivers.rst
++++ b/Documentation/cpu-freq/cpu-drivers.rst
+@@ -75,6 +75,9 @@ And optionally
+  .resume - A pointer to a per-policy resume function which is called
+  with interrupts disabled and _before_ the governor is started again.
  
-+extern unsigned long kfence_sample_interval;
++ .ready - A pointer to a per-policy ready function which is called after
++ the policy is fully initialized.
 +
- /*
-  * We allocate an even number of pages, as it simplifies calculations to map
-  * address to metadata indices; effectively, the very first page serves as an
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 5ad40e3add45..13128fa13062 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -47,7 +47,8 @@
+  .attr - A pointer to a NULL-terminated list of "struct freq_attr" which
+  allow to export values to sysfs.
  
- static bool kfence_enabled __read_mostly;
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index b8d95536ee22..80f535cc8a75 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -1518,6 +1518,10 @@ static int cpufreq_online(unsigned int cpu)
  
--static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-+unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-+EXPORT_SYMBOL_GPL(kfence_sample_interval); /* Export for test modules. */
+ 	kobject_uevent(&policy->kobj, KOBJ_ADD);
  
- #ifdef MODULE_PARAM_PREFIX
- #undef MODULE_PARAM_PREFIX
-diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-index a22b1af85577..50dbb815a2a8 100644
---- a/mm/kfence/kfence_test.c
-+++ b/mm/kfence/kfence_test.c
-@@ -268,13 +268,13 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
- 	 * 100x the sample interval should be more than enough to ensure we get
- 	 * a KFENCE allocation eventually.
- 	 */
--	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
- 	/*
- 	 * Especially for non-preemption kernels, ensure the allocation-gate
- 	 * timer can catch up: after @resched_after, every failed allocation
- 	 * attempt yields, to ensure the allocation-gate timer is scheduled.
- 	 */
--	resched_after = jiffies + msecs_to_jiffies(CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
- 	do {
- 		if (test_cache)
- 			alloc = kmem_cache_alloc(test_cache, gfp);
-@@ -608,7 +608,7 @@ static void test_gfpzero(struct kunit *test)
- 	int i;
++	/* Callback for handling stuff after policy is ready */
++	if (cpufreq_driver->ready)
++		cpufreq_driver->ready(policy);
++
+ 	if (cpufreq_thermal_control_enabled(cpufreq_driver))
+ 		policy->cdev = of_cpufreq_cooling_register(policy);
  
- 	/* Skip if we think it'd take too long. */
--	KFENCE_TEST_REQUIRES(test, CONFIG_KFENCE_SAMPLE_INTERVAL <= 100);
-+	KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index 1ab29e61b078..3522a272b74d 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -382,6 +382,9 @@ struct cpufreq_driver {
+ 	int		(*suspend)(struct cpufreq_policy *policy);
+ 	int		(*resume)(struct cpufreq_policy *policy);
  
- 	setup_test_cache(test, size, 0, NULL);
- 	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-@@ -739,7 +739,7 @@ static void test_memcache_alloc_bulk(struct kunit *test)
- 	 * 100x the sample interval should be more than enough to ensure we get
- 	 * a KFENCE allocation eventually.
- 	 */
--	timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-+	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
- 	do {
- 		void *objects[100];
- 		int i, num = kmem_cache_alloc_bulk(test_cache, GFP_ATOMIC, ARRAY_SIZE(objects),
++	/* Will be called after the driver is fully initialized */
++	void		(*ready)(struct cpufreq_policy *policy);
++
+ 	struct freq_attr **attr;
+ 
+ 	/* platform specific boost support code */
 -- 
-2.18.0.huawei.25
+2.33.1
 
