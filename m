@@ -2,166 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4153FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 08:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0095C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 09:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242648AbiA1IyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 03:54:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243447AbiA1IyW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 03:54:22 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F1BC061714;
-        Fri, 28 Jan 2022 00:54:21 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id s5so13744797ejx.2;
-        Fri, 28 Jan 2022 00:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mfa0O3qu1wZcHEBOXT6AY/+zf9YLw7v0iaKsWN6BE6k=;
-        b=gahkIPkUCispjnbwyFW7qCQKJs7V6/Suv2KYfgacpg0HMhWtTQM92L+zPmt+PUeGyD
-         o6CCE6udcmlCzmeL4RDLgs2RnpngD47kIt3SEZAQJqHYQdpEQ5FsmhSttjAadVHcNrXg
-         bbuECXUl2iSnmGVy5qeiU6Wp6OEWZraXLLKmq6I97Lh2oElZxvTcFf3BVaoElaYQGN47
-         ZGESroIum1IM1u8AfGbmIY+j/WkOl+2nCZaZxvosiOla5eskc9HPibW5xPMNOLlT4XdJ
-         Fut/zz93mAXb9E88TFLtscbQiZ3Ma7iKbYmzgoAsiAnrggm4w9Df9azAwmxUFU6+tPEE
-         nOig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mfa0O3qu1wZcHEBOXT6AY/+zf9YLw7v0iaKsWN6BE6k=;
-        b=sfo/VxSS9dh02M20ViEvmDFyriHVlVcyG+6V7fMLq4qboonuew1K4J07uULVc1LV41
-         DRVffgyzsLXx1oqE/BXMSdeFdMWZSCVArrey/ZNWs+JecKhADZRmGQAatjtyTzwEGJ5N
-         vmKo9QwVr3BngEnk1V7/HO5BrV/3OsqldwVl1Iftm6CCJbUgBjcHaANIGEpR1f7ioE/d
-         A+jWJSnCQU5vjgX3I3C14kPvXO34hCYEk3j3fnFeiJZN2wJACatI9ChvcoPgE3k04sHh
-         7OYkDZn4MSKzjlOXsGzGxC5/npdcfJgXQJYQjKAsR6o+VCJrwiQkdnJMWy8YayZc+BJa
-         H7fQ==
-X-Gm-Message-State: AOAM531tSZMVpVrQYfVi0Cmgf6ifU19BLCq9WAI3ypG2iRF5iiHC8RcN
-        XtnrF6UC9HFo2HA0oZOYa+OmqzPRIAqCalcHGuc=
-X-Google-Smtp-Source: ABdhPJwDVqEdoKYA0/xCVZ9gS/VecyzMcDN47USHcFNSAdkfiUFOOZIl07e7Qubt4Pk2xiAS5KMkMuLmi5+7XiJmOLc=
-X-Received: by 2002:a17:907:72c3:: with SMTP id du3mr6192984ejc.457.1643360060307;
- Fri, 28 Jan 2022 00:54:20 -0800 (PST)
+        id S1347499AbiA1JJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 04:09:44 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4538 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347477AbiA1JJn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 04:09:43 -0500
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JlWlh0fLrz67xNW;
+        Fri, 28 Jan 2022 17:06:08 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 28 Jan 2022 10:09:41 +0100
+Received: from [10.47.26.192] (10.47.26.192) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 28 Jan
+ 2022 09:09:40 +0000
+Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
+CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+ <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
+ <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
+ <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
+Date:   Fri, 28 Jan 2022 09:09:03 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20220104202227.2903605-1-yuzhao@google.com> <CAGsJ_4zULJ5vPwn73Z5Bap3eRkAX+Yv24c-n41+zC7fN8xG60g@mail.gmail.com>
- <Ye+dPmO17JN2bNLL@google.com>
-In-Reply-To: <Ye+dPmO17JN2bNLL@google.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Fri, 28 Jan 2022 21:54:09 +1300
-Message-ID: <CAGsJ_4w5GM5r916XEz+gj=33A+b98kyJONLNpEnBMmX5XnPRmg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, page-reclaim@google.com,
-        x86 <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.26.192]
+X-ClientProxiedBy: lhreml713-chm.china.huawei.com (10.201.108.64) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 7:48 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Sun, Jan 23, 2022 at 06:43:06PM +1300, Barry Song wrote:
-> > On Wed, Jan 5, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> <snipped>
->
-> > > Large-scale deployments
-> > > -----------------------
-> > > We've rolled out MGLRU to tens of millions of Chrome OS users and
-> > > about a million Android users. Google's fleetwide profiling [13] show=
-s
-> > > an overall 40% decrease in kswapd CPU usage, in addition to
-> >
-> > Hi Yu,
-> >
-> > Was the overall 40% decrease of kswap CPU usgae seen on x86 or arm64?
-> > And I am curious how much we are taking advantage of NONLEAF_PMD_YOUNG.
-> > Does it help a lot in decreasing the cpu usage?
->
-> Hi Barry,
->
-> The fleet-wide profiling data I shared was from x86. For arm64, I only
-> have data from synthetic benchmarks at the moment, and it also shows
-> similar improvements.
->
-> For Chrome OS (individual users), walk_pte_range(), the function that
-> would benefit from ARCH_HAS_NONLEAF_PMD_YOUNG, only uses a small
-> portion (<4%) of kswapd CPU time. So ARCH_HAS_NONLEAF_PMD_YOUNG isn't
-> that helpful.
+On 28/01/2022 06:37, Damien Le Moal wrote:
 
-Hi Yu,
-Thanks!
+Hi Damien,
 
-In the current kernel, depending on reverse mapping, while memory is
-under pressure,
-the cpu usage of kswapd can be very very high especially while a lot of pag=
-es
-have large mapcount, thus a huge reverse mapping cost.
+>> However using this same adapter type on my arm64 system has error
+>> handling kick in almost straight away - and the handling looks sane. A
+>> silver lining, I suppose ..
+> I ran some more tests. In particular, I ran libzbc compliance tests on a
+> 20TB SMR drives. All tests pass with 5.17-rc1, but after applying your
+> series, I see command timeout that take forever to recover from, with
+> the drive revalidation failing after that.
+> 
+> [  385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
+> [  385.108026] sas: sas_scsi_find_task: aborting task 0x000000007068ed73
+> [  405.561099] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+> timeout.
+> [  405.568236] sas: sas_scsi_find_task: task 0x000000007068ed73 is aborted
+> [  405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007068ed73 is
+> aborted
+> [  411.192602] ata21.00: qc timeout (cmd 0xec)
+> [  431.672122] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+> timeout.
+> [  431.679282] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+> [  431.685544] ata21.00: revalidation failed (errno=-5)
+> [  441.911948] ata21.00: qc timeout (cmd 0xec)
+> [  462.391545] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+> timeout.
+> [  462.398696] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+> [  462.404992] ata21.00: revalidation failed (errno=-5)
+> [  492.598769] ata21.00: qc timeout (cmd 0xec)
+> ...
+> 
+> So there is a problem. Need to dig into this. I see this issue only with
+> libzbc passthrough tests. fio runs with libaio are fine.
 
-Regarding  <4%, I guess the figure came from machines with NONLEAF_PMD_YOUN=
-G=EF=BC=9F
-In this case, we can skip many PTE scans while PMD has no accessed bit
-set. But for
-a machine without NONLEAF, will the figure of cpu usage be much larger?
+Thanks for the notice. I think that I also saw a hang, but, IIRC, it 
+happened on mainline for me - but it's hard to know if I broke something 
+if it is already broke in another way. That is why I wanted this card 
+working properly...
 
->
-> > If so, this might be
-> > a good proof that arm64 also needs this hardware feature?
-> > In short, I am curious how much the improvement in this patchset depend=
-s
-> > on the hardware ability of NONLEAF_PMD_YOUNG.
->
-> For data centers, I do think ARCH_HAS_NONLEAF_PMD_YOUNG has some value.
-> In addition to cold/hot memory scanning, there are other use cases like
-> dirty tracking, which can benefit from the accessed bit on non-leaf
-> entries. I know some proprietary software uses this capability on x86
-> for different purposes than this patchset does. And AFAIK, x86 is the
-> only arch that supports this capability, e.g., risc-v and ppc can only
-> set the accessed bit in PTEs.
+Anyway, I will investigate more.
 
-Yep. NONLEAF is a nice feature.
+> 
+>>> And sparse/make C=1 complains about:
+>>>
+>>> drivers/scsi/libsas/sas_port.c:77:13: warning: context imbalance in
+>>> 'sas_form_port' - different lock contexts for basic block
+>> I think it's talking about the port->phy_list_lock usage - it prob
+>> doesn't like segments where we fall out a loop with the lock held (which
+>> was grabbed in the loop). Anyway it looks ok. Maybe we can improve this.
+>>
+>>> But I have not checked if it is something that your series touch.
+>>>
+>>> And there is a ton of complaints about __le32 use in the pm80xx code...
+>>> I can try to have a look at these if you want, on top of your series.
+>> I really need to get make C=1 working for me - it segfaults in any env I
+>> have:(
+> I now have a 12 patch series that fixes*all*  the sparse warnings. Some
+> of the fixes were trivial, but most of them are simply hard bugs with
+> the handling of le32 struct field values. There is no way that this
+> driver is working as-is on big-endian machines. Some calculations are
+> actually done using cpu_to_le32() values !
 
-btw, page table should have a separate DIRTY bit, right? wouldn't dirty pag=
-e
-tracking depend on the DIRTY bit rather than the accessed bit? so x86 also =
-has
-NONLEAF dirty bit? Or they are scanning accessed bit of PMD before
-scanning DIRTY bits of PTEs?
+Great, I'll have a look when you send them.
 
->
-> In fact, I've discussed this with one of the arm maintainers Will. So
-> please check with him too if you are interested in moving forward with
-> the idea. I might be able to provide with additional data if you need
-> it to make a decision.
+> 
+> But even though these fixes should have essentially no effect on
+> little-endian x86_64, with my series applied, I see the same command
+> timeout problem as with your libsas update, and both series together
+> result in the same timeout issue too.
+> 
+> So it looks like "fixing" the code actually is revealing some other bug
+> that was previously hidden... This will take some time to debug.
+> 
+> Another problem I noticed: doing "rmmod pm80xx; modprobe pm80xx" result
+> in a failure of device scans. I get loops of "link is slow to respond
+> ->reset". For the above tests, I had to reboot every time I changed the
+> driver module code. Another thing to look at.
 
-I am interested in running it and have some data without NONLEAF
-especially while free memory is very limited and the system has memory
-thrashing.
+Sounds odd, I would expect everything runs from afresh when insmod.
 
->
-> Thanks.
-
-Thanks
-Barry
+Thanks,
+John
