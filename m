@@ -2,102 +2,336 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90386C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 11:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 336FCC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 13:38:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244571AbiA1LwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 06:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbiA1LwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 06:52:23 -0500
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF03C061714
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 03:52:23 -0800 (PST)
-Received: by mail-ot1-x32d.google.com with SMTP id x52-20020a05683040b400b0059ea92202daso5441119ott.7
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 03:52:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O60yGiuWnnbcMYfMLAv37vqkxweJf6XzlR6Lpk0bdI0=;
-        b=P6xylPxu3oTF9ElqWG2+KKyUYq5JMNnqiPQRZUeDXqQie4aQmyPakvGVQD017+Sq5j
-         w8WBVC0gRu5xZKxAFyYY2+ykLjSZ+O71IYW2FlMwViM/WIiwXp03lW9R8sZe5cCUlKfy
-         P8c6ut1lo3vrggu9qgXKs1LoMnKbJoy9NFW8ZJeXZvE7GKCnAU39YhigoMzswo9cVR6f
-         AN7r7VuDpulWZS82z9ushmAgLKUGp/8dAFq31IbINk/a43TB8V/KRTywy/HtecTt4Qt6
-         nXeKqrtg9ysDBm4AJvx3Q87lxFKbMQc4SIwbwvGxp8+ia4JOg/O1GYhE3VU8wXtXX1j4
-         VPsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O60yGiuWnnbcMYfMLAv37vqkxweJf6XzlR6Lpk0bdI0=;
-        b=Rhby+YbhSe4XkrLznUYhUWD4GAjm4SviVnv7uPj/y9crxaH9nMwthFzpCMuuy5ZKk0
-         YUGSTvA9wiyujtnHZDsEoD2cGqJtnZj3/DIvRjRV9XO9XJtBPdtaAVRP5m3cTkKHA0Yv
-         IaPu55IF/08W38UZIMjGFh9GRhlMP9R0Y5rhVofP33wwqAGjqECNdvmDMoBNznqejrsM
-         Fm3nZWXHrX8Ph+WmHZTHC+Nq2Ib8HR4gf2f0O6CqdcZntpxML2jiQWJylWnwYbRzSWJ2
-         UmGZZZxJQHciq+NyQZXX7a0eKTHI4zp8+wEzUxjoh8XV6dg/0IzqlQ7GC0TX8xHUzY7J
-         pMQQ==
-X-Gm-Message-State: AOAM532wFZopfRjJM/Xbm9hG7VA+497gaxIqncggZenas0CZGkdBUDEn
-        3ELaIVGkukODGEwDU2tYzs1lzEPXxGD0ZTh4j6127iTMkpg=
-X-Google-Smtp-Source: ABdhPJxFKUeb+z6L0PRMViTxwQseod5Vc2HUsrALgKw44oNXB9A/OsmkbGwTROjG05J4k1ROmFYME63G71BRWJvmWSU=
-X-Received: by 2002:a05:6830:25d5:: with SMTP id d21mr3350658otu.246.1643370742236;
- Fri, 28 Jan 2022 03:52:22 -0800 (PST)
+        id S1349011AbiA1Nia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 08:38:30 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:41518 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349026AbiA1Ni1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 08:38:27 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id DF166210FE;
+        Fri, 28 Jan 2022 13:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1643377106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EmJPFIB+FsC4z+ugXI4cPVnGkYC2PBBR99Rss9L6Q+4=;
+        b=bBUB0y/R6rNG+iKcq19eYcVtwpNXFY82mKIIuqiAS6RZdfbTdhIcwbV03YomD1RuQH4JkJ
+        kUobTfJYpqotxGSvklXnc3KizmVMHbsGVoelRkRS+bK2vKzpy9OAUAgSZxeljj8anO4NvO
+        A5CVTdJ0yFXg9OJ+cjg34iCx3F52ub8=
+Received: from suse.cz (unknown [10.100.216.66])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 8282EA3B88;
+        Fri, 28 Jan 2022 13:38:26 +0000 (UTC)
+Date:   Fri, 28 Jan 2022 14:38:07 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "bhe@redhat.com" <bhe@redhat.com>,
+        "vgoyal@redhat.com" <vgoyal@redhat.com>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "halves@canonical.com" <halves@canonical.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YfPxvzSzDLjO5ldp@alley>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
+ <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
 MIME-Version: 1.0
-References: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn> <1643370145-26831-5-git-send-email-yangtiezhu@loongson.cn>
-In-Reply-To: <1643370145-26831-5-git-send-email-yangtiezhu@loongson.cn>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 28 Jan 2022 12:52:10 +0100
-Message-ID: <CANpmjNPYYAy2jy_U_c7QjTsco6f1Hk2q=HP34di4YRMgdKsa+g@mail.gmail.com>
-Subject: Re: [PATCH 4/5] sched: unset panic_on_warn before calling panic()
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 28 Jan 2022 at 12:42, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
->
-> As done in the full WARN() handler, panic_on_warn needs to be cleared
-> before calling panic() to avoid recursive panics.
->
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> ---
->  kernel/sched/core.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 848eaa0..f5b0886 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -5524,8 +5524,17 @@ static noinline void __schedule_bug(struct task_struct *prev)
->                 pr_err("Preemption disabled at:");
->                 print_ip_sym(KERN_ERR, preempt_disable_ip);
->         }
-> -       if (panic_on_warn)
-> +
-> +       if (panic_on_warn) {
-> +               /*
-> +                * This thread may hit another WARN() in the panic path.
-> +                * Resetting this prevents additional WARN() from panicking the
-> +                * system on this thread.  Other threads are blocked by the
-> +                * panic_mutex in panic().
-> +                */
-> +               panic_on_warn = 0;
->                 panic("scheduling while atomic\n");
+On Thu 2022-01-27 14:16:20, Guilherme G. Piccoli wrote:
+> On 25/01/2022 10:06, d.hatayama@fujitsu.com wrote:
+> > 
+> > But the pre_dump cannot avoid calling multiple unnecessary handlers, right?
+> > It's more risky than the previous idea...
+> > 
+> 
+> I think we could have 2 kernel parameters then:
+> 
+> crash_kernel_disable_pre_notitifers (of course we can think in some
+> better name here heh)
+> 
+> crash_kernel_enable_post_notifiers (which is the same as the current
+> "crash_kernel_post_notifiers", we can keep it)
+> 
+> The point being (if I understand correctly): some callbacks are really
+> simple and don't introduce risks for kdump, like the RCU; a bunch of
+> them just set one variable. Those could be enable by default, before the
+> kdump.
+> 
+> The majority would fit in the 2nd group, meaning they are not enabled by
+> default, requiring some parameter for that.
+> 
+> Petr, let me know if that makes sense and is aligned with your suggestion.
 
-I agree this is worth fixing.
+First, I am sorry for the very long mail. But the problem is really
+complicated. I did my best to describe it a clean way.
 
-But: Why can't the "panic_on_warn = 0" just be moved inside panic(),
-instead of copy-pasting this all over the place?
+I have discussed these problems with a colleague and he had some good
+points. And my view evolved even further.
 
-I may be missing something obvious why this hasn't been done before...
+There are two groups of people interested in panic() behavior:
 
-Thanks,
--- Marco
+1. Users wants to get as reliable as possible: kdump, kmsg_dump,
+   console log, useful last message on screen, reboot, hypervisor
+   notification.
+
+   Different users have different priorities according to the use case.
+
+
+2. Subsystem maintainers and developers that need to do something
+   special in panic(). They have to deal with the user requirements
+   and bug reports.
+
+   Most operations in panic() have unclear results because the system
+   is in unclear state. Maintainers and developers wants to make their
+   life easier. They do not want to deal with problems caused by
+   others. So that they want to disable others or run as early as
+   possible.
+
+   It is nicely visible. kdump maintainer is afraid of calling
+   anything before kdump. Many people support the idea of filtering
+   because it moves problems to the user side.
+
+
+I see two basic problems here: ordering and reliability:
+
+1. Ordering problems are partly solved by configuration and partly by
+   definition. I mean that:
+
+      + kdump, kmsg_dump, panic_print_sys_info() are optional
+      + console output is the best effort; more risky in final flush
+      + reboot, infinite loop are the very last step
+
+   IMHO, the ordering should be pretty clear:
+
+      + panic_print_sys_info(), kmsg_dump(), kdump(), console flush, reboot
+
+   Why?
+
+      + panic_print_sys_info(), kmsg_dump(), kdump() are all optional
+	   and disabled by default
+      + Users might want panic_print_sys_info() in kmsg_dump() and kdump()
+      + Users might prefer kmsg_dump() over kdump()
+      + kdump() is the last operation when enabled
+
+   Where are panic notifiers in this picture?
+   Where are CPUs stopped?
+
+
+2. Reliability is the best effort and any subsystem should do its
+   best.
+
+   Users need to be aware (documentation, warning) that:
+
+      + kmsg_dump() is less reliable when panic_print_sys_info() is enabled
+      + kdump() is less reliable when panic_print_sys_info() and/or
+	kmsg_dump() is enabled.
+
+   Where are panic notifiers in this picture?
+   How stopped CPUs affect reliability?
+
+
+Regarding panic notifiers. They look like a problematic black box:
+
+    + ordering against other operations is not clear
+    + are not safe enough
+    + various users require some and do not need others
+    + some are too complex so that only few people know what
+      they do
+
+
+So far, we have two proposals how to handle panic notifiers:
+
+1. Allow to filter them with parameter:
+
+     + pros:
+	+ it allows users to customize and work around problems
+
+     + cons:
+	+ ordering is still not clear
+
+	+ user has to know what he does; note that sometimes only
+	  few people know what their notifier does
+
+	+ hard to use in the long term; callbacks names are
+	  implementation detail; new notifiers are added
+
+	+ lower motivation to solve problems; easy to wave them with
+	  "just disable it when it does not work for you..."
+
+
+2. Split notifiers into more lists:
+
+    + pros:
+	+ might solve ordering problems
+
+	+ subsystem maintainers could find the proper and more safe
+	  location
+
+
+    + cons:
+	+ subsystem maintainers tend to think that their problem is
+	  the most important one; they will tend to do the operation
+	  as early as possible; so that even dangerous operations
+	  might be done early  => the original problem is still there
+
+	+ it might not motivate developers enough to make the notifiers as
+	  safe as possible
+
+	+ some might still need to be optional; for example, it should
+	  be possible to disable hypervisor notifier when it breaks
+	  kdump
+
+
+Regarding stopped CPUs, it looks like a good idea most of the time:
+
+    + They should stop all tasks and reduce further damage of the
+      system.
+
+    + It should also reduce noise (messages) produced by other CPUs.
+
+    + But a special handling is needed when it is done before crash
+      dump.
+
+
+Sigh, it looks really really complicated. We should be careful.
+
+OK, the original problems are:
+
+   + allow to call this order: panic_print_sys_info(), kmsg_dump(), kdump()
+   + make it more safe with problematic notifiers
+
+
+My opinion:
+
+   + allow the desired ordering makes sense
+
+   + something should be done with notifiers:
+
+       + adding filer looks like a workaround that is not much
+	 usable; it is not easy to use; it does not motivate people
+	 fix problems so that is might make things worse in
+	 the long term
+
+       + splitting might make sense but it is not clear how
+
+       + some notifiers make always sense before kmsg_dump;
+	 some should be optional
+
+   + we need a compromise to keep the panic() code sane and can't
+     support all combinations
+
+
+I think about the following solution:
+
+    + split the notifiers into three lists:
+
+	+ info: stop watchdogs, provide extra info
+	+ hypervisor: poke hypervisor
+	+ reboot: actions needed only when crash dump did not happen
+
+    + allow to call hypervisor notifiers before or after kdump
+
+    + stop CPUs before kdump when either hypervisor notifiers or
+      kmsg_dump is enabled
+
+Note that it still allows to call kdump as the first action when
+hypervisor notifiers are called after kdump and no kmsg dumper
+is registered.
+
+
+void panic(void)
+{
+	[...]
+
+	if (crash_kexec_post_hypervisor || panic_print || enabled_kmsg_dump()) {
+		/*
+		 * Stop CPUs when some extra action is required before
+		 * crash dump. We will need architecture dependent extra
+		 * works in addition to stopping other CPUs.
+		 */
+		 crash_smp_send_stop();
+		 cpus_stopped = true;
+	}
+
+	if (crash_kexec_post_hypervisor) {
+		  /* Tell hypervisor about the panic */
+		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+	}
+
+	if (enabled_kmsg_dump) {
+		  /*
+		   * Print extra info by notifiers.
+		   * Prevent rumors, for example, by stopping watchdogs.
+		   */
+		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+	}
+
+	/* Optional extra info */
+	panic_printk_sys_info();
+
+	/* No dumper by default */
+	kmsg_dump();
+
+	/* Used only when crash kernel loaded */
+	__crash_kexec(NULL);
+
+	if (!cpus_stopped) {
+		/*
+		 * Note smp_send_stop is the usual smp shutdown function, which
+		 * unfortunately means it may not be hardened to work in a
+		 * panic situation.
+		 */
+		smp_send_stop();
+	}
+
+	if (!crash_kexec_post_hypervisor) {
+		  /* Tell hypervisor about the panic */
+		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+	}
+
+	if (!enabled_kmsg_dump) {
+		  /*
+		   * Print extra info by notifiers.
+		   * Prevent rumors, for example, by stopping watchdogs.
+		   */
+		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+	}
+
+	/*
+	 * Help to reboot a safe way.
+	 */
+	atomic_notifier_call_chain(&panic_reboot_notifier_list, 0, buf);
+
+	[...]
+}
+
+Any opinion?
+Do the notifier list names make sense?
+
+Best Regards,
+Petr
+
+PS: I have vacation the following week. I'll continue in the
+    discussion when I am back.
