@@ -2,86 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03027C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 11:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90386C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 11:52:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236888AbiA1Lmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 06:42:52 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:40650 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237714AbiA1Lml (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Jan 2022 06:42:41 -0500
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb+Kh1vNhREgFAA--.17556S6;
-        Fri, 28 Jan 2022 19:42:27 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        id S244571AbiA1LwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 06:52:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231424AbiA1LwX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 06:52:23 -0500
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF03C061714
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 03:52:23 -0800 (PST)
+Received: by mail-ot1-x32d.google.com with SMTP id x52-20020a05683040b400b0059ea92202daso5441119ott.7
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 03:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O60yGiuWnnbcMYfMLAv37vqkxweJf6XzlR6Lpk0bdI0=;
+        b=P6xylPxu3oTF9ElqWG2+KKyUYq5JMNnqiPQRZUeDXqQie4aQmyPakvGVQD017+Sq5j
+         w8WBVC0gRu5xZKxAFyYY2+ykLjSZ+O71IYW2FlMwViM/WIiwXp03lW9R8sZe5cCUlKfy
+         P8c6ut1lo3vrggu9qgXKs1LoMnKbJoy9NFW8ZJeXZvE7GKCnAU39YhigoMzswo9cVR6f
+         AN7r7VuDpulWZS82z9ushmAgLKUGp/8dAFq31IbINk/a43TB8V/KRTywy/HtecTt4Qt6
+         nXeKqrtg9ysDBm4AJvx3Q87lxFKbMQc4SIwbwvGxp8+ia4JOg/O1GYhE3VU8wXtXX1j4
+         VPsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O60yGiuWnnbcMYfMLAv37vqkxweJf6XzlR6Lpk0bdI0=;
+        b=Rhby+YbhSe4XkrLznUYhUWD4GAjm4SviVnv7uPj/y9crxaH9nMwthFzpCMuuy5ZKk0
+         YUGSTvA9wiyujtnHZDsEoD2cGqJtnZj3/DIvRjRV9XO9XJtBPdtaAVRP5m3cTkKHA0Yv
+         IaPu55IF/08W38UZIMjGFh9GRhlMP9R0Y5rhVofP33wwqAGjqECNdvmDMoBNznqejrsM
+         Fm3nZWXHrX8Ph+WmHZTHC+Nq2Ib8HR4gf2f0O6CqdcZntpxML2jiQWJylWnwYbRzSWJ2
+         UmGZZZxJQHciq+NyQZXX7a0eKTHI4zp8+wEzUxjoh8XV6dg/0IzqlQ7GC0TX8xHUzY7J
+         pMQQ==
+X-Gm-Message-State: AOAM532wFZopfRjJM/Xbm9hG7VA+497gaxIqncggZenas0CZGkdBUDEn
+        3ELaIVGkukODGEwDU2tYzs1lzEPXxGD0ZTh4j6127iTMkpg=
+X-Google-Smtp-Source: ABdhPJxFKUeb+z6L0PRMViTxwQseod5Vc2HUsrALgKw44oNXB9A/OsmkbGwTROjG05J4k1ROmFYME63G71BRWJvmWSU=
+X-Received: by 2002:a05:6830:25d5:: with SMTP id d21mr3350658otu.246.1643370742236;
+ Fri, 28 Jan 2022 03:52:22 -0800 (PST)
+MIME-Version: 1.0
+References: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn> <1643370145-26831-5-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1643370145-26831-5-git-send-email-yangtiezhu@loongson.cn>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 28 Jan 2022 12:52:10 +0100
+Message-ID: <CANpmjNPYYAy2jy_U_c7QjTsco6f1Hk2q=HP34di4YRMgdKsa+g@mail.gmail.com>
+Subject: Re: [PATCH 4/5] sched: unset panic_on_warn before calling panic()
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Marco Elver <elver@google.com>
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         kasan-dev@googlegroups.com, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] sched: unset panic_on_warn before calling panic()
-Date:   Fri, 28 Jan 2022 19:42:24 +0800
-Message-Id: <1643370145-26831-5-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxb+Kh1vNhREgFAA--.17556S6
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4kJF18XrW3KF15CFyDKFg_yoWDXwc_W3
-        4Uuw4DKF4ktayq9ayYganaqr92g3yjvF409a1DG39rt3yktryDXa98AFy8Zr95Jr4qgFZ8
-        JrZrXF4vkw48CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbgxYjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
-        IE14v26r126s0DM28IrcIa0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0
-        c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2
-        IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280
-        aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzV
-        Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S
-        6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mx
-        kIecxEwVAFwVW8KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-        6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw
-        0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
-        c7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
-        v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x
-        07bFKZAUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As done in the full WARN() handler, panic_on_warn needs to be cleared
-before calling panic() to avoid recursive panics.
+On Fri, 28 Jan 2022 at 12:42, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> As done in the full WARN() handler, panic_on_warn needs to be cleared
+> before calling panic() to avoid recursive panics.
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>  kernel/sched/core.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 848eaa0..f5b0886 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -5524,8 +5524,17 @@ static noinline void __schedule_bug(struct task_struct *prev)
+>                 pr_err("Preemption disabled at:");
+>                 print_ip_sym(KERN_ERR, preempt_disable_ip);
+>         }
+> -       if (panic_on_warn)
+> +
+> +       if (panic_on_warn) {
+> +               /*
+> +                * This thread may hit another WARN() in the panic path.
+> +                * Resetting this prevents additional WARN() from panicking the
+> +                * system on this thread.  Other threads are blocked by the
+> +                * panic_mutex in panic().
+> +                */
+> +               panic_on_warn = 0;
+>                 panic("scheduling while atomic\n");
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- kernel/sched/core.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+I agree this is worth fixing.
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 848eaa0..f5b0886 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -5524,8 +5524,17 @@ static noinline void __schedule_bug(struct task_struct *prev)
- 		pr_err("Preemption disabled at:");
- 		print_ip_sym(KERN_ERR, preempt_disable_ip);
- 	}
--	if (panic_on_warn)
-+
-+	if (panic_on_warn) {
-+		/*
-+		 * This thread may hit another WARN() in the panic path.
-+		 * Resetting this prevents additional WARN() from panicking the
-+		 * system on this thread.  Other threads are blocked by the
-+		 * panic_mutex in panic().
-+		 */
-+		panic_on_warn = 0;
- 		panic("scheduling while atomic\n");
-+	}
- 
- 	dump_stack();
- 	add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
--- 
-2.1.0
+But: Why can't the "panic_on_warn = 0" just be moved inside panic(),
+instead of copy-pasting this all over the place?
 
+I may be missing something obvious why this hasn't been done before...
+
+Thanks,
+-- Marco
