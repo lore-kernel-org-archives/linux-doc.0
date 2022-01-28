@@ -2,80 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF21C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 17:32:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A75CBC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 18:23:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbiA1Rcp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 12:32:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57840 "EHLO
+        id S236050AbiA1SXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 13:23:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232607AbiA1Rco (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 12:32:44 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADB2C061714;
-        Fri, 28 Jan 2022 09:32:44 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 71E90383;
-        Fri, 28 Jan 2022 17:32:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71E90383
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1643391164; bh=jx+ObSUowWNN5HDiOCL/F/rjuw/ZGOtTP1IJcLZwKHU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=d47kEcA8taIPAkyeaKVk07a+9R6tdyXuN6A0a9K6XACO4kFQe677Tyg5MsxVGQzeN
-         YTlKbPxFG2aa40ujc0bB97ByIXW4mL2yjeEF/nUTlCdG47YQWnZow6T0LxF0RCORWE
-         bRf/tNskQCx1jgSNnGuBcOD+qaw9+kAfa/YxHHDbgt05yTwzTqLVx5Cqmmf/QSfUfw
-         7xqjgpiTCvqIHSQWa7AI3p5bwjB2CS0rJM1xmWhzBwr2/WZAJlUNUYta4whceD5MnX
-         8b4u9BZG1VHVqsAcl0j2lf0/U7aCnlSH2tznsS4xDr6Poo72b8QsHsl+ZdQMUhandF
-         lcxVFozAl/Gvg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.17
-Date:   Fri, 28 Jan 2022 10:33:17 -0700
-Message-ID: <87bkzvojdu.fsf@meer.lwn.net>
+        with ESMTP id S1343865AbiA1SXt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 13:23:49 -0500
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C46C061748
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 10:23:49 -0800 (PST)
+Received: by mail-ot1-x336.google.com with SMTP id 10-20020a9d030a000000b0059f164f4a86so6489590otv.13
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 10:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+Z84hA385+KUpWAPAKjIC7/QMu1TKrmdAANnEx3DyCY=;
+        b=BBo5QdBta5BAavqJ7iRkpq+Hd+0Mgt0/RUjLKEczTFkyK9/d4eh0F+5YL/b407BHNg
+         gMYCmjyzHgmAR3RLYnew181kdoiqeT82Wsa4RONhtG3CZyKIcthbk79qr/64iHIB4+Os
+         gB4NXoiLdwBDjAfdxPunyT4j0bb3ZZYI+jX5zas5YljOVnjBPuQgIBuw+9jD05Rt+b7K
+         ac/+tNzOougAkStGC0tpTiSraZ53qpbksn7nBojjj3A0MOjB9Ki+xmZXVrplz8VqJKXD
+         6qSQRXCeTGBdEHmIjT9vDY+E59XwRExamhX+gvwaDln1ZmWB2x3mOV/8baor+hiDBude
+         MgKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+Z84hA385+KUpWAPAKjIC7/QMu1TKrmdAANnEx3DyCY=;
+        b=R8limHfC29+W0IOn1puXiel9x33KgMTY9gJQJgfoAqnIxjHi8nbxTb7MgfH/ZUnJvu
+         /c08ckLyI4v6EgjevHOQfMkcIGz7P1R7VdOERiG0rlyYLNN0S42zvKxa5vIeUV4bTHsK
+         xkdBevaQH92R9qkFbIdMS6QmEzLAjJzyv8mTZrEH7e8IFFRvfHUYQcMEs6PgVWverp37
+         GYgHyEkzMGxtUIJ0duhoBuGvexcsZZtgzYiHYfgLd0HXMLd6sKYhQyMj8cnwx3X5XIW1
+         mS4AivCZXBpnWkvE/MPpkMyJHqVwDYLH3hMFuwWMsdOgBFg/PjwN3wCPbi4zFLrZtxUL
+         DkLg==
+X-Gm-Message-State: AOAM5314ffIu81kaDR4n8LISIUKXttrcPPoHm86wavvSSau2q4zlYZ6P
+        Emo18qJKOfKYRTzyVL9rLNXT6g==
+X-Google-Smtp-Source: ABdhPJxoxtcRm7gplqirhnjzY+X2kbmnsS9fA2HSBZEma2oDdbXZI8Fs58UWiHtW/ITPEYZ+PQX+yg==
+X-Received: by 2002:a9d:628a:: with SMTP id x10mr5380348otk.264.1643394228584;
+        Fri, 28 Jan 2022 10:23:48 -0800 (PST)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id 44sm11993414otl.15.2022.01.28.10.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 10:23:47 -0800 (PST)
+Date:   Fri, 28 Jan 2022 10:24:12 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] cpufreq: Reintroduce ready() callback
+Message-ID: <YfQ0zFyJsjIZnCys@ripper>
+References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+ <f539ca2b-22c4-5708-ddd6-4b638dc0655d@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f539ca2b-22c4-5708-ddd6-4b638dc0655d@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+On Fri 28 Jan 00:52 PST 2022, Lukasz Luba wrote:
 
-  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+> Hi Bjorn,
+> 
+> On 1/28/22 3:25 AM, Bjorn Andersson wrote:
+> > This effectively revert '4bf8e582119e ("cpufreq: Remove ready()
+> > callback")' (except the Chinese translation), in order to reintroduce
+> 
+> Is there something wrong with the Chinese translation that it has to be
+> dropped? Someone has put an effort to create it, I'd assume (and also
+> based on online translator) that it's correct.
+> 
 
-are available in the Git repository at:
+I don't expect there to be anything wrong with the Chinese translation,
+unfortunately "git revert" trips on a merge conflict and I'm
+unfortunately not able to resolve that on my machine.
 
-  git://git.lwn.net/linux.git tags/docs-5.17-3
+> > the ready callback.
+> > 
+> > This is needed in order to be able to leave the thermal pressure
+> > interrupts in the Qualcomm CPUfreq driver disabled during
+> > initialization, so that it doesn't fire while related_cpus are still 0.
+> 
+> If you are going to push the 2nd patch into stable tree, then you would
+> also need this one.
+> 
 
-for you to fetch changes up to 854d0982eef0e424e8108d09d9275aaf445b1597:
+That's correct. This patch is however not a stable change in itself, so
+I didn't mark it as such. I can work with the stable maintainers to let
+them know that this patch is needs to go along with patch 2 - although
+I've seen cases before where they automagically resolved that.
 
-  docs/vm: Fix typo in *harden* (2022-01-27 11:22:34 -0700)
-
-----------------------------------------------------------------
-A few documentation fixes for 5.17
-
-----------------------------------------------------------------
-Jonathan Corbet (1):
-      docs: Hook the RTLA documents into the kernel docs build
-
-Pali Roh=C3=A1r (1):
-      Documentation: arm: marvell: Extend Avanta list
-
-Paul Menzel (1):
-      docs/vm: Fix typo in *harden*
-
-Takahiro Itazuri (1):
-      docs: fix typo in Documentation/kernel-hacking/locking.rst
-
- Documentation/arm/marvell.rst            |  2 ++
- Documentation/index.rst                  |  1 +
- Documentation/kernel-hacking/locking.rst |  2 +-
- Documentation/tools/index.rst            | 20 ++++++++++++++++++++
- Documentation/tools/rtla/index.rst       | 26 ++++++++++++++++++++++++++
- Documentation/vm/page_table_check.rst    |  2 +-
- 6 files changed, 51 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/tools/index.rst
- create mode 100644 Documentation/tools/rtla/index.rst
+Regards,
+Bjorn
