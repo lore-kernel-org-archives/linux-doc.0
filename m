@@ -2,80 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F07FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 11:22:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C40FFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 11:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231605AbiA1LWt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 06:22:49 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:34862 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbiA1LWq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 06:22:46 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 35062B8253C;
-        Fri, 28 Jan 2022 11:22:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73199C340E0;
-        Fri, 28 Jan 2022 11:22:42 +0000 (UTC)
-Date:   Fri, 28 Jan 2022 11:22:39 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <will@kernel.org>,
-        Suzuki Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3 RESEND 0/7] coresight: trbe: Workaround Cortex-A510
- erratas
-Message-ID: <YfPR/93To8n7S9Sa@arm.com>
-References: <1643120437-14352-1-git-send-email-anshuman.khandual@arm.com>
- <20220127202220.GA2191206@p14s>
- <YfPKvsw+fOsJvSm7@arm.com>
+        id S231625AbiA1LY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 06:24:26 -0500
+Received: from foss.arm.com ([217.140.110.172]:37672 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231689AbiA1LYS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Jan 2022 06:24:18 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5332C113E;
+        Fri, 28 Jan 2022 03:24:18 -0800 (PST)
+Received: from [10.57.86.86] (unknown [10.57.86.86])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C28993F766;
+        Fri, 28 Jan 2022 03:24:15 -0800 (PST)
+Message-ID: <50e5ff63-ae00-f04b-fc5b-f294742cb13a@arm.com>
+Date:   Fri, 28 Jan 2022 11:24:14 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfPKvsw+fOsJvSm7@arm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v2 2/6] coresight: Fail to open with return stacks if they
+ are unavailable
+To:     James Clark <james.clark@arm.com>, mathieu.poirier@linaro.org,
+        coresight@lists.linaro.org, leo.yan@linaro.com,
+        mike.leach@linaro.org
+Cc:     Leo Yan <leo.yan@linaro.org>, John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+References: <20220113091056.1297982-1-james.clark@arm.com>
+ <20220113091056.1297982-3-james.clark@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20220113091056.1297982-3-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 10:51:42AM +0000, Catalin Marinas wrote:
-> On Thu, Jan 27, 2022 at 01:22:20PM -0700, Mathieu Poirier wrote:
-> > On Tue, Jan 25, 2022 at 07:50:30PM +0530, Anshuman Khandual wrote:
-> > > Anshuman Khandual (7):
-> > >   arm64: Add Cortex-A510 CPU part definition
-> > >   arm64: errata: Add detection for TRBE ignored system register writes
-> > >   arm64: errata: Add detection for TRBE invalid prohibited states
-> > >   arm64: errata: Add detection for TRBE trace data corruption
-> > >   coresight: trbe: Work around the ignored system register writes
-> > >   coresight: trbe: Work around the invalid prohibited states
-> > >   coresight: trbe: Work around the trace data corruption
-> > > 
-> > >  Documentation/arm64/silicon-errata.rst       |   6 +
-> > >  arch/arm64/Kconfig                           |  59 ++++++++++
-> > >  arch/arm64/include/asm/cputype.h             |   2 +
-> > >  arch/arm64/kernel/cpu_errata.c               |  27 +++++
-> > >  arch/arm64/tools/cpucaps                     |   3 +
-> > >  drivers/hwtracing/coresight/coresight-trbe.c | 114 ++++++++++++++-----
-> > >  drivers/hwtracing/coresight/coresight-trbe.h |   8 --
-> > >  7 files changed, 183 insertions(+), 36 deletions(-)
-> > 
-> > I have applied this set and sent a pull request to Catalin for the arm64
-> > portion.
+Hi James
+
+On 13/01/2022 09:10, James Clark wrote:
+> Maintain consistency with the other options by failing to open when they
+> aren't supported. For example ETM_OPT_TS, ETM_OPT_CTXTID2 and the newly
+> added ETM_OPT_BRANCH_BROADCAST all return with -EINVAL if they are
+> requested but not supported by hardware.
+
+Looking at this again (with similar comment to the Branch Broadcast),
+won't it disable using retstack on all CPUs, even when some of them
+support it ?
+
+i.e., CPU0 - supports retstack, CPU1 - doesn't
+
+A perf run with retstack will fail, as CPU1 doesn't support it (even
+though we advertise it, unconditionally).
+
+So, if we ignore the failure, this would still allow CPU0 to use
+the feature and as long as the OpenCSD is able to decode the trace
+we should ignore the failure ?
+
+I think we may also need to tune the etm4x_enable_hw() to skip
+updating the TRCCONFIGR with features not supported by the ETM
+
+Suzuki
+
+
 > 
-> Well, I'm happy for the whole series to go in via Greg's tree or however
-> the coresight patches go in (that's why I acked them). The last three
-> patches depend on the first four, so you might as well send them all
-> together. I'd split the series only if there's a conflict with the arm64
-> tree (I haven't checked).
+> The consequence of not doing this is that the user may not be
+> aware that they are not enabling the feature as it is silently disabled.
+> 
+> Signed-off-by: James Clark <james.clark@arm.com>
+> ---
+>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 04669ecc0efa..a93c1a5fe045 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -674,10 +674,15 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>   	}
+>   
+>   	/* return stack - enable if selected and supported */
+> -	if ((attr->config & BIT(ETM_OPT_RETSTK)) && drvdata->retstack)
+> -		/* bit[12], Return stack enable bit */
+> -		config->cfg |= BIT(12);
+> -
+> +	if (attr->config & BIT(ETM_OPT_RETSTK)) {
+> +		if (!drvdata->retstack) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		} else {
+> +			/* bit[12], Return stack enable bit */
+> +			config->cfg |= BIT(12);
+> +		}
+> +	}
+>   	/*
+>   	 * Set any selected configuration and preset.
+>   	 *
 
-I now checked and there's a minor conflict. I can send the arm64 part
-from your pull request to Linus tonight and you can send the others via
-the usual coresight path.
-
-Thanks.
-
--- 
-Catalin
