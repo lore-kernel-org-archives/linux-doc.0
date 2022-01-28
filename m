@@ -2,127 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E6A4C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 18:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6D7C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 20:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347163AbiA1Sa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 13:30:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233922AbiA1SaZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 13:30:25 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A0FC061714
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 10:30:24 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id x193so14034535oix.0
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jan 2022 10:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=255BVw7+Ht0b8sdVHt7ws2Ve8e5tAHnc/nipGjdYGp0=;
-        b=EEJpZtCHAcUPBVHDEt8/8j6Y06vhmk5k14Knz6haNa+/3HpxiSqJBPz46ecBlEdFWD
-         +Axw3MHdAC35prQcjEwCZj914HYtKUhRfdd8ZUBcyA9MhYCKgEntbaWmC5xmurfMMn1G
-         ass2HtUTa2wzYB6TOLbHG84Th8SSWeT/h2eOF/UoskJmoQD4WLBjzxLtFPiqY+LL8Yy3
-         zVRBXghfCdStwW9b4O4X7ScE1FgwmDgF6JJaqNJJhco8FyoIur76yEr5PyxyJW+52sym
-         2gBXcVAItfbioHCR4g628wY4QQj10oyFAIZA72JH2wZP5hhBq1W8HWiRGnmt7csEp62g
-         fXOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=255BVw7+Ht0b8sdVHt7ws2Ve8e5tAHnc/nipGjdYGp0=;
-        b=NqcoD9PNEMjVzGF3UrneEC0kj0xEIZVuQR9UIs8jksCHZJ5zZ9y/NP3tEKM4sA6zrb
-         QzIZxj1Lq6ZIM8PjhqpuxMY+ZSlY7rNnwwR3n41tj9r8OE++FqOUgiRFd/X74fZbRE3/
-         D4plUurZz8I3702sOahZucv6LfgoO8/QqY2ldl+c7KRInMNs61/1uNZt6iP0Ravi0pje
-         QjNqBF0LFXW5IuDyPv8woefiHrickij6+J7RSFpB9c7rz8wZm2UxGxI7NQopRZ6ckM6n
-         HmireIVpvNyJyry+/Yu4oYLdTgFLE60J2QRzhdwqw31oMgSAKZ7nGk++jp8pESVzItN/
-         wKDQ==
-X-Gm-Message-State: AOAM532hPvPxcPzQK0EYSZVtpFBrEXv5s5TBAeE/m7kzc6VJVni1tqqe
-        UDCRh9PsBbokSud8neJ6gBZtDg==
-X-Google-Smtp-Source: ABdhPJw3fgunIiMqXvsJlYsQB6YNJPusV5AEIDPjrkMWBztd7tGWvDrzSr4LAkUaCP1vZjbS3zX6HQ==
-X-Received: by 2002:a05:6808:2214:: with SMTP id bd20mr8376062oib.159.1643394624296;
-        Fri, 28 Jan 2022 10:30:24 -0800 (PST)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id s3sm8272427otg.67.2022.01.28.10.30.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 10:30:23 -0800 (PST)
-Date:   Fri, 28 Jan 2022 10:30:48 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Lukasz Luba <lukasz.luba@arm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v2 2/2] cpufreq: qcom-hw: Delay enabling throttle_irq
-Message-ID: <YfQ2WEiqV30PGNrt@ripper>
-References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
- <20220128032554.155132-2-bjorn.andersson@linaro.org>
- <5433250b-ee51-06e0-3ef8-ab287a112611@arm.com>
+        id S231348AbiA1UQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 15:16:08 -0500
+Received: from mout.gmx.net ([212.227.17.21]:33587 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230374AbiA1UQH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Jan 2022 15:16:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1643400958;
+        bh=gwQ/4xaaK8OULuaGlNyfE3KKSgGWQAQkj7Y9rmCO9Ow=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=JEPpzGz1wki1AkPdCQBvOvh1ZvKtBkbjyD85F4j/NyGXh+xkYfAQSGz+C2qhBiS2s
+         HKT7XdvQ5P3oqobBL63/oWUdOTlNgD7yfi8z0SU4RyDiJbChAS5jj7E/ojChbF/vkv
+         OWJlzOqFQluBmGLOkCPJUYGy/5Mp3d3aZlueboTU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([89.0.80.162]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N9dwj-1m8pyN2Iqb-015dG2; Fri, 28
+ Jan 2022 21:15:58 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] scripts/get_abi.pl: Ignore hidden files
+Date:   Fri, 28 Jan 2022 21:13:53 +0100
+Message-Id: <20220128201354.1928412-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5433250b-ee51-06e0-3ef8-ab287a112611@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NShGPbU75VNhuHAG5dwgV6cPD9CF84q8W/Po24dCXrGMry3OBXK
+ Wn/+UpZ6Gm6yTRWGVy4sMOEAg+HIgoPn90A2UIDT0nfn+096jL/kJUaKZCBkZ9muPmiRgxt
+ gvCKdC/XAiVdrHe02lMah6bF7coACAe0BGNdgimeR0M2eQuoss/9rwkoZvmEETznqlalB6m
+ kwtd1HSibTBn17+sPR/Hw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IWPjzIN+vqA=:icESYHU/g/1b15Ey+HSWh8
+ U3PomK4EKAXfWH1M86hpCACyv+s2rOcBkZEJn+XVxLcqXkWmBg3lmbLJTKEs/GIcQIAwUZ806
+ 5S4Ajx1CmFllk5bB7OJCmkDBUIZV6yX6vjS7Wv72vLQ3h4wvKOFvdDcgv7lf/N/Lp6DqvIzGT
+ SoeIsZYI6Mvqa/mC0Oj9wxu3YNOtXdsBUk4hVPr80qXdTXekq6NMuDsjQ2mACCtJFXCEbmlzg
+ d1FAthwYGAxWawnbU7hJ8hWBN1v+mXOPneyIhJ8JUWlgbstTCLLwbug/EYR6PTvmSS/evxtHv
+ vJoWvqM+2JvL67unno2ppMcnaR79xYwiw8pIRuM/E/podPRCYyGBavwL8BW+IYy2dwzYWiltT
+ hy73UV1SDXEm4pe6oOrMvQwRglYslGX8Vam/Bh+WXb9W23uWU9aiiiWeH13sHY+ZLBYaU/NN3
+ cnE9Ymd0e4OO5LJPKdQgVNhOTCqQtc/W2WZ1759PZwziMMDcxMRGEads/9OkxkCvSdlqpOgH1
+ 0Es4yxPmAo6HPMQWUYBl0lxLAmtpaAGEv3qpR/ckWbsbsA9YCqg4iH3bVjsI5qk3FdBM9NWl/
+ VowTHNOe6CY8YEoEx3Uf3amlkhLysgD9kfTdef5CKSs7I+MHwTvEYykd0Ug69XxZZW4HJf85F
+ LAjhX56L7PYjXgseG7hGJKbhtp7yuQzmRXd+NwH5+XkZbFbKPKVc2g7xJYHblkscxAnsL6DDS
+ X8ARIfztovJ4Q3//vo5YJaQbXycAVAk1ksF2VQLKZcnFgS0WtxUkE9/tfCKSqUQpVrdCbG4LX
+ t/ywyo8jCNbOezTef9i2Eah/c8HZiHgLNmq8t+PXgQxHe6dBp4tsFQezvuKM5T+mICVRsZFiV
+ M3zAFZCsXReF6bcNtqVtv/hewVsBnLj7jQ7XWJ4QiRpvaCTGScoAoRY+cY3UChDkize9TBFYT
+ bGUdfiRK8R2TYdZdMsbxLHEwXpl0B0Pyyb06aewW9KJIigBCJWBQ2lvl1DtyTNmBl1M9+Elvy
+ QRMw2lf0PFK6Rzn1Y4+WA/TqBNPJXc3FJIKopFX+9rFi2gtjYg96KKfYfYcuV8JHbvh+Jn82U
+ eOm0D7jo8w0qv8=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 28 Jan 02:39 PST 2022, Lukasz Luba wrote:
+get_abi.pl currently collects every file in Documentation/ABI. This
+causes a UnicodeDecodeError in Documentation/sphinx/kernel_api.py,
+when it finds my Vim swap files (.foo.swp) in the directory.
 
-> 
-> 
-> On 1/28/22 3:25 AM, Bjorn Andersson wrote:
-> > In the event that the SoC is under thermal pressure while booting it's
-> > possible for the dcvs notification to happen inbetween the cpufreq
-> > framework calling init and it actually updating the policy's
-> > related_cpus cpumask.
-> > 
-> > Prior to the introduction of the thermal pressure update helper an empty
-> > cpumask would simply result in the thermal pressure of no cpus being
-> > updated, but the new code will attempt to dereference an invalid per_cpu
-> > variable.
-> 
-> Just to confirm, is that per-cpu var the 'policy->related_cpus' in this
-> driver?
-> 
+To avoid such issues, ignore hidden files in get_api.pl.
 
-Correct, we boot under thermal pressure, so the interrupt fires before
-we return from "init", which means that related_cpus is still 0.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ scripts/get_abi.pl | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > 
-> > Avoid this problem by using the newly reintroduced "ready" callback, to
-> > postpone enabling the IRQ until the related_cpus cpumask is filled in.
-> > 
-> > Fixes: 0258cb19c77d ("cpufreq: qcom-cpufreq-hw: Use new thermal pressure update function")
-> 
-> You have 'Fixes' tagging here, which might be picked by the stable tree.
-> The code uses the reverted callback .ready(), which might be missing
-> there (since patch 1/2 doesn't have tagging). This patch looks like a
-> proper fix for the root cause.
-> 
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 6212f58b69c61..47b7eca5b0b71 100755
+=2D-- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -92,6 +92,7 @@ sub parse_abi {
+ 	my $mode =3D (stat($file))[2];
+ 	return if ($mode & S_IFDIR);
+ 	return if ($file =3D~ m,/README,);
++	return if ($file =3D~ m,/\.,);
 
-Yes, the pair would need to be picked up.
+ 	my $name =3D $file;
+ 	$name =3D~ s,.*/,,;
+=2D-
+2.34.1
 
-> Anyway, I'm going to send a patch, which adds a check for null cpumask
-> in the topology_update_thermal_pressure()
-> It was removed after the review comments:
-> https://lore.kernel.org/linux-pm/20211028054459.dve6s2my2tq7odem@vireshk-i7/
-> 
-
-I attempted that in v1:
-https://lore.kernel.org/all/20220118185612.2067031-2-bjorn.andersson@linaro.org/
-
-And while patch 1 is broken, I think Greg and Sudeep made it clear that
-they didn't want a condition to guard against the caller passing cpus of
-0.
-
-That's why I in v2 reverted to postpone the thermal pressure IRQ until
-cpufreq is "ready".
-
-Regards,
-Bjorn
-
-> I'll also push that change for the stable tree.
-> 
-> Regards,
-> Lukasz
