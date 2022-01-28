@@ -2,133 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE0EC43219
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 03:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A561C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Jan 2022 06:37:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345719AbiA1DZb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Jan 2022 22:25:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345742AbiA1DZb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Jan 2022 22:25:31 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE24CC061748
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 19:25:30 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id q186so9906809oih.8
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 19:25:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YR+p+rFyNameRdcM6O13QjKJ9vZV8WKjT+NcfVNIzDk=;
-        b=TeqI3HUPV3Jl3BnoYjWy/fbTJvhxGGRTTGiICuAzEYvIfPk8e7AXDes8R48EU8Ery1
-         8gkrIYYbq1v4Xt/YRrsU4hI2/y5OG0jnzvLJSCAHBQr7/cjWht8hi3VTCEKCJROa+1tR
-         IFLgJR0DVK7Lo+iB/WGjayto6QpT8erB5l5iEVMx4DgzbhvKpgj2nUHeJnkmAahNeoy9
-         d3NpulJs3HNTqLhDVxjNfHXX+vkzB0WcRS+XWkcRCrzlad74KgB/AF49aPlblhXl7R4j
-         h6BpM1aeaPoH7Jqdcco9XmP/s6/ahjoBYbNSzMpTeO7+dCxvKsu55GWeOA9YGBAhC8wL
-         1wyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YR+p+rFyNameRdcM6O13QjKJ9vZV8WKjT+NcfVNIzDk=;
-        b=L9SESuz9FI0Fy4fFnTOx96d2Ye0Cj91hBHr4CpENkI85jSSOZsuRPFao9VD1M6Oq+w
-         jrA3lyJMe9woNlGRKl9/xPAPonq+YPz+Ygwgv2Lrpx6YYHxl/vF7CANpJkUegBywFzLX
-         FH43XGkS4E+/yKiFjzL64WsQrGwnWFeiCyenbDQ5kPqoUQVCbtjN0UbSZOPaC4dAnL0D
-         53GI7NJinqCAVrGcvCss171ME0QXhC0LF/fwfaIbQSG0YXXwlSLYl9GsiX3TRG/vl9vM
-         if1GgBdJ++AZ+HVspNzuHeQuJQdcYR6ehERD94/osbXnh02JSty3GLuCejQtQ6izmlIc
-         o97A==
-X-Gm-Message-State: AOAM532w2sqlP17phGaQ/WVweuSUUJaalkJNVY0v5e2hkrQMRrPb2/RK
-        EvlznKNr/jX+/nS5myUKSEwLzw==
-X-Google-Smtp-Source: ABdhPJwibfMcKHWbE2gHhsX0tTGrzHohSADwkFMnqvYTQ4+Rl2ElNEBOarunj7M+9mFH3Ot/8S/CbA==
-X-Received: by 2002:a05:6808:14c9:: with SMTP id f9mr3027113oiw.251.1643340330235;
-        Thu, 27 Jan 2022 19:25:30 -0800 (PST)
-Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id l63sm5447242oia.2.2022.01.27.19.25.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 19:25:29 -0800 (PST)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 2/2] cpufreq: qcom-hw: Delay enabling throttle_irq
-Date:   Thu, 27 Jan 2022 19:25:54 -0800
-Message-Id: <20220128032554.155132-2-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220128032554.155132-1-bjorn.andersson@linaro.org>
-References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+        id S1346557AbiA1Gh0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Jan 2022 01:37:26 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56702 "EHLO
+        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238164AbiA1GhW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Jan 2022 01:37:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1643351841; x=1674887841;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=f0aF2YEl6Gt/wfhd0sYDp8dpaOwGv98M9EizSp2BmQQ=;
+  b=iu803JJfrKgyr4y0x0n+wik1qwIBlSxYTN+iRN1WzVVyraqlz/Ig0A+T
+   nQRrTvz+Zeyj1fqmxxuKZtOwq/JC+4ajyJ7tucidMg8ZSG9y90DblVO9n
+   xAF7VBaot3bHTgU3dXvLIne88HUzUUxGDb3WO5P327SQdEHj+glAH6QzQ
+   mjJADVEu+N5QOGSyKuVmrMxjvJoQa51bBV7X4EQvO6Vl5HX+iBirT3EEo
+   VK5DUTdou1oMIlDEe1I2BxX6Bsx9dBikEwAjpcVu1kGCpWT+kYjkIa5dK
+   400m2r0RsImBtRYhCWCbHLrUL004BeD2Ta+S5dqiOLpbvS6IEZHw/g/gN
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.88,322,1635177600"; 
+   d="scan'208";a="191604898"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Jan 2022 14:37:21 +0800
+IronPort-SDR: 8rzjtdGPc7lKB98XoJCjRgBdBtFiaZK47anBHMNe6BVvAtUzhh0p5/XoPP/7Ap6ywNgak70Mxi
+ IBZHfQFI3EzOAtIe/roZVR9rdBrGu8aUUsXrFYuPAEPm4ZleeuA0jpYgf7LqQ2CktrrYXyXqdC
+ xZwPwEKN3V+JOaM8v1+aGgt/+iRDLOvbeCkSAmPEoOZtNFDWE7KmM6CulybNczTQqHcpeRNMVh
+ I1aj6YtnSr5kpxoT/4nF4Vhi/2yhU/RknjTpVXUnc6oVz1bX8LjzwNQNURaJO3TkVtjfKy/y0/
+ pWhHTcrvzrkbg6NLgh7k24NM
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 22:09:25 -0800
+IronPort-SDR: SZ9QhoXFlDvq4pI9kq7yuFkDVyxmVXK5PLlxIHAsBmv0egRfstXcL1EWK/cxkWSLnMTe00dY3R
+ vQRz21EFLMLmSgw86zsWtNCHpguGHYgfIQ2RXy0aqDn+x1ehXnZaHg7oGvcISyNs5NkIbFgn7A
+ QN+fcssQ+Lfbk5u8l1Bio7JS9A3rSJGxqDCtfKPfow4VAkwwzuBWDpH4zUNdlfhTFO7iAZVYfK
+ fzTubVOYjugFsh8Cvn7d8YTkPOwa7915aDfYvP5/FvmmSksiw2/kh2HqbKPfH5AfyIibmha1le
+ CLc=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 22:37:21 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JlSRx6XpJz1SHwl
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jan 2022 22:37:17 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1643351836; x=1645943837; bh=f0aF2YEl6Gt/wfhd0sYDp8dpaOwGv98M9Ei
+        zSp2BmQQ=; b=XEi1HUevJFY1ebQbnLto/b104r8EQiiVKHCfIY19aA33c+unTOv
+        WjWYNoPYoUu8Qj+2mlsCzEaNbKP7bcz23LCZ3eN/HTAUdGK7Rs9Z8Hh+krOaZ0/U
+        L5y834TR/uGVlT7Wqb8Qk9l6N7xNd/5Fn2zK0yivroQUAqmo2GlvNymFyv3vnOYf
+        A39qH502asHYRioyeQOOQLagcmhTOAEGmiapUlqzc98SRbyc36IX6bc1DgeG6yl7
+        B5vXLeUEFPLdbE+Dtq/Lto24/MsDIgW1cPKTyo79R04n8/GGQbGaxw4yxAPnip+a
+        lOgaFlPpAI0y7qoOEGOW630qBTB8Tiwqfbw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id tTEfioWsU1n5 for <linux-doc@vger.kernel.org>;
+        Thu, 27 Jan 2022 22:37:16 -0800 (PST)
+Received: from [10.225.163.58] (unknown [10.225.163.58])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JlSRt5W1bz1RvlN;
+        Thu, 27 Jan 2022 22:37:14 -0800 (PST)
+Message-ID: <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
+Date:   Fri, 28 Jan 2022 15:37:13 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
+Content-Language: en-US
+To:     John Garry <john.garry@huawei.com>, jejb@linux.ibm.com,
+        martin.petersen@oracle.com, artur.paszkiewicz@intel.com,
+        jinpu.wang@cloud.ionos.com, chenxiang66@hisilicon.com,
+        Ajish.Koshy@microchip.com
+Cc:     yanaijie@huawei.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linuxarm@huawei.com, liuqi115@huawei.com, Viswas.G@microchip.com
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+ <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
+ <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the event that the SoC is under thermal pressure while booting it's
-possible for the dcvs notification to happen inbetween the cpufreq
-framework calling init and it actually updating the policy's
-related_cpus cpumask.
+On 1/27/22 19:17, John Garry wrote:
+> On 27/01/2022 06:37, Damien Le Moal wrote:
+> 
+> Hi Damien,
+> 
+>> I did some light testing of this series (boot + some fio runs) and
+>> everything looks good using my "ATTO Technology, Inc. ExpressSAS 12Gb/s
+>> SAS/SATA HBA (rev 06)" HBA (x86_64 host).
+> 
+> Yeah, unfortunately these steps prob won't exercise much of the code 
+> changes here since I figure error handling would not kick in.
+> 
+> However using this same adapter type on my arm64 system has error 
+> handling kick in almost straight away - and the handling looks sane. A 
+> silver lining, I suppose ..
 
-Prior to the introduction of the thermal pressure update helper an empty
-cpumask would simply result in the thermal pressure of no cpus being
-updated, but the new code will attempt to dereference an invalid per_cpu
-variable.
+I ran some more tests. In particular, I ran libzbc compliance tests on a
+20TB SMR drives. All tests pass with 5.17-rc1, but after applying your
+series, I see command timeout that take forever to recover from, with
+the drive revalidation failing after that.
 
-Avoid this problem by using the newly reintroduced "ready" callback, to
-postpone enabling the IRQ until the related_cpus cpumask is filled in.
+[  385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
+[  385.108026] sas: sas_scsi_find_task: aborting task 0x000000007068ed73
+[  405.561099] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+timeout.
+[  405.568236] sas: sas_scsi_find_task: task 0x000000007068ed73 is aborted
+[  405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007068ed73 is
+aborted
+[  411.192602] ata21.00: qc timeout (cmd 0xec)
+[  431.672122] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+timeout.
+[  431.679282] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+[  431.685544] ata21.00: revalidation failed (errno=-5)
+[  441.911948] ata21.00: qc timeout (cmd 0xec)
+[  462.391545] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+timeout.
+[  462.398696] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+[  462.404992] ata21.00: revalidation failed (errno=-5)
+[  492.598769] ata21.00: qc timeout (cmd 0xec)
+...
 
-Fixes: 0258cb19c77d ("cpufreq: qcom-cpufreq-hw: Use new thermal pressure update function")
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+So there is a problem. Need to dig into this. I see this issue only with
+libzbc passthrough tests. fio runs with libaio are fine.
 
-Changes since v2:
-- Switched back to applying thermal pressure on "related_cpus", as
-  "policy->cpus" is adjusted based on CPU hotplug.
-- Reintroduced "ready" callback (in patch 1), as the maintainers of
-  topology_update_thermal_pressure() where not interested in allowing a cpumask
-  of 0.
+>> And sparse/make C=1 complains about:
+>>
+>> drivers/scsi/libsas/sas_port.c:77:13: warning: context imbalance in
+>> 'sas_form_port' - different lock contexts for basic block
+> 
+> I think it's talking about the port->phy_list_lock usage - it prob 
+> doesn't like segments where we fall out a loop with the lock held (which 
+> was grabbed in the loop). Anyway it looks ok. Maybe we can improve this.
+> 
+>>
+>> But I have not checked if it is something that your series touch.
+>>
+>> And there is a ton of complaints about __le32 use in the pm80xx code...
+>> I can try to have a look at these if you want, on top of your series.
+> 
+> I really need to get make C=1 working for me - it segfaults in any env I 
+> have :(
 
- drivers/cpufreq/qcom-cpufreq-hw.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+I now have a 12 patch series that fixes *all* the sparse warnings. Some
+of the fixes were trivial, but most of them are simply hard bugs with
+the handling of le32 struct field values. There is no way that this
+driver is working as-is on big-endian machines. Some calculations are
+actually done using cpu_to_le32() values !
 
-diff --git a/drivers/cpufreq/qcom-cpufreq-hw.c b/drivers/cpufreq/qcom-cpufreq-hw.c
-index 05f3d7876e44..effbb680b453 100644
---- a/drivers/cpufreq/qcom-cpufreq-hw.c
-+++ b/drivers/cpufreq/qcom-cpufreq-hw.c
-@@ -388,7 +388,7 @@ static int qcom_cpufreq_hw_lmh_init(struct cpufreq_policy *policy, int index)
- 
- 	snprintf(data->irq_name, sizeof(data->irq_name), "dcvsh-irq-%u", policy->cpu);
- 	ret = request_threaded_irq(data->throttle_irq, NULL, qcom_lmh_dcvs_handle_irq,
--				   IRQF_ONESHOT, data->irq_name, data);
-+				   IRQF_ONESHOT | IRQF_NO_AUTOEN, data->irq_name, data);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Error registering %s: %d\n", data->irq_name, ret);
- 		return 0;
-@@ -542,6 +542,14 @@ static int qcom_cpufreq_hw_cpu_exit(struct cpufreq_policy *policy)
- 	return 0;
- }
- 
-+static void qcom_cpufreq_ready(struct cpufreq_policy *policy)
-+{
-+	struct qcom_cpufreq_data *data = policy->driver_data;
-+
-+	if (data->throttle_irq >= 0)
-+		enable_irq(data->throttle_irq);
-+}
-+
- static struct freq_attr *qcom_cpufreq_hw_attr[] = {
- 	&cpufreq_freq_attr_scaling_available_freqs,
- 	&cpufreq_freq_attr_scaling_boost_freqs,
-@@ -561,6 +569,7 @@ static struct cpufreq_driver cpufreq_qcom_hw_driver = {
- 	.fast_switch    = qcom_cpufreq_hw_fast_switch,
- 	.name		= "qcom-cpufreq-hw",
- 	.attr		= qcom_cpufreq_hw_attr,
-+	.ready		= qcom_cpufreq_ready,
- };
- 
- static int qcom_cpufreq_hw_driver_probe(struct platform_device *pdev)
+But even though these fixes should have essentially no effect on
+little-endian x86_64, with my series applied, I see the same command
+timeout problem as with your libsas update, and both series together
+result in the same timeout issue too.
+
+So it looks like "fixing" the code actually is revealing some other bug
+that was previously hidden... This will take some time to debug.
+
+Another problem I noticed: doing "rmmod pm80xx; modprobe pm80xx" result
+in a failure of device scans. I get loops of "link is slow to respond
+->reset". For the above tests, I had to reboot every time I changed the
+driver module code. Another thing to look at.
+
+Will try to spend some more time on this next week.
+
+Cheers.
+
+
+> 
+> Thanks,
+> John
+
+
 -- 
-2.33.1
-
+Damien Le Moal
+Western Digital Research
