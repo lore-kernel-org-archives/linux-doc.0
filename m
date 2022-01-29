@@ -2,95 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7048C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Jan 2022 00:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA753C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Jan 2022 08:52:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344615AbiA2Aux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Jan 2022 19:50:53 -0500
-Received: from mout.gmx.net ([212.227.15.19]:57869 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241666AbiA2Aux (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Jan 2022 19:50:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1643417444;
-        bh=Diw1Yu38TMajSwVTyV0Mz3ACbBBVfaeWXm13ZtCuYo0=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=KJ2kLNq2Z32iYHQulMMlqmm8mb2Xok1JZW1B9uiqIX3Z+V4s/EuQ0fnlsIhZp68HS
-         9UEys9vIZhY77JqK6ktCXR48nzVaej5x/akPcby0yOeTfkAhFdrYpiMOqbbjRhzQKn
-         NDbMwRa+sKTOorynT5Fz4IHDjQvRL57xoHPTmZXI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([89.0.80.162]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MOREi-1mtKiT1vAM-00Puwe; Sat, 29
- Jan 2022 01:50:44 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] scripts/get_abi.pl: Ignore hidden files
-Date:   Sat, 29 Jan 2022 01:50:18 +0100
-Message-Id: <20220129005019.2090996-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.34.1
+        id S1352487AbiA2Iwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jan 2022 03:52:33 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:31255 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232415AbiA2Iwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jan 2022 03:52:32 -0500
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Jm7NT2wVBzbk1h;
+        Sat, 29 Jan 2022 16:51:37 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Sat, 29 Jan 2022 16:52:30 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Sat, 29 Jan 2022 16:52:29 +0800
+Subject: Re: [PATCH] docs: scheduler: Fix outdated parameter of
+ rebalance_domains
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <zhengbin13@huawei.com>,
+        <tangyeechou@gmail.com>, <tangyizhou@huawei.com>
+References: <20211221031818.23186-1-tangyizhou@huawei.com>
+ <d48506d2-91bb-7d40-12c1-5c16ad89916a@huawei.com>
+Message-ID: <d786d0ef-0137-7a9e-00f2-860c09bbbfb8@huawei.com>
+Date:   Sat, 29 Jan 2022 16:51:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:j9u2Zu2cquDw+N6/3IDKCuTSyb2QKViD3fdHEOS3yJit5EzSvUa
- wzSgrqw4vFkrdpjdthP+AOCfKyLFqAnksVLmmbSh+K+twXh6lxWBnWjIb47SPyvId7Opxvr
- lJ5Ug9LgrtnnQhZFVUDIfz3qoAdb/OnkIcJ4qYx3cjzESzo3+IWPznTAwgWCqGBLB0OvjKw
- k5WNJYwdyvvzZsKJzOfsg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hZ+ZOEekVhg=:vFWodCGU08dm9Bpf1qXdvx
- YpoKSxqtBqtUhTP88Z64L+uf3vdXUq+hJavKFRWcRo9p7ra3xvAzgwPpPnNw7h/vOr/jokqkI
- LZd5k7eDgPFUQ/69eXlErJAahHNKXGGxpvQt0D7pJRX6cQDnX/fT5/3mRZr8GI5VkQtxbSFPb
- Pshs300jKa5kZgae4d1GfR8dmC5A5uluIT5xNIXJU4EI+Q5B6yRTNQKUMqLOYPvj3KbCl6ajw
- CCC7YizbXG2SPjGhcX8h+zpQyQ9OwKSeCkMM4cMMIg/JJTNMg/by8dTketFv+qMv2IrKQWC7a
- etoCk+xaXACw/f91hSm5g5LBJ1KnwIgXka2XMtJxgWmN9b0sluyQpwyqgwZJF7+hbiQkL0WPf
- fb68KyNS1T5F9HEV/WRulZujQGrhZiuR1CaG0RhFG6+BRNVIrnGv43HBUgJl2VVNQ5vJm7r2c
- coEzDuBHPpaLUlNCPMF/ipz5GKcobKPYsjXGqi6wq6E5Rp5aD5OW3JiKzR0y/a51rI5BdC8sl
- E0jEWC6BGbKdvJp+sg8KrLA6RK0s3lk4CwK2eseqBCMXXJg0lu3Br+qL1CvL+OJru3i3hIL8v
- FGTadgMbJM8AfEhsvozg52tSYaU3FqyY4+l/Tho3cr6webWxFd3ZdeU3xsi7qUfpB34ijZ3Q8
- MLYZUwTwTDJnP6+c/FlfqsMRLXdcUNjY6fEKpZC5w7L1EFjANphr+xIUGuL+txXsCwMDgBh3u
- VuEW0KlpunAlF3HSJY4oNfnxuMyETPEMpxb/Qp49wa5JnR00O/li7yfWqNuAjTFOV++eWHIdf
- u+0i8VdmIaaB6KqqhCIV5nF4+kbpb1HuK89pjInFGylt5J+Y+magzwxijB/6BQMK1Qlot2jwa
- f42+B8LReS3wt/YUWZbzcXIgyD16SlzQ06mSSAJy6++tqdS58+trHSdsX18b1cOTGlsQfVUyc
- 54TrQqmHbUTy3Tt9/7Ch8T0lakoIxQC5Vqbj0lNXSoDv4n0kOt7hu9PyJ/aCnq2V2C0mUP39y
- XtbtjwXieejZIikxg2gzRaGNcNMvz7A2x1C38VrzGeesBZtvI2zFA2L9TpK5fnO0DrG9UuLPY
- r249Lbrqeqxars=
+In-Reply-To: <d48506d2-91bb-7d40-12c1-5c16ad89916a@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-get_abi.pl currently collects every file in Documentation/ABI. This
-causes a UnicodeDecodeError in Documentation/sphinx/kernel_abi.py,
-when it finds my Vim swap files (.foo.swp) in the directory.
+Hi,jon. It seems that the maintainers of process scheduler are not interested in
+reviewing document patches. Could you please review this?
 
-To avoid such issues, ignore hidden files in get_abi.pl.
+Thanks,
+Tang
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-=2D--
-
-v2:
-- Fix abi->api typo
-- Add R-b tag
-=2D--
- scripts/get_abi.pl | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 6212f58b69c61..47b7eca5b0b71 100755
-=2D-- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -92,6 +92,7 @@ sub parse_abi {
- 	my $mode =3D (stat($file))[2];
- 	return if ($mode & S_IFDIR);
- 	return if ($file =3D~ m,/README,);
-+	return if ($file =3D~ m,/\.,);
-
- 	my $name =3D $file;
- 	$name =3D~ s,.*/,,;
-=2D-
-2.34.1
-
+On 2022/1/10 20:38, Tang Yizhou wrote:
+> Friendly ping.
+> Any feedback?
+> 
+> On 2021/12/21 11:18, Tang Yizhou wrote:
+>> According to the function prototype of rebalance_domains(), its first
+>> parameter is *rq* and the document need to be updated.
+>>
+>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> ---
+>>  Documentation/scheduler/sched-domains.rst | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
+>> index 84dcdcd2911c..e57ad28301bd 100644
+>> --- a/Documentation/scheduler/sched-domains.rst
+>> +++ b/Documentation/scheduler/sched-domains.rst
+>> @@ -37,10 +37,10 @@ rebalancing event for the current runqueue has arrived. The actual load
+>>  balancing workhorse, run_rebalance_domains()->rebalance_domains(), is then run
+>>  in softirq context (SCHED_SOFTIRQ).
+>>  
+>> -The latter function takes two arguments: the current CPU and whether it was idle
+>> -at the time the scheduler_tick() happened and iterates over all sched domains
+>> -our CPU is on, starting from its base domain and going up the ->parent chain.
+>> -While doing that, it checks to see if the current domain has exhausted its
+>> +The latter function takes two arguments: the runqueue of current CPU and whether
+>> +the CPU was idle at the time the scheduler_tick() happened and iterates over all
+>> +sched domains our CPU is on, starting from its base domain and going up the ->parent
+>> +chain. While doing that, it checks to see if the current domain has exhausted its
+>>  rebalance interval. If so, it runs load_balance() on that domain. It then checks
+>>  the parent sched_domain (if it exists), and the parent of the parent and so
+>>  forth.
+>>
