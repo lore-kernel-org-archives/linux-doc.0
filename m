@@ -2,70 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2FEC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Jan 2022 09:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EAAC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Jan 2022 12:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230082AbiA2JFV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Jan 2022 04:05:21 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:32132 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbiA2JFV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jan 2022 04:05:21 -0500
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Jm7cq1Gy5z8wYX;
-        Sat, 29 Jan 2022 17:02:19 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 29 Jan 2022 17:05:19 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 29 Jan 2022 17:05:19 +0800
-Subject: Re: [PATCH] docs/zh_CN: Add rbtree Chinese translation
-To:     Alex Shi <seakeel@gmail.com>
-CC:     Yanteng Si <siyanteng@loongson.cn>,
-        yanteng si <siyanteng01@gmail.com>,
-        Alex Shi <alexs@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
-        Yeechou Tang <tangyeechou@gmail.com>
-References: <20211225015146.1535-1-tangyizhou@huawei.com>
- <CAJy-Am=aL4EqgHfWbDpCRXdgd2zO-yvfRDwVxodS42NJq+hPJA@mail.gmail.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <8591749f-119b-b3c1-ca7a-fcc2ba7deada@huawei.com>
-Date:   Sat, 29 Jan 2022 17:05:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAJy-Am=aL4EqgHfWbDpCRXdgd2zO-yvfRDwVxodS42NJq+hPJA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+        id S1348997AbiA2Mvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jan 2022 07:51:49 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:59424 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348930AbiA2Mvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jan 2022 07:51:49 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BBFD3B82699;
+        Sat, 29 Jan 2022 12:51:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8EE8CC340E5;
+        Sat, 29 Jan 2022 12:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643460706;
+        bh=slYslZQ45GIYTMB0PcandywQ7BLx8c7CxlZa45Dwh8Q=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=HCMXBYUyW1225Akr1+uX231qDLNnRkMDBP1b68Xn3ypNzlSpzGNSLu5ZoVnf4D0hF
+         ldrECHeMk2dRs1q5AGz7raRpldR6cE21F0NgQu7RxKiqIKkrgrbNstcDbcQjBU30GK
+         1XUlcee0nAg0btAfIamJ/Yv/m6AVl4ey80uNLCC5RbRn5dadq0SRkAr/WrtnGKhiAh
+         7wKPYBoBKSX3eE9HLOGAOvoJDh/6cfuInDf6IcBY3BeMOPmorLwT/5j2H5UkXhiuXz
+         HisD2bj7sHcOWJTmgoo2Pa0714X3vqRu8Y+njLLXb1pQBp+WllW8+TfqeOaWoB3mpi
+         SQnugeKeMAArw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7DE2AE5D084;
+        Sat, 29 Jan 2022 12:51:46 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation fixes for 5.17
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87bkzvojdu.fsf@meer.lwn.net>
+References: <87bkzvojdu.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87bkzvojdu.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.17-3
+X-PR-Tracked-Commit-Id: 854d0982eef0e424e8108d09d9275aaf445b1597
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 246e179d637ef8432fb223e4a7ddced740a32350
+Message-Id: <164346070650.2828.3181406710785593786.pr-tracker-bot@kernel.org>
+Date:   Sat, 29 Jan 2022 12:51:46 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/12/26 11:41, Alex Shi wrote:
-> On Sat, Dec 25, 2021 at 9:24 AM Tang Yizhou <tangyizhou@huawei.com> wrote:
->>
->> Translate core-api/rbtree.rst into Chinese.
->>
->> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
-> 
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> 
->> ---
->>  .../translations/zh_CN/core-api/index.rst     |   2 +-
->>  .../translations/zh_CN/core-api/rbtree.rst    | 391 ++++++++++++++++++
->>  2 files changed, 392 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/translations/zh_CN/core-api/rbtree.rst
+The pull request you sent on Fri, 28 Jan 2022 10:33:17 -0700:
 
-Hi, jon. Could you please apply this patch? 
+> git://git.lwn.net/linux.git tags/docs-5.17-3
 
-Thanks,
-Tang
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/246e179d637ef8432fb223e4a7ddced740a32350
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
