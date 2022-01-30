@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 544E9C433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Jan 2022 02:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F660C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Jan 2022 02:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353750AbiA3CKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Jan 2022 21:10:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38565 "EHLO
+        id S242336AbiA3Cqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Jan 2022 21:46:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56421 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236098AbiA3CKj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jan 2022 21:10:39 -0500
+        by vger.kernel.org with ESMTP id S230484AbiA3Cq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Jan 2022 21:46:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643508638;
+        s=mimecast20190719; t=1643510788;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=xhTMfyrjbAbtJcMYDK7fzUfXvPUd309awCDdI/pLbrI=;
-        b=djB5yWZaFbhN1+oUOetOllkTOKd8eidXr//btLMJxZubhr11Z2NL7Y6Q6FiVXANnN81rvn
-        vpQjBStl0bHLtvAaHjiYZB20pQFAnoHSbnnTGk2rjGp+3+8dp7vgOQxTNWCBYL299HL7JC
-        AxkT8Hxx6UuKv1mHstK5Wj1s5t4M4+o=
+        bh=pcOcmEb5ngGy0dZAQ9mUDW+ZAjVj+zk/0lR2PgFjLiE=;
+        b=RbvzkUBIi+MSDvNoqrfpGB3F45vJapanNYWJXQsCQU/KhPuTecepxnw2qlgIggqMIzX+rf
+        2II+GCcmDBDayifpJXY2WMz1Dk8FebCXjOMPnoF8KORnBDQ0MykSBTskI8F3vtULZpedez
+        +d/GcOdBvZONt86zCR4J4KB/GNBCBzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-Cw25cyrBM72GK8TGlt1RNA-1; Sat, 29 Jan 2022 21:10:33 -0500
-X-MC-Unique: Cw25cyrBM72GK8TGlt1RNA-1
+ us-mta-43-_VSw3NT0NqiU6JSdBclvyA-1; Sat, 29 Jan 2022 21:46:23 -0500
+X-MC-Unique: _VSw3NT0NqiU6JSdBclvyA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4689D8144E4;
-        Sun, 30 Jan 2022 02:10:31 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E504E1F243;
+        Sun, 30 Jan 2022 02:46:21 +0000 (UTC)
 Received: from localhost (ovpn-12-238.pek2.redhat.com [10.72.12.238])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EDBDB5445E;
-        Sun, 30 Jan 2022 02:10:08 +0000 (UTC)
-Date:   Sun, 30 Jan 2022 10:10:06 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C83412E34;
+        Sun, 30 Jan 2022 02:46:20 +0000 (UTC)
+Date:   Sun, 30 Jan 2022 10:46:17 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -42,15 +42,15 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Marco Elver <elver@google.com>, kexec@lists.infradead.org,
         linux-doc@vger.kernel.org, kasan-dev@googlegroups.com,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] docs: kdump: update description about sysfs file
- system support
-Message-ID: <20220130021006.GA29425@MiWiFi-R3L-srv>
+Subject: Re: [PATCH 2/5] docs: kdump: add scp sample to write out the dump
+ file
+Message-ID: <20220130024617.GB29425@MiWiFi-R3L-srv>
 References: <1643370145-26831-1-git-send-email-yangtiezhu@loongson.cn>
- <1643370145-26831-2-git-send-email-yangtiezhu@loongson.cn>
+ <1643370145-26831-3-git-send-email-yangtiezhu@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1643370145-26831-2-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1643370145-26831-3-git-send-email-yangtiezhu@loongson.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
@@ -58,32 +58,36 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 01/28/22 at 07:42pm, Tiezhu Yang wrote:
-> After commit 6a108a14fa35 ("kconfig: rename CONFIG_EMBEDDED to
-> CONFIG_EXPERT"), "Configure standard kernel features (for small
-> systems)" is not exist, we should use "Configure standard kernel
-> features (expert users)" now.
+> Except cp and makedumpfile, add scp sample to write out the dump file.
+                                      ~~~~~~? You mean example?
+
+I think we just give example here, but not list all cases. seems
+adding scp is nothing bad. Anyway, except of the concern for 'sample':
+
+Acked-by: Baoquan He <bhe@redhat.com>
+
 > 
 > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 > ---
->  Documentation/admin-guide/kdump/kdump.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/admin-guide/kdump/kdump.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> index cb30ca3d..d187df2 100644
+> index d187df2..a748e7e 100644
 > --- a/Documentation/admin-guide/kdump/kdump.rst
 > +++ b/Documentation/admin-guide/kdump/kdump.rst
-> @@ -146,9 +146,9 @@ System kernel config options
->  	CONFIG_SYSFS=y
+> @@ -533,6 +533,10 @@ the following command::
 >  
->     Note that "sysfs file system support" might not appear in the "Pseudo
-> -   filesystems" menu if "Configure standard kernel features (for small
-> -   systems)" is not enabled in "General Setup." In this case, check the
-> -   .config file itself to ensure that sysfs is turned on, as follows::
-> +   filesystems" menu if "Configure standard kernel features (expert users)"
-> +   is not enabled in "General Setup." In this case, check the .config file
-> +   itself to ensure that sysfs is turned on, as follows::
-
-Nice clean up, ack.
-
-Acked-by: Baoquan He <bhe@redhat.com>
+>     cp /proc/vmcore <dump-file>
+>  
+> +or use scp to write out the dump file between hosts on a network, e.g::
+> +
+> +   scp /proc/vmcore remote_username@remote_ip:<dump-file>
+> +
+>  You can also use makedumpfile utility to write out the dump file
+>  with specified options to filter out unwanted contents, e.g::
+>  
+> -- 
+> 2.1.0
+> 
 
