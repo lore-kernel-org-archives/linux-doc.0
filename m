@@ -2,180 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDEFC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Jan 2022 08:51:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EAB0C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Jan 2022 15:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244921AbiA3Iu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Jan 2022 03:50:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24575 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242883AbiA3Iu7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jan 2022 03:50:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643532658;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HCXMYXvKDjBzFRFAFcJyGybTMYraghi7evnbgQc/nHI=;
-        b=fxwKLQXl7w+5ZFDUFGPA0aO3y7IY41nhawyR47KVFOtPfryeAC73uTN438mk8AkiGgEr5/
-        Sd6q8LkURevdlrkWb+iJB7vFfL/UgpmLThNXQoAhTYlKY5gr7AunL1OW6jvMBONzVYQj0y
-        tBMzKS4aOSjtPbgj5ibZW9L0mB8Ffaw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-aEH1SB3jOdiDX9buAhxxJw-1; Sun, 30 Jan 2022 03:50:54 -0500
-X-MC-Unique: aEH1SB3jOdiDX9buAhxxJw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D53361006AA4;
-        Sun, 30 Jan 2022 08:50:49 +0000 (UTC)
-Received: from localhost (ovpn-12-238.pek2.redhat.com [10.72.12.238])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C56A60C2F;
-        Sun, 30 Jan 2022 08:50:40 +0000 (UTC)
-Date:   Sun, 30 Jan 2022 16:50:38 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        HATAYAMA Daisuke <d.hatayama@jp.fujitsu.com>,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
-        stern@rowland.harvard.edu, akpm@linux-foundation.org,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        halves@canonical.com, kernel@gpiccoli.net,
-        Will Deacon <will@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        John Ogness <john.ogness@linutronix.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juergen Gross <jgross@suse.com>, mikelley@microsoft.com
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Message-ID: <20220130085038.GC29425@MiWiFi-R3L-srv>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <Yel8WQiBn/HNQN83@alley>
- <ccd9332e-2917-3020-3590-447fa660ff56@igalia.com>
- <20220122105514.GA18258@MiWiFi-R3L-srv>
- <20220123220711.44f1484c9b510eea8cda9c47@kernel.org>
- <20220124135902.GB8305@MiWiFi-R3L-srv>
- <ff3bc2cf-80bf-3bb0-0dcd-7f9cacdae45a@igalia.com>
- <20220126031039.GA26064@MiWiFi-R3L-srv>
- <YfFKiscTVckEy2E8@alley>
+        id S235536AbiA3PUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Jan 2022 10:20:54 -0500
+Received: from mail-yb1-f178.google.com ([209.85.219.178]:40874 "EHLO
+        mail-yb1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347323AbiA3PUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jan 2022 10:20:51 -0500
+Received: by mail-yb1-f178.google.com with SMTP id 23so33007292ybf.7;
+        Sun, 30 Jan 2022 07:20:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B+sJwPFAgN3YNkQrqpXV+cKoPAui0xuyuLBRL1lcyp0=;
+        b=x2uB4TK0kJN5cAvdccNzG6IQ3atK1U5FWVbFL/xKIrUN+hi1lLPR6h4upCX6mbPY6T
+         bZ2Ik7ivy3kRtSpPSmokL8B69jF1LJuTGlrHphNkh0Cf0hDGw8OlYWYTH8iQN/RQMXAT
+         020FfLaqspGozDN/9Wamg6sNUf+9SX/SzhpsImsG4R/C67Ep4UBO7Ho3iBZDY63EcfpQ
+         If1D/4AaQLYzOoxN4nNQotEVxXGqr9740JvpOvvbE1RT/X2eP8GMFl8idtU9jyWgOB7k
+         waJoo5hh9M+kjdb2P8V2Ypcs2Ds6yKRoF1PDHkt6zXHA/tkdYEK05KuBKF44M/A1gCbC
+         Plbg==
+X-Gm-Message-State: AOAM532dm7UzJo1FN0cFkNcnFpMXQOPSRlWcTfADgNTYpvg6mlm5nImD
+        vXxzLM0QV93FdLZwKIkaoO7Kz6YRJmsQ3riESp7PWMyq
+X-Google-Smtp-Source: ABdhPJx+jfYmUbSVI6ItMonBCnezGJ0sXNORp2HfgazmsxDO9BUb29Z8y8E5WjvwEXUd0h7rwUv/BB0ag0LddOQFUFQ=
+X-Received: by 2002:a25:c102:: with SMTP id r2mr26957463ybf.330.1643556051078;
+ Sun, 30 Jan 2022 07:20:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfFKiscTVckEy2E8@alley>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com> <20220127193454.12814-7-ricardo.neri-calderon@linux.intel.com>
+In-Reply-To: <20220127193454.12814-7-ricardo.neri-calderon@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sun, 30 Jan 2022 16:20:40 +0100
+Message-ID: <CAJZ5v0hbtmP6LHngWg0J47G2PwTxNwmjb=KMyz1zi1FM09cF8g@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Lukasz Luba <lukasz.luba@arm.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/26/22 at 02:20pm, Petr Mladek wrote:
-> On Wed 2022-01-26 11:10:39, Baoquan He wrote:
-> > On 01/24/22 at 11:48am, Guilherme G. Piccoli wrote:
-> > > On 24/01/2022 10:59, Baoquan He wrote:
-> > > > [...]
-> > > > About pre_dump, if the dump is crash dump, hope those pre_dump notifiers
-> > > > will be executed under conditional check, e.g only if 'crash_kexec_post_notifiers'
-> > > > is specified in kernel cmdline. 
-> > > 
-> > > Hi Baoquan, based on Petr's suggestion, I think pre_dump would be
-> > > responsible for really *non-intrusive/non-risky* tasks and should be
-> > > always executed in the panic path (before kdump), regardless of
-> > > "crash_kexec_post_notifiers".
-> > > 
-> > > The idea is that the majority of the notifiers would be executed in the
-> > > post_dump portion, and for that, we have the
-> > > "crash_kexec_post_notifiers" conditional. I also suggest we have
-> > > blacklist options (based on function names) for both notifiers, in order
-> > > to make kdump issues debug easier.
-> > > 
-> > > Do you agree with that? Feel free to comment with suggestions!
-> > > Cheers,
-> > 
-> > I would say "please NO" cautiously.
-> > 
-> > As Petr said, kdump mostly works only if people configure it correctly.
-> > That's because we try best to switch to kdump kernel from the fragile
-> > panicked kernel immediately. When we try to add anthing before the switching,
-> > please consider carefully and ask if that adding is mandatory, otherwise
-> > switching into kdump kernel may fail. If the answer is yes, the adding
-> > is needed and welcomed. Othewise, any unnecessary action, including any
-> > "non-intrusive/non-risky" tasks, would be unwelcomed.
-> 
-> I still do not have the complete picture. But it seems that some
-> actions make always sense even for kdump:
-> 
->     + Super safe operations that might disable churn from broken
->       system. For examle, disabling watchdogs by setting a single
->       variable, see rcu_panic() notifier
-> 
->     + Actions needed that allow to kexec the crash kernel a safe
->       way under some hypervisor, see
->       https://lore.kernel.org/r/MWHPR21MB15933573F5C81C5250BF6A1CD75E9@MWHPR21MB1593.namprd21.prod.outlook.com
+On Thu, Jan 27, 2022 at 8:33 PM Ricardo Neri
+<ricardo.neri-calderon@linux.intel.com> wrote:
+>
+> From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>
+> Add a new netlink event to notify change in CPU capabilities in terms of
+> performance and efficiency.
+>
+> Firmware may change CPU capabilities as a result of thermal events in the
+> system or to account for changes in the TDP (thermal design power) level.
+>
+> This notification type will allow user space to avoid running workloads
+> on certain CPUs or proactively adjust power limits to avoid future events.
+>
+> The netlink message consists of a nested attribute
+> (THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
+>
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
+>    -- logical CPU number
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
+>    -- Scaled performance from 0-1023
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
+>    -- Scaled efficiency from 0-1023
+>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> Cc: Lukasz Luba <lukasz.luba@arm.com>
+> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Yes, I agree with this after going through threads of discussion again.
-There is much space we can do something for panic_notifier, and it might
-be a good time to do now with these discussion and some clarification.
+Daniel, Lukasz, if you have any comments or concerns regarding this
+patch, please let me know.
 
-> 
-> 
-> > Surely, we don't oppose the "non-intrusive/non-risky" or completely
-> > "intrusive/risky" action adding before kdump kernel switching, with a
-> > conditional limitation. When we handle customers' kdump support, we
-> > explicitly declare we only support normal and default kdump operation.
-> > If any action which is done before switching into kdump kernel is specified,
-> > e.g panic_notifier, panic_print, they need take care of their own kdump
-> > failure.
-> 
-> All this actually started because of kmsg_dump. It might make sense to
-> allow both kmsg_dump and kdump together. The messages stored by
-> kmsg_dump might be better than nothing when kdump fails.
-
-I think this can be done later, after panics notifiers are combed and
-tidied up.
-
-> 
-> It actually seems to be the main motivation to introduce
-> "crash_kexec_post_notifier" parameter, see the commit
-> f06e5153f4ae2e2f3b03 ("kernel/panic.c: add "crash_kexec_post_notifiers"
-> option for kdump after panic_notifers").
-
-From discussion with Hitachi and FJ engineers, they use
-crash_kexec_post_notifiers when 1st kernel panicked and kdump kernel is
-not so stable to function. In that case, the captured information 
-with best effort after panic in 1st kernel can help analyze what
-happened in 1st kernel, and also might give hint on why kdump kernel
-is unstbale. But they will not add crash_kexec_post_notifiers in kernel
-cmdline by default. The unstable kdump kernel rarely happened, need be
-debugged and investigated. 
-
-> 
-> And this patch introduces panic_notifier_filter that tries to select
-> notifiers that are helpful and harmful. IMHO, it is almost unusable.
-> It seems that even kernel developers do not understand what exactly
-> some notifiers do and why they are needed. Usually only the author
-> and people familiar with the subsystem have some idea. It makes
-> it pretty hard for anyone to create a reasonable filter.
-
-Then people can select the notifiers they know to execute. E.g for
-Hyper-V, they can run the notifiers related. And as HATAYAMA mentioned,
-they have the same expection. This kind of filter is not for people to
-blindly pick and run, but for the professional.
-
-I think the chaos is from not being monitored entirely. People can
-freely register one when they need. The priority, impaction to the
-entirety is not considered by subsystem developer.
-
-> 
-> I am pretty sure that we could do better. I propose to add more
-> notifier lists that will be called at various places with reasonable
-> rules and restrictions. Then the susbsystem maintainers could decide
-> where exactly a given action must be done.
-
-Agree that we can do something to improve.
-
+> ---
+> Changes since v4:
+>   * Renamed struct cpu_capability as struct thermal_genl_cpu_caps.
+>     (Rafael)
+>   * Removed automatic variable ret from
+>     thermal_genl_event_cpu_capability_change() and instead always return
+>     -EMSGSIZE on error. (Rafael)
+>
+> Changes since v3:
+>   * None
+>
+> Changes since v2:
+>   * None
+>
+> Changes since v1:
+>   * Reworded commit message.
+>   * Reworded the members of struct cpu_capacity for clarity. (Lukasz)
+>   * Defined the CPU capability attributes to be scaled in the [0, 1023]
+>     interval. (Lukasz)
+> ---
+>  drivers/thermal/thermal_netlink.c | 53 +++++++++++++++++++++++++++++++
+>  drivers/thermal/thermal_netlink.h | 14 ++++++++
+>  include/uapi/linux/thermal.h      |  6 +++-
+>  3 files changed, 72 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
+> index a16dd4d5d710..7c97a091680e 100644
+> --- a/drivers/thermal/thermal_netlink.c
+> +++ b/drivers/thermal/thermal_netlink.c
+> @@ -43,6 +43,11 @@ static const struct nla_policy thermal_genl_policy[THERMAL_GENL_ATTR_MAX + 1] =
+>         [THERMAL_GENL_ATTR_CDEV_MAX_STATE]      = { .type = NLA_U32 },
+>         [THERMAL_GENL_ATTR_CDEV_NAME]           = { .type = NLA_STRING,
+>                                                     .len = THERMAL_NAME_LENGTH },
+> +       /* CPU capabilities */
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY]              = { .type = NLA_NESTED },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]           = { .type = NLA_U32 },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE]  = { .type = NLA_U32 },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY]   = { .type = NLA_U32 },
+>  };
+>
+>  struct param {
+> @@ -58,6 +63,8 @@ struct param {
+>         int temp;
+>         int cdev_state;
+>         int cdev_max_state;
+> +       struct thermal_genl_cpu_caps *cpu_capabilities;
+> +       int cpu_capabilities_count;
+>  };
+>
+>  typedef int (*cb_t)(struct param *);
+> @@ -190,6 +197,42 @@ static int thermal_genl_event_gov_change(struct param *p)
+>         return 0;
+>  }
+>
+> +static int thermal_genl_event_cpu_capability_change(struct param *p)
+> +{
+> +       struct thermal_genl_cpu_caps *cpu_cap = p->cpu_capabilities;
+> +       struct sk_buff *msg = p->msg;
+> +       struct nlattr *start_cap;
+> +       int i;
+> +
+> +       start_cap = nla_nest_start(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY);
+> +       if (!start_cap)
+> +               return -EMSGSIZE;
+> +
+> +       for (i = 0; i < p->cpu_capabilities_count; ++i) {
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
+> +                               cpu_cap->cpu))
+> +                       goto out_cancel_nest;
+> +
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
+> +                               cpu_cap->performance))
+> +                       goto out_cancel_nest;
+> +
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
+> +                               cpu_cap->efficiency))
+> +                       goto out_cancel_nest;
+> +
+> +               ++cpu_cap;
+> +       }
+> +
+> +       nla_nest_end(msg, start_cap);
+> +
+> +       return 0;
+> +out_cancel_nest:
+> +       nla_nest_cancel(msg, start_cap);
+> +
+> +       return -EMSGSIZE;
+> +}
+> +
+>  int thermal_genl_event_tz_delete(struct param *p)
+>         __attribute__((alias("thermal_genl_event_tz")));
+>
+> @@ -219,6 +262,7 @@ static cb_t event_cb[] = {
+>         [THERMAL_GENL_EVENT_CDEV_DELETE]        = thermal_genl_event_cdev_delete,
+>         [THERMAL_GENL_EVENT_CDEV_STATE_UPDATE]  = thermal_genl_event_cdev_state_update,
+>         [THERMAL_GENL_EVENT_TZ_GOV_CHANGE]      = thermal_genl_event_gov_change,
+> +       [THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE] = thermal_genl_event_cpu_capability_change,
+>  };
+>
+>  /*
+> @@ -356,6 +400,15 @@ int thermal_notify_tz_gov_change(int tz_id, const char *name)
+>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_GOV_CHANGE, &p);
+>  }
+>
+> +int thermal_genl_cpu_capability_event(int count,
+> +                                     struct thermal_genl_cpu_caps *caps)
+> +{
+> +       struct param p = { .cpu_capabilities_count = count, .cpu_capabilities = caps };
+> +
+> +       return thermal_genl_send_event(THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE, &p);
+> +}
+> +EXPORT_SYMBOL_GPL(thermal_genl_cpu_capability_event);
+> +
+>  /*************************** Command encoding ********************************/
+>
+>  static int __thermal_genl_cmd_tz_get_id(struct thermal_zone_device *tz,
+> diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
+> index e554f76291f4..04d1adbbc012 100644
+> --- a/drivers/thermal/thermal_netlink.h
+> +++ b/drivers/thermal/thermal_netlink.h
+> @@ -4,6 +4,12 @@
+>   *  Author: Daniel Lezcano <daniel.lezcano@linaro.org>
+>   */
+>
+> +struct thermal_genl_cpu_caps {
+> +       int cpu;
+> +       int performance;
+> +       int efficiency;
+> +};
+> +
+>  /* Netlink notification function */
+>  #ifdef CONFIG_THERMAL_NETLINK
+>  int __init thermal_netlink_init(void);
+> @@ -23,6 +29,8 @@ int thermal_notify_cdev_add(int cdev_id, const char *name, int max_state);
+>  int thermal_notify_cdev_delete(int cdev_id);
+>  int thermal_notify_tz_gov_change(int tz_id, const char *name);
+>  int thermal_genl_sampling_temp(int id, int temp);
+> +int thermal_genl_cpu_capability_event(int count,
+> +                                     struct thermal_genl_cpu_caps *caps);
+>  #else
+>  static inline int thermal_netlink_init(void)
+>  {
+> @@ -101,4 +109,10 @@ static inline int thermal_genl_sampling_temp(int id, int temp)
+>  {
+>         return 0;
+>  }
+> +
+> +static inline int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps)
+> +{
+> +       return 0;
+> +}
+> +
+>  #endif /* CONFIG_THERMAL_NETLINK */
+> diff --git a/include/uapi/linux/thermal.h b/include/uapi/linux/thermal.h
+> index 9aa2fedfa309..fc78bf3aead7 100644
+> --- a/include/uapi/linux/thermal.h
+> +++ b/include/uapi/linux/thermal.h
+> @@ -44,7 +44,10 @@ enum thermal_genl_attr {
+>         THERMAL_GENL_ATTR_CDEV_MAX_STATE,
+>         THERMAL_GENL_ATTR_CDEV_NAME,
+>         THERMAL_GENL_ATTR_GOV_NAME,
+> -
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
+>         __THERMAL_GENL_ATTR_MAX,
+>  };
+>  #define THERMAL_GENL_ATTR_MAX (__THERMAL_GENL_ATTR_MAX - 1)
+> @@ -71,6 +74,7 @@ enum thermal_genl_event {
+>         THERMAL_GENL_EVENT_CDEV_DELETE,         /* Cdev unbound */
+>         THERMAL_GENL_EVENT_CDEV_STATE_UPDATE,   /* Cdev state updated */
+>         THERMAL_GENL_EVENT_TZ_GOV_CHANGE,       /* Governor policy changed  */
+> +       THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE,       /* CPU capability changed */
+>         __THERMAL_GENL_EVENT_MAX,
+>  };
+>  #define THERMAL_GENL_EVENT_MAX (__THERMAL_GENL_EVENT_MAX - 1)
+> --
+> 2.17.1
+>
