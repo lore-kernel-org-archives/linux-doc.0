@@ -2,165 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B56D3C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 14:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4333C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 15:18:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233162AbiAaOW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 09:22:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbiAaOW0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 09:22:26 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECD1C061714;
-        Mon, 31 Jan 2022 06:22:25 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nEXZX-00074h-C5; Mon, 31 Jan 2022 15:22:23 +0100
-Message-ID: <00f73105-da64-f62b-866c-00828d8701ba@leemhuis.info>
-Date:   Mon, 31 Jan 2022 15:22:22 +0100
+        id S1344395AbiAaPSr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 10:18:47 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:57896 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358630AbiAaPSq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 10:18:46 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA58260D29;
+        Mon, 31 Jan 2022 15:18:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61356C340E8;
+        Mon, 31 Jan 2022 15:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643642325;
+        bh=HisdWC4AWe7kR+wvh8YBXu7Lk17Y96DfcnZsc4Sx24o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=plVL8abu/7kEL1MSYZpJR8V0QxmVt8fZGA3+4P8ij3EN/8BjmgtqAtpzCZORLg1Pa
+         nmS3Uret/zOzrrsnBNF7gssxA62tFUJ7Abu3wxrl7vuDTqBntO45BY5E0j49drSMDT
+         eq0ffDrISFjYCwmbBuw2alRUwHoBxA3FmUZFblALy+r07HEUHyELJxprOiUaRHjs1z
+         28JDo4MVWxo1DYjscSeuF6iqhAbB5RY5bLL04KY7aGw1/83Wk4EIHOnvCHI1GR9nl7
+         942jnmEFGmgg0hwdAEb9jZcc/z1FursyKcGEIvg42E3QttnsHSDDZouk9btyF0Q+cI
+         OqBJy6dgBlG7w==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nEYRq-0007mx-Ho; Mon, 31 Jan 2022 16:18:31 +0100
+Date:   Mon, 31 Jan 2022 16:18:30 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Florian Eckert <fe@dev.tdt.de>
+Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
+ Reported-by usage
+Message-ID: <Yff9xoh873aEikY4@hovoldconsulting.com>
+References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
+ <87o83xrwk9.fsf@meer.lwn.net>
+ <YfPzNNvK8Sy8YmGW@casper.infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-BS
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        regressions@lists.linux.dev,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <cover.1643110442.git.linux@leemhuis.info>
- <f97738d6250050bc982bf2947587f1c73f37446f.1643110442.git.linux@leemhuis.info>
- <87sftbwemg.fsf@meer.lwn.net>
- <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
-Subject: Re: [PATCH v3 1/2] docs: add a document about regression handling
-In-Reply-To: <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643638946;ed0d6898;
-X-HE-SMSGID: 1nEXZX-00074h-C5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfPzNNvK8Sy8YmGW@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.01.22 15:10, Thorsten Leemhuis wrote:
+On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
+> On Thu, Jan 27, 2022 at 09:08:06AM -0700, Jonathan Corbet wrote:
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+> > 
+> > > It's unclear from "Submitting Patches" documentation that Reported-by
+> > > is not supposed to be used against new features. (It's more clear
+> > > in the section 5.4 "Patch formatting and changelogs" of the "A guide
+> > > to the Kernel Development Process", where it suggests that change
+> > > should fix something existing in the kernel. Clarify the Reported-by
+> > > usage in the "Submitting Patches".
+
+> > How about instead something like "Reported-by is intended for bugs;
+> > please do not use it to credit feature requests"?
 > 
-> On 26.01.22 00:59, Jonathan Corbet wrote:
->> Thorsten Leemhuis <linux@leemhuis.info> writes:
-
->>> +   Note: Only the content of this RST file as found in the Linux kernel sources
->>> +   is available under CC-BY-4.0, as versions of this text that were processed
->>> +   (for example by the kernel's build system) might contain content taken from
->>> +   files which use a more restrictive license.
->>
->> I wonder if we could put this boilerplate at the bottom, with a single
->> "see the bottom for redistribution information" line here?  Most readers
->> won't care about this stuff and shouldn't have to slog through it to get
->> to what they want to read.
+> I think this misunderstands the problem that Andy is trying to fix.
 > 
-> Totally fine with me. When I touch reporting-issues.rst the next time
-> I'll move it downwards as well.
-
-V4 will do that, as I added a patch to point from reporting-issues.rst
-to one of the two new documents.
-
->>> +The important bits for people affected by regressions
->>> +=====================================================
->>> +
->>> +It's a regression if something running fine with one Linux kernel works worse or
->>> +not at all with a newer version. Note, the newer kernel has to be compiled using
->>> +a similar configuration -- for this and other fine print, check out below
->>> +section "What is a 'regression' and what is the 'no regressions rule'?".
->> Can we be consistent with either single or double quotes?  I'd suggest
->> "double quotes" but won't make a fuss about that.
+> The situation: I write a patch.  I post it for review.  A bot does
+> something and finds a bug (could be compile-error, could be boot
+> problem).  That bot sends a bug report with a suggestion to add
+> Reported-by:.  That suggestion is inappropriate because the bug never
+> made it upstream, so it looks like the bot reported the "problem"
+> that the patch "fixes".
 > 
-> Changed to "double quotes" everywhere in the text. But just to make sure
-> I get things right: in this particular case this will result in
+> It's not unique to "new feature" patches.  If I'm fixing a bug and
+> my fix also contains a bug spotted by a bot, adding Reported-by
+> makes it look like the bot spotted the original bug, rather than
+> spotting a bug in the fix.
 > 
-> ...section "What is a "regression" and what is the "no regressions rule"?".
-> 
-> This looks a bit strange to me. Something in me really would like to
-> quote the section's header in single quotes, but I guess grammar rules
-> do not allow that, so whatever. :-D
+> The best thing to do in this case is nothing.  Do not credit the bot.
+> Maybe add a Checked-by:, but that would be a new trailer and I really
+> don't think we need a new kind of trailer to get wrong.
 
-I changed something and now simply don't mentioned the section names to
-avoid this problem. After the split that's not strictly needed afaics.
+It seems like the only way to fix this is to fix the bots. Adding more
+documentation is unlikely to help in this case.
 
->>> +Report your regression as outlined in
->>> +`Documentation/admin-guide/reporting-issues.rst`, it already covers all aspects
->> No need to quote the file name.
-> Okay, I thought I had seen some commit or instructions that it's better
-> to use them in this case, but my brain must have imagined it.
+Can't we file a bug to whoever is running the bots (Intel?) and ask them
+to remove the suggestion to add a Reported-by when the bot is testing a
+patch (as opposed to mainline or even -next)?
 
-I noticed I quoted internal references in reporting-issues.rst quite
-often. IMHO it improves readability sometimes (it depends a lot on the
-title of the target document), as can be seen in this example:
-
-```
-If your kernel is tainted, study
-'Documentation/admin-guide/tainted-kernels.rst' to find out why.
-[...]
-To find the change there is a process called 'bisection' which the document
-'Documentation/admin-guide/bug-bisect.rst' describes in detail.
-```
-
-after processing to HTML looks like this:
-
-```
-If your kernel is tainted, study 'Tainted kernels' to find out why.
-[...]
-To find the change there is a process called ‘bisection’ which the
-document ‘Bisecting a bug’ describes in detail.
-```
-
-Sure, "Tainted kernels" and "Bisecting a bug" are links and hence
-displayed differently by the browser, but I think the quotes help. But YMMV.
-
-I sooner or later hope to improve and fix a few things in
-reporting-issues.rst anyway. Let me know if I should take the
-opportunity to remove the single quotes then.
-
->>> +Who needs to find the commit causing a regression?
->>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +It's the reporter's duty to find the culprit, but developers of the affected
->>> +subsystem should offer advice and reasonably help where they can.
->>
->> Is it really our policy that *reporters* need to find the offending
->> commit?  That's certainly not my view of things, anyway?
-
-BTW, I noticed reporting-issues.rst covers it like this:
-
-Normally it's up to the reporter to track down the culprit, as
-maintainers often won't have the time or setup at hand to reproduce it
-themselves.
-
-> Well, do we have something on that written down somewhere or a few
-> quotes from Linus that might help to clarify things?
-> 
-> Anyway: I was not totally happy with it either, as I found the first
-> part of the sentence to strong, and the second to soft. But I had
-> trouble finding something better, maybe a native speaker could help out
-> here. Maybe something along these lines?
-
-I plan to go with this now:
-```
-Who needs to find the root cause of a regression?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Developers of the affected code area should try to locate the culprit on
-their own. But for them that's often impossible to do with reasonable
-effort, as quite a lot of issues only occur in a particular environment
-outside the developer's reach -- for example, a specific hardware
-platform, firmware, Linux distro, system's configuration, or
-application. That's why in the end it's often up to the reporter to
-locate the culprit commit; sometimes users might even need to run
-additional tests afterwards to pinpoint the exact root cause. Developers
-should offer advice and reasonably help where they can, to make this
-process relatively easy and achievable for typical users.
-```
-
-Ciao, Thorsten
+Johan
