@@ -2,146 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD58C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 21:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A21C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 22:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345860AbiAaVw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 16:52:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
+        id S231578AbiAaWO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 17:14:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245224AbiAaVw0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 16:52:26 -0500
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7ADC061714
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 13:52:25 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id 15so12647871ilg.8
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 13:52:25 -0800 (PST)
+        with ESMTP id S231733AbiAaWO1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 17:14:27 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E4BC06173B
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 14:14:26 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id o10so12739065ilh.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 14:14:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MvksuHShdo5C7SWbdBSuidzz86NTZYVYdIk6979/9jk=;
-        b=Oh3zFvezgmFYuG1aTRHGQD84XhucshaqYKH8Sh6yVd5EKupzdeHLaJ4r7CrBhyag0K
-         xmghCnjWzGzhT3CIvVzuvtH91HzLGr0I6mtB5WBHlUlCyQ62XD7fbHSK/mN1MN9zLhLH
-         SSShUrpuu//+LF9xSxGuiou8DtZdRzStBu1co=
+        bh=odVN5zr5EM78SbEFrOlCqjhjAfIyP/M1WivpRxjpnJM=;
+        b=VZivi5qfDr/2lgNx22v+J+rv+wtYxONIcECOJBj86BBBy/khDySjEKLFIYTLB17WrY
+         ZvUZMA56rH4HF9t6IcoTRi+raBRozCNqC0EV+tq4h3CHYGzcXVdyNxkzfEQmpnAOTA0a
+         PQ25vMNXxJ2JMNDc+boSfXtD3l3eN2uAe99z8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=MvksuHShdo5C7SWbdBSuidzz86NTZYVYdIk6979/9jk=;
-        b=dSbC41wQPt4LLH20qHwmLPWwUn2Ei7hQOIoGjdyxbY1R+cCYbdMXBPkDMntZ6Tbi58
-         1ESRnhVxtOll9rodD1rED8FBmPslfzhNkC3JnQ+FqkhNSGuvxvUW/Ks+DoscvfBQoWzv
-         UjCQAis/E2yHHTOLGBr1VoAuq9pORQoYcLNWmkcxWqtPDtqq8HTpi/cJDJuuv23vuehc
-         5eSEAZGcAPX9tzkI/ePsxOp2oJ1JEbyvP5KJRORRXiQp26hzpXEsPMZPOMhh6JnV4lYb
-         EGDkvZ36pwAmkqDg0//RnMeTYZANMQTz92+L43UWDXn+d1jPJGpWqxTOOTtdUhxEU7v4
-         Xvhw==
-X-Gm-Message-State: AOAM533vGPS4SfC035M4GXgZLo5yOpOUWyLOJt2RgH7tMd58NEC2SuU+
-        +NotpJ2hzbeHYRnhY9LS+rQL6A==
-X-Google-Smtp-Source: ABdhPJxpcirdkzc7uOT8HkKnAc5aGpsJWddaUC75LEiX6aQp9Dh0qxfu8p/wb/9aY4NgD9lI9wqsFA==
-X-Received: by 2002:a05:6e02:20c9:: with SMTP id 9mr9920122ilq.267.1643665945260;
-        Mon, 31 Jan 2022 13:52:25 -0800 (PST)
+        bh=odVN5zr5EM78SbEFrOlCqjhjAfIyP/M1WivpRxjpnJM=;
+        b=Pq1npx65NSzSnio1XTzYjd/N3U7n7CddYybQzGmvaUlFHEQZD4RtdiWrUn0JrToyRa
+         RPyFUUdGaPJ+PdiT/oDka9KnpGmQMD0z6ZXrgMVNZlIZJ8jy5dyo7HpWBq7ts8xSyFdL
+         QEi0UiafnAscq4TrWcCzuCuV4gie0ULP0Yy1ju8L+yGyj2gT7colB13yxBxoMaDDkBRl
+         AlkbtOxcUviEw+8yNUkQkmasLpl24NAJ+uvpldwhP2i/YNXM10nMQ8Tp1Z13O7zB+Trh
+         0fnxELYMi/1jz86J4C/KU+8My2nMFdZBNAkhnzD9cGJqL6xeWdPLl+xTzrX9zne9xT9v
+         whJg==
+X-Gm-Message-State: AOAM533Yp7y/fjcTFnZcTxIc7PnZdLX0mVJnLgPN0wVie6G2Kif9Vwm8
+        Kjv4rgs8QJsWt7JDzd3dGpQ+pA==
+X-Google-Smtp-Source: ABdhPJx98f8ah61PCDON2+6eeiNa/KDxDutSrePIxB9D7p5Zhwqfh4MJcIYrLHeeo21AUoJUqeVIyw==
+X-Received: by 2002:a05:6e02:1648:: with SMTP id v8mr13914266ilu.282.1643667265810;
+        Mon, 31 Jan 2022 14:14:25 -0800 (PST)
 Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id z5sm19774768ioq.47.2022.01.31.13.52.23
+        by smtp.gmail.com with ESMTPSA id 8sm19624045ilq.14.2022.01.31.14.14.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 13:52:24 -0800 (PST)
-Subject: Re: [PATCH] docs/kselftest: clarify running mainline tests on stables
-To:     Reinette Chatre <reinette.chatre@intel.com>, shuah@kernel.org,
-        corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Mon, 31 Jan 2022 14:14:25 -0800 (PST)
+Subject: Re: [PATCH] docs: add rtla documentation kernel docs index
+To:     corbet@lwn.net, rostedt@goodmis.org, bristot@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Shuah Khan <skhan@linuxfoundation.org>
-References: <20220126201341.55771-1-skhan@linuxfoundation.org>
- <7ba5e99a-9169-75c4-2324-f9a3ce9a506e@intel.com>
- <bb1ba6f5-4cd8-742c-62b7-a62a6f4cef91@linuxfoundation.org>
- <6f9083e2-d633-d483-702e-f974317133b7@intel.com>
+References: <20220131201149.446609-1-skhan@linuxfoundation.org>
 From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <3e830fee-2402-0ba5-4e31-75d87e864b73@linuxfoundation.org>
-Date:   Mon, 31 Jan 2022 14:52:17 -0700
+Message-ID: <eefff224-e3c0-5113-d238-7b046ccac652@linuxfoundation.org>
+Date:   Mon, 31 Jan 2022 15:14:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <6f9083e2-d633-d483-702e-f974317133b7@intel.com>
+In-Reply-To: <20220131201149.446609-1-skhan@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Reinette,
-
-On 1/31/22 2:20 PM, Reinette Chatre wrote:
-> Hi Shuah,
+On 1/31/22 1:11 PM, Shuah Khan wrote:
+> Link rtla documentation to kernel docs. This patch adds index files under
+> tools and rtla directories linking them to the kernel docs index.
 > 
-> On 1/31/2022 12:34 PM, Shuah Khan wrote:
->> On 1/31/22 12:37 PM, Reinette Chatre wrote:
->>> On 1/26/2022 12:13 PM, Shuah Khan wrote:
->>>> Update the document to clarifiy support for running mainline
->>>> kselftest on stable releases and the reasons for not removing
->>>> test code that can test older kernels.
->>>>
->>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->>>> ---
->>>>    Documentation/dev-tools/kselftest.rst | 8 ++++++++
->>>>    1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
->>>> index dcefee707ccd..a833ecf12fbc 100644
->>>> --- a/Documentation/dev-tools/kselftest.rst
->>>> +++ b/Documentation/dev-tools/kselftest.rst
->>>> @@ -7,6 +7,14 @@ directory. These are intended to be small tests to exercise individual code
->>>>    paths in the kernel. Tests are intended to be run after building, installing
->>>>    and booting a kernel.
->>>>    +Kselftest from mainline can be run on older stable kernels. Running tests
->>>> +from mainline offers the best coverage. Several test rings run mainline
->>>> +kselftest suite on stable releases. The reason is that when a new test
->>>> +gets added to test existing code to regression test a bug, we should be
->>>> +able to run that test on an older kernel. Hence, it is important to keep
->>>> +code that can still test an older kernel and make sure it skips the test
->>>> +gracefully on newer releases.
->>>> +
->>>>    You can find additional information on Kselftest framework, how to
->>>>    write new tests using the framework on Kselftest wiki:
->>>>    
->>>
->>> (My apologies if this is already documented, I was not able to find this guidance
->>> in Documentation/dev-tools/kselftest.rst nor when looking at the
->>> "Kselftest use-cases..." slides linked from https://kselftest.wiki.kernel.org/)
->>>
->>> Could you please clarify what the requirement/expectation is regarding fixes
->>> to tests? Since the recommendation in the above change is that Kselftest from
->>> mainline should be run on older stable kernels, is it required to backport
->>> fixes to the tests themselves to stable kernels?
->>>
->>
->> Couple of things to consider.
->>
->> - A new test gets added to regression test a bug in stable and mainline
->> - A new test gets added to test a kernel module/feature/API that has been
->>    supported by stable and mainline releases
->>
->> In both of these cases, running mainline kselftest on stables gives you the
->> best coverage.
->>
->> Kselftest fixes get pulled into stables like any other kernel fixes. If a few
->> fixes are missing, it is a good idea to back-port if they fall into above two
->> categories. If the test is for a new feature then, it doesn't make sense to
->> back-port.
->>
->> Hope this is helpful.
+> This patch doesn't make any changes to the rtla Makefile and rtla files,
+> hence no changes to rtla doc build and install.
 > 
-> This is helpful, thank you very much. In summary I understand this to mean that
-> when testing a stable kernel it is recommended to run tests from mainline, but
-> running the tests from the same stable kernel version as the kernel being tested
-> is also a supported use case and thus fixes to tests should be back-ported.
->
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>   Documentation/index.rst            | 10 ++++++++++
+>   Documentation/tools/index.rst      | 17 +++++++++++++++++
+>   Documentation/tools/rtla/index.rst | 19 +++++++++++++++++++
+>   3 files changed, 46 insertions(+)
+>   create mode 100644 Documentation/tools/index.rst
+>   create mode 100644 Documentation/tools/rtla/index.rst
+> 
 
-Correct. Right. In the slide set you referenced, I included a slide that shows
-the combination and one of them is indeed rev matching kselftest and kernel.
+Ignore this one as well. rc2 has the hook.
 
-Some tests such as bpf require rev match with the kernel i.e running kselftest from
-the same release.
+commit 941518d6538afa5ea0edc26e6c009d0b3163d422
+Author: Jonathan Corbet <corbet@lwn.net>
+Date:   Thu Jan 20 17:00:33 2022 -0700
+
+     docs: Hook the RTLA documents into the kernel docs build
 
 thanks,
 -- Shuah
