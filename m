@@ -2,93 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAEDC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 07:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD2AC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 09:00:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240627AbiAaH5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 02:57:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47003 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234839AbiAaH5R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 02:57:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643615836;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UKRrxpA5zhfSZiQGv/yx2cUoAnXjZEXW1GA6k9oFz4w=;
-        b=B6+oBc4812BIE+foOlFAs2qiSso6ht4kFUpYJOG2/UjanQ43I0iHvGA41qkeIKnGY65QtG
-        T5T34UBYLg5vJscMMwQUZWR0ujysPD53OQQGRTLUI2m3LhNf6By98mnVfK6clSpVPaYS87
-        Q8ZjMr2l3P2aWPgd8S5NvWylCbLZSr8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-gCx-9PGnMD2a71SWny4wNg-1; Mon, 31 Jan 2022 02:57:13 -0500
-X-MC-Unique: gCx-9PGnMD2a71SWny4wNg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25AD946863;
-        Mon, 31 Jan 2022 07:57:09 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F63C5F936;
-        Mon, 31 Jan 2022 07:56:47 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
-In-Reply-To: <20220130211838.8382-35-rick.p.edgecombe@intel.com> (Rick
-        Edgecombe's message of "Sun, 30 Jan 2022 13:18:37 -0800")
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
-        <20220130211838.8382-35-rick.p.edgecombe@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date:   Mon, 31 Jan 2022 08:56:45 +0100
-Message-ID: <87wnig8hj6.fsf@oldenburg.str.redhat.com>
+        id S233299AbiAaJAC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 04:00:02 -0500
+Received: from foss.arm.com ([217.140.110.172]:40708 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231173AbiAaJAA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Jan 2022 04:00:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B91FED1;
+        Mon, 31 Jan 2022 00:59:59 -0800 (PST)
+Received: from [10.57.9.236] (unknown [10.57.9.236])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4F443F73B;
+        Mon, 31 Jan 2022 00:59:57 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] cpufreq: qcom-hw: Delay enabling throttle_irq
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viresh Kumar <viresh.kumar@linaro.org>
+References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+ <20220128032554.155132-2-bjorn.andersson@linaro.org>
+ <5433250b-ee51-06e0-3ef8-ab287a112611@arm.com> <YfQ2WEiqV30PGNrt@ripper>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <64df8bc9-1c13-d9cf-3dba-d5e1cbf4c50a@arm.com>
+Date:   Mon, 31 Jan 2022 08:59:56 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <YfQ2WEiqV30PGNrt@ripper>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Rick Edgecombe:
 
-> For the current shadow stack implementation, shadow stacks contents cannot
-> be arbitrarily provisioned with data. This property helps apps protect
-> themselves better, but also restricts any potential apps that may want to
-> do exotic things at the expense of a little security.
->
-> The x86 shadow stack feature introduces a new instruction, wrss, which
-> can be enabled to write directly to shadow stack permissioned memory from
-> userspace. Allow it to get enabled via the prctl interface.
 
-Why can't this be turned on unconditionally?
+On 1/28/22 6:30 PM, Bjorn Andersson wrote:
+> On Fri 28 Jan 02:39 PST 2022, Lukasz Luba wrote:
+> 
+>>
+>>
+>> On 1/28/22 3:25 AM, Bjorn Andersson wrote:
+>>> In the event that the SoC is under thermal pressure while booting it's
+>>> possible for the dcvs notification to happen inbetween the cpufreq
+>>> framework calling init and it actually updating the policy's
+>>> related_cpus cpumask.
+>>>
+>>> Prior to the introduction of the thermal pressure update helper an empty
+>>> cpumask would simply result in the thermal pressure of no cpus being
+>>> updated, but the new code will attempt to dereference an invalid per_cpu
+>>> variable.
+>>
+>> Just to confirm, is that per-cpu var the 'policy->related_cpus' in this
+>> driver?
+>>
+> 
+> Correct, we boot under thermal pressure, so the interrupt fires before
+> we return from "init", which means that related_cpus is still 0.
+> 
+>>>
+>>> Avoid this problem by using the newly reintroduced "ready" callback, to
+>>> postpone enabling the IRQ until the related_cpus cpumask is filled in.
+>>>
+>>> Fixes: 0258cb19c77d ("cpufreq: qcom-cpufreq-hw: Use new thermal pressure update function")
+>>
+>> You have 'Fixes' tagging here, which might be picked by the stable tree.
+>> The code uses the reverted callback .ready(), which might be missing
+>> there (since patch 1/2 doesn't have tagging). This patch looks like a
+>> proper fix for the root cause.
+>>
+> 
+> Yes, the pair would need to be picked up.
+> 
+>> Anyway, I'm going to send a patch, which adds a check for null cpumask
+>> in the topology_update_thermal_pressure()
+>> It was removed after the review comments:
+>> https://lore.kernel.org/linux-pm/20211028054459.dve6s2my2tq7odem@vireshk-i7/
+>>
+> 
+> I attempted that in v1:
+> https://lore.kernel.org/all/20220118185612.2067031-2-bjorn.andersson@linaro.org/
+> 
+> And while patch 1 is broken, I think Greg and Sudeep made it clear that
+> they didn't want a condition to guard against the caller passing cpus of
+> 0.
 
-Thanks,
-Florian
+Thanks for the link, I missed that conversation.
 
+> 
+> That's why I in v2 reverted to postpone the thermal pressure IRQ until
+> cpufreq is "ready".
+
+Which is fixing the root cause, but involves this backporting
+of the new API callback into stable.
+
+Sorry to hear that you had to fight with this tricky mem fault.
+There is a 'good' outcome from this: we know that the platform
+instantly has thermal issues during boot.
+
+Regards,
+Lukasz
