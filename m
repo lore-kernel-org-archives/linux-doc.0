@@ -2,93 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4333C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 15:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F9B9C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 15:35:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344395AbiAaPSr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 10:18:47 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:57896 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358630AbiAaPSq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 10:18:46 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EA58260D29;
-        Mon, 31 Jan 2022 15:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61356C340E8;
-        Mon, 31 Jan 2022 15:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643642325;
-        bh=HisdWC4AWe7kR+wvh8YBXu7Lk17Y96DfcnZsc4Sx24o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=plVL8abu/7kEL1MSYZpJR8V0QxmVt8fZGA3+4P8ij3EN/8BjmgtqAtpzCZORLg1Pa
-         nmS3Uret/zOzrrsnBNF7gssxA62tFUJ7Abu3wxrl7vuDTqBntO45BY5E0j49drSMDT
-         eq0ffDrISFjYCwmbBuw2alRUwHoBxA3FmUZFblALy+r07HEUHyELJxprOiUaRHjs1z
-         28JDo4MVWxo1DYjscSeuF6iqhAbB5RY5bLL04KY7aGw1/83Wk4EIHOnvCHI1GR9nl7
-         942jnmEFGmgg0hwdAEb9jZcc/z1FursyKcGEIvg42E3QttnsHSDDZouk9btyF0Q+cI
-         OqBJy6dgBlG7w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1nEYRq-0007mx-Ho; Mon, 31 Jan 2022 16:18:31 +0100
-Date:   Mon, 31 Jan 2022 16:18:30 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Florian Eckert <fe@dev.tdt.de>
+        id S1379676AbiAaPfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 10:35:42 -0500
+Received: from mga18.intel.com ([134.134.136.126]:18947 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1376980AbiAaPfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 31 Jan 2022 10:35:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643643341; x=1675179341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tgwBw9Bak6+Bjjl5tzG571e1mJ6rWLMksGOLOWhymFY=;
+  b=imspXK4JpOTJ9Ev5peZU4GpEeuskzVS14jLP0O+5fhsnHeYuJmw7smGC
+   HMXhKsBjyOM7MH2FuUKbtOS1/Ffxrg52mB2f4ggZk7JsE5G1uajkyDyot
+   jknkVSuAmibxWYUzRegiwIZZ9aRJSesV42CnYMGvquCbhj67FxUxLvk+x
+   FhA3Que8yhYAMtXV5gJ5fr+2ZmWk+RSHD0Tr2csX+K7xXGtUeeV4Jp2C9
+   4CjMYIFvsW4n85eqy0ruVSFnHdDFwYREQ2hfn2Y3dgrX0UPZVE4tNJzty
+   8z9dX/iJDpCVpLvTU8PiXKyqg/rJGUNJlKJZXL7aYetYF1VB1S4Wko1jB
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="231054127"
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="231054127"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 07:35:41 -0800
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="598866231"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 07:35:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nEYhQ-00GuvV-Aa;
+        Mon, 31 Jan 2022 17:34:36 +0200
+Date:   Mon, 31 Jan 2022 17:34:35 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
 Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
  Reported-by usage
-Message-ID: <Yff9xoh873aEikY4@hovoldconsulting.com>
+Message-ID: <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
 References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
  <87o83xrwk9.fsf@meer.lwn.net>
  <YfPzNNvK8Sy8YmGW@casper.infradead.org>
+ <Yff9xoh873aEikY4@hovoldconsulting.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YfPzNNvK8Sy8YmGW@casper.infradead.org>
+In-Reply-To: <Yff9xoh873aEikY4@hovoldconsulting.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
-> On Thu, Jan 27, 2022 at 09:08:06AM -0700, Jonathan Corbet wrote:
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+On Mon, Jan 31, 2022 at 04:18:30PM +0100, Johan Hovold wrote:
+> On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
+> > On Thu, Jan 27, 2022 at 09:08:06AM -0700, Jonathan Corbet wrote:
+> > > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+> > > 
+> > > > It's unclear from "Submitting Patches" documentation that Reported-by
+> > > > is not supposed to be used against new features. (It's more clear
+> > > > in the section 5.4 "Patch formatting and changelogs" of the "A guide
+> > > > to the Kernel Development Process", where it suggests that change
+> > > > should fix something existing in the kernel. Clarify the Reported-by
+> > > > usage in the "Submitting Patches".
+> 
+> > > How about instead something like "Reported-by is intended for bugs;
+> > > please do not use it to credit feature requests"?
 > > 
-> > > It's unclear from "Submitting Patches" documentation that Reported-by
-> > > is not supposed to be used against new features. (It's more clear
-> > > in the section 5.4 "Patch formatting and changelogs" of the "A guide
-> > > to the Kernel Development Process", where it suggests that change
-> > > should fix something existing in the kernel. Clarify the Reported-by
-> > > usage in the "Submitting Patches".
-
-> > How about instead something like "Reported-by is intended for bugs;
-> > please do not use it to credit feature requests"?
+> > I think this misunderstands the problem that Andy is trying to fix.
+> > 
+> > The situation: I write a patch.  I post it for review.  A bot does
+> > something and finds a bug (could be compile-error, could be boot
+> > problem).  That bot sends a bug report with a suggestion to add
+> > Reported-by:.  That suggestion is inappropriate because the bug never
+> > made it upstream, so it looks like the bot reported the "problem"
+> > that the patch "fixes".
+> > 
+> > It's not unique to "new feature" patches.  If I'm fixing a bug and
+> > my fix also contains a bug spotted by a bot, adding Reported-by
+> > makes it look like the bot spotted the original bug, rather than
+> > spotting a bug in the fix.
+> > 
+> > The best thing to do in this case is nothing.  Do not credit the bot.
+> > Maybe add a Checked-by:, but that would be a new trailer and I really
+> > don't think we need a new kind of trailer to get wrong.
 > 
-> I think this misunderstands the problem that Andy is trying to fix.
-> 
-> The situation: I write a patch.  I post it for review.  A bot does
-> something and finds a bug (could be compile-error, could be boot
-> problem).  That bot sends a bug report with a suggestion to add
-> Reported-by:.  That suggestion is inappropriate because the bug never
-> made it upstream, so it looks like the bot reported the "problem"
-> that the patch "fixes".
-> 
-> It's not unique to "new feature" patches.  If I'm fixing a bug and
-> my fix also contains a bug spotted by a bot, adding Reported-by
-> makes it look like the bot spotted the original bug, rather than
-> spotting a bug in the fix.
-> 
-> The best thing to do in this case is nothing.  Do not credit the bot.
-> Maybe add a Checked-by:, but that would be a new trailer and I really
-> don't think we need a new kind of trailer to get wrong.
+> It seems like the only way to fix this is to fix the bots. Adding more
+> documentation is unlikely to help in this case.
 
-It seems like the only way to fix this is to fix the bots. Adding more
-documentation is unlikely to help in this case.
+Links to the documentation at least may clarify the point in case of a review.
 
-Can't we file a bug to whoever is running the bots (Intel?) and ask them
-to remove the suggestion to add a Reported-by when the bot is testing a
-patch (as opposed to mainline or even -next)?
+> Can't we file a bug to whoever is running the bots (Intel?) and ask them
+> to remove the suggestion to add a Reported-by when the bot is testing a
+> patch (as opposed to mainline or even -next)?
 
-Johan
+The granularity here is not a repo. It's a code itself and in some cases
+it might be easy to distinguish new feature from the code modifications,
+but when code is already there and feature is just an extension of the
+existing file(s), it's hard to tell. And it might be true or not.
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
