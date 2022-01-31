@@ -2,166 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BBD2C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 18:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 263D2C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 18:45:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356712AbiAaShN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 13:37:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356944AbiAaShH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 13:37:07 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF961C06173E;
-        Mon, 31 Jan 2022 10:37:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=2moysldpF3D0YrY9nWIgUUodshHFtQk8RLnSpJ4W8gk=; b=R4VYhISoOa7xhPwQXhM5O6QUPn
-        sBWyA1OAHDZAZcX25S6RnLZms7pB4zxmzlGAbH2v615Fyhq7blFxBH5IEQtWYCu0p5epom0MGb+ml
-        jh0aDOdxyTf/cYxhmLTJRjwAPLVfBCgTWvnanY8yuls0mgk7MUv6OUB8hFwaVYjOBGOpC5JIbEkFC
-        6A4x4rOI2wtW+oEJDFx9w9cn83WZKztl/Rk3ir3zwu9z1nEJOplIg1WfCH6Bz/c8gLJe6hX/zEz5j
-        vE6wCdq8wFMBY+a55ipNumVgQQf423XUoNq43RRAEz7cLA/tWxigJ0jQCDE7qTa46U2h6qBlFvqTk
-        yfndph2w==;
-Received: from [2001:4bb8:191:327d:83ae:cf0e:db3c:eb79] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nEbXr-00AOuy-7n; Mon, 31 Jan 2022 18:36:55 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>
-Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 5/5] bpf, docs: Better document the atomic instructions
-Date:   Mon, 31 Jan 2022 19:36:38 +0100
-Message-Id: <20220131183638.3934982-6-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220131183638.3934982-1-hch@lst.de>
-References: <20220131183638.3934982-1-hch@lst.de>
+        id S1357336AbiAaSp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 13:45:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21383 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1357311AbiAaSp1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 13:45:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643654726;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vtLdnydhSAxPSqAH4Eff+DcCHxcUpx4pphU3ycHuRAA=;
+        b=F8RHP4PDheT8vRCH7jAa9+p7kRmYpHs+8gYXnCfcbOznv89LMGpFm8CPdEKs5FtDBMPxzF
+        p+ungUpoSZcVzy4JytulTDg5lk+IgctmUDHY/Ig5+AwYYVQdil/6CXiCGxVb1IQqCtaZzD
+        xGeoKwAYNlExlVK5zfFNgVyEw8BicNQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-145-gIdbnm9XMoie-uVd8V9g0g-1; Mon, 31 Jan 2022 13:45:25 -0500
+X-MC-Unique: gIdbnm9XMoie-uVd8V9g0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 011FF1923B8D;
+        Mon, 31 Jan 2022 18:45:21 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 42C7B7D526;
+        Mon, 31 Jan 2022 18:45:12 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Stephane Eranian <eranian@google.com>
+Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+        <20220130211838.8382-35-rick.p.edgecombe@intel.com>
+        <87wnig8hj6.fsf@oldenburg.str.redhat.com>
+        <CAMe9rOrVvjL1F3UgOWL-gAGRyyiG6r20TWUusEUFhZMEEAjH7w@mail.gmail.com>
+Date:   Mon, 31 Jan 2022 19:45:10 +0100
+In-Reply-To: <CAMe9rOrVvjL1F3UgOWL-gAGRyyiG6r20TWUusEUFhZMEEAjH7w@mail.gmail.com>
+        (H. J. Lu's message of "Mon, 31 Jan 2022 10:26:49 -0800")
+Message-ID: <87a6fb7nih.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use proper tables and RST markup to document the atomic instructions
-in a structured way.
+* H. J. Lu:
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/bpf/instruction-set.rst | 76 +++++++++++++++++----------
- 1 file changed, 49 insertions(+), 27 deletions(-)
+> On Sun, Jan 30, 2022 at 11:57 PM Florian Weimer <fweimer@redhat.com> wrote:
+>>
+>> * Rick Edgecombe:
+>>
+>> > For the current shadow stack implementation, shadow stacks contents cannot
+>> > be arbitrarily provisioned with data. This property helps apps protect
+>> > themselves better, but also restricts any potential apps that may want to
+>> > do exotic things at the expense of a little security.
+>> >
+>> > The x86 shadow stack feature introduces a new instruction, wrss, which
+>> > can be enabled to write directly to shadow stack permissioned memory from
+>> > userspace. Allow it to get enabled via the prctl interface.
+>>
+>> Why can't this be turned on unconditionally?
+>
+> WRSS can be a security risk since it defeats the whole purpose of
+> Shadow Stack.  If an application needs to write to shadow stack,
+> it can make a syscall to enable it.  After the CET patches are checked
+> in Linux kernel, I will make a proposal to allow applications or shared
+> libraries to opt-in WRSS through a linker option, a compiler option or
+> a function attribute.
 
-diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
-index 048aea0952a2e..4e79a77febd43 100644
---- a/Documentation/bpf/instruction-set.rst
-+++ b/Documentation/bpf/instruction-set.rst
-@@ -249,39 +249,65 @@ Where size is one of: ``BPF_B``, ``BPF_H``, ``BPF_W``, or ``BPF_DW``.
- Atomic operations
- -----------------
- 
--eBPF includes atomic operations, which use the immediate field for extra
--encoding::
-+Atomic operations are operations that operate on memory and can not be
-+interrupted or corrupted by other access to the same memory region
-+by other eBPF programs or means outside of this specification.
- 
--   .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_W  | BPF_STX: lock xadd *(u32 *)(dst_reg + off16) += src_reg
--   .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_DW | BPF_STX: lock xadd *(u64 *)(dst_reg + off16) += src_reg
-+All atomic operations supported by eBPF are encoded as store operations
-+that use the ``BPF_ATOMIC`` mode modifier as follows:
- 
--The basic atomic operations supported are::
-+  * ``BPF_ATOMIC | BPF_W | BPF_STX`` for 32-bit operations
-+  * ``BPF_ATOMIC | BPF_DW | BPF_STX`` for 64-bit operations
-+  * 8-bit and 16-bit wide atomic operations are not supported.
- 
--    BPF_ADD
--    BPF_AND
--    BPF_OR
--    BPF_XOR
-+The imm field is used to encode the actual atomic operation.
-+Simple atomic operation use a subset of the values defined to encode
-+arithmetic operations in the imm field to encode the atomic operation:
- 
--Each having equivalent semantics with the ``BPF_ADD`` example, that is: the
--memory location addresed by ``dst_reg + off`` is atomically modified, with
--``src_reg`` as the other operand. If the ``BPF_FETCH`` flag is set in the
--immediate, then these operations also overwrite ``src_reg`` with the
--value that was in memory before it was modified.
-+  ========  =====  ===========
-+  imm       value  description
-+  ========  =====  ===========
-+  BPF_ADD   0x00   atomic add
-+  BPF_OR    0x40   atomic or
-+  BPF_AND   0x50   atomic and
-+  BPF_XOR   0xa0   atomic xor
-+  ========  =====  ===========
- 
--The more special operations are::
- 
--    BPF_XCHG
-+``BPF_ATOMIC | BPF_W  | BPF_STX`` with imm = BPF_ADD means::
- 
--This atomically exchanges ``src_reg`` with the value addressed by ``dst_reg +
--off``. ::
-+  *(u32 *)(dst_reg + off16) += src_reg
- 
--    BPF_CMPXCHG
-+``BPF_ATOMIC | BPF_DW | BPF_STX`` with imm = BPF ADD means::
- 
--This atomically compares the value addressed by ``dst_reg + off`` with
--``R0``. If they match it is replaced with ``src_reg``. In either case, the
--value that was there before is zero-extended and loaded back to ``R0``.
-+  *(u64 *)(dst_reg + off16) += src_reg
- 
--Note that 1 and 2 byte atomic operations are not supported.
-+``BPF_XADD`` is a deprecated name for ``BPF_ATOMIC | BPF_ADD``.
-+
-+In addition to the simple atomic operations, there also is a modifier and
-+two complex atomic operations:
-+
-+  ===========  ================  ===========================
-+  imm          value             description
-+  ===========  ================  ===========================
-+  BPF_FETCH    0x01              modifier: return old value
-+  BPF_XCHG     0xe0 | BPF_FETCH  atomic exchange
-+  BPF_CMPXCHG  0xf0 | BPF_FETCH  atomic compare and exchange
-+  ===========  ================  ===========================
-+
-+The ``BPF_FETCH`` modifier is optional for simple atomic operations, and
-+always set for the complex atomic operations.  If the ``BPF_FETCH`` flag
-+is set, then the operation also overwrites ``src_reg`` with the value that
-+was in memory before it was modified.
-+
-+The ``BPF_XCHG`` operation atomically exchanges ``src_reg`` with the value
-+addressed by ``dst_reg + off``.
-+
-+The ``BPF_CMPXCHG`` operation atomically compares the value addressed by
-+``dst_reg + off`` with ``R0``. If they match, the value addressed by
-+``dst_reg + off`` is replaced with ``src_reg``. In either case, the
-+value that was at ``dst_reg + off`` before the operation is zero-extended
-+and loaded back to ``R0``.
- 
- Clang can generate atomic instructions by default when ``-mcpu=v3`` is
- enabled. If a lower version for ``-mcpu`` is set, the only atomic instruction
-@@ -289,10 +315,6 @@ Clang can generate is ``BPF_ADD`` *without* ``BPF_FETCH``. If you need to enable
- the atomics features, while keeping a lower ``-mcpu`` version, you can use
- ``-Xclang -target-feature -Xclang +alu32``.
- 
--You may encounter ``BPF_XADD`` - this is a legacy name for ``BPF_ATOMIC``,
--referring to the exclusive-add operation encoded when the immediate field is
--zero.
--
- 64-bit immediate instructions
- -----------------------------
- 
--- 
-2.30.2
+Ahh, that makes sense.  I assumed that without WRSS, the default was to
+allow plain writes. 8-)
+
+Thanks,
+Florian
 
