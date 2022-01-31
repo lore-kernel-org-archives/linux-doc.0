@@ -2,229 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26091C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 10:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B56D3C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 14:22:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232783AbiAaKeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 05:34:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23230 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348231AbiAaKeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 05:34:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643625241;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aYgvdWZauKdwx56tpJYbjCs99NNdbstoUesyXGNGGmM=;
-        b=IcneJsyWleQyaOs0TW+9EhdMKiPXyFw3Moms8nr8AZZhbqvlheVFsCROhbz2r+6WiqfntY
-        hLe0UUHcVYbAnUKl2PAqsXw4GfO/cLlU3kIHPsB78RQegy6c81ifuy6JCQJmuhLsmkIJG3
-        3x14dyMUU+6L82ldhb8iu/SL1mCEgFg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-540-KExOlbYjNX2R4FpQXMMHAg-1; Mon, 31 Jan 2022 05:33:58 -0500
-X-MC-Unique: KExOlbYjNX2R4FpQXMMHAg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D93BA1B2C983;
-        Mon, 31 Jan 2022 10:33:55 +0000 (UTC)
-Received: from rhtmp (unknown [10.39.194.71])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F0C3E67C99;
-        Mon, 31 Jan 2022 10:33:52 +0000 (UTC)
-Date:   Mon, 31 Jan 2022 11:33:51 +0100
-From:   Philipp Rudo <prudo@redhat.com>
-To:     Petr =?UTF-8?B?VGVzYcWZw61r?= <ptesarik@suse.cz>
-Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] kdump: Add support for crashkernel=auto
-Message-ID: <20220131113351.49a47caf@rhtmp>
-In-Reply-To: <ba065272-78bd-65d0-1e76-08455519b6db@suse.cz>
-References: <1643275911-19489-1-git-send-email-yangtiezhu@loongson.cn>
-        <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
-        <f28c65f0-9bbb-6bf8-a223-0e18b861c805@loongson.cn>
-        <ba065272-78bd-65d0-1e76-08455519b6db@suse.cz>
-Organization: Red Hat inc.
+        id S233162AbiAaOW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 09:22:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233412AbiAaOW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 09:22:26 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECD1C061714;
+        Mon, 31 Jan 2022 06:22:25 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1nEXZX-00074h-C5; Mon, 31 Jan 2022 15:22:23 +0100
+Message-ID: <00f73105-da64-f62b-866c-00828d8701ba@leemhuis.info>
+Date:   Mon, 31 Jan 2022 15:22:22 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-BS
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        regressions@lists.linux.dev,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <cover.1643110442.git.linux@leemhuis.info>
+ <f97738d6250050bc982bf2947587f1c73f37446f.1643110442.git.linux@leemhuis.info>
+ <87sftbwemg.fsf@meer.lwn.net>
+ <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
+Subject: Re: [PATCH v3 1/2] docs: add a document about regression handling
+In-Reply-To: <c8d7228a-2df5-df92-6d53-c3e940274dad@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643638946;ed0d6898;
+X-HE-SMSGID: 1nEXZX-00074h-C5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 26.01.22 15:10, Thorsten Leemhuis wrote:
+> 
+> On 26.01.22 00:59, Jonathan Corbet wrote:
+>> Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-On Fri, 28 Jan 2022 11:31:49 +0100
-Petr Tesa=C5=99=C3=ADk <ptesarik@suse.cz> wrote:
+>>> +   Note: Only the content of this RST file as found in the Linux kernel sources
+>>> +   is available under CC-BY-4.0, as versions of this text that were processed
+>>> +   (for example by the kernel's build system) might contain content taken from
+>>> +   files which use a more restrictive license.
+>>
+>> I wonder if we could put this boilerplate at the bottom, with a single
+>> "see the bottom for redistribution information" line here?  Most readers
+>> won't care about this stuff and shouldn't have to slog through it to get
+>> to what they want to read.
+> 
+> Totally fine with me. When I touch reporting-issues.rst the next time
+> I'll move it downwards as well.
 
-> Hi Tiezhu Yang,
->=20
-> On Jan 28, 2022 at 02:20 Tiezhu Yang wrote:
-> >[...]
-> > Hi Petr,
-> >=20
-> > Thank you for your reply.
-> >=20
-> > This is a RFC patch, the initial aim of this patch is to discuss what i=
-s=20
-> > the proper way to support crashkernel=3Dauto. =20
->=20
-> Well, the point I'm trying to make is that crashkernel=3Dauto cannot be=20
-> implemented. Your code would have to know what happens in the future,=20
-> and AFAIK time travel has not been discovered yet. ;-)
->
-> A better approach is to make a very large allocation initially, e.g.=20
-> half of available RAM. The remaining RAM should still be big enough to=20
-> start booting the system. Later, when a kdump user-space service knows=20
-> what it wants to load, it can shrink the reservation by writing a lower=20
-> value into /sys/kernel/kexec_crash_size.
+V4 will do that, as I added a patch to point from reporting-issues.rst
+to one of the two new documents.
 
-Even this approach doesn't work in every situation. For example it
-requires that the system has at least twice the RAM it requires to
-safely boot. That's not always given for e.g minimalistic VMs or
-embedded systems.
-Furthermore the memory requirement can also change during runtime due
-to, e.g. workload spikes, device hot plug, moving the dump target from
-an un-encrypted to an encrypted disk, etc.. So even when your user-space
-program can exactly calculate the memory requirement at the moment
-it loads kdump it might be too little at the moment the system panics.
-In order for it to work the user-space would constantly need to monitor
-how much memory is needed and adjust the requirement. But that would
-also require to increase the reservation during runtime which would be
-extremely expensive (if possible at all).
+>>> +The important bits for people affected by regressions
+>>> +=====================================================
+>>> +
+>>> +It's a regression if something running fine with one Linux kernel works worse or
+>>> +not at all with a newer version. Note, the newer kernel has to be compiled using
+>>> +a similar configuration -- for this and other fine print, check out below
+>>> +section "What is a 'regression' and what is the 'no regressions rule'?".
+>> Can we be consistent with either single or double quotes?  I'd suggest
+>> "double quotes" but won't make a fuss about that.
+> 
+> Changed to "double quotes" everywhere in the text. But just to make sure
+> I get things right: in this particular case this will result in
+> 
+> ...section "What is a "regression" and what is the "no regressions rule"?".
+> 
+> This looks a bit strange to me. Something in me really would like to
+> quote the section's header in single quotes, but I guess grammar rules
+> do not allow that, so whatever. :-D
 
-All in all I support Petr that time travel is the only proper solution
-for implementing crashkernel=3Dauto. But once we have time travel I
-would prefer to use the gained knowledge to fix the bug that triggered
-the panic rather than calculating the memory requirement for kdump.
-=20
-> The alternative approach does not need any changes to the kernel, except=
-=20
-> maybe adding something like "crashkernel=3Dmax".
+I changed something and now simply don't mentioned the section names to
+avoid this problem. After the split that's not strictly needed afaics.
 
-A slightly different approach is for the user-space tool to simply set
-the crashkernel=3D parameter on the kernel commandline for the next boot.
-This also works for memory restrained systems. Needs a reboot though...
+>>> +Report your regression as outlined in
+>>> +`Documentation/admin-guide/reporting-issues.rst`, it already covers all aspects
+>> No need to quote the file name.
+> Okay, I thought I had seen some commit or instructions that it's better
+> to use them in this case, but my brain must have imagined it.
 
-> > A moment ago, I find the following patch, it is more flexible, but it i=
-s=20
-> > not merged into the upstream kernel now.
-> >=20
-> > kernel/crash_core: Add crashkernel=3Dauto for vmcore creation
-> >=20
-> > https://lore.kernel.org/lkml/20210223174153.72802-1-saeed.mirzamohammad=
-i@oracle.com/=20
+I noticed I quoted internal references in reporting-issues.rst quite
+often. IMHO it improves readability sometimes (it depends a lot on the
+title of the target document), as can be seen in this example:
 
-The patch was ultimately rejected by Linus
+```
+If your kernel is tainted, study
+'Documentation/admin-guide/tainted-kernels.rst' to find out why.
+[...]
+To find the change there is a process called 'bisection' which the document
+'Documentation/admin-guide/bug-bisect.rst' describes in detail.
+```
 
-https://lore.kernel.org/linux-mm/20210507010432.IN24PudKT%25akpm@linux-foun=
-dation.org/
+after processing to HTML looks like this:
 
-Thanks
-Philipp
+```
+If your kernel is tainted, study 'Tainted kernels' to find out why.
+[...]
+To find the change there is a process called ‘bisection’ which the
+document ‘Bisecting a bug’ describes in detail.
+```
 
-> >  =20
-> >> =20
-> >>> [...]
-> >>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> >>> index 256cf6d..32c51e2 100644
-> >>> --- a/kernel/crash_core.c
-> >>> +++ b/kernel/crash_core.c
-> >>> @@ -252,6 +252,26 @@ static int __init __parse_crashkernel(char=20
-> >>> *cmdline,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (suffix)
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return parse_c=
-rashkernel_suffix(ck_cmdline, crash_size,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 suffix);
-> >>> +
-> >>> +=C2=A0=C2=A0=C2=A0 if (strncmp(ck_cmdline, "auto", 4) =3D=3D 0) {
-> >>> +#if defined(CONFIG_X86_64) || defined(CONFIG_S390)
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ck_cmdline =3D "1G-4G:160=
-M,4G-64G:192M,64G-1T:256M,1T-:512M";
-> >>> +#elif defined(CONFIG_ARM64)
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ck_cmdline =3D "2G-:448M";
-> >>> +#elif defined(CONFIG_PPC64)
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *fadump_cmdline;
-> >>> +
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fadump_cmdline =3D get_la=
-st_crashkernel(cmdline, "fadump=3D",=20
-> >>> NULL);
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fadump_cmdline =3D fadump=
-_cmdline ?
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 fadump_cmdline + strlen("fadump=3D") : NULL;
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!fadump_cmdline || (s=
-trncmp(fadump_cmdline, "off", 3) =3D=3D=20
-> >>> 0))
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 c=
-k_cmdline =3D
-> >>> "2G-4G:384M,4G-16G:512M,16G-64G:1G,64G-128G:2G,128G-:4G";
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 c=
-k_cmdline =3D
-> >>> "4G-16G:768M,16G-64G:1G,64G-128G:2G,128G-1T:4G,1T-2T:6G,2T-4T:12G,4T-=
-8T:20G,8T-16T:36G,16T-32T:64G,32T-64T:128G,64T-:180G";=20
-> >>>
-> >>>
-> >>> +#endif
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_info("Using crashkerne=
-l=3Dauto, the size chosen is a best
-> >>> effort estimation.\n");
-> >>> +=C2=A0=C2=A0=C2=A0 }
-> >>> + =20
-> >>
-> >> How did you even arrive at the above numbers? =20
-> >=20
-> > Memory requirements for kdump:
-> >=20
-> > https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/=
-8/html/managing_monitoring_and_updating_the_kernel/supported-kdump-configur=
-ations-and-targets_managing-monitoring-and-updating-the-kernel#memory-requi=
-rements-for-kdump_supported-kdump-configurations-and-targets=20
-> >=20
-> >=20
-> > I've done some research on =20
-> >> this topic recently (ie. during the last 7 years or so). My x86_64
-> >> system with 8G RAM running openSUSE Leap 15.3 seems needs 188M for
-> >> saving to the local disk, and 203M to save over the network (using
-> >> SFTP). My PPC64 LPAR with 16G RAM running latest Beta of SLES 15 SP4
-> >> needs 587M, i.e. with the above numbers it may run out of memory while
-> >> saving the dump.
-> >>
-> >> Since this is not the first time, I'm trying to explain things, I've
-> >> written a blog post now:
-> >>
-> >> https://sigillatum.tesarici.cz/2022-01-27-whats-wrong-with-crashkernel=
--auto.html=20
-> >>
-> >> =20
-> >=20
-> > Thank you, this is useful.
-> >=20
-> > Thanks,
-> > Tiezhu
-> >  =20
-> >>
-> >> HTH
-> >> Petr Tesarik =20
-> >=20
-> >=20
-> > _______________________________________________
-> > kexec mailing list
-> > kexec@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/kexec =20
->=20
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
+Sure, "Tainted kernels" and "Bisecting a bug" are links and hence
+displayed differently by the browser, but I think the quotes help. But YMMV.
 
+I sooner or later hope to improve and fix a few things in
+reporting-issues.rst anyway. Let me know if I should take the
+opportunity to remove the single quotes then.
+
+>>> +Who needs to find the commit causing a regression?
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +It's the reporter's duty to find the culprit, but developers of the affected
+>>> +subsystem should offer advice and reasonably help where they can.
+>>
+>> Is it really our policy that *reporters* need to find the offending
+>> commit?  That's certainly not my view of things, anyway?
+
+BTW, I noticed reporting-issues.rst covers it like this:
+
+Normally it's up to the reporter to track down the culprit, as
+maintainers often won't have the time or setup at hand to reproduce it
+themselves.
+
+> Well, do we have something on that written down somewhere or a few
+> quotes from Linus that might help to clarify things?
+> 
+> Anyway: I was not totally happy with it either, as I found the first
+> part of the sentence to strong, and the second to soft. But I had
+> trouble finding something better, maybe a native speaker could help out
+> here. Maybe something along these lines?
+
+I plan to go with this now:
+```
+Who needs to find the root cause of a regression?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Developers of the affected code area should try to locate the culprit on
+their own. But for them that's often impossible to do with reasonable
+effort, as quite a lot of issues only occur in a particular environment
+outside the developer's reach -- for example, a specific hardware
+platform, firmware, Linux distro, system's configuration, or
+application. That's why in the end it's often up to the reporter to
+locate the culprit commit; sometimes users might even need to run
+additional tests afterwards to pinpoint the exact root cause. Developers
+should offer advice and reasonably help where they can, to make this
+process relatively easy and achievable for typical users.
+```
+
+Ciao, Thorsten
