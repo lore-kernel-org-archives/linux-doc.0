@@ -2,126 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15815C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 18:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A40C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 18:27:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236074AbiAaSRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 13:17:49 -0500
-Received: from mga17.intel.com ([192.55.52.151]:33534 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234205AbiAaSRs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 Jan 2022 13:17:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643653068; x=1675189068;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mmbfN7EWjtVJlPPYulfzzNG3cWkywCNdf+H70EZzxYE=;
-  b=jQsb0qSF4KAfC33uA3kLHwheblBJ55BQcNaNjlXIGgRBDPY9ePDxhLRP
-   3EKR5fyKx2xMBIurNA8fF68MPuBZPadFTodDLy6opdItIxoqWSVWswItU
-   07b8qKP8vnP9potDv/OA6zIUgnF0+1/Ir2jZytnGdd5/DTt7/vLInrWbk
-   nMkRJKIJgNMr2b433GrXs+7PSObe69Wrf7mWeH2+j7oq35eECUsq3u3iK
-   rX1lr8TZOByFRM4xBOX8wmNs/BBqNGf0YGPfdxVkyugnX+htJg1IzEV14
-   udHRcTCW0wuAZaCx6cov56YsmfwwFDB0mnNItO3NKusybgSxWsen+bhTI
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="228183146"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="228183146"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 10:17:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="630109993"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 10:17:46 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nEbEJ-00Gz3U-51;
-        Mon, 31 Jan 2022 20:16:43 +0200
-Date:   Mon, 31 Jan 2022 20:16:42 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
-Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
- Reported-by usage
-Message-ID: <YfgninPOaJhq7dsZ@smile.fi.intel.com>
-References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
- <87o83xrwk9.fsf@meer.lwn.net>
- <YfPzNNvK8Sy8YmGW@casper.infradead.org>
- <Yff9xoh873aEikY4@hovoldconsulting.com>
- <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
- <YfgSpArfoL9LUaBO@hovoldconsulting.com>
+        id S1350693AbiAaS10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 13:27:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350686AbiAaS1Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 13:27:25 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 403B2C06173B;
+        Mon, 31 Jan 2022 10:27:25 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id d18so13219575plg.2;
+        Mon, 31 Jan 2022 10:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r4xwJBi8q1FRa6SCCAyqdRaLBggch8TnlaM4QVC5L6s=;
+        b=qE9n/zRiSBommfNv+Ylzgyl4CHXyFBAjKvVHTQ792Gi4mzAtyJFsUes4Iz130ZUigW
+         mhlzucT9wN07qCC60leuIX7WsKtl2ubbqHHcgny8hGXpPYTjk/UzuNfmdMPnUpyDCPzl
+         +NmEdOUvimEtOUQ0qV++b0NEQdzPFbUZXbg2YaS5u2u/Tn29oOLv0c21gGugpgGWqvb5
+         SEyXRORSWstaGohz48PdB2o5gcCNbO9CTp9lkJEoFm3cGM0UbLfUjK92tESxnI/YAdRN
+         w8dU0sI6ubF5nsNTQjI5D91UmNRmYGPjo0K/gU3LI8oQ+k76wgyWRknu/MCR1dRtES7F
+         gk1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r4xwJBi8q1FRa6SCCAyqdRaLBggch8TnlaM4QVC5L6s=;
+        b=43grz6Mm9pGfYfgJsRzvXFMowyh8JwyvJ/C0dtJt5SYxVAMRuEISjwc1Lxbc+iB4dI
+         09Z0ghzfzCqJ8tZtqb07EAJ5U4HHCgKDiiOFV4fetIBcrtrIwAseCwiUUjGrQsdA2uyX
+         r+UUTVCGZzeJduE3uCY3f+R5iVBaI0GbRBLc3ll/WPJ8UmEtziOhZrYv2Yi0r36rVAK3
+         zzVUDpqgbOCwGjuP8yES9p7bXFZO/b2DscEZAreso5y6ywUt+aHB8dFfdngJZP/aZftx
+         uvnkdJqSAPeB4Yj7HKiNkNea76kwH4RqcIVAaOOsBtmyRS9xe6dCndBPvOjG8kuR+fE3
+         leKw==
+X-Gm-Message-State: AOAM5308wAyQCOFC/ffH+JhdpfieNwiocd1jozAXxvayW4PrF9waZEhi
+        86OlOOWl5BAIjUo9Sx8MR9sx1asagYkMD6qYK7E=
+X-Google-Smtp-Source: ABdhPJw+fHsfw5UduK45wmBxPkeMk2UrZFl5cMQOPBj0yL+xKr7ja/LjgHWM13r4g3FwaPfZ+egF5l23vsHygbdb++o=
+X-Received: by 2002:a17:90b:4f83:: with SMTP id qe3mr35727324pjb.120.1643653644745;
+ Mon, 31 Jan 2022 10:27:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfgSpArfoL9LUaBO@hovoldconsulting.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-35-rick.p.edgecombe@intel.com> <87wnig8hj6.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87wnig8hj6.fsf@oldenburg.str.redhat.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Mon, 31 Jan 2022 10:26:49 -0800
+Message-ID: <CAMe9rOrVvjL1F3UgOWL-gAGRyyiG6r20TWUusEUFhZMEEAjH7w@mail.gmail.com>
+Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 05:47:32PM +0100, Johan Hovold wrote:
-> On Mon, Jan 31, 2022 at 05:34:35PM +0200, Andy Shevchenko wrote:
-> > On Mon, Jan 31, 2022 at 04:18:30PM +0100, Johan Hovold wrote:
-> > > On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
-> 
-> > > > I think this misunderstands the problem that Andy is trying to fix.
-> > > > 
-> > > > The situation: I write a patch.  I post it for review.  A bot does
-> > > > something and finds a bug (could be compile-error, could be boot
-> > > > problem).  That bot sends a bug report with a suggestion to add
-> > > > Reported-by:.  That suggestion is inappropriate because the bug never
-> > > > made it upstream, so it looks like the bot reported the "problem"
-> > > > that the patch "fixes".
-> > > > 
-> > > > It's not unique to "new feature" patches.  If I'm fixing a bug and
-> > > > my fix also contains a bug spotted by a bot, adding Reported-by
-> > > > makes it look like the bot spotted the original bug, rather than
-> > > > spotting a bug in the fix.
-> > > > 
-> > > > The best thing to do in this case is nothing.  Do not credit the bot.
-> > > > Maybe add a Checked-by:, but that would be a new trailer and I really
-> > > > don't think we need a new kind of trailer to get wrong.
-> > > 
-> > > It seems like the only way to fix this is to fix the bots. Adding more
-> > > documentation is unlikely to help in this case.
-> > 
-> > Links to the documentation at least may clarify the point in case of a
-> > review.
-> 
-> Sure.
-> 
-> > > Can't we file a bug to whoever is running the bots (Intel?) and ask them
-> > > to remove the suggestion to add a Reported-by when the bot is testing a
-> > > patch (as opposed to mainline or even -next)?
-> > 
-> > The granularity here is not a repo. It's a code itself and in some cases
-> > it might be easy to distinguish new feature from the code modifications,
-> > but when code is already there and feature is just an extension of the
-> > existing file(s), it's hard to tell. And it might be true or not.
-> 
-> Not sure I understand what you're saying here. Perhaps you and Matthew
-> are talking about different things after all.
+On Sun, Jan 30, 2022 at 11:57 PM Florian Weimer <fweimer@redhat.com> wrote:
+>
+> * Rick Edgecombe:
+>
+> > For the current shadow stack implementation, shadow stacks contents cannot
+> > be arbitrarily provisioned with data. This property helps apps protect
+> > themselves better, but also restricts any potential apps that may want to
+> > do exotic things at the expense of a little security.
+> >
+> > The x86 shadow stack feature introduces a new instruction, wrss, which
+> > can be enabled to write directly to shadow stack permissioned memory from
+> > userspace. Allow it to get enabled via the prctl interface.
+>
+> Why can't this be turned on unconditionally?
 
-I'm talking about your suggestion to fix the bots. It's not easy.
-The problem is the same as Matthew explained.
-
-> But for Matthew's issue, the case where the bots are testing posted
-> patches ("Thank you for the patch! Yet something to improve:) should be
-> easy to fix by simply dropping or rephrasing the "kindly add following
-> tag as appropriate" suggestion.
-
-Yes, but this is not "fixing the bots", it falls into category "working around"
-them, because even for a clear bug report the suggestion can be stronger.
-And doing that properly without kinda AI not easy.
-
-> When testing merged code, it may be harder to tell whether the branch in
-> question can be rebased or not (and an incremental fix with a
-> reported-by tag is warranted).
+WRSS can be a security risk since it defeats the whole purpose of
+Shadow Stack.  If an application needs to write to shadow stack,
+it can make a syscall to enable it.  After the CET patches are checked
+in Linux kernel, I will make a proposal to allow applications or shared
+libraries to opt-in WRSS through a linker option, a compiler option or
+a function attribute.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+H.J.
