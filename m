@@ -2,124 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B54CC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 15:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A6AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 16:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379180AbiAaP73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 10:59:29 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4569 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239569AbiAaP73 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 10:59:29 -0500
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JnXmc1p3Dz67k8Z;
-        Mon, 31 Jan 2022 23:58:56 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 31 Jan 2022 16:59:26 +0100
-Received: from [10.47.91.239] (10.47.91.239) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 31 Jan
- 2022 15:59:26 +0000
-From:   John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
-        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
-CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
-        <Viswas.G@microchip.com>
-References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
- <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
- <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
- <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
- <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
-Message-ID: <49da4d80-5cc3-35c3-ccaa-6def8165eb65@huawei.com>
-Date:   Mon, 31 Jan 2022 15:58:50 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1380489AbiAaQrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 11:47:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1380586AbiAaQrs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 11:47:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0544DC061714;
+        Mon, 31 Jan 2022 08:47:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C2E460AF5;
+        Mon, 31 Jan 2022 16:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B75C340E8;
+        Mon, 31 Jan 2022 16:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643647667;
+        bh=ihC7CKxsu5UE3SaXojecPLPQFwujiHzaZSVm3or2b4E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y7DzlGSirhJjYDNfrh2yEgqwSBG2W5ZcYdzZ+/JepOKBesYeqXwtbJojEIR04YRrq
+         b8D38BY+rDj8n9clnH+zPH4UNHe+lrUHOExgtZTQO9m2faeuLpM89C4l6KTtOVkGE2
+         FqPT2WpfuuP9pEnChEsDUrjqMCJ24R9LrZLNy/xf820stV5386LV3kn6m8gB3wuAuX
+         eJbqoWpNoJeofTGuFPKtHMYGwKsF3Gp9q4vXtWgWXypDvaLnAlcWpdAV8zzQeEi66+
+         CPSj/bVm+gLWOFkizAsAiJkq6PAH27AWK/ZJD9bfjloXw9uc5G074qsyaVXmtWfjJm
+         tjAIQbsFrHarQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nEZq0-0008Cx-Cr; Mon, 31 Jan 2022 17:47:33 +0100
+Date:   Mon, 31 Jan 2022 17:47:32 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
+Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
+ Reported-by usage
+Message-ID: <YfgSpArfoL9LUaBO@hovoldconsulting.com>
+References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
+ <87o83xrwk9.fsf@meer.lwn.net>
+ <YfPzNNvK8Sy8YmGW@casper.infradead.org>
+ <Yff9xoh873aEikY4@hovoldconsulting.com>
+ <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.47.91.239]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/01/2022 09:09, John Garry wrote:
->> I ran some more tests. In particular, I ran libzbc compliance tests on a
->> 20TB SMR drives. All tests pass with 5.17-rc1, but after applying your
->> series, I see command timeout that take forever to recover from, with
->> the drive revalidation failing after that.
->>
->> [  385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
->> [  385.108026] sas: sas_scsi_find_task: aborting task 0x000000007068ed73
->> [  405.561099] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
->> timeout.
->> [  405.568236] sas: sas_scsi_find_task: task 0x000000007068ed73 is 
->> aborted
->> [  405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007068ed73 is
->> aborted
->> [  411.192602] ata21.00: qc timeout (cmd 0xec)
->> [  431.672122] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
->> timeout.
->> [  431.679282] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
->> [  431.685544] ata21.00: revalidation failed (errno=-5)
->> [  441.911948] ata21.00: qc timeout (cmd 0xec)
->> [  462.391545] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
->> timeout.
->> [  462.398696] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
->> [  462.404992] ata21.00: revalidation failed (errno=-5)
->> [  492.598769] ata21.00: qc timeout (cmd 0xec)
->> ...
->>
->> So there is a problem. Need to dig into this. I see this issue only with
->> libzbc passthrough tests. fio runs with libaio are fine.
+On Mon, Jan 31, 2022 at 05:34:35PM +0200, Andy Shevchenko wrote:
+> On Mon, Jan 31, 2022 at 04:18:30PM +0100, Johan Hovold wrote:
+> > On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
+
+> > > I think this misunderstands the problem that Andy is trying to fix.
+> > > 
+> > > The situation: I write a patch.  I post it for review.  A bot does
+> > > something and finds a bug (could be compile-error, could be boot
+> > > problem).  That bot sends a bug report with a suggestion to add
+> > > Reported-by:.  That suggestion is inappropriate because the bug never
+> > > made it upstream, so it looks like the bot reported the "problem"
+> > > that the patch "fixes".
+> > > 
+> > > It's not unique to "new feature" patches.  If I'm fixing a bug and
+> > > my fix also contains a bug spotted by a bot, adding Reported-by
+> > > makes it look like the bot spotted the original bug, rather than
+> > > spotting a bug in the fix.
+> > > 
+> > > The best thing to do in this case is nothing.  Do not credit the bot.
+> > > Maybe add a Checked-by:, but that would be a new trailer and I really
+> > > don't think we need a new kind of trailer to get wrong.
+> > 
+> > It seems like the only way to fix this is to fix the bots. Adding more
+> > documentation is unlikely to help in this case.
 > 
-> Thanks for the notice. I think that I also saw a hang, but, IIRC, it 
-> happened on mainline for me - but it's hard to know if I broke something 
-> if it is already broke in another way. That is why I wanted this card 
-> working properly...
+> Links to the documentation at least may clarify the point in case of a
+> review.
 
-Hi Damien,
+Sure.
 
- From testing mainline, I can see a hang on my arm64 system for SAS 
-disks. I think that the reason is the we don't finish some commands in 
-EH properly for pm8001:
-- In EH, we attempt to abort the task in sas_scsi_find_task() -> 
-lldd_abort_task()
-The default return from pm8001_exec_internal_tmf_task() is 
--TMF_RESP_FUNC_FAILED, so if the TMF does not execute properly we return 
-this value
-- sas_scsi_find_task() cannot handle -TMF_RESP_FUNC_FAILED, and returns 
--TMF_RESP_FUNC_FAILED directly to sas_eh_handle_sas_errors(), which, 
-again, does not handle -TMF_RESP_FUNC_FAILED. So we don't progress to 
-ever finish the comand.
+> > Can't we file a bug to whoever is running the bots (Intel?) and ask them
+> > to remove the suggestion to add a Reported-by when the bot is testing a
+> > patch (as opposed to mainline or even -next)?
+> 
+> The granularity here is not a repo. It's a code itself and in some cases
+> it might be easy to distinguish new feature from the code modifications,
+> but when code is already there and feature is just an extension of the
+> existing file(s), it's hard to tell. And it might be true or not.
 
-This looks like the correct fix for mainline:
+Not sure I understand what you're saying here. Perhaps you and Matthew
+are talking about different things after all.
 
---- a/drivers/scsi/pm8001/pm8001_sas.c
-+++ b/drivers/scsi/pm8001/pm8001_sas.c
-@@ -766,7 +766,7 @@ static int pm8001_exec_internal_tmf_task(struct 
-domain_device *dev,
-pm8001_dev, DS_OPERATIONAL);
-wait_for_completion(&completion_setstate);
-}
-- res = -TMF_RESP_FUNC_FAILED;
-+ res = TMF_RESP_FUNC_FAILED;
+But for Matthew's issue, the case where the bots are testing posted
+patches ("Thank you for the patch! Yet something to improve:) should be
+easy to fix by simply dropping or rephrasing the "kindly add following
+tag as appropriate" suggestion.
 
-That's effectively the same as what I have in this series in 
-sas_execute_tmf().
+When testing merged code, it may be harder to tell whether the branch in
+question can be rebased or not (and an incremental fix with a
+reported-by tag is warranted).
 
-However your testing is a SATA device, which I'll check further.
-
-Thanks,
-John
+Johan
