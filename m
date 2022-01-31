@@ -2,151 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEAE3C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 00:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAEDC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 07:57:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357181AbiAaAgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Jan 2022 19:36:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357015AbiAaAgj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Jan 2022 19:36:39 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF7FC061714;
-        Sun, 30 Jan 2022 16:36:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=RAr/avbZ9dvrmyFHTddz+fhHj1lJqbBwGsig25CiDDI=; b=Q5pgL7x9/+uPI4odK3PwxZmPOO
-        Aw4n1NJ8HdAvRhqj2TmO7BmuTY2cyrmdHpl4qm+nU1c12LL2f+MPmVmvTrnVsCjTB2QdltSYaLU+x
-        5a7HFjlT1PMJP+CuE3IZeC4V4mlJe9f5dV8hubhOjAteYaYwMHUZh//R5G1fCDwwzNhWjACw0OWR2
-        QFB6d5VlykzSOkRtGCxwkrn5KU99IDefWAH1BOLThEzHcWFZgkJwuUCBlUWlWMGzc+jlxzfBpKg3n
-        vNkO9sIPJQWN9GI4zqYTMPj6l+Wh16KntfRNtvV2A7xWBdXCZEcG8ZKrbQacDPmnKlWUpC/rhXG5Z
-        +HZRb7QA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nEKgQ-007mQL-GL; Mon, 31 Jan 2022 00:36:38 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Rae Moar <rmoar@google.com>,
-        David Gow <davidgow@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Docs: ktap: add code-block type
-Date:   Sun, 30 Jan 2022 16:36:37 -0800
-Message-Id: <20220131003637.14274-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S240627AbiAaH5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 02:57:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47003 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234839AbiAaH5R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 02:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643615836;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UKRrxpA5zhfSZiQGv/yx2cUoAnXjZEXW1GA6k9oFz4w=;
+        b=B6+oBc4812BIE+foOlFAs2qiSso6ht4kFUpYJOG2/UjanQ43I0iHvGA41qkeIKnGY65QtG
+        T5T34UBYLg5vJscMMwQUZWR0ujysPD53OQQGRTLUI2m3LhNf6By98mnVfK6clSpVPaYS87
+        Q8ZjMr2l3P2aWPgd8S5NvWylCbLZSr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-216-gCx-9PGnMD2a71SWny4wNg-1; Mon, 31 Jan 2022 02:57:13 -0500
+X-MC-Unique: gCx-9PGnMD2a71SWny4wNg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25AD946863;
+        Mon, 31 Jan 2022 07:57:09 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F63C5F936;
+        Mon, 31 Jan 2022 07:56:47 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com
+Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
+In-Reply-To: <20220130211838.8382-35-rick.p.edgecombe@intel.com> (Rick
+        Edgecombe's message of "Sun, 30 Jan 2022 13:18:37 -0800")
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+        <20220130211838.8382-35-rick.p.edgecombe@intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date:   Mon, 31 Jan 2022 08:56:45 +0100
+Message-ID: <87wnig8hj6.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix multiple "code-block::" warnings by adding "none" as the type of
-code-block. Mends these warnings:
+* Rick Edgecombe:
 
-Documentation/dev-tools/ktap.rst:71: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:120: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:126: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:132: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:139: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:145: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:195: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:208: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
-Documentation/dev-tools/ktap.rst:238: WARNING: Error in "code-block" directive:
-1 argument(s) required, 0 supplied.
+> For the current shadow stack implementation, shadow stacks contents cannot
+> be arbitrarily provisioned with data. This property helps apps protect
+> themselves better, but also restricts any potential apps that may want to
+> do exotic things at the expense of a little security.
+>
+> The x86 shadow stack feature introduces a new instruction, wrss, which
+> can be enabled to write directly to shadow stack permissioned memory from
+> userspace. Allow it to get enabled via the prctl interface.
 
-Fixes: a32fa6b2e8b4 ("Documentation: dev-tools: Add KTAP specification")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rae Moar <rmoar@google.com>
-Cc: David Gow <davidgow@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/dev-tools/ktap.rst |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Why can't this be turned on unconditionally?
 
---- linux-next-20220128.orig/Documentation/dev-tools/ktap.rst
-+++ linux-next-20220128/Documentation/dev-tools/ktap.rst
-@@ -68,7 +68,7 @@ Test case result lines
- Test case result lines indicate the final status of a test.
- They are required and must have the format:
- 
--.. code-block::
-+.. code-block:: none
- 
- 	<result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
- 
-@@ -117,32 +117,32 @@ separator.
- 
- Example result lines include:
- 
--.. code-block::
-+.. code-block:: none
- 
- 	ok 1 test_case_name
- 
- The test "test_case_name" passed.
- 
--.. code-block::
-+.. code-block:: none
- 
- 	not ok 1 test_case_name
- 
- The test "test_case_name" failed.
- 
--.. code-block::
-+.. code-block:: none
- 
- 	ok 1 test # SKIP necessary dependency unavailable
- 
- The test "test" was SKIPPED with the diagnostic message "necessary dependency
- unavailable".
- 
--.. code-block::
-+.. code-block:: none
- 
- 	not ok 1 test # TIMEOUT 30 seconds
- 
- The test "test" timed out, with diagnostic data "30 seconds".
- 
--.. code-block::
-+.. code-block:: none
- 
- 	ok 5 check return code # rcode=0
- 
-@@ -192,7 +192,7 @@ line and should end before the parent te
- 
- An example of a test with two nested subtests:
- 
--.. code-block::
-+.. code-block:: none
- 
- 	KTAP version 1
- 	1..1
-@@ -205,7 +205,7 @@ An example of a test with two nested sub
- 
- An example format with multiple levels of nested testing:
- 
--.. code-block::
-+.. code-block:: none
- 
- 	KTAP version 1
- 	1..2
-@@ -235,7 +235,7 @@ nested version line, uses a line of the
- 
- Example KTAP output
- --------------------
--.. code-block::
-+.. code-block:: none
- 
- 	KTAP version 1
- 	1..1
+Thanks,
+Florian
+
