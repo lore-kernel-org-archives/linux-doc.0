@@ -2,51 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD54C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 20:44:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3458C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Jan 2022 21:19:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239860AbiAaUoA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 15:44:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38786 "EHLO
+        id S1380125AbiAaVTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 16:19:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343655AbiAaUoA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 15:44:00 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0247C06173B
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 12:43:59 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id a8so13890946pfa.6
-        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 12:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dvY93mLK+gCkLFyqPjkC7SO502H46e/BmHAFAde7pmA=;
-        b=VnaPaLUE79ByM8yxlggAAFwqCLbFIwHYSnwowqWnqMYsC3OgGiS1ToIUXd8N7wK5WS
-         dIFaCM5pOMfQ1J/hUl7v9c5JoiyS6MZaxuMQw2gMtg7ucEwuKSG9xdMypFTCXm3IDQoA
-         7CeWl1HJ3RfJ+RvxNluYPe/tjQw4aj7Gfleog=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dvY93mLK+gCkLFyqPjkC7SO502H46e/BmHAFAde7pmA=;
-        b=r/Nxq6k4NKJ8aEiDeXjve8o2jBCZGjX8nEDB0HTetiqnryacfIsYcYDOH+UYLFjumo
-         kqjSBe/2OpqE5aA+EVthUVryySrEJuwGOeIPWfHz+2rqPqX3ssN826Eb+P4aeKMdU5gw
-         e1VbqFU0avI6TeP+ww4wdn78WQyXnJzzxLO78mFJccjKsWCy4UxTfKM9u7TCVhuFsrKo
-         r65cqs+/Y/9Nd5may2adldhwacM6eEFz9YcnzFy2ACvbFDCGaIk0wx7i7HdtC02S6Vlg
-         6kgyK2lCieXNfPRzwiV40ZuKAV+WYybCBus604ws22GVUMJJCzSm7rMiFqSk8LA5BP92
-         w1Nw==
-X-Gm-Message-State: AOAM530Qj1zuqUBDeZ5mo/uRseYMvrBAD3FKA7z0hz9py6NovWDkIb2c
-        D7kMmC1DUl/6AUbk2lCiupD9LQ==
-X-Google-Smtp-Source: ABdhPJyMZ/cWvABsZIf40YJbzvSbf2yYk+yDlKZi9uzmJOn1juWqB1Qh+dV/l9giNKX/hZOoOf0/PA==
-X-Received: by 2002:a63:9346:: with SMTP id w6mr18350241pgm.65.1643661839508;
-        Mon, 31 Jan 2022 12:43:59 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h18sm19549618pfh.51.2022.01.31.12.43.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 12:43:59 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
+        with ESMTP id S241083AbiAaVTj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 16:19:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98201C061714;
+        Mon, 31 Jan 2022 13:19:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 54E37B82CA1;
+        Mon, 31 Jan 2022 21:19:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0E4C340E8;
+        Mon, 31 Jan 2022 21:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643663977;
+        bh=bydv7gfSFyvaJwR+P/7cGzOvsDym3JsAo7rfZrr7r/w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t6Vk68zSyrlVBRQoLyQEefza0TDiislHx/Z7lsiaTafTymNdJ+L+Ga3ysGKXae/t2
+         7W60y03whPQ/BK4ZI7BNUVOSfjBWiELrkLhDxpjf5GB+gT0knZxcYgvelw/luAevQa
+         ztcsrr9ihLE04UKepEZUAPn1VWb8biP7WB8f98x2Nna8ghkt1s22BtPrsBSiCrOFzt
+         YU24oZWvkilw7M5xw3ZyEeSRSwMEj8dflJvYpoMp2jZFtPoBWZsdSPiyplwDLfS9KO
+         MgKBlhw/6VM38ikvQ+sBUIa1qXnNJ73ZIwC/32M21qs3A7gXh6br+hb1gVYciPX0SM
+         UEKuQ2rbXPQjQ==
+Date:   Mon, 31 Jan 2022 15:26:37 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Martin Uecker <Martin.Uecker@med.uni-goettingen.de>,
         Ingo Molnar <mingo@kernel.org>,
@@ -57,73 +45,79 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH] linux/const.h: Explain how __is_constexpr() works
-Date:   Mon, 31 Jan 2022 12:43:57 -0800
-Message-Id: <20220131204357.1133674-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [PATCH] linux/const.h: Explain how __is_constexpr() works
+Message-ID: <20220131212637.GA198787@embeddedor>
+References: <20220131204357.1133674-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2675; h=from:subject; bh=WlNK1x9BZiL8PdVBf+UDla5QbcDoyx4RBmBre4o9x84=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh+EoMr8eEAxIe/o1NGdfWCDk8aFcQzwQVoNeu5FZ/ ZAhP5D+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYfhKDAAKCRCJcvTf3G3AJtgoD/ sGCz9a8AssZAQB5fVsmWfX5b+plDMlTy+hmWrQ1KL04znEA2Ju1fh43Iv1MvyfWYxO06Oxl5ZFfMvs F9K+sfSnb5IE91FXjDx+mBjQ57kzHI9anob0KWKPxmIeCXfr1RFTTbLepyF7vQU83jlttFMvPGjiLV 1Okkt9dxBFoFXstRu9x/nx5v/El7bDRdrsk/nka+ZvuAFiqJQXL9RLAkuSgV+2l/P60RLOB3g6SFLs Nbf3EFlIUcN76X+QfhqcYHeohmywr0hCJtX8kvwhEpb0QSUocOPVXjZf6qDCI5HWDr/fNGtfHn1yEd RiQei0uJLVmH1EKHt2ZcahLv4LQyQq/cFG1u6VUnRJXVJRBL89zdqW8iiYirdHTmJ2wg4Ay8SJo69E 7tZpQ9HfQS9QwbIMeQwGYA8sHB90DoJgFehqMxnwoXDFJRCKSmIOzesglOo9B+4yqFJw3UnTeSldre rLSGF217GOQfzzcXXMgGRIeyxYRwwzqTyMGM5+U8SAlcswtDbakvP7aT9bctGV1LfUUUpI6RlicNK0 uOk07acYE93Cu2a5NUMH5GJhA8xb7SxT4Asp7IQZgzlTtBjcv2DYx4rMI/0VpbA4/Xa5b/gwaSWFgD DnHzo+Vxqd8CcB7ztHxX+Za2OqabUhA50217kdRVCT8PRtH0ZO+ZrdKqKHhw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220131204357.1133674-1-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The __is_constexpr() macro is dark magic. Shed some light on it with
-a comment to explain how and why it works.
+On Mon, Jan 31, 2022 at 12:43:57PM -0800, Kees Cook wrote:
+> The __is_constexpr() macro is dark magic. Shed some light on it with
+> a comment to explain how and why it works.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-Jon, since this is pure comment, do you want to take it through the docs tree?
----
- include/linux/const.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-diff --git a/include/linux/const.h b/include/linux/const.h
-index 435ddd72d2c4..7122d6a1f8ce 100644
---- a/include/linux/const.h
-+++ b/include/linux/const.h
-@@ -7,6 +7,30 @@
-  * This returns a constant expression while determining if an argument is
-  * a constant expression, most importantly without evaluating the argument.
-  * Glory to Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
-+ *
-+ * Details:
-+ * - sizeof() is an integer constant expression, and does not evaluate the
-+ *   value of its operand; it only examines the type of its operand.
-+ * - The results of comparing two integer constant expressions is also
-+ *   an integer constant expression.
-+ * - The use of literal "8" is to avoid warnings about unaligned pointers;
-+ *   these could otherwise just be "1"s.
-+ * - (long)(x) is used to avoid warnings about 64-bit types on 32-bit
-+ *   architectures.
-+ * - The C standard defines an "integer constant expression" as different
-+ *   from a "null pointer constant" (an integer constant 0 pointer).
-+ * - The conditional operator ("... ? ... : ...") returns the type of the
-+ *   operand that isn't a null pointer constant. This behavior is the
-+ *   central mechanism of the macro.
-+ * - If (x) is an integer constant expression, then the "* 0l" resolves it
-+ *   into a null pointer constant, which forces the conditional operator
-+ *   to return the type of the last operand: "(int *)".
-+ * - If (x) is not an integer constant expression, then the type of the
-+ *   conditional operator is from the first operand: "(void *)".
-+ * - sizeof(int) == 4 and sizeof(void) == 1.
-+ * - The ultimate comparison to "sizeof(int)" chooses between either:
-+ *     sizeof(*((int *) (8)) == sizeof(int)   (x was a constant expression)
-+ *     sizeof(*((void *)(8)) == sizeof(void)  (x was not a constant expression)
-  */
- #define __is_constexpr(x) \
- 	(sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
--- 
-2.30.2
+Thanks
+--
+Gustavo
 
+> ---
+> Jon, since this is pure comment, do you want to take it through the docs tree?
+> ---
+>  include/linux/const.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/include/linux/const.h b/include/linux/const.h
+> index 435ddd72d2c4..7122d6a1f8ce 100644
+> --- a/include/linux/const.h
+> +++ b/include/linux/const.h
+> @@ -7,6 +7,30 @@
+>   * This returns a constant expression while determining if an argument is
+>   * a constant expression, most importantly without evaluating the argument.
+>   * Glory to Martin Uecker <Martin.Uecker@med.uni-goettingen.de>
+> + *
+> + * Details:
+> + * - sizeof() is an integer constant expression, and does not evaluate the
+> + *   value of its operand; it only examines the type of its operand.
+> + * - The results of comparing two integer constant expressions is also
+> + *   an integer constant expression.
+> + * - The use of literal "8" is to avoid warnings about unaligned pointers;
+> + *   these could otherwise just be "1"s.
+> + * - (long)(x) is used to avoid warnings about 64-bit types on 32-bit
+> + *   architectures.
+> + * - The C standard defines an "integer constant expression" as different
+> + *   from a "null pointer constant" (an integer constant 0 pointer).
+> + * - The conditional operator ("... ? ... : ...") returns the type of the
+> + *   operand that isn't a null pointer constant. This behavior is the
+> + *   central mechanism of the macro.
+> + * - If (x) is an integer constant expression, then the "* 0l" resolves it
+> + *   into a null pointer constant, which forces the conditional operator
+> + *   to return the type of the last operand: "(int *)".
+> + * - If (x) is not an integer constant expression, then the type of the
+> + *   conditional operator is from the first operand: "(void *)".
+> + * - sizeof(int) == 4 and sizeof(void) == 1.
+> + * - The ultimate comparison to "sizeof(int)" chooses between either:
+> + *     sizeof(*((int *) (8)) == sizeof(int)   (x was a constant expression)
+> + *     sizeof(*((void *)(8)) == sizeof(void)  (x was not a constant expression)
+>   */
+>  #define __is_constexpr(x) \
+>  	(sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+> -- 
+> 2.30.2
+> 
