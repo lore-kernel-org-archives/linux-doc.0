@@ -2,151 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7521EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 00:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4269BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 01:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbiBAAFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Jan 2022 19:05:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57014 "EHLO
+        id S231816AbiBABVU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Jan 2022 20:21:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbiBAAFo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 19:05:44 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C95C061714;
-        Mon, 31 Jan 2022 16:05:44 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id 192so14303900pfz.3;
-        Mon, 31 Jan 2022 16:05:44 -0800 (PST)
+        with ESMTP id S231513AbiBABVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Jan 2022 20:21:20 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19CDCC06173B
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 17:21:20 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id g11so14635803qvu.3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Jan 2022 17:21:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GLOHoY1dKulHTeMDIa0XS5wbWpIlVfyrhIiTKyT03qg=;
-        b=q13L8wwtqt32L9uGLqVXs2KNtcJGVvTB6VKIKNcAoCOmWkgxB1MB+wCnu3POczUwXu
-         I8DOk85GMeAOq1Sgr4iAk1hPOJ7De8neoCHDCJh/6l1lYnZ5bCqQvL9tqsoKL5IVFaxA
-         eZq6531/CB5WRIkmfm1u9xsRAX4edqKg93PqzDrm+zlTKcr9A9dJ2Q0tWjRieFhIxIAE
-         qsG+BNgW69TnFeO9m+b0BVGIYWbn13sCRmgItldelS95cCK//y405GalDzIZRdSadtIW
-         jMMlMUOm3p8dU14iZAxtZxgC2yW5u0gZrGbTUQbJroX5l2FNI7QZfG6P8O0JkTlL5A+Q
-         9QGg==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c65/uOQpJpDnuXGtBIQx/No3NpZidPNM3fLKI1tlsN0=;
+        b=GXS29XeB3gfQaZm5ktGnRs/uIYL2phXcWpUyl/dkaPoGbwW6ajdp0quUzUkoFkPunJ
+         SxNPMSj7ZiH/xX9gIJ34mziqKjLF1dqAuqFO2drEEBYZatnPq6zvGXk926R83HQl4VS6
+         MP4ApohqQxhuYZgG5weqrcaFv4UAYPzwA4I3QMPJy4OVdUKb9edn28AtXzYIfF+K1X7k
+         d7dGXosyyQBH/FOa9SZ9qu9XpYKzr9iE8rQrH1nzf9pgt6thEKU/D/zMJ3IIN0GJc0p4
+         tZ6pOBBJ5VazdNCru4UkBcIJZSfUtEeIoCs/MHSxMzd46sw2Xd5SAS5DDED4st1p9uS2
+         W5eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=GLOHoY1dKulHTeMDIa0XS5wbWpIlVfyrhIiTKyT03qg=;
-        b=CwataCMMWyh8NRdLzprPYTXFSeVMsQMO3ngtaAgxbzGQ6c9QqBpAU4lnXiflaR3WfR
-         jryCJI1E97511LzYJIiyLjqT/xEw1SRDP3lFbovnssDZzpL4tBbEEUMWJw9qzsTW628+
-         9Uky4ycqkdbBc1SCoJC8A+b1t6cEqwaW9Zdv31nd+oerhBiaNcyVe3WNXXS7lt3jn6Pd
-         PYv4CK/M9/kMF2TgXBt/9yyr8VOXYdYZZhj1p8e8zK1ELz4xutncYLA4UsKLoxYyyTyf
-         N7KFapleAoQJR4FsvToj/wC/OuEl4oZBryDggwklusYKTHVUuC3Gxl+CS4L3+n42MdXi
-         TDAA==
-X-Gm-Message-State: AOAM530lYScyvPkUV8xj6QSMR64l7xhJ/q+UjwJeT9PDmvc2b/qg2lAF
-        GrjTJhHsXGI1nHMGWDOWDhI=
-X-Google-Smtp-Source: ABdhPJxSdamC98Zh+YnclIb1u+vrcJxU9V4blRZhMAhtigz4WcS96lW2O+vzJ7L0dvnvR/NanR/CYQ==
-X-Received: by 2002:a62:3303:: with SMTP id z3mr22193512pfz.54.1643673943707;
-        Mon, 31 Jan 2022 16:05:43 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id k3sm20828742pfu.180.2022.01.31.16.05.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 16:05:43 -0800 (PST)
-Message-ID: <eb87790a-03f4-9f29-c8a3-ef2c3e78ca18@gmail.com>
-Date:   Tue, 1 Feb 2022 09:05:40 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c65/uOQpJpDnuXGtBIQx/No3NpZidPNM3fLKI1tlsN0=;
+        b=SjQS2U5YHwj+7QwGPPqQuxECB7G/lijnoL1mIjIDjdgp4JqIUttQ27icUYQoqpc2P1
+         TD/ARrG2yylP03DJ1qyr0nHJK2IiQT6I8iAZRlUg4egDmKVVRgTkWUmNxzgt7qfL9fUj
+         FCHJrJTmI2toJnPNauq19jx9osUXyHoPtY2itRl7DGwteSnLkdXtNJ1Kf2tkWPc4oCZ4
+         7/4xvb55jrGmnRbVCxB64JTQ5MiZYD2oSzjrf+AQzfl+vYA1ZSLtu3CkaynudSzcVixg
+         pXdBiaU92upPrC9/Kt5aB67WVnUBlX4hDZQdqG+j7CcZrT7HfDCzTRDtI5bQEOAhSyBV
+         9NIA==
+X-Gm-Message-State: AOAM531dsWQ9FVWhb1soqvNI0BpjaPuQPRLunIWupHX/hCN5e8PtR7rw
+        IfcNjEMXh+sd6B7uviY2NxkG7RTOeWMiZbFUDfoAUw==
+X-Google-Smtp-Source: ABdhPJxBm4HRf8ShOL0sGpornMIyLFhBCTSzHMFXEAXThr6eapAontlVBTZZUAWQbK3HIu9X0Ypvx5lG7+Ek7zNVqL0=
+X-Received: by 2002:a05:6214:1874:: with SMTP id eh20mr20594534qvb.13.1643678478537;
+ Mon, 31 Jan 2022 17:21:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: [PATCH 5/5] docs: pdfdocs: Move CJK monospace font setting to main
- conf.py
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <b5b948b7-8e41-3bd6-1a52-44785c89c965@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <b5b948b7-8e41-3bd6-1a52-44785c89c965@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220131003637.14274-1-rdunlap@infradead.org>
+In-Reply-To: <20220131003637.14274-1-rdunlap@infradead.org>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 1 Feb 2022 09:21:06 +0800
+Message-ID: <CABVgOSmGr37mf0X0BbGxUAgch7m=aqCQtdzhYN-Wq-wq70Synw@mail.gmail.com>
+Subject: Re: [PATCH] Docs: ktap: add code-block type
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Rae Moar <rmoar@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As LaTeX macros for CJK font settings can have Latin-script font
-settings as well, settings under Documentation/translations/ can
-be moved to the main conf.py.
+On Mon, Jan 31, 2022 at 8:36 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix multiple "code-block::" warnings by adding "none" as the type of
+> code-block. Mends these warnings:
+>
+> Documentation/dev-tools/ktap.rst:71: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:120: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:126: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:132: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:139: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:145: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:195: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:208: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> Documentation/dev-tools/ktap.rst:238: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+>
+> Fixes: a32fa6b2e8b4 ("Documentation: dev-tools: Add KTAP specification")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Rae Moar <rmoar@google.com>
+> Cc: David Gow <davidgow@google.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
 
-By this change, translations.pdf built by top-level "make pdfdocs"
-can have properly aligned ascii-art diagrams except for Korean
-ones.
+Thanks. For some reason, my version of sphinx doesn't warn on these,
+so thanks for picking it up.
 
-For the reason of remaining misalignment in Korean diagrams, see
-changelog of commit a90dad8f610a ("docs: pdfdocs: Add conf.py
-local to translations for ascii-art alignment").
+Reviewed-by: David Gow <davidgow@google.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py              |  8 ++++++++
- Documentation/translations/conf.py | 12 ------------
- 2 files changed, 8 insertions(+), 12 deletions(-)
- delete mode 100644 Documentation/translations/conf.py
+Cheers,
+-- David
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 62cd0e472b3b..fb8f69fc4d38 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -521,6 +521,8 @@ latex_elements['preamble']  += '''
- 	    \\renewcommand{\\CJKsfdefault}{SCsans}%
- 	    \\renewcommand{\\CJKttdefault}{SCmono}%
- 	    \\xeCJKsetup{CJKspace = false}%
-+	    % For CJK ascii-art alignment
-+	    \\setmonofont{Noto Sans Mono CJK SC}[AutoFakeSlant]%
- 	}
- 	\\newcommand{\\kerneldocEndSC}{\\endgroup}
- 	\\newcommand{\\kerneldocBeginTC}{%
-@@ -532,6 +534,8 @@ latex_elements['preamble']  += '''
- 	    \\renewcommand{\\CJKsfdefault}{TCsans}%
- 	    \\renewcommand{\\CJKttdefault}{TCmono}%
- 	    \\xeCJKsetup{CJKspace = false}%
-+	    % For CJK ascii-art alignment
-+	    \\setmonofont{Noto Sans Mono CJK TC}[AutoFakeSlant]%
- 	}
- 	\\newcommand{\\kerneldocEndTC}{\\endgroup}
- 	\\newcommand{\\kerneldocBeginKR}{%
-@@ -541,6 +545,8 @@ latex_elements['preamble']  += '''
- 	    \\renewcommand{\\CJKsfdefault}{KRsans}%
- 	    \\renewcommand{\\CJKttdefault}{KRmono}%
- 	    % \\xeCJKsetup{CJKspace = true} % true by default
-+	    % For CJK ascii-art alignment (still misaligned for Hangul)
-+	    \\setmonofont{Noto Sans Mono CJK KR}[AutoFakeSlant]%
- 	}
- 	\\newcommand{\\kerneldocEndKR}{\\endgroup}
- 	\\newcommand{\\kerneldocBeginJP}{%
-@@ -550,6 +556,8 @@ latex_elements['preamble']  += '''
- 	    \\renewcommand{\\CJKsfdefault}{JPsans}%
- 	    \\renewcommand{\\CJKttdefault}{JPmono}%
- 	    \\xeCJKsetup{CJKspace = false}%
-+	    % For CJK ascii-art alignment
-+	    \\setmonofont{Noto Sans Mono CJK JP}[AutoFakeSlant]%
- 	}
- 	\\newcommand{\\kerneldocEndJP}{\\endgroup}
- 	% Single spacing in literal blocks
-diff --git a/Documentation/translations/conf.py b/Documentation/translations/conf.py
-deleted file mode 100644
-index 92cdbba74229..000000000000
---- a/Documentation/translations/conf.py
-+++ /dev/null
-@@ -1,12 +0,0 @@
--# -*- coding: utf-8 -*-
--# SPDX-License-Identifier: GPL-2.0
--
--# -- Additinal options for LaTeX output ----------------------------------
--# font config for ascii-art alignment
--
--latex_elements['preamble']  += '''
--    \\IfFontExistsTF{Noto Sans CJK SC}{
--	% For CJK ascii-art alignment
--	\\setmonofont{Noto Sans Mono CJK SC}[AutoFakeSlant]
--    }{}
--'''
--- 
-2.17.1
-
-
+>  Documentation/dev-tools/ktap.rst |   18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> --- linux-next-20220128.orig/Documentation/dev-tools/ktap.rst
+> +++ linux-next-20220128/Documentation/dev-tools/ktap.rst
+> @@ -68,7 +68,7 @@ Test case result lines
+>  Test case result lines indicate the final status of a test.
+>  They are required and must have the format:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         <result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
+>
+> @@ -117,32 +117,32 @@ separator.
+>
+>  Example result lines include:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 1 test_case_name
+>
+>  The test "test_case_name" passed.
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         not ok 1 test_case_name
+>
+>  The test "test_case_name" failed.
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 1 test # SKIP necessary dependency unavailable
+>
+>  The test "test" was SKIPPED with the diagnostic message "necessary dependency
+>  unavailable".
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         not ok 1 test # TIMEOUT 30 seconds
+>
+>  The test "test" timed out, with diagnostic data "30 seconds".
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 5 check return code # rcode=0
+>
+> @@ -192,7 +192,7 @@ line and should end before the parent te
+>
+>  An example of a test with two nested subtests:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..1
+> @@ -205,7 +205,7 @@ An example of a test with two nested sub
+>
+>  An example format with multiple levels of nested testing:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..2
+> @@ -235,7 +235,7 @@ nested version line, uses a line of the
+>
+>  Example KTAP output
+>  --------------------
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..1
