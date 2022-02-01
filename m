@@ -2,132 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B36C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 08:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9043C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 09:32:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235625AbiBAIvy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Feb 2022 03:51:54 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:44678 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233828AbiBAIvx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Feb 2022 03:51:53 -0500
+        id S235932AbiBAJc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Feb 2022 04:32:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235894AbiBAJc1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Feb 2022 04:32:27 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48EBCC061714;
+        Tue,  1 Feb 2022 01:32:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9DBE8B82D08;
-        Tue,  1 Feb 2022 08:51:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55012C340EB;
-        Tue,  1 Feb 2022 08:51:51 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 08D9BB82AD7;
+        Tue,  1 Feb 2022 09:32:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE75DC36AE3;
+        Tue,  1 Feb 2022 09:32:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643705511;
-        bh=s5Cqt2e9+CPFR3gpL9MuWaixt4xYuBt3Ki52mWIXyII=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OZZ585tuRILFFkFhMUV1c7Js/+jpwgkPXnffeKcdUm750LDLwfzR5xSbMqaF0gLGW
-         gguhQebrUWgrfId+f12wTmkmoe7L6DQzp3iSQeOnFm1sPPgFffk3NsE6PwJQgLssUO
-         yB38QYRBUoOkkS63oLcxP3Wk65XdvnBD1lGSMv+6bbyuy0IlOXeiKyohBhFK8SQsjl
-         JGo9JGAuOuKhhFqRT1IEJtaXtkAG93A32uGdPODbEQj8OSL+GQu84soMVsaM6loajz
-         mpbklZLfpQFDEX82QMD9MI4dFo6Yu5V3LjVodJR3cLHd/P434zf1SSS3NHeONyr6jh
-         KsxIHpH3cQRRA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1nEosv-0000ft-Sd; Tue, 01 Feb 2022 09:51:34 +0100
-Date:   Tue, 1 Feb 2022 09:51:33 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
-Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
- Reported-by usage
-Message-ID: <Yfj0lb50vS3ssrsn@hovoldconsulting.com>
-References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
- <87o83xrwk9.fsf@meer.lwn.net>
- <YfPzNNvK8Sy8YmGW@casper.infradead.org>
- <Yff9xoh873aEikY4@hovoldconsulting.com>
- <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
- <YfgSpArfoL9LUaBO@hovoldconsulting.com>
- <YfgninPOaJhq7dsZ@smile.fi.intel.com>
+        s=k20201202; t=1643707944;
+        bh=AX5somM9ZpbRE7b0I2Lmk0rkdReJYL8a9M+tig0TLFs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SSiLe4o9haMmIAkdRuEORI4WZaVph3IcGlXieSxr9iiRCK71b35eDd0Ex2kDLx929
+         IID9As7MbUFVe75HVZD8cRhKQGbUKPNdrQsrzjg68Bj4iHO8Y8dQGY5wMrESbcMKcG
+         wIH+uEcAudYv5cJxUnpsaulrXFa2qAdQEeOaLRCvFzcBSXZrpql9s1CP5I6WwXtf+i
+         iZswmfWbcwra7QMIm92GR+qNtfd9XYT4X5LwjWjbc/sHJ6fZMuLcHO+BSi2U9xdhSg
+         zpTfbEhKScjRD67LDb0d9dV7zryz522cy7tjLsxpmcYejPgeqjYA34ClgDZEyXfy77
+         OfMFFt3ZJEjyQ==
+Received: by mail-wr1-f41.google.com with SMTP id f17so30737724wrx.1;
+        Tue, 01 Feb 2022 01:32:24 -0800 (PST)
+X-Gm-Message-State: AOAM5303o761S63vFlCMMkTnNfe7rDH9CPAMnVj+8nYnkGMG3ioEdRKs
+        rqGeI0yHy3i6Xk2tGcCKRyXqOrwTzUzglTJxfnE=
+X-Google-Smtp-Source: ABdhPJwPbFQyADbHX6NBehgklXNB/sGBG6xqpbNp+H91J3tdwdx+DOF+NKX+twmrmAyYD4mXONWoLrvDT2Sy8/0OizE=
+X-Received: by 2002:a05:6000:15ca:: with SMTP id y10mr20731709wry.417.1643707943102;
+ Tue, 01 Feb 2022 01:32:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfgninPOaJhq7dsZ@smile.fi.intel.com>
+References: <20220131225250.409564-1-ndesaulniers@google.com>
+In-Reply-To: <20220131225250.409564-1-ndesaulniers@google.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 1 Feb 2022 10:32:11 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHz9psgjP7qQpusLOOL5Nm7TO+LauD_-mK=Fxe_g7mmsQ@mail.gmail.com>
+Message-ID: <CAMj1kXHz9psgjP7qQpusLOOL5Nm7TO+LauD_-mK=Fxe_g7mmsQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/memory-barriers.txt: volatile is not a barrier() substitute
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>, llvm@lists.linux.dev,
+        Kees Cook <keescook@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Len Baker <len.baker@gmx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 08:16:42PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 31, 2022 at 05:47:32PM +0100, Johan Hovold wrote:
-> > On Mon, Jan 31, 2022 at 05:34:35PM +0200, Andy Shevchenko wrote:
-> > > On Mon, Jan 31, 2022 at 04:18:30PM +0100, Johan Hovold wrote:
-> > > > On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
-> > 
-> > > > > I think this misunderstands the problem that Andy is trying to fix.
-> > > > > 
-> > > > > The situation: I write a patch.  I post it for review.  A bot does
-> > > > > something and finds a bug (could be compile-error, could be boot
-> > > > > problem).  That bot sends a bug report with a suggestion to add
-> > > > > Reported-by:.  That suggestion is inappropriate because the bug never
-> > > > > made it upstream, so it looks like the bot reported the "problem"
-> > > > > that the patch "fixes".
-> > > > > 
-> > > > > It's not unique to "new feature" patches.  If I'm fixing a bug and
-> > > > > my fix also contains a bug spotted by a bot, adding Reported-by
-> > > > > makes it look like the bot spotted the original bug, rather than
-> > > > > spotting a bug in the fix.
-> > > > > 
-> > > > > The best thing to do in this case is nothing.  Do not credit the bot.
-> > > > > Maybe add a Checked-by:, but that would be a new trailer and I really
-> > > > > don't think we need a new kind of trailer to get wrong.
-> > > > 
-> > > > It seems like the only way to fix this is to fix the bots. Adding more
-> > > > documentation is unlikely to help in this case.
-> > > 
-> > > Links to the documentation at least may clarify the point in case of a
-> > > review.
-> > 
-> > Sure.
-> > 
-> > > > Can't we file a bug to whoever is running the bots (Intel?) and ask them
-> > > > to remove the suggestion to add a Reported-by when the bot is testing a
-> > > > patch (as opposed to mainline or even -next)?
-> > > 
-> > > The granularity here is not a repo. It's a code itself and in some cases
-> > > it might be easy to distinguish new feature from the code modifications,
-> > > but when code is already there and feature is just an extension of the
-> > > existing file(s), it's hard to tell. And it might be true or not.
-> > 
-> > Not sure I understand what you're saying here. Perhaps you and Matthew
-> > are talking about different things after all.
-> 
-> I'm talking about your suggestion to fix the bots. It's not easy.
-> The problem is the same as Matthew explained.
+On Mon, 31 Jan 2022 at 23:53, Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> Add text to memory-barriers.txt and deprecated.rst to denote that
+> volatile-qualifying an asm statement is not a substitute for either a
+> compiler barrier (``barrier();``) or a clobber list.
+>
+> This way we can point to this in code that strengthens existing
+> volatile-qualified asm statements to use a compiler barrier.
+>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Example: https://godbolt.org/z/8PW549zz9
+>
+>  Documentation/memory-barriers.txt    | 24 ++++++++++++++++++++++++
+>  Documentation/process/deprecated.rst | 17 +++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index b12df9137e1c..f3908c0812da 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1726,6 +1726,30 @@ of optimizations:
+>       respect the order in which the READ_ONCE()s and WRITE_ONCE()s occur,
+>       though the CPU of course need not do so.
+>
+> + (*) Similarly, the compiler is within its rights to reorder instructions
 
-Perhaps I'm missing something, but if you re-read Mathews description
-above, it still seems to me like the issue is that the bots are trying
-to claim credit for finding things that haven't been merged yet.
+Similar to what? Was this intended to be the second bullet point
+rather than the first?
 
-Your suggestion is to document that the bots should be ignored. My
-suggestion is to fix the bots.
- 
-> > But for Matthew's issue, the case where the bots are testing posted
-> > patches ("Thank you for the patch! Yet something to improve:) should be
-> > easy to fix by simply dropping or rephrasing the "kindly add following
-> > tag as appropriate" suggestion.
-> 
-> Yes, but this is not "fixing the bots", it falls into category "working around"
-> them, because even for a clear bug report the suggestion can be stronger.
-> And doing that properly without kinda AI not easy.
+> +     around an asm statement so long as clobbers are not violated. For example,
+> +
+> +       asm volatile ("");
+> +       flag = true;
+> +
+> +     May be modified by the compiler to:
+> +
+> +       flag = true;
+> +       asm volatile ("");
+> +
+> +     Marking an asm statement as volatile is not a substitute for barrier(),
+> +     and is implicit for asm goto statements and asm statements that do not
+> +     have outputs (like the above example). Prefer either:
+> +
+> +       asm ("":::"memory");
+> +       flag = true;
+> +
+> +     Or:
+> +
+> +       asm ("");
+> +       barrier();
+> +       flag = true;
+> +
 
-A patch has (typically) not been merged yet when the bots find problems,
-but when testing a branch it's harder to tell (e.g. unless it's
-mainline).
+I would expect the memory clobber to only hazard against the
+assignment of flag if it results in a store, but looking at your
+Godbolt example, this appears to apply even if flag is kept in a
+register.
 
-The bot already knows it is testing a patch, so the "please give me
-credit" suggestion can be dropped or rephrased in that case. That's
-fixing the bot. And no need for AI.
+Is that behavior documented/codified anywhere? Or are we relying on
+compiler implementation details here?
 
-> > When testing merged code, it may be harder to tell whether the branch in
-> > question can be rebased or not (and an incremental fix with a
-> > reported-by tag is warranted).
 
-Johan
+>   (*) The compiler is within its rights to invent stores to a variable,
+>       as in the following example:
+>
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 388cb19f5dbb..432816e2f79e 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -329,3 +329,20 @@ struct_size() and flex_array_size() helpers::
+>          instance->count = count;
+>
+>          memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
+> +
+> +Volatile Qualified asm Statements
+> +=================================
+> +
+> +According to `the GCC docs on inline asm
+> +https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html#Volatile`_:
+> +
+> +  asm statements that have no output operands and asm goto statements,
+> +  are implicitly volatile.
+> +
+> +For many uses of asm statements, that means adding a volatile qualifier won't
+> +hurt (making the implicit explicit), but it will not strengthen the semantics
+> +for such cases where it would have been implied. Care should be taken not to
+> +confuse ``volatile`` with the kernel's ``barrier()`` macro or an explicit
+> +clobber list. See [memory-barriers]_ for more info on ``barrier()``.
+> +
+> +.. [memory-barriers] Documentation/memory-barriers.txt
+> --
+> 2.35.0.rc2.247.g8bbb082509-goog
+>
