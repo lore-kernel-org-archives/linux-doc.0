@@ -2,170 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9043C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 09:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72355C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Feb 2022 10:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235932AbiBAJc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Feb 2022 04:32:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
+        id S236100AbiBAK0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Feb 2022 05:26:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235894AbiBAJc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Feb 2022 04:32:27 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48EBCC061714;
-        Tue,  1 Feb 2022 01:32:27 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 08D9BB82AD7;
-        Tue,  1 Feb 2022 09:32:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE75DC36AE3;
-        Tue,  1 Feb 2022 09:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643707944;
-        bh=AX5somM9ZpbRE7b0I2Lmk0rkdReJYL8a9M+tig0TLFs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SSiLe4o9haMmIAkdRuEORI4WZaVph3IcGlXieSxr9iiRCK71b35eDd0Ex2kDLx929
-         IID9As7MbUFVe75HVZD8cRhKQGbUKPNdrQsrzjg68Bj4iHO8Y8dQGY5wMrESbcMKcG
-         wIH+uEcAudYv5cJxUnpsaulrXFa2qAdQEeOaLRCvFzcBSXZrpql9s1CP5I6WwXtf+i
-         iZswmfWbcwra7QMIm92GR+qNtfd9XYT4X5LwjWjbc/sHJ6fZMuLcHO+BSi2U9xdhSg
-         zpTfbEhKScjRD67LDb0d9dV7zryz522cy7tjLsxpmcYejPgeqjYA34ClgDZEyXfy77
-         OfMFFt3ZJEjyQ==
-Received: by mail-wr1-f41.google.com with SMTP id f17so30737724wrx.1;
-        Tue, 01 Feb 2022 01:32:24 -0800 (PST)
-X-Gm-Message-State: AOAM5303o761S63vFlCMMkTnNfe7rDH9CPAMnVj+8nYnkGMG3ioEdRKs
-        rqGeI0yHy3i6Xk2tGcCKRyXqOrwTzUzglTJxfnE=
-X-Google-Smtp-Source: ABdhPJwPbFQyADbHX6NBehgklXNB/sGBG6xqpbNp+H91J3tdwdx+DOF+NKX+twmrmAyYD4mXONWoLrvDT2Sy8/0OizE=
-X-Received: by 2002:a05:6000:15ca:: with SMTP id y10mr20731709wry.417.1643707943102;
- Tue, 01 Feb 2022 01:32:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20220131225250.409564-1-ndesaulniers@google.com>
-In-Reply-To: <20220131225250.409564-1-ndesaulniers@google.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 1 Feb 2022 10:32:11 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHz9psgjP7qQpusLOOL5Nm7TO+LauD_-mK=Fxe_g7mmsQ@mail.gmail.com>
-Message-ID: <CAMj1kXHz9psgjP7qQpusLOOL5Nm7TO+LauD_-mK=Fxe_g7mmsQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/memory-barriers.txt: volatile is not a barrier() substitute
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>, llvm@lists.linux.dev,
-        Kees Cook <keescook@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Len Baker <len.baker@gmx.com>,
+        with ESMTP id S235665AbiBAK0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Feb 2022 05:26:43 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5FCC06173D;
+        Tue,  1 Feb 2022 02:26:43 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1nEqMy-0002pB-5Q; Tue, 01 Feb 2022 11:26:40 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        regressions@lists.linux.dev,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH v4 0/3] docs: add two texts covering regressions
+Date:   Tue,  1 Feb 2022 11:26:36 +0100
+Message-Id: <cover.1643710947.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643711203;661d3094;
+X-HE-SMSGID: 1nEqMy-0002pB-5Q
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 31 Jan 2022 at 23:53, Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> Add text to memory-barriers.txt and deprecated.rst to denote that
-> volatile-qualifying an asm statement is not a substitute for either a
-> compiler barrier (``barrier();``) or a clobber list.
->
-> This way we can point to this in code that strengthens existing
-> volatile-qualified asm statements to use a compiler barrier.
->
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Example: https://godbolt.org/z/8PW549zz9
->
->  Documentation/memory-barriers.txt    | 24 ++++++++++++++++++++++++
->  Documentation/process/deprecated.rst | 17 +++++++++++++++++
->  2 files changed, 41 insertions(+)
->
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index b12df9137e1c..f3908c0812da 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1726,6 +1726,30 @@ of optimizations:
->       respect the order in which the READ_ONCE()s and WRITE_ONCE()s occur,
->       though the CPU of course need not do so.
->
-> + (*) Similarly, the compiler is within its rights to reorder instructions
+"We don't cause regressions" might be the first rule of Linux kernel
+development, but it and other aspects of regressions nevertheless are hardly
+described in the Linux kernel's documentation. The following patches change
+this by creating two documents dedicated to the topic.
 
-Similar to what? Was this intended to be the second bullet point
-rather than the first?
+The second patch could easily be folded into the first one, but was kept
+separate, as it might be a bit controversial. This also allows the patch
+description to explain some backgrounds for this part of the document.
+Additionally, ACKs and Reviewed-by tags can be collected separately this way.
 
-> +     around an asm statement so long as clobbers are not violated. For example,
-> +
-> +       asm volatile ("");
-> +       flag = true;
-> +
-> +     May be modified by the compiler to:
-> +
-> +       flag = true;
-> +       asm volatile ("");
-> +
-> +     Marking an asm statement as volatile is not a substitute for barrier(),
-> +     and is implicit for asm goto statements and asm statements that do not
-> +     have outputs (like the above example). Prefer either:
-> +
-> +       asm ("":::"memory");
-> +       flag = true;
-> +
-> +     Or:
-> +
-> +       asm ("");
-> +       barrier();
-> +       flag = true;
-> +
+v4 (this version):
+- countless small and medium changes after review feedback from Jon (thx), which
+  also lead to a big change:
+- split the document into two, one for users and one for developers (both added
+  by the first patch, as they are interlinked)
+- fixed and improved a bunch of areas I stumbled upon while checking the text
+  again after the split
+- add a third patch to get one of the user-centric document on regressions
+  mentioned in Documentation/admin-guide/reporting-issues.rst
+- note: the content added by the second patch did not change significantly,
+  that's why I left an earlier reviewed-by for the patch and an ACK for the
+  series in place there, but dropped the ACK for the first patch of the series
 
-I would expect the memory clobber to only hazard against the
-assignment of flag if it results in a store, but looking at your
-Godbolt example, this appears to apply even if flag is kept in a
-register.
+v3 (https://lore.kernel.org/regressions/cover.1643110442.git.linux@leemhuis.info/):
+- drop RFC tag
+- heavily reshuffled and slightly adjusted the text in the sections "The
+  important bits for people fixing regressions" and "How to add a regression to
+  regzbot's tracking somebody else reported?" to make them easier to grasp
+- a few small fixes and improvements
+- add ACK for the series from Greg (now for real)
 
-Is that behavior documented/codified anywhere? Or are we relying on
-compiler implementation details here?
+v2/RFC (https://lore.kernel.org/linux-doc/cover.1641565030.git.linux@leemhuis.info/):
+- a lot of small fixes, most are for spelling mistakes and grammar
+  errors/problems pointed out in the review feedback I got so far
+- add ACK for the series from Greg
+
+v1/RFC (https://lore.kernel.org/linux-doc/cover.1641203216.git.linux@leemhuis.info/):
+- initial version
+
+---
+
+Hi! Here is a updated version of my patch-set adding documentation regarding
+regression. This bring bigger changes after Jon took a look and suggested
+splitting the text up. I did that and changed a bunch of other things along the
+way. But I for now decided against splitting off the regression tracking stuff
+into one or two other documents, as suggested by Jon, as that IMHO distributes
+the information over too many places.
+
+Ciao, Thorsten
+
+Thorsten Leemhuis (3):
+  docs: add two documents about regression handling
+  docs: regressions*rst: rules of thumb for handling regressions
+  docs: reporting-issues.rst: link new document about regressions
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/regressions-users.rst         | 448 +++++++++++
+ .../admin-guide/reporting-issues.rst          |  60 +-
+ Documentation/process/index.rst               |   1 +
+ Documentation/process/regressions-devs.rst    | 753 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +
+ 6 files changed, 1234 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/admin-guide/regressions-users.rst
+ create mode 100644 Documentation/process/regressions-devs.rst
 
 
->   (*) The compiler is within its rights to invent stores to a variable,
->       as in the following example:
->
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 388cb19f5dbb..432816e2f79e 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -329,3 +329,20 @@ struct_size() and flex_array_size() helpers::
->          instance->count = count;
->
->          memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
-> +
-> +Volatile Qualified asm Statements
-> +=================================
-> +
-> +According to `the GCC docs on inline asm
-> +https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html#Volatile`_:
-> +
-> +  asm statements that have no output operands and asm goto statements,
-> +  are implicitly volatile.
-> +
-> +For many uses of asm statements, that means adding a volatile qualifier won't
-> +hurt (making the implicit explicit), but it will not strengthen the semantics
-> +for such cases where it would have been implied. Care should be taken not to
-> +confuse ``volatile`` with the kernel's ``barrier()`` macro or an explicit
-> +clobber list. See [memory-barriers]_ for more info on ``barrier()``.
-> +
-> +.. [memory-barriers] Documentation/memory-barriers.txt
-> --
-> 2.35.0.rc2.247.g8bbb082509-goog
->
+base-commit: b8f4eee6a630ef8c5f00594e25c377463b4f299c
+-- 
+2.31.1
+
