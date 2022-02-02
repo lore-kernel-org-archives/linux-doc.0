@@ -2,140 +2,348 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 931D7C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 09:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFAAC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 09:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245556AbiBBJrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Feb 2022 04:47:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbiBBJrm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 04:47:42 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E03C061714;
-        Wed,  2 Feb 2022 01:47:42 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nFCEm-0002jG-6d; Wed, 02 Feb 2022 10:47:40 +0100
-Message-ID: <a41bb41e-1a3e-a6eb-be31-3fe94e7f7db6@leemhuis.info>
-Date:   Wed, 2 Feb 2022 10:47:39 +0100
+        id S235016AbiBBJyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Feb 2022 04:54:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34891 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231986AbiBBJyh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 04:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643795677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1ZM3D7gzWYfBkbqDJgiHcJO8vfBgGoOljpivQC1NMN8=;
+        b=Y4gJsk1RDBvf5KUA52Vn1J99ssC4P4/huboXciNPgwZ0Y7QVDyh/TpDCDpHk4LT/mefkW1
+        wazH9hSKOunipWcleMBQHj7y+XwfQ01oFUoTBMJF8hAPNC4ZxO2ZHLAc38diI6eMhQF7DZ
+        deyAgeIKMOnJalVyJoVGHdVjsdaRTGY=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-y5UN46O8OyeUdsEgFC7now-1; Wed, 02 Feb 2022 04:54:36 -0500
+X-MC-Unique: y5UN46O8OyeUdsEgFC7now-1
+Received: by mail-pj1-f69.google.com with SMTP id ay18-20020a17090b031200b001b53c85761aso4135238pjb.6
+        for <linux-doc@vger.kernel.org>; Wed, 02 Feb 2022 01:54:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1ZM3D7gzWYfBkbqDJgiHcJO8vfBgGoOljpivQC1NMN8=;
+        b=iaWL7ikgroxyK4Ovw8hmqmBQcG1yWfG/o+/lTlMi5pH9FuAHJs0I6lp6G+XmbdgbdS
+         z/W4Ln0UTuHlgK1pcAK3sXgNMI91nxbOt39fhq1GSYeXIExNIdd9S/noB3mjrACRupco
+         YacllAAw6aJUrC0K1ecfh3pSsV25WS7bX2Ic2pJv7rmp25GA9XhyyUNkepgqE3x+FSVY
+         xQ39cLsjanqqWGuWkFMPD204HwTswIhQGKQeZ0L+YrWpENHumbFVrm0tkC06dbMK/sJ2
+         yReNmVKLfNMfyK6xCvt0q9qVG/7TIQjAB4Wlt4UfTAfAixwhhNTX7jG4C6CUNUWztrjj
+         ySsw==
+X-Gm-Message-State: AOAM532y/AweqI9QEklYQ6SRVYTiQcS8dGoMWuF0TPngYjt7pzXAEP9/
+        BRJIE8DUX7z8NHF0GlPPlSqo3vQ93yuZrLBXSZvpg9jHXIBQ24/MUaZeqaElqHheeisbUe2g2nz
+        AjRkjXR0dvGjV6PtXhis32jV1lEVbUXKqbUUM
+X-Received: by 2002:a17:903:1c2:: with SMTP id e2mr30071705plh.73.1643795674906;
+        Wed, 02 Feb 2022 01:54:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyIW3+RRUW5vhPwtJYn1LLbrZN10RQ3Dg4P63uFPKBaQIFtjxr1eD6F6vtCxH99ntnub4l1zwteC/bIUDqEvwg=
+X-Received: by 2002:a17:903:1c2:: with SMTP id e2mr30071674plh.73.1643795674535;
+ Wed, 02 Feb 2022 01:54:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-BS
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        regressions@lists.linux.dev,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <cover.1643710947.git.linux@leemhuis.info>
- <e655527632dc4324cc7584cb3a73880d9c733df5.1643710947.git.linux@leemhuis.info>
- <87fsp25g28.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v4 2/3] docs: regressions*rst: rules of thumb for handling
- regressions
-In-Reply-To: <87fsp25g28.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643795262;13038e33;
-X-HE-SMSGID: 1nFCEm-0002jG-6d
+References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+ <20220126161832.3193805-11-benjamin.tissoires@redhat.com> <CAF8JNhLCXT7N4DubYYT12eMphDH-6U69ci7zFisJfZwsviJGkQ@mail.gmail.com>
+In-Reply-To: <CAF8JNhLCXT7N4DubYYT12eMphDH-6U69ci7zFisJfZwsviJGkQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 2 Feb 2022 10:54:23 +0100
+Message-ID: <CAO-hwJ+sBKvE_STnTHsfTTXvZYHn4hcp81h735JUOu3vp7TrXA@mail.gmail.com>
+Subject: Re: [PATCH 10/12] HID: input: remove the need for HID_QUIRK_INVERT
+To:     Ping Cheng <pinglinux@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02.02.22 00:21, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
-> One thing that caught my eye this time around...
-> 
->> + * Address regressions in stable, longterm, or proper mainline releases with
->> +   more urgency than regressions in mainline pre-releases. That changes after
->> +   the release of the fifth pre-release, aka "-rc5": mainline then becomes as
->> +   important, to ensure all the improvements and fixes are ideally tested
->> +   together for at least one week before Linus releases a new mainline version.
-> 
-> Is that really what we want to suggest?  I ask because (1) fixes for
-> stable releases need to show up in mainline first anyway, and (2) Greg
-> has often stated that the stable releases shouldn't be something that
-> most maintainers need to worry about.  So if the bug is in mainline,
-> that has to get fixed first, and if it's something special to a stable
-> release, well, then the stable folks should fix it :)
+Hi Ping,
 
-Hmmm. Well, afaics in the end many (most?) of the regressions that
-happen in these series are present in mainline as well: either they
-where introduced in an earlier devel cycle or came with a backport to
-stable/longterm and thus are present in mainline as well (unless the
-backport was incomplete or broken). So I'd say it's up to the regular
-developers and not the stable team to fix many (most?) of them.
+On Wed, Feb 2, 2022 at 6:43 AM Ping Cheng <pinglinux@gmail.com> wrote:
+>
+> Hi Benjamin,
+>
+> Thank you for taking care of the issue. The whole set looks good to me, e=
+xcept this one. xf86-input-wacom would not process the events properly if p=
+en and eraser events are reported through the same EV_SYN frame. That's mai=
+nly because the tool out of prox will reset all values, while some values t=
+he next tool may rely on. Please see my detailed comments inline.
+>
+> On Wed, Jan 26, 2022 at 8:19 AM Benjamin Tissoires <benjamin.tissoires@re=
+dhat.com> wrote:
+>>
+>> HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
+>>
+>> Furthermore, it didn't make sense to use a global per struct hid_device
+>> quirk for something dynamic as the current state.
+>>
+>> Store the current tool information in the report itself, and re-order
+>> the processing of the fields to enforce having all the tablet "state"
+>> fields before getting to In Range and other input fields.
+>>
+>> This way, we now have all the information whether a tool is present
+>> or not while processing In Range.
+>>
+>> This new behavior enforces that only one tool gets forwarded to userspac=
+e
+>> at the same time, and that if either eraser or invert is set, we enforce
+>>
+>> BTN_TOOL_RUBBER.
+>>
+>> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>> ---
+>>  drivers/hid/hid-input.c | 66 +++++++++++++++++++++++++++++++++++------
+>>  include/linux/hid.h     |  6 +++-
+>>  2 files changed, 62 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+>> index 61d91117f4ae..2d13d3ad9d3c 100644
+>> --- a/drivers/hid/hid-input.c
+>> +++ b/drivers/hid/hid-input.c
+>> @@ -63,8 +63,11 @@ static const struct {
+>>   * This still leaves us 65535 individual priority values.
+>>   */
+>>  static const __u32 hidinput_usages_priorities[] =3D {
+>> +       HID_DG_ERASER,          /* Eraser (eraser touching) must always =
+come before tipswitch */
+>>         HID_DG_INVERT,          /* Invert must always come before In Ran=
+ge */
+>> -       HID_DG_INRANGE,
+>> +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
+>> +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch=
+ */
+>> +       HID_DG_INRANGE,         /* In Range needs to come after the othe=
+r tool states */
+>>  };
+>>
+>>  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_AB=
+S, (c))
+>> @@ -1368,6 +1371,7 @@ static void hidinput_handle_scroll(struct hid_usag=
+e *usage,
+>>  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field=
+, struct hid_usage *usage, __s32 value)
+>>  {
+>>         struct input_dev *input;
+>> +       struct hid_report *report =3D field->report;
+>>         unsigned *quirks =3D &hid->quirks;
+>>
+>>         if (!usage->type)
+>> @@ -1418,25 +1422,69 @@ void hidinput_hid_event(struct hid_device *hid, =
+struct hid_field *field, struct
+>>         }
+>>
+>>         switch (usage->hid) {
+>> +       case HID_DG_ERASER:
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
+>> +                * to accommodate for devices not following the spec.
+>> +                */
+>> +               if (value)
+>> +                       report->tool =3D BTN_TOOL_RUBBER;
+>> +
+>> +               /* let hid-input set BTN_TOUCH */
+>> +               break;
+>> +
+>>         case HID_DG_INVERT:
+>> -               *quirks =3D value ? (*quirks | HID_QUIRK_INVERT) : (*qui=
+rks & ~HID_QUIRK_INVERT);
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * If invert is set, we store BTN_TOOL_RUBBER.
+>> +                */
+>> +               if (value)
+>> +                       report->tool =3D BTN_TOOL_RUBBER;
+>> +
+>> +               /* no further processing */
+>>                 return;
+>>
+>>         case HID_DG_INRANGE:
+>> -               if (value) {
+>> -                       input_event(input, usage->type, (*quirks & HID_Q=
+UIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
+>> -                       return;
+>> -               }
+>> -               input_event(input, usage->type, usage->code, 0);
+>> -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /*
+>> +                * If the tool is in used (any of TipSwitch, Erase, Inve=
+rt,
+>> +                * InRange), and if tool is not set, store our mapping
+>> +                */
+>> +               if (report->tool_active && !report->tool)
+>> +                       report->tool =3D usage->code;
+>> +
+>> +               input_event(input, EV_KEY, usage->code, report->tool =3D=
+=3D usage->code);
+>> +               input_event(input, EV_KEY, BTN_TOOL_RUBBER, report->tool=
+ =3D=3D BTN_TOOL_RUBBER);
+>
+>
+> When usage->code changes value, for userspace clients, such as X driver, =
+one of the tools in the frame would not have its own input events since the=
+re is only one set of input event values in the frame. X driver stores the =
+values in different arrays/channels for each tool to post the events for ea=
+ch tool after all the values are processed.
+>
+> If we can always post the tool that goes out of prox with an EV_SYN first=
+, the other tool would take the coming input events without problem. The to=
+ol that goes out of prox doesn't care about any of the other input events s=
+ince its value will be reset.
 
-That being said: yes, I think you have a point. This could be fixed with
-some small adjustments to the wording above, but...
+OK. Right now, this series ensures we get
+ERASER/TIPSWITCH/INVERT/INRANGE first before processing any other
+events.
 
->> + * Fix regressions within two or three days, if they are critical for some
->> +   reason -- for example, if the issue is likely to affect many users of the
->> +   kernel series in question on all or certain architectures. Note, this
->> +   includes mainline, as issues like compile errors otherwise might prevent many
->> +   testers or continuous integration systems from testing the series.
+Given that ERASER/TIPSWITCH are responsible for BTN_TOUCH, I'd like to
+get some clarifications (sorry dumping my brain here):
 
-...the same aspect is relevant for other points like this one, too. And
-there it's not as easily solved. So maybe this is better addressed with
-a separate point early in the list:
+In the example of the pen moving from erasing to touching without the
+intent to erase:
 
-```
-* Developers are expected to handle regressions in all kernel series,
-but are free to leave them to the stable team, if the regression
-probably at no point in time occurred with mainline.
-```
+The HID event sequence would be:
+Eraser: 1, Invert: 1, Tipswitch: 0, InRange: 1, X, Y, etc...
+then
+Eraser: 0, Invert: 0, Tipswitch: 1, InRange: 1, X, Y, etc...
 
-Regressions for example caused by incomplete or broken backports thus
-would be something developers could leave to Greg (and I expect he won't
-mind).
+In this current series we would get:
+BTN_TOUCH 1, BTN_TOOL_RUBBER 1, X, Y, etc...
+then
+BTN_TOUCH 0, BTN_TOUCH 1, BTN_TOOL_PEN 1, BTN_TOOL_RUBBER 0, X, Y, etc...
 
->> + * Aim to merge regression fixes into mainline within one week after the culprit
->> +   was identified, if the regression was introduced in a stable/longterm release
->> +   or the development cycle for the latest mainline release (say v5.14). If
->> +   possible, try to address the issue even quicker, if the previous stable
->> +   series (v5.13.y) will be abandoned soon or already was stamped "End-of-Life"
->> +   (EOL) -- this usually happens about three to four weeks after a new mainline
->> +   release.
-> 
-> How much do we really think developers should worry about nearly-dead
-> stable kernels?  We're about to tell users they shouldn't be running the
-> kernel anyway...
+(yeah, oops, there are 2 BTN_TOUCH in this sequence)
 
-I'd expect we handle near EOL stable release round about normally until
-they become EOL. But anyway, I had something different in mind when I
-wrote the above and I get the feeling my text didn't express it well and
-got you on the wrong track. :-/
+A naive change would do (instead of the last evdev event):
+BTN_TOUCH 0, BTN_TOUCH 1, BTN_TOOL_RUBBER 0, *EV_SYN*, BTN_TOOL_PEN 1,
+X, Y, etc...
 
-My intention was: I want to prevent users getting stuck on EOLed stable
-series (say 5.13.y) when a regression makes it hard or impossible for
-the user to run the directly succeeding stable series (5.14.y).
+However, I wonder if we should not have instead:
+BTN_TOUCH 0, BTN_TOOL_RUBBER 0, *EV_SYN*, BTN_TOUCH 1, BTN_TOOL_PEN 1,
+X, Y, etc...
 
-I think this expresses it better:
+That change should be easy to handle actually.
 
-```
-* Aim to merge regression fixes into mainline within one week after the
-culprit was identified, if the regression was introduced in either:
+I am a little bit more concerned the other way around:
+touching without the intent to erase to erase:
+HID events:
+Eraser: 0, Invert: 0, Tipswitch: 1, InRange: 1, X, Y, etc...
+Eraser: 1, Invert: 1, Tipswitch: 0, InRange: 1, X, Y, etc...
 
-  * the development cycle of the latest proper mainline release
+The current series gives:
+BTN_TOUCH 1, BTN_TOOL_PEN 1, X, Y, etc...
+then
+BTN_TOOL_PEN 1, BTN_TOOL_RUBBER 1, X, Y, etc...
 
-  * a recent release in a stable/longterm series
+(no BTN_TOUCH events)
 
-  Try to address regressions in the latest stable series even quicker,
-if the previous series will be abandoned soon or already was stamped
-"End-of-Life" (EOL) -- this usually happens about three to four weeks
-after a new mainline release.
+And I think to get to the "correct" sequence I would have to store more sta=
+tes:
+BTN_TOUCH 0, BTN_TOOL_PEN 0, *EV_SYN*, BTN_TOUCH 1, BTN_TOOL_RUBBER 1,
+X, Y, etc...
 
-  Remember to mark the fix for backporting by using both the ``Fixes:``
-tag and ``Cc: stable@vger.kernel.org``.
-```
+I think the main problem is how to handle BTN_TOUCH correctly (and
+PRESSURE is also in the middle). When this event is not set, it should
+be easier to add the EV_SYN between the BTN_TOOL_*.
 
-How does that sound?
+>
+> We could update X driver, if libinput is capable of processing two tools =
+in the same EV_SYN frame. This is more like a special multi-pen situation w=
+here two styli share the same set of input event values. The regular multi-=
+pen logic would not process it right, I think.
 
-Thx for the feedback, it's good that these things turned up.
+Well, there is already the problem of that BTN_TOUCH 0/1 in one frame
+that is not very clean. And if we can not break userspace that would
+be best (note that the current kernel is completely sending random
+events for those transitions, so in a way it's still slightly better).
 
-Ciao, Thorsten
+Cheers,
+Benjamin
+
+>
+> Cheers,
+> Ping
+>
+>> +
+>> +               /* reset tool and tool_active for the next event */
+>> +               report->tool =3D 0;
+>> +               report->tool_active =3D false;
+>> +
+>> +               /* no further processing */
+>>                 return;
+>>
+>> +       case HID_DG_TIPSWITCH:
+>> +               report->tool_active |=3D !!value;
+>> +
+>> +               /* if tool is set we should ignore the current value */
+>> +               if (report->tool)
+>> +                       return;
+>> +
+>> +               break;
+>> +
+>>         case HID_DG_TIPPRESSURE:
+>>                 if (*quirks & HID_QUIRK_NOTOUCH) {
+>>                         int a =3D field->logical_minimum;
+>>                         int b =3D field->logical_maximum;
+>>
+>> -                       input_event(input, EV_KEY, BTN_TOUCH, value > a =
++ ((b - a) >> 3));
+>> +                       if (value > a + ((b - a) >> 3)) {
+>> +                               input_event(input, EV_KEY, BTN_TOUCH, 1)=
+;
+>> +                               report->tool_active =3D true;
+>> +                       }
+>>                 }
+>>                 break;
+>>
+>> diff --git a/include/linux/hid.h b/include/linux/hid.h
+>> index eaad0655b05c..feb8df61168f 100644
+>> --- a/include/linux/hid.h
+>> +++ b/include/linux/hid.h
+>> @@ -347,7 +347,7 @@ struct hid_item {
+>>   */
+>>  #define MAX_USBHID_BOOT_QUIRKS 4
+>>
+>> -#define HID_QUIRK_INVERT                       BIT(0)
+>> +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
+>>  #define HID_QUIRK_NOTOUCH                      BIT(1)
+>>  #define HID_QUIRK_IGNORE                       BIT(2)
+>>  #define HID_QUIRK_NOGET                                BIT(3)
+>> @@ -515,6 +515,10 @@ struct hid_report {
+>>         unsigned maxfield;                              /* maximum valid=
+ field index */
+>>         unsigned size;                                  /* size of the r=
+eport (bits) */
+>>         struct hid_device *device;                      /* associated de=
+vice */
+>> +
+>> +       /* tool related state */
+>> +       bool tool_active;                               /* whether the c=
+urrent tool is active */
+>> +       unsigned int tool;                              /* BTN_TOOL_* */
+>>  };
+>>
+>>  #define HID_MAX_IDS 256
+>> --
+>> 2.33.1
+>>
+
