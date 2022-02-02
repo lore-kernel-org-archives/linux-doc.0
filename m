@@ -2,152 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C39DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 22:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2966C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 23:01:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347931AbiBBWmv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Feb 2022 17:42:51 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:37188 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347677AbiBBWmq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 17:42:46 -0500
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-222-4tYY-hjeOVu5KHCJ3wWYMA-1; Wed, 02 Feb 2022 22:42:38 +0000
-X-MC-Unique: 4tYY-hjeOVu5KHCJ3wWYMA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 2 Feb 2022 22:42:34 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 2 Feb 2022 22:42:34 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Rasmus Villemoes' <rasmus.villemoes@prevas.dk>,
-        'Kees Cook' <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1346319AbiBBXB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Feb 2022 18:01:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233672AbiBBXBZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 18:01:25 -0500
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8C6C061714;
+        Wed,  2 Feb 2022 15:01:25 -0800 (PST)
+Received: by mail-io1-xd33.google.com with SMTP id d188so1005341iof.7;
+        Wed, 02 Feb 2022 15:01:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BQ6YlbcUeFT4O0Nhx5T4/GpxgiCqtz3B2qSA3LJqXC0=;
+        b=H5gnVwBgv0BQwl4PVZ6+7lRxMM7lzcosf6ft80+GoLc8IqEgezcDKymg3+1w5bd+6m
+         kI2P/av2BwDlilA6ZqhHThlM3med9Z7q2KwXc7/Nna01L/wxXC24he6Jm7PbfuWvsIqs
+         M3E/i1RRtg/hBlNFvZvOxlzJ6AQTuViO4T/ajceDT6gDB3UuPfnhbHj3IrV6pIFeH4Yo
+         ivgw5XzMsaQLzEsLxeaozAZxbUzpw78ML2SUGhngwzzWGUCMrzp6yArxJyExZhBMs3ib
+         7TJ3UjapkIxoveDi7L4Wja1ziyg7kicui7Le+ylVdNsTYsATrzs+2eAo1+ZXQhEkBvZD
+         s3Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BQ6YlbcUeFT4O0Nhx5T4/GpxgiCqtz3B2qSA3LJqXC0=;
+        b=LJnTA56T+lrI25WvyHQhmxjqQc95GRp7CLLnqOIPqAKi4KYr20jrPe/hwb5qtT4SEz
+         vQnImsTq0/Hx4fCXEQxj2iUEoOy3spwQvTALUKQ4/tQsq9CPQlGYKH7zafqFvBMBtYut
+         wGdFEk6cjCTloT961iKyAkZJpYnYLhjJjPQztOgud30q2Z4YYKi0I4YSOgBgnGnh6048
+         2bo6JGIAr2wN0kLQPGRD/1JQvFyUStfbYXjY6RTNCbmQZRHTyFdM0yJ9IGWcJb5A3TFU
+         rQNb1ROZQYaUbZSXseS61ZOR2/kLpsDUMP9RuVj4/GRe75SCoQWgqaQttv8X7O3vUyDx
+         mAWQ==
+X-Gm-Message-State: AOAM531t1Gl5/dAgsQnALnjgf4DgjXYnwThikk4akBR++L+TAxNZ1XQx
+        mV/RNifPtCvbXzAWxQCmx0t1CXLp5K3unwPf0HM=
+X-Google-Smtp-Source: ABdhPJyzifSWutAPofCeunWEFMCxCCtEpD6jJ8xxmWnsmNAA7l8ym/NPzWQVAFa5k0qyW4OKknY4JeOlfFTBVC7OnvE=
+X-Received: by 2002:a05:6638:4105:: with SMTP id ay5mr16910109jab.186.1643842884934;
+ Wed, 02 Feb 2022 15:01:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20220131204357.1133674-1-keescook@chromium.org>
+ <6641e01b86374ce197020d57c65ae3b3@AcuMS.aculab.com> <CANiq72neVsdLRyLn24avMhLCaHxMEiG0bD-ZkG46O7J29FanYA@mail.gmail.com>
+ <6d75ee32e7c3415ebcfa12e61d26aa87@AcuMS.aculab.com>
+In-Reply-To: <6d75ee32e7c3415ebcfa12e61d26aa87@AcuMS.aculab.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 3 Feb 2022 00:01:14 +0100
+Message-ID: <CANiq72nep38_aFpUNc5C3Po_AKmuiogqvzc_pJgvixJqy9POwg@mail.gmail.com>
+Subject: Re: [PATCH] linux/const.h: Explain how __is_constexpr() works
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Martin Uecker <Martin.Uecker@med.uni-goettingen.de>,
         Ingo Molnar <mingo@kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Rikard Falkeborn <rikard.falkeborn@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH] linux/const.h: Explain how __is_constexpr() works
-Thread-Topic: [PATCH] linux/const.h: Explain how __is_constexpr() works
-Thread-Index: AQHYFuNHRL4oDGFcTkyEh79ubpGBJ6yAbZqwgABP1oCAAB82kA==
-Date:   Wed, 2 Feb 2022 22:42:34 +0000
-Message-ID: <91f0956687b341a9861f467aafe6dc4d@AcuMS.aculab.com>
-References: <20220131204357.1133674-1-keescook@chromium.org>
- <6641e01b86374ce197020d57c65ae3b3@AcuMS.aculab.com>
- <311c9ca5-e2d4-22fb-0299-d47f84470677@prevas.dk>
-In-Reply-To: <311c9ca5-e2d4-22fb-0299-d47f84470677@prevas.dk>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogUmFzbXVzIFZpbGxlbW9lcw0KPiBTZW50OiAwMiBGZWJydWFyeSAyMDIyIDIwOjQ0DQo+
-IA0KPiBPbiAwMi8wMi8yMDIyIDE3LjE5LCBEYXZpZCBMYWlnaHQgd3JvdGU6DQo+ID4gRnJvbTog
-S2VlcyBDb29rDQo+ID4+IFNlbnQ6IDMxIEphbnVhcnkgMjAyMiAyMDo0NA0KPiA+Pg0KPiA+PiBU
-aGUgX19pc19jb25zdGV4cHIoKSBtYWNybyBpcyBkYXJrIG1hZ2ljLiBTaGVkIHNvbWUgbGlnaHQg
-b24gaXQgd2l0aA0KPiA+PiBhIGNvbW1lbnQgdG8gZXhwbGFpbiBob3cgYW5kIHdoeSBpdCB3b3Jr
-cy4NCj4gPj4NCj4gPiAuLi4NCj4gPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvY29uc3Qu
-aCBiL2luY2x1ZGUvbGludXgvY29uc3QuaA0KPiA+PiBpbmRleCA0MzVkZGQ3MmQyYzQuLjcxMjJk
-NmExZjhjZSAxMDA2NDQNCj4gPj4gLS0tIGEvaW5jbHVkZS9saW51eC9jb25zdC5oDQo+ID4+ICsr
-KyBiL2luY2x1ZGUvbGludXgvY29uc3QuaA0KPiA+PiBAQCAtNyw2ICs3LDMwIEBADQo+ID4+ICAg
-KiBUaGlzIHJldHVybnMgYSBjb25zdGFudCBleHByZXNzaW9uIHdoaWxlIGRldGVybWluaW5nIGlm
-IGFuIGFyZ3VtZW50IGlzDQo+ID4+ICAgKiBhIGNvbnN0YW50IGV4cHJlc3Npb24sIG1vc3QgaW1w
-b3J0YW50bHkgd2l0aG91dCBldmFsdWF0aW5nIHRoZSBhcmd1bWVudC4NCj4gPj4gICAqIEdsb3J5
-IHRvIE1hcnRpbiBVZWNrZXIgPE1hcnRpbi5VZWNrZXJAbWVkLnVuaS1nb2V0dGluZ2VuLmRlPg0K
-PiA+PiArICoNCj4gPj4gKyAqIERldGFpbHM6DQo+ID4+ICsgKiAtIHNpemVvZigpIGlzIGFuIGlu
-dGVnZXIgY29uc3RhbnQgZXhwcmVzc2lvbiwgYW5kIGRvZXMgbm90IGV2YWx1YXRlIHRoZQ0KPiA+
-PiArICogICB2YWx1ZSBvZiBpdHMgb3BlcmFuZDsgaXQgb25seSBleGFtaW5lcyB0aGUgdHlwZSBv
-ZiBpdHMgb3BlcmFuZC4NCj4gPj4gKyAqIC0gVGhlIHJlc3VsdHMgb2YgY29tcGFyaW5nIHR3byBp
-bnRlZ2VyIGNvbnN0YW50IGV4cHJlc3Npb25zIGlzIGFsc28NCj4gPj4gKyAqICAgYW4gaW50ZWdl
-ciBjb25zdGFudCBleHByZXNzaW9uLg0KPiA+PiArICogLSBUaGUgdXNlIG9mIGxpdGVyYWwgIjgi
-IGlzIHRvIGF2b2lkIHdhcm5pbmdzIGFib3V0IHVuYWxpZ25lZCBwb2ludGVyczsNCj4gPj4gKyAq
-ICAgdGhlc2UgY291bGQgb3RoZXJ3aXNlIGp1c3QgYmUgIjEicy4NCj4gPj4gKyAqIC0gKGxvbmcp
-KHgpIGlzIHVzZWQgdG8gYXZvaWQgd2FybmluZ3MgYWJvdXQgNjQtYml0IHR5cGVzIG9uIDMyLWJp
-dA0KPiA+PiArICogICBhcmNoaXRlY3R1cmVzLg0KPiA+PiArICogLSBUaGUgQyBzdGFuZGFyZCBk
-ZWZpbmVzIGFuICJpbnRlZ2VyIGNvbnN0YW50IGV4cHJlc3Npb24iIGFzIGRpZmZlcmVudA0KPiA+
-PiArICogICBmcm9tIGEgIm51bGwgcG9pbnRlciBjb25zdGFudCIgKGFuIGludGVnZXIgY29uc3Rh
-bnQgMCBwb2ludGVyKS4NCj4gPj4gKyAqIC0gVGhlIGNvbmRpdGlvbmFsIG9wZXJhdG9yICgiLi4u
-ID8gLi4uIDogLi4uIikgcmV0dXJucyB0aGUgdHlwZSBvZiB0aGUNCj4gPj4gKyAqICAgb3BlcmFu
-ZCB0aGF0IGlzbid0IGEgbnVsbCBwb2ludGVyIGNvbnN0YW50LiBUaGlzIGJlaGF2aW9yIGlzIHRo
-ZQ0KPiA+PiArICogICBjZW50cmFsIG1lY2hhbmlzbSBvZiB0aGUgbWFjcm8uDQo+ID4+ICsgKiAt
-IElmICh4KSBpcyBhbiBpbnRlZ2VyIGNvbnN0YW50IGV4cHJlc3Npb24sIHRoZW4gdGhlICIqIDBs
-IiByZXNvbHZlcyBpdA0KPiA+PiArICogICBpbnRvIGEgbnVsbCBwb2ludGVyIGNvbnN0YW50LCB3
-aGljaCBmb3JjZXMgdGhlIGNvbmRpdGlvbmFsIG9wZXJhdG9yDQo+ID4+ICsgKiAgIHRvIHJldHVy
-biB0aGUgdHlwZSBvZiB0aGUgbGFzdCBvcGVyYW5kOiAiKGludCAqKSIuDQo+ID4+ICsgKiAtIElm
-ICh4KSBpcyBub3QgYW4gaW50ZWdlciBjb25zdGFudCBleHByZXNzaW9uLCB0aGVuIHRoZSB0eXBl
-IG9mIHRoZQ0KPiA+PiArICogICBjb25kaXRpb25hbCBvcGVyYXRvciBpcyBmcm9tIHRoZSBmaXJz
-dCBvcGVyYW5kOiAiKHZvaWQgKikiLg0KPiA+PiArICogLSBzaXplb2YoaW50KSA9PSA0IGFuZCBz
-aXplb2Yodm9pZCkgPT0gMS4NCj4gPj4gKyAqIC0gVGhlIHVsdGltYXRlIGNvbXBhcmlzb24gdG8g
-InNpemVvZihpbnQpIiBjaG9vc2VzIGJldHdlZW4gZWl0aGVyOg0KPiA+PiArICogICAgIHNpemVv
-ZigqKChpbnQgKikgKDgpKSA9PSBzaXplb2YoaW50KSAgICh4IHdhcyBhIGNvbnN0YW50IGV4cHJl
-c3Npb24pDQo+ID4+ICsgKiAgICAgc2l6ZW9mKCooKHZvaWQgKikoOCkpID09IHNpemVvZih2b2lk
-KSAgKHggd2FzIG5vdCBhIGNvbnN0YW50IGV4cHJlc3Npb24pDQo+ID4+ICAgKi8NCj4gPj4gICNk
-ZWZpbmUgX19pc19jb25zdGV4cHIoeCkgXA0KPiA+PiAgCShzaXplb2YoaW50KSA9PSBzaXplb2Yo
-Kig4ID8gKCh2b2lkICopKChsb25nKSh4KSAqIDBsKSkgOiAoaW50ICopOCkpKQ0KPiA+DQo+ID4g
-VGhpcyBoYXMgYmVlbiBtYWtpbmcgbXkgaGVhZCBodXJ0IGFsbCBkYXkuDQo+ID4gVGhlIGFib3Zl
-IGlzbid0IHJlYWxseSBhIHRydWUgZGVzY3JpcHRpb24gLSA/OiBkb2Vzbid0IHdvcmsgdGhhdCB3
-YXkuDQo+ID4gVHJ5IHRoZSBmb2xsb3dpbmcgZm9yIHNpemU6DQo+ID4NCj4gPiAtIFRoZSBjb25k
-aXRpb25hbCBvcGVyYXRvciAoPzopIHJlcXVpcmVzIHRoYXQgYm90aCBleHByZXNzaW9ucyBoYXZl
-IHRoZQ0KPiA+ICAgdGhlIHNhbWUgdHlwZSAoYWZ0ZXIgbnVtZXJpYyBwcm9tb3Rpb25zKS4NCj4g
-DQo+IE5vLiBQbGVhc2UgcmVhZCA2LjUuMTUuMyBmb3IgdGhlIHByZWNvbmRpdGlvbnMsIGFuZCA2
-LjUuMTUuNSBhbmQNCj4gNi41LjE1LjYgZm9yIHRoZSBydWxlcyBnb3Zlcm5pbmcgdGhlIHR5cGUg
-b2YgdGhlIHdob2xlIGV4cHJlc3Npb24uDQo+IA0KPiA+ICAgVGhlIHR5cGUgb2YgdGhlIHJlc3Vs
-dCBpcyBhIGNvbXBpbGUgdGltZSBjb25zdGFudCBhbmQgZG9lc24ndCBkZXBlbmQgb24gYW55DQo+
-ID4gICB2YXJpYWJsZXMuDQo+IA0KPiBZZXMsIHRoZSB0eXBlIG9mIGFueSBleHByZXNzaW9uIGlu
-IEMgaXMga25vd24gYXQgY29tcGlsZSB0aW1lLCBhbmQgaXMNCj4gZGV0ZXJtaW5lZCB2aWEgdGhl
-IHJ1bGVzIGluIHRoZSBDIHN0YW5kYXJkLiBJIHdvdWxkbid0IGNhbGwgaXQgYQ0KPiAiY29tcGls
-ZSB0aW1lIGNvbnN0YW50IiB0aG91Z2guDQo+IA0KPiA+IC0gSWYgdGhlIGV4cHJlc3Npb25zIGhh
-dmUgZGlzdGluY3Qgbm9uLU5VTEwgcG9pbnRlciB0eXBlcyB0aGVuIHRoZXkgYXJlIGJvdGgNCj4g
-PiAgIGNhc3QgdG8gKHZvaWQgKikgYW5kIHRoZSByZXN1bHQgaGFzIHR5cGUgJ3ZvaWQgKicuDQo+
-IA0KPiBXcm9uZy4NCg0KZ2FoIHNlcnZlciBtZSByaWdodCBmb3IgdXNpbmcgZ29kYm9sdCB0byB0
-ZXN0IGl0Lg0KDQo+IA0KPiA+IC0gQSBOVUxMIHBvaW50ZXIgY2FuIGJlIG1hZGUgZnJvbSBhbnkg
-aW50ZWdlciBjb25zdGFudCBleHByZXNzaW9uIHRoYXQNCj4gPiAgIGV2YWx1YXRlcyB0byAwLCBu
-b3QganVzdCBhIGxpdGVyYWwgMC4NCj4gPiAtIFNvIHRoZSB0eXBlIG9mICgwID8gKHZvaWQgKiko
-eCkgOiAoaW50ICopOCkgaXMgJ2ludCAqJyBpZiAoeCkgaXMgemVybw0KPiA+ICAgKGJlY2F1c2Ug
-b2YgdGhlIE5VTEwpIGFuZCAodm9pZCAqKSBvdGhlcndpc2UgYmVjYXVzZSB0aGUgcG9pbnRlciB0
-eXBlcw0KPiA+ICAgZG9uJ3QgbWF0Y2guDQo+IA0KPiBUaGF0J3MgYmFzaWNhbGx5IGhvdyB0aGlz
-IG1hY3JvIHdvcmtzLCBidXQgIlNvIiBpcyBub3Qgd2FycmFudGVkIGFzIGl0DQo+IGRvZXMgbm90
-IGZvbGxvdyBmcm9tIGFueSBvZiB0aGUgcHJldmlvdXMsIHdyb25nLCBzdGF0ZW1lbnRzLg0KPiAN
-Cj4gPiBZb3UgY2FuIHRlc3QgdGhpcyBieSBldmFsdWF0aW5nOg0KPiA+IAlzaXplb2YgKigwID8g
-KGZsb2F0ICopNCA6IChpbnQgKik0KQ0KPiANCj4gVGhhdCdzIGFuIGlsbC1mb3JtZWQgY29uZGl0
-aW9uYWwgb3BlcmF0b3IsIGFuZCBnY2Mgc2F5cyBhcyBtdWNoIGV2ZW4NCj4gd2l0aG91dCBhbnkg
-LVdhbGwgaW4gZWZmZWN0Lg0KPiANCj4gd2FybmluZzogcG9pbnRlciB0eXBlIG1pc21hdGNoIGlu
-IGNvbmRpdGlvbmFsIGV4cHJlc3Npb24NCj4gICAgIDggfCAgcmV0dXJuIHNpemVvZigqKDAgPyAo
-ZmxvYXQgKik0IDogKGludCAqKTQpKTsNCj4gDQo+IA0KPiA+IFRoaXMgaXMgMSBiZWNhdXNlIG9m
-IHRoZSBpbXBsaWNpdCAodm9pZCAqKSBjYXN0Lg0KPiANCj4gVGhlcmUgaXMgbm8gc3VjaCB0aGlu
-Zy4NCg0KT2sgbGV0J3MgdHJ5IGFnYWluLi4uDQpUaGUgY29tcGlsZXIgbmVlZHMgdG8gZmluZCBh
-ICdjb21wYXRpYmxlIHR5cGUnIGVpdGhlciBmb3I6DQoJKHZvaWQgKil4CWFuZAkoaW50ICopOA0K
-b3IgZm9yOg0KCSh2b2lkICopMAlhbmQJKGludCAqKTgNCkluIHRoZSBmb3JtZXIgaXQgaXMgJ3Zv
-aWQgKicgYW5kIHRoZSBsYXR0ZXIgJ2ludCAqJyBiZWNhdXNlIHRoZSAodm9pZCAqKTANCmlzIE5V
-TEwgYW5kIHRodXMgYSB2YWxpZCAnaW50IConIHBvaW50ZXIuDQoNCkluIGFueSBjYXNlIHN1Z2dl
-c3RpbmcgdGhhdCBpdCBpcyBiYXNlZCBvbiB0aGUgdmFsdWUgYmVmb3JlIHRoZSA/IGlzIGJvZ3Vz
-Lg0KDQpUaGF0IGlzIHByb2JhYmx5IGEgcmVhc29uYWJsZSBkZXNjcmlwdGlvbi4NCg0KCURhdmlk
-DQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBG
-YXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2
-IChXYWxlcykNCg==
+On Wed, Feb 2, 2022 at 11:20 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> The type of the result depends on the type of the 2nd and 3rd arguments.
+> Not on the value of the first one.
 
+I am not talking about the first operand. The behavior of the
+conditional operator has a few cases. Since you mentioned promotions,
+it looked like you were thinking about what happens for the arithmetic
+types case, i.e.
+
+"""If both the second and third operands have arithmetic type, the
+result type that would be determined by the usual arithmetic
+conversions, were they applied to those two operands, is the type of
+the result."""
+
+which could lead to thinking that the expressions need to have the
+same type as you mentioned, but that is not true, and the arithmetic
+types case is not used in the macro either. The cases used are the
+null pointer constant vs. pointer and the pointer to void vs. pointer
+to object type.
+
+> It has nothing to with the condition, the compiler is trying to 'sort out'
+> a suitable return type.
+>
+> I suspect the mismatched pointer types might even be a gcc extension.
+
+That is why I said it does not fit the constraints of the operator.
+The standard does not describe what happens in such a case.
+
+Cheers,
+Miguel
