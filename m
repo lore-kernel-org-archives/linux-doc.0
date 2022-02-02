@@ -2,148 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2282C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 10:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 213C3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Feb 2022 11:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242552AbiBBKyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Feb 2022 05:54:33 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:56748 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233514AbiBBKyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 05:54:32 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B2CE5B83086;
-        Wed,  2 Feb 2022 10:54:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 670A5C340F0;
-        Wed,  2 Feb 2022 10:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643799270;
-        bh=YaErwgEV6u6M+OhsAi4SczNs7iHw2evXeDZkXFHsX+o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GAGH6R8zllkRqqOh4pWIz7UlLpi/1U+L4KaC/sWRbM0N4aednJldOaN2DgqbCldtm
-         n736xh/GuOrES5kfnjVj89yWTotpiQXIjps9fnlgD9kuBGerLNt/7MzVArsIHRj6ix
-         Y6zt5wf2OoHD7EREvZDwgGgYx9ldrtXkFiMJcVjQMv9X67Qb4G0mz/hXdRCbNtd20v
-         euMsJ66qrMnnGIL4K+lUKSwoUXZaNywemkckZDAGXdbCcx8zYogTgQYpMog/F5WFrT
-         3syGzdF+eGZME66Neb3UxeTZLfUPiTf/6nexRxcI44KBVT9Huux2Bqg+TP4CTABnPY
-         VaHTHzAJCZjbg==
-Received: by mail-wr1-f46.google.com with SMTP id k18so37590153wrg.11;
-        Wed, 02 Feb 2022 02:54:30 -0800 (PST)
-X-Gm-Message-State: AOAM530deqEq3JSyEX8EFeofHHjZXQCxTNLHqK+3a7gCfRfjRZmvbmLa
-        b2X+hxxqm31pfkYvXsK7XaTvqiDE1SL0W6HmFYc=
-X-Google-Smtp-Source: ABdhPJxXQnmVGiQ6++DgTKrPDzuwG95DqfKcTlxhLVOsI6p/ssls6IrzqObL5TpmOLh1hayTFyI76Fa7LUWwzVeJ0X8=
-X-Received: by 2002:a05:6000:15ca:: with SMTP id y10mr24916503wry.417.1643799268703;
- Wed, 02 Feb 2022 02:54:28 -0800 (PST)
+        id S232346AbiBBLqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Feb 2022 06:46:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234359AbiBBLqb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Feb 2022 06:46:31 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB916C061714;
+        Wed,  2 Feb 2022 03:46:30 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1nFE5k-0006et-9U; Wed, 02 Feb 2022 12:46:28 +0100
+Message-ID: <12e09497-a848-b767-88f4-7dabd8360c5e@leemhuis.info>
+Date:   Wed, 2 Feb 2022 12:46:27 +0100
 MIME-Version: 1.0
-References: <20220131225250.409564-1-ndesaulniers@google.com>
- <CAMj1kXHz9psgjP7qQpusLOOL5Nm7TO+LauD_-mK=Fxe_g7mmsQ@mail.gmail.com>
- <CAKwvOdnkGfeBBE2NW_FKSzmZSjCJXc2801qvvOuyu+JL+m+VZQ@mail.gmail.com>
- <CAMj1kXFnUuWLyy5q-fAV1jwZobTCNHqhKSN3mF98frsJ4ai4Ow@mail.gmail.com> <CAKwvOdn0C4Mt=Nb-HjLQtrsJ=X6zqgMssVHT_2QeZpnjb=-HhA@mail.gmail.com>
-In-Reply-To: <CAKwvOdn0C4Mt=Nb-HjLQtrsJ=X6zqgMssVHT_2QeZpnjb=-HhA@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 2 Feb 2022 11:54:17 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEaQPg0MfrT3rOthscbXLg7KyymdOVLvWD6E1vvkryAtQ@mail.gmail.com>
-Message-ID: <CAMj1kXEaQPg0MfrT3rOthscbXLg7KyymdOVLvWD6E1vvkryAtQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/memory-barriers.txt: volatile is not a barrier() substitute
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>, llvm@lists.linux.dev,
-        Kees Cook <keescook@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Len Baker <len.baker@gmx.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-BS
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        workflows@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        regressions@lists.linux.dev,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <cover.1643110442.git.linux@leemhuis.info>
+ <f97738d6250050bc982bf2947587f1c73f37446f.1643110442.git.linux@leemhuis.info>
+ <CAMuHMdXRoVt_zRBNvugJjYhJnyYbABeCWv9fFRM0r_=s7FYvJQ@mail.gmail.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 1/2] docs: add a document about regression handling
+In-Reply-To: <CAMuHMdXRoVt_zRBNvugJjYhJnyYbABeCWv9fFRM0r_=s7FYvJQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1643802390;286e733a;
+X-HE-SMSGID: 1nFE5k-0006et-9U
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2 Feb 2022 at 04:26, Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Tue, Feb 1, 2022 at 2:15 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Tue, 1 Feb 2022 at 20:40, Nick Desaulniers <ndesaulniers@google.com> wrote:
-> > >
-> > > On Tue, Feb 1, 2022 at 1:32 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > >
-> > > > On Mon, 31 Jan 2022 at 23:53, Nick Desaulniers <ndesaulniers@google.com> wrote:
-> > > > >
-> > > > > +     around an asm statement so long as clobbers are not violated. For example,
-> > > > > +
-> > > > > +       asm volatile ("");
-> > > > > +       flag = true;
-> > > > > +
-> > > > > +     May be modified by the compiler to:
-> > > > > +
-> > > > > +       flag = true;
-> > > > > +       asm volatile ("");
-> > > > > +
-> > > > > +     Marking an asm statement as volatile is not a substitute for barrier(),
-> > > > > +     and is implicit for asm goto statements and asm statements that do not
-> > > > > +     have outputs (like the above example). Prefer either:
-> > > > > +
-> > > > > +       asm ("":::"memory");
-> > > > > +       flag = true;
-> > > > > +
-> > > > > +     Or:
-> > > > > +
-> > > > > +       asm ("");
-> > > > > +       barrier();
-> > > > > +       flag = true;
-> > > > > +
-> > > >
-> > > > I would expect the memory clobber to only hazard against the
-> > > > assignment of flag if it results in a store, but looking at your
-> > > > Godbolt example, this appears to apply even if flag is kept in a
-> > > > register.
-> > > >
-> > > > Is that behavior documented/codified anywhere? Or are we relying on
-> > > > compiler implementation details here?
-> > >
-> > > https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html#Volatile
-> > > "Note that the compiler can move even volatile asm instructions
-> > > relative to other code, including across jump instructions."
-> > >
-> >
-> > That doesn't really answer my question. We are documenting here that
-> > asm volatile does not prevent reordering but non-volatile asm with a
-> > "memory" clobber does, and even prevents reordering of instructions
-> > that do not modify memory to begin with.
-> >
-> > Why is it justified to rely on this undocumented behavior?
->
-> I see your point.  You're right, I couldn't find anywhere where such
-> behavior was specified.  So the suggestion to use barrier() would rely
-> on unspecified behavior and should not be suggested.
->
-> Probably worth still mentioning that `volatile` qualifying an asm
-> statement doesn't prevent such reordering in this document somehow,
-> and perhaps that it's (currently) unspecified whether a barrier() can
-> prevent re-ordering with regards to non-memory-modifying instructions.
+Hi! I noticed I forgot to reply here:
 
-Yes, and to correct myself here, I meant 'instructions that do not
-/reference/ memory to begin with.
+On 26.01.22 15:28, Geert Uytterhoeven wrote:
+> On Tue, Jan 25, 2022 at 5:45 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>> +How to create a configuration similar to the one of an older kernel?
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Start a known-good kernel and configure the newer Linux version with ``make
+>> +olddefconfig``. This makes the kernel's build scripts pick up the configuration
+>> +file (the `.config` file) from the running kernel as base for the new one you
+>> +are about to compile; afterwards they set all new configuration options to their
+>> +default value, which should disable new features that might cause regressions.
+> 
+> Doing so may actually cause mutations to appear in your .config
+> when going back and forth (i.e. when bisecting), interfering with
+> the bisection process.
 
-I suppose the problem here is that the distinction only matters for
-things like objtool obsessing about whether or not instructions look
-unreachable, and relying on asm volatile() to insert markers into the
-object code.
+Good point, I knew about this, but hadn't thought of this when writing
+the text.
 
-So it seems we need a stronger clobber, one which avoids any kind of
-reordering at the instruction level.
+> To avoid that, I usually start bisecting with
+> "cp .config <src>/arch/<arch>/configs/bisect_defconfig", and use
+> "make bisect_defconfig" in every bisection step. That way all steps
+> are reproducible, and unaffected by config mutations.
+
+That's a really cool trick, thx for mentioning it. But I think it's not
+needed in the text about regressions and instead better be mentioned in
+Documentation/admin-guide/bug-bisect.rst. I hope to sooner or later
+improve (rewrite?) that document anyway and will make sure to keep it in
+mind for that time.
+
+I wonder if there is a way to make this work without messing in the
+source tree? Took a quick look at the sources. It seems to me that it's
+possible to "cp .config ~/working.config" and then using "make
+KBUILD_DEFCONFIG=~/working.config defconfig" at every bisection step. It
+seems to do the trick as well -- but I only tried briefly, so maybe I
+might have missed something.
+
+Ciao, Thorsten
