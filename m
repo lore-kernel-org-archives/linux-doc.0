@@ -2,95 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5B4C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 19:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B47B7C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 20:31:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353641AbiBCTCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 14:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37392 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237541AbiBCTCk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 14:02:40 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070BDC061714;
-        Thu,  3 Feb 2022 11:02:40 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id m10so5592961oie.2;
-        Thu, 03 Feb 2022 11:02:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CVIIf4PV8Vh9T6ecRHWiT3dCZbpUvjtsRB0st3JnEiw=;
-        b=VdoERpTufTdy5QputkfQhNVJxw7sDp1/bsTpn1WtfRjebcHtZJxlJj+glFNpnsVrIO
-         mb4DRCaG/xr2eYnfTvzJtidt3Sp6pM6fJUm5UIXzny9UFW+LpE6ICpP31EQKzan3Qycr
-         4iO2dJwLOwk5dMkw1Lda9yToEs+ep1REXmyj+OSYGeSnQGBnfK1wKML6lPuD4y4XWsbP
-         n4fe6AQBzUUVTtZUUzQfLJcFmB7qgX3+c9fJFCrADFLM3Y4YPdrpnOzkUBpwn2kK668D
-         S7qETo4p35I0vKdF/R9cH4icMWk8fLoxR9BuP/bvRwtoD1YbQnzWwA6Ds5pXHfFn7jkr
-         i06Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=CVIIf4PV8Vh9T6ecRHWiT3dCZbpUvjtsRB0st3JnEiw=;
-        b=UJ/dJsLg0UKtc6O40cLF3njxddn23OZTThLUNcjsHFbXVRXhd4Z1WSn2sPDvBK7fB5
-         GDpAkx3kRvRY5HIgPl0vWHL+YyAHIh1jbKVaGRvo7IMb7pXFJXvdNYOx4SRzoo/Ia8Ud
-         6DAKLvD0117BKMV53HpNTaWnn+MsF4UbNtI6KprVsPEt7lXQWrC8D4eeWcOTTEjMvj4x
-         f3/rSsZZfL3dZXgURFK453WtxIJLwCAEXNPFhN5dsvvzZr4awn9Gfc9nTglAgy5CoLA5
-         v5I+lhAw7jKrxgT/cLkruFWt1VvgXCvq+z5f5yJmEevE1hXw72ebl/N/kkqP1UlutL6n
-         zB2Q==
-X-Gm-Message-State: AOAM5316SVpErkgDvnP+zkuogw1MSOUiq/X2gflV99zCS/1/mQeR87AL
-        sG8Ul1C7WRr4kM60tVVyWt4=
-X-Google-Smtp-Source: ABdhPJxvo1wDkQEG8WcQAbAmBAVsOG4dzC0Tk+nmFy6ujgo7xS79gbAWs+ky+qxJVWxUz1ju+cTMHQ==
-X-Received: by 2002:a05:6808:1792:: with SMTP id bg18mr8293952oib.90.1643914959381;
-        Thu, 03 Feb 2022 11:02:39 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id n12sm17020094oop.5.2022.02.03.11.02.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 11:02:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 3 Feb 2022 11:02:37 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Marcello Sylvester Bauer <sylv@sylv.io>
-Cc:     linux-hwmon@vger.kernel.org,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] hwmon: (max6639) Update Datasheet URL
-Message-ID: <20220203190237.GA236416@roeck-us.net>
-References: <cover.1643299570.git.sylv@sylv.io>
- <76025f40d2684dc0d3ec02c8899b726b07a0e7da.1643299570.git.sylv@sylv.io>
+        id S1354453AbiBCUb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 15:31:27 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:33984 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354245AbiBCUa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 15:30:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 042E7B835A1;
+        Thu,  3 Feb 2022 20:30:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B055C340E8;
+        Thu,  3 Feb 2022 20:30:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643920253;
+        bh=j1g3Ine8G433kS6IRoLdXKc+ZFe8y8VI1aADr+jnjJo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TtRaKFg3nV4aFjc9qEzHHTQZl6UkY8FOvj+/g/wyYG5obORchDfuqkP6RnHW3qraK
+         QpDqcJFTgc6l7Ek+mcpX9Tglpcv3udHkH9FgVuvzVwClgIW7XFUDM1uuUfbuVTdC48
+         rg+DRAz/F9BD67foyKJbS5nFkul0ipsFucGftu2CtXD4sHlxm65bkyFff9Y3/PYORS
+         m/3wmn8ceSbTXtkIDa943OZXNhDAf/MS/xJWBnxZFN659jXtoPeI1LAgQk0kdYUhCY
+         Qo/agNL1dBk4WMjhDsqRDPqIlIkejrtJZXKYpzYfwT6XILFG5doCn4dYU2g+lMf8TE
+         acCSnYl2/vG8Q==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        mark.rutland@arm.com, rwiley@nvidia.com, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 25/52] arm64: errata: Update ARM64_ERRATUM_[2119858|2224489] with Cortex-X2 ranges
+Date:   Thu,  3 Feb 2022 15:29:19 -0500
+Message-Id: <20220203202947.2304-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203202947.2304-1-sashal@kernel.org>
+References: <20220203202947.2304-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <76025f40d2684dc0d3ec02c8899b726b07a0e7da.1643299570.git.sylv@sylv.io>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 05:17:27PM +0100, Marcello Sylvester Bauer wrote:
-> The old Datasheet does not exist anymore.
-> 
-> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
 
-Applied.
+[ Upstream commit eb30d838a44c9e59a2a106884f536119859c7257 ]
 
-Thanks,
-Guenter
+Errata ARM64_ERRATUM_[2119858|2224489] also affect some Cortex-X2 ranges as
+well. Lets update these errata definition and detection to accommodate all
+new Cortex-X2 based cpu MIDR ranges.
 
-> ---
->  Documentation/hwmon/max6639.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/max6639.rst b/Documentation/hwmon/max6639.rst
-> index 3da54225f83c..c85d285a3489 100644
-> --- a/Documentation/hwmon/max6639.rst
-> +++ b/Documentation/hwmon/max6639.rst
-> @@ -9,7 +9,7 @@ Supported chips:
->  
->      Addresses scanned: I2C 0x2c, 0x2e, 0x2f
->  
-> -    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6639.pdf
-> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX6639-MAX6639F.pdf
->  
->  Authors:
->      - He Changqing <hechangqing@semptian.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+Cc: coresight@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Link: https://lore.kernel.org/r/1642994138-25887-3-git-send-email-anshuman.khandual@arm.com
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arm64/silicon-errata.rst |  4 ++++
+ arch/arm64/Kconfig                     | 12 ++++++------
+ arch/arm64/kernel/cpu_errata.c         |  2 ++
+ 3 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 5342e895fb604..8789c79310bbd 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -98,6 +98,10 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A710     | #2224489        | ARM64_ERRATUM_2224489       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
+++----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N1     | #1188873,1418040| ARM64_ERRATUM_1418040       |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N1     | #1349291        | N/A                         |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index c4207cf9bb17f..d8046c832225c 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -671,14 +671,14 @@ config ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+ 	bool
+ 
+ config ARM64_ERRATUM_2119858
+-	bool "Cortex-A710: 2119858: workaround TRBE overwriting trace data in FILL mode"
++	bool "Cortex-A710/X2: 2119858: workaround TRBE overwriting trace data in FILL mode"
+ 	default y
+ 	depends on CORESIGHT_TRBE
+ 	select ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+ 	help
+-	  This option adds the workaround for ARM Cortex-A710 erratum 2119858.
++	  This option adds the workaround for ARM Cortex-A710/X2 erratum 2119858.
+ 
+-	  Affected Cortex-A710 cores could overwrite up to 3 cache lines of trace
++	  Affected Cortex-A710/X2 cores could overwrite up to 3 cache lines of trace
+ 	  data at the base of the buffer (pointed to by TRBASER_EL1) in FILL mode in
+ 	  the event of a WRAP event.
+ 
+@@ -761,14 +761,14 @@ config ARM64_ERRATUM_2253138
+ 	  If unsure, say Y.
+ 
+ config ARM64_ERRATUM_2224489
+-	bool "Cortex-A710: 2224489: workaround TRBE writing to address out-of-range"
++	bool "Cortex-A710/X2: 2224489: workaround TRBE writing to address out-of-range"
+ 	depends on CORESIGHT_TRBE
+ 	default y
+ 	select ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE
+ 	help
+-	  This option adds the workaround for ARM Cortex-A710 erratum 2224489.
++	  This option adds the workaround for ARM Cortex-A710/X2 erratum 2224489.
+ 
+-	  Affected Cortex-A710 cores might write to an out-of-range address, not reserved
++	  Affected Cortex-A710/X2 cores might write to an out-of-range address, not reserved
+ 	  for TRBE. Under some conditions, the TRBE might generate a write to the next
+ 	  virtually addressed page following the last page of the TRBE address space
+ 	  (i.e., the TRBLIMITR_EL1.LIMIT), instead of wrapping around to the base.
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 9e1c1aef9ebd6..29cc062a4153c 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -347,6 +347,7 @@ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2119858
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
++	MIDR_RANGE(MIDR_CORTEX_X2, 0, 0, 2, 0),
+ #endif
+ 	{},
+ };
+@@ -371,6 +372,7 @@ static struct midr_range trbe_write_out_of_range_cpus[] = {
+ #endif
+ #ifdef CONFIG_ARM64_ERRATUM_2224489
+ 	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
++	MIDR_RANGE(MIDR_CORTEX_X2, 0, 0, 2, 0),
+ #endif
+ 	{},
+ };
+-- 
+2.34.1
+
