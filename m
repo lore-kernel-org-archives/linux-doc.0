@@ -2,85 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1DFAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 17:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7315C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 17:40:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242796AbiBCRcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 12:32:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44218 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232504AbiBCRcu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 12:32:50 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857B5C061714;
-        Thu,  3 Feb 2022 09:32:50 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id r59so3059200pjg.4;
-        Thu, 03 Feb 2022 09:32:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/MrjU+6E5BVPS++BhfoyxVPlHu4UEo5Emuq7dEluOgI=;
-        b=k11E0xJ3TLkprJZZIkz2M6uxoAFQGPFMRdU7tQUMnmKBOPYdlMGEzzW58G2rgSxgMm
-         oUmP9vaDVMu/xQcwko3sxazHaZFhu+ScV7gTqTiZdP4//HYjdychHqtyBSdIvrv0j5Ht
-         Wd1q+E6jcmVHQO3R0IoT9ZG7q4aBSdMyvXEXi7/cPqZft/xkTvXHaH+DW6rs33B4h4Xg
-         JMkP0LCT9RQMPgp8xmRXXEM8BaS2k33H1MwcEKMOf4y1NQNd8gJyHAUgcfk3fWZG3Ntv
-         TY81mv6rINWLbVVWT6jxKdJgaHgBG8hRoGr1ZjNvfua7q9deLghFERrIxvXNfgOc0aIn
-         H9lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/MrjU+6E5BVPS++BhfoyxVPlHu4UEo5Emuq7dEluOgI=;
-        b=KrUpAhVDbVwEoELMSfnm9QZSdSXwDfK3rET43t8HQVaTAvrtUjjIWd58Jx94/OinTO
-         mulnuKOGhmuBvVdhmuGbG3xiZIsax3Dhd3Wl1GjJLnAtwCHQwbDlOTZzOtRGzAlBjr5B
-         e2fK1mc+DvWk3aOCwLZGZZ4kX+F6UdpXXHygK5faaUwc3j4AjxY9l39f8nU6BLm/Oua8
-         wJtk5nNN7F6UVva0Hx4J23JTfezD4pZFjdf4ZKN3m6K7JvxJTnCNPDb0u2Z3BNf2V8EX
-         pQh1K8/+pQa0qm72uQwJBiom77l2lYB/TB/ZkWMazEuExpGTvMk2qMLqNEUrFuEFwONV
-         RFXQ==
-X-Gm-Message-State: AOAM531UQUiiEsYCYdGnKIz6ZSKlKt3IqLCmEhmwktwpyjJ3fhIj01zw
-        xnab7EgAxw7YX8GKyLXLJDG06SgYL2rZUcwrFuyNHxytQ1M=
-X-Google-Smtp-Source: ABdhPJz3RqmPsOiP/l/YGnFKWapOPqnj8IPmZH+XVR4VmaUUEJJAlcXtP1jPZymMFStmOSH5kcaNkIEAFD9YdUzbCAo=
-X-Received: by 2002:a17:90a:d203:: with SMTP id o3mr15032687pju.122.1643909569987;
- Thu, 03 Feb 2022 09:32:49 -0800 (PST)
+        id S1352937AbiBCRkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 12:40:10 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:49026 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239435AbiBCRkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 12:40:10 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2960C60B72;
+        Thu,  3 Feb 2022 17:40:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88136C340ED;
+        Thu,  3 Feb 2022 17:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643910009;
+        bh=SAdLkjNr2RrsDyFMfuy2KN43kJtChi9IrkQ9pgfD/P0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=n7in4HcX96wOqxtz3BVsjMjFf1m0bRM4W1Uk+R+Pf6dPPyKm9SJnup871Z47UA//L
+         nz0kUntVSlXDMmFOcW7kpJJHQ2e29Li505Ag6JHd2fzKebpGN7BdUkDHDp0qB8yDsO
+         10kRvUEnCkZFQfcFDKmF6Y3/z4o8X8ecbdaPOVBtkyjTgf7rjW7f3rB9NvSk3yCNgb
+         UrxdfZDxMrX6uLuIvMOGvl2m6xm2rI8Hyfcd3qLY/z7gEJM4xZDzN0YeEOhxu5BLNn
+         8vMSXE1CcHu5Vh4FtN44JI+AzSefIrt++289tYFQ39QqNC0NxlRf+nk7llWIFy/dzV
+         6AJI/gTwF3Nng==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D7B9E5D08C;
+        Thu,  3 Feb 2022 17:40:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220131183638.3934982-1-hch@lst.de> <20220131183638.3934982-4-hch@lst.de>
-In-Reply-To: <20220131183638.3934982-4-hch@lst.de>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Thu, 3 Feb 2022 09:32:38 -0800
-Message-ID: <CAADnVQLiEQFzON5OEV_LVYzqJuZ68e0AnqhNC++vptbed6ioEw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] bpf, docs: Better document the legacy packet access instruction
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 1/5] bpf, docs: Document the byte swapping instructions
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164391000944.27300.17075086641401753236.git-patchwork-notify@kernel.org>
+Date:   Thu, 03 Feb 2022 17:40:09 +0000
+References: <20220131183638.3934982-2-hch@lst.de>
+In-Reply-To: <20220131183638.3934982-2-hch@lst.de>
 To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
+        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 10:36 AM Christoph Hellwig <hch@lst.de> wrote:
-> +These instructions are used to access packet data and can only be used when
-> +the interpreter context is a pointer to networking packet.  ``BPF_ABS``
-...
-> +These instructions have an implicit program exit condition as well. When an
-> +eBPF program is trying to access the data beyond the packet boundary, the
-> +interpreter will abort the execution of the program.
+Hello:
 
-These two places make it sound like it's interpreter only behavior.
-I've reworded it like:
--the interpreter context is a pointer to networking packet.  ``BPF_ABS``
-+the program context is a pointer to networking packet.  ``BPF_ABS``
+This series was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
 
--interpreter will abort the execution of the program.
-+program execution will be aborted.
+On Mon, 31 Jan 2022 19:36:34 +0100 you wrote:
+> Add a section to document the byte swapping instructions.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  Documentation/bpf/instruction-set.rst | 44 ++++++++++++++++++++++++---
+>  1 file changed, 40 insertions(+), 4 deletions(-)
 
-and pushed to bpf-next with the rest of patches.
+Here is the summary with links:
+  - [1/5] bpf, docs: Document the byte swapping instructions
+    https://git.kernel.org/bpf/bpf-next/c/dd33fb571f5c
+  - [2/5] bpf, docs: Better document the regular load and store instructions
+    https://git.kernel.org/bpf/bpf-next/c/63d8c242b9a5
+  - [3/5] bpf, docs: Better document the legacy packet access instruction
+    https://git.kernel.org/bpf/bpf-next/c/15175336270a
+  - [4/5] bpf, docs: Better document the extended instruction format
+    https://git.kernel.org/bpf/bpf-next/c/5ca15b8a939f
+  - [5/5] bpf, docs: Better document the atomic instructions
+    https://git.kernel.org/bpf/bpf-next/c/594d32348556
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
