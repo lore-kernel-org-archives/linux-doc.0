@@ -2,103 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F22F4C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 06:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CADC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 09:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239881AbiBCGpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 01:45:55 -0500
-Received: from mga11.intel.com ([192.55.52.93]:3176 "EHLO mga11.intel.com"
+        id S231202AbiBCJPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 04:15:07 -0500
+Received: from mga05.intel.com ([192.55.52.43]:30672 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234826AbiBCGpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Feb 2022 01:45:55 -0500
+        id S230504AbiBCJPG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Feb 2022 04:15:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643870755; x=1675406755;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zAmfP+5ZWHA1BLU4rcpgLRkWbVOTBkVKF+ZrH11coeY=;
-  b=VDHB4jnn0iCIVlwOiTCYz/jDW4gcNLjDv+uVoQN+ATGIzRCOYeQJPesN
-   dhN36+LxcIMR65XGjritY8CnUiSTC76vszzXuGmoEoicH/zBr/N4dffwI
-   I/2qkZh8Krji5mhGFCM7zKLY7znPDvr3YU6GHfgt1GG+wZZCpcl5v6Rv9
-   8vmY71bKNJxoOxzybaqVETCtaK7Xp+Tf+WrqchcNkT8tS5RkkiIF+0iEE
-   Qkf3ljVgKyHP530PerZkvP4bmKYECXQ+TCYBrEUiAv35Bnl+JrN527urz
-   a6voVs8rHh8T9mNo7K/vu24r/5fAY7mJ38bQAwUpD5epSxXAroDuH/3xQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="245681879"
+  t=1643879706; x=1675415706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=USduWklxZs7IRiW0gmkJ/DmHB0rsBVVMRvWK008NdMo=;
+  b=UDIDUpBvNa93fd5kTPC5lEkJ4EEibJ/39YcMWJvI5hvUqRi6ypXBjNkd
+   +hwK5+3R9C+KmXNyhEGr/dJYsBj/PCi4HLUEjsR51Ik6dBgg8ETXGure6
+   xl9M+MqpEmOp2rydzwQ+zxl9DVLlwUlYFcKGF1FCEYYCYMsC4udYL/d6k
+   0bJ6XFdvL/lZow7pGLkux7aHE/UThlcGvLi59G1pWwr6ejYKu8xHkOqQV
+   9Q61IBc9YkhVLL/KxBlEcc2tfbMV9KSTek2ZPmJPszTA2i02RzP335TzY
+   hJ7mazDwENUGybaUlTRFbsARBVfHuBBIQHYlaqu1tZ1zWoF8eywUYNP2m
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10246"; a="334464400"
 X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; 
-   d="scan'208";a="245681879"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 22:45:55 -0800
-X-ExtLoop1: 1
+   d="scan'208";a="334464400"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 01:15:05 -0800
 X-IronPort-AV: E=Sophos;i="5.88,339,1635231600"; 
-   d="scan'208";a="483135096"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 02 Feb 2022 22:45:53 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nFVsP-000Vl6-35; Thu, 03 Feb 2022 06:45:53 +0000
-Date:   Thu, 3 Feb 2022 14:45:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Harita Chilukuri <harita.chilukuri@intel.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [mchinth:sep_socwatch_linux_5_15 2/2]
- drivers/platform/x86/socwatch/sw_telem.c:635: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202202031432.pIU8AcPB-lkp@intel.com>
+   d="scan'208";a="523832099"
+Received: from ekabir-mobl.amr.corp.intel.com (HELO ldmartin-desk2) ([10.212.144.43])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 01:15:05 -0800
+Date:   Thu, 3 Feb 2022 01:15:04 -0800
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, airlied@linux.ie,
+        daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org,
+        christian.koenig@amd.com, srinivas.kandagatla@linaro.org,
+        tzimmermann@suse.de, gregkh@linuxfoundation.org,
+        nouveau@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3] dma-buf-map: Rename to iosys-map
+Message-ID: <20220203091504.arlmfmwdaluts3ml@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220203085614.3896538-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220203085614.3896538-1-lucas.demarchi@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_15
-head:   3af50f40725e78c505cbf840fb0be424c2f33e5e
-commit: 3af50f40725e78c505cbf840fb0be424c2f33e5e [2/2] Pull socwatch driver to intel-next 5.15
-config: i386-randconfig-a011-20220131 (https://download.01.org/0day-ci/archive/20220203/202202031432.pIU8AcPB-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a73e4ce6a59b01f0e37037761c1e6889d539d233)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/mchinth/linux/commit/3af50f40725e78c505cbf840fb0be424c2f33e5e
-        git remote add mchinth https://github.com/mchinth/linux
-        git fetch --no-tags mchinth sep_socwatch_linux_5_15
-        git checkout 3af50f40725e78c505cbf840fb0be424c2f33e5e
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/sepdk/sep/ drivers/platform/x86/socwatch/
+On Thu, Feb 03, 2022 at 12:56:14AM -0800, Lucas De Marchi wrote:
+>Rename struct dma_buf_map to struct iosys_map and corresponding APIs.
+>Over time dma-buf-map grew up to more functionality than the one used by
+>dma-buf: in fact it's just a shim layer to abstract system memory, that
+>can be accessed via regular load and store, from IO memory that needs to
+>be acessed via arch helpers.
+>
+>The idea is to extend this API so it can fulfill other needs, internal
+>to a single driver. Example: in the i915 driver it's desired to share
+>the implementation for integrated graphics, which uses mostly system
+>memory, with discrete graphics, which may need to access IO memory.
+>
+>The conversion was mostly done with the following semantic patch:
+>
+>	@r1@
+>	@@
+>	- struct dma_buf_map
+>	+ struct iosys_map
+>
+>	@r2@
+>	@@
+>	(
+>	- DMA_BUF_MAP_INIT_VADDR
+>	+ IOSYS_MAP_INIT_VADDR
+>	|
+>	- dma_buf_map_set_vaddr
+>	+ iosys_map_set_vaddr
+>	|
+>	- dma_buf_map_set_vaddr_iomem
+>	+ iosys_map_set_vaddr_iomem
+>	|
+>	- dma_buf_map_is_equal
+>	+ iosys_map_is_equal
+>	|
+>	- dma_buf_map_is_null
+>	+ iosys_map_is_null
+>	|
+>	- dma_buf_map_is_set
+>	+ iosys_map_is_set
+>	|
+>	- dma_buf_map_clear
+>	+ iosys_map_clear
+>	|
+>	- dma_buf_map_memcpy_to
+>	+ iosys_map_memcpy_to
+>	|
+>	- dma_buf_map_incr
+>	+ iosys_map_incr
+>	)
+>
+>	@@
+>	@@
+>	- #include <linux/dma-buf-map.h>
+>	+ #include <linux/iosys-map.h>
+>
+>Then some files had their includes adjusted and some comments were update to
+>remove mentions to dma-buf-map.
+>
+>Since this is not specific to dma-buf anymore, move the documentation to
+>the "Bus-Independent Device Accesses" section.
+>
+>v2:
+>  - Squash patches
+>
+>v3:
+>  - Fix wrong removal of dma-buf.h from MAINTAINERS
+>  - Move documentation from dma-buf.rst to device-io.rst
+>
+>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>Acked-by: Christian König <christian.koenig@amd.com>
+>Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+>---
+> Documentation/driver-api/device-io.rst        |   9 +
+> Documentation/driver-api/dma-buf.rst          |   9 -
+> Documentation/gpu/todo.rst                    |  20 +-
+> MAINTAINERS                                   |   9 +-
+> drivers/dma-buf/dma-buf.c                     |  22 +-
+> drivers/dma-buf/heaps/cma_heap.c              |  10 +-
+> drivers/dma-buf/heaps/system_heap.c           |  10 +-
+> drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
+> drivers/gpu/drm/ast/ast_mode.c                |   8 +-
+> drivers/gpu/drm/drm_cache.c                   |  18 +-
+> drivers/gpu/drm/drm_client.c                  |   9 +-
+> drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+> drivers/gpu/drm/drm_gem.c                     |  12 +-
+> drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
+> drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
+> drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
+> drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
+> drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
+> drivers/gpu/drm/drm_internal.h                |   6 +-
+> drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
+> drivers/gpu/drm/drm_prime.c                   |   4 +-
+> drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
+> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
+> drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
+> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
+> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
+> .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+> .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
+> drivers/gpu/drm/lima/lima_gem.c               |   3 +-
+> drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+> drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
+> drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
+> drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+> drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
+> drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
+> drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
+> drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
+> drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
+> drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
+> drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
+> drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
+> drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+> drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
+> drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
+> drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
+> drivers/gpu/drm/tegra/gem.c                   |  10 +-
+> drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
+> drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
+> drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
+> drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
+> drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
+> drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
+> drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
+> drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
+> drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+> drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
+> drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
+> drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
+> drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
+> .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
+> .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
+> .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+> drivers/misc/fastrpc.c                        |   4 +-
+> include/drm/drm_cache.h                       |   6 +-
+> include/drm/drm_client.h                      |   7 +-
+> include/drm/drm_gem.h                         |   6 +-
+> include/drm/drm_gem_atomic_helper.h           |   6 +-
+> include/drm/drm_gem_cma_helper.h              |   6 +-
+> include/drm/drm_gem_framebuffer_helper.h      |   8 +-
+> include/drm/drm_gem_shmem_helper.h            |  12 +-
+> include/drm/drm_gem_ttm_helper.h              |   6 +-
+> include/drm/drm_gem_vram_helper.h             |   9 +-
+> include/drm/drm_prime.h                       |   6 +-
+> include/drm/ttm/ttm_bo_api.h                  |  10 +-
+> include/drm/ttm/ttm_kmap_iter.h               |  10 +-
+> include/drm/ttm/ttm_resource.h                |   6 +-
+> include/linux/dma-buf-map.h                   | 266 ------------------
+> include/linux/dma-buf.h                       |  12 +-
+> include/linux/iosys-map.h                     | 257 +++++++++++++++++
+> 79 files changed, 590 insertions(+), 559 deletions(-)
+> delete mode 100644 include/linux/dma-buf-map.h
+> create mode 100644 include/linux/iosys-map.h
+>
+>diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
+>index e9f04b1815d1..f9dede8639c7 100644
+>--- a/Documentation/driver-api/device-io.rst
+>+++ b/Documentation/driver-api/device-io.rst
+>@@ -502,6 +502,15 @@ pcim_iomap()
+> Not using these wrappers may make drivers unusable on certain platforms with
+> stricter rules for mapping I/O memory.
+>
+>+System/IO memory abstraction
+>+----------------------------
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Looking at it again, this would render slightly better at the same level
+as others, with "====="
 
-All warnings (new ones prefixed by >>):
+Lucas De Marchi
 
-   drivers/platform/x86/socwatch/sw_telem.c:334: warning: Function parameter or member 'addrs' not described in 'setup_telem'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'events' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'unit_idx' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'id' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:437: warning: Cannot understand  * @returns timestamp (1st entry of SSRAM)
-    on line 437 - I thought it was a doc line
->> drivers/platform/x86/socwatch/sw_telem.c:635: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Configurs events + starts counters
->> drivers/platform/x86/socwatch/sw_telem.c:858: warning: expecting prototype for sw_available_telem(). Prototype was for sw_telem_available() instead
---
->> drivers/platform/x86/socwatch/sw_ops_provider.c:830: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Decide if the socperf interface is available for use
-
-
-vim +635 drivers/platform/x86/socwatch/sw_telem.c
-
-688e338c753b33c Faycal Benmlih 2019-04-23 @635   * Configurs events + starts counters
-
-:::::: The code at line 635 was first introduced by commit
-:::::: 688e338c753b33c023de3b774f7347effbf537a4 Platform/x86: Update SoCWatch driver code to 2.10
-
-:::::: TO: Faycal Benmlih <faycal.benmlih@intel.com>
-:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>+
+>+.. kernel-doc:: include/linux/iosys-map.h
+>+   :doc: overview
+>+
+>+.. kernel-doc:: include/linux/iosys-map.h
+>+   :internal:
+>+
+> Public Functions Provided
+> =========================
+>
+>diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+>index 2cd7db82d9fe..55006678394a 100644
+>--- a/Documentation/driver-api/dma-buf.rst
+>+++ b/Documentation/driver-api/dma-buf.rst
+>@@ -128,15 +128,6 @@ Kernel Functions and Structures Reference
+> .. kernel-doc:: include/linux/dma-buf.h
+>    :internal:
+>
+>-Buffer Mapping Helpers
+>-~~~~~~~~~~~~~~~~~~~~~~
+>-
+>-.. kernel-doc:: include/linux/dma-buf-map.h
+>-   :doc: overview
+>-
+>-.. kernel-doc:: include/linux/dma-buf-map.h
+>-   :internal:
+>-
+> Reservation Objects
+> -------------------
