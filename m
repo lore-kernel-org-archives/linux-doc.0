@@ -2,96 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8204C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 14:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 695FEC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 15:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351344AbiBCOed (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 09:34:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33509 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1351446AbiBCOeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 09:34:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643898841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6VJokSHsxPkfQMrVgiQDizkBiRMjzQ+sHIs7SD0nGIk=;
-        b=KpUzOcyxzIJZRNkXTEFE01tbQQPE2xFcOYcUt5GNnNjY/3xO2LDJwIr5th+oezdU2+OJrA
-        EEZFwd+tkexa9PaMhF/jvsw5B77nEqLwlT94bw6DatXW3i/MeJnt1MI1DD5cvkdn3zIbG3
-        oXZ1IvVrbMYXzSJ0LDbQ1JTwZjo2hPQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-vBG71VSYM-W7fbjWzrH9pA-1; Thu, 03 Feb 2022 09:33:56 -0500
-X-MC-Unique: vBG71VSYM-W7fbjWzrH9pA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A6F1091DA0;
-        Thu,  3 Feb 2022 14:33:54 +0000 (UTC)
-Received: from plouf.redhat.com (unknown [10.39.192.114])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 650947D4D0;
-        Thu,  3 Feb 2022 14:33:51 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?Ahelenia=20Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v2 12/12] Input: docs: add more details on the use of BTN_TOOL
-Date:   Thu,  3 Feb 2022 15:32:26 +0100
-Message-Id: <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+        id S1352034AbiBCP4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 10:56:04 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4668 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238210AbiBCP4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 10:56:00 -0500
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JqNY72zWQz67MpP;
+        Thu,  3 Feb 2022 23:55:23 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 3 Feb 2022 16:55:58 +0100
+Received: from [10.47.89.50] (10.47.89.50) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 3 Feb
+ 2022 15:55:50 +0000
+Message-ID: <098f988e-1f12-c412-3111-60393dfe0f0b@huawei.com>
+Date:   Thu, 3 Feb 2022 15:55:22 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+From:   John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
+CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>
+References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
+ <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
+ <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
+ <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
+ <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
+ <49da4d80-5cc3-35c3-ccaa-6def8165eb65@huawei.com>
+ <59a198a8-1d87-bc09-d2d8-2d495ed74c16@opensource.wdc.com>
+In-Reply-To: <59a198a8-1d87-bc09-d2d8-2d495ed74c16@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Originating-IP: [10.47.89.50]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The HID core stack used to be very relaxed considering the BTN_TOOL_*
-usage. With the recent commits, we should now enforce to have only one
-tool at a time, meaning that we can now express that requirement in the
-docs.
+On 03/02/2022 09:44, Damien Le Moal wrote:
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Hi Damien,
 
----
+>>>> [  385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
+>>>> [  385.108026] sas: sas_scsi_find_task: aborting task 0x000000007068ed73
+>>>> [  405.561099] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
 
-changes in v2:
-- changed to explain that switching tool in one EV_SYN report
-  is not nice for userspace
----
- Documentation/input/event-codes.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Contrary to mentioning TMF in the log, this is not a TMF but rather an 
+internal abort timing out. I don't think that this should ever happen. 
+This command should just abort pending IO commands in the controller and 
+not send anything to the target. So for this to timeout means a HW fault 
+or driver bug. And I did not touch this code for pm8001.
 
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index b24ae7d292cc..8741d390b184 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -137,7 +137,11 @@ A few EV_KEY codes have special meanings:
-     code should be set to a value of 1. When the tool is no longer interacting
-     with the input device, the BTN_TOOL_<name> code should be reset to 0. All
-     trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
--    code when events are generated.
-+    code when events are generated. Likewise all trackpads, tablets, and
-+    touchscreens should export only one BTN_TOOL_<name> at a time. To not break
-+    existing userspace, it is recommended to not switch tool in one EV_SYN frame
-+    but first emitting the old BTN_TOOL_<name> at 0, then emit one SYN_REPORT
-+    and then set the new BTN_TOOL_<name> at 1.
- 
- * BTN_TOUCH:
- 
--- 
-2.33.1
+>>>> timeout.
+>>>> [  405.568236] sas: sas_scsi_find_task: task 0x000000007068ed73 is
+>>>> aborted
+>>>> [  405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007068ed73 is
+>>>> aborted
+>>>> [  411.192602] ata21.00: qc timeout (cmd 0xec)
+>>>> [  431.672122] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+>>>> timeout.
+>>>> [  431.679282] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+>>>> [  431.685544] ata21.00: revalidation failed (errno=-5)
+>>>> [  441.911948] ata21.00: qc timeout (cmd 0xec)
+>>>> [  462.391545] pm80xx0:: pm8001_exec_internal_task_abort  757:TMF task
+>>>> timeout.
+>>>> [  462.398696] ata21.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+>>>> [  462.404992] ata21.00: revalidation failed (errno=-5)
+>>>> [  492.598769] ata21.00: qc timeout (cmd 0xec)
+>>>> ...
+>>>>
 
+Do you have a fuller dmesg with my series?
+
+...
+
+>> }
+>> - res = -TMF_RESP_FUNC_FAILED;
+>> + res = TMF_RESP_FUNC_FAILED;
+>>
+>> That's effectively the same as what I have in this series in
+>> sas_execute_tmf().
+>>
+>> However your testing is a SATA device, which I'll check further.
+> This did not help. Still seeing 100% reproducible hangs.
+
+OK, but I think that we should also have this change as the mainline 
+codes looks broken to be begin with:
+
+--->8 ---
+
+[PATCH] scsi: libsas: Handle all errors in sas_scsi_find_task()
+
+LLDD TMFs callbacks may return linux or other error codes instead of TMF
+codes. This may cause problems in sas_scsi_find_task() ->
+.lldd_query_task(), as only TMF codes are handled there. As such, we may
+not return a task_disposition type. Function sas_eh_handle_sas_errors() 
+only handles that type, and may exit error
+handling early for unrecognised types.
+
+So use TASK_ABORT_FAILED for non-TMF types returned from
+.lldd_query_task(), on the assumption that the command may still be 
+alive and error handling should be escalated.
+
+Signed-off-by: John Garry <john.garry@huawei.com>
+
+diff --git a/drivers/scsi/libsas/sas_scsi_host.c 
+b/drivers/scsi/libsas/sas_scsi_host.c
+index 53d8b7ede0cd..02274f471308 100644
+--- a/drivers/scsi/libsas/sas_scsi_host.c
++++ b/drivers/scsi/libsas/sas_scsi_host.c
+@@ -316,8 +316,11 @@ static enum task_disposition 
+sas_scsi_find_task(struct sas_task *task)
+  				pr_notice("%s: task 0x%p failed to abort\n",
+  					  __func__, task);
+  				return TASK_ABORT_FAILED;
++			default:
++				pr_notice("%s: task 0x%p result code %d not handled, assuming 
+failed\n",
++					  __func__, task, res);
++				return TASK_ABORT_FAILED;
+  			}
+-
+  		}
+  	}
+  	return res;
+
+---8< ----
+
+> 
+> I did a lot of testing/digging today, 
+
+Thanks for the effort!
+
+ > and the hang cause seems to be
+ > missing task completions.
+> At random, a task times out as its completion
+
+That sounds fimilar to my general issue running this driver on an arm64 
+host...
+
+> does not come, and subsequent abort trial for the task fail, revalidate
+> fails
+
+I assume SMP IOs fail if revalidation fails - if this is the case, then 
+the controller seems to be in bad state.
+
+> and the device is dropped (capacity goes to 0). But at that point,
+> doing rmmod/modprobe to reset the device does not work. sync cache
+> command issued at rmmod time never completes. I end up needing to power
+> cycle the machine every time...
+> 
+> No clue about the root cause yet, but it definitely seem to be related
+> to NCQ/high QD operation. If I force my tests to use non-NCQ commands,
+> everything is fine and the tests run to completion without any issue.
+> 
+> I wonder if their is a tag management bug somewhere...
+
+Maybe. Not sure.
+
+On a related point, Hannes' change here could avoid it:
+
+https://lore.kernel.org/linux-scsi/20210222132405.91369-32-hare@suse.de/
+
+> 
+> I did stumble on something very ugly in libsas too: sas_ata_qc_issue()
+> drops and retake the ata port lock. No other ATA driver do that since
+> the ata completion also take that lock. The ata port lock is taken
+> before ata_qc_issue() is called with IRQ disabled (spin_lock_irqsave()).
+> So doing a spin_unlock()/spin_lock() in sas_ata_qc_issue() (called from
+> ata_qc_issue()) seems like a very bad idea. I removed that and
+> everything work the same way (the lld execute does not sleep). But that
+> did not solve the hang problem.
+
+I would need to check why this is done again. Before my time...
+
+> 
+> Of note is this is all with your libsas patches applied. Without the
+> patches, I have KASAN screaming at me about use-after-free in completion
+> context. With your patches, KASAN is silent.
+> 
+> Another thing: this driver does not allow changing the max qd... Very
+> annoying.
+> 
+> echo 1 > /sys/block/sdX/device/queue_depth
+> 
+> has no effect. QD stays at 32 for an ATA drive. Need to look into that too.
+
+I had a look at this. It seems that we fail in 
+__ata_change_queue_depth() -> ata_scsi_find_dev() returning NULL.
+
+Thanks again for your effort, I will continue to look.
+
+john
