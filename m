@@ -2,90 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41863C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 17:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62248C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 18:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346539AbiBCRoe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 12:44:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234361AbiBCRoe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 12:44:34 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B3FC061714;
-        Thu,  3 Feb 2022 09:44:34 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id k17so2808047plk.0;
-        Thu, 03 Feb 2022 09:44:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1PIvakgPFU06Hp4Wyu28bq75cjKrDt9/2hkcT6oy8B8=;
-        b=jqWD7y7l24rzAY2r4cTnoMEwqrdR367M/pL26PNezgtGIblwqP5jGiFLOacVgxBSI5
-         /UrD70K785TyqqNR/63BqFVwnyxpBscZO1GPMjIA26Sncjd9fhQ48/gOioDSLyokYpxB
-         vOOKnVdWU7G4JG59klQJugO+P3ac1SXdXAn2Pggg08Eosp1X4vYt6VdO6IQGNdNAh0m0
-         U4VciJWUZ4beEduPSpY15KWjbFS7ljEGW8EH5aXX3GIngBixNi/jmm858xujJnlmq1M1
-         NLXABfcDLs5/iwMMQn9bMv9Lh51C2R9BHoSqXnG7mV4eA46GUoxZMuU0aooxAQXUrdss
-         tNtg==
+        id S244584AbiBCS5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 13:57:37 -0500
+Received: from mail-yb1-f170.google.com ([209.85.219.170]:36807 "EHLO
+        mail-yb1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234035AbiBCS5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 13:57:37 -0500
+Received: by mail-yb1-f170.google.com with SMTP id c6so11869277ybk.3;
+        Thu, 03 Feb 2022 10:57:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1PIvakgPFU06Hp4Wyu28bq75cjKrDt9/2hkcT6oy8B8=;
-        b=figYy7nEyUxOsn8uLRuZKwiWqDH5X82xDw0sHz8cG0CMHmmu+Cyuo+RHAocyDB5FHO
-         10lNiOMHcP/17uLMaayyL6xUXQOi93hETaG+igtIkyszWYHnMTubt9cIteKJnZvr9tmW
-         0Vn/2yd9fo2dTGIonw5U9QkVAb2Sv8FFcGAWtm4hgyPWf7fSzSUksdam9zA+yfv1EBqG
-         URzHojrJywmqtGgCLvpyM7HartxmawavqjlvMBA2cMeZQhaZuW0Hb5DeN4Cu0g16IMFB
-         frCE9cRADnw2K8XNz3uXytsHTQ/3vEw8ZcUjDUSvWn3la7VIAEqt/p+uJKAvG3jZIkpf
-         IcNA==
-X-Gm-Message-State: AOAM533xt4tbcv2Asm31w21Gbg/VFQjUTtrOHWoFJ/ED1tpDvsBC74RA
-        AjUM624DVg/e2QHeG4wHdzQUwbzTd9vxxFx9h4/0g9tlscs=
-X-Google-Smtp-Source: ABdhPJwk6b5mVjhJlsjDQFvnbOwkZywl0OAwUc8iIBA6PBbi6UPk4UepfIHCiOqVQstFxbxcBNExZrN8kBQxwNNQNKw=
-X-Received: by 2002:a17:90a:d203:: with SMTP id o3mr15085386pju.122.1643910273543;
- Thu, 03 Feb 2022 09:44:33 -0800 (PST)
+        bh=EpyDkyG4xB8jSiDotXaela/62CttDlFOZPwhGEx9NZw=;
+        b=eb94PvEyfTUZtS9bR7I5hbXxYxFSc+FuwSLv0LbhFds/KTd+1sFuhAKrMtJmt0u+Fv
+         kW+s3ZATGz9Qzyo5g6jdM3ITINRyMjLbI+ltFaGQIeHCqhxy1vUZCS/qiLwrWq+hO2e2
+         Bz8KVGpVqJ6AKZueZcpanNiy7AKGo9sSYYb3ONRQ84R/CJJjR9AXBYbU04m1d/XnmwqX
+         WNbLLL+3mxTD3xZcndxoWf2gSk1uuHFB6yKmcc1Kq9PJEL/S3p4fJE3KbYD/dKARfPrE
+         tghjo5UBIvAblJDifjQQFgYpLlCdtu2LOJSH843mhyGEE3syYwaeLE/m/2/ByP78zn7V
+         kmRA==
+X-Gm-Message-State: AOAM531nmNmkeR0BHVl1TeXefB6EWU/jLbzgTvf5pO2O+0QnNf4fRorG
+        Cn1x0VU/zbEyMkBVUbx9nK/MrrMxII8uwfwPN69SlapF
+X-Google-Smtp-Source: ABdhPJz0kFA/+2Su2AVIgcBW2zIragRHga6XXbhsgGUI/eIIrqm+rIyx8I+hh8apo+8f+MITfnz7WjBPV4hP3PVweK4=
+X-Received: by 2002:a0d:d782:: with SMTP id z124mr5513446ywd.28.1643914656415;
+ Thu, 03 Feb 2022 10:57:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20220131183638.3934982-1-hch@lst.de> <20220131183638.3934982-4-hch@lst.de>
- <CAADnVQLiEQFzON5OEV_LVYzqJuZ68e0AnqhNC++vptbed6ioEw@mail.gmail.com> <20220203174010.GA16681@lst.de>
-In-Reply-To: <20220203174010.GA16681@lst.de>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Thu, 3 Feb 2022 09:44:22 -0800
-Message-ID: <CAADnVQKjdVybM4-62BP_P5cyMxs7x9G7OpjFqv-tQtVMP4X+hw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] bpf, docs: Better document the legacy packet access instruction
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
+References: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com> <CAJZ5v0gcK10TiVbc8+j1pVN+T2p3EZHEK9Ga2=2ZxeGd=iVkhw@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gcK10TiVbc8+j1pVN+T2p3EZHEK9Ga2=2ZxeGd=iVkhw@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 3 Feb 2022 19:57:25 +0100
+Message-ID: <CAJZ5v0j7+xkYOGB8kLxGwwD3ReaXt4oMRK-D-5t2zKeMxd-CYA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] Thermal: Introduce the Hardware Feedback Interface
+ for thermal and performance management
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 3, 2022 at 9:40 AM Christoph Hellwig <hch@lst.de> wrote:
+On Sun, Jan 30, 2022 at 4:23 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
 >
-> On Thu, Feb 03, 2022 at 09:32:38AM -0800, Alexei Starovoitov wrote:
-> > These two places make it sound like it's interpreter only behavior.
-> > I've reworded it like:
-> > -the interpreter context is a pointer to networking packet.  ``BPF_ABS``
-> > +the program context is a pointer to networking packet.  ``BPF_ABS``
+> On Thu, Jan 27, 2022 at 8:33 PM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
 > >
-> > -interpreter will abort the execution of the program.
-> > +program execution will be aborted.
+> > Hi,
 > >
-> > and pushed to bpf-next with the rest of patches.
+> > This is v5 of this patchset after having incorporated the feedback from
+> > reviewers. Please find v1, v2, v3, and v4 in [1], [2], [3], and [4],
+> > respectively.
+> >
+> > The Intel Hardware Feedback Interface (HFI) [5] provides information about
+> > the performance and energy efficiency of each CPU in the system. It uses a
+> > table that is shared between hardware and the operating system. The
+> > contents of the table may be updated as a result of changes in the
+> > operating conditions of the system (e.g., reaching a thermal limit) or the
+> > action of external factors (e.g., changes in the thermal design power).
+> >
+> > The information that HFI provides are specified as numeric, unit-less
+> > capabilities relative to other CPUs in the system. These capabilities have
+> > a range of [0-255] where higher numbers represent higher capabilities.
+> > Energy efficiency and performance are reported in separate capabilities.
+> > If either the performance or energy capabilities efficiency of a CPU are 0,
+> > the hardware recommends to not schedule any tasks on such CPU for
+> > performance, energy efficiency or thermal reasons, respectively.
+> >
+> > The kernel or user space may use the information from the HFI to modify
+> > task placement and/or adjust power limits. This patchset focuses on the
+> > user space. The thermal notification framework is extended to relay
+> > updates of CPU capacity. Thus, a userspace daemon can affinitize workloads
+> > to certain CPUs and/or offline CPUs whose capabilities are zero.
+> >
+> > The frequency of HFI updates is specific to each processor model. On some
+> > systems, there is just a single HFI update at boot. On other systems, there
+> > may be updates every tens of milliseconds. In order to not overwhelm
+> > userspace with too many updates, they are limited to one update every
+> > CONFIG_HZ jiffies.
+> >
+> > Thanks and BR,
+> > Ricardo
+> >
+> > [1]. https://lore.kernel.org/lkml/20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com/
+> > [2]. https://lore.kernel.org/lkml/20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com/
+> > [3]. https://lore.kernel.org/lkml/20220106025059.25847-8-ricardo.neri-calderon@linux.intel.com/
+> > [4]. https://lore.kernel.org/lkml/20220108034743.31277-1-ricardo.neri-calderon@linux.intel.com/
+> > [5]. https://www.intel.com/sdm
+> >
+> > Changes since v4:
+> >  ++ Unchanged patches: 1, 2.
+> >  * Reworded description hfi_instance::hdr and hfi_instance::data.
+> >    (Patch 3; Srinivas)
+> >  * Call intel_hfi_online() before enabling the thermal vector at the
+> >    local APIC is enabled. This makes sure that a CPU has an associated
+> >    HFI instance when an HFI event happens. Reworded the commit message to
+> >    reflect this change. (Patch 4; Srinivas)
+> >  * Set hfi_instances to NULL if we fail to allocate memory for
+> >    hfi_instance::cpus. (Patch 4; Srinivas)
+> >  * Delayed initialization of local variables until after the check for a
+> >    non-NULL hfi_instances in intel_hfi_online(). (Patch 4; Srinivas)
+> >  * Optimized the error path in init_hfi_init() to not needlessly
+> >    free the memory of cpumasks that have not been allocated. (Patch 4;
+> >    Srinivas)
+> >  * Removed pointless checks for X86_FEATURE_HFI in
+> >    intel_hfi_[on|off]line(). It is sufficient to check for a non-NULL
+> >    hfi_instances or a CPU's hfi_instance. (Patch 4)
+> >  * Added a dedicated (i.e., not system_wq) workqueue to process HFI updates.
+> >    Reworded commit message accordingly. (Patch 5; Rafael)
+> >  * Repurposed comment on possibly receiving an HFI event with a NULL
+> >    hfi_cpu_info::instance. Patch 4 fixed this potential issue. Instead,
+> >    add a debug statement. (Patch 5; Srinivas)
+> >  * Wrapped check for NULL hfi_cpu_info::instance in the unlikely macro.
+> >    (Patch 5; Srinivas)
+> >  * Renamed struct cpu_capability as struct thermal_genl_cpu_caps.
+> >    (Patch 6; Rafael)
+> >  * Removed automatic variable ret from
+> >    thermal_genl_event_cpu_capability_change() and instead always return
+> >    -EMSGSIZE on error. (Patch 6; Rafael)
+> >  * Reworked parsing of HFI capabilities into chunks of
+> >    HFI_MAX_THERM_NOTIFY_COUNT CPUs at a time to reduce the time
+> >    we spend with interrupts disabled. (Patch7; Srinivas)
+> >  * Protected hfi_instance::cpus when iterating over them. (Patch 7;
+> >    Rafael)
 >
-> The interpreter thing is actually unchanged from the old text, but I
-> totally agree with your fixup.  Thanks!
+> All patches in the series look good to me now, so I will be queuing it
+> up for 5.18 unless there are any objections or concerns.
 
-The old doc had:
-"the interpreter will abort the execution of the program. JIT compilers
-therefore must preserve this property."
-
-Since the latter sentence is now gone the former got ambiguous.
+The series has been applied as 5.18 material, thanks!
