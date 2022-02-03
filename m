@@ -2,146 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62248C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 18:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5B4C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Feb 2022 19:02:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244584AbiBCS5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 13:57:37 -0500
-Received: from mail-yb1-f170.google.com ([209.85.219.170]:36807 "EHLO
-        mail-yb1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234035AbiBCS5h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 13:57:37 -0500
-Received: by mail-yb1-f170.google.com with SMTP id c6so11869277ybk.3;
-        Thu, 03 Feb 2022 10:57:36 -0800 (PST)
+        id S1353641AbiBCTCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 14:02:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37392 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237541AbiBCTCk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 14:02:40 -0500
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070BDC061714;
+        Thu,  3 Feb 2022 11:02:40 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id m10so5592961oie.2;
+        Thu, 03 Feb 2022 11:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CVIIf4PV8Vh9T6ecRHWiT3dCZbpUvjtsRB0st3JnEiw=;
+        b=VdoERpTufTdy5QputkfQhNVJxw7sDp1/bsTpn1WtfRjebcHtZJxlJj+glFNpnsVrIO
+         mb4DRCaG/xr2eYnfTvzJtidt3Sp6pM6fJUm5UIXzny9UFW+LpE6ICpP31EQKzan3Qycr
+         4iO2dJwLOwk5dMkw1Lda9yToEs+ep1REXmyj+OSYGeSnQGBnfK1wKML6lPuD4y4XWsbP
+         n4fe6AQBzUUVTtZUUzQfLJcFmB7qgX3+c9fJFCrADFLM3Y4YPdrpnOzkUBpwn2kK668D
+         S7qETo4p35I0vKdF/R9cH4icMWk8fLoxR9BuP/bvRwtoD1YbQnzWwA6Ds5pXHfFn7jkr
+         i06Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EpyDkyG4xB8jSiDotXaela/62CttDlFOZPwhGEx9NZw=;
-        b=eb94PvEyfTUZtS9bR7I5hbXxYxFSc+FuwSLv0LbhFds/KTd+1sFuhAKrMtJmt0u+Fv
-         kW+s3ZATGz9Qzyo5g6jdM3ITINRyMjLbI+ltFaGQIeHCqhxy1vUZCS/qiLwrWq+hO2e2
-         Bz8KVGpVqJ6AKZueZcpanNiy7AKGo9sSYYb3ONRQ84R/CJJjR9AXBYbU04m1d/XnmwqX
-         WNbLLL+3mxTD3xZcndxoWf2gSk1uuHFB6yKmcc1Kq9PJEL/S3p4fJE3KbYD/dKARfPrE
-         tghjo5UBIvAblJDifjQQFgYpLlCdtu2LOJSH843mhyGEE3syYwaeLE/m/2/ByP78zn7V
-         kmRA==
-X-Gm-Message-State: AOAM531nmNmkeR0BHVl1TeXefB6EWU/jLbzgTvf5pO2O+0QnNf4fRorG
-        Cn1x0VU/zbEyMkBVUbx9nK/MrrMxII8uwfwPN69SlapF
-X-Google-Smtp-Source: ABdhPJz0kFA/+2Su2AVIgcBW2zIragRHga6XXbhsgGUI/eIIrqm+rIyx8I+hh8apo+8f+MITfnz7WjBPV4hP3PVweK4=
-X-Received: by 2002:a0d:d782:: with SMTP id z124mr5513446ywd.28.1643914656415;
- Thu, 03 Feb 2022 10:57:36 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=CVIIf4PV8Vh9T6ecRHWiT3dCZbpUvjtsRB0st3JnEiw=;
+        b=UJ/dJsLg0UKtc6O40cLF3njxddn23OZTThLUNcjsHFbXVRXhd4Z1WSn2sPDvBK7fB5
+         GDpAkx3kRvRY5HIgPl0vWHL+YyAHIh1jbKVaGRvo7IMb7pXFJXvdNYOx4SRzoo/Ia8Ud
+         6DAKLvD0117BKMV53HpNTaWnn+MsF4UbNtI6KprVsPEt7lXQWrC8D4eeWcOTTEjMvj4x
+         f3/rSsZZfL3dZXgURFK453WtxIJLwCAEXNPFhN5dsvvzZr4awn9Gfc9nTglAgy5CoLA5
+         v5I+lhAw7jKrxgT/cLkruFWt1VvgXCvq+z5f5yJmEevE1hXw72ebl/N/kkqP1UlutL6n
+         zB2Q==
+X-Gm-Message-State: AOAM5316SVpErkgDvnP+zkuogw1MSOUiq/X2gflV99zCS/1/mQeR87AL
+        sG8Ul1C7WRr4kM60tVVyWt4=
+X-Google-Smtp-Source: ABdhPJxvo1wDkQEG8WcQAbAmBAVsOG4dzC0Tk+nmFy6ujgo7xS79gbAWs+ky+qxJVWxUz1ju+cTMHQ==
+X-Received: by 2002:a05:6808:1792:: with SMTP id bg18mr8293952oib.90.1643914959381;
+        Thu, 03 Feb 2022 11:02:39 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n12sm17020094oop.5.2022.02.03.11.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 11:02:38 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 3 Feb 2022 11:02:37 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Marcello Sylvester Bauer <sylv@sylv.io>
+Cc:     linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] hwmon: (max6639) Update Datasheet URL
+Message-ID: <20220203190237.GA236416@roeck-us.net>
+References: <cover.1643299570.git.sylv@sylv.io>
+ <76025f40d2684dc0d3ec02c8899b726b07a0e7da.1643299570.git.sylv@sylv.io>
 MIME-Version: 1.0
-References: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com> <CAJZ5v0gcK10TiVbc8+j1pVN+T2p3EZHEK9Ga2=2ZxeGd=iVkhw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gcK10TiVbc8+j1pVN+T2p3EZHEK9Ga2=2ZxeGd=iVkhw@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 3 Feb 2022 19:57:25 +0100
-Message-ID: <CAJZ5v0j7+xkYOGB8kLxGwwD3ReaXt4oMRK-D-5t2zKeMxd-CYA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] Thermal: Introduce the Hardware Feedback Interface
- for thermal and performance management
-To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76025f40d2684dc0d3ec02c8899b726b07a0e7da.1643299570.git.sylv@sylv.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 30, 2022 at 4:23 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Thu, Jan 27, 2022 at 8:33 PM Ricardo Neri
-> <ricardo.neri-calderon@linux.intel.com> wrote:
-> >
-> > Hi,
-> >
-> > This is v5 of this patchset after having incorporated the feedback from
-> > reviewers. Please find v1, v2, v3, and v4 in [1], [2], [3], and [4],
-> > respectively.
-> >
-> > The Intel Hardware Feedback Interface (HFI) [5] provides information about
-> > the performance and energy efficiency of each CPU in the system. It uses a
-> > table that is shared between hardware and the operating system. The
-> > contents of the table may be updated as a result of changes in the
-> > operating conditions of the system (e.g., reaching a thermal limit) or the
-> > action of external factors (e.g., changes in the thermal design power).
-> >
-> > The information that HFI provides are specified as numeric, unit-less
-> > capabilities relative to other CPUs in the system. These capabilities have
-> > a range of [0-255] where higher numbers represent higher capabilities.
-> > Energy efficiency and performance are reported in separate capabilities.
-> > If either the performance or energy capabilities efficiency of a CPU are 0,
-> > the hardware recommends to not schedule any tasks on such CPU for
-> > performance, energy efficiency or thermal reasons, respectively.
-> >
-> > The kernel or user space may use the information from the HFI to modify
-> > task placement and/or adjust power limits. This patchset focuses on the
-> > user space. The thermal notification framework is extended to relay
-> > updates of CPU capacity. Thus, a userspace daemon can affinitize workloads
-> > to certain CPUs and/or offline CPUs whose capabilities are zero.
-> >
-> > The frequency of HFI updates is specific to each processor model. On some
-> > systems, there is just a single HFI update at boot. On other systems, there
-> > may be updates every tens of milliseconds. In order to not overwhelm
-> > userspace with too many updates, they are limited to one update every
-> > CONFIG_HZ jiffies.
-> >
-> > Thanks and BR,
-> > Ricardo
-> >
-> > [1]. https://lore.kernel.org/lkml/20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com/
-> > [2]. https://lore.kernel.org/lkml/20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com/
-> > [3]. https://lore.kernel.org/lkml/20220106025059.25847-8-ricardo.neri-calderon@linux.intel.com/
-> > [4]. https://lore.kernel.org/lkml/20220108034743.31277-1-ricardo.neri-calderon@linux.intel.com/
-> > [5]. https://www.intel.com/sdm
-> >
-> > Changes since v4:
-> >  ++ Unchanged patches: 1, 2.
-> >  * Reworded description hfi_instance::hdr and hfi_instance::data.
-> >    (Patch 3; Srinivas)
-> >  * Call intel_hfi_online() before enabling the thermal vector at the
-> >    local APIC is enabled. This makes sure that a CPU has an associated
-> >    HFI instance when an HFI event happens. Reworded the commit message to
-> >    reflect this change. (Patch 4; Srinivas)
-> >  * Set hfi_instances to NULL if we fail to allocate memory for
-> >    hfi_instance::cpus. (Patch 4; Srinivas)
-> >  * Delayed initialization of local variables until after the check for a
-> >    non-NULL hfi_instances in intel_hfi_online(). (Patch 4; Srinivas)
-> >  * Optimized the error path in init_hfi_init() to not needlessly
-> >    free the memory of cpumasks that have not been allocated. (Patch 4;
-> >    Srinivas)
-> >  * Removed pointless checks for X86_FEATURE_HFI in
-> >    intel_hfi_[on|off]line(). It is sufficient to check for a non-NULL
-> >    hfi_instances or a CPU's hfi_instance. (Patch 4)
-> >  * Added a dedicated (i.e., not system_wq) workqueue to process HFI updates.
-> >    Reworded commit message accordingly. (Patch 5; Rafael)
-> >  * Repurposed comment on possibly receiving an HFI event with a NULL
-> >    hfi_cpu_info::instance. Patch 4 fixed this potential issue. Instead,
-> >    add a debug statement. (Patch 5; Srinivas)
-> >  * Wrapped check for NULL hfi_cpu_info::instance in the unlikely macro.
-> >    (Patch 5; Srinivas)
-> >  * Renamed struct cpu_capability as struct thermal_genl_cpu_caps.
-> >    (Patch 6; Rafael)
-> >  * Removed automatic variable ret from
-> >    thermal_genl_event_cpu_capability_change() and instead always return
-> >    -EMSGSIZE on error. (Patch 6; Rafael)
-> >  * Reworked parsing of HFI capabilities into chunks of
-> >    HFI_MAX_THERM_NOTIFY_COUNT CPUs at a time to reduce the time
-> >    we spend with interrupts disabled. (Patch7; Srinivas)
-> >  * Protected hfi_instance::cpus when iterating over them. (Patch 7;
-> >    Rafael)
->
-> All patches in the series look good to me now, so I will be queuing it
-> up for 5.18 unless there are any objections or concerns.
+On Thu, Jan 27, 2022 at 05:17:27PM +0100, Marcello Sylvester Bauer wrote:
+> The old Datasheet does not exist anymore.
+> 
+> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
 
-The series has been applied as 5.18 material, thanks!
+Applied.
+
+Thanks,
+Guenter
+
+> ---
+>  Documentation/hwmon/max6639.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/max6639.rst b/Documentation/hwmon/max6639.rst
+> index 3da54225f83c..c85d285a3489 100644
+> --- a/Documentation/hwmon/max6639.rst
+> +++ b/Documentation/hwmon/max6639.rst
+> @@ -9,7 +9,7 @@ Supported chips:
+>  
+>      Addresses scanned: I2C 0x2c, 0x2e, 0x2f
+>  
+> -    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6639.pdf
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX6639-MAX6639F.pdf
+>  
+>  Authors:
+>      - He Changqing <hechangqing@semptian.com>
