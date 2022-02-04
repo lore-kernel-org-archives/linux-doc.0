@@ -2,86 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D95C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 11:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97660C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 11:50:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358372AbiBDL1w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Feb 2022 06:27:52 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:31153 "EHLO
-        esa4.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358368AbiBDL1v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 06:27:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1643974071; x=1675510071;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=4oT3kO7idKuxI/WBc6gpRwbrYnMZASbJD3/zTJR4xr8=;
-  b=lKhOl2YCjbG41Wb/mNvLy3qd2POEJKfJh9okSWFOlmN/kKpCqYGS9OFI
-   JMm3Lv83XUhosQvFhDQIaBAM91BGTk3TlmU2Eqksv40fssspX1scrBXdS
-   PXCxRpsLCTsK4Y+4c2Vp0dVJAgfb8xzg8RirDmFcc9W7Jp6S9Ufw7nu7R
-   iuCiursdfAZLCS/qvJxHuhQJv2SllDGsDa/ta0tW6iPQvVcn9xHNtPO4S
-   +RiGo5Tm3RafOKckgqJdHt8si1303gQWVnXm+ssTiEmZyrBFH97gOXjF8
-   ZMKgi/VFU2GN/nQo2cZNHvngu3yXJTGwMQ+i0N4qtLOK6k0xc/7hou3SE
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635177600"; 
-   d="scan'208";a="191096826"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 04 Feb 2022 19:27:51 +0800
-IronPort-SDR: VNbI1z9nWCr9GQervcztofW0VB7IE2N6vHlh6dJYZfPGc0pVPWWSkDF+7JfdJTmfZpiDLehVo6
- fPZPu44J+U7TTQKiAjPY8r8LBIHFtkHGieAiLWZY4GElX9GSTKXpaP+XMkfmKva0VBh1hysQpA
- 8v9v5uqBXt7q7xiolSUCgP5GBW5VZLznS273zv13+46X+kxF4PraF78fDSpoxb4j6N23X8hKfd
- OeJZ309Vs2w8v4ixvBjdzvU1+Q/Ql8MqFoKSLhwP+Lcyo+erIP/79zsP0qSKkmhG00jjrQ2/9/
- K588wrqEUItBYwQbfUDthgml
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 03:00:57 -0800
-IronPort-SDR: gZrK1R6wMowIOTi8mW64B1kLgkFpIL3O3oKH9gBuD7EzN5cMexSnT6cekCBeJxd7Vd6Yl1vrci
- mC9IJQsg3nCYcIGfkSJpKAZFZpj64acu/vccyDYlASH8P8KariBfTwfI/WiJXgBGCXiJjSf2PP
- ahlWwOSjys+2At4K45LQqshGcCktWLN9cp450yzsRBHcvN6o3pbfYgb2jza/vgGlqJXYD+brOF
- uxRgYU69JsXZyFcf928yw/EdrT0w1RWaSVFq2cGunMdoHbLY8UMsHzYErLftqD0g+y7m1JJD8n
- 60Y=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2022 03:27:51 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JqtYy34Nsz1SVp6
-        for <linux-doc@vger.kernel.org>; Fri,  4 Feb 2022 03:27:50 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1643974069; x=1646566070; bh=4oT3kO7idKuxI/WBc6gpRwbrYnMZASbJD3/
-        zTJR4xr8=; b=CWYZLUnXALPwYORPL9cnl/0n4lB5vnZiQ7uEM8R+h9vq0rf53wS
-        95oBTBomiTC2lfaX2meHJtypav0dibLWMp/jv3VUeNYJJQ+EVq0GIQlPtU/MhTvE
-        Gigi4hlqK3iGv5cDi7W8XwPl+/3/7662bC9mbMBRCIgaC4Q5x1IA7eqxjKo/hh2F
-        n7aSnfIh9l5ZDLHQ31oQ1m71MgOPvKaVOFDBolr56Z6FZTxdC9MOcLzxmn5XFRbe
-        18xg1ldN1lny+Q37MBnz1EC2aczk5nQ7RcVo522P1IoubfL2S2mni+A4mqsijcVR
-        ViyTx6jRKj+iP1Bp2Gk/2zdl+ZBNg8f/9Kg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id gJ_dqCICjIwB for <linux-doc@vger.kernel.org>;
-        Fri,  4 Feb 2022 03:27:49 -0800 (PST)
-Received: from [10.225.163.63] (unknown [10.225.163.63])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JqtYt6mbbz1Rwrw;
-        Fri,  4 Feb 2022 03:27:46 -0800 (PST)
-Message-ID: <2bd15f44-0b56-b6e0-8ef8-c33ba9ee7caa@opensource.wdc.com>
-Date:   Fri, 4 Feb 2022 20:27:45 +0900
+        id S236007AbiBDLu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Feb 2022 06:50:58 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4671 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241452AbiBDLu5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 06:50:57 -0500
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jqtz42Yn2z67VnM;
+        Fri,  4 Feb 2022 19:46:08 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 4 Feb 2022 12:50:55 +0100
+Received: from [10.47.87.24] (10.47.87.24) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 4 Feb
+ 2022 11:50:47 +0000
+Content-Type: multipart/mixed;
+        boundary="------------Om3S7qykNY4xaw3MSzqO7tsA"
+Message-ID: <c3cb7228-254e-9584-182b-007ac5e6fe0a@huawei.com>
+Date:   Fri, 4 Feb 2022 11:50:43 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
 Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, artur.paszkiewicz@intel.com,
-        jinpu.wang@cloud.ionos.com, chenxiang66@hisilicon.com,
-        Ajish.Koshy@microchip.com
-Cc:     yanaijie@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com, liuqi115@huawei.com, Viswas.G@microchip.com
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <Ajish.Koshy@microchip.com>
+CC:     <yanaijie@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>, <liuqi115@huawei.com>,
+        <Viswas.G@microchip.com>
 References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
  <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
  <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
@@ -93,151 +49,267 @@ References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
  <f3362c6f-b4b6-2914-0652-d786e19b6b03@opensource.wdc.com>
  <62e56609-7026-93a1-a446-a6fd68328653@opensource.wdc.com>
  <e8af9d55-bf36-faa0-defb-3a9a4931826e@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <e8af9d55-bf36-faa0-defb-3a9a4931826e@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <2bd15f44-0b56-b6e0-8ef8-c33ba9ee7caa@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <2bd15f44-0b56-b6e0-8ef8-c33ba9ee7caa@opensource.wdc.com>
+X-Originating-IP: [10.47.87.24]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/22 19:36, John Garry wrote:
-> On 04/02/2022 03:02, Damien Le Moal wrote:
->>> The inconsistency is this line says:
->>> [  137.193944] pm80xx0:: pm80xx_chip_sata_req  4581:no data
->>> Which seems to be sensical for NCQ_NON_DATA command, but then, this line
->>> seems wrong:
->>> [  137.228015] pm80xx0:: mpi_sata_completion  2515:FPDMA len = 8
->>>
->>> I need to go and check the specs what the FIS reply format is for
->>> NCQ_NON_DATA.
->>>
->>>
->>> [  137.187184] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec device
->>> [  137.193944] pm80xx0:: pm80xx_chip_sata_req  4581:no data
->>> [  137.199339] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
->>> command 0x63 inb 4
->>> [  137.207577] pm80xx0:: pm8001_mpi_msg_consume  1446:: CI=46 PI=47
->>> msgHeader=8104200d
->>> [  137.215399] pm80xx0:: mpi_sata_completion  2481:IO_SUCCESS
->>> [  137.220961] pm80xx0:: mpi_sata_completion  2503:SAS_PROTO_RESPONSE
->>> len = 20
->>> [  137.228015] pm80xx0:: mpi_sata_completion  2515:FPDMA len = 8
->>> [  137.233878] pm80xx0:: pm8001_mpi_msg_free_set  1403: CI=47 PI=47
->>> [  137.236696] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec device
->>> [  137.247102] pm80xx0:: pm80xx_chip_sata_req  4585:DMA
->>> [  137.252186] pm80xx0:: pm80xx_chip_sata_req  4593:FPDMA
->>> [  137.257400] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
->>> command 0x65 inb f
->>> [  167.506280] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
->>> [  167.512363] sas: sas_scsi_find_task: aborting task 0x00000000aa372627
->>> [  167.519049] pm80xx0:: pm8001_chip_abort_task  4607:cmd_tag = 2, abort
->>> task tag = 0x1
->>> [  187.969173] pm80xx0:: pm8001_exec_internal_task_abort  753:TMF task
->>> timeout.
+--------------Om3S7qykNY4xaw3MSzqO7tsA
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 04/02/2022 11:27, Damien Le Moal wrote:
+>> As I mentioned, having this fail is a red flag. If I was pushed to guess
+>> what has happened, I'd say the FW is faulting due to some erroneous
+>> driver behaviour.
+> I am still thinking that there is something wrong with the handling of
+> NCQ NON DATA command. There are several places where the code determines
+> non-data vs pio vs dma vs fpdma (ncq), and NCQ NON DATA always falls in
+> the fpdma bucket, which is wrong.
 > 
-> As I mentioned, having this fail is a red flag. If I was pushed to guess 
-> what has happened, I'd say the FW is faulting due to some erroneous 
-> driver behaviour.
 
-I am still thinking that there is something wrong with the handling of
-NCQ NON DATA command. There are several places where the code determines
-non-data vs pio vs dma vs fpdma (ncq), and NCQ NON DATA always falls in
-the fpdma bucket, which is wrong.
+Ok, I will have a look at this. We made some libsas changes related to 
+this not so long ago to "fix" something, see:
 
->> This is the submission path, not completion. The code is:
+53de092f47f ("scsi: libsas: Set data_dir as DMA_NONE if libata marks qc 
+as NODATA")
+
+176ddd89171d ("scsi: libsas: Reset num_scatter if libata marks qc as 
+NODATA")
+
+>>> This is the submission path, not completion. The code is:
+>>>
+>>> (gdb) list *(pm8001_queue_command+0x842)
+>>> 0x3d42 is in pm8001_queue_command (drivers/scsi/pm8001/pm8001_sas.c:491).
+>>> 486				atomic_dec(&pm8001_dev->running_req);
+>>> 487				goto err_out_tag;
+>>> 488			}
+>>> 489			/* TODO: select normal or high priority */
+>>> 490			spin_lock(&t->task_state_lock);
+>>> 491			t->task_state_flags |= SAS_TASK_AT_INITIATOR;
+>>> 492			spin_unlock(&t->task_state_lock);
+>>> 493		} while (0);
+>>> 494		rc = 0;
+>>> 495		goto out_done;
+>>>
+>>> So the task is already completed when the submission path tries to set
+>>> the state flag ? Debugging...
+>> Yeah, that's how it looks.
 >>
->> (gdb) list *(pm8001_queue_command+0x842)
->> 0x3d42 is in pm8001_queue_command (drivers/scsi/pm8001/pm8001_sas.c:491).
->> 486				atomic_dec(&pm8001_dev->running_req);
->> 487				goto err_out_tag;
->> 488			}
->> 489			/* TODO: select normal or high priority */
->> 490			spin_lock(&t->task_state_lock);
->> 491			t->task_state_flags |= SAS_TASK_AT_INITIATOR;
->> 492			spin_unlock(&t->task_state_lock);
->> 493		} while (0);
->> 494		rc = 0;
->> 495		goto out_done;
+>> I already mentioned this problem here:
 >>
->> So the task is already completed when the submission path tries to set
->> the state flag ? Debugging...
+>> https://lore.kernel.org/linux-scsi/0cc0c435-b4f2-9c76-258d-865ba50a29dd@huawei.com/
+>>
+>> Maybe we should just fix it now to rule it out of possibly causing other
+>> issues... I was reluctant to fix it as many places seems to need to be
+>> touched. Let me check it.
+> Here is my current fix:
 > 
-> Yeah, that's how it looks.
+> diff --git a/drivers/scsi/pm8001/pm8001_sas.c
+> b/drivers/scsi/pm8001/pm8001_sas.c
+> index 1b95c73d12d1..16c101577dd3 100644
+> --- a/drivers/scsi/pm8001/pm8001_sas.c
+> +++ b/drivers/scsi/pm8001/pm8001_sas.c
+> @@ -453,13 +453,18 @@ int pm8001_queue_command(struct sas_task *task,
+> gfp_t gfp_flags)
+>                  ccb->ccb_tag = tag;
+>                  ccb->task = t;
+>                  ccb->device = pm8001_dev;
+> +
+> +               /* TODO: select normal or high priority */
+> +               atomic_inc(&pm8001_dev->running_req);
+> +               spin_lock(&t->task_state_lock);
+> +               t->task_state_flags |= SAS_TASK_AT_INITIATOR;
+> +               spin_unlock(&t->task_state_lock);
+> +
+>                  switch (task_proto) {
+>                  case SAS_PROTOCOL_SMP:
+> -                       atomic_inc(&pm8001_dev->running_req);
+>                          rc = pm8001_task_prep_smp(pm8001_ha, ccb);
+>                          break;
+>                  case SAS_PROTOCOL_SSP:
+> -                       atomic_inc(&pm8001_dev->running_req);
+>                          if (is_tmf)
+>                                  rc = pm8001_task_prep_ssp_tm(pm8001_ha,
+>                                          ccb, tmf);
+> @@ -468,7 +473,6 @@ int pm8001_queue_command(struct sas_task *task,
+> gfp_t gfp_flags)
+>                          break;
+>                  case SAS_PROTOCOL_SATA:
+>                  case SAS_PROTOCOL_STP:
+> -                       atomic_inc(&pm8001_dev->running_req);
+>                          rc = pm8001_task_prep_ata(pm8001_ha, ccb);
+>                          break;
+>                  default:
+> @@ -480,13 +484,12 @@ int pm8001_queue_command(struct sas_task *task,
+> gfp_t gfp_flags)
 > 
-> I already mentioned this problem here:
+>                  if (rc) {
+>                          pm8001_dbg(pm8001_ha, IO, "rc is %x\n", rc);
+> +                       spin_lock(&t->task_state_lock);
+> +                       t->task_state_flags &= ~SAS_TASK_AT_INITIATOR;
+> +                       spin_unlock(&t->task_state_lock);
+>                          atomic_dec(&pm8001_dev->running_req);
+>                          goto err_out_tag;
+>                  }
+> -               /* TODO: select normal or high priority */
+> -               spin_lock(&t->task_state_lock);
+> -               t->task_state_flags |= SAS_TASK_AT_INITIATOR;
+> -               spin_unlock(&t->task_state_lock);
+>          } while (0);
+>          rc = 0;
+>          goto out_done;
 > 
-> https://lore.kernel.org/linux-scsi/0cc0c435-b4f2-9c76-258d-865ba50a29dd@huawei.com/
+> With this, No KASAN complaint. I will send a proper patch ASAP.
+
+I had just prepared a patch, but different, attached.
+
 > 
-> Maybe we should just fix it now to rule it out of possibly causing other 
-> issues... I was reluctant to fix it as many places seems to need to be 
-> touched. Let me check it.
+> Of note is that I cannot see what the flag SAS_TASK_AT_INITIATOR is for.
+> It is set and unset only, never tested anywhere in libsas nor pm8001
+> driver. This flag seems totally useless to me, unless this is something
+> that the HW can see ?
 
-Here is my current fix:
+Right, it is only checked by isci AFAIC. And it is not something which 
+HW can see.
 
-diff --git a/drivers/scsi/pm8001/pm8001_sas.c
-b/drivers/scsi/pm8001/pm8001_sas.c
-index 1b95c73d12d1..16c101577dd3 100644
---- a/drivers/scsi/pm8001/pm8001_sas.c
-+++ b/drivers/scsi/pm8001/pm8001_sas.c
-@@ -453,13 +453,18 @@ int pm8001_queue_command(struct sas_task *task,
-gfp_t gfp_flags)
-                ccb->ccb_tag = tag;
-                ccb->task = t;
-                ccb->device = pm8001_dev;
-+
-+               /* TODO: select normal or high priority */
-+               atomic_inc(&pm8001_dev->running_req);
-+               spin_lock(&t->task_state_lock);
-+               t->task_state_flags |= SAS_TASK_AT_INITIATOR;
-+               spin_unlock(&t->task_state_lock);
-+
-                switch (task_proto) {
-                case SAS_PROTOCOL_SMP:
--                       atomic_inc(&pm8001_dev->running_req);
-                        rc = pm8001_task_prep_smp(pm8001_ha, ccb);
-                        break;
-                case SAS_PROTOCOL_SSP:
--                       atomic_inc(&pm8001_dev->running_req);
-                        if (is_tmf)
-                                rc = pm8001_task_prep_ssp_tm(pm8001_ha,
-                                        ccb, tmf);
-@@ -468,7 +473,6 @@ int pm8001_queue_command(struct sas_task *task,
-gfp_t gfp_flags)
-                        break;
-                case SAS_PROTOCOL_SATA:
-                case SAS_PROTOCOL_STP:
--                       atomic_inc(&pm8001_dev->running_req);
-                        rc = pm8001_task_prep_ata(pm8001_ha, ccb);
-                        break;
-                default:
-@@ -480,13 +484,12 @@ int pm8001_queue_command(struct sas_task *task,
-gfp_t gfp_flags)
+Since libsas does not check it the semantics are ill-defined. However I 
+think that it's worth setting it completeness; I thought it was better 
+setting it just before the command is delivered to HW, but the 
+implementation touches more SW. Simpler approach may be better since it 
+aligns with how this flag may be cleared in pm8001_chip_sata_req() under 
+asusmption it is already set.
 
-                if (rc) {
-                        pm8001_dbg(pm8001_ha, IO, "rc is %x\n", rc);
-+                       spin_lock(&t->task_state_lock);
-+                       t->task_state_flags &= ~SAS_TASK_AT_INITIATOR;
-+                       spin_unlock(&t->task_state_lock);
-                        atomic_dec(&pm8001_dev->running_req);
-                        goto err_out_tag;
-                }
--               /* TODO: select normal or high priority */
--               spin_lock(&t->task_state_lock);
--               t->task_state_flags |= SAS_TASK_AT_INITIATOR;
--               spin_unlock(&t->task_state_lock);
-        } while (0);
-        rc = 0;
-        goto out_done;
+Thanks,
+John
+--------------Om3S7qykNY4xaw3MSzqO7tsA
+Content-Type: text/plain; charset="UTF-8";
+	name="0001-scsi-pm8001-Set-SAS_TASK_AT_INITIATOR-before-deliver.patch"
+Content-Disposition: attachment;
+	filename*0="0001-scsi-pm8001-Set-SAS_TASK_AT_INITIATOR-before-deliver.pa";
+	filename*1="tch"
+Content-Transfer-Encoding: base64
 
-With this, No KASAN complaint. I will send a proper patch ASAP.
+RnJvbSAxYWVhNWQ0MDZkZTg4MDZkZTIyN2Y3OWMyNzI4ODk5OTU5MTUzNDAwIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBKb2huIEdhcnJ5IDxqb2huLmdhcnJ5QGh1YXdlaS5j
+b20+CkRhdGU6IEZyaSwgNCBGZWIgMjAyMiAxMToxMjoxMiArMDAwMApTdWJqZWN0OiBbUEFU
+Q0hdIHNjc2k6IHBtODAwMTogU2V0IFNBU19UQVNLX0FUX0lOSVRJQVRPUiBiZWZvcmUgZGVs
+aXZlcmluZwogdGFzawoKQm90aCBEYW1pZW4gYW5kIEkgaGF2ZSBzZWVuIGEgS0FTQU4gdXNl
+LWFmdGVyLWZyZWUgd2FybiBmb3IgYWNjZXNzaW5nIGEKc2FzX3Rhc2sgYWZ0ZXIgZGVsaXZl
+cmluZyB0aGUgYXNzb2NpYXRlZCBjb21tYW5kIHRvIEhXLgoKVGhlIGlzc3VlIGlzIHRoYXQg
+b25jZSB0aGUgY29tbWFuZCBpcyBkZWxpdmVyZWQgaXQgaXMgY29tcGxldGVkIChhbmQgZnJl
+ZWQpCmFzeW5jLCBhbmQsIGFzIHN1Y2gsIGl0IGlzIG5vdCBzYWZlIHRvIHRvdWNoIHRoZSBz
+YXNfdGFzayBhZ2FpbiBpbiB0aGUKZGVsaXZlcnkgcGF0aC4KCkhvd2V2ZXIgdGhlIHNhc190
+YXNrIGlzIHRvdWNoZWQgYWdhaW4gaW4gc2V0dGluZyB0aGUgdGFzayBzdGF0ZQpTQVNfVEFT
+S19BVF9JTklUSUFUT1IgZmxhZy4gVGhlIHNlbWFudGljcyBmb3IgdGhhdCBmbGFnIGlzIG5v
+dCBkZWZpbmVkLApzcGVjaWZpY2FsbHkgYmVjYXVzZSBpdCBpcyBub3QgY2hlY2tlZCBieSBs
+aWJzYXMuIEluZGVlZCwgaXQgaXMgbm90IGV2ZW4KY2hlY2tlZCBieSB0aGlzIGRyaXZlci4g
+Rm9yIHRoZSBzYWtlIG9mIGNvbXBsZXRlbmVzcywgc2V0IHRoYXQgZmxhZyBiZWZvcmUKZGVs
+aXZlcmluZyB0aGUgY29tbWFuZCB0byB0aGUgSFcuCgpSZXBvcnRlZC1ieTogRGFtaWVuIExl
+IE1vYWwgPGRhbWllbi5sZW1vYWxAb3BlbnNvdXJjZS53ZGMuY29tPgpTaWduZWQtb2ZmLWJ5
+OiBKb2huIEdhcnJ5IDxqb2huLmdhcnJ5QGh1YXdlaS5jb20+CgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9zY3NpL3BtODAwMS9wbTgwMDFfaHdpLmMgYi9kcml2ZXJzL3Njc2kvcG04MDAxL3Bt
+ODAwMV9od2kuYwppbmRleCBjODE0ZTUwNzE3MTIuLmM2ZjVhYTI3YmZiZiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9zY3NpL3BtODAwMS9wbTgwMDFfaHdpLmMKKysrIGIvZHJpdmVycy9zY3Np
+L3BtODAwMS9wbTgwMDFfaHdpLmMKQEAgLTE3OTYsNiArMTc5Niw3IEBAIHN0YXRpYyB2b2lk
+IHBtODAwMV9zZW5kX2Fib3J0X2FsbChzdHJ1Y3QgcG04MDAxX2hiYV9pbmZvICpwbTgwMDFf
+aGEsCiAJdGFza19hYm9ydC5kZXZpY2VfaWQgPSBjcHVfdG9fbGUzMihwbTgwMDFfaGFfZGV2
+LT5kZXZpY2VfaWQpOwogCXRhc2tfYWJvcnQudGFnID0gY3B1X3RvX2xlMzIoY2NiX3RhZyk7
+CiAKKwlwbTgwMDFfc2V0X3Rhc2tfYXRfaW5pdGlhdG9yKHRhc2spOwogCXJldCA9IHBtODAw
+MV9tcGlfYnVpbGRfY21kKHBtODAwMV9oYSwgY2lyY3VsYXJRLCBvcGMsICZ0YXNrX2Fib3J0
+LAogCQkJc2l6ZW9mKHRhc2tfYWJvcnQpLCAwKTsKIAlpZiAocmV0KQpAQCAtMTg2OCw2ICsx
+ODY5LDcgQEAgc3RhdGljIHZvaWQgcG04MDAxX3NlbmRfcmVhZF9sb2coc3RydWN0IHBtODAw
+MV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCXNhdGFfY21kLm5jcXRhZ19hdGFwX2Rpcl9tIHw9
+ICgoMHgxIDw8IDcpIHwgKDB4NSA8PCA5KSk7CiAJbWVtY3B5KCZzYXRhX2NtZC5zYXRhX2Zp
+cywgJmZpcywgc2l6ZW9mKHN0cnVjdCBob3N0X3RvX2Rldl9maXMpKTsKIAorCXBtODAwMV9z
+ZXRfdGFza19hdF9pbml0aWF0b3IodGFzayk7CiAJcmVzID0gcG04MDAxX21waV9idWlsZF9j
+bWQocG04MDAxX2hhLCBjaXJjdWxhclEsIG9wYywgJnNhdGFfY21kLAogCQkJc2l6ZW9mKHNh
+dGFfY21kKSwgMCk7CiAJaWYgKHJlcykgewpAQCAtNDE5OCw2ICs0MjAwLDggQEAgc3RhdGlj
+IGludCBwbTgwMDFfY2hpcF9zbXBfcmVxKHN0cnVjdCBwbTgwMDFfaGJhX2luZm8gKnBtODAw
+MV9oYSwKIAlzbXBfY21kLmxvbmdfc21wX3JlcS5sb25nX3Jlc3Bfc2l6ZSA9CiAJCWNwdV90
+b19sZTMyKCh1MzIpc2dfZG1hX2xlbigmdGFzay0+c21wX3Rhc2suc21wX3Jlc3ApLTQpOwog
+CWJ1aWxkX3NtcF9jbWQocG04MDAxX2Rldi0+ZGV2aWNlX2lkLCBzbXBfY21kLnRhZywgJnNt
+cF9jbWQpOworCisJcG04MDAxX3NldF90YXNrX2F0X2luaXRpYXRvcih0YXNrKTsKIAlyYyA9
+IHBtODAwMV9tcGlfYnVpbGRfY21kKHBtODAwMV9oYSwgY2lyY3VsYXJRLCBvcGMsCiAJCQkm
+c21wX2NtZCwgc2l6ZW9mKHNtcF9jbWQpLCAwKTsKIAlpZiAocmMpCkBAIC00MjY2LDYgKzQy
+NzAsNyBAQCBzdGF0aWMgaW50IHBtODAwMV9jaGlwX3NzcF9pb19yZXEoc3RydWN0IHBtODAw
+MV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCQlzc3BfY21kLmxlbiA9IGNwdV90b19sZTMyKHRh
+c2stPnRvdGFsX3hmZXJfbGVuKTsKIAkJc3NwX2NtZC5lc2dsID0gMDsKIAl9CisJcG04MDAx
+X3NldF90YXNrX2F0X2luaXRpYXRvcih0YXNrKTsKIAlyZXQgPSBwbTgwMDFfbXBpX2J1aWxk
+X2NtZChwbTgwMDFfaGEsIGNpcmN1bGFyUSwgb3BjLCAmc3NwX2NtZCwKIAkJCXNpemVvZihz
+c3BfY21kKSwgMCk7CiAJcmV0dXJuIHJldDsKQEAgLTQzNzUsNiArNDM4MCw3IEBAIHN0YXRp
+YyBpbnQgcG04MDAxX2NoaXBfc2F0YV9yZXEoc3RydWN0IHBtODAwMV9oYmFfaW5mbyAqcG04
+MDAxX2hhLAogCQl9CiAJfQogCisJcG04MDAxX3NldF90YXNrX2F0X2luaXRpYXRvcih0YXNr
+KTsKIAlyZXQgPSBwbTgwMDFfbXBpX2J1aWxkX2NtZChwbTgwMDFfaGEsIGNpcmN1bGFyUSwg
+b3BjLCAmc2F0YV9jbWQsCiAJCQlzaXplb2Yoc2F0YV9jbWQpLCAwKTsKIAlyZXR1cm4gcmV0
+OwpAQCAtNDY0Niw2ICs0NjUyLDcgQEAgaW50IHBtODAwMV9jaGlwX3NzcF90bV9yZXEoc3Ry
+dWN0IHBtODAwMV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCWlmIChwbTgwMDFfaGEtPmNoaXBf
+aWQgIT0gY2hpcF84MDAxKQogCQlzc3BUTUNtZC5kc19hZHNfbSA9IDB4MDg7CiAJY2lyY3Vs
+YXJRID0gJnBtODAwMV9oYS0+aW5ibmRfcV90YmxbMF07CisJcG04MDAxX3NldF90YXNrX2F0
+X2luaXRpYXRvcih0YXNrKTsKIAlyZXQgPSBwbTgwMDFfbXBpX2J1aWxkX2NtZChwbTgwMDFf
+aGEsIGNpcmN1bGFyUSwgb3BjLCAmc3NwVE1DbWQsCiAJCQlzaXplb2Yoc3NwVE1DbWQpLCAw
+KTsKIAlyZXR1cm4gcmV0OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zY3NpL3BtODAwMS9wbTgw
+MDFfc2FzLmMgYi9kcml2ZXJzL3Njc2kvcG04MDAxL3BtODAwMV9zYXMuYwppbmRleCBjZWMx
+YWQ0N2JmNWIuLjEwNGZiNGZlMzUyNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9zY3NpL3BtODAw
+MS9wbTgwMDFfc2FzLmMKKysrIGIvZHJpdmVycy9zY3NpL3BtODAwMS9wbTgwMDFfc2FzLmMK
+QEAgLTQ4OCw5ICs0ODgsNiBAQCBzdGF0aWMgaW50IHBtODAwMV90YXNrX2V4ZWMoc3RydWN0
+IHNhc190YXNrICp0YXNrLAogCQl9CiAJCW1kZWxheSgxMCk7CiAJCS8qIFRPRE86IHNlbGVj
+dCBub3JtYWwgb3IgaGlnaCBwcmlvcml0eSAqLwotCQlzcGluX2xvY2soJnQtPnRhc2tfc3Rh
+dGVfbG9jayk7Ci0JCXQtPnRhc2tfc3RhdGVfZmxhZ3MgfD0gU0FTX1RBU0tfQVRfSU5JVElB
+VE9SOwotCQlzcGluX3VubG9jaygmdC0+dGFza19zdGF0ZV9sb2NrKTsKIAl9IHdoaWxlICgw
+KTsKIAlyYyA9IDA7CiAJZ290byBvdXRfZG9uZTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2Nz
+aS9wbTgwMDEvcG04MDAxX3Nhcy5oIGIvZHJpdmVycy9zY3NpL3BtODAwMS9wbTgwMDFfc2Fz
+LmgKaW5kZXggYTE3ZGExY2ViY2UxLi5hN2RhMGNiMzVhNzcgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvc2NzaS9wbTgwMDEvcG04MDAxX3Nhcy5oCisrKyBiL2RyaXZlcnMvc2NzaS9wbTgwMDEv
+cG04MDAxX3Nhcy5oCkBAIC03NDgsNSArNzQ4LDEyIEBAIHBtODAwMV9jY2JfdGFza19mcmVl
+X2RvbmUoc3RydWN0IHBtODAwMV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCXRhc2stPnRhc2tf
+ZG9uZSh0YXNrKTsKIH0KIAorc3RhdGljIGlubGluZSB2b2lkIHBtODAwMV9zZXRfdGFza19h
+dF9pbml0aWF0b3Ioc3RydWN0IHNhc190YXNrICp0KQoreworCXNwaW5fbG9jaygmdC0+dGFz
+a19zdGF0ZV9sb2NrKTsKKwl0LT50YXNrX3N0YXRlX2ZsYWdzIHw9IFNBU19UQVNLX0FUX0lO
+SVRJQVRPUjsKKwlzcGluX3VubG9jaygmdC0+dGFza19zdGF0ZV9sb2NrKTsKK30KKwogI2Vu
+ZGlmCiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9wbTgwMDEvcG04MHh4X2h3aS5jIGIv
+ZHJpdmVycy9zY3NpL3BtODAwMS9wbTgweHhfaHdpLmMKaW5kZXggMjUzMGQxMzY1NTU2Li4x
+MWI5MTFmYWMyYzggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc2NzaS9wbTgwMDEvcG04MHh4X2h3
+aS5jCisrKyBiL2RyaXZlcnMvc2NzaS9wbTgwMDEvcG04MHh4X2h3aS5jCkBAIC0xODA5LDYg
+KzE4MDksNyBAQCBzdGF0aWMgdm9pZCBwbTgweHhfc2VuZF9hYm9ydF9hbGwoc3RydWN0IHBt
+ODAwMV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCXRhc2tfYWJvcnQuZGV2aWNlX2lkID0gY3B1
+X3RvX2xlMzIocG04MDAxX2hhX2Rldi0+ZGV2aWNlX2lkKTsKIAl0YXNrX2Fib3J0LnRhZyA9
+IGNwdV90b19sZTMyKGNjYl90YWcpOwogCisJcG04MDAxX3NldF90YXNrX2F0X2luaXRpYXRv
+cih0YXNrKTsKIAlyZXQgPSBwbTgwMDFfbXBpX2J1aWxkX2NtZChwbTgwMDFfaGEsIGNpcmN1
+bGFyUSwgb3BjLCAmdGFza19hYm9ydCwKIAkJCXNpemVvZih0YXNrX2Fib3J0KSwgMCk7CiAJ
+cG04MDAxX2RiZyhwbTgwMDFfaGEsIEZBSUwsICJFeGVjdXRpbmcgYWJvcnQgdGFzayBlbmRc
+biIpOwpAQCAtMTg4NSw2ICsxODg2LDcgQEAgc3RhdGljIHZvaWQgcG04MHh4X3NlbmRfcmVh
+ZF9sb2coc3RydWN0IHBtODAwMV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCXNhdGFfY21kLm5j
+cXRhZ19hdGFwX2Rpcl9tX2RhZCB8PSAoKDB4MSA8PCA3KSB8ICgweDUgPDwgOSkpOwogCW1l
+bWNweSgmc2F0YV9jbWQuc2F0YV9maXMsICZmaXMsIHNpemVvZihzdHJ1Y3QgaG9zdF90b19k
+ZXZfZmlzKSk7CiAKKwlwbTgwMDFfc2V0X3Rhc2tfYXRfaW5pdGlhdG9yKHRhc2spOwogCXJl
+cyA9IHBtODAwMV9tcGlfYnVpbGRfY21kKHBtODAwMV9oYSwgY2lyY3VsYXJRLCBvcGMsICZz
+YXRhX2NtZCwKIAkJCXNpemVvZihzYXRhX2NtZCksIDApOwogCXBtODAwMV9kYmcocG04MDAx
+X2hhLCBGQUlMLCAiRXhlY3V0aW5nIHJlYWQgbG9nIGVuZFxuIik7CkBAIC00MzQyLDYgKzQz
+NDQsNyBAQCBzdGF0aWMgaW50IHBtODB4eF9jaGlwX3NtcF9yZXEoc3RydWN0IHBtODAwMV9o
+YmFfaW5mbyAqcG04MDAxX2hhLAogCWt1bm1hcF9hdG9taWModG8pOwogCWJ1aWxkX3NtcF9j
+bWQocG04MDAxX2Rldi0+ZGV2aWNlX2lkLCBzbXBfY21kLnRhZywKIAkJCQkmc21wX2NtZCwg
+cG04MDAxX2hhLT5zbXBfZXhwX21vZGUsIGxlbmd0aCk7CisJcG04MDAxX3NldF90YXNrX2F0
+X2luaXRpYXRvcih0YXNrKTsKIAlyYyA9IHBtODAwMV9tcGlfYnVpbGRfY21kKHBtODAwMV9o
+YSwgY2lyY3VsYXJRLCBvcGMsICZzbXBfY21kLAogCQkJc2l6ZW9mKHNtcF9jbWQpLCAwKTsK
+IAlpZiAocmMpCkBAIC00NTM4LDYgKzQ1NDEsNyBAQCBzdGF0aWMgaW50IHBtODB4eF9jaGlw
+X3NzcF9pb19yZXEoc3RydWN0IHBtODAwMV9oYmFfaW5mbyAqcG04MDAxX2hhLAogCQkJc3Nw
+X2NtZC5lc2dsID0gMDsKIAkJfQogCX0KKwlwbTgwMDFfc2V0X3Rhc2tfYXRfaW5pdGlhdG9y
+KHRhc2spOwogCXJldCA9IHBtODAwMV9tcGlfYnVpbGRfY21kKHBtODAwMV9oYSwgY2lyY3Vs
+YXJRLCBvcGMsCiAJCQkmc3NwX2NtZCwgc2l6ZW9mKHNzcF9jbWQpLCBxX2luZGV4KTsKIAly
+ZXR1cm4gcmV0OwpAQCAtNDc3NCw2ICs0Nzc4LDcgQEAgc3RhdGljIGludCBwbTgweHhfY2hp
+cF9zYXRhX3JlcShzdHJ1Y3QgcG04MDAxX2hiYV9pbmZvICpwbTgwMDFfaGEsCiAJCQkJY2Ni
+LT5jY2JfdGFnLCBvcGMsCiAJCQkJcWMgPyBxYy0+dGYuY29tbWFuZCA6IDAsIC8vIGF0YSBv
+cGNvZGUKIAkJCQljY2ItPmRldmljZSA/IGF0b21pY19yZWFkKCZjY2ItPmRldmljZS0+cnVu
+bmluZ19yZXEpIDogMCk7CisJcG04MDAxX3NldF90YXNrX2F0X2luaXRpYXRvcih0YXNrKTsK
+IAlyZXQgPSBwbTgwMDFfbXBpX2J1aWxkX2NtZChwbTgwMDFfaGEsIGNpcmN1bGFyUSwgb3Bj
+LAogCQkJJnNhdGFfY21kLCBzaXplb2Yoc2F0YV9jbWQpLCBxX2luZGV4KTsKIAlyZXR1cm4g
+cmV0OwotLSAKMi4yNi4yCgo=
 
-Of note is that I cannot see what the flag SAS_TASK_AT_INITIATOR is for.
-It is set and unset only, never tested anywhere in libsas nor pm8001
-driver. This flag seems totally useless to me, unless this is something
-that the HW can see ?
-
--- 
-Damien Le Moal
-Western Digital Research
+--------------Om3S7qykNY4xaw3MSzqO7tsA--
