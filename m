@@ -2,150 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5468AC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 23:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62627C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 23:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240984AbiBDXNT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Feb 2022 18:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234597AbiBDXNS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 18:13:18 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 410B1DFB27F2
-        for <linux-doc@vger.kernel.org>; Fri,  4 Feb 2022 15:13:17 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id m14so13872485wrg.12
-        for <linux-doc@vger.kernel.org>; Fri, 04 Feb 2022 15:13:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VfYCxFlpbvl7OujUUxXMKcam5bYyjMQ9TxZLwWilF4Y=;
-        b=IjKsNTP3UmtI+YfyHZJ0qh5DSvYiShtyinPh2WOTKo2LC1R5Im2gedu5u9xfLooF4+
-         UxUJXD/dy/Tl+V8My9opTUaU/uixmq5z0us3RoC7Bgbo700hMuzVj257AuS4ktrqgACR
-         JE1XfixdYgbAeynvegt5gll/MPrWdf0b6BQfbhRUpIoONgo6tKgQYpiUple0FwM9IaHG
-         CmD96KIrg2NPA61K7dJX0+azXzCvdQsfEjax6u2RHlHWTxFWp89xPocpS8yQG7q5+g0H
-         R9WNyOY2Y6TVuu7wHZLpnid1rpTlKUJT2O6qa3lVmtqr6HEuLuR4/QDnfyR3vG9Pq8nW
-         THtw==
+        id S1378204AbiBDXhF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Feb 2022 18:37:05 -0500
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:33348 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231367AbiBDXhD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 18:37:03 -0500
+Received: by mail-oi1-f174.google.com with SMTP id x193so10462793oix.0;
+        Fri, 04 Feb 2022 15:37:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VfYCxFlpbvl7OujUUxXMKcam5bYyjMQ9TxZLwWilF4Y=;
-        b=kEYsTTGni88xz3YmEJ75ccHV8I3agGmCQwujzMsUtK87EtvWN3ZzLU4hYM/cy9cyBa
-         EalMrbxvw9I3Ob/or7KOJBB/qm1rwOeltjsmG0WnIFUyqMUqYx/wMd+QGEXuKmT4lXEZ
-         oWMMfiGQWU29e8DAEGKlXJEIw+zHdghSq8ayCqgWRvrging5ent4Mg2yH6tgLmhwTmO2
-         U4s4X3X7bRFN9gNK9cSusv9vJsEUXNbCWCsNFPPNTWNFhjIChipn+nJPFqCeqzDD6uhe
-         jFc7OkeGGYfx615tA/ijZtA5N+4csponYvDcyq8L2peDAtBAGcyRjRZ3F9FsBadj7oz+
-         XqbA==
-X-Gm-Message-State: AOAM533gywFdNUinD4RyyF2XnwK/q5lRHt90ALiflQhTiuFwo7byY8TN
-        nnygLOuTP6fyOIg0t/q+lV2k7tabL1EitDmH4nFOSA==
-X-Google-Smtp-Source: ABdhPJzL6D+TJwXa5HDo4f0yCGthyil6w59QwryxQD1ifMJhEDqjpOIWu7afVuh86c0pKEcjxS8nNWPb2G3HwFNPOes=
-X-Received: by 2002:a05:6000:1b88:: with SMTP id r8mr916267wru.447.1644016395758;
- Fri, 04 Feb 2022 15:13:15 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dZ4giCvADmPnDI6RyshIy9Yaq4H2NCsxVmH5tlfAm54=;
+        b=2eaWUY7DUJiA2MIVZMkRMnCfl371iXsMb7xkMlFwjsiHrALZZwmYPnwZfYDgQOYX+0
+         3syZXuLd4MexMWxtGPzDPs9bWWJNVMry1GMwXlG2BYMxE8PKG2X9E0NW9ynZ7wTFddO3
+         sWlfVnVzrRFew9vd1sKuiza9BNgTB4uwsufcdBtVvif9PAQpJBO7wcN/OxbKe+OLZImZ
+         o+2c9sQfUYy4leap1oscWCsWdEwuwU0eg+DQ3iFKBnwZSffec33dIyj4sXQI7Rk6if9B
+         W4vQeLpoUtf5d52h5quDctfXimOLh4ijhKlKPw3Gl2HTXFUClhMS9Un4dc9FUavEPlzP
+         LpPg==
+X-Gm-Message-State: AOAM532dvRfD072PW4UawdO4SA1Gaqntf4ArEI3s8PFwFInTk6obxoH4
+        pbyIy8GXnkAQ5/ukvV4hOg==
+X-Google-Smtp-Source: ABdhPJxg123KDgvEdmqZE2xZwnTt7BWrZGgzK8ifbHWV3OLex+k2YjpetEnJ15EfEWRnn92Dkbf3GA==
+X-Received: by 2002:a05:6808:1598:: with SMTP id t24mr2419529oiw.50.1644017823172;
+        Fri, 04 Feb 2022 15:37:03 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id d7sm1230028otf.66.2022.02.04.15.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Feb 2022 15:37:02 -0800 (PST)
+Received: (nullmailer pid 3395904 invoked by uid 1000);
+        Fri, 04 Feb 2022 23:37:01 -0000
+Date:   Fri, 4 Feb 2022 17:37:01 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     smangipudi@nvidia.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        warthog618@gmail.com, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 04/11] dt-bindings: Add HTE bindings
+Message-ID: <Yf24nR9drkBAnYA5@robh.at.kernel.org>
+References: <20220201222630.21246-1-dipenp@nvidia.com>
+ <20220201222630.21246-5-dipenp@nvidia.com>
 MIME-Version: 1.0
-References: <20220204203248.2981902-1-frowand.list@gmail.com>
-In-Reply-To: <20220204203248.2981902-1-frowand.list@gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 5 Feb 2022 07:13:04 +0800
-Message-ID: <CABVgOS=JUxV6PRUZvTQhisSP+p34+K9Z6yT7HkXu6qeqtak1tw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Documentation: dev-tools: clarify KTAP specification wording
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        "Bird, Tim" <Tim.Bird@sony.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Rae Moar <rmr167@gmail.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220201222630.21246-5-dipenp@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 5, 2022 at 4:32 AM <frowand.list@gmail.com> wrote:
->
-> From: Frank Rowand <frank.rowand@sony.com>
->
-> Clarify some confusing phrasing.
-
-Thanks for this! A few comments below:
-
->
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+On Tue, Feb 01, 2022 at 02:26:23PM -0800, Dipen Patel wrote:
+> Introduces HTE devicetree binding details for the HTE subsystem. It
+> includes examples for the consumers, binding details for the providers
+> and specific binding details for the Tegra194 based HTE providers.
+> 
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->
-> One item that may result in bikeshedding is that I added the spec
-> version to the title line.
+>  .../hte/hardware-timestamps-common.yaml       | 29 +++++++
+>  .../devicetree/bindings/hte/hte-consumer.yaml | 44 ++++++++++
+>  .../bindings/hte/nvidia,tegra194-hte.yaml     | 82 +++++++++++++++++++
+>  3 files changed, 155 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+> new file mode 100644
+> index 000000000000..ee6f94890695
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+> @@ -0,0 +1,29 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/hardware-timestamps-common.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hardware timestamp providers
+> +
+> +maintainers:
+> +  - Dipen Patel <dipenp@nvidia.com>
+> +
+> +description: |
+> +  Some devices/SoCs have hardware time stamping engines which can use hardware
+> +  means to timestamp entity in realtime. The entity could be anything from
+> +  GPIOs, IRQs, Bus and so on. The hardware timestamp engine (HTE) present
+> +  itself as a provider with the bindings described in this document.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^hardware-timestamp(@.*|-[0-9a-f])?$"
+> +
+> +  "#hardware-timestamp-cells":
+> +    description:
+> +      Number of cells in a HTE specifier.
+> +
+> +required:
+> +  - "#hardware-timestamp-cells"
+> +
+> +additionalProperties: true
+> diff --git a/Documentation/devicetree/bindings/hte/hte-consumer.yaml b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+> new file mode 100644
+> index 000000000000..bb1232b31455
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-This is fine by me.
+dual license
 
->
->  Documentation/dev-tools/ktap.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index 878530cb9c27..3b7a26816930 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->
-> -========================================
-> -The Kernel Test Anything Protocol (KTAP)
-> -========================================
-> +===================================================
-> +The Kernel Test Anything Protocol (KTAP), version 1
-> +===================================================
->
->  TAP, or the Test Anything Protocol is a format for specifying test results used
->  by a number of projects. It's website and specification are found at this `link
-> @@ -186,7 +186,7 @@ starting with another KTAP version line and test plan, and end with the overall
->  result. If one of the subtests fail, for example, the parent test should also
->  fail.
->
-> -Additionally, all result lines in a subtest should be indented. One level of
-> +Additionally, all lines in a subtest should be indented. One level of
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/hte-consumer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HTE Consumer Device Tree Bindings
+> +
+> +maintainers:
+> +  - Dipen Patel <dipenp@nvidia.com>
 
-The original reason for this is to accommodate "unknown" lines which
-were not generated by the test itself (e.g, a KASAN report or BUG or
-something). These are awkward, as sometimes they're a useful thing to
-have as part of the test result, and sometimes they're unrelated spam.
-(Additionally, I think kselftest will indent these, as it indents the
-full results in a separate pass afterwards, but KUnit won't, as the
-level of nesting is done during printing.)
+select: true
 
-Personally, I'd rather leave this as is, or perhaps call out "unknown"
-lines explicitly, e.g:
-Additionally, all lines in a subtest (except for 'unknown' lines)
-should be indented...
+Or this is never applied.
 
-Thoughts?
+> +
+> +description: |
+> +  HTE properties should be named "hardware-timestamps". The exact meaning of
+> +  each hardware-timestamps property must be documented in the device tree
+> +  binding for each device. An optional property "hardware-timestamp-names" may
+> +  contain a list of strings to label each of the HTE devices listed in the
+> +  "hardware-timestamps" property.
+> +
+> +properties:
+> +  hardware-timestamps:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      The list of HTE provider phandle. The provider must document the number
+> +      of cell that must be passed in this property along with phandle.
+> +
+> +  hardware-timestamp-names:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    description:
+> +      An optional string property.
+> +
+> +required:
+> +  - hardware-timestamps
 
->  indentation is two spaces: "  ". The indentation should begin at the version
->  line and should end before the parent test's result line.
->
-> @@ -225,8 +225,8 @@ Major differences between TAP and KTAP
->  --------------------------------------
->
->  Note the major differences between the TAP and KTAP specification:
-> -- yaml and json are not recommended in diagnostic messages
-> -- TODO directive not recognized
-> +- yaml and json are not recommended in KTAP diagnostic messages
-> +- TODO directive not recognized in KTAP
->  - KTAP allows for an arbitrary number of tests to be nested
->
+And drop this or it will then fail everywhere.
 
-Looks good here, cheers.
+> +
+> +dependencies:
+> +  hardware-timestamp-names: [ hardware-timestamps ]
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    hte_irq_consumer {
+> +              hardware-timestamps = <&tegra_hte_lic 0x19>;
+> +              hardware-timestamp-names = "hte-irq";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> new file mode 100644
+> index 000000000000..c7d2acdb862e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
+Dual license.
 
->  The TAP14 specification does permit nested tests, but instead of using another
-> --
-> Frank Rowand <frank.rowand@sony.com>
->
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hte/nvidia,tegra194-hte.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Tegra194 on chip generic hardware timestamping engine (HTE)
+> +
+> +maintainers:
+> +  - Dipen Patel <dipenp@nvidia.com>
+> +
+> +description: |
+
+Don't need '|' if no formatting.
+
+> +  Tegra194 SoC has multiple generic hardware timestamping engines (GTE) which
+> +  can monitor subset of GPIO and on chip IRQ lines for the state change, upon
+> +  detection it will record timestamp (taken from system counter) in its
+> +  internal hardware FIFO. It has a bitmap array arranged in 32bit slices where
+> +  each bit represent signal/line to enable or disable for the hardware
+> +  timestamping.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra194-gte-aon
+> +      - nvidia,tegra194-gte-lic
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  nvidia,int-threshold:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      HTE device generates its interrupt based on this u32 FIFO threshold
+> +      value. The recommended value is 1.
+> +    minimum: 1
+> +    maximum: 256
+> +
+> +  nvidia,slices:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      HTE lines are arranged in 32 bit slice where each bit represents different
+> +      line/signal that it can enable/configure for the timestamp. It is u32
+> +      property and depends on the HTE instance in the chip. The value 3 is for
+> +      GPIO GTE and 11 for IRQ GTE.
+> +    enum: [3, 11]
+> +
+> +  '#hardware-timestamp-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - nvidia,slices
+> +  - "#hardware-timestamp-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    tegra_hte_aon: hardware-timestamp@c1e0000 {
+> +              compatible = "nvidia,tegra194-gte-aon";
+> +              reg = <0xc1e0000 0x10000>;
+> +              interrupts = <0 13 0x4>;
+> +              nvidia,int-threshold = <1>;
+> +              nvidia,slices = <3>;
+> +              #hardware-timestamp-cells = <1>;
+> +    };
+> +
+> +  - |
+> +    tegra_hte_lic: hardware-timestamp@3aa0000 {
+> +              compatible = "nvidia,tegra194-gte-lic";
+> +              reg = <0x3aa0000 0x10000>;
+> +              interrupts = <0 11 0x4>;
+> +              nvidia,int-threshold = <1>;
+> +              nvidia,slices = <11>;
+> +              #hardware-timestamp-cells = <1>;
+> +    };
+> +
+> +...
+> -- 
+> 2.17.1
+> 
+> 
