@@ -2,441 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD81FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 00:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 036ABC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 01:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238264AbiBDAgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Feb 2022 19:36:51 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:47701 "EHLO
-        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232758AbiBDAgu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Feb 2022 19:36:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1643935010; x=1675471010;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IgOaehzpMwGZOHMTzP6PU6HT3L/5YLrwGCMkdqJSnBs=;
-  b=PPQJxHSqwyfPpCfxhpNzzRPn4cadYsaPgDupIPik7gigRgfiQOFrxbV+
-   8vR0NXdO5sHi6Ug994au7t1B9+WLlFtPPkeAmjoMEppQLev4X9XrgUOtI
-   L+Eb3U+PUpXIEanx6hXKbPOs2BMz9922E9uqgwYsTO+QKV/60T3gZBuWB
-   k6EyCi479IJ9vk1su8xp5muG8UW2vgWyfVNycB0FHQXxg7AQvHrjmGKQg
-   7LWbZAW/duEFFs2c67WLr9nPvHaaaH85cy0PmsMtrnACn4bEw1+ftu+ES
-   ab8PMzJmYLWu95MJKMlVxzR5UmNKQMEfgxWG7YMxYu5uzkkNi3RqA1E3Q
-   w==;
-X-IronPort-AV: E=Sophos;i="5.88,340,1635177600"; 
-   d="scan'208";a="296215460"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 04 Feb 2022 08:36:50 +0800
-IronPort-SDR: mh5AeFnL8N0caY6ZNSDA46Q+AoJTyxTTut0n4hyiMPAV1ktaMgg3m2kgTjUGuGAn1BXon3Jr/E
- WjTQaDgDaltXEvIsUeDMl3rp0hlNgeF4UOGEGVHdbV7Tvx+SNQjB5h4quHSQm8sqLyEEKTllrQ
- gDDSDD7fbiLWLirPxX+fUpxez9VCSE0YUjwyCIMyvdk4s37DY+Thsig9L42gp3RiKYD39oOkVW
- p4ZsRSmggUif84lGMYMuUSyt/Tti5I7vifRzbUbba3c16Nv4ijUH9eebio93IPAxYeGEMpH8m3
- W9iEwIPb9IKTF4ITutCVuguB
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 16:08:45 -0800
-IronPort-SDR: Ked2kNlcPygBeLytVTNZEspAhwu7x6qKxh//TKdnel6cyQ7plydsgi/Kqm8csG9h9ybuywHxeH
- 4hRPL6Ci0kc4rxZA39p+cshseR6x9dGzWcCEqnkg71KYx/Ot9i5QNkCfrBU9m0Ox6kxxVlf4Sr
- yQUP+fFQuag9ffo3eeqlI1EWyAoPYxflwdnbzP2b7JlJdbqf8ZNaaCsdPV1s9614i35qf9JHCi
- pEDUKpI4Twz+rxH91yEXQgAieSYSUiAsrXHmGP/5GGC4NvQRgGXXrBgShK1G6FPzto+cixA2Pe
- 0js=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 16:36:51 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jqc6p0ltrz1SVp2
-        for <linux-doc@vger.kernel.org>; Thu,  3 Feb 2022 16:36:50 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1643935007; x=1646527008; bh=IgOaehzpMwGZOHMTzP6PU6HT3L/5YLrwGCM
-        kdqJSnBs=; b=Dq3sbwIZ339qZL0Fk14sZLjQkAGXdxIzmFyZl6HC2J/sjh3HecH
-        7H2jpjRxry5ddQIWrX0ps1ukQD664HJzmWyZx+Dw8JI3MDLQwQqzQ/BFKT2uU196
-        WtF7Go5BgfISV6ls10EbtcX1fPlJpFO1vfhTZqyCmI/O77VaCF+I1zx1UystYI7d
-        V+czGekGTZNFeBip5ls19j0ylYu34JHDMStA49ui5blQqtYxkj/+NV590clTWvkZ
-        ojwcbYB3wpCQkv3uNfeo0IeLq3B5tv89DQVvM4TxKJB1+Lwv43HXI6w0gum5uEp/
-        GXmhRy6TflEoRDoqkxRTORdQx3hgF2Fnmzw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Qax_LEQQEDHi for <linux-doc@vger.kernel.org>;
-        Thu,  3 Feb 2022 16:36:47 -0800 (PST)
-Received: from [10.225.163.63] (unknown [10.225.163.63])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jqc6j164Qz1Rwrw;
-        Thu,  3 Feb 2022 16:36:44 -0800 (PST)
-Message-ID: <f3362c6f-b4b6-2914-0652-d786e19b6b03@opensource.wdc.com>
-Date:   Fri, 4 Feb 2022 09:36:43 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 00/16] scsi: libsas and users: Factor out LLDD TMF code
+        id S1356370AbiBDBIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Feb 2022 20:08:34 -0500
+Received: from mga17.intel.com ([192.55.52.151]:22281 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1353229AbiBDBId (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Feb 2022 20:08:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643936913; x=1675472913;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:content-transfer-encoding:mime-version;
+  bh=fJIz7Mhsj/v50QFIXyHEfPztnBd4HKZp2E3HVHA3P0Y=;
+  b=aFtVB8RpcCw5CiHlXeRRaAcfWvhh1Bpj4cUJ4MX0ZLAMP8sasrLzYUIu
+   KPOQLFUTOGfOQHlunbXmUTvTxy04VZI5JzllPH6EZQi4NgupxYOqO10Xo
+   XV7iypsUYB0LlqHPV+mH7HyD3bp+cfV4vY49qK5SjB08tHWRZSGkg13Hq
+   Z0C0a8+QGizSrqkK+WmX7thhi+5TozwHJmxI0d11QRGOh0h0v/YnQ8FVI
+   WU88J6KQI+YT+fF7Ven8qf559OiAJPVkp4QxLx2BkF3tIEh7ZpJx4E4r2
+   1B7LPAEoQA354Yb+3ttmL6j2h+y9/NocAhuGpQQAy8rAPHpe4u1jnr2HO
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="228941759"
+X-IronPort-AV: E=Sophos;i="5.88,340,1635231600"; 
+   d="scan'208";a="228941759"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 17:08:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,340,1635231600"; 
+   d="scan'208";a="769817353"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Feb 2022 17:08:30 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 3 Feb 2022 17:08:30 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Thu, 3 Feb 2022 17:08:30 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Thu, 3 Feb 2022 17:08:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i3ThuBvjAoSL6iYPZzD6Lu1hyKb9mKakYb+6QJwn2vVoUEDTopLc3Y1CRtlr49DufVJMdAY9LH0W8eslhJ+S0LSrehTkKMvm56Jc5U86Deia4YCbZ3bItQ/zYvKU4QF45XnYpVEHOm94hcU4R0oLbnmaTNTV+HTq8fPS9LCfGb0X6ZTf7jyN9zVlxlZhnnZfb/2vk6uxrv5cHuXk1TyTChiyxi6iqnmf2mQsmEwrnnivPUIVhdglZBYdLgjbvLz7yAX2xkOL71eRtYAGBjf9w/h+pjzVde17eHJyxBuIpcSIkPfJNw2N9lrHa7HbkoHihu6TvHDseQ+Px/Ux6TAimQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fJIz7Mhsj/v50QFIXyHEfPztnBd4HKZp2E3HVHA3P0Y=;
+ b=iHskvbdlWA4SvkfnCeTZ/GwXKWQ/uo0xu4PdUuaZBCb8oQcfzmhZX8Asao+fNAptMSMMSL1NLZVGLaQXO4BBSMHP4Q8XlUsMP3GReVUjAjr4IsVwU8Obt5N8zaqKCvxhasvKbVRcs2KiqhmcvOLcW1wpyNjS7Sr/QArrAGBFRu44ZWk6tqmettZHzCn5AvA0q0QHJe1eLNzQ2tIGGsa6ZjuWgSaa0PNI8+hopyXy+4I5yxqroCsoK9PL9zICgwZIaO8w9BvaZJtrehKPR4e/WLI3CrYCiPVyxjElF+uqCRff6ZA0Ee6TK8i581gczyzkYw54E/x/dgEJjhH0/JIUuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
+ by DM5PR1101MB2250.namprd11.prod.outlook.com (2603:10b6:4:4d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.14; Fri, 4 Feb
+ 2022 01:08:25 +0000
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::7053:5a70:1fec:345f]) by MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::7053:5a70:1fec:345f%7]) with mapi id 15.20.4930.022; Fri, 4 Feb 2022
+ 01:08:25 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Thread-Topic: [PATCH 00/35] Shadow stacks for userspace
+Thread-Index: AQHYFh9orVaVUe6rNECZu4edjJzhZqyCV/wAgABDLwA=
+Date:   Fri, 4 Feb 2022 01:08:25 +0000
+Message-ID: <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
+References: <87fsozek0j.ffs@tglx>
+In-Reply-To: <87fsozek0j.ffs@tglx>
+Accept-Language: en-US
 Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, artur.paszkiewicz@intel.com,
-        jinpu.wang@cloud.ionos.com, chenxiang66@hisilicon.com,
-        Ajish.Koshy@microchip.com
-Cc:     yanaijie@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com, liuqi115@huawei.com, Viswas.G@microchip.com
-References: <1643110372-85470-1-git-send-email-john.garry@huawei.com>
- <1893d9ef-042b-af3b-74ea-dd4d0210c493@opensource.wdc.com>
- <14df160f-c0f2-cc9f-56d4-8eda67969e0b@huawei.com>
- <a8fae323-1877-058a-b03e-d175a725213f@opensource.wdc.com>
- <a2de1656-b1ec-2fb7-caab-657e27dacb48@huawei.com>
- <49da4d80-5cc3-35c3-ccaa-6def8165eb65@huawei.com>
- <59a198a8-1d87-bc09-d2d8-2d495ed74c16@opensource.wdc.com>
- <098f988e-1f12-c412-3111-60393dfe0f0b@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <098f988e-1f12-c412-3111-60393dfe0f0b@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 50709fa9-b40f-4944-2126-08d9e77ad8b0
+x-ms-traffictypediagnostic: DM5PR1101MB2250:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <DM5PR1101MB225085E9EE8C553906AB1E26C9299@DM5PR1101MB2250.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jABcsoNOU4+nIU2z2f7aDtB/iKIkQhyYhsZ9A9RDYJycwfN/TW5PlQE6pYDDyz6ESCo5HvvPE8Sj2pDbRPHbmmXqP/R5qaWJM2Ol81UvGpi9ack+7Etq115Fj7l8EAKfMQtC9GPfhBJsvyBkfJpcgyHzx/VIvbtWWgAjBX35noHGRUA15l4I6957F/75nJLEOJqAq6STuxW5orftJrtaFqybDGAUkinRBMeFlnxP5SQgDozFa5sS+mhyF4Bh1r5zNYyw5HFZCJeYTNv95ZLzYZ/qvBF2NKhyql/m8gAPTTqOmwDXdxW1hi4L/JAMQm/+xtyP85U95VLyRIvoXGcGohDyuWqt284yotY95K2O8JGJaqQ0OISFYtYNRpgQ2ZgwkVdqJ8cJhQpiSb0jowQMWhw/wy6Sup2/GpuIsFgFxVuGb8CkVoX5Ul3USE/kmYDzw8N9RW/G3aHJ3kRsFQ2LGvtvt2V29z6/HN8TDXVtCbuog5EHITeK5AbRV0ZHQD2jiwWhjxfpyknU3rGDgWd6EYjSjeIHq4cPazd+iwKsP3ZfQOVNr/4MRMGX+5VtHqL6ZtohUi1wlFbXY9JBDu05UolseeM4CT+nBR8+4BYj3fn+/2r4/Z+ShV3+ZGuS4UThPqp5/W35RcBcf/t4JT+g/HkUj/O5hODYu5Nxdho89xc70J8vhCcmfbGO5yKfKReqxtYM5JHX8ViZgojC7S2c4ZiEGNWEV+B6wCtc2yJZnocckok+XEDzoiHItpbOntpz
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(7406005)(316002)(7416002)(8936002)(110136005)(921005)(122000001)(66556008)(38100700002)(86362001)(76116006)(66946007)(82960400001)(66476007)(38070700005)(5660300002)(8676002)(64756008)(66446008)(6512007)(6506007)(186003)(26005)(83380400001)(71200400001)(2616005)(6486002)(36756003)(2906002)(508600001)(99106002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dk05b0hDWEhpVDkrY1h6Vk12WVUzY0pRMEhVOUE3Y21MdXd3RkNkaVFURm5G?=
+ =?utf-8?B?U2VvczhsZGtUYk8zV0o3K3pTYTdIL0xJU2cxaHplcDRhUWUyMWhxMzByY0Za?=
+ =?utf-8?B?M2hXZXR4RzhENmZUamRFZktUa0hGazZHclJJNEFSdzBxd0U4R3hRcmhiR0tC?=
+ =?utf-8?B?YkEyc0c2KzlUbTR4SWl0S0dqS3d6U0gxaGd0VUtsRWh0VkcxV0lqb3M1ek0v?=
+ =?utf-8?B?R0VaZTNUSUtjTWlRbUF0UVhJMWtMYWNWMzNuaE5XTG11ZDZ4bVN1dTRnSG40?=
+ =?utf-8?B?V1NJZ1VnS3I5dU0rdzdhUGxMUUd4cG5mYU5SUmhiaW8vQlcrWG9ZY2JKc1NC?=
+ =?utf-8?B?bnEzanpQc0E2US9SZVpzNkNRWW5NZnUzcjlaakRxeTdDR0V3NUh5eTJwVlNJ?=
+ =?utf-8?B?bCtBM3h1UnJIRlRZNG85bHlNb2JFSTdqek9EQXNLa2xpMWVhT0NsT0JyUitt?=
+ =?utf-8?B?a242WEZNakgxbmdwN2p2SnAveXpnYUp5NEdrMXI0bk9WNTUvN1FJVHFUdXFo?=
+ =?utf-8?B?MW80L0MzaWMzZGVBMnA3SzZ0ZGF4Q2lHVmpaeVR4c1VpZUlRMEtIbGdkUmpJ?=
+ =?utf-8?B?NUxtSUFxVGtGOXlzV1NTaHlwNTRGazh4M2FFMldoaXNzZ2w4M0ViNE1SaWxT?=
+ =?utf-8?B?L3lLNWs2Y0lnNjBsR3FrK0wrRE1wTWJOaHJRSFpiQ0Z5UEhPUjkxRlRIWVNH?=
+ =?utf-8?B?Ukx0U1A3R0Z2Q1BYRHM4cHNaTkxVNFU0TzZCdDZnamhKVGlZYVhsWExqMCtC?=
+ =?utf-8?B?aStHa3NQLzZiRytEQ0hsSVZVNUtxa0tBQzFtcEtoREtlWk1PRVFPb2pZZmR3?=
+ =?utf-8?B?cFozdjhieUxFKzNab3FOQmNuR1Q3S2VuZFRnR0NwbUpyZGIyNGo2akNkWTZn?=
+ =?utf-8?B?ZFZjb2RhQktRYzF6RWMwRGNsWDBtRnB4dWFlNWRoRDBhZWFHNUd5c2N0aW1V?=
+ =?utf-8?B?VGEwNHkySHJlT1V5TzVzamZ5OWc3RjVHVDBjQ2pJRFlNOGQyUFUwL2wvZGJN?=
+ =?utf-8?B?S08rVlFaYXhqek8xeWR3YXllOWloN3dCd1h5UHhvQmVDZ3g1TEo1VkpSUlQz?=
+ =?utf-8?B?aS9FWW5CK0V0TG03TGJYbDUzd3FGN1NCVGVzQ0VtWGo4OHhPblk0cDNKLzdp?=
+ =?utf-8?B?ODVCWkgydTA5cCt6U1RxSTZWV3ZsK0Q0a05uN2lYYmNHbEwyR3JySEFValNW?=
+ =?utf-8?B?ZVdpMmN4alRiRmQxcW9DdGcxbzZOM0hyOXFGanZvUlZ4NzNSc3o0UGp4emJG?=
+ =?utf-8?B?Z2N0c3cvdkpOd1ZlZkpCY2tBOW1oZmdQQ3BqKzYzRTZtZlJvSXAzNVdIR0Qr?=
+ =?utf-8?B?Rzc0QXZqZGNlb2ZmUkJJVmtUNTRXL2Q2VlREYldjUzNTWk5HZ3ZqdnEwNFRv?=
+ =?utf-8?B?UHNVUnpudUdwcTdFQnBvWEg1cjJKaE1EM0N3VGx3QnBlY0ozTkVEUjBXVHBo?=
+ =?utf-8?B?MnE0YUxtTlBpZmsybVBjTFo1ZHdTZmo0Yk1sT2UrZHpEQk1RNjZLR2Q3UVJ3?=
+ =?utf-8?B?cGU5bDNjVFpld0p1OFZmdWdoYUE3RjZEMVdxMVFjVzN4Y0hEUDFGeXNrbFJL?=
+ =?utf-8?B?U1VJQ0VaTE1ETEQ5TlhGOUk0NHgyVm9abTFiOHVIMHFlRjBPdHdMZFJGdzQ1?=
+ =?utf-8?B?Zm55aHB0ZS9iTHk1N3RZQkhrMnFPQTJTbWszUDM3bjZhdkZxVUhZNHRILzJZ?=
+ =?utf-8?B?cUUwcTVOdUZ6WE9RVnJiamIyTzJBbnhONW5mdFhBL0N0N3Rna3lGOEJXVkFp?=
+ =?utf-8?B?bXNzNHRrekx2aXc2YUN0cGVNU2lMOERGMU5naUhmWENtaTQyV0o4QUliOENL?=
+ =?utf-8?B?K1NmWGk3dEt5U2tTK1orcURRSmZVdVZyKzR5U0lWNExWSk4rYmFhdVpLNnNz?=
+ =?utf-8?B?TktrR0NmY3ovUmpyQks2Q0N5eG9zdTNtYzdxVGkxREZWckxreDNxUFJIMHZV?=
+ =?utf-8?B?Sit0K0g1aEpLcTQ2b29ydnJSV0F5SVBVVEpWQno5bFlmUlMrT0c1RHBqVWRX?=
+ =?utf-8?B?NWZ3Ym42NTNmVEt4SkhRaG1Pd096WVRla0R4TlJqOGtXYU40ZEdVSndQQWxO?=
+ =?utf-8?B?Yms3UEYyaGY4dGNyTmU5ejd1R2hsNUhKa2NhM0ptNGJHcjJXdXdSQWZrODl2?=
+ =?utf-8?B?RnAyczJVNDhUK25QKzRITlpMWVp1QjNMeDJmUUI1cUc2cmZrNHR2VVZoMnNh?=
+ =?utf-8?B?Zk01Nysyai8yaVYrYzVLVHJ6OFdkbmRMeWdGMGF3YXMzZStORUgyNVlGUlZD?=
+ =?utf-8?Q?SXO/4Xq3wOu4+gFSgK9VcvUF/TsaGjqRQO22zVweLU=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BCC1B8291701F34A831386F8832B6C45@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50709fa9-b40f-4944-2126-08d9e77ad8b0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2022 01:08:25.4271
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4jGy60lhcFQcq83K6g4hBDZg2WJR7x1G75BAfs1UHXGLLzg018fH+E5a1k9Cp27neefP207wzXarRq6DAXxPwqiuifl1wHBzMrM04z/1Oio=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2250
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/22 00:55, John Garry wrote:
-> On 03/02/2022 09:44, Damien Le Moal wrote:
->=20
-> Hi Damien,
->=20
->>>>> [=C2=A0 385.102073] sas: Enter sas_scsi_recover_host busy: 1 failed=
-: 1
->>>>> [=C2=A0 385.108026] sas: sas_scsi_find_task: aborting task 0x000000=
-007068ed73
->>>>> [=C2=A0 405.561099] pm80xx0:: pm8001_exec_internal_task_abort=C2=A0=
- 757:TMF task
->=20
-> Contrary to mentioning TMF in the log, this is not a TMF but rather an=20
-> internal abort timing out. I don't think that this should ever happen.=20
-> This command should just abort pending IO commands in the controller an=
-d=20
-> not send anything to the target. So for this to timeout means a HW faul=
-t=20
-> or driver bug. And I did not touch this code for pm8001.
->=20
->>>>> timeout.
->>>>> [=C2=A0 405.568236] sas: sas_scsi_find_task: task 0x000000007068ed7=
-3 is
->>>>> aborted
->>>>> [=C2=A0 405.574930] sas: sas_eh_handle_sas_errors: task 0x000000007=
-068ed73 is
->>>>> aborted
->>>>> [=C2=A0 411.192602] ata21.00: qc timeout (cmd 0xec)
->>>>> [=C2=A0 431.672122] pm80xx0:: pm8001_exec_internal_task_abort=C2=A0=
- 757:TMF task
->>>>> timeout.
->>>>> [=C2=A0 431.679282] ata21.00: failed to IDENTIFY (I/O error, err_ma=
-sk=3D0x4)
->>>>> [=C2=A0 431.685544] ata21.00: revalidation failed (errno=3D-5)
->>>>> [=C2=A0 441.911948] ata21.00: qc timeout (cmd 0xec)
->>>>> [=C2=A0 462.391545] pm80xx0:: pm8001_exec_internal_task_abort=C2=A0=
- 757:TMF task
->>>>> timeout.
->>>>> [=C2=A0 462.398696] ata21.00: failed to IDENTIFY (I/O error, err_ma=
-sk=3D0x4)
->>>>> [=C2=A0 462.404992] ata21.00: revalidation failed (errno=3D-5)
->>>>> [=C2=A0 492.598769] ata21.00: qc timeout (cmd 0xec)
->>>>> ...
->>>>>
->=20
-> Do you have a fuller dmesg with my series?
-
-Here it is below. Conditions: I rebased everything on Linus latest
-master, applied your series and the patch you sent below, rebooted with
-pm80xx module option logging_level=3D31.
-
-Device scan is all OK. With the system idle, I simply start libzbc tests
-on the SATA SMR drive I have on the HBA.
-
-The first command issued is 0x63 =3D=3D NCQ NON DATA and seems to be OK, =
-but
-it seems that there are inconsistencies. And that may be what breaks the
-adapter/driver state because everything after that command miserably
-fails and does not complete.
-
-The inconsistency is this line says:
-[  137.193944] pm80xx0:: pm80xx_chip_sata_req  4581:no data
-Which seems to be sensical for NCQ_NON_DATA command, but then, this line
-seems wrong:
-[  137.228015] pm80xx0:: mpi_sata_completion  2515:FPDMA len =3D 8
-
-I need to go and check the specs what the FIS reply format is for
-NCQ_NON_DATA.
-
-
-[  137.187184] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec devic=
-e
-[  137.193944] pm80xx0:: pm80xx_chip_sata_req  4581:no data
-[  137.199339] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
-command 0x63 inb 4
-[  137.207577] pm80xx0:: pm8001_mpi_msg_consume  1446:: CI=3D46 PI=3D47
-msgHeader=3D8104200d
-[  137.215399] pm80xx0:: mpi_sata_completion  2481:IO_SUCCESS
-[  137.220961] pm80xx0:: mpi_sata_completion  2503:SAS_PROTO_RESPONSE
-len =3D 20
-[  137.228015] pm80xx0:: mpi_sata_completion  2515:FPDMA len =3D 8
-[  137.233878] pm80xx0:: pm8001_mpi_msg_free_set  1403: CI=3D47 PI=3D47
-[  137.236696] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec devic=
-e
-[  137.247102] pm80xx0:: pm80xx_chip_sata_req  4585:DMA
-[  137.252186] pm80xx0:: pm80xx_chip_sata_req  4593:FPDMA
-[  137.257400] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
-command 0x65 inb f
-[  167.506280] sas: Enter sas_scsi_recover_host busy: 1 failed: 1
-[  167.512363] sas: sas_scsi_find_task: aborting task 0x00000000aa372627
-[  167.519049] pm80xx0:: pm8001_chip_abort_task  4607:cmd_tag =3D 2, abor=
-t
-task tag =3D 0x1
-[  187.969173] pm80xx0:: pm8001_exec_internal_task_abort  753:TMF task
-timeout.
-[  187.976450] sas: sas_scsi_find_task: task 0x00000000aa372627 is aborte=
-d
-[  187.983244] sas: sas_eh_handle_sas_errors: task 0x00000000aa372627 is
-aborted
-[  188.144734] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec devic=
-e
-[  188.151555] pm80xx0:: pm80xx_chip_sata_req  4588:PIO
-[  188.156648] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
-command 0xec inb 8
-[  193.600813] ata21.00: qc timeout (cmd 0xec)
-[  193.605976] pm80xx0:: pm8001_chip_abort_task  4607:cmd_tag =3D 4, abor=
-t
-task tag =3D 0x3
-[  214.080236] pm80xx0:: pm8001_exec_internal_task_abort  753:TMF task
-timeout.
-[  214.087563] ata21.00: failed to IDENTIFY (I/O error, err_mask=3D0x4)
-[  214.093929] ata21.00: revalidation failed (errno=3D-5)
-[  214.256233] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec devic=
-e
-[  214.263043] pm80xx0:: pm80xx_chip_sata_req  4588:PIO
-[  214.268128] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
-command 0xec inb 8
-[  224.319899] ata21.00: qc timeout (cmd 0xec)
-[  224.324317] pm80xx0:: pm8001_chip_abort_task  4607:cmd_tag =3D 6, abor=
-t
-task tag =3D 0x5
-[  244.799433] pm80xx0:: pm8001_exec_internal_task_abort  753:TMF task
-timeout.
-[  244.806750] ata21.00: failed to IDENTIFY (I/O error, err_mask=3D0x4)
-[  244.813110] ata21.00: revalidation failed (errno=3D-5)
-[  244.975500] pm80xx0:: pm8001_queue_command  408:pm8001_task_exec devic=
-e
-[  244.982314] pm80xx0:: pm80xx_chip_sata_req  4588:PIO
-[  244.987400] pm80xx0:: pm80xx_chip_sata_req  4682:Sending Normal SATA
-command 0xec inb 8
-[  275.006814] ata21.00: qc timeout (cmd 0xec)
-[  275.011236] pm80xx0:: pm8001_chip_abort_task  4607:cmd_tag =3D 8, abor=
-t
-task tag =3D 0x7
-[  295.486387] pm80xx0:: pm8001_exec_internal_task_abort  753:TMF task
-timeout.
-[  295.494025] ata21.00: failed to IDENTIFY (I/O error, err_mask=3D0x4)
-[  295.500390] ata21.00: revalidation failed (errno=3D-5)
-[  295.509179] ata21.00: disable device
-[  295.670556] sas: --- Exit sas_scsi_recover_host: busy: 0 failed: 1
-tries: 1
-[  295.670570] sd 19:0:2:0: [sdj] REPORT ZONES start lba 0 failed
-[  295.689972] sd 19:0:2:0: [sdj] REPORT ZONES: Result: hostbyte=3DDID_OK
-driverbyte=3DDRIVER_OK
-[  295.700621] sd 19:0:2:0: [sdj] Sense Key : Not Ready [current]
-[  295.708975] sd 19:0:2:0: [sdj] Add. Sense: Logical unit not ready,
-hard reset required
-[  295.719331] sd 19:0:2:0: [sdj] 0 4096-byte logical blocks: (0 B/0 B)
-[  295.728727] sd 19:0:2:0: [sdj] Write Protect is on
-[  295.737928] sdj: detected capacity change from 39063650304 to 0
-[  295.826347] sd 19:0:2:0: [sdj] tag#158 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  295.838761] sd 19:0:2:0: [sdj] tag#158 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  295.920864] sd 19:0:2:0: [sdj] tag#780 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  295.933341] sd 19:0:2:0: [sdj] tag#780 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.010417] sd 19:0:2:0: [sdj] tag#248 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.022275] sd 19:0:2:0: [sdj] tag#248 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.101348] sd 19:0:2:0: [sdj] tag#949 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.113924] sd 19:0:2:0: [sdj] tag#949 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.192258] sd 19:0:2:0: [sdj] tag#25 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.204788] sd 19:0:2:0: [sdj] tag#25 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.284546] sd 19:0:2:0: [sdj] tag#273 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.297126] sd 19:0:2:0: [sdj] tag#273 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.376896] sd 19:0:2:0: [sdj] tag#653 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.389475] sd 19:0:2:0: [sdj] tag#653 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.468095] sd 19:0:2:0: [sdj] tag#159 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.479974] sd 19:0:2:0: [sdj] tag#159 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.560861] sd 19:0:2:0: [sdj] tag#274 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.572792] sd 19:0:2:0: [sdj] tag#274 CDB: Test Unit Ready 00 00 00
-00 00 00
-[  296.654506] sd 19:0:2:0: [sdj] tag#727 FAILED Result:
-hostbyte=3DDID_BAD_TARGET driverbyte=3DDRIVER_OK cmd_age=3D0s
-[  296.667151] sd 19:0:2:0: [sdj] tag#727 CDB: Test Unit Ready 00 00 00
-00 00 00
-
-After these messages, the tests exit on failure (drive dropped) and
-there are no more messages. Doing rmmod or anything else get stuck too.
-I have to reset the machine to get back to a good state.
-
-I am starting to think that NCQ NON DATA command is being very badly
-handled... Switching the tests to run with all non-NCQ commands is
-working fine, albeit horribly slow (much slower than with other HBAs,
-e.g. Broadcom).
-
-Digging...
-
->=20
-> ...
->=20
->>> }
->>> - res =3D -TMF_RESP_FUNC_FAILED;
->>> + res =3D TMF_RESP_FUNC_FAILED;
->>>
->>> That's effectively the same as what I have in this series in
->>> sas_execute_tmf().
->>>
->>> However your testing is a SATA device, which I'll check further.
->> This did not help. Still seeing 100% reproducible hangs.
->=20
-> OK, but I think that we should also have this change as the mainline=20
-> codes looks broken to be begin with:
->=20
-> --->8 ---
->=20
-> [PATCH] scsi: libsas: Handle all errors in sas_scsi_find_task()
->=20
-> LLDD TMFs callbacks may return linux or other error codes instead of TM=
-F
-> codes. This may cause problems in sas_scsi_find_task() ->
-> .lldd_query_task(), as only TMF codes are handled there. As such, we ma=
-y
-> not return a task_disposition type. Function sas_eh_handle_sas_errors()=
-=20
-> only handles that type, and may exit error
-> handling early for unrecognised types.
->=20
-> So use TASK_ABORT_FAILED for non-TMF types returned from
-> .lldd_query_task(), on the assumption that the command may still be=20
-> alive and error handling should be escalated.
->=20
-> Signed-off-by: John Garry <john.garry@huawei.com>
->=20
-> diff --git a/drivers/scsi/libsas/sas_scsi_host.c=20
-> b/drivers/scsi/libsas/sas_scsi_host.c
-> index 53d8b7ede0cd..02274f471308 100644
-> --- a/drivers/scsi/libsas/sas_scsi_host.c
-> +++ b/drivers/scsi/libsas/sas_scsi_host.c
-> @@ -316,8 +316,11 @@ static enum task_disposition=20
-> sas_scsi_find_task(struct sas_task *task)
->   				pr_notice("%s: task 0x%p failed to abort\n",
->   					  __func__, task);
->   				return TASK_ABORT_FAILED;
-> +			default:
-> +				pr_notice("%s: task 0x%p result code %d not handled, assuming=20
-> failed\n",
-> +					  __func__, task, res);
-> +				return TASK_ABORT_FAILED;
->   			}
-> -
->   		}
->   	}
->   	return res;
->=20
-> ---8< ----
->=20
->>
->> I did a lot of testing/digging today,=20
->=20
-> Thanks for the effort!
->=20
->  > and the hang cause seems to be
->  > missing task completions.
->> At random, a task times out as its completion
->=20
-> That sounds fimilar to my general issue running this driver on an arm64=
-=20
-> host...
->=20
->> does not come, and subsequent abort trial for the task fail, revalidat=
-e
->> fails
->=20
-> I assume SMP IOs fail if revalidation fails - if this is the case, then=
-=20
-> the controller seems to be in bad state.
->=20
->> and the device is dropped (capacity goes to 0). But at that point,
->> doing rmmod/modprobe to reset the device does not work. sync cache
->> command issued at rmmod time never completes. I end up needing to powe=
-r
->> cycle the machine every time...
->>
->> No clue about the root cause yet, but it definitely seem to be related
->> to NCQ/high QD operation. If I force my tests to use non-NCQ commands,
->> everything is fine and the tests run to completion without any issue.
->>
->> I wonder if their is a tag management bug somewhere...
->=20
-> Maybe. Not sure.
->=20
-> On a related point, Hannes' change here could avoid it:
->=20
-> https://lore.kernel.org/linux-scsi/20210222132405.91369-32-hare@suse.de=
-/
->=20
->>
->> I did stumble on something very ugly in libsas too: sas_ata_qc_issue()
->> drops and retake the ata port lock. No other ATA driver do that since
->> the ata completion also take that lock. The ata port lock is taken
->> before ata_qc_issue() is called with IRQ disabled (spin_lock_irqsave()=
-).
->> So doing a spin_unlock()/spin_lock() in sas_ata_qc_issue() (called fro=
-m
->> ata_qc_issue()) seems like a very bad idea. I removed that and
->> everything work the same way (the lld execute does not sleep). But tha=
-t
->> did not solve the hang problem.
->=20
-> I would need to check why this is done again. Before my time...
->=20
->>
->> Of note is this is all with your libsas patches applied. Without the
->> patches, I have KASAN screaming at me about use-after-free in completi=
-on
->> context. With your patches, KASAN is silent.
->>
->> Another thing: this driver does not allow changing the max qd... Very
->> annoying.
->>
->> echo 1 > /sys/block/sdX/device/queue_depth
->>
->> has no effect. QD stays at 32 for an ATA drive. Need to look into that=
- too.
->=20
-> I had a look at this. It seems that we fail in=20
-> __ata_change_queue_depth() -> ata_scsi_find_dev() returning NULL.
->=20
-> Thanks again for your effort, I will continue to look.
->=20
-> john
-
-
---=20
-Damien Le Moal
-Western Digital Research
+SGkgVGhvbWFzLA0KDQpUaGFua3MgZm9yIGZlZWRiYWNrIG9uIHRoZSBwbGFuLg0KDQpPbiBUaHUs
+IDIwMjItMDItMDMgYXQgMjI6MDcgKzAxMDAsIFRob21hcyBHbGVpeG5lciB3cm90ZToNCj4gPiBV
+bnRpbCBub3csIHRoZSBlbmFibGluZyBlZmZvcnQgd2FzIHRyeWluZyB0byBzdXBwb3J0IGJvdGgg
+U2hhZG93DQo+ID4gU3RhY2sgYW5kIElCVC4gDQo+ID4gVGhpcyBoaXN0b3J5IHdpbGwgZm9jdXMg
+b24gYSBmZXcgYXJlYXMgb2YgdGhlIHNoYWRvdyBzdGFjaw0KPiA+IGRldmVsb3BtZW50IGhpc3Rv
+cnkgDQo+ID4gdGhhdCBJIHRob3VnaHQgc3Rvb2Qgb3V0Lg0KPiA+IA0KPiA+ICAgICAgICBTaWdu
+YWxzDQo+ID4gICAgICAgIC0tLS0tLS0NCj4gPiAgICAgICAgT3JpZ2luYWxseSBzaWduYWxzIHBs
+YWNlZCB0aGUgbG9jYXRpb24gb2YgdGhlIHNoYWRvdyBzdGFjaw0KPiA+IHJlc3RvcmUgDQo+ID4g
+ICAgICAgIHRva2VuIGluc2lkZSB0aGUgc2F2ZWQgc3RhdGUgb24gdGhlIHN0YWNrLiBUaGlzIHdh
+cw0KPiA+IHByb2JsZW1hdGljIGZyb20gYSANCj4gPiAgICAgICAgcGFzdCBBQkkgcHJvbWlzZXMg
+cGVyc3BlY3RpdmUuIFNvIHRoZSByZXN0b3JlIGxvY2F0aW9uIHdhcw0KPiA+IGluc3RlYWQganVz
+dCANCj4gPiAgICAgICAgYXNzdW1lZCBmcm9tIHRoZSBzaGFkb3cgc3RhY2sgcG9pbnRlci4gVGhp
+cyB3b3JrcyBiZWNhdXNlIGluDQo+ID4gbm9ybWFsIA0KPiA+ICAgICAgICBhbGxvd2VkIGNhc2Vz
+IG9mIGNhbGxpbmcgc2lncmV0dXJuLCB0aGUgc2hhZG93IHN0YWNrIHBvaW50ZXINCj4gPiBzaG91
+bGQgYmUgDQo+ID4gICAgICAgIHJpZ2h0IGF0IHRoZSByZXN0b3JlIHRva2VuIGF0IHRoYXQgdGlt
+ZS4gVGhlcmUgaXMgbm8NCj4gPiBhbHRlcm5hdGUgc2hhZG93IA0KPiA+ICAgICAgICBzdGFjayBz
+dXBwb3J0LiBJZiBhbiBhbHQgc2hhZG93IHN0YWNrIGlzIGFkZGVkIGxhdGVyIHdlDQo+ID4gd291
+bGQNCj4gPiAgICAgICAgbmVlZCB0bw0KPiANCj4gU28gaG93IGlzIHRoYXQgZ29pbmcgdG8gd29y
+az8gYWx0c3RhY2sgaXMgbm90IGFuIGVzb3RlcmljIGNvcm5lcg0KPiBjYXNlLg0KDQpNeSB1bmRl
+cnN0YW5kaW5nIGlzIHRoYXQgdGhlIG1haW4gdXNhZ2VzIGZvciB0aGUgc2lnbmFsIHN0YWNrIHdl
+cmUNCmhhbmRsaW5nIHN0YWNrIG92ZXJmbG93cyBhbmQgY29ycnVwdGlvbi4gU2luY2UgdGhlIHNo
+YWRvdyBzdGFjayBvbmx5DQpjb250YWlucyByZXR1cm4gYWRkcmVzc2VzIHJhdGhlciB0aGFuIGxh
+cmdlIHN0YWNrIGFsbG9jYXRpb25zLCBhbmQgaXMNCm5vdCBnZW5lcmFsbHkgd3JpdGFibGUgb3Ig
+cGl2b3RhYmxlLCBJIHRob3VnaHQgdGhlcmUgd2FzIGEgZ29vZA0KcG9zc2liaWxpdHkgYW4gYWx0
+IHNoYWRvdyBzdGFjayB3b3VsZCBub3QgZW5kIHVwIGJlaW5nIGVzcGVjaWFsbHkNCnVzZWZ1bC4g
+RG9lcyBpdCBzZWVtIGxpa2UgcmVhc29uYWJsZSBndWVzc3dvcms/DQoNCklmIGl0IGRvZXMgc2Vl
+bXMgbGlrZWx5LCBJJ2xsIGdpdmUgaXQgc29tZSBtb3JlIHRob3VnaHQgdGhhbiB0aGF0IGhhbmQN
+CndhdnkgcGxhbi4NCg0KPiAgICAgICAgIA0KPiA+ICAgICAgICBMaW1pdCB0byBvbmx5IEludGVs
+IFByb2Nlc3NvcnMNCj4gPiAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
+ID4gICAgICAgIFNoYWRvdyBzdGFjayBpcyBzdXBwb3J0ZWQgb24gc29tZSBBTUQgcHJvY2Vzc29y
+cywgYnV0IHRoaXMNCj4gPiByZXZpc2lvbiANCj4gPiAgICAgICAgKHdpdGggZXhwYW5kZWQgSFcg
+dXNhZ2UgYW5kIHhzYXZlcyBjaGFuZ2VzKSBoYXMgb25seSBoYXMNCj4gPiBiZWVuIHRlc3RlZCBv
+biANCj4gPiAgICAgICAgSW50ZWwgb25lcy4gU28gdGhpcyBzZXJpZXMgaGFzIGEgcGF0Y2ggdG8g
+bGltaXQgc2hhZG93IHN0YWNrDQo+ID4gc3VwcG9ydCB0byANCj4gPiAgICAgICAgSW50ZWwgcHJv
+Y2Vzc29ycy4gSWRlYWxseSB0aGUgcGF0Y2ggd291bGQgbm90IGV2ZW4gbWFrZSBpdA0KPiA+IHRv
+IG1haW5saW5lLCANCj4gPiAgICAgICAgYW5kIHNob3VsZCBiZSBkcm9wcGVkIGFzIHNvb24gYXMg
+dGhpcyB0ZXN0aW5nIGlzIGRvbmUuIEl0J3MNCj4gPiBpbmNsdWRlZCANCj4gPiAgICAgICAganVz
+dCBpbiBjYXNlLg0KPiANCj4gSGEuIEkgY2FuIGdpdmUgeW91IGFjY2VzcyB0byBhbiBBTUQgbWFj
+aGluZSB3aXRoIENFVCBTUyBzdXBwb3J0ZWQgOikNCg0KVGhhbmtzIGZvciB0aGUgb2ZmZXIuIEl0
+IHNvdW5kcyBsaWtlIEpvaG4gQWxsZW4gY2FuIGRvIHRoaXMgdGVzdGluZy4NCg0KPiANCj4gPiBG
+dXR1cmUgV29yaw0KPiA+ID09PT09PT09PT09DQo+ID4gRXZlbiB0aG91Z2ggdGhpcyBpcyBub3cg
+ZXhjbHVzaXZlbHkgYSBzaGFkb3cgc3RhY2sgc2VyaWVzLCB0aGVyZSBpcw0KPiA+IHN0aWxsIHNv
+bWUgDQo+ID4gcmVtYWluaW5nIHNoYWRvdyBzdGFjayB3b3JrIHRvIGJlIGRvbmUuDQo+ID4gDQo+
+ID4gICAgICAgIFB0cmFjZQ0KPiA+ICAgICAgICAtLS0tLS0NCj4gPiAgICAgICAgRWFybHkgaW4g
+dGhlIHNlcmllcywgdGhlcmUgd2FzIGEgcGF0Y2ggdG8gYWxsb3cgSUEzMl9VX0NFVA0KPiA+IGFu
+ZA0KPiA+ICAgICAgICBJQTMyX1BMM19TU1AgdG8gYmUgc2V0LiBUaGlzIHBhdGNoIHdhcyBkcm9w
+cGVkIGFuZCBwbGFubmVkDQo+ID4gYXMgYSBmb2xsb3cNCj4gPiAgICAgICAgdXAgdG8gYmFzaWMg
+c3VwcG9ydCwgYW5kIGl0IHJlbWFpbnMgdGhlIHBsYW4uIEl0IHdpbGwgYmUNCj4gPiBuZWVkZWQg
+Zm9yDQo+ID4gICAgICAgIGluLXByb2dyZXNzIGdkYiBzdXBwb3J0Lg0KPiANCj4gSXQncyBwcmV0
+dHkgbXVjaCBhIHByZXJlcXVpc2l0ZSBmb3IgZW5hYmxpbmcgaXQsIHJpZ2h0Pw0KDQpZZXMuDQoN
+Cj4gDQo+ID4gICAgICAgIENSSVUgU3VwcG9ydA0KPiA+ICAgICAgICAtLS0tLS0tLS0tLS0NCj4g
+PiAgICAgICAgSW4gdGhlIHBhc3QgdGhlcmUgd2FzIHNvbWUgc3BlY3VsYXRpb24gb24gdGhlIG1h
+aWxpbmcgbGlzdA0KPiA+IGFib3V0IA0KPiA+ICAgICAgICB3aGV0aGVyIENSSVUgd291bGQgbmVl
+ZCB0byBiZSB0YXVnaHQgYWJvdXQgQ0VULiBJdCB0dXJucw0KPiA+IG91dCwgaXQgZG9lcy4gDQo+
+ID4gICAgICAgIFRoZSBmaXJzdCBpc3N1ZSBoaXQgaXMgdGhhdCBDUklVIGNhbGxzIHNpZ3JldHVy
+biBkaXJlY3RseQ0KPiA+IGZyb20gaXRzIA0KPiA+ICAgICAgICDigJxwYXJhc2l0ZSBjb2Rl4oCd
+IHRoYXQgaXQgaW5qZWN0cyBpbnRvIHRoZSBkdW1wZXIgcHJvY2Vzcy4NCj4gPiBUaGlzIHZpb2xh
+dGVzDQo+ID4gICAgICAgIHRoaXMgc2hhZG93IHN0YWNrIGltcGxlbWVudGF0aW9u4oCZcyBwcm90
+ZWN0aW9uIHRoYXQgaW50ZW5kcw0KPiA+IHRvIHByZXZlbnQNCj4gPiAgICAgICAgYXR0YWNrZXJz
+IGZyb20gZG9pbmcgdGhpcy4NCj4gPiANCj4gPiAgICAgICAgV2l0aCBzbyBtYW55IHBhY2thZ2Vz
+IGFscmVhZHkgZW5hYmxlZCB3aXRoIHNoYWRvdyBzdGFjaywNCj4gPiB0aGVyZSBpcyANCj4gPiAg
+ICAgICAgcHJvYmFibHkgZGVzaXJlIHRvIG1ha2UgaXQgd29yayBzZWFtbGVzc2x5LiBCdXQgaW4g
+dGhlDQo+ID4gbWVhbnRpbWUgaWYgDQo+ID4gICAgICAgIGRpc3Ryb3Mgd2FudCB0byBzdXBwb3J0
+IHNoYWRvdyBzdGFjayBhbmQgQ1JJVSwgdXNlcnMgY291bGQNCj4gPiBtYW51YWxseSANCj4gPiAg
+ICAgICAgZGlzYWJsZWQgc2hhZG93IHN0YWNrIHZpYQ0KPiA+IOKAnEdMSUJDX1RVTkFCTEVTPWds
+aWJjLmNwdS54ODZfc2hzdGs9b2Zm4oCdIGZvciANCj4gPiAgICAgICAgYSBwcm9jZXNzIHRoZXkg
+d2lsbCB3YW50cyB0byBkdW1wLiBJdOKAmXMgbm90IGlkZWFsLg0KPiA+IA0KPiA+ICAgICAgICBJ
+4oCZZCBsaWtlIHRvIGhlYXIgd2hhdCBwZW9wbGUgdGhpbmsgYWJvdXQgaGF2aW5nIHNoYWRvdyBz
+dGFjaw0KPiA+IGluIHRoZSANCj4gPiAgICAgICAga2VybmVsIHdpdGhvdXQgdGhpcyByZXNvbHZl
+ZC4gTm90aGluZyB3b3VsZCBjaGFuZ2UgZm9yIGFueQ0KPiA+IHVzZXJzIHVudGlsIA0KPiA+ICAg
+ICAgICB0aGV5IGVuYWJsZSBzaGFkb3cgc3RhY2sgaW4gdGhlIGtlcm5lbCBhbmQgdXBkYXRlIHRv
+IGEgZ2xpYmMNCj4gPiBjb25maWd1cmVkDQo+ID4gICAgICAgIHdpdGggQ0VULiBTaG91bGQgQ1JJ
+VSB1c2Vyc3BhY2UgYmUgc29sdmVkIGJlZm9yZSBrZXJuZWwNCj4gPiBzdXBwb3J0Pw0KPiANCj4g
+RGVmaW5pdGVseSB5ZXMuIE1ha2luZyBDUklVIHVzZXJzIGFkZCBhIGdsaWJjIHR1bmFibGUgaXMg
+bm90IHJlYWxseQ0KPiBhbg0KPiBvcHRpb24uIFdlIGNhbid0IGJyZWFrIENSSVUgc3lzdGVtcyB3
+aXRoIGEga2VybmVsIHVwZ3JhZGUuDQoNCk9rIGdvdCBpdCwgdGhhbmtzLiBKdXN0IHRvIGJlIGNs
+ZWFyIHRob3VnaCwgZXhpc3RpbmcgZGlzdHJvcy9iaW5hcmllcw0Kb3V0IHRoZXJlIHdpbGwgbm90
+IGhhdmUgc2hhZG93IHN0YWNrIGVuYWJsZWQgd2l0aCBqdXN0IGFuIHVwZGF0ZWQNCmtlcm5lbCAo
+ZHVlIHRvIHRoZSBlbmFibGluZyBjaGFuZ2VzKS4gU28gdGhlIENSSVUgdG9vbHMgd291bGQgb25s
+eQ0KYnJlYWsgYWZ0ZXIgZnV0dXJlIGdsaWJjIGJpbmFyaWVzIGVuYWJsZSBDRVQsIHdoaWNoIHVz
+ZXJzL2Rpc3Ryb3Mgd291bGQNCmhhdmUgdG8gZG8gc3BlY2lmaWNhbGx5IChnbGliYyBkb2Vzbid0
+IGV2ZW4gZW5hYmxlIGNldCBieSBkZWZhdWx0KS4NCg0KU2luY2UgdGhlIHB1cnBvc2Ugb2YgdGhp
+cyBmZWF0dXJlIGlzIHRvIHJlc3RyaWN0IHByZXZpb3VzbHkgYWxsb3dlZA0KYmVoYXZpb3JzLCBh
+bmQgaXTigJlzIGFwcGFyZW50bHkgZ2V0dGluZyBlbmFibGVkIGJ5IGRlZmF1bHQgaW4gc29tZQ0K
+ZGlzdHJvJ3MgcGFja2FnZXMsIEkgZ3Vlc3MgdGhlcmUgaXMgYSBkZWNlbnQgY2hhbmNlIHRoYXQg
+b25jZSBhIHN5c3RlbQ0KaXMgdXBkYXRlZCB3aXRoIGEgZnV0dXJlIGdsaWJjIHNvbWUgYXBwIHNv
+bWV3aGVyZSB3aWxsIGJyZWFrLiBJIHdhcw0KdW5kZXIgdGhlIGltcHJlc3Npb24gdGhhdCBhcyBs
+b25nIGFzIHRoZXJlIHdlcmUgbm8gYnJlYWthZ2VzIHVuZGVyIGENCmN1cnJlbnQgc2V0IG9mIGJp
+bmFyaWVzIChpbmNsdWRpbmcgZ2xpYmMpLCB0aGlzIHdhcyBub3QgY29uc2lkZXJlZCBhDQprZXJu
+ZWwgcmVncmVzc2lvbi4gUGxlYXNlIGNvcnJlY3QgbWUgaWYgdGhpcyBpcyB3cm9uZy4gSSB0aGlu
+ayB0aGVyZQ0KYXJlIG90aGVyIG9wdGlvbnMgaWYgd2Ugd2FudCB0byBtYWtlIHRoaXMgc29mdGVy
+Lg0KDQpPZiBjb3Vyc2Ugbm9uZSBvZiB0aGF0IHByZXZlbnRzIGtub3duIGJyZWFrYWdlcyBmcm9t
+IGJlaW5nIGZpeGVkIGZvcg0Kbm9ybWFsIHJlYXNvbnMgYW5kIEnigJlsbCBsb29rIGludG8gdGhh
+dCBmb3IgQ1JJVS4NCg==
