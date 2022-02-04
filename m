@@ -2,113 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB933C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 05:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C4B5C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 05:20:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234626AbiBDFRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Feb 2022 00:17:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231770AbiBDFRz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 00:17:55 -0500
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5BEC061714;
-        Thu,  3 Feb 2022 21:17:54 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id y23so7239582oia.13;
-        Thu, 03 Feb 2022 21:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=l3ZQirJN7kR1FPeuRUvVpgAJYVeQULZAuLFjO0OCycA=;
-        b=p9CcdUqxpIyYuG16ViVgRkY2pinhNxSRidZAQdBCd2ImtK0pUMMqpgd0OA0PumJ49n
-         EE2dtVrJUO+aFBJh7FwCEQpRjp+UrauZsf4pfsK/PxoocyYW277OhdmCiP+JfEo1fKZ3
-         LemBe1DMkB9FR3jkrBhVYux7D0KQofgXPsfDq7VsbOLNvX8b7wyDso32Fut0qkTA7T+I
-         Wunk/lVTgteV4eTlZt1kK89SqtnaYyQsq90HpBCU5/jtmvFxcR/qVCnV83QAlFG+IPQ/
-         SmZhMh8V0sU5Bgx+h9Np9BIIPEI/8N03TDJvbBM10M5XlgxVkNQoFR2pJ4einmrHwOFQ
-         VkEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=l3ZQirJN7kR1FPeuRUvVpgAJYVeQULZAuLFjO0OCycA=;
-        b=APNyyeGqXXe+3jnYR4qyv5G1P5DHKIbfVOcvzGj77EMbKFuoDO3Upgiuw4oRTjF04N
-         Q0YITOpHWLu5zVre6/0DYZfiJEbKHEVAIRP//3XXVDbBw2uItCPOoKNlTNzYoCObjH1z
-         6uy/ue6ZZYo3eT14qmE2aZqIU10cBSmeEFofICQYNMrm51jHEkYRYOls5dzc5Qlq+oj8
-         eDnGbX1PbxMxLi6RZJfqfGQ8797bPrwX4WC6cDRc5JiZAWH5jExUbzPpvtHIZ6Evrew/
-         2hlNsjgsrdUWOanUfxXgdnkMht0czQ3c+T4yMmt7cX+urpqImpVKo1JIjVtZIqrEqewh
-         rxLw==
-X-Gm-Message-State: AOAM531Mzf3szUMbhHGNE5mf9JHFLFwc9w1YnwavEXOBKcX6+YH1J04P
-        PiuYZVIPnXNC5qN3ctGED5G7Ib5X19c/GQ==
-X-Google-Smtp-Source: ABdhPJzBOKwXT7CULH5WA5xwsMig5QVBxphnuMvPPGbQp4EqTPdLOL9RTfZewHZwT40Sb/VjnOct4Q==
-X-Received: by 2002:a05:6808:212a:: with SMTP id r42mr597383oiw.94.1643951874102;
-        Thu, 03 Feb 2022 21:17:54 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l14sm352739ooq.12.2022.02.03.21.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 21:17:53 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 3 Feb 2022 21:17:51 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: hwmon: (asus-ec-sensors) Add Crosshair VIII Hero WiFi
-Message-ID: <20220204051751.GA345469@roeck-us.net>
-References: <20220203203052.441712-1-eugene.shalygin@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220203203052.441712-1-eugene.shalygin@gmail.com>
+        id S236392AbiBDFUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Feb 2022 00:20:32 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:50712 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235223AbiBDFUb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 00:20:31 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6FB3B83683
+        for <linux-doc@vger.kernel.org>; Fri,  4 Feb 2022 05:20:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3B2C340E9;
+        Fri,  4 Feb 2022 05:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643952029;
+        bh=YyMGbf0ZqsvTYLYfTUApEeUhPl/FcV973WctliE1Z1o=;
+        h=In-Reply-To:References:Date:From:To:Subject:From;
+        b=AUdDQBlIaAZzSdVDqz1s6pagZyke5HnBWzZnTgTJslocW5z6IbO2wuvitbd+5PCZ7
+         aG40ENbM2yopbXxuo92gcPgrmF6VryGx7eigJtLDcfzGab/CyQEATHgDmBv2SejZw7
+         etnMc2iKINVGrMO1npU0s21JjhqVlx95Gs/hV/EtmnFR2djfgW7oZF26m2ERtjZnKk
+         GKG9TscZ/QcSFXtdRpprz7sONHdWF/xlQlqGpBimiEVzlRg8yBK7hxBy7eQ+Onocqo
+         1HDNni1+qyJ9jAb6mPgS6kk6c6ZYKD2W/0dX+s6jWTwUkftJ/uSGeTtjBp1VKObQ3n
+         9XyKyMfrPOYKA==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 2CDBC27C0054;
+        Fri,  4 Feb 2022 00:20:27 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute5.internal (MEProxy); Fri, 04 Feb 2022 00:20:27 -0500
+X-ME-Sender: <xms:mrf8YVbTm8_pmK_MvOR8hk6Aju6RFy_Zj2fpvrrrGl4r1R_8RiQFEg>
+    <xme:mrf8YcZbdhS0VJHuEqEWUHviIs4UmPJUOJQRbiqSyuzrGO_ewyz1EN-GvBW0g0qen
+    e7OFM3xJLVYuv-4f0U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgeekgdekvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnugih
+    ucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnheptdfhheettddvtedvtedugfeuuefhtddugedvleevleefvdetleffgfef
+    vdekgeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudekheei
+    fedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrd
+    hluhhtohdruhhs
+X-ME-Proxy: <xmx:mrf8YX9PwVICYj5qH6i_Q6FA_NJFrHD25Sm76qBdsm30PwiVUV2N0A>
+    <xmx:mrf8YTpfspnCSqmjVQRKLp3C1gc9XD4BK3b06eKjb7IB1T8hpAGkiw>
+    <xmx:mrf8YQpsPATUCd9qUrXZL34GvGc5O0GY9VC-OihFIJCdFDlVUEVn4A>
+    <xmx:m7f8YUDtAIoRWtGvTdv_-mow5CBI5EaFKojcYhLnXiq5zCDqiR8h_R2RVx4>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id EDE8721E006E; Fri,  4 Feb 2022 00:20:25 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4586-g104bd556f9-fm-20220203.002-g104bd556
+Mime-Version: 1.0
+Message-Id: <6b04d8cb-844e-42a5-9ea2-db0e8eafaa19@www.fastmail.com>
+In-Reply-To: <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
+References: <87fsozek0j.ffs@tglx>
+ <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
+Date:   Thu, 03 Feb 2022 21:20:05 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Jann Horn" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Oleg Nesterov" <oleg@redhat.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "Pavel Machek" <pavel@ucw.cz>, "Arnd Bergmann" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Dave Martin" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 03, 2022 at 09:30:52PM +0100, Eugene Shalygin wrote:
-> The Wi-Fi variant of Crosshair VIII Hero provides the same sensors,
-> which was tested by a Libre Hardware Monitor user [1].
-> 
-> [1] https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/pull/453#issuecomment-1028398487
-> 
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-Applied.
 
-Thanks,
-Guenter
+On Thu, Feb 3, 2022, at 5:08 PM, Edgecombe, Rick P wrote:
+> Hi Thomas,
 
-> ---
->  Documentation/hwmon/asus_ec_sensors.rst | 1 +
->  drivers/hwmon/asus-ec-sensors.c         | 6 ++++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-> index b12ac7ebeb1a..22de1b037cfb 100644
-> --- a/Documentation/hwmon/asus_ec_sensors.rst
-> +++ b/Documentation/hwmon/asus_ec_sensors.rst
-> @@ -7,6 +7,7 @@ Supported boards:
->   * PRIME X570-PRO,
->   * Pro WS X570-ACE,
->   * ROG CROSSHAIR VIII DARK HERO,
-> + * ROG CROSSHAIR VIII HERO (WI-FI)
->   * ROG CROSSHAIR VIII FORMULA,
->   * ROG CROSSHAIR VIII HERO,
->   * ROG CROSSHAIR VIII IMPACT,
-> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-> index 7285334c7d80..05244209c0c6 100644
-> --- a/drivers/hwmon/asus-ec-sensors.c
-> +++ b/drivers/hwmon/asus-ec-sensors.c
-> @@ -188,6 +188,12 @@ static const struct dmi_system_id asus_ec_dmi_table[] __initconst = {
->  		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
->  		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
->  		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
-> +	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
-> +			      "ROG CROSSHAIR VIII HERO (WI-FI)",
-> +		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
-> +		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
-> +		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
-> +		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
->  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
->  			      "ROG CROSSHAIR VIII IMPACT",
->  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+>> >        Signals
+>> >        -------
+>> >        Originally signals placed the location of the shadow stack
+>> > restore 
+>> >        token inside the saved state on the stack. This was
+>> > problematic from a 
+>> >        past ABI promises perspective.
+
+What was the actual problem?
+
+>> > So the restore location was
+>> > instead just 
+>> >        assumed from the shadow stack pointer. This works because in
+>> > normal 
+>> >        allowed cases of calling sigreturn, the shadow stack pointer
+>> > should be 
+>> >        right at the restore token at that time. There is no
+>> > alternate shadow 
+>> >        stack support. If an alt shadow stack is added later we
+>> > would
+>> >        need to
+>> 
+>> So how is that going to work? altstack is not an esoteric corner
+>> case.
+>
+> My understanding is that the main usages for the signal stack were
+> handling stack overflows and corruption. Since the shadow stack only
+> contains return addresses rather than large stack allocations, and is
+> not generally writable or pivotable, I thought there was a good
+> possibility an alt shadow stack would not end up being especially
+> useful. Does it seem like reasonable guesswork?
+
+It's also used for things like DOSEMU that execute in a weird context and then trap back out to the outer program using a signal handler and an altstack.  Also, imagine someone writing a SIGSEGV handler specifically intended to handle shadow stack overflow.
+
+The shadow stack can be pivoted using RSTORSSP.
