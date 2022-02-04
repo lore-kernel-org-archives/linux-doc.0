@@ -2,119 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 627ADC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 20:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C20C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Feb 2022 22:08:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237153AbiBDUc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Feb 2022 15:32:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237910AbiBDUc6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 15:32:58 -0500
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 153ABC061714;
-        Fri,  4 Feb 2022 12:32:57 -0800 (PST)
-Received: by mail-qk1-x734.google.com with SMTP id b35so5729310qkp.6;
-        Fri, 04 Feb 2022 12:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BnHGInZ6R+GWHhomNWuA/pIrXH/uUnktXFDBquqwRgg=;
-        b=aRUCRPIN1LlaTCOY17aSWSkQtaZAPbO9+ojImnVMYW+oCz+ebggUzkHNqmvr7Zcc/x
-         NrhA9iEVtOWGmFcnrOJ7wqXwv/y+gH5ftr4VJi5G/KyNKVlzKijGncZz/O3lpLw2PgxF
-         Ga93IUcjGWE2q3qpSq6KqhcuqqcIllfkvhXeP0s2sKKF1MQMOVfDcGugffMlDd9oXrr0
-         dHd70J0mCLBsG1GrSlky7M92a8QwLx+JtIoDFnhItVI4az8jjhykhl0TKXeRureROTcw
-         7KnGoE+G7BnemSKzPQffNB9gUsFmwdnzLp06Ko4sCHaH41I9v6pSXDPZWyUXHHcwi3YY
-         WM4A==
+        id S1344905AbiBDWIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Feb 2022 17:08:31 -0500
+Received: from mail-oo1-f51.google.com ([209.85.161.51]:35463 "EHLO
+        mail-oo1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233137AbiBDWIa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Feb 2022 17:08:30 -0500
+Received: by mail-oo1-f51.google.com with SMTP id p4-20020a4a8e84000000b002e598a51d60so6209942ook.2;
+        Fri, 04 Feb 2022 14:08:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BnHGInZ6R+GWHhomNWuA/pIrXH/uUnktXFDBquqwRgg=;
-        b=NJpLsMuWc4uYLuRPlVVk4JLomHzozVeSSUBTigqIVkD9NMrbs+Pqgf+WrIe8BoHhWD
-         conzLUSZEoasD9M6iG+6qM3O2kGiKN+NYlGNHgcnIB13sEbY7d9mFrLzxa/1hK4MtpAh
-         Szq/b1T0nz5OC+rt5pZwlnr0SfiGvQlM4ipl9PUkfCfhV/k4W6NhF9Wo/tZSprSsCR6z
-         kqPj6jcf/jlUjnv+geDSjYxCLPKZyfcGjpdNf9ss470c5lh8ypiDA91f/uM1ckZ7Fkj+
-         bxvNaLdYOnJfXzDhc3cfeNWTVaHDaqmofctEqRD4KYBg/NNb30JmRnkzenccZ05IOvBf
-         zN5A==
-X-Gm-Message-State: AOAM533K72B8NrdHho9qHtBLFLhzsOt5iUE8AnoU3Av9Qf+LKDtIPbvl
-        fSh0YjZoPhaow89KPq9MvPo=
-X-Google-Smtp-Source: ABdhPJyDfHo1hWpBTzBZ8xr7fDzsCWtv1R0BLdSzd7telz52hrIUDaXIjNR091Be5fsVjtFlXnFmrg==
-X-Received: by 2002:a37:6896:: with SMTP id d144mr511563qkc.549.1644006776236;
-        Fri, 04 Feb 2022 12:32:56 -0800 (PST)
-Received: from localhost.localdomain (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id j14sm1686057qko.10.2022.02.04.12.32.55
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JQ7WYZ4Zqg4HCtyNEPmfKDttwiehHxrZDO82/S7zZVE=;
+        b=jnQhOSC0FhFR83UKDiozz7nYJNNRJEWCOltmX0HUQ4lsxvBnT/imsUvhBm3kRdFNL2
+         0H2q7mVYe+8E4zzPmXel85gKHdffB9IR5wf0tlcEesZfGqGkeANPYNIZYaYyZcATZN0l
+         jFKVQBoPf/5pjgnAHcByYekT8SCA8DV+jgIerSQwSdJnK3SWe+9bB9i5HADpIT7oRFbj
+         +65/v0xyjYR1sZui3bxqciOdYkNcjDlFe8BGn9DyOnnh6LMjKH8dPQ1GmabSHbmEoJJW
+         UE2I8m2qV3JVwLEDYvFV3UBafHs+Dh7qcCkad5v/Fut54cdfNTBeUzQ/aV1YpzcuFACi
+         xJpQ==
+X-Gm-Message-State: AOAM5326sOqab8cFYDu9K7DPSV34yPT3a/wi9VNi8aZi7un8mUQt1IuG
+        h1j7Bk4dgV6n594k/M0I90iP5IQbow==
+X-Google-Smtp-Source: ABdhPJzCR5b4do+sC8vu/Kn5Ig8ZQCwMphWuSpBEn7uPBasp5qvvVQX+Sgl9UoFUkOwZhnxHZ1k+PQ==
+X-Received: by 2002:a4a:ca98:: with SMTP id x24mr322821ooq.43.1644012509912;
+        Fri, 04 Feb 2022 14:08:29 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id cv13sm1005610oab.7.2022.02.04.14.08.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Feb 2022 12:32:55 -0800 (PST)
-From:   frowand.list@gmail.com
-To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
-Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] Documentation: dev-tools: clarify KTAP specification wording
-Date:   Fri,  4 Feb 2022 14:32:48 -0600
-Message-Id: <20220204203248.2981902-1-frowand.list@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 04 Feb 2022 14:08:29 -0800 (PST)
+Received: (nullmailer pid 3267244 invoked by uid 1000);
+        Fri, 04 Feb 2022 22:08:27 -0000
+Date:   Fri, 4 Feb 2022 16:08:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Iwona Winiarska <iwona.winiarska@intel.com>
+Cc:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Muller <d.mueller@elsoft.ch>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
+        Zev Weiss <zweiss@equinix.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Tony Luck <tony.luck@intel.com>, devicetree@vger.kernel.org,
+        Olof Johansson <olof@lixom.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jean Delvare <jdelvare@suse.com>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        openbmc@lists.ozlabs.org, Joel Stanley <joel@jms.id.au>,
+        linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v7 02/13] dt-bindings: Add bindings for peci-aspeed
+Message-ID: <Yf2j2+QbO9kg0E1E@robh.at.kernel.org>
+References: <20220202144838.163875-1-iwona.winiarska@intel.com>
+ <20220202144838.163875-3-iwona.winiarska@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202144838.163875-3-iwona.winiarska@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Frank Rowand <frank.rowand@sony.com>
+On Wed, 02 Feb 2022 15:48:27 +0100, Iwona Winiarska wrote:
+> Add device tree bindings for the peci-aspeed controller driver.
+> 
+> Co-developed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  .../devicetree/bindings/peci/peci-aspeed.yaml | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+> 
 
-Clarify some confusing phrasing.
-
-Signed-off-by: Frank Rowand <frank.rowand@sony.com>
----
-
-One item that may result in bikeshedding is that I added the spec
-version to the title line.
-
- Documentation/dev-tools/ktap.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index 878530cb9c27..3b7a26816930 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--========================================
--The Kernel Test Anything Protocol (KTAP)
--========================================
-+===================================================
-+The Kernel Test Anything Protocol (KTAP), version 1
-+===================================================
- 
- TAP, or the Test Anything Protocol is a format for specifying test results used
- by a number of projects. It's website and specification are found at this `link
-@@ -186,7 +186,7 @@ starting with another KTAP version line and test plan, and end with the overall
- result. If one of the subtests fail, for example, the parent test should also
- fail.
- 
--Additionally, all result lines in a subtest should be indented. One level of
-+Additionally, all lines in a subtest should be indented. One level of
- indentation is two spaces: "  ". The indentation should begin at the version
- line and should end before the parent test's result line.
- 
-@@ -225,8 +225,8 @@ Major differences between TAP and KTAP
- --------------------------------------
- 
- Note the major differences between the TAP and KTAP specification:
--- yaml and json are not recommended in diagnostic messages
--- TODO directive not recognized
-+- yaml and json are not recommended in KTAP diagnostic messages
-+- TODO directive not recognized in KTAP
- - KTAP allows for an arbitrary number of tests to be nested
- 
- The TAP14 specification does permit nested tests, but instead of using another
--- 
-Frank Rowand <frank.rowand@sony.com>
-
+Reviewed-by: Rob Herring <robh@kernel.org>
