@@ -2,190 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CA5EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Feb 2022 22:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C10C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Feb 2022 01:50:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233086AbiBEWjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Feb 2022 17:39:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43222 "EHLO
+        id S1380501AbiBFBuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Feb 2022 20:50:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiBEWjx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Feb 2022 17:39:53 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0262EC061353;
-        Sat,  5 Feb 2022 14:39:53 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id k1so1467453wrd.8;
-        Sat, 05 Feb 2022 14:39:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j7rn6ejWMJ/DEvj0EOgEa5CEFwEnLuvn5VmnsNIRLAE=;
-        b=hR6melcPlEcsLk3aOxZEXgpNMQ7HUMCRq3xfs4oGwartiYiGt9Iayks3ASokcTMcxM
-         cuzMCofcbwg+aD9JGpDqTiHx4pqW2zWy93nUNDa5ahhl5Z15LX/v1yOdZWX1P6qwG4Cy
-         uu2AAjUm/XNiofos0P146N4QQu2+qLIqJ//EP6hDgN5V/VGOxpKbVC6EAC/GE6JhN6b/
-         cy9rGZvxrsMiRpVAAOR8MBXDNF6LHbHKf0ra1W9WztRzpC64g4dqZNoXQqmg7mkJGvQ1
-         obkH5rpWMgY/nRIdf6iDPQWX0JN4EL4JiX4wMqGMvgrry9A3INyTcTgbt4CUdNTO1cdI
-         dWqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j7rn6ejWMJ/DEvj0EOgEa5CEFwEnLuvn5VmnsNIRLAE=;
-        b=kiao+IAd/YUAFeDiOztmVNPCXliV3sQjONzaPzkQ7O8YSAvwiDqQuQdes5Bf9674hp
-         V5VP5IxwQFyhflrFJ1n2431x1n91Ww41XuyxAv1voQDP0GugRnMt4xAPEn3A/wJLbCFt
-         0mbVNt8stxaZadSXx4OsLcsjWast32heT71hSIbdGeaSK0c/QKwYnOXYIgWV2DHMGhBK
-         s8VHn403azXFE8Rn9Y3VR5BC7461CTHlHMvSb/gFjX+Waks6UzSjD+G2etHdP7Dmy1tK
-         uQdA1B98MQ3izPKYamUs1L+ZJSjSIva5Kt1JugZPObsGXrAfpXCiBu8m+uH8pUW9qig4
-         Ycrg==
-X-Gm-Message-State: AOAM533ZOFKNHSALLogDmu3DtoH8EnkIp+0fBf+2wxHvRibQsLeZHJ8p
-        cNw/jxn6Er7ca8dlPeNCza/5sPzWd2A=
-X-Google-Smtp-Source: ABdhPJzcTN4FcemXo1iPTo9xFK7SlFKZzdvc3hMIUaMJV0s9QyjYMdQJBH7jGSvaMBZIkCGuWcxatg==
-X-Received: by 2002:a05:6000:18af:: with SMTP id b15mr4263943wri.589.1644100791377;
-        Sat, 05 Feb 2022 14:39:51 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id o21sm4808255wmh.36.2022.02.05.14.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Feb 2022 14:39:51 -0800 (PST)
-Date:   Sat, 5 Feb 2022 23:39:45 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-Subject: [RFC] scripts: kernel-doc: Major kernel-doc rework
-Message-ID: <20220205233945.7a4d22d8@fuji.fritz.box>
+        with ESMTP id S1381214AbiBFBuB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Feb 2022 20:50:01 -0500
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Feb 2022 17:50:00 PST
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31AEC043187
+        for <linux-doc@vger.kernel.org>; Sat,  5 Feb 2022 17:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644112200; x=1675648200;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5gt0BUKC470+HpXo06yNWapEGKxP7JmLvOCYrWhsVhI=;
+  b=frvOK4ObfGKe1WAJVF8JvDLcdBcdSwOh8BKAC40FuuoPhmXYI9Ul1BCc
+   +7sqwgRDsiZ90lLAqH/K3ZR1u0i/A7WP5dlWPErmAM42KvV+CdUlaGqFy
+   eHTMbsGC706rhCBLB+s6pB445Ug8nExXLBzztOYdI27xcBwB9qxH/sRJ5
+   wW7TgjYKUcmkO4V1FpW1I9EJJBVDzJcMdamwtQ1JQz501llcjzRP68Mrb
+   UYT7u3f9w8wC6y5A0g8fXX5G+uNu94/81in3uo4Gytf78D2lwKVwgub0C
+   xLwYctIMVRbOjZibQtmQnZ4tnXp8p+UBGHaiSMfoUUeOKJvRKJ4tQ+A+1
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10249"; a="248309735"
+X-IronPort-AV: E=Sophos;i="5.88,346,1635231600"; 
+   d="scan'208";a="248309735"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2022 17:48:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,346,1635231600"; 
+   d="scan'208";a="632079350"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 05 Feb 2022 17:48:56 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nGWff-000ZjK-O2; Sun, 06 Feb 2022 01:48:55 +0000
+Date:   Sun, 6 Feb 2022 09:48:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: arch/arm64/kvm/pmu-emul.c:453: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202202060606.bblLvJEU-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is in fact a release notification of a major kernel-doc script
-refurbishment I have done. My work has reached a stage, which can be
-considered a world sync point and here we are.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
+commit: 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf scripts: kernel-doc: add warning for comment not following kernel-doc syntax
+date:   10 months ago
+config: arm64-buildonly-randconfig-r004-20220206 (https://download.01.org/0day-ci/archive/20220206/202202060606.bblLvJEU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
 
-I'm not sending all the patches to the Linux mailing list, as I prefer
-to check what you think before I emit about 500 emails.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-I've parked the lot for you to inspect here:
-https://salsa.debian.org/guest/kernel-doc
+All warnings (new ones prefixed by >>):
 
-This also helps me report the bug fixes. See the issue tracker:
-https://salsa.debian.org/guest/kernel-doc/-/issues
+   arch/arm64/kvm/pmu-emul.c:219: warning: Function parameter or member 'vcpu' not described in 'kvm_pmu_stop_counter'
+>> arch/arm64/kvm/pmu-emul.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * When perf interrupt is an NMI, we cannot safely notify the vcpu corresponding
+   arch/arm64/kvm/pmu-emul.c:469: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * When the perf event overflows, set the overflow status and inform the vcpu.
 
-A FEW PRACTICAL WORDS
 
-Before I move on, I'd like to ask you for support. I can't find a job -
-neither as a junior, nor even part time. So if you find my effort
-valuable and are able to, send me some Dollars, Euro or other Yen or
-Ruble to my PayPal account linked with:
+vim +453 arch/arm64/kvm/pmu-emul.c
 
-tomasz.warniello@gmail.com
+b02386eb7dac75 virt/kvm/arm/pmu.c        Shannon Zhao   2016-02-26  451  
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  452  /**
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24 @453   * When perf interrupt is an NMI, we cannot safely notify the vcpu corresponding
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  454   * to the event.
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  455   * This is why we need a callback to do it once outside of the NMI context.
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  456   */
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  457  static void kvm_pmu_perf_overflow_notify_vcpu(struct irq_work *work)
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  458  {
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  459  	struct kvm_vcpu *vcpu;
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  460  	struct kvm_pmu *pmu;
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  461  
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  462  	pmu = container_of(work, struct kvm_pmu, overflow_work);
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  463  	vcpu = kvm_pmc_to_vcpu(pmu->pmc);
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  464  
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  465  	kvm_vcpu_kick(vcpu);
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  466  }
+95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  467  
 
-If you have a job offer for me, the address stays the same. I consider
-myself a general Linux assistant, in case you wonder.
+:::::: The code at line 453 was first introduced by commit
+:::::: 95e92e45a454a10a8114294d0f7aec930fb85891 KVM: arm64: pmu: Make overflow handler NMI safe
 
-Thank you.
+:::::: TO: Julien Thierry <julien.thierry@arm.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
-BASIC INFO
-
-The main area of my rework's focus is modularisation. The leading theme
-is getting rid of the globals. In the meantime, smaller chunks of code
-get assigned to packages, instance interfaces are built and wrap instance
-variables, while helper functions land in their container functions,
-various variables get lexicalised in their scopes, etc.
-
-What is also done are countless simplifications, reductions, merges,
-unifications, but also splits and duplications where logic and
-architecture suggests so or requires.
-
-The starting point for this rework is the official Linux tree commit
-2a987e65025e2b79c6d453b78cb5985ac6e5eb26. It is also the base for all
-tests performed throughout the process. (Except it changes slightly
-with bug fixes.)
-
-The initial fifteen patches are the POD series I published on the Kernel
-mailing list. It was already version 3, which somehow got forgotten or
-whatever happened to it. You can find it here:
-https://lore.kernel.org/linux-doc/20220104015946.529524-1-tomasz.warniello@gmail.com/
-
-One exception here is the copyright patch, which now is version 4.
-
-The final, release version offers:
-- ca. 20 bug fixes - big and small
-- a few extra features
-- no wild globals
-- execution time not much worse than the original, despite the internal
-  bureaucracy - in fact much better, though maybe not with single files
-
-PATCH ERRATA
-
-For the first ca. 200 patches, when I did indentation and spacing
-corrections, I also simplified parentheses. Then I thought I'd better
-cover this activity in patch descriptions. Correcting all the early ones
-feels far beyond my powers.
-
-PATCH MARKS
-
-1. Enhancements
-Patches marked with * at the end of the title contain changes that go
-slightly against the master. I'm sometimes unsure if they're enhancements
-or bug fixes.
-
-2. Uncertainty
-Patches marked with (?) at the of the title are those, which I consider
-difficult to check. They may be ok, but should be examined with special
-care.
-
-SERIES GUIDE
-
-The first patch in the repository contains the base, ie. the master
-version of the script. Please let me know if I should have included
-something essential like a license, etc. I've done my research and
-came to the conclusion the script can move on its own. But...
-
-The last patch contains this note and a few test scripts I used.
-
-All the patches between them contain only changes to kernel-doc itself.
-They are all signed-off.
-
-TESTING
-
-Initially it was chaotic with rst conclusions based on HTML builds and
-with scant notes only in every some patch. But it soon got better and
-more intelligent. I stated to inspect pure rst and included a note in
-every patch unless no test was actually performed. It stayed so ever
-after with light tests based on a 200 file sample and heavier tests
-covering all available files.
-
-The test reference is the master Linux commit, changing with bugfixes.
-
-REUSE AND PORTING
-
-The series is ready to be pulled by the Linux upstream at will. Of course
-I can send it to the Linux mailing list - just let me know. The patches
-are signed-off, patch-checked, and ready to go, the best of my knowledge.
-
-That is - except for things like indentation, which is not worse than in
-the master if you ask me, but it definitely is far from any claim of
-correctness. Not in the conventional sense.
-
-A few patches may undoubtedly be considered egoistic, like the Gedit
-syntax highlight helper, or many of the indentation corrections. What can
-I say? I needed them. Without them I would be fighting with an uncessant
-swarm of tiny difficulties, and would quite likely never get to the end.
-
-What else then? You might be interested in porting bug fixes, which may be
-or may not be easy, depending on the case. You might also want to use my
-version as an output reference. It's there for you as a whole and as parts.
-It's up to you, so help yourselves as you please.
-
-FINAL THOUGHTS
-
-I could have used the POD space prepared for documentation and written
-at least general summaries for all modules. But that's another adventure.
-I need a break now.
-
-There is still a lot to do around this script. parse_body is a noble warm up
-candidate.
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
