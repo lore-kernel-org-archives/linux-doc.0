@@ -2,116 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C10C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Feb 2022 01:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1EFFC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Feb 2022 13:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380501AbiBFBuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Feb 2022 20:50:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
+        id S237878AbiBFNHP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Feb 2022 08:07:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381214AbiBFBuB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Feb 2022 20:50:01 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Feb 2022 17:50:00 PST
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31AEC043187
-        for <linux-doc@vger.kernel.org>; Sat,  5 Feb 2022 17:50:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644112200; x=1675648200;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5gt0BUKC470+HpXo06yNWapEGKxP7JmLvOCYrWhsVhI=;
-  b=frvOK4ObfGKe1WAJVF8JvDLcdBcdSwOh8BKAC40FuuoPhmXYI9Ul1BCc
-   +7sqwgRDsiZ90lLAqH/K3ZR1u0i/A7WP5dlWPErmAM42KvV+CdUlaGqFy
-   eHTMbsGC706rhCBLB+s6pB445Ug8nExXLBzztOYdI27xcBwB9qxH/sRJ5
-   wW7TgjYKUcmkO4V1FpW1I9EJJBVDzJcMdamwtQ1JQz501llcjzRP68Mrb
-   UYT7u3f9w8wC6y5A0g8fXX5G+uNu94/81in3uo4Gytf78D2lwKVwgub0C
-   xLwYctIMVRbOjZibQtmQnZ4tnXp8p+UBGHaiSMfoUUeOKJvRKJ4tQ+A+1
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10249"; a="248309735"
-X-IronPort-AV: E=Sophos;i="5.88,346,1635231600"; 
-   d="scan'208";a="248309735"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2022 17:48:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,346,1635231600"; 
-   d="scan'208";a="632079350"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Feb 2022 17:48:56 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nGWff-000ZjK-O2; Sun, 06 Feb 2022 01:48:55 +0000
-Date:   Sun, 6 Feb 2022 09:48:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: arch/arm64/kvm/pmu-emul.c:453: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202202060606.bblLvJEU-lkp@intel.com>
+        with ESMTP id S237860AbiBFNHN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Feb 2022 08:07:13 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB8FC043182;
+        Sun,  6 Feb 2022 05:07:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=O8zLbKs0X6TzxCrkjzqNkkHxAtjp2s1Oq6J6b6ynu0s=; b=WKUHYTCuz+4dtYW+6BDGdx6lbC
+        0OaQRA0ahdl6KWql9CtBckg55JkExEGI6yC3AH+pABNOGdgo2xCRAkXTUuw6D5KJOSqO3DYWCwul1
+        xyAotHf2CFbX/epQDuVxq/xDN/YIeGMNrXzAjlWDAZdeKM0nn7Pz5YVu28TI99yt4enCBvej6V4XV
+        exkbj3EiBnKPAohE+dXpik1wBFbPp/PobtG8O3Hu45F6ZT6RMPeWL/3MrfgbWaSIk+usJ0OclAN2R
+        zD4HC7KAj/Q7dlVumDLpRoVkqF81juNEszXWFeoryjlDzKBXTV7TgHWjiYpinUiaNfh4Cy9Gj4gD4
+        lkGuu/TA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nGhFH-00E7rV-11; Sun, 06 Feb 2022 13:06:24 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 245F8300470;
+        Sun,  6 Feb 2022 14:06:19 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D86F32CA50E07; Sun,  6 Feb 2022 14:06:19 +0100 (CET)
+Date:   Sun, 6 Feb 2022 14:06:19 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <Yf/Hy+MknkkmyLi/@hirez.programming.kicks-ass.net>
+References: <87fsozek0j.ffs@tglx>
+ <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
-commit: 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf scripts: kernel-doc: add warning for comment not following kernel-doc syntax
-date:   10 months ago
-config: arm64-buildonly-randconfig-r004-20220206 (https://download.01.org/0day-ci/archive/20220206/202202060606.bblLvJEU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3e58e839150db0857dfcb3a0bb3d4af4c6ac1abf
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
+On Fri, Feb 04, 2022 at 01:08:25AM +0000, Edgecombe, Rick P wrote:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> > So how is that going to work? altstack is not an esoteric corner
+> > case.
+> 
+> My understanding is that the main usages for the signal stack were
+> handling stack overflows and corruption. Since the shadow stack only
+> contains return addresses rather than large stack allocations, and is
+> not generally writable or pivotable, I thought there was a good
+> possibility an alt shadow stack would not end up being especially
+> useful. Does it seem like reasonable guesswork?
 
-All warnings (new ones prefixed by >>):
-
-   arch/arm64/kvm/pmu-emul.c:219: warning: Function parameter or member 'vcpu' not described in 'kvm_pmu_stop_counter'
->> arch/arm64/kvm/pmu-emul.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * When perf interrupt is an NMI, we cannot safely notify the vcpu corresponding
-   arch/arm64/kvm/pmu-emul.c:469: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * When the perf event overflows, set the overflow status and inform the vcpu.
-
-
-vim +453 arch/arm64/kvm/pmu-emul.c
-
-b02386eb7dac75 virt/kvm/arm/pmu.c        Shannon Zhao   2016-02-26  451  
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  452  /**
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24 @453   * When perf interrupt is an NMI, we cannot safely notify the vcpu corresponding
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  454   * to the event.
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  455   * This is why we need a callback to do it once outside of the NMI context.
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  456   */
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  457  static void kvm_pmu_perf_overflow_notify_vcpu(struct irq_work *work)
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  458  {
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  459  	struct kvm_vcpu *vcpu;
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  460  	struct kvm_pmu *pmu;
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  461  
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  462  	pmu = container_of(work, struct kvm_pmu, overflow_work);
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  463  	vcpu = kvm_pmc_to_vcpu(pmu->pmc);
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  464  
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  465  	kvm_vcpu_kick(vcpu);
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  466  }
-95e92e45a454a1 arch/arm64/kvm/pmu-emul.c Julien Thierry 2020-09-24  467  
-
-:::::: The code at line 453 was first introduced by commit
-:::::: 95e92e45a454a10a8114294d0f7aec930fb85891 KVM: arm64: pmu: Make overflow handler NMI safe
-
-:::::: TO: Julien Thierry <julien.thierry@arm.com>
-:::::: CC: Will Deacon <will@kernel.org>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+altstacks are also used in userspace threading implemenations.
