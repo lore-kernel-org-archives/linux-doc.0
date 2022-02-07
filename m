@@ -2,162 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 664DEC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 09:04:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08933C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 10:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240004AbiBGJD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 04:03:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42754 "EHLO
+        id S237462AbiBGKf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 05:35:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351034AbiBGIzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 03:55:55 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49ECC043189
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 00:55:53 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id 124so37187808ybw.6
-        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 00:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=knF2fFP9aIoGTNmgPKFlIdzkXuLeb4VSUzI7AmunKNY=;
-        b=kjKQjXhqwEwzFPGB6U7llci4Uyu0GDktsh9CriN7LUAxMChIRo0PfU0thwAaw7TEV0
-         eqCQDKSViTSVsvrwmtQtElbEyfpkPhnyg4gPW1DbIanejHpDHkfG/4K2wXFclclpkWzI
-         6WWHlSneOzKtnn8OzsMKXLagS1YERguBWMQh1qbU+fUkMIO42i0rVSiMI/6AnVSMVSkP
-         QIAO7fAtsQeLrnZrgbbX9hklHmvYu1UJxrrxfeJ11kickjSzmqyKZiEW+JH0AbcMcCp7
-         WeBBZbhdpkYxU/69NVf1lZzL3bs3DuayqvwzIEsIba6Y/YaBjtid3TAMYdo7sfNwHMiQ
-         LMBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=knF2fFP9aIoGTNmgPKFlIdzkXuLeb4VSUzI7AmunKNY=;
-        b=D5DKZjJLY6YjXsz9Fz/LIXaaVl86apGTXklwQ2GEjs4jmd468F6+d20PPyCcrei1U9
-         v55p87l9GO9Dx1NOSSlmdyYI567eQe+E04g6Y+hzRiJqs+PkoFoSU+/ukAqHmo0iGIRc
-         ioGfCqpn/drb7o09JPHD0ZjyO6kD3zJJU1XlfIDPrrVUuBUDiC07eMIVgXG9X8xSeSTA
-         LbxRD/tBhQ/KfYe7VJwj8lCdoqjvJ96lN9NU7MJ60wiAb0enCz4g3jImH8absrCd1xhS
-         kHbtU7lL+CjHfw+kYbtZoDH4XyFFquPq1m+GKbLtsp08ExmmULW0F8smlKuFCb9bTdQe
-         QfMg==
-X-Gm-Message-State: AOAM531SXg5brnik/66etzOOE5zhToi2c7bWdO8rg9hKxkUo0nmAwBxW
-        NEmpYlSPHpZ2aPSeih1tYTZE14HRCTRqazFmjSBn1w==
-X-Google-Smtp-Source: ABdhPJyWH7PhtKu+j316v5w82AR7rHUJWXjLEcMawUmUXMQHsH7DXQJajqIi03ZoF4QFGuosxGiLrl/nfBv2NmF3nwQ=
-X-Received: by 2002:a81:c505:: with SMTP id k5mr6144103ywi.264.1644224152818;
- Mon, 07 Feb 2022 00:55:52 -0800 (PST)
+        with ESMTP id S1352722AbiBGKWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 05:22:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D85E1C043189
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 02:22:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644229372;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2smJ/GlsLCD4bPAcOtXvALm5pEn5dU6rKnsOljI8KSo=;
+        b=Xf7UbQquJIXbvEWSX6hyv9QGpoOj4YVDWVM0fONsNAyWJOrj+IiNGxqOpkQHhXSpy5S/hJ
+        em3AZSU+b91fhfOT0mFA3X0y1SOWq68qXylB63fmskfYYUSJZjiATdt2Et6SFGK9NxAVPJ
+        J5KvvYOclSAke6fP+7oPrsHch8wPkZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-65-idtXnJI4OrGmulbvj6Mxvg-1; Mon, 07 Feb 2022 05:22:46 -0500
+X-MC-Unique: idtXnJI4OrGmulbvj6Mxvg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B34A1800D50;
+        Mon,  7 Feb 2022 10:22:42 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23E96607B6;
+        Mon,  7 Feb 2022 10:22:21 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     "'Edgecombe, Rick P'" <rick.p.edgecombe@intel.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+References: <87fsozek0j.ffs@tglx>
+        <a7e59ae16e0e05579b087caf4045e42b174e2167.camel@intel.com>
+        <3421da7fc8474b6db0e265b20ffd28d0@AcuMS.aculab.com>
+        <CAMe9rOonepEiRyoAyTGkDMQQhuyuoP4iTZJJhKGxgnq9vv=dLQ@mail.gmail.com>
+        <9f948745435c4c9273131146d50fe6f328b91a78.camel@intel.com>
+        <782f27dbe6fc419a8946eeb426253e28@AcuMS.aculab.com>
+Date:   Mon, 07 Feb 2022 11:22:20 +0100
+In-Reply-To: <782f27dbe6fc419a8946eeb426253e28@AcuMS.aculab.com> (David
+        Laight's message of "Sun, 6 Feb 2022 13:42:42 +0000")
+Message-ID: <8735kvm0wz.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220207034432.185532-1-liupeng256@huawei.com>
-In-Reply-To: <20220207034432.185532-1-liupeng256@huawei.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 7 Feb 2022 09:55:41 +0100
-Message-ID: <CANpmjNN=0Q6s5WnKrWm4YXqSj-1rRsL2VTD_QJUfQdv_2nhf0Q@mail.gmail.com>
-Subject: Re: [PATCH v3] kfence: Make test case compatible with run time set
- sample interval
-To:     Peng Liu <liupeng256@huawei.com>
-Cc:     glider@google.com, dvyukov@google.com, corbet@lwn.net,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        akpm@linux-foundation.org, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 Feb 2022 at 04:29, 'Peng Liu' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> The parameter kfence_sample_interval can be set via boot parameter
-> and late shell command, which is convenient for automated tests and
-> KFENCE parameter optimization. However, KFENCE test case just uses
-> compile-time CONFIG_KFENCE_SAMPLE_INTERVAL, which will make KFENCE
-> test case not run as users desired. Export kfence_sample_interval,
-> so that KFENCE test case can use run-time-set sample interval.
->
-> Signed-off-by: Peng Liu <liupeng256@huawei.com>
+* David Laight:
 
-Reviewed-by: Marco Elver <elver@google.com>
+> Was there any 'spare' space in struct jmpbuf ?
 
-Thank you.
+jmp_buf in glibc looks like this:
 
-> ---
-> v2->v3:
-> - Revise change log description
-> v1->v2:
-> - Use EXPORT_SYMBOL_GPL replace EXPORT_SYMBOL
->
->  include/linux/kfence.h  | 2 ++
->  mm/kfence/core.c        | 3 ++-
->  mm/kfence/kfence_test.c | 8 ++++----
->  3 files changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> index 4b5e3679a72c..f49e64222628 100644
-> --- a/include/linux/kfence.h
-> +++ b/include/linux/kfence.h
-> @@ -17,6 +17,8 @@
->  #include <linux/atomic.h>
->  #include <linux/static_key.h>
->
-> +extern unsigned long kfence_sample_interval;
-> +
->  /*
->   * We allocate an even number of pages, as it simplifies calculations to map
->   * address to metadata indices; effectively, the very first page serves as an
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 5ad40e3add45..13128fa13062 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -47,7 +47,8 @@
->
->  static bool kfence_enabled __read_mostly;
->
-> -static unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-> +unsigned long kfence_sample_interval __read_mostly = CONFIG_KFENCE_SAMPLE_INTERVAL;
-> +EXPORT_SYMBOL_GPL(kfence_sample_interval); /* Export for test modules. */
->
->  #ifdef MODULE_PARAM_PREFIX
->  #undef MODULE_PARAM_PREFIX
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index a22b1af85577..50dbb815a2a8 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -268,13 +268,13 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
->          * 100x the sample interval should be more than enough to ensure we get
->          * a KFENCE allocation eventually.
->          */
-> -       timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-> +       timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
->         /*
->          * Especially for non-preemption kernels, ensure the allocation-gate
->          * timer can catch up: after @resched_after, every failed allocation
->          * attempt yields, to ensure the allocation-gate timer is scheduled.
->          */
-> -       resched_after = jiffies + msecs_to_jiffies(CONFIG_KFENCE_SAMPLE_INTERVAL);
-> +       resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
->         do {
->                 if (test_cache)
->                         alloc = kmem_cache_alloc(test_cache, gfp);
-> @@ -608,7 +608,7 @@ static void test_gfpzero(struct kunit *test)
->         int i;
->
->         /* Skip if we think it'd take too long. */
-> -       KFENCE_TEST_REQUIRES(test, CONFIG_KFENCE_SAMPLE_INTERVAL <= 100);
-> +       KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
->
->         setup_test_cache(test, size, 0, NULL);
->         buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
-> @@ -739,7 +739,7 @@ static void test_memcache_alloc_bulk(struct kunit *test)
->          * 100x the sample interval should be more than enough to ensure we get
->          * a KFENCE allocation eventually.
->          */
-> -       timeout = jiffies + msecs_to_jiffies(100 * CONFIG_KFENCE_SAMPLE_INTERVAL);
-> +       timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
->         do {
->                 void *objects[100];
->                 int i, num = kmem_cache_alloc_bulk(test_cache, GFP_ATOMIC, ARRAY_SIZE(objects),
-> --
-> 2.18.0.huawei.25
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20220207034432.185532-1-liupeng256%40huawei.com.
+(gdb) ptype/o jmp_buf
+type = struct __jmp_buf_tag {
+/*      0      |      64 */    __jmp_buf __jmpbuf;
+/*     64      |       4 */    int __mask_was_saved;
+/* XXX  4-byte hole      */
+/*     72      |     128 */    __sigset_t __saved_mask;
+
+                               /* total size (bytes):  200 */
+                             } [1]
+(gdb) ptype/o __jmp_buf
+type = long [8]
+
+The glibc ABI reserves space for 1024 signals, something that Linux is
+never going to implement.  We can use that space to store a few extra
+registers in __save_mask.  There is a complication because the
+pthread_cancel unwinding allocates only space for the __jmpbuf member.
+Fortunately, we do not need to unwind the shadow stack for thread
+cancellation, so we don't need that extra space in that case.
+
+Thanks,
+Florian
+
