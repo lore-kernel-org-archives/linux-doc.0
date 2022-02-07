@@ -2,98 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2DFC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 12:32:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E05C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 13:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344124AbiBGM20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 07:28:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33734 "EHLO
+        id S230095AbiBGNlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 08:41:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383137AbiBGLVk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 06:21:40 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92422C0401E4;
-        Mon,  7 Feb 2022 03:21:26 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id d9-20020a17090a498900b001b8bb1d00e7so2452677pjh.3;
-        Mon, 07 Feb 2022 03:21:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u1SeK1c7GsxTi1KJRtX41+e8KV9bbkC6jBlAR+v8yco=;
-        b=qek10+XaY11auEJTZ6D2YUOXnJNC2jahYrh8WmWDjUshFRhDhJ9MUUpTlYEZ1NMIxk
-         OJK15B11YbOuuQSFH2zv3+M1qNHESwuLSwwDRnd8qF2BlKd0yf0etXtUzqwqgLzIWmxu
-         X5f/BuOsQtYFxvb+/AjXFs4g0VDQFUwHY2s5OvO570DzRPic/18rXaWBk4Eo/GteEX9M
-         7wQGacG4s4RUi5vg/uaOxIdhZZPotD6Z5dG/iqk3bh4DJqU58gi221g9puGL1MROSccY
-         3FMXdYR5NgOd/ii7X7VguVEijRWdC8skg5uriwOossgj6UvpMQA5KoRGeYMo/RchUYq7
-         jWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u1SeK1c7GsxTi1KJRtX41+e8KV9bbkC6jBlAR+v8yco=;
-        b=M47+xtL9mMQDHbnpNjL5mYrERhTYZ2+G3UgITKi9qmuLFaa56kIWV9vdpEtKUUCrK+
-         XIQZt3WkcLvkSMuSXxjgjAhDVLAfR6+JqHdZIwQVqFQoX1T78DRdnRRu05VvilqBSrNw
-         gZiy2QmSRrR3iSw24HcI70SJ3FyX441zZq+Na14vB8/tj67DJpwtQ7CIXYqogEP1smOg
-         cOUE2PXH99HhlFgTCAq9yKFBvMSzDlcS3eqp3XxRm9/XYRiVttIunTBgFtVtA31MT58E
-         a+RH+n/EDVn+z3MljPwhdzflTqZhR/6NiHvXPZUuIoczC29lvs2dxYdER4LQj/KmnHCh
-         VLEg==
-X-Gm-Message-State: AOAM530dhQQX7BzJh8Q4tx8P86v6KuI+yBFhONXA7YITqYJ0VP39sS0E
-        KmJOYhOOYmCJKsjYaIynnOc=
-X-Google-Smtp-Source: ABdhPJyyDGXxcAT+b6VN7v+g7nzcvVC6pBxqH3gvy90hhQbUrZ66KZpL9Y/MgLcgt8d+zNOrJd4/eQ==
-X-Received: by 2002:a17:90b:3802:: with SMTP id mq2mr13748921pjb.236.1644232886066;
-        Mon, 07 Feb 2022 03:21:26 -0800 (PST)
-Received: from localhost.localdomain ([2400:2410:93a3:bc00:d659:4e05:9b13:b711])
-        by smtp.gmail.com with ESMTPSA id w11sm11791400pfu.50.2022.02.07.03.21.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 03:21:25 -0800 (PST)
-From:   Akira Kawata <akirakawata1@gmail.com>
-To:     brendanhiggins@google.com
-Cc:     akirakawata1@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] Documentation: KUnit: Fix usage bug
-Date:   Mon,  7 Feb 2022 20:20:44 +0900
-Message-Id: <20220207112043.397074-1-akirakawata1@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1384356AbiBGNLZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 08:11:25 -0500
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE570C0401E0;
+        Mon,  7 Feb 2022 05:10:54 -0800 (PST)
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v2 03/12] iio: buffer-dmaengine: Support specifying buffer direction
+Date:   Mon,  7 Feb 2022 12:59:24 +0000
+Message-Id: <20220207125933.81634-4-paul@crapouillou.net>
+In-Reply-To: <20220207125933.81634-1-paul@crapouillou.net>
+References: <20220207125933.81634-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a bug of kunit documentation.
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=205773
+Update the devm_iio_dmaengine_buffer_setup() function to support
+specifying the buffer direction.
 
-: Quoting Steve Pfetsch:
-:
-: kunit documentation is incorrect:
-: https://kunit.dev/third_party/stable_kernel/docs/usage.html
-: struct rectangle *self = container_of(this, struct shape, parent);
-:
-:
-: Shouldn't it be:
-: struct rectangle *self = container_of(this, struct rectangle, parent);
-: ?
+Update the iio_dmaengine_buffer_submit() function to handle input
+buffers as well as output buffers.
 
-Signed-off-by: Akira Kawata <akirakawata1@gmail.com>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
 ---
- Documentation/dev-tools/kunit/usage.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iio/adc/adi-axi-adc.c                 |  3 ++-
+ .../buffer/industrialio-buffer-dmaengine.c    | 24 +++++++++++++++----
+ include/linux/iio/buffer-dmaengine.h          |  5 +++-
+ 3 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 76af931a332c..1c83e7d60a8a 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -242,7 +242,7 @@ example:
+diff --git a/drivers/iio/adc/adi-axi-adc.c b/drivers/iio/adc/adi-axi-adc.c
+index a73e3c2d212f..0a6f2c32b1b9 100644
+--- a/drivers/iio/adc/adi-axi-adc.c
++++ b/drivers/iio/adc/adi-axi-adc.c
+@@ -113,7 +113,8 @@ static int adi_axi_adc_config_dma_buffer(struct device *dev,
+ 		dma_name = "rx";
  
- 	int rectangle_area(struct shape *this)
- 	{
--		struct rectangle *self = container_of(this, struct shape, parent);
-+		struct rectangle *self = container_of(this, struct rectangle, parent);
+ 	return devm_iio_dmaengine_buffer_setup(indio_dev->dev.parent,
+-					       indio_dev, dma_name);
++					       indio_dev, dma_name,
++					       IIO_BUFFER_DIRECTION_IN);
+ }
  
- 		return self->length * self->width;
- 	};
+ static int adi_axi_adc_read_raw(struct iio_dev *indio_dev,
+diff --git a/drivers/iio/buffer/industrialio-buffer-dmaengine.c b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+index f8ce26a24c57..ac26b04aa4a9 100644
+--- a/drivers/iio/buffer/industrialio-buffer-dmaengine.c
++++ b/drivers/iio/buffer/industrialio-buffer-dmaengine.c
+@@ -64,14 +64,25 @@ static int iio_dmaengine_buffer_submit_block(struct iio_dma_buffer_queue *queue,
+ 	struct dmaengine_buffer *dmaengine_buffer =
+ 		iio_buffer_to_dmaengine_buffer(&queue->buffer);
+ 	struct dma_async_tx_descriptor *desc;
++	enum dma_transfer_direction dma_dir;
++	size_t max_size;
+ 	dma_cookie_t cookie;
+ 
+-	block->bytes_used = min(block->size, dmaengine_buffer->max_size);
+-	block->bytes_used = round_down(block->bytes_used,
+-			dmaengine_buffer->align);
++	max_size = min(block->size, dmaengine_buffer->max_size);
++	max_size = round_down(max_size, dmaengine_buffer->align);
++
++	if (queue->buffer.direction == IIO_BUFFER_DIRECTION_IN) {
++		block->bytes_used = max_size;
++		dma_dir = DMA_DEV_TO_MEM;
++	} else {
++		dma_dir = DMA_MEM_TO_DEV;
++	}
++
++	if (!block->bytes_used || block->bytes_used > max_size)
++		return -EINVAL;
+ 
+ 	desc = dmaengine_prep_slave_single(dmaengine_buffer->chan,
+-		block->phys_addr, block->bytes_used, DMA_DEV_TO_MEM,
++		block->phys_addr, block->bytes_used, dma_dir,
+ 		DMA_PREP_INTERRUPT);
+ 	if (!desc)
+ 		return -ENOMEM;
+@@ -275,7 +286,8 @@ static struct iio_buffer *devm_iio_dmaengine_buffer_alloc(struct device *dev,
+  */
+ int devm_iio_dmaengine_buffer_setup(struct device *dev,
+ 				    struct iio_dev *indio_dev,
+-				    const char *channel)
++				    const char *channel,
++				    enum iio_buffer_direction dir)
+ {
+ 	struct iio_buffer *buffer;
+ 
+@@ -286,6 +298,8 @@ int devm_iio_dmaengine_buffer_setup(struct device *dev,
+ 
+ 	indio_dev->modes |= INDIO_BUFFER_HARDWARE;
+ 
++	buffer->direction = dir;
++
+ 	return iio_device_attach_buffer(indio_dev, buffer);
+ }
+ EXPORT_SYMBOL_GPL(devm_iio_dmaengine_buffer_setup);
+diff --git a/include/linux/iio/buffer-dmaengine.h b/include/linux/iio/buffer-dmaengine.h
+index 5c355be89814..538d0479cdd6 100644
+--- a/include/linux/iio/buffer-dmaengine.h
++++ b/include/linux/iio/buffer-dmaengine.h
+@@ -7,11 +7,14 @@
+ #ifndef __IIO_DMAENGINE_H__
+ #define __IIO_DMAENGINE_H__
+ 
++#include <linux/iio/buffer.h>
++
+ struct iio_dev;
+ struct device;
+ 
+ int devm_iio_dmaengine_buffer_setup(struct device *dev,
+ 				    struct iio_dev *indio_dev,
+-				    const char *channel);
++				    const char *channel,
++				    enum iio_buffer_direction dir);
+ 
+ #endif
 -- 
-2.25.1
+2.34.1
 
