@@ -2,143 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA1CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 17:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4428C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 18:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348308AbiBGRu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 12:50:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
+        id S234409AbiBGS2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 13:28:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346229AbiBGRkH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 12:40:07 -0500
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097B5C0401DC;
-        Mon,  7 Feb 2022 09:40:06 -0800 (PST)
-Received: by mail-qt1-x82f.google.com with SMTP id r14so12546428qtt.5;
-        Mon, 07 Feb 2022 09:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YMdzuK8V3/C9b2T18KUrgwOQMbLjUc6+PWb6CGsonzg=;
-        b=eLkaZ3fiUCdYM66eWYd36pZQnGRXi5VxJmrmBBq2Sc6JeEGeA3yl09C15rUT7DT9U2
-         QYSROcPmfU5oY7BcsffcBm61BtFT52oKfIW/3rZmk8Qm9l/Wb8Ndj0NYADrrLTjhet8B
-         JkL0QDAKnocOL4H4mfNydJUbHT0f56Y/l9YIwHEZ30eR22x4sUu+sfko0q9XZ6PhSJK5
-         6P+L31ZNWqWwOu3tavPJPRrPSABDCDAIf37UVfEwhZAb4kEn4VvdWq/1ynVA6TIrXRyG
-         CRpxkTwTyPoZGS9Dmhk0btquQCLgtKlBaSnNzBS8ABz38wn9jTI8UYdRTfR/dgIypKIf
-         8Smg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YMdzuK8V3/C9b2T18KUrgwOQMbLjUc6+PWb6CGsonzg=;
-        b=xigJAXb8ZwEpaZXFT6D7Rl5kGpl3/NjllNaqU+quNg/Gwrd7bR3eOq/HCjeBWKdhqI
-         seXJAj4CovZGld2IAY3KNCwkLMtHv5hBCqvfZkDEmT3RBP9f5Xw3cyJc0Tu1u/6GeSaO
-         PExPHPLlJUEK5e7j+fd+uhBQ0h/KtW9Pfqa9HzPvPOr4+GAZPesxyUIQZWQAN+LbJDd1
-         RvPg0qqiKZMAB3tOGS60WMsX+AcVsX4rbqNFmvjHJ7fCdgTgh+A4l28+TMMJ2ziyfKQY
-         4Qlf7VBgMkcrvzH9zyeKXEmxGcU5O0yHs5HFRwJa1X5JZNvG8yyA+zXvVpJ9/fD0zVPQ
-         u8oQ==
-X-Gm-Message-State: AOAM5339ukzxnbZPfYpkQfXE7ObRDB4Uc8F5XBOXEg2Y5q+9J9IuDUr7
-        l8yMEswhISkNbxlGQqDHr1eh9D2DKLU=
-X-Google-Smtp-Source: ABdhPJz11JukF9ojSqaNxIlD7Ai3HiqLAlhee48JNgqksmcCrnG4UN7nSD4YwNqFXjON8j21WgKAUQ==
-X-Received: by 2002:a05:622a:254:: with SMTP id c20mr412739qtx.407.1644255605200;
-        Mon, 07 Feb 2022 09:40:05 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id q15sm5650173qti.41.2022.02.07.09.40.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Feb 2022 09:40:04 -0800 (PST)
-Subject: Re: [PATCH v2 1/1] Documentation: dev-tools: clarify KTAP
- specification wording
-To:     "Bird, Tim" <Tim.Bird@sony.com>, Jonathan Corbet <corbet@lwn.net>,
-        David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     "rmr167@gmail.com" <rmr167@gmail.com>,
-        "guillaume.tucker@collabora.com" <guillaume.tucker@collabora.com>,
-        "dlatypov@google.com" <dlatypov@google.com>,
-        "kernelci@groups.io" <kernelci@groups.io>,
-        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220207162813.3091899-1-frowand.list@gmail.com>
- <e795ad1a-ddb1-f0af-4a74-7c2c6a0a949a@gmail.com>
- <0de1426c-5b5d-9160-cd5c-00185fa516f5@gmail.com>
- <BYAPR13MB2503C78EE66DBC27ECF3FE8AFD2C9@BYAPR13MB2503.namprd13.prod.outlook.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <48b9b944-732d-d187-af39-756d87eedfa9@gmail.com>
-Date:   Mon, 7 Feb 2022 11:40:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S233874AbiBGSW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 13:22:59 -0500
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 10:22:58 PST
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690E6C0401D9;
+        Mon,  7 Feb 2022 10:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644258178; x=1675794178;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dRTBkaUrzeD1DWEd0reaqgGuCktQnIy1njrTvO0/m60=;
+  b=bY66ZF4rK49Si7t2qd0nxaEIwbOSlO1sG58szVWqUY/GSseXuQ1dfjLL
+   zQ/6fbSdoqwgeQllELwRb5twif3H8tFzOM8db0JMH2IG2utMhSJJwl5K/
+   URqv7yzyP4ieJnKvAU76OePxHDPZWiRwTtcYimNt7Hgl65MOYg2DF1hEh
+   ExUo01ltvZ0whE3UNL52ldOWe0RfGfykv3UjO3vtQADLe4yjYKAci2mjC
+   K9CLRsFxuRrRL+6w5XtRxKevm80tJJc5RyNkVvRDD3DanVrab2uvyecbB
+   MbNyP8AtVFDtjsOBjg6VUYGWryfARHzFtGbYcKMGj9nx+D3dx3B40yNKj
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="246368480"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="246368480"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 10:21:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="540217904"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.8])
+  by orsmga008.jf.intel.com with ESMTP; 07 Feb 2022 10:21:42 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     corbet@lwn.net, rafael@kernel.org, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] Documentation: admin-guide: pm: Document uncore frequency scaling
+Date:   Mon,  7 Feb 2022 10:21:34 -0800
+Message-Id: <20220207182134.2900362-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <BYAPR13MB2503C78EE66DBC27ECF3FE8AFD2C9@BYAPR13MB2503.namprd13.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/7/22 11:06 AM, Bird, Tim wrote:
-> 
-> 
->> -----Original Message-----
->> From: Frank Rowand <frowand.list@gmail.com>
->>
->> On 2/7/22 10:38 AM, Frank Rowand wrote:
->>> On 2/7/22 10:28 AM, frowand.list@gmail.com wrote:
->>>> From: Frank Rowand <frank.rowand@sony.com>
->>>>
->>>> Add the spec version to the title line.
->>>>
->>>> Explain likely source of "Unknown lines".
->>>>
->>>> "Unknown lines" in nested tests are optionally indented.
->>>>
->>>> Add "Unknown lines" items to differences between TAP & KTAP list
->>>>
->>>> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
->>>> ---
->>>
->>> Please do not apply this version (v2).  I was working off the KTAP specification
->>                                                                 ^^^^ TAP
-> 
-> What???
+Added documentation to configure uncore frequency limits in Intel
+Xeon processors.
 
-I was looking at the proposed TAP v14 from:
-  branch 'git14' of https://github.com/isaacs/testanything.github.io.git
-while David was looking at
-  branch 'tap-14-specification' of https://github.com/TestAnything/Specification/
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ .../pm/intel_uncore_frequency_scaling.rst     | 56 +++++++++++++++++++
+ .../admin-guide/pm/working-state.rst          |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
 
-David did not find the line type of "Anything else" in the TAP v14 he was looking
-at, but did find it in TAP v13 (tap-version-13-specification.md) which is in
-https://github.com/TestAnything/testanything.github.io
-so my reference to TAP "Anything else" in the patch remains valid.  The lack
-of "Anything else" in the TAP v14 that David was looking at is why I initially
-said to not apply this patch (v2).
-
-> 
->>> from a different github repo than I should have been referencing.
->>
->> OK to proceed with this version of the patch.  I was referencing the proposed
->> TAP version 14, which is in a different github repo than the TAP version 13
->> specification.  Everything in this patch is consistent with TAP version 13,
->> as well as the proposed TAP version 14.
-> 
-> I'm confused by this message.
-> Will there be a v3 of the patch, or are you saying to just apply the original v2 of
-> this patch?
-
-Sorry for the confusion.  There is no longer a need for v3 of the patch, so it is
-ok to apply v2 if it passes review.
-
-> 
-> For the original (v2) of the patch, which I believe is 
-> https://lore.kernel.org/all/20220207162813.3091899-1-frowand.list@gmail.com/
-> 
-> you can add a "Reviewed-by" from me.
->  -- Tim
-> 
+diff --git a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+new file mode 100644
+index 000000000000..b3519560594b
+--- /dev/null
++++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+@@ -0,0 +1,56 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++==============================
++Intel Uncore Frequency Scaling
++==============================
++
++:Copyright: |copy| 2022 Intel Corporation
++
++:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++
++Introduction
++===========================================
++
++Uncore can consume significant amount of power in Intel's Xeon servers based
++on the workload characteristics. To optimize total power and improve overall
++performance, SoC has an internal algorithm for scaling uncore frequency. These
++algorithms monitor workload usage of uncore and set a desirable frequency.
++
++It is possible that users have different expectations of uncore performance and
++want to have control over it. The objective is similar to set scaling min/max
++frequencies using cpufreq sysfs to improve compute performance. Users may have
++some latency sensitive workload where they do not want any change to uncore
++frequency. Also, users may have workload which requires different core and
++uncore performance at distinct phases and they want to use both cpufreq and
++uncore scaling interface to distribute power and improve overall performance.
++
++To control uncore frequency, a sysfs interface is provided in the directory:
++`/sys/devices/system/cpu/intel_uncore_frequency/`.
++
++There is one directory for each package and die combination as the scope of
++uncore scaling control is per die in multiple dies/package SoC or per
++package for single die per package SoC. The name represents the
++scope of control. For example: 'package_00_die_00' is for package id 0 and
++die 0 in it.
++
++Each package_*_die_* contains following attributes:
++
++``initial_max_freq_khz``
++	Out of reset, this attribute represent the maximum possible frequency.
++	This is a read only attribute. If users adjust max_freq_khz,
++	they can always go back to maximum using the value from this attribute.
++
++``initial_min_freq_khz``
++	Out of reset, this attribute represent the minimum possible frequency.
++	This is a read only attribute. If users adjust min_freq_khz,
++	they can always go back to minimum using the value from this attribute.
++
++``max_freq_khz``
++	This attribute is used to set the maximum uncore frequency.
++
++``min_freq_khz``
++	This attribute is used to set the minimum uncore frequency.
++
++``current_freq_khz``
++	This attribute is used to get the current uncore frequency.
+diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
+index 5d2757e2de65..ee45887811ff 100644
+--- a/Documentation/admin-guide/pm/working-state.rst
++++ b/Documentation/admin-guide/pm/working-state.rst
+@@ -15,3 +15,4 @@ Working-State Power Management
+    cpufreq_drivers
+    intel_epb
+    intel-speed-select
++   intel_uncore_frequency_scaling
+-- 
+2.34.1
 
