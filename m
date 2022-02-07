@@ -2,116 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F698C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 19:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9727C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 20:47:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235908AbiBGT15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 14:27:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
+        id S232654AbiBGUrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 15:47:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240637AbiBGTYr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 14:24:47 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00831C0401E6;
-        Mon,  7 Feb 2022 11:24:45 -0800 (PST)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217IQ5Vb005295;
-        Mon, 7 Feb 2022 19:24:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=W+3RF4+TSI5ssviTeFqGmaNMt1m1811Eopoel3gqsX4=;
- b=SNZKsTEHBqef7xnM2pHFHys/3UBNNaMj7qF2gqQPP5zJt5K4RLd144J5R7B1KMttbsq3
- cAD3haVj6C3QJsuUz+OUvrIqU0OlzhgbX7ZizrOXYAp3wbu1EtQLO+1FhwdGZ5iE5VHS
- /wRkW1EnG4sFRkYAJqQ9fkGdd3WRqloItYmRv3LRCQEYJt2JRPIf9taYlnHOey1yy3Sw
- drbrW8sVs1qdgaSuNTzta4mh1N+OqZPkmGefpTcC3iG3hTkdf58S/ZlZIIoMEROMXd2h
- lL/6PSltQn1+3sL3SC3Sv1VCgKLnW3ePuox8g3w/NMCDxiUDws+NrjJ/GNuyR/H5VDoj TQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e355aexnm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 19:24:45 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217IaYkk005641;
-        Mon, 7 Feb 2022 19:24:44 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e355aexmt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 19:24:44 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217J8Udo022771;
-        Mon, 7 Feb 2022 19:24:42 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma04ams.nl.ibm.com with ESMTP id 3e1gv8yr3q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 19:24:42 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 217JOd5J34537880
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 7 Feb 2022 19:24:39 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0E150AE057;
-        Mon,  7 Feb 2022 19:24:39 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7DB58AE045;
-        Mon,  7 Feb 2022 19:24:38 +0000 (GMT)
-Received: from osiris (unknown [9.145.47.238])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon,  7 Feb 2022 19:24:38 +0000 (GMT)
-Date:   Mon, 7 Feb 2022 20:24:37 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH v2 01/11] s390/uaccess: Add copy_from/to_user_key
- functions
-Message-ID: <YgFx9XIWvrPAeSNk@osiris>
-References: <20220207165930.1608621-1-scgl@linux.ibm.com>
- <20220207165930.1608621-2-scgl@linux.ibm.com>
+        with ESMTP id S242419AbiBGUcK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 15:32:10 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D627C0401E2
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 12:32:09 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id e28so15015630pfj.5
+        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 12:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1P8hA1j9aywFJgfHjGYLfcilDGyQWP/oEP/rL7ICpyg=;
+        b=C06fimZteiDPoqZEu2rPd0hp5X05Xu0F8lNukNvXrC+SHmbeaRXXVOOPeN18tKtywR
+         P1+CY4LIGJR3E4i+nMbWJgjXQLn0rgLLAbMXyEDV7jWHBD66bf1bRgmGfwSbPpsJCu//
+         FFlgWppTLm/5QqkvSGU/tM/Y1y30kZ6w/e+cqsczks/n8G2VRUX/Yr/7QKsOHOcJLe9F
+         WOO+bGwKVmf4WWCoOSQ7ilLPzkYbMmeyT0lNJONAGNKITT6/PApHfzpuqUHjixPw373F
+         9/1MDyR0oQawyfmi+5YY2P/IDWOb6kQsvefxAMaUCqC4FSpSOwFSgQ2flSnipZz5F+Rb
+         MRmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1P8hA1j9aywFJgfHjGYLfcilDGyQWP/oEP/rL7ICpyg=;
+        b=VAnJeAyBlCEBfpq6IpA2SJjKWyyd6gHT5VANEy6oQJ1AuuSfsQEDjzUNcmCp341+ng
+         g3q/NXYpDwRC+t/cgM0DFYYVb6MC9+NMfGm5fvbtozIeSBKsN2nweaJl1Zd7qM/56dmC
+         fFWllOEVJ/1RG0VPvH3yISJkFTkwm2/NLz0V26oBmu85DBE5DzS4VjXnvX8qlxvd4cKV
+         Ygrh1u5OHDGnU4BCnN+H3tNz36UBP1UbcJ2+5V/2gLuJSSrqm7MczAWNAw18kDzYazXH
+         hQ3EbfcX0u0tx3uc3/Y2zvPjK4o0nrY745NIYCPEhq+CmXUESo1N34GZYaVgmU1r/WCW
+         s5Xg==
+X-Gm-Message-State: AOAM531AsOgGo5ZBMfjS8VwZnkGKTfCnrSd80TLKUw9HNrQW4pfpCdkL
+        LQCFkO6LJifZ/kcRvu6pqMzLBrrJIOxUx5WQ0TXZyg==
+X-Google-Smtp-Source: ABdhPJzdiVW/zhtdK0Fc+Zk69XCZxEluVIICSO7cBbOk5Z3lLzYGJkWJ/w2d7cthfjL73eD7SoteD4xaEYUlVPSO2Nw=
+X-Received: by 2002:a05:6a00:1508:: with SMTP id q8mr1109927pfu.3.1644265928635;
+ Mon, 07 Feb 2022 12:32:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220207165930.1608621-2-scgl@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: C83dn5awiSbA2ceuYPoP1K7OqbqzPL--
-X-Proofpoint-ORIG-GUID: VbxGmKnRkMsQ5OOssbczvlDYbwZrHcsQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-07_06,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- suspectscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxlogscore=805 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202070115
+References: <20220207112043.397074-1-akirakawata1@gmail.com>
+In-Reply-To: <20220207112043.397074-1-akirakawata1@gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 7 Feb 2022 15:31:57 -0500
+Message-ID: <CAFd5g466EGdOvvAp8t1tZDe4ks1XgJpA1Hwouds+9ASjznxhFA@mail.gmail.com>
+Subject: Re: [PATCH v1] Documentation: KUnit: Fix usage bug
+To:     Akira Kawata <akirakawata1@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 07, 2022 at 05:59:20PM +0100, Janis Schoetterl-Glausch wrote:
-> Add copy_from/to_user_key functions, which perform storage key checking.
-> These functions can be used by KVM for emulating instructions that need
-> to be key checked.
-> These functions differ from their non _key counterparts in
-> include/linux/uaccess.h only in the additional key argument and must be
-> kept in sync with those.
-> 
-> Since the existing uaccess implementation on s390 makes use of move
-> instructions that support having an additional access key supplied,
-> we can implement raw_copy_from/to_user_key by enhancing the
-> existing implementation.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->  arch/s390/include/asm/uaccess.h | 22 +++++++++
->  arch/s390/lib/uaccess.c         | 81 +++++++++++++++++++++++++--------
->  2 files changed, 85 insertions(+), 18 deletions(-)
+On Mon, Feb 7, 2022 at 6:21 AM Akira Kawata <akirakawata1@gmail.com> wrote:
+>
+> Fix a bug of kunit documentation.
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=205773
+>
+> : Quoting Steve Pfetsch:
+> :
+> : kunit documentation is incorrect:
+> : https://kunit.dev/third_party/stable_kernel/docs/usage.html
+> : struct rectangle *self = container_of(this, struct shape, parent);
+> :
+> :
+> : Shouldn't it be:
+> : struct rectangle *self = container_of(this, struct rectangle, parent);
+> : ?
+>
+> Signed-off-by: Akira Kawata <akirakawata1@gmail.com>
 
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Wow. I can't believe we let this go for this long...and even after
+doing an *almost* complete rewrite of that page.
 
-Christian, Janosch, I think this can go via the kvm tree.
+Anyway, thanks for fixing this!
+
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
