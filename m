@@ -2,443 +2,380 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A90C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 02:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC42C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 06:04:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240941AbiBGCLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Feb 2022 21:11:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
+        id S239197AbiBGGDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 01:03:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbiBGCLG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Feb 2022 21:11:06 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957DEC061A73
-        for <linux-doc@vger.kernel.org>; Sun,  6 Feb 2022 18:11:04 -0800 (PST)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JsTdg3n9rzccjN;
-        Mon,  7 Feb 2022 09:51:35 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
+        with ESMTP id S234847AbiBGEWn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Feb 2022 23:22:43 -0500
+X-Greylist: delayed 1051 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 20:22:40 PST
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1980BC061A73;
+        Sun,  6 Feb 2022 20:22:39 -0800 (PST)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JsXZ10GTZz9sT8;
+        Mon,  7 Feb 2022 12:03:37 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Feb 2022 09:52:34 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Feb
- 2022 09:52:33 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH] docs/zh_CN: Add sched-energy Chinese translation
-Date:   Mon, 7 Feb 2022 10:25:21 +0800
-Message-ID: <20220207022521.27487-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+ 15.1.2308.21; Mon, 7 Feb 2022 12:05:01 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Feb 2022 12:05:00 +0800
+Subject: Re: [PATCH v20 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+CC:     Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220124084708.683-1-thunder.leizhen@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <d77f9f52-626d-e290-5fcb-578ac6b0c7ce@huawei.com>
+Date:   Mon, 7 Feb 2022 12:04:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
+In-Reply-To: <20220124084708.683-1-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate scheduler/sched-energy.rst into Chinese.
+Hi everybody:
+  Can someone take a moment to review these patches? Maybe I should just try
+making generic. This patch series seems to have gone back to square one,
+discarding some of the valuable comments that were made in the middle. But the
+only benefit of make generic is to avoid code duplication, a lot of adaptation
+is needed. I think Borislav Petkov's suggestion is good, too.
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
- .../translations/zh_CN/scheduler/index.rst    |   4 +-
- .../zh_CN/scheduler/sched-energy.rst          | 351 ++++++++++++++++++
- 2 files changed, 353 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-energy.rst
+  These patches are taking too long. Maybe no one wants to look through history
+anymore. So I'm putting together some of the most central observations of
+"make generic" as follows:
+   Mike Rapoport:
+     This very reminds what x86 does. Any chance some of the code can be reused
+     rather than duplicated?
+     https://lkml.org/lkml/2019/4/4/1225
 
-diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
-index f8f8f35d53c7..ab7925980266 100644
---- a/Documentation/translations/zh_CN/scheduler/index.rst
-+++ b/Documentation/translations/zh_CN/scheduler/index.rst
-@@ -5,6 +5,7 @@
- :翻译:
- 
-  司延腾 Yanteng Si <siyanteng@loongson.cn>
-+ 唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
- 
- :校译:
- 
-@@ -23,13 +24,12 @@ Linux调度器
-     sched-design-CFS
-     sched-domains
-     sched-capacity
-+    sched-energy
- 
- 
- TODOList:
- 
--    sched-bwc
-     sched-deadline
--    sched-energy
-     sched-nice-design
-     sched-rt-group
-     sched-stats
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-energy.rst b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
-new file mode 100644
-index 000000000000..5ea3980b0ebd
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scheduler/sched-energy.rst
-@@ -0,0 +1,351 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scheduler/sched-energy.rst
-+
-+:翻译:
-+
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-+
-+============
-+能量感知调度
-+============
-+
-+1. 简介
-+-------
-+
-+能量感知调度（EAS）使调度器有能力预测其决策对CPU所消耗的能量的影响。EAS依靠
-+一个能量模型（EM）来为每个任务选择一个节能的CPU，同时最小化对吞吐率的影响。
-+本文档致力于介绍介绍EAS是如何工作的，它背后的主要设计决策是什么，以及使其运行
-+所需的条件细节。
-+
-+在进一步阅读之前，请注意，在撰写本文时::
-+
-+   /!\ EAS不支持对称CPU拓扑的平台 /!\
-+
-+EAS只在异构CPU拓扑结构（如Arm大小核，big.LITTLE）上运行。因为在这种情况下，
-+通过调度来节约能量的潜力是最大的。
-+
-+EAS实际使用的EM不是由调度器维护的，而是一个专门的框架。关于这个框架的细节和
-+它提供的内容，请参考其文档（见Documentation/power/energy-model.rst）。
-+
-+
-+2. 背景和术语
-+-------------
-+
-+从一开始就说清楚定义:
-+ - 能量 = [焦耳] （比如供电设备上的电池提供的资源）
-+ - 功率 = 能量/时间 = [焦耳/秒] = [瓦特]
-+
-+ EAS的目标是最小化能量，同时仍能将工作完成。也就是说，我们要最大化::
-+
-+	性能 [指令数/秒]
-+	----------------
-+	   功率 [瓦特]
-+
-+它等效于最小化::
-+
-+	能量 [焦耳]
-+	-----------
-+	   指令数
-+
-+同时仍然获得“良好”的性能。当前调度器只考虑性能目标，因此该式子本质上是一个
-+可选的优化目标，它同时考虑了两个目标：能量效率和性能。
-+
-+引入EM的想法是为了让调度器评估其决策的影响，而不是盲目地应用可能仅在部分
-+平台有正面效果的节能技术。同时，EM必须尽可能的简单，以最小化调度器的时延
-+影响。
-+
-+简而言之，EAS改变了CFS任务分配给CPU的方式。当调度器决定一个任务应该在哪里
-+运行时（在唤醒期间），EM被用来在不损害系统吞吐率的情况下，从几个较好的候选
-+CPU中挑选一个经预测能量消耗最优的CPU。EAS的预测依赖于对平台拓扑结构特定元素
-+的了解，包括CPU的“算力”，以及它们各自的能量成本。
-+
-+
-+3. 拓扑信息
-+-----------
-+
-+EAS（以及调度器的剩余部分）使用“算力”的概念来区分不同计算吞吐率的CPU。一个
-+CPU的“算力”代表了它在最高频率下运行时能完成的工作量，且这个值是相对系统中
-+算力最大的CPU而言的。算力值被归一化为1024以内，并且可与由实体负载跟踪
-+（PELT）机制算出的利用率信号做对比。由于有算力值和利用率值，EAS能够估计一个
-+任务/CPU有多大/有多忙，并在评估性能与能量时将其考虑在内。CPU算力由特定体系
-+结构实现的arch_scale_cpu_capacity()回调函数提供。
-+
-+EAS使用的其余平台信息是直接从能量模型（EM）框架中读取的。一个平台的EM是一张
-+表，表中每项代表系统中一个“性能域”的功率成本。（若要了解更多关于性能域的细节，
-+见文档/power/energy-model.rst）
-+
-+当调度域被建立或重新建立时，调度器管理对拓扑代码中EM对象的引用。对于每个根域
-+（rd），调度器维护一个与当前rd->span相交的所有性能域的单向链表。链表中的每个
-+节点都包含一个指向EM框架所提供的结构体em_perf_domain的指针。
-+
-+链表被附加在根域上，以应对独占的cpuset的配置。由于独占的cpuset的边界不一定与
-+性能域的边界一致，不同根域的链表可能包含重复的元素。
-+
-+示例1
-+    让我们考虑一个有12个CPU的平台，分成3个性能域，（pd0，pd4和pd8），按以下
-+    方式组织::
-+
-+	          CPUs:   0 1 2 3 4 5 6 7 8 9 10 11
-+	          PDs:   |--pd0--|--pd4--|---pd8---|
-+	          RDs:   |----rd1----|-----rd2-----|
-+
-+    现在，考虑用户空间决定将系统分成两个独占的cpusets，因此创建了两个独立的根域，
-+    每个根域包含6个CPU。这两个根域在上图中被表示为rd1和rd2。由于pd4与rd1和rd2
-+    都有交集，它将同时出现于附加在这两个根域的“->pd”链表中:
-+
-+       * rd1->pd: pd0 -> pd4
-+       * rd2->pd: pd4 -> pd8
-+
-+    请注意，调度器将为pd4创建两个重复的链表节点（每个链表中各一个）。然而这
-+    两个节点持有指向同一个EM框架的共享数据结构的指针。
-+
-+由于对这些链表的访问可能与热插拔及其它事件并发发生，因此它们受RCU锁保护，就像
-+被调度器操控的拓扑结构中剩下字段一样。
-+
-+EAS同样维护了一个静态键（sched_energy_present），当至少有一个根域满足EAS
-+启动的所有条件时，这个键就会被启动。在第6节中总结了这些条件。
-+
-+
-+4. 能量感知任务放置
-+-------------------
-+
-+EAS覆盖了CFS的任务唤醒平衡代码。在唤醒平衡时，它使用平台的EM和PELT信号来选择节能
-+的目标CPU。当EAS被启用时，select_task_rq_fair()调用find_energy_efficient_cpu()
-+来做任务放置决定。这个函数寻找在每个性能域中寻找具有最高剩余算力（CPU算力 - CPU
-+利用率）的CPU，因为它能让我们保持最低的频率。然后，该函数检查将任务放在新CPU相较
-+依然放在之前活动的prev_cpu是否可以节省能量。
-+
-+find_energy_efficient_cpu()使用compute_energy()来估算如果唤醒的任务被迁移，
-+系统将消耗多少能量。compute_energy()检查各CPU当前的利用率情况，并尝试调整来
-+“模拟”任务迁移。EM框架提供了API em_pd_energy()计算每个性能域在给定的利用率条件
-+下的预期能量消耗。
-+
-+下面详细介绍一个优化能量消耗的任务放置决策的例子。
-+
-+示例2
-+    让我们考虑一个有两个独立性能域的（伪）平台，每个性能域含有2个CPU。CPU0和CPU1
-+    是小核，CPU2和CPU3是大核。
-+
-+    调度器必须决定将任务P放在哪个CPU上，这个任务的util_avg = 200（平均利用率），
-+    prev_cpu = 0（上一次运行在CPU0）。
-+
-+    目前CPU的利用率情况如下图所示。CPU 0-3的util_avg分别为400、100、600和500。
-+    每个性能域有三个操作性能值（OPP）。与每个OPP相关的CPU算力和功率成本列在能量
-+    模型表中。P的util_avg在图中显示为"PP"::
-+
-+     CPU util.
-+      1024                 - - - - - - -              Energy Model
-+                                               +-----------+-------------+
-+                                               |  Little   |     Big     |
-+       768                 =============       +-----+-----+------+------+
-+                                               | Cap | Pwr | Cap  | Pwr  |
-+                                               +-----+-----+------+------+
-+       512  ===========    - ##- - - - -       | 170 | 50  | 512  | 400  |
-+                             ##     ##         | 341 | 150 | 768  | 800  |
-+       341  -PP - - - -      ##     ##         | 512 | 300 | 1024 | 1700 |
-+             PP              ##     ##         +-----+-----+------+------+
-+       170  -## - - - -      ##     ##
-+             ##     ##       ##     ##
-+           ------------    -------------
-+            CPU0   CPU1     CPU2   CPU3
-+
-+      Current OPP: =====       Other OPP: - - -     util_avg (100 each): ##
-+
-+
-+    find_energy_efficient_cpu()将首先在两个性能域中寻找具有最大剩余算力的CPU。
-+    在这个例子中是CPU1和CPU3。然后，它将估算，当P被放在它们中的任意一个时，系统的
-+    能耗，并检查这样做是否会比把P放在CPU0上节省一些能量。EAS假定OPPs遵循利用率
-+    （这与CPUFreq监管器schedutil的行为一致。关于这个问题的更多细节，见第6节）。
-+
-+    **情况1. P被迁移到CPU1**::
-+
-+      1024                 - - - - - - -
-+
-+                                            Energy calculation:
-+       768                 =============     * CPU0: 200 / 341 * 150 = 88
-+                                             * CPU1: 300 / 341 * 150 = 131
-+                                             * CPU2: 600 / 768 * 800 = 625
-+       512  - - - - - -    - ##- - - - -     * CPU3: 500 / 768 * 800 = 520
-+                             ##     ##          => total_energy = 1364
-+       341  ===========      ##     ##
-+                    PP       ##     ##
-+       170  -## - - PP-      ##     ##
-+             ##     ##       ##     ##
-+           ------------    -------------
-+            CPU0   CPU1     CPU2   CPU3
-+
-+
-+    **情况2. P被迁移到CPU3**::
-+
-+      1024                 - - - - - - -
-+
-+                                            Energy calculation:
-+       768                 =============     * CPU0: 200 / 341 * 150 = 88
-+                                             * CPU1: 100 / 341 * 150 = 43
-+                                    PP       * CPU2: 600 / 768 * 800 = 625
-+       512  - - - - - -    - ##- - -PP -     * CPU3: 700 / 768 * 800 = 729
-+                             ##     ##          => total_energy = 1485
-+       341  ===========      ##     ##
-+                             ##     ##
-+       170  -## - - - -      ##     ##
-+             ##     ##       ##     ##
-+           ------------    -------------
-+            CPU0   CPU1     CPU2   CPU3
-+
-+    **情况3. P依旧留在prev_cpu/CPU0**::
-+
-+      1024                 - - - - - - -
-+
-+                                            Energy calculation:
-+       768                 =============     * CPU0: 400 / 512 * 300 = 234
-+                                             * CPU1: 100 / 512 * 300 = 58
-+                                             * CPU2: 600 / 768 * 800 = 625
-+       512  ===========    - ##- - - - -     * CPU3: 500 / 768 * 800 = 520
-+                             ##     ##          => total_energy = 1437
-+       341  -PP - - - -      ##     ##
-+             PP              ##     ##
-+       170  -## - - - -      ##     ##
-+             ##     ##       ##     ##
-+           ------------    -------------
-+            CPU0   CPU1     CPU2   CPU3
-+
-+    从这些计算结果来看，情况1的总能量最低。所以从节约能量的角度看，CPU1是最佳候选
-+    者。
-+
-+大核通常比小核更耗电，因此主要在任务不适合在小核运行时使用。然而，小核并不总是比
-+大核节能。举例来说，对于某些系统，小核的高OPP可能比大核的低OPP能量消耗更高。因此，
-+如果小核在某一特定时间点刚好有足够的利用率，在此刻被唤醒的小任务放在大核执行可能
-+会更节能，尽管它在小核上运行也是合适的。
-+
-+即使在大核所有OPP都不如小核OPP节能的情况下，在某些特定条件下，令小任务运行在大核
-+上依然可能节能。事实上，将一个任务放在一个小核上可能导致整个性能域的OPP提高，这将
-+增加已经在该性能域运行的任务的能量成本。如果唤醒的任务被放在一个大核上，它的执行
-+成本可能比放在小核上更高，但这不会影响小核上的其它任务，这些任务将继续以较低的OPP
-+运行。因此，当考虑CPU消耗的总能量时，在大核上运行一个任务的额外成本可能小于为所有
-+其它运行在小核的任务提高OPP的成本。
-+
-+上面的例子几乎不可能以一种通用的方式得到正确的结果；同时，对于所有平台，在不知道
-+系统所有CPU每个不同OPP的运行成本时，也无法得到正确的结果。得益于基于EM的设计，
-+EAS应该能够正确处理这些问题而不会引发太多麻烦。然而，为了确保对高利用率场景的
-+吞吐率造成的影响最小化，EAS同样实现了另外一种叫“过度利用率”的机制。
-+
-+
-+5. 过度利用率
-+-------------
-+
-+从一般的角度来看，EAS能提供最大帮助的是那些涉及低、中CPU利用率的使用场景。每当CPU
-+密集型的长任务运行，它们将需要所有的可用CPU算力，调度器将没有什么办法来节省能量同时
-+又不损害吞吐率。为了避免EAS损害性能，一旦CPU被使用的算力超过80%，它将被标记为“过度
-+利用”。只要根域中没有CPU是过度利用状态，负载均衡被禁用，而EAS将覆盖唤醒平衡代码。
-+EAS很可能将负载放置在系统中能量效率最高的CPU而不是其它CPU上，只要不损害吞吐率。
-+因此，负载均衡器被禁用以防止它打破EAS发现的节能任务放置。当系统未处于过度利用状态时，
-+这样做是安全的，因为低于80%的临界点意味着：
-+
-+    a. 所有的CPU都有一些空闲时间，所以EAS使用的利用率信号很可能准确地代表各种任务
-+       的“大小”。
-+    b. 所有任务，不管它们的nice值是多大，都应该被提供了足够多的CPU算力。
-+    c. 既然有多余的算力，那么所有的任务都必须定期阻塞/休眠，在唤醒时进行平衡就足够
-+       了。
-+
-+只要一个CPU利用率超过80%的临界点，上述三个假设中至少有一个是不正确的。在这种情况下，
-+整个根域的“过度利用”标志被设置，EAS被禁用，负载均衡器被重新启用。通过这样做，调度器
-+又回到了在CPU密集的条件下基于负载的算法做负载均衡。这更好地尊重了任务的nice值。
-+
-+由于过度利用率的概念在很大程度上依赖于检测系统中是否有一些空闲时间，所以必须考虑
-+（比CFS）更高优先级的调度类（以及中断）“窃取”的CPU算力。像这样，对过度使用率的检测
-+不仅要考虑CFS任务使用的算力，还需要考虑其它调度类和中断。
-+
-+
-+6. EAS的依赖和要求
-+------------------
-+
-+能量感知调度依赖系统的CPU具有特定的硬件属性，以及内核中的其它特性被启用。本节列出
-+了这些依赖，并对如何满足这些依赖提供了提示。
-+
-+
-+6.1 - 非对称CPU拓扑
-+^^^^^^^^^^^^^^^^^^^
-+
-+
-+如简介所提，目前只有非对称CPU拓扑结构的平台支持EAS。通过在运行时查询
-+SD_ASYM_CPUCAPACITY_FULL标志位是否在创建调度域时已设置来检查这一要求是否满足。
-+
-+参阅Documentation/scheduler/sched-capacity.rst以了解在sched_domain层次结构
-+中设置此标志位所需满足的要求。
-+
-+请注意，EAS并非从根本上与SMP不兼容，但在SMP平台上还没有观察到明显的节能。这一
-+限制可以在将来进行修改，如果被证明不是这样的话。
-+
-+
-+6.2 - 当前的能量模型
-+^^^^^^^^^^^^^^^^^^^^
-+
-+EAS使用一个平台的EM来估算调度决策对能量的影响。因此，你的平台必须向EM框架提供
-+能量成本表，以启动EAS。要做到这一点，请参阅文档
-+Documentation/power/energy-model.rst中的独立EM框架部分。
-+
-+另请注意，调度域需要在EM注册后重建，以便启动EAS。
-+
-+EAS使用EM对能量使用率进行预测决策，因此它在检查任务放置的可能选项时更加注重
-+差异。对于EAS来说，EM的功率值是以毫瓦还是以“抽象刻度”为单位表示并不重要。
-+
-+
-+
-+6.3 - 能量模型复杂度
-+^^^^^^^^^^^^^^^^^^^^
-+
-+任务唤醒路径是时延敏感的。当一个平台的EM太复杂（太多CPU，太多性能域，太多状态
-+等），在唤醒路径中使用它的成本就会升高到不可接受。能量感知唤醒算法的复杂度为：
-+
-+	C = Nd * (Nc + Ns)
-+
-+其中：Nd是性能域的数量；Nc是CPU的数量；Ns是OPP的总数（例如：对于两个性能域，
-+每个域有4个OPP，则Ns = 8）。
-+
-+当调度域建立时，复杂性检查是在根域上进行的。如果一个根域的复杂度C恰好高于完全
-+主观设定的EM_MAX_COMPLEXITY阈值（在本文写作时，是2048），则EAS不会在此根域
-+启动。
-+
-+如果你的平台的能量模型的复杂度太高，EAS无法在这个根域上使用，但你真的想用，
-+那么你就只剩下两个可能的选择：
-+
-+    1. 将你的系统拆分成分离的、较小的、使用独占cpuset的根域，并在每个根域局部
-+       启用EAS。这个方案的好处是开箱即用，但缺点是无法在根域之间实现负载均衡，
-+       这可能会导致总体系统负载不均衡。
-+    2. 提交补丁以降低EAS唤醒算法的复杂度，从而使其能够在合理的时间内处理更大
-+       的EM。
-+
-+
-+6.4 - Schedutil监管器
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+EAS试图预测CPU在不久的将来会在哪个OPP下运行，以估算它们的能量消耗。为了做到
-+这一点，它假定CPU的OPP跟随CPU利用率变化而变化。
-+
-+尽管在实践中很难对这一假设的准确性提供硬性保证（因为，举例来说硬件可能不会做
-+它被要求做的事情），相对于其他CPUFreq监管器，schedutil至少_请求_使用利用率
-+信号计算的频率。因此，与EAS一起使用的唯一合理的监管器是schedutil，因为它是
-+唯一一个在频率请求和能量预测之间提供某种程度的一致性的监管器。
-+
-+不支持将EAS与schedutil之外的任何其它监管器一起使用。
-+
-+
-+6.5 刻度不变性使用率信号
-+^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+为了对不同的CPU和所有的性能状态做出准确的预测，EAS需要频率不变的和CPU不变的
-+PELT信号。这些信号可以通过每个体系结构定义的arch_scale{cpu,freq}_capacity()
-+回调函数获取。
-+
-+不支持在没有实现这两个回调函数的平台上使用EAS。
-+
-+
-+6.6 多线程（SMT）
-+^^^^^^^^^^^^^^^^^
-+
-+当前实现的EAS是不感知SMT的，因此无法利用多线程硬件节约能量。EAS认为线程是独立的
-+CPU，这实际上对性能和能量消耗都是不利的。
-+
-+不支持在SMT上使用EAS。
+     I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
+     in arch/Kconfig and select this by X86 and ARM64.
+     https://lkml.org/lkml/2020/11/12/224
+
+   Ingo Molnar:
+     No objections for this to be merged via the ARM tree, as long as x86
+     functionality is kept intact.
+     https://lkml.org/lkml/2019/4/10/109
+
+     I.e. Ack, but only if it doesn't break anything. :-)
+     https://lkml.org/lkml/2019/4/12/66
+
+   Dave Young:
+     Other than the comments from James, can you move the function into
+     kernel/crash_core.c, we already have some functions moved there for
+     sharing.
+     https://lkml.org/lkml/2019/6/12/248
+
+   Catalin Marinas:
+     Except for the threshold to keep zone ZONE_DMA memory,
+     reserve_crashkernel() looks very close to the x86 version. Shall we try
+     to make this generic as well?
+     https://lkml.org/lkml/2020/9/2/917
+
+   Borislav Petkov:
+     Why insert_resource() is relevant only to x86?
+     --> I think this means "Why does arm64 not use insert_resource()?"
+     https://lkml.org/lkml/2021/12/23/480
+
+     This is exactly why I say that making those functions generic and shared
+     might not be such a good idea, after all, because then you'd have to
+     sprinkle around arch-specific stuff.
+     https://lkml.org/lkml/2021/12/23/480
+
+     What I suggested and what would be real clean is if the arches would
+     simply call a *single*
+	parse_crashkernel()
+     function and when that one returns, *all* crashkernel= options would
+     have been parsed properly, low, high, middle crashkernel, whatever...
+     and the caller would know what crash kernel needs to be allocated.
+     https://lkml.org/lkml/2021/12/28/305
+
+   ------
+   James Morse:
+     We can then describe it via a different string in /proc/iomem, something
+     like "Crash kernel (low)".
+     https://lkml.org/lkml/2019/6/5/670
+     --> The suggestion looks out of date. See Borislav Petkov's comments:
+     --> 157752d84f5d ("kexec: use Crash kernel for Crash kernel low")
+     --> https://lkml.org/lkml/2021/12/23/480
+
+
+On 2022/1/24 16:47, Zhen Lei wrote:
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
+> 
+> To solve these issues, change the behavior of crashkernel=X.
+> crashkernel=X tries low allocation in DMA zone and fall back to high
+> allocation if it fails.
+> 
+> We can also use "crashkernel=X,high" to select a high region above
+> DMA zone, which also tries to allocate at least 256M low memory in
+> DMA zone automatically and "crashkernel=Y,low" can be used to allocate
+> specified size low memory.
+> 
+> When reserving crashkernel in high memory, some low memory is reserved
+> for crash dump kernel devices. So there may be two regions reserved for
+> crash dump kernel.
+> In order to distinct from the high region and make no effect to the use
+> of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> and pass the low region by reusing DT property
+> "linux,usable-memory-range". We made the low memory region as the last
+> range of "linux,usable-memory-range" to keep compatibility with existing
+> user-space and older kdump kernels.
+> 
+> Besides, we need to modify kexec-tools:
+> arm64: support more than one crash kernel regions(see [1])
+> 
+> Another update is document about DT property 'linux,usable-memory-range':
+> schemas: update 'linux,usable-memory-range' node schema(see [2])
+> 
+> 
+> Changes since [v19]:
+> 1. Temporarily stop making reserve_crashkernel[_low]() generic. There are a
+>    lot of details need to be considered, which can take a long time. Because
+>    "make generic" does not add new functions and does not improve performance,
+>    maybe I should say it's just a cleanup. So by stripping it out and leaving
+>    it for other patches later, we can aggregate the changes to the main functions.
+> 2. Use insert_resource() to replace request_resource(), this not only simplifies
+>    the code, but also reduces the differences between arm64 and x86 implementations.
+> 3. As commit 157752d84f5d ("kexec: use Crash kernel for Crash kernel low") do for
+>    x86, we can also extend kexec-tools for arm64, and it's currently applied. See:
+>    https://www.spinics.net/lists/kexec/msg28284.html
+> 
+> Thank you very much, Borislav Petkov, for so many valuable comments.
+> 
+> 
+> 
+> Changes since [v17]: v17 --> v19
+> 1. Patch 0001-0004
+>    Introduce generic parse_crashkernel_high_low() to bring the parsing of
+>    "crashkernel=X,high" and the parsing of "crashkernel=X,low" together,
+>    then use it instead of the call to parse_crashkernel_{high|low}(). Two
+>    confusing parameters of parse_crashkernel_{high|low}() are deleted.
+> 
+>    I previously sent these four patches separately:
+>    [1] https://lkml.org/lkml/2021/12/25/40
+> 2. Patch 0005-0009
+>    Introduce generic reserve_crashkernel_mem[_low](), the implementation of
+>    these two functions is based on function reserve_crashkernel[_low]() in
+>    arch/x86/kernel/setup.c. There is no functional change for x86.
+>    1) The check position of xen_pv_domain() does not change.
+>    2) Still 1M alignment for crash kernel fixed region, when 'base' is specified.
+> 
+>    To avoid compilation problems on other architectures: patch 0004 moves
+>    the definition of global variable crashk[_low]_res from kexec_core.c to
+>    crash_core.c, and provide default definitions for all macros involved, a
+>    particular platform can redefine these macros to override the default
+>    values.
+> 3. 0010, only one line of comment was changed.
+> 4. 0011
+>    1) crashk_low_res may also a valid reserved memory, should be checked
+>       in crash_is_nosave(), see arch/arm64/kernel/machine_kexec.
+>    2) Drop memblock_mark_nomap() for crashk_low_res, because of:
+>       2687275a5843 arm64: Force NO_BLOCK_MAPPINGS if crashkernel reservation is required
+>    3) Also call kmemleak_ignore_phys() for crashk_low_res, because of:
+>       85f58eb18898 arm64: kdump: Skip kmemleak scan reserved memory for kdump
+> 5. 0012, slightly rebased, because the following patch is applied in advance. 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?h=dt/linus&id=8347b41748c3019157312fbe7f8a6792ae396eb7
+> 6. 0013, no change.
+> 
+> Others:
+> 1. Discard add ARCH_WANT_RESERVE_CRASH_KERNEL
+> 2. When allocating crash low memory, the start address still starts from 0.
+>    low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> 3. Discard change (1ULL << 32) to CRASH_ADDR_LOW_MAX.
+> 4. Ensure the check position of xen_pv_domain() have no change.
+> 5. Except patch 0010 and 0012, all "Tested-by", "Reviewed-by", "Acked-by" are removed.
+> 6. Update description.
+> 
+> 
+> 
+> Changes since [v16]
+> - Because no functional changes in this version, so add
+>   "Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>" for patch 1-9
+> - Add "Reviewed-by: Rob Herring <robh@kernel.org>" for patch 8
+> - Update patch 9 based on the review comments of Rob Herring
+> - As Catalin Marinas's suggestion, merge the implementation of
+>   ARCH_WANT_RESERVE_CRASH_KERNEL into patch 5. Ensure that the
+>   contents of X86 and ARM64 do not overlap, and reduce unnecessary
+>   temporary differences.
+> 
+> Changes since [v15]
+> -  Aggregate the processing of "linux,usable-memory-range" into one function.
+>    Only patch 9-10 have been updated.
+> 
+> Changes since [v14]
+> - Recovering the requirement that the CrashKernel memory regions on X86
+>   only requires 1 MiB alignment.
+> - Combine patches 5 and 6 in v14 into one. The compilation warning fixed
+>   by patch 6 was introduced by patch 5 in v14.
+> - As with crashk_res, crashk_low_res is also processed by
+>   crash_exclude_mem_range() in patch 7.
+> - Due to commit b261dba2fdb2 ("arm64: kdump: Remove custom linux,usable-memory-range handling")
+>   has removed the architecture-specific code, extend the property "linux,usable-memory-range"
+>   in the platform-agnostic FDT core code. See patch 9.
+> - Discard the x86 description update in the document, because the description
+>   has been updated by commit b1f4c363666c ("Documentation: kdump: update kdump guide").
+> - Change "arm64" to "ARM64" in Doc.
+> 
+> 
+> Changes since [v13]
+> - Rebased on top of 5.11-rc5.
+> - Introduce config CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL.
+> Since reserve_crashkernel[_low]() implementations are quite similar on
+> other architectures, so have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in
+> arch/Kconfig and select this by X86 and ARM64.
+> - Some minor cleanup.
+> 
+> Changes since [v12]
+> - Rebased on top of 5.10-rc1.
+> - Keep CRASH_ALIGN as 16M suggested by Dave.
+> - Drop patch "kdump: add threshold for the required memory".
+> - Add Tested-by from John.
+> 
+> Changes since [v11]
+> - Rebased on top of 5.9-rc4.
+> - Make the function reserve_crashkernel() of x86 generic.
+> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
+> and arm64 use the generic version to reimplement crashkernel=X.
+> 
+> Changes since [v10]
+> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
+> 
+> Changes since [v9]
+> - Patch 1 add Acked-by from Dave.
+> - Update patch 5 according to Dave's comments.
+> - Update chosen schema.
+> 
+> Changes since [v8]
+> - Reuse DT property "linux,usable-memory-range".
+> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
+> memory region.
+> - Fix kdump broken with ZONE_DMA reintroduced.
+> - Update chosen schema.
+> 
+> Changes since [v7]
+> - Move x86 CRASH_ALIGN to 2M
+> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+> - Update Documentation/devicetree/bindings/chosen.txt.
+> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
+> suggested by Arnd.
+> - Add Tested-by from Jhon and pk.
+> 
+> Changes since [v6]
+> - Fix build errors reported by kbuild test robot.
+> 
+> Changes since [v5]
+> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+> - Delete crashkernel=X,high.
+> - Modify crashkernel=X,low.
+> If crashkernel=X,low is specified simultaneously, reserve spcified size low
+> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+> pass to crash dump kernel by DT property "linux,low-memory-range".
+> - Update Documentation/admin-guide/kdump/kdump.rst.
+> 
+> Changes since [v4]
+> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+> 
+> Changes since [v3]
+> - Add memblock_cap_memory_ranges back for multiple ranges.
+> - Fix some compiling warnings.
+> 
+> Changes since [v2]
+> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+> patch.
+> 
+> Changes since [v1]:
+> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+> in fdt_enforce_memory_region().
+> There are at most two crash kernel regions, for two crash kernel regions
+> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+> and then remove the memory range in the middle.
+> 
+> [1]: https://www.spinics.net/lists/kexec/msg28226.html
+> [2]: https://github.com/robherring/dt-schema/pull/19 
+> [v1]: https://lkml.org/lkml/2019/4/2/1174
+> [v2]: https://lkml.org/lkml/2019/4/9/86
+> [v3]: https://lkml.org/lkml/2019/4/9/306
+> [v4]: https://lkml.org/lkml/2019/4/15/273
+> [v5]: https://lkml.org/lkml/2019/5/6/1360
+> [v6]: https://lkml.org/lkml/2019/8/30/142
+> [v7]: https://lkml.org/lkml/2019/12/23/411
+> [v8]: https://lkml.org/lkml/2020/5/21/213
+> [v9]: https://lkml.org/lkml/2020/6/28/73
+> [v10]: https://lkml.org/lkml/2020/7/2/1443
+> [v11]: https://lkml.org/lkml/2020/8/1/150
+> [v12]: https://lkml.org/lkml/2020/9/7/1037
+> [v13]: https://lkml.org/lkml/2020/10/31/34
+> [v14]: https://lkml.org/lkml/2021/1/30/53
+> [v15]: https://lkml.org/lkml/2021/10/19/1405
+> [v16]: https://lkml.org/lkml/2021/11/23/435
+> [v17]: https://lkml.org/lkml/2021/12/10/38
+> [v18]: https://lkml.org/lkml/2021/12/22/424
+> [v19]: https://lkml.org/lkml/2021/12/28/203
+> 
+> 
+> Chen Zhou (4):
+>   arm64: kdump: introduce some macros for crash kernel reservation
+>   arm64: kdump: reimplement crashkernel=X
+>   of: fdt: Add memory for devices by DT property
+>     "linux,usable-memory-range"
+>   kdump: update Documentation about crashkernel
+> 
+> Zhen Lei (1):
+>   arm64: Use insert_resource() to simplify code
+> 
+>  Documentation/admin-guide/kdump/kdump.rst     | 11 ++-
+>  .../admin-guide/kernel-parameters.txt         | 11 ++-
+>  arch/arm64/kernel/machine_kexec.c             |  9 ++-
+>  arch/arm64/kernel/machine_kexec_file.c        | 12 ++-
+>  arch/arm64/kernel/setup.c                     | 17 +---
+>  arch/arm64/mm/init.c                          | 80 +++++++++++++++++--
+>  drivers/of/fdt.c                              | 33 +++++---
+>  7 files changed, 134 insertions(+), 39 deletions(-)
+> 
+
 -- 
-2.17.1
-
+Regards,
+  Zhen Lei
