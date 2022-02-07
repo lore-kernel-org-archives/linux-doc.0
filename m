@@ -2,113 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D69E7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 19:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1E0C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 19:17:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230325AbiBGTQu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 14:16:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46706 "EHLO
+        id S237073AbiBGTRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 14:17:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238818AbiBGTQJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 14:16:09 -0500
-Received: from a2nlsmtp01-02.prod.iad2.secureserver.net (a2nlsmtp01-02.prod.iad2.secureserver.net [198.71.225.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E40C0401DA
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 11:16:08 -0800 (PST)
-Received: from a2plcpnl0394.prod.iad2.secureserver.net ([198.71.228.70])
-        by : HOSTING RELAY : with ESMTP
-        id H9TfnGXABfq3hH9TfnYUVf; Mon, 07 Feb 2022 12:15:07 -0700
-X-CMAE-Analysis: v=2.4 cv=CMPv4TnD c=1 sm=1 tr=0 ts=62016fbb
- a=1StuNoa505miz0bl6oWT8A==:117 a=W/LxAOAmMZmt5zG/D6lBSA==:17
- a=9+rZDBEiDlHhcck0kWbJtElFXBc=:19 a=gQX1269ULFhLm4Thdby34LUHVW0=:19
- a=kj9zAlcOel0A:10 a=oGFeUVbbRNcA:10 a=VwQbUJbxAAAA:8 a=07d9gI8wAAAA:8
- a=Lwaw6U-gAAAA:8 a=NEAV23lmAAAA:8 a=B8Uq0VdtDiOBwz_KTowA:9 a=CjuIK1q_8ugA:10
- a=AtAeFeFvLGd9njqGQagc:22 a=AjGcO6oz07-iQ99wixmX:22 a=e2CUPOnPG4QKp8I52DXD:22
-X-SECURESERVER-ACCT: contact@ifohancroft.com
-Received: from [94.26.87.140] (port=43376 helo=battlestation)
-        by a2plcpnl0394.prod.iad2.secureserver.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <contact@ifohancroft.com>)
-        id 1nH9Te-00AAXm-LU; Mon, 07 Feb 2022 12:15:06 -0700
-Date:   Mon, 7 Feb 2022 21:15:04 +0200
-From:   IFo Hancroft <contact@ifohancroft.com>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Garrett LeSage <garrett@lesage.us>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: add SVG version of Linux logo
-Message-ID: <YgFvuIa0n3e6+cbq@battlestation>
-References: <20220207014418.GA28724@kernel.org>
+        with ESMTP id S236838AbiBGTNL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 14:13:11 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12E9C0401DA;
+        Mon,  7 Feb 2022 11:13:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644261189; x=1675797189;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XSZpboCIkbXi1GE1bciC1P+mAUTpL2x/5a3sVLbpD0E=;
+  b=LtO8CcM02fpLBuKxjoRgN/CY46ho8CHSseMbaqiNGavjzK+ytNPJ1BC1
+   HPeRD/yqLB7IeapGF/dSyORfDI5WILz+Za6TEEVVMQeWDLb7EruSG/1fx
+   aJFTdN6V+ay5SGFT0c3++j8Pv+jEM17qgX6gs3uRGGpRTEJZ7rLtIVQIl
+   PrzAwdi+f7UErgiXGYfYcvXWMnIE73WZBzTSO0tATsXNcyc9TE/ZWLi7C
+   NYJVHlCCbGY4khelRDODftuypWt89iNieIRZOfujmNLOPAm726PwSK2bF
+   TvtDiwYg6+JPSwl212jF+bpiG+EdeviZ4IBxKB+ViK56GhHXd2jSbtZxH
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="232354585"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="232354585"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 11:13:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="567586162"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.8])
+  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2022 11:13:09 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     corbet@lwn.net, rafael@kernel.org, hdegoede@redhat.com,
+        markgross@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] Documentation: admin-guide: pm: Document uncore frequency scaling
+Date:   Mon,  7 Feb 2022 11:13:07 -0800
+Message-Id: <20220207191307.2903314-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220207014418.GA28724@kernel.org>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - a2plcpnl0394.prod.iad2.secureserver.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - ifohancroft.com
-X-Get-Message-Sender-Via: a2plcpnl0394.prod.iad2.secureserver.net: authenticated_id: contact@ifohancroft.com
-X-Authenticated-Sender: a2plcpnl0394.prod.iad2.secureserver.net: contact@ifohancroft.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-CMAE-Envelope: MS4xfI8nEmH2NpQYps42yIG1GV7rz3CG+06VONEwJo3+SnpviQAaBW3AnW6V1ik32PsDRjm+ufo7a3P9g6UNBUJX8jwxYkDTWbyxFfKuyT27y3ochPV3pT1r
- YRjnqmEUM4V1u84Xh14DeHZ2naE078VPmOs6o4zQbbm9WxnLDIMo1LA720ZNWIrhSAbVvehNJi9lT0+Ly/kOcAbps00UAPYrgBfUKsrV2Yf1UGnTHcq0Vfvt
- jrQcvJnATvvgY5BzTubnVxoUtqHjI0M34pCdkMxLse0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Added documentation to configure uncore frequency limits in Intel
+Xeon processors.
 
-You have my permission to use the vector version of Tux with the license given in the patch.
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+Resent by adding linux-pm@vger.kernel.org
 
-Best Regards,
-IFo Hancroft
+ .../pm/intel_uncore_frequency_scaling.rst     | 56 +++++++++++++++++++
+ .../admin-guide/pm/working-state.rst          |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
 
-On Mon, Feb 07, 2022 at 02:44:18AM +0100, Miguel Ojeda wrote:
->In the Rust for Linux patch series, Jonathan Corbet requested that
->we avoid binary assets (logo and favicons for the generated
->documentation), possibly by recreating the logo in SVG format.
->
->However, it turns out there is no SVG version of the Linux logo
->in the kernel tree yet, only a GIF one from the pre-v2.0.0 days.
->Thus this commit fixes that, which then we can use in the Rust
->documentation in one way or another.
->
->This is a vector re-illustration by Garrett LeSage of the original
->logo by Larry Ewing (plus cleanups by IFo Hancroft). Garrett gave
->me (privately) his permission to use it for this purpose. The
->acknowledgement requirement has been made mandatory here to match
->the wording of the existing one.
->
->Link: https://lore.kernel.org/lkml/87fspk1xoc.fsf@meer.lwn.net/
->Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
->---
->Garrett, it would be great if you could confirm here that you
->are OK with the note in `COPYING-logo`. In particular, in your
->repository, you license the logo as public domain, though here
->I followed the existing licence which requires giving credit.
->Please see below.
->
-> Documentation/COPYING-logo |    8 +
-> Documentation/logo.svg     | 2040 ++++++++++++++++++++++++++++++++++++
-> 2 files changed, 2048 insertions(+)
-> create mode 100644 Documentation/logo.svg
->
->diff --git a/Documentation/COPYING-logo b/Documentation/COPYING-logo
->index b21c7cf7d9f6..fd7c9451fc72 100644
->--- a/Documentation/COPYING-logo
->+++ b/Documentation/COPYING-logo
->@@ -11,3 +11,11 @@ Larry's web-page:
->
-> 	https://www.isc.tamu.edu/~lewing/linux/
->
->+The SVG version was re-illustrated in vector by Garrett LeSage and
->+refined and cleaned up by IFo Hancroft. It is also freely usable
->+as long as you acknowledge Larry, Garrett and IFo Hancroft as above.
->+
->+There are also black-and-white and inverted vector versions at
->+Garrett's repository:
->+
->+	https://github.com/garrett/Tux
+diff --git a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+new file mode 100644
+index 000000000000..b3519560594b
+--- /dev/null
++++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+@@ -0,0 +1,56 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++==============================
++Intel Uncore Frequency Scaling
++==============================
++
++:Copyright: |copy| 2022 Intel Corporation
++
++:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++
++Introduction
++===========================================
++
++Uncore can consume significant amount of power in Intel's Xeon servers based
++on the workload characteristics. To optimize total power and improve overall
++performance, SoC has an internal algorithm for scaling uncore frequency. These
++algorithms monitor workload usage of uncore and set a desirable frequency.
++
++It is possible that users have different expectations of uncore performance and
++want to have control over it. The objective is similar to set scaling min/max
++frequencies using cpufreq sysfs to improve compute performance. Users may have
++some latency sensitive workload where they do not want any change to uncore
++frequency. Also, users may have workload which requires different core and
++uncore performance at distinct phases and they want to use both cpufreq and
++uncore scaling interface to distribute power and improve overall performance.
++
++To control uncore frequency, a sysfs interface is provided in the directory:
++`/sys/devices/system/cpu/intel_uncore_frequency/`.
++
++There is one directory for each package and die combination as the scope of
++uncore scaling control is per die in multiple dies/package SoC or per
++package for single die per package SoC. The name represents the
++scope of control. For example: 'package_00_die_00' is for package id 0 and
++die 0 in it.
++
++Each package_*_die_* contains following attributes:
++
++``initial_max_freq_khz``
++	Out of reset, this attribute represent the maximum possible frequency.
++	This is a read only attribute. If users adjust max_freq_khz,
++	they can always go back to maximum using the value from this attribute.
++
++``initial_min_freq_khz``
++	Out of reset, this attribute represent the minimum possible frequency.
++	This is a read only attribute. If users adjust min_freq_khz,
++	they can always go back to minimum using the value from this attribute.
++
++``max_freq_khz``
++	This attribute is used to set the maximum uncore frequency.
++
++``min_freq_khz``
++	This attribute is used to set the minimum uncore frequency.
++
++``current_freq_khz``
++	This attribute is used to get the current uncore frequency.
+diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
+index 5d2757e2de65..ee45887811ff 100644
+--- a/Documentation/admin-guide/pm/working-state.rst
++++ b/Documentation/admin-guide/pm/working-state.rst
+@@ -15,3 +15,4 @@ Working-State Power Management
+    cpufreq_drivers
+    intel_epb
+    intel-speed-select
++   intel_uncore_frequency_scaling
+-- 
+2.34.1
+
