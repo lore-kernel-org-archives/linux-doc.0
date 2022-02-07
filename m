@@ -2,97 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78621C4167D
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 15:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13790C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 16:39:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231941AbiBGPAx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 10:00:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47316 "EHLO
+        id S234211AbiBGQjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 11:39:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344140AbiBGOjY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 09:39:24 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13691C0401C1;
-        Mon,  7 Feb 2022 06:39:24 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id k17so11317692plk.0;
-        Mon, 07 Feb 2022 06:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qOF7XuZ0URB/cEi6r2JFaqatdPkNWbtv8LDsccHb8v8=;
-        b=VIT9DU84F6wnBWTjPisje1T5tMIDg1MClePpER0NkNwLPu3h8vbHbOcJtkHn+nWX2I
-         glyqpg1/dX84E3xetCO1d+sbkvcKwRqteVWA6VO07q809WTkEDpwTiN2QWfhS39+Kxhh
-         RvLI0xe2YnxntxUG4pBeP7YjqOYRiACBUUxFQ3HPDYd3SrhFJz0ZTepbbKZLpkfu/Jks
-         lqkndJ3xfApZYH+BmHR8rfP7iYR/EpX0dvrSgAtOIIMw9P9dOf2lZ2D1zRlTffdjzD17
-         TVzy8Y89g9ZH8K6XFuLieClgaKuA5GMqx6gqVnLuYPSfc5zHiRjN+wmc265bEc1nCIns
-         Xniw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qOF7XuZ0URB/cEi6r2JFaqatdPkNWbtv8LDsccHb8v8=;
-        b=aX/mww2ojSwf8a9flurVBESbHfVAaDRAtW6XMiZ/uz7K0DL7UAlmKY6IMcRAP7Byzj
-         HwGbUsQkE6n9q3dnwhvYVzkyiq6r+CumOQ/rqaS5+w1qUubv+N3IzSuf4qtTvhsBFDeA
-         +KkryivWeAk/b/IJrbTeEBMN9baGZFbfPw7L9p4tbhOAtNKT4EuIc2i+yl49AS1fU9q5
-         anJ17Yx2mjL1MMhcQM7wruPINGgLOM5/cPsTcKo8eIDcFASvZcumukH3BlUYvO8qM/Wf
-         ufCyHy5UC5JSOU4Z41QF8qfaA4JzJ+fFoBqk1dMUGedzW2QYEX8SsD7s1udemOaSEE0P
-         BvNw==
-X-Gm-Message-State: AOAM530+dz+8ukE190xs9sQRAdzYkQ1fXQGAaGdaIyZuLmlHlrXBQmuw
-        wfyIXNXy5VWYF0dx3tSb2R8=
-X-Google-Smtp-Source: ABdhPJyyBVpQ9fCO/0O2Rjq1KPTtehboO+FF8NVRGQskfkI65e+VsAO2IUAKuGYnflIfHsSkl9Rydw==
-X-Received: by 2002:a17:902:e84a:: with SMTP id t10mr2430855plg.25.1644244763599;
-        Mon, 07 Feb 2022 06:39:23 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id md9sm3892703pjb.6.2022.02.07.06.39.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Feb 2022 06:39:23 -0800 (PST)
-Message-ID: <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
-Date:   Mon, 7 Feb 2022 23:39:18 +0900
+        with ESMTP id S1382083AbiBGQcD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 11:32:03 -0500
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 08:31:57 PST
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28577C0401E8;
+        Mon,  7 Feb 2022 08:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644251517; x=1675787517;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=/KVSVa7sgjsVxefcYGnYLwrI2Vchw9qvwnAjpTnywCY=;
+  b=nfGJGU/w8RPiJAUoDgIgE5GRiayqDpC0pLvhcOQBB17LOJ17VbcuNbnS
+   4kMZfObRf/qt9UtmrhIxohADZ0tWvv69NIu7vFI7X7XTNXy2grYiXCUQY
+   gv1a5KxeeN3g+WOULH6ecpE8SEZUZOk2XN3zqWObjSO+vQt4B8Otq9MuZ
+   vSmYr2sTwQVv8FWp4hLb83YFdw8p0o08HcW167NyCaXmgC5PWxyF27on1
+   v9KeNsXoWg7zyk97kJ05mavsxuCwpDJzmfD9PDeI672B/AJkjsi99T5D7
+   WFZ2lXWkVOuCm4eKi7IBtr08lOBREN5Jbn1fK6SSe21wod1afTwmle8K2
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="232315628"
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="232315628"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 08:30:54 -0800
+X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
+   d="scan'208";a="525193372"
+Received: from hgrunes-mobl1.amr.corp.intel.com (HELO [10.251.3.57]) ([10.251.3.57])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 08:30:53 -0800
+Message-ID: <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
+Date:   Mon, 7 Feb 2022 08:30:50 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
- <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
- <20220114094535.5bb9ba94@coco.lan>
- <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
- <87bl0c7l79.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87bl0c7l79.fsf@meer.lwn.net>
+To:     Adrian Reber <adrian@lisas.de>, Mike Rapoport <rppt@kernel.org>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com,
+        Andrei Vagin <avagin@gmail.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <YgAWVSGQg8FPCeba@kernel.org> <YgDIIpCm3UITk896@lisas.de>
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+In-Reply-To: <YgDIIpCm3UITk896@lisas.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 15 Jan 2022 14:17:30 -0700,
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
+On 2/6/22 23:20, Adrian Reber wrote:
+>>> 	CRIU Support
+>>> 	------------
+>>> 	In the past there was some speculation on the mailing list about 
+>>> 	whether CRIU would need to be taught about CET. It turns out, it does. 
+>>> 	The first issue hit is that CRIU calls sigreturn directly from its 
+>>> 	“parasite code” that it injects into the dumper process. This violates
+>>> 	this shadow stack implementation’s protection that intends to prevent
+>>> 	attackers from doing this.
+...
+>>From the CRIU side I can say that I would definitely like to see this
+> resolved. CRIU just went through a similar exercise with rseq() being
+> enabled in glibc and CI broke all around for us and other projects
+> relying on CRIU. Although rseq() was around for a long time we were not
+> aware of it but luckily 5.13 introduced a way to handle it for CRIU with
+> ptrace. An environment variable existed but did not really help when
+> CRIU is called somewhere in the middle of the container software stack.
 > 
->> We are in the middle of the v5.17 merge window, and I think of this
->> series as a v5.18 material.
->> Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
->> (mid March or so), unless Jon thinks otherwise.
-> 
-> I'd rather merge it rather sooner than that if possible; 5.18 stuff will
-> start going into docs-next shortly.
+>>From my point of view a solution not involving an environment variable
+> would definitely be preferred.
 
-Jon,
+Have there been things like this for CRIU in the past?  Something where
+CRIU needs control but that's also security-sensitive?
 
-Hearing no objection since mid January, I think it is time for you to
-merge this series into docs-next.
-
-        Thanks, Akira
-
-> 
-> Thanks,
-> 
-> jon
+Any thoughts on how you would _like_ to see this resolved?
