@@ -2,151 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7506FC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BA9C433EF
 	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 17:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239584AbiBGRFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S239730AbiBGRFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 7 Feb 2022 12:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57670 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358073AbiBGRAN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 12:00:13 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653A9C0401DB;
-        Mon,  7 Feb 2022 09:00:13 -0800 (PST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217GxKJ1011891;
-        Mon, 7 Feb 2022 17:00:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=2oJrwHymPzS0Lm9boeb+v0aDXG99f4jNEJXZnQvWgI0=;
- b=FPyciDNvCBPtBVhuIaNOrYDVhU8WPk7TosxvQoXo1BQUqCzEl+nzJoHz4S5WEZUtsF8q
- qtAoXUqaOsp1+zTWMZOOEpcwM8PhgvkZ7tCgxRHaiKX9cBYqAQsARceeorXL/IBK1FXw
- OzGgfW6CbW4DdnEBPEHI55dIctH/RXmgEzUWzhQDwuSkRPOJ4CBxYwTyLwU9yCDqFvDv
- 6WORH0K5GzFtVP7PcseVuDtu5sKCy+nWhvDlGtz55Sfhbj6d8xoVDuPpwowBqjN7+rz6
- /Emrj/PPAgDumznsJVEGtWQjBzQnPcFG/KLbX4lnxvU0HaMboanU7p861wvjDuhH3g57 hw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3e22nk9x5c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 17:00:11 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217GxO97012452;
-        Mon, 7 Feb 2022 17:00:10 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3e22nk9x4j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 17:00:10 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217GqXlo006990;
-        Mon, 7 Feb 2022 17:00:08 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma04fra.de.ibm.com with ESMTP id 3e2ygpvwg8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Feb 2022 17:00:08 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 217H04PG44433692
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 7 Feb 2022 17:00:04 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B505EA405E;
-        Mon,  7 Feb 2022 17:00:04 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 485BEA4070;
-        Mon,  7 Feb 2022 17:00:04 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  7 Feb 2022 17:00:04 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: [PATCH v2 10/11] KVM: s390: selftests: Make use of capability in MEM_OP test
-Date:   Mon,  7 Feb 2022 17:59:29 +0100
-Message-Id: <20220207165930.1608621-11-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220207165930.1608621-1-scgl@linux.ibm.com>
-References: <20220207165930.1608621-1-scgl@linux.ibm.com>
+        with ESMTP id S245257AbiBGQzn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 11:55:43 -0500
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362CCC0401D1;
+        Mon,  7 Feb 2022 08:55:42 -0800 (PST)
+Received: by mail-qv1-xf2d.google.com with SMTP id a19so5076644qvm.4;
+        Mon, 07 Feb 2022 08:55:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=e9tqoHZ6eGG0suM1GXf3LMc5/1N6y/KmfBr0Dip8/uY=;
+        b=nGxrYiQRaBwcgRMlkfXTzLULiwpCmWWPvY1DRcZ/v9VFHLBv9pAGSYbMak54CdUB8t
+         xpDBZsPRCEmNvQyCqzW6JrMUejb/7QWRmEv9OZ+fVb2jMGPCxzsusMtJDQlJN46r3IPt
+         sJxMz0supJTJv5usz2q15DeP+Zsku7fEsrJfTNzZtOz6vvH3qbllf2VdQfGZ5ojvz32N
+         Ah/wVZsEyg8yjYDaOnDLw1OIBsC9GWVfpce6cSEUI85z11Jl680wKzxVqXUMEoyR3rVw
+         MGQRcUxLg0eZkcPI+Ev+p7xYM0WoC4WVp0gMPKv7gavSh0Mx2QmRvHM5nhfMzDBMCOJ2
+         5U6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=e9tqoHZ6eGG0suM1GXf3LMc5/1N6y/KmfBr0Dip8/uY=;
+        b=zLQBC9pnY2ZM0QsHR4wBYRmz0upP5J4xQKfZluwJGRSJtsJTqKJSjQd/MDeKYkLcZL
+         lEDyWlibBaUmfRBGyy1cd8Sbvntwx2Z4BcOuNeRsrs/i9WTj4WMKdDWUHCI/e2uvP5b2
+         K0r5G5ZaYtMCw+Sj9HtIc0SS6FQxtEWfE6udvHxrtNnFtra1pWOrEyftFbq7duqoJxaP
+         fPQhW5lls22ZqmK4ZXq7rY8UglNPvcQfSmK3hwpBFFBeXLI6lchbgzQrX05Dt9FKKwmx
+         L6PEh+zEjcQCdHTwMbOfYQJ3sycn8ho6F2jXOMbsI4QdZ7AeURKQUfCErsiPorikSnYN
+         i2AA==
+X-Gm-Message-State: AOAM531w4xQEb2JMW2Cf41jDcM9g5Y6aZTlOm11axvl4B5h1At/cBnMw
+        JknJt0pWd65ILkc6Zz0cU5I=
+X-Google-Smtp-Source: ABdhPJxqob/6ncXpfn+LPMVwW726hehuKl5C65QmjLullTLesYLDjfAk8tx7rQV1jxHqPW4Y4fp8XQ==
+X-Received: by 2002:a05:6214:29e5:: with SMTP id jv5mr333614qvb.64.1644252941363;
+        Mon, 07 Feb 2022 08:55:41 -0800 (PST)
+Received: from [192.168.1.59] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id t11sm275890qkp.82.2022.02.07.08.55.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Feb 2022 08:55:40 -0800 (PST)
+Subject: Re: [PATCH v2 1/1] Documentation: dev-tools: clarify KTAP
+ specification wording
+From:   Frank Rowand <frowand.list@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
+Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220207162813.3091899-1-frowand.list@gmail.com>
+ <e795ad1a-ddb1-f0af-4a74-7c2c6a0a949a@gmail.com>
+Message-ID: <0de1426c-5b5d-9160-cd5c-00185fa516f5@gmail.com>
+Date:   Mon, 7 Feb 2022 10:55:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: nYKkGYNMjvMvLcrKXzRoMdObxyqTPkGm
-X-Proofpoint-ORIG-GUID: IJvopDaFhXUuGXgOST4tLcLmboWPZ9dy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-07_06,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1015 phishscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202070103
+In-Reply-To: <e795ad1a-ddb1-f0af-4a74-7c2c6a0a949a@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Only test the functionality whose availability is indicated by
-KVM_CAP_S390_MEM_OP_SKEY if the capability indicates support.
+On 2/7/22 10:38 AM, Frank Rowand wrote:
+> On 2/7/22 10:28 AM, frowand.list@gmail.com wrote:
+>> From: Frank Rowand <frank.rowand@sony.com>
+>>
+>> Add the spec version to the title line.
+>>
+>> Explain likely source of "Unknown lines".
+>>
+>> "Unknown lines" in nested tests are optionally indented.
+>>
+>> Add "Unknown lines" items to differences between TAP & KTAP list
+>>
+>> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+>> ---
+> 
+> Please do not apply this version (v2).  I was working off the KTAP specification
+                                                                ^^^^ TAP
+> from a different github repo than I should have been referencing.
 
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
----
- tools/testing/selftests/kvm/s390x/memop.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+OK to proceed with this version of the patch.  I was referencing the proposed
+TAP version 14, which is in a different github repo than the TAP version 13
+specification.  Everything in this patch is consistent with TAP version 13,
+as well as the proposed TAP version 14.
 
-diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-index 5246582cac2e..ac08fd5aa746 100644
---- a/tools/testing/selftests/kvm/s390x/memop.c
-+++ b/tools/testing/selftests/kvm/s390x/memop.c
-@@ -306,6 +306,7 @@ int main(int argc, char *argv[])
- 	struct kvm_vm *vm;
- 	struct kvm_run *run;
- 	struct kvm_s390_mem_op ksmo;
-+	bool has_skey_ext;
- 	vm_vaddr_t guest_mem1;
- 	vm_vaddr_t guest_mem2;
- 	vm_paddr_t guest_mem1_abs;
-@@ -320,6 +321,9 @@ int main(int argc, char *argv[])
- 	}
- 	if (maxsize > sizeof(mem1))
- 		maxsize = sizeof(mem1);
-+	has_skey_ext = kvm_check_cap(KVM_CAP_S390_MEM_OP_EXTENSION);
-+	if (!has_skey_ext)
-+		print_skip("Storage key extension not supported");
- 
- 	/* Create VM */
- 	vm = vm_create_default(VCPU_ID, 0, guest_code);
-@@ -340,7 +344,7 @@ int main(int argc, char *argv[])
- 	TEST_ASSERT(!memcmp(mem1, mem2, maxsize),
- 		    "Memory contents do not match!");
- 
--	{
-+	if (has_skey_ext) {
- 		vm_vaddr_t guest_0_page = vm_vaddr_alloc(vm, PAGE_SIZE, 0);
- 		vm_vaddr_t guest_last_page = vm_vaddr_alloc(vm, PAGE_SIZE, last_page_addr);
- 		vm_paddr_t guest_mem2_abs = addr_gva2gpa(vm, guest_mem2);
-@@ -513,6 +517,14 @@ int main(int argc, char *argv[])
- 		TEST_ASSERT(rv != 0, "Fetch should result in exception");
- 		rv = _vm_read_guest_key(vm, mem2, addr_gva2gpa(vm, 0), 2048, 2);
- 		TEST_ASSERT(rv == 4, "Fetch should result in protection exception");
-+	} else {
-+		struct ucall uc;
-+
-+		do {
-+			vcpu_run(vm, VCPU_ID);
-+			get_ucall(vm, VCPU_ID, &uc);
-+			ASSERT_EQ(uc.cmd, UCALL_SYNC);
-+		} while (uc.args[1] < 100);
- 	}
- 
- 	/* Check error conditions */
--- 
-2.32.0
+-Frank
+
+> 
+> v3 upcoming.
+> 
+> -Frank
+> 
+>>
+>> Changes since version 1
+>>   - Explain likely source of "Unknown lines"
+>>   - "Unknown line" in nested tests are optionally indented
+>>   - Add "Unknown lines" items to differences between TAP & KTAP list
+>>
+>>  Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
+>>  1 file changed, 18 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+>> index 878530cb9c27..9c40c94d3f12 100644
+>> --- a/Documentation/dev-tools/ktap.rst
+>> +++ b/Documentation/dev-tools/ktap.rst
+>> @@ -1,8 +1,8 @@
+>>  .. SPDX-License-Identifier: GPL-2.0
+>>  
+>> -========================================
+>> -The Kernel Test Anything Protocol (KTAP)
+>> -========================================
+>> +===================================================
+>> +The Kernel Test Anything Protocol (KTAP), version 1
+>> +===================================================
+>>  
+>>  TAP, or the Test Anything Protocol is a format for specifying test results used
+>>  by a number of projects. It's website and specification are found at this `link
+>> @@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
+>>  the four formats for lines described above. This is allowed, however, they will
+>>  not influence the status of the tests.
+>>  
+>> +This is an important difference from TAP.  Kernel tests may print messages
+>> +to the system console or a log file.  Both of these destinations may contain
+>> +messages either from unrelated kernel or userspace activity, or kernel
+>> +messages from non-test code that is invoked by the test.  The kernel code
+>> +invoked by the test likely is not aware that a test is in progress and
+>> +thus can not print the message as a diagnostic message.
+>> +
+>>  Nested tests
+>>  ------------
+>>  
+>> @@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
+>>  result. If one of the subtests fail, for example, the parent test should also
+>>  fail.
+>>  
+>> -Additionally, all result lines in a subtest should be indented. One level of
+>> +Additionally, all lines in a subtest should be indented. One level of
+>>  indentation is two spaces: "  ". The indentation should begin at the version
+>>  line and should end before the parent test's result line.
+>>  
+>> +"Unknown lines" are not considered to be lines in a subtest and thus are
+>> +allowed to be either indented or not indented.
+>> +
+>>  An example of a test with two nested subtests:
+>>  
+>>  .. code-block::
+>> @@ -225,9 +235,11 @@ Major differences between TAP and KTAP
+>>  --------------------------------------
+>>  
+>>  Note the major differences between the TAP and KTAP specification:
+>> -- yaml and json are not recommended in diagnostic messages
+>> -- TODO directive not recognized
+>> +- yaml and json are not recommended in KTAP diagnostic messages
+>> +- TODO directive not recognized in KTAP
+>>  - KTAP allows for an arbitrary number of tests to be nested
+>> +- TAP includes "Unknown lines" in the category of "Anything else"
+>> +- TAP says "Unknown lines" are "incorrect; KTAP allows "Unknown lines"
+>>  
+>>  The TAP14 specification does permit nested tests, but instead of using another
+>>  nested version line, uses a line of the form
+>>
+> 
 
