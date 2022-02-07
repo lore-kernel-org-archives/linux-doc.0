@@ -2,90 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F293DC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 07:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4393AC4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 08:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbiBGHqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 02:46:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36854 "EHLO
+        id S233369AbiBGH7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 02:59:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242505AbiBGHjd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 02:39:33 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA11C043181;
-        Sun,  6 Feb 2022 23:39:31 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id z18so10328763ilp.3;
-        Sun, 06 Feb 2022 23:39:31 -0800 (PST)
+        with ESMTP id S236141AbiBGHtq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 02:49:46 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C3DC043181;
+        Sun,  6 Feb 2022 23:49:44 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id y5so10650937pfe.4;
+        Sun, 06 Feb 2022 23:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E6mGN2TJPnhfJHMvM5rybIz+H73xpBLlP90eQggs1YM=;
-        b=orksEyljccx/8YH8KVqrESdUXZnTMGugo1jS9kO7rQ1J+FtntbU2JNARxoqjWmeHil
-         8CWmas+UJoBytJ494KlQsiyu5cLKbgre4Hnz0zUYrtm2YrAS7js0yqTh250TilZ62hYN
-         dCafApU7zcsOvxsF8XvC7+HnKuAB9vAtxI+RpQHrR10o4nX/Wz4+b/9AWOiee03eOYYn
-         HMFE03iK10wHRS+Fj2vXL/QoMg/gylwzRExNijEAQfrs+NnZU/Rf4E2uAdIYwWzLloSz
-         t2uHZQr+2rOv2JMchCC0fzCTmJMq38tT1KshwQxZHve7U01LFrM2hs1eceEOFA3gq8fk
-         i86w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6oU5ncEXdMFxNgqDy4IwbNOWzOoow/zpeoEpdu4GP4I=;
+        b=W1hgCNStVDUedeFAYqqJBQyE2xtxw832/zsGUibtipNhm5ixvJWjgy+5LRjZRTyS6g
+         zIqUftUcLa59Fx0LRRsJ/qIMUbOXhMxECLJ1Q/G6RIPChNqcJ4Z438pWc6++au3/FpwQ
+         95YudWRWC+1QWK6yQgUSqIdMjsaOrOn967GHGEATaGfY+FySfoxc7sa6Pu1qehfayGq+
+         715rJLodZFo2h1KwTa7bFA5TWDAAW+55WTjL/81ysCz6C/Z091TsVFgiIw0VnJOMMZmm
+         bYSjnBEvXRs/euTTqlVoiC4BcG6U2DH6NbxoIhoYoSxb75CLdIPjryR/hHNym4YeRX8Q
+         MDmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E6mGN2TJPnhfJHMvM5rybIz+H73xpBLlP90eQggs1YM=;
-        b=23Ulj9axA8ma0iKkytoxa2czH4LoTvxNVlcIxdqy2nk+fpfebjf9l3knkmXlCQ2q1z
-         Ft6m6BC2lVSvFtdmb95YwUDwdllO3bWPivMHWqN84YtMAgfmodUNRHyC7FOdBUnLNF38
-         sHJZJB0JsLVlN6xFXThHCC4ul3xt0lU+7eHnSfVE+1L+6vLacTBZvx5rWjA74iWpAt5a
-         Au9rcZWGpDkiJtx236YGwRth+yFLPgu3gyolM6b9AlvXN9pu9MaRRnzAnHEWAX3qI0PC
-         Q6beK8bauIdj1s+9pIg1hIj3PJiLPp7xEYwoZgIz+6QmW0qY/1dBOPYGkJscwo4/O+sC
-         6vgg==
-X-Gm-Message-State: AOAM5313agyVvTFoHYQ17G5wFNzPXf3ds1yTVc5vwOnQXiCQmu77xoNZ
-        cczTGW15Sv5fKEj2OGO6K0/h0hflPPhL3V4wAKs=
-X-Google-Smtp-Source: ABdhPJyRIpQirwQp9aUyJ5eQHhLn+RmuIsV0E4eQpshzR02aOWAEx3MdUL63cUVM61IfbJb21QwUx3GHBS8pbTPfTnk=
-X-Received: by 2002:a05:6e02:1be9:: with SMTP id y9mr5454052ilv.221.1644219571201;
- Sun, 06 Feb 2022 23:39:31 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6oU5ncEXdMFxNgqDy4IwbNOWzOoow/zpeoEpdu4GP4I=;
+        b=g3okEwQM8xu9LW3ubYkJ26ctshxBxWeg90nY0S5lmQqbMHL3J6gK7kyE5Y8uvLdJgq
+         oRWJUUXEcjEvObbZToJBwbRzB+CKGkaj8ocI9VcWpW5FYBv8T0KMIBc2o4+D+Ubwq63k
+         9z2ET93ajbSV1hCx/ZqPJTEIXClSwdiTu0vJ9xOQRm1XN1N2bDDLrgRx8/No5l1sy68v
+         SjPGPhFBPfTmBOJ46TUaVJeabc+dCJcmLYxKrNrfZqBwrfX8ydwEofxrKtRq2uGLfD94
+         I+UDkjw78AxOm7it7JHgIU0j1HypEose0blhvNt17CmF1FwuNfA9ObFGwy1S3thREKxb
+         oKdw==
+X-Gm-Message-State: AOAM530DQRV89TIvmdOre2DnVZcUXsoTrgK4XMSFoZ5ykirx9aAOrcgW
+        C1sN0mh5unwfcuop4gEqUbK/vigfPrY=
+X-Google-Smtp-Source: ABdhPJylQMnS2QgdUOKSow1Xti1v91XMF7AVxGnLPgsFik9RoHHINvGgjbLIQziRGXy9rtsSU1CaGg==
+X-Received: by 2002:a05:6a02:20c:: with SMTP id bh12mr8421109pgb.308.1644220184063;
+        Sun, 06 Feb 2022 23:49:44 -0800 (PST)
+Received: from baohua-VirtualBox.localdomain (47-72-151-34.dsl.dyn.ihug.co.nz. [47.72.151.34])
+        by smtp.gmail.com with ESMTPSA id g18sm20259518pju.7.2022.02.06.23.49.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Feb 2022 23:49:43 -0800 (PST)
+From:   Barry Song <21cnbao@gmail.com>
+X-Google-Original-From: Barry Song <song.bao.hua@hisilicon.com>
+To:     axboe@kernel.dk, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org
+Cc:     linuxarm@huawei.com, linux-kernel@vger.kernel.org,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH] docs: block: biodoc.rst: Drop the obsolete and incorrect content
+Date:   Mon,  7 Feb 2022 15:49:31 +0800
+Message-Id: <20220207074931.20067-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
- <CAMU9jJquKLfzLOjN3xTLHgPJFWONpeVgUDG-0vsf_8ia3r3ALQ@mail.gmail.com>
- <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
- <CAOH5QeAka4QsLCOHaNK8NBp1BUFsu3HqEqiOhWOewabA58fVqw@mail.gmail.com>
- <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
- <CAJy-Amne22+2cApoeEAGSc7d7ppSQja7pLX6SY_3+0wr8i3Asw@mail.gmail.com> <87y231qb0m.fsf@meer.lwn.net>
-In-Reply-To: <87y231qb0m.fsf@meer.lwn.net>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Mon, 7 Feb 2022 15:38:55 +0800
-Message-ID: <CAJy-AmmaOrhgOrkkoVWySgHMDPHcNTEmWDNPFzMHbvOLGeAsgg@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     teng sterling <sterlingteng@gmail.com>,
-        yong w <yongw.pur@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, wang.yong12@zte.com.cn,
-        Yang Yang <yang.yang29@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 2:38 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Alex Shi <seakeel@gmail.com> writes:
->
-> > Right. The better way is asking Yang Yang to give a reviewed-by in
-> > mailing list next time. Otherwise, the private tag can't give a good
-> > support.
->
-> Agreed with that.
->
-> > for this patch. Reviewed-by: Alex Shi <alexs@kernel.org>
->
-> Another nice rule of thumb: put Reviewed-by on its own line so that b4
-> picks it up :)
+Since commit 7eaceaccab5f ("block: remove per-queue plugging"), kernel
+has removed blk_run_address_space(), blk_unplug() and sync_buffer(),
+and moved to on-stack plugging. The document has been obsolete for
+years.
+Given that there is no obvious counterparts in the new mechinism to
+replace old APIs, this patch drops the content directly.
 
-Right!
-Thanks for reminding me!
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/block/biodoc.rst | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
->
-> Patch applied, thanks.
->
-> jon
+diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+index 2098477851a4..9df0c9cf6090 100644
+--- a/Documentation/block/biodoc.rst
++++ b/Documentation/block/biodoc.rst
+@@ -970,11 +970,7 @@ till it fills up with a few more requests, before starting to service
+ the requests. This provides an opportunity to merge/sort the requests before
+ passing them down to the device. There are various conditions when the queue is
+ unplugged (to open up the flow again), either through a scheduled task or
+-could be on demand. For example wait_on_buffer sets the unplugging going
+-through sync_buffer() running blk_run_address_space(mapping). Or the caller
+-can do it explicity through blk_unplug(bdev). So in the read case,
+-the queue gets explicitly unplugged as part of waiting for completion on that
+-buffer.
++could be on demand.
+ 
+ Aside:
+   This is kind of controversial territory, as it's not clear if plugging is
+-- 
+2.25.1
+
