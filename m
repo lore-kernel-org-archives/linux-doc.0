@@ -2,165 +2,327 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84028C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 16:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3D2C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 17:05:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbiBGQyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 11:54:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43892 "EHLO
+        id S229953AbiBGREY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 12:04:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356846AbiBGQi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 11:38:56 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6450EC0401D3;
-        Mon,  7 Feb 2022 08:38:55 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id k25so12371527qtp.4;
-        Mon, 07 Feb 2022 08:38:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=omVF455pvemsLVj7xnWoQW2sUd/KNgnEiQ/s7RiZc/8=;
-        b=k4ayfMnBUu4S6TrIigANz8YZeT5vNoAtZLetXYMk3RebEfveH9HpwQcw0k/rgqjlrH
-         Q59gx6DXbE8RrT3JvuEHw/CNPeWwO/4M+SfHaWP7UUGP2ew/SrAQ2+NhzZDr6T16tvhT
-         sQ2VPhM1sjB3PcgAp+MV5ow2SXxIw0i1Gzz/ceQiSWxUFY7q6cKdIn1P4YxdxqyHLKCT
-         uNiiDeA3rF6sGDEVj5fIMN29ommgeQJP+GObCCdU/AAfeSt06jCHf8ZpOfmE9naHPi3T
-         /pcrAIuoQ9aRkofY5fXPYNnzvZFqKooSyxzBu1DB3jEF36Jm75Uy4ArE9oleZbKkt4oK
-         z11A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=omVF455pvemsLVj7xnWoQW2sUd/KNgnEiQ/s7RiZc/8=;
-        b=FCykHHuhYO/ZfYw1u4GfSeVO2SL+nt49g2p2UGgpGMz+m7u2fXRoEti5XCR8L+MsPv
-         CDsPEqo/jv7BHqRfflYQ1IS2FbfM+dVJiPdXaBfQ6MZYO5Kt4v2ji4Mcj3oLlb9shglD
-         ojEcSpxFhYzYBYUJGDOJfhHoqkvu7ZDYzK5uEl0IjR+QILGk8x1FsLVWBZrHUG15lr2a
-         2RCK8CQNq1ERZrwnY6Oy5kLmmQ0tMTUpS/uPHQTebNKkJeNZvew/ucnxZtcbSbB6vHNH
-         rMFdBjMS6OsRjYmibgUTyEFYkfDaIx3qmHvbiVM4sKzRjOGM2xWFL0ida3jjqF9qA3wC
-         GIZw==
-X-Gm-Message-State: AOAM5319b+iOtBBXgP2jHTcRyriM+gHznAJ+6hlhPQG20Yy5kKp20QYn
-        Z3F4/FYpKFapWWgWSCIPpk4Ywq09/fc=
-X-Google-Smtp-Source: ABdhPJz9t66FJObaww+NCPnsu5oVG34zt8pjj7Gcflr5t4pIH0YwYAuy2AWGPb1lXRD1+Rewit68SA==
-X-Received: by 2002:a05:622a:14d4:: with SMTP id u20mr254950qtx.262.1644251934550;
-        Mon, 07 Feb 2022 08:38:54 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id z22sm5509676qko.2.2022.02.07.08.38.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Feb 2022 08:38:54 -0800 (PST)
-Subject: Re: [PATCH v2 1/1] Documentation: dev-tools: clarify KTAP
- specification wording
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
-Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220207162813.3091899-1-frowand.list@gmail.com>
-Message-ID: <e795ad1a-ddb1-f0af-4a74-7c2c6a0a949a@gmail.com>
-Date:   Mon, 7 Feb 2022 10:38:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S1357739AbiBGRAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 12:00:11 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD442C0401D6;
+        Mon,  7 Feb 2022 09:00:07 -0800 (PST)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217GxFU4001643;
+        Mon, 7 Feb 2022 17:00:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=cR8o6qHn0Nut0W0pG13ceP4boyb9RECueBYqhHCmi4c=;
+ b=sVu9HervUtTs8yhOrOY4CGJKLo1QbQdFDOhE9qU3T1RCDE0yrDZPDUxQeV7mdeUFe4j1
+ c0Z/FAh0xVmk/J0Dxjq/of3cwN452u5Tf43v/ysBTJKHA+3MVRoBiQoZpAjobkRN2E5G
+ GbeiWs/e83p/1a2/1oxFC4CLfuZKLs7zXAmn5a2Bj6Zaoq67PEtypiMWbSmyhOgFmH9x
+ M0VjpKD4OlRaJ7rU+1RVkLoC1G/qGHJug304it2h0pG20OVCQgsJwopSieBka4NJcM1m
+ 1+ywjgbtYEW3iEyEJc2nvGvCDNnKu6xSG+TsdI7sOwLiS18C0DTkZu9BfdrwmelupgV0 KQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st9v2v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 17:00:06 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217GxJUW002048;
+        Mon, 7 Feb 2022 17:00:05 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e22st9v1d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 17:00:05 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217GqQfg008704;
+        Mon, 7 Feb 2022 17:00:03 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma04ams.nl.ibm.com with ESMTP id 3e1gv8xuwq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 17:00:03 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 217H002u42926584
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 7 Feb 2022 17:00:00 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F0FEAA4053;
+        Mon,  7 Feb 2022 16:59:59 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 83808A405D;
+        Mon,  7 Feb 2022 16:59:59 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  7 Feb 2022 16:59:59 +0000 (GMT)
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Subject: [PATCH v2 01/11] s390/uaccess: Add copy_from/to_user_key functions
+Date:   Mon,  7 Feb 2022 17:59:20 +0100
+Message-Id: <20220207165930.1608621-2-scgl@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220207165930.1608621-1-scgl@linux.ibm.com>
+References: <20220207165930.1608621-1-scgl@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20220207162813.3091899-1-frowand.list@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QSqf3D44FJfbAf4SBZguIICIzo4rTDxV
+X-Proofpoint-ORIG-GUID: D2pJ0Q-h6tUXYOm8plQT9Yl0cl9YcQTX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-07_06,2022-02-07_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0
+ suspectscore=0 adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202070103
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/7/22 10:28 AM, frowand.list@gmail.com wrote:
-> From: Frank Rowand <frank.rowand@sony.com>
-> 
-> Add the spec version to the title line.
-> 
-> Explain likely source of "Unknown lines".
-> 
-> "Unknown lines" in nested tests are optionally indented.
-> 
-> Add "Unknown lines" items to differences between TAP & KTAP list
-> 
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
-> ---
+Add copy_from/to_user_key functions, which perform storage key checking.
+These functions can be used by KVM for emulating instructions that need
+to be key checked.
+These functions differ from their non _key counterparts in
+include/linux/uaccess.h only in the additional key argument and must be
+kept in sync with those.
 
-Please do not apply this version (v2).  I was working off the KTAP specification
-from a different github repo than I should have been referencing.
+Since the existing uaccess implementation on s390 makes use of move
+instructions that support having an additional access key supplied,
+we can implement raw_copy_from/to_user_key by enhancing the
+existing implementation.
 
-v3 upcoming.
+Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+---
+ arch/s390/include/asm/uaccess.h | 22 +++++++++
+ arch/s390/lib/uaccess.c         | 81 +++++++++++++++++++++++++--------
+ 2 files changed, 85 insertions(+), 18 deletions(-)
 
--Frank
-
-> 
-> Changes since version 1
->   - Explain likely source of "Unknown lines"
->   - "Unknown line" in nested tests are optionally indented
->   - Add "Unknown lines" items to differences between TAP & KTAP list
-> 
->  Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index 878530cb9c27..9c40c94d3f12 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -========================================
-> -The Kernel Test Anything Protocol (KTAP)
-> -========================================
-> +===================================================
-> +The Kernel Test Anything Protocol (KTAP), version 1
-> +===================================================
->  
->  TAP, or the Test Anything Protocol is a format for specifying test results used
->  by a number of projects. It's website and specification are found at this `link
-> @@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
->  the four formats for lines described above. This is allowed, however, they will
->  not influence the status of the tests.
->  
-> +This is an important difference from TAP.  Kernel tests may print messages
-> +to the system console or a log file.  Both of these destinations may contain
-> +messages either from unrelated kernel or userspace activity, or kernel
-> +messages from non-test code that is invoked by the test.  The kernel code
-> +invoked by the test likely is not aware that a test is in progress and
-> +thus can not print the message as a diagnostic message.
-> +
->  Nested tests
->  ------------
->  
-> @@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
->  result. If one of the subtests fail, for example, the parent test should also
->  fail.
->  
-> -Additionally, all result lines in a subtest should be indented. One level of
-> +Additionally, all lines in a subtest should be indented. One level of
->  indentation is two spaces: "  ". The indentation should begin at the version
->  line and should end before the parent test's result line.
->  
-> +"Unknown lines" are not considered to be lines in a subtest and thus are
-> +allowed to be either indented or not indented.
-> +
->  An example of a test with two nested subtests:
->  
->  .. code-block::
-> @@ -225,9 +235,11 @@ Major differences between TAP and KTAP
->  --------------------------------------
->  
->  Note the major differences between the TAP and KTAP specification:
-> -- yaml and json are not recommended in diagnostic messages
-> -- TODO directive not recognized
-> +- yaml and json are not recommended in KTAP diagnostic messages
-> +- TODO directive not recognized in KTAP
->  - KTAP allows for an arbitrary number of tests to be nested
-> +- TAP includes "Unknown lines" in the category of "Anything else"
-> +- TAP says "Unknown lines" are "incorrect; KTAP allows "Unknown lines"
->  
->  The TAP14 specification does permit nested tests, but instead of using another
->  nested version line, uses a line of the form
-> 
+diff --git a/arch/s390/include/asm/uaccess.h b/arch/s390/include/asm/uaccess.h
+index d74e26b48604..ba1bcb91af95 100644
+--- a/arch/s390/include/asm/uaccess.h
++++ b/arch/s390/include/asm/uaccess.h
+@@ -44,6 +44,28 @@ raw_copy_to_user(void __user *to, const void *from, unsigned long n);
+ #define INLINE_COPY_TO_USER
+ #endif
+ 
++unsigned long __must_check
++_copy_from_user_key(void *to, const void __user *from, unsigned long n, unsigned long key);
++
++static __always_inline unsigned long __must_check
++copy_from_user_key(void *to, const void __user *from, unsigned long n, unsigned long key)
++{
++	if (likely(check_copy_size(to, n, false)))
++		n = _copy_from_user_key(to, from, n, key);
++	return n;
++}
++
++unsigned long __must_check
++_copy_to_user_key(void __user *to, const void *from, unsigned long n, unsigned long key);
++
++static __always_inline unsigned long __must_check
++copy_to_user_key(void __user *to, const void *from, unsigned long n, unsigned long key)
++{
++	if (likely(check_copy_size(from, n, true)))
++		n = _copy_to_user_key(to, from, n, key);
++	return n;
++}
++
+ int __put_user_bad(void) __attribute__((noreturn));
+ int __get_user_bad(void) __attribute__((noreturn));
+ 
+diff --git a/arch/s390/lib/uaccess.c b/arch/s390/lib/uaccess.c
+index 8a5d21461889..b709239feb5d 100644
+--- a/arch/s390/lib/uaccess.c
++++ b/arch/s390/lib/uaccess.c
+@@ -59,11 +59,13 @@ static inline int copy_with_mvcos(void)
+ #endif
+ 
+ static inline unsigned long copy_from_user_mvcos(void *x, const void __user *ptr,
+-						 unsigned long size)
++						 unsigned long size, unsigned long key)
+ {
+ 	unsigned long tmp1, tmp2;
+ 	union oac spec = {
++		.oac2.key = key,
+ 		.oac2.as = PSW_BITS_AS_SECONDARY,
++		.oac2.k = 1,
+ 		.oac2.a = 1,
+ 	};
+ 
+@@ -94,19 +96,19 @@ static inline unsigned long copy_from_user_mvcos(void *x, const void __user *ptr
+ }
+ 
+ static inline unsigned long copy_from_user_mvcp(void *x, const void __user *ptr,
+-						unsigned long size)
++						unsigned long size, unsigned long key)
+ {
+ 	unsigned long tmp1, tmp2;
+ 
+ 	tmp1 = -256UL;
+ 	asm volatile(
+ 		"   sacf  0\n"
+-		"0: mvcp  0(%0,%2),0(%1),%3\n"
++		"0: mvcp  0(%0,%2),0(%1),%[key]\n"
+ 		"7: jz    5f\n"
+ 		"1: algr  %0,%3\n"
+ 		"   la    %1,256(%1)\n"
+ 		"   la    %2,256(%2)\n"
+-		"2: mvcp  0(%0,%2),0(%1),%3\n"
++		"2: mvcp  0(%0,%2),0(%1),%[key]\n"
+ 		"8: jnz   1b\n"
+ 		"   j     5f\n"
+ 		"3: la    %4,255(%1)\n"	/* %4 = ptr + 255 */
+@@ -115,7 +117,7 @@ static inline unsigned long copy_from_user_mvcp(void *x, const void __user *ptr,
+ 		"   slgr  %4,%1\n"
+ 		"   clgr  %0,%4\n"	/* copy crosses next page boundary? */
+ 		"   jnh   6f\n"
+-		"4: mvcp  0(%4,%2),0(%1),%3\n"
++		"4: mvcp  0(%4,%2),0(%1),%[key]\n"
+ 		"9: slgr  %0,%4\n"
+ 		"   j     6f\n"
+ 		"5: slgr  %0,%0\n"
+@@ -123,24 +125,49 @@ static inline unsigned long copy_from_user_mvcp(void *x, const void __user *ptr,
+ 		EX_TABLE(0b,3b) EX_TABLE(2b,3b) EX_TABLE(4b,6b)
+ 		EX_TABLE(7b,3b) EX_TABLE(8b,3b) EX_TABLE(9b,6b)
+ 		: "+a" (size), "+a" (ptr), "+a" (x), "+a" (tmp1), "=a" (tmp2)
+-		: : "cc", "memory");
++		: [key] "d" (key << 4)
++		: "cc", "memory");
+ 	return size;
+ }
+ 
+-unsigned long raw_copy_from_user(void *to, const void __user *from, unsigned long n)
++static unsigned long raw_copy_from_user_key(void *to, const void __user *from,
++					    unsigned long n, unsigned long key)
+ {
+ 	if (copy_with_mvcos())
+-		return copy_from_user_mvcos(to, from, n);
+-	return copy_from_user_mvcp(to, from, n);
++		return copy_from_user_mvcos(to, from, n, key);
++	return copy_from_user_mvcp(to, from, n, key);
++}
++
++unsigned long raw_copy_from_user(void *to, const void __user *from, unsigned long n)
++{
++	return raw_copy_from_user_key(to, from, n, 0);
+ }
+ EXPORT_SYMBOL(raw_copy_from_user);
+ 
++unsigned long _copy_from_user_key(void *to, const void __user *from,
++				  unsigned long n, unsigned long key)
++{
++	unsigned long res = n;
++
++	might_fault();
++	if (!should_fail_usercopy()) {
++		instrument_copy_from_user(to, from, n);
++		res = raw_copy_from_user_key(to, from, n, key);
++	}
++	if (unlikely(res))
++		memset(to + (n - res), 0, res);
++	return res;
++}
++EXPORT_SYMBOL(_copy_from_user_key);
++
+ static inline unsigned long copy_to_user_mvcos(void __user *ptr, const void *x,
+-					       unsigned long size)
++					       unsigned long size, unsigned long key)
+ {
+ 	unsigned long tmp1, tmp2;
+ 	union oac spec = {
++		.oac1.key = key,
+ 		.oac1.as = PSW_BITS_AS_SECONDARY,
++		.oac1.k = 1,
+ 		.oac1.a = 1,
+ 	};
+ 
+@@ -171,19 +198,19 @@ static inline unsigned long copy_to_user_mvcos(void __user *ptr, const void *x,
+ }
+ 
+ static inline unsigned long copy_to_user_mvcs(void __user *ptr, const void *x,
+-					      unsigned long size)
++					      unsigned long size, unsigned long key)
+ {
+ 	unsigned long tmp1, tmp2;
+ 
+ 	tmp1 = -256UL;
+ 	asm volatile(
+ 		"   sacf  0\n"
+-		"0: mvcs  0(%0,%1),0(%2),%3\n"
++		"0: mvcs  0(%0,%1),0(%2),%[key]\n"
+ 		"7: jz    5f\n"
+ 		"1: algr  %0,%3\n"
+ 		"   la    %1,256(%1)\n"
+ 		"   la    %2,256(%2)\n"
+-		"2: mvcs  0(%0,%1),0(%2),%3\n"
++		"2: mvcs  0(%0,%1),0(%2),%[key]\n"
+ 		"8: jnz   1b\n"
+ 		"   j     5f\n"
+ 		"3: la    %4,255(%1)\n" /* %4 = ptr + 255 */
+@@ -192,7 +219,7 @@ static inline unsigned long copy_to_user_mvcs(void __user *ptr, const void *x,
+ 		"   slgr  %4,%1\n"
+ 		"   clgr  %0,%4\n"	/* copy crosses next page boundary? */
+ 		"   jnh   6f\n"
+-		"4: mvcs  0(%4,%1),0(%2),%3\n"
++		"4: mvcs  0(%4,%1),0(%2),%[key]\n"
+ 		"9: slgr  %0,%4\n"
+ 		"   j     6f\n"
+ 		"5: slgr  %0,%0\n"
+@@ -200,18 +227,36 @@ static inline unsigned long copy_to_user_mvcs(void __user *ptr, const void *x,
+ 		EX_TABLE(0b,3b) EX_TABLE(2b,3b) EX_TABLE(4b,6b)
+ 		EX_TABLE(7b,3b) EX_TABLE(8b,3b) EX_TABLE(9b,6b)
+ 		: "+a" (size), "+a" (ptr), "+a" (x), "+a" (tmp1), "=a" (tmp2)
+-		: : "cc", "memory");
++		: [key] "d" (key << 4)
++		: "cc", "memory");
+ 	return size;
+ }
+ 
+-unsigned long raw_copy_to_user(void __user *to, const void *from, unsigned long n)
++static unsigned long raw_copy_to_user_key(void __user *to, const void *from,
++					  unsigned long n, unsigned long key)
+ {
+ 	if (copy_with_mvcos())
+-		return copy_to_user_mvcos(to, from, n);
+-	return copy_to_user_mvcs(to, from, n);
++		return copy_to_user_mvcos(to, from, n, key);
++	return copy_to_user_mvcs(to, from, n, key);
++}
++
++unsigned long raw_copy_to_user(void __user *to, const void *from, unsigned long n)
++{
++	return raw_copy_to_user_key(to, from, n, 0);
+ }
+ EXPORT_SYMBOL(raw_copy_to_user);
+ 
++unsigned long _copy_to_user_key(void __user *to, const void *from,
++				unsigned long n, unsigned long key)
++{
++	might_fault();
++	if (should_fail_usercopy())
++		return n;
++	instrument_copy_to_user(to, from, n);
++	return raw_copy_to_user_key(to, from, n, key);
++}
++EXPORT_SYMBOL(_copy_to_user_key);
++
+ static inline unsigned long clear_user_mvcos(void __user *to, unsigned long size)
+ {
+ 	unsigned long tmp1, tmp2;
+-- 
+2.32.0
 
