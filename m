@@ -2,140 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1E0C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 19:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F698C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 19:28:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237073AbiBGTRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 14:17:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45260 "EHLO
+        id S235908AbiBGT15 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 14:27:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236838AbiBGTNL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 14:13:11 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12E9C0401DA;
-        Mon,  7 Feb 2022 11:13:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644261189; x=1675797189;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XSZpboCIkbXi1GE1bciC1P+mAUTpL2x/5a3sVLbpD0E=;
-  b=LtO8CcM02fpLBuKxjoRgN/CY46ho8CHSseMbaqiNGavjzK+ytNPJ1BC1
-   HPeRD/yqLB7IeapGF/dSyORfDI5WILz+Za6TEEVVMQeWDLb7EruSG/1fx
-   aJFTdN6V+ay5SGFT0c3++j8Pv+jEM17qgX6gs3uRGGpRTEJZ7rLtIVQIl
-   PrzAwdi+f7UErgiXGYfYcvXWMnIE73WZBzTSO0tATsXNcyc9TE/ZWLi7C
-   NYJVHlCCbGY4khelRDODftuypWt89iNieIRZOfujmNLOPAm726PwSK2bF
-   TvtDiwYg6+JPSwl212jF+bpiG+EdeviZ4IBxKB+ViK56GhHXd2jSbtZxH
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="232354585"
-X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
-   d="scan'208";a="232354585"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 11:13:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,350,1635231600"; 
-   d="scan'208";a="567586162"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.8])
-  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2022 11:13:09 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     corbet@lwn.net, rafael@kernel.org, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] Documentation: admin-guide: pm: Document uncore frequency scaling
-Date:   Mon,  7 Feb 2022 11:13:07 -0800
-Message-Id: <20220207191307.2903314-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S240637AbiBGTYr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 14:24:47 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00831C0401E6;
+        Mon,  7 Feb 2022 11:24:45 -0800 (PST)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217IQ5Vb005295;
+        Mon, 7 Feb 2022 19:24:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=W+3RF4+TSI5ssviTeFqGmaNMt1m1811Eopoel3gqsX4=;
+ b=SNZKsTEHBqef7xnM2pHFHys/3UBNNaMj7qF2gqQPP5zJt5K4RLd144J5R7B1KMttbsq3
+ cAD3haVj6C3QJsuUz+OUvrIqU0OlzhgbX7ZizrOXYAp3wbu1EtQLO+1FhwdGZ5iE5VHS
+ /wRkW1EnG4sFRkYAJqQ9fkGdd3WRqloItYmRv3LRCQEYJt2JRPIf9taYlnHOey1yy3Sw
+ drbrW8sVs1qdgaSuNTzta4mh1N+OqZPkmGefpTcC3iG3hTkdf58S/ZlZIIoMEROMXd2h
+ lL/6PSltQn1+3sL3SC3Sv1VCgKLnW3ePuox8g3w/NMCDxiUDws+NrjJ/GNuyR/H5VDoj TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e355aexnm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 19:24:45 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 217IaYkk005641;
+        Mon, 7 Feb 2022 19:24:44 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e355aexmt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 19:24:44 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 217J8Udo022771;
+        Mon, 7 Feb 2022 19:24:42 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma04ams.nl.ibm.com with ESMTP id 3e1gv8yr3q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 07 Feb 2022 19:24:42 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 217JOd5J34537880
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 7 Feb 2022 19:24:39 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0E150AE057;
+        Mon,  7 Feb 2022 19:24:39 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7DB58AE045;
+        Mon,  7 Feb 2022 19:24:38 +0000 (GMT)
+Received: from osiris (unknown [9.145.47.238])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon,  7 Feb 2022 19:24:38 +0000 (GMT)
+Date:   Mon, 7 Feb 2022 20:24:37 +0100
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Subject: Re: [PATCH v2 01/11] s390/uaccess: Add copy_from/to_user_key
+ functions
+Message-ID: <YgFx9XIWvrPAeSNk@osiris>
+References: <20220207165930.1608621-1-scgl@linux.ibm.com>
+ <20220207165930.1608621-2-scgl@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220207165930.1608621-2-scgl@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: C83dn5awiSbA2ceuYPoP1K7OqbqzPL--
+X-Proofpoint-ORIG-GUID: VbxGmKnRkMsQ5OOssbczvlDYbwZrHcsQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-07_06,2022-02-07_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=805 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202070115
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added documentation to configure uncore frequency limits in Intel
-Xeon processors.
+On Mon, Feb 07, 2022 at 05:59:20PM +0100, Janis Schoetterl-Glausch wrote:
+> Add copy_from/to_user_key functions, which perform storage key checking.
+> These functions can be used by KVM for emulating instructions that need
+> to be key checked.
+> These functions differ from their non _key counterparts in
+> include/linux/uaccess.h only in the additional key argument and must be
+> kept in sync with those.
+> 
+> Since the existing uaccess implementation on s390 makes use of move
+> instructions that support having an additional access key supplied,
+> we can implement raw_copy_from/to_user_key by enhancing the
+> existing implementation.
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> ---
+>  arch/s390/include/asm/uaccess.h | 22 +++++++++
+>  arch/s390/lib/uaccess.c         | 81 +++++++++++++++++++++++++--------
+>  2 files changed, 85 insertions(+), 18 deletions(-)
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-Resent by adding linux-pm@vger.kernel.org
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
 
- .../pm/intel_uncore_frequency_scaling.rst     | 56 +++++++++++++++++++
- .../admin-guide/pm/working-state.rst          |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-
-diff --git a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-new file mode 100644
-index 000000000000..b3519560594b
---- /dev/null
-+++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+==============================
-+Intel Uncore Frequency Scaling
-+==============================
-+
-+:Copyright: |copy| 2022 Intel Corporation
-+
-+:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-+
-+Introduction
-+===========================================
-+
-+Uncore can consume significant amount of power in Intel's Xeon servers based
-+on the workload characteristics. To optimize total power and improve overall
-+performance, SoC has an internal algorithm for scaling uncore frequency. These
-+algorithms monitor workload usage of uncore and set a desirable frequency.
-+
-+It is possible that users have different expectations of uncore performance and
-+want to have control over it. The objective is similar to set scaling min/max
-+frequencies using cpufreq sysfs to improve compute performance. Users may have
-+some latency sensitive workload where they do not want any change to uncore
-+frequency. Also, users may have workload which requires different core and
-+uncore performance at distinct phases and they want to use both cpufreq and
-+uncore scaling interface to distribute power and improve overall performance.
-+
-+To control uncore frequency, a sysfs interface is provided in the directory:
-+`/sys/devices/system/cpu/intel_uncore_frequency/`.
-+
-+There is one directory for each package and die combination as the scope of
-+uncore scaling control is per die in multiple dies/package SoC or per
-+package for single die per package SoC. The name represents the
-+scope of control. For example: 'package_00_die_00' is for package id 0 and
-+die 0 in it.
-+
-+Each package_*_die_* contains following attributes:
-+
-+``initial_max_freq_khz``
-+	Out of reset, this attribute represent the maximum possible frequency.
-+	This is a read only attribute. If users adjust max_freq_khz,
-+	they can always go back to maximum using the value from this attribute.
-+
-+``initial_min_freq_khz``
-+	Out of reset, this attribute represent the minimum possible frequency.
-+	This is a read only attribute. If users adjust min_freq_khz,
-+	they can always go back to minimum using the value from this attribute.
-+
-+``max_freq_khz``
-+	This attribute is used to set the maximum uncore frequency.
-+
-+``min_freq_khz``
-+	This attribute is used to set the minimum uncore frequency.
-+
-+``current_freq_khz``
-+	This attribute is used to get the current uncore frequency.
-diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
-index 5d2757e2de65..ee45887811ff 100644
---- a/Documentation/admin-guide/pm/working-state.rst
-+++ b/Documentation/admin-guide/pm/working-state.rst
-@@ -15,3 +15,4 @@ Working-State Power Management
-    cpufreq_drivers
-    intel_epb
-    intel-speed-select
-+   intel_uncore_frequency_scaling
--- 
-2.34.1
-
+Christian, Janosch, I think this can go via the kvm tree.
