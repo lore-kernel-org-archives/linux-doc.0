@@ -2,84 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9727C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 20:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35ED5C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 22:40:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232654AbiBGUrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 15:47:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53196 "EHLO
+        id S236416AbiBGWkE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 17:40:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242419AbiBGUcK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 15:32:10 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D627C0401E2
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 12:32:09 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id e28so15015630pfj.5
-        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 12:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1P8hA1j9aywFJgfHjGYLfcilDGyQWP/oEP/rL7ICpyg=;
-        b=C06fimZteiDPoqZEu2rPd0hp5X05Xu0F8lNukNvXrC+SHmbeaRXXVOOPeN18tKtywR
-         P1+CY4LIGJR3E4i+nMbWJgjXQLn0rgLLAbMXyEDV7jWHBD66bf1bRgmGfwSbPpsJCu//
-         FFlgWppTLm/5QqkvSGU/tM/Y1y30kZ6w/e+cqsczks/n8G2VRUX/Yr/7QKsOHOcJLe9F
-         WOO+bGwKVmf4WWCoOSQ7ilLPzkYbMmeyT0lNJONAGNKITT6/PApHfzpuqUHjixPw373F
-         9/1MDyR0oQawyfmi+5YY2P/IDWOb6kQsvefxAMaUCqC4FSpSOwFSgQ2flSnipZz5F+Rb
-         MRmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1P8hA1j9aywFJgfHjGYLfcilDGyQWP/oEP/rL7ICpyg=;
-        b=VAnJeAyBlCEBfpq6IpA2SJjKWyyd6gHT5VANEy6oQJ1AuuSfsQEDjzUNcmCp341+ng
-         g3q/NXYpDwRC+t/cgM0DFYYVb6MC9+NMfGm5fvbtozIeSBKsN2nweaJl1Zd7qM/56dmC
-         fFWllOEVJ/1RG0VPvH3yISJkFTkwm2/NLz0V26oBmu85DBE5DzS4VjXnvX8qlxvd4cKV
-         Ygrh1u5OHDGnU4BCnN+H3tNz36UBP1UbcJ2+5V/2gLuJSSrqm7MczAWNAw18kDzYazXH
-         hQ3EbfcX0u0tx3uc3/Y2zvPjK4o0nrY745NIYCPEhq+CmXUESo1N34GZYaVgmU1r/WCW
-         s5Xg==
-X-Gm-Message-State: AOAM531AsOgGo5ZBMfjS8VwZnkGKTfCnrSd80TLKUw9HNrQW4pfpCdkL
-        LQCFkO6LJifZ/kcRvu6pqMzLBrrJIOxUx5WQ0TXZyg==
-X-Google-Smtp-Source: ABdhPJzdiVW/zhtdK0Fc+Zk69XCZxEluVIICSO7cBbOk5Z3lLzYGJkWJ/w2d7cthfjL73eD7SoteD4xaEYUlVPSO2Nw=
-X-Received: by 2002:a05:6a00:1508:: with SMTP id q8mr1109927pfu.3.1644265928635;
- Mon, 07 Feb 2022 12:32:08 -0800 (PST)
+        with ESMTP id S244667AbiBGWkD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 17:40:03 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E021C0612A4;
+        Mon,  7 Feb 2022 14:40:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644273602; x=1675809602;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=9YOiN21DFWOvsXWRc0EIImHeT95XLZnWE4OurJAm4GA=;
+  b=SR8WqVVQz99gERWJTyxsNki2ow4mrUHdUweOUx7MR2pw/gLE5alEmvso
+   yi0auCejG205DR6Rpib3/vfCnidH4DtIT4ZQpw6qYqfMa/EC9s+xwwQXx
+   oO+4KA4gSBnGFk8W+QjkPSjqgwQQ++3RaieVJUoKx0WkdvJGC13dfmXSQ
+   dGstVL92X2/ArEsX5ejtHi2blas834vX56X99PNoUULFKEMmV83V07s+o
+   lV/jUIONI95eq6vF3Wj4hNLrSrECRHwWav1Bk0ESKB7tHr0mEFVyU8yWp
+   NatH/C0/YVSwmN8l70Mr/PN3dhmzNy9TumRN5d7VKWjMFtdpmnYh64Nix
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="232388972"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="232388972"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 14:40:01 -0800
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="525306836"
+Received: from hgrunes-mobl1.amr.corp.intel.com (HELO [10.251.3.57]) ([10.251.3.57])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 14:40:00 -0800
+Message-ID: <248ef880-025d-54ce-f3ce-fed0e50a0445@intel.com>
+Date:   Mon, 7 Feb 2022 14:39:57 -0800
 MIME-Version: 1.0
-References: <20220207112043.397074-1-akirakawata1@gmail.com>
-In-Reply-To: <20220207112043.397074-1-akirakawata1@gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 7 Feb 2022 15:31:57 -0500
-Message-ID: <CAFd5g466EGdOvvAp8t1tZDe4ks1XgJpA1Hwouds+9ASjznxhFA@mail.gmail.com>
-Subject: Re: [PATCH v1] Documentation: KUnit: Fix usage bug
-To:     Akira Kawata <akirakawata1@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-3-rick.p.edgecombe@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 02/35] x86/cet/shstk: Add Kconfig option for Shadow Stack
+In-Reply-To: <20220130211838.8382-3-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 7, 2022 at 6:21 AM Akira Kawata <akirakawata1@gmail.com> wrote:
->
-> Fix a bug of kunit documentation.
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=205773
->
-> : Quoting Steve Pfetsch:
-> :
-> : kunit documentation is incorrect:
-> : https://kunit.dev/third_party/stable_kernel/docs/usage.html
-> : struct rectangle *self = container_of(this, struct shape, parent);
-> :
-> :
-> : Shouldn't it be:
-> : struct rectangle *self = container_of(this, struct rectangle, parent);
-> : ?
->
-> Signed-off-by: Akira Kawata <akirakawata1@gmail.com>
+On 1/30/22 13:18, Rick Edgecombe wrote:
+> +config X86_SHADOW_STACK
+> +	prompt "Intel Shadow Stack"
+> +	def_bool n
+> +	depends on AS_WRUSS
+> +	depends on ARCH_HAS_SHADOW_STACK
+> +	select ARCH_USES_HIGH_VMA_FLAGS
+> +	help
+> +	  Shadow Stack protection is a hardware feature that detects function
+> +	  return address corruption.  This helps mitigate ROP attacks.
+> +	  Applications must be enabled to use it, and old userspace does not
+> +	  get protection "for free".
+> +	  Support for this feature is present on Tiger Lake family of
+> +	  processors released in 2020 or later.  Enabling this feature
+> +	  increases kernel text size by 3.7 KB.
 
-Wow. I can't believe we let this go for this long...and even after
-doing an *almost* complete rewrite of that page.
+I guess the "2020" comment is still OK.  But, given that it's on AMD and
+a could of other Intel models, maybe we should just leave this at:
 
-Anyway, thanks for fixing this!
+	CPUs supporting shadow stacks were first released in 2020.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+If we say anything.  We mostly want folks to just go read the
+documentation if they needs more details.
