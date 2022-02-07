@@ -2,122 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE440C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 07:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F293DC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Feb 2022 07:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233654AbiBGHhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 02:37:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33002 "EHLO
+        id S229879AbiBGHqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 02:46:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232738AbiBGH3M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 02:29:12 -0500
-X-Greylist: delayed 540 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 23:29:09 PST
-Received: from rhlx01.hs-esslingen.de (rhlx01.hs-esslingen.DE [IPv6:2001:7c0:700::10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C13C043181;
-        Sun,  6 Feb 2022 23:29:09 -0800 (PST)
-Received: by rhlx01.hs-esslingen.de (Postfix, from userid 1203)
-        id 39F2529B540F; Mon,  7 Feb 2022 08:20:02 +0100 (CET)
-Date:   Mon, 7 Feb 2022 08:20:02 +0100
-From:   Adrian Reber <adrian@lisas.de>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com,
-        Andrei Vagin <avagin@gmail.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YgDIIpCm3UITk896@lisas.de>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org>
+        with ESMTP id S242505AbiBGHjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 02:39:33 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA11C043181;
+        Sun,  6 Feb 2022 23:39:31 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id z18so10328763ilp.3;
+        Sun, 06 Feb 2022 23:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E6mGN2TJPnhfJHMvM5rybIz+H73xpBLlP90eQggs1YM=;
+        b=orksEyljccx/8YH8KVqrESdUXZnTMGugo1jS9kO7rQ1J+FtntbU2JNARxoqjWmeHil
+         8CWmas+UJoBytJ494KlQsiyu5cLKbgre4Hnz0zUYrtm2YrAS7js0yqTh250TilZ62hYN
+         dCafApU7zcsOvxsF8XvC7+HnKuAB9vAtxI+RpQHrR10o4nX/Wz4+b/9AWOiee03eOYYn
+         HMFE03iK10wHRS+Fj2vXL/QoMg/gylwzRExNijEAQfrs+NnZU/Rf4E2uAdIYwWzLloSz
+         t2uHZQr+2rOv2JMchCC0fzCTmJMq38tT1KshwQxZHve7U01LFrM2hs1eceEOFA3gq8fk
+         i86w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E6mGN2TJPnhfJHMvM5rybIz+H73xpBLlP90eQggs1YM=;
+        b=23Ulj9axA8ma0iKkytoxa2czH4LoTvxNVlcIxdqy2nk+fpfebjf9l3knkmXlCQ2q1z
+         Ft6m6BC2lVSvFtdmb95YwUDwdllO3bWPivMHWqN84YtMAgfmodUNRHyC7FOdBUnLNF38
+         sHJZJB0JsLVlN6xFXThHCC4ul3xt0lU+7eHnSfVE+1L+6vLacTBZvx5rWjA74iWpAt5a
+         Au9rcZWGpDkiJtx236YGwRth+yFLPgu3gyolM6b9AlvXN9pu9MaRRnzAnHEWAX3qI0PC
+         Q6beK8bauIdj1s+9pIg1hIj3PJiLPp7xEYwoZgIz+6QmW0qY/1dBOPYGkJscwo4/O+sC
+         6vgg==
+X-Gm-Message-State: AOAM5313agyVvTFoHYQ17G5wFNzPXf3ds1yTVc5vwOnQXiCQmu77xoNZ
+        cczTGW15Sv5fKEj2OGO6K0/h0hflPPhL3V4wAKs=
+X-Google-Smtp-Source: ABdhPJyRIpQirwQp9aUyJ5eQHhLn+RmuIsV0E4eQpshzR02aOWAEx3MdUL63cUVM61IfbJb21QwUx3GHBS8pbTPfTnk=
+X-Received: by 2002:a05:6e02:1be9:: with SMTP id y9mr5454052ilv.221.1644219571201;
+ Sun, 06 Feb 2022 23:39:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YgAWVSGQg8FPCeba@kernel.org>
-X-Url:  <http://lisas.de/~adrian/>
-X-Operating-System: Linux (5.15.12-200.fc35.x86_64)
-X-Load-Average: 2.46 2.60 2.63
-X-Unexpected: The Spanish Inquisition
-X-GnuPG-Key: gpg --recv-keys D3C4906A
+References: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
+ <CAMU9jJquKLfzLOjN3xTLHgPJFWONpeVgUDG-0vsf_8ia3r3ALQ@mail.gmail.com>
+ <CAOH5QeBxnK-vOwVh9HNeu5PjMPJrHtWCyTK_y43iCbfzN+aoEg@mail.gmail.com>
+ <CAOH5QeAka4QsLCOHaNK8NBp1BUFsu3HqEqiOhWOewabA58fVqw@mail.gmail.com>
+ <CAMU9jJr4A0jsZGAqdOUTc-gBeshCgPAS=2Vvubs_kmsJSegzkQ@mail.gmail.com>
+ <CAJy-Amne22+2cApoeEAGSc7d7ppSQja7pLX6SY_3+0wr8i3Asw@mail.gmail.com> <87y231qb0m.fsf@meer.lwn.net>
+In-Reply-To: <87y231qb0m.fsf@meer.lwn.net>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Mon, 7 Feb 2022 15:38:55 +0800
+Message-ID: <CAJy-AmmaOrhgOrkkoVWySgHMDPHcNTEmWDNPFzMHbvOLGeAsgg@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     teng sterling <sterlingteng@gmail.com>,
+        yong w <yongw.pur@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, wang.yong12@zte.com.cn,
+        Yang Yang <yang.yang29@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 06, 2022 at 08:42:03PM +0200, Mike Rapoport wrote:
-> (added more CRIU people)
+On Fri, Jan 28, 2022 at 2:38 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Alex Shi <seakeel@gmail.com> writes:
+>
+> > Right. The better way is asking Yang Yang to give a reviewed-by in
+> > mailing list next time. Otherwise, the private tag can't give a good
+> > support.
+>
+> Agreed with that.
+>
+> > for this patch. Reviewed-by: Alex Shi <alexs@kernel.org>
+>
+> Another nice rule of thumb: put Reviewed-by on its own line so that b4
+> picks it up :)
 
-Thanks, Mike.
+Right!
+Thanks for reminding me!
 
-> On Sun, Jan 30, 2022 at 01:18:03PM -0800, Rick Edgecombe wrote:
-> > This is a slight reboot of the userspace CET series. I will be taking over the 
-> > series from Yu-cheng. Per some internal recommendations, I’ve reset the version
-> > number and am calling it a new series. Hopefully, it doesn’t cause confusion.
-> > 
-> > The new plan is to upstream only userspace Shadow Stack support at this point. 
-> > IBT can follow later, but for now I’ll focus solely on the most in-demand and
-> > widely available (with the feature on AMD CPUs now) part of CET.
-> > 
-> > I thought as part of this reset, it might be useful to more fully write-up the 
-> > design and summarize the history of the previous CET series. So this slightly
-> > long cover letter does that. The "Updates" section has the changes, if anyone
-> > doesn't want the history.
-
-[...]
-
-> > 	CRIU Support
-> > 	------------
-> > 	In the past there was some speculation on the mailing list about 
-> > 	whether CRIU would need to be taught about CET. It turns out, it does. 
-> > 	The first issue hit is that CRIU calls sigreturn directly from its 
-> > 	“parasite code” that it injects into the dumper process. This violates
-> > 	this shadow stack implementation’s protection that intends to prevent
-> > 	attackers from doing this.
-> > 
-> > 	With so many packages already enabled with shadow stack, there is 
-> > 	probably desire to make it work seamlessly. But in the meantime if 
-> > 	distros want to support shadow stack and CRIU, users could manually 
-> > 	disabled shadow stack via “GLIBC_TUNABLES=glibc.cpu.x86_shstk=off” for 
-> > 	a process they will wants to dump. It’s not ideal.
-> > 
-> > 	I’d like to hear what people think about having shadow stack in the 
-> > 	kernel without this resolved. Nothing would change for any users until 
-> > 	they enable shadow stack in the kernel and update to a glibc configured
-> > 	with CET. Should CRIU userspace be solved before kernel support?
-
-From the CRIU side I can say that I would definitely like to see this
-resolved. CRIU just went through a similar exercise with rseq() being
-enabled in glibc and CI broke all around for us and other projects
-relying on CRIU. Although rseq() was around for a long time we were not
-aware of it but luckily 5.13 introduced a way to handle it for CRIU with
-ptrace. An environment variable existed but did not really help when
-CRIU is called somewhere in the middle of the container software stack.
-
-From my point of view a solution not involving an environment variable
-would definitely be preferred.
-
-		Adrian
+>
+> Patch applied, thanks.
+>
+> jon
