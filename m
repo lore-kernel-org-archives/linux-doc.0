@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16220C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4FD9C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351268AbiBHIng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        id S1351197AbiBHIo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:44:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351415AbiBHInW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:43:22 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6443C03FED5
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:43:08 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id n17so20212934iod.4
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:43:08 -0800 (PST)
+        with ESMTP id S1351253AbiBHIoZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:44:25 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CD8C03FEC3
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:44:22 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id f13so1107494ilq.5
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Co3BUFT9beNFmBZeCDmBd4UzULJVNB7vW9mGtuUcPnM=;
-        b=ohrEubPZBSY43eIQ5NQCK0B4O7CFbJ/HpKhbez278dzMobVWnfF2oOF3sOrc74B4QQ
-         U41143EltG56aXzdjjzZm/GU4cXZGtH83mvjb2qCX+F563MQ3fpmYtycdSu5kzshBVG8
-         DqWBAyQynUJHXWlGwhPQOK9if98mUmdwJ8Ir1N0avBzJ6forpYNFs3XqdV58s5cnDsMU
-         W4bwCOSsmJHJTrTl6UvTk9gc5iIIE+0JWF2n38A2tLyC+ff1QK0lTH4UBYtz+UVESmVG
-         gAIT3JizZEMLq6e110ENj51HMCyTWq0cX5c1QvY5BLrH4EK1/TJW9WkstrnYoO1NG7hG
-         geNQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Lker2+Uo8UhianHSMBGKA4jgSJ53TnoXXawYMAybIpQ=;
+        b=inNoanZN2Rt09wIpOdvGFFnihAY0clMiz0/jcty75GOYZgZPC4gcvH9kBYSKBfD88y
+         s+DnKZK8oJ9Hlymo5Ef8YFhQ7WZ1LjWUhS2h+yWzgHW6K5YFjDAlOTSSWa/lCRJdXFk+
+         obvXcQucOJwyDODiBADQfccHr1CHabOzg8XD2akiAv86jz2POoL9eVCdIOqmWQleCmWg
+         CKImx2dy4UvYJe7KvmME9K12wSZZtvsOowZoGN09g2iR+rZL9mgl5C7o1ULHuU3hwxPe
+         v3gVcatYK6Iavvn11SM34ScpS8PAwNE5kyv7lHpgPZMn3ILADORD3ot6QuxchDDst/SJ
+         SG0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Co3BUFT9beNFmBZeCDmBd4UzULJVNB7vW9mGtuUcPnM=;
-        b=UQnQZM5CwAJ25pzo2iCCTj9rfaBU3CAeBd8JnUDg19RP9d2vcWqBZZrOFZWlA/cTDr
-         aQ+v7kwfIGLFqe2kj/G4LD7h/v3UmEnjUSXTx24oGj3DU5aewfvffhXBCpaJe5akVHm/
-         md0ipDU3Z7Vxu/Yxgl4Qmg0Lpo6yXsVH6KsWhsH2/tfKKM5EVnFkFo9d1liypDsHo+Ug
-         dOIqaA/+abugCEbI2NSN0Kurgw/s5gwEWN8LNOd+s4u+LY92nOUNTi91/upewmbHWwnN
-         Mi7vNIaj2DR0d3DCyrsAQULkNZAcBParV1QLI8L7nSsWr12J5ls8ghJs/gWJ6w4tmRKo
-         dKJg==
-X-Gm-Message-State: AOAM531V3kwPYXWZp7V5CixSU/X/KhwqHbS2R0e7/TPZWpoGgVtc+hzb
-        Q2YO7TXcnx3lBfzdXVGzZMBUgQ==
-X-Google-Smtp-Source: ABdhPJzBcDi7EsMql8HPyIUlcRBl/OsFwSyoeS5mkLvsu+udWvl2GtuObFdyWK2J++yBEFuvf+uvKg==
-X-Received: by 2002:a05:6638:1501:: with SMTP id b1mr1620304jat.251.1644309787998;
-        Tue, 08 Feb 2022 00:43:07 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Lker2+Uo8UhianHSMBGKA4jgSJ53TnoXXawYMAybIpQ=;
+        b=2PRlaiDWO9plhsC2Bvw5yQhi813sykPgXZ4Hme8molmE9JAa3hTmjP8sGfbMO8/wj/
+         cJj/1BKutSDufJIfoJFkbzdGLI7wRlysKqstz63tF15MjR3IlGJwYJirh/xvTrawvGrT
+         JNClAb6/JfZL+YN1u7/OrPN3ic1mFHbYolT7hIFK4IogVZl9Xt+y4MABPrIhabOGXTzZ
+         Vy/Ivpr1lrXHdOnUt5KvlbUaTTmg+HhkVNaV/G6aw/SeNbP28FMVetFiNWtvAZWPeKBg
+         U/8sm2iI2j7wrn3uzUJcECCEiOUF1nSOOJIohaqpwjalaUnpfpz8OT8/aqX/xfkE+1ir
+         RnPA==
+X-Gm-Message-State: AOAM531bQAJVbKysLLJ+AZuhNg9hKIfVdoUQD50mnQJQjZtTMMd9zGuy
+        vJ7hI5FuI6xaiMr/pw1siZRXpA==
+X-Google-Smtp-Source: ABdhPJzy4PN1v9Ym56RqiLYKvfIGSfRqZ6U0AFJo4Ax8JsSXHMSyO+uLmPwv+PMfAgagxvT0qsNs+g==
+X-Received: by 2002:a92:ca0c:: with SMTP id j12mr1599235ils.176.1644309861600;
+        Tue, 08 Feb 2022 00:44:21 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
-        by smtp.gmail.com with ESMTPSA id x7sm3011504ilp.88.2022.02.08.00.43.06
+        by smtp.gmail.com with ESMTPSA id c13sm3355533ilr.55.2022.02.08.00.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 00:43:07 -0800 (PST)
-Date:   Tue, 8 Feb 2022 01:43:03 -0700
+        Tue, 08 Feb 2022 00:44:21 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:44:16 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -83,30 +84,47 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 10/12] mm: multigenerational LRU: thrashing prevention
-Message-ID: <YgItF/LcaTC6mpLN@google.com>
+Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
+Message-ID: <YgItYKpxJRRQj3RD@google.com>
 References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-11-yuzhao@google.com>
+ <20220208081902.3550911-13-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220208081902.3550911-11-yuzhao@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220208081902.3550911-13-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 01:19:00AM -0700, Yu Zhao wrote:
-> Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention, as
-> requested by many desktop users [1].
+On Tue, Feb 08, 2022 at 01:19:02AM -0700, Yu Zhao wrote:
+> Add a design doc and an admin guide.
 > 
-> When set to value N, it prevents the working set of N milliseconds
-> from getting evicted. The OOM killer is triggered if this working set
-> can't be kept in memory. Based on the average human detectable lag
-> (~100ms), N=1000 usually eliminates intolerable lags due to thrashing.
-> Larger values like N=3000 make lags less noticeable at the risk of
-> premature OOM kills.
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Acked-by: Brian Geffon <bgeffon@google.com>
+> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Acked-by: Steven Barrett <steven@liquorix.net>
+> Acked-by: Suleiman Souhlal <suleiman@google.com>
+> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> Tested-by: Donald Carr <d@chaos-reins.com>
+> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> ---
+>  Documentation/admin-guide/mm/index.rst        |   1 +
+>  Documentation/admin-guide/mm/multigen_lru.rst | 121 ++++++++++++++
+>  Documentation/vm/index.rst                    |   1 +
+>  Documentation/vm/multigen_lru.rst             | 152 ++++++++++++++++++
+>  4 files changed, 275 insertions(+)
+>  create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
+>  create mode 100644 Documentation/vm/multigen_lru.rst
 
-Refactored min_ttl into a separate patch as requested here:
-https://lore.kernel.org/linux-mm/YdxSUuDc3OC4pe+f@dhcp22.suse.cz/
+Refactored the doc into a separate patch as requested here:
+https://lore.kernel.org/linux-mm/Yd73pDkMOMVHhXzu@kernel.org/
+
+Reworked the doc as requested here:
+https://lore.kernel.org/linux-mm/YdwKB3SfF7hkB9Xv@kernel.org/
 
 <snipped>
