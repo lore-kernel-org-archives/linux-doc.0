@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4462C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:24:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73664C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349089AbiBHIYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:24:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56932 "EHLO
+        id S1349396AbiBHI1J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:27:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231681AbiBHIYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:24:19 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F43C0401F6
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:24:18 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id p63so20122612iod.11
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:24:18 -0800 (PST)
+        with ESMTP id S1349397AbiBHI1I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:27:08 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57049C03FEC3
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:27:07 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id 15so13290111ilg.8
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:27:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=5xEJb5dGtkxnE3DtyMZwk9XL+cYr5+2XHsmtJGbNn9w=;
-        b=EQfrfLZxUCkGh+GkX3mWS9OkZA/2OhdrueRQPYkMoFFyxvFSW2s2Il8NdOT6E+n9/O
-         5x4ciq9rZpVLgGZObrl9GmF2Z0MA2sloPjyTHgo+7o2CUNDxQqt3zD/4o/R9DFBUMOFY
-         YIMD8S8bgDHl2b26431AcMAeqYJ+7fZQujWRpHC0xYgfE74KQZdY4/+rebqFBI/3YstE
-         0vUNNpqIRLp0Mssr4eK1bCBO+doe0IXOPB3V2GTfWyvMgI2Z+McTB/VzdXYsa/HPs5Qi
-         JAEoHlzFaMya6tWxKtHQ5ksXavkCAunD7RQK3MNjE6AGrvICXgPgSD+J96OYRIru6PyF
-         C3JA==
+        bh=44T1HlXr7BuKORnt0ndhEiJslHbwl0ICNg4Sr/XHz9A=;
+        b=Fzfpbyn7+b2s9yL3hUzIjl5MZBYGazEFVmXaeDrjIUeTtnDQ1OKoJyGAaKMtxyGBdd
+         4S1ZxZrFHWKucVy3EVDiDlCD+GukmMqNELhAsJoSpYETtgs71v/eSRy8upPtMCw5WldL
+         rt3deAo5QqvbMpsGjjXyu9cBWMJifParnnXDYP56kPIXheap/MgjK8ZH/RdsMKPQB6HC
+         /BvTqTkhEd0OAYRI5Tu6cBy5LEC/2CU7nzKqW6W6PwC2DiTRG+wyIF6qCI+23T5iXNEO
+         Jhi9jsf0AnZsftBtRnyi8NbBzkMyzYKHVPnZxJUTiWpmI67LrnD/P7YMneI+Z6FVVvSh
+         9Yiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=5xEJb5dGtkxnE3DtyMZwk9XL+cYr5+2XHsmtJGbNn9w=;
-        b=X6viE/7KbPvjqw7idpgZq7OkyiPg2hGxsRLg8f+HbCurRQIk2kMCdbgWfN6uR8h5xt
-         gDeNAuWwZT3jebXWWEM8NtrL/9oxf/tR/FoPQgcNvjXXOy2VQWwe8behbkyfpZlqKCNR
-         17DVw/8gmXvpk1OL5nseblAYT3MfMqSs5Io3MVOexsL+bwh1wVyOV/w/lvo99CZwc+nz
-         Q5zAcnHWsjC6NEOMCCyT0ZNtxsM/mhDllDnQRI2xMRWPh5uZHyFTzJ+tnkDQJHiOdaXN
-         pJ/5EgRyzpeHalb3sZwPbYZtfC+xuMDt2ABngm5sr8LeDfwPebO0kIGZ66wNucezW9Ib
-         bW6A==
-X-Gm-Message-State: AOAM530uZ7M2g8QYIpj5lodsPJ5sdCTUhN4ZEDUWF4k6CXTi4PBstpiv
-        ygn4LUWRMnUgs12AmHqsJr0tYQ==
-X-Google-Smtp-Source: ABdhPJz0275GX25s4HD4rXh2vegbV0ySFaSIArfKRzAwnXPerqERRCHYLW7W1lSQppGMHug4USPTww==
-X-Received: by 2002:a05:6638:10c5:: with SMTP id q5mr1493113jad.113.1644308658203;
-        Tue, 08 Feb 2022 00:24:18 -0800 (PST)
+        bh=44T1HlXr7BuKORnt0ndhEiJslHbwl0ICNg4Sr/XHz9A=;
+        b=J4ST0jYMF51Ab/VUzkQTrYN15CA8ceGyOKDf78NpbwHYfILlD/W7eWotwngBDJhrjM
+         oGgOmSig7tJ1LBj2ZU/Ke6YRHtIBQuLVv4v6aQTqPDPg30i8zXaUeshjHD0xpj0rJEdx
+         wuy0LU4IETfBOzsUT3NCRisCXt2/2SN9ysP/nZEsqNoLIHCX+UJXJ6rXGwQk/MGg89r7
+         D1+HmhBCzGAMavHrTEm6QdzwBIl4NT6MoFVMwdEyp2zS/j+/Co6LJoRJBUluqjdgE9ve
+         Ex+KfrBl96UF0d/dlj0GnnV54tdVCF2cqYHxCkcGLVoQbxSsxY1wol+dKgKccy9URJfS
+         KXPA==
+X-Gm-Message-State: AOAM531OGRv+ACMtR1lnJxF0nXSlJOnNEENBWd+NUVYwGTGLBLTpzESr
+        VUU/kvR01SkcKgIlvNyHUvjfyQ==
+X-Google-Smtp-Source: ABdhPJxhgIu0UmLk8Z4r1+xA9jtb+cGWoKPZ+ozf9Iro3uQDBVD7tgKvOm4k7ftLHpOu/qObU3L4GQ==
+X-Received: by 2002:a05:6e02:20c9:: with SMTP id 9mr1689066ilq.267.1644308826595;
+        Tue, 08 Feb 2022 00:27:06 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
-        by smtp.gmail.com with ESMTPSA id x7sm2989090ilp.88.2022.02.08.00.24.17
+        by smtp.gmail.com with ESMTPSA id e17sm6912666ilm.67.2022.02.08.00.27.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 00:24:17 -0800 (PST)
-Date:   Tue, 8 Feb 2022 01:24:13 -0700
+        Tue, 08 Feb 2022 00:27:06 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:27:01 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -83,40 +83,47 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 01/12] mm: x86, arm64: add arch_has_hw_pte_young()
-Message-ID: <YgIorS8g6N1YlpzB@google.com>
+Subject: Re: [PATCH v7 02/12] mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+Message-ID: <YgIpVegaNgaD2NNE@google.com>
 References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-2-yuzhao@google.com>
+ <20220208081902.3550911-3-yuzhao@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208081902.3550911-2-yuzhao@google.com>
+In-Reply-To: <20220208081902.3550911-3-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 01:18:51AM -0700, Yu Zhao wrote:
+On Tue, Feb 08, 2022 at 01:18:52AM -0700, Yu Zhao wrote:
+> Some architectures support the accessed bit in non-leaf PMD entries,
+> e.g., x86 sets the accessed bit in a non-leaf PMD entry when using it
+> as part of linear address translation [1]. Page table walkers that
+> clear the accessed bit may use this capability to reduce their search
+> space.
+> 
+> Note that:
+> 1. Although an inline function is preferable, this capability is added
+>    as a configuration option for the consistency with the existing
+>    macros.
+> 2. Due to the little interest in other varieties, this capability was
+>    only tested on Intel and AMD CPUs.
+
+Clarified ARCH_HAS_NONLEAF_PMD_YOUNG for x86 as requested here:
+https://lore.kernel.org/linux-mm/CAHk-=wgvOqj6LUhNp8V5ddT8eZyYdFDzMZE73KgPggOnc28VWg@mail.gmail.com/
 
 <snipped>
 
-> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-> index c4ba047a82d2..990358eca359 100644
-> --- a/arch/arm64/include/asm/pgtable.h
-> +++ b/arch/arm64/include/asm/pgtable.h
-> @@ -999,23 +999,13 @@ static inline void update_mmu_cache(struct vm_area_struct *vma,
->   * page after fork() + CoW for pfn mappings. We don't always have a
->   * hardware-managed access flag on arm64.
->   */
-> -static inline bool arch_faults_on_old_pte(void)
-> -{
-> -	WARN_ON(preemptible());
-> -
-> -	return !cpu_has_hw_af();
-> -}
-> -#define arch_faults_on_old_pte		arch_faults_on_old_pte
-> +#define arch_has_hw_pte_young		cpu_has_hw_af
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 9f5bd41bf660..e787b7fc75be 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -85,6 +85,7 @@ config X86
+>  	select ARCH_HAS_PMEM_API		if X86_64
+>  	select ARCH_HAS_PTE_DEVMAP		if X86_64
+>  	select ARCH_HAS_PTE_SPECIAL
+> +	select ARCH_HAS_NONLEAF_PMD_YOUNG
 
-Reworked arch_has_hw_pte_young() for arm64 according to:
-https://lore.kernel.org/linux-mm/20220111141901.GA10338@willie-the-truck/
+And enabled it for both 32-bit and 64-bit.
 
 <snipped>
