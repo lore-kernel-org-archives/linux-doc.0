@@ -2,281 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1ECC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 07:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63280C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 07:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347854AbiBHHDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 02:03:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48198 "EHLO
+        id S1347957AbiBHHR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 02:17:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347832AbiBHHDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 02:03:19 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37474C0401EF
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 23:03:18 -0800 (PST)
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JtDTh3TZ9zccqC;
-        Tue,  8 Feb 2022 15:02:16 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 8 Feb 2022 15:03:16 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 8 Feb
- 2022 15:03:15 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH v3] docs/zh_CN: Add energy-model Chinese translation
-Date:   Tue, 8 Feb 2022 15:36:00 +0800
-Message-ID: <20220208073600.10860-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S231494AbiBHHR2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 02:17:28 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539FEC0401EF
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 23:17:27 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id l35-20020a05600c1d2300b0034d477271c1so915406wms.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 23:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fbgoHQO/0cS1wx+W32ixJ3i4rBCHsRjt28S24vzE0hw=;
+        b=FocvtRNCPh5xjplZI0JKosckyBnb2Mdjk7dEqApJ7nlbS6jmPInF2dmvy6SftrB86L
+         YLA997SneUJlVSPGZ5c5YMMU//f2ji7q6CEFxUItMPzjgO8tjLCxkDqylYBcjq9H5BSz
+         10gc7Rwn+7OOSdImZnixNylRpKwmKhcUurmfXCJegrubgY26Vd+r7aQ9rZp3AYeWEjwY
+         K0wa1JEzOk1S0zRW/0p++ENbod5AR3TcEL2iVW37xZF7bJjg7ufPnogl+yM7xl1CAM/0
+         GnFP67tCD1TYV9/NydChttav3RIbNAFz6X2QkH2sZ1K0cVfkBcfdfvqAu2rr1apWDWke
+         dxxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fbgoHQO/0cS1wx+W32ixJ3i4rBCHsRjt28S24vzE0hw=;
+        b=MRdsCeypvpGYwZfbZl3nPYdA3pmF/wwH/wt9R83whNCQ3BywBRlgGlASY7U00e++z3
+         S8EaHgyGogmUv1dixQ6M72Z9jS/+j3NFkpucFul6iXVSdU68FFNnlIqZHgYbYTgFZt1w
+         rk5PkPumuYiy12a2RA5FObwoNybo3nhzIJigKNApLkEAJwnUUSfZpgyiUA7t8AAO6nYL
+         4C+BILY2kN0msl1DYyDaRtNTjmS+ygt+s5BZJv/oXPcC+ZKx7iappnMNgQj4f9kl7Ta2
+         YckT38iZltMlfyDkdxMfxnb5Oxbb0gpKP8iwCwbBFNi4PY4W20fq31PUKKfVFsTxSRCk
+         VyWA==
+X-Gm-Message-State: AOAM530KDMYTE/toFWNcXnyeVw7GVfNniYBmgIg77VZQWW89G0vuh39G
+        i1IUW/yxI+hG/Mrh3JYm+MfjEJQ5lqXRK6qXStOm9g==
+X-Google-Smtp-Source: ABdhPJw6CwqYZNijjCXuMKPfy81z2jcWqGougNDD5v8t/jmD9m7usDyqgokKfQyZPPSlwLzh3Tmvs17+eBbrB3JE0Y8=
+X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr84612wmi.39.1644304645728;
+ Mon, 07 Feb 2022 23:17:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+References: <20220207162813.3091899-1-frowand.list@gmail.com>
+In-Reply-To: <20220207162813.3091899-1-frowand.list@gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 8 Feb 2022 15:17:14 +0800
+Message-ID: <CABVgOSn3qVWUPAc8A6bKpt19OAsh5YXD=R1_OZKoSijB8v4+Rg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] Documentation: dev-tools: clarify KTAP
+ specification wording
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Rae Moar <rmr167@gmail.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000055619305d77c8206"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate power/energy-model.rst into Chinese.
+--00000000000055619305d77c8206
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
-v3:
-Don't include English kernel doc.
+On Tue, Feb 8, 2022 at 12:28 AM <frowand.list@gmail.com> wrote:
+>
+> From: Frank Rowand <frank.rowand@sony.com>
+>
+> Add the spec version to the title line.
+>
+> Explain likely source of "Unknown lines".
+>
+> "Unknown lines" in nested tests are optionally indented.
+>
+> Add "Unknown lines" items to differences between TAP & KTAP list
+>
+> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+> ---
 
-v2:
-Translate the comments in the example program.
+Thanks for fixing this. I'm happy with this version.
 
- .../translations/zh_CN/power/energy-model.rst | 190 ++++++++++++++++++
- .../translations/zh_CN/power/index.rst        |   2 +-
- 2 files changed, 191 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/power/energy-model.rst
+Reviewed-by: David Gow <davidgow@google.com>
 
-diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
-new file mode 100644
-index 000000000000..bcf29d624860
---- /dev/null
-+++ b/Documentation/translations/zh_CN/power/energy-model.rst
-@@ -0,0 +1,190 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/power/energy-model.rst
-+
-+:翻译:
-+
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-+
-+============
-+设备能量模型
-+============
-+
-+1. 概述
-+-------
-+
-+能量模型（EM）框架是一种驱动程序与内核子系统之间的接口。其中驱动程序了解不同
-+性能层级的设备所消耗的功率，而内核子系统愿意使用该信息做出能量感知决策。
-+
-+设备所消耗的功率的信息来源在不同的平台上可能有很大的不同。这些功率成本在某些
-+情况下可以使用设备树数据来估算。在其它情况下，固件会更清楚。或者，用户空间可能
-+是最清楚的。以此类推。为了避免每一个客户端子系统对每一种可能的信息源自己重新
-+实现支持，EM框架作为一个抽象层介入，它在内核中对功率成本表的格式进行标准化，
-+因此能够避免多余的工作。
-+
-+功率值可以用毫瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
-+功率值刻度类型的要求是否满足。可以在能量感知调度器的文档中找到一个例子
-+Documentation/scheduler/sched-energy.rst。对于一些子系统，比如热能或
-+powercap，用“抽象刻度”描述功率值可能会导致问题。这些子系统对过去使用的功率的
-+估算值更感兴趣，因此可能需要真实的毫瓦。这些要求的一个例子可以在智能功率分配
-+Documentation/driver-api/thermal/power_allocator.rst文档中找到。
-+
-+内核子系统可能（基于EM内部标志位）实现了对EM注册设备是否具有不一致刻度的自动
-+检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以毫焦耳为单位
-+的真实能量消耗是不可能的。
-+
-+下图描述了一个驱动的例子（这里是针对Arm的，但该方法适用于任何体系结构），它
-+向EM框架提供了功率成本，感兴趣的客户端可从中读取数据::
-+
-+       +---------------+  +-----------------+  +---------------+
-+       | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
-+       +---------------+  +-----------------+  +---------------+
-+               |                   | em_cpu_energy()   |
-+               |                   | em_cpu_get()      |
-+               +---------+         |         +---------+
-+                         |         |         |
-+                         v         v         v
-+                        +---------------------+
-+                        |    Energy Model     |
-+                        |     Framework       |
-+                        +---------------------+
-+                           ^       ^       ^
-+                           |       |       | em_dev_register_perf_domain()
-+                +----------+       |       +---------+
-+                |                  |                 |
-+        +---------------+  +---------------+  +--------------+
-+        |  cpufreq-dt   |  |   arm_scmi    |  |    Other     |
-+        +---------------+  +---------------+  +--------------+
-+                ^                  ^                 ^
-+                |                  |                 |
-+        +--------------+   +---------------+  +--------------+
-+        | Device Tree  |   |   Firmware    |  |      ?       |
-+        +--------------+   +---------------+  +--------------+
-+
-+对于CPU设备，EM框架管理着系统中每个“性能域”的功率成本表。一个性能域是一组
-+性能一起伸缩的CPU。性能域通常与CPUFreq策略具有1对1映射。一个性能域中的
-+所有CPU要求具有相同的微架构。不同性能域中的CPU可以有不同的微架构。
-+
-+
-+2. 核心API
-+----------
-+
-+2.1 配置选项
-+^^^^^^^^^^^^
-+
-+必须使能CONFIG_ENERGY_MODEL才能使用EM框架。
-+
-+
-+2.2 性能域的注册
-+^^^^^^^^^^^^^^^^
-+
-+“高级”EM的注册
-+~~~~~~~~~~~~~~~~
-+
-+“高级”EM因它允许驱动提供更精确的功率模型而得名。它并不受限于框架中的一些已
-+实现的数学公式（就像“简单”EM那样）。它可以更好地反映每个性能状态的实际功率
-+测量。因此，在EM静态功率（泄露）是重要的情况下，应该首选这种注册方式。
-+
-+驱动程序应通过以下API将性能域注册到EM框架中::
-+
-+  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-+		struct em_data_callback *cb, cpumask_t *cpus, bool milliwatts);
-+
-+驱动程序必须提供一个回调函数，为每个性能状态返回<频率,功率>元组。驱动程序
-+提供的回调函数可以自由地从任何相关位置（DT、固件......）以及以任何被认为是
-+必要的方式获取数据。只有对于CPU设备，驱动程序必须使用cpumask指定性能域的CPU。
-+对于CPU以外的其他设备，最后一个参数必须被设置为NULL。
-+
-+最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
-+子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
-+刻度，这些子系统可能决定：返回警告/错误，停止工作或恐慌（panic）。
-+
-+关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
-+的更多文档。
-+
-+
-+“简单”EM的注册
-+~~~~~~~~~~~~~~~~
-+
-+“简单”EM是用框架的辅助函数cpufreq_register_em_with_opp()注册的。它实现了
-+一个和以下数学公式紧密相关的功率模型::
-+
-+	Power = C * V^2 * f
-+
-+使用这种方法注册的EM可能无法正确反映真实设备的物理特性，例如当静态功率
-+（泄漏）很重要时。
-+
-+
-+2.3 访问性能域
-+^^^^^^^^^^^^^^
-+
-+有两个API函数提供对能量模型的访问。em_cpu_get()以CPU id为参数，em_pd_get()
-+以设备指针为参数。使用哪个接口取决于子系统，但对于CPU设备来说，这两个函数都返
-+回相同的性能域。
-+
-+对CPU的能量模型感兴趣的子系统可以通过em_cpu_get() API检索它。在创建性能域时
-+分配一次能量模型表，它保存在内存中不被修改。
-+
-+一个性能域所消耗的能量可以使用em_cpu_energy() API来估算。该估算假定CPU设备
-+使用的CPUfreq监管器是schedutil。当前该计算不能提供给其它类型的设备。
-+
-+关于上述API的更多细节可以在 ``<linux/energy_model.h>`` 或第2.4节中找到。
-+
-+
-+2.4 API的细节描述
-+^^^^^^^^^^^^^^^^^
-+参见 include/linux/energy_model.h 和 kernel/power/energy_model.c 的kernel doc。
-+
-+3. 驱动示例
-+-----------
-+
-+CPUFreq框架支持专用的回调函数，用于为指定的CPU（们）注册EM：
-+cpufreq_driver::register_em()。这个回调必须为每个特定的驱动程序正确实现，
-+因为框架会在设置过程中适时地调用它。本节提供了一个简单的例子，展示CPUFreq驱动
-+在能量模型框架中使用（假的）“foo”协议注册性能域。该驱动实现了一个est_power()
-+函数提供给EM框架::
-+
-+  -> drivers/cpufreq/foo_cpufreq.c
-+
-+  01	static int est_power(unsigned long *mW, unsigned long *KHz,
-+  02			struct device *dev)
-+  03	{
-+  04		long freq, power;
-+  05
-+  06		/* 使用“foo”协议设置频率上限 */
-+  07		freq = foo_get_freq_ceil(dev, *KHz);
-+  08		if (freq < 0);
-+  09			return freq;
-+  10
-+  11		/* 估算相关频率下设备的功率成本 */
-+  12		power = foo_estimate_power(dev, freq);
-+  13		if (power < 0);
-+  14			return power;
-+  15
-+  16		/* 将这些值返回给EM框架 */
-+  17		*mW = power;
-+  18		*KHz = freq;
-+  19
-+  20		return 0;
-+  21	}
-+  22
-+  23	static void foo_cpufreq_register_em(struct cpufreq_policy *policy)
-+  24	{
-+  25		struct em_data_callback em_cb = EM_DATA_CB(est_power);
-+  26		struct device *cpu_dev;
-+  27		int nr_opp;
-+  28
-+  29		cpu_dev = get_cpu_device(cpumask_first(policy->cpus));
-+  30
-+  31     	/* 查找该策略支持的OPP数量 */
-+  32     	nr_opp = foo_get_nr_opp(policy);
-+  33
-+  34     	/* 并注册新的性能域 */
-+  35     	em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, policy->cpus,
-+  36					    true);
-+  37	}
-+  38
-+  39	static struct cpufreq_driver foo_cpufreq_driver = {
-+  40		.register_em = foo_cpufreq_register_em,
-+  41	};
-diff --git a/Documentation/translations/zh_CN/power/index.rst b/Documentation/translations/zh_CN/power/index.rst
-index ad80a9e80b7c..bc54983ba515 100644
---- a/Documentation/translations/zh_CN/power/index.rst
-+++ b/Documentation/translations/zh_CN/power/index.rst
-@@ -14,6 +14,7 @@
- .. toctree::
-     :maxdepth: 1
- 
-+    energy-model
-     opp
- 
- TODOList:
-@@ -22,7 +23,6 @@ TODOList:
-     * basic-pm-debugging
-     * charger-manager
-     * drivers-testing
--    * energy-model
-     * freezing-of-tasks
-     * pci
-     * pm_qos_interface
--- 
-2.17.1
+>
+> Changes since version 1
+>   - Explain likely source of "Unknown lines"
+>   - "Unknown line" in nested tests are optionally indented
+>   - Add "Unknown lines" items to differences between TAP & KTAP list
+>
+>  Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+> index 878530cb9c27..9c40c94d3f12 100644
+> --- a/Documentation/dev-tools/ktap.rst
+> +++ b/Documentation/dev-tools/ktap.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>
+> -========================================
+> -The Kernel Test Anything Protocol (KTAP)
+> -========================================
+> +===================================================
+> +The Kernel Test Anything Protocol (KTAP), version 1
+> +===================================================
+>
+>  TAP, or the Test Anything Protocol is a format for specifying test results used
+>  by a number of projects. It's website and specification are found at this `link
+> @@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
+>  the four formats for lines described above. This is allowed, however, they will
+>  not influence the status of the tests.
+>
+> +This is an important difference from TAP.  Kernel tests may print messages
+> +to the system console or a log file.  Both of these destinations may contain
+> +messages either from unrelated kernel or userspace activity, or kernel
+> +messages from non-test code that is invoked by the test.  The kernel code
+> +invoked by the test likely is not aware that a test is in progress and
+> +thus can not print the message as a diagnostic message.
+> +
+>  Nested tests
+>  ------------
+>
+> @@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
+>  result. If one of the subtests fail, for example, the parent test should also
+>  fail.
+>
+> -Additionally, all result lines in a subtest should be indented. One level of
+> +Additionally, all lines in a subtest should be indented. One level of
+>  indentation is two spaces: "  ". The indentation should begin at the version
+>  line and should end before the parent test's result line.
+>
+> +"Unknown lines" are not considered to be lines in a subtest and thus are
+> +allowed to be either indented or not indented.
+> +
+>  An example of a test with two nested subtests:
+>
+>  .. code-block::
+> @@ -225,9 +235,11 @@ Major differences between TAP and KTAP
+>  --------------------------------------
+>
+>  Note the major differences between the TAP and KTAP specification:
+> -- yaml and json are not recommended in diagnostic messages
+> -- TODO directive not recognized
+> +- yaml and json are not recommended in KTAP diagnostic messages
+> +- TODO directive not recognized in KTAP
+>  - KTAP allows for an arbitrary number of tests to be nested
+> +- TAP includes "Unknown lines" in the category of "Anything else"
+> +- TAP says "Unknown lines" are "incorrect; KTAP allows "Unknown lines"
 
+Nit: unmached quotes around "incorrect".
+
+>
+>  The TAP14 specification does permit nested tests, but instead of using another
+>  nested version line, uses a line of the form
+> --
+> Frank Rowand <frank.rowand@sony.com>
+>
+
+--00000000000055619305d77c8206
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
+2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
+dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
+jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
+ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
+QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAl
+/ZZBLrQNgOa5ykcrp+FqVN8NbT1wvYwCWWqNyO+WdjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjAyMDgwNzE3MjZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAc+LcDqo6IolbyUgbgGaJ
+1LcISX9ZwiKgUmKNtJE8HBF8tGusZVsDooy1j/POloAr8KZ9oqdO8U9+OghkQZVZh4EZo9l70UZP
+AlvuJD4Z/82D6bcnLricyF8j72hbn3ZixNKLMQaxBeIoxw7WjjYpCZsBQsdfZt7IrWDuur04rRIq
++LuThVqMyz9tmv4v2Cyrrnw8VE/MXbskMKryqfgu0OslWRQfwq1d8DwJMcFksIL+TvdVknxXI113
+cKegBGjh+9Lv8nXYQDDge0cLrBaUTRQLdqkhzLKGvEbJEVLZST9Y4iLSuhfvZTnMtHGNcvwAVYgY
+G6xll4Ag2hqj4sYSfw==
+--00000000000055619305d77c8206--
