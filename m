@@ -2,64 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD202C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C51AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:16:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353427AbiBHJQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 04:16:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
+        id S234747AbiBHJQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 04:16:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353379AbiBHJQM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:16:12 -0500
-X-Greylist: delayed 572 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 01:16:11 PST
-Received: from mail.ithle.pl (mail.ithle.pl [80.211.189.216])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42DF0C03FED4
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 01:16:10 -0800 (PST)
-Received: by mail.ithle.pl (Postfix, from userid 1001)
-        id 56831A3C20; Tue,  8 Feb 2022 09:05:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ithle.pl; s=mail;
-        t=1644311165; bh=EymJn8YK2LHpC0VX6auOoFCWqaw8+QfZy+mv/AChzys=;
-        h=Date:From:To:Subject:From;
-        b=qOpDqgEsE0r6zFzL9zF7HawKZpkn0iLLkJqilCoz+EWTXdLz4cDNjTkGrkYpQCWp4
-         y2tldhHhSrr/41Hx3htkogj+V5eD8FD+k6IWjZ60PN8BI1x9tzHU9/l8raz54eabSU
-         /0AlM4mH5hySGOaLwj7JbTA37g2eME5e928a9LU9vvs17keacbWyIQC1mxhyTKKRLo
-         C/sSGTbKk368A1DgiGLCpNAAiTUMt4HLVEL0mQEfwLmcdulUFXFRrWW5EN67liaGTT
-         CHyuJYRI9ZCHqlaSBsAvIAjtI+XAuv14+ngJupOpdiCrd61h2MWkftLVFqd4DO4jtx
-         VMsJkXidKPjFg==
-Received: by mail.ithle.pl for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 09:05:22 GMT
-Message-ID: <20220208074500-0.1.4i.pkje.0.ohrfyapeof@ithle.pl>
-Date:   Tue,  8 Feb 2022 09:05:22 GMT
-From:   =?UTF-8?Q? "Aleksy_Urba=C5=84ski" ?= <aleksy.urbanski@ithle.pl>
-To:     <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?Q?Podwy=C5=BCka_rachunku_za_pr=C4=85d?=
-X-Mailer: mail.ithle.pl
+        with ESMTP id S1353379AbiBHJQb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:16:31 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E23DC03FEC1
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 01:16:29 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id h7so20299508iof.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 01:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=O/lx//nLUVMx2EI4vj5HKtagrUsb3ZYCM82TQ4lEins=;
+        b=GNZIO6/kuk+ic9l6Cd+p/G1mclOH/q3G/vT9SOJqWStL42meaNn/c/wFxfOu3vH9z1
+         uOLAzQrhJq95IkE+TOApdAN1ebRCQvgTw7uDwp8aJjVbau9Q2hRunsd/UW0wOVvjYwd1
+         LcpnpZOyuC0DTMEJBpVE1aNfStAYiHEPBjeyFGgD6lSx1oXM4Le3EOGAoBFH3e2WoeDV
+         uIQBx1oy/xTb+3xXbPXk86a1+F/MI5UOjandFhzeQffQ3GTJisprjuAegNuPLc1FAiS7
+         JphN+alAke3aQBct32r7k9yuTI6pGb/AYKbCAvQdosBGvl25eO7UHSAH5rqstI1IASX8
+         bjWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=O/lx//nLUVMx2EI4vj5HKtagrUsb3ZYCM82TQ4lEins=;
+        b=0ojKj6FlB4DcQUG2OtO9CsODfcNQVK4F1xRpSZu1QtcKJR8QVcElrXQiwGNy0WOkQ2
+         RXpkHZIQkrAP3fXWtC8/svFFMjMJIeX1R+sMIGNRBlfPbkYY54HRrylTTYk5iHy36cOl
+         EM7cW1PVNfnZl2QSss+arMY1vYZsRe1KR7vz+1eqbQpa6PXuzLb7lb4SGehA1SMSCOac
+         uowG+L4XOOHyykmnPwxlWKm471ILHzx+kucosapU4DHzTp76tYZwR3k9+EZC1nEciS1X
+         bEXcMelNJbLU/ovsUaYKMlsPcQImRayDxMnjfjqy3fL+YND2amhbM+N4JvBFEw8LAioj
+         uUfQ==
+X-Gm-Message-State: AOAM533/dB3pLEtreM2vCsYckuxVhZXUUbnegaHfbcJNUPW4dmsHycqI
+        x3vDUzQ4pj90BwnKpX7l8G3r9A==
+X-Google-Smtp-Source: ABdhPJw5yaI9Ui9SJAQTv5l/nY/N9q1YxRO/3oThR7TlMGDQjGNGWfY/7ovjRm8eOUtzjrPfeX8IwA==
+X-Received: by 2002:a05:6638:1028:: with SMTP id n8mr1757754jan.318.1644311788671;
+        Tue, 08 Feb 2022 01:16:28 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
+        by smtp.gmail.com with ESMTPSA id k11sm7556042iob.23.2022.02.08.01.16.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 01:16:27 -0800 (PST)
+Date:   Tue, 8 Feb 2022 02:16:24 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, page-reclaim@google.com,
+        x86 <x86@kernel.org>
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <YgI06D8MbEpchooF@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <CAGsJ_4zULJ5vPwn73Z5Bap3eRkAX+Yv24c-n41+zC7fN8xG60g@mail.gmail.com>
+ <Ye+dPmO17JN2bNLL@google.com>
+ <CAGsJ_4w5GM5r916XEz+gj=33A+b98kyJONLNpEnBMmX5XnPRmg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGsJ_4w5GM5r916XEz+gj=33A+b98kyJONLNpEnBMmX5XnPRmg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Fri, Jan 28, 2022 at 09:54:09PM +1300, Barry Song wrote:
+> On Tue, Jan 25, 2022 at 7:48 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > On Sun, Jan 23, 2022 at 06:43:06PM +1300, Barry Song wrote:
+> > > On Wed, Jan 5, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > <snipped>
+> >
+> > > > Large-scale deployments
+> > > > -----------------------
+> > > > We've rolled out MGLRU to tens of millions of Chrome OS users and
+> > > > about a million Android users. Google's fleetwide profiling [13] shows
+> > > > an overall 40% decrease in kswapd CPU usage, in addition to
+> > >
+> > > Hi Yu,
+> > >
+> > > Was the overall 40% decrease of kswap CPU usgae seen on x86 or arm64?
+> > > And I am curious how much we are taking advantage of NONLEAF_PMD_YOUNG.
+> > > Does it help a lot in decreasing the cpu usage?
+> >
+> > Hi Barry,
+> >
+> > The fleet-wide profiling data I shared was from x86. For arm64, I only
+> > have data from synthetic benchmarks at the moment, and it also shows
+> > similar improvements.
+> >
+> > For Chrome OS (individual users), walk_pte_range(), the function that
+> > would benefit from ARCH_HAS_NONLEAF_PMD_YOUNG, only uses a small
+> > portion (<4%) of kswapd CPU time. So ARCH_HAS_NONLEAF_PMD_YOUNG isn't
+> > that helpful.
+> 
+> Hi Yu,
+> Thanks!
+> 
+> In the current kernel, depending on reverse mapping, while memory is
+> under pressure,
+> the cpu usage of kswapd can be very very high especially while a lot of pages
+> have large mapcount, thus a huge reverse mapping cost.
 
-prezes Urz=C4=99du Regulacji Energetyki zapowiada wi=C4=99ksze wzrosty ce=
-n pr=C4=85du i gazu ni=C5=BC przed rokiem i wy=C5=BCsze ni=C5=BC wska=C5=BA=
-nik inflacji.=20
+Agreed. I've posted v7 which includes kswapd profiles collected from an
+arm64 v8.2 laptop under memory pressure.
 
-Czy w zwi=C4=85zku z podwy=C5=BCkami energii chcieliby Pa=C5=84stwo znacz=
-nie zmniejszy=C4=87 rachunki?
+> Regarding  <4%, I guess the figure came from machines with NONLEAF_PMD_YOUNG？
 
-Instalacja paneli PV jest najlepszym sposobem na obni=C5=BCenie wysoko=C5=
-=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty sta=C5=
-=82e) i na zabezpieczenie Pa=C5=84stwa przed rosn=C4=85cymi cenami energi=
-i.=20
+No, it's from Snapdragon 7c. Please see the kswapd profiles in v7.
 
-Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
-wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
-zak=C5=82adu energetycznego.=20
-=20
-Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99?=20
+> In this case, we can skip many PTE scans while PMD has no accessed bit
+> set. But for
+> a machine without NONLEAF, will the figure of cpu usage be much larger?
 
+So NONLEAF_PMD_YOUNG at most can save 4% CPU usage from kswapd. But
+this definitely can vary, depending on the workloads.
 
-Pozdrawiam
-Aleksy Urba=C5=84ski
+> > > If so, this might be
+> > > a good proof that arm64 also needs this hardware feature?
+> > > In short, I am curious how much the improvement in this patchset depends
+> > > on the hardware ability of NONLEAF_PMD_YOUNG.
+> >
+> > For data centers, I do think ARCH_HAS_NONLEAF_PMD_YOUNG has some value.
+> > In addition to cold/hot memory scanning, there are other use cases like
+> > dirty tracking, which can benefit from the accessed bit on non-leaf
+> > entries. I know some proprietary software uses this capability on x86
+> > for different purposes than this patchset does. And AFAIK, x86 is the
+> > only arch that supports this capability, e.g., risc-v and ppc can only
+> > set the accessed bit in PTEs.
+> 
+> Yep. NONLEAF is a nice feature.
+> 
+> btw, page table should have a separate DIRTY bit, right?
+
+Yes.
+
+> wouldn't dirty page
+> tracking depend on the DIRTY bit rather than the accessed bit?
+
+It depends on the goal.
+
+> so x86 also has
+> NONLEAF dirty bit?
+
+No.
+
+> Or they are scanning accessed bit of PMD before
+> scanning DIRTY bits of PTEs?
+
+A mandatory sync to disk must use the dirty bit to ensure data
+integrity. But for a voluntary sync to disk, it can use the accessed
+bit to narrow the search of dirty pages.
+
+A mandatory sync is used to free specific dirty pages. A voluntary sync
+is used to keep the number of dirty pages low in general and it doesn't
+target any specific dirty pages.
+
+> > In fact, I've discussed this with one of the arm maintainers Will. So
+> > please check with him too if you are interested in moving forward with
+> > the idea. I might be able to provide with additional data if you need
+> > it to make a decision.
+> 
+> I am interested in running it and have some data without NONLEAF
+> especially while free memory is very limited and the system has memory
+> thrashing.
+
+The v7 has a switch to disable this feature on x86. If you can run your
+workloads on x86, then it might be able to help you measure the difference.
