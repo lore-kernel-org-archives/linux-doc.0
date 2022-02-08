@@ -2,484 +2,308 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A63C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6265C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344066AbiBHBJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 20:09:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37120 "EHLO
+        id S229806AbiBHBXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 20:23:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245032AbiBHBH5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 20:07:57 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649BDC03FEC1;
-        Mon,  7 Feb 2022 17:05:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644282356; x=1675818356;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=RmcEBt/Tc2ZNpDmtkpC+8Teoj0FX4XdvKx/tePya/LE=;
-  b=YLpuo49U9T6Ttv5z0xswjk4u7YO65Spj6T72/14AXFJOV96rsF8h4OOq
-   r1C2V9NBZe7L0KmxMZXISIhXwz88ob1Pz32j9gWVswLrP7FqvpaLl5AE5
-   ws/t9L10lUV8MMj1N1NnwcIxiNHkoF8oAFvbsNtugzAXlhbUv3BOcs1m6
-   6enJYR5citXhk4B77AOG9hm6/uV+436wO9YVDxlyagVfYmNb8tj+izWxC
-   y/w/ho/7SmQKOPzJFA8kW26aMUywsTtZBShR6z2SeDdQCXhGq5QwdpJnm
-   sJx2tOhRN4CapO+FdQw8LGHZey+F1Q717MzQrndiZJNHYnlacp8CqrGkp
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="249053192"
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
-   d="scan'208";a="249053192"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 17:05:54 -0800
-X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
-   d="scan'208";a="525348020"
-Received: from hgrunes-mobl1.amr.corp.intel.com (HELO [10.251.3.57]) ([10.251.3.57])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 17:05:53 -0800
-Message-ID: <9b6878b0-433e-b52a-caa1-aa306595c51a@intel.com>
-Date:   Mon, 7 Feb 2022 17:05:50 -0800
+        with ESMTP id S243570AbiBHBWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 20:22:39 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2533C03C18A
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 17:18:45 -0800 (PST)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Jt4qY0XBhz9rwC;
+        Tue,  8 Feb 2022 09:17:13 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 8 Feb 2022 09:18:43 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 8 Feb 2022 09:18:43 +0800
+Subject: Re: [PATCH] docs/zh_CN: Add energy-model Chinese translation
+To:     yanteng si <siyanteng01@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
+        Yeechou Tang <tangyeechou@gmail.com>
+References: <20220207023523.18505-1-tangyizhou@huawei.com>
+ <CAEensMzFXg7On9PNGpK0ABBK1c39b4_uUgkdMwwc4zU-nQwjOw@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <e51bf9fb-e893-235f-fa8b-c8ec5ffaf9d8@huawei.com>
+Date:   Tue, 8 Feb 2022 09:18:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+In-Reply-To: <CAEensMzFXg7On9PNGpK0ABBK1c39b4_uUgkdMwwc4zU-nQwjOw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-10-rick.p.edgecombe@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH 09/35] x86/mm: Introduce _PAGE_COW
-In-Reply-To: <20220130211838.8382-10-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/22 13:18, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+On 2022/2/7 15:26, yanteng si wrote:
+> Tang Yizhou <tangyizhou@huawei.com> 于2022年2月7日周一 10:02写道：
+>>
+>> Translate power/energy-model.rst into Chinese.
+>>
+>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> ---
+>>  .../translations/zh_CN/power/energy-model.rst | 195 ++++++++++++++++++
+>>  .../translations/zh_CN/power/index.rst        |   2 +-
+>>  2 files changed, 196 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/translations/zh_CN/power/energy-model.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
+>> new file mode 100644
+>> index 000000000000..33a852756632
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/power/energy-model.rst
+>> @@ -0,0 +1,195 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/power/energy-model.rst
+>> +
+>> +:翻译:
+>> +
+>> +  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
+>> +
+>> +============
+>> +设备能量模型
+>> +============
+>> +
+>> +1. 概述
+>> +-------
+>> +
+>> +能量模型（EM）框架是一种驱动程序与内核子系统之间的接口。其中驱动程序了解不同
+>> +性能层级的设备所消耗的功率，而内核子系统愿意使用该信息做出能量感知决策。
+
+> how about 内核子系统主动使用……？
+
+“愿意”就包含的主动的意思，看起来遵照原文更合适
+
+>> +
+>> +设备所消耗的功率的信息来源在不同的平台上可能有很大的不同。这些功率成本在某些
+>> +情况下可以使用设备树数据来估算。在其它情况下，固件会更清楚。或者，用户空间可能
+>> +是最清楚的。以此类推。为了避免每一个客户端子系统对每一种可能的信息源自己重新
+>> +实现支持，EM框架作为一个抽象层介入，它在内核中对功率成本表的格式进行标准化，
+>> +因此能够避免多余的工作。
+>> +
+>> +功率值可以用毫瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
+>> +功率值刻度类型的要求是否满足。可以在能量感知调度器的文档中找到一个例子
+>> +Documentation/scheduler/sched-energy.rst。对于一些子系统，比如热能或
+>> +powercap，用“抽象刻度”描述功率值可能会导致问题。这些子系统对过去使用的功率的
+>> +估算值更感兴趣，因此可能需要真实的毫瓦。这些要求的一个例子可以在智能功率分配
+>> +Documentation/driver-api/thermal/power_allocator.rst文档中找到。
+>> +
+>> +内核子系统可能（基于EM内部标志位）实现了对EM注册设备是否具有不一致刻度的自动
+>> +检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以毫焦耳为单位
+>> +的真实能量消耗是不可能的。
+>> +
+>> +下图描述了一个驱动的例子（这里是针对Arm的，但该方法适用于任何体系结构），它
+>> +向EM框架提供了功率成本，感兴趣的客户端可从中读取数据::
+>> +
+>> +       +---------------+  +-----------------+  +---------------+
+>> +       | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
+>> +       +---------------+  +-----------------+  +---------------+
+>> +               |                   | em_cpu_energy()   |
+>> +               |                   | em_cpu_get()      |
+>> +               +---------+         |         +---------+
+>> +                         |         |         |
+>> +                         v         v         v
+>> +                        +---------------------+
+>> +                        |    Energy Model     |
+>> +                        |     Framework       |
+>> +                        +---------------------+
+>> +                           ^       ^       ^
+>> +                           |       |       | em_dev_register_perf_domain()
+>> +                +----------+       |       +---------+
+>> +                |                  |                 |
+>> +        +---------------+  +---------------+  +--------------+
+>> +        |  cpufreq-dt   |  |   arm_scmi    |  |    Other     |
+>> +        +---------------+  +---------------+  +--------------+
+>> +                ^                  ^                 ^
+>> +                |                  |                 |
+>> +        +--------------+   +---------------+  +--------------+
+>> +        | Device Tree  |   |   Firmware    |  |      ?       |
+>> +        +--------------+   +---------------+  +--------------+
+>> +
+>> +对于CPU设备，EM框架管理着系统中每个“性能域”的功率成本表。一个性能域是一组
+>> +性能一起伸缩的CPU。性能域通常与CPUFreq策略具有1对1映射。一个性能域中的
+>> +所有CPU要求具有相同的微架构。不同性能域中的CPU可以有不同的微架构。
+>> +
+>> +
+>> +2. 核心API
+>> +----------
+>> +
+>> +2.1 配置选项
+>> +^^^^^^^^^^^^
+>> +
+>> +必须使能CONFIG_ENERGY_MODEL才能使用EM框架。
+>> +
+>> +
+>> +2.2 性能域的注册
+>> +^^^^^^^^^^^^^^^^
+>> +
+>> +“高级”EM的注册
+>> +~~~~~~~~~~~~~~~~
+>> +
+>> +“高级”EM因它允许驱动提供更精确的功率模型而得名。它并不受限于框架中的一些已
+>> +实现的数学公式（就像“简单”EM那样）。它可以更好地反映每个性能状态的实际功率
+>> +测量。因此，在EM静态功率（泄露）是重要的情况下，应该首选这种注册方式。
+>> +
+>> +驱动程序应通过以下API将性能域注册到EM框架中::
+>> +
+>> +  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>> +               struct em_data_callback *cb, cpumask_t *cpus, bool milliwatts);
+>> +
+>> +驱动程序必须提供一个回调函数，为每个性能状态返回<频率,功率>元组。驱动程序
+>> +提供的回调函数可以自由地从任何相关位置（DT、固件......）以及以任何被认为是
+>> +必要的方式获取数据。只有对于CPU设备，驱动程序必须使用cpumask指定性能域的CPU。
+>> +对于CPU以外的其他设备，最后一个参数必须被设置为NULL。
+>> +
+>> +最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
+>> +子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
+>> +刻度，这些子系统可能决定：返回警告/错误，停止工作或恐慌（panic）。
+>> +
+>> +关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
+>> +的更多文档。
+>> +
+>> +
+>> +“简单”EM的注册
+>> +~~~~~~~~~~~~~~~~
+>> +
+>> +“简单”EM是用框架的辅助函数cpufreq_register_em_with_opp()注册的。它实现了
+>> +一个和以下数学公式紧密相关的功率模型::
+>> +
+>> +       Power = C * V^2 * f
+>> +
+>> +使用这种方法注册的EM可能无法正确反映真实设备的物理特性，例如当静态功率
+>> +（泄漏）很重要时。
+>> +
+>> +
+>> +2.3 访问性能域
+>> +^^^^^^^^^^^^^^
+>> +
+>> +有两个API函数提供对能量模型的访问。em_cpu_get()以CPU id为参数，em_pd_get()
+>> +以设备指针为参数。使用哪个接口取决于子系统，但对于CPU设备来说，这两个函数都返
+>> +回相同的性能域。
+>> +
+>> +对CPU的能量模型感兴趣的子系统可以通过em_cpu_get() API检索它。在创建性能域时
+>> +分配一次能量模型表，它保存在内存中不被修改。
+>> +
+>> +一个性能域所消耗的能量可以使用em_cpu_energy() API来估算。该估算假定CPU设备
+>> +使用的CPUfreq监管器是schedutil。当前该计算不能提供给其它类型的设备。
+>> +
+>> +关于上述API的更多细节可以在 ``<linux/energy_model.h>`` 或第2.4节中找到。
+>> +
+>> +
+>> +2.4 API的细节描述
+>> +^^^^^^^^^^^^^^^^^
+>> +.. kernel-doc:: include/linux/energy_model.h
+>> +   :internal:
+>> +
+>> +.. kernel-doc:: kernel/power/energy_model.c
+>> +   :export:
+
+> Warnings will be introduced，
+
+I didn't see any warnings for this document.
+
+> see .../zh_CN/core-api/kernel-api.rst.
+>> +
+>> +
+>> +3. 驱动示例
+>> +-----------
+>> +
+>> +CPUFreq框架支持专用的回调函数，用于为指定的CPU（们）注册EM：
+>> +cpufreq_driver::register_em()。这个回调必须为每个特定的驱动程序正确实现，
+>> +因为框架会在设置过程中适时地调用它。本节提供了一个简单的例子，展示CPUFreq驱动
+>> +在能量模型框架中使用（假的）“foo”协议注册性能域。该驱动实现了一个est_power()
+>> +函数提供给EM框架::
+>> +
+>> +  -> drivers/cpufreq/foo_cpufreq.c
+>> +
+>> +  01   static int est_power(unsigned long *mW, unsigned long *KHz,
+>> +  02                   struct device *dev)
+>> +  03   {
+>> +  04           long freq, power;
+>> +  05
+>> +  06           /* Use the 'foo' protocol to ceil the frequency */
+
+> Need to be translated.
+
+OK
+
+>> +  07           freq = foo_get_freq_ceil(dev, *KHz);
+>> +  08           if (freq < 0);
+>> +  09                   return freq;
+>> +  10
+>> +  11           /* Estimate the power cost for the dev at the relevant freq. */
+>> +  12           power = foo_estimate_power(dev, freq);
+>> +  13           if (power < 0);
+>> +  14                   return power;
+>> +  15
+>> +  16           /* Return the values to the EM framework */
+>> +  17           *mW = power;
+>> +  18           *KHz = freq;
+>> +  19
+>> +  20           return 0;
+>> +  21   }
+>> +  22
+>> +  23   static void foo_cpufreq_register_em(struct cpufreq_policy *policy)
+>> +  24   {
+>> +  25           struct em_data_callback em_cb = EM_DATA_CB(est_power);
+>> +  26           struct device *cpu_dev;
+>> +  27           int nr_opp;
+>> +  28
+>> +  29           cpu_dev = get_cpu_device(cpumask_first(policy->cpus));
+>> +  30
+>> +  31           /* Find the number of OPPs for this policy */
+>> +  32           nr_opp = foo_get_nr_opp(policy);
+>> +  33
+>> +  34           /* And register the new performance domain */
+>> +  35           em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, policy->cpus,
+>> +  36                                       true);
+>> +  37   }
+>> +  38
+>> +  39   static struct cpufreq_driver foo_cpufreq_driver = {
+>> +  40           .register_em = foo_cpufreq_register_em,
+>> +  41   };
+>> diff --git a/Documentation/translations/zh_CN/power/index.rst b/Documentation/translations/zh_CN/power/index.rst
+>> index ad80a9e80b7c..bc54983ba515 100644
+>> --- a/Documentation/translations/zh_CN/power/index.rst
+>> +++ b/Documentation/translations/zh_CN/power/index.rst
+>> @@ -14,6 +14,7 @@
+>>  .. toctree::
+>>      :maxdepth: 1
+>>
+>> +    energy-model
+>>      opp
+>>
+>>  TODOList:
+>> @@ -22,7 +23,6 @@ TODOList:
+>>      * basic-pm-debugging
+>>      * charger-manager
+>>      * drivers-testing
+>> -    * energy-model
+>>      * freezing-of-tasks
+>>      * pci
+>>      * pm_qos_interface
+>> --
+>> 2.17.1
+>>
+> Thanks,
+> Yanteng
 > 
-> There is essentially no room left in the x86 hardware PTEs on some OSes
-> (not Linux).  That left the hardware architects looking for a way to
-> represent a new memory type (shadow stack) within the existing bits.
-> They chose to repurpose a lightly-used state: Write=0, Dirty=1.
-> 
-> The reason it's lightly used is that Dirty=1 is normally set by hardware
-> and cannot normally be set by hardware on a Write=0 PTE.  Software must
-> normally be involved to create one of these PTEs, so software can simply
-> opt to not create them.
-
-This is kinda skipping over something important:
-
-	The reason it's lightly used is that Dirty=1 is normally set
-	_before_ a write.  A write with a Write=0 PTE would typically
-	only generate a fault, not set Dirty=1.  Hardware can (rarely)
-	both set Write=1 *and* generate the fault, resulting in a
-	Dirty=0,Write=1 PTE.  Hardware which supports shadow stacks
-	will no longer exhibit this oddity.
-
-> In places where Linux normally creates Write=0, Dirty=1, it can use the
-> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY.  In other
-> words, whenever Linux needs to create Write=0, Dirty=1, it instead creates
-> Write=0, Cow=1, except for shadow stack, which is Write=0, Dirty=1.  This
-> clearly separates shadow stack from other data, and results in the
-> following:
-
-Following _what_...  What are these?  I think they're PTE states.  Best
-to say that.
-
-> (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
-
-Could you give an example of this?  Would this be a typical anonymous
-page which was Write=1,Dirty=1, then historically made Write=0,Dirty=1
-at fork()?
-
-> (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
->     The user page is in a R/O VMA, and get_user_pages() needs a writable
->     copy.  The page fault handler creates a copy of the page and sets
->     the new copy's PTE as Write=0 and Cow=1.
-> (c) A shadow stack PTE: (Write=0, Dirty=1)
-> (d) A shared shadow stack PTE: (Write=0, Cow=1)
->     When a shadow stack page is being shared among processes (this happens
->     at fork()), its PTE is made Dirty=0, so the next shadow stack access
->     causes a fault, and the page is duplicated and Dirty=1 is set again.
->     This is the COW equivalent for shadow stack pages, even though it's
->     copy-on-access rather than copy-on-write.
-
-Just like code, it's also nice to format these in a way which allows
-them to be visually compared, trivially.  So, let's expand all the bits
-and vertically align everything.  To break this down a bit, we have two
-old states:
-
-[a] (Write=0, Dirty=0, Cow=1)
-[b] (Write=0, Dirty=0, Cow=1)
-
-And two new ones:
-
-[c] (Write=0, Dirty=1, Cow=0)
-[d] (Write=0, Dirty=0, Cow=1)
-
-That makes me wonder what the difference is between [a] and [b] and why
-they are separate.  Is their handling different?  How are those two
-states differentiated?
-
-> (e) A page where the processor observed a Write=1 PTE, started a write, set
->     Dirty=1, but then observed a Write=0 PTE.  That's possible today, but
->     will not happen on processors that support shadow stack.
-
-This left me wondering how you are going to detangle the mess where PTEs
-look like shadow-stack PTEs on non-shadow-stack hardware.  Could you
-cover that here?
-
-You can shorten that above bullet to this to help make the space:
-
-	(e) (Write=0, Dirty=1, Cow=0) PTE created when a processor
-	    without shadow stack support set Dirty=1.
-
-
-> Define _PAGE_COW and update pte_*() helpers and apply the same changes to
-> pmd and pud.
-> 
-> After this, there are six free bits left in the 64-bit PTE, and no more
-> free bits in the 32-bit PTE (except for PAE) and Shadow Stack is not
-> implemented for the 32-bit kernel.
-
-Just say:
-
-	There are six bits left available to software in the 64-bit PTE
-	after consuming a bit for _PAGE_COW.  No space is consumed in
-	32-bit kernels because shadow stacks are not enabled there.
-
-There's no need to rub it in that 32-bit is out of space.
-
-> -static inline int pte_dirty(pte_t pte)
-> +static inline bool pte_dirty(pte_t pte)
->  {
-> -	return pte_flags(pte) & _PAGE_DIRTY;
-> +	/*
-> +	 * A dirty PTE has Dirty=1 or Cow=1.
-> +	 */
-
-I don't really like that comment because "Cow" isn't anywhere to be found.
-
-> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
-> +}
-> +
-> +static inline bool pte_shstk(pte_t pte)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return false;
-> +
-> +	return (pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY;
->  }
->  
->  static inline int pte_young(pte_t pte)
-> @@ -133,9 +144,20 @@ static inline int pte_young(pte_t pte)
->  	return pte_flags(pte) & _PAGE_ACCESSED;
->  }
->  
-> -static inline int pmd_dirty(pmd_t pmd)
-> +static inline bool pmd_dirty(pmd_t pmd)
->  {
-> -	return pmd_flags(pmd) & _PAGE_DIRTY;
-> +	/*
-> +	 * A dirty PMD has Dirty=1 or Cow=1.
-> +	 */
-> +	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
-> +}
-> +
-> +static inline bool pmd_shstk(pmd_t pmd)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return false;
-> +
-> +	return (pmd_flags(pmd) & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY;
->  }
->  
->  static inline int pmd_young(pmd_t pmd)
-> @@ -143,9 +165,12 @@ static inline int pmd_young(pmd_t pmd)
->  	return pmd_flags(pmd) & _PAGE_ACCESSED;
->  }
->  
-> -static inline int pud_dirty(pud_t pud)
-> +static inline bool pud_dirty(pud_t pud)
->  {
-> -	return pud_flags(pud) & _PAGE_DIRTY;
-> +	/*
-> +	 * A dirty PUD has Dirty=1 or Cow=1.
-> +	 */
-> +	return pud_flags(pud) & _PAGE_DIRTY_BITS;
->  }
->  
->  static inline int pud_young(pud_t pud)
-> @@ -155,13 +180,23 @@ static inline int pud_young(pud_t pud)
->  
->  static inline int pte_write(pte_t pte)
->  {
-> -	return pte_flags(pte) & _PAGE_RW;
-> +	/*
-> +	 * Shadow stack pages are always writable - but not by normal
-> +	 * instructions, and only by shadow stack operations.  Therefore,
-> +	 * the W=0,D=1 test with pte_shstk().
-> +	 */
-
-I think that comment is off a bit.  It's not really connected to the
-code.  We don't, for instance need to know what the bit combination is
-inside pte_shstk().  Further, it's a bit mean to talk about "W" in the
-comment and _PAGE_RW in the code.  How about:
-
-	/*
-	 * Shadow stack pages are logically writable, but do not have
-	 * _PAGE_RW.  Check for them separately from _PAGE_RW itself.
-	 */
-
-> +	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
->  }
->  
->  #define pmd_write pmd_write
->  static inline int pmd_write(pmd_t pmd)
->  {
-> -	return pmd_flags(pmd) & _PAGE_RW;
-> +	/*
-> +	 * Shadow stack pages are always writable - but not by normal
-> +	 * instructions, and only by shadow stack operations.  Therefore,
-> +	 * the W=0,D=1 test with pmd_shstk().
-> +	 */
-> +	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
->  }
-
-Ditto on the comment.  Please copy the pte_write() one here too.
-
->  
->  #define pud_write pud_write
-> @@ -299,6 +334,24 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
->  	return native_make_pte(v & ~clear);
->  }
->  
-> +static inline pte_t pte_mkcow(pte_t pte)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return pte;
-> +
-> +	pte = pte_clear_flags(pte, _PAGE_DIRTY);
-> +	return pte_set_flags(pte, _PAGE_COW);
-> +}
-> +
-> +static inline pte_t pte_clear_cow(pte_t pte)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return pte;
-> +
-> +	pte = pte_set_flags(pte, _PAGE_DIRTY);
-> +	return pte_clear_flags(pte, _PAGE_COW);
-> +}
-
-I think we need to say *SOMETHING* about the X86_FEATURE_SHSTK and
-_PAGE_COW connection here.  Otherwise they look like two random features
-that are interacting in an unknown way.
-
-Maybe even something this simple:
-
-/*
- * _PAGE_COW is unnecessary on !X86_FEATURE_SHSTK kernels.
- * See the _PAGE_COW definition for more details.
- */
-
-Also, the manipulation of _PAGE_DIRTY is not clear here.  It's obvious
-why we have to:
-
-	pte_clear_flags(pte, _PAGE_COW);
-
-in a function called pte_clear_cow() but, again, how does _PAGE_DIRTY fit?
-
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->  static inline int pte_uffd_wp(pte_t pte)
->  {
-> @@ -318,7 +371,7 @@ static inline pte_t pte_clear_uffd_wp(pte_t pte)
->  
->  static inline pte_t pte_mkclean(pte_t pte)
->  {
-> -	return pte_clear_flags(pte, _PAGE_DIRTY);
-> +	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
->  }
->  
->  static inline pte_t pte_mkold(pte_t pte)
-> @@ -328,7 +381,16 @@ static inline pte_t pte_mkold(pte_t pte)
->  
->  static inline pte_t pte_wrprotect(pte_t pte)
->  {
-> -	return pte_clear_flags(pte, _PAGE_RW);
-> +	pte = pte_clear_flags(pte, _PAGE_RW);
-> +
-> +	/*
-> +	 * Blindly clearing _PAGE_RW might accidentally create
-> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
-
-Could you grep this series and try to be consistent about the formatting
-here?  (Not that I've been perfect in this regard either).  I think we
-have at least:
-
-	Write=X,Dirty=Y
-	W=X,D=Y
-	RW=X,Dirty=Y
-
-> +	 * dirty value to the software bit.
-> +	 */
-> +	if (pte_dirty(pte))
-> +		pte = pte_mkcow(pte);
-> +	return pte;
->  }
-
-One of my logical checks for this is "does it all go away when this is
-compiled out".  Because of this:
-
-+static inline pte_t pte_mkcow(pte_t pte)
-+{
-+       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+               return pte;
-...
-
-the answer is yes!  So, this looks good to me.  Just thought I'd share a
-bit of my thought process.
-
->  static inline pte_t pte_mkexec(pte_t pte)
-> @@ -338,7 +400,18 @@ static inline pte_t pte_mkexec(pte_t pte)
->  
->  static inline pte_t pte_mkdirty(pte_t pte)
->  {
-> -	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-> +	pteval_t dirty = _PAGE_DIRTY;
-> +
-> +	/* Avoid creating (HW)Dirty=1, Write=0 PTEs */
-
-The "(HW)" thing doesn't make a lot of sense any longer.  I think we had
-a set of HWDirty and SWDirty bits, but SWDirty ended up being morphed
-over to _PAGE_COW.
-
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pte_write(pte))
-> +		dirty = _PAGE_COW;
-> +
-> +	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
-> +}
-> +
-> +static inline pte_t pte_mkwrite_shstk(pte_t pte)
-> +{
-> +	return pte_clear_cow(pte);
->  }
-
-This one is a bit of black magic.  This is taking a PTE from
-(presumably) states [c]->[d] from earlier in the changelog.
-
-	Write=0,Dirty=0,Cow=1
-to
-	Write=0,Dirty=1,Cow=0
-
-It's hard to wrap my head around how clearing a software bit (from the
-naming) will make this PTE writable.
-
-There's either something wrong with the naming, or something wrong with
-my mental model of what "COW clearing" is.
-
->  static inline pte_t pte_mkyoung(pte_t pte)
-> @@ -348,7 +421,12 @@ static inline pte_t pte_mkyoung(pte_t pte)
->  
->  static inline pte_t pte_mkwrite(pte_t pte)
->  {
-> -	return pte_set_flags(pte, _PAGE_RW);
-> +	pte = pte_set_flags(pte, _PAGE_RW);
-> +
-> +	if (pte_dirty(pte))
-> +		pte = pte_clear_cow(pte);
-> +
-> +	return pte;
->  }
-
-Along the same lines as the last few comments, this leaves me wondering
-why a pte_dirty() can't also be a "COW PTE".
-
-... <snipping the pmd/pud copies> ...
->  #ifdef CONFIG_HAVE_ARCH_SOFT_DIRTY
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 3781a79b6388..1bfab70ff9ac 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -21,7 +21,8 @@
->  #define _PAGE_BIT_SOFTW2	10	/* " */
->  #define _PAGE_BIT_SOFTW3	11	/* " */
->  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
-> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
-> @@ -34,6 +35,15 @@
->  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->  
-> +/*
-> + * Indicates a copy-on-write page.
-> + */
-> +#ifdef CONFIG_X86_SHADOW_STACK
-> +#define _PAGE_BIT_COW		_PAGE_BIT_SOFTW5 /* copy-on-write */
-> +#else
-> +#define _PAGE_BIT_COW		0
-> +#endif
-> +
->  /* If _PAGE_BIT_PRESENT is clear, we use these: */
->  /* - if the user mapped it with PROT_NONE; pte_present gives true */
->  #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
-> @@ -115,6 +125,36 @@
->  #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
->  #endif
->  
-> +/*
-> + * The hardware requires shadow stack to be read-only and Dirty.
-> + * _PAGE_COW is a software-only bit used to separate copy-on-write PTEs
-> + * from shadow stack PTEs:
-> + * (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
-> + * (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
-> + *     The user page is in a R/O VMA, and get_user_pages() needs a
-> + *     writable copy.  The page fault handler creates a copy of the page
-> + *     and sets the new copy's PTE as Write=0, Cow=1.
-> + * (c) A shadow stack PTE: (Write=0, Dirty=1)
-> + * (d) A shared (copy-on-access) shadow stack PTE: (Write=0, Cow=1)
-> + *     When a shadow stack page is being shared among processes (this
-> + *     happens at fork()), its PTE is cleared of _PAGE_DIRTY, so the next
-> + *     shadow stack access causes a fault, and the page is duplicated and
-> + *     _PAGE_DIRTY is set again.  This is the COW equivalent for shadow
-> + *     stack pages, even though it's copy-on-access rather than
-> + *     copy-on-write.
-> + * (e) A page where the processor observed a Write=1 PTE, started a write,
-> + *     set Dirty=1, but then observed a Write=0 PTE (changed by another
-> + *     thread).  That's possible today, but will not happen on processors
-> + *     that support shadow stack.
-
-This info, again, is great.  Let's keep it, but please do reformat it
-like the changelog version to make the bit states easier to grok.
