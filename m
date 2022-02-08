@@ -2,144 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE28C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DA4C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382735AbiBHQKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 11:10:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
+        id S242680AbiBHQPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 11:15:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343745AbiBHQKx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:10:53 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CDAC061578;
-        Tue,  8 Feb 2022 08:10:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644336653; x=1675872653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mc91wvHfFSboTJHR5WNZ7bZOFFZeN70QARuWwy+FfXk=;
-  b=FjcHAOhVwcdEJ7gecTHhwJdrlWCnDjO5HCU/2UZVramu5F8pp86/GnxY
-   xxVmKDvZ9oLchNBPvL1CQvS6Ed1fsiYHUrHyJE4iSsaGAT7IHh2laFVqD
-   otPItK04YCvhxyFAymA7QNUmAEWomGj9zDe2gPxwApwBJdbhHLezccVUq
-   OOmtFG2nrjAfaIZXxFVep2KX+JZYUCS2ZwWjWqbCZ5/7Q4BcumQU/mElR
-   lsCuo3zK3V16MUChRC4tU3+fFlSrvbGX8gN/0Zw91R/qT/2fMJPpncAOF
-   YpPwZSGDb6ZN78l0OuUsTVCT98meDNZL7VR6HbPN6JEAG0xRa61t4ouhH
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="246568513"
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
-   d="scan'208";a="246568513"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 08:10:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
-   d="scan'208";a="700890577"
-Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Feb 2022 08:10:49 -0800
-Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nHT4r-0000Ph-9S; Tue, 08 Feb 2022 16:10:49 +0000
-Date:   Wed, 9 Feb 2022 00:10:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jeremy Kerr <jk@codeconstruct.com.au>, netdev@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Matt Johnston <matt@codeconstruct.com.au>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 5/5] mctp: Add SIOCMCTP{ALLOC,DROP}TAG ioctls
- for tag control
-Message-ID: <202202090043.BhR7muS4-lkp@intel.com>
-References: <20220208094617.3675511-6-jk@codeconstruct.com.au>
+        with ESMTP id S239418AbiBHQPx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:15:53 -0500
+X-Greylist: delayed 17543 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 08:15:50 PST
+Received: from vulcan.natalenko.name (vulcan.natalenko.name [104.207.131.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EF0C061576;
+        Tue,  8 Feb 2022 08:15:50 -0800 (PST)
+Received: from spock.localnet (unknown [83.148.33.151])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 0B749DB99D7;
+        Tue,  8 Feb 2022 17:15:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1644336948;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=beiYUnGsDRVtxVBC1NGXGzh4TXiSTexf+TKx1Nk5pm8=;
+        b=r+ez8ddTKjhSE1z57mA3aHTc9FJYVvjZwZEJaHgBYDb28KQxUEnasb2Cddd3I4CwhsWPPe
+        FV2WEyMPISklKzo3NXP65EzQTgeJkJc+RxT+8OoAd7gMZWmvNILNWrq1/2+OagQoxZ8XtT
+        lThTd853wv3mS0YnshUusKiZrhiJgyQ=
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     Denis Pauk <pauk.denis@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add CPU core voltage
+Date:   Tue, 08 Feb 2022 17:15:46 +0100
+Message-ID: <11918951.O9o76ZdvQC@natalenko.name>
+In-Reply-To: <20220208094244.1106312-1-eugene.shalygin@gmail.com>
+References: <20220208094244.1106312-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220208094617.3675511-6-jk@codeconstruct.com.au>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jeremy,
+Hello.
 
-I love your patch! Perhaps something to improve:
+On =C3=BAter=C3=BD 8. =C3=BAnora 2022 10:42:43 CET Eugene Shalygin wrote:
+> A user discovered [1] the CPU Core voltage sensor, which spans 2
+> registers and provides output in mV. Althroug the discovery was made
+> with a X470 chipset, the sensor is present in X570 (tested with C8H).
+> For now simply add it to each board with the CPU current sensor present.
+>=20
+> [1] https://github.com/zeule/asus-ec-sensors/issues/12
+>=20
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> ---
+>  Documentation/hwmon/asus_ec_sensors.rst |  1 +
+>  drivers/hwmon/asus-ec-sensors.c         | 29 ++++++++++++++++---------
+>  2 files changed, 20 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmo=
+n/asus_ec_sensors.rst
+> index 22de1b037cfb..e7e8f1640f45 100644
+> --- a/Documentation/hwmon/asus_ec_sensors.rst
+> +++ b/Documentation/hwmon/asus_ec_sensors.rst
+> @@ -39,6 +39,7 @@ The driver is aware of and reads the following sensors:
+>  9. Readings from the "Water flow meter" header (RPM)
+>  10. Readings from the "Water In" and "Water Out" temperature headers
+>  11. CPU current
+> +12. CPU core voltage
+> =20
+>  Sensor values are read from EC registers, and to avoid race with the boa=
+rd
+>  firmware the driver acquires ACPI mutex, the one used by the WMI when its
+> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sens=
+ors.c
+> index dd7b207d062f..bfac08a5dc57 100644
+> --- a/drivers/hwmon/asus-ec-sensors.c
+> +++ b/drivers/hwmon/asus-ec-sensors.c
+> @@ -18,6 +18,7 @@
+>   * - VRM Heat Sink fan RPM
+>   * - Water Flow fan RPM
+>   * - CPU current
+> + * - CPU core voltage
+>   */
+> =20
+>  #include <linux/acpi.h>
+> @@ -100,6 +101,8 @@ enum ec_sensors {
+>  	ec_sensor_temp_t_sensor,
+>  	/* VRM temperature [=E2=84=83] */
+>  	ec_sensor_temp_vrm,
+> +	/* CPU Core voltage [mV] */
+> +	ec_sensor_in_cpu_core,
+>  	/* CPU_Opt fan [RPM] */
+>  	ec_sensor_fan_cpu_opt,
+>  	/* VRM heat sink fan [RPM] */
+> @@ -121,6 +124,7 @@ enum ec_sensors {
+>  #define SENSOR_TEMP_MB BIT(ec_sensor_temp_mb)
+>  #define SENSOR_TEMP_T_SENSOR BIT(ec_sensor_temp_t_sensor)
+>  #define SENSOR_TEMP_VRM BIT(ec_sensor_temp_vrm)
+> +#define SENSOR_IN_CPU_CORE BIT(ec_sensor_in_cpu_core)
+>  #define SENSOR_FAN_CPU_OPT BIT(ec_sensor_fan_cpu_opt)
+>  #define SENSOR_FAN_VRM_HS BIT(ec_sensor_fan_vrm_hs)
+>  #define SENSOR_FAN_CHIPSET BIT(ec_sensor_fan_chipset)
+> @@ -139,6 +143,8 @@ static const struct ec_sensor_info known_ec_sensors[]=
+ =3D {
+>  	[ec_sensor_temp_t_sensor] =3D
+>  		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+>  	[ec_sensor_temp_vrm] =3D EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
+> +	[ec_sensor_in_cpu_core] =3D
+> +		EC_SENSOR("CPU Core", hwmon_in, 2, 0x00, 0xa2),
+>  	[ec_sensor_fan_cpu_opt] =3D
+>  		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
+>  	[ec_sensor_fan_vrm_hs] =3D EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2=
+),
+> @@ -172,32 +178,34 @@ static const struct dmi_system_id asus_ec_dmi_table=
+[] __initconst =3D {
+>  		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "Pro WS X570-ACE",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_VRM |
+> -		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
+> +		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
 
-[auto build test WARNING on net-next/master]
+Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
 
-url:    https://github.com/0day-ci/linux/commits/Jeremy-Kerr/MCTP-tag-control-interface/20220208-195325
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git c3e676b98326a419f30dd5d956c68fc33323f4fd
-config: nios2-randconfig-r021-20220208 (https://download.01.org/0day-ci/archive/20220209/202202090043.BhR7muS4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/a1d553f399d7457bd3e455cd3f5e10dddb4bc2bf
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jeremy-Kerr/MCTP-tag-control-interface/20220208-195325
-        git checkout a1d553f399d7457bd3e455cd3f5e10dddb4bc2bf
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash kernel/ net/mctp/
+on Pro WS X570-ACE:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+```
+asusec-isa-0000
+Adapter: ISA adapter
+CPU Core:      1.47 V
+=E2=80=A6
+```
 
-All warnings (new ones prefixed by >>):
+Thanks.
 
->> net/mctp/route.c:660:21: warning: no previous prototype for 'mctp_lookup_prealloc_tag' [-Wmissing-prototypes]
-     660 | struct mctp_sk_key *mctp_lookup_prealloc_tag(struct mctp_sock *msk,
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+>  			      "ROG CROSSHAIR VIII DARK HERO",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+>  		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+> -		SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
+> +		SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW |
+> +		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+>  			      "ROG CROSSHAIR VIII FORMULA",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+>  		SENSOR_TEMP_VRM | SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+> -		SENSOR_CURR_CPU),
+> +		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG CROSSHAIR VIII HERO",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+>  		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+>  		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+> -		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
+> +		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+>  			      "ROG CROSSHAIR VIII HERO (WI-FI)",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+>  		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+>  		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+> -		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
+> +		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+>  			      "ROG CROSSHAIR VIII IMPACT",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+> -		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
+> +		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET |
+> +		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX B550-E GAMING",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+>  		SENSOR_TEMP_T_SENSOR |
+> @@ -205,17 +213,19 @@ static const struct dmi_system_id asus_ec_dmi_table=
+[] __initconst =3D {
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX B550-I GAMING",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+>  		SENSOR_TEMP_T_SENSOR |
+> -		SENSOR_TEMP_VRM | SENSOR_FAN_VRM_HS | SENSOR_CURR_CPU),
+> +		SENSOR_TEMP_VRM | SENSOR_FAN_VRM_HS |
+> +		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-E GAMING",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+>  		SENSOR_TEMP_T_SENSOR |
+> -		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
+> +		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET |
+> +		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-F GAMING",
+>  		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+>  		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET),
+>  	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-I GAMING",
+>  		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_VRM_HS |
+> -		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
+> +		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+>  	{}
+>  };
+> =20
+> @@ -467,7 +477,6 @@ static long scale_sensor_value(s32 value, int data_ty=
+pe)
+>  	switch (data_type) {
+>  	case hwmon_curr:
+>  	case hwmon_temp:
+> -	case hwmon_in:
+>  		return value * MILLI;
+>  	default:
+>  		return value;
+>=20
 
 
-vim +/mctp_lookup_prealloc_tag +660 net/mctp/route.c
+=2D-=20
+Oleksandr Natalenko (post-factum)
 
-   659	
- > 660	struct mctp_sk_key *mctp_lookup_prealloc_tag(struct mctp_sock *msk,
-   661						     mctp_eid_t daddr, u8 req_tag,
-   662						     u8 *tagp)
-   663	{
-   664		struct net *net = sock_net(&msk->sk);
-   665		struct netns_mctp *mns = &net->mctp;
-   666		struct mctp_sk_key *key, *tmp;
-   667		unsigned long flags;
-   668	
-   669		req_tag &= ~(MCTP_TAG_PREALLOC | MCTP_TAG_OWNER);
-   670		key = NULL;
-   671	
-   672		spin_lock_irqsave(&mns->keys_lock, flags);
-   673	
-   674		hlist_for_each_entry(tmp, &mns->keys, hlist) {
-   675			if (tmp->tag != req_tag)
-   676				continue;
-   677	
-   678			if (!(tmp->peer_addr == daddr || tmp->peer_addr == MCTP_ADDR_ANY))
-   679				continue;
-   680	
-   681			if (!tmp->manual_alloc)
-   682				continue;
-   683	
-   684			spin_lock(&tmp->lock);
-   685			if (tmp->valid) {
-   686				key = tmp;
-   687				refcount_inc(&key->refs);
-   688				spin_unlock(&tmp->lock);
-   689				break;
-   690			}
-   691			spin_unlock(&tmp->lock);
-   692		}
-   693		spin_unlock_irqrestore(&mns->keys_lock, flags);
-   694	
-   695		if (!key)
-   696			return ERR_PTR(-ENOENT);
-   697	
-   698		if (tagp)
-   699			*tagp = key->tag;
-   700	
-   701		return key;
-   702	}
-   703	
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
