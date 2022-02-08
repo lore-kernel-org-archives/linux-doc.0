@@ -2,247 +2,382 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63280C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 07:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9012BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347957AbiBHHR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 02:17:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52984 "EHLO
+        id S1348202AbiBHITa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:19:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbiBHHR2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 02:17:28 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539FEC0401EF
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 23:17:27 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id l35-20020a05600c1d2300b0034d477271c1so915406wms.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 23:17:27 -0800 (PST)
+        with ESMTP id S232385AbiBHIT2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:19:28 -0500
+Received: from mail-io1-xd4a.google.com (mail-io1-xd4a.google.com [IPv6:2607:f8b0:4864:20::d4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8558FC03FEC0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:19:27 -0800 (PST)
+Received: by mail-io1-xd4a.google.com with SMTP id a185-20020a6bcac2000000b00604c268546dso10882260iog.10
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:19:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fbgoHQO/0cS1wx+W32ixJ3i4rBCHsRjt28S24vzE0hw=;
-        b=FocvtRNCPh5xjplZI0JKosckyBnb2Mdjk7dEqApJ7nlbS6jmPInF2dmvy6SftrB86L
-         YLA997SneUJlVSPGZ5c5YMMU//f2ji7q6CEFxUItMPzjgO8tjLCxkDqylYBcjq9H5BSz
-         10gc7Rwn+7OOSdImZnixNylRpKwmKhcUurmfXCJegrubgY26Vd+r7aQ9rZp3AYeWEjwY
-         K0wa1JEzOk1S0zRW/0p++ENbod5AR3TcEL2iVW37xZF7bJjg7ufPnogl+yM7xl1CAM/0
-         GnFP67tCD1TYV9/NydChttav3RIbNAFz6X2QkH2sZ1K0cVfkBcfdfvqAu2rr1apWDWke
-         dxxg==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=CtSEcwwHnFIi4ZeyTyvxpEAgxW/JhSRSL0Dk6q/C1m4=;
+        b=nHxc5M/BKlu2xNwc3dEj94/nTSmwuUbGMp2gKTTlBqdd5VKBwo+Ezpw0SZEr9PuwOY
+         3ADoj9qDMD2q+i32fRp55g3Rqg2bRQtXK80VOXAK6/+5k2QGu7NPYWIyXNAF0yJ0lF6L
+         hT/Sk8gxycUbomS0lOdgx/Eg+OoWva/E2nfQBqlghy658jbNu4/LqZfbsUo/3Rtn4vUu
+         n7bUsJmeQzIA72z19MnIhDegklwwYnpSMX7LTflS+ZnuEvKml1yXNeuxPv3PSs11cbd2
+         xAURk+W3F+5k1YrfU6merjtzHYhuel3uoTFSd9DPQhUVNprDpn7c1DdeQnUNG3T+2tFH
+         19yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fbgoHQO/0cS1wx+W32ixJ3i4rBCHsRjt28S24vzE0hw=;
-        b=MRdsCeypvpGYwZfbZl3nPYdA3pmF/wwH/wt9R83whNCQ3BywBRlgGlASY7U00e++z3
-         S8EaHgyGogmUv1dixQ6M72Z9jS/+j3NFkpucFul6iXVSdU68FFNnlIqZHgYbYTgFZt1w
-         rk5PkPumuYiy12a2RA5FObwoNybo3nhzIJigKNApLkEAJwnUUSfZpgyiUA7t8AAO6nYL
-         4C+BILY2kN0msl1DYyDaRtNTjmS+ygt+s5BZJv/oXPcC+ZKx7iappnMNgQj4f9kl7Ta2
-         YckT38iZltMlfyDkdxMfxnb5Oxbb0gpKP8iwCwbBFNi4PY4W20fq31PUKKfVFsTxSRCk
-         VyWA==
-X-Gm-Message-State: AOAM530KDMYTE/toFWNcXnyeVw7GVfNniYBmgIg77VZQWW89G0vuh39G
-        i1IUW/yxI+hG/Mrh3JYm+MfjEJQ5lqXRK6qXStOm9g==
-X-Google-Smtp-Source: ABdhPJw6CwqYZNijjCXuMKPfy81z2jcWqGougNDD5v8t/jmD9m7usDyqgokKfQyZPPSlwLzh3Tmvs17+eBbrB3JE0Y8=
-X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr84612wmi.39.1644304645728;
- Mon, 07 Feb 2022 23:17:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20220207162813.3091899-1-frowand.list@gmail.com>
-In-Reply-To: <20220207162813.3091899-1-frowand.list@gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Tue, 8 Feb 2022 15:17:14 +0800
-Message-ID: <CABVgOSn3qVWUPAc8A6bKpt19OAsh5YXD=R1_OZKoSijB8v4+Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] Documentation: dev-tools: clarify KTAP
- specification wording
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        "Bird, Tim" <Tim.Bird@sony.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Rae Moar <rmr167@gmail.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000055619305d77c8206"
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=CtSEcwwHnFIi4ZeyTyvxpEAgxW/JhSRSL0Dk6q/C1m4=;
+        b=DJAaMYJ4amWWACMJuB3FGmbj2HEC7IklZO0XUO19KxRYnMDQ1+wW0LHyzcY20jHaXH
+         TDKDgP0aw2WK4GfigFtKQp6oJl/vQ8YLVukmkbSRkr1sj+3m7h+8/lmlK1gQvtgAv8UZ
+         RqtsIjaAj8fwGSLvWy1zOa4WvTnkBVsiTFlch5GKDBIL5AmskzefWWybGwON5wPQJJr8
+         u2bNhl8klxTdW583zGdrIjSQXDZzKVfxKduKFjhowVNVPqbedoyjdDzf3iPk5DxH04c1
+         rsAAnhODheDykeTyuImuihXLBwlozjbLJwoZz8K5AWyE69W6bNa/wirdGwSOXcgAh45K
+         qEuA==
+X-Gm-Message-State: AOAM5306x+YtWI3VsyKfb9vu3d3OcYDKJ/aemReynDb5tdT8KAdAXsno
+        gwxrUMuh+TX23Xku8lK5q7qH0lwwGlk=
+X-Google-Smtp-Source: ABdhPJxu+5NU4t2KarfhxBSYpIP9Abr9gYxZEgT9m4UKtdOuteaDKhwjFTcY0nZqkbr4/Q2LROD98odB/iA=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
+ (user=yuzhao job=sendgmr) by 2002:a05:6e02:12e6:: with SMTP id
+ l6mr1692122iln.251.1644308366542; Tue, 08 Feb 2022 00:19:26 -0800 (PST)
+Date:   Tue,  8 Feb 2022 01:18:50 -0700
+Message-Id: <20220208081902.3550911-1-yuzhao@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+Subject: [PATCH v7 00/12] Multigenerational LRU Framework
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Yu Zhao <yuzhao@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000055619305d77c8206
-Content-Type: text/plain; charset="UTF-8"
+What's new
+==========
+1) Addressed all the comments received on the mailing list and in the
+   meeting with the stakeholders (will note on individual patches).
+2) Measured the performance improvements for each patch between 5-8
+   (reported in the commit messages).
 
-On Tue, Feb 8, 2022 at 12:28 AM <frowand.list@gmail.com> wrote:
->
-> From: Frank Rowand <frank.rowand@sony.com>
->
-> Add the spec version to the title line.
->
-> Explain likely source of "Unknown lines".
->
-> "Unknown lines" in nested tests are optionally indented.
->
-> Add "Unknown lines" items to differences between TAP & KTAP list
->
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
-> ---
+TLDR
+====
+The current page reclaim is too expensive in terms of CPU usage and it
+often makes poor choices about what to evict. This patchset offers an
+alternative solution that is performant, versatile and straightforward.
 
-Thanks for fixing this. I'm happy with this version.
+Patchset overview
+=================
+The design and implementation overview was moved to patch 12 so that
+people can finish reading this cover letter.
 
-Reviewed-by: David Gow <davidgow@google.com>
+1. mm: x86, arm64: add arch_has_hw_pte_young()
+2. mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+Using hardware optimizations when trying to clear the accessed bit in
+many PTEs.
 
->
-> Changes since version 1
->   - Explain likely source of "Unknown lines"
->   - "Unknown line" in nested tests are optionally indented
->   - Add "Unknown lines" items to differences between TAP & KTAP list
->
->  Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-> index 878530cb9c27..9c40c94d3f12 100644
-> --- a/Documentation/dev-tools/ktap.rst
-> +++ b/Documentation/dev-tools/ktap.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->
-> -========================================
-> -The Kernel Test Anything Protocol (KTAP)
-> -========================================
-> +===================================================
-> +The Kernel Test Anything Protocol (KTAP), version 1
-> +===================================================
->
->  TAP, or the Test Anything Protocol is a format for specifying test results used
->  by a number of projects. It's website and specification are found at this `link
-> @@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
->  the four formats for lines described above. This is allowed, however, they will
->  not influence the status of the tests.
->
-> +This is an important difference from TAP.  Kernel tests may print messages
-> +to the system console or a log file.  Both of these destinations may contain
-> +messages either from unrelated kernel or userspace activity, or kernel
-> +messages from non-test code that is invoked by the test.  The kernel code
-> +invoked by the test likely is not aware that a test is in progress and
-> +thus can not print the message as a diagnostic message.
-> +
->  Nested tests
->  ------------
->
-> @@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
->  result. If one of the subtests fail, for example, the parent test should also
->  fail.
->
-> -Additionally, all result lines in a subtest should be indented. One level of
-> +Additionally, all lines in a subtest should be indented. One level of
->  indentation is two spaces: "  ". The indentation should begin at the version
->  line and should end before the parent test's result line.
->
-> +"Unknown lines" are not considered to be lines in a subtest and thus are
-> +allowed to be either indented or not indented.
-> +
->  An example of a test with two nested subtests:
->
->  .. code-block::
-> @@ -225,9 +235,11 @@ Major differences between TAP and KTAP
->  --------------------------------------
->
->  Note the major differences between the TAP and KTAP specification:
-> -- yaml and json are not recommended in diagnostic messages
-> -- TODO directive not recognized
-> +- yaml and json are not recommended in KTAP diagnostic messages
-> +- TODO directive not recognized in KTAP
->  - KTAP allows for an arbitrary number of tests to be nested
-> +- TAP includes "Unknown lines" in the category of "Anything else"
-> +- TAP says "Unknown lines" are "incorrect; KTAP allows "Unknown lines"
+3. mm/vmscan.c: refactor shrink_node()
+A minor refactor.
 
-Nit: unmached quotes around "incorrect".
+4. mm: multigenerational LRU: groundwork
+Adding the basic data structure and the functions that insert/remove
+pages to/from the multigenerational LRU (MGLRU) lists.
 
->
->  The TAP14 specification does permit nested tests, but instead of using another
->  nested version line, uses a line of the form
-> --
-> Frank Rowand <frank.rowand@sony.com>
->
+5. mm: multigenerational LRU: minimal implementation
+A minimal (functional) implementation without any optimizations.
 
---00000000000055619305d77c8206
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+6. mm: multigenerational LRU: exploit locality in rmap
+Improving the efficiency when using the rmap.
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
-2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
-dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
-jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
-ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
-QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAl
-/ZZBLrQNgOa5ykcrp+FqVN8NbT1wvYwCWWqNyO+WdjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjAyMDgwNzE3MjZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAc+LcDqo6IolbyUgbgGaJ
-1LcISX9ZwiKgUmKNtJE8HBF8tGusZVsDooy1j/POloAr8KZ9oqdO8U9+OghkQZVZh4EZo9l70UZP
-AlvuJD4Z/82D6bcnLricyF8j72hbn3ZixNKLMQaxBeIoxw7WjjYpCZsBQsdfZt7IrWDuur04rRIq
-+LuThVqMyz9tmv4v2Cyrrnw8VE/MXbskMKryqfgu0OslWRQfwq1d8DwJMcFksIL+TvdVknxXI113
-cKegBGjh+9Lv8nXYQDDge0cLrBaUTRQLdqkhzLKGvEbJEVLZST9Y4iLSuhfvZTnMtHGNcvwAVYgY
-G6xll4Ag2hqj4sYSfw==
---00000000000055619305d77c8206--
+7. mm: multigenerational LRU: support page table walks
+Adding the (optional) page table scanning.
+
+8. mm: multigenerational LRU: optimize multiple memcgs
+Optimizing the overall performance for multiple memcgs running mixed
+types of workloads.
+
+9. mm: multigenerational LRU: runtime switch
+Adding a runtime switch to enable or disable MGLRU.
+
+10. mm: multigenerational LRU: thrashing prevention
+11. mm: multigenerational LRU: debugfs interface
+Providing userspace with additional features like thrashing prevention,
+working set estimation and proactive reclaim.
+
+12. mm: multigenerational LRU: documentation
+Adding a design doc and an admin guide.
+
+Benchmark results
+=================
+Independent lab results
+-----------------------
+Based on the popularity of searches [01] and the memory usage in
+Google's public cloud, the most popular open-source memory-hungry
+applications, in alphabetical order, are:
+      Apache Cassandra      Memcached
+      Apache Hadoop         MongoDB
+      Apache Spark          PostgreSQL
+      MariaDB (MySQL)       Redis
+
+An independent lab evaluated MGLRU with the most widely used benchmark
+suites for the above applications. They posted 960 data points along
+with kernel metrics and perf profiles collected over more than 500
+hours of total benchmark time. Their final reports show that, with 95%
+confidence intervals (CIs), the above applications all performed
+significantly better for at least part of their benchmark matrices.
+
+On 5.14:
+1. Apache Spark [02] took 95% CIs [9.28, 11.19]% and [12.20, 14.93]%
+   less wall time to sort three billion random integers, respectively,
+   under the medium- and the high-concurrency conditions, when
+   overcommitting memory. There were no statistically significant
+   changes in wall time for the rest of the benchmark matrix.
+2. MariaDB [03] achieved 95% CIs [5.24, 10.71]% and [20.22, 25.97]%
+   more transactions per minute (TPM), respectively, under the medium-
+   and the high-concurrency conditions, when overcommitting memory.
+   There were no statistically significant changes in TPM for the rest
+   of the benchmark matrix.
+3. Memcached [04] achieved 95% CIs [23.54, 32.25]%, [20.76, 41.61]%
+   and [21.59, 30.02]% more operations per second (OPS), respectively,
+   for sequential access, random access and Gaussian (distribution)
+   access, when THP=always; 95% CIs [13.85, 15.97]% and
+   [23.94, 29.92]% more OPS, respectively, for random access and
+   Gaussian access, when THP=never. There were no statistically
+   significant changes in OPS for the rest of the benchmark matrix.
+4. MongoDB [05] achieved 95% CIs [2.23, 3.44]%, [6.97, 9.73]% and
+   [2.16, 3.55]% more operations per second (OPS), respectively, for
+   exponential (distribution) access, random access and Zipfian
+   (distribution) access, when underutilizing memory; 95% CIs
+   [8.83, 10.03]%, [21.12, 23.14]% and [5.53, 6.46]% more OPS,
+   respectively, for exponential access, random access and Zipfian
+   access, when overcommitting memory.
+
+On 5.15:
+5. Apache Cassandra [06] achieved 95% CIs [1.06, 4.10]%, [1.94, 5.43]%
+   and [4.11, 7.50]% more operations per second (OPS), respectively,
+   for exponential (distribution) access, random access and Zipfian
+   (distribution) access, when swap was off; 95% CIs [0.50, 2.60]%,
+   [6.51, 8.77]% and [3.29, 6.75]% more OPS, respectively, for
+   exponential access, random access and Zipfian access, when swap was
+   on.
+6. Apache Hadoop [07] took 95% CIs [5.31, 9.69]% and [2.02, 7.86]%
+   less average wall time to finish twelve parallel TeraSort jobs,
+   respectively, under the medium- and the high-concurrency
+   conditions, when swap was on. There were no statistically
+   significant changes in average wall time for the rest of the
+   benchmark matrix.
+7. PostgreSQL [08] achieved 95% CI [1.75, 6.42]% more transactions per
+   minute (TPM) under the high-concurrency condition, when swap was
+   off; 95% CIs [12.82, 18.69]% and [22.70, 46.86]% more TPM,
+   respectively, under the medium- and the high-concurrency
+   conditions, when swap was on. There were no statistically
+   significant changes in TPM for the rest of the benchmark matrix.
+8. Redis [09] achieved 95% CIs [0.58, 5.94]%, [6.55, 14.58]% and
+   [11.47, 19.36]% more total operations per second (OPS),
+   respectively, for sequential access, random access and Gaussian
+   (distribution) access, when THP=always; 95% CIs [1.27, 3.54]%,
+   [10.11, 14.81]% and [8.75, 13.64]% more total OPS, respectively,
+   for sequential access, random access and Gaussian access, when
+   THP=never.
+
+Our lab results
+---------------
+To supplement the above results, we ran the following benchmark suites
+on 5.16-rc7 and found no regressions [10]. (These synthetic benchmarks
+are popular among MM developers, but we prefer large-scale A/B
+experiments to validate improvements.)
+      fs_fio_bench_hdd_mq      pft
+      fs_lmbench               pgsql-hammerdb
+      fs_parallelio            redis
+      fs_postmark              stream
+      hackbench                sysbenchthread
+      kernbench                tpcc_spark
+      memcached                unixbench
+      multichase               vm-scalability
+      mutilate                 will-it-scale
+      nginx
+
+[01] https://trends.google.com
+[02] https://lore.kernel.org/lkml/20211102002002.92051-1-bot@edi.works/
+[03] https://lore.kernel.org/lkml/20211009054315.47073-1-bot@edi.works/
+[04] https://lore.kernel.org/lkml/20211021194103.65648-1-bot@edi.works/
+[05] https://lore.kernel.org/lkml/20211109021346.50266-1-bot@edi.works/
+[06] https://lore.kernel.org/lkml/20211202062806.80365-1-bot@edi.works/
+[07] https://lore.kernel.org/lkml/20211209072416.33606-1-bot@edi.works/
+[08] https://lore.kernel.org/lkml/20211218071041.24077-1-bot@edi.works/
+[09] https://lore.kernel.org/lkml/20211122053248.57311-1-bot@edi.works/
+[10] https://lore.kernel.org/lkml/20220104202247.2903702-1-yuzhao@google.com/
+
+Read-world applications
+=======================
+Third-party testimonials
+------------------------
+Konstantin wrote [11]:
+   I have Archlinux with 8G RAM + zswap + swap. While developing, I
+   have lots of apps opened such as multiple LSP-servers for different
+   langs, chats, two browsers, etc... Usually, my system gets quickly
+   to a point of SWAP-storms, where I have to kill LSP-servers,
+   restart browsers to free memory, etc, otherwise the system lags
+   heavily and is barely usable.
+   
+   1.5 day ago I migrated from 5.11.15 kernel to 5.12 + the LRU
+   patchset, and I started up by opening lots of apps to create memory
+   pressure, and worked for a day like this. Till now I had *not a
+   single SWAP-storm*, and mind you I got 3.4G in SWAP. I was never
+   getting to the point of 3G in SWAP before without a single
+   SWAP-storm.
+
+An anonymous user wrote [12]:
+   Using that v5 for some time and confirm that difference under heavy
+   load and memory pressure is significant.
+
+Shuang wrote [13]:
+   With the MGLRU, fio achieved 95% CIs [38.95, 40.26]%, [4.12, 6.64]%
+   and [9.26, 10.36]% higher throughput, respectively, for random
+   access, Zipfian (distribution) access and Gaussian (distribution)
+   access, when the average number of jobs per CPU is 1; 95% CIs
+   [42.32, 49.15]%, [9.44, 9.89]% and [20.99, 22.86]% higher throughput,
+   respectively, for random access, Zipfian access and Gaussian access,
+   when the average number of jobs per CPU is 2.
+
+Daniel wrote [14]:
+   With memcached allocating ~100GB of byte-addressable Optante,
+   performance improvement in terms of throughput (measured as queries
+   per second) was about 10% for a series of workloads.
+
+Large-scale deployments
+-----------------------
+The downstream kernels that have been using MGLRU include:
+1. Android ARCVM [15]
+2. Arch Linux Zen [16]
+3. Chrome OS [17]
+4. Liquorix [18]
+5. post-factum [19]
+6. XanMod [20]
+
+We've rolled out MGLRU to tens of millions of Chrome OS users and
+about a million Android users. Google's fleetwide profiling [21] shows
+an overall 40% decrease in kswapd CPU usage, in addition to
+improvements in other UX metrics, e.g., an 85% decrease in the number
+of low-memory kills at the 75th percentile and an 18% decrease in
+rendering latency at the 50th percentile.
+
+[11] https://lore.kernel.org/lkml/140226722f2032c86301fbd326d91baefe3d7d23.camel@yandex.ru/
+[12] https://phoronix.com/forums/forum/software/general-linux-open-source/1301258-mglru-is-a-very-enticing-enhancement-for-linux-in-2022?p=1301275#post1301275
+[13] https://lore.kernel.org/lkml/20220105024423.26409-1-szhai2@cs.rochester.edu/
+[14] https://lore.kernel.org/linux-mm/CA+4-3vksGvKd18FgRinxhqHetBS1hQekJE2gwco8Ja-bJWKtFw@mail.gmail.com/
+[15] https://chromium.googlesource.com/chromiumos/third_party/kernel
+[16] https://archlinux.org
+[17] https://chromium.org
+[18] https://liquorix.net
+[19] https://gitlab.com/post-factum/pf-kernel
+[20] https://xanmod.org
+[21] https://research.google/pubs/pub44271/
+
+Summery
+=======
+The facts are:
+1. The independent lab results and the real-world applications
+   indicate substantial improvements; there are no known regressions.
+2. Thrashing prevention, working set estimation and proactive reclaim
+   work out of the box; there are no equivalent solutions.
+3. There is a lot of new code; nobody has demonstrated smaller changes
+   with similar effects.
+
+Our options, accordingly, are:
+1. Given the amount of evidence, the reported improvements will likely
+   materialize for a wide range of workloads.
+2. Gauging the interest from the past discussions [22][23][24], the
+   new features will likely be put to use for both personal computers
+   and data centers.
+3. Based on Google's track record, the new code will likely be well
+   maintained in the long term. It'd be more difficult if not
+   impossible to achieve similar effects on top of the existing
+   design.
+
+[22] https://lore.kernel.org/lkml/20201005081313.732745-1-andrea.righi@canonical.com/
+[23] https://lore.kernel.org/lkml/20210716081449.22187-1-sj38.park@gmail.com/
+[24] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
+
+Yu Zhao (12):
+  mm: x86, arm64: add arch_has_hw_pte_young()
+  mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+  mm/vmscan.c: refactor shrink_node()
+  mm: multigenerational LRU: groundwork
+  mm: multigenerational LRU: minimal implementation
+  mm: multigenerational LRU: exploit locality in rmap
+  mm: multigenerational LRU: support page table walks
+  mm: multigenerational LRU: optimize multiple memcgs
+  mm: multigenerational LRU: runtime switch
+  mm: multigenerational LRU: thrashing prevention
+  mm: multigenerational LRU: debugfs interface
+  mm: multigenerational LRU: documentation
+
+ Documentation/admin-guide/mm/index.rst        |    1 +
+ Documentation/admin-guide/mm/multigen_lru.rst |  121 +
+ Documentation/vm/index.rst                    |    1 +
+ Documentation/vm/multigen_lru.rst             |  152 +
+ arch/Kconfig                                  |    9 +
+ arch/arm64/include/asm/pgtable.h              |   14 +-
+ arch/x86/Kconfig                              |    1 +
+ arch/x86/include/asm/pgtable.h                |    9 +-
+ arch/x86/mm/pgtable.c                         |    5 +-
+ fs/exec.c                                     |    2 +
+ fs/fuse/dev.c                                 |    3 +-
+ include/linux/cgroup.h                        |   15 +-
+ include/linux/memcontrol.h                    |   36 +
+ include/linux/mm.h                            |    8 +
+ include/linux/mm_inline.h                     |  214 ++
+ include/linux/mm_types.h                      |   78 +
+ include/linux/mmzone.h                        |  182 ++
+ include/linux/nodemask.h                      |    1 +
+ include/linux/page-flags-layout.h             |   19 +-
+ include/linux/page-flags.h                    |    4 +-
+ include/linux/pgtable.h                       |   17 +-
+ include/linux/sched.h                         |    4 +
+ include/linux/swap.h                          |    5 +
+ kernel/bounds.c                               |    3 +
+ kernel/cgroup/cgroup-internal.h               |    1 -
+ kernel/exit.c                                 |    1 +
+ kernel/fork.c                                 |    9 +
+ kernel/sched/core.c                           |    1 +
+ mm/Kconfig                                    |   50 +
+ mm/huge_memory.c                              |    3 +-
+ mm/memcontrol.c                               |   27 +
+ mm/memory.c                                   |   39 +-
+ mm/mm_init.c                                  |    6 +-
+ mm/page_alloc.c                               |    1 +
+ mm/rmap.c                                     |    7 +
+ mm/swap.c                                     |   55 +-
+ mm/vmscan.c                                   | 2831 ++++++++++++++++-
+ mm/workingset.c                               |  119 +-
+ 38 files changed, 3908 insertions(+), 146 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
+ create mode 100644 Documentation/vm/multigen_lru.rst
+
+-- 
+2.35.0.263.gb82422642f-goog
+
