@@ -2,137 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD22C4167D
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D35AC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355684AbiBHL1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:27:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46766 "EHLO
+        id S1356162AbiBHL1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 06:27:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232734AbiBHJug (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:50:36 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B518DC03FEC0;
-        Tue,  8 Feb 2022 01:50:34 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2187AnVY025367;
-        Tue, 8 Feb 2022 09:50:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=bvBPatwKzWC6UPWT0saj5Bx5S7Zm4GijtmNgr01Gu+w=;
- b=bOinkWdr0iRLCZNiy3P0TeP9KcXjnoCD5+sHS09GFwMNlVx49w/8QH4018RSEe5DzvDN
- bK1f6OuahwIM7s8tfS/1l5uDe56eNK9+4Wz2tsJAZhn86I4EBWcff3zY1HOREhbSyMsI
- wk/bawwQjghhpT2xIwPQnETBgEukD40c4MC+DhJw7QqtpGcT9uyLSP7mO7DUfxZfARNL
- tcrvbxbG0nXVPU1HFp34gMP3ZmoDEC5GI7D9uO6+1tgoeWEhqTQWAydG6VWrUfmfeYVG
- zi1Ug/YuDinYaoeT1azUbPfbXMH6/teXvPhmr4T3sOifn+N3FG2nTYBeKNJfAcQ3B1uK 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e22trd08e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Feb 2022 09:50:34 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2189i44p027111;
-        Tue, 8 Feb 2022 09:50:33 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e22trd076-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Feb 2022 09:50:33 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2189j9an003440;
-        Tue, 8 Feb 2022 09:50:28 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma05fra.de.ibm.com with ESMTP id 3e1gva36ks-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Feb 2022 09:50:28 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2189eK3g49873392
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 8 Feb 2022 09:40:20 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ED06F42056;
-        Tue,  8 Feb 2022 09:50:24 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 57B8842049;
-        Tue,  8 Feb 2022 09:50:24 +0000 (GMT)
-Received: from [9.145.150.231] (unknown [9.145.150.231])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue,  8 Feb 2022 09:50:24 +0000 (GMT)
-Message-ID: <f61b1d7e-37bb-6072-a855-e7fc9ed72dfb@linux.ibm.com>
-Date:   Tue, 8 Feb 2022 10:50:23 +0100
+        with ESMTP id S1347690AbiBHKdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 05:33:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3241C03FEC0;
+        Tue,  8 Feb 2022 02:33:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 843B5B819D3;
+        Tue,  8 Feb 2022 10:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED721C004E1;
+        Tue,  8 Feb 2022 10:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644316399;
+        bh=NjZVvFDpCokRsNYFmGbL6uf2PEi0paLoaM6pmwUfwg4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DoPDojkRCyKyurVc6+Z9NuA5N9T34Vwzlt3a6NyhBVNOn/kmJC2NSKmBQj2dGmO3n
+         dPC0czljcJMtg4zX9ygXDe8Y5qJXeR6eyvxdPgcMCqytu3n6SX2VNWWBuvMErhrSmr
+         OnZappvVotQnJAJkZ3/AvykVzgIiRF2//hY5rZT3aFuBRkX3mWaTxVhw3vxLjuV3Bk
+         AEh4ZSFrocpqOFVJDAA9CvNN7lcN79EAxrNuUQIcatkWVmh9sf6gZbiDflNGoG1PxN
+         I9kBQh7d0L9cRkQSPGtthSFuJrtwqo9UUJovWsIFsqx63gajuQCQjj9iK5aE42APlW
+         X/bm9Dd0uMDBg==
+Date:   Tue, 8 Feb 2022 10:33:09 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 01/12] mm: x86, arm64: add arch_has_hw_pte_young()
+Message-ID: <20220208103309.GB1002@willie-the-truck>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-2-yuzhao@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 09/11] KVM: s390: Add capability for storage key
- extension of MEM_OP IOCTL
-Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-References: <20220207165930.1608621-1-scgl@linux.ibm.com>
- <20220207165930.1608621-10-scgl@linux.ibm.com>
-From:   Janosch Frank <frankja@linux.ibm.com>
-In-Reply-To: <20220207165930.1608621-10-scgl@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5nqXMOn9Czai8q5P-LBtZGn6ua4G3OoO
-X-Proofpoint-GUID: IhxVdyjuoACnrXZ5D1cEB6OGbHYWI6fy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-08_02,2022-02-07_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- impostorscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- spamscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202080054
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220208081902.3550911-2-yuzhao@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/7/22 17:59, Janis Schoetterl-Glausch wrote:
-> Availability of the KVM_CAP_S390_MEM_OP_EXTENSION capability signals that:
-> * The vcpu MEM_OP IOCTL supports storage key checking.
-> * The vm MEM_OP IOCTL exists.
-
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-
+On Tue, Feb 08, 2022 at 01:18:51AM -0700, Yu Zhao wrote:
+> Some architectures automatically set the accessed bit in PTEs, e.g.,
+> x86 and arm64 v8.2. On architectures that don't have this capability,
+> clearing the accessed bit in a PTE usually triggers a page fault
+> following the TLB miss of this PTE (to emulate the accessed bit).
 > 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> Being aware of this capability can help make better decisions, e.g.,
+> whether to spread the work out over a period of time to reduce bursty
+> page faults when trying to clear the accessed bit in many PTEs.
+> 
+> Note that theoretically this capability can be unreliable, e.g.,
+> hotplugged CPUs might be different from builtin ones. Therefore it
+> shouldn't be used in architecture-independent code that involves
+> correctness, e.g., to determine whether TLB flushes are required (in
+> combination with the accessed bit).
+> 
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Acked-by: Brian Geffon <bgeffon@google.com>
+> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Acked-by: Steven Barrett <steven@liquorix.net>
+> Acked-by: Suleiman Souhlal <suleiman@google.com>
+> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> Tested-by: Donald Carr <d@chaos-reins.com>
+> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
 > ---
->   arch/s390/kvm/kvm-s390.c | 1 +
->   include/uapi/linux/kvm.h | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-> index befb30923c0e..4a502cac068c 100644
-> --- a/arch/s390/kvm/kvm-s390.c
-> +++ b/arch/s390/kvm/kvm-s390.c
-> @@ -565,6 +565,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->   	case KVM_CAP_S390_VCPU_RESETS:
->   	case KVM_CAP_SET_GUEST_DEBUG:
->   	case KVM_CAP_S390_DIAG318:
-> +	case KVM_CAP_S390_MEM_OP_EXTENSION:
->   		r = 1;
->   		break;
->   	case KVM_CAP_SET_GUEST_DEBUG2:
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index ea81132a1cb1..50ce814267b3 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1140,6 +1140,7 @@ struct kvm_ppc_resize_hpt {
->   #define KVM_CAP_VM_GPA_BITS 207
->   #define KVM_CAP_XSAVE2 208
->   #define KVM_CAP_SYS_ATTRIBUTES 209
-> +#define KVM_CAP_S390_MEM_OP_EXTENSION 210
->   
->   #ifdef KVM_CAP_IRQ_ROUTING
->   
+>  arch/arm64/include/asm/pgtable.h | 14 ++------------
+>  arch/x86/include/asm/pgtable.h   |  6 +++---
+>  include/linux/pgtable.h          | 13 +++++++++++++
+>  mm/memory.c                      | 14 +-------------
+>  4 files changed, 19 insertions(+), 28 deletions(-)
 
+For the arm64 bit:
+
+Acked-by: Will Deacon <will@kernel.org>
+
+Will
