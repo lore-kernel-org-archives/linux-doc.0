@@ -2,283 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C0CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DE2C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:52:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240159AbiBHBsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 20:48:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60206 "EHLO
+        id S1344372AbiBHBw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 20:52:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343759AbiBHBcW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 20:32:22 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F74C061355
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 17:32:20 -0800 (PST)
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Jt5481MRfz1FCsw;
-        Tue,  8 Feb 2022 09:28:08 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 8 Feb 2022 09:32:18 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Tue, 8 Feb
- 2022 09:32:18 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH v2] docs/zh_CN: Add energy-model Chinese translation
-Date:   Tue, 8 Feb 2022 10:05:04 +0800
-Message-ID: <20220208020504.22847-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S1345308AbiBHBwU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 20:52:20 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECBCC02B5E9
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 17:49:46 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id c6so45564985ybk.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 17:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j0ZYFeZLsBPfwQ300unbbDjX++yHyXHz+wrIZnEyq/g=;
+        b=q8EGgGvwZ/Aq9fyGMHNViC5pN0cZok7L6mj8wAhq7BUQ8cAtuYeY9inuMIOcER/4TK
+         NTz13H1wtw00pXA0zxaNEaj4AYNhmWE7vXMgSd1IZAXsUEDn6EYa2xZ2SdNSl0nKmPp9
+         BckrIqiZbfu5ib7ZR7v413QFPSaDN7gtD0YYWGHf4ItSgcj/feJBa9kRuTFufHtfOanh
+         5h/Q/kzdNgdxNz2fucW8ie6vhOLYeqfrAVpFGCLx0ooinpxj0yQMQkS1mLAnblh5nO/2
+         DXGJ9WY69z91DXzBbttwQyBb7nQ587QymwSU4dh+jvP0zX2Qk0sgBdix8gR7MUbkrwOi
+         LDtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j0ZYFeZLsBPfwQ300unbbDjX++yHyXHz+wrIZnEyq/g=;
+        b=MCcKZawau3iUqG42I+zkN6uzONAFyoG4wmCqKuVphalPvzO5NxybIVccl5ql/g4MnZ
+         YC0KivufjV2PW3StJ9pQ/66eRJZ5N3mGuf4HxLiDUjxLPer6YLhm0ssIRi4ojHmQMWyt
+         yPjI4z9EGJfOro70SihyTtfOkUJ6UAWhphFh8vyzY6c5H3Vr126w+kOrIVifSiHa9Idt
+         2VUUw2aCRTHaE/RkySV4w6UInRrE6zgfa2YAq61EeQSH3GSAAovZfPsH/HMbs9gSylJr
+         fu8jUnRZTYND8IAmjGz56AD+Z+wtLNvnG58A9TyRWlyhEzqiFSgz0E5N5MKUHdIdkq/3
+         efzw==
+X-Gm-Message-State: AOAM531NMpZWYbs/AEa1ktPuBYePLGbfw9cgQN3lVEfSFmBqMRkE/lgq
+        DmXUni6tKil9PABV21SG56Ps2NSJMjcE++v12DA=
+X-Google-Smtp-Source: ABdhPJwVEFVRx/VKkXX82VyNcCKAzjBp65DOSQKsXSyvyO/pA0grYbG7B/sZxm3almOwzaurVcN9zRnebSK/VpzHZAQ=
+X-Received: by 2002:a5b:3cc:: with SMTP id t12mr2588996ybp.397.1644284985256;
+ Mon, 07 Feb 2022 17:49:45 -0800 (PST)
 MIME-Version: 1.0
+References: <20220207022521.27487-1-tangyizhou@huawei.com> <CAEensMyP7yLWGuLUNXjj=ceMJBhj3KeG7t=9SuKaMjX9NOoGag@mail.gmail.com>
+ <0224799c-8135-b363-63b6-bbe1f4ebdea1@huawei.com>
+In-Reply-To: <0224799c-8135-b363-63b6-bbe1f4ebdea1@huawei.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 8 Feb 2022 09:49:16 +0800
+Message-ID: <CAEensMzHjd=xz4wZSm0EOitRZmeAKRzJV7+OvVzfWCKMqxyGvQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Add sched-energy Chinese translation
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
+        Yeechou Tang <tangyeechou@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate power/energy-model.rst into Chinese.
-
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
-v2:
-Translate the comments in the example program.
-
- .../translations/zh_CN/power/energy-model.rst | 195 ++++++++++++++++++
- .../translations/zh_CN/power/index.rst        |   2 +-
- 2 files changed, 196 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/power/energy-model.rst
-
-diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
-new file mode 100644
-index 000000000000..f33dd226767f
---- /dev/null
-+++ b/Documentation/translations/zh_CN/power/energy-model.rst
-@@ -0,0 +1,195 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/power/energy-model.rst
-+
-+:翻译:
-+
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-+
-+============
-+设备能量模型
-+============
-+
-+1. 概述
-+-------
-+
-+能量模型（EM）框架是一种驱动程序与内核子系统之间的接口。其中驱动程序了解不同
-+性能层级的设备所消耗的功率，而内核子系统愿意使用该信息做出能量感知决策。
-+
-+设备所消耗的功率的信息来源在不同的平台上可能有很大的不同。这些功率成本在某些
-+情况下可以使用设备树数据来估算。在其它情况下，固件会更清楚。或者，用户空间可能
-+是最清楚的。以此类推。为了避免每一个客户端子系统对每一种可能的信息源自己重新
-+实现支持，EM框架作为一个抽象层介入，它在内核中对功率成本表的格式进行标准化，
-+因此能够避免多余的工作。
-+
-+功率值可以用毫瓦或“抽象刻度”表示。多个子系统可能使用EM，由系统集成商来检查
-+功率值刻度类型的要求是否满足。可以在能量感知调度器的文档中找到一个例子
-+Documentation/scheduler/sched-energy.rst。对于一些子系统，比如热能或
-+powercap，用“抽象刻度”描述功率值可能会导致问题。这些子系统对过去使用的功率的
-+估算值更感兴趣，因此可能需要真实的毫瓦。这些要求的一个例子可以在智能功率分配
-+Documentation/driver-api/thermal/power_allocator.rst文档中找到。
-+
-+内核子系统可能（基于EM内部标志位）实现了对EM注册设备是否具有不一致刻度的自动
-+检查。要记住的重要事情是，当功率值以“抽象刻度”表示时，从中推导以毫焦耳为单位
-+的真实能量消耗是不可能的。
-+
-+下图描述了一个驱动的例子（这里是针对Arm的，但该方法适用于任何体系结构），它
-+向EM框架提供了功率成本，感兴趣的客户端可从中读取数据::
-+
-+       +---------------+  +-----------------+  +---------------+
-+       | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
-+       +---------------+  +-----------------+  +---------------+
-+               |                   | em_cpu_energy()   |
-+               |                   | em_cpu_get()      |
-+               +---------+         |         +---------+
-+                         |         |         |
-+                         v         v         v
-+                        +---------------------+
-+                        |    Energy Model     |
-+                        |     Framework       |
-+                        +---------------------+
-+                           ^       ^       ^
-+                           |       |       | em_dev_register_perf_domain()
-+                +----------+       |       +---------+
-+                |                  |                 |
-+        +---------------+  +---------------+  +--------------+
-+        |  cpufreq-dt   |  |   arm_scmi    |  |    Other     |
-+        +---------------+  +---------------+  +--------------+
-+                ^                  ^                 ^
-+                |                  |                 |
-+        +--------------+   +---------------+  +--------------+
-+        | Device Tree  |   |   Firmware    |  |      ?       |
-+        +--------------+   +---------------+  +--------------+
-+
-+对于CPU设备，EM框架管理着系统中每个“性能域”的功率成本表。一个性能域是一组
-+性能一起伸缩的CPU。性能域通常与CPUFreq策略具有1对1映射。一个性能域中的
-+所有CPU要求具有相同的微架构。不同性能域中的CPU可以有不同的微架构。
-+
-+
-+2. 核心API
-+----------
-+
-+2.1 配置选项
-+^^^^^^^^^^^^
-+
-+必须使能CONFIG_ENERGY_MODEL才能使用EM框架。
-+
-+
-+2.2 性能域的注册
-+^^^^^^^^^^^^^^^^
-+
-+“高级”EM的注册
-+~~~~~~~~~~~~~~~~
-+
-+“高级”EM因它允许驱动提供更精确的功率模型而得名。它并不受限于框架中的一些已
-+实现的数学公式（就像“简单”EM那样）。它可以更好地反映每个性能状态的实际功率
-+测量。因此，在EM静态功率（泄露）是重要的情况下，应该首选这种注册方式。
-+
-+驱动程序应通过以下API将性能域注册到EM框架中::
-+
-+  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-+		struct em_data_callback *cb, cpumask_t *cpus, bool milliwatts);
-+
-+驱动程序必须提供一个回调函数，为每个性能状态返回<频率,功率>元组。驱动程序
-+提供的回调函数可以自由地从任何相关位置（DT、固件......）以及以任何被认为是
-+必要的方式获取数据。只有对于CPU设备，驱动程序必须使用cpumask指定性能域的CPU。
-+对于CPU以外的其他设备，最后一个参数必须被设置为NULL。
-+
-+最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
-+子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
-+刻度，这些子系统可能决定：返回警告/错误，停止工作或恐慌（panic）。
-+
-+关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
-+的更多文档。
-+
-+
-+“简单”EM的注册
-+~~~~~~~~~~~~~~~~
-+
-+“简单”EM是用框架的辅助函数cpufreq_register_em_with_opp()注册的。它实现了
-+一个和以下数学公式紧密相关的功率模型::
-+
-+	Power = C * V^2 * f
-+
-+使用这种方法注册的EM可能无法正确反映真实设备的物理特性，例如当静态功率
-+（泄漏）很重要时。
-+
-+
-+2.3 访问性能域
-+^^^^^^^^^^^^^^
-+
-+有两个API函数提供对能量模型的访问。em_cpu_get()以CPU id为参数，em_pd_get()
-+以设备指针为参数。使用哪个接口取决于子系统，但对于CPU设备来说，这两个函数都返
-+回相同的性能域。
-+
-+对CPU的能量模型感兴趣的子系统可以通过em_cpu_get() API检索它。在创建性能域时
-+分配一次能量模型表，它保存在内存中不被修改。
-+
-+一个性能域所消耗的能量可以使用em_cpu_energy() API来估算。该估算假定CPU设备
-+使用的CPUfreq监管器是schedutil。当前该计算不能提供给其它类型的设备。
-+
-+关于上述API的更多细节可以在 ``<linux/energy_model.h>`` 或第2.4节中找到。
-+
-+
-+2.4 API的细节描述
-+^^^^^^^^^^^^^^^^^
-+.. kernel-doc:: include/linux/energy_model.h
-+   :internal:
-+
-+.. kernel-doc:: kernel/power/energy_model.c
-+   :export:
-+
-+
-+3. 驱动示例
-+-----------
-+
-+CPUFreq框架支持专用的回调函数，用于为指定的CPU（们）注册EM：
-+cpufreq_driver::register_em()。这个回调必须为每个特定的驱动程序正确实现，
-+因为框架会在设置过程中适时地调用它。本节提供了一个简单的例子，展示CPUFreq驱动
-+在能量模型框架中使用（假的）“foo”协议注册性能域。该驱动实现了一个est_power()
-+函数提供给EM框架::
-+
-+  -> drivers/cpufreq/foo_cpufreq.c
-+
-+  01	static int est_power(unsigned long *mW, unsigned long *KHz,
-+  02			struct device *dev)
-+  03	{
-+  04		long freq, power;
-+  05
-+  06		/* 使用“foo”协议设置频率上限 */
-+  07		freq = foo_get_freq_ceil(dev, *KHz);
-+  08		if (freq < 0);
-+  09			return freq;
-+  10
-+  11		/* 估算相关频率下设备的功率成本 */
-+  12		power = foo_estimate_power(dev, freq);
-+  13		if (power < 0);
-+  14			return power;
-+  15
-+  16		/* 将这些值返回给EM框架 */
-+  17		*mW = power;
-+  18		*KHz = freq;
-+  19
-+  20		return 0;
-+  21	}
-+  22
-+  23	static void foo_cpufreq_register_em(struct cpufreq_policy *policy)
-+  24	{
-+  25		struct em_data_callback em_cb = EM_DATA_CB(est_power);
-+  26		struct device *cpu_dev;
-+  27		int nr_opp;
-+  28
-+  29		cpu_dev = get_cpu_device(cpumask_first(policy->cpus));
-+  30
-+  31     	/* 查找该策略支持的OPP数量 */
-+  32     	nr_opp = foo_get_nr_opp(policy);
-+  33
-+  34     	/* 并注册新的性能域 */
-+  35     	em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, policy->cpus,
-+  36					    true);
-+  37	}
-+  38
-+  39	static struct cpufreq_driver foo_cpufreq_driver = {
-+  40		.register_em = foo_cpufreq_register_em,
-+  41	};
-diff --git a/Documentation/translations/zh_CN/power/index.rst b/Documentation/translations/zh_CN/power/index.rst
-index ad80a9e80b7c..bc54983ba515 100644
---- a/Documentation/translations/zh_CN/power/index.rst
-+++ b/Documentation/translations/zh_CN/power/index.rst
-@@ -14,6 +14,7 @@
- .. toctree::
-     :maxdepth: 1
- 
-+    energy-model
-     opp
- 
- TODOList:
-@@ -22,7 +23,6 @@ TODOList:
-     * basic-pm-debugging
-     * charger-manager
-     * drivers-testing
--    * energy-model
-     * freezing-of-tasks
-     * pci
-     * pm_qos_interface
--- 
-2.17.1
-
+VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMuW5tDLmnIg35pel5ZGo
+5LiAIDE5OjU35YaZ6YGT77yaDQo+DQo+DQo+DQo+IE9uIDIwMjIvMi83IDE1OjExLCB5YW50ZW5n
+IHNpIHdyb3RlOg0KPiA+IFRhbmcgWWl6aG91IDx0YW5neWl6aG91QGh1YXdlaS5jb20+IOS6jjIw
+MjLlubQy5pyIN+aXpeWRqOS4gCAwOTo1MuWGmemBk++8mg0KPiA+Pg0KPiA+PiBUcmFuc2xhdGUg
+c2NoZWR1bGVyL3NjaGVkLWVuZXJneS5yc3QgaW50byBDaGluZXNlLg0KPiA+Pg0KPiA+PiBTaWdu
+ZWQtb2ZmLWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3ZWkuY29tPg0KPiA+PiAtLS0N
+Cj4gPj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2luZGV4LnJzdCAgICB8ICAg
+NCArLQ0KPiA+PiAgLi4uL3poX0NOL3NjaGVkdWxlci9zY2hlZC1lbmVyZ3kucnN0ICAgICAgICAg
+IHwgMzUxICsrKysrKysrKysrKysrKysrKw0KPiA+PiAgMiBmaWxlcyBjaGFuZ2VkLCAzNTMgaW5z
+ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
+bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0K
+PiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
+c2NoZWR1bGVyL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Nj
+aGVkdWxlci9pbmRleC5yc3QNCj4gPj4gaW5kZXggZjhmOGYzNWQ1M2M3Li5hYjc5MjU5ODAyNjYg
+MTAwNjQ0DQo+ID4+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVk
+dWxlci9pbmRleC5yc3QNCj4gPj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
+Q04vc2NoZWR1bGVyL2luZGV4LnJzdA0KPiA+PiBAQCAtNSw2ICs1LDcgQEANCj4gPj4gIDrnv7vo
+r5E6DQo+ID4+DQo+ID4+ICAg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nv
+bi5jbj4NCj4gPj4gKyDllJDoibroiJ8gVGFuZyBZaXpob3UgPHRhbmd5ZWVjaG91QGdtYWlsLmNv
+bT4NCj4gPj4NCj4gPj4gIDrmoKHor5E6DQo+ID4+DQo+ID4+IEBAIC0yMywxMyArMjQsMTIgQEAg
+TGludXjosIPluqblmagNCj4gPj4gICAgICBzY2hlZC1kZXNpZ24tQ0ZTDQo+ID4+ICAgICAgc2No
+ZWQtZG9tYWlucw0KPiA+PiAgICAgIHNjaGVkLWNhcGFjaXR5DQo+ID4+ICsgICAgc2NoZWQtZW5l
+cmd5DQo+ID4+DQo+ID4+DQo+ID4+ICBUT0RPTGlzdDoNCj4gPj4NCj4gPj4gLSAgICBzY2hlZC1i
+d2MNCj4gPj4gICAgICBzY2hlZC1kZWFkbGluZQ0KPiA+PiAtICAgIHNjaGVkLWVuZXJneQ0KPiA+
+PiAgICAgIHNjaGVkLW5pY2UtZGVzaWduDQo+ID4+ICAgICAgc2NoZWQtcnQtZ3JvdXANCj4gPj4g
+ICAgICBzY2hlZC1zdGF0cw0KPiA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vc2NoZWR1bGVyL3NjaGVkLWVuZXJneS5yc3QgYi9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0KPiA+PiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NA0KPiA+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjVlYTM5ODBiMGViZA0KPiA+
+PiAtLS0gL2Rldi9udWxsDQo+ID4+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL3NjaGVkdWxlci9zY2hlZC1lbmVyZ3kucnN0DQo+ID4+IEBAIC0wLDAgKzEsMzUxIEBADQo+
+ID4+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+PiArLi4gaW5jbHVk
+ZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ID4+ICsNCj4gPj4gKzpPcmlnaW5hbDogRG9j
+dW1lbnRhdGlvbi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0KPiA+PiArDQo+ID4+ICs657+7
+6K+ROg0KPiA+PiArDQo+ID4+ICsgIOWUkOiJuuiInyBUYW5nIFlpemhvdSA8dGFuZ3llZWNob3VA
+Z21haWwuY29tPg0KPiA+PiArDQo+ID4+ICs9PT09PT09PT09PT0NCj4gPj4gK+iDvemHj+aEn+ef
+peiwg+W6pg0KPiA+PiArPT09PT09PT09PT09DQo+ID4+ICsNCj4gPj4gKzEuIOeugOS7iw0KPiA+
+PiArLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvog73ph4/mhJ/nn6XosIPluqbvvIhFQVPvvInkvb/o
+sIPluqblmajmnInog73lipvpooTmtYvlhbblhrPnrZblr7lDUFXmiYDmtojogJfnmoTog73ph4/n
+moTlvbHlk43jgIJFQVPkvp3pnaANCj4NCj4gPiBIb3cgYWJvdXQgQ1BVIOaJgOa2iOiAl+eahOeU
+teiDvS/og73mupDvvJ8NCj4NCj4gMS4g55S16IO96IKv5a6a5piv5LiN5aal55qE77yMZW5lcmd5
+5LiN5b+F54S25piv55S16IO944CCDQo+IDIuIOaIkeiAg+iZkei/h+e/u+ivkeaIkOiDvea6kO+8
+jOazqOaEj+WIsOesrDLnq6DnmoTmnK/or63or7TmmI7ov5jmj5DliLDlip/njofvvIzlip/njofk
+uZjku6Xml7bpl7TkuLrog73ph4/vvIzlkIzmoLfmmK8NCj4gZW5lcmd56L+Z5Liq6K+N77yM5pWF
+6ICM57uf5LiA57+76K+R5oiQ6IO96YeP5LqG44CCDQo+DQo+ID4+ICvkuIDkuKrog73ph4/mqKHl
+novvvIhFTe+8ieadpeS4uuavj+S4quS7u+WKoemAieaLqeS4gOS4quiKguiDveeahENQVe+8jOWQ
+jOaXtuacgOWwj+WMluWvueWQnuWQkOeOh+eahOW9seWTjeOAgg0KPg0KPiA+IEhvdyBhYm91dCDo
+ioLog73nmoRDUFXmoLjlv4PvvJ8NCj4NCj4g5Y6f5paH5pivQ1BV6ICM5LiN5pivQ1BVIGNvcmXv
+vIzlj6/ku6XpgbXnhafljp/mlofvvIzlkIzmoLflnKjkuK3mlofor63looPkuIvkuZ/mnInmt7fn
+lKjjgIINCuWcqOS4jeW9seWTjeivreS5ieeahOaDheWGteS4i++8jOaIkeabtOWAvuWQkeS6jueo
+jeWKoOS/rumlsO+8jOS7juiAjOe/u+ivkeeahOabtOa4healmuS4gOeCueOAguWboOS4uuWvueS6
+juS4gOS4quiAgeaJi+adpeivtOWPr+iDveS4gOeci+WwseaHgu+8jA0K5L2G5piv5a+55LqO5paw
+5omL5p2l6K+077yM5Y+v6IO95Lya5LuO5q2k5ZKM5YaF5qC45rC45Yir44CCDQpZb3VyIHRyYW5z
+bGF0aW9uIGlzIGNvcnJlY3QsIGl0J3MganVzdCBteSBzdWdnZXN0aW9uLCBpdCdzIHVwIHRvIHlv
+dS4NCg0KVGhhbmtzLA0KWWFudGVuZw0KPg0KPiA+PiAr5pys5paH5qGj6Ie05Yqb5LqO5LuL57uN
+5LuL57uNRUFT5piv5aaC5L2V5bel5L2c55qE77yM5a6D6IOM5ZCO55qE5Li76KaB6K6+6K6h5Yaz
+562W5piv5LuA5LmI77yM5Lul5Y+K5L2/5YW26L+Q6KGMDQo+ID4+ICvmiYDpnIDnmoTmnaHku7bn
+u4boioLjgIINCj4gPj4gKw0KPiA+PiAr5Zyo6L+b5LiA5q2l6ZiF6K+75LmL5YmN77yM6K+35rOo
+5oSP77yM5Zyo5pKw5YaZ5pys5paH5pe2OjoNCj4gPj4gKw0KPiA+PiArICAgLyFcIEVBU+S4jeaU
+r+aMgeWvueensENQVeaLk+aJkeeahOW5s+WPsCAvIVwNCj4gPj4gKw0KPiA+PiArRUFT5Y+q5Zyo
+5byC5p6EQ1BV5ouT5omR57uT5p6E77yI5aaCQXJt5aSn5bCP5qC477yMYmlnLkxJVFRMRe+8ieS4
+iui/kOihjOOAguWboOS4uuWcqOi/meenjeaDheWGteS4i++8jA0KPiA+PiAr6YCa6L+H6LCD5bqm
+5p2l6IqC57qm6IO96YeP55qE5r2c5Yqb5piv5pyA5aSn55qE44CCDQo+ID4+ICsNCj4gPj4gK0VB
+U+WunumZheS9v+eUqOeahEVN5LiN5piv55Sx6LCD5bqm5Zmo57u05oqk55qE77yM6ICM5piv5LiA
+5Liq5LiT6Zeo55qE5qGG5p6244CC5YWz5LqO6L+Z5Liq5qGG5p6255qE57uG6IqC5ZKMDQo+ID4+
+ICvlroPmj5DkvpvnmoTlhoXlrrnvvIzor7flj4LogIPlhbbmlofmoaPvvIjop4FEb2N1bWVudGF0
+aW9uL3Bvd2VyL2VuZXJneS1tb2RlbC5yc3TvvInjgIINCj4gPj4gKw0KPiA+PiArDQo+ID4+ICsy
+LiDog4zmma/lkozmnK/or60NCj4gPj4gKy0tLS0tLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiAr5LuO
+5LiA5byA5aeL5bCx6K+05riF5qWa5a6a5LmJOg0KPiA+PiArIC0g6IO96YePID0gW+eEpuiAs10g
+77yI5q+U5aaC5L6b55S16K6+5aSH5LiK55qE55S15rGg5o+Q5L6b55qE6LWE5rqQ77yJDQo+ID4+
+ICsgLSDlip/njocgPSDog73ph48v5pe26Ze0ID0gW+eEpuiAsy/np5JdID0gW+eTpueJuV0NCj4g
+Pj4gKw0KPiA+PiArIEVBU+eahOebruagh+aYr+acgOWwj+WMluiDvemHj++8jOWQjOaXtuS7jeiD
+veWwhuW3peS9nOWujOaIkOOAguS5n+WwseaYr+ivtO+8jOaIkeS7rOimgeacgOWkp+WMljo6DQo+
+DQo+ID4g5pyA5bCP5YyW6IO95rqQL+eUteiDvea2iOiAl++8nw0KPg0KPiDomb3nhLbljp/mlofk
+u4XkuLplbmVyZ3nvvIzogIPomZHliLDkuK3mlofnmoTlj6/or7vmgKfvvIzkuIvkuIDniYjlsIbn
+v7vor5HkuLrog73ph4/mtojogJfjgIINCj4NCj4gPj4gKw0KPiA+PiArICAgICAgIOaAp+iDvSBb
+5oyH5Luk5pWwL+enkl0NCj4gPj4gKyAgICAgICAtLS0tLS0tLS0tLS0tLS0tDQo+ID4+ICsgICAg
+ICAgICAg5Yqf546HIFvnk6bnibldDQo+ID4+ICsNCj4gPj4gK+Wug+etieaViOS6juacgOWwj+WM
+ljo6DQo+ID4+ICsNCj4gPj4gKyAgICAgICDog73ph48gW+eEpuiAs10NCj4gPj4gKyAgICAgICAt
+LS0tLS0tLS0tLQ0KPiA+PiArICAgICAgICAgIOaMh+S7pOaVsA0KPiA+PiArDQo+ID4+ICvlkIzm
+l7bku43nhLbojrflvpfigJzoia/lpb3igJ3nmoTmgKfog73jgILlvZPliY3osIPluqblmajlj6ro
+gIPomZHmgKfog73nm67moIfvvIzlm6DmraTor6XlvI/lrZDmnKzotKjkuIrmmK/kuIDkuKoNCj4g
+Pj4gK+WPr+mAieeahOS8mOWMluebruagh++8jOWug+WQjOaXtuiAg+iZkeS6huS4pOS4quebruag
+h++8muiDvemHj+aViOeOh+WSjOaAp+iDveOAgg0KPiA+PiArDQo+ID4+ICvlvJXlhaVFTeeahOaD
+s+azleaYr+S4uuS6huiuqeiwg+W6puWZqOivhOS8sOWFtuWGs+etlueahOW9seWTje+8jOiAjOS4
+jeaYr+ebsuebruWcsOW6lOeUqOWPr+iDveS7heWcqOmDqOWIhg0KPiA+PiAr5bmz5Y+w5pyJ5q2j
+6Z2i5pWI5p6c55qE6IqC6IO95oqA5pyv44CC5ZCM5pe277yMRU3lv4XpobvlsL3lj6/og73nmoTn
+roDljZXvvIzku6XmnIDlsI/ljJbosIPluqblmajnmoTml7blu7YNCj4gPj4gK+W9seWTjeOAgg0K
+PiA+PiArDQo+ID4+ICvnroDogIzoqIDkuYvvvIxFQVPmlLnlj5jkuoZDRlPku7vliqHliIbphY3n
+u5lDUFXnmoTmlrnlvI/jgILlvZPosIPluqblmajlhrPlrprkuIDkuKrku7vliqHlupTor6XlnKjl
+k6rph4wNCj4gPj4gK+i/kOihjOaXtu+8iOWcqOWUpOmGkuacn+mXtO+8ie+8jEVN6KKr55So5p2l
+5Zyo5LiN5o2f5a6z57O757uf5ZCe5ZCQ546H55qE5oOF5Ya15LiL77yM5LuO5Yeg5Liq6L6D5aW9
+55qE5YCZ6YCJDQo+ID4+ICtDUFXkuK3mjJHpgInkuIDkuKrnu4/pooTmtYvog73ph4/mtojogJfm
+nIDkvJjnmoRDUFXjgIJFQVPnmoTpooTmtYvkvp3otZbkuo7lr7nlubPlj7Dmi5PmiZHnu5PmnoTn
+ibnlrprlhYPntKANCj4gPj4gK+eahOS6huino++8jOWMheaLrENQVeeahOKAnOeul+WKm+KAne+8
+jOS7peWPiuWug+S7rOWQhOiHqueahOiDvemHj+aIkOacrOOAgg0KPiA+PiArDQo+ID4+ICsNCj4g
+Pj4gKzMuIOaLk+aJkeS/oeaBrw0KPiA+PiArLS0tLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiArRUFT
+77yI5Lul5Y+K6LCD5bqm5Zmo55qE5Ymp5L2Z6YOo5YiG77yJ5L2/55So4oCc566X5Yqb4oCd55qE
+5qaC5b+15p2l5Yy65YiG5LiN5ZCM6K6h566X5ZCe5ZCQ546H55qEQ1BV44CC5LiA5LiqDQo+ID4+
+ICtDUFXnmoTigJznrpflipvigJ3ku6PooajkuoblroPlnKjmnIDpq5jpopHnjofkuIvov5DooYzm
+l7bog73lrozmiJDnmoTlt6XkvZzph4/vvIzkuJTov5nkuKrlgLzmmK/nm7jlr7nns7vnu5/kuK0N
+Cj4gPj4gK+eul+WKm+acgOWkp+eahENQVeiAjOiogOeahOOAgueul+WKm+WAvOiiq+W9kuS4gOWM
+luS4ujEwMjTku6XlhoXvvIzlubbkuJTlj6/kuI7nlLHlrp7kvZPotJ/ovb3ot5/ouKoNCj4gPj4g
+K++8iFBFTFTvvInmnLrliLbnrpflh7rnmoTliKnnlKjnjofkv6Hlj7flgZrlr7nmr5TjgILnlLHk
+uo7mnInnrpflipvlgLzlkozliKnnlKjnjoflgLzvvIxFQVPog73lpJ/kvLDorqHkuIDkuKoNCj4g
+Pj4gK+S7u+WKoS9DUFXmnInlpJrlpKcv5pyJ5aSa5b+Z77yM5bm25Zyo6K+E5Lyw5oCn6IO95LiO
+6IO96YeP5pe25bCG5YW26ICD6JmR5Zyo5YaF44CCQ1BV566X5Yqb55Sx54m55a6a5L2T57O7DQo+
+ID4+ICvnu5PmnoTlrp7njrDnmoRhcmNoX3NjYWxlX2NwdV9jYXBhY2l0eSgp5Zue6LCD5Ye95pWw
+5o+Q5L6b44CCDQo+ID4+ICsNCj4gPj4gK0VBU+S9v+eUqOeahOWFtuS9meW5s+WPsOS/oeaBr+aY
+r+ebtOaOpeS7juiDvemHj+aooeWei++8iEVN77yJ5qGG5p625Lit6K+75Y+W55qE44CC5LiA5Liq
+5bmz5Y+w55qERU3mmK/kuIDlvKANCj4gPj4gK+ihqO+8jOihqOS4reavj+mhueS7o+ihqOezu+e7
+n+S4reS4gOS4quKAnOaAp+iDveWfn+KAneeahOWKn+eOh+aIkOacrOOAgu+8iOiLpeimgeS6huin
+o+abtOWkmuWFs+S6juaAp+iDveWfn+eahOe7huiKgu+8jA0KPiA+PiAr6KeB5paH5qGjL3Bvd2Vy
+L2VuZXJneS1tb2RlbC5yc3TvvIkNCj4NCj4gPiBIaSBZaVpob3UsIFdoYXQgaXMg5paH5qGjL3Bv
+d2VyL2VuZXJneS1tb2RlbC5yc3Q/ICA6KQ0KPg0KPiBUaGF0J3MgbXkgZmF1bHQuIFRoYW5rcy4N
+Cj4NCj4gPj4gKw0KPiA+PiAr5b2T6LCD5bqm5Z+f6KKr5bu656uL5oiW6YeN5paw5bu656uL5pe2
+77yM6LCD5bqm5Zmo566h55CG5a+55ouT5omR5Luj56CB5LitRU3lr7nosaHnmoTlvJXnlKjjgILl
+r7nkuo7mr4/kuKrmoLnln58NCj4gPj4gK++8iHJk77yJ77yM6LCD5bqm5Zmo57u05oqk5LiA5Liq
+5LiO5b2T5YmNcmQtPnNwYW7nm7jkuqTnmoTmiYDmnInmgKfog73ln5/nmoTljZXlkJHpk77ooajj
+gILpk77ooajkuK3nmoTmr4/kuKoNCj4gPj4gK+iKgueCuemDveWMheWQq+S4gOS4quaMh+WQkUVN
+5qGG5p625omA5o+Q5L6b55qE57uT5p6E5L2TZW1fcGVyZl9kb21haW7nmoTmjIfpkojjgIINCj4g
+Pj4gKw0KPiA+PiAr6ZO+6KGo6KKr6ZmE5Yqg5Zyo5qC55Z+f5LiK77yM5Lul5bqU5a+554us5Y2g
+55qEY3B1c2V055qE6YWN572u44CC55Sx5LqO54us5Y2g55qEY3B1c2V055qE6L6555WM5LiN5LiA
+5a6a5LiODQo+ID4+ICvmgKfog73ln5/nmoTovrnnlYzkuIDoh7TvvIzkuI3lkIzmoLnln5/nmoTp
+k77ooajlj6/og73ljIXlkKvph43lpI3nmoTlhYPntKDjgIINCj4gPj4gKw0KPiA+PiAr56S65L6L
+MQ0KPiA+PiArICAgIOiuqeaIkeS7rOiAg+iZkeS4gOS4quaciTEy5LiqQ1BV55qE5bmz5Y+w77yM
+5YiG5oiQM+S4quaAp+iDveWfn++8jO+8iHBkMO+8jHBkNOWSjHBkOO+8ie+8jOaMieS7peS4iw0K
+PiA+PiArICAgIOaWueW8j+e7hOe7hzo6DQo+ID4+ICsNCj4gPj4gKyAgICAgICAgICAgICAgICAg
+Q1BVczogICAwIDEgMiAzIDQgNSA2IDcgOCA5IDEwIDExDQo+ID4+ICsgICAgICAgICAgICAgICAg
+IFBEczogICB8LS1wZDAtLXwtLXBkNC0tfC0tLXBkOC0tLXwNCj4gPj4gKyAgICAgICAgICAgICAg
+ICAgUkRzOiAgIHwtLS0tcmQxLS0tLXwtLS0tLXJkMi0tLS0tfA0KPiA+PiArDQo+ID4+ICsgICAg
+546w5Zyo77yM6ICD6JmR55So5oi356m66Ze05Yaz5a6a5bCG57O757uf5YiG5oiQ5Lik5Liq54us
+5Y2g55qEY3B1c2V0c++8jOWboOatpOWIm+W7uuS6huS4pOS4queLrOeri+eahOagueWfn++8jA0K
+PiA+PiArICAgIOavj+S4quagueWfn+WMheWQqzbkuKpDUFXjgILov5nkuKTkuKrmoLnln5/lnKjk
+uIrlm77kuK3ooqvooajnpLrkuLpyZDHlkoxyZDLjgILnlLHkuo5wZDTkuI5yZDHlkoxyZDINCj4g
+Pj4gKyAgICDpg73mnInkuqTpm4bvvIzlroPlsIblkIzml7blh7rnjrDkuo7pmYTliqDlnKjov5nk
+uKTkuKrmoLnln5/nmoTigJwtPnBk4oCd6ZO+6KGo5LitOg0KPiA+PiArDQo+ID4+ICsgICAgICAg
+KiByZDEtPnBkOiBwZDAgLT4gcGQ0DQo+ID4+ICsgICAgICAgKiByZDItPnBkOiBwZDQgLT4gcGQ4
+DQo+ID4+ICsNCj4gPj4gKyAgICDor7fms6jmhI/vvIzosIPluqblmajlsIbkuLpwZDTliJvlu7rk
+uKTkuKrph43lpI3nmoTpk77ooajoioLngrnvvIjmr4/kuKrpk77ooajkuK3lkITkuIDkuKrvvInj
+gILnhLbogIzov5kNCj4gPj4gKyAgICDkuKTkuKroioLngrnmjIHmnInmjIflkJHlkIzkuIDkuKpF
+TeahhuaetueahOWFseS6q+aVsOaNrue7k+aehOeahOaMh+mSiOOAgg0KPiA+PiArDQo+ID4+ICvn
+lLHkuo7lr7nov5nkupvpk77ooajnmoTorr/pl67lj6/og73kuI7ng63mj5Lmi5Tlj4rlhbblroPk
+uovku7blubblj5Hlj5HnlJ/vvIzlm6DmraTlroPku6zlj5dSQ1XplIHkv53miqTvvIzlsLHlg48N
+Cj4gPj4gK+iiq+iwg+W6puWZqOaTjeaOp+eahOaLk+aJkee7k+aehOS4reWJqeS4i+Wtl+auteS4
+gOagt+OAgg0KPg0KPiA+IOe7k+aehOS9kw0KPg0KPiBPSw0KPg0KPiA+PiArDQo+ID4+ICtFQVPl
+kIzmoLfnu7TmiqTkuobkuIDkuKrpnZnmgIHplK7vvIhzY2hlZF9lbmVyZ3lfcHJlc2VudO+8ie+8
+jOW9k+iHs+WwkeacieS4gOS4quagueWfn+a7oei2s0VBUw0KPiA+PiAr5ZCv5Yqo55qE5omA5pyJ
+5p2h5Lu25pe277yM6L+Z5Liq6ZSu5bCx5Lya6KKr5ZCv5Yqo44CC5Zyo56ysNuiKguS4reaAu+e7
+k+S6hui/meS6m+adoeS7tuOAgg0KPiA+PiArDQo+ID4+ICsNCj4gPj4gKzQuIOiDvemHj+aEn+ef
+peS7u+WKoeaUvue9rg0KPiA+PiArLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICtF
+QVPopobnm5bkuoZDRlPnmoTku7vliqHllKTphpLlubPooaHku6PnoIHjgILlnKjllKTphpLlubPo
+oaHml7bvvIzlroPkvb/nlKjlubPlj7DnmoRFTeWSjFBFTFTkv6Hlj7fmnaXpgInmi6noioLog70N
+Cj4gPj4gK+eahOebruagh0NQVeOAguW9k0VBU+iiq+WQr+eUqOaXtu+8jHNlbGVjdF90YXNrX3Jx
+X2ZhaXIoKeiwg+eUqGZpbmRfZW5lcmd5X2VmZmljaWVudF9jcHUoKQ0KPiA+PiAr5p2l5YGa5Lu7
+5Yqh5pS+572u5Yaz5a6a44CC6L+Z5Liq5Ye95pWw5a+75om+5Zyo5q+P5Liq5oCn6IO95Z+f5Lit
+5a+75om+5YW35pyJ5pyA6auY5Ymp5L2Z566X5Yqb77yIQ1BV566X5YqbIC0gQ1BVDQo+ID4+ICvl
+iKnnlKjnjofvvInnmoRDUFXvvIzlm6DkuLrlroPog73orqnmiJHku6zkv53mjIHmnIDkvY7nmoTp
+opHnjofjgILnhLblkI7vvIzor6Xlh73mlbDmo4Dmn6XlsIbku7vliqHmlL7lnKjmlrBDUFXnm7jo
+voMNCj4gPj4gK+S+neeEtuaUvuWcqOS5i+WJjea0u+WKqOeahHByZXZfY3B15piv5ZCm5Y+v5Lul
+6IqC55yB6IO96YeP44CCDQo+ID4+ICsNCj4gPj4gK2ZpbmRfZW5lcmd5X2VmZmljaWVudF9jcHUo
+KeS9v+eUqGNvbXB1dGVfZW5lcmd5KCnmnaXkvLDnrpflpoLmnpzllKTphpLnmoTku7vliqHooqvo
+v4Hnp7vvvIwNCj4NCj4gPiDlpoLmnpzllKTphpLnmoTku7vliqHooqvov4Hnp7vvvIxmaW5kX2Vu
+ZXJneV9lZmZpY2llbnRfY3B1KCnkvb/nlKhjb21wdXRlX2VuZXJneSgp5p2l5Lyw566XDQo+DQo+
+IE9LDQo+DQo+ID4+ICvns7vnu5/lsIbmtojogJflpJrlsJHog73ph4/jgIJjb21wdXRlX2VuZXJn
+eSgp5qOA5p+l5ZCEQ1BV5b2T5YmN55qE5Yip55So546H5oOF5Ya177yM5bm25bCd6K+V6LCD5pW0
+5p2lDQo+ID4+ICvigJzmqKHmi5/igJ3ku7vliqHov4Hnp7vjgIJFTeahhuaetuaPkOS+m+S6hkFQ
+SSBlbV9wZF9lbmVyZ3koKeiuoeeul+avj+S4quaAp+iDveWfn+WcqOe7meWumueahOWIqeeUqOeO
+h+adoeS7tg0KPiA+PiAr5LiL55qE6aKE5pyf6IO96YeP5raI6ICX44CCDQo+ID4+ICsNCj4NCj4N
+Cj4gVGhhbmtzLA0KPiBUYW5nDQo=
