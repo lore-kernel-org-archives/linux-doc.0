@@ -2,111 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABDFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:41:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0970C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:42:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351247AbiBHIla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:41:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37862 "EHLO
+        id S1349556AbiBHImf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:42:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350981AbiBHIlL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:41:11 -0500
-X-Greylist: delayed 167 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 00:41:08 PST
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662ADC0401F6;
-        Tue,  8 Feb 2022 00:41:08 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1644309666;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+It4P3xPoeH5J/e9lA7VjY28XpNcFDRoZRHbbjMbu5U=;
-        b=FMUUbamEpDp9Twu7NkDpbKNalho/IRBoc5L5fW5X+KyAlt7aQ9D0z0Lepxl4pVat9hEh6M
-        pFCNv+ciIZAdbt5WZnVwcbgYfcUkeU4Yo+9/EdyaF8auAQnV0fIYvDdpwRxx9no4FdLc5w
-        c95kK+H3Lf8rIw9jp4zdT0QB1GmDQCeec9dq4ok1tc+kWoNkWCOJcxI5UB2YwvfpbmEXnK
-        9zo5yjhU2lQmzw49yC7HhrmaegQT9oSRI/0m08jBTFK9S+JvZVS7vmwGtaz2MU1Pyws3+w
-        AUtH0FFTBLTv1OQRrLTBw3hgbOTCrkziqylp282nVqOUvvOxntVKWHmJ7Dxh/A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1644309666;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+It4P3xPoeH5J/e9lA7VjY28XpNcFDRoZRHbbjMbu5U=;
-        b=7uifLMqFDvP10anvdiJQ9zvhl249BUxbV/w40H0HuQ5ADnPZLqP2GPkJNDpnQGgrLnrBAa
-        MA8hB6MQm3fWwaCg==
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        with ESMTP id S236164AbiBHImf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:42:35 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86A6C03FEC0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:42:33 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id b5so6987873ile.11
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:42:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FhfpJki+NNdkV0gRVxsiFBe0vxe4of82upgxXPZeRnU=;
+        b=ltrv7fjxH8Z/MYJ+dFqSX07UsjFk0En2JVojwb07khT6GU/nljRY6ZcUw5XDkY2k9U
+         10iCVy9Ac2BAJDuQFYo9S7tDIj3P9JKeZpva3KedKVwTgq/++kCs4tuecqGhtM8RyvXv
+         mvjO6MjUYOeh3Eb7IF2GiKoupddeqo33NlX0dsBG/idvvizpFhLyoF6+Ck2Qi07i8O9m
+         kuh39mSjp36sDeaM7WmQrV59O+OXMvNNFEcQADvyZ5Sp4fcVXuPGhcMOghBHacSXUKXf
+         Zz7AOL9oylZsRdYSmJE8C0LTQ9L/alT7qztTD5bsEs2FMyshCXc9x3zGHrUcOn2yuILW
+         p8Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FhfpJki+NNdkV0gRVxsiFBe0vxe4of82upgxXPZeRnU=;
+        b=UCJ1biJE5ACS/xMic9I3c63p0uICDN8lQ65W8uy68XIuo8Xypt3GzIVYw99WIEQOIx
+         X67NhK5oOtjSDS3KuUCpOhMrqHbECMe0WHxmPpxIdMBPFSTq5HqcZAEsSuuS6hBu1zXi
+         BAjjQzt611HqcNePBXmxmCyEvZXpdxdBZxOdHLBXpEVayml7W1fVls6YTr8f9cDyjgtw
+         5+nf0QHpaidlR0wh/gYpPAVniET42GL6cIeh+cyD3CBnsaIeb3x25aVGcID/QxpfHKe/
+         jDi2z6qcvHjf73OljtorxSrh79K1lIKoF7kLxE4+ru4HCTB2PRX2LFBDCd/vKOvtQU2C
+         FbQQ==
+X-Gm-Message-State: AOAM530nuN7znjQGR6GIIBp0ZDHjroqhimQDYb0hoEVVqPAkorxhM7PY
+        L4y8aC8LR9kwvpsGrM3RsqVPTA==
+X-Google-Smtp-Source: ABdhPJyYhd/AJxeDgLSOW7+qrTADVxq90CiyDTRHsiwwvVnqVHQOfXMPMVg1u68HTRArEl9IZnGDZQ==
+X-Received: by 2002:a05:6e02:144c:: with SMTP id p12mr1713786ilo.182.1644309753034;
+        Tue, 08 Feb 2022 00:42:33 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
+        by smtp.gmail.com with ESMTPSA id r9sm7575223ill.52.2022.02.08.00.42.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 00:42:32 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:42:28 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH 02/35] x86/cet/shstk: Add Kconfig option for Shadow Stack
-In-Reply-To: <248ef880-025d-54ce-f3ce-fed0e50a0445@intel.com>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-3-rick.p.edgecombe@intel.com>
- <248ef880-025d-54ce-f3ce-fed0e50a0445@intel.com>
-Date:   Tue, 08 Feb 2022 09:41:06 +0100
-Message-ID: <87sfstvjh9.ffs@tglx>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 09/12] mm: multigenerational LRU: runtime switch
+Message-ID: <YgIs9Ig7PMS8Lsw3@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-10-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208081902.3550911-10-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 07 2022 at 14:39, Dave Hansen wrote:
+On Tue, Feb 08, 2022 at 01:18:59AM -0700, Yu Zhao wrote:
+> Add /sys/kernel/mm/lru_gen/enabled as a runtime switch. Features that
+> can be enabled or disabled include:
+>   0x0001: the multigenerational LRU
+>   0x0002: the page table walks, when arch_has_hw_pte_young() returns
+>           true
+>   0x0004: the use of the accessed bit in non-leaf PMD entries, when
+>           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
+>   [yYnN]: apply to all the features above
+> E.g.,
+>   echo y >/sys/kernel/mm/lru_gen/enabled
+>   cat /sys/kernel/mm/lru_gen/enabled
+>   0x0007
+>   echo 5 >/sys/kernel/mm/lru_gen/enabled
+>   cat /sys/kernel/mm/lru_gen/enabled
+>   0x0005
+> 
+> NB: the page table walks happen on the scale of seconds under heavy
+> memory pressure. Under such a condition, the mmap_lock contention is a
+> lesser concern, compared with the LRU lock contention and the I/O
+> congestion. So far the only well-known case of the mmap_lock
+> contention is Android, due to Scudo [1] which allocates several
+> thousand VMAs for merely a few hundred MBs. The SPF and the Maple Tree
+> also have provided their own assessments [2][3]. However, if the page
+> table walks do worsen the mmap_lock contention, the runtime switch can
+> be used to disable this feature. In this case the multigenerational
+> LRU will suffer a minor performance degradation, as shown previously.
 
-> On 1/30/22 13:18, Rick Edgecombe wrote:
->> +config X86_SHADOW_STACK
->> +	prompt "Intel Shadow Stack"
->> +	def_bool n
->> +	depends on AS_WRUSS
->> +	depends on ARCH_HAS_SHADOW_STACK
->> +	select ARCH_USES_HIGH_VMA_FLAGS
->> +	help
->> +	  Shadow Stack protection is a hardware feature that detects function
->> +	  return address corruption.  This helps mitigate ROP attacks.
->> +	  Applications must be enabled to use it, and old userspace does not
->> +	  get protection "for free".
->> +	  Support for this feature is present on Tiger Lake family of
->> +	  processors released in 2020 or later.  Enabling this feature
->> +	  increases kernel text size by 3.7 KB.
->
-> I guess the "2020" comment is still OK.  But, given that it's on AMD and
-> a could of other Intel models, maybe we should just leave this at:
->
-> 	CPUs supporting shadow stacks were first released in 2020.
+Clarified the potential impact from the mmap_lock contention as
+requested here:
+https://lore.kernel.org/linux-mm/YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz/
 
-Yes.
+<snipped>
 
-> If we say anything.  We mostly want folks to just go read the
-> documentation if they needs more details.
+> +static void lru_gen_change_state(bool enable)
+> +{
+> +	static DEFINE_MUTEX(state_mutex);
+> +
+> +	struct mem_cgroup *memcg;
+> +
+> +	cgroup_lock();
+> +	cpus_read_lock();
+> +	get_online_mems();
+> +	mutex_lock(&state_mutex);
+> +
+> +	if (enable == lru_gen_enabled())
+> +		goto unlock;
+> +
+> +	if (enable)
+> +		static_branch_enable_cpuslocked(&lru_gen_caps[LRU_GEN_CORE]);
+> +	else
+> +		static_branch_disable_cpuslocked(&lru_gen_caps[LRU_GEN_CORE]);
 
-Also the kernel text size increase blurb is pretty useless as that's a
-number which is wrong from day one.
+Fixed the lockdep warning for memory hotplug:
+https://lore.kernel.org/linux-mm/87a6g0nczg.fsf@linux.ibm.com/
 
-Thanks,
-
-        tglx
+<snipped>
