@@ -2,153 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86714C4707F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE0EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245264AbiBHBFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 20:05:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47410 "EHLO
+        id S241907AbiBHBF2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 20:05:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343745AbiBGXyq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 18:54:46 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D12BC061355;
-        Mon,  7 Feb 2022 15:54:46 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id r144so19067042iod.9;
-        Mon, 07 Feb 2022 15:54:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IsFG5/GvZCP7d6Q7fgcMRKXpI72aUAEHst1zGwkjpaw=;
-        b=Ttmc6V889RmJ6MHAGUJtazmXijIa85n3LlNxupw3lelmko7Xng3pDOFVybhEpsG35n
-         8eEmXbgeqYzvp7n83Y8J2m/Zcklhm/ey9Cpj+PHrOUD6qhvBjd3E4Wq/OogBqZk2k8Aa
-         txj0Wd9LNQanpICfBvecoBB7NpS5RSDwWr7G972OZVZynLwy06wLHYb6NJOjgS0tNb6h
-         3+1Y8aFO0Hd/UrTC1tJGVe0toX542zxMEVLMNdX2eCXPcCzHMxbUOJleTAqGQJgORAPN
-         Z60YJFTYrk8Xo+ZZNaXiZ4ar5YajGVyxg1bbgIx2KfHG6vEzEgMdoUcoO/zx8AVMsezj
-         +U9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IsFG5/GvZCP7d6Q7fgcMRKXpI72aUAEHst1zGwkjpaw=;
-        b=mDVfs3FvxE4ZKLXsoQBCDwBh0PbRivo1yW+vr0HAE6EGF+jdeJ5uzUehyy+atIJM+D
-         KUmJPGsyql3Fz4wFqM7RVxNnzlq9U5sAGeG++IP7JwH90E1MQtW8kQLNkSV8wucvkY64
-         YAeLWaovwzsXqWykPqp8/efE0uIXCPJe/6DIxQwBnIk9hcEkJXusK8/HU0V4CxadBvfm
-         fMzkkCLjIFMsRKYzpAAYVqFvJ5kbxiJo1rylNiLYgP7wMmCpzZ1+r97ip77/yETw+mUo
-         3uZUAOledXIL+KRBgzNmlvmBOrVuKf6+CHBiNobQ8T99XKFlQVBh0crBCJzkSp1Vya9H
-         24RA==
-X-Gm-Message-State: AOAM530VpBLwtqLUACO3Ryf7DXQ5RXT/aRaB1yP7/+9yEii6ytgOKSRa
-        glaAWR3Vvn0NMlM0HMGCSvCAu+D7R4t0p6uw
-X-Google-Smtp-Source: ABdhPJxXRaSZjvMa7wV2I843eAN5giCRrPzED7V6mf7qaX885XlsWgHillQURNcqTg9lrfh8ROfE9w==
-X-Received: by 2002:a05:6638:10ea:: with SMTP id g10mr959591jae.79.1644278085342;
-        Mon, 07 Feb 2022 15:54:45 -0800 (PST)
-Received: from localhost.localdomain (c-174-52-171-58.hsd1.ut.comcast.net. [174.52.171.58])
-        by smtp.gmail.com with ESMTPSA id w10sm6948815iow.44.2022.02.07.15.54.44
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 07 Feb 2022 15:54:45 -0800 (PST)
-From:   Ethan Dye <mrtops03@gmail.com>
-Cc:     Ethan Dye <mrtops03@gmail.com>, Minchan Kim <minchan@kernel.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-doc@vger.kernel.org
-Subject: [PATCH] block/zram: Fix wording in optional feature docs
-Date:   Mon,  7 Feb 2022 16:54:42 -0700
-Message-Id: <20220207235442.95090-1-mrtops03@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+        with ESMTP id S241527AbiBHANv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 19:13:51 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3259AC061355;
+        Mon,  7 Feb 2022 16:13:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644279231; x=1675815231;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=BPhMCShSVCOniHzYsoSxv9XqF3MkYnnOdHCV78VWtYE=;
+  b=WoUOH0XueyPf6viG/SvNCzthgcBzOXDApLFisYC5ny5vXAcSqYlCTzUY
+   MWg57ImYiaTSm4bnYeJjVaiG6ej90jV4hUuRogP0+LAdgAwB/zTdo+02I
+   oxzrGZVDcyaQmYlHrc0/kyIlRkXe4SScCA2oXcGKs1GOXcghBxFv8aMXS
+   Pp25DJ33kDdvEKwthR19EGC7zF8TJvK/ZVi+jJZMpgg/8uWq+y56JuGty
+   LDI+UmF6bbZCrUxPiswXn29mRbkt/qfWqGxAeIPxqLzdolV0GoKdoesNZ
+   jyCu+7ngti/x3fFuLLCRNJxBHhUrOsbZWEbqUG0Bzq1Gf8ZI6+cPdZAak
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="312134685"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="312134685"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 16:13:49 -0800
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="525332786"
+Received: from hgrunes-mobl1.amr.corp.intel.com (HELO [10.251.3.57]) ([10.251.3.57])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 16:13:48 -0800
+Message-ID: <672fa390-c88c-4e2a-aa42-52d171acfd62@intel.com>
+Date:   Mon, 7 Feb 2022 16:13:45 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Christoph Hellwig <hch@lst.de>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-8-rick.p.edgecombe@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 07/35] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+In-Reply-To: <20220130211838.8382-8-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes some simple grammar errors in the documentation for zram,
-specifically errors in the optional featue section of the zram
-documentation.
+On 1/30/22 13:18, Rick Edgecombe wrote:
+> The x86 family of processors do not directly create read-only and Dirty
+> PTEs.  These PTEs are created by software.
 
-Signed-off-by: Ethan Dye <mrtops03@gmail.com>
----
- Documentation/admin-guide/blockdev/zram.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+That's not strictly correct.
 
-diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
-index 3e11926a4df9..54fe63745ed8 100644
---- a/Documentation/admin-guide/blockdev/zram.rst
-+++ b/Documentation/admin-guide/blockdev/zram.rst
-@@ -315,8 +315,8 @@ To use the feature, admin should set up backing device via::
- 
- 	echo /dev/sda5 > /sys/block/zramX/backing_dev
- 
--before disksize setting. It supports only partition at this moment.
--If admin wants to use incompressible page writeback, they could do via::
-+before disksize setting. It supports only partitions at this moment.
-+If admin wants to use incompressible page writeback, they could do it via::
- 
- 	echo huge > /sys/block/zramX/writeback
- 
-@@ -341,9 +341,9 @@ Admin can request writeback of those idle pages at right timing via::
- 
- 	echo idle > /sys/block/zramX/writeback
- 
--With the command, zram writeback idle pages from memory to the storage.
-+With the command, zram will writeback idle pages from memory to the storage.
- 
--If admin want to write a specific page in zram device to backing device,
-+If an admin wants to write a specific page in zram device to the backing device,
- they could write a page index into the interface.
- 
- 	echo "page_index=1251" > /sys/block/zramX/writeback
-@@ -354,7 +354,7 @@ to guarantee storage health for entire product life.
- 
- To overcome the concern, zram supports "writeback_limit" feature.
- The "writeback_limit_enable"'s default value is 0 so that it doesn't limit
--any writeback. IOW, if admin wants to apply writeback budget, he should
-+any writeback. IOW, if admin wants to apply writeback budget, they should
- enable writeback_limit_enable via::
- 
- 	$ echo 1 > /sys/block/zramX/writeback_limit_enable
-@@ -365,7 +365,7 @@ until admin sets the budget via /sys/block/zramX/writeback_limit.
- (If admin doesn't enable writeback_limit_enable, writeback_limit's value
- assigned via /sys/block/zramX/writeback_limit is meaningless.)
- 
--If admin want to limit writeback as per-day 400M, he could do it
-+If admin wants to limit writeback as per-day 400M, they could do it
- like below::
- 
- 	$ MB_SHIFT=20
-@@ -375,16 +375,16 @@ like below::
- 	$ echo 1 > /sys/block/zram0/writeback_limit_enable
- 
- If admins want to allow further write again once the budget is exhausted,
--he could do it like below::
-+they could do it like below::
- 
- 	$ echo $((400<<MB_SHIFT>>4K_SHIFT)) > \
- 		/sys/block/zram0/writeback_limit
- 
--If admin wants to see remaining writeback budget since last set::
-+If an admin wants to see the remaining writeback budget since last set::
- 
- 	$ cat /sys/block/zramX/writeback_limit
- 
--If admin want to disable writeback limit, he could do::
-+If an admin wants to disable writeback limit, they could do::
- 
- 	$ echo 0 > /sys/block/zramX/writeback_limit_enable
- 
-@@ -393,7 +393,7 @@ system reboot, echo 1 > /sys/block/zramX/reset) so keeping how many of
- writeback happened until you reset the zram to allocate extra writeback
- budget in next setting is user's job.
- 
--If admin wants to measure writeback count in a certain period, he could
-+If admin wants to measure writeback count in a certain period, they could
- know it via /sys/block/zram0/bd_stat's 3rd column.
- 
- memory tracking
--- 
-2.32.0 (Apple Git-132)
+There's nothing in the architecture today to prevent the CPU from
+creating Write=0,Dirty=1 PTEs.  In fact, some CPUs do this in weird
+situations.  It wouldn't be wrong to say:
 
+	Processors sometimes directly create read-only and Dirty PTEs.
+
+which is the opposite of what is written above.  This is why the CET
+spec has the blurb about shadow-stack-supporting CPUs promise not to do
+this any more.
+
+> One such case is that kernel
+> read-only pages are historically setup as Dirty.
+
+				   ^ set up
+
+> New processors that support Shadow Stack regard read-only and Dirty PTEs as
+> shadow stack pages.
+
+This also isn't *quite* correct.  It's not just having a new processor,
+it includes enabling shadow stacks.
+
+> This results in ambiguity between shadow stack and kernel read-only
+> pages.  To resolve this, removed Dirty from kernel read- only pages.
+One thing that's not clear from the spec: does this cause an *actual*
+problem?  For instance, does setting:
+
+	IA32_U_CET.SH_STK_EN=1
+but
+	IA32_S_CET.SH_STK_EN=0
+
+means that shadow stacks are enforced in user *MODE* or on
+user-paging-permission (U=0) PTEs?
+
+I think it's modes, but it would be nice to be clear.  *BUT*, if this is
+accurate, doesn't it also mean that this patch is not strictly necessary?
+
+Don't get me wrong, the patch is probably still a good idea, but let's
+make sure we get the exact reasoning clear.
