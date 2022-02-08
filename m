@@ -2,140 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE08C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 17:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F0DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 17:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383656AbiBHRCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 12:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41610 "EHLO
+        id S1352499AbiBHRLK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 12:11:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbiBHRCh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 12:02:37 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774CBC061576;
-        Tue,  8 Feb 2022 09:02:36 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id 13so975306lfp.7;
-        Tue, 08 Feb 2022 09:02:36 -0800 (PST)
+        with ESMTP id S1352331AbiBHRLJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 12:11:09 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD298C061578
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 09:11:05 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id e79so21922142iof.13
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 09:11:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=H8i2s4xHp0rxY84LN1BxRLDP7j4EYhoJJT+IslnvpoI=;
-        b=CeAOjWIQeZbI3marhQ90i70bJhrQHxUVRvRhMaA7tO26fi3eAnnwdrAiiS300jSV9/
-         rFSHN4hYn1DFUV+ovphjx0xXDwujZlMu41W0cY9mh9STuL/ULgRD/Wpc6FL3E9W0MB9n
-         jLShmsInPn/dCkb+n4MWvEH945FHvrOMejxdZhgHNF4js4UR2qDQTn/K6X8YvUU6bh2J
-         CwADrvNHkjsZ90nrYWTIqhYSWrZTmKNZqq+w8ZDD1jbFN//e4zhAc83dzLx+Gq7+0Umg
-         +DTbBao0meb6h15uFR49pmkJHnipUI1jYORJOXulRakWI6MK3fRCNb6YAeKE4+WTCV/V
-         isYA==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DUOmgbDHv9TGhzCwwc6ir5fTuwgLxZHx2yr6wrlhX/c=;
+        b=eex8i7kur3v78Vl/7duuld6Gedj+S9MbQzPL4dqaRAmkcvf6y19qbfCr7f0mpjVnYe
+         7NbM8tZue9DfEpwG7KleDx6axk4urVIRu6QhVzMymZ9l3AoEsJDxpe1mTPCJRrBPLTRv
+         GR5X4ED9HqF2qffqJd17N70du82rofyEAm0dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H8i2s4xHp0rxY84LN1BxRLDP7j4EYhoJJT+IslnvpoI=;
-        b=x24ylxJJPbDZ3UksW3/C9ZX5TLB5h/rB3Or+0367mT6F3eefU2y1wu7eOc7kdUWBY1
-         i+1V6z9qI/HOO1rBlbSLUfaouRZkKe2J1FGM2DMAaxdbm4949mHm/R/oPsURALofY/XZ
-         8rBcuHVrsk3xJlKUh11cQhxEE7S4/DvhLBK7s0bGGnpqoewmVLEXqnyur+FOYe9nLTY9
-         wqUNp1Up76f0Xh2G2MgRyjLzoadI6mbxR4M+rl9KgZyxTR37HhWOaPrLjwqnrlIFNFHm
-         7eDKXI+quol1YOAJrH/160x9nDs9E9YBHRFOetvAXfSU0KaUZOuXVIsRRSZyMEIBlW8q
-         oEiA==
-X-Gm-Message-State: AOAM530KjF306tVkKAZgHCfUTFL4YvxvypjGdpiLgM3dwbnAtObDvOK0
-        SfZIVMWE88Ai93/Ziqpsny0=
-X-Google-Smtp-Source: ABdhPJy4vAOsUuMcyywyagL71dLBFChw5CtMbZ5KClivwczQn/i8XjekNjbmQlZlpAVvbRy7btJhpg==
-X-Received: by 2002:a05:6512:33c8:: with SMTP id d8mr3533852lfg.41.1644339754685;
-        Tue, 08 Feb 2022 09:02:34 -0800 (PST)
-Received: from grain.localdomain ([5.18.251.97])
-        by smtp.gmail.com with ESMTPSA id a12sm643118lfu.162.2022.02.08.09.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 09:02:33 -0800 (PST)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 80F685A0020; Tue,  8 Feb 2022 20:02:32 +0300 (MSK)
-Date:   Tue, 8 Feb 2022 20:02:32 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YgKiKEcsNt7mpMHN@grain>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org>
- <YgDIIpCm3UITk896@lisas.de>
- <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org>
- <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DUOmgbDHv9TGhzCwwc6ir5fTuwgLxZHx2yr6wrlhX/c=;
+        b=GlHC7W59eUbBgKqVxONOUHaCBeREoZNTbndu3ZUsCwOf5dvMpvpagMQe05LSKtKOHZ
+         PQTUleH3C8LWEQ9TPxOScktnGvq+9nlHH7wXrOzs2BixNMOo91N8KAsWceJYm1FC19aG
+         x0KEsEIxUrQU6O1T7HHKRynGMVLqaBp5mx78sUWmgnrrFGcwUcMJ8b75VYeH7JJQxQet
+         bppIhR6MyCw661gRsq+BQRpKCcZEyAnJNKVkQW8wGcwNanV8tM0POVfgNxHGCCZafecm
+         xlAeXaqLVFt77PjoLZPRGLalA5fnsrSuyycnjLHowqNu5IH4Chi4CIslvpCW/KSYHGU8
+         XoOQ==
+X-Gm-Message-State: AOAM533IIgojvAdkIyBBvDD6xBUSvfuk28EDhXIyu7u8WlZDzMy3Olgy
+        Pd1NSVWLtj4pX6UyQZ6idQeRng==
+X-Google-Smtp-Source: ABdhPJxI+60kUWV0wK02Do1Ljum8fRfUSV96QCsR/1AD9uHXCNG3g22230pw4nhS3axAL2kQCSoY8Q==
+X-Received: by 2002:a05:6602:2ac1:: with SMTP id m1mr2448582iov.123.1644340265093;
+        Tue, 08 Feb 2022 09:11:05 -0800 (PST)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id g7sm7620275ild.23.2022.02.08.09.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Feb 2022 09:11:04 -0800 (PST)
+Subject: Re: [PATCH v3 1/1] Documentation: dev-tools: clarify KTAP
+ specification wording
+To:     frowand.list@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        David Gow <davidgow@google.com>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
+Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220208164623.3151777-1-frowand.list@gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <86c4c8ce-468d-8922-3ada-7960f1924ba8@linuxfoundation.org>
+Date:   Tue, 8 Feb 2022 10:11:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+In-Reply-To: <20220208164623.3151777-1-frowand.list@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 08:21:20AM -0800, Andy Lutomirski wrote:
-> >> But such a knob will immediately reduce the security value of the entire
-> >> thing, and I don't have good ideas how to deal with it :(
-> >
-> > Probably a kind of latch in the task_struct which would trigger off once
-> > returt to a different address happened, thus we would be able to jump inside
-> > paratite code. Of course such trigger should be available under proper
-> > capability only.
+On 2/8/22 9:46 AM, frowand.list@gmail.com wrote:
+> From: Frank Rowand <frank.rowand@sony.com>
 > 
-> I'm not fully in touch with how parasite, etc works.  Are we talking about save or restore?
-
-We use parasite code in question during checkpoint phase as far as I remember.
-push addr/lret trick is used to run "injected" code (code injection itself is
-done via ptrace) in compat mode at least. Dima, Andrei, I didn't look into this code
-for years already, do we still need to support compat mode at all?
-
-> If it's restore, what exactly does CRIU need to do?  Is it just that CRIU needs to return
-> out from its resume code into the to-be-resumed program without tripping CET?  Would it
-> be acceptable for CRIU to require that at least one shstk slot be free at save time?
-> Or do we need a mechanism to atomically switch to a completely full shadow stack at resume?
+> Add the spec version to the title line.
 > 
-> Off the top of my head, a sigreturn (or sigreturn-like mechanism) that is intended for
-> use for altshadowstack could safely verify a token on the altshdowstack, possibly
-> compare to something in ucontext (or not -- this isn't clearly necessary) and switch
-> back to the previous stack.  CRIU could use that too.  Obviously CRIU will need a way
-> to populate the relevant stacks, but WRUSS can be used for that, and I think this
-> is a fundamental requirement for CRIU -- CRIU restore absolutely needs a way to write
-> the saved shadow stack data into the shadow stack.
+> Explain likely source of "Unknown lines".
 > 
-> So I think the only special capability that CRIU really needs is WRUSS, and
-> we need to wire that up anyway.
+> "Unknown lines" in nested tests are optionally indented.
+> 
+> Add "Unknown lines" items to differences between TAP & KTAP list
+> 
+> Reviewed-by: Tim Bird <Tim.Bird@sony.com>
+> Reviewed-by: David Gow <davidgow@google.com>
+> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+> ---
+> 
+> Changes since version 2
+>    - Add missing quote after word: incorrect
+>    - Add Reviewed-by tags
+> 
+> Changes since version 1
+>    - Explain likely source of "Unknown lines"
+>    - "Unknown line" in nested tests are optionally indented
+>    - Add "Unknown lines" items to differences between TAP & KTAP list
+> 
+>   Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
+>   1 file changed, 18 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+> index 878530cb9c27..dfb3f10a8b2d 100644
+> --- a/Documentation/dev-tools/ktap.rst
+> +++ b/Documentation/dev-tools/ktap.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -========================================
+> -The Kernel Test Anything Protocol (KTAP)
+> -========================================
+> +===================================================
+> +The Kernel Test Anything Protocol (KTAP), version 1
+> +===================================================
+>   
+>   TAP, or the Test Anything Protocol is a format for specifying test results used
+>   by a number of projects. It's website and specification are found at this `link
+> @@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
+>   the four formats for lines described above. This is allowed, however, they will
+>   not influence the status of the tests.
+>   
+> +This is an important difference from TAP.  Kernel tests may print messages
+> +to the system console or a log file.  Both of these destinations may contain
+> +messages either from unrelated kernel or userspace activity, or kernel
+> +messages from non-test code that is invoked by the test.  The kernel code
+> +invoked by the test likely is not aware that a test is in progress and
+> +thus can not print the message as a diagnostic message.
+> +
+>   Nested tests
+>   ------------
+>   
+> @@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
+>   result. If one of the subtests fail, for example, the parent test should also
+>   fail.
+>   
+> -Additionally, all result lines in a subtest should be indented. One level of
+> +Additionally, all lines in a subtest should be indented. One level of
+>   indentation is two spaces: "  ". The indentation should begin at the version
+>   line and should end before the parent test's result line.
+>   
+> +"Unknown lines" are not considered to be lines in a subtest and thus are
+> +allowed to be either indented or not indented.
+> +
+>   An example of a test with two nested subtests:
+>   
+>   .. code-block::
+> @@ -225,9 +235,11 @@ Major differences between TAP and KTAP
+>   --------------------------------------
+>   
+>   Note the major differences between the TAP and KTAP specification:
+> -- yaml and json are not recommended in diagnostic messages
+> -- TODO directive not recognized
+> +- yaml and json are not recommended in KTAP diagnostic messages
+> +- TODO directive not recognized in KTAP
+>   - KTAP allows for an arbitrary number of tests to be nested> +- TAP includes "Unknown lines" in the category of "Anything else"
+> +- TAP says "Unknown lines" are "incorrect"; KTAP allows "Unknown lines"
+>   
 
-Thanks for these notes, Andy! I can't provide any sane answer here since didn't
-read tech spec for this feature yet :-)
+If we can put the data in a table - makes it lot easier to read
+
+>   The TAP14 specification does permit nested tests, but instead of using another
+>   nested version line, uses a line of the form
+> 
+
+Looks good otherwise. Thanks for clearly outlining the differences.
+
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
