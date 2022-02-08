@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D92C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 13:38:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F7DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 13:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243237AbiBHNig (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 08:38:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37096 "EHLO
+        id S1355125AbiBHNjT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 08:39:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350534AbiBHNig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 08:38:36 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A664C03FED3
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 05:38:35 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id p19so3384161ybc.6
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 05:38:35 -0800 (PST)
+        with ESMTP id S235186AbiBHNjS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 08:39:18 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA0A1C03FED0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 05:39:17 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id e145so29863194yba.12
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 05:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aozwudC/vcOos+T4XrEal3CEC5loh3pS7gEJzCAbFj4=;
-        b=CuYzNlzSPt8K8Zsw3zfLs5dxCxu8+1M+XWAuVWoAnmMbstSM6hUICL5HKQKvX0d83w
-         3mb1Lm/9oHX7KTaRSiM+AwRiqI7xM0DXk864rOLprebh9kOrGLGu/GQmApDcWwQ0ob2D
-         fcUX6XSrIIFBHcXTTWhvlpV5WdLv79T02lz2wJhOsJtB2T21LTTn7igH6ouD0b84zivY
-         l8wSOg+k9V/SWuzjKLfIq8RSm34RCJG79GskXIa1HlJNuosZcNzSYbtiNOpU/SnekFio
-         wm103hivl5xIjGy4n8NJUZgu6HOs4Fq/7uEvR/1JhhIAyuhPsSK2ZCEKkk7eA4x7ylbR
-         GmBg==
+        bh=jkWKVFY9Ane+4hLx7KO8wJLB4fAu322gdHrEZT3DJhA=;
+        b=roCaBezV/DQ17i+sXf/6XpzD0kL3lOx0tmGDYIQeLnFfebE+ICp2HRuPG2IM2OTZ6U
+         oxUfMDdFvyCgHJWd07HTyS796Uu/Xb40/dqYd0h2UgrG0FDL1UEWaTPpvJ+Bn0XaXkHW
+         z79H5Oz0JfkFDiomzRoZug3tTey8JUBGRcKGzeViKw8Cn2IbxzfPPkbBrupntOFHryUy
+         phoG8jGtTaisDjxtJW0duvFMpIYU1ydx+KE98ezaImPdL2JSEInpLxYQuhlKF1ncpz/y
+         L/DKbzp03/UiCgOARSWW+guLsK9dx4vi8Jfi3cq1N+i6yudIQC4v9hq8A+N0imsmrdkg
+         ZDTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aozwudC/vcOos+T4XrEal3CEC5loh3pS7gEJzCAbFj4=;
-        b=tJt4LQ9AoTghIIhFUrpalkEmX9beQToGFdQMPXAFQ622sAog6dMwsVnTXw5x5EbeEC
-         4mRxz+BsyUW7Q835WlsiWdqlcEaacvvkOWsdwRjuSiy9Fgg853QPCHM+IeynAM1rMQld
-         z9W+dYBwkq6e3TNiL5qH8shIYI4njNGeA2AFwfy48IGEvwv8yyvc+EZqrQAMnuy0SKZV
-         lG9gOtBNbXp33T/AJ46qA0jNhPPMDt9kKac65fPqP6PnHu3sZKxerZkgv/DxgYSbSAKR
-         F3Fl5hScs89vrKEFwqwHZz5WFNvu7VpOioWAclXOSnU8o32QCQ8MSnu+evKfNQ256LmX
-         tViQ==
-X-Gm-Message-State: AOAM532qo+T9Ur0lMNzZ96haH1MWRoXqc/eoIqeNhrZyGOONUx5DoqTF
-        Qs/29N+D5XBowdbZnWpGFnmQ+v/wWSfUMm5MksH1Qg==
-X-Google-Smtp-Source: ABdhPJwSy59oJ9AowR7zc65h3SA4WN4a8jjdgrW+5kfjLgRCZasyMpfVwYw0YDKZvLQR6oMK/3ezqo9+5PGKlJE+/yg=
-X-Received: by 2002:a25:cc54:: with SMTP id l81mr4366915ybf.236.1644327514316;
- Tue, 08 Feb 2022 05:38:34 -0800 (PST)
+        bh=jkWKVFY9Ane+4hLx7KO8wJLB4fAu322gdHrEZT3DJhA=;
+        b=Ij6X/cX8RYUpRgWgiMfKzSgbNaXOmMXdAcTIoU664mfgTW8PQKQ3VJ9H4iJ4M42fqi
+         zkutDt5xC+c9m+zz4YKlu32xmIALUjK8+uNVFROw69X7FFxXWGT+DX+KkP6E5VK3aBTz
+         7ldpQ6bg1dYgeVYxgYSKwjXXKxgsqtAifsKaOa19g71UscVURhxYY4EZGIx1WmQyjCiV
+         VxZy1W7akoSDhCnOedx+0D2+DanLhotWBEMpWgL1Z8Bcln4X2SKQvywwAzl5sq3zT7rc
+         CIQsq4uoYetelfuOCkw86NNMbbNTB/FR1vO61TLPfIMIUlJsp9kO0yuEmSwPIg5xXmo7
+         PRKg==
+X-Gm-Message-State: AOAM533AHaQq0m1vT1lO7zV9PGvPBAPaMx+pSv1+YfUepe1LCVBabXGS
+        1LmCiJbWQgaAshzma4Qa5++DDiylzS8aQaeP4Jqjq7cR9H7XmQ==
+X-Google-Smtp-Source: ABdhPJxVPX7eETUkWHJHX+qRDcXXalcx4ypoqmAMKW5Ugv2G+t/qfCIMALqgvBuTV9JQ7+kf/GBhkFyc36+EodIy1rk=
+X-Received: by 2002:a81:1153:: with SMTP id 80mr4667357ywr.327.1644327556844;
+ Tue, 08 Feb 2022 05:39:16 -0800 (PST)
 MIME-Version: 1.0
-References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn> <1644324666-15947-4-git-send-email-yangtiezhu@loongson.cn>
-In-Reply-To: <1644324666-15947-4-git-send-email-yangtiezhu@loongson.cn>
+References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn> <1644324666-15947-5-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1644324666-15947-5-git-send-email-yangtiezhu@loongson.cn>
 From:   Marco Elver <elver@google.com>
-Date:   Tue, 8 Feb 2022 14:38:22 +0100
-Message-ID: <CANpmjNOySkeK6u-JieNBQ4DmAO3LogdZ6gXv1Noz8jUOi3ThDA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] panic: unset panic_on_warn inside panic()
+Date:   Tue, 8 Feb 2022 14:39:05 +0100
+Message-ID: <CANpmjNOFL1vTZS28z_DWSz+X64_ghXBiGj3Fhee=wpRexZy7kA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] ubsan: no need to unset panic_on_warn in ubsan_epilogue()
 To:     Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -64,16 +64,8 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, 8 Feb 2022 at 13:51, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 >
-> In the current code, the following three places need to unset
-> panic_on_warn before calling panic() to avoid recursive panics:
->
-> kernel/kcsan/report.c: print_report()
-> kernel/sched/core.c: __schedule_bug()
-> mm/kfence/report.c: kfence_report_error()
->
-> In order to avoid copy-pasting "panic_on_warn = 0" all over the
-> places, it is better to move it inside panic() and then remove
-> it from the other places.
+> panic_on_warn is unset inside panic(), so no need to unset it
+> before calling panic() in ubsan_epilogue().
 >
 > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 
@@ -81,39 +73,16 @@ Reviewed-by: Marco Elver <elver@google.com>
 
 
 > ---
->  kernel/panic.c | 20 +++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
+>  lib/ubsan.c | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
 >
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index 55b50e0..95ba825 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -185,6 +185,16 @@ void panic(const char *fmt, ...)
->         int old_cpu, this_cpu;
->         bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
+> diff --git a/lib/ubsan.c b/lib/ubsan.c
+> index bdc380f..36bd75e 100644
+> --- a/lib/ubsan.c
+> +++ b/lib/ubsan.c
+> @@ -154,16 +154,8 @@ static void ubsan_epilogue(void)
 >
-> +       if (panic_on_warn) {
-> +               /*
-> +                * This thread may hit another WARN() in the panic path.
-
-Alas, this may actually fix another problem: doing a panic() not from
-a WARN(), but then hitting a WARN() along in the panic path. So
-"another WARN" is irrelevant, just "a WARN" would be enough to break
-things.
-
-> +                * Resetting this prevents additional WARN() from panicking the
-> +                * system on this thread.  Other threads are blocked by the
-> +                * panic_mutex in panic().
-> +                */
-> +               panic_on_warn = 0;
-> +       }
-> +
->         /*
->          * Disable local interrupts. This will prevent panic_smp_self_stop
->          * from deadlocking the first cpu that invokes the panic, since
-> @@ -576,16 +586,8 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
->         if (regs)
->                 show_regs(regs);
+>         current->in_ubsan--;
 >
 > -       if (panic_on_warn) {
 > -               /*
@@ -126,13 +95,13 @@ things.
 > +       if (panic_on_warn)
 >                 panic("panic_on_warn set ...\n");
 > -       }
+>  }
 >
->         if (!regs)
->                 dump_stack();
+>  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
 > --
 > 2.1.0
 >
 > --
 > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-4-git-send-email-yangtiezhu%40loongson.cn.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1644324666-15947-5-git-send-email-yangtiezhu%40loongson.cn.
