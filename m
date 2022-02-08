@@ -2,193 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 185BBC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 15:42:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE28C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381277AbiBHPmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 10:42:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53512 "EHLO
+        id S1382735AbiBHQKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 11:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381476AbiBHPmR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 10:42:17 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46794C0612B9;
-        Tue,  8 Feb 2022 07:42:13 -0800 (PST)
+        with ESMTP id S1343745AbiBHQKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:10:53 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CDAC061578;
+        Tue,  8 Feb 2022 08:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644334933; x=1675870933;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4GFjvUMiVMcumvdOgAlzmh492IdarzKncsOwfSSWUls=;
-  b=d3ZHEdZ3XkH+gQrXw5FmwH3LcJoGIB/nc4KwuJoSDSiYaD/oXfHH6XJn
-   uM8jv8A80rqFyYgxO/5LzqnAD8aHpwzAkNLASD6dqmR99hf1PYdKNqdpy
-   hZ5WJjlRhk5n9bnIJFtoA/7U48QxjS7RBjdU5WLZ9h50aaMAUkj4BlWnp
-   VX9QHuAWekNhld3LfkTQ869E2APSUmBLTGd6VuD1/Cq4kPlp+ySWnVvyp
-   zmZG14lnYg4ryoBElIYHvVc9xH/HAlTcL1kdPBPF21scIeKUciJPBpLeU
-   jIgohHIg9IsuErx4LHM4V0x3hVRYiPwRHJHVRtOLJqki/mX0AtUxZVk6i
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="228940640"
+  t=1644336653; x=1675872653;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Mc91wvHfFSboTJHR5WNZ7bZOFFZeN70QARuWwy+FfXk=;
+  b=FjcHAOhVwcdEJ7gecTHhwJdrlWCnDjO5HCU/2UZVramu5F8pp86/GnxY
+   xxVmKDvZ9oLchNBPvL1CQvS6Ed1fsiYHUrHyJE4iSsaGAT7IHh2laFVqD
+   otPItK04YCvhxyFAymA7QNUmAEWomGj9zDe2gPxwApwBJdbhHLezccVUq
+   OOmtFG2nrjAfaIZXxFVep2KX+JZYUCS2ZwWjWqbCZ5/7Q4BcumQU/mElR
+   lsCuo3zK3V16MUChRC4tU3+fFlSrvbGX8gN/0Zw91R/qT/2fMJPpncAOF
+   YpPwZSGDb6ZN78l0OuUsTVCT98meDNZL7VR6HbPN6JEAG0xRa61t4ouhH
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="246568513"
 X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
-   d="scan'208";a="228940640"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 07:42:13 -0800
+   d="scan'208";a="246568513"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 08:10:52 -0800
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,353,1635231600"; 
-   d="scan'208";a="601273985"
-Received: from mgorzkow-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.139.232])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 07:42:07 -0800
-From:   Iwona Winiarska <iwona.winiarska@intel.com>
-To:     linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+   d="scan'208";a="700890577"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 08 Feb 2022 08:10:49 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nHT4r-0000Ph-9S; Tue, 08 Feb 2022 16:10:49 +0000
+Date:   Wed, 9 Feb 2022 00:10:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jeremy Kerr <jk@codeconstruct.com.au>, netdev@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Matt Johnston <matt@codeconstruct.com.au>,
+        Jakub Kicinski <kuba@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Zev Weiss <zweiss@equinix.com>,
-        David Muller <d.mueller@elsoft.ch>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Iwona Winiarska <iwona.winiarska@intel.com>
-Subject: [PATCH v8 13/13] docs: Add PECI documentation
-Date:   Tue,  8 Feb 2022 16:36:39 +0100
-Message-Id: <20220208153639.255278-14-iwona.winiarska@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220208153639.255278-1-iwona.winiarska@intel.com>
-References: <20220208153639.255278-1-iwona.winiarska@intel.com>
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 5/5] mctp: Add SIOCMCTP{ALLOC,DROP}TAG ioctls
+ for tag control
+Message-ID: <202202090043.BhR7muS4-lkp@intel.com>
+References: <20220208094617.3675511-6-jk@codeconstruct.com.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208094617.3675511-6-jk@codeconstruct.com.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a brief overview of PECI and PECI wire interface.
-The documentation also contains kernel-doc for PECI subsystem internals
-and PECI CPU Driver API.
+Hi Jeremy,
 
-Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Jeremy-Kerr/MCTP-tag-control-interface/20220208-195325
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git c3e676b98326a419f30dd5d956c68fc33323f4fd
+config: nios2-randconfig-r021-20220208 (https://download.01.org/0day-ci/archive/20220209/202202090043.BhR7muS4-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/a1d553f399d7457bd3e455cd3f5e10dddb4bc2bf
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jeremy-Kerr/MCTP-tag-control-interface/20220208-195325
+        git checkout a1d553f399d7457bd3e455cd3f5e10dddb4bc2bf
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash kernel/ net/mctp/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> net/mctp/route.c:660:21: warning: no previous prototype for 'mctp_lookup_prealloc_tag' [-Wmissing-prototypes]
+     660 | struct mctp_sk_key *mctp_lookup_prealloc_tag(struct mctp_sock *msk,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mctp_lookup_prealloc_tag +660 net/mctp/route.c
+
+   659	
+ > 660	struct mctp_sk_key *mctp_lookup_prealloc_tag(struct mctp_sock *msk,
+   661						     mctp_eid_t daddr, u8 req_tag,
+   662						     u8 *tagp)
+   663	{
+   664		struct net *net = sock_net(&msk->sk);
+   665		struct netns_mctp *mns = &net->mctp;
+   666		struct mctp_sk_key *key, *tmp;
+   667		unsigned long flags;
+   668	
+   669		req_tag &= ~(MCTP_TAG_PREALLOC | MCTP_TAG_OWNER);
+   670		key = NULL;
+   671	
+   672		spin_lock_irqsave(&mns->keys_lock, flags);
+   673	
+   674		hlist_for_each_entry(tmp, &mns->keys, hlist) {
+   675			if (tmp->tag != req_tag)
+   676				continue;
+   677	
+   678			if (!(tmp->peer_addr == daddr || tmp->peer_addr == MCTP_ADDR_ANY))
+   679				continue;
+   680	
+   681			if (!tmp->manual_alloc)
+   682				continue;
+   683	
+   684			spin_lock(&tmp->lock);
+   685			if (tmp->valid) {
+   686				key = tmp;
+   687				refcount_inc(&key->refs);
+   688				spin_unlock(&tmp->lock);
+   689				break;
+   690			}
+   691			spin_unlock(&tmp->lock);
+   692		}
+   693		spin_unlock_irqrestore(&mns->keys_lock, flags);
+   694	
+   695		if (!key)
+   696			return ERR_PTR(-ENOENT);
+   697	
+   698		if (tagp)
+   699			*tagp = key->tag;
+   700	
+   701		return key;
+   702	}
+   703	
+
 ---
- Documentation/index.rst      |  1 +
- Documentation/peci/index.rst | 16 +++++++++++
- Documentation/peci/peci.rst  | 51 ++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  1 +
- 4 files changed, 69 insertions(+)
- create mode 100644 Documentation/peci/index.rst
- create mode 100644 Documentation/peci/peci.rst
-
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index b58692d687f6..1988c19d9daf 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -138,6 +138,7 @@ needed).
-    scheduler/index
-    mhi/index
-    tty/index
-+   peci/index
- 
- Architecture-agnostic documentation
- -----------------------------------
-diff --git a/Documentation/peci/index.rst b/Documentation/peci/index.rst
-new file mode 100644
-index 000000000000..989de10416e7
---- /dev/null
-+++ b/Documentation/peci/index.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================
-+Linux PECI Subsystem
-+====================
-+
-+.. toctree::
-+
-+   peci
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/peci/peci.rst b/Documentation/peci/peci.rst
-new file mode 100644
-index 000000000000..331b1ec00e22
---- /dev/null
-+++ b/Documentation/peci/peci.rst
-@@ -0,0 +1,51 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+========
-+Overview
-+========
-+
-+The Platform Environment Control Interface (PECI) is a communication
-+interface between Intel processor and management controllers
-+(e.g. Baseboard Management Controller, BMC).
-+PECI provides services that allow the management controller to
-+configure, monitor and debug platform by accessing various registers.
-+It defines a dedicated command protocol, where the management
-+controller is acting as a PECI originator and the processor - as
-+a PECI responder.
-+PECI can be used in both single processor and multiple-processor based
-+systems.
-+
-+NOTE:
-+Intel PECI specification is not released as a dedicated document,
-+instead it is a part of External Design Specification (EDS) for given
-+Intel CPU. External Design Specifications are usually not publicly
-+available.
-+
-+PECI Wire
-+---------
-+
-+PECI Wire interface uses a single wire for self-clocking and data
-+transfer. It does not require any additional control lines - the
-+physical layer is a self-clocked one-wire bus signal that begins each
-+bit with a driven, rising edge from an idle near zero volts. The
-+duration of the signal driven high allows to determine whether the bit
-+value is logic '0' or logic '1'. PECI Wire also includes variable data
-+rate established with every message.
-+
-+For PECI Wire, each processor package will utilize unique, fixed
-+addresses within a defined range and that address should
-+have a fixed relationship with the processor socket ID - if one of the
-+processors is removed, it does not affect addresses of remaining
-+processors.
-+
-+PECI subsystem internals
-+------------------------
-+
-+.. kernel-doc:: include/linux/peci.h
-+.. kernel-doc:: drivers/peci/internal.h
-+.. kernel-doc:: drivers/peci/core.c
-+.. kernel-doc:: drivers/peci/request.c
-+
-+PECI CPU Driver API
-+-------------------
-+.. kernel-doc:: drivers/peci/cpu.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c666ef7ea5a5..9d248d55ac30 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15122,6 +15122,7 @@ M:	Iwona Winiarska <iwona.winiarska@intel.com>
- L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/peci/
-+F:	Documentation/peci/
- F:	drivers/peci/
- F:	include/linux/peci-cpu.h
- F:	include/linux/peci.h
--- 
-2.34.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
