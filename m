@@ -2,193 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C51AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D87CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:17:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234747AbiBHJQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 04:16:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58350 "EHLO
+        id S1350666AbiBHJR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 04:17:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353379AbiBHJQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:16:31 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E23DC03FEC1
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 01:16:29 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id h7so20299508iof.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 01:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=O/lx//nLUVMx2EI4vj5HKtagrUsb3ZYCM82TQ4lEins=;
-        b=GNZIO6/kuk+ic9l6Cd+p/G1mclOH/q3G/vT9SOJqWStL42meaNn/c/wFxfOu3vH9z1
-         uOLAzQrhJq95IkE+TOApdAN1ebRCQvgTw7uDwp8aJjVbau9Q2hRunsd/UW0wOVvjYwd1
-         LcpnpZOyuC0DTMEJBpVE1aNfStAYiHEPBjeyFGgD6lSx1oXM4Le3EOGAoBFH3e2WoeDV
-         uIQBx1oy/xTb+3xXbPXk86a1+F/MI5UOjandFhzeQffQ3GTJisprjuAegNuPLc1FAiS7
-         JphN+alAke3aQBct32r7k9yuTI6pGb/AYKbCAvQdosBGvl25eO7UHSAH5rqstI1IASX8
-         bjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=O/lx//nLUVMx2EI4vj5HKtagrUsb3ZYCM82TQ4lEins=;
-        b=0ojKj6FlB4DcQUG2OtO9CsODfcNQVK4F1xRpSZu1QtcKJR8QVcElrXQiwGNy0WOkQ2
-         RXpkHZIQkrAP3fXWtC8/svFFMjMJIeX1R+sMIGNRBlfPbkYY54HRrylTTYk5iHy36cOl
-         EM7cW1PVNfnZl2QSss+arMY1vYZsRe1KR7vz+1eqbQpa6PXuzLb7lb4SGehA1SMSCOac
-         uowG+L4XOOHyykmnPwxlWKm471ILHzx+kucosapU4DHzTp76tYZwR3k9+EZC1nEciS1X
-         bEXcMelNJbLU/ovsUaYKMlsPcQImRayDxMnjfjqy3fL+YND2amhbM+N4JvBFEw8LAioj
-         uUfQ==
-X-Gm-Message-State: AOAM533/dB3pLEtreM2vCsYckuxVhZXUUbnegaHfbcJNUPW4dmsHycqI
-        x3vDUzQ4pj90BwnKpX7l8G3r9A==
-X-Google-Smtp-Source: ABdhPJw5yaI9Ui9SJAQTv5l/nY/N9q1YxRO/3oThR7TlMGDQjGNGWfY/7ovjRm8eOUtzjrPfeX8IwA==
-X-Received: by 2002:a05:6638:1028:: with SMTP id n8mr1757754jan.318.1644311788671;
-        Tue, 08 Feb 2022 01:16:28 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
-        by smtp.gmail.com with ESMTPSA id k11sm7556042iob.23.2022.02.08.01.16.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 01:16:27 -0800 (PST)
-Date:   Tue, 8 Feb 2022 02:16:24 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S1350674AbiBHJRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:17:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA2FC03FEDA;
+        Tue,  8 Feb 2022 01:17:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EF1E61479;
+        Tue,  8 Feb 2022 09:17:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D140C340ED;
+        Tue,  8 Feb 2022 09:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644311838;
+        bh=BRQppVmJemnXXpfZXfcxyJ76Uix+mNSFNn+dOUBit+Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B3EKAJXrMGa7sLQ/UIGqVwvEhckiwK7KbAYqdpGASMWBfI35qyTU08kJM7VInr/u7
+         L3HW1aG+k1r2XrAoYTgGpNICjfxqai3FcsJnTbxo86tYp1wj+Lde7V60xIX006sEyW
+         w09Bzpsf6vUTpugq2l6spY1jKstIAX00/fA4FVKSIgpKT8VVKnfmsCzaZnWrOOkBuZ
+         ZDGUROkTnlT3AX2stNNHZlSY1kqNoYYReLMvuXDSyWKrcWommrFseWqRFSjPujgbYj
+         mceqt8Wcr0mdJ9QEWbQ+WTEH7UJPk61Et2a1RF9hTSjIIBGoS0jwmY4WoekJXtIegp
+         mM1Lptsk/sLWA==
+Date:   Tue, 8 Feb 2022 11:16:51 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Adrian Reber <adrian@lisas.de>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, page-reclaim@google.com,
-        x86 <x86@kernel.org>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <YgI06D8MbEpchooF@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <CAGsJ_4zULJ5vPwn73Z5Bap3eRkAX+Yv24c-n41+zC7fN8xG60g@mail.gmail.com>
- <Ye+dPmO17JN2bNLL@google.com>
- <CAGsJ_4w5GM5r916XEz+gj=33A+b98kyJONLNpEnBMmX5XnPRmg@mail.gmail.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com,
+        Andrei Vagin <avagin@gmail.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YgI1A0CtfmT7GMIp@kernel.org>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <YgAWVSGQg8FPCeba@kernel.org>
+ <YgDIIpCm3UITk896@lisas.de>
+ <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4w5GM5r916XEz+gj=33A+b98kyJONLNpEnBMmX5XnPRmg@mail.gmail.com>
+In-Reply-To: <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 09:54:09PM +1300, Barry Song wrote:
-> On Tue, Jan 25, 2022 at 7:48 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > On Sun, Jan 23, 2022 at 06:43:06PM +1300, Barry Song wrote:
-> > > On Wed, Jan 5, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > <snipped>
-> >
-> > > > Large-scale deployments
-> > > > -----------------------
-> > > > We've rolled out MGLRU to tens of millions of Chrome OS users and
-> > > > about a million Android users. Google's fleetwide profiling [13] shows
-> > > > an overall 40% decrease in kswapd CPU usage, in addition to
-> > >
-> > > Hi Yu,
-> > >
-> > > Was the overall 40% decrease of kswap CPU usgae seen on x86 or arm64?
-> > > And I am curious how much we are taking advantage of NONLEAF_PMD_YOUNG.
-> > > Does it help a lot in decreasing the cpu usage?
-> >
-> > Hi Barry,
-> >
-> > The fleet-wide profiling data I shared was from x86. For arm64, I only
-> > have data from synthetic benchmarks at the moment, and it also shows
-> > similar improvements.
-> >
-> > For Chrome OS (individual users), walk_pte_range(), the function that
-> > would benefit from ARCH_HAS_NONLEAF_PMD_YOUNG, only uses a small
-> > portion (<4%) of kswapd CPU time. So ARCH_HAS_NONLEAF_PMD_YOUNG isn't
-> > that helpful.
+On Mon, Feb 07, 2022 at 08:30:50AM -0800, Dave Hansen wrote:
+> On 2/6/22 23:20, Adrian Reber wrote:
+> >>> 	CRIU Support
+> >>> 	------------
+> >>> 	In the past there was some speculation on the mailing list about 
+> >>> 	whether CRIU would need to be taught about CET. It turns out, it does. 
+> >>> 	The first issue hit is that CRIU calls sigreturn directly from its 
+> >>> 	“parasite code” that it injects into the dumper process. This violates
+> >>> 	this shadow stack implementation’s protection that intends to prevent
+> >>> 	attackers from doing this.
+> ...
+> >>From the CRIU side I can say that I would definitely like to see this
+> > resolved. CRIU just went through a similar exercise with rseq() being
+> > enabled in glibc and CI broke all around for us and other projects
+> > relying on CRIU. Although rseq() was around for a long time we were not
+> > aware of it but luckily 5.13 introduced a way to handle it for CRIU with
+> > ptrace. An environment variable existed but did not really help when
+> > CRIU is called somewhere in the middle of the container software stack.
+> > 
+> >>From my point of view a solution not involving an environment variable
+> > would definitely be preferred.
 > 
-> Hi Yu,
-> Thanks!
-> 
-> In the current kernel, depending on reverse mapping, while memory is
-> under pressure,
-> the cpu usage of kswapd can be very very high especially while a lot of pages
-> have large mapcount, thus a huge reverse mapping cost.
+> Have there been things like this for CRIU in the past?  Something where
+> CRIU needs control but that's also security-sensitive?
 
-Agreed. I've posted v7 which includes kswapd profiles collected from an
-arm64 v8.2 laptop under memory pressure.
+Generally CRIU requires (almost) root privileges to work, but I don't think
+it handles something as security sensitive and restrictive as shadow stacks. 
+ 
+> Any thoughts on how you would _like_ to see this resolved?
 
-> Regarding  <4%, I guess the figure came from machines with NONLEAF_PMD_YOUNG？
+Ideally, CRIU will need a knob that will tell the kernel/CET machinery
+where the next RET will jump, along the lines of
+restore_signal_shadow_stack() AFAIU.
 
-No, it's from Snapdragon 7c. Please see the kswapd profiles in v7.
+But such a knob will immediately reduce the security value of the entire
+thing, and I don't have good ideas how to deal with it :(
 
-> In this case, we can skip many PTE scans while PMD has no accessed bit
-> set. But for
-> a machine without NONLEAF, will the figure of cpu usage be much larger?
-
-So NONLEAF_PMD_YOUNG at most can save 4% CPU usage from kswapd. But
-this definitely can vary, depending on the workloads.
-
-> > > If so, this might be
-> > > a good proof that arm64 also needs this hardware feature?
-> > > In short, I am curious how much the improvement in this patchset depends
-> > > on the hardware ability of NONLEAF_PMD_YOUNG.
-> >
-> > For data centers, I do think ARCH_HAS_NONLEAF_PMD_YOUNG has some value.
-> > In addition to cold/hot memory scanning, there are other use cases like
-> > dirty tracking, which can benefit from the accessed bit on non-leaf
-> > entries. I know some proprietary software uses this capability on x86
-> > for different purposes than this patchset does. And AFAIK, x86 is the
-> > only arch that supports this capability, e.g., risc-v and ppc can only
-> > set the accessed bit in PTEs.
-> 
-> Yep. NONLEAF is a nice feature.
-> 
-> btw, page table should have a separate DIRTY bit, right?
-
-Yes.
-
-> wouldn't dirty page
-> tracking depend on the DIRTY bit rather than the accessed bit?
-
-It depends on the goal.
-
-> so x86 also has
-> NONLEAF dirty bit?
-
-No.
-
-> Or they are scanning accessed bit of PMD before
-> scanning DIRTY bits of PTEs?
-
-A mandatory sync to disk must use the dirty bit to ensure data
-integrity. But for a voluntary sync to disk, it can use the accessed
-bit to narrow the search of dirty pages.
-
-A mandatory sync is used to free specific dirty pages. A voluntary sync
-is used to keep the number of dirty pages low in general and it doesn't
-target any specific dirty pages.
-
-> > In fact, I've discussed this with one of the arm maintainers Will. So
-> > please check with him too if you are interested in moving forward with
-> > the idea. I might be able to provide with additional data if you need
-> > it to make a decision.
-> 
-> I am interested in running it and have some data without NONLEAF
-> especially while free memory is very limited and the system has memory
-> thrashing.
-
-The v7 has a switch to disable this feature on x86. If you can run your
-workloads on x86, then it might be able to help you measure the difference.
+-- 
+Sincerely yours,
+Mike.
