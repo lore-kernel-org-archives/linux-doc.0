@@ -2,156 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D96A7C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:46:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF260C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383532AbiBHQqc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 11:46:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34330 "EHLO
+        id S1383543AbiBHQuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 11:50:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238447AbiBHQqc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:46:32 -0500
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B71C061576;
-        Tue,  8 Feb 2022 08:46:31 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id v10so6347401qvk.7;
-        Tue, 08 Feb 2022 08:46:31 -0800 (PST)
+        with ESMTP id S1383544AbiBHQuN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:50:13 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05A2C061576
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 08:50:11 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id c14so6605365qvl.12
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 08:50:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MFg4oiGESgYctPjyVURPoa5eRtFO0bNPbfwjD0pksvo=;
-        b=eEOSjkGvdwrw2HLW4fBjKdShFRwpRpIkMLBtU40unspsIhDn5Qjo7LmcGfYHO6VD4v
-         6Peii3dIB69X90/0sxSreZtQYmSTIE+unRdfKf1KcrKffQVCdTEnCVZpkC3TgAaO9g6n
-         L9poHgq2JH2V74j72dkvIaTF2aYAlURmKnrKj1zRVxx53kcahJuiTvlv1xiAQwyuzalK
-         rEAGEcIe2pX5Se734mavOsPq/i6ZjSBPiWdaZ1SxMwTwhcuceyXqyekIzyyDVfaRos4y
-         eD/HDJF5tBPV3iPVfMz8rhY09Yn4nO2klI5U0sk1h6rVcBfJB0HSXeAC37crb4p539pv
-         JYhw==
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uyO1MEQNps5iP9oCUciIE1rzkZYVSZzJb+muZcFYOk4=;
+        b=7XADFpc43QE/qt3E2nOE7ZKJdXQmQHBogj8fnQWh7+4WrlwFlcR/DwHHHOuuOsKMzF
+         ExPTEWDXBgZBHf+ouoy6HcCW2F1IGloyK+6wcpTxC+goATrzrxIK+324QzKWUnCSZyW8
+         Ri2uC4GQ61xus0satGVJWldH+w/uS8/tp2JUDHoz8Amm6FZJ346hIPhYKIGvMs8CY1vi
+         w3r2Kt7goS4sWztJwu1Qh+B1FjvqM4sFH2hMgeP1PFxsnwhqL8mu/VjtMUo7FoBWqtRm
+         EcgJoePCZR5LmlW/bwoeFY65V8ujtI5jSUJop3tYEbLBYGWyTMcBvlXMlRLxQZ4zEm1T
+         CJLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MFg4oiGESgYctPjyVURPoa5eRtFO0bNPbfwjD0pksvo=;
-        b=zWO2JhXp6zSYJP7+Eh/v+dB4ubfdxF7pODGS/Kol90xMgfx5mPrq0szNhGczTlrMhp
-         pCnFXRWMzx1QoxJZyGc2qGy9QsLoOA464thPr2pt80fJboHnUwaMcjzllfVi4GJymUFp
-         Ap/ytgAsnD7E4EI1rXl+6cuVZfc+VfQvzNBcJr+4WVF3vEpCnfqRdrhX7RiIlWqSbrvj
-         7onI30P1URkjWWiSkc3QLTM52RlUuDmj+nGD0hJTU1xMKz0DLEj0oG10OA9qfynLiDX1
-         eKrEfS6IikQu//sdYnChyr77c+hRKjn7j1heIKFvByAtexIfQtF35KP0IO1tBY2seLrk
-         HKig==
-X-Gm-Message-State: AOAM530W06H7xay4oEsWXir1N1BcEYs9tS0OHeRcxfRBlx/wSPTEssHH
-        M9pgbDfVeacXSpTy7Z3/r9Q=
-X-Google-Smtp-Source: ABdhPJzHN2AQIkV6FHtVyNV6Y3kslXhm7JjVYiUbZFgxCWt2Yo3VJdynX3nPGUagi1So0ihV2XMw6g==
-X-Received: by 2002:a05:6214:29ec:: with SMTP id jv12mr3700945qvb.87.1644338790338;
-        Tue, 08 Feb 2022 08:46:30 -0800 (PST)
-Received: from localhost.localdomain (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id h9sm7546795qkn.121.2022.02.08.08.46.29
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uyO1MEQNps5iP9oCUciIE1rzkZYVSZzJb+muZcFYOk4=;
+        b=VeJfSdruXGqrlBaBNCaNMUQFqsH0JP6x6BsfNZq1xWGS7azhqjw0lt1+1DVXhA9o3E
+         gb5wGub22kDLC28KfJNoaPg02Qw7OKKZZDvpalrQGLNe9Nj47BkPk1YzIo2nbBII1Myj
+         Orh71XwefigFYZjCjBBTO6bze5H/X7KDqEqodVZtPJ2VG2mLrcvw6/QUcO5YpP8tjO+X
+         f63o6ljTMttDPaNdyFmKx0ZVZpTNhO5yFvcCIHt5e5JQx6lCUJUHASUyHrr8F3rQIKvO
+         hXcOk5I+UNpqUzzg/9djZ72ONW7qn+lvMx86sp59ZTLAUvcmLjIf5k/9WgFaAb18KpwO
+         1CAA==
+X-Gm-Message-State: AOAM531T7Rjh5dN7juVljdUrohgUi/yI7aAodkJPrtbqpQ+D6xZlCRBO
+        MPJqeCX/u/pClItgQM+ZHEJUbA==
+X-Google-Smtp-Source: ABdhPJz+Mim2S0L7J3jzU/RU666khnWwq0OnAnSRMBnKl8t1dS2pUe3shi/y15pML0DetMa4dYFnKQ==
+X-Received: by 2002:ad4:5ec9:: with SMTP id jm9mr3851203qvb.15.1644339010896;
+        Tue, 08 Feb 2022 08:50:10 -0800 (PST)
+Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
+        by smtp.gmail.com with ESMTPSA id r7sm7196497qti.69.2022.02.08.08.50.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 08:46:29 -0800 (PST)
-From:   frowand.list@gmail.com
-To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
-Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] Documentation: dev-tools: clarify KTAP specification wording
-Date:   Tue,  8 Feb 2022 10:46:23 -0600
-Message-Id: <20220208164623.3151777-1-frowand.list@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 08 Feb 2022 08:50:10 -0800 (PST)
+Date:   Tue, 8 Feb 2022 11:50:09 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal
+ implementation
+Message-ID: <YgKfQVKcBebL7pY3@cmpxchg.org>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-6-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208081902.3550911-6-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Frank Rowand <frank.rowand@sony.com>
+Hi Yu,
 
-Add the spec version to the title line.
+Thanks for restructuring this from the last version. It's easier to
+learn the new model when you start out with the bare bones, then let
+optimizations and self-contained features follow later.
 
-Explain likely source of "Unknown lines".
+On Tue, Feb 08, 2022 at 01:18:55AM -0700, Yu Zhao wrote:
+> To avoid confusions, the terms "promotion" and "demotion" will be
+> applied to the multigenerational LRU, as a new convention; the terms
+> "activation" and "deactivation" will be applied to the active/inactive
+> LRU, as usual.
+> 
+> The aging produces young generations. Given an lruvec, it increments
+> max_seq when max_seq-min_seq+1 approaches MIN_NR_GENS. The aging
+> promotes hot pages to the youngest generation when it finds them
+> accessed through page tables; the demotion of cold pages happens
+> consequently when it increments max_seq. Since the aging is only
+> interested in hot pages, its complexity is O(nr_hot_pages). Promotion
+> in the aging path doesn't require any LRU list operations, only the
+> updates of the gen counter and lrugen->nr_pages[]; demotion, unless
+> as the result of the increment of max_seq, requires LRU list
+> operations, e.g., lru_deactivate_fn().
 
-"Unknown lines" in nested tests are optionally indented.
+I'm having trouble with this changelog. It opens with a footnote and
+summarizes certain aspects of the implementation whose importance to
+the reader aren't entirely clear at this time.
 
-Add "Unknown lines" items to differences between TAP & KTAP list
+It would be better to start with a high-level overview of the problem
+and how this algorithm solves it. How the reclaim algorithm needs to
+find the page that is most suitable for eviction and to signal when
+it's time to give up and OOM. Then explain how grouping pages into
+multiple generations accomplishes that - in particular compared to the
+current two use-once/use-many lists.
 
-Reviewed-by: Tim Bird <Tim.Bird@sony.com>
-Reviewed-by: David Gow <davidgow@google.com>
-Signed-off-by: Frank Rowand <frank.rowand@sony.com>
----
+Explain the problem of MMU vs syscall references, and how tiering
+addresses this.
 
-Changes since version 2
-  - Add missing quote after word: incorrect
-  - Add Reviewed-by tags
+Explain the significance of refaults and how the algorithm responds to
+them. Not in terms of which running averages are updated, but in terms
+of user-visible behavior ("will start swapping (more)" etc.)
 
-Changes since version 1
-  - Explain likely source of "Unknown lines"
-  - "Unknown line" in nested tests are optionally indented
-  - Add "Unknown lines" items to differences between TAP & KTAP list
+Express *intent*, how it's supposed to behave wrt workloads and memory
+pressure. The code itself will explain the how, its complexity etc.
 
- Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+Most reviewers will understand the fundamental challenges of page
+reclaim. The difficulty is matching individual aspects of the problem
+space to your individual components and design choices you have made.
 
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index 878530cb9c27..dfb3f10a8b2d 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--========================================
--The Kernel Test Anything Protocol (KTAP)
--========================================
-+===================================================
-+The Kernel Test Anything Protocol (KTAP), version 1
-+===================================================
- 
- TAP, or the Test Anything Protocol is a format for specifying test results used
- by a number of projects. It's website and specification are found at this `link
-@@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
- the four formats for lines described above. This is allowed, however, they will
- not influence the status of the tests.
- 
-+This is an important difference from TAP.  Kernel tests may print messages
-+to the system console or a log file.  Both of these destinations may contain
-+messages either from unrelated kernel or userspace activity, or kernel
-+messages from non-test code that is invoked by the test.  The kernel code
-+invoked by the test likely is not aware that a test is in progress and
-+thus can not print the message as a diagnostic message.
-+
- Nested tests
- ------------
- 
-@@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
- result. If one of the subtests fail, for example, the parent test should also
- fail.
- 
--Additionally, all result lines in a subtest should be indented. One level of
-+Additionally, all lines in a subtest should be indented. One level of
- indentation is two spaces: "  ". The indentation should begin at the version
- line and should end before the parent test's result line.
- 
-+"Unknown lines" are not considered to be lines in a subtest and thus are
-+allowed to be either indented or not indented.
-+
- An example of a test with two nested subtests:
- 
- .. code-block::
-@@ -225,9 +235,11 @@ Major differences between TAP and KTAP
- --------------------------------------
- 
- Note the major differences between the TAP and KTAP specification:
--- yaml and json are not recommended in diagnostic messages
--- TODO directive not recognized
-+- yaml and json are not recommended in KTAP diagnostic messages
-+- TODO directive not recognized in KTAP
- - KTAP allows for an arbitrary number of tests to be nested
-+- TAP includes "Unknown lines" in the category of "Anything else"
-+- TAP says "Unknown lines" are "incorrect"; KTAP allows "Unknown lines"
- 
- The TAP14 specification does permit nested tests, but instead of using another
- nested version line, uses a line of the form
--- 
-Frank Rowand <frank.rowand@sony.com>
+Let us in on that thinking, please ;)
 
+> @@ -892,6 +892,50 @@ config ANON_VMA_NAME
+>  	  area from being merged with adjacent virtual memory areas due to the
+>  	  difference in their name.
+>  
+> +# multigenerational LRU {
+> +config LRU_GEN
+> +	bool "Multigenerational LRU"
+> +	depends on MMU
+> +	# the following options can use up the spare bits in page flags
+> +	depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+> +	help
+> +	  A high performance LRU implementation for memory overcommit. See
+> +	  Documentation/admin-guide/mm/multigen_lru.rst and
+> +	  Documentation/vm/multigen_lru.rst for details.
+
+These files don't exist at this time, please introduce them before or
+when referencing them. If they document things introduced later in the
+patchset, please start with a minimal version of the file and update
+it as you extend the algorithm and add optimizations etc.
+
+It's really important to only reference previous patches, not later
+ones. This allows reviewers to read the patches linearly.  Having to
+search for missing pieces in patches you haven't looked at yet is bad.
+
+> +config NR_LRU_GENS
+> +	int "Max number of generations"
+> +	depends on LRU_GEN
+> +	range 4 31
+> +	default 4
+> +	help
+> +	  Do not increase this value unless you plan to use working set
+> +	  estimation and proactive reclaim to optimize job scheduling in data
+> +	  centers.
+> +
+> +	  This option uses order_base_2(N+1) bits in page flags.
+> +
+> +config TIERS_PER_GEN
+> +	int "Number of tiers per generation"
+> +	depends on LRU_GEN
+> +	range 2 4
+> +	default 4
+> +	help
+> +	  Do not decrease this value unless you run out of spare bits in page
+> +	  flags, i.e., you see the "Not enough bits in page flags" build error.
+> +
+> +	  This option uses N-2 bits in page flags.
+
+Linus had pointed out that we shouldn't ask these questions of the
+user. How do you pick numbers here? I'm familiar with workingset
+estimation and proactive reclaim usecases but I wouldn't know.
+
+Even if we removed the config option and hardcoded the number, this is
+a question for kernel developers: What does "4" mean? How would
+behavior differ if it were 3 or 5 instead? Presumably there is some
+sort of behavior gradient. "As you increase the number of
+generations/tiers, the user-visible behavior of the kernel will..."
+This should really be documented.
+
+I'd also reiterate Mel's point: Distribution kernels need to support
+the full spectrum of applications and production environments. Unless
+using non-defaults it's an extremely niche usecase (like compiling out
+BUG() calls) compile-time options are not the right choice. If we do
+need a tunable, it could make more sense to have a compile time upper
+limit (to determine page flag space) combined with a runtime knob?
+
+Thanks!
