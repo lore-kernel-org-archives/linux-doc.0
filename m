@@ -2,128 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B75D1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B172DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240433AbiBHLcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:32:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
+        id S1356333AbiBHLvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 06:51:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357032AbiBHL2j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 06:28:39 -0500
+        with ESMTP id S1358013AbiBHLuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 06:50:17 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3CEC03FEF3;
-        Tue,  8 Feb 2022 03:28:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B579C08E834;
+        Tue,  8 Feb 2022 03:42:40 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CD374B81A4A;
-        Tue,  8 Feb 2022 11:28:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2927C004E1;
-        Tue,  8 Feb 2022 11:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644319711;
-        bh=S/OkajaK//lhGgvpH8Fw06Nx4ATm9sAyJIS5raQ2bvQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t0ybZeeHBJKmL5e5GBklD/SFNg2ORM9tj6Uo94eWeAyDaZznYCaSGBMNaoKafm9Rx
-         o26RX7aXd2Niprs6HcmE6Xc+k1+wpuIvcCGKjthZfKnrVjNwbyTlR6uWsSW7lg2Sgn
-         rVoqZL/xTG2Nwq7Q4um8qFYpeVKRyLKz3iFMsY8o=
-Date:   Tue, 8 Feb 2022 12:28:29 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Iwona Winiarska <iwona.winiarska@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Zev Weiss <zweiss@equinix.com>,
-        David Muller <d.mueller@elsoft.ch>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH v7 07/13] peci: Add sysfs interface for PECI bus
-Message-ID: <YgJT3bd8Uj8omVYz@kroah.com>
-References: <20220202144838.163875-1-iwona.winiarska@intel.com>
- <20220202144838.163875-8-iwona.winiarska@intel.com>
- <YgJPFlr18AmWiTRY@kroah.com>
- <CACPK8Xc0Mo-eAH3bv1uAWxAsPFkLk0gZr9Sx0T0An68Lt2+c+Q@mail.gmail.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 04C45B81852;
+        Tue,  8 Feb 2022 11:42:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E433CC004E1;
+        Tue,  8 Feb 2022 11:42:34 +0000 (UTC)
+Message-ID: <aa1312fc-197b-c1ab-6a18-369d49c1e8f8@xs4all.nl>
+Date:   Tue, 8 Feb 2022 12:42:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xc0Mo-eAH3bv1uAWxAsPFkLk0gZr9Sx0T0An68Lt2+c+Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4] dma-buf-map: Rename to iosys-map
+Content-Language: en-US
+To:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org
+Cc:     srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch, airlied@linux.ie, lyude@redhat.com,
+        tzimmermann@suse.de, linux-media@vger.kernel.org,
+        nouveau@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <20220204170541.829227-1-lucas.demarchi@intel.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220204170541.829227-1-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 11:15:30AM +0000, Joel Stanley wrote:
-> On Tue, 8 Feb 2022 at 11:08, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Feb 02, 2022 at 03:48:32PM +0100, Iwona Winiarska wrote:
-> > > PECI devices may not be discoverable at the time when PECI controller is
-> > > being added (e.g. BMC can boot up when the Host system is still in S5).
-> > > Since we currently don't have the capabilities to figure out the Host
-> > > system state inside the PECI subsystem itself, we have to rely on
-> > > userspace to do it for us.
-> > >
-> > > In the future, PECI subsystem may be expanded with mechanisms that allow
-> > > us to avoid depending on userspace interaction (e.g. CPU presence could
-> > > be detected using GPIO, and the information on whether it's discoverable
-> > > could be obtained over IPMI).
-> > > Unfortunately, those methods may ultimately not be available (support
-> > > will vary from platform to platform), which means that we still need
-> > > platform independent method triggered by userspace.
-> > >
-> > > Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> > > ---
-> > >  Documentation/ABI/testing/sysfs-bus-peci | 16 +++++
-> > >  drivers/peci/Makefile                    |  2 +-
-> > >  drivers/peci/core.c                      |  3 +-
-> > >  drivers/peci/device.c                    |  1 +
-> > >  drivers/peci/internal.h                  |  5 ++
-> > >  drivers/peci/sysfs.c                     | 82 ++++++++++++++++++++++++
-> > >  6 files changed, 107 insertions(+), 2 deletions(-)
-> > >  create mode 100644 Documentation/ABI/testing/sysfs-bus-peci
-> > >  create mode 100644 drivers/peci/sysfs.c
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-bus-peci b/Documentation/ABI/testing/sysfs-bus-peci
-> > > new file mode 100644
-> > > index 000000000000..56c2b2216bbd
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-bus-peci
-> > > @@ -0,0 +1,16 @@
-> > > +What:                /sys/bus/peci/rescan
-> > > +Date:                July 2021
-> > > +KernelVersion:       5.15
-> >
-> > 5.15 was a long time ago :(
-> >
-> >
-> > Other than this nit, these all look semi-sane to me.  What tree are you
-> > wanting these to go through, mine?  If so, can you fix this up (both
-> > places in this file) and resend?
+
+
+On 2/4/22 18:05, Lucas De Marchi wrote:
+> Rename struct dma_buf_map to struct iosys_map and corresponding APIs.
+> Over time dma-buf-map grew up to more functionality than the one used by
+> dma-buf: in fact it's just a shim layer to abstract system memory, that
+> can be accessed via regular load and store, from IO memory that needs to
+> be acessed via arch helpers.
 > 
-> Yes, I recommend Iwona send these through your tree.
+> The idea is to extend this API so it can fulfill other needs, internal
+> to a single driver. Example: in the i915 driver it's desired to share
+> the implementation for integrated graphics, which uses mostly system
+> memory, with discrete graphics, which may need to access IO memory.
 > 
-> Thanks for taking another look over them. Thanks to Iwona and Intel
-> for doing this work.
+> The conversion was mostly done with the following semantic patch:
+> 
+> 	@r1@
+> 	@@
+> 	- struct dma_buf_map
+> 	+ struct iosys_map
+> 
+> 	@r2@
+> 	@@
+> 	(
+> 	- DMA_BUF_MAP_INIT_VADDR
+> 	+ IOSYS_MAP_INIT_VADDR
+> 	|
+> 	- dma_buf_map_set_vaddr
+> 	+ iosys_map_set_vaddr
+> 	|
+> 	- dma_buf_map_set_vaddr_iomem
+> 	+ iosys_map_set_vaddr_iomem
+> 	|
+> 	- dma_buf_map_is_equal
+> 	+ iosys_map_is_equal
+> 	|
+> 	- dma_buf_map_is_null
+> 	+ iosys_map_is_null
+> 	|
+> 	- dma_buf_map_is_set
+> 	+ iosys_map_is_set
+> 	|
+> 	- dma_buf_map_clear
+> 	+ iosys_map_clear
+> 	|
+> 	- dma_buf_map_memcpy_to
+> 	+ iosys_map_memcpy_to
+> 	|
+> 	- dma_buf_map_incr
+> 	+ iosys_map_incr
+> 	)
+> 
+> 	@@
+> 	@@
+> 	- #include <linux/dma-buf-map.h>
+> 	+ #include <linux/iosys-map.h>
+> 
+> Then some files had their includes adjusted and some comments were
+> update to remove mentions to dma-buf-map.
+> 
+> Since this is not specific to dma-buf anymore, move the documentation to
+> the "Bus-Independent Device Accesses" section.
+> 
+> v2:
+>   - Squash patches
+> 
+> v3:
+>   - Fix wrong removal of dma-buf.h from MAINTAINERS
+>   - Move documentation from dma-buf.rst to device-io.rst
+> 
+> v4:
+>   - Change documentation tile and level
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  Documentation/driver-api/device-io.rst        |   9 +
+>  Documentation/driver-api/dma-buf.rst          |   9 -
+>  Documentation/gpu/todo.rst                    |  20 +-
+>  MAINTAINERS                                   |   9 +-
+>  drivers/dma-buf/dma-buf.c                     |  22 +-
+>  drivers/dma-buf/heaps/cma_heap.c              |  10 +-
+>  drivers/dma-buf/heaps/system_heap.c           |  10 +-
+>  drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
+>  drivers/gpu/drm/ast/ast_mode.c                |   8 +-
+>  drivers/gpu/drm/drm_cache.c                   |  18 +-
+>  drivers/gpu/drm/drm_client.c                  |   9 +-
+>  drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+>  drivers/gpu/drm/drm_gem.c                     |  12 +-
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
+>  drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
+>  drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
+>  drivers/gpu/drm/drm_internal.h                |   6 +-
+>  drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
+>  drivers/gpu/drm/drm_prime.c                   |   4 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
+>  drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
+>  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
+>  drivers/gpu/drm/lima/lima_gem.c               |   3 +-
+>  drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
+>  drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+>  drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
+>  drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
+>  drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
+>  drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
+>  drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
+>  drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
+>  drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
+>  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>  drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  10 +-
+>  drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
+>  drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
+>  drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
+>  drivers/gpu/drm/ttm/ttm_resource.c            |  42 +--
+>  drivers/gpu/drm/ttm/ttm_tt.c                  |   8 +-
+>  drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
+>  drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
+>  drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>  drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
+>  drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
+>  drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
+>  drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
 
-Can you provide an ack or reviewed-by for them when they are reposted so
-I know this?
+For these three:
 
-thanks,
+>  .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
 
-greg k-h
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Regards,
+
+	Hans
