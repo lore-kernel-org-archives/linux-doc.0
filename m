@@ -2,178 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB85C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D96A7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 16:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348380AbiBHQ1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 11:27:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54488 "EHLO
+        id S1383532AbiBHQqc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 11:46:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236721AbiBHQ1N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:27:13 -0500
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2042.outbound.protection.outlook.com [40.107.22.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA5DC061578;
-        Tue,  8 Feb 2022 08:27:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XAcnpG8ColMku2LHhnWmEHg6xdfBNXSuaOd7Mct86m6ogKMXIFvHwF++MrI/HNdO0Vlu08Tqodonfkmv7cZWm/WJIWJOt2RuFARiSjuOkjDEiKjIrP+Q1Rmqe/7FbrA4mkn+1kB5t+AlWJNpvkg1DR9UgzxTqLomBW/nHNet5G6kZkuNd+z3kScDlH0pZI8iJ6jutbdoz0zJsGFbVy27R3i/PTxKRlyQ2ldmiZaTMh4K+eZLhVJ2ZJCY0M4BQ+S781GEIGTuUZf3JQxoZirvaa11GeC8B97UaaG2ULobDr15gHGC9U+SsyXLgJv+tNmjnJPbzb2bXUum2+WXtQ01aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ApcpdNYhzbiDgY83yyMwYcoNlgzjaYlGfFny+L5eCu4=;
- b=KPIyzxO+ftLd1tXJsKcTYAJ2bxUR26fLcpH0WSrdckB1ZW/ft+FCbHfwBZdmHDtOTUQlqKNOiDSBWT9tw5x2M/8Il/goEN2gokVr9CsI5XIR/0jesBSbrFOzBBNBQHg/5mk0YzLM9Ma3hnsR/XtHA2G0WXdaeXPlxIGUHGs4Xfv7inYPeuprBoS09J6wXAlUBzAYCpD9hp90NuJyG7szFamAmvy/qNm0Fxt/ZfmqcgETCAYyoLrEEEhss13FtcQ1NCeQET4kf4GASk9qLI+oMAduHMfirGD67saupAJ8tvfKoMW590Co+L5Eo0JeyaH8JZniAl/Bg0Yht2zd4mZtCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ApcpdNYhzbiDgY83yyMwYcoNlgzjaYlGfFny+L5eCu4=;
- b=WAiCARJfLDnFMysor8FgyqdsbVxcKx4PBll5MqcFT9bAukNqvG99XWNY3kJgf2+wQga/DoWauHVUqI3tDevZVqNM9pXwYKYTYqQnIKhnMwmZrnQGZPoqm5Wtce44huY//fWt3woekvLtyzQ+R87UwM09A2tmrr+Oyi9izi+91zOjdccixslb7KinCnTJelxN2CXELDtuWzO4ywYdheXJVxoAN9qPZ1Ib4khU3uqZTCBTu50mTZODsC6t9SFdP9N0Wn4N27GnRNC2qznf+0HTkO9Je31eHyTToA/CGoItNSiCMfBe53WIn7uJjeXOf3kkxeYxJj+bIL5eO8xOpp7Yvg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
- by VI1PR03MB3133.eurprd03.prod.outlook.com (2603:10a6:802:30::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19; Tue, 8 Feb
- 2022 16:27:09 +0000
-Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
- ([fe80::ed45:f086:5e82:fccd]) by DB7PR03MB4523.eurprd03.prod.outlook.com
- ([fe80::ed45:f086:5e82:fccd%4]) with mapi id 15.20.4951.019; Tue, 8 Feb 2022
- 16:27:09 +0000
-From:   Sean Anderson <sean.anderson@seco.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Michael Walle <michael@walle.cc>,
-        Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH v2] doc: nvmem: Remove references to regmap
-Date:   Tue,  8 Feb 2022 11:26:57 -0500
-Message-Id: <20220208162657.724119-1-sean.anderson@seco.com>
+        with ESMTP id S238447AbiBHQqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 11:46:32 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B71C061576;
+        Tue,  8 Feb 2022 08:46:31 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id v10so6347401qvk.7;
+        Tue, 08 Feb 2022 08:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MFg4oiGESgYctPjyVURPoa5eRtFO0bNPbfwjD0pksvo=;
+        b=eEOSjkGvdwrw2HLW4fBjKdShFRwpRpIkMLBtU40unspsIhDn5Qjo7LmcGfYHO6VD4v
+         6Peii3dIB69X90/0sxSreZtQYmSTIE+unRdfKf1KcrKffQVCdTEnCVZpkC3TgAaO9g6n
+         L9poHgq2JH2V74j72dkvIaTF2aYAlURmKnrKj1zRVxx53kcahJuiTvlv1xiAQwyuzalK
+         rEAGEcIe2pX5Se734mavOsPq/i6ZjSBPiWdaZ1SxMwTwhcuceyXqyekIzyyDVfaRos4y
+         eD/HDJF5tBPV3iPVfMz8rhY09Yn4nO2klI5U0sk1h6rVcBfJB0HSXeAC37crb4p539pv
+         JYhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MFg4oiGESgYctPjyVURPoa5eRtFO0bNPbfwjD0pksvo=;
+        b=zWO2JhXp6zSYJP7+Eh/v+dB4ubfdxF7pODGS/Kol90xMgfx5mPrq0szNhGczTlrMhp
+         pCnFXRWMzx1QoxJZyGc2qGy9QsLoOA464thPr2pt80fJboHnUwaMcjzllfVi4GJymUFp
+         Ap/ytgAsnD7E4EI1rXl+6cuVZfc+VfQvzNBcJr+4WVF3vEpCnfqRdrhX7RiIlWqSbrvj
+         7onI30P1URkjWWiSkc3QLTM52RlUuDmj+nGD0hJTU1xMKz0DLEj0oG10OA9qfynLiDX1
+         eKrEfS6IikQu//sdYnChyr77c+hRKjn7j1heIKFvByAtexIfQtF35KP0IO1tBY2seLrk
+         HKig==
+X-Gm-Message-State: AOAM530W06H7xay4oEsWXir1N1BcEYs9tS0OHeRcxfRBlx/wSPTEssHH
+        M9pgbDfVeacXSpTy7Z3/r9Q=
+X-Google-Smtp-Source: ABdhPJzHN2AQIkV6FHtVyNV6Y3kslXhm7JjVYiUbZFgxCWt2Yo3VJdynX3nPGUagi1So0ihV2XMw6g==
+X-Received: by 2002:a05:6214:29ec:: with SMTP id jv12mr3700945qvb.87.1644338790338;
+        Tue, 08 Feb 2022 08:46:30 -0800 (PST)
+Received: from localhost.localdomain (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id h9sm7546795qkn.121.2022.02.08.08.46.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 08:46:29 -0800 (PST)
+From:   frowand.list@gmail.com
+To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
+Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/1] Documentation: dev-tools: clarify KTAP specification wording
+Date:   Tue,  8 Feb 2022 10:46:23 -0600
+Message-Id: <20220208164623.3151777-1-frowand.list@gmail.com>
 X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0244.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::9) To DB7PR03MB4523.eurprd03.prod.outlook.com
- (2603:10a6:10:19::27)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fed9347a-465c-4994-9dc4-08d9eb1fda60
-X-MS-TrafficTypeDiagnostic: VI1PR03MB3133:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR03MB313361D65452F6F3DCBE5ECF962D9@VI1PR03MB3133.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1tbZr0LRkD+JCS8UPSGZl2jn/63SYAkQ+9q5HGc0N0/WUNhOfoO5iDvx7h3glMtlVV4okBMQgE60RDs9gctkA9btWwncQ7XCrMQqWghsQv0Een3rDwGRs5DDzcxNyUVxlzoKBaH8LA9r40tQTov8An5MhibrQfQTHQShMRI+PzERUKXEVc//MDnCqhjUCFgeiO/EGwoHoggiPKE8BB1lnT+4fZyeYHAUH3siFxPrfu9PhPg3Wgl6zlwSm8LXFFpGG0QJ7cBhDvzspOSWrUUrr4jJ4tmjBmXaSdxfRXf9SjaV2W2WZqvITiDwv8TUzu4dbvVsQV1qgSFCABRH9kjQPvFAt36F6E3QWnKctaE1hUN2i0z27eFhtnOoqstPrAb7BHLtQlknBwJN4ujEvF572VnaGE3+2GoO0I0EHDzuPj8X5P+qVezp0+t83KyuAzEUrtCKA4tG/d/MDp+3Lpxbd449cShXUVHcLJP+UJqzp2adkfbmXxyXnyeInG6cdcqARiV17eX6/t+15xAoTfp1ahZL1uFHYHVy7CoCFVRPMdU35S80Isv8dFOHgFmjF5/6XNV6nue0gIVokzKQwHJva3vU9tsQfxkUDJ5WY7ifqFZ23WIEf9rF4rV3yfapKauLGCWohq7V5fWphZSXk2UxHeEkUXIcs1ZvW4Z0mwy0om/q0iWebJz7mlA1arPLFyGTOh6R6fQ8P0aSwleMfPoONQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(6512007)(38100700002)(83380400001)(36756003)(26005)(1076003)(186003)(2906002)(5660300002)(38350700002)(44832011)(2616005)(508600001)(54906003)(6486002)(6506007)(86362001)(66476007)(66556008)(66946007)(316002)(52116002)(107886003)(6666004)(8936002)(4326008)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?csMY0wF0vsPIGU8arqj5YqWcsvC/OvwxSWSfOgGHqqSsdCS6ysQdZ+MSmawP?=
- =?us-ascii?Q?Pd+Lv/pnUH9PES02nbJovMDaKKu45NsKBZbSGCptu3GeCrn8p8NQO1GibFGZ?=
- =?us-ascii?Q?v795GmAnic9znZiWL/c7QEeapsw4gC1ELl9b24AizIHx2kWD8buSvoO3zJuo?=
- =?us-ascii?Q?dg0TUeZy1m73rNnZb118GWYW4/JumuAiPCsaHFy/NX6UB0jRnIA3YWfk9dpd?=
- =?us-ascii?Q?1ItjcV233EYruKbMXFG0C49a9D3RpB3JdiAEE6MBz1p7K1OhiL1KzrMGCYWH?=
- =?us-ascii?Q?OqcxzCQH6/tnXGJwGY2hfxlGF3VA7B57RkvdvXZuxeuFLYPpf1qhe46D+8AG?=
- =?us-ascii?Q?+OGml6HLt1MM9OB0KHXEBgs5wSrOwguM1ozUpTfhalcw15voOz48s4035x2X?=
- =?us-ascii?Q?dvTryNHLKgGoHIceTPphr9dBrtSMGleXtvGO7v7uGm0e+P8xX3aC+c7/anfb?=
- =?us-ascii?Q?M87gC3tHIOt4oEENsbfWmDCKqrV136lFRnqxKvdDjpV6OfQK55Kvln0H3asN?=
- =?us-ascii?Q?fwDq+UYgPsSIyZjM0tv7OXcbIGhmzfHY7mm5WjI/acdvUspo0tYZwbvkuFEp?=
- =?us-ascii?Q?WFNSOVVn27WF+ZyGe+S7Kfs7mTnTFeCiOu6AhdlIGvlDBEwaFcGcVKsbSLJS?=
- =?us-ascii?Q?SgwsuIfrxcmyKZcqpR9jZ2GOoN0X2ZwN3qyH3oCfoGl1QjlB4QAwLalLFE0Z?=
- =?us-ascii?Q?+nrCimMW5v0l4YFPBebNmSkBvcsx4V15VJsMSkUYVXVDQLOwFSVG9wtN9fkk?=
- =?us-ascii?Q?7bIysh+yhVruf/KP5vxoyokkTCoyJ9sG/fFdw4oiv0/mpvDar6g7ChR0kWgL?=
- =?us-ascii?Q?FtmVwyEXzLPFS1yU36Ezn2KCAyZ98tzpVnJpzHgOKwqK3whoFLrb2+Ll6rSV?=
- =?us-ascii?Q?J6pW0InNHor+k6MXJEHnQDTZPOV/kc4+mW74B50pKKELTudIZW8GSwnve9IN?=
- =?us-ascii?Q?XrIzZpqnI0S4D1PSP0P2vfO6B01QFUdIKTaCVCE+k58RJagatv2HPBWfNcjf?=
- =?us-ascii?Q?yJ7dlXJQtY4+pS1tqeCnRIMy9IaEql0t0+22GU8eXbDOH44HTnNRgH69CGR/?=
- =?us-ascii?Q?AFndNtK55MDB04Ry/7T35vErCEN7jKw4iKMgK/NKzph21d8Rs2v0tcRjJu0u?=
- =?us-ascii?Q?WPeOs+iq8YMendmOBVXSdU/liQEHCdSZeqPZn39Vt95YkpUPDRWShC9oZV1F?=
- =?us-ascii?Q?Ac9zhlA4GZSRg9DUEeaW4RX7JFL2zZq7b1KH4BYOy1uXpPPIl8Ia6MB99/OG?=
- =?us-ascii?Q?AZZ9mz3WC2jYy5THZHZ0byLc+7C4gDRzEpb73EJHn4VJKS+3XyUJg8gzsjFY?=
- =?us-ascii?Q?wRLWCd6XQAPRaQWZoNEG4Bf+LTCb140eB/tBHgqBG6H1+RldNHt0Cd7bgo23?=
- =?us-ascii?Q?Y+a4RWrR/QHjmCGkWQErXROIYD+oi7EKUQ5muf4LwINnzuKk3UsqL+7ah8j2?=
- =?us-ascii?Q?hcuIF2a18Lw6amz6TD4WU/EodHvmsh8m+JamaUN7LpKRF7LJr2hUTb715qDp?=
- =?us-ascii?Q?hxehjaAt/sE6QFt8SwOEiekRSWRbXR8zTUjhDLlU5EiDirC+Oue/MSLo1fLI?=
- =?us-ascii?Q?Y9XaZgJPgs6JzP+ESyQFN5elpb7ORff8bHJHYK9g/EvQyeFY9EOXDf+qrxQD?=
- =?us-ascii?Q?rX8OHsRA8TA81rny8lKQDEo=3D?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fed9347a-465c-4994-9dc4-08d9eb1fda60
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2022 16:27:09.1320
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DdX6QzPIo1CeZEzPclIUqIpOr+GIB7m2+hJhkPFNZ2p9YjI8EULQND9L3ayBHJopeCoTGqRHdp9IIShavyPwRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB3133
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 795ddd18d38f ("nvmem: core: remove regmap dependency"),
-nvmem devices do not use the regmap API. Remove references to it from
-the documentation. Additionally, update the example to reflect the new
-API.  I have chosen the brcm-nvram driver since it seems to be simpler
-than the qfprom driver.
+From: Frank Rowand <frank.rowand@sony.com>
 
-Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+Add the spec version to the title line.
+
+Explain likely source of "Unknown lines".
+
+"Unknown lines" in nested tests are optionally indented.
+
+Add "Unknown lines" items to differences between TAP & KTAP list
+
+Reviewed-by: Tim Bird <Tim.Bird@sony.com>
+Reviewed-by: David Gow <davidgow@google.com>
+Signed-off-by: Frank Rowand <frank.rowand@sony.com>
 ---
 
-Changes in v2:
-- Replace spaces with tabs
+Changes since version 2
+  - Add missing quote after word: incorrect
+  - Add Reviewed-by tags
 
- Documentation/driver-api/nvmem.rst | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+Changes since version 1
+  - Explain likely source of "Unknown lines"
+  - "Unknown line" in nested tests are optionally indented
+  - Add "Unknown lines" items to differences between TAP & KTAP list
 
-diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-index 287e86819640..a8a58b61709b 100644
---- a/Documentation/driver-api/nvmem.rst
-+++ b/Documentation/driver-api/nvmem.rst
-@@ -26,9 +26,7 @@ was a rather big abstraction leak.
+ Documentation/dev-tools/ktap.rst | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+index 878530cb9c27..dfb3f10a8b2d 100644
+--- a/Documentation/dev-tools/ktap.rst
++++ b/Documentation/dev-tools/ktap.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- This framework aims at solve these problems. It also introduces DT
- representation for consumer devices to go get the data they require (MAC
--Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs. This
--framework is based on regmap, so that most of the abstraction available in
--regmap can be reused, across multiple types of buses.
-+Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs.
+-========================================
+-The Kernel Test Anything Protocol (KTAP)
+-========================================
++===================================================
++The Kernel Test Anything Protocol (KTAP), version 1
++===================================================
  
- NVMEM Providers
- +++++++++++++++
-@@ -45,24 +43,22 @@ nvmem_device pointer.
+ TAP, or the Test Anything Protocol is a format for specifying test results used
+ by a number of projects. It's website and specification are found at this `link
+@@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
+ the four formats for lines described above. This is allowed, however, they will
+ not influence the status of the tests.
  
- nvmem_unregister(nvmem) is used to unregister a previously registered provider.
- 
--For example, a simple qfprom case::
-+For example, a simple nvram case::
- 
--  static struct nvmem_config econfig = {
--	.name = "qfprom",
--	.owner = THIS_MODULE,
--  };
--
--  static int qfprom_probe(struct platform_device *pdev)
-+  static int brcm_nvram_probe(struct platform_device *pdev)
-   {
-+	struct nvmem_config config = {
-+		.name = "brcm-nvram",
-+		.reg_read = brcm_nvram_read,
-+	};
- 	...
--	econfig.dev = &pdev->dev;
--	nvmem = nvmem_register(&econfig);
--	...
-+	config.dev = &pdev->dev;
-+	config.priv = priv;
-+	config.size = resource_size(res);
++This is an important difference from TAP.  Kernel tests may print messages
++to the system console or a log file.  Both of these destinations may contain
++messages either from unrelated kernel or userspace activity, or kernel
++messages from non-test code that is invoked by the test.  The kernel code
++invoked by the test likely is not aware that a test is in progress and
++thus can not print the message as a diagnostic message.
 +
-+	devm_nvmem_register(&econfig);
-   }
+ Nested tests
+ ------------
  
--It is mandatory that the NVMEM provider has a regmap associated with its
--struct device. Failure to do would return error code from nvmem_register().
--
- Users of board files can define and register nvmem cells using the
- nvmem_cell_table struct::
+@@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
+ result. If one of the subtests fail, for example, the parent test should also
+ fail.
  
+-Additionally, all result lines in a subtest should be indented. One level of
++Additionally, all lines in a subtest should be indented. One level of
+ indentation is two spaces: "  ". The indentation should begin at the version
+ line and should end before the parent test's result line.
+ 
++"Unknown lines" are not considered to be lines in a subtest and thus are
++allowed to be either indented or not indented.
++
+ An example of a test with two nested subtests:
+ 
+ .. code-block::
+@@ -225,9 +235,11 @@ Major differences between TAP and KTAP
+ --------------------------------------
+ 
+ Note the major differences between the TAP and KTAP specification:
+-- yaml and json are not recommended in diagnostic messages
+-- TODO directive not recognized
++- yaml and json are not recommended in KTAP diagnostic messages
++- TODO directive not recognized in KTAP
+ - KTAP allows for an arbitrary number of tests to be nested
++- TAP includes "Unknown lines" in the category of "Anything else"
++- TAP says "Unknown lines" are "incorrect"; KTAP allows "Unknown lines"
+ 
+ The TAP14 specification does permit nested tests, but instead of using another
+ nested version line, uses a line of the form
 -- 
-2.25.1
+Frank Rowand <frank.rowand@sony.com>
 
