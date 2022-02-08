@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73664C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E17C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349396AbiBHI1J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:27:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
+        id S1349429AbiBHI2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:28:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349397AbiBHI1I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:27:08 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57049C03FEC3
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:27:07 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id 15so13290111ilg.8
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:27:07 -0800 (PST)
+        with ESMTP id S1344592AbiBHI2f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:28:35 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0D3C0401F6
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:28:34 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id i62so20196473ioa.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:28:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=44T1HlXr7BuKORnt0ndhEiJslHbwl0ICNg4Sr/XHz9A=;
-        b=Fzfpbyn7+b2s9yL3hUzIjl5MZBYGazEFVmXaeDrjIUeTtnDQ1OKoJyGAaKMtxyGBdd
-         4S1ZxZrFHWKucVy3EVDiDlCD+GukmMqNELhAsJoSpYETtgs71v/eSRy8upPtMCw5WldL
-         rt3deAo5QqvbMpsGjjXyu9cBWMJifParnnXDYP56kPIXheap/MgjK8ZH/RdsMKPQB6HC
-         /BvTqTkhEd0OAYRI5Tu6cBy5LEC/2CU7nzKqW6W6PwC2DiTRG+wyIF6qCI+23T5iXNEO
-         Jhi9jsf0AnZsftBtRnyi8NbBzkMyzYKHVPnZxJUTiWpmI67LrnD/P7YMneI+Z6FVVvSh
-         9Yiw==
+        bh=IaBXYZ+vat/5ri8bP0Swu84ZGYn0w01tNU9IeoBlMPo=;
+        b=JThnxs6ZEyP2u3Voeo1JuquQn0t749qV+dqgrkX/eEyw4qMNSGPIULygJERycpC1iy
+         +AQd2m1QIjqNSDwOFk46qn5AYDIHYzXVdEM3dtSWuOvlvT8+KthV+E99Rhvtvxn5ILCs
+         haxC3B8Gsf1Pi5Nq/N2zOQ5W0mAhVJkCxyJb4lWDFgta0RejGctd0RcYBY8sIBBL0aWd
+         APCE23snVKHhFdcAW9iyip/mQUSd+NwczXDE1llk0vN/RqI0nPxmqbqcbxTylIaE2XnI
+         bHheeZVK7BT++iatU0uIk/jvo2r77n8slx8g5GX2AeL6By3N4E4LbJMw2D/Drc+Yqdfa
+         sodw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=44T1HlXr7BuKORnt0ndhEiJslHbwl0ICNg4Sr/XHz9A=;
-        b=J4ST0jYMF51Ab/VUzkQTrYN15CA8ceGyOKDf78NpbwHYfILlD/W7eWotwngBDJhrjM
-         oGgOmSig7tJ1LBj2ZU/Ke6YRHtIBQuLVv4v6aQTqPDPg30i8zXaUeshjHD0xpj0rJEdx
-         wuy0LU4IETfBOzsUT3NCRisCXt2/2SN9ysP/nZEsqNoLIHCX+UJXJ6rXGwQk/MGg89r7
-         D1+HmhBCzGAMavHrTEm6QdzwBIl4NT6MoFVMwdEyp2zS/j+/Co6LJoRJBUluqjdgE9ve
-         Ex+KfrBl96UF0d/dlj0GnnV54tdVCF2cqYHxCkcGLVoQbxSsxY1wol+dKgKccy9URJfS
-         KXPA==
-X-Gm-Message-State: AOAM531OGRv+ACMtR1lnJxF0nXSlJOnNEENBWd+NUVYwGTGLBLTpzESr
-        VUU/kvR01SkcKgIlvNyHUvjfyQ==
-X-Google-Smtp-Source: ABdhPJxhgIu0UmLk8Z4r1+xA9jtb+cGWoKPZ+ozf9Iro3uQDBVD7tgKvOm4k7ftLHpOu/qObU3L4GQ==
-X-Received: by 2002:a05:6e02:20c9:: with SMTP id 9mr1689066ilq.267.1644308826595;
-        Tue, 08 Feb 2022 00:27:06 -0800 (PST)
+        bh=IaBXYZ+vat/5ri8bP0Swu84ZGYn0w01tNU9IeoBlMPo=;
+        b=1Ltwhyiixfh1yKtoiv+/xnhuUQ+bEXG/SbOENaocsYN5TkqbRgy32RjN/Al1JZivKl
+         LdUR7aA6fIQtMb9Q0tSio1NqXVhbvr7SWyRCy2k/dpz6MI2FFG6kp6Gr9FHmep9JECPD
+         t+rOYgqJbZ/gdktZC8KiqR6sb84aRJfp1WRl9Lsa/ASdMkDR15qRM+7SDmtKg92LdhVp
+         whHl3l7w2nJvyPsFyGxBu0soPA953i16NSjFRxAu4uY/Jr07rNWe3enbzdAMzpHsJ02t
+         pGD9ekUqhnTJe1VOZirlDhUib6PnubBHuq6SLikpu5RqYWT5ISJVQU4qdcTuTjdgetJk
+         tSNA==
+X-Gm-Message-State: AOAM531erjc6+OSfaStxqsEQ7tHx4H8mdoW77f0uE+6tcTGACc4WT+dq
+        j1s/sVdVhyZhNHZ7Vyh0K3hoWA==
+X-Google-Smtp-Source: ABdhPJzqrwOWjbsRUGOLxbeEThZwwHRnlRXbd7OEIRH/TeA65mA64JA5hXRJTjnC0IbwzU+6RJs/Ng==
+X-Received: by 2002:a05:6638:13c8:: with SMTP id i8mr1687217jaj.125.1644308914113;
+        Tue, 08 Feb 2022 00:28:34 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
-        by smtp.gmail.com with ESMTPSA id e17sm6912666ilm.67.2022.02.08.00.27.05
+        by smtp.gmail.com with ESMTPSA id y9sm2780137ilg.58.2022.02.08.00.28.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 00:27:06 -0800 (PST)
-Date:   Tue, 8 Feb 2022 01:27:01 -0700
+        Tue, 08 Feb 2022 00:28:33 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:28:29 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -83,47 +83,54 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 02/12] mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
-Message-ID: <YgIpVegaNgaD2NNE@google.com>
+Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
+Message-ID: <YgIpreheobw2M5k3@google.com>
 References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-3-yuzhao@google.com>
+ <20220208081902.3550911-5-yuzhao@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208081902.3550911-3-yuzhao@google.com>
+In-Reply-To: <20220208081902.3550911-5-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 01:18:52AM -0700, Yu Zhao wrote:
-> Some architectures support the accessed bit in non-leaf PMD entries,
-> e.g., x86 sets the accessed bit in a non-leaf PMD entry when using it
-> as part of linear address translation [1]. Page table walkers that
-> clear the accessed bit may use this capability to reduce their search
-> space.
-> 
-> Note that:
-> 1. Although an inline function is preferable, this capability is added
->    as a configuration option for the consistency with the existing
->    macros.
-> 2. Due to the little interest in other varieties, this capability was
->    only tested on Intel and AMD CPUs.
-
-Clarified ARCH_HAS_NONLEAF_PMD_YOUNG for x86 as requested here:
-https://lore.kernel.org/linux-mm/CAHk-=wgvOqj6LUhNp8V5ddT8eZyYdFDzMZE73KgPggOnc28VWg@mail.gmail.com/
+On Tue, Feb 08, 2022 at 01:18:54AM -0700, Yu Zhao wrote:
 
 <snipped>
 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 9f5bd41bf660..e787b7fc75be 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -85,6 +85,7 @@ config X86
->  	select ARCH_HAS_PMEM_API		if X86_64
->  	select ARCH_HAS_PTE_DEVMAP		if X86_64
->  	select ARCH_HAS_PTE_SPECIAL
-> +	select ARCH_HAS_NONLEAF_PMD_YOUNG
+> diff --git a/mm/memory.c b/mm/memory.c
+> index a7379196a47e..d27e5f1a2533 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4754,6 +4754,27 @@ static inline void mm_account_fault(struct pt_regs *regs,
+>  		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1, regs, address);
+>  }
+>  
+> +#ifdef CONFIG_LRU_GEN
+> +static void lru_gen_enter_fault(struct vm_area_struct *vma)
+> +{
+> +	/* the LRU algorithm doesn't apply to sequential or random reads */
+> +	current->in_lru_fault = !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ));
+> +}
+> +
+> +static void lru_gen_exit_fault(void)
+> +{
+> +	current->in_lru_fault = false;
+> +}
+> +#else
+> +static void lru_gen_enter_fault(struct vm_area_struct *vma)
+> +{
+> +}
+> +
+> +static void lru_gen_exit_fault(void)
+> +{
+> +}
+> +#endif /* CONFIG_LRU_GEN */
 
-And enabled it for both 32-bit and 64-bit.
+Moved task_enter_lru_fault() from mm.h to memory.c as requested here:
+https://lore.kernel.org/linux-mm/CAHk-=wib5-tUrf2=zYL9hjCqqFykZmTr_-vMAvSo48boCA+-Wg@mail.gmail.com/
+
+Also renamed it to lru_gen_enter_fault().
 
 <snipped>
