@@ -2,103 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1880EC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:38:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C2F2C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:39:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245604AbiBHIiZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:38:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35616 "EHLO
+        id S1350162AbiBHIje (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:39:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237041AbiBHIiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:38:24 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328D4C0401F6;
-        Tue,  8 Feb 2022 00:38:24 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1644309498;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=JrCAs9kbBprIEgALNJFOh0qnOZQk7Hfl/hnbgt4vAfw=;
-        b=jgxsPPPyIazEOwCTiVmZmbsyjKpMw+Qqmq76g2m8P5z4KnJB/NVGlME1Q+2eZflalqwZFH
-        E/m/U2zbLt1GwL9KEqZmiobS2BBK23V+XghXRCubY5wuXeV1KbFiJRBTeYmMAply1C50R9
-        +sNMq/aHaZagKUHTYWDrA13pLBPtQAyBbBCHTvj92jdAAUq6sPyE8RyiuMfZi1uBIAPEBm
-        6uSW/3NymO7qkF6O+/D723OXmoVd7sn+cTShk2Vm4yS16oqZstiFKTzxKWo+FZE9JIu+yL
-        0kjNAqcrWrVlrlKB379S+RsBjnplFAVlyX8lT8BgczxWmm2BuaifKQfgpmqAEg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1644309498;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=JrCAs9kbBprIEgALNJFOh0qnOZQk7Hfl/hnbgt4vAfw=;
-        b=HnFz7J1nLMVF9/u/sEsoyb+TMdbcI8/bkZD8tJIpPry3H0lJR1ZVjQty8Zn0aB1yRgp0sM
-        2Eh+c9laMdsrdGDg==
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        with ESMTP id S237041AbiBHIjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:39:33 -0500
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F2FC03FEC0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:39:32 -0800 (PST)
+Received: by mail-io1-xd35.google.com with SMTP id r144so20175173iod.9
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:39:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=L8z0e4fny5EqPGw8SvPl3dRoqRtOM5UTngWFBuQgHQk=;
+        b=nFkxDiGyPNqAuqHFGZrYM9OkswChGFfi/2rsTJZWPBqVhneR4FX5/aD8yQmHseZDKA
+         MSr7fYcaHuYxcCUEaWw2A6ljXlmTbWevzF4CPb0uZIGt/c5MBfPEie9i+HJtPSIBhjAE
+         xnGsF8RPIiz2lP+T73s9zBsTMwKdjbXi/r1+SZ60IRaicanIO1Sl3WMo53g/UJwmrUIm
+         7TxPNnjspVt4j/7JwMv2INfRWhU8EGabXNVjJt8x8O6OLSg5b12B7bFAIu/1iDBZeACd
+         3X1DZsd3gGVMv2EXp68yQGSX0ePk0ztUWc/3nD2oa6iyLCjFdbxvWvgsT/tJQcCp8FV3
+         9Rgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=L8z0e4fny5EqPGw8SvPl3dRoqRtOM5UTngWFBuQgHQk=;
+        b=DF0LTkQB0ySuLhJzoEQ0kKFd/1F+U5RhIwgV4o7lMuHD3R5RyE7ECHinNCmTl020zd
+         b6o4Ysbz9c67hgl4Nppl7U4tr6NwfKnebNSF4NaKj5ht2JDoClSOgWxzQ+t+t+qucuvO
+         vM0m5fLkAzTlwwQochmyaASHBLNf6EoQgoYcWN6BIRavHnuhwuT/9gzzfiXwJV8FFmj0
+         YirjZXW1E1UulqKjH6ZPHe9iJ0HeSqLSm1pLVbdyKJw79OX2Mj5yytWEfePq0jlbYrm/
+         /P113D3+aBVgYcUK2W5Hh6XuUlDaXLX9GcTGlh43I9MVTXOrEXUtvF9c/SrHr18+2yJr
+         VOXg==
+X-Gm-Message-State: AOAM533fa9cq0yjhkR/GBfPahl4byp970R6dYw16X7FcYucIRvOzL11R
+        IAc0w8+y8Cj4C9ERF1lk1hzU8g==
+X-Google-Smtp-Source: ABdhPJyBbK7ehMBZdLHuV7DbnNODmVCvjijq8ijXQY33cd4K3b4anwZcNGc08jzu3lpwjAKWUaojeA==
+X-Received: by 2002:a5e:da01:: with SMTP id x1mr1562524ioj.218.1644309571992;
+        Tue, 08 Feb 2022 00:39:31 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
+        by smtp.gmail.com with ESMTPSA id s18sm7924009iov.5.2022.02.08.00.39.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 00:39:31 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:39:27 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH 26/35] x86/process: Change copy_thread() argument 'arg'
- to 'stack_size'
-In-Reply-To: <20220130211838.8382-27-rick.p.edgecombe@intel.com>
-Date:   Tue, 08 Feb 2022 09:38:18 +0100
-Message-ID: <87y22lvjlx.ffs@tglx>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 07/12] mm: multigenerational LRU: support page table
+ walks
+Message-ID: <YgIsPyTImfaWI10k@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-8-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208081902.3550911-8-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 30 2022 at 13:18, Rick Edgecombe wrote:
-> -int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
-> -		struct task_struct *p, unsigned long tls)
-> +int copy_thread(unsigned long clone_flags, unsigned long sp,
-> +		unsigned long stack_size, struct task_struct *p,
-> +		unsigned long tls)
->  {
->  	struct inactive_task_frame *frame;
->  	struct fork_frame *fork_frame;
-> @@ -175,7 +176,7 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
->  	if (unlikely(p->flags & PF_KTHREAD)) {
->  		p->thread.pkru = pkru_get_init_value();
->  		memset(childregs, 0, sizeof(struct pt_regs));
-> -		kthread_frame_init(frame, sp, arg);
-> +		kthread_frame_init(frame, sp, stack_size);
->  		return 0;
->  	}
->  
-> @@ -208,7 +209,7 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
->  		 */
->  		childregs->sp = 0;
->  		childregs->ip = 0;
-> -		kthread_frame_init(frame, sp, arg);
-> +		kthread_frame_init(frame, sp, stack_size);
->  		return 0;
->  	}
+On Tue, Feb 08, 2022 at 01:18:57AM -0700, Yu Zhao wrote:
+> To avoid confusions, the term "iteration" specifically means the
+> traversal of an entire mm_struct list; the term "walk" will be applied
+> to page tables and the rmap, as usual.
+> 
+> To further exploit spatial locality, the aging prefers to walk page
+> tables to search for young PTEs and promote hot pages. A runtime
+> switch will be added in the next patch to enable or disable this
+> feature. Without it, the aging relies on the rmap only.
 
-Can you please change the prototypes too for completeness sake?
+Clarified that page table scanning is optional as requested here:
+https://lore.kernel.org/linux-mm/YdxEqFPLDf+wI0xX@dhcp22.suse.cz/
 
-Thanks,
+> NB: this feature has nothing similar with the page table scanning in
+> the 2.4 kernel [1], which searches page tables for old PTEs, adds cold
+> pages to swapcache and unmap them.
+> 
+> An mm_struct list is maintained for each memcg, and an mm_struct
+> follows its owner task to the new memcg when this task is migrated.
+> Given an lruvec, the aging iterates lruvec_memcg()->mm_list and calls
+> walk_page_range() with each mm_struct on this list to promote hot
+> pages before it increments max_seq.
+> 
+> When multiple page table walkers (threads) iterate the same list, each
+> of them gets a unique mm_struct; therefore they can run concurrently.
+> Page table walkers ignore any misplaced pages, e.g., if an mm_struct
+> was migrated, pages it left in the previous memcg won't be promoted
+> when its current memcg is under reclaim. Similarly, page table walkers
+> won't promote pages from nodes other than the one under reclaim.
 
-        tglx
+Clarified the interaction between task migration and reclaim as requested here:
+https://lore.kernel.org/linux-mm/YdxPEdsfl771Z7IX@dhcp22.suse.cz/
+
+<snipped>
+
+> Server benchmark results:
+>   Single workload:
+>     fio (buffered I/O): no change
+> 
+>   Single workload:
+>     memcached (anon): +[5.5, 7.5]%
+>                 Ops/sec      KB/sec
+>       patch1-6: 1015292.83   39490.38
+>       patch1-7: 1080856.82   42040.53
+> 
+>   Configurations:
+>     no change
+> 
+> Client benchmark results:
+>   kswapd profiles:
+>     patch1-6
+>       45.49%  lzo1x_1_do_compress (real work)
+>        7.38%  page_vma_mapped_walk
+>        7.24%  _raw_spin_unlock_irq
+>        2.64%  ptep_clear_flush
+>        2.31%  __zram_bvec_write
+>        2.13%  do_raw_spin_lock
+>        2.09%  lru_gen_look_around
+>        1.89%  free_unref_page_list
+>        1.85%  memmove
+>        1.74%  obj_malloc
+> 
+>     patch1-7
+>       47.73%  lzo1x_1_do_compress (real work)
+>        6.84%  page_vma_mapped_walk
+>        6.14%  _raw_spin_unlock_irq
+>        2.86%  walk_pte_range
+>        2.79%  ptep_clear_flush
+>        2.24%  __zram_bvec_write
+>        2.10%  do_raw_spin_lock
+>        1.94%  free_unref_page_list
+>        1.80%  memmove
+>        1.75%  obj_malloc
+> 
+>   Configurations:
+>     no change
+
+Added benchmark results to show the difference between page table
+scanning and no page table scanning, as requested here:
+https://lore.kernel.org/linux-mm/Ye6xS6xUD1SORdHJ@dhcp22.suse.cz/
+
+<snipped>
+
+> +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> +{
+> +	static const struct mm_walk_ops mm_walk_ops = {
+> +		.test_walk = should_skip_vma,
+> +		.p4d_entry = walk_pud_range,
+> +	};
+> +
+> +	int err;
+> +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> +
+> +	walk->next_addr = FIRST_USER_ADDRESS;
+> +
+> +	do {
+> +		err = -EBUSY;
+> +
+> +		/* folio_update_gen() requires stable folio_memcg() */
+> +		if (!mem_cgroup_trylock_pages(memcg))
+> +			break;
+
+Added a comment on the stable folio_memcg() requirement as requested
+here:
+https://lore.kernel.org/linux-mm/Yd6q0QdLVTS53vu4@dhcp22.suse.cz/
+
+<snipped>
+
+> +static struct lru_gen_mm_walk *alloc_mm_walk(void)
+> +{
+> +	if (current->reclaim_state && current->reclaim_state->mm_walk)
+> +		return current->reclaim_state->mm_walk;
+> +
+> +	return kzalloc(sizeof(struct lru_gen_mm_walk),
+> +		       __GFP_HIGH | __GFP_NOMEMALLOC | __GFP_NOWARN);
+> +}
+
+Replaced kvzalloc() with kzalloc() as requested here:
+https://lore.kernel.org/linux-mm/Yd6tafG3CS7BoRYn@dhcp22.suse.cz/
+
+Replaced GFP_KERNEL with __GFP_HIGH|__GFP_NOMEMALLOC|__GFP_NOWARN as
+requested here:
+https://lore.kernel.org/linux-mm/YefddYm8FAfJalNa@dhcp22.suse.cz/
+
+<snipped>
