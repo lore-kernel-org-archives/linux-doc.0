@@ -2,397 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC26C4321E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F0AC43217
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 11:27:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348398AbiBHL00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:26:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
+        id S241623AbiBHL0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 06:26:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243663AbiBHKVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 05:21:21 -0500
-X-Greylist: delayed 611 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 02:21:19 PST
-Received: from vulcan.natalenko.name (vulcan.natalenko.name [IPv6:2001:19f0:6c00:8846:5400:ff:fe0c:dfa0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E826C03FEC1
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 02:21:19 -0800 (PST)
-Received: from spock.localnet (unknown [83.148.33.151])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id BA020DB8DE1;
-        Tue,  8 Feb 2022 11:11:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1644315064;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lUKq3aS/JCO34HXAzMjjQ0LeWrbNhk6ZHI+ox5ouTPA=;
-        b=kv2BPUKVvaAqoPxmRbZDjV1tniN1Z+GuhaqboeFUxuXlkLYuWmH32MdiIYQWNlu/whqMKM
-        ofZJjRLI5IKpPEx7p1ug0U2Q0dd4+Souq/FY5QoN7WeoiU4FHa7BXfMcnhJkBhNzMz+F7d
-        GDXIauPhUa4rOyCqaFwfr8sm61WFz/s=
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Yu Zhao <yuzhao@google.com>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH v7 00/12] Multigenerational LRU Framework
-Date:   Tue, 08 Feb 2022 11:11:02 +0100
-Message-ID: <4714886.31r3eYUQgx@natalenko.name>
-In-Reply-To: <20220208081902.3550911-1-yuzhao@google.com>
-References: <20220208081902.3550911-1-yuzhao@google.com>
+        with ESMTP id S239854AbiBHJnS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:43:18 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07927C03FEC0;
+        Tue,  8 Feb 2022 01:43:17 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id j14so27115517ejy.6;
+        Tue, 08 Feb 2022 01:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Lq+dKx41RUjgzj8JvU9gnjviVgG4UdA+iyRcp+19UfA=;
+        b=kzTiv9B2U7Wc0fxzGKxQg8uhdYfgfO/xIoYNmhC/rgC3OhSFBPSSSVQO2K03kmbWfV
+         +UGcT+3CXBaxmU4wl8vygy23F0/n2OIZj2wwoZZ6M8tTxHSy5w2XasdRhToXb6F0ZJL/
+         5huGHAex9ROgFLbGyHXavnKHmZg06VqvEs+lU3tVrec1MwOb4gQ+YZnPEYUEScn8yWtG
+         WF55TzQTCmLzqEGG4Wwt1SN9T/qVgfgZxo3olqp4twStPc8Fvlq9EMbnn/OX0tq+yMTp
+         Nu1gS0AV+TRUTP19KVXQYe2RVt0OjPTJ8exsji8O9JmPiZQToxuJaegip/FXmkOFrhBJ
+         PJzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Lq+dKx41RUjgzj8JvU9gnjviVgG4UdA+iyRcp+19UfA=;
+        b=q5js+0T8YuxD/PeJk01Wx/XllnlZgCF/Zj1js5uulnlweydHDse+Jmyzk6pi+Z178R
+         GY1xrd4G1PYw7fjh2Bt84dsMCdyqkP1AdpgokWUegGQId6/hDq0ZAiAzcI0+wpv3gatL
+         5alRv6j8uVKhZfgc9VJFPp4Aubskx17aSri7qKsN54e2cDLk+LvTFolwHnf0zNwkqTiM
+         0ZQiSQesn0mtB+ZwiQvliQ8NyMcJaYUI8uefN/+YDHe6aUOde1ju35IKWIuIehaB4p4x
+         GAnClsUMLqz0kdLXbFg7lpNVwOxaaOeVIjmoxPCKomJK24tK040U8fw7O24OXRFzL5xP
+         BZPg==
+X-Gm-Message-State: AOAM532l7rVUk+WT/IYG/IIZYuBNZeqHps3bPT6ovJITC+OkKdJ+P6TB
+        dK/MDRN0+s0LeSyWUhpp3ts=
+X-Google-Smtp-Source: ABdhPJwAZUEHLlmX1IkuCQdKZVNT6gCfYtB0CZnvNZIAtRmMvtzYnBBVouYUplHQTTxgvw/iOFbdAA==
+X-Received: by 2002:a17:907:1115:: with SMTP id qu21mr2996031ejb.192.1644313395453;
+        Tue, 08 Feb 2022 01:43:15 -0800 (PST)
+Received: from tiger.museclub.art (p200300cf9f235800e668694710673d4b.dip0.t-ipconnect.de. [2003:cf:9f23:5800:e668:6947:1067:3d4b])
+        by smtp.googlemail.com with ESMTPSA id v14sm585931edq.13.2022.02.08.01.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 01:43:14 -0800 (PST)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Denis Pauk <pauk.denis@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add CPU core voltage
+Date:   Tue,  8 Feb 2022 10:42:43 +0100
+Message-Id: <20220208094244.1106312-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+A user discovered [1] the CPU Core voltage sensor, which spans 2
+registers and provides output in mV. Althroug the discovery was made
+with a X470 chipset, the sensor is present in X570 (tested with C8H).
+For now simply add it to each board with the CPU current sensor present.
 
-On =FAter=FD 8. =FAnora 2022 9:18:50 CET Yu Zhao wrote:
-> What's new
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> 1) Addressed all the comments received on the mailing list and in the
->    meeting with the stakeholders (will note on individual patches).
-> 2) Measured the performance improvements for each patch between 5-8
->    (reported in the commit messages).
->=20
-> TLDR
-> =3D=3D=3D=3D
-> The current page reclaim is too expensive in terms of CPU usage and it
-> often makes poor choices about what to evict. This patchset offers an
-> alternative solution that is performant, versatile and straightforward.
->=20
-> Patchset overview
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The design and implementation overview was moved to patch 12 so that
-> people can finish reading this cover letter.
->=20
-> 1. mm: x86, arm64: add arch_has_hw_pte_young()
-> 2. mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
-> Using hardware optimizations when trying to clear the accessed bit in
-> many PTEs.
->=20
-> 3. mm/vmscan.c: refactor shrink_node()
-> A minor refactor.
->=20
-> 4. mm: multigenerational LRU: groundwork
-> Adding the basic data structure and the functions that insert/remove
-> pages to/from the multigenerational LRU (MGLRU) lists.
->=20
-> 5. mm: multigenerational LRU: minimal implementation
-> A minimal (functional) implementation without any optimizations.
->=20
-> 6. mm: multigenerational LRU: exploit locality in rmap
-> Improving the efficiency when using the rmap.
->=20
-> 7. mm: multigenerational LRU: support page table walks
-> Adding the (optional) page table scanning.
->=20
-> 8. mm: multigenerational LRU: optimize multiple memcgs
-> Optimizing the overall performance for multiple memcgs running mixed
-> types of workloads.
->=20
-> 9. mm: multigenerational LRU: runtime switch
-> Adding a runtime switch to enable or disable MGLRU.
->=20
-> 10. mm: multigenerational LRU: thrashing prevention
-> 11. mm: multigenerational LRU: debugfs interface
-> Providing userspace with additional features like thrashing prevention,
-> working set estimation and proactive reclaim.
->=20
-> 12. mm: multigenerational LRU: documentation
-> Adding a design doc and an admin guide.
->=20
-> Benchmark results
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Independent lab results
-> -----------------------
-> Based on the popularity of searches [01] and the memory usage in
-> Google's public cloud, the most popular open-source memory-hungry
-> applications, in alphabetical order, are:
->       Apache Cassandra      Memcached
->       Apache Hadoop         MongoDB
->       Apache Spark          PostgreSQL
->       MariaDB (MySQL)       Redis
->=20
-> An independent lab evaluated MGLRU with the most widely used benchmark
-> suites for the above applications. They posted 960 data points along
-> with kernel metrics and perf profiles collected over more than 500
-> hours of total benchmark time. Their final reports show that, with 95%
-> confidence intervals (CIs), the above applications all performed
-> significantly better for at least part of their benchmark matrices.
->=20
-> On 5.14:
-> 1. Apache Spark [02] took 95% CIs [9.28, 11.19]% and [12.20, 14.93]%
->    less wall time to sort three billion random integers, respectively,
->    under the medium- and the high-concurrency conditions, when
->    overcommitting memory. There were no statistically significant
->    changes in wall time for the rest of the benchmark matrix.
-> 2. MariaDB [03] achieved 95% CIs [5.24, 10.71]% and [20.22, 25.97]%
->    more transactions per minute (TPM), respectively, under the medium-
->    and the high-concurrency conditions, when overcommitting memory.
->    There were no statistically significant changes in TPM for the rest
->    of the benchmark matrix.
-> 3. Memcached [04] achieved 95% CIs [23.54, 32.25]%, [20.76, 41.61]%
->    and [21.59, 30.02]% more operations per second (OPS), respectively,
->    for sequential access, random access and Gaussian (distribution)
->    access, when THP=3Dalways; 95% CIs [13.85, 15.97]% and
->    [23.94, 29.92]% more OPS, respectively, for random access and
->    Gaussian access, when THP=3Dnever. There were no statistically
->    significant changes in OPS for the rest of the benchmark matrix.
-> 4. MongoDB [05] achieved 95% CIs [2.23, 3.44]%, [6.97, 9.73]% and
->    [2.16, 3.55]% more operations per second (OPS), respectively, for
->    exponential (distribution) access, random access and Zipfian
->    (distribution) access, when underutilizing memory; 95% CIs
->    [8.83, 10.03]%, [21.12, 23.14]% and [5.53, 6.46]% more OPS,
->    respectively, for exponential access, random access and Zipfian
->    access, when overcommitting memory.
->=20
-> On 5.15:
-> 5. Apache Cassandra [06] achieved 95% CIs [1.06, 4.10]%, [1.94, 5.43]%
->    and [4.11, 7.50]% more operations per second (OPS), respectively,
->    for exponential (distribution) access, random access and Zipfian
->    (distribution) access, when swap was off; 95% CIs [0.50, 2.60]%,
->    [6.51, 8.77]% and [3.29, 6.75]% more OPS, respectively, for
->    exponential access, random access and Zipfian access, when swap was
->    on.
-> 6. Apache Hadoop [07] took 95% CIs [5.31, 9.69]% and [2.02, 7.86]%
->    less average wall time to finish twelve parallel TeraSort jobs,
->    respectively, under the medium- and the high-concurrency
->    conditions, when swap was on. There were no statistically
->    significant changes in average wall time for the rest of the
->    benchmark matrix.
-> 7. PostgreSQL [08] achieved 95% CI [1.75, 6.42]% more transactions per
->    minute (TPM) under the high-concurrency condition, when swap was
->    off; 95% CIs [12.82, 18.69]% and [22.70, 46.86]% more TPM,
->    respectively, under the medium- and the high-concurrency
->    conditions, when swap was on. There were no statistically
->    significant changes in TPM for the rest of the benchmark matrix.
-> 8. Redis [09] achieved 95% CIs [0.58, 5.94]%, [6.55, 14.58]% and
->    [11.47, 19.36]% more total operations per second (OPS),
->    respectively, for sequential access, random access and Gaussian
->    (distribution) access, when THP=3Dalways; 95% CIs [1.27, 3.54]%,
->    [10.11, 14.81]% and [8.75, 13.64]% more total OPS, respectively,
->    for sequential access, random access and Gaussian access, when
->    THP=3Dnever.
->=20
-> Our lab results
-> ---------------
-> To supplement the above results, we ran the following benchmark suites
-> on 5.16-rc7 and found no regressions [10]. (These synthetic benchmarks
-> are popular among MM developers, but we prefer large-scale A/B
-> experiments to validate improvements.)
->       fs_fio_bench_hdd_mq      pft
->       fs_lmbench               pgsql-hammerdb
->       fs_parallelio            redis
->       fs_postmark              stream
->       hackbench                sysbenchthread
->       kernbench                tpcc_spark
->       memcached                unixbench
->       multichase               vm-scalability
->       mutilate                 will-it-scale
->       nginx
->=20
-> [01] https://trends.google.com
-> [02] https://lore.kernel.org/lkml/20211102002002.92051-1-bot@edi.works/
-> [03] https://lore.kernel.org/lkml/20211009054315.47073-1-bot@edi.works/
-> [04] https://lore.kernel.org/lkml/20211021194103.65648-1-bot@edi.works/
-> [05] https://lore.kernel.org/lkml/20211109021346.50266-1-bot@edi.works/
-> [06] https://lore.kernel.org/lkml/20211202062806.80365-1-bot@edi.works/
-> [07] https://lore.kernel.org/lkml/20211209072416.33606-1-bot@edi.works/
-> [08] https://lore.kernel.org/lkml/20211218071041.24077-1-bot@edi.works/
-> [09] https://lore.kernel.org/lkml/20211122053248.57311-1-bot@edi.works/
-> [10] https://lore.kernel.org/lkml/20220104202247.2903702-1-yuzhao@google.=
-com/
->=20
-> Read-world applications
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Third-party testimonials
-> ------------------------
-> Konstantin wrote [11]:
->    I have Archlinux with 8G RAM + zswap + swap. While developing, I
->    have lots of apps opened such as multiple LSP-servers for different
->    langs, chats, two browsers, etc... Usually, my system gets quickly
->    to a point of SWAP-storms, where I have to kill LSP-servers,
->    restart browsers to free memory, etc, otherwise the system lags
->    heavily and is barely usable.
->   =20
->    1.5 day ago I migrated from 5.11.15 kernel to 5.12 + the LRU
->    patchset, and I started up by opening lots of apps to create memory
->    pressure, and worked for a day like this. Till now I had *not a
->    single SWAP-storm*, and mind you I got 3.4G in SWAP. I was never
->    getting to the point of 3G in SWAP before without a single
->    SWAP-storm.
->=20
-> An anonymous user wrote [12]:
->    Using that v5 for some time and confirm that difference under heavy
->    load and memory pressure is significant.
->=20
-> Shuang wrote [13]:
->    With the MGLRU, fio achieved 95% CIs [38.95, 40.26]%, [4.12, 6.64]%
->    and [9.26, 10.36]% higher throughput, respectively, for random
->    access, Zipfian (distribution) access and Gaussian (distribution)
->    access, when the average number of jobs per CPU is 1; 95% CIs
->    [42.32, 49.15]%, [9.44, 9.89]% and [20.99, 22.86]% higher throughput,
->    respectively, for random access, Zipfian access and Gaussian access,
->    when the average number of jobs per CPU is 2.
->=20
-> Daniel wrote [14]:
->    With memcached allocating ~100GB of byte-addressable Optante,
->    performance improvement in terms of throughput (measured as queries
->    per second) was about 10% for a series of workloads.
->=20
-> Large-scale deployments
-> -----------------------
-> The downstream kernels that have been using MGLRU include:
-> 1. Android ARCVM [15]
-> 2. Arch Linux Zen [16]
-> 3. Chrome OS [17]
-> 4. Liquorix [18]
-> 5. post-factum [19]
-> 6. XanMod [20]
->=20
-> We've rolled out MGLRU to tens of millions of Chrome OS users and
-> about a million Android users. Google's fleetwide profiling [21] shows
-> an overall 40% decrease in kswapd CPU usage, in addition to
-> improvements in other UX metrics, e.g., an 85% decrease in the number
-> of low-memory kills at the 75th percentile and an 18% decrease in
-> rendering latency at the 50th percentile.
->=20
-> [11] https://lore.kernel.org/lkml/140226722f2032c86301fbd326d91baefe3d7d2=
-3.camel@yandex.ru/
-> [12] https://phoronix.com/forums/forum/software/general-linux-open-source=
-/1301258-mglru-is-a-very-enticing-enhancement-for-linux-in-2022?p=3D1301275=
-#post1301275
-> [13] https://lore.kernel.org/lkml/20220105024423.26409-1-szhai2@cs.roches=
-ter.edu/
-> [14] https://lore.kernel.org/linux-mm/CA+4-3vksGvKd18FgRinxhqHetBS1hQekJE=
-2gwco8Ja-bJWKtFw@mail.gmail.com/
-> [15] https://chromium.googlesource.com/chromiumos/third_party/kernel
-> [16] https://archlinux.org
-> [17] https://chromium.org
-> [18] https://liquorix.net
-> [19] https://gitlab.com/post-factum/pf-kernel
-> [20] https://xanmod.org
-> [21] https://research.google/pubs/pub44271/
->=20
-> Summery
-> =3D=3D=3D=3D=3D=3D=3D
-> The facts are:
-> 1. The independent lab results and the real-world applications
->    indicate substantial improvements; there are no known regressions.
-> 2. Thrashing prevention, working set estimation and proactive reclaim
->    work out of the box; there are no equivalent solutions.
-> 3. There is a lot of new code; nobody has demonstrated smaller changes
->    with similar effects.
->=20
-> Our options, accordingly, are:
-> 1. Given the amount of evidence, the reported improvements will likely
->    materialize for a wide range of workloads.
-> 2. Gauging the interest from the past discussions [22][23][24], the
->    new features will likely be put to use for both personal computers
->    and data centers.
-> 3. Based on Google's track record, the new code will likely be well
->    maintained in the long term. It'd be more difficult if not
->    impossible to achieve similar effects on top of the existing
->    design.
->=20
-> [22] https://lore.kernel.org/lkml/20201005081313.732745-1-andrea.righi@ca=
-nonical.com/
-> [23] https://lore.kernel.org/lkml/20210716081449.22187-1-sj38.park@gmail.=
-com/
-> [24] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
->=20
-> Yu Zhao (12):
->   mm: x86, arm64: add arch_has_hw_pte_young()
->   mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
->   mm/vmscan.c: refactor shrink_node()
->   mm: multigenerational LRU: groundwork
->   mm: multigenerational LRU: minimal implementation
->   mm: multigenerational LRU: exploit locality in rmap
->   mm: multigenerational LRU: support page table walks
->   mm: multigenerational LRU: optimize multiple memcgs
->   mm: multigenerational LRU: runtime switch
->   mm: multigenerational LRU: thrashing prevention
->   mm: multigenerational LRU: debugfs interface
->   mm: multigenerational LRU: documentation
->=20
->  Documentation/admin-guide/mm/index.rst        |    1 +
->  Documentation/admin-guide/mm/multigen_lru.rst |  121 +
->  Documentation/vm/index.rst                    |    1 +
->  Documentation/vm/multigen_lru.rst             |  152 +
->  arch/Kconfig                                  |    9 +
->  arch/arm64/include/asm/pgtable.h              |   14 +-
->  arch/x86/Kconfig                              |    1 +
->  arch/x86/include/asm/pgtable.h                |    9 +-
->  arch/x86/mm/pgtable.c                         |    5 +-
->  fs/exec.c                                     |    2 +
->  fs/fuse/dev.c                                 |    3 +-
->  include/linux/cgroup.h                        |   15 +-
->  include/linux/memcontrol.h                    |   36 +
->  include/linux/mm.h                            |    8 +
->  include/linux/mm_inline.h                     |  214 ++
->  include/linux/mm_types.h                      |   78 +
->  include/linux/mmzone.h                        |  182 ++
->  include/linux/nodemask.h                      |    1 +
->  include/linux/page-flags-layout.h             |   19 +-
->  include/linux/page-flags.h                    |    4 +-
->  include/linux/pgtable.h                       |   17 +-
->  include/linux/sched.h                         |    4 +
->  include/linux/swap.h                          |    5 +
->  kernel/bounds.c                               |    3 +
->  kernel/cgroup/cgroup-internal.h               |    1 -
->  kernel/exit.c                                 |    1 +
->  kernel/fork.c                                 |    9 +
->  kernel/sched/core.c                           |    1 +
->  mm/Kconfig                                    |   50 +
->  mm/huge_memory.c                              |    3 +-
->  mm/memcontrol.c                               |   27 +
->  mm/memory.c                                   |   39 +-
->  mm/mm_init.c                                  |    6 +-
->  mm/page_alloc.c                               |    1 +
->  mm/rmap.c                                     |    7 +
->  mm/swap.c                                     |   55 +-
->  mm/vmscan.c                                   | 2831 ++++++++++++++++-
->  mm/workingset.c                               |  119 +-
->  38 files changed, 3908 insertions(+), 146 deletions(-)
->  create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
->  create mode 100644 Documentation/vm/multigen_lru.rst
+[1] https://github.com/zeule/asus-ec-sensors/issues/12
 
-Thanks for the new spin.
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 29 ++++++++++++++++---------
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-Is the patch submission broken for everyone, or for me only? I see raw emai=
-ls cluttered with some garbage like =3D2D, and hence I cannot apply those n=
-either from my email client nor from lore.
-
-Probably, you've got a git repo where things can be pulled from so that we =
-do not depend on mailing systems and/or tools breaking plaintext?
-
-Thanks.
-
-=2D-=20
-Oleksandr Natalenko (post-factum)
-
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 22de1b037cfb..e7e8f1640f45 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -39,6 +39,7 @@ The driver is aware of and reads the following sensors:
+ 9. Readings from the "Water flow meter" header (RPM)
+ 10. Readings from the "Water In" and "Water Out" temperature headers
+ 11. CPU current
++12. CPU core voltage
+ 
+ Sensor values are read from EC registers, and to avoid race with the board
+ firmware the driver acquires ACPI mutex, the one used by the WMI when its
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index dd7b207d062f..bfac08a5dc57 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -18,6 +18,7 @@
+  * - VRM Heat Sink fan RPM
+  * - Water Flow fan RPM
+  * - CPU current
++ * - CPU core voltage
+  */
+ 
+ #include <linux/acpi.h>
+@@ -100,6 +101,8 @@ enum ec_sensors {
+ 	ec_sensor_temp_t_sensor,
+ 	/* VRM temperature [℃] */
+ 	ec_sensor_temp_vrm,
++	/* CPU Core voltage [mV] */
++	ec_sensor_in_cpu_core,
+ 	/* CPU_Opt fan [RPM] */
+ 	ec_sensor_fan_cpu_opt,
+ 	/* VRM heat sink fan [RPM] */
+@@ -121,6 +124,7 @@ enum ec_sensors {
+ #define SENSOR_TEMP_MB BIT(ec_sensor_temp_mb)
+ #define SENSOR_TEMP_T_SENSOR BIT(ec_sensor_temp_t_sensor)
+ #define SENSOR_TEMP_VRM BIT(ec_sensor_temp_vrm)
++#define SENSOR_IN_CPU_CORE BIT(ec_sensor_in_cpu_core)
+ #define SENSOR_FAN_CPU_OPT BIT(ec_sensor_fan_cpu_opt)
+ #define SENSOR_FAN_VRM_HS BIT(ec_sensor_fan_vrm_hs)
+ #define SENSOR_FAN_CHIPSET BIT(ec_sensor_fan_chipset)
+@@ -139,6 +143,8 @@ static const struct ec_sensor_info known_ec_sensors[] = {
+ 	[ec_sensor_temp_t_sensor] =
+ 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+ 	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
++	[ec_sensor_in_cpu_core] =
++		EC_SENSOR("CPU Core", hwmon_in, 2, 0x00, 0xa2),
+ 	[ec_sensor_fan_cpu_opt] =
+ 		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
+ 	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
+@@ -172,32 +178,34 @@ static const struct dmi_system_id asus_ec_dmi_table[] __initconst = {
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "Pro WS X570-ACE",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_VRM |
+-		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
++		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+ 			      "ROG CROSSHAIR VIII DARK HERO",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+ 		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+-		SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
++		SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW |
++		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+ 			      "ROG CROSSHAIR VIII FORMULA",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+ 		SENSOR_TEMP_VRM | SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+-		SENSOR_CURR_CPU),
++		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG CROSSHAIR VIII HERO",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+ 		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+ 		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+-		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
++		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+ 			      "ROG CROSSHAIR VIII HERO (WI-FI)",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+ 		SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+ 		SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+-		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU),
++		SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE,
+ 			      "ROG CROSSHAIR VIII IMPACT",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_T_SENSOR |
+-		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
++		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET |
++		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX B550-E GAMING",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR |
+@@ -205,17 +213,19 @@ static const struct dmi_system_id asus_ec_dmi_table[] __initconst = {
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX B550-I GAMING",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR |
+-		SENSOR_TEMP_VRM | SENSOR_FAN_VRM_HS | SENSOR_CURR_CPU),
++		SENSOR_TEMP_VRM | SENSOR_FAN_VRM_HS |
++		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-E GAMING",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR |
+-		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
++		SENSOR_TEMP_VRM | SENSOR_FAN_CHIPSET |
++		SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-F GAMING",
+ 		SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET),
+ 	DMI_EXACT_MATCH_BOARD(VENDOR_ASUS_UPPER_CASE, "ROG STRIX X570-I GAMING",
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_VRM_HS |
+-		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU),
++		SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE),
+ 	{}
+ };
+ 
+@@ -467,7 +477,6 @@ static long scale_sensor_value(s32 value, int data_type)
+ 	switch (data_type) {
+ 	case hwmon_curr:
+ 	case hwmon_temp:
+-	case hwmon_in:
+ 		return value * MILLI;
+ 	default:
+ 		return value;
+-- 
+2.35.1
 
