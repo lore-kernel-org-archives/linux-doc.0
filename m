@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0970C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16220C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 08:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349556AbiBHImf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 03:42:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
+        id S1351268AbiBHIng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 03:43:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236164AbiBHImf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:42:35 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86A6C03FEC0
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:42:33 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id b5so6987873ile.11
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:42:33 -0800 (PST)
+        with ESMTP id S1351415AbiBHInW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 03:43:22 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6443C03FED5
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 00:43:08 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id n17so20212934iod.4
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 00:43:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=FhfpJki+NNdkV0gRVxsiFBe0vxe4of82upgxXPZeRnU=;
-        b=ltrv7fjxH8Z/MYJ+dFqSX07UsjFk0En2JVojwb07khT6GU/nljRY6ZcUw5XDkY2k9U
-         10iCVy9Ac2BAJDuQFYo9S7tDIj3P9JKeZpva3KedKVwTgq/++kCs4tuecqGhtM8RyvXv
-         mvjO6MjUYOeh3Eb7IF2GiKoupddeqo33NlX0dsBG/idvvizpFhLyoF6+Ck2Qi07i8O9m
-         kuh39mSjp36sDeaM7WmQrV59O+OXMvNNFEcQADvyZ5Sp4fcVXuPGhcMOghBHacSXUKXf
-         Zz7AOL9oylZsRdYSmJE8C0LTQ9L/alT7qztTD5bsEs2FMyshCXc9x3zGHrUcOn2yuILW
-         p8Qg==
+        bh=Co3BUFT9beNFmBZeCDmBd4UzULJVNB7vW9mGtuUcPnM=;
+        b=ohrEubPZBSY43eIQ5NQCK0B4O7CFbJ/HpKhbez278dzMobVWnfF2oOF3sOrc74B4QQ
+         U41143EltG56aXzdjjzZm/GU4cXZGtH83mvjb2qCX+F563MQ3fpmYtycdSu5kzshBVG8
+         DqWBAyQynUJHXWlGwhPQOK9if98mUmdwJ8Ir1N0avBzJ6forpYNFs3XqdV58s5cnDsMU
+         W4bwCOSsmJHJTrTl6UvTk9gc5iIIE+0JWF2n38A2tLyC+ff1QK0lTH4UBYtz+UVESmVG
+         gAIT3JizZEMLq6e110ENj51HMCyTWq0cX5c1QvY5BLrH4EK1/TJW9WkstrnYoO1NG7hG
+         geNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=FhfpJki+NNdkV0gRVxsiFBe0vxe4of82upgxXPZeRnU=;
-        b=UCJ1biJE5ACS/xMic9I3c63p0uICDN8lQ65W8uy68XIuo8Xypt3GzIVYw99WIEQOIx
-         X67NhK5oOtjSDS3KuUCpOhMrqHbECMe0WHxmPpxIdMBPFSTq5HqcZAEsSuuS6hBu1zXi
-         BAjjQzt611HqcNePBXmxmCyEvZXpdxdBZxOdHLBXpEVayml7W1fVls6YTr8f9cDyjgtw
-         5+nf0QHpaidlR0wh/gYpPAVniET42GL6cIeh+cyD3CBnsaIeb3x25aVGcID/QxpfHKe/
-         jDi2z6qcvHjf73OljtorxSrh79K1lIKoF7kLxE4+ru4HCTB2PRX2LFBDCd/vKOvtQU2C
-         FbQQ==
-X-Gm-Message-State: AOAM530nuN7znjQGR6GIIBp0ZDHjroqhimQDYb0hoEVVqPAkorxhM7PY
-        L4y8aC8LR9kwvpsGrM3RsqVPTA==
-X-Google-Smtp-Source: ABdhPJyYhd/AJxeDgLSOW7+qrTADVxq90CiyDTRHsiwwvVnqVHQOfXMPMVg1u68HTRArEl9IZnGDZQ==
-X-Received: by 2002:a05:6e02:144c:: with SMTP id p12mr1713786ilo.182.1644309753034;
-        Tue, 08 Feb 2022 00:42:33 -0800 (PST)
+        bh=Co3BUFT9beNFmBZeCDmBd4UzULJVNB7vW9mGtuUcPnM=;
+        b=UQnQZM5CwAJ25pzo2iCCTj9rfaBU3CAeBd8JnUDg19RP9d2vcWqBZZrOFZWlA/cTDr
+         aQ+v7kwfIGLFqe2kj/G4LD7h/v3UmEnjUSXTx24oGj3DU5aewfvffhXBCpaJe5akVHm/
+         md0ipDU3Z7Vxu/Yxgl4Qmg0Lpo6yXsVH6KsWhsH2/tfKKM5EVnFkFo9d1liypDsHo+Ug
+         dOIqaA/+abugCEbI2NSN0Kurgw/s5gwEWN8LNOd+s4u+LY92nOUNTi91/upewmbHWwnN
+         Mi7vNIaj2DR0d3DCyrsAQULkNZAcBParV1QLI8L7nSsWr12J5ls8ghJs/gWJ6w4tmRKo
+         dKJg==
+X-Gm-Message-State: AOAM531V3kwPYXWZp7V5CixSU/X/KhwqHbS2R0e7/TPZWpoGgVtc+hzb
+        Q2YO7TXcnx3lBfzdXVGzZMBUgQ==
+X-Google-Smtp-Source: ABdhPJzBcDi7EsMql8HPyIUlcRBl/OsFwSyoeS5mkLvsu+udWvl2GtuObFdyWK2J++yBEFuvf+uvKg==
+X-Received: by 2002:a05:6638:1501:: with SMTP id b1mr1620304jat.251.1644309787998;
+        Tue, 08 Feb 2022 00:43:07 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:5f31:19c3:21f5:7300])
-        by smtp.gmail.com with ESMTPSA id r9sm7575223ill.52.2022.02.08.00.42.32
+        by smtp.gmail.com with ESMTPSA id x7sm3011504ilp.88.2022.02.08.00.43.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 00:42:32 -0800 (PST)
-Date:   Tue, 8 Feb 2022 01:42:28 -0700
+        Tue, 08 Feb 2022 00:43:07 -0800 (PST)
+Date:   Tue, 8 Feb 2022 01:43:03 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -83,72 +83,30 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 09/12] mm: multigenerational LRU: runtime switch
-Message-ID: <YgIs9Ig7PMS8Lsw3@google.com>
+Subject: Re: [PATCH v7 10/12] mm: multigenerational LRU: thrashing prevention
+Message-ID: <YgItF/LcaTC6mpLN@google.com>
 References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-10-yuzhao@google.com>
+ <20220208081902.3550911-11-yuzhao@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208081902.3550911-10-yuzhao@google.com>
+In-Reply-To: <20220208081902.3550911-11-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 01:18:59AM -0700, Yu Zhao wrote:
-> Add /sys/kernel/mm/lru_gen/enabled as a runtime switch. Features that
-> can be enabled or disabled include:
->   0x0001: the multigenerational LRU
->   0x0002: the page table walks, when arch_has_hw_pte_young() returns
->           true
->   0x0004: the use of the accessed bit in non-leaf PMD entries, when
->           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
->   [yYnN]: apply to all the features above
-> E.g.,
->   echo y >/sys/kernel/mm/lru_gen/enabled
->   cat /sys/kernel/mm/lru_gen/enabled
->   0x0007
->   echo 5 >/sys/kernel/mm/lru_gen/enabled
->   cat /sys/kernel/mm/lru_gen/enabled
->   0x0005
+On Tue, Feb 08, 2022 at 01:19:00AM -0700, Yu Zhao wrote:
+> Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention, as
+> requested by many desktop users [1].
 > 
-> NB: the page table walks happen on the scale of seconds under heavy
-> memory pressure. Under such a condition, the mmap_lock contention is a
-> lesser concern, compared with the LRU lock contention and the I/O
-> congestion. So far the only well-known case of the mmap_lock
-> contention is Android, due to Scudo [1] which allocates several
-> thousand VMAs for merely a few hundred MBs. The SPF and the Maple Tree
-> also have provided their own assessments [2][3]. However, if the page
-> table walks do worsen the mmap_lock contention, the runtime switch can
-> be used to disable this feature. In this case the multigenerational
-> LRU will suffer a minor performance degradation, as shown previously.
+> When set to value N, it prevents the working set of N milliseconds
+> from getting evicted. The OOM killer is triggered if this working set
+> can't be kept in memory. Based on the average human detectable lag
+> (~100ms), N=1000 usually eliminates intolerable lags due to thrashing.
+> Larger values like N=3000 make lags less noticeable at the risk of
+> premature OOM kills.
 
-Clarified the potential impact from the mmap_lock contention as
-requested here:
-https://lore.kernel.org/linux-mm/YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz/
-
-<snipped>
-
-> +static void lru_gen_change_state(bool enable)
-> +{
-> +	static DEFINE_MUTEX(state_mutex);
-> +
-> +	struct mem_cgroup *memcg;
-> +
-> +	cgroup_lock();
-> +	cpus_read_lock();
-> +	get_online_mems();
-> +	mutex_lock(&state_mutex);
-> +
-> +	if (enable == lru_gen_enabled())
-> +		goto unlock;
-> +
-> +	if (enable)
-> +		static_branch_enable_cpuslocked(&lru_gen_caps[LRU_GEN_CORE]);
-> +	else
-> +		static_branch_disable_cpuslocked(&lru_gen_caps[LRU_GEN_CORE]);
-
-Fixed the lockdep warning for memory hotplug:
-https://lore.kernel.org/linux-mm/87a6g0nczg.fsf@linux.ibm.com/
+Refactored min_ttl into a separate patch as requested here:
+https://lore.kernel.org/linux-mm/YdxSUuDc3OC4pe+f@dhcp22.suse.cz/
 
 <snipped>
