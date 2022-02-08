@@ -2,88 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9ACCC4321E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 13:16:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7F7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 13:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350292AbiBHNQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 08:16:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
+        id S1349904AbiBHNQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 08:16:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376339AbiBHM5Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 07:57:25 -0500
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B1BCC03FED1;
-        Tue,  8 Feb 2022 04:57:22 -0800 (PST)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL+M6ZwJik0oIAA--.26524S6;
-        Tue, 08 Feb 2022 20:51:09 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc:     Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] ubsan: no need to unset panic_on_warn in ubsan_epilogue()
-Date:   Tue,  8 Feb 2022 20:51:05 +0800
-Message-Id: <1644324666-15947-5-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1644324666-15947-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf9DxL+M6ZwJik0oIAA--.26524S6
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF18uF1rKFWfAr48Zw47Jwb_yoWfJrX_CF
-        yvgFs7KrWktr15uw4rKwsrZr9ru3429a109F4xWwsFk3y8ta40gF4kZr4kZFyYgw45AF9x
-        Aws8XFySyr4rCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbyAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
-        IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
-        F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr
-        1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
-        0xZFpf9x0JUSjgxUUUUU=
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+        with ESMTP id S1349943AbiBHMqq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 07:46:46 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3BBC03FEC0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 04:46:44 -0800 (PST)
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JtN5y28jHzccjs;
+        Tue,  8 Feb 2022 20:45:42 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 8 Feb 2022 20:46:42 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 8 Feb 2022 20:46:41 +0800
+Subject: Re: [PATCH v3] docs/zh_CN: Add energy-model Chinese translation
+To:     Alex Shi <seakeel@gmail.com>, yanteng si <siyanteng01@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
+        Yeechou Tang <tangyeechou@gmail.com>
+References: <20220208073600.10860-1-tangyizhou@huawei.com>
+ <CAEensMwEUHVaZevehMpr6tAxHzDhEQhihgseCJVpJG3=fQ0+Hw@mail.gmail.com>
+ <CAJy-AmnF-3ou-mNiHESyH3FLU42ejwzCNFNA7_NgzgmQKPg1cg@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <9c64e3ef-3eb5-4446-e9d1-dda896febed8@huawei.com>
+Date:   Tue, 8 Feb 2022 20:46:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAJy-AmnF-3ou-mNiHESyH3FLU42ejwzCNFNA7_NgzgmQKPg1cg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-panic_on_warn is unset inside panic(), so no need to unset it
-before calling panic() in ubsan_epilogue().
+On 2022/2/8 20:38, Alex Shi wrote:
+> On Tue, Feb 8, 2022 at 5:45 PM yanteng si <siyanteng01@gmail.com> wrote:
+>>
+>> Tang Yizhou <tangyizhou@huawei.com> 于2022年2月8日周二 15:03写道：
+>>>
+>>> Translate power/energy-model.rst into Chinese.
+>>>
+>>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+>>> ---
+>>> v3:
+>>> Don't include English kernel doc.
+>>>
+>>> v2:
+>>> Translate the comments in the example program.
+>>>
+>>>  .../translations/zh_CN/power/energy-model.rst | 190 ++++++++++++++++++
+>>>  .../translations/zh_CN/power/index.rst        |   2 +-
+>>>  2 files changed, 191 insertions(+), 1 deletion(-)
+>>>  create mode 100644 Documentation/translations/zh_CN/power/energy-model.rst
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/power/energy-model.rst b/Documentation/translations/zh_CN/power/energy-model.rst
+>>> new file mode 100644
+>>> index 000000000000..bcf29d624860
+>>> --- /dev/null
+>>> +++ b/Documentation/translations/zh_CN/power/energy-model.rst
 
-Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
----
- lib/ubsan.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+>>> +
+>>> +最后一个参数“milliwatts”（毫瓦）设置成正确的值是很重要的，使用EM的内核
+>>> +子系统可能会依赖这个标志来检查所有的EM设备是否使用相同的刻度。如果有不同的
+>>> +刻度，这些子系统可能决定：返回警告/错误，停止工作或恐慌（panic）。
+>
+ 
+> panic 是不是翻译成 ’崩溃‘ 更好？
 
-diff --git a/lib/ubsan.c b/lib/ubsan.c
-index bdc380f..36bd75e 100644
---- a/lib/ubsan.c
-+++ b/lib/ubsan.c
-@@ -154,16 +154,8 @@ static void ubsan_epilogue(void)
+OK
+
+> 
+>>> +
+>>> +关于实现这个回调函数的驱动程序的例子，参见第3节。或者在第2.4节阅读这个API
+>>> +的更多文档。
+>>> +
+>>> +
+>>> +“简单”EM的注册
+>>> +~~~~~~~~~~~~~~~~
+>>> +
+>>> +“简单”EM是用框架的辅助函数cpufreq_register_em_with_opp()注册的。它实现了
+>>> +一个和以下数学公式紧密相关的功率模型::
+>>> +
+>>> +       Power = C * V^2 * f
+>>> +
+>>> +使用这种方法注册的EM可能无法正确反映真实设备的物理特性，例如当静态功率
+>>> +（泄漏）很重要时。
  
- 	current->in_ubsan--;
- 
--	if (panic_on_warn) {
--		/*
--		 * This thread may hit another WARN() in the panic path.
--		 * Resetting this prevents additional WARN() from panicking the
--		 * system on this thread.  Other threads are blocked by the
--		 * panic_mutex in panic().
--		 */
--		panic_on_warn = 0;
-+	if (panic_on_warn)
- 		panic("panic_on_warn set ...\n");
--	}
- }
- 
- void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
--- 
-2.1.0
+> leakage 是指晶体管的 ‘漏电流' 。
+
+Haha, you major in physics and are much familiar with this word :) Thanks. 
+
+> 
+> Thanks
+> Alex
+> 
 
