@@ -2,244 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACB7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:12:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD202C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 09:16:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346487AbiBHJMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 04:12:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56008 "EHLO
+        id S1353427AbiBHJQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 04:16:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235905AbiBHJMJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:12:09 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 663FFC03FEC0
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 01:12:08 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id q7so1288107wrc.13
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 01:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PJbKv3ScWJ3/TAfgKO6PRsVz/IUNS0H9jBQYHa3CD78=;
-        b=MikKXHNC7i8rGs44Asf8Jltk2wDHP5beBwjhNrJRwru1xPj9434goPNBtOm01gMVIK
-         nRZtnKT7utsqD8aIkFYbhKrp4NQOyle38PSLs0r2HG3vo1RvzhCJFDIS7GazFXHq6b09
-         tnzf6yX8f5EhR0SR+laSdQcmjhJEu+6EsgrmNc0+24LBvmXTUseN45DA/GfPAy1tXq8N
-         4KLMlvbltpmOjIcLoy2IcZsWnOEVffib1NqGtaKIBhFI4feR1i+DwmMdBpMquWzL7iL6
-         fmmGVGG6R3dWzy3WVCoJl14kCKefoAfykRgUojxb/TfM7gbgoPvjs6Ah3qLYFmX9cyS0
-         t/Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=PJbKv3ScWJ3/TAfgKO6PRsVz/IUNS0H9jBQYHa3CD78=;
-        b=eD0BNH+pJtl8TFLrqVM26w9/KV9M8wCqalO8F/KcvQ61DhrzDhEoIFiC7r0Y+3LT/j
-         RgEggzI7ez8c4kMom2FbM4ieYguhFwBRGEG+xrtqyh4otgPKVWLgcQ3hSWtx3SUZ2qzN
-         2Ro//eX8Z94zk/H/58f3bI5K3QZC0lLt9QXk0UzVkPE2C8j0djoZyJUMMgNRIz7MOmNr
-         GXcXu2AGFK3dyhky/R2YxFNItD6PrNaW6OFeOBNhdxXmATphPyGZJQ2O+F/+AKUXe+wQ
-         xaPA4KAfjQy6SwWrzM60t33bUtoulcaA8QLfV/XAb+p2T4E2cjN9j/UcFFUfr81Ge+WF
-         AvJA==
-X-Gm-Message-State: AOAM532l/54gAltbY8FJABoPtGpOU9mh+s3be1Ib8RKwKFVlJtNy+qRI
-        nnbR/BKub2OacsFtjfiKf4Mlog==
-X-Google-Smtp-Source: ABdhPJxPp5FT1Ln9HKzS0CItdTmHplu9PkCnWQ1NkcWrbT8LwTxXwyvXSrHh1aLxTYM8Z/xM2BydOQ==
-X-Received: by 2002:a5d:598a:: with SMTP id n10mr2648769wri.136.1644311526908;
-        Tue, 08 Feb 2022 01:12:06 -0800 (PST)
-Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
-        by smtp.gmail.com with ESMTPSA id 24sm1460362wmf.48.2022.02.08.01.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 01:12:06 -0800 (PST)
-Date:   Tue, 8 Feb 2022 09:12:03 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [PATCH v6 2/9] mfd: smpro-mfd: Adds Ampere's Altra SMpro MFD
- driver
-Message-ID: <YgIz484pt8IJmP85@google.com>
-References: <20211224041352.29405-1-quan@os.amperecomputing.com>
- <20211224041352.29405-3-quan@os.amperecomputing.com>
+        with ESMTP id S1353379AbiBHJQM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 04:16:12 -0500
+X-Greylist: delayed 572 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 01:16:11 PST
+Received: from mail.ithle.pl (mail.ithle.pl [80.211.189.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42DF0C03FED4
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 01:16:10 -0800 (PST)
+Received: by mail.ithle.pl (Postfix, from userid 1001)
+        id 56831A3C20; Tue,  8 Feb 2022 09:05:29 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ithle.pl; s=mail;
+        t=1644311165; bh=EymJn8YK2LHpC0VX6auOoFCWqaw8+QfZy+mv/AChzys=;
+        h=Date:From:To:Subject:From;
+        b=qOpDqgEsE0r6zFzL9zF7HawKZpkn0iLLkJqilCoz+EWTXdLz4cDNjTkGrkYpQCWp4
+         y2tldhHhSrr/41Hx3htkogj+V5eD8FD+k6IWjZ60PN8BI1x9tzHU9/l8raz54eabSU
+         /0AlM4mH5hySGOaLwj7JbTA37g2eME5e928a9LU9vvs17keacbWyIQC1mxhyTKKRLo
+         C/sSGTbKk368A1DgiGLCpNAAiTUMt4HLVEL0mQEfwLmcdulUFXFRrWW5EN67liaGTT
+         CHyuJYRI9ZCHqlaSBsAvIAjtI+XAuv14+ngJupOpdiCrd61h2MWkftLVFqd4DO4jtx
+         VMsJkXidKPjFg==
+Received: by mail.ithle.pl for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 09:05:22 GMT
+Message-ID: <20220208074500-0.1.4i.pkje.0.ohrfyapeof@ithle.pl>
+Date:   Tue,  8 Feb 2022 09:05:22 GMT
+From:   =?UTF-8?Q? "Aleksy_Urba=C5=84ski" ?= <aleksy.urbanski@ithle.pl>
+To:     <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?Q?Podwy=C5=BCka_rachunku_za_pr=C4=85d?=
+X-Mailer: mail.ithle.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211224041352.29405-3-quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Dec 2021, Quan Nguyen wrote:
+Dzie=C5=84 dobry,
 
-> Adds Multi-function devices driver for SMpro co-processor found on the
-> Mt.Jade hardware reference platform with Ampere's Altra processor family.
-> 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> Changes in v6:
->   + Update license part to reflect that this driver is clone from
->   simple-mfd-i2c driver [Quan]
-> 
-> Changes in v5:
->   + Dropped the use of simple-mfd-i2c driver [Quan]
->   + Introduced drivers/mfd/smpro-mfd.c driver to instantiate
->   sub-devices. This is to avoid DT nodes without resource issue [Quan]
->   + Revised commit message [Quan]
-> 
-> Changes in v4:
->   + Add "depends on I2C" to fix build issue found by kernel test
->   robot [Guenter]
-> 
-> Changes in v3:
->   + None
-> 
-> Changes in v2:
->   + Used 'struct of_device_id's .data attribute [Lee Jones]
-> 
->  drivers/mfd/Kconfig     | 12 +++++++
->  drivers/mfd/Makefile    |  1 +
->  drivers/mfd/smpro-mfd.c | 76 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 89 insertions(+)
->  create mode 100644 drivers/mfd/smpro-mfd.c
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index a21cbdf89477..a886da5018b1 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -77,6 +77,18 @@ config MFD_AS3711
->  	help
->  	  Support for the AS3711 PMIC from AMS
->  
-> +config MFD_SMPRO
-> +	tristate "Ampere Computing MFD SMpro core driver"
-> +	depends on I2C
-> +	select MFD_CORE
-> +	select REGMAP_I2C
-> +	help
-> +	  Say yes here to enable SMpro driver support for Ampere's Altra
-> +	  processor family.
-> +
-> +	  Ampere's Altra SMpro exposes an I2C regmap interface that can
-> +	  be accessed by child devices.
-> +
->  config MFD_AS3722
->  	tristate "ams AS3722 Power Management IC"
->  	select MFD_CORE
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 4d53e951a92d..fbcd09dce5ce 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -267,6 +267,7 @@ obj-$(CONFIG_MFD_QCOM_PM8008)	+= qcom-pm8008.o
->  
->  obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
->  obj-$(CONFIG_MFD_SIMPLE_MFD_I2C)	+= simple-mfd-i2c.o
-> +obj-$(CONFIG_MFD_SMPRO)		+= smpro-mfd.o
->  obj-$(CONFIG_MFD_INTEL_M10_BMC)   += intel-m10-bmc.o
->  
->  obj-$(CONFIG_MFD_ATC260X)	+= atc260x-core.o
-> diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
-> new file mode 100644
-> index 000000000000..132d4e2dde12
-> --- /dev/null
-> +++ b/drivers/mfd/smpro-mfd.c
-> @@ -0,0 +1,76 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Ampere Altra Family SMPro MFD - I2C
-> + *
-> + * Copyright (c) 2021, Ampere Computing LLC
-> + * Author: Quan Nguyen <quan@os.amperecomputing..com>
-> + *
-> + * Based on simple-mfd-i2c.c:
+prezes Urz=C4=99du Regulacji Energetyki zapowiada wi=C4=99ksze wzrosty ce=
+n pr=C4=85du i gazu ni=C5=BC przed rokiem i wy=C5=BCsze ni=C5=BC wska=C5=BA=
+nik inflacji.=20
 
-Why aren't you just using this?
+Czy w zwi=C4=85zku z podwy=C5=BCkami energii chcieliby Pa=C5=84stwo znacz=
+nie zmniejszy=C4=87 rachunki?
 
-> + * Copyright (c) by Michael Walle <michael@walle.cc>
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/regmap.h>
-> +
-> +/* Identification Registers */
-> +#define MANUFACTURER_ID_REG     0x02
-> +#define AMPERE_MANUFACTURER_ID  0xCD3A
-> +
-> +static const struct regmap_config simple_word_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 16,
-> +};
-> +
-> +static const struct mfd_cell smpro_devs[] = {
-> +	MFD_CELL_NAME("smpro-hwmon"),
-> +};
+Instalacja paneli PV jest najlepszym sposobem na obni=C5=BCenie wysoko=C5=
+=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty sta=C5=
+=82e) i na zabezpieczenie Pa=C5=84stwa przed rosn=C4=85cymi cenami energi=
+i.=20
 
-What are the other devices?
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99?=20
 
-> +static int smpro_mfd_probe(struct i2c_client *i2c)
-> +{
-> +	const struct regmap_config *config;
-> +	struct regmap *regmap;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	config = device_get_match_data(&i2c->dev);
-> +	if (!config)
-> +		config = &simple_word_regmap_config;
-> +
-> +	regmap = devm_regmap_init_i2c(i2c, config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	/* Check for valid ID */
-> +	ret = regmap_read(regmap, MANUFACTURER_ID_REG, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val != AMPERE_MANUFACTURER_ID)
-> +		return -ENODEV;
-> +
-> +	return devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO,
-> +				    smpro_devs, ARRAY_SIZE(smpro_devs), NULL, 0, NULL);
-> +}
-> +
-> +static const struct of_device_id smpro_mfd_of_match[] = {
-> +	{ .compatible = "ampere,smpro", .data = &simple_word_regmap_config },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, smpro_mfd_of_match);
-> +
-> +static struct i2c_driver smpro_mfd_driver = {
-> +	.probe_new = smpro_mfd_probe,
-> +	.driver = {
-> +		.name = "smpro-mfd-i2c",
-> +		.of_match_table = smpro_mfd_of_match,
-> +	},
-> +};
-> +module_i2c_driver(smpro_mfd_driver);
-> +
-> +MODULE_AUTHOR("Quan Nguyen <quan@os.amperecomputing.com>");
-> +MODULE_DESCRIPTION("SMPRO MFD - I2C driver");
-> +MODULE_LICENSE("GPL v2");
 
--- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Pozdrawiam
+Aleksy Urba=C5=84ski
