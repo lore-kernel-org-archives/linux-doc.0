@@ -2,234 +2,397 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DE2C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 01:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A82A4C3526C
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 02:40:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344372AbiBHBw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Feb 2022 20:52:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36628 "EHLO
+        id S243778AbiBHCkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Feb 2022 21:40:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345308AbiBHBwU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 20:52:20 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECBCC02B5E9
-        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 17:49:46 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id c6so45564985ybk.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Feb 2022 17:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=j0ZYFeZLsBPfwQ300unbbDjX++yHyXHz+wrIZnEyq/g=;
-        b=q8EGgGvwZ/Aq9fyGMHNViC5pN0cZok7L6mj8wAhq7BUQ8cAtuYeY9inuMIOcER/4TK
-         NTz13H1wtw00pXA0zxaNEaj4AYNhmWE7vXMgSd1IZAXsUEDn6EYa2xZ2SdNSl0nKmPp9
-         BckrIqiZbfu5ib7ZR7v413QFPSaDN7gtD0YYWGHf4ItSgcj/feJBa9kRuTFufHtfOanh
-         5h/Q/kzdNgdxNz2fucW8ie6vhOLYeqfrAVpFGCLx0ooinpxj0yQMQkS1mLAnblh5nO/2
-         DXGJ9WY69z91DXzBbttwQyBb7nQ587QymwSU4dh+jvP0zX2Qk0sgBdix8gR7MUbkrwOi
-         LDtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=j0ZYFeZLsBPfwQ300unbbDjX++yHyXHz+wrIZnEyq/g=;
-        b=MCcKZawau3iUqG42I+zkN6uzONAFyoG4wmCqKuVphalPvzO5NxybIVccl5ql/g4MnZ
-         YC0KivufjV2PW3StJ9pQ/66eRJZ5N3mGuf4HxLiDUjxLPer6YLhm0ssIRi4ojHmQMWyt
-         yPjI4z9EGJfOro70SihyTtfOkUJ6UAWhphFh8vyzY6c5H3Vr126w+kOrIVifSiHa9Idt
-         2VUUw2aCRTHaE/RkySV4w6UInRrE6zgfa2YAq61EeQSH3GSAAovZfPsH/HMbs9gSylJr
-         fu8jUnRZTYND8IAmjGz56AD+Z+wtLNvnG58A9TyRWlyhEzqiFSgz0E5N5MKUHdIdkq/3
-         efzw==
-X-Gm-Message-State: AOAM531NMpZWYbs/AEa1ktPuBYePLGbfw9cgQN3lVEfSFmBqMRkE/lgq
-        DmXUni6tKil9PABV21SG56Ps2NSJMjcE++v12DA=
-X-Google-Smtp-Source: ABdhPJwVEFVRx/VKkXX82VyNcCKAzjBp65DOSQKsXSyvyO/pA0grYbG7B/sZxm3almOwzaurVcN9zRnebSK/VpzHZAQ=
-X-Received: by 2002:a5b:3cc:: with SMTP id t12mr2588996ybp.397.1644284985256;
- Mon, 07 Feb 2022 17:49:45 -0800 (PST)
+        with ESMTP id S245068AbiBHCeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Feb 2022 21:34:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C2FBDC06109E
+        for <linux-doc@vger.kernel.org>; Mon,  7 Feb 2022 18:34:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644287673;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CFWGmsRhSBrRkVipArydVrEvw7EEHygWrGz+mu3Vvkg=;
+        b=A8Z+CKm5t7WipvxHuKTHwsMmWdNijsbJ6MMqwuUxuLRnDm3awezQPgZ+Qa63cN8zfynfKo
+        1nfU2cZwnB68CnoCDHIu9McN8Fnp5eKXo9uflk+NYsRDZw0I03jf+A5d6eUyMxHI79xZzP
+        bw730v8xzctk2phoJtFbvbd3lOBJm3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-vLJDyrrGN6CglPQqKZD2vQ-1; Mon, 07 Feb 2022 21:34:30 -0500
+X-MC-Unique: vLJDyrrGN6CglPQqKZD2vQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CF511006AA4;
+        Tue,  8 Feb 2022 02:34:27 +0000 (UTC)
+Received: from localhost (ovpn-12-95.pek2.redhat.com [10.72.12.95])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AD22E2C1;
+        Tue,  8 Feb 2022 02:34:16 +0000 (UTC)
+Date:   Tue, 8 Feb 2022 10:34:13 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>, prudo@redhat.com,
+        piliu@redhat.com
+Subject: Re: [PATCH v20 0/5] support reserving crashkernel above 4G on arm64
+ kdump
+Message-ID: <YgHWpazFQDerr7AC@MiWiFi-R3L-srv>
+References: <20220124084708.683-1-thunder.leizhen@huawei.com>
+ <d77f9f52-626d-e290-5fcb-578ac6b0c7ce@huawei.com>
 MIME-Version: 1.0
-References: <20220207022521.27487-1-tangyizhou@huawei.com> <CAEensMyP7yLWGuLUNXjj=ceMJBhj3KeG7t=9SuKaMjX9NOoGag@mail.gmail.com>
- <0224799c-8135-b363-63b6-bbe1f4ebdea1@huawei.com>
-In-Reply-To: <0224799c-8135-b363-63b6-bbe1f4ebdea1@huawei.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 8 Feb 2022 09:49:16 +0800
-Message-ID: <CAEensMzHjd=xz4wZSm0EOitRZmeAKRzJV7+OvVzfWCKMqxyGvQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Add sched-energy Chinese translation
-To:     Tang Yizhou <tangyizhou@huawei.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
-        Yeechou Tang <tangyeechou@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d77f9f52-626d-e290-5fcb-578ac6b0c7ce@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMuW5tDLmnIg35pel5ZGo
-5LiAIDE5OjU35YaZ6YGT77yaDQo+DQo+DQo+DQo+IE9uIDIwMjIvMi83IDE1OjExLCB5YW50ZW5n
-IHNpIHdyb3RlOg0KPiA+IFRhbmcgWWl6aG91IDx0YW5neWl6aG91QGh1YXdlaS5jb20+IOS6jjIw
-MjLlubQy5pyIN+aXpeWRqOS4gCAwOTo1MuWGmemBk++8mg0KPiA+Pg0KPiA+PiBUcmFuc2xhdGUg
-c2NoZWR1bGVyL3NjaGVkLWVuZXJneS5yc3QgaW50byBDaGluZXNlLg0KPiA+Pg0KPiA+PiBTaWdu
-ZWQtb2ZmLWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3ZWkuY29tPg0KPiA+PiAtLS0N
-Cj4gPj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2luZGV4LnJzdCAgICB8ICAg
-NCArLQ0KPiA+PiAgLi4uL3poX0NOL3NjaGVkdWxlci9zY2hlZC1lbmVyZ3kucnN0ICAgICAgICAg
-IHwgMzUxICsrKysrKysrKysrKysrKysrKw0KPiA+PiAgMiBmaWxlcyBjaGFuZ2VkLCAzNTMgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0K
-PiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-c2NoZWR1bGVyL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Nj
-aGVkdWxlci9pbmRleC5yc3QNCj4gPj4gaW5kZXggZjhmOGYzNWQ1M2M3Li5hYjc5MjU5ODAyNjYg
-MTAwNjQ0DQo+ID4+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVk
-dWxlci9pbmRleC5yc3QNCj4gPj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vc2NoZWR1bGVyL2luZGV4LnJzdA0KPiA+PiBAQCAtNSw2ICs1LDcgQEANCj4gPj4gIDrnv7vo
-r5E6DQo+ID4+DQo+ID4+ICAg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nv
-bi5jbj4NCj4gPj4gKyDllJDoibroiJ8gVGFuZyBZaXpob3UgPHRhbmd5ZWVjaG91QGdtYWlsLmNv
-bT4NCj4gPj4NCj4gPj4gIDrmoKHor5E6DQo+ID4+DQo+ID4+IEBAIC0yMywxMyArMjQsMTIgQEAg
-TGludXjosIPluqblmagNCj4gPj4gICAgICBzY2hlZC1kZXNpZ24tQ0ZTDQo+ID4+ICAgICAgc2No
-ZWQtZG9tYWlucw0KPiA+PiAgICAgIHNjaGVkLWNhcGFjaXR5DQo+ID4+ICsgICAgc2NoZWQtZW5l
-cmd5DQo+ID4+DQo+ID4+DQo+ID4+ICBUT0RPTGlzdDoNCj4gPj4NCj4gPj4gLSAgICBzY2hlZC1i
-d2MNCj4gPj4gICAgICBzY2hlZC1kZWFkbGluZQ0KPiA+PiAtICAgIHNjaGVkLWVuZXJneQ0KPiA+
-PiAgICAgIHNjaGVkLW5pY2UtZGVzaWduDQo+ID4+ICAgICAgc2NoZWQtcnQtZ3JvdXANCj4gPj4g
-ICAgICBzY2hlZC1zdGF0cw0KPiA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
-dGlvbnMvemhfQ04vc2NoZWR1bGVyL3NjaGVkLWVuZXJneS5yc3QgYi9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0KPiA+PiBuZXcgZmls
-ZSBtb2RlIDEwMDY0NA0KPiA+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjVlYTM5ODBiMGViZA0KPiA+
-PiAtLS0gL2Rldi9udWxsDQo+ID4+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL3NjaGVkdWxlci9zY2hlZC1lbmVyZ3kucnN0DQo+ID4+IEBAIC0wLDAgKzEsMzUxIEBADQo+
-ID4+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+PiArLi4gaW5jbHVk
-ZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ID4+ICsNCj4gPj4gKzpPcmlnaW5hbDogRG9j
-dW1lbnRhdGlvbi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdA0KPiA+PiArDQo+ID4+ICs657+7
-6K+ROg0KPiA+PiArDQo+ID4+ICsgIOWUkOiJuuiInyBUYW5nIFlpemhvdSA8dGFuZ3llZWNob3VA
-Z21haWwuY29tPg0KPiA+PiArDQo+ID4+ICs9PT09PT09PT09PT0NCj4gPj4gK+iDvemHj+aEn+ef
-peiwg+W6pg0KPiA+PiArPT09PT09PT09PT09DQo+ID4+ICsNCj4gPj4gKzEuIOeugOS7iw0KPiA+
-PiArLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvog73ph4/mhJ/nn6XosIPluqbvvIhFQVPvvInkvb/o
-sIPluqblmajmnInog73lipvpooTmtYvlhbblhrPnrZblr7lDUFXmiYDmtojogJfnmoTog73ph4/n
-moTlvbHlk43jgIJFQVPkvp3pnaANCj4NCj4gPiBIb3cgYWJvdXQgQ1BVIOaJgOa2iOiAl+eahOeU
-teiDvS/og73mupDvvJ8NCj4NCj4gMS4g55S16IO96IKv5a6a5piv5LiN5aal55qE77yMZW5lcmd5
-5LiN5b+F54S25piv55S16IO944CCDQo+IDIuIOaIkeiAg+iZkei/h+e/u+ivkeaIkOiDvea6kO+8
-jOazqOaEj+WIsOesrDLnq6DnmoTmnK/or63or7TmmI7ov5jmj5DliLDlip/njofvvIzlip/njofk
-uZjku6Xml7bpl7TkuLrog73ph4/vvIzlkIzmoLfmmK8NCj4gZW5lcmd56L+Z5Liq6K+N77yM5pWF
-6ICM57uf5LiA57+76K+R5oiQ6IO96YeP5LqG44CCDQo+DQo+ID4+ICvkuIDkuKrog73ph4/mqKHl
-novvvIhFTe+8ieadpeS4uuavj+S4quS7u+WKoemAieaLqeS4gOS4quiKguiDveeahENQVe+8jOWQ
-jOaXtuacgOWwj+WMluWvueWQnuWQkOeOh+eahOW9seWTjeOAgg0KPg0KPiA+IEhvdyBhYm91dCDo
-ioLog73nmoRDUFXmoLjlv4PvvJ8NCj4NCj4g5Y6f5paH5pivQ1BV6ICM5LiN5pivQ1BVIGNvcmXv
-vIzlj6/ku6XpgbXnhafljp/mlofvvIzlkIzmoLflnKjkuK3mlofor63looPkuIvkuZ/mnInmt7fn
-lKjjgIINCuWcqOS4jeW9seWTjeivreS5ieeahOaDheWGteS4i++8jOaIkeabtOWAvuWQkeS6jueo
-jeWKoOS/rumlsO+8jOS7juiAjOe/u+ivkeeahOabtOa4healmuS4gOeCueOAguWboOS4uuWvueS6
-juS4gOS4quiAgeaJi+adpeivtOWPr+iDveS4gOeci+WwseaHgu+8jA0K5L2G5piv5a+55LqO5paw
-5omL5p2l6K+077yM5Y+v6IO95Lya5LuO5q2k5ZKM5YaF5qC45rC45Yir44CCDQpZb3VyIHRyYW5z
-bGF0aW9uIGlzIGNvcnJlY3QsIGl0J3MganVzdCBteSBzdWdnZXN0aW9uLCBpdCdzIHVwIHRvIHlv
-dS4NCg0KVGhhbmtzLA0KWWFudGVuZw0KPg0KPiA+PiAr5pys5paH5qGj6Ie05Yqb5LqO5LuL57uN
-5LuL57uNRUFT5piv5aaC5L2V5bel5L2c55qE77yM5a6D6IOM5ZCO55qE5Li76KaB6K6+6K6h5Yaz
-562W5piv5LuA5LmI77yM5Lul5Y+K5L2/5YW26L+Q6KGMDQo+ID4+ICvmiYDpnIDnmoTmnaHku7bn
-u4boioLjgIINCj4gPj4gKw0KPiA+PiAr5Zyo6L+b5LiA5q2l6ZiF6K+75LmL5YmN77yM6K+35rOo
-5oSP77yM5Zyo5pKw5YaZ5pys5paH5pe2OjoNCj4gPj4gKw0KPiA+PiArICAgLyFcIEVBU+S4jeaU
-r+aMgeWvueensENQVeaLk+aJkeeahOW5s+WPsCAvIVwNCj4gPj4gKw0KPiA+PiArRUFT5Y+q5Zyo
-5byC5p6EQ1BV5ouT5omR57uT5p6E77yI5aaCQXJt5aSn5bCP5qC477yMYmlnLkxJVFRMRe+8ieS4
-iui/kOihjOOAguWboOS4uuWcqOi/meenjeaDheWGteS4i++8jA0KPiA+PiAr6YCa6L+H6LCD5bqm
-5p2l6IqC57qm6IO96YeP55qE5r2c5Yqb5piv5pyA5aSn55qE44CCDQo+ID4+ICsNCj4gPj4gK0VB
-U+WunumZheS9v+eUqOeahEVN5LiN5piv55Sx6LCD5bqm5Zmo57u05oqk55qE77yM6ICM5piv5LiA
-5Liq5LiT6Zeo55qE5qGG5p6244CC5YWz5LqO6L+Z5Liq5qGG5p6255qE57uG6IqC5ZKMDQo+ID4+
-ICvlroPmj5DkvpvnmoTlhoXlrrnvvIzor7flj4LogIPlhbbmlofmoaPvvIjop4FEb2N1bWVudGF0
-aW9uL3Bvd2VyL2VuZXJneS1tb2RlbC5yc3TvvInjgIINCj4gPj4gKw0KPiA+PiArDQo+ID4+ICsy
-LiDog4zmma/lkozmnK/or60NCj4gPj4gKy0tLS0tLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiAr5LuO
-5LiA5byA5aeL5bCx6K+05riF5qWa5a6a5LmJOg0KPiA+PiArIC0g6IO96YePID0gW+eEpuiAs10g
-77yI5q+U5aaC5L6b55S16K6+5aSH5LiK55qE55S15rGg5o+Q5L6b55qE6LWE5rqQ77yJDQo+ID4+
-ICsgLSDlip/njocgPSDog73ph48v5pe26Ze0ID0gW+eEpuiAsy/np5JdID0gW+eTpueJuV0NCj4g
-Pj4gKw0KPiA+PiArIEVBU+eahOebruagh+aYr+acgOWwj+WMluiDvemHj++8jOWQjOaXtuS7jeiD
-veWwhuW3peS9nOWujOaIkOOAguS5n+WwseaYr+ivtO+8jOaIkeS7rOimgeacgOWkp+WMljo6DQo+
-DQo+ID4g5pyA5bCP5YyW6IO95rqQL+eUteiDvea2iOiAl++8nw0KPg0KPiDomb3nhLbljp/mlofk
-u4XkuLplbmVyZ3nvvIzogIPomZHliLDkuK3mlofnmoTlj6/or7vmgKfvvIzkuIvkuIDniYjlsIbn
-v7vor5HkuLrog73ph4/mtojogJfjgIINCj4NCj4gPj4gKw0KPiA+PiArICAgICAgIOaAp+iDvSBb
-5oyH5Luk5pWwL+enkl0NCj4gPj4gKyAgICAgICAtLS0tLS0tLS0tLS0tLS0tDQo+ID4+ICsgICAg
-ICAgICAg5Yqf546HIFvnk6bnibldDQo+ID4+ICsNCj4gPj4gK+Wug+etieaViOS6juacgOWwj+WM
-ljo6DQo+ID4+ICsNCj4gPj4gKyAgICAgICDog73ph48gW+eEpuiAs10NCj4gPj4gKyAgICAgICAt
-LS0tLS0tLS0tLQ0KPiA+PiArICAgICAgICAgIOaMh+S7pOaVsA0KPiA+PiArDQo+ID4+ICvlkIzm
-l7bku43nhLbojrflvpfigJzoia/lpb3igJ3nmoTmgKfog73jgILlvZPliY3osIPluqblmajlj6ro
-gIPomZHmgKfog73nm67moIfvvIzlm6DmraTor6XlvI/lrZDmnKzotKjkuIrmmK/kuIDkuKoNCj4g
-Pj4gK+WPr+mAieeahOS8mOWMluebruagh++8jOWug+WQjOaXtuiAg+iZkeS6huS4pOS4quebruag
-h++8muiDvemHj+aViOeOh+WSjOaAp+iDveOAgg0KPiA+PiArDQo+ID4+ICvlvJXlhaVFTeeahOaD
-s+azleaYr+S4uuS6huiuqeiwg+W6puWZqOivhOS8sOWFtuWGs+etlueahOW9seWTje+8jOiAjOS4
-jeaYr+ebsuebruWcsOW6lOeUqOWPr+iDveS7heWcqOmDqOWIhg0KPiA+PiAr5bmz5Y+w5pyJ5q2j
-6Z2i5pWI5p6c55qE6IqC6IO95oqA5pyv44CC5ZCM5pe277yMRU3lv4XpobvlsL3lj6/og73nmoTn
-roDljZXvvIzku6XmnIDlsI/ljJbosIPluqblmajnmoTml7blu7YNCj4gPj4gK+W9seWTjeOAgg0K
-PiA+PiArDQo+ID4+ICvnroDogIzoqIDkuYvvvIxFQVPmlLnlj5jkuoZDRlPku7vliqHliIbphY3n
-u5lDUFXnmoTmlrnlvI/jgILlvZPosIPluqblmajlhrPlrprkuIDkuKrku7vliqHlupTor6XlnKjl
-k6rph4wNCj4gPj4gK+i/kOihjOaXtu+8iOWcqOWUpOmGkuacn+mXtO+8ie+8jEVN6KKr55So5p2l
-5Zyo5LiN5o2f5a6z57O757uf5ZCe5ZCQ546H55qE5oOF5Ya15LiL77yM5LuO5Yeg5Liq6L6D5aW9
-55qE5YCZ6YCJDQo+ID4+ICtDUFXkuK3mjJHpgInkuIDkuKrnu4/pooTmtYvog73ph4/mtojogJfm
-nIDkvJjnmoRDUFXjgIJFQVPnmoTpooTmtYvkvp3otZbkuo7lr7nlubPlj7Dmi5PmiZHnu5PmnoTn
-ibnlrprlhYPntKANCj4gPj4gK+eahOS6huino++8jOWMheaLrENQVeeahOKAnOeul+WKm+KAne+8
-jOS7peWPiuWug+S7rOWQhOiHqueahOiDvemHj+aIkOacrOOAgg0KPiA+PiArDQo+ID4+ICsNCj4g
-Pj4gKzMuIOaLk+aJkeS/oeaBrw0KPiA+PiArLS0tLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiArRUFT
-77yI5Lul5Y+K6LCD5bqm5Zmo55qE5Ymp5L2Z6YOo5YiG77yJ5L2/55So4oCc566X5Yqb4oCd55qE
-5qaC5b+15p2l5Yy65YiG5LiN5ZCM6K6h566X5ZCe5ZCQ546H55qEQ1BV44CC5LiA5LiqDQo+ID4+
-ICtDUFXnmoTigJznrpflipvigJ3ku6PooajkuoblroPlnKjmnIDpq5jpopHnjofkuIvov5DooYzm
-l7bog73lrozmiJDnmoTlt6XkvZzph4/vvIzkuJTov5nkuKrlgLzmmK/nm7jlr7nns7vnu5/kuK0N
-Cj4gPj4gK+eul+WKm+acgOWkp+eahENQVeiAjOiogOeahOOAgueul+WKm+WAvOiiq+W9kuS4gOWM
-luS4ujEwMjTku6XlhoXvvIzlubbkuJTlj6/kuI7nlLHlrp7kvZPotJ/ovb3ot5/ouKoNCj4gPj4g
-K++8iFBFTFTvvInmnLrliLbnrpflh7rnmoTliKnnlKjnjofkv6Hlj7flgZrlr7nmr5TjgILnlLHk
-uo7mnInnrpflipvlgLzlkozliKnnlKjnjoflgLzvvIxFQVPog73lpJ/kvLDorqHkuIDkuKoNCj4g
-Pj4gK+S7u+WKoS9DUFXmnInlpJrlpKcv5pyJ5aSa5b+Z77yM5bm25Zyo6K+E5Lyw5oCn6IO95LiO
-6IO96YeP5pe25bCG5YW26ICD6JmR5Zyo5YaF44CCQ1BV566X5Yqb55Sx54m55a6a5L2T57O7DQo+
-ID4+ICvnu5PmnoTlrp7njrDnmoRhcmNoX3NjYWxlX2NwdV9jYXBhY2l0eSgp5Zue6LCD5Ye95pWw
-5o+Q5L6b44CCDQo+ID4+ICsNCj4gPj4gK0VBU+S9v+eUqOeahOWFtuS9meW5s+WPsOS/oeaBr+aY
-r+ebtOaOpeS7juiDvemHj+aooeWei++8iEVN77yJ5qGG5p625Lit6K+75Y+W55qE44CC5LiA5Liq
-5bmz5Y+w55qERU3mmK/kuIDlvKANCj4gPj4gK+ihqO+8jOihqOS4reavj+mhueS7o+ihqOezu+e7
-n+S4reS4gOS4quKAnOaAp+iDveWfn+KAneeahOWKn+eOh+aIkOacrOOAgu+8iOiLpeimgeS6huin
-o+abtOWkmuWFs+S6juaAp+iDveWfn+eahOe7huiKgu+8jA0KPiA+PiAr6KeB5paH5qGjL3Bvd2Vy
-L2VuZXJneS1tb2RlbC5yc3TvvIkNCj4NCj4gPiBIaSBZaVpob3UsIFdoYXQgaXMg5paH5qGjL3Bv
-d2VyL2VuZXJneS1tb2RlbC5yc3Q/ICA6KQ0KPg0KPiBUaGF0J3MgbXkgZmF1bHQuIFRoYW5rcy4N
-Cj4NCj4gPj4gKw0KPiA+PiAr5b2T6LCD5bqm5Z+f6KKr5bu656uL5oiW6YeN5paw5bu656uL5pe2
-77yM6LCD5bqm5Zmo566h55CG5a+55ouT5omR5Luj56CB5LitRU3lr7nosaHnmoTlvJXnlKjjgILl
-r7nkuo7mr4/kuKrmoLnln58NCj4gPj4gK++8iHJk77yJ77yM6LCD5bqm5Zmo57u05oqk5LiA5Liq
-5LiO5b2T5YmNcmQtPnNwYW7nm7jkuqTnmoTmiYDmnInmgKfog73ln5/nmoTljZXlkJHpk77ooajj
-gILpk77ooajkuK3nmoTmr4/kuKoNCj4gPj4gK+iKgueCuemDveWMheWQq+S4gOS4quaMh+WQkUVN
-5qGG5p625omA5o+Q5L6b55qE57uT5p6E5L2TZW1fcGVyZl9kb21haW7nmoTmjIfpkojjgIINCj4g
-Pj4gKw0KPiA+PiAr6ZO+6KGo6KKr6ZmE5Yqg5Zyo5qC55Z+f5LiK77yM5Lul5bqU5a+554us5Y2g
-55qEY3B1c2V055qE6YWN572u44CC55Sx5LqO54us5Y2g55qEY3B1c2V055qE6L6555WM5LiN5LiA
-5a6a5LiODQo+ID4+ICvmgKfog73ln5/nmoTovrnnlYzkuIDoh7TvvIzkuI3lkIzmoLnln5/nmoTp
-k77ooajlj6/og73ljIXlkKvph43lpI3nmoTlhYPntKDjgIINCj4gPj4gKw0KPiA+PiAr56S65L6L
-MQ0KPiA+PiArICAgIOiuqeaIkeS7rOiAg+iZkeS4gOS4quaciTEy5LiqQ1BV55qE5bmz5Y+w77yM
-5YiG5oiQM+S4quaAp+iDveWfn++8jO+8iHBkMO+8jHBkNOWSjHBkOO+8ie+8jOaMieS7peS4iw0K
-PiA+PiArICAgIOaWueW8j+e7hOe7hzo6DQo+ID4+ICsNCj4gPj4gKyAgICAgICAgICAgICAgICAg
-Q1BVczogICAwIDEgMiAzIDQgNSA2IDcgOCA5IDEwIDExDQo+ID4+ICsgICAgICAgICAgICAgICAg
-IFBEczogICB8LS1wZDAtLXwtLXBkNC0tfC0tLXBkOC0tLXwNCj4gPj4gKyAgICAgICAgICAgICAg
-ICAgUkRzOiAgIHwtLS0tcmQxLS0tLXwtLS0tLXJkMi0tLS0tfA0KPiA+PiArDQo+ID4+ICsgICAg
-546w5Zyo77yM6ICD6JmR55So5oi356m66Ze05Yaz5a6a5bCG57O757uf5YiG5oiQ5Lik5Liq54us
-5Y2g55qEY3B1c2V0c++8jOWboOatpOWIm+W7uuS6huS4pOS4queLrOeri+eahOagueWfn++8jA0K
-PiA+PiArICAgIOavj+S4quagueWfn+WMheWQqzbkuKpDUFXjgILov5nkuKTkuKrmoLnln5/lnKjk
-uIrlm77kuK3ooqvooajnpLrkuLpyZDHlkoxyZDLjgILnlLHkuo5wZDTkuI5yZDHlkoxyZDINCj4g
-Pj4gKyAgICDpg73mnInkuqTpm4bvvIzlroPlsIblkIzml7blh7rnjrDkuo7pmYTliqDlnKjov5nk
-uKTkuKrmoLnln5/nmoTigJwtPnBk4oCd6ZO+6KGo5LitOg0KPiA+PiArDQo+ID4+ICsgICAgICAg
-KiByZDEtPnBkOiBwZDAgLT4gcGQ0DQo+ID4+ICsgICAgICAgKiByZDItPnBkOiBwZDQgLT4gcGQ4
-DQo+ID4+ICsNCj4gPj4gKyAgICDor7fms6jmhI/vvIzosIPluqblmajlsIbkuLpwZDTliJvlu7rk
-uKTkuKrph43lpI3nmoTpk77ooajoioLngrnvvIjmr4/kuKrpk77ooajkuK3lkITkuIDkuKrvvInj
-gILnhLbogIzov5kNCj4gPj4gKyAgICDkuKTkuKroioLngrnmjIHmnInmjIflkJHlkIzkuIDkuKpF
-TeahhuaetueahOWFseS6q+aVsOaNrue7k+aehOeahOaMh+mSiOOAgg0KPiA+PiArDQo+ID4+ICvn
-lLHkuo7lr7nov5nkupvpk77ooajnmoTorr/pl67lj6/og73kuI7ng63mj5Lmi5Tlj4rlhbblroPk
-uovku7blubblj5Hlj5HnlJ/vvIzlm6DmraTlroPku6zlj5dSQ1XplIHkv53miqTvvIzlsLHlg48N
-Cj4gPj4gK+iiq+iwg+W6puWZqOaTjeaOp+eahOaLk+aJkee7k+aehOS4reWJqeS4i+Wtl+auteS4
-gOagt+OAgg0KPg0KPiA+IOe7k+aehOS9kw0KPg0KPiBPSw0KPg0KPiA+PiArDQo+ID4+ICtFQVPl
-kIzmoLfnu7TmiqTkuobkuIDkuKrpnZnmgIHplK7vvIhzY2hlZF9lbmVyZ3lfcHJlc2VudO+8ie+8
-jOW9k+iHs+WwkeacieS4gOS4quagueWfn+a7oei2s0VBUw0KPiA+PiAr5ZCv5Yqo55qE5omA5pyJ
-5p2h5Lu25pe277yM6L+Z5Liq6ZSu5bCx5Lya6KKr5ZCv5Yqo44CC5Zyo56ysNuiKguS4reaAu+e7
-k+S6hui/meS6m+adoeS7tuOAgg0KPiA+PiArDQo+ID4+ICsNCj4gPj4gKzQuIOiDvemHj+aEn+ef
-peS7u+WKoeaUvue9rg0KPiA+PiArLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICtF
-QVPopobnm5bkuoZDRlPnmoTku7vliqHllKTphpLlubPooaHku6PnoIHjgILlnKjllKTphpLlubPo
-oaHml7bvvIzlroPkvb/nlKjlubPlj7DnmoRFTeWSjFBFTFTkv6Hlj7fmnaXpgInmi6noioLog70N
-Cj4gPj4gK+eahOebruagh0NQVeOAguW9k0VBU+iiq+WQr+eUqOaXtu+8jHNlbGVjdF90YXNrX3Jx
-X2ZhaXIoKeiwg+eUqGZpbmRfZW5lcmd5X2VmZmljaWVudF9jcHUoKQ0KPiA+PiAr5p2l5YGa5Lu7
-5Yqh5pS+572u5Yaz5a6a44CC6L+Z5Liq5Ye95pWw5a+75om+5Zyo5q+P5Liq5oCn6IO95Z+f5Lit
-5a+75om+5YW35pyJ5pyA6auY5Ymp5L2Z566X5Yqb77yIQ1BV566X5YqbIC0gQ1BVDQo+ID4+ICvl
-iKnnlKjnjofvvInnmoRDUFXvvIzlm6DkuLrlroPog73orqnmiJHku6zkv53mjIHmnIDkvY7nmoTp
-opHnjofjgILnhLblkI7vvIzor6Xlh73mlbDmo4Dmn6XlsIbku7vliqHmlL7lnKjmlrBDUFXnm7jo
-voMNCj4gPj4gK+S+neeEtuaUvuWcqOS5i+WJjea0u+WKqOeahHByZXZfY3B15piv5ZCm5Y+v5Lul
-6IqC55yB6IO96YeP44CCDQo+ID4+ICsNCj4gPj4gK2ZpbmRfZW5lcmd5X2VmZmljaWVudF9jcHUo
-KeS9v+eUqGNvbXB1dGVfZW5lcmd5KCnmnaXkvLDnrpflpoLmnpzllKTphpLnmoTku7vliqHooqvo
-v4Hnp7vvvIwNCj4NCj4gPiDlpoLmnpzllKTphpLnmoTku7vliqHooqvov4Hnp7vvvIxmaW5kX2Vu
-ZXJneV9lZmZpY2llbnRfY3B1KCnkvb/nlKhjb21wdXRlX2VuZXJneSgp5p2l5Lyw566XDQo+DQo+
-IE9LDQo+DQo+ID4+ICvns7vnu5/lsIbmtojogJflpJrlsJHog73ph4/jgIJjb21wdXRlX2VuZXJn
-eSgp5qOA5p+l5ZCEQ1BV5b2T5YmN55qE5Yip55So546H5oOF5Ya177yM5bm25bCd6K+V6LCD5pW0
-5p2lDQo+ID4+ICvigJzmqKHmi5/igJ3ku7vliqHov4Hnp7vjgIJFTeahhuaetuaPkOS+m+S6hkFQ
-SSBlbV9wZF9lbmVyZ3koKeiuoeeul+avj+S4quaAp+iDveWfn+WcqOe7meWumueahOWIqeeUqOeO
-h+adoeS7tg0KPiA+PiAr5LiL55qE6aKE5pyf6IO96YeP5raI6ICX44CCDQo+ID4+ICsNCj4NCj4N
-Cj4gVGhhbmtzLA0KPiBUYW5nDQo=
+On 02/07/22 at 12:04pm, Leizhen (ThunderTown) wrote:
+> Hi everybody:
+>   Can someone take a moment to review these patches? Maybe I should just try
+> making generic. This patch series seems to have gone back to square one,
+> discarding some of the valuable comments that were made in the middle. But the
+> only benefit of make generic is to avoid code duplication, a lot of adaptation
+> is needed. I think Borislav Petkov's suggestion is good, too.
+
+I am checking this version. I have got a arm64 machine, will give it a shot.
+
+About deduplicating the copied code, it's good to have comparing with having an
+important feature in a certian ARCH.
+
+Add Philipp to CC since he investigates the deduplicating.
+
+> 
+>   These patches are taking too long. Maybe no one wants to look through history
+> anymore. So I'm putting together some of the most central observations of
+> "make generic" as follows:
+>    Mike Rapoport:
+>      This very reminds what x86 does. Any chance some of the code can be reused
+>      rather than duplicated?
+>      https://lkml.org/lkml/2019/4/4/1225
+> 
+>      I think it would be better to have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
+>      in arch/Kconfig and select this by X86 and ARM64.
+>      https://lkml.org/lkml/2020/11/12/224
+> 
+>    Ingo Molnar:
+>      No objections for this to be merged via the ARM tree, as long as x86
+>      functionality is kept intact.
+>      https://lkml.org/lkml/2019/4/10/109
+> 
+>      I.e. Ack, but only if it doesn't break anything. :-)
+>      https://lkml.org/lkml/2019/4/12/66
+> 
+>    Dave Young:
+>      Other than the comments from James, can you move the function into
+>      kernel/crash_core.c, we already have some functions moved there for
+>      sharing.
+>      https://lkml.org/lkml/2019/6/12/248
+> 
+>    Catalin Marinas:
+>      Except for the threshold to keep zone ZONE_DMA memory,
+>      reserve_crashkernel() looks very close to the x86 version. Shall we try
+>      to make this generic as well?
+>      https://lkml.org/lkml/2020/9/2/917
+> 
+>    Borislav Petkov:
+>      Why insert_resource() is relevant only to x86?
+>      --> I think this means "Why does arm64 not use insert_resource()?"
+>      https://lkml.org/lkml/2021/12/23/480
+> 
+>      This is exactly why I say that making those functions generic and shared
+>      might not be such a good idea, after all, because then you'd have to
+>      sprinkle around arch-specific stuff.
+>      https://lkml.org/lkml/2021/12/23/480
+> 
+>      What I suggested and what would be real clean is if the arches would
+>      simply call a *single*
+> 	parse_crashkernel()
+>      function and when that one returns, *all* crashkernel= options would
+>      have been parsed properly, low, high, middle crashkernel, whatever...
+>      and the caller would know what crash kernel needs to be allocated.
+>      https://lkml.org/lkml/2021/12/28/305
+> 
+>    ------
+>    James Morse:
+>      We can then describe it via a different string in /proc/iomem, something
+>      like "Crash kernel (low)".
+>      https://lkml.org/lkml/2019/6/5/670
+>      --> The suggestion looks out of date. See Borislav Petkov's comments:
+>      --> 157752d84f5d ("kexec: use Crash kernel for Crash kernel low")
+>      --> https://lkml.org/lkml/2021/12/23/480
+> 
+> 
+> On 2022/1/24 16:47, Zhen Lei wrote:
+> > There are following issues in arm64 kdump:
+> > 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> > will fail when there is no enough low memory.
+> > 2. If reserving crashkernel above 4G, in this case, crash dump
+> > kernel will boot failure because there is no low memory available
+> > for allocation.
+> > 
+> > To solve these issues, change the behavior of crashkernel=X.
+> > crashkernel=X tries low allocation in DMA zone and fall back to high
+> > allocation if it fails.
+> > 
+> > We can also use "crashkernel=X,high" to select a high region above
+> > DMA zone, which also tries to allocate at least 256M low memory in
+> > DMA zone automatically and "crashkernel=Y,low" can be used to allocate
+> > specified size low memory.
+> > 
+> > When reserving crashkernel in high memory, some low memory is reserved
+> > for crash dump kernel devices. So there may be two regions reserved for
+> > crash dump kernel.
+> > In order to distinct from the high region and make no effect to the use
+> > of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> > and pass the low region by reusing DT property
+> > "linux,usable-memory-range". We made the low memory region as the last
+> > range of "linux,usable-memory-range" to keep compatibility with existing
+> > user-space and older kdump kernels.
+> > 
+> > Besides, we need to modify kexec-tools:
+> > arm64: support more than one crash kernel regions(see [1])
+> > 
+> > Another update is document about DT property 'linux,usable-memory-range':
+> > schemas: update 'linux,usable-memory-range' node schema(see [2])
+> > 
+> > 
+> > Changes since [v19]:
+> > 1. Temporarily stop making reserve_crashkernel[_low]() generic. There are a
+> >    lot of details need to be considered, which can take a long time. Because
+> >    "make generic" does not add new functions and does not improve performance,
+> >    maybe I should say it's just a cleanup. So by stripping it out and leaving
+> >    it for other patches later, we can aggregate the changes to the main functions.
+> > 2. Use insert_resource() to replace request_resource(), this not only simplifies
+> >    the code, but also reduces the differences between arm64 and x86 implementations.
+> > 3. As commit 157752d84f5d ("kexec: use Crash kernel for Crash kernel low") do for
+> >    x86, we can also extend kexec-tools for arm64, and it's currently applied. See:
+> >    https://www.spinics.net/lists/kexec/msg28284.html
+> > 
+> > Thank you very much, Borislav Petkov, for so many valuable comments.
+> > 
+> > 
+> > 
+> > Changes since [v17]: v17 --> v19
+> > 1. Patch 0001-0004
+> >    Introduce generic parse_crashkernel_high_low() to bring the parsing of
+> >    "crashkernel=X,high" and the parsing of "crashkernel=X,low" together,
+> >    then use it instead of the call to parse_crashkernel_{high|low}(). Two
+> >    confusing parameters of parse_crashkernel_{high|low}() are deleted.
+> > 
+> >    I previously sent these four patches separately:
+> >    [1] https://lkml.org/lkml/2021/12/25/40
+> > 2. Patch 0005-0009
+> >    Introduce generic reserve_crashkernel_mem[_low](), the implementation of
+> >    these two functions is based on function reserve_crashkernel[_low]() in
+> >    arch/x86/kernel/setup.c. There is no functional change for x86.
+> >    1) The check position of xen_pv_domain() does not change.
+> >    2) Still 1M alignment for crash kernel fixed region, when 'base' is specified.
+> > 
+> >    To avoid compilation problems on other architectures: patch 0004 moves
+> >    the definition of global variable crashk[_low]_res from kexec_core.c to
+> >    crash_core.c, and provide default definitions for all macros involved, a
+> >    particular platform can redefine these macros to override the default
+> >    values.
+> > 3. 0010, only one line of comment was changed.
+> > 4. 0011
+> >    1) crashk_low_res may also a valid reserved memory, should be checked
+> >       in crash_is_nosave(), see arch/arm64/kernel/machine_kexec.
+> >    2) Drop memblock_mark_nomap() for crashk_low_res, because of:
+> >       2687275a5843 arm64: Force NO_BLOCK_MAPPINGS if crashkernel reservation is required
+> >    3) Also call kmemleak_ignore_phys() for crashk_low_res, because of:
+> >       85f58eb18898 arm64: kdump: Skip kmemleak scan reserved memory for kdump
+> > 5. 0012, slightly rebased, because the following patch is applied in advance. 
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?h=dt/linus&id=8347b41748c3019157312fbe7f8a6792ae396eb7
+> > 6. 0013, no change.
+> > 
+> > Others:
+> > 1. Discard add ARCH_WANT_RESERVE_CRASH_KERNEL
+> > 2. When allocating crash low memory, the start address still starts from 0.
+> >    low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> > 3. Discard change (1ULL << 32) to CRASH_ADDR_LOW_MAX.
+> > 4. Ensure the check position of xen_pv_domain() have no change.
+> > 5. Except patch 0010 and 0012, all "Tested-by", "Reviewed-by", "Acked-by" are removed.
+> > 6. Update description.
+> > 
+> > 
+> > 
+> > Changes since [v16]
+> > - Because no functional changes in this version, so add
+> >   "Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>" for patch 1-9
+> > - Add "Reviewed-by: Rob Herring <robh@kernel.org>" for patch 8
+> > - Update patch 9 based on the review comments of Rob Herring
+> > - As Catalin Marinas's suggestion, merge the implementation of
+> >   ARCH_WANT_RESERVE_CRASH_KERNEL into patch 5. Ensure that the
+> >   contents of X86 and ARM64 do not overlap, and reduce unnecessary
+> >   temporary differences.
+> > 
+> > Changes since [v15]
+> > -  Aggregate the processing of "linux,usable-memory-range" into one function.
+> >    Only patch 9-10 have been updated.
+> > 
+> > Changes since [v14]
+> > - Recovering the requirement that the CrashKernel memory regions on X86
+> >   only requires 1 MiB alignment.
+> > - Combine patches 5 and 6 in v14 into one. The compilation warning fixed
+> >   by patch 6 was introduced by patch 5 in v14.
+> > - As with crashk_res, crashk_low_res is also processed by
+> >   crash_exclude_mem_range() in patch 7.
+> > - Due to commit b261dba2fdb2 ("arm64: kdump: Remove custom linux,usable-memory-range handling")
+> >   has removed the architecture-specific code, extend the property "linux,usable-memory-range"
+> >   in the platform-agnostic FDT core code. See patch 9.
+> > - Discard the x86 description update in the document, because the description
+> >   has been updated by commit b1f4c363666c ("Documentation: kdump: update kdump guide").
+> > - Change "arm64" to "ARM64" in Doc.
+> > 
+> > 
+> > Changes since [v13]
+> > - Rebased on top of 5.11-rc5.
+> > - Introduce config CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL.
+> > Since reserve_crashkernel[_low]() implementations are quite similar on
+> > other architectures, so have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in
+> > arch/Kconfig and select this by X86 and ARM64.
+> > - Some minor cleanup.
+> > 
+> > Changes since [v12]
+> > - Rebased on top of 5.10-rc1.
+> > - Keep CRASH_ALIGN as 16M suggested by Dave.
+> > - Drop patch "kdump: add threshold for the required memory".
+> > - Add Tested-by from John.
+> > 
+> > Changes since [v11]
+> > - Rebased on top of 5.9-rc4.
+> > - Make the function reserve_crashkernel() of x86 generic.
+> > Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
+> > and arm64 use the generic version to reimplement crashkernel=X.
+> > 
+> > Changes since [v10]
+> > - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
+> > 
+> > Changes since [v9]
+> > - Patch 1 add Acked-by from Dave.
+> > - Update patch 5 according to Dave's comments.
+> > - Update chosen schema.
+> > 
+> > Changes since [v8]
+> > - Reuse DT property "linux,usable-memory-range".
+> > Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
+> > memory region.
+> > - Fix kdump broken with ZONE_DMA reintroduced.
+> > - Update chosen schema.
+> > 
+> > Changes since [v7]
+> > - Move x86 CRASH_ALIGN to 2M
+> > Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+> > - Update Documentation/devicetree/bindings/chosen.txt.
+> > Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
+> > suggested by Arnd.
+> > - Add Tested-by from Jhon and pk.
+> > 
+> > Changes since [v6]
+> > - Fix build errors reported by kbuild test robot.
+> > 
+> > Changes since [v5]
+> > - Move reserve_crashkernel_low() into kernel/crash_core.c.
+> > - Delete crashkernel=X,high.
+> > - Modify crashkernel=X,low.
+> > If crashkernel=X,low is specified simultaneously, reserve spcified size low
+> > memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+> > In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+> > pass to crash dump kernel by DT property "linux,low-memory-range".
+> > - Update Documentation/admin-guide/kdump/kdump.rst.
+> > 
+> > Changes since [v4]
+> > - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+> > 
+> > Changes since [v3]
+> > - Add memblock_cap_memory_ranges back for multiple ranges.
+> > - Fix some compiling warnings.
+> > 
+> > Changes since [v2]
+> > - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+> > two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+> > patch.
+> > 
+> > Changes since [v1]:
+> > - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+> > - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+> > in fdt_enforce_memory_region().
+> > There are at most two crash kernel regions, for two crash kernel regions
+> > case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+> > and then remove the memory range in the middle.
+> > 
+> > [1]: https://www.spinics.net/lists/kexec/msg28226.html
+> > [2]: https://github.com/robherring/dt-schema/pull/19 
+> > [v1]: https://lkml.org/lkml/2019/4/2/1174
+> > [v2]: https://lkml.org/lkml/2019/4/9/86
+> > [v3]: https://lkml.org/lkml/2019/4/9/306
+> > [v4]: https://lkml.org/lkml/2019/4/15/273
+> > [v5]: https://lkml.org/lkml/2019/5/6/1360
+> > [v6]: https://lkml.org/lkml/2019/8/30/142
+> > [v7]: https://lkml.org/lkml/2019/12/23/411
+> > [v8]: https://lkml.org/lkml/2020/5/21/213
+> > [v9]: https://lkml.org/lkml/2020/6/28/73
+> > [v10]: https://lkml.org/lkml/2020/7/2/1443
+> > [v11]: https://lkml.org/lkml/2020/8/1/150
+> > [v12]: https://lkml.org/lkml/2020/9/7/1037
+> > [v13]: https://lkml.org/lkml/2020/10/31/34
+> > [v14]: https://lkml.org/lkml/2021/1/30/53
+> > [v15]: https://lkml.org/lkml/2021/10/19/1405
+> > [v16]: https://lkml.org/lkml/2021/11/23/435
+> > [v17]: https://lkml.org/lkml/2021/12/10/38
+> > [v18]: https://lkml.org/lkml/2021/12/22/424
+> > [v19]: https://lkml.org/lkml/2021/12/28/203
+> > 
+> > 
+> > Chen Zhou (4):
+> >   arm64: kdump: introduce some macros for crash kernel reservation
+> >   arm64: kdump: reimplement crashkernel=X
+> >   of: fdt: Add memory for devices by DT property
+> >     "linux,usable-memory-range"
+> >   kdump: update Documentation about crashkernel
+> > 
+> > Zhen Lei (1):
+> >   arm64: Use insert_resource() to simplify code
+> > 
+> >  Documentation/admin-guide/kdump/kdump.rst     | 11 ++-
+> >  .../admin-guide/kernel-parameters.txt         | 11 ++-
+> >  arch/arm64/kernel/machine_kexec.c             |  9 ++-
+> >  arch/arm64/kernel/machine_kexec_file.c        | 12 ++-
+> >  arch/arm64/kernel/setup.c                     | 17 +---
+> >  arch/arm64/mm/init.c                          | 80 +++++++++++++++++--
+> >  drivers/of/fdt.c                              | 33 +++++---
+> >  7 files changed, 134 insertions(+), 39 deletions(-)
+> > 
+> 
+> -- 
+> Regards,
+>   Zhen Lei
+> 
+
