@@ -2,164 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C5FC35274
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 09:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16474C4167D
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 09:41:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235509AbiBIJli (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 04:41:38 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:38888 "EHLO
+        id S235870AbiBIJlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 04:41:39 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:50136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237062AbiBIJiZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 04:38:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA157C1DC16E
-        for <linux-doc@vger.kernel.org>; Wed,  9 Feb 2022 01:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644399438;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VjsoUEihlP5/+Xekk4XWZ3ddwqyUg9r9chckwalLoEA=;
-        b=HKG3dFDu7s5tlVi4RaglX9FblKB5FQGJe2b9wNI+8wNTplSGxgRGSncS8WE/eka83wS0jP
-        FSGbLqxJt6KudBm4+538P5cjYYXnCHbVQY4c71v1csA2yBCFJRcW6RB4H41evnZ5APkHOJ
-        d6tZhwxVJg7kVE2NvFodktAJzdthEro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-P2FQFn4-Ncajs4mCVrx-rQ-1; Wed, 09 Feb 2022 04:15:47 -0500
-X-MC-Unique: P2FQFn4-Ncajs4mCVrx-rQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA1A718B9F00;
-        Wed,  9 Feb 2022 09:15:45 +0000 (UTC)
-Received: from localhost (ovpn-12-114.pek2.redhat.com [10.72.12.114])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AFB8D7AB6E;
-        Wed,  9 Feb 2022 09:15:44 +0000 (UTC)
-Date:   Wed, 9 Feb 2022 17:15:41 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Petr =?utf-8?B?VGVzYcWZw61r?= <ptesarik@suse.cz>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] kdump: Add support for crashkernel=auto
-Message-ID: <YgOGPbdtQIhPNen7@MiWiFi-R3L-srv>
-References: <1643275911-19489-1-git-send-email-yangtiezhu@loongson.cn>
- <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
+        with ESMTP id S240356AbiBIJec (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 04:34:32 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3D1E05BA6F;
+        Wed,  9 Feb 2022 01:34:31 -0800 (PST)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2198vqhf012063;
+        Wed, 9 Feb 2022 09:34:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=HH9xhkFjQ1nugdMdCXQbfnAWk9nKi8h0ee0AeB6zGyA=;
+ b=QquuRP7lHwiEdtO5XBL769aWD+oG3iEJ3M9EImyATu/lxpWyVVYe3fQdrQq1EfJs5ElI
+ nEne5DAjdDjtFOdkQypeL6OCDKJ2h7FAPc2qMRK6c4lPBHTilbb1iw6m6gmMcWTtAzfs
+ hn/c0ocUY1UPqJD6xi5RrtpMtxrySqCBWvgdqg4pkI5Hgq83C2Qu79MXQvXCkOLAsZQV
+ lsFTTgn86750Zr68MbnZ1/oZxnzvEBCYnbdi6PhXpUm3L+iZWk+LbUDvwfhWBJ2vhc5T
+ l0NiS4XmaRK4S3jVPMpum+74YYBlWmI6p9qJBWMJrPBZ+pIvP22LfOvCO9cr8NqB42Rt DA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e4ajk8nj3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 09:34:30 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2199QDBs024667;
+        Wed, 9 Feb 2022 09:34:29 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3e4ajk8nhk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 09:34:29 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2199H0Z1025227;
+        Wed, 9 Feb 2022 09:34:27 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma01fra.de.ibm.com with ESMTP id 3e1gv9kqjg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 09:34:26 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2199YLcu44237234
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 9 Feb 2022 09:34:21 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 01E5AA4053;
+        Wed,  9 Feb 2022 09:34:21 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0E05EA4051;
+        Wed,  9 Feb 2022 09:34:20 +0000 (GMT)
+Received: from [9.171.87.52] (unknown [9.171.87.52])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  9 Feb 2022 09:34:19 +0000 (GMT)
+Message-ID: <29ac0e5c-f77b-04b2-bbf5-cf5a5ca78921@linux.ibm.com>
+Date:   Wed, 9 Feb 2022 10:34:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 05/11] KVM: s390: Add optional storage key checking to
+ MEMOP IOCTL
+Content-Language: en-US
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+References: <20220207165930.1608621-1-scgl@linux.ibm.com>
+ <20220207165930.1608621-6-scgl@linux.ibm.com>
+ <48d1678f-746c-dab6-5ec3-56397277f752@linux.ibm.com>
+ <71f07914-d0b2-e98b-22b2-bc05f04df2da@linux.ibm.com>
+ <6ea27647-fbbe-3962-03a0-8ca5340fc7fd@linux.ibm.com>
+In-Reply-To: <6ea27647-fbbe-3962-03a0-8ca5340fc7fd@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d513dea3-7300-9684-73af-0b51f5f0e572@suse.cz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: JGM9Zf2mFAzgHbvz4-cjin-y2c5Ym3v7
+X-Proofpoint-GUID: k8icOF-FvUBNOatk0Xme2-sWOtUNd3uB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-09_05,2022-02-09_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
+ priorityscore=1501 phishscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202090062
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+CC Konstantin,
 
-On 01/27/22 at 04:53pm, Petr Tesařík wrote:
-> Hi Tiezhu Yang,
+I hope you can find the right people. Looks that my (and Janis) emaildid not make it to linux-s390 and kvm at vger lists.
+Message-ID: <6ea27647-fbbe-3962-03a0-8ca5340fc7fd@linux.ibm.com>
+
+
+Am 09.02.22 um 10:08 schrieb Christian Borntraeger:
 > 
-> I'm afraid the whole concept is broken by design. See below.
 > 
-> Dne 27. 01. 22 v 10:31 Tiezhu Yang napsal(a):
-> > Set the reserved memory automatically for the crash kernel based on
-> > architecture.
-> > 
-> > Most code of this patch come from:
-> > https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-8/-/tree/c8s
-
-This code is from RHEL8/Centos8 which Redhat has been using. It's
-working pretty well, except of those big box with dozens of pcie
-devices, or exceptional device driver costing very much memory.
-See below patchset in i40e NIC case, it eats out 1.5G meory on
-ppc64le for a NIC driver init.
-
-[PATCH v1 0/3] Reducing memory usage of i40e for kdump
-https://www.spinics.net/lists/kexec/msg26521.html
-
-I agree asking customer to estimate the needed reservation size firstly,
-then adding the value to cmdline and reboot is much easier. The thing is
-it needs customer to operate. And no matter how much reservation is
-needed, it mostly will be satisfied, including the above crazy i40e.
-You won't get report about the exception, unless user check that
-carefully each time. And you can't cover the hotplugged case.
-
-The thing is which side is in lazy mode. Customer do the
-estimation and set, developer is easy. If customer want to be easy,
-developer need do more.
-
-https://sigillatum.tesarici.cz/2022-01-27-whats-wrong-with-crashkernel-auto.html
-
-I read Petr's above article, I have some different opinion about part of
-them. Crashkernel=auto is not for upstream kernel, or customized kernel,
-it is for distros. For distros, the kernel config is fixed in one
-release, the kernel code, data is fixed. In rhel8, crashkernel=160M
-is a default value, and works on most of cases. The kernel modules are
-different, we filter out the unneeded according to user's kdump config.
-We only keep the needed user space tools certainly. We have document to
-note user that nfs needs more memory, some big end server need more memory.
-We try to reserve a little more memory propotional to the total memory.
-With these effort, we hope more people can try kdump w/o worrying about
-no knowledge.
-
-About the effort trying to get crashkernel=auto into kernel, Philipp
-pasted a patch from Oracle. The kernel config way is expected but
-rejected by Linus. We gave up too soon. RHEL instead make it in
-userspace package. We will see, we may try again if it's not going well.
-
-
-> And that's the problem, I think. The solution might be good for this
-> specific OS, but not for others.
+> Am 09.02.22 um 09:49 schrieb Janis Schoetterl-Glausch:
+>> On 2/9/22 08:34, Christian Borntraeger wrote:
+>>> Am 07.02.22 um 17:59 schrieb Janis Schoetterl-Glausch:
+>>>> User space needs a mechanism to perform key checked accesses when
+>>>> emulating instructions.
+>>>>
+>>>> The key can be passed as an additional argument.
+>>>> Having an additional argument is flexible, as user space can
+>>>> pass the guest PSW's key, in order to make an access the same way the
+>>>> CPU would, or pass another key if necessary.
+>>>>
+>>>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+>>>> Acked-by: Janosch Frank <frankja@linux.ibm.com>
+>>>> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+>>>> ---
+>>>>    arch/s390/kvm/kvm-s390.c | 49 +++++++++++++++++++++++++++++++---------
+>>>>    include/uapi/linux/kvm.h |  8 +++++--
+>>>>    2 files changed, 44 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+>>>> index cf347e1a4f17..71e61fb3f0d9 100644
+>>>> --- a/arch/s390/kvm/kvm-s390.c
+>>>> +++ b/arch/s390/kvm/kvm-s390.c
+>>>> @@ -32,6 +32,7 @@
+>>>>    #include <linux/sched/signal.h>
+>>>>    #include <linux/string.h>
+>>>>    #include <linux/pgtable.h>
+>>>> +#include <linux/bitfield.h>
+>>>>      #include <asm/asm-offsets.h>
+>>>>    #include <asm/lowcore.h>
+>>>> @@ -2359,6 +2360,11 @@ static int kvm_s390_handle_pv(struct kvm *kvm, struct kvm_pv_cmd *cmd)
+>>>>        return r;
+>>>>    }
+>>>>    +static bool access_key_invalid(u8 access_key)
+>>>> +{
+>>>> +    return access_key > 0xf;
+>>>> +}
+>>>> +
+>>>>    long kvm_arch_vm_ioctl(struct file *filp,
+>>>>                   unsigned int ioctl, unsigned long arg)
+>>>>    {
+>>>> @@ -4687,34 +4693,54 @@ static long kvm_s390_guest_mem_op(struct kvm_vcpu *vcpu,
+>>>>                      struct kvm_s390_mem_op *mop)
+>>>>    {
+>>>>        void __user *uaddr = (void __user *)mop->buf;
+>>>> +    u8 access_key = 0, ar = 0;
+>>>>        void *tmpbuf = NULL;
+>>>> +    bool check_reserved;
+>>>>        int r = 0;
+>>>>        const u64 supported_flags = KVM_S390_MEMOP_F_INJECT_EXCEPTION
+>>>> -                    | KVM_S390_MEMOP_F_CHECK_ONLY;
+>>>> +                    | KVM_S390_MEMOP_F_CHECK_ONLY
+>>>> +                    | KVM_S390_MEMOP_F_SKEY_PROTECTION;
+>>>>    -    if (mop->flags & ~supported_flags || mop->ar >= NUM_ACRS || !mop->size)
+>>>> +    if (mop->flags & ~supported_flags || !mop->size)
+>>>>            return -EINVAL;
+>>>> -
+>>>>        if (mop->size > MEM_OP_MAX_SIZE)
+>>>>            return -E2BIG;
+>>>> -
+>>>>        if (kvm_s390_pv_cpu_is_protected(vcpu))
+>>>>            return -EINVAL;
+>>>> -
+>>>>        if (!(mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY)) {
+>>>>            tmpbuf = vmalloc(mop->size);
+>>>>            if (!tmpbuf)
+>>>>                return -ENOMEM;
+>>>>        }
+>>>> +    ar = mop->ar;
+>>>> +    mop->ar = 0;
+>>>
+>>> Why this assignment to 0?
+>>
+>> It's so the check of reserved below works like that, they're all part of the anonymous union.
 > 
-> > [...]
-> > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > index 256cf6d..32c51e2 100644
-> > --- a/kernel/crash_core.c
-> > +++ b/kernel/crash_core.c
-> > @@ -252,6 +252,26 @@ static int __init __parse_crashkernel(char *cmdline,
-> >   	if (suffix)
-> >   		return parse_crashkernel_suffix(ck_cmdline, crash_size,
-> >   				suffix);
-> > +
-> > +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
-> > +#if defined(CONFIG_X86_64) || defined(CONFIG_S390)
-> > +		ck_cmdline = "1G-4G:160M,4G-64G:192M,64G-1T:256M,1T-:512M";
-> > +#elif defined(CONFIG_ARM64)
-> > +		ck_cmdline = "2G-:448M";
-> > +#elif defined(CONFIG_PPC64)
-> > +		char *fadump_cmdline;
-> > +
-> > +		fadump_cmdline = get_last_crashkernel(cmdline, "fadump=", NULL);
-> > +		fadump_cmdline = fadump_cmdline ?
-> > +				fadump_cmdline + strlen("fadump=") : NULL;
-> > +		if (!fadump_cmdline || (strncmp(fadump_cmdline, "off", 3) == 0))
-> > +			ck_cmdline = "2G-4G:384M,4G-16G:512M,16G-64G:1G,64G-128G:2G,128G-:4G";
-> > +		else
-> > +			ck_cmdline = "4G-16G:768M,16G-64G:1G,64G-128G:2G,128G-1T:4G,1T-2T:6G,2T-4T:12G,4T-8T:20G,8T-16T:36G,16T-32T:64G,32T-64T:128G,64T-:180G";
-> > +#endif
-> > +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-> > +	}
-> > +
+> Ah, I see. This is ugly :-)
 > 
-> How did you even arrive at the above numbers? I've done some research on
-> this topic recently (ie. during the last 7 years or so). My x86_64 system
-> with 8G RAM running openSUSE Leap 15.3 seems needs 188M for saving to the
-> local disk, and 203M to save over the network (using SFTP). My PPC64 LPAR
-> with 16G RAM running latest Beta of SLES 15 SP4 needs 587M, i.e. with the
-> above numbers it may run out of memory while saving the dump.
+>>>
+>>>> +    if (ar >= NUM_ACRS)
+>>>> +        return -EINVAL;
+>>>> +    if (mop->flags & KVM_S390_MEMOP_F_SKEY_PROTECTION) {
+>>>> +        access_key = mop->key;
+>>>> +        mop->key = 0;
+>>>
+>>> and this? I think we can leave mop unchanged.
+>>>
+>>> In fact, why do we add the ar and access_key variable?
+>>> This breaks the check from above (if (mop->flags & ~supported_flags || mop->ar >= NUM_ACRS || !mop->size))  into two checks
+>>> and it will create a memleak for tmpbuf.
+>>
+>> I can move the allocation down, goto out or get rid of the reserved check and keep everything as before.
+>> First is simpler, but second makes handling that case more explicit and might help in the future.
 > 
-> Since this is not the first time, I'm trying to explain things, I've written
-> a blog post now:
+> Maybe add a reserved_02 field in the anon struct and check this for being zero and get rid of the local variables?
 > 
-> https://sigillatum.tesarici.cz/2022-01-27-whats-wrong-with-crashkernel-auto.html
-> 
-> HTH
-> Petr Tesarik
-> 
-
+>> Patch 6 has the same issue in the vm ioctl handler.
+>>>
+>>> Simply use mop->key and mop->ar below and get rid of the local variables.
+>>> The structure has no concurrency and gcc will handle that just as the local variable.
+>>>
+>>> Other than that this looks good.
+>>
+>> [...]
+>>
