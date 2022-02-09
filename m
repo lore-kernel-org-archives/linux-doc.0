@@ -2,74 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F19DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 15:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E55C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 15:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235315AbiBIPGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 10:06:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52954 "EHLO
+        id S236127AbiBIPlL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 10:41:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235308AbiBIPGi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 10:06:38 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF153C06157B;
-        Wed,  9 Feb 2022 07:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WZOcUHomPacejbhw1MKsv8v3w9dd0gwh3fSPRthDHH0=; b=VxhFUJ24lFKgv/7Xet2yYxcGSE
-        hszcJPc0xzGK3/tSjP8Qi1sDpVg6tjBP3LNHr8T1DeuE7hYO8r19sYD7AxSddUW65VPmJqb4oNBWL
-        gzX4+I007XySuILHaOUL1fbwS3sj+1ydNgVCf/XMxcarnQFkJgFZklrtagohn/s134XrRx7IGsuOC
-        xBsQxCs1Ks1YLC18ZLEgFwkZxtUyI+SkOEYerbkP6DpX1wk0eRbD387i2BBO9YEvE+hcMJHdQEprg
-        ctV5AL7HpJaif14tr3top/zYEvFn4ZaoYonBJtktn+yJkfe7ffKe6ZoSMD1PWhIoXafU4S7WnDpvd
-        eKgB3feA==;
-Received: from 201-27-34-10.dsl.telesp.net.br ([201.27.34.10] helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nHoY0-0003cB-Ih; Wed, 09 Feb 2022 16:06:20 +0100
-Message-ID: <c4f0c53e-cfe4-b693-6af2-df827bc94fa8@igalia.com>
-Date:   Wed, 9 Feb 2022 12:06:03 -0300
+        with ESMTP id S236177AbiBIPk6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 10:40:58 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2144AC0613CA;
+        Wed,  9 Feb 2022 07:40:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644421259; x=1675957259;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ybIpsMmv2oQsujciJTHbw6FLtIsdAI/tnWcB5Lvr0nM=;
+  b=Bio9/O6aEtJH15JzT6gNHEb+eI0GM8j4b1gPHk2gBAzSvAp4k8OVRniS
+   OnY9O+UV9+A5kXCj6RCUKx39J8uH3+JRMAerq+sVT83Mcc0obtXweEqBw
+   scCb0TmnP8EJN1lE073hvI4yCafe7c3+GbNO5S1pkyaf9h8LJRbJGMENk
+   fLhkDrdI3OF8VG/MgJJwy2CCi4/5dhWFxo+e2GO4mA71KpRmlzkYQ3MEa
+   GGEtgNBaJeVLGQnL+iGx1oKzKcUQlLNiARSYE2vS/KGUG6Wc/iitk6J3a
+   cHrfZb961p452lrubEeuMhMtfnaAfnuXK8yxApT+4lOL1pZMzLg8YU+RM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248988099"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
+   d="scan'208";a="248988099"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 07:40:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
+   d="scan'208";a="500003852"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 09 Feb 2022 07:40:53 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nHp5Q-0001ym-K7; Wed, 09 Feb 2022 15:40:52 +0000
+Date:   Wed, 9 Feb 2022 23:40:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [ambarus:spi-nor/next 9/9] drivers/mtd/spi-nor/macronix.c:20:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202202092342.YwAYnHF4-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
- kdump
-Content-Language: en-US
-To:     Stephen Rothwell <sfr@canb.auug.org.au>, akpm@linux-foundation.org
-Cc:     Petr Mladek <pmladek@suse.com>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        feng.tang@intel.com, siglesias@igalia.com, kernel@gpiccoli.net
-References: <20211109202848.610874-1-gpiccoli@igalia.com>
- <20211109202848.610874-4-gpiccoli@igalia.com> <Yd/qmyz+qSuoUwbs@alley>
- <7c516696-be5b-c280-7f4e-554834f5e472@igalia.com>
- <c10fc4fc-58c9-0b3f-5f1e-6f44b0c190d2@igalia.com>
- <20220209083951.50060e15@canb.auug.org.au>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220209083951.50060e15@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/02/2022 18:39, Stephen Rothwell wrote:
-> Hi Guilherme,
-> [...] 
-> Dropped from linux-next today.
-> 
+tree:   https://github.com/ambarus/linux-0day spi-nor/next
+head:   89a4d99e9d41b68d34943980943207b58c433256
+commit: 89a4d99e9d41b68d34943980943207b58c433256 [9/9] mtd: spi-nor: macronix: Add support for mx66lm1g45g
+config: i386-randconfig-a003 (https://download.01.org/0day-ci/archive/20220209/202202092342.YwAYnHF4-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/ambarus/linux-0day/commit/89a4d99e9d41b68d34943980943207b58c433256
+        git remote add ambarus https://github.com/ambarus/linux-0day
+        git fetch --no-tags ambarus spi-nor/next
+        git checkout 89a4d99e9d41b68d34943980943207b58c433256
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/spi-nor/
 
-Hi Stephen, thanks! I'm still seeing this patch over there, though - I'm
-not sure if takes a while to show up in the tree...
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Notice this request is only for patch 3/3 in this series - patches 1 and
-2 are fine, were reviewed and accepted =)
+All warnings (new ones prefixed by >>):
 
-Cheers,
+>> drivers/mtd/spi-nor/macronix.c:20: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Macronix SPI NOR flash operations.
 
 
-Guilherme
+vim +20 drivers/mtd/spi-nor/macronix.c
+
+    18	
+    19	/**
+  > 20	 * Macronix SPI NOR flash operations.
+    21	 */
+    22	#define SPI_NOR_MX_READ_CR2_OP(ndummy, buf, ndata)			\
+    23		SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_READ_CR2, 0),		\
+    24			   SPI_MEM_OP_ADDR(4, SPINOR_REG_CR2_MODE_ADDR, 0),	\
+    25			   SPI_MEM_OP_DUMMY(ndummy, 0),				\
+    26			   SPI_MEM_OP_DATA_IN(ndata, buf, 0))
+    27	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
