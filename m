@@ -2,203 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B133C43219
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 11:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74773C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 12:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231383AbiBIL4R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 06:56:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57548 "EHLO
+        id S232540AbiBIMHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 07:07:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231597AbiBILz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 06:55:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887D9C0045A9;
-        Wed,  9 Feb 2022 02:54:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1527B612E7;
-        Wed,  9 Feb 2022 10:54:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F355C340EE;
-        Wed,  9 Feb 2022 10:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644404049;
-        bh=8nfXi2bAkBkxKe4ZmVJ1McrLUR/vS+aiNoKC3c4V54c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o8kvTb2TMbpq1whYqOyKIm1hlJzLi/Q/a7JoUpj/jGssXx7Qt2YZfBNYkEkw/hZXE
-         oSInBQ5nuOk5Os7WPqk0FsmT5MYuYpJeH1AwVx9/sNxYghplvePkYAHWRcNnd3okRc
-         M9krUM2hOFkqKwv1q7AvLokp6kWPbgxm4oByhL31KH+6gGAD8NURHSZGlgRPeJ34wR
-         oKsYkioVYxJpiwc0Ji4Sp/jM+78yoZTEYYk3XHfiYOqzRm+ha7Fh2SpXMJsyh6VB8N
-         ivZdoNTpo9Vm+5jKSaeoJXseiJK/X0ch6HI7SG9uzqs2raWQmeBW+yzpszfgW8m8ad
-         YPv9Vixyl0Iow==
-Date:   Wed, 9 Feb 2022 12:53:51 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "Lutomirski, Andy" <luto@kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YgOdP7YFwbX13SlP@kernel.org>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org>
- <YgDIIpCm3UITk896@lisas.de>
- <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org>
- <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
- <YgKiKEcsNt7mpMHN@grain>
- <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+        with ESMTP id S232740AbiBIMGI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 07:06:08 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D0FC002B5B;
+        Wed,  9 Feb 2022 03:05:08 -0800 (PST)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 219AwwD6000818;
+        Wed, 9 Feb 2022 11:05:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=LHfiMXVZg7ZVpowzCte9q2RfZJaMyGlfoite7Y+tdGo=;
+ b=lbvVSjWLy/9lFUxIN0EO//SqgtIFZDTr+KfVGQUOzStVGOCHRzptEeTFETPyr/qoQckC
+ n1wCuFXu4yNIt3EY/5d38c+Di4BowV7tSMvYbhtJalEkESm12ve9uHesGDVVflmEUF8K
+ +bEwRSK9b3aCbYz2txZpaELTUzRQAluC35uc0n2+mft4m2xtgm+Cszpck6fFT4iNUgxA
+ dVtP0aMHpHsoKbKd69uzfzKttGewY2ybwl4OmHHRjeApRWfMPTSusrrbl9OtdBmQKfwO
+ 33bNRyX1xfPdpovDZDGljSMa1Z1lDUhW/2ipSpi2WxguE5CvyKPsPLBMF4ybNYNbec5x Hw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3e4cb6g38s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 11:05:06 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 219Aws7N000771;
+        Wed, 9 Feb 2022 11:05:05 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3e4cb6g388-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 11:05:05 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 219B4xqj008545;
+        Wed, 9 Feb 2022 11:05:04 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma06ams.nl.ibm.com with ESMTP id 3e1ggk66q6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Feb 2022 11:05:03 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 219B4xXs48562576
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 9 Feb 2022 11:04:59 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A3859AE072;
+        Wed,  9 Feb 2022 11:04:59 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 116ECAE079;
+        Wed,  9 Feb 2022 11:04:59 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.75.42])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  9 Feb 2022 11:04:58 +0000 (GMT)
+Message-ID: <1eb6ae828fd02340ff30bfab6a949fff90e85d3b.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 05/11] KVM: s390: Add optional storage key checking
+ to MEMOP IOCTL
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Date:   Wed, 09 Feb 2022 12:04:58 +0100
+In-Reply-To: <ef35d70a-c0dc-e5ae-8182-79847085d593@linux.ibm.com>
+References: <20220207165930.1608621-1-scgl@linux.ibm.com>
+         <20220207165930.1608621-6-scgl@linux.ibm.com>
+         <48d1678f-746c-dab6-5ec3-56397277f752@linux.ibm.com>
+         <71f07914-d0b2-e98b-22b2-bc05f04df2da@linux.ibm.com>
+         <6ea27647-fbbe-3962-03a0-8ca5340fc7fd@linux.ibm.com>
+         <8d502356c3a624847c0dd2fe5d5f60e72923a141.camel@linux.ibm.com>
+         <3ec91f7a-10ca-b984-d852-1327f965b1e8@linux.ibm.com>
+         <83408abf-86fe-20b0-564c-8cf840757e76@linux.ibm.com>
+         <ef35d70a-c0dc-e5ae-8182-79847085d593@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: OQCO6zO4JOftPp5kM8pvUdQrvmjN1mxA
+X-Proofpoint-GUID: wIUjsMzPqKKI5F8ZIW3PqCZnqVMMLk_p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-09_06,2022-02-09_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+ mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202090069
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rick,
-
-On Wed, Feb 09, 2022 at 02:18:42AM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
-> > On Tue, Feb 08, 2022 at 08:21:20AM -0800, Andy Lutomirski wrote:
-> > > > > But such a knob will immediately reduce the security value of
-> > > > > the entire
-> > > > > thing, and I don't have good ideas how to deal with it :(
+On Wed, 2022-02-09 at 11:48 +0100, Christian Borntraeger wrote:
+> 
+> Am 09.02.22 um 11:39 schrieb Janis Schoetterl-Glausch:
+> > On 2/9/22 11:08, Christian Borntraeger wrote:
+> > > 
+> > > Am 09.02.22 um 11:01 schrieb Janis Schoetterl-Glausch:
+> > > > On Wed, 2022-02-09 at 10:08 +0100, Christian Borntraeger wrote:
+> > > > > Am 09.02.22 um 09:49 schrieb Janis Schoetterl-Glausch:
+> > > > > > On 2/9/22 08:34, Christian Borntraeger wrote:
+> > > > > > > Am 07.02.22 um 17:59 schrieb Janis Schoetterl-Glausch:
+> > > > > > > > User space needs a mechanism to perform key checked accesses when
+> > > > > > > > emulating instructions.
+> > > > > > > > 
+> > > > > > > > The key can be passed as an additional argument.
+> > > > > > > > Having an additional argument is flexible, as user space can
+> > > > > > > > pass the guest PSW's key, in order to make an access the same way the
+> > > > > > > > CPU would, or pass another key if necessary.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> > > > > > > > Acked-by: Janosch Frank <frankja@linux.ibm.com>
+> > > > > > > > Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> > > > > > > > ---
+> > > > > > > >      arch/s390/kvm/kvm-s390.c | 49 +++++++++++++++++++++++++++++++---------
+> > > > > > > >      include/uapi/linux/kvm.h |  8 +++++--
+> > > > > > > >      2 files changed, 44 insertions(+), 13 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+> > > > > > > > index cf347e1a4f17..71e61fb3f0d9 100644
+> > > > > > > > --- a/arch/s390/kvm/kvm-s390.c
+> > > > > > > > +++ b/arch/s390/kvm/kvm-s390.c
+> > > > > > > > @@ -32,6 +32,7 @@
+> > > > > > > >      #include <linux/sched/signal.h>
+> > > > > > > >      #include <linux/string.h>
+> > > > > > > >      #include <linux/pgtable.h>
+> > > > > > > > +#include <linux/bitfield.h>
+> > > > > > > >        #include <asm/asm-offsets.h>
+> > > > > > > >      #include <asm/lowcore.h>
+> > > > > > > > @@ -2359,6 +2360,11 @@ static int kvm_s390_handle_pv(struct kvm *kvm, struct kvm_pv_cmd *cmd)
+> > > > > > > >          return r;
+> > > > > > > >      }
+> > > > > > > >      +static bool access_key_invalid(u8 access_key)
+> > > > > > > > +{
+> > > > > > > > +    return access_key > 0xf;
+> > > > > > > > +}
+> > > > > > > > +
+> > > > > > > >      long kvm_arch_vm_ioctl(struct file *filp,
+> > > > > > > >                     unsigned int ioctl, unsigned long arg)
+> > > > > > > >      {
+> > > > > > > > @@ -4687,34 +4693,54 @@ static long kvm_s390_guest_mem_op(struct kvm_vcpu *vcpu,
+> > > > > > > >                        struct kvm_s390_mem_op *mop)
+> > > > > > > >      {
+> > > > > > > >          void __user *uaddr = (void __user *)mop->buf;
+> > > > > > > > +    u8 access_key = 0, ar = 0;
+> > > > > > > >          void *tmpbuf = NULL;
+> > > > > > > > +    bool check_reserved;
+> > > > > > > >          int r = 0;
+> > > > > > > >          const u64 supported_flags = KVM_S390_MEMOP_F_INJECT_EXCEPTION
+> > > > > > > > -                    | KVM_S390_MEMOP_F_CHECK_ONLY;
+> > > > > > > > +                    | KVM_S390_MEMOP_F_CHECK_ONLY
+> > > > > > > > +                    | KVM_S390_MEMOP_F_SKEY_PROTECTION;
+> > > > > > > >      -    if (mop->flags & ~supported_flags || mop->ar >= NUM_ACRS || !mop->size)
+> > > > > > > > +    if (mop->flags & ~supported_flags || !mop->size)
+> > > > > > > >              return -EINVAL;
+> > > > > > > > -
+> > > > > > > >          if (mop->size > MEM_OP_MAX_SIZE)
+> > > > > > > >              return -E2BIG;
+> > > > > > > > -
+> > > > > > > >          if (kvm_s390_pv_cpu_is_protected(vcpu))
+> > > > > > > >              return -EINVAL;
+> > > > > > > > -
+> > > > > > > >          if (!(mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY)) {
+> > > > > > > >              tmpbuf = vmalloc(mop->size);
+> > > > > > > >              if (!tmpbuf)
+> > > > > > > >                  return -ENOMEM;
+> > > > > > > >          }
+> > > > > > > > +    ar = mop->ar;
+> > > > > > > > +    mop->ar = 0;
+> > > > > > > 
+> > > > > > > Why this assignment to 0?
+> > > > > > 
+> > > > > > It's so the check of reserved below works like that, they're all part of the anonymous union.
+> > > > > 
+> > > > > Ah, I see. This is ugly :-)
 > > > > 
-> > > > Probably a kind of latch in the task_struct which would trigger
-> > > > off once
-> > > > returt to a different address happened, thus we would be able to
-> > > > jump inside
-> > > > paratite code. Of course such trigger should be available under
-> > > > proper
-> > > > capability only.
+> > > > Yes :)
+> > > > > > > > +    if (ar >= NUM_ACRS)
+> > > > > > > > +        return -EINVAL;
+> > > > > > > > +    if (mop->flags & KVM_S390_MEMOP_F_SKEY_PROTECTION) {
+> > > > > > > > +        access_key = mop->key;
+> > > > > > > > +        mop->key = 0;
+> > > > > > > 
+> > > > > > > and this? I think we can leave mop unchanged.
+> > > > > > > 
+> > > > > > > In fact, why do we add the ar and access_key variable?
+> > > > > > > This breaks the check from above (if (mop->flags & ~supported_flags || mop->ar >= NUM_ACRS || !mop->size))  into two checks
+> > > > > > > and it will create a memleak for tmpbuf.
+> > > > > > 
+> > > > > > I can move the allocation down, goto out or get rid of the reserved check and keep everything as before.
+> > > > > > First is simpler, but second makes handling that case more explicit and might help in the future.
+> > > > > 
+> > > > > Maybe add a reserved_02 field in the anon struct and check this for being zero and get rid of the local variables?
+> > > > 
+> > > > I think that would require us adding new fields in the struct by putting them in a union with reserved_02 and so on,
+> > > > which could get rather messy.
 > > > 
-> > > I'm not fully in touch with how parasite, etc works.  Are we
-> > > talking about save or restore?
+> > > I think it is fine to rename reserved_02. Maybe rename that to dont_use_02 ?
 > > 
-> > We use parasite code in question during checkpoint phase as far as I
-> > remember.
-> > push addr/lret trick is used to run "injected" code (code injection
-> > itself is
-> > done via ptrace) in compat mode at least. Dima, Andrei, I didn't look
-> > into this code
-> > for years already, do we still need to support compat mode at all?
+> > I don't know what kind of stability guarantees we give here, since it can only happen when recompiling with
+> > a new header. dont_use is a lot better than reserved here, after all we tell user space to set
+> > reserved bytes to 0, using reserved_02 to do that would be quite handy and therefore likely.
 > > 
-> > > If it's restore, what exactly does CRIU need to do?  Is it just
-> > > that CRIU needs to return
-> > > out from its resume code into the to-be-resumed program without
-> > > tripping CET?  Would it
-> > > be acceptable for CRIU to require that at least one shstk slot be
-> > > free at save time?
-> > > Or do we need a mechanism to atomically switch to a completely full
-> > > shadow stack at resume?
-> > > 
-> > > Off the top of my head, a sigreturn (or sigreturn-like mechanism)
-> > > that is intended for
-> > > use for altshadowstack could safely verify a token on the
-> > > altshdowstack, possibly
-> > > compare to something in ucontext (or not -- this isn't clearly
-> > > necessary) and switch
-> > > back to the previous stack.  CRIU could use that too.  Obviously
-> > > CRIU will need a way
-> > > to populate the relevant stacks, but WRUSS can be used for that,
-> > > and I think this
-> > > is a fundamental requirement for CRIU -- CRIU restore absolutely
-> > > needs a way to write
-> > > the saved shadow stack data into the shadow stack.
+> > The question is also what semantic we want for the check.
+> > The way it works right now, user space also needs to set unused fields to 0, e.g. key if the flag is not set.
+> > At least this is the case for the vm memop, the vcpu memop cannot do that because of backward compatibility.
 > 
-> Still wrapping my head around the CRIU save and restore steps, but
-> another general approach might be to give ptrace the ability to
-> temporarily pause/resume/set CET enablement and SSP for a stopped
-> thread. Then injected code doesn't need to jump through any hoops or
-> possibly run into road blocks. I'm not sure how much this opens things
-> up if the thread has to be stopped...
- 
-IIRC, criu dump does something like this:
-* Stop the process being dumped (victim) with ptrace
-* Inject parasite code and data into the victim, again with ptrace.
-  Among other things the parasite data contains a sigreturn frame with
-  saved victim state.
-* Resume the victim process, which will run parasite code now.
-* When parasite finishes it uses that frame to sigreturn to normal victim
-  execution
+> As an alternative just remove the check for reserved == 0 and do that later on as an add-on patch?
 
-So, my feeling is that for dump side WRUSS should be enough.
+That would kinda defeat the purpose of the check, since misbehaving user space programs would
+get an error then but not now.
 
-> Cyrill, could it fit into the CRIU pause and resume flow? What action
-> causes the final resuming of execution of the restored process for
-> checkpointing and for restore? Wondering if we could somehow make CET
-> re-enable exactly then.
-> 
-> And I guess this also needs a way to create shadow stack allocations at
-> a specific address to match where they were in the dumped process. That
-> is missing in this series.
-
-Yes, criu restore will need to recreate shadow stack mappings. Currently,
-we recreate the restored process (target) address space based on
-/proc/pid/maps and /proc/pid/smaps. CRIU preserves the virtual addresses
-and VMA flags. The relevant steps of restore process can be summarised as:
-* Clone() the target process tree
-* Recreate VMAs with the needed size and flags, but not necessarily at the
-  correct place yet
-* Partially populate memory data from the saved images
-* Move VMAs to their exact addresses
-* Complete restoring the data
-* Create a frame for sigreturn and jump to the target.
-
-Here, the stack used after sigreturn contains the data that was captured
-during dump and it entirely different from what shadow stack will contain.
-
-There are several points when the target threads are stopped, so
-pausing/resuming CET may help.
- 
-> > > So I think the only special capability that CRIU really needs is
-> > > WRUSS, and
-> > > we need to wire that up anyway.
-> > 
-> > Thanks for these notes, Andy! I can't provide any sane answer here
-> > since didn't
-> > read tech spec for this feature yet :-)
-> 
-> 
-> 
-> 
-
--- 
-Sincerely yours,
-Mike.
