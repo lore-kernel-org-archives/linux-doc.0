@@ -2,97 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D71C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 07:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBED1C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 07:45:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbiBIHit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 02:38:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37928 "EHLO
+        id S235140AbiBIHpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 02:45:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238476AbiBIHir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 02:38:47 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 928D8C05CB82
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 23:38:51 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id k17so1549248plk.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 23:38:51 -0800 (PST)
+        with ESMTP id S230462AbiBIHp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 02:45:29 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD404C0612C3
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 23:45:32 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id 192so3482088ybd.10
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 23:45:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=A7moO6TkWuZd8WQdT04YbPTaZYf9v5wim/a38Dn6kdU=;
-        b=d7OY/fw7ZyhqzU2siPVnMH2MTqK8RfIIThY4XV8/L7Zqc8FAjRbEGUf97eHrHtJ2jZ
-         cVn4ySmLnUxoNuhyFTYlVQTiBtIRKeE/xV8gSA4A3hVCPxO8bGpQlQ5oeB6j68MVu9in
-         W7do93yqrY+rjx/eOZ1OwuXeCvBsesJ5aPMBB/pSypJmrAsgOMExGCGnJMgpSgBGKg6B
-         hemFbHx3bg+KLJEQfmmxI8j2sjHpyiksRSq0B+Y5JFHGPf1kWzTQ5xcT9+SbXo3urkl1
-         VeQvsjBKTl9j7WiLVt0GjbnXQatn32ucPoXbxJjsZ2JB02WGlCqmdDCmjXEEqrTMeUdL
-         Lqrg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rZt97/8ROY3+UKnKOkybgWpfp57iv+flrkhWaztw2B4=;
+        b=hjNPEUw9OlUPIk2B4S7HhB3hqe9U9AT7bF0Q+ofYKz+gn7Tit4EYniAacYbI8Ut2DR
+         sImSygPZsw2DdMFe6k/h3puZokb+ORZ/tqEi/CO2VbqgO7ZI4sa9YhKqKgeo5M6HzPCk
+         1hBQBzkRbptsJjjpKnecf9nOiDO0mP2eQMZ3VoHmrbfD+b47MiHA246ZqOnFS2Uk4Coc
+         l4amT4j7IO2ciSvjaSLS6qzWp2xzxvsf0qFFWuHepJGrt0wiq0F8fdTuGhKeNx2YcxBU
+         2DfUuPmKQjorZC0cZDfWjOV+yj1U5RrMmOD/JFmKV6JBRfCzPnjTAY9xXB/8HokbQILO
+         1Nmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=A7moO6TkWuZd8WQdT04YbPTaZYf9v5wim/a38Dn6kdU=;
-        b=IA7SjSGFxVYI5627CDaGrcQjGMRpMaGM7DgY0kB2yDi+AUKDeM3aaX2SvjBpABCiah
-         1wu9v0CS3X/vFuIWbIkNnWP28U7tOhQDHeEHmesft5UsxENM8t3ukjOW7zsT6k4Z0U2N
-         msk1kXFmhFkgVnhlyyz3BShb76EzFTwlonAX/LckUhZY1B9G2MqKPsJ6Aphz2JVAeV9b
-         Zrnyip2wDP0UODLUlgPWM3pR/1heICUjUxMJtpQi1rtnc0Ta2Dkq4rE2D96cyT/3xysr
-         ia96qGWLN4a/U4YmpoZLUOMB0D/bCCyqFxQ6N2id2KMjoOuTBqN0WvK/3oULT7G6CU9h
-         2PUg==
-X-Gm-Message-State: AOAM5316LH+t9hJeBHLw0xbL4nXLSRgOTXqEJzoawxkEWJSbcMDJ18vn
-        2JZXVvTNclHABcs6pbYn4H3bcQ==
-X-Google-Smtp-Source: ABdhPJwaHUcuH3/iB+RVY+2+ujvOxUJ62MobtGVMVgxN9chRjzARE3UPH2rR78bDdpNHQisBGcwZ1Q==
-X-Received: by 2002:a17:90b:2243:: with SMTP id hk3mr2024689pjb.244.1644392331056;
-        Tue, 08 Feb 2022 23:38:51 -0800 (PST)
-Received: from localhost ([136.185.132.167])
-        by smtp.gmail.com with ESMTPSA id c4sm6075144pfl.131.2022.02.08.23.38.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 23:38:50 -0800 (PST)
-Date:   Wed, 9 Feb 2022 13:08:48 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Lukasz Luba <lukasz.luba@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] cpufreq: qcom-hw: Delay enabling throttle_irq
-Message-ID: <20220209073848.os3i7unf2qw3un3i@vireshk-i7>
-References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
- <20220128032554.155132-2-bjorn.andersson@linaro.org>
- <5433250b-ee51-06e0-3ef8-ab287a112611@arm.com>
- <YfQ2WEiqV30PGNrt@ripper>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rZt97/8ROY3+UKnKOkybgWpfp57iv+flrkhWaztw2B4=;
+        b=5VbK2UxKJVEZzfCgLsfCGCyktG/YpaTd/miLl9xBlWGmqE5EyKdXs1vGnPFwK/ZiqI
+         ZRsIna/X8Fh0U6ze+O5LrvcMOC4abY6r7Wt2YDLR8OysWVYCIeLA+NwH3CUpNVZjTQYA
+         DN9r2qdRbIpn7T4PS81/foG5VzGKQJaLtLWGcKdCNqJ95tETzjFP4gvFbZpDGc6I+bbR
+         IT5Ia06yMuLXCDQedTaaJ8u7QwGOJiztmVuumfjEyrYUYASiSGiId33V+7oEW5b8Mdwn
+         Xlj0w/rWmb/ntt4sh/ELdeVwlyrJ5Bo9ymvVOpTnsLk7/2WkVLIWB2YTxMOjTM2XEdt2
+         E4Zg==
+X-Gm-Message-State: AOAM531oYlHkRNR6m+7OZd/mCAhqnWnbXAzACciVU8ZwoeENztf0Fx7s
+        JRizdjMPd8+yCI1Pu9/UqiTOfXUWpt3P51AH/OgWXYRY9vtKy/3b
+X-Google-Smtp-Source: ABdhPJxnnpaw8noZfnF3Z83h+7aPBZguIP6vpvycsBalPzDcqBtgoaWBC8+48r0zPplursG/0OyeH/mYz65iclJX4Ww=
+X-Received: by 2002:a25:c983:: with SMTP id z125mr1039624ybf.132.1644392731988;
+ Tue, 08 Feb 2022 23:45:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfQ2WEiqV30PGNrt@ripper>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20211101031651.75851-1-songmuchun@bytedance.com>
+ <CAMZfGtUeL45=WG3ceaZ_tALMGZTLtuD9jbfKEzeQv270OnaLYQ@mail.gmail.com>
+ <35c5217d-eb8f-6f70-544a-a3e8bd009a46@oracle.com> <CAMZfGtW=e___8kpe1B5a1rK+SV63bP_Nwucj89QKaX4ZOMUpaw@mail.gmail.com>
+ <CAMZfGtV0JKcjVL0qGoYCQJ-LsXdng7Z2UjBym5hf_WM0LcYi=Q@mail.gmail.com>
+ <20211123190952.7d1e0cac2d72acacd2df016c@linux-foundation.org> <CAMZfGtW+DoKp_gCcPSy33Urc86A58rRp8HJ+-GOuW9vFP-BwxQ@mail.gmail.com>
+In-Reply-To: <CAMZfGtW+DoKp_gCcPSy33Urc86A58rRp8HJ+-GOuW9vFP-BwxQ@mail.gmail.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 9 Feb 2022 15:44:54 +0800
+Message-ID: <CAMZfGtV-ODDGQ6dUuo_eSEDn2kDSiUjNDc=nyFwoRRSxNLsTeg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/5] Free the 2nd vmemmap page associated with each
+ HugeTLB page
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Fam Zheng <fam.zheng@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>,
+        Qi Zheng <zhengqi.arch@bytedance.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Barry Song <21cnbao@gmail.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
+        Jue Wang <juew@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28-01-22, 10:30, Bjorn Andersson wrote:
-> On Fri 28 Jan 02:39 PST 2022, Lukasz Luba wrote:
-> > On 1/28/22 3:25 AM, Bjorn Andersson wrote:
-> > > In the event that the SoC is under thermal pressure while booting it's
-> > > possible for the dcvs notification to happen inbetween the cpufreq
-> > > framework calling init and it actually updating the policy's
-> > > related_cpus cpumask.
-> > > 
-> > > Prior to the introduction of the thermal pressure update helper an empty
-> > > cpumask would simply result in the thermal pressure of no cpus being
-> > > updated, but the new code will attempt to dereference an invalid per_cpu
-> > > variable.
-> > 
-> > Just to confirm, is that per-cpu var the 'policy->related_cpus' in this
-> > driver?
-> > 
-> 
-> Correct, we boot under thermal pressure, so the interrupt fires before
-> we return from "init", which means that related_cpus is still 0.
+On Wed, Jan 26, 2022 at 4:04 PM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> On Wed, Nov 24, 2021 at 11:09 AM Andrew Morton
+> <akpm@linux-foundation.org> wrote:
+> >
+> > On Mon, 22 Nov 2021 12:21:32 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+> >
+> > > On Wed, Nov 10, 2021 at 2:18 PM Muchun Song <songmuchun@bytedance.com> wrote:
+> > > >
+> > > > On Tue, Nov 9, 2021 at 3:33 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+> > > > >
+> > > > > On 11/8/21 12:16 AM, Muchun Song wrote:
+> > > > > > On Mon, Nov 1, 2021 at 11:22 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> > > > > >>
+> > > > > >> This series can minimize the overhead of struct page for 2MB HugeTLB pages
+> > > > > >> significantly. It further reduces the overhead of struct page by 12.5% for
+> > > > > >> a 2MB HugeTLB compared to the previous approach, which means 2GB per 1TB
+> > > > > >> HugeTLB. It is a nice gain. Comments and reviews are welcome. Thanks.
+> > > > > >>
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > Ping guys. Does anyone have any comments or suggestions
+> > > > > > on this series?
+> > > > > >
+> > > > > > Thanks.
+> > > > > >
+> > > > >
+> > > > > I did look over the series earlier.  I have no issue with the hugetlb and
+> > > > > vmemmap modifications as they are enhancements to the existing
+> > > > > optimizations.  My primary concern is the (small) increased overhead
+> > > > > for the helpers as outlined in your cover letter.  Since these helpers
+> > > > > are not limited to hugetlb and used throughout the kernel, I would
+> > > > > really like to get comments from others with a better understanding of
+> > > > > the potential impact.
+> > > >
+> > > > Thanks Mike. I'd like to hear others' comments about this as well.
+> > > > From my point of view, maybe the (small) overhead is acceptable
+> > > > since it only affects the head page, however Matthew Wilcox's folio
+> > > > series could reduce this situation as well.
+> >
+> > I think Mike was inviting you to run some tests to quantify the
+> > overhead ;)
+>
+> Hi Andrew,
+>
+> Sorry for the late reply.
+>
+> Specific overhead figures are already in the cover letter. Also,
+> I did some other tests, e.g. kernel compilation, sysbench. I didn't
+> see any regressions.
 
-Just to clarify here a bit, policy->related_cpus is already allocated at this
-point of time. AFAICT, the dereferencing of the invalid per-cpu variable refers
-to the per-cpu freq_factor in arch_topology.c, which happens because the cpumask
-isn't initialized yet.
+The overhead is introduced by page_fixed_fake_head() which
+has an "if" statement and an access to a possible cold cache line.
+I think the main overhead is from the latter. However, probabilistically,
+only 1/64 of the pages need to do the latter.  And
+page_fixed_fake_head() is already simple (I mean the overhead
+is small enough) and many performance bottlenecks in mm are
+not in compound_head().  This also matches the tests I did.
+I didn't see any regressions after enabling this feature.
 
--- 
-viresh
+I knew Mike's concern is the increased overhead to use cases
+beyond HugeTLB. If we really want to avoid the access to
+a possible cold cache line, we can introduce a new page
+flag like PG_hugetlb and test if it is set in the page->flags,
+if so, then return the read head page struct. Then
+page_fixed_fake_head() looks like below.
+
+static __always_inline const struct page *page_fixed_fake_head(const
+struct page *page)
+{
+        if (!hugetlb_free_vmemmap_enabled())
+                return page;
+
+        if (test_bit(PG_hugetlb, &page->flags)) {
+                unsigned long head = READ_ONCE(page[1].compound_head);
+
+                if (likely(head & 1))
+                        return (const struct page *)(head - 1);
+        }
+        return page;
+}
+
+But I don't think it's worth doing this.
+
+Hi Mike and Andrew,
+
+Since these helpers are not limited to hugetlb and used throughout the
+kernel, I would really like to get comments from others with a better
+understanding of the potential impact. Do you have any appropriate
+reviewers to invite?
+
+Thanks.
+>
+> >
+> > > Ping guys.
+> > >
+> > > Hi Andrew,
+> > >
+> > > Do you have any suggestions on this series to move it on?
+> > >
+> >
+> > I tossed it in there for some testing but yes please, additional
+> > reviewing?
+>
+> It's already been in the next-tree (also in our ByteDance servers)
+> for several months, and I didn't receive any negative feedback.
+>
+> Do you think it is ready for 5.17?
+>
+> Thanks.
