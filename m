@@ -2,190 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBED1C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 07:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB168C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 07:50:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235140AbiBIHpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 02:45:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42206 "EHLO
+        id S239692AbiBIHuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 02:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbiBIHp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 02:45:29 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD404C0612C3
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 23:45:32 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id 192so3482088ybd.10
-        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 23:45:32 -0800 (PST)
+        with ESMTP id S239765AbiBIHui (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 02:50:38 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C4FC05CB88
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 23:50:39 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id v4so1438992pjh.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 23:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rZt97/8ROY3+UKnKOkybgWpfp57iv+flrkhWaztw2B4=;
-        b=hjNPEUw9OlUPIk2B4S7HhB3hqe9U9AT7bF0Q+ofYKz+gn7Tit4EYniAacYbI8Ut2DR
-         sImSygPZsw2DdMFe6k/h3puZokb+ORZ/tqEi/CO2VbqgO7ZI4sa9YhKqKgeo5M6HzPCk
-         1hBQBzkRbptsJjjpKnecf9nOiDO0mP2eQMZ3VoHmrbfD+b47MiHA246ZqOnFS2Uk4Coc
-         l4amT4j7IO2ciSvjaSLS6qzWp2xzxvsf0qFFWuHepJGrt0wiq0F8fdTuGhKeNx2YcxBU
-         2DfUuPmKQjorZC0cZDfWjOV+yj1U5RrMmOD/JFmKV6JBRfCzPnjTAY9xXB/8HokbQILO
-         1Nmg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QqKVxwbotUmQ2gv29/Ifw62O6CKJJcLZd1ZfJrEloTs=;
+        b=YrWjB/wG3IOXIY6Z8JgawTYjBigvmgVdhNxoOC6JtZGS5wUpjHQMgB8hEh4plHCPcv
+         jXcTLiXf2wgz3aDWwUYjVnjMQcuvAMTQiQJNRfbXibWcRZ9Kv++RjTlx5YFTSOnHIYCI
+         oNJ1TZTXbkrwPGJGBbV4w6V+55Xk5lr0LnZkfb9Eg4H5E2oWF+4BOGo+CBdd9i9Erhtw
+         aTqSz8gPPgG/JPNCDBtztu0KB3Q3Lxckl1pEL0SxI8RlzGXh6Q9eqQr1MIPZ8mq7WTGj
+         WLnb9xw0aaeTmQfF3tiQ7PuwYsAYMasTK/AnTWXxnNkryOLnOecnydN+r4mazZFP9SmW
+         N0ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rZt97/8ROY3+UKnKOkybgWpfp57iv+flrkhWaztw2B4=;
-        b=5VbK2UxKJVEZzfCgLsfCGCyktG/YpaTd/miLl9xBlWGmqE5EyKdXs1vGnPFwK/ZiqI
-         ZRsIna/X8Fh0U6ze+O5LrvcMOC4abY6r7Wt2YDLR8OysWVYCIeLA+NwH3CUpNVZjTQYA
-         DN9r2qdRbIpn7T4PS81/foG5VzGKQJaLtLWGcKdCNqJ95tETzjFP4gvFbZpDGc6I+bbR
-         IT5Ia06yMuLXCDQedTaaJ8u7QwGOJiztmVuumfjEyrYUYASiSGiId33V+7oEW5b8Mdwn
-         Xlj0w/rWmb/ntt4sh/ELdeVwlyrJ5Bo9ymvVOpTnsLk7/2WkVLIWB2YTxMOjTM2XEdt2
-         E4Zg==
-X-Gm-Message-State: AOAM531oYlHkRNR6m+7OZd/mCAhqnWnbXAzACciVU8ZwoeENztf0Fx7s
-        JRizdjMPd8+yCI1Pu9/UqiTOfXUWpt3P51AH/OgWXYRY9vtKy/3b
-X-Google-Smtp-Source: ABdhPJxnnpaw8noZfnF3Z83h+7aPBZguIP6vpvycsBalPzDcqBtgoaWBC8+48r0zPplursG/0OyeH/mYz65iclJX4Ww=
-X-Received: by 2002:a25:c983:: with SMTP id z125mr1039624ybf.132.1644392731988;
- Tue, 08 Feb 2022 23:45:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20211101031651.75851-1-songmuchun@bytedance.com>
- <CAMZfGtUeL45=WG3ceaZ_tALMGZTLtuD9jbfKEzeQv270OnaLYQ@mail.gmail.com>
- <35c5217d-eb8f-6f70-544a-a3e8bd009a46@oracle.com> <CAMZfGtW=e___8kpe1B5a1rK+SV63bP_Nwucj89QKaX4ZOMUpaw@mail.gmail.com>
- <CAMZfGtV0JKcjVL0qGoYCQJ-LsXdng7Z2UjBym5hf_WM0LcYi=Q@mail.gmail.com>
- <20211123190952.7d1e0cac2d72acacd2df016c@linux-foundation.org> <CAMZfGtW+DoKp_gCcPSy33Urc86A58rRp8HJ+-GOuW9vFP-BwxQ@mail.gmail.com>
-In-Reply-To: <CAMZfGtW+DoKp_gCcPSy33Urc86A58rRp8HJ+-GOuW9vFP-BwxQ@mail.gmail.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 9 Feb 2022 15:44:54 +0800
-Message-ID: <CAMZfGtV-ODDGQ6dUuo_eSEDn2kDSiUjNDc=nyFwoRRSxNLsTeg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] Free the 2nd vmemmap page associated with each
- HugeTLB page
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QqKVxwbotUmQ2gv29/Ifw62O6CKJJcLZd1ZfJrEloTs=;
+        b=y4hik8cpYKMGMXPAKJd9KKM48TRzE4MBW7VCo48DF6Cfg3tziZJdPH1w8KMofqfpSu
+         x/l9WGNzPunWax1HxSd+uhBA0Y6bvDApuf1JUbLlrD9KpQwt5tuEyH9KtDxDdtoFr+89
+         YwkgvIyp6EuyF3bosltQrxdnR/w5JXc7MnUGvcnB2bKS3026wv1btPWpqRYUMPVT1qaq
+         AT9bDAVkkuASPyFDrlhPGa03ORSCCo7iBDyPh6v/DZkKap412WX5jo1dKGZZD/DyAG8n
+         J+FIxhoGuGb3DPtJVjL6hgc3/6mvJjnx6F63u0iGCE+XFLRUscl98IoA87hvbKPmkIjd
+         2rrw==
+X-Gm-Message-State: AOAM533rMfU8aYG+Dtn5IbLdcsV2ZZ5VTiUL3IJ4DKA+18ZiSkaBINJn
+        3x6MKOSRlmMHk/Y7PFX/sQ0XfA==
+X-Google-Smtp-Source: ABdhPJxHZmmgiaaNf2b9aVXUBOyF81jNaxOQCqlMvp4GxTrwPFzrUzWX5hCSHHRS8CqFK6TypgkHHg==
+X-Received: by 2002:a17:902:9694:: with SMTP id n20mr992799plp.125.1644393038849;
+        Tue, 08 Feb 2022 23:50:38 -0800 (PST)
+Received: from localhost ([136.185.132.167])
+        by smtp.gmail.com with ESMTPSA id p1sm19731256pfh.98.2022.02.08.23.50.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 23:50:38 -0800 (PST)
+Date:   Wed, 9 Feb 2022 13:20:36 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Fam Zheng <fam.zheng@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Barry Song <21cnbao@gmail.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
-        Jue Wang <juew@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] cpufreq: Reintroduce ready() callback
+Message-ID: <20220209075036.rpgzynwyjnfkbsbz@vireshk-i7>
+References: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220128032554.155132-1-bjorn.andersson@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 4:04 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> On Wed, Nov 24, 2021 at 11:09 AM Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> >
-> > On Mon, 22 Nov 2021 12:21:32 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
-> >
-> > > On Wed, Nov 10, 2021 at 2:18 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > >
-> > > > On Tue, Nov 9, 2021 at 3:33 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> > > > >
-> > > > > On 11/8/21 12:16 AM, Muchun Song wrote:
-> > > > > > On Mon, Nov 1, 2021 at 11:22 AM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > > > >>
-> > > > > >> This series can minimize the overhead of struct page for 2MB HugeTLB pages
-> > > > > >> significantly. It further reduces the overhead of struct page by 12.5% for
-> > > > > >> a 2MB HugeTLB compared to the previous approach, which means 2GB per 1TB
-> > > > > >> HugeTLB. It is a nice gain. Comments and reviews are welcome. Thanks.
-> > > > > >>
-> > > > > >
-> > > > > > Hi,
-> > > > > >
-> > > > > > Ping guys. Does anyone have any comments or suggestions
-> > > > > > on this series?
-> > > > > >
-> > > > > > Thanks.
-> > > > > >
-> > > > >
-> > > > > I did look over the series earlier.  I have no issue with the hugetlb and
-> > > > > vmemmap modifications as they are enhancements to the existing
-> > > > > optimizations.  My primary concern is the (small) increased overhead
-> > > > > for the helpers as outlined in your cover letter.  Since these helpers
-> > > > > are not limited to hugetlb and used throughout the kernel, I would
-> > > > > really like to get comments from others with a better understanding of
-> > > > > the potential impact.
-> > > >
-> > > > Thanks Mike. I'd like to hear others' comments about this as well.
-> > > > From my point of view, maybe the (small) overhead is acceptable
-> > > > since it only affects the head page, however Matthew Wilcox's folio
-> > > > series could reduce this situation as well.
-> >
-> > I think Mike was inviting you to run some tests to quantify the
-> > overhead ;)
->
-> Hi Andrew,
->
-> Sorry for the late reply.
->
-> Specific overhead figures are already in the cover letter. Also,
-> I did some other tests, e.g. kernel compilation, sysbench. I didn't
-> see any regressions.
+On 27-01-22, 19:25, Bjorn Andersson wrote:
+> This effectively revert '4bf8e582119e ("cpufreq: Remove ready()
+> callback")' (except the Chinese translation), in order to reintroduce
+> the ready callback.
 
-The overhead is introduced by page_fixed_fake_head() which
-has an "if" statement and an access to a possible cold cache line.
-I think the main overhead is from the latter. However, probabilistically,
-only 1/64 of the pages need to do the latter.  And
-page_fixed_fake_head() is already simple (I mean the overhead
-is small enough) and many performance bottlenecks in mm are
-not in compound_head().  This also matches the tests I did.
-I didn't see any regressions after enabling this feature.
+I have added the Chinese translation back and applied both patches. Thanks.
 
-I knew Mike's concern is the increased overhead to use cases
-beyond HugeTLB. If we really want to avoid the access to
-a possible cold cache line, we can introduce a new page
-flag like PG_hugetlb and test if it is set in the page->flags,
-if so, then return the read head page struct. Then
-page_fixed_fake_head() looks like below.
-
-static __always_inline const struct page *page_fixed_fake_head(const
-struct page *page)
-{
-        if (!hugetlb_free_vmemmap_enabled())
-                return page;
-
-        if (test_bit(PG_hugetlb, &page->flags)) {
-                unsigned long head = READ_ONCE(page[1].compound_head);
-
-                if (likely(head & 1))
-                        return (const struct page *)(head - 1);
-        }
-        return page;
-}
-
-But I don't think it's worth doing this.
-
-Hi Mike and Andrew,
-
-Since these helpers are not limited to hugetlb and used throughout the
-kernel, I would really like to get comments from others with a better
-understanding of the potential impact. Do you have any appropriate
-reviewers to invite?
-
-Thanks.
->
-> >
-> > > Ping guys.
-> > >
-> > > Hi Andrew,
-> > >
-> > > Do you have any suggestions on this series to move it on?
-> > >
-> >
-> > I tossed it in there for some testing but yes please, additional
-> > reviewing?
->
-> It's already been in the next-tree (also in our ByteDance servers)
-> for several months, and I didn't receive any negative feedback.
->
-> Do you think it is ready for 5.17?
->
-> Thanks.
+-- 
+viresh
