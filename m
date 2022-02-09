@@ -2,72 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E952DC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Feb 2022 23:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B00C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 00:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237019AbiBHXdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 18:33:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44816 "EHLO
+        id S239328AbiBIAcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 19:32:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235595AbiBHXdU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 18:33:20 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA57C061576;
-        Tue,  8 Feb 2022 15:33:20 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id p63so1032558iod.11;
-        Tue, 08 Feb 2022 15:33:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PXvAMfTXEgJYMeJO/Tzvz+YQNaqSUZ+oxlMGctoDxCU=;
-        b=d7lWWs4xju1UA+H0DYJ4BECcJarJwtvs3ajF8h4fEcMbCfCozaJ3t1gGWpz4N81cX7
-         9uHFkAewCLPXW+7BBCw/ItQ3xARjfq71TrFkRb/Uh/+Kp8qPJVvqUlFExtkUWXCl24Ks
-         0dkH7M4VDFah4LWKhM/ktMIGNGfUR0SOK0Z7CxMXxQOAZN16OCKfaiBNYHkPNsm6wUBC
-         vQocxuJ9AutjMimyR/UHlMk27a0hqIHIIjrlATZnbwiM6DQ+Mliu7TpFsvgDqAxosrQD
-         ew/Y69D8/AH3nQcp0Lb4/RwMVdZpZd6EsH2p3fCh0oF1RJTIQQtCL+D03yfQIxvOCQsW
-         Ltrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PXvAMfTXEgJYMeJO/Tzvz+YQNaqSUZ+oxlMGctoDxCU=;
-        b=oIO1kd5HOhEoJCh0T0djfxRQZYKCoxcXEUqTlbPKCUQjoOiFfU5FrvW3GdkUJhPU5q
-         ZXqtOhqD2wbaCCt/+nNlaof/bNJTA13HkhTa2aylN9qPnEGD0AKweMOmmQP899kV6G7m
-         9ivxZ0bfb93cD0WuAFX4R/TQb1KOve+gQ6jWfSc7B/dyrluNf6eloplD1qk3NnTkATi1
-         tCB11Vl0P+Rjg6Fxyzq8BcgmZZQQZAu2UzF/wvrZMD1NT5PGDTyQRfnIeRv+dGCFt+t8
-         E+4/DiTrkXoRUH6+6Vko+MiYP3gEwyC9lFSmJxccJgH+vedA1ZIofelmZcO3mou3QohB
-         2rVQ==
-X-Gm-Message-State: AOAM531ORbUqGOVDPvYOik5xSTiO64vtVBIREkIg4WAKwB1C39QHNmDO
-        dOIpVtQNlwyn3SGToOkfQIT/2tqXnn9hEuArVZs=
-X-Google-Smtp-Source: ABdhPJxCyWbgZyjiypFhW2jm1bsfm/W+HCdtvL2kNPU4/iSckqCEimjnpHM4fEJ36t1gQgneCo7Op3wWNwtwaZj2ROc=
-X-Received: by 2002:a02:b0d8:: with SMTP id w24mr3296125jah.241.1644363199474;
- Tue, 08 Feb 2022 15:33:19 -0800 (PST)
+        with ESMTP id S238991AbiBIAcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 19:32:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 853A7C06157B
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 16:32:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644366737;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sB5IseLJBNqjNOsMz7OQ46XvJJFOFs9bsWn3jXjDKHA=;
+        b=eL9Gk0xhtVsIz0MGIRkxe61YAeCqtFdchRRbLOVPXP+nH1hwwcdPgF3WpEI8tPSz8EClNP
+        v8m/5TVu4Q18hxVPHjbZvwANYM4TTClVNTrfcAszvBHOELQJeR5wL2OKEiEok8caCk3K9n
+        QnteTcMMbNQmwZE9zK2A7Rt/EXK7TDo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-SjNaxTdpPPeoX9hYgKnVJg-1; Tue, 08 Feb 2022 19:32:14 -0500
+X-MC-Unique: SjNaxTdpPPeoX9hYgKnVJg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CC7E1006AA4;
+        Wed,  9 Feb 2022 00:32:11 +0000 (UTC)
+Received: from localhost (ovpn-12-114.pek2.redhat.com [10.72.12.114])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 229E162D48;
+        Wed,  9 Feb 2022 00:31:53 +0000 (UTC)
+Date:   Wed, 9 Feb 2022 08:31:51 +0800
+From:   "bhe@redhat.com" <bhe@redhat.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "vgoyal@redhat.com" <vgoyal@redhat.com>,
+        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "halves@canonical.com" <halves@canonical.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>, mhiramat@kernel.org,
+        d.hatayama@jp.fujitsu.com
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YgMLd+avxyBplfk2@MiWiFi-R3L-srv>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
+ <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
+ <YfPxvzSzDLjO5ldp@alley>
+ <e2d39675-5df6-73fb-fa24-df906a97ee50@igalia.com>
 MIME-Version: 1.0
-References: <20220208094244.1106312-1-eugene.shalygin@gmail.com> <20220208233048.GA2970774@roeck-us.net>
-In-Reply-To: <20220208233048.GA2970774@roeck-us.net>
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-Date:   Wed, 9 Feb 2022 00:33:08 +0100
-Message-ID: <CAB95QASONk_s-xO0bz7P+tq_9-KOfA2y41+mnQg9suN4LFd4CA@mail.gmail.com>
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add CPU core voltage
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Denis Pauk <pauk.denis@gmail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e2d39675-5df6-73fb-fa24-df906a97ee50@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 9 Feb 2022 at 00:30, Guenter Roeck <linux@roeck-us.net> wrote:
-> > Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> > Tested-by: Denis Pauk <pauk.denis@gmail.com>
-> Applied to hwmon-next.
+On 02/08/22 at 03:51pm, Guilherme G. Piccoli wrote:
+> On 28/01/2022 10:38, Petr Mladek wrote:
+> > [...] On Thu 2022-01-27 14:16:20, Guilherme G. Piccoli wrote:
+> > First, I am sorry for the very long mail. But the problem is really
+> > complicated. I did my best to describe it a clean way.
+> > 
+> > I have discussed these problems with a colleague and he had some good
+> > points. And my view evolved even further.
+> 
+> Thanks Petr for the very comprehensive and detailed email - this helps a
+> lot in shaping the future of panic notifier(s)!
+> 
+> 
+> > [...] 
+> > I think about the following solution:
+> > 
+> >     + split the notifiers into three lists:
+> > 
+> > 	+ info: stop watchdogs, provide extra info
+> > 	+ hypervisor: poke hypervisor
+> > 	+ reboot: actions needed only when crash dump did not happen
+> > 
+> >     + allow to call hypervisor notifiers before or after kdump
+> > 
+> >     + stop CPUs before kdump when either hypervisor notifiers or
+> >       kmsg_dump is enabled
+> > 
+> > Note that it still allows to call kdump as the first action when
+> > hypervisor notifiers are called after kdump and no kmsg dumper
+> > is registered.
+> > 
+> > 
+> > void panic(void)
+> > {
+> > 	[...]
+> > 
+> > 	if (crash_kexec_post_hypervisor || panic_print || enabled_kmsg_dump()) {
+> > 		/*
+> > 		 * Stop CPUs when some extra action is required before
+> > 		 * crash dump. We will need architecture dependent extra
+> > 		 * works in addition to stopping other CPUs.
+> > 		 */
+> > 		 crash_smp_send_stop();
+> > 		 cpus_stopped = true;
+> > 	}
+> > 
+> > 	if (crash_kexec_post_hypervisor) {
+> > 		  /* Tell hypervisor about the panic */
+> > 		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+> > 	}
+> > 
+> > 	if (enabled_kmsg_dump) {
+> > 		  /*
+> > 		   * Print extra info by notifiers.
+> > 		   * Prevent rumors, for example, by stopping watchdogs.
+> > 		   */
+> > 		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+> > 	}
+> > 
+> > 	/* Optional extra info */
+> > 	panic_printk_sys_info();
+> > 
+> > 	/* No dumper by default */
+> > 	kmsg_dump();
+> > 
+> > 	/* Used only when crash kernel loaded */
+> > 	__crash_kexec(NULL);
+> > 
+> > 	if (!cpus_stopped) {
+> > 		/*
+> > 		 * Note smp_send_stop is the usual smp shutdown function, which
+> > 		 * unfortunately means it may not be hardened to work in a
+> > 		 * panic situation.
+> > 		 */
+> > 		smp_send_stop();
+> > 	}
+> > 
+> > 	if (!crash_kexec_post_hypervisor) {
+> > 		  /* Tell hypervisor about the panic */
+> > 		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
+> > 	}
+> > 
+> > 	if (!enabled_kmsg_dump) {
+> > 		  /*
+> > 		   * Print extra info by notifiers.
+> > 		   * Prevent rumors, for example, by stopping watchdogs.
+> > 		   */
+> > 		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
+> > 	}
+> > 
+> > 	/*
+> > 	 * Help to reboot a safe way.
+> > 	 */
+> > 	atomic_notifier_call_chain(&panic_reboot_notifier_list, 0, buf);
+> > 
+> > 	[...]
+> > }
+> > 
+> > Any opinion?
+> > Do the notifier list names make sense?
+> > 
+> 
+> This was exposed very clearly, thanks. I agree with you, it's a good
+> approach, and we can evolve that during the implementation phase, like
+> "function A is not good in the hypervisor list because of this and
+> that", so we move it to the reboot list. Also, name of the lists is not
+> so relevant, might evolve in the implementation phase - I personally
+> liked them, specially the "info" and "hypervisor" ones (reboot seems
+> good but not great heh).
+> 
+> So, what are the opinions from kdump maintainers about this idea?
+> Baoquan / Vivek / Dave, does it make sense to you? Do you have any
+> suggestions/concerns to add on top of Petr draft?
 
-I thank you all!
+Yeah, it's reasonable. As I replied to Michael in another thread, I
+think splitting the current notifier list is a good idea. At least the
+code to archieve hyper-V's goal with panic_notifier is a little odd and
+should be taken out and execute w/o conditional before kdump, and maybe
+some others Petr has combed out.
 
-Best regards,
-Eugene
+For those which will be switched on with the need of adding panic_notifier
+or panic_print into cmdline, the heavy users like HATAYAMA and Masa can
+help check.
+
+For Petr's draft code, does it mean hyper-V need another knob to trigger
+the needed notifiers? Will you go with the draft direclty? Hyper-V now
+runs panic notifiers by default, just a reminder.
+
+> 
+> I prefer this refactor than the filter, certainly. If nobody else
+> working on that, I can try implementing that - it's very interesting.
+> The only thing I'd like to have first is an ACK from the kdump
+> maintainers about the general idea.
+> 
+> Cheers,
+> 
+> 
+> Guilherme
+> 
+
