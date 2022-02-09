@@ -2,166 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC93C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 02:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA8AC43217
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 02:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242655AbiBICka (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Feb 2022 21:40:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54802 "EHLO
+        id S243555AbiBICkd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Feb 2022 21:40:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243065AbiBIBaE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 20:30:04 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2137.outbound.protection.outlook.com [40.107.244.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DDAC061576;
-        Tue,  8 Feb 2022 17:30:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G8iV+mGN4dr+zdWnlvBDxJks55XQp+X8lWmaZYrqWJhtL5QU3ykLRURCr8PtNRdenj71V068sGlO9ufiqP567WrEVWllMYEtUF5zdS194UrrZZ9rNalzlWP3h/fgo7ESGpZceL7ksPoC+LzBz/RCESpxQw0KcrGKqrAbakVZilg0DFkBXmllFmXo3EcnoHVW8yP7XnT23S+Lz+SyHG7lN0LUaWhnOrvpqKm+GiKmVXH6mjA8h8cpfBOLERSzlBYbXq0h7uVz2D0hSyUHhCEpqdAPtBepuf0mj+azIOBWrGzqhYXMtUOVqEQNqXMOSgMykJkfoMeFeZzYlVgu6pfBAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+S2PwYrRuMaXTiJUB3yBLpeZXUg6x+SPbLQ/32kiiiQ=;
- b=RMPSi/BayQ8tnB8LBF8dkg5yZoYef6Osud9ovndwg/0fEM0pCe13YsyW4ULjGE0kKpUX6E8Zb+YqJYJ6AFmcS51YHUadbIMIm5m+Vm/F/uakV2GxHT6qmsGOZEIpLGarCt6R4Ri7bpXLcP1LnqNgVgut7CC1fjyuInogydFbdevISGZQ7r4LomZYrNlUrrUCPV/tYR0fjIdxzJuKpmPhm5qnumuU0AEUfKONgu+K+CTB5mmF79i3HUxqLLiFWVLqS8eZOHHmE9bIwMmDgZ8sndvBUNP0U7CffPWdgl/WemSSMDulIpZjtPbxJrF+gS5W8BHghY/+CS1GX6Oaoh6p9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+        with ESMTP id S242102AbiBIBKd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 20:10:33 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9FCC06173B
+        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 17:10:32 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id j4so825905plj.8
+        for <linux-doc@vger.kernel.org>; Tue, 08 Feb 2022 17:10:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+S2PwYrRuMaXTiJUB3yBLpeZXUg6x+SPbLQ/32kiiiQ=;
- b=ItbC0sg6ZitqflY+voAUM5QcZixschMFOAqpyD14YpTwQzz+UVt+3Z4z+UrRKZupqLceDEQRT2onkUzuUjSI8fdAqZ1b+r61klqobUfOBzZ6NPNi2z2H0xOaS/3VHEPSORn0EFdfoO2kPWfR3NehaZStLIs1hHcQ/9mFHhEtXOE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM8PR01MB6824.prod.exchangelabs.com (2603:10b6:8:23::24) by
- CO1PR01MB7355.prod.exchangelabs.com (2603:10b6:303:15a::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4975.11; Wed, 9 Feb 2022 01:29:56 +0000
-Received: from DM8PR01MB6824.prod.exchangelabs.com
- ([fe80::bd40:379f:5b93:f800]) by DM8PR01MB6824.prod.exchangelabs.com
- ([fe80::bd40:379f:5b93:f800%6]) with mapi id 15.20.4951.019; Wed, 9 Feb 2022
- 01:29:56 +0000
-From:   Huang Shijie <shijie@os.amperecomputing.com>
-To:     catalin.marinas@arm.com
-Cc:     will@kernel.org, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, zwang@amperecomputing.com,
-        patches@amperecomputing.com, darren@os.amperecomputing.com,
-        Huang Shijie <shijie@os.amperecomputing.com>
-Subject: [PATCH] arm64: crash_core: Export MODULES, VMALLOC, and VMEMMAP ranges
-Date:   Wed,  9 Feb 2022 09:26:42 +0000
-Message-Id: <20220209092642.9181-1-shijie@os.amperecomputing.com>
-X-Mailer: git-send-email 2.30.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR04CA0014.namprd04.prod.outlook.com
- (2603:10b6:610:52::24) To DM8PR01MB6824.prod.exchangelabs.com
- (2603:10b6:8:23::24)
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=krZ7XDngCuaQ/kaEDAhJETqO/lCcgabbGCGZ64ZW5mg=;
+        b=B01e8AvROu8wzAWvnNc18YbXO4k2zAp/FgRgRHBcFtqjYpKfCKhf7Kc6cTHWN3J1h+
+         Ckp20PmKRI8ExSgFiVFMDw1LR/I0GvkZyP8im4vYtSfL6Hyvf9Qg+MXw9i4rui+Giqwl
+         3JFxHmZuIKASMn6wPqEmWknLrINw4rKAFikTo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=krZ7XDngCuaQ/kaEDAhJETqO/lCcgabbGCGZ64ZW5mg=;
+        b=Toj1oXG4GdggXBqwSni1bUbK2NY3XXo6vX4ehBEKjSkCS/Av6u9ed+qnJ6Exm3sKAo
+         xZFduwdlhcRzgqfogPAJODZr+TTbiiDYRhWfUPGlbiee5M5shxTgEAiH2ImDVDh95+CS
+         9ppzuwkoSw55DzlBarqXi6Kid30bjvCwIU9VoWgT0GyCsaDTe/zqVGCcfxrLoSl/88ix
+         qgY69Vlbid7n4hGLOqbSuXx/gjRWzggw68g+eJVSnjCvAL1r/joRlyuOInCtk/SpOiED
+         W8IYwLs9sEFMAaxSIo+nF0+9lP3ZG3mct3prl4o9jIvIA7J+Xl1u/rxQT56E4TsSZMd8
+         mvaA==
+X-Gm-Message-State: AOAM532C1apWrp6CGmhEbUL9xiFBnk8v5n+sSqVhg3X5ml3ykD4OHHlP
+        RvVY9JpVO4B/MhX5xzU07473lg==
+X-Google-Smtp-Source: ABdhPJzRY0y5DOmxHW5tLxcTUeq347A0tFTU13T02PtIPhjLsx9UZtCJcdBxPe9IpIDlMO7MS7TXZg==
+X-Received: by 2002:a17:903:41c6:: with SMTP id u6mr7045085ple.74.1644369031529;
+        Tue, 08 Feb 2022 17:10:31 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b4sm17437326pfl.106.2022.02.08.17.10.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 17:10:31 -0800 (PST)
+Date:   Tue, 8 Feb 2022 17:10:30 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH 03/35] x86/cpufeatures: Add CET CPU feature flags for
+ Control-flow Enforcement Technology (CET)
+Message-ID: <202202081709.96226C0B@keescook>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-4-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a13b40ca-effa-400f-ddab-08d9eb6bad80
-X-MS-TrafficTypeDiagnostic: CO1PR01MB7355:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR01MB73551D054A5C0494FF8E5E3FED2E9@CO1PR01MB7355.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 28MMteceLBr/2enHFhII2g/VMQZ/K2SjKomDJKd4UtReAZa05PmrP6dpX5T7SuQHB4IGcIAPwRNaj2VrK5sSPFZfzqJwJDUCHbrT9QKDR1Ah/Ysw5/kfZHKW0EADZaYfl2NqBEU+CAXQvytPCty692DlWWKQvtBXSykOkeqvyGeXK6iuO0DuxSUlpzoslsOzF8qtY6ldU/iBUVjLv3UqBzRVR15jERu3wv4ijNioGmcIXtgtAqCLt6YuLwyv94RAMUEtjlmHgzALeg8Wmj2Vo/PacmaiHEBYMoHrSHQMjiN7XX/VZr4Z8v2BXaa0QmN2WXWMONBTQvjDGJoA4lNhaQbjaCUe3jzPjW7ZGYJq+zSLLFbzHZe7BjAXeKZClV042vH6SHneHtoHsdd7OFIV/++rSA3ekZJ85wS3O74l48MA7OPkaLanE2rtZzp9wiyRms5Z/++BNmih6LU2K8vRaz84y9riStN/V7LLAuDOwEijVopsCicHyvlvAh/gkWzGfjR0uB9GwMQelUywzXwOjwPhqdHVfKBpfz1tSdMKNxdSL3EQAdxOZ8pS48ZvSqLymFcyMzM7GpinE/9Vy5WnY0IdmCpxRYQQU7dS2JNrsJRpkdUUP0rbuXiyFX23UQp8JoUfqmPjU/Vi4wnSChgtXRx9bHw+R3fnVtp28GzNARK5wRsanMRI9EIReNNVcPhXRgHrFSaH9XFGKsj5nMz9sg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR01MB6824.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(7416002)(38350700002)(38100700002)(107886003)(86362001)(5660300002)(2906002)(6506007)(66556008)(6486002)(26005)(186003)(1076003)(2616005)(8676002)(4326008)(6916009)(83380400001)(8936002)(66946007)(66476007)(52116002)(6512007)(6666004)(508600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n/TsRYOfT3VPvL3gXd5ggIgh1gfUW9rBIE2afRdHSpj+zz49HcR41wE11m4p?=
- =?us-ascii?Q?2cWEehe779AH29hA2pO8l0ZfOY45vOeCBsrTWH55Oy2mb9ouENUYGYsYCZqu?=
- =?us-ascii?Q?v7Rp3LQAIKuRhQcpKR6peGPVv0JJ7RLl1soyiyhBnsnHCE4+mA/8thKjBztB?=
- =?us-ascii?Q?AUP+kQtUAHG3uNaUh4oniP8rPG9OLoudEqa4t4AMud6EgnsrG6RQuvfDYPR2?=
- =?us-ascii?Q?r29AGV9mYSIcfuVUB+vy2lsHkuAbLiIS25FFWJmY2YXpIkg/SNROiuyo2M+d?=
- =?us-ascii?Q?x/dbzjT9nTFTYmnT0DEaj5og51xr1xpGZkFy6yJ6b39eocYP8+YLKmzqmcrk?=
- =?us-ascii?Q?oN4b1v117V6o+Prce7Sb27UaJT8Ue5+FBqq0xCstB+DHyAdVoahqrXrSGQu7?=
- =?us-ascii?Q?ba68xG2IKY8L0q+lYxtZ1890+zIacfQn8dwj2w8/1bsAkSvjyTyL2Qk+O1mI?=
- =?us-ascii?Q?G62qdfkG9FoBCtdb44hg53UKZk6srDZ914WbrmrG+GBLEMrE+cpGgV2I4Dmb?=
- =?us-ascii?Q?SLO2w99Ir+uQTj25VN/uMmEhSgJZtOZrfIyFRTs5o+ai26Po72ChyKII3fmN?=
- =?us-ascii?Q?8Ke7FiY2IiqPhjEfttsgvrNjy97ngrl9NVSghouJUUFQBaLXPPMkok2nOzbE?=
- =?us-ascii?Q?Tal1BGdbrHliNPoZkPX8dL8mp4QdGqfMYpkH55pXJOVRlDFH9Gqx6i9wacGO?=
- =?us-ascii?Q?VgigAJ4SlAGn2dQ0KAyMbB/Tufzaddqu6TNUHO9LT0FPYOJUyQNdxsacTgzy?=
- =?us-ascii?Q?f2MPq3qc3k11bp8kQhoOFlcBbkOcaW5kXCDFnL1AgwPfETpbizEJXeULFKIR?=
- =?us-ascii?Q?be981dDlgEs6nqvvAMoH4dxzZow/BeceXk+R0UFkxuTK8f9otlr2BS4EzJoi?=
- =?us-ascii?Q?tFReVEPgImej8KBZkhiX7PtXZcV4doHWqbKqjsRM3j+Bh6viZ87dcKGpRsGi?=
- =?us-ascii?Q?hESLC02biLnl/4wNwaDVNJR0bNkcuVl0adkl1dFPYFyICNaw1peb9JC7KUDv?=
- =?us-ascii?Q?LeXKlWTDIqKsRlVM2xBMR/O97Bg2C2GP1aV2boL1IfCUCMdh56OgAVXnes8T?=
- =?us-ascii?Q?lE/o97eQzP6F5E3DFx8lcESWzk/Jqcxu18eL8hA7O5w6gRFT7CTRa67JFaIq?=
- =?us-ascii?Q?QLgx7BsaN0ocul7OGtkFqC9jPQmuOxEQFuxCn6Uio6Qrme5eqxsSy4M7Td/U?=
- =?us-ascii?Q?D7lc/kFfFjsy/Rn2SMDWCBu1KvZ4ERQSfWgyyAkXGQO6YBNEYZGADjJT/FNz?=
- =?us-ascii?Q?smAwaE/ZZfGIy6XKXNvVhesnPFYuUh5S75IxG2aKQS75r0qLx17ybzDfd2VB?=
- =?us-ascii?Q?wLthVg/iihdeb8e7+oskbmfUrVVsNddDhecIb6h4isPwbFr8Dt7m2ZII6vAa?=
- =?us-ascii?Q?Bd9BJ3Y25o6H+bKWjKtsNEYZtzGb1gOUgusjN49peUhvLUVhilxM7//8lEPL?=
- =?us-ascii?Q?aiuXYZfggVZ2/mMNsPTZ22xBBmyXmXehXMZaIM290ykRR9AcPyDMTbOnBCvd?=
- =?us-ascii?Q?7mRNvcgfc8uzvlb3v5zGexLpuuFlcvyeKCJkDN2sQgj8PtJwBTVzKxvS+AWZ?=
- =?us-ascii?Q?RDrS13kbXQfkPP6t5/L0JSb5r5xXTOrul0gPxjMSG0t3roCQWfHLajJmiTnj?=
- =?us-ascii?Q?PUMiwN3nzxA72jxEYT//NxSJLkzBNnx1CYBA+8FLggJtz13bNPjonqSFzp4e?=
- =?us-ascii?Q?xP02j1hZrW1Ou0sZL4aUccLtTtxUCV4DDobdPMjG2tyhY5++K/hE8G+McOyw?=
- =?us-ascii?Q?xwoL9uTZeQ=3D=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a13b40ca-effa-400f-ddab-08d9eb6bad80
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR01MB6824.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 01:29:56.2378
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xnZezGtEH7ybg9z0LwQRXNmZE9AIskkiQBJAex5krRy4ud+zHkOBXbJIvscua3jTzfZNUeCRUXwRxIUGjxv0t2/Bme01x1mQ0g68WgjkcGOYYgC5FWEvNnnG2X/o3bbw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB7355
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220130211838.8382-4-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following interrelated ranges are needed by the kdump crash tool:
-	MODULES_VADDR ~ MODULES_END,
-	VMALLOC_START ~ VMALLOC_END,
-	VMEMMAP_START ~ VMEMMAP_END
+On Sun, Jan 30, 2022 at 01:18:06PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> Add CPU feature flags for Control-flow Enforcement Technology (CET).
+> 
+> CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
+> CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect Branch Tracking
 
-Since these values change from time to time, it is preferable to export
-them via vmcoreinfo than to change the crash's code frequently.
+It looks like this only adds the SHSTK bit, maybe drop mention of IBT
+here.
 
-Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
----
- Documentation/admin-guide/kdump/vmcoreinfo.rst | 8 ++++++++
- arch/arm64/kernel/crash_core.c                 | 6 ++++++
- 2 files changed, 14 insertions(+)
+I wonder if we could land this (and the IBT part) without waiting for
+everything else in the respective series?
 
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 3861a25faae1..a339af45a22e 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -494,6 +494,14 @@ architecture which is used to lookup the page-tables for the Virtual
- addresses in the higher VA range (refer to ARMv8 ARM document for
- more details).
- 
-+MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END
-+-------------
-+
-+Used to get the correct ranges:
-+	MODULES_VADDR ~ MODULES_END-1 : Kernel module space.
-+	VMALLOC_START ~ VMALLOC_END-1 : vmalloc() / ioremap() space.
-+	VMEMMAP_START ~ VMEMMAP_END-1 : vmemmap region, used for struct page array.
-+
- arm
- ===
- 
-diff --git a/arch/arm64/kernel/crash_core.c b/arch/arm64/kernel/crash_core.c
-index 314391a156ee..2b65aae332ce 100644
---- a/arch/arm64/kernel/crash_core.c
-+++ b/arch/arm64/kernel/crash_core.c
-@@ -20,6 +20,12 @@ void arch_crash_save_vmcoreinfo(void)
- {
- 	VMCOREINFO_NUMBER(VA_BITS);
- 	/* Please note VMCOREINFO_NUMBER() uses "%d", not "%x" */
-+	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-+	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-+	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-+	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-+	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-+	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
- 	vmcoreinfo_append_str("NUMBER(kimage_voffset)=0x%llx\n",
- 						kimage_voffset);
- 	vmcoreinfo_append_str("NUMBER(PHYS_OFFSET)=0x%llx\n",
+-Kees
+
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> ---
+> 
+> v1:
+>  - Remove IBT, can be added in a follow on IBT series.
+> 
+> Yu-cheng v25:
+>  - Make X86_FEATURE_IBT depend on X86_FEATURE_SHSTK.
+> 
+> Yu-cheng v24:
+>  - Update for splitting CONFIG_X86_CET to CONFIG_X86_SHADOW_STACK and
+>    CONFIG_X86_IBT.
+>  - Move DISABLE_IBT definition to the IBT series.
+> 
+>  arch/x86/include/asm/cpufeatures.h       | 1 +
+>  arch/x86/include/asm/disabled-features.h | 8 +++++++-
+>  arch/x86/kernel/cpu/cpuid-deps.c         | 1 +
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index 6db4e2932b3d..c3eb94b13fef 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -355,6 +355,7 @@
+>  #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
+>  #define X86_FEATURE_WAITPKG		(16*32+ 5) /* UMONITOR/UMWAIT/TPAUSE Instructions */
+>  #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
+> +#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
+>  #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+>  #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+>  #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
+> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+> index 8f28fafa98b3..b7728f7afb2b 100644
+> --- a/arch/x86/include/asm/disabled-features.h
+> +++ b/arch/x86/include/asm/disabled-features.h
+> @@ -65,6 +65,12 @@
+>  # define DISABLE_SGX	(1 << (X86_FEATURE_SGX & 31))
+>  #endif
+>  
+> +#ifdef CONFIG_X86_SHADOW_STACK
+> +#define DISABLE_SHSTK	0
+> +#else
+> +#define DISABLE_SHSTK	(1 << (X86_FEATURE_SHSTK & 31))
+> +#endif
+> +
+>  /*
+>   * Make sure to add features to the correct mask
+>   */
+> @@ -85,7 +91,7 @@
+>  #define DISABLED_MASK14	0
+>  #define DISABLED_MASK15	0
+>  #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
+> -			 DISABLE_ENQCMD)
+> +			 DISABLE_ENQCMD|DISABLE_SHSTK)
+>  #define DISABLED_MASK17	0
+>  #define DISABLED_MASK18	0
+>  #define DISABLED_MASK19	0
+> diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+> index c881bcafba7d..bf1b55a1ba21 100644
+> --- a/arch/x86/kernel/cpu/cpuid-deps.c
+> +++ b/arch/x86/kernel/cpu/cpuid-deps.c
+> @@ -78,6 +78,7 @@ static const struct cpuid_dep cpuid_deps[] = {
+>  	{ X86_FEATURE_XFD,			X86_FEATURE_XSAVES    },
+>  	{ X86_FEATURE_XFD,			X86_FEATURE_XGETBV1   },
+>  	{ X86_FEATURE_AMX_TILE,			X86_FEATURE_XFD       },
+> +	{ X86_FEATURE_SHSTK,			X86_FEATURE_XSAVES    },
+>  	{}
+>  };
+>  
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.30.2
-
+Kees Cook
