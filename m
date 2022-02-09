@@ -2,20 +2,20 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 137E4C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4DECC4332F
 	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 04:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245520AbiBIEH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S245546AbiBIEH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 8 Feb 2022 23:07:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52758 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347714AbiBIEGS (ORCPT
+        with ESMTP id S1344198AbiBIEGS (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Feb 2022 23:06:18 -0500
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD12C06157B;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F437C061579;
         Tue,  8 Feb 2022 20:06:15 -0800 (PST)
 Received: by codeconstruct.com.au (Postfix, from userid 10000)
-        id 81B72202CE; Wed,  9 Feb 2022 12:06:11 +0800 (AWST)
+        id 5DD572029C; Wed,  9 Feb 2022 12:06:10 +0800 (AWST)
 From:   Jeremy Kerr <jk@codeconstruct.com.au>
 To:     netdev@vger.kernel.org
 Cc:     Matt Johnston <matt@codeconstruct.com.au>,
@@ -24,9 +24,9 @@ Cc:     Matt Johnston <matt@codeconstruct.com.au>,
         Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 4/5] mctp: Allow keys matching any local address
-Date:   Wed,  9 Feb 2022 12:05:56 +0800
-Message-Id: <20220209040557.391197-5-jk@codeconstruct.com.au>
+Subject: [PATCH net-next v2 1/5] mctp: tests: Rename FL_T macro to FL_TO
+Date:   Wed,  9 Feb 2022 12:05:53 +0800
+Message-Id: <20220209040557.391197-2-jk@codeconstruct.com.au>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220209040557.391197-1-jk@codeconstruct.com.au>
 References: <20220209040557.391197-1-jk@codeconstruct.com.au>
@@ -36,61 +36,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, we require an exact match on an incoming packet's dest
-address, and the key's local_addr field.
-
-In a future change, we may want to set up a key before packets are
-routed, meaning we have no local address to match on.
-
-This change allows key lookups to match on local_addr = MCTP_ADDR_ANY.
+This is a definition for the tag-owner flag, which has TO as a standard
+abbreviation. We'll want to add a helper for the actual tag value in a
+future change.
 
 Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
 ---
- net/mctp/route.c           | 4 ++--
- net/mctp/test/route-test.c | 8 ++++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ net/mctp/test/route-test.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/net/mctp/route.c b/net/mctp/route.c
-index 654467a7aeae..35f72e99e188 100644
---- a/net/mctp/route.c
-+++ b/net/mctp/route.c
-@@ -76,7 +76,7 @@ static struct mctp_sock *mctp_lookup_bind(struct net *net, struct sk_buff *skb)
- static bool mctp_key_match(struct mctp_sk_key *key, mctp_eid_t local,
- 			   mctp_eid_t peer, u8 tag)
- {
--	if (key->local_addr != local)
-+	if (!mctp_address_matches(key->local_addr, local))
- 		return false;
- 
- 	if (key->peer_addr != peer)
-@@ -616,7 +616,7 @@ static struct mctp_sk_key *mctp_alloc_local_tag(struct mctp_sock *msk,
- 			continue;
- 
- 		if (!(mctp_address_matches(tmp->peer_addr, daddr) &&
--		      tmp->local_addr == saddr))
-+		      mctp_address_matches(tmp->local_addr, saddr)))
- 			continue;
- 
- 		spin_lock(&tmp->lock);
 diff --git a/net/mctp/test/route-test.c b/net/mctp/test/route-test.c
-index dad6bff40153..61205cf40074 100644
+index 750f9f9b4daf..5862f7fea01f 100644
 --- a/net/mctp/test/route-test.c
 +++ b/net/mctp/test/route-test.c
-@@ -645,6 +645,14 @@ static const struct mctp_route_input_sk_keys_test mctp_route_input_sk_keys_tests
- 		.hdr = RX_HDR(1, 11, 8, FL_S | FL_E | FL_T(1)),
- 		.deliver = true,
- 	},
-+	{
-+		.name = "any local match",
-+		.key_peer_addr = 12,
-+		.key_local_addr = MCTP_ADDR_ANY,
-+		.key_tag = 1,
-+		.hdr = RX_HDR(1, 12, 8, FL_S | FL_E | FL_T(1)),
-+		.deliver = true,
-+	},
+@@ -369,14 +369,14 @@ static void mctp_test_route_input_sk(struct kunit *test)
+ 
+ #define FL_S	(MCTP_HDR_FLAG_SOM)
+ #define FL_E	(MCTP_HDR_FLAG_EOM)
+-#define FL_T	(MCTP_HDR_FLAG_TO)
++#define FL_TO	(MCTP_HDR_FLAG_TO)
+ 
+ static const struct mctp_route_input_sk_test mctp_route_input_sk_tests[] = {
+-	{ .hdr = RX_HDR(1, 10, 8, FL_S | FL_E | FL_T), .type = 0, .deliver = true },
+-	{ .hdr = RX_HDR(1, 10, 8, FL_S | FL_E | FL_T), .type = 1, .deliver = false },
++	{ .hdr = RX_HDR(1, 10, 8, FL_S | FL_E | FL_TO), .type = 0, .deliver = true },
++	{ .hdr = RX_HDR(1, 10, 8, FL_S | FL_E | FL_TO), .type = 1, .deliver = false },
+ 	{ .hdr = RX_HDR(1, 10, 8, FL_S | FL_E), .type = 0, .deliver = false },
+-	{ .hdr = RX_HDR(1, 10, 8, FL_E | FL_T), .type = 0, .deliver = false },
+-	{ .hdr = RX_HDR(1, 10, 8, FL_T), .type = 0, .deliver = false },
++	{ .hdr = RX_HDR(1, 10, 8, FL_E | FL_TO), .type = 0, .deliver = false },
++	{ .hdr = RX_HDR(1, 10, 8, FL_TO), .type = 0, .deliver = false },
+ 	{ .hdr = RX_HDR(1, 10, 8, 0), .type = 0, .deliver = false },
  };
  
- static void mctp_route_input_sk_keys_to_desc(
+@@ -436,7 +436,7 @@ static void mctp_test_route_input_sk_reasm(struct kunit *test)
+ 	__mctp_route_test_fini(test, dev, rt, sock);
+ }
+ 
+-#define RX_FRAG(f, s) RX_HDR(1, 10, 8, FL_T | (f) | ((s) << MCTP_HDR_SEQ_SHIFT))
++#define RX_FRAG(f, s) RX_HDR(1, 10, 8, FL_TO | (f) | ((s) << MCTP_HDR_SEQ_SHIFT))
+ 
+ static const struct mctp_route_input_sk_reasm_test mctp_route_input_sk_reasm_tests[] = {
+ 	{
 -- 
 2.34.1
 
