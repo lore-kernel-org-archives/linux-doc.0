@@ -2,122 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45AECC43219
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 06:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D9F8C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 06:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbiBIGbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 01:31:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36384 "EHLO
+        id S233081AbiBIGno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 01:43:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233456AbiBIGa7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 01:30:59 -0500
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 42C3BC10368B
-        for <linux-doc@vger.kernel.org>; Tue,  8 Feb 2022 22:31:00 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id BBC9D2B000B2;
-        Wed,  9 Feb 2022 01:22:35 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 09 Feb 2022 01:22:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=uYUsC8D7J1WUo+J6bx2eQOdH/dy8+lejaehWcp
-        k6GBo=; b=Cy6QfLXNK9ddNsaNfHFSY5yUDcum8yl8skzZav/ud1bLyWJm9i+H2N
-        SpS9vCCPJNz3EhdX6R7bNHE5TwnmuGx8hrIQD6Ke0lkHiLJbv+2D2ISJOIreQAHp
-        zlTudmXfA6fgBKWeb4RfttzjZQWairwAi8zEOMgLFJxJY266OitiKMn/iK2MofG9
-        Y032ZMNc6VTvKp3gwHwaew7HWyGX9/QdIbBhf0DRD1wOLtnReaJ41R42SS3SmjEp
-        oq75I4DXcgyUGeXPi/hzmuRgvyhviRaNm0HYMkjmizn113WV1YDKi6lxcqn1pXRx
-        LZ8ZfuZLRFyiOfWDfcDjJKW40pLzzwHw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uYUsC8D7J1WUo+J6b
-        x2eQOdH/dy8+lejaehWcpk6GBo=; b=l7NWThywEGOkQ9fm/3BjYdHvjllOQdFou
-        P/ktkxkoeOk0+UMQHxyqxLMDe00JvlZvokZFpnP0mutFa97ynWnGo8+GsGhBd7bQ
-        ePyOYOQBz4EOerYi1TAcjt83sS9D43+QnxOXJKeFixmU7+VSypaXxwfmSR1/UvN/
-        lx5NaMEW+l+WJtz1cXJ3QC0HjFm7vfzkWSjLntz67OFr2sSV/QDMd35z/GFGDkZP
-        M9azGwsnoafqZ6IIIiQStgCwZi47lD8Zr5QsdqzprA/ndsSUMehWXwb3ul026Efp
-        V9bPK/e6oTQYP5pUGjW3s6EtWzDNaG+jE+9TgsAf1c4cdmY6Lddrw==
-X-ME-Sender: <xms:ql0DYjgm5-gK4DzlRnIRleaAZC7m7XfnMU0Wlq6trKL31Pi3Sq5Rhg>
-    <xme:ql0DYgCyV-p2SLv-O5gDtlrN1S3jpArysnlnvCNzIc7sOdxPGq1OXKpuLhDiz_QWv
-    zMxZJW8wGosxCtkk5I>
-X-ME-Received: <xmr:ql0DYjEio6Dy3MT-mF99-GHGBP28-voGwekJOer4xggVCP-L0OsKD92Md0SdHKFJTpfVeq7HHyhYLcoYNuN-9MqX0ZWlEZHgvuZP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheekgdeludcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
-    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:q10DYgQBPT5DJBJQNWB7ExStByEz9364Q8QPDZ87bpmbNMuv3Fiozg>
-    <xmx:q10DYgzL1vK-niLoRTf4bygNcsNSdYQc-JjR5Es2zE7QIPnGK_QGTQ>
-    <xmx:q10DYm7Y13cav-dx07gXrcrRCEreoogrWv6gjomlhZs48N16o2KPGw>
-    <xmx:q10DYsdqZFrXGAgzPknSebDMoUCygwA0YN5qVx64BCVCAPD1RcshgxSOYoM>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Feb 2022 01:22:31 -0500 (EST)
-Date:   Wed, 9 Feb 2022 16:22:26 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/12] Input: docs: add more details on the use of
- BTN_TOOL
-Message-ID: <YgNdokzzATwy/57P@quokka>
-References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
- <20220126161832.3193805-13-benjamin.tissoires@redhat.com>
+        with ESMTP id S232761AbiBIGnm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 01:43:42 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DDEC0401C7;
+        Tue,  8 Feb 2022 22:43:46 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id u6so2276156lfm.10;
+        Tue, 08 Feb 2022 22:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=pAAzM9YEmsN6BS7NBJa5z8OM37Zy1PTMVGmhl1fo81w=;
+        b=FlVvYLWZE91QEPrPjnkeKbrPdSH+5IeJN/XcHoBhkj2vD8EH3wR/24NglxFpdb+eTM
+         +Odo2S8UX7+C1f+j+JnNN86RN0MrROOerK5spsgTF6441CEsncZo/EiJgLd0UrXyq4ew
+         qHQXBblQ10ly18eF9co0j+Qc2WNfBqX5upTijJ/pjxqLnI8t+ay/agCNONO08mJ5AA1F
+         0ITPdrQi+oJsoFHrbIY0yP36MjyXKjJalN84O6oJ72h0/6YvgWje0y4XPRZiDWDr5CDT
+         n5JCD0U1OKqfyDCf0nIdC1BI7qsCi7MOC0jApbRuMropCtd+nHE/kgkqk9z586rPkztl
+         FYLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pAAzM9YEmsN6BS7NBJa5z8OM37Zy1PTMVGmhl1fo81w=;
+        b=4J2o/wuZ3ZQn0gX1G8vxcly/RJJ04IULveF2oUi6s904Rdv2l0RuKSEVer3DbcVXPB
+         DKmOd/MpbEpR5T7uEo+T+HS6iHZ2F0xe0afrqF04UXpDPijGR6pSnzD9GGsk+46BJp1h
+         bbooWN/flwAcmF7YdbIwvncQBsFX+xaIxUnuJqA8o4z47OKOPo0XacX9LLJCxFK2qMiR
+         YjaNV/mr0jLuOCxDkOFr/Lcr/OxOEzD0jrsBuTWcmcnX3jBLR+Xo8L9qWuD+q/EU+UtF
+         HdmHRJQMoXHFSDysW4WVlbJjGHRGfdLFYvE8YWrrz+DKavER1CHmI4N2woQqBO0JZA8c
+         PAXg==
+X-Gm-Message-State: AOAM532hYOySh1LlGWvsXEs/cEH2IYboDCuNimrzb5I5ktnU8/gMdXL3
+        nIQPv1w6y3B1u0Y73GDYBoM=
+X-Google-Smtp-Source: ABdhPJypQnDZgbJ8Curzq6PkvfxuGqIegGNX0qm0cm40T1ctE7nHCinC134HL2iJXR+3MIPZGN5BQw==
+X-Received: by 2002:a05:6512:b11:: with SMTP id w17mr590074lfu.381.1644389024921;
+        Tue, 08 Feb 2022 22:43:44 -0800 (PST)
+Received: from grain.localdomain ([5.18.251.97])
+        by smtp.gmail.com with ESMTPSA id e13sm2328340ljj.85.2022.02.08.22.43.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 22:43:43 -0800 (PST)
+Received: by grain.localdomain (Postfix, from userid 1000)
+        id 349FD5A0020; Wed,  9 Feb 2022 09:43:43 +0300 (MSK)
+Date:   Wed, 9 Feb 2022 09:43:43 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "Lutomirski, Andy" <luto@kernel.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        alexander.mikhalitsyn@virtuozzo.com
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YgNin5wkSaixCwdx@grain>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <YgAWVSGQg8FPCeba@kernel.org>
+ <YgDIIpCm3UITk896@lisas.de>
+ <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
+ <YgI1A0CtfmT7GMIp@kernel.org>
+ <YgI37n+3JfLSNQCQ@grain>
+ <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
+ <YgKiKEcsNt7mpMHN@grain>
+ <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220126161832.3193805-13-benjamin.tissoires@redhat.com>
+In-Reply-To: <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 05:18:32PM +0100, Benjamin Tissoires wrote:
-> The HID core stack used to be very relaxed considering the BTN_TOOL_*
-> usage. With the recent commits, we should now enforce to have only one
-> tool at a time, meaning that we can now express that requirement in the
-> docs.
+On Wed, Feb 09, 2022 at 02:18:42AM +0000, Edgecombe, Rick P wrote:
+...
 > 
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> ---
->  Documentation/input/event-codes.rst | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Still wrapping my head around the CRIU save and restore steps, but
+> another general approach might be to give ptrace the ability to
+> temporarily pause/resume/set CET enablement and SSP for a stopped
+> thread. Then injected code doesn't need to jump through any hoops or
+> possibly run into road blocks. I'm not sure how much this opens things
+> up if the thread has to be stopped...
 > 
-> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> index b24ae7d292cc..41b1fa647dab 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -137,7 +137,10 @@ A few EV_KEY codes have special meanings:
->      code should be set to a value of 1. When the tool is no longer interacting
->      with the input device, the BTN_TOOL_<name> code should be reset to 0. All
->      trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
-> -    code when events are generated.
-> +    code when events are generated. Likewise all trackpads, tablets, and
-> +    touchscreens should export only one BTN_TOOL_<name> at a time. It is
+> Cyrill, could it fit into the CRIU pause and resume flow? What action
+> causes the final resuming of execution of the restored process for
+> checkpointing and for restore? Wondering if we could somehow make CET
+> re-enable exactly then.
+> 
+> And I guess this also needs a way to create shadow stack allocations at
+> a specific address to match where they were in the dumped process. That
+> is missing in this series.
 
-s/export/set to nonzero/ to avoid any ambiguity with setting the evbit on the
-device vs setting the value to nonzero.
-
-> +    however accepted to switch tool in one EV_SYN frame by setting the old
-> +    BTN_TOOL_<name> at a value of 0 and the new one at 1.
-
-I would even s/accepted/recommended/ but this LGTM to me, thanks.
-
-Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-
-Cheers,
-  Peter
-
-
+Thanks Rick! This sounds like an option. I need a couple of days to refresh
+my memory about criu internals. Let me CC a few current active criu developers
+(CC list is already big enough though:), maybe this will speedup the procedure.
