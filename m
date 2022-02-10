@@ -2,105 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F39AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Feb 2022 23:27:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F9EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 01:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbiBIX1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 18:27:15 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:40960 "EHLO
+        id S232153AbiBJB1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 20:27:04 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:53922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbiBIX1O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 18:27:14 -0500
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B3DFE06C41A;
-        Wed,  9 Feb 2022 15:27:10 -0800 (PST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4JvGGm6Mm6z4xcq;
-        Thu, 10 Feb 2022 10:26:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-        s=201702; t=1644449186;
-        bh=B3OOE+3clEH8ZbTR1cvV2XvU/8PhpUu3S16wIF9m4Ho=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WtApO4zjM6W9Rmha9gS+coobGCR2F02AHJwCzOH1SNwPdLUS84TvTJ1Cn1lp3GzbE
-         2y8mPQ3H05DpaSRV8T5QYsCYJ45Y5LNyW3gy+VhhnIBv89n1YMv1AjfchgirE4zKKX
-         Fi8skESVaNyGcD7FjHnj1kr09AnLoLkt2tyoD6QoODc8qs6x/FshuwYu74TejwsOaD
-         z/aE56tnCJ+Ys8uDW0IMF0Ff0EZPXLVBQHsGx3QXM6Y1DunqCkKO9FOkb7cxw4tvux
-         sRjIjd5M2cQQYv7V95lRAFQlthQbfrPV4IewI5fjDPyokZ6jxCltYjHDEQ0FHL+knz
-         g6vw7L0aKUrzQ==
-Date:   Thu, 10 Feb 2022 10:26:21 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     akpm@linux-foundation.org, Petr Mladek <pmladek@suse.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, feng.tang@intel.com,
-        siglesias@igalia.com, kernel@gpiccoli.net
-Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
- kdump
-Message-ID: <20220210102621.250d6741@canb.auug.org.au>
-In-Reply-To: <c4f0c53e-cfe4-b693-6af2-df827bc94fa8@igalia.com>
-References: <20211109202848.610874-1-gpiccoli@igalia.com>
-        <20211109202848.610874-4-gpiccoli@igalia.com>
-        <Yd/qmyz+qSuoUwbs@alley>
-        <7c516696-be5b-c280-7f4e-554834f5e472@igalia.com>
-        <c10fc4fc-58c9-0b3f-5f1e-6f44b0c190d2@igalia.com>
-        <20220209083951.50060e15@canb.auug.org.au>
-        <c4f0c53e-cfe4-b693-6af2-df827bc94fa8@igalia.com>
+        with ESMTP id S232166AbiBJB06 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:26:58 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F89420188;
+        Wed,  9 Feb 2022 17:26:56 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id i21so5996455pfd.13;
+        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=99kJAF1LYHwtSv0Yf3YOWEwdRAz6cOKJMAAN9vZQpPA=;
+        b=V208CxnCfJAW7fmWBawGNO4R+VshKsgngfQdMPxgDkMgP6Ulonm1Em6PIMBqJJbGKU
+         3BMFA9b+vjpeszMj3qdKdDh5kwJ2k/Z+7YPP7vwq3JUsdEw+uih0WJjn/ANjfmOPGeCc
+         duFAf6yoViCOT5T6JehENfcQ9N0Rwyp2NgNTIsC1y2CkAmBJDNQ2VOKzy2oSRB02trnH
+         p4f+FMnlX/E7PMdzfRJrlKkx6x4DfDGGTChKPheLQx0VaEEG+VbFgzlQMFRAz3cZSQUm
+         olxOqp9vVZfixIrFdFEeg8R3GjEarejrwz8ySgcr0g61zr3+1mvRyY20OJP1s+drGjdd
+         cPAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=99kJAF1LYHwtSv0Yf3YOWEwdRAz6cOKJMAAN9vZQpPA=;
+        b=DRpRnG9ywyWQuuSDdmnAlVuKZlaQCVpVRv36iQuR1kcUYfwvC7+pI8neB2+5/p/bp6
+         h+M0eb28whqjRmYE/ivK3gX8IsXJXe3DoZU9mHS0O0T6MsNIdoIn13FrWSfT+64umcNh
+         olVtup9S65O+bhTiI24+otuuYKQO9g+yGzSgIR69686MBM2hYU0UaNo7rRFGQwc/tX7y
+         1xP4+79aj+lr5giqUe+FKYqJ3nRwcoIlqk6LBJ6ncoew9NVeLibADBcKPW2YYJBCcDR0
+         GNJlumkAnVMPS5XbJghoLZmKxgk0t661ZP+FJ6qhJNb135/kMgP6EzfHqyCd42eRPT34
+         c0CA==
+X-Gm-Message-State: AOAM5333ep2CQWnTzuswmnidRTbH0w6RWpYg0zZYMmm+sc0yxlYVcTTf
+        XYl+OGD2h2tpCQgulqbsr6E=
+X-Google-Smtp-Source: ABdhPJx7mH2yZo4C4pJn/aE3cCDOtK+LkPC5Nk+B6bO3/Fqq03i1P/0o3tAvSQXdg21ttVWaEs1o8w==
+X-Received: by 2002:a65:4c87:: with SMTP id m7mr4145769pgt.509.1644456416531;
+        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 6sm15177035pgx.36.2022.02.09.17.26.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
+Message-ID: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
+Date:   Thu, 10 Feb 2022 10:26:53 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/g0P093p_nq_KNn68dYnAKHn";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: Makefile: Add -no-shell-escape option to LATEXOPTS
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/g0P093p_nq_KNn68dYnAKHn
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+By adding this option, message of "restricted \write18 enabled" from
+LaTeX can be silenced.
 
-Hi Guilherme,
+As there is no use of \write18 in LaTeX sources from sphinx-build, it
+is safe to add this option.
 
-On Wed, 9 Feb 2022 12:06:03 -0300 "Guilherme G. Piccoli" <gpiccoli@igalia.c=
-om> wrote:
->
-> On 08/02/2022 18:39, Stephen Rothwell wrote:
-> > Hi Guilherme,
-> > [...]=20
-> > Dropped from linux-next today.
-> >  =20
->=20
-> Hi Stephen, thanks! I'm still seeing this patch over there, though - I'm
-> not sure if takes a while to show up in the tree...
+Reported-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andrew did another mmotm release which put it back in.  I have removed
-it again for today.
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 9f4bd42cef18..64d44c1ecad3 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -26,7 +26,7 @@ SPHINX_CONF   = conf.py
+ PAPER         =
+ BUILDDIR      = $(obj)/output
+ PDFLATEX      = xelatex
+-LATEXOPTS     = -interaction=batchmode
++LATEXOPTS     = -interaction=batchmode -no-shell-escape
+ 
+ ifeq ($(KBUILD_VERBOSE),0)
+ SPHINXOPTS    += "-q"
 
-> Notice this request is only for patch 3/3 in this series - patches 1 and
-> 2 are fine, were reviewed and accepted =3D)
+base-commit: f647de4b02dcb1815fb3019f86a001a681daf0a1
+-- 
+2.17.1
 
-Understood.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/g0P093p_nq_KNn68dYnAKHn
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmIETZ0ACgkQAVBC80lX
-0GwR2Af/ULU1MyVDLgxV13ILryhuxlTd7bfH6hvQNAjleryvZvq8KFQVaMmv4SeF
-GXIOX0LlCJ82SC5mDCJfJ0GXr9efTZjOlJxyUJeWxMAAPNtYliB7qhHKXPWy+tAu
-Hp+H9OfDV8bGvGm5V9Nim0pN7jTG5JS64OKvgikGMG6M6snZ74QUSNtCIB66QMv4
-UVN31B2D8CKU4paPhU7Kez0TTN4wLmnGJDq014gg9B4Y08jMh1xvix8w7r3MhguI
-txFlYuTxn15vYTZt9k+WFisNKFKj5H240q2bXjdxliE3smc4KNHw0+Jk9+nvnLj5
-SKP/axBSRkxDCEuhcMFhNcUR1483zA==
-=maXw
------END PGP SIGNATURE-----
-
---Sig_/g0P093p_nq_KNn68dYnAKHn--
