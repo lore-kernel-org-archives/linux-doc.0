@@ -2,909 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95279C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 21:34:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEC0C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 21:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344652AbiBJVeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 16:34:09 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47856 "EHLO
+        id S1344689AbiBJViK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 16:38:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239461AbiBJVeH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 16:34:07 -0500
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1253E26DA;
-        Thu, 10 Feb 2022 13:34:03 -0800 (PST)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21AKXH6V022176;
-        Thu, 10 Feb 2022 13:33:51 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0220; bh=IrQKrIc4cE4RNehY42UFrN9Eh5l8yWmtZgBKPPWDdm0=;
- b=Ll2LC2dhgmHcH8dTktwnE6rozg8Oh1eQQVvGugmrn3p0RBUWotPjXXT5nPAqPaYWRRFr
- 2CUUHDXQ8dPPSmIdqIFGuKxXEfW5pz8xTD4jPQUA5hTdX+5BIOJNFiXKn23EUIcgWNBk
- BJYpQt0QWMKL0XHhr21Mm2w4hIboFPwp7ORTiHNogdqeIf6kBIubVAnOP5VHQhY+tjf4
- NIp7XiNfjSmr6S3NiU7Dlk8ZrMt6PCCvA+5aCdxibIaG2MKFibdyMeTE+PpuE+8T9r01
- E9e1E7uh/9Xe6IVFrhAwPdyqCNydvXTsvCTMxyNRs6cWwaeKQVGvf7rP4M2SxNizbOZY vQ== 
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3e5134ap33-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 10 Feb 2022 13:33:51 -0800
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 10 Feb
- 2022 13:33:48 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 10 Feb 2022 13:33:47 -0800
-Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
-        by maili.marvell.com (Postfix) with ESMTP id C7CA83F7070;
-        Thu, 10 Feb 2022 13:33:47 -0800 (PST)
-From:   Veerasenareddy Burru <vburru@marvell.com>
-To:     <vburru@marvell.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-        <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Abhijit Ayarekar <aayarekar@marvell.com>,
-        Satananda Burla <sburla@marvell.com>
-Subject: [PATCH 3/4] octeon_ep: add Tx/Rx and interrupt support.
-Date:   Thu, 10 Feb 2022 13:33:05 -0800
-Message-ID: <20220210213306.3599-4-vburru@marvell.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220210213306.3599-1-vburru@marvell.com>
-References: <20220210213306.3599-1-vburru@marvell.com>
+        with ESMTP id S240037AbiBJViK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 16:38:10 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED2BB80;
+        Thu, 10 Feb 2022 13:38:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=yiMGkSWaUlInyUsSv6Ymz5MFl5rNEExeyed6yGoVqQo=; b=UIBM663WVp45nBpTuklKQYIaOO
+        qIqrGLpntoMuj+w0Zjrsb/3bZRZJHEEBxo01/e5j3RYuA16k+JKr4fXCfwg+B99MF5J+1bLJ+Jxsb
+        3k8e1hjG5sxhZ9+FHYVTUSLLfp6CtesC8oHLlIKQvubiwHmjfQp10vYPT10He77uRiHG23oMbvVaT
+        hbtgH4yrj9vzhechikN/jUpAujlWHmSBPuF4DwpgNoDDB+kk0W8w+9iAabVzgoCun/4jStR/hmaq+
+        FafNBU3pb8iFAL7unJt95dvc82gwXZa10B2otIddSZzFA2j7wS3Y6c4RwzGAGaj0raGgYGzcSGNPG
+        hk7iEN6w==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nIH81-009n2P-Of; Thu, 10 Feb 2022 21:37:25 +0000
+Date:   Thu, 10 Feb 2022 21:37:25 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
+Message-ID: <YgWFlYi5jGENGD4G@casper.infradead.org>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-5-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: gneWv72IV8WG1MheVP1LB20YEgmd4CFp
-X-Proofpoint-ORIG-GUID: gneWv72IV8WG1MheVP1LB20YEgmd4CFp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-10_10,2022-02-09_01,2021-12-02_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208081902.3550911-5-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support to enable MSI-x and register interrupts.
-Add support to process Tx and Rx traffic. Includes processing
-Tx completions and Rx refill.
+On Tue, Feb 08, 2022 at 01:18:54AM -0700, Yu Zhao wrote:
+> Evictable pages are divided into multiple generations for each lruvec.
+> The youngest generation number is stored in lrugen->max_seq for both
+> anon and file types as they're aged on an equal footing. The oldest
+> generation numbers are stored in lrugen->min_seq[] separately for anon
+> and file types as clean file pages can be evicted regardless of swap
+> constraints. These three variables are monotonically increasing.
+> 
+> Generation numbers are truncated into order_base_2(MAX_NR_GENS+1) bits
+> in order to fit into the gen counter in folio->flags. Each truncated
+> generation number is an index to lrugen->lists[]. The sliding window
+> technique is used to track at least MIN_NR_GENS and at most
+> MAX_NR_GENS generations. The gen counter stores (seq%MAX_NR_GENS)+1
+> while a page is on one of lrugen->lists[]. Otherwise it stores 0.
+> 
+> There are two conceptually independent processes (as in the
+> manufacturing process): "the aging", which produces young generations,
+> and "the eviction", which consumes old generations. They form a
+> closed-loop system, i.e., "the page reclaim". Both processes can be
+> invoked from userspace for the purposes of working set estimation and
+> proactive reclaim. These features are required to optimize job
+> scheduling (bin packing) in data centers. The variable size of the
+> sliding window is designed for such use cases [1][2].
+> 
+> To avoid confusions, the terms "hot" and "cold" will be applied to the
+> multigenerational LRU, as a new convention; the terms "active" and
+> "inactive" will be applied to the active/inactive LRU, as usual.
 
-Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
-Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
-Signed-off-by: Satananda Burla <sburla@marvell.com>
----
- .../ethernet/marvell/octeon_ep/octep_main.c   | 441 ++++++++++++++++++
- .../net/ethernet/marvell/octeon_ep/octep_rx.c | 252 +++++++++-
- .../net/ethernet/marvell/octeon_ep/octep_tx.c |  73 +++
- 3 files changed, 764 insertions(+), 2 deletions(-)
+[...]
 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-index 307a9ce2b67e..700852fd4c3a 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-@@ -31,6 +31,271 @@ MODULE_DESCRIPTION(OCTEP_DRV_STRING);
- MODULE_LICENSE("GPL");
- MODULE_VERSION(OCTEP_DRV_VERSION_STR);
- 
-+/**
-+ * octep_alloc_ioq_vectors() - Allocate Tx/Rx Queue interrupt info.
-+ *
-+ * @oct: Octeon device private data structure.
-+ *
-+ * Allocate resources to hold per Tx/Rx queue interrupt info.
-+ * This is the information passed to interrupt handler, from which napi poll
-+ * is scheduled and includes quick access to private data of Tx/Rx queue
-+ * corresponding to the interrupt being handled.
-+ *
-+ * Return: 0, on successful allocation of resources for all queue interrupts.
-+ *         -1, if failed to allocate any resource.
-+ */
-+static int octep_alloc_ioq_vectors(struct octep_device *oct)
-+{
-+	int i;
-+	struct octep_ioq_vector *ioq_vector;
-+
-+	for (i = 0; i < oct->num_oqs; i++) {
-+		oct->ioq_vector[i] = vzalloc(sizeof(*oct->ioq_vector[i]));
-+		if (!oct->ioq_vector[i])
-+			goto free_ioq_vector;
-+
-+		ioq_vector = oct->ioq_vector[i];
-+		ioq_vector->iq = oct->iq[i];
-+		ioq_vector->oq = oct->oq[i];
-+		ioq_vector->octep_dev = oct;
-+	}
-+
-+	dev_info(&oct->pdev->dev, "Allocated %d IOQ vectors\n", oct->num_oqs);
-+	return 0;
-+
-+free_ioq_vector:
-+	while (i) {
-+		i--;
-+		vfree(oct->ioq_vector[i]);
-+		oct->ioq_vector[i] = NULL;
-+	}
-+	return -1;
-+}
-+
-+/**
-+ * octep_free_ioq_vectors() - Free Tx/Rx Queue interrupt vector info.
-+ *
-+ * @oct: Octeon device private data structure.
-+ */
-+static void octep_free_ioq_vectors(struct octep_device *oct)
-+{
-+	int i;
-+
-+	for (i = 0; i < oct->num_oqs; i++) {
-+		if (oct->ioq_vector[i]) {
-+			vfree(oct->ioq_vector[i]);
-+			oct->ioq_vector[i] = NULL;
-+		}
-+	}
-+	netdev_info(oct->netdev, "Freed IOQ Vectors\n");
-+}
-+
-+/**
-+ * octep_enable_msix_range() - enable MSI-x interrupts.
-+ *
-+ * @oct: Octeon device private data structure.
-+ *
-+ * Allocate and enable all MSI-x interrupts (queue and non-queue interrupts)
-+ * for the Octeon device.
-+ *
-+ * Return: 0, on successfully enabling all MSI-x interrupts.
-+ *         -1, if failed to enable any MSI-x interrupt.
-+ */
-+static int octep_enable_msix_range(struct octep_device *oct)
-+{
-+	int num_msix, msix_allocated;
-+	int i;
-+
-+	/* Generic interrupts apart from input/output queues */
-+	num_msix = oct->num_oqs + CFG_GET_NON_IOQ_MSIX(oct->conf);
-+	oct->msix_entries = kcalloc(num_msix,
-+				    sizeof(struct msix_entry), GFP_KERNEL);
-+	if (!oct->msix_entries)
-+		goto msix_alloc_err;
-+
-+	for (i = 0; i < num_msix; i++)
-+		oct->msix_entries[i].entry = i;
-+
-+	msix_allocated = pci_enable_msix_range(oct->pdev, oct->msix_entries,
-+					       num_msix, num_msix);
-+	if (msix_allocated != num_msix) {
-+		dev_err(&oct->pdev->dev,
-+			"Failed to enable %d msix irqs; got only %d\n",
-+			num_msix, msix_allocated);
-+		goto enable_msix_err;
-+	}
-+	oct->num_irqs = msix_allocated;
-+	dev_info(&oct->pdev->dev, "MSI-X enabled successfully\n");
-+
-+	return 0;
-+
-+enable_msix_err:
-+	if (msix_allocated > 0)
-+		pci_disable_msix(oct->pdev);
-+	kfree(oct->msix_entries);
-+	oct->msix_entries = NULL;
-+msix_alloc_err:
-+	return -1;
-+}
-+
-+/**
-+ * octep_disable_msix() - disable MSI-x interrupts.
-+ *
-+ * @oct: Octeon device private data structure.
-+ *
-+ * Disable MSI-x on the Octeon device.
-+ */
-+static void octep_disable_msix(struct octep_device *oct)
-+{
-+	pci_disable_msix(oct->pdev);
-+	kfree(oct->msix_entries);
-+	oct->msix_entries = NULL;
-+	dev_info(&oct->pdev->dev, "Disabled MSI-X\n");
-+}
-+
-+/**
-+ * octep_non_ioq_intr_handler() - common handler for all generic interrupts.
-+ *
-+ * @irq - Interrupt number.
-+ * @data - interrupt data.
-+ *
-+ * this is common handler for all non-queue (generic) interrupts.
-+ */
-+static irqreturn_t octep_non_ioq_intr_handler(int irq, void *data)
-+{
-+	struct octep_device *oct = data;
-+
-+	return oct->hw_ops.non_ioq_intr_handler(oct);
-+}
-+
-+/**
-+ * octep_ioq_intr_handler() - handler for all Tx/Rx queue interrupts.
-+ *
-+ * @irq - Interrupt number.
-+ * @data - interrupt data contains pointers to Tx/Rx queue private data
-+ *         and correspong NAPI context.
-+ *
-+ * this is common handler for all non-queue (generic) interrupts.
-+ */
-+static irqreturn_t octep_ioq_intr_handler(int irq, void *data)
-+{
-+	struct octep_ioq_vector *ioq_vector = data;
-+	struct octep_device *oct = ioq_vector->octep_dev;
-+
-+	return oct->hw_ops.ioq_intr_handler(ioq_vector);
-+}
-+
-+/**
-+ * octep_request_irqs() - Register interrupt handlers.
-+ *
-+ * @oct: Octeon device private data structure.
-+ *
-+ * Register handlers for all queue and non-queue interrupts.
-+ *
-+ * Return: 0, on successful registration of all interrupt handlers.
-+ *         -1, on any error.
-+ */
-+static int octep_request_irqs(struct octep_device *oct)
-+{
-+	struct net_device *netdev = oct->netdev;
-+	struct octep_ioq_vector *ioq_vector;
-+	struct msix_entry *msix_entry;
-+	char **non_ioq_msix_names;
-+	int num_non_ioq_msix;
-+	int ret, i;
-+
-+	num_non_ioq_msix = CFG_GET_NON_IOQ_MSIX(oct->conf);
-+	non_ioq_msix_names = CFG_GET_NON_IOQ_MSIX_NAMES(oct->conf);
-+
-+	oct->non_ioq_irq_names = kcalloc(num_non_ioq_msix,
-+					 OCTEP_MSIX_NAME_SIZE, GFP_KERNEL);
-+	if (!oct->non_ioq_irq_names)
-+		goto alloc_err;
-+
-+	/* First few MSI-X interrupts are non-queue interrupts */
-+	for (i = 0; i < num_non_ioq_msix; i++) {
-+		char *irq_name;
-+
-+		irq_name = &oct->non_ioq_irq_names[i * OCTEP_MSIX_NAME_SIZE];
-+		msix_entry = &oct->msix_entries[i];
-+
-+		snprintf(irq_name, OCTEP_MSIX_NAME_SIZE,
-+			 "%s-%s", netdev->name, non_ioq_msix_names[i]);
-+		ret = request_irq(msix_entry->vector,
-+				  octep_non_ioq_intr_handler, 0,
-+				  irq_name, oct);
-+		if (ret) {
-+			netdev_err(netdev,
-+				   "request_irq failed for %s; err=%d",
-+				   irq_name, ret);
-+			goto non_ioq_irq_err;
-+		}
-+	}
-+
-+	/* Request IRQs for Tx/Rx queues */
-+	for (i = 0; i < oct->num_oqs; i++) {
-+		ioq_vector = oct->ioq_vector[i];
-+		msix_entry = &oct->msix_entries[i + num_non_ioq_msix];
-+
-+		snprintf(ioq_vector->name, sizeof(ioq_vector->name),
-+			 "%s-q%d", netdev->name, i);
-+		ret = request_irq(msix_entry->vector,
-+				  octep_ioq_intr_handler, 0,
-+				  ioq_vector->name, ioq_vector);
-+		if (ret) {
-+			netdev_err(netdev,
-+				   "request_irq failed for Q-%d; err=%d",
-+				   i, ret);
-+			goto ioq_irq_err;
-+		}
-+
-+		cpumask_set_cpu(i % num_online_cpus(),
-+				&ioq_vector->affinity_mask);
-+		irq_set_affinity_hint(msix_entry->vector,
-+				      &ioq_vector->affinity_mask);
-+	}
-+
-+	return 0;
-+ioq_irq_err:
-+	while (i > num_non_ioq_msix) {
-+		--i;
-+		irq_set_affinity_hint(oct->msix_entries[i].vector, NULL);
-+		free_irq(oct->msix_entries[i].vector, oct->ioq_vector[i]);
-+	}
-+non_ioq_irq_err:
-+	while (i) {
-+		--i;
-+		free_irq(oct->msix_entries[i].vector, oct);
-+	}
-+alloc_err:
-+	return -1;
-+}
-+
-+/**
-+ * octep_free_irqs() - free all registered interrupts.
-+ *
-+ * @oct: Octeon device private data structure.
-+ *
-+ * Free all queue and non-queue interrupts of the Octeon device.
-+ */
-+static void octep_free_irqs(struct octep_device *oct)
-+{
-+	int i;
-+
-+	/* First few MSI-X interrupts are non queue interrupts; free them */
-+	for (i = 0; i < CFG_GET_NON_IOQ_MSIX(oct->conf); i++)
-+		free_irq(oct->msix_entries[i].vector, oct);
-+	kfree(oct->non_ioq_irq_names);
-+
-+	/* Free IRQs for Input/Output (Tx/Rx) queues */
-+	for (i = CFG_GET_NON_IOQ_MSIX(oct->conf); i < oct->num_irqs; i++) {
-+		irq_set_affinity_hint(oct->msix_entries[i].vector, NULL);
-+		free_irq(oct->msix_entries[i].vector,
-+			 oct->ioq_vector[i - CFG_GET_NON_IOQ_MSIX(oct->conf)]);
-+	}
-+	netdev_info(oct->netdev, "IRQs freed\n");
-+}
-+
- /**
-  * octep_setup_irqs() - setup interrupts for the Octeon device.
-  *
-@@ -102,6 +367,32 @@ static void octep_enable_ioq_irq(struct octep_iq *iq, struct octep_oq *oq)
- 	writeq(1UL << OCTEP_IQ_INTR_RESEND_BIT, iq->inst_cnt_reg);
- }
- 
-+/**
-+ * octep_napi_poll() - NAPI poll function for Tx/Rx.
-+ *
-+ * @napi: pointer to napi context.
-+ * @budget: max number of packets to be processed in single invocation.
-+ */
-+int octep_napi_poll(struct napi_struct *napi, int budget)
-+{
-+	struct octep_ioq_vector *ioq_vector =
-+		container_of(napi, struct octep_ioq_vector, napi);
-+	u32 tx_pending, rx_done;
-+
-+	tx_pending = octep_iq_process_completions(ioq_vector->iq, budget);
-+	rx_done = octep_oq_process_rx(ioq_vector->oq, budget);
-+
-+	/* need more polling if tx completion processing is still pending or
-+	 * processed at least 'budget' number of rx packets.
-+	 */
-+	if (tx_pending || rx_done >= budget)
-+		return budget;
-+
-+	napi_complete(napi);
-+	octep_enable_ioq_irq(ioq_vector->iq, ioq_vector->oq);
-+	return rx_done;
-+}
-+
- /**
-  * octep_napi_add() - Add NAPI poll for all Tx/Rx queues.
-  *
-@@ -282,6 +573,36 @@ static int octep_stop(struct net_device *netdev)
- 	return 0;
- }
- 
-+/**
-+ * octep_iq_full_check() - check if a Tx queue is full.
-+ *
-+ * @iq: Octeon Tx queue data structure.
-+ *
-+ * Return: 0, if the Tx queue is not full.
-+ *         1, if the Tx queue is full.
-+ */
-+static inline int octep_iq_full_check(struct octep_iq *iq)
-+{
-+	if (likely((iq->max_count - atomic_read(&iq->instr_pending)) >=
-+		   OCTEP_WAKE_QUEUE_THRESHOLD))
-+		return 0;
-+
-+	/* Stop the queue if unable to send */
-+	netif_stop_subqueue(iq->netdev, iq->q_no);
-+
-+	/* check again and restart the queue, in case NAPI has just freed
-+	 * enough Tx ring entries.
-+	 */
-+	if (unlikely((iq->max_count - atomic_read(&iq->instr_pending)) >=
-+		     OCTEP_WAKE_QUEUE_THRESHOLD)) {
-+		netif_start_subqueue(iq->netdev, iq->q_no);
-+		iq->stats.restart_cnt++;
-+		return 0;
-+	}
-+
-+	return 1;
-+}
-+
- /**
-  * octep_start_xmit() - Enqueue packet to Octoen hardware Tx Queue.
-  *
-@@ -294,6 +615,126 @@ static int octep_stop(struct net_device *netdev)
- static netdev_tx_t octep_start_xmit(struct sk_buff *skb,
- 				    struct net_device *netdev)
- {
-+	struct octep_device *oct = netdev_priv(netdev);
-+	struct octep_tx_sglist_desc *sglist;
-+	struct octep_tx_buffer *tx_buffer;
-+	struct octep_tx_desc_hw *hw_desc;
-+	struct skb_shared_info *shinfo;
-+	struct octep_instr_hdr *ih;
-+	struct octep_iq *iq;
-+	skb_frag_t *frag;
-+	u16 nr_frags, si;
-+	u16 q_no, wi;
-+
-+	q_no = skb_get_queue_mapping(skb);
-+	if (q_no >= oct->num_iqs) {
-+		netdev_err(netdev, "Invalid Tx skb->queue_mapping=%d\n", q_no);
-+		q_no = q_no % oct->num_iqs;
-+	}
-+
-+	iq = oct->iq[q_no];
-+	if (octep_iq_full_check(iq)) {
-+		iq->stats.tx_busy++;
-+		return NETDEV_TX_BUSY;
-+	}
-+
-+	shinfo = skb_shinfo(skb);
-+	nr_frags = shinfo->nr_frags;
-+
-+	wi = iq->host_write_index;
-+	hw_desc = &iq->desc_ring[wi];
-+	hw_desc->ih64 = 0;
-+
-+	tx_buffer = iq->buff_info + wi;
-+	tx_buffer->skb = skb;
-+
-+	ih = &hw_desc->ih;
-+	ih->tlen = skb->len;
-+	ih->pkind = oct->pkind;
-+
-+	if (!nr_frags) {
-+		tx_buffer->gather = 0;
-+		tx_buffer->dma = dma_map_single(iq->dev, skb->data,
-+						skb->len, DMA_TO_DEVICE);
-+		if (dma_mapping_error(iq->dev, tx_buffer->dma))
-+			goto dma_map_err;
-+		hw_desc->dptr = tx_buffer->dma;
-+	} else {
-+		/* Scatter/Gather */
-+		dma_addr_t dma;
-+		u16 len;
-+
-+		sglist = tx_buffer->sglist;
-+
-+		ih->gsz = nr_frags + 1;
-+		ih->gather = 1;
-+		tx_buffer->gather = 1;
-+
-+		len = skb_headlen(skb);
-+		dma = dma_map_single(iq->dev, skb->data, len, DMA_TO_DEVICE);
-+		if (dma_mapping_error(iq->dev, dma))
-+			goto dma_map_err;
-+
-+		dma_sync_single_for_cpu(iq->dev, tx_buffer->sglist_dma,
-+					OCTEP_SGLIST_SIZE_PER_PKT,
-+					DMA_TO_DEVICE);
-+		memset(sglist, 0, OCTEP_SGLIST_SIZE_PER_PKT);
-+		sglist[0].len[3] = len;
-+		sglist[0].dma_ptr[0] = dma;
-+
-+		si = 1; /* entry 0 is main skb, mapped above */
-+		frag = &shinfo->frags[0];
-+		while (nr_frags--) {
-+			len = skb_frag_size(frag);
-+			dma = skb_frag_dma_map(iq->dev, frag, 0,
-+					       len, DMA_TO_DEVICE);
-+			if (dma_mapping_error(iq->dev, dma))
-+				goto dma_map_sg_err;
-+
-+			sglist[si >> 2].len[3 - (si & 3)] = len;
-+			sglist[si >> 2].dma_ptr[si & 3] = dma;
-+
-+			frag++;
-+			si++;
-+		}
-+		dma_sync_single_for_device(iq->dev, tx_buffer->sglist_dma,
-+					   OCTEP_SGLIST_SIZE_PER_PKT,
-+					   DMA_TO_DEVICE);
-+
-+		hw_desc->dptr = tx_buffer->sglist_dma;
-+	}
-+
-+	/* Flush the hw descriptor before writing to doorbell */
-+	wmb();
-+
-+	/* Ring Doorbell to notify the NIC there is a new packet */
-+	writel(1, iq->doorbell_reg);
-+	atomic_inc(&iq->instr_pending);
-+	wi++;
-+	if (wi == iq->max_count)
-+		wi = 0;
-+	iq->host_write_index = wi;
-+
-+	netdev_tx_sent_queue(iq->netdev_q, skb->len);
-+	iq->stats.instr_posted++;
-+	skb_tx_timestamp(skb);
-+	return NETDEV_TX_OK;
-+
-+dma_map_sg_err:
-+	if (si > 0) {
-+		dma_unmap_single(iq->dev, sglist[0].dma_ptr[0],
-+				 sglist[0].len[0], DMA_TO_DEVICE);
-+		sglist[0].len[0] = 0;
-+	}
-+	while (si > 1) {
-+		dma_unmap_page(iq->dev, sglist[si >> 2].dma_ptr[si & 3],
-+			       sglist[si >> 2].len[si & 3], DMA_TO_DEVICE);
-+		sglist[si >> 2].len[si & 3] = 0;
-+		si--;
-+	}
-+	tx_buffer->gather = 0;
-+dma_map_err:
-+	dev_kfree_skb_any(skb);
- 	return NETDEV_TX_OK;
- }
- 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_rx.c b/drivers/net/ethernet/marvell/octeon_ep/octep_rx.c
-index 97de3d1b6a00..009e245dca24 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_rx.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_rx.c
-@@ -59,8 +59,7 @@ static int octep_oq_fill_ring_buffers(struct octep_oq *oq)
- rx_buf_alloc_err:
- 	while (i) {
- 		i--;
--		dma_unmap_page(oq->dev, desc_ring[i].buffer_ptr,
--			       PAGE_SIZE, DMA_FROM_DEVICE);
-+		dma_unmap_page(oq->dev, desc_ring[i].buffer_ptr, PAGE_SIZE, DMA_FROM_DEVICE);
- 		put_page(oq->buff_info[i].page);
- 		oq->buff_info[i].page = NULL;
- 	}
-@@ -68,6 +67,50 @@ static int octep_oq_fill_ring_buffers(struct octep_oq *oq)
- 	return -1;
- }
- 
-+/**
-+ * octep_oq_fill_ring_buffers() - refill buffers for used Rx ring descriptors.
-+ *
-+ * @oct: Octeon device private data structure.
-+ * @oq: Octeon Rx queue data structure.
-+ *
-+ * Return: number of descriptors successfully refilled with receive buffers.
-+ */
-+static int octep_oq_refill(struct octep_device *oct, struct octep_oq *oq)
-+{
-+	struct octep_oq_desc_hw *desc_ring = oq->desc_ring;
-+	struct page *page;
-+	u32 refill_idx, i;
-+
-+	refill_idx = oq->host_refill_idx;
-+	for (i = 0; i < oq->refill_count; i++) {
-+		page = dev_alloc_page();
-+		if (unlikely(!page)) {
-+			dev_err(oq->dev, "refill: rx buffer alloc failed\n");
-+			oq->stats.alloc_failures++;
-+			break;
-+		}
-+
-+		desc_ring[refill_idx].buffer_ptr = dma_map_page(oq->dev, page, 0,
-+								PAGE_SIZE, DMA_FROM_DEVICE);
-+		if (dma_mapping_error(oq->dev, desc_ring[refill_idx].buffer_ptr)) {
-+			dev_err(oq->dev,
-+				"OQ-%d buffer refill: DMA mapping error!\n",
-+				oq->q_no);
-+			put_page(page);
-+			oq->stats.alloc_failures++;
-+			break;
-+		}
-+		oq->buff_info[refill_idx].page = page;
-+		refill_idx++;
-+		if (refill_idx == oq->max_count)
-+			refill_idx = 0;
-+	}
-+	oq->host_refill_idx = refill_idx;
-+	oq->refill_count -= i;
-+
-+	return i;
-+}
-+
- /**
-  * octep_setup_oq() - Setup a Rx queue.
-  *
-@@ -262,3 +305,208 @@ void octep_free_oqs(struct octep_device *oct)
- 			"Successfully freed OQ(RxQ)-%d.\n", i);
- 	}
- }
-+
-+/**
-+ * octep_oq_check_hw_for_pkts() - Check for new Rx packets.
-+ *
-+ * @oct: Octeon device private data structure.
-+ * @oq: Octeon Rx queue data structure.
-+ *
-+ * Return: packets received after previous check.
-+ */
-+static int octep_oq_check_hw_for_pkts(struct octep_device *oct,
-+				      struct octep_oq *oq)
-+{
-+	u32 pkt_count, new_pkts;
-+
-+	pkt_count = readl(oq->pkts_sent_reg);
-+	new_pkts = pkt_count - oq->last_pkt_count;
-+
-+	/* Clear the hardware packets counter register if the rx queue is
-+	 * being processed continuously with-in a single interrupt and
-+	 * reached half its max value.
-+	 * this counter is not cleared everytime read, to save write cycles.
-+	 */
-+	if (unlikely(pkt_count > 0xF0000000U)) {
-+		writel(pkt_count, oq->pkts_sent_reg);
-+		pkt_count = readl(oq->pkts_sent_reg);
-+		new_pkts += pkt_count;
-+	}
-+	oq->last_pkt_count = pkt_count;
-+	oq->pkts_pending += new_pkts;
-+	return new_pkts;
-+}
-+
-+/**
-+ * __octep_oq_process_rx() - Process hardware Rx queue and push to stack.
-+ *
-+ * @oct: Octeon device private data structure.
-+ * @oq: Octeon Rx queue data structure.
-+ * @pkts_to_process: number of packets to be processed.
-+ *
-+ * Process the new packets in Rx queue.
-+ * Packets larger than single Rx buffer arrive in consecutive descriptors.
-+ * But, count returned by the API only accounts full packets, not fragments.
-+ *
-+ * Return: number of packets processed and pushed to stack.
-+ */
-+static int __octep_oq_process_rx(struct octep_device *oct,
-+				 struct octep_oq *oq, u16 pkts_to_process)
-+{
-+	struct octep_oq_resp_hw_ext *resp_hw_ext = NULL;
-+	struct octep_rx_buffer *buff_info;
-+	struct octep_oq_resp_hw *resp_hw;
-+	u32 pkt, rx_bytes, desc_used;
-+	struct sk_buff *skb;
-+	u16 data_offset;
-+	u32 read_idx;
-+	void *data;
-+
-+	read_idx = oq->host_read_idx;
-+	rx_bytes = 0;
-+	desc_used = 0;
-+	for (pkt = 0; pkt < pkts_to_process; pkt++) {
-+		buff_info = (struct octep_rx_buffer *)&oq->buff_info[read_idx];
-+		dma_unmap_page(oq->dev, oq->desc_ring[read_idx].buffer_ptr,
-+			       PAGE_SIZE, DMA_FROM_DEVICE);
-+		resp_hw = page_address(buff_info->page);
-+		buff_info->page = NULL;
-+
-+		/* Swap the length field that is in Big-Endian to CPU */
-+		buff_info->len = be64_to_cpu(resp_hw->length);
-+		if (oct->caps_enabled & OCTEP_CAP_RX_CHECKSUM) {
-+			/* Extended response header is immediately after
-+			 * response header (resp_hw)
-+			 */
-+			resp_hw_ext = (struct octep_oq_resp_hw_ext *)
-+				      (resp_hw + 1);
-+			buff_info->len -= OCTEP_OQ_RESP_HW_EXT_SIZE;
-+			/* Packet Data is immediately after
-+			 * extended response header.
-+			 */
-+			data = resp_hw_ext + 1;
-+			data_offset = OCTEP_OQ_RESP_HW_SIZE +
-+				      OCTEP_OQ_RESP_HW_EXT_SIZE;
-+		} else {
-+			/* Data is immediately after
-+			 * Hardware Rx response header.
-+			 */
-+			data = resp_hw + 1;
-+			data_offset = OCTEP_OQ_RESP_HW_SIZE;
-+		}
-+		rx_bytes += buff_info->len;
-+
-+		if (buff_info->len <= oq->max_single_buffer_size) {
-+			skb = build_skb((void *)resp_hw, PAGE_SIZE);
-+			skb_reserve(skb, data_offset);
-+			skb_put(skb, buff_info->len);
-+			read_idx++;
-+			desc_used++;
-+			if (read_idx == oq->max_count)
-+				read_idx = 0;
-+		} else {
-+			struct skb_shared_info *shinfo;
-+			u16 data_len;
-+
-+			skb = build_skb((void *)resp_hw, PAGE_SIZE);
-+			skb_reserve(skb, data_offset);
-+			/* Head fragment includes response header(s);
-+			 * subsequent fragments contains only data.
-+			 */
-+			skb_put(skb, oq->max_single_buffer_size);
-+			read_idx++;
-+			desc_used++;
-+			if (read_idx == oq->max_count)
-+				read_idx = 0;
-+
-+			shinfo = skb_shinfo(skb);
-+			data_len = buff_info->len - oq->max_single_buffer_size;
-+			while (data_len) {
-+				dma_unmap_page(oq->dev, oq->desc_ring[read_idx].buffer_ptr,
-+					       PAGE_SIZE, DMA_FROM_DEVICE);
-+				buff_info = (struct octep_rx_buffer *)
-+					    &oq->buff_info[read_idx];
-+				if (data_len < oq->buffer_size) {
-+					buff_info->len = data_len;
-+					data_len = 0;
-+				} else {
-+					buff_info->len = oq->buffer_size;
-+					data_len -= oq->buffer_size;
-+				}
-+
-+				skb_add_rx_frag(skb, shinfo->nr_frags,
-+						buff_info->page, 0,
-+						buff_info->len,
-+						buff_info->len);
-+				buff_info->page = NULL;
-+				read_idx++;
-+				desc_used++;
-+				if (read_idx == oq->max_count)
-+					read_idx = 0;
-+			}
-+		}
-+
-+		skb->dev = oq->netdev;
-+		skb->protocol =  eth_type_trans(skb, skb->dev);
-+		if (resp_hw_ext &&
-+		    resp_hw_ext->csum_verified == OCTEP_CSUM_VERIFIED)
-+			skb->ip_summed = CHECKSUM_UNNECESSARY;
-+		else
-+			skb->ip_summed = CHECKSUM_NONE;
-+		napi_gro_receive(oq->napi, skb);
-+	}
-+
-+	oq->host_read_idx = read_idx;
-+	oq->refill_count += desc_used;
-+	oq->stats.packets += pkt;
-+	oq->stats.bytes += rx_bytes;
-+
-+	return pkt;
-+}
-+
-+/**
-+ * octep_oq_process_rx() - Process Rx queue.
-+ *
-+ * @oct: Octeon device private data structure.
-+ * @oq: Octeon Rx queue data structure.
-+ * @budget: max number of packets can be processed in one invocation.
-+ *
-+ * Check for newly received packets and process them.
-+ * Keeps checking for new packets until budget is used or no new packets seen.
-+ *
-+ * Return: number of packets processed.
-+ */
-+int octep_oq_process_rx(struct octep_oq *oq, int budget)
-+{
-+	u32 pkts_available, pkts_processed, total_pkts_processed;
-+	struct octep_device *oct = oq->octep_dev;
-+
-+	pkts_available = 0;
-+	pkts_processed = 0;
-+	total_pkts_processed = 0;
-+	while (total_pkts_processed < budget) {
-+		 /* update pending count only when current one exhausted */
-+		if (oq->pkts_pending == 0)
-+			octep_oq_check_hw_for_pkts(oct, oq);
-+		pkts_available = min(budget - total_pkts_processed,
-+				     oq->pkts_pending);
-+		if (!pkts_available)
-+			break;
-+
-+		pkts_processed = __octep_oq_process_rx(oct, oq,
-+						       pkts_available);
-+		oq->pkts_pending -= pkts_processed;
-+		total_pkts_processed += pkts_processed;
-+	}
-+
-+	if (oq->refill_count >= oq->refill_threshold) {
-+		u32 desc_refilled = octep_oq_refill(oct, oq);
-+
-+		/* flush pending writes before updating credits */
-+		wmb();
-+		writel(desc_refilled, oq->pkts_credit_reg);
-+	}
-+
-+	return total_pkts_processed;
-+}
-+
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_tx.c b/drivers/net/ethernet/marvell/octeon_ep/octep_tx.c
-index 66c2172d68e2..4596c9516030 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_tx.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_tx.c
-@@ -23,6 +23,79 @@ static void octep_iq_reset_indices(struct octep_iq *iq)
- 	atomic_set(&iq->instr_pending, 0);
- }
- 
-+/**
-+ * octep_iq_process_completions() - Process Tx queue completions.
-+ *
-+ * @iq: Octeon Tx queue data structure.
-+ * @budget: max number of completions to be processed in one invocation.
-+ */
-+int octep_iq_process_completions(struct octep_iq *iq, u16 budget)
-+{
-+	u32 compl_pkts, compl_bytes, compl_sg;
-+	struct octep_device *oct = iq->octep_dev;
-+	struct octep_tx_buffer *tx_buffer;
-+	struct skb_shared_info *shinfo;
-+	u32 fi = iq->flush_index;
-+	struct sk_buff *skb;
-+	u8 frags, i;
-+
-+	compl_pkts = 0;
-+	compl_sg = 0;
-+	compl_bytes = 0;
-+	iq->octep_read_index = oct->hw_ops.update_iq_read_idx(iq);
-+
-+	while (likely(budget && (fi != iq->octep_read_index))) {
-+		tx_buffer = iq->buff_info + fi;
-+		skb = tx_buffer->skb;
-+
-+		fi++;
-+		if (unlikely(fi == iq->max_count))
-+			fi = 0;
-+		compl_bytes += skb->len;
-+		compl_pkts++;
-+		budget--;
-+
-+		if (!tx_buffer->gather) {
-+			dma_unmap_single(iq->dev, tx_buffer->dma,
-+					 tx_buffer->skb->len, DMA_TO_DEVICE);
-+			dev_kfree_skb_any(skb);
-+			continue;
-+		}
-+
-+		/* Scatter/Gather */
-+		shinfo = skb_shinfo(skb);
-+		frags = skb_shinfo(skb)->nr_frags;
-+		compl_sg++;
-+
-+		dma_unmap_single(iq->dev, tx_buffer->sglist[0].dma_ptr[0],
-+				 tx_buffer->sglist[0].len[0], DMA_TO_DEVICE);
-+
-+		i = 1; /* entry 0 is main skb, unmapped above */
-+		while (frags--) {
-+			dma_unmap_page(iq->dev, tx_buffer->sglist[i >> 2].dma_ptr[i & 3],
-+				       tx_buffer->sglist[i >> 2].len[i & 3], DMA_TO_DEVICE);
-+			i++;
-+		}
-+
-+		dev_kfree_skb_any(skb);
-+	}
-+
-+	iq->pkts_processed += compl_pkts;
-+	atomic_sub(compl_pkts, &iq->instr_pending);
-+	iq->stats.instr_completed += compl_pkts;
-+	iq->stats.bytes_sent += compl_bytes;
-+	iq->stats.sgentry_sent += compl_sg;
-+	iq->flush_index = fi;
-+
-+	netdev_tx_completed_queue(iq->netdev_q, compl_pkts, compl_bytes);
-+
-+	if (unlikely(__netif_subqueue_stopped(iq->netdev, iq->q_no)) &&
-+	    ((iq->max_count - atomic_read(&iq->instr_pending)) >
-+	     OCTEP_WAKE_QUEUE_THRESHOLD))
-+		netif_wake_subqueue(iq->netdev, iq->q_no);
-+	return !budget;
-+}
-+
- /**
-  * octep_iq_free_pending() - Free Tx buffers for pending completions.
-  *
--- 
-2.17.1
+> +++ b/include/linux/page-flags-layout.h
+> @@ -26,6 +26,14 @@
+>  
+>  #define ZONES_WIDTH		ZONES_SHIFT
+>  
+> +#ifdef CONFIG_LRU_GEN
+> +/* LRU_GEN_WIDTH is generated from order_base_2(CONFIG_NR_LRU_GENS + 1). */
+> +#define LRU_REFS_WIDTH		(CONFIG_TIERS_PER_GEN - 2)
+> +#else
+> +#define LRU_GEN_WIDTH		0
+> +#define LRU_REFS_WIDTH		0
+> +#endif /* CONFIG_LRU_GEN */
 
+I'm concerned about the number of bits being used in page->flags.
+It seems to me that we already have six bits in use to aid us in choosing
+which pages to reclaim: referenced, lru, active, workingset, reclaim,
+unevictable.
+
+What I was hoping to see from this patch set was reuse of those bits.
+That would give us 32 queues in total.  Some would be special (eg pages
+cannot migrate out of the unevictable queue), but it seems to me that you
+effectively have 4 queues for active and 4 queues for inactive at this
+point (unless I misunderstood that).  I think we need special numbers
+for: Not on the LRU and Unevictable, but that still leaves us with 30
+generations to split between active & inactive.
+
+But maybe we still need some of those bits?  Perhaps it's not OK to say
+that queue id 0 is !LRU, queue 1 is unevictable, queue #2 is workingset,
+queues 3-7 are active, queues 8-15 are various degrees of inactive.
+I'm assuming that it's not sensible to have a page that's marked as both
+"reclaim" and "workingset", but perhaps it is.
+
+Anyway, I don't understand this area well enough.  I was just hoping
+for some simplification.
