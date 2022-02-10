@@ -2,209 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E3DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 23:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78544C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 23:36:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345709AbiBJXfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 18:35:30 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44696 "EHLO
+        id S1345753AbiBJXgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 18:36:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231627AbiBJXfa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 18:35:30 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ADAF5F64;
-        Thu, 10 Feb 2022 15:35:30 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id CEFCF21126;
-        Thu, 10 Feb 2022 23:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1644536128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o2Yicem2YyHeYev4jh35sFR/3S6yxP16YJIZJw/2u2E=;
-        b=IRejTp/lbCDisc33iEc4E7PVz/okwunBODuHyI/b85cHeu50KxfVz4Lm1ulBn16HHIvtlA
-        ybEwfsOogFOgpBDauYwGb+Akw4qrm8puoflgsBEzORq8jfHdN6f4ykyJ3bj8AO7gbIdRoY
-        JxHa2lsbMPUq7RCvp7L2aTnG70bRko0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1644536128;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o2Yicem2YyHeYev4jh35sFR/3S6yxP16YJIZJw/2u2E=;
-        b=akwWvp114tx/QzY8BBRxePKACalrKHFoVw/bZPcO2rBeEBJtdQRh+pMHD3FVXfuxr+1IuH
-        CB/Fb6z1JJ/iymCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4AE5C13C55;
-        Thu, 10 Feb 2022 23:35:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id eHQaAjihBWKSUAAAMHmgww
-        (envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 23:35:20 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S1345704AbiBJXgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 18:36:39 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216865F6C;
+        Thu, 10 Feb 2022 15:36:38 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id r14so7235293qtt.5;
+        Thu, 10 Feb 2022 15:36:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B90XLGkN1WAOFK2CFzfMG91YLQ/ZS8wjF5Kl3RkhK8g=;
+        b=Q9oW0XMP47GNdrN33zUk2h0sfaPbl2WXBu4fp5WOkNolo5Ii9QB2PssBOmkUaaKD1M
+         AimZzOblVR8A9rv/WJViikxMn4Z8X0s8fVtume6hrkGvh/9Ay5y3T9K+pQ3MY+zwuJXM
+         PzYiW0ij8/at+7kld0Qn0zqfvZS1sjEZ5WeHVVjY0Udm5O/MZbOs45Yn4AkX+EggrYdQ
+         T4qy+2hxI/cCtnsByOVOJp9PQESiFSVR1YlO3whb0EjhuC40JMeL9uzeW+VSyCrstigF
+         u59bw8CfTF315/QKhW+i86cf8GbVigYTzVmavUXwMxBA3dJeAaXln2rnXNvGsrcp9u5G
+         DJ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B90XLGkN1WAOFK2CFzfMG91YLQ/ZS8wjF5Kl3RkhK8g=;
+        b=e3S+91SmWVw2oq1OlbC31ebvJvBUdbOQjdbVbzft7qwqoqg2njL0GyupMOscKSCHQo
+         Y02nOJgrjRe860Vt/jrW3kguSgMgtuFBg9G9iw1LsK3cELB73WsvfFcM3Bk4AUqURlKe
+         moxndvlvbx9PNrYOq9vYRQAtjg/Z3FTn45PoOW48gu7/ymiwSf/h7bgsnokmsi6nuDFi
+         DoyyKi4LCKH6+8yUYZH0CnLv3w6Xw8pBZvQWnwd/skEinI+QnapK+flXtj7TzVWOt2cz
+         K7eQ4MAA23t/XFl3EiwOTZtRa1HdsHfAbUqRep0M+CYzyj4hgYTMgrSdLe4fhtBOhBn4
+         YQvQ==
+X-Gm-Message-State: AOAM53314jQ4uI2h5GruH3xCaBpOaUCnPnLPAVIEA/zIZHbkZM8DQWDg
+        r2Gi7Ga1QBy6E6d2Dd4QIMY=
+X-Google-Smtp-Source: ABdhPJx0C5YxrDsqACEFsPhRLb0S8MQ3RQwqAaOznzjMtAZBRYleWSNjGKWuntjz9xD9X8FMTu7D8A==
+X-Received: by 2002:ac8:5808:: with SMTP id g8mr6617514qtg.483.1644536197314;
+        Thu, 10 Feb 2022 15:36:37 -0800 (PST)
+Received: from localhost.localdomain (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id n19sm1854209qtk.66.2022.02.10.15.36.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Feb 2022 15:36:36 -0800 (PST)
+From:   frowand.list@gmail.com
+To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
+Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 1/1] Documentation: dev-tools: clarify KTAP specification wording
+Date:   Thu, 10 Feb 2022 17:36:30 -0600
+Message-Id: <20220210233630.3304495-1-frowand.list@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Jan Kara" <jack@suse.cz>
-Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
-        "Jan Kara" <jack@suse.cz>, "Wu Fengguang" <fengguang.wu@intel.com>,
-        "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "Ilya Dryomov" <idryomov@gmail.com>,
-        "Miklos Szeredi" <miklos@szeredi.hu>,
-        "Trond Myklebust" <trond.myklebust@hammerspace.com>,
-        "Anna Schumaker" <anna.schumaker@netapp.com>,
-        "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        "Philipp Reisner" <philipp.reisner@linbit.com>,
-        "Lars Ellenberg" <lars.ellenberg@linbit.com>,
-        "Paolo Valente" <paolo.valente@linaro.org>,
-        "Jens Axboe" <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 02/11] MM: document and polish read-ahead code.
-In-reply-to: <20220210122440.vqth5mwsqtv6vjpq@quack3.lan>
-References: <164447124918.23354.17858831070003318849.stgit@noble.brown>,
- <164447147257.23354.2801426518649016278.stgit@noble.brown>,
- <20220210122440.vqth5mwsqtv6vjpq@quack3.lan>
-Date:   Fri, 11 Feb 2022 10:35:17 +1100
-Message-id: <164453611721.27779.1299851963795418722@noble.neil.brown.name>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Feb 2022, Jan Kara wrote:
-> Hi Neil!
-> 
-> On Thu 10-02-22 16:37:52, NeilBrown wrote:
-> > Add some "big-picture" documentation for read-ahead and polish the code
-> > to make it fit this documentation.
-> > 
-> > The meaning of ->async_size is clarified to match its name.
-> > i.e. Any request to ->readahead() has a sync part and an async part.
-> > The caller will wait for the sync pages to complete, but will not wait
-> > for the async pages.  The first async page is still marked PG_readahead
+From: Frank Rowand <frank.rowand@sony.com>
 
-Thanks for the review!
+Add the spec version to the title line.
 
-> 
-> So I don't think this is how the code was meant. My understanding of
-> readahead comes from a comment:
+Explain likely source of "Unknown lines".
 
-I can't be sure what was "meant" but what I described is very close to
-what the code actually does.
+"Unknown lines" in nested tests are optionally indented.
 
-> 
-> /*
->  * On-demand readahead design.
->  *
-> ....
-> 
-> in mm/readahead.c. The ra->size is how many pages should be read.
-> ra->async_size is the "lookahead size" meaning that we should place a
-> marker (PageReadahead) at "ra->size - ra->async_size" to trigger next
-> readahead.
+Add "Unknown lines" items to differences between TAP & KTAP list
 
-This description of PageReadahead and ->async_size focuses on *what*
-happens, not *why*.  Importantly it doesn't help answer the question "What
-should I set ->async_size to?"
+Convert "Major differences between TAP and KTAP" from a bullet list
+to a table.  The bullet list was being formatted as a single
+paragraph.
 
-The implication in the code is that when we sequentially access a page
-that was read-ahead (read before it was explicitly requested), we trigger
-more read ahead.  So ->async_size should refer to that part of the
-readahead request which was not explicitly requested.  With that
-understanding, it becomes possible to audit all the places that
-->async_size are set and to see if they make sense.
+Reviewed-by: Tim Bird <Tim.Bird@sony.com>
+Reviewed-by: David Gow <davidgow@google.com>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+---
 
-> 
-> > 
-> > - in try_context_readahead(), the async_sync is set correctly rather
-> >   than being set to 1.  Prior to Commit 2cad40180197 ("readahead: make
-> >   context readahead more conservative") it was set to ra->size which
-> >   is not correct (that implies no sync component).  As this was too
-> >   high and caused problems it was reduced to 1, again incorrect but less
-> >   problematic.  The setting provided with this patch does not restore
-> >   those problems, and is now not arbitrary.
-> 
-> I agree the 1 there looks strange as it effectively discards all the logic
-> handling the lookahead size. I agree with the tweak there but I would do
-> this behavioral change as a separate commit since it can have performance
-> implications.
-> 
-> > - The calculation of ->async_size in the initial_readahead section of
-> >   ondemand_readahead() now makes sense - it is zero if the chosen
-> >   size does not exceed the requested size.  This means that we will not
-> >   set the PG_readahead flag in this case, but as the requested size
-> >   has not been satisfied we can expect a subsequent read ahead request
-> >   any way.
-> 
-> So I agree that setting of ->async_size to ->size in initial_readahead
-> section does not make great sence but if you look a bit below into readit
-> section, you will notice the ->async_size is overwritten there to something
-> meaninful. So I think the code actually does something sensible, maybe it
-> could be written in a more readable way.
+I'm not sure if I should include a review tag of patch 2/2 version 4:
+  Reviewed-by: Kees Cook <keescook@chromium.org>
 
-I'm certainly focusing on making the code look sensible and be
-consistent with the documentation, rather than fixing actual faults in
-behaviour.  Code that makes sense is easier to maintain.
+Changes since version 4
+  - Remove patch 2/2 (fixes to code-block directives)
+  - Remove patch 2/2 (conversion to table folded into this patch)
 
-I came very close to removing that code after readit: but I agree it
-needs a separate patch and needs more thought.  It looks like a bandaid
-that addressed some specific problem which was probably caused by one of
-the size fields being set "wrongly" earlier.
+Changes since version 3
+  - Add reviewed by Shuah
 
->  
-> > Note that the current function names page_cache_sync_ra() and
-> > page_cache_async_ra() are misleading.  All ra request are partly sync
-> > and partly async, so either part can be empty.
-> 
-> The meaning of these names IMO is:
-> page_cache_sync_ra() - tell readahead that we currently need a page
-> ractl->_index and would prefer req_count pages fetched ahead.
+Changes since version 2
+  - Add missing quote after word: incorrect
+  - Add Reviewed-by tags
 
-I don't think that is what req_count means.  req_count is the number of
-pages that are needed *now* to satisfy the current read request.
-page_cache_sync_ra() has the job of determining how many more pages (if
-any) to read-ahead to satisfy future requests.  Sometimes it reads
-another req_count - sometimes not.
+Changes since version 1
+  - Explain likely source of "Unknown lines"
+  - "Unknown line" in nested tests are optionally indented
+  - Add "Unknown lines" items to differences between TAP & KTAP list
 
-> 
-> page_cache_async_ra() - called when we hit the lookahead marker to give
-> opportunity to readahead code to prefetch more pages.
+Fixes to code-block directives in version 3 were also submitted by
+Randy Dunlap in:
+https://lore.kernel.org/lkml/20220131003637.14274-1-rdunlap@infradead.org/T/
 
-Yes, but page_cache_async_ra() is given a req_count which, as above, is
-the number of pages needed to satisfy *this* request.  That wouldn't
-make sense if it was a pure future-readahead request.
+ Documentation/dev-tools/ktap.rst | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
-In practice, the word "sync" is used to mean "page was missing" and
-"async" here means "PG_readahead was found".  But that isn't what those
-words usually mean.
+diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+index 878530cb9c27..d7fe05de40b4 100644
+--- a/Documentation/dev-tools/ktap.rst
++++ b/Documentation/dev-tools/ktap.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-========================================
+-The Kernel Test Anything Protocol (KTAP)
+-========================================
++===================================================
++The Kernel Test Anything Protocol (KTAP), version 1
++===================================================
+ 
+ TAP, or the Test Anything Protocol is a format for specifying test results used
+ by a number of projects. It's website and specification are found at this `link
+@@ -174,6 +174,13 @@ There may be lines within KTAP output that do not follow the format of one of
+ the four formats for lines described above. This is allowed, however, they will
+ not influence the status of the tests.
+ 
++This is an important difference from TAP.  Kernel tests may print messages
++to the system console or a log file.  Both of these destinations may contain
++messages either from unrelated kernel or userspace activity, or kernel
++messages from non-test code that is invoked by the test.  The kernel code
++invoked by the test likely is not aware that a test is in progress and
++thus can not print the message as a diagnostic message.
++
+ Nested tests
+ ------------
+ 
+@@ -186,10 +193,13 @@ starting with another KTAP version line and test plan, and end with the overall
+ result. If one of the subtests fail, for example, the parent test should also
+ fail.
+ 
+-Additionally, all result lines in a subtest should be indented. One level of
++Additionally, all lines in a subtest should be indented. One level of
+ indentation is two spaces: "  ". The indentation should begin at the version
+ line and should end before the parent test's result line.
+ 
++"Unknown lines" are not considered to be lines in a subtest and thus are
++allowed to be either indented or not indented.
++
+ An example of a test with two nested subtests:
+ 
+ .. code-block::
+@@ -224,10 +234,15 @@ An example format with multiple levels of nested testing:
+ Major differences between TAP and KTAP
+ --------------------------------------
+ 
+-Note the major differences between the TAP and KTAP specification:
+-- yaml and json are not recommended in diagnostic messages
+-- TODO directive not recognized
+-- KTAP allows for an arbitrary number of tests to be nested
++==================================================   =========  ===============
++Feature                                              TAP        KTAP
++==================================================   =========  ===============
++yaml and json in diagnosic message                   ok         not recommended
++TODO directive                                       ok         not recognized
++allows an arbitrary number of tests to be nested     no         yes
++"Unknown lines" are in category of "Anything else"   yes        no
++"Unknown lines" are                                  incorrect  allowed
++==================================================   =========  ===============
+ 
+ The TAP14 specification does permit nested tests, but instead of using another
+ nested version line, uses a line of the form
+-- 
+Frank Rowand <frank.rowand@sony.com>
 
-They both call ondemand_readahead() passing False or True respectively
-to hit_readahead_marker - which makes that meaning clear in the code...
-but it still isn't clear in the name.
-
-> 
-> > A page_cache_sync_ra() request will usually set ->async_size non-zero,
-> > implying it is not all synchronous.
-> > When a non-zero req_count is passed to page_cache_async_ra(), the
-> > implication is that some prefix of the request is synchronous, though
-> > the calculation made there is incorrect - I haven't tried to fix it.
-> > 
-> > Signed-off-by: NeilBrown <neilb@suse.de>
-> 
-> 								Honza
-
-
-Thanks,
-NeilBrown
