@@ -2,183 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B494EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 02:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F54CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 05:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbiBJCyM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 21:54:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57582 "EHLO
+        id S230469AbiBJFVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 00:21:40 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbiBJCyK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 21:54:10 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBB12409C;
-        Wed,  9 Feb 2022 18:54:12 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id c5-20020a17090a1d0500b001b904a7046dso5581711pjd.1;
-        Wed, 09 Feb 2022 18:54:12 -0800 (PST)
+        with ESMTP id S229678AbiBJFVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 00:21:40 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70FECD6;
+        Wed,  9 Feb 2022 21:21:41 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id o3so4022891qtm.12;
+        Wed, 09 Feb 2022 21:21:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LYtzFa4ASuB/belwk4SpigACGs97QFCNc+YA+b4+Pu8=;
-        b=ooyOBN7rERkODAn/O7i91EVsu/B8py9/9Ax69BwNB/kc8twYaVRYQbpcJLPfemS8hb
-         HkZrVDMhaV95LcunHTo0tXcqRJZORHlOHEddL00vfE0PK8esTG7SYwyfiB500tCWC5ri
-         l6pU4DRAUF2bgKokxVocV+eyMRJSuUiaChrZncXI+PVNYsSVUld+MssdbvKffnPGzFCP
-         /mFWpEPHIlrNEUqjbs//hj1a3I/579YtM3Jds8TxeUAfuDxW/OEsiijqam43ukxKjsH2
-         DVh6iBEBwC5CIYV0XcyMGIqDOrpfE98dazgVv4DXpTrUcv9pfj8LdcCQ7wiJQIrh4Oh5
-         3Jlw==
+        bh=lNDjuCPLook++LlbEgpTlBYkW8kYYECY5ZtnjFkCIxM=;
+        b=EFEKrnKYrNHDaX7gmz71gQVO0DR/GnQH0gDBWSew2LoN//FOhXFP+jyPJTWjsDrVl4
+         vF0juWvmn8Us8/Sm3MtbgG0Bn+JrBmE6REEhm/PtP1bitSdWyXZA+XsYBNDe/LzTEAe6
+         PRWP1BAfYyzHca7k7b0MKaTm6BIoLYaAKRVcK6rCo9AXa1Nh2LKGrdrBdozE2PJex7Ag
+         dIA5lN/+Ojo3fCp+GkOpvU9Mxt+NoPBFenC/Z/bR5ht9BXq399ufM1UCbcca0HrYUXfu
+         FSBSBwytsrQ+CMEPHEd5Jm0WIGATjFtXbf1qKrMw1QFD7YewwqFB7ZxCXrONCBdnDGYx
+         Fz4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LYtzFa4ASuB/belwk4SpigACGs97QFCNc+YA+b4+Pu8=;
-        b=uALWmATrZX74RaBe98UHtNXaO4Hi28sKD9ehr2ue7uiuMjaZ3NQA18CDPRmfozkRPB
-         q+0wadNFhmTb3/TM7B0xzKK9+dpDvM1dYrpNeU2tg4jRqDGiCPOmOFedjqwQRR5IjxWv
-         LOw2NYLFOcnfO8oLhRyyUP75QfWZG/ghB/uQ6bJIQgJc6GAQeLS+qUAudQmEJnKDFZTE
-         LiM+RRRh+fGVtXxtkUk7K9tBqVG3FNPpzqZdsj80X0V4nWLFubaf0hNMyU+XT6thyJGM
-         MDWqlXurgp/6Sve2NGtls/J+sDubocjwNa5eK2UF0Xg1pwrgeSbWcgETWOF15RCyvlOx
-         1obA==
-X-Gm-Message-State: AOAM530nZC8cGP8fB+AEg4rfvv3nPQsqbLNJGOd5A5yCHrW+XLpquTcY
-        F0VgsjdM+eMcxlvorzJYHPUwl4a3DyCy0WezQmM=
-X-Google-Smtp-Source: ABdhPJzYBhEkkbttuvOrcTM53VUGSP9oL8rWSIPgIMmpLUpLM1VPVkR+SLhvmLHyyTITlBZxB9qfd23OzJjqo7RcYHM=
-X-Received: by 2002:a17:903:2351:: with SMTP id c17mr367198plh.4.1644461651987;
- Wed, 09 Feb 2022 18:54:11 -0800 (PST)
+        bh=lNDjuCPLook++LlbEgpTlBYkW8kYYECY5ZtnjFkCIxM=;
+        b=fpZiwkawrnu4LuBK7WrtDCwXL7x38OpHTnx8/NGnHBBQ1wm1MiHHhl2bif9ARL+e/M
+         620AoU30Y+J/YidXTWac+XOLsrtpj5Iug9wlLbGIaPI/OgBoyVJ+J30fwbj9PjzyAfzp
+         VoPdUVl4sIQA8I4JY2RCLlVvfR3vZIZmPzQT9LV+RxxSCCMX2N5GwXRFmUHXyKjRhBT9
+         oNy9CD4nFH7jTIgGRtXrEcW2IkIjSPuwVTr1bucYCR50f/2PvgF7NPo4kFzuyGwNGrg3
+         JOR9HmmQd0mRRt0qkkUMODgwoRpv5jMEO02A0qKnvo/LGm4MBbyNkW182Ua8iCUdXVQx
+         YqKQ==
+X-Gm-Message-State: AOAM532c7SpNBYfKB5D65tus66Wp6lsspOGurrQXc2D6Ql1NxaWNkmq8
+        Y4BSTPArONFSzxUM0bKjGTgQv6s5Andl8VRU4AF5wfSJyUE5fw==
+X-Google-Smtp-Source: ABdhPJzoZ/fj4TkDdMJI9jKvZ92q78C13EhqjLL2YZA3zvvG6PBD9uUROCgGUK6FYXxgbzGS3e6osHMOpirfrUIcV8U=
+X-Received: by 2002:ac8:5a54:: with SMTP id o20mr3798702qta.654.1644470500864;
+ Wed, 09 Feb 2022 21:21:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org> <YgDIIpCm3UITk896@lisas.de> <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org> <YgI37n+3JfLSNQCQ@grain> <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
- <YgKiKEcsNt7mpMHN@grain> <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
- <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
-In-Reply-To: <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 9 Feb 2022 18:53:35 -0800
-Message-ID: <CAMe9rOo+RbmK5GyFKe2q3GGFP4Oi3o16x9xVpD7HpoEn=v0mfQ@mail.gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-To:     Andy Lutomirski <luto@kernel.org>,
-        Felix Willgerodt <felix.willgerodt@intel.com>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com> <20220203143226.4023622-11-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220203143226.4023622-11-benjamin.tissoires@redhat.com>
+From:   Ping Cheng <pinglinux@gmail.com>
+Date:   Wed, 9 Feb 2022 21:21:25 -0800
+Message-ID: <CAF8JNhKbEWj1b4o2Uv7snXa_JGt0bk5wyUGP4_77aHTLhPRT3w@mail.gmail.com>
+Subject: Re: [PATCH v2 10/12] HID: input: remove the need for HID_QUIRK_INVERT
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 9, 2022 at 6:37 PM Andy Lutomirski <luto@kernel.org> wrote:
+On Thu, Feb 3, 2022 at 6:33 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> On 2/8/22 18:18, Edgecombe, Rick P wrote:
-> > On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
-> >> On Tue, Feb 08, 2022 at 08:21:20AM -0800, Andy Lutomirski wrote:
-> >>>>> But such a knob will immediately reduce the security value of
-> >>>>> the entire
-> >>>>> thing, and I don't have good ideas how to deal with it :(
-> >>>>
-> >>>> Probably a kind of latch in the task_struct which would trigger
-> >>>> off once
-> >>>> returt to a different address happened, thus we would be able to
-> >>>> jump inside
-> >>>> paratite code. Of course such trigger should be available under
-> >>>> proper
-> >>>> capability only.
-> >>>
-> >>> I'm not fully in touch with how parasite, etc works.  Are we
-> >>> talking about save or restore?
-> >>
-> >> We use parasite code in question during checkpoint phase as far as I
-> >> remember.
-> >> push addr/lret trick is used to run "injected" code (code injection
-> >> itself is
-> >> done via ptrace) in compat mode at least. Dima, Andrei, I didn't look
-> >> into this code
-> >> for years already, do we still need to support compat mode at all?
-> >>
-> >>> If it's restore, what exactly does CRIU need to do?  Is it just
-> >>> that CRIU needs to return
-> >>> out from its resume code into the to-be-resumed program without
-> >>> tripping CET?  Would it
-> >>> be acceptable for CRIU to require that at least one shstk slot be
-> >>> free at save time?
-> >>> Or do we need a mechanism to atomically switch to a completely full
-> >>> shadow stack at resume?
-> >>>
-> >>> Off the top of my head, a sigreturn (or sigreturn-like mechanism)
-> >>> that is intended for
-> >>> use for altshadowstack could safely verify a token on the
-> >>> altshdowstack, possibly
-> >>> compare to something in ucontext (or not -- this isn't clearly
-> >>> necessary) and switch
-> >>> back to the previous stack.  CRIU could use that too.  Obviously
-> >>> CRIU will need a way
-> >>> to populate the relevant stacks, but WRUSS can be used for that,
-> >>> and I think this
-> >>> is a fundamental requirement for CRIU -- CRIU restore absolutely
-> >>> needs a way to write
-> >>> the saved shadow stack data into the shadow stack.
-> >
-> > Still wrapping my head around the CRIU save and restore steps, but
-> > another general approach might be to give ptrace the ability to
-> > temporarily pause/resume/set CET enablement and SSP for a stopped
-> > thread. Then injected code doesn't need to jump through any hoops or
-> > possibly run into road blocks. I'm not sure how much this opens things
-> > up if the thread has to be stopped...
+> HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
 >
-> Hmm, that's maybe not insane.
+> Furthermore, it didn't make sense to use a global per struct hid_device
+> quirk for something dynamic as the current state.
 >
-> An alternative would be to add a bona fide ptrace call-a-function
-> mechanism.  I can think of two potentially usable variants:
+> Store the current tool information in the report itself, and re-order
+> the processing of the fields to enforce having all the tablet "state"
+> fields before getting to In Range and other input fields.
 >
-> 1. Straight call.  PTRACE_CALL_FUNCTION(addr) just emulates CALL addr,
-> shadow stack push and all.
+> This way, we now have all the information whether a tool is present
+> or not while processing In Range.
 >
-> 2. Signal-style.  PTRACE_CALL_FUNCTION_SIGFRAME injects an actual signal
-> frame just like a real signal is being delivered with the specified
-> handler.  There could be a variant to opt-in to also using a specified
-> altstack and altshadowstack.
+> This new behavior enforces that only one tool gets forwarded to userspace
+> at the same time, and that if either eraser or invert is set, we enforce
+> BTN_TOOL_RUBBER.
 >
-> 2 would be more expensive but would avoid the need for much in the way
-> of asm magic.  The injected code could be plain C (or Rust or Zig or
-> whatever).
+> Note that the release of the previous tool now happens in its own EV_SYN
+> report so userspace doesn't get confused by having 2 tools.
 >
-> All of this only really handles save, not restore.  I don't understand
-> restore enough to fully understand the issue.
+> These changes are tested in the following hid-tools regression tests:
+> https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
+>
+> Changes in v2:
+> - rework the entire tool switching, this makes the processing
+>   slightly more complex but is better for existing userspace.
+> ---
+>  drivers/hid/hid-input.c | 98 +++++++++++++++++++++++++++++++++++++----
+>  include/linux/hid.h     |  6 ++-
+>  2 files changed, 95 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 61d91117f4ae..9f8853640648 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -63,8 +63,11 @@ static const struct {
+>   * This still leaves us 65535 individual priority values.
+>   */
+>  static const __u32 hidinput_usages_priorities[] = {
+> +       HID_DG_ERASER,          /* Eraser (eraser touching) must always come before tipswitch */
+>         HID_DG_INVERT,          /* Invert must always come before In Range */
+> -       HID_DG_INRANGE,
+> +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
+> +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch */
+> +       HID_DG_INRANGE,         /* In Range needs to come after the other tool states */
+>  };
+>
+>  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_ABS, (c))
+> @@ -1365,9 +1368,38 @@ static void hidinput_handle_scroll(struct hid_usage *usage,
+>         input_event(input, EV_REL, usage->code, hi_res);
+>  }
+>
+> +static void hid_report_release_tool(struct hid_report *report, struct input_dev *input,
+> +                                   unsigned int tool)
+> +{
+> +       /* if the given tool is not currently reported, ignore */
+> +       if (!test_bit(tool, input->key))
+> +               return;
+> +
+> +       /*
+> +        * if the given tool was previously set, release it,
+> +        * release any TOUCH and send an EV_SYN
+> +        */
+> +       input_event(input, EV_KEY, BTN_TOUCH, 0);
+> +       input_event(input, EV_KEY, tool, 0);
 
-FWIW, CET enabled GDB can call a function in a CET enabled process.
-Adding Felix who may know more about it.
+Took a while for me to find the right device and setup the proper
+system for the testing. This block missing the serial number:
 
+input_event(input, EV_MSC, MSC_SERIAL, 0);
 
--- 
-H.J.
+> +       input_event(input, EV_SYN, SYN_REPORT, 0);
+> +
+> +       report->tool = 0;
+> +}
+> +
+> +static void hid_report_set_tool(struct hid_report *report, struct input_dev *input,
+> +                               unsigned int new_tool)
+> +{
+> +       if (report->tool != new_tool)
+> +               hid_report_release_tool(report, input, report->tool);
+> +
+> +       input_event(input, EV_KEY, new_tool, 1);
+> +       report->tool = new_tool;
+> +}
+> +
+>  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
+>  {
+>         struct input_dev *input;
+> +       struct hid_report *report = field->report;
+>         unsigned *quirks = &hid->quirks;
+>
+>         if (!usage->type)
+> @@ -1418,25 +1450,75 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+>         }
+>
+>         switch (usage->hid) {
+> +       case HID_DG_ERASER:
+> +               report->tool_active |= !!value;
+> +
+> +               /*
+> +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
+> +                * to accommodate for devices not following the spec.
+> +                */
+> +               if (value)
+> +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
+> +               else if (report->tool != BTN_TOOL_RUBBER)
+> +                       /* value is off, tool is not rubber, ignore */
+> +                       return;
+> +
+> +               /* let hid-input set BTN_TOUCH */
+> +               break;
+> +
+>         case HID_DG_INVERT:
+> -               *quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
+> +               report->tool_active |= !!value;
+> +
+> +               /*
+> +                * If invert is set, we store BTN_TOOL_RUBBER.
+> +                */
+> +               if (value)
+> +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
+> +               else if (!report->tool_active)
+> +                       /* tool_active not set means Invert and Eraser are not set */
+> +                       hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
+> +
+> +               /* no further processing */
+>                 return;
+>
+>         case HID_DG_INRANGE:
+> -               if (value) {
+> -                       input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
+> -                       return;
+> +               report->tool_active |= !!value;
+> +
+> +               if (report->tool_active) {
+> +                       /*
+> +                        * if tool is not set but is marked as active,
+> +                        * assume ours
+> +                        */
+> +                       if (!report->tool)
+> +                               hid_report_set_tool(report, input, usage->code);
+> +               } else {
+> +                       hid_report_release_tool(report, input, usage->code);
+>                 }
+> -               input_event(input, usage->type, usage->code, 0);
+> -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
+> +
+> +               /* reset tool_active for the next event */
+> +               report->tool_active = false;
+> +
+> +               /* no further processing */
+>                 return;
+>
+> +       case HID_DG_TIPSWITCH:
+> +               report->tool_active |= !!value;
+> +
+> +               /* if tool is set to RUBBER we should ignore the current value */
+> +               if (report->tool == BTN_TOOL_RUBBER)
+> +                       return;
+> +
+> +               break;
+> +
+>         case HID_DG_TIPPRESSURE:
+>                 if (*quirks & HID_QUIRK_NOTOUCH) {
+>                         int a = field->logical_minimum;
+>                         int b = field->logical_maximum;
+>
+> -                       input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
+> +                       if (value > a + ((b - a) >> 3)) {
+> +                               input_event(input, EV_KEY, BTN_TOUCH, 1);
+> +                               report->tool_active = true;
+> +                       }
+>                 }
+>                 break;
+>
+> diff --git a/include/linux/hid.h b/include/linux/hid.h
+> index eaad0655b05c..feb8df61168f 100644
+> --- a/include/linux/hid.h
+> +++ b/include/linux/hid.h
+> @@ -347,7 +347,7 @@ struct hid_item {
+>   */
+>  #define MAX_USBHID_BOOT_QUIRKS 4
+>
+> -#define HID_QUIRK_INVERT                       BIT(0)
+> +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
+>  #define HID_QUIRK_NOTOUCH                      BIT(1)
+>  #define HID_QUIRK_IGNORE                       BIT(2)
+>  #define HID_QUIRK_NOGET                                BIT(3)
+> @@ -515,6 +515,10 @@ struct hid_report {
+>         unsigned maxfield;                              /* maximum valid field index */
+>         unsigned size;                                  /* size of the report (bits) */
+>         struct hid_device *device;                      /* associated device */
+> +
+> +       /* tool related state */
+> +       bool tool_active;                               /* whether the current tool is active */
+> +       unsigned int tool;                              /* BTN_TOOL_* */
+>  };
+>
+>  #define HID_MAX_IDS 256
+> --
+> 2.33.1
+>
