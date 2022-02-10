@@ -2,81 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE0CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 17:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C98D6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 19:22:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245349AbiBJRvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 12:51:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53564 "EHLO
+        id S240434AbiBJTWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 14:22:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245319AbiBJRvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 12:51:11 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3181B10EA;
-        Thu, 10 Feb 2022 09:51:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=QxL1pJKb53w2Gb5rIykQPgNfZM69s8I4TUvEwQwyuHE=; b=iL97dKlXtgf81M+2YQnKcpo3dO
-        th521AxOI80rVKxUx/K0dr/QG1cqkciuoT1WlSfDEInQX+H3QTIcNDf1teV6ONFTzIVVLadBkjBD2
-        icy4Ltc9yQoPY19bX7E/KxDfsT9dUBH26NFC89kVDHz32EHugdlpQg58YK83KL7e2vCKSdhfFZi6P
-        GyrV4+C5osCv5iZ5RNVo2tNdx1aoBdWdvCZ8AqOrVTrywUbFSSpEws5bAeRF4MzBMDQ6aj4qO+ifr
-        bXCjE9TVoaE+K3x9kC8Dh2P+U+81NIk+vhF7ZaDnY//pAgePqLbnlzIap5aiLehG6u2zLpixk/uu5
-        7yNd62zw==;
-Received: from 201-27-34-10.dsl.telesp.net.br ([201.27.34.10] helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nIDat-0005V2-Jh; Thu, 10 Feb 2022 18:51:00 +0100
-Message-ID: <f76afc7d-487e-f76c-2ad6-509398b25888@igalia.com>
-Date:   Thu, 10 Feb 2022 14:50:42 -0300
+        with ESMTP id S234293AbiBJTWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 14:22:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F5A243;
+        Thu, 10 Feb 2022 11:22:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B60D9B82724;
+        Thu, 10 Feb 2022 19:22:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF6EC004E1;
+        Thu, 10 Feb 2022 19:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644520956;
+        bh=i9p/C04oLaJhQ1HLauMZWaBu/+UdNoIBcrEvFn3VHrY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LQkmUJI8gX8F2NqugLnHrgVCbVvtV6oqbvA59w+lvhEFb/mKa/STXNhMm2mvGLQQv
+         eHW3MfwRH/OggO/FuwB0NyfRHuTTnbpuN2udp+y0kulVzBNwjm5uEnqwGUTTgooRYb
+         Zs+t7bISXhC2+xVq/ejLCcbn9kqnBeC1tQ1lL8t0NzV3L+fJv5XiHlI3P/U8H8qIQk
+         esyuap+XmiPAD7rqCyVgRv6mhknIlFCoghphic/EdrOOREt8GY23g62kJKJbmea54P
+         M6c1nbSOVVi/3Phw/DTF6pvgLm6D4cme6mpMRFMjEAXndSQxg/ob9qvDcNsRCs/fI/
+         VAI4seVDaLf0g==
+Received: by pali.im (Postfix)
+        id 55EBCA55; Thu, 10 Feb 2022 20:22:33 +0100 (CET)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Phillip Potter <phil@philpotter.co.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Fix links for udftools project and pktcdvd tool
+Date:   Thu, 10 Feb 2022 20:22:00 +0100
+Message-Id: <20220210192200.30828-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "bhe@redhat.com" <bhe@redhat.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "d.hatayama@jp.fujitsu.com" <d.hatayama@jp.fujitsu.com>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
- <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com> <YfPxvzSzDLjO5ldp@alley>
- <e2d39675-5df6-73fb-fa24-df906a97ee50@igalia.com>
- <YgMLd+avxyBplfk2@MiWiFi-R3L-srv>
- <7b45bc2b-f74d-8604-bd8a-4930f7b8f926@igalia.com>
- <MWHPR21MB1593C36268FFB3FD654074A5D72F9@MWHPR21MB1593.namprd21.prod.outlook.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <MWHPR21MB1593C36268FFB3FD654074A5D72F9@MWHPR21MB1593.namprd21.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/02/2022 14:26, Michael Kelley (LINUX) wrote:
-> From: Guilherme G. Piccoli <gpiccoli@igalia.com> Sent: Thursday, February 10, 2022 8:40 AM
-> [...]>> I'll need to study the Hyper-V code and how it's done today -
-> 
-> Let me know if you need any assistance or explanation as you look
-> at the Hyper-V code.
->
-Perfect Michael, thanks a lot! Much appreciated =)
+Signed-off-by: Pali Rohár <pali@kernel.org>
+---
+ Documentation/cdrom/packet-writing.rst             | 4 ++--
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/cdrom/packet-writing.rst b/Documentation/cdrom/packet-writing.rst
+index c5c957195a5a..43db58c50d29 100644
+--- a/Documentation/cdrom/packet-writing.rst
++++ b/Documentation/cdrom/packet-writing.rst
+@@ -11,7 +11,7 @@ Getting started quick
+ - Compile and install kernel and modules, reboot.
+ 
+ - You need the udftools package (pktsetup, mkudffs, cdrwtool).
+-  Download from http://sourceforge.net/projects/linux-udf/
++  Download from https://github.com/pali/udftools
+ 
+ - Grab a new CD-RW disc and format it (assuming CD-RW is hdc, substitute
+   as appropriate)::
+@@ -102,7 +102,7 @@ Using the pktcdvd sysfs interface
+ 
+ Since Linux 2.6.20, the pktcdvd module has a sysfs interface
+ and can be controlled by it. For example the "pktcdvd" tool uses
+-this interface. (see http://tom.ist-im-web.de/download/pktcdvd )
++this interface. (see http://tom.ist-im-web.de/linux/software/pktcdvd )
+ 
+ "pktcdvd" works similar to "pktsetup", e.g.::
+ 
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index cfe6cccf0f44..d8d9eabe12c3 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -253,7 +253,7 @@ Code  Seq#    Include File                                           Comments
+ 'l'   00-3F  linux/tcfs_fs.h                                         transparent cryptographic file system
+                                                                      <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
+ 'l'   40-7F  linux/udf_fs_i.h                                        in development:
+-                                                                     <http://sourceforge.net/projects/linux-udf/>
++                                                                     <https://github.com/pali/udftools>
+ 'm'   00-09  linux/mmtimer.h                                         conflict!
+ 'm'   all    linux/mtio.h                                            conflict!
+ 'm'   all    linux/soundcard.h                                       conflict!
+-- 
+2.20.1
+
