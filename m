@@ -2,197 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D412AC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 07:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30050C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 09:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236406AbiBJHpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 02:45:42 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56168 "EHLO
+        id S238236AbiBJJG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 04:06:56 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiBJHpm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 02:45:42 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF8ED72
-        for <linux-doc@vger.kernel.org>; Wed,  9 Feb 2022 23:45:43 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id v186so13049314ybg.1
-        for <linux-doc@vger.kernel.org>; Wed, 09 Feb 2022 23:45:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H0bpw8ZiHtzokDVaZikQejorexIqOBZeSJyqUU8svCs=;
-        b=0cKvSKcc1KKaEgZvwZfBB/sT+3/J1bnyZKqgjpIZH3rOhPAVTwoVlFnAwsIH1eY6+w
-         xG5HvcMtYGBEMZD95shkO5qKpKZQqrDhZBPWJUNSKw8AEoiJQlXPfzDggY1b02YLIVYz
-         INdKXKl5tkMhiaCPWdSeatI0sUHNHWRnSzSN4bC74ET3lwztwbIa3iQlEurjNt9gYOfG
-         9vxZ8pfHutYzYB+KdqxiEDx7G0XFvBEbc8IXucA0do8ZjID/HpgHx8FpfUxtWOjH11DW
-         1lJ7dT2Nuhmr/xXRAnR1K+TaX8CFHjHf+2L5A0sDifPNWsD3JWVNe0TV/JJPl+7m/uQv
-         AWEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H0bpw8ZiHtzokDVaZikQejorexIqOBZeSJyqUU8svCs=;
-        b=hqhpnf4KqHaKB0/ExTqAtm37SpLYL56yMI9+IuC9mEYH9qJeatHFhy6WJHLInC1Rtq
-         C4xaL92CHKRUJOYAypJ9uue5Pb14mxyeBzAWBXvnlMXorh1c2CjVTZg8L6X3Av/fCjAW
-         X14wjBjOLwpqx10161WRZu6EQjsCpTTmZiMMWeTi5DcsvJJ2d+7IGAl8XPJB1b+OhbpK
-         1q315oHicKJtLLZbfprNpWhRByAJ6nXtpIG7zB7PSsm6mTrT+HZW3zr5KOmQe5YUaDuX
-         tWktRmv7kN44Z0/Gfe13mRE1gUSGW7KMFpqAdMdfI2T5MUIXNQ0ETKcMt7W8yBJwXaTt
-         ZxEA==
-X-Gm-Message-State: AOAM531eOFLjf26cEbtjH7EFHoVkjCcvdycGlYVdXPehVQMAygqVDeQr
-        W+wy0oY1qCxbDLcRe7A3DCUKXOQdIRpiPbokXZK2dQ==
-X-Google-Smtp-Source: ABdhPJy551ndV8++kKVWq1nu0+LX/n1eH0hGXi+5byk51qcTH4o+UpUO/ZlPArXPB3Hi3VB75BpAsJShzG4LcxV+yJ4=
-X-Received: by 2002:a81:4051:: with SMTP id m17mr5819673ywn.319.1644479143117;
- Wed, 09 Feb 2022 23:45:43 -0800 (PST)
+        with ESMTP id S238209AbiBJJGz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 04:06:55 -0500
+X-Greylist: delayed 653 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Feb 2022 01:06:57 PST
+Received: from mail.upyourenergy.pl (mail.upyourenergy.pl [45.86.209.162])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A39D103B
+        for <linux-doc@vger.kernel.org>; Thu, 10 Feb 2022 01:06:57 -0800 (PST)
+Received: by mail.upyourenergy.pl (Postfix, from userid 1001)
+        id CFD27691E9; Thu, 10 Feb 2022 03:56:01 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=upyourenergy.pl;
+        s=mail; t=1644483362;
+        bh=zkxajwxSKFbrXQW6Fdqpo5wHc4BluNWC66Lv2K2C3bg=;
+        h=Date:From:To:Subject:From;
+        b=Q7YjhXHCZC8wZJSsXRZ8IlJEhBYap7IHmYvvghtrlHJy9xiHE2hUQQxndmWB4ocMR
+         l4WKDaFFZmFZWzFSLyp2Zv3tcTziYm1L2ZlN1Sf5BGeyS/Pw3eCVWQ1aYTQ02z+q2S
+         OyDbda+5RyrktWWJA2S0o7PJsa93Z8LoU8rEEz5CpS38LgeKk7c6xX1IcIOi+jyoSH
+         nwnOBiigIFjr64S2ZFjSm25kC+m7LSLDynux2QW9pcXGkRJ3j8EeT/QLWkH4kIMRqf
+         iAUZZTvYuvbTnftXNWMaMikoJrzaXQsJ0nkxmsbTpUXdXoKTSlH2yGCKfr/dT1c42A
+         ew+Y/OGvZyleQ==
+Received: by mail.upyourenergy.pl for <linux-doc@vger.kernel.org>; Thu, 10 Feb 2022 08:56:01 GMT
+Message-ID: <20220210024500-0.1.6.99s.0.71f75dhenp@upyourenergy.pl>
+Date:   Thu, 10 Feb 2022 08:56:01 GMT
+From:   =?UTF-8?Q? "Artur_Ma=C5=82osi=C5=84ski" ?= 
+        <artur.malosinski@upyourenergy.pl>
+To:     <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.upyourenergy.pl
 MIME-Version: 1.0
-References: <20211101031651.75851-1-songmuchun@bytedance.com>
- <CAMZfGtUeL45=WG3ceaZ_tALMGZTLtuD9jbfKEzeQv270OnaLYQ@mail.gmail.com>
- <35c5217d-eb8f-6f70-544a-a3e8bd009a46@oracle.com> <CAMZfGtW=e___8kpe1B5a1rK+SV63bP_Nwucj89QKaX4ZOMUpaw@mail.gmail.com>
- <CAMZfGtV0JKcjVL0qGoYCQJ-LsXdng7Z2UjBym5hf_WM0LcYi=Q@mail.gmail.com>
- <20211123190952.7d1e0cac2d72acacd2df016c@linux-foundation.org>
- <CAMZfGtW+DoKp_gCcPSy33Urc86A58rRp8HJ+-GOuW9vFP-BwxQ@mail.gmail.com>
- <CAMZfGtV-ODDGQ6dUuo_eSEDn2kDSiUjNDc=nyFwoRRSxNLsTeg@mail.gmail.com> <fd4a237e-7494-9bd5-1952-164c22896c43@oracle.com>
-In-Reply-To: <fd4a237e-7494-9bd5-1952-164c22896c43@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 10 Feb 2022 15:45:06 +0800
-Message-ID: <CAMZfGtXPUNWheky0PLCOryDBMxGA7vghkzVFC8xahX7+_sUQ8w@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] Free the 2nd vmemmap page associated with each
- HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Fam Zheng <fam.zheng@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Barry Song <21cnbao@gmail.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>,
-        Jue Wang <juew@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 6:49 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 2/8/22 23:44, Muchun Song wrote:
-> > On Wed, Jan 26, 2022 at 4:04 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >>
-> >> On Wed, Nov 24, 2021 at 11:09 AM Andrew Morton
-> >> <akpm@linux-foundation.org> wrote:
-> >>>
-> >>> On Mon, 22 Nov 2021 12:21:32 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
-> >>>
-> >>>> On Wed, Nov 10, 2021 at 2:18 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >>>>>
-> >>>>> On Tue, Nov 9, 2021 at 3:33 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> >>>>>>
-> >>>>>> On 11/8/21 12:16 AM, Muchun Song wrote:
-> >>>>>>> On Mon, Nov 1, 2021 at 11:22 AM Muchun Song <songmuchun@bytedance.com> wrote:
-> >>>>>>>>
-> >>>>>>>> This series can minimize the overhead of struct page for 2MB HugeTLB pages
-> >>>>>>>> significantly. It further reduces the overhead of struct page by 12.5% for
-> >>>>>>>> a 2MB HugeTLB compared to the previous approach, which means 2GB per 1TB
-> >>>>>>>> HugeTLB. It is a nice gain. Comments and reviews are welcome. Thanks.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> Hi,
-> >>>>>>>
-> >>>>>>> Ping guys. Does anyone have any comments or suggestions
-> >>>>>>> on this series?
-> >>>>>>>
-> >>>>>>> Thanks.
-> >>>>>>>
-> >>>>>>
-> >>>>>> I did look over the series earlier.  I have no issue with the hugetlb and
-> >>>>>> vmemmap modifications as they are enhancements to the existing
-> >>>>>> optimizations.  My primary concern is the (small) increased overhead
-> >>>>>> for the helpers as outlined in your cover letter.  Since these helpers
-> >>>>>> are not limited to hugetlb and used throughout the kernel, I would
-> >>>>>> really like to get comments from others with a better understanding of
-> >>>>>> the potential impact.
-> >>>>>
-> >>>>> Thanks Mike. I'd like to hear others' comments about this as well.
-> >>>>> From my point of view, maybe the (small) overhead is acceptable
-> >>>>> since it only affects the head page, however Matthew Wilcox's folio
-> >>>>> series could reduce this situation as well.
-> >>>
-> >>> I think Mike was inviting you to run some tests to quantify the
-> >>> overhead ;)
-> >>
-> >> Hi Andrew,
-> >>
-> >> Sorry for the late reply.
-> >>
-> >> Specific overhead figures are already in the cover letter. Also,
-> >> I did some other tests, e.g. kernel compilation, sysbench. I didn't
-> >> see any regressions.
-> >
-> > The overhead is introduced by page_fixed_fake_head() which
-> > has an "if" statement and an access to a possible cold cache line.
-> > I think the main overhead is from the latter. However, probabilistically,
-> > only 1/64 of the pages need to do the latter.  And
-> > page_fixed_fake_head() is already simple (I mean the overhead
-> > is small enough) and many performance bottlenecks in mm are
-> > not in compound_head().  This also matches the tests I did.
-> > I didn't see any regressions after enabling this feature.
-> >
-> > I knew Mike's concern is the increased overhead to use cases
-> > beyond HugeTLB. If we really want to avoid the access to
-> > a possible cold cache line, we can introduce a new page
-> > flag like PG_hugetlb and test if it is set in the page->flags,
-> > if so, then return the read head page struct. Then
-> > page_fixed_fake_head() looks like below.
-> >
-> > static __always_inline const struct page *page_fixed_fake_head(const
-> > struct page *page)
-> > {
-> >         if (!hugetlb_free_vmemmap_enabled())
-> >                 return page;
-> >
-> >         if (test_bit(PG_hugetlb, &page->flags)) {
-> >                 unsigned long head = READ_ONCE(page[1].compound_head);
-> >
-> >                 if (likely(head & 1))
-> >                         return (const struct page *)(head - 1);
-> >         }
-> >         return page;
-> > }
-> >
-> > But I don't think it's worth doing this.
-> >
-> > Hi Mike and Andrew,
-> >
-> > Since these helpers are not limited to hugetlb and used throughout the
-> > kernel, I would really like to get comments from others with a better
-> > understanding of the potential impact. Do you have any appropriate
-> > reviewers to invite?
-> >
->
-> I think the appropriate people are already on Cc as they provided input on
-> the original vmemmap optimization series.
->
-> The question that needs to be answered is simple enough:  Is the savings of
-> one vmemmap page per hugetlb page worth the extra minimal overhead in
-> compound_head()?  Like most things, this depends on workload.
->
-> One thing to note is that compound_page() overhead is only introduced if
-> hugetlb vmemmap freeing is enabled.  Correct?
+Dzie=C5=84 dobry,
 
-Definitely correct.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-> During the original vmemmap
-> optimization discussions, people thought it important that this be 'opt in'.  I do not know if distos will enable this by default.  But, perhaps the
-> potential overhead can be thought of as just part of 'opting in' for
-> vmemmap optimizations.
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-I agree. Does anyone else have a different opinion?
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-Thanks.
+
+Pozdrawiam,
+Artur Ma=C5=82osi=C5=84ski
