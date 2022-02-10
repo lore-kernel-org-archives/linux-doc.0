@@ -2,139 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEC0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 21:38:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4476C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 22:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344689AbiBJViK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 16:38:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50688 "EHLO
+        id S1345040AbiBJWi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 17:38:58 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240037AbiBJViK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 16:38:10 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED2BB80;
-        Thu, 10 Feb 2022 13:38:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=yiMGkSWaUlInyUsSv6Ymz5MFl5rNEExeyed6yGoVqQo=; b=UIBM663WVp45nBpTuklKQYIaOO
-        qIqrGLpntoMuj+w0Zjrsb/3bZRZJHEEBxo01/e5j3RYuA16k+JKr4fXCfwg+B99MF5J+1bLJ+Jxsb
-        3k8e1hjG5sxhZ9+FHYVTUSLLfp6CtesC8oHLlIKQvubiwHmjfQp10vYPT10He77uRiHG23oMbvVaT
-        hbtgH4yrj9vzhechikN/jUpAujlWHmSBPuF4DwpgNoDDB+kk0W8w+9iAabVzgoCun/4jStR/hmaq+
-        FafNBU3pb8iFAL7unJt95dvc82gwXZa10B2otIddSZzFA2j7wS3Y6c4RwzGAGaj0raGgYGzcSGNPG
-        hk7iEN6w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nIH81-009n2P-Of; Thu, 10 Feb 2022 21:37:25 +0000
-Date:   Thu, 10 Feb 2022 21:37:25 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S1345037AbiBJWi6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 17:38:58 -0500
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E468A267F
+        for <linux-doc@vger.kernel.org>; Thu, 10 Feb 2022 14:38:56 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-231-YriZOnoSNKCN8L5w2e2KaA-1; Thu, 10 Feb 2022 22:38:54 +0000
+X-MC-Unique: YriZOnoSNKCN8L5w2e2KaA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Thu, 10 Feb 2022 22:38:51 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Thu, 10 Feb 2022 22:38:51 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Dave Hansen' <dave.hansen@intel.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-Message-ID: <YgWFlYi5jGENGD4G@casper.infradead.org>
-References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-5-yuzhao@google.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        "joao.moreira@intel.com" <joao.moreira@intel.com>,
+        John Allen <john.allen@amd.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "eranian@google.com" <eranian@google.com>
+CC:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: RE: [PATCH 18/35] mm: Add guard pages around a shadow stack.
+Thread-Topic: [PATCH 18/35] mm: Add guard pages around a shadow stack.
+Thread-Index: AQHYHgPE4ng9s1QFWkGaF1pqJykcg6yNYAXA
+Date:   Thu, 10 Feb 2022 22:38:51 +0000
+Message-ID: <1b5d83dc4cd84309823f012a3dce24f0@AcuMS.aculab.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-19-rick.p.edgecombe@intel.com>
+ <f92c5110-7d97-b68d-d387-7e6a16a29e49@intel.com>
+In-Reply-To: <f92c5110-7d97-b68d-d387-7e6a16a29e49@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220208081902.3550911-5-yuzhao@google.com>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 01:18:54AM -0700, Yu Zhao wrote:
-> Evictable pages are divided into multiple generations for each lruvec.
-> The youngest generation number is stored in lrugen->max_seq for both
-> anon and file types as they're aged on an equal footing. The oldest
-> generation numbers are stored in lrugen->min_seq[] separately for anon
-> and file types as clean file pages can be evicted regardless of swap
-> constraints. These three variables are monotonically increasing.
-> 
-> Generation numbers are truncated into order_base_2(MAX_NR_GENS+1) bits
-> in order to fit into the gen counter in folio->flags. Each truncated
-> generation number is an index to lrugen->lists[]. The sliding window
-> technique is used to track at least MIN_NR_GENS and at most
-> MAX_NR_GENS generations. The gen counter stores (seq%MAX_NR_GENS)+1
-> while a page is on one of lrugen->lists[]. Otherwise it stores 0.
-> 
-> There are two conceptually independent processes (as in the
-> manufacturing process): "the aging", which produces young generations,
-> and "the eviction", which consumes old generations. They form a
-> closed-loop system, i.e., "the page reclaim". Both processes can be
-> invoked from userspace for the purposes of working set estimation and
-> proactive reclaim. These features are required to optimize job
-> scheduling (bin packing) in data centers. The variable size of the
-> sliding window is designed for such use cases [1][2].
-> 
-> To avoid confusions, the terms "hot" and "cold" will be applied to the
-> multigenerational LRU, as a new convention; the terms "active" and
-> "inactive" will be applied to the active/inactive LRU, as usual.
+RnJvbTogRGF2ZSBIYW5zZW4NCj4gU2VudDogMDkgRmVicnVhcnkgMjAyMiAyMjoyNA0KPiANCj4g
+T24gMS8zMC8yMiAxMzoxOCwgUmljayBFZGdlY29tYmUgd3JvdGU6DQo+ID4gSU5DU1NQKFEvRCkg
+aW5jcmVtZW50cyBzaGFkb3cgc3RhY2sgcG9pbnRlciBhbmQgJ3BvcHMgYW5kIGRpc2NhcmRzJyB0
+aGUNCj4gPiBmaXJzdCBhbmQgdGhlIGxhc3QgZWxlbWVudHMgaW4gdGhlIHJhbmdlLCBlZmZlY3Rp
+dmVseSB0b3VjaGVzIHRob3NlIG1lbW9yeQ0KPiA+IGFyZWFzLg0KPiANCj4gVGhpcyBpcyBhIHBy
+ZXR0eSBjbG9zZSBjb3B5IG9mIHRoZSBpbnN0cnVjdGlvbiByZWZlcmVuY2UgdGV4dCBmb3INCj4g
+SU5DU1NQLiAgSSdtIGZlZWxpbmcgcmF0aGVyIGRlbnNlIHRvZGF5LCBidXQgdGhhdCdzIGp1c3Qg
+bm90IG1ha2luZyBhbnkNCj4gc2Vuc2UuDQo+IA0KPiBUaGUgcHNldWRvY29kZSBpcyBtb3JlIHNl
+bnNpYmxlIGluIHRoZSBTRE0uICBJIHRoaW5rIHRoaXMgbmVlZHMgYSBiZXR0ZXINCj4gZXhwbGFu
+YXRpb246DQo+IA0KPiAJVGhlIElOQ1NTUCBpbnN0cnVjdGlvbiBpbmNyZW1lbnRzIHRoZSBzaGFk
+b3cgc3RhY2sgcG9pbnRlci4gIEl0DQo+IAlpcyB0aGUgc2hhZG93IHN0YWNrIGFuYWxvZyBvZiBh
+biBpbnN0cnVjdGlvbiBsaWtlOg0KPiANCj4gCQlhZGRxCSQweDgwLCAlcnNwDQo+IA0KPiAJSG93
+ZXZlciwgdGhlcmUgaXMgb25lIGltcG9ydGFudCBkaWZmZXJlbmNlIGJldHdlZW4gYW4gQUREIG9u
+DQo+IAklcnNwIGFuZCBJTkNTU1AuICBJbiBhZGRpdGlvbiB0byBtb2RpZnlpbmcgU1NQLCBJTkNT
+U1AgYWxzbw0KPiAJcmVhZHMgZnJvbSB0aGUgbWVtb3J5IG9mIHRoZSBmaXJzdCBhbmQgbGFzdCBl
+bGVtZW50cyB0aGF0IHdlcmUNCj4gCSJwb3BwZWQiLiAgWW91IGNhbiB0aGluayBvZiBpdCBhcyBh
+Y3RpbmcgbGlrZSB0aGlzOg0KPiANCj4gCVJFQURfT05DRShzc3ApOyAgICAgICAvLyByZWFkK2Rp
+c2NhcmQgdG9wIGVsZW1lbnQgb24gc3RhY2sNCj4gCXNzcCArPSBucl90b19wb3AgKiA4OyAvLyBt
+b3ZlIHRoZSBzaGFkb3cgc3RhY2sNCj4gCVJFQURfT05DRShzc3AtOCk7ICAgICAvLyByZWFkK2Rp
+c2NhcmQgbGFzdCBwb3BwZWQgc3RhY2sgZWxlbWVudA0KPiANCj4gDQo+ID4gVGhlIG1heGltdW0g
+bW92aW5nIGRpc3RhbmNlIGJ5IElOQ1NTUFEgaXMgMjU1ICogOCA9IDIwNDAgYnl0ZXMgYW5kDQo+
+ID4gMjU1ICogNCA9IDEwMjAgYnl0ZXMgYnkgSU5DU1NQRC4gIEJvdGggcmFuZ2VzIGFyZSBmYXIg
+ZnJvbSBQQUdFX1NJWkUuDQo+IA0KPiAuLi4gVGhhdCBtYXhpbXVtIGRpc3RhbmNlLCBjb21iaW5l
+ZCB3aXRoIGFuIGEgZ3VhcmQgcGFnZXMgYXQgdGhlIGVuZCBvZg0KPiBhIHNoYWRvdyBzdGFjayBl
+bnN1cmVzIHRoYXQgSU5DU1NQIHdpbGwgZmF1bHQgYmVmb3JlIGl0IGlzIGFibGUgdG8gbW92ZQ0K
+PiBhY3Jvc3MgYW4gZW50aXJlIGd1YXJkIHBhZ2UuDQo+IA0KPiA+IFRodXMsIHB1dHRpbmcgYSBn
+YXAgcGFnZSBvbiBib3RoIGVuZHMgb2YgYSBzaGFkb3cgc3RhY2sgcHJldmVudHMgSU5DU1NQLA0K
+PiA+IENBTEwsIGFuZCBSRVQgZnJvbSBnb2luZyBiZXlvbmQuDQoNCkRvIHlvdSBuZWVkIGEgcmVh
+bCBndWFyZCBwYWdlPw0KT3IgaXMgaXQganVzdCBlbm91Z2ggdG8gZW5zdXJlIHRoYXQgdGhlIGFk
+amFjZW50IHBhZ2UgaXNuJ3QgYW5vdGhlcg0Kc2hhZG93IHN0YWNrIHBhZ2U/DQoNCkFueSBvdGhl
+ciBwYWdlIHdpbGwgY2F1c2UgYSBmYXVsdCBiZWNhdXNlIHRoZSBQVEUgaXNuJ3QgcmVhZG9ubHkr
+ZGlydHkuDQoNCkknbSBub3Qgc3VyZSBob3cgY29tbW9uIHNpbmdsZSBwYWdlIGFsbG9jYXRlcyBh
+cmUgaW4gTGludXguDQpCdXQgYWRqYWNlbnQgc2hhZG93IHN0YWNrcyBtYXkgYmUgcmFyZSBhbnl3
+YXkuDQpTbyBhIGNoZWNrIGFnYWluc3QgYm90aCBhZGphY2VudCBQVEUgZW50cmllcyB3b3VsZCBz
+dWZmaWNlLg0KT3IgbWF5YmUgYWx3YXlzIGFsbG9jYXRlIGFuIGV2ZW4gKG9yIG9kZCkgbnVtYmVy
+ZWQgcGFnZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJh
+bWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0
+cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-[...]
-
-> +++ b/include/linux/page-flags-layout.h
-> @@ -26,6 +26,14 @@
->  
->  #define ZONES_WIDTH		ZONES_SHIFT
->  
-> +#ifdef CONFIG_LRU_GEN
-> +/* LRU_GEN_WIDTH is generated from order_base_2(CONFIG_NR_LRU_GENS + 1). */
-> +#define LRU_REFS_WIDTH		(CONFIG_TIERS_PER_GEN - 2)
-> +#else
-> +#define LRU_GEN_WIDTH		0
-> +#define LRU_REFS_WIDTH		0
-> +#endif /* CONFIG_LRU_GEN */
-
-I'm concerned about the number of bits being used in page->flags.
-It seems to me that we already have six bits in use to aid us in choosing
-which pages to reclaim: referenced, lru, active, workingset, reclaim,
-unevictable.
-
-What I was hoping to see from this patch set was reuse of those bits.
-That would give us 32 queues in total.  Some would be special (eg pages
-cannot migrate out of the unevictable queue), but it seems to me that you
-effectively have 4 queues for active and 4 queues for inactive at this
-point (unless I misunderstood that).  I think we need special numbers
-for: Not on the LRU and Unevictable, but that still leaves us with 30
-generations to split between active & inactive.
-
-But maybe we still need some of those bits?  Perhaps it's not OK to say
-that queue id 0 is !LRU, queue 1 is unevictable, queue #2 is workingset,
-queues 3-7 are active, queues 8-15 are various degrees of inactive.
-I'm assuming that it's not sensible to have a page that's marked as both
-"reclaim" and "workingset", but perhaps it is.
-
-Anyway, I don't understand this area well enough.  I was just hoping
-for some simplification.
