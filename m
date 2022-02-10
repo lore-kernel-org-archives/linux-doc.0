@@ -2,111 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB297C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 10:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A58C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 11:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239288AbiBJKCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 05:02:24 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47652 "EHLO
+        id S240822AbiBJLWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 06:22:05 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:32982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234215AbiBJKCY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 05:02:24 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB28BE0;
-        Thu, 10 Feb 2022 02:02:25 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 775E721115;
-        Thu, 10 Feb 2022 10:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1644487344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lcBtRTov0U4scR5M2Iy2myhqZeOwAIyV54RcClAbhV4=;
-        b=UVJHxaJMKmE/DO/JZe3iVbVw3GQe2kQmip1zYFYiRYyI1pZTASyk8ODPUH85ZCuqzCIWsi
-        rV6USU5SNQRHNVVtN7czjs/tg9jgYBrlYPUuVDHO/aShUUH/4xIgSIpkWiWmMUD14J4lqn
-        gHBmV7fgdq0Mk5zS8kvpWhMAHojnEdM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1644487344;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lcBtRTov0U4scR5M2Iy2myhqZeOwAIyV54RcClAbhV4=;
-        b=3uOBgMN4Wr+d5mCyhO6cp6IQhYZtOH8ULuhOgZdIotrLORbzqWHkWV4veZpJWP42oTgmJG
-        NOB6bjhLKtWqFVCQ==
-Received: from quack3.suse.cz (unknown [10.163.28.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0BE01A3B97;
-        Thu, 10 Feb 2022 10:02:23 +0000 (UTC)
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id BEB02A05BC; Thu, 10 Feb 2022 11:02:22 +0100 (CET)
-Date:   Thu, 10 Feb 2022 11:02:22 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
-        Wu Fengguang <fengguang.wu@intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 10/11] block/bfq-iosched.c: use "false" rather than
- "BLK_RW_ASYNC"
-Message-ID: <20220210100222.f2nmwwb5pcfmejvw@quack3.lan>
-References: <164447124918.23354.17858831070003318849.stgit@noble.brown>
- <164447147264.23354.2763356897218946255.stgit@noble.brown>
+        with ESMTP id S240774AbiBJLWF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 06:22:05 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC263F46;
+        Thu, 10 Feb 2022 03:22:06 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77D27ED1;
+        Thu, 10 Feb 2022 03:22:06 -0800 (PST)
+Received: from [10.57.17.101] (unknown [10.57.17.101])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED6A03F73B;
+        Thu, 10 Feb 2022 03:22:03 -0800 (PST)
+Subject: Re: [PATCH v5 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+References: <20220127193454.12814-1-ricardo.neri-calderon@linux.intel.com>
+ <20220127193454.12814-7-ricardo.neri-calderon@linux.intel.com>
+ <CAJZ5v0hbtmP6LHngWg0J47G2PwTxNwmjb=KMyz1zi1FM09cF8g@mail.gmail.com>
+From:   Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <ede29257-d356-9fc6-5f1a-c42721c0d072@arm.com>
+Date:   Thu, 10 Feb 2022 11:22:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <164447147264.23354.2763356897218946255.stgit@noble.brown>
+In-Reply-To: <CAJZ5v0hbtmP6LHngWg0J47G2PwTxNwmjb=KMyz1zi1FM09cF8g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 10-02-22 16:37:52, NeilBrown wrote:
-> bfq_get_queue() expects a "bool" for the third arg, so pass "false"
-> rather than "BLK_RW_ASYNC" which will soon be removed.
-> 
-> Acked-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: NeilBrown <neilb@suse.de>
 
-Looks good. Feel free to add:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+On 1/30/22 3:20 PM, Rafael J. Wysocki wrote:
+> On Thu, Jan 27, 2022 at 8:33 PM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+>>
+>> From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>>
+>> Add a new netlink event to notify change in CPU capabilities in terms of
+>> performance and efficiency.
+>>
+>> Firmware may change CPU capabilities as a result of thermal events in the
+>> system or to account for changes in the TDP (thermal design power) level.
+>>
+>> This notification type will allow user space to avoid running workloads
+>> on certain CPUs or proactively adjust power limits to avoid future events.
+>>
+>> The netlink message consists of a nested attribute
+>> (THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
+>>
+>>   * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
+>>     -- logical CPU number
+>>   * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
+>>     -- Scaled performance from 0-1023
+>>   * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
+>>     -- Scaled efficiency from 0-1023
+>>
+>> Cc: Andi Kleen <ak@linux.intel.com>
+>> Cc: Aubrey Li <aubrey.li@linux.intel.com>
+>> Cc: Lukasz Luba <lukasz.luba@arm.com>
+>> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+>> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+>> Reviewed-by: Len Brown <len.brown@intel.com>
+>> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> 
+> Daniel, Lukasz, if you have any comments or concerns regarding this
+> patch, please let me know.
+> 
 
-								Honza
+My apologies Rafael, I missed that email.
 
-> ---
->  block/bfq-iosched.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-> index 0c612a911696..4e645ae1e066 100644
-> --- a/block/bfq-iosched.c
-> +++ b/block/bfq-iosched.c
-> @@ -5448,7 +5448,7 @@ static void bfq_check_ioprio_change(struct bfq_io_cq *bic, struct bio *bio)
->  	bfqq = bic_to_bfqq(bic, false);
->  	if (bfqq) {
->  		bfq_release_process_ref(bfqd, bfqq);
-> -		bfqq = bfq_get_queue(bfqd, bio, BLK_RW_ASYNC, bic, true);
-> +		bfqq = bfq_get_queue(bfqd, bio, false, bic, true);
->  		bic_set_bfqq(bic, bfqq, false);
->  	}
->  
-> 
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I've looked at the patches 6/7 and 7/7 and they look OK with the
+scaling.
