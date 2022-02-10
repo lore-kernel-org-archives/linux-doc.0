@@ -2,93 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A44C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 17:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D277BC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 17:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245269AbiBJRnX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 12:43:23 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49356 "EHLO
+        id S245350AbiBJRud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 12:50:33 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245285AbiBJRnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 12:43:20 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1917325ED
-        for <linux-doc@vger.kernel.org>; Thu, 10 Feb 2022 09:43:21 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id v13-20020a17090ac90d00b001b87bc106bdso9276456pjt.4
-        for <linux-doc@vger.kernel.org>; Thu, 10 Feb 2022 09:43:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JWTciHa8tMED3FXA+Ogdt6wVZFyYQZwP+ShqeFRit+I=;
-        b=Ck3LZGNu0+N7P6xsV9DDei7cJLvODVs1BnOzvk0bszpoiLl6jJyJGZ2+30GWFFu9jz
-         5/O7MdvbVHxjTB0K8wZMEsvKndsWprLvwjfAeMdDhiGY/8VADLXqmH/vR5HlpstEvzMm
-         4oRjk2qpDWkgSUR+DXT4SyThiJjLHLqZFdUqY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JWTciHa8tMED3FXA+Ogdt6wVZFyYQZwP+ShqeFRit+I=;
-        b=3YSV2HK1ewyIaaECAuryF9GFh+dXryMtSm+sUhWngQzfM/eo3RSd/3nGUhaR19zID4
-         J/o05hxiA2RQlvK5ZKOBjLotbmi0SzBEKLeEX3twVaRZw3gajs0+wKFfK9tsHEE/7AbP
-         ulvT5A+GqUVgA9tPPlyBt6uNBi7OrVaawmnMfsb537bu9ymw0eiZz1BApGcBJbyEcIK1
-         zcaYOmczro/S4mM/Sqt28jA8aoWusG7d+BeZ6/ssd8zWyGw1VVbAVx4lldpxSkWXI+a3
-         ZAZkeAplr07rPchfqKiud8hncSaICZSawEmRa4DbEJosL8jJaikSC2F2vuHeIIhknD3I
-         sFTA==
-X-Gm-Message-State: AOAM533e1WtohvqJxWLNn0v6UumJLc7CCAE5oXQZtjoeZwAfFf24Mm3O
-        l0ThyR8/Ucmxirg2lwvEf+Whsg==
-X-Google-Smtp-Source: ABdhPJwfu2aJvaqWXY1aRdvOiBamWd2wXwn64hpgV8EqWsUme9kFg4luF0ZxCPobzkh3kcfPGwXuPw==
-X-Received: by 2002:a17:90b:4c52:: with SMTP id np18mr3975968pjb.49.1644515000573;
-        Thu, 10 Feb 2022 09:43:20 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q16sm24645520pfu.194.2022.02.10.09.43.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 09:43:20 -0800 (PST)
-Date:   Thu, 10 Feb 2022 09:43:19 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     frowand.list@gmail.com
-Cc:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Rae Moar <rmoar@google.com>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] Documentation: dev-tools: fix KTAP specification
- build warnings
-Message-ID: <202202100943.3E8C5B4B@keescook>
-References: <20220210023519.3221051-1-frowand.list@gmail.com>
- <20220210023519.3221051-3-frowand.list@gmail.com>
+        with ESMTP id S245319AbiBJRud (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 12:50:33 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F2310EA;
+        Thu, 10 Feb 2022 09:50:33 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2357B2C1;
+        Thu, 10 Feb 2022 17:50:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2357B2C1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1644515433; bh=BRR4tLeRUD3KW6QMKm1Nd86zR7/+/nU//fsI8Io5rWM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=fFrsVgL36L94ewK9+Xe4qVHKsRPjUdkmnqEJtUfX5NnaEaN65pn3J/Hk9cuRiWuE0
+         75er350j1+DmBnuckTXDbDdV0cUoOEDOGAdHi0LyU3JvR8/y9+GFJqTf1h4h6xiRM1
+         bMxqSgQp/bWA1YF1ihPNmXy6ex2GS545+27zYun3MgPV/+PFKcasLDXJUP5wzMhfqa
+         gLdzpOGN12PAbFwaehbsANT3apcwpAs39/UTfDY9TbTcVtYp/STRKzU6WwISCn6yU8
+         puOfdxRX/j1mizYmAj9H3dLnakQoXo9cDk3vzbIezLnu+XrgvzP6ozxVq5M5hW7m2g
+         wlLNFtBKyU4Ow==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: Makefile: Add -no-shell-escape option to LATEXOPTS
+In-Reply-To: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
+References: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
+Date:   Thu, 10 Feb 2022 10:51:17 -0700
+Message-ID: <87zgmybofe.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220210023519.3221051-3-frowand.list@gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 09, 2022 at 08:35:19PM -0600, frowand.list@gmail.com wrote:
-> From: Frank Rowand <frank.rowand@sony.com>
-> 
-> Convert "Major differences between TAP and KTAP" from a bullet list
-> to a table.  The bullet list was being formatted as a single
-> paragraph.
-> 
-> Add missing required argument in code-block directives.
-> 
+Akira Yokosawa <akiyks@gmail.com> writes:
+
+> By adding this option, message of "restricted \write18 enabled" from
+> LaTeX can be silenced.
+>
+> As there is no use of \write18 in LaTeX sources from sphinx-build, it
+> is safe to add this option.
+>
+> Reported-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> 
-> Table conversion suggested by Shuah.
-> 
-> Patch 2/2 not previously reviewed, so Reviewed-by tags not provided.
-> 
-> Changes since version 3
->   - Add this commit (patch 2/2) to the series
-> 
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+>  Documentation/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 9f4bd42cef18..64d44c1ecad3 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -26,7 +26,7 @@ SPHINX_CONF   = conf.py
+>  PAPER         =
+>  BUILDDIR      = $(obj)/output
+>  PDFLATEX      = xelatex
+> -LATEXOPTS     = -interaction=batchmode
+> +LATEXOPTS     = -interaction=batchmode -no-shell-escape
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Interesting.  In my digging now and back in 2016 [1] everything I found
+said that \write18 had to be explicitly enabled - and for good reason.
+And I could never figure out *how* we were enabling it...  It turns out
+that the net misinformed me; how come nobody ever told me that could
+happen? :)
 
--- 
-Kees Cook
+Anyway, I've applied this, but I'm going to tweak the changelog a bit.
+My reason for wanting this isn't to make the warning go away - it's a
+*tiny* piece of the noise of a pdfdocs build.  That warning is there for
+a reason; \write18 is dangerous.  We really don't want any way for
+arbitrary shell commands to be executed via the docs build.  So the new
+text is:
+
+  It turns out that LaTeX enables \write18, which allows arbitrary shell
+  commands to be executed from the document source, by default.  This the
+  often-seen warning during a pdfdocs build:
+
+    restricted \write18 enabled
+
+  That is a potential security problem and is entirely unnecessary; nothing
+  in the kernel PDF docs build needs that capability.  So disable \write18
+  explicitly.
+
+I think I'll add a Cc: stable while I'm at it.  I know of no actual
+threat, but this is best closed.
+
+Thanks for fixing this,
+
+jon
+
+[1] https://lore.kernel.org/lkml/20161113125250.779df4dd@lwn.net/
