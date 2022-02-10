@@ -2,212 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD14BC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 05:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A26C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 05:38:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbiBJFZb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 00:25:31 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50344 "EHLO
+        id S233721AbiBJFiS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 00:38:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbiBJFZa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 00:25:30 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1545DB2;
-        Wed,  9 Feb 2022 21:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644470732; x=1676006732;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BN/L4/oqQxn7sbeHhVV5KCEMyRN2/eURYjfCprBCqus=;
-  b=AZKVdEhRDuaNWJPIogDjC+WX4sBeiQULba0OuP7WfHYsQ/LU/LvZVuT4
-   /VRmcAhzlFD1OYDQxL9kY+c77pbtkCMfeyZEvQgwQtvEMubNNhlJf8xm0
-   C/hs72Q8Tcyv3AP1nS6EqOfUQ5r+zD4xvOMGRQf1qbLmTbZlkj93u4riO
-   kzSaBYnPRquUAdnopaYEoYqGIqOZ4etbEhBfI+XAZ6cqufZe/cQp8yL+l
-   Dhq2cQunnS7mvPBW4UlerITVyDLudcgC4qXGo8RxLYCkZ0hqQTwjzaMso
-   h5crat19jCLh9wDS/Ao9cCqCjtOiWG/7+Z2U201DDp6+Y71N9TRV1aJty
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="246997166"
-X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; 
-   d="scan'208";a="246997166"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 21:25:31 -0800
-X-IronPort-AV: E=Sophos;i="5.88,357,1635231600"; 
-   d="scan'208";a="541459501"
-Received: from yhuang6-desk2.sh.intel.com ([10.239.13.11])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 21:25:29 -0800
-From:   Huang Ying <ying.huang@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Huang Ying <ying.huang@intel.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH -V3 RESEND] numa balancing: move some document to make it consistent with the code
-Date:   Thu, 10 Feb 2022 13:25:14 +0800
-Message-Id: <20220210052514.3038279-1-ying.huang@intel.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S230464AbiBJFiS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 00:38:18 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1EE110C2;
+        Wed,  9 Feb 2022 21:38:19 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 3E727212BD;
+        Thu, 10 Feb 2022 05:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1644471498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ZwfkqBM5Zq2qH7YykYoVqKGxBkb2fAt928sCyLRg1OI=;
+        b=rjyOsSJ0hdWbAYWMkIp/9yjJA7veoI1NwX3+OjWwkCt3XIX0tXAx6O8uG7pUWWi/i2Pksp
+        pcx98ZHuWm0xEfsG7u3jfVJCopb2Q4lSSuHgnoVhYuKmPEIZ9hw5fVkEpOuzkqN2kH4R7C
+        O3zg6cECKNLyidZeSKz29VI1e99Jc+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1644471498;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ZwfkqBM5Zq2qH7YykYoVqKGxBkb2fAt928sCyLRg1OI=;
+        b=urUyVi5AjGEouNbZtkXB/wg+OqgZsjRXbihtRMQ4VlR86Ouftkxuz5BGH0eklSfSHWgYk+
+        7+l1LNJhi0d6DCBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77B9213519;
+        Thu, 10 Feb 2022 05:38:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 1e9RDMKkBGKdOAAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 05:38:10 +0000
+Subject: [PATCH 00/11]  Remove remaining parts of congestion tracking code.
+From:   NeilBrown <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Date:   Thu, 10 Feb 2022 16:37:52 +1100
+Message-ID: <164447124918.23354.17858831070003318849.stgit@noble.brown>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After commit 8a99b6833c88 ("sched: Move SCHED_DEBUG sysctl to
-debugfs"), some NUMA balancing sysctls enclosed with SCHED_DEBUG has
-been moved to debugfs.  This patch move the document for these
-sysctls from
+Here is a refresh of my "remove congestion tracking" series.
 
-  Documentation/admin-guide/sysctl/kernel.rst
+It makes some small changes to readahead so that the effect of the
+inode_read_congested() test in readahead can be duplicated in the
+filesystem.  fuse uses this.
+It add some documentation for readahead, and for that to work, it
+cleans up related doco a bit.
 
-to
+Andrew: please drop the version of this that is currently in your tree
+even if you don't take this.  The changes to fuse/nfs/ceph are not
+appropriate.
 
-  Documentation/scheduler/sched-debug.rst
+Thanks,
+NeilBrown
 
-to make the document consistent with the code.
-
-Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-Acked-by: Mel Gorman <mgorman@techsingularity.net>
-Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
-Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 46 +-----------------
- Documentation/scheduler/index.rst           |  1 +
- Documentation/scheduler/sched-debug.rst     | 54 +++++++++++++++++++++
- 3 files changed, 56 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/scheduler/sched-debug.rst
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index d359bcfadd39..8551aeca1574 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -609,51 +609,7 @@ be migrated to a local memory node.
- The unmapping of pages and trapping faults incur additional overhead that
- ideally is offset by improved memory locality but there is no universal
- guarantee. If the target workload is already bound to NUMA nodes then this
--feature should be disabled. Otherwise, if the system overhead from the
--feature is too high then the rate the kernel samples for NUMA hinting
--faults may be controlled by the `numa_balancing_scan_period_min_ms,
--numa_balancing_scan_delay_ms, numa_balancing_scan_period_max_ms,
--numa_balancing_scan_size_mb`_, and numa_balancing_settle_count sysctls.
--
--
--numa_balancing_scan_period_min_ms, numa_balancing_scan_delay_ms, numa_balancing_scan_period_max_ms, numa_balancing_scan_size_mb
--===============================================================================================================================
--
--
--Automatic NUMA balancing scans tasks address space and unmaps pages to
--detect if pages are properly placed or if the data should be migrated to a
--memory node local to where the task is running.  Every "scan delay" the task
--scans the next "scan size" number of pages in its address space. When the
--end of the address space is reached the scanner restarts from the beginning.
--
--In combination, the "scan delay" and "scan size" determine the scan rate.
--When "scan delay" decreases, the scan rate increases.  The scan delay and
--hence the scan rate of every task is adaptive and depends on historical
--behaviour. If pages are properly placed then the scan delay increases,
--otherwise the scan delay decreases.  The "scan size" is not adaptive but
--the higher the "scan size", the higher the scan rate.
--
--Higher scan rates incur higher system overhead as page faults must be
--trapped and potentially data must be migrated. However, the higher the scan
--rate, the more quickly a tasks memory is migrated to a local node if the
--workload pattern changes and minimises performance impact due to remote
--memory accesses. These sysctls control the thresholds for scan delays and
--the number of pages scanned.
--
--``numa_balancing_scan_period_min_ms`` is the minimum time in milliseconds to
--scan a tasks virtual memory. It effectively controls the maximum scanning
--rate for each task.
--
--``numa_balancing_scan_delay_ms`` is the starting "scan delay" used for a task
--when it initially forks.
--
--``numa_balancing_scan_period_max_ms`` is the maximum time in milliseconds to
--scan a tasks virtual memory. It effectively controls the minimum scanning
--rate for each task.
--
--``numa_balancing_scan_size_mb`` is how many megabytes worth of pages are
--scanned for a given scan.
--
-+feature should be disabled.
- 
- oops_all_cpu_backtrace
- ======================
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-index 88900aabdbf7..30cca8a37b3b 100644
---- a/Documentation/scheduler/index.rst
-+++ b/Documentation/scheduler/index.rst
-@@ -17,6 +17,7 @@ Linux Scheduler
-     sched-nice-design
-     sched-rt-group
-     sched-stats
-+    sched-debug
- 
-     text_files
- 
-diff --git a/Documentation/scheduler/sched-debug.rst b/Documentation/scheduler/sched-debug.rst
-new file mode 100644
-index 000000000000..4d3d24f2a439
---- /dev/null
-+++ b/Documentation/scheduler/sched-debug.rst
-@@ -0,0 +1,54 @@
-+=================
-+Scheduler debugfs
-+=================
-+
-+Booting a kernel with CONFIG_SCHED_DEBUG=y will give access to
-+scheduler specific debug files under /sys/kernel/debug/sched. Some of
-+those files are described below.
-+
-+numa_balancing
-+==============
-+
-+`numa_balancing` directory is used to hold files to control NUMA
-+balancing feature.  If the system overhead from the feature is too
-+high then the rate the kernel samples for NUMA hinting faults may be
-+controlled by the `scan_period_min_ms, scan_delay_ms,
-+scan_period_max_ms, scan_size_mb` files.
-+
-+
-+scan_period_min_ms, scan_delay_ms, scan_period_max_ms, scan_size_mb
-+-------------------------------------------------------------------
-+
-+Automatic NUMA balancing scans tasks address space and unmaps pages to
-+detect if pages are properly placed or if the data should be migrated to a
-+memory node local to where the task is running.  Every "scan delay" the task
-+scans the next "scan size" number of pages in its address space. When the
-+end of the address space is reached the scanner restarts from the beginning.
-+
-+In combination, the "scan delay" and "scan size" determine the scan rate.
-+When "scan delay" decreases, the scan rate increases.  The scan delay and
-+hence the scan rate of every task is adaptive and depends on historical
-+behaviour. If pages are properly placed then the scan delay increases,
-+otherwise the scan delay decreases.  The "scan size" is not adaptive but
-+the higher the "scan size", the higher the scan rate.
-+
-+Higher scan rates incur higher system overhead as page faults must be
-+trapped and potentially data must be migrated. However, the higher the scan
-+rate, the more quickly a tasks memory is migrated to a local node if the
-+workload pattern changes and minimises performance impact due to remote
-+memory accesses. These files control the thresholds for scan delays and
-+the number of pages scanned.
-+
-+``scan_period_min_ms`` is the minimum time in milliseconds to scan a
-+tasks virtual memory. It effectively controls the maximum scanning
-+rate for each task.
-+
-+``scan_delay_ms`` is the starting "scan delay" used for a task when it
-+initially forks.
-+
-+``scan_period_max_ms`` is the maximum time in milliseconds to scan a
-+tasks virtual memory. It effectively controls the minimum scanning
-+rate for each task.
-+
-+``scan_size_mb`` is how many megabytes worth of pages are scanned for
-+a given scan.
--- 
-2.30.2
+NeilBrown (11):
+      DOC: convert 'subsection' to 'section' in gfp.h
+      MM: document and polish read-ahead code.
+      MM: improve cleanup when ->readpages doesn't process all pages.
+      fuse: remove reliance on bdi congestion
+      nfs: remove reliance on bdi congestion
+      ceph: remove reliance on bdi congestion
+      Remove inode_congested()
+      Remove bdi_congested() and wb_congested() and related functions
+      f2fs: replace congestion_wait() calls with io_schedule_timeout()
+      block/bfq-iosched.c: use "false" rather than "BLK_RW_ASYNC"
+      Remove congestion tracking framework.
+
+
+ Documentation/core-api/mm-api.rst |  19 ++++-
+ Documentation/filesystems/vfs.rst |  16 ++--
+ block/bfq-iosched.c               |   2 +-
+ drivers/block/drbd/drbd_int.h     |   3 -
+ drivers/block/drbd/drbd_req.c     |   3 +-
+ fs/ceph/addr.c                    |  22 +++---
+ fs/ceph/super.c                   |   1 +
+ fs/ceph/super.h                   |   1 +
+ fs/ext2/ialloc.c                  |   5 --
+ fs/f2fs/compress.c                |   4 +-
+ fs/f2fs/data.c                    |   3 +-
+ fs/f2fs/f2fs.h                    |   6 ++
+ fs/f2fs/segment.c                 |   8 +-
+ fs/f2fs/super.c                   |   6 +-
+ fs/fs-writeback.c                 |  37 ---------
+ fs/fuse/control.c                 |  17 ----
+ fs/fuse/dev.c                     |   8 --
+ fs/fuse/file.c                    |  17 ++++
+ fs/nfs/write.c                    |  14 +++-
+ fs/nilfs2/segbuf.c                |  15 ----
+ fs/xfs/xfs_buf.c                  |   3 -
+ include/linux/backing-dev-defs.h  |   8 --
+ include/linux/backing-dev.h       |  50 ------------
+ include/linux/fs.h                |   9 ++-
+ include/linux/nfs_fs_sb.h         |   1 +
+ include/trace/events/writeback.h  |  28 -------
+ mm/backing-dev.c                  |  57 --------------
+ mm/fadvise.c                      |   5 +-
+ mm/readahead.c                    | 126 +++++++++++++++++++++++++++---
+ mm/vmscan.c                       |  21 +----
+ 30 files changed, 214 insertions(+), 301 deletions(-)
+
+--
+Signature
 
