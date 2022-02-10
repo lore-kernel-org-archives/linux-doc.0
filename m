@@ -2,120 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C90C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 02:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 076ACC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 02:35:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233780AbiBJCAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 21:00:54 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:33578 "EHLO
+        id S229765AbiBJCf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 21:35:27 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233937AbiBJB7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:59:51 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5220F47;
-        Wed,  9 Feb 2022 17:33:27 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id i186so7611917pfe.0;
-        Wed, 09 Feb 2022 17:33:27 -0800 (PST)
+        with ESMTP id S229513AbiBJCfZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 21:35:25 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054A0237D2;
+        Wed,  9 Feb 2022 18:35:28 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id e16so3788369qtq.6;
+        Wed, 09 Feb 2022 18:35:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=4sj14rtRoVmxZmbMmcizN591/avwt5U5t3eSZf+n7tM=;
-        b=ZgwicGhSBoaVXgnDtEuAUBV3wsoCgxQVqCzRyOzqCeO4t3Gh6zMrqdvVA7aNESiXBj
-         FD4P+Egf9iqtofp66i94rpFpD2hYWGKi56q/QgVvV8YzSTwM0CzHWWOk9DVLeZj9mMji
-         VaXupk274rwzapOlDszXzrvbCg1qP1a+SPAuY4KtalsDfgetDU7mslNgI7kF6Znh2HFi
-         /+G7LYh1aLx2VyMfwzZ3FnD66dovIxb+/00OL3fjF6Posn3Ifm041mQpcBg+v6hYgm2e
-         itT3zuBG1ABWB/Bh5mmA3dA4BbhBU8fQXNribcA6jUHWqctNZA4RKRDKjdl2vwNmNU/+
-         aYjQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bASadt8NPcaMyIfVbaEV3zmrrOqc23Hli0FVTIqLwpc=;
+        b=oJvVNeu1k9LLF+R+qFr1ICVHqCAgAzC3jSsE2jkw8RFSFq6rw9a7dFDrY3EbM+3EqZ
+         jQRZ7rt+kRoYgfN6i3fkETP78iqsxd9IG8yt9iOQUqCaackHmIdR1lfO5RfHdoXA/pJL
+         U0nUvBULNL7OMkRYV5pJrg88nfA9wSkZHHaRt38DRPpN9XHU5JPmM1p2BKtriHZIIVoF
+         Wlxrkf20uvj+gEt13UFYI2emwBQiUR9PqI+U5ZZ7utiBgEUncZ/5c+LOOYgvGKjVbUAN
+         VYQnfIDia+Js0HHs+zGu4uoCJ3OipLbsdW8DP2HLR18wPm1P4GA3USksqg2pGXRp9A4T
+         2C7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=4sj14rtRoVmxZmbMmcizN591/avwt5U5t3eSZf+n7tM=;
-        b=pVajQQwTNpxuZBCsPVijKhPDBCL8VTl1tMhJK0VJsNemx4nQqIenohjyb+nt8mpsuS
-         Pn1AcQ41lrUeft4CYc+TTmRRYjM255EeR7naUtm5k6Bj3nhWWudE+IzXHefrR+qev8rQ
-         yhC6GegGLrvqexLSjjTQpa1LIK2Ip5Z1LZWrCg2uEXUPERPgf8EwQJuPERrHHrHwuo9E
-         r2UiC5I659uFoF9+MgcxshRBI7y/m/D2b5RPichtkT8oviJOyeMxWEg2ftJ0ffth5WoV
-         DUGVqiLeZxjjHred+H7pwwMFJ3Nq8hq12WW4aGWeOfzmtV+5ACRhyXngjgRLMP6yZqni
-         DlCA==
-X-Gm-Message-State: AOAM532ubmkoQ747ykXPOfiYrRYlitJ+XbIGl4bIur/p3NaxbbYwjAMq
-        eKlXDMoyct3Jh3lZoZ41f2rXHGBDvQY=
-X-Google-Smtp-Source: ABdhPJw+wmM0pA/zoRQN4pC1DaDWrD+e6be0JsxtlgnvKU3sYEUA7iWMrJ9oWwRa6ihRjBxpWqDfAg==
-X-Received: by 2002:a05:6a00:1485:: with SMTP id v5mr5123698pfu.44.1644455410415;
-        Wed, 09 Feb 2022 17:10:10 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id h4sm20881470pfv.166.2022.02.09.17.10.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Feb 2022 17:10:09 -0800 (PST)
-Message-ID: <00460e1d-a76f-b6a7-ee60-fcc812f6aa0c@gmail.com>
-Date:   Thu, 10 Feb 2022 10:10:06 +0900
+        bh=bASadt8NPcaMyIfVbaEV3zmrrOqc23Hli0FVTIqLwpc=;
+        b=2ioTwgBG0dzCX3fO4TQHT6HbaeM3Z0x6vdMZoTG5gLj39Lel8ebi2ENETf1RE+I5HV
+         O5365topyGUVZSMI1XTRya3v3vKusHHLfL+zCzFe1e50Y5QxgZNndIDp9p8Atd/8kMGp
+         fjbLgnZCz16KED1LNPTreGtk+nAFlMX6RYjYbKnM0tuqYvbwl81fh2YsjlBbCb+gnf1Y
+         u1Fw0SbmHt2Qpz5r911uO1jqopvW1hM5lLk/FDoGM648QDudqd4RqN2VKHKkf5y46tfO
+         +tc37lF8D7Z4Ppi+UKjwws0iHO/j9kWy0GN1ZRntcHJXBQPq2XlbrzJr586fA+ymY5P5
+         atzg==
+X-Gm-Message-State: AOAM532LXaIKKFe5ClKc3tk7IxWZHH1QapPVi1fBfE6sRWpy5mOOgQkO
+        n8z/ovXKoIsIDceOxCTkcto=
+X-Google-Smtp-Source: ABdhPJx2JlsScS2bO3Ejpe6Zx1f1EETne7V+WEddNOe5JCmAalm8CPrqvbxKQgEyJxCNECGpfDjLzQ==
+X-Received: by 2002:a05:622a:5d3:: with SMTP id d19mr3578170qtb.8.1644460527091;
+        Wed, 09 Feb 2022 18:35:27 -0800 (PST)
+Received: from localhost.localdomain (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id h11sm1333374qkp.89.2022.02.09.18.35.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 18:35:26 -0800 (PST)
+From:   frowand.list@gmail.com
+To:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        Tim.Bird@sony.com, Brendan Higgins <brendanhiggins@google.com>
+Cc:     rmr167@gmail.com, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Documentation: dev-tools: clarify KTAP specification wording
+Date:   Wed,  9 Feb 2022 20:35:17 -0600
+Message-Id: <20220210023519.3221051-1-frowand.list@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
- <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
- <20220114094535.5bb9ba94@coco.lan>
- <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
- <87bl0c7l79.fsf@meer.lwn.net>
- <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
- <874k57ef69.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <874k57ef69.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 09 Feb 2022 17:30:38 -0700,
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> On Sat, 15 Jan 2022 14:17:30 -0700,
->> Jonathan Corbet wrote:
->>> Akira Yokosawa <akiyks@gmail.com> writes:
->>>
->>>> We are in the middle of the v5.17 merge window, and I think of this
->>>> series as a v5.18 material.
->>>> Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
->>>> (mid March or so), unless Jon thinks otherwise.
->>>
->>> I'd rather merge it rather sooner than that if possible; 5.18 stuff will
->>> start going into docs-next shortly.
->>
->> Jon,
->>
->> Hearing no objection since mid January, I think it is time for you to
->> merge this series into docs-next.
-> 
-> That has been done - thanks for your work on this!
+From: Frank Rowand <frank.rowand@sony.com>
 
-You are welcome!
+Clarify ambiguous wording in KTAP specification version 1.
 
-> 
-> Since you seem to have a reasonably good understanding of the
-> PDF-generation side of things...I noted as I was testing this work that
-> we are still getting the "restricted \write18 enabled" messages.  I
-> asked about this years ago, and nobody seemed to have a clue of what was
-> enabling it.  I'd *really* like to turn that off if possible; do you
-> have any idea what's going on there?
+Fix build warnings.
 
-I think I know the answer.
-The message can be silenced by adding an option to xelatex.
+Changes since version 3
+  - Add Reviewed-by: Shuah Khan
+  - Add patch 2/2 to fix build warnings
 
-Will send a patch soon.
+Frank Rowand (2):
+  Documentation: dev-tools: clarify KTAP specification wording
+  Documentation: dev-tools: fix KTAP specification build warnings
 
-        Thanks, Akira
+ Documentation/dev-tools/ktap.rst | 49 +++++++++++++++++++++-----------
+ 1 file changed, 32 insertions(+), 17 deletions(-)
 
-> 
-> Thanks,
-> 
-> jon
+-- 
+Frank Rowand <frank.rowand@sony.com>
+
