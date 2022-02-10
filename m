@@ -2,95 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F9EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 01:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF55C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 01:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232153AbiBJB1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 20:27:04 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:53922 "EHLO
+        id S233295AbiBJB4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 20:56:30 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:60094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbiBJB06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:26:58 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F89420188;
-        Wed,  9 Feb 2022 17:26:56 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id i21so5996455pfd.13;
-        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=99kJAF1LYHwtSv0Yf3YOWEwdRAz6cOKJMAAN9vZQpPA=;
-        b=V208CxnCfJAW7fmWBawGNO4R+VshKsgngfQdMPxgDkMgP6Ulonm1Em6PIMBqJJbGKU
-         3BMFA9b+vjpeszMj3qdKdDh5kwJ2k/Z+7YPP7vwq3JUsdEw+uih0WJjn/ANjfmOPGeCc
-         duFAf6yoViCOT5T6JehENfcQ9N0Rwyp2NgNTIsC1y2CkAmBJDNQ2VOKzy2oSRB02trnH
-         p4f+FMnlX/E7PMdzfRJrlKkx6x4DfDGGTChKPheLQx0VaEEG+VbFgzlQMFRAz3cZSQUm
-         olxOqp9vVZfixIrFdFEeg8R3GjEarejrwz8ySgcr0g61zr3+1mvRyY20OJP1s+drGjdd
-         cPAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=99kJAF1LYHwtSv0Yf3YOWEwdRAz6cOKJMAAN9vZQpPA=;
-        b=DRpRnG9ywyWQuuSDdmnAlVuKZlaQCVpVRv36iQuR1kcUYfwvC7+pI8neB2+5/p/bp6
-         h+M0eb28whqjRmYE/ivK3gX8IsXJXe3DoZU9mHS0O0T6MsNIdoIn13FrWSfT+64umcNh
-         olVtup9S65O+bhTiI24+otuuYKQO9g+yGzSgIR69686MBM2hYU0UaNo7rRFGQwc/tX7y
-         1xP4+79aj+lr5giqUe+FKYqJ3nRwcoIlqk6LBJ6ncoew9NVeLibADBcKPW2YYJBCcDR0
-         GNJlumkAnVMPS5XbJghoLZmKxgk0t661ZP+FJ6qhJNb135/kMgP6EzfHqyCd42eRPT34
-         c0CA==
-X-Gm-Message-State: AOAM5333ep2CQWnTzuswmnidRTbH0w6RWpYg0zZYMmm+sc0yxlYVcTTf
-        XYl+OGD2h2tpCQgulqbsr6E=
-X-Google-Smtp-Source: ABdhPJx7mH2yZo4C4pJn/aE3cCDOtK+LkPC5Nk+B6bO3/Fqq03i1P/0o3tAvSQXdg21ttVWaEs1o8w==
-X-Received: by 2002:a65:4c87:: with SMTP id m7mr4145769pgt.509.1644456416531;
-        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 6sm15177035pgx.36.2022.02.09.17.26.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Feb 2022 17:26:56 -0800 (PST)
-Message-ID: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
-Date:   Thu, 10 Feb 2022 10:26:53 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S233403AbiBJB4I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:56:08 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B4D2B6B4;
+        Wed,  9 Feb 2022 17:45:51 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 82BA42C1;
+        Thu, 10 Feb 2022 00:29:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 82BA42C1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1644452995; bh=JeAPbfW2n6bSXcS12/5ZU0UMBn33nmdtlOjKnwSEXYI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=rXNFe172Tnb8y40rzYS6eEF0rqWLAAs96fxoear4HGMmRX1ZnNk9UqCglGOg+3lZ+
+         8v16sbsGVmIHRmPvvH+hKOnaGVSrrrn5XxKfcqVjUZYiM6gL4qjZofPWQTshjY5A8P
+         Zkd513+59JDe3owTC8qSwSsZgC5xJ/wF7otnIT1Bn5yvQFRXV9Fo9K9+G6Z58ixzU9
+         i24IKei5rs7g5Vp/7o8g8UXWdydMVlesWkD76QLmX7LNuF2cG1h7CQD1i4ZY4ALUsj
+         djOxGFWQeD7JM3NQ48IZhaHxOcl9R6GNsgATL7HfqDGl0C0o6EAmp8Edr+J0Sc7Nmz
+         WildtHoiciIaw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: Makefile: Add -no-shell-escape option to LATEXOPTS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
+In-Reply-To: <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
+References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
+ <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
+ <20220114094535.5bb9ba94@coco.lan>
+ <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
+ <87bl0c7l79.fsf@meer.lwn.net>
+ <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
+Date:   Wed, 09 Feb 2022 17:30:38 -0700
+Message-ID: <874k57ef69.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-By adding this option, message of "restricted \write18 enabled" from
-LaTeX can be silenced.
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-As there is no use of \write18 in LaTeX sources from sphinx-build, it
-is safe to add this option.
+> On Sat, 15 Jan 2022 14:17:30 -0700,
+> Jonathan Corbet wrote:
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>> 
+>>> We are in the middle of the v5.17 merge window, and I think of this
+>>> series as a v5.18 material.
+>>> Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
+>>> (mid March or so), unless Jon thinks otherwise.
+>> 
+>> I'd rather merge it rather sooner than that if possible; 5.18 stuff will
+>> start going into docs-next shortly.
+>
+> Jon,
+>
+> Hearing no objection since mid January, I think it is time for you to
+> merge this series into docs-next.
 
-Reported-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That has been done - thanks for your work on this!
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 9f4bd42cef18..64d44c1ecad3 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -26,7 +26,7 @@ SPHINX_CONF   = conf.py
- PAPER         =
- BUILDDIR      = $(obj)/output
- PDFLATEX      = xelatex
--LATEXOPTS     = -interaction=batchmode
-+LATEXOPTS     = -interaction=batchmode -no-shell-escape
- 
- ifeq ($(KBUILD_VERBOSE),0)
- SPHINXOPTS    += "-q"
+Since you seem to have a reasonably good understanding of the
+PDF-generation side of things...I noted as I was testing this work that
+we are still getting the "restricted \write18 enabled" messages.  I
+asked about this years ago, and nobody seemed to have a clue of what was
+enabling it.  I'd *really* like to turn that off if possible; do you
+have any idea what's going on there?
 
-base-commit: f647de4b02dcb1815fb3019f86a001a681daf0a1
--- 
-2.17.1
+Thanks,
 
+jon
