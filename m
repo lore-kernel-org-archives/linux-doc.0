@@ -2,299 +2,300 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30ABC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 05:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACE8C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 07:44:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234828AbiBJFpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 00:45:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39808 "EHLO
+        id S236384AbiBJHoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 02:44:22 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234863AbiBJFpE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 00:45:04 -0500
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E58A2666;
-        Wed,  9 Feb 2022 21:43:58 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id a28so3896967qvb.10;
-        Wed, 09 Feb 2022 21:43:58 -0800 (PST)
+        with ESMTP id S236365AbiBJHoV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 02:44:21 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80EED73
+        for <linux-doc@vger.kernel.org>; Wed,  9 Feb 2022 23:44:22 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id m126-20020a1ca384000000b0037bb8e379feso4615290wme.5
+        for <linux-doc@vger.kernel.org>; Wed, 09 Feb 2022 23:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pTvpmD6+p2rnAcE0QlW3dvYsAfqUmHB6FANE93tg7II=;
-        b=RGlkot1lyWm/2fH3zeA6gadMp1wi/o4j5uWTaa8vv7WekW7tZwzT2D1Ki1bhnEzwEn
-         0HqKfwhmZsdrnPiyvk1VhuvnbjnzXjaXgs4FhQTkhYMp1gEIX7DOmPkSZ3NoMkSTJOci
-         ON8Gmf0G8FUzSEihups/3RyotGzGFanBrNixu3ImWIrnAp9JEWB4cDkE7nydR96yZFlV
-         cZPk6UX2aPfvnXPqjaBVaq7LV+dRZ6qj+7ICnXdyMtXyw+HV+Kxsk4qH8Gkh0h0Rvj/b
-         UmIL7blat53Geb/ETdup09vgJMspXJyyGxbxOJ+QklidYZN75YN3LVwU3TPFvYt/I/4s
-         6gbg==
+        bh=4kfxRGcsOijPFJhlfBsZiUXsGsJ4YEKnFMNN7p0LxTE=;
+        b=g6GNwQ/eQMr+wa1ajWlAM9wxvYdEf3D24Lev2LPx+smJg5LUavDQ1J9rMiwYbSMJ9g
+         x8PWXvJq3gxddvHts2NXzq13TG8J2vOBF33+bHlEudYI4cffKOMchzymjj6tKZaASPsw
+         HJZo5p+kLpEgwEwkVXhW9IAq9CagO8zP/twvuu0xIDZ2lRtClv+x4RlLVcnN2og4tQ/9
+         tYRFxkcA6ciK1PdmxM4sM3hMDeUseqTrb8qYAsRYiC2jsy82FFq2FsfM9jIfswUkN56y
+         jHYCAWCz6wbroGClv8EtikDxAobQh1HHrsgWziGkxysTx1gqVPQqh/FFFNhHM4nmnOdl
+         k7Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pTvpmD6+p2rnAcE0QlW3dvYsAfqUmHB6FANE93tg7II=;
-        b=hCSoFbDHaGfknB2v+KIhABodqwYk2xdnANZQf+bWW1JcmaB+lWs5Q1tlAev087sHmP
-         kkCrzpl0bYNHYyzG3u1TqnK+MS/+FopthP1tEDzsW6H637Ck2CK/MDVsBfWrzcH7pAlH
-         IGvusGCauN/2VZ8x1YVLbSvETA/JTVZ8ncInTcUCCHTEL0Ym4GMUf6hYWgWGgroNuDu5
-         koFm0NXV6QcRFDmB/ZEkmGZULgV09w49IcG3szrTd9OCp/iZi4ZgKFefKUeUxNYFQOsh
-         ZToxcsEfNHKYLYgcfQKcKtt3ulenKytWs6dK6bfgc2V6eWhMoDdvdQ70aHPhbTdTLEFj
-         757Q==
-X-Gm-Message-State: AOAM530+1bTKXdTaKae6jcYGnLkW9bzuyx1Hs5TQmEqq4GNrG2GWgQ2c
-        CGqvJKLJMt54Du/ms/DKVvAYEmkt/Ls6tvc7Oeo=
-X-Google-Smtp-Source: ABdhPJz5oo50TNb2vJF/251BYWVLL6oJ/ftCvG0yRMJkcmGb7DzvWGMqDhAF+yZdOWuX8+WRLDsK0gdywvgaIer+y3E=
-X-Received: by 2002:a05:6214:b6d:: with SMTP id ey13mr3746901qvb.40.1644471837135;
- Wed, 09 Feb 2022 21:43:57 -0800 (PST)
+        bh=4kfxRGcsOijPFJhlfBsZiUXsGsJ4YEKnFMNN7p0LxTE=;
+        b=CBnvLO9ii46tV7LizrQW5O/SUBNYv/hKCriYBtt9vD1oppmBALsCOWvJ/dAP/me5U4
+         0mGfZ7D3lpRkLXNXTmrew83mZpdUZN3EoqmnqLTx1deG+wBe05KVmRUUb+ze9HZDA8l9
+         hKwcnoiwgV1/8cgPMprzmPHj1UloaT0Bp0UU8RneglCtSEpCfSW3mm3/FuW8cEPPPRxI
+         iG8eIxIjkc03lI+S0ucIivWTsR+sNpoH+uCCGHisZQDlRSeD6P45isdy3toU5/ufllus
+         pGhVrQz2ihyH5eZwQs8B6NqekU0LCAGz3F5iXym0lar0t+87fK+oI32jcYRTBLQO14vd
+         HSgg==
+X-Gm-Message-State: AOAM532KSL/DZbPl8TxmnGF3VIlRD8i1Fv5AXIWSSoIRycgEyw4rSbux
+        lXw0MWFULMWNSwqhuAlWN4rNbWS4XhS4Y3EvElrayA==
+X-Google-Smtp-Source: ABdhPJyhLYkrXk39sK1hvxKDUFbbN1uTu0jDZJk2blsOuNGThdImEGE3IyzmwnaYTv8HMQlM6O50yYgfMyJmqkeqg1A=
+X-Received: by 2002:a05:600c:350e:: with SMTP id h14mr1025507wmq.166.1644479061243;
+ Wed, 09 Feb 2022 23:44:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
- <20220203143226.4023622-11-benjamin.tissoires@redhat.com> <CAF8JNhKbEWj1b4o2Uv7snXa_JGt0bk5wyUGP4_77aHTLhPRT3w@mail.gmail.com>
-In-Reply-To: <CAF8JNhKbEWj1b4o2Uv7snXa_JGt0bk5wyUGP4_77aHTLhPRT3w@mail.gmail.com>
-From:   Ping Cheng <pinglinux@gmail.com>
-Date:   Wed, 9 Feb 2022 21:43:45 -0800
-Message-ID: <CAF8JNhLeOn==FhaujjYY7o+f3J7xQcitdUUUJOOeZL1QEGKhRA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] HID: input: remove the need for HID_QUIRK_INVERT
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20220210023519.3221051-1-frowand.list@gmail.com> <20220210023519.3221051-3-frowand.list@gmail.com>
+In-Reply-To: <20220210023519.3221051-3-frowand.list@gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Thu, 10 Feb 2022 15:44:10 +0800
+Message-ID: <CABVgOSkwCtPiqF-OG=mQqcaPqhM=-cBKwXV=sbT_ig1pRCNgcQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] Documentation: dev-tools: fix KTAP specification
+ build warnings
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Rae Moar <rmr167@gmail.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000050909205d7a51eed"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for the noise. Hit the wrong buttons...
+--00000000000050909205d7a51eed
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 9, 2022 at 9:21 PM Ping Cheng <pinglinux@gmail.com> wrote:
+On Thu, Feb 10, 2022 at 10:35 AM <frowand.list@gmail.com> wrote:
 >
-> On Thu, Feb 3, 2022 at 6:33 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
-> >
-> > Furthermore, it didn't make sense to use a global per struct hid_device
-> > quirk for something dynamic as the current state.
-> >
-> > Store the current tool information in the report itself, and re-order
-> > the processing of the fields to enforce having all the tablet "state"
-> > fields before getting to In Range and other input fields.
-> >
-> > This way, we now have all the information whether a tool is present
-> > or not while processing In Range.
-> >
-> > This new behavior enforces that only one tool gets forwarded to userspace
-> > at the same time, and that if either eraser or invert is set, we enforce
-> > BTN_TOOL_RUBBER.
-> >
-> > Note that the release of the previous tool now happens in its own EV_SYN
-> > report so userspace doesn't get confused by having 2 tools.
-> >
-> > These changes are tested in the following hid-tools regression tests:
-> > https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > ---
-> >
-> > Changes in v2:
-> > - rework the entire tool switching, this makes the processing
-> >   slightly more complex but is better for existing userspace.
-> > ---
-> >  drivers/hid/hid-input.c | 98 +++++++++++++++++++++++++++++++++++++----
-> >  include/linux/hid.h     |  6 ++-
-> >  2 files changed, 95 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > index 61d91117f4ae..9f8853640648 100644
-> > --- a/drivers/hid/hid-input.c
-> > +++ b/drivers/hid/hid-input.c
-> > @@ -63,8 +63,11 @@ static const struct {
-> >   * This still leaves us 65535 individual priority values.
-> >   */
-> >  static const __u32 hidinput_usages_priorities[] = {
-> > +       HID_DG_ERASER,          /* Eraser (eraser touching) must always come before tipswitch */
-> >         HID_DG_INVERT,          /* Invert must always come before In Range */
-> > -       HID_DG_INRANGE,
-> > +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
-> > +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch */
-> > +       HID_DG_INRANGE,         /* In Range needs to come after the other tool states */
-> >  };
-> >
-> >  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_ABS, (c))
-> > @@ -1365,9 +1368,38 @@ static void hidinput_handle_scroll(struct hid_usage *usage,
-> >         input_event(input, EV_REL, usage->code, hi_res);
-> >  }
-> >
-> > +static void hid_report_release_tool(struct hid_report *report, struct input_dev *input,
-> > +                                   unsigned int tool)
-> > +{
-> > +       /* if the given tool is not currently reported, ignore */
-> > +       if (!test_bit(tool, input->key))
-> > +               return;
-> > +
-> > +       /*
-> > +        * if the given tool was previously set, release it,
-> > +        * release any TOUCH and send an EV_SYN
-> > +        */
-> > +       input_event(input, EV_KEY, BTN_TOUCH, 0);
-> > +       input_event(input, EV_KEY, tool, 0);
+> From: Frank Rowand <frank.rowand@sony.com>
+>
+> Convert "Major differences between TAP and KTAP" from a bullet list
+> to a table.  The bullet list was being formatted as a single
+> paragraph.
+>
+> Add missing required argument in code-block directives.
+>
+> ---
+>
+> Table conversion suggested by Shuah.
+>
+> Patch 2/2 not previously reviewed, so Reviewed-by tags not provided.
+>
+> Changes since version 3
+>   - Add this commit (patch 2/2) to the series
+>
+> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+> ---
 
-Took a while for me to find the right device and setup the proper
-system for the testing. This block missing the serial number:
+The table looks good to me, the "none" argument in code-block
+directives is already fixed in another patch.
 
-        input_event(input, EV_MSC, MSC_SERIAL, 0);
+The table bits are:
 
-Without this line, the next tool will not get its serial number.
-
-> > +       input_event(input, EV_SYN, SYN_REPORT, 0);
-> > +
-> > +       report->tool = 0;
-> > +}
-> > +
-> > +static void hid_report_set_tool(struct hid_report *report, struct input_dev *input,
-> > +                               unsigned int new_tool)
-> > +{
-> > +       if (report->tool != new_tool)
-> > +               hid_report_release_tool(report, input, report->tool);
-> > +
-> > +       input_event(input, EV_KEY, new_tool, 1);
-> > +       report->tool = new_tool;
-> > +}
-> > +
-> >  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
-> >  {
-> >         struct input_dev *input;
-> > +       struct hid_report *report = field->report;
-> >         unsigned *quirks = &hid->quirks;
-> >
-> >         if (!usage->type)
-> > @@ -1418,25 +1450,75 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-> >         }
-> >
-> >         switch (usage->hid) {
-> > +       case HID_DG_ERASER:
-> > +               report->tool_active |= !!value;
-> > +
-> > +               /*
-> > +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
-> > +                * to accommodate for devices not following the spec.
-> > +                */
-> > +               if (value)
-> > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > +               else if (report->tool != BTN_TOOL_RUBBER)
-> > +                       /* value is off, tool is not rubber, ignore */
-> > +                       return;
-> > +
-> > +               /* let hid-input set BTN_TOUCH */
-> > +               break;
-> > +
-> >         case HID_DG_INVERT:
-> > -               *quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
-> > +               report->tool_active |= !!value;
-> > +
-> > +               /*
-> > +                * If invert is set, we store BTN_TOOL_RUBBER.
-> > +                */
-> > +               if (value)
-> > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > +               else if (!report->tool_active)
-> > +                       /* tool_active not set means Invert and Eraser are not set */
-> > +                       hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
-> > +
-> > +               /* no further processing */
-> >                 return;
-> >
-> >         case HID_DG_INRANGE:
-> > -               if (value) {
-> > -                       input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
-> > -                       return;
-> > +               report->tool_active |= !!value;
-> > +
-> > +               if (report->tool_active) {
-> > +                       /*
-> > +                        * if tool is not set but is marked as active,
-> > +                        * assume ours
-> > +                        */
-> > +                       if (!report->tool)
-> > +                               hid_report_set_tool(report, input, usage->code);
-> > +               } else {
-> > +                       hid_report_release_tool(report, input, usage->code);
-> >                 }
-> > -               input_event(input, usage->type, usage->code, 0);
-> > -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
-> > +
-> > +               /* reset tool_active for the next event */
-> > +               report->tool_active = false;
-> > +
-> > +               /* no further processing */
-> >                 return;
-> >
-> > +       case HID_DG_TIPSWITCH:
-> > +               report->tool_active |= !!value;
-> > +
-> > +               /* if tool is set to RUBBER we should ignore the current value */
-> > +               if (report->tool == BTN_TOOL_RUBBER)
-> > +                       return;
-
-This case should return before HID_DG_INVERT is checked since we may
-get TIPSWITCH bit before INVERT. In fact, the device that I tested
-sends the tipswatch bit before the invert bit. So, I alway get a PEN
-in and out before I get ERASER events, when I bring the pen in with
-the side-switch/invert bit pressed.
-
-However, we know not all devices support INVERT. We probably have to
-keep the invert quirk to decide if BTN_TOOL_PEN should be set here or
-wait until HID_DG_INVERT is reached.
-
-If you are interested in the evtest output, please let me know. I'll
-share it with you offline so we don't abuse this list...
+Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
-Ping
+-- David
 
-> > +               break;
-> > +
-> >         case HID_DG_TIPPRESSURE:
-> >                 if (*quirks & HID_QUIRK_NOTOUCH) {
-> >                         int a = field->logical_minimum;
-> >                         int b = field->logical_maximum;
-> >
-> > -                       input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
-> > +                       if (value > a + ((b - a) >> 3)) {
-> > +                               input_event(input, EV_KEY, BTN_TOUCH, 1);
-> > +                               report->tool_active = true;
-> > +                       }
-> >                 }
-> >                 break;
-> >
-> > diff --git a/include/linux/hid.h b/include/linux/hid.h
-> > index eaad0655b05c..feb8df61168f 100644
-> > --- a/include/linux/hid.h
-> > +++ b/include/linux/hid.h
-> > @@ -347,7 +347,7 @@ struct hid_item {
-> >   */
-> >  #define MAX_USBHID_BOOT_QUIRKS 4
-> >
-> > -#define HID_QUIRK_INVERT                       BIT(0)
-> > +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
-> >  #define HID_QUIRK_NOTOUCH                      BIT(1)
-> >  #define HID_QUIRK_IGNORE                       BIT(2)
-> >  #define HID_QUIRK_NOGET                                BIT(3)
-> > @@ -515,6 +515,10 @@ struct hid_report {
-> >         unsigned maxfield;                              /* maximum valid field index */
-> >         unsigned size;                                  /* size of the report (bits) */
-> >         struct hid_device *device;                      /* associated device */
-> > +
-> > +       /* tool related state */
-> > +       bool tool_active;                               /* whether the current tool is active */
-> > +       unsigned int tool;                              /* BTN_TOOL_* */
-> >  };
-> >
-> >  #define HID_MAX_IDS 256
-> > --
-> > 2.33.1
-> >
+>  Documentation/dev-tools/ktap.rst | 33 +++++++++++++++++---------------
+>  1 file changed, 18 insertions(+), 15 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+> index dfb3f10a8b2d..5ee735c6687f 100644
+> --- a/Documentation/dev-tools/ktap.rst
+> +++ b/Documentation/dev-tools/ktap.rst
+> @@ -68,7 +68,7 @@ Test case result lines
+>  Test case result lines indicate the final status of a test.
+>  They are required and must have the format:
+>
+> -.. code-block::
+> +.. code-block:: none
+
+These code-block changes were already submitted in:
+https://lore.kernel.org/lkml/20220131003637.14274-1-rdunlap@infradead.org/T/
+
+
+>
+>         <result> <number> [<description>][ # [<directive>] [<diagnostic data>]]
+>
+> @@ -117,32 +117,32 @@ separator.
+>
+>  Example result lines include:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 1 test_case_name
+>
+>  The test "test_case_name" passed.
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         not ok 1 test_case_name
+>
+>  The test "test_case_name" failed.
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 1 test # SKIP necessary dependency unavailable
+>
+>  The test "test" was SKIPPED with the diagnostic message "necessary dependency
+>  unavailable".
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         not ok 1 test # TIMEOUT 30 seconds
+>
+>  The test "test" timed out, with diagnostic data "30 seconds".
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         ok 5 check return code # rcode=0
+>
+> @@ -202,7 +202,7 @@ allowed to be either indented or not indented.
+>
+>  An example of a test with two nested subtests:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..1
+> @@ -215,7 +215,7 @@ An example of a test with two nested subtests:
+>
+>  An example format with multiple levels of nested testing:
+>
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..2
+> @@ -234,12 +234,15 @@ An example format with multiple levels of nested testing:
+>  Major differences between TAP and KTAP
+>  --------------------------------------
+>
+> -Note the major differences between the TAP and KTAP specification:
+> -- yaml and json are not recommended in KTAP diagnostic messages
+> -- TODO directive not recognized in KTAP
+> -- KTAP allows for an arbitrary number of tests to be nested
+> -- TAP includes "Unknown lines" in the category of "Anything else"
+> -- TAP says "Unknown lines" are "incorrect"; KTAP allows "Unknown lines"
+> +==================================================   =========  ===============
+> +Feature                                              TAP        KTAP
+> +==================================================   =========  ===============
+> +yaml and json in diagnosic message                   ok         not recommended
+> +TODO directive                                       ok         not recognized
+> +allows an arbitrary number of tests to be nested     no         yes
+> +"Unknown lines" are in category of "Anything else"   yes        no
+> +"Unknown lines" are                                  incorrect  allowed
+> +==================================================   =========  ===============
+
+This looks good to me, thanks!
+
+>
+>  The TAP14 specification does permit nested tests, but instead of using another
+>  nested version line, uses a line of the form
+> @@ -247,7 +250,7 @@ nested version line, uses a line of the form
+>
+>  Example KTAP output
+>  --------------------
+> -.. code-block::
+> +.. code-block:: none
+>
+>         KTAP version 1
+>         1..1
+> --
+> Frank Rowand <frank.rowand@sony.com>
+>
+
+--00000000000050909205d7a51eed
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
+2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
+dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
+jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
+ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
+QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAW
+Uj6y8rnjHScNV9crl9BF8jYJPpYgSlKxMNrUGc39EzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjAyMTAwNzQ0MjFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAd2lwnOLWnINHsP+066rx
+jpvDD7q9H9RCwMKtjD0EyAeUT+LHs4AzuVmDDKSubKWqZAnaitgeY+cDau2kUh4a///VlGcFka+v
+CEUAT1JuPve6nwxmjzBupgqhMI7mpIy9DKs0wniJKAAgM/a2Kj6snSMiLNIROFzstIyV4qaEc7Zc
+2jCur5ydx4WZZkmaWDQkb9E05QVBSuwdd7VxGynCDa8R98XvUAKWayn9UjlsqJEkDv8FA2Ak5K4N
+xZg0k8oBgGblQ4Gf15yVnoLi1jwaUaIhxFdW7V6D7Yo6gIcSPtVBx0N4Nux2YNV/KKltS8AT6eMy
+qWalnuPWwkqFIfjNzw==
+--00000000000050909205d7a51eed--
