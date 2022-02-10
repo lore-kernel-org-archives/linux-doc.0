@@ -2,83 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF55C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 01:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F516C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Feb 2022 02:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233295AbiBJB4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Feb 2022 20:56:30 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:60094 "EHLO
+        id S234524AbiBJCA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Feb 2022 21:00:29 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:33092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233403AbiBJB4I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:56:08 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B4D2B6B4;
-        Wed,  9 Feb 2022 17:45:51 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 82BA42C1;
-        Thu, 10 Feb 2022 00:29:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 82BA42C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1644452995; bh=JeAPbfW2n6bSXcS12/5ZU0UMBn33nmdtlOjKnwSEXYI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rXNFe172Tnb8y40rzYS6eEF0rqWLAAs96fxoear4HGMmRX1ZnNk9UqCglGOg+3lZ+
-         8v16sbsGVmIHRmPvvH+hKOnaGVSrrrn5XxKfcqVjUZYiM6gL4qjZofPWQTshjY5A8P
-         Zkd513+59JDe3owTC8qSwSsZgC5xJ/wF7otnIT1Bn5yvQFRXV9Fo9K9+G6Z58ixzU9
-         i24IKei5rs7g5Vp/7o8g8UXWdydMVlesWkD76QLmX7LNuF2cG1h7CQD1i4ZY4ALUsj
-         djOxGFWQeD7JM3NQ48IZhaHxOcl9R6GNsgATL7HfqDGl0C0o6EAmp8Edr+J0Sc7Nmz
-         WildtHoiciIaw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
-In-Reply-To: <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
- <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
- <20220114094535.5bb9ba94@coco.lan>
- <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
- <87bl0c7l79.fsf@meer.lwn.net>
- <3cfe6cb0-67c7-bd12-0a3c-a609f5341a32@gmail.com>
-Date:   Wed, 09 Feb 2022 17:30:38 -0700
-Message-ID: <874k57ef69.fsf@meer.lwn.net>
+        with ESMTP id S234438AbiBJB7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Feb 2022 20:59:19 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C843E2B694;
+        Wed,  9 Feb 2022 17:43:38 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id a11-20020a17090a740b00b001b8b506c42fso7094303pjg.0;
+        Wed, 09 Feb 2022 17:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Cry3Wtr/RMzYLNnlssa/FegDG6Szz3AAHVIwYbF14p4=;
+        b=BuwyrIlQTSYfuDOGgaCnFkGWHitNYmF2EOoFcP4H6rNyqYyuL/I+De5T49WH51elcU
+         zcsrXoYrAGLEZbApNAumQoTQGxJu1EloQUA2W+AghURVpw1WsbpYmij+6PQOGpjy+aAb
+         4kvUr+U4RuOWtAriGCWY8CQr0TTTY5xkMaPOULbLjdK/sUJ7Cew+bh4IvdfkgbOItcYU
+         nq2WetauqN68Avk5DxTo60Qm15W3ujMuyxhPp2PqPf+uqdxH2XCpGXYDQCzTxZnYME0U
+         j52q9n913KdvXUVjsGWkzOtxVv20xkKc4raZ7AybC9i2YNQw30i3ytD2mgpsYfq3oKKY
+         WpBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Cry3Wtr/RMzYLNnlssa/FegDG6Szz3AAHVIwYbF14p4=;
+        b=NDF/8HpyrPjl4pYvLHOfciyDOVhIItl5BADcHtZoqhFntKqSn2Sw3BSRAyaI859fq8
+         DyARDscBfbAreMZe97MOZdatdkc4pX9o2xKOCQ+kxE9oFhy4jK04Vf8oQ4bC3a+KmHTH
+         vo5L/UzSm/uxjlJja6rtNr+01aCfVqROJwJIIuFYFxOVE8f/YUCc+TblYkDQtvqURs3P
+         Nh/d8M2tr5vNnYb1hhp7tqrWjFuDca/zBuFN+eK5A7WDkiB+z1cnFYAYmSsHvK75TQXr
+         JA81DMDRani/7Fjg5qht2PRkrp404Hj/eS/OlDDgqB1+qvbl5jrgv/h5QbOP+bb8HLBB
+         47OA==
+X-Gm-Message-State: AOAM533kdHrD756mAJWJFPaRfJstu+/MTLCUs2v1hQXY9asl6WVO6FHK
+        OyVgVUs0WMa0Y3cOdgBD/sk=
+X-Google-Smtp-Source: ABdhPJyit4iS9692syMqC3i5QWytBR9MtfPSX9pD4s8pKYuhVTzTVNq8ikdrOFgxPyNuPu6WCSEeEg==
+X-Received: by 2002:a17:90a:d343:: with SMTP id i3mr241380pjx.104.1644457418391;
+        Wed, 09 Feb 2022 17:43:38 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id a3sm61728pjq.43.2022.02.09.17.43.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 17:43:38 -0800 (PST)
+Message-ID: <e7ce363c-c154-50b7-016f-0f98bf13a0b9@gmail.com>
+Date:   Thu, 10 Feb 2022 10:43:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] docs: Makefile: Add -no-shell-escape option to LATEXOPTS
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Thu, 10 Feb 2022 10:26:53 +0900,
+Akira Yokosawa wrote:
+> By adding this option, message of "restricted \write18 enabled" from
+> LaTeX can be silenced.
+> 
+> As there is no use of \write18 in LaTeX sources from sphinx-build, it
+> is safe to add this option.
 
-> On Sat, 15 Jan 2022 14:17:30 -0700,
-> Jonathan Corbet wrote:
->> Akira Yokosawa <akiyks@gmail.com> writes:
->> 
->>> We are in the middle of the v5.17 merge window, and I think of this
->>> series as a v5.18 material.
->>> Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
->>> (mid March or so), unless Jon thinks otherwise.
->> 
->> I'd rather merge it rather sooner than that if possible; 5.18 stuff will
->> start going into docs-next shortly.
->
-> Jon,
->
-> Hearing no objection since mid January, I think it is time for you to
-> merge this series into docs-next.
+Jon,
+JFYI, there is a ticket on the message at:
 
-That has been done - thanks for your work on this!
+    https://tex.stackexchange.com/questions/76105/what-does-restricted-write18-enabled-mean-and-why-does-texlive-keep-reporting
 
-Since you seem to have a reasonably good understanding of the
-PDF-generation side of things...I noted as I was testing this work that
-we are still getting the "restricted \write18 enabled" messages.  I
-asked about this years ago, and nobody seemed to have a clue of what was
-enabling it.  I'd *really* like to turn that off if possible; do you
-have any idea what's going on there?
+I think David Carlisle's answer covers most of your concerns.
 
-Thanks,
+        Thanks, Akira 
 
-jon
+> 
+> Reported-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+[...]
+
