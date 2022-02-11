@@ -2,204 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0DFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 16:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B787C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 17:54:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346048AbiBKQT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 11:19:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47158 "EHLO
+        id S234194AbiBKRyO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 12:54:14 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351459AbiBKQTP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 11:19:15 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D95ACD8C
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id h6-20020a253a06000000b0061de83305f2so19670119yba.19
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
-        b=JE1EYWsWmJMVKKKziQTWEWuNUsyaPxqCZ/opyUrIE1QJ2zMzT8OF9HdxhY+GhtuCaK
-         HyDDiusYJME2veTyqvuwR1555jPMqz95nnShokOB0VNQWEe93IdgXongToVPd90O3dAV
-         IimzoYc1rIm15su0G+eGvhoRyruDLS+nZbjAQSDDWgXzx6DUp60nKevkdTlnOcGS/yxC
-         7VDKvQJbgIkNVOdKUHyv+vhK1BCP41v5/xbIT27E+bix812dIwb5ma26aGylR3U5/hbr
-         /YZu4e+ldXsQQ0aLJTqhpqIkZ/qs9fg8ieI0b6EipnVFoSEM/clguN4lkL+c5q3or2+f
-         JMAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
-        b=sZzDJnNo5zFwc2LuU4lvmyhE9UB5aHcixST2XAsqtEqPogD3bi9isA2/1Q+jbI0F48
-         33WvA/q1jR4XPMsOo3sksem1+clxGDsywJjwRE6ZaZ/Y8glRapKgXN+beAJMnw1s/t6y
-         IA4NGCJf80jFvVgxgihULG7f7NjxejH43NDR/u90vH9Rbrv+9o2l+aIVQ9gzCqP0IVeJ
-         6z+GYXm672iOEFWp+xtdsWeCkDjy719HC3Ap1EiAUBhPeaI+MMsy1tBEszK1r/6KHuu8
-         SCUDVsB+nvAKqHBoMDgJSlTGeX9PgdxINIsm0q9XuxhkrLW7Eg7k8irfyiq45tMhENRZ
-         xmpg==
-X-Gm-Message-State: AOAM530SFiQaJV15ZQ4X0p/4cvHN+PXaab4QuxPhutnD0H8z5m343mPt
-        sOMpfldsFuiaO2VdhMTuWzmJn7HLZr1gkY0=
-X-Google-Smtp-Source: ABdhPJyt28xsiqi+oRkwIgJ74WzjQyOoBVx2xkYnBQvOje0p3ZB58ZSdJeKE27JlSq7ErJdcjRoIy8BigQrNax8=
-X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
- (user=tjmercier job=sendgmr) by 2002:a81:d007:: with SMTP id
- v7mr2415829ywi.88.1644596352146; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-Date:   Fri, 11 Feb 2022 16:18:29 +0000
-In-Reply-To: <20220211161831.3493782-1-tjmercier@google.com>
-Message-Id: <20220211161831.3493782-7-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
-        "T.J. Mercier" <tjmercier@google.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S236822AbiBKRyO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 12:54:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B43DCD5;
+        Fri, 11 Feb 2022 09:54:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DFBD2B82B67;
+        Fri, 11 Feb 2022 17:54:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD776C340E9;
+        Fri, 11 Feb 2022 17:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644602049;
+        bh=FsUOrelQNqNyH3UASN+ZGpPm+zrcDvNiCyxLZ2cOLHU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bA8qmWpkMliRzgJ3/D9pIM4YRzkVL/VClVeC1kecwl9UuEu9syCd/L1k3aZIdb/Am
+         yJzGeOckMjikcxRadLMZQOTt7482bDcDmr5xONcdduo38eNseusJ5YGl01Ba8r8uq+
+         a78UFF2SXihbjHiopc9bXzu2qEamaXka5zQH2+tjJPjec1yKSU4p9OMPYD6Q5XzQoM
+         h90D38uKF3vQCcxPEFHtZvTcp2hrfQtuQmLQcS9gswYckPW/dGTzmWWKMG/V1nez9W
+         ith2h10B661UAiRqaSjRW3oYRJpETjWEcruoh5PyobYIhQ+5YwXBOS8m9vM00Ixt+J
+         5F6X4GojvoE3g==
+Message-ID: <c1f159ef-a010-c356-e633-66cce859fdd5@kernel.org>
+Date:   Fri, 11 Feb 2022 09:54:07 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 18/35] mm: Add guard pages around a shadow stack.
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-19-rick.p.edgecombe@intel.com>
+ <4c216532-2b68-dd95-93f1-542df4786d7a@intel.com>
+ <CALCETrWmiNi2+sPKWDUjGtGWtP9XNryfFe-dG4fTQkXyqGqpzQ@mail.gmail.com>
+ <e16fcf166d8304b0b9358e8413ec4a7ffc1de147.camel@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <e16fcf166d8304b0b9358e8413ec4a7ffc1de147.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-that a process sending an fd array to another process over binder IPC
-can set to relinquish ownership of the fds being sent for memory
-accounting purposes. If the flag is found to be set during the fd array
-translation and the fd is for a DMA-BUF, the buffer is uncharged from
-the sender's cgroup and charged to the receiving process's cgroup
-instead.
+On 2/10/22 15:40, Edgecombe, Rick P wrote:
+> On Thu, 2022-02-10 at 15:07 -0800, Andy Lutomirski wrote:
+>> On Thu, Feb 10, 2022 at 2:44 PM Dave Hansen <dave.hansen@intel.com>
+>> wrote:
+>>>
+>>> On 1/30/22 13:18, Rick Edgecombe wrote:
+>>>> INCSSP(Q/D) increments shadow stack pointer and 'pops and
+>>>> discards' the
+>>>> first and the last elements in the range, effectively touches
+>>>> those memory
+>>>> areas.
+>>>>
+>>>> The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes
+>>>> and
+>>>> 255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from
+>>>> PAGE_SIZE.
+>>>> Thus, putting a gap page on both ends of a shadow stack prevents
+>>>> INCSSP,
+>>>> CALL, and RET from going beyond.
+>>>
+>>> What is the downside of not applying this patch?  The shadow stack
+>>> gap
+>>> is 1MB instead of 4k?
+>>>
+>>> That, frankly, doesn't seem too bad.  How badly do we *need* this
+>>> patch?
+> 
+> Like just using VM_SHADOW_STACK | VM_GROWSDOWN to get a regular stack
+> sized gap? I think it could work. It also simplifies the mm->stack_vm
+> accounting.
 
-It is up to the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
+Seems not crazy.  Do we want automatically growing shadow stacks?  I 
+don't really like the historical unix behavior where the main thread has 
+a sort-of-infinite stack and every other thread has a fixed stack.
 
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-correctly charge the buffers to the client processes instead of the
-graphics allocator HAL.
+> 
+> It would no longer get a gap at the end though. I don't think it's
+> needed.
+> 
 
-From: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Co-developed-by: T.J. Mercier <tjmercier@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
-changes in v2
-- Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-heap to a single dma-buf function for all heaps per Daniel Vetter and
-Christian K=C3=B6nig.
+I may have missed something about the oddball way the mm code works, but 
+it seems if you have a gap at one end of every shadow stack, you 
+automatically have a gap at the other end.
 
- drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
- include/uapi/linux/android/binder.h |  1 +
- 2 files changed, 27 insertions(+)
-
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 8351c5638880..f50d88ded188 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
-=20
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=20
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- {
- 	binder_size_t fdi, fd_buf_size;
- 	binder_size_t fda_offset;
-+	bool transfer_gpu_charge =3D false;
- 	const void __user *sender_ufda_base;
- 	struct binder_proc *proc =3D thread->proc;
-+	struct binder_proc *target_proc =3D t->to_proc;
- 	int ret;
-=20
- 	fd_buf_size =3D sizeof(u32) * fda->num_fds;
-@@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 	if (ret)
- 		return ret;
-=20
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-+		parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-+		transfer_gpu_charge =3D true;
-+
- 	for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
- 		u32 fd;
-+		struct dma_buf *dmabuf;
-+		struct gpucg *gpucg;
-+
- 		binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
- 		binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-=20
-@@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-+
-+		if (!transfer_gpu_charge)
-+			continue;
-+
-+		dmabuf =3D dma_buf_get(fd);
-+		if (IS_ERR(dmabuf))
-+			continue;
-+
-+		gpucg =3D gpucg_get(target_proc->tsk);
-+		ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-+		if (ret) {
-+			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
-+				proc->pid, thread->pid, target_proc->pid);
-+			gpucg_put(gpucg);
-+		}
-+		dma_buf_put(dmabuf);
- 	}
- 	return 0;
- }
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/andro=
-id/binder.h
-index 3246f2c74696..169fd5069a1a 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -137,6 +137,7 @@ struct binder_buffer_object {
-=20
- enum {
- 	BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-+	BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
- };
-=20
- /* struct binder_fd_array_object - object describing an array of fds in a =
-buffer
---=20
-2.35.1.265.g69c8d7142f-goog
 
