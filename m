@@ -2,140 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5476C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 02:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28461C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 02:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347186AbiBKCNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Feb 2022 21:13:02 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34216 "EHLO
+        id S1347312AbiBKC3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Feb 2022 21:29:34 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347185AbiBKCNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 21:13:01 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66FBA5FAE;
-        Thu, 10 Feb 2022 18:12:58 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id t36so2793328pfg.0;
-        Thu, 10 Feb 2022 18:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kJaUyGI5OB38GJiiOS4eIX+xTa8bB0i/SOaEo9qgjZA=;
-        b=gKUU4tGYQBqLPUVQoNa5Wuaev6ZOfHlXcoF5aGQl5sENbsqigUvlFxHgdsDDwNNaNw
-         /AdxcZ9RUakFVB2Moh+4lXC36HwaHGQ+WXJ/fb02x/p9z5ZFDVJNbTJUPwkp7ksNMvzL
-         vjjMy9CR4KSSK5jheR/u1MY47oZdIfOsE2B4km7ltCz4umQod6pYu2EJpt6JOZDspEk1
-         h1ebWQ/Luqwa+MXWcywa/AtKTgn9rjD2Ff9lpk8BfCW1hH7X3T9j95q8siqP7KnsWSdo
-         wc4FqXThacdAuVsWpnGoTa4VtwOyZdRILR+Bn35g8BpbvtIOtgfHS03hLLz5qXAugn+S
-         qmXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=kJaUyGI5OB38GJiiOS4eIX+xTa8bB0i/SOaEo9qgjZA=;
-        b=5rzZkWaBJIo9jTGLg3xkzFVVBaOMwFYgMBx3FJvuo6V1xdNKp9h3qh6pVDBBzc0DSK
-         A+z7Hcxj28n8Wg+x4XaPcW2AFVvpZbaj2gcfZ/3ubWi5L48CfLptsIhcgICd85VaLzci
-         8u5Ibe64mKg+s6wVW0gfwRjMgXgtGJJoku/ZuVzLNNqddrXhBCxvBPjTZylcIHQAB5gH
-         D86ooZ/HMHroUH94sABnqMonXqKgZPuRdP7tmdSTiTKLQejoDCwk+vz3cmhG1v+khHJ4
-         1y7nnXLHYqQ/4pilwBl6SJ3vhXE6KVK4JqpLYtU9k0qo4AydbD4uH7irGN7sWAJY3wk+
-         Zt/A==
-X-Gm-Message-State: AOAM531RvZeE5nSuJhmngkAh45+CpyaQ9kvCc73mdlrw/QJ0BticPbX3
-        zQ31buYXZaVK832oW3c99Pg=
-X-Google-Smtp-Source: ABdhPJzbw3paYgmGtVUNSguKM8gkq5lko5whvrYl/qrk7Zp/IdHcvaUdwo9eI5KwegzLcyvtB/+Jqg==
-X-Received: by 2002:a63:b709:: with SMTP id t9mr8633092pgf.248.1644545577879;
-        Thu, 10 Feb 2022 18:12:57 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id b1sm9034624pgb.66.2022.02.10.18.12.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Feb 2022 18:12:57 -0800 (PST)
-Message-ID: <52112481-29af-1f8c-b82c-3519582e9850@gmail.com>
-Date:   Fri, 11 Feb 2022 11:12:54 +0900
+        with ESMTP id S1347305AbiBKC3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Feb 2022 21:29:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B241167;
+        Thu, 10 Feb 2022 18:29:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7ADC7B82801;
+        Fri, 11 Feb 2022 02:29:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A81C004E1;
+        Fri, 11 Feb 2022 02:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644546570;
+        bh=rA9JKNn6uy31FYJqU2BP9EbIsSatKcMCv+ra8A1VBNk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OVTnK/5oKNn7O4FFOCXz9Ne/67iNWZshSRCvLcInVbH9SQAxOdLu2jnm6hiZbdQcp
+         SZEFVkeLF1QrqHGA/QCT0NwfJ7SrI4b0FR31b00ViFIhhNhYt1dtzZH48XdxAVV5hT
+         HrEnmERQr5v8GqU5skcWqSRyl4mGM6uIfhhRgwcRGKogtU7fKVjn1gJnfgn4vhwBpT
+         qQrlU1IwpHuafPO3jNE24uDUyPmGxq5nvNZUgXtAnJUUT1YXYT/qn+wsfP2GBZTMjn
+         EqqXfY8XeF0YimkwPprojmEdx/yV7SGS/uDElC83nohOf2LC8LFv+eYpMlgPro/VQ/
+         1GhXD42uRmsjA==
+Date:   Thu, 10 Feb 2022 18:29:28 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     <davem@davemloft.net>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Satananda Burla <sburla@marvell.com>
+Subject: Re: [PATCH 1/4] octeon_ep: Add driver framework and device
+ initiazliation.
+Message-ID: <20220210182928.0579d527@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20220210213306.3599-2-vburru@marvell.com>
+References: <20220210213306.3599-1-vburru@marvell.com>
+        <20220210213306.3599-2-vburru@marvell.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] docs: Makefile: Add -no-shell-escape option to LATEXOPTS
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <519bd2d9-1bee-03e1-eeb4-d9883c18be0c@gmail.com>
- <87zgmybofe.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87zgmybofe.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Feb 2022 10:51:17 -0700,
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-[...]
->>
->> diff --git a/Documentation/Makefile b/Documentation/Makefile
->> index 9f4bd42cef18..64d44c1ecad3 100644
->> --- a/Documentation/Makefile
->> +++ b/Documentation/Makefile
->> @@ -26,7 +26,7 @@ SPHINX_CONF   = conf.py
->>  PAPER         =
->>  BUILDDIR      = $(obj)/output
->>  PDFLATEX      = xelatex
->> -LATEXOPTS     = -interaction=batchmode
->> +LATEXOPTS     = -interaction=batchmode -no-shell-escape
-> 
-> Interesting.  In my digging now and back in 2016 [1] everything I found
-> said that \write18 had to be explicitly enabled - and for good reason.
-> And I could never figure out *how* we were enabling it...  It turns out
-> that the net misinformed me; how come nobody ever told me that could
-> happen? :)
-> 
-> Anyway, I've applied this, but I'm going to tweak the changelog a bit.
-> My reason for wanting this isn't to make the warning go away - it's a
-> *tiny* piece of the noise of a pdfdocs build.  That warning is there for
-> a reason; \write18 is dangerous.  We really don't want any way for
-> arbitrary shell commands to be executed via the docs build.  So the new
-> text is:
-> 
->   It turns out that LaTeX enables \write18, which allows arbitrary shell
->   commands to be executed from the document source, by default.  This the
->   often-seen warning during a pdfdocs build:
-> 
->     restricted \write18 enabled
-> 
->   That is a potential security problem and is entirely unnecessary; nothing
->   in the kernel PDF docs build needs that capability.  So disable \write18
->   explicitly.
+On Thu, 10 Feb 2022 13:33:03 -0800 Veerasenareddy Burru wrote:
+>  20 files changed, 4249 insertions(+)
 
-I don't think the "restricted \write18 enabled" mode permits *arbitrary*
-shell commands.  This is different from adding -shell-escape, rather the
-default option is -shell-restricted.  In this mode, only those commands
-listed by "kpsewhich -var-value=shell_escape_commands" are allowed.
+Please break this down into smaller logically separate changes.
 
-In my setting, it lists:
-bibtex,bibtex8,extractbb,gregorio,kpsewhich,makeindex,repstopdf,r-mpost,texosquery-jre8,
-
-As you can see, the format of the list indicates that the restriction
-concerns only the name of the command, which might be circumvented in
-a clever way :-/
-
--no-shell-escape is expected to plug the hole, but LaTeX/TeX
-implementation might have an unknown security issue.  Who knows!
-
-> 
-> I think I'll add a Cc: stable while I'm at it.  I know of no actual
-> threat, but this is best closed.
-> 
-> Thanks for fixing this,
-> 
-> jon
-> 
-> [1] https://lore.kernel.org/lkml/20161113125250.779df4dd@lwn.net/
-
-Thanks for the link.
-This is useful in understanding the early days of Sphinx adoption.
-
-I'm kind of worried that Linus might get another flashback seeing
-my updates in LaTeX preamble.  ;-)
-
-        Thanks, Akira
+The driver must build cleanly with W=1 C=1 and with clang.
