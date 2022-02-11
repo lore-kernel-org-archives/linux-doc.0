@@ -2,97 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CB0C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 08:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53565C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 08:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347898AbiBKIEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 03:04:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33088 "EHLO
+        id S239337AbiBKIFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 03:05:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347897AbiBKIEe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 03:04:34 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2445D62
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 00:04:33 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id o19so22391947ybc.12
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 00:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dxknHxb36rbifNWkNcv9VONDPog7tM6iEXnWvM32+Tc=;
-        b=D0jLF5Daas/6Jk3NUsVPwZFaFyBP48m8kmx335qxOT/YqQsO8WQdrpXc8xUxn6Uk9/
-         z6+uIxCoXUl8Vg8/gnBaaEHPHcSsKFrP9dSzq2gWNeov4MsgkOFlRLGzlCgiqCh3RLNP
-         HMwkoMosu2SsdtbJWPCZ3b3JGg3DOEEZ6HcPsihB9czGLZpB9WgVMjcASQc76gtXzWM6
-         ALwQkCbWrKgLHNuW4G8bdHgnwuxRBPbtQsZRsGAE6uH5YOUolyhxKB135UED5cIUvjxE
-         KhGFKPN/10BLgtkRu4UZ1wojLARrEXaXZHj+cwXsBhhXKoxxNUUPlytF/VZ0EATnmH3U
-         4oHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dxknHxb36rbifNWkNcv9VONDPog7tM6iEXnWvM32+Tc=;
-        b=7iL/pTQh48pIPePw5LEkjaOKv5PmHbALuNoqVm+GXj6VPkopH4pbr8VxCE/OplHgG4
-         Po/JCWPRbjvuHeqw/GC1oIFr+OfwXiSxxukx/h8/PB8ShgNkpE4fr+TgiB9ym7Sx0vBR
-         Ge3rmhDaaNk35Le7qwQu/iEt29G9mwAl1BUP0mhe3Smz/HcGtdV0y59uQ90qSvYweZIV
-         KYLhm5ZAAbGA6Ut5HQQeCKJGVw/ruWhKojBRuZRhcQSrlVNxWxznDv3CqXi3s9SLdslE
-         oAUvZd3czcAmICcLXg557BYneKH0/DerD4r53VBb/S9vz0sCb3Gud5VwvpIhEG+b92ZG
-         oxLg==
-X-Gm-Message-State: AOAM530RuKrrXwzOLI/jDj2HtFswYzEfd0i0+3/6NzAoZ6fv5YCJnVFN
-        VGAvU+TqqBfdHmopud6f5zkxMQvfM+UeE+0Eh20gWQ==
-X-Google-Smtp-Source: ABdhPJyU3xGRlVamweE+Q7TKE0AllylV5ToYb3DPWinhfyYERv+u5Gyj/PL3r2Zu6vl5zPtBqGiNHUNH9nwKPDGu1xQ=
-X-Received: by 2002:a81:310:: with SMTP id 16mr517301ywd.35.1644566672815;
- Fri, 11 Feb 2022 00:04:32 -0800 (PST)
+        with ESMTP id S232830AbiBKIE7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 03:04:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A269BD2;
+        Fri, 11 Feb 2022 00:04:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0DE1BB82460;
+        Fri, 11 Feb 2022 08:04:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6E5C340E9;
+        Fri, 11 Feb 2022 08:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644566696;
+        bh=EvZx0hPGNr7WhzzF6zfcEjl+rm+0wcT7PDP5rXEhoT0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G668fAVy/mmFRiG3NNwK0RRvNbwbvLzzW7b3dKcOaYoiz/0vYGm+O0HkNI+Jfn1JK
+         SsY7JNbENx3Gb28wL/1R64G64QUiIcDvwD067oZ2fnn7mupZkUtAqXCGyZrr5ccBXA
+         1lbPqWQ//8wnRu+4qGJrQLrrU/OC8V8iJSpaWl/SZaYSuXsO4qEei8/dA40U5HjbAQ
+         4bjyixShCHvpdkrBmCHaY6LLzSJpImJmi7ctymB8o7RRQfOjEpoLxZAzU4gChIVUs9
+         jDpJQsmcMbLg7lkvciho7BRTMKyATFCroGVcdwXs3DXojexuijzFbcQ4K4WUqhIXV7
+         dnTHFfZzfxUvQ==
+Date:   Fri, 11 Feb 2022 10:04:38 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "avagin@gmail.com" <avagin@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YgYYllWRJ6znI4AU@kernel.org>
+References: <YgAWVSGQg8FPCeba@kernel.org>
+ <YgDIIpCm3UITk896@lisas.de>
+ <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
+ <YgI1A0CtfmT7GMIp@kernel.org>
+ <YgI37n+3JfLSNQCQ@grain>
+ <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
+ <YgKiKEcsNt7mpMHN@grain>
+ <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+ <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
+ <YgYTHLfnOvkK5FUu@gmail.com>
 MIME-Version: 1.0
-References: <20220210193345.23628-1-joao.m.martins@oracle.com> <20220210193345.23628-2-joao.m.martins@oracle.com>
-In-Reply-To: <20220210193345.23628-2-joao.m.martins@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 11 Feb 2022 16:03:56 +0800
-Message-ID: <CAMZfGtUwL-whhTeLydS9+H9weJ5sztAcrTi5ZK1ayNzSBMYtnQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] mm/sparse-vmemmap: add a pgmap argument to section activation
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Linux Memory Management List <linux-mm@kvack.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YgYTHLfnOvkK5FUu@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 3:34 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->
-> In support of using compound pages for devmap mappings, plumb the pgmap
-> down to the vmemmap_populate implementation. Note that while altmap is
-> retrievable from pgmap the memory hotplug code passes altmap without
-> pgmap[*], so both need to be independently plumbed.
->
-> So in addition to @altmap, pass @pgmap to sparse section populate
-> functions namely:
->
->         sparse_add_section
->           section_activate
->             populate_section_memmap
->               __populate_section_memmap
->
-> Passing @pgmap allows __populate_section_memmap() to both fetch the
-> vmemmap_shift in which memmap metadata is created for and also to let
-> sparse-vmemmap fetch pgmap ranges to co-relate to a given section and pick
-> whether to just reuse tail pages from past onlined sections.
->
-> While at it, fix the kdoc for @altmap for sparse_add_section().
->
-> [*] https://lore.kernel.org/linux-mm/20210319092635.6214-1-osalvador@suse.de/
->
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+On Thu, Feb 10, 2022 at 11:41:16PM -0800, avagin@gmail.com wrote:
+> On Wed, Feb 09, 2022 at 06:37:53PM -0800, Andy Lutomirski wrote:
+> >
+> > An alternative would be to add a bona fide ptrace call-a-function mechanism.
+> > I can think of two potentially usable variants:
+> > 
+> > 1. Straight call.  PTRACE_CALL_FUNCTION(addr) just emulates CALL addr,
+> > shadow stack push and all.
+> > 
+> > 2. Signal-style.  PTRACE_CALL_FUNCTION_SIGFRAME injects an actual signal
+> > frame just like a real signal is being delivered with the specified handler.
+> > There could be a variant to opt-in to also using a specified altstack and
+> > altshadowstack.
+> 
+> I think this would be ideal. In CRIU, the parasite code is executed in
+> the "daemon" mode and returns back via sigreturn.  Right now, CRIU needs
+> to generate a signal frame. If I understand your idea right, the signal
+> frame will be generated by the kernel.
+> 
+> > 
+> > 2 would be more expensive but would avoid the need for much in the way of
+> > asm magic.  The injected code could be plain C (or Rust or Zig or whatever).
+> > 
+> > All of this only really handles save, not restore.  I don't understand
+> > restore enough to fully understand the issue.
+> 
+> In a few words, it works like this: CRIU restores all required resources
+> and prepares a signal frame with a target process state, then it
+> switches to a small PIE blob, where it restores vma-s and calls
+> rt_sigreturn.
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+I think it's also important to note that the stack is restored as a part of
+the process memory, i.e. its contents is read from the images.
+ 
+> > 
+> > --Andy
 
-Thanks.
+-- 
+Sincerely yours,
+Mike.
