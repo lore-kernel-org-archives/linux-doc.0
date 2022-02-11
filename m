@@ -2,243 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AC0C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 08:53:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CF9C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 09:08:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346060AbiBKIxh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 03:53:37 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42000 "EHLO
+        id S1348352AbiBKJIw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 04:08:52 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348232AbiBKIxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 03:53:35 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD79C101F;
-        Fri, 11 Feb 2022 00:53:30 -0800 (PST)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21B8PY9Q022170;
-        Fri, 11 Feb 2022 08:53:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+b82pmc72+A3G8u1dutZwzmRFQbU6u4YxDk+Xj0fP10=;
- b=CrNFMeWADgmS/nNLcsil6K3+mJUfPUI5AjAoBaqxYPRvz036jq8I+cgfwzB3iqDIkrcQ
- oK5eK9P36SBLVs5THQiq0YULwp4HyWWdBNF2CbMMKcAyR6bAbaJe8FwsI4hCJPn6ZfDu
- WbdhEidqgLWjbSOPYPr+zpeWmOZobIcJW8wsddlFqEXrX2rakWxx/uXd4kH5sjTZzQv9
- 71/ehJnXUcQCUV1ULNQnULCDVmfNgua4bO/V6TcWUAmHjDEwJO7AtiqZ6iBLZbi/o4Wv
- SFwYCmkeNDSNIIf+94Sd9D57AwUyzMl7dArQvsIMpspv3lOVmMTEovu0gAFrSE3158HE wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e56py7jp9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Feb 2022 08:53:29 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21B8IEeK010254;
-        Fri, 11 Feb 2022 08:53:29 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e56py7jnw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Feb 2022 08:53:29 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21B8mMJl015405;
-        Fri, 11 Feb 2022 08:53:26 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04ams.nl.ibm.com with ESMTP id 3e1gv9yu82-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Feb 2022 08:53:26 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21B8rNjO42467594
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 11 Feb 2022 08:53:23 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 44649A4053;
-        Fri, 11 Feb 2022 08:53:23 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C0942A4057;
-        Fri, 11 Feb 2022 08:53:22 +0000 (GMT)
-Received: from [9.145.74.171] (unknown [9.145.74.171])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 11 Feb 2022 08:53:22 +0000 (GMT)
-Message-ID: <1fda2458-b388-57fd-29fd-96eca0c08724@linux.ibm.com>
-Date:   Fri, 11 Feb 2022 09:53:22 +0100
+        with ESMTP id S1348349AbiBKJIv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 04:08:51 -0500
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AFE24F57
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 01:08:50 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-91-XP-PeTqnNb6M-AeFx-qu4A-1; Fri, 11 Feb 2022 09:08:48 +0000
+X-MC-Unique: XP-PeTqnNb6M-AeFx-qu4A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Fri, 11 Feb 2022 09:08:45 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Fri, 11 Feb 2022 09:08:45 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'Edgecombe, Rick P'" <rick.p.edgecombe@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+CC:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Subject: RE: [PATCH 18/35] mm: Add guard pages around a shadow stack.
+Thread-Topic: [PATCH 18/35] mm: Add guard pages around a shadow stack.
+Thread-Index: AQHYHgPE4ng9s1QFWkGaF1pqJykcg6yNYAXAgAATt4CAAJxvEA==
+Date:   Fri, 11 Feb 2022 09:08:45 +0000
+Message-ID: <09ed01cc5e564ef78875b18001955bb1@AcuMS.aculab.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+         <20220130211838.8382-19-rick.p.edgecombe@intel.com>
+         <f92c5110-7d97-b68d-d387-7e6a16a29e49@intel.com>
+         <1b5d83dc4cd84309823f012a3dce24f0@AcuMS.aculab.com>
+ <6a4c11e506874293df13cb94b9dd578bba1819d7.camel@intel.com>
+In-Reply-To: <6a4c11e506874293df13cb94b9dd578bba1819d7.camel@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>
-References: <20220209170422.1910690-1-scgl@linux.ibm.com>
- <20220209170422.1910690-6-scgl@linux.ibm.com>
- <c5d8e633-c0cd-91d4-723b-abf26c01fd6d@linux.ibm.com>
-From:   Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 05/10] KVM: s390: Add optional storage key checking to
- MEMOP IOCTL
-In-Reply-To: <c5d8e633-c0cd-91d4-723b-abf26c01fd6d@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SztnNBVkpHxIUYWUO9LBgvayQgaMoShW
-X-Proofpoint-GUID: f8eRgGutly_gGvNDWplm54A2H3Mk1wCO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-11_03,2022-02-09_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 malwarescore=0 clxscore=1015
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202110047
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/10/22 10:29, Christian Borntraeger wrote:
-> Am 09.02.22 um 18:04 schrieb Janis Schoetterl-Glausch:
->> User space needs a mechanism to perform key checked accesses when
->> emulating instructions.
->>
->> The key can be passed as an additional argument.
->> Having an additional argument is flexible, as user space can
->> pass the guest PSW's key, in order to make an access the same way the
->> CPU would, or pass another key if necessary.
->>
->> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
->> Acked-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> 
-> Claudio, Janosch, can you confirm that this is still valid?
-
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-
-> 
-> 
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> 
-> minor thing below
->> ---
->>    arch/s390/kvm/kvm-s390.c | 30 ++++++++++++++++++++----------
->>    include/uapi/linux/kvm.h |  6 +++++-
->>    2 files changed, 25 insertions(+), 11 deletions(-)
->>
->> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
->> index cf347e1a4f17..85763ec7bc60 100644
->> --- a/arch/s390/kvm/kvm-s390.c
->> +++ b/arch/s390/kvm/kvm-s390.c
->> @@ -32,6 +32,7 @@
->>    #include <linux/sched/signal.h>
->>    #include <linux/string.h>
->>    #include <linux/pgtable.h>
->> +#include <linux/bitfield.h>
-> 
-> do we still need that after the changes?
-> 
->>    
->>    #include <asm/asm-offsets.h>
->>    #include <asm/lowcore.h>
->> @@ -2359,6 +2360,11 @@ static int kvm_s390_handle_pv(struct kvm *kvm, struct kvm_pv_cmd *cmd)
->>    	return r;
->>    }
->>    
->> +static bool access_key_invalid(u8 access_key)
->> +{
->> +	return access_key > 0xf;
->> +}
->> +
->>    long kvm_arch_vm_ioctl(struct file *filp,
->>    		       unsigned int ioctl, unsigned long arg)
->>    {
->> @@ -4690,17 +4696,19 @@ static long kvm_s390_guest_mem_op(struct kvm_vcpu *vcpu,
->>    	void *tmpbuf = NULL;
->>    	int r = 0;
->>    	const u64 supported_flags = KVM_S390_MEMOP_F_INJECT_EXCEPTION
->> -				    | KVM_S390_MEMOP_F_CHECK_ONLY;
->> +				    | KVM_S390_MEMOP_F_CHECK_ONLY
->> +				    | KVM_S390_MEMOP_F_SKEY_PROTECTION;
->>    
->>    	if (mop->flags & ~supported_flags || mop->ar >= NUM_ACRS || !mop->size)
->>    		return -EINVAL;
->> -
->>    	if (mop->size > MEM_OP_MAX_SIZE)
->>    		return -E2BIG;
->> -
->>    	if (kvm_s390_pv_cpu_is_protected(vcpu))
->>    		return -EINVAL;
->> -
-
-You want to make it look like the sida op?
-Personally I'd leave it as is.
-
->> +	if (mop->flags & KVM_S390_MEMOP_F_SKEY_PROTECTION) {
->> +		if (access_key_invalid(mop->key))
->> +			return -EINVAL;
->> +	}
->>    	if (!(mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY)) {
->>    		tmpbuf = vmalloc(mop->size);
->>    		if (!tmpbuf)
->> @@ -4710,11 +4718,12 @@ static long kvm_s390_guest_mem_op(struct kvm_vcpu *vcpu,
->>    	switch (mop->op) {
->>    	case KVM_S390_MEMOP_LOGICAL_READ:
->>    		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
->> -			r = check_gva_range(vcpu, mop->gaddr, mop->ar,
->> -					    mop->size, GACC_FETCH, 0);
->> +			r = check_gva_range(vcpu, mop->gaddr, mop->ar, mop->size,
->> +					    GACC_FETCH, mop->key);
->>    			break;
->>    		}
->> -		r = read_guest(vcpu, mop->gaddr, mop->ar, tmpbuf, mop->size);
->> +		r = read_guest_with_key(vcpu, mop->gaddr, mop->ar, tmpbuf,
->> +					mop->size, mop->key);
->>    		if (r == 0) {
->>    			if (copy_to_user(uaddr, tmpbuf, mop->size))
->>    				r = -EFAULT;
->> @@ -4722,15 +4731,16 @@ static long kvm_s390_guest_mem_op(struct kvm_vcpu *vcpu,
->>    		break;
->>    	case KVM_S390_MEMOP_LOGICAL_WRITE:
->>    		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
->> -			r = check_gva_range(vcpu, mop->gaddr, mop->ar,
->> -					    mop->size, GACC_STORE, 0);
->> +			r = check_gva_range(vcpu, mop->gaddr, mop->ar, mop->size,
->> +					    GACC_STORE, mop->key);
->>    			break;
->>    		}
->>    		if (copy_from_user(tmpbuf, uaddr, mop->size)) {
->>    			r = -EFAULT;
->>    			break;
->>    		}
->> -		r = write_guest(vcpu, mop->gaddr, mop->ar, tmpbuf, mop->size);
->> +		r = write_guest_with_key(vcpu, mop->gaddr, mop->ar, tmpbuf,
->> +					 mop->size, mop->key);
->>    		break;
->>    	}
->>    
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index b46bcdb0cab1..44558cf4c52e 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -562,7 +562,10 @@ struct kvm_s390_mem_op {
->>    	__u32 op;		/* type of operation */
->>    	__u64 buf;		/* buffer in userspace */
->>    	union {
->> -		__u8 ar;	/* the access register number */
->> +		struct {
->> +			__u8 ar;	/* the access register number */
->> +			__u8 key;	/* access key, ignored if flag unset */
->> +		};
->>    		__u32 sida_offset; /* offset into the sida */
->>    		__u8 reserved[32]; /* should be set to 0 */
->>    	};
->> @@ -575,6 +578,7 @@ struct kvm_s390_mem_op {
->>    /* flags for kvm_s390_mem_op->flags */
->>    #define KVM_S390_MEMOP_F_CHECK_ONLY		(1ULL << 0)
->>    #define KVM_S390_MEMOP_F_INJECT_EXCEPTION	(1ULL << 1)
->> +#define KVM_S390_MEMOP_F_SKEY_PROTECTION	(1ULL << 2)
->>    
->>    /* for KVM_INTERRUPT */
->>    struct kvm_interrupt {
+RnJvbTogRWRnZWNvbWJlLCBSaWNrIFANCj4gU2VudDogMTAgRmVicnVhcnkgMjAyMiAyMzo0Mw0K
+PiANCj4gT24gVGh1LCAyMDIyLTAyLTEwIGF0IDIyOjM4ICswMDAwLCBEYXZpZCBMYWlnaHQgd3Jv
+dGU6DQo+ID4gRG8geW91IG5lZWQgYSByZWFsIGd1YXJkIHBhZ2U/DQo+ID4gT3IgaXMgaXQganVz
+dCBlbm91Z2ggdG8gZW5zdXJlIHRoYXQgdGhlIGFkamFjZW50IHBhZ2UgaXNuJ3QgYW5vdGhlcg0K
+PiA+IHNoYWRvdyBzdGFjayBwYWdlPw0KPiA+DQo+ID4gQW55IG90aGVyIHBhZ2Ugd2lsbCBjYXVz
+ZSBhIGZhdWx0IGJlY2F1c2UgdGhlIFBURSBpc24ndA0KPiA+IHJlYWRvbmx5K2RpcnR5Lg0KPiA+
+DQo+ID4gSSdtIG5vdCBzdXJlIGhvdyBjb21tb24gc2luZ2xlIHBhZ2UgYWxsb2NhdGVzIGFyZSBp
+biBMaW51eC4NCj4gDQo+IEkgdGhpbmsgaXQgY2FtZSBmcm9tIHRoaXMgZGlzY3Vzc2lvbjoNCj4g
+DQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvQ0FHNDhlejF5dE9mUXlOWk1OUEZwN1hx
+S2NwZDdfYVJhaTlHNXM3cngwVj04WkcrcjJBQG1haWwuZ21haWwuY29tLyN0DQo+IA0KPiA+IEJ1
+dCBhZGphY2VudCBzaGFkb3cgc3RhY2tzIG1heSBiZSByYXJlIGFueXdheS4NCj4gPiBTbyBhIGNo
+ZWNrIGFnYWluc3QgYm90aCBhZGphY2VudCBQVEUgZW50cmllcyB3b3VsZCBzdWZmaWNlLg0KPiA+
+IE9yIG1heWJlIGFsd2F5cyBhbGxvY2F0ZSBhbiBldmVuIChvciBvZGQpIG51bWJlcmVkIHBhZ2Uu
+DQo+IA0KPiBJdCBqdXN0IG5lZWRzIHRvIG5vdCBiZSBhZGphY2VudCB0byBzaGFkb3cgc3RhY2sg
+bWVtb3J5IHRvIGRvIHRoZSBqb2IuDQo+IFdvdWxkIHRoYXQgYmUgc21hbGwgdG8gaW1wbGVtZW50
+PyBJdCBtaWdodCBiZSBhIHRyYWRlb2ZmIG9mIGNvZGUNCj4gY29tcGxleGl0eS4NCg0KVGhhdCdz
+IHdoYXQgSSB0aG91Z2h0Lg0KQWx0aG91Z2ggdGhlIFZBIHVzZSBmb3IgZ3VhcmQgcGFnZXMgbWln
+aHQgYmUgYSBwcm9ibGVtIGluIGl0c2VsZi4NCg0KSSdtIG5vdCBzdXJlIHdoeSBJIHRob3VnaHQg
+c2hhZG93IHN0YWNrcyB3b3VsZCBiZSBhIHNpbmdsZSBwYWdlLg0KRm9yIHVzZXIgc3BhY2UgdGhh
+dCAnb25seScgYWxsb3dzIDUxMiBjYWxscy4NCkZvciBrZXJuZWwgaXQgaXMgYSBtYXNzaXZlIHdh
+c3RlIG9mIG1lbW9yeS4NCkl0IGlzIHByb2JhYmx5IHdvcnRoIHB1dHRpbmcgbXVsdGlwbGUga2Vy
+bmVsIHNoYWRvdyBzdGFja3MgaW50byB0aGUgc2FtZSBwYWdlLg0KKENvZGUgdGhhdCBjYW4gb3Zl
+cnJ1biBjYW4gZG8gb3RoZXIgc3R1ZmYgbW9yZSBlYXNpbHkuKQ0KDQpUaGUgaGFyZHdhcmUgZW5n
+aW5lZXJzIGZhaWxlZCB0byB0aGluayBhYm91dCB0aGUgaW1wbGVtZW50YXRpb24gKGFnYWluKS4N
+ClRoZSBzaGFkb3cgc3RhY2sgc2hvdWxkIChwcm9iYWJseSkgcnVuIGluIHRoZSBvcHBvc2l0ZSBk
+aXJlY3Rpb24gdG8NCnRoZSBub3JtYWwgc3RhY2suDQpUaGVuIHRoZSBzaGFkb3cgc3RhY2sgY2Fu
+IGJlIHBsYWNlZCBhdCB0aGUgb3RoZXIgZW5kIG9mIHRoZSBWQSBhbGxvY2F0ZWQNCnRvIGEgdXNl
+ciBzcGFjZSBzdGFjay4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lk
+ZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0K
+UmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
