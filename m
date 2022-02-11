@@ -2,117 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8759C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 21:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C17C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 22:06:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242220AbiBKV6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 16:58:23 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35030 "EHLO
+        id S1349125AbiBKWGU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 17:06:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345125AbiBKV6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 16:58:23 -0500
-X-Greylist: delayed 1036 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Feb 2022 13:58:20 PST
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7F7C74
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 13:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=rm0L+g8d02pQ49JYPdifRHUJjiEEX1ttH645kywwIYM=; b=tHCY3TKXj9WNvHpcFpkBWQe9nm
-        xO6QBxt+2ahM1G+8O62wl+6KJjjN+tpEkNer+SF7MHOKmMwpGfzk/W6WZx8oVpWgfSJmqfyX+Royg
-        sKparTb42Y0YHsKCcJyv0+7xHaOpbvvYZFxoWjEf41PzsaDMLzZz8u2cXjNS103rr29o=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nIdey-005WZh-FA; Fri, 11 Feb 2022 22:40:56 +0100
-Date:   Fri, 11 Feb 2022 22:40:56 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Satananda Burla <sburla@marvell.com>
-Subject: Re: [PATCH 4/4] octeon_ep: add ethtool support for Octeon PCI
- Endpoint NIC.
-Message-ID: <YgbX6N5efWf7J4ds@lunn.ch>
-References: <20220210213306.3599-1-vburru@marvell.com>
- <20220210213306.3599-5-vburru@marvell.com>
+        with ESMTP id S233801AbiBKWGU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 17:06:20 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049D7C72
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 14:06:19 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id c3so5744091pls.5
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 14:06:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3eRTsM/Q7+dUjZUJKDd4/vCIs2lGaytBhPl0HjcA0As=;
+        b=yVX55KcikQlRpjxWKgehbDpOXXxoWb5ZcVKU4qS2v0OUszp9Bnf7taF67mLQnhNle/
+         MJWfZM1wq8CWa82iSLV9uC9iO41ZeUJOFVi4VD54NrNOHNSoOTlgUcIV46g3z5I6VBk+
+         PMtT3yHOdG5KU9N5kySUHJ5KKDkGaLoy9KEEnrMhpf2boJ/icuLLBG6ggndGn+I3qJed
+         hnHh8M4NIx7x93FvgW7VNyT/4kP2V05m7LY0r6Vvz7nA3Y7mumUfpaT0yeGZAcYgBdr1
+         dWjHrMlJiab6UJ4qGo85VWSdhX2QSMbEF4AmvA60VhTOt5ilgiHzVQyN+ukviEscqXYj
+         jB5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3eRTsM/Q7+dUjZUJKDd4/vCIs2lGaytBhPl0HjcA0As=;
+        b=O1zDbqeGXs5drFsMvzTxbiIhiZn5CtgP7Ygb6+Xul+BjQx2bO5i3bNok5pMu9LlDOF
+         mx1by/MWWafRQ8NtSnS7DMDCvgxEIvCcBhHsKfZKUXaFQSSdfghu/V6sbmP7cxUs/lRw
+         V86M+pcmYOMxtvW1i6x0lTdTsWVeA0E5XxX8ls+NE45cJSvy93/qfqJtRXmeG8Xpnr9z
+         tqijdCa/JEvec/XekXD1RP97bi9boElFxPyMlzXG3bUhva+63AAvCBynL551HixK2N0F
+         Nn2+wM0qLKHBo0bz4jIJKLlPW03nEO/Bs7tDJbpA/wb9SOaga/cK9+ihYuaBOrj3i3RN
+         dHnA==
+X-Gm-Message-State: AOAM530yN+k2Fw823vx93xK0nqLz17CmoriJ4WpkywHpDcNGsv/Tky2k
+        eOw7b5zUjXoWGNVao40Q2OZlhw==
+X-Google-Smtp-Source: ABdhPJwY/LaFEKcAJrEEGk71Gv7H7gIxS8Avp1t2fbewESVPSX1udtzSrdbfbjiLfm++43a2GVGDpw==
+X-Received: by 2002:a17:90b:1b0e:: with SMTP id nu14mr2507972pjb.44.1644617178471;
+        Fri, 11 Feb 2022 14:06:18 -0800 (PST)
+Received: from [192.168.1.100] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id q1sm5931642pjd.48.2022.02.11.14.06.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Feb 2022 14:06:17 -0800 (PST)
+Message-ID: <d6e41491-44c9-33e2-13ae-ae2480b9477d@kernel.dk>
+Date:   Fri, 11 Feb 2022 15:06:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220210213306.3599-5-vburru@marvell.com>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] docs: block: biodoc.rst: Drop the obsolete and incorrect
+ content
+Content-Language: en-US
+To:     Christoph Hellwig <hch@infradead.org>,
+        Barry Song <21cnbao@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linuxarm@huawei.com,
+        linux-kernel@vger.kernel.org,
+        Barry Song <song.bao.hua@hisilicon.com>
+References: <20220207074931.20067-1-song.bao.hua@hisilicon.com>
+ <YgN8CKUoRG4TQaqt@infradead.org>
+From:   Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <YgN8CKUoRG4TQaqt@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static void octep_get_drvinfo(struct net_device *netdev,
-> +			      struct ethtool_drvinfo *info)
-> +{
-> +	struct octep_device *oct = netdev_priv(netdev);
-> +
-> +	strscpy(info->driver, OCTEP_DRV_NAME, sizeof(info->driver));
-> +	strscpy(info->version, OCTEP_DRV_VERSION_STR, sizeof(info->version));
+On 2/9/22 1:32 AM, Christoph Hellwig wrote:
+> I suspect it is timeto just drop that entire file.  It is so stale
+> that it is actively harmful.
 
-A driver version string is meaningless. If you don't set it, the core
-will fill in the kernel version, which is actually usable information.
+I'll apply this one since it's obviously correct, but yes, we
+probably should just kill this file.
 
-> +static int octep_get_link_ksettings(struct net_device *netdev,
-> +				    struct ethtool_link_ksettings *cmd)
-> +{
-> +	struct octep_device *oct = netdev_priv(netdev);
-> +	struct octep_iface_link_info *link_info;
-> +	u32 advertised, supported;
-> +
-> +	ethtool_link_ksettings_zero_link_mode(cmd, supported);
-> +	ethtool_link_ksettings_zero_link_mode(cmd, advertising);
-> +
-> +	octep_get_link_info(oct);
-> +
-> +	advertised = oct->link_info.advertised_modes;
-> +	supported = oct->link_info.supported_modes;
-> +	link_info = &oct->link_info;
-> +
-> +	if (supported & BIT(OCTEP_LINK_MODE_10GBASE_T))
-> +		ethtool_link_ksettings_add_link_mode(cmd, supported, 10000baseT_Full);
-> +	if (supported & BIT(OCTEP_LINK_MODE_10GBASE_R))
-> +		ethtool_link_ksettings_add_link_mode(cmd, supported, 10000baseR_FEC);
+-- 
+Jens Axboe
 
-....
-
-> +
-> +	if (advertised & BIT(OCTEP_LINK_MODE_10GBASE_T))
-> +		ethtool_link_ksettings_add_link_mode(cmd, advertising, 10000baseT_Full);
-> +	if (advertised & BIT(OCTEP_LINK_MODE_10GBASE_R))
-> +		ethtool_link_ksettings_add_link_mode(cmd, advertising, 10000baseR_FEC);
-
-It looks like you are doing the same thing twice, just different
-variables. Pull this out into a helper.
-
-Do you know what the link partner is advertising? It is useful debug
-information if your firmware will tell you.
-
-> diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> index 700852fd4c3a..00c6ca047332 100644
-> --- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> +++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-> @@ -827,7 +827,7 @@ static int octep_set_mac(struct net_device *netdev, void *p)
->  		return err;
->  
->  	memcpy(oct->mac_addr, addr->sa_data, ETH_ALEN);
-> -	memcpy(netdev->dev_addr, addr->sa_data, netdev->addr_len);
-> +	eth_hw_addr_set(netdev, addr->sa_data);
->  
->  	return 0;
->  }
-> @@ -1067,7 +1068,7 @@ static int octep_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	netdev->mtu = OCTEP_DEFAULT_MTU;
->  
->  	octep_get_mac_addr(octep_dev, octep_dev->mac_addr);
-> -	memcpy(netdev->dev_addr, octep_dev->mac_addr, netdev->addr_len);
-> +	eth_hw_addr_set(netdev, octep_dev->mac_addr);
-
-These two changes don't belong here.
-
-      Andrew
