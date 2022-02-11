@@ -2,204 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEFFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 12:48:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DF6C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 16:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233410AbiBKMsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 07:48:46 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50864 "EHLO
+        id S1351129AbiBKQSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 11:18:46 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347452AbiBKMso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 07:48:44 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B69B49
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 04:48:43 -0800 (PST)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21B9UetP019101;
-        Fri, 11 Feb 2022 12:48:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=zLyWL6gH3dIKvTaA0k6EmSVH2bXSzSLIgYZ6ml5Kp5Y=;
- b=sBvV5yqJivEW/AMpYhc30LSxD5/1550t5OAR2p62PFDc1eWUWvo0kA6rb+lr3tFs+Fmd
- cRf1gtxgCNPQPE38RCVIZIlQQTmdT4a1Y6B6F7++mUE01dkmLM1BBy3a/pr2pNUhVMMa
- W22xK0orQKwCpztUS/dlRkbpTLiup+ku5ajAC83syy5sn/BAYBrrnpxedIdo4TDGNUpn
- 3dcfbklRRT+BA8CDuZ/H8CJWd70Ssg72Fi+sPgzBGAptR3651UdwyaaCbnf41MyNEYxf
- 4tgjKCovLljliPsKI7YVziRfNX9YfAA3okInIcf+ec7cW6UnNKZiKw4nozi3oRm+7rc5 FQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3e5gt48whb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 11 Feb 2022 12:48:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21BCaYdv097165;
-        Fri, 11 Feb 2022 12:48:32 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
-        by aserp3030.oracle.com with ESMTP id 3e51rv3dyu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 11 Feb 2022 12:48:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ezu7g/CfHUhC50my/jUDc81r/41SzgYW/yWS5wBfcrSMByJHR6lsTxmfuucmIi/jtgjkYXOB002kvQgKf0XqJUJetd8FHJJVdIj49SxXFcG101aEIxu272dpcGVLULQoTlHRGuK6XaFFIlbuTOcMPEkZt79P9TXsHksPtJD0cDKS2pBSncuq4W9DNs3cldoSBsdZpoKcdYlosnRcbEoryIp/MgT5UpPmcNGjMWJHNCJz+zs6slYMbmdlDNwQDAnLdU/7Z2vyZBFOlyOcX3cclJnu415LGMdSdaWpltW+ceI2ddVE/2fdBQuzzqEs5lEAO0XQ8c9Qh13lV/l5LrdPKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zLyWL6gH3dIKvTaA0k6EmSVH2bXSzSLIgYZ6ml5Kp5Y=;
- b=AQzmM082JSSaedB/Tm8wGeWVb8Q1gUzS2BrZY3xNuDKsWJ6BlrLeBYc3BnVfwfegVAIR+PETd3ghab5WBAEZoN9yDYiIZVOfnvUiu7JQhLHJPzWlpLLr3blyS2IYvhghVyMM/N6bilfBxeeYdDWXBFzdd49Gcek55vrAhYmK3X3ynV7ZRzal4R8sqJM4gbIoEEwHKUt0G+JVELpzRFUhGiYAlBvOZSnllvGJoPTlw3gD/0Gt1J6tC8nqtRRKqtDzXoW4SA2Z3ZQw97bAWtGKfLPuKz3lLAAOZ+OyixjqCWiDLVTXngEFKcTPBHJYEK7EuW2RtqLB53YCDI+lrOBs6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+        with ESMTP id S238817AbiBKQSp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 11:18:45 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD19D2E6
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id v134-20020a25618c000000b00620dc86b9d6so12357963ybb.0
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zLyWL6gH3dIKvTaA0k6EmSVH2bXSzSLIgYZ6ml5Kp5Y=;
- b=rKIBlaoaCpkj3nn3iDu9Aa7XiOBR/9hf3SAtQcq0vhiDf2rdo9TN+hRZRowEY8bkjFl1RPa0YaIeiuesB8uKrP865Vor922cWspfkVGJ7LZlBSDgebbpSe9ACsebdKP6jZblw5MnGEUo6tK8D9YnIdKcryhp2+xObAVLBCvSU5o=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by DM6PR10MB3083.namprd10.prod.outlook.com (2603:10b6:5:68::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
- 2022 12:48:29 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::4910:964a:4156:242a]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::4910:964a:4156:242a%5]) with mapi id 15.20.4975.011; Fri, 11 Feb 2022
- 12:48:29 +0000
-Message-ID: <cfd0690f-bbc5-0fba-e085-1385041c470d@oracle.com>
-Date:   Fri, 11 Feb 2022 12:48:22 +0000
-Subject: Re: [PATCH v5 5/5] mm/page_alloc: reuse tail struct pages for
- compound devmaps
-Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Linux Memory Management List <linux-mm@kvack.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=yZLJCK7E+jF9SMNP1+4R/zXh1+xClGhVRWVCTVgc4sc=;
+        b=XMgJm0JnHLSh1BoAQZ0wKW1tqDREm4lLvo1GgrQbJjxOht9DuV2ml/M55v/YYYtwG0
+         EiX+KPa11IXCkHxfjDJ+jqjtozMdXO8Np1xzeO0YafmBD2TU0JlinyFCVvLW1rCwcCdZ
+         /67a9xCpHLDF2di7B26fW8eJ3s0rX9wB1nI24kFBk8sgAKm4tMtoVZMf/yF+8MHFUzmC
+         QNdvprMkp7K7VXtvF+nMffFYcUR4zeTM22B4QkFSF1Qw8M748l+D1HGKINDyJL+qVrEZ
+         7Hxo0m9piTC3QY0bjNEgwJt9fVXLWzIOFBU2gNAs/Btn+n7fz9/GKQAbXBpP767W1iWa
+         t4eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=yZLJCK7E+jF9SMNP1+4R/zXh1+xClGhVRWVCTVgc4sc=;
+        b=pZKoRuzsPkeddjz7mR5ib22jcT+XvC5r2SCOxcqh4h1gfjWP5gry6S59dEsWyLmU7n
+         O7hTSrdHBrqyzMNaXjadf6wGms2MQNPAHzTr3Hmqkfv44QAEa9koV7E4Bog/r1cULuci
+         uKZn97cJRPV1JwRkxGn/TTcmUJRXV2+TamqyyeMjqToflm3/M5RdY0FvJKlPmpPeRGWd
+         C8xaV/Th3+fJQHP3WVv7g9kr+szqTtqfbRzEnlMFSxEoTXisqVzqGrOrYaPgErAxzJsG
+         ixJW/sv6lGKThKgohNQCWQadWiVQbUE9ZXa95c0cMsI68+LnfsEXrjxJaUYZMPwmhPl3
+         PbXw==
+X-Gm-Message-State: AOAM532gEBubgH9z8z99tjibjiCSkaBsCxmMuaEwoVz8PXEMAVkS0NFr
+        i/uz80aBAqEuWASLUYWFZlUPMDHWHqZBU28=
+X-Google-Smtp-Source: ABdhPJzhF/L162IKZGA2v1vfeqRBtKk+kc26yO7jRh6AAqTqVZtjKGL2w7yvYf60mUisa/RM+m5bcl0vC/4rWsw=
+X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
+ (user=tjmercier job=sendgmr) by 2002:a5b:c6:: with SMTP id
+ d6mr1955239ybp.273.1644596323025; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
+Date:   Fri, 11 Feb 2022 16:18:23 +0000
+Message-Id: <20220211161831.3493782-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+Subject: [RFC v2 0/6] Proposal for a GPU cgroup controller
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20220210193345.23628-1-joao.m.martins@oracle.com>
- <20220210193345.23628-6-joao.m.martins@oracle.com>
- <CAMZfGtXRPn3MPDpDEyFJJ98E3xTB65Q8_C+P92_XKsL-q8ah=w@mail.gmail.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <CAMZfGtXRPn3MPDpDEyFJJ98E3xTB65Q8_C+P92_XKsL-q8ah=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0058.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:60::22) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 47cd3a4e-3b9d-489d-42ab-08d9ed5ccda9
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3083:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB308310640055AE69AC21CE5ABB309@DM6PR10MB3083.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EWFTADQDWfa46BkEmycOeEcbgfa1nMHCtHrWZpKTVEjDjnB8isZQZSXqXpcjqigD0y0vQ48UBz6O/cZB2xxnIDp1THZ+T7ztAildDUW2tpxGwbvbl7XV71KeLo3mAD0LFs78fab1skXFOeC3l4P1aPbqeYOdGdDOqMSHstec6CjUagsZ4SALbocgWoknbfCmwxsmbPJIJ59aKZDW/EJTcnhIpg0EOo1eUFYOh3DYdpHj9R+wZog24L2jW+5UxIcpaBmjdAY1qvAJGwRGWlPh8yCZcho7H+bRsqr81beLYzqS059sxCftIMyJPEN9iBWvaWp+PucdFZqjsNEe9SIdXxutFj+vsF3f5EHf8YPmDUFest0albhn8m5/glxMsq3jiQG6aqkKgL48YlE1giGmBcTumLjSdIqfE8XJKsrrVUKbWP9IVLrGMgIlPi8N1Tq5NZdkz5lFkN3fVLoJDJm4Vu465P4jdUT2vQ0trC1o+py/NMIq/B14i5Qr/M/DZ/ZU7af28gwvTPbLpJyezfamLzmSQD2EdO9Oh214Cf2VyOnaz49wclg5jgakmv3fsV/+xQgEXLi5ve85NBIQQ1aYafmuIJcFeGS2ReVir71hcwTMpdGDCaJjz3rgAoTEfKrvpdqaNcjMywQI6zWOXzfVwc0hzDSRQpsanC7bGc5acuDfnNMdfGnzDFeEGS/cJL/1022wmNqInPlv44BW7ornvQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(316002)(6916009)(38100700002)(54906003)(7416002)(6666004)(66556008)(36756003)(6506007)(508600001)(31686004)(2616005)(5660300002)(66476007)(53546011)(6486002)(6512007)(26005)(186003)(83380400001)(66946007)(4326008)(8676002)(8936002)(31696002)(2906002)(86362001)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVNkQjd0UUV0V3dLRjVyWmozcTlJaHdKMUxRV3VIaGY1VzFNeHFqdjRXZ1B0?=
- =?utf-8?B?OTlHaDNaYlhKQXZ1bGJRajR4SWpPRnlMYng2aDM0MEhIZllhejk2ajVrT0ZQ?=
- =?utf-8?B?SnVzZE1rckR3NnhrU2J5ZFB6eUxlNWE5SUYzZlczVTZDYU5yRzM5OEpnOE4w?=
- =?utf-8?B?VFRFNHU5QnVaOU5XUStQajZ2MlBvSHVKS2djYzJIWDZsVG5haFRHVzd3L1Rw?=
- =?utf-8?B?NnlBUVovOC9ZY0IvbE1JRGkwQUNSQkFTQnpvdzNiVXZKRnlBZnFKNE9TQkRn?=
- =?utf-8?B?UnpSMGVlNTZDZDRFWFF2RFdBNlp4eU5XN2oyVDFxQW5SeFNTc0tCUnQxd2VM?=
- =?utf-8?B?YldqL0JYdmZud01JeDcrK3dpNUx6MTlGNXB5S2hVTlpVRVZxeDVFbHNlbXk5?=
- =?utf-8?B?TWtaOGc3SURIUjRQV2JvSm52d1M5L2JQdFZkWjZVcFY5dm9obXV0ZzRKYXhQ?=
- =?utf-8?B?NzZxeU5IVmZsRTZ1OVZwblJmK09MMkZTSEhoYzBmWUFiVTV6TjM4b0hBNG5u?=
- =?utf-8?B?cXg0ZmNpaTdKVEFxdit2SWFVdlk0UnJVdDdHK0RXMURxczlMTUk1b0QzQjJC?=
- =?utf-8?B?M2wvY05aQXBoUTlmV09SaHpRRHhocS9VNUlYci80d0dFL1ROemFxcW5RTFJG?=
- =?utf-8?B?Vm5MbGllS0RVS1Z4QzNPSDhlYWhiUXhJNDN0UFc1a0g3WmQveFN0czgzVHRp?=
- =?utf-8?B?cUQzQlNNV2wvNk1MRjZ3SHFSYXRDQncvS3BCRDh5Mk9QdG9pTjFsaUZZZ3E5?=
- =?utf-8?B?VGRlQ2xBVEFGTkovR0JkTW9uT1daeUVwMzYrdkRQWlFHaXNuZm45SWpzLzZ2?=
- =?utf-8?B?MmNNTFJabnFNcHI5WVJtemlVOFZ4UzVHWTh6TGZsRDFEYWExSEZpbTFZNXIz?=
- =?utf-8?B?RktMbE05WTlCNHpiRXg4QUY1QXBnNUdaUHorZXhPTVpERmtLUFdMYW9EZDJV?=
- =?utf-8?B?Vm1TYWZMRHp2TGJVWXRZVFFTQS9pNEZtS1hSdEsvYUs1dk1GVjJRSmZUSFN0?=
- =?utf-8?B?eUE1VkNoSlE4MGpaOGN6cFdseGdHSlkyLysvQzJEcUo5WlJUVzRFbmd3KzNy?=
- =?utf-8?B?RTZFNGZaUFg4ZHlEWVR6UjBwOTJrWk5YRXA1c3RFeGVjRkljeFpVcFVxNmo5?=
- =?utf-8?B?R09Jd1NWcTdUNUxoTGhlZ0JVcWRVYzNQLzhta1FoaWk2MnFjTHRBRmdRd2Jy?=
- =?utf-8?B?cU5PdVVCbHBsWkVwQjl4RFN0V2paSS9ZRW9mVXhNSWg4YVV5Z2lKbWh1Rm8v?=
- =?utf-8?B?MHZrd3NyUGtza2FyYzFsVkczaDRwVFRPdHdCS2IybGc3RnVBZk8wNC82UzRw?=
- =?utf-8?B?dHp2SVVneEZTL3ZNOGhSaEVQd3hBS2RjT3BBVVpSQjgzd3A4eUx2OEpER3ph?=
- =?utf-8?B?QUVhWGI4QzljOWttWU9VN3I5RXZMZ0RMaWI0OFM4VCtVK0s3SHdWcm5kcjlJ?=
- =?utf-8?B?b3pDN3dYYW11Z3lGVVZyNDM3RU9GT2ROdkYxQjR3a05OV0V5YzlhRWU4S0Jm?=
- =?utf-8?B?ZHZXOUl1VmR2ZDhqYmNnbHcrSC8wWDJENzhjNlpDL3dueE8yMWJ6L1FRNUdm?=
- =?utf-8?B?SzljWDZXWVB6eGpjeUY3Ym5WUFQ2a21mUHNIRXUvTGNrdGxSaFY3aW42SXR4?=
- =?utf-8?B?OUtIem9HOWJwNlJyelE1SWdPSmQ3aDVxNGNabzR2UDBwUkxkdmNXMStrNjBm?=
- =?utf-8?B?SjFibWFIc0hvdVpYOE9zd2VFaDIyQkZDZnNXOHo3QTJHMUhRUkdaYkZZeUd4?=
- =?utf-8?B?a0JPVzNKUmN3Y0hiYUNsdWJ0bUpqMlRUeTVqZ2Y1L21naStJUy9tVjkzMVhN?=
- =?utf-8?B?TXJ5UnNMVW9zQ243cXNyZVQ3cFhQM2xsK3BwMVQ3Yy95Z2hsb0RDVzBEeEVK?=
- =?utf-8?B?eFM3b2FqYjFsZVJ0eWZqMFhwSkFFQk9BTUR2eUVCK0RyTnNURVI5NHhxRDRM?=
- =?utf-8?B?SWl6RFN6NHNhZG9lZmlXeDdFYzVueVB0YzlvMFV6ZGlUS3BXekhycEVGbVJq?=
- =?utf-8?B?WFhodXY5dlU0OWhzcDU1SFdncm5rN0dEamdUVkZsZXpqbFFhbUtsK3ZiT3BP?=
- =?utf-8?B?TFpsWDFuMTgrNjZ4cDNTUHR0Q2ttcEVyQlZ2aWxReUNrTjFhb25MamVLWkdk?=
- =?utf-8?B?V3BPbXN5QVRQd0tCWmNlczAwODJmdHZ6UVMzUFZyWkNob3FxbFdWck9UTlp4?=
- =?utf-8?B?azdtUEFFWEE2VnA0T3lxY2dGbnZ6cmNVenc0ekpTU2tyaXBLU05RUXlXQ0s4?=
- =?utf-8?B?VWV4aEV3WlViRXg2aHpoTW0rQnFnPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47cd3a4e-3b9d-489d-42ab-08d9ed5ccda9
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 12:48:29.5007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +kPFh23FQNU0T11PhCnIl2RrHYrV/NvgsEEAcEHGya4AxI0jWwtTxGS7/kXifdP85xqAlqWUJIfjxIYGuJU8pil1JXL0ryY65tNwpOFe6gw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3083
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10254 signatures=673431
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- suspectscore=0 adultscore=0 malwarescore=0 bulkscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202110072
-X-Proofpoint-GUID: Il1gHE_wFaRH_Earqe78Tl2azoRq4vg2
-X-Proofpoint-ORIG-GUID: Il1gHE_wFaRH_Earqe78Tl2azoRq4vg2
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
+        "T.J. Mercier" <tjmercier@google.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/11/22 05:07, Muchun Song wrote:
-> On Fri, Feb 11, 2022 at 3:34 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->> index cface1d38093..c10df2fd0ec2 100644
->> --- a/mm/page_alloc.c
->> +++ b/mm/page_alloc.c
->> @@ -6666,6 +6666,20 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
->>         }
->>  }
->>
->> +/*
->> + * With compound page geometry and when struct pages are stored in ram most
->> + * tail pages are reused. Consequently, the amount of unique struct pages to
->> + * initialize is a lot smaller that the total amount of struct pages being
->> + * mapped. This is a paired / mild layering violation with explicit knowledge
->> + * of how the sparse_vmemmap internals handle compound pages in the lack
->> + * of an altmap. See vmemmap_populate_compound_pages().
->> + */
->> +static inline unsigned long compound_nr_pages(struct vmem_altmap *altmap,
->> +                                             unsigned long nr_pages)
->> +{
->> +       return !altmap ? 2 * (PAGE_SIZE/sizeof(struct page)) : nr_pages;
->> +}
->> +
-> 
-> This means only the first 2 pages will be modified, the reset 6 or 4094 pages
-> do not.  In the HugeTLB case, those tail pages are mapped with read-only
-> to catch invalid usage on tail pages (e.g. write operations). Quick question:
-> should we also do similar things on DAX?
-> 
-What's sort of in the way of marking deduplicated pages as read-only is one
-particular CONFIG_DEBUG_VM feature, particularly page_init_poison(). HugeTLB
-gets its memory from the page allocator of already has pre-populated (at boot)
-system RAM sections and needs those to be 'given back' before they can be
-hotunplugged. So I guess it never goes through page_init_poison(). Although
-device-dax, the sections are populated and dedicated to device-dax when
-hotplugged, and then on hotunplug when the last user devdax user drops the page
-reference.
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
-So page_init_poison() is called on those two occasions. It actually writes to
-whole sections of memmap, not just one page. So either I gate read-only page
-protection when CONFIG_DEBUG_VM=n (which feels very wrong), or I detect inside
-page_init_poison() that the caller is trying to init compound devmap backed
-struct pages that were already watermarked (i.e. essentially when pfn offset
-between passed page and head page is bigger than 128).
+Changelog:
+
+v2:
+See the previous revision of this change submitted by Hridya Valsaraju
+at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.com/
+
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
+Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
+tracking the current associations were added to the dma_buf struct to
+achieve this.
+
+Fix incorrect Kconfig help section indentation per Randy Dunlap.
+
+History of the GPU cgroup controller
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific
+resources[2]. In order to help establish a unified memory accounting model
+for all GPU and all related subsystems, Daniel Vetter put forth a
+suggestion to move it out of the DRM subsystem so that it can be used by
+other DMA-BUF exporters as well[3]. This RFC proposes an interface that
+does the same.
+
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.95=
+06-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+
+T.J. Mercier (6):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  dmabuf: Use the GPU cgroup charge/uncharge APIs
+  dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+  dmabuf: Add gpu cgroup charge transfer function
+  android: binder: Add a buffer flag to relinquish ownership of fds
+
+ Documentation/gpu/rfc/gpu-cgroup.rst | 195 +++++++++++++++++
+ Documentation/gpu/rfc/index.rst      |   4 +
+ drivers/android/binder.c             |  26 +++
+ drivers/dma-buf/dma-buf.c            | 100 +++++++++
+ drivers/dma-buf/dma-heap.c           |  27 +++
+ drivers/dma-buf/heaps/system_heap.c  |   3 +
+ include/linux/cgroup_gpu.h           | 127 +++++++++++
+ include/linux/cgroup_subsys.h        |   4 +
+ include/linux/dma-buf.h              |  22 +-
+ include/linux/dma-heap.h             |  11 +
+ include/uapi/linux/android/binder.h  |   1 +
+ init/Kconfig                         |   7 +
+ kernel/cgroup/Makefile               |   1 +
+ kernel/cgroup/gpu.c                  | 304 +++++++++++++++++++++++++++
+ 14 files changed, 830 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
+
+--=20
+2.35.1.265.g69c8d7142f-goog
+
