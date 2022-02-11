@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DBB2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 22:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EE3C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 23:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354032AbiBKWT4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 17:19:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53946 "EHLO
+        id S1354191AbiBKXhJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 18:37:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354034AbiBKWTz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 17:19:55 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B614ED5E;
-        Fri, 11 Feb 2022 14:19:53 -0800 (PST)
+        with ESMTP id S239391AbiBKXhI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 18:37:08 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFCF0D6A;
+        Fri, 11 Feb 2022 15:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644617993; x=1676153993;
-  h=message-id:date:mime-version:to:references:from:subject:
-   in-reply-to:content-transfer-encoding;
-  bh=QhwemLJz6XJr4WABSGeGJItc6/s04gnX8fKaV4emL8o=;
-  b=RVeAhIHC8pPpmfl3USyTn2BShq9mrCdK8YGuhDI+NkPy8zeGLghkvxLk
-   lf6qWGWsJGYdiFN4OKID7GNlhqG3ClvblwVkQ+XBgJdurSOuR6aur7pzg
-   xsf/71RWhk2vT9mNJ0ym3pDiv+N933v3YIYeu9WV2WeAeCLWRbFSBZOkw
-   G5fdaDJwvqoSwNfDNGgIrvTnW89mgc9kbdMdGqERXvhfo8LGujFxbpNsS
-   h8W80lFafIg2vhPieX3G5KyOwYsZa1tUCZ1PLPVTHyXv72LKoKAcQrddk
-   i448uERDKnGtw6xiHepTXB4yOChusSH+8QkmWfuUSXX101WF0CLYU2Ii/
+  t=1644622626; x=1676158626;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=n+pCIpoYcPq/hU9tjTp1ZYglJMzSc25WZnIG3BnVpns=;
+  b=RgsRGfeStggMFAnzh4MHkKCJCMOiBzZWnCG9hSYt6xP0Wnw1ynYmSpDQ
+   8X/iT42en14UY6k3Z2DUQKbxdvSOrcSF5CGfsz1CLIKYHtlYcPVzHlqZ8
+   zAdX8CLVPfmybMtms2zT+U9o8ILqD6vvxvJgpwcNcw8z6xH4bqympXa/2
+   VLTTyPVtiCS5+r6QZfc+HMngk3Opvxy6UVkfWRgaPUOyzhsLn+ODXcKLy
+   lcEG/1CHAvKaOrzSLs0MEAxlpoBOmABJ8dFxPHD/qOfPAuLWUVfTR9BzD
+   pUfbYUYg07TjPqMHulWl7p5JSi7QhWr5RqGC+Y/YkZ2pKGMZUkGE6CqN8
    Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="237224081"
+X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="248660820"
 X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="237224081"
+   d="scan'208";a="248660820"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 14:19:53 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 15:37:06 -0800
 X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="542262078"
+   d="scan'208";a="542286966"
 Received: from nsmdimra-mobl.amr.corp.intel.com (HELO [10.209.96.127]) ([10.209.96.127])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 14:19:52 -0800
-Message-ID: <3df8595d-46d9-aaee-dd33-3118102ef750@intel.com>
-Date:   Fri, 11 Feb 2022 14:19:49 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 15:37:05 -0800
+Message-ID: <e2586482-dfba-2752-0247-7b8dfe95d7fe@intel.com>
+Date:   Fri, 11 Feb 2022 15:37:03 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -70,11 +70,12 @@ To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
         kcc@google.com, eranian@google.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-23-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-26-rick.p.edgecombe@intel.com>
 From:   Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH 22/35] x86/mm: Prevent VM_WRITE shadow stacks
-In-Reply-To: <20220130211838.8382-23-rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH 25/35] x86/cet/shstk: Add user-mode shadow stack support
+In-Reply-To: <20220130211838.8382-26-rick.p.edgecombe@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -82,71 +83,16 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 1/30/22 13:18, Rick Edgecombe wrote:
-> Shadow stack accesses are writes from handle_mm_fault() perspective. So to
-> generate the correct PTE, maybe_mkwrite() will rely on the presence of
-> VM_SHADOW_STACK or VM_WRITE in the vma.
-> 
-> In future patches, when VM_SHADOW_STACK is actually creatable by
-> userspace, a problem could happen if a user calls
-> mprotect( , , PROT_WRITE) on VM_SHADOW_STACK shadow stack memory. The code
-> would then be confused in the event of shadow stack accesses, and create a
-> writable PTE for a shadow stack access. Then the process would fault in a
-> loop.
-> 
-> Prevent this from happening by blocking this kind of memory (VM_WRITE and
-> VM_SHADOW_STACK) from being created, instead of complicating the fault
-> handler logic to handle it.
-> 
-> Add an x86 arch_validate_flags() implementation to handle the check.
-> Rename the uapi/asm/mman.h header guard to be able to use it for
-> arch/x86/include/asm/mman.h where the arch_validate_flags() will be.
+> Add the user shadow stack MSRs to the xsave helpers, so they can be used
+> to implement the functionality.
 
-It would be great if this also said:
+Do these MSRs ever affect kernel-mode operation?
 
-	There is an existing arch_validate_flags() hook for mmap() and
-	mprotect() which allows architectures to reject unwanted
-	->vm_flags combinations.  Add an implementation for x86.
+If so, we might need to switch them more aggressively at context-switch
+time like PKRU.
 
-That's somewhat implied from what is there already, but making it more
-clear would be nice.  There's a much higher bar to add a new arch hook
-than to just implement an existing one.
+If not, they can continue to be context-switched with the PASID state
+which does not affect kernel-mode operation.
 
+Either way, it would be nice to have some changelog material to that effect.
 
-> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
-> new file mode 100644
-> index 000000000000..b44fe31deb3a
-> --- /dev/null
-> +++ b/arch/x86/include/asm/mman.h
-> @@ -0,0 +1,21 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_MMAN_H
-> +#define _ASM_X86_MMAN_H
-> +
-> +#include <linux/mm.h>
-> +#include <uapi/asm/mman.h>
-> +
-> +#ifdef CONFIG_X86_SHADOW_STACK
-> +static inline bool arch_validate_flags(unsigned long vm_flags)
-> +{
-> +	if ((vm_flags & VM_SHADOW_STACK) && (vm_flags & VM_WRITE))
-> +		return false;
-> +
-> +	return true;
-> +}
-
-The design decision here seems to be that VM_SHADOW_STACK is itself a
-pseudo-VM_WRITE flag.  Like you said: "Shadow stack accesses are writes
-from handle_mm_fault()".
-
-Very early on, this series seems to have made the decision that shadow
-stacks are writable and need lots of write handling behavior, *BUT*
-shouldn't have VM_WRITE set.  As a whole, that seems odd.
-
-The alternative would be *requiring* VM_WRITE and VM_SHADOW_STACK be set
-together.  I guess the downside is that pte_mkwrite() would need to be
-made to work on shadow stack PTEs.
-
-That particular design decision was never discussed.  I think it has a
-really big impact on the rest of the series.  What do you think?  Was it
-a good idea?  Or would the alternative be more complicated than what you
-have now?
