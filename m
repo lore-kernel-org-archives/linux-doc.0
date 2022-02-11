@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 177F7C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 16:19:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0DFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Feb 2022 16:19:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351420AbiBKQTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Feb 2022 11:19:16 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47366 "EHLO
+        id S1346048AbiBKQT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Feb 2022 11:19:27 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351426AbiBKQTO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 11:19:14 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C422F4
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:07 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id a19-20020a25ca13000000b0061db44646b3so19797901ybg.2
-        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:07 -0800 (PST)
+        with ESMTP id S1351459AbiBKQTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Feb 2022 11:19:15 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D95ACD8C
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id h6-20020a253a06000000b0061de83305f2so19670119yba.19
+        for <linux-doc@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc:content-transfer-encoding;
-        bh=yvZODKlks7uSqzZPx/QuM2FpvgBeZ2Sk/1s0RF7z1Xc=;
-        b=ec1Yy1HYUYsk8sjBv+NO8SvcoXRcbLd5uiv9OPxDsNNur23ie7DmHnG9pRO3ilNRJc
-         1WvllX32ogWUY0ES0dpiEE0PkkZAqEtGHDkIOKsW2C7o8MPYg3yfWoNyM+WdEiwbD35T
-         Wm/nnsqgsS4c257blD2h2q3WLvab8g25Dj83ORJVcsTjGYJyVICqcM/zkGknDnaHwtni
-         S4ZDOVi8GlgnNuE1vqJ9LyP4yV9NB3a+ujEPEu7FgVA5ADIEY9Yho6UbQZlXhZiHM4fN
-         WFpGmfjmGs9WnZVI4xN8jGbbfCl8+QIJaWkRzPaFr5hx6+gvkC/2/iIAsFPFyG5TXVMH
-         vNVQ==
+        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
+        b=JE1EYWsWmJMVKKKziQTWEWuNUsyaPxqCZ/opyUrIE1QJ2zMzT8OF9HdxhY+GhtuCaK
+         HyDDiusYJME2veTyqvuwR1555jPMqz95nnShokOB0VNQWEe93IdgXongToVPd90O3dAV
+         IimzoYc1rIm15su0G+eGvhoRyruDLS+nZbjAQSDDWgXzx6DUp60nKevkdTlnOcGS/yxC
+         7VDKvQJbgIkNVOdKUHyv+vhK1BCP41v5/xbIT27E+bix812dIwb5ma26aGylR3U5/hbr
+         /YZu4e+ldXsQQ0aLJTqhpqIkZ/qs9fg8ieI0b6EipnVFoSEM/clguN4lkL+c5q3or2+f
+         JMAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc:content-transfer-encoding;
-        bh=yvZODKlks7uSqzZPx/QuM2FpvgBeZ2Sk/1s0RF7z1Xc=;
-        b=rPKnU9bFoJqXQzV7JfAGr72RCTduP9s2Xbtei8ZB+XCAeR1ACsHydnonUhaCTE5uRT
-         C6jFGk9O4zTOnmS82uffHSQ+RKpet+uNZiroCW5wZkZRsVqLMioAg0wAFMx0rde9q+w4
-         TRNR2PBS2bm1tZnWwJlX76LQ6wk2sb/bJxWv5c/qJfZF39xQPYeWeQzG11Vep4sGgL8J
-         a2ZNb5sa33GpzPBOLDN/PtAIZUk8SuaSoDqRHibar5xbnWqY60SFijeYiLvY6r3CaEBP
-         mKK4OUqIETyNKWdXWU01ofA662lgEFTgreW+ektqgr8wur3hc7pCL+1CS3i5GuueVazt
-         X3Zw==
-X-Gm-Message-State: AOAM5321N/mphjaDdUlM2viEcX8GCai1Nf/dmaPOW5sGW/fkgpQmrzil
-        PhTeVotYrpQlQxcUcTIdjGdqCiDikArKpxQ=
-X-Google-Smtp-Source: ABdhPJyzRZpguSr08v/JtkpnGzL6Z+Soi+F7TZB5Jn0SLwqv4tx2BBp/V2mC7+AUgYjetHM8LbPfONmE/Uc6VpY=
+        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
+        b=sZzDJnNo5zFwc2LuU4lvmyhE9UB5aHcixST2XAsqtEqPogD3bi9isA2/1Q+jbI0F48
+         33WvA/q1jR4XPMsOo3sksem1+clxGDsywJjwRE6ZaZ/Y8glRapKgXN+beAJMnw1s/t6y
+         IA4NGCJf80jFvVgxgihULG7f7NjxejH43NDR/u90vH9Rbrv+9o2l+aIVQ9gzCqP0IVeJ
+         6z+GYXm672iOEFWp+xtdsWeCkDjy719HC3Ap1EiAUBhPeaI+MMsy1tBEszK1r/6KHuu8
+         SCUDVsB+nvAKqHBoMDgJSlTGeX9PgdxINIsm0q9XuxhkrLW7Eg7k8irfyiq45tMhENRZ
+         xmpg==
+X-Gm-Message-State: AOAM530SFiQaJV15ZQ4X0p/4cvHN+PXaab4QuxPhutnD0H8z5m343mPt
+        sOMpfldsFuiaO2VdhMTuWzmJn7HLZr1gkY0=
+X-Google-Smtp-Source: ABdhPJyt28xsiqi+oRkwIgJ74WzjQyOoBVx2xkYnBQvOje0p3ZB58ZSdJeKE27JlSq7ErJdcjRoIy8BigQrNax8=
 X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
- (user=tjmercier job=sendgmr) by 2002:a81:2d03:: with SMTP id
- t3mr2496118ywt.215.1644596347024; Fri, 11 Feb 2022 08:19:07 -0800 (PST)
-Date:   Fri, 11 Feb 2022 16:18:28 +0000
+ (user=tjmercier job=sendgmr) by 2002:a81:d007:: with SMTP id
+ v7mr2415829ywi.88.1644596352146; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
+Date:   Fri, 11 Feb 2022 16:18:29 +0000
 In-Reply-To: <20220211161831.3493782-1-tjmercier@google.com>
-Message-Id: <20220211161831.3493782-6-tjmercier@google.com>
+Message-Id: <20220211161831.3493782-7-tjmercier@google.com>
 Mime-Version: 1.0
 References: <20220211161831.3493782-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [RFC v2 5/6] dmabuf: Add gpu cgroup charge transfer function
+Subject: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
 From:   "T.J. Mercier" <tjmercier@google.com>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -86,11 +87,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The dma_buf_charge_transfer function provides a way for processes to
-transfer charge of a buffer to a different process. This is essential
-for the cases where a central allocator process does allocations for
-various subsystems, hands over the fd to the client who requested the
-memory and drops all references to the allocated memory.
+This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+that a process sending an fd array to another process over binder IPC
+can set to relinquish ownership of the fds being sent for memory
+accounting purposes. If the flag is found to be set during the fd array
+translation and the fd is for a DMA-BUF, the buffer is uncharged from
+the sender's cgroup and charged to the receiving process's cgroup
+instead.
+
+It is up to the sending process to ensure that it closes the fds
+regardless of whether the transfer failed or succeeded.
+
+Most graphics shared memory allocations in Android are done by the
+graphics allocator HAL process. On requests from clients, the HAL process
+allocates memory and sends the fds to the clients over binder IPC.
+The graphics allocator HAL will not retain any references to the
+buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+correctly charge the buffers to the client processes instead of the
+graphics allocator HAL.
 
 From: Hridya Valsaraju <hridya@google.com>
 Signed-off-by: Hridya Valsaraju <hridya@google.com>
@@ -102,84 +117,89 @@ changes in v2
 heap to a single dma-buf function for all heaps per Daniel Vetter and
 Christian K=C3=B6nig.
 
- drivers/dma-buf/dma-buf.c | 48 +++++++++++++++++++++++++++++++++++++++
- include/linux/dma-buf.h   |  2 ++
- 2 files changed, 50 insertions(+)
+ drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+ include/uapi/linux/android/binder.h |  1 +
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 83d0d1b91547..55e1b982f840 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1374,6 +1374,54 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct d=
-ma_buf_map *map)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap, DMA_BUF);
+diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+index 8351c5638880..f50d88ded188 100644
+--- a/drivers/android/binder.c
++++ b/drivers/android/binder.c
+@@ -42,6 +42,7 @@
 =20
-+/**
-+ * dma_buf_charge_transfer - Change the GPU cgroup to which the provided d=
-ma_buf
-+ * is charged.
-+ * @dmabuf:	[in]	buffer whose charge will be migrated to a different GPU
-+ *			cgroup
-+ * @gpucg:	[in]	the destination GPU cgroup for dmabuf's charge
-+ *
-+ * Only tasks that belong to the same cgroup the buffer is currently charg=
-ed to
-+ * may call this function, otherwise it will return -EPERM.
-+ *
-+ * Returns 0 on success, or a negative errno code otherwise.
-+ */
-+int dma_buf_charge_transfer(struct dma_buf *dmabuf, struct gpucg *gpucg)
-+{
-+#ifdef CONFIG_CGROUP_GPU
-+	struct gpucg *current_gpucg;
-+	int ret =3D 0;
-+
-+	/*
-+	 * Verify that the cgroup of the process requesting the transfer is the
-+	 * same as the one the buffer is currently charged to.
-+	 */
-+	current_gpucg =3D gpucg_get(current);
-+	mutex_lock(&dmabuf->lock);
-+	if (current_gpucg !=3D dmabuf->gpucg) {
-+		ret =3D -EPERM;
-+		goto err;
-+	}
-+
-+	ret =3D gpucg_try_charge(gpucg, dmabuf->gpucg_dev, dmabuf->size);
-+	if (ret)
-+		goto err;
-+
-+	dmabuf->gpucg =3D gpucg;
-+
-+	/* uncharge the buffer from the cgroup it's currently charged to. */
-+	gpucg_uncharge(current_gpucg, dmabuf->gpucg_dev, dmabuf->size);
-+
-+err:
-+	mutex_unlock(&dmabuf->lock);
-+	gpucg_put(current_gpucg);
-+	return ret;
-+#else
-+	return 0;
-+#endif /* CONFIG_CGROUP_GPU */
-+}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_charge_transfer, DMA_BUF);
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+=20
++#include <linux/dma-buf.h>
+ #include <linux/fdtable.h>
+ #include <linux/file.h>
+ #include <linux/freezer.h>
+@@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_hea=
+d *pf_head,
  {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 742f29c3daaf..85c940c08867 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -646,4 +646,6 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struc=
-t *,
- 		 unsigned long);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ 	binder_size_t fdi, fd_buf_size;
+ 	binder_size_t fda_offset;
++	bool transfer_gpu_charge =3D false;
+ 	const void __user *sender_ufda_base;
+ 	struct binder_proc *proc =3D thread->proc;
++	struct binder_proc *target_proc =3D t->to_proc;
+ 	int ret;
+=20
+ 	fd_buf_size =3D sizeof(u32) * fda->num_fds;
+@@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_hea=
+d *pf_head,
+ 	if (ret)
+ 		return ret;
+=20
++	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
++		parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
++		transfer_gpu_charge =3D true;
 +
-+int dma_buf_charge_transfer(struct dma_buf *dmabuf, struct gpucg *gpucg);
- #endif /* __DMA_BUF_H__ */
+ 	for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+ 		u32 fd;
++		struct dma_buf *dmabuf;
++		struct gpucg *gpucg;
++
+ 		binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+ 		binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+=20
+@@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_hea=
+d *pf_head,
+ 						  in_reply_to);
+ 		if (ret)
+ 			return ret > 0 ? -EINVAL : ret;
++
++		if (!transfer_gpu_charge)
++			continue;
++
++		dmabuf =3D dma_buf_get(fd);
++		if (IS_ERR(dmabuf))
++			continue;
++
++		gpucg =3D gpucg_get(target_proc->tsk);
++		ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
++		if (ret) {
++			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
++				proc->pid, thread->pid, target_proc->pid);
++			gpucg_put(gpucg);
++		}
++		dma_buf_put(dmabuf);
+ 	}
+ 	return 0;
+ }
+diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/andro=
+id/binder.h
+index 3246f2c74696..169fd5069a1a 100644
+--- a/include/uapi/linux/android/binder.h
++++ b/include/uapi/linux/android/binder.h
+@@ -137,6 +137,7 @@ struct binder_buffer_object {
+=20
+ enum {
+ 	BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
++	BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+ };
+=20
+ /* struct binder_fd_array_object - object describing an array of fds in a =
+buffer
 --=20
 2.35.1.265.g69c8d7142f-goog
 
