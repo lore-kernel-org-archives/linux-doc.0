@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9455C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Feb 2022 18:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6CA9C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Feb 2022 18:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237827AbiBMSjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Feb 2022 13:39:43 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49726 "EHLO
+        id S237853AbiBMSvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Feb 2022 13:51:11 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237828AbiBMSjn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Feb 2022 13:39:43 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C3157B1C;
-        Sun, 13 Feb 2022 10:39:37 -0800 (PST)
+        with ESMTP id S233785AbiBMSvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Feb 2022 13:51:10 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C802157B36;
+        Sun, 13 Feb 2022 10:51:04 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CF5946120F;
-        Sun, 13 Feb 2022 18:39:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1936EC004E1;
-        Sun, 13 Feb 2022 18:39:32 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 79133B80B54;
+        Sun, 13 Feb 2022 18:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49B95C004E1;
+        Sun, 13 Feb 2022 18:50:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644777576;
-        bh=62G4pAU8FmHDbset5IKmCXHU7ITta7/U1Abf+yudxtA=;
+        s=k20201202; t=1644778262;
+        bh=ajZGYvyhJa3wD0M5n+Jzb3hdgWrFy+cw5hwyaeUdVcg=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pwJQ1NO7br6owS38v9O55UrFNGA8LXTFnWMrfNKA9qbzqA4Mco85gRbDtaSkj48fu
-         ciJf2jNVWazBul0qer4t6DTRsYXjBeaDtBNqtEJRlJI1sCBxFHdwUX4H7HPa8qq0wb
-         VR3zjYrAGDR9zu5z/At01gwxCWTcFsvGjpZPB28PXAXZPnwLV0RaqDfXtBsUdp3clY
-         yalK6rdNvJVbv+VwszApgUYBb5D539+KdNRrw8BchLVEk4BJB8howFwUWDdwd/LPY/
-         6e0CrWvrSQeUdEwwHIu2lyjcCji7ecMw7eZfdrT4EqdItcUesBzaP0g8yue3huvwdY
-         /glfHfZL2bnYg==
-Date:   Sun, 13 Feb 2022 18:46:16 +0000
+        b=Mo5Qq7v0KbYG7JASp6Ui4ZOYm01H43aZtdgy/gGmYOwP76CbNOGbVRD36yY5i8NOt
+         QbKyBBg0o9XSsC6foLRZHnM9LSn+99rqQqJg5GiQIT+Ynu+LkwtNTmNJt/emVj3YxK
+         6wo7hm0s+6N8m9up9Q/WrUoc8mHS93FTMuRELe5jzpifEalrZ7aHt416jWu0LCsmkD
+         A+6FwVo2l3GxbEXD1JmRpzJy1nNymNMx74DnXnDcbaJgZggVN8Wf6y8dK8e9iiysbU
+         nfG/YcNdFAxshgCK0BMSpgP54ju2d0Pvog9IcAgeANrsb2KEa1Rc3VdfnqXrhmkj3q
+         eAGba/MMB+s/g==
+Date:   Sun, 13 Feb 2022 18:57:40 +0000
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     Paul Cercueil <paul@crapouillou.net>
 Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
@@ -43,11 +43,11 @@ Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-iio@vger.kernel.org
-Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based
- API
-Message-ID: <20220213184616.669b490b@jic23-huawei>
-In-Reply-To: <20220207125933.81634-1-paul@crapouillou.net>
+Subject: Re: [PATCH v2 01/12] iio: buffer-dma: Get rid of outgoing queue
+Message-ID: <20220213185740.0322a83d@jic23-huawei>
+In-Reply-To: <20220207125933.81634-2-paul@crapouillou.net>
 References: <20220207125933.81634-1-paul@crapouillou.net>
+        <20220207125933.81634-2-paul@crapouillou.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,90 +56,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  7 Feb 2022 12:59:21 +0000
+On Mon,  7 Feb 2022 12:59:22 +0000
 Paul Cercueil <paul@crapouillou.net> wrote:
 
-> Hi Jonathan,
+> The buffer-dma code was using two queues, incoming and outgoing, to
+> manage the state of the blocks in use.
 > 
-> This is the V2 of my patchset that introduces a new userspace interface
-> based on DMABUF objects to complement the fileio API, and adds write()
-> support to the existing fileio API.
-
-Hi Paul,
-
-It's been a little while. Perhaps you could summarize the various view
-points around the appropriateness of using DMABUF for this?
-I appreciate it is a tricky topic to distil into a brief summary but
-I know I would find it useful even if no one else does!
-
-Thanks,
-
-Jonathan
-
+> While this totally works, it adds some complexity to the code,
+> especially since the code only manages 2 blocks. It is much easier to
+> just check each block's state manually, and keep a counter for the next
+> block to dequeue.
 > 
-> Changes since v1:
+> Since the new DMABUF based API wouldn't use the outgoing queue anyway,
+> getting rid of it now makes the upcoming changes simpler.
 > 
-> - the patches that were merged in v1 have been (obviously) dropped from
->   this patchset;
-> - the patch that was setting the write-combine cache setting has been
->   dropped as well, as it was simply not useful.
-> - [01/12]: 
->     * Only remove the outgoing queue, and keep the incoming queue, as we
+> With this change, the IIO_BLOCK_STATE_DEQUEUED is now useless, and can
+> be removed.
+> 
+> v2: - Only remove the outgoing queue, and keep the incoming queue, as we
 >       want the buffer to start streaming data as soon as it is enabled.
->     * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now functionally the
+>     - Remove IIO_BLOCK_STATE_DEQUEUED, since it is now functionally the
 >       same as IIO_BLOCK_STATE_DONE.
-> - [02/12]:
->     * Fix block->state not being reset in
->       iio_dma_buffer_request_update() for output buffers.
->     * Only update block->bytes_used once and add a comment about why we
->       update it.
->     * Add a comment about why we're setting a different state for output
->       buffers in iio_dma_buffer_request_update()
->     * Remove useless cast to bool (!!) in iio_dma_buffer_io()
-> - [05/12]:
->     Only allow the new IOCTLs on the buffer FD created with
->     IIO_BUFFER_GET_FD_IOCTL().
-> - [12/12]:
->     * Explicitly state that the new interface is optional and is
->       not implemented by all drivers.
->     * The IOCTLs can now only be called on the buffer FD returned by
->       IIO_BUFFER_GET_FD_IOCTL.
->     * Move the page up a bit in the index since it is core stuff and not
->       driver-specific.
 > 
-> The patches not listed here have not been modified since v1.
-> 
-> Cheers,
-> -Paul
-> 
-> Alexandru Ardelean (1):
->   iio: buffer-dma: split iio_dma_buffer_fileio_free() function
-> 
-> Paul Cercueil (11):
->   iio: buffer-dma: Get rid of outgoing queue
->   iio: buffer-dma: Enable buffer write support
->   iio: buffer-dmaengine: Support specifying buffer direction
->   iio: buffer-dmaengine: Enable write support
->   iio: core: Add new DMABUF interface infrastructure
->   iio: buffer-dma: Use DMABUFs instead of custom solution
->   iio: buffer-dma: Implement new DMABUF based userspace API
->   iio: buffer-dmaengine: Support new DMABUF based userspace API
->   iio: core: Add support for cyclic buffers
->   iio: buffer-dmaengine: Add support for cyclic buffers
->   Documentation: iio: Document high-speed DMABUF based API
-> 
->  Documentation/driver-api/dma-buf.rst          |   2 +
->  Documentation/iio/dmabuf_api.rst              |  94 +++
->  Documentation/iio/index.rst                   |   2 +
->  drivers/iio/adc/adi-axi-adc.c                 |   3 +-
->  drivers/iio/buffer/industrialio-buffer-dma.c  | 610 ++++++++++++++----
->  .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
->  drivers/iio/industrialio-buffer.c             |  60 ++
->  include/linux/iio/buffer-dma.h                |  38 +-
->  include/linux/iio/buffer-dmaengine.h          |   5 +-
->  include/linux/iio/buffer_impl.h               |   8 +
->  include/uapi/linux/iio/buffer.h               |  30 +
->  11 files changed, 749 insertions(+), 145 deletions(-)
->  create mode 100644 Documentation/iio/dmabuf_api.rst
-> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
 
+Trivial process thing but change log should be here, not above as we don't
+want it to end up in the main git log.
+
+
+>  drivers/iio/buffer/industrialio-buffer-dma.c | 44 ++++++++++----------
+>  include/linux/iio/buffer-dma.h               |  7 ++--
+>  2 files changed, 26 insertions(+), 25 deletions(-)
+> 
