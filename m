@@ -2,97 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 677AFC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Feb 2022 19:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B7AC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Feb 2022 21:16:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238010AbiBMTZq convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Feb 2022 14:25:46 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36282 "EHLO
+        id S235631AbiBMVQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Feb 2022 16:16:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238006AbiBMTZp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Feb 2022 14:25:45 -0500
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E608318;
-        Sun, 13 Feb 2022 11:25:38 -0800 (PST)
-Date:   Sun, 13 Feb 2022 19:25:26 +0000
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 01/12] iio: buffer-dma: Get rid of outgoing queue
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        with ESMTP id S232588AbiBMVQV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Feb 2022 16:16:21 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED02253715
+        for <linux-doc@vger.kernel.org>; Sun, 13 Feb 2022 13:16:14 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id i62so17807897ioa.1
+        for <linux-doc@vger.kernel.org>; Sun, 13 Feb 2022 13:16:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HoEQyB0wXuP36DzZ0QRkHqCD5SbkH+algRG5wEjwJXo=;
+        b=h5N69fHGI7cZvuuQQQVEWq5Ocbd1LmgnZQMruZWLFS62Tf0f3r6KH42yPIcbnpUzPe
+         TOn2cr/eU2bgt8ZGSdvN9x7aDu4Bhxk+oygox+iO/oUp7WJGV50FSWgs66oeuvA2WYnI
+         1sVuzNVISszFEapEIRj7yG/HqKMqyFtZ2ZqqpcerSoEhNeldBdH/ktro0S0cvKStf8Hm
+         2xifBMI7o4a9q0RW+OVDeqxbjym3XwIzszWyGaTHbmojx1Jkjbz4tT0rCY4ML4+hfHJt
+         uT8ZOyTX5nHvhZHk3nUbalAYxRip7KmO44j/1qtzTwg2iu86F1sZusw7FqD5PtqJ5Hon
+         Xabg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HoEQyB0wXuP36DzZ0QRkHqCD5SbkH+algRG5wEjwJXo=;
+        b=fr8c8s2Dg41l7NO4N3rGPUgJta4q7+NOU5xDU9OTkLSbuy1D0AglXyWEsrBAeQqHSh
+         Cc7a5CK5gNOxyX4pF7LX22559tGuv+PVS/V9kMHIcCSjB5RqeNlnMLnHgM1BWKpHTHQU
+         1ifOGXlGPA5tWRYXKXqhDElpebe20jb0tRK+0yHjNJ2rdF4GhMnRPg/J5cxD7ZtC0ImB
+         UZp6ZcbIB6YBHxUDXqDbSn/vU0SxtSVHKchFTK9kLqBndixBNggjWh5e4T3q6SIhdHTR
+         kOUwpoBvLI87I4cPr9scIjIqUKq3Xysg9rq3pY543wLVNBNtOd1Vfo8O3fiY72h//xs9
+         iWLw==
+X-Gm-Message-State: AOAM533jwBcaMx8Hl+a3PGvDc7OrrP954rBuX+rlFOmslEDcNknmIaVF
+        /5Wc1SFuLEjGZWKijdmILAdg9Ki4Eyk5rfSE
+X-Google-Smtp-Source: ABdhPJx2zA0Qgp3jj6EvOzNNp5e5TWs1qwwakXa6kVQ5HAZUV4wNcOsmNoaH07/PQ38CF5kNKnRKiw==
+X-Received: by 2002:a05:6602:1656:: with SMTP id y22mr5599323iow.34.1644786974067;
+        Sun, 13 Feb 2022 13:16:14 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:4782:b5ed:f641:ee91])
+        by smtp.gmail.com with ESMTPSA id q2sm12515494ilt.33.2022.02.13.13.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Feb 2022 13:16:13 -0800 (PST)
+Date:   Sun, 13 Feb 2022 14:16:09 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Message-Id: <EMC97R.6CF1131XF9J13@crapouillou.net>
-In-Reply-To: <20220213185740.0322a83d@jic23-huawei>
-References: <20220207125933.81634-1-paul@crapouillou.net>
-        <20220207125933.81634-2-paul@crapouillou.net>
-        <20220213185740.0322a83d@jic23-huawei>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
+Message-ID: <Ygl1Gf+ATBuI/m2q@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-5-yuzhao@google.com>
+ <YgWFlYi5jGENGD4G@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YgWFlYi5jGENGD4G@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+On Thu, Feb 10, 2022 at 09:37:25PM +0000, Matthew Wilcox wrote:
+> On Tue, Feb 08, 2022 at 01:18:54AM -0700, Yu Zhao wrote:
 
-Le dim., févr. 13 2022 at 18:57:40 +0000, Jonathan Cameron 
-<jic23@kernel.org> a écrit :
-> On Mon,  7 Feb 2022 12:59:22 +0000
-> Paul Cercueil <paul@crapouillou.net> wrote:
+[...]
+
+> > +++ b/include/linux/page-flags-layout.h
+> > @@ -26,6 +26,14 @@
+> >  
+> >  #define ZONES_WIDTH		ZONES_SHIFT
+> >  
+> > +#ifdef CONFIG_LRU_GEN
+> > +/* LRU_GEN_WIDTH is generated from order_base_2(CONFIG_NR_LRU_GENS + 1). */
+> > +#define LRU_REFS_WIDTH		(CONFIG_TIERS_PER_GEN - 2)
+> > +#else
+> > +#define LRU_GEN_WIDTH		0
+> > +#define LRU_REFS_WIDTH		0
+> > +#endif /* CONFIG_LRU_GEN */
 > 
->>  The buffer-dma code was using two queues, incoming and outgoing, to
->>  manage the state of the blocks in use.
->> 
->>  While this totally works, it adds some complexity to the code,
->>  especially since the code only manages 2 blocks. It is much easier 
->> to
->>  just check each block's state manually, and keep a counter for the 
->> next
->>  block to dequeue.
->> 
->>  Since the new DMABUF based API wouldn't use the outgoing queue 
->> anyway,
->>  getting rid of it now makes the upcoming changes simpler.
->> 
->>  With this change, the IIO_BLOCK_STATE_DEQUEUED is now useless, and 
->> can
->>  be removed.
->> 
->>  v2: - Only remove the outgoing queue, and keep the incoming queue, 
->> as we
->>        want the buffer to start streaming data as soon as it is 
->> enabled.
->>      - Remove IIO_BLOCK_STATE_DEQUEUED, since it is now functionally 
->> the
->>        same as IIO_BLOCK_STATE_DONE.
->> 
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
+> I'm concerned about the number of bits being used in page->flags.
+> It seems to me that we already have six bits in use to aid us in choosing
+> which pages to reclaim: referenced, lru, active, workingset, reclaim,
+> unevictable.
 > 
-> Trivial process thing but change log should be here, not above as we 
-> don't
-> want it to end up in the main git log.
+> What I was hoping to see from this patch set was reuse of those bits.
 
-I'm kinda used to do this now, it's the policy for sending patches to 
-the DRM tree. I like it because "git notes" disappear after rebases and 
-it's a pain. At least like this I don't lose the changelog.
+Agreed. I have a plan to *reduce* some of those bits but it's a
+relatively low priority item on my to-do list.
 
-But okay, I'll change it for v3, if there's a v3.
+> That would give us 32 queues in total.  Some would be special (eg pages
+> cannot migrate out of the unevictable queue), but it seems to me that you
+> effectively have 4 queues for active and 4 queues for inactive at this
+> point (unless I misunderstood that).  I think we need special numbers
+> for: Not on the LRU and Unevictable, but that still leaves us with 30
+> generations to split between active & inactive.
+> 
+> But maybe we still need some of those bits?  Perhaps it's not OK to say
+> that queue id 0 is !LRU, queue 1 is unevictable, queue #2 is workingset,
+> queues 3-7 are active, queues 8-15 are various degrees of inactive.
+> I'm assuming that it's not sensible to have a page that's marked as both
+> "reclaim" and "workingset", but perhaps it is.
+> 
+> Anyway, I don't understand this area well enough.  I was just hoping
+> for some simplification.
 
-Cheers,
--Paul
+I plan to use the spare bits in folio->lru to indicate which lru list
+a folio is on, i.e., active/inactive or generations or unevictable.
 
->>   drivers/iio/buffer/industrialio-buffer-dma.c | 44 
->> ++++++++++----------
->>   include/linux/iio/buffer-dma.h               |  7 ++--
->>   2 files changed, 26 insertions(+), 25 deletions(-)
->> 
+In addition, swapbacked could go to folio->mapping -- we wouldn't need
+it if there were no MADV_FREE, i.e., it would be equivalent to
+PageAnon() || shmem_mapping().
 
+These two work items can be done separately and in parallel with
+everything else that's been going on lately. It'd awesome if somebody
+volunteers, and I can find some resource from our side to test/review
+the code so that we can have them done sooner.
 
+The rest, in theory, can also be moved to somewhere but, IMO, it's not
+really worth the effort given the situation isn't dire at the moment.
+referenced and workingset are already reused between the active/inactive
+lru and the multigenerational lru; reclaim is reused for readahead, but
+readahead could be split out as an xa tag; lru is reused for isolation
+synchronization.
