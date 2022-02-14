@@ -2,88 +2,289 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 562A2C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 21:56:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C3CAC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 22:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231678AbiBNV4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 16:56:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57712 "EHLO
+        id S231826AbiBNW0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 17:26:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231676AbiBNV4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 16:56:47 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E4AA2E0BC
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 13:56:38 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id l19so25739738pfu.2
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 13:56:38 -0800 (PST)
+        with ESMTP id S231234AbiBNW0J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 17:26:09 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A4161451C3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 14:26:00 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id p15so40287376ejc.7
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 14:25:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OiSsgbTNNS1PN2vIPffxFK30orCDWpVATmUi7r4Spwg=;
-        b=s2HLQSrEt1NVq3FaO+ItzWZFW9EJKI1oCIoU5Jy54OTgfCqR5PwyTzERIxURcgsAZd
-         qNUSe36yPkPVXgbpjzQm+FOJExSbbdqleCWn9WzVHNUQI74JuKmsH6WYtdUr+60csGrL
-         joRG5DeBZTuH4FJSEDJLdKCPoh8/Fxu1OgBsPlpNJ/QBQIH9warKHhaprmtNcEcmQVEV
-         Y5W9UIJDKomuxLj2e3bK1l+yXhvCZX1Yc7TSCy8ZK+TRAya0gWX451cja6JpPA5X8EC/
-         SVvCKI+/uomzhGTcd6zMcRwokZzCufOWj/joH1SvK5KptpNnHFx+HGGI3apdLw6jYryx
-         BjwA==
+         :cc:content-transfer-encoding;
+        bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
+        b=kXzDIbeon23MHLMt55FkUQMNMzpbUwjF4pGEHQVVR8kxY9f8bNkaLn7jE0kbUtbn3L
+         b9kl4UwC8flsLgF3qVMkSmkvmdF1Jt9Kjef1jBBpf5/Zf+a+E7tm2ei87Qd5NbmIKrOF
+         N82gD75TFZH0mtC5IYIsG8oT11N0ErdMbUQ+vDx4iQdPDduvByEYqq0+N85F+cKyEzjH
+         qAJ9CPKDgzdEdqLPAEum3T8FIlDiMJQUosPgAeySYE6owzXoDc9a5wNuN0Re5wGSB2JK
+         +J/lWvtMVPoSlQn5X6RkXil8/6Lfo9tlft0Vb/pupOfjNdjHeBjWfIslcuL+R2HeH5L/
+         d/2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OiSsgbTNNS1PN2vIPffxFK30orCDWpVATmUi7r4Spwg=;
-        b=tKjGr+HE6gohUitqGrbhz4Mwi39sGTA/Qm6fPLBviuuRq1r8mU6dE6GWA6fbyw/5vv
-         QbH+F+TkO2JdKwXQa9DzFRATlLbTo5IquXcbwcWOemzd25DOHMAlxe3VGdQxY6j+Y3EG
-         0FYKng8qj615WR7uhUdyztS5IVzZxEKYQHockS0032cs6ChA1jyOtrohUMnHvOCVn9D4
-         17Tki13SmsgXAgZV9VJO6GtXY0SLT0jsmQtQ4EuOo+nu6m1/eQ/0QchELMvXTKvJxn89
-         vlvFxkvuLUoWXS+sXFyTlx/WBlHr2VDttT8y5Kgsyhm8CU2H1TocCZT3BVY6Vz0CMjjs
-         aRgw==
-X-Gm-Message-State: AOAM532lAqwPCkI/xOBv8hbkWnYpSbJp/Pc0fXsj9OVbGINq7z4n1Fg9
-        tQaevN0/NR01/hoMK4PzST1uTDIhUkHPJr5t6i2egA==
-X-Google-Smtp-Source: ABdhPJyRoHiuH80bBOXiC5qPysRfk9zG+7MBAT8XtZyduYTj7PVhc/t5GG7c/JUqSnNMFiZOG85ck4R12JWh6AlDJvs=
-X-Received: by 2002:a63:ea4b:: with SMTP id l11mr934534pgk.12.1644875797678;
- Mon, 14 Feb 2022 13:56:37 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
+        b=2ZWWARwNii4vdGiLOdouVW8Exz72BixGc8RI+KANkjo/kEIkoUfz4MWLaL91kOQrQr
+         CFTF+KCFGEjQckwOn2NAJecR39EMGcQD9+xuz7PCIxv37nto651kMqdpMfjaAwx4AQIk
+         N4cUhIHcQWtqmL2gY6oW4a7nu6+tvBqHHRdQHSB1uu0oMwS2YHxfrqM55vYYorbi2hSX
+         a0RpV/XLy7qU6Te5YF9sIqG/6vutorKZhJca7HX9R53jlXRjzAKz2M/1LPl0VSBBRbz2
+         nyXHYhxCilYqHHaakYDZjA9KMZPCs8H3xyr95WHHhbNc6r7kVnnQI+xn/veQiOi0J7IJ
+         HG5Q==
+X-Gm-Message-State: AOAM530ErGPyI2R2Kj76/3oeT4ua3/oPrUejGZqD2qIrB+CW2Isyol9b
+        ryQuPVjdx12VAQqFJO2TzeHICHwWr4R14a5FHUeYnQ==
+X-Google-Smtp-Source: ABdhPJzGACGFNq1BPwRwv23eE84sjRC0d54XfeIYewn82JWldVK/PTYDHJp5HG1XHJwLS3IoON1Lvd3AWtka9GIbv0c=
+X-Received: by 2002:a17:906:51d6:: with SMTP id v22mr734664ejk.446.1644877558320;
+ Mon, 14 Feb 2022 14:25:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20220210233630.3304495-1-frowand.list@gmail.com>
-In-Reply-To: <20220210233630.3304495-1-frowand.list@gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 14 Feb 2022 16:56:26 -0500
-Message-ID: <CAFd5g46HuUcPggLrUjuXO7XJGSxQK590oK7OCOB9ma+TFCiTdg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] Documentation: dev-tools: clarify KTAP
- specification wording
-To:     frowand.list@gmail.com
-Cc:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Rae Moar <rmoar@google.com>,
-        Tim.Bird@sony.com, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
+In-Reply-To: <Ygdfe3XSvN8iFuUc@kroah.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Mon, 14 Feb 2022 14:25:47 -0800
+Message-ID: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 6:36 PM <frowand.list@gmail.com> wrote:
+On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> From: Frank Rowand <frank.rowand@sony.com>
+> On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
+> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+> > that a process sending an fd array to another process over binder IPC
+> > can set to relinquish ownership of the fds being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd array
+> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
+> > the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL proce=
+ss
+> > allocates memory and sends the fds to the clients over binder IPC.
+> > The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+> > correctly charge the buffers to the client processes instead of the
+> > graphics allocator HAL.
+> >
+> > From: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > changes in v2
+> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+> >
+> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+> >  include/uapi/linux/android/binder.h |  1 +
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 8351c5638880..f50d88ded188 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >  {
+> >       binder_size_t fdi, fd_buf_size;
+> >       binder_size_t fda_offset;
+> > +     bool transfer_gpu_charge =3D false;
+> >       const void __user *sender_ufda_base;
+> >       struct binder_proc *proc =3D thread->proc;
+> > +     struct binder_proc *target_proc =3D t->to_proc;
+> >       int ret;
+> >
+> >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >       if (ret)
+> >               return ret;
+> >
+> > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +             transfer_gpu_charge =3D true;
+> > +
+> >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >               u32 fd;
+> > +             struct dma_buf *dmabuf;
+> > +             struct gpucg *gpucg;
+> > +
+> >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >
+> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >                                                 in_reply_to);
+> >               if (ret)
+> >                       return ret > 0 ? -EINVAL : ret;
+> > +
+> > +             if (!transfer_gpu_charge)
+> > +                     continue;
+> > +
+> > +             dmabuf =3D dma_buf_get(fd);
+> > +             if (IS_ERR(dmabuf))
+> > +                     continue;
+> > +
+> > +             gpucg =3D gpucg_get(target_proc->tsk);
+> > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +             if (ret) {
+> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
+ge to %d",
+> > +                             proc->pid, thread->pid, target_proc->pid)=
+;
+> > +                     gpucg_put(gpucg);
+> > +             }
+> > +             dma_buf_put(dmabuf);
+> >       }
+> >       return 0;
+> >  }
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 3246f2c74696..169fd5069a1a 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> >
+> >  enum {
+> >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >  };
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds i=
+n a buffer
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
 >
-> Add the spec version to the title line.
->
-> Explain likely source of "Unknown lines".
->
-> "Unknown lines" in nested tests are optionally indented.
->
-> Add "Unknown lines" items to differences between TAP & KTAP list
->
-> Convert "Major differences between TAP and KTAP" from a bullet list
-> to a table.  The bullet list was being formatted as a single
-> paragraph.
->
-> Reviewed-by: Tim Bird <Tim.Bird@sony.com>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+> How does userspace know that binder supports this new flag?
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Sorry, I don't completely follow even after Todd's comment. Doesn't
+the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
+this? So wouldn't userspace need to be compiled against the wrong
+kernel headers for there to be a problem? In that case the allocation
+would still succeed, but there would be no charge transfer and
+unfortunately no error code.
+
+> And where is the userspace test for this new feature?
+
+I tested this on a Pixel after modifying the gralloc implementation to
+mark allocated buffers as not used by the sender. This required
+setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
+code can be found here:
+https://android-review.googlesource.com/c/platform/system/libhwbinder/+/191=
+0752/1/Parcel.cpp
+https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611=
+/
+
+Then by inspecting gpu.memory.current files in sysfs I was able to see
+the memory attributed to processes other than the graphics allocator
+service. Before this change, several megabytes of memory were
+attributed to the graphics allocator service but those buffers are
+actually used by other processes like surfaceflinger, the camera, etc.
+After the change, the gpu.memory.current amount for the graphics
+allocator service was 0 and the charges showed up in the
+gpu.memory.current files for those other processes like this:
+
+PID: 764 Process Name: zygote64
+system 8192
+system-uncached 23191552
+
+PID: 529 Process Name: /system/bin/surfaceflinger
+system-uncached 109535232
+system 92196864
+
+PID: 530 Process Name:
+/vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
+system-uncached 0
+system 0
+sensor_direct_heap 0
+
+PID: 806 Process Name:
+/apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2=
+.7-service-google
+system 1196032
+
+PID: 4608 Process Name: com.google.android.GoogleCamera
+system 2408448
+system-uncached 38887424
+sensor_direct_heap 0
+
+PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
+system-uncached 91279360
+system 20480
+
+PID: 2758 Process Name: com.google.android.youtube
+system-uncached 1662976
+system 8192
+
+PID: 2517 Process Name: com.google.android.apps.nexuslauncher
+system-uncached 115662848
+system 122880
+
+PID: 2066 Process Name: com.android.systemui
+system 86016
+system-uncached 37957632
+
+>  Isn't there a binder test framework somewhere?
+
+Android has the Vendor Test Suite where automated tests could be added
+for this. Is that what you're thinking of?
+
+>
+> thanks,
+>
+> greg k-h
