@@ -2,120 +2,411 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58537C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 14:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15004C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 14:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355405AbiBNOwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 09:52:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55004 "EHLO
+        id S230169AbiBNO5z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 09:57:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236391AbiBNOwU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 09:52:20 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C107B868;
-        Mon, 14 Feb 2022 06:52:13 -0800 (PST)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EEIYo1002620;
-        Mon, 14 Feb 2022 14:52:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=wQtcKi+WP9r+eZ2x1hKewIdoq5UyhAvVxxqks/Bmx0o=;
- b=kRR7l589De7MzaG9u88CSk2kskux6ZZQ2MFipCI76t1fv28Uom/kjoB61Ulaz7dKEXKN
- 9DRtGunP3Cpvb4NDOWOId7wxDuYX6Ton9Cww9RItO0ou2OZYu7KOURHTxc7honrH//Aw
- KoffHzsIal+isCn1g9AIQDjMF8QJLRK++LSanxjtDoHVmJEtc+YnwAJDAM3GGV2CyQYS
- NGPmwPiqdRiIgTSkX8ExtDVFEh8QM3pkZxypS0c25ApEGSoqgQDbbJ5U1gYNdP9xIbBm
- ebdq6oGG9vGIwFiMxeIwUmhQKMEZ3oZ0tPGRs1xrt3Yl3ilGFM28Az2pOV9vT7QpTtx6 yw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3e7cje13dj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Feb 2022 14:52:11 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21EEKQBN026636;
-        Mon, 14 Feb 2022 14:52:10 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3e7cje13cq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Feb 2022 14:52:10 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21EElwTf010676;
-        Mon, 14 Feb 2022 14:52:08 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma06ams.nl.ibm.com with ESMTP id 3e645jekgt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Feb 2022 14:52:08 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21EEq5hF24707374
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Feb 2022 14:52:05 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 474314C046;
-        Mon, 14 Feb 2022 14:52:05 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 703EC4C050;
-        Mon, 14 Feb 2022 14:52:04 +0000 (GMT)
-Received: from [9.171.14.134] (unknown [9.171.14.134])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 14 Feb 2022 14:52:04 +0000 (GMT)
-Message-ID: <78e1c95f-26b3-eeb5-7e7e-7b9e79625eb2@linux.ibm.com>
-Date:   Mon, 14 Feb 2022 15:52:04 +0100
+        with ESMTP id S1353443AbiBNO5v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 09:57:51 -0500
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81362C4C;
+        Mon, 14 Feb 2022 06:57:42 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id s24so17659239oic.6;
+        Mon, 14 Feb 2022 06:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=RU+P+XAzAbJhRHumUmSdEa9uqO+At7iottnaoJejHa0=;
+        b=QuWvWjelv2SUTUerd43MaSrB1RMVEWz++FLF8IvemTb9qv5v5+8l5QVK9LfHchXnZt
+         xAyqZAlBHn+SkdaAmW4wVmw/bt82I37CFz13uZtL87FoPFQwFRh4FHh8kOAOutq9dW4v
+         P5GmbeF7ffUOy62HXFQnEOlNHLgBp9JBtUzViyER02OMJgNUZTVmg6fJK/w4PQ4evm3g
+         JuhemSbJePmPJ1pNU1VQ0jM5BZvKaQbGEnF0Vi8/hiTwnZTz7Yg+zpjFYNucAlWil/Dv
+         7FPtDBMYp7SynjXWigrm/UUNTx77+MruX4xYRLON/i3JWuT8wWMtYAzcrLenQnb3uoOa
+         wmTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=RU+P+XAzAbJhRHumUmSdEa9uqO+At7iottnaoJejHa0=;
+        b=CjCwdD9NFwOl5ImH9JOrC7BD2Lzz+YoYuzwoHuBIkLqtKAghPF/Z2I9wr0B1eC4emb
+         0ojxi3kDj6JtiZjMKG5bOdOxla8+G18Z7Qgm312jVg2u038JY9xNnbA/vPzO6rfJAz5K
+         mVSwdxUlu61MZe8nOYkTLByUcxsyghOSx0pU/qSJR3u2axc4BGIsBI9dME5mFiJ36rpa
+         UnfR1uEaJJ5HVvJK5FHbiizH2aOEZXC+KQWjO2Lq2dDvM7+UaeteTkl1DYbhK+7gAoGi
+         +XNfg+wZM0wdENlQGqrvLII7U7EUK/cqqWld8H657nOI7eRm3h8ma2x0IEbqNP0GGGv9
+         BJjg==
+X-Gm-Message-State: AOAM532uCJxXYRsPEO8WSExN6bDOW6Xmb2N7l1NcaD3BI3hXybB9EORs
+        ftlmcQGiVyFGO1uV0z04/h4=
+X-Google-Smtp-Source: ABdhPJyvtt77epgA+MfRUazK9tlX1zaNoxCjY4HUiJ2IsOmSIiQS7/wZ10oJwcvnlEWWeJLQc9oK1w==
+X-Received: by 2002:a05:6808:f93:: with SMTP id o19mr5653443oiw.201.1644850661828;
+        Mon, 14 Feb 2022 06:57:41 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id cm18sm4487976oab.7.2022.02.14.06.57.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Feb 2022 06:57:40 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6ead3577-75ec-1b9a-0c27-213a3a186c57@roeck-us.net>
+Date:   Mon, 14 Feb 2022 06:57:37 -0800
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 00/10] KVM: s390: Do storage key checking
 Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-References: <20220211182215.2730017-1-scgl@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220211182215.2730017-1-scgl@linux.ibm.com>
+        linux-trace-devel@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>
+References: <cover.1644830251.git.bristot@kernel.org>
+ <e67874c8b676ea8dfe38679efa25363889bb1e76.1644830251.git.bristot@kernel.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [RFC V2 17/21] watchdog/dev: Add tracepoints
+In-Reply-To: <e67874c8b676ea8dfe38679efa25363889bb1e76.1644830251.git.bristot@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wIHoKf7dHMci_eHreKeaREJnL9iRMbx3
-X-Proofpoint-ORIG-GUID: yzsGOb6HnjoVfBAzuNgddCZHaZcFrWwa
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_06,2022-02-14_03,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202140088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 11.02.22 um 19:22 schrieb Janis Schoetterl-Glausch:
-> Check keys when emulating instructions and let user space do key checked
-> accesses.
-> User space can do so via an extension of the MEMOP IOCTL:
-> * allow optional key checking
-> * allow MEMOP on vm fd, so key checked accesses on absolute memory
->    become possible
+On 2/14/22 02:45, Daniel Bristot de Oliveira wrote:
+> Add a set of tracepoints, enabling the observability of the watchdog
+> device interactions with user-space.
 > 
-> I haven't finished the memop selftest rewrite, but decided to send out a
-> new version anyway, since the functional patches are (hopefully) final
-> and the memop selftest patch works. I'll reply to it with the
-> rewritten version.
+> The events are:
+> 	watchdog:watchdog_open
+> 	watchdog:watchdog_close
+> 	watchdog:watchdog_start
+> 	watchdog:watchdog_stop
+> 	watchdog:watchdog_set_timeout
+> 	watchdog:watchdog_ping
+> 	watchdog:watchdog_nowayout
+> 	watchdog:watchdog_set_keep_alive
+> 	watchdog:watchdog_keep_alive
 > 
-> v3: https://lore.kernel.org/kvm/20220209170422.1910690-1-scgl@linux.ibm.com/
-> v2: https://lore.kernel.org/kvm/20220207165930.1608621-1-scgl@linux.ibm.com/
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>   drivers/watchdog/watchdog_dev.c |  41 ++++++++++++-
+>   include/linux/watchdog.h        |   7 +--
+>   include/trace/events/watchdog.h | 103 ++++++++++++++++++++++++++++++++
+>   3 files changed, 142 insertions(+), 9 deletions(-)
+>   create mode 100644 include/trace/events/watchdog.h
 > 
-> v3 -> v4
->   * rebase
->   * ignore key in memop if skey flag not specified
->   * fix nits in documentation
->   * pick up tags
+> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
+> index 3a3d8b5c7ad5..0beeac5d4541 100644
+> --- a/drivers/watchdog/watchdog_dev.c
+> +++ b/drivers/watchdog/watchdog_dev.c
+> @@ -44,6 +44,9 @@
+>   #include <linux/watchdog.h>	/* For watchdog specific items */
+>   #include <linux/uaccess.h>	/* For copy_to_user/put_user/... */
+>   
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/watchdog.h>
+> +
+>   #include "watchdog_core.h"
+>   #include "watchdog_pretimeout.h"
+>   
+> @@ -130,9 +133,11 @@ static inline void watchdog_update_worker(struct watchdog_device *wdd)
+>   	if (watchdog_need_worker(wdd)) {
+>   		ktime_t t = watchdog_next_keepalive(wdd);
+>   
+> -		if (t > 0)
+> +		if (t > 0) {
+>   			hrtimer_start(&wd_data->timer, t,
+>   				      HRTIMER_MODE_REL_HARD);
+> +			trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
+> +		}
+>   	} else {
+>   		hrtimer_cancel(&wd_data->timer);
+>   	}
+> @@ -149,14 +154,16 @@ static int __watchdog_ping(struct watchdog_device *wdd)
+>   	now = ktime_get();
+>   
+>   	if (ktime_after(earliest_keepalive, now)) {
+> -		hrtimer_start(&wd_data->timer,
+> -			      ktime_sub(earliest_keepalive, now),
+> +		ktime_t t = ktime_sub(earliest_keepalive, now);
 
-I queued patches 1-9 for CI runners (and will also queue for next).
+I am quite sure this line creates a checkpatch warning.
+
+> +		hrtimer_start(&wd_data->timer, t,
+>   			      HRTIMER_MODE_REL_HARD);
+> +		trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
+>   		return 0;
+>   	}
+>   
+>   	wd_data->last_hw_keepalive = now;
+>   
+> +	trace_watchdog_ping(wdd);
+>   	if (wdd->ops->ping)
+>   		err = wdd->ops->ping(wdd);  /* ping the watchdog */
+>   	else
+> @@ -215,6 +222,7 @@ static void watchdog_ping_work(struct kthread_work *work)
+>   	wd_data = container_of(work, struct watchdog_core_data, work);
+>   
+>   	mutex_lock(&wd_data->lock);
+> +	trace_watchdog_keep_alive(wd_data->wdd);
+>   	if (watchdog_worker_should_ping(wd_data))
+>   		__watchdog_ping(wd_data->wdd);
+>   	mutex_unlock(&wd_data->lock);
+> @@ -252,6 +260,8 @@ static int watchdog_start(struct watchdog_device *wdd)
+>   
+>   	set_bit(_WDOG_KEEPALIVE, &wd_data->status);
+>   
+> +	trace_watchdog_start(wdd);
+> +
+>   	started_at = ktime_get();
+>   	if (watchdog_hw_running(wdd) && wdd->ops->ping) {
+>   		err = __watchdog_ping(wdd);
+> @@ -298,6 +308,7 @@ static int watchdog_stop(struct watchdog_device *wdd)
+>   		return -EBUSY;
+>   	}
+>   
+> +	trace_watchdog_stop(wdd);
+>   	if (wdd->ops->stop) {
+>   		clear_bit(WDOG_HW_RUNNING, &wdd->status);
+>   		err = wdd->ops->stop(wdd);
+> @@ -370,6 +381,7 @@ static int watchdog_set_timeout(struct watchdog_device *wdd,
+>   	if (watchdog_timeout_invalid(wdd, timeout))
+>   		return -EINVAL;
+>   
+> +	trace_watchdog_set_timeout(wdd, timeout);
+>   	if (wdd->ops->set_timeout) {
+>   		err = wdd->ops->set_timeout(wdd, timeout);
+>   	} else {
+> @@ -432,6 +444,23 @@ static int watchdog_get_timeleft(struct watchdog_device *wdd,
+>   	return 0;
+>   }
+>   
+> +/*
+
+/** ?
+
+> + * watchdog_set_nowayout - set nowaout bit
+> + * @wdd:	The watchdog device to set nowayoutbit
+> + * @nowayout	A boolean on/off switcher
+> + *
+> + * If nowayout boolean is true, the nowayout option is set. No action is
+> + * taken if nowayout is false.
+> + */
+> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
+> +{
+> +	if (nowayout) {
+> +		set_bit(WDOG_NO_WAY_OUT, &wdd->status);
+> +		trace_watchdog_nowayout(wdd);
+> +	}
+> +}
+> +EXPORT_SYMBOL(watchdog_set_nowayout);
+> +
+>   #ifdef CONFIG_WATCHDOG_SYSFS
+>   static ssize_t nowayout_show(struct device *dev, struct device_attribute *attr,
+>   				char *buf)
+> @@ -457,6 +486,7 @@ static ssize_t nowayout_store(struct device *dev, struct device_attribute *attr,
+>   	/* nowayout cannot be disabled once set */
+>   	if (test_bit(WDOG_NO_WAY_OUT, &wdd->status) && !value)
+>   		return -EPERM;
+> +
+>   	watchdog_set_nowayout(wdd, value);
+>   	return len;
+>   }
+> @@ -858,6 +888,8 @@ static int watchdog_open(struct inode *inode, struct file *file)
+>   		goto out_clear;
+>   	}
+>   
+> +	trace_watchdog_open(wdd);
+> +
+>   	err = watchdog_start(wdd);
+>   	if (err < 0)
+>   		goto out_mod;
+> @@ -880,6 +912,7 @@ static int watchdog_open(struct inode *inode, struct file *file)
+>   	return stream_open(inode, file);
+>   
+>   out_mod:
+> +	trace_watchdog_close(wdd);
+>   	module_put(wd_data->wdd->ops->owner);
+>   out_clear:
+>   	clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
+> @@ -940,6 +973,7 @@ static int watchdog_release(struct inode *inode, struct file *file)
+>   	/* make sure that /dev/watchdog can be re-opened */
+>   	clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
+>   
+> +	trace_watchdog_close(wdd);
+>   done:
+>   	running = wdd && watchdog_hw_running(wdd);
+>   	mutex_unlock(&wd_data->lock);
+> @@ -952,6 +986,7 @@ static int watchdog_release(struct inode *inode, struct file *file)
+>   		module_put(wd_data->cdev.owner);
+>   		put_device(&wd_data->dev);
+>   	}
+> +
+
+You may disagree with current empty lines or other cosmetics, but that is not an
+acceptable reason for such changes. Please drop this change and the similar change
+further up.
+
+Guenter
+
+>   	return 0;
+>   }
+>   
+> diff --git a/include/linux/watchdog.h b/include/linux/watchdog.h
+> index 99660197a36c..11d93407e492 100644
+> --- a/include/linux/watchdog.h
+> +++ b/include/linux/watchdog.h
+> @@ -139,12 +139,7 @@ static inline bool watchdog_hw_running(struct watchdog_device *wdd)
+>   	return test_bit(WDOG_HW_RUNNING, &wdd->status);
+>   }
+>   
+> -/* Use the following function to set the nowayout feature */
+> -static inline void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
+> -{
+> -	if (nowayout)
+> -		set_bit(WDOG_NO_WAY_OUT, &wdd->status);
+> -}
+> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout);
+>   
+>   /* Use the following function to stop the watchdog on reboot */
+>   static inline void watchdog_stop_on_reboot(struct watchdog_device *wdd)
+> diff --git a/include/trace/events/watchdog.h b/include/trace/events/watchdog.h
+> new file mode 100644
+> index 000000000000..5d5617ab611a
+> --- /dev/null
+> +++ b/include/trace/events/watchdog.h
+> @@ -0,0 +1,103 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM watchdog
+> +
+> +#if !defined(_TRACE_WATCHDOG_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_WATCHDOG_H
+> +
+> +#include <linux/tracepoint.h>
+> +
+> +DECLARE_EVENT_CLASS(dev_operations_template,
+> +
+> +	TP_PROTO(struct watchdog_device *wdd),
+> +
+> +	TP_ARGS(wdd),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(__u32, id)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->id = wdd->id;
+> +	),
+> +
+> +	TP_printk("id=%d",
+> +		  __entry->id)
+> +);
+> +
+> +/*
+> + * Add a comment
+> + */
+> +DEFINE_EVENT(dev_operations_template, watchdog_open,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_close,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_start,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_stop,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_ping,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_keep_alive,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +DEFINE_EVENT(dev_operations_template, watchdog_nowayout,
+> +	     TP_PROTO(struct watchdog_device *wdd),
+> +	     TP_ARGS(wdd));
+> +
+> +
+> +TRACE_EVENT(watchdog_set_timeout,
+> +
+> +	TP_PROTO(struct watchdog_device *wdd, u64 timeout),
+> +
+> +	TP_ARGS(wdd, timeout),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(__u32, id)
+> +		__field(__u64, timeout)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->id		= wdd->id;
+> +		__entry->timeout	= timeout;
+> +	),
+> +
+> +	TP_printk("id=%d timeout=%llus",
+> +		  __entry->id, __entry->timeout)
+> +);
+> +
+> +TRACE_EVENT(watchdog_set_keep_alive,
+> +
+> +	TP_PROTO(struct watchdog_device *wdd, u64 timeout),
+> +
+> +	TP_ARGS(wdd, timeout),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(__u32, id)
+> +		__field(__u64, timeout)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->id		= wdd->id;
+> +		__entry->timeout	= timeout;
+> +	),
+> +
+> +	TP_printk("id=%d keep_alive=%llums",
+> +		  __entry->id, __entry->timeout)
+> +);
+> +
+> +#endif /* _TRACE_WATCHDOG_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+
