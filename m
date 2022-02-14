@@ -2,272 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FDC0C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 12:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9C4C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 12:34:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237928AbiBNMTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 07:19:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50882 "EHLO
+        id S231529AbiBNMec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 07:34:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240786AbiBNMTB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 07:19:01 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B904927C;
-        Mon, 14 Feb 2022 04:18:51 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id c5-20020a17090a1d0500b001b904a7046dso17164982pjd.1;
-        Mon, 14 Feb 2022 04:18:51 -0800 (PST)
+        with ESMTP id S1353219AbiBNMe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 07:34:29 -0500
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7CDB4A3CF
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 04:34:20 -0800 (PST)
+Received: by mail-ua1-x935.google.com with SMTP id w18so8031806uar.8
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 04:34:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=b5GXTdaP8UX0YJthNdNaEYKkAqh83Ae4q4bpmeUiQzw=;
-        b=dGPW5D3UIt/uWf+LBmxuvKR98tG6UdDlxSCLI3XzlS2nKEhup8fgNV9wwjmoLC69FB
-         JxYbvvQ7o4qehj/2N0bnavkzoRVwtJs/zOGw0gTvK5QvMvYlIyUd/D/MJbz4YwZB2Bqb
-         66hFarkNUyt5pg1C7Pc2S6FfnLrdVT2Rb1SgQ25WCIWB1b0lxvITooHBRiYBQv95l0pa
-         TEp2Y+sVwWptMj0Bdbb3fw8K5a/YTFhQjm3CJWWIjZDBcjCNONJ7+vpw9AtD7jmlWG+d
-         vTnorqmAP0SJD7kPVI+8ZtnObwlD3mtp1xNCoo7b2hbMqIsvToni51IDo2CkP9yvvzUd
-         peiQ==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=u0lz2sBFTROYxYJ6eqMOWGm9UTJfyP61FYvgdnhkZ3I=;
+        b=nEe1l0hdXdSreWxGfYzOMAroXlhk6U0l82gHW3dPxeIq953C7Lp9jjLb2STTA6q91/
+         3YQY4ptFY0W/xrLk7ftcOUEfF8rFpzdTQ8h3MQihF6t8uu5sJA7kA1+NwxRI5NEil3eQ
+         Q7L5s5C16Ueci5KvTW8ZsSue/4M0Ez7bYUWbG/hnIbzmAHff0KFw2BjGyAJC7HyX2QIL
+         VzfwopRLUvXhkwlC+oRzZ0vFHluU4tQarVn4+Mo337qqWn6gqsW6rvbqcvcEqOiJdybU
+         a3MOgBj/AErLTKkCLaXkn/1IwVHXsI8YeZ05g/IrjegWXqgmhrCOjV+OkAiiHMSohxO7
+         qMvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=b5GXTdaP8UX0YJthNdNaEYKkAqh83Ae4q4bpmeUiQzw=;
-        b=EAMsPVKrpWaxERzy/XBYkgRaM6sfuLMtlwlBo9wYoXSdzo8Ec6N2vliIzt73F/L4hg
-         gNYykqBOVQpUpooQgbXmcAe6y6kl7rcXlpO1fTgDmngxYLm5YzkNiIbEX0I8/qOhP/VO
-         Hi3ok3H+/zYAuf6rHART9Ng6wSBv6ldHRaj3VnFAtBb26O6Vi1+K5pY8k0tV9yNTbyG2
-         xf4VAegMKExDogtsRQ479Qa5umxQtadz94+axxxXMISNfS25BR2LydxJOezFG6H/pvi3
-         V0WoUmY8HivT2n/iiw98iTOd5lJ7CqYf381SV4P+hNIpHHa2Xy2KzLytLBYHyx2Ti3OM
-         0SNw==
-X-Gm-Message-State: AOAM53091GR1Ut12dW36XnjfbaZvtUpl78schAWbWXTicaxmUeI3JwmU
-        QZhYweYa4/8vexobiss+eMs=
-X-Google-Smtp-Source: ABdhPJx9RKokcJ0iyIkWa7wex5gmBAFb7KBQRNWClm3nzMLErCgC1ZoDq1Y/IXf3yhTn4YBKSYi9pw==
-X-Received: by 2002:a17:90a:de10:: with SMTP id m16mr14135317pjv.157.1644841130490;
-        Mon, 14 Feb 2022 04:18:50 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id v20sm13818402pju.9.2022.02.14.04.18.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 04:18:50 -0800 (PST)
-Message-ID: <eb5506aa-815d-b373-2eff-a3b9df533141@gmail.com>
-Date:   Mon, 14 Feb 2022 21:18:46 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=u0lz2sBFTROYxYJ6eqMOWGm9UTJfyP61FYvgdnhkZ3I=;
+        b=aBq91Ou2llGp8KCWsc1fOOCSfzMSS0L8brjErlUZanePXgGi/DXetLK9+36iB6bDuk
+         AXk8tkm0ZowBq9NSHB7oKFFh1Vf9N5gIhs5uJRsKpdoexbGOH5G+WblCOq4eBSl1sBmV
+         exQMLUD06XphO350SS29lG0XeP68e1NKx3eKUzluOcR5TLEFKX/apSuxX6AY2INfSuY7
+         bPbXe59YHtHGhT5xXdgdnBRbiPe0aoZwrkx9Cq+0vsXnGClQhMQZjIrP3WVDevh/RKbS
+         OjuWJ7IcTgdawrHEPtN+GfkSHRyRkVHORC9H2wrypQSkebYVGx7S/tZS5H4mqIeBF0bu
+         l+bA==
+X-Gm-Message-State: AOAM531q6xWhS8OF7JpYKLX3Jt1HTByPXG09iq42jQ/DGrl694rq4apj
+        mMVI4EUZ4nxRDSFkA9hh6u0LWnyZ3inRdU/J92vSdA==
+X-Google-Smtp-Source: ABdhPJynVqzw7a/FIDfNQ5KPM6nTyitNKm9fkVk2JtHfS8Fd+I3LpTUBteooPVT+TNL1/84Wz6nqn9c+aHocTnLplII=
+X-Received: by 2002:ab0:6cb7:: with SMTP id j23mr3707418uaa.36.1644842059506;
+ Mon, 14 Feb 2022 04:34:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To:     Tianfei zhang <tianfei.zhang@intel.com>
-Cc:     corbet@lwn.net, hao.wu@intel.com, linux-doc@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mdf@kernel.org, trix@redhat.com, yilun.xu@intel.com,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20220214112619.219761-2-tianfei.zhang@intel.com>
-Subject: Re: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220214112619.219761-2-tianfei.zhang@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com> <20220130211838.8382-27-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220130211838.8382-27-rick.p.edgecombe@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 14 Feb 2022 13:33:53 +0100
+Message-ID: <CAG48ez0_Ng8Fv4ytLK=Y5ANXiDfBPsFFwfxQTzgmDjU1RNFnDw@mail.gmail.com>
+Subject: Re: [PATCH 26/35] x86/process: Change copy_thread() argument 'arg' to 'stack_size'
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Sun, Jan 30, 2022 at 10:22 PM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+>
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>
+> The single call site of copy_thread() passes stack size in 'arg'.  To make
+> this clear and in preparation of using this argument for shadow stack
+> allocation, change 'arg' to 'stack_size'.  No functional changes.
 
-Just a couple of nits on ReST formatting.
+Actually that name is misleading - the single caller copy_process() indeed does:
 
-On Mon, 14 Feb 2022 06:26:13 -0500,
-Tianfei zhang <tianfei.zhang@intel.com> wrote:
-> From: Tianfei Zhang <tianfei.zhang@intel.com>
-> 
-> This patch adds description about IOFS support for DFL.
-> 
-> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
-> ---
->  Documentation/fpga/dfl.rst | 99 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 97 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index ef9eec71f6f3..6f9eae1c1697 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -58,7 +58,10 @@ interface to FPGA, e.g. the FPGA Management Engine (FME) and Port (more
->  descriptions on FME and Port in later sections).
->  
->  Accelerated Function Unit (AFU) represents an FPGA programmable region and
-> -always connects to a FIU (e.g. a Port) as its child as illustrated above.
-> +always connects to a FIU (e.g. a Port) as its child as illustrated above, but
-> +on IOFS design, it introducing Port Gasket which contains AFUs. For DFL perspective,
-> +the Next_AFU pointer on FIU feature header can point to NULL so the AFU is not
-> +connects to a FIU(more descriptions on IOFS in later section).
->  
->  Private Features represent sub features of the FIU and AFU. They could be
->  various function blocks with different IDs, but all private features which
-> @@ -134,6 +137,9 @@ reconfigurable region containing an AFU. It controls the communication from SW
->  to the accelerator and exposes features such as reset and debug. Each FPGA
->  device may have more than one port, but always one AFU per port.
->  
-> +On IOFS, it introducing a new hardware unit, Port Gasket, which contains all
-> +the PR specific modules and regions (more descriptions on IOFS in later section).
-> +
->  
->  AFU
->  ===
-> @@ -143,6 +149,9 @@ used for accelerator-specific control registers.
->  User-space applications can acquire exclusive access to an AFU attached to a
->  port by using open() on the port device node and release it using close().
->  
-> +On IOFS, the AFU is embedded in a Port Gasket. The AFU resource can expose via
-> +VFs with SRIOV support (more descriptions on IOFS in later section).
-> +
->  The following functions are exposed through ioctls:
->  
->  - Get driver API version (DFL_FPGA_GET_API_VERSION)
-> @@ -284,7 +293,8 @@ FME is always accessed through the physical function (PF).
->  
->  Ports (and related AFUs) are accessed via PF by default, but could be exposed
->  through virtual function (VF) devices via PCIe SRIOV. Each VF only contains
-> -1 Port and 1 AFU for isolation. Users could assign individual VFs (accelerators)
-> +1 Port (On IOFS design, the VF is designs without Port) and 1 AFU for isolation.
-> +Users could assign individual VFs (accelerators)
->  created via PCIe SRIOV interface, to virtual machines.
->  
->  The driver organization in virtualization case is illustrated below:
-> @@ -389,6 +399,91 @@ The device nodes used for ioctl() or mmap() can be referenced through::
->  	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
->  	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
->  
-> +Intel Open FPGA stack
-> +=====================
+retval = copy_thread(clone_flags, args->stack, args->stack_size, p, args->tls);
 
-Here you need an empty line.
+but the member "stack_size" of "struct kernel_clone_args" can actually
+also be a pointer argument given to a kthread, see create_io_thread()
+and kernel_thread():
 
-> +Intel Open FPGA stack aka IOFS, Intel's version of a common core set of
-> +RTL to allow customers to easily interface to logic and IP on the FPGA.
-> +IOFS leverage the DFL for the implementation of the FPGA RTL design.
-> +
-> +IOFS designs allow for the arrangement of software interfaces across multiple
-> +PCIe endpoints. Some of these interfaces may be PFs defined in the static region
-> +that connect to interfaces in an IP that is loaded via Partial Reconfiguration (PR).
-> +And some of these interfaces may be VFs defined in the PR region that can be
-> +reconfigured by the end-user. Furthermore, these PFs/VFs may also be arranged
-> +using a DFL such that features may be discovered and accessed in user space
-> +(with the aid of a generic kernel driver like vfio-pci). The diagram below depicts
-> +an example design with two PFs and two VFs. In this example, PF1 implements its
-> +MMIO space such that it is compatible with the VirtIO framework. The other functions,
-> +VF0 and VF1, leverage VFIO to export the MMIO space to an application or a hypervisor.
-> +
-For an ASCII-art to be recognized as such, you need a leading "::" here.
+pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+{
+  struct kernel_clone_args args = {
+    .flags    = ((lower_32_bits(flags) | CLONE_VM |
+            CLONE_UNTRACED) & ~CSIGNAL),
+    .exit_signal  = (lower_32_bits(flags) & CSIGNAL),
+    .stack    = (unsigned long)fn,
+    .stack_size  = (unsigned long)arg,
+  };
 
-   ::
+  return kernel_clone(&args);
+}
 
-> +     +-----------------+  +--------------+  +-------------+  +------------+
-> +     | FPGA Managerment|  |   VirtIO     |  |  User App   |  | Virtual    |
-> +     |      App        |  |     App      |  |             |  | Machine    |
-> +     +--------+--------+  +------+-------+  +------+------+  +-----+------+
-> +              |                  |                 |               |
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +              |                  |                 |               |
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+   +----+------+
-> +     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1  |
-> +     +-----------------+  +--------------+  +-------------+   +-----------+
-> +
-> +On IOFS, it introducing some enhancements compared with original DFL design.
-Again, you need an empty line here.
+And then in copy_thread(), we have:
 
-> +1. It introducing Port Gasket in PF0 which is responsible for FPGA management,
-> +like FME and Port management. The Port Gasket contains all the PR specific modules
-> +and logic, e.g., PR slot reset/freeze control, user clock, remote STP etc.
-> +Architecturally, a Port Gasket can have multiple PR slots where user workload can
-> +be programmed into.
-> +2. To expend the scalable of FPGA, it can support multiple FPs in static region
-> +which contain some static functions like VirtIO, diagnostic test, and access over
-> +VFIO or assigned to VMs easily. Those PFs will not have a Port Unit which without
-> +PR region (AFU) connected to those PFs, and the end-user cannot partial reconfigurate
-> +those PFs.
-> +3. In our previous DFL design, it can only create one VF based in an AFU. To raise
-> +the efficiency usage of AFU, it can create more than one VFs in an AFU via PCIe
-> +SRIOV, so those VFs share the PR region and resource.
+kthread_frame_init(frame, sp, arg)
 
-This enumeration list needs some indent tweaks.
 
-1. It introducing Port Gasket in PF0 which is responsible for FPGA management,
-   like FME and Port management. The Port Gasket contains all the PR specific modules
-   and logic, e.g., PR slot reset/freeze control, user clock, remote STP etc.
-   Architecturally, a Port Gasket can have multiple PR slots where user workload can
-   be programmed into.
-2. To expend the scalable of FPGA, it can support multiple FPs in static region
-   which contain some static functions like VirtIO, diagnostic test, and access over
-   VFIO or assigned to VMs easily. Those PFs will not have a Port Unit which without
-   PR region (AFU) connected to those PFs, and the end-user cannot partial reconfigurate
-   those PFs.
-3. In our previous DFL design, it can only create one VF based in an AFU. To raise
-   the efficiency usage of AFU, it can create more than one VFs in an AFU via PCIe
-   SRIOV, so those VFs share the PR region and resource.
-
-> +
-> +There is one reference architecture design for IOFS as illustrated below:
-                                                                           ::
-
-(This "::" can also lead an ASCII-art.)
-
-> +
-> +                              +----------------------+
-> +                              |   PF/VF mux/demux    |
-> +                              +--+--+-----+------+-+-+
-> +                                 |  |     |      | |
-> +        +------------------------+  |     |      | |
-> +  PF0   |                 +---------+   +-+      | |
-> +    +---+---+             |         +---+----+   | |
-> +    |  DFH  |             |         |   DFH  |   | |
-> +    +-------+       +-----+----+    +--------+   | |
-> +    |  FME  |       |  VirtIO  |    |  Test  |   | |
-> +    +-------+       +----------+    +--------+   | |
-> +    | Port  |            PF1            PF2      | |
-> +    +---+---+                                    | |
-> +        |                             +----------+ |
-> +        |                             |           ++
-> +        |                             |           |
-> +        |                             | PF0_VF0   | PF0_VF1
-> +        |           +-----------------+-----------+------------+
-> +        |           |           +-----+-----------+--------+   |
-> +        |           |           |     |           |        |   |
-> +        |           | +------+  |  +--+ -+     +--+---+    |   |
-> +        |           | | CSR  |  |  | DFH |     |  DFH |    |   |
-> +        +-----------+ +------+  |  +-----+     +------+    |   |
-> +                    |           |  | DEV |     |  DEV |    |   |
-> +                    |           |  +-----+     +------+    |   |
-> +                    |           |            PR Slot       |   |
-> +                    |           +--------------------------+   |
-> +                    | Port Gasket                              |
-> +                    +------------------------------------------+
-> +
-> +Here are the major changes about DFL structures on IOFS implementation design:
-Again, you need an empty line.
-
-> +1. The Port Gasket connects to FIU Port in DFL, but the Next_AFU pointer in
-> +FIU feature header can point to NULL so that it is no AFU connects to a FIU
-> +Port.
-> +2. The VF which include in PR region can start with AFU feature header without
-> +a FIU Port feature header.
-
-As above, this list should look:
-
-1. The Port Gasket connects to FIU Port in DFL, but the Next_AFU pointer in
-   FIU feature header can point to NULL so that it is no AFU connects to a FIU
-   Port.
-2. The VF which include in PR region can start with AFU feature header without
-   a FIU Port feature header.
-
->  
->  Performance Counters
->  ====================
-> -- 
-> 2.17.1
-
-I'd recommend running "make htmdocs" and see if the pages are rendered as you
-expect.
-
-        Thanks, Akira
-
+So I'm not sure whether this name change really makes sense, or
+whether it just adds to the confusion.
