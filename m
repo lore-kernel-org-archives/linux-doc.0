@@ -2,251 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5026EC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D04EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350801AbiBNL3C convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:29:02 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55262 "EHLO
+        id S1352121AbiBNLjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 06:39:40 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239692AbiBNL2T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:28:19 -0500
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 340772DC6
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 03:06:01 -0800 (PST)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-_7XVMO5INWiMjIMJzHYuqg-1; Mon, 14 Feb 2022 05:45:57 -0500
-X-MC-Unique: _7XVMO5INWiMjIMJzHYuqg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2E7E1091DA1;
-        Mon, 14 Feb 2022 10:45:54 +0000 (UTC)
-Received: from x1.com (unknown [10.22.16.130])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5B42427BDF;
-        Mon, 14 Feb 2022 10:45:27 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: [RFC V2 00/21] The Runtime Verification (RV) interface
-Date:   Mon, 14 Feb 2022 11:44:51 +0100
-Message-Id: <cover.1644830251.git.bristot@kernel.org>
+        with ESMTP id S1351964AbiBNLj3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:39:29 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43814BC86;
+        Mon, 14 Feb 2022 03:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644838175; x=1676374175;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xqXAjqj9UB3uzzHP4hrVah9w4aiJB22TXUi2vtc3JR4=;
+  b=bndRfRJgZAuW1GRN5IIqbeieYL5ioaa0Mlnc61PqzcrmWgbg0y+Z/oQ0
+   9aEbzDtvTCj226l1RvwVKLT50NX8q3qcqs0bRh/EiqrDKVZ6dPmsBRasX
+   lYj4jRi7cnsgneRboNhna52fmV+32J/f55bSw2GYAHymiadehgHF4nr8i
+   iIr+OxuURf1U/TAR4FSD2o+PIJ5IjAWz5mDd4E6+y4nrWWOCIhOBLh3KK
+   HGJFu4NZCAWNa2cIOoLAJW8tN95Qefq1g0veqaVzZEFfUStS3jAo7cqCH
+   BIqzy88aW6427ktsuUjVviKwtGRcnJeft+IrnNtAnUsyUQptoRXzpQq9L
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="250276718"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
+   d="scan'208";a="250276718"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 03:29:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
+   d="scan'208";a="587166931"
+Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Feb 2022 03:29:32 -0800
+From:   Tianfei zhang <tianfei.zhang@intel.com>
+To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, Tianfei zhang <tianfei.zhang@intel.com>
+Subject: [PATCH v1 0/7] Add Intel OFS support for DFL driver
+Date:   Mon, 14 Feb 2022 06:26:12 -0500
+Message-Id: <20220214112619.219761-1-tianfei.zhang@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kernel.org
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Over the last years, I've been exploring the possibility of
-verifying the Linux kernel behavior using Runtime Verification.
+This patchset adding IOFS (Intel Open FPGA stack) support for
+DFL driver. IOFS is Intel's version of a common core set of
+RTL to allow customers to easily interface to logic and IP
+on the FPGA. IOFS leverage the DFL for the implementation of
+the FPGA RTL design.
 
-Runtime Verification (RV) is a lightweight (yet rigorous) method that
-complements classical exhaustive verification techniques (such as model
-checking and theorem proving) with a more practical approach for complex
-systems.
+Patch 1, adds architecture description about IOFS support for DFL
+in documentation.
+Patch 2, checks feature type during the user interrupt enumeration.
+On IOFS, the Feature ID of the PMCI device and Port User Interrupts
+are identical.
+Patch 3, allows a port may not be connected any local BAR space.
+Patch 4 and 5, fix VF creation when ports have no local
+BAR space and no port connected to VF.
+Patch 6, handles dfl's starting with AFU and allows for VFs
+to be created.
+Patch 7, adds PCIe Device ID for OFS. 
 
-Instead of relying on a fine-grained model of a system (e.g., a
-re-implementation a instruction level), RV works by analyzing the trace of the
-system's actual execution, comparing it against a formal specification of
-the system behavior.
+Matthew Gerlach (5):
+  fpga: dfl: Allow for ports with no local bar space.
+  fpga: dfl: fix VF creation when ports have no local BAR space
+  drivers: fpga: dfl: handle empty port list
+  fpga: dfl: Handle dfl's starting with AFU
+  fpga: dfl: pci: Add generic OFS PCI PID
 
-The usage of deterministic automaton for RV is a well-established
-approach. In the specific case of the Linux kernel, you can check how
-to model complex behavior of the Linux kernel with this paper:
+Tianfei Zhang (2):
+  Documentation: fpga: dfl: add description of IOFS
+  fpga: dfl: check feature type before parse irq info
 
-  DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo Silva.
-  *Efficient formal verification for the Linux kernel.* In: International
-  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
-  p. 315-332.
+ Documentation/fpga/dfl.rst | 99 +++++++++++++++++++++++++++++++++++++-
+ drivers/fpga/dfl-pci.c     | 19 +++++++-
+ drivers/fpga/dfl.c         | 47 +++++++++++++-----
+ 3 files changed, 151 insertions(+), 14 deletions(-)
 
-And how efficient is this approach here:
 
-  DE OLIVEIRA, Daniel B.; DE OLIVEIRA, Romulo S.; CUCINOTTA, Tommaso. *A thread
-  synchronization model for the PREEMPT_RT Linux kernel.* Journal of Systems
-  Architecture, 2020, 107: 101729.
-
-tlrd: it is possible to model complex behaviors in a modular way, with
-an acceptable overhead (even for production systems). See this
-presentation at 2019's ELCE: https://www.youtube.com/watch?v=BfTuEHafNgg
-
-Here I am proposing a more practical approach for the usage of deterministic
-automata for runtime verification, and it includes:
-
-	- An interface for controlling the verification;
-	- A tool and set of headers that enables the automatic code
-	  generation of the RV monitor (Monitor Synthesis);
-	- Sample monitors to evaluate the interface;
-	- A sample monitor developed in the context of the Elisa Project
-	  demonstrating how to use RV in the context of safety-critical
-	  systems.
-
-Given that RV is a tracing consumer, the code is being placed inside the
-tracing subsystem (Steven and I have been talking about it for a while).
-
-The changes since V1 includes:
-	- rebased to the latest kernel;
-	- code cleanup;
-	- the watchdog dev monitor;
-	- safety app;
-
-The TODO list still includes:
-	- Make per-task monitor use the task struct to store the
-	  per monitor state (Suggested by peterz)
-	- Add a reactor tha enables the visualization of the visited
-	  states via KCOV (Marco Elver & Dmitry Vyukov)
-	- Add a CRC method to check from user-space if the values
-	  exported by the monitor were not corrupted by any other
-	  kernel task (Gabriele Paoloni)
-
-I am sending the V2 with some TODOs because I need
-some feedback on the interface/files placement inside the kernel,
-so I can adjust all the patches accordingly. Also, to make it possible
-for people in the Elisa Project to evaluate the safety_app approach.
-
-Daniel Bristot de Oliveira (21):
-  rv: Add Runtime Verification (RV) interface
-  rv: Add runtime reactors interface
-  rv/include: Add helper functions for deterministic automata
-  rv/include: Add deterministic automata monitor definition via C macros
-  rv/include: Add tracing helper functions
-  tools/rv: Add dot2c
-  tools/rv: Add dot2k
-  rv/monitor: Add the wip monitor skeleton created by dot2k
-  rv/monitor: wip instrumentation and Makefile/Kconfig entries
-  rv/monitor: Add the wwnr monitor skeleton created by dot2k
-  rv/monitor: wwnr instrumentation and Makefile/Kconfig entries
-  rv/reactor: Add the printk reactor
-  rv/reactor: Add the panic reactor
-  Documentation/rv: Add a basic documentation
-  Documentation/rv: Add deterministic automata monitor synthesis
-    documentation
-  Documentation/rv: Add deterministic automata instrumentation
-    documentation
-  watchdog/dev: Add tracepoints
-  rv/monitor: Add safe watchdog monitor
-  rv/monitor: Add safe watchdog nowayout monitor
-  rv/safety_app: Add an safety_app sample
-  Documentation/rv: Add watchdog-monitor documentation
-
- Documentation/trace/index.rst                 |   1 +
- .../trace/rv/da_monitor_instrumentation.rst   | 230 ++++++
- .../trace/rv/da_monitor_synthesis.rst         | 286 +++++++
- Documentation/trace/rv/index.rst              |   9 +
- .../trace/rv/runtime-verification.rst         | 233 ++++++
- Documentation/trace/rv/watchdog-monitor.rst   | 307 ++++++++
- drivers/watchdog/watchdog_dev.c               |  41 +-
- include/linux/rv.h                            |  31 +
- include/linux/watchdog.h                      |   7 +-
- include/rv/automata.h                         |  52 ++
- include/rv/da_monitor.h                       | 398 ++++++++++
- include/rv/trace_helpers.h                    |  69 ++
- include/trace/events/watchdog.h               | 103 +++
- kernel/trace/Kconfig                          |   2 +
- kernel/trace/Makefile                         |   2 +
- kernel/trace/rv/Kconfig                       |  78 ++
- kernel/trace/rv/Makefile                      |  10 +
- kernel/trace/rv/monitor_safe_wtd/model.h      |  84 +++
- kernel/trace/rv/monitor_safe_wtd/safe_wtd.c   | 322 ++++++++
- kernel/trace/rv/monitor_safe_wtd/safe_wtd.h   |  64 ++
- kernel/trace/rv/monitor_safe_wtd_nwo/model.h  |  61 ++
- .../rv/monitor_safe_wtd_nwo/safe_wtd_nwo.c    | 309 ++++++++
- .../rv/monitor_safe_wtd_nwo/safe_wtd_nwo.h    |  64 ++
- kernel/trace/rv/monitor_wip/model.h           |  38 +
- kernel/trace/rv/monitor_wip/wip.c             | 124 +++
- kernel/trace/rv/monitor_wip/wip.h             |  64 ++
- kernel/trace/rv/monitor_wwnr/model.h          |  38 +
- kernel/trace/rv/monitor_wwnr/wwnr.c           | 122 +++
- kernel/trace/rv/monitor_wwnr/wwnr.h           |  70 ++
- kernel/trace/rv/reactor_panic.c               |  44 ++
- kernel/trace/rv/reactor_printk.c              |  43 ++
- kernel/trace/rv/rv.c                          | 700 +++++++++++++++++
- kernel/trace/rv/rv.h                          |  50 ++
- kernel/trace/rv/rv_reactors.c                 | 478 ++++++++++++
- kernel/trace/trace.c                          |   4 +
- kernel/trace/trace.h                          |   2 +
- tools/tracing/rv/dot2/Makefile                |  26 +
- tools/tracing/rv/dot2/automata.py             | 179 +++++
- tools/tracing/rv/dot2/dot2c                   |  30 +
- tools/tracing/rv/dot2/dot2c.py                | 240 ++++++
- tools/tracing/rv/dot2/dot2k                   |  46 ++
- tools/tracing/rv/dot2/dot2k.py                | 184 +++++
- .../rv/dot2/dot2k_templates/main_global.c     |  96 +++
- .../rv/dot2/dot2k_templates/main_global.h     |  64 ++
- .../rv/dot2/dot2k_templates/main_per_cpu.c    |  96 +++
- .../rv/dot2/dot2k_templates/main_per_cpu.h    |  64 ++
- .../rv/dot2/dot2k_templates/main_per_task.c   |  96 +++
- .../rv/dot2/dot2k_templates/main_per_task.h   |  70 ++
- tools/tracing/rv/safety_app/Makefile          |  51 ++
- tools/tracing/rv/safety_app/safety_app.c      | 713 ++++++++++++++++++
- 50 files changed, 6486 insertions(+), 9 deletions(-)
- create mode 100644 Documentation/trace/rv/da_monitor_instrumentation.rst
- create mode 100644 Documentation/trace/rv/da_monitor_synthesis.rst
- create mode 100644 Documentation/trace/rv/index.rst
- create mode 100644 Documentation/trace/rv/runtime-verification.rst
- create mode 100644 Documentation/trace/rv/watchdog-monitor.rst
- create mode 100644 include/linux/rv.h
- create mode 100644 include/rv/automata.h
- create mode 100644 include/rv/da_monitor.h
- create mode 100644 include/rv/trace_helpers.h
- create mode 100644 include/trace/events/watchdog.h
- create mode 100644 kernel/trace/rv/Kconfig
- create mode 100644 kernel/trace/rv/Makefile
- create mode 100644 kernel/trace/rv/monitor_safe_wtd/model.h
- create mode 100644 kernel/trace/rv/monitor_safe_wtd/safe_wtd.c
- create mode 100644 kernel/trace/rv/monitor_safe_wtd/safe_wtd.h
- create mode 100644 kernel/trace/rv/monitor_safe_wtd_nwo/model.h
- create mode 100644 kernel/trace/rv/monitor_safe_wtd_nwo/safe_wtd_nwo.c
- create mode 100644 kernel/trace/rv/monitor_safe_wtd_nwo/safe_wtd_nwo.h
- create mode 100644 kernel/trace/rv/monitor_wip/model.h
- create mode 100644 kernel/trace/rv/monitor_wip/wip.c
- create mode 100644 kernel/trace/rv/monitor_wip/wip.h
- create mode 100644 kernel/trace/rv/monitor_wwnr/model.h
- create mode 100644 kernel/trace/rv/monitor_wwnr/wwnr.c
- create mode 100644 kernel/trace/rv/monitor_wwnr/wwnr.h
- create mode 100644 kernel/trace/rv/reactor_panic.c
- create mode 100644 kernel/trace/rv/reactor_printk.c
- create mode 100644 kernel/trace/rv/rv.c
- create mode 100644 kernel/trace/rv/rv.h
- create mode 100644 kernel/trace/rv/rv_reactors.c
- create mode 100644 tools/tracing/rv/dot2/Makefile
- create mode 100644 tools/tracing/rv/dot2/automata.py
- create mode 100644 tools/tracing/rv/dot2/dot2c
- create mode 100644 tools/tracing/rv/dot2/dot2c.py
- create mode 100644 tools/tracing/rv/dot2/dot2k
- create mode 100644 tools/tracing/rv/dot2/dot2k.py
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_global.c
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_global.h
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_cpu.c
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_cpu.h
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_task.c
- create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_task.h
- create mode 100644 tools/tracing/rv/safety_app/Makefile
- create mode 100644 tools/tracing/rv/safety_app/safety_app.c
-
+base-commit: f1baf68e1383f6ed93eb9cff2866d46562607a43
 -- 
-2.33.1
+2.17.1
 
