@@ -2,144 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0048C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 09:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DDEC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 10:24:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242438AbiBNJAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 04:00:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53926 "EHLO
+        id S1347103AbiBNKYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 05:24:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239861AbiBNJAJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 04:00:09 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8B15FF02;
-        Mon, 14 Feb 2022 01:00:02 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id u6so29184937lfc.3;
-        Mon, 14 Feb 2022 01:00:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=5l+v5pzNn5KQVnCblsmvtHCF/M7BFv5udnT/OOc7mTI=;
-        b=T22CPkeKleiEtfoVS9g2HIynFn43DvOSEhaNAsox1+oZQZIJ5VYAmqM6fOIhGPjNGR
-         l/ddwTCM5DeYuEmDzmb1FjFva1oj73R7Ab5EW7J/fILB0mAERhcdaPHfN9GPY8zt3ZJq
-         uP+1jMPX+wqmhIIGCCyEWX4dUe96jnQUkyuGzG8xL+xN/Vc4YXTucJjHv4PHgTxe5FQu
-         cSqahqXl125mcNUwnJ9G/Olk5Apz6EMWQfl/oJJe5ZK0awgGiiFisMQ/6TWS0Fzi2f8w
-         dPyva1LWfjzn9Xi9k2SVdZwTryQenS7blMt5WeVLi9IwgYoFRCH9BfpW782ome9OMtZp
-         ns2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=5l+v5pzNn5KQVnCblsmvtHCF/M7BFv5udnT/OOc7mTI=;
-        b=Htb+o/lc09TpYpbjFohVPv7jXUBlyNzTR+Fj6XIHHARfoa4B5JZtcQiCVYgl6XUt9I
-         Wde+UOU/SguM4R1H3ibX78uxH+PNjmTxawFmxHs8GDSCKoWntjPQb+yTWQtNN7g8vbIJ
-         B/zZHKM9fhHgMnn7buQAWasTzdkOSDCcBgyYnDrR98ih8pIydmCnFmFHMNEUvboX4s2t
-         lNN4nNf2V6ttjoCRJHFRYZTlwr0Oa/JDXk1dDPgwLid6WMg/dmhrd/NkIR0b61bjoOYK
-         sektj8bPBeTONztWSeaoPs218Fp5fDGS3ZQSaGaclhRSxtoD2mekFZYrPJwKQOppN/kY
-         CFUQ==
-X-Gm-Message-State: AOAM533UCKfeilzgoh0357EpNCxP+wAZFeOagWzxUUM0SmaFTI6dORsv
-        ZwYGxO3EBAFKTxm+bswnGco=
-X-Google-Smtp-Source: ABdhPJxhJC87IskBvz+AIuUlSPJygS43mqmjho06rx5ZeM+1LclmLcZl0OXccErvkbzjxDrFF0bZfw==
-X-Received: by 2002:a05:6512:70a:: with SMTP id b10mr10225611lfs.672.1644829200579;
-        Mon, 14 Feb 2022 01:00:00 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id bp37sm3814816lfb.86.2022.02.14.00.59.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 01:00:00 -0800 (PST)
-Date:   Mon, 14 Feb 2022 10:59:50 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc:     <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-        <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] drm/doc: Clarify what ioctls can be used on render
- nodes
-Message-ID: <20220214105950.7e399705@eldfell>
-In-Reply-To: <1644433047-20753-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1644433047-20753-1-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S1346845AbiBNKYT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 05:24:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 171106D187;
+        Mon, 14 Feb 2022 01:56:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A7D4161183;
+        Mon, 14 Feb 2022 09:56:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92192C340E9;
+        Mon, 14 Feb 2022 09:56:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1644832589;
+        bh=CvrnKzfGiFqdvtJF/lFdhAZT7jrKvco/zQIMZOZYKAM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=EZVINwmIZeyCohM2Sq6M4yaKdrgmjeHhqZ2vSNertfKkz0Zn5Gal/AxJpbMTWueV+
+         8QxxN0bvlrqGL9phJzAbC0Z69FstZgUAQDsmk6My3qHJhkuMySBb3sSoUmZxrDcXjt
+         uk2uybGHECvq6vImrgi5QkNL9ha1VTqAdQObiZrs=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.16 062/203] arm64: errata: Add detection for TRBE ignored system register writes
+Date:   Mon, 14 Feb 2022 10:25:06 +0100
+Message-Id: <20220214092512.363178801@linuxfoundation.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220214092510.221474733@linuxfoundation.org>
+References: <20220214092510.221474733@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=kW+PCAj.SVDDFlVSKplH9l";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/=kW+PCAj.SVDDFlVSKplH9l
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Anshuman Khandual <anshuman.khandual@arm.com>
 
-On Wed, 9 Feb 2022 11:57:27 -0700
-Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
+[ Upstream commit 607a9afaae09cde21ece458a8f10cb99d3f94f14 ]
 
-> The documentation for render nodes indicates that only "PRIME-related"
-> ioctls are valid on render nodes, but the documentation does not clarify
-> what that means.  If the reader is not familiar with PRIME, they may
-> beleive this to be only the ioctls with "PRIME" in the name and not other
-> ioctls such as set of syncobj ioctls.  Clarify the situation for the
-> reader by referencing where the reader will find a current list of valid
-> ioctls.
->=20
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->=20
-> I was confused by this when reading the documentation.  Now that I have
-> figured out what the documentation means, I would like to add a clarifica=
-tion
-> for the next reader which would have helped me.
->=20
->  Documentation/gpu/drm-uapi.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 199afb5..ce47b42 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -148,7 +148,9 @@ clients together with the legacy drmAuth authenticati=
-on procedure.
->  If a driver advertises render node support, DRM core will create a
->  separate render node called renderD<num>. There will be one render node
->  per device. No ioctls except PRIME-related ioctls will be allowed on
-> -this node. Especially GEM_OPEN will be explicitly prohibited. Render
-> +this node. Especially GEM_OPEN will be explicitly prohibited. For a
-> +complete list of driver-independent ioctls that can be used on render
-> +nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
->  nodes are designed to avoid the buffer-leaks, which occur if clients
->  guess the flink names or mmap offsets on the legacy interface.
->  Additionally to this basic interface, drivers must mark their
+TRBE implementations affected by Arm erratum #2064142 might fail to write
+into certain system registers after the TRBE has been disabled. Under some
+conditions after TRBE has been disabled, writes into certain TRBE registers
+TRBLIMITR_EL1, TRBPTR_EL1, TRBBASER_EL1, TRBSR_EL1 and TRBTRG_EL1 will be
+ignored and not be effected. This adds a new errata ARM64_ERRATUM_2064142
+in arm64 errata framework.
 
-Hi,
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+Cc: coresight@lists.linaro.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Link: https://lore.kernel.org/r/1643120437-14352-3-git-send-email-anshuman.khandual@arm.com
+Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arm64/silicon-errata.rst |  2 ++
+ arch/arm64/Kconfig                     | 18 ++++++++++++++++++
+ arch/arm64/kernel/cpu_errata.c         |  9 +++++++++
+ arch/arm64/tools/cpucaps               |  1 +
+ 4 files changed, 30 insertions(+)
 
-I think this is correct, but I didn't actually check the code, so
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 8789c79310bbd..401a6e86c5084 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -52,6 +52,8 @@ stable kernels.
+ | Allwinner      | A64/R18         | UNKNOWN1        | SUN50I_ERRATUM_UNKNOWN1     |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-A510     | #2064142        | ARM64_ERRATUM_2064142       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #826319         | ARM64_ERRATUM_826319        |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #827319         | ARM64_ERRATUM_827319        |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index d8046c832225c..30c07b0d6b5c9 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -778,6 +778,24 @@ config ARM64_ERRATUM_2224489
+ 
+ 	  If unsure, say Y.
+ 
++config ARM64_ERRATUM_2064142
++	bool "Cortex-A510: 2064142: workaround TRBE register writes while disabled"
++	depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
++	default y
++	help
++	  This option adds the workaround for ARM Cortex-A510 erratum 2064142.
++
++	  Affected Cortex-A510 core might fail to write into system registers after the
++	  TRBE has been disabled. Under some conditions after the TRBE has been disabled
++	  writes into TRBE registers TRBLIMITR_EL1, TRBPTR_EL1, TRBBASER_EL1, TRBSR_EL1,
++	  and TRBTRG_EL1 will be ignored and will not be effected.
++
++	  Work around this in the driver by executing TSB CSYNC and DSB after collection
++	  is stopped and before performing a system register write to one of the affected
++	  registers.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 29cc062a4153c..a5456dd9a33f5 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -599,6 +599,15 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
+ 		CAP_MIDR_RANGE_LIST(trbe_write_out_of_range_cpus),
+ 	},
++#endif
++#ifdef CONFIG_ARM64_ERRATUM_2064142
++	{
++		.desc = "ARM erratum 2064142",
++		.capability = ARM64_WORKAROUND_2064142,
++
++		/* Cortex-A510 r0p0 - r0p2 */
++		ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A510, 0, 0, 2)
++	},
+ #endif
+ 	{
+ 	}
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 870c39537dd09..fca3cb329e1db 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -55,6 +55,7 @@ WORKAROUND_1418040
+ WORKAROUND_1463225
+ WORKAROUND_1508412
+ WORKAROUND_1542419
++WORKAROUND_2064142
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+ WORKAROUND_TSB_FLUSH_FAILURE
+ WORKAROUND_TRBE_WRITE_OUT_OF_RANGE
+-- 
+2.34.1
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
-Thanks,
-pq
-
---Sig_/=kW+PCAj.SVDDFlVSKplH9l
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIKGgYACgkQI1/ltBGq
-qqcfSBAAi7KZBj4UfBbRpE+DZy55fcnl4riq7F9On+Dv7toIXXlgYEJw8EW22vct
-kCgVOHsNE2aL6qheIfk1p8QZysm8xYVByaM+w/qSBQLwAJHxmJsN12YsDohYQVgX
-C64vtWfUPo1Ckf9dWjNKVMv+xpjMB0O4WkpFluzi4hNC4QnycbdROLvgOwnlhfdA
-u53H9Nn3egNd9pkaXp3nS6yncUilzp6XPiR8PnXaCdYddLMAlC0TuCBjpkhP5hKN
-ELamOUEY7lhuJHon7xz5HCCB2NbXW2+CleHBole3L65Tloju+Kw2kMc8F4e4wIze
-gGAMD4/D4dri6F9tErrYaRSLg9Bps19qauCCxAdowfRZ7VHgsJYHMg5OBWwnHXb+
-ytwCHC3NP9vHav3AcTSUdzpa5Oj6mHQR4Bq+BAcy78Cz2jbqA51ReyCZ7wZC7rmJ
-aVVp4/ZY7iqbCSVqa0YwPadvEIgpJoxZrwzQnhZ6pPtfABYYyY6lUXr/wCpQBNPo
-QOSEDdPQK2LReDWVpu/2pO8jF4fbhy0m2hoWJns+YeKhn1RAIhZwEeftFnkp6s6t
-Q4oNnwehLaUIImAJre2IKRtWThwIVJIJD0Fc+XhNQENVHB11TFEzSWkrxAIVM3wd
-glZ7Fb61Z6hupf3ZJkB8ErtdGqTskaTNHse71qcAmVl+4AcNFfg=
-=nqHa
------END PGP SIGNATURE-----
-
---Sig_/=kW+PCAj.SVDDFlVSKplH9l--
