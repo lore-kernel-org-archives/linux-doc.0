@@ -2,208 +2,300 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1E6C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 21:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E20EFC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 21:45:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbiBNV0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 16:26:20 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35218 "EHLO
+        id S231636AbiBNVpp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 16:45:45 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231191AbiBNV0T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 16:26:19 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A6670F71
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 13:26:10 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id g39so9957966lfv.10
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 13:26:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xB7MDihYGx4nWu/GuBF27GgwlKh3zzMd7sng4PC9OAg=;
-        b=AlVXfUdq3X/vSQj1QADxlefqzYOIxjNWuIGVTNcQd90bTzHdMLXt1diiYfHcXmfDuo
-         Aih+Ei5sv53Rvnfwr6T+Giffv/hPnsONKFFuY2MDaby2I/Gm/wkOK3W25ZFOa3QTswJK
-         etjN6hFfrsFB0uHvKeOLdTbOErJPlMDj409uuOgjaLBCd7DDEDWC89ZjaA+b9qyZ40kj
-         s0vZ3yX4ID2jYqbVwwVsaHm/Vvm4t/enqPFSc5JTB/j4R1JzwarD/mLvPFiGLs27GTHY
-         OzNCXT4ZuoxDbUdaDSQpUyuqB1ItZusqu95/zc54s7Tn3oSLSHXezYPdHrPXDjs96Thu
-         gSQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xB7MDihYGx4nWu/GuBF27GgwlKh3zzMd7sng4PC9OAg=;
-        b=UImt27oZm8wDUaH9mPEvHsouxnQvl9nuVgpykOv+lR99JWI4gCO89AlklznX5FNeR3
-         eNGzjn1nZEoPyuEZaLB7uZAGY/OcXLyP4QD0BRtzSJ3mwE0YIlCDlQT5Yy26GqW+GQJu
-         gOlkAcf792aUwopOitojaw2gVq7I2FxaxwGHBk6vkkG5EiX6MVH/vtkyR5mk2wkIgmX/
-         vngpmtPrlS1tRcwQFFJvWJcWUnoCC2EDbX01ot0bfeRA2VcoIm/5GCSOkltktzUoPaP+
-         y21T9CJ5VnET5R+GIAbzD61OkS8A84iP5kBxpppNEHaaaAYzqMIo0M39RcvlX6586vOI
-         8hCg==
-X-Gm-Message-State: AOAM532lvuG4X9ff7cv/csX/Vh281UC8+fTUqxav7BcxQW3v+Rfdv1Le
-        TBOjQanUp9xX+aZqM7FiTjEc8+Vpjl4D4ETXkPj5nQ==
-X-Google-Smtp-Source: ABdhPJy9LX4qMvZpJWEnI58VfURh6/MLmchoH4ymKbepXoxQzUy25zdnmOiESxtwDTq7E3tlrLuGpZ/EsyrQdVvZllE=
-X-Received: by 2002:a05:6512:1699:: with SMTP id bu25mr695407lfb.403.1644873968216;
- Mon, 14 Feb 2022 13:26:08 -0800 (PST)
+        with ESMTP id S231580AbiBNVpf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 16:45:35 -0500
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66C01867EE;
+        Mon, 14 Feb 2022 13:45:24 -0800 (PST)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4JyHnv3RYQz9sVw;
+        Mon, 14 Feb 2022 22:45:23 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
+        t=1644875119;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kUZ790IxZH5Rf/nkvP12xvh7cNzalDJRK4h9CSlRTIA=;
+        b=DfbAtF/uqDJwWS+qgeDFtkepYnOtAhu6XIHMY7m67CnZNWqNlnnsjRIlwR046Vhz6K4wDv
+        FMSKiBvy/qZd3mD+MODISvYmTRHkuJh6jwfl8ih1SXrdJmcJhLfK8ZljVe6Wfds0D+9co8
+        5X/TepO7Kli1xXbjQRETffB7itpRhUh4EJAeLkMByvzjqaFCmC2sx64O1yVQcpEwvOQDX1
+        EQXZ060Vt/+cuaEkLASMDkaXZad9mtYpK+XhsewZ9AjGFstF5VJrCaAVeRGroblduyVax0
+        teBxEJQjdSt0V9RvzYCSA3DD7pPl7Sqg+hqEvBOLZVU0wxPGiqJ+5rjoTTyelw==
+From:   Marcello Sylvester Bauer <sylv@sylv.io>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Marcello Sylvester Bauer <sylv@sylv.io>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 3/4] pmbus: Add support for pli1209bc
+Date:   Mon, 14 Feb 2022 22:44:55 +0100
+Message-Id: <8d44098e7b8ca5d4c13733267836d5a147539277.1644874828.git.sylv@sylv.io>
+In-Reply-To: <cover.1644874828.git.sylv@sylv.io>
+References: <cover.1644874828.git.sylv@sylv.io>
 MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com> <20220211161831.3493782-7-tjmercier@google.com>
-In-Reply-To: <20220211161831.3493782-7-tjmercier@google.com>
-From:   Todd Kjos <tkjos@google.com>
-Date:   Mon, 14 Feb 2022 13:25:55 -0800
-Message-ID: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
-Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, kaleshsingh@google.com,
-        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-> that a process sending an fd array to another process over binder IPC
-> can set to relinquish ownership of the fds being sent for memory
-> accounting purposes. If the flag is found to be set during the fd array
-> translation and the fd is for a DMA-BUF, the buffer is uncharged from
-> the sender's cgroup and charged to the receiving process's cgroup
-> instead.
->
-> It is up to the sending process to ensure that it closes the fds
-> regardless of whether the transfer failed or succeeded.
->
-> Most graphics shared memory allocations in Android are done by the
-> graphics allocator HAL process. On requests from clients, the HAL process
-> allocates memory and sends the fds to the clients over binder IPC.
-> The graphics allocator HAL will not retain any references to the
-> buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-> arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-> correctly charge the buffers to the client processes instead of the
-> graphics allocator HAL.
->
-> From: Hridya Valsaraju <hridya@google.com>
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> Co-developed-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> ---
-> changes in v2
-> - Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-> heap to a single dma-buf function for all heaps per Daniel Vetter and
-> Christian K=C3=B6nig.
->
->  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
->  include/uapi/linux/android/binder.h |  1 +
->  2 files changed, 27 insertions(+)
->
-> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> index 8351c5638880..f50d88ded188 100644
-> --- a/drivers/android/binder.c
-> +++ b/drivers/android/binder.c
-> @@ -42,6 +42,7 @@
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
-> +#include <linux/dma-buf.h>
->  #include <linux/fdtable.h>
->  #include <linux/file.h>
->  #include <linux/freezer.h>
-> @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
+PLI1209BC is a Digital Supervisor from Vicor Corporation.
 
-Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
-never needs to be done in the BINDER_TYPE_FD case (single fd)?
+Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+---
+ Documentation/hwmon/pli1209bc.rst |  73 +++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig       |   9 +++
+ drivers/hwmon/pmbus/Makefile      |   1 +
+ drivers/hwmon/pmbus/pli1209bc.c   | 115 ++++++++++++++++++++++++++++++
+ 4 files changed, 198 insertions(+)
+ create mode 100644 Documentation/hwmon/pli1209bc.rst
+ create mode 100644 drivers/hwmon/pmbus/pli1209bc.c
 
->  {
->         binder_size_t fdi, fd_buf_size;
->         binder_size_t fda_offset;
-> +       bool transfer_gpu_charge =3D false;
->         const void __user *sender_ufda_base;
->         struct binder_proc *proc =3D thread->proc;
-> +       struct binder_proc *target_proc =3D t->to_proc;
->         int ret;
->
->         fd_buf_size =3D sizeof(u32) * fda->num_fds;
-> @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
->         if (ret)
->                 return ret;
->
-> +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> +               transfer_gpu_charge =3D true;
-> +
->         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
->                 u32 fd;
-> +               struct dma_buf *dmabuf;
-> +               struct gpucg *gpucg;
-> +
->                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
->                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
->
-> @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_h=
-ead *pf_head,
->                                                   in_reply_to);
->                 if (ret)
->                         return ret > 0 ? -EINVAL : ret;
-> +
-> +               if (!transfer_gpu_charge)
-> +                       continue;
-> +
-> +               dmabuf =3D dma_buf_get(fd);
-> +               if (IS_ERR(dmabuf))
-> +                       continue;
-> +
-> +               gpucg =3D gpucg_get(target_proc->tsk);
-> +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> +               if (ret) {
-> +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
-ge to %d",
-> +                               proc->pid, thread->pid, target_proc->pid)=
-;
-> +                       gpucg_put(gpucg);
-> +               }
-> +               dma_buf_put(dmabuf);
->         }
->         return 0;
->  }
-> diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/and=
-roid/binder.h
-> index 3246f2c74696..169fd5069a1a 100644
-> --- a/include/uapi/linux/android/binder.h
-> +++ b/include/uapi/linux/android/binder.h
-> @@ -137,6 +137,7 @@ struct binder_buffer_object {
->
->  enum {
->         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
->  };
->
->  /* struct binder_fd_array_object - object describing an array of fds in =
-a buffer
-> --
-> 2.35.1.265.g69c8d7142f-goog
->
+diff --git a/Documentation/hwmon/pli1209bc.rst b/Documentation/hwmon/pli1209bc.rst
+new file mode 100644
+index 000000000000..a3f686d03cf2
+--- /dev/null
++++ b/Documentation/hwmon/pli1209bc.rst
+@@ -0,0 +1,73 @@
++Kernel driver pli1209bc
++=======================
++
++Supported chips:
++
++  * Digital Supervisor PLI1209BC
++
++    Prefix: 'pli1209bc'
++
++    Addresses scanned: 0x50 - 0x5F
++
++    Datasheet: https://www.vicorpower.com/documents/datasheets/ds-PLI1209BCxyzz-VICOR.pdf
++
++Authors:
++    - Marcello Sylvester Bauer <sylv@sylv.io>
++
++Description
++-----------
++
++The Vicor PLI1209BC is an isolated digital power system supervisor thatprovides
++a communication interface between a host processor and one Bus Converter Module
++(BCM). The PLI communicates with a system controller via a PMBus compatible
++interface over an isolated UART interface. Through the PLI, the host processor
++can configure, set protection limits, and monitor the BCM.
++
++Sysfs entries
++-------------
++
++======================= ========================================================
++in1_label		"vin2"
++in1_input		Input voltage.
++in1_rated_min		Minimum rated input voltage.
++in1_rated_max		Maximum rated input voltage.
++in1_max			Maximum input voltage.
++in1_max_alarm		Input voltage high alarm.
++in1_crit		Critical input voltage.
++in1_crit_alarm		Input voltage critical alarm.
++
++in2_label		"vout2"
++in2_input		Output voltage.
++in2_rated_min		Minimum rated output voltage.
++in2_rated_max		Maximum rated output voltage.
++in2_alarm		Output voltage alarm
++
++curr1_label		"iin2"
++curr1_input		Input current.
++curr1_max		Maximum input current.
++curr1_max_alarm		Maximum input current high alarm.
++curr1_crit		Critical input current.
++curr1_crit_alarm	Input current critical alarm.
++
++curr2_label		"iout2"
++curr2_input		Output current.
++curr2_crit		Critical output current.
++curr2_crit_alarm	Output current critical alarm.
++curr2_max		Maximum output current.
++curr2_max_alarm		Output current high alarm.
++
++power1_label		"pin2"
++power1_input		Input power.
++power1_alarm		Input power alarm.
++
++power2_label		"pout2"
++power2_input		Output power.
++power2_rated_max	Maximum rated output power.
++
++temp1_input		Die temperature.
++temp1_alarm		Die temperature alarm.
++temp1_max		Maximum die temperature.
++temp1_max_alarm		Die temperature high alarm.
++temp1_crit		Critical die temperature.
++temp1_crit_alarm	Die temperature critical alarm.
++======================= ========================================================
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index c96f7b7338bd..831db423bea0 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -310,6 +310,15 @@ config SENSORS_PIM4328
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called pim4328.
+ 
++config SENSORS_PLI1209BC
++	tristate "Vicor PLI1209BC"
++	help
++	  If you say yes here you get hardware monitoring support for Vicor
++	  PLI1209BC Digital Supervisor.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called pli1209bc.
++
+ config SENSORS_PM6764TR
+ 	tristate "ST PM6764TR"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index e5935f70c9e0..7ce74e3b8552 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -34,6 +34,7 @@ obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+ obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+ obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
++obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+ obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
+ obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+diff --git a/drivers/hwmon/pmbus/pli1209bc.c b/drivers/hwmon/pmbus/pli1209bc.c
+new file mode 100644
+index 000000000000..5f8847307e55
+--- /dev/null
++++ b/drivers/hwmon/pmbus/pli1209bc.c
+@@ -0,0 +1,115 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Hardware monitoring driver for Vicor PLI1209BC Digital Supervisor
++ *
++ * Copyright (c) 2022 9elements GmbH
++ */
++
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/pmbus.h>
++#include "pmbus.h"
++
++/*
++ * The capability command is only supported at page 0. Probing the device while
++ * the page register is set to 1 will falsely enable PEC support. Disable
++ * capability probing accordingly, since the PLI1209BC does not have any
++ * additional capabilities.
++ */
++static struct pmbus_platform_data pli1209bc_plat_data = {
++	.flags = PMBUS_NO_CAPABILITY,
++};
++
++static int pli1209bc_read_word_data(struct i2c_client *client, int page,
++				    int phase, int reg)
++{
++	int data;
++
++	switch (reg) {
++	/* PMBUS_READ_POUT uses a direct format with R=0 */
++	case PMBUS_READ_POUT:
++		data = pmbus_read_word_data(client, page, phase, reg);
++		if (data < 0)
++			return data;
++		data = sign_extend32(data, 15) * 10;
++		return clamp_val(data, -32768, 32767) & 0xffff;
++	default:
++		return -ENODATA;
++	}
++}
++
++static struct pmbus_driver_info pli1209bc_info = {
++	.pages = 2,
++	.format[PSC_VOLTAGE_IN] = direct,
++	.format[PSC_VOLTAGE_OUT] = direct,
++	.format[PSC_CURRENT_IN] = direct,
++	.format[PSC_CURRENT_OUT] = direct,
++	.format[PSC_POWER] = direct,
++	.format[PSC_TEMPERATURE] = direct,
++	.m[PSC_VOLTAGE_IN] = 1,
++	.b[PSC_VOLTAGE_IN] = 0,
++	.R[PSC_VOLTAGE_IN] = 1,
++	.m[PSC_VOLTAGE_OUT] = 1,
++	.b[PSC_VOLTAGE_OUT] = 0,
++	.R[PSC_VOLTAGE_OUT] = 1,
++	.m[PSC_CURRENT_IN] = 1,
++	.b[PSC_CURRENT_IN] = 0,
++	.R[PSC_CURRENT_IN] = 3,
++	.m[PSC_CURRENT_OUT] = 1,
++	.b[PSC_CURRENT_OUT] = 0,
++	.R[PSC_CURRENT_OUT] = 2,
++	.m[PSC_POWER] = 1,
++	.b[PSC_POWER] = 0,
++	.R[PSC_POWER] = 1,
++	.m[PSC_TEMPERATURE] = 1,
++	.b[PSC_TEMPERATURE] = 0,
++	.R[PSC_TEMPERATURE] = 0,
++	/*
++	 * Page 0 sums up all attributes except voltage readings.
++	 * The pli1209 digital supervisor only contains a single BCM, making
++	 * page 0 redundant.
++	 */
++	.func[1] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
++	    | PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
++	    | PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
++	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
++	    | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT,
++	.read_word_data = pli1209bc_read_word_data,
++};
++
++static int pli1209bc_probe(struct i2c_client *client)
++{
++	client->dev.platform_data = &pli1209bc_plat_data;
++	return pmbus_do_probe(client, &pli1209bc_info);
++}
++
++static const struct i2c_device_id pli1209bc_id[] = {
++	{"pli1209bc", 0},
++	{}
++};
++
++MODULE_DEVICE_TABLE(i2c, pli1209bc_id);
++
++#ifdef CONFIG_OF
++static const struct of_device_id pli1209bc_of_match[] = {
++	{ .compatible = "vicor,pli1209bc" },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, pli1209bc_of_match);
++#endif
++
++static struct i2c_driver pli1209bc_driver = {
++	.driver = {
++		   .name = "pli1209bc",
++		   .of_match_table = of_match_ptr(pli1209bc_of_match),
++		   },
++	.probe_new = pli1209bc_probe,
++	.id_table = pli1209bc_id,
++};
++
++module_i2c_driver(pli1209bc_driver);
++
++MODULE_AUTHOR("Marcello Sylvester Bauer <sylv@sylv.io>");
++MODULE_DESCRIPTION("PMBus driver for Vicor PLI1209BC");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS(PMBUS);
+-- 
+2.34.1
+
