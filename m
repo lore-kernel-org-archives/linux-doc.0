@@ -2,116 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3187C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 16:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A915C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 17:25:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356630AbiBNQiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 11:38:46 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44496 "EHLO
+        id S1357072AbiBNRZj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 12:25:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356489AbiBNQiB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 11:38:01 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4158F65156
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 08:37:53 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id s10so14283264wrb.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 08:37:53 -0800 (PST)
+        with ESMTP id S1357062AbiBNRZi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 12:25:38 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED40652FD
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 09:25:30 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id s18so20706660ioa.12
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 09:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GERI15kAg2IEXoXQSm/7wU4UYh+dy6tber8xEGG/84I=;
-        b=JkfmwJB79wq+zNYYz8o87uqDLMrzGJhti7dpAN6UzOBawUaQDpRpwRHO2X9vU1kuVN
-         21aLq+N7KaXEPcNiCbnJGrm4ApbdbmD46HH2MXIXcPDc4IGwllRBWmKkdjxxDWS8CK4k
-         uQEBkoBJAEUjJRZY/nCjSyO+daj3ZoZtMC2Vu/fJ+XdqzZdrbYettSDHHuPY5pVhZC7p
-         +6iwP4D8wNPgtL1JrfSZB2MvfRCtxWbmPNuIrkLsY7vLFJ36brN0JziwUgo6yZNmQsxK
-         ZN5Ev7xlmj8s/NiifAnZGguyGNZvfRFOPprPwl9LAKtq9ml/iPnbTv2NjPR2cH5leuje
-         zdCg==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=uHo9ifNLQ09Yp1i6Bp5KrefO3r8lTgQpaEZz0iuYjms=;
+        b=LKNxKFJUqhbFk4Qe/pRRegw9Y64INugoyZedczfCDrP9t+fKS3dPmVaiVWKgRh5oKj
+         203ONOj5nFUp9ItEmeM/YxjKI5cWbnseHJC7WtE+OZwGAy4Mux24tI3jcNm6RDywmH6+
+         wRWhu5cEXokeKhAkW/nbDjSadLfJ6UJlGDhAk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GERI15kAg2IEXoXQSm/7wU4UYh+dy6tber8xEGG/84I=;
-        b=GKSefokdXqEwTbdRB8IDt039AnAwRZiiXSgZ1yXdTt4RM+mMji25AudatXyshSt6Zv
-         5n65/0hObNqZXYwY+bgqZrdi6fFx2zWey/jImcmWnQUEtuIN77mOaSa/UR2NJLBSP9u+
-         LCSl+7iwBT7iolYpflLTscL5+FIAHIIdb1MFmXb4YR9QYnGo3Xbvfg5aGZf5IEziQhy6
-         8HzACa0uKOxuaO2BmIIR0FiTxIhPbmE8lWqUUXp3nuqoCm1DK4+2lJuGUEZv6tGm64Bl
-         c8IcBiQbu2kT9j2UrDAFUx6LpTCdh5Ycd3dWyleeXbiW7zuBPmUpo5++YFqwvWhZyimF
-         4V3g==
-X-Gm-Message-State: AOAM530XHJ8FpGsdMF9RtUveedOY/mzc1QIPiYg1okcUBYi85VH5dfbk
-        VhpRa4Toe/3ZYFGwB43aYJjxcQ==
-X-Google-Smtp-Source: ABdhPJw9cTWj/LL6u1NQ/d+t4lZJ/jQdpvDErbpRn7xv3ZvwdqN1IElBWCX322eq42d0Hjdc8Ujaxw==
-X-Received: by 2002:a5d:69c1:: with SMTP id s1mr361263wrw.159.1644856671867;
-        Mon, 14 Feb 2022 08:37:51 -0800 (PST)
-Received: from [192.168.86.34] (cpc90716-aztw32-2-0-cust825.18-1.cable.virginm.net. [86.26.103.58])
-        by smtp.googlemail.com with ESMTPSA id e4sm10084008wrp.25.2022.02.14.08.37.50
+        bh=uHo9ifNLQ09Yp1i6Bp5KrefO3r8lTgQpaEZz0iuYjms=;
+        b=si12bw86sb5SnnLRe0T9iIlMgrLvCnCNyXWuP1gXt7DnxWsXGvNpksW+ju5YNvv46r
+         e6qaetRTv0Ktoh3bsZRh3mK5fE/t85RWBjnkdbtaHUcR2JFSTtyBgbmwDUKIKjs0LqmD
+         CN54J7HRuGoxlDWxss/4ylBWqU/wWj+QLyRFhP467tVvWJJhSBtJxaaDqM0WkBw2HaVS
+         P0o8JMKtOGUSNZtJDnbt2HzLSki8S8y2/fmTrUb2mLpxuTzFw+Q10UfDksZUI6OUzh81
+         aqai/beVKKsWNYdSULm6MHysv5wcCXxZQ3D/KYkRBGzwZnFAJZ6cGEa2B0+XByJzCN0D
+         btEw==
+X-Gm-Message-State: AOAM530hJvYbOUXeCOXaCoRWOC5ZjFqcPKaYMiRT3WX9r6OAOeHuGMrZ
+        SICk0AcWcSJTmSN3rELMigQpig==
+X-Google-Smtp-Source: ABdhPJzGAtxpCzuVfwe2bYFOH31SGAUKp7VPjUtMbOWWF94SuYwjfTqzPEUgrkR1TKUAXYNHpYGEYw==
+X-Received: by 2002:a05:6638:1350:: with SMTP id u16mr455419jad.260.1644859529967;
+        Mon, 14 Feb 2022 09:25:29 -0800 (PST)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id 193sm12353004iob.17.2022.02.14.09.25.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 08:37:51 -0800 (PST)
-Message-ID: <649ddfe5-09a0-90e9-d3c3-f6c1a452545d@linaro.org>
-Date:   Mon, 14 Feb 2022 16:37:50 +0000
+        Mon, 14 Feb 2022 09:25:29 -0800 (PST)
+Subject: Re: [RFC V2 12/21] rv/reactor: Add the printk reactor
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1644830251.git.bristot@kernel.org>
+ <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
+Date:   Mon, 14 Feb 2022 10:25:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 1/2] doc: nvmem: Remove references to regmap
+In-Reply-To: <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-To:     Sean Anderson <sean.anderson@seco.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>
-References: <20220214163514.435142-1-sean.anderson@seco.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20220214163514.435142-1-sean.anderson@seco.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 14/02/2022 16:35, Sean Anderson wrote:
-> Since commit 795ddd18d38f ("nvmem: core: remove regmap dependency"),
-> nvmem devices do not use the regmap API. Remove references to it from
-> the documentation.
+On 2/14/22 3:45 AM, Daniel Bristot de Oliveira wrote:
+> Sample reactor that printks the reaction message.
 > 
-> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 
+Who is supposed to take action on this message and how do they
+get notified?
 
-Applied both thanks,
+> Note: do not use this reactor with rq_lock taken, it will lock the
+> system until printk can handle that.
 
---srini
+Please give more details on "lock the system" and how locking
+would impact users and system operation
+
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 > ---
+>   kernel/trace/rv/Kconfig          |  8 ++++++
+>   kernel/trace/rv/Makefile         |  3 ++-
+>   kernel/trace/rv/reactor_printk.c | 43 ++++++++++++++++++++++++++++++++
+>   3 files changed, 53 insertions(+), 1 deletion(-)
+>   create mode 100644 kernel/trace/rv/reactor_printk.c
 > 
-> (no changes since v2)
+> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+> index f2d0bed05a55..490f1417def9 100644
+> --- a/kernel/trace/rv/Kconfig
+> +++ b/kernel/trace/rv/Kconfig
+> @@ -37,4 +37,12 @@ config RV_REACTORS
+>   	  tracing reactions, printing the monitor output via tracepoints,
+>   	  but other reactions can be added (on-demand) via this interface.
+>   
+> +config RV_REACT_PRINTK
+> +	tristate "Printk reactor"
+> +	depends on RV_REACTORS
+> +	default y if RV_REACTORS
+> +	help
+> +	  Enables the printk reactor. The printk reactor emmits a printk()
+> +	  message if an exception is found.
+> +
+>   endif # RV
+> diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+> index edad01bb2b5d..d86ceb103ef2 100644
+> --- a/kernel/trace/rv/Makefile
+> +++ b/kernel/trace/rv/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+>   obj-$(CONFIG_RV) += rv.o
+> -obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
+>   obj-$(CONFIG_RV_MON_WIP) += monitor_wip/wip.o
+>   obj-$(CONFIG_RV_MON_WWNR) += monitor_wwnr/wwnr.o
+> +obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
+> +obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
+> diff --git a/kernel/trace/rv/reactor_printk.c b/kernel/trace/rv/reactor_printk.c
+> new file mode 100644
+> index 000000000000..9f9c9bb2d304
+> --- /dev/null
+> +++ b/kernel/trace/rv/reactor_printk.c
+> @@ -0,0 +1,43 @@
+> +/*
+> + * Printk RV reactor:
+> + *   Prints the exception msg to the kernel message log.
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0
+> + */
+> +#include <linux/ftrace.h>
+> +#include <linux/tracepoint.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/rv.h>
+> +
+> +static void rv_printk_reaction(char *msg)
+> +{
+> +	printk(msg);
+> +}
+> +
+> +struct rv_reactor rv_printk = {
+> +	.name = "printk",
+> +	.description = "prints the exception msg to the kernel message log",
+> +	.react = rv_printk_reaction
+> +};
+> +
+> +int register_react_printk(void)
+> +{
+> +	rv_register_reactor(&rv_printk);
+> +	return 0;
+> +}
+> +
+> +void unregister_react_printk(void)
+> +{
+> +	rv_unregister_reactor(&rv_printk);
+> +}
+> +
+> +module_init(register_react_printk);
+> +module_exit(unregister_react_printk);
+> +
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_AUTHOR("Daniel Bristot de Oliveira");
+> +MODULE_DESCRIPTION("printk rv reactor: printk if an exception is hit");
 > 
-> Changes in v2:
-> - Replace spaces with tabs
-> 
->   Documentation/driver-api/nvmem.rst | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-> index 287e86819640..56352ad1b1b0 100644
-> --- a/Documentation/driver-api/nvmem.rst
-> +++ b/Documentation/driver-api/nvmem.rst
-> @@ -26,9 +26,7 @@ was a rather big abstraction leak.
->   
->   This framework aims at solve these problems. It also introduces DT
->   representation for consumer devices to go get the data they require (MAC
-> -Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs. This
-> -framework is based on regmap, so that most of the abstraction available in
-> -regmap can be reused, across multiple types of buses.
-> +Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs.
->   
->   NVMEM Providers
->   +++++++++++++++
-> @@ -60,9 +58,6 @@ For example, a simple qfprom case::
->   	...
->     }
->   
-> -It is mandatory that the NVMEM provider has a regmap associated with its
-> -struct device. Failure to do would return error code from nvmem_register().
-> -
->   Users of board files can define and register nvmem cells using the
->   nvmem_cell_table struct::
->   
+
