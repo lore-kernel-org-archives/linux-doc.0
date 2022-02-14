@@ -2,346 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F70C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 10:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C68C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349679AbiBNK7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 05:59:40 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49926 "EHLO
+        id S1349468AbiBNLCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 06:02:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349604AbiBNK73 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 05:59:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1E860CEA32
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 02:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644834199;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6TPEPp8lcFzXctKk7ZApmA9jC/I/QucVeVU53xLxi+g=;
-        b=YP+AETFGYYrph2CqjwYcyym0khcB/r22ueWEOcI/2CK92pWxKiddK0knM6X8dJUt6mAbm0
-        SaGdjRFFsIb/m1GXCBzcLYXRkIyxWXlijyNsBpQGRlw7SPmP80jpLPlwp5GD3gS66VJuKi
-        tTbByVcXf805AdtB5KxW8GUS3RlpNL0=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-34qkiuUxO9qbIP5jPf9lJA-1; Mon, 14 Feb 2022 05:23:17 -0500
-X-MC-Unique: 34qkiuUxO9qbIP5jPf9lJA-1
-Received: by mail-pj1-f70.google.com with SMTP id z12-20020a17090a1fcc00b001b63e477f9fso10668880pjz.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 02:23:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6TPEPp8lcFzXctKk7ZApmA9jC/I/QucVeVU53xLxi+g=;
-        b=dyPC9Suz2PU6nel0vPriNGQxpYeXk2/F9qw5FHd/1NrC1Vff0ZpRhtgeXyPCBwKp2/
-         dQhZAfbYsOeobhly6qTn2yUrRzB+05KSpRhypxK8mVaVx1hoAkLznH0ypwznS8akBPNU
-         Ykv3cFZPEYgcFAj7dbYZpyRCI94pQZaAPPgt5cI4931HvtYavNs137yWTVHvnqqvNb4D
-         JU+MwBb9bcqKLyXZ0fEXLt1TqJOPHJQGJBwwLoRgxPkgmdi0A6bVclZWIeIjUuv6T/1l
-         DvtOKNtVnSEgD92oZIK1Ul+7ojgckMur3g4k9Js1yalD1OnCPMZJpRZMGEC2QSuUyI1U
-         IYag==
-X-Gm-Message-State: AOAM533vPzVukdoqdzHXhIcqiXIFJFmyuB+csa2QbF22Zqd6MSAr6eyf
-        ovVUBRD5MYpW7EwEfgDOkVc+Zseh0CWbKv+x9HprEotfex0zqKOoj+9cYObXLL/hu3sc/5ev0q0
-        T2YcEZJunRI5750ksr1i+fFqAp2eJPpH22WbP
-X-Received: by 2002:a05:6a00:1345:: with SMTP id k5mr13731955pfu.29.1644834195774;
-        Mon, 14 Feb 2022 02:23:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzV7L7txf/apdAnsNFwR76mzcRePnDHhZfG9BbMc/xvB5UXamYC+GfFVEbCqHJNuuWRHYeWDMQhIKsxedx9K2s=
-X-Received: by 2002:a05:6a00:1345:: with SMTP id k5mr13731930pfu.29.1644834195408;
- Mon, 14 Feb 2022 02:23:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
- <20220203143226.4023622-11-benjamin.tissoires@redhat.com> <CAF8JNhKbEWj1b4o2Uv7snXa_JGt0bk5wyUGP4_77aHTLhPRT3w@mail.gmail.com>
- <CAF8JNhLeOn==FhaujjYY7o+f3J7xQcitdUUUJOOeZL1QEGKhRA@mail.gmail.com>
-In-Reply-To: <CAF8JNhLeOn==FhaujjYY7o+f3J7xQcitdUUUJOOeZL1QEGKhRA@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 14 Feb 2022 11:23:04 +0100
-Message-ID: <CAO-hwJ+NVb=Z0=1jeLuCFjGPAXnjn6hgHDjWx0+ETcE3uQhhzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] HID: input: remove the need for HID_QUIRK_INVERT
-To:     Ping Cheng <pinglinux@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        with ESMTP id S1349450AbiBNLCA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:02:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C6295A2F;
+        Mon, 14 Feb 2022 02:29:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0BD4D61269;
+        Mon, 14 Feb 2022 10:29:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4899C340F0;
+        Mon, 14 Feb 2022 10:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644834554;
+        bh=Yjpd9or3InM7O72Ha8qqhYu1AMkoWAkyJcyqk3l1uP4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SxSbArKoO6QRWCpB0gREzXBLyJR4iT+F7EzfyQBAGNysz5fYvadx8h2FFUXiHcCJ8
+         OB0kC6nMrABepvcSdNnTyM862zaSF/W1p4BR3wT4S62Ff4EjYcND77yB11FmK7xMki
+         TIuljUCm4+kzy6Z2y1zWg5hiVEVWZhYmSzcyG62WDnMuuwXA9RuNa5t3vJOxIugXA1
+         90m0ly8lpfLhOWOSg8CZiWk1qgR3H6Fw5x3ZFEO2KVCxUb4/Tu8EdzDul1LAhSYfFb
+         f1rt5ZXAiIKJsVxilDUMkv24PF4XPKq5S3IZcIJao/EJcKZqw+AKndJGOk9tXpEWWb
+         1No+JyQqXdijQ==
+Date:   Mon, 14 Feb 2022 12:28:56 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
+Message-ID: <Ygou6Gq79XY3mFK7@kernel.org>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-13-yuzhao@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220208081902.3550911-13-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ping,
+Hi,
 
-On Thu, Feb 10, 2022 at 6:44 AM Ping Cheng <pinglinux@gmail.com> wrote:
->
-> Sorry for the noise. Hit the wrong buttons...
->
-> On Wed, Feb 9, 2022 at 9:21 PM Ping Cheng <pinglinux@gmail.com> wrote:
-> >
-> > On Thu, Feb 3, 2022 at 6:33 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
-> > >
-> > > Furthermore, it didn't make sense to use a global per struct hid_device
-> > > quirk for something dynamic as the current state.
-> > >
-> > > Store the current tool information in the report itself, and re-order
-> > > the processing of the fields to enforce having all the tablet "state"
-> > > fields before getting to In Range and other input fields.
-> > >
-> > > This way, we now have all the information whether a tool is present
-> > > or not while processing In Range.
-> > >
-> > > This new behavior enforces that only one tool gets forwarded to userspace
-> > > at the same time, and that if either eraser or invert is set, we enforce
-> > > BTN_TOOL_RUBBER.
-> > >
-> > > Note that the release of the previous tool now happens in its own EV_SYN
-> > > report so userspace doesn't get confused by having 2 tools.
-> > >
-> > > These changes are tested in the following hid-tools regression tests:
-> > > https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
-> > >
-> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > >
-> > > ---
-> > >
-> > > Changes in v2:
-> > > - rework the entire tool switching, this makes the processing
-> > >   slightly more complex but is better for existing userspace.
-> > > ---
-> > >  drivers/hid/hid-input.c | 98 +++++++++++++++++++++++++++++++++++++----
-> > >  include/linux/hid.h     |  6 ++-
-> > >  2 files changed, 95 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > > index 61d91117f4ae..9f8853640648 100644
-> > > --- a/drivers/hid/hid-input.c
-> > > +++ b/drivers/hid/hid-input.c
-> > > @@ -63,8 +63,11 @@ static const struct {
-> > >   * This still leaves us 65535 individual priority values.
-> > >   */
-> > >  static const __u32 hidinput_usages_priorities[] = {
-> > > +       HID_DG_ERASER,          /* Eraser (eraser touching) must always come before tipswitch */
-> > >         HID_DG_INVERT,          /* Invert must always come before In Range */
-> > > -       HID_DG_INRANGE,
-> > > +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
-> > > +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch */
-> > > +       HID_DG_INRANGE,         /* In Range needs to come after the other tool states */
-> > >  };
-> > >
-> > >  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_ABS, (c))
-> > > @@ -1365,9 +1368,38 @@ static void hidinput_handle_scroll(struct hid_usage *usage,
-> > >         input_event(input, EV_REL, usage->code, hi_res);
-> > >  }
-> > >
-> > > +static void hid_report_release_tool(struct hid_report *report, struct input_dev *input,
-> > > +                                   unsigned int tool)
-> > > +{
-> > > +       /* if the given tool is not currently reported, ignore */
-> > > +       if (!test_bit(tool, input->key))
-> > > +               return;
-> > > +
-> > > +       /*
-> > > +        * if the given tool was previously set, release it,
-> > > +        * release any TOUCH and send an EV_SYN
-> > > +        */
-> > > +       input_event(input, EV_KEY, BTN_TOUCH, 0);
-> > > +       input_event(input, EV_KEY, tool, 0);
->
-> Took a while for me to find the right device and setup the proper
-> system for the testing. This block missing the serial number:
->
->         input_event(input, EV_MSC, MSC_SERIAL, 0);
->
-> Without this line, the next tool will not get its serial number.
+On Tue, Feb 08, 2022 at 01:19:02AM -0700, Yu Zhao wrote:
+> Add a design doc and an admin guide.
+> 
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Acked-by: Brian Geffon <bgeffon@google.com>
+> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Acked-by: Steven Barrett <steven@liquorix.net>
+> Acked-by: Suleiman Souhlal <suleiman@google.com>
+> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> Tested-by: Donald Carr <d@chaos-reins.com>
+> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> ---
+>  Documentation/admin-guide/mm/index.rst        |   1 +
+>  Documentation/admin-guide/mm/multigen_lru.rst | 121 ++++++++++++++
+>  Documentation/vm/index.rst                    |   1 +
+>  Documentation/vm/multigen_lru.rst             | 152 ++++++++++++++++++
 
-I am tempted to simply disregard this request. It has been known for
-ages that the evdev values are cached, so if you do not have the value
-you need that means that the value has been sent previously (or you
-can request it upon start with an ioctl). So in this particular case,
-I don't really see the logic in forcing the SERIAL into the TOOL type
-when the tool is clearly unrelated to the serial.
+Please consider splitting this patch into Documentation/admin-guide and
+Documentation/vm parts.
 
-My fear here is that by linking together too many axes, we may enter
-in a state where we can not untangle them when needed.
+For now I only had time to review the admin-guide part.
 
->
-> > > +       input_event(input, EV_SYN, SYN_REPORT, 0);
-> > > +
-> > > +       report->tool = 0;
-> > > +}
-> > > +
-> > > +static void hid_report_set_tool(struct hid_report *report, struct input_dev *input,
-> > > +                               unsigned int new_tool)
-> > > +{
-> > > +       if (report->tool != new_tool)
-> > > +               hid_report_release_tool(report, input, report->tool);
-> > > +
-> > > +       input_event(input, EV_KEY, new_tool, 1);
-> > > +       report->tool = new_tool;
-> > > +}
-> > > +
-> > >  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
-> > >  {
-> > >         struct input_dev *input;
-> > > +       struct hid_report *report = field->report;
-> > >         unsigned *quirks = &hid->quirks;
-> > >
-> > >         if (!usage->type)
-> > > @@ -1418,25 +1450,75 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-> > >         }
-> > >
-> > >         switch (usage->hid) {
-> > > +       case HID_DG_ERASER:
-> > > +               report->tool_active |= !!value;
-> > > +
-> > > +               /*
-> > > +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
-> > > +                * to accommodate for devices not following the spec.
-> > > +                */
-> > > +               if (value)
-> > > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > > +               else if (report->tool != BTN_TOOL_RUBBER)
-> > > +                       /* value is off, tool is not rubber, ignore */
-> > > +                       return;
-> > > +
-> > > +               /* let hid-input set BTN_TOUCH */
-> > > +               break;
-> > > +
-> > >         case HID_DG_INVERT:
-> > > -               *quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
-> > > +               report->tool_active |= !!value;
-> > > +
-> > > +               /*
-> > > +                * If invert is set, we store BTN_TOOL_RUBBER.
-> > > +                */
-> > > +               if (value)
-> > > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > > +               else if (!report->tool_active)
-> > > +                       /* tool_active not set means Invert and Eraser are not set */
-> > > +                       hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
-> > > +
-> > > +               /* no further processing */
-> > >                 return;
-> > >
-> > >         case HID_DG_INRANGE:
-> > > -               if (value) {
-> > > -                       input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
-> > > -                       return;
-> > > +               report->tool_active |= !!value;
-> > > +
-> > > +               if (report->tool_active) {
-> > > +                       /*
-> > > +                        * if tool is not set but is marked as active,
-> > > +                        * assume ours
-> > > +                        */
-> > > +                       if (!report->tool)
-> > > +                               hid_report_set_tool(report, input, usage->code);
-> > > +               } else {
-> > > +                       hid_report_release_tool(report, input, usage->code);
-> > >                 }
-> > > -               input_event(input, usage->type, usage->code, 0);
-> > > -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
-> > > +
-> > > +               /* reset tool_active for the next event */
-> > > +               report->tool_active = false;
-> > > +
-> > > +               /* no further processing */
-> > >                 return;
-> > >
-> > > +       case HID_DG_TIPSWITCH:
-> > > +               report->tool_active |= !!value;
-> > > +
-> > > +               /* if tool is set to RUBBER we should ignore the current value */
-> > > +               if (report->tool == BTN_TOOL_RUBBER)
-> > > +                       return;
->
-> This case should return before HID_DG_INVERT is checked since we may
-> get TIPSWITCH bit before INVERT. In fact, the device that I tested
-> sends the tipswatch bit before the invert bit. So, I alway get a PEN
-> in and out before I get ERASER events, when I bring the pen in with
-> the side-switch/invert bit pressed.
->
-> However, we know not all devices support INVERT. We probably have to
-> keep the invert quirk to decide if BTN_TOOL_PEN should be set here or
-> wait until HID_DG_INVERT is reached.
+>  4 files changed, 275 insertions(+)
+>  create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
+>  create mode 100644 Documentation/vm/multigen_lru.rst
+> 
+> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
+> index c21b5823f126..2cf5bae62036 100644
+> --- a/Documentation/admin-guide/mm/index.rst
+> +++ b/Documentation/admin-guide/mm/index.rst
+> @@ -32,6 +32,7 @@ the Linux memory management.
+>     idle_page_tracking
+>     ksm
+>     memory-hotplug
+> +   multigen_lru
+>     nommu-mmap
+>     numa_memory_policy
+>     numaperf
+> diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Documentation/admin-guide/mm/multigen_lru.rst
+> new file mode 100644
+> index 000000000000..16a543c8b886
+> --- /dev/null
+> +++ b/Documentation/admin-guide/mm/multigen_lru.rst
+> @@ -0,0 +1,121 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================
+> +Multigenerational LRU
+> +=====================
++
+> +Quick start
+> +===========
 
-I am under the impression that you completely missed the point of the
-patch series. This series re-orders the processing of the events, and
-if you look at the very first hunk in this patch, you'll see that the
-new processing ensures we treat INVERT and ERASER before TIPSWITCH, no
-matter the order of the device.
+There is no explanation why one would want to use multigenerational LRU
+until the next section.
 
-So when we process TIPSWITCH here, we are sure that if BTN_TOOL_RUBBER
-is set, either INVERT or ERASER is set to 1, whether or not they come
-before or after in the report.
+I think there should be an overview that explains why users would want to
+enable multigenerational LRU. 
 
->
-> If you are interested in the evtest output, please let me know. I'll
-> share it with you offline so we don't abuse this list...
+> +Build configurations
+> +--------------------
+> +:Required: Set ``CONFIG_LRU_GEN=y``.
 
-evtest is the output of the kernel, and it doesn't give me much more
-than "it's broken". However, if you can give me the hid-recorder
-outputs, I'll be able to reproduce locally and compare the output as I
-fix the code. Of course the best would be to add test cases in the
-hid-tools repo, but I'll need the hid-recorder anyway to understand
-what is failing and to be able to write the tests.
+Maybe 
 
-Cheers,
-Benjamin
+	Set ``CONFIG_LRU_GEN=y`` to build kernel with multigenerational LRU
 
->
-> Cheers,
-> Ping
->
-> > > +               break;
-> > > +
-> > >         case HID_DG_TIPPRESSURE:
-> > >                 if (*quirks & HID_QUIRK_NOTOUCH) {
-> > >                         int a = field->logical_minimum;
-> > >                         int b = field->logical_maximum;
-> > >
-> > > -                       input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
-> > > +                       if (value > a + ((b - a) >> 3)) {
-> > > +                               input_event(input, EV_KEY, BTN_TOUCH, 1);
-> > > +                               report->tool_active = true;
-> > > +                       }
-> > >                 }
-> > >                 break;
-> > >
-> > > diff --git a/include/linux/hid.h b/include/linux/hid.h
-> > > index eaad0655b05c..feb8df61168f 100644
-> > > --- a/include/linux/hid.h
-> > > +++ b/include/linux/hid.h
-> > > @@ -347,7 +347,7 @@ struct hid_item {
-> > >   */
-> > >  #define MAX_USBHID_BOOT_QUIRKS 4
-> > >
-> > > -#define HID_QUIRK_INVERT                       BIT(0)
-> > > +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
-> > >  #define HID_QUIRK_NOTOUCH                      BIT(1)
-> > >  #define HID_QUIRK_IGNORE                       BIT(2)
-> > >  #define HID_QUIRK_NOGET                                BIT(3)
-> > > @@ -515,6 +515,10 @@ struct hid_report {
-> > >         unsigned maxfield;                              /* maximum valid field index */
-> > >         unsigned size;                                  /* size of the report (bits) */
-> > >         struct hid_device *device;                      /* associated device */
-> > > +
-> > > +       /* tool related state */
-> > > +       bool tool_active;                               /* whether the current tool is active */
-> > > +       unsigned int tool;                              /* BTN_TOOL_* */
-> > >  };
-> > >
-> > >  #define HID_MAX_IDS 256
-> > > --
-> > > 2.33.1
-> > >
->
+> +
+> +:Optional: Set ``CONFIG_LRU_GEN_ENABLED=y`` to enable the
+> + multigenerational LRU by default.
+> +
+> +Runtime configurations
+> +----------------------
+> +:Required: Write ``y`` to ``/sys/kernel/mm/lru_gen/enable`` if
+> + ``CONFIG_LRU_GEN_ENABLED=n``.
+> +
+> +This file accepts different values to enabled or disabled the
+> +following features:
 
+Maybe
+
+  After multigenerational LRU is enabled, this file accepts different
+  values to enable or disable the following feaures:
+
+> +====== ========
+> +Values Features
+> +====== ========
+> +0x0001 the multigenerational LRU
+
+The multigenerational LRU what?
+
+What will happen if I write 0x2 to this file?
+Please consider splitting "enable" and "features" attributes.
+
+> +0x0002 clear the accessed bit in leaf page table entries **in large
+> +       batches**, when MMU sets it (e.g., on x86)
+
+Is extra markup really needed here...
+
+> +0x0004 clear the accessed bit in non-leaf page table entries **as
+> +       well**, when MMU sets it (e.g., on x86)
+
+... and here?
+
+As for the descriptions, what is the user-visible effect of these features?
+How different modes of clearing the access bit are reflected in, say, GUI
+responsiveness, database TPS, or probability of OOM?
+
+> +[yYnN] apply to all the features above
+> +====== ========
+> +
+> +E.g.,
+> +::
+> +
+> +    echo y >/sys/kernel/mm/lru_gen/enabled
+> +    cat /sys/kernel/mm/lru_gen/enabled
+> +    0x0007
+> +    echo 5 >/sys/kernel/mm/lru_gen/enabled
+> +    cat /sys/kernel/mm/lru_gen/enabled
+> +    0x0005
+> +
+> +Most users should enable or disable all the features unless some of
+> +them have unforeseen side effects.
+> +
+> +Recipes
+> +=======
+> +Personal computers
+> +------------------
+> +Personal computers are more sensitive to thrashing because it can
+> +cause janks (lags when rendering UI) and negatively impact user
+> +experience. The multigenerational LRU offers thrashing prevention to
+> +the majority of laptop and desktop users who don't have oomd.
+
+I'd expect something like this paragraph in overview.
+
+> +
+> +:Thrashing prevention: Write ``N`` to
+> + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+> + ``N`` milliseconds from getting evicted. The OOM killer is triggered
+> + if this working set can't be kept in memory. Based on the average
+> + human detectable lag (~100ms), ``N=1000`` usually eliminates
+> + intolerable janks due to thrashing. Larger values like ``N=3000``
+> + make janks less noticeable at the risk of premature OOM kills.
+
+> +
+> +Data centers
+> +------------
+> +Data centers want to optimize job scheduling (bin packing) to improve
+> +memory utilizations. Job schedulers need to estimate whether a server
+> +can allocate a certain amount of memory for a new job, and this step
+> +is known as working set estimation, which doesn't impact the existing
+> +jobs running on this server. They also want to attempt freeing some
+> +cold memory from the existing jobs, and this step is known as proactive
+> +reclaim, which improves the chance of landing a new job successfully.
+
+This paragraph also fits overview.
+
+> +
+> +:Optional: Increase ``CONFIG_NR_LRU_GENS`` to support more generations
+> + for working set estimation and proactive reclaim.
+
+Please add a note that this is build time option.
+
+> +
+> +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
+
+Is debugfs interface relevant only for datacenters? 
+
+> + format:
+> + ::
+> +
+> +   memcg  memcg_id  memcg_path
+> +     node  node_id
+> +       min_gen  birth_time  anon_size  file_size
+> +       ...
+> +       max_gen  birth_time  anon_size  file_size
+> +
+> + ``min_gen`` is the oldest generation number and ``max_gen`` is the
+> + youngest generation number. ``birth_time`` is in milliseconds.
+
+It's unclear what is birth_time reference point. Is it milliseconds from
+the system start or it is measured some other way?
+
+> + ``anon_size`` and ``file_size`` are in pages. The youngest generation
+> + represents the group of the MRU pages and the oldest generation
+> + represents the group of the LRU pages. For working set estimation, a
+
+Please spell out MRU and LRU fully.
+
+> + job scheduler writes to this file at a certain time interval to
+> + create new generations, and it ranks available servers based on the
+> + sizes of their cold memory defined by this time interval. For
+> + proactive reclaim, a job scheduler writes to this file before it
+> + tries to land a new job, and if it fails to materialize the cold
+> + memory without impacting the existing jobs, it retries on the next
+> + server according to the ranking result.
+
+Is this knob only relevant for a job scheduler? Or it can be used in other
+use-cases as well?
+
+> +
+> + This file accepts commands in the following subsections. Multiple
+
+                              ^ described
+
+> + command lines are supported, so does concatenation with delimiters
+> + ``,`` and ``;``.
+> +
+> + ``/sys/kernel/debug/lru_gen_full`` contains additional stats for
+> + debugging.
+> +
+> +:Working set estimation: Write ``+ memcg_id node_id max_gen
+> + [can_swap [full_scan]]`` to ``/sys/kernel/debug/lru_gen`` to invoke
+> + the aging. It scans PTEs for hot pages and promotes them to the
+> + youngest generation ``max_gen``. Then it creates a new generation
+> + ``max_gen+1``. Set ``can_swap`` to ``1`` to scan for hot anon pages
+> + when swap is off. Set ``full_scan`` to ``0`` to reduce the overhead
+> + as well as the coverage when scanning PTEs.
+> +
+> +:Proactive reclaim: Write ``- memcg_id node_id min_gen [swappiness
+> + [nr_to_reclaim]]`` to ``/sys/kernel/debug/lru_gen`` to invoke the
+> + eviction. It evicts generations less than or equal to ``min_gen``.
+> + ``min_gen`` should be less than ``max_gen-1`` as ``max_gen`` and
+> + ``max_gen-1`` aren't fully aged and therefore can't be evicted. Use
+> + ``nr_to_reclaim`` to limit the number of pages to evict.
+
+I feel that /sys/kernel/debug/lru_gen is too overloaded.
+
+> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> index 44365c4574a3..b48434300226 100644
+> --- a/Documentation/vm/index.rst
+> +++ b/Documentation/vm/index.rst
+> @@ -25,6 +25,7 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+>     ksm
+>     memory-model
+>     mmu_notifier
+> +   multigen_lru
+>     numa
+>     overcommit-accounting
+>     page_migration
+
+-- 
+Sincerely yours,
+Mike.
