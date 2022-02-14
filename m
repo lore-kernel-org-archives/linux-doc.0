@@ -2,33 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F703C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19A1CC4321E
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350713AbiBNLVp convert rfc822-to-8bit (ORCPT
+        id S1350841AbiBNLVr convert rfc822-to-8bit (ORCPT
         <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:21:45 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51438 "EHLO
+        Mon, 14 Feb 2022 06:21:47 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351919AbiBNLVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:21:32 -0500
-X-Greylist: delayed 658 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Feb 2022 02:57:05 PST
+        with ESMTP id S1352091AbiBNLVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:21:38 -0500
 Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6070B5F73
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 02:57:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CD12A646E
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 02:57:22 -0800 (PST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-Z48kIwZ6OBWnlfFdy6e65g-1; Mon, 14 Feb 2022 05:46:36 -0500
-X-MC-Unique: Z48kIwZ6OBWnlfFdy6e65g-1
+ us-mta-259-09a1hDNTONuupyNsMr2KKw-1; Mon, 14 Feb 2022 05:47:01 -0500
+X-MC-Unique: 09a1hDNTONuupyNsMr2KKw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 787313E741;
-        Mon, 14 Feb 2022 10:46:34 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB97D801B1C;
+        Mon, 14 Feb 2022 10:46:58 +0000 (UTC)
 Received: from x1.com (unknown [10.22.16.130])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C868C26DFB;
-        Mon, 14 Feb 2022 10:46:19 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2188226E74;
+        Mon, 14 Feb 2022 10:46:49 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
@@ -47,9 +46,9 @@ Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Clark Williams <williams@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-trace-devel@vger.kernel.org
-Subject: [RFC V2 05/21] rv/include: Add tracing helper functions
-Date:   Mon, 14 Feb 2022 11:44:56 +0100
-Message-Id: <6b1c197c0b1dc9a27cfb71330ee2a0d670c93366.1644830251.git.bristot@kernel.org>
+Subject: [RFC V2 09/21] rv/monitor: wip instrumentation and Makefile/Kconfig entries
+Date:   Mon, 14 Feb 2022 11:45:00 +0100
+Message-Id: <87e86ddb840f7c69a5a9348974936de918ca3036.1644830251.git.bristot@kernel.org>
 In-Reply-To: <cover.1644830251.git.bristot@kernel.org>
 References: <cover.1644830251.git.bristot@kernel.org>
 MIME-Version: 1.0
@@ -64,8 +63,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tracing helper functions to facilitate the instrumentation of
-auto-generated RV monitors create by dot2k.
+Adds the instrumentation to the previously created wip monitor, as an
+example of the developer work. It also adds a Makefile and Kconfig
+entries.
+
+This is a good example of the manual work that is left for the
+developer to do.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -86,85 +89,100 @@ Cc: linux-kernel@vger.kernel.org
 Cc: linux-trace-devel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 ---
- include/rv/trace_helpers.h | 69 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 include/rv/trace_helpers.h
+ kernel/trace/rv/Kconfig           |  7 +++++++
+ kernel/trace/rv/Makefile          |  1 +
+ kernel/trace/rv/monitor_wip/wip.c | 16 ++++++++--------
+ kernel/trace/rv/monitor_wip/wip.h |  2 +-
+ 4 files changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/include/rv/trace_helpers.h b/include/rv/trace_helpers.h
-new file mode 100644
-index 000000000000..440c681148a8
---- /dev/null
-+++ b/include/rv/trace_helpers.h
-@@ -0,0 +1,69 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Helper functions to facilitate the instrumentation of auto-generated
-+ * RV monitors create by dot2k.
-+ *
-+ * The dot2k tool is available at tools/tracing/rv/dot2/
-+ *
-+ * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
-+ */
+diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+index 560408fec0c8..7338e661d78f 100644
+--- a/kernel/trace/rv/Kconfig
++++ b/kernel/trace/rv/Kconfig
+@@ -13,6 +13,13 @@ menuconfig RV
+ 
+ if RV
+ 
++config RV_MON_WIP
++	depends on PREEMPTIRQ_TRACEPOINTS
++	tristate "WIP monitor"
++	help
++	  Enable WIP sample monitor, this is a sample monitor that
++	  illustrates the usage of per-cpu monitors.
 +
-+#include <linux/ftrace.h>
-+
-+struct tracepoint_hook_helper {
-+	struct tracepoint *tp;
-+	void *probe;
-+	int registered;
-+	char *name;
-+};
-+
-+static inline void thh_compare_name(struct tracepoint *tp, void *priv)
-+{
-+	struct tracepoint_hook_helper *thh  = priv;
-+
-+	if (!strcmp(thh->name, tp->name))
-+		thh->tp = tp;
-+}
-+
-+static inline bool thh_fill_struct_tracepoint(struct tracepoint_hook_helper *thh)
-+{
-+	for_each_kernel_tracepoint(thh_compare_name, thh);
-+
-+	return !!thh->tp;
-+}
-+
-+static inline void thh_unhook_probes(struct tracepoint_hook_helper *thh, int helpers_count)
-+{
-+	int i;
-+
-+	for (i = 0; i < helpers_count; i++) {
-+		if (!thh[i].registered)
-+			continue;
-+
-+		tracepoint_probe_unregister(thh[i].tp, thh[i].probe, NULL);
-+	}
-+}
-+
-+static inline int thh_hook_probes(struct tracepoint_hook_helper *thh, int helpers_count)
-+{
-+	int retval;
-+	int i;
-+
-+	for (i = 0; i < helpers_count; i++) {
-+		retval = thh_fill_struct_tracepoint(&thh[i]);
-+		if (!retval)
-+			goto out_err;
-+
-+		retval = tracepoint_probe_register(thh[i].tp, thh[i].probe, NULL);
-+
-+		if (retval)
-+			goto out_err;
-+
-+		thh[i].registered = 1;
-+	}
-+	return 0;
-+
-+out_err:
-+	thh_unhook_probes(thh, helpers_count);
-+	return -EINVAL;
-+}
+ config RV_REACTORS
+ 	bool "Runtime verification reactors"
+ 	default y if RV
+diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+index 8944274d9b41..20f30741b933 100644
+--- a/kernel/trace/rv/Makefile
++++ b/kernel/trace/rv/Makefile
+@@ -2,3 +2,4 @@
+ 
+ obj-$(CONFIG_RV) += rv.o
+ obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
++obj-$(CONFIG_RV_MON_WIP) += monitor_wip/wip.o
+diff --git a/kernel/trace/rv/monitor_wip/wip.c b/kernel/trace/rv/monitor_wip/wip.c
+index 1aec75e683d2..dd35a042e727 100644
+--- a/kernel/trace/rv/monitor_wip/wip.c
++++ b/kernel/trace/rv/monitor_wip/wip.c
+@@ -33,36 +33,36 @@ DECLARE_DA_MON_PER_CPU(wip, char);
+  *
+  */
+ 
+-void handle_preempt_disable(void *data, /* XXX: fill header */)
++void handle_preempt_disable(void *data, unsigned long ip, unsigned long parent_ip)
+ {
+ 	da_handle_event_wip(preempt_disable);
+ }
+ 
+-void handle_preempt_enable(void *data, /* XXX: fill header */)
++void handle_preempt_enable(void *data, unsigned long ip, unsigned long parent_ip)
+ {
+-	da_handle_event_wip(preempt_enable);
++	da_handle_init_event_wip(preempt_enable);
+ }
+ 
+-void handle_sched_waking(void *data, /* XXX: fill header */)
++void handle_sched_waking(void *data, struct task_struct *task)
+ {
+ 	da_handle_event_wip(sched_waking);
+ }
+ 
+-#define NR_TP   3
++#define NR_TP	3
+ static struct tracepoint_hook_helper tracepoints_to_hook[NR_TP] = {
+ 	{
+ 		.probe = handle_preempt_disable,
+-		.name = /* XXX: tracepoint name here */,
++		.name = "preempt_disable",
+ 		.registered = 0
+ 	},
+ 	{
+ 		.probe = handle_preempt_enable,
+-		.name = /* XXX: tracepoint name here */,
++		.name = "preempt_enable",
+ 		.registered = 0
+ 	},
+ 	{
+ 		.probe = handle_sched_waking,
+-		.name = /* XXX: tracepoint name here */,
++		.name = "sched_wakeup",
+ 		.registered = 0
+ 	},
+ };
+diff --git a/kernel/trace/rv/monitor_wip/wip.h b/kernel/trace/rv/monitor_wip/wip.h
+index 7a751a8896e9..1ba58a5781ff 100644
+--- a/kernel/trace/rv/monitor_wip/wip.h
++++ b/kernel/trace/rv/monitor_wip/wip.h
+@@ -59,6 +59,6 @@ TRACE_EVENT(error_wip,
+ 
+ /* This part ust be outside protection */
+ #undef TRACE_INCLUDE_PATH
+-#define TRACE_INCLUDE_PATH .
++#define TRACE_INCLUDE_PATH ../kernel/trace/rv/monitor_wip/
+ #define TRACE_INCLUDE_FILE wip
+ #include <trace/define_trace.h>
 -- 
 2.33.1
 
