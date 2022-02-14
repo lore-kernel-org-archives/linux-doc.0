@@ -2,279 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0455C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 16:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C13E3C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 16:35:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356099AbiBNQAx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 11:00:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48142 "EHLO
+        id S245538AbiBNQfh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 11:35:37 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356084AbiBNQAs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 11:00:48 -0500
-X-Greylist: delayed 1254 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Feb 2022 08:00:40 PST
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com [192.185.145.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1375D49F9B
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 08:00:39 -0800 (PST)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway33.websitewelcome.com (Postfix) with ESMTP id 86210C3C8
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 09:39:45 -0600 (CST)
-Received: from gator4132.hostgator.com ([192.185.4.144])
-        by cmsmtp with SMTP
-        id JdS5nnciwdx86JdS5nVNHd; Mon, 14 Feb 2022 09:39:45 -0600
-X-Authority-Reason: nr=8
-Received: from host-95-232-30-176.retail.telecomitalia.it ([95.232.30.176]:59426 helo=[10.0.0.45])
-        by gator4132.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bristot@kernel.org>)
-        id 1nJdS3-002kde-Pt; Mon, 14 Feb 2022 09:39:43 -0600
-Message-ID: <49ce9a81-8cd0-08d6-c6ae-011214c676ba@kernel.org>
-Date:   Mon, 14 Feb 2022 16:39:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC V2 17/21] watchdog/dev: Add tracepoints
-Content-Language: en-US
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Wim Van Sebroeck <wim@linux-watchdog.org>
-References: <cover.1644830251.git.bristot@kernel.org>
- <e67874c8b676ea8dfe38679efa25363889bb1e76.1644830251.git.bristot@kernel.org>
- <6ead3577-75ec-1b9a-0c27-213a3a186c57@roeck-us.net>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <6ead3577-75ec-1b9a-0c27-213a3a186c57@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S236409AbiBNQfg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 11:35:36 -0500
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2054.outbound.protection.outlook.com [40.107.22.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88953B0C;
+        Mon, 14 Feb 2022 08:35:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RMOxRCy4fTcxnZSaoOn6iF4Dz8RfmoXTwcTzsIS3ByjiAd0pjjVy4+Ju38qJpXFvHF34IgV4+maCWZaPQ9752pVHDZ41XFEVMFdMR/Bfz39nXRcXpj4BQsDsbp+2A/hY3WSblgrYd3zniewOcJLq8IckaU5pgrT3tCVN4f6298rt0oZhyhFLZA00slCMCOxsgB4fV+/jDqj0nREAGIZtBsIHcxxbwsduancVOoww/y/kGEhjd/Js5J9zuokIJ0sy8CHPGch7B1Anx2Bzjesexq1XwpQuUx2W4D1RNOyjWQIyWbqfspKPsEyz5ADS+fALS3UWZTFnMYbYLCweEhnw6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QeBHySC8SsiahYw9CgJkq9Q3godafw2ncpyIHlBnJqo=;
+ b=N3yKla0sX1hmqm/AbIhvYEadLk3Op19dkJmcw6vgBsEB0PX4ChBj5h2qb/vEyW99T8LNJO75JDG7qbZgqPkvDn0A67rVbDPyrVAAbDg5aPVmxap3gFQB8STWvaGUuylLapju0w4w66RRYg766+ArfLBP251fJ/+WyEr1AWj6txabJFZs3nOfjVLXjdXoEzhQWUvXRSenNwXwFZ87XPy0y4Utha6WlzcjSVXbZ7j0/Fmg6651xMPkbuglt3EEt44/ro7fKczTkEKZBs800cMzVRWBbmrPPyqxV8M25pLjsCNqB4a6hztrcK2yOsSmasGttvAGn0P678SUCiG38lUB6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QeBHySC8SsiahYw9CgJkq9Q3godafw2ncpyIHlBnJqo=;
+ b=IW3rELGh5wMAxSjbWc/AYZAgyMwPeX3XyRYwv0wlkTDG2gqf7+WAT+3By77bnsOKQTfyrX4meg0/SxuymPDRoUaZEAoxeWwIEMC6qqGf1VUqcgUXcGS84vGAzYgD5rTpovbFrH3Tyre3+7ZSnQ89mhrZHic13O4QlYGr7bxOpap2Wv2vsPd1C6ufZb9KHlRcdJAk6hXDmMMIZEEQB8vbkQoZHtu7vPcLQYj+yQkrYnFeuSuS8k3ZfbrbVcvZqm4ABqmXbf1XeNK6qzw8Xd1yQYqE9ODb12bV9MnOebIsJ0h7i0VwxFG0SKgtr3KVXNtFH7UBCcGET/ZLQGgjIvU4Pg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
+ by DB7PR03MB3834.eurprd03.prod.outlook.com (2603:10a6:5:30::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.18; Mon, 14 Feb
+ 2022 16:35:25 +0000
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::ed45:f086:5e82:fccd]) by DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::ed45:f086:5e82:fccd%4]) with mapi id 15.20.4975.018; Mon, 14 Feb 2022
+ 16:35:25 +0000
+From:   Sean Anderson <sean.anderson@seco.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH v3 1/2] doc: nvmem: Remove references to regmap
+Date:   Mon, 14 Feb 2022 11:35:12 -0500
+Message-Id: <20220214163514.435142-1-sean.anderson@seco.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4132.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kernel.org
-X-BWhitelist: no
-X-Source-IP: 95.232.30.176
-X-Source-L: No
-X-Exim-ID: 1nJdS3-002kde-Pt
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: host-95-232-30-176.retail.telecomitalia.it ([10.0.0.45]) [95.232.30.176]:59426
-X-Source-Auth: kernel@bristot.me
-X-Email-Count: 4
-X-Source-Cap: YnJpc3RvdG1lO2JyaXN0b3RtZTtnYXRvcjQxMzIuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: no
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0123.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::8) To DB7PR03MB4523.eurprd03.prod.outlook.com
+ (2603:10a6:10:19::27)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 56c4628c-6cf7-443a-0acc-08d9efd80089
+X-MS-TrafficTypeDiagnostic: DB7PR03MB3834:EE_
+X-Microsoft-Antispam-PRVS: <DB7PR03MB3834D4F6CD4998F1D2FDDDAE96339@DB7PR03MB3834.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hhXDp7VbVt90SEMaF0HEKtn4irwQKHxFQ9cIO99DKONtL/U+3Ew58T5Rqkjeo6PRO04hatV2Xe/DHt39gyCiWD84O4jWWWNmJpC7a64X+WN5xhkjTUcZGpSedwIeJxv8cU+/TmP6J5DePMQbc1umjVy6AFpxbLxeVTUT+P8pTA6LBn+hDM9xUE0RG7BTgoo2pMaWJK2ujy1YBjzuLFNgNGZmubQIv4IjDm1OnU5sk2BCnhCsCkFWTgfvTIYtd9PClQpBdYPPLsWZblObStJY8LGwdkUVXqJKJTJIYl44bbRh31bPAaqG1gyLrvldW3oGK6hbtahEqP/93fPR/Uxb4GWmiaLymCV/YGO5NqmseJEphOu1QFDpF1BFLojqE0o4lQysJxQlPi1j6zwQ1CHJeVjfAFS5KETUo7sWgkEPHtAmAaB4GNngKb3jdABJTMJ04UdqeLjVpRfrVW265/aYkMpKk4aiTG7F05/GiwKdoEZg+pLA3UERUfoPohTatTSKBVkoD/VDCFjzkVbtw5kGnB2LemFs2PxzlhqrSpM4d1CrUNy5gzPYCEHhBhtgiEF7viWvtDw+W1PPGjWCAVssYKXBu/2c5fc3KRO76VOl1sVCdl3wmTSxptdH7XoUMPavpcxo1BFQhMTY47aw92u3Z6t8vdW4nxLzIKEotnDBLNBEc1Vuqs0lKsUtNJFDczNxTbWDyWOejPa6S6a4ACs45Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(52116002)(6486002)(86362001)(8676002)(6506007)(4326008)(66476007)(66556008)(66946007)(508600001)(8936002)(6512007)(54906003)(26005)(44832011)(186003)(83380400001)(316002)(2616005)(5660300002)(2906002)(1076003)(107886003)(6666004)(38350700002)(38100700002)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IxOS/GhWnWW6xl/JkjcLWwsoi4+gm1SkvWHf8SR2El/7yeydpGGdbwyq0Xxw?=
+ =?us-ascii?Q?5z+n8i+XjHQgKfORbDOArz8kvm3Eq30uj5C3/LpUCqgcCBVFDBccqcVF1mse?=
+ =?us-ascii?Q?vnSbrxB6GMBE5bLtNLc1Ok0vrfG6kGjePm7kneJI1XiX/TWN3/HPoWLpQG6k?=
+ =?us-ascii?Q?NJYnoq4O6+8n9yWIvL7Yxwt5jIpI2jcyj9TKC2djY+rmvsTiAzMq+fX3pEWI?=
+ =?us-ascii?Q?8YEmF02CyZIQazgXet+VZ/YkJl5w3l+Cu464qCVlU+MoBYfbQpsYta/vL5gr?=
+ =?us-ascii?Q?bEp0E4aN7ZWz/++PBFVDTMt6FaItQpkcskWPijVF1bFcajcxoy1Lma1LoiOj?=
+ =?us-ascii?Q?s9Glvhdlpv+LMZxsPaC5D5i+qAu/7iV0mfOC6bvx/2HHGEw+/aBqL4Am8ByG?=
+ =?us-ascii?Q?wSK+GwKNCE6gM+c4q0y0Bm3aCfZlqeBxb2/vLqKD8OIS3dskYJ+aNKS1PC4z?=
+ =?us-ascii?Q?HZme8wwHRRHPA7mzzHTM0YZFlLN8+Qkv6oyk+JZCEzDT9jASwLew1hkhIfHu?=
+ =?us-ascii?Q?eKhaIkY8up41d8z5Va9sXIBz/zRWVkiaKLLUxNpICW8VBnljNdbvwGGNegL6?=
+ =?us-ascii?Q?K5rgy80hx3lRqsQueblwnqVp3oWBjvItzpiwZYWW1C99mpSgQAiG11RXmL5m?=
+ =?us-ascii?Q?ZhR7a2yHlm6ARpY23mcYKgkfhoOoU3SC+6TGnJtjnN8iDsd+ztCtBAy7bp2V?=
+ =?us-ascii?Q?4TFu6uxamZ7VFynWO/BMQ2l7+KonxDCsMVHmvGMrRMU0VG1C0RdNvTnvzIxm?=
+ =?us-ascii?Q?IqdeSWqCR7Eb5dsdrV9NLxV6nEArM2Oo/eemEZM8//AeZWl+cjLuyzD/S+5F?=
+ =?us-ascii?Q?5Z2P+HVAEVkn294j0M6LOC4wqBoiFfcpuSuw47jOH0btv6M6dXshs83YGFgZ?=
+ =?us-ascii?Q?zd3t8OicAeW5jQdrj4szE9JhJv//h1wBjdax8XnkppprJmICTZc3nE7UpufY?=
+ =?us-ascii?Q?v8RRNIFEV3vTiizuKNyIasRbV49w+Sl3Kje/IB37jWIviubyMCKNckxRDSn0?=
+ =?us-ascii?Q?3QgeRVuAozGN6S3+Qoyt4fc0U31BcJ1efVxDXCrYb6kjcSfiAtEz7MowlN6E?=
+ =?us-ascii?Q?1tef3wxywWCIhLfB5DRgN2w4UXC7PfyenpePASW6cvaFDPhbURhEF70O3BRI?=
+ =?us-ascii?Q?rR80a7pi33bUrfQV0ytCOpyCCEoNt05opA43n4GsszICvlvdRR7ZeXcTARcD?=
+ =?us-ascii?Q?x8/Wky3oEk0nI0+E0//E/Q5d93YyoXUYx1C7ZgPrhR4nrWPceX1jn4FpNuKA?=
+ =?us-ascii?Q?nIA7Lap00wjzZSkQOrjaaMPbXHNo11JFqLAkPohc3FfiX6jfAUsBta0xFXoR?=
+ =?us-ascii?Q?UyT/bkEfJmrF8je6i40/3zqXp7CWcQjrWAJqC/KZacdH00kdbynZD1xR9Hid?=
+ =?us-ascii?Q?0/KlR+usaKBnBkqfpL7LjddNL4IZaCheSiIbaLMMN6hSIoGXvmre4uarIqUS?=
+ =?us-ascii?Q?Xf6Su8QsPc2gNML6t4sguL103beZN/uMTKmI/3yYfrx1kG9AmDd2buy90IoV?=
+ =?us-ascii?Q?kqexnSuaZTONhw2PhYx/QwMS9NbliemhFOPhJ6P4XFK1VHRG/XPUB3PtuXMv?=
+ =?us-ascii?Q?zdF7kvmo7ZZ+rUuZruDFcfkTbtXChmLuOa7s6rokHUFykPik0FB1UHbzNijf?=
+ =?us-ascii?Q?lfS6Ub4qxWbSg6UQ/UP6KOY=3D?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56c4628c-6cf7-443a-0acc-08d9efd80089
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 16:35:25.2466
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jTNPoei2vpFmVOIA5LBGwrA5T7BDOx0NM6LvXa42JNBS+KGOUsT7qBewxNp09sIixZ0dyTcYinpta/uaHpODfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR03MB3834
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/22 15:57, Guenter Roeck wrote:
-> On 2/14/22 02:45, Daniel Bristot de Oliveira wrote:
->> Add a set of tracepoints, enabling the observability of the watchdog
->> device interactions with user-space.
->>
->> The events are:
->>     watchdog:watchdog_open
->>     watchdog:watchdog_close
->>     watchdog:watchdog_start
->>     watchdog:watchdog_stop
->>     watchdog:watchdog_set_timeout
->>     watchdog:watchdog_ping
->>     watchdog:watchdog_nowayout
->>     watchdog:watchdog_set_keep_alive
->>     watchdog:watchdog_keep_alive
->>
->> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
->> Cc: Guenter Roeck <linux@roeck-us.net>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Steven Rostedt <rostedt@goodmis.org>
->> Cc: Ingo Molnar <mingo@redhat.com>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: Peter Zijlstra <peterz@infradead.org>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Marco Elver <elver@google.com>
->> Cc: Dmitry Vyukov <dvyukov@google.com>
->> Cc: "Paul E. McKenney" <paulmck@kernel.org>
->> Cc: Shuah Khan <skhan@linuxfoundation.org>
->> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
->> Cc: Juri Lelli <juri.lelli@redhat.com>
->> Cc: Clark Williams <williams@redhat.com>
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: linux-trace-devel@vger.kernel.org
->> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
->> ---
->>   drivers/watchdog/watchdog_dev.c |  41 ++++++++++++-
->>   include/linux/watchdog.h        |   7 +--
->>   include/trace/events/watchdog.h | 103 ++++++++++++++++++++++++++++++++
->>   3 files changed, 142 insertions(+), 9 deletions(-)
->>   create mode 100644 include/trace/events/watchdog.h
->>
->> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
->> index 3a3d8b5c7ad5..0beeac5d4541 100644
->> --- a/drivers/watchdog/watchdog_dev.c
->> +++ b/drivers/watchdog/watchdog_dev.c
->> @@ -44,6 +44,9 @@
->>   #include <linux/watchdog.h>    /* For watchdog specific items */
->>   #include <linux/uaccess.h>    /* For copy_to_user/put_user/... */
->>   +#define CREATE_TRACE_POINTS
->> +#include <trace/events/watchdog.h>
->> +
->>   #include "watchdog_core.h"
->>   #include "watchdog_pretimeout.h"
->>   @@ -130,9 +133,11 @@ static inline void watchdog_update_worker(struct
->> watchdog_device *wdd)
->>       if (watchdog_need_worker(wdd)) {
->>           ktime_t t = watchdog_next_keepalive(wdd);
->>   -        if (t > 0)
->> +        if (t > 0) {
->>               hrtimer_start(&wd_data->timer, t,
->>                         HRTIMER_MODE_REL_HARD);
->> +            trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
->> +        }
->>       } else {
->>           hrtimer_cancel(&wd_data->timer);
->>       }
->> @@ -149,14 +154,16 @@ static int __watchdog_ping(struct watchdog_device *wdd)
->>       now = ktime_get();
->>         if (ktime_after(earliest_keepalive, now)) {
->> -        hrtimer_start(&wd_data->timer,
->> -                  ktime_sub(earliest_keepalive, now),
->> +        ktime_t t = ktime_sub(earliest_keepalive, now);
-> 
-> I am quite sure this line creates a checkpatch warning.
+Since commit 795ddd18d38f ("nvmem: core: remove regmap dependency"),
+nvmem devices do not use the regmap API. Remove references to it from
+the documentation.
 
-right, I will fix it.
-> 
->> +        hrtimer_start(&wd_data->timer, t,
->>                     HRTIMER_MODE_REL_HARD);
->> +        trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
->>           return 0;
->>       }
->>         wd_data->last_hw_keepalive = now;
->>   +    trace_watchdog_ping(wdd);
->>       if (wdd->ops->ping)
->>           err = wdd->ops->ping(wdd);  /* ping the watchdog */
->>       else
->> @@ -215,6 +222,7 @@ static void watchdog_ping_work(struct kthread_work *work)
->>       wd_data = container_of(work, struct watchdog_core_data, work);
->>         mutex_lock(&wd_data->lock);
->> +    trace_watchdog_keep_alive(wd_data->wdd);
->>       if (watchdog_worker_should_ping(wd_data))
->>           __watchdog_ping(wd_data->wdd);
->>       mutex_unlock(&wd_data->lock);
->> @@ -252,6 +260,8 @@ static int watchdog_start(struct watchdog_device *wdd)
->>         set_bit(_WDOG_KEEPALIVE, &wd_data->status);
->>   +    trace_watchdog_start(wdd);
->> +
->>       started_at = ktime_get();
->>       if (watchdog_hw_running(wdd) && wdd->ops->ping) {
->>           err = __watchdog_ping(wdd);
->> @@ -298,6 +308,7 @@ static int watchdog_stop(struct watchdog_device *wdd)
->>           return -EBUSY;
->>       }
->>   +    trace_watchdog_stop(wdd);
->>       if (wdd->ops->stop) {
->>           clear_bit(WDOG_HW_RUNNING, &wdd->status);
->>           err = wdd->ops->stop(wdd);
->> @@ -370,6 +381,7 @@ static int watchdog_set_timeout(struct watchdog_device *wdd,
->>       if (watchdog_timeout_invalid(wdd, timeout))
->>           return -EINVAL;
->>   +    trace_watchdog_set_timeout(wdd, timeout);
->>       if (wdd->ops->set_timeout) {
->>           err = wdd->ops->set_timeout(wdd, timeout);
->>       } else {
->> @@ -432,6 +444,23 @@ static int watchdog_get_timeleft(struct watchdog_device
->> *wdd,
->>       return 0;
->>   }
->>   +/*
-> 
-> /** ?
+Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+---
 
-yep, I will fix this too.
+(no changes since v2)
 
->> + * watchdog_set_nowayout - set nowaout bit
->> + * @wdd:    The watchdog device to set nowayoutbit
->> + * @nowayout    A boolean on/off switcher
->> + *
->> + * If nowayout boolean is true, the nowayout option is set. No action is
->> + * taken if nowayout is false.
->> + */
->> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
->> +{
->> +    if (nowayout) {
->> +        set_bit(WDOG_NO_WAY_OUT, &wdd->status);
->> +        trace_watchdog_nowayout(wdd);
->> +    }
->> +}
->> +EXPORT_SYMBOL(watchdog_set_nowayout);
->> +
->>   #ifdef CONFIG_WATCHDOG_SYSFS
->>   static ssize_t nowayout_show(struct device *dev, struct device_attribute *attr,
->>                   char *buf)
->> @@ -457,6 +486,7 @@ static ssize_t nowayout_store(struct device *dev, struct
->> device_attribute *attr,
->>       /* nowayout cannot be disabled once set */
->>       if (test_bit(WDOG_NO_WAY_OUT, &wdd->status) && !value)
->>           return -EPERM;
->> +
->>       watchdog_set_nowayout(wdd, value);
->>       return len;
->>   }
->> @@ -858,6 +888,8 @@ static int watchdog_open(struct inode *inode, struct file
->> *file)
->>           goto out_clear;
->>       }
->>   +    trace_watchdog_open(wdd);
->> +
->>       err = watchdog_start(wdd);
->>       if (err < 0)
->>           goto out_mod;
->> @@ -880,6 +912,7 @@ static int watchdog_open(struct inode *inode, struct file
->> *file)
->>       return stream_open(inode, file);
->>     out_mod:
->> +    trace_watchdog_close(wdd);
->>       module_put(wd_data->wdd->ops->owner);
->>   out_clear:
->>       clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
->> @@ -940,6 +973,7 @@ static int watchdog_release(struct inode *inode, struct
->> file *file)
->>       /* make sure that /dev/watchdog can be re-opened */
->>       clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
->>   +    trace_watchdog_close(wdd);
->>   done:
->>       running = wdd && watchdog_hw_running(wdd);
->>       mutex_unlock(&wd_data->lock);
->> @@ -952,6 +986,7 @@ static int watchdog_release(struct inode *inode, struct
->> file *file)
->>           module_put(wd_data->cdev.owner);
->>           put_device(&wd_data->dev);
->>       }
->> +
-> 
-> You may disagree with current empty lines or other cosmetics, but that is not an
-> acceptable reason for such changes. Please drop this change and the similar change
-> further up.
+Changes in v2:
+- Replace spaces with tabs
 
-It was miss attention from my side. I probably did some changes around these
-lines in an early patch version but forgot to remove those "+<empty>" changes.
-My bad. I will remove them.
+ Documentation/driver-api/nvmem.rst | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-Thanks, Guenter!
--- Daniel
+diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
+index 287e86819640..56352ad1b1b0 100644
+--- a/Documentation/driver-api/nvmem.rst
++++ b/Documentation/driver-api/nvmem.rst
+@@ -26,9 +26,7 @@ was a rather big abstraction leak.
+ 
+ This framework aims at solve these problems. It also introduces DT
+ representation for consumer devices to go get the data they require (MAC
+-Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs. This
+-framework is based on regmap, so that most of the abstraction available in
+-regmap can be reused, across multiple types of buses.
++Addresses, SoC/Revision ID, part numbers, and so on) from the NVMEMs.
+ 
+ NVMEM Providers
+ +++++++++++++++
+@@ -60,9 +58,6 @@ For example, a simple qfprom case::
+ 	...
+   }
+ 
+-It is mandatory that the NVMEM provider has a regmap associated with its
+-struct device. Failure to do would return error code from nvmem_register().
+-
+ Users of board files can define and register nvmem cells using the
+ nvmem_cell_table struct::
+ 
+-- 
+2.25.1
 
-> Guenter
