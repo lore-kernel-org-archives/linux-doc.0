@@ -2,199 +2,334 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A915C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 17:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A56C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 17:36:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357072AbiBNRZj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 12:25:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52222 "EHLO
+        id S235170AbiBNRgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 12:36:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357062AbiBNRZi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 12:25:38 -0500
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED40652FD
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 09:25:30 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id s18so20706660ioa.12
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 09:25:30 -0800 (PST)
+        with ESMTP id S232607AbiBNRgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 12:36:18 -0500
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEAF76540B;
+        Mon, 14 Feb 2022 09:36:09 -0800 (PST)
+Received: by mail-ot1-x32f.google.com with SMTP id p3-20020a0568301d4300b005a7a702f921so12073378oth.9;
+        Mon, 14 Feb 2022 09:36:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uHo9ifNLQ09Yp1i6Bp5KrefO3r8lTgQpaEZz0iuYjms=;
-        b=LKNxKFJUqhbFk4Qe/pRRegw9Y64INugoyZedczfCDrP9t+fKS3dPmVaiVWKgRh5oKj
-         203ONOj5nFUp9ItEmeM/YxjKI5cWbnseHJC7WtE+OZwGAy4Mux24tI3jcNm6RDywmH6+
-         wRWhu5cEXokeKhAkW/nbDjSadLfJ6UJlGDhAk=
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=Z6QtGjyebNj17/54kv2z2LcBR1p+WI1Nf06btBSvcJg=;
+        b=ZjsyX6YZB7IMgIQGVoLo4Mv4EZ4hFB4/YqSFBKSerB/98+yLXqOyOHjdBo87zpo37Y
+         NWauQTxvhmEyAQAZdumzNhwl1TJ1TBCL/JFD84lP8AzCd4OqbJpM7KPjnd4Sl0gkqfvY
+         yUyr5YttWcZbK608BI/GbaAr0iYz0ibLHBNHG/xCkn2fRIipq9toP7Kp55sV+qM1bj0W
+         EL/32mZ7rXjKOhgVfLLcExNd8jPrc05PcXHtRQDvT9ngUJE8ap16LFhLIDDgMPRtXX5M
+         fIfpRZol+SsEJbbbejxNkFkg6cHMSWtyWRIXIqT3zX7LJubMmN4QZApuC2/he5v+Eogx
+         S4PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
          :content-transfer-encoding;
-        bh=uHo9ifNLQ09Yp1i6Bp5KrefO3r8lTgQpaEZz0iuYjms=;
-        b=si12bw86sb5SnnLRe0T9iIlMgrLvCnCNyXWuP1gXt7DnxWsXGvNpksW+ju5YNvv46r
-         e6qaetRTv0Ktoh3bsZRh3mK5fE/t85RWBjnkdbtaHUcR2JFSTtyBgbmwDUKIKjs0LqmD
-         CN54J7HRuGoxlDWxss/4ylBWqU/wWj+QLyRFhP467tVvWJJhSBtJxaaDqM0WkBw2HaVS
-         P0o8JMKtOGUSNZtJDnbt2HzLSki8S8y2/fmTrUb2mLpxuTzFw+Q10UfDksZUI6OUzh81
-         aqai/beVKKsWNYdSULm6MHysv5wcCXxZQ3D/KYkRBGzwZnFAJZ6cGEa2B0+XByJzCN0D
-         btEw==
-X-Gm-Message-State: AOAM530hJvYbOUXeCOXaCoRWOC5ZjFqcPKaYMiRT3WX9r6OAOeHuGMrZ
-        SICk0AcWcSJTmSN3rELMigQpig==
-X-Google-Smtp-Source: ABdhPJzGAtxpCzuVfwe2bYFOH31SGAUKp7VPjUtMbOWWF94SuYwjfTqzPEUgrkR1TKUAXYNHpYGEYw==
-X-Received: by 2002:a05:6638:1350:: with SMTP id u16mr455419jad.260.1644859529967;
-        Mon, 14 Feb 2022 09:25:29 -0800 (PST)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id 193sm12353004iob.17.2022.02.14.09.25.28
+        bh=Z6QtGjyebNj17/54kv2z2LcBR1p+WI1Nf06btBSvcJg=;
+        b=djxWAg/rghjCMM+4tt7EPKbcSCfZ6++Izs5pjw9Ypu2HZngNvPXGWQ1Xv772M2spQD
+         r8Uim1YWxLz8F0O+8sF27Nk7RTZ8yYxmP/bl5IMxCQe+RfVFax4lm1mFgzHELpIUVFQs
+         ijqC5leQEBPDHjykgYv3jmSLfR8n1w32wJzekMLh7ffQi4M1KZl+4BKdcQN2aTC12iP4
+         mJmlWGjG6BNrK4V5gNyp/yexfXrY0eZ/BZ10BeSxJSIxjCv6JgPksG5c3Z/qLQUnO7+c
+         adDgLJRpRvoAVbug++vPT4mFVuMzH5oH02FaGeI0MZBZAKpfxBPotdyKO5JLVQRSKaAM
+         D7Sg==
+X-Gm-Message-State: AOAM531TJEOJ/BuC6hk0uf/xFe1f4h1OO1Y+FxPQT9b5RSOB44IVNSmI
+        +VG/t5ia3GBJ/tUaN3/DDNIZgEJUF8hcog==
+X-Google-Smtp-Source: ABdhPJyQnY4dv0gSMVPSjr1/xxp1pgwuACpUagJxoBFrukVip/LSPkih5ltEago2ndzy2/6Jm0a4sA==
+X-Received: by 2002:a9d:75c6:: with SMTP id c6mr1378otl.360.1644860168962;
+        Mon, 14 Feb 2022 09:36:08 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z17sm12493199otk.62.2022.02.14.09.36.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 09:25:29 -0800 (PST)
-Subject: Re: [RFC V2 12/21] rv/reactor: Add the printk reactor
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1644830251.git.bristot@kernel.org>
- <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
-Date:   Mon, 14 Feb 2022 10:25:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Mon, 14 Feb 2022 09:36:08 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <e718a9cf-8888-d24d-5d29-d883e8a0025f@roeck-us.net>
+Date:   Mon, 14 Feb 2022 09:36:06 -0800
 MIME-Version: 1.0
-In-Reply-To: <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Content-Language: en-US
+To:     Marcello Sylvester Bauer <sylv@sylv.io>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-doc@vger.kernel.org
+References: <cover.1644834803.git.sylv@sylv.io>
+ <43ebb83e403c56e44709facf937b386282862092.1644834803.git.sylv@sylv.io>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 3/4] pmbus: Add support for pli1209bc
+In-Reply-To: <43ebb83e403c56e44709facf937b386282862092.1644834803.git.sylv@sylv.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/22 3:45 AM, Daniel Bristot de Oliveira wrote:
-> Sample reactor that printks the reaction message.
+On 2/14/22 04:40, Marcello Sylvester Bauer wrote:
+> PLI1209BC is a Digital Supervisor from Vicor Corporation.
 > 
-
-Who is supposed to take action on this message and how do they
-get notified?
-
-> Note: do not use this reactor with rq_lock taken, it will lock the
-> system until printk can handle that.
-
-Please give more details on "lock the system" and how locking
-would impact users and system operation
-
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Clark Williams <williams@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-devel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
 > ---
->   kernel/trace/rv/Kconfig          |  8 ++++++
->   kernel/trace/rv/Makefile         |  3 ++-
->   kernel/trace/rv/reactor_printk.c | 43 ++++++++++++++++++++++++++++++++
->   3 files changed, 53 insertions(+), 1 deletion(-)
->   create mode 100644 kernel/trace/rv/reactor_printk.c
+>   Documentation/hwmon/pli1209bc.rst |  73 +++++++++++++++++++
+>   drivers/hwmon/pmbus/Kconfig       |   9 +++
+>   drivers/hwmon/pmbus/Makefile      |   1 +
+>   drivers/hwmon/pmbus/pli1209bc.c   | 114 ++++++++++++++++++++++++++++++
+>   4 files changed, 197 insertions(+)
+>   create mode 100644 Documentation/hwmon/pli1209bc.rst
+>   create mode 100644 drivers/hwmon/pmbus/pli1209bc.c
 > 
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index f2d0bed05a55..490f1417def9 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -37,4 +37,12 @@ config RV_REACTORS
->   	  tracing reactions, printing the monitor output via tracepoints,
->   	  but other reactions can be added (on-demand) via this interface.
->   
-> +config RV_REACT_PRINTK
-> +	tristate "Printk reactor"
-> +	depends on RV_REACTORS
-> +	default y if RV_REACTORS
-> +	help
-> +	  Enables the printk reactor. The printk reactor emmits a printk()
-> +	  message if an exception is found.
-> +
->   endif # RV
-> diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-> index edad01bb2b5d..d86ceb103ef2 100644
-> --- a/kernel/trace/rv/Makefile
-> +++ b/kernel/trace/rv/Makefile
-> @@ -1,6 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0
->   
->   obj-$(CONFIG_RV) += rv.o
-> -obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
->   obj-$(CONFIG_RV_MON_WIP) += monitor_wip/wip.o
->   obj-$(CONFIG_RV_MON_WWNR) += monitor_wwnr/wwnr.o
-> +obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
-> +obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-> diff --git a/kernel/trace/rv/reactor_printk.c b/kernel/trace/rv/reactor_printk.c
+> diff --git a/Documentation/hwmon/pli1209bc.rst b/Documentation/hwmon/pli1209bc.rst
 > new file mode 100644
-> index 000000000000..9f9c9bb2d304
+> index 000000000000..a3f686d03cf2
 > --- /dev/null
-> +++ b/kernel/trace/rv/reactor_printk.c
-> @@ -0,0 +1,43 @@
+> +++ b/Documentation/hwmon/pli1209bc.rst
+> @@ -0,0 +1,73 @@
+> +Kernel driver pli1209bc
+> +=======================
+> +
+> +Supported chips:
+> +
+> +  * Digital Supervisor PLI1209BC
+> +
+> +    Prefix: 'pli1209bc'
+> +
+> +    Addresses scanned: 0x50 - 0x5F
+> +
+> +    Datasheet: https://www.vicorpower.com/documents/datasheets/ds-PLI1209BCxyzz-VICOR.pdf
+> +
+> +Authors:
+> +    - Marcello Sylvester Bauer <sylv@sylv.io>
+> +
+> +Description
+> +-----------
+> +
+> +The Vicor PLI1209BC is an isolated digital power system supervisor thatprovides
+> +a communication interface between a host processor and one Bus Converter Module
+> +(BCM). The PLI communicates with a system controller via a PMBus compatible
+> +interface over an isolated UART interface. Through the PLI, the host processor
+> +can configure, set protection limits, and monitor the BCM.
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +======================= ========================================================
+> +in1_label		"vin2"
+> +in1_input		Input voltage.
+> +in1_rated_min		Minimum rated input voltage.
+> +in1_rated_max		Maximum rated input voltage.
+> +in1_max			Maximum input voltage.
+> +in1_max_alarm		Input voltage high alarm.
+> +in1_crit		Critical input voltage.
+> +in1_crit_alarm		Input voltage critical alarm.
+> +
+> +in2_label		"vout2"
+> +in2_input		Output voltage.
+> +in2_rated_min		Minimum rated output voltage.
+> +in2_rated_max		Maximum rated output voltage.
+> +in2_alarm		Output voltage alarm
+> +
+> +curr1_label		"iin2"
+> +curr1_input		Input current.
+> +curr1_max		Maximum input current.
+> +curr1_max_alarm		Maximum input current high alarm.
+> +curr1_crit		Critical input current.
+> +curr1_crit_alarm	Input current critical alarm.
+> +
+> +curr2_label		"iout2"
+> +curr2_input		Output current.
+> +curr2_crit		Critical output current.
+> +curr2_crit_alarm	Output current critical alarm.
+> +curr2_max		Maximum output current.
+> +curr2_max_alarm		Output current high alarm.
+> +
+> +power1_label		"pin2"
+> +power1_input		Input power.
+> +power1_alarm		Input power alarm.
+> +
+> +power2_label		"pout2"
+> +power2_input		Output power.
+> +power2_rated_max	Maximum rated output power.
+> +
+> +temp1_input		Die temperature.
+> +temp1_alarm		Die temperature alarm.
+> +temp1_max		Maximum die temperature.
+> +temp1_max_alarm		Die temperature high alarm.
+> +temp1_crit		Critical die temperature.
+> +temp1_crit_alarm	Die temperature critical alarm.
+> +======================= ========================================================
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index c96f7b7338bd..831db423bea0 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -310,6 +310,15 @@ config SENSORS_PIM4328
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called pim4328.
+>   
+> +config SENSORS_PLI1209BC
+> +	tristate "Vicor PLI1209BC"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Vicor
+> +	  PLI1209BC Digital Supervisor.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called pli1209bc.
+> +
+>   config SENSORS_PM6764TR
+>   	tristate "ST PM6764TR"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index e5935f70c9e0..7ce74e3b8552 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+>   obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+>   obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+>   obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+> +obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+>   obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+>   obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
+>   obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+> diff --git a/drivers/hwmon/pmbus/pli1209bc.c b/drivers/hwmon/pmbus/pli1209bc.c
+> new file mode 100644
+> index 000000000000..8a9af2ccc46f
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/pli1209bc.c
+> @@ -0,0 +1,114 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * Printk RV reactor:
-> + *   Prints the exception msg to the kernel message log.
+> + * Hardware monitoring driver for Vicor PLI1209BC Digital Supervisor
 > + *
-> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0
+> + * Copyright (c) 2022 9elements GmbH
 > + */
-> +#include <linux/ftrace.h>
-> +#include <linux/tracepoint.h>
-> +#include <linux/kernel.h>
+> +
+> +#include <linux/i2c.h>
 > +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/rv.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
 > +
-> +static void rv_printk_reaction(char *msg)
-> +{
-> +	printk(msg);
-> +}
-> +
-> +struct rv_reactor rv_printk = {
-> +	.name = "printk",
-> +	.description = "prints the exception msg to the kernel message log",
-> +	.react = rv_printk_reaction
+> +/*
+> + * The capability command is only supported at page 0. Probing the device while
+> + * the page register is set to 1 will falsely enable PEC support. Disable
+> + * capability probing accordingly, since the PLI1209BC does not have any
+> + * additional capabilities.
+> + */
+> +static struct pmbus_platform_data pli1209bc_plat_data = {
+> +	.flags = PMBUS_NO_CAPABILITY,
 > +};
 > +
-> +int register_react_printk(void)
+> +static int pli1209bc_read_word_data(struct i2c_client *client, int page,
+> +				    int phase, int reg)
 > +{
-> +	rv_register_reactor(&rv_printk);
-> +	return 0;
+> +	int data;
+> +
+> +	switch (reg) {
+> +	/* PMBUS_READ_POUT uses a direct format with R=0 */
+> +	case PMBUS_READ_POUT:
+> +		data = pmbus_read_word_data(client, page, phase, reg);
+> +		if (data < 0)
+> +			return data;
+> +		return data * 10;
+
+We have to be more careful here. While the datasheet doesn't explicitly
+say if the reported value is signed or not, the standard says that
+it is supposed to be signed, so let's assume that this is the case.
+That means that 'data' is really 16-bit signed value. We have to make
+sure that it doesn't over- or underflow when multiplying it,
+and that the sign is retained. Something like the following should do.
+
+		data = sign_extend32(data, 15) * 10;
+		return clamp_val(data, -32768, 32767) & 0xffff;
+
+Otherwise the patch looks good.
+
+Thanks,
+Guenter
+
+> +	default:
+> +		return -ENODATA;
+> +	}
 > +}
 > +
-> +void unregister_react_printk(void)
+> +static struct pmbus_driver_info pli1209bc_info = {
+> +	.pages = 2,
+> +	.format[PSC_VOLTAGE_IN] = direct,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_CURRENT_IN] = direct,
+> +	.format[PSC_CURRENT_OUT] = direct,
+> +	.format[PSC_POWER] = direct,
+> +	.format[PSC_TEMPERATURE] = direct,
+> +	.m[PSC_VOLTAGE_IN] = 1,
+> +	.b[PSC_VOLTAGE_IN] = 0,
+> +	.R[PSC_VOLTAGE_IN] = 1,
+> +	.m[PSC_VOLTAGE_OUT] = 1,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 1,
+> +	.m[PSC_CURRENT_IN] = 1,
+> +	.b[PSC_CURRENT_IN] = 0,
+> +	.R[PSC_CURRENT_IN] = 3,
+> +	.m[PSC_CURRENT_OUT] = 1,
+> +	.b[PSC_CURRENT_OUT] = 0,
+> +	.R[PSC_CURRENT_OUT] = 2,
+> +	.m[PSC_POWER] = 1,
+> +	.b[PSC_POWER] = 0,
+> +	.R[PSC_POWER] = 1,
+> +	.m[PSC_TEMPERATURE] = 1,
+> +	.b[PSC_TEMPERATURE] = 0,
+> +	.R[PSC_TEMPERATURE] = 0,
+> +	/*
+> +	 * Page 0 sums up all attributes except voltage readings.
+> +	 * The pli1209 digital supervisor only contains a single BCM, making
+> +	 * page 0 redundant.
+> +	 */
+> +	.func[1] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
+> +	    | PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
+> +	    | PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
+> +	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
+> +	    | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT,
+> +	.read_word_data = pli1209bc_read_word_data,
+> +};
+> +
+> +static int pli1209bc_probe(struct i2c_client *client)
 > +{
-> +	rv_unregister_reactor(&rv_printk);
+> +	client->dev.platform_data = &pli1209bc_plat_data;
+> +	return pmbus_do_probe(client, &pli1209bc_info);
 > +}
 > +
-> +module_init(register_react_printk);
-> +module_exit(unregister_react_printk);
+> +static const struct i2c_device_id pli1209bc_id[] = {
+> +	{"pli1209bc", 0},
+> +	{}
+> +};
 > +
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_AUTHOR("Daniel Bristot de Oliveira");
-> +MODULE_DESCRIPTION("printk rv reactor: printk if an exception is hit");
-> 
+> +MODULE_DEVICE_TABLE(i2c, pli1209bc_id);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id pli1209bc_of_match[] = {
+> +	{ .compatible = "vicor,pli1209bc" },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, pli1209bc_of_match);
+> +#endif
+> +
+> +static struct i2c_driver pli1209bc_driver = {
+> +	.driver = {
+> +		   .name = "pli1209bc",
+> +		   .of_match_table = of_match_ptr(pli1209bc_of_match),
+> +		   },
+> +	.probe_new = pli1209bc_probe,
+> +	.id_table = pli1209bc_id,
+> +};
+> +
+> +module_i2c_driver(pli1209bc_driver);
+> +
+> +MODULE_AUTHOR("Marcello Sylvester Bauer <sylv@sylv.io>");
+> +MODULE_DESCRIPTION("PMBus driver for Vicor PLI1209BC");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS(PMBUS);
 
