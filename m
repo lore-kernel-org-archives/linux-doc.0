@@ -2,410 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F8C7C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6125EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:27:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350935AbiBNLYQ convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:24:16 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52412 "EHLO
+        id S1351240AbiBNL13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 06:27:29 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350926AbiBNLXu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:23:50 -0500
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 60F4A7007D
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 02:59:10 -0800 (PST)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+        with ESMTP id S1351274AbiBNL1O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:27:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F3BCF5A59D
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 03:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644836603;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hWhbGGGKn+bDX+rmVqjerjVIp4FoCEokyN680ikvwEs=;
+        b=IgPRyc42bJh6PRxRTxXu1ncoNpntuNRYNVoQysqz0mKHeS1A/u2ALKg0V6XtJsJn3RROZE
+        nx4t1uAUc7dZCNusC+XsTTWaS1V2XfV6d5AsOBKDBUWw0N5/+97RNjQ8VmvBo5IGe0nyd9
+        Cz773Zod+eyjB4cLt+fPLiflLPqJps0=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-UNO-Taq1O52MDZbamgUMuA-1; Mon, 14 Feb 2022 05:48:25 -0500
-X-MC-Unique: UNO-Taq1O52MDZbamgUMuA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 346211091DA0;
-        Mon, 14 Feb 2022 10:48:23 +0000 (UTC)
-Received: from x1.com (unknown [10.22.16.130])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F2F4527BDF;
-        Mon, 14 Feb 2022 10:48:18 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: [RFC V2 21/21] Documentation/rv: Add watchdog-monitor documentation
-Date:   Mon, 14 Feb 2022 11:45:12 +0100
-Message-Id: <347942775f8c2b6badd9796d1fd75f574dd0ce95.1644830251.git.bristot@kernel.org>
-In-Reply-To: <cover.1644830251.git.bristot@kernel.org>
-References: <cover.1644830251.git.bristot@kernel.org>
+ us-mta-16-YTH7M96lOICrvfmGDkt7lA-1; Mon, 14 Feb 2022 06:03:22 -0500
+X-MC-Unique: YTH7M96lOICrvfmGDkt7lA-1
+Received: by mail-pf1-f199.google.com with SMTP id 7-20020aa79247000000b004cdd523525eso11489881pfp.19
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 03:03:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hWhbGGGKn+bDX+rmVqjerjVIp4FoCEokyN680ikvwEs=;
+        b=yk3ShsFHAFmt0th+PSeMFZ+YEfXD+5BcbDUUDa4cEpmO4uxNnpwl/Kf0aMIxHlWMgd
+         JMTBEQZtxx7xW5Fg1Uf/tLMGfkYP68/kYoBUJMz0CBVK+1QVU6CmazQBGblJxgdseZ1g
+         V36LPo9xB6ccdIZpdVJJhXICnoubWiP3qgdp+pPahGFJ2loS0vfIzhBt3PKSGKGQWRjV
+         wuiqfsP9OT9nLJeyrOjQsSt/Nu/v7BZ4snjCCTVD5RVQSPyneVNHQHgf5b9F5ovxsQxu
+         1efbV/YJz3C2iUqE4xD8tGi2nXCTQXaaEgHVDpG703lnO4Q+PHwE6dhQsivj1vz/s84T
+         sJPA==
+X-Gm-Message-State: AOAM5326QAZC1juVv8iiyaQaDLF2fPV5SiSpUqOkooQfhbLoO7UiLYsr
+        pm4+QqQVcX6ssn3nmZofWKRQ34MxOF/NW9+PjykXtCad7tU2owayqsNvgd8GdJl6Og+2RbwYdPd
+        JbW0f1L6QtzJZdEGwGFNJ5sYfoPcp3rm4kZ+5
+X-Received: by 2002:a17:90b:4a48:: with SMTP id lb8mr13869243pjb.246.1644836600818;
+        Mon, 14 Feb 2022 03:03:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxIgNSaQv0Pdi+0OuVv8zJKJEtv8+8VYc4ndU71icI1bcO5ov9up72ABZDSMDeRdlcnA4BrimL8T+lEFfAhVto=
+X-Received: by 2002:a17:90b:4a48:: with SMTP id lb8mr13869208pjb.246.1644836600472;
+ Mon, 14 Feb 2022 03:03:20 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kernel.org
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20220126161832.3193805-1-benjamin.tissoires@redhat.com>
+ <CAB4aORW_b+6=a-fXCL-MJoM9uNvjeYL01W85Rb=6rMP-Nm11QQ@mail.gmail.com> <CAB4aORU51aZc7BHdTfrXanYVvFG4wxQRqfsrs6mdttYCB+LY8A@mail.gmail.com>
+In-Reply-To: <CAB4aORU51aZc7BHdTfrXanYVvFG4wxQRqfsrs6mdttYCB+LY8A@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 14 Feb 2022 12:03:09 +0100
+Message-ID: <CAO-hwJKfDtq-397R8A59tvkNQ18AF-0FbHzTqNiErADYNQMHGw@mail.gmail.com>
+Subject: Re: [PATCH 00/12] HID: fix for generic input processing
+To:     Angela Czubak <acz@semihalf.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds documentation about the safe_wtd and safe_wtd_nwo RV monitors,
-and their usage via a safety application.
+On Mon, Feb 14, 2022 at 11:51 AM Angela Czubak <acz@semihalf.com> wrote:
+>
+> On Tue, Feb 8, 2022 at 8:19 PM Angela Czubak <acz@semihalf.com> wrote:
+> >
+> > Hi Benjamin,
+> >
+> > On Wed, Jan 26, 2022 at 5:18 PM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > This is a followup of the discussion we had between Wacom and
+> > > the maintainers, and a followup of those 2 patch series:
+> > >
+> > > https://lore.kernel.org/r/20211022232837.18988-1-ping.cheng@wacom.com/
+> > > https://lore.kernel.org/r/2ca91ac7cf92e3048a236db3cd519f04e12c1e61.1615224800.git.nabijaczleweli@nabijaczleweli.xyz/
+> > >
+> > > It took me a while to get it right, but I finally can submit the
+> > > series:
+> > >
+> > > - the first 8 patches are some cleanup in the hid-input.c and
+> > >   hid-core.c code. They also create a list of input fields that
+> > >   is then used to process the event, in the priority we think
+> > >   is good.
+> > >
+> > >   For instance, on multitouch devices, it is better to have
+> > >   Contact Count before processing all touches, and in each
+> > >   touch, having Contact ID first is better. This series doesn't
+> > >   cover hid-multitouch, but I have a series on top of this one that
+> > >   does cover it.
+> > >
+> > >   Anyway, in our case, here, we need to process Invert before
+> > >   In Range for tablets so we can make a decision whether the user
+> > >   has the intend to erase or not.
+> > >
+> > > - patch 9 enforces the invert usage before In Range as mentioned
+> > >   above
+> > >
+> > > - patch 10 is the actual bulk of processing that should fix the
+> > >   generic tablet handling. Now that we have a reliable ordering
+> > >   of the fields, we can compute the state of the tool in a reliable
+> > >   way, and be kinder to userspace by not sending to it 2 tools at
+> > >   the same time.
+> > >
+> > >   This patch has been extensively tested by hid-tools with the new
+> > >   MR I submitted that add tests for tablets [0].
+> > >
+> > > - patch 11 is a nice to have that I need for my second series regarding
+> > >   hid-multitouch. It is not mandatory with that series, but given
+> > >   that it changes the format of the priorities in hid-input.c I thought
+> > >   it would be best to send it as part of this series.
+> > >
+> > >   Note that now we are tagging the *reports* and the individual fields
+> > >   when they are part of a multitouch collection, which should help
+> > >   the drivers that implement this processing (hid-multitouch and wacom).
+> > >
+> > > - last, patch 12 is an attempt at fixing the documentation regarding
+> > >   BTN_TOOL_* (requested by Peter).
+> > >
+> > >   Dmitry, feel free to take this one through your tree if you prefer
+> > >   to do so (and if you are happy with it), otherwise we can take it
+> > >   through the hid tree.
+> > >
+> > > As mentioned above, I have a followup series not entirely tidied up
+> > > that implements the processing of Win8 mutltiouch devices in
+> > > hid-input.c.
+> > > There are several benefits for that: we should be able to drop the
+> > > multitouch code in wacom.ko, we can simplify part of hid-multitouch,
+> > > and we will be able to quirk a particular device in a separate module,
+> > > without touching at the generic code (in hid-multitouch or hid-input).
+> > >
+> > > Anyway, I am missing a few bits for that so that's coming in later.
+> > >
+> >
+> > Is there any timeline for the followup series? I am wondering how that
+> > would affect haptic support implementation.
+>
+> Hi Benjamin,
+>
+> just pinging in hope of receiving some answer :)
+> I am thinking of preparing another version of haptic support patches
+> (https://lore.kernel.org/all/20220114183152.1691659-1-acz@semihalf.com/T/)
+> and if I could already start remodelling them based on your changes so that
+> it is actually a haptic hid driver and not and API that would be great :)
+> I am simply wondering when multitouch driver is going to be expressed simply
+> by your changes.
 
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- Documentation/trace/rv/watchdog-monitor.rst | 307 ++++++++++++++++++++
- 1 file changed, 307 insertions(+)
- create mode 100644 Documentation/trace/rv/watchdog-monitor.rst
+Hi Angela,
 
-diff --git a/Documentation/trace/rv/watchdog-monitor.rst b/Documentation/trace/rv/watchdog-monitor.rst
-new file mode 100644
-index 000000000000..98d5bdd0ed85
---- /dev/null
-+++ b/Documentation/trace/rv/watchdog-monitor.rst
-@@ -0,0 +1,307 @@
-+Watchdog monitor
-+----------------
-+
-+The watchdog is an essential building block for the usage of Linux in
-+safety-critical systems because it allows the system to be monitored from
-+an external element - the watchdog hardware, acting as a safety-monitor.
-+
-+A user-space application controls the watchdog device via the watchdog
-+interface. This application, hereafter safety_app, enables the watchdog
-+and periodically pets the watchdog upon correct completion of the safety
-+related processing.
-+
-+If the safety_app, for any reason, stops pinging the watchdog,
-+the watchdog hardware can set the system in a fail-safe state. For
-+example, shutting the system down.
-+
-+Given the importance of the safety_app / watchdog hardware couple,
-+the interaction between these software pieces also needs some
-+sort of monitoring. In other words, "who monitors the monitor?"
-+
-+The safe watchdog (safe_wtd) RV monitor monitors the interaction between
-+the safety_app and the watchdog device, enforcing the correct sequence of
-+events that leads the system to a safe state.
-+
-+Furthermore, the safety_app can monitor the RV monitor by collecting the
-+events generated by the RV monitor itself via tracing interface. In this way,
-+closing the monitoring loop with the safety_app.
-+
-+A diagram of the components and their interactions is::
-+
-+  user-space:
-+                  +--------------------------------+
-+                  | safety_app                     |-----------+
-+                  +--------------------------------+           |
-+                     |                    ^                    |
-+                     | Configure          | Enable and         |
-+                     |                    | check data         |
-+  ===================+====================+===============     |
-+  kernel-space:      |                    |                    |
-+                     v                    v                    |
-+                +----------+  instr.     +-------------+       |
-+                | watchdog | ----------->| RV Monitor  |----+  |
-+                | device   |             +-------------+    |  |
-+                +----------+                                |  |
-+                  |                                         |  |
-+                  |                                         |  |
-+  ================+======================================   |  |
-+  hardware:       |                                         |  |
-+                  v                                         |  +-> Bring the system
-+                +--------------------+                      +----> to a safe state,
-+                | watchdog hardware  |---------------------------> e.g., halt.
-+                +--------------------+
-+
-+Sample safety_app
-+-----------------
-+
-+The user-space safety_app sample code in ``tools/tracing/rv/safety_app/``
-+serves to illustrate the usage of the RV monitors for this use-case, as
-+well as the starting point to the development of a user-specific safety_app.
-+
-+Watchdog events
-+---------------
-+
-+The RV monitor observes the watchdog by using instrumentation to
-+process the events generated by the interaction between the
-+safety_app and the watchdog device layer in kernel.
-+
-+The monitored events are:
-+
-+  - watchdog:watchdog_open: open the watchdog device;
-+  - watchdog:watchdog_close: close the watchdog device;
-+  - watchdog:watchdog_start: start the watchdog;
-+  - watchdog:watchdog_stop: stop the watchdog;
-+  - watchdog:watchdog_set_timeout: set the watchdog timeout;
-+  - watchdog:watchdog_ping: reprogram the watchdog with the previously set
-+    timeout;
-+  - watchdog:watchdog_nowayout: prevents the watchdog from stopping;
-+  - watchdog:watchdog_set_keep_alive: set an intermediary ping to overcome
-+    the limitation of a hardware watchdog maximum timeout being shorter than
-+    the timeout set by the user-space tool;
-+  - watchdog:watchdog_keep_alive: the execution of the function that runs the
-+    intermediary keep alive ping;
-+
-+RV monitor events
-+-----------------
-+
-+The RV monitor monitors the relevant events as an outside observer,
-+interpreting all the components (the hardware; the watchdog device
-+interface; and the safety monitor) as an integrated component.
-+
-+The events selected for the monitor are:
-+
-+  - other_threads: an event generated by any thread other than the
-+    one that set nowayout or open the watchdog the last time.
-+  - open: a thread opens the watchdog to manipulate it;
-+  - close: a thread closes the watchdog;
-+  - start: starts the watchdog countdown;
-+  - stop: stops the watchdog;
-+  - set_safe_timeout: configures the watchdog with a given timeout;
-+  - ping: resets the watchdog countdown with the previously configured timeout;
-+  - nowayout: prevents the watchdog to be stopped until the system's shutdown;
-+  - sched_keep_alive: schedules a kernel worker to ping the watchdog if the
-+    timeout is longer than the watchdog hardware can handle.
-+  - keep_alive: executes the previously scheduled watchdog ping;
-+
-+Noting that the events that does not appear in the automata models are
-+considered blocked events, and their execution will always cause the
-+RV monitor to react to an unexpected event.
-+
-+RV monitor specification
-+------------------------
-+
-+The monitor's goal is to assess a set of specifications that conducts the
-+system to a safe state.
-+
-+These specifications are:
-+
-+  - 1: Once open, only one process manipulates the watchdog;
-+  - 2: Following 1, the keep-alive mechanisms will not be used;
-+  - 3: If required, nowayout will be set before opening the watchdog;
-+  - 4: A safe timeout must be set;
-+  - 5: At least one ping must be made before entering the safe/safe_nwo states
-+  - 6: The The RV monitor does not react if the watchdog is closed without stopping.
-+       But the hardware watchdog is expected to react.
-+
-+Deterministic automata monitors
-+-------------------------------
-+
-+Following the specifications, two deterministic automata monitors
-+were developed. The are the safe_wtd and the safe_wtd_nwo monitors.
-+The monitors are modeled as Deterministic Automata models.
-+
-+The difference between the safe_wtd and the safe_wtd_nwo is that
-+the latter enforces the usage of the watchdog's nowayout option
-+to reach the safe state.
-+
-+The deterministic automata model for safe_wtd is::
-+
-+              #==================================#   other_threads
-+              H                                  H ----------------+
-+ -----------> H               init               H                 |
-+              H                                  H <---------------+
-+              #==================================#
-+                      |     |     ^
-+                      |     |     |               close
-+                      |     |     +----------------------------------------------------+
-+                      |     |                                                          |
-+                      |     |                     open                                 |
-+                      |     +------------------------------------------------------+   |
-+                      |                                                            |   |
-+                      |  nowayout                                                  |   |
-+                      v                                                            |   |
-+    nowayout        +-------------------+                                          |   |
-+    other_threads   |                   |          nowayout                        |   |
-+  +---------------- |        nwo        |<-------------------------------------+   |   |
-+  |                 |                   |                                      |   |   |
-+  +---------------> |                   | <+                                   |   |   |
-+                    +-------------------+  |                                   |   |   |
-+                      |                    |                                   |   |   |
-+                      | open               | close                             |   |   |
-+                      v                    |                                   |   |   |
-+                    +-------------------+  |                                   |   |   |
-+                    |    opened_nwo     | -+                                   |   |   |
-+                    +-------------------+                                      |   |   |
-+                      |                                                        |   |   |
-+                      | start                                                  |   |   |
-+                      v                                                        |   |   |
-+                    +-------------------+                                      |   |   |
-+  +---------------> |    started_nwo    | -+                                   |   |   |
-+  |                 +-------------------+  |                                   |   |   |
-+  |                   |                    |                                   |   |   |
-+  | open              | set_safe_timeout   |                                   |   |   |
-+  |                   v                    |                                   |   |   |
-+  |                 +-------------------+  |                                   |   |   |
-+  |                 |      set_nwo      |  |                                   |   |   |
-+  |                 +-------------------+  |                                   |   |   |
-+  |                           |            |                                   |   |   |
-+  |     +-------------+       | ping       |                                   |   |   |
-+  |     |             |       |            |                                   |   |   |
-+  |     | ping        v       v            |                                   |   |   |
-+  |     |           +-------------------+  |                                   |   |   |
-+  |     +-----------|     safe_nwo      |  |                                   |   |   |
-+  |                 +-------------------+  |                                   |   |   |
-+  |                   |                    |                                   |   |   |
-+  |                   | close              | close                             |   |   |
-+  |                   v                    v                                   |   |   |
-+  |                 +----------------------------------+   nowayout            |   |   |
-+  |                 |                                  |   other_threads       |   |   |
-+  |                 |        closed_running_nwo        | ----------------+     |   |   |
-+  |                 |                                  |                 |     |   |   |
-+  +---------------- |                                  | <---------------+     |   |   |
-+                    +----------------------------------+                       |   |   |
-+                        |        nowayout             ^                        |   |   |
-+                        +-----------------------------+                        |   |   |
-+                                                                               |   |   |
-+                                                                               |   |   |
-+                               +-------------------+           +--------+      |   |   |
-+                               |                   |           |        |------+---+   |
-+                               |      started      |  start    | opened |      |       |
-+             +---------------- |                   | <-------- |        |>-----+-------+
-+             |                 +-------------------+           +--------+      |       ^
-+             |                   |                                             |       |
-+             |                   | set_safe_timeout              +-------------+-------+
-+             |                   v                               |             |
-+             |                 +-------------------+             |             |
-+             |                 |                   |             |             |
-+             |                 |        set        |             |             |
-+  +----------+---------------> |                   |             |             |
-+  |          |                 +-------------------+             |             |
-+  |          |                   |                               |             |
-+  |          |                   | ping                          |             |
-+  |          |                   v                               |             |
-+  |          |                 +-------------------+   ping      |             |
-+  |          |                 |                   | -------+    |             |
-+  |          |           +---- |       safe        |        |    |             |
-+  |          |           |     |                   | <------+    |             |
-+  |          |           |     +-------------------+             |             |
-+  |          |           |       |                               |             |
-+  |          | stop      |       | stop                          |             |
-+  |          |           |       v                               |             |
-+  |          |           |     +-------------------+   close     |             |
-+  |          +-----------+---> |      stopped      |-------------+             |
-+  |                      |     +-------------------+                           |
-+  |                      +---+                                                 |
-+  |                          | close                                           |
-+  |                          v                                                 |
-+  |     other_threads  +----------------------------------------+              |
-+  |   +--------------> |                                        |              |
-+  |   |                |             closed_running             |              |
-+  |   +--------------- |                                        |--------------+
-+  |                    +----------------------------------------+
-+  |                               |          ^
-+  |                         open  |          | close
-+  |                               v          |
-+  |    set_safe_timeout       +-------------------+
-+  +-------------------------> |     reopened      |
-+                                +-------------------+
-+
-+The deterministic automata model for safe_wtd_nwo is::
-+
-+                             |
-+                             |
-+                             v
-+                    #===================#
-+                    H       init        H
-+                    #===================#
-+                             |
-+                             | nowayout
-+                             v
-+    nowayout        +-------------------+
-+    other_threads   |                   |
-+  +---------------- |        nwo        |
-+  |                 |                   |
-+  +---------------> |                   | <---+
-+                    +-------------------+     |
-+                             |                |
-+                             | open           | close
-+                             v                |
-+                    +-------------------+     |
-+                    |      opened       | ----+
-+                    +-------------------+
-+                             |
-+                             | start
-+                             v
-+                    +-------------------+
-+  +---------------> |      started      | ---+
-+  |                 +-------------------+    |
-+  |                   |                      |
-+  | open              | set_safe_timeout     |
-+  |                   v                      |
-+  |                 +-------------------+    |
-+  |                 |        set        |    |
-+  |                 +-------------------+    |
-+  |                          |               |
-+  |       +------------+     | ping          |
-+  |       |            v     v               |
-+  |       | ping    +-------------------+    |
-+  |       +---------|       safe        |    |
-+  |                 +-------------------+    |
-+  |                          |               |
-+  |                          | close         | close
-+  |                          v               |
-+  |                 +-------------------+    |
-+  +---------------- |  closed_running   | <--+
-+                    +-------------------+
-+                      ^               |
-+                      | nowayout      |
-+                      | other_threads |
-+                      +---------------+
-+
-+It is important to note that the events sched_keep_alive and keep_alive
-+are not allowed on any of the present monitors (they are said to be blocked
-+events). The execution of any blocked events leads the RV monitor to react.
-+
-+Additional options
-+------------------
-+
-+The RV monitor also has a set of options enabled via kernel command
-+line/module options. They are:
-+
-+ - watchdog_id: the device id to monitor (default 0);
-+ - dont_stop: once enabled, do not allow the RV monitor to be stopped (default off);
-+ - safe_timeout: define a maximum safe value that a user-space application can
-+   set as the watchdog timeout (default unlimited);
-+ - check_timeout: After every ping, check if the time left in the watchdog is less
-+   than or equal to the last timeout set for the watchdog. It only works for watchdog
-+   devices that provide the get_timeleft() function (default off);
--- 
-2.33.1
+FWIW, I got a public branch that has the multitouch changes at
+https://gitlab.freedesktop.org/bentiss/hid/-/commits/wip/input-mt-v5
+
+The logic in the multitouch processing is correct but it is missing a
+few bits IIRC:
+- suspend/resume doesn't unset/set the multitouch parameters (doesn't
+seem to be an issue on my devel laptop though)
+- scantime is not properly handled
+- width/height is not using the same path than hid-multitouch (and
+probably not reported at all)
+- hid-multitouch needs to be cleaned up to use the new core changes
+instead of re-doing stuffs itself
+
+I think that you should be able to experiment your hid-haptic changes
+already, and see if that is indeed easier to use than creating an API
+driver.
+
+Cheers,
+Benjamin
+
+>
+> >
+> > > Cheers,
+> > > Benjamin
+> > >
+> > >
+> > > [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
+> > >
+> > > Benjamin Tissoires (12):
+> > >   HID: core: statically allocate read buffers
+> > >   HID: core: de-duplicate some code in hid_input_field()
+> > >   HID: core: split data fetching from processing in hid_input_field()
+> > >   HID: input: tag touchscreens as such if the physical is not there
+> > >   HID: input: rework spaghetti code with switch statements
+> > >   HID: input: move up out-of-range processing of input values
+> > >   HID: compute an ordered list of input fields to process
+> > >   HID: core: for input reports, process the usages by priority list
+> > >   HID: input: enforce Invert usage to be processed before InRange
+> > >   HID: input: remove the need for HID_QUIRK_INVERT
+> > >   HID: input: accommodate priorities for slotted devices
+> > >   Input: docs: add more details on the use of BTN_TOOL
+> > >
+> > >  Documentation/input/event-codes.rst |   5 +-
+> > >  drivers/hid/hid-core.c              | 280 ++++++++++++++++++++---
+> > >  drivers/hid/hid-input.c             | 330 ++++++++++++++++++++++------
+> > >  include/linux/hid.h                 |  23 +-
+> > >  4 files changed, 533 insertions(+), 105 deletions(-)
+> > >
+> > > --
+> > > 2.33.1
+> > >
+> >
+> > Does this patch series introduce the leaf driver support you mentioned
+> > in the haptic review?
+>
 
