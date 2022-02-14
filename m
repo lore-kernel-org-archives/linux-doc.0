@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B29BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A964C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 11:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349322AbiBNL2r convert rfc822-to-8bit (ORCPT
+        id S1351062AbiBNL3A convert rfc822-to-8bit (ORCPT
         <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:28:47 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53882 "EHLO
+        Mon, 14 Feb 2022 06:29:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351467AbiBNL2f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:28:35 -0500
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EA9E06463
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 03:07:01 -0800 (PST)
+        with ESMTP id S1350976AbiBNL2X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 06:28:23 -0500
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34039C52
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 03:06:10 -0800 (PST)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378-rAk7EfuaM-GmxaBj1VVZFg-1; Mon, 14 Feb 2022 05:46:41 -0500
-X-MC-Unique: rAk7EfuaM-GmxaBj1VVZFg-1
+ us-mta-621-tk6CiGQROASHu-Z2aB863w-1; Mon, 14 Feb 2022 05:46:21 -0500
+X-MC-Unique: tk6CiGQROASHu-Z2aB863w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7313C18B613D;
-        Mon, 14 Feb 2022 10:46:39 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 737A3801B0E;
+        Mon, 14 Feb 2022 10:46:19 +0000 (UTC)
 Received: from x1.com (unknown [10.22.16.130])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D2B4C27BD1;
-        Mon, 14 Feb 2022 10:46:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5187C26DFB;
+        Mon, 14 Feb 2022 10:46:15 +0000 (UTC)
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
@@ -46,9 +46,9 @@ Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Clark Williams <williams@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-trace-devel@vger.kernel.org
-Subject: [RFC V2 06/21] tools/rv: Add dot2c
-Date:   Mon, 14 Feb 2022 11:44:57 +0100
-Message-Id: <647bdb3653b74f54b5656080b246a99d71d9b314.1644830251.git.bristot@kernel.org>
+Subject: [RFC V2 04/21] rv/include: Add deterministic automata monitor definition via C macros
+Date:   Mon, 14 Feb 2022 11:44:55 +0100
+Message-Id: <6b4fd3046bdb6fed832a03e1dadffe85e2a01bac.1644830251.git.bristot@kernel.org>
 In-Reply-To: <cover.1644830251.git.bristot@kernel.org>
 References: <cover.1644830251.git.bristot@kernel.org>
 MIME-Version: 1.0
@@ -63,18 +63,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-dot2c is a tool that transforms an automata in the graphiviz .dot file
-into an C representation of the automata.
+In Linux terms, the runtime verification monitors are encapsulated
+inside the "RV monitor" abstraction. The "RV monitor" includes a set
+of instances of the monitor (per-cpu monitor, per-task monitor, and
+so on), the helper functions that glue the monitor to the system
+reference model, and the trace output as a reaction for event parsing
+and exceptions, as depicted below:
 
-usage: dot2c [-h] dot_file
+Linux  +----- RV Monitor ----------------------------------+ Formal
+ Realm |                                                   |  Realm
+ +-------------------+     +----------------+     +-----------------+
+ |   Linux kernel    |     |     Monitor    |     |     Reference   |
+ |     Tracing       |  -> |   Instance(s)  | <-  |       Model     |
+ | (instrumentation) |     | (verification) |     | (specification) |
+ +-------------------+     +----------------+     +-----------------+
+        |                          |                       |
+        |                          V                       |
+        |                     +----------+                 |
+        |                     | Reaction |                 |
+        |                     +--+--+--+-+                 |
+        |                        |  |  |                   |
+        |                        |  |  +-> trace output ?  |
+        +------------------------|--|----------------------+
+                                 |  +----> panic ?
+                                 +-------> <user-specified>
 
-dot2c: converts a .dot file into a C structure
+The dot2c tool presented in this paper:
 
-positional arguments:
-  dot_file    The dot file to be converted
+DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+Silva. Efficient formal verification for the Linux kernel. In:
+International Conference on Software Engineering and Formal Methods.
+Springer, Cham, 2019. p. 315-332.
 
-optional arguments:
-  -h, --help  show this help message and exit
+Translates a deterministic automaton in the DOT format into a C
+source code representation that to be used for monitoring connecting
+the Formal Reaml to Linux-like code.
+
+This header file goes beyond, extending the code generation to the
+verification stage, generating the code to the Monitor Instance(s)
+level using C macros. The trace event code inspires this approach.
+
+The benefits of the usage of macro for monitor synthesis is 3-fold:
+
+	- Reduces the code duplication;
+	- Facilitates the bug fix/improvement;
+	(but mainly:)
+	- Avoids the case of developers changing the core of the monitor
+	  code to manipulate the model in a (let's say) non-standard
+	  way.
+
+This initial implementation presents two different types of monitor
+instances:
+
+	- #define DECLARE_DA_MON_PER_CPU(name, type)
+	- #define DECLARE_DA_MON_PER_TASK(name, type)
+
+The first declares the functions for deterministic automata monitor
+with per-cpu instances, and the second with per-task instances.
+
+In both cases, the name is a string that identifies the monitor,
+and the type is the data type used by dot2c/k on the representation
+of the model.
+
+For example, the model "wip" below:
+
+                     preempt_disable                       sched_waking
+   +############+ >------------------> +################+ >------------+
+ -># preemptive #                      # non-preemptive #              |
+   +############+ <-----------------<  +################+ <------------+
+                    preempt_enable
+
+with two states and three events can be stored in a 'char' type.
+Considering that the preemption control is a per-cpu behavior, the
+monitor declaration will be:
+
+  DECLARE_DA_MON_PER_CPU(wip, char);
+
+The monitor is executed by sending events to be processed via the
+functions presented below:
+
+  da_handle_event_$(MONITOR_NAME)($(event from event enum));
+  da_handle_init_event_$(MONITOR_NAME)($(event from event enum));
+
+The function da_handle_event_$(MONITOR_NAME) is the regular case,
+while the function da_handle_init_event_$(MONITOR_NAME)() is a
+special case used to synchronize the system with the model.
+
+When a monitor is enabled, it is placed in the initial state of the
+automata. However, the monitor does not know if the system is in
+the initial state. Hence, the monitor ignores events sent by
+sent by da_handle_event_$(MONITOR_NAME) until the function
+da_handle_init_event_$(MONITOR_NAME)() is called.
+
+The function da_handle_init_event_$(MONITOR_NAME)() should be used for
+the case in which the system generates the event is the one that returns
+the automata to the initial state.
+
+After receiving a da_handle_init_event_$(MONITOR_NAME)() event, the
+monitor will know that it is in sync with the system and hence will
+start processing the next events.
+
+Using the wip model as example, the events "preempt_disable" and
+"sched_waking" should be sent to to monitor, respectively, via:
+        da_handle_event_wip(preempt_disable);
+        da_handle_event_wip(sched_waking);
+
+While the event "preempt_enabled" will use:
+        da_handle_init_event_wip(preempt_enable);
+
+To notify the monitor that the system will be returning to the initial
+state, so the system and the monitor should be in sync.
+
+With the monitor synthesis in place, using these headers and dot2k,
+the developer's work should be limited to the instrumentation of
+the system, increasing the confidence in the overall approach.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Steven Rostedt <rostedt@goodmis.org>
@@ -95,510 +197,414 @@ Cc: linux-kernel@vger.kernel.org
 Cc: linux-trace-devel@vger.kernel.org
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 ---
- tools/tracing/rv/dot2/Makefile    |  21 +++
- tools/tracing/rv/dot2/automata.py | 179 ++++++++++++++++++++++
- tools/tracing/rv/dot2/dot2c       |  30 ++++
- tools/tracing/rv/dot2/dot2c.py    | 240 ++++++++++++++++++++++++++++++
- 4 files changed, 470 insertions(+)
- create mode 100644 tools/tracing/rv/dot2/Makefile
- create mode 100644 tools/tracing/rv/dot2/automata.py
- create mode 100644 tools/tracing/rv/dot2/dot2c
- create mode 100644 tools/tracing/rv/dot2/dot2c.py
+ include/rv/da_monitor.h | 398 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 398 insertions(+)
+ create mode 100644 include/rv/da_monitor.h
 
-diff --git a/tools/tracing/rv/dot2/Makefile b/tools/tracing/rv/dot2/Makefile
+diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
 new file mode 100644
-index 000000000000..9dd59ec8a733
+index 000000000000..6feea8a63afe
 --- /dev/null
-+++ b/tools/tracing/rv/dot2/Makefile
-@@ -0,0 +1,21 @@
-+INSTALL=install
-+
-+prefix  ?= /usr
-+bindir  ?= $(prefix)/bin
-+mandir  ?= $(prefix)/share/man
-+miscdir ?= $(prefix)/share/dot2
-+srcdir  ?= $(prefix)/src
-+
-+PYLIB  ?= $(shell python3 -c 'import distutils.sysconfig;  print (distutils.sysconfig.get_python_lib())')
-+
-+.PHONY: all
-+all:
-+
-+.PHONY: clean
-+clean:
-+
-+.PHONY: install
-+install:
-+	$(INSTALL) automata.py -D -m 644 $(DESTDIR)$(PYLIB)/dot2/automata.py
-+	$(INSTALL) dot2c.py -D -m 644 $(DESTDIR)$(PYLIB)/dot2/dot2c.py
-+	$(INSTALL) dot2c -D -m 755 $(DESTDIR)$(bindir)/
-diff --git a/tools/tracing/rv/dot2/automata.py b/tools/tracing/rv/dot2/automata.py
-new file mode 100644
-index 000000000000..171ad4497983
---- /dev/null
-+++ b/tools/tracing/rv/dot2/automata.py
-@@ -0,0 +1,179 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# automata object: parse a dot file into a python object
-+# For more information, see:
-+#   https://bristot.me/efficient-formal-verification-for-the-linux-kernel/
-+#
-+# This program was written in the development of this paper:
-+#  de Oliveira, D. B. and Cucinotta, T. and de Oliveira, R. S.
-+#  "Efficient Formal Verification for the Linux Kernel." International
-+#  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
-+#
-+# Copyright 2018-2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+import ntpath
-+
-+class Automata:
-+    """Automata class: Reads a dot file and part it as an automata.
-+
-+    Attributes:
-+        dot_file: A dot file with an state_automaton definition.
-+    """
-+
-+    def __init__(self, file_path):
-+        self.__dot_path=file_path
-+        self.name=self.__get_model_name()
-+        self.__dot_lines = self.__open_dot()
-+        self.states, self.initial_state, self.final_states = self.__get_state_variables()
-+        self.events = self.__get_event_variables()
-+        self.function = self.__create_matrix()
-+
-+    def __get_model_name(self):
-+        basename=ntpath.basename(self.__dot_path)
-+        if basename.endswith(".dot") == False:
-+            print("not a dot file")
-+            raise Exception("not a dot file: %s" % self.__dot_path)
-+
-+        model_name=basename[0:-4]
-+        if model_name.__len__() == 0:
-+            raise Exception("not a dot file: %s" % self.__dot_path)
-+
-+        return model_name
-+
-+    def __open_dot(self):
-+        cursor = 0
-+        dot_lines = []
-+        try:
-+            dot_file = open(self.__dot_path)
-+        except:
-+            raise Exception("Cannot open the file: %s" % self.__dot_path)
-+
-+        dot_lines = dot_file.read().splitlines()
-+        dot_file.close()
-+
-+        # checking the first line:
-+        line = dot_lines[cursor].split()
-+
-+        if (line[0] != "digraph") and (line[1] != "state_automaton"):
-+            raise Exception("Not a valid .dot format: %s" % self.__dot_path)
-+        else:
-+            cursor = cursor + 1
-+        return dot_lines
-+
-+    def __get_cursor_begin_states(self):
-+        cursor = 0
-+        while self.__dot_lines[cursor].split()[0] != "{node":
-+            cursor += 1
-+        return cursor
-+
-+    def __get_cursor_begin_events(self):
-+        cursor = 0
-+        while self.__dot_lines[cursor].split()[0] != "{node":
-+           cursor += 1
-+        while self.__dot_lines[cursor].split()[0] == "{node":
-+            cursor += 1
-+        # skip initial state transition
-+        cursor += 1
-+        return cursor
-+
-+    def __get_state_variables(self):
-+        # wait for node declaration
-+        states = []
-+        final_states=[]
-+
-+        has_final_states = False
-+        cursor = self.__get_cursor_begin_states()
-+
-+        # process nodes
-+        while self.__dot_lines[cursor].split()[0] == "{node":
-+            line = self.__dot_lines[cursor].split()
-+            raw_state = line[-1]
-+
-+            #  "enabled_fired"}; -> enabled_fired
-+            state = raw_state.replace('"', '').replace('};', '').replace(',','_')
-+            if state[0:7] == "__init_":
-+                initial_state = state[7:]
-+            else:
-+                states.append(state)
-+                if self.__dot_lines[cursor].__contains__("doublecircle") == True:
-+                    final_states.append(state)
-+                    has_final_states = True
-+
-+                if self.__dot_lines[cursor].__contains__("ellipse") == True:
-+                    final_states.append(state)
-+                    has_final_states = True
-+
-+            cursor = cursor + 1
-+
-+        states = sorted(set(states))
-+        states.remove(initial_state)
-+
-+        # Insert the initial state at the bein og the states
-+        states.insert(0, initial_state)
-+
-+        if has_final_states == False:
-+            final_states.append(initial_state)
-+
-+        return states, initial_state, final_states
-+
-+    def __get_event_variables(self):
-+        # here we are at the begin of transitions, take a note, we will return later.
-+        cursor = self.__get_cursor_begin_events()
-+
-+        events = []
-+        while self.__dot_lines[cursor][1] == '"':
-+            # transitions have the format:
-+            # "all_fired" -> "both_fired" [ label = "disable_irq" ];
-+            #  ------------ event is here ------------^^^^^
-+            if self.__dot_lines[cursor].split()[1] == "->":
-+                line = self.__dot_lines[cursor].split()
-+                event = line[-2].replace('"','')
-+
-+                # when a transition has more than one lables, they are like this
-+                # "local_irq_enable\nhw_local_irq_enable_n"
-+                # so split them.
-+
-+                event = event.replace("\\n", " ")
-+                for i in event.split():
-+                    events.append(i)
-+            cursor = cursor + 1
-+
-+        return sorted(set(events))
-+
-+    def __create_matrix(self):
-+        # transform the array into a dictionary
-+        events = self.events
-+        states = self.states
-+        events_dict = {}
-+        states_dict = {}
-+        nr_event = 0
-+        for event in events:
-+            events_dict[event] = nr_event
-+            nr_event += 1
-+
-+        nr_state = 0
-+        for state in states:
-+            states_dict[state] = nr_state
-+            nr_state = nr_state + 1
-+
-+        # declare the matrix....
-+        matrix = [['-1' for x in range(nr_event)] for y in range(nr_state)]
-+
-+        # and we are back! Let's fill the matrix
-+        cursor = self.__get_cursor_begin_events()
-+
-+        while self.__dot_lines[cursor][1] == '"':
-+            if self.__dot_lines[cursor].split()[1] == "->":
-+                line = self.__dot_lines[cursor].split()
-+                origin_state = line[0].replace('"','').replace(',','_')
-+                dest_state = line[2].replace('"','').replace(',','_')
-+                possible_events = line[-2].replace('"','').replace("\\n", " ")
-+                for event in possible_events.split():
-+                    matrix[states_dict[origin_state]][events_dict[event]] = dest_state
-+            cursor = cursor + 1
-+
-+        return matrix
-diff --git a/tools/tracing/rv/dot2/dot2c b/tools/tracing/rv/dot2/dot2c
-new file mode 100644
-index 000000000000..0165f203dedc
---- /dev/null
-+++ b/tools/tracing/rv/dot2/dot2c
-@@ -0,0 +1,30 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# dot2m: transform dot files into C structures.
-+# For more information, see:
-+#   https://bristot.me/efficient-formal-verification-for-the-linux-kernel/
-+#
-+# This program was written in the development of this paper:
-+#  de Oliveira, D. B. and Cucinotta, T. and de Oliveira, R. S.
-+#  "Efficient Formal Verification for the Linux Kernel." International
-+#  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
-+#
-+# Copyright 2018-2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+if __name__ == '__main__':
-+    from dot2 import dot2c
-+    import argparse
-+    import ntpath
-+    import sys
-+
-+    parser = argparse.ArgumentParser(description='dot2c: converts a .dot file into a C structure')
-+    parser.add_argument('dot_file',  help='The dot file to be converted')
-+
-+
-+    args = parser.parse_args()
-+    d=dot2c.Dot2c(args.dot_file)
-+    d.print_model_classic()
-diff --git a/tools/tracing/rv/dot2/dot2c.py b/tools/tracing/rv/dot2/dot2c.py
-new file mode 100644
-index 000000000000..0a68851437c8
---- /dev/null
-+++ b/tools/tracing/rv/dot2/dot2c.py
-@@ -0,0 +1,240 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# dot2c: transform dot files into C structures.
-+# For more information, see:
-+#   https://bristot.me/efficient-formal-verification-for-the-linux-kernel/
-+#
-+# This program was written in the development of this paper:
-+#  de Oliveira, D. B. and Cucinotta, T. and de Oliveira, R. S.
-+#  "Efficient Formal Verification for the Linux Kernel." International
-+#  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
-+#
-+# Copyright 2018-2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+from dot2.automata import Automata
-+
-+class Dot2c(Automata):
-+    enum_states_def="states"
-+    enum_events_def="events"
-+    struct_automaton_def="automaton"
-+    var_automaton_def="aut"
-+
-+    def __init__(self, file_path):
-+        super().__init__(file_path)
-+        self.line_length=80
-+
-+    def __buff_to_string(self, buff):
-+        string=""
-+
-+        for line in buff:
-+            string=string + line + "\n"
-+
-+        # cut off the last \n
-+        return string[:-1]
-+
-+    def __get_enum_states_content(self):
-+        buff=[]
-+        buff.append("\t%s = 0," % self.initial_state)
-+        for state in self.states:
-+            if state != self.initial_state:
-+                buff.append("\t%s," % state)
-+        buff.append("\tstate_max")
-+
-+        return buff
-+
-+    def get_enum_states_string(self):
-+        buff=self.__get_enum_states_content()
-+        return self.__buff_to_string(buff)
-+
-+    def format_states_enum(self):
-+        buff=[]
-+        buff.append("enum %s {" % self.enum_states_def)
-+        buff.append(self.get_enum_states_string())
-+        buff.append("};\n")
-+
-+        return buff
-+
-+    def __get_enum_events_content(self):
-+        buff=[]
-+        first=True
-+        for event in self.events:
-+            if first:
-+                buff.append("\t%s = 0," % event)
-+                first=False
-+            else:
-+                buff.append("\t%s," % event)
-+        buff.append("\tevent_max")
-+
-+        return buff
-+
-+    def get_enum_events_string(self):
-+        buff=self.__get_enum_events_content()
-+        return self.__buff_to_string(buff)
-+
-+    def format_events_enum(self):
-+        buff=[]
-+        buff.append("enum %s {" % self.enum_events_def)
-+        buff.append(self.get_enum_events_string())
-+        buff.append("};\n")
-+
-+        return buff
-+
-+    def get_minimun_type(self):
-+        min_type="char"
-+
-+        if self.states.__len__() > 255:
-+            min_type="short"
-+
-+        if self.states.__len__() > 65535:
-+            min_type="int"
-+
-+        return min_type
-+
-+    def format_automaton_definition(self):
-+        min_type = self.get_minimun_type()
-+        buff=[]
-+        buff.append("struct %s {" % self.struct_automaton_def)
-+        buff.append("\tchar *state_names[state_max];")
-+        buff.append("\tchar *event_names[event_max];")
-+        buff.append("\t%s function[state_max][event_max];" % min_type)
-+        buff.append("\t%s initial_state;" % min_type)
-+        buff.append("\tchar final_states[state_max];")
-+        buff.append("};\n")
-+        return buff
-+
-+    def format_aut_init_header(self):
-+        buff=[]
-+        buff.append("struct %s %s = {" % (self.struct_automaton_def, self.var_automaton_def))
-+        return buff
-+
-+    def __get_string_vector_per_line_content(self, buff):
-+        first=True
-+        string=""
-+        for entry in buff:
-+            if first:
-+                string = string + "\t\t\"" + entry
-+                first=False;
-+            else:
-+                string = string + "\",\n\t\t\"" + entry
-+        string = string + "\""
-+
-+        return string
-+
-+    def get_aut_init_events_string(self):
-+        return self.__get_string_vector_per_line_content(self.events)
-+
-+    def get_aut_init_states_string(self):
-+        return self.__get_string_vector_per_line_content(self.states)
-+
-+    def format_aut_init_events_string(self):
-+        buff=[]
-+        buff.append("\t.event_names = {")
-+        buff.append(self.get_aut_init_events_string())
-+        buff.append("\t},")
-+        return buff
-+
-+    def format_aut_init_states_string(self):
-+        buff=[]
-+        buff.append("\t.state_names = {")
-+        buff.append(self.get_aut_init_states_string())
-+        buff.append("\t},")
-+
-+        return buff
-+
-+    def __get_max_strlen_of_states(self):
-+        return max(self.states, key=len).__len__()
-+
-+    def __get_state_string_length(self):
-+        maxlen = self.__get_max_strlen_of_states()
-+        return "%" + str(maxlen) + "s"
-+
-+    def get_aut_init_function(self):
-+        nr_states=self.states.__len__()
-+        nr_events=self.events.__len__()
-+        buff=[]
-+
-+        strformat = self.__get_state_string_length()
-+
-+        for x in range(nr_states):
-+            line="\t\t{ "
-+            for y in range(nr_events):
-+                if y != nr_events-1:
-+                    line = line + strformat % self.function[x][y] + ", "
-+                else:
-+                    line = line + strformat % self.function[x][y] + " },"
-+            buff.append(line)
-+
-+        return self.__buff_to_string(buff)
-+
-+    def format_aut_init_function(self):
-+        buff=[]
-+        buff.append("\t.function = {")
-+        buff.append(self.get_aut_init_function())
-+        buff.append("\t},")
-+
-+        return buff
-+
-+    def get_aut_init_initial_state(self):
-+        return self.initial_state
-+
-+    def format_aut_init_initial_state(self):
-+        buff=[]
-+        initial_state=self.get_aut_init_initial_state()
-+        buff.append("\t.initial_state = " + initial_state + ",")
-+
-+        return buff
-+
-+
-+    def get_aut_init_final_states(self):
-+        line=""
-+        first=True
-+        for state in self.states:
-+            if first == False:
-+                line = line + ', '
-+            else:
-+                first = False
-+
-+            if self.final_states.__contains__(state):
-+                line = line + '1'
-+            else:
-+                line = line + '0'
-+        return line
-+
-+    def format_aut_init_final_states(self):
-+       buff=[]
-+       buff.append("\t.final_states = { %s }," % self.get_aut_init_final_states())
-+
-+       return buff
-+
-+    def __get_automaton_initialization_footer_string(self):
-+        footer="};"
-+        return footer
-+
-+    def format_aut_init_footer(self):
-+        buff=[]
-+        buff.append(self.__get_automaton_initialization_footer_string())
-+
-+        return buff
-+
-+    def format_model(self):
-+        buff=[]
-+        buff += self.format_states_enum()
-+        buff += self.format_events_enum()
-+        buff += self.format_automaton_definition()
-+        buff += self.format_aut_init_header()
-+        buff += self.format_aut_init_states_string()
-+        buff += self.format_aut_init_events_string()
-+        buff += self.format_aut_init_function()
-+        buff += self.format_aut_init_initial_state()
-+        buff += self.format_aut_init_final_states()
-+        buff += self.format_aut_init_footer()
-+
-+        return buff
-+
-+    def print_model_classic(self):
-+        buff=self.format_model()
-+        print(self.__buff_to_string(buff))
++++ b/include/rv/da_monitor.h
+@@ -0,0 +1,398 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Deterministic automata (DA) monitor functions, to be used togheter
++ * with automata models in C generated by the dot2k tool.
++ *
++ * The dot2k tool is available at tools/tracing/rv/
++ *
++ * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
++ */
++
++#include <rv/automata.h>
++#include <rv/trace_helpers.h>
++
++struct da_monitor {
++	char curr_state;
++	bool monitoring;
++	void *model;
++};
++
++#define MAX_PID		 1024000
++
++/*
++ * Generic helpers for all types of deterministic automata monitors.
++ */
++#define DECLARE_DA_MON_GENERIC_HELPERS(name, type)				\
++static char REACT_MSG[1024];							\
++										\
++static inline char								\
++*format_react_msg(type curr_state, type event)					\
++{										\
++	snprintf(REACT_MSG, 1024,						\
++		"rv: monitor %s does not allow event %s on state %s\n",		\
++		MODULE_NAME,							\
++		model_get_event_name_##name(event),				\
++		model_get_state_name_##name(curr_state));			\
++	return REACT_MSG;							\
++}										\
++										\
++static void cond_react(char *msg)						\
++{										\
++	if (rv_##name.react)							\
++		rv_##name.react(msg);						\
++}										\
++										\
++static inline void da_monitor_reset_##name(struct da_monitor *da_mon)		\
++{										\
++	da_mon->monitoring = 0;							\
++	da_mon->curr_state = model_get_init_state_##name();			\
++}										\
++										\
++static inline type da_monitor_curr_state_##name(struct da_monitor *da_mon)	\
++{										\
++	return da_mon->curr_state;						\
++}										\
++										\
++static inline void								\
++da_monitor_set_state_##name(struct da_monitor *da_mon, enum states_##name state)\
++{										\
++	da_mon->curr_state = state;						\
++}										\
++static inline void da_monitor_start_##name(struct da_monitor *da_mon)		\
++{										\
++	da_mon->monitoring = 1;							\
++}										\
++										\
++static inline bool da_monitoring_##name(struct da_monitor *da_mon)		\
++{										\
++	return da_mon->monitoring;						\
++}
++
++
++/*
++ * Event handler for implict monitors. Implicity monitor is the one which the
++ * handler does not need to specify which da_monitor to manilupulate. Examples
++ * of implicit monitor are the per_cpu or the global ones.
++ */
++#define DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type)			\
++static inline void								\
++trace_event_##name(type state, type event, type next_state, bool safe);		\
++static inline void trace_error_##name(type state, type event);			\
++										\
++static inline bool								\
++da_event_##name(struct da_monitor *da_mon, enum events_##name event)		\
++{										\
++	type curr_state = da_monitor_curr_state_##name(da_mon);			\
++	type next_state = model_get_next_state_##name(curr_state, event);	\
++										\
++	if (next_state >= 0) {							\
++		da_monitor_set_state_##name(da_mon, next_state);		\
++										\
++		trace_event_##name(curr_state, event, next_state,		\
++				model_is_final_state_##name(next_state));	\
++										\
++		return true;							\
++	}									\
++										\
++	if (reacting_on)							\
++		cond_react(format_react_msg(curr_state, event));		\
++										\
++	trace_error_##name(curr_state, event);					\
++										\
++	return false;								\
++}										\
++
++/*
++ * Event handler for per_task monitors.
++ */
++#define DECLARE_DA_MON_MODEL_HANDLER_PER_TASK(name, type)			\
++										\
++static inline void								\
++trace_event_##name(pid_t pid, type state, type event,				\
++		   type next_state, bool safe);					\
++static inline void trace_error_##name(pid_t pid, type state, type event);	\
++										\
++static inline type								\
++da_event_##name(struct da_monitor *da_mon, pid_t pid, enum events_##name event)	\
++{										\
++	type curr_state = da_monitor_curr_state_##name(da_mon);			\
++	type next_state = model_get_next_state_##name(curr_state, event);	\
++										\
++	if (next_state >= 0) {							\
++		da_monitor_set_state_##name(da_mon, next_state);		\
++										\
++		trace_event_##name(pid, curr_state, event, next_state,		\
++				   model_is_final_state_##name(next_state));	\
++										\
++		return true;							\
++	}									\
++										\
++	if (reacting_on && rv_##name.react)					\
++		rv_##name.react(format_react_msg(curr_state, event));		\
++										\
++	trace_error_##name(pid, curr_state, event);				\
++										\
++	return false;								\
++}
++
++/*
++ * Functions to define, init and get a global monitor.
++ */
++#define DECLARE_DA_MON_INIT_GLOBAL(name, type)					\
++										\
++static struct da_monitor da_mon_##name;						\
++										\
++struct da_monitor *da_get_monitor_##name(void)					\
++{										\
++	return &da_mon_##name;							\
++}										\
++										\
++void da_monitor_reset_all_##name(void)						\
++{										\
++	da_monitor_reset_##name(da_mon_##name);					\
++}										\
++										\
++static inline void da_monitor_init_##name(void)					\
++{										\
++	struct da_monitor *da_mon = &da_mon_##name				\
++	da_mon->curr_state = model_get_init_state_##name();			\
++	da_mon->monitoring = 0;							\
++	da_mon->model = model_get_model_##name();				\
++}										\
++
++/*
++ * Functions to define, init and get a per-cpu monitor.
++ *
++ * XXX: Make it dynamic.
++ */
++#define DECLARE_DA_MON_INIT_PER_CPU(name, type)					\
++										\
++DEFINE_PER_CPU(struct da_monitor, da_mon_##name);				\
++										\
++struct da_monitor *da_get_monitor_##name(void)					\
++{										\
++	return this_cpu_ptr(&da_mon_##name);					\
++}										\
++										\
++void da_monitor_reset_all_##name(void)						\
++{										\
++	struct da_monitor *da_mon;						\
++	int cpu;								\
++	for_each_cpu(cpu, cpu_online_mask) {					\
++		da_mon = per_cpu_ptr(&da_mon_##name, cpu);			\
++		da_monitor_reset_##name(da_mon);				\
++	}									\
++}										\
++										\
++static inline void da_monitor_init_##name(void)					\
++{										\
++	struct da_monitor *da_mon;						\
++	int cpu;								\
++	for_each_cpu(cpu, cpu_online_mask) {					\
++		da_mon = per_cpu_ptr(&da_mon_##name, cpu);			\
++		da_mon->curr_state = model_get_init_state_##name();		\
++		da_mon->monitoring = 0;						\
++		da_mon->model = model_get_model_##name();			\
++	}									\
++}										\
++
++
++/*
++ * Functions to define, init and get a per-task monitor.
++ *
++ * XXX: Make it dynamic using a list in task_struct (peterz)
++ */
++#define DECLARE_DA_MON_INIT_PER_TASK(name, type)				\
++										\
++struct da_monitor da_mon_##name[MAX_PID];					\
++										\
++static inline struct da_monitor *da_get_monitor_##name(pid_t pid)		\
++{										\
++	return &da_mon_##name[pid];						\
++}										\
++										\
++void da_monitor_reset_all_##name(void)						\
++{										\
++	struct da_monitor *mon = da_mon_##name;					\
++	int i;									\
++	for (i = 0; i < MAX_PID; i++)						\
++		da_monitor_reset_##name(&mon[i]);				\
++}										\
++										\
++static void da_monitor_init_##name(void)					\
++{										\
++	struct da_monitor *mon = da_mon_##name;					\
++	int i;									\
++										\
++	for (i = 0; i < MAX_PID; i++) {						\
++		mon[i].curr_state = model_get_init_state_##name();		\
++		mon[i].monitoring = 0;						\
++		mon[i].model = model_get_model_##name();			\
++	}									\
++}										\
++
++/*
++ * Handle event for implicit monitor: da_get_monitor_##name() will figure out
++ * the monitor.
++ */
++#define DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type)			\
++										\
++static inline void __da_handle_event_##name(struct da_monitor *da_mon,		\
++				     enum events_##name event)			\
++{										\
++	int retval;								\
++										\
++	if (unlikely(!monitoring_on))						\
++		return;								\
++										\
++	if (unlikely(!rv_##name.enabled))					\
++		return;								\
++										\
++	if (unlikely(!da_monitoring_##name(da_mon)))				\
++		return;								\
++										\
++	retval = da_event_##name(da_mon, event);				\
++										\
++	if (!retval)								\
++		da_monitor_reset_##name(da_mon);				\
++}										\
++										\
++static inline void da_handle_event_##name(enum events_##name event)		\
++{										\
++	struct da_monitor *da_mon = da_get_monitor_##name();			\
++	__da_handle_event_##name(da_mon, event);				\
++}										\
++										\
++static inline bool da_handle_init_event_##name(enum events_##name event)	\
++{										\
++	struct da_monitor *da_mon;						\
++										\
++	if (unlikely(!rv_##name.enabled))					\
++		return false;							\
++										\
++	da_mon = da_get_monitor_##name();					\
++										\
++	if (unlikely(!da_monitoring_##name(da_mon))) {				\
++		da_monitor_start_##name(da_mon);				\
++		return false;							\
++	}									\
++										\
++	__da_handle_event_##name(da_mon, event);				\
++										\
++	return true;								\
++}										\
++										\
++static inline bool da_handle_init_run_event_##name(enum events_##name event)	\
++{										\
++	struct da_monitor *da_mon;						\
++										\
++	if (unlikely(!rv_##name.enabled))					\
++		return false;							\
++										\
++	da_mon = da_get_monitor_##name();					\
++										\
++	if (unlikely(!da_monitoring_##name(da_mon)))				\
++		da_monitor_start_##name(da_mon);				\
++										\
++	__da_handle_event_##name(da_mon, event);				\
++										\
++	return true;								\
++}
++
++/*
++ * Handle event for per task.
++ */
++#define DECLARE_DA_MON_MONITOR_HANDLER_PER_TASK(name, type)			\
++										\
++static inline void								\
++__da_handle_event_##name(struct da_monitor *da_mon, pid_t pid,			\
++			 enum events_##name event)				\
++{										\
++	int retval;								\
++										\
++	if (unlikely(!monitoring_on))						\
++		return;								\
++										\
++	if (unlikely(!rv_##name.enabled))					\
++		return;								\
++										\
++	if (unlikely(!da_monitoring_##name(da_mon)))				\
++		return;								\
++										\
++	retval = da_event_##name(da_mon, pid, event);				\
++										\
++	if (!retval)								\
++		da_monitor_reset_##name(da_mon);				\
++}										\
++										\
++static inline void								\
++da_handle_event_##name(pid_t pid, enum events_##name event)			\
++{										\
++	struct da_monitor *da_mon = da_get_monitor_##name(pid);			\
++	__da_handle_event_##name(da_mon, pid, event);				\
++}										\
++										\
++static inline bool								\
++da_handle_init_event_##name(pid_t pid, enum events_##name event)		\
++{										\
++	struct da_monitor *da_mon;						\
++										\
++	if (unlikely(!rv_##name.enabled))					\
++		return false;							\
++										\
++	da_mon = da_get_monitor_##name(pid);					\
++										\
++	if (unlikely(!da_monitoring_##name(da_mon))) {				\
++		da_monitor_start_##name(da_mon);				\
++		return false;							\
++	}									\
++										\
++	__da_handle_event_##name(da_mon, pid, event);				\
++										\
++	return true;								\
++}
++
++/*
++ * Entry point for the global monitor.
++ */
++#define DECLARE_DA_MON_GLOBAL(name, type)					\
++										\
++DECLARE_AUTOMATA_HELPERS(name, type);						\
++										\
++DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
++										\
++DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type);				\
++										\
++DECLARE_DA_MON_INIT_PER_CPU(name, type);					\
++										\
++DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type);
++
++/*
++ * Entry point for the per-cpu monitor.
++ */
++#define DECLARE_DA_MON_PER_CPU(name, type)					\
++										\
++DECLARE_AUTOMATA_HELPERS(name, type);						\
++										\
++DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
++										\
++DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type);				\
++										\
++DECLARE_DA_MON_INIT_PER_CPU(name, type);					\
++										\
++DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type);
++
++/*
++ * Entry point for the per-task monitor.
++ */
++#define DECLARE_DA_MON_PER_TASK(name, type)					\
++										\
++DECLARE_AUTOMATA_HELPERS(name, type);						\
++										\
++DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
++										\
++DECLARE_DA_MON_MODEL_HANDLER_PER_TASK(name, type);				\
++										\
++DECLARE_DA_MON_INIT_PER_TASK(name, type);					\
++										\
++DECLARE_DA_MON_MONITOR_HANDLER_PER_TASK(name, type);
 -- 
 2.33.1
 
