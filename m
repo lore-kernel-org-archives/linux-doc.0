@@ -2,102 +2,235 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6491C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 18:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB96C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Feb 2022 18:33:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245266AbiBNSaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 13:30:06 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38710 "EHLO
+        id S1357484AbiBNSdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 13:33:49 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356435AbiBNSaF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 13:30:05 -0500
-X-Greylist: delayed 1298 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Feb 2022 10:29:57 PST
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com [192.185.146.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B55B65174
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 10:29:57 -0800 (PST)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway33.websitewelcome.com (Postfix) with ESMTP id 0196CAEC75
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 12:08:19 -0600 (CST)
-Received: from gator4132.hostgator.com ([192.185.4.144])
-        by cmsmtp with SMTP
-        id Jfjunro3gdx86JfjunZK76; Mon, 14 Feb 2022 12:06:18 -0600
-X-Authority-Reason: nr=8
-Received: from host-95-232-30-176.retail.telecomitalia.it ([95.232.30.176]:59428 helo=[10.0.0.45])
-        by gator4132.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bristot@kernel.org>)
-        id 1nJfjs-001Rrw-HC; Mon, 14 Feb 2022 12:06:16 -0600
-Message-ID: <c1657d1c-0d2b-4aa3-c1ed-2ae6fdfcda86@kernel.org>
-Date:   Mon, 14 Feb 2022 19:06:09 +0100
+        with ESMTP id S1348373AbiBNSdt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 13:33:49 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4817C652F8
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 10:33:40 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id b9so8231743lfv.7
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 10:33:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=+UXFaXNtu58P+/quLcAfHAU/S4vyiJKyaqPdTSKWST8=;
+        b=sFWvgW3k1pSL7Awgb8qEobnrOdmxWAQzBkRi13UyvlHolBMEQeW1vZwFUQObSIyQ5+
+         WwxOX5EZ2YssQReVrEIaLaKMtZDW45gNyPiqD+FzwuWMiiJQKLoUgq5bk9eGeCgq7fWV
+         Nex4LYQZ0zfuPsfJ5Do35sWOxMSXkP2F/ldXGgcURzQ7QzCfQkf3gBgtLjSTlL56o0f7
+         6/dWI8Ilo2YFMJgNivikdUb843ij4RWNUXAhKRBoVTLsZ49MA+kNqzBUYGk0l3fUxFtG
+         i6XHAhuqsKFUywKLl0k0he5kFM40nP/it0yBh1AIb2ocynTZ86LQIzxv4JaSp1egrbGJ
+         ak1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+UXFaXNtu58P+/quLcAfHAU/S4vyiJKyaqPdTSKWST8=;
+        b=DRjqOZZpN7cwCAH67yAzyxdAF9k0/ikHDeGmWRQ1vLvccLFM1D8DD7+gViAely6yHZ
+         IePyKcJ7Ym5rVpyPqjTxvNkKOUprmXx5i3jRUopbEUvmgSEOfzXb7BqsPPJ6IC1v2Sro
+         hnSa9OQyvuc7uZXkzuPR6TVIjqRM667H2oDqWLiF/t+FXy3dJjJiwRRbTpIIUboScVAo
+         M9BnP8yWUySaRQ+LpzTkF3D0AYJl3GOCbx9tqLkixF4cYhDI3bvbGES+NAXmzaEUpv4N
+         9QCVd+o8wYuZ397gNNjBUA/fksKZdoJ7+/i7VADLNhSUHk84TNRkf3EefRe+hXwIXI4X
+         yHXg==
+X-Gm-Message-State: AOAM531i46IpA2CVl4zp3aDRUeIigRdZGk3S6wXG5SJrj1ctz29dJhAd
+        5rCIXiy1Ig0Ze/McyF4KD2cwCIZBLza5Fa6aOmGBSQ==
+X-Google-Smtp-Source: ABdhPJwwl8BcmiJDJptm3GNGEag/XtunVIJ3dClslrEmIM5Q/7qRR7YjLKxYa2rJ+R/XHsCI0mf1xl6e/KkNmj5TfVU=
+X-Received: by 2002:a05:6512:1154:: with SMTP id m20mr249590lfg.682.1644863618292;
+ Mon, 14 Feb 2022 10:33:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC V2 12/21] rv/reactor: Add the printk reactor
-Content-Language: en-US
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>, john.ogness@linutronix.de
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
+In-Reply-To: <Ygdfe3XSvN8iFuUc@kroah.com>
+From:   Todd Kjos <tkjos@google.com>
+Date:   Mon, 14 Feb 2022 10:33:25 -0800
+Message-ID: <CAHRSSEwoJ67Sr_=gtSaP91cbpjJjZdOo57cfAhv3r-ye0da7PA@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "T.J. Mercier" <tjmercier@google.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1644830251.git.bristot@kernel.org>
- <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
- <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4132.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kernel.org
-X-BWhitelist: no
-X-Source-IP: 95.232.30.176
-X-Source-L: No
-X-Exim-ID: 1nJfjs-001Rrw-HC
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: host-95-232-30-176.retail.telecomitalia.it ([10.0.0.45]) [95.232.30.176]:59428
-X-Source-Auth: kernel@bristot.me
-X-Email-Count: 3
-X-Source-Cap: YnJpc3RvdG1lO2JyaXN0b3RtZTtnYXRvcjQxMzIuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: no
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/14/22 18:25, Shuah Khan wrote:
-> On 2/14/22 3:45 AM, Daniel Bristot de Oliveira wrote:
->> Sample reactor that printks the reaction message.
->>
-> 
-> Who is supposed to take action on this message and how do they
-> get notified?
+On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
 
-The same people that use printk to debug systems (who never?), on conditions
-where other debugging methods might not available.
+Title: "android: binder: Add a buffer flag to relinquish ownership of fds"
 
-> 
->> Note: do not use this reactor with rq_lock taken, it will lock the
->> system until printk can handle that.
-> 
-> Please give more details on "lock the system" and how locking
-> would impact users and system operation
+Please drop the "android:" from the title.
 
-It is a deadlock on the rq_lock. Hopefully the new printk implementation handles
-that better.
+> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+> > that a process sending an fd array to another process over binder IPC
+> > can set to relinquish ownership of the fds being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd array
+> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
+> > the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL proce=
+ss
+> > allocates memory and sends the fds to the clients over binder IPC.
+> > The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+> > correctly charge the buffers to the client processes instead of the
+> > graphics allocator HAL.
+> >
+> > From: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > changes in v2
+> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+> >
+> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+> >  include/uapi/linux/android/binder.h |  1 +
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 8351c5638880..f50d88ded188 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >  {
+> >       binder_size_t fdi, fd_buf_size;
+> >       binder_size_t fda_offset;
+> > +     bool transfer_gpu_charge =3D false;
+> >       const void __user *sender_ufda_base;
+> >       struct binder_proc *proc =3D thread->proc;
+> > +     struct binder_proc *target_proc =3D t->to_proc;
+> >       int ret;
+> >
+> >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >       if (ret)
+> >               return ret;
+> >
+> > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +             transfer_gpu_charge =3D true;
+> > +
+> >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >               u32 fd;
+> > +             struct dma_buf *dmabuf;
+> > +             struct gpucg *gpucg;
+> > +
+> >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >
+> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >                                                 in_reply_to);
+> >               if (ret)
+> >                       return ret > 0 ? -EINVAL : ret;
+> > +
+> > +             if (!transfer_gpu_charge)
+> > +                     continue;
+> > +
+> > +             dmabuf =3D dma_buf_get(fd);
+> > +             if (IS_ERR(dmabuf))
+> > +                     continue;
+> > +
+> > +             gpucg =3D gpucg_get(target_proc->tsk);
+> > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +             if (ret) {
+> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
+ge to %d",
+> > +                             proc->pid, thread->pid, target_proc->pid)=
+;
+> > +                     gpucg_put(gpucg);
+> > +             }
+> > +             dma_buf_put(dmabuf);
 
-/me looks at John Ogness
+Since we are creating a new gpu cgroup abstraction, couldn't this
+"transfer" be done in userspace by the target instead of in the kernel
+driver? Then this patch would reduce to just a flag on the buffer
+object. This also solves the issue that Greg brought up about
+userspace needing to know whether the kernel implements this feature
+(older kernel running with newer userspace). I think we could just
+reserve some flags for userspace to use (and since those flags are
+"reserved" for older kernels, this would enable this feature even for
+old kernels)
 
--- Daniel
+> >       }
+> >       return 0;
+> >  }
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 3246f2c74696..169fd5069a1a 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> >
+> >  enum {
+> >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >  };
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds i=
+n a buffer
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
+>
+> How does userspace know that binder supports this new flag?  And where
+> is the userspace test for this new feature?  Isn't there a binder test
+> framework somewhere?
+>
+> thanks,
+>
+> greg k-h
