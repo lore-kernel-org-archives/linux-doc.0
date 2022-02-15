@@ -2,351 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF929C43219
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 00:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D856C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 00:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232396AbiBOAAs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 19:00:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40006 "EHLO
+        id S230431AbiBOAEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 19:04:01 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232317AbiBOAAf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 19:00:35 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 743A641984;
-        Mon, 14 Feb 2022 16:00:26 -0800 (PST)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EN10KB007645;
-        Tue, 15 Feb 2022 00:00:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=C9lgz9nUygy/WNSTFeeSPkV509FapWhd0eHU3azbyjQ=;
- b=V6jz00dlAfuHvlIEDEDdZ47RlqbFWWqYXihuemO13+2W7TEhkZ0I3+EeovzPhCwu9eog
- +pi3UdbixsAHlawfet+t6L/F0dz9xLWvm7qUGVVHb66YGaOSkavJbdAfIm9qYWVNuxmh
- H0frEzi1AjBYfLYqDl0zVpq9D7OWeuaLsr0/Qul8IOusWtlcMyxmPIYr/xYLnloLM3Jj
- 5fwFA7q9iGDmskbnaTyMX5CUFrIYlFRfLkk0tl5dLGkswaoxlmQQmu+hCzqosxwvbaPz
- YX6Nb1uUPtkbAAHct0ppFXk9l0PPM3s+k7mmLw6My0dey5I3TVyOY7t3FdKVkHX/AiYq bA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e7dej3p5d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Feb 2022 00:00:26 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21ENSUJm025655;
-        Tue, 15 Feb 2022 00:00:25 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3e7dej3p4n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Feb 2022 00:00:25 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21ENwAlr005177;
-        Tue, 15 Feb 2022 00:00:23 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma06ams.nl.ibm.com with ESMTP id 3e645jhxjc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Feb 2022 00:00:22 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21F00I5834537732
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 15 Feb 2022 00:00:18 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 529DFA4059;
-        Tue, 15 Feb 2022 00:00:18 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A6342A404D;
-        Tue, 15 Feb 2022 00:00:17 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.145.2.54])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 15 Feb 2022 00:00:17 +0000 (GMT)
-Date:   Mon, 14 Feb 2022 18:58:49 +0100
-From:   Claudio Imbrenda <imbrenda@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH v4 06/10] KVM: s390: Add vm IOCTL for key checked guest
- absolute memory access
-Message-ID: <20220214185849.04331079@p-imbrenda>
-In-Reply-To: <20220211182215.2730017-7-scgl@linux.ibm.com>
-References: <20220211182215.2730017-1-scgl@linux.ibm.com>
-        <20220211182215.2730017-7-scgl@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        with ESMTP id S229798AbiBOAEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 19:04:00 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 229DF66CB5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id w2so10803590edc.8
+        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+        b=XzWME/tX9Pwn10nvDtBLix/JWvTxUWXpra89PLWebeGid3kJF+yJ94sCAp3TEJ2Pb7
+         KG+sCzgGuo2pIRe0MLD2cGyPkH9DnNc4+Ycb3JPr0uTMGORv8lpEhVpJcM44oxYId87N
+         mtZE6Uf/V6v6acN77V0+9wlwvLosHWzh/Ohh4kdpAKLU/nb4OYpkbF+ZHYTD6xz1sO1C
+         gFbbdJdvLk14r+s/gvut3A9KnLjWkee0MkMQ92QylFULzIK2e64RbU0SODfunYR0uoJL
+         dT8C0AKHleHQkF1jN8kfi3K2yMpxQjflv9wArFKb5HhuIO4KJiqOhHiDExOSjEXWShO0
+         O3lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+        b=cjtQJZu3vTQUHoCO52NtUgRhsNnl/c8HxRAoQPINEkurivLhwW3nNVXbbv8DHG4DYg
+         dg/85SiJuUb133hJC6sX/aahq5LyVsPPNDVs4mBe69H7wEvCAljlO/Gg/3Rk26R6pAcx
+         /NdaAyjrR7LNn6cfltxP4aSxCHooN/z6/Oa0B+PvfWUV42wbKq6tI4fI+YPcEumyBdcK
+         Eex741QYwyp14DJSu5cZvlJkHy5FvHHDOD+iJoxRmR3HYuIAgdXLTg6sT+LamKcvMEaX
+         P/VQ29HqpnvwmPGasjy+P5EwcR2Q6oeNrzPNBDHotMvrLFbKTUaBlLl8plLyepuGFiXH
+         8yvw==
+X-Gm-Message-State: AOAM531jW10QsjoykyTVnZMrTlw4RC1zuHu2weq83J8BM2C0SBpkwoXl
+        KmQabd5e4bkSjLESLT+1QGY5vGtolm8yeCikjeiwOQ==
+X-Google-Smtp-Source: ABdhPJxAtnWhygjfdRdPmkvAqKQauo1KJKZ52IV82X0eQflqoUGfUG0iTb+vi8L0jmGH8ye8Rphg9kzZiPnIMct0HzM=
+X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr1308182edx.207.1644883429474;
+ Mon, 14 Feb 2022 16:03:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: AJzA_gdQpFX90Dp5U0j_pYyepd_AzmFC
-X-Proofpoint-ORIG-GUID: toTycKR9roIP9nv0G3g-D8HnUz0prpH0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_07,2022-02-14_03,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 priorityscore=1501 adultscore=0 malwarescore=0
- spamscore=0 clxscore=1015 suspectscore=0 bulkscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202140134
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
+In-Reply-To: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Mon, 14 Feb 2022 16:03:38 -0800
+Message-ID: <CABdmKX33PDEioxdQSFpQEFdK58kDo==JeUN_1m_NB__5qGMJ0Q@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To:     Todd Kjos <tkjos@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 11 Feb 2022 19:22:11 +0100
-Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
+On Mon, Feb 14, 2022 at 1:26 PM Todd Kjos <tkjos@google.com> wrote:
+>
+> On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote=
+:
+> >
+> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
+> > that a process sending an fd array to another process over binder IPC
+> > can set to relinquish ownership of the fds being sent for memory
+> > accounting purposes. If the flag is found to be set during the fd array
+> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
+> > the sender's cgroup and charged to the receiving process's cgroup
+> > instead.
+> >
+> > It is up to the sending process to ensure that it closes the fds
+> > regardless of whether the transfer failed or succeeded.
+> >
+> > Most graphics shared memory allocations in Android are done by the
+> > graphics allocator HAL process. On requests from clients, the HAL proce=
+ss
+> > allocates memory and sends the fds to the clients over binder IPC.
+> > The graphics allocator HAL will not retain any references to the
+> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
+> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
+> > correctly charge the buffers to the client processes instead of the
+> > graphics allocator HAL.
+> >
+> > From: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > changes in v2
+> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > Christian K=C3=B6nig.
+> >
+> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
+> >  include/uapi/linux/android/binder.h |  1 +
+> >  2 files changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > index 8351c5638880..f50d88ded188 100644
+> > --- a/drivers/android/binder.c
+> > +++ b/drivers/android/binder.c
+> > @@ -42,6 +42,7 @@
+> >
+> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> >
+> > +#include <linux/dma-buf.h>
+> >  #include <linux/fdtable.h>
+> >  #include <linux/file.h>
+> >  #include <linux/freezer.h>
+> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+>
+> Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
+> never needs to be done in the BINDER_TYPE_FD case (single fd)?
+>
 
-> Channel I/O honors storage keys and is performed on absolute memory.
-> For I/O emulation user space therefore needs to be able to do key
-> checked accesses.
-> The vm IOCTL supports read/write accesses, as well as checking
-> if an access would succeed.
-> Unlike relying on KVM_S390_GET_SKEYS for key checking would,
-> the vm IOCTL performs the check in lockstep with the read or write,
-> by, ultimately, mapping the access to move instructions that
-> support key protection checking with a supplied key.
-> Fetch and storage protection override are not applicable to absolute
-> accesses and so are not applied as they are when using the vcpu memop.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Currently this is the case as there is no user who would benefit from
+the single fd case. The only known user is the gralloc HAL which
+always uses BINDER_TYPE_FDA to send dmabufs. I guess we could move the
+code into binder_translate_fd if we were willing to bring back
+binder_fd_object's flags field. This looks possible, but I think it'd
+be a more intrusive change.
 
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-
-> ---
->  arch/s390/kvm/gaccess.c  | 72 +++++++++++++++++++++++++++++++++++
->  arch/s390/kvm/gaccess.h  |  6 +++
->  arch/s390/kvm/kvm-s390.c | 81 ++++++++++++++++++++++++++++++++++++++++
->  include/uapi/linux/kvm.h |  2 +
->  4 files changed, 161 insertions(+)
-> 
-> diff --git a/arch/s390/kvm/gaccess.c b/arch/s390/kvm/gaccess.c
-> index 37838f637707..d53a183c2005 100644
-> --- a/arch/s390/kvm/gaccess.c
-> +++ b/arch/s390/kvm/gaccess.c
-> @@ -795,6 +795,35 @@ static int low_address_protection_enabled(struct kvm_vcpu *vcpu,
->  	return 1;
->  }
->  
-> +static int vm_check_access_key(struct kvm *kvm, u8 access_key,
-> +			       enum gacc_mode mode, gpa_t gpa)
-> +{
-> +	u8 storage_key, access_control;
-> +	bool fetch_protected;
-> +	unsigned long hva;
-> +	int r;
-> +
-> +	if (access_key == 0)
-> +		return 0;
-> +
-> +	hva = gfn_to_hva(kvm, gpa_to_gfn(gpa));
-> +	if (kvm_is_error_hva(hva))
-> +		return PGM_ADDRESSING;
-> +
-> +	mmap_read_lock(current->mm);
-> +	r = get_guest_storage_key(current->mm, hva, &storage_key);
-> +	mmap_read_unlock(current->mm);
-> +	if (r)
-> +		return r;
-> +	access_control = FIELD_GET(_PAGE_ACC_BITS, storage_key);
-> +	if (access_control == access_key)
-> +		return 0;
-> +	fetch_protected = storage_key & _PAGE_FP_BIT;
-> +	if ((mode == GACC_FETCH || mode == GACC_IFETCH) && !fetch_protected)
-> +		return 0;
-> +	return PGM_PROTECTION;
-> +}
-> +
->  static bool fetch_prot_override_applicable(struct kvm_vcpu *vcpu, enum gacc_mode mode,
->  					   union asce asce)
->  {
-> @@ -994,6 +1023,26 @@ access_guest_page_with_key(struct kvm *kvm, enum gacc_mode mode, gpa_t gpa,
->  	return 0;
->  }
->  
-> +int access_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, void *data,
-> +			      unsigned long len, enum gacc_mode mode, u8 access_key)
-> +{
-> +	int offset = offset_in_page(gpa);
-> +	int fragment_len;
-> +	int rc;
-> +
-> +	while (min(PAGE_SIZE - offset, len) > 0) {
-> +		fragment_len = min(PAGE_SIZE - offset, len);
-> +		rc = access_guest_page_with_key(kvm, mode, gpa, data, fragment_len, access_key);
-> +		if (rc)
-> +			return rc;
-> +		offset = 0;
-> +		len -= fragment_len;
-> +		data += fragment_len;
-> +		gpa += fragment_len;
-> +	}
-> +	return 0;
-> +}
-> +
->  int access_guest_with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
->  			  void *data, unsigned long len, enum gacc_mode mode,
->  			  u8 access_key)
-> @@ -1144,6 +1193,29 @@ int check_gva_range(struct kvm_vcpu *vcpu, unsigned long gva, u8 ar,
->  	return rc;
->  }
->  
-> +/**
-> + * check_gpa_range - test a range of guest physical addresses for accessibility
-> + * @kvm: virtual machine instance
-> + * @gpa: guest physical address
-> + * @length: length of test range
-> + * @mode: access mode to test, relevant for storage keys
-> + * @access_key: access key to mach the storage keys with
-> + */
-> +int check_gpa_range(struct kvm *kvm, unsigned long gpa, unsigned long length,
-> +		    enum gacc_mode mode, u8 access_key)
-> +{
-> +	unsigned int fragment_len;
-> +	int rc = 0;
-> +
-> +	while (length && !rc) {
-> +		fragment_len = min(PAGE_SIZE - offset_in_page(gpa), length);
-> +		rc = vm_check_access_key(kvm, access_key, mode, gpa);
-> +		length -= fragment_len;
-> +		gpa += fragment_len;
-> +	}
-> +	return rc;
-> +}
-> +
->  /**
->   * kvm_s390_check_low_addr_prot_real - check for low-address protection
->   * @vcpu: virtual cpu
-> diff --git a/arch/s390/kvm/gaccess.h b/arch/s390/kvm/gaccess.h
-> index c5f2e7311b17..1124ff282012 100644
-> --- a/arch/s390/kvm/gaccess.h
-> +++ b/arch/s390/kvm/gaccess.h
-> @@ -193,6 +193,12 @@ int guest_translate_address_with_key(struct kvm_vcpu *vcpu, unsigned long gva, u
->  int check_gva_range(struct kvm_vcpu *vcpu, unsigned long gva, u8 ar,
->  		    unsigned long length, enum gacc_mode mode, u8 access_key);
->  
-> +int check_gpa_range(struct kvm *kvm, unsigned long gpa, unsigned long length,
-> +		    enum gacc_mode mode, u8 access_key);
-> +
-> +int access_guest_abs_with_key(struct kvm *kvm, gpa_t gpa, void *data,
-> +			      unsigned long len, enum gacc_mode mode, u8 access_key);
-> +
->  int access_guest_with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
->  			  void *data, unsigned long len, enum gacc_mode mode,
->  			  u8 access_key);
-> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-> index c31b40abfa23..36bc73b5f5de 100644
-> --- a/arch/s390/kvm/kvm-s390.c
-> +++ b/arch/s390/kvm/kvm-s390.c
-> @@ -2364,6 +2364,78 @@ static bool access_key_invalid(u8 access_key)
->  	return access_key > 0xf;
->  }
->  
-> +static int kvm_s390_vm_mem_op(struct kvm *kvm, struct kvm_s390_mem_op *mop)
-> +{
-> +	void __user *uaddr = (void __user *)mop->buf;
-> +	u64 supported_flags;
-> +	void *tmpbuf = NULL;
-> +	int r, srcu_idx;
-> +
-> +	supported_flags = KVM_S390_MEMOP_F_SKEY_PROTECTION
-> +			  | KVM_S390_MEMOP_F_CHECK_ONLY;
-> +	if (mop->flags & ~supported_flags)
-> +		return -EINVAL;
-> +	if (mop->size > MEM_OP_MAX_SIZE)
-> +		return -E2BIG;
-> +	if (kvm_s390_pv_is_protected(kvm))
-> +		return -EINVAL;
-> +	if (mop->flags & KVM_S390_MEMOP_F_SKEY_PROTECTION) {
-> +		if (access_key_invalid(mop->key))
-> +			return -EINVAL;
-> +	} else {
-> +		mop->key = 0;
-> +	}
-> +	if (!(mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY)) {
-> +		tmpbuf = vmalloc(mop->size);
-> +		if (!tmpbuf)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	srcu_idx = srcu_read_lock(&kvm->srcu);
-> +
-> +	if (kvm_is_error_gpa(kvm, mop->gaddr)) {
-> +		r = PGM_ADDRESSING;
-> +		goto out_unlock;
-> +	}
-> +
-> +	switch (mop->op) {
-> +	case KVM_S390_MEMOP_ABSOLUTE_READ: {
-> +		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
-> +			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_FETCH, mop->key);
-> +		} else {
-> +			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> +						      mop->size, GACC_FETCH, mop->key);
-> +			if (r == 0) {
-> +				if (copy_to_user(uaddr, tmpbuf, mop->size))
-> +					r = -EFAULT;
-> +			}
-> +		}
-> +		break;
-> +	}
-> +	case KVM_S390_MEMOP_ABSOLUTE_WRITE: {
-> +		if (mop->flags & KVM_S390_MEMOP_F_CHECK_ONLY) {
-> +			r = check_gpa_range(kvm, mop->gaddr, mop->size, GACC_STORE, mop->key);
-> +		} else {
-> +			if (copy_from_user(tmpbuf, uaddr, mop->size)) {
-> +				r = -EFAULT;
-> +				break;
-> +			}
-> +			r = access_guest_abs_with_key(kvm, mop->gaddr, tmpbuf,
-> +						      mop->size, GACC_STORE, mop->key);
-> +		}
-> +		break;
-> +	}
-> +	default:
-> +		r = -EINVAL;
-> +	}
-> +
-> +out_unlock:
-> +	srcu_read_unlock(&kvm->srcu, srcu_idx);
-> +
-> +	vfree(tmpbuf);
-> +	return r;
-> +}
-> +
->  long kvm_arch_vm_ioctl(struct file *filp,
->  		       unsigned int ioctl, unsigned long arg)
->  {
-> @@ -2488,6 +2560,15 @@ long kvm_arch_vm_ioctl(struct file *filp,
->  		}
->  		break;
->  	}
-> +	case KVM_S390_MEM_OP: {
-> +		struct kvm_s390_mem_op mem_op;
-> +
-> +		if (copy_from_user(&mem_op, argp, sizeof(mem_op)) == 0)
-> +			r = kvm_s390_vm_mem_op(kvm, &mem_op);
-> +		else
-> +			r = -EFAULT;
-> +		break;
-> +	}
->  	default:
->  		r = -ENOTTY;
->  	}
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 4566f429db2c..4bc7623def87 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -575,6 +575,8 @@ struct kvm_s390_mem_op {
->  #define KVM_S390_MEMOP_LOGICAL_WRITE	1
->  #define KVM_S390_MEMOP_SIDA_READ	2
->  #define KVM_S390_MEMOP_SIDA_WRITE	3
-> +#define KVM_S390_MEMOP_ABSOLUTE_READ	4
-> +#define KVM_S390_MEMOP_ABSOLUTE_WRITE	5
->  /* flags for kvm_s390_mem_op->flags */
->  #define KVM_S390_MEMOP_F_CHECK_ONLY		(1ULL << 0)
->  #define KVM_S390_MEMOP_F_INJECT_EXCEPTION	(1ULL << 1)
-
+> >  {
+> >         binder_size_t fdi, fd_buf_size;
+> >         binder_size_t fda_offset;
+> > +       bool transfer_gpu_charge =3D false;
+> >         const void __user *sender_ufda_base;
+> >         struct binder_proc *proc =3D thread->proc;
+> > +       struct binder_proc *target_proc =3D t->to_proc;
+> >         int ret;
+> >
+> >         fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >         if (ret)
+> >                 return ret;
+> >
+> > +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +               transfer_gpu_charge =3D true;
+> > +
+> >         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >                 u32 fd;
+> > +               struct dma_buf *dmabuf;
+> > +               struct gpucg *gpucg;
+> > +
+> >                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >
+> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
+_head *pf_head,
+> >                                                   in_reply_to);
+> >                 if (ret)
+> >                         return ret > 0 ? -EINVAL : ret;
+> > +
+> > +               if (!transfer_gpu_charge)
+> > +                       continue;
+> > +
+> > +               dmabuf =3D dma_buf_get(fd);
+> > +               if (IS_ERR(dmabuf))
+> > +                       continue;
+> > +
+> > +               gpucg =3D gpucg_get(target_proc->tsk);
+> > +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +               if (ret) {
+> > +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd ch=
+arge to %d",
+> > +                               proc->pid, thread->pid, target_proc->pi=
+d);
+> > +                       gpucg_put(gpucg);
+> > +               }
+> > +               dma_buf_put(dmabuf);
+> >         }
+> >         return 0;
+> >  }
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 3246f2c74696..169fd5069a1a 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> >
+> >  enum {
+> >         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >  };
+> >
+> >  /* struct binder_fd_array_object - object describing an array of fds i=
+n a buffer
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
