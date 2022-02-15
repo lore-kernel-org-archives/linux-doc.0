@@ -2,405 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65906C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3158AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233741AbiBOOUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 09:20:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48712 "EHLO
+        id S238137AbiBOOc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 09:32:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232528AbiBOOUQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:20:16 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D755C8F84
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:20:06 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id b187-20020a251bc4000000b0061e15c5024fso40658801ybb.4
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=GUpyRZejn9Pwp27JxxD0pUffrRYlyMDKoKZilOQs1zg=;
-        b=ZT3OQfsZ54iVJEPKmgnr6hFCGXDZyAiFXDqjcgogSLta37V38o2S575RNzSUmFaYlQ
-         sBcNLxR0aousgBT7pc3TimkUjD7hG0UxRA+ol/5xFlFPc9A44J2+cwpB5isbrElaADWg
-         ByLLlcew3BUlw28GvalAoynFSY691tLCRPhJS44fdgw/GgNgksCzfvnRLd8hgCBNXyYj
-         QRziQIOlDb0mwfus4ltBYK1+uIRCUMDizFQqNkHeRs4I6MIkMvRGLgfai//StkfUZCGN
-         HrHjzFKmZFXD6mgE909pV+QiuO0WbjAuUvyoYKTF+F7vsye5L4YSOXSbWfYBWSQJcjbm
-         wHrw==
+        with ESMTP id S237563AbiBOOc0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:32:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9932ED3AE5
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644935534;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kXzMPxpPt6Z4nMk/I9zc5c3jnXkL788GrF8HLGMlet0=;
+        b=BFS0g9UrPJJ5vOCzSlcHVvEBYJYRIAqdywgqzj7h5uwiW1rI0ns6gEZlhXxI3F/MM+U0EL
+        zMaQJE2oXqRQO/4EvRjjb5tMXVSUguPb7a0wLpFT1WuAnD/XYsAHHhMg/r5Pd64HVoChBQ
+        /nh6mylKFs63feBECVx/vMpxMVEEOFQ=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-271-Z09HvXJBNGy0wDHlHIzRBQ-1; Tue, 15 Feb 2022 09:32:13 -0500
+X-MC-Unique: Z09HvXJBNGy0wDHlHIzRBQ-1
+Received: by mail-oo1-f69.google.com with SMTP id j12-20020a4ad6cc000000b002fb4087a29fso1298086oot.20
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:32:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=GUpyRZejn9Pwp27JxxD0pUffrRYlyMDKoKZilOQs1zg=;
-        b=6DMbJL4FBr50gCzsi3h+Mc7mJ4xjzMY7FihCcIm3at4/OiuD4UEKWbzSwVHRtnn9R9
-         CRsjA/Pkm/LWDm/49GJC/7vT7P/t9eZNcN7MIYxwf9SMWwhgmLX8bcFUNSKNi39yKAGC
-         eKd9a/VktLGEzz4aCEhukWNCxapMnp5xwYEBNyemIJBapa9Oekf1xnezqQOpDjRQ7O/V
-         IHSlV3kk/NQO8ZZvEIfNoJWcwxBM+UcJXYPh8TlPVP0jvVh/4KYzb542J/nU7saQLVml
-         87l+n/NBVh1dutzOEFDl8mXu+XKBHbjdVwgJo0ldPieHAR/koDws1pXEWAW7If9n66uu
-         aI2g==
-X-Gm-Message-State: AOAM5304h8IzpIvPVM+mdrDTVgpsP2JEUzsxS2TuhzZnXmaeEdWvptW/
-        ljS7/CytlVUn0W7aiuZTU2YQ3rAlUQ==
-X-Google-Smtp-Source: ABdhPJzcCCkgAq2s1mmwNW6OZq/24SwP0p0I0cyzx87weaxppuFpiwOk92W7HltKnDkACdBa+pjsXQVyQQ==
-X-Received: from yaelt.nyc.corp.google.com ([2620:0:1003:415:4733:5913:aeb8:dca6])
- (user=yaelt job=sendgmr) by 2002:a81:4417:: with SMTP id r23mr3907750ywa.443.1644934805301;
- Tue, 15 Feb 2022 06:20:05 -0800 (PST)
-Date:   Tue, 15 Feb 2022 09:19:53 -0500
-Message-Id: <20220215141953.1557009-1-yaelt@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [PATCH v5] KEYS: encrypted: Instantiate key with user-provided
- decrypted data
-From:   Yael Tzur <yaelt@google.com>
-To:     linux-integrity@vger.kernel.org
-Cc:     jejb@linux.ibm.com, jarkko@kernel.org, zohar@linux.ibm.com,
-        corbet@lwn.net, dhowells@redhat.com, jmorris@namei.org,
-        serge@hallyn.com, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Yael Tzur <yaelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=kXzMPxpPt6Z4nMk/I9zc5c3jnXkL788GrF8HLGMlet0=;
+        b=Xv19z8EMd5L5MBm84I7bC8fCsNz1E+SNWsk7pAYYV6Y50vV4YEbYCNkcxeF9XAuH/d
+         UbKgTf1qX8yg/NnBfh5hBlGw1aFlNsx+Qi8/F/5k7FmAhD4X2fCum++sf8YXZUHsqqmE
+         htmGgN1wfxwdBe8sklb+cR25d1CJ+VXNlUfea2PhpY3ifL6cwioYLZ9wTu+IKPMB9fDF
+         XDIQOVm/i69feZ6I7Lqbgn3LJWJsc4nUOltImAkBAKtvOW7Pr5PmTz7K2YHSL4IuN/4A
+         8swS9lQsb53PjB0bVGVaNNd7VlFmB91x6Y/+hhStyDuoQF/QLbHTuZOlHuyrH1fVtHr1
+         QXWA==
+X-Gm-Message-State: AOAM533jyi18UMEJX+a1pl5RyTMG6Cg5YhJLtOUFty+hAcExViJJBubN
+        i/iqhfQN+75O4LJPgB/rfwJFfR3BrgMwi2LLVHMHzb1OQqrJj5hGEFiwgDiJXt8UWUvFTqyXjF5
+        Fwf4meaDhsZgF0xNKVxRz
+X-Received: by 2002:a05:6870:2142:b0:d2:c3fe:83c8 with SMTP id g2-20020a056870214200b000d2c3fe83c8mr1499843oae.165.1644935532448;
+        Tue, 15 Feb 2022 06:32:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxBW230U8nUtjeldcnU2xd5Fe3oQMJiqQxogDBomj+xWYHSmSduSFxFpEpsLE6Gm1pzSW1u9Q==
+X-Received: by 2002:a05:6870:2142:b0:d2:c3fe:83c8 with SMTP id g2-20020a056870214200b000d2c3fe83c8mr1499826oae.165.1644935532136;
+        Tue, 15 Feb 2022 06:32:12 -0800 (PST)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id y1sm16494879oad.38.2022.02.15.06.32.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Feb 2022 06:32:11 -0800 (PST)
+Subject: Re: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
+To:     Tianfei zhang <tianfei.zhang@intel.com>, hao.wu@intel.com,
+        mdf@kernel.org, yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net
+References: <20220214112619.219761-1-tianfei.zhang@intel.com>
+ <20220214112619.219761-2-tianfei.zhang@intel.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <882cda83-6b31-83eb-cb88-d5a2fec57332@redhat.com>
+Date:   Tue, 15 Feb 2022 06:32:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20220214112619.219761-2-tianfei.zhang@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For availability and performance reasons master keys often need to be
-released outside of a Key Management Service (KMS) to clients. It
-would be beneficial to provide a mechanism where the
-wrapping/unwrapping of data encryption keys (DEKs) is not dependent
-on a remote call at runtime yet security is not (or only minimally)
-compromised. Master keys could be securely stored in the Kernel and
-be used to wrap/unwrap keys from Userspace.
 
-The encrypted.c class supports instantiation of encrypted keys with
-either an already-encrypted key material, or by generating new key
-material based on random numbers. This patch defines a new datablob
-format: [<format>] <master-key name> <decrypted data length>
-<decrypted data> that allows to inject and encrypt user-provided
-decrypted data. The decrypted data must be hex-ascii encoded.
+On 2/14/22 3:26 AM, Tianfei zhang wrote:
+> From: Tianfei Zhang <tianfei.zhang@intel.com>
+>
+> This patch adds description about IOFS support for DFL.
+>
+This needs work.
 
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-Signed-off-by: Yael Tzur <yaelt@google.com>
----
+Several times 'Port Gasket' was mentioned but there is no section 
+describing what it is.
 
-Notes:
-    v -> v2: fixed compilation error.
-   =20
-    v2 -> v3: modified documentation.
-   =20
-    v3 -> v4: modified commit message.
-   =20
-    v4 -> v5: added config option to enable feature, and modified input val=
-idation.
+It is not clear if iofs supersedes dfl or extends it.
 
- .../security/keys/trusted-encrypted.rst       | 25 +++++--
- security/keys/Kconfig                         | 19 +++--
- security/keys/encrypted-keys/encrypted.c      | 72 ++++++++++++++-----
- 3 files changed, 87 insertions(+), 29 deletions(-)
+It is not clear how a driver probes to tell the difference between the two.
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentat=
-ion/security/keys/trusted-encrypted.rst
-index 80d5a5af62a1..f614dad7de12 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -107,12 +107,13 @@ Encrypted Keys
- --------------
-=20
- Encrypted keys do not depend on a trust source, and are faster, as they us=
-e AES
--for encryption/decryption. New keys are created from kernel-generated rand=
-om
--numbers, and are encrypted/decrypted using a specified =E2=80=98master=E2=
-=80=99 key. The
--=E2=80=98master=E2=80=99 key can either be a trusted-key or user-key type.=
- The main disadvantage
--of encrypted keys is that if they are not rooted in a trusted key, they ar=
-e only
--as secure as the user key encrypting them. The master user key should ther=
-efore
--be loaded in as secure a way as possible, preferably early in boot.
-+for encryption/decryption. New keys are created either from kernel-generat=
-ed
-+random numbers or user-provided decrypted data, and are encrypted/decrypte=
-d
-+using a specified =E2=80=98master=E2=80=99 key. The =E2=80=98master=E2=80=
-=99 key can either be a trusted-key or
-+user-key type. The main disadvantage of encrypted keys is that if they are=
- not
-+rooted in a trusted key, they are only as secure as the user key encryptin=
-g
-+them. The master user key should therefore be loaded in as secure a way as
-+possible, preferably early in boot.
-=20
-=20
- Usage
-@@ -199,6 +200,8 @@ Usage::
-=20
-     keyctl add encrypted name "new [format] key-type:master-key-name keyle=
-n"
-         ring
-+    keyctl add encrypted name "new [format] key-type:master-key-name keyle=
-n
-+        decrypted-data" ring
-     keyctl add encrypted name "load hex_blob" ring
-     keyctl update keyid "update key-type:master-key-name"
-=20
-@@ -303,6 +306,16 @@ Load an encrypted key "evm" from saved blob::
-     82dbbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564=
-e0
-     24717c64 5972dcb82ab2dde83376d82b2e3c09ffc
-=20
-+Instantiate an encrypted key "evm" using user-provided decrypted data::
-+
-+    $ keyctl add encrypted evm "new default user:kmk 32 `cat evm_decrypted=
-_data.blob`" @u
-+    794890253
-+
-+    $ keyctl print 794890253
-+    default user:kmk 32 2375725ad57798846a9bbd240de8906f006e66c03af53b1b38=
-2d
-+    bbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e02=
-47
-+    17c64 5972dcb82ab2dde83376d82b2e3c09ffc
-+
- Other uses for trusted and encrypted keys, such as for disk and file encry=
-ption
- are anticipated.  In particular the new format 'ecryptfs' has been defined
- in order to use encrypted keys to mount an eCryptfs filesystem.  More deta=
-ils
-diff --git a/security/keys/Kconfig b/security/keys/Kconfig
-index 969122c7b92f..0e30b361e1c1 100644
---- a/security/keys/Kconfig
-+++ b/security/keys/Kconfig
-@@ -98,10 +98,21 @@ config ENCRYPTED_KEYS
- 	select CRYPTO_RNG
- 	help
- 	  This option provides support for create/encrypting/decrypting keys
--	  in the kernel.  Encrypted keys are kernel generated random numbers,
--	  which are encrypted/decrypted with a 'master' symmetric key. The
--	  'master' key can be either a trusted-key or user-key type.
--	  Userspace only ever sees/stores encrypted blobs.
-+	  in the kernel.  Encrypted keys are instantiated using kernel
-+	  generated random numbers or provided decrypted data, and are
-+	  encrypted/decrypted with a 'master' symmetric key. The 'master'
-+	  key can be either a trusted-key or user-key type. Only encrypted
-+	  blobs are ever output to Userspace.
-+
-+	  If you are unsure as to whether this is required, answer N.
-+
-+config USER_DECRYPTED_DATA
-+	bool "Allow encrypted keys with user decrypted data"
-+	depends on ENCRYPTED_KEYS
-+	help
-+	  This option provides support for instantiating encrypted keys using
-+	  user-provided decrypted data.  The decrypted data must be hex-ascii
-+	  encoded.
-=20
- 	  If you are unsure as to whether this is required, answer N.
-=20
-diff --git a/security/keys/encrypted-keys/encrypted.c b/security/keys/encry=
-pted-keys/encrypted.c
-index 87432b35d771..ebfb8129fb92 100644
---- a/security/keys/encrypted-keys/encrypted.c
-+++ b/security/keys/encrypted-keys/encrypted.c
-@@ -78,6 +78,11 @@ static const match_table_t key_tokens =3D {
- 	{Opt_err, NULL}
- };
-=20
-+static bool user_decrypted_data =3D IS_ENABLED(CONFIG_USER_DECRYPTED_DATA)=
-;
-+module_param(user_decrypted_data, bool, 0);
-+MODULE_PARM_DESC(user_decrypted_data,
-+	"Allow instantiation of encrypted keys using provided decrypted data");
-+
- static int aes_get_sizes(void)
- {
- 	struct crypto_skcipher *tfm;
-@@ -158,7 +163,7 @@ static int valid_master_desc(const char *new_desc, cons=
-t char *orig_desc)
-  * datablob_parse - parse the keyctl data
-  *
-  * datablob format:
-- * new [<format>] <master-key name> <decrypted data length>
-+ * new [<format>] <master-key name> <decrypted data length> [<decrypted da=
-ta>]
-  * load [<format>] <master-key name> <decrypted data length>
-  *     <encrypted iv + data>
-  * update <new-master-key name>
-@@ -170,7 +175,7 @@ static int valid_master_desc(const char *new_desc, cons=
-t char *orig_desc)
-  */
- static int datablob_parse(char *datablob, const char **format,
- 			  char **master_desc, char **decrypted_datalen,
--			  char **hex_encoded_iv)
-+			  char **hex_encoded_iv, char **decrypted_data)
- {
- 	substring_t args[MAX_OPT_ARGS];
- 	int ret =3D -EINVAL;
-@@ -231,6 +236,7 @@ static int datablob_parse(char *datablob, const char **=
-format,
- 				"when called from .update method\n", keyword);
- 			break;
- 		}
-+		*decrypted_data =3D strsep(&datablob, " \t");
- 		ret =3D 0;
- 		break;
- 	case Opt_load:
-@@ -595,7 +601,8 @@ static int derived_key_decrypt(struct encrypted_key_pay=
-load *epayload,
- static struct encrypted_key_payload *encrypted_key_alloc(struct key *key,
- 							 const char *format,
- 							 const char *master_desc,
--							 const char *datalen)
-+							 const char *datalen,
-+							 const char *decrypted_data)
- {
- 	struct encrypted_key_payload *epayload =3D NULL;
- 	unsigned short datablob_len;
-@@ -604,6 +611,7 @@ static struct encrypted_key_payload *encrypted_key_allo=
-c(struct key *key,
- 	unsigned int encrypted_datalen;
- 	unsigned int format_len;
- 	long dlen;
-+	int i;
- 	int ret;
-=20
- 	ret =3D kstrtol(datalen, 10, &dlen);
-@@ -613,6 +620,24 @@ static struct encrypted_key_payload *encrypted_key_all=
-oc(struct key *key,
- 	format_len =3D (!format) ? strlen(key_format_default) : strlen(format);
- 	decrypted_datalen =3D dlen;
- 	payload_datalen =3D decrypted_datalen;
-+
-+	if (decrypted_data) {
-+		if (!user_decrypted_data) {
-+			pr_err("encrypted key: instantiation of keys using provided decrypted d=
-ata is disabled since CONFIG_USER_DECRYPTED_DATA is set to false\n");
-+			return ERR_PTR(-EINVAL);
-+		}
-+		if (strlen(decrypted_data) !=3D decrypted_datalen) {
-+			pr_err("encrypted key: decrypted data provided does not match decrypted=
- data length provided\n");
-+			return ERR_PTR(-EINVAL);
-+		}
-+		for (i =3D 0; i < strlen(decrypted_data); i++) {
-+			if (!isxdigit(decrypted_data[i])) {
-+				pr_err("encrypted key: decrypted data provided must contain only hexad=
-ecimal characters\n");
-+				return ERR_PTR(-EINVAL);
-+			}
-+		}
-+	}
-+
- 	if (format) {
- 		if (!strcmp(format, key_format_ecryptfs)) {
- 			if (dlen !=3D ECRYPTFS_MAX_KEY_BYTES) {
-@@ -740,13 +766,14 @@ static void __ekey_init(struct encrypted_key_payload =
-*epayload,
- /*
-  * encrypted_init - initialize an encrypted key
-  *
-- * For a new key, use a random number for both the iv and data
-- * itself.  For an old key, decrypt the hex encoded data.
-+ * For a new key, use either a random number or user-provided decrypted da=
-ta in
-+ * case it is provided. A random number is used for the iv in both cases. =
-For
-+ * an old key, decrypt the hex encoded data.
-  */
- static int encrypted_init(struct encrypted_key_payload *epayload,
- 			  const char *key_desc, const char *format,
- 			  const char *master_desc, const char *datalen,
--			  const char *hex_encoded_iv)
-+			  const char *hex_encoded_iv, const char *decrypted_data)
- {
- 	int ret =3D 0;
-=20
-@@ -760,21 +787,26 @@ static int encrypted_init(struct encrypted_key_payloa=
-d *epayload,
- 	}
-=20
- 	__ekey_init(epayload, format, master_desc, datalen);
--	if (!hex_encoded_iv) {
--		get_random_bytes(epayload->iv, ivsize);
--
--		get_random_bytes(epayload->decrypted_data,
--				 epayload->decrypted_datalen);
--	} else
-+	if (hex_encoded_iv) {
- 		ret =3D encrypted_key_decrypt(epayload, format, hex_encoded_iv);
-+	} else if (decrypted_data) {
-+		get_random_bytes(epayload->iv, ivsize);
-+		memcpy(epayload->decrypted_data, decrypted_data,
-+				   epayload->decrypted_datalen);
-+	} else {
-+		get_random_bytes(epayload->iv, ivsize);
-+		get_random_bytes(epayload->decrypted_data, epayload->decrypted_datalen);
-+	}
- 	return ret;
- }
-=20
- /*
-  * encrypted_instantiate - instantiate an encrypted key
-  *
-- * Decrypt an existing encrypted datablob or create a new encrypted key
-- * based on a kernel random number.
-+ * Instantiates the key:
-+ * - by decrypting an existing encrypted datablob, or
-+ * - by creating a new encrypted key based on a kernel random number, or
-+ * - using provided decrypted data.
-  *
-  * On success, return 0. Otherwise return errno.
-  */
-@@ -787,6 +819,7 @@ static int encrypted_instantiate(struct key *key,
- 	char *master_desc =3D NULL;
- 	char *decrypted_datalen =3D NULL;
- 	char *hex_encoded_iv =3D NULL;
-+	char *decrypted_data =3D NULL;
- 	size_t datalen =3D prep->datalen;
- 	int ret;
-=20
-@@ -799,18 +832,18 @@ static int encrypted_instantiate(struct key *key,
- 	datablob[datalen] =3D 0;
- 	memcpy(datablob, prep->data, datalen);
- 	ret =3D datablob_parse(datablob, &format, &master_desc,
--			     &decrypted_datalen, &hex_encoded_iv);
-+			     &decrypted_datalen, &hex_encoded_iv, &decrypted_data);
- 	if (ret < 0)
- 		goto out;
-=20
- 	epayload =3D encrypted_key_alloc(key, format, master_desc,
--				       decrypted_datalen);
-+				       decrypted_datalen, decrypted_data);
- 	if (IS_ERR(epayload)) {
- 		ret =3D PTR_ERR(epayload);
- 		goto out;
- 	}
- 	ret =3D encrypted_init(epayload, key->description, format, master_desc,
--			     decrypted_datalen, hex_encoded_iv);
-+			     decrypted_datalen, hex_encoded_iv, decrypted_data);
- 	if (ret < 0) {
- 		kfree_sensitive(epayload);
- 		goto out;
-@@ -860,7 +893,7 @@ static int encrypted_update(struct key *key, struct key=
-_preparsed_payload *prep)
-=20
- 	buf[datalen] =3D 0;
- 	memcpy(buf, prep->data, datalen);
--	ret =3D datablob_parse(buf, &format, &new_master_desc, NULL, NULL);
-+	ret =3D datablob_parse(buf, &format, &new_master_desc, NULL, NULL, NULL);
- 	if (ret < 0)
- 		goto out;
-=20
-@@ -869,7 +902,7 @@ static int encrypted_update(struct key *key, struct key=
-_preparsed_payload *prep)
- 		goto out;
-=20
- 	new_epayload =3D encrypted_key_alloc(key, epayload->format,
--					   new_master_desc, epayload->datalen);
-+					   new_master_desc, epayload->datalen, NULL);
- 	if (IS_ERR(new_epayload)) {
- 		ret =3D PTR_ERR(new_epayload);
- 		goto out;
---=20
-2.35.1.265.g69c8d7142f-goog
+This document should set up why the other changes in the patchset are 
+needed.
+
+Add yourself to authors list.
+
+Tom
+
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> ---
+>   Documentation/fpga/dfl.rst | 99 +++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 97 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index ef9eec71f6f3..6f9eae1c1697 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -58,7 +58,10 @@ interface to FPGA, e.g. the FPGA Management Engine (FME) and Port (more
+>   descriptions on FME and Port in later sections).
+>   
+>   Accelerated Function Unit (AFU) represents an FPGA programmable region and
+> -always connects to a FIU (e.g. a Port) as its child as illustrated above.
+> +always connects to a FIU (e.g. a Port) as its child as illustrated above, but
+> +on IOFS design, it introducing Port Gasket which contains AFUs. For DFL perspective,
+> +the Next_AFU pointer on FIU feature header can point to NULL so the AFU is not
+> +connects to a FIU(more descriptions on IOFS in later section).
+>   
+>   Private Features represent sub features of the FIU and AFU. They could be
+>   various function blocks with different IDs, but all private features which
+> @@ -134,6 +137,9 @@ reconfigurable region containing an AFU. It controls the communication from SW
+>   to the accelerator and exposes features such as reset and debug. Each FPGA
+>   device may have more than one port, but always one AFU per port.
+>   
+> +On IOFS, it introducing a new hardware unit, Port Gasket, which contains all
+> +the PR specific modules and regions (more descriptions on IOFS in later section).
+> +
+>   
+>   AFU
+>   ===
+> @@ -143,6 +149,9 @@ used for accelerator-specific control registers.
+>   User-space applications can acquire exclusive access to an AFU attached to a
+>   port by using open() on the port device node and release it using close().
+>   
+> +On IOFS, the AFU is embedded in a Port Gasket. The AFU resource can expose via
+> +VFs with SRIOV support (more descriptions on IOFS in later section).
+> +
+>   The following functions are exposed through ioctls:
+>   
+>   - Get driver API version (DFL_FPGA_GET_API_VERSION)
+> @@ -284,7 +293,8 @@ FME is always accessed through the physical function (PF).
+>   
+>   Ports (and related AFUs) are accessed via PF by default, but could be exposed
+>   through virtual function (VF) devices via PCIe SRIOV. Each VF only contains
+> -1 Port and 1 AFU for isolation. Users could assign individual VFs (accelerators)
+> +1 Port (On IOFS design, the VF is designs without Port) and 1 AFU for isolation.
+> +Users could assign individual VFs (accelerators)
+>   created via PCIe SRIOV interface, to virtual machines.
+>   
+>   The driver organization in virtualization case is illustrated below:
+> @@ -389,6 +399,91 @@ The device nodes used for ioctl() or mmap() can be referenced through::
+>   	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
+>   	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
+>   
+> +Intel Open FPGA stack
+> +=====================
+> +Intel Open FPGA stack aka IOFS, Intel's version of a common core set of
+> +RTL to allow customers to easily interface to logic and IP on the FPGA.
+> +IOFS leverage the DFL for the implementation of the FPGA RTL design.
+> +
+> +IOFS designs allow for the arrangement of software interfaces across multiple
+> +PCIe endpoints. Some of these interfaces may be PFs defined in the static region
+> +that connect to interfaces in an IP that is loaded via Partial Reconfiguration (PR).
+> +And some of these interfaces may be VFs defined in the PR region that can be
+> +reconfigured by the end-user. Furthermore, these PFs/VFs may also be arranged
+> +using a DFL such that features may be discovered and accessed in user space
+> +(with the aid of a generic kernel driver like vfio-pci). The diagram below depicts
+> +an example design with two PFs and two VFs. In this example, PF1 implements its
+> +MMIO space such that it is compatible with the VirtIO framework. The other functions,
+> +VF0 and VF1, leverage VFIO to export the MMIO space to an application or a hypervisor.
+> +
+> +     +-----------------+  +--------------+  +-------------+  +------------+
+> +     | FPGA Managerment|  |   VirtIO     |  |  User App   |  | Virtual    |
+> +     |      App        |  |     App      |  |             |  | Machine    |
+> +     +--------+--------+  +------+-------+  +------+------+  +-----+------+
+> +              |                  |                 |               |
+> +              |                  |                 |               |
+> +     +--------+--------+  +------+-------+  +------+------+        |
+> +     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
+> +     +--------+--------+  +------+-------+  +------+------+        |
+> +              |                  |                 |               |
+> +              |                  |                 |               |
+> +     +--------+--------+  +------+-------+  +------+------+   +----+------+
+> +     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1  |
+> +     +-----------------+  +--------------+  +-------------+   +-----------+
+> +
+> +On IOFS, it introducing some enhancements compared with original DFL design.
+> +1. It introducing Port Gasket in PF0 which is responsible for FPGA management,
+> +like FME and Port management. The Port Gasket contains all the PR specific modules
+> +and logic, e.g., PR slot reset/freeze control, user clock, remote STP etc.
+> +Architecturally, a Port Gasket can have multiple PR slots where user workload can
+> +be programmed into.
+> +2. To expend the scalable of FPGA, it can support multiple FPs in static region
+> +which contain some static functions like VirtIO, diagnostic test, and access over
+> +VFIO or assigned to VMs easily. Those PFs will not have a Port Unit which without
+> +PR region (AFU) connected to those PFs, and the end-user cannot partial reconfigurate
+> +those PFs.
+> +3. In our previous DFL design, it can only create one VF based in an AFU. To raise
+> +the efficiency usage of AFU, it can create more than one VFs in an AFU via PCIe
+> +SRIOV, so those VFs share the PR region and resource.
+> +
+> +There is one reference architecture design for IOFS as illustrated below:
+> +
+> +                              +----------------------+
+> +                              |   PF/VF mux/demux    |
+> +                              +--+--+-----+------+-+-+
+> +                                 |  |     |      | |
+> +        +------------------------+  |     |      | |
+> +  PF0   |                 +---------+   +-+      | |
+> +    +---+---+             |         +---+----+   | |
+> +    |  DFH  |             |         |   DFH  |   | |
+> +    +-------+       +-----+----+    +--------+   | |
+> +    |  FME  |       |  VirtIO  |    |  Test  |   | |
+> +    +-------+       +----------+    +--------+   | |
+> +    | Port  |            PF1            PF2      | |
+> +    +---+---+                                    | |
+> +        |                             +----------+ |
+> +        |                             |           ++
+> +        |                             |           |
+> +        |                             | PF0_VF0   | PF0_VF1
+> +        |           +-----------------+-----------+------------+
+> +        |           |           +-----+-----------+--------+   |
+> +        |           |           |     |           |        |   |
+> +        |           | +------+  |  +--+ -+     +--+---+    |   |
+> +        |           | | CSR  |  |  | DFH |     |  DFH |    |   |
+> +        +-----------+ +------+  |  +-----+     +------+    |   |
+> +                    |           |  | DEV |     |  DEV |    |   |
+> +                    |           |  +-----+     +------+    |   |
+> +                    |           |            PR Slot       |   |
+> +                    |           +--------------------------+   |
+> +                    | Port Gasket                              |
+> +                    +------------------------------------------+
+> +
+> +Here are the major changes about DFL structures on IOFS implementation design:
+> +1. The Port Gasket connects to FIU Port in DFL, but the Next_AFU pointer in
+> +FIU feature header can point to NULL so that it is no AFU connects to a FIU
+> +Port.
+> +2. The VF which include in PR region can start with AFU feature header without
+> +a FIU Port feature header.
+>   
+>   Performance Counters
+>   ====================
 
