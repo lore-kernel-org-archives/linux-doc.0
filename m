@@ -2,141 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D27C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 08:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066FDC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 08:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233212AbiBOIkO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 03:40:14 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36514 "EHLO
+        id S234301AbiBOIte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 03:49:34 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233178AbiBOIkM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 03:40:12 -0500
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80883106101;
-        Tue, 15 Feb 2022 00:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1644914402; x=1676450402;
-  h=from:to:cc:subject:date:message-id:references:
-   content-transfer-encoding:mime-version;
-  bh=Xru2nx7zYmCRZ4aeE1WPjpU3oSbG1NZCRqUc87+lxBQ=;
-  b=cYihmAZfaPfS6RlT+ihT4ThM9hQrvz9kGRxgmldVi0a7rV0k4aZfIyZu
-   YhezMO/oBfmNv9GoWWz3MKDBndDGNLaKPBfjiavrHq9Amw7Lb9vBVvgvc
-   Ew9nqdHh+Mjx8lb04PlWvsfoavUb9fk9r2XWtw/caOvIVUoQpENWtZBe4
-   zy2QLfa07S4xtNOxZJgojozh9ydBaihkIWzKwFmMAO9ic+p+EdpikEOso
-   zyDfnH8bmaPXjXfRDtlGqv2cYyquyCGPAX/TQxp3/6uInjr73blGC6APJ
-   kieGf+7Oms/nDY1E//z36wipaqigJdze5nLnAjiN184crxRsJjolL14UL
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,370,1635177600"; 
-   d="scan'208";a="191921056"
-Received: from mail-bn8nam12lp2170.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.170])
-  by ob1.hgst.iphmx.com with ESMTP; 15 Feb 2022 16:40:00 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XHsav6ikADxtnLx5NP470hXgNLVGNQJQn5Hj0Px1XfF8SCoOjzUe3PDxZ1upPPT/tAmsKtXKIpa2CufLlnmkE4BY5vTC8R4KviYYTI50biF1wccgiTrpiyXxSHmV5Ef4qypmiHgvF6oKqgL/pYGGES1BN+aXifC5lIVfxKS0E6Zru7kjzkAP+qymzKqgjp52YIO6yPDx3SgBlFw++D9GllVkK9v7Nut6uDdEZUph2JfzZNXw6FHx/ncR/5tFYVdIQWWwAQEdi4Szd3e3lad4PrwPKDgoIN8ggXRmhx8ARLnvD+wzT34VuPFj1PrJkiksPeDFI7GZ/DEYAWRmstvVlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=57qDBTp78tiHtxz2ioLDK1aLHWY3fYBm8ViBo3uq7e8=;
- b=SjjskwO1lLd2Gg2efiTN08nUVITfuYR1+tBIYiDAAqCeSEvZD8uRlTPWR09L45j9AdldZMovSz5dJU9iJABpMVUaMWireP+kGrK/tzhRyTrM6Xh7QxKqHhggBPXatpixBKMri9Lcg4RGVXgLf/HHS87UD+i+x2rMNm8jdl09nXUqrUsCLtLCEfY/jRld25X6aL9Mdt579cPUqPrEsDR12fFHxbAQbEf3cmCsE98ezTmWa+kImdjl3pNK8MIeYgMSt0wE+23Yvev94b54lvDNvG/F5RcMG7489tsma4Xk8Ebwi2ajzi0nmec94rMVRy3qJVmLZ5NS593JlKLZ+xyzMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=57qDBTp78tiHtxz2ioLDK1aLHWY3fYBm8ViBo3uq7e8=;
- b=AeA/DFD1RXB/ppNWORVQl3eYIbbqZxCJZJ42A+NHboA0B3PIGNwO2rZ+Wq8e1m2BqRyp6Y2NdChixIOsZbZ1iuTg9s58WMlsv3X7bL6zu3Fwt0E2BhacqNK7SpKAaCFsWllNgrxz8HdCJdGboR7OASKGIzP42PdzWRVSmKroY58=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
- by DM8PR04MB8151.namprd04.prod.outlook.com (2603:10b6:8:2::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4975.15; Tue, 15 Feb 2022 08:39:59 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::8d9e:d733:bca6:bc0f]) by PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::8d9e:d733:bca6:bc0f%5]) with mapi id 15.20.4975.019; Tue, 15 Feb 2022
- 08:39:59 +0000
-From:   Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To:     Christoph Hellwig <hch@lst.de>, "axboe@kernel.dk" <axboe@kernel.dk>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] block: remove biodoc.rst
-Thread-Topic: [PATCH] block: remove biodoc.rst
-Thread-Index: AQHYIkOgIWhf5ZFmCUex/NCUdQwRYA==
-Date:   Tue, 15 Feb 2022 08:39:59 +0000
-Message-ID: <PH0PR04MB7416A420F3C0162994BAFA789B349@PH0PR04MB7416.namprd04.prod.outlook.com>
-References: <20220215081047.3693582-1-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eb651076-3742-4ee2-b143-08d9f05ec087
-x-ms-traffictypediagnostic: DM8PR04MB8151:EE_
-x-microsoft-antispam-prvs: <DM8PR04MB8151DBE3C25961BAAA0A57739B349@DM8PR04MB8151.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iS6BST+P+62PRbY50LhbCUwajk/u0cKxWulG4pzzUF0YUUqmUFPgGs0ForxfXlaGMw+d0JEE3l+Zkrqu3j0GKh0r/NckDMzYFn5UZ7CChVsRR9c7xeMO6sUflgu3ciHMgxSFPxhgBOwoDlTM95BjDfSkHMBV2AogahvxlZ4c3iFGuNxbq3PdKiV39jXnajm0Wxm7EaXd7oqsZX6p9df+J5FR1AiMFUlSguq7LuK/VTiXZFNPfWpiRIlt1Sw2r/e4QZ1qhDhjgNaeFkCqcpHL9AQbdei2HdH+cIbc74rkiK0iZbzVXX3x7uTWH+vW0KBCaXSYkVPxVviP5NI9VQTrWf1MrDc+7wawqzg+yhD4dKliBPLaxIjSid5AuqVqKrGjwhKj+8CHK3SNDFBe7uvTkxf2bYyC2LjcS+4nAlU8SJkpjjd+EyKYW3y328u1mef6W6AQjzfKAsE5PQxT9gGoT6mYokoxG4OH84o29dN/vxGDd9rV4h6pNAONruCiwTTqtzZpt707dHPQZHugxTaix7+7nunOgMly/fSpDt3gSM4mVnsDpXxYUsCuwPhGIZKwoVptxp/X6Jf74c3kP8mM89JVryhA24MbIlyPsg7QoQrZ7S/XjbdvvOj6oEmiv8Gju/aCzCqkUnaapOPH2blwc19F9mzsg+dQ/NWzg717mdWTXBMq3zMpUoPRHXoin8crOC+zYrukliVVjOtekRW2Fw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(110136005)(55016003)(54906003)(316002)(76116006)(38100700002)(4326008)(8936002)(66556008)(66476007)(66946007)(8676002)(508600001)(91956017)(82960400001)(38070700005)(66446008)(122000001)(64756008)(52536014)(86362001)(558084003)(2906002)(53546011)(6506007)(5660300002)(7696005)(33656002)(71200400001)(9686003)(186003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VeIA16ACIvbG9GYrfTGbp9punV8YTLwODkLn0dpnfP8rkrskWVJz5RjrYzFb?=
- =?us-ascii?Q?Nkjq5IPeuhQaIJLl+VS+eyvkcJPV3QmbojrWP+13GO/V5+VWSyGyY5Pb8+J/?=
- =?us-ascii?Q?UOEoSiKnVBGKDLWy2htcghvc7tkLo1X17nAI0MoOn4qVkbstr+vecpVgncc3?=
- =?us-ascii?Q?roeRgEadkUW9+DgoEMkTuMQbMQ5wWygecZLA3kLJoTyVN+XImQtMT2zW+JPm?=
- =?us-ascii?Q?nLT296pJG0KNu4ON5JupD4krRqoD4x2ffhiY/MOfLw5hYN5HOvu36zBHLylz?=
- =?us-ascii?Q?p4JJXo02UvLOT8w7PnHzvNb6K64nukaIVx8s/l1mFptnEyPBxNEvCu8z1kCH?=
- =?us-ascii?Q?lYBXtVWdq3LJheSv3e7E1Xut7WBoIvWAobOCjM+4HkGQrnGB5MRm5xsObluG?=
- =?us-ascii?Q?Z0M5RAIstwA2iLkQuYTvCy+1DNiZxYyVnNMHB9NoUUUkXn8TF5DJjMtZ0j4l?=
- =?us-ascii?Q?nwT2602XQDUJ/RSpZ37TphjelLF2OQf4+bNRhTBwhKrlUTy6CmdQi+TOt1cf?=
- =?us-ascii?Q?Brr9GfTctRIH7+oGwMolNSJya+4yuQ4zQlc01rMSEey8ngSexUBQCAwyiH/N?=
- =?us-ascii?Q?jWRm5N1WUu36KT+T6BaytyLzBhb2Td9OCfulf4g4LBrkFMbJVT5v+pTAQ1E6?=
- =?us-ascii?Q?iMttuxqf2OslpdbJMGkIzCLeysRwMHLDUZBQ/6ppIKlK4QZcIIZ5kiJDw/V2?=
- =?us-ascii?Q?6Snbu3WPvfzxDGhS447yhCuw51nDBJeK1pGN+iETic7bYTaVGwhMI3f5iVsr?=
- =?us-ascii?Q?6F1bqWBou11escYA5ilPUlyPDlhNGZPa9COQQ/j0y+V1/MHOlL4NylLAsdt6?=
- =?us-ascii?Q?SPeLdOLJsjCrKAd+IXpHj9euEGesJMTPvTFo/2cHZaKDrcRKKf2FAMZ1tDCc?=
- =?us-ascii?Q?youwke+EW9n58eWBOPRJ51BcndoFH7W48Gp6atEI3HP64h4qRQNOd1ePi3/F?=
- =?us-ascii?Q?53IAVi+WjYnrpv8yyz4Czai8So4AdGWtty5CXtBeR9yPgFeDrCX6t0a79T6C?=
- =?us-ascii?Q?rwiBC1M4aakrkW+HWjBMAgM/Q/Hv7tGjsUob25IoL2lJwwIPbVg3YhZFYCAw?=
- =?us-ascii?Q?SOhR7iNMwcH7H6yx4UNJLugE4oACZBjWNwepEAQK8zV/R8UH1VMXJ5zA8vNu?=
- =?us-ascii?Q?JGgmFpHeuq5ez6FBkF2KgJVtBqs5/L8P8GO1Rs3kHpoMjIOB2cZ/G42S16nt?=
- =?us-ascii?Q?oS9i/H2+gurvJywEpV3IO0/mhN+GOYzwZ7yDfgXY/vcbQIQZNSQvcvoXq/bR?=
- =?us-ascii?Q?J1b+qUMp8h1z/Bz4a8iyMhHIASC/N4uGQhz1foXi0mftwSV16Jm3uwe+74Sw?=
- =?us-ascii?Q?+noG82OEI8vxOPkZhnn1Jw0t3go514aZ8yxUHMMEU097FKduw2I5Joys42cf?=
- =?us-ascii?Q?E7X+lhwDygC56KhJhJmbeDc0kOCGJU01wmAfjOjfw0UHXRvWeSmWDwORjN9j?=
- =?us-ascii?Q?Iu4+nGzp1+8NR4XocJS34Gelx870kMbzzGrjJQf5Ha7tQx6G0DgQp9PZk5nm?=
- =?us-ascii?Q?NyiTmmZfrVbYcgz2xwMvGr86h01b+CvCT63kmiSuti1ytLTcHKby8AJbbQG5?=
- =?us-ascii?Q?j2FslUABUO1Iqj1j9btzp9Yt3F8JPPi6YDp32PIjgfnMGpXi5zQe5Uy0amlc?=
- =?us-ascii?Q?BR71nkL8ySBJ5LPNQE37qxpKqosKfNoYFoRSwTfKbRCdO6qVRsAtk1Zs4yiX?=
- =?us-ascii?Q?c23dpc6pr1S49KH2x3kb00iCVqh/N8CYPg89bcO2bI/iRmZggh11g4DOQ70x?=
- =?us-ascii?Q?ODHX1xFzLtG43mXxdnAisD8hKI9gZq0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232387AbiBOItd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 03:49:33 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11271133FC;
+        Tue, 15 Feb 2022 00:49:23 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id D4C03CE1CB0;
+        Tue, 15 Feb 2022 08:49:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D579CC340EC;
+        Tue, 15 Feb 2022 08:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644914960;
+        bh=f/WBf8BXhnl6oLHWFWEGJp8LEjoHMw+hzylbSfqI8vw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uYiPL1F28I8AaSHXIr4Gnz7p5C7M0Qwpqs2segEiChEb802kz72kgncshaveItrxm
+         xdl0TqBo8F8e5Q9QvbxmI/hTu0PCqIWdGA7NQE2lSmHPjYnmhmMzCRQ41IeEiQsEfC
+         ZpATU9n5DAqd208xH8Xrx88lTnXzSS43iCgOF5DAi/PPjx2hXj5nfNlt85sdAZwI4B
+         FOCrUf2jIESnvuMedwlX3dM7PZUxTAF26EJTDrLK/gOhAMx3NF8L9fRyoKPKBKrqVq
+         F9Wn+3lKaTFXwQ2EBMnx1kzAUZFjeosVDVgnVsUAmod2F0GJXDikCbg5mrR/okaoyR
+         6xmSufqooLSLw==
+Date:   Tue, 15 Feb 2022 09:49:10 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "jannh@google.com" <jannh@google.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH 26/35] x86/process: Change copy_thread() argument 'arg'
+ to 'stack_size'
+Message-ID: <20220215084910.ldsbhyizssvxvpz6@wittgenstein>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-27-rick.p.edgecombe@intel.com>
+ <CAG48ez0_Ng8Fv4ytLK=Y5ANXiDfBPsFFwfxQTzgmDjU1RNFnDw@mail.gmail.com>
+ <959707bff94b3a54f05cfcfc09fa809f08152807.camel@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb651076-3742-4ee2-b143-08d9f05ec087
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2022 08:39:59.5627
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bw9+pJkQKKj+N2mTVRBeIcimaXFo3GQTubwWfndDS9mC1EwbDRPYo6VIAY1+cubZ1TGNlCyYPxmhseLbBc8FZuyCI232D0Q8dKXac6CPicA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8151
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <959707bff94b3a54f05cfcfc09fa809f08152807.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/02/2022 09:11, Christoph Hellwig wrote:=0A=
-> This document is completely out of data and extremely misleading.  In=0A=
-                              date ~^=0A=
-=0A=
-> general the existing kerneldoc comment serve as a much better            =
-           comments ~^=0A=
-=0A=
-=0A=
-Otherwise, so long and thanks for all the fish.=0A=
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>=0A=
+On Tue, Feb 15, 2022 at 01:22:04AM +0000, Edgecombe, Rick P wrote:
+> On Mon, 2022-02-14 at 13:33 +0100, Jann Horn wrote:
+> > On Sun, Jan 30, 2022 at 10:22 PM Rick Edgecombe
+> > <rick.p.edgecombe@intel.com> wrote:
+> > > 
+> > > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > 
+> > > The single call site of copy_thread() passes stack size in
+> > > 'arg'.  To make
+> > > this clear and in preparation of using this argument for shadow
+> > > stack
+> > > allocation, change 'arg' to 'stack_size'.  No functional changes.
+> > 
+> > Actually that name is misleading - the single caller copy_process()
+> > indeed does:
+> > 
+> > retval = copy_thread(clone_flags, args->stack, args->stack_size, p,
+> > args->tls);
+> > 
+> > but the member "stack_size" of "struct kernel_clone_args" can
+> > actually
+> > also be a pointer argument given to a kthread, see create_io_thread()
+> > and kernel_thread():
+> > 
+> > pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long
+> > flags)
+> > {
+> >   struct kernel_clone_args args = {
+> >     .flags    = ((lower_32_bits(flags) | CLONE_VM |
+> >             CLONE_UNTRACED) & ~CSIGNAL),
+> >     .exit_signal  = (lower_32_bits(flags) & CSIGNAL),
+> >     .stack    = (unsigned long)fn,
+> >     .stack_size  = (unsigned long)arg,
+> >   };
+> > 
+> >   return kernel_clone(&args);
+> > }
+> > 
+> > And then in copy_thread(), we have:
+> > 
+> > kthread_frame_init(frame, sp, arg)
+> > 
+> > 
+> > So I'm not sure whether this name change really makes sense, or
+> > whether it just adds to the confusion.
+> 
+> Thanks Jann. Yea I guess this makes it worse.
+> 
+> Reading a bit of the history, it seems there used to be unwieldy
+> argument lists which were replaced by a big "struct kernel_clone_args"
+> to be passed around. The re-use of the stack_size argument is from
+> before there was the struct. And then the struct just inherited the
+> confusion when it was introduced.
+> 
+> So if a separate *data member was added to kernel_clone_args for
+> kernel_thread() and create_io_thread() to use, they wouldn't need to
+> re-use stack_size. And copy_thread() could just take a struct
+> kernel_clone_args pointer. It might make it more clear.
+
+I'm honestly not sure it makes things that much better but I don't feel
+strongly about it either.
+
+> 
+> But copy_thread() has a ton of arch specific implementations. So they
+> would all need to be updated to do this.
+
+When struct kernel_clone_args was introduced I also removed the
+copy_thread_tls() and copy_thread() split. So now we're only left with
+copy_thread(). That already allowed us to get rid of some arch-specific
+code. I didn't go further in trying to unify more arch-specific code. It
+might be worth it but I didn't come to a clear conclusion.
+
+> 
+> Just playing around with it, I did this which only makes the change on
+> x86. Duplicating it for 21 copy_thread()s seems perfectly doable, but
+> I'm not sure how much people care vs renaming arg to
+> stacksize_or_data...
+
+
+> 
+> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> index 11bf09b60f9d..cfbba5b14609 100644
+> --- a/arch/x86/kernel/process.c
+> +++ b/arch/x86/kernel/process.c
+> @@ -132,9 +132,8 @@ static int set_new_tls(struct task_struct *p,
+> unsigned long tls)
+>                 return do_set_thread_area_64(p, ARCH_SET_FS, tls);
+>  }
+>  
+> -int copy_thread(unsigned long clone_flags, unsigned long sp,
+> -               unsigned long stack_size, struct task_struct *p,
+> -               unsigned long tls)
+> +int copy_thread(unsigned long clone_flags, struct kernel_clone_args
+> *args,
+> +               struct task_struct *p)
+>  {
+>         struct inactive_task_frame *frame;
+>         struct fork_frame *fork_frame;
+> @@ -178,7 +177,7 @@ int copy_thread(unsigned long clone_flags, unsigned
+> long sp,
+>         if (unlikely(p->flags & PF_KTHREAD)) {
+>                 p->thread.pkru = pkru_get_init_value();
+>                 memset(childregs, 0, sizeof(struct pt_regs));
+> -               kthread_frame_init(frame, sp, stack_size);
+> +               kthread_frame_init(frame, args->stack, (unsigned
+> long)args->data);
+>                 return 0;
+>         }
+>  
+> @@ -191,8 +190,8 @@ int copy_thread(unsigned long clone_flags, unsigned
+> long sp,
+>         frame->bx = 0;
+>         *childregs = *current_pt_regs();
+>         childregs->ax = 0;
+> -       if (sp)
+> -               childregs->sp = sp;
+> +       if (args->stack)
+> +               childregs->sp = args->stack;
+>  
+>  #ifdef CONFIG_X86_32
+>         task_user_gs(p) = get_user_gs(current_pt_regs());
+> @@ -211,17 +210,17 @@ int copy_thread(unsigned long clone_flags,
+> unsigned long sp,
+>                  */
+>                 childregs->sp = 0;
+>                 childregs->ip = 0;
+> -               kthread_frame_init(frame, sp, stack_size);
+> +               kthread_frame_init(frame, args->stack, (unsigned
+> long)args->data);
+>                 return 0;
+>         }
+>  
+>         /* Set a new TLS for the child thread? */
+>         if (clone_flags & CLONE_SETTLS)
+> -               ret = set_new_tls(p, tls);
+> +               ret = set_new_tls(p, args->tls);
+>  
+>         /* Allocate a new shadow stack for pthread */
+>         if (!ret)
+> -               ret = shstk_alloc_thread_stack(p, clone_flags,
+> stack_size);
+> +               ret = shstk_alloc_thread_stack(p, clone_flags, args-
+> >stack_size);
+>  
+>         if (!ret && unlikely(test_tsk_thread_flag(current,
+> TIF_IO_BITMAP)))
+>                 io_bitmap_share(p);
+> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> index b9198a1b3a84..f138b23aee50 100644
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -34,6 +34,7 @@ struct kernel_clone_args {
+>         int io_thread;
+>         struct cgroup *cgrp;
+>         struct css_set *cset;
+> +       void *data;
+>  };
+>  
+>  /*
+> @@ -67,8 +68,8 @@ extern void fork_init(void);
+>  
+>  extern void release_task(struct task_struct * p);
+>  
+> -extern int copy_thread(unsigned long, unsigned long, unsigned long,
+> -                      struct task_struct *, unsigned long);
+> +extern int copy_thread(unsigned long clone_flags, struct
+> kernel_clone_args *args,
+> +                      struct task_struct *p);
+>  
+>  extern void flush_thread(void);
+>  
+> @@ -85,10 +86,10 @@ extern void exit_files(struct task_struct *);
+>  extern void exit_itimers(struct signal_struct *);
+>  
+>  extern pid_t kernel_clone(struct kernel_clone_args *kargs);
+> -struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int
+> node);
+> +struct task_struct *create_io_thread(int (*fn)(void *), void *data,
+> int node);
+>  struct task_struct *fork_idle(int);
+>  struct mm_struct *copy_init_mm(void);
+> -extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long
+> flags);
+> +extern pid_t kernel_thread(int (*fn)(void *), void *data, unsigned
+> long flags);
+>  extern long kernel_wait4(pid_t, int __user *, int, struct rusage *);
+>  int kernel_wait(pid_t pid, int *stat);
+>  
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index d75a528f7b21..8af202e5651e 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -2170,7 +2170,7 @@ static __latent_entropy struct task_struct
+> *copy_process(
+>         retval = copy_io(clone_flags, p);
+>         if (retval)
+>                 goto bad_fork_cleanup_namespaces;
+> -       retval = copy_thread(clone_flags, args->stack, args-
+> >stack_size, p, args->tls);
+> +       retval = copy_thread(clone_flags, args, p);
+>         if (retval)
+>                 goto bad_fork_cleanup_io;
+>  
+> @@ -2487,7 +2487,7 @@ struct mm_struct *copy_init_mm(void)
+>   * The returned task is inactive, and the caller must fire it up
+> through
+>   * wake_up_new_task(p). All signals are blocked in the created task.
+>   */
+> -struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int
+> node)
+> +struct task_struct *create_io_thread(int (*fn)(void *), void *data,
+> int node)
+>  {
+>         unsigned long flags =
+> CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|
+>                                 CLONE_IO;
+> @@ -2496,7 +2496,7 @@ struct task_struct *create_io_thread(int
+> (*fn)(void *), void *arg, int node)
+>                                     CLONE_UNTRACED) & ~CSIGNAL),
+>                 .exit_signal    = (lower_32_bits(flags) & CSIGNAL),
+>                 .stack          = (unsigned long)fn,
+> -               .stack_size     = (unsigned long)arg,
+> +               .data           = data,
+>                 .io_thread      = 1,
+>         };
+>  
+> @@ -2594,14 +2594,14 @@ pid_t kernel_clone(struct kernel_clone_args
+> *args)
+>  /*
+>   * Create a kernel thread.
+>   */
+> -pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+> +pid_t kernel_thread(int (*fn)(void *), void *data, unsigned long
+> flags)
+>  {
+>         struct kernel_clone_args args = {
+>                 .flags          = ((lower_32_bits(flags) | CLONE_VM |
+>                                     CLONE_UNTRACED) & ~CSIGNAL),
+>                 .exit_signal    = (lower_32_bits(flags) & CSIGNAL),
+>                 .stack          = (unsigned long)fn,
+> -               .stack_size     = (unsigned long)arg,
+> +               .data           = data,
+>         };
+>  
+>         return kernel_clone(&args);
+> 
+> 
