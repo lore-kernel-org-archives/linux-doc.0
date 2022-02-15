@@ -2,82 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C638C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:52:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2F7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239149AbiBOOwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 09:52:47 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33052 "EHLO
+        id S239455AbiBOOxy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 09:53:54 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239117AbiBOOwA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:52:00 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2415C14
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:51:26 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id n19-20020a17090ade9300b001b9892a7bf9so3055458pjv.5
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:51:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:in-reply-to:references:subject:message-id:date
-         :mime-version:content-transfer-encoding;
-        bh=PiaexTOVj1kI0uL6ZsvyzNlPj9ZuaDgmSrk+RgXrs9g=;
-        b=cW7uP6TcoJVFoj2ICvdlMKpKbTkU2PYO16L5UOx+wDT5i9Gvg6kR4Jy80AM/I4bg7T
-         RZsqA7Bzeqfm4N+ApkpubDQ1BOhEjyLYmhwgfiqMe5AaEsHPEvYTiciT5i2Bvjys/JnQ
-         TmWXkO5VtCyYdccUv7G5UK17rsII924N8wss/Yn4Y66ZPnO33krKbkw8Ycgt9dDQI+/N
-         wu2/xkUEv2mO9cOIdO2L4JhILmFP3N2rwQg5K7f4jIkz7zzufXr6IY0JWokO9m57+wMo
-         RpR9sRWDl18UJPmWbVzfykzqwnhWL9uLoShYmctMwB7o4C0wkL9Nk9EssLjsd+ySsSRa
-         3APg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
-         :message-id:date:mime-version:content-transfer-encoding;
-        bh=PiaexTOVj1kI0uL6ZsvyzNlPj9ZuaDgmSrk+RgXrs9g=;
-        b=MS0FAi7yODJWyEdWiMPxSsqzLGNHMJtcHhzfHEWka/BAFKUQqwhYnpwN71zlkd8RhQ
-         w1c2h57K1/xhTXlpETEGQV8OisAQgrGFLccHubmXolpDsNseIE+D/pgGFq/CVsz2+5MZ
-         bUdvV0oYTziy+Tyures9QcG+wHWVrMfbXEAY7+l5Ah91OBU2kbFEs0JEQu149t5gLGgn
-         +8NfTbfgfjo1v+HlOvHqzzrM8D60SaJtBe+ZqIgh8HlU3j1Ku1wGyfE2jAu84HOZDNDb
-         mbnbBWY47gtkxzf8qVF4/E+oA0U9c5ZIRZiDqmX6CBA+plddr8c1DxU21lnznqLRQCVr
-         eBzw==
-X-Gm-Message-State: AOAM532hrRt+oehdmfp840RxXtxVbdPyuwLS9i1KdC/MPUOFMXhEzI0K
-        J4SrlZD5NtT+cuo/bDrDlR1FnA==
-X-Google-Smtp-Source: ABdhPJwxVKNxkFav9IaTkwC4tkMi0Vh8pyZki8Up1GuV7RXnawTJQZZl36EAlmv1uYha/WRhoOqFig==
-X-Received: by 2002:a17:90b:4b49:: with SMTP id mi9mr4799019pjb.110.1644936686147;
-        Tue, 15 Feb 2022 06:51:26 -0800 (PST)
-Received: from [192.168.1.116] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id g6sm20205666pfv.158.2022.02.15.06.51.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 06:51:25 -0800 (PST)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     linux-block@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-In-Reply-To: <20220215081047.3693582-1-hch@lst.de>
-References: <20220215081047.3693582-1-hch@lst.de>
-Subject: Re: [PATCH] block: remove biodoc.rst
-Message-Id: <164493668337.128173.14057134922082895389.b4-ty@kernel.dk>
-Date:   Tue, 15 Feb 2022 07:51:23 -0700
+        with ESMTP id S239492AbiBOOxa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:53:30 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911F4102423;
+        Tue, 15 Feb 2022 06:52:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 72C1DB819FA;
+        Tue, 15 Feb 2022 14:52:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17ADDC340EB;
+        Tue, 15 Feb 2022 14:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644936763;
+        bh=oHvI812wnFSZHuTw2mFyGnMQwXFVGo3Bnh6xMpiP8xM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jdjq0iQ6XSjhEYl/rI1cMvQa82uF75FAMOBXuy7bNuCfqoEzx0NcmpyeJezq3L7ew
+         URSopB2PK2NyBTFqz0r9jyPK2VTDNfvtCppZSP+t/GCERdYQYdJeqcuUfxQTnisZGk
+         cml/ziTELZQLptSUs5TIbSmtef8xgYwEfUX5FM4xwuEroLXwZLYf6WX9pi+1ywDUuS
+         9fvEnwP8w+a9j8ocwNXhu3KI8iM3Pwv6bip2xkgj5FfrcDyGIyZDCMd5SlM+GYLRRq
+         iX5V4PuFkYkSFlEBva298QHJEU3lHX8AMH6Y1EMJnWftKenGvzPucWDqwumNzOQtgf
+         JgvPE//08keuw==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id C3089400FE; Tue, 15 Feb 2022 11:52:40 -0300 (-03)
+Date:   Tue, 15 Feb 2022 11:52:40 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     James Clark <james.clark@arm.com>, mathieu.poirier@linaro.org,
+        coresight@lists.linaro.org, leo.yan@linaro.com,
+        mike.leach@linaro.org, Leo Yan <leo.yan@linaro.org>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] perf cs-etm: Update deduction of TRCCONFIGR
+ register for branch broadcast
+Message-ID: <Ygu+OHnxYAyqLFwB@kernel.org>
+References: <20220113091056.1297982-1-james.clark@arm.com>
+ <20220113091056.1297982-4-james.clark@arm.com>
+ <25b85560-dd95-2569-d1bc-872902d6343f@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25b85560-dd95-2569-d1bc-872902d6343f@arm.com>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Feb 2022 09:10:47 +0100, Christoph Hellwig wrote:
-> This document is completely out of data and extremely misleading.  In
-> general the existing kerneldoc comment serve as a much better
-> documentation of the still existing functionality, while the history
-> blurbs are pretty much irrelevant today.
+Em Fri, Jan 28, 2022 at 11:25:24AM +0000, Suzuki K Poulose escreveu:
+> On 13/01/2022 09:10, James Clark wrote:
+> > Now that a config flag for branch broadcast has been added, take it into
+> > account when trying to deduce what the driver would have programmed the
+> > TRCCONFIGR register to.
+
+Thanks, applied this one, the tools/ part.
+
+- Arnaldo
+
+ 
+> > Reviewed-by: Leo Yan <leo.yan@linaro.org>
+> > Signed-off-by: James Clark <james.clark@arm.com>
+> > ---
+> >   tools/include/linux/coresight-pmu.h | 2 ++
+> >   tools/perf/arch/arm/util/cs-etm.c   | 3 +++
+> >   2 files changed, 5 insertions(+)
+> > 
+> > diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
+> > index 4ac5c081af93..6c2fd6cc5a98 100644
+> > --- a/tools/include/linux/coresight-pmu.h
+> > +++ b/tools/include/linux/coresight-pmu.h
+> > @@ -18,6 +18,7 @@
+> >    * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
+> >    * directly use below macros as config bits.
+> >    */
+> > +#define ETM_OPT_BRANCH_BROADCAST 8
+> >   #define ETM_OPT_CYCACC		12
+> >   #define ETM_OPT_CTXTID		14
+> >   #define ETM_OPT_CTXTID2		15
+> > @@ -25,6 +26,7 @@
+> >   #define ETM_OPT_RETSTK		29
+> >   /* ETMv4 CONFIGR programming bits for the ETM OPTs */
+> > +#define ETM4_CFG_BIT_BB         3
+> >   #define ETM4_CFG_BIT_CYCACC	4
+> >   #define ETM4_CFG_BIT_CTXTID	6
+> >   #define ETM4_CFG_BIT_VMID	7
+> > diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+> > index 293a23bf8be3..c7ef4e9b4a3a 100644
+> > --- a/tools/perf/arch/arm/util/cs-etm.c
+> > +++ b/tools/perf/arch/arm/util/cs-etm.c
+> > @@ -527,6 +527,9 @@ static u64 cs_etmv4_get_config(struct auxtrace_record *itr)
+> >   	if (config_opts & BIT(ETM_OPT_CTXTID2))
+> >   		config |= BIT(ETM4_CFG_BIT_VMID) |
+> >   			  BIT(ETM4_CFG_BIT_VMID_OPT);
+> > +	if (config_opts & BIT(ETM_OPT_BRANCH_BROADCAST))
+> > +		config |= BIT(ETM4_CFG_BIT_BB);
+> > +
+> >   	return config;
 > 
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 > 
+> >   }
 
-Applied, thanks!
-
-[1/1] block: remove biodoc.rst
-      (no commit info)
-
-Best regards,
 -- 
-Jens Axboe
 
-
+- Arnaldo
