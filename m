@@ -2,358 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB5EC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 02:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB08C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 07:01:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233238AbiBOCEh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 21:04:37 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48794 "EHLO
+        id S231894AbiBOHBz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 02:01:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231868AbiBOCEc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 21:04:32 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178CD246;
-        Mon, 14 Feb 2022 18:04:23 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id b5so17211353qtq.11;
-        Mon, 14 Feb 2022 18:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RY3hPu0eYznmJ1wv60D8yqIoxL5AcD8VFfxgkL4Y/Fo=;
-        b=J1N+91krUrrbs2vmM/dl9OLcuxIrdwW15uOPD4fXjHLn7gT+z7qMpxkI7gP9pz1RjX
-         ONF6sNw7QyBT/gc0yA57fImANC+JXUT5rqdIog7gTMKX/tp5eOQTGWhDaKxWEtQg/hjg
-         rWSQyN+TlSL719hxVuSZCRXKlQOl0FBhJs78VFDbF/IG4enTQDSr38qu/Qoy0cjRzr4w
-         DZhVxvZKFYEjP2sJ+tM53JWYJ3HnR17USJt25+4G6+GJ/sLF+oZHG1gHoRoh9WBmzXwj
-         wGIIUlvvZ9y0azqY0muaCAsrA3fq926RlDIbp6oWj9/xb8e2JXSsC1piCqYTa6VwXrNo
-         GXDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RY3hPu0eYznmJ1wv60D8yqIoxL5AcD8VFfxgkL4Y/Fo=;
-        b=u5UXnYDwIwEcsv56Lt8QtuwaHnp2wiVncFH+bjAccIxKOBSavuaHwiEBM5Y6JESz1G
-         xHoj/bIy5vPMIVYxdoK4b7gCrL0ENrlX7rhDYKwSZcIzVjz2pJNCqiP7Ldpes+sm83JR
-         0kvCgAmXTGzeaEW43D9fAgdqniy5XWGwUDHrwu5Zx7B3EFdq/Aedu8kbSGjhjou7zThj
-         R4wp6/2XORmsSMKJFYE3L6R3RYA/zDuy8B0G+lQlSV1jl8iwHZBOxuQUhWj7PG0G9+GB
-         VJMDRHGAdXd8MOM1Dbk5bAbBju8tJES7hoZl5aflu1fgPsTAXYvhvq4P9atguxxrjF2u
-         4vtQ==
-X-Gm-Message-State: AOAM532KOo4g8u6snKiuRDBpNZjgJGHDF5JYDfWkjE/uU4Au/+fgCK1M
-        w7PPRdIHCTtx0jGoqaP9Uf4mx95+z40kjs00vxVl8P9M
-X-Google-Smtp-Source: ABdhPJyHb+9vNUNBrn9tP3r5axEzGzX4CFU+9PXTEvYEwXnN432HeGIRlNUBhhg6WeJoh29FZkYnpaUsEhXU1oOoWNM=
-X-Received: by 2002:ac8:5708:: with SMTP id 8mr1288562qtw.668.1644890662050;
- Mon, 14 Feb 2022 18:04:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
- <20220203143226.4023622-11-benjamin.tissoires@redhat.com> <CAF8JNhKbEWj1b4o2Uv7snXa_JGt0bk5wyUGP4_77aHTLhPRT3w@mail.gmail.com>
- <CAF8JNhLeOn==FhaujjYY7o+f3J7xQcitdUUUJOOeZL1QEGKhRA@mail.gmail.com> <CAO-hwJ+NVb=Z0=1jeLuCFjGPAXnjn6hgHDjWx0+ETcE3uQhhzQ@mail.gmail.com>
-In-Reply-To: <CAO-hwJ+NVb=Z0=1jeLuCFjGPAXnjn6hgHDjWx0+ETcE3uQhhzQ@mail.gmail.com>
-From:   Ping Cheng <pinglinux@gmail.com>
-Date:   Mon, 14 Feb 2022 18:04:10 -0800
-Message-ID: <CAF8JNhLUWJXbWG2rsYZvemm+3LbHA0QwAND05h9oM74LKDAfLA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] HID: input: remove the need for HID_QUIRK_INVERT
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        with ESMTP id S230351AbiBOHBy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 02:01:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B89767F;
+        Mon, 14 Feb 2022 23:01:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 57A88B8175C;
+        Tue, 15 Feb 2022 07:01:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0A5C340EC;
+        Tue, 15 Feb 2022 07:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1644908501;
+        bh=wpzzdawXPScQHsJKBVOQr1uSYppSynJn4bs/yhbdSyA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sDmBWC3bBYfh7HeEsWgCqhfPOjCVWGl90AwNQquw/s37apawMvykr5dLCSbz5VT27
+         a5wp3rnQFH3/laPLOG74o03tMDNPPnSjnHPzjnFiNl3JfoADYuF4Ae3fNI0UhZkloP
+         Bj+1hg9P55uKX3tSh0BSWmUJrdwJHc5XuXmorEUI=
+Date:   Tue, 15 Feb 2022 08:01:33 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Ahelenia_Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+Message-ID: <YgtPzXUmSOVyplnm@kroah.com>
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com>
+ <Ygdfe3XSvN8iFuUc@kroah.com>
+ <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 2:23 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi Ping,
->
-> On Thu, Feb 10, 2022 at 6:44 AM Ping Cheng <pinglinux@gmail.com> wrote:
-> >
-> > Sorry for the noise. Hit the wrong buttons...
-> >
-> > On Wed, Feb 9, 2022 at 9:21 PM Ping Cheng <pinglinux@gmail.com> wrote:
+On Mon, Feb 14, 2022 at 02:25:47PM -0800, T.J. Mercier wrote:
+> On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+> > > --- a/include/uapi/linux/android/binder.h
+> > > +++ b/include/uapi/linux/android/binder.h
+> > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
 > > >
-> > > On Thu, Feb 3, 2022 at 6:33 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > HID_QUIRK_INVERT is kind of complex to deal with and was bogus.
-> > > >
-> > > > Furthermore, it didn't make sense to use a global per struct hid_device
-> > > > quirk for something dynamic as the current state.
-> > > >
-> > > > Store the current tool information in the report itself, and re-order
-> > > > the processing of the fields to enforce having all the tablet "state"
-> > > > fields before getting to In Range and other input fields.
-> > > >
-> > > > This way, we now have all the information whether a tool is present
-> > > > or not while processing In Range.
-> > > >
-> > > > This new behavior enforces that only one tool gets forwarded to userspace
-> > > > at the same time, and that if either eraser or invert is set, we enforce
-> > > > BTN_TOOL_RUBBER.
-> > > >
-> > > > Note that the release of the previous tool now happens in its own EV_SYN
-> > > > report so userspace doesn't get confused by having 2 tools.
-> > > >
-> > > > These changes are tested in the following hid-tools regression tests:
-> > > > https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
-> > > >
-> > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > >
-> > > > ---
-> > > >
-> > > > Changes in v2:
-> > > > - rework the entire tool switching, this makes the processing
-> > > >   slightly more complex but is better for existing userspace.
-> > > > ---
-> > > >  drivers/hid/hid-input.c | 98 +++++++++++++++++++++++++++++++++++++----
-> > > >  include/linux/hid.h     |  6 ++-
-> > > >  2 files changed, 95 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> > > > index 61d91117f4ae..9f8853640648 100644
-> > > > --- a/drivers/hid/hid-input.c
-> > > > +++ b/drivers/hid/hid-input.c
-> > > > @@ -63,8 +63,11 @@ static const struct {
-> > > >   * This still leaves us 65535 individual priority values.
-> > > >   */
-> > > >  static const __u32 hidinput_usages_priorities[] = {
-> > > > +       HID_DG_ERASER,          /* Eraser (eraser touching) must always come before tipswitch */
-> > > >         HID_DG_INVERT,          /* Invert must always come before In Range */
-> > > > -       HID_DG_INRANGE,
-> > > > +       HID_DG_TIPSWITCH,       /* Is the tip of the tool touching? */
-> > > > +       HID_DG_TIPPRESSURE,     /* Tip Pressure might emulate tip switch */
-> > > > +       HID_DG_INRANGE,         /* In Range needs to come after the other tool states */
-> > > >  };
-> > > >
-> > > >  #define map_abs(c)     hid_map_usage(hidinput, usage, &bit, &max, EV_ABS, (c))
-> > > > @@ -1365,9 +1368,38 @@ static void hidinput_handle_scroll(struct hid_usage *usage,
-> > > >         input_event(input, EV_REL, usage->code, hi_res);
-> > > >  }
-> > > >
-> > > > +static void hid_report_release_tool(struct hid_report *report, struct input_dev *input,
-> > > > +                                   unsigned int tool)
-> > > > +{
-> > > > +       /* if the given tool is not currently reported, ignore */
-> > > > +       if (!test_bit(tool, input->key))
-> > > > +               return;
-> > > > +
-> > > > +       /*
-> > > > +        * if the given tool was previously set, release it,
-> > > > +        * release any TOUCH and send an EV_SYN
-> > > > +        */
-> > > > +       input_event(input, EV_KEY, BTN_TOUCH, 0);
-> > > > +       input_event(input, EV_KEY, tool, 0);
+> > >  enum {
+> > >       BINDER_BUFFER_FLAG_HAS_PARENT = 0x01,
+> > > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED = 0x02,
+> > >  };
+> > >
+> > >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+> > > --
+> > > 2.35.1.265.g69c8d7142f-goog
+> > >
 > >
-> > Took a while for me to find the right device and setup the proper
-> > system for the testing. This block missing the serial number:
-> >
-> >         input_event(input, EV_MSC, MSC_SERIAL, 0);
-> >
-> > Without this line, the next tool will not get its serial number.
->
-> I am tempted to simply disregard this request. It has been known for
-> ages that the evdev values are cached, so if you do not have the value
-> you need that means that the value has been sent previously (or you
-> can request it upon start with an ioctl). So in this particular case,
-> I don't really see the logic in forcing the SERIAL into the TOOL type
-> when the tool is clearly unrelated to the serial.
->
-> My fear here is that by linking together too many axes, we may enter
-> in a state where we can not untangle them when needed.
+> > How does userspace know that binder supports this new flag?
+> 
+> Sorry, I don't completely follow even after Todd's comment. Doesn't
+> the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
+> this?
 
-I see your point. We indeed added those ioctl's in the X driver to
-avoid missing the initial states of some of the key events.
+There is no "header" when running a new kernel on an old userspace,
+right?  How about the other way around, old kernel, new userspace?
 
-> >
-> > > > +       input_event(input, EV_SYN, SYN_REPORT, 0);
-> > > > +
-> > > > +       report->tool = 0;
-> > > > +}
-> > > > +
-> > > > +static void hid_report_set_tool(struct hid_report *report, struct input_dev *input,
-> > > > +                               unsigned int new_tool)
-> > > > +{
-> > > > +       if (report->tool != new_tool)
-> > > > +               hid_report_release_tool(report, input, report->tool);
-> > > > +
-> > > > +       input_event(input, EV_KEY, new_tool, 1);
-> > > > +       report->tool = new_tool;
-> > > > +}
-> > > > +
-> > > >  void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
-> > > >  {
-> > > >         struct input_dev *input;
-> > > > +       struct hid_report *report = field->report;
-> > > >         unsigned *quirks = &hid->quirks;
-> > > >
-> > > >         if (!usage->type)
-> > > > @@ -1418,25 +1450,75 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
-> > > >         }
-> > > >
-> > > >         switch (usage->hid) {
-> > > > +       case HID_DG_ERASER:
-> > > > +               report->tool_active |= !!value;
-> > > > +
-> > > > +               /*
-> > > > +                * if eraser is set, we must enforce BTN_TOOL_RUBBER
-> > > > +                * to accommodate for devices not following the spec.
-> > > > +                */
-> > > > +               if (value)
-> > > > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > > > +               else if (report->tool != BTN_TOOL_RUBBER)
-> > > > +                       /* value is off, tool is not rubber, ignore */
-> > > > +                       return;
-> > > > +
-> > > > +               /* let hid-input set BTN_TOUCH */
-> > > > +               break;
-> > > > +
-> > > >         case HID_DG_INVERT:
-> > > > -               *quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
-> > > > +               report->tool_active |= !!value;
-> > > > +
-> > > > +               /*
-> > > > +                * If invert is set, we store BTN_TOOL_RUBBER.
-> > > > +                */
-> > > > +               if (value)
-> > > > +                       hid_report_set_tool(report, input, BTN_TOOL_RUBBER);
-> > > > +               else if (!report->tool_active)
-> > > > +                       /* tool_active not set means Invert and Eraser are not set */
-> > > > +                       hid_report_release_tool(report, input, BTN_TOOL_RUBBER);
-> > > > +
-> > > > +               /* no further processing */
-> > > >                 return;
-> > > >
-> > > >         case HID_DG_INRANGE:
-> > > > -               if (value) {
-> > > > -                       input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage->code, 1);
-> > > > -                       return;
-> > > > +               report->tool_active |= !!value;
-> > > > +
-> > > > +               if (report->tool_active) {
-> > > > +                       /*
-> > > > +                        * if tool is not set but is marked as active,
-> > > > +                        * assume ours
-> > > > +                        */
-> > > > +                       if (!report->tool)
-> > > > +                               hid_report_set_tool(report, input, usage->code);
-> > > > +               } else {
-> > > > +                       hid_report_release_tool(report, input, usage->code);
-> > > >                 }
-> > > > -               input_event(input, usage->type, usage->code, 0);
-> > > > -               input_event(input, usage->type, BTN_TOOL_RUBBER, 0);
-> > > > +
-> > > > +               /* reset tool_active for the next event */
-> > > > +               report->tool_active = false;
-> > > > +
-> > > > +               /* no further processing */
-> > > >                 return;
-> > > >
-> > > > +       case HID_DG_TIPSWITCH:
-> > > > +               report->tool_active |= !!value;
-> > > > +
-> > > > +               /* if tool is set to RUBBER we should ignore the current value */
-> > > > +               if (report->tool == BTN_TOOL_RUBBER)
-> > > > +                       return;
-> >
-> > This case should return before HID_DG_INVERT is checked since we may
-> > get TIPSWITCH bit before INVERT. In fact, the device that I tested
-> > sends the tipswatch bit before the invert bit. So, I alway get a PEN
-> > in and out before I get ERASER events, when I bring the pen in with
-> > the side-switch/invert bit pressed.
-> >
-> > However, we know not all devices support INVERT. We probably have to
-> > keep the invert quirk to decide if BTN_TOOL_PEN should be set here or
-> > wait until HID_DG_INVERT is reached.
->
-> I am under the impression that you completely missed the point of the
-> patch series. This series re-orders the processing of the events, and
-> if you look at the very first hunk in this patch, you'll see that the
-> new processing ensures we treat INVERT and ERASER before TIPSWITCH, no
-> matter the order of the device.
+> So wouldn't userspace need to be compiled against the wrong
+> kernel headers for there to be a problem? In that case the allocation
+> would still succeed, but there would be no charge transfer and
+> unfortunately no error code.
 
-Yeah, I read that part of the code, more than once. But, my evtest
-gave me an extra set of TOOL_PEN events before TOOL_ERASER. I was
-confused too. Then I thought maybe the code still relies on the actual
-order of the usages. Anyway, we've done enough discussion and testing,
-let's move on. The patchset is:
+No error code is not good.  People upgrade their kernels all the time,
+and do not do a "rebuild the world" when doing so.
 
-Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
-Tested-by: Ping Cheng <ping.cheng@wacom.com>
+> > And where is the userspace test for this new feature?
+> 
+> I tested this on a Pixel after modifying the gralloc implementation to
+> mark allocated buffers as not used by the sender. This required
+> setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
+> code can be found here:
+> https://android-review.googlesource.com/c/platform/system/libhwbinder/+/1910752/1/Parcel.cpp
+> https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611/
+> 
+> Then by inspecting gpu.memory.current files in sysfs I was able to see
+> the memory attributed to processes other than the graphics allocator
+> service. Before this change, several megabytes of memory were
+> attributed to the graphics allocator service but those buffers are
+> actually used by other processes like surfaceflinger, the camera, etc.
+> After the change, the gpu.memory.current amount for the graphics
+> allocator service was 0 and the charges showed up in the
+> gpu.memory.current files for those other processes like this:
+> 
+> PID: 764 Process Name: zygote64
+> system 8192
+> system-uncached 23191552
+> 
+> PID: 529 Process Name: /system/bin/surfaceflinger
+> system-uncached 109535232
+> system 92196864
+> 
+> PID: 530 Process Name:
+> /vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
+> system-uncached 0
+> system 0
+> sensor_direct_heap 0
+> 
+> PID: 806 Process Name:
+> /apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2.7-service-google
+> system 1196032
+> 
+> PID: 4608 Process Name: com.google.android.GoogleCamera
+> system 2408448
+> system-uncached 38887424
+> sensor_direct_heap 0
+> 
+> PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
+> system-uncached 91279360
+> system 20480
+> 
+> PID: 2758 Process Name: com.google.android.youtube
+> system-uncached 1662976
+> system 8192
+> 
+> PID: 2517 Process Name: com.google.android.apps.nexuslauncher
+> system-uncached 115662848
+> system 122880
+> 
+> PID: 2066 Process Name: com.android.systemui
+> system 86016
+> system-uncached 37957632
+> 
+> >  Isn't there a binder test framework somewhere?
+> 
+> Android has the Vendor Test Suite where automated tests could be added
+> for this. Is that what you're thinking of?
 
-Thank you for your effort, Benjamin!
-Ping
+tools/testing/selftests/ is a good start.  VTS is the worst-case as no
+one can really run that on their own, but it is better than nothing.
+Having no test at all for this is not ok.
 
-> So when we process TIPSWITCH here, we are sure that if BTN_TOOL_RUBBER
-> is set, either INVERT or ERASER is set to 1, whether or not they come
-> before or after in the report.
->
-> >
-> > If you are interested in the evtest output, please let me know. I'll
-> > share it with you offline so we don't abuse this list...
->
-> evtest is the output of the kernel, and it doesn't give me much more
-> than "it's broken". However, if you can give me the hid-recorder
-> outputs, I'll be able to reproduce locally and compare the output as I
-> fix the code. Of course the best would be to add test cases in the
-> hid-tools repo, but I'll need the hid-recorder anyway to understand
-> what is failing and to be able to write the tests.
->
-> Cheers,
-> Benjamin
->
-> >
-> > Cheers,
-> > Ping
-> >
-> > > > +               break;
-> > > > +
-> > > >         case HID_DG_TIPPRESSURE:
-> > > >                 if (*quirks & HID_QUIRK_NOTOUCH) {
-> > > >                         int a = field->logical_minimum;
-> > > >                         int b = field->logical_maximum;
-> > > >
-> > > > -                       input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
-> > > > +                       if (value > a + ((b - a) >> 3)) {
-> > > > +                               input_event(input, EV_KEY, BTN_TOUCH, 1);
-> > > > +                               report->tool_active = true;
-> > > > +                       }
-> > > >                 }
-> > > >                 break;
-> > > >
-> > > > diff --git a/include/linux/hid.h b/include/linux/hid.h
-> > > > index eaad0655b05c..feb8df61168f 100644
-> > > > --- a/include/linux/hid.h
-> > > > +++ b/include/linux/hid.h
-> > > > @@ -347,7 +347,7 @@ struct hid_item {
-> > > >   */
-> > > >  #define MAX_USBHID_BOOT_QUIRKS 4
-> > > >
-> > > > -#define HID_QUIRK_INVERT                       BIT(0)
-> > > > +/* BIT(0) reserved for backward compatibility, was HID_QUIRK_INVERT */
-> > > >  #define HID_QUIRK_NOTOUCH                      BIT(1)
-> > > >  #define HID_QUIRK_IGNORE                       BIT(2)
-> > > >  #define HID_QUIRK_NOGET                                BIT(3)
-> > > > @@ -515,6 +515,10 @@ struct hid_report {
-> > > >         unsigned maxfield;                              /* maximum valid field index */
-> > > >         unsigned size;                                  /* size of the report (bits) */
-> > > >         struct hid_device *device;                      /* associated device */
-> > > > +
-> > > > +       /* tool related state */
-> > > > +       bool tool_active;                               /* whether the current tool is active */
-> > > > +       unsigned int tool;                              /* BTN_TOOL_* */
-> > > >  };
-> > > >
-> > > >  #define HID_MAX_IDS 256
-> > > > --
-> > > > 2.33.1
-> > > >
-> >
->
+thanks,
+
+greg k-h
