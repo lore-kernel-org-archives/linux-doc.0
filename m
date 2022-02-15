@@ -2,117 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4715EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 18:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02329C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 19:33:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232081AbiBOStf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 13:49:35 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41010 "EHLO
+        id S234679AbiBOTdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 14:33:23 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiBOSte (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 13:49:34 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D21673E5
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 10:49:23 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nK2t7-0002Bq-IW; Tue, 15 Feb 2022 19:49:21 +0100
-Message-ID: <e399b17e-5fb6-a0c4-f247-1762031fe54c@leemhuis.info>
-Date:   Tue, 15 Feb 2022 19:49:21 +0100
+        with ESMTP id S233812AbiBOTdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 14:33:22 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 130DBB7C72;
+        Tue, 15 Feb 2022 11:33:11 -0800 (PST)
+From:   John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1644953589;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6PgsBMBaD1VL/blQ9NGFYKVy9dzfRCvZ4SmB2o7/hv0=;
+        b=C3LVhzk8ug+ZT17S1HvaW+HMsdFerPa+zBeWUuRyzN32pFYEcihEuz8evEnCqtZravA1s7
+        MMNQT+e5oWjqZpC8QGpUKW0FYaNNbQMAnsCwNDpygvIX/CCEor4ZJ/Y0LYYWipNWTvbFi+
+        0E3pVP0SRbOqJGZEZvQ7nvUB1HjEPtxiYhKLXKRHSI4oKsX5LHYZMJE3BlTt6Sih1O6uMb
+        7WoU+QR8Ucwsa5b9oN73B9yyS0zJBNtTDN7YgTcyg2htWlacWz9ffG9ZsU875Xy1g/mAV7
+        GmNZC/BmfRZsTTS0GsItNoNbr0OZXEb/X/vVNq12daUUyzq8d6IfudbyoSti2A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1644953589;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6PgsBMBaD1VL/blQ9NGFYKVy9dzfRCvZ4SmB2o7/hv0=;
+        b=r8YVCNMtnNMWlKQh6mpyzy8Lii7Hxnfat9/Yy8v7nrBFS8ZHA5jEZayKmaX1yiHQl0KEqQ
+        E9128Mys8LAY+JDw==
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [RFC V2 12/21] rv/reactor: Add the printk reactor
+In-Reply-To: <65172f14-bad6-37b1-d243-e91ca472d22e@kernel.org>
+References: <cover.1644830251.git.bristot@kernel.org>
+ <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
+ <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
+ <c1657d1c-0d2b-4aa3-c1ed-2ae6fdfcda86@kernel.org>
+ <87v8xg30qc.fsf@jogness.linutronix.de>
+ <45179cdb-2391-207a-2f7b-2dea828d1606@kernel.org>
+ <87r1842r1m.fsf@jogness.linutronix.de>
+ <65172f14-bad6-37b1-d243-e91ca472d22e@kernel.org>
+Date:   Tue, 15 Feb 2022 20:39:08 +0106
+Message-ID: <874k50hqmj.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-BS
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <cover.1643710947.git.linux@leemhuis.info>
- <b32d06dca7d228d61692acaff386928bd673754f.1643710947.git.linux@leemhuis.info>
- <87k0ee5gf2.fsf@meer.lwn.net>
- <35bf934c-d8ed-7988-69f3-e0cb53e0adf4@leemhuis.info>
-Subject: Re: [PATCH v4 1/3] docs: add two documents about regression handling
-In-Reply-To: <35bf934c-d8ed-7988-69f3-e0cb53e0adf4@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1644950963;75307e56;
-X-HE-SMSGID: 1nK2t7-0002Bq-IW
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02.02.22 11:05, Thorsten Leemhuis wrote:
-> On 02.02.22 00:13, Jonathan Corbet wrote:
->> OK, I'll try not to take so long to have a look at it this time.
->>
->> Thorsten Leemhuis <linux@leemhuis.info> writes:
->>
->>> Create two documents explaining various aspects around regression
->>> handling and tracking; one is aimed at users, the other targets
->>> developers.
->>>
->>> The texts among others describe the first rule of Linux kernel
->>> development and what it means in practice. They also explain what a
->>> regression actually is and how to report one properly.
->>>
->>> Both texts additionally provide a brief introduction to the bot the
->>> kernel's regression tracker uses to facilitate the work, but mention the
->>> use is optional.
->>>
->>> To sum things up, provide a few quotes from Linus in the document for
->>> developers to show how serious he takes regressions.
->>>
->>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->>> ---
->>>  Documentation/admin-guide/index.rst           |   1 +
->>>  .../admin-guide/regressions-users.rst         | 436 ++++++++++++
->>>  Documentation/process/index.rst               |   1 +
->>>  Documentation/process/regressions-devs.rst    | 672 ++++++++++++++++++
->>
->> I'll start with some *serious* bikesheddery...it's best if the names of
->> the files tell readers what's inside.  This isn't something I feel
->> really strongly about, but we could consider
-> 
-> I wasn't totally happy with the file names myself, so it's good that you
-> bring it up.
-> 
->> 	admin-guide/reporting-regressions.txt (or just regressions.txt)
->>         process/regression-policy.txt
-> 
-> I like "reporting-regressions.txt", but I wonder if using the word
-> "policy" is a good idea. I tried to avoid it (and similar words, like
-> guidelines), as they might do more harm then good. So how about:
-> 
->  	admin-guide/reporting-regressions.rst
->         process/regressions.rst
+On 2022-02-15, Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+> I am aware of printk_deferred(), and every once and while I am Cc'ed
+> on patches suggesting changing printk() to printk_deferred(), but they
+> are not, let's say, welcome [1]... that is why I am not using it.
 
-BTW, I settled on these:
+Yes. printk_deferred() is a workaround until we can get printk
+"PROVE_RAW_LOCK_NESTING clean". But currently there is real deadlock
+potential in the kernel with printk. For the most common cases, we use
+printk_deferred() to get around it. Once printk() is clean, we can
+replace all printk_deferred() call sites with printk().
 
- admin-guide/reporting-regressions.rst
- process/handling-regressions.rst
+I haven't looked into the details of your runtime verification method,
+but I assume it digs deep into some interfaces. In that case, the
+deadlock potential of printk may be relatively high. (And indeed, you
+have seen some.) IMHO, before warning users not to use this reactor if
+locks XYZ are taken, it would be better just to use printk_deferred()
+and it will always log without causing problems to the system you are
+trying to verify.
 
->> [...] 
->>> +Send a mail to the regressions mailing list (regressions@lists.linux.dev) while
->>> +CCing the Linux kernel's regression tracker (regressions@leemhuis.info); if the
->>> +issue might better be dealt with in private, feel free to omit the list.
->>
->> Perhaps a separate concern, but might you want to set up an @kernel.org
->> alias for the regression tracker?  Trust me, you're not gonna want to
->> run it forever, and the ability to quickly redirect the mail may prove
->> to be a nice thing to have.  An email address with your domain sitting
->> in the docs will circulate for years after it gets changed.
-> 
-> Yeah, it's on my mental to do list for a few weeks already, but never
-> set down to actually get this rolling. You are right, I'll ask for an alias.
+> I saw deadlocks in the past, and while testing the WIP monitor some
+> time ago, it seems it depends on the console type. If such restriction
+> does not exist anymore, I can remove that comment, it would be even
+> better!
 
-I liked the idea and requested this, but Konstantin raised a good point:
-"we don't have generic aliases for all other subsystems, but the
-situation where someone may want to discuss something off-list arises
-for all of them". I have to agree with him. I first wanted to change the
-text to something like "look up the address in MAINTAINERS", but that
-just shifts the problem. Additionally: We have lot's of other private
-addresses from maintainers in the docs as well and don't consider that
-to be a problem. And if somebody else takes over I can also redirect
-that email or create a autoreply on my local server. So I'd say we just
-leave things as they are, it's not perfect, but good enough I'd say.
+If you say it depended on the console type, then it was probably the
+framebuffer console that was at fault. The fbcon is a landmine for
+deadlocks, which is why PREEMPT_RT avoids fbcon printing from
+non-preemptible context. For mainline, the series is currently in
+review.
 
-Ciao, Thorsten
+Perhaps avoiding fbcon would be good enough for you to avoid deadlocks
+with this reactor using printk().
+
+John
+
+> [1]  https://lore.kernel.org/lkml/e68888438cec9a1da53aaa1647720ade638d6ad4.1600705105.git.bristot@redhat.com/
