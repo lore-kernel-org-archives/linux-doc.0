@@ -2,222 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D856C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 00:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FC9C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 00:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbiBOAEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Feb 2022 19:04:01 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51942 "EHLO
+        id S231485AbiBOA42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Feb 2022 19:56:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiBOAEA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 19:04:00 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 229DF66CB5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id w2so10803590edc.8
-        for <linux-doc@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
-        b=XzWME/tX9Pwn10nvDtBLix/JWvTxUWXpra89PLWebeGid3kJF+yJ94sCAp3TEJ2Pb7
-         KG+sCzgGuo2pIRe0MLD2cGyPkH9DnNc4+Ycb3JPr0uTMGORv8lpEhVpJcM44oxYId87N
-         mtZE6Uf/V6v6acN77V0+9wlwvLosHWzh/Ohh4kdpAKLU/nb4OYpkbF+ZHYTD6xz1sO1C
-         gFbbdJdvLk14r+s/gvut3A9KnLjWkee0MkMQ92QylFULzIK2e64RbU0SODfunYR0uoJL
-         dT8C0AKHleHQkF1jN8kfi3K2yMpxQjflv9wArFKb5HhuIO4KJiqOhHiDExOSjEXWShO0
-         O3lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
-        b=cjtQJZu3vTQUHoCO52NtUgRhsNnl/c8HxRAoQPINEkurivLhwW3nNVXbbv8DHG4DYg
-         dg/85SiJuUb133hJC6sX/aahq5LyVsPPNDVs4mBe69H7wEvCAljlO/Gg/3Rk26R6pAcx
-         /NdaAyjrR7LNn6cfltxP4aSxCHooN/z6/Oa0B+PvfWUV42wbKq6tI4fI+YPcEumyBdcK
-         Eex741QYwyp14DJSu5cZvlJkHy5FvHHDOD+iJoxRmR3HYuIAgdXLTg6sT+LamKcvMEaX
-         P/VQ29HqpnvwmPGasjy+P5EwcR2Q6oeNrzPNBDHotMvrLFbKTUaBlLl8plLyepuGFiXH
-         8yvw==
-X-Gm-Message-State: AOAM531jW10QsjoykyTVnZMrTlw4RC1zuHu2weq83J8BM2C0SBpkwoXl
-        KmQabd5e4bkSjLESLT+1QGY5vGtolm8yeCikjeiwOQ==
-X-Google-Smtp-Source: ABdhPJxAtnWhygjfdRdPmkvAqKQauo1KJKZ52IV82X0eQflqoUGfUG0iTb+vi8L0jmGH8ye8Rphg9kzZiPnIMct0HzM=
-X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr1308182edx.207.1644883429474;
- Mon, 14 Feb 2022 16:03:49 -0800 (PST)
+        with ESMTP id S230306AbiBOA41 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Feb 2022 19:56:27 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B80FB89;
+        Mon, 14 Feb 2022 16:56:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=WpSEHq3AzyjnrkFj+WFiaIslQhMuyFMbEeZ42fue6pM=; b=oSVjpsDaCxJmJVgxebhAW/30zq
+        8dBRZhJAi/ADNiRvbZcxImx9MH4REHSsj1NLLSFIB3FP5csGe5/32gJvCsYvvVFDkpZC6MNvIpj14
+        5B/SL2ZhNJiQsn8wFMEduz+eHyAYP/Jib2BBP34c/PNuPvZDQ7FF66mvTBJytkYUo7DQl5U9XhOkG
+        s8l6Ef1i0GrwKY49MtErA6Z4Zx53FgILIIGwdbXnyjegWNhDmyXBB+N/GVidSoSBoR5hVoGqVNmfn
+        9LhgAfiP9V5VQTt1vcxxg238OVDWodimrzD4KMSXNtqAP/dp3SZpStqaha2FV+73vMYROlzNZbn0v
+        ZyyvmmNg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nJm8e-00HOzp-5I; Tue, 15 Feb 2022 00:56:16 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] Docs: printk: add 'console=null|""' to admin/kernel-parameters
+Date:   Mon, 14 Feb 2022 16:56:15 -0800
+Message-Id: <20220215005615.11244-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
- <20220211161831.3493782-7-tjmercier@google.com> <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
-In-Reply-To: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 14 Feb 2022 16:03:38 -0800
-Message-ID: <CABdmKX33PDEioxdQSFpQEFdK58kDo==JeUN_1m_NB__5qGMJ0Q@mail.gmail.com>
-Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-To:     Todd Kjos <tkjos@google.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 1:26 PM Todd Kjos <tkjos@google.com> wrote:
->
-> On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote=
-:
-> >
-> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-> > that a process sending an fd array to another process over binder IPC
-> > can set to relinquish ownership of the fds being sent for memory
-> > accounting purposes. If the flag is found to be set during the fd array
-> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
-> > the sender's cgroup and charged to the receiving process's cgroup
-> > instead.
-> >
-> > It is up to the sending process to ensure that it closes the fds
-> > regardless of whether the transfer failed or succeeded.
-> >
-> > Most graphics shared memory allocations in Android are done by the
-> > graphics allocator HAL process. On requests from clients, the HAL proce=
-ss
-> > allocates memory and sends the fds to the clients over binder IPC.
-> > The graphics allocator HAL will not retain any references to the
-> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-> > correctly charge the buffers to the client processes instead of the
-> > graphics allocator HAL.
-> >
-> > From: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > ---
-> > changes in v2
-> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
-y
-> > heap to a single dma-buf function for all heaps per Daniel Vetter and
-> > Christian K=C3=B6nig.
-> >
-> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
-> >  include/uapi/linux/android/binder.h |  1 +
-> >  2 files changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > index 8351c5638880..f50d88ded188 100644
-> > --- a/drivers/android/binder.c
-> > +++ b/drivers/android/binder.c
-> > @@ -42,6 +42,7 @@
-> >
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fdtable.h>
-> >  #include <linux/file.h>
-> >  #include <linux/freezer.h>
-> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
->
-> Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
-> never needs to be done in the BINDER_TYPE_FD case (single fd)?
->
+Tell about 'console=null|""' and how to use it.
 
-Currently this is the case as there is no user who would benefit from
-the single fd case. The only known user is the gralloc HAL which
-always uses BINDER_TYPE_FDA to send dmabufs. I guess we could move the
-code into binder_translate_fd if we were willing to bring back
-binder_fd_object's flags field. This looks possible, but I think it'd
-be a more intrusive change.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: John Ogness <john.ogness@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> >  {
-> >         binder_size_t fdi, fd_buf_size;
-> >         binder_size_t fda_offset;
-> > +       bool transfer_gpu_charge =3D false;
-> >         const void __user *sender_ufda_base;
-> >         struct binder_proc *proc =3D thread->proc;
-> > +       struct binder_proc *target_proc =3D t->to_proc;
-> >         int ret;
-> >
-> >         fd_buf_size =3D sizeof(u32) * fda->num_fds;
-> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
-> >         if (ret)
-> >                 return ret;
-> >
-> > +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> > +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> > +               transfer_gpu_charge =3D true;
-> > +
-> >         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
-> >                 u32 fd;
-> > +               struct dma_buf *dmabuf;
-> > +               struct gpucg *gpucg;
-> > +
-> >                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
-> >                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-> >
-> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
-> >                                                   in_reply_to);
-> >                 if (ret)
-> >                         return ret > 0 ? -EINVAL : ret;
-> > +
-> > +               if (!transfer_gpu_charge)
-> > +                       continue;
-> > +
-> > +               dmabuf =3D dma_buf_get(fd);
-> > +               if (IS_ERR(dmabuf))
-> > +                       continue;
-> > +
-> > +               gpucg =3D gpucg_get(target_proc->tsk);
-> > +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> > +               if (ret) {
-> > +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd ch=
-arge to %d",
-> > +                               proc->pid, thread->pid, target_proc->pi=
-d);
-> > +                       gpucg_put(gpucg);
-> > +               }
-> > +               dma_buf_put(dmabuf);
-> >         }
-> >         return 0;
-> >  }
-> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
-ndroid/binder.h
-> > index 3246f2c74696..169fd5069a1a 100644
-> > --- a/include/uapi/linux/android/binder.h
-> > +++ b/include/uapi/linux/android/binder.h
-> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
-> >
-> >  enum {
-> >         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> > +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
-> >  };
-> >
-> >  /* struct binder_fd_array_object - object describing an array of fds i=
-n a buffer
-> > --
-> > 2.35.1.265.g69c8d7142f-goog
-> >
+--- linux-next-20220214.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20220214/Documentation/admin-guide/kernel-parameters.txt
+@@ -724,6 +724,12 @@
+ 		hvc<n>	Use the hypervisor console device <n>. This is for
+ 			both Xen and PowerPC hypervisors.
+ 
++		{ null | "" }
++			Use to disable console output, i.e., to have kernel
++			console messages discarded.
++			This must be the first (or only) console= string
++			used on the kernel command line.
++
+ 		If the device connected to the port is not a TTY but a braille
+ 		device, prepend "brl," before the device type, for instance
+ 			console=brl,ttyS0
