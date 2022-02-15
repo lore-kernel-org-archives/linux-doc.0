@@ -2,75 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3158AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E73C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238137AbiBOOc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 09:32:28 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56188 "EHLO
+        id S239183AbiBOOvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 09:51:37 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237563AbiBOOc0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:32:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9932ED3AE5
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:32:15 -0800 (PST)
+        with ESMTP id S239184AbiBOOv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:51:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A388119F10
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:49:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644935534;
+        s=mimecast20190719; t=1644936553;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kXzMPxpPt6Z4nMk/I9zc5c3jnXkL788GrF8HLGMlet0=;
-        b=BFS0g9UrPJJ5vOCzSlcHVvEBYJYRIAqdywgqzj7h5uwiW1rI0ns6gEZlhXxI3F/MM+U0EL
-        zMaQJE2oXqRQO/4EvRjjb5tMXVSUguPb7a0wLpFT1WuAnD/XYsAHHhMg/r5Pd64HVoChBQ
-        /nh6mylKFs63feBECVx/vMpxMVEEOFQ=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=AQuhuF7IKOqYCKxv1Xz0llTmBI5LAygxnXZl/GDmFGk=;
+        b=i8u7eTQg+lw5bhNC9w+48HIVL964cn52ihRbgHNb5i9xOhjcMbxk1Rn02s/+1a6ArRfqGK
+        pjDDgjMvuE09sI1JWKow1uYofgLyi3yxXuZbBINc5tJ5BYgsPZ4BujFnPCGFWRMcPCyjC9
+        mJ4u0XbEZti9l7bhdzyjyOEtCwKGIdw=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-271-Z09HvXJBNGy0wDHlHIzRBQ-1; Tue, 15 Feb 2022 09:32:13 -0500
-X-MC-Unique: Z09HvXJBNGy0wDHlHIzRBQ-1
-Received: by mail-oo1-f69.google.com with SMTP id j12-20020a4ad6cc000000b002fb4087a29fso1298086oot.20
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:32:13 -0800 (PST)
+ us-mta-98-2ChcdBuFOfC1kjOWnbUVKA-1; Tue, 15 Feb 2022 09:49:10 -0500
+X-MC-Unique: 2ChcdBuFOfC1kjOWnbUVKA-1
+Received: by mail-oo1-f72.google.com with SMTP id g8-20020a4aa708000000b002e8efc514a6so12725486oom.12
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 06:49:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=kXzMPxpPt6Z4nMk/I9zc5c3jnXkL788GrF8HLGMlet0=;
-        b=Xv19z8EMd5L5MBm84I7bC8fCsNz1E+SNWsk7pAYYV6Y50vV4YEbYCNkcxeF9XAuH/d
-         UbKgTf1qX8yg/NnBfh5hBlGw1aFlNsx+Qi8/F/5k7FmAhD4X2fCum++sf8YXZUHsqqmE
-         htmGgN1wfxwdBe8sklb+cR25d1CJ+VXNlUfea2PhpY3ifL6cwioYLZ9wTu+IKPMB9fDF
-         XDIQOVm/i69feZ6I7Lqbgn3LJWJsc4nUOltImAkBAKtvOW7Pr5PmTz7K2YHSL4IuN/4A
-         8swS9lQsb53PjB0bVGVaNNd7VlFmB91x6Y/+hhStyDuoQF/QLbHTuZOlHuyrH1fVtHr1
-         QXWA==
-X-Gm-Message-State: AOAM533jyi18UMEJX+a1pl5RyTMG6Cg5YhJLtOUFty+hAcExViJJBubN
-        i/iqhfQN+75O4LJPgB/rfwJFfR3BrgMwi2LLVHMHzb1OQqrJj5hGEFiwgDiJXt8UWUvFTqyXjF5
-        Fwf4meaDhsZgF0xNKVxRz
-X-Received: by 2002:a05:6870:2142:b0:d2:c3fe:83c8 with SMTP id g2-20020a056870214200b000d2c3fe83c8mr1499843oae.165.1644935532448;
-        Tue, 15 Feb 2022 06:32:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBW230U8nUtjeldcnU2xd5Fe3oQMJiqQxogDBomj+xWYHSmSduSFxFpEpsLE6Gm1pzSW1u9Q==
-X-Received: by 2002:a05:6870:2142:b0:d2:c3fe:83c8 with SMTP id g2-20020a056870214200b000d2c3fe83c8mr1499826oae.165.1644935532136;
-        Tue, 15 Feb 2022 06:32:12 -0800 (PST)
+        bh=AQuhuF7IKOqYCKxv1Xz0llTmBI5LAygxnXZl/GDmFGk=;
+        b=04iXoNs3MKhJMkb7/rA4pA/kKcCYfCJkkUp8CXIJ61580vZZixb/gDkgljU/h/Vpt9
+         /iVMFAnrG06OqA8BTcy07nsJkhOEpkchep5qtnUIoSLai3x6GPQR5oEn6dJN5ofMNI7m
+         NNLhvwcavXk9xRAxll3Elel8VJQriuwX12zjzuNfiPdtAeuoGu1X+HcjXqlAQPEJuk8e
+         mwl9I1W0sdGoXe2kf5SktpRKhEVirlFVohyl4slvNKR7J6+7PE+96DkSFnXLffG2bg4h
+         nl12Yi9810fDvRzbOArkr7+5+Fz6mZRbnhRJTBgcI3f6gEznOFLhhTAiIBEwb81kJk2t
+         5pMg==
+X-Gm-Message-State: AOAM533F/o6pt/Mq8O8sy625eNsrOjv/9tu189D1kVKKrX6xWjk0CXWH
+        8njM0jFDm/uyiM2em8KDOhtuDzViVeEB0zdRQJ5I4spV1HlJz1RJZp+s2nKCDW1cf9rzunyrJhW
+        CNEifvBfdSmxNXM+ZRq2w
+X-Received: by 2002:a9d:6a54:: with SMTP id h20mr1420689otn.69.1644936549409;
+        Tue, 15 Feb 2022 06:49:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzai+xgP98JN0UjOQG8GF48r2lPVtIxEbdcn6aEWbM7Nij7yxY9X08kqNJaRqS2nI8+t+MGgw==
+X-Received: by 2002:a9d:6a54:: with SMTP id h20mr1420684otn.69.1644936549204;
+        Tue, 15 Feb 2022 06:49:09 -0800 (PST)
 Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id y1sm16494879oad.38.2022.02.15.06.32.10
+        by smtp.gmail.com with ESMTPSA id v10sm13728219oto.53.2022.02.15.06.49.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Feb 2022 06:32:11 -0800 (PST)
-Subject: Re: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
+        Tue, 15 Feb 2022 06:49:07 -0800 (PST)
+Subject: Re: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
+ info
 To:     Tianfei zhang <tianfei.zhang@intel.com>, hao.wu@intel.com,
         mdf@kernel.org, yilun.xu@intel.com, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     corbet@lwn.net
 References: <20220214112619.219761-1-tianfei.zhang@intel.com>
- <20220214112619.219761-2-tianfei.zhang@intel.com>
+ <20220214112619.219761-3-tianfei.zhang@intel.com>
 From:   Tom Rix <trix@redhat.com>
-Message-ID: <882cda83-6b31-83eb-cb88-d5a2fec57332@redhat.com>
-Date:   Tue, 15 Feb 2022 06:32:09 -0800
+Message-ID: <0de9c8fb-0f04-684f-630c-1d13b0b55ba1@redhat.com>
+Date:   Tue, 15 Feb 2022 06:49:05 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20220214112619.219761-2-tianfei.zhang@intel.com>
+In-Reply-To: <20220214112619.219761-3-tianfei.zhang@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -80,165 +81,84 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 2/14/22 3:26 AM, Tianfei zhang wrote:
 > From: Tianfei Zhang <tianfei.zhang@intel.com>
 >
-> This patch adds description about IOFS support for DFL.
+> The feature ID of "Port User Interrupt" and the
+> "PMCI Subsystem" are identical, 0x12, but one is for FME,
+> other is for Port. It should check the feature type While
+> parsing the irq info in parse_feature_irqs().
+
+This seems like a bug fix and not part of iofs feature.
+
+Split this out of the patchset.
+
+This is a workaround a hardware problem, there should be some comments 
+to the effect that you can't trust _this_ or _that_ feature id and some 
+special handling earlier.
+
+The ambiguity of feature id is a problem, and this sort of bug will 
+happen again.
+
+What can be done to prevent this in the future ?
+
 >
-This needs work.
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> ---
+>   drivers/fpga/dfl.c | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index 599bb21d86af..26f8cf890700 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -940,9 +940,14 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>   {
+>   	void __iomem *base = binfo->ioaddr + ofst;
+>   	unsigned int i, ibase, inr = 0;
+> +	enum dfl_id_type type;
+>   	int virq;
+>   	u64 v;
+>   
+> +	type = feature_dev_id_type(binfo->feature_dev);
+> +	if (type >= DFL_ID_MAX)
+> +		return -EINVAL;
+> +
+>   	/*
+>   	 * Ideally DFL framework should only read info from DFL header, but
+>   	 * current version DFL only provides mmio resources information for
+> @@ -959,16 +964,22 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>   	 */
+>   	switch (fid) {
+>   	case PORT_FEATURE_ID_UINT:
+> +		if (type != PORT_ID)
+> +			break;
 
-Several times 'Port Gasket' was mentioned but there is no section 
-describing what it is.
+Instead of embedding a break in the switch, break the switch into fme 
+switch and port switch
 
-It is not clear if iofs supersedes dfl or extends it.
+if (type == PORT_ID)
 
-It is not clear how a driver probes to tell the difference between the two.
+   port-switch
 
-This document should set up why the other changes in the patchset are 
-needed.
+else if (type == FME_ID
 
-Add yourself to authors list.
+   fme-switch
 
 Tom
 
-> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
-> ---
->   Documentation/fpga/dfl.rst | 99 +++++++++++++++++++++++++++++++++++++-
->   1 file changed, 97 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index ef9eec71f6f3..6f9eae1c1697 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -58,7 +58,10 @@ interface to FPGA, e.g. the FPGA Management Engine (FME) and Port (more
->   descriptions on FME and Port in later sections).
->   
->   Accelerated Function Unit (AFU) represents an FPGA programmable region and
-> -always connects to a FIU (e.g. a Port) as its child as illustrated above.
-> +always connects to a FIU (e.g. a Port) as its child as illustrated above, but
-> +on IOFS design, it introducing Port Gasket which contains AFUs. For DFL perspective,
-> +the Next_AFU pointer on FIU feature header can point to NULL so the AFU is not
-> +connects to a FIU(more descriptions on IOFS in later section).
->   
->   Private Features represent sub features of the FIU and AFU. They could be
->   various function blocks with different IDs, but all private features which
-> @@ -134,6 +137,9 @@ reconfigurable region containing an AFU. It controls the communication from SW
->   to the accelerator and exposes features such as reset and debug. Each FPGA
->   device may have more than one port, but always one AFU per port.
->   
-> +On IOFS, it introducing a new hardware unit, Port Gasket, which contains all
-> +the PR specific modules and regions (more descriptions on IOFS in later section).
-> +
->   
->   AFU
->   ===
-> @@ -143,6 +149,9 @@ used for accelerator-specific control registers.
->   User-space applications can acquire exclusive access to an AFU attached to a
->   port by using open() on the port device node and release it using close().
->   
-> +On IOFS, the AFU is embedded in a Port Gasket. The AFU resource can expose via
-> +VFs with SRIOV support (more descriptions on IOFS in later section).
-> +
->   The following functions are exposed through ioctls:
->   
->   - Get driver API version (DFL_FPGA_GET_API_VERSION)
-> @@ -284,7 +293,8 @@ FME is always accessed through the physical function (PF).
->   
->   Ports (and related AFUs) are accessed via PF by default, but could be exposed
->   through virtual function (VF) devices via PCIe SRIOV. Each VF only contains
-> -1 Port and 1 AFU for isolation. Users could assign individual VFs (accelerators)
-> +1 Port (On IOFS design, the VF is designs without Port) and 1 AFU for isolation.
-> +Users could assign individual VFs (accelerators)
->   created via PCIe SRIOV interface, to virtual machines.
->   
->   The driver organization in virtualization case is illustrated below:
-> @@ -389,6 +399,91 @@ The device nodes used for ioctl() or mmap() can be referenced through::
->   	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
->   	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
->   
-> +Intel Open FPGA stack
-> +=====================
-> +Intel Open FPGA stack aka IOFS, Intel's version of a common core set of
-> +RTL to allow customers to easily interface to logic and IP on the FPGA.
-> +IOFS leverage the DFL for the implementation of the FPGA RTL design.
-> +
-> +IOFS designs allow for the arrangement of software interfaces across multiple
-> +PCIe endpoints. Some of these interfaces may be PFs defined in the static region
-> +that connect to interfaces in an IP that is loaded via Partial Reconfiguration (PR).
-> +And some of these interfaces may be VFs defined in the PR region that can be
-> +reconfigured by the end-user. Furthermore, these PFs/VFs may also be arranged
-> +using a DFL such that features may be discovered and accessed in user space
-> +(with the aid of a generic kernel driver like vfio-pci). The diagram below depicts
-> +an example design with two PFs and two VFs. In this example, PF1 implements its
-> +MMIO space such that it is compatible with the VirtIO framework. The other functions,
-> +VF0 and VF1, leverage VFIO to export the MMIO space to an application or a hypervisor.
-> +
-> +     +-----------------+  +--------------+  +-------------+  +------------+
-> +     | FPGA Managerment|  |   VirtIO     |  |  User App   |  | Virtual    |
-> +     |      App        |  |     App      |  |             |  | Machine    |
-> +     +--------+--------+  +------+-------+  +------+------+  +-----+------+
-> +              |                  |                 |               |
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +              |                  |                 |               |
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+   +----+------+
-> +     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1  |
-> +     +-----------------+  +--------------+  +-------------+   +-----------+
-> +
-> +On IOFS, it introducing some enhancements compared with original DFL design.
-> +1. It introducing Port Gasket in PF0 which is responsible for FPGA management,
-> +like FME and Port management. The Port Gasket contains all the PR specific modules
-> +and logic, e.g., PR slot reset/freeze control, user clock, remote STP etc.
-> +Architecturally, a Port Gasket can have multiple PR slots where user workload can
-> +be programmed into.
-> +2. To expend the scalable of FPGA, it can support multiple FPs in static region
-> +which contain some static functions like VirtIO, diagnostic test, and access over
-> +VFIO or assigned to VMs easily. Those PFs will not have a Port Unit which without
-> +PR region (AFU) connected to those PFs, and the end-user cannot partial reconfigurate
-> +those PFs.
-> +3. In our previous DFL design, it can only create one VF based in an AFU. To raise
-> +the efficiency usage of AFU, it can create more than one VFs in an AFU via PCIe
-> +SRIOV, so those VFs share the PR region and resource.
-> +
-> +There is one reference architecture design for IOFS as illustrated below:
-> +
-> +                              +----------------------+
-> +                              |   PF/VF mux/demux    |
-> +                              +--+--+-----+------+-+-+
-> +                                 |  |     |      | |
-> +        +------------------------+  |     |      | |
-> +  PF0   |                 +---------+   +-+      | |
-> +    +---+---+             |         +---+----+   | |
-> +    |  DFH  |             |         |   DFH  |   | |
-> +    +-------+       +-----+----+    +--------+   | |
-> +    |  FME  |       |  VirtIO  |    |  Test  |   | |
-> +    +-------+       +----------+    +--------+   | |
-> +    | Port  |            PF1            PF2      | |
-> +    +---+---+                                    | |
-> +        |                             +----------+ |
-> +        |                             |           ++
-> +        |                             |           |
-> +        |                             | PF0_VF0   | PF0_VF1
-> +        |           +-----------------+-----------+------------+
-> +        |           |           +-----+-----------+--------+   |
-> +        |           |           |     |           |        |   |
-> +        |           | +------+  |  +--+ -+     +--+---+    |   |
-> +        |           | | CSR  |  |  | DFH |     |  DFH |    |   |
-> +        +-----------+ +------+  |  +-----+     +------+    |   |
-> +                    |           |  | DEV |     |  DEV |    |   |
-> +                    |           |  +-----+     +------+    |   |
-> +                    |           |            PR Slot       |   |
-> +                    |           +--------------------------+   |
-> +                    | Port Gasket                              |
-> +                    +------------------------------------------+
-> +
-> +Here are the major changes about DFL structures on IOFS implementation design:
-> +1. The Port Gasket connects to FIU Port in DFL, but the Next_AFU pointer in
-> +FIU feature header can point to NULL so that it is no AFU connects to a FIU
-> +Port.
-> +2. The VF which include in PR region can start with AFU feature header without
-> +a FIU Port feature header.
->   
->   Performance Counters
->   ====================
+>   		v = readq(base + PORT_UINT_CAP);
+>   		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+>   		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+>   		break;
+>   	case PORT_FEATURE_ID_ERROR:
+> +		if (type != PORT_ID)
+> +			break;
+>   		v = readq(base + PORT_ERROR_CAP);
+>   		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+>   		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+>   		break;
+>   	case FME_FEATURE_ID_GLOBAL_ERR:
+> +		if (type != FME_ID)
+> +			break;
+>   		v = readq(base + FME_ERROR_CAP);
+>   		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+>   		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
 
