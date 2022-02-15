@@ -2,117 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF36C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 17:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 726EDC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 17:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242474AbiBOR1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 12:27:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36360 "EHLO
+        id S238226AbiBORn7 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 12:43:59 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232081AbiBOR1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 12:27:12 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4855F140FD;
-        Tue, 15 Feb 2022 09:26:59 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 72EF81F382;
-        Tue, 15 Feb 2022 17:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1644946018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yBgxgoZsveUgEspMXqC/qI2secN9IP8B/Gmo05h1B6E=;
-        b=T0nTYJZBFfHUHaGMRTG3JqNCq7Ua6FsneNb/P+cU9EM+aXvzn0ihPCxLgu2v1VHitdCPvI
-        B7Fyi2evWlQoZrZzY9fJJdrSodBDAxLakylLRcnuy2KD3961TFd/GC7LYniASf6cpcu8n8
-        Phe9NngBxI9NJJHPE1Uiz9f6Ern+hk4=
-Received: from suse.cz (unknown [10.100.216.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id EAA1BA3B81;
-        Tue, 15 Feb 2022 17:26:57 +0000 (UTC)
-Date:   Tue, 15 Feb 2022 18:26:57 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs: printk: add 'console=null|""' to
- admin/kernel-parameters
-Message-ID: <YgviYXNc6zo2V+35@alley>
-References: <20220215005615.11244-1-rdunlap@infradead.org>
+        with ESMTP id S229508AbiBORn7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 12:43:59 -0500
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF77E5406;
+        Tue, 15 Feb 2022 09:43:48 -0800 (PST)
+Date:   Tue, 15 Feb 2022 17:43:35 +0000
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based
+ API
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Message-Id: <N8XC7R.5FP2M8552CGT3@crapouillou.net>
+In-Reply-To: <20220213184616.669b490b@jic23-huawei>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+        <20220213184616.669b490b@jic23-huawei>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220215005615.11244-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=iso-8859-13; format=flowed
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2022-02-14 16:56:15, Randy Dunlap wrote:
-> Tell about 'console=null|""' and how to use it.
+Hi Jonathan,
+
+Le dim., févr. 13 2022 at 18:46:16 +0000, Jonathan Cameron 
+<jic23@kernel.org> a écrit :
+> On Mon,  7 Feb 2022 12:59:21 +0000
+> Paul Cercueil <paul@crapouillou.net> wrote:
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: John Ogness <john.ogness@linutronix.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |    6 ++++++
->  1 file changed, 6 insertions(+)
+>>  Hi Jonathan,
+>> 
+>>  This is the V2 of my patchset that introduces a new userspace 
+>> interface
+>>  based on DMABUF objects to complement the fileio API, and adds 
+>> write()
+>>  support to the existing fileio API.
 > 
-> --- linux-next-20220214.orig/Documentation/admin-guide/kernel-parameters.txt
-> +++ linux-next-20220214/Documentation/admin-guide/kernel-parameters.txt
-> @@ -724,6 +724,12 @@
->  		hvc<n>	Use the hypervisor console device <n>. This is for
->  			both Xen and PowerPC hypervisors.
->  
-> +		{ null | "" }
-> +			Use to disable console output, i.e., to have kernel
-> +			console messages discarded.
-> +			This must be the first (or only) console= string
-> +			used on the kernel command line.
+> Hi Paul,
+> 
+> It's been a little while. Perhaps you could summarize the various view
+> points around the appropriateness of using DMABUF for this?
+> I appreciate it is a tricky topic to distil into a brief summary but
+> I know I would find it useful even if no one else does!
 
-It must be the only console= parameter on the command line. Otherwise,
-the other consoles get enabled as well.
+So we want to have a high-speed interface where buffers of samples are 
+passed around between IIO devices and other devices (e.g. USB or 
+network), or made available to userspace without copying the data.
 
-It might make sense to detect this situation and print a warning or
-so. Nobody has sent a patch for this so far.
+DMABUF is, at least in theory, exactly what we need. Quoting the 
+documentation 
+(https://www.kernel.org/doc/html/v5.15/driver-api/dma-buf.html):
+"The dma-buf subsystem provides the framework for sharing buffers for 
+hardware (DMA) access across multiple device drivers and subsystems, 
+and for synchronizing asynchronous hardware access. This is used, for 
+example, by drm ´prime¡ multi-GPU support, but is of course not 
+limited to GPU use cases."
 
-But there is even bigger problem. The default console is also used
-as stdin/stdout/stderr for the init process. It might fail when there
-is no console driver associated with it.
+The problem is that right now DMABUF is only really used by DRM, and to 
+quote Daniel, "dma-buf looks like something super generic and useful, 
+until you realize that there's a metric ton of gpu/accelerator bagage 
+piled in".
 
-The problem with stdin/stdout/stderr does not happen when
-CONFIG_NULL_TTY is enabled and ttynull driver is available.
-Unfortunately, it can't be enabled by default because it can
-be used by mistake, see the commit a91bd6223ecd46addc71e
-("Revert "init/console: Use ttynull as a fallback when there
-is no console").
+Still, it seems to be the only viable option. We could add a custom 
+buffer-passing interface, but that would mean implementing the same 
+buffer-passing interface on the network and USB stacks, and before we 
+know it we re-invented DMABUFs.
 
-And there is still a mystery that has not been explained yet,
-see https://lore.kernel.org/r/a46e9a26-5b9f-f14c-26be-0b4d41fa7429@roeck-us.net
-
-On the positive note. console=null mostly works. All the problems are
-hard to reproduce.
+Cheers,
+-Paul
 
 
-Now, what to do with this patch. I would suggest two changes:
+>> 
+>>  Changes since v1:
+>> 
+>>  - the patches that were merged in v1 have been (obviously) dropped 
+>> from
+>>    this patchset;
+>>  - the patch that was setting the write-combine cache setting has 
+>> been
+>>    dropped as well, as it was simply not useful.
+>>  - [01/12]:
+>>      * Only remove the outgoing queue, and keep the incoming queue, 
+>> as we
+>>        want the buffer to start streaming data as soon as it is 
+>> enabled.
+>>      * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now functionally 
+>> the
+>>        same as IIO_BLOCK_STATE_DONE.
+>>  - [02/12]:
+>>      * Fix block->state not being reset in
+>>        iio_dma_buffer_request_update() for output buffers.
+>>      * Only update block->bytes_used once and add a comment about 
+>> why we
+>>        update it.
+>>      * Add a comment about why we're setting a different state for 
+>> output
+>>        buffers in iio_dma_buffer_request_update()
+>>      * Remove useless cast to bool (!!) in iio_dma_buffer_io()
+>>  - [05/12]:
+>>      Only allow the new IOCTLs on the buffer FD created with
+>>      IIO_BUFFER_GET_FD_IOCTL().
+>>  - [12/12]:
+>>      * Explicitly state that the new interface is optional and is
+>>        not implemented by all drivers.
+>>      * The IOCTLs can now only be called on the buffer FD returned by
+>>        IIO_BUFFER_GET_FD_IOCTL.
+>>      * Move the page up a bit in the index since it is core stuff 
+>> and not
+>>        driver-specific.
+>> 
+>>  The patches not listed here have not been modified since v1.
+>> 
+>>  Cheers,
+>>  -Paul
+>> 
+>>  Alexandru Ardelean (1):
+>>    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+>> 
+>>  Paul Cercueil (11):
+>>    iio: buffer-dma: Get rid of outgoing queue
+>>    iio: buffer-dma: Enable buffer write support
+>>    iio: buffer-dmaengine: Support specifying buffer direction
+>>    iio: buffer-dmaengine: Enable write support
+>>    iio: core: Add new DMABUF interface infrastructure
+>>    iio: buffer-dma: Use DMABUFs instead of custom solution
+>>    iio: buffer-dma: Implement new DMABUF based userspace API
+>>    iio: buffer-dmaengine: Support new DMABUF based userspace API
+>>    iio: core: Add support for cyclic buffers
+>>    iio: buffer-dmaengine: Add support for cyclic buffers
+>>    Documentation: iio: Document high-speed DMABUF based API
+>> 
+>>   Documentation/driver-api/dma-buf.rst          |   2 +
+>>   Documentation/iio/dmabuf_api.rst              |  94 +++
+>>   Documentation/iio/index.rst                   |   2 +
+>>   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+>>   drivers/iio/buffer/industrialio-buffer-dma.c  | 610 
+>> ++++++++++++++----
+>>   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+>>   drivers/iio/industrialio-buffer.c             |  60 ++
+>>   include/linux/iio/buffer-dma.h                |  38 +-
+>>   include/linux/iio/buffer-dmaengine.h          |   5 +-
+>>   include/linux/iio/buffer_impl.h               |   8 +
+>>   include/uapi/linux/iio/buffer.h               |  30 +
+>>   11 files changed, 749 insertions(+), 145 deletions(-)
+>>   create mode 100644 Documentation/iio/dmabuf_api.rst
+>> 
+> 
 
-1. Replace "must be the first (or only)" with "must be the only"
-
-2. Mention that it is suggested to enable CONFIG_NULL_TTY that
-   will avoid problems with stdin/stdout/stderr of the init process.
-   But it might cause the ttynull might be used even when a real
-   console is configured. And that more details can be found
-   in the commit a91bd6223ecd46addc71e ("Revert "init/console:
-   Use ttynull as a fallback when there is no console").
-
-   It might be enough to mention this in the commit message.
-
-Best Regards,
-Petr
 
