@@ -2,120 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2F7C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF1EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 14:58:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239455AbiBOOxy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 09:53:54 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34020 "EHLO
+        id S235008AbiBOO6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 09:58:16 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239492AbiBOOxa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:53:30 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911F4102423;
-        Tue, 15 Feb 2022 06:52:46 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 72C1DB819FA;
-        Tue, 15 Feb 2022 14:52:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17ADDC340EB;
-        Tue, 15 Feb 2022 14:52:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644936763;
-        bh=oHvI812wnFSZHuTw2mFyGnMQwXFVGo3Bnh6xMpiP8xM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jdjq0iQ6XSjhEYl/rI1cMvQa82uF75FAMOBXuy7bNuCfqoEzx0NcmpyeJezq3L7ew
-         URSopB2PK2NyBTFqz0r9jyPK2VTDNfvtCppZSP+t/GCERdYQYdJeqcuUfxQTnisZGk
-         cml/ziTELZQLptSUs5TIbSmtef8xgYwEfUX5FM4xwuEroLXwZLYf6WX9pi+1ywDUuS
-         9fvEnwP8w+a9j8ocwNXhu3KI8iM3Pwv6bip2xkgj5FfrcDyGIyZDCMd5SlM+GYLRRq
-         iX5V4PuFkYkSFlEBva298QHJEU3lHX8AMH6Y1EMJnWftKenGvzPucWDqwumNzOQtgf
-         JgvPE//08keuw==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id C3089400FE; Tue, 15 Feb 2022 11:52:40 -0300 (-03)
-Date:   Tue, 15 Feb 2022 11:52:40 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     James Clark <james.clark@arm.com>, mathieu.poirier@linaro.org,
-        coresight@lists.linaro.org, leo.yan@linaro.com,
-        mike.leach@linaro.org, Leo Yan <leo.yan@linaro.org>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] perf cs-etm: Update deduction of TRCCONFIGR
- register for branch broadcast
-Message-ID: <Ygu+OHnxYAyqLFwB@kernel.org>
-References: <20220113091056.1297982-1-james.clark@arm.com>
- <20220113091056.1297982-4-james.clark@arm.com>
- <25b85560-dd95-2569-d1bc-872902d6343f@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <25b85560-dd95-2569-d1bc-872902d6343f@arm.com>
-X-Url:  http://acmel.wordpress.com
+        with ESMTP id S235898AbiBOO6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 09:58:16 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550496276;
+        Tue, 15 Feb 2022 06:58:05 -0800 (PST)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FEm9uF022689;
+        Tue, 15 Feb 2022 14:58:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : content-type : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=DwMvSIbU3ZH+m1p41II1pEvA0O1v1hVXVvv5/UgubV0=;
+ b=fqVOGZIQJl+iCO8KKegHYEJkQyeN5jY8OOg9yKud0ISbhR0BogmAmwPhPkx73isPAK0F
+ TBgk7Jubj6PsABhibZqlVE46E2ajvXVRlsWaMPGF0+cw1YmmyIAfm5ZYi2/kOY+z/xAo
+ woNRpuC2i2mzVkq6UBreFISfQOL/gTaE2+A9hBXbG14zZtXMGbHSbiROTnvaCmkThhEv
+ xAvBsPAD1QgqSKJnaHpf3ctrId/DWNQp2TU8P6bTBjt3w/8+Bo3cG++AWVcwTNcJjA7Y
+ 77qozoC77Ae9vSm5RygkV/H//SmShOIgC0V0FkWp0aimBqKkdvhxedgslLyPWTYzZa/C UA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3e8dxb8ugk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Feb 2022 14:58:04 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FEmxv9025781;
+        Tue, 15 Feb 2022 14:58:04 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3e8dxb8ufv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Feb 2022 14:58:04 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FEkXUD021484;
+        Tue, 15 Feb 2022 14:58:02 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma06ams.nl.ibm.com with ESMTP id 3e645jrg6p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Feb 2022 14:58:02 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21FEw0da22020476
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Feb 2022 14:58:00 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0EED2A4059;
+        Tue, 15 Feb 2022 14:58:00 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 553D9A404D;
+        Tue, 15 Feb 2022 14:57:59 +0000 (GMT)
+Received: from sig-9-65-71-246.ibm.com (unknown [9.65.71.246])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 15 Feb 2022 14:57:59 +0000 (GMT)
+Message-ID: <bd513c794ca096ff037c289e793e0ebaf5f0225f.camel@linux.ibm.com>
+Subject: kernel-parameter.txt question
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     linux-doc <linux-doc@vger.kernel.org>
+Cc:     Yael Tzur <yaelt@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Date:   Tue, 15 Feb 2022 09:57:58 -0500
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QZ31ezTWSLA1xslLJXrfV_3KBm0lOAUJ
+X-Proofpoint-GUID: B6zW6hsqKrNKbD1GNnXtvsXOcGyQcx4T
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-15_04,2022-02-14_04,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=794
+ clxscore=1015 phishscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202150084
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, Jan 28, 2022 at 11:25:24AM +0000, Suzuki K Poulose escreveu:
-> On 13/01/2022 09:10, James Clark wrote:
-> > Now that a config flag for branch broadcast has been added, take it into
-> > account when trying to deduce what the driver would have programmed the
-> > TRCCONFIGR register to.
+Hi -
 
-Thanks, applied this one, the tools/ part.
+When a new module parameter is defined, which will normally be
+specified on the boot command line, should it be included in
+Documentation/admin-guide/kernel-parameters.txt?
 
-- Arnaldo
+Example:  module_param(user_decrypted_data, bool, 0);
 
- 
-> > Reviewed-by: Leo Yan <leo.yan@linaro.org>
-> > Signed-off-by: James Clark <james.clark@arm.com>
-> > ---
-> >   tools/include/linux/coresight-pmu.h | 2 ++
-> >   tools/perf/arch/arm/util/cs-etm.c   | 3 +++
-> >   2 files changed, 5 insertions(+)
-> > 
-> > diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
-> > index 4ac5c081af93..6c2fd6cc5a98 100644
-> > --- a/tools/include/linux/coresight-pmu.h
-> > +++ b/tools/include/linux/coresight-pmu.h
-> > @@ -18,6 +18,7 @@
-> >    * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
-> >    * directly use below macros as config bits.
-> >    */
-> > +#define ETM_OPT_BRANCH_BROADCAST 8
-> >   #define ETM_OPT_CYCACC		12
-> >   #define ETM_OPT_CTXTID		14
-> >   #define ETM_OPT_CTXTID2		15
-> > @@ -25,6 +26,7 @@
-> >   #define ETM_OPT_RETSTK		29
-> >   /* ETMv4 CONFIGR programming bits for the ETM OPTs */
-> > +#define ETM4_CFG_BIT_BB         3
-> >   #define ETM4_CFG_BIT_CYCACC	4
-> >   #define ETM4_CFG_BIT_CTXTID	6
-> >   #define ETM4_CFG_BIT_VMID	7
-> > diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
-> > index 293a23bf8be3..c7ef4e9b4a3a 100644
-> > --- a/tools/perf/arch/arm/util/cs-etm.c
-> > +++ b/tools/perf/arch/arm/util/cs-etm.c
-> > @@ -527,6 +527,9 @@ static u64 cs_etmv4_get_config(struct auxtrace_record *itr)
-> >   	if (config_opts & BIT(ETM_OPT_CTXTID2))
-> >   		config |= BIT(ETM4_CFG_BIT_VMID) |
-> >   			  BIT(ETM4_CFG_BIT_VMID_OPT);
-> > +	if (config_opts & BIT(ETM_OPT_BRANCH_BROADCAST))
-> > +		config |= BIT(ETM4_CFG_BIT_BB);
-> > +
-> >   	return config;
-> 
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> 
-> >   }
+Message-Id: <20220215141953.1557009-1-yaelt@google.com>
 
 -- 
+thanks,
 
-- Arnaldo
+Mimi
+
