@@ -2,63 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D488AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 23:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E932DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Feb 2022 23:32:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235219AbiBOX3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 18:29:49 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35082 "EHLO
+        id S235144AbiBOXce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 18:32:34 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231760AbiBOX3s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 18:29:48 -0500
+        with ESMTP id S231760AbiBOXce (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 18:32:34 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6B2F94E9
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 15:29:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E290066639;
+        Tue, 15 Feb 2022 15:32:23 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D4E0335F;
-        Tue, 15 Feb 2022 23:29:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D4E0335F
+        by ms.lwn.net (Postfix) with ESMTPSA id 86BE835F;
+        Tue, 15 Feb 2022 23:32:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 86BE835F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1644967777; bh=HfPmrRHbCzAR+ecyBVM6oqtsCFsetn3UDiCnMNNFpis=;
+        t=1644967943; bh=7DxpN4wzbn4CODMyzgxFFGlGqYFqY22/e9LTczIG2OU=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=FrgiKFldx9tZD63cOGJqZeBC+f+N1Wk77d85QWVtytQuEqQEZp9tox1h7W3Z7rw0B
-         ofzLFlmOdcSu9QscGi0sMH50Wp3h0Z0Hp1K6VNUyf1Ct7tQxAqnN6pNkYV8QB4oTxo
-         cnV5a9WmokHu8crXCEsSy17G/8i0oJ/HLwHbjNh+GF03XpXLhiLpyetfnmUJgEkrX7
-         S/mq73rGMzpwZuHcS1K2JHPPMcOP5qM6P/eghRXtlSESujZHjUnbJGj/zNwmpOagLl
-         dtnVTuCxgUnEDIXCcmStAQxMbETwc3x2Klnc1t/iAi128ag58ytZzE5b90OUcMu/1V
-         xS5ag5Tb+OIVg==
+        b=TK7Q9BwRKshNVecx6N+fGxQUGPpzAzKMsPjmyXQdznW9W9hSUdz282IGXvSdnXJx+
+         3AILEsoCpm9x1dkVxbOb4a6/4BRj6UJ/I/WiM1AK0PvcRWaJrcLVKkBzpPCS2O8CxX
+         K0fwE4HiH0MFvPNF058/462Q2+Mfpk1yu+KIaiaeaIZpIE6JkEZpEXjwf2A1FLbEui
+         Jku8lZr6OD9am2oLSW/psVj2/3Gwg5BQdZ5hokQ5mq7rOJnyINA777TQS+vji8GLYD
+         Jj19Wtz/KFHgAQsfA62b1svcVgdd8anpml/IN1AY3Qg24gg+s9o2w4Vj3uSKfXPKOq
+         yWGKo1hzvckHw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tang Yizhou <tangyizhou@huawei.com>, siyanteng@loongson.cn,
-        siyanteng01@gmail.com, alexs@kernel.org, seakeel@gmail.com
-Cc:     linux-doc@vger.kernel.org, zhengbin13@huawei.com,
-        tangyeechou@gmail.com, Tang Yizhou <tangyizhou@huawei.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add sched-energy Chinese translation
-In-Reply-To: <20220208020105.14117-1-tangyizhou@huawei.com>
-References: <20220208020105.14117-1-tangyizhou@huawei.com>
-Date:   Tue, 15 Feb 2022 16:29:37 -0700
-Message-ID: <878rub7lpa.fsf@meer.lwn.net>
+To:     Ethan Dye <mrtops03@gmail.com>
+Cc:     Ethan Dye <mrtops03@gmail.com>, Minchan Kim <minchan@kernel.org>,
+        Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] block/zram: Fix wording in optional feature docs
+In-Reply-To: <20220207235442.95090-1-mrtops03@gmail.com>
+References: <20220207235442.95090-1-mrtops03@gmail.com>
+Date:   Tue, 15 Feb 2022 16:32:23 -0700
+Message-ID: <874k4z7lko.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tang Yizhou <tangyizhou@huawei.com> writes:
+Ethan Dye <mrtops03@gmail.com> writes:
 
-> Translate scheduler/sched-energy.rst into Chinese.
+> This fixes some simple grammar errors in the documentation for zram,
+> specifically errors in the optional featue section of the zram
+> documentation.
 >
-> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+> Signed-off-by: Ethan Dye <mrtops03@gmail.com>
 > ---
-> v2:
-> Take yanteng's advice.
->
->  .../translations/zh_CN/scheduler/index.rst    |   4 +-
->  .../zh_CN/scheduler/sched-energy.rst          | 351 ++++++++++++++++++
->  2 files changed, 353 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-energy.rst
+>  Documentation/admin-guide/blockdev/zram.rst | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 
-Applied, thanks.
+This document could use a lot more help than that, but this is a
+start...applied, thanks.
 
 jon
