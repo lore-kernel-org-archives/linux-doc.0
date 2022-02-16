@@ -2,200 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF7FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 07:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF79C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 08:49:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiBPHhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 02:37:08 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:43862 "EHLO
+        id S231676AbiBPItN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 03:49:13 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:57390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230208AbiBPHhH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 02:37:07 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8587F172884;
-        Tue, 15 Feb 2022 23:36:17 -0800 (PST)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1nKEA6-00083j-Mr; Wed, 16 Feb 2022 07:51:38 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        regressions@lists.linux.dev,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v5 3/3] docs: reporting-issues.rst: link new document about regressions
-Date:   Wed, 16 Feb 2022 07:51:35 +0100
-Message-Id: <f20114eaddc356a8c79dd62812a6c7f4ca5d87b9.1644994117.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1644994117.git.linux@leemhuis.info>
-References: <cover.1644994117.git.linux@leemhuis.info>
+        with ESMTP id S231704AbiBPItN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 03:49:13 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C9E2A97DA
+        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 00:49:01 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id a7so892907ybj.12
+        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 00:49:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Px1Ii76NKGcjh6vgRIYIo0+/IYLCGpBa0XRYhUxNDe4=;
+        b=Uj2RK54zoadYNZJ14iN3jV7SMRb7Uu17TXauOv7KIBRCa9azFuD5UwEg2VU/ca7CYx
+         OKbidyW+a55gg8kadAC2QgStrvQMDGGefIoyRT7LtXlxhJXNXnlHJ5+ff+bFgCyoDR/+
+         SinMyAxZy1jwJXP1dMjiOqIqm5+UaGPfQfxv+gQiqmT5pMYx0ALZg/BOjZd9qh8ElCOV
+         6DNqbqi6yNlp6FOq8a5Byw8bxsWcyeuUlt31RSrZpziyPK+PLYTaMRgZdjp/9PUCA8nL
+         UFthcde71GJ6Dk1RMb+YZdRFQiW9Eh0SkJfpt0L+Uq/Bc3jI8Gn/OFH50DDMMHbxBSeT
+         VuHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Px1Ii76NKGcjh6vgRIYIo0+/IYLCGpBa0XRYhUxNDe4=;
+        b=DJYJsQMurq9yNbGuakPgacDxW+iGGs0I+jGsAZfucuDAm6DwIgn29Om1mdUT7ZiVle
+         nhfAkXMAGq4zbQkp5Vrtfszb08sj09cMktTLEfi+f0eV0KzttrurbcjYA4sx/42AJJuE
+         qAyTojGXQLtxZcxPm2BHZKOtkJbezvNnai+1x3W0QJmI0alXZVLGRwXXsxKaj7PEL393
+         5rGHMrvci62KXnf4yoz2q1Ztyz2LVfJAgC/snuV0aoFLKN4fltJ/oJoOwg5uT3AN59kA
+         cjVcSjkFBhfA8EL3b7Dlji6MyRVxHP+BW4BOUMbTJmentpmNU8x32v5ZQXN8XlVmDI2k
+         nnYg==
+X-Gm-Message-State: AOAM533mB+/ollSfHKRin/l7Jhi1YVcWm22zDVC7Tl8X/nXQZNVege7s
+        Yx7WFzEzQ4E5nFOqY1Jb7rlzfyjTmVKToYen7JDMbhR1SSizQ0rd
+X-Google-Smtp-Source: ABdhPJwZdWJ67X6nOoenB0rIVp+Ipeg07EmI2Rn6TOlYrZC+ZUPwW9s+Icsvhsd+6EMAF1cZRufAfFTLgtfUqlxm+8g=
+X-Received: by 2002:a81:d85:0:b0:2d1:1b8d:f236 with SMTP id
+ 127-20020a810d85000000b002d11b8df236mr1523729ywn.212.1645001340646; Wed, 16
+ Feb 2022 00:49:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1644996977;2c8732e0;
-X-HE-SMSGID: 1nKEA6-00083j-Mr
+References: <20220212080024.1684590-1-xu.xin16@zte.com.cn> <20220212080344.1684782-1-xu.xin16@zte.com.cn>
+In-Reply-To: <20220212080344.1684782-1-xu.xin16@zte.com.cn>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Wed, 16 Feb 2022 16:48:27 +0800
+Message-ID: <CAEensMzqFCa12jmqEo+78cu7hFdkYjp0XQOnMgj+07zPnYa9Rg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] zh_CN: Add translations for admin-guide/mm/ksm.rst
+To:     cgel.zte@gmail.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Alex Shi <seakeel@gmail.com>, xu xin <xu.xin16@zte.com.cn>,
+        Yang Yang <yang.yang29@zte.com.cn>,
+        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make Documentation/admin-guide/reporting-issues.rst point to the newly
-created document about regressions
-(Documentation/admin-guide/regressions-regressions.rst). This allows to
-shorten a few explanations the new document describes better and in more
-detail.
-
-While at it move the copyright hint to the end of the file and remove
-quotes around links to other places in the documentation. Both issues
-came up during the review of the new documents about regressions.
-
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- .../admin-guide/reporting-issues.rst          | 73 +++++++++----------
- 1 file changed, 36 insertions(+), 37 deletions(-)
-
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index d7ac13f789cc..ec62151fe672 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -1,14 +1,5 @@
- .. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
--..
--   If you want to distribute this text under CC-BY-4.0 only, please use 'The
--   Linux kernel developers' for author attribution and link this as source:
--   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
--..
--   Note: Only the content of this RST file as found in the Linux kernel sources
--   is available under CC-BY-4.0, as versions of this text that were processed
--   (for example by the kernel's build system) might contain content taken from
--   files which use a more restrictive license.
--
-+.. See the bottom of this file for additional redistribution information.
- 
- Reporting issues
- ++++++++++++++++
-@@ -395,22 +386,16 @@ fixed as soon as possible, hence there are 'issues of high priority' that get
- handled slightly differently in the reporting process. Three type of cases
- qualify: regressions, security issues, and really severe problems.
- 
--You deal with a 'regression' if something that worked with an older version of
--the Linux kernel does not work with a newer one or somehow works worse with it.
--It thus is a regression when a WiFi driver that did a fine job with Linux 5.7
--somehow misbehaves with 5.8 or doesn't work at all. It's also a regression if
--an application shows erratic behavior with a newer kernel, which might happen
--due to incompatible changes in the interface between the kernel and the
--userland (like procfs and sysfs). Significantly reduced performance or
--increased power consumption also qualify as regression. But keep in mind: the
--new kernel needs to be built with a configuration that is similar to the one
--from the old kernel (see below how to achieve that). That's because the kernel
--developers sometimes can not avoid incompatibilities when implementing new
--features; but to avoid regressions such features have to be enabled explicitly
--during build time configuration.
-+You deal with a regression if some application or practical use case running
-+fine with one Linux kernel works worse or not at all with a newer version
-+compiled using a similar configuration. The document
-+Documentation/admin-guide/reporting-regressions.rst explains this in more
-+detail. It also provides a good deal of other information about regressions you
-+might want to be aware of; it for example explains how to add your issue to the
-+list of tracked regressions, to ensure it won't fall through the cracks.
- 
- What qualifies as security issue is left to your judgment. Consider reading
--'Documentation/admin-guide/security-bugs.rst' before proceeding, as it
-+Documentation/admin-guide/security-bugs.rst before proceeding, as it
- provides additional details how to best handle security issues.
- 
- An issue is a 'really severe problem' when something totally unacceptably bad
-@@ -517,7 +502,7 @@ line starting with 'CPU:'. It should end with 'Not tainted' if the kernel was
- not tainted when it noticed the problem; it was tainted if you see 'Tainted:'
- followed by a few spaces and some letters.
- 
--If your kernel is tainted, study 'Documentation/admin-guide/tainted-kernels.rst'
-+If your kernel is tainted, study Documentation/admin-guide/tainted-kernels.rst
- to find out why. Try to eliminate the reason. Often it's caused by one these
- three things:
- 
-@@ -1043,7 +1028,7 @@ down the culprit, as maintainers often won't have the time or setup at hand to
- reproduce it themselves.
- 
- To find the change there is a process called 'bisection' which the document
--'Documentation/admin-guide/bug-bisect.rst' describes in detail. That process
-+Documentation/admin-guide/bug-bisect.rst describes in detail. That process
- will often require you to build about ten to twenty kernel images, trying to
- reproduce the issue with each of them before building the next. Yes, that takes
- some time, but don't worry, it works a lot quicker than most people assume.
-@@ -1073,10 +1058,11 @@ When dealing with regressions make sure the issue you face is really caused by
- the kernel and not by something else, as outlined above already.
- 
- In the whole process keep in mind: an issue only qualifies as regression if the
--older and the newer kernel got built with a similar configuration. The best way
--to archive this: copy the configuration file (``.config``) from the old working
--kernel freshly to each newer kernel version you try. Afterwards run ``make
--olddefconfig`` to adjust it for the needs of the new version.
-+older and the newer kernel got built with a similar configuration. This can be
-+achieved by using ``make olddefconfig``, as explained in more detail by
-+Documentation/admin-guide/reporting-regressions.rst; that document also
-+provides a good deal of other information about regressions you might want to be
-+aware of.
- 
- 
- Write and send the report
-@@ -1283,7 +1269,7 @@ them when sending the report by mail. If you filed it in a bug tracker, forward
- the report's text to these addresses; but on top of it put a small note where
- you mention that you filed it with a link to the ticket.
- 
--See 'Documentation/admin-guide/security-bugs.rst' for more information.
-+See Documentation/admin-guide/security-bugs.rst for more information.
- 
- 
- Duties after the report went out
-@@ -1571,7 +1557,7 @@ Once your report is out your might get asked to do a proper one, as it allows to
- pinpoint the exact change that causes the issue (which then can easily get
- reverted to fix the issue quickly). Hence consider to do a proper bisection
- right away if time permits. See the section 'Special care for regressions' and
--the document 'Documentation/admin-guide/bug-bisect.rst' for details how to
-+the document Documentation/admin-guide/bug-bisect.rst for details how to
- perform one. In case of a successful bisection add the author of the culprit to
- the recipients; also CC everyone in the signed-off-by chain, which you find at
- the end of its commit message.
-@@ -1594,7 +1580,7 @@ Some fixes are too complex
- Even small and seemingly obvious code-changes sometimes introduce new and
- totally unexpected problems. The maintainers of the stable and longterm kernels
- are very aware of that and thus only apply changes to these kernels that are
--within rules outlined in 'Documentation/process/stable-kernel-rules.rst'.
-+within rules outlined in Documentation/process/stable-kernel-rules.rst.
- 
- Complex or risky changes for example do not qualify and thus only get applied
- to mainline. Other fixes are easy to get backported to the newest stable and
-@@ -1756,10 +1742,23 @@ art will lay some groundwork to improve the situation over time.
- 
- 
- ..
--   This text is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If you
--   spot a typo or small mistake, feel free to let him know directly and he'll
--   fix it. You are free to do the same in a mostly informal way if you want
--   to contribute changes to the text, but for copyright reasons please CC
-+   end-of-content
-+..
-+   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
-+   you spot a typo or small mistake, feel free to let him know directly and
-+   he'll fix it. You are free to do the same in a mostly informal way if you
-+   want to contribute changes to the text, but for copyright reasons please CC
-    linux-doc@vger.kernel.org and "sign-off" your contribution as
-    Documentation/process/submitting-patches.rst outlines in the section "Sign
-    your work - the Developer's Certificate of Origin".
-+..
-+   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
-+   of the file. If you want to distribute this text under CC-BY-4.0 only,
-+   please use "The Linux kernel developers" for author attribution and link
-+   this as source:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-issues.rst
-+..
-+   Note: Only the content of this RST file as found in the Linux kernel sources
-+   is available under CC-BY-4.0, as versions of this text that were processed
-+   (for example by the kernel's build system) might contain content taken from
-+   files which use a more restrictive license.
--- 
-2.35.1
-
+PGNnZWwuenRlQGdtYWlsLmNvbT4g5LqOMjAyMuW5tDLmnIgxMuaXpeWRqOWFrSAxNjowM+WGmemB
+k++8mg0KPg0KPiBGcm9tOiB4dSB4aW4gPHh1LnhpbjE2QHp0ZS5jb20uY24+DQo+DQo+IFRyYW5z
+bGF0ZSBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL21tL2tzbS5yc3QgaW50byBDaGluZXNlLg0K
+Pg0KPiBSZXZpZXdlZC1ieTogWWFuZyBZYW5nIDx5YW5nLnlhbmcyOUB6dGUuY29tLmNuPg0KPiBS
+ZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQo+IFJldmlld2VkLWJ5OiBZ
+YW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+IFNpZ25lZC1vZmYtYnk6IHh1IHhp
+biA8eHUueGluMTZAenRlLmNvbS5jbj4NCj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NO
+L2FkbWluLWd1aWRlL21tL2tzbS5yc3QgICAgICB8IDE0OCArKysrKysrKysrKysrKysrKysrKysN
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxNDggaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL21tL2tzbS5y
+c3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Fk
+bWluLWd1aWRlL21tL2tzbS5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9h
+ZG1pbi1ndWlkZS9tbS9rc20ucnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAw
+MDAwMDAuLmJiZjY1NGMNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9tbS9rc20ucnN0DQo+IEBAIC0wLDAgKzEsMTQ4
+IEBADQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCmRpc2NsYWltZXIt
+emhfQ04ucnN0IGluIHRoZQ0KRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGlzY2xh
+aW1lci16aF9DTi5yc3QNCg0KVGhhbmtzLA0KWWFudGVuZw0KPiArDQo+ICs6T3JpZ2luYWw6IERv
+Y3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbW0va3NtLnJzdA0KPiArDQo+ICs657+76K+ROg0KPiAr
+DQo+ICsgIOW+kOmRqyB4dSB4aW4gPHh1LnhpbjE2QHp0ZS5jb20uY24+DQo+ICsNCj4gKw0KPiAr
+PT09PT09PT09PT09DQo+ICvlhoXmoLjlkIzpobXlkIjlubYNCj4gKz09PT09PT09PT09PQ0KPiAr
+DQo+ICsNCj4gK+amgui/sA0KPiArPT09PQ0KPiArDQo+ICtLU03mmK/kuIDnp43og73oioLnnIHl
+hoXlrZjnmoTmlbDmja7ljrvph43lip/og73vvIznlLFDT05GSUdfS1NNPXnlkK/nlKjvvIzlubbl
+nKgyLjYuMzLniYjmnKzml7booqvmt7sNCj4gK+WKoOWIsExpbnV45YaF5qC444CC6K+m6KeBIGBg
+bW0va3NtLmNgYCDnmoTlrp7njrDvvIzku6Xlj4podHRwOi8vbHduLm5ldC9BcnRpY2xlcy8zMDY3
+MDQNCj4gK+WSjGh0dHBzOi8vbHduLm5ldC9BcnRpY2xlcy8zMzA1ODkNCj4gKw0KPiArS1NN5pyA
+5Yid55uu55qE5piv5Li65LqG5LiOS1ZN77yI5Y2z6JGX5ZCN55qE5YaF5qC45YWx5Lqr5YaF5a2Y
+77yJ5LiA6LW35L2/55So6ICM5byA5Y+R55qE77yM6YCa6L+H5YWx5Lqr6Jma5ouf5py6DQo+ICvk
+uYvpl7TnmoTlhazlhbHmlbDmja7vvIzlsIbmm7TlpJromZrmi5/mnLrmlL7lhaXniannkIblhoXl
+rZjjgILkvYblroPlr7nkuo7ku7vkvZXkvJrnlJ/miJDlpJrkuKrnm7jlkIzmlbDmja7lrp7kvovn
+moQNCj4gK+W6lOeUqOeoi+W6j+mDveaYr+W+iOacieeUqOeahOOAgg0KPiArDQo+ICtLU03nmoTl
+rojmiqTov5vnqItrc21k5Lya5a6a5pyf5omr5o+P6YKj5Lqb5bey5rOo5YaM55qE55So5oi35YaF
+5a2Y5Yy65Z+f77yM5p+l5om+5YaF5a6555u45ZCM55qE6aG16Z2i77yM6L+Z5LqbDQo+ICvpobXp
+naLlj6/ku6XooqvljZXkuKrlhpnkv53miqTpobXpnaLmm7/mjaLvvIjlpoLmnpzov5vnqIvku6Xl
+kI7mg7PopoHmm7TmlrDlhbblhoXlrrnvvIzlsIboh6rliqjlpI3liLbvvInjgILkvb/nlKjvvJoN
+Cj4gK+W8leeUqDpgc3lzZnMgaW50cmFmYWNlICA8a3NtX3N5c2ZzPmAg5o6l5Y+j5p2l6YWN572u
+S1NN5a6I5oqk56iL5bqP5Zyo5Y2V5Liq6L+H56iL5Lit5omA5omr5o+P55qE6aG1DQo+ICvmlbDk
+u6Xlj4rkuKTkuKrov4fnqIvkuYvpl7TnmoTpl7TpmpTml7bpl7TjgIINCj4gKw0KPiArS1NN5Y+q
+5ZCI5bm25Yy/5ZCN77yI56eB5pyJ77yJ6aG16Z2i77yM5LuO5LiN5ZCI5bm26aG157yT5a2Y77yI
+5paH5Lu277yJ6aG16Z2i44CCS1NN55qE5ZCI5bm26aG16Z2i5pyA5Yid5Y+q6IO96KKrDQo+ICvp
+lIHlrprlnKjlhoXmoLjlhoXlrZjkuK3vvIzkvYbnjrDlnKjlj6/ku6XlsLHlg4/lhbbku5bnlKjm
+iLfpobXpnaLkuIDmoLfooqvmjaLlh7rvvIjkvYblvZPlroPku6zooqvkuqTmjaLlm57mnaXml7bl
+hbENCj4gK+S6q+S8muiiq+egtOWdjzoga3NtZOW/hemhu+mHjeaWsOWPkeeOsOWug+S7rOeahOi6
+q+S7veW5tuWGjeasoeWQiOW5tu+8ieOAgg0KPiArDQo+ICvku6VtYWR2aXNl5o6n5Yi2S1NNDQo+
+ICs9PT09PT09PT09PT09PT09DQo+ICsNCj4gK0tTTeS7heWcqOeJueWumueahOWcsOWdgOepuumX
+tOWMuuWfn+aXtui/kOihjO+8jOWNs+W6lOeUqOeoi+W6j+mAmui/h+S9v+eUqOWmguS4i+aJgOek
+uueahG1hZHZpc2UoMinns7vnu5/osIMNCj4gK+eUqOadpeivt+axguafkOWdl+WcsOWdgOaIkOS4
+uuWPr+iDveeahOWQiOW5tuWAmemAieiAheeahOWcsOWdgOepuumXtDo6DQo+ICsNCj4gKyAgICBp
+bnQgbWFkdmlzZShhZGRyLCBsZW5ndGgsIE1BRFZfTUVSR0VBQkxFKQ0KPiArDQo+ICvlupTnlKjn
+qIvluo/lvZPnhLbkuZ/lj6/ku6XpgJrov4fosIPnlKg6Og0KPiArDQo+ICsgICAgaW50IG1hZHZp
+c2UoYWRkciwgbGVuZ3RoLCBNQURWX1VOTUVSR0VBQkxFKQ0KPiArDQo+ICvmnaXlj5bmtojor6Xo
+r7fmsYLvvIzlubbmgaLlpI3kuLrpnZ7lhbHkuqvpobXpnaLvvJrmraTml7ZLU03lsIbljrvpmaTl
+kIjlubblnKjor6XojIPlm7TlhoXnmoTku7vkvZXlkIjlubbpobXjgILms6jmhI/vvJoNCj4gK+i/
+meS4quWOu+mZpOWQiOW5tueahOiwg+eUqOWPr+iDveeqgeeEtumcgOimgeeahOWGheWtmOmHj+i2
+hei/h+WunumZheWPr+eUqOeahOWGheWtmOmHjy3pgqPkuYjlj6/og73kvJrlh7rnjrBFQUdBSU4N
+Cj4gK+Wksei0pe+8jOS9huabtOWPr+iDveS8muWUpOmGkk9PTSBraWxsZXLjgIINCj4gKw0KPiAr
+5aaC5p6cS1NN5pyq6KKr6YWN572u5Yiw5q2j5Zyo6L+Q6KGM55qE5YaF5qC45Lit77yM5YiZbWFk
+dmlzZSBNQURWX01FUkdFQUJMRSDlkowgTUFEVl9VTk1FUkdFQUJMRQ0KPiAr55qE6LCD55So5Y+q
+5Lya5LulRUlOVkFMIOWksei0peOAguWmguaenOato+WcqOi/kOihjOeahOWGheaguOaYr+eUqENP
+TkZJR19LU009eeaWueW8j+aehOW7uueahO+8jOmCo+S5iOi/meS6mw0KPiAr6LCD55So6YCa5bi4
+5Lya5oiQ5Yqf77ya5Y2z5L2/S1NN5a6I5oqk56iL5bqP5b2T5YmN5rKh5pyJ6L+Q6KGM77yMTUFE
+Vl9NRVJHRUFCTEUg5LuN54S25Lya5ZyoS1NN5a6I5oqk56iL5bqPDQo+ICvlkK/liqjml7bms6jl
+hozojIPlm7TvvIzljbPkvb/or6XojIPlm7TkuI3og73ljIXlkKtLU03lrp7pmYXlj6/ku6XlkIjl
+ubbnmoTku7vkvZXpobXpnaLvvIzljbPkvb9NQURWX1VOTUVSR0VBQkxFDQo+ICvlupTnlKjkuo7k
+u47mnKrmoIforrDkuLpNQURWX01FUkdFQUJMReeahOiMg+WbtOOAgg0KPiArDQo+ICvlpoLmnpzk
+uIDlnZflhoXlrZjljLrln5/lv4Xpobvooqvmi4bliIbkuLroh7PlsJHkuIDkuKrmlrDnmoRNQURW
+X01FUkdFQUJMReWMuuWfn+aIlk1BRFZfVU5NRVJHRUFCTEXljLrln5/vvIwNCj4gK+W9k+ivpei/
+m+eoi+Wwhui2hei/hyBgYHZtLm1heF9tYXBfY291bnRgYCDnmoTorr7lrprvvIzliJltYWR2aXNl
+5Y+v6IO96L+U5ZueRU5PTUVN44CC77yI6K+35Y+C6ZiF5paH5qGjDQo+ICtEb2N1bWVudGF0aW9u
+L2FkbWluLWd1aWRlL3N5c2N0bC92bS5yc3TvvInjgIINCj4gKw0KPiAr5LiO5YW25LuWbWFkdmlz
+Zeiwg+eUqOS4gOagt++8jOWug+S7rOWcqOeUqOaIt+WcsOWdgOepuumXtOeahOaYoOWwhOWMuuWf
+n+S4iuS9v+eUqO+8muWmguaenOaMh+WumueahOiMg+WbtOWMheWQq+acqg0KPiAr5pig5bCE55qE
+6Ze06ZqZ77yI5bC9566h5Zyo5Lit6Ze055qE5pig5bCE5Yy65Z+f5bel5L2c77yJ77yM5a6D5Lus
+5bCG5oql5ZGKRU5PTUVN77yM5aaC5p6c5rKh5pyJ6Laz5aSf55qE5YaF5a2Y55So5LqODQo+ICvl
+hoXpg6jnu5PmnoTvvIzliJnlj6/og73kvJrlm6BFQUdBSU7ogIzlpLHotKXjgIINCj4gKw0KPiAr
+S1NN5a6I5oqk6L+b56iLc3lzZnPmjqXlj6MNCj4gKz09PT09PT09PT09PT09PT09PT0NCj4gKw0K
+PiArS1NN5a6I5oqk6L+b56iL5Y+v5Lul55SxYGAvc3lzL2tlcm5lbC9tbS9rc20vYGAg5Lit55qE
+c3lzZnPmlofku7bmjqfliLbvvIzmiYDmnInkurrpg73lj6/ku6Xor7vlj5bvvIzkvYYNCj4gK+WP
+quiDveeUsXJvb3TnlKjmiLflhpnlhaXjgILlkITmjqXlj6Pop6Pph4rlpoLkuIvvvJoNCj4gKw0K
+PiArDQo+ICtwYWdlc190b19zY2FuDQo+ICsgICAgICAgIGtzbWTov5vnqIvov5vlhaXnnaHnnKDl
+iY3opoHmiavmj4/nmoTpobXmlbDjgIINCj4gKyAgICAgICAg5L6L5aaC77yMIGBgZWNobyAxMDAg
+PiAvc3lzL2tlcm5lbC9tbS9rc20vcGFnZXNfdG9fc2NhbmBgDQo+ICsNCj4gKyAgICAgICAg6buY
+6K6k5YC877yaMTAw77yI6K+l5YC86KKr6YCJ5oup55So5LqO5ryU56S655uu55qE77yJDQo+ICsN
+Cj4gK3NsZWVwX21pbGxpc2Vjcw0KPiArICAgICAgICBrc21k5Zyo5LiL5qyh5omr5o+P5YmN5bqU
+5LyR55yg5aSa5bCR5q+r56eSDQo+ICsgICAgICAgIOS+i+Wmgu+8jCBgYGVjaG8gMjAgPiAvc3lz
+L2tlcm5lbC9tbS9rc20vc2xlZXBfbWlsbGlzZWNzYGANCj4gKw0KPiArICAgICAgICDpu5jorqTl
+gLzvvJoyMO+8iOivpeWAvOiiq+mAieaLqeeUqOS6jua8lOekuuebrueahO+8iQ0KPiArDQo+ICtt
+ZXJnZV9hY3Jvc3Nfbm9kZXMNCj4gKyAgICAgICAg5oyH5a6a5piv5ZCm5Y+v5Lul5ZCI5bm25p2l
+6Ieq5LiN5ZCMTlVNQeiKgueCueeahOmhtemdouOAguW9k+iuvue9ruS4ujDml7bvvIxrc23ku4Xl
+kIjlubblnKjniannkIbkuIrkvY0NCj4gKyAgICAgICAg5LqO5ZCM5LiATlVNQeiKgueCueeahOWG
+heWtmOWMuuWfn+S4reeahOmhtemdouOAgui/memZjeS9juS6huiuv+mXruWFseS6q+mhtemdouea
+hOW7tui/n+OAguWcqOacieaYjuaYvueahA0KPiArICAgICAgICBOVU1B6Led56a75LiK77yM5YW3
+5pyJ5pu05aSa6IqC54K555qE57O757uf5Y+v6IO95Y+X55uK5LqO6K6+572u6K+l5YC85Li6MOaX
+tueahOabtOS9juW7tui/n+OAguiAjOWvueS6jg0KPiArICAgICAgICDpnIDopoHlr7nlhoXlrZjk
+vb/nlKjph4/mnIDlsI/ljJbnmoTovoPlsI/ns7vnu5/mnaXor7TvvIzorr7nva7or6XlgLzkuLox
+77yI6buY6K6k6K6+572u77yJ5YiZ5Y+v6IO95Lya5Y+XDQo+ICsgICAgICAgIOebiuS6juabtOWk
+p+WFseS6q+mhtemdouOAguWcqOWGs+WumuS9v+eUqOWTquenjeiuvue9ruS5i+WJje+8jOaCqOWP
+r+iDveW4jOacm+avlOi+g+ezu+e7n+WcqOavj+enjeiuvue9ruS4iw0KPiArICAgICAgICDnmoTm
+gKfog73jgIIgYGBtZXJnZV9hY3Jvc3Nfbm9kZXNgYCDku4XlvZPns7vnu5/kuK3msqHmnIlrc23l
+hbHkuqvpobXpnaLml7bvvIzmiY3og73ooqvmm7TmlLnorr4NCj4gKyAgICAgICAg572u77ya6aaW
+5YWI5bCG5o6l5Y+jYHJ1bmAg6K6+572u5Li6MuS7juiAjOWvuemhtei/m+ihjOWOu+WQiOW5tu+8
+jOeEtuWQjuWcqOS/ruaUuQ0KPiArICAgICAgICBgYG1lcmdlX2Fjcm9zc19ub2Rlc2BgIOWQjuWG
+jeWwhuKAmHJ1buKAmeWPiOiuvue9ruS4ujHvvIzku6XmoLnmja7mlrDorr7nva7mnaXph43mlrDl
+kIjlubbjgIINCj4gKw0KPiArICAgICAgICDpu5jorqTlgLzvvJox77yI5aaC5pep5pyf55qE5Y+R
+5biD54mI5pys5LiA5qC35ZCI5bm26Leo56uZ54K577yJDQo+ICsNCj4gK3J1bg0KPiArICAgICAg
+ICAqIOiuvue9ruS4ujDlj6/lgZzmraJrc21k6L+Q6KGM77yM5L2G5L+d55WZ5ZCI5bm26aG16Z2i
+77yMDQo+ICsgICAgICAgICog6K6+572u5Li6MeWPr+i/kOihjGtzbWTvvIzkvovlpoLvvIwgYGBl
+Y2hvIDEgPiAvc3lzL2tlcm5lbC9tbS9rc20vcnVuYGAg77yMDQo+ICsgICAgICAgICog6K6+572u
+5Li6MuWPr+WBnOatomtzbWTov5DooYzvvIzlubbkuJTlr7nmiYDmnInnm67liY3lt7LlkIjlubbn
+moTpobXov5vooYzljrvlkIjlubbvvIzkvYbkv53nlZnlj6/lkIjlubYNCj4gKyAgICAgICAgICDl
+jLrln5/ku6XkvpvkuIvmrKHov5DooYzjgIINCj4gKw0KPiArICAgICAgICDpu5jorqTlgLzvvJow
+77yI5b+F6aG76K6+572u5Li6MeaJjeiDvea/gOa0u0tTTe+8jOmZpOmdnuemgeeUqOS6hkNPTkZJ
+R19TWVNGU++8iQ0KPiArDQo+ICt1c2VfemVyb19wYWdlcw0KPiArICAgICAgICDmjIflrprmmK/l
+kKblupTlvZPnibnmrorlpITnkIbnqbrpobXvvIjljbPpgqPkupvku4XlkKt6ZXJv55qE5bey5YiG
+6YWN6aG177yJ44CC5b2T6K+l5YC86K6+572u5Li6MeaXtu+8jA0KPiArICAgICAgICDnqbrpobXk
+uI7lhoXmoLjpm7bpobXlkIjlubbvvIzogIzkuI3mmK/lg4/pgJrluLjmg4XlhrXkuIvpgqPmoLfn
+qbrpobXoh6rouqvlvbzmraTlkIjlubbjgILov5nlj6/ku6XmoLnmja4NCj4gKyAgICAgICAg5bel
+5L2c6LSf6L2955qE5LiN5ZCM77yM5Zyo5YW35pyJ552A6Imy6Zu26aG155qE5p625p6E5LiK5Y+v
+5Lul5o+Q6auY5oCn6IO944CC5ZCv55So5q2k6K6+572u5pe25bqU5bCP5b+D77yMDQo+ICsgICAg
+ICAgIOWboOS4uuWug+WPr+iDveS8mumZjeS9juafkOS6m+W3peS9nOi0n+i9veeahEtTTeaAp+iD
+ve+8jOavlOWmgu+8jOW9k+W+heWQiOW5tueahOWAmemAiemhtemdoueahOagoemqjOWSjA0KPiAr
+ICAgICAgICDkuI7nqbrpobXpnaLnmoTmoKHpqozlkozmgbDlpb3ljLnphY3nmoTml7blgJnjgILm
+raTorr7nva7lj6/pmo/ml7bmm7TmlLnvvIzku4Xlr7npgqPkupvmm7TmlLnlkI7lho3lkIjlubYN
+Cj4gKyAgICAgICAg55qE6aG16Z2i5pyJ5pWI44CCDQo+ICsNCj4gKyAgICAgICAg6buY6K6k5YC8
+77yaMO+8iOWmguWQjOaXqeacn+eJiOacrOeahEtTTeato+W4uOihqOeOsO+8iQ0KPiArDQo+ICtt
+YXhfcGFnZV9zaGFyaW5nDQo+ICsgICAgICAgIOWNleS4qktTTemhtemdouWFgeiuuOeahOacgOWk
+p+WFseS6q+ermeeCueaVsOOAgui/meWwhuW8uuWItuaJp+ihjOmHjeWkjeaVsOaNrua2iOmZpOmZ
+kOWItu+8jOS7pemBv+WFjea2iQ0KPiArICAgICAgICDlj4rpgY3ljoblhbHkuqtLU03pobXpnaLn
+moTomZrmi5/mmKDlsITnmoTomZrmi5/lhoXlrZjmk43kvZznmoTpq5jlu7bov5/jgILmnIDlsI/l
+gLzkuLoy77yM5Zug5Li65paw5YibDQo+ICsgICAgICAgIOW7uueahEtTTemhtemdouWwhuiHs+Ww
+keacieS4pOS4quWFseS6q+iAheOAguivpeWAvOi2iumrmO+8jEtTTeWQiOW5tuWGheWtmOeahOmA
+n+W6pui2iuW/q++8jOWOu+mHjQ0KPiArICAgICAgICDlm6DlrZDkuZ/otorpq5jvvIzkvYbmmK/l
+r7nkuo7ku7vkvZXnu5nlrprnmoRLU03pobXpnaLvvIzomZrmi5/mmKDlsITnmoTmnIDlnY/mg4Xl
+hrXpgY3ljobnmoTpgJ/luqbkuZ/kvJoNCj4gKyAgICAgICAg6LaK5oWi44CC5YeP5oWi5LqG6L+Z
+56eN6YGN5Y6G6YCf5bqm5bCx5oSP5ZGz552A5Zyo5Lqk5o2i44CB5Y6L57yp44CBTlVNQeW5s+ih
+oeWSjOmhtemdoui/geenu+acn+mXtO+8jA0KPiArICAgICAgICDmn5DkupvomZrmi5/lhoXlrZjm
+k43kvZzlsIbmnInmm7Tpq5jnmoTlu7bov5/vvIzku47ogIzpmY3kvY7ov5nkupvomZrmi5/lhoXl
+rZjmk43kvZzosIPnlKjogIXnmoTlk43lupTog73lipvjgIINCj4gKyAgICAgICAg5YW25LuW5Lu7
+5Yqh5aaC5p6c5LiN5raJ5Y+K5omn6KGM6Jma5ouf5pig5bCE6YGN5Y6G55qEVk3mk43kvZzvvIzl
+hbbku7vliqHosIPluqblu7bov5/kuI3lj5fmraTlj4LmlbDnmoTlvbENCj4gKyAgICAgICAg5ZON
+77yM5Zug5Li66L+Z5Lqb6YGN5Y6G5pys6Lqr5piv6LCD5bqm5Y+L5aW955qE44CCDQo+ICsNCj4g
+K3N0YWJsZV9ub2RlX2NoYWluc19wcnVuZV9taWxsaXNlY3MNCj4gKyAgICAgICAg5oyH5a6aS1NN
+5qOA5p+l54m55a6a6aG16Z2i55qE5YWD5pWw5o2u55qE6aKR546H77yI5Y2z6YKj5Lqb6L6+5Yiw
+6L+H5pe25L+h5oGv5pWw5o2u5Y676YeN6ZmQ5Yi25qCH5YeG55qEDQo+ICsgICAgICAgIOmhtemd
+ou+8ieWNleS9jeaYr+avq+enkuOAgui+g+Wwj+eahOavq+enkuWAvOWwhuS7peabtOS9jueahOW7
+tui/n+adpemHiuaUvktTTeWFg+aVsOaNru+8jOS9huWug+S7rOWwhuS9vw0KPiArICAgICAgICBr
+c21k5Zyo5omr5o+P5pyf6Ze05L2/55So5pu05aSaQ1BV44CC5aaC5p6c6L+Y5rKh5pyJ5LiA5Liq
+S1NN6aG16Z2i6L6+5YiwIGBgbWF4X3BhZ2Vfc2hhcmluZ2BgDQo+ICsgICAgICAgIOagh+WHhu+8
+jOmCo+WwseayoeacieS7gOS5iOeUqOOAgg0KPiArDQo+ICtLU03kuI5NQURWX01FUkdFQUJMReea
+hOW3peS9nOacieaViOaAp+S9k+eOsOS6jiBgYC9zeXMva2VybmVsL21tL2tzbS9gYCDot6/lvoTk
+uIvnmoTmjqXlj6PvvJoNCj4gKw0KPiArcGFnZXNfc2hhcmVkDQo+ICsgICAgICAgIOihqOekuuWk
+muWwkeWFseS6q+mhteato+WcqOiiq+S9v+eUqA0KPiArcGFnZXNfc2hhcmluZw0KPiArICAgICAg
+ICDooajnpLrov5jmnInlpJrlsJHnq5nngrnmraPlnKjlhbHkuqvov5nkupvlhbHkuqvpobXvvIzl
+jbPoioLnnIHkuoblpJrlsJENCj4gK3BhZ2VzX3Vuc2hhcmVkDQo+ICsgICAgICAgIOihqOekuuac
+ieWkmuWwkemhteaYr+WUr+S4gOeahO+8jOS9huiiq+WPjeWkjeajgOafpeS7pei/m+ihjOWQiOW5
+tg0KPiArcGFnZXNfdm9sYXRpbGUNCj4gKyAgICAgICAg6KGo56S65pyJ5aSa5bCR6aG15Zug5Y+Y
+5YyW5aSq5b+r6ICM5peg5rOV5pS+5ZyodHJlZeS4rQ0KPiArZnVsbF9zY2Fucw0KPiArICAgICAg
+ICDooajnpLrmiYDmnInlj6/lkIjlubbljLrln5/lt7Lmiavmj4/lpJrlsJHmrKENCj4gK3N0YWJs
+ZV9ub2RlX2NoYWlucw0KPiArICAgICAgICDovr7liLAgYGBtYXhfcGFnZV9zaGFyaW5nYGAg6ZmQ
+5Yi255qES1NN6aG15pWwDQo+ICtzdGFibGVfbm9kZV9kdXBzDQo+ICsgICAgICAgIOmHjeWkjeea
+hEtTTemhteaVsA0KPiArDQo+ICvmr5TlgLwgYGBwYWdlc19zaGFyaW5nL3BhZ2VzX3NoYXJlZGBg
+IOeahOacgOWkp+WAvOWPl+mZkOWItuS6jiBgYG1heF9wYWdlX3NoYXJpbmdgYA0KPiAr55qE6K6+
+5a6a44CC6KaB5oOz5aKe5Yqg6K+l5q+U5YC877yM5YiZ55u45bqU5Zyw6KaB5aKe5YqgIGBgbWF4
+X3BhZ2Vfc2hhcmluZ2BgIOeahOWAvOOAgg0KPiAtLQ0KPiAyLjE1LjINCj4NCj4NCg==
