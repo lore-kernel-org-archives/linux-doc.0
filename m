@@ -2,343 +2,308 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 697CCC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 02:58:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF41C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 03:22:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236393AbiBPC6s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 21:58:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35104 "EHLO
+        id S237597AbiBPDWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 22:22:30 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240388AbiBPC6s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 21:58:48 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603A32BB29;
-        Tue, 15 Feb 2022 18:58:35 -0800 (PST)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Jz2gW47Tzzcd1m;
-        Wed, 16 Feb 2022 10:57:27 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Feb 2022 10:58:33 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Feb 2022 10:58:32 +0800
-Subject: Re: [PATCH v20 3/5] arm64: kdump: reimplement crashkernel=X
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-To:     Baoquan He <bhe@redhat.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
+        with ESMTP id S1344264AbiBPDWa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 22:22:30 -0500
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1293165825
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 19:22:17 -0800 (PST)
+Received: by mail-io1-xd33.google.com with SMTP id h5so829438ioj.3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 19:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pC+CQP5X8/WBY/xYLNskVxmp5h3d1UBhUppWThc6zcU=;
+        b=JjHYxwuhg8eU+0FsJ4cbBFmZCmqA53fU2f9F6kotYxiXToxiJUNSyjfwP83rdcpdSm
+         47XXk41juhHZsyak1Pw53y932BX59s9FRfGUrsDZQwRVB3yxsxbDKyNjewbCuyNlFC3u
+         czn1vbpNWkprv7EoRa7tckSkUURyKh01lzbIKhhS834iGgl1H/GGbRBjy9mjbQES+WoL
+         Pd+PqDlOVy26h96FYWL83RXtPX9h8pSJp8twZ97itYQY/w+SWQqSDB4ebt3MZg7FfQbZ
+         faEXPMmdiaVL9LJc4+CQ7p0DEnu4+DZ1VYR/vctO4rXPhcjLVNso8NhzFblg7BasRd1Z
+         COOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pC+CQP5X8/WBY/xYLNskVxmp5h3d1UBhUppWThc6zcU=;
+        b=PCHuokzWN40wklx9w0fZ0eIGIrqdYjRLS8VW8P0Za1NsJNLWtTjDECcm/PlBmlthHf
+         o/VbFuY/urVdCcg6dk5YqFIZ95c2HxDIfPsiMdwJuX7ivqY9wemkOrSBkWMR+GsQz6jW
+         5Yl9h5kK6Tjtyif9VAVuJCK9Sy9pKBBzxYhCbGUGQItz4GJ0hK9qT6skwRdAwulXOms2
+         RvNi3arr+/5+xSS/rYnlkpre1/oF7VdEA2qyuGJK+dd7hdAI5GQ18/0gabpNS7lACaoo
+         duDSAnA45qPj3CpYekVYgSvcUACmS6+duLNKXvk2MH6iT0wGX5A0WMe+dE7oYj5UKb0G
+         3Uww==
+X-Gm-Message-State: AOAM530UO81S7AK/xLacpkf1IcFJuUosMX6CcboiWiWkRWTLWcGFjvPZ
+        u0mi/GoAmx7UREpkSv0Z2SAEOQ==
+X-Google-Smtp-Source: ABdhPJy5rdhqytpZ3v2zTdrmze3vfJ5giIn3PmnJT8l9HA15NYywXtFHUxaBc+uTT+/oN6duu62B6g==
+X-Received: by 2002:a05:6638:379b:b0:310:bb27:6c28 with SMTP id w27-20020a056638379b00b00310bb276c28mr470358jal.71.1644981736174;
+        Tue, 15 Feb 2022 19:22:16 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:5929:5114:bf56:ccb6])
+        by smtp.gmail.com with ESMTPSA id u15sm7547237ill.75.2022.02.15.19.22.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Feb 2022 19:22:15 -0800 (PST)
+Date:   Tue, 15 Feb 2022 20:22:10 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220124084708.683-1-thunder.leizhen@huawei.com>
- <20220124084708.683-4-thunder.leizhen@huawei.com>
- <YgnSCxlr1O2ZZ1sO@MiWiFi-R3L-srv>
- <0e84548b-179a-1bad-8f49-963d66426e43@huawei.com>
-Message-ID: <f1614874-306d-482a-a652-d71a8bcbe3a9@huawei.com>
-Date:   Wed, 16 Feb 2022 10:58:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
+Message-ID: <Ygxt4iR9ZMYEbV78@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-13-yuzhao@google.com>
+ <Ygou6Gq79XY3mFK7@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <0e84548b-179a-1bad-8f49-963d66426e43@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ygou6Gq79XY3mFK7@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Feb 14, 2022 at 12:28:56PM +0200, Mike Rapoport wrote:
 
+Thanks for reviewing.
 
-On 2022/2/14 15:53, Leizhen (ThunderTown) wrote:
+> >  Documentation/admin-guide/mm/index.rst        |   1 +
+> >  Documentation/admin-guide/mm/multigen_lru.rst | 121 ++++++++++++++
+> >  Documentation/vm/index.rst                    |   1 +
+> >  Documentation/vm/multigen_lru.rst             | 152 ++++++++++++++++++
 > 
+> Please consider splitting this patch into Documentation/admin-guide and
+> Documentation/vm parts.
+
+Will do.
+
+> > +=====================
+> > +Multigenerational LRU
+> > +=====================
+> +
+> > +Quick start
+> > +===========
 > 
-> On 2022/2/14 11:52, Baoquan He wrote:
->> On 01/24/22 at 04:47pm, Zhen Lei wrote:
->> ......
->>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->>> index 6c653a2c7cff052..a5d43feac0d7d96 100644
->>> --- a/arch/arm64/mm/init.c
->>> +++ b/arch/arm64/mm/init.c
->>> @@ -71,6 +71,30 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
->>>  #define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
->>>  #define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
->>>  
->>> +static int __init reserve_crashkernel_low(unsigned long long low_size)
->>> +{
->>> +	unsigned long long low_base;
->>> +
->>> +	/* passed with crashkernel=0,low ? */
->>> +	if (!low_size)
->>> +		return 0;
->>> +
->>> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
->>> +	if (!low_base) {
->>> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
->>> +		return -ENOMEM;
->>> +	}
->>> +
->>> +	pr_info("crashkernel low memory reserved: 0x%llx - 0x%llx (%lld MB)\n",
->>> +		low_base, low_base + low_size, low_size >> 20);
->>> +
->>> +	crashk_low_res.start = low_base;
->>> +	crashk_low_res.end   = low_base + low_size - 1;
->>> +	insert_resource(&iomem_resource, &crashk_low_res);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>  /*
->>>   * reserve_crashkernel() - reserves memory for crash kernel
->>
->> My another concern is the crashkernel=,low handling. In this patch, the
->> code related to low memory is obscure. Wondering if we should make them
->> explicit with a little redundant but very clear code flows. Saying this
->> because the code must be very clear to you and reviewers, it may be
->> harder for later code reader or anyone interested to understand.
->>
->> 1) crashkernel=X,high
->> 2) crashkernel=X,high crashkernel=Y,low
->> 3) crashkernel=X,high crashkernel=0,low
->> 4) crashkernel=X,high crashkernel='messy code',low
->> 5) crashkernel=X //fall back to high memory, low memory is required then.
->>
->> It could be me thinking about it too much. I made changes to your patch
->> with a tuning, not sure if it's OK to you. Otherwise, this patchset
+> There is no explanation why one would want to use multigenerational LRU
+> until the next section.
 > 
-> I think it's good.
+> I think there should be an overview that explains why users would want to
+> enable multigenerational LRU. 
+
+Will do.
+
+> > +Build configurations
+> > +--------------------
+> > +:Required: Set ``CONFIG_LRU_GEN=y``.
 > 
->> works very well for all above test cases, it's ripe to be merged for
->> wider testing.
+> Maybe 
 > 
-> I will test it tomorrow. I've prepared a little more use cases than yours.
+> 	Set ``CONFIG_LRU_GEN=y`` to build kernel with multigenerational LRU
 
-After the following modifications, I have tested it and it works well. Passed
-all the test cases I prepared.
+Will do.
 
+> > +:Optional: Set ``CONFIG_LRU_GEN_ENABLED=y`` to enable the
+> > + multigenerational LRU by default.
+> > +
+> > +Runtime configurations
+> > +----------------------
+> > +:Required: Write ``y`` to ``/sys/kernel/mm/lru_gen/enable`` if
+> > + ``CONFIG_LRU_GEN_ENABLED=n``.
+> > +
+> > +This file accepts different values to enabled or disabled the
+> > +following features:
 > 
-> 1) crashkernel=4G						//high=4G, low=256M
-> 2) crashkernel=4G crashkernel=512M,high crashkernel=512M,low	//high=4G, low=256M, high and low are ignored
-> 3) crashkernel=4G crashkernel=512M,high				//high=4G, low=256M, high is ignored
-> 4) crashkernel=4G crashkernel=512M,low				//high=4G, low=256M, low is ignored
-> 5) crashkernel=4G@0xe0000000					//high=0G, low=0M, cannot allocate, failed
-> 6) crashkernel=512M						//high=0G, low=512M
-> 7) crashkernel=128M						//high=0G, low=128M
-> 8) crashkernel=512M@0xde000000		//512M@3552M		//high=0G, low=512M
-> 9) crashkernel=4G,high						//high=4G, low=256M
-> a) crashkernel=4G,high crashkernel=512M,low			//high=4G, low=512M
-> b) crashkernel=512M,high crashkernel=128M,low			//high=512M, low=128M
-> c) crashkernel=512M,low						//high=0G, low=0M, invalid
+> Maybe
 > 
+>   After multigenerational LRU is enabled, this file accepts different
+>   values to enable or disable the following feaures:
+
+Will do.
+
+> > +====== ========
+> > +Values Features
+> > +====== ========
+> > +0x0001 the multigenerational LRU
 > 
->>
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index a5d43feac0d7..671862c56d7d 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -94,7 +94,8 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
->>  
->>  	return 0;
->>  }
->> -
->> +/*Words explaining why it's 256M*/
->> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE SZ_256M
+> The multigenerational LRU what?
 
-It's an empirical value.
+Itself? This depends on the POV, and I'm trying to determine what would
+be the natural way to present it.
 
-94fb9334182284e8e7e4bcb9125c25dc33af19d4 x86/crash: Allocate enough low memory when crashkernel=high
+MGLRU itself could be seen as an add-on atop the existing page reclaim
+or an alternative in parallel. The latter would be similar to sl[aou]b,
+and that's how I personally see it.
 
-    When the crash kernel is loaded above 4GiB in memory, the
-    first kernel allocates only 72MiB of low-memory for the DMA
-    requirements of the second kernel. On systems with many
-    devices this is not enough and causes device driver
-    initialization errors and failed crash dumps. Testing by
-    SUSE and Redhat has shown that 256MiB is a good default
-    value for now and the discussion has lead to this value as
-    well. So set this default value to 256MiB to make sure there
-    is enough memory available for DMA.
+But here I presented it more like the former because I feel this way is
+more natural to users because they are like switches on a single panel.
 
+> What will happen if I write 0x2 to this file?
 
->>  /*
->>   * reserve_crashkernel() - reserves memory for crash kernel
->>   *
->> @@ -105,10 +106,10 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
->>  static void __init reserve_crashkernel(void)
->>  {
->>  	unsigned long long crash_base, crash_size;
->> -	unsigned long long crash_low_size = SZ_256M;
->> +	unsigned long long crash_low_size;
->>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->>  	int ret;
->> -	bool fixed_base;
->> +	bool fixed_base, high;
+Just like turning on a branch breaker while leaving the main breaker
+off in a circuit breaker box. This is how I see it, and I'm totally
+fine with changing it to whatever you'd recommend.
 
-high = false;
+> Please consider splitting "enable" and "features" attributes.
 
->>  	char *cmdline = boot_command_line;
->>  
->>  	/* crashkernel=X[@offset] */
->> @@ -126,7 +127,10 @@ static void __init reserve_crashkernel(void)
->>  		ret = parse_crashkernel_low(cmdline, 0, &low_size, &crash_base);
->>  		if (!ret)
->>  			crash_low_size = low_size;
->> +		else
->> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->>  
->> +		high = true;
->>  		crash_max = CRASH_ADDR_HIGH_MAX;
->>  	}
->>  
->> @@ -134,7 +138,7 @@ static void __init reserve_crashkernel(void)
->>  	crash_size = PAGE_ALIGN(crash_size);
->>  
->>  	/* User specifies base address explicitly. */
->> -	if (crash_base)
->> +	if (fixed_base)
->>  		crash_max = crash_base + crash_size;
->>  
->>  retry:
->> @@ -156,7 +160,10 @@ static void __init reserve_crashkernel(void)
->>  		return;
->>  	}
->>  
->> -	if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
->> +	if (crash_base >= SZ_4G && !high) 
->> +		crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->> +
->> +	if (reserve_crashkernel_low(crash_low_size)) {
->>  		memblock_phys_free(crash_base, crash_size);
->>  		return;
->>  	}
+How about s/Features/Components/?
 
--       if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
--               memblock_phys_free(crash_base, crash_size);
--               return;
-+       if (crash_base >= SZ_4G) {
-+               if (!high)
-+                       crash_low_size = SZ_256M;
-+
-+               if (reserve_crashkernel_low(crash_low_size)) {
-+                       memblock_phys_free(crash_base, crash_size);
-+                       return;
-+               }
-        }
-
-Looks like changing 'high' to 'low' would be more accurate. Whether crashkernel=Y,low is specified.
-
-
+> > +0x0002 clear the accessed bit in leaf page table entries **in large
+> > +       batches**, when MMU sets it (e.g., on x86)
 > 
-> It feels like {} may need to be added here so that it is in branch "if (crash_base >= SZ_4G)".
-> The case of "crashkernel=128M" will not fall back to high memory and does not need to reserve
-> low memory again.
+> Is extra markup really needed here...
 > 
->>
->>>   *
->>> @@ -81,29 +105,62 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
->>>  static void __init reserve_crashkernel(void)
->>>  {
->>>  	unsigned long long crash_base, crash_size;
->>> +	unsigned long long crash_low_size = SZ_256M;
->>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->>>  	int ret;
->>> +	bool fixed_base;
->>> +	char *cmdline = boot_command_line;
->>>  
->>> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
->>> +	/* crashkernel=X[@offset] */
->>> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
->>>  				&crash_size, &crash_base);
->>> -	/* no crashkernel= or invalid value specified */
->>> -	if (ret || !crash_size)
->>> -		return;
->>> +	if (ret || !crash_size) {
->>> +		unsigned long long low_size;
->>>  
->>> +		/* crashkernel=X,high */
->>> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
->>> +		if (ret || !crash_size)
->>> +			return;
->>> +
->>> +		/* crashkernel=X,low */
->>> +		ret = parse_crashkernel_low(cmdline, 0, &low_size, &crash_base);
->>> +		if (!ret)
->>> +			crash_low_size = low_size;
->>> +
->>> +		crash_max = CRASH_ADDR_HIGH_MAX;
->>> +	}
->>> +
->>> +	fixed_base = !!crash_base;
->>>  	crash_size = PAGE_ALIGN(crash_size);
->>>  
->>>  	/* User specifies base address explicitly. */
->>>  	if (crash_base)
->>>  		crash_max = crash_base + crash_size;
->>>  
->>> +retry:
->>>  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->>>  					       crash_base, crash_max);
->>>  	if (!crash_base) {
->>> +		/*
->>> +		 * Attempt to fully allocate low memory failed, fall back
->>> +		 * to high memory, the minimum required low memory will be
->>> +		 * reserved later.
->>> +		 */
->>> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
->>> +			crash_max = CRASH_ADDR_HIGH_MAX;
->>> +			goto retry;
->>> +		}
->>> +
->>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
->>>  			crash_size);
->>>  		return;
->>>  	}
->>>  
->>> +	if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
->>> +		memblock_phys_free(crash_base, crash_size);
->>> +		return;
->>> +	}
->>> +
->>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
->>>  		crash_base, crash_base + crash_size, crash_size >> 20);
->>>  
->>> @@ -112,6 +169,9 @@ static void __init reserve_crashkernel(void)
->>>  	 * map. Inform kmemleak so that it won't try to access it.
->>>  	 */
->>>  	kmemleak_ignore_phys(crash_base);
->>> +	if (crashk_low_res.end)
->>> +		kmemleak_ignore_phys(crashk_low_res.start);
->>> +
->>>  	crashk_res.start = crash_base;
->>>  	crashk_res.end = crash_base + crash_size - 1;
->>>  	insert_resource(&iomem_resource, &crashk_res);
->>> -- 
->>> 2.25.1
->>>
->>
->> .
->>
+> > +0x0004 clear the accessed bit in non-leaf page table entries **as
+> > +       well**, when MMU sets it (e.g., on x86)
 > 
+> ... and here?
 
--- 
-Regards,
-  Zhen Lei
+Will do.
+
+> As for the descriptions, what is the user-visible effect of these features?
+> How different modes of clearing the access bit are reflected in, say, GUI
+> responsiveness, database TPS, or probability of OOM?
+
+These remain to be seen :) I just added these switches in v7, per Mel's
+request from the meeting we had. These were never tested in the field.
+
+> > +[yYnN] apply to all the features above
+> > +====== ========
+> > +
+> > +E.g.,
+> > +::
+> > +
+> > +    echo y >/sys/kernel/mm/lru_gen/enabled
+> > +    cat /sys/kernel/mm/lru_gen/enabled
+> > +    0x0007
+> > +    echo 5 >/sys/kernel/mm/lru_gen/enabled
+> > +    cat /sys/kernel/mm/lru_gen/enabled
+> > +    0x0005
+> > +
+> > +Most users should enable or disable all the features unless some of
+> > +them have unforeseen side effects.
+> > +
+> > +Recipes
+> > +=======
+> > +Personal computers
+> > +------------------
+> > +Personal computers are more sensitive to thrashing because it can
+> > +cause janks (lags when rendering UI) and negatively impact user
+> > +experience. The multigenerational LRU offers thrashing prevention to
+> > +the majority of laptop and desktop users who don't have oomd.
+> 
+> I'd expect something like this paragraph in overview.
+> 
+> > +
+> > +:Thrashing prevention: Write ``N`` to
+> > + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+> > + ``N`` milliseconds from getting evicted. The OOM killer is triggered
+> > + if this working set can't be kept in memory. Based on the average
+> > + human detectable lag (~100ms), ``N=1000`` usually eliminates
+> > + intolerable janks due to thrashing. Larger values like ``N=3000``
+> > + make janks less noticeable at the risk of premature OOM kills.
+> 
+> > +
+> > +Data centers
+> > +------------
+> > +Data centers want to optimize job scheduling (bin packing) to improve
+> > +memory utilizations. Job schedulers need to estimate whether a server
+> > +can allocate a certain amount of memory for a new job, and this step
+> > +is known as working set estimation, which doesn't impact the existing
+> > +jobs running on this server. They also want to attempt freeing some
+> > +cold memory from the existing jobs, and this step is known as proactive
+> > +reclaim, which improves the chance of landing a new job successfully.
+> 
+> This paragraph also fits overview.
+
+Will do.
+
+> > +:Optional: Increase ``CONFIG_NR_LRU_GENS`` to support more generations
+> > + for working set estimation and proactive reclaim.
+> 
+> Please add a note that this is build time option.
+
+Will do.
+
+> > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
+> 
+> Is debugfs interface relevant only for datacenters? 
+
+For the moment, yes.
+
+> > + format:
+> > + ::
+> > +
+> > +   memcg  memcg_id  memcg_path
+> > +     node  node_id
+> > +       min_gen  birth_time  anon_size  file_size
+> > +       ...
+> > +       max_gen  birth_time  anon_size  file_size
+> > +
+> > + ``min_gen`` is the oldest generation number and ``max_gen`` is the
+> > + youngest generation number. ``birth_time`` is in milliseconds.
+> 
+> It's unclear what is birth_time reference point. Is it milliseconds from
+> the system start or it is measured some other way?
+
+Good point. Will clarify.
+
+> > + ``anon_size`` and ``file_size`` are in pages. The youngest generation
+> > + represents the group of the MRU pages and the oldest generation
+> > + represents the group of the LRU pages. For working set estimation, a
+> 
+> Please spell out MRU and LRU fully.
+
+Will do.
+
+> > + job scheduler writes to this file at a certain time interval to
+> > + create new generations, and it ranks available servers based on the
+> > + sizes of their cold memory defined by this time interval. For
+> > + proactive reclaim, a job scheduler writes to this file before it
+> > + tries to land a new job, and if it fails to materialize the cold
+> > + memory without impacting the existing jobs, it retries on the next
+> > + server according to the ranking result.
+> 
+> Is this knob only relevant for a job scheduler? Or it can be used in other
+> use-cases as well?
+
+There are other concrete use cases but I'm not ready to discuss them
+yet.
+
+> > + This file accepts commands in the following subsections. Multiple
+> 
+>                               ^ described
+
+Will do.
