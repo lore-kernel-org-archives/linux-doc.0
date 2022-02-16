@@ -2,332 +2,452 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F91BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 09:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BC0C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 10:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbiBPJie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 04:38:34 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:60964 "EHLO
+        id S232230AbiBPKV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 05:21:27 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:51264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiBPJid (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 04:38:33 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4990111C03
-        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 01:38:20 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id u16so1665356pfg.12
-        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 01:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+74cODfRgyiomA0mwQ4meBxewGikgJhpPLFXd+7txUA=;
-        b=hV+UUx6VhLRgH7JOmwtc2w7do1Jt0rLDmp1YBalY4QckY+tJE42+z9BXOTqJZNuJKj
-         PPpxjcnhF/19GqVqB1MmWAzMopRwCR2GfxK2kgqPSTbrbCyCjV004BWXssmFAHmAd7/8
-         i33UIfE76+WHVQ9cCiIZ1D/epwFTxATRyBjzh+BZFw1/gH2sm2eKwqgDV7fxaNUG6QlM
-         lNPBDVNhDzqnxkpw0SKk2ZnRASOHpjkB0NaoxbJVJSueoOOe48yjSJeRFEB6XhPaAK2W
-         05OzfCIt7jRogYMzb4p1qMQIrzWpXwuHg55EV32OYioIJTY0qHo4+YJT+L8IxHsjdw4+
-         E8Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+74cODfRgyiomA0mwQ4meBxewGikgJhpPLFXd+7txUA=;
-        b=j9/3UHkQ1r9yX4W2OVDevFEDn+w/AwsTYmMEcFBiCioXpsX6BeUWdtBm3KyasglDLm
-         II+nvx+CDRt+SrVqP+hxaKrOocf7m9AyPoCMGw+aFvnS4+fynSvgvuR4FXwZ0hsiNT0o
-         83ZB9gNaUXFw1C4QAu96wwaYfbXCOnpWYLgrb7W1kugW6fqPA3ooX6YPOf52u5YoInp8
-         +uGQ49e0+x4aou+aIVg/TTJWjiceU4wuWUyXu70IQnzXWuOfj+av+ytP4/VaJDcsSjnO
-         QvIzvkV3TmSZmPg+t+aP99QBHgufj7NneURlczYncZKbNHazOGjL9HVqj/R2H0h/EMjc
-         qhGg==
-X-Gm-Message-State: AOAM531dIiGOfJR3vQd4vXLg2aAPqaiiR3frQyHnkUFAwJmXyqUP49sx
-        Z70530fFenc+9YUSgJ9V0ozwnW8D50vJBOZd
-X-Google-Smtp-Source: ABdhPJykPSBYI4+HgplSd5NMzxURFDsdbcqqk+XBpw3DgFBXPzmbUxQkqBdG3drG8GH20qxZD130zA==
-X-Received: by 2002:a63:e84b:0:b0:372:a079:302 with SMTP id a11-20020a63e84b000000b00372a0790302mr1587174pgk.272.1645004299598;
-        Wed, 16 Feb 2022 01:38:19 -0800 (PST)
-Received: from localhost.localdomain ([211.109.233.153])
-        by smtp.gmail.com with ESMTPSA id 11sm19251289pja.36.2022.02.16.01.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 01:38:19 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH 5/5] docs/zh_CN: add damon reclaim translation
-Date:   Wed, 16 Feb 2022 17:34:46 +0800
-Message-Id: <1c54a43475ade4745a60276e6b69cedce93b63cd.1645003763.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1645003763.git.siyanteng@loongson.cn>
-References: <cover.1645003763.git.siyanteng@loongson.cn>
+        with ESMTP id S232190AbiBPKV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 05:21:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC19521831
+        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 02:21:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645006874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sfjiT9hvH+PfPn+X9Vuuf3OiUTodgHii1kaq2hHxdic=;
+        b=ElrgBDY0HJcnzn6DCzTTW2AmQY/b2m0wBoQHdYFPMrKLrVp2hAy7W+Vxx5STdZci0QxTEN
+        +luQTd/kd2k4OHb2d4vfVVxhrYPKrH3SaPhA85J0LTjD1fyTR0qjFaXhoduLIAiKZzjHPh
+        +0/+nXGrpfixz4mb9pnB9flddWxRhjI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-582-j-WaJnkpMUCUO4yvrwpt2A-1; Wed, 16 Feb 2022 05:21:10 -0500
+X-MC-Unique: j-WaJnkpMUCUO4yvrwpt2A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0974814245;
+        Wed, 16 Feb 2022 10:21:06 +0000 (UTC)
+Received: from localhost (ovpn-13-16.pek2.redhat.com [10.72.13.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B68655E4B6;
+        Wed, 16 Feb 2022 10:21:00 +0000 (UTC)
+Date:   Wed, 16 Feb 2022 18:20:58 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v20 3/5] arm64: kdump: reimplement crashkernel=X
+Message-ID: <YgzQCqwmCOfzwzx/@MiWiFi-R3L-srv>
+References: <20220124084708.683-1-thunder.leizhen@huawei.com>
+ <20220124084708.683-4-thunder.leizhen@huawei.com>
+ <YgnSCxlr1O2ZZ1sO@MiWiFi-R3L-srv>
+ <0e84548b-179a-1bad-8f49-963d66426e43@huawei.com>
+ <f1614874-306d-482a-a652-d71a8bcbe3a9@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f1614874-306d-482a-a652-d71a8bcbe3a9@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../admin-guide/mm/damon/reclaim.rst into Chinese.
+On 02/16/22 at 10:58am, Leizhen (ThunderTown) wrote:
+> 
+> 
+> On 2022/2/14 15:53, Leizhen (ThunderTown) wrote:
+> > 
+> > 
+> > On 2022/2/14 11:52, Baoquan He wrote:
+> >> On 01/24/22 at 04:47pm, Zhen Lei wrote:
+> >> ......
+> >>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> >>> index 6c653a2c7cff052..a5d43feac0d7d96 100644
+> >>> --- a/arch/arm64/mm/init.c
+> >>> +++ b/arch/arm64/mm/init.c
+> >>> @@ -71,6 +71,30 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+> >>>  #define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
+> >>>  #define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
+> >>>  
+> >>> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+> >>> +{
+> >>> +	unsigned long long low_base;
+> >>> +
+> >>> +	/* passed with crashkernel=0,low ? */
+> >>> +	if (!low_size)
+> >>> +		return 0;
+> >>> +
+> >>> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> >>> +	if (!low_base) {
+> >>> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+> >>> +		return -ENOMEM;
+> >>> +	}
+> >>> +
+> >>> +	pr_info("crashkernel low memory reserved: 0x%llx - 0x%llx (%lld MB)\n",
+> >>> +		low_base, low_base + low_size, low_size >> 20);
+> >>> +
+> >>> +	crashk_low_res.start = low_base;
+> >>> +	crashk_low_res.end   = low_base + low_size - 1;
+> >>> +	insert_resource(&iomem_resource, &crashk_low_res);
+> >>> +
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>>  /*
+> >>>   * reserve_crashkernel() - reserves memory for crash kernel
+> >>
+> >> My another concern is the crashkernel=,low handling. In this patch, the
+> >> code related to low memory is obscure. Wondering if we should make them
+> >> explicit with a little redundant but very clear code flows. Saying this
+> >> because the code must be very clear to you and reviewers, it may be
+> >> harder for later code reader or anyone interested to understand.
+> >>
+> >> 1) crashkernel=X,high
+> >> 2) crashkernel=X,high crashkernel=Y,low
+> >> 3) crashkernel=X,high crashkernel=0,low
+> >> 4) crashkernel=X,high crashkernel='messy code',low
+> >> 5) crashkernel=X //fall back to high memory, low memory is required then.
+> >>
+> >> It could be me thinking about it too much. I made changes to your patch
+> >> with a tuning, not sure if it's OK to you. Otherwise, this patchset
+> > 
+> > I think it's good.
+> > 
+> >> works very well for all above test cases, it's ripe to be merged for
+> >> wider testing.
+> > 
+> > I will test it tomorrow. I've prepared a little more use cases than yours.
+> 
+> After the following modifications, I have tested it and it works well. Passed
+> all the test cases I prepared.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../zh_CN/admin-guide/mm/damon/index.rst      |   4 +-
- .../zh_CN/admin-guide/mm/damon/reclaim.rst    | 232 ++++++++++++++++++
- 2 files changed, 234 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+That's great.
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-index bd1f1a551f0f..0c8276109fc0 100644
---- a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-@@ -21,8 +21,8 @@
- 
-    start
-    usage
-+   reclaim
-+
- 
--Todolist:
- 
- 
--*   reclaim
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-new file mode 100644
-index 000000000000..5408d84118c7
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-@@ -0,0 +1,232 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/mm/damon/reclaim.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+===============
-+基于DAMON的回收
-+===============
-+
-+基于DAMON的回收（DAMON_RECLAIM）是一个静态的内核模块，旨在用于轻度内存压力下的主动和轻
-+量级的回收。它的目的不是取代基于LRU列表的页面回收，而是有选择地用于不同程度的内存压力和要
-+求。
-+
-+哪些地方需要主动复回收？
-+========================
-+
-+在一般的内存过度分配（over-committed systems，虚拟化相关术语）的系统上，主动回收冷页
-+有助于节省内存和减少延迟高峰，这些延迟是由直接回收进程或kswapd的CPU消耗引起的，同时只产
-+生最小的性能下降 [1]_ [2]_ 。
-+
-+基于空闲页报告 [3]_ 的内存过度承诺的虚拟化系统就是很好的例子。在这样的系统中，客户虚拟机
-+向主机报告他们的空闲内存，而主机则将报告的内存重新分配给其他客户。因此，系统的内存得到了充
-+分的利用。然而，客户可能不那么节省内存，主要是因为一些内核子系统和用户空间应用程序被设计为
-+使用尽可能多的内存。然后，客户可能只向主机报告少量的内存是空闲的，导致系统的内存利用率下降。
-+在客户中运行主动回收可以缓解这个问题。
-+
-+它是如何工作的？
-+================
-+
-+DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。为了避免它在分页操作中消耗过多
-+的CPU，可以配置一个速度限制。在这个速度限制下，它首先分页出那些没有被访问过的内存区域。系
-+统管理员还可以配置在什么情况下这个方案应该自动激活和停用三个内存压力水位。
-+
-+接口: 模块参数
-+==============
-+
-+要使用这个功能，你首先要确保你的系统运行在一个以 ``CONFIG_DAMON_RECLAIM=y`` 构建的内
-+核上。
-+
-+为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
-+是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
-+适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
-+
-+注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
-+的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
-+在重新启用之前，应将新的参数值写入适当的参数值中。
-+
-+下面是每个参数的描述。
-+
-+启用
-+----
-+
-+启用或禁用DAMON_RECLAIM。
-+
-+你可以通过把这个参数的值设置为 ``Y`` 来启用DAMON_RCLAIM，把它设置为 ``N`` 可以禁用
-+DAMON_RECLAIM。注意，由于基于水位的激活条件，DAMON_RECLAIM不能进行真正的监测和回收。
-+这一点请参考下面关于水位参数的描述。
-+
-+min_age
-+-------
-+
-+识别冷内存区域的时间阈值，单位是微秒。
-+
-+如果一个内存区域在这个时间或更长的时间内没有被访问，DAMON_RECLAIM会将该区域识别为冷的，
-+并回收它。
-+
-+默认为120秒。
-+
-+quota_ms
-+--------
-+
-+回收的时间限制，以毫秒为单位。
-+
-+DAMON_RECLAIM 试图在一个时间窗口（quota_reset_interval_ms）内只使用到这个时间，以
-+尝试回收冷页。这可以用来限制DAMON_RECLAIM的CPU消耗。如果该值为零，则该限制被禁用。
-+
-+默认为10ms。
-+
-+quota_sz
-+--------
-+
-+回收的内存大小限制，单位为字节。
-+
-+DAMON_RECLAIM 收取在一个时间窗口（quota_reset_interval_ms）内试图回收的内存量，并
-+使其不超过这个限制。这可以用来限制CPU和IO的消耗。如果该值为零，则限制被禁用。
-+
-+默认情况下是128 MiB。
-+
-+quota_reset_interval_ms
-+-----------------------
-+
-+时间/大小配额收取重置间隔，单位为毫秒。
-+
-+时间（quota_ms）和大小（quota_sz）的配额的目标重置间隔。也就是说，DAMON_RECLAIM在
-+quota_ms毫秒内不尝试回收超过quota_ms毫秒或quota_sz字节。
-+
-+默认为1秒。
-+
-+wmarks_interval
-+---------------
-+
-+当DAMON_RECLAIM被启用但由于其水位规则而不活跃时，在检查水位之前的最小等待时间。
-+
-+wmarks_high
-+-----------
-+
-+高水位的可用内存率（每千字节）。
-+
-+如果系统的可用内存（以每千字节为单位）高于这个数值，DAMON_RECLAIM就会变得不活跃，所以
-+它什么也不做，只是定期检查水位。
-+
-+wmarks_mid
-+----------
-+
-+中间水位的可用内存率（每千字节）。
-+
-+如果系统的空闲内存（以每千字节为单位）在这个和低水位线之间，DAMON_RECLAIM就会被激活，
-+因此开始监测和回收。
-+
-+wmarks_low
-+----------
-+
-+低水位的可用内存率（每千字节）。
-+
-+如果系统的空闲内存（以每千字节为单位）低于这个数值，DAMON_RECLAIM就会变得不活跃，所以
-+它除了定期检查水位外什么都不做。在这种情况下，系统会退回到基于LRU列表的页面粒度回收逻辑。
-+
-+sample_interval
-+---------------
-+
-+监测的采样间隔，单位是微秒。
-+
-+DAMON用于监测冷内存的采样间隔。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+aggr_interval
-+-------------
-+
-+监测的聚集间隔，单位是微秒。
-+
-+DAMON对冷内存监测的聚集间隔。更多细节请参考DAMON文档 (:doc:`usage`)。
-+
-+min_nr_regions
-+--------------
-+
-+监测区域的最小数量。
-+
-+DAMON用于冷内存监测的最小监测区域数。这可以用来设置监测质量的下限。但是，设
-+置的太高可能会导致监测开销的增加。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+max_nr_regions
-+--------------
-+
-+监测区域的最大数量。
-+
-+DAMON用于冷内存监测的最大监测区域数。这可以用来设置监测开销的上限值。但是，
-+设置得太低可能会导致监测质量不好。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+monitor_region_start
-+--------------------
-+
-+目标内存区域的物理地址起点。
-+
-+DAMON_RECLAIM将对其进行工作的内存区域的起始物理地址。也就是说，DAMON_RECLAIM
-+将在这个区域中找到冷的内存区域并进行回收。默认情况下，最大的系统RAM被用作该区域。
-+
-+monitor_region_end
-+------------------
-+
-+目标内存区域的物理地址结束。
-+
-+DAMON_RECLAIM将对其进行工作的内存区域的末端物理地址。也就是说，DAMON_RECLAIM将
-+在这个区域内找到冷的内存区域并进行回收。默认情况下，最大的系统RAM被用作该区域。
-+
-+kdamond_pid
-+-----------
-+
-+DAMON线程的PID。
-+
-+如果DAMON_RECLAIM被启用，这将成为工作线程的PID。否则，为-1。
-+
-+nr_reclaim_tried_regions
-+------------------------
-+
-+试图通过DAMON_RECLAIM回收的内存区域的数量。
-+
-+bytes_reclaim_tried_regions
-+---------------------------
-+
-+试图通过DAMON_RECLAIM回收的内存区域的总字节数。
-+
-+nr_reclaimed_regions
-+--------------------
-+
-+通过DAMON_RECLAIM成功回收的内存区域的数量。
-+
-+bytes_reclaimed_regions
-+-----------------------
-+
-+通过DAMON_RECLAIM成功回收的内存区域的总字节数。
-+
-+nr_quota_exceeds
-+----------------
-+
-+超过时间/空间配额限制的次数。
-+
-+例子
-+====
-+
-+下面的运行示例命令使DAMON_RECLAIM找到30秒或更长时间没有访问的内存区域并分页出来。
-+为了避免DAMON_RECLAIM在分页操作中消耗过多的CPU时间，回收被限制在每秒1GiB以内。
-+它还要求DAMON_RECLAIM在系统的可用内存率超过50%时不做任何事情，但如果它低于40%时
-+就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
-+DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
-+
-+    # cd /sys/modules/damon_reclaim/parameters
-+    # echo 30000000 > min_age
-+    # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
-+    # echo 1000 > quota_reset_interval_ms
-+    # echo 500 > wmarks_high
-+    # echo 400 > wmarks_mid
-+    # echo 200 > wmarks_low
-+    # echo Y > enabled
-+
-+.. [1] https://research.google/pubs/pub48551/
-+.. [2] https://lwn.net/Articles/787611/
-+.. [3] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
--- 
-2.27.0
+You might need to add 'crashkernel=xM, crashkernel=0,low',
+'crashkernel=xM, crashkernel='messy code',low' to your test cases.
+
+> 
+> > 
+> > 1) crashkernel=4G						//high=4G, low=256M
+> > 2) crashkernel=4G crashkernel=512M,high crashkernel=512M,low	//high=4G, low=256M, high and low are ignored
+> > 3) crashkernel=4G crashkernel=512M,high				//high=4G, low=256M, high is ignored
+> > 4) crashkernel=4G crashkernel=512M,low				//high=4G, low=256M, low is ignored
+> > 5) crashkernel=4G@0xe0000000					//high=0G, low=0M, cannot allocate, failed
+> > 6) crashkernel=512M						//high=0G, low=512M
+> > 7) crashkernel=128M						//high=0G, low=128M
+> > 8) crashkernel=512M@0xde000000		//512M@3552M		//high=0G, low=512M
+> > 9) crashkernel=4G,high						//high=4G, low=256M
+> > a) crashkernel=4G,high crashkernel=512M,low			//high=4G, low=512M
+> > b) crashkernel=512M,high crashkernel=128M,low			//high=512M, low=128M
+> > c) crashkernel=512M,low						//high=0G, low=0M, invalid
+> > 
+> > 
+> >>
+> >> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> >> index a5d43feac0d7..671862c56d7d 100644
+> >> --- a/arch/arm64/mm/init.c
+> >> +++ b/arch/arm64/mm/init.c
+> >> @@ -94,7 +94,8 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+> >>  
+> >>  	return 0;
+> >>  }
+> >> -
+> >> +/*Words explaining why it's 256M*/
+> >> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE SZ_256M
+> 
+> It's an empirical value.
+> 
+> 94fb9334182284e8e7e4bcb9125c25dc33af19d4 x86/crash: Allocate enough low memory when crashkernel=high
+> 
+>     When the crash kernel is loaded above 4GiB in memory, the
+>     first kernel allocates only 72MiB of low-memory for the DMA
+>     requirements of the second kernel. On systems with many
+>     devices this is not enough and causes device driver
+>     initialization errors and failed crash dumps. Testing by
+>     SUSE and Redhat has shown that 256MiB is a good default
+>     value for now and the discussion has lead to this value as
+>     well. So set this default value to 256MiB to make sure there
+>     is enough memory available for DMA.
+
+Then, some words like below can be added. I am not confident it's good
+enought, hope someone else can help to polish it.
+
+/*
+ * This is an empirical value in x86_64 and taken here directly. Please
+ * refer to code comment in reserve_crashkernel_low() of x86_64 for more
+ * details.
+ */
+#define DEFAULT_CRASH_KERNEL_LOW_SIZE SZ_256M
+
+> 
+> 
+> >>  /*
+> >>   * reserve_crashkernel() - reserves memory for crash kernel
+> >>   *
+> >> @@ -105,10 +106,10 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+> >>  static void __init reserve_crashkernel(void)
+> >>  {
+> >>  	unsigned long long crash_base, crash_size;
+> >> -	unsigned long long crash_low_size = SZ_256M;
+> >> +	unsigned long long crash_low_size;
+> >>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+> >>  	int ret;
+> >> -	bool fixed_base;
+> >> +	bool fixed_base, high;
+> 
+> high = false;
+> 
+> >>  	char *cmdline = boot_command_line;
+> >>  
+> >>  	/* crashkernel=X[@offset] */
+> >> @@ -126,7 +127,10 @@ static void __init reserve_crashkernel(void)
+> >>  		ret = parse_crashkernel_low(cmdline, 0, &low_size, &crash_base);
+> >>  		if (!ret)
+> >>  			crash_low_size = low_size;
+> >> +		else
+> >> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> >>  
+> >> +		high = true;
+> >>  		crash_max = CRASH_ADDR_HIGH_MAX;
+> >>  	}
+> >>  
+> >> @@ -134,7 +138,7 @@ static void __init reserve_crashkernel(void)
+> >>  	crash_size = PAGE_ALIGN(crash_size);
+> >>  
+> >>  	/* User specifies base address explicitly. */
+> >> -	if (crash_base)
+> >> +	if (fixed_base)
+> >>  		crash_max = crash_base + crash_size;
+> >>  
+> >>  retry:
+> >> @@ -156,7 +160,10 @@ static void __init reserve_crashkernel(void)
+> >>  		return;
+> >>  	}
+> >>  
+> >> -	if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
+> >> +	if (crash_base >= SZ_4G && !high) 
+> >> +		crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> >> +
+> >> +	if (reserve_crashkernel_low(crash_low_size)) {
+> >>  		memblock_phys_free(crash_base, crash_size);
+> >>  		return;
+> >>  	}
+> 
+> -       if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
+> -               memblock_phys_free(crash_base, crash_size);
+> -               return;
+> +       if (crash_base >= SZ_4G) {
+> +               if (!high)
+> +                       crash_low_size = SZ_256M;
+> +
+> +               if (reserve_crashkernel_low(crash_low_size)) {
+> +                       memblock_phys_free(crash_base, crash_size);
+> +                       return;
+> +               }
+>         }
+> 
+> Looks like changing 'high' to 'low' would be more accurate. Whether crashkernel=Y,low is specified.
+
+What I menat is like below, we even can add code comment to make it more
+clearer.
+
+static void __init reserve_crashkernel(void)
+{
+
+        /* crashkernel=X[@offset] */
+        ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+                                &crash_size, &crash_base);
+        if (ret || !crash_size) {
+                unsigned long long low_size;
+
+                /* crashkernel=X,high */
+                ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+                if (ret || !crash_size)
+                        return;
+
+                /* crashkernel=X,low */
+                ret = parse_crashkernel_low(cmdline, 0, &low_size, &crash_base);
+		//case #1, crashkernel=yM,low is specified explicitly in cmdline
+                if (!ret)
+                        crash_low_size = low_size;
+		else //case #2, crashkernel=yM,low is not specified explicitly
+                        crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+
+		//high means crashkernel,high is specified explicitly
+		high = true;
+                crash_max = CRASH_ADDR_HIGH_MAX;
+        }
+
+        fixed_base = !!crash_base;
+        crash_size = PAGE_ALIGN(crash_size);
+
+        /* User specifies base address explicitly. */
+        if (crash_base)
+                crash_max = crash_base + crash_size;
+retry:
+        crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+                                               crash_base, crash_max);
+        if (!crash_base) {
+                /*
+                 * Attempt to fully allocate low memory failed, fall back
+                 * to high memory, the minimum required low memory will be
+                 * reserved later.
+                 */
+                if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+                        crash_max = CRASH_ADDR_HIGH_MAX;
+                        goto retry;
+                }
+
+                pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+                        crash_size);
+                return;
+        }
+
+
+	//case #3: get crashkernel from high memory through fallback, let's set crashkernel,low too.
+        if (crash_base >= SZ_4G && !high)
+		crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;	
+
+        if (reserve_crashkernel_low(crash_low_size)) {
+                memblock_phys_free(crash_base, crash_size);
+                return;
+        }
+
+        pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+                crash_base, crash_base + crash_size, crash_size >> 20);
+
+        /*
+         * The crashkernel memory will be removed from the kernel linear
+         * map. Inform kmemleak so that it won't try to access it.
+         */
+        kmemleak_ignore_phys(crash_base);
+        if (crashk_low_res.end)
+                kmemleak_ignore_phys(crashk_low_res.start);
+
+        crashk_res.start = crash_base;
+        crashk_res.end = crash_base + crash_size - 1;
+        insert_resource(&iomem_resource, &crashk_res);
+}
+
+
+> 
+> 
+> > 
+> > It feels like {} may need to be added here so that it is in branch "if (crash_base >= SZ_4G)".
+> > The case of "crashkernel=128M" will not fall back to high memory and does not need to reserve
+> > low memory again.
+> > 
+> >>
+> >>>   *
+> >>> @@ -81,29 +105,62 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+> >>>  static void __init reserve_crashkernel(void)
+> >>>  {
+> >>>  	unsigned long long crash_base, crash_size;
+> >>> +	unsigned long long crash_low_size = SZ_256M;
+> >>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+> >>>  	int ret;
+> >>> +	bool fixed_base;
+> >>> +	char *cmdline = boot_command_line;
+> >>>  
+> >>> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+> >>> +	/* crashkernel=X[@offset] */
+> >>> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+> >>>  				&crash_size, &crash_base);
+> >>> -	/* no crashkernel= or invalid value specified */
+> >>> -	if (ret || !crash_size)
+> >>> -		return;
+> >>> +	if (ret || !crash_size) {
+> >>> +		unsigned long long low_size;
+> >>>  
+> >>> +		/* crashkernel=X,high */
+> >>> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+> >>> +		if (ret || !crash_size)
+> >>> +			return;
+> >>> +
+> >>> +		/* crashkernel=X,low */
+> >>> +		ret = parse_crashkernel_low(cmdline, 0, &low_size, &crash_base);
+> >>> +		if (!ret)
+> >>> +			crash_low_size = low_size;
+> >>> +
+> >>> +		crash_max = CRASH_ADDR_HIGH_MAX;
+> >>> +	}
+> >>> +
+> >>> +	fixed_base = !!crash_base;
+> >>>  	crash_size = PAGE_ALIGN(crash_size);
+> >>>  
+> >>>  	/* User specifies base address explicitly. */
+> >>>  	if (crash_base)
+> >>>  		crash_max = crash_base + crash_size;
+> >>>  
+> >>> +retry:
+> >>>  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+> >>>  					       crash_base, crash_max);
+> >>>  	if (!crash_base) {
+> >>> +		/*
+> >>> +		 * Attempt to fully allocate low memory failed, fall back
+> >>> +		 * to high memory, the minimum required low memory will be
+> >>> +		 * reserved later.
+> >>> +		 */
+> >>> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+> >>> +			crash_max = CRASH_ADDR_HIGH_MAX;
+> >>> +			goto retry;
+> >>> +		}
+> >>> +
+> >>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> >>>  			crash_size);
+> >>>  		return;
+> >>>  	}
+> >>>  
+> >>> +	if (crash_base >= SZ_4G && reserve_crashkernel_low(crash_low_size)) {
+> >>> +		memblock_phys_free(crash_base, crash_size);
+> >>> +		return;
+> >>> +	}
+> >>> +
+> >>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+> >>>  		crash_base, crash_base + crash_size, crash_size >> 20);
+> >>>  
+> >>> @@ -112,6 +169,9 @@ static void __init reserve_crashkernel(void)
+> >>>  	 * map. Inform kmemleak so that it won't try to access it.
+> >>>  	 */
+> >>>  	kmemleak_ignore_phys(crash_base);
+> >>> +	if (crashk_low_res.end)
+> >>> +		kmemleak_ignore_phys(crashk_low_res.start);
+> >>> +
+> >>>  	crashk_res.start = crash_base;
+> >>>  	crashk_res.end = crash_base + crash_size - 1;
+> >>>  	insert_resource(&iomem_resource, &crashk_res);
+> >>> -- 
+> >>> 2.25.1
+> >>>
+> >>
+> >> .
+> >>
+> > 
+> 
+> -- 
+> Regards,
+>   Zhen Lei
+> 
 
