@@ -2,188 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF80CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 19:51:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC3DEC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 20:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237995AbiBPTvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 14:51:23 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48560 "EHLO
+        id S231356AbiBPUgC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 15:36:02 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234886AbiBPTvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 14:51:22 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EA1B2B1024;
-        Wed, 16 Feb 2022 11:51:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645041069; x=1676577069;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HH+CeWCLXFRu3dE8FJg+idDdWcYVfzcRC1ijA/ezLtk=;
-  b=HpPZHxWdVzKhimmviWkNWnFxNp7nzpmEJM4Ik8IBIJ5LDPNip2etXhv2
-   92H+UESES9GmzMQDNyznEVlEPyyd/x7KaStqCSdY1RZRxCE6TDl/5Ejel
-   nw9CUkcEGFDkLHDqQKCORTK9A4rqQDA6aUKNPnIBbh7ubPqoZUr5tAeUX
-   hQh0pmc+0jvF1tK1bfTSiE2jsaMhklM3ViB8a7jX5mYFdsA3C87ortJM4
-   Q8QyvsZf/kN2kV7t6bx6XlRvE7g1cGqbXcUGzdH0OXikWy7cLiXGJXY5Q
-   kJUI5yzY+MmpBGOnN45Ee6TqbWMAonpjPY+4nJ8SgwQ0pgoS+Og9JUSkt
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238115738"
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="238115738"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 11:51:09 -0800
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="503180886"
-Received: from ddahlenx-mobl.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.148.13])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 11:51:08 -0800
-Message-ID: <11b23ddcbd05e277f5511557ee954e2fade0039a.camel@linux.intel.com>
-Subject: Re: [PATCH] Documentation: admin-guide: pm: Document uncore
- frequency scaling
-From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Date:   Wed, 16 Feb 2022 11:51:08 -0800
-In-Reply-To: <CAJZ5v0gqatnkRt0VqTyHjgL8yNp40Ui3UCMv-PV8qvzefaV5HQ@mail.gmail.com>
-References: <20220207191307.2903314-1-srinivas.pandruvada@linux.intel.com>
-         <CAJZ5v0gqatnkRt0VqTyHjgL8yNp40Ui3UCMv-PV8qvzefaV5HQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        with ESMTP id S232547AbiBPUfo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 15:35:44 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6AE2AE2A3;
+        Wed, 16 Feb 2022 12:35:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=dOT/1aOyaiDsVJvJU3JA5EooJNZncoACyNyR31PUbGw=; b=gHB55gRMUKJvsWEOn23DNCXR0+
+        9dNBp4Q3bo8fg63YX3+Xk0+2ry3W7Q7+4pjbCCFfBdR463dYXX9JacOAA0GKvh9AhOvJ5426FuLox
+        /6O6pV+BpWpodsyl4Ypjv3AyWxrG5Z2Bf0gMIibP2HDBkh79Xj3BgtKcJK4YEYe9H1AcXHSHCpogo
+        waGKjsR9DUcQ8eEjXLKCUD0DKQ8P88iNlK5K/64bZ/3BZkjZWyBdUBVxyEs7Z2OE3fMK3LQlDpF8F
+        KMSfXwHLTrF0y5abn6XMg/vq1CX2uHzNKlOfT+fvxU5dRPP+yngH/QB9vmNQsURUDJmumISikp0Qq
+        3qTkJmpw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nKR1L-00F1Wz-DL; Wed, 16 Feb 2022 20:35:27 +0000
+Message-ID: <6da7a555-61e9-4a66-be18-1bcaa6cdbc53@infradead.org>
+Date:   Wed, 16 Feb 2022 12:35:21 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] Docs: printk: add 'console=null|""' to
+ admin/kernel-parameters
+Content-Language: en-US
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20220215005615.11244-1-rdunlap@infradead.org>
+ <YgviYXNc6zo2V+35@alley>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <YgviYXNc6zo2V+35@alley>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-02-16 at 19:44 +0100, Rafael J. Wysocki wrote:
-> On Mon, Feb 7, 2022 at 8:13 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > 
-> > Added documentation to configure uncore frequency limits in Intel
-> > Xeon processors.
-> > 
-> > Signed-off-by: Srinivas Pandruvada
-> > <srinivas.pandruvada@linux.intel.com>
-> > ---
-> > Resent by adding linux-pm@vger.kernel.org
-> > 
-> >  .../pm/intel_uncore_frequency_scaling.rst     | 56
-> > +++++++++++++++++++
-> >  .../admin-guide/pm/working-state.rst          |  1 +
-> >  2 files changed, 57 insertions(+)
-> >  create mode 100644 Documentation/admin-
-> > guide/pm/intel_uncore_frequency_scaling.rst
-> > 
-> > diff --git a/Documentation/admin-
-> > guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-
-> > guide/pm/intel_uncore_frequency_scaling.rst
-> > new file mode 100644
-> > index 000000000000..b3519560594b
-> > --- /dev/null
-> > +++ b/Documentation/admin-
-> > guide/pm/intel_uncore_frequency_scaling.rst
-> > @@ -0,0 +1,56 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +.. include:: <isonum.txt>
-> > +
-> > +==============================
-> > +Intel Uncore Frequency Scaling
-> > +==============================
-> > +
-> > +:Copyright: |copy| 2022 Intel Corporation
-> > +
-> > +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > +
-> > +Introduction
-> > +===========================================
+Hi Petr,
+
+On 2/15/22 09:26, Petr Mladek wrote:
+> On Mon 2022-02-14 16:56:15, Randy Dunlap wrote:
+>> Tell about 'console=null|""' and how to use it.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Petr Mladek <pmladek@suse.com>
+>> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: John Ogness <john.ogness@linutronix.de>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |    6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> --- linux-next-20220214.orig/Documentation/admin-guide/kernel-parameters.txt
+>> +++ linux-next-20220214/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -724,6 +724,12 @@
+>>  		hvc<n>	Use the hypervisor console device <n>. This is for
+>>  			both Xen and PowerPC hypervisors.
+>>  
+>> +		{ null | "" }
+>> +			Use to disable console output, i.e., to have kernel
+>> +			console messages discarded.
+>> +			This must be the first (or only) console= string
+>> +			used on the kernel command line.
 > 
-> There are no other sections in this file, so can the section header
-> above be dropped?
+> It must be the only console= parameter on the command line. Otherwise,
+> the other consoles get enabled as well.
 > 
-Sure.
+> It might make sense to detect this situation and print a warning or
+> so. Nobody has sent a patch for this so far.
+> 
+> But there is even bigger problem. The default console is also used
+> as stdin/stdout/stderr for the init process. It might fail when there
+> is no console driver associated with it.
+> 
+> The problem with stdin/stdout/stderr does not happen when
+> CONFIG_NULL_TTY is enabled and ttynull driver is available.
+> Unfortunately, it can't be enabled by default because it can
+> be used by mistake, see the commit a91bd6223ecd46addc71e
+> ("Revert "init/console: Use ttynull as a fallback when there
+> is no console").
+> 
+> And there is still a mystery that has not been explained yet,
+> see https://lore.kernel.org/r/a46e9a26-5b9f-f14c-26be-0b4d41fa7429@roeck-us.net
+> 
+> On the positive note. console=null mostly works. All the problems are
+> hard to reproduce.
+> 
+> 
+> Now, what to do with this patch. I would suggest two changes:
+> 
+> 1. Replace "must be the first (or only)" with "must be the only"
+> 
+> 2. Mention that it is suggested to enable CONFIG_NULL_TTY that
+>    will avoid problems with stdin/stdout/stderr of the init process.
+>    But it might cause the ttynull might be used even when a real
+>    console is configured. And that more details can be found
+>    in the commit a91bd6223ecd46addc71e ("Revert "init/console:
+>    Use ttynull as a fallback when there is no console").
+> 
+>    It might be enough to mention this in the commit message.
 
-Thanks,
-Srinivas
+Thanks for the history summary and suggestions.
+I'll send a v2...
 
-> > +
-> > +Uncore can consume significant amount of power in Intel's Xeon
-> > servers based
-> > +on the workload characteristics. To optimize total power and
-> > improve overall
-> > +performance, SoC has an internal algorithm for scaling uncore
-> > frequency. These
-> > +algorithms monitor workload usage of uncore and set a desirable
-> > frequency.
-> > +
-> > +It is possible that users have different expectations of uncore
-> > performance and
-> > +want to have control over it. The objective is similar to set
-> > scaling min/max
-> > +frequencies using cpufreq sysfs to improve compute performance.
-> > Users may have
-> > +some latency sensitive workload where they do not want any change
-> > to uncore
-> > +frequency. Also, users may have workload which requires different
-> > core and
-> > +uncore performance at distinct phases and they want to use both
-> > cpufreq and
-> > +uncore scaling interface to distribute power and improve overall
-> > performance.
-> > +
-> > +To control uncore frequency, a sysfs interface is provided in the
-> > directory:
-> > +`/sys/devices/system/cpu/intel_uncore_frequency/`.
-> > +
-> > +There is one directory for each package and die combination as the
-> > scope of
-> > +uncore scaling control is per die in multiple dies/package SoC or
-> > per
-> > +package for single die per package SoC. The name represents the
-> > +scope of control. For example: 'package_00_die_00' is for package
-> > id 0 and
-> > +die 0 in it.
-> > +
-> > +Each package_*_die_* contains following attributes:
-> > +
-> > +``initial_max_freq_khz``
-> > +       Out of reset, this attribute represent the maximum possible
-> > frequency.
-> > +       This is a read only attribute. If users adjust
-> > max_freq_khz,
-> > +       they can always go back to maximum using the value from
-> > this attribute.
-> > +
-> > +``initial_min_freq_khz``
-> > +       Out of reset, this attribute represent the minimum possible
-> > frequency.
-> > +       This is a read only attribute. If users adjust
-> > min_freq_khz,
-> > +       they can always go back to minimum using the value from
-> > this attribute.
-> > +
-> > +``max_freq_khz``
-> > +       This attribute is used to set the maximum uncore frequency.
-> > +
-> > +``min_freq_khz``
-> > +       This attribute is used to set the minimum uncore frequency.
-> > +
-> > +``current_freq_khz``
-> > +       This attribute is used to get the current uncore frequency.
-> > diff --git a/Documentation/admin-guide/pm/working-state.rst
-> > b/Documentation/admin-guide/pm/working-state.rst
-> > index 5d2757e2de65..ee45887811ff 100644
-> > --- a/Documentation/admin-guide/pm/working-state.rst
-> > +++ b/Documentation/admin-guide/pm/working-state.rst
-> > @@ -15,3 +15,4 @@ Working-State Power Management
-> >     cpufreq_drivers
-> >     intel_epb
-> >     intel-speed-select
-> > +   intel_uncore_frequency_scaling
-> > --
-> > 2.34.1
-> > 
-
+-- 
+~Randy
