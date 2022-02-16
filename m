@@ -2,83 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB2EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 20:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD95EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 23:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232297AbiBPUiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 15:38:00 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34240 "EHLO
+        id S237045AbiBPXOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 18:14:34 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbiBPUiA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 15:38:00 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B912AEDA7;
-        Wed, 16 Feb 2022 12:37:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=CAZr9ArhphXYksCSRXhVyugFkJegaRMM9Fl5aGv+W/M=; b=XvlpqhEATsejxfxhR8Ie7y222j
-        lzH+YO/rGSsW3Mw9NSj1DXsEm4l8qC4GeAQ4Vz7coHPHvhBV8VvM3rNYZ75PqQ9ZioEAjo8P/TlYP
-        rWfheJ+n84yZn9gfYsIdhw5LPvJN1zNreK4SX3HFy+sS/ZquKCaNpxbPMucWLe6a74jSMxF0ogPzS
-        QsGK43W4oEjy5BdT8kH1f/VkNft/fCYCm18jc8RGqz2d6B+mTc7nT6hx/LBEmB3RMqdiBxCANnLNl
-        EW4TAIaS5Y4N0OO5aqtKe57bnQ+whEGIOgl9BzgyGBV3yAq97ukCOPXCNpHU6v9JVeb4YMHvxKTPf
-        ny/EzStg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nKR3a-008LEX-Fx; Wed, 16 Feb 2022 20:37:46 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v2] Docs: printk: add 'console=null|""' to admin/kernel-parameters
-Date:   Wed, 16 Feb 2022 12:37:45 -0800
-Message-Id: <20220216203745.980-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229553AbiBPXOc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 18:14:32 -0500
+X-Greylist: delayed 86664 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Feb 2022 15:14:18 PST
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A503E2AA3BC;
+        Wed, 16 Feb 2022 15:14:18 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D0A98784;
+        Wed, 16 Feb 2022 23:14:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D0A98784
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1645053258; bh=Ii91PbTizUvlQDl00HRhyNU7ps2F0sUdCdHVbWT2xj4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=NG5HIv+jYjDlvsF6FPKjrmM1XtT0KEETbOdLjeN5riijpgWSE85EU0s53+4c0uYtn
+         7mNafYk+yDiC0F2wbEs/wgyhNIgtyCGjwD7Tt2rLsuUCFFqTsqlmROkr6MqWbljEQS
+         JyhRjNml9Go2pYlWxMXYoTt05uKnNnpNKv+Etd1zdFm4G7VJbnqV1ly8MEfrifXlHd
+         ddeIV360EJnh3eCuNPc+k6aDEt6P2LawNpJsCiZlAmJMvBEKiKesHXMhXwvTBTV8sd
+         kM8eqwWgqD3jU/m2n2bqzJeOW48MU9r62NbXyXROKQfFBm2Bu2dXuscj0rtSHHiq3f
+         PsgNLo2kntVDw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/15] Transform documentation into POD
+In-Reply-To: <20220104015946.529524-1-tomasz.warniello@gmail.com>
+References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
+Date:   Wed, 16 Feb 2022 16:14:17 -0700
+Message-ID: <871r024d6e.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tell about 'console=null|""' and how to use it.
+Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
 
-It can be helpful to set (enable) CONFIG_NULL_TTY so that the ttynull
-driver is available. This avoids problems with stdin/stdout/stderr of
-the init process. Howevere, CONFIG_NULL_TTY cannot be enabled by default
-because it can be used by mistake [see commit a91bd6223ecd ("Revert
-"init/console: Use ttynull as a fallback when there is no console").]
+> This series transforms the free-form general comments - mainly the usage
+> instructions and the meta information - into the standard Perl
+> documentation format. Some of the original text is reduced out.
+>
+> The transformation includes language, paragraphing and editorial
+> corrections.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: John Ogness <john.ogness@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v2: "must be the only console=" instead of the first one. (Petr)
-    Add info about CONFIG_NULL_TTY to the commit message. (Petr)
+OK, so I'm finally getting back to these, apologies again for the
+unreasonable delay.  I do think that the work to this point is
+worthwhile, and we should be able to get it in for 5.18.  I will have a
+number of comments on the individual patches, though.
 
- Documentation/admin-guide/kernel-parameters.txt |    6 ++++++
- 1 file changed, 6 insertions(+)
+Thanks,
 
---- linux-next-20220216.orig/Documentation/admin-guide/kernel-parameters.txt
-+++ linux-next-20220216/Documentation/admin-guide/kernel-parameters.txt
-@@ -724,6 +724,12 @@
- 		hvc<n>	Use the hypervisor console device <n>. This is for
- 			both Xen and PowerPC hypervisors.
- 
-+		{ null | "" }
-+			Use to disable console output, i.e., to have kernel
-+			console messages discarded.
-+			This must be only console= string used on the
-+			kernel command line.
-+
- 		If the device connected to the port is not a TTY but a braille
- 		device, prepend "brl," before the device type, for instance
- 			console=brl,ttyS0
+jon
