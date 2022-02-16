@@ -2,45 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E271C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 23:26:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A18C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 23:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238400AbiBPX07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 18:26:59 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57968 "EHLO
+        id S235534AbiBPX3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 18:29:24 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbiBPX06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 18:26:58 -0500
+        with ESMTP id S238148AbiBPX3Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 18:29:24 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081F49EBAD;
-        Wed, 16 Feb 2022 15:26:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB4715C9FA;
+        Wed, 16 Feb 2022 15:29:11 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3ACEA37D;
-        Wed, 16 Feb 2022 23:26:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3ACEA37D
+        by ms.lwn.net (Postfix) with ESMTPSA id 1487037D;
+        Wed, 16 Feb 2022 23:29:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1487037D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1645054004; bh=PZQSP6R+jY8fblyRlqUqjGpfYN7XjpKYkpL8H3cbVEY=;
+        t=1645054151; bh=x0jr/JZmXqReG9uxmHayoCDQXBtMgWNxrKrxxmwZQW8=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Kb2Sk70S8EhNPCcM5MR29SWBTGG4A1pIza/Ns+2ynTVGdgwtbAkwuPW5QqQVaPmvs
-         H8IDDVrYHbyKohWgYAxa0lTmEiwtRQmpsghSUYC5UHX8sR4RyemEAuaUZNTtn6RWe4
-         W58ckP4FpkbtlgdM7R93im1/qjf4pl5XCRWp4PUnf9cA87LKmuJUGGhkZIf0rODibA
-         KAEys2kzND8XkAcm81U6D6k8ihjyXfZQqdINnvLyIGZTTZ1wwWEWJmiYNqm6+wGcVS
-         60DeZwcq7R6sVfuudaM5nFS9PyK71/lY3OFf73mqFMT4LY39pRZ3sX5kr9nOlcXj65
-         YxfaX6VIdOcJw==
+        b=R1iSO/M776/7GQtJx/xIevc595pvzSxzaa1EntYMI0L0lw5SNWpFxkLGNbCArCEBK
+         uWU3OcfwuiY51IKC2NYVP4GCpLFiNhrFS8TcA2JzO4B9kdiMZCGq5W02hy9EUsweD+
+         SICN5fg2ZtyrZ9Rym04AqpdBj459Z6Zol4B9G3PAdxmbGT4FhyWM3NDuzv/Jy0d/Y2
+         YSfe2ql14TI6DqlVtrwnzk6NHSTzUyrH5T+2+SnqHTdapKF736FQyWfDRrbDYJn28M
+         E05r/5a+/OLC2ECXknFj0b61X5Ed4bBozJLNErt+/gsF2lkg795Yps92E++6YqvmAS
+         gh6imBPKMa99A==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
 Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v3 11/15] scripts: kernel-doc: Remove the "format of
- comments" comment block
-In-Reply-To: <20220104015946.529524-12-tomasz.warniello@gmail.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 12/15] scripts: kernel-doc: Archive the pre-git museum
+In-Reply-To: <20220104015946.529524-13-tomasz.warniello@gmail.com>
 References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
- <20220104015946.529524-12-tomasz.warniello@gmail.com>
-Date:   Wed, 16 Feb 2022 16:26:43 -0700
-Message-ID: <87k0du2y18.fsf@meer.lwn.net>
+ <20220104015946.529524-13-tomasz.warniello@gmail.com>
+Date:   Wed, 16 Feb 2022 16:29:10 -0700
+Message-ID: <87fsoi2xx5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -50,30 +48,34 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
 
-> As suggested by Jani Nikula in a reply to my first version of this
-> transformation, Documentation/doc-guide/kernel-doc.rst can serve as the
-> information hub for comment formatting. The section DESCRIPTION already
-> points there, so the original comment block can just be removed.
+> Jonathan Corbet suggested in a reply to my version 1, that these records
+> can go, since that's what the git log is for. I don't agree.
+>
+> The log begins at 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2. That's from
+> 2005. One of those entries is indeed logged, so kudos for having me check
+> this. But not the older ones. Of course they can be found indirectly,
+> but then...
+>
+> Why not just let them embellish the script tail?
+>
+> As you can see, they don't even require any formatting there.
+>
+> Are you sure you don't want them?
 
-This is a relatively good *why* section - the sort of text all of the
-patches should have.
+Do you really want this kind of stuff in the patch changelog for all
+time?
 
-> * Transform documentation into POD (11/15)
+Yes, I still believe that this information can go.  Why preserve a tiny
+subset of a few small changes from over 20 years ago?  Just take it out,
+please.=20
+
+> * Transform documentation into POD (12/15)
 > See step 1 for the series details.
 >
-> =3D Meta note =3D
->
-> I guess, I should use the Suggested-by tag for credits.
-> Maintainers, please correct this if I'm doing this wrong.
-
-"meta notes" can appear below the "---" line, that way the maintainer
-doesn't have to edit them out when the patch is applied.
-
-> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 > Signed-off-by: Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com>
 > ---
->  scripts/kernel-doc | 115 ---------------------------------------------
->  1 file changed, 115 deletions(-)
+>  scripts/kernel-doc | 43 ++++++++++++++++++++++---------------------
+>  1 file changed, 22 insertions(+), 21 deletions(-)
 
 Thanks,
 
