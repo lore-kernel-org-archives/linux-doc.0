@@ -2,215 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75560C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 03:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72FB8C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 05:40:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243703AbiBPDij (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 22:38:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59512 "EHLO
+        id S1344650AbiBPFkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 00:40:43 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239720AbiBPDii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 22:38:38 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37FEF9FBB;
-        Tue, 15 Feb 2022 19:38:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644982707; x=1676518707;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/dpiHs8GsvY1+g62Ls1RRluC7y5cBIKrNtnUMHMMDjw=;
-  b=AFNtQdnIfKrLrGf2R/XiY8XKCv5Xs84WF+CMgc70HJi6kDrft5Tq950A
-   wKwCzgVkzidR8NP0pjgOrbKcygaoRo7f5OaU1CU6H33DNF0QdTcai+BXv
-   MRDl3h6aM9J1o4s+1oI0uJUlQEmQmlkSTU9oDvpWli3K8NAZRwGIXUfdH
-   aSryUsmeH9+ucCZ+tZY3xRXWGLpXPCtq70RWkUwK2tEDD6gX6e25u4Raz
-   g+T6b1ZYDjRwRUxNrYGWjH4Q11PSfy4dl//tY+8O2dms8zy2D5aKOSrCZ
-   uvY/3wZ4pDGLNjUlP//QFHnUDm+dIS9wBzgpaHbnNJ288TYreGXD5/xv5
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="250253309"
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="250253309"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 19:38:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="544665151"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga008.jf.intel.com with ESMTP; 15 Feb 2022 19:38:26 -0800
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 15 Feb 2022 19:38:25 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Tue, 15 Feb 2022 19:38:25 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Tue, 15 Feb 2022 19:38:25 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WkTiLi0mqP2L+sNwsm/dHVd1XWtu6zDRqlM9CJQ0yNVXg5z+wGexXsmmlEGTj4H0lQNYbjcm4fdAKDEtsC5iefw5dzBMV2tQnrHAnu+MC2MFvbLhbQFAhHiat/AEdVNAUOq6qmcYMMIuUUua0LcCk2IoNPnClPpXk0rbgm7Yi4B5Zs8J0DSXP4akuco66OVUExngZjhvoINDBViyVS6mtx9O2nYSC9w4sEvRPr/yd3lW2dBtXTFbkYyVn1lY1iTAsB/1txisnSWZgj6g+CpgWzElXBDQQuXKrJ0StBb95o3l4ZAiBBWQckKS5phEPZxRElXzgswcbdWQncZ9zMBjdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GXKdBkJMXmEL4l5QupD+rQffVXXTTU8Qo1AyeeF+/3Q=;
- b=QGT5bwg2JOYTa6foyz7MiJkOQ4EGyAspjDH1T8HjUxc+6fWfV3YsBsDkaj+kL7y7dk2H15e8oLD+e9O3D6It7xP+AKvCC3+nJ7LTTu1eEn+P8HXswTELMGIq+ITXVY7tdLg63pq+uBkgqDofyTkY6Ek2wtrMh3L9S9WKLz4hIPAXmb8JrCLYbnFnbHblgEkudNoy3czLbpoCicugoolFvB8MXMJOuGuqYu6wjApB+pU3/PK0ZtNYfmsYFW6mmMS9uOnIuc+D7smpvw4AY5Ui1KFCBzWoGvKssVURxEmdML9rCIB9/o12Xuuhj9aEoIl3/QsZReZ9dgQUxq+nw3cPhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM5PR11MB1625.namprd11.prod.outlook.com (2603:10b6:4:b::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4975.15; Wed, 16 Feb 2022 03:38:22 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::e1a9:e3c3:d61d:dd1d]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::e1a9:e3c3:d61d:dd1d%3]) with mapi id 15.20.4975.017; Wed, 16 Feb 2022
- 03:38:22 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: Re: [PATCH v1 3/7] fpga: dfl: Allow for ports with no local bar
- space.
-Thread-Topic: [PATCH v1 3/7] fpga: dfl: Allow for ports with no local bar
- space.
-Thread-Index: AQHYIZYvrzRM3rjlj0CZJyiTNgRM8ayVe4hA
-Date:   Wed, 16 Feb 2022 03:38:22 +0000
-Message-ID: <DM6PR11MB38190E763522052E6C67730D85359@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20220214112619.219761-1-tianfei.zhang@intel.com>
- <20220214112619.219761-4-tianfei.zhang@intel.com>
-In-Reply-To: <20220214112619.219761-4-tianfei.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 732fcd6b-1372-449a-bbd5-08d9f0fdc7f0
-x-ms-traffictypediagnostic: DM5PR11MB1625:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <DM5PR11MB16257CC597514DBBB2EE5DDE85359@DM5PR11MB1625.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EqBZembuiLEz9f60bt/B3xJNSYZpHl8iuh6Y8pOnhxkdjFIXRSS7LM0Bzpxndd2NfdJC6sJmHYSmQ1WHEDQIFRkWZeDNldpdOSCIHrMBllTRzeNGwkk6xwKYUh8fgLuiTIVU0qWAqZH2dp3qe0lLOcARezsEO1N2gFPU6HsV0kUsCzWhHVBuI9JWAXx4KcZCLTJ/hjeIb2BUTToGCizqHyIpn3CuvT/bsfcEDvVBcDhcb9ifPmAfUWLp/PpVNxCjRepIkUneaP2cc1fvJPI9nGVuGG9XRL/jUnHx76RJP7zcCZIqmbz4R0qDVyIYvWCxJF6Ay71nOijhca9z7nPkXyftznOq9il4rnR2tsXMx97/b3N8x3FA8HeBKTvIBBMuMJdiA0i3LwvPT9pgOBi94lur5rL1o1rbrky5JFrB+PLxq74J1Cvec5DVj4XDH6ZN7xJ2nI0rS1neTCg2oFsjwv6RJqqkWXXNmuTPhx0O0Riwjl0xh64ag6hmcnI2wHkT2cB3K0ibHEza33+rGjbi0x/mlKwfs975fcNWEiLvyoDeRjibcSmaRJwGWgAcrMDK0QV2C24Q84ojhlBRM40+CCJCVjWhN1BSeEPpRZAUoUkmREgVcdikwInOc1jzhSlAVRmD+wXyiH04DTiBPi4gOaYCrbW8r7mr7aAH4asCG6IwWdN1m4eOScsfloDMPe9To6nUa/sg5ElCPkl0b9ue5g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(86362001)(38070700005)(82960400001)(4326008)(8676002)(110136005)(64756008)(66446008)(76116006)(8936002)(54906003)(66476007)(66556008)(122000001)(38100700002)(5660300002)(316002)(66946007)(52536014)(71200400001)(7696005)(6506007)(9686003)(33656002)(26005)(508600001)(186003)(55016003)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rj/1YFO0eHkc1H+bXbSyY61r9MKZlmdZ7X8Ms9Ehd9j7piOtZwvIBM3kgzpv?=
- =?us-ascii?Q?hxv89pSDHW5++RvR5s22HqtEhVAAUu/XlUBfszkUFj2rcqBlIM5ZxOQz5tSM?=
- =?us-ascii?Q?fGkutpOtWcCQzOZxr6X2UG8s7pzcY3X802lfDuJ+qonda+dXX6R5Scefrk+F?=
- =?us-ascii?Q?F6i7f4HXe0Hp7W+d011XHOTX3BTAG/VT6kmM2oI8PyeuH9jIdtmtDV88/84h?=
- =?us-ascii?Q?XFoRddKPDk6kmq3D/ITwVROmdlM4WDembI2tOrpo9h9iSLBxrm7eJwLxTuAW?=
- =?us-ascii?Q?wgBOfgypgjUC+607dINzArJRKv4t2qV2aqgYoOic/8KuOVFfjnGRWYQlohde?=
- =?us-ascii?Q?HZeFJA/P8m++XTV37yFI6w/t256im9AroTCHe8RQJDesSakIzWEN4jGHEnPM?=
- =?us-ascii?Q?WOr/1dRp4l9GGIyldjBm+ZRFVCkwjIiWA7ZfdllhYX0iqc7n2egB6LlmZrly?=
- =?us-ascii?Q?RWedjyirlNGyuzOG5j7sD7GZeEOns14BTcbfZ6bBHuuhNvAravStl5rmmQjh?=
- =?us-ascii?Q?PkPF4Y0Ayk3OcQaEdb6xGZdtNIB5bA/1opIwoY30VIDvyvooDLu7TtoN5wsL?=
- =?us-ascii?Q?e0k2MrtwZ4ytQoLt4axvYUqbhcSI7If+e5HQRXfyOD6HYHmv3yBZQglMCvPp?=
- =?us-ascii?Q?ENdDCliL1EsI5mUqEUFqMVVGSpO4SX+qB4r1MSL9KvCrIBVQ0vVF6c3h7mQy?=
- =?us-ascii?Q?Ma9sZxoHXDB3dCLlY1Q6PukjaoVxL1blBKWqRJ+cI9VWC4JRfH8j2dRxukvI?=
- =?us-ascii?Q?fvzK00PLiLah3zTHS8llDFQ5n5DjBkF4BllIpTVFf9vxpNrrP9mwNqn7wj86?=
- =?us-ascii?Q?JMg0y212dBT8wvZwssv0FrwseFxyTo0qFMVidbbC/g5MbAuJs7MP/DRSgzoY?=
- =?us-ascii?Q?wNWS5+1RBEhpklAQ3/NRbOWhcdj0AdR+/X1MPsA5S4BYv/INJxYNQYymfPiZ?=
- =?us-ascii?Q?WI68JctFt4UcSLRG+PDysXiux22GG/0amSnAcF14t17Cot/cT6GXnZv9x32n?=
- =?us-ascii?Q?oa8z0rMHPF8IWdB+7IwVMmxlgXRmKYpxPI7bsLGnBxH3UhJ/5EK8d7DE3moz?=
- =?us-ascii?Q?Gib5FQetxxHz9NUB24GXN9eebVXhn1HxN9dNv83r968dK/igZgrCr3I2cPM1?=
- =?us-ascii?Q?DITr10R3lo99YrGmguZcHN7qLClMgntnQU3Jil4ela0dYB1l2QH/Le/h3X3s?=
- =?us-ascii?Q?Gk2sXqLGx4ntp+z1ATIg7BgC1v0IGE6KdKo/MkluEXZeLm49ZFuQhmT17sH5?=
- =?us-ascii?Q?ippQVA8coZxp8g5L8Fjw112vM7RXXc92Pkz0FVWOxPpt/XOnC8AlFZoK86fI?=
- =?us-ascii?Q?rjms+0tmKgX7QdOCcRvGuKtlOtRuZFbmpxeDrYIZGeVpB4qizZtOFzX50KDL?=
- =?us-ascii?Q?pllpQJpGckWCJ3hvu6S4AyULk0agXIWMk3Gfc+9BTcvJbEW0UeG6VQSzHIHw?=
- =?us-ascii?Q?ijZkYjNq2t1gnkaR+Tdy5JHfC/gBB1YbaL8KptKpNz26XxR7ROSdVphxwQO5?=
- =?us-ascii?Q?lkKoTN/2zl7NokS69rB5NvYjLr6GhWDR7fFy+I/LhptaCqSqWj73rtqrBKU2?=
- =?us-ascii?Q?QYa9gLOzNz29/yGI1NieTF+eq2KB6+KkiIgfcYchNhkth/WJsAbD7AB/4yBk?=
- =?us-ascii?Q?XIHHYGJ+TplBhkxp1feMwAQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1344649AbiBPFkm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 00:40:42 -0500
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8235BD2ED;
+        Tue, 15 Feb 2022 21:40:30 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id BE76C2B00296;
+        Wed, 16 Feb 2022 00:40:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 16 Feb 2022 00:40:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=zLCfwTEqPgbAts1m8jwlP8PVBAXIZUQ47054Ba
+        XjuWY=; b=O59SGJn7XntFau15KVosBLouNjMxmYwm8UF+WWX0P9e0EwfCoUYc1S
+        lc6YM6F5yHeRqe0ZL/mLXQu8UT8N9a8kZ52ecv7cQbYxz9FjL/lnwiVkwYMHa+CH
+        tOtqwEQybObOdBFTh0rTxwgsucQBjP0tQtj0pQ2Sf2LPCW7wk3cB17t428ag4AzB
+        /BCEkJHss6l+9XLaOCz0ADzROfvDCMzYfMjT9KdQp77iOpbjuv75bZMsiIHWHHrO
+        qkbGsGE2xRQh/SO17Cblm4nlN1TqwOAs0pOQjVVhHIBQaqOj8ceyznTKuMAb1XZR
+        5Ux/vz8GprHnlJ2pi8WpcKV83L66FWMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zLCfwTEqPgbAts1m8
+        jwlP8PVBAXIZUQ47054BaXjuWY=; b=Zo49S1EPi6J3CgIp82dMnuKxxk9dNijRv
+        E5HYNb6sUgMUvuO3nTdFMV+nJjj4C2gjlLYVo/4rI25261e7q9ZpSEoWh/3XI/MX
+        /Ys3NgTt1MR54NubXbpE35ZOuzJCU1nP3Cbhtc1CFAApl4HqdnZbG5FJqTZ8O5d/
+        nZfoCicWntqje+1Tq2IqMF0dV8OT+lXi9vLmvxeLTl0RZV0tSOcxinwmgyxxewhR
+        8r+NSLdimyXyUX9vS5U1XdUi9CRTKMNBSGu0Abk2ecwiyxGN00+MUBvEv+8G29wV
+        focJsVMfdBVZ+oheV3eR7BDdMRWNlY4gSwdPDeGRc+snwoUF8YfOg==
+X-ME-Sender: <xms:So4MYgnpfovLImmYJP9hZlmB8Wr48TyQrMF9IDvWoZEy8OV9IWQ75g>
+    <xme:So4MYv1qqVSWDMsEeSEKLYrJFoKdPJkqviFudCYeK_tBDx2Poio8y7Bh-ky523m_f
+    3jfCpa1rAk2v5fsY_E>
+X-ME-Received: <xmr:So4MYuoz3kCa2Ly-okMgNSANrM-nHAmwbBLRyIhuoeleES18sslH89CU-VWb1mNEGyEKi3CWCkPWzyoBkMZJ4fkULtdvCv-rE1Lh>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeehgdekfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
+    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
+    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
+    vefggefguddufeeuveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:S44MYsnC2027HY2O_ggoA7jlbwEy7k1NIZE2QRnFv0BfxbpSHHFzXQ>
+    <xmx:S44MYu1JIrPHRlPjKQl9F8LdP21A4vDI4_D4xZw9fv57c7I5p2QGeA>
+    <xmx:S44MYjsEZ0HDxq18kszsewLm2BnYv9e3lYu8XgOLEQA3SproGExS1Q>
+    <xmx:S44MYswnezxtDk4uQdE-l-FiFCTnpOB_SE6BELfR_VwttKE_lOG2qDatezM>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Feb 2022 00:40:23 -0500 (EST)
+Date:   Wed, 16 Feb 2022 15:40:18 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/12] Input: docs: add more details on the use of
+ BTN_TOOL
+Message-ID: <YgyOQuN9+IEsCsoA@quokka>
+References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+ <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 732fcd6b-1372-449a-bbd5-08d9f0fdc7f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2022 03:38:22.0220
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VNhsjFQKjPNI2L1O60Vu17cEhre4vVMqRyYaS/NHfgYL3nSti4uLZ0ihRUGBvtRrz2Oz8/sS4bzyOa7OV7km3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1625
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220203143226.4023622-13-benjamin.tissoires@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Subject: [PATCH v1 3/7] fpga: dfl: Allow for ports with no local bar spac=
-e.
->=20
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->=20
-> From a fpga partial reconfiguration standpoint, a port
-> may not be connected any local BAR space.  The port could
-> be connected to a different PCIe Physical Function (PF) or
-> Virtual Function (VF), in which case another driver instance
-> would manage the endpoint.
->=20
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+On Thu, Feb 03, 2022 at 03:32:26PM +0100, Benjamin Tissoires wrote:
+> The HID core stack used to be very relaxed considering the BTN_TOOL_*
+> usage. With the recent commits, we should now enforce to have only one
+> tool at a time, meaning that we can now express that requirement in the
+> docs.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
 > ---
->  drivers/fpga/dfl-pci.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-> index 4d68719e608f..8abd9b408403 100644
-> --- a/drivers/fpga/dfl-pci.c
-> +++ b/drivers/fpga/dfl-pci.c
-> @@ -243,6 +243,7 @@ static int find_dfls_by_default(struct pci_dev *pcide=
-v,
->  		v =3D readq(base + FME_HDR_CAP);
->  		port_num =3D FIELD_GET(FME_CAP_NUM_PORTS, v);
->=20
-> +		dev_info(&pcidev->dev, "port_num =3D %d\n", port_num);
+> 
+> changes in v2:
+> - changed to explain that switching tool in one EV_SYN report
+>   is not nice for userspace
+> ---
+>  Documentation/input/event-codes.rst | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b24ae7d292cc..8741d390b184 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -137,7 +137,11 @@ A few EV_KEY codes have special meanings:
+>      code should be set to a value of 1. When the tool is no longer interacting
+>      with the input device, the BTN_TOOL_<name> code should be reset to 0. All
+>      trackpads, tablets, and touchscreens should use at least one BTN_TOOL_<name>
+> -    code when events are generated.
+> +    code when events are generated. Likewise all trackpads, tablets, and
+> +    touchscreens should export only one BTN_TOOL_<name> at a time. To not break
 
-Do we really need this info here? in FME there is one sysfs interface for p=
-ort num.
+I still think s/export/set to nonzero/ to avoid any ambiguity with setting the
+evbit on the device vs setting the value to nonzero here, but the remainder is
+good, thanks :)
 
->  		WARN_ON(port_num > MAX_DFL_FPGA_PORT_NUM);
->=20
->  		for (i =3D 0; i < port_num; i++) {
-> @@ -258,6 +259,13 @@ static int find_dfls_by_default(struct pci_dev *pcid=
-ev,
->  			 */
->  			bar =3D FIELD_GET(FME_PORT_OFST_BAR_ID, v);
->  			offset =3D FIELD_GET(FME_PORT_OFST_DFH_OFST, v);
-> +			if (bar >=3D PCI_STD_NUM_BARS) {
-> +				dev_info(&pcidev->dev, "skipping port without
-> local BAR space %d\n",
-> +					 bar);
-> +				continue;
+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
 
-Is this change for IOFS? From patch #1, we have FME and PORT on PF0, so
-we should have a BAR for PORT on PF0, is my understanding correct?
+Cheers,
+  Peter
 
-Thanks
-Hao
 
-> +			} else {
-> +				dev_info(&pcidev->dev, "BAR %d offset %u\n",
-> bar, offset);
-> +			}
->  			start =3D pci_resource_start(pcidev, bar) + offset;
->  			len =3D pci_resource_len(pcidev, bar) - offset;
->=20
-> --
-> 2.17.1
-
+> +    existing userspace, it is recommended to not switch tool in one EV_SYN frame
+> +    but first emitting the old BTN_TOOL_<name> at 0, then emit one SYN_REPORT
+> +    and then set the new BTN_TOOL_<name> at 1.
+>  
+>  * BTN_TOUCH:
+>  
+> -- 
+> 2.33.1
+> 
