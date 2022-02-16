@@ -2,308 +2,402 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF41C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 03:22:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BECC7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 03:35:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237597AbiBPDWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Feb 2022 22:22:30 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51296 "EHLO
+        id S1344338AbiBPDfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Feb 2022 22:35:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344264AbiBPDWa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 22:22:30 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1293165825
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 19:22:17 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id h5so829438ioj.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Feb 2022 19:22:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pC+CQP5X8/WBY/xYLNskVxmp5h3d1UBhUppWThc6zcU=;
-        b=JjHYxwuhg8eU+0FsJ4cbBFmZCmqA53fU2f9F6kotYxiXToxiJUNSyjfwP83rdcpdSm
-         47XXk41juhHZsyak1Pw53y932BX59s9FRfGUrsDZQwRVB3yxsxbDKyNjewbCuyNlFC3u
-         czn1vbpNWkprv7EoRa7tckSkUURyKh01lzbIKhhS834iGgl1H/GGbRBjy9mjbQES+WoL
-         Pd+PqDlOVy26h96FYWL83RXtPX9h8pSJp8twZ97itYQY/w+SWQqSDB4ebt3MZg7FfQbZ
-         faEXPMmdiaVL9LJc4+CQ7p0DEnu4+DZ1VYR/vctO4rXPhcjLVNso8NhzFblg7BasRd1Z
-         COOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pC+CQP5X8/WBY/xYLNskVxmp5h3d1UBhUppWThc6zcU=;
-        b=PCHuokzWN40wklx9w0fZ0eIGIrqdYjRLS8VW8P0Za1NsJNLWtTjDECcm/PlBmlthHf
-         o/VbFuY/urVdCcg6dk5YqFIZ95c2HxDIfPsiMdwJuX7ivqY9wemkOrSBkWMR+GsQz6jW
-         5Yl9h5kK6Tjtyif9VAVuJCK9Sy9pKBBzxYhCbGUGQItz4GJ0hK9qT6skwRdAwulXOms2
-         RvNi3arr+/5+xSS/rYnlkpre1/oF7VdEA2qyuGJK+dd7hdAI5GQ18/0gabpNS7lACaoo
-         duDSAnA45qPj3CpYekVYgSvcUACmS6+duLNKXvk2MH6iT0wGX5A0WMe+dE7oYj5UKb0G
-         3Uww==
-X-Gm-Message-State: AOAM530UO81S7AK/xLacpkf1IcFJuUosMX6CcboiWiWkRWTLWcGFjvPZ
-        u0mi/GoAmx7UREpkSv0Z2SAEOQ==
-X-Google-Smtp-Source: ABdhPJy5rdhqytpZ3v2zTdrmze3vfJ5giIn3PmnJT8l9HA15NYywXtFHUxaBc+uTT+/oN6duu62B6g==
-X-Received: by 2002:a05:6638:379b:b0:310:bb27:6c28 with SMTP id w27-20020a056638379b00b00310bb276c28mr470358jal.71.1644981736174;
-        Tue, 15 Feb 2022 19:22:16 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:5929:5114:bf56:ccb6])
-        by smtp.gmail.com with ESMTPSA id u15sm7547237ill.75.2022.02.15.19.22.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 19:22:15 -0800 (PST)
-Date:   Tue, 15 Feb 2022 20:22:10 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
-Message-ID: <Ygxt4iR9ZMYEbV78@google.com>
-References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-13-yuzhao@google.com>
- <Ygou6Gq79XY3mFK7@kernel.org>
+        with ESMTP id S1344334AbiBPDfQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Feb 2022 22:35:16 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416ADFFF84;
+        Tue, 15 Feb 2022 19:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644982505; x=1676518505;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=sxT4WAUsPFZ3nlbu2IvTeY5u79FGEr7KlzTLAnEg65k=;
+  b=hzLLQsV7Qj7XD0jJJKnega3KUqaprsSZLLEBHN/qEk8p3QanzQ5hsSTe
+   qxrAAfIgzq2D/pYq9gi3SSKMeNFj3KIVsNG2ChnTuucppS13X1ZjiRBbb
+   kZQGJoCr6et3HcyvExT6/2OOltOT9c3GqP6r3M2+dvIl781RW7+jOAn6F
+   Tg3ZbWb5LwSG2X4sbSxzn7sLK+s5EDNvD4djRqoK9DLD5h3vsMwP+KQQV
+   rY4i/88AbWzG6qHWik4e+q1xwputZRRpjbEgijdCOe7QggXB3p7+qknfY
+   jVlJOQsIKpjfRlJtZ56HVad8toI1+r3Ur6ry0fAIDvwQGObycB2EVAK01
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="250715358"
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
+   d="scan'208";a="250715358"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 19:35:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
+   d="scan'208";a="486633670"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+  by orsmga003.jf.intel.com with ESMTP; 15 Feb 2022 19:35:04 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 15 Feb 2022 19:35:03 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Tue, 15 Feb 2022 19:35:03 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 15 Feb 2022 19:35:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RrzIyUztFkPs8VfBvN2YYtgGG7zXv1ZeoayqA/u1UtSgruCUAMFR82tMVK3xdMZQg6HkeDTeLhDgCslQvf6FomqjE3TfGgfxzN1Swsm6ibaOz5SlJO/EfEb4RrMVUV9V911r7Bbgc660pI2S7zZQJxCrKNcCWTMy1qT3Iab8227s/ssJoz0jJ0/7DpES7qVyF++xY6PK0kl4aIM8Ygj2fvbsdGViyYE+mwmN3bBYthS4opmEDHd0Nebf/vYaYcy2JzgYZEb0FUlAjS8gy1uZIATJlFqrxF8klgIX8ILUt8ahN+g7ggmVCMQm+zLYgA3oX3ScoTM/Kl4MiMPCPTvgYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jl4ZD1pnLYwQlaZJfTaHNmlXysrOqgpsZV6kebu0HNg=;
+ b=S3CZBeHtnW7lxWNKouO+1Z+/t1/eNL2WlLBYB+vVT2px7MByt3MHkUOjVj1RKLY3H4yfedwXYK0tuJEp6dHkSh3g5404RoR81bWNKhv5yb61nuIIOn6bbz4JBHpppfPpNu+5szxLGf/AxI1CxJFwvKRABV/1jVTF10MC55sbLHDXF646L5dH2YvmLFT/Y6Nr7oBYB78RUFsM+8f3zj8CEfcY9WaoEXh7i5mpFqWRTEaiNCDJQKUzA3nzwugRoECIdNtUc/Cei8ln69Pj9dDDu7OU+Jpr7XS2xXCsMhaJ4aBEimF2zkhwS3RfhvUGt95n6cnep0KP518pD3OoEnNrKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
+ by DM5PR11MB1625.namprd11.prod.outlook.com (2603:10b6:4:b::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4975.15; Wed, 16 Feb 2022 03:34:59 +0000
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::e1a9:e3c3:d61d:dd1d]) by DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::e1a9:e3c3:d61d:dd1d%3]) with mapi id 15.20.4975.017; Wed, 16 Feb 2022
+ 03:34:59 +0000
+From:   "Wu, Hao" <hao.wu@intel.com>
+To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>
+Subject: Re: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
+Thread-Topic: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
+Thread-Index: AQHYIZYrZwyldhqgpEacaXgZS6WQkayVf2AA
+Date:   Wed, 16 Feb 2022 03:34:59 +0000
+Message-ID: <DM6PR11MB381933DF77F512D7E70539EF85359@DM6PR11MB3819.namprd11.prod.outlook.com>
+References: <20220214112619.219761-1-tianfei.zhang@intel.com>
+ <20220214112619.219761-2-tianfei.zhang@intel.com>
+In-Reply-To: <20220214112619.219761-2-tianfei.zhang@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7b2d8335-135c-41ff-c434-08d9f0fd4f12
+x-ms-traffictypediagnostic: DM5PR11MB1625:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <DM5PR11MB1625291DB67584294730CDBF85359@DM5PR11MB1625.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:901;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vz01IbNk5VNjovYctLsSaJz+oe6Muca1IesOzqA08aS5h+HRV7B591RCWjrz7quQ+IiXZCkBGOa0XmYd56JmZn0bpXpTCDvBpTnznxnDJqI1a+39H9QTAmCWqiTF6gMacGkt0JbBQLEEbCExlGIHTk+h2f/ovdSdVCW85Ta+E4G50DkZaroAL38DEUGViNTay7mbMwbeB/GK2PIrSwfUmYntZ3bLox4vIrGNaqGn5Ow5+isC7PcFHmZpajDIcV9BSNtwB56+5jtk3MO+RBWwgKwxPvTkU2usmoG1IMgZfyZ1UC3aoRgwbqhEtR86DtF6bcmdx6r48Qud7PfC/RUXKvuYfUq3Itu1KZ7nlNaw3c7z+yENoGG0l2cEvgv0kFVKjUgHO3UZnyI8/yaQoFhOXnjwqDeV29Yhro8kXrcYlPioaynWzJg5Ft9uGKIsHCdclGZC6ODmnM7Olxy0UTJQ7ZNbc6LzJtFAAmedzMyRe2xjiEv7WZhRxUJEPWM9BR3C0KLlIdmCZRKw6Faf+NRwth9jldw4g8ZOxVAOTPeBGw2X3CeArJZPhDebP9onyxbyviHCLNFbsiQPVkmcc6UITqHEA1NFzvrVXXBW2J6TFWUQMSBh0crf6wUCny6swx7va2ID0XUAwTYvy5vLdZkNSCyieYaARO3H3NisG2hs5iZY+bGdt9WtrW8wVGIym1mmEgph6fL1b86MsB9MU2bc1g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(86362001)(38070700005)(82960400001)(4326008)(8676002)(110136005)(64756008)(66446008)(76116006)(8936002)(66476007)(66556008)(122000001)(38100700002)(5660300002)(316002)(66946007)(52536014)(71200400001)(7696005)(6506007)(83380400001)(9686003)(33656002)(26005)(508600001)(186003)(55016003)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ERXvqg8GHXp25s0XFIDsk7xzBcNRsInqhr6lOS3q5kz6FHPqLoYgapWRkRs4?=
+ =?us-ascii?Q?D5QDzvHIrS8DrQqFkWZIGzX5tq4Xb8s2YCOVkk9arxY/Dw1gLYtywQ6nmLRa?=
+ =?us-ascii?Q?HnauTjeDJ0ERgWBSQDmWI1CcClDsUoHZhjtO2Djxc3CGx+sdpxvNbIoQ1x2f?=
+ =?us-ascii?Q?y9NJNZlH5qevgK2M2uAD2xGU+ladZCIFfxc7dB89ht0pWFZNrW16O7btzjtV?=
+ =?us-ascii?Q?Ga5iov9uVz3msAuASAJsGuk8mADM1gYvThMKLA7IN8YOzXASFsfLwZZMi11z?=
+ =?us-ascii?Q?sYzvr7OVk36FgjgatgleVK6JU1znaFblvsAx2qcuf0K4AYGd3PTwymvvoB9J?=
+ =?us-ascii?Q?t4YWOCPcsIfmRpg7v5DrgkImNcmBeYSZJ0C730OCOC/uItodsWxT1+EcIftu?=
+ =?us-ascii?Q?jMzV6Bbz+C3e4zpvpp9Yx4O6g4vWtMoTTnWgFWNR4PQcZaGrsSf1Xv7zLrpM?=
+ =?us-ascii?Q?qsEO2vyLHLbLDIaDKizJnF4thhABoIsoEVjC6Ry1LfhdqK1uOfgBohZuHBO8?=
+ =?us-ascii?Q?qcZvNfhoBp/nL7mlLGizQD8jvdb+eJ+W0DyW9WRVsCrVTgEv5WOYTPRcpXR7?=
+ =?us-ascii?Q?iykFTdNzsFS9x8+dqXuDCgu2Hmc9BaGGCmaHFe/Pbb9RAXVFYyhUoJfUSEjc?=
+ =?us-ascii?Q?XSfWqiIv04ljUEdNL6ciNV3Dy5biLmGf1fGVcjgXLqNExWuEq08Usmknui1+?=
+ =?us-ascii?Q?9m4sal2IUJ7okIRRKdKIjsZvxspgsmcwlnjPzucrIHej8wOKk2vhWgPHVbHd?=
+ =?us-ascii?Q?iXgqX+d8lsjFdMk3cQGP02EjXURPne7aEjLC5zhsXUsEcOMwQOpXEUbEYhTs?=
+ =?us-ascii?Q?r1aRrZ7sPG9rpHhcM9EDYi81A0Z1IQi4Fj3xxQRehsuuszoaVdUr8K45m9JE?=
+ =?us-ascii?Q?LKdTlvYPwrDz6s+RX7lK/EQcjQQjtByXQgN50Bwnw56012v9mBc4kADbKvXq?=
+ =?us-ascii?Q?j6QUPYIFeD+7z0/18RlTuhzyk81oAsTiz7AJQ0SIGnUK8ibkpVkIRdSolQFU?=
+ =?us-ascii?Q?xAJPl3InbpNFai1TNzzQOxyVMavNefc/sGOOsnxO46pr2v7cweBlxrw7761P?=
+ =?us-ascii?Q?cPwGoENkwSyrmMx/gtaoBI8gXZVVen8IL+eeoq83p7q5cJhqpff498Sr4zOD?=
+ =?us-ascii?Q?1d/B9DTx7HggvWTcZ9oFgEVdqrtuomqWPlOZNlOKhnbD6XOXkenCCdLcH/hg?=
+ =?us-ascii?Q?oG38i9ctoDBSSUp5HKHBtCnk8lqSA8r0T+Sul1v4y+40AZm52csDkB5ZxfKu?=
+ =?us-ascii?Q?H0wnhLD33RPuAarYwAjmBxxzNtFV2T24NuQcl2p2qXKxbxjO6mm51CK8Aqoj?=
+ =?us-ascii?Q?EjNbVD05uHeAj6BiElvNL2DIo7nLgBGkkCJVz9jqESxjGE86nviCC5P7TfiH?=
+ =?us-ascii?Q?q+1lBzXNFjQsQbAJWie/e8uYBArvbmjjBN80k/WGT96Hxz9l7/JaCXEt+DPv?=
+ =?us-ascii?Q?7dkyY9Ckq0CJV4aU58K59heTXsDy9/xS4g4kzdUH0aTgMcO0TtMO3T4CPZ+m?=
+ =?us-ascii?Q?tB9na2U2Yk4s0f3EihF5j67/Y39GlwsvYucGIi77DtscoX7PCsMUFJtmL0Md?=
+ =?us-ascii?Q?BjPn5e5+H8npiVuOWWCCaY1PR/BYbW15Yuj90ErYB1RMVpZ86sl4qgcZE6fw?=
+ =?us-ascii?Q?9Pu8gVoXNszNcZxUl5nw3Lw=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ygou6Gq79XY3mFK7@kernel.org>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b2d8335-135c-41ff-c434-08d9f0fd4f12
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2022 03:34:59.2876
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 90a4YacVy8JQygQVzV33aB+b7fwYOunAcrnuMRSnNq+I2sY3p2CEe4uvPV+smDmSHQHgsr+uNl0VJt++Do+0ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1625
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 12:28:56PM +0200, Mike Rapoport wrote:
+> Subject: [PATCH v1 1/7] Documentation: fpga: dfl: add description of IOFS
+>=20
+> From: Tianfei Zhang <tianfei.zhang@intel.com>
+>=20
+> This patch adds description about IOFS support for DFL.
+>=20
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> ---
+>  Documentation/fpga/dfl.rst | 99 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 97 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index ef9eec71f6f3..6f9eae1c1697 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -58,7 +58,10 @@ interface to FPGA, e.g. the FPGA Management Engine
+> (FME) and Port (more
+>  descriptions on FME and Port in later sections).
+>=20
+>  Accelerated Function Unit (AFU) represents an FPGA programmable region a=
+nd
+> -always connects to a FIU (e.g. a Port) as its child as illustrated above=
+.
+> +always connects to a FIU (e.g. a Port) as its child as illustrated above=
+, but
+> +on IOFS design, it introducing Port Gasket which contains AFUs. For DFL
+> perspective,
+> +the Next_AFU pointer on FIU feature header can point to NULL so the AFU =
+is
+> not
+> +connects to a FIU(more descriptions on IOFS in later section).
+>=20
+>  Private Features represent sub features of the FIU and AFU. They could b=
+e
+>  various function blocks with different IDs, but all private features whi=
+ch
+> @@ -134,6 +137,9 @@ reconfigurable region containing an AFU. It controls =
+the
+> communication from SW
+>  to the accelerator and exposes features such as reset and debug. Each FP=
+GA
+>  device may have more than one port, but always one AFU per port.
+>=20
+> +On IOFS, it introducing a new hardware unit, Port Gasket, which contains=
+ all
+> +the PR specific modules and regions (more descriptions on IOFS in later =
+section).
 
-Thanks for reviewing.
+What's the different between the PORT we have now for DFH, and the new one
+in IOFS?
 
-> >  Documentation/admin-guide/mm/index.rst        |   1 +
-> >  Documentation/admin-guide/mm/multigen_lru.rst | 121 ++++++++++++++
-> >  Documentation/vm/index.rst                    |   1 +
-> >  Documentation/vm/multigen_lru.rst             | 152 ++++++++++++++++++
-> 
-> Please consider splitting this patch into Documentation/admin-guide and
-> Documentation/vm parts.
-
-Will do.
-
-> > +=====================
-> > +Multigenerational LRU
-> > +=====================
 > +
-> > +Quick start
-> > +===========
-> 
-> There is no explanation why one would want to use multigenerational LRU
-> until the next section.
-> 
-> I think there should be an overview that explains why users would want to
-> enable multigenerational LRU. 
+>=20
+>  AFU
+>  =3D=3D=3D
+> @@ -143,6 +149,9 @@ used for accelerator-specific control registers.
+>  User-space applications can acquire exclusive access to an AFU attached =
+to a
+>  port by using open() on the port device node and release it using close(=
+).
+>=20
+> +On IOFS, the AFU is embedded in a Port Gasket. The AFU resource can expo=
+se
+> via
+> +VFs with SRIOV support (more descriptions on IOFS in later section).
+> +
+>  The following functions are exposed through ioctls:
+>=20
+>  - Get driver API version (DFL_FPGA_GET_API_VERSION)
+> @@ -284,7 +293,8 @@ FME is always accessed through the physical function
+> (PF).
+>=20
+>  Ports (and related AFUs) are accessed via PF by default, but could be ex=
+posed
+>  through virtual function (VF) devices via PCIe SRIOV. Each VF only conta=
+ins
+> -1 Port and 1 AFU for isolation. Users could assign individual VFs (accel=
+erators)
+> +1 Port (On IOFS design, the VF is designs without Port) and 1 AFU for is=
+olation.
+> +Users could assign individual VFs (accelerators)
+>  created via PCIe SRIOV interface, to virtual machines.
+>=20
+>  The driver organization in virtualization case is illustrated below:
+> @@ -389,6 +399,91 @@ The device nodes used for ioctl() or mmap() can be
+> referenced through::
+>  	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
+>  	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
+>=20
+> +Intel Open FPGA stack
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Intel Open FPGA stack aka IOFS, Intel's version of a common core set of
+> +RTL to allow customers to easily interface to logic and IP on the FPGA.
+> +IOFS leverage the DFL for the implementation of the FPGA RTL design.
+> +
+> +IOFS designs allow for the arrangement of software interfaces across mul=
+tiple
+> +PCIe endpoints. Some of these interfaces may be PFs defined in the stati=
+c
+> region
+> +that connect to interfaces in an IP that is loaded via Partial Reconfigu=
+ration
+> (PR).
+> +And some of these interfaces may be VFs defined in the PR region that ca=
+n be
+> +reconfigured by the end-user. Furthermore, these PFs/VFs may also be
+> arranged
+> +using a DFL such that features may be discovered and accessed in user sp=
+ace
+> +(with the aid of a generic kernel driver like vfio-pci). The diagram bel=
+ow depicts
+> +an example design with two PFs and two VFs. In this example, PF1 impleme=
+nts
+> its
+> +MMIO space such that it is compatible with the VirtIO framework. The oth=
+er
+> functions,
+> +VF0 and VF1, leverage VFIO to export the MMIO space to an application or=
+ a
+> hypervisor.
 
-Will do.
+So PORT will never be exposed to VM in IOFS design, is my understanding cor=
+rect?
 
-> > +Build configurations
-> > +--------------------
-> > +:Required: Set ``CONFIG_LRU_GEN=y``.
-> 
-> Maybe 
-> 
-> 	Set ``CONFIG_LRU_GEN=y`` to build kernel with multigenerational LRU
+> +
+> +     +-----------------+  +--------------+  +-------------+  +----------=
+--+
+> +     | FPGA Managerment|  |   VirtIO     |  |  User App   |  | Virtual  =
+  |
 
-Will do.
+s/Managerment/Management/
 
-> > +:Optional: Set ``CONFIG_LRU_GEN_ENABLED=y`` to enable the
-> > + multigenerational LRU by default.
-> > +
-> > +Runtime configurations
-> > +----------------------
-> > +:Required: Write ``y`` to ``/sys/kernel/mm/lru_gen/enable`` if
-> > + ``CONFIG_LRU_GEN_ENABLED=n``.
-> > +
-> > +This file accepts different values to enabled or disabled the
-> > +following features:
-> 
-> Maybe
-> 
->   After multigenerational LRU is enabled, this file accepts different
->   values to enable or disable the following feaures:
+> +     |      App        |  |     App      |  |             |  | Machine  =
+  |
+> +     +--------+--------+  +------+-------+  +------+------+  +-----+----=
+--+
+> +              |                  |                 |               |
+> +              |                  |                 |               |
+> +     +--------+--------+  +------+-------+  +------+------+        |
+> +     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
+> +     +--------+--------+  +------+-------+  +------+------+        |
+> +              |                  |                 |               |
+> +              |                  |                 |               |
+> +     +--------+--------+  +------+-------+  +------+------+   +----+----=
+--+
+> +     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1=
+  |
+> +     +-----------------+  +--------------+  +-------------+   +---------=
+--+
+> +
+> +On IOFS, it introducing some enhancements compared with original DFL des=
+ign.
+> +1. It introducing Port Gasket in PF0 which is responsible for FPGA manag=
+ement,
+> +like FME and Port management. The Port Gasket contains all the PR specif=
+ic
+> modules
 
-Will do.
+So in IOFS, in PF0, we always have FME and PORT DFH, is my understanding co=
+rrect?
+Then why we need patch #3?
 
-> > +====== ========
-> > +Values Features
-> > +====== ========
-> > +0x0001 the multigenerational LRU
-> 
-> The multigenerational LRU what?
+Another question is in IOFS, do we need to support multiple PR regions/Port=
+s?
+If that is the case, how should we know which VFs belongs to PORT1 or PORT2=
+?
 
-Itself? This depends on the POV, and I'm trying to determine what would
-be the natural way to present it.
+> +and logic, e.g., PR slot reset/freeze control, user clock, remote STP et=
+c.
+> +Architecturally, a Port Gasket can have multiple PR slots where user wor=
+kload
+> can
+> +be programmed into.
+> +2. To expend the scalable of FPGA, it can support multiple FPs in static=
+ region
 
-MGLRU itself could be seen as an add-on atop the existing page reclaim
-or an alternative in parallel. The latter would be similar to sl[aou]b,
-and that's how I personally see it.
+s/FPs/PFs/
 
-But here I presented it more like the former because I feel this way is
-more natural to users because they are like switches on a single panel.
+> +which contain some static functions like VirtIO, diagnostic test, and ac=
+cess over
+> +VFIO or assigned to VMs easily. Those PFs will not have a Port Unit whic=
+h
+> without
+> +PR region (AFU) connected to those PFs, and the end-user cannot partial
+> reconfigurate
 
-> What will happen if I write 0x2 to this file?
+s/reconfigurate/reconfigure/
 
-Just like turning on a branch breaker while leaving the main breaker
-off in a circuit breaker box. This is how I see it, and I'm totally
-fine with changing it to whatever you'd recommend.
+> +those PFs.
+> +3. In our previous DFL design, it can only create one VF based in an AFU=
+. To
+> raise
+> +the efficiency usage of AFU, it can create more than one VFs in an AFU v=
+ia PCIe
+> +SRIOV, so those VFs share the PR region and resource.
+> +
+> +There is one reference architecture design for IOFS as illustrated below=
+:
+> +
+> +                              +----------------------+
+> +                              |   PF/VF mux/demux    |
+> +                              +--+--+-----+------+-+-+
+> +                                 |  |     |      | |
+> +        +------------------------+  |     |      | |
+> +  PF0   |                 +---------+   +-+      | |
+> +    +---+---+             |         +---+----+   | |
+> +    |  DFH  |             |         |   DFH  |   | |
+> +    +-------+       +-----+----+    +--------+   | |
+> +    |  FME  |       |  VirtIO  |    |  Test  |   | |
+> +    +-------+       +----------+    +--------+   | |
+> +    | Port  |            PF1            PF2      | |
+> +    +---+---+                                    | |
+> +        |                             +----------+ |
+> +        |                             |           ++
+> +        |                             |           |
+> +        |                             | PF0_VF0   | PF0_VF1
+> +        |           +-----------------+-----------+------------+
+> +        |           |           +-----+-----------+--------+   |
+> +        |           |           |     |           |        |   |
+> +        |           | +------+  |  +--+ -+     +--+---+    |   |
+> +        |           | | CSR  |  |  | DFH |     |  DFH |    |   |
+> +        +-----------+ +------+  |  +-----+     +------+    |   |
+> +                    |           |  | DEV |     |  DEV |    |   |
+> +                    |           |  +-----+     +------+    |   |
+> +                    |           |            PR Slot       |   |
+> +                    |           +--------------------------+   |
+> +                    | Port Gasket                              |
+> +                    +------------------------------------------+
+> +
+> +Here are the major changes about DFL structures on IOFS implementation
+> design:
+> +1. The Port Gasket connects to FIU Port in DFL, but the Next_AFU pointer=
+ in
+> +FIU feature header can point to NULL so that it is no AFU connects to a =
+FIU
+> +Port.
+> +2. The VF which include in PR region can start with AFU feature header w=
+ithout
+> +a FIU Port feature header.
 
-> Please consider splitting "enable" and "features" attributes.
+What about PF2 in static region? Which type of DFH will be used?
 
-How about s/Features/Components/?
+Thanks
+Hao
 
-> > +0x0002 clear the accessed bit in leaf page table entries **in large
-> > +       batches**, when MMU sets it (e.g., on x86)
-> 
-> Is extra markup really needed here...
-> 
-> > +0x0004 clear the accessed bit in non-leaf page table entries **as
-> > +       well**, when MMU sets it (e.g., on x86)
-> 
-> ... and here?
+>=20
+>  Performance Counters
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --
+> 2.17.1
 
-Will do.
-
-> As for the descriptions, what is the user-visible effect of these features?
-> How different modes of clearing the access bit are reflected in, say, GUI
-> responsiveness, database TPS, or probability of OOM?
-
-These remain to be seen :) I just added these switches in v7, per Mel's
-request from the meeting we had. These were never tested in the field.
-
-> > +[yYnN] apply to all the features above
-> > +====== ========
-> > +
-> > +E.g.,
-> > +::
-> > +
-> > +    echo y >/sys/kernel/mm/lru_gen/enabled
-> > +    cat /sys/kernel/mm/lru_gen/enabled
-> > +    0x0007
-> > +    echo 5 >/sys/kernel/mm/lru_gen/enabled
-> > +    cat /sys/kernel/mm/lru_gen/enabled
-> > +    0x0005
-> > +
-> > +Most users should enable or disable all the features unless some of
-> > +them have unforeseen side effects.
-> > +
-> > +Recipes
-> > +=======
-> > +Personal computers
-> > +------------------
-> > +Personal computers are more sensitive to thrashing because it can
-> > +cause janks (lags when rendering UI) and negatively impact user
-> > +experience. The multigenerational LRU offers thrashing prevention to
-> > +the majority of laptop and desktop users who don't have oomd.
-> 
-> I'd expect something like this paragraph in overview.
-> 
-> > +
-> > +:Thrashing prevention: Write ``N`` to
-> > + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
-> > + ``N`` milliseconds from getting evicted. The OOM killer is triggered
-> > + if this working set can't be kept in memory. Based on the average
-> > + human detectable lag (~100ms), ``N=1000`` usually eliminates
-> > + intolerable janks due to thrashing. Larger values like ``N=3000``
-> > + make janks less noticeable at the risk of premature OOM kills.
-> 
-> > +
-> > +Data centers
-> > +------------
-> > +Data centers want to optimize job scheduling (bin packing) to improve
-> > +memory utilizations. Job schedulers need to estimate whether a server
-> > +can allocate a certain amount of memory for a new job, and this step
-> > +is known as working set estimation, which doesn't impact the existing
-> > +jobs running on this server. They also want to attempt freeing some
-> > +cold memory from the existing jobs, and this step is known as proactive
-> > +reclaim, which improves the chance of landing a new job successfully.
-> 
-> This paragraph also fits overview.
-
-Will do.
-
-> > +:Optional: Increase ``CONFIG_NR_LRU_GENS`` to support more generations
-> > + for working set estimation and proactive reclaim.
-> 
-> Please add a note that this is build time option.
-
-Will do.
-
-> > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
-> 
-> Is debugfs interface relevant only for datacenters? 
-
-For the moment, yes.
-
-> > + format:
-> > + ::
-> > +
-> > +   memcg  memcg_id  memcg_path
-> > +     node  node_id
-> > +       min_gen  birth_time  anon_size  file_size
-> > +       ...
-> > +       max_gen  birth_time  anon_size  file_size
-> > +
-> > + ``min_gen`` is the oldest generation number and ``max_gen`` is the
-> > + youngest generation number. ``birth_time`` is in milliseconds.
-> 
-> It's unclear what is birth_time reference point. Is it milliseconds from
-> the system start or it is measured some other way?
-
-Good point. Will clarify.
-
-> > + ``anon_size`` and ``file_size`` are in pages. The youngest generation
-> > + represents the group of the MRU pages and the oldest generation
-> > + represents the group of the LRU pages. For working set estimation, a
-> 
-> Please spell out MRU and LRU fully.
-
-Will do.
-
-> > + job scheduler writes to this file at a certain time interval to
-> > + create new generations, and it ranks available servers based on the
-> > + sizes of their cold memory defined by this time interval. For
-> > + proactive reclaim, a job scheduler writes to this file before it
-> > + tries to land a new job, and if it fails to materialize the cold
-> > + memory without impacting the existing jobs, it retries on the next
-> > + server according to the ranking result.
-> 
-> Is this knob only relevant for a job scheduler? Or it can be used in other
-> use-cases as well?
-
-There are other concrete use cases but I'm not ready to discuss them
-yet.
-
-> > + This file accepts commands in the following subsections. Multiple
-> 
->                               ^ described
-
-Will do.
