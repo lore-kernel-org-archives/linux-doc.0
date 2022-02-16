@@ -2,103 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E872FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 09:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA85C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Feb 2022 09:38:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232136AbiBPJ1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 04:27:17 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:53632 "EHLO
+        id S232098AbiBPJiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 04:38:10 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:58770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232124AbiBPJ1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 04:27:16 -0500
-X-Greylist: delayed 1683 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Feb 2022 01:27:01 PST
-Received: from gateway22.websitewelcome.com (gateway22.websitewelcome.com [192.185.47.228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2006591
-        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 01:27:01 -0800 (PST)
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway22.websitewelcome.com (Postfix) with ESMTP id E041A378F
-        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 02:58:57 -0600 (CST)
-Received: from gator4132.hostgator.com ([192.185.4.144])
-        by cmsmtp with SMTP
-        id KG9Jni6VTHnotKG9JnepLM; Wed, 16 Feb 2022 02:58:57 -0600
-X-Authority-Reason: nr=8
-Received: from host-95-232-30-176.retail.telecomitalia.it ([95.232.30.176]:46600 helo=[10.0.1.2])
-        by gator4132.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bristot@kernel.org>)
-        id 1nKG9I-001PYL-FP; Wed, 16 Feb 2022 02:58:56 -0600
-Message-ID: <05a593c4-0134-1449-7f30-305a0ffe1b49@kernel.org>
-Date:   Wed, 16 Feb 2022 09:58:50 +0100
+        with ESMTP id S229660AbiBPJiK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 04:38:10 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C4C65CD
+        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 01:37:58 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id k60-20020a17090a4cc200b001b932781f3eso3941189pjh.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Feb 2022 01:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FG4wPhNBVOj7jfUcH2cC2CLQ827xbxyYmRCowSShVVw=;
+        b=AZn/FquRAA4cf3Ah0MPIRk2gNAvZCNixygtrOagztwvMCiw+//u9AX3BlyGHhQ4wJa
+         EX+mYXrWwG+Ic4RE/rbhue9xfsufiF8s8w5tH0THcWH+gB5M6FZt+S8qhesAtxBisnpu
+         KllrOa3LxzOIb2WAq5Q7X2+8EqpJu4WCnj5jHEJX83WjmaCaMuo2u+LrzgwRmTq77KJa
+         OzHkerIO7hdu3lYk18m+0bN6Yz6ZfdU/Nq1uxCQO6b89fa4eNOo2T1CA3D+Nayh7LVRs
+         qxqEBV9onrEnLhO52hhnsGTTVivvlYSoXfAl3hxg+dxr4blFWvikZPc5kaBiYspD2cUS
+         k36w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FG4wPhNBVOj7jfUcH2cC2CLQ827xbxyYmRCowSShVVw=;
+        b=7SvoTZxU5++T0hhiXcwrVWmzQ9gYPNkf414Juj5LVEcyVIOmpOiyuScs5WDetBzldY
+         AwUODY7SxOgYzj7tAAThRVzPAcMhY5jsObxkWlOx7Uc5ioJyIwm9v+46AUB90z33Zb/7
+         GfUMmlxXOyhnf13GmAAJ1M2toLOjWyXiKfUxs2D48RuRDFMcOIry1OcIG2zztujLEq1X
+         gZDwEZz+aJLQfTbTsKa7bet1ZC+4/8yS1+NFI0ZHab4cDrAIDKcQtaaP+EQle+WnWMy9
+         K7HMSC1KwJ/0rUIKTVHXw37JPRaVLxEhG9R/OoHoMs7bCjTfgUOtMX/iMdR8z14DpoVN
+         hzsA==
+X-Gm-Message-State: AOAM530Mauer9G4ln24x0+t6FRZmDN3pyP8I6EjmzByXRvkS+VsJC+hc
+        EE51roJtLIG+mQh6lIychJfe/FztnfKTn0ei
+X-Google-Smtp-Source: ABdhPJwq1pDPt+jMSwy42g7Z2FEbHuyrUKb5pJvFmw8LrfdqvHQa6nTdj5/qDtO4DoTgRthQzYrGAg==
+X-Received: by 2002:a17:90b:3e81:b0:1b8:6090:6701 with SMTP id rj1-20020a17090b3e8100b001b860906701mr749395pjb.6.1645004278365;
+        Wed, 16 Feb 2022 01:37:58 -0800 (PST)
+Received: from localhost.localdomain ([211.109.233.153])
+        by smtp.gmail.com with ESMTPSA id 11sm19251289pja.36.2022.02.16.01.37.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 01:37:58 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+Subject: [PATCH 0/5] docs/zh_CN: add admin-guide damon translation
+Date:   Wed, 16 Feb 2022 17:34:41 +0800
+Message-Id: <cover.1645003763.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC V2 12/21] rv/reactor: Add the printk reactor
-Content-Language: en-US
-To:     John Ogness <john.ogness@linutronix.de>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1644830251.git.bristot@kernel.org>
- <fad2d358d57dfffc084d482684ecc1d13b62b262.1644830251.git.bristot@kernel.org>
- <10cf6003-6d2b-056b-11bb-3ae9c342a369@linuxfoundation.org>
- <c1657d1c-0d2b-4aa3-c1ed-2ae6fdfcda86@kernel.org>
- <87v8xg30qc.fsf@jogness.linutronix.de>
- <45179cdb-2391-207a-2f7b-2dea828d1606@kernel.org>
- <87r1842r1m.fsf@jogness.linutronix.de>
- <65172f14-bad6-37b1-d243-e91ca472d22e@kernel.org>
- <874k50hqmj.fsf@jogness.linutronix.de>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <874k50hqmj.fsf@jogness.linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4132.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kernel.org
-X-BWhitelist: no
-X-Source-IP: 95.232.30.176
-X-Source-L: No
-X-Exim-ID: 1nKG9I-001PYL-FP
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: host-95-232-30-176.retail.telecomitalia.it ([10.0.1.2]) [95.232.30.176]:46600
-X-Source-Auth: kernel@bristot.me
-X-Email-Count: 3
-X-Source-Cap: YnJpc3RvdG1lO2JyaXN0b3RtZTtnYXRvcjQxMzIuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: no
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/15/22 20:33, John Ogness wrote:
->> I saw deadlocks in the past, and while testing the WIP monitor some
->> time ago, it seems it depends on the console type. If such restriction
->> does not exist anymore, I can remove that comment, it would be even
->> better!
-> If you say it depended on the console type, then it was probably the
-> framebuffer console that was at fault. The fbcon is a landmine for
-> deadlocks, which is why PREEMPT_RT avoids fbcon printing from
-> non-preemptible context. For mainline, the series is currently in
-> review.
-> 
-> Perhaps avoiding fbcon would be good enough for you to avoid deadlocks
-> with this reactor using printk().
+* Translate .../admin-guide/mm/damon/* into Chinese
+* note my patch thread is based on
+<https://lore.kernel.org/linux-doc/20220212080024.1684590-1-xu.xin16@zte.com.cn/T/#t>
 
-So, I will keep printk(), add a depends on *!* fbcon, and remove the comment.
-What do you think?
+Yanteng Si (5):
+  docs/zh_CN: Refactoring the admin-guide directory index
+  docs/zh_CN: add admin-guide damon index translation
+  docs/zh_CN: add admin-guide damon start translation
+  docs/zh_CN: add damon usage translation
+  docs/zh_CN: add damon reclaim translation
 
--- Daniel
+ .../translations/zh_CN/admin-guide/index.rst  | 122 ++++----
+ .../zh_CN/admin-guide/mm/damon/index.rst      |  28 ++
+ .../zh_CN/admin-guide/mm/damon/reclaim.rst    | 232 ++++++++++++++
+ .../zh_CN/admin-guide/mm/damon/start.rst      | 132 ++++++++
+ .../zh_CN/admin-guide/mm/damon/usage.rst      | 286 ++++++++++++++++++
+ .../zh_CN/admin-guide/mm/index.rst            |   2 +-
+ 6 files changed, 740 insertions(+), 62 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+
+-- 
+2.27.0
+
