@@ -2,185 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AFDC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 15:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2303C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 15:32:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242279AbiBQPVG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 10:21:06 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46520 "EHLO
+        id S239129AbiBQPdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 10:33:13 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242392AbiBQPVG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 10:21:06 -0500
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B582C2B0B1F;
-        Thu, 17 Feb 2022 07:20:50 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id f19so8840133qvb.6;
-        Thu, 17 Feb 2022 07:20:50 -0800 (PST)
+        with ESMTP id S229573AbiBQPdM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 10:33:12 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D77CB7562F;
+        Thu, 17 Feb 2022 07:32:57 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id h18so10322482edb.7;
+        Thu, 17 Feb 2022 07:32:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=TI2smanOEAYT6fFDA4KrImbVgLMdEfrg2gnIoR3JBRk=;
-        b=aMyQaIyk5ux/FZNLJsplph8869hwBnK1++VrLh9mfWm2gl0HEVkfNaD2u7b1FL/RFZ
-         BUdtDOG620vPVFNulZk1NRhIpKmvM3whrs9UUUyG2mTyp/Q82CifBhVg1QWkM0/gK/d4
-         zdpVgD4tA0tgFFca799zRufNE9FU3KAzad41+pfYvT6O9kmFoo2xkon+jtM5NvkoAjee
-         LHJMQOS/CMKGNs/XvXJWkEdogSqYmj8hp86STCr1r+I8fn3AlhHEzIjHBHHPdk8THbBz
-         +R2WWf0V6kvrGOri85ITw16jMjrBOrK9DhUocwxnexk/xblmEy4gcpVsXqz4ewQI/R0F
-         tWqA==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JJul3CaBYsl6nxRMJrhyxqC7q1zMq+Fji1s2Sr14IjM=;
+        b=qO7ucopXVA0140FEKclf5DeAHDXRZg2WvIL4kSr+QOStgl0ypy7Op6gTJcWQyUv07W
+         a3Gj8wzldoEVmmcQw/yK2h0+etBA5bAhTTKcCEmU3RVqniyFzmjNRqVlR35SOLBcyoBc
+         i0xpbcjf3IxzKoIggvt5jqCzihXyjvVNIl7UUwsIDMFXU5B1mtVzTZtTYSu+ZPwAPkFP
+         tzp9gKTP98OESBY3Z1cKrjcyjnDRHk1zjiFC7mYsBVE672GWtTYYvTLvIBrdc3ibGJfE
+         0pWhg4XlV56EqgI6j3lPxnke4dZhgoYblggBT716bj9S5cnq2ViJMQIK4dRw8SPHXJyS
+         NK6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=TI2smanOEAYT6fFDA4KrImbVgLMdEfrg2gnIoR3JBRk=;
-        b=eJKWjGQUmTJZJD5UoY6OirwQmvAksHEqS0RMABF60RtenY6hnpYXqwrboyaeC+6Er1
-         DsfqCLtQvd0Rg06E5LLS7aI1KzRAqyt9OK4UUo6sGLXr2pOOyfU6Mt2BuKiT4emUOFNl
-         MN2yei+eNOQgss4ekO1dYFO21DWjhzGyIDtOeN3io6hJ5otEDGpmKTP0/yLkgKc0W1gF
-         J6Er4j5nOz/2UxWYsPfoCZrFCz/E4qjEskenzjYRcztkmz846Bwrxu9dqFkj5ne/gvBc
-         uoniwGxGTWJ2KnN/TB5TgxiNd7y633rdpk+x3cAMm7jf3U37b2GlC7IEPPYIQZL4QUoa
-         tcEQ==
-X-Gm-Message-State: AOAM530MvIkAIBSQQXC2UcPvWvjuY22tma7gLZQPFok6YCAYzusST2Ar
-        irWzec1UX3DFNZph42TOpkI/QNlHwED5+Q==
-X-Google-Smtp-Source: ABdhPJx/Z10ciW/Wo0fbtuiaLR7Gv++pHUbanbOr8+bsTeZlmrboNXApv4NGSy3EGsJM9aKjrIQkAw==
-X-Received: by 2002:a05:6214:2581:b0:42c:945e:4c17 with SMTP id fq1-20020a056214258100b0042c945e4c17mr2373696qvb.25.1645111249671;
-        Thu, 17 Feb 2022 07:20:49 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e16sm24213691qty.47.2022.02.17.07.20.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 07:20:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f1e13a4e-2e86-1d53-f34d-a04838e8e8f9@roeck-us.net>
-Date:   Thu, 17 Feb 2022 07:20:47 -0800
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JJul3CaBYsl6nxRMJrhyxqC7q1zMq+Fji1s2Sr14IjM=;
+        b=dKhs5Jma0snQRm84rI6Q6t9P9q/ZwG8hTlFognnMXTRE12WT86Fs+6+NDShLCLKpkE
+         Ys9xTpbUPUZ3cGXtieB/WAfahfSCG9A2p08dkKN/huzArZ/5cM8wbkQzIWdKKzhEU1Xc
+         7qnf79SqL45WncsyTEFqHMqsTDqCPjzso/cp4hpT4umkDgIoBPX92petzrOXxJnpFBF6
+         MBnB6AuJFxoc1PF9VvUTnHFlUkCTc63rZ/hxHwtIdq6R8S34J2myGGZV3bpuK7d++Wqg
+         ZZnaRLxDvdSUH851q6XgNmu4mgHdfZpCdpBfWFLMu5Q7V/14WeuIRTFHPvwAIbjJl5BW
+         eveA==
+X-Gm-Message-State: AOAM531TGMOynu6WM6r7KT2uixpD0huYZ/tdbQ6U9UmWpKQISXz9iytA
+        QqKffu0ZcEDMjDcOXddI/QXl44DLMdg=
+X-Google-Smtp-Source: ABdhPJy0NbBdUIk/yAuqmUFrTVkCrzL5DtrdlvxOiEWJxydiZhDgzxfv4ropItP6pHSm5uJYpN6jhA==
+X-Received: by 2002:aa7:cf93:0:b0:40d:e8eb:1dd2 with SMTP id z19-20020aa7cf93000000b0040de8eb1dd2mr3221057edx.441.1645111976298;
+        Thu, 17 Feb 2022 07:32:56 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id bv2sm1287863ejb.155.2022.02.17.07.32.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Feb 2022 07:32:56 -0800 (PST)
+Date:   Thu, 17 Feb 2022 16:32:47 +0100
+From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
+Message-ID: <20220217163247.03e37c9b@fuji.fritz.box>
+In-Reply-To: <8735ki2x62.fsf@meer.lwn.net>
+References: <20220205233945.7a4d22d8@fuji.fritz.box>
+        <8735ki2x62.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To:     Marcello Sylvester Bauer <sylv@sylv.io>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-doc@vger.kernel.org
-References: <cover.1645108566.git.sylv@sylv.io>
- <6103836f1116a045a25919ae3e5c18dfdc485902.1645108566.git.sylv@sylv.io>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 2/3] hwmon (xdpe12284): Add support for xdpe11280
-In-Reply-To: <6103836f1116a045a25919ae3e5c18dfdc485902.1645108566.git.sylv@sylv.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/22 06:41, Marcello Sylvester Bauer wrote:
-> Add support for another family of Infineon Multi-phase controllers.
-> The xdpe11280 uses linear instead of vid data format for VOUT.
-> Add the required logic to detect VOUT_MODE during identification,
-> and set the format accordingly.
+On Wed, 16 Feb 2022 16:45:25 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
+
+> Some overall thoughts:
 > 
-This talks about the chip, but ...
+>  - Work like this needs to be broken up into digestible batches.  Let's
+>    start with the POD stuff that I've (finally) commented on; other
+>    stuff can come later.
 
-> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
-> ---
->   Documentation/hwmon/xdpe12284.rst | 10 +++++++---
->   drivers/hwmon/pmbus/xdpe12284.c   | 17 ++++++++++++++++-
->   2 files changed, 23 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/xdpe12284.rst b/Documentation/hwmon/xdpe12284.rst
-> index 67d1f87808e5..e9a5a19b0c3d 100644
-> --- a/Documentation/hwmon/xdpe12284.rst
-> +++ b/Documentation/hwmon/xdpe12284.rst
-> @@ -5,6 +5,10 @@ Kernel driver xdpe122
->   
->   Supported chips:
->   
-> +  * Infineon XDPE11280
-> +
-> +    Prefix: 'xdpe11280'
-> +
->     * Infineon XDPE12254
->   
->       Prefix: 'xdpe12254'
-> @@ -20,9 +24,9 @@ Authors:
->   Description
->   -----------
->   
-> -This driver implements support for Infineon Multi-phase XDPE122 family
-> -dual loop voltage regulators.
-> -The family includes XDPE12284 and XDPE12254 devices.
-> +This driver implements support for Infineon Multi-phase XDPE112 and XDPE122
-> +family dual loop voltage regulators.
-> +These families include XDPE11280, XDPE12284 and XDPE12254 devices.
->   The devices from this family complaint with:
+I will prepare the POD part. As for the rest, you will need a porter if you
+decide this is the way to go. I could help with explanations if something is
+unclear and as long as the questions come soon. The winter is almost over and
+I need to switch to other activities like earning money.
 
-Hmm, s/complaint/compliant/.
+>  - The coding style in the new work is very unkernellike; that will make
+>    it harder to get this work merged.
 
-Anyway, is it still correct that the XDPE11280 is compliant with the
-Intel specifications ? The datasheet isn't public, so I can not check myself
-what the chip actually supports.
+Yes. I can only add a thought: it seems unnatural to me to have the same style
+for various languages.
 
->   
->   - Intel VR13 and VR13HC rev 1.3, IMVP8 rev 1.2 and IMPVP9 rev 1.3 DC-DC
-> diff --git a/drivers/hwmon/pmbus/xdpe12284.c b/drivers/hwmon/pmbus/xdpe12284.c
-> index b07da06a40c9..ec947c697670 100644
-> --- a/drivers/hwmon/pmbus/xdpe12284.c
-> +++ b/drivers/hwmon/pmbus/xdpe12284.c
-> @@ -27,6 +27,9 @@ static int xdpe122_read_word_data(struct i2c_client *client, int page,
->   	s32 mantissa;
->   	int ret;
->   
-> +	if (info->format[PSC_VOLTAGE_OUT] == linear)
-> +		return -ENODATA;
-> +
->   	switch (reg) {
->   	case PMBUS_VOUT_OV_FAULT_LIMIT:
->   	case PMBUS_VOUT_UV_FAULT_LIMIT:
-> @@ -75,9 +78,19 @@ static int xdpe122_read_word_data(struct i2c_client *client, int page,
->   static int xdpe122_identify(struct i2c_client *client,
->   			    struct pmbus_driver_info *info)
->   {
-> -	u8 vout_params;
-> +	u8 vout_mode, vout_params;
->   	int i, ret;
->   
-> +	ret = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	vout_mode = ret >> 5;
-> +	if (vout_mode == 0) {
-> +		info->format[PSC_VOLTAGE_OUT] = linear;
-> +		return 0;
-> +	}
+>  - But let's take a step back and ask: why are we doing all of this work
+>    in the first place?  What is the benefit to the kernel community from
+>    all this churn, and a growth of the kernel-doc script by over 2,000
+>    lines (even if an awful lot of them are blank)?
 
-.... the code above is not chip dependent but this code checks the
-mode register on page 0. At the very least this is confusing.
+My motivation was just climbing this mountain, nothing else. I don't even
+know, how important this script is to whom. I can only guess. Neither am I
+a C programmer, nor want to become one. So this question is to another part
+of the community.
 
-What the driver should do instead is to check the chip type during
-probe and make the necessary changes there, ie set the output format
-for xdpe11280 to linear and drop the pointers to the .identify
-and .read_word_data.
+I could though think of the benefits to the maintainers. In this respect I've
+moved things forward quite a bit, I gather.
 
-Guenter
+As for the blank lines, they are just one character each and trivial to get
+rid of.
 
-> +
->   	for (i = 0; i < XDPE122_PAGE_NUM; i++) {
->   		/* Read the register with VOUT scaling value.*/
->   		ret = pmbus_read_byte_data(client, i, PMBUS_VOUT_MODE);
-> @@ -140,6 +153,7 @@ static int xdpe122_probe(struct i2c_client *client)
->   }
->   
->   static const struct i2c_device_id xdpe122_id[] = {
-> +	{"xdpe11280", 0},
->   	{"xdpe12254", 0},
->   	{"xdpe12284", 0},
->   	{}
-> @@ -148,6 +162,7 @@ static const struct i2c_device_id xdpe122_id[] = {
->   MODULE_DEVICE_TABLE(i2c, xdpe122_id);
->   
->   static const struct of_device_id __maybe_unused xdpe122_of_match[] = {
-> +	{.compatible = "infineon,xdpe11280"},
->   	{.compatible = "infineon,xdpe12254"},
->   	{.compatible = "infineon,xdpe12284"},
->   	{}
+> I'm serious about that last question; do we really want to invest that
+> kind of effort into this nasty old script?  Or, if we're going to do
+> such a thing, should we maybe start with Markus's rewrite into Python
+> instead?  If we're going to thrash the code and make it unrecognizable,
+> perhaps we should move to a language that is consistent with the rest of
+> the docs build system and which, I believe, is easier for more kernel
+> developers to deal with?
 
+I understand. I didn't know there was a rewrite. I'm not into Python, but
+if you could post a link, I'd take a look out of curiosity.
+
+If the community prefers Python, what can I say about this? Their choice.
+
+Personally, I'd rather play with translating this script to Raku (aka Perl 6).
+I also wonder, how Perl 5 will transition to Perl 7. A question to Perl
+experts.
+
+> I am *not* saying that this work cannot be accepted, and I certainly do
+> not want to alienate somebody who is actually able to look at kernel-doc
+> and not have their eyes bleed out.  But I am saying that, before
+> launching into a hundreds-of-patches journey, we should know where we're
+> going and why we are doing it.
+
+I agree.
+
+> See what I'm getting at?
+
+Yes. Thanks.
+
+Tomasz
