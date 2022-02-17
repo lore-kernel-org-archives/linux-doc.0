@@ -2,135 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDF3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 18:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D02C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 18:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244402AbiBQSeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 13:34:07 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59542 "EHLO
+        id S231279AbiBQSjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 13:39:13 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244418AbiBQSeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 13:34:01 -0500
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com [192.185.145.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE5E3BA4E
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 10:32:45 -0800 (PST)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway33.websitewelcome.com (Postfix) with ESMTP id A2471701AAE
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 12:32:43 -0600 (CST)
-Received: from gator4132.hostgator.com ([192.185.4.144])
-        by cmsmtp with SMTP
-        id Kla7nXjDzRnrrKla7nk4cV; Thu, 17 Feb 2022 12:32:43 -0600
-X-Authority-Reason: nr=8
-Received: from host-95-232-30-176.retail.telecomitalia.it ([95.232.30.176]:34156 helo=[10.0.0.45])
-        by gator4132.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bristot@kernel.org>)
-        id 1nKla5-002U7P-7e; Thu, 17 Feb 2022 12:32:41 -0600
-Message-ID: <7f227281-a5c8-ba55-ed75-6ce2c4d423e3@kernel.org>
-Date:   Thu, 17 Feb 2022 19:32:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC V2 17/21] watchdog/dev: Add tracepoints
-Content-Language: en-US
+        with ESMTP id S231635AbiBQSjM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 13:39:12 -0500
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C89A3C4A3;
+        Thu, 17 Feb 2022 10:38:56 -0800 (PST)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:105:465:1:3:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4K03WL2nd1z9sTY;
+        Thu, 17 Feb 2022 19:38:54 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
+        t=1645123132;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EgWc3WkMkguU7yvRw6CZKxzatgcIdPvwCqsyOWk1H20=;
+        b=iLEz4iADA9eM8A266QaL9InVrb6VLx3JwJZK+IcaVOFmAHHAgIH39hIbly71v8rimf9Dfs
+        hQcPhurdp7NReErZtw+fnShmXQ9pucmk5A4Wl449a/pwUa9KEEAVoY6QTD7+JjBUpbHhAZ
+        Cscv1ZlP/GiVocqD+wkmuERDsPfnvMGzl72IHTBawyV/U3EnKhMnkDXvlzm9vA//circpt
+        aaFhoKtJJEiNFkPSkR9f2rqsPbfFRPxrD/0KkDeh8WcFxlL8IpUcRDuk7AIAR7s/xybfmD
+        lQLvRTq7qOE4Us7oe2waVvlLFhczVc3pvpE6Mw2OGlin0DSqaCg+c8GR90gBsw==
+Message-ID: <7a567823d62b6ed00cbdc2ce239dc4a69e48b411.camel@sylv.io>
+Subject: Re: [PATCH v2 2/3] hwmon (xdpe12284): Add support for xdpe11280
+From:   sylv <sylv@sylv.io>
 To:     Guenter Roeck <linux@roeck-us.net>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        "Peter.Enderborg@sony.com" <Peter.Enderborg@sony.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-trace-devel@vger.kernel.org" 
-        <linux-trace-devel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-References: <cover.1644830251.git.bristot@kernel.org>
- <e67874c8b676ea8dfe38679efa25363889bb1e76.1644830251.git.bristot@kernel.org>
- <96f418b4-0ba8-01fe-ead0-2028bfc42560@sony.com>
- <ba924008-c0ab-4800-aac4-d9d9ae930c32@kernel.org>
- <ef1b1d99-6172-2b4d-9612-7ecbe8fc6c8b@roeck-us.net>
- <6c6fc4fa-6464-2dbf-40da-e3c61f322d95@redhat.com>
- <b59155c2-81c1-b2d8-c8d9-a97e3166cee3@roeck-us.net>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <b59155c2-81c1-b2d8-c8d9-a97e3166cee3@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-doc@vger.kernel.org
+Date:   Thu, 17 Feb 2022 19:38:47 +0100
+In-Reply-To: <66d4ea0b-0377-c9ae-68eb-7303c32cf87e@roeck-us.net>
+References: <cover.1645108566.git.sylv@sylv.io>
+         <6103836f1116a045a25919ae3e5c18dfdc485902.1645108566.git.sylv@sylv.io>
+         <f1e13a4e-2e86-1d53-f34d-a04838e8e8f9@roeck-us.net>
+         <246de83631dd5e165f95904d7f1628502f030e02.camel@sylv.io>
+         <66d4ea0b-0377-c9ae-68eb-7303c32cf87e@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4132.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kernel.org
-X-BWhitelist: no
-X-Source-IP: 95.232.30.176
-X-Source-L: No
-X-Exim-ID: 1nKla5-002U7P-7e
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: host-95-232-30-176.retail.telecomitalia.it ([10.0.0.45]) [95.232.30.176]:34156
-X-Source-Auth: kernel@bristot.me
-X-Email-Count: 4
-X-Source-Cap: YnJpc3RvdG1lO2JyaXN0b3RtZTtnYXRvcjQxMzIuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: no
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/22 19:17, Guenter Roeck wrote:
-> On 2/17/22 09:49, Gabriele Paoloni wrote:
->>
->>
->> On 17/02/2022 18:27, Guenter Roeck wrote:
->>> On 2/17/22 08:27, Daniel Bristot de Oliveira wrote:
->>>> Hi Peter
->>>>
->>>> On 2/16/22 17:01, Peter.Enderborg@sony.com wrote:
->>>>> On 2/14/22 11:45, Daniel Bristot de Oliveira wrote:
->>>>>> Add a set of tracepoints, enabling the observability of the watchdog
->>>>>> device interactions with user-space.
->>>>>>
->>>>>> The events are:
->>>>>>      watchdog:watchdog_open
->>>>>>      watchdog:watchdog_close
->>>>>>      watchdog:watchdog_start
->>>>>>      watchdog:watchdog_stop
->>>>>>      watchdog:watchdog_set_timeout
->>>>>>      watchdog:watchdog_ping
->>>>>>      watchdog:watchdog_nowayout
->>>>>>      watchdog:watchdog_set_keep_alive
->>>>>>      watchdog:watchdog_keep_alive
->>>>>
->>>>> Some watchdogs have a bark functionality, I think it should be event
->>>>> for that too.
->>>>>
->>>>
->>>> I understand. The problems is that I do not see the bark abstraction
->>>> in the
->>>> watchdog_dev layer.
->>>>
->>>
->>> I don't even know what "bark functionality" means. A new term for
->>> pretimeout ?
->>> Something else ?
->>
->>> From my understanding the bark timeout is actually the pretimeout
->> whereas the bite timeout is the actual timeout.
->> I think in the Kernel ftwdt010_wdt and qcom-wdt are bark/bite WTDs
->>
+On Thu, 2022-02-17 at 10:11 -0800, Guenter Roeck wrote:
+> On 2/17/22 08:39, sylv wrote:
+> > On Thu, 2022-02-17 at 07:20 -0800, Guenter Roeck wrote:
+> > > On 2/17/22 06:41, Marcello Sylvester Bauer wrote:
+> > > > Add support for another family of Infineon Multi-phase
+> > > > controllers.
+> > > > The xdpe11280 uses linear instead of vid data format for VOUT.
+> > > > Add the required logic to detect VOUT_MODE during
+> > > > identification,
+> > > > and set the format accordingly.
+> > > > 
+> > > This talks about the chip, but ...
+> > 
+> > Oh, sure. I should be more clear that it is a chip of a different
+> > family.
+> > 
+> > > 
+> > > > Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+> > > > ---
+> > > >    Documentation/hwmon/xdpe12284.rst | 10 +++++++---
+> > > >    drivers/hwmon/pmbus/xdpe12284.c   | 17 ++++++++++++++++-
+> > > >    2 files changed, 23 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/hwmon/xdpe12284.rst
+> > > > b/Documentation/hwmon/xdpe12284.rst
+> > > > index 67d1f87808e5..e9a5a19b0c3d 100644
+> > > > --- a/Documentation/hwmon/xdpe12284.rst
+> > > > +++ b/Documentation/hwmon/xdpe12284.rst
+> > > > @@ -5,6 +5,10 @@ Kernel driver xdpe122
+> > > >    
+> > > >    Supported chips:
+> > > >    
+> > > > +  * Infineon XDPE11280
+> > > > +
+> > > > +    Prefix: 'xdpe11280'
+> > > > +
+> > > >      * Infineon XDPE12254
+> > > >    
+> > > >        Prefix: 'xdpe12254'
+> > > > @@ -20,9 +24,9 @@ Authors:
+> > > >    Description
+> > > >    -----------
+> > > >    
+> > > > -This driver implements support for Infineon Multi-phase
+> > > > XDPE122
+> > > > family
+> > > > -dual loop voltage regulators.
+> > > > -The family includes XDPE12284 and XDPE12254 devices.
+> > > > +This driver implements support for Infineon Multi-phase
+> > > > XDPE112
+> > > > and XDPE122
+> > > > +family dual loop voltage regulators.
+> > > > +These families include XDPE11280, XDPE12284 and XDPE12254
+> > > > devices.
+> > > >    The devices from this family complaint with:
+> > > 
+> > > Hmm, s/complaint/compliant/.
+> > 
+> > ack
+> > 
+> > > 
+> > > Anyway, is it still correct that the XDPE11280 is compliant with
+> > > the
+> > > Intel specifications ? The datasheet isn't public, so I can not
+> > > check
+> > > myself
+> > > what the chip actually supports.
+> > 
+> > The hardware we are testing on is an Intel Cascade Lake, which uses
+> > this chip. The datasheet tells us it is compliant:
+> > 
+> > ```
+> > The XDPE11280B implements a fully compliant Intel® VR 13, VR12, VR
+> > 12.5, VR13.HC, and IMVP8 Serial VID (SVID)
+> > interface.
+> > ```
+> > 
 > 
-> If that is the case, I would prefer if we could stick to existing
-> terminology to avoid issues like "I do not see the bark abstraction".
+> This seems to be one of those chips where the vendor doesn't even
+> admit
+> that it exists unless one signs an NDA. Sigh :-(.
 
-I agree! I am using the terminology from watchdog dev. Like, I hear the term
-"pet" for the "ping", I used "ping."
+Yeah, it's pretty... We do not understand the reasoning.
 
--- Daniel
+> 
+> > > 
+> > > >    
+> > > >    - Intel VR13 and VR13HC rev 1.3, IMVP8 rev 1.2 and IMPVP9
+> > > > rev 1.3
+> > > > DC-DC
+> > > > diff --git a/drivers/hwmon/pmbus/xdpe12284.c
+> > > > b/drivers/hwmon/pmbus/xdpe12284.c
+> > > > index b07da06a40c9..ec947c697670 100644
+> > > > --- a/drivers/hwmon/pmbus/xdpe12284.c
+> > > > +++ b/drivers/hwmon/pmbus/xdpe12284.c
+> > > > @@ -27,6 +27,9 @@ static int xdpe122_read_word_data(struct
+> > > > i2c_client *client, int page,
+> > > >          s32 mantissa;
+> > > >          int ret;
+> > > >    
+> > > > +       if (info->format[PSC_VOLTAGE_OUT] == linear)
+> > > > +               return -ENODATA;
+> > > > +
+> > > >          switch (reg) {
+> > > >          case PMBUS_VOUT_OV_FAULT_LIMIT:
+> > > >          case PMBUS_VOUT_UV_FAULT_LIMIT:
+> > > > @@ -75,9 +78,19 @@ static int xdpe122_read_word_data(struct
+> > > > i2c_client *client, int page,
+> > > >    static int xdpe122_identify(struct i2c_client *client,
+> > > >                              struct pmbus_driver_info *info)
+> > > >    {
+> > > > -       u8 vout_params;
+> > > > +       u8 vout_mode, vout_params;
+> > > >          int i, ret;
+> > > >    
+> > > > +       ret = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
+> > > > +       if (ret < 0)
+> > > > +               return ret;
+> > > > +
+> > > > +       vout_mode = ret >> 5;
+> > > > +       if (vout_mode == 0) {
+> > > > +               info->format[PSC_VOLTAGE_OUT] = linear;
+> > > > +               return 0;
+> > > > +       }
+> > > 
+> > > .... the code above is not chip dependent but this code checks
+> > > the
+> > > mode register on page 0. At the very least this is confusing.
+> > > 
+> > > What the driver should do instead is to check the chip type
+> > > during
+> > > probe and make the necessary changes there, ie set the output
+> > > format
+> > > for xdpe11280 to linear and drop the pointers to the .identify
+> > > and .read_word_data.
+> > 
+> > Sgtm. This sounds like a better approach indeed.
+> > 
+> 
+> That makes me wonder if the chip needs to be added to this driver in
+> the first
+> place, or if it could be added to pmbus.c instead. Any idea ?
+
+Oh, we did wrote a standalone driver too, and it works fine.
+Maybe it's better to upsteam it instead. :)
+
+> 
+> Thanks,
+> Guenter
+> 
+> > Thanks,
+> > Marcello
+> > 
+> > > 
+> > > Guenter
+> > > 
+> > > > +
+> > > >          for (i = 0; i < XDPE122_PAGE_NUM; i++) {
+> > > >                  /* Read the register with VOUT scaling
+> > > > value.*/
+> > > >                  ret = pmbus_read_byte_data(client, i,
+> > > > PMBUS_VOUT_MODE);
+> > > > @@ -140,6 +153,7 @@ static int xdpe122_probe(struct i2c_client
+> > > > *client)
+> > > >    }
+> > > >    
+> > > >    static const struct i2c_device_id xdpe122_id[] = {
+> > > > +       {"xdpe11280", 0},
+> > > >          {"xdpe12254", 0},
+> > > >          {"xdpe12284", 0},
+> > > >          {}
+> > > > @@ -148,6 +162,7 @@ static const struct i2c_device_id
+> > > > xdpe122_id[]
+> > > > = {
+> > > >    MODULE_DEVICE_TABLE(i2c, xdpe122_id);
+> > > >    
+> > > >    static const struct of_device_id __maybe_unused
+> > > > xdpe122_of_match[] = {
+> > > > +       {.compatible = "infineon,xdpe11280"},
+> > > >          {.compatible = "infineon,xdpe12254"},
+> > > >          {.compatible = "infineon,xdpe12284"},
+> > > >          {}
+> > > 
+> > 
+> 
+
