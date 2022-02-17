@@ -2,134 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4027C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 02:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A6BC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 02:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231610AbiBQCci (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Feb 2022 21:32:38 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:32798 "EHLO
+        id S231883AbiBQCrS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Feb 2022 21:47:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231495AbiBQCci (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 21:32:38 -0500
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2094.outbound.protection.outlook.com [40.107.96.94])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D7B15C192;
-        Wed, 16 Feb 2022 18:32:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a7HlqdUcKYklO8dD2dCg92RGhzbK/C6Yieow+jzfoUyZ6rpqc0CtK5T+vAB2vbqE4QESXgC2aTSALVO4GEzLzNmddpOvUNUPVOtwTHHpLExkZDk4u84IpoCp1K6hGzz8tiyK3CdUTo8xKPrIzLNIMQb7lDeNAvniGN+fJjAxSkdK4xa0U8HCKrvINPCD1iA7VjsO5TttOCeH8qSl63iu/USL3sxQATpXsIXKtili+IbhuEsVzNopV/+M+7fl6qIFONAAGBfT01HpUDTWIYkTUG+zn8Vm0YaYu5l6/c/7km9pTb4rRWO+f526McgUf59lspGTu26lKaScsYr+hl5j4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MzByQNjLupfr+w2BeTn612ThC0fcwAAaQoMEZgmDT6k=;
- b=aWN5ZMZasGKipBDuXissokPPSoNeFrOR2Tggh+pbHh9opyuCRbiJiDoD9MtnPhgOQFM+VYJSoATgszvxAdsWc/PBa+Nnh2n+/fc0myibUZ6WJ6JQiJJJ1LPbs0PFRMq5rxNFtajciQIE1U/JMOz4XsdxFGAyU7j9q3GxbPQyhlSSIWFJ8UDddyui5QkmQEIUZfU9SN2HnRBtIrQ8sqsrT+xSU+fxFiW5Vjp/iT+amg266aR8xe2HYA3ski1IRIojFm8K8hxL6fTnmk/FkUZFAGNQdtJppgiKKm0/Y6XgHa5rZUAQdteQX+YALmU4mwWcRaKfrmAmq9a8TXl/wHxZDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzByQNjLupfr+w2BeTn612ThC0fcwAAaQoMEZgmDT6k=;
- b=mdZe/KoMH9qgSzWaywDK/RmXvD2dTpFDh4cOYozBb8eob7YKDSISon9SNBEW+HtYWYzBqaoYtRRdEU4d61C+dXc2+0hIG3zZCEKKmZMC0vzNm1YW2+wgxOIkxfaB48rJ/Ir6cDuvDuM/YLyQDty6OZJKVNzeDK660UsY7mAtLOo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM8PR01MB6824.prod.exchangelabs.com (2603:10b6:8:23::24) by
- MW4PR01MB6307.prod.exchangelabs.com (2603:10b6:303:74::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4995.14; Thu, 17 Feb 2022 02:32:19 +0000
-Received: from DM8PR01MB6824.prod.exchangelabs.com
- ([fe80::7ddf:e242:b5d5:9fe4]) by DM8PR01MB6824.prod.exchangelabs.com
- ([fe80::7ddf:e242:b5d5:9fe4%7]) with mapi id 15.20.4995.017; Thu, 17 Feb 2022
- 02:32:19 +0000
-Date:   Thu, 17 Feb 2022 10:29:25 +0000
-From:   Huang Shijie <shijie@os.amperecomputing.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     catalin.marinas@arm.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, zwang@amperecomputing.com,
-        patches@amperecomputing.com, darren@os.amperecomputing.com,
-        k-hagio-ab@nec.com, lijiang@redhat.com
-Subject: Re: [PATCH] arm64: crash_core: Export MODULES, VMALLOC, and VMEMMAP
- ranges
-Message-ID: <Yg4jhWnfYIGYBLs/@hsj>
-References: <20220209092642.9181-1-shijie@os.amperecomputing.com>
- <20220215164423.GB8458@willie-the-truck>
- <YgzD0ZfZF34u6whJ@hsj>
- <20220216124026.GB9949@willie-the-truck>
- <Yg4dDZGEyRzWcGH1@hsj>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yg4dDZGEyRzWcGH1@hsj>
-X-ClientProxiedBy: CH2PR20CA0023.namprd20.prod.outlook.com
- (2603:10b6:610:58::33) To DM8PR01MB6824.prod.exchangelabs.com
- (2603:10b6:8:23::24)
+        with ESMTP id S231864AbiBQCrR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Feb 2022 21:47:17 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C731FFC8E;
+        Wed, 16 Feb 2022 18:47:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645066024; x=1676602024;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QSnSOxdDtObgqzE/ltifayE1DCxwz1VCxKc2xdK3BnQ=;
+  b=iLUKKwqyOfbqw+wVLqKkAXgMews9dyh47MjeTZ6KVmpp75ILA9p+qHhU
+   eubs3/8EUdOQ34x5giGe0RAr1xHEbgCsZW9V1pfkjiXRd25whignlWtXg
+   +R2sDq9DIwh6su3/YGAZ3WJuV7vzhPiJdv2voITp7KgGRIO0P+iGaM1v1
+   BUzFI+BdBxFYGMwRguEzSam6OHTzyGjFBYAm+SBm5GYDmoX4+nu+cpE97
+   bpdjYayBinwRbCgdJzvE3/GMu5jMo1Xz0G/WY5/2C2Tebmr08yL8VpO41
+   Ne2610ibnXgDQcEFShZhal8a12AKcQEpIdQCmMo5froNr41vyAGGHpDBi
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="231399148"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="231399148"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 18:46:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="545307562"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.68])
+  by orsmga008.jf.intel.com with ESMTP; 16 Feb 2022 18:46:46 -0800
+Date:   Thu, 17 Feb 2022 10:38:16 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     Tom Rix <trix@redhat.com>
+Cc:     Tianfei zhang <tianfei.zhang@intel.com>, hao.wu@intel.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+Subject: Re: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
+  info
+Message-ID: <20220217023816.GD1145049@yilunxu-OptiPlex-7050>
+References: <20220214112619.219761-1-tianfei.zhang@intel.com>
+ <20220214112619.219761-3-tianfei.zhang@intel.com>
+ <0de9c8fb-0f04-684f-630c-1d13b0b55ba1@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 52615af5-2348-43d9-a1e0-08d9f1bdb771
-X-MS-TrafficTypeDiagnostic: MW4PR01MB6307:EE_
-X-Microsoft-Antispam-PRVS: <MW4PR01MB63075DBBE1084A8BEFD65AA8ED369@MW4PR01MB6307.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:989;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FuOEo/Ku/borLGwKST7BlnUwKMqUMyoI9tqrxPgsjA8kfaUt1GMG8p8fuohW7iVYIkhj/Z/zce8MYtHIevd0OVO9tJeqD38rwZNoPas4iCSSq8+JSqwCLLN179h8YEjoFIoUb6ds3eA6ts5Be7YN22EBAGJyzwBxVBEl19WnvkETRnGTOhXT7giOavrlsY+YxB8ynK/9uklkSVXZK8fcGmb6oDFkCDIfiEGFNVrSyIEMjNHKgtRqiL+uOTKDMqw0VwhyC5lvStiwjikYKYaP9RRBoVZBsMI6RfkmSMyReGS87saPxovGgeyHKBhE5bnvuBTPqBhKK5sxV8I3y2qWxgzZWUL+VM+/zSOPysZMjiQhZ8yMFiJ0b742GZBAl51KJLYKz4TDm2QISbmotCxF6XFx8Kd7rZFOi9X/oRK1VlmPyyBXVhyQiKfxAzk7Zyed9QSz2fmRYwlnfYF4II2IpeLLMeu2zKKjxFaBDDaDn8sFpVs0i1z2qke5yIovhsbguiiFfCH+WX3rlavXJ3T6px1iSUIBa44HKI3Zj1/XZVJifLkTzrNcYjKmVIHzBBXs87B/RaVVWcxJIT2Id8R7OLtRt/UPL4jD0eSY9/Nf7oHZzn3n3L7+JDRsG3eSHjIs/u0c5buG+KB0mpOx9O5YZ8BmFFV5E/Cn5AYCVjXrYO7/tbBB7zThYJXoE0zmpRxAhMzx91AG7l3zD/TN9kikxA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR01MB6824.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(7916004)(366004)(4744005)(4326008)(8936002)(66556008)(5660300002)(7416002)(66946007)(8676002)(66476007)(83380400001)(6486002)(26005)(38350700002)(6916009)(316002)(38100700002)(52116002)(186003)(6666004)(33716001)(6512007)(9686003)(2906002)(6506007)(86362001)(508600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aV9apwh90EBNkS+LZHJjC320ImCqRid7YuO5mxlJHd+HS56o3ZFFgB4HrtfG?=
- =?us-ascii?Q?NIudzOtauizHbZcvCX+hsFfCLvuGovZxE5rkcVYPmt6CSnlIU6f81by8hjwf?=
- =?us-ascii?Q?LdVnwO5tQn12z3b2PVb6BALXBBCwtV8bSd9FOGwkK/ZpDTa05Czaa46i2Ov2?=
- =?us-ascii?Q?S7zDzzCUPcwj/aYMhTLwKAwQTNN+zBApdmCD36+4k0697+bl9Tul099guYMW?=
- =?us-ascii?Q?uzhV9gkMwCuKm/OTnEcjwqrHlgFknuPV19dHQR3xoMx79ggss8FHAsamb2C7?=
- =?us-ascii?Q?2rCK/Duk9vnZfWKyKw0ApBFslqqf1pwRFNlOlDuW5nmJxqa0HfqC3U+anJVM?=
- =?us-ascii?Q?feU/oDNWTfp2r+EbOZ59wg06xIJGpf2ce74mvQxOmG3YQ3cQVMZALIQ5lSx8?=
- =?us-ascii?Q?vM+4PCIgE4ioxpwUUyGixU0Lx0NoAzRBM1+QG7npp2Y1Vtua9mMyjxT1H3EH?=
- =?us-ascii?Q?qyVHpDL9hx97OpmCPuQkiY1DYgLyUiqKOyqY4/qIxoId2rT2a6UwLoZ9x/TG?=
- =?us-ascii?Q?1nQyXNtwZPEUBMULKo+MxKY6EezQu+IT5Oh9hY+auKkKwmEvlmpOHMaMiTp8?=
- =?us-ascii?Q?1YmV15rYATXWZsFmqs2EhQJ27h/P9A4/uXL737Zdlx3I++LaWvvujZ7wG/9y?=
- =?us-ascii?Q?+EYBGDfwT8hqs9ud54hKTNb9WZPsItXf8crTPz3GRMpZEghhGhRodHW7G+Pe?=
- =?us-ascii?Q?S93Z89G68RIWxQFNEv39KiGaEzr3MewZqJUWX5z0p/LRYK1owjUiHMTi1MAs?=
- =?us-ascii?Q?v4fNYutezdqPsSZCE13bnnO4rqoEgSmS2ovQfmnL4g6zBRvGytM9CKTlRJRJ?=
- =?us-ascii?Q?WGccXmh/jzIgK7jUqVks7i89y/EiWLytMr10b8HrvD9AOmsiyN1sEAQBQ78p?=
- =?us-ascii?Q?KV0wAlyf/37oC3U/Hcwjh6bpMYz1bHhTXxBrWV5rM53RCKbSUgmBqbyuKVs/?=
- =?us-ascii?Q?F7LbovJBsRQiYqZiKn3XESTU1CcCrrnF6291Vd0izdUFXwmVAr4DcHsPNe8M?=
- =?us-ascii?Q?TX1z8Bq6kFz5zuyQftZvH/0W3v9/9xvknWCo38ni3md4Rmvu8208qcHMOp5b?=
- =?us-ascii?Q?e659kt6RSVbLA6Vco+LzdfxtjLDEYUNzZ/36ZTHHWrrv8Z+aBoe1ZrRbIirq?=
- =?us-ascii?Q?tTEZZ2cuLcNMPRcClfX31CTnX7PZZkSZxjydX1BczxU3ySpXNT4BAqRbGX15?=
- =?us-ascii?Q?qKKMGbukjqYUc2BYb097ZKLluBA17jCTvKpMeL9ixsqdidcPl8esVMFYZn2k?=
- =?us-ascii?Q?99LSBh/gZFI+WxPn+6NWwolFR5H/2U6L50ESlUtoryj8vOb5ZycYhfXOXstA?=
- =?us-ascii?Q?aadkVJy94MPHZGIdLhhTY9lvE01XWhj7Czh6QgWtdqAN+DOR5HMloWVTKcef?=
- =?us-ascii?Q?TJAQXWUU4Wx6q3a56hDta0T5una4wlLFr75bfHiP3lriQxjcaaxt6oK6kJDi?=
- =?us-ascii?Q?RkQcJB32yCjj0QFxR1yw04azb5HKfjVvpUF3TZjWA5IYM9Uc2XhQW2w60/CZ?=
- =?us-ascii?Q?YCWpSzdwyI3b8iigKMMBK/muraYRhepwGXtE3y/aaEMTeG8BcADjBlkmcODa?=
- =?us-ascii?Q?uD2Lz/soaHY8BB/DhqNm3HzKJDGHXeMEnsuVZmqP35Fv0RQz9aI4kIMGABuC?=
- =?us-ascii?Q?62fnf4B/189MRJRSJ1TcpB3AxhjGmJaVfS9mz7uFQni3u3e/xcHu02mU7RUw?=
- =?us-ascii?Q?MGcG5lo7RVJzP82XNKaMnBRDLuXbtYZAMeq7StgLsj1N2ymwL3VlXiarqX2t?=
- =?us-ascii?Q?e8PPv4tHJw=3D=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52615af5-2348-43d9-a1e0-08d9f1bdb771
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR01MB6824.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 02:32:18.7623
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZL6nDod9zYAQfigdWqeoiHEp1dTtfJJk5hseRERi2Onqzr2JZV2cLkXKT5Vjvwy6t32QgiFSj8iOfFCaiZvwyX+zR/Ig+h7Fv6SvKrf1kjSHUhinUkHjsIcCMwfNFzR0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6307
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0de9c8fb-0f04-684f-630c-1d13b0b55ba1@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 10:02:03AM +0000, Huang Shijie wrote:
-> > Thanks for digging up all of the kernel memory map changes and taking the
-> > time to explain the macros. However, all I'm really after is something in
-> > the commit message of the patch which explains what is broken without this
-> This kernel patch does not break anything.
-I mean this kernel patch is not a bugfix, it is just make the ARM64 ecosystem
-(including the Crash) a little better..
+On Tue, Feb 15, 2022 at 06:49:05AM -0800, Tom Rix wrote:
+> 
+> On 2/14/22 3:26 AM, Tianfei zhang wrote:
+> > From: Tianfei Zhang <tianfei.zhang@intel.com>
+> > 
+> > The feature ID of "Port User Interrupt" and the
+> > "PMCI Subsystem" are identical, 0x12, but one is for FME,
+> > other is for Port. It should check the feature type While
+> > parsing the irq info in parse_feature_irqs().
+> 
+> This seems like a bug fix and not part of iofs feature.
+> 
+> Split this out of the patchset.
+> 
+> This is a workaround a hardware problem, there should be some comments to
+> the effect that you can't trust _this_ or _that_ feature id and some special
+> handling earlier.
+> 
+> The ambiguity of feature id is a problem, and this sort of bug will happen
 
-The Crash can just parse out the MODULES/VMALLOC/VMALLOC ranges from the vmcore file,
-no need to calculate them in a very _hard_ way. 
+Actually this is not the feature id definition problem. The identity of the
+feature is determined by the dfl_id_type(FME, PORT) AND feature_id. So the
+driver should match the dfl_id_type & feature_id to know what feature it
+is.
 
-Thanks
-Huang Shijie
+Thanks,
+Yilun
+
+> again.
+> 
+> What can be done to prevent this in the future ?
+> 
+> > 
+> > Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> > ---
+> >   drivers/fpga/dfl.c | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> > index 599bb21d86af..26f8cf890700 100644
+> > --- a/drivers/fpga/dfl.c
+> > +++ b/drivers/fpga/dfl.c
+> > @@ -940,9 +940,14 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> >   {
+> >   	void __iomem *base = binfo->ioaddr + ofst;
+> >   	unsigned int i, ibase, inr = 0;
+> > +	enum dfl_id_type type;
+> >   	int virq;
+> >   	u64 v;
+> > +	type = feature_dev_id_type(binfo->feature_dev);
+> > +	if (type >= DFL_ID_MAX)
+> > +		return -EINVAL;
+> > +
+> >   	/*
+> >   	 * Ideally DFL framework should only read info from DFL header, but
+> >   	 * current version DFL only provides mmio resources information for
+> > @@ -959,16 +964,22 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> >   	 */
+> >   	switch (fid) {
+> >   	case PORT_FEATURE_ID_UINT:
+> > +		if (type != PORT_ID)
+> > +			break;
+> 
+> Instead of embedding a break in the switch, break the switch into fme switch
+> and port switch
+> 
+> if (type == PORT_ID)
+> 
+>   port-switch
+> 
+> else if (type == FME_ID
+> 
+>   fme-switch
+> 
+> Tom
+> 
+> >   		v = readq(base + PORT_UINT_CAP);
+> >   		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> >   		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> >   		break;
+> >   	case PORT_FEATURE_ID_ERROR:
+> > +		if (type != PORT_ID)
+> > +			break;
+> >   		v = readq(base + PORT_ERROR_CAP);
+> >   		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> >   		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> >   		break;
+> >   	case FME_FEATURE_ID_GLOBAL_ERR:
+> > +		if (type != FME_ID)
+> > +			break;
+> >   		v = readq(base + FME_ERROR_CAP);
+> >   		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> >   		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
