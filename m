@@ -2,130 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2303C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 15:32:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 156FDC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 15:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239129AbiBQPdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 10:33:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46970 "EHLO
+        id S235695AbiBQPsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 10:48:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229573AbiBQPdM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 10:33:12 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D77CB7562F;
-        Thu, 17 Feb 2022 07:32:57 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id h18so10322482edb.7;
-        Thu, 17 Feb 2022 07:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JJul3CaBYsl6nxRMJrhyxqC7q1zMq+Fji1s2Sr14IjM=;
-        b=qO7ucopXVA0140FEKclf5DeAHDXRZg2WvIL4kSr+QOStgl0ypy7Op6gTJcWQyUv07W
-         a3Gj8wzldoEVmmcQw/yK2h0+etBA5bAhTTKcCEmU3RVqniyFzmjNRqVlR35SOLBcyoBc
-         i0xpbcjf3IxzKoIggvt5jqCzihXyjvVNIl7UUwsIDMFXU5B1mtVzTZtTYSu+ZPwAPkFP
-         tzp9gKTP98OESBY3Z1cKrjcyjnDRHk1zjiFC7mYsBVE672GWtTYYvTLvIBrdc3ibGJfE
-         0pWhg4XlV56EqgI6j3lPxnke4dZhgoYblggBT716bj9S5cnq2ViJMQIK4dRw8SPHXJyS
-         NK6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JJul3CaBYsl6nxRMJrhyxqC7q1zMq+Fji1s2Sr14IjM=;
-        b=dKhs5Jma0snQRm84rI6Q6t9P9q/ZwG8hTlFognnMXTRE12WT86Fs+6+NDShLCLKpkE
-         Ys9xTpbUPUZ3cGXtieB/WAfahfSCG9A2p08dkKN/huzArZ/5cM8wbkQzIWdKKzhEU1Xc
-         7qnf79SqL45WncsyTEFqHMqsTDqCPjzso/cp4hpT4umkDgIoBPX92petzrOXxJnpFBF6
-         MBnB6AuJFxoc1PF9VvUTnHFlUkCTc63rZ/hxHwtIdq6R8S34J2myGGZV3bpuK7d++Wqg
-         ZZnaRLxDvdSUH851q6XgNmu4mgHdfZpCdpBfWFLMu5Q7V/14WeuIRTFHPvwAIbjJl5BW
-         eveA==
-X-Gm-Message-State: AOAM531TGMOynu6WM6r7KT2uixpD0huYZ/tdbQ6U9UmWpKQISXz9iytA
-        QqKffu0ZcEDMjDcOXddI/QXl44DLMdg=
-X-Google-Smtp-Source: ABdhPJy0NbBdUIk/yAuqmUFrTVkCrzL5DtrdlvxOiEWJxydiZhDgzxfv4ropItP6pHSm5uJYpN6jhA==
-X-Received: by 2002:aa7:cf93:0:b0:40d:e8eb:1dd2 with SMTP id z19-20020aa7cf93000000b0040de8eb1dd2mr3221057edx.441.1645111976298;
-        Thu, 17 Feb 2022 07:32:56 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id bv2sm1287863ejb.155.2022.02.17.07.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 07:32:56 -0800 (PST)
-Date:   Thu, 17 Feb 2022 16:32:47 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
-Message-ID: <20220217163247.03e37c9b@fuji.fritz.box>
-In-Reply-To: <8735ki2x62.fsf@meer.lwn.net>
-References: <20220205233945.7a4d22d8@fuji.fritz.box>
-        <8735ki2x62.fsf@meer.lwn.net>
+        with ESMTP id S232620AbiBQPsk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 10:48:40 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835B8154703;
+        Thu, 17 Feb 2022 07:48:24 -0800 (PST)
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Jzzk12yvBz67bBx;
+        Thu, 17 Feb 2022 23:47:53 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 17 Feb 2022 16:48:21 +0100
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 17 Feb 2022 15:48:17 +0000
+From:   John Garry <john.garry@huawei.com>
+To:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
+        <chenxiang66@hisilicon.com>, <damien.lemoal@opensource.wdc.com>,
+        <hch@lst.de>
+CC:     <Ajish.Koshy@microchip.com>, <yanaijie@huawei.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-scsi@vger.kernel.org>, <linuxarm@huawei.com>,
+        <liuqi115@huawei.com>, <Viswas.G@microchip.com>,
+        John Garry <john.garry@huawei.com>
+Subject: [PATCH v2 00/18] scsi: libsas and users: Factor out LLDD TMF code
+Date:   Thu, 17 Feb 2022 23:42:28 +0800
+Message-ID: <1645112566-115804-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Feb 2022 16:45:25 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+The LLDD TMF code is almost identical between hisi_sas, pm8001, and mvsas
+drivers.
 
-> Some overall thoughts:
-> 
->  - Work like this needs to be broken up into digestible batches.  Let's
->    start with the POD stuff that I've (finally) commented on; other
->    stuff can come later.
+This series factors out that code into libsas, thus reducing much
+duplication and giving a net reduction of ~350 LoC.
 
-I will prepare the POD part. As for the rest, you will need a porter if you
-decide this is the way to go. I could help with explanations if something is
-unclear and as long as the questions come soon. The winter is almost over and
-I need to switch to other activities like earning money.
+There are some subtle differences between the core TMF handler and each
+of the LLDDs old implementation, so any review and testing is appreciated.
 
->  - The coding style in the new work is very unkernellike; that will make
->    it harder to get this work merged.
+Some other minor patches are thrown in:
+- Delete unused macro in hisi_sas driver
+- Delete unused libsas callback
+- Delete unused SAS_SG_ERR
+- Add enum for response frame datapres field
+- Handle unrecognised errors in sas_scsi_find_task()
 
-Yes. I can only add a thought: it seems unnatural to me to have the same style
-for various languages.
+I have another follow-up series to factor out the internal abort code,
+which is common to hisi_sas and pm8001 drivers.
 
->  - But let's take a step back and ask: why are we doing all of this work
->    in the first place?  What is the benefit to the kernel community from
->    all this churn, and a growth of the kernel-doc script by over 2,000
->    lines (even if an awful lot of them are blank)?
+Based on mkp-scsi 5.18 staging queue at commit ac2beb4e3bd7
 
-My motivation was just climbing this mountain, nothing else. I don't even
-know, how important this script is to whom. I can only guess. Neither am I
-a C programmer, nor want to become one. So this question is to another part
-of the community.
+Differences to v1:
+- Add Reviewed-by and Tested-by tags (Thanks!)
+- Add SAS_SG_ERR patch
+- Add sas_scsi_find_task() patch
+- Use switch statement in sas_ssp_task_response()
+- Add DATAPRES enum in sas.h
+- Reword "Add struct sas_tmf_task" patch
+- Don't print TMF code in sas_execute_tmf()
+- Rebase
 
-I could though think of the benefits to the maintainers. In this respect I've
-moved things forward quite a bit, I gather.
+John Garry (18):
+  scsi: libsas: Handle non-TMF codes in sas_scsi_find_task()
+  scsi: libsas: Use enum for response frame DATAPRES field
+  scsi: libsas: Delete lldd_clear_aca callback
+  scsi: libsas: Delete SAS_SG_ERR
+  scsi: hisi_sas: Delete unused I_T_NEXUS_RESET_PHYUP_TIMEOUT
+  scsi: libsas: Move SMP task handlers to core
+  scsi: libsas: Add struct sas_tmf_task
+  scsi: libsas: Add sas_task.tmf
+  scsi: libsas: Add sas_execute_tmf()
+  scsi: libsas: Add sas_execute_ssp_tmf()
+  scsi: libsas: Add TMF handler exec complete callback
+  scsi: libsas: Add TMF handler aborted callback
+  scsi: libsas: Add sas_abort_task_set()
+  scsi: libsas: Add sas_clear_task_set()
+  scsi: libsas: Add sas_lu_reset()
+  scsi: libsas: Add sas_query_task()
+  scsi: libsas: Add sas_abort_task()
+  scsi: libsas: Add sas_execute_ata_cmd()
 
-As for the blank lines, they are just one character each and trivial to get
-rid of.
+ Documentation/scsi/libsas.rst          |   2 -
+ drivers/scsi/aic94xx/aic94xx.h         |   1 -
+ drivers/scsi/aic94xx/aic94xx_init.c    |   1 -
+ drivers/scsi/aic94xx/aic94xx_tmf.c     |  11 +-
+ drivers/scsi/hisi_sas/hisi_sas.h       |   9 +-
+ drivers/scsi/hisi_sas/hisi_sas_main.c  | 227 ++++--------------------
+ drivers/scsi/hisi_sas/hisi_sas_v1_hw.c |   2 +-
+ drivers/scsi/hisi_sas/hisi_sas_v2_hw.c |   9 +-
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c |   2 +-
+ drivers/scsi/isci/init.c               |   1 -
+ drivers/scsi/isci/request.c            |   7 +-
+ drivers/scsi/isci/task.c               |  18 --
+ drivers/scsi/isci/task.h               |   4 -
+ drivers/scsi/libsas/sas_ata.c          |  10 +-
+ drivers/scsi/libsas/sas_expander.c     |  24 +--
+ drivers/scsi/libsas/sas_internal.h     |   6 +
+ drivers/scsi/libsas/sas_scsi_host.c    | 229 ++++++++++++++++++++++++-
+ drivers/scsi/libsas/sas_task.c         |  14 +-
+ drivers/scsi/mvsas/mv_defs.h           |   5 -
+ drivers/scsi/mvsas/mv_init.c           |   5 +-
+ drivers/scsi/mvsas/mv_sas.c            | 179 +------------------
+ drivers/scsi/mvsas/mv_sas.h            |   3 -
+ drivers/scsi/pm8001/pm8001_hwi.c       |   4 +-
+ drivers/scsi/pm8001/pm8001_init.c      |   5 +-
+ drivers/scsi/pm8001/pm8001_sas.c       | 194 ++++-----------------
+ drivers/scsi/pm8001/pm8001_sas.h       |  14 +-
+ include/scsi/libsas.h                  |  24 ++-
+ include/scsi/sas.h                     |   7 +
+ 28 files changed, 377 insertions(+), 640 deletions(-)
 
-> I'm serious about that last question; do we really want to invest that
-> kind of effort into this nasty old script?  Or, if we're going to do
-> such a thing, should we maybe start with Markus's rewrite into Python
-> instead?  If we're going to thrash the code and make it unrecognizable,
-> perhaps we should move to a language that is consistent with the rest of
-> the docs build system and which, I believe, is easier for more kernel
-> developers to deal with?
+-- 
+2.26.2
 
-I understand. I didn't know there was a rewrite. I'm not into Python, but
-if you could post a link, I'd take a look out of curiosity.
-
-If the community prefers Python, what can I say about this? Their choice.
-
-Personally, I'd rather play with translating this script to Raku (aka Perl 6).
-I also wonder, how Perl 5 will transition to Perl 7. A question to Perl
-experts.
-
-> I am *not* saying that this work cannot be accepted, and I certainly do
-> not want to alienate somebody who is actually able to look at kernel-doc
-> and not have their eyes bleed out.  But I am saying that, before
-> launching into a hundreds-of-patches journey, we should know where we're
-> going and why we are doing it.
-
-I agree.
-
-> See what I'm getting at?
-
-Yes. Thanks.
-
-Tomasz
