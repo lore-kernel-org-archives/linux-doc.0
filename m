@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A790C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 13:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49602C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 13:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241394AbiBQN4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 08:56:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43552 "EHLO
+        id S236814AbiBQN5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 08:57:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241506AbiBQNz7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 08:55:59 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F111279084
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 05:55:44 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id 24so3704685ioe.7
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 05:55:44 -0800 (PST)
+        with ESMTP id S241403AbiBQN47 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 08:56:59 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16697654F
+        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 05:56:45 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id h11so2293644ilq.9
+        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 05:56:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=Bxbkjw/VTvWv2xNrsmQvhTrD2GSumqC08fAC7izCWuw=;
-        b=outf+RQGSyF1GA3m+NRwczTWulqQE/egA9xBYNNndj+A/xaFVLYleR595iutiy5/FG
-         uX1JgPNHPgWIc1hV13Fj2ESoz7WKzbfXKQCa3A1K9prG0YXpoPylsI6K5i2BXxpot/31
-         yRxxC1waf/yNIPyJxB3/ToM3SydNwrqLE35bTtrEirOKTZnGHrYBxDyYJ+2bHWUF61BC
-         VPyZBl58J+myQ5YdbKJFch1Orjw4BMoPcdoZgNIZ1T8LO7v8+LJYNSIhw7sCu3gG/oCh
-         N8EhO1mttvzigAyrA8IsqEQH5DzUhgcJ1qnMaJS0OpdAn3f8B3Iyq7az8eBvizwbenL+
-         otsw==
+        bh=h173/Xyn7am4xw7Q8qgjD5LVQXMcqogBYHyQssYWdeY=;
+        b=et/Wkx7eMqOr23ZQDXBvVEa2RRHNT6eOBMPzyoyDSYRkQuR1eeFKtVmlAWBNkTH8kv
+         +1glznOspkz5evjz/M/tpQ1Ac4c9mu72rgwiPl4rWqAl0MONIpFYZ1YRYId8oYGZCPaO
+         daQk3aecrukNEc9L8Wbc5mOQL94ECaDmrfSSpIP/Y3rncJU6G6q1HjDktBFAIOmYhVEn
+         t+hQnGTTP3UR/I0flXauZr9ounnFCd7fAD6RFU2vxJ019rSRoe/3rT6OqVkYDj1Fias8
+         WSlZxnO5A6S7zuSkr9MbeTFkYTT3mJrx+YjAj6oqHDKIvim8uOXxOcYMfszoD2/Gjz2L
+         W8fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Bxbkjw/VTvWv2xNrsmQvhTrD2GSumqC08fAC7izCWuw=;
-        b=F7boqJvuEYKFfkDxyt06kKNHf6jfNakdNlLEt0s5ejTrCJmsRbT+FcwOOvdRJzh5l7
-         VePVd4cDw2qb116+XVn3nnvuLyVDaEq4L7eu1RJlEJaqS0aQBEr5PlhEiiZIDMrKqdAK
-         emXSyLmrsWhOq46iyQ+8dyBQ5Yk/ROld0EdqhwkqQrFQAOcL7q+gVRS+czWCnoTCQoND
-         7kTIOVhUy/Fc4ZGtPMDSknGAj4T34LQCIj5yRCbD53yNMSlnC5sWcq/cnlS8wOPQCb7E
-         xxGMUSpV8NBfHvuiQTxhRaKG+7Khppy/XflkGzkFL36vCxS95VX2tduZ3+5MnzIVPox6
-         40QA==
-X-Gm-Message-State: AOAM531LPITsBOCkEeuiQVAwL+98IkeHumN7s4brqanJmmLo3BujD+/k
-        TNrFrScjkTWfxGeZkcqN0yoBNVvZhfXLc1kFZ10=
-X-Google-Smtp-Source: ABdhPJzcH2laGma8uZ+uw5RXSHhrlObWoJ7y1OkKFJDEA/2UzudBwRPTD5lXRK3TlqMRL4/8XwZs551YKfg161Qrf84=
-X-Received: by 2002:a02:2908:0:b0:314:48d3:2d6b with SMTP id
- p8-20020a022908000000b0031448d32d6bmr1946134jap.169.1645106143809; Thu, 17
- Feb 2022 05:55:43 -0800 (PST)
+        bh=h173/Xyn7am4xw7Q8qgjD5LVQXMcqogBYHyQssYWdeY=;
+        b=wwfCF0aKD/4TVCZi3ubhJDA0W/O23xbg6nMqPCeBlVU8n33l2KxsqtvrmPMD7OD7K8
+         9Tx0FM2a0MzxPRrHidRhL/LOrM5cwmd1Fe4gdI1pw1PgZTs3FKes/4UfInYPhCR5fqiI
+         7iRKAA1THurh6S2WxeUBt7GDz62lv9lDjY6oPIe9R1JtrxEdZo9w462i4zqQLgwQ4ifx
+         Fmqb4Tj9xHNJXTmz1b258FgsJlTAz4VGOOOxUkxKgwyxHpN/8SASytJjFcH9Y7FPrl6n
+         8XU6Gm2aGIeCR3gSwLhdjWZWCw0APykPgdMj4+OLPNVdWtsM7zd93IvIyGxqmdffVY+1
+         sWpA==
+X-Gm-Message-State: AOAM532BcxZukZrxNaC/1QdffUV8nYQwvzsDSV8ape7va/NgBJUcCAZE
+        fXdcZ61ZOaSy1RjB0je6Rm0jQhqW02vIePasyx+zstrQqsE=
+X-Google-Smtp-Source: ABdhPJwNWruDqc8gzXUhdfv/dZiPgTvO8Ur4b0qRy/QfIut/Pn/I+RIcKXgCFtbtPr5CTgNEMWOsP5KsZf288BM1Sjk=
+X-Received: by 2002:a05:6e02:20ce:b0:2bf:6dd8:abf7 with SMTP id
+ 14-20020a056e0220ce00b002bf6dd8abf7mr2102359ilq.221.1645106204546; Thu, 17
+ Feb 2022 05:56:44 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1645003763.git.siyanteng@loongson.cn> <f8b5b077721b22eef6437255010d2020a40bde65.1645003763.git.siyanteng@loongson.cn>
-In-Reply-To: <f8b5b077721b22eef6437255010d2020a40bde65.1645003763.git.siyanteng@loongson.cn>
+References: <cover.1645003763.git.siyanteng@loongson.cn> <0e3f618a914980ad649d956a43aeca93d71c1f79.1645003763.git.siyanteng@loongson.cn>
+In-Reply-To: <0e3f618a914980ad649d956a43aeca93d71c1f79.1645003763.git.siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Date:   Thu, 17 Feb 2022 21:55:07 +0800
-Message-ID: <CAJy-Amnua0DM_LmfM-i8P+80FEfuMnb_V71eyOf=m6gFJ66e_A@mail.gmail.com>
-Subject: Re: [PATCH 1/5] docs/zh_CN: Refactoring the admin-guide directory index
+Date:   Thu, 17 Feb 2022 21:56:08 +0800
+Message-ID: <CAJy-AmnkobznP4_kaZBvBuk2UJj4RYmjHS6cuYLFBaY8F_brxw@mail.gmail.com>
+Subject: Re: [PATCH 2/5] docs/zh_CN: add admin-guide damon index translation
 To:     Yanteng Si <siyanteng01@gmail.com>
 Cc:     corbet@lwn.net, alexs@kernel.org,
         Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
@@ -64,188 +64,78 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Feb 16, 2022 at 5:38 PM Yanteng Si <siyanteng01@gmail.com> wrote:
 >
-> The Todolist in the html document looks a mess, now give it a nice lookin=
-g format.
+> Translate .../admin-guide/mm/damon/index.rst into Chinese.
 >
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
 Reviewed-by: Alex Shi <alexs@kernel.org>
 
 > ---
->  .../translations/zh_CN/admin-guide/index.rst  | 122 +++++++++---------
->  1 file changed, 61 insertions(+), 61 deletions(-)
+>  .../zh_CN/admin-guide/mm/damon/index.rst      | 26 +++++++++++++++++++
+>  .../zh_CN/admin-guide/mm/index.rst            |  2 +-
+>  2 files changed, 27 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon=
+/index.rst
 >
-> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Doc=
-umentation/translations/zh_CN/admin-guide/index.rst
-> index 763055f161dd..be535ffaf4b0 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-> @@ -20,15 +20,15 @@ Linux =E5=86=85=E6=A0=B8=E7=94=A8=E6=88=B7=E5=92=8C=
-=E7=AE=A1=E7=90=86=E5=91=98=E6=8C=87=E5=8D=97
+> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.=
+rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
+> new file mode 100644
+> index 000000000000..4581e1bc2506
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
+> @@ -0,0 +1,26 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/admin-guide/mm/damon/index.rst
+> +
+> +:=E7=BF=BB=E8=AF=91:
+> +
+> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:=E6=A0=A1=E8=AF=91:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +=E7=9B=91=E6=B5=8B=E6=95=B0=E6=8D=AE=E8=AE=BF=E9=97=AE
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:doc:`DAMON </vm/damon/index>` =E5=85=81=E8=AE=B8=E8=BD=BB=E9=87=8F=E7=
+=BA=A7=E7=9A=84=E6=95=B0=E6=8D=AE=E8=AE=BF=E9=97=AE=E7=9B=91=E6=B5=8B=E3=80=
+=82=E4=BD=BF=E7=94=A8DAMON=EF=BC=8C
+> +=E7=94=A8=E6=88=B7=E5=8F=AF=E4=BB=A5=E5=88=86=E6=9E=90=E4=BB=96=E4=BB=AC=
+=E7=B3=BB=E7=BB=9F=E7=9A=84=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E6=A8=A1=E5=
+=BC=8F=EF=BC=8C=E5=B9=B6=E4=BC=98=E5=8C=96=E5=AE=83=E4=BB=AC=E3=80=82
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +Todolist:
+> +
+> +*   start
+> +*   usage
+> +*   reclaim
+> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/index.rst b/=
+Documentation/translations/zh_CN/admin-guide/mm/index.rst
+> index b2c114075090..181eb4cd6aae 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/mm/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/mm/index.rst
+> @@ -29,12 +29,12 @@ Linux=E5=86=85=E5=AD=98=E7=AE=A1=E7=90=86=E6=9C=89=E5=
+=AE=83=E8=87=AA=E5=B7=B1=E7=9A=84=E6=9C=AF=E8=AF=AD=EF=BC=8C=E5=A6=82=E6=9E=
+=9C=E4=BD=A0=E8=BF=98=E4=B8=8D=E7=86=9F=E6=82=89=E5=AE=83=EF=BC=8C=E8=AF=B7=
+=E8=80=83=E8=99=91=E9=98=85
+>  .. toctree::
+>     :maxdepth: 1
 >
->  Todolist:
->
-> -   kernel-parameters
-> -   devices
-> -   sysctl/index
-> +*   kernel-parameters
-> +*   devices
-> +*   sysctl/index
->
->  =E6=9C=AC=E8=8A=82=E4=BB=8B=E7=BB=8DCPU=E6=BC=8F=E6=B4=9E=E5=8F=8A=E5=85=
-=B6=E7=BC=93=E8=A7=A3=E6=8E=AA=E6=96=BD=E3=80=82
->
->  Todolist:
->
-> -   hw-vuln/index
-> +*   hw-vuln/index
->
->  =E4=B8=8B=E9=9D=A2=E7=9A=84=E4=B8=80=E7=BB=84=E6=96=87=E6=A1=A3=EF=BC=8C=
-=E9=92=88=E5=AF=B9=E7=9A=84=E6=98=AF=E8=AF=95=E5=9B=BE=E8=B7=9F=E8=B8=AA=E9=
-=97=AE=E9=A2=98=E5=92=8Cbug=E7=9A=84=E7=94=A8=E6=88=B7=E3=80=82
->
-> @@ -44,18 +44,18 @@ Todolist:
->
->  Todolist:
->
-> -   reporting-bugs
-> -   ramoops
-> -   dynamic-debug-howto
-> -   kdump/index
-> -   perf/index
-> +*   reporting-bugs
-> +*   ramoops
-> +*   dynamic-debug-howto
-> +*   kdump/index
-> +*   perf/index
->
->  =E8=BF=99=E6=98=AF=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E5=BC=80=E5=8F=91=
-=E4=BA=BA=E5=91=98=E6=84=9F=E5=85=B4=E8=B6=A3=E7=9A=84=E7=AB=A0=E8=8A=82=E7=
-=9A=84=E5=BC=80=E5=A7=8B=E3=80=82=E5=8F=AF=E4=BB=A5=E5=9C=A8=E8=BF=99=E9=87=
-=8C=E6=89=BE=E5=88=B0=E6=B6=B5=E7=9B=96=E5=86=85=E6=A0=B8ABI=E5=90=84=E4=B8=
-=AA
->  =E6=96=B9=E9=9D=A2=E7=9A=84=E6=96=87=E6=A1=A3=E3=80=82
->
->  Todolist:
->
-> -   sysfs-rules
-> +*   sysfs-rules
->
->  =E6=9C=AC=E6=89=8B=E5=86=8C=E7=9A=84=E5=85=B6=E4=BD=99=E9=83=A8=E5=88=86=
-=E5=8C=85=E6=8B=AC=E5=90=84=E7=A7=8D=E6=8C=87=E5=8D=97=EF=BC=8C=E4=BB=8B=E7=
-=BB=8D=E5=A6=82=E4=BD=95=E6=A0=B9=E6=8D=AE=E6=82=A8=E7=9A=84=E5=96=9C=E5=A5=
-=BD=E9=85=8D=E7=BD=AE=E5=86=85=E6=A0=B8=E7=9A=84=E7=89=B9=E5=AE=9A=E8=A1=8C=
-=E4=B8=BA=E3=80=82
->
-> @@ -73,57 +73,57 @@ Todolist:
+> +   damon/index
+>     ksm
 >
 >  Todolist:
->
-> -   acpi/index
-> -   aoe/index
-> -   auxdisplay/index
-> -   bcache
-> -   binderfs
-> -   binfmt-misc
-> -   blockdev/index
-> -   bootconfig
-> -   braille-console
-> -   btmrvl
-> -   cgroup-v1/index
-> -   cgroup-v2
-> -   cifs/index
-> -   dell_rbu
-> -   device-mapper/index
-> -   edid
-> -   efi-stub
-> -   ext4
-> -   nfs/index
-> -   gpio/index
-> -   highuid
-> -   hw_random
-> -   initrd
-> -   iostats
-> -   java
-> -   jfs
-> -   kernel-per-CPU-kthreads
-> -   laptops/index
-> -   lcd-panel-cgram
-> -   ldm
-> -   LSM/index
-> -   md
-> -   media/index
-> -   module-signing
-> -   mono
-> -   namespaces/index
-> -   numastat
-> -   parport
-> -   perf-security
-> -   pm/index
-> -   pnp
-> -   rapidio
-> -   ras
-> -   rtc
-> -   serial-console
-> -   svga
-> -   thunderbolt
-> -   ufs
-> -   vga-softcursor
-> -   video-output
-> -   xfs
-> +*   acpi/index
-> +*   aoe/index
-> +*   auxdisplay/index
-> +*   bcache
-> +*   binderfs
-> +*   binfmt-misc
-> +*   blockdev/index
-> +*   bootconfig
-> +*   braille-console
-> +*   btmrvl
-> +*   cgroup-v1/index
-> +*   cgroup-v2
-> +*   cifs/index
-> +*   dell_rbu
-> +*   device-mapper/index
-> +*   edid
-> +*   efi-stub
-> +*   ext4
-> +*   nfs/index
-> +*   gpio/index
-> +*   highuid
-> +*   hw_random
-> +*   initrd
-> +*   iostats
-> +*   java
-> +*   jfs
-> +*   kernel-per-CPU-kthreads
-> +*   laptops/index
-> +*   lcd-panel-cgram
-> +*   ldm
-> +*   LSM/index
-> +*   md
-> +*   media/index
-> +*   module-signing
-> +*   mono
-> +*   namespaces/index
-> +*   numastat
-> +*   parport
-> +*   perf-security
-> +*   pm/index
-> +*   pnp
-> +*   rapidio
-> +*   ras
-> +*   rtc
-> +*   serial-console
-> +*   svga
-> +*   thunderbolt
-> +*   ufs
-> +*   vga-softcursor
-> +*   video-output
-> +*   xfs
->
->  .. only::  subproject and html
->
+>  * concepts
+>  * cma_debugfs
+> -* damon/index
+>  * hugetlbpage
+>  * idle_page_tracking
+>  * memory-hotplug
 > --
 > 2.27.0
 >
