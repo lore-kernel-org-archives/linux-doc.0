@@ -2,93 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBA0C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 17:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9461C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Feb 2022 17:50:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242447AbiBQRtW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 12:49:22 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48076 "EHLO
+        id S243883AbiBQRux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 12:50:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243869AbiBQRtV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 12:49:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1ED0B291FBF
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 09:49:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645120146;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rRIMKHhamSqp8VeNfr4XcAxWjxGDpns0iibC3SSvphI=;
-        b=PJYa7RdA+can1t4YJ6vtAabVz/kfTAhs9suhvZv0mKahHPWDirzDH0IfEtSOkRX/6SBHJG
-        ZpsimSG2PioXyoB0/CrWUkiXBqXnFR0tVT/wqFxDvSp2bmi2TJdu20mnCwgND7y1iJNoYf
-        VrbRVKNgV47bqyTtdLFXnIoIQGB3nnY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-5IeQkg5lP4OG24ZVkaLp-g-1; Thu, 17 Feb 2022 12:49:04 -0500
-X-MC-Unique: 5IeQkg5lP4OG24ZVkaLp-g-1
-Received: by mail-wm1-f69.google.com with SMTP id m3-20020a7bcb83000000b0034f75d92f27so1992177wmi.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Feb 2022 09:49:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=rRIMKHhamSqp8VeNfr4XcAxWjxGDpns0iibC3SSvphI=;
-        b=EVxKuFG1o5OC2qgXO1F8eMPdvp/tYrWD8p1v7Kp35zO7g4Eh2oEd9GMZ1vJnQ4TvpH
-         Odn90NuVINyLqpTWZMQRYUteIk4sw/v/WBohK6qeVVAV3bvgNPXf7QSBR7QNyr+qmenN
-         u+WKqZEG1pESN+TwEZ+D8/8RibWfU42QDruCVLX+wSiW64xRPcMpheD6FVIFQ54R3Rnh
-         Y9lzzeNZWy1KqSxxgyibmQtx4dBJqdo3PzU9CZLLfU+l5dEwIyLMUsLM7fCz0G2B7ke1
-         A8DzOQXqo38oprRujik/hrs5wN48WPrlCmaWAE6V9/ceimCUC/8wOGjJtXuISic5nbqF
-         9rbQ==
-X-Gm-Message-State: AOAM5326CcHNFTwnl66Rpzxq9rOTSKg/eJtcmN+eNG57RNnJfFc6yriw
-        fnBUME3+OdjHwtlhYTTfpBGZMyQGutOtVJghQbjObE74DFlqQ8f1RpGXHtVWeuPqe58PqT6YCXN
-        DcejXfA47o93u79b3HCLO
-X-Received: by 2002:a05:600c:35d1:b0:37c:d45c:af57 with SMTP id r17-20020a05600c35d100b0037cd45caf57mr7156015wmq.149.1645120143299;
-        Thu, 17 Feb 2022 09:49:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZ9zXHZ9F/mtgzKSHmwW5LPeJBNm3yMLCV+v3cbCHhyApAmjEFStihyj3q0BuKaMTUhMKzIw==
-X-Received: by 2002:a05:600c:35d1:b0:37c:d45c:af57 with SMTP id r17-20020a05600c35d100b0037cd45caf57mr7155996wmq.149.1645120143067;
-        Thu, 17 Feb 2022 09:49:03 -0800 (PST)
-Received: from ?IPV6:2001:b07:646c:22c6:db53:7a2b:ef3c:adb0? ([2001:b07:646c:22c6:db53:7a2b:ef3c:adb0])
-        by smtp.gmail.com with ESMTPSA id 14sm8654293wrb.34.2022.02.17.09.49.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 09:49:02 -0800 (PST)
-Message-ID: <6c6fc4fa-6464-2dbf-40da-e3c61f322d95@redhat.com>
-Date:   Thu, 17 Feb 2022 18:49:00 +0100
+        with ESMTP id S243882AbiBQRum (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 12:50:42 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44167291FBF;
+        Thu, 17 Feb 2022 09:50:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=tZJd3tUWhWrXachupZO/hQmGz5iMArfFv79ZqSbFeZg=; b=PXx/Y/rkGTPIlS8rx5n4plDFJh
+        6FvIy8xg53sE3BkpYnDgcUCjB9WHxxOWYIwO2oqrutIPV1r1nmsHf0vaJKo2gP5YOrUbyQX8YEnLE
+        05eJCaUsIo/vw5cvk71xlvcf/1t8hth3+ajFXuMdsyYoDZhKSwK27vlqGqW1Ca2iWEwZ5GeYZaiiD
+        gPSxwUFTYBRRSu7pxNQIDReIJpeeP8rk+UMJPzw+A96CPOplkrsF55b4P0K45UJlFcobBQuTkSD0D
+        bSUy537cIyRZrxYJGgn6VYCc5H8c2zMUxd3h6cK8EiYVxmbpUvDESMtdoxUQz4szjQsy0bqzxl5v7
+        xwEjal8g==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nKkvB-00Fods-2u; Thu, 17 Feb 2022 17:50:25 +0000
+Message-ID: <f30311b5-1b30-ed79-ca66-4359a8f9586b@infradead.org>
+Date:   Thu, 17 Feb 2022 09:50:21 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC V2 17/21] watchdog/dev: Add tracepoints
+ Thunderbird/91.6.1
+Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
 Content-Language: en-US
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        "Peter.Enderborg@sony.com" <Peter.Enderborg@sony.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-trace-devel@vger.kernel.org" 
-        <linux-trace-devel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-References: <cover.1644830251.git.bristot@kernel.org>
- <e67874c8b676ea8dfe38679efa25363889bb1e76.1644830251.git.bristot@kernel.org>
- <96f418b4-0ba8-01fe-ead0-2028bfc42560@sony.com>
- <ba924008-c0ab-4800-aac4-d9d9ae930c32@kernel.org>
- <ef1b1d99-6172-2b4d-9612-7ecbe8fc6c8b@roeck-us.net>
-From:   Gabriele Paoloni <gpaoloni@redhat.com>
-In-Reply-To: <ef1b1d99-6172-2b4d-9612-7ecbe8fc6c8b@roeck-us.net>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220205233945.7a4d22d8@fuji.fritz.box>
+ <8735ki2x62.fsf@meer.lwn.net> <20220217163247.03e37c9b@fuji.fritz.box>
+ <87bkz51l2g.fsf@meer.lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87bkz51l2g.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -97,55 +50,47 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 17/02/2022 18:27, Guenter Roeck wrote:
-> On 2/17/22 08:27, Daniel Bristot de Oliveira wrote:
->> Hi Peter
->>
->> On 2/16/22 17:01, Peter.Enderborg@sony.com wrote:
->>> On 2/14/22 11:45, Daniel Bristot de Oliveira wrote:
->>>> Add a set of tracepoints, enabling the observability of the watchdog
->>>> device interactions with user-space.
->>>>
->>>> The events are:
->>>>     watchdog:watchdog_open
->>>>     watchdog:watchdog_close
->>>>     watchdog:watchdog_start
->>>>     watchdog:watchdog_stop
->>>>     watchdog:watchdog_set_timeout
->>>>     watchdog:watchdog_ping
->>>>     watchdog:watchdog_nowayout
->>>>     watchdog:watchdog_set_keep_alive
->>>>     watchdog:watchdog_keep_alive
->>>
->>> Some watchdogs have a bark functionality, I think it should be event
->>> for that too.
->>>
->>
->> I understand. The problems is that I do not see the bark abstraction
->> in the
->> watchdog_dev layer.
->>
+On 2/17/22 09:04, Jonathan Corbet wrote:
+> Tomasz Warniełło <tomasz.warniello@gmail.com> writes:
 > 
-> I don't even know what "bark functionality" means. A new term for
-> pretimeout ?
-> Something else ?
-
-From my understanding the bark timeout is actually the pretimeout
-whereas the bite timeout is the actual timeout.
-I think in the Kernel ftwdt010_wdt and qcom-wdt are bark/bite WTDs
-
-Gab
-
-
+>> I will prepare the POD part. As for the rest, you will need a porter if you
+>> decide this is the way to go. I could help with explanations if something is
+>> unclear and as long as the questions come soon. The winter is almost over and
+>> I need to switch to other activities like earning money.
 > 
-> Guenter
+> Understood.
 > 
->> In the case I am investigating (the safety_monitor/safety_app) the
->> bark is
->> outside of the "OS" view, it is an hardware action - like. shutdown.
+>> I understand. I didn't know there was a rewrite. I'm not into Python, but
+>> if you could post a link, I'd take a look out of curiosity.
 >>
->> Am I missing something? Thoughts?
->>
->> -- Daniel
+>> If the community prefers Python, what can I say about this? Their choice.
 > 
+> This is the kernel community you're talking about - saying that it
+> prefers any language (except possibly C) is asking for big-time trouble
+> :)
+> 
+> *I* prefer Python, and the Sphinx side of things is necessarily in
+> Python, so I'd be happy to see kernel-doc move over.  That said, others
+> certainly disagree.
+> 
+> Markus's work was here:
+> 
+>   https://lore.kernel.org/lkml/1485287564-24205-1-git-send-email-markus.heiser@darmarit.de/
 
+I can barely modify Python script, but I think that this would be a good move overall.
+Then I could learn more Python.
+
+> At the time, we were just trying to get the RST transition done, and
+> swapping out the kernel-doc script seemed like a major distraction that
+> we didn't need, so this never got looked at as seriously as I would have
+> liked.
+> 
+>> Personally, I'd rather play with translating this script to Raku (aka
+>> Perl 6).
+> 
+> Trying to add yet another language dependency is another path to
+> unhappiness, we're not going to go there.
+
+
+-- 
+~Randy
