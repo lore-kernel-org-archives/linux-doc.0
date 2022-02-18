@@ -2,267 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 511EBC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 16:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A93BEC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 17:50:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232732AbiBRQBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 11:01:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41216 "EHLO
+        id S236649AbiBRRu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 12:50:58 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237411AbiBRP7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 10:59:30 -0500
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910412B5209;
-        Fri, 18 Feb 2022 07:59:07 -0800 (PST)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IFqqNH014987;
-        Fri, 18 Feb 2022 15:58:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=Ywiq9wjQNR8Tn833pUzniiGhN552HVsVGiXd8WWQTSE=;
- b=tEo/tGYI0US7R/wqaheNlwy5n5uW1D/U01OjnSQj8i4ErwApdy27vllOCxX6QGP2nDTb
- mt+v5EmidxDQEI+rNBeOAoW4hb8oc/joI06UdcexEXfV15ZzUtkH1p7zFq+UWvO3RU1c
- nZm7CCtkKpvqSfzRGXofXN7/VRUjLNtAlhEd70MEK5kJ8y1fShuZ5pl59odZS67BOElx
- H2rgBVw0zZ6dRz2Aslpu4wiK6OAhHrOJ6Y+Rdax89jrgAYsB8+4h2mKTtdljcHmlmlne
- nhI53Tiup1HsRuF1qJRrcuC4W7x9E0zQ87NL0yZYP6SCAYAjFFkkmM8JX2OEC0hJeJSp YQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3e8n3fh6wk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Feb 2022 15:58:20 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21IFuYJ2128831;
-        Fri, 18 Feb 2022 15:58:08 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
-        by userp3020.oracle.com with ESMTP id 3e8n4xqcwx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 18 Feb 2022 15:58:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=US4h8tnhDxtCog6Sh1uKfJchk1Vh0QRUJ0Cc5J4Os9MRuzDLF1Lc6I1JhjasjyLc7kdfeQcCiAGiX4vu1sXjHKGzuaknTuLK/6rKRlYuUupfQaGMJ7tsWLoeGz7P39C6zRQ8SqbAvtO3o1fEWbe+LHcYhPccBV19OO+ZkYKbA6sJXNjU5N6iZowqOt6QLA3eFrq08eSZeHpMYKvDlqvcBWYmoKh5PnL7xU8695T1gdgdCJjZZKjTKXxrbXg2R436w4PnIN0wTi1IkCl1xOS9qfxMKwHc+AGoG9i/mGmpwks7xf8xEd6to/Vdj9vchlSAER7UUGSn2gB27ThGG7laoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ywiq9wjQNR8Tn833pUzniiGhN552HVsVGiXd8WWQTSE=;
- b=jdUjVKvoSflnQGtcHUn2Uy+EqGiU/CbcjHVmyIcaisXkIxPA9r2Yh3bNV6FVE1oybOC1+nO2qBxEDYACutw9HE+OYCQez3cznQi8mfGecNK28GkPv+iAjjI0CTmj98adO5+Di66ODfCeF6no2HANJ2HG6Oiz167yMEKzkgx/lkfM4jg4F89g95M4ISPwhUaSxpS58xYL77Rhde3ZSFjIyI09RcjsvngeMPLVBDw1unevwMqDJoP/QdYspmQYlRDwfMvxyTRHSGmGZvPqhgJcCBq8Eg5MqcdVioZr28+xR8p/TJUC6B6Pd/qasHzh6EWfL7PlcWxAh6dd4W354w9MOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ywiq9wjQNR8Tn833pUzniiGhN552HVsVGiXd8WWQTSE=;
- b=Uwp3TSLc3Emk/pC1XmhbJrXeOZIbRqcCZiDwizJrC6FO/tpj2ZJ9CLNBP6zc1Z6VrBH0h+QZ/7InbQqTMepkp3w2jk05/CnQvQKn5zkRPS4WJ6aoNu+irRFtIn0RJXuqcbW9ceEVfMOiwZdYhmAV6eqXYn6Z3kv++UWP9a2+s3c=
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com (2603:10b6:a03:1f6::14)
- by DS7PR10MB5312.namprd10.prod.outlook.com (2603:10b6:5:3a9::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Fri, 18 Feb
- 2022 15:58:06 +0000
-Received: from BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::398e:10a4:6887:4e18]) by BY5PR10MB3793.namprd10.prod.outlook.com
- ([fe80::398e:10a4:6887:4e18%5]) with mapi id 15.20.4995.022; Fri, 18 Feb 2022
- 15:58:06 +0000
-From:   Ross Philipson <ross.philipson@oracle.com>
-To:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org
-Cc:     iommu@lists.linux-foundation.org, ross.philipson@oracle.com,
-        dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        nivedita@alum.mit.edu, kanth.ghatraju@oracle.com,
-        trenchboot-devel@googlegroups.com
-Subject: [PATCH v5 01/12] x86/boot: Place kernel_info at a fixed offset
-Date:   Wed, 16 Feb 2022 22:54:34 -0500
-Message-Id: <1645070085-14255-2-git-send-email-ross.philipson@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
-References: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0288.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::23) To BY5PR10MB3793.namprd10.prod.outlook.com
- (2603:10b6:a03:1f6::14)
+        with ESMTP id S238848AbiBRRuy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 12:50:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 93BDB673FB
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:50:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645206636;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RpV1EzK6NqZpSqOlfHeXkxYDh18aJpJ+bK/njkfrFHk=;
+        b=eHZ03RQK7V4Jb8KMGlOxB0cqIQHRk8tbvta4iLWqzzHKC3E1QMnJfbNaFmHtld6HdE4g0e
+        WKYeb0sPH87S7madNSFdETQEFe/HF8dq2DCTOQ6nWPsee+J32zObx+V3Sy+/5KwOBmlwwf
+        cEPPXSETJsYlJRfN6W6Ns6ocpG1tixM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-457-6bb0OhiJNpO7CRVX20eOew-1; Fri, 18 Feb 2022 12:50:35 -0500
+X-MC-Unique: 6bb0OhiJNpO7CRVX20eOew-1
+Received: by mail-ej1-f69.google.com with SMTP id q3-20020a17090676c300b006a9453c33b0so3354889ejn.13
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:50:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RpV1EzK6NqZpSqOlfHeXkxYDh18aJpJ+bK/njkfrFHk=;
+        b=k/Sa3kiHs9ntOtffoaMSI+3eNKecQrZjkxbRmbGejNhGswRxdDIEKSdLQGJSJjkqGA
+         swViPag0reichbb65V8u7cWW6rH2g6Y4I45t3Nfu5g/+jfsDaeLWKO3X2CLYT4jME9P4
+         N3B50Nifpcr4koLnP/Wd1Ek/SIQD/TYB9Q2HCdOmMgHhKPb5kcPHcGRprVkasI3tSfXL
+         4Gt450oF5wK94/masXYSs4mFjyRM/TuszMSilIzFF8YUE3IcWyePuzpscmRO/ok2V9P4
+         9yrvljYve6bAQgLXEEEyWNqmLptiiKLVwW5Om49OYGeXLNovnrOcEAxbKFfB9Y0To+Wy
+         n1YQ==
+X-Gm-Message-State: AOAM531QAXw+z5GHdmYSKGQtD8j7VcgXKeUbIb9+5jGuTe1MRjgPLvNU
+        9bLqYw3SpcTTpxE9XqXOv+wESg0tvTWj83OYyYX4Lud54uTXjMx2OKJfztYoPlAjxc/N8hahAhh
+        JZ1ot7r1ZZ5vF4bDSZxay
+X-Received: by 2002:a17:906:5950:b0:6b3:65b7:82d3 with SMTP id g16-20020a170906595000b006b365b782d3mr7215931ejr.636.1645206634023;
+        Fri, 18 Feb 2022 09:50:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy6RMdtjL4BLpokb/4tKxAFqUkA7AJv9sCqaPSgk80oPrQoeYK4UBKFOr3qebiRXk58M/SwgQ==
+X-Received: by 2002:a17:906:5950:b0:6b3:65b7:82d3 with SMTP id g16-20020a170906595000b006b365b782d3mr7215903ejr.636.1645206633628;
+        Fri, 18 Feb 2022 09:50:33 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id jz17sm2449998ejb.195.2022.02.18.09.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 09:50:32 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 5982F13023E; Fri, 18 Feb 2022 18:50:31 +0100 (CET)
+From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>
+Cc:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH bpf-next v8 2/5] Documentation/bpf: Add documentation for BPF_PROG_RUN
+Date:   Fri, 18 Feb 2022 18:50:26 +0100
+Message-Id: <20220218175029.330224-3-toke@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220218175029.330224-1-toke@redhat.com>
+References: <20220218175029.330224-1-toke@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 32985ca0-aa08-4445-61c5-08d9f2f77385
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5312:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR10MB53127D6EC42CC211F490C922E6379@DS7PR10MB5312.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R8nwkEmy7sE+fCRe5nKKeEckI/g7onwxPhES+KHCLFDjJmOTn4MMExy/2gJi2qdSZHKACDh/mX8HmkhshVmH5l4CIOf1/xg+v57Kp7JM/XnMFOTSuWKvL0O84DZYlVBj7LsEQ7uT5d2AfI95ni8IRYE1v4x3Zuz3zSejLZteCmn8A6A+t29a4arikSkNzBm5JvbE3CRhDqI7/SEyXtTLpk7HIuljqQCyZCH7dYMh4aZXryIU/oXMlyVo0iSOwG+6PIDl0ocRvI2KtR+1+sfVxztwS3LBGFybcAREA3FoXPwLRzNiZb7Zf/gTxjNO+nPKHCdWIHpet8Ye83CfM3Lvll/h9ttMT6paQarT1yYKSbODB2R0VI2XiP5YAZGWLzv6211B0sQfggg9MpWkqq2/BRcfj4BjWRnJjRwjK/y6ms2QwxRXDYc6lfE2GIASnV0Dx+XhSwhuiHxcoPDk7+z2/9HRqLGbmAOyim1EurjbSN2tSaS1f1fzyJonBpISGKZhTaYOVJbxYc5pXESxuqHmEkFTK5Ujtb/XA++slKD+3PbVLpewGSGIqQqkIPV7FVugJQ06m2qbZy0Nk1FqGYU240VXc2NauqV/jxe+0bR8xas63DncHXtEDvMt8SOtjYvrX/bA7U8TjFxS9uEkM1iwUcGYOcfM+GjJfFyZMAXEe5ShtTI/pYmbV3MKbvO7dcceUf/lfUmxU0BDcyOj2+csyQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB3793.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(44832011)(26005)(186003)(8676002)(4326008)(38350700002)(38100700002)(66476007)(66946007)(66556008)(508600001)(2616005)(6486002)(316002)(7416002)(36756003)(6666004)(5660300002)(8936002)(83380400001)(2906002)(6512007)(6506007)(52116002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wjFYc38vnzsQoaOBVdBJdFYDL5Kz+WFMb2pwNc5TAITYwYoiyBQ19tdlTJmy?=
- =?us-ascii?Q?1sEbS+FWXJWVhthjJu5eKJIKD41MKiyPaOBiuSi9GZPSZabd1ALQ6ZDErKH5?=
- =?us-ascii?Q?jFToSKQIrg780x4rSSe1b9ZuL7MNh4CqZGiwluGsC1PAEzjjVbJ9R1DmK+io?=
- =?us-ascii?Q?O8wAciO9KDzldwPrhA1GbsFCr16KdF+3gtRHrqm+gzp2qXiCqaR1twjLuXMg?=
- =?us-ascii?Q?+WB35DxpkMLQ3s89bZMUjf1sju8RlpXPQk+nFkIr44E74qwPx1NFFRgkBZIk?=
- =?us-ascii?Q?OW/BvgfXiBgi7vISybE4vGTcK22XKgXliqb2fexiuZUbrbB3xWU/hUpBoj8U?=
- =?us-ascii?Q?UX5p2e+dpfG87rw8Cd0whEEwQml7Ynps+6oPPkUJ5IE5Mn5WIbqMU8pEwlfj?=
- =?us-ascii?Q?Hn/LaKvQjEolnt+zpwB8p2ux1qaM+zIr72ixw0LEn1ivl1JeQcL12pfmroU7?=
- =?us-ascii?Q?SKQlb7NJ+Hc9MK+FTbM3BEA4HrqUiA4D4Npqh/FaKb++FJ3AT+XSSmgqQbI5?=
- =?us-ascii?Q?sTZQYMnB3gO5BLyKOCO6TMJYFEJElW1ZnNL9Wi4WiuSLtHyjZfZYadU9f8De?=
- =?us-ascii?Q?VZ54oBm3RoMJmInZ4F8c8mka+ZznGUXLjVH5a44GXZdnhjYXJ46WEahShHjc?=
- =?us-ascii?Q?7O6oiqPYu1TotT8ZciOOYyS7ivzeIBHVCQLDI3Xj9xMeFYGPuguGuZQYTkph?=
- =?us-ascii?Q?HlkIrvvs6sEi4/d+m6UgplDrNg8q41dJh81EML19AiDgxCUoAdSMUnFrSSSQ?=
- =?us-ascii?Q?Tf6ZhESPHgvF5/K45+I2P3wo04XF5PezLejV1As8JwjiktazmcvBQc1U7jpm?=
- =?us-ascii?Q?Lgev2t1FIUy5epp9bt+x+y61tNNmwDZhJueh5zFE5GvA1uuwkk1uAwuzcBVF?=
- =?us-ascii?Q?zEK24zFt9SoORPYDbMWXVesgpd2VCHGhOxi8426bWFrGOqQpXFzkYleoKvZ8?=
- =?us-ascii?Q?G00Fwof1DGurGT5ZemvfqPy5SDBurVEZQcevcpGL5h4fwMyfX/5vH9nBGRET?=
- =?us-ascii?Q?a35RQlxiGI/Gc6rzcFB8FZ5qJqwpCRrITYEydOEKnKFuhjY+F5E10SWqSAbn?=
- =?us-ascii?Q?/173hlm6nM06howE416aQxQxhLBolaOdpQ/jXQ9+m+ROeDPawIrnG0VSUY19?=
- =?us-ascii?Q?jy8Ofz5QK4rFt3kuH0Wagnsicu6ps2XO7dFYJz3RCmUSWs+m/nmlIAuA5ZQw?=
- =?us-ascii?Q?N4oMn4Ksf0zOF05jLFKxQ/HeiaBS1trXd3WSPVBe4OgIDMUHdKW8Hh1KeBvG?=
- =?us-ascii?Q?xWUQya0E2GKm8ldlOIaJh7d8JcYrHMFlAj4xr8QhL5mGI6pRP7cbq0n58HUP?=
- =?us-ascii?Q?eI0bsZwvXvtVxs5BUz5F+Lib2Erk0eaKKPjmnu+00vnfBFqZgPApWfIZhI5y?=
- =?us-ascii?Q?I5m2fMeyTSrqsZAEtBGJy8/HVxyK9u51AVSsf37xuJGKEBo4DxUnHCfvnVji?=
- =?us-ascii?Q?E/wov6DKw44AT1Wk7L/NfhvttB5nwdmlokquARaP/upwkzp6ocjlhgcvEEkj?=
- =?us-ascii?Q?S3SWADhbKtFUuLAJRzisiDX/tw98q0KxhzFBBjiroBIp4KEwdb/2OhE0QHrs?=
- =?us-ascii?Q?Zkr22lArrmXFLtRRQdwLcavPI2GKn8vV0vLkQFqu+QZPFrruDbaVHD3Tz9+5?=
- =?us-ascii?Q?J0rhZnXtTEWD30LZSd9eEnp+NRR4oRgrgtE1dwge07Cs61u3lsPS/Pvfi9Z7?=
- =?us-ascii?Q?oosUew=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32985ca0-aa08-4445-61c5-08d9f2f77385
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3793.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 15:58:06.0632
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SUwVtTg75kFfihV0rW9Bos2+rnT+nj5xUnPOehtMSGC1d//Zf0e5dTL/slLE+kpfeLQvFqkvVx70PQufimNtKqAYyWKecS50dlwPIkarucA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5312
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261 signatures=677564
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202180103
-X-Proofpoint-GUID: aKR9YWRguXanlm0_fUxFf0JwjTqU8bky
-X-Proofpoint-ORIG-GUID: aKR9YWRguXanlm0_fUxFf0JwjTqU8bky
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Arvind Sankar <nivedita@alum.mit.edu>
+This adds documentation for the BPF_PROG_RUN command; a short overview of
+the command itself, and a more verbose description of the "live packet"
+mode for XDP introduced in the previous commit.
 
-There are use cases for storing the offset of a symbol in kernel_info.
-For example, the trenchboot series [0] needs to store the offset of the
-Measured Launch Environment header in kernel_info.
-
-Since commit (note: commit ID from tip/master)
-
-commit 527afc212231 ("x86/boot: Check that there are no run-time relocations")
-
-run-time relocations are not allowed in the compressed kernel, so simply
-using the symbol in kernel_info, as
-
-	.long	symbol
-
-will cause a linker error because this is not position-independent.
-
-With kernel_info being a separate object file and in a different section
-from startup_32, there is no way to calculate the offset of a symbol
-from the start of the image in a position-independent way.
-
-To enable such use cases, put kernel_info into its own section which is
-placed at a predetermined offset (KERNEL_INFO_OFFSET) via the linker
-script. This will allow calculating the symbol offset in a
-position-independent way, by adding the offset from the start of
-kernel_info to KERNEL_INFO_OFFSET.
-
-Ensure that kernel_info is aligned, and use the SYM_DATA.* macros
-instead of bare labels. This stores the size of the kernel_info
-structure in the ELF symbol table.
-
-Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
-Cc: Ross Philipson <ross.philipson@oracle.com>
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
 ---
- arch/x86/boot/compressed/kernel_info.S | 19 +++++++++++++++----
- arch/x86/boot/compressed/kernel_info.h | 12 ++++++++++++
- arch/x86/boot/compressed/vmlinux.lds.S |  6 ++++++
- 3 files changed, 33 insertions(+), 4 deletions(-)
- create mode 100644 arch/x86/boot/compressed/kernel_info.h
+ Documentation/bpf/bpf_prog_run.rst | 120 +++++++++++++++++++++++++++++
+ Documentation/bpf/index.rst        |   1 +
+ 2 files changed, 121 insertions(+)
+ create mode 100644 Documentation/bpf/bpf_prog_run.rst
 
-diff --git a/arch/x86/boot/compressed/kernel_info.S b/arch/x86/boot/compressed/kernel_info.S
-index f818ee8..c18f071 100644
---- a/arch/x86/boot/compressed/kernel_info.S
-+++ b/arch/x86/boot/compressed/kernel_info.S
-@@ -1,12 +1,23 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
-+#include <linux/linkage.h>
- #include <asm/bootparam.h>
-+#include "kernel_info.h"
- 
--	.section ".rodata.kernel_info", "a"
-+/*
-+ * If a field needs to hold the offset of a symbol from the start
-+ * of the image, use the macro below, eg
-+ *	.long	rva(symbol)
-+ * This will avoid creating run-time relocations, which are not
-+ * allowed in the compressed kernel.
-+ */
-+
-+#define rva(X) (((X) - kernel_info) + KERNEL_INFO_OFFSET)
- 
--	.global kernel_info
-+	.section ".rodata.kernel_info", "a"
- 
--kernel_info:
-+	.balign	16
-+SYM_DATA_START(kernel_info)
- 	/* Header, Linux top (structure). */
- 	.ascii	"LToP"
- 	/* Size. */
-@@ -19,4 +30,4 @@ kernel_info:
- 
- kernel_info_var_len_data:
- 	/* Empty for time being... */
--kernel_info_end:
-+SYM_DATA_END_LABEL(kernel_info, SYM_L_LOCAL, kernel_info_end)
-diff --git a/arch/x86/boot/compressed/kernel_info.h b/arch/x86/boot/compressed/kernel_info.h
+diff --git a/Documentation/bpf/bpf_prog_run.rst b/Documentation/bpf/bpf_prog_run.rst
 new file mode 100644
-index 00000000..c127f84
+index 000000000000..c561677081de
 --- /dev/null
-+++ b/arch/x86/boot/compressed/kernel_info.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/Documentation/bpf/bpf_prog_run.rst
+@@ -0,0 +1,120 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#ifndef BOOT_COMPRESSED_KERNEL_INFO_H
-+#define BOOT_COMPRESSED_KERNEL_INFO_H
++===================================
++Running BPF programs from userspace
++===================================
 +
-+#ifdef CONFIG_X86_64
-+#define KERNEL_INFO_OFFSET 0x500
-+#else /* 32-bit */
-+#define KERNEL_INFO_OFFSET 0x100
-+#endif
++This document describes the ``BPF_PROG_RUN`` facility for running BPF programs
++from userspace.
 +
-+#endif /* BOOT_COMPRESSED_KERNEL_INFO_H */
-diff --git a/arch/x86/boot/compressed/vmlinux.lds.S b/arch/x86/boot/compressed/vmlinux.lds.S
-index 112b237..84c7b4d 100644
---- a/arch/x86/boot/compressed/vmlinux.lds.S
-+++ b/arch/x86/boot/compressed/vmlinux.lds.S
-@@ -7,6 +7,7 @@ OUTPUT_FORMAT(CONFIG_OUTPUT_FORMAT)
- 
- #include <asm/cache.h>
- #include <asm/page_types.h>
-+#include "kernel_info.h"
- 
- #ifdef CONFIG_X86_64
- OUTPUT_ARCH(i386:x86-64)
-@@ -27,6 +28,11 @@ SECTIONS
- 		HEAD_TEXT
- 		_ehead = . ;
- 	}
-+	.rodata.kernel_info KERNEL_INFO_OFFSET : {
-+		*(.rodata.kernel_info)
-+	}
-+	ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
++.. contents::
++    :local:
++    :depth: 2
 +
- 	.rodata..compressed : {
- 		*(.rodata..compressed)
- 	}
++
++Overview
++--------
++
++The ``BPF_PROG_RUN`` command can be used through the ``bpf()`` syscall to
++execute a BPF program in the kernel and return the results to userspace. This
++can be used to unit test BPF programs against user-supplied context objects, and
++as way to explicitly execute programs in the kernel for their side effects. The
++command was previously named ``BPF_PROG_TEST_RUN``, and both constants continue
++to be defined in the UAPI header, aliased to the same value.
++
++The ``BPF_PROG_RUN`` command can be used to execute BPF programs of the
++following types:
++
++- ``BPF_PROG_TYPE_SOCKET_FILTER``
++- ``BPF_PROG_TYPE_SCHED_CLS``
++- ``BPF_PROG_TYPE_SCHED_ACT``
++- ``BPF_PROG_TYPE_XDP``
++- ``BPF_PROG_TYPE_SK_LOOKUP``
++- ``BPF_PROG_TYPE_CGROUP_SKB``
++- ``BPF_PROG_TYPE_LWT_IN``
++- ``BPF_PROG_TYPE_LWT_OUT``
++- ``BPF_PROG_TYPE_LWT_XMIT``
++- ``BPF_PROG_TYPE_LWT_SEG6LOCAL``
++- ``BPF_PROG_TYPE_FLOW_DISSECTOR``
++- ``BPF_PROG_TYPE_STRUCT_OPS``
++- ``BPF_PROG_TYPE_RAW_TRACEPOINT``
++- ``BPF_PROG_TYPE_SYSCALL``
++
++When using the ``BPF_PROG_RUN`` command, userspace supplies an input context
++object and (for program types operating on network packets) a buffer containing
++the packet data that the BPF program will operate on. The kernel will then
++execute the program and return the results to userspace. Note that programs will
++not have any side effects while being run in this mode; in particular, packets
++will not actually be redirected or dropped, the program return code will just be
++returned to userspace. A separate mode for live execution of XDP programs is
++provided, documented separately below.
++
++Running XDP programs in "live frame mode"
++-----------------------------------------
++
++The ``BPF_PROG_RUN`` command has a separate mode for running live XDP programs,
++which can be used to execute XDP programs in a way where packets will actually
++be processed by the kernel after the execution of the XDP program as if they
++arrived on a physical interface. This mode is activated by setting the
++``BPF_F_TEST_XDP_LIVE_FRAMES`` flag when supplying an XDP program to
++``BPF_PROG_RUN``. Earlier versions of the kernel did not reject invalid flags
++supplied to ``BPF_PROG_RUN`` for XDP programs. For this reason, another new
++flag, ``BPF_F_TEST_XDP_RESERVED`` is defined, which will simply be rejected if
++set. Userspace can use this for feature probing: if the reserved flag is
++rejected, live frame mode is supported by the running kernel.
++
++The live packet mode is optimised for high performance execution of the supplied
++XDP program many times (suitable for, e.g., running as a traffic generator),
++which means the semantics are not quite as straight-forward as the regular test
++run mode. Specifically:
++
++- When executing an XDP program in live frame mode, the result of the execution
++  will not be returned to userspace; instead, the kernel will perform the
++  operation indicated by the program's return code (drop the packet, redirect
++  it, etc). For this reason, setting the ``data_out`` or ``ctx_out`` attributes
++  in the syscall parameters when running in this mode will be rejected. In
++  addition, not all failures will be reported back to userspace directly;
++  specifically, only fatal errors in setup or during execution (like memory
++  allocation errors) will halt execution and return an error. If an error occurs
++  in packet processing, like a failure to redirect to a given interface,
++  execution will continue with the next repetition; these errors can be detected
++  via the same trace points as for regular XDP programs.
++
++- Userspace can supply an ifindex as part of the context object, just like in
++  the regular (non-live) mode. The XDP program will be executed as though the
++  packet arrived on this interface; i.e., the ``ingress_ifindex`` of the context
++  object will point to that interface. Furthermore, if the XDP program returns
++  ``XDP_PASS``, the packet will be injected into the kernel networking stack as
++  though it arrived on that ifindex, and if it returns ``XDP_TX``, the packet
++  will be transmitted *out* of that same interface. Do note, though, that
++  because the program execution is not happening in driver context, an
++  ``XDP_TX`` is actually turned into the same action as an ``XDP_REDIRECT`` to
++  that same interface (i.e., it will only work if the driver has support for the
++  ``ndo_xdp_xmit`` driver op).
++
++- When running the program with multiple repetitions, the execution will happen
++  in batches, where the program is executed multiple times in a loop, the result
++  is saved, and other actions (like redirecting the packet or passing it to the
++  networking stack) will happen for the whole batch after the execution. This is
++  similar to how execution happens in driver-mode XDP for each hardware NAPI
++  cycle. The batch size defaults to 64 packets (which is same as the NAPI batch
++  size), but the batch size can be specified by userspace through the
++  ``batch_size`` parameter, up to a maximum of 256 packets.
++
++- When setting up the test run, the kernel will initialise a pool of memory
++  pages of the same size as the batch size. Each memory page will be initialised
++  with the initial packet data supplied by userspace at ``BPF_PROG_RUN``
++  invocation. When possible, the pages will be recycled on future program
++  invocations, to improve performance. Pages will generally be recycled a full
++  batch at a time, except when a packet is dropped (by return code or because
++  of, say, a redirection error), in which case that page will be recycled
++  immediately. If a packet ends up being passed to the regular networking stack
++  (because the XDP program returns ``XDP_PASS``, or because it ends up being
++  redirected to an interface that injects it into the stack), the page will be
++  released and a new one will be allocated when the pool is empty.
++
++  When recycling, the page content is not rewritten; only the packet boundary
++  pointers (``data``, ``data_end`` and ``data_meta``) in the context object will
++  be reset to the original values. This means that if a program rewrites the
++  packet contents, it has to be prepared to see either the original content or
++  the modified version on subsequent invocations.
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index ef5c996547ec..96056a7447c7 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -21,6 +21,7 @@ that goes into great technical depth about the BPF Architecture.
+    helpers
+    programs
+    maps
++   bpf_prog_run
+    classic_vs_extended.rst
+    bpf_licensing
+    test_debug
 -- 
-1.8.3.1
+2.35.1
 
