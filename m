@@ -2,221 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A81BDC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 10:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B12FAC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 11:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232300AbiBRKqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 05:46:23 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35314 "EHLO
+        id S234389AbiBRLJx convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 06:09:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229993AbiBRKqX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 05:46:23 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7E625AE75
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:46:02 -0800 (PST)
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S234375AbiBRLJw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 06:09:52 -0500
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B11672B4056
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 03:09:36 -0800 (PST)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-nd3EsSwbMXCqZ4U4EXKMfA-1; Fri, 18 Feb 2022 06:09:29 -0500
+X-MC-Unique: nd3EsSwbMXCqZ4U4EXKMfA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0812340295
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 10:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1645181161;
-        bh=dGDRz61XRlmN2nrsI5bz0i1S0S+h5+fQGdDwmq0wB0k=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=MnbNQWNh+6BAFqW+C5yFNyicCYDsfb5+yQkBPy7f71UP7MdOe9u98mPWLGpiE+EL+
-         OM1vCK/emaL0YnhpZc2+qMjLhPnsmQqLTlcWFgvIREc3YIAB7stlnReXVqtwPcOUQo
-         SHzGh/gTGa0pQG0gHqXeo9xrYtZbMs5VSAermk5Z21E4cYbxx/2dWJyicbsCjsNqVL
-         BE+WRX5+l98dNZKJkhUCRFtX55pftj+asCzE8Dhrty5ffv5YUttQKAT21OCnboje9s
-         w2TTsDG3BTP2cmuJvIfPaxnELugJGUzDRRyOXMMLvzy1qMt2rFSKehocqthG9Be8ex
-         gfz93VQl7g+1A==
-Received: by mail-ed1-f71.google.com with SMTP id j10-20020a05640211ca00b004090fd8a936so5272215edw.23
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:46:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dGDRz61XRlmN2nrsI5bz0i1S0S+h5+fQGdDwmq0wB0k=;
-        b=h7NnpldEsBVArbWXRqdi3qEKaaXy6ORFvxEsyEfvUfh9x3SiQSRLgdbwP6XHz8l4wj
-         b69mNVfK2kbySdjcdx7EdkM39WuuqV4i7hmTwPzMcnyneum6FsHRiDx2HK/I250LY+By
-         5XHSZ2PauqG4NnxlH1BmHFORO44q59aJfRpglRytXiVvJSPAOtfQDX/ApXc0aYJt/1w7
-         xpFbnp+9dytEnwKnoiFpLnNQx2Kk3Wzg8OZ8BgwTbNGbo+Vat1vXn+bMi7I6dJi6bXSN
-         qp0ZTcV/QqqVaUMt+t8A6MrxO+UxjDP1ZoEl1NGxBY2YMQ7XzU1EFkTMo+ScmKWhPqW7
-         Q/gg==
-X-Gm-Message-State: AOAM531VZQzT2WyLUoaGLSyMCVczCn+zH8mHSeJ8XWZtEsVGnbBlQaeo
-        QVzajGdDsBKmHwtlj5VQ8ayk+/Wjg133eDKYpLLA3vqhNTG1k5h5qB7rFij6B/w83eYsc8rS6lk
-        sxFJmYRWa3cZmrEGz7LE7wJDqivqPZRR7hrAz44rIurvKQWHloEcoRQ==
-X-Received: by 2002:aa7:d3d9:0:b0:410:7a81:c0cf with SMTP id o25-20020aa7d3d9000000b004107a81c0cfmr7414122edr.177.1645181160598;
-        Fri, 18 Feb 2022 02:46:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQ+NAme7XzeWAZqBbGMYs1sQLjBbN9OgKux5J4SQWKa0WWJPX7Ydz76FgBA28E+tI3LAqAq09x/bebpkHqaFo=
-X-Received: by 2002:aa7:d3d9:0:b0:410:7a81:c0cf with SMTP id
- o25-20020aa7d3d9000000b004107a81c0cfmr7414090edr.177.1645181160350; Fri, 18
- Feb 2022 02:46:00 -0800 (PST)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C042F47;
+        Fri, 18 Feb 2022 11:09:28 +0000 (UTC)
+Received: from x1.com (unknown [10.22.32.12])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6ABB22B4B5;
+        Fri, 18 Feb 2022 11:09:26 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] Some rtla features
+Date:   Fri, 18 Feb 2022 12:09:12 +0100
+Message-Id: <cover.1645182327.git.bristot@kernel.org>
 MIME-Version: 1.0
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9>
- <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com> <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
-In-Reply-To: <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Fri, 18 Feb 2022 11:45:49 +0100
-Message-ID: <CA+zEjCt04OV++qK5ar+p8HwqOfEgkSN8YFfxwRiCFw1FeJv2rg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
-        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
-        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        keescook@chromium.org, guoren@linux.alibaba.com,
-        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Palmer,
+This set introduces some tracing facilities to rtla tools.
 
-On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
-<alexandre.ghiti@canonical.com> wrote:
->
-> On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
-> <alexandre.ghiti@canonical.com> wrote:
-> >
-> > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> > >
-> > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
-> > > > * Please note notable changes in memory layouts and kasan population *
-> > > >
-> > > > This patchset allows to have a single kernel for sv39 and sv48 without
-> > > > being relocatable.
-> > > >
-> > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
-> > > > that is mapping the kernel to the end of the address space, which allows
-> > > > the kernel to be linked at the same address for both sv39 and sv48 and
-> > > > then does not require to be relocated at runtime.
-> > > >
-> > > > This implements sv48 support at runtime. The kernel will try to
-> > > > boot with 4-level page table and will fallback to 3-level if the HW does not
-> > > > support it. Folding the 4th level into a 3-level page table has almost no
-> > > > cost at runtime.
-> > > >
-> > > > Note that kasan region had to be moved to the end of the address space
-> > > > since its location must be known at compile-time and then be valid for
-> > > > both sv39 and sv48 (and sv57 that is coming).
-> > > >
-> > > > Tested on:
-> > > >   - qemu rv64 sv39: OK
-> > > >   - qemu rv64 sv48: OK
-> > > >   - qemu rv64 sv39 + kasan: OK
-> > > >   - qemu rv64 sv48 + kasan: OK
-> > > >   - qemu rv32: OK
-> > > >
-> > > > Changes in v3:
-> > > >   - Fix SZ_1T, thanks to Atish
-> > > >   - Fix warning create_pud_mapping, thanks to Atish
-> > > >   - Fix k210 nommu build, thanks to Atish
-> > > >   - Fix wrong rebase as noted by Samuel
-> > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
-> > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
-> > > >
-> > > > Changes in v2:
-> > > >   - Rebase onto for-next
-> > > >   - Fix KASAN
-> > > >   - Fix stack canary
-> > > >   - Get completely rid of MAXPHYSMEM configs
-> > > >   - Add documentation
-> > > >
-> > > > Alexandre Ghiti (13):
-> > > >   riscv: Move KASAN mapping next to the kernel mapping
-> > > >   riscv: Split early kasan mapping to prepare sv48 introduction
-> > > >   riscv: Introduce functions to switch pt_ops
-> > > >   riscv: Allow to dynamically define VA_BITS
-> > > >   riscv: Get rid of MAXPHYSMEM configs
-> > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-> > > >   riscv: Implement sv48 support
-> > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
-> > > >   riscv: Explicit comment about user virtual address space size
-> > > >   riscv: Improve virtual kernel memory layout dump
-> > > >   Documentation: riscv: Add sv48 description to VM layout
-> > > >   riscv: Initialize thread pointer before calling C functions
-> > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
-> > > >
-> > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
-> > > >  arch/riscv/Kconfig                            |  37 +-
-> > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
-> > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
-> > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
-> > > >  arch/riscv/include/asm/csr.h                  |   3 +-
-> > > >  arch/riscv/include/asm/fixmap.h               |   1
-> > > >  arch/riscv/include/asm/kasan.h                |  11 +-
-> > > >  arch/riscv/include/asm/page.h                 |  20 +-
-> > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
-> > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
-> > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
-> > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
-> > > >  arch/riscv/kernel/cpu.c                       |  23 +-
-> > > >  arch/riscv/kernel/head.S                      |   4 +-
-> > > >  arch/riscv/mm/context.c                       |   4 +-
-> > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
-> > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
-> > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
-> > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
-> > > >  include/asm-generic/pgalloc.h                 |  24 +-
-> > > >  include/linux/sizes.h                         |   1
-> > > >  22 files changed, 833 insertions(+), 209 deletions(-)
-> > >
-> > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
-> > > handful of trivial fixes for configs that were failing to build/boot and
-> > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
-> > > it'd be easier to backport.  This is bigger than something I'd normally like to
-> > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
-> > > and it looks like folks have been testing this I'm just going to go with it.
-> > >
-> >
-> > Yes yes yes! That's fantastic news :)
-> >
-> > > Let me know if there's any issues with the merge, it was a bit hairy.
-> > > Probably best to just send along a fixup patch at this point.
-> >
-> > I'm going to take a look at that now, and I'll fix anything that comes
-> > up quickly :)
->
-> I see in for-next that you did not take the following patches:
->
->   riscv: Improve virtual kernel memory layout dump
->   Documentation: riscv: Add sv48 description to VM layout
->   riscv: Initialize thread pointer before calling C functions
->   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
->
-> I'm not sure this was your intention. If it was, I believe that at
-> least the first 2 patches are needed in this series, the 3rd one is a
-> useful fix and we can discuss the 4th if that's an issue for you.
+It adds the possibility to change the tracing_thresh to osnoise,
+allowing a fine tune of OS noise detection.
 
-Can you confirm that this was intentional and maybe explain the
-motivation behind it? Because I see value in those patches.
+It also adds the auto tracing feature (-a threshold us), which aims
+helping the first approach to a problem by setting common tracing
+features with a single parameter.
 
-Thanks,
+Finally, it also allow osnoise top and timerlat top to enable additional
+trace events via (possible multiple) -e sys:event options.
 
-Alex
 
->
-> I tested for-next on both sv39 and sv48 successfully, I took a glance
-> at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
-> that. Otherwise nothing obvious has popped.
->
-> Thanks again,
->
-> Alex
->
-> >
-> > Thanks!
-> >
-> > Alex
-> >
-> > >
-> > > Thanks!
+Daniel Bristot de Oliveira (7):
+  rtla/osnoise: Add support to adjust the tracing_thresh
+  rtla/osnoise: Add an option to set the threshold
+  rtla/osnoise: Add the automatic trace option
+  rtla/timerlat: Add the automatic trace option
+  rtla/trace: Add trace events helpers
+  rtla/osnoise: Add -e/--event option
+  rtla/timerlat: Add -e/--event option
+
+ .../tools/rtla/common_osnoise_options.rst     |  10 ++
+ .../tools/rtla/common_timerlat_options.rst    |   7 ++
+ tools/tracing/rtla/src/osnoise.c              |  83 ++++++++++++++
+ tools/tracing/rtla/src/osnoise.h              |   8 ++
+ tools/tracing/rtla/src/osnoise_hist.c         |  35 +++++-
+ tools/tracing/rtla/src/osnoise_top.c          |  58 +++++++++-
+ tools/tracing/rtla/src/timerlat_hist.c        |  24 +++-
+ tools/tracing/rtla/src/timerlat_top.c         |  50 ++++++++-
+ tools/tracing/rtla/src/trace.c                | 105 ++++++++++++++++++
+ tools/tracing/rtla/src/trace.h                |  15 +++
+ 10 files changed, 382 insertions(+), 13 deletions(-)
+
+-- 
+2.34.1
+
