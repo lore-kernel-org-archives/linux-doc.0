@@ -2,85 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3413C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 17:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E28C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 18:16:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238828AbiBRR5p convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 12:57:45 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59078 "EHLO
+        id S238550AbiBRSQ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 13:16:59 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238830AbiBRR5m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 12:57:42 -0500
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DE759110D
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:57:25 -0800 (PST)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-deJtrdHpMBS6WWtPDsmWAA-1; Fri, 18 Feb 2022 12:57:23 -0500
-X-MC-Unique: deJtrdHpMBS6WWtPDsmWAA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10113801AC5;
-        Fri, 18 Feb 2022 17:57:22 +0000 (UTC)
-Received: from x1.com (unknown [10.22.32.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4CC5D2BCC1;
-        Fri, 18 Feb 2022 17:57:19 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-devel@vger.kernel.org
-Subject: [PATCH 3/3] rtla/osnoise: Fix error message when failing to enable trace instance
-Date:   Fri, 18 Feb 2022 18:57:09 +0100
-Message-Id: <53ef0582605af91eca14b19dba9fc9febb95d4f9.1645206561.git.bristot@kernel.org>
-In-Reply-To: <cover.1645206561.git.bristot@kernel.org>
-References: <cover.1645206561.git.bristot@kernel.org>
+        with ESMTP id S231956AbiBRSQ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 13:16:58 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9E7B2B;
+        Fri, 18 Feb 2022 10:16:41 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id bg21-20020a05600c3c9500b0035283e7a012so7027492wmb.0;
+        Fri, 18 Feb 2022 10:16:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RUj5tv88ZrnAPtys6wyBXq2J8Bptpatax+XE2plB4SI=;
+        b=XzUDz+MneXP8UeVJMav0LETmbRoamMxLS+y4uk91AN3ChYMedziqaOjMDOqgzswcTw
+         xPPb+e3IrH8xTMAzn54BzdpSP4urAiyB/7zFzs6I95wayHrmDWSvmdjs7tRU5NTp6JIG
+         t9jMa7a9K6rAw1YJD6Lg0uUickntxiQtSOQYZsOtTYgmk2R02nWfzHWROzs9sekNnczJ
+         8YoLScDuUEvQjn0JX7mhhhdk0Zp6Q9J2BA8y0vmH741nC5+LicjIIbz6/xWy+GYSlRsm
+         GQ//ubW8YJhQhK+3UcqwnKZP3yK2JHo4Ws00SM0vuloalSy4mHebCNftQoI9uvFTf4P6
+         Yp3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RUj5tv88ZrnAPtys6wyBXq2J8Bptpatax+XE2plB4SI=;
+        b=4/rqxwzlUzMmbJElNMgy7OezovXSSuaPYC9Xx2LK3UQQjRDEdXUNylAuPb+W/l8sz5
+         G2Z7s7dz/nr2OA51NgAK4WglcKjBeBNko8RMF3UGQ1Q/26u4CR0rBt1/NRHBl0CDAI/C
+         LCi4/WVeEO90DsRNZ/zj8eu4Osp8wogTnjx+bAKaGiWyuXeZAxQEQWvH+LxzmVn/1s1L
+         fx0ouUE4cqsu6ClkR5RLoxKBYLcNipf0RRNMcZeC+iCFFMRevB+BKbPaPIhk/XmS7eGn
+         OrkEG7xmaGPGrU4B9FjIgBV16YT6ZosQLgRhswb4vl7aAHbFxBToyIkZY2ScurQi6BHw
+         170A==
+X-Gm-Message-State: AOAM530p+FGKTDhuhY7NkZk8NudhF4fc9kcZ8uX2kIpHdQECy63hXqf9
+        SK9eAi9QL0LE5Nw5w3/HrG/7ocxB21vqCw==
+X-Google-Smtp-Source: ABdhPJxdKtuQWwSWiJAteHW5fREyTroULIKXlkI1Y50k7wyiRcIBhu1wplROx8i05TvTmGeeLjMXgg==
+X-Received: by 2002:a05:600c:5103:b0:37b:c134:cad with SMTP id o3-20020a05600c510300b0037bc1340cadmr11622649wms.32.1645208199555;
+        Fri, 18 Feb 2022 10:16:39 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id b2sm20978639wri.35.2022.02.18.10.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 10:16:38 -0800 (PST)
+From:   =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
+        <tomasz.warniello@gmail.com>
+To:     corbet@lwn.net
+Cc:     =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
+        <tomasz.warniello@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/11] Transform documentation into POD
+Date:   Fri, 18 Feb 2022 19:16:17 +0100
+Message-Id: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kernel.org
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a trace instance creation fails, tools are printing:
+This series transforms the free-form general comments - mainly the usage
+instructions and the meta information - into the standard Perl
+documentation format. Some of the original text is reduced out. And some
+is simply dropped.
 
-	Could not enable -> osnoiser <- tracer for tracing
+The transformation includes language, paragraphing and editorial
+corrections.
 
-Print the actual (and correct) name of the tracer it fails to enable.
+The only change in the script execution flow is the replacement of the
+'usage' function with the native standard Perl 'pod2usage'.
 
-Fixes: b1696371d865 ("rtla: Helper functions for rtla")
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- tools/tracing/rtla/src/osnoise.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The to-do suggestion to write POD found in the script is ancient, thus
+I can't address its author with a "Suggested-by" tag.
 
-diff --git a/tools/tracing/rtla/src/osnoise.c b/tools/tracing/rtla/src/osnoise.c
-index 5648f9252e58..e60f1862bad0 100644
---- a/tools/tracing/rtla/src/osnoise.c
-+++ b/tools/tracing/rtla/src/osnoise.c
-@@ -810,7 +810,7 @@ struct osnoise_tool *osnoise_init_trace_tool(char *tracer)
- 
- 	retval = enable_tracer_by_name(trace->trace.inst, tracer);
- 	if (retval) {
--		err_msg("Could not enable osnoiser tracer for tracing\n");
-+		err_msg("Could not enable %s tracer for tracing\n", tracer);
- 		goto out_err;
- 	}
- 
+This version follows the advice received on v3, except I'm leaving
+the old copyrights untouched.
+
+The process consists of 14 steps.
+
+Patches beginning with no 3 are disfunctional until no 9 has been
+applied.
+
+1) Add the basic POD sections
+2) Relink argument parsing error handling to pod2usage
+
+The following subseries is disfunctional before its last part.
+
+3) Translate the DESCRIPTION section
+4) Translate the "Output format selection" subsection of OPTIONS
+5) Translate the "Output format selection modifier" subsection of OPTIONS
+6) Translate the "Output selection" subsection of OPTIONS
+7) Translate the "Output selection modifiers" subsection of OPTIONS
+8) Translate the "Other parameters" subsection of OPTIONS
+9) Replace the usage function
+    
+Here the DESCRIPTION and OPTIONS subseries is finished. The -h and -help
+parameters are handled by POD now.
+    
+10) Drop obsolete comments
+11) Refresh the copyright lines
+
+Let's see what's wrong this time.
+
+Tomasz Warniełło (11):
+  scripts: kernel-doc: Add the basic POD sections
+  scripts: kernel-doc: Relink argument parsing error handling to
+    pod2usage
+  scripts: kernel-doc: Translate the DESCRIPTION section
+  scripts: kernel-doc: Translate the "Output format selection"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Output format selection modifier"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Output selection" subsection of
+    OPTIONS
+  scripts: kernel-doc: Translate the "Output selection modifiers"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Other parameters" subsection of
+    OPTIONS
+  scripts: kernel-doc: Replace the usage function
+  scripts: kernel-doc: Drop obsolete comments
+  scripts: kernel-doc: Refresh the copyright lines
+
+ scripts/kernel-doc | 347 +++++++++++++++++++++------------------------
+ 1 file changed, 159 insertions(+), 188 deletions(-)
+
+
+base-commit: 2a987e65025e2b79c6d453b78cb5985ac6e5eb26
 -- 
-2.34.1
+2.30.2
 
