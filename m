@@ -2,61 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B43C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 14:56:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C9BAC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 15:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236496AbiBRO4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 09:56:47 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50484 "EHLO
+        id S236986AbiBRP1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 10:27:30 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236397AbiBRO4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 09:56:34 -0500
+        with ESMTP id S236977AbiBRP1a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 10:27:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3A8D557B3B
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 06:56:11 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 10110253BD6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 07:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645196170;
+        s=mimecast20190719; t=1645198032;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4ldn/wyFUYS9oX2H4KZV4SRGFhvLNkEJlNBHlweSE44=;
-        b=cXG2pkHclWEghRUsotYGFMqC858u+8tvxFFEZTFiMTdqfBWEtAP4pAdMgYTmFf/V/1/Whj
-        3lYEFHjmDIh+9x/fUEEIXHjhf4TS9CNFFJ7lKogI1jQTlenWtzmvhJ3iqTVPy0r9ohldk2
-        XmWmPj+zWWTrmIj3O8UwBnanttq2aus=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=rYb+BCPyLsby6zJoGkmOBz+36TaLQgOr0GISja/FGo4=;
+        b=Ofvu/gxsrhf2QhGAob2FbLI2R/jf29UyvKhSBAVxJ8S82h82UMlJ1HdaknK3BQLPr+uMIK
+        MqeTp9fM+Xddluh7wlQdkMQ4xzx2LUyr8xCNzhPFaN8uCq7XNl1FEudFHzgPYnK8yyocc2
+        QHtSexCRztYoAFkAdKnZqGSG6PORYyY=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-b3WX4GbqOI6eTLEa5tiQ4A-1; Fri, 18 Feb 2022 09:56:02 -0500
-X-MC-Unique: b3WX4GbqOI6eTLEa5tiQ4A-1
-Received: by mail-qk1-f200.google.com with SMTP id 199-20020a3703d0000000b005f17c5b0356so4216284qkd.16
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 06:56:02 -0800 (PST)
+ us-mta-100-rnmK42O3OA2U7NMLhpF-9w-1; Fri, 18 Feb 2022 10:27:11 -0500
+X-MC-Unique: rnmK42O3OA2U7NMLhpF-9w-1
+Received: by mail-qv1-f71.google.com with SMTP id c8-20020a0ce7c8000000b0042c12357076so9198146qvo.6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 07:27:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=4ldn/wyFUYS9oX2H4KZV4SRGFhvLNkEJlNBHlweSE44=;
-        b=3fN8im1WJFjikEYwMxF7nHIDJUGAWa+IAexbSqf5rYlfT2FvanoQGfasrQNz1daNRh
-         JZ+tQCVkLx/sivNYn7QsSSLD544m9YxFCjKz+D2Ew5LAc/mULx4hzeHqlagjptyZjpXe
-         COXzn16U+X0biw5bLcwL5J7wQAw1nZFe7XA/Zw/XKxhvQPZfyI0BU6fVzEb9Q9yVEOih
-         abbNegfQcMRl+hrYIub9nlxd+W9xJhk52EJoFTovUHLYRScICm17U+f2pIC0Yv8FlYsH
-         jTITdTsXKFqUcyBQmzPPypNWtY0OlXVbQ52WjPYJ070guLmsWSdo9t4bKjtxKkArldzO
-         s/Rw==
-X-Gm-Message-State: AOAM530VpwOVKXq0hA8eu3s8II0/saJonuK15WnaGA2/GOKKfxHoyfB5
-        euTuERgy2H30fYCshblqTSy3ZXoSP77JGxLJ5kCu5tq5j2qbRr/stehgplYwdbvPjsLIghFHroP
-        1u8VNpZor0LgIk3XauI+K
-X-Received: by 2002:ac8:5c8f:0:b0:2dd:b404:bd94 with SMTP id r15-20020ac85c8f000000b002ddb404bd94mr1693191qta.50.1645196161892;
-        Fri, 18 Feb 2022 06:56:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw8JBQaaH0N3aIPc7v5Iu6VHkGq5FX+w6ES4TNS3Zwc4jIuKXDTgK1I/UV9BSzRxEBdFdrTJA==
-X-Received: by 2002:ac8:5c8f:0:b0:2dd:b404:bd94 with SMTP id r15-20020ac85c8f000000b002ddb404bd94mr1693178qta.50.1645196161706;
-        Fri, 18 Feb 2022 06:56:01 -0800 (PST)
+        bh=rYb+BCPyLsby6zJoGkmOBz+36TaLQgOr0GISja/FGo4=;
+        b=Gwq2jNiQTx2+nVc082KbQl+ex2jKI46KHieWDbWJjIQItmZqqEmoUNYHOy4YDFeGGm
+         am9zBZXqHafkXPJOknC1Ty69V3p4Kgc7JRY2SePVDbxcXv2R3AyWnmsLd0rezpSBCUDW
+         kdA8GdqQyO1mx/LJQyW9+zBWZbsBIhwF1YawiML8zBMA/SjX1XEm5bZqBz+hbGxcafRc
+         pSHFk8KeqYpwiiojy+3lBIzILtn5tKixIPSAwhk8AFSMpnLa6Qfx/jf01J6QPGQ6zvHV
+         ENk+qiTZdyLm2HCAV6MuGPyHeEUYKM5/0/LtgTFlwlxVj9LP4MouP9ZRXqCTUMW3ry4C
+         vhDQ==
+X-Gm-Message-State: AOAM532yFZu/bBNhYNNiEQl56pw6YB9tdJCyjXxgE9N0d3YbWXxpEZvW
+        fF3ngMW8Ryvdxz1Fo/jiWVYHtEP4SGfSzwqpWi9vMmTViYgW0AKGG0xBvGCaKlLnJFW1MkBcabq
+        WaeXk8+m/QkZweiYq9mZP
+X-Received: by 2002:a05:6214:23ce:b0:42c:ead:30bf with SMTP id hr14-20020a05621423ce00b0042c0ead30bfmr6091955qvb.122.1645198030347;
+        Fri, 18 Feb 2022 07:27:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwso/6LGXeV4Zu4ZnP/5E/1c8n8lvSxGwqKvfcp8q2OR1q1XJmk90Bq+AluwKPgLZkbfahlAg==
+X-Received: by 2002:a05:6214:23ce:b0:42c:ead:30bf with SMTP id hr14-20020a05621423ce00b0042c0ead30bfmr6091932qvb.122.1645198030110;
+        Fri, 18 Feb 2022 07:27:10 -0800 (PST)
 Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id w3sm25923138qta.13.2022.02.18.06.56.00
+        by smtp.gmail.com with ESMTPSA id t11sm16975190qkp.82.2022.02.18.07.27.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Feb 2022 06:56:01 -0800 (PST)
-Subject: Re: [PATCH v1 4/7] fpga: dfl: fix VF creation when ports have no
- local BAR space
+        Fri, 18 Feb 2022 07:27:09 -0800 (PST)
+Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
 To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
         "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
         "Xu, Yilun" <yilun.xu@intel.com>,
@@ -66,112 +65,103 @@ To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
 Cc:     "corbet@lwn.net" <corbet@lwn.net>,
         Matthew Gerlach <matthew.gerlach@linux.intel.com>
 References: <20220214112619.219761-1-tianfei.zhang@intel.com>
- <20220214112619.219761-5-tianfei.zhang@intel.com>
- <c527e9c7-4588-463b-8a6b-3db68d003d7a@redhat.com>
- <BN9PR11MB54830E0D185101B6B1517113E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <20220214112619.219761-8-tianfei.zhang@intel.com>
+ <ed8f4b5f-5c92-f555-ed2d-c5b8f38d5372@redhat.com>
+ <BN9PR11MB5483BC7EE52A47CEAEFC58A0E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
 From:   Tom Rix <trix@redhat.com>
-Message-ID: <1281cbc7-7a1f-da84-3713-0d81982379ab@redhat.com>
-Date:   Fri, 18 Feb 2022 06:55:58 -0800
+Message-ID: <3c9fce03-ef29-d80f-6639-0c237c28cf58@redhat.com>
+Date:   Fri, 18 Feb 2022 07:27:07 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <BN9PR11MB54830E0D185101B6B1517113E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
+In-Reply-To: <BN9PR11MB5483BC7EE52A47CEAEFC58A0E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 2/18/22 12:14 AM, Zhang, Tianfei wrote:
+On 2/18/22 1:03 AM, Zhang, Tianfei wrote:
 >
 >> -----Original Message-----
 >> From: Tom Rix <trix@redhat.com>
->> Sent: Tuesday, February 15, 2022 11:51 PM
+>> Sent: Wednesday, February 16, 2022 12:16 AM
 >> To: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao <hao.wu@intel.com>;
 >> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>; linux-fpga@vger.kernel.org;
 >> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org
 >> Cc: corbet@lwn.net; Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> Subject: Re: [PATCH v1 4/7] fpga: dfl: fix VF creation when ports have no local
->> BAR space
+>> Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
 >>
 >>
 >> On 2/14/22 3:26 AM, Tianfei zhang wrote:
 >>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 >>>
->>> When a port is not connected to the same PCIe endpoint as the FME, the
->>> port does not need to be released before being virtualized.  Fix VF
->>> creation code to handle this new use
->> Similar, how does this fit in with iofs, this looks like it would not be valid for the
->> existing cards
-> IOFS introducing multiple methods for PR and AFU access.
-> 1. Legacy Model.
-> 2. Micro-Personas in AFU.
-> 3. Multiple VFs per PR slot.
+>>> Add the PCI product id for an Open FPGA Stack PCI card.
+>> Is there a URL to the card ?
+> This PCIe Device IDs have registered by Intel.
+A URL is useful to introduce the board, Is there one ?
 >
-> For 1 and 2 model, there are 1:1 mapping between Port device and PR slot (or entire AFU). In virtualization,
-> it should release the Port device firstly and then assign to VM. In this models, the DFL driver will track  that
-> the number of port devices has released (cdev->released_port_num in dfl_fpga_cdev_config_ports_vf() function)
-> are equal with the numbers of SRIOV or not. But in model 3, it has multiple VFs per PR slot, and assign the VF to VM
-> without release the port device, so the tracking mechanism of cdev->released_port_num is not workable on new
-
-If ->release_port_num is not workable, then it needs to be generalized.
-
-Refactor to handle all the cases.
-
-Tom
-
-> model. This patch want to handle this new model during VF creation.
->
->>> case.
->>>
 >>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 >>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
 >>> ---
->>>    drivers/fpga/dfl.c | 11 +++++++++--
->>>    1 file changed, 9 insertions(+), 2 deletions(-)
+>>>    drivers/fpga/dfl-pci.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
 >>>
->>> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c index
->>> 26f8cf890700..cfc539a656f0 100644
->>> --- a/drivers/fpga/dfl.c
->>> +++ b/drivers/fpga/dfl.c
->>> @@ -1705,15 +1705,22 @@
->> EXPORT_SYMBOL_GPL(dfl_fpga_cdev_config_ports_pf);
->>>    int dfl_fpga_cdev_config_ports_vf(struct dfl_fpga_cdev *cdev, int num_vfs)
->>>    {
->>>    	struct dfl_feature_platform_data *pdata;
->>> -	int ret = 0;
->>> +	int ret = 0, port_count = 0;
->>>
->>>    	mutex_lock(&cdev->lock);
->>> +
->>> +	list_for_each_entry(pdata, &cdev->port_dev_list, node) {
->>> +		if (pdata->dev)
->> This looks wrong,
+>>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c index
+>>> 83b604d6dbe6..cb2fbf3eb918 100644
+>>> --- a/drivers/fpga/dfl-pci.c
+>>> +++ b/drivers/fpga/dfl-pci.c
+>>> @@ -76,12 +76,14 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
+>>>    #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
+>>>    #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
+>>>    #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
+>>> +#define PCIE_DEVICE_ID_INTEL_OFS		0xbcce
+>> INTEL_OFS is a generic name, pci id's map to specific cards
 >>
->> pdata->dev is dereferenced below, if there is a case were (!pdata->dev)
->> here there would be crash later.
->>
->>> +			continue;
->>> +		port_count++;
->> how does this work when only some of the ports are handled in the new way ?
-> This code want to handle the " Multiple VFs per PR slot" model as I mentioned above.
-> In new model, the port_count want to count that how many port devices have released.
-> This code looks not good readability, I try to re-write it.
+>> Is there a more specific name for this card ?
+> I think using INTEL_OFS is better, because INTEL_OFS is the Generic development platform can support multiple cards which using OFS specification,
+> like Intel PAC N6000 card.
+
+I would prefer something like PCIE_DEVICE_ID_INTEL_PAC_N6000 because it 
+follows an existing pattern.  Make it easy on a developer, they will 
+look at their board or box, see X and try to find something similar in 
+the driver source.
+
+To use OSF_ * the name needs a suffix to differentiate it from future 
+cards that will also use ofs.
+
+If this really is a generic id please explain in the doc patch how every 
+future board with use this single id and how a driver could work around 
+a hw problem in a specific board with a pci id covering multiple boards.
+
+Tom
+
 >
 >> Tom
 >>
->>> +	}
->>> +
->>>    	/*
->>>    	 * can't turn multiple ports into 1 VF device, only 1 port for 1 VF
->>>    	 * device, so if released port number doesn't match VF device number,
->>>    	 * then reject the request with -EINVAL error code.
->>>    	 */
->>> -	if (cdev->released_port_num != num_vfs) {
->>> +	if (port_count && cdev->released_port_num != num_vfs) {
->>>    		ret = -EINVAL;
->>>    		goto done;
->>>    	}
+>>>    /* VF Device */
+>>>    #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
+>>>    #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
+>>>    #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
+>>>    #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
+>>> +#define PCIE_DEVICE_ID_INTEL_OFS_VF		0xbccf
+>>>
+>>>    static struct pci_device_id cci_pcie_id_tbl[] = {
+>>>    	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
+>> @@
+>>> -95,6 +97,8 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+>>>    	{PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>> PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+>>>    	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
+>> PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
+>>>    	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
+>>> PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
+>>> +	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_OFS),},
+>>> +	{PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>> PCIE_DEVICE_ID_INTEL_OFS_VF),},
+>>>    	{0,}
+>>>    };
+>>>    MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
 
