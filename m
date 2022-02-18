@@ -2,236 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A93BEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 17:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1042DC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 17:57:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236649AbiBRRu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 12:50:58 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33528 "EHLO
+        id S238805AbiBRR5j convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 12:57:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238848AbiBRRuy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 12:50:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 93BDB673FB
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:50:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645206636;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RpV1EzK6NqZpSqOlfHeXkxYDh18aJpJ+bK/njkfrFHk=;
-        b=eHZ03RQK7V4Jb8KMGlOxB0cqIQHRk8tbvta4iLWqzzHKC3E1QMnJfbNaFmHtld6HdE4g0e
-        WKYeb0sPH87S7madNSFdETQEFe/HF8dq2DCTOQ6nWPsee+J32zObx+V3Sy+/5KwOBmlwwf
-        cEPPXSETJsYlJRfN6W6Ns6ocpG1tixM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        with ESMTP id S237517AbiBRR5i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 12:57:38 -0500
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 186F5D45
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:57:20 -0800 (PST)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-6bb0OhiJNpO7CRVX20eOew-1; Fri, 18 Feb 2022 12:50:35 -0500
-X-MC-Unique: 6bb0OhiJNpO7CRVX20eOew-1
-Received: by mail-ej1-f69.google.com with SMTP id q3-20020a17090676c300b006a9453c33b0so3354889ejn.13
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 09:50:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RpV1EzK6NqZpSqOlfHeXkxYDh18aJpJ+bK/njkfrFHk=;
-        b=k/Sa3kiHs9ntOtffoaMSI+3eNKecQrZjkxbRmbGejNhGswRxdDIEKSdLQGJSJjkqGA
-         swViPag0reichbb65V8u7cWW6rH2g6Y4I45t3Nfu5g/+jfsDaeLWKO3X2CLYT4jME9P4
-         N3B50Nifpcr4koLnP/Wd1Ek/SIQD/TYB9Q2HCdOmMgHhKPb5kcPHcGRprVkasI3tSfXL
-         4Gt450oF5wK94/masXYSs4mFjyRM/TuszMSilIzFF8YUE3IcWyePuzpscmRO/ok2V9P4
-         9yrvljYve6bAQgLXEEEyWNqmLptiiKLVwW5Om49OYGeXLNovnrOcEAxbKFfB9Y0To+Wy
-         n1YQ==
-X-Gm-Message-State: AOAM531QAXw+z5GHdmYSKGQtD8j7VcgXKeUbIb9+5jGuTe1MRjgPLvNU
-        9bLqYw3SpcTTpxE9XqXOv+wESg0tvTWj83OYyYX4Lud54uTXjMx2OKJfztYoPlAjxc/N8hahAhh
-        JZ1ot7r1ZZ5vF4bDSZxay
-X-Received: by 2002:a17:906:5950:b0:6b3:65b7:82d3 with SMTP id g16-20020a170906595000b006b365b782d3mr7215931ejr.636.1645206634023;
-        Fri, 18 Feb 2022 09:50:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy6RMdtjL4BLpokb/4tKxAFqUkA7AJv9sCqaPSgk80oPrQoeYK4UBKFOr3qebiRXk58M/SwgQ==
-X-Received: by 2002:a17:906:5950:b0:6b3:65b7:82d3 with SMTP id g16-20020a170906595000b006b365b782d3mr7215903ejr.636.1645206633628;
-        Fri, 18 Feb 2022 09:50:33 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id jz17sm2449998ejb.195.2022.02.18.09.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 09:50:32 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 5982F13023E; Fri, 18 Feb 2022 18:50:31 +0100 (CET)
-From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>
-Cc:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+ us-mta-248-_ZKSJtigOeKV0yPjvx4iCg-1; Fri, 18 Feb 2022 12:57:16 -0500
+X-MC-Unique: _ZKSJtigOeKV0yPjvx4iCg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4DA1801AC5;
+        Fri, 18 Feb 2022 17:57:14 +0000 (UTC)
+Received: from x1.com (unknown [10.22.32.12])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2342C2BCC1;
+        Fri, 18 Feb 2022 17:57:12 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH bpf-next v8 2/5] Documentation/bpf: Add documentation for BPF_PROG_RUN
-Date:   Fri, 18 Feb 2022 18:50:26 +0100
-Message-Id: <20220218175029.330224-3-toke@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220218175029.330224-1-toke@redhat.com>
-References: <20220218175029.330224-1-toke@redhat.com>
+        linux-kernel@vger.kernel.org, linux-trace-devel@vger.kernel.org
+Subject: [PATCH 0/3] rtla: Some RTLA fixes for 5.17
+Date:   Fri, 18 Feb 2022 18:57:06 +0100
+Message-Id: <cover.1645206561.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds documentation for the BPF_PROG_RUN command; a short overview of
-the command itself, and a more verbose description of the "live packet"
-mode for XDP introduced in the previous commit.
+These is a set of fixes for RTLA on 5.17, the commit logs explain more
+details about them.
 
-Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
----
- Documentation/bpf/bpf_prog_run.rst | 120 +++++++++++++++++++++++++++++
- Documentation/bpf/index.rst        |   1 +
- 2 files changed, 121 insertions(+)
- create mode 100644 Documentation/bpf/bpf_prog_run.rst
+Daniel Bristot de Oliveira (3):
+  rtla/hist: Make -E the short version of --entries
+  rtla/osnoise: Free params at the exit
+  rtla/osnoise: Fix error message when failing to enable trace instance
 
-diff --git a/Documentation/bpf/bpf_prog_run.rst b/Documentation/bpf/bpf_prog_run.rst
-new file mode 100644
-index 000000000000..c561677081de
---- /dev/null
-+++ b/Documentation/bpf/bpf_prog_run.rst
-@@ -0,0 +1,120 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+Running BPF programs from userspace
-+===================================
-+
-+This document describes the ``BPF_PROG_RUN`` facility for running BPF programs
-+from userspace.
-+
-+.. contents::
-+    :local:
-+    :depth: 2
-+
-+
-+Overview
-+--------
-+
-+The ``BPF_PROG_RUN`` command can be used through the ``bpf()`` syscall to
-+execute a BPF program in the kernel and return the results to userspace. This
-+can be used to unit test BPF programs against user-supplied context objects, and
-+as way to explicitly execute programs in the kernel for their side effects. The
-+command was previously named ``BPF_PROG_TEST_RUN``, and both constants continue
-+to be defined in the UAPI header, aliased to the same value.
-+
-+The ``BPF_PROG_RUN`` command can be used to execute BPF programs of the
-+following types:
-+
-+- ``BPF_PROG_TYPE_SOCKET_FILTER``
-+- ``BPF_PROG_TYPE_SCHED_CLS``
-+- ``BPF_PROG_TYPE_SCHED_ACT``
-+- ``BPF_PROG_TYPE_XDP``
-+- ``BPF_PROG_TYPE_SK_LOOKUP``
-+- ``BPF_PROG_TYPE_CGROUP_SKB``
-+- ``BPF_PROG_TYPE_LWT_IN``
-+- ``BPF_PROG_TYPE_LWT_OUT``
-+- ``BPF_PROG_TYPE_LWT_XMIT``
-+- ``BPF_PROG_TYPE_LWT_SEG6LOCAL``
-+- ``BPF_PROG_TYPE_FLOW_DISSECTOR``
-+- ``BPF_PROG_TYPE_STRUCT_OPS``
-+- ``BPF_PROG_TYPE_RAW_TRACEPOINT``
-+- ``BPF_PROG_TYPE_SYSCALL``
-+
-+When using the ``BPF_PROG_RUN`` command, userspace supplies an input context
-+object and (for program types operating on network packets) a buffer containing
-+the packet data that the BPF program will operate on. The kernel will then
-+execute the program and return the results to userspace. Note that programs will
-+not have any side effects while being run in this mode; in particular, packets
-+will not actually be redirected or dropped, the program return code will just be
-+returned to userspace. A separate mode for live execution of XDP programs is
-+provided, documented separately below.
-+
-+Running XDP programs in "live frame mode"
-+-----------------------------------------
-+
-+The ``BPF_PROG_RUN`` command has a separate mode for running live XDP programs,
-+which can be used to execute XDP programs in a way where packets will actually
-+be processed by the kernel after the execution of the XDP program as if they
-+arrived on a physical interface. This mode is activated by setting the
-+``BPF_F_TEST_XDP_LIVE_FRAMES`` flag when supplying an XDP program to
-+``BPF_PROG_RUN``. Earlier versions of the kernel did not reject invalid flags
-+supplied to ``BPF_PROG_RUN`` for XDP programs. For this reason, another new
-+flag, ``BPF_F_TEST_XDP_RESERVED`` is defined, which will simply be rejected if
-+set. Userspace can use this for feature probing: if the reserved flag is
-+rejected, live frame mode is supported by the running kernel.
-+
-+The live packet mode is optimised for high performance execution of the supplied
-+XDP program many times (suitable for, e.g., running as a traffic generator),
-+which means the semantics are not quite as straight-forward as the regular test
-+run mode. Specifically:
-+
-+- When executing an XDP program in live frame mode, the result of the execution
-+  will not be returned to userspace; instead, the kernel will perform the
-+  operation indicated by the program's return code (drop the packet, redirect
-+  it, etc). For this reason, setting the ``data_out`` or ``ctx_out`` attributes
-+  in the syscall parameters when running in this mode will be rejected. In
-+  addition, not all failures will be reported back to userspace directly;
-+  specifically, only fatal errors in setup or during execution (like memory
-+  allocation errors) will halt execution and return an error. If an error occurs
-+  in packet processing, like a failure to redirect to a given interface,
-+  execution will continue with the next repetition; these errors can be detected
-+  via the same trace points as for regular XDP programs.
-+
-+- Userspace can supply an ifindex as part of the context object, just like in
-+  the regular (non-live) mode. The XDP program will be executed as though the
-+  packet arrived on this interface; i.e., the ``ingress_ifindex`` of the context
-+  object will point to that interface. Furthermore, if the XDP program returns
-+  ``XDP_PASS``, the packet will be injected into the kernel networking stack as
-+  though it arrived on that ifindex, and if it returns ``XDP_TX``, the packet
-+  will be transmitted *out* of that same interface. Do note, though, that
-+  because the program execution is not happening in driver context, an
-+  ``XDP_TX`` is actually turned into the same action as an ``XDP_REDIRECT`` to
-+  that same interface (i.e., it will only work if the driver has support for the
-+  ``ndo_xdp_xmit`` driver op).
-+
-+- When running the program with multiple repetitions, the execution will happen
-+  in batches, where the program is executed multiple times in a loop, the result
-+  is saved, and other actions (like redirecting the packet or passing it to the
-+  networking stack) will happen for the whole batch after the execution. This is
-+  similar to how execution happens in driver-mode XDP for each hardware NAPI
-+  cycle. The batch size defaults to 64 packets (which is same as the NAPI batch
-+  size), but the batch size can be specified by userspace through the
-+  ``batch_size`` parameter, up to a maximum of 256 packets.
-+
-+- When setting up the test run, the kernel will initialise a pool of memory
-+  pages of the same size as the batch size. Each memory page will be initialised
-+  with the initial packet data supplied by userspace at ``BPF_PROG_RUN``
-+  invocation. When possible, the pages will be recycled on future program
-+  invocations, to improve performance. Pages will generally be recycled a full
-+  batch at a time, except when a packet is dropped (by return code or because
-+  of, say, a redirection error), in which case that page will be recycled
-+  immediately. If a packet ends up being passed to the regular networking stack
-+  (because the XDP program returns ``XDP_PASS``, or because it ends up being
-+  redirected to an interface that injects it into the stack), the page will be
-+  released and a new one will be allocated when the pool is empty.
-+
-+  When recycling, the page content is not rewritten; only the packet boundary
-+  pointers (``data``, ``data_end`` and ``data_meta``) in the context object will
-+  be reset to the original values. This means that if a program rewrites the
-+  packet contents, it has to be prepared to see either the original content or
-+  the modified version on subsequent invocations.
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index ef5c996547ec..96056a7447c7 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -21,6 +21,7 @@ that goes into great technical depth about the BPF Architecture.
-    helpers
-    programs
-    maps
-+   bpf_prog_run
-    classic_vs_extended.rst
-    bpf_licensing
-    test_debug
+ Documentation/tools/rtla/common_hist_options.rst |  2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst   |  2 +-
+ tools/tracing/rtla/src/osnoise.c                 |  2 +-
+ tools/tracing/rtla/src/osnoise_hist.c            | 10 +++++-----
+ tools/tracing/rtla/src/osnoise_top.c             |  1 +
+ tools/tracing/rtla/src/timerlat_hist.c           | 10 +++++-----
+ 6 files changed, 14 insertions(+), 13 deletions(-)
+
 -- 
-2.35.1
+2.34.1
 
