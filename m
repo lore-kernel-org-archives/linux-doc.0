@@ -2,304 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D5FC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 10:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81BDC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 10:46:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232817AbiBRK10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 05:27:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38478 "EHLO
+        id S232300AbiBRKqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 05:46:23 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233459AbiBRK1Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 05:27:25 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82AEE1A3B5
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:27:08 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id t4-20020a17090a510400b001b8c4a6cd5dso8066034pjh.5
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:27:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ajou.ac.kr; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=hqHpu7GNiQ7sov4kYNjqEALFPOD9/Tm3brs65rAgImQ=;
-        b=WemAjxdvDJxi/gdw2o4cpnBr8UVsDgC7LoJYR2HABYI9q2Yigfb4FQH5fOL2C71Uvf
-         xIQf4gjVALQLZiKGayJPcVxNBRVo4QLQ/NJs2iJMZwwd7Mqtrp/+2IfhnTYQgCqnHsqN
-         xSSTfLBn3aMEA6feuwqU6IpJW9KLZpKGBMkXo=
+        with ESMTP id S229993AbiBRKqX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 05:46:23 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7E625AE75
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:46:02 -0800 (PST)
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0812340295
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 10:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1645181161;
+        bh=dGDRz61XRlmN2nrsI5bz0i1S0S+h5+fQGdDwmq0wB0k=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=MnbNQWNh+6BAFqW+C5yFNyicCYDsfb5+yQkBPy7f71UP7MdOe9u98mPWLGpiE+EL+
+         OM1vCK/emaL0YnhpZc2+qMjLhPnsmQqLTlcWFgvIREc3YIAB7stlnReXVqtwPcOUQo
+         SHzGh/gTGa0pQG0gHqXeo9xrYtZbMs5VSAermk5Z21E4cYbxx/2dWJyicbsCjsNqVL
+         BE+WRX5+l98dNZKJkhUCRFtX55pftj+asCzE8Dhrty5ffv5YUttQKAT21OCnboje9s
+         w2TTsDG3BTP2cmuJvIfPaxnELugJGUzDRRyOXMMLvzy1qMt2rFSKehocqthG9Be8ex
+         gfz93VQl7g+1A==
+Received: by mail-ed1-f71.google.com with SMTP id j10-20020a05640211ca00b004090fd8a936so5272215edw.23
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 02:46:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=hqHpu7GNiQ7sov4kYNjqEALFPOD9/Tm3brs65rAgImQ=;
-        b=Fs+WusxQi06Wzm9yWi6oVXTD+xgfgzB3utYT4xRH3Zg8q15T9OVCnjTnQYIO7xWu+b
-         UInGoplYELbvRoU6VUknzwKD5/vKew41WWTfhRFhhw+GOABpYII0Z4nBY7J5Zm9VjTT0
-         BBGat1nX8AruhZVAJnjy3bZhCAvPi5n4CcGSlWelVocWtPCKaiS3ltMZBn8ejBJcecYm
-         rKK72ibPtOEp0Ixni+oW2UCTf5sQYbM19AP58nUIJIetUFtUpuWmM1TzgDk76j32HDTl
-         sd7gykLXQJVirydjczGBiuivCMqAIqefOcnalt6yVJ+Spdm7fjxVQirDpaZH76JrCz21
-         NRXA==
-X-Gm-Message-State: AOAM532FB0FzxkDwQaUaxoxUi2+iFfUdndfAgDTIOwcs40tPcMBN47eP
-        cF0nTRU1N+GQWgRp6X6Niv0eug==
-X-Google-Smtp-Source: ABdhPJzE6KorrXyvR8/DrCYcXC6lVMeubBsEjGkeOFacWDvrtAQrxwge/nOKRo3E2hg0SgOLGXOVmA==
-X-Received: by 2002:a17:902:b78b:b0:14f:69f:d6e1 with SMTP id e11-20020a170902b78b00b0014f069fd6e1mr6883593pls.85.1645180027444;
-        Fri, 18 Feb 2022 02:27:07 -0800 (PST)
-Received: from localhost.localdomain ([210.107.197.32])
-        by smtp.googlemail.com with ESMTPSA id k13sm2767696pfc.176.2022.02.18.02.27.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:27:07 -0800 (PST)
-From:   Jonghyeon Kim <tome01@ajou.ac.kr>
-To:     akpm@linux-foundation.org
-Cc:     Jonghyeon Kim <tome01@ajou.ac.kr>, Jonathan.Cameron@Huawei.com,
-        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
-        david@redhat.com, dwmw@amazon.com, elver@google.com,
-        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
-        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
-        linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 3/3] mm/damon/reclaim: Add per NUMA node proactive reclamation by DAMON_RECLAIM.
-Date:   Fri, 18 Feb 2022 19:26:11 +0900
-Message-Id: <20220218102611.31895-4-tome01@ajou.ac.kr>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220218102611.31895-1-tome01@ajou.ac.kr>
-References: <20220218102611.31895-1-tome01@ajou.ac.kr>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dGDRz61XRlmN2nrsI5bz0i1S0S+h5+fQGdDwmq0wB0k=;
+        b=h7NnpldEsBVArbWXRqdi3qEKaaXy6ORFvxEsyEfvUfh9x3SiQSRLgdbwP6XHz8l4wj
+         b69mNVfK2kbySdjcdx7EdkM39WuuqV4i7hmTwPzMcnyneum6FsHRiDx2HK/I250LY+By
+         5XHSZ2PauqG4NnxlH1BmHFORO44q59aJfRpglRytXiVvJSPAOtfQDX/ApXc0aYJt/1w7
+         xpFbnp+9dytEnwKnoiFpLnNQx2Kk3Wzg8OZ8BgwTbNGbo+Vat1vXn+bMi7I6dJi6bXSN
+         qp0ZTcV/QqqVaUMt+t8A6MrxO+UxjDP1ZoEl1NGxBY2YMQ7XzU1EFkTMo+ScmKWhPqW7
+         Q/gg==
+X-Gm-Message-State: AOAM531VZQzT2WyLUoaGLSyMCVczCn+zH8mHSeJ8XWZtEsVGnbBlQaeo
+        QVzajGdDsBKmHwtlj5VQ8ayk+/Wjg133eDKYpLLA3vqhNTG1k5h5qB7rFij6B/w83eYsc8rS6lk
+        sxFJmYRWa3cZmrEGz7LE7wJDqivqPZRR7hrAz44rIurvKQWHloEcoRQ==
+X-Received: by 2002:aa7:d3d9:0:b0:410:7a81:c0cf with SMTP id o25-20020aa7d3d9000000b004107a81c0cfmr7414122edr.177.1645181160598;
+        Fri, 18 Feb 2022 02:46:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQ+NAme7XzeWAZqBbGMYs1sQLjBbN9OgKux5J4SQWKa0WWJPX7Ydz76FgBA28E+tI3LAqAq09x/bebpkHqaFo=
+X-Received: by 2002:aa7:d3d9:0:b0:410:7a81:c0cf with SMTP id
+ o25-20020aa7d3d9000000b004107a81c0cfmr7414090edr.177.1645181160350; Fri, 18
+ Feb 2022 02:46:00 -0800 (PST)
+MIME-Version: 1.0
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+ <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9>
+ <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com> <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
+In-Reply-To: <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com>
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date:   Fri, 18 Feb 2022 11:45:49 +0100
+Message-ID: <CA+zEjCt04OV++qK5ar+p8HwqOfEgkSN8YFfxwRiCFw1FeJv2rg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
+        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
+        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        keescook@chromium.org, guoren@linux.alibaba.com,
+        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
+        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To add DAMON_RECLAIM worker threads(kdamond) that do proactive
-reclamation per NUMA node, each node must have its own context.
-'per_node' is added to enable it.
+Hi Palmer,
 
-If 'per_node' is true, kdamonds as online NUMA node will be waked up and
-start monitoring to proactively reclaim memory. If 'per_node' is false,
-only one kdamond thread will start monitoring for all system memory.
+On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
+<alexandre.ghiti@canonical.com> wrote:
+>
+> On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
+> <alexandre.ghiti@canonical.com> wrote:
+> >
+> > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> > >
+> > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
+> > > > * Please note notable changes in memory layouts and kasan population *
+> > > >
+> > > > This patchset allows to have a single kernel for sv39 and sv48 without
+> > > > being relocatable.
+> > > >
+> > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
+> > > > that is mapping the kernel to the end of the address space, which allows
+> > > > the kernel to be linked at the same address for both sv39 and sv48 and
+> > > > then does not require to be relocated at runtime.
+> > > >
+> > > > This implements sv48 support at runtime. The kernel will try to
+> > > > boot with 4-level page table and will fallback to 3-level if the HW does not
+> > > > support it. Folding the 4th level into a 3-level page table has almost no
+> > > > cost at runtime.
+> > > >
+> > > > Note that kasan region had to be moved to the end of the address space
+> > > > since its location must be known at compile-time and then be valid for
+> > > > both sv39 and sv48 (and sv57 that is coming).
+> > > >
+> > > > Tested on:
+> > > >   - qemu rv64 sv39: OK
+> > > >   - qemu rv64 sv48: OK
+> > > >   - qemu rv64 sv39 + kasan: OK
+> > > >   - qemu rv64 sv48 + kasan: OK
+> > > >   - qemu rv32: OK
+> > > >
+> > > > Changes in v3:
+> > > >   - Fix SZ_1T, thanks to Atish
+> > > >   - Fix warning create_pud_mapping, thanks to Atish
+> > > >   - Fix k210 nommu build, thanks to Atish
+> > > >   - Fix wrong rebase as noted by Samuel
+> > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
+> > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
+> > > >
+> > > > Changes in v2:
+> > > >   - Rebase onto for-next
+> > > >   - Fix KASAN
+> > > >   - Fix stack canary
+> > > >   - Get completely rid of MAXPHYSMEM configs
+> > > >   - Add documentation
+> > > >
+> > > > Alexandre Ghiti (13):
+> > > >   riscv: Move KASAN mapping next to the kernel mapping
+> > > >   riscv: Split early kasan mapping to prepare sv48 introduction
+> > > >   riscv: Introduce functions to switch pt_ops
+> > > >   riscv: Allow to dynamically define VA_BITS
+> > > >   riscv: Get rid of MAXPHYSMEM configs
+> > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+> > > >   riscv: Implement sv48 support
+> > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+> > > >   riscv: Explicit comment about user virtual address space size
+> > > >   riscv: Improve virtual kernel memory layout dump
+> > > >   Documentation: riscv: Add sv48 description to VM layout
+> > > >   riscv: Initialize thread pointer before calling C functions
+> > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+> > > >
+> > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
+> > > >  arch/riscv/Kconfig                            |  37 +-
+> > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+> > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+> > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+> > > >  arch/riscv/include/asm/csr.h                  |   3 +-
+> > > >  arch/riscv/include/asm/fixmap.h               |   1
+> > > >  arch/riscv/include/asm/kasan.h                |  11 +-
+> > > >  arch/riscv/include/asm/page.h                 |  20 +-
+> > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
+> > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
+> > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
+> > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
+> > > >  arch/riscv/kernel/cpu.c                       |  23 +-
+> > > >  arch/riscv/kernel/head.S                      |   4 +-
+> > > >  arch/riscv/mm/context.c                       |   4 +-
+> > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
+> > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
+> > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
+> > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
+> > > >  include/asm-generic/pgalloc.h                 |  24 +-
+> > > >  include/linux/sizes.h                         |   1
+> > > >  22 files changed, 833 insertions(+), 209 deletions(-)
+> > >
+> > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
+> > > handful of trivial fixes for configs that were failing to build/boot and
+> > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
+> > > it'd be easier to backport.  This is bigger than something I'd normally like to
+> > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
+> > > and it looks like folks have been testing this I'm just going to go with it.
+> > >
+> >
+> > Yes yes yes! That's fantastic news :)
+> >
+> > > Let me know if there's any issues with the merge, it was a bit hairy.
+> > > Probably best to just send along a fixup patch at this point.
+> >
+> > I'm going to take a look at that now, and I'll fix anything that comes
+> > up quickly :)
+>
+> I see in for-next that you did not take the following patches:
+>
+>   riscv: Improve virtual kernel memory layout dump
+>   Documentation: riscv: Add sv48 description to VM layout
+>   riscv: Initialize thread pointer before calling C functions
+>   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+>
+> I'm not sure this was your intention. If it was, I believe that at
+> least the first 2 patches are needed in this series, the 3rd one is a
+> useful fix and we can discuss the 4th if that's an issue for you.
 
-Signed-off-by: Jonghyeon Kim <tome01@ajou.ac.kr>
----
- mm/damon/reclaim.c | 147 ++++++++++++++++++++++++++++++++-------------
- 1 file changed, 104 insertions(+), 43 deletions(-)
+Can you confirm that this was intentional and maybe explain the
+motivation behind it? Because I see value in those patches.
 
-diff --git a/mm/damon/reclaim.c b/mm/damon/reclaim.c
-index b53d9c22fad1..85e8f97dd599 100644
---- a/mm/damon/reclaim.c
-+++ b/mm/damon/reclaim.c
-@@ -177,13 +177,27 @@ static unsigned long monitor_region_end __read_mostly;
- module_param(monitor_region_end, ulong, 0600);
- 
- /*
-- * PID of the DAMON thread
-+ * Enable monitoring memory regions per NUMA node.
-  *
-- * If DAMON_RECLAIM is enabled, this becomes the PID of the worker thread.
-+ * By default, watermarks consist of based on total system memory.
-+ */
-+static bool per_node __read_mostly;
-+module_param(per_node, bool, 0600);
-+
-+/*
-+ * Number of currently running DAMON worker threads
-+ */
-+static unsigned long nr_kdamond __read_mostly;
-+module_param(nr_kdamond, ulong, 0400);
-+
-+/*
-+ * First PID of the DAMON threads
-+ *
-+ * If DAMON_RECLAIM is enabled, this becomes the first PID of the worker threads.
-  * Else, -1.
-  */
--static int kdamond_pid __read_mostly = -1;
--module_param(kdamond_pid, int, 0400);
-+static int kdamond_start_pid __read_mostly = -1;
-+module_param(kdamond_start_pid, int, 0400);
- 
- /*
-  * Number of memory regions that tried to be reclaimed.
-@@ -215,8 +229,8 @@ module_param(bytes_reclaimed_regions, ulong, 0400);
- static unsigned long nr_quota_exceeds __read_mostly;
- module_param(nr_quota_exceeds, ulong, 0400);
- 
--static struct damon_ctx *ctx;
--static struct damon_target *target;
-+static struct damon_ctx *ctxs[MAX_NUMNODES];
-+static struct damon_target *targets[MAX_NUMNODES];
- 
- struct damon_reclaim_ram_walk_arg {
- 	unsigned long start;
-@@ -251,7 +265,7 @@ static bool get_monitoring_region(unsigned long *start, unsigned long *end)
- 	return true;
- }
- 
--static struct damos *damon_reclaim_new_scheme(void)
-+static struct damos *damon_reclaim_new_scheme(int node)
- {
- 	struct damos_watermarks wmarks = {
- 		.metric = DAMOS_WMARK_FREE_MEM_RATE,
-@@ -259,6 +273,7 @@ static struct damos *damon_reclaim_new_scheme(void)
- 		.high = wmarks_high,
- 		.mid = wmarks_mid,
- 		.low = wmarks_low,
-+		.node = node,
- 	};
- 	struct damos_quota quota = {
- 		/*
-@@ -290,56 +305,99 @@ static struct damos *damon_reclaim_new_scheme(void)
- 	return scheme;
- }
- 
--static int damon_reclaim_turn(bool on)
-+static int damon_reclaim_start(int nid)
- {
- 	struct damon_region *region;
- 	struct damos *scheme;
- 	int err;
-+	unsigned long start, end;
- 
--	if (!on) {
--		err = damon_stop(&ctx, 1);
--		if (!err)
--			kdamond_pid = -1;
--		return err;
--	}
--
--	err = damon_set_attrs(ctx, sample_interval, aggr_interval, 0,
-+	err = damon_set_attrs(ctxs[nid], sample_interval, aggr_interval, 0,
- 			min_nr_regions, max_nr_regions);
- 	if (err)
- 		return err;
- 
--	if (monitor_region_start > monitor_region_end)
--		return -EINVAL;
--	if (!monitor_region_start && !monitor_region_end &&
--			!get_monitoring_region(&monitor_region_start,
--				&monitor_region_end))
--		return -EINVAL;
-+	if (per_node) {
-+		monitor_region_start = monitor_region_end = 0;
-+
-+		start = PFN_PHYS(node_start_pfn(nid));
-+		end = PFN_PHYS(node_start_pfn(nid) + node_present_pages(nid) - 1);
-+		if (end <= start)
-+			return -EINVAL;
-+	} else {
-+		if (!monitor_region_start && !monitor_region_end &&
-+				!get_monitoring_region(&monitor_region_start,
-+					&monitor_region_end))
-+			return -EINVAL;
-+		start = monitor_region_start;
-+		end = monitor_region_end;
-+	}
-+
- 	/* DAMON will free this on its own when finish monitoring */
--	region = damon_new_region(monitor_region_start, monitor_region_end);
-+	region = damon_new_region(start, end);
- 	if (!region)
- 		return -ENOMEM;
--	damon_add_region(region, target);
-+	damon_add_region(region, targets[nid]);
- 
- 	/* Will be freed by 'damon_set_schemes()' below */
--	scheme = damon_reclaim_new_scheme();
-+	scheme = damon_reclaim_new_scheme(nid);
- 	if (!scheme) {
- 		err = -ENOMEM;
- 		goto free_region_out;
- 	}
--	err = damon_set_schemes(ctx, &scheme, 1);
-+
-+	err = damon_set_schemes(ctxs[nid], &scheme, 1);
- 	if (err)
- 		goto free_scheme_out;
- 
--	err = damon_start(&ctx, 1);
-+	err = damon_start_one(ctxs[nid]);
- 	if (!err) {
--		kdamond_pid = ctx->kdamond->pid;
-+		if (kdamond_start_pid == -1)
-+			kdamond_start_pid = ctxs[nid]->kdamond->pid;
-+		nr_kdamond++;
- 		return 0;
- 	}
- 
- free_scheme_out:
- 	damon_destroy_scheme(scheme);
- free_region_out:
--	damon_destroy_region(region, target);
-+	damon_destroy_region(region, targets[nid]);
-+
-+	return err;
-+}
-+
-+static int damon_reclaim_start_all(void)
-+{
-+	int nid, err;
-+
-+	if (!per_node)
-+		return damon_reclaim_start(0);
-+
-+	for_each_online_node(nid) {
-+		err = damon_reclaim_start(nid);
-+		if (err)
-+			break;
-+	}
-+
-+	return err;
-+}
-+
-+static int damon_reclaim_turn(bool on)
-+{
-+	int err;
-+
-+	if (!on) {
-+		err = damon_stop(ctxs, nr_kdamond);
-+		if (!err) {
-+			kdamond_start_pid = -1;
-+			nr_kdamond = 0;
-+			monitor_region_start = 0;
-+			monitor_region_end = 0;
-+		}
-+		return err;
-+	}
-+
-+	err = damon_reclaim_start_all();
- 	return err;
- }
- 
-@@ -380,21 +438,24 @@ static int damon_reclaim_after_aggregation(struct damon_ctx *c)
- 
- static int __init damon_reclaim_init(void)
- {
--	ctx = damon_new_ctx();
--	if (!ctx)
--		return -ENOMEM;
--
--	if (damon_select_ops(ctx, DAMON_OPS_PADDR))
--		return -EINVAL;
--
--	ctx->callback.after_aggregation = damon_reclaim_after_aggregation;
--
--	target = damon_new_target();
--	if (!target) {
--		damon_destroy_ctx(ctx);
--		return -ENOMEM;
-+	int nid;
-+
-+	for_each_node(nid) {
-+		ctxs[nid] = damon_new_ctx();
-+		if (!ctxs[nid])
-+			return -ENOMEM;
-+
-+		if (damon_select_ops(ctxs[nid], DAMON_OPS_PADDR))
-+			return -EINVAL;
-+		ctxs[nid]->callback.after_aggregation = damon_reclaim_after_aggregation;
-+
-+		targets[nid] = damon_new_target();
-+		if (!targets[nid]) {
-+			damon_destroy_ctx(ctxs[nid]);
-+			return -ENOMEM;
-+		}
-+		damon_add_target(ctxs[nid], targets[nid]);
- 	}
--	damon_add_target(ctx, target);
- 
- 	schedule_delayed_work(&damon_reclaim_timer, 0);
- 	return 0;
--- 
-2.17.1
+Thanks,
 
+Alex
+
+>
+> I tested for-next on both sv39 and sv48 successfully, I took a glance
+> at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
+> that. Otherwise nothing obvious has popped.
+>
+> Thanks again,
+>
+> Alex
+>
+> >
+> > Thanks!
+> >
+> > Alex
+> >
+> > >
+> > > Thanks!
