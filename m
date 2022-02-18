@@ -2,78 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 237F4C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 02:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 561B1C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 03:07:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231603AbiBRC3w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Feb 2022 21:29:52 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:35018 "EHLO
+        id S231804AbiBRDH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Feb 2022 22:07:26 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:54652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbiBRC3w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 21:29:52 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01602DFD1;
-        Thu, 17 Feb 2022 18:29:36 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id w3so12946003edu.8;
-        Thu, 17 Feb 2022 18:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PA6wGAdTHPmyGZljT+mifKX5DS7xiHYB6o4PnSOjpVQ=;
-        b=WE3WDUo6y+En976FRMvW6izqgNtFgN4c/aUxq+dvj0BqlpGQB/3HTaVpRovqPuUeGD
-         f4J6izQFuXnwst+5KFDk76Hm/7cfB0U6EM4wVktizwbegVUjPWEEH2WUfPWeNL664z9S
-         nrFjhWt+Fjq4Maeu5XGEkSw8agvK6Zc+ljOO/nZHE/A9TtRY1wiPlt4z6yiXZwpGfqNy
-         IAcp1oxixOKM13iFC7zNqMUZay7weUaNq2GtYO6i50qfI+6oCrkEtP9JXKbCbj9HqxDX
-         TnljBzjI7rcsbhGmpxSq6cuUAakI8c4qHEyYhHs3ZpQkiZbSMcqJTcz61ntueBB6nJOt
-         yCaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PA6wGAdTHPmyGZljT+mifKX5DS7xiHYB6o4PnSOjpVQ=;
-        b=SHyoMHX3TpRyIHqFdCJJibZGxMbn8XS5qDgowj/QgHzF/JQSRVY7vPwKQvGfzfMmhu
-         bZmFW4bpSPei4n0SvOqC2037foz00cxvYyb4EwEt9zO+7RpvqGpffrDgNioL+5/nUwMS
-         OouVDmr1zdaNvHrCyRxOD91E4TQ2YBnAYKXOdg4v/g58puxbYXuaArQKFCWLo0Zh02fW
-         BGxU7avXpkJ2JKSqjeCaYjcijAdVM8LLXq9qIjA8stDP8B7sWMzM51vCQ2SBq+HG7uU2
-         fkxZcznu9mrMe84CUOUW5Urki78VejYYhYjonWgr9LDk8+hfRxI2exIPSYk5eYL/LoYB
-         dcgQ==
-X-Gm-Message-State: AOAM531VjFlE3c9jq1F+W8SbufHnwZiGTHXduL40MliTUtyKDsZFXMVW
-        EWbE0j3KQgbmtrok1HLVtcemcm8TGaE=
-X-Google-Smtp-Source: ABdhPJzgIBFhyfyVwILs0/wXMK3m2CNw+6Pd8I+1/fHk6e0Yf0PFDxOo+JoCieBTJOzP8uFj2qPnZg==
-X-Received: by 2002:a50:d0dc:0:b0:410:dc9a:4065 with SMTP id g28-20020a50d0dc000000b00410dc9a4065mr5666645edf.346.1645151375447;
-        Thu, 17 Feb 2022 18:29:35 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id eg42sm2132627edb.79.2022.02.17.18.29.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 18:29:35 -0800 (PST)
-Date:   Fri, 18 Feb 2022 03:29:30 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+        with ESMTP id S231789AbiBRDHZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Feb 2022 22:07:25 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402E689327;
+        Thu, 17 Feb 2022 19:07:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=TFcv3hJgDtWWR6ruZhsTad8bORy5a0SPA8ynqp/hYi4=; b=ZL1HI7Njdnbv3bzWwefaPuBMTX
+        Al3ARIBsE5q1dzxJfjtUoIVNlmj0cY3a1BNWyYjLu5n7rwkfEw9GsejYhf3Mj47ReUZEtvfvMZQgT
+        GwsXrAjZDNIi5JYTnJeUvJWbokfu3Mb/2AmIHlsQp9uv/2KSrKZOMk4eWHQOgGNrc+d/BlzbbC1Ea
+        raJOZx1MqpP2w/2Oq+psN+aNH/niP5TG4VQLln7c3AsRPvgZUxMC7zrGbEBpmwFcguCE0wZnFnTQ+
+        XzCdxo2/DVGOoIV10ZHbdHMh/JWaZB979pqVVYzH66WEKAWClCHGg4RzwXkxG1QjdlxWT/uI61bW6
+        A0xlWRYQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nKtbu-00GECC-4e; Fri, 18 Feb 2022 03:07:06 +0000
+Date:   Fri, 18 Feb 2022 03:07:06 +0000
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
-Message-ID: <20220218032930.5230ee1e@fuji.fritz.box>
-In-Reply-To: <87bkz51l2g.fsf@meer.lwn.net>
+Message-ID: <Yg8NWrvooEDbKg49@casper.infradead.org>
 References: <20220205233945.7a4d22d8@fuji.fritz.box>
-        <8735ki2x62.fsf@meer.lwn.net>
-        <20220217163247.03e37c9b@fuji.fritz.box>
-        <87bkz51l2g.fsf@meer.lwn.net>
+ <8735ki2x62.fsf@meer.lwn.net>
+ <20220217163247.03e37c9b@fuji.fritz.box>
+ <87bkz51l2g.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87bkz51l2g.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Feb 2022 10:04:23 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> This is the kernel community you're talking about - saying that it
-> prefers any language (except possibly C) is asking for big-time trouble
-> :)
-
-It should be written in C then.
-
+On Thu, Feb 17, 2022 at 10:04:23AM -0700, Jonathan Corbet wrote:
+> *I* prefer Python, and the Sphinx side of things is necessarily in
+> Python, so I'd be happy to see kernel-doc move over.  That said, others
+> certainly disagree.
+> 
 > Markus's work was here:
 > 
 >   https://lore.kernel.org/lkml/1485287564-24205-1-git-send-email-markus.heiser@darmarit.de/
@@ -83,7 +59,18 @@ It should be written in C then.
 > we didn't need, so this never got looked at as seriously as I would have
 > liked.
 
-Thanks. Interesting.
+Personally, I'd like to see us switch over to
+https://github.com/jnikula/hawkmoth
 
-I should have mentioned getting rid of the parser states in my release
-announcement.
+but I don't have time to work on the rough edges.  I really hate the
+kernel-doc style; I think it makes us write very stilted documentation,
+full of parameter descriptions like:
+
+ function() - Do the thing to a page.
+ @page: The page.
+
+which really serves nobody.  Being able to write:
+
+ function() - Do the thing to @page
+
+is easier to both write and read.
