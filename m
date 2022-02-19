@@ -2,165 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A54C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Feb 2022 19:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 231A3C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Feb 2022 00:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235431AbiBRTNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 14:13:16 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57402 "EHLO
+        id S236492AbiBSAQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Feb 2022 19:16:24 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236615AbiBRTNP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 14:13:15 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B3F4D9D6
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 11:12:57 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id w3so17098942edu.8
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 11:12:57 -0800 (PST)
+        with ESMTP id S235702AbiBSAQX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 19:16:23 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A332447562
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 16:16:05 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id h6-20020a253a06000000b0061de83305f2so15297862yba.19
+        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 16:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kFx5mVaEHwZpR1G+osdopjqc+OzJyT2vvM3+pSprCFk=;
-        b=EQ+kstcsfvyoiVxpZH4DOveKWuo8ZLZzYUIop0Vlthf3r2DTADG1kDnjLZlmhEiEk+
-         6G1pQYgdE0Nh9wv/F/mr614cojFdmQRp2bm+wGYz7pZOcacHQguC10UzY7EM+1ffc44f
-         Wm1l5TaMSkrezOOuca+rkd439a22duxj7f/9y8nVcQJWPTcyz8zTDf/7iz5H+ApzRhTQ
-         NbqGdRr/U/H9RUKkTlGKY86fsffbY3C0Y3yyKrxlpGI6ol/qaBZxmLnCbHD8+AclEyv0
-         7/rPTsF6rq9ujxffbMlZt2i1zvBQfzL4TUlU49jq+ZYhmHm7rxl9MwWPEqQDFslXytJ8
-         Gf+w==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=t1Jpw+ueBOtsD6/0A+P0khb1gbXjD6yCm6h0DxHEboA=;
+        b=pNQnxU1fILXMInmD4uqudCIT7Be0KkI0yr06/vuLrOZKOAyUYFI5sXtwM1+o9RxR72
+         6+ebYk4+o42Gl9qAWaWQYOihlS/TSymMphgi7XQkxBkA5U8rJdkqh0IWAjljDlB/iSjT
+         2wujuIskcm+4sAHbRr24reNg7ddXqEeBUIytY08mqr90KLmzWy86yHNSp7SNHBWl+UXo
+         ooxyWZbuEdFW4Sq6VZVu2Jc3tlrHOXfz56zgD6htJPtNletRcvBlePF6UXy1Ql0iX8eh
+         MZ6TxwA6vE5InaZxmK7u8gqVAC2ChsGBT3EwQLQoJpV4G2Kxd7wvm6D/7CBe3cdcW8l9
+         eYiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kFx5mVaEHwZpR1G+osdopjqc+OzJyT2vvM3+pSprCFk=;
-        b=eFm2Nvw5NM3GoCNtshaajQdAFNN9ZR8qiAPFI0nBSJ0f53QsDRLyFyZC7olXNlu0GJ
-         jfGFGnsFQgwPaQHqoNoCs034qoB/eCMBT9nnulmHEbhSJW7fU4PkVOiEAPer1l3WvW7J
-         4BVwLkNls/qJXpJEvI8weKUMzVm6ZbJG6nmNfRko8N/XvWpkfJ2EJe24ZEJeLr0YMG0q
-         RcJZgvOVU5mc3uHVFTCWdSopEt+kjN6dVsxRpQq6x/3RdjiIr1iaHbsH4325vk6DgFT+
-         arGgxmY5sCNJOgP9GYPe34DfWObsU5gj9MUu8PLbFCMDsMwkxoz5cg6CBBH1AHHf3xKt
-         Og2Q==
-X-Gm-Message-State: AOAM530I3Pdu3WR2v3Fa2XfYvupuwrBcJGy4Zd1oY2FsYnUVcqSgVE0S
-        c/kqxZsEbe/qYfFbzViqjB9XJu+8m/eRK3xYA0LY2Q==
-X-Google-Smtp-Source: ABdhPJx3RFzhIbi2OeHNvwEo2c7s9U+9friyhOB0W2+wJsBDRyonLy4N3OFnI5CX3I+UAblAArNaJNvZqMIqINE8LuU=
-X-Received: by 2002:aa7:c0d0:0:b0:410:d576:8808 with SMTP id
- j16-20020aa7c0d0000000b00410d5768808mr9831902edp.340.1645211575981; Fri, 18
- Feb 2022 11:12:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
-In-Reply-To: <20220211161831.3493782-1-tjmercier@google.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Fri, 18 Feb 2022 11:12:44 -0800
-Message-ID: <CABdmKX3qO7UW-HGXMdZZdVi1P8FnKDh0H=TGT_ct=tHoAeVxbw@mail.gmail.com>
-Subject: Re: [RFC v2 0/6] Proposal for a GPU cgroup controller
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=t1Jpw+ueBOtsD6/0A+P0khb1gbXjD6yCm6h0DxHEboA=;
+        b=rmOUIQ/Hxr/+rL0wj7YFZQLGK6DFILvs2oHElRlgg1hEiLDVoYC3wBk9Dk4wcB++G7
+         ous6d1ldIHS77pdOnnqOiBiq1ph5gLaPJ8FHDyGcpxFjQAxJ9i6LxgaFgOCa/pWu3wJr
+         7/z8+lSzJhilUKb3eOM24gMA5MkxnDwb5PKG4ezMkuj2IvOYMP9/jNGMr+0MEXFUwFU/
+         ffEFnomy8FMZz/Um1tgRlD+Ks0fIa7iD6FcRZSfSYgfkVZD4Jvu+9GuOBRkI5dnJz05i
+         ZwSJZNzKBm3YpJNZiiPOX062UXk7GG51Kx56kuhN9R+AprS87MIQAoADQy0W8jv2qOT9
+         afOA==
+X-Gm-Message-State: AOAM530+qGBJlkDV6aWWS8wLH+cTSj1OTOSndDN/85vQEnN6cvJTRz3d
+        gueEmJN43VnTxSQY6zw6TZfh/97WBDY=
+X-Google-Smtp-Source: ABdhPJzC9kF2aqyqMClNmlOiYw6vcsQjNtY3AucQyQXxwhWEncOEjhIW6BZgRa79F/iaudlt/FUR/zaaEd4=
+X-Received: from khazhy-linux.svl.corp.google.com ([2620:15c:2cd:202:7d93:7487:6afd:f5f6])
+ (user=khazhy job=sendgmr) by 2002:a25:3b17:0:b0:619:4463:a400 with SMTP id
+ i23-20020a253b17000000b006194463a400mr9943708yba.36.1645229764835; Fri, 18
+ Feb 2022 16:16:04 -0800 (PST)
+Date:   Fri, 18 Feb 2022 16:16:01 -0800
+Message-Id: <20220219001601.3534043-1-khazhy@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.473.g83b2b277ed-goog
+Subject: [PATCH v2] scsi: docs: update notes about scsi_times_out
+From:   Khazhismel Kumykov <khazhy@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bvanassche@acm.org,
+        Hannes Reinecke <hare@suse.com>,
+        Khazhismel Kumykov <khazhy@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 8:18 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> This patch series revisits the proposal for a GPU cgroup controller to
-> track and limit memory allocations by various device/allocator
-> subsystems. The patch series also contains a simple prototype to
-> illustrate how Android intends to implement DMA-BUF allocator
-> attribution using the GPU cgroup controller. The prototype does not
-> include resource limit enforcements.
->
-> Changelog:
->
-> v2:
-> See the previous revision of this change submitted by Hridya Valsaraju
-> at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.co=
-m/
->
-> Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-> heap to a single dma-buf function for all heaps per Daniel Vetter and
-> Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
-> tracking the current associations were added to the dma_buf struct to
-> achieve this.
->
-> Fix incorrect Kconfig help section indentation per Randy Dunlap.
->
-> History of the GPU cgroup controller
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The GPU/DRM cgroup controller came into being when a consensus[1]
-> was reached that the resources it tracked were unsuitable to be integrate=
-d
-> into memcg. Originally, the proposed controller was specific to the DRM
-> subsystem and was intended to track GEM buffers and GPU-specific
-> resources[2]. In order to help establish a unified memory accounting mode=
-l
-> for all GPU and all related subsystems, Daniel Vetter put forth a
-> suggestion to move it out of the DRM subsystem so that it can be used by
-> other DMA-BUF exporters as well[3]. This RFC proposes an interface that
-> does the same.
->
-> [1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.=
-9506-1-brian.welty@intel.com/#22624705
-> [2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@i=
-ntel.com/
-> [3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.loca=
-l/
->
-> T.J. Mercier (6):
->   gpu: rfc: Proposal for a GPU cgroup controller
->   cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
->     memory
->   dmabuf: Use the GPU cgroup charge/uncharge APIs
->   dmabuf: heaps: export system_heap buffers with GPU cgroup charging
->   dmabuf: Add gpu cgroup charge transfer function
->   android: binder: Add a buffer flag to relinquish ownership of fds
->
->  Documentation/gpu/rfc/gpu-cgroup.rst | 195 +++++++++++++++++
->  Documentation/gpu/rfc/index.rst      |   4 +
->  drivers/android/binder.c             |  26 +++
->  drivers/dma-buf/dma-buf.c            | 100 +++++++++
->  drivers/dma-buf/dma-heap.c           |  27 +++
->  drivers/dma-buf/heaps/system_heap.c  |   3 +
->  include/linux/cgroup_gpu.h           | 127 +++++++++++
->  include/linux/cgroup_subsys.h        |   4 +
->  include/linux/dma-buf.h              |  22 +-
->  include/linux/dma-heap.h             |  11 +
->  include/uapi/linux/android/binder.h  |   1 +
->  init/Kconfig                         |   7 +
->  kernel/cgroup/Makefile               |   1 +
->  kernel/cgroup/gpu.c                  | 304 +++++++++++++++++++++++++++
->  14 files changed, 830 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
->  create mode 100644 include/linux/cgroup_gpu.h
->  create mode 100644 kernel/cgroup/gpu.c
->
-> --
-> 2.35.1.265.g69c8d7142f-goog
->
+Most importantly: eh_timed_out() is not limited by scmd->allowed,
+and can reset timer forever.
 
-Gentle nudge to GPU maintainers to please provide their feedback on
-this RFC. Thanks!
+Fixes: c829c394165f ("[SCSI] FC transport : Avoid device offline cases by stalling aborts until device unblocked")
+
+Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
+---
+ Documentation/scsi/scsi_eh.rst | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/scsi/scsi_eh.rst b/Documentation/scsi/scsi_eh.rst
+index 7d78c2475615..885395dc1f15 100644
+--- a/Documentation/scsi/scsi_eh.rst
++++ b/Documentation/scsi/scsi_eh.rst
+@@ -95,19 +95,18 @@ function
+ 
+     - BLK_EH_RESET_TIMER
+ 	This indicates that more time is required to finish the
+-	command.  Timer is restarted.  This action is counted as a
+-	retry and only allowed scmd->allowed + 1(!) times.  Once the
+-	limit is reached, action for BLK_EH_DONE is taken instead.
++	command.  Timer is restarted.
+ 
+     - BLK_EH_DONE
+         eh_timed_out() callback did not handle the command.
+ 	Step #2 is taken.
+ 
+- 2. scsi_abort_command() is invoked to schedule an asynchrous abort.
+-    Asynchronous abort are not invoked for commands which the
+-    SCSI_EH_ABORT_SCHEDULED flag is set (this indicates that the command
+-    already had been aborted once, and this is a retry which failed),
+-    or when the EH deadline is expired. In these case Step #3 is taken.
++ 2. scsi_abort_command() is invoked to schedule an asynchronous abort which may
++    issue a retry scmd->allowed + 1 times.  Asynchronous aborts are not invoked
++    for commands for which the SCSI_EH_ABORT_SCHEDULED flag is set (this
++    indicates that the command already had been aborted once, and this is a
++    retry which failed), when retries are exceeded, or when the EH deadline is
++    expired. In these cases Step #3 is taken.
+ 
+  3. scsi_eh_scmd_add(scmd, SCSI_EH_CANCEL_CMD) is invoked for the
+     command.  See [1-4] for more information.
+-- 
+2.35.1.473.g83b2b277ed-goog
+
