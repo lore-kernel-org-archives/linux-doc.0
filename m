@@ -2,106 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 231A3C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Feb 2022 00:16:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49655C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Feb 2022 14:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236492AbiBSAQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Feb 2022 19:16:24 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43298 "EHLO
+        id S242439AbiBSOld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Feb 2022 09:41:33 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235702AbiBSAQX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Feb 2022 19:16:23 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A332447562
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 16:16:05 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id h6-20020a253a06000000b0061de83305f2so15297862yba.19
-        for <linux-doc@vger.kernel.org>; Fri, 18 Feb 2022 16:16:05 -0800 (PST)
+        with ESMTP id S232726AbiBSOlc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Feb 2022 09:41:32 -0500
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DCE8596F;
+        Sat, 19 Feb 2022 06:41:13 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id d3so20688949qvb.5;
+        Sat, 19 Feb 2022 06:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=t1Jpw+ueBOtsD6/0A+P0khb1gbXjD6yCm6h0DxHEboA=;
-        b=pNQnxU1fILXMInmD4uqudCIT7Be0KkI0yr06/vuLrOZKOAyUYFI5sXtwM1+o9RxR72
-         6+ebYk4+o42Gl9qAWaWQYOihlS/TSymMphgi7XQkxBkA5U8rJdkqh0IWAjljDlB/iSjT
-         2wujuIskcm+4sAHbRr24reNg7ddXqEeBUIytY08mqr90KLmzWy86yHNSp7SNHBWl+UXo
-         ooxyWZbuEdFW4Sq6VZVu2Jc3tlrHOXfz56zgD6htJPtNletRcvBlePF6UXy1Ql0iX8eh
-         MZ6TxwA6vE5InaZxmK7u8gqVAC2ChsGBT3EwQLQoJpV4G2Kxd7wvm6D/7CBe3cdcW8l9
-         eYiQ==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5bz0LEo19SZXRNa76wKrJGBhLunyT/UmOk31bN05egs=;
+        b=VeylZOciVKjW9YMIn2HwYTghcEMmXNuQg6S3laV7RjTtMa6ssZ0A5r+L5Sx1qGKPFz
+         KrM4oMjpWho34Z6QKk54xuc0Yki4zrRA/+XBQ3op3PPDdflguGZCxbWulz13MMO99qET
+         e2IjE2qSlMv9dHhtBDWyU2cgo01Qe2Gmuo/KETtB9flw+h3GjMDX9IxSQWE0bLJ3Ik5Y
+         HrP+w5AcTm6Yo7YT28udh2ExWjp8tf+UZYrLVaEL0Oj7F6uE+5UbqnireJKlq7LQI/C/
+         JrAXbDcyxgNc/zO1CVlacKK46ALZg9G4aCAA7seuSap+j45gP6otwCXE6/i+aNoT8QR4
+         a2lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=t1Jpw+ueBOtsD6/0A+P0khb1gbXjD6yCm6h0DxHEboA=;
-        b=rmOUIQ/Hxr/+rL0wj7YFZQLGK6DFILvs2oHElRlgg1hEiLDVoYC3wBk9Dk4wcB++G7
-         ous6d1ldIHS77pdOnnqOiBiq1ph5gLaPJ8FHDyGcpxFjQAxJ9i6LxgaFgOCa/pWu3wJr
-         7/z8+lSzJhilUKb3eOM24gMA5MkxnDwb5PKG4ezMkuj2IvOYMP9/jNGMr+0MEXFUwFU/
-         ffEFnomy8FMZz/Um1tgRlD+Ks0fIa7iD6FcRZSfSYgfkVZD4Jvu+9GuOBRkI5dnJz05i
-         ZwSJZNzKBm3YpJNZiiPOX062UXk7GG51Kx56kuhN9R+AprS87MIQAoADQy0W8jv2qOT9
-         afOA==
-X-Gm-Message-State: AOAM530+qGBJlkDV6aWWS8wLH+cTSj1OTOSndDN/85vQEnN6cvJTRz3d
-        gueEmJN43VnTxSQY6zw6TZfh/97WBDY=
-X-Google-Smtp-Source: ABdhPJzC9kF2aqyqMClNmlOiYw6vcsQjNtY3AucQyQXxwhWEncOEjhIW6BZgRa79F/iaudlt/FUR/zaaEd4=
-X-Received: from khazhy-linux.svl.corp.google.com ([2620:15c:2cd:202:7d93:7487:6afd:f5f6])
- (user=khazhy job=sendgmr) by 2002:a25:3b17:0:b0:619:4463:a400 with SMTP id
- i23-20020a253b17000000b006194463a400mr9943708yba.36.1645229764835; Fri, 18
- Feb 2022 16:16:04 -0800 (PST)
-Date:   Fri, 18 Feb 2022 16:16:01 -0800
-Message-Id: <20220219001601.3534043-1-khazhy@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.473.g83b2b277ed-goog
-Subject: [PATCH v2] scsi: docs: update notes about scsi_times_out
-From:   Khazhismel Kumykov <khazhy@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bvanassche@acm.org,
-        Hannes Reinecke <hare@suse.com>,
-        Khazhismel Kumykov <khazhy@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=5bz0LEo19SZXRNa76wKrJGBhLunyT/UmOk31bN05egs=;
+        b=CB4oKFh+Ob1cJoLxBWnj4xVu8BWXAyaRWXq5EuiYrYRzdpC1BbThOmfdB9KiiXUCJ1
+         XTvRm82ng4xquDIyDuuraUi4eJF2vn73AcbUpiD908M7OETJtQhMQegxsNVyP0aLxlmX
+         Pzfi9cAuMat48jrFiscF4O43JEWZExVKkaX7Dn2K86CXyt8cXJ9aTJjwfpEUqT2yYbol
+         3xHepw5isZGqs7aRfuLtepdlvBo8fwvRe5bMUrm9XCbq0JlflMaBy/5h88ut6QWnuoCE
+         mERFd0gRHOlCF9+u2pLnjgXxR23lzuZvNp7UpzbxdvKH5e7skra5KtNZald63zk32B5q
+         1X0g==
+X-Gm-Message-State: AOAM533U0l8JyaRimIShBkyLjnEBrN0cXEGLcVqV2FQ1zbT9dY3Rg114
+        8rW9NKPEqgZXRhk/ceeM1WA=
+X-Google-Smtp-Source: ABdhPJwBHHVpn5fbrV8gyxn6Hgckf+Jc7snlM6izgEpKKlrEqwJv3mrqsFDj5aCPa+LApvYel56HlA==
+X-Received: by 2002:ac8:5b8f:0:b0:2dd:53e9:9e36 with SMTP id a15-20020ac85b8f000000b002dd53e99e36mr10307381qta.561.1645281672267;
+        Sat, 19 Feb 2022 06:41:12 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j11sm27587350qtj.74.2022.02.19.06.41.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Feb 2022 06:41:11 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 19 Feb 2022 06:41:10 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Marcello Sylvester Bauer <sylv@sylv.io>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] pmbus: Add support for pli1209bc
+Message-ID: <20220219144110.GA1032070@roeck-us.net>
+References: <cover.1644874828.git.sylv@sylv.io>
+ <8d44098e7b8ca5d4c13733267836d5a147539277.1644874828.git.sylv@sylv.io>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d44098e7b8ca5d4c13733267836d5a147539277.1644874828.git.sylv@sylv.io>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Most importantly: eh_timed_out() is not limited by scmd->allowed,
-and can reset timer forever.
+On Mon, Feb 14, 2022 at 10:44:55PM +0100, Marcello Sylvester Bauer wrote:
+> PLI1209BC is a Digital Supervisor from Vicor Corporation.
+> 
+> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
 
-Fixes: c829c394165f ("[SCSI] FC transport : Avoid device offline cases by stalling aborts until device unblocked")
+checkpatch says:
 
-Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
----
- Documentation/scsi/scsi_eh.rst | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+#82: FILE: Documentation/hwmon/pli1209bc.rst:1:
++Kernel driver pli1209bc
 
-diff --git a/Documentation/scsi/scsi_eh.rst b/Documentation/scsi/scsi_eh.rst
-index 7d78c2475615..885395dc1f15 100644
---- a/Documentation/scsi/scsi_eh.rst
-+++ b/Documentation/scsi/scsi_eh.rst
-@@ -95,19 +95,18 @@ function
- 
-     - BLK_EH_RESET_TIMER
- 	This indicates that more time is required to finish the
--	command.  Timer is restarted.  This action is counted as a
--	retry and only allowed scmd->allowed + 1(!) times.  Once the
--	limit is reached, action for BLK_EH_DONE is taken instead.
-+	command.  Timer is restarted.
- 
-     - BLK_EH_DONE
-         eh_timed_out() callback did not handle the command.
- 	Step #2 is taken.
- 
-- 2. scsi_abort_command() is invoked to schedule an asynchrous abort.
--    Asynchronous abort are not invoked for commands which the
--    SCSI_EH_ABORT_SCHEDULED flag is set (this indicates that the command
--    already had been aborted once, and this is a retry which failed),
--    or when the EH deadline is expired. In these case Step #3 is taken.
-+ 2. scsi_abort_command() is invoked to schedule an asynchronous abort which may
-+    issue a retry scmd->allowed + 1 times.  Asynchronous aborts are not invoked
-+    for commands for which the SCSI_EH_ABORT_SCHEDULED flag is set (this
-+    indicates that the command already had been aborted once, and this is a
-+    retry which failed), when retries are exceeded, or when the EH deadline is
-+    expired. In these cases Step #3 is taken.
- 
-  3. scsi_eh_scmd_add(scmd, SCSI_EH_CANCEL_CMD) is invoked for the
-     command.  See [1-4] for more information.
--- 
-2.35.1.473.g83b2b277ed-goog
+I can not accept the patch without license identifier.
 
+> ---
+>  Documentation/hwmon/pli1209bc.rst |  73 +++++++++++++++++++
+
+This needs to be added to Documentation/hwmon/index.rst.
+
+>  drivers/hwmon/pmbus/Kconfig       |   9 +++
+>  drivers/hwmon/pmbus/Makefile      |   1 +
+>  drivers/hwmon/pmbus/pli1209bc.c   | 115 ++++++++++++++++++++++++++++++
+>  4 files changed, 198 insertions(+)
+>  create mode 100644 Documentation/hwmon/pli1209bc.rst
+>  create mode 100644 drivers/hwmon/pmbus/pli1209bc.c
+> 
+> diff --git a/Documentation/hwmon/pli1209bc.rst b/Documentation/hwmon/pli1209bc.rst
+> new file mode 100644
+> index 000000000000..a3f686d03cf2
+> --- /dev/null
+> +++ b/Documentation/hwmon/pli1209bc.rst
+> @@ -0,0 +1,73 @@
+> +Kernel driver pli1209bc
+> +=======================
+> +
+> +Supported chips:
+> +
+> +  * Digital Supervisor PLI1209BC
+> +
+> +    Prefix: 'pli1209bc'
+> +
+> +    Addresses scanned: 0x50 - 0x5F
+> +
+> +    Datasheet: https://www.vicorpower.com/documents/datasheets/ds-PLI1209BCxyzz-VICOR.pdf
+> +
+> +Authors:
+> +    - Marcello Sylvester Bauer <sylv@sylv.io>
+> +
+> +Description
+> +-----------
+> +
+> +The Vicor PLI1209BC is an isolated digital power system supervisor thatprovides
+
+that provides
+
+> +a communication interface between a host processor and one Bus Converter Module
+> +(BCM). The PLI communicates with a system controller via a PMBus compatible
+> +interface over an isolated UART interface. Through the PLI, the host processor
+> +can configure, set protection limits, and monitor the BCM.
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +======================= ========================================================
+> +in1_label		"vin2"
+> +in1_input		Input voltage.
+> +in1_rated_min		Minimum rated input voltage.
+> +in1_rated_max		Maximum rated input voltage.
+> +in1_max			Maximum input voltage.
+> +in1_max_alarm		Input voltage high alarm.
+> +in1_crit		Critical input voltage.
+> +in1_crit_alarm		Input voltage critical alarm.
+> +
+> +in2_label		"vout2"
+> +in2_input		Output voltage.
+> +in2_rated_min		Minimum rated output voltage.
+> +in2_rated_max		Maximum rated output voltage.
+> +in2_alarm		Output voltage alarm
+> +
+> +curr1_label		"iin2"
+> +curr1_input		Input current.
+> +curr1_max		Maximum input current.
+> +curr1_max_alarm		Maximum input current high alarm.
+> +curr1_crit		Critical input current.
+> +curr1_crit_alarm	Input current critical alarm.
+> +
+> +curr2_label		"iout2"
+> +curr2_input		Output current.
+> +curr2_crit		Critical output current.
+> +curr2_crit_alarm	Output current critical alarm.
+> +curr2_max		Maximum output current.
+> +curr2_max_alarm		Output current high alarm.
+> +
+> +power1_label		"pin2"
+> +power1_input		Input power.
+> +power1_alarm		Input power alarm.
+> +
+> +power2_label		"pout2"
+> +power2_input		Output power.
+> +power2_rated_max	Maximum rated output power.
+> +
+> +temp1_input		Die temperature.
+> +temp1_alarm		Die temperature alarm.
+> +temp1_max		Maximum die temperature.
+> +temp1_max_alarm		Die temperature high alarm.
+> +temp1_crit		Critical die temperature.
+> +temp1_crit_alarm	Die temperature critical alarm.
+> +======================= ========================================================
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index c96f7b7338bd..831db423bea0 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -310,6 +310,15 @@ config SENSORS_PIM4328
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called pim4328.
+>  
+> +config SENSORS_PLI1209BC
+> +	tristate "Vicor PLI1209BC"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Vicor
+> +	  PLI1209BC Digital Supervisor.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called pli1209bc.
+> +
+>  config SENSORS_PM6764TR
+>  	tristate "ST PM6764TR"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index e5935f70c9e0..7ce74e3b8552 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+>  obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+>  obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
+>  obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+> +obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+
+Alphabetic order please.
+
+>  obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+>  obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
+>  obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+> diff --git a/drivers/hwmon/pmbus/pli1209bc.c b/drivers/hwmon/pmbus/pli1209bc.c
+> new file mode 100644
+> index 000000000000..5f8847307e55
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/pli1209bc.c
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Hardware monitoring driver for Vicor PLI1209BC Digital Supervisor
+> + *
+> + * Copyright (c) 2022 9elements GmbH
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +/*
+> + * The capability command is only supported at page 0. Probing the device while
+> + * the page register is set to 1 will falsely enable PEC support. Disable
+> + * capability probing accordingly, since the PLI1209BC does not have any
+> + * additional capabilities.
+> + */
+> +static struct pmbus_platform_data pli1209bc_plat_data = {
+> +	.flags = PMBUS_NO_CAPABILITY,
+> +};
+> +
+> +static int pli1209bc_read_word_data(struct i2c_client *client, int page,
+> +				    int phase, int reg)
+> +{
+> +	int data;
+> +
+> +	switch (reg) {
+> +	/* PMBUS_READ_POUT uses a direct format with R=0 */
+> +	case PMBUS_READ_POUT:
+> +		data = pmbus_read_word_data(client, page, phase, reg);
+> +		if (data < 0)
+> +			return data;
+> +		data = sign_extend32(data, 15) * 10;
+> +		return clamp_val(data, -32768, 32767) & 0xffff;
+> +	default:
+> +		return -ENODATA;
+> +	}
+> +}
+> +
+> +static struct pmbus_driver_info pli1209bc_info = {
+> +	.pages = 2,
+> +	.format[PSC_VOLTAGE_IN] = direct,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_CURRENT_IN] = direct,
+> +	.format[PSC_CURRENT_OUT] = direct,
+> +	.format[PSC_POWER] = direct,
+> +	.format[PSC_TEMPERATURE] = direct,
+> +	.m[PSC_VOLTAGE_IN] = 1,
+> +	.b[PSC_VOLTAGE_IN] = 0,
+> +	.R[PSC_VOLTAGE_IN] = 1,
+> +	.m[PSC_VOLTAGE_OUT] = 1,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 1,
+> +	.m[PSC_CURRENT_IN] = 1,
+> +	.b[PSC_CURRENT_IN] = 0,
+> +	.R[PSC_CURRENT_IN] = 3,
+> +	.m[PSC_CURRENT_OUT] = 1,
+> +	.b[PSC_CURRENT_OUT] = 0,
+> +	.R[PSC_CURRENT_OUT] = 2,
+> +	.m[PSC_POWER] = 1,
+> +	.b[PSC_POWER] = 0,
+> +	.R[PSC_POWER] = 1,
+> +	.m[PSC_TEMPERATURE] = 1,
+> +	.b[PSC_TEMPERATURE] = 0,
+> +	.R[PSC_TEMPERATURE] = 0,
+> +	/*
+> +	 * Page 0 sums up all attributes except voltage readings.
+> +	 * The pli1209 digital supervisor only contains a single BCM, making
+> +	 * page 0 redundant.
+> +	 */
+> +	.func[1] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
+> +	    | PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
+> +	    | PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
+> +	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
+> +	    | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT,
+> +	.read_word_data = pli1209bc_read_word_data,
+> +};
+> +
+> +static int pli1209bc_probe(struct i2c_client *client)
+> +{
+> +	client->dev.platform_data = &pli1209bc_plat_data;
+> +	return pmbus_do_probe(client, &pli1209bc_info);
+> +}
+> +
+> +static const struct i2c_device_id pli1209bc_id[] = {
+> +	{"pli1209bc", 0},
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, pli1209bc_id);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id pli1209bc_of_match[] = {
+> +	{ .compatible = "vicor,pli1209bc" },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, pli1209bc_of_match);
+> +#endif
+> +
+> +static struct i2c_driver pli1209bc_driver = {
+> +	.driver = {
+> +		   .name = "pli1209bc",
+> +		   .of_match_table = of_match_ptr(pli1209bc_of_match),
+> +		   },
+> +	.probe_new = pli1209bc_probe,
+> +	.id_table = pli1209bc_id,
+> +};
+> +
+> +module_i2c_driver(pli1209bc_driver);
+> +
+> +MODULE_AUTHOR("Marcello Sylvester Bauer <sylv@sylv.io>");
+> +MODULE_DESCRIPTION("PMBus driver for Vicor PLI1209BC");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS(PMBUS);
