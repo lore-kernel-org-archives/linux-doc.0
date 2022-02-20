@@ -2,129 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 269C7C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Feb 2022 11:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0293C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Feb 2022 12:12:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236792AbiBTLjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Feb 2022 06:39:01 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42816 "EHLO
+        id S238378AbiBTMMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Feb 2022 07:12:51 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbiBTLjA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 06:39:00 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163262A24E;
-        Sun, 20 Feb 2022 03:38:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645357120; x=1676893120;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2iB1zCNvMxpxf3iA+K+EHTFBJt7u3hTjWXSVeGvomvg=;
-  b=MbcKkrCm+63yC8+HZ3fj6466Ba0DXPT1KiwlbWvrOpsMb3MDHpv53IJ8
-   RNZgJ+7Picbml/vPR5guD1s5ILA16qI2GsNPwhU6UM79akO9pGgv37RNO
-   g+CBrf0udqmyR5ssETaqrn89TgrMJYavbkeM9d314Xcom8A76qPCt4WnW
-   s/ueYE+1LTHn3lr/MaI+KSPlKANBzED5xoKGNm75UE9LYWZPHLeEes3UZ
-   nmbUhwybCdWBbq1HWCuUk+e/9qznWKn81zqRP91Y85RCbFP3+7zGH1sv3
-   cPv42X4aFmoqfwIM0qsNoZzYlxW3ukH6DalgZ52Y4n7uZHFiYLzoTsuuh
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10263"; a="337796819"
-X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; 
-   d="scan'208";a="337796819"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2022 03:38:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; 
-   d="scan'208";a="507296914"
-Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 20 Feb 2022 03:38:37 -0800
-Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nLkY0-0000Hy-PR; Sun, 20 Feb 2022 11:38:36 +0000
-Date:   Sun, 20 Feb 2022 19:38:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atish.patra@wdc.com>
-Cc:     kbuild-all@lists.01.org, Atish Patra <Atish.Patra@wdc.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [atishp04:sbi_pmu_v6 15/17] drivers/perf/riscv_pmu_sbi.c:498:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202202201931.p5hX32R7-lkp@intel.com>
+        with ESMTP id S229509AbiBTMMu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 07:12:50 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2081.outbound.protection.outlook.com [40.92.99.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 997EEE0B4;
+        Sun, 20 Feb 2022 04:12:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e0kWhfXfhzk8kUdQXWkK8wFqSqfEdX0eeShYk+ued1ZyCOrRGHZDd3TVWA4oEgDvkvanmpqyKUGSmUk33iOBFV20kI4mfGvcOhm98YHzGn5m/7xSuli8qI230Q3P/G/xdKL8AUUcq8wLS1ayXpSjRPFW6lUGKvFgOZCP86lQa4rAfY9zrdoN5+zJha8g+ZuFvG+c8+WC3YYY3S+b17ZycOSUviaMBPEXAjH9C5rxv9xBMZwC5bs6EB056BDSHH+I3RBMDaukKZ4qX//AeXwlyHaCoUhInYJJGcRWi1nuhkkCJWdsSo6hpZrjGknJ2E9NJMjVuTSnt8W/BHUNXiFKqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cAVQBWJcBmzPJnyHodAde/LBsy4IzsRz0NB+n68iIek=;
+ b=ZzVA4UBhujpHk2OPSAHe3HO1GfOfozPkFge2OdrSq8t+fNY9sZ8in997+gNyQRC4/K/LJ749PAajPOl56sxdjclOunUZrw55/hPBYWl0UalagXIcnhn5nCqoVgbT4yoZ7WqKhTKqNPw2v5knw5M17TUoTZoiP+0qPaZzZPa51rYc6JiRLEM/GzCQbe0d9dZqH6dIBkvlzLWRSNPStfPzscDsQZfSsaFCRd87RFliSWX1+k79kHG/VHeAUBUCs9o9xm1VsMOYzCL2lJCJGEH6AmmDTxMRVzTF8niJxR6AjdVXLSe3nJbawvX43TwT+nv/mVM2Zc24/5aqPq3erQjTUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:11e::14)
+ by TYYP286MB1595.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:114::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Sun, 20 Feb
+ 2022 12:12:25 +0000
+Received: from TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::41d6:4a04:e5c9:86a6]) by TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::41d6:4a04:e5c9:86a6%5]) with mapi id 15.20.4995.026; Sun, 20 Feb 2022
+ 12:12:25 +0000
+From:   Oscar Shiang <oscar0225@livemail.tw>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oscar Shiang <oscar0225@livemail.tw>
+Subject: [PATCH] docs: Remove duplicated words in trace/osnoise-tracer
+Date:   Sun, 20 Feb 2022 20:12:00 +0800
+Message-ID: <TYCP286MB1913117487F390E3BCE38B15A1399@TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-TMN:  [2H/pLpdKsBr39ha6eF6HS+0Z8FDEK+N6]
+X-ClientProxiedBy: HK2PR0401CA0006.apcprd04.prod.outlook.com
+ (2603:1096:202:2::16) To TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:11e::14)
+X-Microsoft-Original-Message-ID: <20220220121200.6314-1-oscar0225@livemail.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: abe334db-7e56-4119-08b5-08d9f46a4110
+X-MS-TrafficTypeDiagnostic: TYYP286MB1595:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 68QqYNrqXcn7YXT1hbrN3MVQp6Jp10IS+Zv/wtfX9xO1Fu1A8MIN+FT6OHsXaDgyPLITSM8u5ZtsJqjl06Rdj4CttH836iM/hsFTHzwH6Z/w/oMjM3MBH/ALovsWdaeR/7SG7jXGywqp60oMHmoABCIrNeFqcoA1HSCJyhz6LeD/R7VVjhrY/cqFYMZOwO8jS/ZAfekbkHkdZ8vcJkLEVc08xSORWqh55JXbb47bqCZRgIfauFDxs/pTxqxFvGw2AzoN+wdyNoBgwZHMP7jdTTj0dsFxwHXIo/arEqoNy7y9iZGF9Phdx5l1moXID0PAeWBD04SlHBUdGkwby67kDnwFh8db7RJkDomYQtdnKe/ob8ub9EgmZsG0yf97d/3CcqKU4zxew5w9aaLO5V8LWUR4WdvIdBJRn8VCSljpcvaVlLGPEoCHKJC1U9V9DJvlWtlCMB51ZRggEdY+ZuBInuAShGJzHIQzJdUHv6dWkjlzeae2d33R1HKTEPpj5tWhxNKbbvJhz1FAbi6WoIR5HpApB/FOq92X2RrcAu8+3HVa8QulzpofrQ1awjZwB+J5HtZTx/bg68nwffXEccRxsw==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?67TWhU2hU/7TYJBq1v0WMgXGYiqUz7fA79kjlk17NLdJN12jebCkwoB/wffs?=
+ =?us-ascii?Q?mEVSUe3NIvZWSZsGFOfyZzxq+Z6Js3ujrLkjgb2HwDE1lg60fW4sXNWJYv/s?=
+ =?us-ascii?Q?csy5i2KZa1hPQI1EgjflrIDv6iCiTnmYsBhjC/1ulPQy+GbI3kLG8M26UNg0?=
+ =?us-ascii?Q?rTeRJefNkFiqbkb4Dxv7RqA5K05VlPhfAszuNCRoM/FcLJZ7PAQ07hFY0lg9?=
+ =?us-ascii?Q?JZmRcrdBUL4bRmX00RyHEdbXA8LJdAVSCGIvn3PeKaWAmlhXzsNS9Qdi4Vh/?=
+ =?us-ascii?Q?01NEdBC/ZR2r7AFeNW/wwsGcrKu+ddch64mT74erY3Q7tBLPMSX9AFWTAkFc?=
+ =?us-ascii?Q?JexYmyPaYp1bvn9n2pw6Z0yX4fy48ft7a8WhAbAmTgthSHF6+egUgJStY8Hu?=
+ =?us-ascii?Q?lMIDUYKVY95SB8RIZK/yLjHzRvejUFmRjxZJ4sjClwpOqFee5sVg0asrvbcr?=
+ =?us-ascii?Q?YNPGvsvnC0jv9URXe14TAuIu6JIyFH4gds3t8PiriP4hD/eu+y5CvyOghAfh?=
+ =?us-ascii?Q?uJ5DQcqkCvSmW8VdjzoIzvR8kcwyqn9YBa51xVOp4yj4r5fXr4fn+aqxQgw4?=
+ =?us-ascii?Q?3vEhHDDIwbSDkP9hyeu5IHnX/U+84PSqfxRAIbCdqrpUzdm1XnZnKED1D2/9?=
+ =?us-ascii?Q?kv4as/serqIp96Z/c7nNM9zV2/zdDMbXo9EFlEUZE5AKTJRuGuAmmmHx1g/L?=
+ =?us-ascii?Q?QBxxf8PAvt+uwOtUxXmmV8NobY6Lk8LJQbD+OJsTUi64pitQr8dfslUkJnTf?=
+ =?us-ascii?Q?yWXf21ALrwxAsAVFBD2TELOxhYMFT1eD8OBDGDfJHZ5ZFhldXkG9fPxhonX6?=
+ =?us-ascii?Q?DCBcgDYfFwB73f8NAQNRC6BVQCa287AFS+2DdmL6ONbaGYC6+zo9528Q9dJN?=
+ =?us-ascii?Q?5PXYrx4qBGFbBXrDF/05xpiYpKsAGVTHyiaKPeh9zlamiPvNtpFXg/Qw4ds+?=
+ =?us-ascii?Q?bzsf4ckV84y7ENfb/vvRyA=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-05f45.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: abe334db-7e56-4119-08b5-08d9f46a4110
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2022 12:12:25.1802
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYP286MB1595
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/atishp04/linux sbi_pmu_v6
-head:   876094386d4f915d81ec2ee5b8b412987a10d808
-commit: 4d77ea7126a3073504f29575eacacc63547fb579 [15/17] RISC-V: Add sscofpmf extension support
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20220220/202202201931.p5hX32R7-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/4d77ea7126a3073504f29575eacacc63547fb579
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 sbi_pmu_v6
-        git checkout 4d77ea7126a3073504f29575eacacc63547fb579
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
+There are 2 duplicated words found in osnoise tracer documentation.
+This patch removes them.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/perf/riscv_pmu_sbi.c:42: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
->> drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * This function starts all the used counters in two step approach.
-
-
-vim +498 drivers/perf/riscv_pmu_sbi.c
-
-   496	
-   497	/**
- > 498	 * This function starts all the used counters in two step approach.
-   499	 * Any counter that did not overflow can be start in a single step
-   500	 * while the overflowed counters need to be started with updated initialization
-   501	 * value.
-   502	 */
-   503	static inline void pmu_sbi_start_overflow_mask(struct riscv_pmu *pmu,
-   504						       unsigned long ctr_ovf_mask)
-   505	{
-   506		int idx = 0;
-   507		struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
-   508		struct perf_event *event;
-   509		unsigned long flag = SBI_PMU_START_FLAG_SET_INIT_VALUE;
-   510		unsigned long ctr_start_mask = 0;
-   511		uint64_t max_period;
-   512		struct hw_perf_event *hwc;
-   513		u64 init_val = 0;
-   514	
-   515		ctr_start_mask = cpu_hw_evt->used_hw_ctrs[0] & ~ctr_ovf_mask;
-   516	
-   517		/* Start all the counters that did not overflow in a single shot */
-   518		sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, 0, ctr_start_mask,
-   519			  0, 0, 0, 0);
-   520	
-   521		/* Reinitialize and start all the counter that overflowed */
-   522		while (ctr_ovf_mask) {
-   523			if (ctr_ovf_mask & 0x01) {
-   524				event = cpu_hw_evt->events[idx];
-   525				hwc = &event->hw;
-   526				max_period = riscv_pmu_ctr_get_width_mask(event);
-   527				init_val = local64_read(&hwc->prev_count) & max_period;
-   528				sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, idx, 1,
-   529					  flag, init_val, 0, 0);
-   530			}
-   531			ctr_ovf_mask = ctr_ovf_mask >> 1;
-   532			idx++;
-   533		}
-   534	}
-   535	
-
+Signed-off-by: Oscar Shiang <oscar0225@livemail.tw>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ Documentation/trace/osnoise-tracer.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
+index b648cb9bf..963def9f9 100644
+--- a/Documentation/trace/osnoise-tracer.rst
++++ b/Documentation/trace/osnoise-tracer.rst
+@@ -51,7 +51,7 @@ For example::
+         [root@f32 ~]# cd /sys/kernel/tracing/
+         [root@f32 tracing]# echo osnoise > current_tracer
+ 
+-It is possible to follow the trace by reading the trace trace file::
++It is possible to follow the trace by reading the trace file::
+ 
+         [root@f32 tracing]# cat trace
+         # tracer: osnoise
+@@ -108,7 +108,7 @@ The tracer has a set of options inside the osnoise directory, they are:
+    option.
+  - tracing_threshold: the minimum delta between two time() reads to be
+    considered as noise, in us. When set to 0, the default value will
+-   will be used, which is currently 5 us.
++   be used, which is currently 5 us.
+ 
+ Additional Tracing
+ ------------------
+-- 
+2.25.1
+
