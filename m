@@ -2,73 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C9DC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Feb 2022 08:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 873A8C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 20 Feb 2022 10:17:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235140AbiBTIbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Feb 2022 03:31:15 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57076 "EHLO
+        id S229808AbiBTKSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Feb 2022 05:18:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbiBTIbO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 03:31:14 -0500
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42BF50B17
-        for <linux-doc@vger.kernel.org>; Sun, 20 Feb 2022 00:30:53 -0800 (PST)
-X-QQ-mid: bizesmtp66t1645345832taerfzir
-Received: from localhost.localdomain (unknown [202.96.137.248])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Sun, 20 Feb 2022 16:29:33 +0800 (CST)
-X-QQ-SSF: 01400000002000D0N000000A0000000
-X-QQ-FEAT: pqOtrSRu7rg5ACz2c+gPpZlgAFM7xN0sDWeZTFZT/eyjqGE+KF9Yd47IqfiLL
-        5OmQB4GQpeoTHRPQCDUQLPFDmhJiCs9H0ot8T4/FFY0Z7C+wC/58MMbKGyVTF4mYghb0dbW
-        u9yriejklXLciYCcTNriqWlveaMq9qX1JilHE3qb9kEx+9kPkcrkWsmFc/0sVoDSwjdLnjQ
-        ocRWtFwqpff5hYgLercPVeaWNd4Spwv413rO6mbLrCPIXsbb9tJXE2USokVub62mNHJwXOF
-        IYz7pi8HYSa+dB5MlVHRkVLhbk22U9vzS8HB6Lck6Uhjl6Gf2h6f5XaPzsKIZNEIbYP21ds
-        FjFbHBX/JgScBr3SHutDjSkO7tVYjrMQ8FK5ng3
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     corbet@lwn.net
-Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        hanshenghong2019@email.szu.edu.cn, vbabka@suse.cz,
-        skhan@linuxfoundation.org, georgi.djakov@linaro.org,
-        weizhenliang@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH 2/2] Documentation/vm/page_owner.rst: fix a phrase
-Date:   Sun, 20 Feb 2022 16:29:32 +0800
-Message-Id: <20220220082932.2808-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S229799AbiBTKR6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 05:17:58 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9AEBC9A;
+        Sun, 20 Feb 2022 02:17:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645352257; x=1676888257;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FJWA/e2ARCT6IKuYx267KSV+f+20WZxwf0RWSo+k1TA=;
+  b=Kx0NVxhHyj46y7lZ2Zw2xqZQDioTVQ+Zfy9uaP8lONlrkx5YovGF2DCu
+   5yj306r5YJ3ScBWT/UDxuVlZEQsOPFvCVDb6kmYp3/QyY0KuFRztNE4Ca
+   2duOGRqxchK2VkIhdqSVnw5/T9YfNtFh/VOUX9CrbUPGDTRKWNrm7Gc/z
+   4svGWsZe5pon2yo7h3LDdX3XUoES//TZ6OxARRN+8eKwAwl4b0peIFexx
+   q1/vAGmY2yCly9yns8IFfYLpn6HPetNZ6KoXqrjUNabJ8j6pSeYQPuwTc
+   /riVsH/izjSDnWRCWIbI4tTb+N03oyu4yxuvKLgSkWbuRGwEHRupYSwum
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10263"; a="231331065"
+X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; 
+   d="scan'208";a="231331065"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2022 02:17:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,383,1635231600"; 
+   d="scan'208";a="590651267"
+Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Feb 2022 02:17:35 -0800
+Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nLjHa-0000EX-Nt; Sun, 20 Feb 2022 10:17:34 +0000
+Date:   Sun, 20 Feb 2022 18:17:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     kbuild-all@lists.01.org, Atish Patra <Atish.Patra@wdc.com>,
+        linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
+        linux-doc@vger.kernel.org
+Subject: [atishp04:sbi_pmu_v6 12/17] drivers/perf/riscv_pmu_legacy.c:76:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202202201838.kdXweR8L-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign6
-X-QQ-Bgrelay: 1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I think that using "by default" will be better.
+tree:   https://github.com/atishp04/linux sbi_pmu_v6
+head:   876094386d4f915d81ec2ee5b8b412987a10d808
+commit: 9cba22b308da91d7cf0781fcc18b3ad34abdf9b0 [12/17] RISC-V: Add a simple platform driver for RISC-V legacy perf
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20220220/202202201838.kdXweR8L-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/atishp04/linux/commit/9cba22b308da91d7cf0781fcc18b3ad34abdf9b0
+        git remote add atishp04 https://github.com/atishp04/linux
+        git fetch --no-tags atishp04 sbi_pmu_v6
+        git checkout 9cba22b308da91d7cf0781fcc18b3ad34abdf9b0
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
 
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/perf/riscv_pmu_legacy.c:76: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This is just a simple implementation to allow legacy implementations
+
+
+vim +76 drivers/perf/riscv_pmu_legacy.c
+
+    74	
+    75	/**
+  > 76	 * This is just a simple implementation to allow legacy implementations
+    77	 * compatible with new RISC-V PMU driver framework.
+    78	 * This driver only allows reading two counters i.e CYCLE & INSTRET.
+    79	 * However, it can not start or stop the counter. Thus, it is not very useful
+    80	 * will be removed in future.
+    81	 */
+    82	static void pmu_legacy_init(struct riscv_pmu *pmu)
+    83	{
+    84		pr_info("Legacy PMU implementation is available\n");
+    85	
+    86		pmu->num_counters = RISCV_PMU_LEGACY_NUM_CTR;
+    87		pmu->ctr_start = pmu_legacy_ctr_start;
+    88		pmu->ctr_stop = NULL;
+    89		pmu->event_map = pmu_legacy_event_map;
+    90		pmu->ctr_get_idx = pmu_legacy_ctr_get_idx;
+    91		pmu->ctr_get_width = NULL;
+    92		pmu->ctr_clear_idx = NULL;
+    93		pmu->ctr_read = pmu_legacy_read_ctr;
+    94	
+    95		perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
+    96	}
+    97	
+
 ---
- Documentation/vm/page_owner.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 2b54e82b9fe1..5ac1c12fcfc2 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -26,7 +26,7 @@ fragmentation statistics can be obtained through gfp flag information of
- each page. It is already implemented and activated if page owner is
- enabled. Other usages are more than welcome.
- 
--page owner is disabled in default. So, if you'd like to use it, you need
-+page owner is disabled by default. So, if you'd like to use it, you need
- to add "page_owner=on" into your boot cmdline. If the kernel is built
- with page owner and page owner is disabled in runtime due to no enabling
- boot option, runtime overhead is marginal. If disabled in runtime, it
--- 
-2.31.1
-
-
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
