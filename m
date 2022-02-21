@@ -2,91 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C955CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 21:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8981C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 22:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234666AbiBUVYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 16:24:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60226 "EHLO
+        id S235296AbiBUWRl convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 17:17:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234760AbiBUVXR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 16:23:17 -0500
-X-Greylist: delayed 459 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Feb 2022 13:22:51 PST
-Received: from smtp-8fab.mail.infomaniak.ch (smtp-8fab.mail.infomaniak.ch [IPv6:2001:1600:3:17::8fab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B127926F8
-        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 13:22:51 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4K2Znx0KrTzMqHj1;
-        Mon, 21 Feb 2022 22:15:17 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4K2Znw5mBSzljTgD;
-        Mon, 21 Feb 2022 22:15:16 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v1 10/11] landlock: Document good practices about filesystem policies
-Date:   Mon, 21 Feb 2022 22:25:21 +0100
-Message-Id: <20220221212522.320243-11-mic@digikod.net>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221212522.320243-1-mic@digikod.net>
-References: <20220221212522.320243-1-mic@digikod.net>
+        with ESMTP id S235282AbiBUWRj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 17:17:39 -0500
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BD14622BF4
+        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 14:17:13 -0800 (PST)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-375-cZWv-X8dPMKKcsDI4bGfIw-1; Mon, 21 Feb 2022 17:17:09 -0500
+X-MC-Unique: cZWv-X8dPMKKcsDI4bGfIw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 561D01091DA1;
+        Mon, 21 Feb 2022 22:17:08 +0000 (UTC)
+Received: from x1.com (unknown [10.22.16.159])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 75C7A5DB96;
+        Mon, 21 Feb 2022 22:17:03 +0000 (UTC)
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Clark Williams <williams@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-devel@vger.kernel.org
+Subject: [PATCH V2 00/11] rtla: Improved tracing support
+Date:   Mon, 21 Feb 2022 23:16:45 +0100
+Message-Id: <cover.1645481500.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kernel.org
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+This set introduces some tracing facilities to rtla tools:
 
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20220221212522.320243-11-mic@digikod.net
----
- Documentation/userspace-api/landlock.rst | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+- Add the possibility to change the tracing_thresh to osnoise,
+allowing a fine tune of OS noise detection.
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 97db09d36a5c..cc3b52f65f99 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -156,6 +156,27 @@ ruleset.
- 
- Full working code can be found in `samples/landlock/sandboxer.c`_.
- 
-+Good practices
-+--------------
-+
-+It is recommended setting access rights to file hierarchy leaves as much as
-+possible.  For instance, it is better to be able to have ``~/doc/`` as a
-+read-only hierarchy and ``~/tmp/`` as a read-write hierarchy, compared to
-+``~/`` as a read-only hierarchy and ``~/tmp/`` as a read-write hierarchy.
-+Following this good practice leads to self-sufficient hierarchies that don't
-+depend on their location (i.e. parent directories).  This is particularly
-+relevant when we want to allow linking or renaming.  Indeed, having consistent
-+access rights per directory enables to change the location of such directory
-+without relying on the destination directory access rights (except those that
-+are required for this operation, see `LANDLOCK_ACCESS_FS_REFER` documentation).
-+Having self-sufficient hierarchies also helps to tighten the required access
-+rights to the minimal set of data.  This also helps avoid sinkhole directories,
-+i.e.  directories where data can be linked to but not linked from.  However,
-+this depends on data organization, which might not be controlled by developers.
-+In this case, granting read-write access to ``~/tmp/``, instead of write-only
-+access, would potentially allow to move ``~/tmp/`` to a non-readable directory
-+and still keep the ability to list the content of ``~/tmp/``.
-+
- Layers of file path access rights
- ---------------------------------
- 
+- Add the auto-tracing feature (-a threshold us), which aims
+helping the first approach to a problem by setting common
+tracing features with a single parameter.
+
+- Add -e/--event option, allowing osnoise and timerlat to
+enable additional trace events via (possible multiple)
+-e sys:event options.
+
+- Add the --filter option to filter the previous -e event.
+
+- Add the --trigger option to allow the usage of tracing
+trigger of the previously set -e event. If the trigger
+is hist: one, rtla automatically saves the hist file
+associated with the -e event.
+
+Depends on "rtla: Some RTLA fixes for 5.17":
+   https://lore.kernel.org/lkml/cover.1645206561.git.bristot@kernel.org/
+
+Changes from V1:
+ - Add -e to osnoise/timerlat hist
+ - Add --trigger
+ - Add --filter
+ - Add support to save hist file
+ - Function name refactoring
+
+Daniel Bristot de Oliveira (11):
+  rtla/osnoise: Add support to adjust the tracing_thresh
+  rtla/osnoise: Add an option to set the threshold
+  rtla/osnoise: Add the automatic trace option
+  rtla/timerlat: Add the automatic trace option
+  rtla/trace: Add trace events helpers
+  rtla: Add -e/--event support
+  rtla/trace: Add trace event trigger helpers
+  rtla: Add --trigger support
+  rtla/trace: Add trace event filter helpers
+  rtla: Add --filter support
+  rtla/trace: Save event histogram output to a file
+
+ Documentation/tools/rtla/common_options.rst   |  19 +
+ .../tools/rtla/common_osnoise_options.rst     |  10 +
+ .../tools/rtla/common_timerlat_options.rst    |   7 +
+ tools/tracing/rtla/src/osnoise.c              |  83 +++++
+ tools/tracing/rtla/src/osnoise.h              |   8 +
+ tools/tracing/rtla/src/osnoise_hist.c         |  87 ++++-
+ tools/tracing/rtla/src/osnoise_top.c          |  83 ++++-
+ tools/tracing/rtla/src/timerlat_hist.c        |  78 ++++-
+ tools/tracing/rtla/src/timerlat_top.c         |  73 +++-
+ tools/tracing/rtla/src/trace.c                | 326 ++++++++++++++++++
+ tools/tracing/rtla/src/trace.h                |  22 ++
+ 11 files changed, 782 insertions(+), 14 deletions(-)
+
 -- 
-2.35.1
+2.34.1
 
