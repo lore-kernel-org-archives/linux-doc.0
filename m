@@ -2,108 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA54DC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 12:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B53C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 12:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357791AbiBUMRX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 07:17:23 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52850 "EHLO
+        id S1358408AbiBUM6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 07:58:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358318AbiBUMQ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 07:16:59 -0500
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D5423BCB;
-        Mon, 21 Feb 2022 04:13:24 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4K2Lmf47v0z9sSD;
-        Mon, 21 Feb 2022 13:13:22 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
-        t=1645445600;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2k7bqJ/vTjUg+OF74X8lGOPbwp8eKng0+FRC6D3l23o=;
-        b=OUBe/JEnj0zfiXLJhNPM9LLj6Kl1oo8J9oSRQEZ0C9GgiyFPxeLa2UwLUZemMQrpEAW0uP
-        pyo2mv8l9NLHXbVUAs5wjf+yPtyUKISv/CoLuFAH//7cS1neKadQo5Krewy0KFjUYOsGeV
-        8v/joAI3CZa/F7Q56vCC7SOMShWVlMDGotOJvJN+MP0ouYNRCATT/jWGJrXC27pjmSLdHo
-        xZuezoLHOH3toRhwlhZStxFvIZ2J6q48/+Oc4/H687m78y/6WHfs3UUm7w+Jw8sUbiVy59
-        udy7MRLc73gg8qABo3buHf5lIi1cTUFSfoOINg9nkPVatO8gl47OXqEGl5cPNA==
-Message-ID: <337fe0598837b35ee96773339e9cdc8345a7c16e.camel@sylv.io>
-Subject: Re: [PATCH v2 2/3] hwmon (xdpe12284): Add support for xdpe11280
-From:   sylv <sylv@sylv.io>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
+        with ESMTP id S231617AbiBUM6V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 07:58:21 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084F01EAD4;
+        Mon, 21 Feb 2022 04:57:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645448278; x=1676984278;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=G6uPDsLPXAgZNQCtVqi3S/5UdXZRLfU1CWAz2itzvuA=;
+  b=fPca6omaRm69OL81DHC3tf/BR3Fl+VW9n8XnTFCGaZsQ8HzK6DJ+PAL6
+   cno3DU/H6+R2/mqpo+4N3y/ZF9y5DZeTr+EIC0JRHENCy3My48kDMc6tk
+   kgAhVZJ0FG42jMJRjZ4edo/R+lI/PKYYmKtQCv+B+82+2b0HFijR1Zb0f
+   VApAzGwIiemvsuA7BhwrQw9uHRzo2yGrrooFqY30ybpuwLj9omZkI6Nwg
+   5VRirTMqM94aaekD9r7VuTS4BY3UM5hT3UeEZ+4poV0L3Y4d5UyZ39JPb
+   g2zZw5OdAqiQoewbTv1aLs0p3Kg7ECSHtAYDgkMiSwLx/BaR9ych6Ifq+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="314765767"
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
+   d="scan'208";a="314765767"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 04:57:57 -0800
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
+   d="scan'208";a="547326671"
+Received: from ebruchet-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.63.21])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 04:57:55 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Matthew Wilcox <willy@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-doc@vger.kernel.org
-Date:   Mon, 21 Feb 2022 13:13:15 +0100
-In-Reply-To: <aa82f347-1b1a-8c40-b5cb-9efe292ae0ec@roeck-us.net>
-References: <cover.1645108566.git.sylv@sylv.io>
-         <6103836f1116a045a25919ae3e5c18dfdc485902.1645108566.git.sylv@sylv.io>
-         <f1e13a4e-2e86-1d53-f34d-a04838e8e8f9@roeck-us.net>
-         <246de83631dd5e165f95904d7f1628502f030e02.camel@sylv.io>
-         <66d4ea0b-0377-c9ae-68eb-7303c32cf87e@roeck-us.net>
-         <7a567823d62b6ed00cbdc2ce239dc4a69e48b411.camel@sylv.io>
-         <aa82f347-1b1a-8c40-b5cb-9efe292ae0ec@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
+In-Reply-To: <Yg8NWrvooEDbKg49@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220205233945.7a4d22d8@fuji.fritz.box>
+ <8735ki2x62.fsf@meer.lwn.net> <20220217163247.03e37c9b@fuji.fritz.box>
+ <87bkz51l2g.fsf@meer.lwn.net> <Yg8NWrvooEDbKg49@casper.infradead.org>
+Date:   Mon, 21 Feb 2022 14:57:53 +0200
+Message-ID: <87k0do8jhq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2022-02-17 at 11:25 -0800, Guenter Roeck wrote:
-> On 2/17/22 10:38, sylv wrote:
-> [ ... ]
-> 
-> > > 
-> > > That makes me wonder if the chip needs to be added to this driver
-> > > in
-> > > the first
-> > > place, or if it could be added to pmbus.c instead. Any idea ?
-> > 
-> > Oh, we did wrote a standalone driver too, and it works fine.
-> > Maybe it's better to upsteam it instead. :)
-> 
-> No, I meant if it would make sense to just add something like
-> 
->         {"xdpe11280", (kernel_ulong_t)&pmbus_info_one },
-> 
-> to drivers/hwmon/pmbus/pmbus.c.
-> 
-> You only really need a standalone driver if it does something
-> special, such as a workaround for some register access (like
-> the xdpe12284 driver), or if support for manufacturer specific
-> registers is desired or needed. That would, for example, be useful
-> if the xdpe11280 supports per-phase sensors.
-> 
-> Thanks,
-> Guenter
+On Fri, 18 Feb 2022, Matthew Wilcox <willy@infradead.org> wrote:
+> On Thu, Feb 17, 2022 at 10:04:23AM -0700, Jonathan Corbet wrote:
+>> *I* prefer Python, and the Sphinx side of things is necessarily in
+>> Python, so I'd be happy to see kernel-doc move over.  That said, others
+>> certainly disagree.
+>> 
+>> Markus's work was here:
+>> 
+>>   https://lore.kernel.org/lkml/1485287564-24205-1-git-send-email-markus.heiser@darmarit.de/
+>> 
+>> At the time, we were just trying to get the RST transition done, and
+>> swapping out the kernel-doc script seemed like a major distraction that
+>> we didn't need, so this never got looked at as seriously as I would have
+>> liked.
+>
+> Personally, I'd like to see us switch over to
+> https://github.com/jnikula/hawkmoth
+>
+> but I don't have time to work on the rough edges.
 
-Hi,
+Basically Hawkmoth is my idea how C documentation comments should be
+incorporated to Sphinx *if* there is no legacy to care about. In that
+sense, I never wrote it with the kernel documentation in mind, on the
+contrary it's a hobby project where I can just not think about the
+kernel at all. ;)
 
-I tested if the xdpe11280 can use the generic pmbus driver. Everything
-works fine except it does only detect READ_TEMPERATURE_1 on page 0.
-Looking at the pmbus_find_sensor_groups function it looks like only
-some commands are probed on each page (READ_VOUT, READ_IOUT, and
-READ_POUT) but not READ_TEMPERATURE_1.
-The PMBus spec 1.3.1 tells us: "Each page may offer the full range of
-PMBus commands available for each output or non-PMBus device." How
-could we adapt the generic driver so that it is possible to probe
-commands for each page?
+With that in mind, I'd really like to hear what the rough edges are that
+you see. Or are they kernel specific? Preferrably as issues on the
+project page if you don't mind.
 
-Furthermore, It would be great to add regulator and DT support. I
-created a WIP branch on GitHub with a possible way to implement this:
-https://github.com/9elements/linux/tree/upstreaming_pmbus_regulator_wip
+> I really hate the kernel-doc style; I think it makes us write very
+> stilted documentation, full of parameter descriptions like:
+>
+>  function() - Do the thing to a page.
+>  @page: The page.
+>
+> which really serves nobody.  Being able to write:
+>
+>  function() - Do the thing to @page
+>
+> is easier to both write and read.
 
-What do you think?
+I tend to agree. Though Hawkmoth does not take a stand here, basically
+the assumption is that the documentation comments are pure rst. And that
+was one of the goals, no parsing of the comments beyond removing the C
+comment markers. It's up to the users or projects to dictate what the
+comments should look like. There's some plugin support for users to add
+their own filters, e.g. there could be kernel-doc format support via
+that.
 
-Thanks,
-Marcello 
 
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
