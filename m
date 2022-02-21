@@ -2,118 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE01C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 16:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF3FC43217
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 17:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379874AbiBUQGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 11:06:47 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49566 "EHLO
+        id S1381624AbiBURU5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 12:20:57 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237970AbiBUQGq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 11:06:46 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8371E2716C;
-        Mon, 21 Feb 2022 08:06:23 -0800 (PST)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LEf0ic030799;
-        Mon, 21 Feb 2022 16:06:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pdWCOxWyY8ZelYPiLVKLy5St6GKQA/W6MmoXe97S008=;
- b=D56nkLPBh7motxT1hPFVkmdCOnw2cXhHiO4+SZpV/IAe4B03n5P/GIqYSg0SVDip7UjP
- 1wJKokx2TtiEIbf9COQ9BtiDxNcLwTFm+YQkmE2DSJgixNvkZu6Y5Iy74ezdc+2XF1Zp
- Xw+WDsIybrgZ9k11NAzBdBlRjQS2lnDyRewET4P+Ys2XW2ywQ3U86E4U0+y8E66w6EaU
- RPAI8ACXRmFfAGg4X05m036FtQcYHes2hO5j31BAchD0s10AoAiYXbcKgZrMCPYwdLbF
- xq3XH+KGQhZ46qdwCxIqP7+YHvFeX/Ab+soHd2DQTge1/48Gn7anIhLsIg2Ev2QYJGjf gw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3ec0eu95r2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 21 Feb 2022 16:06:22 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LEoOPS032474;
-        Mon, 21 Feb 2022 16:06:22 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3ec0eu95q8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 21 Feb 2022 16:06:22 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LG4mdb025637;
-        Mon, 21 Feb 2022 16:06:19 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma03fra.de.ibm.com with ESMTP id 3ear68u2qw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 21 Feb 2022 16:06:19 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21LG6Gfi54526246
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 21 Feb 2022 16:06:16 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0AECB52057;
-        Mon, 21 Feb 2022 16:06:16 +0000 (GMT)
-Received: from [9.171.10.246] (unknown [9.171.10.246])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 92BBC5204F;
-        Mon, 21 Feb 2022 16:06:15 +0000 (GMT)
-Message-ID: <feca1bb9-f6d6-e8b3-1688-bf1dcc91125e@linux.ibm.com>
-Date:   Mon, 21 Feb 2022 17:06:15 +0100
+        with ESMTP id S1381645AbiBURUu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 12:20:50 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C14CFB;
+        Mon, 21 Feb 2022 09:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645464027; x=1677000027;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=EldFeMO1JNlmFZXwAPC3sgE5GEkGvYBt67wpkTkIudo=;
+  b=Sr33qjWxAPXhDIZjEIhYg7GsLhYFNA2b6Rt6mhIB/FcqWG41/l/rBSrH
+   6zOS5+kRYn8yLL07h5SXlmP0iUwOGVGIKPrEI24PxlANxZJ7ewfwPvr9b
+   P/sNDB2nNQjm9RPmaZdAAqiG3iiWmM+Z4Oli3FDafBccWY7ZuKM2tZylo
+   02MYBo74JkB2b3HQ3hd6MqxiOIYxalPIo/b0S6jtX8epkM3jzGu0pt9sD
+   L3E+TIM89eMAiWrTh/anKwhRd8tf/tp9mhW9a3LmbHHMqfgUoRZNnUv52
+   e+R/cWZDIQGYxup8UwRgZutd9wmJCVaSnYoNw+C6J5I2ZTrqjWJaGfJ2Y
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="251497629"
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
+   d="scan'208";a="251497629"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 09:20:26 -0800
+X-IronPort-AV: E=Sophos;i="5.88,386,1635231600"; 
+   d="scan'208";a="627429277"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.40])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 09:20:25 -0800
+Date:   Mon, 21 Feb 2022 09:22:29 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Tom Rix <trix@redhat.com>
+cc:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
+        "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: Re: [PATCH v1 3/7] fpga: dfl: Allow for ports with no local bar
+ space.
+In-Reply-To: <efee5ac0-4c3a-085d-9b9d-0c8ade022f30@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2202210912260.117064@rhweight-WRK1>
+References: <20220214112619.219761-1-tianfei.zhang@intel.com> <20220214112619.219761-4-tianfei.zhang@intel.com> <0fdd3d0d-d280-8104-eccc-8fa8d8a992c2@redhat.com> <BN9PR11MB548314968CBC0CA5E446B366E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <efee5ac0-4c3a-085d-9b9d-0c8ade022f30@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] KVM: s390: Clarify key argument for MEM_OP in api docs
-Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Viktor Mihajlovski <mihajlov@linux.ibm.com>
-References: <20220211182215.2730017-10-scgl@linux.ibm.com>
- <20220221143657.3712481-1-scgl@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220221143657.3712481-1-scgl@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Z1yQGkVMLxeBIfGRETJLfJo4uhAflxeq
-X-Proofpoint-ORIG-GUID: 9FhapYrVAw1OURms_XsYD-f9AzFylgFO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-21_07,2022-02-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202210095
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-Am 21.02.22 um 15:36 schrieb Janis Schoetterl-Glausch:
-> Clarify that the key argument represents the access key, not the whole
-> storage key.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->   Documentation/virt/kvm/api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 48f23bb80d7f..622667cc87ef 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -3763,7 +3763,7 @@ KVM_S390_MEMOP_F_INJECT_EXCEPTION is set.
->   
->   If the KVM_S390_MEMOP_F_SKEY_PROTECTION flag is set, storage key
->   protection is also in effect and may cause exceptions if accesses are
-> -prohibited given the access key passed in "key".
-> +prohibited given the access key designated by "key"; the valid range is 0..15.
->   KVM_S390_MEMOP_F_SKEY_PROTECTION is available if KVM_CAP_S390_MEM_OP_EXTENSION
->   is > 0.
->   
-> 
-> base-commit: af33593d63a403287b8a6edd217e854a3571938b
+On Fri, 18 Feb 2022, Tom Rix wrote:
 
-I have already queued the patches. Will add this on top as a fixup patch.
+>
+> On 2/17/22 11:31 PM, Zhang, Tianfei wrote:
+>> 
+>>> -----Original Message-----
+>>> From: Tom Rix <trix@redhat.com>
+>>> Sent: Tuesday, February 15, 2022 11:06 PM
+>>> To: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao <hao.wu@intel.com>;
+>>> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>; 
+>>> linux-fpga@vger.kernel.org;
+>>> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org
+>>> Cc: corbet@lwn.net; Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>> Subject: Re: [PATCH v1 3/7] fpga: dfl: Allow for ports with no local bar 
+>>> space.
+>>> 
+>>> 
+>>> On 2/14/22 3:26 AM, Tianfei zhang wrote:
+>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>>
+>>>>   From a fpga partial reconfiguration standpoint, a port may not be
+>>>> connected any local BAR space.  The port could be connected to a
+>>>> different PCIe Physical Function (PF) or Virtual Function (VF), in
+>>>> which case another driver instance would manage the endpoint.
+>>> It is not clear if this is part of iofs or a bug fix.
+>> This is the new implementation/feature of IOFS.
+>> On IOFS support multiple methods to access the AFU.
+>> 1. Legacy Model. This is used for N3000 and N5000 card.
+>> In this model the entire AFU region is a unit of PR, and there is a Port 
+>> device connected to this AFU.
+>> On DFL perspective, there is "Next AFU" point to the AFU, and the "BarID" 
+>> is  the PCIe Bar ID of AFU.
+>> In this model, we can use the AFU APIs to access the entire AFU resource, 
+>> like MMIO.
+>> 2. Micro-Personas in AFU.
+>> IOFS intruding new model for PR and AFU access.
+>> Micro-Personas allow the RTL developer to designate their own AFU-defined 
+>> PR regions.
+>> In this model the unit of PR is not the entire AFU, instead
+>> the unit of PR can be any size block or blocks inside the AFU.
+>> 3. Multiple VFs per PR slot.
+>> In this method, we can instance multiple VFs over SRIOV for one PR slot, 
+>> and access the AFU resource
+>> by different VFs in virtualization usage. In this case, the Port device 
+>> would not connected to AFU (the BarID of Port device
+>> should be set to invalid), so this patch want to support this use model.
+>
+> What I am looking for is how the older cards using (my term) dfl 1 will still 
+> work with dfl 2 and vice versa.
+>
+> No where do I see a version check for dfl 2 nor a pci id check so either this 
+> just works or backward compatibility has not be considered.
+>
+> Please add a backward compatibility section to the doc patch
+>
+>> 
+>>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+>>>> ---
+>>>>    drivers/fpga/dfl-pci.c | 8 ++++++++
+>>>>    1 file changed, 8 insertions(+)
+>>>> 
+>>>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c index
+>>>> 4d68719e608f..8abd9b408403 100644
+>>>> --- a/drivers/fpga/dfl-pci.c
+>>>> +++ b/drivers/fpga/dfl-pci.c
+>>>> @@ -243,6 +243,7 @@ static int find_dfls_by_default(struct pci_dev 
+>>>> *pcidev,
+>>>>    		v = readq(base + FME_HDR_CAP);
+>>>>    		port_num = FIELD_GET(FME_CAP_NUM_PORTS, v);
+>>>> 
+>>>> +		dev_info(&pcidev->dev, "port_num = %d\n", port_num);
+>>>>    		WARN_ON(port_num > MAX_DFL_FPGA_PORT_NUM);
+>>>>
+>>>>    		for (i = 0; i < port_num; i++) {
+>>>> @@ -258,6 +259,13 @@ static int find_dfls_by_default(struct pci_dev 
+>>>> *pcidev,
+>>>>    			 */
+>>>>    			bar = FIELD_GET(FME_PORT_OFST_BAR_ID, v);
+>>>>    			offset = FIELD_GET(FME_PORT_OFST_DFH_OFST, v);
+>>>> +			if (bar >= PCI_STD_NUM_BARS) {
+>>> Is bar set to a better magic number that pci_std_num_bars ? maybe 0xff's
+>>> 
+>>> How do you tell between this case and broken hw ?
+>> Yes, I agree that magic number is better, Currently the RTL using 
+>> PCI_STD_NUM_BARS for an invalid PCIe bar number.
+>
+> How do you tell between this case and broken hw ?
+>
+> Tom
+
+The field, FME_PORT_OFST_BAR_ID, is a three bit field, which is pretty 
+common for BARs on PCI.  PCI_STD_NUM_BARS is defined as 6.  Current HW 
+implementations are filing this field with the value, 7, which is close to 
+the suggestion of 0xff's.  How about we define the following magic 
+number?
+#define NO_LOCAL_PORT_BAR	7
+
+We should also change the dev_info to be a dev_dbg and more precise to 
+something like the following:
+
+ 	if (bar == NO_LOCAL_PORT_BAR) {
+ 		dev_dbg(&pcidev->dev, "No local port BAR space.\n");
+ 		continue;
+ 	}
+
+>
+>>> Move up a line and skip getting an offset that will not be used.
+>> Yes, this line is not necessary, I will remove it on next version patch.
+>> 
+>>>> +				dev_info(&pcidev->dev, "skipping port without
+>>> local BAR space %d\n",
+>>>> +					 bar);
+>>>> +				continue;
+>>>> +			} else {
+>>>> +				dev_info(&pcidev->dev, "BAR %d offset %u\n",
+>>> bar, offset);
+>>>> +			}
+>>>>    			start = pci_resource_start(pcidev, bar) + offset;
+>>>>    			len = pci_resource_len(pcidev, bar) - offset;
+>>>> 
+>>> Is similar logic needed for else-if (port) block below this ?
+>> I think, the else-if is not necessary. I will remove it on next version 
+>> patch.
+>>> Tom
+>
+>
