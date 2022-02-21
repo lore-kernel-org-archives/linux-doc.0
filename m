@@ -2,274 +2,586 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9EAC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 07:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A77E3C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 08:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346552AbiBUHzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 02:55:22 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40008 "EHLO
+        id S229379AbiBUIO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 03:14:56 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbiBUHzV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 02:55:21 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E201211A31;
-        Sun, 20 Feb 2022 23:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645430098; x=1676966098;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=SQj6QJZHMMo535fWXjA/V/30cMs/czN0U3RauPWW52E=;
-  b=Xbic9IHHU6QXNzZrlceOqpxCI4k5SHklGmUWqIuoFqKZSBDLsej8r3rE
-   TVSyrgAajpoNt87IY6W2boHvH8mEBnyTErI5G7V5OHaksUgQe59xZVmK9
-   a1DrZoEtZMNhPm7UegXBAA2pByOgomuIXTLCoVeVgqHWGcnJ8/y/4iFbJ
-   GOrXLLzG/e7yZYNK+QRb1684G+x9HPX/QDpDsY4tHSSBNpWPZph/5Vl4I
-   tuyeMQo65QovMjVIyuqxBgqSNsGSRTC1DecXxUfjDrHrre5CPVaAnUhU3
-   mRAhxsKfS1aGUNWTmhens9Bvg0BpDsoGCeGJjxSUYJBsOKD+DVuZHAvgL
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="232078507"
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
-   d="scan'208";a="232078507"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2022 23:54:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
-   d="scan'208";a="627294541"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Feb 2022 23:54:58 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 20 Feb 2022 23:54:58 -0800
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 20 Feb 2022 23:54:57 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Sun, 20 Feb 2022 23:54:57 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Sun, 20 Feb 2022 23:54:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fktMedq/zo4uGVpAyhAkvaoztFt5jwPW9vFMGAVd4vJ4MFZJ2/CifpZ1dAEz+be+FCN8yyxUIHdIgJJk82TKRRFgvtuo4bc1oz6hVXkb97UbzbMJcjmya5+Sad1RV8Oq3AGxk7/PjZTUMhQ/mMe7QZkeQlTtfI9cjwTSu9XORAQW8eFJkdfZTj4OvrYZK9Cf0oMl6iJ3XEQt1PD89YSSOrNsXjepfnrRBKJ0tW73OV2ZpicbqML2JbK6PSz9IawnciiWlLW6h/BWSR5OcD6uuINgVu3tPvP0fnde5fvz6QeAbkisi01qx42v/dwFHfg4S5ta6BT9QTBAzpB6vwYqJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VaWY6hJXtmsL4UnqFajL3+8/ouNEtscJimfPB3jr+qc=;
- b=F5z2JBG77q9oE/51CUdgM6O5XC+SDx3MyMxk9nkVePvq10/0Qh81DU//+WlAPYPNIrmPNd9xVNJTLaBJ64ZG8ESRt2x4YD11cb2SXHXOiSg/88KCsS42RJx4eiKIp1J/UuioqycZLNUUjsX3Z4DCLID7DBr18tuDmQPolyq//ZhEI2kx26AfVUKdttTO2GlKVaqDC6VSZ4vg6Pj9Egn3L1EMOg0FGJHLU2WXEnLU5NZg0mb0RFb3/xuXyRQ1k9RxvbnMJ/1p57T4cl9cIg3SCvELXR9NQjt8sRGTBYJSl2VIBFLSnU9JFYi81L+0bb1C7XvqNgQrT8pUyZfmVDMShA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
- by SA2PR11MB4987.namprd11.prod.outlook.com (2603:10b6:806:113::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15; Mon, 21 Feb
- 2022 07:54:54 +0000
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809]) by BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809%5]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
- 07:54:54 +0000
-From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
-To:     "Xu, Yilun" <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>
-CC:     "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
-  info
-Thread-Topic: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
-  info
-Thread-Index: AQHYI6ii288SiYkZKUC48TEHx/h38qydqJGA
-Date:   Mon, 21 Feb 2022 07:54:54 +0000
-Message-ID: <BN9PR11MB548399A1D6A4942D9C36B723E33A9@BN9PR11MB5483.namprd11.prod.outlook.com>
-References: <20220214112619.219761-1-tianfei.zhang@intel.com>
- <20220214112619.219761-3-tianfei.zhang@intel.com>
- <0de9c8fb-0f04-684f-630c-1d13b0b55ba1@redhat.com>
- <20220217023816.GD1145049@yilunxu-OptiPlex-7050>
-In-Reply-To: <20220217023816.GD1145049@yilunxu-OptiPlex-7050>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.200.16
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2d072596-5079-4466-5267-08d9f50f72cb
-x-ms-traffictypediagnostic: SA2PR11MB4987:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <SA2PR11MB498766BB847AE6EC29DB7E7DE33A9@SA2PR11MB4987.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Oj+Gq0tYLnU37V+TVzyNsjO5tnstfGFRdQ2GlIho5R5qnBTzs9EBmGJ7RyMVL3Ob87LJBuvO7lf3dkZgmmJKw+m9oC4TMkgzqW7Ho4fnkz0at7MojtMv6wgLs+LsGzIWInODI7qjn2ski2wU9shgdAC2dsb76notzuBcJ0P+7fHHRwZKNn7GLMS4QKbNDNbWzfzFoPEV8CEJIGP/Ku02Vaw/lrqym36DSX6iVsOVBA3WQq3qaa+X8neLastm9H7WnbBNX74CRf1/ne8T5apdSaI61ZBnZrJpN48h36LaKWPZ8DcUq0fe280vM6j1qtKq/FQ++pAtygi+4fBc8M10JlnwC6bOiyPZaIqfYrTC/h3zcPdkso4H4cj5N8lskRfBllXZowVs+1nHYWzgBi/ARHo1TbW3M3kIiwIvsHP+x5uIJEXKuYTYpD1TWNeIL+kWJUkeST8WX3s5idXFdx3Uik56ftFn0wjJhYR6muSGm2a5aTP+mSj6wp80EFzXaCrIN2PJin4xkCmPYKYiCPn6MIsw3V2bAt54c4lFu3/QcEsabXUnf6HtiyJv+BHsqTGWh6lQVoG3l80VKKMqNmfzfnBzD+ZrKzbJrWI0cLj7SZZ4LX2u0WDivkdzu42bhSzfDEE18evwFEBMCIqKzobxz1B6L/9PgmBgBgy8GgAVKYonf3KyE8EPP07M699RTz+kZkOlDaw7ZJJQalulwc51bg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(55016003)(54906003)(110136005)(66476007)(66446008)(64756008)(66946007)(86362001)(8676002)(4326008)(76116006)(316002)(33656002)(122000001)(26005)(186003)(66556008)(71200400001)(83380400001)(508600001)(5660300002)(53546011)(7696005)(6506007)(9686003)(52536014)(2906002)(8936002)(82960400001)(38070700005)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?jgR0xXFCSw3bvC2vsUG2bomBrbvJsunv73ChD4Y6LTjdyUXrzxjzQVTTBd?=
- =?iso-8859-1?Q?ssofdxesrbn7A4tUZaDm3XrulgThquikuPxhkPCWHOTtx5PR8BtTYexfPt?=
- =?iso-8859-1?Q?Xd6IA2U2SFdl7jUIFsUwG4jWlMnB3d7Ug6SMov/xtU76qFe652p7Tz5+MW?=
- =?iso-8859-1?Q?Tn74r/nq1Tuq9a9r/+u8xUJ177tvBxzOOZnDfqGMUeSHwjyC5wCl6m5Ph/?=
- =?iso-8859-1?Q?KJLAkVdDe2LsY5hNNf7+2BZNoBdlmRHI01oUO0HisR5tC8kDWzYncPUHSK?=
- =?iso-8859-1?Q?1jnMLtVNX+Doh1frho9eV1cNlj6yUXP3XEWLxUgpzDo1dLAzR0v2hmcCx8?=
- =?iso-8859-1?Q?G2arXd3RgyEpKvk1oyO4ObFF7UVKkuY8yYKBdZSPaGQoteru4g6DVFGjWr?=
- =?iso-8859-1?Q?+ql0ja5aqfMvLPh8dT4zsESRDIxJAia19S/95J3RUsNfuoMNY8Vyy1W+Ys?=
- =?iso-8859-1?Q?wLIwuZ5BZdpvDvpeZNVs6dApSFUfTU9oG2kYjl12+j3iyl2boH0BaPcE87?=
- =?iso-8859-1?Q?C9TpiytHBX5nY0uTdkMq3Q513LaazMKUPgUow4wIqIFxjEKxA791FZRwuY?=
- =?iso-8859-1?Q?Xfvm/JdCB+TWeKJTWpjlYjNSED58ZsJoGx6wA/y3+ZNiHV/eyAxY8BOs+T?=
- =?iso-8859-1?Q?zUzJFovMoWVOiOeZh6Zu2ehN3pES2uoaQQmO7Qk9LfgaTZopL9XMsZWII0?=
- =?iso-8859-1?Q?oU5hx4mHlRs3A6Uh9qF2N6sXQbmiRzY9YZ5U2i1d4wFR1aoQYUlrqG1Xhp?=
- =?iso-8859-1?Q?IP/FiXnBd8XXf0u9VlfCjFgP4KDxUgjpbXUCb43WC+IQPP8LobO2HKKLlX?=
- =?iso-8859-1?Q?P7WFQe7om+Y9qEQ5LCZtDyTGtyUxhN8eqcWtNpyJPJZ+j+ui+0ATS9v2vN?=
- =?iso-8859-1?Q?BHkuIXzWESOHyIGao/VyXF/a1nyim36mm0eZIs6fUoiprB5w2Pj+qPTfOx?=
- =?iso-8859-1?Q?x8Zyik2zRP3OPU/Eztn2BeTkY8UP1FF39N7jAls6drPFjzGAfXO4rhxoOo?=
- =?iso-8859-1?Q?l1VkAk84cPdq3KtyHGOBJXewr8Mze0jsyq03zRwGrwnf7ivNG89gyg+Qrx?=
- =?iso-8859-1?Q?FrHrb6iopEBGCdtC3vVcvZ1P4TLmXKkRDeE+BPeGjDV6TLNJ1ad8x3jAn2?=
- =?iso-8859-1?Q?/8FtK/r8xxvclSk6PBIPe+6N2nWJEqqr9QxgHX5A/JdFinRqeYUWBXDrZ/?=
- =?iso-8859-1?Q?sjqWxLQSC6t5I4X3jgCn349Bp+78LX6sLMvflY6HVFOU0oYCD2kZAYFFPw?=
- =?iso-8859-1?Q?5XuJqmaq3WMqBubEBGSNgi5a/7GdaSWlPIqLg0jxgVdKG0g40smG5Vj4rz?=
- =?iso-8859-1?Q?OImM2gBRwAkE/i8WwmuftU2wyjsjb3l0J1RoYuo32EkMEZ+GsXvBMJyPKN?=
- =?iso-8859-1?Q?EAA3bnv5iCxsCTtLIjX38IPdItvbBzoajTV4Z2dHMZSUOKbiM7MDtsKSLP?=
- =?iso-8859-1?Q?okTdLZfMdCOOplBC6ppZPG5Nh6Kf7c2rCmCH3nJBBOF3XqaEacF+D620HQ?=
- =?iso-8859-1?Q?sE3DKcKDNbO/Jk1VzzjR0d4L9P1dxUNmkmpQRxLTBgXNBsgUivfT5GGXcB?=
- =?iso-8859-1?Q?sx3h22EdCN/pZou7Ow60CX05wMKRbyFIS5HlFym5RpyDSW84WFMje9Bdc0?=
- =?iso-8859-1?Q?Z5n9uJTryjuXHyJ/gLlLydWVXIq+ciqVCqF33AH20c4v7Cxd/hFD8W/5wO?=
- =?iso-8859-1?Q?H0AEv4Zi1VqI94Kp52c=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229502AbiBUIOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 03:14:54 -0500
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE31FD3C
+        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 00:14:30 -0800 (PST)
+Received: by mail-il1-x12e.google.com with SMTP id c14so9424895ilm.4
+        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 00:14:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mBCbklRXl8aQrC/7f1lBhEpFWD3ax2DlnMQGsoCri8s=;
+        b=bzVUCVUWAOAEpz/2BB00qWRz3tXIRWY81GtLfVC2mUVIGiijQeZBzMspK752S1/m/b
+         pwwm2hjC7usNUz5fP9vzczv5U+Y7u8zY+JueRNynxeMHJN+1LZmZhOZXTqIfwNnaKJS8
+         Sm1C5EisE2J3kKJ4yQjVegWf5OWHXtw2eYSCYLICPzCRELSCup9hBT0qPqSkvSuzBKr/
+         +b3+lLwGXg+dRHco55AtClujruexCSRI1OVnMY8Zz3OwwT4mWzsPaLz99v1+lE0Z9oAv
+         1rpXXVOh9L62ZiV8vjl1JWEdzi+UnjeZWtybzcGLXXXenuJy6hfCEIoMNLgLvDs5MdwA
+         DmoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mBCbklRXl8aQrC/7f1lBhEpFWD3ax2DlnMQGsoCri8s=;
+        b=Asq+NOAXqZKtZLYEuo26RHi+RMM/V+1n8RkmV2kzUdFwC6AaCMf/j44UPsAtwvbJnD
+         4LFRRQMmNR2TddVwL7PSvIhYiwdPKpFexhIkcIeYHlQHUIPO41qUO9QDvRE0gZNRznA6
+         dxX+TwqcOh5Ca7/L3KSHdIS9U/Qfxya1ud3Bb7s14Cklb+cQ3MjC/e1AbyYbaRFBX4CW
+         wOJDsUw1G49QZQyjmw4Fcb2an3bOF87i3WZ5GjWUvIYMmR7zieGOJT+wFMtMq0Hy/j++
+         1WoqjVDUqEr8/G1/DbjwPU6p59WLcRV/6whUAMcPAhoMcdfM+aTZhi9AUGQCT6zfRl3y
+         eTHg==
+X-Gm-Message-State: AOAM530Eh4NWOkWd0BnKexAmdorbP20vEgnZ67ZG99aX1hlebHPGpXTt
+        rWiO+FnQCxbkm7UVeRQMSdcPVA==
+X-Google-Smtp-Source: ABdhPJzzPgRnoCjKrbRbbJxnUtnIm+2pG1E4y2HQviJacl7wrNRo8181cUlAXnh9NSMMASXYiS9zyA==
+X-Received: by 2002:a92:cb44:0:b0:2be:33b0:2a52 with SMTP id f4-20020a92cb44000000b002be33b02a52mr14402316ilq.142.1645431269878;
+        Mon, 21 Feb 2022 00:14:29 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:6c91:3ffb:ccf3:cca3])
+        by smtp.gmail.com with ESMTPSA id x15sm2912261ilo.33.2022.02.21.00.14.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Feb 2022 00:14:29 -0800 (PST)
+Date:   Mon, 21 Feb 2022 01:14:24 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
+Message-ID: <YhNJ4LVWpmZgLh4I@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <20220208081902.3550911-5-yuzhao@google.com>
+ <YgV4lZXc6+jhUdsR@cmpxchg.org>
+ <Ygt1qaQM5YobEZK9@google.com>
+ <Ygwg9NXzQ+6U3RON@cmpxchg.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d072596-5079-4466-5267-08d9f50f72cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2022 07:54:54.7784
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /mS4e44oIJ/9kiZj2x1hdrP4pkcuilXJkpTIBFMcIkVbYivO4LJavCFU7KgwKu3AxdYgCIgXhwy47e1UEocGvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4987
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ygwg9NXzQ+6U3RON@cmpxchg.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Feb 15, 2022 at 04:53:56PM -0500, Johannes Weiner wrote:
+> Hi Yu,
+> 
+> On Tue, Feb 15, 2022 at 02:43:05AM -0700, Yu Zhao wrote:
+> > On Thu, Feb 10, 2022 at 03:41:57PM -0500, Johannes Weiner wrote:
+> > > > +static inline bool lru_gen_is_active(struct lruvec *lruvec, int gen)
+> > > > +{
+> > > > +	unsigned long max_seq = lruvec->lrugen.max_seq;
+> > > > +
+> > > > +	VM_BUG_ON(gen >= MAX_NR_GENS);
+> > > > +
+> > > > +	/* see the comment on MIN_NR_GENS */
+> > > > +	return gen == lru_gen_from_seq(max_seq) || gen == lru_gen_from_seq(max_seq - 1);
+> > > > +}
+> > > 
+> > > I'm still reading the series, so correct me if I'm wrong: the "active"
+> > > set is split into two generations for the sole purpose of the
+> > > second-chance policy for fresh faults, right?
+> > 
+> > To be precise, the active/inactive notion on top of generations is
+> > just for ABI compatibility, e.g., the counters in /proc/vmstat.
+> > Otherwise, this function wouldn't be needed.
+> 
+> Ah! would you mind adding this as a comment to the function?
 
+Will do.
 
-> -----Original Message-----
-> From: Xu, Yilun <yilun.xu@intel.com>
-> Sent: Thursday, February 17, 2022 10:38 AM
-> To: Tom Rix <trix@redhat.com>
-> Cc: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao <hao.wu@intel.com>;
-> mdf@kernel.org; linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org; li=
-nux-
-> kernel@vger.kernel.org; corbet@lwn.net
-> Subject: Re: [PATCH v1 2/7] fpga: dfl: check feature type before parse ir=
-q info
->=20
-> On Tue, Feb 15, 2022 at 06:49:05AM -0800, Tom Rix wrote:
-> >
-> > On 2/14/22 3:26 AM, Tianfei zhang wrote:
-> > > From: Tianfei Zhang <tianfei.zhang@intel.com>
-> > >
-> > > The feature ID of "Port User Interrupt" and the "PMCI Subsystem" are
-> > > identical, 0x12, but one is for FME, other is for Port. It should
-> > > check the feature type While parsing the irq info in
-> > > parse_feature_irqs().
-> >
-> > This seems like a bug fix and not part of iofs feature.
-> >
-> > Split this out of the patchset.
-> >
-> > This is a workaround a hardware problem, there should be some comments
-> > to the effect that you can't trust _this_ or _that_ feature id and
-> > some special handling earlier.
-> >
-> > The ambiguity of feature id is a problem, and this sort of bug will
-> > happen
->=20
-> Actually this is not the feature id definition problem. The identity of t=
-he feature
-> is determined by the dfl_id_type(FME, PORT) AND feature_id. So the driver
-> should match the dfl_id_type & feature_id to know what feature it is.
+> But AFAICS there is the lru_gen_del_folio() callsite that maps it to
+> the PG_active flag - which in turn gets used by add_folio() to place
+> the thing back on the max_seq generation. So I suppose there is a
+> secondary purpose of the function for remembering the page's rough age
+> for non-reclaim isolation.>
 
-In this function flow, create_feature_instance() -> parse_feature_irqs(), t=
-he DFL driver has not
-check the dfl_id_type yet.
+Yes, e.g., migration.
 
->=20
-> Thanks,
-> Yilun
->=20
-> > again.
-> >
-> > What can be done to prevent this in the future ?
-> >
-> > >
-> > > Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
-> > > ---
-> > >   drivers/fpga/dfl.c | 11 +++++++++++
-> > >   1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c index
-> > > 599bb21d86af..26f8cf890700 100644
-> > > --- a/drivers/fpga/dfl.c
-> > > +++ b/drivers/fpga/dfl.c
-> > > @@ -940,9 +940,14 @@ static int parse_feature_irqs(struct
-> build_feature_devs_info *binfo,
-> > >   {
-> > >   	void __iomem *base =3D binfo->ioaddr + ofst;
-> > >   	unsigned int i, ibase, inr =3D 0;
-> > > +	enum dfl_id_type type;
-> > >   	int virq;
-> > >   	u64 v;
-> > > +	type =3D feature_dev_id_type(binfo->feature_dev);
-> > > +	if (type >=3D DFL_ID_MAX)
-> > > +		return -EINVAL;
-> > > +
-> > >   	/*
-> > >   	 * Ideally DFL framework should only read info from DFL header, bu=
-t
-> > >   	 * current version DFL only provides mmio resources information
-> > > for @@ -959,16 +964,22 @@ static int parse_feature_irqs(struct
-> build_feature_devs_info *binfo,
-> > >   	 */
-> > >   	switch (fid) {
-> > >   	case PORT_FEATURE_ID_UINT:
-> > > +		if (type !=3D PORT_ID)
-> > > +			break;
-> >
-> > Instead of embedding a break in the switch, break the switch into fme
-> > switch and port switch
-> >
-> > if (type =3D=3D PORT_ID)
-> >
-> > =A0 port-switch
-> >
-> > else if (type =3D=3D FME_ID
-> >
-> > =A0 fme-switch
-> >
-> > Tom
-> >
-> > >   		v =3D readq(base + PORT_UINT_CAP);
-> > >   		ibase =3D FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> > >   		inr =3D FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> > >   		break;
-> > >   	case PORT_FEATURE_ID_ERROR:
-> > > +		if (type !=3D PORT_ID)
-> > > +			break;
-> > >   		v =3D readq(base + PORT_ERROR_CAP);
-> > >   		ibase =3D FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> > >   		inr =3D FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> > >   		break;
-> > >   	case FME_FEATURE_ID_GLOBAL_ERR:
-> > > +		if (type !=3D FME_ID)
-> > > +			break;
-> > >   		v =3D readq(base + FME_ERROR_CAP);
-> > >   		ibase =3D FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> > >   		inr =3D FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> It would be good to capture that as well in a comment on the function.
+
+Will do.
+
+> > > > +static inline void lru_gen_update_size(struct lruvec *lruvec, enum lru_list lru,
+> > > > +				       int zone, long delta)
+> > > > +{
+> > > > +	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+> > > > +
+> > > > +	lockdep_assert_held(&lruvec->lru_lock);
+> > > > +	WARN_ON_ONCE(delta != (int)delta);
+> > > > +
+> > > > +	__mod_lruvec_state(lruvec, NR_LRU_BASE + lru, delta);
+> > > > +	__mod_zone_page_state(&pgdat->node_zones[zone], NR_ZONE_LRU_BASE + lru, delta);
+> > > > +}
+> > > 
+> > > This is a duplicate of update_lru_size(), please use that instead.
+> > > 
+> > > Yeah technically you don't need the mem_cgroup_update_lru_size() but
+> > > that's not worth sweating over, better to keep it simple.
+> > 
+> > I agree we don't need the mem_cgroup_update_lru_size() -- let me spell
+> > out why:
+> >   this function is not needed here because it updates the counters used
+> >   only by the active/inactive lru code, i.e., get_scan_count().
+> > 
+> > However, we can't reuse update_lru_size() because MGLRU can trip the
+> > WARN_ONCE() in mem_cgroup_update_lru_size().
+> > 
+> > Unlike lru_zone_size[], lrugen->nr_pages[] is eventually consistent.
+> > To move a page to a different generation, the gen counter in page->flags
+> > is updated first, which doesn't require the LRU lock. The second step,
+> > i.e., the update of lrugen->nr_pages[], requires the LRU lock, and it
+> > usually isn't done immediately due to batching. Meanwhile, if this page
+> > is, for example, isolated, nr_pages[] becomes temporarily unbalanced.
+> > And this trips the WARN_ONCE().
+> 
+> Good insight.
+> 
+> But in that case, I'd still think it's better to use update_lru_size()
+> and gate the memcg update on lrugen-enabled, with a short comment
+> saying that lrugen has its own per-cgroup counts already. It's just a
+> bit too error prone to duplicate the stat updates.
+> 
+> Even better would be:
+> 
+> static __always_inline
+> void lruvec_add_folio(struct lruvec *lruvec, struct folio *folio)
+> {
+> 	enum lru_list lru = folio_lru_list(folio);
+> 
+> 	update_lru_size(lruvec, lru, folio_zonenum(folio),
+> 			folio_nr_pages(folio));
+> 	if (lrugen_enabled(lruvec))
+> 		lrugen_add_folio(lruvec, folio);
+> 	else
+> 		list_add(&folio->lru, &lruvec->lists[lru]);
+> }
+> 
+> But it does mean you'd have to handle unevictable pages. I'm reviewing
+> from the position that mglru is going to supplant the existing reclaim
+> algorithm in the long term, though, so being more comprehensive and
+> eliminating special cases where possible is all-positive, IMO.
+> 
+> Up to you. I'd only insist on reusing update_lru_size() at least.
+
+Will do.
+
+> > > > +static inline bool lru_gen_add_folio(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
+> > > > +{
+> > > > +	int gen;
+> > > > +	unsigned long old_flags, new_flags;
+> > > > +	int type = folio_is_file_lru(folio);
+> > > > +	int zone = folio_zonenum(folio);
+> > > > +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
+> > > > +
+> > > > +	if (folio_test_unevictable(folio) || !lrugen->enabled)
+> > > > +		return false;
+> > > 
+> > > These two checks should be in the callsite and the function should
+> > > return void. Otherwise you can't understand the callsite without
+> > > drilling down into lrugen code, even if lrugen is disabled.
+> > 
+> > I agree it's a bit of nuisance this way. The alternative is we'd need
+> > ifdef or another helper at the call sites because lrugen->enabled is
+> > specific to lrugen.
+> 
+> Coming from memcg, my experience has been that when you have a compile
+> time-optional MM extension like this, you'll sooner or later need a
+> config-independent helper to gate callbacks in generic code. So I
+> think it's a good idea to add one now.
+> 
+> One of these?
+> 
+> lruvec_on_lrugen()
+
+SGTM.
+
+Personally I'd reuse lru_gen_enabled(), by passing NULL/lruvec. But
+my guess is you wouldn't like it.
+
+> lruvec_using_lrugen()
+> lruvec_lrugen_enabled()
+> 
+> lruvec_has_generations() :-)
+> 
+> > > On that note, I think #1 is reintroducing a problem we have fixed
+> > > before, which is trashing the workingset with a flood of use-once
+> > > mmapped pages. It's the classic scenario where LFU beats LRU.
+> > > 
+> > > Mapped streaming IO isn't very common, but it does happen. See these
+> > > commits:
+> > > 
+> > > dfc8d636cdb95f7b792d5ba8c9f3b295809c125d
+> > > 31c0569c3b0b6cc8a867ac6665ca081553f7984c
+> > > 645747462435d84c6c6a64269ed49cc3015f753d
+> > > 
+> > > From the changelog:
+> > > 
+> > >     The used-once mapped file page detection patchset.
+> > >     
+> > >     It is meant to help workloads with large amounts of shortly used file
+> > >     mappings, like rtorrent hashing a file or git when dealing with loose
+> > >     objects (git gc on a bigger site?).
+> > >     
+> > >     Right now, the VM activates referenced mapped file pages on first
+> > >     encounter on the inactive list and it takes a full memory cycle to
+> > >     reclaim them again.  When those pages dominate memory, the system
+> > >     no longer has a meaningful notion of 'working set' and is required
+> > >     to give up the active list to make reclaim progress.  Obviously,
+> > >     this results in rather bad scanning latencies and the wrong pages
+> > >     being reclaimed.
+> > >     
+> > >     This patch makes the VM be more careful about activating mapped file
+> > >     pages in the first place.  The minimum granted lifetime without
+> > >     another memory access becomes an inactive list cycle instead of the
+> > >     full memory cycle, which is more natural given the mentioned loads.
+> > > 
+> > > Translating this to multigen, it seems fresh faults should really
+> > > start on the second oldest rather than on the youngest generation, to
+> > > get a second chance but without jeopardizing the workingset if they
+> > > don't take it.
+> > 
+> > This is a good point, and I had worked on a similar idea but failed
+> > to measure its benefits. In addition to placing mmapped file pages in
+> > older generations, I also tried placing refaulted anon pages in older
+> > generations. My conclusion was that the initial LRU positions of NFU
+> > pages are not a bottleneck for workloads I've tested. The efficiency
+> > of testing/clearing the accessed bit is.
+> 
+> The concern isn't the scan overhead, but jankiness from the workingset
+> being flooded out by streaming IO.
+
+Yes, MGLRU uses a different approach to solve this problem, and for
+its approach, the scan overhead is the concern.
+
+MGLRU detects (defines) the working set by scanning the entire memory
+for each generation, and it counters the flooding by accelerating the
+creation of generations. IOW, all mapped pages have an equal chance to
+get scanned, no matter which generation they are in. This is a design
+difference compared with the active/inactive LRU, which tries to scans
+the active/inactive lists less/more frequently.
+
+> The concrete usecase at the time was a torrent client hashing a
+> downloaded file and thereby kicking out the desktop environment, which
+> caused jankiness. The hashing didn't benefit from caching - the file
+> wouldn't have fit into RAM anyway - so this was pointless to boot.
+> 
+> Essentially, the tradeoff is this:
+> 
+> 1) If you treat new pages as hot, you accelerate workingset
+> transitions, but on the flipside you risk unnecessary refaults in
+> running applications when those new pages are one-off.
+> 
+> 2) If you take new pages with a grain of salt, you protect existing
+> applications better from one-off floods, but risk refaults in NEW
+> application while they're trying to start up.
+
+Agreed.
+
+> There are two arguments for why 2) is preferable:
+> 
+> 1) Users are tolerant of cache misses when applications first launch,
+>    much less so after they've been running for hours.
+
+Our CUJs (Critical User Journeys) respectfully disagree :)
+
+They are built on the observation that once users have moved onto
+another tab/app, they are more likely to stay with the new tab/app
+rather than go back to the old ones. Speaking for myself, this is
+generally the case.
+
+> 2) Workingset transitions (and associated jankiness) are bounded by
+>    the amount of RAM you need to repopulate. But streaming IO is
+>    bounded by storage, and datasets are routinely several times the
+>    amount of RAM. Uncacheable sets in excess of RAM can produce an
+>    infinite stream of "new" references; not protecting the workingset
+>    from that means longer or even sustained jankiness.
+
+I'd argue the opposite -- we shouldn't risk refaulting fresh hot pages
+just to accommodate this concrete yet minor use case, especially
+considering torrent has been given the means (MADV_SEQUENTIAL) to help
+itself.
+
+I appreciate all your points here. The bottom line is we agree this is
+a trade off. For what disagree about, we could be both right -- it
+comes down to what workloads we care about *more*.
+
+To move forward, I propose we look at it from a non-technical POV:
+would we want to offer users an alternative trade off so that they can
+have greater flexibility?
+
+> > And some applications are smart enough to leverage MADV_SEQUENTIAL.
+> > In this case, MGLRU does place mmapped file pages in the oldest
+> > generation.
+> 
+> Yes, it makes sense to optimize when MADV_SEQUENTIAL is requested. But
+> that hint isn't reliably there, so it matters that we don't do poorly
+> when it's missing.
+
+Agreed.
+
+> > I have an oversimplified script that uses memcached to mimic a
+> > non-streaming workload and fio a (mmapped) streaming workload:
+> 
+> Looking at the paramters and observed behavior, let me say up front
+> that this looks like a useful benchmark, but doesn't capture the
+> scenario I was talking about above.
+> 
+> For one, the presence of swapping in both kernels suggests that the
+> "streaming IO" component actually has repeat access that could benefit
+> from caching. Second, I would expect memcache is accessing its memory
+> frequently and consistently, and so could withstand workingset
+> challenges from streaming IO better than, say, a desktop environment.
+
+The fio workload is a real streaming workload, but the memcached
+workload might have been too large to be a typical desktop workload.
+
+More below.
+
+> More on that below.
+> 
+> >   1. With MADV_SEQUENTIAL, the non-streaming workload is about 5 times
+> >      faster when using MGLRU. Somehow the baseline (rc3) swapped a lot.
+> >      (It shouldn't, and I haven't figured out why.)
+> 
+> Baseline swaps when there are cache refaults. This is regardless of
+> the hint: you may say you're accessing these pages sequentially, but
+> the refaults say you're reusing them, with a frequency that suggests
+> they might be cacheable. So it tries to cache them.
+> 
+> I'd be curious if that results in fio being faster, or whether it's
+> all just pointless thrashing. Can you share the fio results too?
+
+More below.
+
+> We could patch baseline to prioritize MADV_SEQUENTIAL more, but...
+> 
+> >   2. Without MADV_SEQUENTIAL, the non-streaming workload is about 1
+> >      time faster when using MGLRU. Both MGLRU and the baseline swapped
+> >      a lot.
+> 
+> ...in practice I think this scenario will matter to a lot more users.
+
+I strongly feel we should prioritize what's advertised on a man page
+over an unspecified (performance) behavior.
+
+> I would again be interested in the fio results.
+> 
+> >            MADV_SEQUENTIAL    non-streaming ops/sec (memcached)
+> >   rc3      yes                 292k
+> >   rc3      no                  203k
+> >   rc3+v7   yes                1967k
+> >   rc3+v7   no                  436k
+> > 
+> >   cat mmap.sh
+> >   modprobe brd rd_nr=2 rd_size=56623104
+> >   
+> >   mkswap /dev/ram0
+> >   swapon /dev/ram0
+> >   
+> >   mkfs.ext4 /dev/ram1
+> >   mount -t ext4 /dev/ram1 /mnt
+> >   
+> >   memtier_benchmark -S /var/run/memcached/memcached.sock -P memcache_binary \
+> >     -n allkeys --key-minimum=1 --key-maximum=50000000 --key-pattern=P:P -c 1 \
+> >     -t 36 --ratio 1:0 --pipeline 8 -d 2000
+> >   
+> >   # streaming workload: --fadvise_hint=0 disables MADV_SEQUENTIAL
+> >   fio -name=mglru --numjobs=12 --directory=/mnt --size=4224m --buffered=1 \
+> >     --ioengine=mmap --iodepth=128 --iodepth_batch_submit=32 \
+> >     --iodepth_batch_complete=32 --rw=read --time_based --ramp_time=10m \
+> >     --runtime=180m --group_reporting &
+> 
+> As per above, I think this would be closer to a cacheable workingset
+> than a streaming IO pattern. It depends on total RAM of course, but
+> size=4G and time_based should loop around pretty quickly.
+
+The file size here shouldn't matter since fio is smart enough to
+invalidate page cache before it rewinds (for sequential access):
+
+https://fio.readthedocs.io/en/latest/fio_doc.html#cmdoption-arg-invalidate
+https://github.com/axboe/fio/blob/master/filesetup.c#L602
+
+I think the problem might have been the memory size for memcached was
+too large (100GB) to be all hot (limited by memory bandwidth).
+
+> Would you mind rerunning with files larger than RAM, to avoid repeat
+> accesses (or at least only repeat with large distances)?
+
+Retested with the same free memory (120GB) for 40GB memcached and 200GB
+fio.
+
+           MADV_SEQUENTIAL  FADV_DONTNEED  memcached  fio
+  rc4      no               yes            4716k      232k
+  rc4+v7   no               yes            4307k      265k
+  delta                                    -9%        +14%
+
+MGLRU lost with memcached but won with fio for the same reason: it
+doesn't have any heuristics to detect the streaming characteristic
+(and therefore lost with memcached) but relies on faster scanning
+(and therefore won with fio) to keep the working set in memory.
+
+The baseline didn't swap this time (MGLRU did slightly), but it lost
+with fio because it had to walk the rmap for each page in the entire
+200GB VMA, at least once, even for this streaming workload.
+
+This reflects the design difference I mentioned earlier.
+
+  cat test.sh
+  modprobe brd rd_nr=1 rd_size=268435456
+  
+  mkfs.ext4 /dev/ram0
+  mount -t ext4 /dev/ram0 /mnt
+  
+  fallocate -l 40g /mnt/swapfile
+  mkswap /mnt/swapfile
+  swapon /mnt/swapfile
+  
+  fio -name=mglru --numjobs=1 --directory=/mnt --size=204800m \
+    --buffered=1 --ioengine=mmap --fadvise_hint=0 --iodepth=128 \
+    --iodepth_batch_submit=32 --iodepth_batch_complete=32 \
+    --rw=read --time_based --ramp_time=10m --runtime=180m \
+    --group_reporting &
+  pid=$!
+  
+  sleep 600
+  
+  # load objects
+  memtier_benchmark -S /var/run/memcached/memcached.sock \
+    -P memcache_binary -n allkeys --key-minimum=1 \
+    --key-maximum=20000000 --key-pattern=P:P -c 1 -t 36 \
+    --ratio 1:0 --pipeline 8 -d 2000
+  # read objects
+  memtier_benchmark -S /var/run/memcached/memcached.sock \
+    -P memcache_binary -n allkeys --key-minimum=1 \
+    --key-maximum=20000000 --key-pattern=R:R -c 1 -t 36 \
+    --ratio 0:1 --pipeline 8 --randomize --distinct-client-seed
+
+  kill -INT $pid
+
+> Depending on how hot memcache runs, it may or may not be able to hold
+> onto its workingset.
+
+Agreed.
+
+> Testing interactivity is notoriously hard, but
+> using a smaller, intermittent workload is probably more representative
+> of overall responsiveness. Let fio ramp until memory is full, then do
+> perf stat -r 10 /bin/sh -c 'git shortlog v5.0.. >/dev/null; sleep 1'
+
+I'll also check with the downstream maintainers to see if they have
+heard any complaints about streaming workloads negatively impacting
+user experience.
+
+> I'll try to reproduce this again too. Back then, that workload gave me
+> a very janky desktop experience, and the patch very obvious relief.
+
+SGTM.
+
+> > > > @@ -113,6 +298,9 @@ void lruvec_add_folio_tail(struct lruvec *lruvec, struct folio *folio)
+> > > >  {
+> > > >  	enum lru_list lru = folio_lru_list(folio);
+> > > >  
+> > > > +	if (lru_gen_add_folio(lruvec, folio, true))
+> > > > +		return;
+> > > > +
+> > > 
+> > > bool parameters are notoriously hard to follow in the callsite. Can
+> > > you please add lru_gen_add_folio_tail() instead and have them use a
+> > > common helper?
+> > 
+> > I'm not sure -- there are several places like this one. My question is
+> > whether we want to do it throughout this patchset. We'd end up with
+> > many helpers and duplicate code. E.g., in this file alone, we have two
+> > functions taking bool parameters:
+> >   lru_gen_add_folio(..., bool reclaiming)
+> >   lru_gen_del_folio(..., bool reclaiming)
+> > 
+> > I can't say they are very readable; at least they are very compact
+> > right now. My concern is that we might loose the latter without having
+> > enough of the former.
+> > 
+> > Perhaps this is something that we could revisit after you've finished
+> > reviewing the entire patchset?
+> 
+> Sure, fair enough.
+> 
+> > > > +void lru_gen_init_state(struct mem_cgroup *memcg, struct lruvec *lruvec);
+> > > 
+> > > "state" is what we usually init :) How about lrugen_init_lruvec()?
+> > 
+> > Same story as "file", lol -- this used to be lru_gen_init_lruvec():
+> > https://lore.kernel.org/linux-mm/20210413065633.2782273-9-yuzhao@google.com/
+> > 
+> > Naming is hard. Hopefully we can finalize it this time.
+> 
+> Was that internal feedback? The revisions show this function went
+> through several names, but I don't see reviews requesting those. If
+> they weren't public I'm gonna pretend they didn't happen ;-)
+
+Indeed. I lost track.
+
+> > > You can drop the memcg parameter and use lruvec_memcg().
+> > 
+> > lruvec_memcg() isn't available yet when pgdat_init_internals() calls
+> > this function because mem_cgroup_disabled() is initialized afterward.
+> 
+> Good catch. That'll container_of() into garbage. However, we have to
+> assume that somebody's going to try that simplification again, so we
+> should set up the code now to prevent issues.
+> 
+> cgroup_disable parsing is self-contained, so we can pull it ahead in
+> the init sequence. How about this?
+> 
+> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> index 9d05c3ca2d5e..b544d768edc8 100644
+> --- a/kernel/cgroup/cgroup.c
+> +++ b/kernel/cgroup/cgroup.c
+> @@ -6464,9 +6464,9 @@ static int __init cgroup_disable(char *str)
+>  			break;
+>  		}
+>  	}
+> -	return 1;
+> +	return 0;
+>  }
+> -__setup("cgroup_disable=", cgroup_disable);
+> +early_param("cgroup_disable", cgroup_disable);
+
+I think early_param() is still after pgdat_init_internals(), no?
+
+Thanks!
