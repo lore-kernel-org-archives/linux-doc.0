@@ -2,74 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB68C433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Feb 2022 20:43:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA0C7C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 03:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiBTUnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Feb 2022 15:43:55 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46598 "EHLO
+        id S1344198AbiBUDXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Feb 2022 22:23:49 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbiBTUnz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 15:43:55 -0500
-Received: from gateway22.websitewelcome.com (gateway22.websitewelcome.com [192.185.47.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D524504F
-        for <linux-doc@vger.kernel.org>; Sun, 20 Feb 2022 12:43:33 -0800 (PST)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway22.websitewelcome.com (Postfix) with ESMTP id 3BFD37278
-        for <linux-doc@vger.kernel.org>; Sun, 20 Feb 2022 14:43:33 -0600 (CST)
-Received: from gator4132.hostgator.com ([192.185.4.144])
-        by cmsmtp with SMTP
-        id Lt3NnpL3GRnrrLt3NnxEvM; Sun, 20 Feb 2022 14:43:33 -0600
-X-Authority-Reason: nr=8
-Received: from host-95-232-30-176.retail.telecomitalia.it ([95.232.30.176]:34172 helo=[10.0.0.45])
-        by gator4132.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bristot@kernel.org>)
-        id 1nLt3M-003r3n-Jq; Sun, 20 Feb 2022 14:43:32 -0600
-Message-ID: <9531b09c-6dc2-f551-d699-29b0c8cc2aeb@kernel.org>
-Date:   Sun, 20 Feb 2022 21:43:29 +0100
+        with ESMTP id S1344197AbiBUDXt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Feb 2022 22:23:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC25E31DF9
+        for <linux-doc@vger.kernel.org>; Sun, 20 Feb 2022 19:23:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645413805;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UbQQFCgnQIVIZZPgSlksdQLecjmzQ0HCcY6adsazJww=;
+        b=cgNV9Q5/gGiB93CUnARdkwWtpVfz8iLZYHjuc90xCU/6B2AtS1NuggKjvfYC1/YyKPas9e
+        LuNXhDfCm47nKPiD0xI8cOtKwQGrigynhDhxdchgU32GVXMuZ2v1G0wcHPM6In8PMYMR5k
+        nN2/qkSR134WQrbMUIMgBnRl/L96RVc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-168-WvW5EuPqM1-kJoFwBDMQ6Q-1; Sun, 20 Feb 2022 22:23:22 -0500
+X-MC-Unique: WvW5EuPqM1-kJoFwBDMQ6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 119AD2F4A;
+        Mon, 21 Feb 2022 03:23:19 +0000 (UTC)
+Received: from localhost (ovpn-12-166.pek2.redhat.com [10.72.12.166])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 574A7E2E5;
+        Mon, 21 Feb 2022 03:23:01 +0000 (UTC)
+Date:   Mon, 21 Feb 2022 11:22:58 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v20 2/5] arm64: kdump: introduce some macros for crash
+ kernel reservation
+Message-ID: <YhMFkgkqnZ4A3ysK@MiWiFi-R3L-srv>
+References: <20220124084708.683-1-thunder.leizhen@huawei.com>
+ <20220124084708.683-3-thunder.leizhen@huawei.com>
+ <YgY89RxkAl12n/dd@MiWiFi-R3L-srv>
+ <69da7ed5-4ef4-3655-8965-4181c7d7bf0b@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] docs: Remove duplicated words in trace/osnoise-tracer
-Content-Language: en-US
-To:     Oscar Shiang <oscar0225@livemail.tw>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <TYCP286MB1913117487F390E3BCE38B15A1399@TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <TYCP286MB1913117487F390E3BCE38B15A1399@TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4132.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - kernel.org
-X-BWhitelist: no
-X-Source-IP: 95.232.30.176
-X-Source-L: No
-X-Exim-ID: 1nLt3M-003r3n-Jq
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: host-95-232-30-176.retail.telecomitalia.it ([10.0.0.45]) [95.232.30.176]:34172
-X-Source-Auth: kernel@bristot.me
-X-Email-Count: 2
-X-Source-Cap: YnJpc3RvdG1lO2JyaXN0b3RtZTtnYXRvcjQxMzIuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69da7ed5-4ef4-3655-8965-4181c7d7bf0b@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/20/22 13:12, Oscar Shiang wrote:
-> There are 2 duplicated words found in osnoise tracer documentation.
-> This patch removes them.
+On 02/14/22 at 02:22pm, Leizhen (ThunderTown) wrote:
 > 
-> Signed-off-by: Oscar Shiang <oscar0225@livemail.tw>
+> 
+> On 2022/2/11 18:39, Baoquan He wrote:
+> > On 01/24/22 at 04:47pm, Zhen Lei wrote:
+> >> From: Chen Zhou <chenzhou10@huawei.com>
+> >>
+> >> Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
+> >> for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
+> >> upper bound of high crash memory, use macros instead.
+> >>
+> >> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> >> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> >> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> >> Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+> >> ---
+> >>  arch/arm64/mm/init.c | 11 ++++++++---
+> >>  1 file changed, 8 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> >> index 90f276d46b93bc6..6c653a2c7cff052 100644
+> >> --- a/arch/arm64/mm/init.c
+> >> +++ b/arch/arm64/mm/init.c
+> >> @@ -65,6 +65,12 @@ EXPORT_SYMBOL(memstart_addr);
+> >>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
+> >>  
+> >>  #ifdef CONFIG_KEXEC_CORE
+> >> +/* Current arm64 boot protocol requires 2MB alignment */
+> >> +#define CRASH_ALIGN		SZ_2M
+> >> +
+> >> +#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
+> >> +#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
+> > 
+> > MEMBLOCK_ALLOC_ACCESSIBLE is obvoiously a alloc flag for memblock
+> > allocator, I don't think it's appropriate to make HIGH_MAX get its value.
+> 
+> Right, thanks.
+> 
+> > You can make it as memblock.current_limit, or do not define it, but using
+> > MEMBLOCK_ALLOC_ACCESSIBLE direclty in memblock_phys_alloc_range() with
+> > a code comment. 
+> 
+> This patch is not required at present. These macros are added to eliminate
+> differences to share code with x86.
 
-Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+So this patch may not be needed in this series. It can be added in
+another post when you start to do the clean up and code unification
+among ARCHes, with my udnerstanding. At that time you can consider how
+to abstract the common code to handle the difference.
 
-Thanks
--- Daniel
