@@ -2,113 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B53C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 12:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF61AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 14:30:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358408AbiBUM6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 07:58:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57630 "EHLO
+        id S1377834AbiBUObE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 09:31:04 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbiBUM6V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 07:58:21 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084F01EAD4;
-        Mon, 21 Feb 2022 04:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645448278; x=1676984278;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=G6uPDsLPXAgZNQCtVqi3S/5UdXZRLfU1CWAz2itzvuA=;
-  b=fPca6omaRm69OL81DHC3tf/BR3Fl+VW9n8XnTFCGaZsQ8HzK6DJ+PAL6
-   cno3DU/H6+R2/mqpo+4N3y/ZF9y5DZeTr+EIC0JRHENCy3My48kDMc6tk
-   kgAhVZJ0FG42jMJRjZ4edo/R+lI/PKYYmKtQCv+B+82+2b0HFijR1Zb0f
-   VApAzGwIiemvsuA7BhwrQw9uHRzo2yGrrooFqY30ybpuwLj9omZkI6Nwg
-   5VRirTMqM94aaekD9r7VuTS4BY3UM5hT3UeEZ+4poV0L3Y4d5UyZ39JPb
-   g2zZw5OdAqiQoewbTv1aLs0p3Kg7ECSHtAYDgkMiSwLx/BaR9ych6Ifq+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="314765767"
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
-   d="scan'208";a="314765767"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 04:57:57 -0800
-X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
-   d="scan'208";a="547326671"
-Received: from ebruchet-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.63.21])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 04:57:55 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] scripts: kernel-doc: Major kernel-doc rework
-In-Reply-To: <Yg8NWrvooEDbKg49@casper.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220205233945.7a4d22d8@fuji.fritz.box>
- <8735ki2x62.fsf@meer.lwn.net> <20220217163247.03e37c9b@fuji.fritz.box>
- <87bkz51l2g.fsf@meer.lwn.net> <Yg8NWrvooEDbKg49@casper.infradead.org>
-Date:   Mon, 21 Feb 2022 14:57:53 +0200
-Message-ID: <87k0do8jhq.fsf@intel.com>
+        with ESMTP id S1377837AbiBUObB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 09:31:01 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DF72251A;
+        Mon, 21 Feb 2022 06:30:37 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id C45F81F88E;
+        Mon, 21 Feb 2022 14:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1645453835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TpI+cKxMChFCiCtvh2NLQERVjIj4zZNRW9bSICtuUmA=;
+        b=aCMoadF0LVnnQ+VKVgj7fnCZPEBpLO/gHwdORfjcQxrcQ/dgwjWhkKmXSz6hV4KqLu5aC5
+        Xzqn84pKCQo6GkMQtB3MUy6Q2dENVYWC12XgOm79IWsAq+7uf1HEcFEnql4u6lDOxHJvEY
+        5sUJMaJBwMh5pLnKTbc86vaCXvNVYdU=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 5A0E9A3C1A;
+        Mon, 21 Feb 2022 14:30:35 +0000 (UTC)
+Date:   Mon, 21 Feb 2022 15:30:34 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] vsprintf: Fix %pK with kptr_restrict == 0
+Message-ID: <YhOiCka59MkVkuOC@alley>
+References: <107476128e59bff11a309b5bf7579a1753a41aca.1645087605.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <107476128e59bff11a309b5bf7579a1753a41aca.1645087605.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Feb 2022, Matthew Wilcox <willy@infradead.org> wrote:
-> On Thu, Feb 17, 2022 at 10:04:23AM -0700, Jonathan Corbet wrote:
->> *I* prefer Python, and the Sphinx side of things is necessarily in
->> Python, so I'd be happy to see kernel-doc move over.  That said, others
->> certainly disagree.
->> 
->> Markus's work was here:
->> 
->>   https://lore.kernel.org/lkml/1485287564-24205-1-git-send-email-markus.heiser@darmarit.de/
->> 
->> At the time, we were just trying to get the RST transition done, and
->> swapping out the kernel-doc script seemed like a major distraction that
->> we didn't need, so this never got looked at as seriously as I would have
->> liked.
->
-> Personally, I'd like to see us switch over to
-> https://github.com/jnikula/hawkmoth
->
-> but I don't have time to work on the rough edges.
+On Thu 2022-02-17 09:49:59, Christophe Leroy wrote:
+> Although kptr_restrict is set to 0 and the kernel is booted with
+> no_hash_pointers parameter, the content of /proc/vmallocinfo is
+> lacking the real addresses.
+> 
+>   / # cat /proc/vmallocinfo
+>   0x(ptrval)-0x(ptrval)    8192 load_module+0xc0c/0x2c0c pages=1 vmalloc
+>   0x(ptrval)-0x(ptrval)   12288 start_kernel+0x4e0/0x690 pages=2 vmalloc
+>   0x(ptrval)-0x(ptrval)   12288 start_kernel+0x4e0/0x690 pages=2 vmalloc
+>   0x(ptrval)-0x(ptrval)    8192 _mpic_map_mmio.constprop.0+0x20/0x44 phys=0x80041000 ioremap
+>   0x(ptrval)-0x(ptrval)   12288 _mpic_map_mmio.constprop.0+0x20/0x44 phys=0x80041000 ioremap
+>     ...
+> 
+> According to the documentation for /proc/sys/kernel/, %pK is
+> equivalent to %p when kptr_restrict is set to 0.
+> 
+> Fixes: 5ead723a20e0 ("lib/vsprintf: no_hash_pointers prints all addresses as unhashed")
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-Basically Hawkmoth is my idea how C documentation comments should be
-incorporated to Sphinx *if* there is no legacy to care about. In that
-sense, I never wrote it with the kernel documentation in mind, on the
-contrary it's a hobby project where I can just not think about the
-kernel at all. ;)
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-With that in mind, I'd really like to hear what the rough edges are that
-you see. Or are they kernel specific? Preferrably as issues on the
-project page if you don't mind.
+I am going to push this within two days or so unless anyone complains.
 
-> I really hate the kernel-doc style; I think it makes us write very
-> stilted documentation, full of parameter descriptions like:
->
->  function() - Do the thing to a page.
->  @page: The page.
->
-> which really serves nobody.  Being able to write:
->
->  function() - Do the thing to @page
->
-> is easier to both write and read.
-
-I tend to agree. Though Hawkmoth does not take a stand here, basically
-the assumption is that the documentation comments are pure rst. And that
-was one of the goals, no parsing of the comments beyond removing the C
-comment markers. It's up to the users or projects to dictate what the
-comments should look like. There's some plugin support for users to add
-their own filters, e.g. there could be kernel-doc format support via
-that.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Best Regards,
+Petr
