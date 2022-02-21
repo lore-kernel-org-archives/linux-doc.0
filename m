@@ -2,76 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF61AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 14:30:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31971C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 14:37:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377834AbiBUObE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 09:31:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39506 "EHLO
+        id S1378042AbiBUOhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 09:37:40 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377837AbiBUObB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 09:31:01 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DF72251A;
-        Mon, 21 Feb 2022 06:30:37 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id C45F81F88E;
-        Mon, 21 Feb 2022 14:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1645453835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TpI+cKxMChFCiCtvh2NLQERVjIj4zZNRW9bSICtuUmA=;
-        b=aCMoadF0LVnnQ+VKVgj7fnCZPEBpLO/gHwdORfjcQxrcQ/dgwjWhkKmXSz6hV4KqLu5aC5
-        Xzqn84pKCQo6GkMQtB3MUy6Q2dENVYWC12XgOm79IWsAq+7uf1HEcFEnql4u6lDOxHJvEY
-        5sUJMaJBwMh5pLnKTbc86vaCXvNVYdU=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 5A0E9A3C1A;
-        Mon, 21 Feb 2022 14:30:35 +0000 (UTC)
-Date:   Mon, 21 Feb 2022 15:30:34 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] vsprintf: Fix %pK with kptr_restrict == 0
-Message-ID: <YhOiCka59MkVkuOC@alley>
-References: <107476128e59bff11a309b5bf7579a1753a41aca.1645087605.git.christophe.leroy@csgroup.eu>
+        with ESMTP id S1378073AbiBUOhh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 09:37:37 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1449C1FA42;
+        Mon, 21 Feb 2022 06:37:14 -0800 (PST)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LEQ5jG020639;
+        Mon, 21 Feb 2022 14:37:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=tSbMXh38w1m5isYJZGMogBGAKJRCnfBSGcDktspG2Ug=;
+ b=s4HAo9W6I80iDjKKQhmsLrWqPxcJYiSZUHZj3J9g0z8uwVriH2DWNKH5jJvf8cBkn+n1
+ QXTD7UnNFvC7BACGputh1/xn6+W5LD0EcI0QtTuea8DzU/gFytlnhY9VPwiow9UzNIa/
+ L5QOtk1Hzd7MQ0Xmh2MFwsOtqXhWkv72QqU1iGn3iPVR55o0+utmA2AgQHy+9bPZLtor
+ eGyXfUcH+Z7OufMeb335++dGmjxKfR+7+8NyxBStywWmeAO0rKmhsMZ4cPrGMOZiFiGH
+ rFsAe7HyaERzWfPrJT3mfBpZydVK2ufQ0sD+r8hB5rFMKorDU9niCRaevD138PxHU7i7 Rg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3eca3skp9m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Feb 2022 14:37:11 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LCxpbY022981;
+        Mon, 21 Feb 2022 14:37:09 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3eca3skp8x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Feb 2022 14:37:09 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LESiW9021454;
+        Mon, 21 Feb 2022 14:37:07 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma03fra.de.ibm.com with ESMTP id 3ear68te2r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 21 Feb 2022 14:37:07 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21LEb3V252822526
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 21 Feb 2022 14:37:03 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 97286A4040;
+        Mon, 21 Feb 2022 14:37:03 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 34E2EA4051;
+        Mon, 21 Feb 2022 14:37:03 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 21 Feb 2022 14:37:03 +0000 (GMT)
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] KVM: s390: Clarify key argument for MEM_OP in api docs
+Date:   Mon, 21 Feb 2022 15:36:57 +0100
+Message-Id: <20220221143657.3712481-1-scgl@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220211182215.2730017-10-scgl@linux.ibm.com>
+References: <20220211182215.2730017-10-scgl@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <107476128e59bff11a309b5bf7579a1753a41aca.1645087605.git.christophe.leroy@csgroup.eu>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7f4pXBRszYbuNTzEk8_TPPvd-DC6tPt8
+X-Proofpoint-ORIG-GUID: JYOJ6p9eazyxRnWLgAwhmir51Je-4MmW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-21_07,2022-02-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202210087
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2022-02-17 09:49:59, Christophe Leroy wrote:
-> Although kptr_restrict is set to 0 and the kernel is booted with
-> no_hash_pointers parameter, the content of /proc/vmallocinfo is
-> lacking the real addresses.
-> 
->   / # cat /proc/vmallocinfo
->   0x(ptrval)-0x(ptrval)    8192 load_module+0xc0c/0x2c0c pages=1 vmalloc
->   0x(ptrval)-0x(ptrval)   12288 start_kernel+0x4e0/0x690 pages=2 vmalloc
->   0x(ptrval)-0x(ptrval)   12288 start_kernel+0x4e0/0x690 pages=2 vmalloc
->   0x(ptrval)-0x(ptrval)    8192 _mpic_map_mmio.constprop.0+0x20/0x44 phys=0x80041000 ioremap
->   0x(ptrval)-0x(ptrval)   12288 _mpic_map_mmio.constprop.0+0x20/0x44 phys=0x80041000 ioremap
->     ...
-> 
-> According to the documentation for /proc/sys/kernel/, %pK is
-> equivalent to %p when kptr_restrict is set to 0.
-> 
-> Fixes: 5ead723a20e0 ("lib/vsprintf: no_hash_pointers prints all addresses as unhashed")
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Clarify that the key argument represents the access key, not the whole
+storage key.
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+---
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I am going to push this within two days or so unless anyone complains.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 48f23bb80d7f..622667cc87ef 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3763,7 +3763,7 @@ KVM_S390_MEMOP_F_INJECT_EXCEPTION is set.
+ 
+ If the KVM_S390_MEMOP_F_SKEY_PROTECTION flag is set, storage key
+ protection is also in effect and may cause exceptions if accesses are
+-prohibited given the access key passed in "key".
++prohibited given the access key designated by "key"; the valid range is 0..15.
+ KVM_S390_MEMOP_F_SKEY_PROTECTION is available if KVM_CAP_S390_MEM_OP_EXTENSION
+ is > 0.
+ 
 
-Best Regards,
-Petr
+base-commit: af33593d63a403287b8a6edd217e854a3571938b
+-- 
+2.32.0
+
