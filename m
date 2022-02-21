@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDD8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 21:22:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1EEC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 21:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbiBUVXT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 16:23:19 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60272 "EHLO
+        id S234748AbiBUVXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 16:23:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234778AbiBUVXR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 16:23:17 -0500
-Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [45.157.188.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20592713
+        with ESMTP id S234747AbiBUVXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 16:23:16 -0500
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3FFD25D7
         for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 13:22:51 -0800 (PST)
 Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4K2Znw3YmjzMqKMQ;
-        Mon, 21 Feb 2022 22:15:16 +0100 (CET)
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4K2Znp6nTfzMqFht;
+        Mon, 21 Feb 2022 22:15:10 +0100 (CET)
 Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4K2Znw1SQtzljTgR;
-        Mon, 21 Feb 2022 22:15:16 +0100 (CET)
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4K2Znp0FmxzljTg3;
+        Mon, 21 Feb 2022 22:15:09 +0100 (CET)
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>
@@ -31,14 +31,11 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         Paul Moore <paul@paul-moore.com>,
         Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v1 09/11] landlock: Document LANDLOCK_ACCESS_FS_REFER and ABI versioning
-Date:   Mon, 21 Feb 2022 22:25:20 +0100
-Message-Id: <20220221212522.320243-10-mic@digikod.net>
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v1 00/11] Landlock: file linking and renaming support
+Date:   Mon, 21 Feb 2022 22:25:11 +0100
+Message-Id: <20220221212522.320243-1-mic@digikod.net>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221212522.320243-1-mic@digikod.net>
-References: <20220221212522.320243-1-mic@digikod.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -46,208 +43,85 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+Hi,
 
-Add LANDLOCK_ACCESS_FS_REFER in the example and properly check to only
-use it if the current kernel support it thanks to the Landlock ABI
-version.
+One of the most annoying limitations of Landlock is that sandboxed
+processes can only link and rename files to the same directory (i.e.
+file reparenting is always denied).  Indeed, because of the unprivileged
+nature of Landlock, file hierarchy are identified thanks to ephemeral
+inode tagging, which may cause arbitrary renaming and linking to change
+the security policy in an unexpected way.
 
-Move the file renaming and linking limitation to a new "Previous
-limitations" section.
+This patch series brings a new access right, LANDLOCK_ACCESS_FS_REFER,
+which enables to allow safe file linking and renaming.  In a nutshell,
+Landlock checks that the inherited access rights of a moved or renamed
+file cannot increase but only reduce.  Six new test suits cover file
+renaming and linking, which brings coverage for security/landlock/ from
+93.5% of lines to 94.4%.
 
-Improve documentation about the backward and forward compatibility,
-including the rational for ruleset's handled_access_fs.
+The documentation and the tutorial is extended with this new access
+right, along with more explanations about backward and forward
+compatibility, good practices, and a bit about the current access
+rights rational.
 
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20220221212522.320243-10-mic@digikod.net
----
- Documentation/userspace-api/landlock.rst | 124 +++++++++++++++++++----
- 1 file changed, 104 insertions(+), 20 deletions(-)
+While developing this new feature, I also found an issue with the
+current implementation of Landlock.  In some (rare) cases, sandboxed
+processes may be more restricted than intended.  Indeed, because of the
+current way to check file hierarchy access rights, composition of rules
+may be incomplete when requesting multiple accesses at the same time.
+This is fixed with a dedicated patch involving some refactoring.  A new
+test suite checks relevant new edge cases.
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index f35552ff19ba..97db09d36a5c 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -8,7 +8,7 @@ Landlock: unprivileged access control
- =====================================
- 
- :Author: Mickaël Salaün
--:Date: March 2021
-+:Date: February 2022
- 
- The goal of Landlock is to enable to restrict ambient rights (e.g. global
- filesystem access) for a set of processes.  Because Landlock is a stackable
-@@ -29,14 +29,15 @@ the thread enforcing it, and its future children.
- Defining and enforcing a security policy
- ----------------------------------------
- 
--We first need to create the ruleset that will contain our rules.  For this
-+We first need to define the ruleset that will contain our rules.  For this
- example, the ruleset will contain rules that only allow read actions, but write
- actions will be denied.  The ruleset then needs to handle both of these kind of
--actions.
-+actions.  This is required for backward and forward compatibility (i.e. the
-+kernel and user space may not know each other's supported restrictions), hence
-+the need to be explicit about the denied-by-default access rights.
- 
- .. code-block:: c
- 
--    int ruleset_fd;
-     struct landlock_ruleset_attr ruleset_attr = {
-         .handled_access_fs =
-             LANDLOCK_ACCESS_FS_EXECUTE |
-@@ -51,9 +52,34 @@ actions.
-             LANDLOCK_ACCESS_FS_MAKE_SOCK |
-             LANDLOCK_ACCESS_FS_MAKE_FIFO |
-             LANDLOCK_ACCESS_FS_MAKE_BLOCK |
--            LANDLOCK_ACCESS_FS_MAKE_SYM,
-+            LANDLOCK_ACCESS_FS_MAKE_SYM |
-+            LANDLOCK_ACCESS_FS_REFER,
-     };
- 
-+Because we may not know on which kernel version an application will be
-+executed, it is safer to follow a best-effort security approach.  Indeed, we
-+should try to protect users as much as possible whatever the kernel they are
-+using.  To avoid binary enforcement (i.e. either all security features or
-+none), we can leverage a dedicated Landlock command to get the current version
-+of the Landlock ABI and adapt the handled accesses.  Let's check if we should
-+remove the `LANDLOCK_ACCESS_FS_REFER` access right which is only supported
-+starting with the second version of the ABI.
-+
-+.. code-block:: c
-+
-+    int abi;
-+
-+    abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
-+    if (abi < 2) {
-+        ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_REFER;
-+    }
-+
-+This enables to create an inclusive ruleset that will contain our rules.
-+
-+.. code-block:: c
-+
-+    int ruleset_fd;
-+
-     ruleset_fd = landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
-     if (ruleset_fd < 0) {
-         perror("Failed to create a ruleset");
-@@ -92,6 +118,11 @@ descriptor.
-         return 1;
-     }
- 
-+It may also be required to create rules following the same logic as explained
-+for the ruleset creation, by filtering access rights according to the Landlock
-+ABI version.  In this example, this is not required because
-+`LANDLOCK_ACCESS_FS_REFER` is not allowed by any rule.
-+
- We now have a ruleset with one rule allowing read access to ``/usr`` while
- denying all other handled accesses for the filesystem.  The next step is to
- restrict the current thread from gaining more privileges (e.g. thanks to a SUID
-@@ -192,6 +223,56 @@ To be allowed to use :manpage:`ptrace(2)` and related syscalls on a target
- process, a sandboxed process should have a subset of the target process rules,
- which means the tracee must be in a sub-domain of the tracer.
- 
-+Compatibility
-+=============
-+
-+Backward and forward compatibility
-+----------------------------------
-+
-+Landlock is designed to be compatible with past and future versions of the
-+kernel.  This is achieved thanks to the system call attributes and the
-+associated bitflags, particularly the ruleset's `handled_access_fs`.  Making
-+handled access right explicit enables the kernel and user space to have a clear
-+contract with each other.  This is required to make sure sandboxing will not
-+get stricter with a system update, which could break applications.
-+
-+Developers can subscribe to the `Landlock mailing list
-+<https://subspace.kernel.org/lists.linux.dev.html>`_ to knowingly update and
-+test their applications with the latest available features.  In the interest of
-+users, and because they may use different kernel versions, it is strongly
-+encouraged to follow a best-effort security approach by checking the Landlock
-+ABI version at runtime and only enforcing the supported features.
-+
-+Landlock ABI versions
-+---------------------
-+
-+The Landlock ABI version can be read with the sys_landlock_create_ruleset()
-+system call:
-+
-+.. code-block:: c
-+
-+    int abi;
-+
-+    abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
-+    if (abi < 0) {
-+        switch (errno) {
-+        case ENOSYS:
-+            printf("Landlock is not supported by the current kernel.\n");
-+            break;
-+        case EOPNOTSUPP:
-+            printf("Landlock is currently disabled.\n");
-+            break;
-+        }
-+        return 0;
-+    }
-+    if (abi >= 2) {
-+        printf("Landlock supports LANDLOCK_ACCESS_FS_REFER.\n");
-+    }
-+
-+The following kernel interfaces are implicitly supported by the first ABI
-+version.  Features only supported from a specific version are explicitly marked
-+as such.
-+
- Kernel interface
- ================
- 
-@@ -228,21 +309,6 @@ Enforcing a ruleset
- Current limitations
- ===================
- 
--File renaming and linking
---------------------------
--
--Because Landlock targets unprivileged access controls, it is needed to properly
--handle composition of rules.  Such property also implies rules nesting.
--Properly handling multiple layers of ruleset, each one of them able to restrict
--access to files, also implies to inherit the ruleset restrictions from a parent
--to its hierarchy.  Because files are identified and restricted by their
--hierarchy, moving or linking a file from one directory to another implies to
--propagate the hierarchy constraints.  To protect against privilege escalations
--through renaming or linking, and for the sake of simplicity, Landlock currently
--limits linking and renaming to the same directory.  Future Landlock evolutions
--will enable more flexibility for renaming and linking, with dedicated ruleset
--flags.
--
- Filesystem topology modification
- --------------------------------
- 
-@@ -281,6 +347,24 @@ Memory usage
- Kernel memory allocated to create rulesets is accounted and can be restricted
- by the Documentation/admin-guide/cgroup-v1/memory.rst.
- 
-+Previous limitations
-+====================
-+
-+File renaming and linking (ABI 1)
-+---------------------------------
-+
-+Because Landlock targets unprivileged access controls, it is needed to properly
-+handle composition of rules.  Such property also implies rules nesting.
-+Properly handling multiple layers of ruleset, each one of them able to restrict
-+access to files, also implies to inherit the ruleset restrictions from a parent
-+to its hierarchy.  Because files are identified and restricted by their
-+hierarchy, moving or linking a file from one directory to another implies to
-+propagate the hierarchy constraints.  To protect against privilege escalations
-+through renaming or linking, and for the sake of simplicity, Landlock previously
-+limited linking and renaming to the same directory.  Starting with the Landlock
-+ABI version 2, it is now possible to securely control renaming and linking
-+thanks to the new `LANDLOCK_ACCESS_FS_REFER` access right.
-+
- Questions and answers
- =====================
- 
+As a side effect, and to limit the increased use of the stack, I reduced
+the number of Landlock nested domains from 64 to 16.  I think this
+should be more than enough for legitimate use cases, but feel free to
+challenge this decision with real and legitimate use cases.
+
+Because of the current path_rename security hook, Landlock cannot yet
+return consistent error codes with RENAME_EXCHANGE.  I plan to address
+this issue with a next series.
+
+This patch series was developed with some complementary new tests sent
+in a standalone patch series:
+https://lore.kernel.org/r/20220221155311.166278-1-mic@digikod.net
+
+Additionally, a new dedicated syzkaller test has been developed to cover
+new paths.
+
+Regards,
+
+Mickaël Salaün (11):
+  landlock: Define access_mask_t to enforce a consistent access mask
+    size
+  landlock: Reduce the maximum number of layers to 16
+  landlock: Create find_rule() from unmask_layers()
+  landlock: Fix same-layer rule unions
+  landlock: Move filesystem helpers and add a new one
+  landlock: Add support for file reparenting with
+    LANDLOCK_ACCESS_FS_REFER
+  selftest/landlock: Add 6 new test suites dedicated to file reparenting
+  samples/landlock: Add support for file reparenting
+  landlock: Document LANDLOCK_ACCESS_FS_REFER and ABI versioning
+  landlock: Document good practices about filesystem policies
+  landlock: Add design choices documentation for filesystem access
+    rights
+
+ Documentation/security/landlock.rst          |  17 +-
+ Documentation/userspace-api/landlock.rst     | 145 +++-
+ include/uapi/linux/landlock.h                |  27 +-
+ samples/landlock/sandboxer.c                 |  37 +-
+ security/landlock/fs.c                       | 721 +++++++++++++++----
+ security/landlock/fs.h                       |   2 +-
+ security/landlock/limits.h                   |   6 +-
+ security/landlock/ruleset.c                  |   6 +-
+ security/landlock/ruleset.h                  |  23 +-
+ security/landlock/syscalls.c                 |   2 +-
+ tools/testing/selftests/landlock/base_test.c |   2 +-
+ tools/testing/selftests/landlock/fs_test.c   | 634 +++++++++++++++-
+ 12 files changed, 1447 insertions(+), 175 deletions(-)
+
+
+base-commit: cfb92440ee71adcc2105b0890bb01ac3cddb8507
 -- 
 2.35.1
 
