@@ -2,465 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE94C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 10:54:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0740C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Feb 2022 12:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355338AbiBUKzS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 05:55:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55164 "EHLO
+        id S1357241AbiBUMF5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 07:05:57 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355422AbiBUKyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 05:54:52 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC4C13F3F;
-        Mon, 21 Feb 2022 02:22:41 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id i11so26622577eda.9;
-        Mon, 21 Feb 2022 02:22:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1IdDsi7bAzVPDw8e8R0uRnir6IEqLal7Ly77jps2REs=;
-        b=JGqcHY+JqZlgVJKA68fJXqfJsTstLCh3U9du5pc0QMkXk75a/1RHmFZP6iCwkwjnvg
-         w34Tyl3Iz6h43Oo4fTzrqjSHFlFFukhW07t5ixNG9kN+LUJ3dwGNLFIMd1Xauf1vNNES
-         srNGeCYUVeGKjMdkg3QkwjumfazTaA4YqXyKx6qlWVTjNVloRhLkpa03Z8XoVLENhFeH
-         2aY4g+/1Ggn3C/41geLugp4sEWgXJe9XtgmFaDs0wuUF2uUXkZxB4tlSzohVmVV8rrVN
-         frFciNm51V4qkpo9bKrNbhTRLeYqlcx7F1tz3Ez0uQnO1fx4ppXnRpT0bQORp83IZCjw
-         2Nwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1IdDsi7bAzVPDw8e8R0uRnir6IEqLal7Ly77jps2REs=;
-        b=cbMG4myzmpbDiR5BWdCCZaLIHAfvuhywTFjxxzL9m/EfFubRipoucmoXWPnvIe60kE
-         l1C+511nhxFCSydRk26dMUqktcdN083f8NdQM16eYExsog7foiHIWZO+iIYKo4hRYbLN
-         OGrxyHZjHyAZTDlcOlOvxdqHbvXiFt7GUBMilwUERBdYUUeasrvAaxAiDxpGxry8Gn3J
-         XaGa0qIGSe6GT/BLEYmgGWkfvHglvXZt/7/OKrmxa6CWgVuigiHvYiZ67+VsA2X02aA2
-         wOTAaM8B++rocicEk34BjZ+YeFMrMCCQhvmQzd0hMcJE7DgLxND+bIPcGvOq0vhDNqf8
-         NC8g==
-X-Gm-Message-State: AOAM532UagFz1rFCecsQmCcDoNiU49m3BowKhub4qw+EzWLJAxfUIlv+
-        BkvmIam0VOmX71Sg+h73a7pLthN+rO0mfw==
-X-Google-Smtp-Source: ABdhPJy3hYLLmuoyBoTLxm2D7uXF18FexGffphxCykbcaECjqeeWfOlIy9j2gkRXcB8fv3B09Et/+w==
-X-Received: by 2002:a05:6402:2074:b0:410:81bf:ff3b with SMTP id bd20-20020a056402207400b0041081bfff3bmr20649969edb.326.1645438959478;
-        Mon, 21 Feb 2022 02:22:39 -0800 (PST)
-Received: from localhost ([95.180.24.23])
-        by smtp.gmail.com with UTF8SMTPSA id v23sm5098597ejy.178.2022.02.21.02.22.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Feb 2022 02:22:39 -0800 (PST)
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     savicaleksa83@gmail.com, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: add driver for Aquacomputer Farbwerk 360
-Date:   Mon, 21 Feb 2022 11:21:56 +0100
-Message-Id: <20220221102157.13574-1-savicaleksa83@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S1357257AbiBUMF4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 07:05:56 -0500
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89BF1201A7;
+        Mon, 21 Feb 2022 04:05:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645445131; x=1676981131;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=fgzyMDhAh5TiNRcGuMNbBxd+/pEktAmwUrbd+chuK4g=;
+  b=U0HNz2gsE1VMxXp1TGHDSvKBRUi4nnLPANgRQgM86VAmJz3bNtzaW6r9
+   UNtqMB7/227TY4SqbsGZlcXXnWJS/O5ol06HX+w9I8iO/0gB2JgVBOP8u
+   S6g7Wzzst0Sy1cvMZLgSzs5H28w2NLMs12Kvxtsi8nMC4XMUNhJufKIfm
+   i8dG4VHqfX7CvG9l/ekukqBbJYl3/x6JQpD7h8iBbzHTim/CmwJYJXwXD
+   wQ+YIZzI5E/5RJhdvMqzpApmCOssnJ0eebsc4Rz/Cis290m2OCK0ntdXm
+   k3WRC0I0qkZuVNz+As8dUw7GgR2EF/zMg5Zmt/BcWgMbo7fNlFdiKCt2O
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10264"; a="312241036"
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
+   d="scan'208";a="312241036"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 04:05:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
+   d="scan'208";a="590945583"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2022 04:05:30 -0800
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 21 Feb 2022 04:05:30 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Mon, 21 Feb 2022 04:05:30 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.46) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Mon, 21 Feb 2022 04:05:28 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iI4yoUyeO5a3bUQDMMjGsyUCHk26ATajtlYwh5jveLkQHQZE9zyIeH4rtSIEHRaYy6Wo9M18m71tv+RbYzW+36657DHcWrxryPDcqk0+7KaBJqbfnUnoZ1owivaGxcGxq5C3X/vALuzZAp280A11bnlJZD0IlGAgSHBr6o50frNS61yCE84UUWFIBL45ZoPUDAtjrfDE48via6l7fA884ktWKuJrtQUqKk0Pb7ehMjXgQmEuKxa/thS130OgLWAYmRBSXpj5zdJmRHBPLyqwlw2XPPnvf4sgtWib7w47W0dPxXqFa7WiHIukOrGri1pStvWO+rW3Newc59c47op+Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fgzyMDhAh5TiNRcGuMNbBxd+/pEktAmwUrbd+chuK4g=;
+ b=AynHgpuWTdQmaqgkZVaQUW7fAToewdie3Ck/6q3UzYqyu/L0C5F2lbndv3n/tSgBZwmjlljA2GZoGlhMKGharkHjb0x4BtM6DBK6W33ibOXPWDCBkKJi7VlVgKF7/fdpjiHxhGdOO5bgDhyTw7AmxfzgwlG0w9lNhew3i5AAlMBltS8RfCRjlHRvKjIqmW2tfm/VkmhizZrvZWhkKI+m7yLBsDD+85XDQtYxK5dqiuDgXLKUlQ3UMfLZriMD/MSW481kr9qVLRMxWd54nSeV0aIjXsqbvTbhqF1fqizcTQprzX5WWOjwDWkoL1oSfUn2mIRAulZd1FKq9lERPzZLRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
+ by CH2PR11MB4245.namprd11.prod.outlook.com (2603:10b6:610:44::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Mon, 21 Feb
+ 2022 12:05:25 +0000
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::8c4b:e24c:c69f:7809]) by BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::8c4b:e24c:c69f:7809%5]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
+ 12:05:25 +0000
+From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
+To:     Tom Rix <trix@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>
+Subject: RE: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
+ info
+Thread-Topic: [PATCH v1 2/7] fpga: dfl: check feature type before parse irq
+ info
+Thread-Index: AQHYIZYutGpfsM893k+7OxgKTgvvjqyUsy6AgAQun8CAAIL8gIAEjlhg
+Date:   Mon, 21 Feb 2022 12:05:25 +0000
+Message-ID: <BN9PR11MB5483C46D41DC8CF5893F1832E33A9@BN9PR11MB5483.namprd11.prod.outlook.com>
+References: <20220214112619.219761-1-tianfei.zhang@intel.com>
+ <20220214112619.219761-3-tianfei.zhang@intel.com>
+ <0de9c8fb-0f04-684f-630c-1d13b0b55ba1@redhat.com>
+ <BN9PR11MB54839B6D444DCEB7FD789F33E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <447ce66b-dea7-da2b-6879-e4d37a74ba7d@redhat.com>
+In-Reply-To: <447ce66b-dea7-da2b-6879-e4d37a74ba7d@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4c77d044-0b18-4a90-9630-08d9f53271b6
+x-ms-traffictypediagnostic: CH2PR11MB4245:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <CH2PR11MB424598B7E0BD37989B34C377E33A9@CH2PR11MB4245.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EyqiflHMHVQvswRwUb5T1kl6gyrD7Vo+NClo+wg55X2/xS3XV3hzJk1wunJHoaRcbrm3DKkUcm0UBdgXiPfFC3t4Kb9IZ+u4AzCppTC50hIDbJfq43S1JvmN4+bYPGUUd+lUP2JVLahZwLoauDCJq7DUT0JgvXigZiqVJ47GGd/C7URsesKEXu+jj9/nRtwnIzPezzI6mbmBsxroeWA/mLygYNu3m/gkyU0IxxYV0yTiUCYagaHLkYNvbdiN6zh/ItNiyP3/lDHYdFILm5LoQR0cLXu6g+P7Tj8obgdYtz03GHC1O0rWOIzDccylM13rj/7DAZwFtjKyJcKGBwDhKaN0hU9NeIadz/w1gDQkO9iIxEqm0P7UkOIw73KzAMD10ZoeiWhPShS9CTOhnbU8fqkrt+SFUpBextCXLlTDgc+yfXCsufXQZtj4DTlnrFOGZxCD5OjkKngncvgfYZaHmQA2H9TeVKejBtfWD9bs5J2VswhbihVP6p5WGqllaiiavkmoYp1E9z4FXZAh4OKIM2AwSKTOlIDZk7gPMecVia7gN8K8VjF5rcPTzo9cBn0GwAn+wLf7D0qErhIwzXMZsh++6AuBhRKg8QZz1Fgfd5a7/OMVAgdiowuPLBl+iUgE1ShIldzgc8ItGIkOV+u6sGiGY5VweenBqylbwblnR9LDdh39+zf8FrfANCP9nt+toC2wS0OKRQoyus6SAQdc13r4xdZWjEGqNYWKhGb0CSB2rESXiKbdzCNuw8zlNUt+QP/DdrpuskkKt1ItWCG4r84kHSS0KcksCxn7/t/MDJbp2VssbfrY4zmO+oqzMCISoeM87CbLaQXc00PisIbwug==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(33656002)(7696005)(71200400001)(508600001)(55016003)(6506007)(966005)(38070700005)(53546011)(9686003)(2906002)(38100700002)(4326008)(66446008)(5660300002)(186003)(110136005)(8676002)(26005)(52536014)(8936002)(316002)(122000001)(86362001)(82960400001)(76116006)(83380400001)(66556008)(66476007)(64756008)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VkVYV1d4eHZkTU92bVJySzl1NjZqenR6WG5wMFVJcjI0MVczbkpHTHRMR2ZY?=
+ =?utf-8?B?ZCs1YVNOdDZ3YVpTKzZ3UWp0WXdRT3UydCtJeWJsb2xBc2NoMUhseC9CT2Jr?=
+ =?utf-8?B?ZXBzdDJac0dvUzc2Ykkxc0VPZ21Fc3ZTTGtZbGRKNUJLTEJCT1FwK09tR3hD?=
+ =?utf-8?B?V1kvekJsTlM1a1l2eUhiNk9oM1FoZ0ZsV3B6ZFNJeTNlMDlacEJsenBpeGlY?=
+ =?utf-8?B?MEsrNzdpTmt2cENyQklBbno0ZktjM1IrbW0yMTBDWWZqQjdRdWZyTzBsaDJU?=
+ =?utf-8?B?T2JrczhhNjkxd1duNTNDc2x4OFNhMDRicUYvQ2hwYlNMdWVRdFNSbVdPSWI3?=
+ =?utf-8?B?RXBOTTZvUEw4STRFZGJKMjdvRGlpbHl1eWlVSlN4NXhORkgzNmN4dWthS3M3?=
+ =?utf-8?B?U0VnOWhMREpsdTlhenc2SlBZZVhOMWg5M2RMaTBTamJha1d6M0FXMktCdG9X?=
+ =?utf-8?B?aE1XV3FZTmdVZXFEbjE4V2wrQkNXRkpybUEvM2dFcjNaZXdhSHNMeG1QWHUz?=
+ =?utf-8?B?cjJzZ2tpQXFwZjRIUWxzckJWNnErakorQkVmdnYxMk1tcGgwdjhFSHJoMWhB?=
+ =?utf-8?B?Z2UzTkdDc3NQcndaN1dRdDhlQm0vZkQ2VGV0TjNyTzB4a3ZDSjhFZXpjYVlw?=
+ =?utf-8?B?NnV2NkxXdU40cUNjZytKQU5CaklyRmVaZllRbDI2MEdyYkFpNnoycVRPY3pz?=
+ =?utf-8?B?NkRJS3NtUEM4SmdLa3hDeU9wMHJrTHd5V2VnSVpkK0JXRjFEakNpaVJWaGZS?=
+ =?utf-8?B?RmNwbzQwZ2MyNm9FWncrQWc5ZDNITW9mT3VIRTJFQlhrQ1ZaM1JtaHpzUVRo?=
+ =?utf-8?B?OXF5UDdubTM0NUd5dXUzODdoazgxWlBHTE1wK2loaTFjSkFtUDlKMVVqSWJZ?=
+ =?utf-8?B?WGJ0Lzd0NTdpeXR1NnFnVSt4bnNKa2NMUWFkL0hPKzBHbEpPVkJDQU9uM2M3?=
+ =?utf-8?B?MFU3bWp2TlZ5RmFEYThWRWZaSHgwYnFmd2k0LzZNNDd3c25nMmcrMEQ0YnBT?=
+ =?utf-8?B?ZGorTUY3cHI1UloySmRqdG1sd1RaK1JzaVJXTGYybEovaGptd203amZJVmY1?=
+ =?utf-8?B?ZnB1Y201RXlVNU5lSU12ejVScGhERHBFaWVKWGFKNnR6WEczUDl5Y0FxUVY1?=
+ =?utf-8?B?cmtTODFWczd6T0VIYkRGWGppemdScnZjdENBeGNIRGhkWGVwQ3ZYNDFiN0RP?=
+ =?utf-8?B?aS9abDd6UlF5Vy8xWGs5aW5Ha05zZmhpaW1qNDRQTGJZM2ZZS1pNQmpDNmJp?=
+ =?utf-8?B?NlNGSnBSWjhpQmxrSmdUNjVwYWFhakU0WHh5TUg3UE9GeFRXYzF5U01wbXc3?=
+ =?utf-8?B?QnpSVGVKS3A3aUZRZk9YNVF1V3pZaTQvVzdkVVdCbkthTllQUDBBTWFva0Zh?=
+ =?utf-8?B?ZUxnczVzaU9vT1RxTDlac3RXMi9uUDMvYXF3ZzZod25rdExmWFcwNjFhbk5M?=
+ =?utf-8?B?R3BVMFBkUWd2b2EyUzVRamtFYUh5QUE5QmsyYXlQK2NYaTZUamVzSGdHY21W?=
+ =?utf-8?B?RDgwWUpkUUZtNVowWkYyaXhEOHlWUXo0bHdZaWVtNTc3R2FzRjM2QW9HRVY3?=
+ =?utf-8?B?WS9ObE50ZkcybWpiejJaY1h4L1pocDlZYXU1ekFOamQva1czaUZFZDBmaDFG?=
+ =?utf-8?B?VERmd0t1T3FlQno3dmdhY0dPNmdPL3FRUGhyTGV6MU9IQktSR3oyNDlKZHBy?=
+ =?utf-8?B?MTN2eUh5RGMrM2ZML1RiZlZEQ1hOblVCZktaU3RMUmx5eHRBcGhPNUtyRnl3?=
+ =?utf-8?B?d1NabWxzN09SalEybHhMNHpUNFJ0TXBmZmp0VkJEd2ZNYU9oV21wYmZKTjBX?=
+ =?utf-8?B?ZW0rUlZvWkRmTXQ2OWFiVGliMW1NNkRzNTZJcjdFbExkOHZGbDdKQ254cnht?=
+ =?utf-8?B?eXp1QlU5UmlFRGVTbkd2YU5vM3o2TFNzRFFmanloV3hQWkV5NUROakFZbDJZ?=
+ =?utf-8?B?Um1iaEswNUZrc3JJTlFNUUhIc1d1MkpDMVBVcXNLakpTRUhIZTdkL1ZRV2Ny?=
+ =?utf-8?B?SjVCbTBLK1lDdUhkMitLblZ5TzlWSldxQnI2UzU0SlB4d01CeHU0eDFCd3l2?=
+ =?utf-8?B?OTkwUlhJTUcyWXN4a2kyLzVBdFN3VnJtSWg3UXhnWmZzMDB6TXc0cnl3NzRO?=
+ =?utf-8?B?NUdqbE12QStMdEVqOGNEcGRHVElhMHlSKzBWMTRhM2F4V0lNNGJNcTM3eGY4?=
+ =?utf-8?Q?rJDc/pNKBoJzkYZXlSjqAqU=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c77d044-0b18-4a90-9630-08d9f53271b6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2022 12:05:25.3816
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 41BKgAmT9eLeVb/eyyKK0Hn2IMcwiw/bCA9ew0ynJBiyyje6H3RNeJVolkFmxVK/Woy4803+wS7r/XWS1v3Phg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4245
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This driver exposes hardware temperature sensors of the Aquacomputer
-Farbwerk 360 RGB controller, which communicates through a proprietary
-USB HID protocol.
-
-Four temperature sensors are available. If a sensor is not connected,
-it will report zeroes. Additionally, serial number and firmware version
-are exposed through debugfs.
-
-This driver has been tested on x86_64.
-
-Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
----
- .../hwmon/aquacomputer_farbwerk360.rst        |  40 +++
- Documentation/hwmon/index.rst                 |   1 +
- MAINTAINERS                                   |   7 +
- drivers/hwmon/Kconfig                         |  10 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/aquacomputer_farbwerk360.c      | 261 ++++++++++++++++++
- 6 files changed, 320 insertions(+)
- create mode 100644 Documentation/hwmon/aquacomputer_farbwerk360.rst
- create mode 100644 drivers/hwmon/aquacomputer_farbwerk360.c
-
-diff --git a/Documentation/hwmon/aquacomputer_farbwerk360.rst b/Documentation/hwmon/aquacomputer_farbwerk360.rst
-new file mode 100644
-index 000000000000..cebaffccd818
---- /dev/null
-+++ b/Documentation/hwmon/aquacomputer_farbwerk360.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver aquacomputer_farbwerk360
-+======================================
-+
-+Supported devices:
-+
-+* Aquacomputer Farbwerk 360 RGB controller
-+
-+Author: Aleksa Savic
-+
-+Description
-+-----------
-+
-+This driver exposes hardware temperature sensors of the Aquacomputer Farbwerk 360
-+RGB controller, which communicates through a proprietary USB HID protocol.
-+
-+Four temperature sensors are available. If a sensor is not connected, it will report
-+zeroes. Additionally, serial number and firmware version are exposed through debugfs.
-+
-+Usage notes
-+-----------
-+
-+Farbwerk 360 communicates via HID reports. The driver is loaded automatically by
-+the kernel and supports hotswapping.
-+
-+Sysfs entries
-+-------------
-+
-+=============== ==============================================
-+temp[1-4]_input Measured temperature (in millidegrees Celsius)
-+=============== ==============================================
-+
-+Debugfs entries
-+---------------
-+
-+================ ===============================================
-+serial_number    Serial number of the pump
-+firmware_version Version of installed firmware
-+================ ===============================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index df20022c741f..42b7369340ba 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -40,6 +40,7 @@ Hardware Monitoring Kernel Drivers
-    aht10
-    amc6821
-    aquacomputer_d5next
-+   aquacomputer_farbwerk360
-    asb100
-    asc7621
-    aspeed-pwm-tacho
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bd86ed9fbc79..fb8b8d7aebbc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1386,6 +1386,13 @@ S:	Maintained
- F:	Documentation/hwmon/aquacomputer_d5next.rst
- F:	drivers/hwmon/aquacomputer_d5next.c
- 
-+AQUACOMPUTER FARBWERK 360 RGB CONTROLLER SENSOR DRIVER
-+M:	Aleksa Savic <savicaleksa83@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/aquacomputer_farbwerk360.rst
-+F:	drivers/hwmon/aquacomputer_farbwerk360.c
-+
- AQUANTIA ETHERNET DRIVER (atlantic)
- M:	Igor Russkikh <irusskikh@marvell.com>
- L:	netdev@vger.kernel.org
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 8df25f1079ba..e1ca5e1e6ab0 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -264,6 +264,16 @@ config SENSORS_AQUACOMPUTER_D5NEXT
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aquacomputer_d5next.
- 
-+config SENSORS_AQUACOMPUTER_FARBWERK360
-+	tristate "Aquacomputer Farbwerk 360 RGB controller"
-+	depends on USB_HID
-+	help
-+	  If you say yes here you get support for temperature sensors provided by
-+	  the Aquacomputer Farbwerk 360 RGB controller.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called aquacomputer_farbwerk360.
-+
- config SENSORS_AS370
- 	tristate "Synaptics AS370 SoC hardware monitoring driver"
- 	help
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 185f946d698b..1c1556a53f6d 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
- obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
- obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
- obj-$(CONFIG_SENSORS_AQUACOMPUTER_D5NEXT) += aquacomputer_d5next.o
-+obj-$(CONFIG_SENSORS_AQUACOMPUTER_FARBWERK360) += aquacomputer_farbwerk360.o
- obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
- obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
-diff --git a/drivers/hwmon/aquacomputer_farbwerk360.c b/drivers/hwmon/aquacomputer_farbwerk360.c
-new file mode 100644
-index 000000000000..14b760a2c8a8
---- /dev/null
-+++ b/drivers/hwmon/aquacomputer_farbwerk360.c
-@@ -0,0 +1,261 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * hwmon driver for Aquacomputer Farbwerk 360 (RGB controller)
-+ *
-+ * The Farbwerk 360 sends HID reports (with ID 0x01) every second to report sensor values
-+ * of up to four connected temperature sensors.
-+ *
-+ * Copyright 2022 Aleksa Savic <savicaleksa83@gmail.com>
-+ */
-+
-+#include <asm/unaligned.h>
-+#include <linux/debugfs.h>
-+#include <linux/hid.h>
-+#include <linux/hwmon.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
-+#include <linux/seq_file.h>
-+
-+#define DRIVER_NAME		"aquacomputer_farbwerk360"
-+
-+#define STATUS_REPORT_ID	0x01
-+#define STATUS_UPDATE_INTERVAL	(2 * HZ) /* In seconds */
-+
-+/* Register offsets */
-+#define SERIAL_FIRST_PART	0x03
-+#define SERIAL_SECOND_PART	0x05
-+#define FIRMWARE_VERSION	0x0D
-+
-+#define NUM_SENSORS		4
-+#define SENSOR_START		0x32
-+#define SENSOR_SIZE		0x02
-+#define SENSOR_DISCONNECTED	0x7FFF
-+
-+static const char *const label_temps[] = { "Sensor 1", "Sensor 2", "Sensor 3", "Sensor 4" };
-+
-+struct farbwerk360_data {
-+	struct hid_device *hdev;
-+	struct device *hwmon_dev;
-+	struct dentry *debugfs;
-+	s32 temp_input[4];
-+	u32 serial_number[2];
-+	u16 firmware_version;
-+	unsigned long updated;
-+};
-+
-+static umode_t farbwerk360_is_visible(const void *data, enum hwmon_sensor_types type, u32 attr,
-+				      int channel)
-+{
-+	return 0444;
-+}
-+
-+static int farbwerk360_read(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
-+			    long *val)
-+{
-+	struct farbwerk360_data *priv = dev_get_drvdata(dev);
-+
-+	if (time_after(jiffies, priv->updated + STATUS_UPDATE_INTERVAL))
-+		return -ENODATA;
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		*val = priv->temp_input[channel];
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static int farbwerk360_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+				   int channel, const char **str)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		*str = label_temps[channel];
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_ops farbwerk360_hwmon_ops = {
-+	.is_visible = farbwerk360_is_visible,
-+	.read = farbwerk360_read,
-+	.read_string = farbwerk360_read_string,
-+};
-+
-+static const struct hwmon_channel_info *farbwerk360_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL,
-+			   HWMON_T_INPUT | HWMON_T_LABEL, HWMON_T_INPUT | HWMON_T_LABEL),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info farbwerk360_chip_info = {
-+	.ops = &farbwerk360_hwmon_ops,
-+	.info = farbwerk360_info,
-+};
-+
-+static int farbwerk360_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data,
-+				 int size)
-+{
-+	int i, sensor_value;
-+	struct farbwerk360_data *priv;
-+
-+	if (report->id != STATUS_REPORT_ID)
-+		return 0;
-+
-+	priv = hid_get_drvdata(hdev);
-+
-+	/* Info provided with every report */
-+	priv->serial_number[0] = get_unaligned_be16(data + SERIAL_FIRST_PART);
-+	priv->serial_number[1] = get_unaligned_be16(data + SERIAL_SECOND_PART);
-+
-+	priv->firmware_version = get_unaligned_be16(data + FIRMWARE_VERSION);
-+
-+	/* Temperature sensor readings */
-+	for (i = 0; i < NUM_SENSORS; i++) {
-+		sensor_value = get_unaligned_be16(data + SENSOR_START + i * SENSOR_SIZE);
-+		if (sensor_value == SENSOR_DISCONNECTED)
-+			sensor_value = 0;
-+
-+		priv->temp_input[i] = sensor_value * 10;
-+	}
-+
-+	priv->updated = jiffies;
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+
-+static int serial_number_show(struct seq_file *seqf, void *unused)
-+{
-+	struct farbwerk360_data *priv = seqf->private;
-+
-+	seq_printf(seqf, "%05u-%05u\n", priv->serial_number[0], priv->serial_number[1]);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(serial_number);
-+
-+static int firmware_version_show(struct seq_file *seqf, void *unused)
-+{
-+	struct farbwerk360_data *priv = seqf->private;
-+
-+	seq_printf(seqf, "%u\n", priv->firmware_version);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(firmware_version);
-+
-+static void farbwerk360_debugfs_init(struct farbwerk360_data *priv)
-+{
-+	char name[32];
-+
-+	scnprintf(name, sizeof(name), "%s-%s", DRIVER_NAME, dev_name(&priv->hdev->dev));
-+
-+	priv->debugfs = debugfs_create_dir(name, NULL);
-+	debugfs_create_file("serial_number", 0444, priv->debugfs, priv, &serial_number_fops);
-+	debugfs_create_file("firmware_version", 0444, priv->debugfs, priv, &firmware_version_fops);
-+}
-+
-+#else
-+
-+static void farbwerk360_debugfs_init(struct farbwerk360_data *priv)
-+{
-+}
-+
-+#endif
-+
-+static int farbwerk360_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+	struct farbwerk360_data *priv;
-+
-+	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->hdev = hdev;
-+	hid_set_drvdata(hdev, priv);
-+
-+	priv->updated = jiffies - STATUS_UPDATE_INTERVAL;
-+
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		return ret;
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-+	if (ret)
-+		return ret;
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret)
-+		goto fail_and_stop;
-+
-+	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "farbwerk360", priv,
-+							  &farbwerk360_chip_info, NULL);
-+
-+	if (IS_ERR(priv->hwmon_dev)) {
-+		ret = PTR_ERR(priv->hwmon_dev);
-+		goto fail_and_close;
-+	}
-+
-+	farbwerk360_debugfs_init(priv);
-+
-+	return 0;
-+
-+fail_and_close:
-+	hid_hw_close(hdev);
-+fail_and_stop:
-+	hid_hw_stop(hdev);
-+	return ret;
-+}
-+
-+static void farbwerk360_remove(struct hid_device *hdev)
-+{
-+	struct farbwerk360_data *priv = hid_get_drvdata(hdev);
-+
-+	debugfs_remove_recursive(priv->debugfs);
-+	hwmon_device_unregister(priv->hwmon_dev);
-+
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
-+}
-+
-+static const struct hid_device_id farbwerk360_table[] = {
-+	{ HID_USB_DEVICE(0x0c70, 0xf010) }, /* Aquacomputer Farbwerk 360 */
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(hid, farbwerk360_table);
-+
-+static struct hid_driver farbwerk360_driver = {
-+	.name = DRIVER_NAME,
-+	.id_table = farbwerk360_table,
-+	.probe = farbwerk360_probe,
-+	.remove = farbwerk360_remove,
-+	.raw_event = farbwerk360_raw_event,
-+};
-+
-+static int __init farbwerk360_init(void)
-+{
-+	return hid_register_driver(&farbwerk360_driver);
-+}
-+
-+static void __exit farbwerk360_exit(void)
-+{
-+	hid_unregister_driver(&farbwerk360_driver);
-+}
-+
-+/* Request to initialize after the HID bus to ensure it's not being loaded before */
-+late_initcall(farbwerk360_init);
-+module_exit(farbwerk360_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
-+MODULE_DESCRIPTION("Hwmon driver for Aquacomputer Farbwerk 360");
--- 
-2.35.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVG9tIFJpeCA8dHJpeEBy
+ZWRoYXQuY29tPg0KPiBTZW50OiBGcmlkYXksIEZlYnJ1YXJ5IDE4LCAyMDIyIDEwOjMwIFBNDQo+
+IFRvOiBaaGFuZywgVGlhbmZlaSA8dGlhbmZlaS56aGFuZ0BpbnRlbC5jb20+OyBXdSwgSGFvIDxo
+YW8ud3VAaW50ZWwuY29tPjsNCj4gbWRmQGtlcm5lbC5vcmc7IFh1LCBZaWx1biA8eWlsdW4ueHVA
+aW50ZWwuY29tPjsgbGludXgtZnBnYUB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4LWRvY0B2Z2Vy
+Lmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IGNvcmJldEBs
+d24ubmV0DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMi83XSBmcGdhOiBkZmw6IGNoZWNrIGZl
+YXR1cmUgdHlwZSBiZWZvcmUgcGFyc2UgaXJxIGluZm8NCj4gDQo+IA0KPiBPbiAyLzE3LzIyIDEw
+OjUzIFBNLCBaaGFuZywgVGlhbmZlaSB3cm90ZToNCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBUb20gUml4IDx0cml4QHJlZGhhdC5jb20+DQo+ID4+IFNl
+bnQ6IFR1ZXNkYXksIEZlYnJ1YXJ5IDE1LCAyMDIyIDEwOjQ5IFBNDQo+ID4+IFRvOiBaaGFuZywg
+VGlhbmZlaSA8dGlhbmZlaS56aGFuZ0BpbnRlbC5jb20+OyBXdSwgSGFvDQo+ID4+IDxoYW8ud3VA
+aW50ZWwuY29tPjsgbWRmQGtlcm5lbC5vcmc7IFh1LCBZaWx1biA8eWlsdW4ueHVAaW50ZWwuY29t
+PjsNCj4gPj4gbGludXgtZnBnYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWRvY0B2Z2VyLmtlcm5l
+bC5vcmc7DQo+ID4+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gPj4gQ2M6IGNvcmJl
+dEBsd24ubmV0DQo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgMi83XSBmcGdhOiBkZmw6IGNo
+ZWNrIGZlYXR1cmUgdHlwZSBiZWZvcmUNCj4gPj4gcGFyc2UgaXJxIGluZm8NCj4gPj4NCj4gPj4N
+Cj4gPj4gT24gMi8xNC8yMiAzOjI2IEFNLCBUaWFuZmVpIHpoYW5nIHdyb3RlOg0KPiA+Pj4gRnJv
+bTogVGlhbmZlaSBaaGFuZyA8dGlhbmZlaS56aGFuZ0BpbnRlbC5jb20+DQo+ID4+Pg0KPiA+Pj4g
+VGhlIGZlYXR1cmUgSUQgb2YgIlBvcnQgVXNlciBJbnRlcnJ1cHQiIGFuZCB0aGUgIlBNQ0kgU3Vi
+c3lzdGVtIiBhcmUNCj4gPj4+IGlkZW50aWNhbCwgMHgxMiwgYnV0IG9uZSBpcyBmb3IgRk1FLCBv
+dGhlciBpcyBmb3IgUG9ydC4gSXQgc2hvdWxkDQo+ID4+PiBjaGVjayB0aGUgZmVhdHVyZSB0eXBl
+IFdoaWxlIHBhcnNpbmcgdGhlIGlycSBpbmZvIGluDQo+ID4+PiBwYXJzZV9mZWF0dXJlX2lycXMo
+KS4NCj4gPj4gVGhpcyBzZWVtcyBsaWtlIGEgYnVnIGZpeCBhbmQgbm90IHBhcnQgb2YgaW9mcyBm
+ZWF0dXJlLg0KPiA+Pg0KPiA+PiBTcGxpdCB0aGlzIG91dCBvZiB0aGUgcGF0Y2hzZXQuDQo+IA0K
+PiA/DQoNCkkgYWdyZWUsIEkgd2lsbCBzZW5kIHRoaXMgcGF0Y2ggYXMgYSBidWcgZml4Lg0KDQo+
+IA0KPiA+Pg0KPiA+PiBUaGlzIGlzIGEgd29ya2Fyb3VuZCBhIGhhcmR3YXJlIHByb2JsZW0sIHRo
+ZXJlIHNob3VsZCBiZSBzb21lDQo+ID4+IGNvbW1lbnRzIHRvIHRoZSBlZmZlY3QgdGhhdCB5b3Ug
+Y2FuJ3QgdHJ1c3QgX3RoaXNfIG9yIF90aGF0XyBmZWF0dXJlDQo+ID4+IGlkIGFuZCBzb21lIHNw
+ZWNpYWwgaGFuZGxpbmcgZWFybGllci4NCj4gPj4NCj4gPj4gVGhlIGFtYmlndWl0eSBvZiBmZWF0
+dXJlIGlkIGlzIGEgcHJvYmxlbSwgYW5kIHRoaXMgc29ydCBvZiBidWcgd2lsbCBoYXBwZW4NCj4g
+YWdhaW4uDQo+ID4+DQo+ID4+IFdoYXQgY2FuIGJlIGRvbmUgdG8gcHJldmVudCB0aGlzIGluIHRo
+ZSBmdXR1cmUgPw0KPiA+IFRoaXMgcGF0Y2ggaXMgbm90IHdvcmthcm91bmQsIHRoaXMgaXMgYSBi
+dWcgZml4IGZvciBERkwgZHJpdmVyLg0KPiA+IFRoZSByb290IGNhdXNlIGlzIHRoYXQgRExGIGRy
+aXZlciBtaXNzIGNoZWNrIHRoZSBmZWF0dXJlIHR5cGUgd2hpbGUNCj4gPiBwYXJzaW5nIHRoZSBp
+bnRlcnJ1cHQgaW5mb3JtYXRpb24sIGJlY2F1c2Ugc29tZSBGZWF0dXJlIElEcyBhcmUgaWRlbnRp
+Y2FsDQo+IGJldHdlZW4gRk1FIGFuZCBQb3J0LCBsaWtlIFBNQ0kgaW4gRk1FIGFuZCAiUG9ydCBV
+c2VyIEludGVycnVwdCINCj4gPiBpbiBQb3J0Lg0KPiA+IFRoZSBkZWZpbml0aW9uIG9mIEZlYXR1
+cmUgSUQgaXMgaGVyZToNCj4gPiBodHRwczovL2dpdGh1Yi5jb20vT1BBRS9saW51eC1kZmwtZmVh
+dHVyZS1pZC9ibG9iL21hc3Rlci9kZmwtZmVhdHVyZS1pDQo+ID4gZHMucnN0DQo+IEhlbHBmdWwg
+YnV0IGhpZGRlbi7CoCBBdCBsZWFzdCBhIGxpbmsgdG8gdGhpcyBzaG91bGQgYmUgYWRkZWQgdG8N
+Cj4gRG9jdW1lbnRhdGlvbi9mcGdhL2RmbC5yc3QuDQo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBUaWFu
+ZmVpIFpoYW5nIDx0aWFuZmVpLnpoYW5nQGludGVsLmNvbT4NCj4gPj4+IC0tLQ0KPiA+Pj4gICAg
+ZHJpdmVycy9mcGdhL2RmbC5jIHwgMTEgKysrKysrKysrKysNCj4gPj4+ICAgIDEgZmlsZSBjaGFu
+Z2VkLCAxMSBpbnNlcnRpb25zKCspDQo+ID4+Pg0KPiA+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+ZnBnYS9kZmwuYyBiL2RyaXZlcnMvZnBnYS9kZmwuYyBpbmRleA0KPiA+Pj4gNTk5YmIyMWQ4NmFm
+Li4yNmY4Y2Y4OTA3MDAgMTAwNjQ0DQo+ID4+PiAtLS0gYS9kcml2ZXJzL2ZwZ2EvZGZsLmMNCj4g
+Pj4+ICsrKyBiL2RyaXZlcnMvZnBnYS9kZmwuYw0KPiA+Pj4gQEAgLTk0MCw5ICs5NDAsMTQgQEAg
+c3RhdGljIGludCBwYXJzZV9mZWF0dXJlX2lycXMoc3RydWN0DQo+ID4+IGJ1aWxkX2ZlYXR1cmVf
+ZGV2c19pbmZvICpiaW5mbywNCj4gPj4+ICAgIHsNCj4gPj4+ICAgIAl2b2lkIF9faW9tZW0gKmJh
+c2UgPSBiaW5mby0+aW9hZGRyICsgb2ZzdDsNCj4gPj4+ICAgIAl1bnNpZ25lZCBpbnQgaSwgaWJh
+c2UsIGluciA9IDA7DQo+ID4+PiArCWVudW0gZGZsX2lkX3R5cGUgdHlwZTsNCj4gPj4+ICAgIAlp
+bnQgdmlycTsNCj4gPj4+ICAgIAl1NjQgdjsNCj4gPj4+DQo+ID4+PiArCXR5cGUgPSBmZWF0dXJl
+X2Rldl9pZF90eXBlKGJpbmZvLT5mZWF0dXJlX2Rldik7DQo+ID4+PiArCWlmICh0eXBlID49IERG
+TF9JRF9NQVgpDQo+ID4+PiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gPj4+ICsNCj4gPj4+ICAgIAkv
+Kg0KPiA+Pj4gICAgCSAqIElkZWFsbHkgREZMIGZyYW1ld29yayBzaG91bGQgb25seSByZWFkIGlu
+Zm8gZnJvbSBERkwgaGVhZGVyLCBidXQNCj4gPj4+ICAgIAkgKiBjdXJyZW50IHZlcnNpb24gREZM
+IG9ubHkgcHJvdmlkZXMgbW1pbyByZXNvdXJjZXMgaW5mb3JtYXRpb24NCj4gPj4+IGZvciBAQCAt
+OTU5LDE2ICs5NjQsMjIgQEAgc3RhdGljIGludCBwYXJzZV9mZWF0dXJlX2lycXMoc3RydWN0DQo+
+ID4+IGJ1aWxkX2ZlYXR1cmVfZGV2c19pbmZvICpiaW5mbywNCj4gPj4+ICAgIAkgKi8NCj4gPj4+
+ICAgIAlzd2l0Y2ggKGZpZCkgew0KPiA+Pj4gICAgCWNhc2UgUE9SVF9GRUFUVVJFX0lEX1VJTlQ6
+DQo+ID4+PiArCQlpZiAodHlwZSAhPSBQT1JUX0lEKQ0KPiA+Pj4gKwkJCWJyZWFrOw0KPiA+PiBJ
+bnN0ZWFkIG9mIGVtYmVkZGluZyBhIGJyZWFrIGluIHRoZSBzd2l0Y2gsIGJyZWFrIHRoZSBzd2l0
+Y2ggaW50byBmbWUNCj4gPj4gc3dpdGNoIGFuZCBwb3J0IHN3aXRjaA0KPiA+Pg0KPiA+PiBpZiAo
+dHlwZSA9PSBQT1JUX0lEKQ0KPiA+Pg0KPiA+PiAgIMKgIHBvcnQtc3dpdGNoDQo+ID4+DQo+ID4+
+IGVsc2UgaWYgKHR5cGUgPT0gRk1FX0lEDQo+ID4+DQo+ID4+ICAgwqAgZm1lLXN3aXRjaA0KPiA+
+IFlvdXIgc3VnZ2VzdGlvbiBpcyBsb29rcyBnb29kICBmb3IgbWUsIEkgd2lsbCBjaGFuZ2Ugb24g
+bmV4dCB2ZXJzaW9uLg0KPiA+DQo+ID4+IFRvbQ0KPiA+Pg0KPiA+Pj4gICAgCQl2ID0gcmVhZHEo
+YmFzZSArIFBPUlRfVUlOVF9DQVApOw0KPiA+Pj4gICAgCQlpYmFzZSA9IEZJRUxEX0dFVChQT1JU
+X1VJTlRfQ0FQX0ZTVF9WRUNULCB2KTsNCj4gPj4+ICAgIAkJaW5yID0gRklFTERfR0VUKFBPUlRf
+VUlOVF9DQVBfSU5UX05VTSwgdik7DQo+ID4+PiAgICAJCWJyZWFrOw0KPiA+Pj4gICAgCWNhc2Ug
+UE9SVF9GRUFUVVJFX0lEX0VSUk9SOg0KPiA+Pj4gKwkJaWYgKHR5cGUgIT0gUE9SVF9JRCkNCj4g
+Pj4+ICsJCQlicmVhazsNCj4gPj4+ICAgIAkJdiA9IHJlYWRxKGJhc2UgKyBQT1JUX0VSUk9SX0NB
+UCk7DQo+ID4+PiAgICAJCWliYXNlID0gRklFTERfR0VUKFBPUlRfRVJST1JfQ0FQX0lOVF9WRUNU
+LCB2KTsNCj4gPj4+ICAgIAkJaW5yID0gRklFTERfR0VUKFBPUlRfRVJST1JfQ0FQX1NVUFBfSU5U
+LCB2KTsNCj4gPj4+ICAgIAkJYnJlYWs7DQo+ID4+PiAgICAJY2FzZSBGTUVfRkVBVFVSRV9JRF9H
+TE9CQUxfRVJSOg0KPiA+Pj4gKwkJaWYgKHR5cGUgIT0gRk1FX0lEKQ0KPiA+Pj4gKwkJCWJyZWFr
+Ow0KPiA+Pj4gICAgCQl2ID0gcmVhZHEoYmFzZSArIEZNRV9FUlJPUl9DQVApOw0KPiA+Pj4gICAg
+CQlpYmFzZSA9IEZJRUxEX0dFVChGTUVfRVJST1JfQ0FQX0lOVF9WRUNULCB2KTsNCj4gPj4+ICAg
+IAkJaW5yID0gRklFTERfR0VUKEZNRV9FUlJPUl9DQVBfU1VQUF9JTlQsIHYpOw0KDQo=
