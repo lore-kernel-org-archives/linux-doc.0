@@ -2,90 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71802C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 21:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCDDC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 21:31:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233675AbiBVV2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Feb 2022 16:28:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47312 "EHLO
+        id S234556AbiBVVcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Feb 2022 16:32:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235740AbiBVV2D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 16:28:03 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3198B113DA6;
-        Tue, 22 Feb 2022 13:27:36 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id bg10so46875483ejb.4;
-        Tue, 22 Feb 2022 13:27:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jS5gM1YIuXIK/IIJZRTIoCY8pDveqvlxNRuXyb+ydIc=;
-        b=TgCxT6VHp+F40PdbdgBVhu+Hvidulvu8QbEHTIyjOmX6ZjpKQ6YIUrf3iM/bP4V9pH
-         2Coq9+cZCJh3Mgo6sc45MjyeUocT/vG03XMgZ1/a7tcjDMcA/noYw1KmQwNzmnLT/hn4
-         99Ds/f3cSXBX3cUYOeXpPNKgACR8BAgzJv7x/w1rCPHf/bnZleSwzWQFGsNsYpvMsg/o
-         t8YXh0oHEhTcrrP+7z5FBrkEAKdy1jMR9EG8MR30d3FkXFIRc1jSgOdgEqIkZEajhBgT
-         l4Zool/DpzLYt/oB37JlD8EdlMmRkOxfA+HAy8en/K1VU6IAkug9SDl5yQ8erTeGQfFz
-         XeHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jS5gM1YIuXIK/IIJZRTIoCY8pDveqvlxNRuXyb+ydIc=;
-        b=1RTXsPjXl+LnKtD49bznL+387YTKBsUird+KRa4tAZebeD+wY7bcb9DX3lrJ5Bv583
-         ieJVd1onXs5NnH8qI+vaxDjSU+PVasqyK+Y+hoQt6und0tWZVGegG3HqUmEhbfna36J1
-         nBJ5oPTEmxqCL4i1h3wTh5ObNPu5yeZFwXZ0zB8oA6FtnCUxdZiLWqOYX5pjRiL2nx18
-         d7T9lhHKAIzn8BKLcwMzkvMn5aKYaiXl+yIyPRntEQkoOEzviq9RvYiZEs0C2/Pf+lnm
-         PEbARPMoVwNglg9DQbAYjYXSJ3PTcCpza2x03G1L3BtoxHBnex9RGlELbLPkKPsIRSqT
-         OmTA==
-X-Gm-Message-State: AOAM53136wKjCmz21WYdprA79fqNHrPTft1zsRmm+7U9rD34IoI1SteT
-        ldYKCTPVqa4aSwU6hp+NTLEEDvUdziw=
-X-Google-Smtp-Source: ABdhPJwHs27QqqK3E5MP2/I3MYUuYbNhU7XOLH2vAFSeCe4bO0TizjNhk3HNQP4SxqFiHzQB0MzSew==
-X-Received: by 2002:a17:906:2a97:b0:6b4:143f:37c6 with SMTP id l23-20020a1709062a9700b006b4143f37c6mr21415480eje.133.1645565254722;
-        Tue, 22 Feb 2022 13:27:34 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id i6sm6709778eja.132.2022.02.22.13.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 13:27:34 -0800 (PST)
-Date:   Tue, 22 Feb 2022 22:27:29 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 01/11] scripts: kernel-doc: Add the basic POD
- sections
-Message-ID: <20220222222729.404611b7@fuji.fritz.box>
-In-Reply-To: <7852b505-a65a-6cdd-29a8-3bc966dfc750@infradead.org>
-References: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
-        <20220218181628.1411551-2-tomasz.warniello@gmail.com>
-        <7852b505-a65a-6cdd-29a8-3bc966dfc750@infradead.org>
+        with ESMTP id S230181AbiBVVcM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 16:32:12 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 779F52A242;
+        Tue, 22 Feb 2022 13:31:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=AkEJBGLo6G2IxcYkqrscCgvNviNpvWskNFzIQmbXNqk=; b=Ai5hLR1jmzF7+BIuHNk5p1yGX+
+        1eGvh/amhaw+JfH03YgcQXIqqAPn7wLbaL+9AyE1t9hRqdHhKVjssTIJMbaDG+2kjhItEN6U7+FUS
+        GMHceajaX8wXnS83lGU6zVuBadXRnjQPhizjGMccFR7zZbOxDbBJWl5rCi5Ire48KjZL7qDIKXiSJ
+        AUwmAya0z27ELXT7UvUb9eWnmituDSpZVXtUOWD87FB2d1EMSAT/JYFdHEpB3Ib2WbYYENJOrqq17
+        wypV3ucBhGyQisoSOOnrTulAWqQIVrLPU4ZYaVytonGsiv1aLoFFPYo9OMryuRIwjDwl9yiOmXaWq
+        uF/Vbsbw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nMckz-00C3kh-68; Tue, 22 Feb 2022 21:31:37 +0000
+Message-ID: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+Date:   Tue, 22 Feb 2022 13:31:31 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>,
+        corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
+ <0285efc4-3983-56fa-6b4e-a0b17bdd841a@infradead.org>
+In-Reply-To: <0285efc4-3983-56fa-6b4e-a0b17bdd841a@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Feb 2022 22:10:22 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi--
 
-> Nit:
-> $ ./scripts/kernel-doc -h
-> says:
->     Run `kernel-doc -h` for details.
+On 2/21/22 21:39, Randy Dunlap wrote:
+> Hi Tomasz,
+> 
+> On 2/18/22 10:16, Tomasz Warniełło wrote:
+>> This series transforms the free-form general comments - mainly the usage
+>> instructions and the meta information - into the standard Perl
+>> documentation format. Some of the original text is reduced out. And some
+>> is simply dropped.
+>>
+>> The transformation includes language, paragraphing and editorial
+>> corrections.
+>>
+>> The only change in the script execution flow is the replacement of the
+>> 'usage' function with the native standard Perl 'pod2usage'.
+>>
+>> The to-do suggestion to write POD found in the script is ancient, thus
+>> I can't address its author with a "Suggested-by" tag.
+>>
+>> This version follows the advice received on v3, except I'm leaving
+>> the old copyrights untouched.
+>>
+>> The process consists of 14 steps.
+>>
+>> Patches beginning with no 3 are disfunctional until no 9 has been
+>> applied.
+>>
+>> 1) Add the basic POD sections
+>> 2) Relink argument parsing error handling to pod2usage
+>>
+>> The following subseries is disfunctional before its last part.
+>>
+>> 3) Translate the DESCRIPTION section
+>> 4) Translate the "Output format selection" subsection of OPTIONS
+>> 5) Translate the "Output format selection modifier" subsection of OPTIONS
+>> 6) Translate the "Output selection" subsection of OPTIONS
+>> 7) Translate the "Output selection modifiers" subsection of OPTIONS
+>> 8) Translate the "Other parameters" subsection of OPTIONS
+>> 9) Replace the usage function
+>>     
+>> Here the DESCRIPTION and OPTIONS subseries is finished. The -h and -help
+>> parameters are handled by POD now.
+>>     
+>> 10) Drop obsolete comments
+>> 11) Refresh the copyright lines
+>>
+>> Let's see what's wrong this time.
+> 
+> This patch series looks good to me.
+> I'll do some testing with it now.
 
-Hi Randy,
+I did not encounter any problems in testing.
 
-The -h printout is complete and the synopsis section is only a doc section.
-To me this is a very minor concern. I wouldn't even bother to correct this.
-The phrasing is not very intelligent in the -h context, but I wouldn't
-contextualise this sentence for simplicity. It might be toned down to fit
-nicer in multiple contexts, but in the end someone running the -h mode
-doesn't need this information at all. And the same applies to this parameter's
-description in the "Other parameters" subsection. A user running -h will
-know that. What counts to me is syntactical coherence and again - simplicity.
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks,
+Thanks.
 
-Tomasz
+>> Tomasz Warniełło (11):
+>>   scripts: kernel-doc: Add the basic POD sections
+>>   scripts: kernel-doc: Relink argument parsing error handling to
+>>     pod2usage
+>>   scripts: kernel-doc: Translate the DESCRIPTION section
+>>   scripts: kernel-doc: Translate the "Output format selection"
+>>     subsection of OPTIONS
+>>   scripts: kernel-doc: Translate the "Output format selection modifier"
+>>     subsection of OPTIONS
+>>   scripts: kernel-doc: Translate the "Output selection" subsection of
+>>     OPTIONS
+>>   scripts: kernel-doc: Translate the "Output selection modifiers"
+>>     subsection of OPTIONS
+>>   scripts: kernel-doc: Translate the "Other parameters" subsection of
+>>     OPTIONS
+>>   scripts: kernel-doc: Replace the usage function
+>>   scripts: kernel-doc: Drop obsolete comments
+>>   scripts: kernel-doc: Refresh the copyright lines
+>>
+>>  scripts/kernel-doc | 347 +++++++++++++++++++++------------------------
+>>  1 file changed, 159 insertions(+), 188 deletions(-)
+>>
+>>
+>> base-commit: 2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+> 
 
+-- 
+~Randy
