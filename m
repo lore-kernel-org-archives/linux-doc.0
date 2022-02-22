@@ -2,72 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A75C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 18:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250FFC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 18:59:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235051AbiBVSdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Feb 2022 13:33:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
+        id S233508AbiBVS73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Feb 2022 13:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235013AbiBVSdC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 13:33:02 -0500
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF531070B9;
-        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
-Received: by mail-pl1-f177.google.com with SMTP id bd1so446346plb.13;
-        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
+        with ESMTP id S233110AbiBVS73 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 13:59:29 -0500
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0564A151344
+        for <linux-doc@vger.kernel.org>; Tue, 22 Feb 2022 10:59:03 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id l20-20020a0568302b1400b005af8c95bbe4so422895otv.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Feb 2022 10:59:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sr0bZ/IYx5fNgYIhrtES2Y53AQkSGkgSrNO7ZdZIC3Q=;
+        b=ZhqRZL1lIFwgAvx2B1EAPpwJgojg1Hi42R0xhoNL9F+8ADtR+J+GLx8Dyemeyz07bb
+         AKCjA1lLb6wiFn0GLKn2i3cUZpz9QhYKsXQb2P3c0cF5wyU9nt1sdZKqoWYXpR5HGLV0
+         cTFEGK5CmTSsZ2zEhqU4IKtoLYMINfiFDTJr0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Uk23sL6XdP5uOodAkzhoIbLjps/F/rWwEdSM/N8Negs=;
-        b=c2ZJD8zXpgJEexurTDwZEVx21db/u+YbRsvk2Wdo80zdLZlyWyU751aI+Hhq+0zuSC
-         O16UBBwJyeJhsH6xekjmaw9SHIpfHCdjyn3/XHel0FEoJ8kxA318nFLoQ1ziOYSDhQJF
-         VGSCkWWEVTmKRBBiqMeIvnJu4u1Pc7z03KvRf+ibb8Ernr5EaOcnYE5LSNbmxWvoDHVW
-         RXTQfXQuX9cp6BjzlNNBnGw2Cnhi7BlQzlKpIk9kjmMIEuXcFwUXuOOZwMWX71A1oqdf
-         xM/yaQjBgLJBoqjgyaHXRX3yZ6fy+3tiyaE4hvOdM06MVR9qoLcp44kvBzCW16GS2glC
-         aPMQ==
-X-Gm-Message-State: AOAM5320Cxe8LxRbtvqg3y6kDD3O3s2jfLMg4dCoYoxB0NdIIhM8VtpH
-        ISTiXgVRkWSf0QFPIvo2NYqg5GGSYwFN/w==
-X-Google-Smtp-Source: ABdhPJxxy+FMhUzeRzoAW4fLU4Jyu+DAtMa5g9Cau5r9xporSq/MSEwX327uKdn+yq0HKFw2aVg9Dg==
-X-Received: by 2002:a17:902:7d83:b0:14e:f2f4:743 with SMTP id a3-20020a1709027d8300b0014ef2f40743mr24328453plm.107.1645554755212;
-        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
-        by smtp.gmail.com with ESMTPSA id 16sm21889656pgz.76.2022.02.22.10.32.33
+        bh=sr0bZ/IYx5fNgYIhrtES2Y53AQkSGkgSrNO7ZdZIC3Q=;
+        b=j7OBFQvtk/tgT/94BfLUMKh0/2W7dCv872NHo0y89UtuQHDqe3fUj1qGWzOQJkh7rD
+         asibSvKVeopwOZKdb2zi6JAQC+nctMUIH6zDyVkQ2v8hzG5zvZfg1gLsl32HRVRmOA6M
+         vY1mtwjcL/OCY7k/iP1XBMg6aB4nh2fBxeCwA5FO7nzN9asoB1/uooY3juHF68vla3T2
+         vSSYYlARgZ86LS486vswHuo3fATjf4O8N+dDLKTRA7XdBbR3Ory3rYYJAYE5tPUzs6K2
+         4u0ZBUEqpmkFbYndGVQjhV1+C50VkJ1O/53hFFgwI1eeiVFLT879JY+Tf+0Nr+kPRaHq
+         w4Jw==
+X-Gm-Message-State: AOAM533kHCJmxQOX2obncPQQx7cVooGNphLAgmGlsrvHjTwcUNTqNjzI
+        T7nUuvy8LayZBGwZ31W402P93A==
+X-Google-Smtp-Source: ABdhPJx43lTtrcAsV/EG4qlYsVml8Jq/qj9Hd4Y/C+i0e4zg3+UpdjivGCQxjYv7vBO59tVaan2CtA==
+X-Received: by 2002:a9d:715c:0:b0:5ad:3858:4d54 with SMTP id y28-20020a9d715c000000b005ad38584d54mr6872077otj.214.1645556342321;
+        Tue, 22 Feb 2022 10:59:02 -0800 (PST)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id p13sm8964946oiv.23.2022.02.22.10.59.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Feb 2022 10:32:34 -0800 (PST)
-Message-ID: <beb5eea9-5294-92a3-3dda-a50be71810ec@acm.org>
-Date:   Tue, 22 Feb 2022 10:32:33 -0800
+        Tue, 22 Feb 2022 10:59:02 -0800 (PST)
+Subject: Re: [PATCH 2/2] Documentation/vm/page_owner.rst: fix a phrase
+To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, corbet@lwn.net
+Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        hanshenghong2019@email.szu.edu.cn, vbabka@suse.cz,
+        georgi.djakov@linaro.org, weizhenliang@huawei.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220220082932.2808-1-caoyixuan2019@email.szu.edu.cn>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <f27d2965-bd4d-bad3-4137-09c7f4214bd9@linuxfoundation.org>
+Date:   Tue, 22 Feb 2022 11:59:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2] scsi: docs: update notes about scsi_times_out
+In-Reply-To: <20220220082932.2808-1-caoyixuan2019@email.szu.edu.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Khazhismel Kumykov <khazhy@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.com>
-References: <20220219001601.3534043-1-khazhy@google.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20220219001601.3534043-1-khazhy@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/18/22 16:16, Khazhismel Kumykov wrote:
-> Most importantly: eh_timed_out() is not limited by scmd->allowed,
-> and can reset timer forever.
+On 2/20/22 1:29 AM, Yixuan Cao wrote:
+> I think that using "by default" will be better.
 > 
-> Fixes: c829c394165f ("[SCSI] FC transport : Avoid device offline cases by stalling aborts until device unblocked")
+> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+
+While you are at it could you fix others as well:
+
+> ---
+>   Documentation/vm/page_owner.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 2b54e82b9fe1..5ac1c12fcfc2 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+> @@ -26,7 +26,7 @@ fragmentation statistics can be obtained through gfp flag information of
+>   each page. It is already implemented and activated if page owner is
+>   enabled. Other usages are more than welcome.
+>   
+> -page owner is disabled in default. So, if you'd like to use it, you need
+> +page owner is disabled by default. So, if you'd like to use it, you need
+>   to add "page_owner=on" into your boot cmdline. If the kernel is built
 
-No blank line between a "Fixes:" tag and a "Signed-off-by:" tag please. 
-Anyway:
+page owner is disabled by default. So, if you'd like to use it, you need
+to add "page_owner=on" to your boot cmdline.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+>   with page owner and page owner is disabled in runtime due to no enabling
+
+with page owner and page owner is disabled in runtime due to not enabling
+
+>   boot option, runtime overhead is marginal. If disabled in runtime, it
+> 
+
+With these fixed:
+
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
