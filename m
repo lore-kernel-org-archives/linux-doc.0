@@ -2,103 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFBCC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 01:30:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF014C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 01:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbiBVBa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 20:30:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59340 "EHLO
+        id S238630AbiBVBsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 20:48:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbiBVBaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 20:30:24 -0500
-Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8865A25585;
-        Mon, 21 Feb 2022 17:30:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1645493400; x=1677029400;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eyXpTaIq25nB5bdHP4lR4iF+QtCbpy796Ah/ggXuoxw=;
-  b=XYqpVKQMEXxkGAotQ6G0sUH2lv6KVtpkA2V2IR4Z3I/Jvy9q7cip/voD
-   iIG4aTzu0IFG6iOFqfgyDB2hesI1n3UvxqExhVkF0MmmGKqqsj8BXR7mJ
-   wpXqbQteaqlc8/uKP4hnsUqOd8QD1FPpzXOXhHk9lMFx8YJVmClXHfP3R
-   /Jv5yU/MHj7jJ1Fu/e5KbJ1AJdYwsR7KV0Vdw4qJAPkBL4YUu9WKivNCj
-   kwh9adesBvJr5gyzk1+FdVN+9HvITdvl7byozjccaDTIp1PuwcRa2uuVM
-   7CaUO+5UQnOLE/RNnGAZe3FR3Iixd3S3WqIch0WFRoeFbUPdLk8Pv7FjR
-   w==;
-X-IronPort-AV: E=Sophos;i="5.88,386,1635177600"; 
-   d="scan'208";a="198419408"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 22 Feb 2022 09:29:59 +0800
-IronPort-SDR: 9KiK8UW06quco6nxQtLGaNpIeJHha3/04PQRsqjyzNjlajbNe2EfrX5eflgzAeuRsvSPE+BdAk
- zJMt7atHvdAs6P36ji++NvAljbh9UXqrFagIABKF6deF+rzIzHs3OsSJKduPYKm0MJYrUPE05D
- 6M1skOODT5ko398pSBN9uGWB8JhuO3Vwvz8DB+UIV3RlEZaMRP1MN8w+1fqLkTfNZW4xsAzPa1
- XqSa43XqFTQmLVrA1h/xpErJGhvPBwD+kNDIWS5T7ZVyh3ue3TyTaEcduVVGOzrQINMOcoEZ1B
- yQuJq9NdtriNuhFbqVtFWGmc
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 17:01:33 -0800
-IronPort-SDR: hP/NO1r0AXmpYAmOdVmDuk4md91+2huKGSssd3ZywihjXh5pebiz89MX3TFxdCJ6JGak0lFA9e
- 4WuvzU993R6V725NLuc4ucCdksrijTLKmpDFOOk1hagtcH6hh0W77SHLAjNq9+QTjqKbeIIE/D
- e2i0vXjZC5zPQsOGaoNL1GpVIlKXPdhbAKl2+DBz+o3XTuJ398Bc/SPyQiMxpf14Jr8mVIPoQP
- 3nJY841nlgErkxQbAAX28Pqh0Of3LOPpwlyeJcdhoESnOSjoRET54p1tdUiq/SzaT3NtMcYcAq
- xWI=
-WDCIronportException: Internal
-Received: from hlpbl13.ad.shared (HELO naota-xeon.wdc.com) ([10.225.55.32])
-  by uls-op-cesaip02.wdc.com with ESMTP; 21 Feb 2022 17:29:59 -0800
-From:   Naohiro Aota <naohiro.aota@wdc.com>
-To:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Naohiro Aota <naohiro.aota@wdc.com>
-Subject: [PATCH] Documentation: block/diskstats: update function names
-Date:   Tue, 22 Feb 2022 10:27:51 +0900
-Message-Id: <20220222012751.1933194-1-naohiro.aota@wdc.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S229789AbiBVBsD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 20:48:03 -0500
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CE824F23
+        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 17:47:37 -0800 (PST)
+Received: by mail-vs1-xe2c.google.com with SMTP id w4so19503347vsq.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Feb 2022 17:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H78t/Tkekmq9O5Lj2Ksbs71PIv/v6BIhtnLX5Mxv/tc=;
+        b=QfMTvyiwE3XGQ1znQQVazyaY8j7LOpDoxLgXasjsywlb12Uci3qRU1ZjDbs/DQksHh
+         S9CjewhdqGO4rBR3DYFpHJcESh4eo60117lCdcr36OiDBNjU6VAgpoLLew5RWRXHW9GB
+         m1xsEPuqNMhFg/usmYK3pEEmFu9C3uVvmOjv1vuoX+SQZ1x6SKN5SBuMLyNivWDp3jrS
+         ZgylfMVMs2xuobHRidTGV30OXRrlh7FaEFFhHEru2MHPtldU4IyTMjUOT8xR9l/KEoS3
+         wUQpOR2AdJSZOVPBgowDlFMTQp0NlTPFJVNAR3nGjoMQTRPjOnvnq8zyBULD6N4nvUNd
+         jdgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H78t/Tkekmq9O5Lj2Ksbs71PIv/v6BIhtnLX5Mxv/tc=;
+        b=fQgQxeJZ/j5Ub1tQQtUXf9daldbAfcAnrkatiqe/3BgbZek9aihPd74gAtmeI3b9Kt
+         75qI3W8oXAhbEUGb0qt7dv+w/kulRQFfld0LpFM2jqDRqzwORyecJoouLXTr5EuCPn0x
+         H1EMoLoY7tmCZDmv1y3Gzch1QXMSE8keUKNONFDojAtYIQv2zbeUqeUG0Epy4kumogN3
+         +MGx1Jm7tvp9qznnA9if54x4rko3vioDKLUOmaKaIqRryA/OTC7OV3AtWf5s7Jr6+eoS
+         8tnAcSIsqxwMNKOJSVKs7ZOkabFBBG41c5Pkyr0gGEylKuX0miVZfVKaPObIQNpZrsoz
+         VS7w==
+X-Gm-Message-State: AOAM531UsIc+4U3T+U0bfYvst7FIs9tu9Q7gSJfbk1KUbzq3ZO4icYsh
+        vuh4EnBjY1Z0/DE43DuyrXdGZt5LNbitbKBohYGlIg==
+X-Google-Smtp-Source: ABdhPJxIeyI3mYLfbDebz5kcexdOouEp1H1k6oTsKi5Lq57wRN56u1mCxv31zG/zmUgj5o8K0uV3wWd30Qc6oH/iWc4=
+X-Received: by 2002:a67:edce:0:b0:31c:405:cb78 with SMTP id
+ e14-20020a67edce000000b0031c0405cb78mr6901843vsp.6.1645494456603; Mon, 21 Feb
+ 2022 17:47:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-13-yuzhao@google.com>
+ <Ygou6Gq79XY3mFK7@kernel.org> <Ygxt4iR9ZMYEbV78@google.com> <YhNVAUM7H7PF7j7j@kernel.org>
+In-Reply-To: <YhNVAUM7H7PF7j7j@kernel.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 21 Feb 2022 18:47:25 -0700
+Message-ID: <CAOUHufbZOuXtFvTULArtQjrdrzUkRw71byKQap1Cf=Mm3U7T5g@mail.gmail.com>
+Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-__make_request() and end_that_request_last() do no longer exist. Replace
-them with the current call-site.
+On Mon, Feb 21, 2022 at 2:02 AM Mike Rapoport <rppt@kernel.org> wrote:
+>
+> On Tue, Feb 15, 2022 at 08:22:10PM -0700, Yu Zhao wrote:
+> > On Mon, Feb 14, 2022 at 12:28:56PM +0200, Mike Rapoport wrote:
+> >
+> > > > +====== ========
+> > > > +Values Features
+> > > > +====== ========
+> > > > +0x0001 the multigenerational LRU
+> > >
+> > > The multigenerational LRU what?
+> >
+> > Itself? This depends on the POV, and I'm trying to determine what would
+> > be the natural way to present it.
+> >
+> > MGLRU itself could be seen as an add-on atop the existing page reclaim
+> > or an alternative in parallel. The latter would be similar to sl[aou]b,
+> > and that's how I personally see it.
+> >
+> > But here I presented it more like the former because I feel this way is
+> > more natural to users because they are like switches on a single panel.
+>
+> Than I think it should be described as "enable multigenerational LRU" or
+> something like this.
 
-Signed-off-by: Naohiro Aota <naohiro.aota@wdc.com>
----
- Documentation/admin-guide/iostats.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Will do.
 
-diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
-index 9b14b0c2c9c4..609a3201fd4e 100644
---- a/Documentation/admin-guide/iostats.rst
-+++ b/Documentation/admin-guide/iostats.rst
-@@ -76,7 +76,7 @@ Field  3 -- # of sectors read (unsigned long)
- 
- Field  4 -- # of milliseconds spent reading (unsigned int)
-     This is the total number of milliseconds spent by all reads (as
--    measured from __make_request() to end_that_request_last()).
-+    measured from blk_mq_alloc_request() to __blk_mq_end_request()).
- 
- Field  5 -- # of writes completed (unsigned long)
-     This is the total number of writes completed successfully.
-@@ -89,7 +89,7 @@ Field  7 -- # of sectors written (unsigned long)
- 
- Field  8 -- # of milliseconds spent writing (unsigned int)
-     This is the total number of milliseconds spent by all writes (as
--    measured from __make_request() to end_that_request_last()).
-+    measured from blk_mq_alloc_request() to __blk_mq_end_request()).
- 
- Field  9 -- # of I/Os currently in progress (unsigned int)
-     The only field that should go to zero. Incremented as requests are
-@@ -120,7 +120,7 @@ Field 14 -- # of sectors discarded (unsigned long)
- 
- Field 15 -- # of milliseconds spent discarding (unsigned int)
-     This is the total number of milliseconds spent by all discards (as
--    measured from __make_request() to end_that_request_last()).
-+    measured from blk_mq_alloc_request() to __blk_mq_end_request()).
- 
- Field 16 -- # of flush requests completed
-     This is the total number of flush requests completed successfully.
--- 
-2.35.1
+> > > What will happen if I write 0x2 to this file?
+> >
+> > Just like turning on a branch breaker while leaving the main breaker
+> > off in a circuit breaker box. This is how I see it, and I'm totally
+> > fine with changing it to whatever you'd recommend.
+>
+> That was my guess that when bit 0 is clear the rest do not matter :)
+> What's important, IMO, is that it is stated explicitly in the description.
 
+Will do.
+
+> > > Please consider splitting "enable" and "features" attributes.
+> >
+> > How about s/Features/Components/?
+>
+> I meant to use two attributes:
+>
+> /sys/kernel/mm/lru_gen/enable for the main breaker, and
+> /sys/kernel/mm/lru_gen/features (or components) for the branch breakers
+
+It's a bit superfluous for my taste. I generally consider multiple
+items to fall into the same category if they can be expressed by a
+type of array, and I usually pack an array into a single file.
+
+From your last review, I gauged this would be too overloaded for your
+taste. So I'd be happy to make the change if you think two files look
+more intuitive from user's perspective.
+
+> > > > +0x0002 clear the accessed bit in leaf page table entries **in large
+> > > > +       batches**, when MMU sets it (e.g., on x86)
+> > >
+> > > Is extra markup really needed here...
+> > >
+> > > > +0x0004 clear the accessed bit in non-leaf page table entries **as
+> > > > +       well**, when MMU sets it (e.g., on x86)
+> > >
+> > > ... and here?
+> >
+> > Will do.
+> >
+> > > As for the descriptions, what is the user-visible effect of these features?
+> > > How different modes of clearing the access bit are reflected in, say, GUI
+> > > responsiveness, database TPS, or probability of OOM?
+> >
+> > These remain to be seen :) I just added these switches in v7, per Mel's
+> > request from the meeting we had. These were never tested in the field.
+>
+> I see :)
+>
+> It would be nice to have a description or/and examples of user-visible
+> effects when there will be some insight on what these features do.
+
+How does the following sound?
+
+Clearing the accessed bit in large batches can theoretically cause
+lock contention (mmap_lock), and if it happens the 0x0002 switch can
+disable this feature. In this case the multigenerational LRU suffers a
+minor performance degradation.
+Clearing the accessed bit in non-leaf page table entries was only
+verified on Intel and AMD, and if it causes problems on other x86
+varieties the 0x0004 switch can disable this feature. In this case the
+multigenerational LRU suffers a negligible performance degradation.
+
+> > > > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
+> > >
+> > > Is debugfs interface relevant only for datacenters?
+> >
+> > For the moment, yes.
+>
+> And what will happen if somebody uses these interfaces outside
+> datacenters? As soon as there is a sysfs intefrace, somebody will surely
+> play with it.
+>
+> I think the job schedulers might be the most important user of that
+> interface, but the documentation should not presume it is the only user.
+
+Other ideas are more like brainstorming than concrete use cases, e.g.,
+for desktop users, these interface can in theory speed up hibernation
+(suspend to disk); for VM users, they can again in theory support auto
+ballooning. These niches are really minor and less explored compared
+with the data center use cases which have been dominant.
+
+I was hoping we could focus on the essential and take one step at a
+time. Later on, if there is additional demand and resource, then we
+expand to cover more use cases.
+
+> > > > + job scheduler writes to this file at a certain time interval to
+> > > > + create new generations, and it ranks available servers based on the
+> > > > + sizes of their cold memory defined by this time interval. For
+> > > > + proactive reclaim, a job scheduler writes to this file before it
+> > > > + tries to land a new job, and if it fails to materialize the cold
+> > > > + memory without impacting the existing jobs, it retries on the next
+> > > > + server according to the ranking result.
+> > >
+> > > Is this knob only relevant for a job scheduler? Or it can be used in other
+> > > use-cases as well?
+> >
+> > There are other concrete use cases but I'm not ready to discuss them
+> > yet.
+>
+> Here as well, as soon as there is an interface it's not necessarily "job
+> scheduler" that will "write to this file", anybody can write to that file.
+> Please adjust the documentation to be more neutral regarding the use-cases.
+
+Will do.
