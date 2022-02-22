@@ -2,112 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE7D1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 17:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A75C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 18:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231931AbiBVRBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Feb 2022 12:01:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
+        id S235051AbiBVSdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Feb 2022 13:33:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234473AbiBVRBh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 12:01:37 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38C316E7D9;
-        Tue, 22 Feb 2022 09:01:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 60233CE17A9;
-        Tue, 22 Feb 2022 17:01:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D93C340F9;
-        Tue, 22 Feb 2022 17:01:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645549268;
-        bh=U1WoaJ7lbnns8naY/1+W0bLu1qPxUeglQsjIh920zbo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q0f6a+m7QBkb6m90qVbP/bQOXJLehC8assGKbnwnzG2ooCM4dGXeX8GNBtnNjIHNa
-         GxFtRJMWSSZzeVZay9Ntg+FgiMvHS83XYziKa80YKhc4JesxqjmML309ul0D7oVpIT
-         7Uc9L+NvEhAtjo99Hc9O7/nnqq4Ak32j066QgxSqODSbd85lpwptVuC/OFNgdi12bM
-         lEE6cJmAmYtyPsDnzifcqjev5KHMf9bso+KfAK3ZwX3bDOp1zLFv0F9GQDkXiXd89j
-         9zaqyHlqyG1wj1qsOYKCyWYNgux8NGalLPzUraP9Vy3P4WsNTX/6iBdFH/KmSiFNtY
-         PA0+s26xkEsxA==
-From:   SeongJae Park <sj@kernel.org>
-To:     akpm@linux-foundation.org
-Cc:     corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: [PATCH 3/3] Docs/damon: Update outdated term 'regions update interval'
-Date:   Tue, 22 Feb 2022 17:01:00 +0000
-Message-Id: <20220222170100.17068-4-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220222170100.17068-1-sj@kernel.org>
-References: <20220222170100.17068-1-sj@kernel.org>
+        with ESMTP id S235013AbiBVSdC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 13:33:02 -0500
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF531070B9;
+        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
+Received: by mail-pl1-f177.google.com with SMTP id bd1so446346plb.13;
+        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Uk23sL6XdP5uOodAkzhoIbLjps/F/rWwEdSM/N8Negs=;
+        b=c2ZJD8zXpgJEexurTDwZEVx21db/u+YbRsvk2Wdo80zdLZlyWyU751aI+Hhq+0zuSC
+         O16UBBwJyeJhsH6xekjmaw9SHIpfHCdjyn3/XHel0FEoJ8kxA318nFLoQ1ziOYSDhQJF
+         VGSCkWWEVTmKRBBiqMeIvnJu4u1Pc7z03KvRf+ibb8Ernr5EaOcnYE5LSNbmxWvoDHVW
+         RXTQfXQuX9cp6BjzlNNBnGw2Cnhi7BlQzlKpIk9kjmMIEuXcFwUXuOOZwMWX71A1oqdf
+         xM/yaQjBgLJBoqjgyaHXRX3yZ6fy+3tiyaE4hvOdM06MVR9qoLcp44kvBzCW16GS2glC
+         aPMQ==
+X-Gm-Message-State: AOAM5320Cxe8LxRbtvqg3y6kDD3O3s2jfLMg4dCoYoxB0NdIIhM8VtpH
+        ISTiXgVRkWSf0QFPIvo2NYqg5GGSYwFN/w==
+X-Google-Smtp-Source: ABdhPJxxy+FMhUzeRzoAW4fLU4Jyu+DAtMa5g9Cau5r9xporSq/MSEwX327uKdn+yq0HKFw2aVg9Dg==
+X-Received: by 2002:a17:902:7d83:b0:14e:f2f4:743 with SMTP id a3-20020a1709027d8300b0014ef2f40743mr24328453plm.107.1645554755212;
+        Tue, 22 Feb 2022 10:32:35 -0800 (PST)
+Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
+        by smtp.gmail.com with ESMTPSA id 16sm21889656pgz.76.2022.02.22.10.32.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Feb 2022 10:32:34 -0800 (PST)
+Message-ID: <beb5eea9-5294-92a3-3dda-a50be71810ec@acm.org>
+Date:   Tue, 22 Feb 2022 10:32:33 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2] scsi: docs: update notes about scsi_times_out
+Content-Language: en-US
+To:     Khazhismel Kumykov <khazhy@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.com>
+References: <20220219001601.3534043-1-khazhy@google.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20220219001601.3534043-1-khazhy@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Before DAMON is merged in the mainline, the concept of 'regions update
-interval' has generalized to be used as the time interval for update of
-any monitoring operations related data structure, but the document has
-not updated properly.  This commit updates the document for better
-consistency.
+On 2/18/22 16:16, Khazhismel Kumykov wrote:
+> Most importantly: eh_timed_out() is not limited by scmd->allowed,
+> and can reset timer forever.
+> 
+> Fixes: c829c394165f ("[SCSI] FC transport : Avoid device offline cases by stalling aborts until device unblocked")
+> 
+> Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst |  6 +++---
- Documentation/vm/damon/design.rst            | 12 +++++++-----
- 2 files changed, 10 insertions(+), 8 deletions(-)
+No blank line between a "Fixes:" tag and a "Signed-off-by:" tag please. 
+Anyway:
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 1e06435b8ff6..b6ec650873b2 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -47,7 +47,7 @@ Attributes
- ----------
- 
- Users can get and set the ``sampling interval``, ``aggregation interval``,
--``regions update interval``, and min/max number of monitoring target regions by
-+``update interval``, and min/max number of monitoring target regions by
- reading from and writing to the ``attrs`` file.  To know about the monitoring
- attributes in detail, please refer to the :doc:`/vm/damon/design`.  For
- example, below commands set those values to 5 ms, 100 ms, 1,000 ms, 10 and
-@@ -128,8 +128,8 @@ ranges, ``20-40`` and ``50-100`` as that of pid 4242, which is the second one
- 
- Note that this sets the initial monitoring target regions only.  In case of
- virtual memory monitoring, DAMON will automatically updates the boundary of the
--regions after one ``regions update interval``.  Therefore, users should set the
--``regions update interval`` large enough in this case, if they don't want the
-+regions after one ``update interval``.  Therefore, users should set the
-+``update interval`` large enough in this case, if they don't want the
- update.
- 
- 
-diff --git a/Documentation/vm/damon/design.rst b/Documentation/vm/damon/design.rst
-index bba89632e924..0cff6fac6b7e 100644
---- a/Documentation/vm/damon/design.rst
-+++ b/Documentation/vm/damon/design.rst
-@@ -95,8 +95,8 @@ Address Space Independent Core Mechanisms
- 
- Below four sections describe each of the DAMON core mechanisms and the five
- monitoring attributes, ``sampling interval``, ``aggregation interval``,
--``regions update interval``, ``minimum number of regions``, and ``maximum
--number of regions``.
-+``update interval``, ``minimum number of regions``, and ``maximum number of
-+regions``.
- 
- 
- Access Frequency Monitoring
-@@ -169,6 +169,8 @@ The monitoring target address range could dynamically changed.  For example,
- virtual memory could be dynamically mapped and unmapped.  Physical memory could
- be hot-plugged.
- 
--As the changes could be quite frequent in some cases, DAMON checks the dynamic
--memory mapping changes and applies it to the abstracted target area only for
--each of a user-specified time interval (``regions update interval``).
-+As the changes could be quite frequent in some cases, DAMON allows the
-+monitoring operations to check dynamic changes including memory mapping changes
-+and applies it to monitoring operations-related data structures such as the
-+abstracted monitoring target memory area only for each of a user-specified time
-+interval (``update interval``).
--- 
-2.17.1
-
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
