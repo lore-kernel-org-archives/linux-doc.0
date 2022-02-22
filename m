@@ -2,331 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F61C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 03:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 608BAC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 03:17:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234431AbiBVDRV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 22:17:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36686 "EHLO
+        id S239809AbiBVDSR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 22:18:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233394AbiBVDRU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 22:17:20 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B95F73;
-        Mon, 21 Feb 2022 19:16:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645499815; x=1677035815;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Pb8e2G+GuH8BcVicwGHPqL0koQdXd5XV3os9pLa+pGY=;
-  b=c2J1p921pyeZq7W1ZJcTPPdvvyKMSa1NBjCgoO/728S7T9A76GxNiSZH
-   dSmurQNemHmoxUmDkbh0VPlw6WuV/e20MWlcCyE1EHJNkYKdjhtAKlv/R
-   9VZI5jU6ObyWkgXJyMRnHcAR2Gf74t0v1Bd7PPvsnqh67PQb0KnjBo9dM
-   2r7LGic3ntMO+Ze0mCRchlQ7IJonr5QxckhrXNFZ9TX6B/sqNxkoIx5gi
-   RnBZYR/UfEtvAgH/EDLLfMivN+rD/eDA5pQ7iIzy24WiALrBlXXOAr1Da
-   c+ROSkndjQRRfSJ3p9k5TVlmpZUh+EQE9uI6C65CdJokAyY6cS+GZQl3A
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="249181597"
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; 
-   d="scan'208";a="249181597"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 19:16:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; 
-   d="scan'208";a="683361065"
-Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2022 19:16:49 -0800
-Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nMLfV-0002Gw-5s; Tue, 22 Feb 2022 03:16:49 +0000
-Date:   Tue, 22 Feb 2022 11:16:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v1 06/11] landlock: Add support for file reparenting with
- LANDLOCK_ACCESS_FS_REFER
-Message-ID: <202202221149.qLO9DEqo-lkp@intel.com>
-References: <20220221212522.320243-7-mic@digikod.net>
+        with ESMTP id S233775AbiBVDSQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 22:18:16 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2908F73;
+        Mon, 21 Feb 2022 19:17:51 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 0FB2C210FF;
+        Tue, 22 Feb 2022 03:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1645499870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=GhZHme0nl7A4JBQ0S74qk0HiW5RevCCShdffmTtXtEE=;
+        b=ljl5hpqnn8XItaz2pgS0/dFbp8Or7nFEcXyK3PPQX3y1pOij2ACiitVFo1ZW1KHULTSA32
+        YPbDwlZKpapBzbobU/O0VXr6WOOcd4WDNGQESKT4qQihx0Fj189ZP5Cn2KjOfrjZWle1nr
+        sSBZtznZf5z+aAaHk0OnFJ6IwVJ/iwo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1645499870;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=GhZHme0nl7A4JBQ0S74qk0HiW5RevCCShdffmTtXtEE=;
+        b=ZXJr3TPlVf5poY4reMjaSwIa54LBqaPVcDT+//ErMovmrjU1PnyR6RQJgfl+heyxghO0fc
+        BsR4trFirlMhFPDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 323C613BA7;
+        Tue, 22 Feb 2022 03:17:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 6vPPN9VVFGJPWgAAMHmgww
+        (envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:17:41 +0000
+Subject: [PATCH 00/11]  Remove remaining parts of congestion tracking code.
+From:   NeilBrown <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 22 Feb 2022 14:17:17 +1100
+Message-ID: <164549971112.9187.16871723439770288255.stgit@noble.brown>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220221212522.320243-7-mic@digikod.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi "Mickaël,
+Here is another refresh of my "remove congestion tracking" series.
 
-I love your patch! Yet something to improve:
+I removed the small tweaks to read-ahead code because they raised
+questions and are actually required for this series.
 
-[auto build test ERROR on cfb92440ee71adcc2105b0890bb01ac3cddb8507]
+Everything else is the same.
 
-url:    https://github.com/0day-ci/linux/commits/Micka-l-Sala-n/Landlock-file-linking-and-renaming-support/20220222-051842
-base:   cfb92440ee71adcc2105b0890bb01ac3cddb8507
-config: hexagon-randconfig-r002-20220221 (https://download.01.org/0day-ci/archive/20220222/202202221149.qLO9DEqo-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/c68b879f54d6262963d435a18cedbc238b7faeaf
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Micka-l-Sala-n/Landlock-file-linking-and-renaming-support/20220222-051842
-        git checkout c68b879f54d6262963d435a18cedbc238b7faeaf
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+Andrew: please drop the version of this that is currently in your tree
+even if you don't take this.  The changes to fuse/nfs/ceph are not
+appropriate and I wouldn't want them to land by mistake.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> security/landlock/fs.c:463:2: error: call to __compiletime_assert_228 declared with 'error' attribute: BUILD_BUG_ON failed: !layer_masks_dst_parent
-           BUILD_BUG_ON(!layer_masks_dst_parent);
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:327:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:170:1: note: expanded from here
-   __compiletime_assert_228
-   ^
->> security/landlock/fs.c:670:2: error: call to __compiletime_assert_229 declared with 'error' attribute: BUILD_BUG_ON failed: !layer_masks_dom
-           BUILD_BUG_ON(!layer_masks_dom);
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:327:4: note: expanded from macro '__compiletime_assert'
-                           prefix ## suffix();                             \
-                           ^
-   <scratch space>:174:1: note: expanded from here
-   __compiletime_assert_229
-   ^
-   2 errors generated.
-
-
-vim +/error +463 security/landlock/fs.c
-
-   401	
-   402	/**
-   403	 * check_access_path_dual - Check a source and a destination accesses
-   404	 *
-   405	 * @domain: Domain to check against.
-   406	 * @path: File hierarchy to walk through.
-   407	 * @child_is_directory: Must be set to true if the (original) leaf is a
-   408	 *     directory, false otherwise.
-   409	 * @access_request_dst_parent: Accesses to check, once @layer_masks_dst_parent
-   410	 *     is equal to @layer_masks_src_parent (if any).
-   411	 * @layer_masks_dst_parent: Pointer to a matrix of layer masks per access
-   412	 *     masks, identifying the layers that forbid a specific access.  Bits from
-   413	 *     this matrix can be unset according to the @path walk.  An empty matrix
-   414	 *     means that @domain allows all possible Landlock accesses (i.e. not only
-   415	 *     those identified by @access_request_dst_parent).  This matrix can
-   416	 *     initially refer to domain layer masks and, when the accesses for the
-   417	 *     destination and source are the same, to request layer masks.
-   418	 * @access_request_src_parent: Similar to @access_request_dst_parent but for an
-   419	 *     initial source path request.  Only taken into account if
-   420	 *     @layer_masks_src_parent is not NULL.
-   421	 * @layer_masks_src_parent: Similar to @layer_masks_dst_parent but for an
-   422	 *     initial source path walk.  This can be NULL if only dealing with a
-   423	 *     destination access request (i.e. not a rename nor a link action).
-   424	 * @layer_masks_child: Similar to @layer_masks_src_parent but only for the
-   425	 *     linked or renamed inode (without hierarchy).  This is only used if
-   426	 *     @layer_masks_src_parent is not NULL.
-   427	 *
-   428	 * This helper first checks that the destination has a superset of restrictions
-   429	 * compared to the source (if any) for a common path.  It then checks that the
-   430	 * collected accesses and the remaining ones are enough to allow the request.
-   431	 *
-   432	 * Returns:
-   433	 * - 0 if the access request is granted;
-   434	 * - -EACCES if it is denied because of access right other than
-   435	 *   LANDLOCK_ACCESS_FS_REFER;
-   436	 * - -EXDEV if the renaming or linking would be a privileged escalation
-   437	 *   (according to each layered policies), or if LANDLOCK_ACCESS_FS_REFER is
-   438	 *   not allowed by the source or the destination.
-   439	 */
-   440	static int check_access_path_dual(const struct landlock_ruleset *const domain,
-   441			const struct path *const path,
-   442			bool child_is_directory,
-   443			const access_mask_t access_request_dst_parent,
-   444			layer_mask_t (*const
-   445				layer_masks_dst_parent)[LANDLOCK_NUM_ACCESS_FS],
-   446			const access_mask_t access_request_src_parent,
-   447			layer_mask_t (*layer_masks_src_parent)[LANDLOCK_NUM_ACCESS_FS],
-   448			layer_mask_t (*layer_masks_child)[LANDLOCK_NUM_ACCESS_FS])
-   449	{
-   450		bool allowed_dst_parent = false, allowed_src_parent = false, is_dom_check;
-   451		struct path walker_path;
-   452		access_mask_t access_masked_dst_parent, access_masked_src_parent;
-   453	
-   454		if (!access_request_dst_parent && !access_request_src_parent)
-   455			return 0;
-   456		if (WARN_ON_ONCE(!domain || !path))
-   457			return 0;
-   458		if (is_nouser_or_private(path->dentry))
-   459			return 0;
-   460		if (WARN_ON_ONCE(domain->num_layers < 1))
-   461			return -EACCES;
-   462	
- > 463		BUILD_BUG_ON(!layer_masks_dst_parent);
-   464		if (layer_masks_src_parent) {
-   465			if (WARN_ON_ONCE(!layer_masks_child))
-   466				return -EACCES;
-   467			access_masked_dst_parent = access_masked_src_parent =
-   468				get_handled_accesses(domain);
-   469			is_dom_check = true;
-   470		} else {
-   471			if (WARN_ON_ONCE(layer_masks_child))
-   472				return -EACCES;
-   473			access_masked_dst_parent = access_request_dst_parent;
-   474			access_masked_src_parent = access_request_src_parent;
-   475			is_dom_check = false;
-   476		}
-   477	
-   478		walker_path = *path;
-   479		path_get(&walker_path);
-   480		/*
-   481		 * We need to walk through all the hierarchy to not miss any relevant
-   482		 * restriction.
-   483		 */
-   484		while (true) {
-   485			struct dentry *parent_dentry;
-   486			const struct landlock_rule *rule;
-   487	
-   488			/*
-   489			 * If at least all accesses allowed on the destination are
-   490			 * already allowed on the source, respectively if there is at
-   491			 * least as much as restrictions on the destination than on the
-   492			 * source, then we can safely refer files from the source to
-   493			 * the destination without risking a privilege escalation.
-   494			 * This is crucial for standalone multilayered security
-   495			 * policies.  Furthermore, this helps avoid policy writers to
-   496			 * shoot themselves in the foot.
-   497			 */
-   498			if (is_dom_check && is_superset(child_is_directory,
-   499						layer_masks_dst_parent,
-   500						layer_masks_src_parent,
-   501						layer_masks_child)) {
-   502				allowed_dst_parent =
-   503					scope_to_request(access_request_dst_parent,
-   504							layer_masks_dst_parent);
-   505				allowed_src_parent =
-   506					scope_to_request(access_request_src_parent,
-   507							layer_masks_src_parent);
-   508	
-   509				/* Stops when all accesses are granted. */
-   510				if (allowed_dst_parent && allowed_src_parent)
-   511					break;
-   512	
-   513				/*
-   514				 * Downgrades checks from domain handled accesses to
-   515				 * requested accesses.
-   516				 */
-   517				is_dom_check = false;
-   518				access_masked_dst_parent = access_request_dst_parent;
-   519				access_masked_src_parent = access_request_src_parent;
-   520			}
-   521	
-   522			rule = find_rule(domain, walker_path.dentry);
-   523			allowed_dst_parent = unmask_layers(rule, access_masked_dst_parent,
-   524					layer_masks_dst_parent);
-   525			allowed_src_parent = unmask_layers(rule, access_masked_src_parent,
-   526					layer_masks_src_parent);
-   527	
-   528			/* Stops when a rule from each layer grants access. */
-   529			if (allowed_dst_parent && allowed_src_parent)
-   530				break;
-   531	
-   532	jump_up:
-   533			if (walker_path.dentry == walker_path.mnt->mnt_root) {
-   534				if (follow_up(&walker_path)) {
-   535					/* Ignores hidden mount points. */
-   536					goto jump_up;
-   537				} else {
-   538					/*
-   539					 * Stops at the real root.  Denies access
-   540					 * because not all layers have granted access.
-   541					 */
-   542					allowed_dst_parent = false;
-   543					break;
-   544				}
-   545			}
-   546			if (unlikely(IS_ROOT(walker_path.dentry))) {
-   547				/*
-   548				 * Stops at disconnected root directories.  Only allows
-   549				 * access to internal filesystems (e.g. nsfs, which is
-   550				 * reachable through /proc/<pid>/ns/<namespace>).
-   551				 */
-   552				allowed_dst_parent = !!(walker_path.mnt->mnt_flags &
-   553						MNT_INTERNAL);
-   554				break;
-   555			}
-   556			parent_dentry = dget_parent(walker_path.dentry);
-   557			dput(walker_path.dentry);
-   558			walker_path.dentry = parent_dentry;
-   559		}
-   560		path_put(&walker_path);
-   561	
-   562		if (allowed_dst_parent && allowed_src_parent)
-   563			return 0;
-   564	
-   565		/*
-   566		 * Unfortunately, we cannot prioritize EACCES over EXDEV for all
-   567		 * RENAME_EXCHANGE cases because it depends on the source and
-   568		 * destination order.  This could be changed with a new
-   569		 * security_path_rename hook implementation.
-   570		 */
-   571		if (likely(is_eacces(layer_masks_dst_parent, access_request_dst_parent)
-   572					|| is_eacces(layer_masks_src_parent,
-   573						access_request_src_parent)))
-   574			return -EACCES;
-   575	
-   576		/*
-   577		 * Gracefully forbids reparenting if the destination directory
-   578		 * hierarchy is not a superset of restrictions of the source directory
-   579		 * hierarchy, or if LANDLOCK_ACCESS_FS_REFER is not allowed by the
-   580		 * source or the destination.
-   581		 */
-   582		return -EXDEV;
-   583	}
-   584	
+Thanks,
+NeilBrown
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+NeilBrown (11):
+      DOC: convert 'subsection' to 'section' in gfp.h
+      MM: document and polish read-ahead code.
+      MM: improve cleanup when ->readpages doesn't process all pages.
+      fuse: remove reliance on bdi congestion
+      nfs: remove reliance on bdi congestion
+      ceph: remove reliance on bdi congestion
+      Remove inode_congested()
+      Remove bdi_congested() and wb_congested() and related functions
+      f2fs: replace congestion_wait() calls with io_schedule_timeout()
+      block/bfq-iosched.c: use "false" rather than "BLK_RW_ASYNC"
+      Remove congestion tracking framework.
+
+
+ Documentation/core-api/mm-api.rst |  19 ++++-
+ Documentation/filesystems/vfs.rst |  16 ++--
+ block/bfq-iosched.c               |   2 +-
+ drivers/block/drbd/drbd_int.h     |   3 -
+ drivers/block/drbd/drbd_req.c     |   3 +-
+ fs/ceph/addr.c                    |  22 +++---
+ fs/ceph/super.c                   |   1 +
+ fs/ceph/super.h                   |   1 +
+ fs/ext2/ialloc.c                  |   5 --
+ fs/f2fs/compress.c                |   4 +-
+ fs/f2fs/data.c                    |   3 +-
+ fs/f2fs/f2fs.h                    |   6 ++
+ fs/f2fs/segment.c                 |   8 +-
+ fs/f2fs/super.c                   |   6 +-
+ fs/fs-writeback.c                 |  37 ---------
+ fs/fuse/control.c                 |  17 -----
+ fs/fuse/dev.c                     |   8 --
+ fs/fuse/file.c                    |  17 +++++
+ fs/nfs/write.c                    |  14 +++-
+ fs/nilfs2/segbuf.c                |  15 ----
+ fs/xfs/xfs_buf.c                  |   3 -
+ include/linux/backing-dev-defs.h  |   8 --
+ include/linux/backing-dev.h       |  50 ------------
+ include/linux/fs.h                |   9 ++-
+ include/linux/nfs_fs_sb.h         |   1 +
+ include/trace/events/writeback.h  |  28 -------
+ mm/backing-dev.c                  |  57 --------------
+ mm/fadvise.c                      |   5 +-
+ mm/readahead.c                    | 122 ++++++++++++++++++++++++++++--
+ mm/vmscan.c                       |  21 +----
+ 30 files changed, 212 insertions(+), 299 deletions(-)
+
+--
+Signature
+
