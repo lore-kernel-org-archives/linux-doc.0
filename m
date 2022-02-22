@@ -2,135 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCDDC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 21:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD399C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 22:17:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234556AbiBVVcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Feb 2022 16:32:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S236021AbiBVWSC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Feb 2022 17:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbiBVVcM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 16:32:12 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 779F52A242;
-        Tue, 22 Feb 2022 13:31:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=AkEJBGLo6G2IxcYkqrscCgvNviNpvWskNFzIQmbXNqk=; b=Ai5hLR1jmzF7+BIuHNk5p1yGX+
-        1eGvh/amhaw+JfH03YgcQXIqqAPn7wLbaL+9AyE1t9hRqdHhKVjssTIJMbaDG+2kjhItEN6U7+FUS
-        GMHceajaX8wXnS83lGU6zVuBadXRnjQPhizjGMccFR7zZbOxDbBJWl5rCi5Ire48KjZL7qDIKXiSJ
-        AUwmAya0z27ELXT7UvUb9eWnmituDSpZVXtUOWD87FB2d1EMSAT/JYFdHEpB3Ib2WbYYENJOrqq17
-        wypV3ucBhGyQisoSOOnrTulAWqQIVrLPU4ZYaVytonGsiv1aLoFFPYo9OMryuRIwjDwl9yiOmXaWq
-        uF/Vbsbw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nMckz-00C3kh-68; Tue, 22 Feb 2022 21:31:37 +0000
-Message-ID: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
-Date:   Tue, 22 Feb 2022 13:31:31 -0800
+        with ESMTP id S230097AbiBVWSB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 17:18:01 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B249EB6D19;
+        Tue, 22 Feb 2022 14:17:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2BC89B81A2C;
+        Tue, 22 Feb 2022 22:17:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4211DC340E8;
+        Tue, 22 Feb 2022 22:17:31 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="lXMDj8r4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1645568244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vCnYHLy2ZxLW1+1wKyxbDfmohEew3lEiJPknv0zMRYw=;
+        b=lXMDj8r4Yr5uWWxTJyy9JlZE8dPd9P561SOdb0cphGNYx4uYOF0/QjtLjtN93FcOp6uNlQ
+        VupvtVgoxdsTRr0yiFFc/3WGr0DAPUbxmounmYEQjVl0cokQYpe4Am0KzYJUUjkCaqDOIk
+        WVlMfbOqLv3Owc1ux6xbpSelgoQb0Mw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fedef2a4 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Tue, 22 Feb 2022 22:17:24 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id c6so44223237ybk.3;
+        Tue, 22 Feb 2022 14:17:23 -0800 (PST)
+X-Gm-Message-State: AOAM531a+v7B3JZn2f1FkbCZysTrcKGDwCqOUsj0vxEbI44kVeDuXi8m
+        +u+4nDmpUmFpnqugFrgIm8U8BQpdfRbuyzR90/k=
+X-Google-Smtp-Source: ABdhPJwlIOwo+38zIXLd6Qx86vOEC2pTybWrAlF+D1no8DxGsVb1DkoOkHcofqIhHbVsWXHFvpYK/Ea3CPmEoMWT/g0=
+X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
+ i19-20020a056902069300b006137f4f2e63mr24281380ybt.271.1645568240101; Tue, 22
+ Feb 2022 14:17:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v4 00/11] Transform documentation into POD
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>,
-        corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
- <0285efc4-3983-56fa-6b4e-a0b17bdd841a@infradead.org>
-In-Reply-To: <0285efc4-3983-56fa-6b4e-a0b17bdd841a@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-3-git-send-email-acatan@amazon.com> <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+In-Reply-To: <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Tue, 22 Feb 2022 23:17:09 +0100
+X-Gmail-Original-Message-ID: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+Message-ID: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
+To:     adrian@parity.io
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        graf@amazon.com, Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mike Rapoport <rppt@kernel.org>, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jann Horn <jannh@google.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Colm MacCarthaigh <colmmacc@amazon.com>,
+        Andrew Lutomirski <luto@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Ellerman <mpe@ellerman.id.au>, areber@redhat.com,
+        ovzxemul@gmail.com, avagin@gmail.com, ptikhomirov@virtuozzo.com,
+        gil@azul.com, asmehra@redhat.com, dgunigun@redhat.com,
+        vijaysun@ca.ibm.com, oridgar@gmail.com, ghammer@redhat.com,
+        Adrian Catangiu <acatan@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+Hey again,
 
-On 2/21/22 21:39, Randy Dunlap wrote:
-> Hi Tomasz,
-> 
-> On 2/18/22 10:16, Tomasz Warniełło wrote:
->> This series transforms the free-form general comments - mainly the usage
->> instructions and the meta information - into the standard Perl
->> documentation format. Some of the original text is reduced out. And some
->> is simply dropped.
->>
->> The transformation includes language, paragraphing and editorial
->> corrections.
->>
->> The only change in the script execution flow is the replacement of the
->> 'usage' function with the native standard Perl 'pod2usage'.
->>
->> The to-do suggestion to write POD found in the script is ancient, thus
->> I can't address its author with a "Suggested-by" tag.
->>
->> This version follows the advice received on v3, except I'm leaving
->> the old copyrights untouched.
->>
->> The process consists of 14 steps.
->>
->> Patches beginning with no 3 are disfunctional until no 9 has been
->> applied.
->>
->> 1) Add the basic POD sections
->> 2) Relink argument parsing error handling to pod2usage
->>
->> The following subseries is disfunctional before its last part.
->>
->> 3) Translate the DESCRIPTION section
->> 4) Translate the "Output format selection" subsection of OPTIONS
->> 5) Translate the "Output format selection modifier" subsection of OPTIONS
->> 6) Translate the "Output selection" subsection of OPTIONS
->> 7) Translate the "Output selection modifiers" subsection of OPTIONS
->> 8) Translate the "Other parameters" subsection of OPTIONS
->> 9) Replace the usage function
->>     
->> Here the DESCRIPTION and OPTIONS subseries is finished. The -h and -help
->> parameters are handled by POD now.
->>     
->> 10) Drop obsolete comments
->> 11) Refresh the copyright lines
->>
->> Let's see what's wrong this time.
-> 
-> This patch series looks good to me.
-> I'll do some testing with it now.
+On Tue, Feb 22, 2022 at 10:24 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> This thread seems to be long dead, but I couldn't figure out what
+> happened to the ideas in it. I'm specifically interested in this part:
+>
+> On Wed, Feb 24, 2021 at 9:48 AM Adrian Catangiu <acatan@amazon.com> wrote:
+> > +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> > +{
+> > +       uuid_t old_uuid;
+> > +
+> > +       if (!device || acpi_driver_data(device) != &vmgenid_data) {
+> > +               pr_err("VMGENID notify with unexpected driver private data\n");
+> > +               return;
+> > +       }
+> > +
+> > +       /* update VM Generation UUID */
+> > +       old_uuid = vmgenid_data.uuid;
+> > +       memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(uuid_t));
+> > +
+> > +       if (memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(uuid_t))) {
+> > +               /* HW uuid updated */
+> > +               sysgenid_bump_generation();
+> > +               add_device_randomness(&vmgenid_data.uuid, sizeof(uuid_t));
+> > +       }
+> > +}
+>
+> As Jann mentioned in an earlier email, we probably want this to
+> immediately reseed the crng, not just dump it into
+> add_device_randomness alone. But either way, the general idea seems
+> interesting to me. As far as I can tell, QEMU still supports this. Was
+> it not deemed to be sufficiently interesting?
+>
+> Thanks,
+> Jason
 
-I did not encounter any problems in testing.
+Well I cleaned up this v7 and refactored it into something along the
+lines of what I'm thinking. I don't yet know enough about this general
+problem space to propose the patch and I haven't tested it either, but
+in case you're curious, something along the lines of what I'm thinking
+about lives at https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/commit/?h=jd/vmgenid
+if you (or somebody else) feels inclined to pick this up.
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Looking forward to learning more from you in general, though, about
+what the deal is with the VM gen ID, and if this is a real thing or
+not.
 
-Thanks.
-
->> Tomasz Warniełło (11):
->>   scripts: kernel-doc: Add the basic POD sections
->>   scripts: kernel-doc: Relink argument parsing error handling to
->>     pod2usage
->>   scripts: kernel-doc: Translate the DESCRIPTION section
->>   scripts: kernel-doc: Translate the "Output format selection"
->>     subsection of OPTIONS
->>   scripts: kernel-doc: Translate the "Output format selection modifier"
->>     subsection of OPTIONS
->>   scripts: kernel-doc: Translate the "Output selection" subsection of
->>     OPTIONS
->>   scripts: kernel-doc: Translate the "Output selection modifiers"
->>     subsection of OPTIONS
->>   scripts: kernel-doc: Translate the "Other parameters" subsection of
->>     OPTIONS
->>   scripts: kernel-doc: Replace the usage function
->>   scripts: kernel-doc: Drop obsolete comments
->>   scripts: kernel-doc: Refresh the copyright lines
->>
->>  scripts/kernel-doc | 347 +++++++++++++++++++++------------------------
->>  1 file changed, 159 insertions(+), 188 deletions(-)
->>
->>
->> base-commit: 2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-> 
-
--- 
-~Randy
+Regards,
+Jason
