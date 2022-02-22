@@ -2,277 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCC0C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 03:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F61C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Feb 2022 03:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbiBVDLc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Feb 2022 22:11:32 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48144 "EHLO
+        id S234431AbiBVDRV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Feb 2022 22:17:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbiBVDLc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 22:11:32 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41DAB852;
-        Mon, 21 Feb 2022 19:11:06 -0800 (PST)
+        with ESMTP id S233394AbiBVDRU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Feb 2022 22:17:20 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B95F73;
+        Mon, 21 Feb 2022 19:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645499466; x=1677035466;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=CEvuq5Jb4+6BrQs9qjtzNGguI8p6KZeaHoVZFIlVlCg=;
-  b=G7tQ0aHgGaBK7NlYFzk7dMWQZXRvjU9eqQ5JPecY+iknuGxaQeuTDn9B
-   UmBwiqbUw3Pca2ePNPCYbnimZlJPirGJuJzb2JRIU4MGEz4ltSTkij0wk
-   0pN+EwE3q+y975Bs0WNlIheBIV6SJh37g1d9fv/9QhKtFVPeOljVIe14j
-   cCsorPo4kRyJKRGt214CgGFHF+ToKiRlux32luqfiAXHKTssAoqVac7Fd
-   SBXFSvq0cj2yC+vXafbWu17e87cRUj1GAMVzLsSOOTxoc00IM1IJiKI0I
-   7fXJNfLjCUOt66MGG+jKZkA2PQaOSv8BdilaZcg7xAEcIB2HnZXdW11FP
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="276198266"
+  t=1645499815; x=1677035815;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Pb8e2G+GuH8BcVicwGHPqL0koQdXd5XV3os9pLa+pGY=;
+  b=c2J1p921pyeZq7W1ZJcTPPdvvyKMSa1NBjCgoO/728S7T9A76GxNiSZH
+   dSmurQNemHmoxUmDkbh0VPlw6WuV/e20MWlcCyE1EHJNkYKdjhtAKlv/R
+   9VZI5jU6ObyWkgXJyMRnHcAR2Gf74t0v1Bd7PPvsnqh67PQb0KnjBo9dM
+   2r7LGic3ntMO+Ze0mCRchlQ7IJonr5QxckhrXNFZ9TX6B/sqNxkoIx5gi
+   RnBZYR/UfEtvAgH/EDLLfMivN+rD/eDA5pQ7iIzy24WiALrBlXXOAr1Da
+   c+ROSkndjQRRfSJ3p9k5TVlmpZUh+EQE9uI6C65CdJokAyY6cS+GZQl3A
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="249181597"
 X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; 
-   d="scan'208";a="276198266"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 19:11:06 -0800
+   d="scan'208";a="249181597"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2022 19:16:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,387,1635231600"; 
-   d="scan'208";a="532054218"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by orsmga007.jf.intel.com with ESMTP; 21 Feb 2022 19:11:06 -0800
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 21 Feb 2022 19:11:05 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Mon, 21 Feb 2022 19:11:05 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Mon, 21 Feb 2022 19:11:05 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D/RBabF4O575/Kk+ulfb7l6hPkhV/IDy1Jd0vhz4TNE0/8k21KFNlWYMhnJ5vu9oHMbzJZWCjieexryud4k5ZWjFODFVQD3u7olDGPg5bh7RejSIRa/Js6KGzW6QV4iG3YG6rMZGEqifPaLqzkMN3aj9NHfjHB2TrvdKl4hPYOOCAtPzKOLva+FYYyCTDoDOQ3TEvqKkEzvP8RZYhbjeZUmtIpbUpL/AywQZdMGMMezXVc+07Sm2CyJdFn/Nwcx5laF6iPd1/T5ARcuEqF6z6POLYFTha+ZnwjF41fetZQCTcD8ECpbYgLULJauqjk2oKEc5Nm+Pp6S8mKc49dMT3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CEvuq5Jb4+6BrQs9qjtzNGguI8p6KZeaHoVZFIlVlCg=;
- b=eUoe2g1Sj42Vj2rBUeUqGBcaIMPEgJtIsAj3SE473I5djxrew5LFCmuWU9tXz2jQ9ihK9HEdhac67TlHoSMsgGgGIu3y5gjBQS+UyMDqHmQHbOo8RFYpclwOJgtxb7FEn5cBqQ2024aW6EObdeqP/pfWWt+FhlqAeDCD1CZM0JezL7BhnoQWFe7JbgVjIzpfZdfL5gXSVlN6jVVIlQIDAlEqRm8fyy/tIrado5VhngUakXQw/n1cQUzgC9aVhNfgAF1uiPs3WCusezsOb0olP6WkIV+dR6dic8hfWmAPZBZN8D+kDhKSe/aeOk2veBT5OoqsUYe8KeMCfZlBDoONPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
- by BYAPR11MB3287.namprd11.prod.outlook.com (2603:10b6:a03:1c::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Tue, 22 Feb
- 2022 03:11:01 +0000
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809]) by BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809%5]) with mapi id 15.20.4995.027; Tue, 22 Feb 2022
- 03:11:00 +0000
-From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
-To:     Tom Rix <trix@redhat.com>,
-        "matthew.gerlach@linux.intel.com" <matthew.gerlach@linux.intel.com>
-CC:     "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
-Thread-Topic: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
-Thread-Index: AQHYIZY0OPmbG/7a10yxBqZVPNMIu6yUy5EAgAQ8MZCAAG0LgIAE3wIAgAAFcwCAAJVHoA==
-Date:   Tue, 22 Feb 2022 03:11:00 +0000
-Message-ID: <BN9PR11MB54835A454A34ECE13349B555E33B9@BN9PR11MB5483.namprd11.prod.outlook.com>
-References: <20220214112619.219761-1-tianfei.zhang@intel.com>
- <20220214112619.219761-8-tianfei.zhang@intel.com>
- <ed8f4b5f-5c92-f555-ed2d-c5b8f38d5372@redhat.com>
- <BN9PR11MB5483BC7EE52A47CEAEFC58A0E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
- <3c9fce03-ef29-d80f-6639-0c237c28cf58@redhat.com>
- <alpine.DEB.2.22.394.2202210934570.117064@rhweight-WRK1>
- <e5580849-c137-fb61-0599-198c341bf688@redhat.com>
-In-Reply-To: <e5580849-c137-fb61-0599-198c341bf688@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.200.16
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2d51e397-dea6-49ca-bc82-08d9f5b0f437
-x-ms-traffictypediagnostic: BYAPR11MB3287:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BYAPR11MB328791F8ACDA11A36366ACD2E33B9@BYAPR11MB3287.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BGLIk593xGlU2vb3QD1ldHCONX0ei1y2R7oAHcP3Vcgp+VicHnh25z0pmlF9l+HSemr+ob4w7n4ul3SINgkZg4tW/BF+hAgVJ/xJXy+TRJmM/vtYFI/qqtwOLi9mhkIO4/Atbx9bTMPNMdHAGCu+Psj2HLVrpV8WYs1y1G8KlAsd9U6DXgLL9noFoeHbmStDnomW+k7FsLUesIGbdH/R/kWnCgNJy+izcC2LS1iZmqsgo0VvpWX33bSHOAEygSGfaDv4rWgXGNG+iKGG/dVy0AzpRI0ZKuIVDWxK/o3zQRwD4eoEisiV95IHhd4qKPR8Uup+Ci+gNyoEy1PgGfhmXuPZ/pJKve4p4kEgJ+Dyo0uh+fpor9LG24aQLrN2aPg5RiDLv3qqwqNz2H6N6MoYFwtDqzaBQMPWFdk/c4nXv34NjVnL/Ffv1cIKh7tWfXmtVxJoXU4gcRDJwFm1NQgw8f083EZRsThbUqocglAN/3bvOeQNDEL9BxIhBTfQyHBdqaqaZNuV1ACixwGr7di5o8NJn8HLC1oS7fzOtfWhi4ExKrhGGLkPQ7e9wQ07IMhCqwVkWFaGPbnfTfhK0jmfZMQngqg+28S9oYe7ba2aTUKyriGpI79n1VHHgUF7wvWNfcp/alw5MkcmvJzSCv6DAOA6xhFmgM2+dptKdLuH9+GMekIAG/hI35Kk12IJAsuJT740hZx6jgg/SYgBB9QeR81mLizc14UFC9WmsrvAg+4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(9686003)(2906002)(5660300002)(110136005)(54906003)(6506007)(316002)(83380400001)(7696005)(186003)(4326008)(508600001)(52536014)(71200400001)(122000001)(8676002)(66946007)(8936002)(38100700002)(26005)(38070700005)(53546011)(66556008)(66476007)(66446008)(64756008)(76116006)(86362001)(82960400001)(33656002)(55016003)(41533002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ODJGT3B6blhwNEowOUtaM2paVWl4UFJ3ZHlJcERCbDVtbzkxWUlpN2RWWmZz?=
- =?utf-8?B?ejkwWkRNV0Zsd3hoY1hPU0pQU2tKQm5hd0QwNzZmUWtYUkgrSmhYZmx6dXM0?=
- =?utf-8?B?VmtQcGkycjNsR0hRYXUwQmsyY0hRZFBRS3EzNWw2aGZiOU9uRjdBSmJuVDJn?=
- =?utf-8?B?TEREMlBnMGE0Vk4yMFVhdW51d1BidUo4SHNYeEg4UFBXWlQxRHNrWlUwOW12?=
- =?utf-8?B?bXdPcU5mc1AzSW4zc1YwMkg5WC9USVR5Z0hVRi8yaGIvb2x6U3MzaGQ5WW85?=
- =?utf-8?B?SE1hSE1NYmlCZVNVL0cvSVlXTnVSRVNWcjdLcXpYeW5ta3VYMHdlWTFnZS9H?=
- =?utf-8?B?K0VqcTRyMGJRS1cxWWJjNWtzZ2ZaZ1JQeEhOOEJFb3BYeUQ2Y2VjZTRYQnNm?=
- =?utf-8?B?UERqYlA3MGRZQ2hhRnZYMzlubkZ1dW5kNGV4RXpKc2I0R3R2eGJzaUpPYmRw?=
- =?utf-8?B?MlVJSmZpcEJSMWZ5MWMyNEhqdTd1TnJEY0lRM2x0MWRiZm1SanRYRitYa2N0?=
- =?utf-8?B?bm42VkliMitwS0NoY0RZNG1IM3REWGhwU2lmMWRIV3FpajVaWGdDUzdSeGxO?=
- =?utf-8?B?Z2RIUit5ZWw1T3NHOTNXVlRhVFU5S2hNTzJZcTZhYk4wQUE4UWNCVE9UWWd3?=
- =?utf-8?B?dCsvNkZUZ2cvZlp1S2xieGp5U2ZSL3d0RGZkeUthOWxhVWowNTdSMnpUcU1W?=
- =?utf-8?B?bTZ3L0RMcjlZUGgvNGRzcVNieEYrZERnM1RZSnBFZFVwdWFnbS9YcVEyZm1C?=
- =?utf-8?B?MHlYYWcvNjVmVHJhUHJGMCtiM05MUkJ3VTM4Q2RBS2wzZ09wSjBOT0FsRkNU?=
- =?utf-8?B?am4vbG10RHNDRUZ3Q3RWUW4xNHcxdURXdU5LK3N0bWJSNWU3bXdpV1JNa1pM?=
- =?utf-8?B?MGFsS1JKVFJsTGJqNU5pRTZDQnBhYXNWdlRSdEs3bE5ZODhKYm52ckVERy9n?=
- =?utf-8?B?NFFrYzVvcS90d3NsSStEU0NmZzBaaGZqUkM3Q0s1NERJTTdpVlNJK2wzdHJi?=
- =?utf-8?B?V2tKTEtxanA1VE50c25hdzVSMmJkVVQrRlZUK3dZVmlod2lxRzl6Smd4cndr?=
- =?utf-8?B?TFAzSUpsUUJZWGJnby9IOGlRNldrTzg5TWh4Uy9vMTBJcW50NEdRc2p1a3dq?=
- =?utf-8?B?U21tNnN2K08vdWtmNmVSbllmN2tUT1AzYjBGV3phbWlPdndjWWxUMldrNnYz?=
- =?utf-8?B?cWEzd1ZLNHNrN0ZXUU4wUVpsdm1iajhMakRpVzZKaC9YZHB0Qys5TVF4SHg0?=
- =?utf-8?B?VEVRcWx0Z3laNTNVODRjUUdIN2dNQ0lXUWVKOFJWZEl2TVFTOHhJcjFySE5l?=
- =?utf-8?B?bVE0aXVSSmpFck5GVXFBa2xFVzVqZDRpcUF5ZitvWGNqVm5kZUxURGVUbm9V?=
- =?utf-8?B?SjNsWDZMeXhRVnpuYlRLeHFRbFJtTitPNzl1NTN6RDdzQmYycHNCa1FkL2w4?=
- =?utf-8?B?LzF5WGJNdFJMNkZLY1ZhYjd6Vk04eUt6d0VkZUVKSTNjT3hJdWpRU3cwV21O?=
- =?utf-8?B?SWJCc3VjMEN4bVY4OFJxWGU4aE5PeVJUSTRYSXpBVE54MGxMQ0grWU1WUGQ0?=
- =?utf-8?B?MWNmanBwUi9MTC9CclU5NWJ4dXlHU1pXYTRSVmltdUxZcUpiNkN3em4xN3ps?=
- =?utf-8?B?eUk2cjFwcW1zK1Jxd0FhVVlwcDZ6ank5N2IzM3FnbTVBUWlYUlljUWx0cHFB?=
- =?utf-8?B?SXp0WkkvR01BdmdsSTUrZ0hlYlpITFVoMU45T0RKNWdTM1o4T2MvZlJwZldq?=
- =?utf-8?B?c0hYRXJOaXhBbG1ubGIzelZaZytiZGJVWXNrMVBtcTFuR2w4RUgvTDRLVXNU?=
- =?utf-8?B?RUllWjdGcjFZUy94ME1paHZYcWg3Z1lpQVB3Mmdmc3pFQ2hxOW1MQldmYnlr?=
- =?utf-8?B?bUVtU0dWTUxNM3FYMUZBNDlvWFZyWm5vWC9UaXJSR2N5RDdsL0RSd0pXbWtM?=
- =?utf-8?B?RlZBT0VJc3g3dHJEQmtnSWVPN0Q4N2crTGNkYW43SVNZdVh5MlNRRXJDbHAr?=
- =?utf-8?B?bytuNGd5OWJhUWxod2hEMlNodGxiczB1Mm03a1E0bEJRWGtZOXUwK1lzNjJi?=
- =?utf-8?B?Tlg3L0FsZ3RYMG5RZzBMc1VHckpieGZNOWtpNU1yVThFbng4MHFYaW8wU2o2?=
- =?utf-8?B?dUhaODNGUEZwSU5vVVpRcmFnT3VBVW1EVjdZOXBnV0RCV3F4NTRBMmozd2Y3?=
- =?utf-8?Q?tFAGJiXf22Bq0fJClJPp0GU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+   d="scan'208";a="683361065"
+Received: from lkp-server01.sh.intel.com (HELO da3212ac2f54) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2022 19:16:49 -0800
+Received: from kbuild by da3212ac2f54 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nMLfV-0002Gw-5s; Tue, 22 Feb 2022 03:16:49 +0000
+Date:   Tue, 22 Feb 2022 11:16:32 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v1 06/11] landlock: Add support for file reparenting with
+ LANDLOCK_ACCESS_FS_REFER
+Message-ID: <202202221149.qLO9DEqo-lkp@intel.com>
+References: <20220221212522.320243-7-mic@digikod.net>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d51e397-dea6-49ca-bc82-08d9f5b0f437
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2022 03:11:00.8728
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ce5kT3TS4eB+1ypTpzREc2SdD0ieujaGz9Taw0WO96axivvRdRZwW+9broko5l+/dn6SQURSywGA7D8+hgdLUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3287
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220221212522.320243-7-mic@digikod.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVG9tIFJpeCA8dHJpeEBy
-ZWRoYXQuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSAyMiwgMjAyMiAyOjEwIEFNDQo+
-IFRvOiBtYXR0aGV3LmdlcmxhY2hAbGludXguaW50ZWwuY29tDQo+IENjOiBaaGFuZywgVGlhbmZl
-aSA8dGlhbmZlaS56aGFuZ0BpbnRlbC5jb20+OyBXdSwgSGFvIDxoYW8ud3VAaW50ZWwuY29tPjsN
-Cj4gbWRmQGtlcm5lbC5vcmc7IFh1LCBZaWx1biA8eWlsdW4ueHVAaW50ZWwuY29tPjsgbGludXgt
-ZnBnYUB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4
-LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGNvcmJldEBsd24ubmV0DQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjEgNy83XSBmcGdhOiBkZmw6IHBjaTogQWRkIGdlbmVyaWMgT0ZTIFBDSSBQSUQNCj4g
-DQo+IA0KPiBPbiAyLzIxLzIyIDk6NTAgQU0sIG1hdHRoZXcuZ2VybGFjaEBsaW51eC5pbnRlbC5j
-b20gd3JvdGU6DQo+ID4NCj4gPg0KPiA+IE9uIEZyaSwgMTggRmViIDIwMjIsIFRvbSBSaXggd3Jv
-dGU6DQo+ID4NCj4gPj4NCj4gPj4gT24gMi8xOC8yMiAxOjAzIEFNLCBaaGFuZywgVGlhbmZlaSB3
-cm90ZToNCj4gPj4+DQo+ID4+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+PiBG
-cm9tOiBUb20gUml4IDx0cml4QHJlZGhhdC5jb20+DQo+ID4+Pj4gU2VudDogV2VkbmVzZGF5LCBG
-ZWJydWFyeSAxNiwgMjAyMiAxMjoxNiBBTQ0KPiA+Pj4+IFRvOiBaaGFuZywgVGlhbmZlaSA8dGlh
-bmZlaS56aGFuZ0BpbnRlbC5jb20+OyBXdSwgSGFvDQo+ID4+Pj4gPGhhby53dUBpbnRlbC5jb20+
-OyBtZGZAa2VybmVsLm9yZzsgWHUsIFlpbHVuIDx5aWx1bi54dUBpbnRlbC5jb20+Ow0KPiA+Pj4+
-IGxpbnV4LWZwZ2FAdmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOw0K
-PiA+Pj4+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gPj4+PiBDYzogY29yYmV0QGx3
-bi5uZXQ7IE1hdHRoZXcgR2VybGFjaA0KPiA+Pj4+IDxtYXR0aGV3LmdlcmxhY2hAbGludXguaW50
-ZWwuY29tPg0KPiA+Pj4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgNy83XSBmcGdhOiBkZmw6IHBj
-aTogQWRkIGdlbmVyaWMgT0ZTIFBDSSBQSUQNCj4gPj4+Pg0KPiA+Pj4+DQo+ID4+Pj4gT24gMi8x
-NC8yMiAzOjI2IEFNLCBUaWFuZmVpIHpoYW5nIHdyb3RlOg0KPiA+Pj4+PiBGcm9tOiBNYXR0aGV3
-IEdlcmxhY2ggPG1hdHRoZXcuZ2VybGFjaEBsaW51eC5pbnRlbC5jb20+DQo+ID4+Pj4+DQo+ID4+
-Pj4+IEFkZCB0aGUgUENJIHByb2R1Y3QgaWQgZm9yIGFuIE9wZW4gRlBHQSBTdGFjayBQQ0kgY2Fy
-ZC4NCj4gPj4+PiBJcyB0aGVyZSBhIFVSTCB0byB0aGUgY2FyZCA/DQo+ID4+PiBUaGlzIFBDSWUg
-RGV2aWNlIElEcyBoYXZlIHJlZ2lzdGVyZWQgYnkgSW50ZWwuDQo+ID4+IEEgVVJMIGlzIHVzZWZ1
-bCB0byBpbnRyb2R1Y2UgdGhlIGJvYXJkLCBJcyB0aGVyZSBvbmUgPw0KPiA+Pj4NCj4gPj4+Pj4g
-U2lnbmVkLW9mZi1ieTogTWF0dGhldyBHZXJsYWNoIDxtYXR0aGV3LmdlcmxhY2hAbGludXguaW50
-ZWwuY29tPg0KPiA+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBUaWFuZmVpIFpoYW5nIDx0aWFuZmVpLnpo
-YW5nQGludGVsLmNvbT4NCj4gPj4+Pj4gLS0tDQo+ID4+Pj4+IMKgwqAgZHJpdmVycy9mcGdhL2Rm
-bC1wY2kuYyB8IDQgKysrKw0KPiA+Pj4+PiDCoMKgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
-bnMoKykNCj4gPj4+Pj4NCj4gPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZnBnYS9kZmwtcGNp
-LmMgYi9kcml2ZXJzL2ZwZ2EvZGZsLXBjaS5jIGluZGV4DQo+ID4+Pj4+IDgzYjYwNGQ2ZGJlNi4u
-Y2IyZmJmM2ViOTE4IDEwMDY0NA0KPiA+Pj4+PiAtLS0gYS9kcml2ZXJzL2ZwZ2EvZGZsLXBjaS5j
-DQo+ID4+Pj4+ICsrKyBiL2RyaXZlcnMvZnBnYS9kZmwtcGNpLmMNCj4gPj4+Pj4gQEAgLTc2LDEy
-ICs3NiwxNCBAQCBzdGF0aWMgdm9pZCBjY2lfcGNpX2ZyZWVfaXJxKHN0cnVjdCBwY2lfZGV2DQo+
-ID4+Pj4+ICpwY2lkZXYpDQo+ID4+Pj4+IMKgwqAgI2RlZmluZSBQQ0lFX0RFVklDRV9JRF9JTlRF
-TF9QQUNfRDUwMDXCoMKgwqDCoMKgwqDCoCAweDBCMkINCj4gPj4+Pj4gwqDCoCAjZGVmaW5lIFBD
-SUVfREVWSUNFX0lEX1NJTElDT01fUEFDX041MDEwwqDCoMKgIDB4MTAwMA0KPiA+Pj4+PiDCoMKg
-ICNkZWZpbmUgUENJRV9ERVZJQ0VfSURfU0lMSUNPTV9QQUNfTjUwMTHCoMKgwqAgMHgxMDAxDQo+
-ID4+Pj4+ICsjZGVmaW5lIFBDSUVfREVWSUNFX0lEX0lOVEVMX09GU8KgwqDCoMKgwqDCoMKgIDB4
-YmNjZQ0KPiA+Pj4+IElOVEVMX09GUyBpcyBhIGdlbmVyaWMgbmFtZSwgcGNpIGlkJ3MgbWFwIHRv
-IHNwZWNpZmljIGNhcmRzDQo+ID4+Pj4NCj4gPj4+PiBJcyB0aGVyZSBhIG1vcmUgc3BlY2lmaWMg
-bmFtZSBmb3IgdGhpcyBjYXJkID8NCj4gPj4+IEkgdGhpbmsgdXNpbmcgSU5URUxfT0ZTIGlzIGJl
-dHRlciwgYmVjYXVzZSBJTlRFTF9PRlMgaXMgdGhlIEdlbmVyaWMNCj4gPj4+IGRldmVsb3BtZW50
-IHBsYXRmb3JtIGNhbiBzdXBwb3J0IG11bHRpcGxlIGNhcmRzIHdoaWNoIHVzaW5nIE9GUw0KPiA+
-Pj4gc3BlY2lmaWNhdGlvbiwgbGlrZSBJbnRlbCBQQUMgTjYwMDAgY2FyZC4NCj4gPj4NCj4gPj4g
-SSB3b3VsZCBwcmVmZXIgc29tZXRoaW5nIGxpa2UgUENJRV9ERVZJQ0VfSURfSU5URUxfUEFDX042
-MDAwIGJlY2F1c2UNCj4gPj4gaXQgZm9sbG93cyBhbiBleGlzdGluZyBwYXR0ZXJuLsKgIE1ha2Ug
-aXQgZWFzeSBvbiBhIGRldmVsb3BlciwgdGhleQ0KPiA+PiB3aWxsIGxvb2sgYXQgdGhlaXIgYm9h
-cmQgb3IgYm94LCBzZWUgWCBhbmQgdHJ5IHRvIGZpbmQgc29tZXRoaW5nDQo+ID4+IHNpbWlsYXIg
-aW4gdGhlIGRyaXZlciBzb3VyY2UuDQo+ID4+DQo+ID4+IFRvIHVzZSBPU0ZfICogdGhlIG5hbWUg
-bmVlZHMgYSBzdWZmaXggdG8gZGlmZmVyZW50aWF0ZSBpdCBmcm9tIGZ1dHVyZQ0KPiA+PiBjYXJk
-cyB0aGF0IHdpbGwgYWxzbyB1c2Ugb2ZzLg0KPiA+Pg0KPiA+PiBJZiB0aGlzIHJlYWxseSBpcyBh
-IGdlbmVyaWMgaWQgcGxlYXNlIGV4cGxhaW4gaW4gdGhlIGRvYyBwYXRjaCBob3cNCj4gPj4gZXZl
-cnkgZnV0dXJlIGJvYXJkIHdpdGggdXNlIHRoaXMgc2luZ2xlIGlkIGFuZCBob3cgYSBkcml2ZXIg
-Y291bGQNCj4gPj4gd29yayBhcm91bmQgYSBodyBwcm9ibGVtIGluIGEgc3BlY2lmaWMgYm9hcmQg
-d2l0aCBhIHBjaSBpZCBjb3ZlcmluZw0KPiA+PiBtdWx0aXBsZSBib2FyZHMuDQo+ID4+DQo+ID4+
-IFRvbQ0KPiA+DQo+ID4gSGkgVG9tLA0KPiA+DQo+ID4gVGhlIGludGVudCBpcyB0byBoYXZlIGEg
-Z2VuZXJpYyBkZXZpY2UgaWQgdGhhdCBjYW4gYmUgdXNlZCB3aXRoIG1hbnkNCj4gPiBkaWZmZXJl
-bnQgYm9hcmRzLsKgIEN1cnJlbnRseSwgd2UgaGF2ZSBGUEdBIGltcGxlbWVudGF0aW9ucyBmb3Ig
-Mw0KPiA+IGRpZmZlcmVudCBib2FyZHMgdXNpbmcgdGhpcyBnZW5lcmljIGlkLsKgIFdlIG1heSBu
-ZWVkIGEgYmV0dGVyIG5hbWUgZm9yDQo+ID4gZGV2aWNlIGlkIHRoYW4gT0ZTLsKgIE1vcmUgcHJl
-Y2lzZWx5IHRoaXMgZ2VuZXJpYyBkZXZpY2UgaWQgbWVhbnMgYSBQQ0kNCj4gPiBmdW5jdGlvbiB0
-aGF0IGlzIGRlc2NyaWJlZCBieSBhIERldmljZSBGZWF0dXJlIExpc3QgKERGTCkuwqAgSG93IGFi
-b3V0DQo+ID4gUENJRV9ERVZJQ0VfSURfSU5URUxfREZMPw0KPiA+DQo+ID4gV2l0aCBhIERGTCBk
-ZXZpY2UgaWQsIHRoZSBmdW5jdGlvbmFsaXR5IG9mIHRoZSBQRi9WRiBpcyBkZXRlcm1pbmVkIGJ5
-DQo+ID4gdGhlIGNvbnRlbnRzIG9mIHRoZSBERkwuwqAgRWFjaCBEZXZpY2UgRmVhdHVyZSBIZWFk
-ZXIgKERGSCkgaW4gdGhlIERGTA0KPiA+IGhhcyBhIHJldmlzaW9uIGZpZWxkIHRoYXQgY2FuIGJl
-IHVzZWQgaWRlbnRpZnkgImJyb2tlbiIgaHcsIG9yIG5ldw0KPiA+IGZ1bmN0aW9uYWxpdHkgYWRk
-ZWQgdG8gYSBmZWF0dXJlLsKgIEFkZGl0aW9uYWxseSwgc2luY2UgdGhlIERGTCBpcw0KPiA+IHR5
-cGljYWxseSB1c2VkIGluIGEgRlBHQSwgdGhlIGJyb2tlbiBoYXJkd2FyZSwgY2FuIGFuZCBzaG91
-bGQgYmUgZml4ZWQNCj4gPiBpbiBtb3N0IGNhc2VzLg0KPiANCj4gSG93IGlzIGxzcGNpIHN1cHBv
-c2VkIHRvIHdvcmsgPw0KDQpUaGVyZSBpcyBhbiBleGFtcGxlIGZvciBvbmUgY2FyZCB1c2luZyBJ
-T0ZTIGFuZCBERkwuDQoNCiMgbHNwY2kgfCBncmVwIGFjYw0KYjE6MDAuMCBQcm9jZXNzaW5nIGFj
-Y2VsZXJhdG9yczogSW50ZWwgQ29ycG9yYXRpb24gRGV2aWNlIGJjY2UgKHJldiAwMSkNCmIxOjAw
-LjEgUHJvY2Vzc2luZyBhY2NlbGVyYXRvcnM6IEludGVsIENvcnBvcmF0aW9uIERldmljZSBiY2Nl
-DQpiMTowMC4yIFByb2Nlc3NpbmcgYWNjZWxlcmF0b3JzOiBJbnRlbCBDb3Jwb3JhdGlvbiBEZXZp
-Y2UgYmNjZQ0KYjE6MDAuMyBQcm9jZXNzaW5nIGFjY2VsZXJhdG9yczogUmVkIEhhdCwgSW5jLiBW
-aXJ0aW8gbmV0d29yayBkZXZpY2UNCmIxOjAwLjQgUHJvY2Vzc2luZyBhY2NlbGVyYXRvcnM6IElu
-dGVsIENvcnBvcmF0aW9uIERldmljZSBiY2NlDQoNCk5vdGU6IFRoZXJlIDUgUEZzIGluIHRoaXMg
-Y2FyZCwgaXQgZXhwb3J0cyB0aGUgbWFuYWdlbWVudCBmdW5jdGlvbnMgdmlhIFBGMChiMTowMC4w
-KSwNCk90aGVyIFBGcyBsaWtlIGIxOjAwLjEsIGIxOjAwLjIsIGIxOjAwLjQsIGFyZSB1c2luZyBm
-b3IgdGVzdGluZywgd2hpY2ggZGVwZW5kcyBvbiBSVEwgZGVzaWduZXINCm9yIHByb2plY3QgcmVx
-dWlyZW1lbnQuIFRoZSBQRjMgaW5zdGFuY2UgYSBWaXJ0SU8gbmV0IGRldmljZSBmb3IgZXhhbXBs
-ZSwgd2lsbCBiaW5kIHdpdGggdmlydGlvLW5ldCBkcml2ZXINCnByZXNlbnRpbmcgaXRzZWxmIGFz
-IGEgbmV0d29yayBpbnRlcmZhY2UgdG8gdGhlIE9TLg0KDQo+IA0KPiBBIGRmbCBzZXQgY2FuIGNo
-YW5nZSB3aXRoIGZ3IHVwZGF0ZXMgYW5kIGluIHRoZW9yeSBkaWZmZXJlbnQgYm9hcmRzIGNvdWxk
-IGhhdmUNCj4gdGhlIHNhbWUgc2V0Lg0KPiANCj4gVG9tDQo+IA0KPiA+DQo+ID4gTWF0dGhldw0K
-PiA+Pg0KPiA+Pj4NCj4gPj4+PiBUb20NCj4gPj4+Pg0KPiA+Pj4+PiDCoMKgIC8qIFZGIERldmlj
-ZSAqLw0KPiA+Pj4+PiDCoMKgICNkZWZpbmUgUENJRV9ERVZJQ0VfSURfVkZfSU5UXzVfWMKgwqDC
-oMKgwqDCoMKgIDB4QkNCRg0KPiA+Pj4+PiDCoMKgICNkZWZpbmUgUENJRV9ERVZJQ0VfSURfVkZf
-SU5UXzZfWMKgwqDCoMKgwqDCoMKgIDB4QkNDMQ0KPiA+Pj4+PiDCoMKgICNkZWZpbmUgUENJRV9E
-RVZJQ0VfSURfVkZfRFNDXzFfWMKgwqDCoMKgwqDCoMKgIDB4MDlDNQ0KPiA+Pj4+PiDCoMKgICNk
-ZWZpbmUgUENJRV9ERVZJQ0VfSURfSU5URUxfUEFDX0Q1MDA1X1ZGwqDCoMKgIDB4MEIyQw0KPiA+
-Pj4+PiArI2RlZmluZSBQQ0lFX0RFVklDRV9JRF9JTlRFTF9PRlNfVkbCoMKgwqDCoMKgwqDCoCAw
-eGJjY2YNCj4gPj4+Pj4NCj4gPj4+Pj4gwqDCoCBzdGF0aWMgc3RydWN0IHBjaV9kZXZpY2VfaWQg
-Y2NpX3BjaWVfaWRfdGJsW10gPSB7DQo+ID4+Pj4+IMKgwqDCoMKgwqDCoCB7UENJX0RFVklDRShQ
-Q0lfVkVORE9SX0lEX0lOVEVMLA0KPiA+Pj4+PiBQQ0lFX0RFVklDRV9JRF9QRl9JTlRfNV9YKSx9
-LA0KPiA+Pj4+IEBADQo+ID4+Pj4+IC05NSw2ICs5Nyw4IEBAIHN0YXRpYyBzdHJ1Y3QgcGNpX2Rl
-dmljZV9pZCBjY2lfcGNpZV9pZF90YmxbXSA9IHsNCj4gPj4+Pj4gwqDCoMKgwqDCoMKgIHtQQ0lf
-REVWSUNFKFBDSV9WRU5ET1JfSURfSU5URUwsDQo+ID4+Pj4gUENJRV9ERVZJQ0VfSURfSU5URUxf
-UEFDX0Q1MDA1X1ZGKSx9LA0KPiA+Pj4+PiB7UENJX0RFVklDRShQQ0lfVkVORE9SX0lEX1NJTElD
-T01fREVOTUFSSywNCj4gPj4+PiBQQ0lFX0RFVklDRV9JRF9TSUxJQ09NX1BBQ19ONTAxMCksfSwN
-Cj4gPj4+Pj4ge1BDSV9ERVZJQ0UoUENJX1ZFTkRPUl9JRF9TSUxJQ09NX0RFTk1BUkssDQo+ID4+
-Pj4+IFBDSUVfREVWSUNFX0lEX1NJTElDT01fUEFDX041MDExKSx9LA0KPiA+Pj4+PiArwqDCoMKg
-IHtQQ0lfREVWSUNFKFBDSV9WRU5ET1JfSURfSU5URUwsIFBDSUVfREVWSUNFX0lEX0lOVEVMX09G
-UyksfSwNCj4gPj4+Pj4gK8KgwqDCoCB7UENJX0RFVklDRShQQ0lfVkVORE9SX0lEX0lOVEVMLA0K
-PiA+Pj4+IFBDSUVfREVWSUNFX0lEX0lOVEVMX09GU19WRiksfSwNCj4gPj4+Pj4gwqDCoMKgwqDC
-oMKgIHswLH0NCj4gPj4+Pj4gwqDCoCB9Ow0KPiA+Pj4+PiDCoMKgIE1PRFVMRV9ERVZJQ0VfVEFC
-TEUocGNpLCBjY2lfcGNpZV9pZF90YmwpOw0KPiA+Pg0KPiA+Pg0KDQo=
+Hi "Mickaël,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on cfb92440ee71adcc2105b0890bb01ac3cddb8507]
+
+url:    https://github.com/0day-ci/linux/commits/Micka-l-Sala-n/Landlock-file-linking-and-renaming-support/20220222-051842
+base:   cfb92440ee71adcc2105b0890bb01ac3cddb8507
+config: hexagon-randconfig-r002-20220221 (https://download.01.org/0day-ci/archive/20220222/202202221149.qLO9DEqo-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/c68b879f54d6262963d435a18cedbc238b7faeaf
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Micka-l-Sala-n/Landlock-file-linking-and-renaming-support/20220222-051842
+        git checkout c68b879f54d6262963d435a18cedbc238b7faeaf
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> security/landlock/fs.c:463:2: error: call to __compiletime_assert_228 declared with 'error' attribute: BUILD_BUG_ON failed: !layer_masks_dst_parent
+           BUILD_BUG_ON(!layer_masks_dst_parent);
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:327:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:170:1: note: expanded from here
+   __compiletime_assert_228
+   ^
+>> security/landlock/fs.c:670:2: error: call to __compiletime_assert_229 declared with 'error' attribute: BUILD_BUG_ON failed: !layer_masks_dom
+           BUILD_BUG_ON(!layer_masks_dom);
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:327:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:174:1: note: expanded from here
+   __compiletime_assert_229
+   ^
+   2 errors generated.
+
+
+vim +/error +463 security/landlock/fs.c
+
+   401	
+   402	/**
+   403	 * check_access_path_dual - Check a source and a destination accesses
+   404	 *
+   405	 * @domain: Domain to check against.
+   406	 * @path: File hierarchy to walk through.
+   407	 * @child_is_directory: Must be set to true if the (original) leaf is a
+   408	 *     directory, false otherwise.
+   409	 * @access_request_dst_parent: Accesses to check, once @layer_masks_dst_parent
+   410	 *     is equal to @layer_masks_src_parent (if any).
+   411	 * @layer_masks_dst_parent: Pointer to a matrix of layer masks per access
+   412	 *     masks, identifying the layers that forbid a specific access.  Bits from
+   413	 *     this matrix can be unset according to the @path walk.  An empty matrix
+   414	 *     means that @domain allows all possible Landlock accesses (i.e. not only
+   415	 *     those identified by @access_request_dst_parent).  This matrix can
+   416	 *     initially refer to domain layer masks and, when the accesses for the
+   417	 *     destination and source are the same, to request layer masks.
+   418	 * @access_request_src_parent: Similar to @access_request_dst_parent but for an
+   419	 *     initial source path request.  Only taken into account if
+   420	 *     @layer_masks_src_parent is not NULL.
+   421	 * @layer_masks_src_parent: Similar to @layer_masks_dst_parent but for an
+   422	 *     initial source path walk.  This can be NULL if only dealing with a
+   423	 *     destination access request (i.e. not a rename nor a link action).
+   424	 * @layer_masks_child: Similar to @layer_masks_src_parent but only for the
+   425	 *     linked or renamed inode (without hierarchy).  This is only used if
+   426	 *     @layer_masks_src_parent is not NULL.
+   427	 *
+   428	 * This helper first checks that the destination has a superset of restrictions
+   429	 * compared to the source (if any) for a common path.  It then checks that the
+   430	 * collected accesses and the remaining ones are enough to allow the request.
+   431	 *
+   432	 * Returns:
+   433	 * - 0 if the access request is granted;
+   434	 * - -EACCES if it is denied because of access right other than
+   435	 *   LANDLOCK_ACCESS_FS_REFER;
+   436	 * - -EXDEV if the renaming or linking would be a privileged escalation
+   437	 *   (according to each layered policies), or if LANDLOCK_ACCESS_FS_REFER is
+   438	 *   not allowed by the source or the destination.
+   439	 */
+   440	static int check_access_path_dual(const struct landlock_ruleset *const domain,
+   441			const struct path *const path,
+   442			bool child_is_directory,
+   443			const access_mask_t access_request_dst_parent,
+   444			layer_mask_t (*const
+   445				layer_masks_dst_parent)[LANDLOCK_NUM_ACCESS_FS],
+   446			const access_mask_t access_request_src_parent,
+   447			layer_mask_t (*layer_masks_src_parent)[LANDLOCK_NUM_ACCESS_FS],
+   448			layer_mask_t (*layer_masks_child)[LANDLOCK_NUM_ACCESS_FS])
+   449	{
+   450		bool allowed_dst_parent = false, allowed_src_parent = false, is_dom_check;
+   451		struct path walker_path;
+   452		access_mask_t access_masked_dst_parent, access_masked_src_parent;
+   453	
+   454		if (!access_request_dst_parent && !access_request_src_parent)
+   455			return 0;
+   456		if (WARN_ON_ONCE(!domain || !path))
+   457			return 0;
+   458		if (is_nouser_or_private(path->dentry))
+   459			return 0;
+   460		if (WARN_ON_ONCE(domain->num_layers < 1))
+   461			return -EACCES;
+   462	
+ > 463		BUILD_BUG_ON(!layer_masks_dst_parent);
+   464		if (layer_masks_src_parent) {
+   465			if (WARN_ON_ONCE(!layer_masks_child))
+   466				return -EACCES;
+   467			access_masked_dst_parent = access_masked_src_parent =
+   468				get_handled_accesses(domain);
+   469			is_dom_check = true;
+   470		} else {
+   471			if (WARN_ON_ONCE(layer_masks_child))
+   472				return -EACCES;
+   473			access_masked_dst_parent = access_request_dst_parent;
+   474			access_masked_src_parent = access_request_src_parent;
+   475			is_dom_check = false;
+   476		}
+   477	
+   478		walker_path = *path;
+   479		path_get(&walker_path);
+   480		/*
+   481		 * We need to walk through all the hierarchy to not miss any relevant
+   482		 * restriction.
+   483		 */
+   484		while (true) {
+   485			struct dentry *parent_dentry;
+   486			const struct landlock_rule *rule;
+   487	
+   488			/*
+   489			 * If at least all accesses allowed on the destination are
+   490			 * already allowed on the source, respectively if there is at
+   491			 * least as much as restrictions on the destination than on the
+   492			 * source, then we can safely refer files from the source to
+   493			 * the destination without risking a privilege escalation.
+   494			 * This is crucial for standalone multilayered security
+   495			 * policies.  Furthermore, this helps avoid policy writers to
+   496			 * shoot themselves in the foot.
+   497			 */
+   498			if (is_dom_check && is_superset(child_is_directory,
+   499						layer_masks_dst_parent,
+   500						layer_masks_src_parent,
+   501						layer_masks_child)) {
+   502				allowed_dst_parent =
+   503					scope_to_request(access_request_dst_parent,
+   504							layer_masks_dst_parent);
+   505				allowed_src_parent =
+   506					scope_to_request(access_request_src_parent,
+   507							layer_masks_src_parent);
+   508	
+   509				/* Stops when all accesses are granted. */
+   510				if (allowed_dst_parent && allowed_src_parent)
+   511					break;
+   512	
+   513				/*
+   514				 * Downgrades checks from domain handled accesses to
+   515				 * requested accesses.
+   516				 */
+   517				is_dom_check = false;
+   518				access_masked_dst_parent = access_request_dst_parent;
+   519				access_masked_src_parent = access_request_src_parent;
+   520			}
+   521	
+   522			rule = find_rule(domain, walker_path.dentry);
+   523			allowed_dst_parent = unmask_layers(rule, access_masked_dst_parent,
+   524					layer_masks_dst_parent);
+   525			allowed_src_parent = unmask_layers(rule, access_masked_src_parent,
+   526					layer_masks_src_parent);
+   527	
+   528			/* Stops when a rule from each layer grants access. */
+   529			if (allowed_dst_parent && allowed_src_parent)
+   530				break;
+   531	
+   532	jump_up:
+   533			if (walker_path.dentry == walker_path.mnt->mnt_root) {
+   534				if (follow_up(&walker_path)) {
+   535					/* Ignores hidden mount points. */
+   536					goto jump_up;
+   537				} else {
+   538					/*
+   539					 * Stops at the real root.  Denies access
+   540					 * because not all layers have granted access.
+   541					 */
+   542					allowed_dst_parent = false;
+   543					break;
+   544				}
+   545			}
+   546			if (unlikely(IS_ROOT(walker_path.dentry))) {
+   547				/*
+   548				 * Stops at disconnected root directories.  Only allows
+   549				 * access to internal filesystems (e.g. nsfs, which is
+   550				 * reachable through /proc/<pid>/ns/<namespace>).
+   551				 */
+   552				allowed_dst_parent = !!(walker_path.mnt->mnt_flags &
+   553						MNT_INTERNAL);
+   554				break;
+   555			}
+   556			parent_dentry = dget_parent(walker_path.dentry);
+   557			dput(walker_path.dentry);
+   558			walker_path.dentry = parent_dentry;
+   559		}
+   560		path_put(&walker_path);
+   561	
+   562		if (allowed_dst_parent && allowed_src_parent)
+   563			return 0;
+   564	
+   565		/*
+   566		 * Unfortunately, we cannot prioritize EACCES over EXDEV for all
+   567		 * RENAME_EXCHANGE cases because it depends on the source and
+   568		 * destination order.  This could be changed with a new
+   569		 * security_path_rename hook implementation.
+   570		 */
+   571		if (likely(is_eacces(layer_masks_dst_parent, access_request_dst_parent)
+   572					|| is_eacces(layer_masks_src_parent,
+   573						access_request_src_parent)))
+   574			return -EACCES;
+   575	
+   576		/*
+   577		 * Gracefully forbids reparenting if the destination directory
+   578		 * hierarchy is not a superset of restrictions of the source directory
+   579		 * hierarchy, or if LANDLOCK_ACCESS_FS_REFER is not allowed by the
+   580		 * source or the destination.
+   581		 */
+   582		return -EXDEV;
+   583	}
+   584	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
