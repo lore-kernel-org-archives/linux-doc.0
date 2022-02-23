@@ -2,155 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABF8C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 23:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64EA0C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 23:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244861AbiBWXdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 18:33:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54436 "EHLO
+        id S244891AbiBWXi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 18:38:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244854AbiBWXdX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 18:33:23 -0500
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B5A593AC
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 15:32:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645659174; x=1677195174;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=evvuPzzPFoleOyltwLCvUfu8LLaqRuMlSoaYQp+lJpc=;
-  b=VohryubCI9SmbQApa/RHqkbcKon6oThoYhcqsyfOe7/xjKtGktUSwdou
-   LElUVwx8OYk9sb2X7YDBQt4H1791aM+FT9REVxN+bYAkx4g9WLAA+8eXn
-   U9N2EzCFSd/yUr9FMdNfXb8Y95iVMFHLoZZwTrzBbu8vYIscypOH/AL23
-   tSxYcgl8mB9rlK4ZUJ2phDjGVW3spts2CoTD9WTJamox4BUdTi7LXS/mH
-   rBAwtxPGYGMdJofcp9tS9xIwdet/tVZUS7CR+R3009AOvozueeB0Z8lLR
-   R/E3NXE1XPOxKWgznA9opTDdGYvfyglBMJB+vknpkmiDNkuV+SdbjndOg
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="312823638"
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="312823638"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 15:32:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="637616914"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2022 15:32:52 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nN17r-0001wu-GM; Wed, 23 Feb 2022 23:32:51 +0000
-Date:   Thu, 24 Feb 2022 07:32:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Filipe Manana <fdmanana@suse.com>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 5106/7526] fs/btrfs/tree-log.c:6755: warning:
- This comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202202240705.t3QbMnlt-lkp@intel.com>
+        with ESMTP id S244877AbiBWXi1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 18:38:27 -0500
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA8B5A580;
+        Wed, 23 Feb 2022 15:37:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1645659475; x=1677195475;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=q6I2iTlgYSdcCh5IbDuMtO1zYfoBSNPNnrKA7SE3n7E=;
+  b=f9AQlyRP2Vt6sL5IoyQN05i3GDEGnsCgktSWpgf58HsaO1SySGXvKKs/
+   tFrAMB1ognO/gSwnhbOnm44X3CmSXvLSCOxRr3pM4zb0+C5XPNlTmouGn
+   +zbINDsWbRKe1cbMGe7EmQ9bxb08yzen90h/syPtsbnvAXugTuIDNe64I
+   w=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Feb 2022 15:37:55 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 15:37:55 -0800
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Wed, 23 Feb 2022 15:37:54 -0800
+From:   Elliot Berman <quic_eberman@quicinc.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Murali Nalajala <quic_mnalajala@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagiri@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>, <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH 01/11] docs: gunyah: Introduce Gunyah Hypervisor
+Date:   Wed, 23 Feb 2022 15:37:19 -0800
+Message-ID: <20220223233729.1571114-2-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220223233729.1571114-1-quic_eberman@quicinc.com>
+References: <20220223233729.1571114-1-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   196d330d7fb1e7cc0d85641c89ce4602cb36f12e
-commit: 4f847b757f9c206d86986d302a94382c14721031 [5106/7526] btrfs: pass the dentry to btrfs_log_new_name() instead of the inode
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220224/202202240705.t3QbMnlt-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4f847b757f9c206d86986d302a94382c14721031
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4f847b757f9c206d86986d302a94382c14721031
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/amd/display/amdgpu_dm/ fs/btrfs/
+Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
+does not depend on any lower-privileged OS/kernel code for its core
+functionality. This increases its security and can support a smaller
+trusted computing based when compared to Type-2 hypervisors.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Add documentation describing the Gunyah hypervisor and the main
+components of the Gunyah hypervisor which are of interest to Linux
+virtualization development.
 
-All warnings (new ones prefixed by >>):
-
->> fs/btrfs/tree-log.c:6755: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Update the log after adding a new name for an inode.
-
-
-vim +6755 fs/btrfs/tree-log.c
-
-  6753	
-  6754	/**
-> 6755	 * Update the log after adding a new name for an inode.
-  6756	 *
-  6757	 * @trans:              Transaction handle.
-  6758	 * @old_dentry:         The dentry associated with the old name and the old
-  6759	 *                      parent directory.
-  6760	 * @old_dir:            The inode of the previous parent directory for the case
-  6761	 *                      of a rename. For a link operation, it must be NULL.
-  6762	 * @parent:             The dentry associated with the directory under which the
-  6763	 *                      new name is located.
-  6764	 *
-  6765	 * Call this after adding a new name for an inode, as a result of a link or
-  6766	 * rename operation, and it will properly update the log to reflect the new name.
-  6767	 */
-  6768	void btrfs_log_new_name(struct btrfs_trans_handle *trans,
-  6769				struct dentry *old_dentry, struct btrfs_inode *old_dir,
-  6770				struct dentry *parent)
-  6771	{
-  6772		struct btrfs_inode *inode = BTRFS_I(d_inode(old_dentry));
-  6773		struct btrfs_log_ctx ctx;
-  6774	
-  6775		/*
-  6776		 * this will force the logging code to walk the dentry chain
-  6777		 * up for the file
-  6778		 */
-  6779		if (!S_ISDIR(inode->vfs_inode.i_mode))
-  6780			inode->last_unlink_trans = trans->transid;
-  6781	
-  6782		/*
-  6783		 * if this inode hasn't been logged and directory we're renaming it
-  6784		 * from hasn't been logged, we don't need to log it
-  6785		 */
-  6786		if (!inode_logged(trans, inode) &&
-  6787		    (!old_dir || !inode_logged(trans, old_dir)))
-  6788			return;
-  6789	
-  6790		/*
-  6791		 * If we are doing a rename (old_dir is not NULL) from a directory that
-  6792		 * was previously logged, make sure the next log attempt on the directory
-  6793		 * is not skipped and logs the inode again. This is because the log may
-  6794		 * not currently be authoritative for a range including the old
-  6795		 * BTRFS_DIR_INDEX_KEY key, so we want to make sure after a log replay we
-  6796		 * do not end up with both the new and old dentries around (in case the
-  6797		 * inode is a directory we would have a directory with two hard links and
-  6798		 * 2 inode references for different parents). The next log attempt of
-  6799		 * old_dir will happen at btrfs_log_all_parents(), called through
-  6800		 * btrfs_log_inode_parent() below, because we have previously set
-  6801		 * inode->last_unlink_trans to the current transaction ID, either here or
-  6802		 * at btrfs_record_unlink_dir() in case the inode is a directory.
-  6803		 */
-  6804		if (old_dir)
-  6805			old_dir->logged_trans = 0;
-  6806	
-  6807		btrfs_init_log_ctx(&ctx, &inode->vfs_inode);
-  6808		ctx.logging_new_name = true;
-  6809		/*
-  6810		 * We don't care about the return value. If we fail to log the new name
-  6811		 * then we know the next attempt to sync the log will fallback to a full
-  6812		 * transaction commit (due to a call to btrfs_set_log_full_commit()), so
-  6813		 * we don't need to worry about getting a log committed that has an
-  6814		 * inconsistent state after a rename operation.
-  6815		 */
-  6816		btrfs_log_inode_parent(trans, inode, parent, LOG_INODE_EXISTS, &ctx);
-  6817	}
-  6818	
-
+Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ Documentation/virt/gunyah/index.rst         | 92 +++++++++++++++++++++
+ Documentation/virt/gunyah/message-queue.rst | 52 ++++++++++++
+ Documentation/virt/index.rst                |  1 +
+ MAINTAINERS                                 |  7 ++
+ 4 files changed, 152 insertions(+)
+ create mode 100644 Documentation/virt/gunyah/index.rst
+ create mode 100644 Documentation/virt/gunyah/message-queue.rst
+
+diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
+new file mode 100644
+index 000000000000..e7bb2b14543e
+--- /dev/null
++++ b/Documentation/virt/gunyah/index.rst
+@@ -0,0 +1,92 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================
++Gunyah Hypervisor
++=================
++
++.. toctree::
++   :maxdepth: 1
++
++   message-queue
++
++Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
++a higher CPU privilege level. It does not depend on any lower-privileged operating system
++for its core functionality. This increases its security and can support a much smaller
++trusted computing base than a Type-2 hypervisor.
++
++Gunyah is an open source hypervisor. The source repo is available at
++https://github.com/quic/gunyah-hypervisor.
++
++Gunyah provides these following features.
++
++- Scheduling:
++  A scheduler for virtual CPUs (VCPUs) on physical CPUs and enables time-sharing
++  of the CPUs.
++- Memory Management:
++  APIs handling memory, abstracted as objects, limiting direct use of physical
++  addresses. Memory ownership and usage tracking of all memory under its control.
++  Memory partitioning between VMs is a fundamental security feature.
++- Interrupt Virtualization:
++  Uses CPU hardware interrupt virtualization capabilities. Interrupts are handled
++  in the hypervisor and routed to the assigned VM.
++- Inter-VM Communication:
++  There are several different mechanisms provided for communicating between VMs.
++- Virtual platform:
++  Architectural devices such as interrupt controllers and CPU timers are directly provided
++  by the hypervisor as well as core virtual platform devices and system APIs such as ARM PSCI.
++- Device Virtualization:
++  Para-virtualization of devices is supported using inter-VM communication.
++
++Architectures supported
++=======================
++AArch64 with a GIC
++
++Resources and Capabilities
++==========================
++
++Some services or resources provided by the Gunyah hypervisor are described by capability IDs.
++For instance, inter-VM communication is performed with doorbells and message queues. The specific
++instance of a doorbell is described by a capability ID. These devices are described in Linux as a
++struct gunyah_device.
++
++High level management of these resources is performed by the resource manager VM. RM informs a
++guest VM about resources it can access through either the device tree or via guest-initiated RPC.
++
++Resource Manager
++================
++
++The resource manager (RM) is a privileged application VM supporting the Gunyah Hypervisor.
++It provides policy enforcement aspects of the virtualization system. The resource manager can
++be treated as an extension of the Hypervisor but is separated to its own partition to ensure
++that the hypervisor layer itself remains small and secure and to maintain a separation of policy
++and mechanism in the platform. On arm64, RM runs at NS-EL1 similar to other virtual machines.
++
++Communication with the resource manager from each guest VM happens with message-queue.rst. Details
++about the specific messages can be found in drivers/virt/gunyah/rsc_mgr.c
++
++::
++  +-------+   +--------+   +--------+
++  |  RM   |   |  VM_A  |   |  VM_B  |
++  +-.-.-.-+   +---.----+   +---.----+
++    | |           |            |
++  +-.-.-----------.------------.----+
++  | | \==========/             |    |
++  |  \========================/     |
++  |            Gunyah               |
++  +---------------------------------+
++
++The source for the resource manager is available at https://github.com/quic/gunyah-resource-manager.
++
++The resource manager provides the following features:
++
++- Generate device-tree overlay
++- VM creation and deletion
++- VM device-tree management
++- VM access control policy
++- Interrupt routing configuration
++
++When booting a virtual machine which uses a devicetree, resource manager overlays a
++/hypervisor node. This node can let Linux know it is running as a Gunyah guest VM,
++how to communicate with resource manager, and basic description and capabilities of
++this VM. See Documentation/devicetree/bindings/gunyah/qcom,hypervisor.yml for a description
++of this node.
+diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
+new file mode 100644
+index 000000000000..afd405f3a5e1
+--- /dev/null
++++ b/Documentation/virt/gunyah/message-queue.rst
+@@ -0,0 +1,52 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Message Queues
++==============
++Message queue is a simple low-capacity IPC channel between two VMs. It is
++intended for sending small control and configuration messages. Each message
++queue object is unidirectional, so a full-duplex IPC channel requires a pair of
++objects.
++
++Messages can be up to 240 bytes in length. Longer messages require a further
++protocol on top of the message queue messages themselves. For instance, communication
++with the resource manager adds a header field for sending longer messages via multiple
++message fragments.
++
++The diagram below shows how message queue works. A typical configuration involves
++2 message queues. Message queue 1 allows VM_A to send messages to VM_B. Message
++queue 2 allows VM_B to send messages to VM_A.
++
++1. VM_A sends a message of up to 240 bytes in length. It raises a hypercall
++   with the message to inform the hypervisor to add the message to
++   message queue 1's queue.
++2. Gunyah raises the corresponding interrupt for VM_B when any of these happens:
++   a. gh_msgq_send has PUSH flag. Queue is immediately flushed. This is the typical case.
++   b. Explicility with gh_msgq_push command from VM_A.
++   c. Message queue has reached a threshold depth.
++3. VM_B calls gh_msgq_recv and Gunyah copies message to requested buffer.
++
++For VM_B to send a message to VM_A, the process is identical, except that hypercalls
++reference message queue 2's capability ID.
++
++::
++
++      +---------------+         +-----------------+         +---------------+
++      |      VM_A     |         |Gunyah hypervisor|         |      VM_B     |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      |               |   Tx    |                 |         |               |
++      |               |-------->|                 | Rx vIRQ |               |
++      |gh_msgq_send() | Tx vIRQ |Message queue 1  |-------->|gh_msgq_recv() |
++      |               |<------- |                 |         |               |
++      |               |         |                 |         |               |
++      | Message Queue |         |                 |         | Message Queue |
++      | driver        |         |                 |         | driver        |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      |               |         |                 |   Tx    |               |
++      |               | Rx vIRQ |                 |<--------|               |
++      |gh_msgq_recv() |<--------|Message queue 2  | Tx vIRQ |gh_msgq_send() |
++      |               |         |                 |-------->|               |
++      |               |         |                 |         |               |
++      |               |         |                 |         |               |
++      +---------------+         +-----------------+         +---------------+
+diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+index edea7fea95a8..4080e7f5cad8 100644
+--- a/Documentation/virt/index.rst
++++ b/Documentation/virt/index.rst
+@@ -13,6 +13,7 @@ Linux Virtualization Support
+    guest-halt-polling
+    ne_overview
+    acrn/index
++   gunyah/index
+ 
+ .. only:: html and subproject
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 777cd6fa2b3d..bed175adc4c3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8395,6 +8395,13 @@ L:	linux-efi@vger.kernel.org
+ S:	Maintained
+ F:	block/partitions/efi.*
+ 
++GUNYAH HYPERVISOR DRIVER
++M:	Elliot Berman <quic_eberman@quicinc.com>
++M:	Murali Nalajala <quic_mnalajal@quicinc.com>
++L:	linux-arm-msm@vger.kernel.org
++S:	Maintained
++F:	Documentation/virt/gunyah/
++
+ H8/300 ARCHITECTURE
+ M:	Yoshinori Sato <ysato@users.sourceforge.jp>
+ L:	uclinux-h8-devel@lists.sourceforge.jp (moderated for non-subscribers)
+-- 
+2.25.1
+
