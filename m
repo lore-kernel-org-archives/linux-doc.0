@@ -2,100 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C1A0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 14:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B52CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 14:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233489AbiBWORg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 09:17:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
+        id S241636AbiBWOhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 09:37:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231758AbiBWORf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 09:17:35 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529124553C;
-        Wed, 23 Feb 2022 06:17:07 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id lw4so52757103ejb.12;
-        Wed, 23 Feb 2022 06:17:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1iyFg4ygVXSSGIi4bXBzc7ifbeyS/lQJxJfXbEl8Oqw=;
-        b=Z5b/Sror4GA90/t//HoPA3zMdJL4iATEEBVopRnDMAVgCeO8KRm9ciFB87f0Q6HHvD
-         LDL+Nw6jxGQyYxhwCWsH2j1v46HO7GBGgWkN/faUgns6niFdKRbda0M11Gb/jADazd92
-         4BUT+E0BNqjSNJ19miqncyFwGOF3jSGVnZM274yXmcxsiJvrwIQuVjhJaO7UbRL51roG
-         VtxVHJrjV3LQy0jHOUtQvv4XghBt2CaoQeBjOJ+jWcYc6AGXTsjrEz3EO9XvJ6Jp6hsa
-         W4oRDxh1TfwE9orTCbE2BINKqvxPfu452Wos13FliNOlyJcX/36cv0pH++gkvP0ZfqQ9
-         TsYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1iyFg4ygVXSSGIi4bXBzc7ifbeyS/lQJxJfXbEl8Oqw=;
-        b=bZqCgFmy56ENLvxf7yFKBKwQiszBdv6ww+VOLWvOmwmqmxi1AXvDGnxN9du/1JOntX
-         FxtSAbG3IXf/TBiDWqVuM1qlcOVtmFLWnT++fHDOourwimK3MeJZqo8Sxitj5cbBzPOw
-         o7DDgIQ6Z9nClEK5N3cbxB0/ZCTaUgfL94rc2YKN1Vww//ofcW7rH/puY2ALZG4NZFVL
-         RBqOTihfF44fPuTXtt5TRlvwfMFA1fJy8bXEd7bW5lzHUNMux5ISCqZHUu0OLxKXiqge
-         +AB/NKGtOq7Xsn0EDaIdl8y+PRm1+yZ77uiSAslaqUf/LOAX0UUy9f8f178cMCH+ZJ4Q
-         l6jg==
-X-Gm-Message-State: AOAM531S4eKN6G4udLUztaofdFMF2f/cgk388Ideujf1Emlv9u9zoha4
-        M8YQ4lo8TgHg32d1Kh3Q6FQ=
-X-Google-Smtp-Source: ABdhPJxG3QiQ+u/0xJB4apbYcbKMd+xIBSdNhfaHcyr0sqbEc6XuEXgcGST/W1RsP8+mbMf4P8sY4A==
-X-Received: by 2002:a17:906:e4c:b0:6bb:c8c9:f681 with SMTP id q12-20020a1709060e4c00b006bbc8c9f681mr23717132eji.124.1645625825896;
-        Wed, 23 Feb 2022 06:17:05 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id t26sm10513682edv.50.2022.02.23.06.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 06:17:05 -0800 (PST)
-Date:   Wed, 23 Feb 2022 15:17:02 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S241635AbiBWOhR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 09:37:17 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB40B3ED09;
+        Wed, 23 Feb 2022 06:36:48 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C87302AE;
+        Wed, 23 Feb 2022 14:36:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C87302AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1645627007; bh=4p6KEbofRbMYhdOb2vatXNsLo3CH5ucyHVIfnyIPNIw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=C6QPLhKkYGWfNEKPTdWWALp/Etvi5fadDYV4Pip5To1tzugylg9g2WjaXnXxzpDD5
+         2wrkyE3/JcjJpQ7vaG3Z5R1y/7gau0kGrvp3NsPGvgWFwK1gyEsEfl8wIbybHzR4+m
+         sTIAdplIg4U1FUh1skr5y8Prtur74w3UClWgAbB17d/sf3f65qDLahBXEtDLJBH/dh
+         87yztfdAL9KAzC0XX9OmFAlN2zpIcnZULWczZcLdQ0qIUdHoSJ+t8sNTmwpfEkxeJF
+         Ir4q6QxsbRgUlhiEKxJrmBfZflCt4YJZJjk5vC5P9tmPnAGsmdgKodbebSsaP822hC
+         Xlc2wLwZZ/e8w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] scripts: kernel-doc: Check existence of FILE arg
-Message-ID: <20220223151702.55a3a7a5@fuji.fritz.box>
-In-Reply-To: <721f860a-a662-0f0c-a82d-eacf80841eb3@gmail.com>
+In-Reply-To: <20220223151702.55a3a7a5@fuji.fritz.box>
 References: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
-        <20220223144713.6e2284e3@fuji.fritz.box>
-        <721f860a-a662-0f0c-a82d-eacf80841eb3@gmail.com>
+ <20220223144713.6e2284e3@fuji.fritz.box>
+ <721f860a-a662-0f0c-a82d-eacf80841eb3@gmail.com>
+ <20220223151702.55a3a7a5@fuji.fritz.box>
+Date:   Wed, 23 Feb 2022 07:36:47 -0700
+Message-ID: <87tucpr6o0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Feb 2022 22:59:01 +0900
-Akira Yokosawa <akiyks@gmail.com> wrote:
+Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
 
-> On Wed, 23 Feb 2022 14:47:13 +0100,
-> Tomasz Warnie=C5=82=C5=82o wrote:
-> > On Wed, 23 Feb 2022 15:07:30 +0900
-> > Akira Yokosawa <akiyks@gmail.com> wrote:
-> >  =20
-> >> Currently, when no FILE argument is given following switches such
-> >> as -man, -rst, and -none, kernel-doc ends up in the error of (long
-> >> msg from perl folded):
-> >>
-> >>     Use of uninitialized value $ARGV[0] in pattern match (m//)
-> >>     at ./scripts/kernel-doc line 438. =20
-> >=20
-> > It's a warning not an error. =20
->=20
-> Good catch!
->=20
-> Will amend in v2 with proper attribution.
->=20
->         Thanks Akira
+> But I'm not sure this is the right moment to do this. Have you seen
+> my RFC thread? I'd wait until the water stabilises and see the result.
+> This script may be phased out - how soon, I don't know. Unless you want
+> to do this purely for sport.
 
-I'd include this in a series regulating all the CLI syntax - all those
-mutual exclusions and arg parsing error handling, etc. At the moment they
-exist only in the documentation.
+Unless somebody steps up to do the work, I don't see that phasing out
+happening any time really soon.  I know I'll not be able to find the
+time to take on a project like that...so I certainly wouldn't be turning
+away improvements to the current script on that basis.
 
-But I'm not sure this is the right moment to do this. Have you seen
-my RFC thread? I'd wait until the water stabilises and see the result.
-This script may be phased out - how soon, I don't know. Unless you want
-to do this purely for sport.
+Thanks,
 
-Tomasz
+jon
