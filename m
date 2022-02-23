@@ -2,112 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B392BC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:16:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17842C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240832AbiBWNRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 08:17:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
+        id S240873AbiBWNWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 08:22:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234560AbiBWNRB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:17:01 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C0F271A;
-        Wed, 23 Feb 2022 05:16:34 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id i6so15267905pfc.9;
-        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+VpbJdgqUesqeroMLeLdo41RKTiOXezLGeN3mJqa6AQ=;
-        b=iUvdBHxfl/IXUeOyKcobXaHA4/Uui6w4QmrR1sDVIXKpW9bpixs67q5R/kp79ON6X7
-         v1ihBIsTPYVOriWKquuyFfyfvb5isNaoDuPu5moMuDl53dX5M2aiFxezY3tSHoiyarIP
-         ENDuLHk4AX0ZG0UJM11+DvunOSqkvoKUKisSs86whvR8t+Sgkcgi5XwwQ/RGJBFPnjoI
-         uIOdptXEp31b7s6n6sij4zK12sE9E3EW4iql4q3SjrQeij9KuLmHkk5Ipa4ssoz+CzNv
-         0z40hwf5gPfLV7aQUqOWstvrw8TCbRRNo4P+7YOSdhbqrchceN+zdenUlmF8UqMq5Wlg
-         75QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+VpbJdgqUesqeroMLeLdo41RKTiOXezLGeN3mJqa6AQ=;
-        b=3UbEiY7ldbIZTB26HKPle+VbI/C9WpsNKY4q/nLl/X02Biak6PGZX6KUpQv2Nj0Aj4
-         tcabE7rwDkodrvZN8lSPXVbTsXNDYDTj0K8DABXW2W+9wM5wTEAVyc+hq+TfV3TzJGSE
-         QUHioKFOiSZ0FvOmNdNdXHdBR6S7O2m5fjPUS6cpBq/hFUqsoSUmzhuchW5BBdiPRElo
-         maj3Ck3Z7C7cTFlc209Fdc9+ppfhocfCl8kAr+N8UPEt7X8P0XmlB03eJxbBFK8nMfwr
-         C2QwmBqhWOwSUz8vGECrU2gxByXYRoWctSmld8u8uPmqjvCV96KzNlPieMJmacVk/lQY
-         6w8Q==
-X-Gm-Message-State: AOAM533wd4XaNipwY6UpXvrb75MwixcRiav0LlmeLIC8VnWzAchdW4XK
-        IfpTrux6REcpDYVh0n2GZ3ZGfmTt8fI=
-X-Google-Smtp-Source: ABdhPJziEkZjFZEH9VUtfRZLLq2DxDDuDoTPhQ/YRirZW67cOz7qqkexo9nD2IeXWkNobvhOt6d1UA==
-X-Received: by 2002:a63:ac58:0:b0:373:9e90:3b7a with SMTP id z24-20020a63ac58000000b003739e903b7amr23172651pgn.262.1645622193486;
-        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n15sm24173903pgd.17.2022.02.23.05.16.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
-Message-ID: <1abcb226-dbfd-b3d2-5453-208af7faa0c2@gmail.com>
-Date:   Wed, 23 Feb 2022 22:16:30 +0900
+        with ESMTP id S238995AbiBWNWL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:22:11 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3B74EA34;
+        Wed, 23 Feb 2022 05:21:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 38746B81FB3;
+        Wed, 23 Feb 2022 13:21:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B918C340F7;
+        Wed, 23 Feb 2022 13:21:40 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="B1edNqIi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1645622496;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jNCqwRVwwnl2Hzkwee6ETCjLUlSGOZ/h+OLPPjOrc0Y=;
+        b=B1edNqIi5b5HctHZNPAaowU88lVryawcFNGYjSp85vHovokqADjt+gCUWQtoL8L26HfDe3
+        nl8aJAMIZYBIy8qi3ZYXwTdRr82nWHV60r4P2Uyim3JETbtJFhkxCHI+ueWTYKGJ0iBXol
+        RuYemuRnCCuF1yTAFE6Dp8d6Oaed8fM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a513edf2 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Wed, 23 Feb 2022 13:21:36 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id p19so47897896ybc.6;
+        Wed, 23 Feb 2022 05:21:34 -0800 (PST)
+X-Gm-Message-State: AOAM531YdcEAtdHu9cUGecLEDyPn3C8xhmWF158beDmndhHqdGevvuli
+        5wIWEU20p5eqUvigc/UxUAZ4sBdyTB7e+Z+1OLE=
+X-Google-Smtp-Source: ABdhPJyPz4I/fVrE2hAwlxEjASOoJgctbxsl4Sw1b3At1gDlRAwGMq/v/jtx+mRgcRGA5d7YgSWANySbbRg9ZZzPO00=
+X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
+ i19-20020a056902069300b006137f4f2e63mr26519604ybt.271.1645622492226; Wed, 23
+ Feb 2022 05:21:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 00/11] Transform documentation into POD
-Content-Language: en-US
-To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
- <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
- <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
- <20220223135548.27babd85@fuji.fritz.box>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220223135548.27babd85@fuji.fritz.box>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-3-git-send-email-acatan@amazon.com> <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+ <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+In-Reply-To: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Wed, 23 Feb 2022 14:21:21 +0100
+X-Gmail-Original-Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
+Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
+To:     adrian@parity.io
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        graf@amazon.com, Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mike Rapoport <rppt@kernel.org>, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jann Horn <jannh@google.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Colm MacCarthaigh <colmmacc@amazon.com>,
+        Andrew Lutomirski <luto@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Ellerman <mpe@ellerman.id.au>, areber@redhat.com,
+        ovzxemul@gmail.com, avagin@gmail.com, ptikhomirov@virtuozzo.com,
+        gil@azul.com, asmehra@redhat.com, dgunigun@redhat.com,
+        vijaysun@ca.ibm.com, oridgar@gmail.com, ghammer@redhat.com,
+        Adrian Catangiu <acatan@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Feb 2022 13:55:48 +0100,
-Tomasz Warnie=C5=82=C5=82o wrote:
-> Hi Akira,
->=20
-> Take a look at `man perl` and you will find a synopsis also.
+On Tue, Feb 22, 2022 at 11:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> Well I cleaned up this v7 and refactored it into something along the
+> lines of what I'm thinking. I don't yet know enough about this general
+> problem space to propose the patch and I haven't tested it either
 
-When I do "man perl", I want to see a detailed explanation, and
-somewhat hard-to-parse synopsis is ok.
+A little further along, there's now this series:
+https://lore.kernel.org/lkml/20220223131231.403386-1-Jason@zx2c4.com/T/
+We can resume discussion there.
 
-I'm saying that I don't like to see such a thing when I type
-"./scripts/kerneldoc -h".  I expect a hint to recall which option I
-should use.  I don't want to scroll back the terminal.
-
-It would be nice if the verbose man page can be shown by
-"./scripts/kerneldoc -v -h" or "perldoc -F ./scripts/kerneldoc".
-
->                                                              It's simpl=
-y
-> better in depicting grammar relations than a flat switch list. Especial=
-ly
-> when the grammar gets complex. I dislike it also. And I don't think it
-> looks good. Rather creepy and overwhelming.
->=20
->>> I don't see much point for such a non-user-facing script having nice-=
-looking
->>> well-structured documentation in the first place.
->=20
-> You're touching the very essence of kernel-doc here. What and who is it=
- for?
-> Not just the script - all of it.
-
-Sorry, I have no idea what I am being asked.
-Could you rephrase above for a non-native speaker of English, please?
-
-        Thanks, Akira
-
->=20
-> Regards,
->=20
-> Tomasz
+Jason
