@@ -2,120 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20296C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 06:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B00A1C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 07:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233319AbiBWGIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 01:08:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
+        id S238574AbiBWHLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 02:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235016AbiBWGIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 01:08:01 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D7D5AEDB;
-        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id qe15so1733554pjb.3;
-        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
+        with ESMTP id S236537AbiBWHLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 02:11:20 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC203C48C
+        for <linux-doc@vger.kernel.org>; Tue, 22 Feb 2022 23:10:51 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id g1so14508956pfv.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Feb 2022 23:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=5ZxXawg5jpHvxptI63it2ru8ZC820c4H+yI5lDwnbmg=;
-        b=DLeshPWhqt9qlx/LiXsHolmTGxOS62BKgISxnZTyZMC8tcQjueS0hhhLW9BWT0JeHh
-         oIalc7sJWfg7xqhX/2LMTOFFMyIL3UOweO7qKTpqdB2YOd55jCaO5gyKfRJSwG/apc1D
-         ynYc985LlhZsH6kqdqXjqh1Og+aIa9kLtmmQgHPJP1+GNm3THxLCFFnEhcpr50Pujgvj
-         BplF6m9gQZtWx7BMn+2oaYaixWpQOu1Xv1BUgj6g1+my3JVhwoEtb4vAIESqeO8Oob8f
-         BfDR4bp4iBaaJIZoHiNHLZK853jIHaj4h85DViA0bVUczCvEage6Aqkifmf4xoMKv7tc
-         dqVw==
+        d=ajou.ac.kr; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UnYuBTBC02IDGurVKWqCwwD4Ax807V8FS59cBIjeBnY=;
+        b=At6K6BI+UF/OMrPo98IMklq3SWpmsBJNoRWsWKAu5Jpp+/UP2hOMGp8L9AglQfH4Qm
+         tSmQg6OZ1o0LN9fYsMtjh3qe9ZrbGCO7t3ga00b1brLIyiMttVxjjsMVYMivbV9HccSV
+         OtbL25h8lgVttNJPI1kHi9lvvf8EAb2b6nPT0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=5ZxXawg5jpHvxptI63it2ru8ZC820c4H+yI5lDwnbmg=;
-        b=KdZPDeRoGGx8Jospp2nD60/NM2Lk85NYu83a7eqv/rSaS+0zpnV7AAV5EV3LKH8Nz4
-         /DrST6z2sZ5pPMiFlFJlgD6eXgXYOY+GjAwYRvYJ2XMmqxvGa5HKHLhoEMHXRBha6stk
-         W0UBfxvc0hWFJBLqofBhv6brV2JYbAAxN194Z2m7ZJZXJdNSpJ3Yjt8j1GqAijyDPt9j
-         kjvrOGWp25EYutxxoWWXZ00B2WYbPdNy1KvzcvFOpM1XW7SNTWp6R32OHtWTo+2G/36p
-         fNNvxRDVW9IflB934Er1ZoMrZ0bYWjHZofwwr4/Ycr/5fslxbYMm62A36q2eFZhjVBrq
-         g5Tw==
-X-Gm-Message-State: AOAM530F+HoqQjn2Xs9ee7+sTorOwuBAQyu57JVGtPuP1GQM1a0SvPDQ
-        z+PO43ezd4xMXd4sEv6CT7k=
-X-Google-Smtp-Source: ABdhPJxmR8RD75S+gFKKvVcd9k8XK6x8Cg2hwP1YEAw0ydRjMvS6ZNtRnUtVeXx847uO6NHl1UdJFg==
-X-Received: by 2002:a17:902:7786:b0:14d:51c6:21a8 with SMTP id o6-20020a170902778600b0014d51c621a8mr26661131pll.75.1645596454387;
-        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n13sm1485315pjq.13.2022.02.22.22.07.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Feb 2022 22:07:33 -0800 (PST)
-Message-ID: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
-Date:   Wed, 23 Feb 2022 15:07:30 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UnYuBTBC02IDGurVKWqCwwD4Ax807V8FS59cBIjeBnY=;
+        b=dmPYwMXafuS23oDDrxotzIEDLlAZ3QOgeglH+O2NS8fPPPBsa3GFQswiYHsT8NDK8J
+         LbbvGOf7Ij5r4DDG+KgloUd+lO5nrs/WFFKkxWciK7FWpBFuwoGMucutgmdJsWpUqZqc
+         Oi+n2L0/GIK7zZvmB345RNAYucHNJoaEoRnbS0hJLEOW2UWfJp60k6MZHj0/NpEbw2oT
+         dFDPfkz+Jb1+k6nL0X21LjrH1i2fDxOj8+pN/Ge6YYLc1eHDO7ReAieaMxkgUQrdnWih
+         Dd2RJBO52sP5Ivx/fHrq91uqDcWnns6q4YwWEtS/oCdTLOqoSbtraQT8w7bgOiOOr0Xk
+         nYeg==
+X-Gm-Message-State: AOAM532AYebErcT5UgmE1mqzAvF2wVvzo3IZLZv4oeuovh2p6dTw2i0a
+        l6mQAd9/iwznbzz914k0ALu2AA==
+X-Google-Smtp-Source: ABdhPJwS4HzcM9ielkNYjkNr8cWrE1EwP3XXS77aCdUlc2GDm25FusYvMuDRgHDodOEPN88+cxH0dQ==
+X-Received: by 2002:a63:e604:0:b0:373:8aca:846e with SMTP id g4-20020a63e604000000b003738aca846emr22474459pgh.406.1645600250601;
+        Tue, 22 Feb 2022 23:10:50 -0800 (PST)
+Received: from swarm08 ([210.107.197.32])
+        by smtp.gmail.com with ESMTPSA id g1sm18107670pfu.32.2022.02.22.23.10.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 22 Feb 2022 23:10:50 -0800 (PST)
+Date:   Wed, 23 Feb 2022 16:10:44 +0900
+From:   Jonghyeon Kim <tome01@ajou.ac.kr>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonghyeon Kim <tome01@ajou.ac.kr>, Jonathan.Cameron@Huawei.com,
+        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
+        david@redhat.com, dwmw@amazon.com, elver@google.com,
+        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
+        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 1/3] mm/damon: Rebase damos watermarks for NUMA
+ systems
+Message-ID: <20220223071044.GA6270@swarm08>
+References: <20220218102611.31895-2-tome01@ajou.ac.kr>
+ <20220222095317.7911-1-sj@kernel.org>
+ <20220223051056.GA3502@swarm08>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] scripts: kernel-doc: Check existence of FILE arg
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220223051056.GA3502@swarm08>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Subject: [PATCH] scripts: kernel-doc: Check existence of FILE arg
-
-Currently, when no FILE argument is given following switches such
-as -man, -rst, and -none, kernel-doc ends up in the error of (long
-msg from perl folded):
-
-    Use of uninitialized value $ARGV[0] in pattern match (m//)
-    at ./scripts/kernel-doc line 438.
-
-Fix this by adding an existence check at the bottom of the while
-loop parsing command switches and call usage() if there remains
-no argument.
-
-While at it, fix inconsistent indent by spaces in the previous
-block.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Hi Jon,
-
-I noticed this minor issue while reviewing Tomasz's patch series.
-This patch is relative to docs-next as of 2022.02.22.
-
-        Thanks, Akira
---
- scripts/kernel-doc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3106b7536b89..faefe2977f0e 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -494,7 +494,11 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	}
-     } else {
- 	# Unknown argument
--        usage();
-+	usage();
-+    }
-+    if ($#ARGV < 0){
-+	print "No FILE!\n";
-+	usage();
-     }
- }
- 
-
-base-commit: b62ef3a1cca0553613adce16515f3640400725b4
--- 
-2.17.1
-
-
+On Wed, Feb 23, 2022 at 02:10:56PM +0900, Jonghyeon Kim wrote:
+> On Tue, Feb 22, 2022 at 09:53:17AM +0000, SeongJae Park wrote:
+> > Hello Jonghyeon,
+> > 
+> 
+> Hello SeongJae,
+> 
+> > On Fri, 18 Feb 2022 19:26:09 +0900 Jonghyeon Kim <tome01@ajou.ac.kr> wrote:
+> > 
+> > > For NUMA systems, there is a need to allow damos to select watermark
+> > > options for monitoring each NUMA node or whole system free memory. Even
+> > > if we do not use NUMA, since the default NUMA node number is 0, we can
+> > > monitor the whole system memory without any configuration.
+> > 
+> > Some users using NUMA machines but don't do NUMA-specific memory allocations
+> > and therefore assume memory free rate in each NUMA node will be similar might
+> > want to monitor only global free memory ratio, to limit number of kdamonds for
+> > reducing CPU overhead.  In the case, this patch would make them monitor only
+> > the first node.
+> 
+> I think that the purpose of DAMON_RECALIM is proactively reclaiming memory
+> before waking up kswapd. But I missed that case you mentioned. In that case,
+> they might not want to monitor each NUMA node. I agree with this.
+> 
+> > 
+> > How about leaving DAMOS_WMARK_FREE_MEM_RATE to work as is, and adding a new
+> > metric type, say, DAMOS_WMARK_NODE_FREE_MEM_RATE?
+> > 
+> 
+> Yes, it looks good to me.
+> 
+> 
+> Thanks,
+> Jonghyeon
