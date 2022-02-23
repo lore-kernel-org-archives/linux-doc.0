@@ -2,89 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7EAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC737C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241013AbiBWNme (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 08:42:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
+        id S229808AbiBWNsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 08:48:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239256AbiBWNme (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:42:34 -0500
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641A8AC044
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 05:42:06 -0800 (PST)
-X-QQ-mid: bizesmtp76t1645623681t10dlvj5
-Received: from localhost.localdomain (unknown [202.96.137.248])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 23 Feb 2022 21:41:07 +0800 (CST)
-X-QQ-SSF: 01400000002000D0N000B00A0000000
-X-QQ-FEAT: FXvDfBZI5O5sGOdRkLPXVG6Eb4fbEwp/IlmIxAq7UFvDk9EDMiwtbSlLouB9W
-        6oo1ip+Zbdfkc7CsiEa4E96g+tI+hiXYvY1UUQkwDKi0T1O39vgbTS1/qeG7NmeXP+0lGF/
-        p3QHbUMI2K0jBM6NCopwW/Bi9c6KwjlmdjP0I5URlZWEd59PBuhRbBF5dzWyr/2K8ysGJ5w
-        gvgft6HD+5cg0UpSKinBdV3I+niu+wDTmKcB5QFdFO+2+0HSKhkDbDrf6F4A4cU/QJdLJ7W
-        hbLEHHPPyBMSAg9OzA/uH5cRBVxCOiA8cA2tn1iYNsQ3elu7LOsO6Ub2qmh8GE6nyrCjDQ0
-        6M/x754aCDmlh2TnIoKcgayxlKHNOWTanE9og5y1c5SkdCfL4c=
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     corbet@lwn.net
-Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        hanshenghong2019@email.szu.edu.cn, weizhenliang@huawei.com,
-        georgi.djakov@linaro.org, skhan@linuxfoundation.org,
+        with ESMTP id S239244AbiBWNrq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:47:46 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB3C338BF;
+        Wed, 23 Feb 2022 05:47:19 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id vz16so52627140ejb.0;
+        Wed, 23 Feb 2022 05:47:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=278A77phWIK14HSkFlCHyTxLu7wpfU9WGdsWijDHfiQ=;
+        b=WqajQq39z0/YYmMf4frgaXX80SW+sE/N+MFjyfgcNgdcVst5BGLcpzeMYoOrIV8tMz
+         dU5ur0vZyIJXnDP/ow1u3kGGVA7p5mKISbXZe5qP7ZXg1pREW0f8PTNcB8B613rnO9HV
+         h66P+uGGxT9K9BhxsrsC/WlNe4iVXha8/ser8wIOLPpkbRKYyGib4aFs4ojUNHC76s47
+         n0/3i9k3W9JuZYHFDbH8Gv8XZFbMmanI0eRXBR6NjwxaOGgfOHKV1pjmQrBwikRQWbfA
+         1tpBWN8l7Ge5HE+q4l0Daq6wIzLQHyDQKHaEWe2NXNrsAkwBjYNQFjwIFdj23ajZLmaA
+         jwow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=278A77phWIK14HSkFlCHyTxLu7wpfU9WGdsWijDHfiQ=;
+        b=trqjvVQdEcmpNDHpEv02o8+9e9jt/aKZqtbpqZza/AnsGYmBY/2tHuDIYVK4l70ick
+         EFVom0URqDBbOpU+Kho++Y6rHrjZXwEykrtK05fDQ06NcDRV+UbC9/65JUDhrVWPniwX
+         HZ+S1ORY9x9kMlmWSgFOr0hfPKmoLEkMKedue9yWjhuf/rSGxZJjmjxF0FAK4/QTTniK
+         E58SIrZIe2Fo2rj73vaMOTzwvcY4re9FRRzr875HQzNb02rp9/pQj9xKcdGUy8Qs6dgd
+         zYWGMRFHiIDTDocK6CqRFzkxnuVdBrfvRV78FqDK1TgaWPCL2EEJk0n/Bh1NJJ/fDolp
+         MsNg==
+X-Gm-Message-State: AOAM531h5qOf/qWO28CmD26IqJFS/VpB82XepiT5SZzKovTOQy9RvAMo
+        F+axoocplK62KKG8AU0bxbdUwBx07crd/w==
+X-Google-Smtp-Source: ABdhPJyVJEKSRAPXhM9DQi2bQ1NfcfU6nxF5xqJ1ZxnbzwAW9p3Sn2D3DX5b+wpk7MAiaThX1nPMag==
+X-Received: by 2002:a17:906:ae97:b0:6b4:5421:e2ad with SMTP id md23-20020a170906ae9700b006b45421e2admr23466713ejb.364.1645624037815;
+        Wed, 23 Feb 2022 05:47:17 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id m4sm7569353ejl.45.2022.02.23.05.47.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 05:47:17 -0800 (PST)
+Date:   Wed, 23 Feb 2022 14:47:13 +0100
+From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH] Documentation/vm/page_owner.rst: fix commends
-Date:   Wed, 23 Feb 2022 21:41:04 +0800
-Message-Id: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.31.1
+        tomasz.warniello@gmail.com
+Subject: Re: [PATCH] scripts: kernel-doc: Check existence of FILE arg
+Message-ID: <20220223144713.6e2284e3@fuji.fritz.box>
+In-Reply-To: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
+References: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign1
-X-QQ-Bgrelay: 1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some commends that need to be fixed.
+On Wed, 23 Feb 2022 15:07:30 +0900
+Akira Yokosawa <akiyks@gmail.com> wrote:
 
-Thanks for Shuah Khan's constructive suggestions.
-The commends have been fixed as follows.
+> Currently, when no FILE argument is given following switches such
+> as -man, -rst, and -none, kernel-doc ends up in the error of (long
+> msg from perl folded):
+> 
+>     Use of uninitialized value $ARGV[0] in pattern match (m//)
+>     at ./scripts/kernel-doc line 438.
 
-a. So, if you'd like to use it, you need
-to add "page_owner=on" into your boot cmdline.
-
-Here, "into" has been replaced with "to".
-
-b. ...page owner is disabled in runtime due to no
-enabling, boot option, runtime overhead is marginal.
-
-Here, "no" has been replaced with "not".
-
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- Documentation/vm/page_owner.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 2b54e82b9fe1..aec1906976f4 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -26,9 +26,9 @@ fragmentation statistics can be obtained through gfp flag information of
- each page. It is already implemented and activated if page owner is
- enabled. Other usages are more than welcome.
- 
--page owner is disabled in default. So, if you'd like to use it, you need
--to add "page_owner=on" into your boot cmdline. If the kernel is built
--with page owner and page owner is disabled in runtime due to no enabling
-+page owner is disabled by default. So, if you'd like to use it, you need
-+to add "page_owner=on" to your boot cmdline. If the kernel is built
-+with page owner and page owner is disabled in runtime due to not enabling
- boot option, runtime overhead is marginal. If disabled in runtime, it
- doesn't require memory to store owner information, so there is no runtime
- memory overhead. And, page owner inserts just two unlikely branches into
--- 
-2.31.1
-
-
-
+It's a warning not an error.
