@@ -2,84 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C915DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 17:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 888CCC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 17:17:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243203AbiBWROQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 12:14:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43120 "EHLO
+        id S241859AbiBWRRo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 12:17:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238693AbiBWROP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 12:14:15 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7934F33A;
-        Wed, 23 Feb 2022 09:13:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 280C6B82116;
-        Wed, 23 Feb 2022 17:13:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF1CFC340E7;
-        Wed, 23 Feb 2022 17:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645636424;
-        bh=Iuzpx3eqNgHmcbEjMXJ+Gh2uRHsMErcCOx9NX8k4XKA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:From;
-        b=B1IyE4COZCZ918sC6snIEXlQ37FWTy+lbsQm8/muHoyWU51r7G2vlkgwMfeeNkkJo
-         LvuUWwWIgzsv0xOKdaQyFEZ5T9cwz0p3p2UmWne4sZvuIY1cz7nOzlDmpLM68zgaJf
-         wXjsKpjrJaOJ0wTGW2ySYzcG2B1OZ4C41Rnt773LWclbltXWyufpzh5CuyF29C8Ly4
-         o4J2yRRP3b26m03bY+MlZ4y/Ns+5CMzG0cMBTodUAdptqggAuoPAV1RFipqqHELUCq
-         v36YZRyzZKCJFamHLx+pcHWrmQOGNduvvo3l8sf8PSfT/8Y3ARBlwxl1MSbald+nmN
-         R+VI6B8pEJxAA==
-From:   SeongJae Park <sj@kernel.org>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, akpm@linux-foundation.org,
-        corbet@lwn.net, skhan@linuxfoundation.org, rientjes@google.com,
-        xhao@linux.alibaba.com, linux-damon@amazon.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/12] mm/damon: Implement a minimal stub for sysfs-based DAMON interface
-Date:   Wed, 23 Feb 2022 17:13:41 +0000
-Message-Id: <20220223171341.29010-1-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220223164513.23089-1-sj@kernel.org>
+        with ESMTP id S238195AbiBWRRn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 12:17:43 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3302DFD;
+        Wed, 23 Feb 2022 09:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=5q1kQq7kOHd8ZWgMJKMpOyWpguieS1gKC/28ABG7S5s=; b=ITqVZ6SBZNt7r5a0FtOu25UNTB
+        TCIQtfwU2JUD+OdJibHE4wP8yyfUFXVm/ASinwWBG8y7WRCYQ9KJl9exV+C5B/Tlk/Su0RNsoOLrt
+        hKDPBMP9o6rj+JcbMuD+7cl2JfZZWAVIqMpoJFFmL4wtayE+4iDgJ9jNKgADcfarPLnlkrdc6MlT/
+        M3CW/d9AzcBtToAZqFIMR/d5vPscLDmjeEW9uVzXosBgJFtQ7o9CPzIzcyWBKAsu8eqj69btLdSOW
+        uzflFPSc9IZX1En/80rj82wmfQz6jiq4t4IP6wntePJAb4REGYGC6EakuBs1lGOySwvMTYHUmOeHG
+        cp8qBRXg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nMvFl-00CKDV-G6; Wed, 23 Feb 2022 17:16:38 +0000
+Message-ID: <1b6fe797-4d85-610e-7b7b-8c8295cc307d@infradead.org>
+Date:   Wed, 23 Feb 2022 09:16:30 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] Documentation/vm/page_owner.rst: fix commends
+Content-Language: en-US
+To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, corbet@lwn.net
+Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        hanshenghong2019@email.szu.edu.cn, weizhenliang@huawei.com,
+        georgi.djakov@linaro.org, skhan@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Feb 2022 16:45:13 +0000 SeongJae Park <sj@kernel.org> wrote:
+Hi,
 
-> On Wed, 23 Feb 2022 17:09:38 +0100 Greg KH <gregkh@linuxfoundation.org> wrote:
+On 2/23/22 05:41, Yixuan Cao wrote:
+> There are some commends that need to be fixed.
 > 
-> > On Wed, Feb 23, 2022 at 03:20:42PM +0000, SeongJae Park wrote:
-> > > +static struct kobj_attribute damon_sysfs_ul_range_min_attr =
-> > > +		__ATTR(min, 0600, damon_sysfs_ul_range_min_show,
-> > > +				damon_sysfs_ul_range_min_store);
-> > > +
-> > > +static struct kobj_attribute damon_sysfs_ul_range_max_attr =
-> > > +		__ATTR(max, 0600, damon_sysfs_ul_range_max_show,
-> > > +				damon_sysfs_ul_range_max_store);
-> > 
-> > Can you use __ATTR_RW_MODE() instead here and elsewhere?
+> Thanks for Shuah Khan's constructive suggestions.
+> The commends have been fixed as follows.
 > 
-> Sure, I will, in the next revision.
+> a. So, if you'd like to use it, you need
+> to add "page_owner=on" into your boot cmdline.
+> 
+> Here, "into" has been replaced with "to".
+> 
+> b. ...page owner is disabled in runtime due to no
+> enabling, boot option, runtime overhead is marginal.
+> 
+> Here, "no" has been replaced with "not".
+> 
+> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
 
-After thinking once more, I realized that it might not so simple.  First of
-all, there are two files having same name in different directories
-(kdamonds/<N>/pid and targets/<N>/pid).  The files work differently, so I need
-to use different _show/_store callbacks for them but __ATTR_RW_MODE() wouldn't
-support the case.
+The file changes look good.
+The Subject and patch description should use "comments"
+instead of "commends".
 
-Secondly, I'd like to keep the file names short because the meaning of the
-files can easily inferred from the hierarchy, but want to keep the _show/_store
-callback names to have prefixes that allows us easily know their meaning and
-usage even though it makes the name a little bit longer because I don't want to
-have too much source files for DAMON sysfs interface.
+thanks.
 
-Am I missing some of your point?
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
+> ---
+>  Documentation/vm/page_owner.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 2b54e82b9fe1..aec1906976f4 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+> @@ -26,9 +26,9 @@ fragmentation statistics can be obtained through gfp flag information of
+>  each page. It is already implemented and activated if page owner is
+>  enabled. Other usages are more than welcome.
+>  
+> -page owner is disabled in default. So, if you'd like to use it, you need
+> -to add "page_owner=on" into your boot cmdline. If the kernel is built
+> -with page owner and page owner is disabled in runtime due to no enabling
+> +page owner is disabled by default. So, if you'd like to use it, you need
+> +to add "page_owner=on" to your boot cmdline. If the kernel is built
+> +with page owner and page owner is disabled in runtime due to not enabling
+>  boot option, runtime overhead is marginal. If disabled in runtime, it
+>  doesn't require memory to store owner information, so there is no runtime
+>  memory overhead. And, page owner inserts just two unlikely branches into
 
-Thanks,
-SJ
-
-[...]
+-- 
+~Randy
