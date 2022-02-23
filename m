@@ -2,101 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 888CCC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 17:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0147C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 17:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241859AbiBWRRo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 12:17:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48876 "EHLO
+        id S243485AbiBWRqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 12:46:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238195AbiBWRRn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 12:17:43 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3302DFD;
-        Wed, 23 Feb 2022 09:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=5q1kQq7kOHd8ZWgMJKMpOyWpguieS1gKC/28ABG7S5s=; b=ITqVZ6SBZNt7r5a0FtOu25UNTB
-        TCIQtfwU2JUD+OdJibHE4wP8yyfUFXVm/ASinwWBG8y7WRCYQ9KJl9exV+C5B/Tlk/Su0RNsoOLrt
-        hKDPBMP9o6rj+JcbMuD+7cl2JfZZWAVIqMpoJFFmL4wtayE+4iDgJ9jNKgADcfarPLnlkrdc6MlT/
-        M3CW/d9AzcBtToAZqFIMR/d5vPscLDmjeEW9uVzXosBgJFtQ7o9CPzIzcyWBKAsu8eqj69btLdSOW
-        uzflFPSc9IZX1En/80rj82wmfQz6jiq4t4IP6wntePJAb4REGYGC6EakuBs1lGOySwvMTYHUmOeHG
-        cp8qBRXg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nMvFl-00CKDV-G6; Wed, 23 Feb 2022 17:16:38 +0000
-Message-ID: <1b6fe797-4d85-610e-7b7b-8c8295cc307d@infradead.org>
-Date:   Wed, 23 Feb 2022 09:16:30 -0800
+        with ESMTP id S243478AbiBWRqH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 12:46:07 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFC241331;
+        Wed, 23 Feb 2022 09:45:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645638340; x=1677174340;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=aeb0qt4wCCz7I/mFg9ArXVeLtAeRSHAS90P4rnXgYoM=;
+  b=IUOYbsZyWf1EQ8t/DZKZsUQGBm4pOgCkBYU7SWXnYKBXY0BBV4O1hbTf
+   E5+NufXT+Ohz7qsqAV0Y7Qn0oFvSNWmCVo4g6xRC3TOxWcnq5E/in6pQY
+   E+QK/VNbpiIUCUIiviEckaajJR4/YGD2NAYwHmXYmGHAm6e9WCQVBSVYX
+   LybPuRDAVjakFr+5EO3lYwtsZfO7apQGva61WPSKbFzUvZR/1Zhu3jfY2
+   gPtRC+ISd64H3uY1KtM+wdqkERoxHqqHkWhr79CFqiIpwr8jL1XMh1Xng
+   u4pScKU7A9LbhBdmqoStVM4b3NXhe+zfc6o0wRUL7yqHKAmysKdzs+zej
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="251774224"
+X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
+   d="scan'208";a="251774224"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 09:45:17 -0800
+X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
+   d="scan'208";a="491292157"
+Received: from chakanog-mobl.amr.corp.intel.com (HELO [10.212.198.215]) ([10.212.198.215])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 09:45:17 -0800
+Message-ID: <04080c88-3e69-b4e6-0af2-0690accaa02f@intel.com>
+Date:   Wed, 23 Feb 2022 09:45:12 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] Documentation/vm/page_owner.rst: fix commends
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 00/12] x86: Trenchboot secure dynamic launch Linux
+ kernel support
 Content-Language: en-US
-To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, corbet@lwn.net
-Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        hanshenghong2019@email.szu.edu.cn, weizhenliang@huawei.com,
-        georgi.djakov@linaro.org, skhan@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, kexec@lists.infradead.org
+Cc:     iommu@lists.linux-foundation.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 2/16/22 19:54, Ross Philipson wrote:
+> The larger focus of the TrenchBoot project (https://github.com/TrenchBoot) is to
+> enhance the boot security and integrity in a unified manner. The first area of
+> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
+> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
+> Trust for Measurement). The project has been and continues to work on providing
+> a unified means to Dynamic Launch that is a cross-platform (Intel and AMD) and
+> cross-architecture (x86 and Arm), with our recent involvment in the upcoming
+> Arm DRTM specification. The order of introducing DRTM to the Linux kernel
+> follows the maturity of DRTM in the architectures. Intel's Trusted eXecution
+> Technology (TXT) is present today and only requires a preamble loader, e.g. a
+> boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementation has
+> been present since the introduction of AMD-V but requires an additional
+> component that is AMD specific and referred to in the specification as the
+> Secure Loader, which the TrenchBoot project has an active prototype in
+> development. Finally Arm's implementation is in specification development stage
+> and the project is looking to support it when it becomes available.
 
-On 2/23/22 05:41, Yixuan Cao wrote:
-> There are some commends that need to be fixed.
-> 
-> Thanks for Shuah Khan's constructive suggestions.
-> The commends have been fixed as follows.
-> 
-> a. So, if you'd like to use it, you need
-> to add "page_owner=on" into your boot cmdline.
-> 
-> Here, "into" has been replaced with "to".
-> 
-> b. ...page owner is disabled in runtime due to no
-> enabling, boot option, runtime overhead is marginal.
-> 
-> Here, "no" has been replaced with "not".
-> 
-> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-
-The file changes look good.
-The Subject and patch description should use "comments"
-instead of "commends".
-
-thanks.
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  Documentation/vm/page_owner.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 2b54e82b9fe1..aec1906976f4 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -26,9 +26,9 @@ fragmentation statistics can be obtained through gfp flag information of
->  each page. It is already implemented and activated if page owner is
->  enabled. Other usages are more than welcome.
->  
-> -page owner is disabled in default. So, if you'd like to use it, you need
-> -to add "page_owner=on" into your boot cmdline. If the kernel is built
-> -with page owner and page owner is disabled in runtime due to no enabling
-> +page owner is disabled by default. So, if you'd like to use it, you need
-> +to add "page_owner=on" to your boot cmdline. If the kernel is built
-> +with page owner and page owner is disabled in runtime due to not enabling
->  boot option, runtime overhead is marginal. If disabled in runtime, it
->  doesn't require memory to store owner information, so there is no runtime
->  memory overhead. And, page owner inserts just two unlikely branches into
-
--- 
-~Randy
+What problem is this patch series solving?  Is the same problem solved
+in a different way in the kernel today?  What is wrong with that
+solution?  What effects will end users see if they apply this series?
