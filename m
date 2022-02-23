@@ -2,179 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A0E0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 10:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB83C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 12:55:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234719AbiBWK7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 05:59:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36712 "EHLO
+        id S229729AbiBWM4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 07:56:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233910AbiBWK7N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 05:59:13 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C711C8BF5E;
-        Wed, 23 Feb 2022 02:58:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5CBCE617B9;
-        Wed, 23 Feb 2022 10:58:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DEBC340F4;
-        Wed, 23 Feb 2022 10:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645613924;
-        bh=fycgXos7ocYwX+GsKmH5ZzLGjwvqgn7YbCBECVBjK74=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ydp5TxtbLmb1PQ/ZAjFAs7FEpMXgXw6IlA4dJIZhOyfrjeOvUYUoPgnaX7Miwl3Gr
-         Mg0PJNfQmpQ2USPiRhL2TBUDN8/k5VY2D2Y68PD2qIRqzJAoXG33USdGD+l2YTACK7
-         /org/XusQ2P+GCSBvXjO8LL13cDQ09pcLBvvP7HXF2j/RMUcHRgB7V2A76JxDmNxLE
-         zNl5n4BEamMc4F4NmyhUti1McRFVHc9TTcF12oRMCq57+iqjg4o7O67RtiMyBGr2fo
-         TTMAGahBbX3GigGCiFMb1/Y13U3jn5FbgHSQBCSPWbrh9HO1k6cAM4rL3OFqGylfz4
-         Sfg8Ghb1meM9g==
-Date:   Wed, 23 Feb 2022 12:58:27 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 12/12] mm: multigenerational LRU: documentation
-Message-ID: <YhYTU3B7cdwV+YrW@kernel.org>
-References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-13-yuzhao@google.com>
- <Ygou6Gq79XY3mFK7@kernel.org>
- <Ygxt4iR9ZMYEbV78@google.com>
- <YhNVAUM7H7PF7j7j@kernel.org>
- <CAOUHufbZOuXtFvTULArtQjrdrzUkRw71byKQap1Cf=Mm3U7T5g@mail.gmail.com>
+        with ESMTP id S240643AbiBWM4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 07:56:20 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5574BA41AE;
+        Wed, 23 Feb 2022 04:55:53 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id gb39so52349454ejc.1;
+        Wed, 23 Feb 2022 04:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kScADH37OaRYlYEouQtZu5Ct7rmTJHi0Bet35ccCJNo=;
+        b=aF7itRK88PovkGNak7KWgkct8NosmYkciBGGyP6k91f/DtbjKFiDc73uy6LvZzMcfG
+         uluu/mqFMfZThidjFmgJ7nKxugfFCKz10PDjjQKXPH1NAcMGBuhcYV5R5Y55HxxIKEqv
+         R+ZPiPlQDDY58jY8vRiHbmCcgpznYS8LcaktGiAEkYt06njQTHTj5FP7cJrxsftjehBD
+         Zff8F2Q+gbW/vrEi741PfsehQYqZ3YIGUZ0ARcaw5aLvYueqYqncNSdYVK5KzcqP+Jqd
+         UkoUg6Lv8jNaMA4DYe4yt6c+ntCGHu9j3CiZRwqfwb12oFdTI4DgCuqVpJv+AFyKcI9T
+         05lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kScADH37OaRYlYEouQtZu5Ct7rmTJHi0Bet35ccCJNo=;
+        b=2tJspQAmv8spszPOYiwOy4pGGInOJ4jHZ/1IzrBK+/1PR8VVaJ1xZGJD7V9ZEiQJ8j
+         ZZd8CpxXNp8DhELy/BGxOcWWb8Q2LfjFQw9YD798hnyHKG1vqF2F99fY4deDe0Q9JJJQ
+         8M+N5PUD4obMSsUq8t6Z7CNQjSD0+3nvCkvHetpE4JvuuKHcDAEeFbMijW8wu2M3Tdua
+         172DYdm/gdoDaWG/3aZTJbM5nOsRoYRG9p2+yEmdmmEK3C7/ybL4h2fOzdNyf5ZHOxf4
+         xkE4qfKxOMUhFJivfSfkIeBGFBHeaPlrskhowvO8WG6+4GnimNgZ4onT2Uz31Xi2JPp9
+         79/w==
+X-Gm-Message-State: AOAM5313K666ekEvCEylXIiokndxBvraZZgqb633SwPUXAutggdyZHbN
+        2v1p2lStHufXIktpIZuY6QY=
+X-Google-Smtp-Source: ABdhPJxGmnIY9fKDkAoalOGRzaG+w97YXUaHlIBuJVsu5JF1QhA8PoxZs/Ckb21YhW02JIe1skpvpA==
+X-Received: by 2002:a17:906:9454:b0:6b5:aa6:2822 with SMTP id z20-20020a170906945400b006b50aa62822mr21863909ejx.619.1645620951808;
+        Wed, 23 Feb 2022 04:55:51 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id l9sm5877407eds.9.2022.02.23.04.55.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 04:55:51 -0800 (PST)
+Date:   Wed, 23 Feb 2022 13:55:48 +0100
+From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tomasz.warniello@gmail.com
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+Message-ID: <20220223135548.27babd85@fuji.fritz.box>
+In-Reply-To: <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
+References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+        <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
+        <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOUHufbZOuXtFvTULArtQjrdrzUkRw71byKQap1Cf=Mm3U7T5g@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 06:47:25PM -0700, Yu Zhao wrote:
-> On Mon, Feb 21, 2022 at 2:02 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > On Tue, Feb 15, 2022 at 08:22:10PM -0700, Yu Zhao wrote:
-> > > > Please consider splitting "enable" and "features" attributes.
-> > >
-> > > How about s/Features/Components/?
-> >
-> > I meant to use two attributes:
-> >
-> > /sys/kernel/mm/lru_gen/enable for the main breaker, and
-> > /sys/kernel/mm/lru_gen/features (or components) for the branch breakers
-> 
-> It's a bit superfluous for my taste. I generally consider multiple
-> items to fall into the same category if they can be expressed by a
-> type of array, and I usually pack an array into a single file.
-> 
-> From your last review, I gauged this would be too overloaded for your
-> taste. So I'd be happy to make the change if you think two files look
-> more intuitive from user's perspective.
- 
-I do think that two attributes are more user-friendly, but I don't feel
-strongly about it.
+Hi Akira,
 
-> > > > As for the descriptions, what is the user-visible effect of these features?
-> > > > How different modes of clearing the access bit are reflected in, say, GUI
-> > > > responsiveness, database TPS, or probability of OOM?
-> > >
-> > > These remain to be seen :) I just added these switches in v7, per Mel's
-> > > request from the meeting we had. These were never tested in the field.
-> >
-> > I see :)
-> >
-> > It would be nice to have a description or/and examples of user-visible
-> > effects when there will be some insight on what these features do.
-> 
-> How does the following sound?
-> 
-> Clearing the accessed bit in large batches can theoretically cause
-> lock contention (mmap_lock), and if it happens the 0x0002 switch can
-> disable this feature. In this case the multigenerational LRU suffers a
-> minor performance degradation.
-> Clearing the accessed bit in non-leaf page table entries was only
-> verified on Intel and AMD, and if it causes problems on other x86
-> varieties the 0x0004 switch can disable this feature. In this case the
-> multigenerational LRU suffers a negligible performance degradation.
- 
-LGTM
+Take a look at `man perl` and you will find a synopsis also. It's simply
+better in depicting grammar relations than a flat switch list. Especially
+when the grammar gets complex. I dislike it also. And I don't think it
+looks good. Rather creepy and overwhelming.
 
-> > > > > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
-> > > >
-> > > > Is debugfs interface relevant only for datacenters?
-> > >
-> > > For the moment, yes.
-> >
-> > And what will happen if somebody uses these interfaces outside
-> > datacenters? As soon as there is a sysfs intefrace, somebody will surely
-> > play with it.
-> >
-> > I think the job schedulers might be the most important user of that
-> > interface, but the documentation should not presume it is the only user.
-> 
-> Other ideas are more like brainstorming than concrete use cases, e.g.,
-> for desktop users, these interface can in theory speed up hibernation
-> (suspend to disk); for VM users, they can again in theory support auto
-> ballooning. These niches are really minor and less explored compared
-> with the data center use cases which have been dominant.
-> 
-> I was hoping we could focus on the essential and take one step at a
-> time. Later on, if there is additional demand and resource, then we
-> expand to cover more use cases.
+> > I don't see much point for such a non-user-facing script having nice-looking
+> > well-structured documentation in the first place.
 
-Apparently I was not clear :)
+You're touching the very essence of kernel-doc here. What and who is it for?
+Not just the script - all of it.
 
-I didn't mean that you should describe other use-cases, I rather suggested
-to make the documentation more neutral, e.g. using "a user writes to this
-file ..." instead of "job scheduler writes to a file ...". Or maybe add a
-sentence in the beginning of the "Data centers" section, for instance:
+Regards,
 
-Data centers
-------------
-
-+ A representative example of multigenerational LRU users are job
-schedulers.
-
-Data centers want to optimize job scheduling (bin packing) to improve
-memory utilizations. Job schedulers need to estimate whether a server
-
-
--- 
-Sincerely yours,
-Mike.
+Tomasz
