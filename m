@@ -2,83 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0147C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 17:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D08A6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 18:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243485AbiBWRqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 12:46:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35728 "EHLO
+        id S243937AbiBWSeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 13:34:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243478AbiBWRqH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 12:46:07 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFC241331;
-        Wed, 23 Feb 2022 09:45:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645638340; x=1677174340;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=aeb0qt4wCCz7I/mFg9ArXVeLtAeRSHAS90P4rnXgYoM=;
-  b=IUOYbsZyWf1EQ8t/DZKZsUQGBm4pOgCkBYU7SWXnYKBXY0BBV4O1hbTf
-   E5+NufXT+Ohz7qsqAV0Y7Qn0oFvSNWmCVo4g6xRC3TOxWcnq5E/in6pQY
-   E+QK/VNbpiIUCUIiviEckaajJR4/YGD2NAYwHmXYmGHAm6e9WCQVBSVYX
-   LybPuRDAVjakFr+5EO3lYwtsZfO7apQGva61WPSKbFzUvZR/1Zhu3jfY2
-   gPtRC+ISd64H3uY1KtM+wdqkERoxHqqHkWhr79CFqiIpwr8jL1XMh1Xng
-   u4pScKU7A9LbhBdmqoStVM4b3NXhe+zfc6o0wRUL7yqHKAmysKdzs+zej
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="251774224"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="251774224"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 09:45:17 -0800
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="491292157"
-Received: from chakanog-mobl.amr.corp.intel.com (HELO [10.212.198.215]) ([10.212.198.215])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 09:45:17 -0800
-Message-ID: <04080c88-3e69-b4e6-0af2-0690accaa02f@intel.com>
-Date:   Wed, 23 Feb 2022 09:45:12 -0800
+        with ESMTP id S243927AbiBWSeE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 13:34:04 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B69E4EA0B;
+        Wed, 23 Feb 2022 10:33:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3DAC7B8211D;
+        Wed, 23 Feb 2022 18:33:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BEB6C340E7;
+        Wed, 23 Feb 2022 18:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1645641213;
+        bh=0xj9aSd6jMvgA2fZvLT9i6WQjMs7jPcimi01inky5Yc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V9ji03D9KgSvmPz+XksOIsQKaDXTdI0jhrmMjsQtv5QBjHdUnLPmsgA85dv7JXWw1
+         2+gxlgpemNYSfq3OIa242IRKYcBtO/UhOUYlU1N1InyZybSkR3xe06n1sMfNdFYAvR
+         mxHVXziWDQ4WrYxBThpaPUfJIaZvmB/RDHRWAWkg=
+Date:   Wed, 23 Feb 2022 19:33:31 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     akpm@linux-foundation.org, corbet@lwn.net,
+        skhan@linuxfoundation.org, rientjes@google.com,
+        xhao@linux.alibaba.com, linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/12] mm/damon: Implement a minimal stub for sysfs-based
+ DAMON interface
+Message-ID: <YhZ9+xsQ2zNmTdjD@kroah.com>
+References: <20220223164513.23089-1-sj@kernel.org>
+ <20220223171341.29010-1-sj@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 00/12] x86: Trenchboot secure dynamic launch Linux
- kernel support
-Content-Language: en-US
-To:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org
-Cc:     iommu@lists.linux-foundation.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <1645070085-14255-1-git-send-email-ross.philipson@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220223171341.29010-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/16/22 19:54, Ross Philipson wrote:
-> The larger focus of the TrenchBoot project (https://github.com/TrenchBoot) is to
-> enhance the boot security and integrity in a unified manner. The first area of
-> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
-> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
-> Trust for Measurement). The project has been and continues to work on providing
-> a unified means to Dynamic Launch that is a cross-platform (Intel and AMD) and
-> cross-architecture (x86 and Arm), with our recent involvment in the upcoming
-> Arm DRTM specification. The order of introducing DRTM to the Linux kernel
-> follows the maturity of DRTM in the architectures. Intel's Trusted eXecution
-> Technology (TXT) is present today and only requires a preamble loader, e.g. a
-> boot loader, and an OS kernel that is TXT-aware. AMD DRTM implementation has
-> been present since the introduction of AMD-V but requires an additional
-> component that is AMD specific and referred to in the specification as the
-> Secure Loader, which the TrenchBoot project has an active prototype in
-> development. Finally Arm's implementation is in specification development stage
-> and the project is looking to support it when it becomes available.
+On Wed, Feb 23, 2022 at 05:13:41PM +0000, SeongJae Park wrote:
+> On Wed, 23 Feb 2022 16:45:13 +0000 SeongJae Park <sj@kernel.org> wrote:
+> 
+> > On Wed, 23 Feb 2022 17:09:38 +0100 Greg KH <gregkh@linuxfoundation.org> wrote:
+> > 
+> > > On Wed, Feb 23, 2022 at 03:20:42PM +0000, SeongJae Park wrote:
+> > > > +static struct kobj_attribute damon_sysfs_ul_range_min_attr =
+> > > > +		__ATTR(min, 0600, damon_sysfs_ul_range_min_show,
+> > > > +				damon_sysfs_ul_range_min_store);
+> > > > +
+> > > > +static struct kobj_attribute damon_sysfs_ul_range_max_attr =
+> > > > +		__ATTR(max, 0600, damon_sysfs_ul_range_max_show,
+> > > > +				damon_sysfs_ul_range_max_store);
+> > > 
+> > > Can you use __ATTR_RW_MODE() instead here and elsewhere?
+> > 
+> > Sure, I will, in the next revision.
+> 
+> After thinking once more, I realized that it might not so simple.  First of
+> all, there are two files having same name in different directories
+> (kdamonds/<N>/pid and targets/<N>/pid).  The files work differently, so I need
+> to use different _show/_store callbacks for them but __ATTR_RW_MODE() wouldn't
+> support the case.
 
-What problem is this patch series solving?  Is the same problem solved
-in a different way in the kernel today?  What is wrong with that
-solution?  What effects will end users see if they apply this series?
+The reason I recommend using these macros is to prevent you from having
+sysfs files with the same name, yet doing different things in different
+places in the sysfs tree :)
+
+> Secondly, I'd like to keep the file names short because the meaning of the
+> files can easily inferred from the hierarchy, but want to keep the _show/_store
+> callback names to have prefixes that allows us easily know their meaning and
+> usage even though it makes the name a little bit longer because I don't want to
+> have too much source files for DAMON sysfs interface.
+> 
+> Am I missing some of your point?
+
+How about renaming one of the files?
+
+thanks,
+
+greg k-h
