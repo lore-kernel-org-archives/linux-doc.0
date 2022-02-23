@@ -2,110 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01053C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 05:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20296C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 06:07:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238528AbiBWFbu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 00:31:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S233319AbiBWGIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 01:08:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238495AbiBWFbj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 00:31:39 -0500
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47456D942;
-        Tue, 22 Feb 2022 21:30:45 -0800 (PST)
+        with ESMTP id S235016AbiBWGIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 01:08:01 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D7D5AEDB;
+        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id qe15so1733554pjb.3;
+        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1645594245; x=1677130245;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=v44Gg2Pi51r7C5Yz0LglEBe7K1Ubw4buBZxC3226XpA=;
-  b=kazKmxAFupOl/tUMRjhxJqGshBUJeh9xLNdkDg5qg8swLaDEZDHnW3st
-   Pp3uw0rFRhIw0siyZ88X1JJubsmxKvUpjKkWslXZLoA79Go2a3vo3gCT7
-   bfyiKSKP/+Wdj1TEPVBvdGkFdeuWI2mp0ChyQYvnzEVq2GokV/m5yLX/3
-   g=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Feb 2022 21:29:48 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2022 21:29:47 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 22 Feb 2022 21:29:15 -0800
-Received: from c-skakit-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 22 Feb 2022 21:29:11 -0800
-From:   Satya Priya <quic_c_skakit@quicinc.com>
-To:     <bjorn.andersson@linaro.org>
-CC:     <corbet@lwn.net>, <devicetree@vger.kernel.org>,
-        <dianders@chromium.org>, <lee.jones@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <luca@z3ntu.xyz>, <pavel@ucw.cz>,
-        <robh+dt@kernel.org>, <thierry.reding@gmail.com>,
-        <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
-Date:   Wed, 23 Feb 2022 10:58:54 +0530
-Message-ID: <1645594134-16082-1-git-send-email-quic_c_skakit@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20220218183116.2261770-2-bjorn.andersson@linaro.org>
-References: <20220218183116.2261770-2-bjorn.andersson@linaro.org>
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=5ZxXawg5jpHvxptI63it2ru8ZC820c4H+yI5lDwnbmg=;
+        b=DLeshPWhqt9qlx/LiXsHolmTGxOS62BKgISxnZTyZMC8tcQjueS0hhhLW9BWT0JeHh
+         oIalc7sJWfg7xqhX/2LMTOFFMyIL3UOweO7qKTpqdB2YOd55jCaO5gyKfRJSwG/apc1D
+         ynYc985LlhZsH6kqdqXjqh1Og+aIa9kLtmmQgHPJP1+GNm3THxLCFFnEhcpr50Pujgvj
+         BplF6m9gQZtWx7BMn+2oaYaixWpQOu1Xv1BUgj6g1+my3JVhwoEtb4vAIESqeO8Oob8f
+         BfDR4bp4iBaaJIZoHiNHLZK853jIHaj4h85DViA0bVUczCvEage6Aqkifmf4xoMKv7tc
+         dqVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=5ZxXawg5jpHvxptI63it2ru8ZC820c4H+yI5lDwnbmg=;
+        b=KdZPDeRoGGx8Jospp2nD60/NM2Lk85NYu83a7eqv/rSaS+0zpnV7AAV5EV3LKH8Nz4
+         /DrST6z2sZ5pPMiFlFJlgD6eXgXYOY+GjAwYRvYJ2XMmqxvGa5HKHLhoEMHXRBha6stk
+         W0UBfxvc0hWFJBLqofBhv6brV2JYbAAxN194Z2m7ZJZXJdNSpJ3Yjt8j1GqAijyDPt9j
+         kjvrOGWp25EYutxxoWWXZ00B2WYbPdNy1KvzcvFOpM1XW7SNTWp6R32OHtWTo+2G/36p
+         fNNvxRDVW9IflB934Er1ZoMrZ0bYWjHZofwwr4/Ycr/5fslxbYMm62A36q2eFZhjVBrq
+         g5Tw==
+X-Gm-Message-State: AOAM530F+HoqQjn2Xs9ee7+sTorOwuBAQyu57JVGtPuP1GQM1a0SvPDQ
+        z+PO43ezd4xMXd4sEv6CT7k=
+X-Google-Smtp-Source: ABdhPJxmR8RD75S+gFKKvVcd9k8XK6x8Cg2hwP1YEAw0ydRjMvS6ZNtRnUtVeXx847uO6NHl1UdJFg==
+X-Received: by 2002:a17:902:7786:b0:14d:51c6:21a8 with SMTP id o6-20020a170902778600b0014d51c621a8mr26661131pll.75.1645596454387;
+        Tue, 22 Feb 2022 22:07:34 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id n13sm1485315pjq.13.2022.02.22.22.07.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Feb 2022 22:07:33 -0800 (PST)
+Message-ID: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
+Date:   Wed, 23 Feb 2022 15:07:30 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] scripts: kernel-doc: Check existence of FILE arg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: [PATCH] scripts: kernel-doc: Check existence of FILE arg
 
-The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-with their output being routed to various other components, such as
-current sinks or GPIOs.
+Currently, when no FILE argument is given following switches such
+as -man, -rst, and -none, kernel-doc ends up in the error of (long
+msg from perl folded):
 
-Each LPG instance can operate on fixed parameters or based on a shared
-lookup-table, altering the duty cycle over time. This provides the means
-for hardware assisted transitions of LED brightness.
+    Use of uninitialized value $ARGV[0] in pattern match (m//)
+    at ./scripts/kernel-doc line 438.
 
-A typical use case for the fixed parameter mode is to drive a PWM
-backlight control signal, the driver therefor allows each LPG instance
-to be exposed to the kernel either through the LED framework or the PWM
-framework.
+Fix this by adding an existence check at the bottom of the while
+loop parsing command switches and call usage() if there remains
+no argument.
 
-A typical use case for the LED configuration is to drive RGB LEDs in
-smartphones etc, for which the driver supports multiple channels to be
-ganged up to a MULTICOLOR LED. In this configuration the pattern
-generators will be synchronized, to allow for multi-color patterns.
+While at it, fix inconsistent indent by spaces in the previous
+block.
 
-The idea of modelling this as a LED driver ontop of a PWM driver was
-considered, but setting the properties related to patterns does not fit
-in the PWM API. Similarly the idea of just duplicating the lower bits in
-a PWM and LED driver separately was considered, but this would not allow
-the PWM channels and LEDs to be configured on a per-board basis. The
-driver implements the more complex LED interface, and provides a PWM
-interface on the side of that, in the same driver.
-
-Tested-by: Luca Weiss <luca@z3ntu.xyz>
-Tested-by: Doug Anderson <dianders@chromium.org>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 ---
+Hi Jon,
 
-Tested-by: Satya Priya <quic_c_skakit@quicinc.com>
+I noticed this minor issue while reviewing Tomasz's patch series.
+This patch is relative to docs-next as of 2022.02.22.
 
- Documentation/leds/leds-qcom-lpg.rst |   76 ++
- drivers/leds/Kconfig                 |    3 +
- drivers/leds/Makefile                |    3 +
- drivers/leds/rgb/Kconfig             |   18 +
- drivers/leds/rgb/Makefile            |    3 +
- drivers/leds/rgb/leds-qcom-lpg.c     | 1401 ++++++++++++++++++++++++++++++++++
- 6 files changed, 1504 insertions(+)
- create mode 100644 Documentation/leds/leds-qcom-lpg.rst
- create mode 100644 drivers/leds/rgb/Kconfig
- create mode 100644 drivers/leds/rgb/Makefile
- create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
+        Thanks, Akira
+--
+ scripts/kernel-doc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 3106b7536b89..faefe2977f0e 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -494,7 +494,11 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	}
+     } else {
+ 	# Unknown argument
+-        usage();
++	usage();
++    }
++    if ($#ARGV < 0){
++	print "No FILE!\n";
++	usage();
+     }
+ }
+ 
+
+base-commit: b62ef3a1cca0553613adce16515f3640400725b4
+-- 
+2.17.1
+
 
