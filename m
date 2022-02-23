@@ -2,160 +2,289 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB129C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 02:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A45C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 03:08:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236746AbiBWCVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Feb 2022 21:21:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32820 "EHLO
+        id S235866AbiBWDJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Feb 2022 22:09:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233174AbiBWCVr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 21:21:47 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B083C3914D;
-        Tue, 22 Feb 2022 18:21:20 -0800 (PST)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21MMo6mO018680;
-        Wed, 23 Feb 2022 02:20:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2021-07-09;
- bh=aTJkaJRi6CouSW7LHg5gtrKefG/896fm9A6MrICW7/o=;
- b=HeyEUIOVcW2QQQYjW5gKgOhgCyRmjlPsrMXsKOjqe4X+XI2UbOU8TC9H1dJTDDxXSNnp
- WoMN0Zw65ZbSlZZbNENIE3+lcX2jEkQE32HCyCvIhglfIcEy3Z4i/DbDBTpIAslU4ps+
- gBgbTI5OTPPuyZHTHI6hsQW72eLUNbNaI9fx80shBtr68eGBXaFGvEm9x6g0fns5gbGt
- 6ABx6znGl2zUrKUTETN2PFkcRIDOass6GKaaHWGh9Oi2Jjm81st3H8pMqocD3LVQkHcV
- L6D+bPTk/PmmiPTj6tS198vt01vRLze31abNpWAHhnPelVEmhUkrPRSPFxLMlnxL+MRj Rg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ectsx2uj5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Feb 2022 02:20:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21N2GheK021622;
-        Wed, 23 Feb 2022 02:20:57 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
-        by userp3020.oracle.com with ESMTP id 3eat0ntg96-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Feb 2022 02:20:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l0ERuQ7DzoECOqlFlAL8AOtYmJy5EqPKd2/u8PJFwiCi3fpdGkFC0iCprKOaGQlNWXE2ApMzdDsZ/uw4I6UmSR+8cN1x7Cz4MzskJFgFSlNBA02DmzUq9HNCi1aA+ImuBcpMfiv1eycoZkJYYe6i0wqpR8NZIaRU1B+xhL8cdRz5gK2s4bTK5YpkXahR5n090MX12v1mzSsvzuUW9OBdKea+iihN1G6X81v2QoVODhwaRwySqQbWVJYPO+qnHIIjzu1bepYMxw/Yubydeqe85l47iCdc04gWg0/NcTKMfbYSzso0Fuk88ZBm7e4gXiX1/NURNd1dTjAgZ/ldrGWajg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aTJkaJRi6CouSW7LHg5gtrKefG/896fm9A6MrICW7/o=;
- b=gqQgdkE+nUL16XRj+QOPt1g4tjM7pqek9u0c8mZ+LJmecEdSxPPEALOR7vy9awRaNOTyj7QeiORUjhW0FKbYN1LGtdJo6glylDS0Pb+14Q1fn4wl9waHmlaWP2S9VV7xtHdTzORM6nz4Y9Vvfbdl/KOTep8oZVtBAvcycfFyJ7KJ5ijDRoRc6CLvgGlWOmfBzKTAat3iyqq7gqSNhVWRNU4Xjerl1dwHL0gFAZAIOkzSZ2KJg6TnZCkPIUU0BobL0vj3Be6dfKLl8nbILfwNZNUzgvFjCl4eqCjkEvnO3H+aiBxwionfGpOVsLT01j6Cie37d6cjEagYjlEcvcNn8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S231752AbiBWDJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Feb 2022 22:09:05 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4743D4A917;
+        Tue, 22 Feb 2022 19:08:39 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id i6so14010810pfc.9;
+        Tue, 22 Feb 2022 19:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aTJkaJRi6CouSW7LHg5gtrKefG/896fm9A6MrICW7/o=;
- b=SMp68XABnaXoNtp0v9uFEL4klFoRS6Yug8NttAZ85csSjLGhmcWpRaCf9AabAnYm1t855UsLzEqmMr4UUbuqWJzEJey+0kvOxJ3FaM1XdjI9Mp03ynBU0BavqtBetmIY/+iI2JTs6z8ueEpyQY0pqK+8w31qwOBZ918xPBm5Ur4=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by SN4PR10MB5573.namprd10.prod.outlook.com (2603:10b6:806:204::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Wed, 23 Feb
- 2022 02:20:55 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::c9f0:b3fb:25a6:3593]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::c9f0:b3fb:25a6:3593%5]) with mapi id 15.20.4995.027; Wed, 23 Feb 2022
- 02:20:55 +0000
-To:     John Garry <john.garry@huawei.com>
-Cc:     <jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-        <artur.paszkiewicz@intel.com>, <jinpu.wang@cloud.ionos.com>,
-        <chenxiang66@hisilicon.com>, <damien.lemoal@opensource.wdc.com>,
-        <hch@lst.de>, <Ajish.Koshy@microchip.com>, <yanaijie@huawei.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-scsi@vger.kernel.org>, <linuxarm@huawei.com>,
-        <liuqi115@huawei.com>, <Viswas.G@microchip.com>
-Subject: Re: [PATCH v3 00/18] scsi: libsas and users: Factor out LLDD TMF code
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1ee3ucow8.fsf@ca-mkp.ca.oracle.com>
-References: <1645534259-27068-1-git-send-email-john.garry@huawei.com>
-Date:   Tue, 22 Feb 2022 21:20:53 -0500
-In-Reply-To: <1645534259-27068-1-git-send-email-john.garry@huawei.com> (John
-        Garry's message of "Tue, 22 Feb 2022 20:50:41 +0800")
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0036.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::11) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=lr/gOX9xgp0nq2qYu+zDnEx5Mljg5EzzT3crt0n0JOI=;
+        b=RV7SIwuv5XMqCcLWETrWXwl0P9OCI/vI4lXp3wsCKDfkgNvR9GQ03TQHUfixkGJ5Z+
+         A2Wt768FNZnXGwjl50fQcSZ83zjPfl+QAmru2ZZAR/gl5/40/tS8gtiWYLCcuoDg/mND
+         WSl7Gou7ZVppQeyCWnozOdkHRvbyKcovwQxl6Om0m7LhymXWY6vXvPhxlSGVhRyJYr9M
+         Zv27Rl8kBFAPBYG/uiO/aEgya69XbbY6XlLCfJNOofOFpOkphtNWVAeTiD8G8+hpMn1/
+         ve/9UtH4nDe3mWOBcUOcUhGBxQxtCl9G8mZ7fPyAFcSmn/wEhhMUyDJKR0O1IbqhiDnl
+         Wg5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=lr/gOX9xgp0nq2qYu+zDnEx5Mljg5EzzT3crt0n0JOI=;
+        b=pSE0nZlcuDhpLX0SfoqcTgf4dJv4uB0XDMlCAucBqnWMwefYSguG+jMR8LadjML4F3
+         NG2dZm572Fgq42pqg/VHBMfsqmWqKgCNCdi3B3Ho/GYoJnaAHlxcySVKMwWPVwqFvmSu
+         cV8piVvMP1QFLrqtHXYX+sHquJ41dgELbQvlKC2MhMIioM151xUbAQBjT5rX23Uqb3DE
+         b4fVV4W7laiGfoKlobm+vAqOj2Nx1RehCSlMLwVHUMMHaA91dkTG6IVKKRmNVBXE7OGQ
+         IfbxlBZn4k2DZemMfoaB8llnjLQQN1baR7p+ApaNi4yr1Av79FEybGreE51GJzDLsg/Y
+         Nw0w==
+X-Gm-Message-State: AOAM5338bI2hCNj6turlKIQxhoeagZ6iXy9l/X2LjyRef1qh7u7ZtGJr
+        JBVfwwK7ktXHWERCvgge/L4=
+X-Google-Smtp-Source: ABdhPJzaVSSOm1SByrnZ80ZZWZuFliWYmXzRz8Jj842pwtAg7YIPw01bmh8mYJIqcY+UJ/RBA2zmfw==
+X-Received: by 2002:a63:51:0:b0:372:8dda:4fa with SMTP id 78-20020a630051000000b003728dda04famr22588931pga.75.1645585718732;
+        Tue, 22 Feb 2022 19:08:38 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id m11-20020a17090a3f8b00b001bc299e0aefsm1042164pjc.56.2022.02.22.19.08.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Feb 2022 19:08:38 -0800 (PST)
+Message-ID: <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
+Date:   Wed, 23 Feb 2022 12:08:35 +0900
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7859c549-a9d0-4cab-fc6d-08d9f6731f15
-X-MS-TrafficTypeDiagnostic: SN4PR10MB5573:EE_
-X-Microsoft-Antispam-PRVS: <SN4PR10MB55737395DFEE7D1FA87C14798E3C9@SN4PR10MB5573.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SuTgOWUHKXeHwSzTqxcRbIAjU1xS9xz18siCNlTeftujyL2TgfjjguDawsgMKbYP0gXayInH0IhW+R8IxQxxxmcGaKbtIIucmO9yQgjzWB3eBKSyS9i2hXs20gTVpXu8uUXMzVbNMmZ4QyVSQza0RT4kstjhmv5h+EbFfYTjLmVUHBFWwQhR4ydRDzYX97qNCsNTl1+YY/6fjaokQTPq+kR4BbjzvHlaAqlJALTrO+jncUA4GyRd20lLJhDSUo9Q4n/C0KVXlCBPCfarRlkUnFW/JVwhEUM0rpVMjgKSEb6SohSTIoT5uwUP+dGLVV2LiWtj03A+CmtoX47RQ5O4JWhdCFYHOWnRIjwDIZ29bWya9i+Kk5M+yCS6CS8h/MGPu4KzyMmdrJZZ5MJCgCdB4g6mUjyOBB9csTJLmo3bbH6K0y45UHDToWXQ3fkmd5IhaSxBhP6h13UOPcwbv77kV+DfYFMQ9BnWs8n6Dcevc3Rb8lIEyqIwmBZepm4+ob/7Dwt09XR2OA4LHYMHVW+fWzkfmDcx2eJlGq7Jmr7hP0APjEYG5vhAs5SYOcfXKlnvBhZqL9tUFcduMbQrD+KrcrsBIPc/5Huv/KALX4Tp5iog+w//ngUSpEaU/hmUxbArVu9oh2x+NExBsJA86/uK929LZ4rtO8EMKsaJEKCdVj8mNt8dnAgOZnj5ShpTtCa7X7PlE5XCGZihSYDuucrIpyGtEdM0wuOVs9w6lDjarrlUIbn2BYFW5bpESZ+MnkGo+OC/CfNsiBdz0q7j2kgZIuKeJjH0SPkt9d4DAcTEL4o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(86362001)(6916009)(4744005)(316002)(54906003)(83380400001)(8936002)(2906002)(26005)(186003)(38350700002)(6506007)(6512007)(6486002)(66556008)(38100700002)(66946007)(4326008)(5660300002)(7416002)(508600001)(8676002)(36916002)(66476007)(52116002)(966005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i3yrvgN1RYIO9fh7fHCHBLQsRHmilnxabdT2g5PqpB4nKNnyQEEoDyE2Vmue?=
- =?us-ascii?Q?zpBtRS4y6wYT5ng0xINCbdbF0yoVlNX2D6IVrd1gpXoxXpI+wMqEtMqyQI1u?=
- =?us-ascii?Q?6C6pHUhcPzM+bljGRc4c5v8tdVTX8h1LsL/pPeOntZftgIDQE8mIvGI1zY4v?=
- =?us-ascii?Q?KRb1SK84cpglMDYVs2jMoCNTbstJqvkKivUyXSe03DjrXBK0YYuQfdBfkm40?=
- =?us-ascii?Q?4IkBQOmsENBAGgIbgytJpnaTVXQl7qy7XUXjkMxK3tzh8AWGrnPZC+MKqcBS?=
- =?us-ascii?Q?GQbtGqHZLfGZFiIFNdQ7dn0wrB/HEMkKTCeG4oS3b9PQgol3nLkIovufpbCi?=
- =?us-ascii?Q?Rzcnk7HXuttXSs4jfUWI6Wp8AcMVr1Cq0p0SS0PW6z7D0pWQPVMzlRYYIaHZ?=
- =?us-ascii?Q?d8wW8sw78GJ/egCdUrrmtqIF+VoPxAYNrmM26Enf1aRusHBwqxRtkHxY46Eo?=
- =?us-ascii?Q?G7e9OSDSGrtx+QXXtEC6My52tmlLAC03Hk7z21s4EaJKGU7Tn/pmvkFUeT8U?=
- =?us-ascii?Q?Ii/GZgQIas+Nuajn2OUQ7l1OF84pwri0ZTO7s/1UzCnjKaqA28BfmmRTEWTv?=
- =?us-ascii?Q?HDZfTvJEycyHLW70K7Ldd5SH/TgnVLvXK3jhr54qW9W0gpIvEFV0R09JaqCw?=
- =?us-ascii?Q?1vZC25cwC4C1pbKzY1YU+g64KabzwUQG3ZnbtW9Xa9gwszXEiqc2CrO+ieeG?=
- =?us-ascii?Q?6wN9EDf1A3g8T+aa77mDa55mrEahE/wMjQXOr+fXYoeWAWti7FCx90Xmyhg0?=
- =?us-ascii?Q?AJUVUPr4M/1I6pKf/Rt7gBI2Z4NKwOgy4SX1XQY2ojVeqcisAVXcx+6NPUzu?=
- =?us-ascii?Q?zYN0mU1voXWvd4Tpk235/bJdenLNpqk7fAjfiOKRPGtir+wQ/RHaizamlte1?=
- =?us-ascii?Q?p5kJ5OQA+tR3TdZXkJi15YsZoOCDK/Y09pIV6OmwzQC6gAafAshX6QS+60Qo?=
- =?us-ascii?Q?t37kUX18mmU6axOgAbdR6mhtUECDoDkwbfpbV79EFid4wH1KPbxJwi7rRK/P?=
- =?us-ascii?Q?Fo3STx9QGDHveHiLD8RWoRa1Xeso9ztTg/pdFg0jxZwYfl3rKFoJ/W08yzEH?=
- =?us-ascii?Q?M5dvyxiZMniewhEq5RW1dF0uDUcoqY6tCcclVJ+0KXk7UMjsEulSTF1TxAlm?=
- =?us-ascii?Q?waUdhefFIP69ydoYl5ji1q26NYcfN2qryOgeYU1D8musSpZxIP3Gp8S260CX?=
- =?us-ascii?Q?kCob2KfNNhRi4pz6heSHMnKJayGMEn7O6Ik+n9N5IrBHyv3ImejD50ho21KP?=
- =?us-ascii?Q?k+ZxmCI+DzBOnANr8h/53k5A4Awmo//x9gy9mmZwDrXPxxJXUNPykc16bqmU?=
- =?us-ascii?Q?omhhMeryAhKWg4jkwHL+zQvHJSsHzjXVTjH+n50ebeBpZLBuQvSJcIRU45kQ?=
- =?us-ascii?Q?2mn8Jwi/YOjdBeeN/3nodsOLKd7NZ2QbWvoVVrN9C6soQwn/jGCoDT+bS89f?=
- =?us-ascii?Q?eXo4stlAPHx7B0PnOboBCHxM7va0EcbKhORlYewLmTxcoXMsz7A5Lw+hlG6c?=
- =?us-ascii?Q?u1RWQ+VMaPhOrC9OnO6if7PCQKpUEL1DTElXOvCX4F9ujwIkHgcIcLubT+Iz?=
- =?us-ascii?Q?hopcSuJbnhUSjKvBudLpu3fRDpaKS5RwY2T9QedZnqPcmHwnXBtlR16ApB49?=
- =?us-ascii?Q?OwdaRRbUDnMUQxzGSFPmM8h148+PMmS+vrAn4yKDfGdHPzRnwyRHzxu5WOMs?=
- =?us-ascii?Q?2X7SpypEUSIJzR9a4NbL9/fsvvk=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7859c549-a9d0-4cab-fc6d-08d9f6731f15
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 02:20:55.3935
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uRtVyjVD0hBam0jBiiruuQDRGYdoHL2XnvWAKn8MY4/7uFYRH3lOT8P4vPreDkNOsUOTzUYdiL1K6uRd7CkxkdqMabAX7y0evHTi7zgTJGs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5573
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10266 signatures=677939
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
- mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202230010
-X-Proofpoint-ORIG-GUID: KbW5uA8U-Ra5FMRZQw9cVT-0KLyZWBSX
-X-Proofpoint-GUID: KbW5uA8U-Ra5FMRZQw9cVT-0KLyZWBSX
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello Randy, Tomasz,
 
-John,
+On Tue, 22 Feb 2022 13:31:31 -0800,
+Randy Dunlap wrote:
+> Hi--
+>=20
+> On 2/21/22 21:39, Randy Dunlap wrote:
+>> Hi Tomasz,
+>>=20
+>> On 2/18/22 10:16, Tomasz Warnie=C5=82=C5=82o wrote:
+>>> This series transforms the free-form general comments - mainly the us=
+age
+>>> instructions and the meta information - into the standard Perl
+>>> documentation format. Some of the original text is reduced out. And s=
+ome
+>>> is simply dropped.
+>>>
+>>> The transformation includes language, paragraphing and editorial
+>>> corrections.
+>>>
+>>> The only change in the script execution flow is the replacement of th=
+e
+>>> 'usage' function with the native standard Perl 'pod2usage'.
+>>>
+>>> The to-do suggestion to write POD found in the script is ancient, thu=
+s
+>>> I can't address its author with a "Suggested-by" tag.
+>>>
+>>> This version follows the advice received on v3, except I'm leaving
+>>> the old copyrights untouched.
+>>>
+>>> The process consists of 14 steps.
+>>>
+>>> Patches beginning with no 3 are disfunctional until no 9 has been
+>>> applied.
+>>>
+>>> 1) Add the basic POD sections
+>>> 2) Relink argument parsing error handling to pod2usage
+>>>
+>>> The following subseries is disfunctional before its last part.
+>>>
+>>> 3) Translate the DESCRIPTION section
+>>> 4) Translate the "Output format selection" subsection of OPTIONS
+>>> 5) Translate the "Output format selection modifier" subsection of OPT=
+IONS
+>>> 6) Translate the "Output selection" subsection of OPTIONS
+>>> 7) Translate the "Output selection modifiers" subsection of OPTIONS
+>>> 8) Translate the "Other parameters" subsection of OPTIONS
+>>> 9) Replace the usage function
+>>>    =20
+>>> Here the DESCRIPTION and OPTIONS subseries is finished. The -h and -h=
+elp
+>>> parameters are handled by POD now.
+>>>    =20
+>>> 10) Drop obsolete comments
+>>> 11) Refresh the copyright lines
+>>>
+>>> Let's see what's wrong this time.
+>>=20
+>> This patch series looks good to me.
+>> I'll do some testing with it now.
+>=20
+> I did not encounter any problems in testing.
+>=20
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+>=20
+> Thanks.
 
-> This is just an update of the series to fix a build error, as reported
-> here:
-> https://lore.kernel.org/lkml/59b538b7-b4c5-8111-d2bf-7fb353ecb19b@huawei.com/
+Well, I half expected Randy would find a few issues in the series,
+but seeing Randy's Acked-by, let me express my concerns.
 
-Replaced patch 18, thanks!
+I won't delve into the details of each patch, but just compare the
+end result to the current behavior.
 
-Generally an incremental patch is preferred if I have already applied
-something. Otherwise I have to redo any edits or tweaks I made to the
-original series (if any, but I usually don't remember and therefore will
-have to do it all over).
+First of all, comparison of "./scripts/kernel-doc -h | wc -l":
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+    before: 46
+    after:  93
+
+Such a bloat in line counts looks pretty alarming to me.
+
+Especially, added SYNOPSIS of
+
+     kernel-doc [-h] [-v] [-Werror]
+
+       [ -man |
+
+         -rst [-sphinx-version VERSION] [-enable-lineno] |
+
+         -none
+
+       ]
+
+       [
+
+         -export |
+
+         -internal |
+
+         [-function NAME] ... |
+
+         [-nosymbol NAME] ...
+
+       ]
+
+       [-no-doc-sections]
+
+       [-export-file FILE] ...
+
+       FILE ...
+
+
+is hard to parse for me.
+This might be an accurate representation of command arguments,
+but it would take some time for me to see which combination of
+argument works for my use case.
+
+Let's see what "perl --help | head -n10" says:
+
+    Usage: perl [switches] [--] [programfile] [arguments]
+
+      -0[octal]         specify record separator (\0, if no argument)
+
+      -a                autosplit mode with -n or -p (splits $_ into @F)
+
+      -C[number/list]   enables the listed Unicode features
+
+      -c                check syntax only (runs BEGIN and CHECK blocks)
+
+      -d[:debugger]     run program under debugger
+
+      -D[number/list]   set debugging flags (argument is a bit mask or al=
+phabets)
+
+      -e program        one line of program (several -e's allowed, omit p=
+rogramfile)
+
+      -E program        like -e, but enables all optional features
+
+
+The "Usage:" doesn't tell much about available switches, but as they are =
+covered
+immediately after, this is good enough.
+
+"perl --help | wc -l" says: 33
+
+Let's see one of the few scripts with POD documents: ./scripts/get_feat.p=
+l.
+
+"./scripts/get_feat.pl -h | head -n 5" says:
+
+    Usage:
+
+        get_feat.pl [--debug] [--man] [--help] [--dir=3D<dir>] [--arch=3D=
+<arch>]
+
+        [--feature=3D<feature>|--feat=3D<feature>] <COMAND> [<ARGUMENT>]
+
+
+
+        Where <COMMAND> can be:
+
+
+, which I can parse easily.
+
+"./scripts/get_feat.pl -h | wc -l" says: 37
+
+So my preference is to keep current free-form help text for the brevity. =
+
+Nowadays, ./scripts/kernel-doc is mostly invoked by
+Documentation/sphinx/kerneldoc.py.
+I don't see much point for such a non-user-facing script having nice-look=
+ing
+well-structured documentation in the first place.
+
+For the record, let me add a random tag to this whole series:
+
+Disliked-by: Akira Yokosawa <akiyks@gmail.com>
+
+This is by all means a personal preference, so I don't mind if Jon applie=
+s
+this series as is.
+
+        Thanks, Akira
+
+>=20
+>>> Tomasz Warnie=C5=82=C5=82o (11):
+>>>   scripts: kernel-doc: Add the basic POD sections
+>>>   scripts: kernel-doc: Relink argument parsing error handling to
+>>>     pod2usage
+>>>   scripts: kernel-doc: Translate the DESCRIPTION section
+>>>   scripts: kernel-doc: Translate the "Output format selection"
+>>>     subsection of OPTIONS
+>>>   scripts: kernel-doc: Translate the "Output format selection modifie=
+r"
+>>>     subsection of OPTIONS
+>>>   scripts: kernel-doc: Translate the "Output selection" subsection of=
+
+>>>     OPTIONS
+>>>   scripts: kernel-doc: Translate the "Output selection modifiers"
+>>>     subsection of OPTIONS
+>>>   scripts: kernel-doc: Translate the "Other parameters" subsection of=
+
+>>>     OPTIONS
+>>>   scripts: kernel-doc: Replace the usage function
+>>>   scripts: kernel-doc: Drop obsolete comments
+>>>   scripts: kernel-doc: Refresh the copyright lines
+>>>
+>>>  scripts/kernel-doc | 347 +++++++++++++++++++++----------------------=
+--
+>>>  1 file changed, 159 insertions(+), 188 deletions(-)
+>>>
+>>>
+>>> base-commit: 2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+>>=20
+>=20
+> --=20
+> ~Randy
+
