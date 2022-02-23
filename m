@@ -2,83 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB83C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 12:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B392BC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbiBWM4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 07:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49102 "EHLO
+        id S240832AbiBWNRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 08:17:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240643AbiBWM4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 07:56:20 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5574BA41AE;
-        Wed, 23 Feb 2022 04:55:53 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id gb39so52349454ejc.1;
-        Wed, 23 Feb 2022 04:55:53 -0800 (PST)
+        with ESMTP id S234560AbiBWNRB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:17:01 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C0F271A;
+        Wed, 23 Feb 2022 05:16:34 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id i6so15267905pfc.9;
+        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kScADH37OaRYlYEouQtZu5Ct7rmTJHi0Bet35ccCJNo=;
-        b=aF7itRK88PovkGNak7KWgkct8NosmYkciBGGyP6k91f/DtbjKFiDc73uy6LvZzMcfG
-         uluu/mqFMfZThidjFmgJ7nKxugfFCKz10PDjjQKXPH1NAcMGBuhcYV5R5Y55HxxIKEqv
-         R+ZPiPlQDDY58jY8vRiHbmCcgpznYS8LcaktGiAEkYt06njQTHTj5FP7cJrxsftjehBD
-         Zff8F2Q+gbW/vrEi741PfsehQYqZ3YIGUZ0ARcaw5aLvYueqYqncNSdYVK5KzcqP+Jqd
-         UkoUg6Lv8jNaMA4DYe4yt6c+ntCGHu9j3CiZRwqfwb12oFdTI4DgCuqVpJv+AFyKcI9T
-         05lw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=+VpbJdgqUesqeroMLeLdo41RKTiOXezLGeN3mJqa6AQ=;
+        b=iUvdBHxfl/IXUeOyKcobXaHA4/Uui6w4QmrR1sDVIXKpW9bpixs67q5R/kp79ON6X7
+         v1ihBIsTPYVOriWKquuyFfyfvb5isNaoDuPu5moMuDl53dX5M2aiFxezY3tSHoiyarIP
+         ENDuLHk4AX0ZG0UJM11+DvunOSqkvoKUKisSs86whvR8t+Sgkcgi5XwwQ/RGJBFPnjoI
+         uIOdptXEp31b7s6n6sij4zK12sE9E3EW4iql4q3SjrQeij9KuLmHkk5Ipa4ssoz+CzNv
+         0z40hwf5gPfLV7aQUqOWstvrw8TCbRRNo4P+7YOSdhbqrchceN+zdenUlmF8UqMq5Wlg
+         75QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kScADH37OaRYlYEouQtZu5Ct7rmTJHi0Bet35ccCJNo=;
-        b=2tJspQAmv8spszPOYiwOy4pGGInOJ4jHZ/1IzrBK+/1PR8VVaJ1xZGJD7V9ZEiQJ8j
-         ZZd8CpxXNp8DhELy/BGxOcWWb8Q2LfjFQw9YD798hnyHKG1vqF2F99fY4deDe0Q9JJJQ
-         8M+N5PUD4obMSsUq8t6Z7CNQjSD0+3nvCkvHetpE4JvuuKHcDAEeFbMijW8wu2M3Tdua
-         172DYdm/gdoDaWG/3aZTJbM5nOsRoYRG9p2+yEmdmmEK3C7/ybL4h2fOzdNyf5ZHOxf4
-         xkE4qfKxOMUhFJivfSfkIeBGFBHeaPlrskhowvO8WG6+4GnimNgZ4onT2Uz31Xi2JPp9
-         79/w==
-X-Gm-Message-State: AOAM5313K666ekEvCEylXIiokndxBvraZZgqb633SwPUXAutggdyZHbN
-        2v1p2lStHufXIktpIZuY6QY=
-X-Google-Smtp-Source: ABdhPJxGmnIY9fKDkAoalOGRzaG+w97YXUaHlIBuJVsu5JF1QhA8PoxZs/Ckb21YhW02JIe1skpvpA==
-X-Received: by 2002:a17:906:9454:b0:6b5:aa6:2822 with SMTP id z20-20020a170906945400b006b50aa62822mr21863909ejx.619.1645620951808;
-        Wed, 23 Feb 2022 04:55:51 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id l9sm5877407eds.9.2022.02.23.04.55.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 04:55:51 -0800 (PST)
-Date:   Wed, 23 Feb 2022 13:55:48 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=+VpbJdgqUesqeroMLeLdo41RKTiOXezLGeN3mJqa6AQ=;
+        b=3UbEiY7ldbIZTB26HKPle+VbI/C9WpsNKY4q/nLl/X02Biak6PGZX6KUpQv2Nj0Aj4
+         tcabE7rwDkodrvZN8lSPXVbTsXNDYDTj0K8DABXW2W+9wM5wTEAVyc+hq+TfV3TzJGSE
+         QUHioKFOiSZ0FvOmNdNdXHdBR6S7O2m5fjPUS6cpBq/hFUqsoSUmzhuchW5BBdiPRElo
+         maj3Ck3Z7C7cTFlc209Fdc9+ppfhocfCl8kAr+N8UPEt7X8P0XmlB03eJxbBFK8nMfwr
+         C2QwmBqhWOwSUz8vGECrU2gxByXYRoWctSmld8u8uPmqjvCV96KzNlPieMJmacVk/lQY
+         6w8Q==
+X-Gm-Message-State: AOAM533wd4XaNipwY6UpXvrb75MwixcRiav0LlmeLIC8VnWzAchdW4XK
+        IfpTrux6REcpDYVh0n2GZ3ZGfmTt8fI=
+X-Google-Smtp-Source: ABdhPJziEkZjFZEH9VUtfRZLLq2DxDDuDoTPhQ/YRirZW67cOz7qqkexo9nD2IeXWkNobvhOt6d1UA==
+X-Received: by 2002:a63:ac58:0:b0:373:9e90:3b7a with SMTP id z24-20020a63ac58000000b003739e903b7amr23172651pgn.262.1645622193486;
+        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id n15sm24173903pgd.17.2022.02.23.05.16.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Feb 2022 05:16:33 -0800 (PST)
+Message-ID: <1abcb226-dbfd-b3d2-5453-208af7faa0c2@gmail.com>
+Date:   Wed, 23 Feb 2022 22:16:30 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+Content-Language: en-US
+To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tomasz.warniello@gmail.com
-Subject: Re: [PATCH v4 00/11] Transform documentation into POD
-Message-ID: <20220223135548.27babd85@fuji.fritz.box>
-In-Reply-To: <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
+        Akira Yokosawa <akiyks@gmail.com>
 References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
-        <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
-        <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
+ <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
+ <20220223135548.27babd85@fuji.fritz.box>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220223135548.27babd85@fuji.fritz.box>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Akira,
+On Wed, 23 Feb 2022 13:55:48 +0100,
+Tomasz Warnie=C5=82=C5=82o wrote:
+> Hi Akira,
+>=20
+> Take a look at `man perl` and you will find a synopsis also.
 
-Take a look at `man perl` and you will find a synopsis also. It's simply
-better in depicting grammar relations than a flat switch list. Especially
-when the grammar gets complex. I dislike it also. And I don't think it
-looks good. Rather creepy and overwhelming.
+When I do "man perl", I want to see a detailed explanation, and
+somewhat hard-to-parse synopsis is ok.
 
-> > I don't see much point for such a non-user-facing script having nice-looking
-> > well-structured documentation in the first place.
+I'm saying that I don't like to see such a thing when I type
+"./scripts/kerneldoc -h".  I expect a hint to recall which option I
+should use.  I don't want to scroll back the terminal.
 
-You're touching the very essence of kernel-doc here. What and who is it for?
-Not just the script - all of it.
+It would be nice if the verbose man page can be shown by
+"./scripts/kerneldoc -v -h" or "perldoc -F ./scripts/kerneldoc".
 
-Regards,
+>                                                              It's simpl=
+y
+> better in depicting grammar relations than a flat switch list. Especial=
+ly
+> when the grammar gets complex. I dislike it also. And I don't think it
+> looks good. Rather creepy and overwhelming.
+>=20
+>>> I don't see much point for such a non-user-facing script having nice-=
+looking
+>>> well-structured documentation in the first place.
+>=20
+> You're touching the very essence of kernel-doc here. What and who is it=
+ for?
+> Not just the script - all of it.
 
-Tomasz
+Sorry, I have no idea what I am being asked.
+Could you rephrase above for a non-native speaker of English, please?
+
+        Thanks, Akira
+
+>=20
+> Regards,
+>=20
+> Tomasz
