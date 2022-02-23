@@ -2,90 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B48EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0E7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 14:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241292AbiBWN7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 08:59:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45178 "EHLO
+        id S241339AbiBWOEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 09:04:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241290AbiBWN7e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:59:34 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94939B0D01;
-        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id i6so15372972pfc.9;
-        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
+        with ESMTP id S241028AbiBWOEi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 09:04:38 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1730B12E5;
+        Wed, 23 Feb 2022 06:04:10 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id s1so11265129edd.13;
+        Wed, 23 Feb 2022 06:04:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=X6Dow0Ktg3f7s9R18PXLBZ+c8Wk6NqWpU+XTTN91E7I=;
-        b=RX18hLk8t4yl1UuCrwmxyKV6FBLuOZ3CuRlfI8mh5eLsCRMcu7yYNlt4TqZChs1x90
-         YIF1QcDiax/U7D1b/RxbvjQRQTVmNorNcAm2EjluWo36Ky98SoJ2mDVvniaWOCHo0wLo
-         MrSTyWM6L8qAmA0oII5XoNSDDIfmKZ1oIHE6ZxTnfimKV1g7qwJDZEPJc1+Qj1H3XeUV
-         95ooAE+V+bgUjidm2NmsrNzjbPnQ2qE0ciZ43KufM6ki9Tm8fFXAxzDBPAfPRpo1zW8m
-         aSUj24sOun3OrPu5xgc0aLDj+s2zNX1RKkjE4Hee5BEkzB+pQddCpFs7pxkuuYgKii0X
-         +jQQ==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3ZShNSKBQjjBrrYlgF/7HygCuwpzh3cSM7tDjKI/cvE=;
+        b=Mt4HJZ0psdEOR8y6sSeRf1KohU7BbvTpy1MLf6GSUmhhrswJUdz99CNPwAyXJf30+q
+         frj959wlOZJkkd3hnOLww8KUP6NzNCvR6tnQm5iLz4YX4X9e+iPLpacVgV5m4hQH4+Uv
+         o2pA5NoWAVsZy2KlrPuwkOAzup9voTziHTBkUeeKrsGnHdWg4G0Od9og7dRrGSacrDsC
+         lEedC7VsCDPQ/XunGewcH92pS09EqeqwEMF0VK+Z4YQh/9J6ykxgWgNQCU2q2ypnBXg/
+         ha4kZj1lQINQWYGzHVFccBx1/9m72pbUmQE9sMnmlmMbTYE0NeY8wLnUQwys8ESTlsFh
+         dnWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=X6Dow0Ktg3f7s9R18PXLBZ+c8Wk6NqWpU+XTTN91E7I=;
-        b=lvjDaKvMBZp2IcJyLbWNz07OPbK82E0akO96AGAURRKt4qJNAlt5WM2BmVlcpgMv51
-         y+M62v40Qm87mHcV7NxgYs/bUUaWeXBEr7uyoD3K+iNdrJW0ZARNwYQRw9G5EpShUhoH
-         x2vzzgjXv5BEZxr4t+ea5tIrMCHuPi73fHrOaizSZbWTPKp+OinmldiQCKnIY6XJRgX+
-         rytk7U/uYbyyq7hpsPbkaRVNjTVXZj3dkvcSoUytEtdpDKwxZv7ZQp3PoquOo6TRA0mn
-         CzFOCurOUtwCldRCPYGm/EcdmsTLw40rnrAJVCv8kPfLmvElOVkTGaDCGMaIAnSGsh5o
-         Giig==
-X-Gm-Message-State: AOAM530t1ap6bkfV1w6oF2Fq0r2l0yDHc66NG+4gGv3d6Q/BMRHih7IX
-        Q4RvqJPEDwMcHZixpT2quP4=
-X-Google-Smtp-Source: ABdhPJzh6lTbjHeHmAyasMYIQHn/EZf6R89kUL1gUNz+eL3VXPSutvjf0y7809cEOUpc8J6UGsMlOA==
-X-Received: by 2002:a05:6a00:2405:b0:4e1:5008:adcc with SMTP id z5-20020a056a00240500b004e15008adccmr30100114pfh.35.1645624746021;
-        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 16sm24688182pgz.76.2022.02.23.05.59.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Feb 2022 05:59:05 -0800 (PST)
-Message-ID: <721f860a-a662-0f0c-a82d-eacf80841eb3@gmail.com>
-Date:   Wed, 23 Feb 2022 22:59:01 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3ZShNSKBQjjBrrYlgF/7HygCuwpzh3cSM7tDjKI/cvE=;
+        b=E83ypa3jaqtMQTkiythsGMgetdSxZ+/fq5aSxq9eryeyIavvMS+O1QdAxR/Lb98Z3q
+         r+nkLdwi8gJ07G5TxMlIEyk/Q3P5okukDIqv+SY8Wqy7Z2bGIsf3aMx3PEjpDXwVI/j2
+         PjaMGSFetr7Fr8duUJ2J5UEaYTmFXdSplDr9j+iKMejRSos3kh47hSqYerXKsCFECFjo
+         LMgQTYD1D72tvpTbg7b9fZ3GktpJfgGBRIKFnN7SdSmgnaWFr5hr3o3dOBPr0FND1ib+
+         5Q3yUXpZ6/ZjgYP/5tp9QRaPT91Ou4y4/MzhY1uTmZ8lKffbTRdkzmtf+C+UNuzZTMjf
+         etbQ==
+X-Gm-Message-State: AOAM532D6zycPn9V7TRoxkRe2PWUnKLvNt49rcOMLeKtqDR0yqtVWBKV
+        RBRa5IQFdl4Imc9t1tFEGEs=
+X-Google-Smtp-Source: ABdhPJwUXyRajX9QpauIv01zb5qAt1HYYxeVt2LJY4IEiAsVyY/vfediGpL06IHUN3UmWeH401f4lg==
+X-Received: by 2002:a05:6402:4242:b0:413:1190:1a1 with SMTP id g2-20020a056402424200b00413119001a1mr13126872edb.456.1645625047779;
+        Wed, 23 Feb 2022 06:04:07 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id e3sm1404846eja.77.2022.02.23.06.04.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 06:04:07 -0800 (PST)
+Date:   Wed, 23 Feb 2022 15:04:03 +0100
+From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+Message-ID: <20220223150403.350ba3d0@fuji.fritz.box>
+In-Reply-To: <1abcb226-dbfd-b3d2-5453-208af7faa0c2@gmail.com>
+References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+        <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
+        <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
+        <20220223135548.27babd85@fuji.fritz.box>
+        <1abcb226-dbfd-b3d2-5453-208af7faa0c2@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] scripts: kernel-doc: Check existence of FILE arg
-Content-Language: en-US
-To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
- <20220223144713.6e2284e3@fuji.fritz.box>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220223144713.6e2284e3@fuji.fritz.box>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Feb 2022 14:47:13 +0100,
-Tomasz Warnie=C5=82=C5=82o wrote:
-> On Wed, 23 Feb 2022 15:07:30 +0900
-> Akira Yokosawa <akiyks@gmail.com> wrote:
->=20
->> Currently, when no FILE argument is given following switches such
->> as -man, -rst, and -none, kernel-doc ends up in the error of (long
->> msg from perl folded):
->>
->>     Use of uninitialized value $ARGV[0] in pattern match (m//)
->>     at ./scripts/kernel-doc line 438.
->=20
-> It's a warning not an error.
+On Wed, 23 Feb 2022 22:16:30 +0900
+Akira Yokosawa <akiyks@gmail.com> wrote:
 
-Good catch!
+> When I do "man perl", I want to see a detailed explanation, and
+> somewhat hard-to-parse synopsis is ok.
+> 
+> I'm saying that I don't like to see such a thing when I type
+> "./scripts/kerneldoc -h".  I expect a hint to recall which option I
+> should use.  I don't want to scroll back the terminal.
+> 
+> It would be nice if the verbose man page can be shown by
+> "./scripts/kerneldoc -v -h" or "perldoc -F ./scripts/kerneldoc".
 
-Will amend in v2 with proper attribution.
+This is an option. But it makes things more complex. I'd rather reduce
+the easy in favour of the difficult.
 
-        Thanks Akira
+> >>> I don't see much point for such a non-user-facing script having nice-looking
+> >>> well-structured documentation in the first place.  
+> > 
+> > You're touching the very essence of kernel-doc here. What and who is it for?
+> > Not just the script - all of it.  
+> 
+> Sorry, I have no idea what I am being asked.
+> Could you rephrase above for a non-native speaker of English, please?
+
+Who is the "user"? Most of Linux users never even browse the source code.
+
+Tomasz
