@@ -2,97 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17842C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7EAC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:42:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240873AbiBWNWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 08:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44934 "EHLO
+        id S241013AbiBWNme (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 08:42:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238995AbiBWNWL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:22:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3B74EA34;
-        Wed, 23 Feb 2022 05:21:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 38746B81FB3;
-        Wed, 23 Feb 2022 13:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B918C340F7;
-        Wed, 23 Feb 2022 13:21:40 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="B1edNqIi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1645622496;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jNCqwRVwwnl2Hzkwee6ETCjLUlSGOZ/h+OLPPjOrc0Y=;
-        b=B1edNqIi5b5HctHZNPAaowU88lVryawcFNGYjSp85vHovokqADjt+gCUWQtoL8L26HfDe3
-        nl8aJAMIZYBIy8qi3ZYXwTdRr82nWHV60r4P2Uyim3JETbtJFhkxCHI+ueWTYKGJ0iBXol
-        RuYemuRnCCuF1yTAFE6Dp8d6Oaed8fM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a513edf2 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Wed, 23 Feb 2022 13:21:36 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id p19so47897896ybc.6;
-        Wed, 23 Feb 2022 05:21:34 -0800 (PST)
-X-Gm-Message-State: AOAM531YdcEAtdHu9cUGecLEDyPn3C8xhmWF158beDmndhHqdGevvuli
-        5wIWEU20p5eqUvigc/UxUAZ4sBdyTB7e+Z+1OLE=
-X-Google-Smtp-Source: ABdhPJyPz4I/fVrE2hAwlxEjASOoJgctbxsl4Sw1b3At1gDlRAwGMq/v/jtx+mRgcRGA5d7YgSWANySbbRg9ZZzPO00=
-X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
- i19-20020a056902069300b006137f4f2e63mr26519604ybt.271.1645622492226; Wed, 23
- Feb 2022 05:21:32 -0800 (PST)
+        with ESMTP id S239256AbiBWNme (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:42:34 -0500
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641A8AC044
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 05:42:06 -0800 (PST)
+X-QQ-mid: bizesmtp76t1645623681t10dlvj5
+Received: from localhost.localdomain (unknown [202.96.137.248])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Wed, 23 Feb 2022 21:41:07 +0800 (CST)
+X-QQ-SSF: 01400000002000D0N000B00A0000000
+X-QQ-FEAT: FXvDfBZI5O5sGOdRkLPXVG6Eb4fbEwp/IlmIxAq7UFvDk9EDMiwtbSlLouB9W
+        6oo1ip+Zbdfkc7CsiEa4E96g+tI+hiXYvY1UUQkwDKi0T1O39vgbTS1/qeG7NmeXP+0lGF/
+        p3QHbUMI2K0jBM6NCopwW/Bi9c6KwjlmdjP0I5URlZWEd59PBuhRbBF5dzWyr/2K8ysGJ5w
+        gvgft6HD+5cg0UpSKinBdV3I+niu+wDTmKcB5QFdFO+2+0HSKhkDbDrf6F4A4cU/QJdLJ7W
+        hbLEHHPPyBMSAg9OzA/uH5cRBVxCOiA8cA2tn1iYNsQ3elu7LOsO6Ub2qmh8GE6nyrCjDQ0
+        6M/x754aCDmlh2TnIoKcgayxlKHNOWTanE9og5y1c5SkdCfL4c=
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     corbet@lwn.net
+Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        hanshenghong2019@email.szu.edu.cn, weizhenliang@huawei.com,
+        georgi.djakov@linaro.org, skhan@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: [PATCH] Documentation/vm/page_owner.rst: fix commends
+Date:   Wed, 23 Feb 2022 21:41:04 +0800
+Message-Id: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
- <1614156452-17311-3-git-send-email-acatan@amazon.com> <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
- <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
-In-Reply-To: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Wed, 23 Feb 2022 14:21:21 +0100
-X-Gmail-Original-Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
-Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
-To:     adrian@parity.io
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        graf@amazon.com, Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Mike Rapoport <rppt@kernel.org>, 0x7f454c46@gmail.com,
-        borntraeger@de.ibm.com, Jann Horn <jannh@google.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Colm MacCarthaigh <colmmacc@amazon.com>,
-        Andrew Lutomirski <luto@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>, bonzini@gnu.org,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Ellerman <mpe@ellerman.id.au>, areber@redhat.com,
-        ovzxemul@gmail.com, avagin@gmail.com, ptikhomirov@virtuozzo.com,
-        gil@azul.com, asmehra@redhat.com, dgunigun@redhat.com,
-        vijaysun@ca.ibm.com, oridgar@gmail.com, ghammer@redhat.com,
-        Adrian Catangiu <acatan@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign1
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 22, 2022 at 11:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> Well I cleaned up this v7 and refactored it into something along the
-> lines of what I'm thinking. I don't yet know enough about this general
-> problem space to propose the patch and I haven't tested it either
+There are some commends that need to be fixed.
 
-A little further along, there's now this series:
-https://lore.kernel.org/lkml/20220223131231.403386-1-Jason@zx2c4.com/T/
-We can resume discussion there.
+Thanks for Shuah Khan's constructive suggestions.
+The commends have been fixed as follows.
 
-Jason
+a. So, if you'd like to use it, you need
+to add "page_owner=on" into your boot cmdline.
+
+Here, "into" has been replaced with "to".
+
+b. ...page owner is disabled in runtime due to no
+enabling, boot option, runtime overhead is marginal.
+
+Here, "no" has been replaced with "not".
+
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+---
+ Documentation/vm/page_owner.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 2b54e82b9fe1..aec1906976f4 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -26,9 +26,9 @@ fragmentation statistics can be obtained through gfp flag information of
+ each page. It is already implemented and activated if page owner is
+ enabled. Other usages are more than welcome.
+ 
+-page owner is disabled in default. So, if you'd like to use it, you need
+-to add "page_owner=on" into your boot cmdline. If the kernel is built
+-with page owner and page owner is disabled in runtime due to no enabling
++page owner is disabled by default. So, if you'd like to use it, you need
++to add "page_owner=on" to your boot cmdline. If the kernel is built
++with page owner and page owner is disabled in runtime due to not enabling
+ boot option, runtime overhead is marginal. If disabled in runtime, it
+ doesn't require memory to store owner information, so there is no runtime
+ memory overhead. And, page owner inserts just two unlikely branches into
+-- 
+2.31.1
+
+
+
