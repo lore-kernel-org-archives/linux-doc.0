@@ -2,42 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4130CC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 08:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7B9C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 09:36:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238866AbiBWI21 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 03:28:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40046 "EHLO
+        id S239304AbiBWJgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 04:36:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237992AbiBWI20 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 03:28:26 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7404D49CA2;
-        Wed, 23 Feb 2022 00:27:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645604879; x=1677140879;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=DE24H48zq69B43+tGDlcfZq6lBNFuEgFAiGCr9dtF4A=;
-  b=RblFJDy0jQ6AxYCZZGu1qNSzEWX5pqT0QZm7cWnAcKDIW2RGQNMPZDxp
-   LdtVxRzzYtfmtVq76hjtZeWAV2aru6NEv2lsZZr8s9sPQgRfM/slkSP/U
-   lLiQeRodaAeNcE0bSPLLTaevsrdg61bj2vlcYNy44RKu4zEoedkwYGk3V
-   U+4uFKiQzxyvwZ62wu+mjm/TH9y1ylTleCeHf3byQTvaDdVN8kkXkscFB
-   v4B4lbp0UglD3UL/FQzukLp0JCcWxozj/3sN9lSSfvDqJtd4GJ9HbQ196
-   t9UQZFtU+OjVu5Zy0iXWC3SCAwGBlLiwrsCfI2lzNsRclpFsTEIdtm5Jq
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="232534538"
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; 
-   d="scan'208";a="232534538"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 00:27:59 -0800
-X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; 
-   d="scan'208";a="505832311"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.11])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 00:27:50 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Yu Zhao <yuzhao@google.com>
+        with ESMTP id S238456AbiBWJgx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 04:36:53 -0500
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E97593AC
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 01:36:25 -0800 (PST)
+Received: by mail-vs1-xe30.google.com with SMTP id y4so2441228vsd.11
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 01:36:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RNctXvz/+pBy9XAX0EqBi4IREn0H0T0ytHG6ULPDoI0=;
+        b=V3LuRwEpxHob6IJLmsHbuhIouyLQNrSHcNT4Snuspt5KDa5sThyfL2rrzDDYtjjzBa
+         K9IO34tFfrQD5KR9tgEfdY6KkjuUTZfC6TSAWolAfHbVKCZ0l+jFZMRE6ZcGxff71UY2
+         vvBhV5Ji9qT2q145R46bknnHaiSo21b1UU2GyBnXm//3H7jko5nnzW00cwOW+Q/Cvq9Y
+         Ol1VIZkRuHYq/9moH6ihYLZt9xQzvhkErQNAfQ0nOyzLf+0qRkPXD/UPZ8NBff8WWLUV
+         XsGzsdFcnAufwM56SI1jh4ipBUd3Yxvv+hlUpdktOcDmn9L9UEZ4yL7ultE9dL7sCjdI
+         CiNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RNctXvz/+pBy9XAX0EqBi4IREn0H0T0ytHG6ULPDoI0=;
+        b=nj0Trp7De3emwMGlwuS1uz4ljXU8PMpsLeOkrDLz2S2T+YHGgJafgI+Z2nN4wwzomv
+         Y/DU5P2M2K6bMJt7Czw9uRnJeBMYer8BuVQ9bIjuQUyUMx7oWYtreMzKQ41GDQ2nfjnl
+         UEpgf/gZDqxyrDRA0pKM4yZuYPoHSkHAfGw1y9ha5bKoA5NxEL7SqMmzJJZ1/js8yKiT
+         dHY89skLNS0+lTYyf93ZrPmOMb6DX3y7pJuHBITszkdrFpgnq0FRN8IhSTRTfHvrDC5j
+         /lpTTCN63yVKEjGOJCpH5qfZ46QjdRph6JoeWE8e9A4RyBztBPdGXXDFoippPBpxKAS/
+         bi0Q==
+X-Gm-Message-State: AOAM533NYqiOchtel+B0GbBMMhNzR+Db5Gmw5+T6TprYRJ8GCHEZBxgL
+        YbgP5JYLwzACgvzW7NOBneNL62FUvM1tlrxDwms0oA==
+X-Google-Smtp-Source: ABdhPJwrN8fS2vL8pC+XpnMNYgxdYuOBZM8HK8roIA0KECuRJmupbXZoBV8Bw2+nj8jF+3c68XJb462SZUbdaFzsQfQ=
+X-Received: by 2002:a05:6102:3a06:b0:31b:d9c6:c169 with SMTP id
+ b6-20020a0561023a0600b0031bd9c6c169mr11510124vsu.22.1645608984949; Wed, 23
+ Feb 2022 01:36:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-6-yuzhao@google.com>
+ <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 23 Feb 2022 02:36:13 -0700
+Message-ID: <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
+Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
+To:     "Huang, Ying" <ying.huang@intel.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
@@ -56,9 +71,12 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Rik van Riel <riel@surriel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
@@ -66,75 +84,52 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?utf-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
-References: <20220208081902.3550911-1-yuzhao@google.com>
-        <20220208081902.3550911-6-yuzhao@google.com>
-Date:   Wed, 23 Feb 2022 16:27:48 +0800
-In-Reply-To: <20220208081902.3550911-6-yuzhao@google.com> (Yu Zhao's message
-        of "Tue, 8 Feb 2022 01:18:55 -0700")
-Message-ID: <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Yu,
+On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Hi, Yu,
+>
+> Yu Zhao <yuzhao@google.com> writes:
+>
+> > To avoid confusions, the terms "promotion" and "demotion" will be
+> > applied to the multigenerational LRU, as a new convention; the terms
+> > "activation" and "deactivation" will be applied to the active/inactive
+> > LRU, as usual.
+>
+> In the memory tiering related commits and patchset, for example as follows,
+>
+> commit 668e4147d8850df32ca41e28f52c146025ca45c6
+> Author: Yang Shi <yang.shi@linux.alibaba.com>
+> Date:   Thu Sep 2 14:59:19 2021 -0700
+>
+>     mm/vmscan: add page demotion counter
+>
+> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
+>
+> "demote" and "promote" is used for migrating pages between different
+> types of memory.  Is it better for us to avoid overloading these words
+> too much to avoid the possible confusion?
 
-Yu Zhao <yuzhao@google.com> writes:
+Given that LRU and migration are usually different contexts, I think
+we'd be fine, unless we want a third pair of terms.
 
-> To avoid confusions, the terms "promotion" and "demotion" will be
-> applied to the multigenerational LRU, as a new convention; the terms
-> "activation" and "deactivation" will be applied to the active/inactive
-> LRU, as usual.
+> > +static int get_swappiness(struct mem_cgroup *memcg)
+> > +{
+> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
+> > +            mem_cgroup_swappiness(memcg) : 0;
+> > +}
+>
+> After we introduced demotion support in Linux kernel.  The anonymous
+> pages in the fast memory node could be demoted to the slow memory node
+> via the page reclaiming mechanism as in the following commit.  Can you
+> consider that too?
 
-In the memory tiering related commits and patchset, for example as follows,
-
-commit 668e4147d8850df32ca41e28f52c146025ca45c6
-Author: Yang Shi <yang.shi@linux.alibaba.com>
-Date:   Thu Sep 2 14:59:19 2021 -0700
-
-    mm/vmscan: add page demotion counter
-
-https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
-
-"demote" and "promote" is used for migrating pages between different
-types of memory.  Is it better for us to avoid overloading these words
-too much to avoid the possible confusion?
-
-> +static int get_swappiness(struct mem_cgroup *memcg)
-> +{
-> +	return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
-> +	       mem_cgroup_swappiness(memcg) : 0;
-> +}
-
-After we introduced demotion support in Linux kernel.  The anonymous
-pages in the fast memory node could be demoted to the slow memory node
-via the page reclaiming mechanism as in the following commit.  Can you
-consider that too?
-
-commit a2a36488a61cefe3129295c6e75b3987b9d7fd13
-Author: Keith Busch <kbusch@kernel.org>
-Date:   Thu Sep 2 14:59:26 2021 -0700
-
-    mm/vmscan: Consider anonymous pages without swap
-    
-    Reclaim anonymous pages if a migration path is available now that demotion
-    provides a non-swap recourse for reclaiming anon pages.
-    
-    Note that this check is subtly different from the can_age_anon_pages()
-    checks.  This mechanism checks whether a specific page in a specific
-    context can actually be reclaimed, given current swap space and cgroup
-    limits.
-    
-    can_age_anon_pages() is a much simpler and more preliminary check which
-    just says whether there is a possibility of future reclaim.
-
-
-Best Regards,
-Huang, Ying
+Sure. How do I check whether there is still space on the slow node?
