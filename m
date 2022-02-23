@@ -2,77 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC737C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B48EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 13:59:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiBWNsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 08:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
+        id S241292AbiBWN7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 08:59:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239244AbiBWNrq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:47:46 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB3C338BF;
-        Wed, 23 Feb 2022 05:47:19 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id vz16so52627140ejb.0;
-        Wed, 23 Feb 2022 05:47:19 -0800 (PST)
+        with ESMTP id S241290AbiBWN7e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 08:59:34 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94939B0D01;
+        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id i6so15372972pfc.9;
+        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=278A77phWIK14HSkFlCHyTxLu7wpfU9WGdsWijDHfiQ=;
-        b=WqajQq39z0/YYmMf4frgaXX80SW+sE/N+MFjyfgcNgdcVst5BGLcpzeMYoOrIV8tMz
-         dU5ur0vZyIJXnDP/ow1u3kGGVA7p5mKISbXZe5qP7ZXg1pREW0f8PTNcB8B613rnO9HV
-         h66P+uGGxT9K9BhxsrsC/WlNe4iVXha8/ser8wIOLPpkbRKYyGib4aFs4ojUNHC76s47
-         n0/3i9k3W9JuZYHFDbH8Gv8XZFbMmanI0eRXBR6NjwxaOGgfOHKV1pjmQrBwikRQWbfA
-         1tpBWN8l7Ge5HE+q4l0Daq6wIzLQHyDQKHaEWe2NXNrsAkwBjYNQFjwIFdj23ajZLmaA
-         jwow==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=X6Dow0Ktg3f7s9R18PXLBZ+c8Wk6NqWpU+XTTN91E7I=;
+        b=RX18hLk8t4yl1UuCrwmxyKV6FBLuOZ3CuRlfI8mh5eLsCRMcu7yYNlt4TqZChs1x90
+         YIF1QcDiax/U7D1b/RxbvjQRQTVmNorNcAm2EjluWo36Ky98SoJ2mDVvniaWOCHo0wLo
+         MrSTyWM6L8qAmA0oII5XoNSDDIfmKZ1oIHE6ZxTnfimKV1g7qwJDZEPJc1+Qj1H3XeUV
+         95ooAE+V+bgUjidm2NmsrNzjbPnQ2qE0ciZ43KufM6ki9Tm8fFXAxzDBPAfPRpo1zW8m
+         aSUj24sOun3OrPu5xgc0aLDj+s2zNX1RKkjE4Hee5BEkzB+pQddCpFs7pxkuuYgKii0X
+         +jQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=278A77phWIK14HSkFlCHyTxLu7wpfU9WGdsWijDHfiQ=;
-        b=trqjvVQdEcmpNDHpEv02o8+9e9jt/aKZqtbpqZza/AnsGYmBY/2tHuDIYVK4l70ick
-         EFVom0URqDBbOpU+Kho++Y6rHrjZXwEykrtK05fDQ06NcDRV+UbC9/65JUDhrVWPniwX
-         HZ+S1ORY9x9kMlmWSgFOr0hfPKmoLEkMKedue9yWjhuf/rSGxZJjmjxF0FAK4/QTTniK
-         E58SIrZIe2Fo2rj73vaMOTzwvcY4re9FRRzr875HQzNb02rp9/pQj9xKcdGUy8Qs6dgd
-         zYWGMRFHiIDTDocK6CqRFzkxnuVdBrfvRV78FqDK1TgaWPCL2EEJk0n/Bh1NJJ/fDolp
-         MsNg==
-X-Gm-Message-State: AOAM531h5qOf/qWO28CmD26IqJFS/VpB82XepiT5SZzKovTOQy9RvAMo
-        F+axoocplK62KKG8AU0bxbdUwBx07crd/w==
-X-Google-Smtp-Source: ABdhPJyVJEKSRAPXhM9DQi2bQ1NfcfU6nxF5xqJ1ZxnbzwAW9p3Sn2D3DX5b+wpk7MAiaThX1nPMag==
-X-Received: by 2002:a17:906:ae97:b0:6b4:5421:e2ad with SMTP id md23-20020a170906ae9700b006b45421e2admr23466713ejb.364.1645624037815;
-        Wed, 23 Feb 2022 05:47:17 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id m4sm7569353ejl.45.2022.02.23.05.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 05:47:17 -0800 (PST)
-Date:   Wed, 23 Feb 2022 14:47:13 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=X6Dow0Ktg3f7s9R18PXLBZ+c8Wk6NqWpU+XTTN91E7I=;
+        b=lvjDaKvMBZp2IcJyLbWNz07OPbK82E0akO96AGAURRKt4qJNAlt5WM2BmVlcpgMv51
+         y+M62v40Qm87mHcV7NxgYs/bUUaWeXBEr7uyoD3K+iNdrJW0ZARNwYQRw9G5EpShUhoH
+         x2vzzgjXv5BEZxr4t+ea5tIrMCHuPi73fHrOaizSZbWTPKp+OinmldiQCKnIY6XJRgX+
+         rytk7U/uYbyyq7hpsPbkaRVNjTVXZj3dkvcSoUytEtdpDKwxZv7ZQp3PoquOo6TRA0mn
+         CzFOCurOUtwCldRCPYGm/EcdmsTLw40rnrAJVCv8kPfLmvElOVkTGaDCGMaIAnSGsh5o
+         Giig==
+X-Gm-Message-State: AOAM530t1ap6bkfV1w6oF2Fq0r2l0yDHc66NG+4gGv3d6Q/BMRHih7IX
+        Q4RvqJPEDwMcHZixpT2quP4=
+X-Google-Smtp-Source: ABdhPJzh6lTbjHeHmAyasMYIQHn/EZf6R89kUL1gUNz+eL3VXPSutvjf0y7809cEOUpc8J6UGsMlOA==
+X-Received: by 2002:a05:6a00:2405:b0:4e1:5008:adcc with SMTP id z5-20020a056a00240500b004e15008adccmr30100114pfh.35.1645624746021;
+        Wed, 23 Feb 2022 05:59:06 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 16sm24688182pgz.76.2022.02.23.05.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Feb 2022 05:59:05 -0800 (PST)
+Message-ID: <721f860a-a662-0f0c-a82d-eacf80841eb3@gmail.com>
+Date:   Wed, 23 Feb 2022 22:59:01 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] scripts: kernel-doc: Check existence of FILE arg
+Content-Language: en-US
+To:     =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tomasz.warniello@gmail.com
-Subject: Re: [PATCH] scripts: kernel-doc: Check existence of FILE arg
-Message-ID: <20220223144713.6e2284e3@fuji.fritz.box>
-In-Reply-To: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
+        Akira Yokosawa <akiyks@gmail.com>
 References: <1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <20220223144713.6e2284e3@fuji.fritz.box>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220223144713.6e2284e3@fuji.fritz.box>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 Feb 2022 15:07:30 +0900
-Akira Yokosawa <akiyks@gmail.com> wrote:
+On Wed, 23 Feb 2022 14:47:13 +0100,
+Tomasz Warnie=C5=82=C5=82o wrote:
+> On Wed, 23 Feb 2022 15:07:30 +0900
+> Akira Yokosawa <akiyks@gmail.com> wrote:
+>=20
+>> Currently, when no FILE argument is given following switches such
+>> as -man, -rst, and -none, kernel-doc ends up in the error of (long
+>> msg from perl folded):
+>>
+>>     Use of uninitialized value $ARGV[0] in pattern match (m//)
+>>     at ./scripts/kernel-doc line 438.
+>=20
+> It's a warning not an error.
 
-> Currently, when no FILE argument is given following switches such
-> as -man, -rst, and -none, kernel-doc ends up in the error of (long
-> msg from perl folded):
-> 
->     Use of uninitialized value $ARGV[0] in pattern match (m//)
->     at ./scripts/kernel-doc line 438.
+Good catch!
 
-It's a warning not an error.
+Will amend in v2 with proper attribution.
+
+        Thanks Akira
