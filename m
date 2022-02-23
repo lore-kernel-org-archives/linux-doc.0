@@ -2,65 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3476AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 19:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B069C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 19:49:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233996AbiBWTth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 14:49:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
+        id S244398AbiBWTti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 14:49:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233539AbiBWTtg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 14:49:36 -0500
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91774B86E
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 11:49:08 -0800 (PST)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21NIEGJE003931;
-        Wed, 23 Feb 2022 19:48:47 GMT
+        with ESMTP id S233539AbiBWTti (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 14:49:38 -0500
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235B44B86E
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 11:49:10 -0800 (PST)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21NIDs0G001902;
+        Wed, 23 Feb 2022 19:48:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=mzhwY8ndxDV0XfEO1yZypVLBhOO8tBTEd6Wd8FN3Lqs=;
- b=flIysGKNhy3Gwh6vzYZRZ/Q8v6Derw1RDgByGfZ8ibfJFhLFPFbbzZBvTEks/u7oF7Ev
- KWb2FRlWJoDU95+VMf/SG7lCcylSaI5l/Lu97IPYFS0xhVRNuo7tgPFcPlvEqmCIrQzL
- JqRJGNk4L5ZkS3e5q9AngWbv/nlJ1Jm1Ka5F83//Dg5edsi95wD95F8//nXBegV0h4TF
- T3rvnCjDBnDo6dUrjOvmXJhSWV5i7Dv3odQw/Z1I8dqgJQq2u3XiOqSAGXYw+71IS0Nv
- 0qHDbD3x3lCNcbSoxC8Ol8zhGorLEDUSTzP8OFttoxIRmHhdNfE18+LQ6ijIG0kz6XEW Mg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ect7anbpd-1
+ bh=Ke+0t9/ky6qMXM0/4Y1jAe7ip7VHhbtZ6LYnYhQ8Pko=;
+ b=GhQb6LV4L8eCXYT23zNBhnAVnF+QBW95Bita08dhgE9J2FnDpIbUewn1gSg7PBg4P95M
+ RbJAyrtkVoxS2NQSR6gqpCLmua71achoMEPvS9PLHDhjs6PE0URSEhnQO6htlGebCIi7
+ S1Ah84JI/xQHwVu9LfTdJTBa1yr7W6HR/bRB/gj4vEEeGUSNJkFbV1i3K+Hab/16m9L1
+ Jy71FrSTbYTFngD7kwAxkRkNABsvbXclu6MhFqv44AdQG8HGO5b9seh5kdH08f/4DGSP
+ QrCe5dGBxue7Fhfp+QKF04UBEa/ZjztWOnKpXqv6LGvfbHOtU+Kc3a0Hz8cDOxAIbZ/S Mg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ecv6ew6hm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Feb 2022 19:48:47 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21NJfcRb055196;
-        Wed, 23 Feb 2022 19:48:45 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
-        by userp3030.oracle.com with ESMTP id 3eannwbuvm-2
+        Wed, 23 Feb 2022 19:48:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21NJeWJ2047035;
+        Wed, 23 Feb 2022 19:48:41 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
+        by aserp3020.oracle.com with ESMTP id 3eb482vxks-3
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Feb 2022 19:48:45 +0000
+        Wed, 23 Feb 2022 19:48:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oETWn6CP5E/l6w2pClHN4mrJ2Zq9CfhMh2tJ7eP4v12JlPGOqMsukQ7zoSENgKP5EWHbEXAFqrBtwQUU/wg8OX7l0Xq7GTNXV+QzSAUe2t/9fH2kzO8nLvjFJzyxvrl0vGsIDZpOqJHH5Gcck8tUlL3o0mR9ibjyz0cQcxeb9mxWcrgsvuTgelbZ2euc8XRBWs5jiyV3AaycQd6yPSJXuCNlIXX3DH1H2EMQ2s/hEs1tvr9KcsOdC7+wxndnh00y00eUpgeGJjvNSL4KCLHR/IvyAlrPpq8U7hM8YtcXboD8o32OUPfb6+CHpG2ycPxUUGFmV9+HJV2BECKVFp1RQQ==
+ b=mo4IukUdAJ/z4FzR4IZn6N1/K4nbNH6LcOao3Cc82iSLAbhWnURemgKCfClXwuzKHu89KkIeRgFVRGfjrq0DjObRxT/td1cMVEoQorX3WCw4oLFN/77Cz+ZsgXh6O9aQ0IO2DinLy1qw6WzJQPe+1v5RbfO30n5/8jAH9LlPewSJyF8IESrQDcmUymGIHA8GyxCW0nQtGsfyYDHqAsEn0jcxDII5E44RsLiAuCzQldkVZVFJfAdOouRPH2SVOGOlAKIBjBbdrz1DtQ7cQDNaRqjjpyakdp4AF45ELmbaTSAbu2EVMdWPzdIIcCXgJND08hWgvu9Th2Tg/FmLReEBlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mzhwY8ndxDV0XfEO1yZypVLBhOO8tBTEd6Wd8FN3Lqs=;
- b=SmgyZZBXMe9jBdH2cL/9QUwCT59w9dmOrBhHkNbr58A8yEaozKBw8PNb7vAiNw0Atpy+Jeqtmgz5Rieq2XYt5+CvbH5K7qgXahsuN8Y0cSFRLboi7JeaoRE2Pt//osQAYKBrJlLu4w0zAtQiT9vR94aacF2Gpm7nLAWnI0i4Db5UxUvpNEj+7wicQQIe3erJhI9bF39IJA9zuj0pQc2Clf/gXMuEfJEHhOoCj274GmFW6Ev5B30kv0W+otaUnRZ63WbRrbH6IHkEk3wx6BKE34q7sqar0txYLgu+qiWaIYO+y7dqKjLa1BibPcxQiB4yLRI4bRasbWv3JgJ54ujUsA==
+ bh=Ke+0t9/ky6qMXM0/4Y1jAe7ip7VHhbtZ6LYnYhQ8Pko=;
+ b=HQ/CeWaep/0Vv+tTaGJCgr4JM3Z9h1mC7XqB/xWVqAAkf9XtoqL2lq0RwQDgoESue1WWvsmMIqo+oze1YvwUv4NeISMHgg1rVxJfa9/RwAG1sjR02MCCQO8/qi3Io8ChI8WUEEjqcMqwIXn7ZpZvcp6islrR9GpxYeqzKIF09T82p8HOu0zQEFqsHCFa56w4dqOG7sA1CuT9veL7PR9/iMVRkwgsin/Y8m7DfGKuph9HLkJkUPdjPZV+z1KLPFi6MmmE3DvV3kgOB0TcBuEctpc29XifhKixoc/tdeb5eBYroeU5HGs7kE+6KXIFRpsh8hLpiqEtDKsEbzMdqOwxhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mzhwY8ndxDV0XfEO1yZypVLBhOO8tBTEd6Wd8FN3Lqs=;
- b=XMKREw7pe888rHQDXmf1muLFDoUHsNLTtXHpRR9wSUMJCTNNOk+An3qwfShRvB0jfC4BrhM+uDmyJtKHWfktgAe+0aUxdNBr1Vtax/LdX77pqLs33c5r6nzTN6mnrqi05kaTITkfrNWnm9lwSYSxgriqgKXL5nq246H9smxgNdU=
+ bh=Ke+0t9/ky6qMXM0/4Y1jAe7ip7VHhbtZ6LYnYhQ8Pko=;
+ b=KtCvrEA0IDK4USrrUJVJshNIfcy4CowXzheu7G5l2b5nBxp8WCqj3jkz4t6Pc8MXJL0osYZrQMLLQ0iuSRwX1AivLk8rIuUSM9XXDIwG591gUiRxA4Vhu1rW0RtCwBWDplS1jSDpdfdetRL4aeks+iurrkffOmZMGkjoXnuujkk=
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
  by BLAPR10MB4930.namprd10.prod.outlook.com (2603:10b6:208:323::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Wed, 23 Feb
- 2022 19:48:44 +0000
+ 2022 19:48:37 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::750f:bf1d:1599:3406]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::750f:bf1d:1599:3406%6]) with mapi id 15.20.5017.024; Wed, 23 Feb 2022
- 19:48:44 +0000
+ 19:48:37 +0000
 From:   Joao Martins <joao.m.martins@oracle.com>
 To:     linux-mm@kvack.org
 Cc:     Dan Williams <dan.j.williams@intel.com>,
@@ -73,9 +73,9 @@ Cc:     Dan Williams <dan.j.williams@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
         linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v6 5/5] mm/page_alloc: reuse tail struct pages for compound devmaps
-Date:   Wed, 23 Feb 2022 19:48:07 +0000
-Message-Id: <20220223194807.12070-6-joao.m.martins@oracle.com>
+Subject: [PATCH v6 2/5] mm/sparse-vmemmap: refactor core of vmemmap_populate_basepages() to helper
+Date:   Wed, 23 Feb 2022 19:48:04 +0000
+Message-Id: <20220223194807.12070-3-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220223194807.12070-1-joao.m.martins@oracle.com>
 References: <20220223194807.12070-1-joao.m.martins@oracle.com>
@@ -85,123 +85,146 @@ X-ClientProxiedBy: LO4P123CA0392.GBRP123.PROD.OUTLOOK.COM
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f7196245-ea61-4a20-578b-08d9f7057fec
+X-MS-Office365-Filtering-Correlation-Id: 060b6405-7076-44a7-f7de-08d9f7057b6e
 X-MS-TrafficTypeDiagnostic: BLAPR10MB4930:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB493056E4F62F27C16A54613CBB3C9@BLAPR10MB4930.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BLAPR10MB49301482637D4432F0A587E3BB3C9@BLAPR10MB4930.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8ApdFQI+hgsKXp0ZQ3b///7qjoT6ZL8+dJ+bqJQuIfAO91EJ5xEvcVURDhLW73Ufg+TcAL8kUATWvH/Oav69LHQ3hC8InvUOD4UB/fdeGJ+rc0b45wpCqc9kGhnsWFk4EaKxphDmzUnDGTMfSqfxE5AZ4Qo/q9BOu0FCAxNa9F7/BM1U8BiSWpD0JEEspFb5AEccusZmp6ODqz0eASmoMYbROp7Hkhnf4X4dwtppoeUa5Al1ZMI2/gYvkx1MH1m0nC8+5oldpNtaPjS5pQOGIhWLrL2jMoNzyT9fouw8Dj4Mle/vabshhNLac5F0ofZHNXy71ADLbhY7nA8Q7b7cVgjrcR1P/DWoAnh2B55fh8fb/lcD1jVsVLs8a4IgGzFn3iQZH9p053axVsuFs9s7M3rwRt66bQVCpO3nCR0VMDf2BZEfSfgJgunoXi1RaHbSk43F0qnsmv7otHWD2JV19txUOvKuw5LcbKZ9pxRkadatPdAX18OnKiX1Iz2ZmTB9JSootCnZqXS16gigmJTX/D6n8u5OjUGo01ydMd3ulGbub7qdi+0v4RFHNdKkvKfVLzKsVycFROQjPkGa4cy5kdYs6YA5fbx0yrYR9bHIsluQ6xenZhCFk0K2vOkEVU0wHLxuRscpzCrUmxb8jtf0Kv7NJ5BOiH9MOR1Oeq3texGGPMz5ZBchaagbkNOKSNezn068yhpdXA3UsnAJwSftnQ==
+X-Microsoft-Antispam-Message-Info: 9IB6QYXFvd1LC3uEsD2cP9+tBDy9Uq4rkedtoOjeteygv2+UKQBE4ZCicYDMWKSDEXPV2UBVJWpf9KU6L16Ri4m/cXxm+YxlGI56/pYjdwAezzI1fHK6zrvrUCTLAsvpIUQ4Che9Jt2/guENkd9kbK8nDo34fpiAEmvH7lL9Y9QaB9AxahTMHRVgjUZcCeSNZXaggpZUzzwxoOhFG2w8pfcm7MaUgZk7fPJZCPYs2PPg5HBgYtwQJ9sdSvlhOdVOEhHfxZz5bzbK1TLcJMew1ZMCrVNX7XuRci1z3OewxD1Y5lJigY/o8RP21nl/R5YcsnQF42pA6xLdp1VsWFu44wxBLbpmFQ+qHWNkihlwbVBIxMQvm4Vqfdsd9ywqxNL6iSgX0YY4lY1F/T2YBtZTF3H4ePjxuWwCzE7YTZuTu2tOei1I0E2cPQm6x94wBl8JwE8R5phS76imfIALpjb1goN3d81inkGXCvPce26X10OMsilbcukkQBDO2UOqunElr42G98dUu5fXUkK65miwkU01Q6DtkX8NhR1r4VSQq13IKniCXzihMRzLJwdOaxIWPXcnjnjskaAf0beU4ItDzGrYdju0MudQrFbaM10Nedgsm0f06Qah4mIZm5TWhz2fVkrGyV+hadsoLvq/zoO1Q6EC5gV+6J4/gbz0LRGR3aP6C/CFt0jIhxN2KLnE5eOpCLtQeMBMnx8SeA77UsxVRg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(83380400001)(103116003)(6916009)(36756003)(86362001)(6486002)(316002)(508600001)(54906003)(8676002)(2616005)(52116002)(107886003)(66946007)(66556008)(26005)(186003)(66476007)(1076003)(4326008)(8936002)(38100700002)(38350700002)(2906002)(5660300002)(6506007)(6512007)(6666004)(7416002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xlyOL+RWXUYmSHmLtEGcKWyKMO8JTs351Yjy9tui9Mm6aLh7FLxcEhfhwfrI?=
- =?us-ascii?Q?OfeOUkL9P3S8TIezKwwFulU+Gy9cn+oYBgKdIZ4iXS8PglcXRDuJwZy9eUAH?=
- =?us-ascii?Q?khQ/JGrLC/zjVMoLUklabVe5J7yRwziwjtnE22oXPB52NnB7lotAoedEgbjH?=
- =?us-ascii?Q?3NN7oAfKAZm1cJiLXcLnLZH0Mk8uP3GZRpG2pS177odxOIq6Vt9NijMnniwb?=
- =?us-ascii?Q?ypTMEyMgetTtnpuJi8MEuAnMDOV26CDZIYcry+vTgD4YwOEDp8KspDVRf0wZ?=
- =?us-ascii?Q?Vah7VFqHI+V/aPg1Nbz0Tl3pnWzwYyB72pYGBkzoML8/ITOXfncwKZ0Bmv7D?=
- =?us-ascii?Q?nTjbP6LB4Q1UmZwXTheWFGK38xIXHiAI0aWtV+lqy1nrqICOK2YOMoEcFYaM?=
- =?us-ascii?Q?bIhLlEm2iNF9ZN9srRe7YI+zV5ihp8y3wANz4MhXJ4oeenUpNa97LuUSYVFw?=
- =?us-ascii?Q?OxPSZ4olydvcA6geEosiQc2DeNxD1Kf8rOrL/CpdveoYbij2zW3g+upteG/z?=
- =?us-ascii?Q?nC5nk9pFCZ0HaZM0iSyNSSHU9hsAENZS8sDK9TGMIwRcgP1rH1c8ja9NZykQ?=
- =?us-ascii?Q?7ZOU2z9Cj34f50BhVqNRflk9QJGFtxln3qH/aF4b6IJwe1GD3v1pvJFt83sk?=
- =?us-ascii?Q?ITfC5aE/4khd0JiNIE9rtza01GriBPLodOK2eB5m3QcVR5UaHeA0+7OPkhHO?=
- =?us-ascii?Q?mfZT0fRAuEPQCES6SJkmYaDnbR+N99TiXVI+nzmg02lGSa3RDto1hlU+RPES?=
- =?us-ascii?Q?6iZOVAftrJf6gn9M2i83KYbLpOTo95KTNGk8HgmbpZ6Ii8b7adJNZ+KE/y3d?=
- =?us-ascii?Q?+ej7p9ATVDktKylnzp9EB5w0EZjjxXMy7HsbJFm6vfuh7LmlmhbQhAmuGX97?=
- =?us-ascii?Q?+y7KsAIEo4kChOMm9qb+OWwVeHsxWSQmpwuCZfC2fHL6vRlSCvu8qtJMRG4W?=
- =?us-ascii?Q?HLE7uPWwPt3m8Bphp1ddNoC5Y1f98xzvHb+3MTvI/AGmIiqbsD8oMXE/STH4?=
- =?us-ascii?Q?wEJLxvpdmxkcg/9SMv+otE0i+jHh3Og986QFOrJRCS3iRceOXVqa1A7z8Vpb?=
- =?us-ascii?Q?uD2swyX4ipcklJsne0vLdoZexCffosM4kk+EgHDr7tDDH3n1a6kxFXfoZN/+?=
- =?us-ascii?Q?EUMQkVMD4pu3gwq/Y//CErHwHMv2cA2djumsU0CPz9MHsDJtFU9kMnCO/KkX?=
- =?us-ascii?Q?fN6+4V9R8pJu9F13iV1tl2puuVKjNgA7mP5wMDERPRkm+rc+2zrjC6ZSSnp1?=
- =?us-ascii?Q?C1WOcFqF085XpE9Vh9eSAuEqt5WvWCCLtCvyW+GH/Jq7aZu/pSOrxuNz72S4?=
- =?us-ascii?Q?UmQ3J8CCN4D7bPaGKx5yoEWdgNDUy+nUAXGtMnMD0eyKwTKjf5wN6iGXEzYO?=
- =?us-ascii?Q?947rOhKl/OsbA4PBzWYe1Gi0hd58yFC1Va4/Bf0NPsaIHaxvmHbD1HLD9hzh?=
- =?us-ascii?Q?KgQRtQuROtEl3V/nZJEOF9xsvSsv6X8onX35+wWGsRM07dkm1lxYrD1iwgHZ?=
- =?us-ascii?Q?jPS7KWqoOyFkScVfB5gTW/2lyGZYu+L1qOQJenyVnMkerJyUnp7wGK0yZwh3?=
- =?us-ascii?Q?5BMv90zzTYHoyEfjZoUvbVbOJ5HXaVUjDfltlaT+yblehP5q2UME/eQRNxFQ?=
- =?us-ascii?Q?UGsEscXtjYdUt6E59XKgcv6M7nDAWx/KljHf3f2c6CfIVcQaaBYwYnAr7yIv?=
- =?us-ascii?Q?Yvyi4g=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3xYe6FfBG361SqCpFaE8ursLXgT0Weh3uDaBcdThSvgMf7tpCxOvW3lQi0GN?=
+ =?us-ascii?Q?LIK+InFZN806vxArGzsm+dkhBu0iTcef0hsjleb96LDLwtiD8P0py3gWx0BS?=
+ =?us-ascii?Q?KU1EgF2DV0a79zpXeGLWsvj+n73PSNKe8mzGpcxq21P++TbJmxvRUjTuyzQ+?=
+ =?us-ascii?Q?5vsmn1udRtY+viLTJ/jPHUAgPemo7uO0L1K54kgX+YMWS68YQjJSJM+dTc8s?=
+ =?us-ascii?Q?TiPLzvkQ4YFdNmQRvgfmUBxVGQfvX9qMFiic56Dx6TbQW4JGMFi+7AZwJO1h?=
+ =?us-ascii?Q?d0B0KmxwoICiaiaNbwJR2QS+txBeyWWAnIcQQOBRl1Xz1SoVr/nQ2lJyt8hv?=
+ =?us-ascii?Q?XWjKJo1galfg2AMlfV05OCqtUbE2nemS11iaro8qCHXJhRzWtGR/9SAqheQ4?=
+ =?us-ascii?Q?Re1KxnQ3Ox7HprxCJkkugPLDZ9loI6804L1F+eLQ7K9qeVAGqyIBtO5WgaCO?=
+ =?us-ascii?Q?uNz/EXeWcixSTlnVmUsbekCry+5Yx/S691GR75HW9VllvBuk9FB+Ii89wi36?=
+ =?us-ascii?Q?tSMvx8e+4M2wURGyzQDNf16prpqMgWZCZyRP8FwyejJQMHEAm6LKvGQfc+3a?=
+ =?us-ascii?Q?CnqdJw4FLf7lXpdnqtpUQYs0x4jl8RsTxD4HG9i4ctOS3ctxCmCf0gVNFBYb?=
+ =?us-ascii?Q?fWIiuJELbFyMouC5ZeMCBMAvrb9Nm8uKul4M6n07tgWo+e13npj/56vxtdxb?=
+ =?us-ascii?Q?NAfFdk7X49ALdy1vgkDoUz322y5gwr8uy0RM5u7rbPxI224XbUkWs4mnzpdm?=
+ =?us-ascii?Q?CzoJk4+aJ1/C+eQwMXGKLYd1vdIeWe7Z4keASUsNbx7X2P2I01OiJ+U07n9V?=
+ =?us-ascii?Q?crUdk5DqDlqzpDOr/pIrOXNKc95vStNaLcHrk4OpnvKEwcJuqy4y+hy2p8ay?=
+ =?us-ascii?Q?wanmSCmrFateEY3tkJkKmq060BQaIicl8ED9aMfZA85FKlnVkAgrQsbnv4PQ?=
+ =?us-ascii?Q?jqRakD2tZqWg/c+swbrNeSd5uEjuZA5Y3JynHUMDQ03zfRmcSoHdKMaC17Ke?=
+ =?us-ascii?Q?Zh1GfA+UVAKgjTQxloh3z8pvF/wtuN6C6MmEO5idkLnoAPJfqSy555hQd404?=
+ =?us-ascii?Q?1K4j6xPse0qoDPpEvFweBOsOOK2cwaeyS1hodqgBM9FVrqRLMutR7QQ7iYZB?=
+ =?us-ascii?Q?oL82Q5GTlkXXJUWIGizGmCdIobZ/zB4YlmRkZwMRbaWUR/A2ADhcXdNCge++?=
+ =?us-ascii?Q?1xnz5MfaudNwe+6bCuDKwwt6BcSI7nQXPCWfNcJebIOHGq1H4ZunQxoJjf8+?=
+ =?us-ascii?Q?inh4gwoRG5s+4yyLJfSP1+Ngf9DPl3WiMvfEA+XvlYFAZYeBWK23x3e6a129?=
+ =?us-ascii?Q?FL4D7Jl3f5pQhiJaP3fIymHx8YXVGN5AuANZpAGorQxzIJHx9s3wY9rfZyfR?=
+ =?us-ascii?Q?OST2N0xfLLMYZcHzrpa58WYH6RL4pv2nairfmuBaUnmtt2mzKqpzeTH/9CdC?=
+ =?us-ascii?Q?0+SPvquffctZ9KVvCDivjnguGEPrcRMlw4bZYD88q2DYARNlfo4hlpXRaNez?=
+ =?us-ascii?Q?qJLuC7ZrVQ5FE4pxhCgko4Rt7HT4ZRPkPqHC/kYHaCndTj6BdRT1rWu63/sS?=
+ =?us-ascii?Q?jmgErcCFvZJp6OV7SsHOJRHVEHFt8rXfUFWwB/N7gq8j2pJSRINJ18R2llrG?=
+ =?us-ascii?Q?T/2QB/yPdQfra/QdNokxHA/llBc6YEII0HNirX4nK0tG6BmIVRVThQokWC5a?=
+ =?us-ascii?Q?d+s4Iw=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7196245-ea61-4a20-578b-08d9f7057fec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 060b6405-7076-44a7-f7de-08d9f7057b6e
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 19:48:44.4915
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 19:48:36.9277
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9gm4pA5IhoRR/n4BCakSaoxpwdQY7jNTraz+sKrTwsMsGva0mcvsLeGf5/mr77rVbf36tueCTKBtNIp1rRdv+JXMrNSR03w/kPENHfRkyLQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ug4Lweo2bEIROmgIQ0AxkDCCPnh1JtnvjhQr39CLCoBPWqmxWVIgHLpUC2AwE0DxKGF6wMpeKKXT95ryX+m2QgKMocrRuD7a4aaaE4qxg+4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4930
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10267 signatures=681306
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 adultscore=0
- malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202230111
-X-Proofpoint-GUID: QBq0lFUCZP3hYBHQjBn0EsSPVRdw5uKe
-X-Proofpoint-ORIG-GUID: QBq0lFUCZP3hYBHQjBn0EsSPVRdw5uKe
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
+ mlxlogscore=839 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202230111
+X-Proofpoint-GUID: OswpN3nvueKMxgM1Do0ybSKUB45RzCFe
+X-Proofpoint-ORIG-GUID: OswpN3nvueKMxgM1Do0ybSKUB45RzCFe
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently memmap_init_zone_device() ends up initializing 32768 pages
-when it only needs to initialize 128 given tail page reuse. That
-number is worse with 1GB compound pages, 262144 instead of 128. Update
-memmap_init_zone_device() to skip redundant initialization, detailed
-below.
+In preparation for describing a memmap with compound pages, move the
+actual pte population logic into a separate function
+vmemmap_populate_address() and have vmemmap_populate_basepages() walk
+through all base pages it needs to populate.
 
-When a pgmap @vmemmap_shift is set, all pages are mapped at a given
-huge page alignment and use compound pages to describe them as opposed
-to a struct per 4K.
-
-With @vmemmap_shift > 0 and when struct pages are stored in ram
-(!altmap) most tail pages are reused. Consequently, the amount of
-unique struct pages is a lot smaller that the total amount of struct
-pages being mapped.
-
-The altmap path is left alone since it does not support memory savings
-based on compound pages devmap.
+While doing that, change the helper to use a pte_t* as return value,
+rather than an hardcoded errno of 0 or -ENOMEM.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 ---
- mm/page_alloc.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ mm/sparse-vmemmap.c | 46 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index e0c1e6bb09dd..01f10b5a4e47 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6653,6 +6653,20 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
- 	}
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index c506f77cff23..44cb77523003 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -608,33 +608,45 @@ pgd_t * __meminit vmemmap_pgd_populate(unsigned long addr, int node)
+ 	return pgd;
  }
  
-+/*
-+ * With compound page geometry and when struct pages are stored in ram most
-+ * tail pages are reused. Consequently, the amount of unique struct pages to
-+ * initialize is a lot smaller that the total amount of struct pages being
-+ * mapped. This is a paired / mild layering violation with explicit knowledge
-+ * of how the sparse_vmemmap internals handle compound pages in the lack
-+ * of an altmap. See vmemmap_populate_compound_pages().
-+ */
-+static inline unsigned long compound_nr_pages(struct vmem_altmap *altmap,
-+					      unsigned long nr_pages)
-+{
-+	return !altmap ? 2 * (PAGE_SIZE/sizeof(struct page)) : nr_pages;
+-int __meminit vmemmap_populate_basepages(unsigned long start, unsigned long end,
+-					 int node, struct vmem_altmap *altmap)
++static pte_t * __meminit vmemmap_populate_address(unsigned long addr, int node,
++					      struct vmem_altmap *altmap)
+ {
+-	unsigned long addr = start;
+ 	pgd_t *pgd;
+ 	p4d_t *p4d;
+ 	pud_t *pud;
+ 	pmd_t *pmd;
+ 	pte_t *pte;
+ 
++	pgd = vmemmap_pgd_populate(addr, node);
++	if (!pgd)
++		return NULL;
++	p4d = vmemmap_p4d_populate(pgd, addr, node);
++	if (!p4d)
++		return NULL;
++	pud = vmemmap_pud_populate(p4d, addr, node);
++	if (!pud)
++		return NULL;
++	pmd = vmemmap_pmd_populate(pud, addr, node);
++	if (!pmd)
++		return NULL;
++	pte = vmemmap_pte_populate(pmd, addr, node, altmap);
++	if (!pte)
++		return NULL;
++	vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
++
++	return pte;
 +}
 +
- static void __ref memmap_init_compound(struct page *head,
- 				       unsigned long head_pfn,
- 				       unsigned long zone_idx, int nid,
-@@ -6717,7 +6731,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
- 			continue;
- 
- 		memmap_init_compound(page, pfn, zone_idx, nid, pgmap,
--				     pfns_per_compound);
-+				     compound_nr_pages(altmap, pfns_per_compound));
++int __meminit vmemmap_populate_basepages(unsigned long start, unsigned long end,
++					 int node, struct vmem_altmap *altmap)
++{
++	unsigned long addr = start;
++	pte_t *pte;
++
+ 	for (; addr < end; addr += PAGE_SIZE) {
+-		pgd = vmemmap_pgd_populate(addr, node);
+-		if (!pgd)
+-			return -ENOMEM;
+-		p4d = vmemmap_p4d_populate(pgd, addr, node);
+-		if (!p4d)
+-			return -ENOMEM;
+-		pud = vmemmap_pud_populate(p4d, addr, node);
+-		if (!pud)
+-			return -ENOMEM;
+-		pmd = vmemmap_pmd_populate(pud, addr, node);
+-		if (!pmd)
+-			return -ENOMEM;
+-		pte = vmemmap_pte_populate(pmd, addr, node, altmap);
++		pte = vmemmap_populate_address(addr, node, altmap);
+ 		if (!pte)
+ 			return -ENOMEM;
+-		vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
  	}
  
- 	pr_info("%s initialised %lu pages in %ums\n", __func__,
+ 	return 0;
 -- 
 2.17.2
 
