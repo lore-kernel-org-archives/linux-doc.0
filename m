@@ -2,127 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E02C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 13:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 357C3C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 14:14:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232912AbiBXNDT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 08:03:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
+        id S235360AbiBXOO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 09:14:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234644AbiBXNDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 08:03:19 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C576F1B0BE4;
-        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id m22so1969274pja.0;
-        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
+        with ESMTP id S233446AbiBXOO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 09:14:57 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DAC27909E;
+        Thu, 24 Feb 2022 06:14:27 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id x5so3003377edd.11;
+        Thu, 24 Feb 2022 06:14:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=KmRf75qCveSuYPiB5ylSj3DCA7hKJMZwh2SvGTJxYZc=;
-        b=HgvWDWVjZwTyTyjNJk7JGG0cjpWy0j5P8hy66zuV1DedXyfHIsIbs2uYNPIIMGo+mF
-         SotPVMxz9dU1ADWzt9a902+g1bgF7IjoG12/jloc2Ih1T9uZ7sSnJsQZww2Fz3sw2iLc
-         Bx6iOqG0qFPXiTP19vYsQjWSoc+zJDIW0BYeuQYnjKBQblhf4pkLSpvfQr+3OF1J9qSN
-         53JJrhcrm6uk5pT+KfiQEdPMHHers59l7/cP5LHG9VcGR7m0G2l8t9t1XsrqvGTP3ONz
-         0bEeuWwoSuMvmrRsf8QeookE9+ME8X1Az0upSXv7z82lDh2Rfd2Su+27NQayENtF+rgV
-         t5LA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FBkptmrbjgcyXNexB1zWqSeWZWCGxggPHix7hH53JHk=;
+        b=oTmm8LPK0MzPhXymI8PYrIMyp4RSZdfYJC2P0ZpWpdUtLI9GerBu57MELgq5/RfArW
+         F7zIJw8srBE0v4xMi/F+FGGimFFJCEqyVwyRG0y/b+cEnJsd5IuYRoMEmubfGKHOJWBm
+         rMAnXBKF7OHfREcTkb/JBSHXmhBkQWfuPkeheqxZwTh5iItauF/3Tc5NfRluxDJH/Vt4
+         x0DBLLKju2pazAgxYSKd5oDi/SHxKPcr3wmD0b9+hDyGhzjK1A3jPmLHFgbwY61QYEq6
+         6vARtmsfFC+X0/jZ2aSAp/moDFX/HMrR16cJRv7NXo67Pcs+eTU0xLiKltNfCMMnxndx
+         shCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=KmRf75qCveSuYPiB5ylSj3DCA7hKJMZwh2SvGTJxYZc=;
-        b=nhuKJSuF+fKl3CoveAFqVw15BdpK8dKF5G6wlA2hSo0iguRLMwJ9iD3PD9uJSqu9QO
-         C1awktcOUW4TwYKfXjVc+dOLvHLbjnQHoSqADRR5Uywtplc5SobeXNKfLo9QB2RVHVhq
-         3eUz0CHpaSTqKR3A78iNF+HZGSfWH2pdkAEjxx3x/PPgg6zH/vUa9/GljZhrBPjv4luv
-         l9Gn3VxzLsNnMO4qeym5RCe6dE0hBiwriSRFf21smoTqDNZ6GL0iyKuC9LUcFQun/JpN
-         luAXsv3UG/LccX3CjkJIgL178zas9x9C784pg+JgOfXiEwvQK5sQISIRuuuKJ+BGgJ0r
-         hlrw==
-X-Gm-Message-State: AOAM530U7Ar5WC/t1vsB3wBfPOz0d7vhSG7YUIA/Djty/Q3W5PFat32Z
-        j4mCgE1dmvRHhjiLauWoMWc=
-X-Google-Smtp-Source: ABdhPJwxRaWj+QYLoEbry0cL/J97Ox7OrI8FluGuWmLRB9H16HKsqGHi1JxYqLrqi4HQ+xsosQwWWw==
-X-Received: by 2002:a17:90b:1d91:b0:1b9:d5fd:3c8a with SMTP id pf17-20020a17090b1d9100b001b9d5fd3c8amr14467088pjb.213.1645707769252;
-        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id s5sm2589044pgo.37.2022.02.24.05.02.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 05:02:48 -0800 (PST)
-Message-ID: <7b136049-a3ba-0eb5-8717-364d773ff914@gmail.com>
-Date:   Thu, 24 Feb 2022 22:02:46 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FBkptmrbjgcyXNexB1zWqSeWZWCGxggPHix7hH53JHk=;
+        b=I63A8z/WQhowiH9V5EG40CrPgFp0YTsjM9emjHQb5u3/3RYW5v2q1xz/oFFn0VFIVD
+         bFWoIHya5Ro8s4q0oznh3EDUwvx7h7EK/aLg8tBaBWxrlfO/iMF+J+QQ2iFvMM2dWhSE
+         btbGsJ22YBsho0ghEExxu0kWmE0bFc2//6K7/XMXqlcfeO3ej7Ddjf0mEMleJiiBamHJ
+         +/dvT1LZCZmWsBsRB/p+//MiLfxzN/gzgdzBDmwDjxczaY8wDSwtvXBO9lNCni/+Xxym
+         LV1BCMQXDoE6Ov9/ZE0LSvH1+VO54Trly1TiepaA81BMkBQoxra/zd14o8xPErFG++Xz
+         cNGg==
+X-Gm-Message-State: AOAM533Y4YCYQ7gLBfiibyvmQhG4QEduTR7a5Rba3VTE+k2zTdEhrPaI
+        PNXcRSsC48bQJD9X/lA81/qWzHXN1B8=
+X-Google-Smtp-Source: ABdhPJzli2R+4X+vn4xujVlJDjmhXJKwXpQs0fSFu+hxDc0tLOcxs/g5o/a0F8RRxr4Jb3jpC+zwWA==
+X-Received: by 2002:a05:6402:492:b0:404:c4bf:8b7e with SMTP id k18-20020a056402049200b00404c4bf8b7emr2462100edv.318.1645712065532;
+        Thu, 24 Feb 2022 06:14:25 -0800 (PST)
+Received: from orome ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id m7sm1392562eds.104.2022.02.24.06.14.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 06:14:24 -0800 (PST)
+Date:   Thu, 24 Feb 2022 15:14:22 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <YheSvtwqaL5mDmre@orome>
+References: <20220218183116.2261770-1-bjorn.andersson@linaro.org>
+ <20220218183116.2261770-2-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v2] docs: scripts/kernel-doc: Detect absence of FILE arg
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="31AA9bs7Oglvh3xm"
+Content-Disposition: inline
+In-Reply-To: <20220218183116.2261770-2-bjorn.andersson@linaro.org>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, when there is no FILE argument following a switch such
-as -man, -rst, or -none, kernel-doc exits with a warning from perl
-(long msg folded):
 
-    Use of uninitialized value $ARGV[0] in pattern match (m//)
-    at ./scripts/kernel-doc line 438.
+--31AA9bs7Oglvh3xm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-, which is unhelpful.
+On Fri, Feb 18, 2022 at 10:31:16AM -0800, Bjorn Andersson wrote:
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
+> with their output being routed to various other components, such as
+> current sinks or GPIOs.
+>=20
+> Each LPG instance can operate on fixed parameters or based on a shared
+> lookup-table, altering the duty cycle over time. This provides the means
+> for hardware assisted transitions of LED brightness.
+>=20
+> A typical use case for the fixed parameter mode is to drive a PWM
+> backlight control signal, the driver therefor allows each LPG instance
+> to be exposed to the kernel either through the LED framework or the PWM
+> framework.
+>=20
+> A typical use case for the LED configuration is to drive RGB LEDs in
+> smartphones etc, for which the driver supports multiple channels to be
+> ganged up to a MULTICOLOR LED. In this configuration the pattern
+> generators will be synchronized, to allow for multi-color patterns.
+>=20
+> The idea of modelling this as a LED driver ontop of a PWM driver was
+> considered, but setting the properties related to patterns does not fit
+> in the PWM API. Similarly the idea of just duplicating the lower bits in
+> a PWM and LED driver separately was considered, but this would not allow
+> the PWM channels and LEDs to be configured on a per-board basis. The
+> driver implements the more complex LED interface, and provides a PWM
+> interface on the side of that, in the same driver.
+>=20
+> Tested-by: Luca Weiss <luca@z3ntu.xyz>
+> Tested-by: Doug Anderson <dianders@chromium.org>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+> Changes since v12:
+> - Initialize ret in lpg_pwm_apply()
+>=20
+> Changes since v11:
+> - Extended commit message to cover decision to put pwm_chip in the LED dr=
+iver
+> - Added Documentation, in particular for the hw_pattern format
+> - Added a lock to synchronize requests from LED and PWM frameworks
+> - Turned out that the 9bit selector differs per channel in some PMICs, so
+>   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
+> - Fixed kerneldoc for the struct device pointer in struct lpg
+> - Rewrote conditional in lut_free() to make it easier to read
+> - Corrected and deduplicated max_period expression in lpg_calc_freq()
+> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
+> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
+> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for readin=
+g the
+>   same in get_state()
+> - Cleaned up the pattern format, to allow specifying both low and high pa=
+use
+>   with and without pingpong mode.
+> - Only update frequency and pwm_value if PWM channel is enabled in lpg_pw=
+m_apply
+> - Make lpg_pwm_get_state() read the hardware state, in order to pick up e=
+=2Eg.
+>   bootloader backlight configuration
+> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
+> - Use dev_err_probe() in lpg_probe()
+> - Extended Kconfig help text to mention module name and satisfy checkpatch
+>=20
+>  Documentation/leds/leds-qcom-lpg.rst |   76 ++
+>  drivers/leds/Kconfig                 |    3 +
+>  drivers/leds/Makefile                |    3 +
+>  drivers/leds/rgb/Kconfig             |   18 +
+>  drivers/leds/rgb/Makefile            |    3 +
+>  drivers/leds/rgb/leds-qcom-lpg.c     | 1401 ++++++++++++++++++++++++++
+>  6 files changed, 1504 insertions(+)
+>  create mode 100644 Documentation/leds/leds-qcom-lpg.rst
+>  create mode 100644 drivers/leds/rgb/Kconfig
+>  create mode 100644 drivers/leds/rgb/Makefile
+>  create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
 
-Improve the behavior by adding a check at the bottom of parsing
-loop.
-If the argument is absent, display help text and exit with
-the code of 1 (via usage()).
+Looks good to me from a PWM point of view:
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes since v1 [1]:
-  - No code change
-  - Amend subject and reword the whole changelog.
-  - The message from perl is not an error but a warning.
-     (I thank Tomasz for pointing it out.)
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
 
-I thought the change of exit code might affect sphinx-build processing,
-and tested with several runs of "make htmldocs" and "make pdfdocs".
-So far, I've not seen any regression.
+--31AA9bs7Oglvh3xm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1] v1: https://lore.kernel.org/r/1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gm=
-ail.com
+-----BEGIN PGP SIGNATURE-----
 
-        Thanks, Akira
---
- scripts/kernel-doc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmIXkr4ACgkQ3SOs138+
+s6FG6g//ad/JahWMr3wxO69qvnHidSEWsS28DQ/xb0qlzM+TSGk8x6lRI/NlMYZ3
+EIrULOy7VZz0kNjmuQ3OlKKplnlk5l7SXKYD9b7MmMrYJvs5oivlJUQzXO192qHz
+RVkm2NupYyxbQeQTdiTeWBVwBVAvW/WOjx6Tcd+uqmkrCqnBjbLRZYjcYcMExozZ
+lzDVhu5x/OeusETYUsa0LY+AGIoKW585x3uO0n/nAHeETfsjHsyyKscKlJD8XdVQ
+WqCQB3el2k7Nmr48mVKM/JTBggadBVYrIovefP29fJoSRrvy+IXtvNc2tSvL5U0v
+lRGljrInbXqCjB2OgjL71fZCDNKW0J2IdDidaNDhZFayGUTtj+dnGdnb1ujgRGXY
+m5cOSsGYR0bk63IqfImOjU5K9FkGwQiCfudIQxMdRteez+erEGAySSG3F6Lg5fSr
+Qk4PTaM8sFlb6IvV+Lew1LusK0DTKlX+cALb9Ee4VoiMykvpN+I6hnsRlwbWksG4
++omgWoSI3rP5J5M3VlfjqnU3W31Oo9cT53bnlOKbATwV+Zxmsbtj+p65RFn5ETXX
+f6glLJvmQksc9X4zeOBdaT5SaH4dK1SIP2ZpmQ3LYjgBPb7WWkZKcZ8SfPAB3ctN
+9AX1EvXj0P7DG9Q16/GhVrYBmdI+GnVauu2RyY4YXmoMqobBPMw=
+=MNBh
+-----END PGP SIGNATURE-----
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3106b7536b89..faefe2977f0e 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -494,7 +494,11 @@ while ($ARGV[0] =3D~ m/^--?(.*)/) {
- 	}
-     } else {
- 	# Unknown argument
--        usage();
-+	usage();
-+    }
-+    if ($#ARGV < 0){
-+	print "No FILE!\n";
-+	usage();
-     }
- }
-=20
-
-base-commit: b62ef3a1cca0553613adce16515f3640400725b4
---=20
-2.17.1
-
+--31AA9bs7Oglvh3xm--
