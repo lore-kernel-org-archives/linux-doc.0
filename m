@@ -2,42 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C36EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:27:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB9EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:35:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbiBXF2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 00:28:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33784 "EHLO
+        id S230241AbiBXFgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 00:36:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbiBXF2M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:28:12 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA41816E7C6;
-        Wed, 23 Feb 2022 21:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645680463; x=1677216463;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=YVsT259EOLtTsjN4BQ2T1bm1qt//VIAGtHU+4hwOobI=;
-  b=cMdsh0w5NKZboo0OQ0PyHU4vLBjEWXk0wQzc0HNRnLFdD9oSyKJeQoRN
-   a4tQwLXmppvEpKaJR0TuLvDlwkUE/JBH04V7gLCx0c0Fuu9J54ktKqKQQ
-   p24mz2D3wloqwDGif2J1ZU4bzkPCkCV/02yBuAHXVsUhqgbxJUfNunLIM
-   5Usta0VD/6QtjfWYtxw4a3zJnP5SxM46hf6iy+LU1HEpGJNvJf8ioZV+C
-   HaL4oCcUMuXV6/KuFGhcc2dfiCgNx6p3jrq1VOMIZEOIBsAcz3JKg8I9s
-   pz90qS1vuhcFge/I8TNuI5Kqxxuof9HVsDFxCmUnLjIMHrk5chojhJzEN
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="315379731"
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; 
-   d="scan'208";a="315379731"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 21:27:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; 
-   d="scan'208";a="684160350"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.11])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 21:27:35 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Yu Zhao <yuzhao@google.com>
+        with ESMTP id S229546AbiBXFgO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:36:14 -0500
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1144F252919
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:35:45 -0800 (PST)
+Received: by mail-vs1-xe35.google.com with SMTP id e26so1029186vso.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:35:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7WWHAhC2u3Yrav5+xOTI+5uI30EbKHXrJLx3B/cdCfE=;
+        b=Zxw1fP3eRF14/jcI7VdenJgTzhXoypJ0ib3zhRFpIbjr+wVwCNg00v65TATB+HmKJE
+         rP9UfsVJh8JfLsEVwK4A9eJWX0+CBWbIzGbgfnidODFWuQaMxX8+rpw36HVTrxbu27Ya
+         zbiuaqp2AkVJNKnUoeKihalnYmkzKCCEccK8PWmEk22e/TfJRCRepHNWgG+tsPunMO+5
+         DVOs99aUGm2CmZiTWtAx181idOX7NmLagvg69pR2ltDgKcTLxB1lUNNBIKipRviWXene
+         yaRA6r3iGGGbwHFKSSPbpkCp+7V9T2tjotbYrVNcWxfzHyeIAWZVoRB7Sq3jCml7lAIk
+         xZPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7WWHAhC2u3Yrav5+xOTI+5uI30EbKHXrJLx3B/cdCfE=;
+        b=TpHTZMs1vOz2E6ia9gbwbt9D6MwbYeW9yKnYHZv6w+36thdAgT0ZNoQNptdeXu2edZ
+         7uijxGV2xxqsBgmaNNg0Gvl1uS8Jd01N5ge3RgL0MyeH7AYJ4H3WEGYLBvRl3ncSswYq
+         GEPBlxDSZSww7fBA2Vc1fhiPkvs0VtBnuP/Xs0AG06btgQ4g1XH5ZoVKp6dLmxCjf5Zu
+         dejQqHCRfsbjjAgKinQPo83DnPPbd4MvqnO/9IfC+l/Sd2nxr4lZ/BgRgGkY/9EpLvjn
+         3nElcGhrmIIDfSDf179FGwyKYJT2Zid1KyMvA0xHv4XvfM+irwAKDZsqv/P8Q/sNvSDV
+         odxw==
+X-Gm-Message-State: AOAM531MtiEtF06apyY7sxL9ItaQo9JiSj3upga4UyYbtY3/wVlFhtBw
+        EgmrjaLJSCO/vSLptvQOhTwEox3JgEx/SIHakcKSWg==
+X-Google-Smtp-Source: ABdhPJzIv19ZFkAGm9a7wUFfoCm24bkgs4miWsRzSszOLijZZHRHI4Zo6Ve/+i4RNDZIH9qICVbvebwjNoUYss5qmcg=
+X-Received: by 2002:a05:6102:2914:b0:31b:b756:7950 with SMTP id
+ cz20-20020a056102291400b0031bb7567950mr396078vsb.41.1645680944016; Wed, 23
+ Feb 2022 21:35:44 -0800 (PST)
+MIME-Version: 1.0
+References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-6-yuzhao@google.com>
+ <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
+ <87y2213wrl.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufY8dRimricP=pvvgg8mEagb369nE8MVe6tnnLXQuKyAEA@mail.gmail.com>
+ <87h78p3pp2.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufYgNr-82AsfGFu6DVOsVUdmVsOo2Jav3nHDXiuu6iDC9A@mail.gmail.com>
+ <87a6eg4ywq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87a6eg4ywq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 23 Feb 2022 22:35:32 -0700
+Message-ID: <CAOUHufY9h2K4dPnufW-uD-EEuvROf6y7cF-w1gJ2VAFaSEDD7Q@mail.gmail.com>
+Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
+To:     "Huang, Ying" <ying.huang@intel.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
@@ -69,144 +87,113 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        Holger =?utf-8?Q?Hoffst=C3=A4tte?= 
-        <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
-References: <20220208081902.3550911-1-yuzhao@google.com>
-        <20220208081902.3550911-6-yuzhao@google.com>
-        <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com>
-        <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
-        <87y2213wrl.fsf@yhuang6-desk2.ccr.corp.intel.com>
-        <CAOUHufY8dRimricP=pvvgg8mEagb369nE8MVe6tnnLXQuKyAEA@mail.gmail.com>
-        <87h78p3pp2.fsf@yhuang6-desk2.ccr.corp.intel.com>
-        <CAOUHufYgNr-82AsfGFu6DVOsVUdmVsOo2Jav3nHDXiuu6iDC9A@mail.gmail.com>
-Date:   Thu, 24 Feb 2022 13:27:33 +0800
-In-Reply-To: <CAOUHufYgNr-82AsfGFu6DVOsVUdmVsOo2Jav3nHDXiuu6iDC9A@mail.gmail.com>
-        (Yu Zhao's message of "Wed, 23 Feb 2022 21:09:56 -0700")
-Message-ID: <87a6eg4ywq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yu Zhao <yuzhao@google.com> writes:
-
-> On Wed, Feb 23, 2022 at 8:32 PM Huang, Ying <ying.huang@intel.com> wrote:
->>
->> Yu Zhao <yuzhao@google.com> writes:
->>
->> > On Wed, Feb 23, 2022 at 5:59 PM Huang, Ying <ying.huang@intel.com> wrote:
->> >>
->> >> Yu Zhao <yuzhao@google.com> writes:
->> >>
->> >> > On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
->> >> >>
->> >> >> Hi, Yu,
->> >> >>
->> >> >> Yu Zhao <yuzhao@google.com> writes:
->> >> >>
->> >> >> > To avoid confusions, the terms "promotion" and "demotion" will be
->> >> >> > applied to the multigenerational LRU, as a new convention; the terms
->> >> >> > "activation" and "deactivation" will be applied to the active/inactive
->> >> >> > LRU, as usual.
->> >> >>
->> >> >> In the memory tiering related commits and patchset, for example as follows,
->> >> >>
->> >> >> commit 668e4147d8850df32ca41e28f52c146025ca45c6
->> >> >> Author: Yang Shi <yang.shi@linux.alibaba.com>
->> >> >> Date:   Thu Sep 2 14:59:19 2021 -0700
->> >> >>
->> >> >>     mm/vmscan: add page demotion counter
->> >> >>
->> >> >> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
->> >> >>
->> >> >> "demote" and "promote" is used for migrating pages between different
->> >> >> types of memory.  Is it better for us to avoid overloading these words
->> >> >> too much to avoid the possible confusion?
->> >> >
->> >> > Given that LRU and migration are usually different contexts, I think
->> >> > we'd be fine, unless we want a third pair of terms.
->> >>
->> >> This is true before memory tiering is introduced.  In systems with
->> >> multiple types memory (called memory tiering), LRU is used to identify
->> >> pages to be migrated to the slow memory node.  Please take a look at
->> >> can_demote(), which is called in shrink_page_list().
->> >
->> > This sounds clearly two contexts to me. Promotion/demotion (move
->> > between generations) while pages are on LRU; or promotion/demotion
->> > (migration between nodes) after pages are taken off LRU.
->> >
->> > Note that promotion/demotion are not used in function names. They are
->> > used to describe how MGLRU works, in comparison with the
->> > active/inactive LRU. Memory tiering is not within this context.
->>
->> Because we have used pgdemote_* in /proc/vmstat, "demotion_enabled" in
->> /sys/kernel/mm/numa, and will use pgpromote_* in /proc/vmstat.  It seems
->> better to avoid to use promote/demote directly for MGLRU in ABI.  A
->> possible solution is to use "mglru" and "promote/demote" together (such
->> as "mglru_promote_*" when it is needed?
+On Wed, Feb 23, 2022 at 10:27 PM Huang, Ying <ying.huang@intel.com> wrote:
 >
-> *If* it is needed. Currently there are no such plans.
-
-OK.
-
->> >> >> > +static int get_swappiness(struct mem_cgroup *memcg)
->> >> >> > +{
->> >> >> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
->> >> >> > +            mem_cgroup_swappiness(memcg) : 0;
->> >> >> > +}
->> >> >>
->> >> >> After we introduced demotion support in Linux kernel.  The anonymous
->> >> >> pages in the fast memory node could be demoted to the slow memory node
->> >> >> via the page reclaiming mechanism as in the following commit.  Can you
->> >> >> consider that too?
->> >> >
->> >> > Sure. How do I check whether there is still space on the slow node?
->> >>
->> >> You can always check the watermark of the slow node.  But now, we
->> >> actually don't check that (as in demote_page_list()), instead we will
->> >> wake up kswapd of the slow node.  The intended behavior is something
->> >> like,
->> >>
->> >>   DRAM -> PMEM -> disk
->> >
->> > I'll look into this later -- for now, it's a low priority because
->> > there isn't much demand. I'll bump it up if anybody is interested in
->> > giving it a try. Meanwhile, please feel free to cook up something if
->> > you are interested.
->>
->> When we introduce a new feature, we shouldn't break an existing one.
->> That is, not introducing regression.  I think that it is a rule?
->>
->> If my understanding were correct, MGLRU will ignore to scan anonymous
->> page list even if there's demotion target for the node.  This breaks the
->> demotion feature in the upstream kernel.  Right?
+> Yu Zhao <yuzhao@google.com> writes:
 >
-> I'm not saying this shouldn't be fixed. I'm saying it's a low priority
-> until somebody is interested in using/testing it (or making it work).
-
-We are interested in this feature and can help to test it.
-
-> Regarding regressions, I'm sure MGLRU *will* regress many workloads.
-> Its goal is to improve the majority of use cases, i.e., total net
-> gain. Trying to improve everything is methodically wrong because the
-> problem space is near infinite but the resource is limited. So we have
-> to prioritize major use cases over minor ones. The bottom line is
-> users have a choice not to use MGLRU.
-
-This is a functionality regression, not performance regression.  Without
-demotion support, some workloads will go OOM when DRAM is used up (while
-PMEM isn't) if PMEM is onlined in movable zone (as recommended).
-
->> It's a new feature to check whether there is still space on the slow
->> node.  We can look at that later.
+> > On Wed, Feb 23, 2022 at 8:32 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >>
+> >> Yu Zhao <yuzhao@google.com> writes:
+> >>
+> >> > On Wed, Feb 23, 2022 at 5:59 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >>
+> >> >> Yu Zhao <yuzhao@google.com> writes:
+> >> >>
+> >> >> > On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >> >>
+> >> >> >> Hi, Yu,
+> >> >> >>
+> >> >> >> Yu Zhao <yuzhao@google.com> writes:
+> >> >> >>
+> >> >> >> > To avoid confusions, the terms "promotion" and "demotion" will be
+> >> >> >> > applied to the multigenerational LRU, as a new convention; the terms
+> >> >> >> > "activation" and "deactivation" will be applied to the active/inactive
+> >> >> >> > LRU, as usual.
+> >> >> >>
+> >> >> >> In the memory tiering related commits and patchset, for example as follows,
+> >> >> >>
+> >> >> >> commit 668e4147d8850df32ca41e28f52c146025ca45c6
+> >> >> >> Author: Yang Shi <yang.shi@linux.alibaba.com>
+> >> >> >> Date:   Thu Sep 2 14:59:19 2021 -0700
+> >> >> >>
+> >> >> >>     mm/vmscan: add page demotion counter
+> >> >> >>
+> >> >> >> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
+> >> >> >>
+> >> >> >> "demote" and "promote" is used for migrating pages between different
+> >> >> >> types of memory.  Is it better for us to avoid overloading these words
+> >> >> >> too much to avoid the possible confusion?
+> >> >> >
+> >> >> > Given that LRU and migration are usually different contexts, I think
+> >> >> > we'd be fine, unless we want a third pair of terms.
+> >> >>
+> >> >> This is true before memory tiering is introduced.  In systems with
+> >> >> multiple types memory (called memory tiering), LRU is used to identify
+> >> >> pages to be migrated to the slow memory node.  Please take a look at
+> >> >> can_demote(), which is called in shrink_page_list().
+> >> >
+> >> > This sounds clearly two contexts to me. Promotion/demotion (move
+> >> > between generations) while pages are on LRU; or promotion/demotion
+> >> > (migration between nodes) after pages are taken off LRU.
+> >> >
+> >> > Note that promotion/demotion are not used in function names. They are
+> >> > used to describe how MGLRU works, in comparison with the
+> >> > active/inactive LRU. Memory tiering is not within this context.
+> >>
+> >> Because we have used pgdemote_* in /proc/vmstat, "demotion_enabled" in
+> >> /sys/kernel/mm/numa, and will use pgpromote_* in /proc/vmstat.  It seems
+> >> better to avoid to use promote/demote directly for MGLRU in ABI.  A
+> >> possible solution is to use "mglru" and "promote/demote" together (such
+> >> as "mglru_promote_*" when it is needed?
+> >
+> > *If* it is needed. Currently there are no such plans.
 >
-> SGTM.
+> OK.
+>
+> >> >> >> > +static int get_swappiness(struct mem_cgroup *memcg)
+> >> >> >> > +{
+> >> >> >> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
+> >> >> >> > +            mem_cgroup_swappiness(memcg) : 0;
+> >> >> >> > +}
+> >> >> >>
+> >> >> >> After we introduced demotion support in Linux kernel.  The anonymous
+> >> >> >> pages in the fast memory node could be demoted to the slow memory node
+> >> >> >> via the page reclaiming mechanism as in the following commit.  Can you
+> >> >> >> consider that too?
+> >> >> >
+> >> >> > Sure. How do I check whether there is still space on the slow node?
+> >> >>
+> >> >> You can always check the watermark of the slow node.  But now, we
+> >> >> actually don't check that (as in demote_page_list()), instead we will
+> >> >> wake up kswapd of the slow node.  The intended behavior is something
+> >> >> like,
+> >> >>
+> >> >>   DRAM -> PMEM -> disk
+> >> >
+> >> > I'll look into this later -- for now, it's a low priority because
+> >> > there isn't much demand. I'll bump it up if anybody is interested in
+> >> > giving it a try. Meanwhile, please feel free to cook up something if
+> >> > you are interested.
+> >>
+> >> When we introduce a new feature, we shouldn't break an existing one.
+> >> That is, not introducing regression.  I think that it is a rule?
+> >>
+> >> If my understanding were correct, MGLRU will ignore to scan anonymous
+> >> page list even if there's demotion target for the node.  This breaks the
+> >> demotion feature in the upstream kernel.  Right?
+> >
+> > I'm not saying this shouldn't be fixed. I'm saying it's a low priority
+> > until somebody is interested in using/testing it (or making it work).
+>
+> We are interested in this feature and can help to test it.
 
-Best Regards,
-Huang, Ying
+That's great. I'll make sure it works in the next version.
