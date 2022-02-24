@@ -2,178 +2,235 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 239C7C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 16:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26474C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 17:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbiBXQuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 11:50:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41628 "EHLO
+        id S231887AbiBXRD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 12:03:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231166AbiBXQu3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 11:50:29 -0500
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92CE1F03BC
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 08:49:26 -0800 (PST)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OFN3cW000960;
-        Thu, 24 Feb 2022 16:49:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=xr6v7F6v6XZSjpO+ZeIOINh9Kwpbfb7A7o2V0jj3Qm4=;
- b=DmaB9FNZL6rr9Kto2NbMo9uWDTLccVTxYzuqU6r2F2UfMUeVGwTChqiuNer05ntae1Rz
- OoTCA2nK4tsYtgtFkJpAwVnpkRsYgB1bcMZYUkMwLhP6yl0lVDWJh+OYUHDF1KzrdSbA
- +5Yvz2kceabIaV2VIUFYPCs65QYtfnloE/zjN/HA70jK1OshECKAeh8d9BqelrMrSp7f
- QVEJJFGg7B6rBINxXO/Xtz6sYQXIOla1T6q9MyOywrBSf9cU7kNdCQMnfO5T7rs2p9/D
- yYYUA5dqq6VXH31L4/7mn8DiMpFAqnbNu8Opymd4NobjiDxBWEN7o9s8uz5dA9XsKKTO PQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ect7aqyav-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 24 Feb 2022 16:49:13 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21OGUYAt159609;
-        Thu, 24 Feb 2022 16:49:12 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
-        by aserp3020.oracle.com with ESMTP id 3eb483udr0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 24 Feb 2022 16:49:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i6SuE1QDZhJ1wkyxEZkSgy5tyKHWesUPkIOjZRejT3GoEAaqKviTqo8vaJESWiILU5ovb4Hg1V/5vK7gboFg5b2/yIBMLrQg9cL918/hnkgAYkS8YoQ24S7qjcGyTuYuOQlaZCbDOvrJLpc38g8ZHML1kkHdIrAhXTyMOTQ+fxh1506oKBMh5aHlKaW69RM1BP56ml7BK6ipC/bp0nHaVSLNqFVei+CiUx4JP/WXQkRmCHgqFAgfTsVLmmFR+37o+OBAs5sXugEXiOTr4X1I+akOu+Wg5oR35XwOa2O0FfouJJWvRzeFwXYoKCSYBJVAExXz6Zsp3xwVyCDs78BR6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xr6v7F6v6XZSjpO+ZeIOINh9Kwpbfb7A7o2V0jj3Qm4=;
- b=HtE/F6mx81Eo4nSk5fCPxdn8ythDE6gxBmOl653DlW8fMm5n18cMt6h/Ih4q968PuVRVsoRkiWn/C+jQ5lfQuaTSiMlIWQzHWuUgqdES3nmhcEg7TGqiEYYrg0dAXrVhPlF+Hz6wupviioym+NMRQtiYmvdb1JjW9TONewCFfJUcZ1CG7BkZajL1lK/6O36qNMwpci8ueSh9cbN+nu/pR+vuogPqBYDIzedzHMVXeU56WXZrhmbWsv33w+S0zEPKXcmO+Mclglp8pYs05LBA3on2E61iDdGJUlxm1bpWrbTMvF8J/KfxrehLQzovVE2kxk90ukumTnYeDZ2DtaffOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xr6v7F6v6XZSjpO+ZeIOINh9Kwpbfb7A7o2V0jj3Qm4=;
- b=Z02f+ABUGKJGlaCNm1i934u+TkijvS9WbBJHcJJM7AxwEWS6xBAWKFk6G/U/ei6KvL3srRlp/BCK6+PKjoUFgCTwmGGmtCGWbReRTdq9TKACVVA13ijbg2lSbpOLRhUg68I9raXlru01VDF6OR23s9xNE5ZlEs7wA15sm5NW/s0=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by DM5PR10MB1659.namprd10.prod.outlook.com (2603:10b6:4:8::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.24; Thu, 24 Feb 2022 16:49:10 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::750f:bf1d:1599:3406]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::750f:bf1d:1599:3406%6]) with mapi id 15.20.5017.024; Thu, 24 Feb 2022
- 16:49:10 +0000
-Message-ID: <4ac9b3cd-0158-19e5-2667-b6758cc8badd@oracle.com>
-Date:   Thu, 24 Feb 2022 16:49:02 +0000
-Subject: Re: [PATCH v6 5/5] mm/page_alloc: reuse tail struct pages for
- compound devmaps
-Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Linux Memory Management List <linux-mm@kvack.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20220223194807.12070-1-joao.m.martins@oracle.com>
- <20220223194807.12070-6-joao.m.martins@oracle.com>
- <CAMZfGtVCXDeF=3=0n83Bx_20MHOqWsRoJAtZeE53WMr3FA+j7w@mail.gmail.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <CAMZfGtVCXDeF=3=0n83Bx_20MHOqWsRoJAtZeE53WMr3FA+j7w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0452.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::7) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        with ESMTP id S232414AbiBXRDL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 12:03:11 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DB4E1D06F9
+        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 09:00:16 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nNHSx-0002ML-Er; Thu, 24 Feb 2022 17:59:43 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nNHSv-00139d-Ma; Thu, 24 Feb 2022 17:59:40 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1nNHSt-005Go7-SU; Thu, 24 Feb 2022 17:59:39 +0100
+Date:   Thu, 24 Feb 2022 17:59:39 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <20220224165939.4275x7mzp7qpl2kj@pengutronix.de>
+References: <20220218183116.2261770-1-bjorn.andersson@linaro.org>
+ <20220218183116.2261770-2-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6064879e-a2bb-4beb-ef24-08d9f7b5948a
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1659:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB1659E770323E9BE8AE1BEC50BB3D9@DM5PR10MB1659.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qsk7+iiyZCWJxxvbXvt3hAzW+W8/2M7rPH9LG/5zAe7hf7mG8zuO2pZ+MUIOzeYTm1h8bkgwqwu7DZ9LJwZxUAlJhUES7LO6OsqCKn8DI7OiMRjrNOvigGHbJcx1xwjg1BS4f+8GQ31sYM2MOm1amIJFCpt6fP6fHRIxrZwfu9iN4/1JRdtkJ8NwAMkv+7MQMWK93bfX8zN6A4ggxYw4fMF7jslBUFbCzZYetjk73vjj3tLl7GA6xMB1aPV7APsA6pLzb1OT/OTl/Ntf0nOYthws0iTdSbLU0YZVW9BnVTu1sOdx2mbupYIHW659Wi5DyaEzY3wyqMHvhAzCAri8sgw3zHA7vXMlRokWHmH6HeR8CIgqIp4Cgni8DJjznP9e85KBipfyVLEzxpchfrY+ZehCOWwLT6IANUAdiogLCVGE96zzIM6uKW6dQL2qp+1/SAYnxjPAE260bRoOHJ0Z9KlsbaRx8CECocu7AfxHnra034IjFSadXTGZc2YwfOx30YzphY6KyoNPmLYgRfXvUuTB2fv2bmGOIl0zGKAYHQvNfWNOyzQ/uelCus/CggPFmSEtZb7grAa2b6ZxBEgAuQuLGnSTEktfy/e5iczJ9JyX9IcsJpRPJqGWEkr9d0lDNhDpQ290gRFpmnB7PF607UvVSDAkcB+yDPS7YULatEuVpX67nD/ZVEVxLNuVxMlTIYpFrq1vSDgrfKJs1/sjvw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(4326008)(66946007)(8676002)(66556008)(66476007)(6506007)(53546011)(6666004)(186003)(26005)(83380400001)(2616005)(6512007)(7416002)(4744005)(8936002)(31696002)(5660300002)(2906002)(86362001)(38100700002)(36756003)(6916009)(316002)(54906003)(31686004)(6486002)(508600001)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHltMWMzenN4TitCOWk4MnRSRXh2MVhxVU1yYWppeEppTG5mcmJ4bHEyaVhK?=
- =?utf-8?B?RGRiK3ZtWXoyU09DSy9GcmQxZ2RZblY1U2RZUXMyU2E3dWc5T0pGVXlzVXFm?=
- =?utf-8?B?UGlZams0OVoyRSt0L3MvRkpiWEpEMHVzZkZ6U3dRV2x3bVV0NUd6eTJrbmZH?=
- =?utf-8?B?THVaanNsbVpUYTlsUVFzUFhqQVY5NlJwWnBEN3BEVUVtMFNja1hBdDRNYXNU?=
- =?utf-8?B?Z3pab1hJbnBLaGVoUXgveDN5NmErWlZqbHV6ZU50eGVvdExTRXdYQmJXUUhT?=
- =?utf-8?B?aFpuRWxhbVFoSXhFdjh1UDJOVTducXJwZU9taENtQkkwVE5Pdlk2SEswR25v?=
- =?utf-8?B?ZEVMNThDUUZjVEtLUjdlUnA4MU9yb0Nac1pNOHhaMHdpZVpHZUExQ1pUOTZY?=
- =?utf-8?B?ZkJGeDNYdm00akdNczdNMnMyZ3RnN0xhalhGUkZKVkt0L2NzU0NjZWdwNTZI?=
- =?utf-8?B?VXBvd2tHTGJkSEhYTEhOUnJucUFtbFBmM092eHEyNnV1R0V6S1dDTmFza0J2?=
- =?utf-8?B?ZTh0MFFSei9JK1NvQ0R4K3p6QVloNVczSXk3ZEg4VEtaMWc0eVFETVdzaU5i?=
- =?utf-8?B?bzBVUE5zZWl4cWRCNGtqam01L2dyZmgwVUlmMm5kYnZpbHM0ejhCSDVyQXRX?=
- =?utf-8?B?SW85MEozTEpoVm1ONWxqbkkxaWFsUjNyTk15TjNiNitQbHFXZy9wTkltaWNv?=
- =?utf-8?B?VDZlS1lNcUh2d0wraUJVS3ZSVmFOVWZMc3IyV1VuNTN0Ui9tZWU3a0Nnbk1J?=
- =?utf-8?B?TnBncmZVZC9IZFpXQjRJQVlnb01MK214VW1URFVMV0VXeno0TG9wbmNzOEkw?=
- =?utf-8?B?NFF1SmJrVDRGQW5qWHhFRzgveDhJam9KbDlHNzhBRWhiaDlCc1pISUNYOXBj?=
- =?utf-8?B?bUxHN1AwUjRtVW5YUUZhWTg4RW90Y0tCZ3YwMk9xem1qRUd3VEE5a0JPVk9l?=
- =?utf-8?B?eVlKb1Z2VWFqUUowc3dKSVd5Wm8rTXgrUnF4MlNvbG83TDVNMEU2WjNvVFZZ?=
- =?utf-8?B?ZU9yQTAyMVBWSzhzTXMyMHBTWHdzTWZQMzVsU2gycEhqQytmL2prcGlHOHRt?=
- =?utf-8?B?RVdFYVNYT05mZEdQdk00R3NicnZ6bStrdWJpNUg5TnhmYllFbDFmSUYxNXhl?=
- =?utf-8?B?NXdXak9TZm50OHRYdjI1RXB2cURsYUJkaGN5NTJ5NDVDNGhOYVY1VVNtcXE3?=
- =?utf-8?B?MlVrb1JKZE53WU5xWmtjenBLamxMaGpKS05SNzRkSzNVaTMycGNrVGozTzVZ?=
- =?utf-8?B?M2s4Q2RNeCtOWkR6YkYxcitJemMwQjNXZFc1cnZRUW56M25rQjg5Y3ZoeSsx?=
- =?utf-8?B?NmNuMU1XU0hyTHNITENWUCtaN0FaZGJqMmxjQUdzUEd1am0xOHJobnEzaE1s?=
- =?utf-8?B?SE5NMU53ZEI0STlCWnowOTdLVVJyUE40aWpNOXdhMkVMbmMrSGFoekUvaERO?=
- =?utf-8?B?eHBUMjFXc2pwR1hoZS9iU3NvSkRUQkVvNkJVeXZ2WFNUUXV3TFVVR1hhc2J2?=
- =?utf-8?B?RjZlNFVHWEF2MDQxVFZVZDJ5ZS9hNHhGK2hTQVlHYm5nTVBNaW0xQnhQb0Iy?=
- =?utf-8?B?aGpNNHNJQmppb2JuVW5FOUlHamRXcEpmVWtXZTBGUFdyODlmNDJsVmhKMnpl?=
- =?utf-8?B?TnF1UDFiVW5rR3BpMlc0RGF2aVlhTkVlcUNQcGcvbXc3dW9EV2hES1VDMVd2?=
- =?utf-8?B?ZmN1U2pCaitzdUpzTjlQQWQ1TXcxeW1NWGJsRkl1bUljK0wvK1Bjam5tSG5v?=
- =?utf-8?B?b21URUcvSG5pRDFJVjJaamVsZDkxN2krekZ3K3lWTG4rczZqdFdhZkgvYVd4?=
- =?utf-8?B?UWt5TXhRZmVpaDNJOCsrZFNVdklIZHJFUkN2QTlmdWUyUjJNNk0vYUNUdC9q?=
- =?utf-8?B?UXhCOTkyUVFDNDkvNUdTWnR2eDk5VGhRT1hEY2J5dUlMSjVCb05oaDdQa1Iy?=
- =?utf-8?B?Q3RTUzh5amo2b3FNc0pxcFRaazk0dTRpVndGQXpSN1k1OGV5dDJnUzQ2Wndl?=
- =?utf-8?B?Q085STU5Vlk1QnlmSEJLdTZyZWY1eGRHbXNPREhyMTlNK1ZrR1dRM09RWHhr?=
- =?utf-8?B?M1NJVVo2MzNTYVg0ZWhwalBCRXRaREpHaGJsdDdjNkZJTkd5VEtub2kvNHVo?=
- =?utf-8?B?ck9kQ2h3MGkzdkpiKzJqQklJaWdJbE82ZHRwblp1Szg3Z2lzWWdpYklaMXlZ?=
- =?utf-8?B?b1ptME1UaWl2L2NHTThyZ1FOcGh0V0szK2o3bXFUOEcrbUtEZmhlODV0ZkNi?=
- =?utf-8?Q?M0QKubd9TjXnU7TR6MK35JLnJOgTu4M5akK3aTHhQM=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6064879e-a2bb-4beb-ef24-08d9f7b5948a
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 16:49:10.6034
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fWwur8X2oqeoz7ldyZxy/AZ6n/eQXhRwhgXnx3/9veU9Gsw+oVh8R/7mitkKuA8rciUruOjtEgNNhaOQuPirMcIjjYwELmDAeuCXpIXnLYg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1659
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10268 signatures=684655
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240096
-X-Proofpoint-GUID: XbGeHLsbMlmwuLwkvwt5biqHu25wOJVw
-X-Proofpoint-ORIG-GUID: XbGeHLsbMlmwuLwkvwt5biqHu25wOJVw
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vypeaeqkhphwiwzw"
+Content-Disposition: inline
+In-Reply-To: <20220218183116.2261770-2-bjorn.andersson@linaro.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/24/22 15:41, Muchun Song wrote:
-> On Thu, Feb 24, 2022 at 3:48 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->>
->> Currently memmap_init_zone_device() ends up initializing 32768 pages
->> when it only needs to initialize 128 given tail page reuse. That
->> number is worse with 1GB compound pages, 262144 instead of 128. Update
->> memmap_init_zone_device() to skip redundant initialization, detailed
->> below.
->>
->> When a pgmap @vmemmap_shift is set, all pages are mapped at a given
->> huge page alignment and use compound pages to describe them as opposed
->> to a struct per 4K.
->>
->> With @vmemmap_shift > 0 and when struct pages are stored in ram
->> (!altmap) most tail pages are reused. Consequently, the amount of
->> unique struct pages is a lot smaller that the total amount of struct
-> 
-> s/that/than/g
 
-Fixed as well.
+--vypeaeqkhphwiwzw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 18, 2022 at 10:31:16AM -0800, Bjorn Andersson wrote:
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
+> with their output being routed to various other components, such as
+> current sinks or GPIOs.
+>=20
+> Each LPG instance can operate on fixed parameters or based on a shared
+> lookup-table, altering the duty cycle over time. This provides the means
+> for hardware assisted transitions of LED brightness.
+>=20
+> A typical use case for the fixed parameter mode is to drive a PWM
+> backlight control signal, the driver therefor allows each LPG instance
+> to be exposed to the kernel either through the LED framework or the PWM
+> framework.
+>=20
+> A typical use case for the LED configuration is to drive RGB LEDs in
+> smartphones etc, for which the driver supports multiple channels to be
+> ganged up to a MULTICOLOR LED. In this configuration the pattern
+> generators will be synchronized, to allow for multi-color patterns.
+>=20
+> The idea of modelling this as a LED driver ontop of a PWM driver was
+> considered, but setting the properties related to patterns does not fit
+> in the PWM API. Similarly the idea of just duplicating the lower bits in
+> a PWM and LED driver separately was considered, but this would not allow
+> the PWM channels and LEDs to be configured on a per-board basis. The
+> driver implements the more complex LED interface, and provides a PWM
+> interface on the side of that, in the same driver.
+>=20
+> Tested-by: Luca Weiss <luca@z3ntu.xyz>
+> Tested-by: Doug Anderson <dianders@chromium.org>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+> Changes since v12:
+> - Initialize ret in lpg_pwm_apply()
+>=20
+> Changes since v11:
+> - Extended commit message to cover decision to put pwm_chip in the LED dr=
+iver
+> - Added Documentation, in particular for the hw_pattern format
+> - Added a lock to synchronize requests from LED and PWM frameworks
+> - Turned out that the 9bit selector differs per channel in some PMICs, so
+>   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
+> - Fixed kerneldoc for the struct device pointer in struct lpg
+> - Rewrote conditional in lut_free() to make it easier to read
+> - Corrected and deduplicated max_period expression in lpg_calc_freq()
+> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
+> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
+> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for readin=
+g the
+>   same in get_state()
+> - Cleaned up the pattern format, to allow specifying both low and high pa=
+use
+>   with and without pingpong mode.
+> - Only update frequency and pwm_value if PWM channel is enabled in lpg_pw=
+m_apply
+> - Make lpg_pwm_get_state() read the hardware state, in order to pick up e=
+=2Eg.
+>   bootloader backlight configuration
+> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
+> - Use dev_err_probe() in lpg_probe()
+> - Extended Kconfig help text to mention module name and satisfy checkpatch
+>=20
+>  Documentation/leds/leds-qcom-lpg.rst |   76 ++
+>  drivers/leds/Kconfig                 |    3 +
+>  drivers/leds/Makefile                |    3 +
+>  drivers/leds/rgb/Kconfig             |   18 +
+>  drivers/leds/rgb/Makefile            |    3 +
+>  drivers/leds/rgb/leds-qcom-lpg.c     | 1401 ++++++++++++++++++++++++++
+>  6 files changed, 1504 insertions(+)
+>  create mode 100644 Documentation/leds/leds-qcom-lpg.rst
+>  create mode 100644 drivers/leds/rgb/Kconfig
+>  create mode 100644 drivers/leds/rgb/Makefile
+>  create mode 100644 drivers/leds/rgb/leds-qcom-lpg.c
+>=20
+> diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/le=
+ds-qcom-lpg.rst
+> new file mode 100644
+> index 000000000000..d4825a289888
+> --- /dev/null
+> +++ b/Documentation/leds/leds-qcom-lpg.rst
+> @@ -0,0 +1,76 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +Kernel driver for Qualcomm LPG
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +Description
+> +-----------
+> +
+> +The Qualcomm LPG can be found in a variety of Qualcomm PMICs and consist=
+s of a
+> +number of PWM channels, a programmable pattern lookup table and a RGB LED
+> +current sink.
+> +
+> +To facilitate the various use cases, the LPG channels can be exposed as
+> +individual LEDs, grouped together as RGB LEDs or otherwise be accessed a=
+s PWM
+> +channels. The output of each PWM channel is routed to other hardware
+> +blocks, such as the RGB current sink, GPIO pins etc.
+> +
+> +The each PWM channel can operate with a period between 27us and 384 seco=
+nds and
+> +has a 9 bit resolution of the duty cycle.
+> +
+> +In order to provide support for status notifications with the CPU subsys=
+tem in
+> +deeper idle states the LPG provides pattern support. This consists of a =
+shared
+> +lookup table of brightness values and per channel properties to select t=
+he
+> +range within the table to use, the rate and if the pattern should repeat.
+> +
+> +The pattern for a channel can be programmed using the "pattern" trigger,=
+ using
+> +the hw_pattern attribute.
+> +
+> +/sys/class/leds/<led>/hw_pattern
+> +--------------------------------
+> +
+> +Specify a hardware pattern for a Qualcomm LPG LED.
+> +
+> +The pattern is a series of brightness and hold-time pairs, with the hold=
+-time
+> +expressed in milliseconds. The hold time is a property of the pattern an=
+d must
+> +therefor be identical for each element in the pattern (except for the pa=
+uses
+> +described below).
+> +
+> +Simple pattern::
+> +
+> +    "255 500 0 500"
+> +
+> +        ^
+> +        |
+> +    255 +----+    +----+
+> +	|    |    |    |      ...
+> +      0 |    +----+    +----
+> +        +---------------------->
+> +	0    5   10   15     time (100ms)
+
+you're mixing tabs and spaces here, I suggest to use spaces only. Not
+sure you want to respin for that.
+
+(I didn't look into the rest of the driver, but assume it's fine.)
+
+Best regards
+Uwe
+
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--vypeaeqkhphwiwzw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIXuXcACgkQwfwUeK3K
+7Ams5wf+MyshgmoyVbFd/VtoEJNG+8bLx/KFx6APd8Kl+8oj/EFWOfBDYU9GDKLw
+EsQrVAoJ0gQg/K6hMTUAsN/gwhInmrb4aDHy3Ot1GWBNMoTXiADdF84G6X9avKoF
+Qii16MnMTN95w6CbsDf41DIwjWv+RgIISVztXKjFBWvuL8EaLeMVgcpEIKw/j7JH
+/0BBSbAZmY0039nhyPeVSJhW8IAX0eAhlwN4pTHvbXZ99P5TIFSuOZu9mEROr2FV
+1VbQfq1KRCbxCpKwPiLyKKBsmVHve6nSH6EDOycwu+twmgAiJMk8u4wKpysRClFw
+eKlrJ+QUoNrzwBxmbDphCRvapeddng==
+=X7KB
+-----END PGP SIGNATURE-----
+
+--vypeaeqkhphwiwzw--
