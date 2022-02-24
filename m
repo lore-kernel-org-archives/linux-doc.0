@@ -2,200 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BACC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 18:26:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E0DFC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 18:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232795AbiBXS05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 13:26:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36138 "EHLO
+        id S231344AbiBXSnH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 13:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbiBXS0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 13:26:55 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572BA2E681;
-        Thu, 24 Feb 2022 10:26:25 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id CC4F41F44A;
-        Thu, 24 Feb 2022 18:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1645727183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fvd1oinbrzDNEtVw09f73DrWCGrH8uj1AxQnI+XDYsA=;
-        b=bkp1oVJXbWkpid09cmm13sNPWmUCuhaHiS++4pZepB3FkldFh7aCskaPIOft1q+ADmBIFJ
-        A6PnUX6wxF1vyHGVXr2dfZNx+WiatfwzHBBqe3itmGYWUZQ1Y4aRsDtgvSTQpipqYrsNeQ
-        9rbGMo5ALz4T0wNVzbygll+R7NJsp3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1645727183;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fvd1oinbrzDNEtVw09f73DrWCGrH8uj1AxQnI+XDYsA=;
-        b=jWApK2AmDJVMG8GSfFG05r6OWPvoyyhtsY2beZhfc9a6eTJ5NVMmGZXLdtlQOfh01M1VpN
-        9gOSsdIcUkyQimDA==
-Received: from quack3.suse.cz (unknown [10.163.28.18])
+        with ESMTP id S230211AbiBXSnG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 13:43:06 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220101B71BB
+        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 10:42:35 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 04F60A3B81;
-        Thu, 24 Feb 2022 18:26:23 +0000 (UTC)
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id A8999A0605; Thu, 24 Feb 2022 19:26:22 +0100 (CET)
-Date:   Thu, 24 Feb 2022 19:26:22 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-        Wu Fengguang <fengguang.wu@intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 02/11] MM: document and polish read-ahead code.
-Message-ID: <20220224182622.n7abfey3asszyq3x@quack3.lan>
-References: <164447124918.23354.17858831070003318849.stgit@noble.brown>
- <164447147257.23354.2801426518649016278.stgit@noble.brown>
- <20220210122440.vqth5mwsqtv6vjpq@quack3.lan>
- <164453611721.27779.1299851963795418722@noble.neil.brown.name>
+        by ms.lwn.net (Postfix) with ESMTPSA id 350422E0;
+        Thu, 24 Feb 2022 18:42:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 350422E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1645728155; bh=8ryE/0oRMNwDYs7ZbSdv/kmOvYonw6UZh+oRKYcz3dg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=KDwVQuJHqpL7b5eX4MxVoJGnlz/Urlr1GntTYVcjCsC/2M2HAEnexKitWujGd7yLU
+         +rM5Cj/3O10Qv254iy0t24Hx8ZJNhYzF1vHwr46Cn4XMbi1AqeLjc8iCxr0U3eGFrM
+         DqFdLPB7iOHEHh8CJ4eUiT5q59zknkzZC/GIHfYBH62bLQgQq8iIzgr3O1AS/Rzk7R
+         eOTVXG6oTx0P8lJeYx7/DlptfoiCpj9YOdHYYS/Hm95Cj+vucoNQcZSwauV0dxJEwx
+         XrxhcE5Bpc+HPnY1K4tgyx/JGxefKRWQOb0L22T5G9H1y3acQ7BZ1KFNL8qnGVmdeh
+         FFVEg+0PImmeg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 00/11] Transform documentation into POD
+In-Reply-To: <6a057644-7266-8c6b-76be-09b8d205e4d9@gmail.com>
+References: <525f3696-91f4-5a4a-c9ef-24758ccaa2bb@infradead.org>
+ <ff98f455-0221-7ff0-08ed-8dea9f08694b@gmail.com>
+ <939ef119-8a84-9206-bd7c-cfd215bb0200@gmail.com>
+ <20220223135548.27babd85@fuji.fritz.box>
+ <1abcb226-dbfd-b3d2-5453-208af7faa0c2@gmail.com>
+ <20220223150403.350ba3d0@fuji.fritz.box>
+ <6a057644-7266-8c6b-76be-09b8d205e4d9@gmail.com>
+Date:   Thu, 24 Feb 2022 11:42:34 -0700
+Message-ID: <87v8x4ksx1.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <164453611721.27779.1299851963795418722@noble.neil.brown.name>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 11-02-22 10:35:17, NeilBrown wrote:
-> On Thu, 10 Feb 2022, Jan Kara wrote:
-> > Hi Neil!
-> > 
-> > On Thu 10-02-22 16:37:52, NeilBrown wrote:
-> > > Add some "big-picture" documentation for read-ahead and polish the code
-> > > to make it fit this documentation.
-> > > 
-> > > The meaning of ->async_size is clarified to match its name.
-> > > i.e. Any request to ->readahead() has a sync part and an async part.
-> > > The caller will wait for the sync pages to complete, but will not wait
-> > > for the async pages.  The first async page is still marked PG_readahead
-> 
-> Thanks for the review!
-> 
-> > 
-> > So I don't think this is how the code was meant. My understanding of
-> > readahead comes from a comment:
-> 
-> I can't be sure what was "meant" but what I described is very close to
-> what the code actually does.
-> 
-> > 
-> > /*
-> >  * On-demand readahead design.
-> >  *
-> > ....
-> > 
-> > in mm/readahead.c. The ra->size is how many pages should be read.
-> > ra->async_size is the "lookahead size" meaning that we should place a
-> > marker (PageReadahead) at "ra->size - ra->async_size" to trigger next
-> > readahead.
-> 
-> This description of PageReadahead and ->async_size focuses on *what*
-> happens, not *why*.  Importantly it doesn't help answer the question "What
-> should I set ->async_size to?"
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-Sorry for delayed reply. I was on vacation and then catching up with stuff.
-I know you have submitted another version of the patches but not much has
-changed in this regard so I figured it might be better to continue
-discussion here.
-
-So my answer to "What should I set ->async_size to?" is: Ideally so that it
-takes application to process data between ->async_size and ->size as long
-as it takes the disk to load the next chunk of data into the page cache.
-This is explained in the comment:
-
- * To overlap application thinking time and disk I/O time, we do
- * `readahead pipelining': Do not wait until the application consumed all
- * readahead pages and stalled on the missing page at readahead_index;
- * Instead, submit an asynchronous readahead I/O as soon as there are
- * only async_size pages left in the readahead window. Normally async_size
- * will be equal to size, for maximum pipelining.
-
-Now because things such as think time or time to read pages is difficult to
-estimate, we just end up triggering next readahead as soon as we are at least
-a bit confident application is going to use the pages. But I don't think
-there was ever any intent to have "sync" and "async" parts of the request
-or that ->size - ->async_size is what must be read. Any function in the
-readahead code is free to return without doing anything regardless of
-passed parameters and the caller needs to deal with that, ->size is just a
-hint to the filesystem how much we expect to be useful to read...
-
-> The implication in the code is that when we sequentially access a page
-> that was read-ahead (read before it was explicitly requested), we trigger
-> more read ahead.  So ->async_size should refer to that part of the
-> readahead request which was not explicitly requested.  With that
-> understanding, it becomes possible to audit all the places that
-> ->async_size are set and to see if they make sense.
-
-I don't think this "implication" was ever intended :) But it may have
-happened that some guesses how big ->async_size should be have ended like
-that because of the impracticality of the original definition of how large
-->async_size should be.
-
-In fact I kind of like what you suggest ->async_size should be - it is
-possible to actually implement that unlike the original definition - but it
-is more of "let's redesign how readahead size is chosen" than "let's
-document how readahead size is chosen" :).
-
-> > > Note that the current function names page_cache_sync_ra() and
-> > > page_cache_async_ra() are misleading.  All ra request are partly sync
-> > > and partly async, so either part can be empty.
-> > 
-> > The meaning of these names IMO is:
-> > page_cache_sync_ra() - tell readahead that we currently need a page
-> > ractl->_index and would prefer req_count pages fetched ahead.
-> 
-> I don't think that is what req_count means.  req_count is the number of
-> pages that are needed *now* to satisfy the current read request.
-> page_cache_sync_ra() has the job of determining how many more pages (if
-> any) to read-ahead to satisfy future requests.  Sometimes it reads
-> another req_count - sometimes not.
-
-So this is certainly true for page_cache_sync_readahead() call in
-filemap_get_pages() but the call of page_cache_sync_ra() from
-do_sync_mmap_readahead() does not quite follow what you say - we need only
-one page there but request more.
-
-> > page_cache_async_ra() - called when we hit the lookahead marker to give
-> > opportunity to readahead code to prefetch more pages.
-> 
-> Yes, but page_cache_async_ra() is given a req_count which, as above, is
-> the number of pages needed to satisfy *this* request.  That wouldn't
-> make sense if it was a pure future-readahead request.
-
-Again, usage of req_count in page_cache_async_ra() is not always the number
-of pages immediately needed.
-
-> In practice, the word "sync" is used to mean "page was missing" and
-> "async" here means "PG_readahead was found".  But that isn't what those
-> words usually mean.
+> Apparently, users of ./scripts/kernel-doc are who run "make htmldocs" or
+> "make pdfdocs", a relatively small portion of Linux kernel development
+> community, I guess.  Note that they don't have direct interactions with
+> ./scripts/kernel-doc in most (>95% ??) cases.
 >
-> They both call ondemand_readahead() passing False or True respectively
-> to hit_readahead_marker - which makes that meaning clear in the code...
-> but it still isn't clear in the name.
+> Normal Linux end-users don't bother with kernel-doc, I guess.
 
-I agree the naming is somewhat confusing :)
+In my experience, directly running kernel-doc is usually part of the
+process of trying to figure out why kerneldoc comments aren't rendering
+as expected; otherwise it's completely hidden.  I do think that these
+changes can be helpful in that use case, and they bring the script a bit
+closer to contemporary Perl standards.  Overall, I think it's a
+worthwhile change.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+
+jon
