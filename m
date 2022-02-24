@@ -2,466 +2,307 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C974C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 07:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31060C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 08:19:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230398AbiBXHxN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 02:53:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
+        id S229781AbiBXIUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 03:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231395AbiBXHxM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 02:53:12 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7FB192E3D
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 23:52:41 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id 75so1094308pgb.4
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 23:52:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZJyuo8HW0lgEwQiaSel5I2dm34XpPXh2hRkNyXXESgk=;
-        b=1+Al6T7d8JaIDCsSMmZoAtJwuloPstMDy7VUT2a1ijuiOAp+mK3KPuYJPIrQogNe5E
-         tnqY1bWMAMN0FQ/U01Ta/EJbWnC8xYGp9e2yb+QgC1bGuH/BweVUJUz0ZDZTn8HznZey
-         /FisA4GbvwOBE7yXGO5a0z6tuhrFwgULI4pjYxmwU8HnQBX+a8IHrAATTu0lLVnUnOXx
-         jpvsmWAQGE7mBHUOXXq0vBckSSwV0I/siStfSVuS40Ev2dEwOOl51q08Q7DklfXbbWY6
-         Tk+eWh39vwUTJA8FaNJtTWm1dxfpg1ABniXjWFDBLSUwpQdLIdHy8AxIFR6V//49wk27
-         p4aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZJyuo8HW0lgEwQiaSel5I2dm34XpPXh2hRkNyXXESgk=;
-        b=JQwczOCPdRrSjAX2k/UGip66pn+ThtwOfW8/3M2BS+5QPJiukouwGFmwP0tgjKoMQL
-         v3ahbV8lgP0OhTMpJPXjPgW7ag0QjBSWMbA4V0RRdX2WN/tza6lIUOElUXlfdKWJrRU1
-         a3lx7cUNuQkQ1NURK8TsA6Lu9m4lSB8JkqHVgV5jxNaI3CVBlnVbTN0XydPvPXceSV8V
-         B7D+ep8tCO3QWybgjp5U8R/FRzY6SW41Gew3Af+HXn5ogG/Oj61yPNnilnm8LvmBKN2v
-         nt9KQ8kFfU7U+mbSCpe9O2vG9HzfpDgbhFP9o/Ofnqz20GgHrhEgeMrMsLRM/KseZUB9
-         4dIQ==
-X-Gm-Message-State: AOAM53225l/XD+7Ry9ytjX4qwFVLi+V+E3VVnzRttvcBKw1Lu94PKUGN
-        T8OK8+ciZ72tFXfvUfAJezUr3A==
-X-Google-Smtp-Source: ABdhPJxYRU8+dpxknEz41BQHzlG1JTyRKzw8MJMPIV02iy2tOa7mG2eF9X+xwSDvPyIotLAHoaRNQg==
-X-Received: by 2002:a05:6a00:2296:b0:4e1:3029:ee2 with SMTP id f22-20020a056a00229600b004e130290ee2mr1434080pfe.22.1645689160684;
-        Wed, 23 Feb 2022 23:52:40 -0800 (PST)
-Received: from C02FT5A6MD6R.bytedance.net ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id t9sm1752969pgp.5.2022.02.23.23.52.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 23:52:39 -0800 (PST)
-From:   Gang Li <ligang.bdlg@bytedance.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     songmuchun@bytedance.com, zhengqi.arch@bytedance.com,
-        Gang Li <ligang.bdlg@bytedance.com>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH] sched/numa: add per-process numa_balancing
-Date:   Thu, 24 Feb 2022 15:52:25 +0800
-Message-Id: <20220224075227.27127-1-ligang.bdlg@bytedance.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S230124AbiBXIUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 03:20:01 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B370B251E79;
+        Thu, 24 Feb 2022 00:19:30 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1nN9LQ-0003ur-Ui; Thu, 24 Feb 2022 09:19:25 +0100
+Message-ID: <974cf8f2-06f3-99a5-9a77-6d7b7cc8271a@leemhuis.info>
+Date:   Thu, 24 Feb 2022 09:19:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-BS
+To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stefano Zacchiroli <zack@upsilon.cc>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Wenwen Wang <wenwen@cs.uga.edu>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20220224001403.1307377-1-keescook@chromium.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH] Documentation/process: Add Researcher Guidelines
+In-Reply-To: <20220224001403.1307377-1-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1645690770;edb46c4e;
+X-HE-SMSGID: 1nN9LQ-0003ur-Ui
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch add a new api PR_PROCESS_NUMAB in prctl.
+On 24.02.22 01:14, Kees Cook wrote:
+> As a follow-up to the UMN incident[1], the TAB took the responsibility
+> to document Researcher Guidelines so there would be a common place to
+> point for describing our expectations as a developer community.
+> 
+> Document best practices researchers should follow to participate
+> successfully with the Linux developer community.
+> 
+> [1] https://lore.kernel.org/lkml/202105051005.49BFABCE@keescook/
+> 
+> Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Co-developed-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Co-developed-by: Stefano Zacchiroli <zack@upsilon.cc>
+> Signed-off-by: Stefano Zacchiroli <zack@upsilon.cc>
+> Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+> Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Steve Rostedt <rostedt@goodmis.org>
+> Acked-by: Laura Abbott <labbott@kernel.org>
+> Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+> Reviewed-by: Wenwen Wang <wenwen@cs.uga.edu>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Documentation/admin-guide/index.rst           |   1 +
+>  .../admin-guide/researcher-guidelines.rst     | 141 ++++++++++++++++++
 
-A large number of page faults will cause performance loss when numa
-balancing is performing. Thus those processes which care about worst-case
-performance need numa balancing disabled. Others, on the contrary, allow a
-temporary performance loss in exchange for higher average performance, so
-enable numa balancing is better for them.
+Hmm, the intro for "Documentation/admin-guide/" states that "The
+following manuals are written for users of the kernel", but the added
+text afaics providing nothing regular users care about. So wouldn't it
+be better if this lived below Documentation/process/ ? It might not a
+really good fit either, but I'd say it's the better place.
 
-Numa balancing can only be controlled globally by
-/proc/sys/kernel/numa_balancing. Due to the above case, we want to
-disable/enable numa_balancing per-process instead.
+But well, the best person to know is Jonathan, who is listed as a
+Co-developer above, so maybe I'm wrong my suggestion is a bad one.
 
-Add numa_balancing under mm_struct. Then use it in task_tick_fair.
+>  2 files changed, 142 insertions(+)
+>  create mode 100644 Documentation/admin-guide/researcher-guidelines.rst
+> 
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 1bedab498104..7fff0730204d 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -35,6 +35,7 @@ problems and bugs in particular.
+>     :maxdepth: 1
+>  
+>     reporting-issues
+> +   researcher-guidelines
+>     security-bugs
+>     bug-hunting
+>     bug-bisect
+> diff --git a/Documentation/admin-guide/researcher-guidelines.rst b/Documentation/admin-guide/researcher-guidelines.rst
+> new file mode 100644
+> index 000000000000..993f32d1166c
+> --- /dev/null
+> +++ b/Documentation/admin-guide/researcher-guidelines.rst
+> @@ -0,0 +1,141 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _researcher_guidelines:
+> +
+> +Researcher Guidelines
+> ++++++++++++++++++++++
+> +
+> +The Linux kernel community
 
-Set per-process numa balancing:
-	prctl(PR_PROCESS_NUMAB, PR_SET_PROCESS_NUMAB_DISABLED);
-	prctl(PR_PROCESS_NUMAB, PR_SET_PROCESS_NUMAB_ENABLED);
-	prctl(PR_PROCESS_NUMAB, PR_SET_PROCESS_NUMAB_DEFAULT);
-Get numa_balancing state:
-	prctl(PR_PROCESS_NUMAB, PR_GET_PROCESS_NUMAB, &ret);
-	cat /proc/<pid>/status | grep NumaB_enabled
+Nitpicking: wondering if this maybe should be something like "The Linux
+kernel developer community" (or "Linux kernel's..."?).
 
-Cc: linux-api@vger.kernel.org
-Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
----
+> welcomes transparent research on the Linux
+> +kernel, the activities involved in producing it, and any other byproducts
+> +of its development. Linux benefits greatly from this kind of research, and
+> +most aspects of Linux are driven by research in one form or another.
+> +
+> +The community greatly appreciates if researchers can share preliminary
+> +findings before making their results public, especially if such research
+> +involves security. Getting involved early helps both improve the quality
+> +of research and ability for Linux to improve from it. In any case,
+> +sharing open access copies of the published research with the community
+> +is recommended.
+> +
+> +This document seeks to clarify what the Linux kernel community considers
+> +acceptable and non-acceptable practices when conducting such research. At
+> +the very least, such research and related activities should follow
+> +standard research ethics rules. For more background on research ethics
+> +generally, ethics in technology, and research of developer communities
+> +in particular, see:
+> +
+> +* `History of Research Ethics <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
+> +* `IEEE Ethics <https://www.ieee.org/about/ethics/index.html>`_
+> +* `Developer and Researcher Views on the Ethics of Experiments on
+> +   Open-Source Projects <https://arxiv.org/pdf/2112.13217.pdf>`_
+> +
+> +The Linux kernel community expects that everyone interacting with the
+> +project is participating in good faith to make Linux better. Research on
+> +any publicly-available artifact (including, but not limited to source
+> +code) produced by the Linux kernel community is welcome, though research
+> +on developers must be distinctly opt-in.
+> +
+> +Passive research that is based entirely on publicly available sources,
+> +including posts to public mailing lists and commits to public
+> +repositories, is clearly permissible. Though, as with any research,
+> +standard ethics must still be followed.
+> +
+> +Active research on developer behavior,
 
-Changes in v4:
-- Adaptation of new feature: optimize page placement for memory tiering system.
-  https://lore.kernel.org/all/20220128082751.593478-3-ying.huang@intel.com/
-- warp sched_numa_balancing and mm->numab_enabled with process_sched_numab_enabled().
+Nitpicking: when reading this for the first time I here wondered what is
+precisely meant by "Active research". Is this maybe an established term
+in academia I'm simply not aware of? If not, maybe simply writing
+something like "Other research on developer behavior" or "Research on
+developer behavior where you engage in development" avoid this.
 
-Changes in v3:
-- Fix compile error.
+> however, must be done with the
+> +explicit agreement of, and full disclosure to, the individual developers
+> +involved. Developers cannot be interacted with/experimented on without
+> +consent; this, too, is standard research ethics.
+> +
+> +To help clarify: 
 
-Changes in v2:
-- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
-  enabled and disabled will ignore global setting, and default will follow
-  global setting.
+Follow up to above remark: If "Active research" stays above, I'd say it
+might be worth repeating the term here to make clear what's being clarified.
 
----
- Documentation/filesystems/proc.rst   |  2 ++
- fs/proc/task_mmu.c                   | 19 +++++++++++++++
- include/linux/mm_types.h             |  3 +++
- include/linux/sched/numa_balancing.h |  6 +++++
- include/linux/sched/sysctl.h         | 19 +++++++++++++++
- include/uapi/linux/prctl.h           |  7 ++++++
- kernel/fork.c                        |  3 +++
- kernel/sched/fair.c                  | 34 ++++++++++++++++++++++-----
- kernel/sys.c                         | 35 ++++++++++++++++++++++++++++
- mm/huge_memory.c                     |  2 +-
- mm/mprotect.c                        |  6 ++---
- 11 files changed, 126 insertions(+), 10 deletions(-)
+> sending patches to developers *is* interacting
+> +with them, but they have already consented to receiving *good faith
+> +contributions*. Sending intentionally flawed/vulnerable patches or
+> +contributing misleading information to discussions is not consented
+> +to. Such communication can be damaging to the developer (e.g. draining
+> +time, effort, and morale) and damaging to the project by eroding
+> +the entire developer community's trust in the contributor (and the
+> +contributor's organization as a whole), undermining efforts to provide
+> +constructive feedback to contributors, and putting end users at risk of
+> +software flaws.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 061744c436d9..00f6503f0793 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -192,6 +192,7 @@ read the file /proc/PID/status::
-   VmLib:      1412 kB
-   VmPTE:        20 kb
-   VmSwap:        0 kB
-+  NumaB_enabled:  default
-   HugetlbPages:          0 kB
-   CoreDumping:    0
-   THP_enabled:	  1
-@@ -273,6 +274,7 @@ It's slow but very precise.
-  VmPTE                       size of page table entries
-  VmSwap                      amount of swap used by anonymous private data
-                              (shmem swap usage is not included)
-+ NumaB_enabled               numa balancing state, set by prctl(PR_PROCESS_NUMAB, ...)
-  HugetlbPages                size of hugetlb memory portions
-  CoreDumping                 process's memory is currently being dumped
-                              (killing the process may lead to a corrupted core)
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 6e97ed775074..b1aa100b8711 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -20,6 +20,7 @@
- #include <linux/shmem_fs.h>
- #include <linux/uaccess.h>
- #include <linux/pkeys.h>
-+#include <linux/sched/numa_balancing.h>
- 
- #include <asm/elf.h>
- #include <asm/tlb.h>
-@@ -76,6 +77,24 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
- 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
- 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
- 	seq_puts(m, " kB\n");
-+#ifdef CONFIG_NUMA_BALANCING
-+	seq_puts(m, "NumaB_enabled:\t");
-+	switch (mm->numab_enabled) {
-+	case PROCESS_NUMAB_DEFAULT:
-+		seq_puts(m, "default");
-+		break;
-+	case PROCESS_NUMAB_DISABLED:
-+		seq_puts(m, "disabled");
-+		break;
-+	case PROCESS_NUMAB_ENABLED:
-+		seq_puts(m, "enabled");
-+		break;
-+	default:
-+		seq_puts(m, "unknown");
-+		break;
-+	}
-+	seq_putc(m, '\n');
-+#endif
- 	hugetlb_report_usage(m, mm);
- }
- #undef SEQ_PUT_DEC
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 9f05ffa12265..5a42aba3b17f 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -626,6 +626,9 @@ struct mm_struct {
- 
- 		/* numa_scan_seq prevents two threads setting pte_numa */
- 		int numa_scan_seq;
-+
-+		/* Controls whether NUMA balancing is active for this mm. */
-+		int numab_enabled;
- #endif
- 		/*
- 		 * An operation with batched TLB flushing is going on. Anything
-diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
-index 3988762efe15..c7dc08d6ba6a 100644
---- a/include/linux/sched/numa_balancing.h
-+++ b/include/linux/sched/numa_balancing.h
-@@ -16,6 +16,12 @@
- #define TNF_MIGRATE_FAIL 0x10
- 
- #ifdef CONFIG_NUMA_BALANCING
-+enum {
-+	PROCESS_NUMAB_DISABLED,
-+	PROCESS_NUMAB_ENABLED,
-+	PROCESS_NUMAB_DEFAULT
-+};
-+DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
- extern void task_numa_fault(int last_node, int node, int pages, int flags);
- extern pid_t task_numa_group_id(struct task_struct *p);
- extern void set_numabalancing_state(bool enabled);
-diff --git a/include/linux/sched/sysctl.h b/include/linux/sched/sysctl.h
-index c1076b5e17fb..77d010942481 100644
---- a/include/linux/sched/sysctl.h
-+++ b/include/linux/sched/sysctl.h
-@@ -3,6 +3,7 @@
- #define _LINUX_SCHED_SYSCTL_H
- 
- #include <linux/types.h>
-+#include <linux/sched/numa_balancing.h>
- 
- struct ctl_table;
- 
-@@ -29,8 +30,26 @@ enum sched_tunable_scaling {
- 
- #ifdef CONFIG_NUMA_BALANCING
- extern int sysctl_numa_balancing_mode;
-+static inline int process_sysctl_numab_mode(struct mm_struct *mm)
-+{
-+	int numab = mm->numab_enabled;
-+
-+	switch (numab) {
-+	case PROCESS_NUMAB_ENABLED:
-+		return NUMA_BALANCING_NORMAL;
-+	case PROCESS_NUMAB_DISABLED:
-+		return NUMA_BALANCING_DISABLED;
-+	case PROCESS_NUMAB_DEFAULT:
-+	default:
-+		return sysctl_numa_balancing_mode;
-+	}
-+}
- #else
- #define sysctl_numa_balancing_mode	0
-+static inline int process_sysctl_numab_mode(struct mm_struct *mm)
-+{
-+	return NUMA_BALANCING_DISABLED;
-+}
- #endif
- 
- /*
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index e998764f0262..d06a904c35c1 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -275,4 +275,11 @@ struct prctl_mm_map {
- #define PR_SET_VMA		0x53564d41
- # define PR_SET_VMA_ANON_NAME		0
- 
-+/* Set/get enabled per-process numa_balancing */
-+#define PR_PROCESS_NUMAB		63
-+# define PR_SET_PROCESS_NUMAB_DISABLED	PROCESS_NUMAB_DISABLED
-+# define PR_SET_PROCESS_NUMAB_ENABLED	PROCESS_NUMAB_ENABLED
-+# define PR_SET_PROCESS_NUMAB_DEFAULT	PROCESS_NUMAB_DEFAULT
-+# define PR_GET_PROCESS_NUMAB		3
-+
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 64dbfb9426fd..2f93b240ebab 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1059,6 +1059,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
- 	init_tlb_flush_pending(mm);
- #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
- 	mm->pmd_huge_pte = NULL;
-+#endif
-+#ifdef CONFIG_NUMA_BALANCING
-+	mm->numab_enabled = PROCESS_NUMAB_DEFAULT;
- #endif
- 	mm_init_uprobes_state(mm);
- 	hugetlb_count_init(mm);
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 28b91f11b618..7ff5831c5b33 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -2575,6 +2575,23 @@ void task_numa_free(struct task_struct *p, bool final)
- 	}
- }
- 
-+static inline bool process_sched_numab_enabled(struct task_struct *p)
-+{
-+	if (p->mm) {
-+		int numab = p->mm->numab_enabled;
-+
-+		switch (numab) {
-+		case PROCESS_NUMAB_ENABLED:
-+			return true;
-+		case PROCESS_NUMAB_DISABLED:
-+			return false;
-+		case PROCESS_NUMAB_DEFAULT:
-+			break;
-+		}
-+	}
-+	return static_branch_unlikely(&sched_numa_balancing);
-+}
-+
- /*
-  * Got a PROT_NONE fault for a page on @node.
-  */
-@@ -2587,13 +2604,13 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
- 	struct numa_group *ng;
- 	int priv;
- 
--	if (!static_branch_likely(&sched_numa_balancing))
--		return;
--
- 	/* for example, ksmd faulting in a user's mm */
- 	if (!p->mm)
- 		return;
- 
-+	if (!process_sched_numab_enabled(p))
-+		return;
-+
- 	/* Allocate buffer to track faults on a per-node basis */
- 	if (unlikely(!p->numa_faults)) {
- 		int size = sizeof(*p->numa_faults) *
-@@ -2894,7 +2911,7 @@ static void update_scan_period(struct task_struct *p, int new_cpu)
- 	int src_nid = cpu_to_node(task_cpu(p));
- 	int dst_nid = cpu_to_node(new_cpu);
- 
--	if (!static_branch_likely(&sched_numa_balancing))
-+	if (!process_sched_numab_enabled(p))
- 		return;
- 
- 	if (!p->mm || !p->numa_faults || (p->flags & PF_EXITING))
-@@ -2928,6 +2945,11 @@ static void task_tick_numa(struct rq *rq, struct task_struct *curr)
- {
- }
- 
-+static inline bool process_sched_numab_enabled(struct task_struct *p)
-+{
-+	return false;
-+}
-+
- static inline void account_numa_enqueue(struct rq *rq, struct task_struct *p)
- {
- }
-@@ -7687,7 +7709,7 @@ static int migrate_degrades_locality(struct task_struct *p, struct lb_env *env)
- 	unsigned long src_weight, dst_weight;
- 	int src_nid, dst_nid, dist;
- 
--	if (!static_branch_likely(&sched_numa_balancing))
-+	if (!process_sched_numab_enabled(p))
- 		return -1;
- 
- 	if (!p->numa_faults || !(env->sd->flags & SD_NUMA))
-@@ -11164,7 +11186,7 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
- 		entity_tick(cfs_rq, se, queued);
- 	}
- 
--	if (static_branch_unlikely(&sched_numa_balancing))
-+	if (process_sched_numab_enabled(curr))
- 		task_tick_numa(rq, curr);
- 
- 	update_misfit_status(curr, rq);
-diff --git a/kernel/sys.c b/kernel/sys.c
-index ecc4cf019242..04cb73e39926 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -58,6 +58,7 @@
- #include <linux/sched/coredump.h>
- #include <linux/sched/task.h>
- #include <linux/sched/cputime.h>
-+#include <linux/sched/numa_balancing.h>
- #include <linux/rcupdate.h>
- #include <linux/uidgid.h>
- #include <linux/cred.h>
-@@ -2081,6 +2082,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
- 	return 0;
- }
- 
-+#ifdef CONFIG_NUMA_BALANCING
-+static int prctl_pid_numa_balancing_write(int numa_balancing)
-+{
-+	if (numa_balancing != PR_SET_PROCESS_NUMAB_DEFAULT
-+	    && numa_balancing != PR_SET_PROCESS_NUMAB_DISABLED
-+	    && numa_balancing != PR_SET_PROCESS_NUMAB_ENABLED)
-+		return -EINVAL;
-+	current->mm->numab_enabled = numa_balancing;
-+	return 0;
-+}
-+
-+static int prctl_pid_numa_balancing_read(void)
-+{
-+	return current->mm->numab_enabled;
-+}
-+#endif
-+
- static int prctl_set_mm(int opt, unsigned long addr,
- 			unsigned long arg4, unsigned long arg5)
- {
-@@ -2585,6 +2603,23 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
- 						  (char __user *) arg5);
- 		break;
-+#ifdef CONFIG_NUMA_BALANCING
-+	case PR_PROCESS_NUMAB:
-+		switch (arg2) {
-+		case PR_SET_PROCESS_NUMAB_DEFAULT:
-+		case PR_SET_PROCESS_NUMAB_DISABLED:
-+		case PR_SET_PROCESS_NUMAB_ENABLED:
-+			error = prctl_pid_numa_balancing_write((int)arg2);
-+			break;
-+		case PR_GET_PROCESS_NUMAB:
-+			error = put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
-+			break;
-+		default:
-+			error = -EINVAL;
-+			break;
-+		}
-+		break;
-+#endif
- #ifdef CONFIG_SCHED_CORE
- 	case PR_SCHED_CORE:
- 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 09fb65a80e63..25a660065af1 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1760,7 +1760,7 @@ int change_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
- 		 * Skip scanning top tier node if normal numa
- 		 * balancing is disabled
- 		 */
--		if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_NORMAL) &&
-+		if (!(process_sysctl_numab_mode(vma->vm_mm) & NUMA_BALANCING_NORMAL) &&
- 		    node_is_toptier(page_to_nid(page)))
- 			goto unlock;
- 	}
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index 2fe03e695c81..2ae0127f46e8 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -33,7 +33,7 @@
- #include <asm/cacheflush.h>
- #include <asm/mmu_context.h>
- #include <asm/tlbflush.h>
--
-+#include <linux/sched/numa_balancing.h>
- #include "internal.h"
- 
- static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
-@@ -119,8 +119,8 @@ static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
- 				 * Skip scanning top tier node if normal numa
- 				 * balancing is disabled
- 				 */
--				if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_NORMAL) &&
--				    node_is_toptier(nid))
-+				if (!(process_sysctl_numab_mode(vma->vm_mm) & NUMA_BALANCING_NORMAL)
-+				    && node_is_toptier(nid))
- 					continue;
- 			}
- 
--- 
-2.20.1
+Nitpicking again: Quite a long sentence. Maybe split it up with
+something like a "s!, undermining !; such an approach would thus undermine"
 
+> +Participation in the development of Linux itself by researchers, as
+> +with anyone, is welcomed and encouraged. Research into Linux code is
+> +a common practice, especially when it comes to developing or running
+> +analysis tools that produce actionable results.
+> +
+> +When engaging with the developer community, sending a patch has
+> +traditionally been the best way to make an impact. Linux already has
+> +plenty of known bugs -- what's much more helpful is having vetted fixes.
+> +Before contributing, carefully read the documentation on
+> +:doc:`submitting patches <../process/submitting-patches>`,
+> +:doc:`reporting issues <reporting-issues>`, and
+> +:doc:`handling serious flaws <security-bugs>`.
+
+Wonder if Documentation/process/{development-process.rst,5.Posting.rst}
+should be linked as well.
+
+Additionally not my area of expertise, but from what I'd noticed it
+seems it's better to avoid the :doc:`foo` tag if there is no strict need
+(and I don't think there is one in this case). For the background see here:
+
+https://lore.kernel.org/all/cover.1623824363.git.mchehab+huawei@kernel.org/
+
+Most of those patches got applied meanwhile afaik.
+
+> Send a patch (including
+> +a commit log with all the details listed below), and follow up on any
+> +feedback from other developers.
+> +
+> +When sending patches produced from research, the commit logs should
+> +contain at least the following details, so that developers have
+> +appropriate context for understanding the contribution. Answer:
+> +
+> +* What is the specific problem that has been found?
+> +* How could the problem be reached on a running system?
+> +* What effect would encountering the problem have on the system?
+> +* How was the problem found? Specifically include details about any
+> +  testing, static or dynamic analysis programs, and any other tools or
+> +  methods used to perform the work.
+> +* Which version of Linux was the problem was found on? Using the most
+> +  recent release or a recent :doc:`linux-next branch <../process/howto>`
+> +  is strongly preferred.
+> +* What was changed to fix the problem, and why it is believed to be correct?
+> +* How was the change build tested and run-time tested?
+> +* What prior commit does this change fix? This should go in a "Fixes:"
+> +  tag as the documentation describes.
+> +* Who else has reviewed this patch? This should go in appropriate
+> +  "Reviewed-by:" tags; see below.
+> +
+> +For example::
+> +
+> +  From: Author <author@email>
+> +  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
+> +
+> +  The error path in foo_bar driver does not correctly free the allocated
+> +  struct foo_bar_info. This can happen if the attached foo_bar device
+> +  rejects the initialization packets sent during foo_bar_probe(). This
+> +  would result in a 64 byte slab memory leak once per device attach,
+> +  wasting memory resources over time.
+> +
+> +  This flaw was found using an experimental static analysis tool we are
+> +  developing, LeakMagic[1], which reported the following warning when
+> +  analyzing the v5.15 kernel release:
+> +
+> +   path/to/foo_bar.c:187: missing kfree() call?
+> +
+> +  Add the missing kfree() to the error path. No other references to
+> +  this memory exist outside the probe function, so this is the only
+> +  place it can be freed.
+> +
+> +  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
+> +  11.2 show no new warnings, and LeakMagic no longer warns about this
+> +  code path. As we don't have a FooBar device to test with, no runtime
+> +  testing was able to be performed.
+> +
+> +  [1] https://url/to/leakmagic/details
+> +
+> +  Reported-by: Researcher <researcher@email>
+> +  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
+> +  Signed-off-by: Author <author@email>
+> +  Reviewed-by: Reviewer <reviewer@email>
+> +
+> +If you are a first time contributor it is recommended that the patch
+> +itself be vetted by others privately before being posted to public lists.
+> +(This is required if you have been explicitly told your patches need
+> +more careful internal review.) These people are expected to have their
+> +"Reviewed-by" tag included in the resulting patch. Finding another
+> +developer familiar with Linux contribution, especially within your own
+> +organization, and having them help with reviews before sending them to
+> +the public mailing lists tends to significantly improve the quality of the
+> +resulting patches, and there by reduces the burden on other developers.
+
+I like the section, but I wonder why it's needed here. Is there anything
+specific to patches produced from research in it there I missed when
+reading it? If not: Wouldn't it be better to include that section as a
+TLDR in Documentation/process/submitting-patches.rst and point there
+instead? We already have at least two places describing how to submit
+patches, creating yet another one (even if it's just in such a brief
+version) somehow feels slightly wrong to me.
+
+OTOH I fully understand that having things in one place has it's
+benefits. If that's wanted, why not put that text as TLDR in
+submitting-patches.rst and maintain a copy here? Sure, keeping things in
+sync has downsides, but I'd say it's the lesser evil. A copy could also
+be avoided by briefly mentioning some of the important bits found in
+another document; that's the approach I took in my patches regarding
+regressions. To quote:
+
+```
++#. Report your issue as outlined in
+Documentation/admin-guide/reporting-issues.rst,
++   it already covers all aspects important for regressions and repeated
++   below for convenience. Two of them are important: start your
+report's subject
++   with "[REGRESSION]" and CC or forward it to `the regression mailing list
++   <https://lore.kernel.org/regressions/>`_ (regressions@lists.linux.dev).
+```
+
+For full context see:
+https://lore.kernel.org/regressions/cover.1644994117.git.linux@leemhuis.info/T/#u
+
+> +If no one can be found to internally review patches and you need
+> +help finding such a person, or if you have any other questions
+> +related to this document and the developer community's expectations,
+> +please reach out to the private Technical Advisory Board mailing list:
+> +<tech-board@lists.linux-foundation.org>.
+
+HTH, Ciao, Thorsten
