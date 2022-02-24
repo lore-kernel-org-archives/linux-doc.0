@@ -2,261 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E16D4C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 17:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD33C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 18:10:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232376AbiBXRxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 12:53:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43214 "EHLO
+        id S231533AbiBXSLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 13:11:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230222AbiBXRxD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 12:53:03 -0500
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A52F8BA2;
-        Thu, 24 Feb 2022 09:52:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645725152; x=1677261152;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=ybMboQK0jeoBMl9EQRc6Wo0omyQWbrvhNrxnq0NCFP4=;
-  b=Awh/x4yAX+ZZSGAlNY4ZMHs4znWUKROApneAUhgtDQj6HD64+geE/9PZ
-   nmmR1VsfLI+i4hl40Uy9oLOnROYqr/gmuc+fW8RHH6F6eOVgvW7nCgAAV
-   rKiGw2Ob1MN6lfHu/nAQQOuhM2JN/wWXS0GHyC4nRqBihccvL+cDbmgto
-   DQ+7Sgkvr6vLQtSr7qEOt8Z5oCJZVVyumbezCoRzBjlUgohZqr5pe9Yg3
-   LDjLBn/fxIwaOx8lvDXBNxaVJuncyD48H3mObs2p0ikoI6ae9OQj8Pcx2
-   qE0SIiGm+YJaauJeugf41ZWb89ZhhBxjzp8bQRkCnEJToJ/bwN1B6Cxhz
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="313019608"
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="313019608"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 09:52:32 -0800
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="533230044"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.40])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 09:52:32 -0800
-Date:   Thu, 24 Feb 2022 09:54:36 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Tom Rix <trix@redhat.com>
-cc:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
-        "Wu, Hao" <hao.wu@intel.com>, "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, aaron.j.grier@intel.com
-Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
-In-Reply-To: <d6cf0f48-e90a-6441-6096-5b87122a0bb6@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2202240932380.634457@rhweight-WRK1>
-References: <20220214112619.219761-1-tianfei.zhang@intel.com> <20220214112619.219761-8-tianfei.zhang@intel.com> <ed8f4b5f-5c92-f555-ed2d-c5b8f38d5372@redhat.com> <BN9PR11MB5483BC7EE52A47CEAEFC58A0E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
- <3c9fce03-ef29-d80f-6639-0c237c28cf58@redhat.com> <alpine.DEB.2.22.394.2202210934570.117064@rhweight-WRK1> <e5580849-c137-fb61-0599-198c341bf688@redhat.com> <BN9PR11MB54835A454A34ECE13349B555E33B9@BN9PR11MB5483.namprd11.prod.outlook.com>
- <d6cf0f48-e90a-6441-6096-5b87122a0bb6@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229662AbiBXSLI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 13:11:08 -0500
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047FE1E6952;
+        Thu, 24 Feb 2022 10:10:38 -0800 (PST)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-2d66f95f1d1so7568247b3.0;
+        Thu, 24 Feb 2022 10:10:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5eZDgcxBiEahgQGqIVo4NOwq5Qo0wc2zSQHHLGRnIQM=;
+        b=hOAnqSTI/Gh9yfCHqk+7dOsYcudQiruj8mpt7dmfjM5mWHLmv0u3d04DW8ALfBIXMG
+         jo1aQNu8b37er4WOYMPhB0UKNBWuYIbVmK1S5rZBnKtE3j6emTQsT3qFtpIheorsTivo
+         5oFwymdPrzK0TL7yVgoFRt/N/qYgq59XcFETBcR/mN/BchTGsA3oSWbl70lTpcsstt5O
+         nRtu1Pud8PUcNNfPv5BadE0iVwqkk4S+ioB/E0TkrKnbVoRVJH4C91+Hcq3PdR/ymM2E
+         gaQI4Q/rQrPyeTqMR7KeZVadtXbPVvCVGUzET6Lt8AJ66Q92342VKnjcz1C6+ONF0BvN
+         RdLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5eZDgcxBiEahgQGqIVo4NOwq5Qo0wc2zSQHHLGRnIQM=;
+        b=oUQpn0853d650zuVTsrS6za1Mq5zgvbiylpn6o5dgtNxOXlAHg6neHZlmxD6Pjm3RM
+         /9TZY8vCpgDoxltXe0xt0+G431w3lZXhgFDMyLtT3JCVnBgrwXauBEsmMAqT28YDv6Jm
+         cDHCkyEH3Fxpqtzk9Q49aSoC+ryCTcRvnrGjVpgy4QTKGIRHORkfrZBc8TbV0ik9dUrd
+         IpfXjsuCYzXN9ley9gctykOa4ScDoG14kPhBvotXKW0ZtNH/LTbq/RDUjAYapNjhyum8
+         XzmUFh0hzkWNPQ/M8K0rTXvr/9icEntkKuhB8e5oAlImWhMiiiHg1ow8ddyb27BKZ9xv
+         IbGA==
+X-Gm-Message-State: AOAM531A4Em7O3jg+5dv7olR05P+YacrdPzPE7GzwhPt6VQ5NznjSr67
+        fYBO0hiGVVBC478N9gurQzHIICT1JQiiaLTkHwE=
+X-Google-Smtp-Source: ABdhPJzAIqYPKdGLE2EeqFKSCMroLeeiWgQwRfA5B8K+sGjJ+1Pn3nTjD/EQPHmJEn7zy85dqMfSQ0Bfo7hIsT3Znj8=
+X-Received: by 2002:a81:83d7:0:b0:2d6:b550:21b8 with SMTP id
+ t206-20020a8183d7000000b002d6b55021b8mr3756069ywf.188.1645726237054; Thu, 24
+ Feb 2022 10:10:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1521138016-1645725283=:634457"
+References: <164447124918.23354.17858831070003318849.stgit@noble.brown> <164447147262.23354.13106570458589592051.stgit@noble.brown>
+In-Reply-To: <164447147262.23354.13106570458589592051.stgit@noble.brown>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Fri, 25 Feb 2022 03:10:24 +0900
+Message-ID: <CAKFNMokgJMxfvdwc4isNj_gQHAecJF2tq3j8HRhhxW_xN5L5_Q@mail.gmail.com>
+Subject: Re: [PATCH 08/11] Remove bdi_congested() and wb_congested() and
+ related functions
+To:     NeilBrown <neilb@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        linux-nilfs <linux-nilfs@vger.kernel.org>,
+        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        LKML <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, Feb 10, 2022 at 2:41 PM NeilBrown <neilb@suse.de> wrote:
+>
+> These functions are no longer useful as no BDIs report congestions any
+> more.
+>
+> Removing the test on bdi_write_contested() in current_may_throttle()
+> could cause a small change in behaviour, but only when PF_LOCAL_THROTTLE
+> is set.
+>
+> So replace the calls by 'false' and simplify the code - and remove the
+> functions.
+>
+> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com> (for nilfs bits)
+> Signed-off-by: NeilBrown <neilb@suse.de>
+> ---
+>  drivers/block/drbd/drbd_int.h |    3 ---
+>  drivers/block/drbd/drbd_req.c |    3 +--
+>  fs/ext2/ialloc.c              |    5 -----
+>  fs/nilfs2/segbuf.c            |   15 ---------------
+>  fs/xfs/xfs_buf.c              |    3 ---
+>  include/linux/backing-dev.h   |   26 --------------------------
+>  mm/vmscan.c                   |    4 +---
+>  7 files changed, 2 insertions(+), 57 deletions(-)
+>
+> diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+> index f27d5b0f9a0b..f804b1bfb3e6 100644
+> --- a/drivers/block/drbd/drbd_int.h
+> +++ b/drivers/block/drbd/drbd_int.h
+> @@ -638,9 +638,6 @@ enum {
+>         STATE_SENT,             /* Do not change state/UUIDs while this is set */
+>         CALLBACK_PENDING,       /* Whether we have a call_usermodehelper(, UMH_WAIT_PROC)
+>                                  * pending, from drbd worker context.
+> -                                * If set, bdi_write_congested() returns true,
+> -                                * so shrink_page_list() would not recurse into,
+> -                                * and potentially deadlock on, this drbd worker.
+>                                  */
+>         DISCONNECT_SENT,
+>
+> diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+> index 3235532ae077..2e5fb7e442e3 100644
+> --- a/drivers/block/drbd/drbd_req.c
+> +++ b/drivers/block/drbd/drbd_req.c
+> @@ -909,8 +909,7 @@ static bool remote_due_to_read_balancing(struct drbd_device *device, sector_t se
+>
+>         switch (rbm) {
+>         case RB_CONGESTED_REMOTE:
+> -               return bdi_read_congested(
+> -                       device->ldev->backing_bdev->bd_disk->bdi);
+> +               return 0;
+>         case RB_LEAST_PENDING:
+>                 return atomic_read(&device->local_cnt) >
+>                         atomic_read(&device->ap_pending_cnt) + atomic_read(&device->rs_pending_cnt);
+> diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
+> index df14e750e9fe..998dd2ac8008 100644
+> --- a/fs/ext2/ialloc.c
+> +++ b/fs/ext2/ialloc.c
+> @@ -170,11 +170,6 @@ static void ext2_preread_inode(struct inode *inode)
+>         unsigned long offset;
+>         unsigned long block;
+>         struct ext2_group_desc * gdp;
+> -       struct backing_dev_info *bdi;
+> -
+> -       bdi = inode_to_bdi(inode);
+> -       if (bdi_rw_congested(bdi))
+> -               return;
+>
+>         block_group = (inode->i_ino - 1) / EXT2_INODES_PER_GROUP(inode->i_sb);
+>         gdp = ext2_get_group_desc(inode->i_sb, block_group, NULL);
+> diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
+> index 43287b0d3e9b..c4510f79037f 100644
+> --- a/fs/nilfs2/segbuf.c
+> +++ b/fs/nilfs2/segbuf.c
+> @@ -343,17 +343,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+>         struct bio *bio = wi->bio;
+>         int err;
+>
+> -       if (segbuf->sb_nbio > 0 &&
+> -           bdi_write_congested(segbuf->sb_super->s_bdi)) {
+> -               wait_for_completion(&segbuf->sb_bio_event);
+> -               segbuf->sb_nbio--;
+> -               if (unlikely(atomic_read(&segbuf->sb_err))) {
+> -                       bio_put(bio);
+> -                       err = -EIO;
+> -                       goto failed;
+> -               }
+> -       }
+> -
+>         bio->bi_end_io = nilfs_end_bio_write;
+>         bio->bi_private = segbuf;
+>         bio_set_op_attrs(bio, mode, mode_flags);
+> @@ -365,10 +354,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+>         wi->nr_vecs = min(wi->max_pages, wi->rest_blocks);
+>         wi->start = wi->end;
+>         return 0;
+> -
+> - failed:
+> -       wi->bio = NULL;
+> -       return err;
+>  }
 
---8323328-1521138016-1645725283=:634457
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+In this revised version, "int err" is no longer used, so could you
+delete it as well ?
 
-
-
-On Tue, 22 Feb 2022, Tom Rix wrote:
+Regards,
+Ryusuke Konishi
 
 >
-> On 2/21/22 7:11 PM, Zhang, Tianfei wrote:
->> 
->>> -----Original Message-----
->>> From: Tom Rix <trix@redhat.com>
->>> Sent: Tuesday, February 22, 2022 2:10 AM
->>> To: matthew.gerlach@linux.intel.com
->>> Cc: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao <hao.wu@intel.com>;
->>> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>; 
->>> linux-fpga@vger.kernel.org;
->>> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; corbet@lwn.net
->>> Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
->>> 
->>> 
->>> On 2/21/22 9:50 AM, matthew.gerlach@linux.intel.com wrote:
->>>> 
->>>> On Fri, 18 Feb 2022, Tom Rix wrote:
->>>> 
->>>>> On 2/18/22 1:03 AM, Zhang, Tianfei wrote:
->>>>>>> -----Original Message-----
->>>>>>> From: Tom Rix <trix@redhat.com>
->>>>>>> Sent: Wednesday, February 16, 2022 12:16 AM
->>>>>>> To: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao
->>>>>>> <hao.wu@intel.com>; mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>;
->>>>>>> linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org;
->>>>>>> linux-kernel@vger.kernel.org
->>>>>>> Cc: corbet@lwn.net; Matthew Gerlach
->>>>>>> <matthew.gerlach@linux.intel.com>
->>>>>>> Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
->>>>>>> 
->>>>>>> 
->>>>>>> On 2/14/22 3:26 AM, Tianfei zhang wrote:
->>>>>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>>>> 
->>>>>>>> Add the PCI product id for an Open FPGA Stack PCI card.
->>>>>>> Is there a URL to the card ?
->>>>>> This PCIe Device IDs have registered by Intel.
->>>>> A URL is useful to introduce the board, Is there one ?
->>>>>>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>>>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
->>>>>>>> ---
->>>>>>>>     drivers/fpga/dfl-pci.c | 4 ++++
->>>>>>>>     1 file changed, 4 insertions(+)
->>>>>>>> 
->>>>>>>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c index
->>>>>>>> 83b604d6dbe6..cb2fbf3eb918 100644
->>>>>>>> --- a/drivers/fpga/dfl-pci.c
->>>>>>>> +++ b/drivers/fpga/dfl-pci.c
->>>>>>>> @@ -76,12 +76,14 @@ static void cci_pci_free_irq(struct pci_dev
->>>>>>>> *pcidev)
->>>>>>>>     #define PCIE_DEVICE_ID_INTEL_PAC_D5005        0x0B2B
->>>>>>>>     #define PCIE_DEVICE_ID_SILICOM_PAC_N5010    0x1000
->>>>>>>>     #define PCIE_DEVICE_ID_SILICOM_PAC_N5011    0x1001
->>>>>>>> +#define PCIE_DEVICE_ID_INTEL_OFS        0xbcce
->>>>>>> INTEL_OFS is a generic name, pci id's map to specific cards
->>>>>>> 
->>>>>>> Is there a more specific name for this card ?
->>>>>> I think using INTEL_OFS is better, because INTEL_OFS is the Generic
->>>>>> development platform can support multiple cards which using OFS
->>>>>> specification, like Intel PAC N6000 card.
->>>>> I would prefer something like PCIE_DEVICE_ID_INTEL_PAC_N6000 because
->>>>> it follows an existing pattern.  Make it easy on a developer, they
->>>>> will look at their board or box, see X and try to find something
->>>>> similar in the driver source.
->>>>> 
->>>>> To use OSF_ * the name needs a suffix to differentiate it from future
->>>>> cards that will also use ofs.
->>>>> 
->>>>> If this really is a generic id please explain in the doc patch how
->>>>> every future board with use this single id and how a driver could
->>>>> work around a hw problem in a specific board with a pci id covering
->>>>> multiple boards.
->>>>> 
->>>>> Tom
->>>> Hi Tom,
->>>> 
->>>> The intent is to have a generic device id that can be used with many
->>>> different boards.  Currently, we have FPGA implementations for 3
->>>> different boards using this generic id.  We may need a better name for
->>>> device id than OFS.  More precisely this generic device id means a PCI
->>>> function that is described by a Device Feature List (DFL).  How about
->>>> PCIE_DEVICE_ID_INTEL_DFL?
->>>> 
->>>> With a DFL device id, the functionality of the PF/VF is determined by
->>>> the contents of the DFL.  Each Device Feature Header (DFH) in the DFL
->>>> has a revision field that can be used identify "broken" hw, or new
->>>> functionality added to a feature.  Additionally, since the DFL is
->>>> typically used in a FPGA, the broken hardware, can and should be fixed
->>>> in most cases.
->>> How is lspci supposed to work ?
->> There is an example for one card using IOFS and DFL.
->> 
->> # lspci | grep acc
->> b1:00.0 Processing accelerators: Intel Corporation Device bcce (rev 01)
->> b1:00.1 Processing accelerators: Intel Corporation Device bcce
->> b1:00.2 Processing accelerators: Intel Corporation Device bcce
->> b1:00.3 Processing accelerators: Red Hat, Inc. Virtio network device
->> b1:00.4 Processing accelerators: Intel Corporation Device bcce
->> 
->> Note: There 5 PFs in this card, it exports the management functions via 
->> PF0(b1:00.0),
->> Other PFs like b1:00.1, b1:00.2, b1:00.4, are using for testing, which 
->> depends on RTL designer
->> or project requirement. The PF3 instance a VirtIO net device for example, 
->> will bind with virtio-net driver
->> presenting itself as a network interface to the OS.
-
-Hi Tom,
-
-These are very good questions, and the answers will be addressed in the 
-documentation associated with a v2 submission of this patch.
-
+>  /**
+> diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+> index b45e0d50a405..b7ebcfe6b8d3 100644
+> --- a/fs/xfs/xfs_buf.c
+> +++ b/fs/xfs/xfs_buf.c
+> @@ -843,9 +843,6 @@ xfs_buf_readahead_map(
+>  {
+>         struct xfs_buf          *bp;
 >
-> What I mean there is heterogeneous set of cards in one machine, how do you 
-> tell which card is which ?
-
-If the PCI PID/VID is generic, indicating only that there is one or more 
-DFL, then some other mechanism must be used to differentiate the cards. 
-One could use unique PCI sub-PID/sub-VIDs to differentiate specific 
-implementations.  One could also use some register in BAR space to help 
-identify the card, or one could use PCI Vital Product Data (VPD) to 
-provide detailed information about the running FPGA design on the card.
-
+> -       if (bdi_read_congested(target->bt_bdev->bd_disk->bdi))
+> -               return;
+> -
+>         xfs_buf_read_map(target, map, nmaps,
+>                      XBF_TRYLOCK | XBF_ASYNC | XBF_READ_AHEAD, &bp, ops,
+>                      __this_address);
+> diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+> index 860b675c2929..2d764566280c 100644
+> --- a/include/linux/backing-dev.h
+> +++ b/include/linux/backing-dev.h
+> @@ -135,11 +135,6 @@ static inline bool writeback_in_progress(struct bdi_writeback *wb)
 >
-> Or in a datacenter where the machines are all remote and admin has to flash 
-> just the n6000's ?
-
-This problem exists with the N3000 cards.  Depending on the FPGA 
-configuration, the line side of the card could be very different (e.g. 
-4x10Gb or 2x2x25Gb).  The network operator must make sure to update a 
-particular N3000 card with the correct FPGA image type.  In the case of 
-the N3000 there is a register exposed through sysfs containing the 
-"Bitstream ID" which contains the line side configuration of the FPGA.
-
+>  struct backing_dev_info *inode_to_bdi(struct inode *inode);
 >
-> How could she find just the n6000's with lspci ?
-
-If you only wanted to use lspci to determine the card, then 
-differentiating PCI sub-VID/sub-PID could be used or VPD could be used.
-
+> -static inline int wb_congested(struct bdi_writeback *wb, int cong_bits)
+> -{
+> -       return wb->congested & cong_bits;
+> -}
+> -
+>  long congestion_wait(int sync, long timeout);
 >
-> How would the driver know ?
-
-The dfl-pci driver is fairly generic in that it doesn't really care about 
-the PCI PID/VID because all it really does enumerate the DFLs.  It is the 
-individual dfl drivers that may need to know hw differences/bugs for that 
-component IP.
-
+>  static inline bool mapping_can_writeback(struct address_space *mapping)
+> @@ -391,27 +386,6 @@ static inline void wb_blkcg_offline(struct blkcg *blkcg)
 >
-> Tom
+>  #endif /* CONFIG_CGROUP_WRITEBACK */
 >
->> 
->>> A dfl set can change with fw updates and in theory different boards could 
->>> have
->>> the same set.
->>> 
->>> Tom
->>> 
->>>> Matthew
->>>>>>> Tom
->>>>>>>
->>>>>>>>     /* VF Device */
->>>>>>>>     #define PCIE_DEVICE_ID_VF_INT_5_X        0xBCBF
->>>>>>>>     #define PCIE_DEVICE_ID_VF_INT_6_X        0xBCC1
->>>>>>>>     #define PCIE_DEVICE_ID_VF_DSC_1_X        0x09C5
->>>>>>>>     #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF    0x0B2C
->>>>>>>> +#define PCIE_DEVICE_ID_INTEL_OFS_VF        0xbccf
->>>>>>>>
->>>>>>>>     static struct pci_device_id cci_pcie_id_tbl[] = {
->>>>>>>>         {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
->>>>>>>> PCIE_DEVICE_ID_PF_INT_5_X),},
->>>>>>> @@
->>>>>>>> -95,6 +97,8 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
->>>>>>>>         {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
->>>>>>> PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
->>>>>>>> {PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
->>>>>>> PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
->>>>>>>> {PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
->>>>>>>> PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
->>>>>>>> +    {PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_OFS),},
->>>>>>>> +    {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
->>>>>>> PCIE_DEVICE_ID_INTEL_OFS_VF),},
->>>>>>>>         {0,}
->>>>>>>>     };
->>>>>>>>     MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
->>>>> 
+> -static inline int bdi_congested(struct backing_dev_info *bdi, int cong_bits)
+> -{
+> -       return wb_congested(&bdi->wb, cong_bits);
+> -}
+> -
+> -static inline int bdi_read_congested(struct backing_dev_info *bdi)
+> -{
+> -       return bdi_congested(bdi, 1 << WB_sync_congested);
+> -}
+> -
+> -static inline int bdi_write_congested(struct backing_dev_info *bdi)
+> -{
+> -       return bdi_congested(bdi, 1 << WB_async_congested);
+> -}
+> -
+> -static inline int bdi_rw_congested(struct backing_dev_info *bdi)
+> -{
+> -       return bdi_congested(bdi, (1 << WB_sync_congested) |
+> -                                 (1 << WB_async_congested));
+> -}
+> -
+>  const char *bdi_dev_name(struct backing_dev_info *bdi);
+>
+>  #endif /* _LINUX_BACKING_DEV_H */
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index ce8492939bd3..0b930556c4f2 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -2362,9 +2362,7 @@ static unsigned int move_pages_to_lru(struct lruvec *lruvec,
+>   */
+>  static int current_may_throttle(void)
+>  {
+> -       return !(current->flags & PF_LOCAL_THROTTLE) ||
+> -               current->backing_dev_info == NULL ||
+> -               bdi_write_congested(current->backing_dev_info);
+> +       return !(current->flags & PF_LOCAL_THROTTLE);
+>  }
+>
+>  /*
 >
 >
---8323328-1521138016-1645725283=:634457--
