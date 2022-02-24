@@ -2,60 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7520C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 03:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91C70C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 04:10:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiBXDfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 22:35:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
+        id S229886AbiBXEKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 23:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiBXDfW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 22:35:22 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0573222A281;
-        Wed, 23 Feb 2022 19:34:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B4CAFB81FCD;
-        Thu, 24 Feb 2022 03:34:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3009C340EF;
-        Thu, 24 Feb 2022 03:34:50 +0000 (UTC)
-Date:   Wed, 23 Feb 2022 22:34:48 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Oscar Shiang <oscar0225@livemail.tw>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Remove duplicated words in trace/osnoise-tracer
-Message-ID: <20220223223448.61dcdb3e@rorschach.local.home>
-In-Reply-To: <9531b09c-6dc2-f551-d699-29b0c8cc2aeb@kernel.org>
-References: <TYCP286MB1913117487F390E3BCE38B15A1399@TYCP286MB1913.JPNP286.PROD.OUTLOOK.COM>
-        <9531b09c-6dc2-f551-d699-29b0c8cc2aeb@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229787AbiBXEKi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 23:10:38 -0500
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C013189AA0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 20:10:09 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id e26so893014vso.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 20:10:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Eb9RB6RbG6tOByffoS0oYoLmIHqIgZKNToc9TuBbhys=;
+        b=lMJW8YCFLwbaumR6ZCrVI4zQf53fbvCN0SMM3cToZDmJPwt9vJRgwQLhR/LiUIws2e
+         3zQMUfexfms0kMfF22l1bO3o69v9xbhiCSCZaEOx7u5FHPlIJ7SFBDauFBNZd6Ki77dB
+         OGbCRw5Z4JpYGoBxc3jamET5wwgfPN+0h0R+Ipj3kE3/v+tujZXpYyGMVuroUGcdAiX2
+         wVAg1fy5K+4ZsDZjjsKT6wSuMwTY26HwYcSpwYUNwZRdWeW3tt0IP25sEsKkr6pH7Oib
+         EpfraVHW9Zqwj4C3M5XZkcdfyt5fdHiQQuv0XptsXaWhHXHG54IRtl24TL4qv/LyMt8/
+         Ckxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Eb9RB6RbG6tOByffoS0oYoLmIHqIgZKNToc9TuBbhys=;
+        b=dpuHkptms7VhXCNkaGEPEK1XV+Te7EPhHgG4ajW89/aeiOGvbfQXdjI30TYFKaR9MM
+         edBqkuHuRDrH6EeChbCoW1gF4lVvv6ijSJjRldFerrr9S8siRy1FTSPxV73M4T9v8/Pj
+         Lgp727RSQnE5nxDsehxEH0iGBiI9jnpq6kq342Lyd9n/m5FWf75+3H5+X8J2lCFuG4bX
+         EY57ervcaCY4tGtr0agyV2ZKo3sYmFxGkPOg02gOTnU9V3KKffPtkMxgG7p0u7mD7JqI
+         p2EbxDH07I107RxXtXCZyHMQY/C+lypC3gszr9wzHQfD/r/abdNzq5jtnzBqMr05cp1F
+         qPOA==
+X-Gm-Message-State: AOAM533YRd3iEdfMtDlFyNftMiQa7DgNkAsKPPsMBIokB4RuvuY/nQn8
+        QY5HPpgJ/LYbT2WIAQ4aVIgCIfsbEH5F0OAdOiMv+Q==
+X-Google-Smtp-Source: ABdhPJzeD2Q576S7sEhukUHAIZikh/WMlpRWU5lwIgAj5Fck6Ls1LUSMJqjhjK2xkPD/9+5gqwTjvZ4xHw75GzSW5yE=
+X-Received: by 2002:a05:6102:3a06:b0:31b:d9c6:c169 with SMTP id
+ b6-20020a0561023a0600b0031bd9c6c169mr243955vsu.22.1645675808446; Wed, 23 Feb
+ 2022 20:10:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-6-yuzhao@google.com>
+ <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
+ <87y2213wrl.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufY8dRimricP=pvvgg8mEagb369nE8MVe6tnnLXQuKyAEA@mail.gmail.com>
+ <87h78p3pp2.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87h78p3pp2.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 23 Feb 2022 21:09:56 -0700
+Message-ID: <CAOUHufYgNr-82AsfGFu6DVOsVUdmVsOo2Jav3nHDXiuu6iDC9A@mail.gmail.com>
+Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 20 Feb 2022 21:43:29 +0100
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+On Wed, Feb 23, 2022 at 8:32 PM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Yu Zhao <yuzhao@google.com> writes:
+>
+> > On Wed, Feb 23, 2022 at 5:59 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >>
+> >> Yu Zhao <yuzhao@google.com> writes:
+> >>
+> >> > On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >>
+> >> >> Hi, Yu,
+> >> >>
+> >> >> Yu Zhao <yuzhao@google.com> writes:
+> >> >>
+> >> >> > To avoid confusions, the terms "promotion" and "demotion" will be
+> >> >> > applied to the multigenerational LRU, as a new convention; the terms
+> >> >> > "activation" and "deactivation" will be applied to the active/inactive
+> >> >> > LRU, as usual.
+> >> >>
+> >> >> In the memory tiering related commits and patchset, for example as follows,
+> >> >>
+> >> >> commit 668e4147d8850df32ca41e28f52c146025ca45c6
+> >> >> Author: Yang Shi <yang.shi@linux.alibaba.com>
+> >> >> Date:   Thu Sep 2 14:59:19 2021 -0700
+> >> >>
+> >> >>     mm/vmscan: add page demotion counter
+> >> >>
+> >> >> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
+> >> >>
+> >> >> "demote" and "promote" is used for migrating pages between different
+> >> >> types of memory.  Is it better for us to avoid overloading these words
+> >> >> too much to avoid the possible confusion?
+> >> >
+> >> > Given that LRU and migration are usually different contexts, I think
+> >> > we'd be fine, unless we want a third pair of terms.
+> >>
+> >> This is true before memory tiering is introduced.  In systems with
+> >> multiple types memory (called memory tiering), LRU is used to identify
+> >> pages to be migrated to the slow memory node.  Please take a look at
+> >> can_demote(), which is called in shrink_page_list().
+> >
+> > This sounds clearly two contexts to me. Promotion/demotion (move
+> > between generations) while pages are on LRU; or promotion/demotion
+> > (migration between nodes) after pages are taken off LRU.
+> >
+> > Note that promotion/demotion are not used in function names. They are
+> > used to describe how MGLRU works, in comparison with the
+> > active/inactive LRU. Memory tiering is not within this context.
+>
+> Because we have used pgdemote_* in /proc/vmstat, "demotion_enabled" in
+> /sys/kernel/mm/numa, and will use pgpromote_* in /proc/vmstat.  It seems
+> better to avoid to use promote/demote directly for MGLRU in ABI.  A
+> possible solution is to use "mglru" and "promote/demote" together (such
+> as "mglru_promote_*" when it is needed?
 
-> On 2/20/22 13:12, Oscar Shiang wrote:
-> > There are 2 duplicated words found in osnoise tracer documentation.
-> > This patch removes them.
-> > 
-> > Signed-off-by: Oscar Shiang <oscar0225@livemail.tw>  
-> 
-> Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+*If* it is needed. Currently there are no such plans.
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> >> >> > +static int get_swappiness(struct mem_cgroup *memcg)
+> >> >> > +{
+> >> >> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
+> >> >> > +            mem_cgroup_swappiness(memcg) : 0;
+> >> >> > +}
+> >> >>
+> >> >> After we introduced demotion support in Linux kernel.  The anonymous
+> >> >> pages in the fast memory node could be demoted to the slow memory node
+> >> >> via the page reclaiming mechanism as in the following commit.  Can you
+> >> >> consider that too?
+> >> >
+> >> > Sure. How do I check whether there is still space on the slow node?
+> >>
+> >> You can always check the watermark of the slow node.  But now, we
+> >> actually don't check that (as in demote_page_list()), instead we will
+> >> wake up kswapd of the slow node.  The intended behavior is something
+> >> like,
+> >>
+> >>   DRAM -> PMEM -> disk
+> >
+> > I'll look into this later -- for now, it's a low priority because
+> > there isn't much demand. I'll bump it up if anybody is interested in
+> > giving it a try. Meanwhile, please feel free to cook up something if
+> > you are interested.
+>
+> When we introduce a new feature, we shouldn't break an existing one.
+> That is, not introducing regression.  I think that it is a rule?
+>
+> If my understanding were correct, MGLRU will ignore to scan anonymous
+> page list even if there's demotion target for the node.  This breaks the
+> demotion feature in the upstream kernel.  Right?
 
-Jon, want to take this through your tree?
+I'm not saying this shouldn't be fixed. I'm saying it's a low priority
+until somebody is interested in using/testing it (or making it work).
 
-Thanks,
+Regarding regressions, I'm sure MGLRU *will* regress many workloads.
+Its goal is to improve the majority of use cases, i.e., total net
+gain. Trying to improve everything is methodically wrong because the
+problem space is near infinite but the resource is limited. So we have
+to prioritize major use cases over minor ones. The bottom line is
+users have a choice not to use MGLRU.
 
--- Steve
+> It's a new feature to check whether there is still space on the slow
+> node.  We can look at that later.
 
+SGTM.
