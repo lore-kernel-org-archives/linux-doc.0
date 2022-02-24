@@ -2,148 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D736EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 02:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 212FDC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 02:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbiBXCZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 21:25:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39480 "EHLO
+        id S230177AbiBXCy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 21:54:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbiBXCZR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 21:25:17 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F052B22EDC8;
-        Wed, 23 Feb 2022 18:24:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645669489; x=1677205489;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=fjSEafBb8ES86rUzsH60Lncm24g7M9CE/uM19ybBuVk=;
-  b=D5kqjrQMcyRQp7ovkBK7UBZ02i6B7vkoyQvI9ZV0ycNWVQEYXOFabKvS
-   ZQ5u+7tD+L/OTipiN+7aZMDKtDEKSEFbZ9dzglBrn4lNaIi4asiycsTHi
-   j1Kxnphm3pjmxUw43LMPi5Gx/7LE+Tk/GTZogpCoFpfQEuWzDeSfbv86/
-   IK1LXUiS4bpk+ER9W0smh9xp9ddAFM6II511xlT14ylbpSxuipqiXFV97
-   IcgyImXEu+rHdSiLqaubo4mLlfqQst/UPdH71uTh9UnKchdXffDD3sbPk
-   qJz8/jOTN7Ndx9LO882Pp1MnmHujLANtJnuELjQXHTnvlBpSmyFr/hUlj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="235628028"
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="235628028"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 16:59:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="508666398"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.11])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 16:59:12 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?utf-8?Q?Hoffst=C3=A4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
-References: <20220208081902.3550911-1-yuzhao@google.com>
-        <20220208081902.3550911-6-yuzhao@google.com>
-        <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com>
-        <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
-Date:   Thu, 24 Feb 2022 08:59:10 +0800
-In-Reply-To: <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
-        (Yu Zhao's message of "Wed, 23 Feb 2022 02:36:13 -0700")
-Message-ID: <87y2213wrl.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S230191AbiBXCy4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 21:54:56 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 492F323A1A0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 18:54:27 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id z16so671415pfh.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 18:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j0NgqhdSuS9ROsjpAcMtijUh00D6A0iro0K6kVVrdg0=;
+        b=I6OkGqemJNLTIA+JZwG2pWoKQjlQqJpmzDMj8Oz/O6I8xhGXjfRwIBnhMEXNfjw2+A
+         ZSM9W7/0ddNr2rmID1jXMnlu/SX4fbS1jOf74HOAc8+x4Ghw6MHhl2khwpQjb1WpDbvI
+         P/A0JWhKnC2XJsW5YRV6e4SWQOCnxD6TaJN+y3wDlLU//fdj0mj4kTZd6wFsYYXS2t7v
+         VOzxqOYpNL9v8z3thFNKN4U4lTuhnUq5+cbsqF6XzpulKwY3SxO7tiFm9rAA1X4KljJR
+         CowZIhmu4kcRJTCzOvoj/Vs3Ebo85Ccu967H1c06VPXeZKU547Gd9N3ADLYds9PaY+It
+         DPQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j0NgqhdSuS9ROsjpAcMtijUh00D6A0iro0K6kVVrdg0=;
+        b=IyMoreQK2tZvqdkjJ6uX3eB9ef6bzPGGuAn6wnnKW/6345bpUcSq57gQt/+gazgcAD
+         551xVKOGrpm7pS+v0BQKl1Wt5Z1P0X09IG133C4KhzMK7hRJ7B1hz6hDfQELAXOwcbuk
+         b+QHrrWmGihHJcN1EgDbruHAyF5rxgMmibzF3sV+axshYpfbfHVlr6OZWCaoHcuCuzzv
+         Dmorud1oiauc2Yh8R6GsevEwJngx0pr2ckv4GOjvulQjP5FnsZxMgqR0VxGhdK0eMzAf
+         wqtTraeDYccmR263hBp1DBksz5uK5dAChN6QtsOF4f+cw9nfwWjFXJo9iLOwTO3UhZJn
+         PloQ==
+X-Gm-Message-State: AOAM533Sn4UZShNCqDMLs9uOx4KaMPN1WvW+PyFHMG4qM+9qOKS/7UsU
+        whBecw1L1iZhtxGfkUAzi4hlxPU5Xr75Jg==
+X-Google-Smtp-Source: ABdhPJyGuG2Zk6DtWVAXpYPAfHJ0wPK92s+++T+eh/ng1TghoA1gX64qVVen2JYnP5SufrQBc5g3AA==
+X-Received: by 2002:a63:1c21:0:b0:374:104c:e4eb with SMTP id c33-20020a631c21000000b00374104ce4ebmr667956pgc.556.1645671266754;
+        Wed, 23 Feb 2022 18:54:26 -0800 (PST)
+Received: from localhost.localdomain ([50.7.60.25])
+        by smtp.gmail.com with ESMTPSA id 132sm996595pfw.21.2022.02.23.18.54.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 18:54:26 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net
+Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com, seakeel@gmail.com
+Subject: [PATCH v4 0/3] Add Chinese translations for KSM documents
+Date:   Thu, 24 Feb 2022 10:51:11 +0800
+Message-Id: <cover.1645669457.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yu Zhao <yuzhao@google.com> writes:
+v4:
+  Fix build error and build warning.
 
-> On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
->>
->> Hi, Yu,
->>
->> Yu Zhao <yuzhao@google.com> writes:
->>
->> > To avoid confusions, the terms "promotion" and "demotion" will be
->> > applied to the multigenerational LRU, as a new convention; the terms
->> > "activation" and "deactivation" will be applied to the active/inactive
->> > LRU, as usual.
->>
->> In the memory tiering related commits and patchset, for example as follows,
->>
->> commit 668e4147d8850df32ca41e28f52c146025ca45c6
->> Author: Yang Shi <yang.shi@linux.alibaba.com>
->> Date:   Thu Sep 2 14:59:19 2021 -0700
->>
->>     mm/vmscan: add page demotion counter
->>
->> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
->>
->> "demote" and "promote" is used for migrating pages between different
->> types of memory.  Is it better for us to avoid overloading these words
->> too much to avoid the possible confusion?
->
-> Given that LRU and migration are usually different contexts, I think
-> we'd be fine, unless we want a third pair of terms.
+v3:
+	Fix the patch '[1/3] Add Chinese translation for vm/ksm.rst'
+	because its old version does not apply for the latest commit.
 
-This is true before memory tiering is introduced.  In systems with
-multiple types memory (called memory tiering), LRU is used to identify
-pages to be migrated to the slow memory node.  Please take a look at
-can_demote(), which is called in shrink_page_list().
+v2:
 
->> > +static int get_swappiness(struct mem_cgroup *memcg)
->> > +{
->> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
->> > +            mem_cgroup_swappiness(memcg) : 0;
->> > +}
->>
->> After we introduced demotion support in Linux kernel.  The anonymous
->> pages in the fast memory node could be demoted to the slow memory node
->> via the page reclaiming mechanism as in the following commit.  Can you
->> consider that too?
->
-> Sure. How do I check whether there is still space on the slow node?
+	According to the suggestions from Yanteng Si, Alex Shi and
+	Jonathan Corbet, I have modified my patches. Here are my specific
+	changelog:
 
-You can always check the watermark of the slow node.  But now, we
-actually don't check that (as in demote_page_list()), instead we will
-wake up kswapd of the slow node.  The intended behavior is something
-like,
+	1. Remove Redundant Labels in added Documents like ``.. _ksm_sysfs:``
 
-  DRAM -> PMEM -> disk
+	   Yanteng Si said: Too many tags will cause a compilation
+	   warning, because an identical one already exists for the Origin
+	   document. Jonathan Corbet think so.
 
-Best Regards,
-Huang, Ying
+	2. Align with standard Chinese format on the 'original', 'translator',
+	   etc.
+
+	3. fix some translation error like “pages_unshared”, I remove  '独享'.
+
+	   Alex Shi suggest to remove '独享'.
+
+	4. Refactor translations/zh_CN/admin-guide/mm/index.rst.
+
+	   Yanteng Si: Compile pass is only one of the basis for checking
+	   through, we also have to check the html for any problems, as
+	   far as I know, the above treatment is very ugly.
+
+xu xin (3):
+  Add Chinese translation for vm/ksm.rst
+  zh_CN: Add translations for admin-guide/mm/ksm.rst
+  zh_CN: Add translation for admin-guide/mm/index.rst
+
+ .../translations/zh_CN/admin-guide/index.rst  |   2 +-
+ .../zh_CN/admin-guide/mm/index.rst            |  49 ++++++
+ .../translations/zh_CN/admin-guide/mm/ksm.rst | 148 ++++++++++++++++++
+ Documentation/translations/zh_CN/vm/index.rst |   1 +
+ Documentation/translations/zh_CN/vm/ksm.rst   |  70 +++++++++
+ 5 files changed, 269 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/index.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/ksm.rst
+
+-- 
+2.27.0
+
