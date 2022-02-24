@@ -2,62 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75076C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 18:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB746C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 19:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbiBXSnN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 13:43:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42584 "EHLO
+        id S233404AbiBXTPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 14:15:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232040AbiBXSnJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 13:43:09 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A7C1B71BB;
-        Thu, 24 Feb 2022 10:42:39 -0800 (PST)
+        with ESMTP id S233400AbiBXTPq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 14:15:46 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C8822BEA5;
+        Thu, 24 Feb 2022 11:15:16 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 06C6F5BF;
-        Thu, 24 Feb 2022 18:42:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06C6F5BF
+        by ms.lwn.net (Postfix) with ESMTPSA id 62F7E5BF;
+        Thu, 24 Feb 2022 19:15:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 62F7E5BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1645728159; bh=iHrEXGynYHjmX014drcCJSCi4ueUR7tibO28ppmKxmo=;
+        t=1645730116; bh=iuR6bTXwXLNVJwbHRO9fEL+9jzf5zsp9TeQMDm6axF0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=JVI/SbYxlwIsGyV+NcS5Xl/MSvG2DqMfW3ucpk//PPmefSHh81g8Ph1EaQpW0ggGY
-         GBNdUHr89gZNps7mKgQxg6fRrg7MtyhrVOLTFGwM2gV15cAXaPiNPRDYeBtSVkG1RW
-         W8CUYEcn8m5nIlCRJ2jiXcwqWrx5PQe85Ss7tu49vUuctO3vmq1tZ78jh84fXGXSMT
-         xBLm5vyFvktMjP1RC0GVs0I7RRkNYcQkIMJ8saJc9nVFmKhbOfexMJe3xjeBiGjrRh
-         y9IpLzXZfylGSRAsjJ8Iu4Ea4E3Fo63pZJAchRmB/hYSOBfZ+ARWPt7Th9f9K5t3UQ
-         EBjnfbr3iENSg==
+        b=g+eH+UKhkh6PimfB7Q+3OkA4+g9EqQL4aFQZWTuAZ7j3zv5u43euu/d4YVDM29c7x
+         U19iSPG/gX3ziopWhTaqJfA6x7IfAQiBnHDFx5j8jR2c1Soul8ZSK7O0llFWC6g2LX
+         iIMoTrNL2XMHrTS2wSy5+Xa2JnR+Xh3Qg3jzcbL0XYUQfsrXzrmuaAIHc5Ad0QpbRa
+         1p452N0YpXzDsofx3+gE+OYPDOAJXcFbb1So5KCk77UaEu5QkMi/k/z8T+atPNvv+N
+         fY6jdtV+sUc+/19G0RMFh/aF48OIlizxiYN2ST6IY3y0Ni0t/rpRDqb6MkzhUar7n4
+         aAdNbbP52Ksng==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-Cc:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/11] Transform documentation into POD
-In-Reply-To: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
-References: <20220218181628.1411551-1-tomasz.warniello@gmail.com>
-Date:   Thu, 24 Feb 2022 11:42:38 -0700
-Message-ID: <87tucokswx.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: scripts/kernel-doc: Detect absence of FILE arg
+In-Reply-To: <7b136049-a3ba-0eb5-8717-364d773ff914@gmail.com>
+References: <7b136049-a3ba-0eb5-8717-364d773ff914@gmail.com>
+Date:   Thu, 24 Feb 2022 12:15:15 -0700
+Message-ID: <87ley0krek.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> This series transforms the free-form general comments - mainly the usage
-> instructions and the meta information - into the standard Perl
-> documentation format. Some of the original text is reduced out. And some
-> is simply dropped.
+> Currently, when there is no FILE argument following a switch such
+> as -man, -rst, or -none, kernel-doc exits with a warning from perl
+> (long msg folded):
 >
-> The transformation includes language, paragraphing and editorial
-> corrections.
+>     Use of uninitialized value $ARGV[0] in pattern match (m//)
+>     at ./scripts/kernel-doc line 438.
 >
-> The only change in the script execution flow is the replacement of the
-> 'usage' function with the native standard Perl 'pod2usage'.
+> , which is unhelpful.
+>
+> Improve the behavior by adding a check at the bottom of parsing
+> loop.
+> If the argument is absent, display help text and exit with
+> the code of 1 (via usage()).
 
-I have applied the series, thanks.
+As might be expected, this applied poorly after the pod patches went in.
+I went ahead and resolved the conflict, substituting an appropriate
+pod2usage() call.
+
+Thanks,
 
 jon
