@@ -2,73 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A6CC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 19:18:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2D2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 19:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233584AbiBXTSz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 14:18:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42486 "EHLO
+        id S230014AbiBXTYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 14:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233589AbiBXTSx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 14:18:53 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF90B7C5C;
-        Thu, 24 Feb 2022 11:18:22 -0800 (PST)
+        with ESMTP id S233675AbiBXTYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 14:24:46 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A787324776D
+        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 11:24:16 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C97C55BF;
-        Thu, 24 Feb 2022 19:18:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C97C55BF
+        by ms.lwn.net (Postfix) with ESMTPSA id 45BF95BF;
+        Thu, 24 Feb 2022 19:24:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 45BF95BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1645730301; bh=QpnPzN1Dxj5KrJrh6AIXHjdoV4hb+s0gFbvHykrXUjE=;
+        t=1645730656; bh=KqygvCPTHXCXGgP1c9dDbhJkIPiRt2p87kWJzuvZhfg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tIKRxV2dsyOyFzgKkcSQG7pbHkJPcpwJf7rkFH7Rx1SdQCCN9Am7ffK1tBafyrzQL
-         qzHSCyw8SAzkd13aMw1eCndK9BqMqUjHpDqWjuvuVUVeeCnmOia6EqFwiRUK5Levgm
-         y307809jwHAw7jV3okINSOAAbza5KssNv4/cypg7+T+FHrdmKMsXQxj/+OpV5SflrS
-         Gh2g+aAVxnWt3j5iSZYu8UaMAiPzhFxH+KuTzySttNzlhHNEzBGOyyf7vTm5wGaTnF
-         +azNYKvN8he5N2gkOUo2o1HMXaYtwogj4Ix0IOdsqlb1ckvr/Bb0jaiKAt2sg0i5EB
-         0EcyGoEFHI9ig==
+        b=XK1lUdQEH8qduu7SQvzBEHbrH1fpzaCztPHHRdvY8m5KT3NXC4piAaEtb6qGpQq8J
+         e1L9oeGdOOv3xxYi9zB0zU5iUq4LEJnhZ6FrN1bSHVKoDYAeG0nwTdlCZtO7lhIjwG
+         XyeDS9ZOJ4AqXnvRfhqg8iQSHZcKJItJ8SKwQZuW3/UIIszTz/LAfhpFWDm+pDG81p
+         W1c2GO70vdrH8pCVjx45Im7v2MuDQJIM59os3twymp02Azim9/OuEIwzzuEOeO4MiE
+         S35A+OB0Qia4IFbob8dMx8e79ncmKuqZ0MyNfhTSUmzp78havhKe08wAfV3/hVcF3H
+         jS2YYPIjePhhw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Cc:     akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        hanshenghong2019@email.szu.edu.cn, weizhenliang@huawei.com,
-        georgi.djakov@linaro.org, skhan@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: Re: [PATCH] Documentation/vm/page_owner.rst: fix commends
-In-Reply-To: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
-References: <20220223134104.2663-1-caoyixuan2019@email.szu.edu.cn>
-Date:   Thu, 24 Feb 2022 12:18:21 -0700
-Message-ID: <87h78okr9e.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng01@gmail.com>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+Subject: Re: [PATCH v2 0/5] docs/zh_CN: add admin-guide damon translation
+In-Reply-To: <cover.1645437621.git.siyanteng@loongson.cn>
+References: <cover.1645437621.git.siyanteng@loongson.cn>
+Date:   Thu, 24 Feb 2022 12:24:15 -0700
+Message-ID: <87czjckqzk.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yixuan Cao <caoyixuan2019@email.szu.edu.cn> writes:
+Yanteng Si <siyanteng01@gmail.com> writes:
 
-> There are some commends that need to be fixed.
+> v2:
+> * Pick Alexs Reviewed-by tag. [PATCH 1-3/5]
+> * Fix a build warning.(introduce from usage.rst)
 >
-> Thanks for Shuah Khan's constructive suggestions.
-> The commends have been fixed as follows.
+> v1:
+> * Translate .../admin-guide/mm/damon/* into Chinese
+> * note my patch thread is based on
+> <https://lore.kernel.org/linux-doc/20220212080024.1684590-1-xu.xin16@zte.com.cn/T/#t>
 >
-> a. So, if you'd like to use it, you need
-> to add "page_owner=on" into your boot cmdline.
->
-> Here, "into" has been replaced with "to".
->
-> b. ...page owner is disabled in runtime due to no
-> enabling, boot option, runtime overhead is marginal.
->
-> Here, "no" has been replaced with "not".
->
-> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-> ---
->  Documentation/vm/page_owner.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Yanteng Si (5):
+>   docs/zh_CN: Refactoring the admin-guide directory index
+>   docs/zh_CN: add admin-guide damon index translation
+>   docs/zh_CN: add admin-guide damon start translation
+>   docs/zh_CN: add damon usage translation
+>   docs/zh_CN: add damon reclaim translation
 
-Applied (with some changelog cleanups), thanks.
+This set doesn't apply to docs-next; could you respin and resubmit,
+please?
+
+Thanks,
 
 jon
