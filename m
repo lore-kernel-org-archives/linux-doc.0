@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E5EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 12:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EE5C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 12:18:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbiBXMTH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 07:19:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54930 "EHLO
+        id S232383AbiBXMTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 07:19:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbiBXMTH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 07:19:07 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A092B91C1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:37 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id x11so1530130pll.10
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:37 -0800 (PST)
+        with ESMTP id S230396AbiBXMTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 07:19:15 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 977F4B91CC
+        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:45 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id w2so1682892pfu.11
+        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fIqLO8MVKMEUcwwPUYheK77xkfr49/k2ikDX6SvIgHY=;
-        b=cFpWdBcBAzBu6+/CKZN2czHdnjDK0eccNjZ50jxSbC6oYf+nAxGiPgTuBg/hw16i5w
-         jTKYCKltdTdWoGhdf0COgcodzGJtDmt6N3iDdFimQ5VlBig5+MZDNPjjtzUQfirTimVU
-         NO1NraSmOyqfsMRBc4SUpMVMrRsrhWvtFTrpPHdRda3lwYI4D4jEOhaEX0FlQXISNsYY
-         Ief4p2N/u8voiy4FZ9hYnZsRf373+riMuNc74UBs/2EGlvrnJxfXa0gCP9G6dUZlzeVg
-         YD7tp6xnzL0CH8HkNyrmKhEHeYXPBHaRUUyE6W3ENg7TDPB00Hg91We9VSjc4vNcLJ1o
-         zJRA==
+        bh=C6l8xXsVOx4Mha2cKoQ3wVDY6K1dVq9veCFvSp1zWGA=;
+        b=NdbqUu1exq1Ge4xEeERQOMPcHhZTrbIocjrzw4cvEPSnIwf3cmqeDivVpYBQKaq+Wu
+         5EcYvldeJ5fBj0FrI076AbGTeOsn+QGWr2SKU+iJ9LZfidNMSPoQfIuwO0GrHT9baO62
+         JW7QV/ppG/SLBGkNMb9jfVSJrZtNCwdkfyD2Bx8UBAFTpuGeOh1yr0yKgQ09o8Ef/iCS
+         fPTLf9ZafOsLuHckhPASq9TAKWpjx4y7ekfp4KBkvBOvHrnCQnlkt6YDNn0VUe1b0k59
+         t2kdMccT4KL7mq4tb51MShs0LTT/A3a9/yNKhF6zUTL/1FlHIZgiO14s/8w3wp7RFvzH
+         hR6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fIqLO8MVKMEUcwwPUYheK77xkfr49/k2ikDX6SvIgHY=;
-        b=llRQf/rtN9zondS7aIZWsZyixp2ym0HF/R31t9JnVBVrFFvNyrz7JP+5SrFDAu9aoG
-         1XmR6ctPuJ/2pDWXXIa6F7mGl2W1jdtaP8HrVjIqN5+hWkoq94/wjeTPlP27JgWkySNk
-         x159QSktr5wx5CnNmJR94IP1v13Vd4CK8Eez4XRgzwsTfVAW8UyfvKQLF+wfb6748kIb
-         i8N1aGfGVgtuaFSBld/UTnpPG0Y961u/sAlytXDBAcm9CmlFh/FOTis6JZk4mLEBjQHh
-         sA3HPG5pDo6LxOkMB9JyfSNjRgqJcZOtJgkFgtIXA26xejPdcuZj06EZ0VrnKt1G2qIB
-         ZB6w==
-X-Gm-Message-State: AOAM5334ioBfVz/unmr19L/VUoVEe4tX52IealmcbH1IOXcxR5A8ArCG
-        2ESDinnNL+Ogh4gbHRyVXRQ=
-X-Google-Smtp-Source: ABdhPJyjrqYPQzCnoVQtckDujrYmYiLAsVNl9SYDQP8EXLWsf1B/nt+yub+4KtVA/Vko19vS0Ykkfg==
-X-Received: by 2002:a17:90a:4308:b0:1b8:bed5:c747 with SMTP id q8-20020a17090a430800b001b8bed5c747mr2571671pjg.0.1645705116819;
-        Thu, 24 Feb 2022 04:18:36 -0800 (PST)
+        bh=C6l8xXsVOx4Mha2cKoQ3wVDY6K1dVq9veCFvSp1zWGA=;
+        b=tv65rG6b40xUl+OOmOISiTXIrxyWiwOeTbOjBmb3fIudVEoxrdo7/OeCEwlAIhnG7J
+         93LRWOb+TSe01igZfHLxMu7cJEDsmpTcUwTaAvFuTD2zPPiMNFa5IjZ0HrWPgzoZLyaM
+         nXZaby3X5vu9AZDTVZVzetp2vxOoh77GdeeEEV8itTs4QwMsQjnXtvgKwJFNgLy6++zO
+         YpOY3XOuTXnaDxxpcxNkLmhQ+K0MueyMqFAOZIHRd2zFuLxJS2JpUrLkKPrUPDK4JvqP
+         1tXQ07zzd4H+QZVhH78zYDdtyXBoQ/7u1yNdtisWKRWrt3YSDhBGpOKVz47BRactssIw
+         TfRw==
+X-Gm-Message-State: AOAM530A2AReCU/b22SqjO3dc9dFgx2ySQxfioDiAs2lmiMDBHKVQB2/
+        dx6RVHzJZTwowEBBWqgkiCs2Tgu0VTYwkyw9
+X-Google-Smtp-Source: ABdhPJz87O09HdptxDsyxYfkEazKIa7gWUt9LkfMFqNtiq9+/CnkfQAwcPLs8kSrpsXj3TXL9KpKfg==
+X-Received: by 2002:a65:5548:0:b0:375:9f78:62ae with SMTP id t8-20020a655548000000b003759f7862aemr481891pgr.390.1645705124860;
+        Thu, 24 Feb 2022 04:18:44 -0800 (PST)
 Received: from localhost.localdomain (pcd454219.netvigator.com. [203.218.244.219])
-        by smtp.gmail.com with ESMTPSA id e3sm2577643pgc.41.2022.02.24.04.18.30
+        by smtp.gmail.com with ESMTPSA id e3sm2577643pgc.41.2022.02.24.04.18.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 04:18:36 -0800 (PST)
+        Thu, 24 Feb 2022 04:18:44 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: [PATCH 2/3] docs/zh_CN: add peci index translation
-Date:   Thu, 24 Feb 2022 20:13:51 +0800
-Message-Id: <265d0f4aa33357ccd62c21f1833169d4378bb5b8.1645704571.git.siyanteng@loongson.cn>
+Subject: [PATCH 3/3] docs/zh_CN: add peci subsystem translation
+Date:   Thu, 24 Feb 2022 20:13:52 +0800
+Message-Id: <884f4a6c76b61ab11488358d0c31f727d4d1eb26.1645704571.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1645704571.git.siyanteng@loongson.cn>
 References: <cover.1645704571.git.siyanteng@loongson.cn>
@@ -66,37 +66,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../pici/index.rst into Chinese
+Translate .../peci/peci.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/index.rst    |  1 +
- .../translations/zh_CN/peci/index.rst         | 26 +++++++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/peci/index.rst
+ .../translations/zh_CN/peci/index.rst         |  4 +-
+ .../translations/zh_CN/peci/peci.rst          | 54 +++++++++++++++++++
+ 2 files changed, 56 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/peci/peci.rst
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 23f8f4c68e83..4cab13c1f69e 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -114,6 +114,7 @@ TODOList:
-    filesystems/index
-    scheduler/index
-    vm/index
-+   peci/index
- 
- TODOList:
- 
 diff --git a/Documentation/translations/zh_CN/peci/index.rst b/Documentation/translations/zh_CN/peci/index.rst
-new file mode 100644
-index 000000000000..c536dbe1e1a8
---- /dev/null
+index c536dbe1e1a8..4f6694c828fa 100644
+--- a/Documentation/translations/zh_CN/peci/index.rst
 +++ b/Documentation/translations/zh_CN/peci/index.rst
-@@ -0,0 +1,26 @@
+@@ -15,8 +15,8 @@ Linux PECI 子系统
+ 
+ .. toctree::
+ 
+-TODOList
+-*   peci
++
++   peci
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/translations/zh_CN/peci/peci.rst b/Documentation/translations/zh_CN/peci/peci.rst
+new file mode 100644
+index 000000000000..a3b4f99b994c
+--- /dev/null
++++ b/Documentation/translations/zh_CN/peci/peci.rst
+@@ -0,0 +1,54 @@
 +.. SPDX-License-Identifier: GPL-2.0-only
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/peci/index.rst
++:Original: Documentation/peci/peci.rst
 +
 +:翻译:
 +
@@ -104,21 +107,49 @@ index 000000000000..c536dbe1e1a8
 +
 +:校译:
 +
-+=================
-+Linux PECI 子系统
-+=================
++====
++概述
++====
 +
-+.. toctree::
++平台环境控制接口（PECI）是英特尔处理器和管理控制器（如底板管理控制器，BMC）
++之间的一个通信接口。PECI提供的服务允许管理控制器通过访问各种寄存器来配置、监
++控和调试平台。它定义了一个专门的命令协议，管理控制器作为PECI的发起者，处理器
++作为PECI的响应者。PECI可以用于基于单处理器和多处理器的系统中。
 +
-+TODOList
-+*   peci
++注意：英特尔PECI规范没有作为专门的文件发布，而是作为英特尔CPU的外部设计规范
++（EDS）的一部分。外部设计规范通常是不公开的。
 +
-+.. only::  subproject and html
++PECI 线
++---------
 +
-+   Indices
-+   =======
++PECI线接口使用单线进行自锁和数据传输。它不需要任何额外的控制线--物理层是一个
++自锁的单线总线信号，每一个比特都从接近零伏的空闲状态开始驱动、上升边缘。驱动高
++电平信号的持续时间可以确定位值是逻辑 “0” 还是逻辑 “1”。PECI线还包括与每个信
++息建立的可变数据速率。
 +
-+   * :ref:`genindex`
++对于PECI线，每个处理器包将在一个定义的范围内利用唯一的、固定的地址，该地址应
++该与处理器插座ID有固定的关系--如果其中一个处理器被移除，它不会影响其余处理器
++的地址。
++
++PECI子系统代码内嵌文档
++------------------------
++
++该API在以下内核代码中:
++
++include/linux/peci.h
++
++drivers/peci/internal.h
++
++drivers/peci/core.c
++
++drivers/peci/request.c
++
++PECI CPU 驱动 API
++-------------------
++
++该API在以下内核代码中:
++
++drivers/peci/cpu.c
 -- 
 2.27.0
 
