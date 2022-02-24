@@ -2,198 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB9EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB37AC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:42:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbiBXFgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 00:36:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53282 "EHLO
+        id S230140AbiBXFmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 00:42:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiBXFgO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:36:14 -0500
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1144F252919
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:35:45 -0800 (PST)
-Received: by mail-vs1-xe35.google.com with SMTP id e26so1029186vso.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:35:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7WWHAhC2u3Yrav5+xOTI+5uI30EbKHXrJLx3B/cdCfE=;
-        b=Zxw1fP3eRF14/jcI7VdenJgTzhXoypJ0ib3zhRFpIbjr+wVwCNg00v65TATB+HmKJE
-         rP9UfsVJh8JfLsEVwK4A9eJWX0+CBWbIzGbgfnidODFWuQaMxX8+rpw36HVTrxbu27Ya
-         zbiuaqp2AkVJNKnUoeKihalnYmkzKCCEccK8PWmEk22e/TfJRCRepHNWgG+tsPunMO+5
-         DVOs99aUGm2CmZiTWtAx181idOX7NmLagvg69pR2ltDgKcTLxB1lUNNBIKipRviWXene
-         yaRA6r3iGGGbwHFKSSPbpkCp+7V9T2tjotbYrVNcWxfzHyeIAWZVoRB7Sq3jCml7lAIk
-         xZPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7WWHAhC2u3Yrav5+xOTI+5uI30EbKHXrJLx3B/cdCfE=;
-        b=TpHTZMs1vOz2E6ia9gbwbt9D6MwbYeW9yKnYHZv6w+36thdAgT0ZNoQNptdeXu2edZ
-         7uijxGV2xxqsBgmaNNg0Gvl1uS8Jd01N5ge3RgL0MyeH7AYJ4H3WEGYLBvRl3ncSswYq
-         GEPBlxDSZSww7fBA2Vc1fhiPkvs0VtBnuP/Xs0AG06btgQ4g1XH5ZoVKp6dLmxCjf5Zu
-         dejQqHCRfsbjjAgKinQPo83DnPPbd4MvqnO/9IfC+l/Sd2nxr4lZ/BgRgGkY/9EpLvjn
-         3nElcGhrmIIDfSDf179FGwyKYJT2Zid1KyMvA0xHv4XvfM+irwAKDZsqv/P8Q/sNvSDV
-         odxw==
-X-Gm-Message-State: AOAM531MtiEtF06apyY7sxL9ItaQo9JiSj3upga4UyYbtY3/wVlFhtBw
-        EgmrjaLJSCO/vSLptvQOhTwEox3JgEx/SIHakcKSWg==
-X-Google-Smtp-Source: ABdhPJzIv19ZFkAGm9a7wUFfoCm24bkgs4miWsRzSszOLijZZHRHI4Zo6Ve/+i4RNDZIH9qICVbvebwjNoUYss5qmcg=
-X-Received: by 2002:a05:6102:2914:b0:31b:b756:7950 with SMTP id
- cz20-20020a056102291400b0031bb7567950mr396078vsb.41.1645680944016; Wed, 23
- Feb 2022 21:35:44 -0800 (PST)
+        with ESMTP id S229826AbiBXFmj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:42:39 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ABF7B0D34;
+        Wed, 23 Feb 2022 21:42:09 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id EBB951F3A1;
+        Thu, 24 Feb 2022 05:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1645681327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LKmtUS8Iww56ZG9AedqwAoOu6e9VunJUN5pEfmlFqFg=;
+        b=oacCq8DpEx+HDVYUG2DsF2wuspiuS5qhOaHg1qyYd+T9C2DteAD78mmee61D0FUkZI1YLt
+        89gaqCC57biyg1VI4eWpjZIyZz5bUCc+qIzPagHkvNRbHUbMXkbpK1X9DZdFRD07Aas5HD
+        lAXZBPvJQXlq+oS7kaTZ3tDK1PH657o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1645681327;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LKmtUS8Iww56ZG9AedqwAoOu6e9VunJUN5pEfmlFqFg=;
+        b=MEMewd7NbYPArVPBoXiNu4N+Gd4+gUbLnYQ+eJp9sW2uduqkIYyCem3t9SIAJPZbOtxf7E
+        cjDOc2g76XCgQcAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFB7B13322;
+        Thu, 24 Feb 2022 05:42:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id spy1IqgaF2JJDwAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 24 Feb 2022 05:42:00 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-6-yuzhao@google.com>
- <87bkyy56nv.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufbekcu09DyEZAkJNRq_1qKaf_xibXQNeAVK=rsGBn9Z4Q@mail.gmail.com>
- <87y2213wrl.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufY8dRimricP=pvvgg8mEagb369nE8MVe6tnnLXQuKyAEA@mail.gmail.com>
- <87h78p3pp2.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufYgNr-82AsfGFu6DVOsVUdmVsOo2Jav3nHDXiuu6iDC9A@mail.gmail.com>
- <87a6eg4ywq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-In-Reply-To: <87a6eg4ywq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Wed, 23 Feb 2022 22:35:32 -0700
-Message-ID: <CAOUHufY9h2K4dPnufW-uD-EEuvROf6y7cF-w1gJ2VAFaSEDD7Q@mail.gmail.com>
-Subject: Re: [PATCH v7 05/12] mm: multigenerational LRU: minimal implementation
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Content-Type: text/plain; charset="UTF-8"
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Jeff Layton" <jlayton@kernel.org>
+Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
+        "Jan Kara" <jack@suse.cz>, "Wu Fengguang" <fengguang.wu@intel.com>,
+        "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
+        "Ilya Dryomov" <idryomov@gmail.com>,
+        "Miklos Szeredi" <miklos@szeredi.hu>,
+        "Trond Myklebust" <trond.myklebust@hammerspace.com>,
+        "Anna Schumaker" <anna.schumaker@netapp.com>,
+        "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        "Philipp Reisner" <philipp.reisner@linbit.com>,
+        "Lars Ellenberg" <lars.ellenberg@linbit.com>,
+        "Paolo Valente" <paolo.valente@linaro.org>,
+        "Jens Axboe" <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
+In-reply-to: <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
+References: <164549971112.9187.16871723439770288255.stgit@noble.brown>,
+ <164549983739.9187.14895675781408171186.stgit@noble.brown>,
+ <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
+Date:   Thu, 24 Feb 2022 16:41:56 +1100
+Message-id: <164568131640.25116.884631856219777713@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 10:27 PM Huang, Ying <ying.huang@intel.com> wrote:
->
-> Yu Zhao <yuzhao@google.com> writes:
->
-> > On Wed, Feb 23, 2022 at 8:32 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >>
-> >> Yu Zhao <yuzhao@google.com> writes:
-> >>
-> >> > On Wed, Feb 23, 2022 at 5:59 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >>
-> >> >> Yu Zhao <yuzhao@google.com> writes:
-> >> >>
-> >> >> > On Wed, Feb 23, 2022 at 1:28 AM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >> >>
-> >> >> >> Hi, Yu,
-> >> >> >>
-> >> >> >> Yu Zhao <yuzhao@google.com> writes:
-> >> >> >>
-> >> >> >> > To avoid confusions, the terms "promotion" and "demotion" will be
-> >> >> >> > applied to the multigenerational LRU, as a new convention; the terms
-> >> >> >> > "activation" and "deactivation" will be applied to the active/inactive
-> >> >> >> > LRU, as usual.
-> >> >> >>
-> >> >> >> In the memory tiering related commits and patchset, for example as follows,
-> >> >> >>
-> >> >> >> commit 668e4147d8850df32ca41e28f52c146025ca45c6
-> >> >> >> Author: Yang Shi <yang.shi@linux.alibaba.com>
-> >> >> >> Date:   Thu Sep 2 14:59:19 2021 -0700
-> >> >> >>
-> >> >> >>     mm/vmscan: add page demotion counter
-> >> >> >>
-> >> >> >> https://lore.kernel.org/linux-mm/20220221084529.1052339-1-ying.huang@intel.com/
-> >> >> >>
-> >> >> >> "demote" and "promote" is used for migrating pages between different
-> >> >> >> types of memory.  Is it better for us to avoid overloading these words
-> >> >> >> too much to avoid the possible confusion?
-> >> >> >
-> >> >> > Given that LRU and migration are usually different contexts, I think
-> >> >> > we'd be fine, unless we want a third pair of terms.
-> >> >>
-> >> >> This is true before memory tiering is introduced.  In systems with
-> >> >> multiple types memory (called memory tiering), LRU is used to identify
-> >> >> pages to be migrated to the slow memory node.  Please take a look at
-> >> >> can_demote(), which is called in shrink_page_list().
-> >> >
-> >> > This sounds clearly two contexts to me. Promotion/demotion (move
-> >> > between generations) while pages are on LRU; or promotion/demotion
-> >> > (migration between nodes) after pages are taken off LRU.
-> >> >
-> >> > Note that promotion/demotion are not used in function names. They are
-> >> > used to describe how MGLRU works, in comparison with the
-> >> > active/inactive LRU. Memory tiering is not within this context.
-> >>
-> >> Because we have used pgdemote_* in /proc/vmstat, "demotion_enabled" in
-> >> /sys/kernel/mm/numa, and will use pgpromote_* in /proc/vmstat.  It seems
-> >> better to avoid to use promote/demote directly for MGLRU in ABI.  A
-> >> possible solution is to use "mglru" and "promote/demote" together (such
-> >> as "mglru_promote_*" when it is needed?
-> >
-> > *If* it is needed. Currently there are no such plans.
->
-> OK.
->
-> >> >> >> > +static int get_swappiness(struct mem_cgroup *memcg)
-> >> >> >> > +{
-> >> >> >> > +     return mem_cgroup_get_nr_swap_pages(memcg) >= MIN_LRU_BATCH ?
-> >> >> >> > +            mem_cgroup_swappiness(memcg) : 0;
-> >> >> >> > +}
-> >> >> >>
-> >> >> >> After we introduced demotion support in Linux kernel.  The anonymous
-> >> >> >> pages in the fast memory node could be demoted to the slow memory node
-> >> >> >> via the page reclaiming mechanism as in the following commit.  Can you
-> >> >> >> consider that too?
-> >> >> >
-> >> >> > Sure. How do I check whether there is still space on the slow node?
-> >> >>
-> >> >> You can always check the watermark of the slow node.  But now, we
-> >> >> actually don't check that (as in demote_page_list()), instead we will
-> >> >> wake up kswapd of the slow node.  The intended behavior is something
-> >> >> like,
-> >> >>
-> >> >>   DRAM -> PMEM -> disk
-> >> >
-> >> > I'll look into this later -- for now, it's a low priority because
-> >> > there isn't much demand. I'll bump it up if anybody is interested in
-> >> > giving it a try. Meanwhile, please feel free to cook up something if
-> >> > you are interested.
-> >>
-> >> When we introduce a new feature, we shouldn't break an existing one.
-> >> That is, not introducing regression.  I think that it is a rule?
-> >>
-> >> If my understanding were correct, MGLRU will ignore to scan anonymous
-> >> page list even if there's demotion target for the node.  This breaks the
-> >> demotion feature in the upstream kernel.  Right?
-> >
-> > I'm not saying this shouldn't be fixed. I'm saying it's a low priority
-> > until somebody is interested in using/testing it (or making it work).
->
-> We are interested in this feature and can help to test it.
+On Thu, 24 Feb 2022, Jeff Layton wrote:
+> On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
+> > The bdi congestion tracking in not widely used and will be removed.
+> > 
+> > CEPHfs is one of a small number of filesystems that uses it, setting
+> > just the async (write) congestion flags at what it determines are
+> > appropriate times.
+> > 
+> > The only remaining effect of the async flag is to cause (some)
+> > WB_SYNC_NONE writes to be skipped.
+> > 
+> > So instead of setting the flag, set an internal flag and change:
+> >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
+> >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
+> >     and the flag is set.
+> > 
+> > The writepages change causes a behavioural change in that pageout() can
+> > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
+> > be called on the page which (I think) wil further delay the next attempt
+> > at writeout.  This might be a good thing.
+> > 
+> > Signed-off-by: NeilBrown <neilb@suse.de>
+> 
+> Maybe. I have to wonder whether all of this is really useful.
+> 
+> When things are congested we'll avoid trying to issue new writeback
+> requests. Note that we don't prevent new pages from being dirtied here -
+> - only their being written back.
+> 
+> This also doesn't do anything in the DIO or sync_write cases, so if we
+> lose caps or are doing DIO, we'll just keep churning out "unlimited"
+> writes in those cases anyway.
 
-That's great. I'll make sure it works in the next version.
+I think the point of congestion tracking is to differentiate between
+sync and async IO.  Or maybe "required" and "optional".
+Eventually the "optional" IO will become required, but if we can delay
+it until a time when there is less "required" io, then maybe we can
+improve perceived latency.
+
+"optional" IO here is write-back and read-ahead.  If the load of
+"required" IO is bursty, and if we can shuffle that optional stuff into
+the quiet periods, we might win.
+
+Whether this is a real need is an important question that I don't have an
+answer for.  And whether it is better to leave delayed requests in the
+page cache, or in the low-level queue with sync requests able to
+over-take them - I don't know.  If you have multiple low-level queue as
+you say you can with ceph, then lower might be better.
+
+The block layer has REQ_RAHEAD ..  maybe those request get should get a
+lower priority ... though I don't think they do.
+NFS has a 3 level priority queue, with write-back going at a lower
+priority ... I think... for NFSv3 at least.
+
+Sometimes I suspect that as all our transports have become faster, we
+have been able to ignore the extra latency caused by poor scheduling of
+optional requests.  But at other times when my recently upgraded desktop
+is struggling to view a web page while compiling a kernel ...  I wonder
+if maybe we don't have the balance right any more.
+
+So maybe you are right - maybe we can rip all this stuff out.
+
+Or maybe not.
+
+Thanks,
+NeilBrown
