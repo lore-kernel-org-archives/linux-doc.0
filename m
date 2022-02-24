@@ -2,56 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0F7C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 11:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C352C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 11:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233791AbiBXLIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 06:08:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38732 "EHLO
+        id S229801AbiBXLbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 06:31:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233051AbiBXLIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 06:08:01 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A10BCBE;
-        Thu, 24 Feb 2022 03:07:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=s+oFl0vWOonHrwSeNZUFJERIhMF8rGA7uA4JM5TBN7w=; b=kUxeBvzUY8AgM2GJqaBNyJArtC
-        oWGIfnZ7fCzvbuMYVQKU3nmSVqj2tgX3kCOHKuUet29L7jbWdWLcNs+2p7QaHrX8MjRjhs9Duaf2m
-        7y3OFKdiLqusIlJeagvoxhlI4Mrdf7Xc8BidDGH5f6wrLA23HUDWbnLWN/t2kOthuBT9+ukwjLKam
-        LbrIsB2We6OlEkLsGiL5g/YROcfuPnt2z+cwOniJNujNctFCflqAIXMJR1rW14mRjxPhrOQ0nT+/y
-        rJ4shbiDjvQgRYLZ3xnnz/In0K8UU03fDxamtI6ngc+VhUTCTeuqpS5H/NKSzt/COYWkxIspEPmpt
-        2aAPQL2Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nNBxz-000UeP-EV; Thu, 24 Feb 2022 11:07:23 +0000
-Date:   Thu, 24 Feb 2022 03:07:23 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        Sanket.Goswami@amd.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <Yhdm68HzOHhGNK4k@infradead.org>
-References: <20210607153916.1021016-1-zhengdejin5@gmail.com>
- <20210607153916.1021016-2-zhengdejin5@gmail.com>
+        with ESMTP id S229525AbiBXLbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 06:31:07 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC5928A113;
+        Thu, 24 Feb 2022 03:30:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 75964B82575;
+        Thu, 24 Feb 2022 11:30:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE696C340E9;
+        Thu, 24 Feb 2022 11:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645702235;
+        bh=NEiEy8aPQXv4YCvSSvu1CrwZcw8hIl0XdkWsb+8kvdc=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=lzpWsjsxoWJp5qkJ96UqX80NBnU+UC1GaWf56BLmCibrCohLLcjWbwrFK+UFLdIgS
+         M3+IVpmCOF1k1d18hfO0Yq0UaOYTv8twIThmyrZyJtS0BaI+IBuZ8GbGCLoCA4Nfky
+         uw0HWHltyCjHAtOKREnE0y6956nBervDeobT4ihNlqBT6q1gMuJz1O6ENY8jS1nD30
+         C4oS6GqmHNV9tEmM4VTc/rfnlTTnWEqSE78JNNYFLUpVx8tkL5Lpk/To+UfIvaeCaj
+         xXDDgEeajWU/EpVj5VTsQF8+WQbltJex+TSRMA276bz7hfF54LMk8fLTqs2VgkV0uj
+         ELHbDgvjlTNSA==
+Message-ID: <e8ec98a9c4fab9b7aa099001f09ff9b11f0c3f96.camel@kernel.org>
+Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
+From:   Jeff Layton <jlayton@kernel.org>
+To:     NeilBrown <neilb@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 24 Feb 2022 06:30:31 -0500
+In-Reply-To: <164568131640.25116.884631856219777713@noble.neil.brown.name>
+References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
+        , <164549983739.9187.14895675781408171186.stgit@noble.brown>
+        , <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
+         <164568131640.25116.884631856219777713@noble.neil.brown.name>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210607153916.1021016-2-zhengdejin5@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 11:39:13PM +0800, Dejin Zheng wrote:
-> Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> pci_alloc_irq_vectors(). Introducing this function can simplify
-> the error handling path in many drivers.
+On Thu, 2022-02-24 at 16:41 +1100, NeilBrown wrote:
+> On Thu, 24 Feb 2022, Jeff Layton wrote:
+> > On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
+> > > The bdi congestion tracking in not widely used and will be removed.
+> > > 
+> > > CEPHfs is one of a small number of filesystems that uses it, setting
+> > > just the async (write) congestion flags at what it determines are
+> > > appropriate times.
+> > > 
+> > > The only remaining effect of the async flag is to cause (some)
+> > > WB_SYNC_NONE writes to be skipped.
+> > > 
+> > > So instead of setting the flag, set an internal flag and change:
+> > >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
+> > >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
+> > >     and the flag is set.
+> > > 
+> > > The writepages change causes a behavioural change in that pageout() can
+> > > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
+> > > be called on the page which (I think) wil further delay the next attempt
+> > > at writeout.  This might be a good thing.
+> > > 
+> > > Signed-off-by: NeilBrown <neilb@suse.de>
+> > 
+> > Maybe. I have to wonder whether all of this is really useful.
+> > 
+> > When things are congested we'll avoid trying to issue new writeback
+> > requests. Note that we don't prevent new pages from being dirtied here -
+> > - only their being written back.
+> > 
+> > This also doesn't do anything in the DIO or sync_write cases, so if we
+> > lose caps or are doing DIO, we'll just keep churning out "unlimited"
+> > writes in those cases anyway.
+> 
+> I think the point of congestion tracking is to differentiate between
+> sync and async IO.  Or maybe "required" and "optional".
+> Eventually the "optional" IO will become required, but if we can delay
+> it until a time when there is less "required" io, then maybe we can
+> improve perceived latency.
+> 
+> "optional" IO here is write-back and read-ahead.  If the load of
+> "required" IO is bursty, and if we can shuffle that optional stuff into
+> the quiet periods, we might win.
+> 
 
-How does it do that when it just is a trivial wrapper erroring out
-for the unmanaged case?
+In that case, maybe we should be counting in-flight reads too and deny
+readahead when the count crosses some threshold? It seems a bit silly to
+only look at writes when it comes to "congestion".
+
+> Whether this is a real need is an important question that I don't have an
+> answer for.  And whether it is better to leave delayed requests in the
+> page cache, or in the low-level queue with sync requests able to
+> over-take them - I don't know.  If you have multiple low-level queue as
+> you say you can with ceph, then lower might be better.
+> 
+> The block layer has REQ_RAHEAD ..  maybe those request get should get a
+> lower priority ... though I don't think they do.
+> NFS has a 3 level priority queue, with write-back going at a lower
+> priority ... I think... for NFSv3 at least.
+> 
+> Sometimes I suspect that as all our transports have become faster, we
+> have been able to ignore the extra latency caused by poor scheduling of
+> optional requests.  But at other times when my recently upgraded desktop
+> is struggling to view a web page while compiling a kernel ...  I wonder
+> if maybe we don't have the balance right any more.
+> 
+> So maybe you are right - maybe we can rip all this stuff out.
+> 
+
+I lean more toward just removing it. The existing implementation seems a
+bit half-baked with the gaps in what's being counted. Granted, the
+default congestion threshold is pretty high with modern memory sizes, so
+it probably doesn't come into play much in practice, but removing it
+would reduce some complexity in the client.
+
+-- 
+Jeff Layton <jlayton@kernel.org>
