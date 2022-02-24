@@ -2,154 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EE5C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 12:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E02C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 13:02:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232383AbiBXMTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 07:19:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55306 "EHLO
+        id S232912AbiBXNDT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 08:03:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230396AbiBXMTP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 07:19:15 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 977F4B91CC
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:45 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id w2so1682892pfu.11
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 04:18:45 -0800 (PST)
+        with ESMTP id S234644AbiBXNDT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 08:03:19 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C576F1B0BE4;
+        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id m22so1969274pja.0;
+        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=C6l8xXsVOx4Mha2cKoQ3wVDY6K1dVq9veCFvSp1zWGA=;
-        b=NdbqUu1exq1Ge4xEeERQOMPcHhZTrbIocjrzw4cvEPSnIwf3cmqeDivVpYBQKaq+Wu
-         5EcYvldeJ5fBj0FrI076AbGTeOsn+QGWr2SKU+iJ9LZfidNMSPoQfIuwO0GrHT9baO62
-         JW7QV/ppG/SLBGkNMb9jfVSJrZtNCwdkfyD2Bx8UBAFTpuGeOh1yr0yKgQ09o8Ef/iCS
-         fPTLf9ZafOsLuHckhPASq9TAKWpjx4y7ekfp4KBkvBOvHrnCQnlkt6YDNn0VUe1b0k59
-         t2kdMccT4KL7mq4tb51MShs0LTT/A3a9/yNKhF6zUTL/1FlHIZgiO14s/8w3wp7RFvzH
-         hR6w==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=KmRf75qCveSuYPiB5ylSj3DCA7hKJMZwh2SvGTJxYZc=;
+        b=HgvWDWVjZwTyTyjNJk7JGG0cjpWy0j5P8hy66zuV1DedXyfHIsIbs2uYNPIIMGo+mF
+         SotPVMxz9dU1ADWzt9a902+g1bgF7IjoG12/jloc2Ih1T9uZ7sSnJsQZww2Fz3sw2iLc
+         Bx6iOqG0qFPXiTP19vYsQjWSoc+zJDIW0BYeuQYnjKBQblhf4pkLSpvfQr+3OF1J9qSN
+         53JJrhcrm6uk5pT+KfiQEdPMHHers59l7/cP5LHG9VcGR7m0G2l8t9t1XsrqvGTP3ONz
+         0bEeuWwoSuMvmrRsf8QeookE9+ME8X1Az0upSXv7z82lDh2Rfd2Su+27NQayENtF+rgV
+         t5LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=C6l8xXsVOx4Mha2cKoQ3wVDY6K1dVq9veCFvSp1zWGA=;
-        b=tv65rG6b40xUl+OOmOISiTXIrxyWiwOeTbOjBmb3fIudVEoxrdo7/OeCEwlAIhnG7J
-         93LRWOb+TSe01igZfHLxMu7cJEDsmpTcUwTaAvFuTD2zPPiMNFa5IjZ0HrWPgzoZLyaM
-         nXZaby3X5vu9AZDTVZVzetp2vxOoh77GdeeEEV8itTs4QwMsQjnXtvgKwJFNgLy6++zO
-         YpOY3XOuTXnaDxxpcxNkLmhQ+K0MueyMqFAOZIHRd2zFuLxJS2JpUrLkKPrUPDK4JvqP
-         1tXQ07zzd4H+QZVhH78zYDdtyXBoQ/7u1yNdtisWKRWrt3YSDhBGpOKVz47BRactssIw
-         TfRw==
-X-Gm-Message-State: AOAM530A2AReCU/b22SqjO3dc9dFgx2ySQxfioDiAs2lmiMDBHKVQB2/
-        dx6RVHzJZTwowEBBWqgkiCs2Tgu0VTYwkyw9
-X-Google-Smtp-Source: ABdhPJz87O09HdptxDsyxYfkEazKIa7gWUt9LkfMFqNtiq9+/CnkfQAwcPLs8kSrpsXj3TXL9KpKfg==
-X-Received: by 2002:a65:5548:0:b0:375:9f78:62ae with SMTP id t8-20020a655548000000b003759f7862aemr481891pgr.390.1645705124860;
-        Thu, 24 Feb 2022 04:18:44 -0800 (PST)
-Received: from localhost.localdomain (pcd454219.netvigator.com. [203.218.244.219])
-        by smtp.gmail.com with ESMTPSA id e3sm2577643pgc.41.2022.02.24.04.18.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 04:18:44 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH 3/3] docs/zh_CN: add peci subsystem translation
-Date:   Thu, 24 Feb 2022 20:13:52 +0800
-Message-Id: <884f4a6c76b61ab11488358d0c31f727d4d1eb26.1645704571.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1645704571.git.siyanteng@loongson.cn>
-References: <cover.1645704571.git.siyanteng@loongson.cn>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=KmRf75qCveSuYPiB5ylSj3DCA7hKJMZwh2SvGTJxYZc=;
+        b=nhuKJSuF+fKl3CoveAFqVw15BdpK8dKF5G6wlA2hSo0iguRLMwJ9iD3PD9uJSqu9QO
+         C1awktcOUW4TwYKfXjVc+dOLvHLbjnQHoSqADRR5Uywtplc5SobeXNKfLo9QB2RVHVhq
+         3eUz0CHpaSTqKR3A78iNF+HZGSfWH2pdkAEjxx3x/PPgg6zH/vUa9/GljZhrBPjv4luv
+         l9Gn3VxzLsNnMO4qeym5RCe6dE0hBiwriSRFf21smoTqDNZ6GL0iyKuC9LUcFQun/JpN
+         luAXsv3UG/LccX3CjkJIgL178zas9x9C784pg+JgOfXiEwvQK5sQISIRuuuKJ+BGgJ0r
+         hlrw==
+X-Gm-Message-State: AOAM530U7Ar5WC/t1vsB3wBfPOz0d7vhSG7YUIA/Djty/Q3W5PFat32Z
+        j4mCgE1dmvRHhjiLauWoMWc=
+X-Google-Smtp-Source: ABdhPJwxRaWj+QYLoEbry0cL/J97Ox7OrI8FluGuWmLRB9H16HKsqGHi1JxYqLrqi4HQ+xsosQwWWw==
+X-Received: by 2002:a17:90b:1d91:b0:1b9:d5fd:3c8a with SMTP id pf17-20020a17090b1d9100b001b9d5fd3c8amr14467088pjb.213.1645707769252;
+        Thu, 24 Feb 2022 05:02:49 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id s5sm2589044pgo.37.2022.02.24.05.02.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Feb 2022 05:02:48 -0800 (PST)
+Message-ID: <7b136049-a3ba-0eb5-8717-364d773ff914@gmail.com>
+Date:   Thu, 24 Feb 2022 22:02:46 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?VG9tYXN6IFdhcm5pZcWCxYJv?= <tomasz.warniello@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2] docs: scripts/kernel-doc: Detect absence of FILE arg
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../peci/peci.rst into Chinese.
+Currently, when there is no FILE argument following a switch such
+as -man, -rst, or -none, kernel-doc exits with a warning from perl
+(long msg folded):
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+    Use of uninitialized value $ARGV[0] in pattern match (m//)
+    at ./scripts/kernel-doc line 438.
+
+, which is unhelpful.
+
+Improve the behavior by adding a check at the bottom of parsing
+loop.
+If the argument is absent, display help text and exit with
+the code of 1 (via usage()).
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 ---
- .../translations/zh_CN/peci/index.rst         |  4 +-
- .../translations/zh_CN/peci/peci.rst          | 54 +++++++++++++++++++
- 2 files changed, 56 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/peci/peci.rst
+Changes since v1 [1]:
+  - No code change
+  - Amend subject and reword the whole changelog.
+  - The message from perl is not an error but a warning.
+     (I thank Tomasz for pointing it out.)
 
-diff --git a/Documentation/translations/zh_CN/peci/index.rst b/Documentation/translations/zh_CN/peci/index.rst
-index c536dbe1e1a8..4f6694c828fa 100644
---- a/Documentation/translations/zh_CN/peci/index.rst
-+++ b/Documentation/translations/zh_CN/peci/index.rst
-@@ -15,8 +15,8 @@ Linux PECI 子系统
- 
- .. toctree::
- 
--TODOList
--*   peci
-+
-+   peci
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/translations/zh_CN/peci/peci.rst b/Documentation/translations/zh_CN/peci/peci.rst
-new file mode 100644
-index 000000000000..a3b4f99b994c
---- /dev/null
-+++ b/Documentation/translations/zh_CN/peci/peci.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/peci/peci.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+====
-+概述
-+====
-+
-+平台环境控制接口（PECI）是英特尔处理器和管理控制器（如底板管理控制器，BMC）
-+之间的一个通信接口。PECI提供的服务允许管理控制器通过访问各种寄存器来配置、监
-+控和调试平台。它定义了一个专门的命令协议，管理控制器作为PECI的发起者，处理器
-+作为PECI的响应者。PECI可以用于基于单处理器和多处理器的系统中。
-+
-+注意：英特尔PECI规范没有作为专门的文件发布，而是作为英特尔CPU的外部设计规范
-+（EDS）的一部分。外部设计规范通常是不公开的。
-+
-+PECI 线
-+---------
-+
-+PECI线接口使用单线进行自锁和数据传输。它不需要任何额外的控制线--物理层是一个
-+自锁的单线总线信号，每一个比特都从接近零伏的空闲状态开始驱动、上升边缘。驱动高
-+电平信号的持续时间可以确定位值是逻辑 “0” 还是逻辑 “1”。PECI线还包括与每个信
-+息建立的可变数据速率。
-+
-+对于PECI线，每个处理器包将在一个定义的范围内利用唯一的、固定的地址，该地址应
-+该与处理器插座ID有固定的关系--如果其中一个处理器被移除，它不会影响其余处理器
-+的地址。
-+
-+PECI子系统代码内嵌文档
-+------------------------
-+
-+该API在以下内核代码中:
-+
-+include/linux/peci.h
-+
-+drivers/peci/internal.h
-+
-+drivers/peci/core.c
-+
-+drivers/peci/request.c
-+
-+PECI CPU 驱动 API
-+-------------------
-+
-+该API在以下内核代码中:
-+
-+drivers/peci/cpu.c
--- 
-2.27.0
+I thought the change of exit code might affect sphinx-build processing,
+and tested with several runs of "make htmldocs" and "make pdfdocs".
+So far, I've not seen any regression.
+
+[1] v1: https://lore.kernel.org/r/1c71e5d2-f87e-6c8e-6176-e5ce42e4d41b@gm=
+ail.com
+
+        Thanks, Akira
+--
+ scripts/kernel-doc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 3106b7536b89..faefe2977f0e 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -494,7 +494,11 @@ while ($ARGV[0] =3D~ m/^--?(.*)/) {
+ 	}
+     } else {
+ 	# Unknown argument
+-        usage();
++	usage();
++    }
++    if ($#ARGV < 0){
++	print "No FILE!\n";
++	usage();
+     }
+ }
+=20
+
+base-commit: b62ef3a1cca0553613adce16515f3640400725b4
+--=20
+2.17.1
 
