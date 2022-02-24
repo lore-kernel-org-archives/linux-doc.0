@@ -2,155 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC263C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Feb 2022 23:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51961C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 00:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244127AbiBWXoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Feb 2022 18:44:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38040 "EHLO
+        id S240912AbiBXAOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Feb 2022 19:14:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234743AbiBWXoX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 18:44:23 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F05846178
-        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 15:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645659835; x=1677195835;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uXYaV7LYD6ugYzUxE2cBAI2z2LHzHz1Q7NNQM3baKts=;
-  b=FYCmRDdN9jmHMc988qLwVrw4RDXSoTsp5RXCNaoxdF/wxva9kVjx6+da
-   KT9JonFOevXpYmhRu5IJw9HREri35zrMoX2ntPWdkY1+uNuHTJ9nW7IIf
-   FEhiCq94u9hRkuZomagTxfYCFYgJ8gz8W1ucWeulwPXSwnPWNrOlCn0kb
-   C1/XJDq/r3ge9eGqNHPA7kasQsodbdtDVnaBZ8lS7zdXrLE2oDoikZbqT
-   CuS4UjpEL8dyqbcdNXJ8awFwb+PMBAAgkW8GQ+E9u0Ipf0HRgeTan3rvG
-   n8pDrq+fI1CwMDB0lFj2FcvDCeuhHvytJ1Xf05A+ZWJDUUiU3JSeJOCV2
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="232082693"
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="232082693"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 15:43:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,392,1635231600"; 
-   d="scan'208";a="707235252"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 Feb 2022 15:43:52 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nN1IV-0001xw-Sm; Wed, 23 Feb 2022 23:43:51 +0000
-Date:   Thu, 24 Feb 2022 07:43:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Filipe Manana <fdmanana@suse.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 5106/7526] fs/btrfs/tree-log.c:6755: warning:
- This comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202202240704.pQD40A9L-lkp@intel.com>
+        with ESMTP id S239973AbiBXAOf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Feb 2022 19:14:35 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116315FF3E
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 16:14:07 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id q1so257811plx.4
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 16:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tWiJqyBmHVLQbDjgYyBAcQodJ4PbnDvUmaAVoLsJS4w=;
+        b=B+uh6Yp6xmTIXeSfs1JnBFk/jkkLZ1Vw3BYubhwlQbspU1RCcNeNqctn4I70RVLIol
+         Si6KDKcaEODue79zVe71vc/DaykBQDtjchY9fgGTBS+KTTnL37m8tlAxIV6NsBX133xz
+         Q2rkDjkA10QCxmyJQa0mMefeOF+NB5BwMJV1w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tWiJqyBmHVLQbDjgYyBAcQodJ4PbnDvUmaAVoLsJS4w=;
+        b=TeT23p6Ntz2NIN6xn5yyuDbwOtIB4tNoxkg1YF3f/B/xJpDfNHqnJNeZKG0m/HP0I6
+         1iydJRZwQr9mTfB4Xn4gvfXH6p5BR2tsVptHHrjpBJYWZ3KR75NnwCITtI7UZwCAoQDE
+         gmTVID6GyClCymfgT50/jcMPV2GrAETOnL3EAAVyr31r4jdbx90YayV6UZeYl6nKL+d/
+         cfnmeGC3pJgpjDJ84qnhrU8m8wty6OGSll11Bgn0YmE683FvWxeLVMJl+JtW+S9JZDQ7
+         ZpAFsYxYb+oBTNpSswrUrji2AsI44syhxRJYaop9M8zAapKWgNO7ZkztpC7gG5nK2m+C
+         cXFg==
+X-Gm-Message-State: AOAM531cHFFzW3rOCWorqx3q5nDwtsy834M6RCFU8lGwSz7VunPda+zV
+        qG/WkNwWQ4WgiZVH1LKNEHRhHg==
+X-Google-Smtp-Source: ABdhPJy7IikcyjifqSeBxQRWe/5wcWscPFj8T6f6zKjKgTnz+rDNhdCaD/mPxW/d2ffvImjPoFesLA==
+X-Received: by 2002:a17:90b:3d02:b0:1bc:85fa:e24 with SMTP id pt2-20020a17090b3d0200b001bc85fa0e24mr8543922pjb.239.1645661646404;
+        Wed, 23 Feb 2022 16:14:06 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q13sm713743pfl.210.2022.02.23.16.14.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 16:14:06 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stefano Zacchiroli <zack@upsilon.cc>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Wenwen Wang <wenwen@cs.uga.edu>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH] Documentation/process: Add Researcher Guidelines
+Date:   Wed, 23 Feb 2022 16:14:03 -0800
+Message-Id: <20220224001403.1307377-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9266; h=from:subject; bh=CQePDr1DFfNdm/DsFEAgI6x+RxatFwswD0jse+R0L4E=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBiFs3KW/WPUnYzV5YGusU2EhRH8uEZL21QwjlzlBiZ rh1SwEGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYhbNygAKCRCJcvTf3G3AJldPD/ 95pMS7QUNj58sTT3dZgN6WQ/qY8zYt1FqqMcySA4xyYhNon/W/vZugARYfl0RR5VBVumR1FJgvYiDt nkyH5sLSl+KIHFLgCQEGvm9l6bjv9xStfI+rj9PkMdl4PvtE8TKqDwx3pvEKhv1/pSym9frfRmKLNT YN05KDgumKd7mop+zbKrH3Orl7aInOISB5/8WU5JuWgcykH4bCMwiC5vbZyyZPZMHsXSD+aitb34Pj CcWlBHUBgijHJYsvWydqYnERQNw407IHYG4YHciRFo71dxcRZhjMwEY0YcNJKFu6LKHaTra9b49YdQ Hu6/VNxNjCofKYr7GXtZfttFTph8BQhksrVRGePE1ud5+XfykMd7sGuUdhubEeJ6GBo2gIXlj9e9hE ZrfC+LytF8c7FOUCzWmAFLpdtKp83ouvNwJVnEDm8U3Br9dOjUjvBpawFQD/fPoJfn181YDaWo20C6 hcXo59ekz1FBVMAblRCAP+18Y5Y25HvwIm3B50mKCneyMpuB/0qfaH20SPaemUkhurlWNQVW7X6r2+ UxR82X6pqbOeL4HF/EL5QgPp1eH+4bnZx4A2PKyBbk2d/7xrtgPPvq/GeZL/WyBNqJLVm0J1qtSADh vmdmW+UoPxSPsmf5U8xwMwfkEYNkplB1XLugmavmbUIFEKza6Xcmwu20G3mw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   196d330d7fb1e7cc0d85641c89ce4602cb36f12e
-commit: 4f847b757f9c206d86986d302a94382c14721031 [5106/7526] btrfs: pass the dentry to btrfs_log_new_name() instead of the inode
-config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20220224/202202240704.pQD40A9L-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4f847b757f9c206d86986d302a94382c14721031
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4f847b757f9c206d86986d302a94382c14721031
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/btrfs/
+As a follow-up to the UMN incident[1], the TAB took the responsibility
+to document Researcher Guidelines so there would be a common place to
+point for describing our expectations as a developer community.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Document best practices researchers should follow to participate
+successfully with the Linux developer community.
 
-All warnings (new ones prefixed by >>):
+[1] https://lore.kernel.org/lkml/202105051005.49BFABCE@keescook/
 
->> fs/btrfs/tree-log.c:6755: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Update the log after adding a new name for an inode.
-
-
-vim +6755 fs/btrfs/tree-log.c
-
-  6753	
-  6754	/**
-> 6755	 * Update the log after adding a new name for an inode.
-  6756	 *
-  6757	 * @trans:              Transaction handle.
-  6758	 * @old_dentry:         The dentry associated with the old name and the old
-  6759	 *                      parent directory.
-  6760	 * @old_dir:            The inode of the previous parent directory for the case
-  6761	 *                      of a rename. For a link operation, it must be NULL.
-  6762	 * @parent:             The dentry associated with the directory under which the
-  6763	 *                      new name is located.
-  6764	 *
-  6765	 * Call this after adding a new name for an inode, as a result of a link or
-  6766	 * rename operation, and it will properly update the log to reflect the new name.
-  6767	 */
-  6768	void btrfs_log_new_name(struct btrfs_trans_handle *trans,
-  6769				struct dentry *old_dentry, struct btrfs_inode *old_dir,
-  6770				struct dentry *parent)
-  6771	{
-  6772		struct btrfs_inode *inode = BTRFS_I(d_inode(old_dentry));
-  6773		struct btrfs_log_ctx ctx;
-  6774	
-  6775		/*
-  6776		 * this will force the logging code to walk the dentry chain
-  6777		 * up for the file
-  6778		 */
-  6779		if (!S_ISDIR(inode->vfs_inode.i_mode))
-  6780			inode->last_unlink_trans = trans->transid;
-  6781	
-  6782		/*
-  6783		 * if this inode hasn't been logged and directory we're renaming it
-  6784		 * from hasn't been logged, we don't need to log it
-  6785		 */
-  6786		if (!inode_logged(trans, inode) &&
-  6787		    (!old_dir || !inode_logged(trans, old_dir)))
-  6788			return;
-  6789	
-  6790		/*
-  6791		 * If we are doing a rename (old_dir is not NULL) from a directory that
-  6792		 * was previously logged, make sure the next log attempt on the directory
-  6793		 * is not skipped and logs the inode again. This is because the log may
-  6794		 * not currently be authoritative for a range including the old
-  6795		 * BTRFS_DIR_INDEX_KEY key, so we want to make sure after a log replay we
-  6796		 * do not end up with both the new and old dentries around (in case the
-  6797		 * inode is a directory we would have a directory with two hard links and
-  6798		 * 2 inode references for different parents). The next log attempt of
-  6799		 * old_dir will happen at btrfs_log_all_parents(), called through
-  6800		 * btrfs_log_inode_parent() below, because we have previously set
-  6801		 * inode->last_unlink_trans to the current transaction ID, either here or
-  6802		 * at btrfs_record_unlink_dir() in case the inode is a directory.
-  6803		 */
-  6804		if (old_dir)
-  6805			old_dir->logged_trans = 0;
-  6806	
-  6807		btrfs_init_log_ctx(&ctx, &inode->vfs_inode);
-  6808		ctx.logging_new_name = true;
-  6809		/*
-  6810		 * We don't care about the return value. If we fail to log the new name
-  6811		 * then we know the next attempt to sync the log will fallback to a full
-  6812		 * transaction commit (due to a call to btrfs_set_log_full_commit()), so
-  6813		 * we don't need to worry about getting a log committed that has an
-  6814		 * inconsistent state after a rename operation.
-  6815		 */
-  6816		btrfs_log_inode_parent(trans, inode, parent, LOG_INODE_EXISTS, &ctx);
-  6817	}
-  6818	
-
+Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Co-developed-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Co-developed-by: Stefano Zacchiroli <zack@upsilon.cc>
+Signed-off-by: Stefano Zacchiroli <zack@upsilon.cc>
+Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+Acked-by: Steve Rostedt <rostedt@goodmis.org>
+Acked-by: Laura Abbott <labbott@kernel.org>
+Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+Reviewed-by: Wenwen Wang <wenwen@cs.uga.edu>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/researcher-guidelines.rst     | 141 ++++++++++++++++++
+ 2 files changed, 142 insertions(+)
+ create mode 100644 Documentation/admin-guide/researcher-guidelines.rst
+
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 1bedab498104..7fff0730204d 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -35,6 +35,7 @@ problems and bugs in particular.
+    :maxdepth: 1
+ 
+    reporting-issues
++   researcher-guidelines
+    security-bugs
+    bug-hunting
+    bug-bisect
+diff --git a/Documentation/admin-guide/researcher-guidelines.rst b/Documentation/admin-guide/researcher-guidelines.rst
+new file mode 100644
+index 000000000000..993f32d1166c
+--- /dev/null
++++ b/Documentation/admin-guide/researcher-guidelines.rst
+@@ -0,0 +1,141 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _researcher_guidelines:
++
++Researcher Guidelines
+++++++++++++++++++++++
++
++The Linux kernel community welcomes transparent research on the Linux
++kernel, the activities involved in producing it, and any other byproducts
++of its development. Linux benefits greatly from this kind of research, and
++most aspects of Linux are driven by research in one form or another.
++
++The community greatly appreciates if researchers can share preliminary
++findings before making their results public, especially if such research
++involves security. Getting involved early helps both improve the quality
++of research and ability for Linux to improve from it. In any case,
++sharing open access copies of the published research with the community
++is recommended.
++
++This document seeks to clarify what the Linux kernel community considers
++acceptable and non-acceptable practices when conducting such research. At
++the very least, such research and related activities should follow
++standard research ethics rules. For more background on research ethics
++generally, ethics in technology, and research of developer communities
++in particular, see:
++
++* `History of Research Ethics <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
++* `IEEE Ethics <https://www.ieee.org/about/ethics/index.html>`_
++* `Developer and Researcher Views on the Ethics of Experiments on
++   Open-Source Projects <https://arxiv.org/pdf/2112.13217.pdf>`_
++
++The Linux kernel community expects that everyone interacting with the
++project is participating in good faith to make Linux better. Research on
++any publicly-available artifact (including, but not limited to source
++code) produced by the Linux kernel community is welcome, though research
++on developers must be distinctly opt-in.
++
++Passive research that is based entirely on publicly available sources,
++including posts to public mailing lists and commits to public
++repositories, is clearly permissible. Though, as with any research,
++standard ethics must still be followed.
++
++Active research on developer behavior, however, must be done with the
++explicit agreement of, and full disclosure to, the individual developers
++involved. Developers cannot be interacted with/experimented on without
++consent; this, too, is standard research ethics.
++
++To help clarify: sending patches to developers *is* interacting
++with them, but they have already consented to receiving *good faith
++contributions*. Sending intentionally flawed/vulnerable patches or
++contributing misleading information to discussions is not consented
++to. Such communication can be damaging to the developer (e.g. draining
++time, effort, and morale) and damaging to the project by eroding
++the entire developer community's trust in the contributor (and the
++contributor's organization as a whole), undermining efforts to provide
++constructive feedback to contributors, and putting end users at risk of
++software flaws.
++
++Participation in the development of Linux itself by researchers, as
++with anyone, is welcomed and encouraged. Research into Linux code is
++a common practice, especially when it comes to developing or running
++analysis tools that produce actionable results.
++
++When engaging with the developer community, sending a patch has
++traditionally been the best way to make an impact. Linux already has
++plenty of known bugs -- what's much more helpful is having vetted fixes.
++Before contributing, carefully read the documentation on
++:doc:`submitting patches <../process/submitting-patches>`,
++:doc:`reporting issues <reporting-issues>`, and
++:doc:`handling serious flaws <security-bugs>`. Send a patch (including
++a commit log with all the details listed below), and follow up on any
++feedback from other developers.
++
++When sending patches produced from research, the commit logs should
++contain at least the following details, so that developers have
++appropriate context for understanding the contribution. Answer:
++
++* What is the specific problem that has been found?
++* How could the problem be reached on a running system?
++* What effect would encountering the problem have on the system?
++* How was the problem found? Specifically include details about any
++  testing, static or dynamic analysis programs, and any other tools or
++  methods used to perform the work.
++* Which version of Linux was the problem was found on? Using the most
++  recent release or a recent :doc:`linux-next branch <../process/howto>`
++  is strongly preferred.
++* What was changed to fix the problem, and why it is believed to be correct?
++* How was the change build tested and run-time tested?
++* What prior commit does this change fix? This should go in a "Fixes:"
++  tag as the documentation describes.
++* Who else has reviewed this patch? This should go in appropriate
++  "Reviewed-by:" tags; see below.
++
++For example::
++
++  From: Author <author@email>
++  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
++
++  The error path in foo_bar driver does not correctly free the allocated
++  struct foo_bar_info. This can happen if the attached foo_bar device
++  rejects the initialization packets sent during foo_bar_probe(). This
++  would result in a 64 byte slab memory leak once per device attach,
++  wasting memory resources over time.
++
++  This flaw was found using an experimental static analysis tool we are
++  developing, LeakMagic[1], which reported the following warning when
++  analyzing the v5.15 kernel release:
++
++   path/to/foo_bar.c:187: missing kfree() call?
++
++  Add the missing kfree() to the error path. No other references to
++  this memory exist outside the probe function, so this is the only
++  place it can be freed.
++
++  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
++  11.2 show no new warnings, and LeakMagic no longer warns about this
++  code path. As we don't have a FooBar device to test with, no runtime
++  testing was able to be performed.
++
++  [1] https://url/to/leakmagic/details
++
++  Reported-by: Researcher <researcher@email>
++  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
++  Signed-off-by: Author <author@email>
++  Reviewed-by: Reviewer <reviewer@email>
++
++If you are a first time contributor it is recommended that the patch
++itself be vetted by others privately before being posted to public lists.
++(This is required if you have been explicitly told your patches need
++more careful internal review.) These people are expected to have their
++"Reviewed-by" tag included in the resulting patch. Finding another
++developer familiar with Linux contribution, especially within your own
++organization, and having them help with reviews before sending them to
++the public mailing lists tends to significantly improve the quality of the
++resulting patches, and there by reduces the burden on other developers.
++
++If no one can be found to internally review patches and you need
++help finding such a person, or if you have any other questions
++related to this document and the developer community's expectations,
++please reach out to the private Technical Advisory Board mailing list:
++<tech-board@lists.linux-foundation.org>.
+-- 
+2.30.2
+
