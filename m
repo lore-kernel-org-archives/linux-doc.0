@@ -2,149 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB37AC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:42:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB0EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Feb 2022 05:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbiBXFmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Feb 2022 00:42:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
+        id S230200AbiBXF4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Feb 2022 00:56:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiBXFmj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:42:39 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ABF7B0D34;
-        Wed, 23 Feb 2022 21:42:09 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id EBB951F3A1;
-        Thu, 24 Feb 2022 05:42:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1645681327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LKmtUS8Iww56ZG9AedqwAoOu6e9VunJUN5pEfmlFqFg=;
-        b=oacCq8DpEx+HDVYUG2DsF2wuspiuS5qhOaHg1qyYd+T9C2DteAD78mmee61D0FUkZI1YLt
-        89gaqCC57biyg1VI4eWpjZIyZz5bUCc+qIzPagHkvNRbHUbMXkbpK1X9DZdFRD07Aas5HD
-        lAXZBPvJQXlq+oS7kaTZ3tDK1PH657o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1645681327;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LKmtUS8Iww56ZG9AedqwAoOu6e9VunJUN5pEfmlFqFg=;
-        b=MEMewd7NbYPArVPBoXiNu4N+Gd4+gUbLnYQ+eJp9sW2uduqkIYyCem3t9SIAJPZbOtxf7E
-        cjDOc2g76XCgQcAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFB7B13322;
-        Thu, 24 Feb 2022 05:42:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id spy1IqgaF2JJDwAAMHmgww
-        (envelope-from <neilb@suse.de>); Thu, 24 Feb 2022 05:42:00 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229873AbiBXF4C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Feb 2022 00:56:02 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F6C2649B6
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:55:32 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-2d646fffcc2so13474547b3.4
+        for <linux-doc@vger.kernel.org>; Wed, 23 Feb 2022 21:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kvhU+1d1xBuiwuTvVQmOP1FBfYrMuzDuvR5ypoAEjro=;
+        b=CEt6WoNPJExnK4pZ3D56UCeA564FCpoElTbHUG7guQrxewH8Ef4bcrKv615NXBRlGg
+         vBtPBeEeoQNZU2567HdocwW4qpALbKec2QFSlYDInWSsnOW9/wYQI+frra60lxHZ7ej6
+         KA492jINm/YiiL6pOlnXDFLQiP7GcwKeFrkBl20tJ3fcDCto8o94c472V781OracUOuN
+         UBhtq3m3eMFoVLMR7ZohfgfjkR04+UvHT35hf/wePMDEOiF2kkqpub3oDeKVbp51W+Wn
+         BnexbEPlDwQhzil3kFMp4DDSV2lqRwKClXc4VIDKzeyVgImJeXRENSj9cnUzXqXJnxun
+         uY2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kvhU+1d1xBuiwuTvVQmOP1FBfYrMuzDuvR5ypoAEjro=;
+        b=spvnRltWOt+Em9zKMxVZ0c5TrtNR1zHgItDqcTN2ODM7MnEBtGXGQFZId1Mm8p8sJO
+         1wyQV7oInXsePrO+Z15N6Er1qmWVPbIzupXMadvbpyKHwkwukGleBoO6Kn+x+jLTz4vs
+         T3lIaEb5QqYlkEwRooPzM34h+WphCepIi86bJ7jzM+ngHsCPIySS6WX1Iasqpd+5Ieqs
+         /4ml04iTnnW2tphvgYwQyit6LCZtpDncf/logb+hILD1GB4cXf0qcexfvm+Pmar/3O1U
+         sKbAwYLX2xdj05EgC4CiQvGXWLe4YYBSUaeQMTlYWueQiJVnhpV2JfxwygB/1yKM05hX
+         kw6w==
+X-Gm-Message-State: AOAM5312BiBLE4Rcqi6ZzdBKjKX9hodTWODMnr1Y3mEFExjWR2Pr6ugO
+        sYgqO4N29fRC9jRsuuAejpunI+ugitHVCXE0qNlPKw==
+X-Google-Smtp-Source: ABdhPJxQBX3Dc+MjzYS5ebkRBFbDibF6wIJL7Bn+424LeZUsSwel/NdC9XRIpxfLvof5dstbTtuwpAn4KzhMnTIfxz8=
+X-Received: by 2002:a81:5dd6:0:b0:2d6:3041:12e0 with SMTP id
+ r205-20020a815dd6000000b002d6304112e0mr976524ywb.331.1645682132153; Wed, 23
+ Feb 2022 21:55:32 -0800 (PST)
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Jeff Layton" <jlayton@kernel.org>
-Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
-        "Jan Kara" <jack@suse.cz>, "Wu Fengguang" <fengguang.wu@intel.com>,
-        "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
-        "Ilya Dryomov" <idryomov@gmail.com>,
-        "Miklos Szeredi" <miklos@szeredi.hu>,
-        "Trond Myklebust" <trond.myklebust@hammerspace.com>,
-        "Anna Schumaker" <anna.schumaker@netapp.com>,
-        "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        "Philipp Reisner" <philipp.reisner@linbit.com>,
-        "Lars Ellenberg" <lars.ellenberg@linbit.com>,
-        "Paolo Valente" <paolo.valente@linaro.org>,
-        "Jens Axboe" <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
-In-reply-to: <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
-References: <164549971112.9187.16871723439770288255.stgit@noble.brown>,
- <164549983739.9187.14895675781408171186.stgit@noble.brown>,
- <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
-Date:   Thu, 24 Feb 2022 16:41:56 +1100
-Message-id: <164568131640.25116.884631856219777713@noble.neil.brown.name>
+References: <20220223194807.12070-1-joao.m.martins@oracle.com> <20220223194807.12070-5-joao.m.martins@oracle.com>
+In-Reply-To: <20220223194807.12070-5-joao.m.martins@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 24 Feb 2022 13:54:54 +0800
+Message-ID: <CAMZfGtXm5pLbTnzMCrWPg8Vm3gykB8XEg5DHFm0z1p1x2fhySQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/5] mm/sparse-vmemmap: improve memory savings for
+ compound devmaps
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Feb 2022, Jeff Layton wrote:
-> On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
-> > The bdi congestion tracking in not widely used and will be removed.
-> > 
-> > CEPHfs is one of a small number of filesystems that uses it, setting
-> > just the async (write) congestion flags at what it determines are
-> > appropriate times.
-> > 
-> > The only remaining effect of the async flag is to cause (some)
-> > WB_SYNC_NONE writes to be skipped.
-> > 
-> > So instead of setting the flag, set an internal flag and change:
-> >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
-> >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
-> >     and the flag is set.
-> > 
-> > The writepages change causes a behavioural change in that pageout() can
-> > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
-> > be called on the page which (I think) wil further delay the next attempt
-> > at writeout.  This might be a good thing.
-> > 
-> > Signed-off-by: NeilBrown <neilb@suse.de>
-> 
-> Maybe. I have to wonder whether all of this is really useful.
-> 
-> When things are congested we'll avoid trying to issue new writeback
-> requests. Note that we don't prevent new pages from being dirtied here -
-> - only their being written back.
-> 
-> This also doesn't do anything in the DIO or sync_write cases, so if we
-> lose caps or are doing DIO, we'll just keep churning out "unlimited"
-> writes in those cases anyway.
+On Thu, Feb 24, 2022 at 3:48 AM Joao Martins <joao.m.martins@oracle.com> wrote:
+>
+> A compound devmap is a dev_pagemap with @vmemmap_shift > 0 and it
+> means that pages are mapped at a given huge page alignment and utilize
+> uses compound pages as opposed to order-0 pages.
+>
+> Take advantage of the fact that most tail pages look the same (except
+> the first two) to minimize struct page overhead. Allocate a separate
+> page for the vmemmap area which contains the head page and separate for
+> the next 64 pages. The rest of the subsections then reuse this tail
+> vmemmap page to initialize the rest of the tail pages.
+>
+> Sections are arch-dependent (e.g. on x86 it's 64M, 128M or 512M) and
+> when initializing compound devmap with big enough @vmemmap_shift (e.g.
+> 1G PUD) it may cross multiple sections. The vmemmap code needs to
+> consult @pgmap so that multiple sections that all map the same tail
+> data can refer back to the first copy of that data for a given
+> gigantic page.
+>
+> On compound devmaps with 2M align, this mechanism lets 6 pages be
+> saved out of the 8 necessary PFNs necessary to set the subsection's
+> 512 struct pages being mapped. On a 1G compound devmap it saves
+> 4094 pages.
+>
+> Altmap isn't supported yet, given various restrictions in altmap pfn
+> allocator, thus fallback to the already in use vmemmap_populate().  It
+> is worth noting that altmap for devmap mappings was there to relieve the
+> pressure of inordinate amounts of memmap space to map terabytes of pmem.
+> With compound pages the motivation for altmaps for pmem gets reduced.
+>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[...]
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 5f549cf6a4e8..b0798b9c6a6a 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3118,7 +3118,7 @@ p4d_t *vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, int node);
+>  pud_t *vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int node);
+>  pmd_t *vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node);
+>  pte_t *vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, int node,
+> -                           struct vmem_altmap *altmap);
+> +                           struct vmem_altmap *altmap, struct page *block);
 
-I think the point of congestion tracking is to differentiate between
-sync and async IO.  Or maybe "required" and "optional".
-Eventually the "optional" IO will become required, but if we can delay
-it until a time when there is less "required" io, then maybe we can
-improve perceived latency.
+Have forgotten to update @block to @reuse here.
 
-"optional" IO here is write-back and read-ahead.  If the load of
-"required" IO is bursty, and if we can shuffle that optional stuff into
-the quiet periods, we might win.
+[...]
+> +
+> +static int __meminit vmemmap_populate_range(unsigned long start,
+> +                                           unsigned long end,
+> +                                           int node, struct page *page)
 
-Whether this is a real need is an important question that I don't have an
-answer for.  And whether it is better to leave delayed requests in the
-page cache, or in the low-level queue with sync requests able to
-over-take them - I don't know.  If you have multiple low-level queue as
-you say you can with ceph, then lower might be better.
+All of the users are passing a valid parameter of @page. This function
+will populate the vmemmap with the @page and without memory
+allocations. So the @node parameter seems to be unnecessary.
 
-The block layer has REQ_RAHEAD ..  maybe those request get should get a
-lower priority ... though I don't think they do.
-NFS has a 3 level priority queue, with write-back going at a lower
-priority ... I think... for NFSv3 at least.
+If you want to make this function more generic like
+vmemmap_populate_address() to handle memory allocations
+(the case of @page == NULL). I think vmemmap_populate_range()
+should add another parameter of `struct vmem_altmap *altmap`.
+Otherwise, is it better to remove @node and rename @page to @reuse?
 
-Sometimes I suspect that as all our transports have become faster, we
-have been able to ignore the extra latency caused by poor scheduling of
-optional requests.  But at other times when my recently upgraded desktop
-is struggling to view a web page while compiling a kernel ...  I wonder
-if maybe we don't have the balance right any more.
-
-So maybe you are right - maybe we can rip all this stuff out.
-
-Or maybe not.
-
-Thanks,
-NeilBrown
+Thanks.
