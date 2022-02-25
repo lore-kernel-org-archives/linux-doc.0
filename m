@@ -2,513 +2,1266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AADCC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 07:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AC3C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 07:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbiBYHHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 02:07:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
+        id S235822AbiBYHVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 02:21:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232840AbiBYHHo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 02:07:44 -0500
-X-Greylist: delayed 359 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Feb 2022 23:07:10 PST
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CD6DC443F8
-        for <linux-doc@vger.kernel.org>; Thu, 24 Feb 2022 23:07:10 -0800 (PST)
-Received: from jleng.ambarella.net (unknown [180.169.129.130])
-        by mail-app4 (Coremail) with SMTP id cS_KCgAXHQl3fhhiFLSdCQ--.26097S2;
-        Fri, 25 Feb 2022 15:00:17 +0800 (CST)
-From:   3090101217@zju.edu.cn
-To:     gregkh@linuxfoundation.org, corbet@lwn.net,
-        laurent.pinchart@ideasonboard.com, balbi@kernel.org, bilbao@vt.edu,
-        mchehab+huawei@kernel.org, rdunlap@infradead.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jing Leng <jleng@ambarella.com>
-Subject: [PATCH] usb: gadget: uvc: add bulk transfer support
-Date:   Fri, 25 Feb 2022 15:00:06 +0800
-Message-Id: <20220225070006.15090-1-3090101217@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgAXHQl3fhhiFLSdCQ--.26097S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfXr18GrW7GFWUur4DtFW3GFg_yoW8Aw1rKo
-        WUXFs8W3WUZr1rXFn3AF1qg3y5Jr4Ikrn8tws8Jr45WF10v3yaq343Ja18WF43uF47JFyD
-        Kw10grs8Was5Ka45n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOr7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
-        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
-        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0
-        I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAac4AC6xC2jxv24VCS
-        YI8q64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
-        WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwAKzVCY07xG64
-        k0F24lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IU5l4iUUUUUU==
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwMMBVNG3Fpv2AAAst
+        with ESMTP id S233550AbiBYHVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 02:21:48 -0500
+Received: from out30-54.freemail.mail.aliyun.com (out30-54.freemail.mail.aliyun.com [115.124.30.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB2D188A04;
+        Thu, 24 Feb 2022 23:21:13 -0800 (PST)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=xhao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0V5S9TgR_1645773668;
+Received: from B-X3VXMD6M-2058.local(mailfrom:xhao@linux.alibaba.com fp:SMTPD_---0V5S9TgR_1645773668)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 25 Feb 2022 15:21:10 +0800
+From:   xhao@linux.alibaba.com
+Reply-To: xhao@linux.alibaba.com
+Subject: Re: [PATCH 03/12] mm/damon: Implement a minimal stub for sysfs-based
+ DAMON interface
+To:     SeongJae Park <sj@kernel.org>, akpm@linux-foundation.org
+Cc:     corbet@lwn.net, skhan@linuxfoundation.org, rientjes@google.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220223152051.22936-1-sj@kernel.org>
+ <20220223152051.22936-4-sj@kernel.org>
+Message-ID: <66331451-48d8-6658-cdce-6e79df27ae5e@linux.alibaba.com>
+Date:   Fri, 25 Feb 2022 15:21:05 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20220223152051.22936-4-sj@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jing Leng <jleng@ambarella.com>
+Hi, SeongJae:
 
-The video data endpoint of uvc can be implemented as either an
-isochronous or a bulk endpoint.
+On 2/23/22 11:20 PM, SeongJae Park wrote:
+> DAMON's debugfs-based user interface served very well, so far.  However,
+> it unnecessarily depends on debugfs, while DAMON is not aimed to be used
+> for only debugging.  Also, the interface receives multiple values via
+> one file.  For example, schemes file receives 18 values separated by
+> white spaces.  As a result, it is ineffient, hard to be used, and
+> difficult to be extended.  Especially, keeping backward compatibility of
+> user space tools is getting only challenging.  It would be better to
+> implement another reliable and flexible interface and deprecate the
+> debugfs interface in long term.
+>
+> To this end, this commit implements a stub of a part of the new user
+> interface of DAMON using sysfs.  Specifically, this commit implements
+> the sysfs control parts for virtual address space monitoring.
+>
+> More specifically, the idea of the new interface is, using directory
+> hierarchies and making one file for one value.  The hierarchy that this
+> commit is introducing is as below.  In the below figure,
+> parents-children relations are represented with indentations, each
+> directory is having ``/`` suffix, and files in each directory are
+> separated by comma (",").
+>
+>      /sys/kernel/mm/damon/admin
+>      │ kdamonds/nr
+>      │ │ 0/state,pid
+>      │ │ │ contexts/nr
+>      │ │ │ │ 0/operations
+>      │ │ │ │ │ monitoring_attrs/
+>      │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
+>      │ │ │ │ │ │ nr_regions/min,max
+>      │ │ │ │ │ targets/nr
+>      │ │ │ │ │ │ 0/pid
+>      │ │ │ │ │ │ ...
+>      │ │ │ │ ...
+>      │ │ ...
 
-The transmission speed of bulk mode is faster than isochronous mode.
-I tested the speed with cdns3 (USB 3.2 Gen1), it's difficult to reach
-2 Gbps in the isochronous mode, and it can exceed 4 Gbps in the bulk
-mode.
+>
+> Writing a number <N> to each 'nr' file makes directories of name <0> to
+> <N-1> in the directory of the 'nr' file.  That's all this commit does.
+> Writing proper values to relevant files will construct the DAMON
+> contexts, and writing a special keyword, 'on', to 'state' files for each
+> kdamond will ask DAMON to start the constructed contexts.
+>
+> For a short example, using below commands for
+> monitoring virtual address spaces of a given workload is imaginable:
+>
+>      # cd /sys/kernel/mm/damon/admin/
+>      # echo 1 > kdamonds/nr
+>      # echo 1 > kdamonds/0/contexts/nr
+>      # echo vaddr > kdamonds/0/contexts/0/damon_type
+>      # echo 1 > kdamonds/0/contexts/0/targets/nr
+>      # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid
+>      # echo on > kdamonds/0/state
 
-A VideoStreaming interface with isochronous endpoints must have alternate
-settings that can be used to change certain characteristics of the
-interface and underlying endpoint(s). A typical use of alternate settings
-is to provide a way to change the bandwidth requirements an active
-isochronous pipe imposes on the USB.
+I do some test  about the sys interface, like this:
 
-A VideoStreaming interface containing a bulk endpoint for streaming shall
-support only alternate setting zero. Additional alternate settings
-containing bulk endpoints are not permitted in a device that is compliant
-with the Video Class specification.
+[root@rt2k03395 0]# tree
+.
+├── contexts
+│   ├── 0
+│   │   ├── monitoring_attrs
+│   │   │   ├── intervals
+│   │   │   │   ├── aggr_us
+│   │   │   │   ├── sample_us
+│   │   │   │   └── update_us
+│   │   │   └── nr_regions
+│   │   │       ├── max
+│   │   │       └── min
+│   │   ├── operations
+│   │   ├── schemes
+│   │   │   └── nr
+│   │   └── targets
+│   │       ├── 0
+│   │       │   ├── pid
+│   │       │   └── regions
+│   │       │       ├── 0
+│   │       │       │   ├── end
+│   │       │       │   └── start
+│   │       │       ├── 1
+│   │       │       │   ├── end
+│   │       │       │   └── start
+│   │       │       ├── 10
+│   │       │       │   ├── end
+│   │       │       │   └── start
+│   │       │       ├── 11
+│   │       │       │   ├── end
+│   │       │       │   └── start
+│   │       │       ├── 12
 
-In user space, isochronous/bulk modes are handled a little differently:
+cd regions/
+[root@rt2k03395 regions]# ls
+0  10  12  14  16  18  2   21  23  25  27  29  30  32  34  36  38 4   
+41  43  45  47  49  6  8  nr
+1  11  13  15  17  19  20  22  24  26  28  3   31  33  35  37  39 40  
+42  44  46  48  5   7  9
+[root@rt2k03395 regions]# cd 44/cat *
 
-1. APP prepares buffers and streams when it receives an UVC_EVENT_STREAMON
-message in the isochronous mode, but APP should do them when it receives a
-SET_CUR request of UVC_VS_COMMIT_CONTROL due to no UVC_EVENT_STREAMON
-message reported from the kernel in the bulk mode (Do them only once).
+[root@rt2k03395 regions/44]# cat *
+0  0
 
-2. In Addition, APP should set the value of dwMaxPayloadTransferSize to
-streaming_maxpacket in the isochronous mode or streaming_bulk_mult * 1024
-in the bulk mode.
+I'm skeptical about the number regions ? And after manually setting the 
+number of nr, the processing of
 
-Here shows an example of the configfs differences:
-  if [ $BULK -eq 1 ]; then
-      echo 128 > functions/$FUNC/streaming_bulk_mult
-  else
-      echo 1024 > functions/$FUNC/streaming_maxpacket
-  fi
+"start" and "end" will be very troublesome,I guess you might want to do 
+some special region addresses,
 
-Signed-off-by: Jing Leng <jleng@ambarella.com>
----
- .../ABI/testing/configfs-usb-gadget-uvc       |   1 +
- Documentation/usb/gadget-testing.rst          |   4 +
- drivers/usb/gadget/function/f_uvc.c           | 245 ++++++++++++------
- drivers/usb/gadget/function/u_uvc.h           |   1 +
- drivers/usb/gadget/function/uvc_configfs.c    |   2 +
- drivers/usb/gadget/function/uvc_queue.c       |   4 +-
- 6 files changed, 175 insertions(+), 82 deletions(-)
+such as hot or cold region, Is that true ？But I think you need to think 
+about how do you deal with too many
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 889ed45be4ca..52ca04a619ff 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,7 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		streaming_bulk_mult	0..0x3fffffU
- 		===================	=============================
- 
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index cbbd948c626f..58f58979f49c 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -784,6 +784,10 @@ The uvc function provides these attributes in its function directory:
- 	streaming_maxpacket maximum packet size this endpoint is capable of
- 			    sending or receiving when this configuration is
- 			    selected
-+	streaming_bulk_mult Multiples to configure max_payload_size. If it's
-+			    0, the transport mode is isochronous; otherwise
-+			    the transport mode is bulk and max_payload_size
-+			    is equal to streaming_bulk_mult * 1024.
- 	=================== ================================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dba..61a05aa301ec 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -178,19 +178,19 @@ static struct usb_ss_ep_comp_descriptor uvc_ss_streaming_comp = {
- 	 */
- };
- 
--static const struct usb_descriptor_header * const uvc_fs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_fs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_fs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_hs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_hs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_hs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
-+static const struct usb_descriptor_header *uvc_ss_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_ep,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_comp,
-@@ -251,9 +251,12 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 
- void uvc_function_setup_continue(struct uvc_device *uvc)
- {
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 
--	usb_composite_setup_continue(cdev);
-+	/* delayed_status in bulk mode is 0, so it doesn't need to continue. */
-+	if (!opts->streaming_bulk_mult)
-+		usb_composite_setup_continue(cdev);
- }
- 
- static int
-@@ -278,6 +281,7 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	struct usb_composite_dev *cdev = f->config->cdev;
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(f->fi);
- 	int ret;
- 
- 	uvcg_info(f, "%s(%u, %u)\n", __func__, interface, alt);
-@@ -310,49 +314,72 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	if (interface != uvc->streaming_intf)
- 		return -EINVAL;
- 
--	/* TODO
--	if (usb_endpoint_xfer_bulk(&uvc->desc.vs_ep))
--		return alt ? -EINVAL : 0;
--	*/
-+	if (opts->streaming_bulk_mult) {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
- 
--	switch (alt) {
--	case 0:
--		if (uvc->state != UVC_STATE_STREAMING)
--			return 0;
-+			if (!uvc->video.ep)
-+				return -EINVAL;
- 
--		if (uvc->video.ep)
-+			uvcg_info(f, "reset UVC\n");
- 			usb_ep_disable(uvc->video.ep);
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMOFF;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
- 
--		uvc->state = UVC_STATE_CONNECTED;
--		return 0;
--
--	case 1:
--		if (uvc->state != UVC_STATE_CONNECTED)
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 			return 0;
- 
--		if (!uvc->video.ep)
-+		default:
- 			return -EINVAL;
-+		}
-+	} else {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_STREAMING)
-+				return 0;
- 
--		uvcg_info(f, "reset UVC\n");
--		usb_ep_disable(uvc->video.ep);
-+			if (uvc->video.ep)
-+				usb_ep_disable(uvc->video.ep);
- 
--		ret = config_ep_by_speed(f->config->cdev->gadget,
--				&(uvc->func), uvc->video.ep);
--		if (ret)
--			return ret;
--		usb_ep_enable(uvc->video.ep);
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMON;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
--		return USB_GADGET_DELAYED_STATUS;
-+			uvc->state = UVC_STATE_CONNECTED;
-+			return 0;
- 
--	default:
--		return -EINVAL;
-+		case 1:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
-+
-+			if (!uvc->video.ep)
-+				return -EINVAL;
-+
-+			uvcg_info(f, "reset UVC\n");
-+			usb_ep_disable(uvc->video.ep);
-+
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
-+
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMON;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+			return USB_GADGET_DELAYED_STATUS;
-+
-+		default:
-+			return -EINVAL;
-+		}
- 	}
- }
- 
-@@ -598,57 +625,90 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvcg_info(f, "%s()\n", __func__);
- 
- 	opts = fi_to_f_uvc_opts(f->fi);
--	/* Sanity check the streaming endpoint module parameters.
--	 */
--	opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
--	opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
--	opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
--
--	/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
--	if (opts->streaming_maxburst &&
--	    (opts->streaming_maxpacket % 1024) != 0) {
--		opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
--		uvcg_info(f, "overriding streaming_maxpacket to %d\n",
--			  opts->streaming_maxpacket);
--	}
- 
--	/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
--	 * module parameters.
--	 *
--	 * NOTE: We assume that the user knows what they are doing and won't
--	 * give parameters that their UDC doesn't support.
--	 */
--	if (opts->streaming_maxpacket <= 1024) {
--		max_packet_mult = 1;
--		max_packet_size = opts->streaming_maxpacket;
--	} else if (opts->streaming_maxpacket <= 2048) {
--		max_packet_mult = 2;
--		max_packet_size = opts->streaming_maxpacket / 2;
-+	/* Handle different transfer mode for stream endpoints */
-+	if (opts->streaming_bulk_mult) {
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		uvc_fs_streaming_ep.wMaxPacketSize = cpu_to_le16(64);
-+		uvc_fs_streaming_ep.bInterval = 0;
-+
-+		uvc_hs_streaming_ep.wMaxPacketSize = cpu_to_le16(512);
-+		uvc_hs_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(1024);
-+		uvc_ss_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_comp.bmAttributes = 0;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval = 0;
-+
-+		uvc->video.max_payload_size = opts->streaming_bulk_mult * 1024;
- 	} else {
--		max_packet_mult = 3;
--		max_packet_size = opts->streaming_maxpacket / 3;
--	}
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_SYNC_ASYNC
-+						| USB_ENDPOINT_XFER_ISOC;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		/* Sanity check the streaming endpoint module parameters.
-+		 */
-+		opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
-+		opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
-+		if (opts->streaming_maxburst &&
-+			(opts->streaming_maxpacket % 1024) != 0) {
-+			opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
-+			uvcg_info(f, "overriding streaming_maxpacket to %d\n",
-+				opts->streaming_maxpacket);
-+		}
- 
--	uvc_fs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
--	uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
-+		/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
-+		 * module parameters.
-+		 *
-+		 * NOTE: We assume that the user knows what they are doing and won't
-+		 * give parameters that their UDC doesn't support.
-+		 */
-+
-+		if (opts->streaming_maxpacket <= 1024) {
-+			max_packet_mult = 0;
-+			max_packet_size = opts->streaming_maxpacket;
-+		} else if (opts->streaming_maxpacket <= 2048) {
-+			max_packet_mult = 1;
-+			max_packet_size = opts->streaming_maxpacket / 2;
-+		} else {
-+			max_packet_mult = 2;
-+			max_packet_size = opts->streaming_maxpacket / 3;
-+		}
- 
--	uvc_hs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(max_packet_size | ((max_packet_mult - 1) << 11));
-+		uvc_fs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
-+		uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
- 
--	/* A high-bandwidth endpoint must specify a bInterval value of 1 */
--	if (max_packet_mult > 1)
--		uvc_hs_streaming_ep.bInterval = 1;
--	else
--		uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+		uvc_hs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(max_packet_size | (max_packet_mult << 11));
-+		/* A high-bandwidth endpoint must specify a bInterval value of 1 */
-+		if (max_packet_mult > 0)
-+			uvc_hs_streaming_ep.bInterval = 1;
-+		else
-+			uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
-+		uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
- 
--	uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
--	uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
--	uvc_ss_streaming_comp.bmAttributes = max_packet_mult - 1;
--	uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
--	uvc_ss_streaming_comp.wBytesPerInterval =
--		cpu_to_le16(max_packet_size * max_packet_mult *
--			    (opts->streaming_maxburst + 1));
-+		uvc_ss_streaming_comp.bmAttributes = max_packet_mult;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval =
-+			cpu_to_le16(max_packet_size * (max_packet_mult + 1) *
-+				(opts->streaming_maxburst + 1));
-+
-+		uvc->video.max_payload_size = 0;
-+	}
- 
- 	/* Allocate endpoints. */
- 	ep = usb_ep_autoconfig(cdev->gadget, &uvc_control_ep);
-@@ -662,7 +722,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_ss_streaming_ep,
- 					  &uvc_ss_streaming_comp);
- 	else if (gadget_is_dualspeed(cdev->gadget))
--		ep = usb_ep_autoconfig(cdev->gadget, &uvc_hs_streaming_ep);
-+		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_hs_streaming_ep, NULL);
- 	else
- 		ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
- 
-@@ -703,6 +763,28 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc->streaming_intf = ret;
- 	opts->streaming_interface = ret;
- 
-+	/* Handle different transfer mode for descriptors */
-+	i = 0;
-+	if (opts->streaming_bulk_mult) {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 1;
-+	} else {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 0;
-+
-+		uvc_fs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_hs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_ss_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		++i;
-+	}
-+	uvc_fs_streaming[i] = USBDHDR(&uvc_fs_streaming_ep);
-+	uvc_hs_streaming[i] = USBDHDR(&uvc_hs_streaming_ep);
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_ep);
-+	++i;
-+	uvc_fs_streaming[i] = NULL;
-+	uvc_hs_streaming[i] = NULL;
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_comp);
-+	++i;
-+	uvc_ss_streaming[i] = NULL;
-+
- 	/* Copy descriptors */
- 	f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
- 	if (IS_ERR(f->fs_descriptors)) {
-@@ -866,6 +948,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	opts->streaming_bulk_mult = 0;
- 
- 	ret = uvcg_attach_configfs(opts);
- 	if (ret < 0) {
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 9a01a7d4f17f..5607a239d55e 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -24,6 +24,7 @@ struct f_uvc_opts {
- 	unsigned int					streaming_interval;
- 	unsigned int					streaming_maxpacket;
- 	unsigned int					streaming_maxburst;
-+	unsigned int					streaming_bulk_mult;
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 77d64031aa9c..9b08e7b25168 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -2422,6 +2422,7 @@ UVC_ATTR(f_uvc_opts_, cname, cname)
- UVCG_OPTS_ATTR(streaming_interval, streaming_interval, 16);
- UVCG_OPTS_ATTR(streaming_maxpacket, streaming_maxpacket, 3072);
- UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
-+UVCG_OPTS_ATTR(streaming_bulk_mult, streaming_bulk_mult, 0x3fffffU);
- 
- #undef UVCG_OPTS_ATTR
- 
-@@ -2429,6 +2430,7 @@ static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_interval,
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
-+	&f_uvc_opts_attr_streaming_bulk_mult,
- 	NULL,
- };
- 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index d852ac9e47e7..e866efa1e7da 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -135,7 +135,9 @@ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2
- 	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
- 	queue->queue.ops = &uvc_queue_qops;
- 	queue->queue.lock = lock;
--	if (cdev->gadget->sg_supported) {
-+
-+	/* UDC supports scatter gather and transfer mode isn't bulk. */
-+	if (cdev->gadget->sg_supported && !video->max_payload_size) {
- 		queue->queue.mem_ops = &vb2_dma_sg_memops;
- 		queue->use_sg = 1;
- 	} else {
+uncontacted reigons that need to be done.
+
+> Please note that this commit is implementing only the sysfs part stub as
+> abovely mentioned.  This commit doesn't implement the special keywords
+> for 'state' files.  Following commits will do that.
+>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>   mm/damon/Kconfig  |    7 +
+>   mm/damon/Makefile |    1 +
+>   mm/damon/sysfs.c  | 1059 +++++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 1067 insertions(+)
+>   create mode 100644 mm/damon/sysfs.c
+>
+> diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
+> index 01bad77ad7ae..9b559c76d6dd 100644
+> --- a/mm/damon/Kconfig
+> +++ b/mm/damon/Kconfig
+> @@ -52,6 +52,13 @@ config DAMON_VADDR_KUNIT_TEST
+>   
+>   	  If unsure, say N.
+>   
+> +config DAMON_SYSFS
+> +	bool "DAMON sysfs interface"
+> +	depends on DAMON && SYSFS
+> +	help
+> +	  This builds the sysfs interface for DAMON.  The user space can use
+> +	  the interface for arbitrary data access monitoring.
+> +
+>   config DAMON_DBGFS
+>   	bool "DAMON debugfs interface"
+>   	depends on DAMON_VADDR && DAMON_PADDR && DEBUG_FS
+> diff --git a/mm/damon/Makefile b/mm/damon/Makefile
+> index aebbf6c14c51..dbf7190b4144 100644
+> --- a/mm/damon/Makefile
+> +++ b/mm/damon/Makefile
+> @@ -3,5 +3,6 @@
+>   obj-y				:= core.o
+>   obj-$(CONFIG_DAMON_VADDR)	+= ops-common.o vaddr.o
+>   obj-$(CONFIG_DAMON_PADDR)	+= ops-common.o paddr.o
+> +obj-$(CONFIG_DAMON_SYSFS)	+= sysfs.o
+>   obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
+>   obj-$(CONFIG_DAMON_RECLAIM)	+= reclaim.o
+> diff --git a/mm/damon/sysfs.c b/mm/damon/sysfs.c
+> new file mode 100644
+> index 000000000000..e8087ffd924c
+> --- /dev/null
+> +++ b/mm/damon/sysfs.c
+> @@ -0,0 +1,1059 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DAMON sysfs Interface
+> + *
+> + * Copyright (c) 2022 SeongJae Park <sj@kernel.org>
+> + */
+> +
+> +#include <linux/damon.h>
+> +#include <linux/kobject.h>
+> +#include <linux/pid.h>
+> +#include <linux/sched.h>
+> +#include <linux/slab.h>
+> +
+> +static DEFINE_MUTEX(damon_sysfs_lock);
+> +
+> +/*
+> + * unsigned long range directory
+> + */
+> +
+> +struct damon_sysfs_ul_range {
+> +	struct kobject kobj;
+> +	unsigned long min;
+> +	unsigned long max;
+> +};
+> +
+> +static struct damon_sysfs_ul_range *damon_sysfs_ul_range_alloc(
+> +		unsigned long min,
+> +		unsigned long max)
+> +{
+> +	struct damon_sysfs_ul_range *range = kmalloc(sizeof(*range),
+> +			GFP_KERNEL);
+> +
+> +	if (!range)
+> +		return NULL;
+> +	range->kobj = (struct kobject){};
+> +	range->min = min;
+> +	range->max = max;
+> +
+> +	return range;
+> +}
+> +
+> +static ssize_t damon_sysfs_ul_range_min_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_ul_range *range = container_of(kobj,
+> +			struct damon_sysfs_ul_range, kobj);
+> +
+> +	return sysfs_emit(buf, "%lu\n", range->min);
+> +}
+> +
+> +static ssize_t damon_sysfs_ul_range_min_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_ul_range *range = container_of(kobj,
+> +			struct damon_sysfs_ul_range, kobj);
+> +	unsigned long min;
+> +	int err;
+> +
+> +	err = kstrtoul(buf, 0, &min);
+> +	if (err)
+> +		return -EINVAL;
+> +
+> +	range->min = min;
+> +	return count;
+> +}
+> +
+> +static ssize_t damon_sysfs_ul_range_max_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_ul_range *range = container_of(kobj,
+> +			struct damon_sysfs_ul_range, kobj);
+> +
+> +	return sysfs_emit(buf, "%lu\n", range->max);
+> +}
+> +
+> +static ssize_t damon_sysfs_ul_range_max_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_ul_range *range = container_of(kobj,
+> +			struct damon_sysfs_ul_range, kobj);
+> +	unsigned long max;
+> +	int err;
+> +
+> +	err = kstrtoul(buf, 0, &max);
+> +	if (err)
+> +		return -EINVAL;
+> +
+> +	range->max = max;
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_ul_range_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_ul_range, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_ul_range_min_attr =
+> +		__ATTR(min, 0600, damon_sysfs_ul_range_min_show,
+> +				damon_sysfs_ul_range_min_store);
+> +
+> +static struct kobj_attribute damon_sysfs_ul_range_max_attr =
+> +		__ATTR(max, 0600, damon_sysfs_ul_range_max_show,
+> +				damon_sysfs_ul_range_max_store);
+> +
+> +static struct attribute *damon_sysfs_ul_range_attrs[] = {
+> +	&damon_sysfs_ul_range_min_attr.attr,
+> +	&damon_sysfs_ul_range_max_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_ul_range);
+> +
+> +static struct kobj_type damon_sysfs_ul_range_ktype = {
+> +	.release = damon_sysfs_ul_range_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_ul_range_groups,
+> +};
+> +
+> +/*
+> + * target directory
+> + */
+> +
+> +struct damon_sysfs_target {
+> +	struct kobject kobj;
+> +	int pid;
+> +};
+> +
+> +static struct damon_sysfs_target *damon_sysfs_target_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_target), GFP_KERNEL);
+> +}
+> +
+> +static ssize_t damon_sysfs_target_pid_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_target *target = container_of(kobj,
+> +			struct damon_sysfs_target, kobj);
+> +
+> +	return sysfs_emit(buf, "%d\n", target->pid);
+> +}
+> +
+> +static ssize_t damon_sysfs_target_pid_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_target *target = container_of(kobj,
+> +			struct damon_sysfs_target, kobj);
+> +	int err = kstrtoint(buf, 0, &target->pid);
+> +
+> +	if (err)
+> +		return -EINVAL;
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_target_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_target, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_target_pid_attr = __ATTR(pid, 0600,
+> +		damon_sysfs_target_pid_show, damon_sysfs_target_pid_store);
+> +
+> +static struct attribute *damon_sysfs_target_attrs[] = {
+> +	&damon_sysfs_target_pid_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_target);
+> +
+> +static struct kobj_type damon_sysfs_target_ktype = {
+> +	.release = damon_sysfs_target_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_target_groups,
+> +};
+> +
+> +/*
+> + * targets directory
+> + */
+> +
+> +struct damon_sysfs_targets {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_target **targets_arr;
+> +	int nr;
+> +};
+> +
+> +static struct damon_sysfs_targets *damon_sysfs_targets_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_targets), GFP_KERNEL);
+> +}
+> +
+> +static void damon_sysfs_targets_rm_dirs(struct damon_sysfs_targets *targets)
+> +{
+> +	struct damon_sysfs_target **targets_arr = targets->targets_arr;
+> +	int i;
+> +
+> +	for (i = 0; i < targets->nr; i++)
+> +		kobject_put(&targets_arr[i]->kobj);
+> +	targets->nr = 0;
+> +	kfree(targets_arr);
+> +	targets->targets_arr = NULL;
+> +}
+> +
+> +static int damon_sysfs_targets_add_dirs(struct damon_sysfs_targets *targets,
+> +		int nr_targets)
+> +{
+> +	struct damon_sysfs_target **targets_arr, *target;
+> +	int err, i;
+> +
+> +	damon_sysfs_targets_rm_dirs(targets);
+> +	if (!nr_targets)
+> +		return 0;
+> +
+> +	targets_arr = kmalloc_array(nr_targets, sizeof(*targets_arr),
+> +			GFP_KERNEL | __GFP_NOWARN);
+> +	if (!targets_arr)
+> +		return -ENOMEM;
+> +	targets->targets_arr = targets_arr;
+> +
+> +	for (i = 0; i < nr_targets; i++) {
+> +		target = damon_sysfs_target_alloc();
+> +		if (!target) {
+> +			damon_sysfs_targets_rm_dirs(targets);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		err = kobject_init_and_add(&target->kobj,
+> +				&damon_sysfs_target_ktype, &targets->kobj,
+> +				"%d", i);
+> +		if (err)
+> +			goto out;
+> +
+> +		targets_arr[i] = target;
+> +		targets->nr++;
+> +	}
+> +	return 0;
+> +
+> +out:
+> +	damon_sysfs_targets_rm_dirs(targets);
+> +	kobject_put(&target->kobj);
+> +	return err;
+> +}
+> +
+> +static ssize_t damon_sysfs_targets_nr_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_targets *targets = container_of(kobj,
+> +			struct damon_sysfs_targets, kobj);
+> +
+> +	return sysfs_emit(buf, "%d\n", targets->nr);
+> +}
+> +
+> +static ssize_t damon_sysfs_targets_nr_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_targets *targets = container_of(kobj,
+> +			struct damon_sysfs_targets, kobj);
+> +	int nr, err = kstrtoint(buf, 0, &nr);
+> +
+> +	if (err)
+> +		return err;
+> +	if (nr < 0)
+> +		return -EINVAL;
+> +
+> +	if (!mutex_trylock(&damon_sysfs_lock))
+> +		return -EBUSY;
+> +	err = damon_sysfs_targets_add_dirs(targets, nr);
+> +	mutex_unlock(&damon_sysfs_lock);
+> +	if (err)
+> +		return err;
+> +
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_targets_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_targets, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_targets_nr_attr = __ATTR(nr, 0600,
+> +		damon_sysfs_targets_nr_show, damon_sysfs_targets_nr_store);
+> +
+> +static struct attribute *damon_sysfs_targets_attrs[] = {
+> +	&damon_sysfs_targets_nr_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_targets);
+> +
+> +static struct kobj_type damon_sysfs_targets_ktype = {
+> +	.release = damon_sysfs_targets_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_targets_groups,
+> +};
+> +
+> +/*
+> + * intervals directory
+> + */
+> +
+> +struct damon_sysfs_intervals {
+> +	struct kobject kobj;
+> +	unsigned long sample_us;
+> +	unsigned long aggr_us;
+> +	unsigned long update_us;
+> +};
+> +
+> +static struct damon_sysfs_intervals *damon_sysfs_intervals_alloc(
+> +		unsigned long sample_us, unsigned long aggr_us,
+> +		unsigned long update_us)
+> +{
+> +	struct damon_sysfs_intervals *intervals = kmalloc(sizeof(*intervals),
+> +			GFP_KERNEL);
+> +
+> +	if (!intervals)
+> +		return NULL;
+> +
+> +	intervals->kobj = (struct kobject){};
+> +	intervals->sample_us = sample_us;
+> +	intervals->aggr_us = aggr_us;
+> +	intervals->update_us = update_us;
+> +	return intervals;
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_sample_us_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +
+> +	return sysfs_emit(buf, "%lu\n", intervals->sample_us);
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_sample_us_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +	unsigned long us;
+> +	int err = kstrtoul(buf, 0, &us);
+> +
+> +	if (err)
+> +		return -EINVAL;
+> +
+> +	intervals->sample_us = us;
+> +	return count;
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_aggr_us_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +
+> +	return sysfs_emit(buf, "%lu\n", intervals->aggr_us);
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_aggr_us_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +	unsigned long us;
+> +	int err = kstrtoul(buf, 0, &us);
+> +
+> +	if (err)
+> +		return -EINVAL;
+> +
+> +	intervals->aggr_us = us;
+> +	return count;
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_update_us_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +
+> +	return sysfs_emit(buf, "%lu\n", intervals->update_us);
+> +}
+> +
+> +static ssize_t damon_sysfs_intervals_update_us_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_intervals *intervals = container_of(kobj,
+> +			struct damon_sysfs_intervals, kobj);
+> +	unsigned long us;
+> +	int err = kstrtoul(buf, 0, &us);
+> +
+> +	if (err)
+> +		return -EINVAL;
+> +
+> +	intervals->update_us = us;
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_intervals_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_intervals, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_intervals_sample_us_attr =
+> +		__ATTR(sample_us, 0600,
+> +				damon_sysfs_intervals_sample_us_show,
+> +				damon_sysfs_intervals_sample_us_store);
+> +
+> +static struct kobj_attribute damon_sysfs_intervals_aggr_us_attr =
+> +		__ATTR(aggr_us, 0600,
+> +				damon_sysfs_intervals_aggr_us_show,
+> +				damon_sysfs_intervals_aggr_us_store);
+> +
+> +static struct kobj_attribute damon_sysfs_intervals_update_us_attr =
+> +		__ATTR(update_us, 0600,
+> +				damon_sysfs_intervals_update_us_show,
+> +				damon_sysfs_intervals_update_us_store);
+> +
+> +static struct attribute *damon_sysfs_intervals_attrs[] = {
+> +	&damon_sysfs_intervals_sample_us_attr.attr,
+> +	&damon_sysfs_intervals_aggr_us_attr.attr,
+> +	&damon_sysfs_intervals_update_us_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_intervals);
+> +
+> +static struct kobj_type damon_sysfs_intervals_ktype = {
+> +	.release = damon_sysfs_intervals_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_intervals_groups,
+> +};
+> +
+> +/*
+> + * monitoring_attrs directory
+> + */
+> +
+> +struct damon_sysfs_attrs {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_intervals *intervals;
+> +	struct damon_sysfs_ul_range *nr_regions_range;
+> +};
+> +
+> +static struct damon_sysfs_attrs *damon_sysfs_attrs_alloc(void)
+> +{
+> +	struct damon_sysfs_attrs *attrs = kmalloc(sizeof(*attrs), GFP_KERNEL);
+> +
+> +	if (!attrs)
+> +		return NULL;
+> +	attrs->kobj = (struct kobject){};
+> +	return attrs;
+> +}
+> +
+> +static int damon_sysfs_attrs_add_dirs(struct damon_sysfs_attrs *attrs)
+> +{
+> +	struct damon_sysfs_intervals *intervals;
+> +	struct damon_sysfs_ul_range *nr_regions_range;
+> +	int err;
+> +
+> +	intervals = damon_sysfs_intervals_alloc(5000, 100000, 60000000);
+> +	if (!intervals)
+> +		return -ENOMEM;
+> +
+> +	err = kobject_init_and_add(&intervals->kobj,
+> +			&damon_sysfs_intervals_ktype, &attrs->kobj,
+> +			"intervals");
+> +	if (err)
+> +		goto put_intervals_out;
+> +	attrs->intervals = intervals;
+> +
+> +	nr_regions_range = damon_sysfs_ul_range_alloc(10, 1000);
+> +	if (!nr_regions_range)
+> +		goto put_intervals_out;
+> +
+> +	err = kobject_init_and_add(&nr_regions_range->kobj,
+> +			&damon_sysfs_ul_range_ktype, &attrs->kobj,
+> +			"nr_regions");
+> +	if (err)
+> +		goto put_nr_regions_intervals_out;
+> +	attrs->nr_regions_range = nr_regions_range;
+> +	return 0;
+> +
+> +put_nr_regions_intervals_out:
+> +	kobject_put(&nr_regions_range->kobj);
+> +	attrs->nr_regions_range = NULL;
+> +put_intervals_out:
+> +	kobject_put(&intervals->kobj);
+> +	attrs->intervals = NULL;
+> +	return err;
+> +}
+> +
+> +static void damon_sysfs_attrs_rm_dirs(struct damon_sysfs_attrs *attrs)
+> +{
+> +	kobject_put(&attrs->nr_regions_range->kobj);
+> +	kobject_put(&attrs->intervals->kobj);
+> +}
+> +
+> +static void damon_sysfs_attrs_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_attrs, kobj));
+> +}
+> +
+> +static struct attribute *damon_sysfs_attrs_attrs[] = {
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_attrs);
+> +
+> +static struct kobj_type damon_sysfs_attrs_ktype = {
+> +	.release = damon_sysfs_attrs_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_attrs_groups,
+> +};
+> +
+> +/*
+> + * context directory
+> + */
+> +
+> +/* This should match with enum damon_ops_id */
+> +static const char * const damon_sysfs_ops_strs[] = {
+> +	"vaddr",
+> +	"paddr",
+> +};
+> +
+> +struct damon_sysfs_context {
+> +	struct kobject kobj;
+> +	enum damon_ops_id ops_id;
+> +	struct damon_sysfs_attrs *attrs;
+> +	struct damon_sysfs_targets *targets;
+> +};
+> +
+> +static struct damon_sysfs_context *damon_sysfs_context_alloc(
+> +		enum damon_ops_id ops_id)
+> +{
+> +	struct damon_sysfs_context *context = kmalloc(sizeof(*context),
+> +				GFP_KERNEL);
+> +
+> +	if (!context)
+> +		return NULL;
+> +	context->kobj = (struct kobject){};
+> +	context->ops_id = ops_id;
+> +	return context;
+> +}
+> +
+> +static int damon_sysfs_context_set_attrs(struct damon_sysfs_context *context)
+> +{
+> +	struct damon_sysfs_attrs *attrs = damon_sysfs_attrs_alloc();
+> +	int err;
+> +
+> +	if (!attrs)
+> +		return -ENOMEM;
+> +	err = kobject_init_and_add(&attrs->kobj, &damon_sysfs_attrs_ktype,
+> +			&context->kobj, "monitoring_attrs");
+> +	if (err)
+> +		goto out;
+> +	err = damon_sysfs_attrs_add_dirs(attrs);
+> +	if (err)
+> +		goto out;
+> +	context->attrs = attrs;
+> +	return 0;
+> +
+> +out:
+> +	kobject_put(&attrs->kobj);
+> +	return err;
+> +}
+> +
+> +static int damon_sysfs_context_set_targets(struct damon_sysfs_context *context)
+> +{
+> +	struct damon_sysfs_targets *targets = damon_sysfs_targets_alloc();
+> +	int err;
+> +
+> +	if (!targets)
+> +		return -ENOMEM;
+> +	err = kobject_init_and_add(&targets->kobj, &damon_sysfs_targets_ktype,
+> +			&context->kobj, "targets");
+> +	if (err) {
+> +		kobject_put(&targets->kobj);
+> +		return err;
+> +	}
+> +	context->targets = targets;
+> +	return 0;
+> +}
+> +
+> +static int damon_sysfs_context_add_dirs(struct damon_sysfs_context *context)
+> +{
+> +	int err;
+> +
+> +	err = damon_sysfs_context_set_attrs(context);
+> +	if (err)
+> +		return err;
+> +
+> +	err = damon_sysfs_context_set_targets(context);
+> +	if (err)
+> +		goto put_attrs_out;
+> +
+> +	return 0;
+> +
+> +put_attrs_out:
+> +	kobject_put(&context->attrs->kobj);
+> +	context->attrs = NULL;
+> +	return err;
+> +}
+> +
+> +static void damon_sysfs_context_rm_dirs(struct damon_sysfs_context *context)
+> +{
+> +	damon_sysfs_attrs_rm_dirs(context->attrs);
+> +	kobject_put(&context->attrs->kobj);
+> +	damon_sysfs_targets_rm_dirs(context->targets);
+> +	kobject_put(&context->targets->kobj);
+> +}
+> +
+> +static ssize_t damon_sysfs_context_operations_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_context *context = container_of(kobj,
+> +			struct damon_sysfs_context, kobj);
+> +
+> +	return sysfs_emit(buf, "%s\n", damon_sysfs_ops_strs[context->ops_id]);
+> +}
+> +
+> +static ssize_t damon_sysfs_context_operations_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_context *context = container_of(kobj,
+> +			struct damon_sysfs_context, kobj);
+> +
+> +	if (sysfs_streq(buf, damon_sysfs_ops_strs[DAMON_OPS_VADDR])) {
+> +		context->ops_id = DAMON_OPS_VADDR;
+> +		return count;
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +static void damon_sysfs_context_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_context, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_context_operations_attr = __ATTR(
+> +		operations, 0600, damon_sysfs_context_operations_show,
+> +		damon_sysfs_context_operations_store);
+> +
+> +static struct attribute *damon_sysfs_context_attrs[] = {
+> +	&damon_sysfs_context_operations_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_context);
+> +
+> +static struct kobj_type damon_sysfs_context_ktype = {
+> +	.release = damon_sysfs_context_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_context_groups,
+> +};
+> +
+> +/*
+> + * contexts directory
+> + */
+> +
+> +struct damon_sysfs_contexts {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_context **contexts_arr;
+> +	int nr;
+> +};
+> +
+> +static struct damon_sysfs_contexts *damon_sysfs_contexts_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_contexts), GFP_KERNEL);
+> +}
+> +
+> +static void damon_sysfs_contexts_rm_dirs(struct damon_sysfs_contexts *contexts)
+> +{
+> +	struct damon_sysfs_context **contexts_arr = contexts->contexts_arr;
+> +	int i;
+> +
+> +	for (i = 0; i < contexts->nr; i++) {
+> +		damon_sysfs_context_rm_dirs(contexts_arr[i]);
+> +		kobject_put(&contexts_arr[i]->kobj);
+> +	}
+> +	contexts->nr = 0;
+> +	kfree(contexts_arr);
+> +	contexts->contexts_arr = NULL;
+> +}
+> +
+> +static int damon_sysfs_contexts_add_dirs(struct damon_sysfs_contexts *contexts,
+> +		int nr_contexts)
+> +{
+> +	struct damon_sysfs_context **contexts_arr, *context;
+> +	int err, i;
+> +
+> +	damon_sysfs_contexts_rm_dirs(contexts);
+> +	if (!nr_contexts)
+> +		return 0;
+> +
+> +	contexts_arr = kmalloc_array(nr_contexts, sizeof(*contexts_arr),
+> +			GFP_KERNEL | __GFP_NOWARN);
+> +	if (!contexts_arr)
+> +		return -ENOMEM;
+> +	contexts->contexts_arr = contexts_arr;
+> +
+> +	for (i = 0; i < nr_contexts; i++) {
+> +		context = damon_sysfs_context_alloc(DAMON_OPS_VADDR);
+> +		if (!context) {
+> +			damon_sysfs_contexts_rm_dirs(contexts);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		err = kobject_init_and_add(&context->kobj,
+> +				&damon_sysfs_context_ktype, &contexts->kobj,
+> +				"%d", i);
+> +		if (err)
+> +			goto out;
+> +
+> +		err = damon_sysfs_context_add_dirs(context);
+> +		if (err)
+> +			goto out;
+> +
+> +		contexts_arr[i] = context;
+> +		contexts->nr++;
+> +	}
+> +	return 0;
+> +
+> +out:
+> +	damon_sysfs_contexts_rm_dirs(contexts);
+> +	kobject_put(&context->kobj);
+> +	return err;
+> +}
+> +
+> +static ssize_t damon_sysfs_contexts_nr_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_contexts *contexts = container_of(kobj,
+> +			struct damon_sysfs_contexts, kobj);
+> +
+> +	return sysfs_emit(buf, "%d\n", contexts->nr);
+> +}
+> +
+> +static ssize_t damon_sysfs_contexts_nr_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_contexts *contexts = container_of(kobj,
+> +			struct damon_sysfs_contexts, kobj);
+> +	int nr, err;
+> +
+> +	err = kstrtoint(buf, 0, &nr);
+> +	if (err)
+> +		return err;
+> +	/* TODO: support multiple contexts per kdamond */
+> +	if (nr < 0 || 1 < nr)
+> +		return -EINVAL;
+> +
+> +	if (!mutex_trylock(&damon_sysfs_lock))
+> +		return -EBUSY;
+> +	err = damon_sysfs_contexts_add_dirs(contexts, nr);
+> +	mutex_unlock(&damon_sysfs_lock);
+> +	if (err)
+> +		return err;
+> +
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_contexts_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_contexts, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_contexts_nr_attr = __ATTR(nr, 0600,
+> +		damon_sysfs_contexts_nr_show, damon_sysfs_contexts_nr_store);
+> +
+> +static struct attribute *damon_sysfs_contexts_attrs[] = {
+> +	&damon_sysfs_contexts_nr_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_contexts);
+> +
+> +static struct kobj_type damon_sysfs_contexts_ktype = {
+> +	.release = damon_sysfs_contexts_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_contexts_groups,
+> +};
+> +
+> +/*
+> + * kdamond directory
+> + */
+> +
+> +struct damon_sysfs_kdamond {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_contexts *contexts;
+> +};
+> +
+> +static struct damon_sysfs_kdamond *damon_sysfs_kdamond_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_kdamond), GFP_KERNEL);
+> +}
+> +
+> +static int damon_sysfs_kdamond_add_dirs(struct damon_sysfs_kdamond *kdamond)
+> +{
+> +	struct damon_sysfs_contexts *contexts;
+> +	int err;
+> +
+> +	contexts = damon_sysfs_contexts_alloc();
+> +	if (!contexts)
+> +		return -ENOMEM;
+> +
+> +	err = kobject_init_and_add(&contexts->kobj,
+> +			&damon_sysfs_contexts_ktype, &kdamond->kobj,
+> +			"contexts");
+> +	if (err) {
+> +		kobject_put(&contexts->kobj);
+> +		return err;
+> +	}
+> +	kdamond->contexts = contexts;
+> +
+> +	return err;
+> +}
+> +
+> +static void damon_sysfs_kdamond_rm_dirs(struct damon_sysfs_kdamond *kdamond)
+> +{
+> +	damon_sysfs_contexts_rm_dirs(kdamond->contexts);
+> +	kobject_put(&kdamond->contexts->kobj);
+> +}
+> +
+> +static ssize_t damon_sysfs_kdamond_state_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "off\n");
+> +}
+> +
+> +static ssize_t damon_sysfs_kdamond_state_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	return count;
+> +}
+> +
+> +static ssize_t damon_sysfs_kdamond_pid_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "-1\n");
+> +}
+> +
+> +static void damon_sysfs_kdamond_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_kdamond, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_kdamond_state_attr =
+> +	__ATTR(state, 0600, damon_sysfs_kdamond_state_show,
+> +		damon_sysfs_kdamond_state_store);
+> +
+> +static struct kobj_attribute damon_sysfs_kdamond_pid_attr = __ATTR(pid, 0400,
+> +		damon_sysfs_kdamond_pid_show, NULL);
+> +
+> +static struct attribute *damon_sysfs_kdamond_attrs[] = {
+> +	&damon_sysfs_kdamond_state_attr.attr,
+> +	&damon_sysfs_kdamond_pid_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_kdamond);
+> +
+> +static struct kobj_type damon_sysfs_kdamond_ktype = {
+> +	.release = damon_sysfs_kdamond_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_kdamond_groups,
+> +};
+> +
+> +/*
+> + * kdamonds directory
+> + */
+> +
+> +struct damon_sysfs_kdamonds {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_kdamond **kdamonds_arr;
+> +	int nr;
+> +};
+> +
+> +static struct damon_sysfs_kdamonds *damon_sysfs_kdamonds_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_kdamonds), GFP_KERNEL);
+> +}
+> +
+> +static void damon_sysfs_kdamonds_rm_dirs(struct damon_sysfs_kdamonds *kdamonds)
+> +{
+> +	struct damon_sysfs_kdamond **kdamonds_arr = kdamonds->kdamonds_arr;
+> +	int i;
+> +
+> +	for (i = 0; i < kdamonds->nr; i++) {
+> +		damon_sysfs_kdamond_rm_dirs(kdamonds_arr[i]);
+> +		kobject_put(&kdamonds_arr[i]->kobj);
+> +	}
+> +	kdamonds->nr = 0;
+> +	kfree(kdamonds_arr);
+> +	kdamonds->kdamonds_arr = NULL;
+> +}
+> +
+> +static int damon_sysfs_kdamonds_add_dirs(struct damon_sysfs_kdamonds *kdamonds,
+> +		int nr_kdamonds)
+> +{
+> +	struct damon_sysfs_kdamond **kdamonds_arr, *kdamond;
+> +	int err, i;
+> +
+> +	damon_sysfs_kdamonds_rm_dirs(kdamonds);
+> +	if (!nr_kdamonds)
+> +		return 0;
+> +
+> +	kdamonds_arr = kmalloc_array(nr_kdamonds, sizeof(*kdamonds_arr),
+> +			GFP_KERNEL | __GFP_NOWARN);
+> +	if (!kdamonds_arr)
+> +		return -ENOMEM;
+> +	kdamonds->kdamonds_arr = kdamonds_arr;
+> +
+> +	for (i = 0; i < nr_kdamonds; i++) {
+> +		kdamond = damon_sysfs_kdamond_alloc();
+> +		if (!kdamond) {
+> +			damon_sysfs_kdamonds_rm_dirs(kdamonds);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		err = kobject_init_and_add(&kdamond->kobj,
+> +				&damon_sysfs_kdamond_ktype, &kdamonds->kobj,
+> +				"%d", i);
+> +		if (err)
+> +			goto out;
+> +
+> +		err = damon_sysfs_kdamond_add_dirs(kdamond);
+> +		if (err)
+> +			goto out;
+> +
+> +		kdamonds_arr[i] = kdamond;
+> +		kdamonds->nr++;
+> +	}
+> +	return 0;
+> +
+> +out:
+> +	damon_sysfs_kdamonds_rm_dirs(kdamonds);
+> +	kobject_put(&kdamond->kobj);
+> +	return err;
+> +}
+> +
+> +static ssize_t damon_sysfs_kdamonds_nr_show(struct kobject *kobj,
+> +		struct kobj_attribute *attr, char *buf)
+> +{
+> +	struct damon_sysfs_kdamonds *kdamonds = container_of(kobj,
+> +			struct damon_sysfs_kdamonds, kobj);
+> +
+> +	return sysfs_emit(buf, "%d\n", kdamonds->nr);
+> +}
+> +
+> +static ssize_t damon_sysfs_kdamonds_nr_store(struct kobject *kobj,
+> +		struct kobj_attribute *attr, const char *buf, size_t count)
+> +{
+> +	struct damon_sysfs_kdamonds *kdamonds = container_of(kobj,
+> +			struct damon_sysfs_kdamonds, kobj);
+> +	int nr, err;
+> +
+> +	err = kstrtoint(buf, 0, &nr);
+> +	if (err)
+> +		return err;
+> +	if (nr < 0)
+> +		return -EINVAL;
+> +
+> +	if (!mutex_trylock(&damon_sysfs_lock))
+> +		return -EBUSY;
+> +	err = damon_sysfs_kdamonds_add_dirs(kdamonds, nr);
+> +	mutex_unlock(&damon_sysfs_lock);
+> +	if (err)
+> +		return err;
+> +
+> +	return count;
+> +}
+> +
+> +static void damon_sysfs_kdamonds_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_kdamonds, kobj));
+> +}
+> +
+> +static struct kobj_attribute damon_sysfs_kdamonds_nr_attr = __ATTR(nr, 0600,
+> +		damon_sysfs_kdamonds_nr_show, damon_sysfs_kdamonds_nr_store);
+> +
+> +static struct attribute *damon_sysfs_kdamonds_attrs[] = {
+> +	&damon_sysfs_kdamonds_nr_attr.attr,
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_kdamonds);
+> +
+> +static struct kobj_type damon_sysfs_kdamonds_ktype = {
+> +	.release = damon_sysfs_kdamonds_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_kdamonds_groups,
+> +};
+> +
+> +/*
+> + * damon user interface directory
+> + */
+> +
+> +struct damon_sysfs_ui_dir {
+> +	struct kobject kobj;
+> +	struct damon_sysfs_kdamonds *kdamonds;
+> +};
+> +
+> +static struct damon_sysfs_ui_dir *damon_sysfs_ui_dir_alloc(void)
+> +{
+> +	return kzalloc(sizeof(struct damon_sysfs_ui_dir), GFP_KERNEL);
+> +}
+> +
+> +static int damon_sysfs_ui_dir_add_dirs(struct damon_sysfs_ui_dir *ui_dir)
+> +{
+> +	struct damon_sysfs_kdamonds *kdamonds;
+> +	int err;
+> +
+> +	kdamonds = damon_sysfs_kdamonds_alloc();
+> +	if (!kdamonds)
+> +		return -ENOMEM;
+> +
+> +	err = kobject_init_and_add(&kdamonds->kobj,
+> +			&damon_sysfs_kdamonds_ktype, &ui_dir->kobj,
+> +			"kdamonds");
+> +	if (err) {
+> +		kobject_put(&kdamonds->kobj);
+> +		return err;
+> +	}
+> +	ui_dir->kdamonds = kdamonds;
+> +	return err;
+> +}
+> +
+> +static void damon_sysfs_ui_dir_release(struct kobject *kobj)
+> +{
+> +	kfree(container_of(kobj, struct damon_sysfs_ui_dir, kobj));
+> +}
+> +
+> +static struct attribute *damon_sysfs_ui_dir_attrs[] = {
+> +	NULL,
+> +};
+> +ATTRIBUTE_GROUPS(damon_sysfs_ui_dir);
+> +
+> +static struct kobj_type damon_sysfs_ui_dir_ktype = {
+> +	.release = damon_sysfs_ui_dir_release,
+> +	.sysfs_ops = &kobj_sysfs_ops,
+> +	.default_groups = damon_sysfs_ui_dir_groups,
+> +};
+> +
+> +static int __init damon_sysfs_init(void)
+> +{
+> +	struct kobject *damon_sysfs_root;
+> +	struct damon_sysfs_ui_dir *admin;
+> +	int err;
+> +
+> +	damon_sysfs_root = kobject_create_and_add("damon", mm_kobj);
+> +	if (!damon_sysfs_root)
+> +		return -ENOMEM;
+> +
+> +	admin = damon_sysfs_ui_dir_alloc();
+> +	if (!admin) {
+> +		kobject_put(damon_sysfs_root);
+> +		return -ENOMEM;
+> +	}
+> +	err = kobject_init_and_add(&admin->kobj, &damon_sysfs_ui_dir_ktype,
+> +			damon_sysfs_root, "admin");
+> +	if (err)
+> +		goto out;
+> +	err = damon_sysfs_ui_dir_add_dirs(admin);
+> +	if (err)
+> +		goto out;
+> +	return 0;
+> +
+> +out:
+> +	kobject_put(&admin->kobj);
+> +	kobject_put(damon_sysfs_root);
+> +	return err;
+> +}
+> +subsys_initcall(damon_sysfs_init);
+
 -- 
-2.17.1
+Best Regards!
+Xin Hao
 
