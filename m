@@ -2,90 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DCDC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 09:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1964AC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 11:56:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231588AbiBYJJq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 04:09:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38694 "EHLO
+        id S240309AbiBYL47 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 06:56:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238891AbiBYJJp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 04:09:45 -0500
-Received: from smtpproxy21.qq.com (smtpbg704.qq.com [203.205.195.105])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7393A251E70
-        for <linux-doc@vger.kernel.org>; Fri, 25 Feb 2022 01:09:13 -0800 (PST)
-X-QQ-mid: bizesmtp64t1645780142t3cpv4lp
-Received: from localhost.localdomain (unknown [202.96.137.248])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Fri, 25 Feb 2022 17:08:25 +0800 (CST)
-X-QQ-SSF: 01400000002000D0N000B00A0000000
-X-QQ-FEAT: Z953UCsBqO7uEMhmwV7wgH8Q6K9Fe+f6MgA4BWrGifd1I2EHKSTOJ5cV2o0XI
-        JzBVCQOY3TiqYfgS+iGzle3XUhlq1GuWhCQrB8S0VsnF7SQioeFuQwWKUmu49118CR3MUc7
-        TpGwVRqFhrPM4Z4ZdPJ2F4UKZ+d64KsqBx7KLswwKqKJ8NGOVJGG8SKG3GVwhWkQOrbGNvt
-        CSIORqhLZE7DbRYIBj8Ei0sD2z+esPtpiVj2KvIVC2ugLcCt8G/J5ayjxEmKZbH/jo7ryFf
-        9Efw9SJ9hqaS7X0cJrc+lPjKp3V3ShFTvlvIA0Xwyz6QSLySovf1g7E1WXmEMCAWroBPPns
-        5enmtE15f6n/gy9TCwaE99Yo9k6Hg==
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     corbet@lwn.net
-Cc:     akpm@linux-foundation.org, broonie@kernel.org,
-        weizhenliang@huawei.com, georgi.djakov@linaro.org,
-        skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hanshenghong2019@email.szu.edu.cn,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH] Documentation/vm/page_owner.rst: fix the description of "-f"
-Date:   Fri, 25 Feb 2022 17:08:24 +0800
-Message-Id: <20220225090824.2343-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S239453AbiBYL46 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 06:56:58 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A4B22F977;
+        Fri, 25 Feb 2022 03:56:27 -0800 (PST)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1nNZCy-0002tQ-Pf; Fri, 25 Feb 2022 12:56:24 +0100
+Message-ID: <32ae6671-510c-9a9f-3e01-93a8f45ede7a@leemhuis.info>
+Date:   Fri, 25 Feb 2022 12:56:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign1
-X-QQ-Bgrelay: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 0/3] docs: add two texts covering regressions
+Content-Language: en-BS
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        regressions@lists.linux.dev,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <cover.1644994117.git.linux@leemhuis.info>
+ <871qzskpf8.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+In-Reply-To: <871qzskpf8.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1645790187;bf6440e4;
+X-HE-SMSGID: 1nNZCy-0002tQ-Pf
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Few days ago,
-I noticed that in tools/vm/page_owner_sort.c,
-there is a comment that need to be fixed.
+On 24.02.22 20:58, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+> 
+>> "We don't cause regressions" might be the first rule of Linux kernel
+>> development, but it and other aspects of regressions nevertheless are hardly
+>> described in the Linux kernel's documentation. The following patches change
+>> this by creating two documents dedicated to the topic.
+>>
+>> The second patch could easily be folded into the first one, but was kept
+>> separate, as it might be a bit controversial. This also allows the patch
+>> description to explain some backgrounds for this part of the document.
+>> Additionally, ACKs and Reviewed-by tags can be collected separately this way.
+> 
+> Hearing no objections, I have applied this set, thanks.
 
-In function usage():
-"-f Filter out the information of blocks whose memory has
-not been released."
+Great, thx!
 
-This comment does not match the actual function, the "not"
-should be removed. As a result, I submitted a patch to fix it.
-
-Similarly, this document should also do the same
-modification, that's why I submit this patch.
-
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- Documentation/vm/page_owner.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index aec1906976f4..32ca54757d3f 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -78,7 +78,7 @@ Usage
- 
- 2) Enable page owner: add "page_owner=on" to boot cmdline.
- 
--3) Do the job what you want to debug
-+3) Do the job what you want to debug.
- 
- 4) Analyze information from page owner::
- 
-@@ -126,4 +126,4 @@ Usage
- 		-c		Cull by comparing stacktrace instead of total block.
- 
- 	Filter:
--		-f		Filter out the information of blocks whose memory has not been released.
-+		-f		Filter out the information of blocks whose memory has been released.
--- 
-2.31.1
-
-
-
+Ciao, Thorsten
