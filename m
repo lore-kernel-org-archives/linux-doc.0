@@ -2,137 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB53AC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 16:39:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2DCC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 18:03:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236411AbiBYQkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 11:40:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
+        id S232172AbiBYSE2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 13:04:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235766AbiBYQkP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 11:40:15 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F249218CCD;
-        Fri, 25 Feb 2022 08:39:43 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id k22-20020a9d4b96000000b005ad5211bd5aso3973592otf.8;
-        Fri, 25 Feb 2022 08:39:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=11tzMfBXZWTEFu0SmCPnVL2TtZRM1lacEuBs47JGN18=;
-        b=Q6lPdNvWOYVkVMB+Ob8pAsRnWU/khUVxcYPwQX0huyQVohoS8PLdmrTbEv09/SZGgp
-         mWKO0aCv7XXrbhBVIeeoZTYYJjj1/kEp54eyn8sMmXVVFCPhmgisKe1i8788iMwVtPRb
-         niJMPyHXbrsUwvHlnHH9vUAJv1zzsm+2G/HNwIgyDQbb4hsPhwPElKPf1jDW5U6Xsrru
-         JkHvzTlu9ah+fW8nREllsscdRyXJoxmOhTudcQ/1DYOcG+Co+uQVAMwq1mXhb8EMOdtl
-         gtNv6Gf4J5LD8x5Dt/RVCPiljOwBOVdCIdliwKvnSrPfV5VDHwMuoYjbN1xgzUbWonOx
-         OW0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=11tzMfBXZWTEFu0SmCPnVL2TtZRM1lacEuBs47JGN18=;
-        b=hR+kyNvH2Vx8ysJeuTEC7Ql8hW5tClxxOPEVLh+TAMY+eFfnrg4hXjTu3qbUrM86AT
-         lIzm4KTrZXR4wRPtuoZ1EsC2SuO2JEuDDT6fBx5RoEgRWvIsAP9tGhoPnPY/h4Norr63
-         kk2qr7eL5L0CP9rjCL74ocQv5Q1EXUCN2M3X68E4zRhCAWLak5AauT9AOr8TtQPuY+wR
-         iDsfXA+p2JWpMWEvs5h7tHwG9KZkYOWY7t1Jq1BHWIUlCjydnK8VCEfeL8LKAgtag9N7
-         V9TTO/Kvw55pvGga6CWiH6+zWeirhr0HJkgmrgFCmqCbUchYkXQKMrTH02zdGyIvFkQN
-         hteA==
-X-Gm-Message-State: AOAM532TBiriF18NfyAWvntPGa0Blahc/jQRmg3f62cFbL9ZsS8Yc9N4
-        onO5fEXdmvg+r9BlqnzvV6g=
-X-Google-Smtp-Source: ABdhPJxMkjgJv2VmxqbfWtbBsi6ys5WBHUI32OD7DBNlP/O58zz+KZ7xJlkp3YvZhuqxzoMRUH1vXQ==
-X-Received: by 2002:a05:6830:4126:b0:5af:b9dd:14be with SMTP id w38-20020a056830412600b005afb9dd14bemr2864627ott.366.1645807182651;
-        Fri, 25 Feb 2022 08:39:42 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s4-20020a056808208400b002d54070f170sm1416054oiw.37.2022.02.25.08.39.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Feb 2022 08:39:42 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8656b67c-e093-0a18-9c5f-02f5b4264bb2@roeck-us.net>
-Date:   Fri, 25 Feb 2022 08:39:40 -0800
+        with ESMTP id S232088AbiBYSE0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 13:04:26 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D76278C87;
+        Fri, 25 Feb 2022 10:03:53 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5EAE41F44A;
+        Fri, 25 Feb 2022 18:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1645812232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Yfx6BYjupT6FJvPBiP/J6fWBiTk107w6SeEj7q5Klk=;
+        b=r3D13KGnpbppsRc9ii4T3MVnbZvbDjeh6yA6fQk7REw/+y+ZXzlktrZItPebE7krOc99xc
+        TzS3d3sDIVyPqWxY8Xlgo2aAcTfVNvyWHgYJUcvRHhak60KuhKWhRcuR/vvyW21NeeJIZk
+        t1fQ+KavQ7Bm4nwRAZvFAFB5KqsuVQ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1645812232;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Yfx6BYjupT6FJvPBiP/J6fWBiTk107w6SeEj7q5Klk=;
+        b=nVmGh+q4eZWpix4pbXiN1758PxD8VAfz1Am5Gz53Wz110bSoIsAkKRRrdINxdhsApPsSWB
+        CpPYX3D6UBHMulBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EDE513EA7;
+        Fri, 25 Feb 2022 18:03:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id yKLVCggaGWKSRQAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Fri, 25 Feb 2022 18:03:52 +0000
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     David Rientjes <rientjes@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Oliver Glitta <glittao@gmail.com>,
+        Faiyaz Mohammed <faiyazm@codeaurora.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: [PATCH 5/5] slab, documentation: add description of debugfs files for SLUB caches
+Date:   Fri, 25 Feb 2022 19:03:18 +0100
+Message-Id: <20220225180318.20594-6-vbabka@suse.cz>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220225180318.20594-1-vbabka@suse.cz>
+References: <20220225180318.20594-1-vbabka@suse.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/3] hwmon (xdpe12284): Add support for xdpe11280
-Content-Language: en-US
-To:     sylv <sylv@sylv.io>, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-doc@vger.kernel.org
-References: <cover.1645108566.git.sylv@sylv.io>
- <6103836f1116a045a25919ae3e5c18dfdc485902.1645108566.git.sylv@sylv.io>
- <f1e13a4e-2e86-1d53-f34d-a04838e8e8f9@roeck-us.net>
- <246de83631dd5e165f95904d7f1628502f030e02.camel@sylv.io>
- <66d4ea0b-0377-c9ae-68eb-7303c32cf87e@roeck-us.net>
- <7a567823d62b6ed00cbdc2ce239dc4a69e48b411.camel@sylv.io>
- <aa82f347-1b1a-8c40-b5cb-9efe292ae0ec@roeck-us.net>
- <337fe0598837b35ee96773339e9cdc8345a7c16e.camel@sylv.io>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <337fe0598837b35ee96773339e9cdc8345a7c16e.camel@sylv.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3076; i=vbabka@suse.cz; h=from:subject; bh=Z5xj7PzTOFSpE0pbr9lBjpkfetxkbHzTO1UejCdWQ8s=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBiGRnl7O4Oyi/9lFUUrqVMZhZ+sJjFUodWofVv+pRg xGljxtiJATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYhkZ5QAKCRDgIcpz8YmpEATlB/ 9C6Oy0ADNsAs+rGleFVl1L9e7F1la8CZjE3ErKtX85TVjMuqT1HKpQ6muldsYcC/SUyUfeArKVLgnM 6Tl6j546wWnlAVosCWzv8VUKAMd38RPN3iqGTDrkAwOi7BipFHg7tFX1qY5ILSKs2otLDQ7I8WjZaf GgvBhm41OPN6BLpLF181bxz19jgTlSJjlXtK7RGlsqfiSO6eCzfgbXo5l1wDbQQqobtl2uUCxeDF0m sw0U3kCDx/dU4NvK/CrsVbqXma1grWuKaXAIMZoDAXaGMRd5YlZjIXn7Ng9BR+lVMj8z1i5GjumQTb gBdgcKqYgjHh9BG8Jz+OCIoZq2xSnJ
+X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/21/22 04:13, sylv wrote:
-> On Thu, 2022-02-17 at 11:25 -0800, Guenter Roeck wrote:
->> On 2/17/22 10:38, sylv wrote:
->> [ ... ]
->>
->>>>
->>>> That makes me wonder if the chip needs to be added to this driver
->>>> in
->>>> the first
->>>> place, or if it could be added to pmbus.c instead. Any idea ?
->>>
->>> Oh, we did wrote a standalone driver too, and it works fine.
->>> Maybe it's better to upsteam it instead. :)
->>
->> No, I meant if it would make sense to just add something like
->>
->>          {"xdpe11280", (kernel_ulong_t)&pmbus_info_one },
->>
->> to drivers/hwmon/pmbus/pmbus.c.
->>
->> You only really need a standalone driver if it does something
->> special, such as a workaround for some register access (like
->> the xdpe12284 driver), or if support for manufacturer specific
->> registers is desired or needed. That would, for example, be useful
->> if the xdpe11280 supports per-phase sensors.
->>
->> Thanks,
->> Guenter
-> 
-> Hi,
-> 
-> I tested if the xdpe11280 can use the generic pmbus driver. Everything
-> works fine except it does only detect READ_TEMPERATURE_1 on page 0.
-> Looking at the pmbus_find_sensor_groups function it looks like only
-> some commands are probed on each page (READ_VOUT, READ_IOUT, and
-> READ_POUT) but not READ_TEMPERATURE_1.
-> The PMBus spec 1.3.1 tells us: "Each page may offer the full range of
-> PMBus commands available for each output or non-PMBus device." How
-> could we adapt the generic driver so that it is possible to probe
-> commands for each page?
-> 
+From: Oliver Glitta <glittao@gmail.com>
 
-The problem is the "may". Some chips don't implement multi-page
-support especially for temperature sensors. So we'll have to go
-with adding support to the existing driver.
+Add description of debugfs files alloc_traces and free_traces
+to SLUB cache documentation.
 
-Guenter
+[ vbabka@suse.cz: some rewording ]
 
-> Furthermore, It would be great to add regulator and DT support. I
-> created a WIP branch on GitHub with a possible way to implement this:
-> https://github.com/9elements/linux/tree/upstreaming_pmbus_regulator_wip
-> 
-> What do you think?
-> 
-> Thanks,
-> Marcello
-> 
+Signed-off-by: Oliver Glitta <glittao@gmail.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/vm/slub.rst | 61 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+
+diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+index d3028554b1e9..2b2b931e59fc 100644
+--- a/Documentation/vm/slub.rst
++++ b/Documentation/vm/slub.rst
+@@ -384,5 +384,66 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
+       40,60`` range will plot only samples collected between 40th and
+       60th seconds).
+ 
++
++DebugFS files for SLUB
++======================
++
++For more information about current state of SLUB caches with the user tracking
++debug option enabled, debugfs files are available, typically under
++/sys/kernel/debug/slab/<cache>/ (created only for caches with enabled user
++tracking). There are 2 types of these files with the following debug
++information:
++
++1. alloc_traces::
++
++    Prints information about unique allocation traces of the currently
++    allocated objects. The output is sorted by frequency of each trace.
++
++    Information in the output:
++    Number of objects, allocating function, minimal/average/maximal jiffies since alloc,
++    pid range of the allocating processes, cpu mask of allocating cpus, and stack trace.
++
++    Example:::
++
++    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
++	__slab_alloc+0x6d/0x90
++	kmem_cache_alloc_trace+0x2eb/0x300
++	populate_error_injection_list+0x97/0x110
++	init_error_injection+0x1b/0x71
++	do_one_initcall+0x5f/0x2d0
++	kernel_init_freeable+0x26f/0x2d7
++	kernel_init+0xe/0x118
++	ret_from_fork+0x22/0x30
++
++
++2. free_traces::
++
++    Prints information about unique free traces of the currently free objects,
++    sorted by their frequency.
++
++    Information in the output:
++    Number of objects, freeing function, minimal/average/maximal jiffies since free,
++    pid range of the freeing processes, cpu mask of freeing cpus, and stack trace.
++
++    Example:::
++
++    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
++	kfree+0x2db/0x420
++	acpi_ut_update_ref_count+0x6a6/0x782
++	acpi_ut_update_object_reference+0x1ad/0x234
++	acpi_ut_remove_reference+0x7d/0x84
++	acpi_rs_get_prt_method_data+0x97/0xd6
++	acpi_get_irq_routing_table+0x82/0xc4
++	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
++	acpi_pci_irq_lookup+0x3a/0x1e0
++	acpi_pci_irq_enable+0x77/0x240
++	pcibios_enable_device+0x39/0x40
++	do_pci_enable_device.part.0+0x5d/0xe0
++	pci_enable_device_flags+0xfc/0x120
++	pci_enable_device+0x13/0x20
++	virtio_pci_probe+0x9e/0x170
++	local_pci_probe+0x48/0x80
++	pci_device_probe+0x105/0x1c0
++
+ Christoph Lameter, May 30, 2007
+ Sergey Senozhatsky, October 23, 2015
+-- 
+2.35.1
 
