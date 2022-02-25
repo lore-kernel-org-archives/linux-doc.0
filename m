@@ -2,166 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2DCC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 18:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 754F0C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 18:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232172AbiBYSE2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 13:04:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60360 "EHLO
+        id S233731AbiBYSzp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 13:55:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232088AbiBYSE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 13:04:26 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D76278C87;
-        Fri, 25 Feb 2022 10:03:53 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5EAE41F44A;
-        Fri, 25 Feb 2022 18:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1645812232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+Yfx6BYjupT6FJvPBiP/J6fWBiTk107w6SeEj7q5Klk=;
-        b=r3D13KGnpbppsRc9ii4T3MVnbZvbDjeh6yA6fQk7REw/+y+ZXzlktrZItPebE7krOc99xc
-        TzS3d3sDIVyPqWxY8Xlgo2aAcTfVNvyWHgYJUcvRHhak60KuhKWhRcuR/vvyW21NeeJIZk
-        t1fQ+KavQ7Bm4nwRAZvFAFB5KqsuVQ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1645812232;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+Yfx6BYjupT6FJvPBiP/J6fWBiTk107w6SeEj7q5Klk=;
-        b=nVmGh+q4eZWpix4pbXiN1758PxD8VAfz1Am5Gz53Wz110bSoIsAkKRRrdINxdhsApPsSWB
-        CpPYX3D6UBHMulBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EDE513EA7;
-        Fri, 25 Feb 2022 18:03:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id yKLVCggaGWKSRQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Fri, 25 Feb 2022 18:03:52 +0000
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     David Rientjes <rientjes@google.com>,
-        Christoph Lameter <cl@linux.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Oliver Glitta <glittao@gmail.com>,
-        Faiyaz Mohammed <faiyazm@codeaurora.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH 5/5] slab, documentation: add description of debugfs files for SLUB caches
-Date:   Fri, 25 Feb 2022 19:03:18 +0100
-Message-Id: <20220225180318.20594-6-vbabka@suse.cz>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220225180318.20594-1-vbabka@suse.cz>
-References: <20220225180318.20594-1-vbabka@suse.cz>
+        with ESMTP id S233773AbiBYSzm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 13:55:42 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011EB1CBAA5
+        for <linux-doc@vger.kernel.org>; Fri, 25 Feb 2022 10:55:08 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id m11so5569545pls.5
+        for <linux-doc@vger.kernel.org>; Fri, 25 Feb 2022 10:55:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3G8GLcsZ8TrBRC+vyuxIFFQQn6OCbNp1Ve7E2rgmM3Q=;
+        b=E2M+MRUq5GKrNDVaVFM2PHjt7vpkcy9YyiyOu6Da4s8joDjCn8XJr9uWMohcSXzVdS
+         lA+agkhg3n57B9iyWnXZxTU7Nb+7Lzv5UUMo8wxk++jYNY5ziJKwzoEs6/9hp3jicJKy
+         FONbQsGQTNOXgpvrC/vymFPlJHT7yRGf/Qks4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3G8GLcsZ8TrBRC+vyuxIFFQQn6OCbNp1Ve7E2rgmM3Q=;
+        b=ZYnpFBxz5L82nmJI97wnmpYgr42YV5xo77CDrOwcSy/PWCUpTqvF+palRA4yT/J+6s
+         W4qyIpyqniMjTlld94yp72FthjYr7eazty+Wyf/gWRKpd8Wor+O0fgMA0exRBSOA2r6/
+         xfFu9/2MdbXPaiD5vIgsZ/uTi7LYWNquqYca1YjoFbMAV0+Ht4G/5mCDJB3/gPlSReGf
+         aNYI0UGb+J4dQSEj3hLdit8xjPsZb01rYStsfntAetmsg/Lh3AgkcoV7gjuVI0UnFPhs
+         LVWml8zmsX1LSGZYiXLX1xSQR/2/2eAzpJ6rErgK80ZXn7muprLwv/jVz+Vz7tO4Z+6H
+         KFWA==
+X-Gm-Message-State: AOAM5302wS+HOYrZGtnUqhvBuwGQiO8pYdT6EKj9euaFW1+S/miJyFp0
+        fyXeAUb9vxr1vdBm0SK5/kjPsA==
+X-Google-Smtp-Source: ABdhPJwelgtdqCD8aLtDkOXgZlZYmeiX3XAFTym52vAMUNrpD6bh6maPifeeHpzEx0UTvEB9a8/QNw==
+X-Received: by 2002:a17:90a:c296:b0:1bc:7a6e:623b with SMTP id f22-20020a17090ac29600b001bc7a6e623bmr4512775pjt.68.1645815307360;
+        Fri, 25 Feb 2022 10:55:07 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id y5-20020a056a00190500b004f104b5350fsm4346076pfi.93.2022.02.25.10.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 10:55:07 -0800 (PST)
+Date:   Fri, 25 Feb 2022 10:55:06 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stefano Zacchiroli <zack@upsilon.cc>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Wenwen Wang <wenwen@cs.uga.edu>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] Documentation/process: Add Researcher Guidelines
+Message-ID: <202202251044.F509C7F3@keescook>
+References: <20220224001403.1307377-1-keescook@chromium.org>
+ <974cf8f2-06f3-99a5-9a77-6d7b7cc8271a@leemhuis.info>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3076; i=vbabka@suse.cz; h=from:subject; bh=Z5xj7PzTOFSpE0pbr9lBjpkfetxkbHzTO1UejCdWQ8s=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBiGRnl7O4Oyi/9lFUUrqVMZhZ+sJjFUodWofVv+pRg xGljxtiJATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYhkZ5QAKCRDgIcpz8YmpEATlB/ 9C6Oy0ADNsAs+rGleFVl1L9e7F1la8CZjE3ErKtX85TVjMuqT1HKpQ6muldsYcC/SUyUfeArKVLgnM 6Tl6j546wWnlAVosCWzv8VUKAMd38RPN3iqGTDrkAwOi7BipFHg7tFX1qY5ILSKs2otLDQ7I8WjZaf GgvBhm41OPN6BLpLF181bxz19jgTlSJjlXtK7RGlsqfiSO6eCzfgbXo5l1wDbQQqobtl2uUCxeDF0m sw0U3kCDx/dU4NvK/CrsVbqXma1grWuKaXAIMZoDAXaGMRd5YlZjIXn7Ng9BR+lVMj8z1i5GjumQTb gBdgcKqYgjHh9BG8Jz+OCIoZq2xSnJ
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <974cf8f2-06f3-99a5-9a77-6d7b7cc8271a@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Oliver Glitta <glittao@gmail.com>
+On Thu, Feb 24, 2022 at 09:19:24AM +0100, Thorsten Leemhuis wrote:
+> On 24.02.22 01:14, Kees Cook wrote:
+> > As a follow-up to the UMN incident[1], the TAB took the responsibility
+> > to document Researcher Guidelines so there would be a common place to
+> > point for describing our expectations as a developer community.
+> > 
+> > Document best practices researchers should follow to participate
+> > successfully with the Linux developer community.
+> > 
+> > [1] https://lore.kernel.org/lkml/202105051005.49BFABCE@keescook/
+> > 
+> > Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Co-developed-by: Jonathan Corbet <corbet@lwn.net>
+> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> > Co-developed-by: Stefano Zacchiroli <zack@upsilon.cc>
+> > Signed-off-by: Stefano Zacchiroli <zack@upsilon.cc>
+> > Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+> > Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> > Acked-by: Steve Rostedt <rostedt@goodmis.org>
+> > Acked-by: Laura Abbott <labbott@kernel.org>
+> > Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+> > Reviewed-by: Wenwen Wang <wenwen@cs.uga.edu>
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  Documentation/admin-guide/index.rst           |   1 +
+> >  .../admin-guide/researcher-guidelines.rst     | 141 ++++++++++++++++++
+> 
+> Hmm, the intro for "Documentation/admin-guide/" states that "The
+> following manuals are written for users of the kernel", but the added
+> text afaics providing nothing regular users care about. So wouldn't it
+> be better if this lived below Documentation/process/ ? It might not a
+> really good fit either, but I'd say it's the better place.
+> 
+> But well, the best person to know is Jonathan, who is listed as a
+> Co-developer above, so maybe I'm wrong my suggestion is a bad one.
 
-Add description of debugfs files alloc_traces and free_traces
-to SLUB cache documentation.
+I started in process/ and eventually settled on admin-guide/ since that's
+basically the "front page". But I agree, there isn't an obviously correct
+place for it.
 
-[ vbabka@suse.cz: some rewording ]
+> > +Researcher Guidelines
+> > ++++++++++++++++++++++
+> > +
+> > +The Linux kernel community
+> 
+> Nitpicking: wondering if this maybe should be something like "The Linux
+> kernel developer community" (or "Linux kernel's..."?).
 
-Signed-off-by: Oliver Glitta <glittao@gmail.com>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/vm/slub.rst | 61 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+The idea was to lot limit this to strictly developers. (i.e. cast a wide
+net.)
 
-diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index d3028554b1e9..2b2b931e59fc 100644
---- a/Documentation/vm/slub.rst
-+++ b/Documentation/vm/slub.rst
-@@ -384,5 +384,66 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
-       40,60`` range will plot only samples collected between 40th and
-       60th seconds).
- 
-+
-+DebugFS files for SLUB
-+======================
-+
-+For more information about current state of SLUB caches with the user tracking
-+debug option enabled, debugfs files are available, typically under
-+/sys/kernel/debug/slab/<cache>/ (created only for caches with enabled user
-+tracking). There are 2 types of these files with the following debug
-+information:
-+
-+1. alloc_traces::
-+
-+    Prints information about unique allocation traces of the currently
-+    allocated objects. The output is sorted by frequency of each trace.
-+
-+    Information in the output:
-+    Number of objects, allocating function, minimal/average/maximal jiffies since alloc,
-+    pid range of the allocating processes, cpu mask of allocating cpus, and stack trace.
-+
-+    Example:::
-+
-+    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
-+	__slab_alloc+0x6d/0x90
-+	kmem_cache_alloc_trace+0x2eb/0x300
-+	populate_error_injection_list+0x97/0x110
-+	init_error_injection+0x1b/0x71
-+	do_one_initcall+0x5f/0x2d0
-+	kernel_init_freeable+0x26f/0x2d7
-+	kernel_init+0xe/0x118
-+	ret_from_fork+0x22/0x30
-+
-+
-+2. free_traces::
-+
-+    Prints information about unique free traces of the currently free objects,
-+    sorted by their frequency.
-+
-+    Information in the output:
-+    Number of objects, freeing function, minimal/average/maximal jiffies since free,
-+    pid range of the freeing processes, cpu mask of freeing cpus, and stack trace.
-+
-+    Example:::
-+
-+    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
-+	kfree+0x2db/0x420
-+	acpi_ut_update_ref_count+0x6a6/0x782
-+	acpi_ut_update_object_reference+0x1ad/0x234
-+	acpi_ut_remove_reference+0x7d/0x84
-+	acpi_rs_get_prt_method_data+0x97/0xd6
-+	acpi_get_irq_routing_table+0x82/0xc4
-+	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
-+	acpi_pci_irq_lookup+0x3a/0x1e0
-+	acpi_pci_irq_enable+0x77/0x240
-+	pcibios_enable_device+0x39/0x40
-+	do_pci_enable_device.part.0+0x5d/0xe0
-+	pci_enable_device_flags+0xfc/0x120
-+	pci_enable_device+0x13/0x20
-+	virtio_pci_probe+0x9e/0x170
-+	local_pci_probe+0x48/0x80
-+	pci_device_probe+0x105/0x1c0
-+
- Christoph Lameter, May 30, 2007
- Sergey Senozhatsky, October 23, 2015
+> [...]
+> > +Passive research that is based entirely on publicly available sources,
+> > +including posts to public mailing lists and commits to public
+> > +repositories, is clearly permissible. Though, as with any research,
+> > +standard ethics must still be followed.
+> > +
+> > +Active research on developer behavior,
+> 
+> Nitpicking: when reading this for the first time I here wondered what is
+> precisely meant by "Active research". Is this maybe an established term
+> in academia I'm simply not aware of? If not, maybe simply writing
+> something like "Other research on developer behavior" or "Research on
+> developer behavior where you engage in development" avoid this.
+> 
+> > however, must be done with the
+> > +explicit agreement of, and full disclosure to, the individual developers
+> > +involved. Developers cannot be interacted with/experimented on without
+> > +consent; this, too, is standard research ethics.
+> > +
+> > +To help clarify: 
+> 
+> Follow up to above remark: If "Active research" stays above, I'd say it
+> might be worth repeating the term here to make clear what's being clarified.
+
+Hm, yeah, it was a "passive" / "active" comparison, in the sense of
+trying to describe what is examining subject's artifacts (passive)
+and interacting with subjects (active).
+
+I don't think it's an academic term, but rather an engineering term?
+
+> > sending patches to developers *is* interacting
+> > +with them, but they have already consented to receiving *good faith
+> > +contributions*. Sending intentionally flawed/vulnerable patches or
+> > +contributing misleading information to discussions is not consented
+> > +to. Such communication can be damaging to the developer (e.g. draining
+> > +time, effort, and morale) and damaging to the project by eroding
+> > +the entire developer community's trust in the contributor (and the
+> > +contributor's organization as a whole), undermining efforts to provide
+> > +constructive feedback to contributors, and putting end users at risk of
+> > +software flaws.
+> 
+> Nitpicking again: Quite a long sentence. Maybe split it up with
+> something like a "s!, undermining !; such an approach would thus undermine"
+
+Yeah, I can tweak this. That did bother me a little too.
+
+> > +Participation in the development of Linux itself by researchers, as
+> > +with anyone, is welcomed and encouraged. Research into Linux code is
+> > +a common practice, especially when it comes to developing or running
+> > +analysis tools that produce actionable results.
+> > +
+> > +When engaging with the developer community, sending a patch has
+> > +traditionally been the best way to make an impact. Linux already has
+> > +plenty of known bugs -- what's much more helpful is having vetted fixes.
+> > +Before contributing, carefully read the documentation on
+> > +:doc:`submitting patches <../process/submitting-patches>`,
+> > +:doc:`reporting issues <reporting-issues>`, and
+> > +:doc:`handling serious flaws <security-bugs>`.
+> 
+> Wonder if Documentation/process/{development-process.rst,5.Posting.rst}
+> should be linked as well.
+
+I wasn't sure what the balance should be between not enough and too much
+information. :)
+
+> Additionally not my area of expertise, but from what I'd noticed it
+> seems it's better to avoid the :doc:`foo` tag if there is no strict need
+> (and I don't think there is one in this case). For the background see here:
+> 
+> https://lore.kernel.org/all/cover.1623824363.git.mchehab+huawei@kernel.org/
+> 
+> Most of those patches got applied meanwhile afaik.
+
+Oh! Thanks for pointing that out; I'll drop all of that.
+
+> [...]
+> > +If you are a first time contributor it is recommended that the patch
+> > +itself be vetted by others privately before being posted to public lists.
+> > +(This is required if you have been explicitly told your patches need
+> > +more careful internal review.) These people are expected to have their
+> > +"Reviewed-by" tag included in the resulting patch. Finding another
+> > +developer familiar with Linux contribution, especially within your own
+> > +organization, and having them help with reviews before sending them to
+> > +the public mailing lists tends to significantly improve the quality of the
+> > +resulting patches, and there by reduces the burden on other developers.
+> 
+> I like the section, but I wonder why it's needed here. Is there anything
+> specific to patches produced from research in it there I missed when
+> reading it? If not: Wouldn't it be better to include that section as a
+> TLDR in Documentation/process/submitting-patches.rst and point there
+> instead? We already have at least two places describing how to submit
+> patches, creating yet another one (even if it's just in such a brief
+> version) somehow feels slightly wrong to me.
+
+Yeah, there is some redundancy here, but I wanted to have an example
+specifically tuned to the scenario of really fleshing out the parts we'd
+expect from a researcher to help show what context developers are
+expecting.
+
+Thanks for the review!
+
+-Kees
+
 -- 
-2.35.1
-
+Kees Cook
