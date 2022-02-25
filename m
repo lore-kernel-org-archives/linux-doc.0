@@ -2,86 +2,382 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5FEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 13:23:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1671FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Feb 2022 14:10:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241177AbiBYNXo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 08:23:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36366 "EHLO
+        id S241417AbiBYOKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 09:10:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241196AbiBYNXm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 08:23:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C477F1FEFA0;
-        Fri, 25 Feb 2022 05:23:05 -0800 (PST)
+        with ESMTP id S237142AbiBYOKr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 09:10:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C141DD0F5;
+        Fri, 25 Feb 2022 06:10:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 67234B830B8;
-        Fri, 25 Feb 2022 13:23:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0ACC340E8;
-        Fri, 25 Feb 2022 13:23:02 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A1667B831D3;
+        Fri, 25 Feb 2022 14:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C45EC340E7;
+        Fri, 25 Feb 2022 14:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645795383;
-        bh=Z72PKv1Afbtnvn/SooJudW6xoZ4FRHM0SMyv3n4+3C8=;
+        s=k20201202; t=1645798211;
+        bh=Z3SoVbshXHos/cxfHhG7VB/RjM15UbqMfAWm6h5edEc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:From;
-        b=dz0Z82piAZ47kEH/1hs6espGEdrbLnK/oQ6L+7NWZg/PoVYjzcD8B+BVlTu2V4nxf
-         8kcjJd0Uo9N25Uiq+aOF8qUTuJRrR3CVsyop9LQ3N/7U8DdEPimz8f20xZCuu3fvNw
-         ZrEEDjSXRK2JBuKu8Q2kiSZnqgEzFGNDlLSEiNETbUe40MmrSjkpYVxwENwr0hzT2i
-         leX5oKIVwYiULyvYoWG2P4+CA3XOvgn3mxFw7eFg//2bmIN516IUJ62YnSu/K8/xig
-         BBdTK1nWAeu820F5PGRJU5ceeV+lxvVkykv33mrKR2aNwsUdGORvVlS8rfAMVULfsZ
-         m5QiR2jVVu2bA==
+        b=fEtfDh/kgr/urn/ouoDc5KE2TL3KYk0dea3qzIAxfrKN47ER1UTMzw3/QtRRLzRrX
+         E2Wobtdz2m2U3ScMr/t4p8y8Vw4z921L6X0tS4Jam/UvKfcRowa8PQ4EwVsiCZJB1W
+         2WsqFgu1VmZMBzhgphOGFGGPnKvX6ITVcWC/ZUkmAcBU6g9jMrgFOFbl2uvjYwCgE0
+         NMFA2in/hIXv12FPkWfqs2romvSO5YFwGGdQnp/IeLGoS8VhKCRJM4fcGhLc45rb4Z
+         SU3qlleupDTMNtcAhy54J9Y+sC5ShnJIzS7mIpaEJ9CBwmjopkj73JYFGtoTkTZhCa
+         fipmvdb1cATkQ==
 From:   SeongJae Park <sj@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, akpm@linux-foundation.org,
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, akpm@linux-foundation.org,
         corbet@lwn.net, skhan@linuxfoundation.org, rientjes@google.com,
         xhao@linux.alibaba.com, linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 13/13] Docs/ABI/testing: Add DAMON sysfs interface ABI document
-Date:   Fri, 25 Feb 2022 13:23:00 +0000
-Message-Id: <20220225132300.12767-1-sj@kernel.org>
+Date:   Fri, 25 Feb 2022 14:10:07 +0000
+Message-Id: <20220225141007.12974-1-sj@kernel.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <YhjXQ/O0wg7AzHCq@kroah.com>
+In-Reply-To: <20220225132300.12767-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Feb 2022 14:18:59 +0100 Greg KH <gregkh@linuxfoundation.org> wrote:
+Hello Gregg,
 
-> On Fri, Feb 25, 2022 at 01:07:12PM +0000, SeongJae Park wrote:
-> > This commit adds DAMON sysfs interface ABI document under
-> > Documentation/ABI/testing.
-> > 
-> > Signed-off-by: SeongJae Park <sj@kernel.org>
-> > ---
-> >  .../ABI/testing/sysfs-kernel-mm-damon         | 276 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 277 insertions(+)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > new file mode 100644
-> > index 000000000000..11984c3a4b55
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > @@ -0,0 +1,276 @@
-> > +what:		/sys/kernel/mm/damon/
-> > +Date:		Feb 2022
-> > +Contact:	SeongJae Park <sj@kernel.org>
-> > +Description:	Interface for Data Access MONitoring (DAMON).
-> > +		See Documentation/admin-guide/mm/damon/index.rst for details.
+
+On Fri, 25 Feb 2022 13:23:00 +0000 SeongJae Park <sj@kernel.org> wrote:
+
+> On Fri, 25 Feb 2022 14:18:59 +0100 Greg KH <gregkh@linuxfoundation.org> wrote:
 > 
-> Ick, no.  Put the real details in here please.  That way it works with
-> our tools.
+> > On Fri, Feb 25, 2022 at 01:07:12PM +0000, SeongJae Park wrote:
+> > > This commit adds DAMON sysfs interface ABI document under
+> > > Documentation/ABI/testing.
+> > > 
+> > > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > > ---
+> > >  .../ABI/testing/sysfs-kernel-mm-damon         | 276 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   1 +
+> > >  2 files changed, 277 insertions(+)
+> > >  create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-damon
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+> > > new file mode 100644
+> > > index 000000000000..11984c3a4b55
+> > > --- /dev/null
+> > > +++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+> > > @@ -0,0 +1,276 @@
+> > > +what:		/sys/kernel/mm/damon/
+> > > +Date:		Feb 2022
+> > > +Contact:	SeongJae Park <sj@kernel.org>
+> > > +Description:	Interface for Data Access MONitoring (DAMON).
+> > > +		See Documentation/admin-guide/mm/damon/index.rst for details.
+> > 
+> > Ick, no.  Put the real details in here please.  That way it works with
+> > our tools.
+> 
+> Ok, thanks for the quick comment!
 
-Ok, thanks for the quick comment!
+Before sending the full series again, I'd like to get your comment if you're
+ok.  What do you think about below?
+
+diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+new file mode 100644
+index 000000000000..11984c3a4b55
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
+@@ -0,0 +1,276 @@
++what:		/sys/kernel/mm/damon/
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Interface for Data Access MONitoring (DAMON).
++		See Documentation/admin-guide/mm/damon/index.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Interface for privileged users of DAMON.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Writing a number to this file creates the number of kdamond
++		directories under the kdamonds/ directory.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/state
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the current state of the kdamond.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/pid
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the pid of the kdamond.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/nr_contexts
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Writing a number to this file creates the number of DAMON
++		context directories under the contexts/ directory.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/operations
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the monitoring operations set to
++		use for the context.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/monitoring_attrs/intervals/sample_us
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the sampling interval for the
++		context in micro-seconds.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/monitoring_attrs/intervals/aggr_us
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the aggregation interval for the
++		context in micro-seconds.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/monitoring_attrs/intervals/update_us
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the update interval for the
++		context in micro-seconds.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/monitoring_attrs/nr_regions/min
++
++WDate:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the minimum number of monitoring
++		regions for the context.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/monitoring_attrs/nr_regions/max
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the maximum number of monitoring
++		regions for the context.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/targets/nr_targets
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Writing a number to this file creates the number of monitoring
++		target directories under the targets/ directory.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/targets/<T>/pid_target
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the pid of the target process if
++		the context is for virtual address spaces monitoring.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/targets/<T>/regions/nr_regions
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Writing a number to this file creates the number of monitoring
++		region directories under the regions/ directory.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/targets/<T>/regions/<R>/start
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the start address of the
++		monitoring region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/targets/<T>/regions/<R>/end
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the end address of the monitoring
++		region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/nr_schemes
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	Writing a number to this file creates the number of DAMON-based
++		operation scheme directories under the schemes/ directory.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/action
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the action of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/sz/min
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the mimimum size of the scheme's
++		target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/sz/max
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the maximum size of the scheme's
++		target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/nr_accesses/min
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the mimimum 'nr_accesses' of the
++		scheme's target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/nr_accesses/max
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the maximum 'nr_accesses' of the
++		scheme's target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/age/min
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the mimimum 'age' of the scheme's
++		target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/access_pattern/age/max
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the mimimum 'age' of the scheme's
++		target region.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/ms
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the time quota of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/bytes
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the size quota of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/reset_interval_ms
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the quota charge reset interval.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/weights/sz_permil
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the under-quota regions
++		prioritization weight for 'nr_accesses'.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/weights/nr_accesses_permil
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the under-quota regions
++		prioritization weight for 'nr_accesses'.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/weights/age_permil
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the under-quota regions
++		prioritization weight for 'age'.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/watermarks/metric
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the metric of the watermarks for
++		the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/watermarks/interval_us
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the metric check interval of the
++		watermarks for the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/watermarks/high
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the high watermark of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/watermarks/mid
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the mid watermark of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/watermarks/low
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for setting and getting the low watermark of the scheme.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/nr_tried
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the number of regions that the action of the
++		scheme has tried.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/sz_tried
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the total size of regions that the action of
++		the scheme has tried.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/nr_applied
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the number of regions that the action of the
++		scheme has successfully applied.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/sz_applied
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the total size of regions that the action of
++		the scheme has successfully applied.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
++
++What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/stats/qt_exceeds
++Date:		Feb 2022
++Contact:	SeongJae Park <sj@kernel.org>
++Description:	File for getting the number of the exceed events of the
++		scheme's quota.
++		See Documentation/admin-guide/mm/damon/usage.rst for details.
 
 
 Thanks,
 SJ
 
 > 
-> thanks,
 > 
-> greg k-h
+> Thanks,
+> SJ
+> 
+> > 
+> > thanks,
+> > 
+> > greg k-h
