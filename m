@@ -2,127 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FE1C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Feb 2022 01:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A2BC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Feb 2022 03:27:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229445AbiBZBcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Feb 2022 20:32:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
+        id S229655AbiBZD2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Feb 2022 22:28:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiBZBcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 20:32:31 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10C021F5C6;
-        Fri, 25 Feb 2022 17:31:54 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id i21so6144190pfd.13;
-        Fri, 25 Feb 2022 17:31:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UiTIaMTvadNuDOUQ+r3Z2M0FxC+WMXeVN91hyhH29N4=;
-        b=k/nj7TehD2dELlWo3fRna5rKHHOykbwKtTX5OEUAwN6hqRcBG3/KgPtRiRCkd4+dVr
-         A5hksvcRp1fni3oc98onIeBl5dnucyBpk+bWVKgB/7TQd4x3K64jAJSHm3iH9b2/3eAf
-         sLtkWTnS5ard0bm/4h2u6eAXyqQv09L9WYhW5fmc6VIjHM6AXeJuJhJomSyPjk7AJnPs
-         qYnWrrpNq9+mzHgt8XhZhsovqFNfG+SnFH0pW9bJHd+2OKFT5hFHL9UWN1N7HgobbkPJ
-         APTja9yaUem2w0JMeRoTaQVhmhSgdCl2D97s8vf9YSGBuR3vWTHPZYvw86USeCXippmE
-         gc2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=UiTIaMTvadNuDOUQ+r3Z2M0FxC+WMXeVN91hyhH29N4=;
-        b=VC2xYRZQ1vdm+fqLN+T6IykTrUe90uEESd7qEgP+R7x8hdg6RJXhUeHthlahuKIq4J
-         cLtf1PXHwIlnfyO/fcrYa51+TqP4WrNQ6f9D+0Ophx93vE9uz7ng4bRAVnsibiQycyTp
-         1aZCZjYg8PqxBsIJ6XNkXnncOrqxibkDxZzGEdcZsLvHe7MdN1ZUTQRAHJU8JcKWEAdr
-         OS5wvQvq0ov2K3+LqGPt9Xe3uXAy4Eao8iyej+DKEi9IhNJyl0Lb5giCaBc5b6GIZ2BP
-         HqIXG+5bcu7PfxxD3TbL9KsMtMO4PkXX7sVD6mwrfm1EifcKw39tEDDQ8FyKZRkJzpzQ
-         hB0w==
-X-Gm-Message-State: AOAM531vF46ywa079lcVJP+HUhJwiOr7t7TP4K1TVOY6ylG03q1Z9lks
-        DNji/dK3qF3lgVvUWCWFIwE=
-X-Google-Smtp-Source: ABdhPJye1qRX60h5HMKkoRuESXrdN8yA9oNzIEO6VWtWfo9a05GKwe3lhVcVd2NPSxbz3a/Z01OXKQ==
-X-Received: by 2002:a05:6a00:d5b:b0:4e1:2007:87fb with SMTP id n27-20020a056a000d5b00b004e1200787fbmr10737121pfv.38.1645839114206;
-        Fri, 25 Feb 2022 17:31:54 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id p6-20020a056a000b4600b004f3bfcd8304sm4705025pfo.218.2022.02.25.17.31.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Feb 2022 17:31:53 -0800 (PST)
-Message-ID: <d70b88c0-037e-13fc-667b-de71bf4f0fde@gmail.com>
-Date:   Sat, 26 Feb 2022 10:31:51 +0900
+        with ESMTP id S229754AbiBZD2L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Feb 2022 22:28:11 -0500
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD45F3BBC5
+        for <linux-doc@vger.kernel.org>; Fri, 25 Feb 2022 19:27:37 -0800 (PST)
+X-QQ-mid: bizesmtp71t1645846020tobsl2hv
+Received: from localhost.localdomain (unknown [202.96.137.248])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sat, 26 Feb 2022 11:26:44 +0800 (CST)
+X-QQ-SSF: 01400000002000D0N000B00A0000000
+X-QQ-FEAT: iMwtnhZSIzGHLVrpCzwFeORZB+16tOANmrQOm7BWF0BWyIJNjZH8/cRezNC+m
+        9IFwNTIAgfAlGxqb5osCTTNaWPckedoqLH+CHV6rWmOqeZ3aL/OpWAY71VPpRg+d6O991B1
+        vbPpc9hOj+GWsldigJ6q64a8FKjQFi4xLuGsK7DYO7DOmYQoPmr1tcBKmBLKwgMB+2OrpsE
+        IxSbIbRfzI7Zk7a2EFil2gf/86boXrH3TCLw5VhxOPCmnaAR1Hi4XXbqn2GCA7lJRo9kYc9
+        gZUmtnRBg/mTwaglu2m2hXWdMIePqUpFpjw2v8mSKa5w/kMhozFs0LdHF6mpe5rkd4Lo1wl
+        Ypce5+Hwas2GLrgLGKZ5lc3JtsYtA==
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     corbet@lwn.net
+Cc:     akpm@linux-foundation.org, broonie@kernel.org,
+        weizhenliang@huawei.com, georgi.djakov@linaro.org,
+        skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hanshenghong2019@email.szu.edu.cn,
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: [PATCH] Documentation/vm/page_owner.rst: fix function usage information for -f option
+Date:   Sat, 26 Feb 2022 11:26:41 +0800
+Message-Id: <20220226032641.2493-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/3] docs: pdfdocs: Pull LaTeX preamble part out of
- conf.py
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <aaa9dca1-27c0-c414-77f3-c5587db0cc5b@gmail.com>
- <875yp4kqka.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <875yp4kqka.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign7
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Feb 2022 12:33:25 -0700,
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> Quote from Jon's remark [1]:
->>
->>     I do notice that Documentation/conf.py is getting large and
->>     unapproachable.  At some future point, it might be nice to pull
->>     all of the latex stuff out into a separate file where it won't
->>     scare people who stumble into it by accident.
->>
->> Pull LaTeX preamble settings added since commit 3b4c963243b1 ("docs:
->> conf.py: adjust the LaTeX document output") out into
->> sphinx/kerneldoc-preamble.sty.
->>
->> It will be copied to the build directory by the added
->> "latex_additional_files" setting in conf.py.
->>
->> As a bonus, LaTeX/TeX code can be maintained without escaping backslashes.
-> 
-> I've applied the set, thanks.  Still testing the pdfdocs build (and will
-> be for some time, naturally)
-> 
-> One little note, since you mentioned the need for backslash escapes:
-> 
->> +# Load kerneldoc specific LaTeX settings
->> +latex_elements['preamble'] += '''
->> +        % Load kerneldoc specific LaTeX settings
->> +	\\input{kerneldoc-preamble.sty}
->> +'''
-> 
-> You can avoid that problem in Python code with the use of raw strings:
-> 
-> latex_elements['preamble'] += r'''
->        % Load kerneldoc specific LaTeX settings
->        \input{kerneldoc-preamble.sty}
-> '''
-> 
-> (note the "r" on the first line).  Something for future reference.
+A previous linux-next based patch
+d7e9705bb715fc3deb16bfd5976d9d50f8d2aa67
+(tools/vm/page_owner_sort.c: fix the instructions for use)
+stated that the description for the "-f" option should be
+"Filter out the information of blocks whose memory
+has been released."
 
-Thank you for the tip.
+So I made the same changes in this document.
 
-It turns out that I unknowingly used a raw string in commit
-77abc2c230b1 ("docs: pdfdocs: One-half spacing for CJK translations").
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+---
+ Documentation/vm/page_owner.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think I copy-pasted an example from "extrapackages" key documentation.
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index aec1906976f4..32ca54757d3f 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -78,7 +78,7 @@ Usage
+ 
+ 2) Enable page owner: add "page_owner=on" to boot cmdline.
+ 
+-3) Do the job what you want to debug
++3) Do the job what you want to debug.
+ 
+ 4) Analyze information from page owner::
+ 
+@@ -126,4 +126,4 @@ Usage
+ 		-c		Cull by comparing stacktrace instead of total block.
+ 
+ 	Filter:
+-		-f		Filter out the information of blocks whose memory has not been released.
++		-f		Filter out the information of blocks whose memory has been released.
+-- 
+2.31.1
 
-Now I understand the use of raw string.
-I will convert remaining LaTeX code in conf.py to raw string(s)
-when I need to edit it in the future.
 
-        Thanks, Akira
 
-> 
-> Thanks,
-> 
-> jon
