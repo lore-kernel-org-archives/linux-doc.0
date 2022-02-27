@@ -2,285 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B72C4167E
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Feb 2022 03:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 482CDC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Feb 2022 03:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiB0DI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Feb 2022 22:08:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S229889AbiB0DuZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Feb 2022 22:50:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbiB0DI1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Feb 2022 22:08:27 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E1A5206465;
-        Sat, 26 Feb 2022 19:07:50 -0800 (PST)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4K5pH503J8z1FCsp;
-        Sun, 27 Feb 2022 11:03:13 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sun, 27 Feb 2022 11:07:48 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sun, 27 Feb 2022 11:07:47 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
-Date:   Sun, 27 Feb 2022 11:07:15 +0800
-Message-ID: <20220227030717.1464-4-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20220227030717.1464-1-thunder.leizhen@huawei.com>
-References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
+        with ESMTP id S229647AbiB0DuY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Feb 2022 22:50:24 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E3A186409;
+        Sat, 26 Feb 2022 19:49:49 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id c1so8452790pgk.11;
+        Sat, 26 Feb 2022 19:49:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Ek02eCmAnj7Z2ZCUVWU1x+42laMB9rYJ1kTYghRSfoY=;
+        b=l5LWHNq/cqCHFY23g+qTLqYtg2Mgv7d2GowvDp/LrdHdjfCCJaLU9EkWMTemApxWso
+         L7mRV+GY4NUJAOnJh+SyFoQ2AZbCvtq05jfttc8/XZcF00Ud36eKQzeSuZjVoEZHvZ++
+         8YfT3V4zEtI1guC9HOJfif2AxnmnL4ojUtunB/s9X0npaZci0zEQ2mpCn/QlbK+Z+rHf
+         sDmNpLcXXv4B+GTZTvLpRvWn4EeuaZVBpIp78cUOh+oHp0hB/7XFRhHeYX8DlFERAUXO
+         q1bgLt/dJHQCtgwP2G4oZvEMeHErFuP8cwaFoAvsmutlmF8RAK37gPgqxdt3ungrgXFy
+         nfmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Ek02eCmAnj7Z2ZCUVWU1x+42laMB9rYJ1kTYghRSfoY=;
+        b=2PGo6NH8nGiJbbJdsDXPLMBNvgMuGXCzLf4KEA98x/DJE3kocnIrf6q/XRE8cN2vXc
+         PWTTF+mKpT+VUPWs67y9s8KHk69BDnEQLFuOHsjkDitOyWi9l3V3X9b4JF6ZouAajGdZ
+         q/mStv1Ena6VXmAW+Jk2EXvWOH8jk4jcPFJMOeAzAQVI7Ay8fG7n4SFRBWQKcvA/6Pt4
+         Wprc1l3/ffWuwdLt7C+UCet9UpTZ8qZOVRZHlJq6gWRwVOwqeLm6ONPDA2GgHtQp85h5
+         E2TgaOeSDbzpwjkjtNH5gItJZuaqu/ao3YQeLjPm6WwLUk1y60ignD0lCa3Ht8TKDSTj
+         L1Xw==
+X-Gm-Message-State: AOAM530h+5ToU2ToTcAGzx3JwgzIkD5radq9IRla7OHK9Hue1NklTqfB
+        2ZNv9iOsYcMFWpb9TFvyNyU=
+X-Google-Smtp-Source: ABdhPJzzuUAQA+T6PXrJ+bSAiek9oD6PjwdZxcLhDQsJbsFHLYu0HQ9stXDcYMMzLIgqbH/QjRw64A==
+X-Received: by 2002:aa7:8a4d:0:b0:4f2:6d3f:5fe3 with SMTP id n13-20020aa78a4d000000b004f26d3f5fe3mr15220064pfa.48.1645933788551;
+        Sat, 26 Feb 2022 19:49:48 -0800 (PST)
+Received: from ip-172-31-19-208.ap-northeast-1.compute.internal (ec2-18-181-137-102.ap-northeast-1.compute.amazonaws.com. [18.181.137.102])
+        by smtp.gmail.com with ESMTPSA id lt8-20020a17090b354800b001bc509e0085sm12606983pjb.21.2022.02.26.19.49.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Feb 2022 19:49:48 -0800 (PST)
+Date:   Sun, 27 Feb 2022 03:49:42 +0000
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     David Rientjes <rientjes@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Oliver Glitta <glittao@gmail.com>,
+        Faiyaz Mohammed <faiyazm@codeaurora.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/5] slab, documentation: add description of debugfs
+ files for SLUB caches
+Message-ID: <Yhr01naZNIa2SxEd@ip-172-31-19-208.ap-northeast-1.compute.internal>
+References: <20220225180318.20594-1-vbabka@suse.cz>
+ <20220225180318.20594-6-vbabka@suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220225180318.20594-6-vbabka@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
+On Fri, Feb 25, 2022 at 07:03:18PM +0100, Vlastimil Babka wrote:
+> From: Oliver Glitta <glittao@gmail.com>
+> 
+> Add description of debugfs files alloc_traces and free_traces
+> to SLUB cache documentation.
+> 
+> [ vbabka@suse.cz: some rewording ]
+> 
+> Signed-off-by: Oliver Glitta <glittao@gmail.com>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/vm/slub.rst | 61 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+> 
+> diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+> index d3028554b1e9..2b2b931e59fc 100644
+> --- a/Documentation/vm/slub.rst
+> +++ b/Documentation/vm/slub.rst
+> @@ -384,5 +384,66 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
+>        40,60`` range will plot only samples collected between 40th and
+>        60th seconds).
+>  
+> +
+> +DebugFS files for SLUB
+> +======================
+> +
+> +For more information about current state of SLUB caches with the user tracking
+> +debug option enabled, debugfs files are available, typically under
+> +/sys/kernel/debug/slab/<cache>/ (created only for caches with enabled user
+> +tracking). There are 2 types of these files with the following debug
+> +information:
+> +
+> +1. alloc_traces::
+> +
+> +    Prints information about unique allocation traces of the currently
+> +    allocated objects. The output is sorted by frequency of each trace.
+> +
+> +    Information in the output:
+> +    Number of objects, allocating function, minimal/average/maximal jiffies since alloc,
+> +    pid range of the allocating processes, cpu mask of allocating cpus, and stack trace.
+> +
+> +    Example:::
+> +
+> +    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
+> +	__slab_alloc+0x6d/0x90
+> +	kmem_cache_alloc_trace+0x2eb/0x300
+> +	populate_error_injection_list+0x97/0x110
+> +	init_error_injection+0x1b/0x71
+> +	do_one_initcall+0x5f/0x2d0
+> +	kernel_init_freeable+0x26f/0x2d7
+> +	kernel_init+0xe/0x118
+> +	ret_from_fork+0x22/0x30
+> +
+> +
+> +2. free_traces::
+> +
+> +    Prints information about unique free traces of the currently free objects,
+> +    sorted by their frequency.
+> +
 
-There are following issues in arm64 kdump:
-1. We use crashkernel=X to reserve crashkernel below 4G, which
-will fail when there is no enough low memory.
-2. If reserving crashkernel above 4G, in this case, crash dump
-kernel will boot failure because there is no low memory available
-for allocation.
+I'm not sure that it's traces of the "currently free objects".
 
-To solve these issues, change the behavior of crashkernel=X and
-introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
-in DMA zone, and fall back to high allocation if it fails.
-We can also use "crashkernel=X,high" to select a region above DMA zone,
-which also tries to allocate at least 256M in DMA zone automatically.
-"crashkernel=Y,low" can be used to allocate specified size low memory.
+static int slab_debug_trace_open(struct inode *inode, struct file *filep)
+{
+	[...]
+        
+	obj_map = bitmap_alloc(oo_objects(s->oo), GFP_KERNEL);
+	
+	[...]
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- arch/arm64/kernel/machine_kexec.c      |   9 ++-
- arch/arm64/kernel/machine_kexec_file.c |  12 ++-
- arch/arm64/mm/init.c                   | 106 +++++++++++++++++++++++--
- 3 files changed, 115 insertions(+), 12 deletions(-)
+        for_each_kmem_cache_node(s, node, n) {
+                unsigned long flags;
+                struct slab *slab;
 
-diff --git a/arch/arm64/kernel/machine_kexec.c b/arch/arm64/kernel/machine_kexec.c
-index e16b248699d5c3c..19c2d487cb08feb 100644
---- a/arch/arm64/kernel/machine_kexec.c
-+++ b/arch/arm64/kernel/machine_kexec.c
-@@ -329,8 +329,13 @@ bool crash_is_nosave(unsigned long pfn)
- 
- 	/* in reserved memory? */
- 	addr = __pfn_to_phys(pfn);
--	if ((addr < crashk_res.start) || (crashk_res.end < addr))
--		return false;
-+	if ((addr < crashk_res.start) || (crashk_res.end < addr)) {
-+		if (!crashk_low_res.end)
-+			return false;
-+
-+		if ((addr < crashk_low_res.start) || (crashk_low_res.end < addr))
-+			return false;
-+	}
- 
- 	if (!kexec_crash_image)
- 		return true;
-diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
-index 59c648d51848886..889951291cc0f9c 100644
---- a/arch/arm64/kernel/machine_kexec_file.c
-+++ b/arch/arm64/kernel/machine_kexec_file.c
-@@ -65,10 +65,18 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
- 
- 	/* Exclude crashkernel region */
- 	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
-+	if (ret)
-+		goto out;
-+
-+	if (crashk_low_res.end) {
-+		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
-+		if (ret)
-+			goto out;
-+	}
- 
--	if (!ret)
--		ret =  crash_prepare_elf64_headers(cmem, true, addr, sz);
-+	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
- 
-+out:
- 	kfree(cmem);
- 	return ret;
- }
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 90f276d46b93bc6..30ae6638ff54c47 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -65,6 +65,44 @@ EXPORT_SYMBOL(memstart_addr);
- phys_addr_t arm64_dma_phys_limit __ro_after_init;
- 
- #ifdef CONFIG_KEXEC_CORE
-+/* Current arm64 boot protocol requires 2MB alignment */
-+#define CRASH_ALIGN			SZ_2M
-+
-+#define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
-+#define CRASH_ADDR_HIGH_MAX		memblock.current_limit
-+
-+/*
-+ * This is an empirical value in x86_64 and taken here directly. Please
-+ * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
-+ * details.
-+ */
-+#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
-+	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
-+
-+static int __init reserve_crashkernel_low(unsigned long long low_size)
-+{
-+	unsigned long long low_base;
-+
-+	/* passed with crashkernel=0,low ? */
-+	if (!low_size)
-+		return 0;
-+
-+	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
-+	if (!low_base) {
-+		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-+		return -ENOMEM;
-+	}
-+
-+	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
-+		low_base, low_base + low_size, low_size >> 20);
-+
-+	crashk_low_res.start = low_base;
-+	crashk_low_res.end   = low_base + low_size - 1;
-+	insert_resource(&iomem_resource, &crashk_low_res);
-+
-+	return 0;
-+}
-+
- /*
-  * reserve_crashkernel() - reserves memory for crash kernel
-  *
-@@ -75,30 +113,79 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
- static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_base, crash_size;
--	unsigned long long crash_max = arm64_dma_phys_limit;
-+	unsigned long long crash_low_size;
-+	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
- 	int ret;
-+	bool fixed_base, high = false;
-+	char *cmdline = boot_command_line;
- 
--	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-+	/* crashkernel=X[@offset] */
-+	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
- 				&crash_size, &crash_base);
--	/* no crashkernel= or invalid value specified */
--	if (ret || !crash_size)
--		return;
-+	if (ret || !crash_size) {
-+		/* crashkernel=X,high */
-+		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-+		if (ret || !crash_size)
-+			return;
-+
-+		/* crashkernel=Y,low */
-+		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-+		if (ret == -ENOENT)
-+			/*
-+			 * crashkernel=Y,low is not specified explicitly, use
-+			 * default size automatically.
-+			 */
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		else if (ret)
-+			/* crashkernel=Y,low is specified but Y is invalid */
-+			return;
-+
-+		/* Mark crashkernel=X,high is specified */
-+		high = true;
-+		crash_max = CRASH_ADDR_HIGH_MAX;
-+	}
- 
-+	fixed_base = !!crash_base;
- 	crash_size = PAGE_ALIGN(crash_size);
- 
- 	/* User specifies base address explicitly. */
--	if (crash_base)
-+	if (fixed_base)
- 		crash_max = crash_base + crash_size;
- 
--	/* Current arm64 boot protocol requires 2MB alignment */
--	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-+retry:
-+	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
- 					       crash_base, crash_max);
- 	if (!crash_base) {
-+		/*
-+		 * Attempt to fully allocate low memory failed, fall back
-+		 * to high memory, the minimum required low memory will be
-+		 * reserved later.
-+		 */
-+		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
-+			crash_max = CRASH_ADDR_HIGH_MAX;
-+			goto retry;
-+		}
-+
- 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
- 			crash_size);
- 		return;
- 	}
- 
-+	if (crash_base >= SZ_4G) {
-+		/*
-+		 * For case crashkernel=X, low memory is not enough and fall
-+		 * back to reserve specified size of memory above 4G, try to
-+		 * allocate minimum required memory below 4G again.
-+		 */
-+		if (!high)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+
-+		if (reserve_crashkernel_low(crash_low_size)) {
-+			memblock_phys_free(crash_base, crash_size);
-+			return;
-+		}
-+	}
-+
- 	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
- 		crash_base, crash_base + crash_size, crash_size >> 20);
- 
-@@ -107,6 +194,9 @@ static void __init reserve_crashkernel(void)
- 	 * map. Inform kmemleak so that it won't try to access it.
- 	 */
- 	kmemleak_ignore_phys(crash_base);
-+	if (crashk_low_res.end)
-+		kmemleak_ignore_phys(crashk_low_res.start);
-+
- 	crashk_res.start = crash_base;
- 	crashk_res.end = crash_base + crash_size - 1;
- 	insert_resource(&iomem_resource, &crashk_res);
+                if (!atomic_long_read(&n->nr_slabs))
+                        continue;
+
+                spin_lock_irqsave(&n->list_lock, flags);
+                list_for_each_entry(slab, &n->partial, slab_list)
+                        process_slab(t, s, slab, alloc, obj_map);
+                list_for_each_entry(slab, &n->full, slab_list)
+                        process_slab(t, s, slab, alloc, obj_map);
+                spin_unlock_irqrestore(&n->list_lock, flags);
+        }
+
+	[...]
+
+}
+
+static void __fill_map(unsigned long *obj_map, struct kmem_cache *s,
+                       struct slab *slab)
+{
+        void *addr = slab_address(slab);
+        void *p;
+
+        bitmap_zero(obj_map, slab->objects);
+
+        for (p = slab->freelist; p; p = get_freepointer(s, p))
+                set_bit(__obj_to_index(s, addr, p), obj_map);
+}
+
+static void process_slab(struct loc_track *t, struct kmem_cache *s,
+                struct slab *slab, enum track_item alloc,
+                unsigned long *obj_map)
+{
+        void *addr = slab_address(slab);
+        void *p;
+
+        __fill_map(obj_map, s, slab);
+
+        for_each_object(p, s, addr, slab->objects)
+                if (!test_bit(__obj_to_index(s, addr, p), obj_map))
+                        add_location(t, s, get_track(s, p, alloc));
+}
+
+I think it's not traces of "currently free objects"
+because index bit of free objects are set in obj_map bitmap?
+
+It's weird but it's traces of allocated objects that have been freed at
+least once (or <not available>)
+
+I think we can fix the code or doc?
+
+Please tell me if I'm missing something :)
+
+> +    Information in the output:
+> +    Number of objects, freeing function, minimal/average/maximal jiffies since free,
+> +    pid range of the freeing processes, cpu mask of freeing cpus, and stack trace.
+> +
+> +    Example:::
+> +
+> +    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
+> +	kfree+0x2db/0x420
+> +	acpi_ut_update_ref_count+0x6a6/0x782
+> +	acpi_ut_update_object_reference+0x1ad/0x234
+> +	acpi_ut_remove_reference+0x7d/0x84
+> +	acpi_rs_get_prt_method_data+0x97/0xd6
+> +	acpi_get_irq_routing_table+0x82/0xc4
+> +	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
+> +	acpi_pci_irq_lookup+0x3a/0x1e0
+> +	acpi_pci_irq_enable+0x77/0x240
+> +	pcibios_enable_device+0x39/0x40
+> +	do_pci_enable_device.part.0+0x5d/0xe0
+> +	pci_enable_device_flags+0xfc/0x120
+> +	pci_enable_device+0x13/0x20
+> +	virtio_pci_probe+0x9e/0x170
+> +	local_pci_probe+0x48/0x80
+> +	pci_device_probe+0x105/0x1c0
+> +
+
+Everything else looks nice!
+
+>  Christoph Lameter, May 30, 2007
+>  Sergey Senozhatsky, October 23, 2015
+> -- 
+> 2.35.1
+> 
+> 
+
 -- 
-2.25.1
-
+Thank you, You are awesome!
+Hyeonggon :-)
