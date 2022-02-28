@@ -2,136 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D95EC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 03:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94212C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 03:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232740AbiB1DSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Feb 2022 22:18:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42526 "EHLO
+        id S233015AbiB1Doe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Feb 2022 22:44:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232859AbiB1DSq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Feb 2022 22:18:46 -0500
-Received: from APC01-HK2-obe.outbound.protection.outlook.com (mail-eopbgr1300095.outbound.protection.outlook.com [40.107.130.95])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3262C107;
-        Sun, 27 Feb 2022 19:18:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q9l02d7FKLE1+ZYoovvCLgr59ZOkhkEl6K3ujn9ySzPFupPxiWYGjkDM+bfMFnIcStHT3EX964Z+esfXZw3Jiv9mDuFHF/Ifh0/WCTlxVKQKAWYGnvAgXWvckfiXkkE7o0npyegDvKYhsrIskQqXPbM05WW1w/XT5HZMHPXMSrkiQ9ojAyANo+mVslqEdrwovT4AUY9PxfZUm09o/924Szl/rncR5MMFa9OPFPQWM4aGG00Za68oK4SjGvvqPC3L2DjO/s8b24HW32nq98vVl6b32m6TFgFQBbo1GNzw0AO0CjL/uq22O4N9DAj7N1RNiyQnwDv1wdysN8to1sQX4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QpqtCruvwxiE+pHD7DHqMHh3tVZqN7tyXreNG9q7zh4=;
- b=J5p/SLP1v7AzFjg5Uuni9jBHG9hhS9XzKgcg/9YH0HaNToKx1NUe0RKkcybu7X6IXF39fe2aOBLamSY3jqWr5pHrn44XOE57mmZoY47rqcEBv7fojcgV9Lnb+zIppG72XwCXN/kwabQQiqgpUNFvjTKPbltbj9AYDQf7xHnD61zmLazQEU0XCgyCKPQFPptkSOqZ5kfdTR8LNxjTQvIml5DyVt/f5Z4UPGul1fsJCc1H/yB3Mpl93tjssGGgGx2Z7etbaFpfVZ0LP4XaLd+Ou/rE9F9O64oPotPc/2HIhg64cTYXEpDbbBW0fPJdUe14Zm8ufp/SD9HAzm/qm9pYSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QpqtCruvwxiE+pHD7DHqMHh3tVZqN7tyXreNG9q7zh4=;
- b=Q0TYkKBg+oNJJ6AROtsOhD0B24IM+nvO5/uJV3/cxYmAzLBBc4r2C2nGf5GgDpz0p6KHpnitvxcjtSbZB3qN7FSD+VcA3mupVhPRTg26gmH6Z6Zz5LaQP3K1gfHjS7vxCYyTbnO7Kz3qGpYCYoaT4pFmT9orMt4e1ykP5Xfd0eI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
- TYZPR06MB4689.apcprd06.prod.outlook.com (2603:1096:400:125::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.24; Mon, 28 Feb 2022 03:18:05 +0000
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::9d3f:ff3b:1948:d732]) by SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::9d3f:ff3b:1948:d732%4]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
- 03:18:05 +0000
-From:   Wan Jiabing <wanjiabing@vivo.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Wan Jiabing <wanjiabing@vivo.com>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        Qi Liu <liuqi115@huawei.com>, Will Deacon <will@kernel.org>,
-        John Garry <john.garry@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     jiabing.wan@qq.com
-Subject: [PATCH] docs: fix 'make htmldocs' warning in perf
-Date:   Mon, 28 Feb 2022 11:16:56 +0800
-Message-Id: <20220228031700.1669086-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.35.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HKAPR04CA0017.apcprd04.prod.outlook.com
- (2603:1096:203:d0::27) To SG2PR06MB3367.apcprd06.prod.outlook.com
- (2603:1096:4:78::19)
+        with ESMTP id S232989AbiB1Dob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Feb 2022 22:44:31 -0500
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF1D3BA4B;
+        Sun, 27 Feb 2022 19:43:52 -0800 (PST)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21RLWt4K008207;
+        Mon, 28 Feb 2022 03:43:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=8vC1OZK1nNYWF0YYyYwoLSw1BkaA8imP9N4exKKwzSY=;
+ b=oLzjV1YuvVw8YQcr4MQ/BPNX2Mv+0MG02NfKXUy27z2KUjCcSSMgOgkXc8DF5f4mH8sg
+ yZ3cAOEzKxkFIsJBBPUbWJ8zOuDQ8I0MbzQXxtSX1Y4IF27+g2eZfuS3eY4FaICQp9bY
+ drrYXktlHV4SglJJbom1gLhhDgIgw3Bo/tjNs5ECSJbscy89NydlmlSf1OXyV6T0s9R5
+ 2kj4zugIM5AJMGDDivDfa37809B/CYDEuyHE4hoKXP/qFaJ2quwAD1MAJHUZjznXxSUy
+ rlcyrYUaPn0wL8TrNml+3ycaLPEcj7Nu4qA6n2PsUVrWieYA2/4fgDq7k76yyXCs/RdW VA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3efb02k1qu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 28 Feb 2022 03:43:32 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21S3b9eo157682;
+        Mon, 28 Feb 2022 03:43:31 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 3efa8bxnv5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 28 Feb 2022 03:43:31 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 21S3hPvu165853;
+        Mon, 28 Feb 2022 03:43:30 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+        by aserp3030.oracle.com with ESMTP id 3efa8bxnt3-6;
+        Mon, 28 Feb 2022 03:43:30 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     jinpu.wang@cloud.ionos.com, artur.paszkiewicz@intel.com,
+        hch@lst.de, chenxiang66@hisilicon.com,
+        damien.lemoal@opensource.wdc.com, jejb@linux.ibm.com,
+        John Garry <john.garry@huawei.com>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        linux-doc@vger.kernel.org, Ajish.Koshy@microchip.com,
+        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        liuqi115@huawei.com, yanaijie@huawei.com, Viswas.G@microchip.com,
+        linuxarm@huawei.com
+Subject: Re: [PATCH v3 00/18] scsi: libsas and users: Factor out LLDD TMF code
+Date:   Sun, 27 Feb 2022 22:43:20 -0500
+Message-Id: <164601967778.4503.718375483137953817.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <1645534259-27068-1-git-send-email-john.garry@huawei.com>
+References: <1645534259-27068-1-git-send-email-john.garry@huawei.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd44b03e-d545-4545-7add-08d9fa68ef38
-X-MS-TrafficTypeDiagnostic: TYZPR06MB4689:EE_
-X-Microsoft-Antispam-PRVS: <TYZPR06MB46890C4BE9C1CE02FF2B86D8AB019@TYZPR06MB4689.apcprd06.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c0nPMij2V71A/6g+mTxZTbAYtLFzYE2BxbkSmpSPAKOO81Pf2U2PXLD9dCQUCGmnsWMKfpQyOFkG9aP1aAw83RDFEXOxh+/k9+PlaIIFScNbqhzUhb/vLdRdD8/rtkNFt3FNBIu5eJMsC3JRH9TZB7VCZ2499hkWVs/21e9ZLfEfLgEkdUFEKtS8lJkk7HN//CcSSSBitgNEVTklZP9vQFllkI1dgKK8eKdk8mDSEaQfQbMQX7L1jiHTyJxrzjqEa6JEhRznXCvp/8BKMkLO8nE4kxQWbXbzPEeuxcX2wBRw9zubAOCoZ9ARv5hwcqPYmhEc369neuxn8oLVnd67HdCrc9h4oQB5hU9rAJ32N8cjRdEQBvDs6267I3hasvE/ctephmx8hmTWGVlRlyATmKFVfz+tfl7xO4JxSEgCLKkx0gNQMOAyoypEfx9DmqQcsupOuCfJBSXrI+u12x0OpguxC33gGfj5iQcsrb9IEJo/kyaqbqWOJWe+m3ro9xW0Tu4v0C6UolxBLYz0BvOlHDCcUdad15OEXG/Gd3regp/q9IM9CNOYvHpJ9EOwaw5RfmTcMFh6v1qY+56tPOsr6XOYJ9MVolysb+py2a0N60ih7G0hszu90K0hSJhoL7OPMbM7dNPAuxypB6X5bFON9k7oI4nTg0uUedRYi/X6ttl6kx79q2Ca/hS9B9okprG+wf/OrruVuHBUvUOk+3GZuw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4326008)(66556008)(110136005)(66476007)(66946007)(316002)(8676002)(86362001)(4744005)(2906002)(5660300002)(38100700002)(38350700002)(8936002)(2616005)(26005)(186003)(1076003)(508600001)(6486002)(6506007)(6512007)(52116002)(6666004)(83380400001)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5FrLRe8Vj9r00DVIjdy7wgfmCmKD37XHJKtfbYxkQHjXPeIVqJlYIoGyPZBU?=
- =?us-ascii?Q?Zp6/I2ZUlVutpta3y4tsjabH/Vc6nq3vqGU2XG2DiF3to6bVbdVT7hfU1T4R?=
- =?us-ascii?Q?HaBxxsu+3gZg7MbzpbvCF4ao+7uVKLTIFWlgv96VQOAooGqfJDnIjQuWFcBa?=
- =?us-ascii?Q?+5P0Tuzyd9B1vxViQcI7NATgSV95A5cEjI3pjlpxQu71wyn4UIKeNf+mFWuw?=
- =?us-ascii?Q?ahT92OBb4OmvT5mvvx2ChR2oWtk164WdyTAeLx/wrJtS6xL71p0xBkAL8LyR?=
- =?us-ascii?Q?39DyVA/wawK1JzendBSxMQrUX6eYgGvrSvZj/w2FS4n+yvAgP2qjdNfzX22F?=
- =?us-ascii?Q?+NzosLE14V4MjIvmXT0RlEChpz+4pOVu/1HUEpvY2sBoUDvtbpYtyppJVXiP?=
- =?us-ascii?Q?1Qa8GaVTLCmUy66cf+OrTtHRQ8DCfJkbYKQlxpGIDdFmFsNxRoDAxI9a9MrP?=
- =?us-ascii?Q?TZV4qO3SpFYEuha22WG5G53DFK+PBbQReViW1ANk/mcRsh8/shalAK9Q+3J3?=
- =?us-ascii?Q?xbcX+A5qdjBvyWhTp4grFrnwFTw/e+TQfdk9u2GwH63sGTFtDs10xMblemSh?=
- =?us-ascii?Q?p8SB8AqHsSO/pu3RLQbUAc+oyFE5bbejA4oJnfvW6WyqRtqIUGuehjvhl5rC?=
- =?us-ascii?Q?sl3vqe4/XkyfV7lo+meEbEGtkFctmeKPCjFZLGv4un/hrXMuDjGX4meNbN/v?=
- =?us-ascii?Q?GKGW95tIhjd50fOica4G388A0wUYOa/aQeR5bGzJ77aCIQf1Q8lX31Ns5o21?=
- =?us-ascii?Q?Vk1ra54mKyJzs5WIDu9+EXu+WC+qUygO0akR9DhmJho9fb2JC9qORSU1ZLSW?=
- =?us-ascii?Q?6Cp546AghQE2yaZK2giYgdVLjGL3BapScPWZMf0c/PL35x8SYlSu9E0Jty2w?=
- =?us-ascii?Q?BZU3HkpkVLM2KYFKsCETyrUk57Wn3hMRwRC4EUd96nVo6xTDSDAcWPo6XZ23?=
- =?us-ascii?Q?fPnEhNOIoRRfU4/BmHv/+VNBTUwttOG+ppmSoFn1xlea0mNhcTOlow/dNpl1?=
- =?us-ascii?Q?hiIMvmlRXAY2Q3zgJwDaaEuLai0TXitEbeGneZDQr2sDiDqPIpjahQCdnJqG?=
- =?us-ascii?Q?pAVFw5tN4Ly2N0BdaIC1/nXX3e5VdXHweVs/fSfLz3strC3xl1gsjDZ41ICX?=
- =?us-ascii?Q?zZhuZefNcG4PRtfpZm9H+G8WBJf8AFwQk5chnjEQ6l5cPXk4Gj8QRDakdhZA?=
- =?us-ascii?Q?ZUBON2TF9Q0EAUzxnbHZ0FutA/OLEOc0c7cMwhAH0DHbTOUPr4pP8mWdayNT?=
- =?us-ascii?Q?pj9xDfywVq78g+5ZKSQpRwbRlA+8dVX0Tn5vtu7fxwVwxuPzJ+x2v0wOlMOV?=
- =?us-ascii?Q?i2197qxmhpCILTqvVK0A4cawFwESEj91Ex5lVYOKrC1JqabX87m4TjPZpvfo?=
- =?us-ascii?Q?T/8H/Ccr1SKT69E6fMNAaFRfEL4hP05I+U+tlvgrMxZ0Gw+pX/VPu4pC/z5E?=
- =?us-ascii?Q?nJWHm46hCkr/ejBcAmcQQsLIQNBQ9vMBGqUtxiu6tLNkzbU8mkYFv7HJFucm?=
- =?us-ascii?Q?zI6DOnL9dlhoiNYnEYZGRNTkdL0uK59e9LYp1R03/+qSjU9+RXbpRAr/FQi6?=
- =?us-ascii?Q?HMcAkoeScdQ+RXVz+37r8iA0258N57m3Xvd/vZe0FG41XwooNaO08Khx66Q4?=
- =?us-ascii?Q?Y71X5KGcmiN4oQIXlSPhdp8=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd44b03e-d545-4545-7add-08d9fa68ef38
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 03:18:04.9290
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cSBVP/8QLlT89/V3WZWdgs2IsD6PkoKzw3kF+MOHmwImM+YNYioezDi5m9UZbyKAu/oumMWNeLrv9639Xrfxig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4689
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: s9SiSDTFch1kvu-bDVgPfQwCL3_tVd6o
+X-Proofpoint-ORIG-GUID: s9SiSDTFch1kvu-bDVgPfQwCL3_tVd6o
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix following 'make htmldocs' warnings:
-./Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING:
-document isn't included in any toctree
+On Tue, 22 Feb 2022 20:50:41 +0800, John Garry wrote:
 
-Fixes: c8602008e247 ("docs: perf: Add description for HiSilicon PCIe PMU driver")
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- Documentation/admin-guide/perf/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+> This is just an update of the series to fix a build error, as reported
+> here:
+> https://lore.kernel.org/lkml/59b538b7-b4c5-8111-d2bf-7fb353ecb19b@huawei.com/
+> 
+> Original cover letter is here:
+> https://lore.kernel.org/linux-scsi/0d4f988d-881c-3717-f9d8-38739cf17e91@opensource.wdc.com/T/#mcae9d344f2795bdbb8845da29a140b58dbafb6f8
+> 
+> [...]
 
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-index 5a8f2529a033..69b23f087c05 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -8,6 +8,7 @@ Performance monitor support
-    :maxdepth: 1
- 
-    hisi-pmu
-+   hisi-pcie-pmu
-    imx-ddr
-    qcom_l2_pmu
-    qcom_l3_pmu
+Applied to 5.18/scsi-queue, thanks!
+
+[01/18] scsi: libsas: Handle non-TMF codes in sas_scsi_find_task()
+        https://git.kernel.org/mkp/scsi/c/9aacf6fe9059
+[02/18] scsi: libsas: Use enum for response frame DATAPRES field
+        https://git.kernel.org/mkp/scsi/c/1d6049a3b14f
+[03/18] scsi: libsas: Delete lldd_clear_aca callback
+        https://git.kernel.org/mkp/scsi/c/25882c82f850
+[04/18] scsi: libsas: Delete SAS_SG_ERR
+        https://git.kernel.org/mkp/scsi/c/2dd6801a671c
+[05/18] scsi: hisi_sas: Delete unused I_T_NEXUS_RESET_PHYUP_TIMEOUT
+        https://git.kernel.org/mkp/scsi/c/da19eaba6e75
+[06/18] scsi: libsas: Move SMP task handlers to core
+        https://git.kernel.org/mkp/scsi/c/4aef43b25df2
+[07/18] scsi: libsas: Add struct sas_tmf_task
+        https://git.kernel.org/mkp/scsi/c/bbfe82cdbaf8
+[08/18] scsi: libsas: Add sas_task.tmf
+        https://git.kernel.org/mkp/scsi/c/96e54376a8b2
+[09/18] scsi: libsas: Add sas_execute_tmf()
+        https://git.kernel.org/mkp/scsi/c/001ec7f89bea
+[10/18] scsi: libsas: Add sas_execute_ssp_tmf()
+        https://git.kernel.org/mkp/scsi/c/350d85ba5bad
+[11/18] scsi: libsas: Add TMF handler exec complete callback
+        https://git.kernel.org/mkp/scsi/c/2037a340314f
+[12/18] scsi: libsas: Add TMF handler aborted callback
+        https://git.kernel.org/mkp/scsi/c/693e66a0a6ac
+[13/18] scsi: libsas: Add sas_abort_task_set()
+        https://git.kernel.org/mkp/scsi/c/69b80a0ed0b5
+[14/18] scsi: libsas: Add sas_clear_task_set()
+        https://git.kernel.org/mkp/scsi/c/e8585452953a
+[15/18] scsi: libsas: Add sas_lu_reset()
+        https://git.kernel.org/mkp/scsi/c/29d7769055a2
+[16/18] scsi: libsas: Add sas_query_task()
+        https://git.kernel.org/mkp/scsi/c/72f8810e1fdc
+[17/18] scsi: libsas: Add sas_abort_task()
+        https://git.kernel.org/mkp/scsi/c/4fea759edfa7
+[18/18] scsi: libsas: Add sas_execute_ata_cmd()
+        https://git.kernel.org/mkp/scsi/c/3f2e252ef727
+
 -- 
-2.35.1
-
+Martin K. Petersen	Oracle Linux Engineering
