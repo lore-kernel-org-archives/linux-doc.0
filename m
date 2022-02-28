@@ -2,44 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E95A4C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 16:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B82ABC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 17:08:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238046AbiB1Q5B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 11:57:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42940 "EHLO
+        id S236514AbiB1RIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 12:08:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233487AbiB1Q5B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 11:57:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF2D79C75;
-        Mon, 28 Feb 2022 08:56:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 71B42612CB;
-        Mon, 28 Feb 2022 16:56:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46A1C340E7;
-        Mon, 28 Feb 2022 16:56:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646067380;
-        bh=523gBdVPJChXozDXmy5Cb2pK2i/xRfAcGRZVUQAHjNc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LgVJuH4da0tpuW1nX+TSzWKpqT1/5OI3uq9Url+IKydIaNvJrwxxCJ02pDsUamp0J
-         BXgyENWeP0ucoramTVXNaT23Z6w+IPOpRsVnisqnZwdBL4ARuBusSY6JLdz3305OfE
-         YtZvql2BfkwdTq2LxRIJRizjGmx3hngX5RBUDcSxgf2mLkssqkaZFIqarTisHboNdy
-         Xy986yF0zeYZbw6HX61O+ecCg/MIlsoP4bKonolKYJ+91DSdYuEy6Ckl7v583fSXhJ
-         fxInQ5iK44jGAKr2Pvl9ywk4psfT+Vv0H/AbdegLc3kV5x8iLrYBvahTmACsIjfZ5u
-         Ol9BFIfpBb+FA==
-Date:   Mon, 28 Feb 2022 09:56:13 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Marco Elver <elver@google.com>,
+        with ESMTP id S235657AbiB1RIs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 12:08:48 -0500
+X-Greylist: delayed 240 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Feb 2022 09:08:06 PST
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A758533E12;
+        Mon, 28 Feb 2022 09:08:05 -0800 (PST)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 21SH7qjg001599;
+        Tue, 1 Mar 2022 02:07:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 21SH7qjg001599
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646068072;
+        bh=98mZh3DSkLLdEUaUpwDchiQq5D3wILeXQhtbg+uZ5C0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=D7+3GydIml5G5ULFdTIEOoeqAwyMiUllHF3GnHTuWW10nvZHqUydYyT+Jh/PjJc0C
+         9dGdscCwyV7M2qIK+TzlPN1lAgIFyW+LG8jTroxw3JcjB6xKD7AirJYq0hUGTm8FH0
+         G+ADSE21IaerZgVAUzhrazbpc1LG5nCdoDPIyOH+HiPFxvUV/fpB4XJyJl5QpYMKTS
+         4ZTfUYOn5AT4FiPGSuUklu/G/I3NUW/sdn3Ghx5EQK34yrsnKdstPivvN6BQ2Vg4IY
+         ckEBCcFgDL3VltZ5/Wnp4REwrg9Mbqj+hvGqQh0dDV6gu6iHvDuGU/mp/Vm9sD7zLJ
+         M5BfVt3YSVuhQ==
+X-Nifty-SrcIP: [209.85.215.171]
+Received: by mail-pg1-f171.google.com with SMTP id bc27so3199726pgb.4;
+        Mon, 28 Feb 2022 09:07:52 -0800 (PST)
+X-Gm-Message-State: AOAM533ZQQRv9BZdlSf1H6fD9183Jw+blY7bLetooRw1g+AKcoSk6sxc
+        xqUAdO8d0vJTNfQ7K1s2koHl/S6hFhx4aqW5jdo=
+X-Google-Smtp-Source: ABdhPJyLr4NM5Xb8MWbTJd6oMf6oOtnn2XpS61KrD/xyflT+Su6ouIqvNpJKrYGOOASYu0nk5xFAElbhZTOY0HMSDmM=
+X-Received: by 2002:a63:e758:0:b0:378:8511:cfe7 with SMTP id
+ j24-20020a63e758000000b003788511cfe7mr7050358pgk.126.1646068071650; Mon, 28
+ Feb 2022 09:07:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20220228103142.3301082-1-arnd@kernel.org> <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
+In-Reply-To: <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 1 Mar 2022 02:07:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATbX3TfETQTAr=e5kQLMDSXSn_KetDKTAaeZSq9k_70Uw@mail.gmail.com>
+Message-ID: <CAK7LNATbX3TfETQTAr=e5kQLMDSXSn_KetDKTAaeZSq9k_70Uw@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-        Jonathan Corbet <corbet@lwn.net>,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -47,106 +59,75 @@ Cc:     Marco Elver <elver@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-doc-tw-discuss@lists.sourceforge.net,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Intel Graphics <intel-gfx@lists.freedesktop.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <Yhz+rfcdp9jxgr+P@archlinux-ax161>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <CANpmjNP6VE9G8Yng4W7Mayk-0QsqUtAXkrMUSvL5pAP5DpXSmA@mail.gmail.com>
- <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
+        linux-btrfs@vger.kernel.org, Marco Elver <elver@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 12:57:55PM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 28, 2022 at 12:47 PM Marco Elver <elver@google.com> wrote:
-> > On Mon, 28 Feb 2022 at 11:32, Arnd Bergmann <arnd@kernel.org> wrote:
+On Mon, Feb 28, 2022 at 8:25 PM Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> Hi Arnd,
+>
+> This is great!
+>
+> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
 > >
-> > > Nathan Chancellor reported an additional -Wdeclaration-after-statement
-> > > warning that appears in a system header on arm, this still needs a
-> > > workaround.
+> > During a patch discussion, Linus brought up the option of changing
+> > the C standard version from gnu89 to gnu99, which allows using variable
+> > declaration inside of a for() loop. While the C99, C11 and later standards
+> > introduce many other features, most of these are already available in
+> > gnu89 as GNU extensions as well.
 > >
-> > On the topic of Wdeclaration-after-statement, Clang only respects this
-> > warning with C99 and later starting with Clang 14:
-> > https://github.com/llvm/llvm-project/commit/c65186c89f35#diff-ec770381d76c859f5f572db789175fe44410a72608f58ad5dbb14335ba56eb97R61
+> > An earlier attempt to do this when gcc-5 started defaulting to
+> > -std=gnu11 failed because at the time that caused warnings about
+> > designated initializers with older compilers. Now that gcc-5.1 is the
+> > minimum compiler version used for building kernels, that is no longer a
+> > concern. Similarly, the behavior of 'inline' functions changes between
+> > gnu89 and gnu11, but this was taken care of by defining 'inline' to
+> > include __attribute__((gnu_inline)) in order to allow building with
+> > clang a while ago.
 > >
-> > Until Clang 14, -Wdeclaration-after-statement is ignored by Clang in
-> > newer standards. If this is a big problem, we can probably convince
-> > the Clang stable folks to backport the fixes. However, the build won't
-> > fail, folks might just miss the warning if they don't also test with
-> > GCC.
-
-Unfortunately, none of the branches prior to release/14.x are going to
-see any more updates (at least as far as I am aware, as the LLVM
-community only supports one release branch at a time) but as Arnd
-mentioned below, I do not really see that as a problem, as newer
-versions of clang and GCC will catch these warnings.
-
-> I don't expect this is to be a big issue, as long as the latest clang behaves
-> as expected. There are many warnings that are only produced by one of the
-> two compilers, so this is something we already deal with.
-> 
-> I think it's more important to address the extra warning that Nathan
-> reported, where clang now complains about the intermingled declaration
-> in a system header when previously neither gcc nor clang noticed this.
-
-Right. Based on the upstream LLVM bug, I think we should just fix
-arm_neon.h to avoid triggering -Wdeclaration-after-statement to have
-something that is (hopefully) relatively low risk for a clang-14
-backport, rather than addressing the root cause of clang warning in
-system macros, as it sounds like fixing that has some risks that are not
-fully understood at this point. The kernel only uses very specific
-system headers after commit 04e85bbf71c9 ("isystem: delete global
--isystem compile option"), so I don't think that my suggested approach
-will have many downsides.
-
-I think I see how to potentially fix arm_neon.h in
-clang/utils/TableGen/NeonEmitter.cpp, I just have to think about it a
-little more.
-
-Realistically, I don't think special casing this in lib/raid6 is the end
-of the world:
-
-diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 45e17619422b..a41ff71b90af 100644
---- a/lib/raid6/Makefile
-+++ b/lib/raid6/Makefile
-@@ -38,6 +38,10 @@ ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
- NEON_FLAGS := -ffreestanding
- # Enable <arm_neon.h>
- NEON_FLAGS += -isystem $(shell $(CC) -print-file-name=include)
-+# https://github.com/ClangBuiltLinux/linux/issues/1603
-+ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_CPU_BIG_ENDIAN),yy)
-+NEON_FLAGS += -Wno-declaration-after-statement
-+endif
- ifeq ($(ARCH),arm)
- NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
- endif
-
-> > > The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
-> > > minimal and mainly impact warnings at the -Wpedantic level that the
-> > > kernel never enables. Between these, gnu11 is the newest version
-> > > that is supported by all supported compiler versions, though it is
-> > > only the default on gcc-5, while all other supported versions of
-> > > gcc or clang default to gnu1x/gnu17.
-> > >
-> > > Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > > Cc: linux-kbuild@vger.kernel.org
-> > > Cc: llvm@lists.linux.dev
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > One minor issue that remains is an added gcc warning for shifts of
+> > negative integers when building with -Werror, which happens with the
+> > 'make W=1' option, as well as for three drivers in the kernel that always
+> > enable -Werror, but it was only observed with the i915 driver so far.
+> > To be on the safe side, add -Wno-shift-negative-value to any -Wextra
+> > in a Makefile.
 > >
-> > Acked-by: Marco Elver <elver@google.com>
+> > Nathan Chancellor reported an additional -Wdeclaration-after-statement
+> > warning that appears in a system header on arm, this still needs a
+> > workaround.
+>
+> FWIW, I had a go at moving to c99 a few weeks ago (to be able to use
+> for-loop-declarations in some concurrency primitives), and when I tried, I also
+> saw declaration-after-statement warnings when building modpost.c, which is easy
+> enough to fix:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=treewide/gnu99&id=505775bd6fd0bc1883f3271f826963066bbdc194
+>
 
-Cheers,
-Nathan
+
+I do not understand this statement:
+
+"Usually such warnings are implciitly enabled as part of `-std=gnu89`,
+ and in preparation for changing the standard used, this patch explciitly
+enales the warnings with `-Wdeclaration-after-statement`, which takes
+effect regardless of which version of the C standard is in use."
+
+
+
+modpost is already built with -std=gnu89.
+
+If  Wdeclaration-after-statement is implied by gnu89,
+why did nobody notice this before?
+
+
+-- 
+Best Regards
+Masahiro Yamada
