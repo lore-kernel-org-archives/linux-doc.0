@@ -2,112 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0277C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 17:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 779E2C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 18:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238501AbiB1Rpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 12:45:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        id S239181AbiB1SjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 13:39:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238490AbiB1Rpc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 12:45:32 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D880D43EDE;
-        Mon, 28 Feb 2022 09:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646069870; x=1677605870;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YtFAYAFND6XX0wPXuY5rYg2LX5oHVkQyEKvx0qDeeZw=;
-  b=egAxhoxCfkCRjZgJUphGW24wumXkeyy8zvBgtHJM+7cr4GvaBRyIL0k8
-   2qpj8YbhBG744LJMzSA2JLpMkuk5tiuqsIykRWYgYvOfn85SJRyksERwS
-   JjaXiz4uV7Ih+VajWcZsxLK84xCXmEagsgWcRAtA4Gct7fYpG1Lo0xmJb
-   bN6xAgoObcxfjdXM5sedxC/IzR0yevGyMknajTZj29lJ/miBq9qbdQuJ8
-   MIrr13KZ4aJK6R2+XmjU1MWQYizQHza02ZNAvOVzBsoILv+RiPYUW0p12
-   sPdQT+hqBHVqW5WDRyLudYQgikq6M+hLGmdQdGvAQjspTKeWeVPo3BBuy
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="316154512"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
-   d="scan'208";a="316154512"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 09:37:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
-   d="scan'208";a="608524901"
-Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2022 09:37:15 -0800
-Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nOjxS-0007cY-Mj; Mon, 28 Feb 2022 17:37:14 +0000
-Date:   Tue, 1 Mar 2022 01:37:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH 3/3] mm: hugetlb: add hugetlb_free_vmemmap sysctl
-Message-ID: <202203010141.TqyZvdm5-lkp@intel.com>
-References: <20220228071022.26143-4-songmuchun@bytedance.com>
+        with ESMTP id S240711AbiB1Si1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 13:38:27 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87ECB403D2;
+        Mon, 28 Feb 2022 10:25:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 238B0614DE;
+        Mon, 28 Feb 2022 18:25:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FD1C34103;
+        Mon, 28 Feb 2022 18:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646072712;
+        bh=W7p79vSB6J1+jxnozFyNib9GmWcAolUohfmSDG//bFo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bW1ZFMo50q0kPFmsangI6ntG68WPn+8ztd5psh0iHHbmPXGd2Do9g5exX/orPNmoF
+         TbileAdECwDuGZ3+humcDGlnOjlNYxeI3qAjbFLAsFhTc2LHic+YIf2ERa75osRNhn
+         Kqq71bFPRaIovWhnQvFqOiR1ebj4qUhN855gks3wvS+rvdXKdGJUNfOOen3tcmT4S7
+         zpLTE7SvQlwyFubmoSBvPJGw1f5VxlcwUT5kGQbM5VRWy3yFRzf9kbennsbklNWQnr
+         VImWf5/+PDhsYj8Ik1QLewhHGzp4RLahjjkzTll08wtY5vt0rMq16dXAFWp3Qw6QCA
+         7XcyjSwBnCISg==
+Received: by mail-wr1-f52.google.com with SMTP id x15so16815769wrg.8;
+        Mon, 28 Feb 2022 10:25:12 -0800 (PST)
+X-Gm-Message-State: AOAM533q1QV2TFZAYL7lfjx745a6mZg9ITyWxPfglJbLui3J7j+DJS6v
+        TgRBG6SrT7r7vfUmSEs2ngUI9+Q7XvTeE/2quzk=
+X-Google-Smtp-Source: ABdhPJz4fZLcu78yhCIhmUlg8wcyJThC/WAQ6UaeDqjOpOcx7YS8Qt8gbRJs54Y1simdrFMDrQr0lGIp9e5ElXVyTL0=
+X-Received: by 2002:adf:edc3:0:b0:1ec:5f11:5415 with SMTP id
+ v3-20020adfedc3000000b001ec5f115415mr14857770wro.317.1646072710661; Mon, 28
+ Feb 2022 10:25:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220228071022.26143-4-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220228103142.3301082-1-arnd@kernel.org> <CAK7LNATVs-yRX4PnURkLv3fz3gAnuzG2GxZ2gdvmJX2g+0P-_w@mail.gmail.com>
+In-Reply-To: <CAK7LNATVs-yRX4PnURkLv3fz3gAnuzG2GxZ2gdvmJX2g+0P-_w@mail.gmail.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Mon, 28 Feb 2022 19:24:54 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2To9St5=v6EHtJ-LBEp4-NOThPmO+qYeAfnxQPm2_Keg@mail.gmail.com>
+Message-ID: <CAK8P3a2To9St5=v6EHtJ-LBEp4-NOThPmO+qYeAfnxQPm2_Keg@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-btrfs <linux-btrfs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Muchun,
+On Mon, Feb 28, 2022 at 6:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Mon, Feb 28, 2022 at 7:32 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> >
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > During a patch discussion, Linus brought up the option of changing
+> > the C standard version from gnu89 to gnu99, which allows using variable
+> > declaration inside of a for() loop. While the C99, C11 and later standards
+> > introduce many other features, most of these are already available in
+> > gnu89 as GNU extensions as well.
+> >
+> > An earlier attempt to do this when gcc-5 started defaulting to
+> > -std=gnu11 failed because at the time that caused warnings about
+> > designated initializers with older compilers. Now that gcc-5.1 is the
+> > minimum compiler version used for building kernels, that is no longer a
+> > concern. Similarly, the behavior of 'inline' functions changes between
+> > gnu89 and gnu11, but this was taken care of by defining 'inline' to
+> > include __attribute__((gnu_inline)) in order to allow building with
+> > clang a while ago.
+> >
+> > One minor issue that remains is an added gcc warning for shifts of
+> > negative integers when building with -Werror, which happens with the
+>
+> Is this a typo?
+>
+>    building with -Werror, ...
+> ->
+>    building with -Wextra, ...
+>
 
-Thank you for the patch! Yet something to improve:
+I'm being slow today, Jani actually pointed out the same thing and I
+misunderstood him. Fixed it now, thanks!
 
-[auto build test ERROR on hnaz-mm/master]
-[also build test ERROR on next-20220225]
-[cannot apply to mcgrof/sysctl-next linus/master v5.17-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+>
+> Please let me know if you want me to pick up this.
 
-url:    https://github.com/0day-ci/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220228-151303
-base:   https://github.com/hnaz/linux-mm master
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20220301/202203010141.TqyZvdm5-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/a2a3193fd949ff24ed0c138ef495e67373839483
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220228-151303
-        git checkout a2a3193fd949ff24ed0c138ef495e67373839483
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Yes, that would be great. I'll send a v3 with the updated changelog,
+but will drop most of the Cc list as there are no functional changes.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   mm/hugetlb_vmemmap.c: In function 'hugetlb_vmemmap_sysctl_handler':
->> mm/hugetlb_vmemmap.c:156:55: error: 'memmap_on_memory' undeclared (first use in this function)
-     156 |  if (write && (!is_power_of_2(sizeof(struct page)) || memmap_on_memory))
-         |                                                       ^~~~~~~~~~~~~~~~
-   mm/hugetlb_vmemmap.c:156:55: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/memmap_on_memory +156 mm/hugetlb_vmemmap.c
-
-   148	
-   149	int hugetlb_vmemmap_sysctl_handler(struct ctl_table *table, int write,
-   150					   void *buffer, size_t *length, loff_t *ppos)
-   151	{
-   152		/*
-   153		 * The vmemmap pages cannot be optimized if a "struct page" crosses page
-   154		 * boundaries or memory_hotplug.memmap_on_memory is enabled.
-   155		 */
- > 156		if (write && (!is_power_of_2(sizeof(struct page)) || memmap_on_memory))
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+        Arnd
