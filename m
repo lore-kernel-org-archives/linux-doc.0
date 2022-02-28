@@ -2,111 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B5F4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 08:07:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F6DC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 08:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbiB1IIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 03:08:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
+        id S230001AbiB1IKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 03:10:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbiB1IIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 03:08:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937795FAC;
-        Mon, 28 Feb 2022 00:07:22 -0800 (PST)
+        with ESMTP id S229809AbiB1IKA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 03:10:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3981B692B8;
+        Mon, 28 Feb 2022 00:09:22 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D5006112C;
-        Mon, 28 Feb 2022 08:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5A9C340FA;
-        Mon, 28 Feb 2022 08:07:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C984F6112E;
+        Mon, 28 Feb 2022 08:09:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33190C340F4;
+        Mon, 28 Feb 2022 08:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646035641;
-        bh=ZIThCTjaypYDGsg6PqLBGFPVK72nb1FskfDKUMQoQFo=;
+        s=k20201202; t=1646035761;
+        bh=PExA9eVPgTY2q4PKJWJAKXGvdazs5vyTea5Swc8L/KU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aD1Bq94lyoSrU2rCMMALEIwxpVEUCGPfDF3dSAY04qYShfUHRGnHnfOLK00oUyW0n
-         ZqsMF2iFDnWnNQU4y+SGtYOAu5Ni1fTK3qmdoXezKrSqgWCYwRDMEoKeNDdb+Nkuz3
-         qCcOiJz8mrsH9PbnU9Uy6ClGyXORbh7pBctQV46m71jB+a9PCxnWvZ62vTMJBnf1Xx
-         q8KNT0ei+VPVQMCRbzemricf9saJwYLDd4YpN1D4EvBQKNGAbl0BWqTlhRM3X0vYXD
-         MHWCP9V/paczpqcSPuXqjoBZyne5r0/hJDs5BnKQTtpBr0XDpT3ldBKKSTwvH5O2Xk
-         UqCo5U8NmR1hw==
-Received: by mail-wm1-f48.google.com with SMTP id r187-20020a1c2bc4000000b003810e6b192aso5480920wmr.1;
-        Mon, 28 Feb 2022 00:07:21 -0800 (PST)
-X-Gm-Message-State: AOAM5338ftPhK7q4A7uXp7XQGgdaQ/+BL+7MbXxQbRIQE+gUc48Q/Mmb
-        p9sMW7ikYoYtxkV+P1BPdqP/wtn3+ITeBmYkdww=
-X-Google-Smtp-Source: ABdhPJzpcZ5s+5KOBMUi70sNCMSXIqY3vXEepsFRSDE8fekaJ/SUkhm+3dpDI9J9lgxQZ0OAu6bPJpVx/Y8rip86Cms=
-X-Received: by 2002:a05:600c:4f8e:b0:381:6de4:fccc with SMTP id
- n14-20020a05600c4f8e00b003816de4fcccmr1697739wmq.82.1646035639695; Mon, 28
- Feb 2022 00:07:19 -0800 (PST)
+        b=OmdX19kaY0LUIEeh5kP/NeE6tESCaXCF3/uJGnILNjQW9u4pMRnLzC1o0WopwV7XW
+         h4iz1fnDf/FTy8J/vHc19A9YDHeWx3jNb2d86kJwBCRAbKxjze4b+OepOulZtneiJN
+         tdLt2cm6CV3NRptbMA/+rJaGl0Nsy7KIWbMUIIQ7PQeaLLhlbTNW0XAu3JaLbP/5ip
+         PFI3tm+YqB8Wcps5a34G9UYzydFNt41uOr4qQ3VTJuMNRs9B+KJU+e8oxDfXDMx1IE
+         4RauivEOiRRl1633u7BRUQhPtOWSsj3Q7LzPtcNGfnu+hOHLeMUQ3mhTwPwp9ZM9wL
+         XdVet7MTY8EAQ==
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2d07c4a0d06so97952967b3.13;
+        Mon, 28 Feb 2022 00:09:21 -0800 (PST)
+X-Gm-Message-State: AOAM530mcLDh3RCMWLQ4ednItkOC7r54ht+8b1sN3Sb17bVT7aQbwBbJ
+        /+VqnPtxJYbyh0oESvl95Vput84FBdkMXCbkiKs=
+X-Google-Smtp-Source: ABdhPJwRpjS/1qd5VxKyFLR01BpJVxanwLfUv0a6WYAPTtAzwtX8bCbimU2oqoADWWXD4QpICy67f2d9j/0k0MRtqD0=
+X-Received: by 2002:a81:84d5:0:b0:2d1:e85:bf04 with SMTP id
+ u204-20020a8184d5000000b002d10e85bf04mr19223230ywf.465.1646035760199; Mon, 28
+ Feb 2022 00:09:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20220227215408.3180023-1-arnd@kernel.org> <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
-In-Reply-To: <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 28 Feb 2022 09:07:03 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3Lv_uSXt9yf-9iOV3hZgV7KvwZjL-gbLTLRgo0UOQguw@mail.gmail.com>
-Message-ID: <CAK8P3a3Lv_uSXt9yf-9iOV3hZgV7KvwZjL-gbLTLRgo0UOQguw@mail.gmail.com>
-Subject: Re: [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+References: <20220226110338.77547-1-chenhuacai@loongson.cn>
+ <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
+ <YhupaVZvbipgke2Z@kroah.com> <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Mon, 28 Feb 2022 09:09:08 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
+Message-ID: <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
+Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-btrfs <linux-btrfs@vger.kernel.org>
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-efi <linux-efi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 27, 2022 at 11:36 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, 28 Feb 2022 at 07:34, Huacai Chen <chenhuacai@gmail.com> wrote:
 >
-> And I don't want somebody with a newer compiler version to not notice
-> that he or she ended up using a c17 feature, just because _that_
-> compiler supported it, and then other people get build errors because
-> their compilers use gnu11 instead by default.
+> Hi, Ard and Greg,
 >
-> Put another way: I see absolutely no upside to allowing different
-> users using higher/lower versions of the standard. There are only
-> downsides.
+> On Mon, Feb 28, 2022 at 12:40 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sun, Feb 27, 2022 at 03:14:30PM +0100, Ard Biesheuvel wrote:
+> > > (add Greg and ACPI maintainers)
+> > >
+> > > On Sat, 26 Feb 2022 at 12:11, Huacai Chen <chenhuacai@loongson.cn> wrote:
+> > > >
+> > > > This patch adds basic boot, setup and reset routines for LoongArch.
+> > > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
+> > > > SMBIOS to pass configuration information to the Linux kernel (in elf
+> > > > format).
+> > > >
+> > > > Now the boot information passed to kernel is like this:
+> > > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
+> > > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
+> > > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
+> > > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
+> > > >    type is "efi_system_table_t". Most configuration information, include
+> > > >    ACPI tables and SMBIOS tables, come from here.
+> > > >
+> > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > Cc: linux-efi@vger.kernel.org
+> > > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > > > ---
+> > > >  arch/loongarch/include/asm/acenv.h      |  17 +
+> > > >  arch/loongarch/include/asm/acpi.h       |  38 ++
+> > > >  arch/loongarch/include/asm/boot_param.h |  97 +++++
+> > > >  arch/loongarch/include/asm/bootinfo.h   |  33 ++
+> > > >  arch/loongarch/include/asm/dmi.h        |  24 ++
+> > > >  arch/loongarch/include/asm/efi.h        |  33 ++
+> > > >  arch/loongarch/include/asm/fw.h         |  18 +
+> > > >  arch/loongarch/include/asm/reboot.h     |  10 +
+> > > >  arch/loongarch/include/asm/setup.h      |  21 +
+> > > >  arch/loongarch/kernel/acpi.c            | 338 ++++++++++++++++
+> > > >  arch/loongarch/kernel/cacheinfo.c       | 122 ++++++
+> > > >  arch/loongarch/kernel/cmdline.c         |  31 ++
+> > > >  arch/loongarch/kernel/cpu-probe.c       | 305 +++++++++++++++
+> > > >  arch/loongarch/kernel/efi.c             | 208 ++++++++++
+> > > >  arch/loongarch/kernel/env.c             | 176 +++++++++
+> > > >  arch/loongarch/kernel/head.S            |  72 ++++
+> > > >  arch/loongarch/kernel/mem.c             |  89 +++++
+> > > >  arch/loongarch/kernel/reset.c           |  90 +++++
+> > > >  arch/loongarch/kernel/setup.c           | 495 ++++++++++++++++++++++++
+> > > >  arch/loongarch/kernel/time.c            | 220 +++++++++++
+> > > >  arch/loongarch/kernel/topology.c        |  13 +
+> > > >  21 files changed, 2450 insertions(+)
+> > >
+> > > As I pointed out in response to an earlier revision of this code, I
+> > > don't think we should merge this until we decide on some ground rules
+> > > regarding the support level of this architecture in the UEFI and ACPI
+> > > subsystems.
+> > >
+> > > The problem is that loongarch does not exist in the ACPI or UEFI
+> > > specifications at all, and as I understand it, the firmware
+> > > implementations themselves do not implement UEFI or ACPI entirely,
+> > > they simply present data structures in memory that look similar enough
+> > > for the Linux UEFI and ACPI code to boot the OS.
+> >
+> > Why isn't this in the ACPI/UEFI specs?  Is it a lack of access to the
+> > spec groups by the comapny making these devices, or something else?
+> We have tried our best to make LoongArch parts be in ACPI and UEFI SPECs.
 >
-> If gnu11 is supported by gcc-5.1 and up, and all the relevant clang
-> versions, then let's just pick that.
-
-Ok, changed my patch to -gnu11 now.
-
-> And if there are any possible future advantages to gnu17 (or eventual
-> gnu2x versions), let's document those, so that we can say "once our
-> compiler version requirements go up sufficiently, we'll move to gnuXX
-> because we want to take advantage of YY".
+> ECR for adding LoongArch support in ACPI:
+> https://mantis.uefi.org/mantis/view.php?id=2203
 >
-> Please?
+> ECR for adding LoongArch support in ACPI (version update):
+> https://mantis.uefi.org/mantis/view.php?id=2268
+>
+> ECR for adding LoongArch support in UEFI:
+> https://mantis.uefi.org/mantis/view.php?id=2313
+>
+> ACPI changes of LoongArch have been approved in the last year, but the
+> new version of ACPI SPEC hasn't been made public yet. And UEFI changes
+> of LoongArch are under review now.
+>
+> Is it a must that the kernel code be merged after all SPECs are
+> public? If not, I think we can provide some snapshots (If it is legal,
+> I'm not sure) of mantis.uefi.org to prove the above.
+>
 
-I think all of the options here are equally bad: picking gnu11 means
-we use a non-standard default for anything other than gcc-5 and
-may get surprised again in the future when we want to change to
-a newer version; -std=gnu1x would work as an alias for gnu17 in
-all versions including gcc-5 but is already marked as 'deprecated'
-in the gcc documentation; and using -std=gnu17 for modern compilers
-requires a workaround for gcc-7 and earlier.
+Thanks for the links, those with access will be able to review,
+although it would of course be preferable if this was open access.
 
-Regarding new features from gcc-2x, I think we already use
-most of what is listed in https://en.wikipedia.org/wiki/C2x, as
-those are all GNU extensions that are valid in modern gnu89 as
-well. Newly added features seem to only depend on the compiler
-version, e.g. #elifdef works in both clang-13 and gcc-12 with
-any -std=gnu?? argument, so picking an earlier standard won't
-stop people from breaking the build with older compilers.
+In any case, if UEFI and ACPI support is going to be ratified in the
+respective specifications, we are in a much better place to support
+this in Linux going forward.
 
-         Arnd
+However, that still doesn't mean you should be using the internal API
+used between the EFI stub and the core kernel as a boot interface.
+Instead, you should implement LoongArch support into the EFI stub, and
+build the kernel as a PE/COFF image that can boot from EFI directly,
+from UEFI compliant firmware (u-boot or EDK2 are the most common
+examples) that exposes all the UEFI stuff that the EFI stub relies on.
+
+RISC-V is a useful reference for the changes needed - this is the most
+recent addition to the EFI stub, and avoids some legacy stuff that new
+architectures have no need for.
+
+Alternatively, if ACPI is what you are after mostly, to describe the
+platform to the OS, you could expose the ACPI tables to the OS without
+relying on UEFI, although this should be part of the LoongArch
+bindings in the ACPI spec too.
+
+-- 
+Ard.
