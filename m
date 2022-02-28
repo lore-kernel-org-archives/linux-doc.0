@@ -2,166 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE073C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 21:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 392E6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 22:56:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbiB1Vmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 16:42:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37192 "EHLO
+        id S231611AbiB1W4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 17:56:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbiB1Vmb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 16:42:31 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A3B14AC9C
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 13:41:51 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id 27so12672038pgk.10
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 13:41:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SDEQwyNhO1YP2PlPCVZv2QT+trnELH3tuuISdUJhH/A=;
-        b=d9xMn/X4LpBqF7CCmU2zh6/QLyVNBTRuNZU+e7jV9ejFO0/bkIPnXV0yhaKjw6dJm8
-         FJS3J2mi6lbO85oN/dNF+rqWxtAJUijNlNeALlXJL+eaCxB0tcq950US1kKVvr8mqukF
-         e0ToSOH4Si3JfzpFzCogjXNl1DMde6d8MLn9SuHccOTRwzid1E81/cSQ/4tTUtiOrMCh
-         9TojhlCRrVYJxHlgtGOmRoGhypN9RiWcKC8aFAkMrBK4RGw8XoilLoTMd70dGA9hdZYh
-         n+kv4MVL49Db4WfNBmaeThQEFLAURei7cyQEoj8G+S/4PT3zkCcTFjR/aTe5mw8oJWud
-         4tvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SDEQwyNhO1YP2PlPCVZv2QT+trnELH3tuuISdUJhH/A=;
-        b=bUn5Xq/AC8bDGeKpknq/bs4sHg3QgTuncTWUeMK2d9pjCfN5haoGiAirxeQToXUHU/
-         2cRG9IdhiJp8jH25MoOzVM+Ug31iwtVsbM6Y69xFoiLWAjqU93cG9FJ7yKHWj2rMotT6
-         aD+C8SYZu2HVvShHS7WJv0aSYfQqGfncMV+RtLDcx2nKgTAvtTYgXGMCX5fm/COqFU4x
-         /yb0ZJeeWc2o3Gd5yfzOKhCa6eccdKtDyWud58yjska9FOki3TyR4vJ/Fj5ex9qX5v5/
-         Dx6hPwyxvMt3PrB/Y6M34R/55qltvk8cGMHebBTW//Kb6LY2A84Dl2c44jM1qhSxVTdp
-         P1KA==
-X-Gm-Message-State: AOAM530s7VxzqhWMbBhsgNgmnwk2mA9s8wYRglX0g8PqtI+VByFHVcHV
-        yh5DEmPTnWqJAU2lzD7h1gw2Dw==
-X-Google-Smtp-Source: ABdhPJysQYIb7FAhRgqLT3HifNDIOw9MY3JP0SvCbCIF1CiA1nyX5JMrxTKRUKNjLMnj4tBxx48g9A==
-X-Received: by 2002:a05:6a00:26e0:b0:4e1:7131:de2b with SMTP id p32-20020a056a0026e000b004e17131de2bmr23819114pfw.20.1646084510471;
-        Mon, 28 Feb 2022 13:41:50 -0800 (PST)
-Received: from google.com ([2620:15c:2ce:200:777f:ae46:e31e:b07e])
-        by smtp.gmail.com with ESMTPSA id 23-20020a17090a0b9700b001b8f602eaeasm259006pjr.53.2022.02.28.13.41.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 13:41:50 -0800 (PST)
-Date:   Mon, 28 Feb 2022 13:41:45 -0800
-From:   Fangrui Song <maskray@google.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220228214145.o37bgp3zl3rxpeo4@google.com>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <CAKwvOdkLUx1td+qgUYy3w2ojtBG-mJTzpJg3BV8Xv56YHTxHCw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdkLUx1td+qgUYy3w2ojtBG-mJTzpJg3BV8Xv56YHTxHCw@mail.gmail.com>
+        with ESMTP id S230056AbiB1W4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 17:56:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA43A8CD8D;
+        Mon, 28 Feb 2022 14:55:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 85CE2B8167C;
+        Mon, 28 Feb 2022 22:55:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D63BC340F1;
+        Mon, 28 Feb 2022 22:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646088956;
+        bh=IrKyR4KsaGy6ILEoSjvY+Pfikinwp5UgDQ/3sdpyfQg=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=VQPHMUxWyNmQfB0/ueW/1grw49fEmM2QRO524JsZvj0eALgpZTSS0Ti1WVK3/nzlC
+         byT/x80e4Fe98Tlb3pDqK1t5U+uNFGDV+NGvNu8nb46ZmFXCgHzEcPGJExtHH8WYI9
+         Z4Q4HdTdcb4gslA1Lf5skj9pXkBUyyWm5xfGN/RaW/TfcXyt8EkrFe2kJ7hTehbPCb
+         iFsQaNdc67e9BvVFAwUbihe+9QU+CJj7XyqsnRJgjqJ9sHI3psUJ4vSLTxR4QCifxH
+         hUyT9N8VKRSwdIvDuss5BfU7kul1Edolp9UUrQku7YYj3mIYrowZHkd3sHJtpd6Asn
+         RdaBwTBmrYqYg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailauth.nyi.internal (Postfix) with ESMTP id B3D1A27C0054;
+        Mon, 28 Feb 2022 17:55:53 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute5.internal (MEProxy); Mon, 28 Feb 2022 17:55:53 -0500
+X-ME-Sender: <xms:-FIdYsLIH8xSXNZkBj6DK83xIzUn_W9DsfVQwWcVMCVCOzeKk1MKzQ>
+    <xme:-FIdYsLitA72qcFv2KAsG4rt4hYfQ-yzQUiflwB2j5Gq_sovTK47ksE4Xj0VPodt9
+    vn1SyG-Tz7OMJvj2yU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtuddgtddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpedthfehtedtvdetvdetudfgueeuhfdtudegvdelveelfedvteelfffg
+    fedvkeegfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
+    ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
+    drlhhuthhordhush
+X-ME-Proxy: <xmx:-FIdYssw9wS50EE9pmpETO-NcmotanHVlmsg84NE43g3fXEk307dsg>
+    <xmx:-FIdYpaUHX3OArm88Um26oVtVLfGpJZ6c4f2XxZPmdtCJEAqDNfk6Q>
+    <xmx:-FIdYjbMoiMfJTvRwgFi78iSWM11ZclQ9BUpPVva3-tJJlRFBp_zwg>
+    <xmx:-VIdYpuR9Y186Dyd0VlVgshdQ9Q02sP-GkUSmwD_NWUNx-bFblctiTHSWgI>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 2E51821E006E; Mon, 28 Feb 2022 17:55:52 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
+Mime-Version: 1.0
+Message-Id: <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
+In-Reply-To: <Yh0+9cFyAfnsXqxI@kernel.org>
+References: <YgDIIpCm3UITk896@lisas.de>
+ <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
+ <YgI1A0CtfmT7GMIp@kernel.org> <YgI37n+3JfLSNQCQ@grain>
+ <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
+ <YgKiKEcsNt7mpMHN@grain>
+ <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+ <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
+ <Yh0wIMjFdDl8vaNM@kernel.org>
+ <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com>
+ <Yh0+9cFyAfnsXqxI@kernel.org>
+Date:   Mon, 28 Feb 2022 14:55:30 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Mike Rapoport" <rppt@kernel.org>
+Cc:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Dmitry Safonov" <0x7f454c46@gmail.com>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Adrian Reber" <adrian@lisas.de>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Jann Horn" <jannh@google.com>, "Andrei Vagin" <avagin@gmail.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Oleg Nesterov" <oleg@redhat.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        "Pavel Machek" <pavel@ucw.cz>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "Dave Martin" <Dave.Martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the patch!
 
-(Was always wondering which of binutils and kernel would migrate to C99+
-earlier... binutils won)
 
-On 2022-02-28, Nick Desaulniers wrote:
->On Mon, Feb 28, 2022 at 2:32 AM Arnd Bergmann <arnd@kernel.org> wrote:
->>
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> During a patch discussion, Linus brought up the option of changing
->> the C standard version from gnu89 to gnu99, which allows using variable
->> declaration inside of a for() loop. While the C99, C11 and later standards
->> introduce many other features, most of these are already available in
->> gnu89 as GNU extensions as well.
->>
->> An earlier attempt to do this when gcc-5 started defaulting to
->> -std=gnu11 failed because at the time that caused warnings about
->> designated initializers with older compilers. Now that gcc-5.1 is the
->> minimum compiler version used for building kernels, that is no longer a
->> concern. Similarly, the behavior of 'inline' functions changes between
+On Mon, Feb 28, 2022, at 1:30 PM, Mike Rapoport wrote:
+> On Mon, Feb 28, 2022 at 12:30:41PM -0800, Andy Lutomirski wrote:
+>> 
+>> 
+>> On Mon, Feb 28, 2022, at 12:27 PM, Mike Rapoport wrote:
+>> > On Wed, Feb 09, 2022 at 06:37:53PM -0800, Andy Lutomirski wrote:
+>> >> On 2/8/22 18:18, Edgecombe, Rick P wrote:
+>> >> > On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
+>> >> > 
+>> >
+>> > Even with the current shadow stack interface Rick proposed, CRIU can restore
+>> > the victim using ptrace without any additional knobs, but we loose an
+>> > important ability to "self-cure" the victim from the parasite in case
+>> > anything goes wrong with criu control process.
+>> >
+>> > Moreover, the issue with backward compatibility is not with ptrace but with
+>> > sigreturn and it seems that criu is not its only user.
+>> 
+>> So we need an ability for a tracer to cause the tracee to call a function
+>> and to return successfully.  Apparently a gdb branch can already do this
+>> with shstk, and my PTRACE_CALL_FUNCTION_SIGFRAME should also do the
+>> trick.  I don't see why we need a sigretur-but-dont-verify -- we just
+>> need this mechanism to create a frame such that sigreturn actually works.
 >
->More precisely, the semantics of "extern inline" functions changed
->between ISO C90 and ISO C99.
+> If I understand correctly, PTRACE_CALL_FUNCTION_SIGFRAME() injects a frame
+> into the tracee and makes the tracee call sigreturn.
+> I.e. the tracee is stopped and this is used pretty much as PTRACE_CONT or
+> PTRACE_SYSCALL.
+>
+> In such case this defeats the purpose of sigreturn in CRIU because it is
+> called asynchronously by the tracee when the tracer is about to detach or
+> even already detached.
 
-Perhaps a clearer explanation to readers is: "extern inline" and "inline" swap
-semantics with gnu_inline (-fgnu89-inline or __attribute__((__gnu_inline__))).
+The intent of PTRACE_CALL_FUNCTION_SIGFRAME is push a signal frame onto the stack and call a function.  That function should then be able to call sigreturn just like any normal signal handler.  There should be no requirement that the tracer still be attached when this happens, although the code calling sigreturn still needs to be mapped.
 
->That's the only concern I have, which I doubt is an issue. The kernel
->is already covered by the function attribute as you note.
->
->Just to have some measure:
->$ git grep -rn "extern inline" | wc -l
->116
-
-"^inline" behaves like C99+ "extern inline"
-
-Agree this is handled by
-
-     #define inline inline __gnu_inline __inline_maybe_unused notrace
-
->Most of those are in arch/alpha/ which is curious; I wonder if those
->were intentional.
->
->(I do worry about Makefiles that completely reset KBUILD_CFLAGS
->though; the function attributes still take precedence).
->
->> gnu89 and gnu11, but this was taken care of by defining 'inline' to
->> include __attribute__((gnu_inline)) in order to allow building with
->> clang a while ago.
->>
->> One minor issue that remains is an added gcc warning for shifts of
->> negative integers when building with -Werror, which happens with the
->> 'make W=1' option, as well as for three drivers in the kernel that always
->> enable -Werror, but it was only observed with the i915 driver so far.
->> To be on the safe side, add -Wno-shift-negative-value to any -Wextra
->> in a Makefile.
->>
->> Nathan Chancellor reported an additional -Wdeclaration-after-statement
->> warning that appears in a system header on arm, this still needs a
->> workaround.
->
->Ack; I think we can just fix this in clang.
->
->>
->> The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
->> minimal and mainly impact warnings at the -Wpedantic level that the
->> kernel never enables. Between these, gnu11 is the newest version
->> that is supported by all supported compiler versions, though it is
->> only the default on gcc-5, while all other supported versions of
->> gcc or clang default to gnu1x/gnu17.
->
->I agree. With the fixup to s/Werror/Wextra.
->
->Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
->>
->> Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
->> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
->> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: linux-kbuild@vger.kernel.org
->> Cc: llvm@lists.linux.dev
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
->-- 
->Thanks,
->~Nick Desaulniers
->
+(Specifically, on modern arches, the user runtime is expected to provide a "restorer" that calls sigreturn.  A hypotheticall PTRACE_CALL_FUNCTION_SIGFRAME would either need to call sigreturn directly or provide a restorer.)
