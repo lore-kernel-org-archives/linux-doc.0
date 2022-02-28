@@ -2,185 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E42A8C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 06:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B271FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 07:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231332AbiB1GfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 01:35:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54046 "EHLO
+        id S232371AbiB1HMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 02:12:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231366AbiB1GfP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 01:35:15 -0500
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BDFC66C83;
-        Sun, 27 Feb 2022 22:34:37 -0800 (PST)
-Received: by mail-ua1-x92c.google.com with SMTP id 63so4996327uaw.10;
-        Sun, 27 Feb 2022 22:34:37 -0800 (PST)
+        with ESMTP id S229624AbiB1HMF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 02:12:05 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA8B673EB
+        for <linux-doc@vger.kernel.org>; Sun, 27 Feb 2022 23:11:27 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id s1so9901086plg.12
+        for <linux-doc@vger.kernel.org>; Sun, 27 Feb 2022 23:11:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pQG4s8WE2x1LNgZqIzGp20XGhXGocdIMbbXafkH7Qc8=;
-        b=GruZ2YoSOvvXfZVZ6KA5WEH0ZPPUg9N2AP5RrkdgnOLAviKh6yO5H1ky1McosPzMSP
-         t84aBstIN9acMIz5FhxyewgGkxfrqsPFfkqY7Or8kbGjmt0mDcyUpAi/GnuKKA5N+ZKi
-         R+brUdZB+s2Zq369kTj3/oSCilGJk8RlU+JElfYeXDSf7kgopr7PgIsRSUxpI1mGODSD
-         zheBU/avNxJPTk+Mhpq3zz1tO2FapqfGIGoMKMP5cjOb/Pgr0FA1hkLjIlmxUV/bFKs2
-         xCMq+QM07HRFWVmJYKN4A7LQBgk/61YwuzwVITqBZCz0GNlIHlKpIqYTvJaQ/fvbMlf1
-         w5rQ==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCfkkHTFTbBZWN4MRRKByw8vOmHdfbN0IqiaDPGeNOg=;
+        b=dOgU94T9dxNIYWE9VHh0hdTmT7ifAkOngLUMR8I3WSTsC9oIxFotYVEIZwliIXZcFQ
+         VZ/UqJK22p8kBOQ/eeqe7CyK+HfhgDua9J6jUBt5qUd1XPStDXacH7kCI/NEdpwiTVgM
+         RL2YaMCNt8hCeMRUzhCGOvX1DYB+ccEVpULIh90TIZotoY8GISEBZGnQsWizLZ0Lh2j5
+         hdCbnIkrBpRzhoNUk1w2CFGYkhm1lqNtWV0cDzDSK34PoZm+JbHkgrjPZRkBIX1Jf8Ml
+         hA9jEH3wCC4ktKvZu9Qw+DFhJ1G1zrusDWH9mJv/C8R4iaEZuL+eDSj9sOsRc1S3m+0B
+         qbBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pQG4s8WE2x1LNgZqIzGp20XGhXGocdIMbbXafkH7Qc8=;
-        b=rKi3ITCjhIqbbH3Wh1NfL0aagwuoMP74K1enrSAM2+GfJmEkIhtEnVMjRgMdrQdZXG
-         vPyUHYA4/iCdVHnCdCSu28lMHUm0JQRBkXeSfrEShQ0wMM72f9qpep2YeB9oXTtHi60W
-         2OhmU84VPVJ16zjMOFKG3FfINMR5eZox3jtVHyoSIMJZYIxE9cP/ChzygtiYABDTWVuU
-         N7vNwjMNygNu3YgN3rxUh8lOqxKwvmXCKO84SL3ha777MzsU6ifgnMbeNsCaeJoQ8U1N
-         2uBffgUKnoIEftz4JYQ5FWasSp0Wx5vmLMQCHPwa0orotz0E/Fiy7Ax1ODD+WhyuHnZ9
-         zQCg==
-X-Gm-Message-State: AOAM533oghqfBwbgcx6+xEmnTq7/cHSp2NZ3Lv0m5l1oNHSaNtwQkT5v
-        DoF8OtUZM9BII6Y/2xE8V6zL/MSE0AxM4dFUCfhpA+k1hYznZA==
-X-Google-Smtp-Source: ABdhPJzEXt+L46gCFw+ULUhU5ealXcEhvdwROaLTbtefttrWg20EEksoLIWs4q7qU/6kVxnQzPI1Gr2hXMpssF1Jsqs=
-X-Received: by 2002:ab0:3da4:0:b0:306:a7f8:f28b with SMTP id
- l36-20020ab03da4000000b00306a7f8f28bmr7527955uac.47.1646030076362; Sun, 27
- Feb 2022 22:34:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RCfkkHTFTbBZWN4MRRKByw8vOmHdfbN0IqiaDPGeNOg=;
+        b=d6jsuHYFiswVwbilYH1VjKiLA/H7H/6+UzctnAZWB8pubt9Yp83e+YrfRqJ/PvSJFn
+         PJIXCpVBISZNFVNYYFZ7yJ9q+auDPOAV7cB+Irv+0o7qO/e6B+pVQ8IDlmrIn+E/Wng9
+         GlRpE8K7eI6cQjGtnDdvbLCABdV+KPwnWVH/OxwfOsNgoJCYvta7fWlH5HbjaVI8Xdf/
+         DySm+ArnYjDIq6fwRhU3GipsHjnEz4OFKHwkWuKZ3HwKk2h33TxX0GbPlvgziW5lPXbT
+         dwswPmdA2JLONxYSW33sbqMU+wiz+e9MZRNLO3o7F+c0v/enhVXRjf8Qn5KSPKGrbnrm
+         ty2A==
+X-Gm-Message-State: AOAM530CVOgXrAYVp6FOJB7phR6IUp9Jx24x66YEwZxNZUGS2AXUfD97
+        FAi95KyS2wdZgdRstsW8h0bYzQ==
+X-Google-Smtp-Source: ABdhPJwNiUWUQVyDl1VtKFWZYCiwhMGUytWFPX3AfhkBPGNgEoCG83MO5Y+CgnGGRhEqgdFkaMO6CQ==
+X-Received: by 2002:a17:90b:3cc:b0:1bc:692b:ad8 with SMTP id go12-20020a17090b03cc00b001bc692b0ad8mr15139329pjb.90.1646032287064;
+        Sun, 27 Feb 2022 23:11:27 -0800 (PST)
+Received: from FVFYT0MHHV2J.tiktokcdn.com ([139.177.225.243])
+        by smtp.gmail.com with ESMTPSA id i7-20020a17090a65c700b001b936b8abe0sm16240390pjs.7.2022.02.27.23.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Feb 2022 23:11:26 -0800 (PST)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH 0/3] add hugetlb_free_vmemmap sysctl
+Date:   Mon, 28 Feb 2022 15:10:19 +0800
+Message-Id: <20220228071022.26143-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
- <YhupaVZvbipgke2Z@kroah.com>
-In-Reply-To: <YhupaVZvbipgke2Z@kroah.com>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Mon, 28 Feb 2022 14:34:26 +0800
-Message-ID: <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ard and Greg,
+This series amis to add hugetlb_free_vmemmap sysctl to enable the feature
+of freeing vmemmap pages of HugeTLB pages.
 
-On Mon, Feb 28, 2022 at 12:40 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Feb 27, 2022 at 03:14:30PM +0100, Ard Biesheuvel wrote:
-> > (add Greg and ACPI maintainers)
-> >
-> > On Sat, 26 Feb 2022 at 12:11, Huacai Chen <chenhuacai@loongson.cn> wrote:
-> > >
-> > > This patch adds basic boot, setup and reset routines for LoongArch.
-> > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
-> > > SMBIOS to pass configuration information to the Linux kernel (in elf
-> > > format).
-> > >
-> > > Now the boot information passed to kernel is like this:
-> > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
-> > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
-> > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
-> > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
-> > >    type is "efi_system_table_t". Most configuration information, include
-> > >    ACPI tables and SMBIOS tables, come from here.
-> > >
-> > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > Cc: linux-efi@vger.kernel.org
-> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > > ---
-> > >  arch/loongarch/include/asm/acenv.h      |  17 +
-> > >  arch/loongarch/include/asm/acpi.h       |  38 ++
-> > >  arch/loongarch/include/asm/boot_param.h |  97 +++++
-> > >  arch/loongarch/include/asm/bootinfo.h   |  33 ++
-> > >  arch/loongarch/include/asm/dmi.h        |  24 ++
-> > >  arch/loongarch/include/asm/efi.h        |  33 ++
-> > >  arch/loongarch/include/asm/fw.h         |  18 +
-> > >  arch/loongarch/include/asm/reboot.h     |  10 +
-> > >  arch/loongarch/include/asm/setup.h      |  21 +
-> > >  arch/loongarch/kernel/acpi.c            | 338 ++++++++++++++++
-> > >  arch/loongarch/kernel/cacheinfo.c       | 122 ++++++
-> > >  arch/loongarch/kernel/cmdline.c         |  31 ++
-> > >  arch/loongarch/kernel/cpu-probe.c       | 305 +++++++++++++++
-> > >  arch/loongarch/kernel/efi.c             | 208 ++++++++++
-> > >  arch/loongarch/kernel/env.c             | 176 +++++++++
-> > >  arch/loongarch/kernel/head.S            |  72 ++++
-> > >  arch/loongarch/kernel/mem.c             |  89 +++++
-> > >  arch/loongarch/kernel/reset.c           |  90 +++++
-> > >  arch/loongarch/kernel/setup.c           | 495 ++++++++++++++++++++++++
-> > >  arch/loongarch/kernel/time.c            | 220 +++++++++++
-> > >  arch/loongarch/kernel/topology.c        |  13 +
-> > >  21 files changed, 2450 insertions(+)
-> >
-> > As I pointed out in response to an earlier revision of this code, I
-> > don't think we should merge this until we decide on some ground rules
-> > regarding the support level of this architecture in the UEFI and ACPI
-> > subsystems.
-> >
-> > The problem is that loongarch does not exist in the ACPI or UEFI
-> > specifications at all, and as I understand it, the firmware
-> > implementations themselves do not implement UEFI or ACPI entirely,
-> > they simply present data structures in memory that look similar enough
-> > for the Linux UEFI and ACPI code to boot the OS.
->
-> Why isn't this in the ACPI/UEFI specs?  Is it a lack of access to the
-> spec groups by the comapny making these devices, or something else?
-We have tried our best to make LoongArch parts be in ACPI and UEFI SPECs.
+Muchun Song (3):
+  mm: hugetlb: disable freeing vmemmap pages when struct page crosses
+    page boundaries
+  sysctl: allow to set extra1 to SYSCTL_ONE
+  mm: hugetlb: add hugetlb_free_vmemmap sysctl
 
-ECR for adding LoongArch support in ACPI:
-https://mantis.uefi.org/mantis/view.php?id=2203
+ Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++++
+ include/linux/hugetlb.h                 |  5 +++++
+ include/linux/memory_hotplug.h          |  1 +
+ kernel/sysctl.c                         | 13 ++++++++++++-
+ mm/hugetlb_vmemmap.c                    | 24 +++++++++++++++++++++++-
+ mm/hugetlb_vmemmap.h                    |  4 +++-
+ mm/memory_hotplug.c                     |  2 +-
+ 7 files changed, 58 insertions(+), 4 deletions(-)
 
-ECR for adding LoongArch support in ACPI (version update):
-https://mantis.uefi.org/mantis/view.php?id=2268
+-- 
+2.11.0
 
-ECR for adding LoongArch support in UEFI:
-https://mantis.uefi.org/mantis/view.php?id=2313
-
-ACPI changes of LoongArch have been approved in the last year, but the
-new version of ACPI SPEC hasn't been made public yet. And UEFI changes
-of LoongArch are under review now.
-
-Is it a must that the kernel code be merged after all SPECs are
-public? If not, I think we can provide some snapshots (If it is legal,
-I'm not sure) of mantis.uefi.org to prove the above.
-
-Huacai
-
->
-> > As the UEFI subsystem maintainer, I am concerned that future changes
-> > to the UEFI subsystem that are rooted in the the UEFI specification as
-> > it evolves may trigger unanticipated results on this architecture, and
-> > I imagine the ACPI maintainers may have similar concerns.
->
-> I agree, I would be concerned about that as well.
->
-> > So what can we do about this? Do we merge this code, but as a second
-> > class citizen in terms of UEFI/ACPI subsystem support, i.e., you are
-> > welcome to use it, but if something breaks, the UEFI/ACPI maintainers
-> > are not on the hook to see to it that it gets fixed? I don't think
-> > this is a great solution, but I'm not sure if there are alternatives
-> > that are any better.
->
-> That's not going to work, it's the kernel's job to fix up hardware
-> problems.  But as this is all firmware, why can't the firmware be
-> changed to properly follow the public specifications?  What's wrong with
-> requiring that at this point in time (i.e. _BEFORE_ the code is merged)?
->
-> thanks,
->
-> greg k-h
