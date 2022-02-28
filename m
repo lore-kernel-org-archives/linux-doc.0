@@ -2,91 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B10C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 16:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 376FCC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 16:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbiB1QNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 11:13:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
+        id S237621AbiB1QYF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 11:24:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237825AbiB1QNK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 11:13:10 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572761274D
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 08:12:29 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id hw13so25753730ejc.9
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 08:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C7YxRKyreH48dZQ9Yk60m9yefrarInHQlSucfyX1K2c=;
-        b=dytKXHw+tT3Dhd0aDmsdHtTQ6xXuj/mNxJogs8WbLKzqOu4qsyvH0GyZ4xkWtWw8gH
-         dPejxY/E3QgnqEiCvNufipZss0cvtgzkPSCLR+i6luHumAwcDeOqAhtCRMg/aJPIdR6w
-         9jS98MbQg4oI3x5yQ3RgLZHxhtWvyWv47ZuVix5koe5qTYoPi9hItK1fpfK+Kpeq2FbS
-         YOnGG8E/v5J88ghaG0S/BIbvFE5aukRhLxBesUdOYDjf7z4Costh80kY8EY5xinm3WIG
-         /5KFSLpnxXUa3lsMwFKNq6SJcca5swmpGpTS7vhNJKGN9r7MJdJI4/E36IM+u6hLNg+z
-         q8Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C7YxRKyreH48dZQ9Yk60m9yefrarInHQlSucfyX1K2c=;
-        b=rE5Vd48+ohSZ2oN8MZphnc8UzH6StzPehvA44LHDjuWVMQt+hwao0r5U9QsGSoJ+N+
-         lSq5TJFqj811VEDxNih5yuMyMQecBv6GAE/b7A7MlD5b0j7xKX3x/9jbGS+LGZrhp8Dy
-         LD38BdUYjvXACP5F/hBzoCEN9yXg6kH9x/tdjK1f/FTU/J8uUmzpTg0dcHqZc6F989MI
-         YFmY4vmQgIthsyW40qxaChLzvSBTuBShMmMKqpil9akWOVIj38Xp66bzbeYj0IsE9rFp
-         IHDm0nJ37ZX61pK0Y03oT6tIo75eU/MgFe/9D4HM7TR8rOjgf6CK4W6zir7MXVFr4ICI
-         XDEA==
-X-Gm-Message-State: AOAM532Xl5BtNbRhiHPOqjnmO6E5/H4vXFFydvff9qCrbOypIusTZT2E
-        rXh7bzhDs8ptp2o7os9jdaXnhDReaQUcKO57JvzC
-X-Google-Smtp-Source: ABdhPJwmNFw9jVOzTMa+rnTNBvLLbYSTrhnzeA8q7epUUzrGh/oXw1/rmJAMVcVzlFpgDwpFXk216nyT5GA8CYCzPbg=
-X-Received: by 2002:a17:907:216f:b0:6ce:d85f:35cf with SMTP id
- rl15-20020a170907216f00b006ced85f35cfmr15832693ejb.517.1646064748150; Mon, 28
- Feb 2022 08:12:28 -0800 (PST)
+        with ESMTP id S232464AbiB1QYE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 11:24:04 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65FBB49F23;
+        Mon, 28 Feb 2022 08:23:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5E75B81229;
+        Mon, 28 Feb 2022 16:23:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86FD8C340E7;
+        Mon, 28 Feb 2022 16:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646065402;
+        bh=4uwUbtFzUaPQDZkQalpW48JK5+hWGBKg6MdMcnnUZM8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=bHFmNnssY5Wmor9erI1rBF/Nrqyn6U0q4md+d76eNWWpYLtwvmt1Un+e0ubpKGaUS
+         NhxReyE0A1hdAAofrECxThFI+RvJdGK4kUTF82sdYmA8tf3qUi1hMyfE8bGw5y0HaL
+         LLw1zDkoyX1tflw6SRVHuI/l3HnWhYWiTamRlZpuhNJgFcVrKt/rgvDiqSET/Cfgnx
+         HAn50WvP45NdTTun1u+AI4tst8J9zLDAPE8aiCsyUSBW32Ye/uC71Z1ANHkOINCkKN
+         QcgKmyuq2Zt4qLgkh98AH1qeyC26kBsz/RqBqyJ8tuYefstecWvBhplJG9ZEZZwbbG
+         ZkJhlTK4dUVHg==
+From:   SeongJae Park <sj@kernel.org>
+To:     xhao@linux.alibaba.com
+Cc:     SeongJae Park <sj@kernel.org>, akpm@linux-foundation.org,
+        corbet@lwn.net, skhan@linuxfoundation.org, rientjes@google.com,
+        gregkh@linuxfoundation.org, linux-damon@amazon.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/13] mm/damon: Implement a minimal stub for sysfs-based DAMON interface
+Date:   Mon, 28 Feb 2022 16:23:18 +0000
+Message-Id: <20220228162318.4046-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220228025646.1665265-1-wanjiabing@vivo.com>
-In-Reply-To: <20220228025646.1665265-1-wanjiabing@vivo.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 28 Feb 2022 11:12:17 -0500
-Message-ID: <CAHC9VhTjKyfn5AJAOx6ZxDsFk7e8JTkV48JAk6PbHRyx=uy4HQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: fix 'make htmldocs' warning in SCTP.rst
-To:     Wan Jiabing <wanjiabing@vivo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Xin Long <lucien.xin@gmail.com>,
-        Richard Haines <richard_c_haines@btinternet.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jiabing.wan@qq.com, selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <0f1051ce-2ce7-8659-f881-b5889018b8a2@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 27, 2022 at 9:57 PM Wan Jiabing <wanjiabing@vivo.com> wrote:
->
-> Fix following 'make htmldocs' warnings:
-> ./Documentation/security/SCTP.rst:123: WARNING: Title underline too short.
-> security_sctp_assoc_established()
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ./Documentation/security/SCTP.rst:123: WARNING: Title underline too short.
-> security_sctp_assoc_established()
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ./Documentation/security/SCTP.rst:273: WARNING: Title underline too short.
-> security_sctp_assoc_established()
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ./Documentation/security/SCTP.rst:273: WARNING: Title underline too short.
-> security_sctp_assoc_established()
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> Fixes: 5e50f5d4ff31 ("security: add sctp_assoc_established hook")
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
-> ---
->  Documentation/security/SCTP.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Xin,
 
-Merged into selinux/next, thanks for the patch!
+On Tue, 1 Mar 2022 00:09:35 +0800 xhao@linux.alibaba.com wrote:
 
--- 
-paul-moore.com
+> Hi SeongJae:
+> 
+> On 2/28/22 4:13 PM, SeongJae Park wrote:
+> > DAMON's debugfs-based user interface served very well, so far.  However,
+> > it unnecessarily depends on debugfs, while DAMON is not aimed to be used
+> > for only debugging.  Also, the interface receives multiple values via
+> > one file.  For example, schemes file receives 18 values separated by
+> > white spaces.  As a result, it is ineffient, hard to be used, and
+> > difficult to be extended.  Especially, keeping backward compatibility of
+> > user space tools is getting only challenging.  It would be better to
+> > implement another reliable and flexible interface and deprecate the
+> > debugfs interface in long term.
+> >
+> > To this end, this commit implements a stub of a part of the new user
+> > interface of DAMON using sysfs.  Specifically, this commit implements
+> > the sysfs control parts for virtual address space monitoring.
+> >
+> > More specifically, the idea of the new interface is, using directory
+> > hierarchies and making one file for one value.  The hierarchy that this
+> > commit is introducing is as below.  In the below figure,
+> > parents-children relations are represented with indentations, each
+> > directory is having ``/`` suffix, and files in each directory are
+> > separated by comma (",").
+> >
+> >      /sys/kernel/mm/damon/admin
+> >      │ kdamonds/nr_kdamonds
+> >      │ │ 0/state,pid
+> >      │ │ │ contexts/nr_contexts
+> >      │ │ │ │ 0/operations
+> >      │ │ │ │ │ monitoring_attrs/
+> >      │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
+> >      │ │ │ │ │ │ nr_regions/min,max
+> >      │ │ │ │ │ targets/nr_targets
+> >      │ │ │ │ │ │ 0/pid_target
+> >      │ │ │ │ │ │ ...
+> >      │ │ │ │ ...
+> >      │ │ ...
+> >
+> > Writing a number <N> to each 'nr' file makes directories of name <0> to
+> > <N-1> in the directory of the 'nr' file.  That's all this commit does.
+> > Writing proper values to relevant files will construct the DAMON
+> > contexts, and writing a special keyword, 'on', to 'state' files for each
+> > kdamond will ask DAMON to start the constructed contexts.
+> >
+> > For a short example, using below commands for
+> > monitoring virtual address spaces of a given workload is imaginable:
+> >
+> >      # cd /sys/kernel/mm/damon/admin/
+> >      # echo 1 > kdamonds/nr_kdamonds
+> >      # echo 1 > kdamonds/0/contexts/nr_contexts
+> >      # echo vaddr > kdamonds/0/contexts/0/operations
+> >      # echo 1 > kdamonds/0/contexts/0/targets/nr_targets
+> >      # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid_target
+> >      # echo on > kdamonds/0/state
+> >
+> > Please note that this commit is implementing only the sysfs part stub as
+> > abovely mentioned.  This commit doesn't implement the special keywords
+> > for 'state' files.  Following commits will do that.
+> >
+> > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > ---
+> >   mm/damon/Kconfig  |    7 +
+> >   mm/damon/Makefile |    1 +
+> >   mm/damon/sysfs.c  | 1082 +++++++++++++++++++++++++++++++++++++++++++++
+> >   3 files changed, 1090 insertions(+)
+> >   create mode 100644 mm/damon/sysfs.c
+> >
+> > diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
+> > index 01bad77ad7ae..9b559c76d6dd 100644
+> > --- a/mm/damon/Kconfig
+> > +++ b/mm/damon/Kconfig
+> > @@ -52,6 +52,13 @@ config DAMON_VADDR_KUNIT_TEST
+> >   
+> >   	  If unsure, say N.
+> >   
+> > +config DAMON_SYSFS
+> > +	bool "DAMON sysfs interface"
+> > +	depends on DAMON && SYSFS
+> > +	help
+> > +	  This builds the sysfs interface for DAMON.  The user space can use
+> > +	  the interface for arbitrary data access monitoring.
+> > +
+> >   config DAMON_DBGFS
+> >   	bool "DAMON debugfs interface"
+> >   	depends on DAMON_VADDR && DAMON_PADDR && DEBUG_FS
+> > diff --git a/mm/damon/Makefile b/mm/damon/Makefile
+> > index aebbf6c14c51..dbf7190b4144 100644
+> > --- a/mm/damon/Makefile
+> > +++ b/mm/damon/Makefile
+> > @@ -3,5 +3,6 @@
+> >   obj-y				:= core.o
+> >   obj-$(CONFIG_DAMON_VADDR)	+= ops-common.o vaddr.o
+> >   obj-$(CONFIG_DAMON_PADDR)	+= ops-common.o paddr.o
+> > +obj-$(CONFIG_DAMON_SYSFS)	+= sysfs.o
+> >   obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
+> >   obj-$(CONFIG_DAMON_RECLAIM)	+= reclaim.o
+> > diff --git a/mm/damon/sysfs.c b/mm/damon/sysfs.c
+> > new file mode 100644
+> > index 000000000000..87cf28ae6a6f
+> > --- /dev/null
+> > +++ b/mm/damon/sysfs.c
+> > @@ -0,0 +1,1082 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * DAMON sysfs Interface
+> > + *
+> > + * Copyright (c) 2022 SeongJae Park <sj@kernel.org>
+> > + */
+> > +
+> > +#include <linux/damon.h>
+> > +#include <linux/kobject.h>
+> > +#include <linux/pid.h>
+> > +#include <linux/sched.h>
+> > +#include <linux/slab.h>
+> > +
+> > +static DEFINE_MUTEX(damon_sysfs_lock);
+> > +
+> > +/*
+> > + * unsigned long range directory
+> > + */
+> > +
+> > +struct damon_sysfs_ul_range {
+> > +	struct kobject kobj;
+> > +	unsigned long min;
+> > +	unsigned long max;
+> > +};
+> > +
+> > +static struct damon_sysfs_ul_range *damon_sysfs_ul_range_alloc(
+> > +		unsigned long min,
+> > +		unsigned long max)
+> > +{
+> > +	struct damon_sysfs_ul_range *range = kmalloc(sizeof(*range),
+> > +			GFP_KERNEL);
+> > +
+> > +	if (!range)
+> > +		return NULL;
+> > +	range->kobj = (struct kobject){};
+> > +	range->min = min;
+> > +	range->max = max;
+> > +
+> > +	return range;
+> > +}
+> > +
+> > +static ssize_t min_show(struct kobject *kobj, struct kobj_attribute *attr,
+> > +		char *buf)
+> > +{
+> > +	struct damon_sysfs_ul_range *range = container_of(kobj,
+> > +			struct damon_sysfs_ul_range, kobj);
+> > +
+> > +	return sysfs_emit(buf, "%lu\n", range->min);
+> > +}
+> > +
+> 
+> I have do some test about interface "min" and "max",  it looks have some 
+> bugs.
+> 
+> [root@rt2k03395 nr_regions]# echo 10 > max
+> [root@rt2k03395 nr_regions]# echo 20 > min
+> [root@rt2k03395 nr_regions]# ls
+> [root@rt2k03395 nr_regions]# cat max
+> 10
+> [root@rt2k03395 nr_regions]# cat min
+> 20
+> 
+> how about do some fix like this:
+
+It's an intended behavior.  The intention is to let the users put input in any
+order (e.g., writing min first and then max later), and check the validity just
+before applying the input to DAMON, which is, when writing 'on' to the 'status'
+file.  One additional advantage of this is confining the validity check in one
+place and therefore management of the code could be a little bit simpler.
+
+So, I think the fix is not really needed.
+
+
+Thanks,
+SJ
+
+[...]
