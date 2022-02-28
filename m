@@ -2,95 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFBDC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 15:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C470C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 15:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235785AbiB1PPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 10:15:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35226 "EHLO
+        id S234220AbiB1Pwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 10:52:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237489AbiB1PPo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 10:15:44 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C308093F
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 07:15:04 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id g6so21117684ybe.12
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 07:15:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/DGYCHAP536Nvul99EDTG6hckPiPqs15TjdAiXjOtBM=;
-        b=tVv4ipPxKA03xgTq4Dk1zw4CZCbm4XSeZKExWKEF2kL+Ubm0tK0Ln/uN0xG/ZAf+32
-         SPCvUnyR0gqw+AsgGfTCnYYbi/VGmxyF5OiG6Nre9MBzbGP/LvxPZN9hky45/QD19wDg
-         fZmdRtMjQCHCs6rV3Zoj08xvLSGbHvJQOGy2SGADfTfofnGtiRoXny68fLcXENZdG5T4
-         H24IaYQPHJ4hyNlZnJnFwwfLO3kXKa2ebKHx7S8txcPIDu4vQfYiQnQwanJm+1vnnsHP
-         SfMVdvqF46ReLi28NzQz3Qq4bGX9cCQ99Do+2SdcijBor1wiIfq+f//kjPqZ5BXLBwyI
-         HCPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/DGYCHAP536Nvul99EDTG6hckPiPqs15TjdAiXjOtBM=;
-        b=yk/HKpVYwUYZwkI3JRMJ+NfpmWwrkmSUdNxYMPvdM/EPGSiJKo7lt2ymYQyVPVC5JH
-         uz+0I8b4W1WwqM6yQmp2zfs3Lg4HJOBXtaOQ1WnjjtwttCtYkGxCsUqKli8xHLKKwCco
-         xu3REM8h8RJHJghLy9W6KK7e1rcTJhsQQosgQvRhw7URnBCTtp0KvOmYWNYwxN2E9DdZ
-         i+2EcqGBPckFdvDN07wWNiAoUWwhECgeBG08rxCZFI+cB4Wml6P4/omnrem5rivZfo97
-         3mVyTJxJafzruFx5860dkeF1KQ7estFQVu4bUxs1HpPbBkP+PFGmvnrLqGAjo0zNE+iw
-         bcUQ==
-X-Gm-Message-State: AOAM5300BgNH9GwSDn33PpWPBi3eN3zy+J3szC/doVmmzVGj10ndfb5B
-        YpY9LlZGJ1W47J0R0jfZzsp3q5ffsDM4RPrbPsaHBIoKjvGmpyHr
-X-Google-Smtp-Source: ABdhPJxlij0ufjiN92AH1OyL8pyemHJU/TWzZLp6QiY6vkNQ+FWGQvbI5YCIn5OheXrUj61MFz1apjjwLuJHsGh+4O4=
-X-Received: by 2002:a25:d2cd:0:b0:61d:6a33:8129 with SMTP id
- j196-20020a25d2cd000000b0061d6a338129mr19241308ybg.246.1646061303068; Mon, 28
- Feb 2022 07:15:03 -0800 (PST)
+        with ESMTP id S229773AbiB1Pws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 10:52:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4199D7EB21;
+        Mon, 28 Feb 2022 07:52:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F7E36112B;
+        Mon, 28 Feb 2022 15:52:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74E25C340E7;
+        Mon, 28 Feb 2022 15:52:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646063528;
+        bh=FuAUJa0N5Z3zphhfMynlqEJerBpQRZ5NCVKZkXGEJGA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=VprTpx0jqlg28TEPAjgnsQnPwdyANZxyYqLPyfs6nhvUP4tDdDNCxCLaecPFnDKOe
+         K3mOuzruH85GTx1YVXCqi3FryOM5FbBpO1Rp1ZHDskHC6ScefuS351oY/N6DnPZSp3
+         f8jv4N9xjmGlo41NVxvTGal0VLCobj/hEydYuSgNTt9wAWMz2jfUucAkBh2ZO9sFCo
+         kewqC6q6ns3J7faSVGHVArFRo4gJzRnxq3zeEOvT4a1pGK5XnfDVwg/kPFvisH+vP9
+         CWvjMcwj0vCCoWOJGXqaes5OemaWWxcXYj+MvBw4dkf0m2L6hCVSi116pE7dG3MiEp
+         TDGbS+qUtokWw==
+Date:   Mon, 28 Feb 2022 09:52:06 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Wan Jiabing <wanjiabing@vivo.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jiabing.wan@qq.com
+Subject: Re: [PATCH] docs: fix 'make htmldocs' error in vgaarbiter.rst
+Message-ID: <20220228155206.GA501015@bhelgaas>
 MIME-Version: 1.0
-References: <20220228071022.26143-1-songmuchun@bytedance.com>
- <20220228071022.26143-4-songmuchun@bytedance.com> <YhzfN574YUta3qay@bombadil.infradead.org>
-In-Reply-To: <YhzfN574YUta3qay@bombadil.infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 28 Feb 2022 23:14:27 +0800
-Message-ID: <CAMZfGtXvLj+DQj=YoN6CcVfHZA-ceB24t8waMZs7KEbOoh0jUA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] mm: hugetlb: add hugetlb_free_vmemmap sysctl
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220228023003.1653402-1-wanjiabing@vivo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 10:42 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Mon, Feb 28, 2022 at 03:10:22PM +0800, Muchun Song wrote:
-> > We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
-> > server to enable the feature of freeing vmemmap pages of HugeTLB
-> > pages. Rebooting usually taske a long time. Add a sysctl to enable
-> > the feature at runtime and do not need to reboot.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 13 +++++++++++++
-> >  include/linux/hugetlb.h                 |  5 +++++
-> >  include/linux/memory_hotplug.h          |  1 +
-> >  kernel/sysctl.c                         | 11 +++++++++++
->
-> kernel/sysctl.c is a hot mess with tons of knobs from all over the
-> place. And so we've been moving these to their own place. For instance
-> all the filesystem knobs are now properly in fs/. So Adding new ones
-> to the file is undesirable. If this is going to be added, please add
-> it somewhere in mm / hugetlb code.
->
+On Mon, Feb 28, 2022 at 10:30:02AM +0800, Wan Jiabing wrote:
+> Fix following 'make htmldocs' error:
+> Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
+> Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version
+> 2.4.4 -export ./drivers/gpu/vga/vgaarb.c' failed with return code 2
+> 
+> Fixes: d6e1898bfa5b ("PCI/VGA: Move vgaarb to drivers/pci")
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 
-I also have realized this when reading another patch [1]. I will
-move this into its hugetlb related code.  Anyway, thanks for
-your suggestion.
+Thanks, I squashed this into d6e1898bfa5b.
 
-[1] https://lore.kernel.org/linux-fsdevel/20220220060626.15885-1-tangmeng@uniontech.com/
+> ---
+>  Documentation/gpu/vgaarbiter.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+> index 339ed5fecd2e..bde3c0afb059 100644
+> --- a/Documentation/gpu/vgaarbiter.rst
+> +++ b/Documentation/gpu/vgaarbiter.rst
+> @@ -100,7 +100,7 @@ In-kernel interface
+>  .. kernel-doc:: include/linux/vgaarb.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/gpu/vga/vgaarb.c
+> +.. kernel-doc:: drivers/pci/vgaarb.c
+>     :export:
+>  
+>  libpciaccess
+> -- 
+> 2.35.1
+> 
