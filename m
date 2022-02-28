@@ -2,184 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F6DC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 08:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6102CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 08:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiB1IKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 03:10:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
+        id S232267AbiB1IMP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 03:12:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbiB1IKA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 03:10:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3981B692B8;
-        Mon, 28 Feb 2022 00:09:22 -0800 (PST)
+        with ESMTP id S231684AbiB1IMP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 03:12:15 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6C4692B9;
+        Mon, 28 Feb 2022 00:11:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C984F6112E;
-        Mon, 28 Feb 2022 08:09:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33190C340F4;
-        Mon, 28 Feb 2022 08:09:21 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B330DB80E58;
+        Mon, 28 Feb 2022 08:11:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61635C340F1;
+        Mon, 28 Feb 2022 08:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646035761;
-        bh=PExA9eVPgTY2q4PKJWJAKXGvdazs5vyTea5Swc8L/KU=;
+        s=k20201202; t=1646035894;
+        bh=DljB/ws5J9Owyl5yds3GZxgK+VN9CcGAOjBMjtsvHLY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OmdX19kaY0LUIEeh5kP/NeE6tESCaXCF3/uJGnILNjQW9u4pMRnLzC1o0WopwV7XW
-         h4iz1fnDf/FTy8J/vHc19A9YDHeWx3jNb2d86kJwBCRAbKxjze4b+OepOulZtneiJN
-         tdLt2cm6CV3NRptbMA/+rJaGl0Nsy7KIWbMUIIQ7PQeaLLhlbTNW0XAu3JaLbP/5ip
-         PFI3tm+YqB8Wcps5a34G9UYzydFNt41uOr4qQ3VTJuMNRs9B+KJU+e8oxDfXDMx1IE
-         4RauivEOiRRl1633u7BRUQhPtOWSsj3Q7LzPtcNGfnu+hOHLeMUQ3mhTwPwp9ZM9wL
-         XdVet7MTY8EAQ==
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2d07c4a0d06so97952967b3.13;
-        Mon, 28 Feb 2022 00:09:21 -0800 (PST)
-X-Gm-Message-State: AOAM530mcLDh3RCMWLQ4ednItkOC7r54ht+8b1sN3Sb17bVT7aQbwBbJ
-        /+VqnPtxJYbyh0oESvl95Vput84FBdkMXCbkiKs=
-X-Google-Smtp-Source: ABdhPJwRpjS/1qd5VxKyFLR01BpJVxanwLfUv0a6WYAPTtAzwtX8bCbimU2oqoADWWXD4QpICy67f2d9j/0k0MRtqD0=
-X-Received: by 2002:a81:84d5:0:b0:2d1:e85:bf04 with SMTP id
- u204-20020a8184d5000000b002d10e85bf04mr19223230ywf.465.1646035760199; Mon, 28
- Feb 2022 00:09:20 -0800 (PST)
+        b=lUHl1zVGtsG7blAH/F0UTToBcop4tD/U31a16Z8iFIbr3Yz3NZyMMruEmqnjff4ZV
+         sOXR4ep1bZSZFP0thZxfJu86f2z6+1scEBxEdmX2MzzbIbTJIcJ58A29zDedh4boJZ
+         xAOME5veJRutesYxFUwWk5sQ+QrLNYM/TVXnCtonVD/qOrj4pXJn2RS2GVaVmp52BQ
+         5iwZQ45A8fmgwsj70jPmE+MF5yxYndWMbRpKn6LVhUyC6bqg4uPpX27ECqsMIMGs2u
+         XUwEuPOV78DTReq/jMwlT/mX0z/iDJpT5zge+xiLD8/j5HMuuicA5nzcXCsD/SOF5J
+         RTmRglaDYVWmw==
+Received: by mail-wm1-f42.google.com with SMTP id p184-20020a1c29c1000000b0037f76d8b484so5460950wmp.5;
+        Mon, 28 Feb 2022 00:11:34 -0800 (PST)
+X-Gm-Message-State: AOAM5318uRMZ+6Bmb5GQS2dvPlhhsmRiLvvuJkrAHm1W+tsEqzYNxghQ
+        wqMu5NpdjUPw3h8ZuoIowHfatgE+zy+oEqaJnsk=
+X-Google-Smtp-Source: ABdhPJwcMEK5ybaUtjnn+nhdYBsBMcvPLAK49eN6lkpL2rzIto/bB9bCpNQVYXjU55YpRRxY6tLnPO6gmy6I0G+qdwc=
+X-Received: by 2002:a05:600c:3b87:b0:381:428c:24c1 with SMTP id
+ n7-20020a05600c3b8700b00381428c24c1mr8612916wms.1.1646035892684; Mon, 28 Feb
+ 2022 00:11:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
- <YhupaVZvbipgke2Z@kroah.com> <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
-In-Reply-To: <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 28 Feb 2022 09:09:08 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
-Message-ID: <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220227215408.3180023-1-arnd@kernel.org> <dd41c574-05b0-23bc-646c-0bd341e6e50b@linaro.org>
+In-Reply-To: <dd41c574-05b0-23bc-646c-0bd341e6e50b@linaro.org>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Mon, 28 Feb 2022 09:11:16 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a05aLS1sgQdeUDN6LD3oS0khZh07pyEO9LhUC5CJHN-Kg@mail.gmail.com>
+Message-ID: <CAK8P3a05aLS1sgQdeUDN6LD3oS0khZh07pyEO9LhUC5CJHN-Kg@mail.gmail.com>
+Subject: Re: [greybus-dev] [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
+To:     Alex Elder <elder@linaro.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-efi <linux-efi@vger.kernel.org>
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Intel Graphics <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-btrfs <linux-btrfs@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Feb 2022 at 07:34, Huacai Chen <chenhuacai@gmail.com> wrote:
->
-> Hi, Ard and Greg,
->
-> On Mon, Feb 28, 2022 at 12:40 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sun, Feb 27, 2022 at 03:14:30PM +0100, Ard Biesheuvel wrote:
-> > > (add Greg and ACPI maintainers)
-> > >
-> > > On Sat, 26 Feb 2022 at 12:11, Huacai Chen <chenhuacai@loongson.cn> wrote:
-> > > >
-> > > > This patch adds basic boot, setup and reset routines for LoongArch.
-> > > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
-> > > > SMBIOS to pass configuration information to the Linux kernel (in elf
-> > > > format).
-> > > >
-> > > > Now the boot information passed to kernel is like this:
-> > > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
-> > > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
-> > > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
-> > > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
-> > > >    type is "efi_system_table_t". Most configuration information, include
-> > > >    ACPI tables and SMBIOS tables, come from here.
-> > > >
-> > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > Cc: linux-efi@vger.kernel.org
-> > > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > > > ---
-> > > >  arch/loongarch/include/asm/acenv.h      |  17 +
-> > > >  arch/loongarch/include/asm/acpi.h       |  38 ++
-> > > >  arch/loongarch/include/asm/boot_param.h |  97 +++++
-> > > >  arch/loongarch/include/asm/bootinfo.h   |  33 ++
-> > > >  arch/loongarch/include/asm/dmi.h        |  24 ++
-> > > >  arch/loongarch/include/asm/efi.h        |  33 ++
-> > > >  arch/loongarch/include/asm/fw.h         |  18 +
-> > > >  arch/loongarch/include/asm/reboot.h     |  10 +
-> > > >  arch/loongarch/include/asm/setup.h      |  21 +
-> > > >  arch/loongarch/kernel/acpi.c            | 338 ++++++++++++++++
-> > > >  arch/loongarch/kernel/cacheinfo.c       | 122 ++++++
-> > > >  arch/loongarch/kernel/cmdline.c         |  31 ++
-> > > >  arch/loongarch/kernel/cpu-probe.c       | 305 +++++++++++++++
-> > > >  arch/loongarch/kernel/efi.c             | 208 ++++++++++
-> > > >  arch/loongarch/kernel/env.c             | 176 +++++++++
-> > > >  arch/loongarch/kernel/head.S            |  72 ++++
-> > > >  arch/loongarch/kernel/mem.c             |  89 +++++
-> > > >  arch/loongarch/kernel/reset.c           |  90 +++++
-> > > >  arch/loongarch/kernel/setup.c           | 495 ++++++++++++++++++++++++
-> > > >  arch/loongarch/kernel/time.c            | 220 +++++++++++
-> > > >  arch/loongarch/kernel/topology.c        |  13 +
-> > > >  21 files changed, 2450 insertions(+)
-> > >
-> > > As I pointed out in response to an earlier revision of this code, I
-> > > don't think we should merge this until we decide on some ground rules
-> > > regarding the support level of this architecture in the UEFI and ACPI
-> > > subsystems.
-> > >
-> > > The problem is that loongarch does not exist in the ACPI or UEFI
-> > > specifications at all, and as I understand it, the firmware
-> > > implementations themselves do not implement UEFI or ACPI entirely,
-> > > they simply present data structures in memory that look similar enough
-> > > for the Linux UEFI and ACPI code to boot the OS.
-> >
-> > Why isn't this in the ACPI/UEFI specs?  Is it a lack of access to the
-> > spec groups by the comapny making these devices, or something else?
-> We have tried our best to make LoongArch parts be in ACPI and UEFI SPECs.
->
-> ECR for adding LoongArch support in ACPI:
-> https://mantis.uefi.org/mantis/view.php?id=2203
->
-> ECR for adding LoongArch support in ACPI (version update):
-> https://mantis.uefi.org/mantis/view.php?id=2268
->
-> ECR for adding LoongArch support in UEFI:
-> https://mantis.uefi.org/mantis/view.php?id=2313
->
-> ACPI changes of LoongArch have been approved in the last year, but the
-> new version of ACPI SPEC hasn't been made public yet. And UEFI changes
-> of LoongArch are under review now.
->
-> Is it a must that the kernel code be merged after all SPECs are
-> public? If not, I think we can provide some snapshots (If it is legal,
-> I'm not sure) of mantis.uefi.org to prove the above.
->
+On Mon, Feb 28, 2022 at 12:04 AM Alex Elder <elder@linaro.org> wrote:
+> On 2/27/22 3:52 PM, Arnd Bergmann wrote: From: Arnd Bergmann <arnd@arndb.de>
 
-Thanks for the links, those with access will be able to review,
-although it would of course be preferable if this was open access.
+> > I put the suggestion into patch form, based on what we discussed
+> > in the thread.  I only gave it minimal testing, but it would
+> > be good to have it in linux-next if we want to do this in the
+> > merge window.
+>
+> Did you determine what needed the new compiler flag based on
+> compilation results?
+>
+> Glancing at the Greybus code, I don't believe there's any
+> reason it needs to shift a negative value.  Such warnings
+> could be fixed by making certain variables unsigned, for
+> example.
+>
+> I have no objection, I'll just make a note of it.
 
-In any case, if UEFI and ACPI support is going to be ratified in the
-respective specifications, we are in a much better place to support
-this in Linux going forward.
+I've clarified in the changelog that I'm adding the -Wno-shift-negative-value
+everywhere that -Wextra is used, not because I saw actual warnings
+for greybus and btrfs. The -Wextra is copied from scripts/Makefile.extrawarn,
+so this keeps it in sync. Ideally we should have an easier way for a
+subdirectory to get the W=1 flags without copying the list, but the
+patch I started to do this never got close to getting integrated.
 
-However, that still doesn't mean you should be using the internal API
-used between the EFI stub and the core kernel as a boot interface.
-Instead, you should implement LoongArch support into the EFI stub, and
-build the kernel as a PE/COFF image that can boot from EFI directly,
-from UEFI compliant firmware (u-boot or EDK2 are the most common
-examples) that exposes all the UEFI stuff that the EFI stub relies on.
-
-RISC-V is a useful reference for the changes needed - this is the most
-recent addition to the EFI stub, and avoids some legacy stuff that new
-architectures have no need for.
-
-Alternatively, if ACPI is what you are after mostly, to describe the
-platform to the OS, you could expose the ACPI tables to the OS without
-relying on UEFI, although this should be part of the LoongArch
-bindings in the ACPI spec too.
-
--- 
-Ard.
+         Arnd
