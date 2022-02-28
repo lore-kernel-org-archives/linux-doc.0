@@ -2,115 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A003C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 05:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E42A8C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 06:34:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233067AbiB1FUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 00:20:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53130 "EHLO
+        id S231332AbiB1GfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 01:35:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbiB1FUP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 00:20:15 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8613939154;
-        Sun, 27 Feb 2022 21:19:37 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id E6BD921155;
-        Mon, 28 Feb 2022 05:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1646025575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OsOdRKyOPTsqFVySVeje99MCazN8FHXIRZGctTB3Fjc=;
-        b=1aDnYNyCMKoqi7852ELng+RjN9qj4H3oZKIs6lZKTxoiwJvkWraBZGmj+Lgr7uB+1SHFJz
-        Yh2mZu17ZFxMhdj6twoLK7xeDGS6uw7JuUWs/fN+ewmZBdcdER+polBa/xGaRr74gldhFA
-        Ag1t4rw/IZDJ70lWUTD3DCkE1pDKQVg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1646025575;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OsOdRKyOPTsqFVySVeje99MCazN8FHXIRZGctTB3Fjc=;
-        b=ETy1bbk4AvRTgoyR516RJsfNTn47d24xVl6EFjxT7PerkTAmm+E/x1KFcnx2xiTY9paC/z
-        4vNKWy2UyfSPGfDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E5C712FC5;
-        Mon, 28 Feb 2022 05:19:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 5BzICmBbHGIXfAAAMHmgww
-        (envelope-from <neilb@suse.de>); Mon, 28 Feb 2022 05:19:28 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S231366AbiB1GfP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 01:35:15 -0500
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BDFC66C83;
+        Sun, 27 Feb 2022 22:34:37 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id 63so4996327uaw.10;
+        Sun, 27 Feb 2022 22:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pQG4s8WE2x1LNgZqIzGp20XGhXGocdIMbbXafkH7Qc8=;
+        b=GruZ2YoSOvvXfZVZ6KA5WEH0ZPPUg9N2AP5RrkdgnOLAviKh6yO5H1ky1McosPzMSP
+         t84aBstIN9acMIz5FhxyewgGkxfrqsPFfkqY7Or8kbGjmt0mDcyUpAi/GnuKKA5N+ZKi
+         R+brUdZB+s2Zq369kTj3/oSCilGJk8RlU+JElfYeXDSf7kgopr7PgIsRSUxpI1mGODSD
+         zheBU/avNxJPTk+Mhpq3zz1tO2FapqfGIGoMKMP5cjOb/Pgr0FA1hkLjIlmxUV/bFKs2
+         xCMq+QM07HRFWVmJYKN4A7LQBgk/61YwuzwVITqBZCz0GNlIHlKpIqYTvJaQ/fvbMlf1
+         w5rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pQG4s8WE2x1LNgZqIzGp20XGhXGocdIMbbXafkH7Qc8=;
+        b=rKi3ITCjhIqbbH3Wh1NfL0aagwuoMP74K1enrSAM2+GfJmEkIhtEnVMjRgMdrQdZXG
+         vPyUHYA4/iCdVHnCdCSu28lMHUm0JQRBkXeSfrEShQ0wMM72f9qpep2YeB9oXTtHi60W
+         2OhmU84VPVJ16zjMOFKG3FfINMR5eZox3jtVHyoSIMJZYIxE9cP/ChzygtiYABDTWVuU
+         N7vNwjMNygNu3YgN3rxUh8lOqxKwvmXCKO84SL3ha777MzsU6ifgnMbeNsCaeJoQ8U1N
+         2uBffgUKnoIEftz4JYQ5FWasSp0Wx5vmLMQCHPwa0orotz0E/Fiy7Ax1ODD+WhyuHnZ9
+         zQCg==
+X-Gm-Message-State: AOAM533oghqfBwbgcx6+xEmnTq7/cHSp2NZ3Lv0m5l1oNHSaNtwQkT5v
+        DoF8OtUZM9BII6Y/2xE8V6zL/MSE0AxM4dFUCfhpA+k1hYznZA==
+X-Google-Smtp-Source: ABdhPJzEXt+L46gCFw+ULUhU5ealXcEhvdwROaLTbtefttrWg20EEksoLIWs4q7qU/6kVxnQzPI1Gr2hXMpssF1Jsqs=
+X-Received: by 2002:ab0:3da4:0:b0:306:a7f8:f28b with SMTP id
+ l36-20020ab03da4000000b00306a7f8f28bmr7527955uac.47.1646030076362; Sun, 27
+ Feb 2022 22:34:36 -0800 (PST)
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Andrew Morton" <akpm@linux-foundation.org>
-Cc:     "Jan Kara" <jack@suse.cz>, "Wu Fengguang" <fengguang.wu@intel.com>,
-        "Jaegeuk Kim" <jaegeuk@kernel.org>, "Chao Yu" <chao@kernel.org>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "Ilya Dryomov" <idryomov@gmail.com>,
-        "Miklos Szeredi" <miklos@szeredi.hu>,
-        "Trond Myklebust" <trond.myklebust@hammerspace.com>,
-        "Anna Schumaker" <anna.schumaker@netapp.com>,
-        "Ryusuke Konishi" <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        "Philipp Reisner" <philipp.reisner@linbit.com>,
-        "Lars Ellenberg" <lars.ellenberg@linbit.com>,
-        "Paolo Valente" <paolo.valente@linaro.org>,
-        "Jens Axboe" <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 02/11] MM: document and polish read-ahead code.
-In-reply-to: <20220227204728.b2eb5dd94ecc3e86912bacad@linux-foundation.org>
-References: <164447124918.23354.17858831070003318849.stgit@noble.brown>,
- <164447147257.23354.2801426518649016278.stgit@noble.brown>,
- <20220210122440.vqth5mwsqtv6vjpq@quack3.lan>,
- <164453611721.27779.1299851963795418722@noble.neil.brown.name>,
- <20220224182622.n7abfey3asszyq3x@quack3.lan>,
- <164602251992.20161.9146570952337454229@noble.neil.brown.name>,
- <20220227204728.b2eb5dd94ecc3e86912bacad@linux-foundation.org>
-Date:   Mon, 28 Feb 2022 16:19:24 +1100
-Message-id: <164602556430.20161.5451268677064506613@noble.neil.brown.name>
+References: <20220226110338.77547-1-chenhuacai@loongson.cn>
+ <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
+ <YhupaVZvbipgke2Z@kroah.com>
+In-Reply-To: <YhupaVZvbipgke2Z@kroah.com>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Mon, 28 Feb 2022 14:34:26 +0800
+Message-ID: <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
+Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        linux-efi <linux-efi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Feb 2022, Andrew Morton wrote:
-> On Mon, 28 Feb 2022 15:28:39 +1100 "NeilBrown" <neilb@suse.de> wrote:
-> 
-> > When writing documentation the intent of the author is of some interest,
-> > but the behaviour of the code is paramount.
-> 
-> uh, er, ah, no.  The code describes the behaviour of the code.  The
-> comments are there to describe things other than the code's behaviour.
-> Things such as the author's intent.
-> 
-> Any deviation between the author's intent and the code's behaviour is
-> called a "bug", so it's pretty important to understand authorial
-> intent, no?
+Hi, Ard and Greg,
 
-When the author is writing the documentation - then yes - definitely. 
-When the "author" is several different people over a period of years,
-then it is not even certain that there is a single unified "intent".
+On Mon, Feb 28, 2022 at 12:40 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Feb 27, 2022 at 03:14:30PM +0100, Ard Biesheuvel wrote:
+> > (add Greg and ACPI maintainers)
+> >
+> > On Sat, 26 Feb 2022 at 12:11, Huacai Chen <chenhuacai@loongson.cn> wrote:
+> > >
+> > > This patch adds basic boot, setup and reset routines for LoongArch.
+> > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
+> > > SMBIOS to pass configuration information to the Linux kernel (in elf
+> > > format).
+> > >
+> > > Now the boot information passed to kernel is like this:
+> > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
+> > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
+> > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
+> > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
+> > >    type is "efi_system_table_t". Most configuration information, include
+> > >    ACPI tables and SMBIOS tables, come from here.
+> > >
+> > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > Cc: linux-efi@vger.kernel.org
+> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > > ---
+> > >  arch/loongarch/include/asm/acenv.h      |  17 +
+> > >  arch/loongarch/include/asm/acpi.h       |  38 ++
+> > >  arch/loongarch/include/asm/boot_param.h |  97 +++++
+> > >  arch/loongarch/include/asm/bootinfo.h   |  33 ++
+> > >  arch/loongarch/include/asm/dmi.h        |  24 ++
+> > >  arch/loongarch/include/asm/efi.h        |  33 ++
+> > >  arch/loongarch/include/asm/fw.h         |  18 +
+> > >  arch/loongarch/include/asm/reboot.h     |  10 +
+> > >  arch/loongarch/include/asm/setup.h      |  21 +
+> > >  arch/loongarch/kernel/acpi.c            | 338 ++++++++++++++++
+> > >  arch/loongarch/kernel/cacheinfo.c       | 122 ++++++
+> > >  arch/loongarch/kernel/cmdline.c         |  31 ++
+> > >  arch/loongarch/kernel/cpu-probe.c       | 305 +++++++++++++++
+> > >  arch/loongarch/kernel/efi.c             | 208 ++++++++++
+> > >  arch/loongarch/kernel/env.c             | 176 +++++++++
+> > >  arch/loongarch/kernel/head.S            |  72 ++++
+> > >  arch/loongarch/kernel/mem.c             |  89 +++++
+> > >  arch/loongarch/kernel/reset.c           |  90 +++++
+> > >  arch/loongarch/kernel/setup.c           | 495 ++++++++++++++++++++++++
+> > >  arch/loongarch/kernel/time.c            | 220 +++++++++++
+> > >  arch/loongarch/kernel/topology.c        |  13 +
+> > >  21 files changed, 2450 insertions(+)
+> >
+> > As I pointed out in response to an earlier revision of this code, I
+> > don't think we should merge this until we decide on some ground rules
+> > regarding the support level of this architecture in the UEFI and ACPI
+> > subsystems.
+> >
+> > The problem is that loongarch does not exist in the ACPI or UEFI
+> > specifications at all, and as I understand it, the firmware
+> > implementations themselves do not implement UEFI or ACPI entirely,
+> > they simply present data structures in memory that look similar enough
+> > for the Linux UEFI and ACPI code to boot the OS.
+>
+> Why isn't this in the ACPI/UEFI specs?  Is it a lack of access to the
+> spec groups by the comapny making these devices, or something else?
+We have tried our best to make LoongArch parts be in ACPI and UEFI SPECs.
 
-The author's intent is less interesting not so much because it is less
-relevant, but because it is less available.
+ECR for adding LoongArch support in ACPI:
+https://mantis.uefi.org/mantis/view.php?id=2203
 
-So when writing third-party post-hoc documentation, the focus has to be
-on the code, though with reference to the intent to whatever extent it
-is available.  Bugs then show up where the actual behaviour turns out to
-be impossible to document coherently.
+ECR for adding LoongArch support in ACPI (version update):
+https://mantis.uefi.org/mantis/view.php?id=2268
 
-Thanks,
-NeilBrown
+ECR for adding LoongArch support in UEFI:
+https://mantis.uefi.org/mantis/view.php?id=2313
+
+ACPI changes of LoongArch have been approved in the last year, but the
+new version of ACPI SPEC hasn't been made public yet. And UEFI changes
+of LoongArch are under review now.
+
+Is it a must that the kernel code be merged after all SPECs are
+public? If not, I think we can provide some snapshots (If it is legal,
+I'm not sure) of mantis.uefi.org to prove the above.
+
+Huacai
+
+>
+> > As the UEFI subsystem maintainer, I am concerned that future changes
+> > to the UEFI subsystem that are rooted in the the UEFI specification as
+> > it evolves may trigger unanticipated results on this architecture, and
+> > I imagine the ACPI maintainers may have similar concerns.
+>
+> I agree, I would be concerned about that as well.
+>
+> > So what can we do about this? Do we merge this code, but as a second
+> > class citizen in terms of UEFI/ACPI subsystem support, i.e., you are
+> > welcome to use it, but if something breaks, the UEFI/ACPI maintainers
+> > are not on the hook to see to it that it gets fixed? I don't think
+> > this is a great solution, but I'm not sure if there are alternatives
+> > that are any better.
+>
+> That's not going to work, it's the kernel's job to fix up hardware
+> problems.  But as this is all firmware, why can't the firmware be
+> changed to properly follow the public specifications?  What's wrong with
+> requiring that at this point in time (i.e. _BEFORE_ the code is merged)?
+>
+> thanks,
+>
+> greg k-h
