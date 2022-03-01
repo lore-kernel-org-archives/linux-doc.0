@@ -2,114 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D13E1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 17:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42DF8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 17:34:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234412AbiCARBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 12:01:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S236504AbiCARf0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 12:35:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235293AbiCARBd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 12:01:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BAC21AD82;
-        Tue,  1 Mar 2022 09:00:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E9FA60FCD;
-        Tue,  1 Mar 2022 17:00:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A3DC340EE;
-        Tue,  1 Mar 2022 17:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646154051;
-        bh=h907ipPkeeK8P2nHj6SjBPg75fPHts99jpm7hU3oTe4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uejxuz68JNN+P/Ws/LbTy+IcncnwZTwo3NQso7ZdH7w978wfAVW3186wDBd9SzsvQ
-         kNm3lkRQv5WwuJB/zW5sCTRZw66PNcdHW0Y8xqQzw6dI5HVsJZofimyKsKGnA23U26
-         pm1v1ubbzy45uxc1q1rpOavS/mjiXtwgBo5eyrEsQLMhAHhiNWjvnMUZHulkbiDtey
-         zoovisI+XRC+c3rMe9bDqCkk4dhfLZA9Sz+xxGcMKgexowZ1PBAjwmUFgxDEf7BIU3
-         +QI1xlshWc56KtdACRoQy2cp54d1DnemenhEjTrXbUzW6dj/1IqTUJWR7wl21ymGDK
-         /6i415XEZ/Tqg==
-Date:   Tue, 1 Mar 2022 10:00:45 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-Message-ID: <Yh5RPeqikTtoUS80@dev-arch.archlinux-ax161>
-References: <20220301145233.3689119-1-arnd@kernel.org>
- <20220301145233.3689119-3-arnd@kernel.org>
+        with ESMTP id S234275AbiCARfZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 12:35:25 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339C6D41
+        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 09:34:44 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id a8so32970010ejc.8
+        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 09:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fA+wU5kLcLMBqXhRMKV9dKF5kxH3TH0A/1zIZlyz7uk=;
+        b=EXUBHrbJqw7GJBIBA3QnFbgZDrqXDZ8XgvgEzKY5f2OtEEmWBf6/iPV90dhIvtceRz
+         qihXKA/o/oVDP6B4U6c1eA9iZwtBk6hceIoJO+rP4X29nuXsXv0I/+tg6+3b0Ra/s7Cj
+         BjN/+HP/M8ncA4QhefB1zQ8TJQrJXBZ11tSEPAEiCQ/7bUQKnPSOB+8/tQoebmyles7j
+         8jP2KY2AlysEF+NFobsd1Ur6aF42jOQ5NEHVraGq0C0N/X/Lu+vjCpcdqlPlGoT67850
+         7/uWDXU9HCqIJbb0nEIUNlSXgzg+Vobgoi+1byJgDdOfNLsp4ejHwdelLveHLrduBM2M
+         1jpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fA+wU5kLcLMBqXhRMKV9dKF5kxH3TH0A/1zIZlyz7uk=;
+        b=SoLDNSGryRUpZ3Iqe9smwxE9krDdm/d8oiUYXjOFyPURv/yTaCH/wNu1EfdIwgPpYB
+         PgWwV5rrG/ArF5Hc4T0JUbTBGof3YS1fCpK5OI8djjjJ/OjisJIpPSpmRVACAOh7Q9UN
+         oAUwPzzF75C9HPKC2E/OoPKmOggSUvwyJO2x/1DeHz6xZ39QQo6OYtHoQxW+VnAnXo88
+         H6XunZhMdrxUbAJ87Juxw8k54N1Pl0N2p7sCBDVu542cCDUT4JA130JydCtt1cLl5JxR
+         a1OHBLUU0ue7zrMTLxlapCDj8b8cjJAvhVuqj3dg4nDVw2tYM7GRLxMG6PnlYaeuBwxB
+         bgzw==
+X-Gm-Message-State: AOAM531Z200MLihkFCZ7L0e/uR2eOJipowDUTBw0rer87IB6PnRDzDAb
+        +JgJhQKwajHrfkhL6FIdudEIyJ+DD/8IGVBlZYs9
+X-Google-Smtp-Source: ABdhPJwutbuZwi+5PT0zxNKnuVU5n0uuvL6xb27c/saMNUuMiCO4AOODGSaeqiQQTwVvkYLfmE8FeDmAEg08n2fY/xc=
+X-Received: by 2002:a17:906:6b8f:b0:6cd:7984:26fc with SMTP id
+ l15-20020a1709066b8f00b006cd798426fcmr19568418ejr.701.1646156082677; Tue, 01
+ Mar 2022 09:34:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220301145233.3689119-3-arnd@kernel.org>
+References: <20220301041454.18960-1-rdunlap@infradead.org>
+In-Reply-To: <20220301041454.18960-1-rdunlap@infradead.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 1 Mar 2022 12:34:31 -0500
+Message-ID: <CAHC9VhSuzpuEm437SCYC8pf0mU6qdWXRU38sb2+JjVtj-8T4Kw@mail.gmail.com>
+Subject: Re: [PATCH] docs: selinux: add '=' signs to kernel boot options
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, selinux@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 03:52:33PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> As we change the C language standard for the kernel from gnu89 to
-> gnu11, it makes sense to also update the version for user space
-> compilation.
-> 
-> Some users have older native compilers than what they use for
-> kernel builds, so I considered using gnu99 as the default version
-> for wider compatibility with gcc-4.6 and earlier.
-> 
-> However, testing with older compilers showed that we already require
-> HOSTCC version 5.1 as well because a lot of host tools include
-> linux/compiler.h that uses __has_attribute():
-> 
->   CC      tools/objtool/exec-cmd.o
-> In file included from tools/include/linux/compiler_types.h:36:0,
->                  from tools/include/linux/compiler.h:5,
->                  from exec-cmd.c:2:
-> tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
-
-For what it's worth, I think this is a bug:
-
-https://lore.kernel.org/r/c1b1a299-c60d-28a4-07ab-1ecd211d6da9@i-love.sakura.ne.jp/
-https://lore.kernel.org/r/20220102120201.594408-1-xu.xin16@zte.com.cn/
-
-I never got clear feedback on resolving it from the first thread and
-nobody bothered to pick up the second patch.
-
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Nobody has yelled that loud though, so this is probably fine.
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
+On Mon, Feb 28, 2022 at 11:14 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Provide the full kernel boot option string (with ending '=' sign).
+> They won't work without that and that is how other boot options are
+> listed.
+>
+> If used without an '=' sign (as listed here), they cause an "Unknown
+> parameters" message and are added to init's argument strings,
+> polluting them.
+>
+>   Unknown kernel command line parameters "enforcing checkreqprot
+>     BOOT_IMAGE=/boot/bzImage-517rc6", will be passed to user space.
+>
+>  Run /sbin/init as init process
+>    with arguments:
+>      /sbin/init
+>      enforcing
+>      checkreqprot
+>    with environment:
+>      HOME=/
+>      TERM=linux
+>      BOOT_IMAGE=/boot/bzImage-517rc6
+>
+> Fixes: ^1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+> Cc: Eric Paris <eparis@parisplace.org>
+> Cc: selinux@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
 > ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 37ef6a555dcd..7c9be7f1ccd4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -432,7 +432,7 @@ HOSTCXX	= g++
->  endif
->  
->  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -			    -O2 -fomit-frame-pointer -std=gnu89 \
-> +			    -O2 -fomit-frame-pointer -std=gnu11 \
->  			    -Wdeclaration-after-statement
->  export KBUILD_USERLDFLAGS :=
->  
-> -- 
-> 2.29.2
-> 
-> 
+>  Documentation/admin-guide/kernel-parameters.txt |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Thanks Randy.
+
+Acked-by: Paul Moore <paul@paul-moore.com>
+
+> --- linux-next-20220228.orig/Documentation/admin-guide/kernel-parameters.txt
+> +++ linux-next-20220228/Documentation/admin-guide/kernel-parameters.txt
+> @@ -550,7 +550,7 @@
+>                         nosocket -- Disable socket memory accounting.
+>                         nokmem -- Disable kernel memory accounting.
+>
+> -       checkreqprot    [SELINUX] Set initial checkreqprot flag value.
+> +       checkreqprot=   [SELINUX] Set initial checkreqprot flag value.
+>                         Format: { "0" | "1" }
+>                         See security/selinux/Kconfig help text.
+>                         0 -- check protection applied by kernel (includes
+> @@ -1409,7 +1409,7 @@
+>                         (in particular on some ATI chipsets).
+>                         The kernel tries to set a reasonable default.
+>
+> -       enforcing       [SELINUX] Set initial enforcing status.
+> +       enforcing=      [SELINUX] Set initial enforcing status.
+>                         Format: {"0" | "1"}
+>                         See security/selinux/Kconfig help text.
+>                         0 -- permissive (log only, no denials).
+
+-- 
+paul-moore.com
