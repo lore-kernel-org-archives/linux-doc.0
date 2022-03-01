@@ -2,162 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64886C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 19:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5356BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 20:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbiCAT6t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:58:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60408 "EHLO
+        id S233804AbiCAUDD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 15:03:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232052AbiCAT6r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 14:58:47 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0011D315
-        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 11:57:54 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id l12so11462628ljh.12
-        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 11:57:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bzivBYAw3ljLJy8xZdeQDlrkgf1wuIGHlMk0BwA07c0=;
-        b=KEQ5BRHLV5QEz4CDHLQQB/SplTyDRt7A4lHNfxFHFB/hJZlUmDi2+nTSlwz/H2F/dx
-         eimLKy1g993y+H0uoNs1fYev40Npxz0jCvsONiiotxfIzDl0yiFXH8E66Kww8Zi5JVt1
-         riAOs1Ia1BdYL6FWl6MAGMOBI9gg8XlLRFJZCnfpCL7TGTzdoG2bEaWS8N8eSDGVV/ej
-         Zd9+RTVAnK61wC4eiSnP3FMVMeXlnBN2TncLzIAxZ+y2DFpGcp9fepASwO8v+UbdT79E
-         bzpFk/XEUzmbP+XJ8l47hH02UpAK4H+KPvM6mPZ5mdbg8zT4ERWVjVqIaDSA/SmcWYmz
-         FUHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bzivBYAw3ljLJy8xZdeQDlrkgf1wuIGHlMk0BwA07c0=;
-        b=Xcw+eaIOEtiCbQrEeuPRXi5yrC2pRonjRZ7NouAqpSebLJcIvModASU0jOwAztW5Lg
-         jTCWYBSiV96OL0YLZlUUl6arv4x9LbDLXmcLvTUkE97wyKB8hOoQbM0Oi2kJIF29WoPe
-         jfPJp3Qxk0AZKktA7Am53MYUN7Rf3NkSVASEYD8wnnM+xgPuuourYzU/wQapfaSUH8w1
-         h5XzrGkklQ0Sf1WetALHZ1BJCQEszbxVJ/OMTypWhUi692UXRNzrGZLMhUg7hJlSxrA4
-         fi7lwPz3BUQrSrYFa8pEA4b+X/e388r/itz2gV8u8rRdGKDUIHwjrr/xvMWPzSipOpMA
-         UAnQ==
-X-Gm-Message-State: AOAM533RQeMrPMU/TYwVl24ofIwt4BD/rn2jWtpbEr+vu5UjM2xT2LpJ
-        OQnJrCG3ocGQfe97tFXXPlofFh/K3MEhVai1fVUuhA==
-X-Google-Smtp-Source: ABdhPJzbNisdyIa1wPYSz5jbLW4IKbU4cXZL3Jq42bKSP244kPlasEustkjm9b56aAk8bR8evyfq6NCB36MTaBtFvM0=
-X-Received: by 2002:a2e:871a:0:b0:246:ee2:1109 with SMTP id
- m26-20020a2e871a000000b002460ee21109mr17904085lji.165.1646164672468; Tue, 01
- Mar 2022 11:57:52 -0800 (PST)
+        with ESMTP id S231549AbiCAUDC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 15:03:02 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB01270336;
+        Tue,  1 Mar 2022 12:02:20 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F9A461681;
+        Tue,  1 Mar 2022 20:02:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAACC340EE;
+        Tue,  1 Mar 2022 20:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646164939;
+        bh=UUVYbmulLMUrxKXtd4GDe7HCMoTaW7UmSbQD4MyDMB4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=D5kGyTrI2spf/l4NhdmT6MAfu6xixhKJBqviPcNaGRRDED6ajN1UzpP5rXAYiiuia
+         jTBj9CGU34KkG+O57KUHrA3ewxgVMa5RSQpdXpQa/c6cO6uE9TJYin/jEeGU+h3K79
+         GNKln+BmV1OsZplf7va3TlkqAtFHEHgmgMR7P3xMJleJv8STfn4Ah+WdZMauHmpSnb
+         0JMEpV8Jew1RdVjBpmik8GdluzN8ZI4PPi8+y6BsLrblZ8KiX7eaOE0G0XhL8nrN4P
+         synUu/GHEihS+iTVu4SHcXDVotSKNn+tpN9DDxa73RDy6xGJB+J9Y+p0pFJMR3jWRx
+         0AD9vkEDXV3VA==
+Date:   Tue, 1 Mar 2022 14:02:18 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     trix@redhat.com
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        corbet@lwn.net, bhelgaas@google.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] vgaarbiter: fix vgaarbiter doc build break
+Message-ID: <20220301200218.GA642697@bhelgaas>
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-2-arnd@kernel.org>
-In-Reply-To: <20220301145233.3689119-2-arnd@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Mar 2022 11:57:41 -0800
-Message-ID: <CAKwvOdnkfuT_w_0RNCb+WTKJ+282zLKmhB9UNG=D-UFz9VkUng@mail.gmail.com>
-Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220301192909.294900-1-trix@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 6:52 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Mark Rutland <mark.rutland@arm.com>
->
-> In a subsequent patch we'll move the kernel from using `-std=3Dgnu89` to
-> `-std=3Dgnu11`, permitting the use of additional C11 features such as
-> for-loop initial declarations.
->
-> One contentious aspect of C99 is that it permits mixed declarations and
-> code, and for now at least, it seems preferable to enforce that
-> declarations must come first.
->
-> These warnings were already disabled in the kernel itself, but not
-> for KBUILD_USERCFLAGS or the compat VDSO on arch/arm64, which uses
-> a separate set of CFLAGS.
->
-> This patch fixes an existing violation in modpost.c, which is not
-> reported because of the missing flag in KBUILD_USERCFLAGS:
->
-> | scripts/mod/modpost.c: In function =E2=80=98match=E2=80=99:
-> | scripts/mod/modpost.c:837:3: warning: ISO C90 forbids mixed declaration=
-s and code [-Wdeclaration-after-statement]
-> |   837 |   const char *endp =3D p + strlen(p) - 1;
-> |       |   ^~~~~
->
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> [arnd: don't add a duplicate flag to the default set, update changelog]
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Tue, Mar 01, 2022 at 11:29:09AM -0800, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> make htmldocs fails with
+> Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
+> 
+> The location of the file changed
+> drivers/gpu/vga/vgaarb.c -> drivers/pci/vgaarb.c
+> So update the docs with the new location.
+> 
+> Fixes: d6e1898bfa5b ("PCI/VGA: Move vgaarb to drivers/pci")
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-Thanks for the patches!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Fixed, thanks!
 
 > ---
->  Makefile                          | 3 ++-
->  arch/arm64/kernel/vdso32/Makefile | 1 +
->  scripts/mod/modpost.c             | 4 +++-
->  3 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 94fa9a849a7a..37ef6a555dcd 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -432,7 +432,8 @@ HOSTCXX     =3D g++
->  endif
->
->  export KBUILD_USERCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-protot=
-ypes \
-> -                             -O2 -fomit-frame-pointer -std=3Dgnu89
-> +                           -O2 -fomit-frame-pointer -std=3Dgnu89 \
-> +                           -Wdeclaration-after-statement
->  export KBUILD_USERLDFLAGS :=3D
->
->  KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTC=
-FLAGS)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
-/Makefile
-> index 9378ea055bf2..ed181bedbffc 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -68,6 +68,7 @@ VDSO_CFLAGS +=3D -Wall -Wundef -Wstrict-prototypes -Wno=
--trigraphs \
->                 -fno-strict-aliasing -fno-common \
->                 -Werror-implicit-function-declaration \
->                 -Wno-format-security \
-> +               -Wdeclaration-after-statement \
->                 -std=3Dgnu11
->  VDSO_CFLAGS  +=3D -O2
->  # Some useful compiler-dependent flags from top-level Makefile
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 6bfa33217914..fe693304b120 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -833,8 +833,10 @@ static int match(const char *sym, const char * const=
- pat[])
->  {
->         const char *p;
->         while (*pat) {
-> +               const char *endp;
-> +
->                 p =3D *pat++;
-> -               const char *endp =3D p + strlen(p) - 1;
-> +               endp =3D p + strlen(p) - 1;
->
->                 /* "*foo*" */
->                 if (*p =3D=3D '*' && *endp =3D=3D '*') {
-> --
-> 2.29.2
->
-
-
---=20
-Thanks,
-~Nick Desaulniers
+>  Documentation/gpu/vgaarbiter.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+> index 339ed5fecd2e4..bde3c0afb0590 100644
+> --- a/Documentation/gpu/vgaarbiter.rst
+> +++ b/Documentation/gpu/vgaarbiter.rst
+> @@ -100,7 +100,7 @@ In-kernel interface
+>  .. kernel-doc:: include/linux/vgaarb.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/gpu/vga/vgaarb.c
+> +.. kernel-doc:: drivers/pci/vgaarb.c
+>     :export:
+>  
+>  libpciaccess
+> -- 
+> 2.26.3
+> 
