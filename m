@@ -2,129 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86347C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 10:24:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C3BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 10:44:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234111AbiCAKZA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 05:25:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
+        id S234354AbiCAKot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 05:44:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234127AbiCAKY7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 05:24:59 -0500
-X-Greylist: delayed 303 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Mar 2022 02:24:18 PST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3477358830;
-        Tue,  1 Mar 2022 02:24:17 -0800 (PST)
-Received: from mail-wr1-f47.google.com ([209.85.221.47]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MmU9X-1o6Xg02KI5-00iRlQ; Tue, 01 Mar 2022 11:19:13 +0100
-Received: by mail-wr1-f47.google.com with SMTP id j17so19731748wrc.0;
-        Tue, 01 Mar 2022 02:19:13 -0800 (PST)
-X-Gm-Message-State: AOAM532h+TSsT7XvTtltQpow3PwSn4+2uzT8xgz1pYiE3i8l451g41cf
-        UNXRvarmF9I01/AqayURu6IwTnPEVV950GaoALM=
-X-Google-Smtp-Source: ABdhPJzzPOquGV619/Ft2Hlid0sPxXMa9f5QyUk3acsgXWRETaM+gTfyx5RKFPDTTgU6lhKUdNltea8NVoyAewfh61A=
-X-Received: by 2002:a5d:63c2:0:b0:1ef:840e:e139 with SMTP id
- c2-20020a5d63c2000000b001ef840ee139mr11569532wrw.192.1646129952971; Tue, 01
- Mar 2022 02:19:12 -0800 (PST)
+        with ESMTP id S233104AbiCAKoq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 05:44:46 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08968B6D2;
+        Tue,  1 Mar 2022 02:44:05 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id q8so17972978iod.2;
+        Tue, 01 Mar 2022 02:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
+        b=WrUDonvN2fO25UTk5VNVhFhd8gruRaN5xzDoP4JD0Sakac0hlwGn0vLFs4yYd4XAFv
+         uZKJIKn4j7cuELvqeeSDPXMNu2C1n0MsJpfl9rt1CcXMWz8ysAwYiWu0FU5ssFw8GnBu
+         KImb7bl4uZxpEQ889GR2FwiQtAowT5cOncwrkuheaR+UErGWa6dJdP5knzUj9ZNji+C6
+         SaCIGAmJwbqyXPo1H+nGW/xKoV4Sv5xxMQcmeQv2UvCQ1LPx9cytIPoPatO3xtpXO37Q
+         QL3drAKRoTDr8u6LO2OfPrWDqwyTUyYOMOn4N3XOwbIN3FW3QG+ijjXJMFfWWnQ72HyS
+         YuTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
+        b=fWjcwHYaEZ8qElLi1dKVLNNEPPJlBkdYfAk9mLmtpjVniiaQknwJyHzxkiX1oEYBUR
+         NXdoKB5jAMVa/3+5lrduGHA6Qy5ZQAMD5FsM+JRv5LQjvtX/pYcdFUB3dfEzd9bGfnhI
+         ogtZSpBp/4sIp1G/GF9enXN2VCrlZIiF5D4E/k2eFhyiP0TiSVh0PNwcnpHRrJeg/Kt5
+         vMIptiG7xI6OqKCd8pXxdpE4psbkP9lvKHI7wa8Ht8Dn7MecvofHFAxJqssltKXMnhNJ
+         k1Q4aTpcKdBvpdnpoI5/xol71EZzd7AR1RjcDx3A7goskIR8wQ3BmufPe4xE/g2r9Ofr
+         eSEw==
+X-Gm-Message-State: AOAM530jyOQQEssfOEowONXnC/Cn7vxJZs1oKym0bhQjdFYYkKFntgrX
+        8Qh8AxQ7MXVqO1hTswymG+W5hmw6AzhkGsdK8CA=
+X-Google-Smtp-Source: ABdhPJw1aZ/CGkeAZM6RKVYVHBay0f9lMjJdsMqyLhdijbZf60uaKu7bggqdaHiabrS+XPZY5qiqhEF5Hass1iDJqZk=
+X-Received: by 2002:a6b:661a:0:b0:640:dd42:58ff with SMTP id
+ a26-20020a6b661a000000b00640dd4258ffmr18921633ioc.64.1646131444958; Tue, 01
+ Mar 2022 02:44:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
- <YhupaVZvbipgke2Z@kroah.com> <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
- <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
- <CAAhV-H7X+Txq4HaaF49QZ9deD=Dwx_GX-2E9q_nA8P76ZRDeXg@mail.gmail.com>
- <CAMj1kXGH1AtL8_KbFkK+FRgWQPzPm1dCdvEF0A2KksREGTSeCg@mail.gmail.com>
- <CAAhV-H6fdJwbVG_m0ZL_JGROKCrCbc-fKpj3dnOowaEUA+3ujQ@mail.gmail.com>
- <CAK8P3a2hr2rjyLpkeG1EKiOVGrY4UCB61OHGj5nzft-KCS3jYA@mail.gmail.com>
- <CAMj1kXHGG80LdNUUA+Ug1VBXWuvtPxKpqnuChg2N=6Hf2EhY7g@mail.gmail.com> <CAAhV-H6dxkdmDizd+ZVhJ_zHZ9RK8QjKU-3U-CaovLiNbEVpbg@mail.gmail.com>
-In-Reply-To: <CAAhV-H6dxkdmDizd+ZVhJ_zHZ9RK8QjKU-3U-CaovLiNbEVpbg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 1 Mar 2022 11:18:56 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2wF2XA8wCFtP9RNTNQf3W9D8fKOuQ704yE+dRSS5aCVw@mail.gmail.com>
-Message-ID: <CAK8P3a2wF2XA8wCFtP9RNTNQf3W9D8fKOuQ704yE+dRSS5aCVw@mail.gmail.com>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220228103142.3301082-1-arnd@kernel.org>
+In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 1 Mar 2022 11:43:53 +0100
+Message-ID: <CANiq72=wmYeBcJvRbBgRj1q_cHjZBVjxStXSu-8Ogv5bJhCqpA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-efi <linux-efi@vger.kernel.org>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        Linux Btrfs <linux-btrfs@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:XStCGZX/ROQSePDe1dyXr69F8I2kJSDcoRYdgl9fhDF89FNNCW1
- nl7YRK11Fp/q7Y2u5OU7dCpbyI0QK7AQ9lUDGcY0XS7/J3ubQpMAGQA7zTGx1I8haebHYrh
- Al/vYhQKudbTknC/RGK+Q07kfD3/1SETShIQeF6bkDlvbciFXCm1ftcmZvuAEm8HSodfAP5
- KlQpqVR5YoPF1QJu6+RbA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9IFbU8ZQfYw=:X3PrtjVhlasVZ4xhIuFgqS
- R846WvDKkxFkaQq8faDAZlJJr4vCSNQygFIGKs9/SQRVyjiCahjK7OznSWWDKPvrmWUdYPBlV
- /DFUEoWDV4F4zCynGjzruVcV/zgvTwyDPx/jt36L4Ej+m3GvSqfH0faZC2GYOl7rvpupYvaoh
- HnETPwquGI/+P3JZa+kclWRQuGJ5uNlvGEXetauIMpZBb21V5QEGAtZRl0cEY6f3WlLHd2KwS
- UuUv0xvCsYHsGjYq+FRGeI+QWOoI3KjJ3trcxM32quHX6gmGlygpqe+VSQnJiygGldXzObWe2
- ZyRqsAKx3CjezilRrJhm744CtfXjxf500DT669nClml+zMghEhBjOhO8iT9N0WYlgMxkNnhKH
- 1d1gYeLVmyXmo75eNKHj/VAeq0P/PYrV6qyHQImBbzFAudXZQfcvC97Xzl/7TaP5BeOVMOKJx
- kp5mTm/Wl7whgeIkS1JTtjBVubif1t/aKNIXs3WrM/cFTy8jDJW/axfBTAann8sOxVUFNSXmO
- 9fCzAKIrOdgvMWt5B1lIUwupQ6xcsPxLgUybsQ1/I4JRSDAWJ3AuGYvx290BpM/A94SjN0b4k
- Fo2Bxh9b3lntP0AD2Iwl5mBd7jfEswUpGkoorY9YG1TmEvzXQkfmjtvp3APeNMy2bE5iUt0+t
- qjv+17daBS/GHKNwx8b2EzUtUcBrWhqSte8+pz1K96oGsXft+fzzELAY7yB8i/PhyIW4=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 5:17 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> On Mon, Feb 28, 2022 at 7:35 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > On Mon, 28 Feb 2022 at 12:24, Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Mon, Feb 28, 2022 at 11:42 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > Can't you just use the UEFI protocol for kernel entry regardless
-> > > of the bootloader? It seems odd to use a different protocol for loading
-> > > grub and the kernel, especially if that means you end up having to
-> > > support both protocols inside of u-boot and grub, in order to chain-load
-> > > a uefi application like grub.
-> > >
-> >
-> > I think this would make sense. Now that the EFI stub has generic
-> > support for loading the initrd via a UEFI specific protocol (of which
-> > u-boot already carries an implementation), booting via UEFI only would
-> > mean that no Linux boot protocol would need to be defined outside of
-> > the kernel at all (i.e., where to load the kernel, where to put the
-> > command line, where to put the initrd, other arch specific rules etc
-> > etc) UEFI already supports both ACPI and DT boot
+On Mon, Feb 28, 2022 at 11:32 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> After one night thinking, I agree with Ard that we can use RISCV-style
-> fdt to support the raw elf kernel at present, and add efistub support
-> after new UEFI SPEC released.
+> -under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
+> -(including some C99 features). ``clang`` [clang]_ is also supported, see
+> +under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11
+> +(including some C17 features). ``clang`` [clang]_ is also supported, see
 
-I think that is the opposite of what Ard and I discussed above.
+I think the "(including some C17)" bit would not make much sense
+anymore. There were no major changes in C17 and GCC implements
+`-std=c11` and `-std=c17` as basically the same thing according to the
+docs (and GNU extensions apply equally to both, I would assume).
 
-> If I'm right, it seems that RISC-V passes a0 (hartid) and a1 (fdt
-> pointer, which contains cmdline, initrd, etc.) to the raw elf kernel.
-> And in my opinion, the main drawback of current LoongArch method
-> (a0=argc a1=argv a2=bootparamsinterface pointer) is it uses a
-> non-standard method to pass kernel args and initrd. So, can the below
-> new solution be acceptable?
->
-> a0=bootparamsinterface pointer (the same as a2 in current method)
-> a1=fdt pointer (contains cmdline, initrd, etc., like RISC-V, I think
-> this is the standard method)
+When I wrote the "(including some C99 features)" I meant that GCC
+implemented some C99 features as extensions in C90 mode, and the
+kernel used some of those (e.g. the now gone VLAs).
 
-It would seem more logical to me to keep those details as part of the
-interface between the EFI stub and the kernel, rather than the
-documented boot interface.
+With that changed, for `programming-language.rst`:
 
-You said that there is already grub support using the UEFI
-loader, so I assume you have a working draft of the boot
-protocol. Are there still open questions about the interface
-definition for that preventing you from using it as the only
-way to enter the kernel from a bootloader?
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-        Arnd
+Cheers,
+Miguel
