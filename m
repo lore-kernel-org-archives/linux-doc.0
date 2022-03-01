@@ -2,93 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B10DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 20:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A88E3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 23:23:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231596AbiCAUcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 15:32:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40542 "EHLO
+        id S233824AbiCAXXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 18:23:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238267AbiCAUbx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 15:31:53 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3600BB12E7
-        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 12:28:54 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id u11so23446644lju.4
-        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 12:28:54 -0800 (PST)
+        with ESMTP id S230292AbiCAXXr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 18:23:47 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5183153C
+        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 15:23:04 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id i5so248660oih.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 15:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
-        b=AXUNohphNBaqg4Ym0QvnB7ovOxC0qHBwQQTkvDU09LsSmaqliomVWRZBWSH9rA/NdX
-         mggO8k84CHtaDmY5vc6klMZugRCimckzfjt5ruN87TRJQCG97xdfs7M+rGBCx/iITiho
-         m3WSdHrV71StH8wJGQD2H6zmXpefAi4NA1HM50JkQz1wBh8FPbo2JL0PJbfCiWj+flF5
-         VPizIjc+dyyhgd2d0QTocmiEr7TKxUjrxGCsDGzMcimHkmBPd+NZjW2RI4B879m3tzhe
-         7OsVy6+c5Q5sdBrzGsalxEeXKu7lIv3BuaHd0Vn77MJW4nH68YFqeea7l79i24g7mXhe
-         HpWg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=B0gHl0FY6TKEqOe5dLt6k+4Sn54m7FTDQTv9BgJSJmY=;
+        b=w0vaAwCSOgyqV35VqOvdvCY5g5lLUapGsVPxGHCUGkyNVEZZ6/kdXXdorDxIWT537G
+         MUzstVRDZ3xYnf+Y9IFCbWdyvIkckOkma3wtDXYzlDYyytWeVjj9Odjlj5+D9r8fwvj2
+         HBlTjilOI+nEJdz3FhwuFG3VKC9KGwVOZ7O2hrV6heTO5iRov7z0PDXH3z4BPlRzYKTv
+         5/jrfCYiWgnu5huDJykK1R+/WVA38iPh2c4glxVQ1n0YucaZOGhzKvcC+t97UFVrBEib
+         t7csV3GYm681yeV9UhUvLQCbzuULjwq6xD1qPDdr/pvZDlEKMFcqLg3bq07rx6Y7Y6Ia
+         G1fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
-        b=zuoczsBjjnEIiX4VZzGGxX6Q1hxxzWaiqrYaOWISSOWo2aqqfCw3BYXNICguWwwlc3
-         cImcJwmiKfWDqloodiR6LfFop5T+UTZ7LSqL5/qNxm11LgAo2bEERwGYGLe9BegxG4im
-         0Xf1Uour6EC3lQMNnc2gLOiPOxBtvQShbcAOLEvOiADY6mEDjetZyFTRBE1/HwicQxp1
-         lBRcNdV3YVlJaNP5dpWEoTDnWNndZQfXNu3zDQGDCepkikEhUCpr5cgJeNGiv6Y4whAW
-         Grer/eif3x/F5BDeJ+TW5+XuDPLAIuvnDG76SINbBjub6D53rAOI6owq7wN1NLn7ouv0
-         RI/w==
-X-Gm-Message-State: AOAM5326VrYVVrzKJUgF+FvUdngWmlfM5OUOz6EcRKBJYoFYnJF3/v0g
-        qap73zkwc0aC7oYyttMEbJjsCmd8EFwLRXjjmK7DvQ==
-X-Google-Smtp-Source: ABdhPJz45aoPYRnC0P6aRihQR7uE1J/WWQWC3IT9GukIQheAZ9K3oSg9y9PHLUJG3F+nspjRI+QY5wqfA1AwR9GjK5Q=
-X-Received: by 2002:a05:651c:1542:b0:233:8ff5:eb80 with SMTP id
- y2-20020a05651c154200b002338ff5eb80mr18018505ljp.352.1646166529822; Tue, 01
- Mar 2022 12:28:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B0gHl0FY6TKEqOe5dLt6k+4Sn54m7FTDQTv9BgJSJmY=;
+        b=rnVAUlA3inydLMw434py7AqKN9LEDVvGbZNTVmojGaodzRnCVheOFtaH/660pBjNb7
+         QZ0ERkK2RnykyxkZrX5y22r+K0C6b/wrf3gyLTNCGqYnAyJMZPUCA3/0aKHNeQ2qsfZG
+         C0Y0FFKfMH6cN87thXbNEU/CRAEFlik4PKv98zs/K+MwYTyun2G8CpEVLN61SWh1IIBA
+         LyhnUhUU0ETIRJBK537dnR9odKCOoABbpA+sdeXXFu82BapbJ+Q2twtdc/iF8/kRweGi
+         Q0ZRE9KceOOF0shyAnvoeKJ/u1DqGIa/aTT2GNO6JHWDnYQP39Jzmo1oc8Xmm2l64tkY
+         EdTQ==
+X-Gm-Message-State: AOAM532RoXSBvnj+VoyabqWQlgW0kbssF2zxdSUo6b6bAY70geP+JERJ
+        YB8loMKkA8+cSkLQvojdQ4hdfw==
+X-Google-Smtp-Source: ABdhPJxEJ64Gn/cTmYTu3qBhsOi969AzEkmMsQpBT2a/tPl/ZeLLMLvf5SzTIPzDYBU8Q9JQ6K3z1w==
+X-Received: by 2002:a05:6808:1183:b0:2d4:5eeb:1ca3 with SMTP id j3-20020a056808118300b002d45eeb1ca3mr14925434oil.8.1646176983843;
+        Tue, 01 Mar 2022 15:23:03 -0800 (PST)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id 16-20020a9d0490000000b005ad3c83e927sm7091173otm.60.2022.03.01.15.23.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 15:23:03 -0800 (PST)
+Date:   Tue, 1 Mar 2022 15:24:54 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <Yh6rRuAcyiF6QnFi@ripper>
+References: <20220218183116.2261770-1-bjorn.andersson@linaro.org>
+ <20220218183116.2261770-2-bjorn.andersson@linaro.org>
+ <20220224165939.4275x7mzp7qpl2kj@pengutronix.de>
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-2-arnd@kernel.org>
- <CAKwvOdnkfuT_w_0RNCb+WTKJ+282zLKmhB9UNG=D-UFz9VkUng@mail.gmail.com>
- <CAKwvOdn-PrCUPe2WzLv18AH3=9DjtFES+r=M1DhoQivy8sHm-g@mail.gmail.com> <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
-In-Reply-To: <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Mar 2022 12:28:38 -0800
-Message-ID: <CAKwvOd=TpqiSSh3yqQ2Z44nJArBACvfohVCgd6Ej32rGQMvShA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        llvm@lists.linux.dev,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220224165939.4275x7mzp7qpl2kj@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 12:20 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Mar 1, 2022 at 12:06 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > That said, there's a few additional places that reset KBUILD_CFLAGS.
->
-> Yeah, the boot code and vdso code often sets its own private flags,
-> because it's _so_ different.
->
-> The generic kernel CFLAGS often don't work at all, because that code
-> may be doing some truly horrendous things.
->
-> So I agree that this may not catch all the kernel code, but I don't
-> think it's much of a problem.
+On Thu 24 Feb 08:59 PST 2022, Uwe Kleine-K?nig wrote:
+> On Fri, Feb 18, 2022 at 10:31:16AM -0800, Bjorn Andersson wrote:
+[..]
+> > diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/leds-qcom-lpg.rst
+[..]
+> > +Simple pattern::
+> > +
+> > +    "255 500 0 500"
+> > +
+> > +        ^
+> > +        |
+> > +    255 +----+    +----+
+> > +	|    |    |    |      ...
+> > +      0 |    +----+    +----
+> > +        +---------------------->
+> > +	0    5   10   15     time (100ms)
+> 
+> you're mixing tabs and spaces here, I suggest to use spaces only. Not
+> sure you want to respin for that.
+> 
+> (I didn't look into the rest of the driver, but assume it's fine.)
+> 
 
-Agreed; they can still mirror the style imposed by
--Wdeclaration-after-statement like the rest of the codebase though.
--- 
+Pavel, would yo like me to fix this up and send out v14 or would you be
+okay replacing the tab with spaces while applying the patches?
+
+Do you see any other blockers for merging this?
+
 Thanks,
-~Nick Desaulniers
+Bjorn
