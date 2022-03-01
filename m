@@ -2,155 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392E6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Feb 2022 22:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3299C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 00:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231611AbiB1W4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 17:56:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S229944AbiCAAXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 19:23:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbiB1W4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 17:56:38 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA43A8CD8D;
-        Mon, 28 Feb 2022 14:55:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 85CE2B8167C;
-        Mon, 28 Feb 2022 22:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D63BC340F1;
-        Mon, 28 Feb 2022 22:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646088956;
-        bh=IrKyR4KsaGy6ILEoSjvY+Pfikinwp5UgDQ/3sdpyfQg=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=VQPHMUxWyNmQfB0/ueW/1grw49fEmM2QRO524JsZvj0eALgpZTSS0Ti1WVK3/nzlC
-         byT/x80e4Fe98Tlb3pDqK1t5U+uNFGDV+NGvNu8nb46ZmFXCgHzEcPGJExtHH8WYI9
-         Z4Q4HdTdcb4gslA1Lf5skj9pXkBUyyWm5xfGN/RaW/TfcXyt8EkrFe2kJ7hTehbPCb
-         iFsQaNdc67e9BvVFAwUbihe+9QU+CJj7XyqsnRJgjqJ9sHI3psUJ4vSLTxR4QCifxH
-         hUyT9N8VKRSwdIvDuss5BfU7kul1Edolp9UUrQku7YYj3mIYrowZHkd3sHJtpd6Asn
-         RdaBwTBmrYqYg==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailauth.nyi.internal (Postfix) with ESMTP id B3D1A27C0054;
-        Mon, 28 Feb 2022 17:55:53 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
-  by compute5.internal (MEProxy); Mon, 28 Feb 2022 17:55:53 -0500
-X-ME-Sender: <xms:-FIdYsLIH8xSXNZkBj6DK83xIzUn_W9DsfVQwWcVMCVCOzeKk1MKzQ>
-    <xme:-FIdYsLitA72qcFv2KAsG4rt4hYfQ-yzQUiflwB2j5Gq_sovTK47ksE4Xj0VPodt9
-    vn1SyG-Tz7OMJvj2yU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtuddgtddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
-    hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
-    frrghtthgvrhhnpedthfehtedtvdetvdetudfgueeuhfdtudegvdelveelfedvteelfffg
-    fedvkeegfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
-    ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
-    drlhhuthhordhush
-X-ME-Proxy: <xmx:-FIdYssw9wS50EE9pmpETO-NcmotanHVlmsg84NE43g3fXEk307dsg>
-    <xmx:-FIdYpaUHX3OArm88Um26oVtVLfGpJZ6c4f2XxZPmdtCJEAqDNfk6Q>
-    <xmx:-FIdYjbMoiMfJTvRwgFi78iSWM11ZclQ9BUpPVva3-tJJlRFBp_zwg>
-    <xmx:-VIdYpuR9Y186Dyd0VlVgshdQ9Q02sP-GkUSmwD_NWUNx-bFblctiTHSWgI>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 2E51821E006E; Mon, 28 Feb 2022 17:55:52 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
-Mime-Version: 1.0
-Message-Id: <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
-In-Reply-To: <Yh0+9cFyAfnsXqxI@kernel.org>
-References: <YgDIIpCm3UITk896@lisas.de>
- <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org> <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
- <YgKiKEcsNt7mpMHN@grain>
- <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
- <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
- <Yh0wIMjFdDl8vaNM@kernel.org>
- <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com>
- <Yh0+9cFyAfnsXqxI@kernel.org>
-Date:   Mon, 28 Feb 2022 14:55:30 -0800
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Mike Rapoport" <rppt@kernel.org>
-Cc:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
-        "Cyrill Gorcunov" <gorcunov@gmail.com>,
-        "Balbir Singh" <bsingharora@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Eugene Syromiatnikov" <esyr@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Dmitry Safonov" <0x7f454c46@gmail.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Adrian Reber" <adrian@lisas.de>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        "Nadav Amit" <nadav.amit@gmail.com>,
-        "Jann Horn" <jannh@google.com>, "Andrei Vagin" <avagin@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Borislav Petkov" <bp@alien8.de>,
-        "Oleg Nesterov" <oleg@redhat.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-        "Pavel Machek" <pavel@ucw.cz>,
+        with ESMTP id S229477AbiCAAXm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 19:23:42 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DEE2A266;
+        Mon, 28 Feb 2022 16:22:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646094179; x=1677630179;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=XUmmuHjG8G/Dw4YcsSBZoSmwvfmIIN75R1y/yRMIssk=;
+  b=OdwjHFtAtp466VNc7gwPerSsgNihQ4xP9p+j4QKdTsfOjFsP4GVHinDg
+   vXWFJIE6q/ZCn6jwYR9rolDW7PpsGfh4jEtKXnh3KPJmXeraT1iYKaGrU
+   9uUDGCEuexyk3FlJFjCtgZJcgueqz4VP+waFMoXajSWC2xL1yQGAg6wV0
+   uyYZYqhqf3LcZxut/QW7jM1aZDhU770ygNvFnih8+n0jM0T81cAJjrsMN
+   oNgMpJ+IcOWMlXDvvbW3igVXutOauvKnBq+z/6TIV/KaGIU+zTlHSSIjP
+   ZblNG8wAlOj/+7QuPrzssR2w8mqKNIS0wJqDtTckT52aEFbcI69rwUBuG
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="277682743"
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
+   d="scan'208";a="277682743"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 16:22:59 -0800
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
+   d="scan'208";a="510296877"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.40])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 16:22:59 -0800
+Date:   Mon, 28 Feb 2022 16:25:03 -0800 (PST)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     "Wu, Hao" <hao.wu@intel.com>
+cc:     Tom Rix <trix@redhat.com>,
+        "Zhang, Tianfei" <tianfei.zhang@intel.com>,
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Mike Kravetz" <mike.kravetz@oracle.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "Weijiang Yang" <weijiang.yang@intel.com>,
-        "Dave Martin" <Dave.Martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Content-Type: text/plain
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Grier, Aaron J" <aaron.j.grier@intel.com>
+Subject: RE: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
+In-Reply-To: <DM6PR11MB38194BD59EBFE97F125A37B685019@DM6PR11MB3819.namprd11.prod.outlook.com>
+Message-ID: <alpine.DEB.2.22.394.2202281618480.103377@rhweight-WRK1>
+References: <20220214112619.219761-1-tianfei.zhang@intel.com> <20220214112619.219761-8-tianfei.zhang@intel.com> <ed8f4b5f-5c92-f555-ed2d-c5b8f38d5372@redhat.com> <BN9PR11MB5483BC7EE52A47CEAEFC58A0E3379@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <3c9fce03-ef29-d80f-6639-0c237c28cf58@redhat.com> <alpine.DEB.2.22.394.2202210934570.117064@rhweight-WRK1> <e5580849-c137-fb61-0599-198c341bf688@redhat.com> <BN9PR11MB54835A454A34ECE13349B555E33B9@BN9PR11MB5483.namprd11.prod.outlook.com>
+ <d6cf0f48-e90a-6441-6096-5b87122a0bb6@redhat.com> <alpine.DEB.2.22.394.2202240932380.634457@rhweight-WRK1> <DM6PR11MB38194BD59EBFE97F125A37B685019@DM6PR11MB3819.namprd11.prod.outlook.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323328-604420537-1646094309=:103377"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-604420537-1646094309=:103377
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
 
-On Mon, Feb 28, 2022, at 1:30 PM, Mike Rapoport wrote:
-> On Mon, Feb 28, 2022 at 12:30:41PM -0800, Andy Lutomirski wrote:
->> 
->> 
->> On Mon, Feb 28, 2022, at 12:27 PM, Mike Rapoport wrote:
->> > On Wed, Feb 09, 2022 at 06:37:53PM -0800, Andy Lutomirski wrote:
->> >> On 2/8/22 18:18, Edgecombe, Rick P wrote:
->> >> > On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
->> >> > 
->> >
->> > Even with the current shadow stack interface Rick proposed, CRIU can restore
->> > the victim using ptrace without any additional knobs, but we loose an
->> > important ability to "self-cure" the victim from the parasite in case
->> > anything goes wrong with criu control process.
->> >
->> > Moreover, the issue with backward compatibility is not with ptrace but with
->> > sigreturn and it seems that criu is not its only user.
->> 
->> So we need an ability for a tracer to cause the tracee to call a function
->> and to return successfully.  Apparently a gdb branch can already do this
->> with shstk, and my PTRACE_CALL_FUNCTION_SIGFRAME should also do the
->> trick.  I don't see why we need a sigretur-but-dont-verify -- we just
->> need this mechanism to create a frame such that sigreturn actually works.
+
+On Mon, 28 Feb 2022, Wu, Hao wrote:
+
+>>>
+>>> On 2/21/22 7:11 PM, Zhang, Tianfei wrote:
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Tom Rix <trix@redhat.com>
+>>>>> Sent: Tuesday, February 22, 2022 2:10 AM
+>>>>> To: matthew.gerlach@linux.intel.com
+>>>>> Cc: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao
+>> <hao.wu@intel.com>;
+>>>>> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>;
+>>>>> linux-fpga@vger.kernel.org;
+>>>>> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; corbet@lwn.net
+>>>>> Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
+>>>>>
+>>>>>
+>>>>> On 2/21/22 9:50 AM, matthew.gerlach@linux.intel.com wrote:
+>>>>>>
+>>>>>> On Fri, 18 Feb 2022, Tom Rix wrote:
+>>>>>>
+>>>>>>> On 2/18/22 1:03 AM, Zhang, Tianfei wrote:
+>>>>>>>>> -----Original Message-----
+>>>>>>>>> From: Tom Rix <trix@redhat.com>
+>>>>>>>>> Sent: Wednesday, February 16, 2022 12:16 AM
+>>>>>>>>> To: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao
+>>>>>>>>> <hao.wu@intel.com>; mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>;
+>>>>>>>>> linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org;
+>>>>>>>>> linux-kernel@vger.kernel.org
+>>>>>>>>> Cc: corbet@lwn.net; Matthew Gerlach
+>>>>>>>>> <matthew.gerlach@linux.intel.com>
+>>>>>>>>> Subject: Re: [PATCH v1 7/7] fpga: dfl: pci: Add generic OFS PCI PID
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> On 2/14/22 3:26 AM, Tianfei zhang wrote:
+>>>>>>>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>>>>>>>>
+>>>>>>>>>> Add the PCI product id for an Open FPGA Stack PCI card.
+>>>>>>>>> Is there a URL to the card ?
+>>>>>>>> This PCIe Device IDs have registered by Intel.
+>>>>>>> A URL is useful to introduce the board, Is there one ?
+>>>>>>>>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>>>>>>>>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+>>>>>>>>>> ---
+>>>>>>>>>>     drivers/fpga/dfl-pci.c | 4 ++++
+>>>>>>>>>>     1 file changed, 4 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c index
+>>>>>>>>>> 83b604d6dbe6..cb2fbf3eb918 100644
+>>>>>>>>>> --- a/drivers/fpga/dfl-pci.c
+>>>>>>>>>> +++ b/drivers/fpga/dfl-pci.c
+>>>>>>>>>> @@ -76,12 +76,14 @@ static void cci_pci_free_irq(struct pci_dev
+>>>>>>>>>> *pcidev)
+>>>>>>>>>>     #define PCIE_DEVICE_ID_INTEL_PAC_D5005        0x0B2B
+>>>>>>>>>>     #define PCIE_DEVICE_ID_SILICOM_PAC_N5010    0x1000
+>>>>>>>>>>     #define PCIE_DEVICE_ID_SILICOM_PAC_N5011    0x1001
+>>>>>>>>>> +#define PCIE_DEVICE_ID_INTEL_OFS        0xbcce
+>>>>>>>>> INTEL_OFS is a generic name, pci id's map to specific cards
+>>>>>>>>>
+>>>>>>>>> Is there a more specific name for this card ?
+>>>>>>>> I think using INTEL_OFS is better, because INTEL_OFS is the Generic
+>>>>>>>> development platform can support multiple cards which using OFS
+>>>>>>>> specification, like Intel PAC N6000 card.
+>>>>>>> I would prefer something like PCIE_DEVICE_ID_INTEL_PAC_N6000
+>> because
+>>>>>>> it follows an existing pattern.  Make it easy on a developer, they
+>>>>>>> will look at their board or box, see X and try to find something
+>>>>>>> similar in the driver source.
+>>>>>>>
+>>>>>>> To use OSF_ * the name needs a suffix to differentiate it from future
+>>>>>>> cards that will also use ofs.
+>>>>>>>
+>>>>>>> If this really is a generic id please explain in the doc patch how
+>>>>>>> every future board with use this single id and how a driver could
+>>>>>>> work around a hw problem in a specific board with a pci id covering
+>>>>>>> multiple boards.
+>>>>>>>
+>>>>>>> Tom
+>>>>>> Hi Tom,
+>>>>>>
+>>>>>> The intent is to have a generic device id that can be used with many
+>>>>>> different boards.  Currently, we have FPGA implementations for 3
+>>>>>> different boards using this generic id.  We may need a better name for
+>>>>>> device id than OFS.  More precisely this generic device id means a PCI
+>>>>>> function that is described by a Device Feature List (DFL).  How about
+>>>>>> PCIE_DEVICE_ID_INTEL_DFL?
+>>>>>>
+>>>>>> With a DFL device id, the functionality of the PF/VF is determined by
+>>>>>> the contents of the DFL.  Each Device Feature Header (DFH) in the DFL
+>>>>>> has a revision field that can be used identify "broken" hw, or new
+>>>>>> functionality added to a feature.  Additionally, since the DFL is
+>>>>>> typically used in a FPGA, the broken hardware, can and should be fixed
+>>>>>> in most cases.
+>>>>> How is lspci supposed to work ?
+>>>> There is an example for one card using IOFS and DFL.
+>>>>
+>>>> # lspci | grep acc
+>>>> b1:00.0 Processing accelerators: Intel Corporation Device bcce (rev 01)
+>>>> b1:00.1 Processing accelerators: Intel Corporation Device bcce
+>>>> b1:00.2 Processing accelerators: Intel Corporation Device bcce
+>>>> b1:00.3 Processing accelerators: Red Hat, Inc. Virtio network device
+>>>> b1:00.4 Processing accelerators: Intel Corporation Device bcce
+>>>>
+>>>> Note: There 5 PFs in this card, it exports the management functions via
+>>>> PF0(b1:00.0),
+>>>> Other PFs like b1:00.1, b1:00.2, b1:00.4, are using for testing, which
+>>>> depends on RTL designer
+>>>> or project requirement. The PF3 instance a VirtIO net device for example,
+>>>> will bind with virtio-net driver
+>>>> presenting itself as a network interface to the OS.
+>>
+>> Hi Tom,
+>>
+>> These are very good questions, and the answers will be addressed in the
+>> documentation associated with a v2 submission of this patch.
+>>
+>>>
+>>> What I mean there is heterogeneous set of cards in one machine, how do you
+>>> tell which card is which ?
+>>
+>> If the PCI PID/VID is generic, indicating only that there is one or more
+>> DFL, then some other mechanism must be used to differentiate the cards.
+>> One could use unique PCI sub-PID/sub-VIDs to differentiate specific
+>> implementations.  One could also use some register in BAR space to help
+>> identify the card, or one could use PCI Vital Product Data (VPD) to
+>> provide detailed information about the running FPGA design on the card.
 >
-> If I understand correctly, PTRACE_CALL_FUNCTION_SIGFRAME() injects a frame
-> into the tracee and makes the tracee call sigreturn.
-> I.e. the tracee is stopped and this is used pretty much as PTRACE_CONT or
-> PTRACE_SYSCALL.
+> Ideally DFL has different scope than PCI. DFL is a higher layer concept than
+> PCI, as DFL can be applied to PCI device, platform device or even other devices.
+> If some PCI level quirks need to be applied before accessing BAR for one card,
+> then DFL may not be able to help at all. Use PCI level solution should be better,
+> and different VID/DID may be the easiest solution.
 >
-> In such case this defeats the purpose of sigreturn in CRIU because it is
-> called asynchronously by the tracee when the tracer is about to detach or
-> even already detached.
+> Hao
 
-The intent of PTRACE_CALL_FUNCTION_SIGFRAME is push a signal frame onto the stack and call a function.  That function should then be able to call sigreturn just like any normal signal handler.  There should be no requirement that the tracer still be attached when this happens, although the code calling sigreturn still needs to be mapped.
+Very good point Hao.  DFL is a higher layer than PCI.  So PCI level quirks 
+would need to be handled at the PCI level.  The VID/DID, optionally 
+in conjuction with the Subsytem Vendor ID and Substem ID, would be used to 
+determine how the quirks were applied.
 
-(Specifically, on modern arches, the user runtime is expected to provide a "restorer" that calls sigreturn.  A hypotheticall PTRACE_CALL_FUNCTION_SIGFRAME would either need to call sigreturn directly or provide a restorer.)
+Matthew
+
+
+>>
+>>>
+>>> Or in a datacenter where the machines are all remote and admin has to flash
+>>> just the n6000's ?
+>>
+>> This problem exists with the N3000 cards.  Depending on the FPGA
+>> configuration, the line side of the card could be very different (e.g.
+>> 4x10Gb or 2x2x25Gb).  The network operator must make sure to update a
+>> particular N3000 card with the correct FPGA image type.  In the case of
+>> the N3000 there is a register exposed through sysfs containing the
+>> "Bitstream ID" which contains the line side configuration of the FPGA.
+>>
+>>>
+>>> How could she find just the n6000's with lspci ?
+>>
+>> If you only wanted to use lspci to determine the card, then
+>> differentiating PCI sub-VID/sub-PID could be used or VPD could be used.
+>>
+>>>
+>>> How would the driver know ?
+>>
+>> The dfl-pci driver is fairly generic in that it doesn't really care about
+>> the PCI PID/VID because all it really does enumerate the DFLs.  It is the
+>> individual dfl drivers that may need to know hw differences/bugs for that
+>> component IP.
+>>
+>>>
+>>> Tom
+>>>
+>>>>
+>>>>> A dfl set can change with fw updates and in theory different boards could
+>>>>> have
+>>>>> the same set.
+>>>>>
+>>>>> Tom
+>>>>>
+>>>>>> Matthew
+>>>>>>>>> Tom
+>>>>>>>>>
+>>>>>>>>>>     /* VF Device */
+>>>>>>>>>>     #define PCIE_DEVICE_ID_VF_INT_5_X        0xBCBF
+>>>>>>>>>>     #define PCIE_DEVICE_ID_VF_INT_6_X        0xBCC1
+>>>>>>>>>>     #define PCIE_DEVICE_ID_VF_DSC_1_X        0x09C5
+>>>>>>>>>>     #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF    0x0B2C
+>>>>>>>>>> +#define PCIE_DEVICE_ID_INTEL_OFS_VF        0xbccf
+>>>>>>>>>>
+>>>>>>>>>>     static struct pci_device_id cci_pcie_id_tbl[] = {
+>>>>>>>>>>         {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>>>>>>>>>> PCIE_DEVICE_ID_PF_INT_5_X),},
+>>>>>>>>> @@
+>>>>>>>>>> -95,6 +97,8 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+>>>>>>>>>>         {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>>>>>>>>> PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+>>>>>>>>>> {PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
+>>>>>>>>> PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
+>>>>>>>>>> {PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK,
+>>>>>>>>>> PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
+>>>>>>>>>> +    {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>> PCIE_DEVICE_ID_INTEL_OFS),},
+>>>>>>>>>> +    {PCI_DEVICE(PCI_VENDOR_ID_INTEL,
+>>>>>>>>> PCIE_DEVICE_ID_INTEL_OFS_VF),},
+>>>>>>>>>>         {0,}
+>>>>>>>>>>     };
+>>>>>>>>>>     MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
+>>>>>>>
+>>>
+>>>
+>
+--8323328-604420537-1646094309=:103377--
