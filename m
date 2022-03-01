@@ -2,108 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52020C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 14:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A22A8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 15:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235454AbiCAOy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 09:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
+        id S235805AbiCAP0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 10:26:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235453AbiCAOy0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 09:54:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2474570CD5;
-        Tue,  1 Mar 2022 06:53:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B57396159A;
-        Tue,  1 Mar 2022 14:53:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190CCC340EE;
-        Tue,  1 Mar 2022 14:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646146424;
-        bh=GD3ppfugRqIV23Miab38fww3xcaKUQM6WrDR9+Hobac=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=OJ7+ZGm984efelp+NWTFaTZSwNtYW/hotKfXQQAbmPQdU2DVLAhJDKxty1YwNe0wF
-         uuW9ZbcHwfWHZSqQ1OL1yL3tumw8R4ryx+4OYpt1149PryFFu7Ac7hOBFA6zFbMTku
-         bW9e8qosXA3Tlfh+OcfCdAHOjFAZrARLsyn1rKGxYm4up4Uku7AP5vrV3Cb3FWjg/Y
-         CxMe4D1OXlGPjDEw/n42MjQ4ImqnzkfNxub9psGTfcTKVKid9TAqCiFpw98pKmMcrh
-         n8dFCGb3GkLb7R4kHn4Ye5eC/vGdQuUJBzEG0Ftyd2Tsn1v0iOLhA6hPH4yei5RT9N
-         k8sic9WuMTR2w==
-Date:   Tue, 1 Mar 2022 15:53:31 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-2?Q?Ahelenia_Ziemia=F1ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/12] HID: fix for generic input processing
-In-Reply-To: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2203011552560.24795@cbobk.fhfr.pm>
-References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S235830AbiCAP02 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 10:26:28 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8C1AB477;
+        Tue,  1 Mar 2022 07:25:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646148329; x=1677684329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ftasERfPWft19zS17zOLUbt1jzgVyJZSI+ggCwhMkc=;
+  b=PLppDpAf+4DeQmEUVelEIfDscXRIm5xgBZV2UnEkfXiUUa7S+QTugrZR
+   t7YYueV0HpdZzrMZI/X7s+r/SpY6nwkQwGkZi/wB0xOkd3kqBlJrYMhm9
+   RBjT/vVpGalXPU+JhgS8FDt5nzij3liGxsqBCnu3hcNI/ooKTfhl4OYT7
+   EgU3o5xyRdUrxOR1c5me1PFJgS33ZxYD3ZiqZ837S9BI7Synjqj2eTEKi
+   LIRf5q9mQTVR3nYcr2Ii6jkTgOu70O8R5+v+2uEMp+eHqSAkepuP4dJpe
+   PjRVAF8a7uY26DidE/oVs9bMrRIpnU9Day7nvnuCwVyMOMadQJn08uCb0
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="339585200"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
+   d="scan'208";a="339585200"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2022 07:25:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
+   d="scan'208";a="507834698"
+Received: from lkp-server01.sh.intel.com (HELO 2146afe809fb) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 01 Mar 2022 07:25:25 -0800
+Received: from kbuild by 2146afe809fb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nP4NQ-0000c9-6U; Tue, 01 Mar 2022 15:25:24 +0000
+Date:   Tue, 1 Mar 2022 23:24:31 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Veerasenareddy Burru <vburru@marvell.com>, davem@davemloft.net,
+        kuba@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Abhijit Ayarekar <aayarekar@marvell.com>,
+        Satananda Burla <sburla@marvell.com>
+Subject: Re: [PATCH v2 1/7] octeon_ep: Add driver framework and device
+ initialization
+Message-ID: <202203012301.wRb7tB6D-lkp@intel.com>
+References: <20220301050359.19374-2-vburru@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220301050359.19374-2-vburru@marvell.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 3 Feb 2022, Benjamin Tissoires wrote:
+Hi Veerasenareddy,
 
-> Hi,
-> 
-> this is the v2 of my series which reworks the HID report processing.
-> 
-> I took Ping's comments into account, and amended my MR with the
-> regression tests[0].
-> More specifically, the tests (and thus this new version of the series)
-> enforces that only one BTN_TOOL_* event gets forwarded between each
-> EV_SYN frame, and that BTN_TOUCH are properly translated too.
-> 
-> This also magivally solved some worrying transitions we had in the
-> pen state machine where the pen was jumping from "eraser" to "in
-> contact". This new behavior enforces a "out-of-range" state in the
-> middle, making it easier for userspace to understand now.
-> 
-> Again, tests are welcome :)
-> 
-> Cheers,
-> Benjamin
-> 
-> [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
-> 
-> Benjamin Tissoires (12):
->   HID: core: statically allocate read buffers
->   HID: core: de-duplicate some code in hid_input_field()
->   HID: core: split data fetching from processing in hid_input_field()
->   HID: input: tag touchscreens as such if the physical is not there
->   HID: input: rework spaghetti code with switch statements
->   HID: input: move up out-of-range processing of input values
->   HID: compute an ordered list of input fields to process
->   HID: core: for input reports, process the usages by priority list
->   HID: input: enforce Invert usage to be processed before InRange
->   HID: input: remove the need for HID_QUIRK_INVERT
->   HID: input: accommodate priorities for slotted devices
->   Input: docs: add more details on the use of BTN_TOOL
-> 
->  Documentation/input/event-codes.rst |   6 +-
->  drivers/hid/hid-core.c              | 280 ++++++++++++++++++---
->  drivers/hid/hid-input.c             | 364 ++++++++++++++++++++++------
->  include/linux/hid.h                 |  23 +-
->  4 files changed, 568 insertions(+), 105 deletions(-)
+I love your patch! Yet something to improve:
 
-This is now in hid.git#for-5.18/core.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.17-rc6 next-20220301]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks a lot Benjamin, very nice work.
+url:    https://github.com/0day-ci/linux/commits/Veerasenareddy-Burru/Add-octeon_ep-driver/20220301-130525
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 719fce7539cd3e186598e2aed36325fe892150cf
+reproduce: make htmldocs
 
--- 
-Jiri Kosina
-SUSE Labs
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
+
+>> Documentation/networking/device_drivers/ethernet/marvell/octeon_ep.rst:3: (SEVERE/4) Title overline & underline mismatch.
+
+vim +3 Documentation/networking/device_drivers/ethernet/marvell/octeon_ep.rst
+
+     2	
+   > 3	===================================================================
+     4	Linux kernel networking driver for Marvell's Octeon PCI Endpoint NIC
+     5	====================================================================
+     6	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
