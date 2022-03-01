@@ -2,97 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C3BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 10:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF12C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 13:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234354AbiCAKot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 05:44:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
+        id S234900AbiCANBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 08:01:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233104AbiCAKoq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 05:44:46 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08968B6D2;
-        Tue,  1 Mar 2022 02:44:05 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id q8so17972978iod.2;
-        Tue, 01 Mar 2022 02:44:05 -0800 (PST)
+        with ESMTP id S234884AbiCANBR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 08:01:17 -0500
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC40E9A4E0
+        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 05:00:35 -0800 (PST)
+Received: by mail-il1-x12e.google.com with SMTP id i1so12471601ila.7
+        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 05:00:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
-        b=WrUDonvN2fO25UTk5VNVhFhd8gruRaN5xzDoP4JD0Sakac0hlwGn0vLFs4yYd4XAFv
-         uZKJIKn4j7cuELvqeeSDPXMNu2C1n0MsJpfl9rt1CcXMWz8ysAwYiWu0FU5ssFw8GnBu
-         KImb7bl4uZxpEQ889GR2FwiQtAowT5cOncwrkuheaR+UErGWa6dJdP5knzUj9ZNji+C6
-         SaCIGAmJwbqyXPo1H+nGW/xKoV4Sv5xxMQcmeQv2UvCQ1LPx9cytIPoPatO3xtpXO37Q
-         QL3drAKRoTDr8u6LO2OfPrWDqwyTUyYOMOn4N3XOwbIN3FW3QG+ijjXJMFfWWnQ72HyS
-         YuTQ==
+        bh=QG2k2eItwE4VAk3PGGex6QHZy3T0xaD3lTCoY/HpYco=;
+        b=ZQjeLrdHbWEck4K6RpeBY4QI1uE5CcoVwO5sZTKvbH0jCtE/epL+AV1J2T6nTvQB7B
+         /yPS0KVOUZAhUGfHU54H1jmlgYJUgdfLLmM3xmB3rY9RzzFoWNFI2Zci83Jzu2Okp0E4
+         AJRAtv/WKjpa/XnIsui/qXUZ2c4GyPza8OAZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dohQLzfhr7wZu6SxVtIw3CHG42SObGN2SXyswtlVBsg=;
-        b=fWjcwHYaEZ8qElLi1dKVLNNEPPJlBkdYfAk9mLmtpjVniiaQknwJyHzxkiX1oEYBUR
-         NXdoKB5jAMVa/3+5lrduGHA6Qy5ZQAMD5FsM+JRv5LQjvtX/pYcdFUB3dfEzd9bGfnhI
-         ogtZSpBp/4sIp1G/GF9enXN2VCrlZIiF5D4E/k2eFhyiP0TiSVh0PNwcnpHRrJeg/Kt5
-         vMIptiG7xI6OqKCd8pXxdpE4psbkP9lvKHI7wa8Ht8Dn7MecvofHFAxJqssltKXMnhNJ
-         k1Q4aTpcKdBvpdnpoI5/xol71EZzd7AR1RjcDx3A7goskIR8wQ3BmufPe4xE/g2r9Ofr
-         eSEw==
-X-Gm-Message-State: AOAM530jyOQQEssfOEowONXnC/Cn7vxJZs1oKym0bhQjdFYYkKFntgrX
-        8Qh8AxQ7MXVqO1hTswymG+W5hmw6AzhkGsdK8CA=
-X-Google-Smtp-Source: ABdhPJw1aZ/CGkeAZM6RKVYVHBay0f9lMjJdsMqyLhdijbZf60uaKu7bggqdaHiabrS+XPZY5qiqhEF5Hass1iDJqZk=
-X-Received: by 2002:a6b:661a:0:b0:640:dd42:58ff with SMTP id
- a26-20020a6b661a000000b00640dd4258ffmr18921633ioc.64.1646131444958; Tue, 01
- Mar 2022 02:44:04 -0800 (PST)
+        bh=QG2k2eItwE4VAk3PGGex6QHZy3T0xaD3lTCoY/HpYco=;
+        b=SY7ZsAfZjWyveGyLci/WhlNsFiNx170IhcSfSAIgPYKopwbYX9kUQNBkiu81CTz2s8
+         8aSWmAlQUY1bHOB72FdY6E7IwlddQBvfFnFACt4e/tMSBqycXLCWg068Lfodw3ojZflo
+         gvw8FKQTRrPtbJmazMZO/+h/LC0uqmrPaq7prVK03KGHnTH0/PHACxW1jiLvnCmrIMmZ
+         6whOOFxK3KYQ+nJJef+Y5LjCi8sZ6lgDRCl5iOI7TEil9ZAhaiHE5bPNiNddEfMRxmGz
+         k34UA5M9PnWFhLOS9QTwus8ZgKcAXdxvJE5MqAhnJvW/HyciDs5yGry09FJUpu+8OXXj
+         dCvg==
+X-Gm-Message-State: AOAM533OtgPeHs9uhH6fxay1V1DoIcJBy9/NWaGRn5LetnQ3st7ivWo8
+        Ugpz+j0sEgZWI1xsIpFYopjE3y+JgnxiqHi+yhLD+nEE5Ig=
+X-Google-Smtp-Source: ABdhPJygTkLKJoxpKoMnQComCB9wJUKiAgXMWJlY4Oqe0COwyi0CYb7/OKDFQvAmbtgocYjrHTjH3LgZXlKpwAjqw/Q=
+X-Received: by 2002:a92:cf12:0:b0:2be:3a27:67c7 with SMTP id
+ c18-20020a92cf12000000b002be3a2767c7mr23363367ilo.187.1646139635155; Tue, 01
+ Mar 2022 05:00:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20220228103142.3301082-1-arnd@kernel.org>
-In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 1 Mar 2022 11:43:53 +0100
-Message-ID: <CANiq72=wmYeBcJvRbBgRj1q_cHjZBVjxStXSu-8Ogv5bJhCqpA@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        Linux Btrfs <linux-btrfs@vger.kernel.org>
+References: <164549971112.9187.16871723439770288255.stgit@noble.brown> <164549983736.9187.16755913785880819183.stgit@noble.brown>
+In-Reply-To: <164549983736.9187.16755913785880819183.stgit@noble.brown>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 1 Mar 2022 14:00:24 +0100
+Message-ID: <CAJfpegs=DhCO62EFV0Q_i2fmqJnziJy1t4itP9deS=FuWEA=TQ@mail.gmail.com>
+Subject: Re: [PATCH 03/11] MM: improve cleanup when ->readpages doesn't
+ process all pages.
+To:     NeilBrown <neilb@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-nilfs@vger.kernel.org,
+        Linux NFS list <linux-nfs@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Ext4 <linux-ext4@vger.kernel.org>, ceph-devel@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 11:32 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, 22 Feb 2022 at 04:18, NeilBrown <neilb@suse.de> wrote:
 >
-> -under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
-> -(including some C99 features). ``clang`` [clang]_ is also supported, see
-> +under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11
-> +(including some C17 features). ``clang`` [clang]_ is also supported, see
+> If ->readpages doesn't process all the pages, then it is best to act as
+> though they weren't requested so that a subsequent readahead can try
+> again.
+> So:
+>   - remove any 'ahead' pages from the page cache so they can be loaded
+>     with ->readahead() rather then multiple ->read()s
+>   - update the file_ra_state to reflect the reads that were actually
+>     submitted.
+>
+> This allows ->readpages() to abort early due e.g.  to congestion, which
+> will then allow us to remove the inode_read_congested() test from
+> page_Cache_async_ra().
+>
+> Signed-off-by: NeilBrown <neilb@suse.de>
+> ---
+>  mm/readahead.c |   19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/readahead.c b/mm/readahead.c
+> index 73b2bc5302e0..8a97bd408cf6 100644
+> --- a/mm/readahead.c
+> +++ b/mm/readahead.c
+> @@ -104,7 +104,13 @@
+>   * for necessary resources (e.g.  memory or indexing information) to
+>   * become available.  Pages in the final ``async_size`` may be
+>   * considered less urgent and failure to read them is more acceptable.
+> - * They will eventually be read individually using ->readpage().
+> + * In this case it is best to use delete_from_page_cache() to remove the
+> + * pages from the page cache as is automatically done for pages that
+> + * were not fetched with readahead_page().  This will allow a
+> + * subsequent synchronous read ahead request to try them again.  If they
+> + * are left in the page cache, then they will be read individually using
+> + * ->readpage().
+> + *
+>   */
+>
+>  #include <linux/kernel.h>
+> @@ -226,8 +232,17 @@ static void read_pages(struct readahead_control *rac, struct list_head *pages,
+>
+>         if (aops->readahead) {
+>                 aops->readahead(rac);
+> -               /* Clean up the remaining pages */
+> +               /*
+> +                * Clean up the remaining pages.  The sizes in ->ra
+> +                * maybe be used to size next read-ahead, so make sure
+> +                * they accurately reflect what happened.
+> +                */
+>                 while ((page = readahead_page(rac))) {
+> +                       rac->ra->size -= 1;
+> +                       if (rac->ra->async_size > 0) {
+> +                               rac->ra->async_size -= 1;
+> +                               delete_from_page_cache(page);
+> +                       }
 
-I think the "(including some C17)" bit would not make much sense
-anymore. There were no major changes in C17 and GCC implements
-`-std=c11` and `-std=c17` as basically the same thing according to the
-docs (and GNU extensions apply equally to both, I would assume).
+Does the  above imply that filesystem should submit at least ra->size
+pages, regardless of congestion?
 
-When I wrote the "(including some C99 features)" I meant that GCC
-implemented some C99 features as extensions in C90 mode, and the
-kernel used some of those (e.g. the now gone VLAs).
-
-With that changed, for `programming-language.rst`:
-
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
+Thanks,
+Miklos
