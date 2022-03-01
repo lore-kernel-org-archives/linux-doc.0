@@ -2,186 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E46FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 19:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D30C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 19:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233898AbiCATVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:21:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        id S235235AbiCATaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:30:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231880AbiCATVU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 14:21:20 -0500
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACFEF52E20;
-        Tue,  1 Mar 2022 11:20:39 -0800 (PST)
-Received: by mail-oo1-xc31.google.com with SMTP id d134-20020a4a528c000000b00319244f4b04so23589567oob.8;
-        Tue, 01 Mar 2022 11:20:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=dWNa4jnkJUdD4zmrmu2TXP/cBbtNwd4vnJSmx1wcNdA=;
-        b=oC/ECoqRSEzXbasodKpaq4YzMPznsADCPrKuK2tWPn1puyjt6vZxjk+yxZ37GE6mbT
-         SI8eN1PqqD2q9yWbXgrUSi9l8UfYtim92QhzqMBU09OfrL0ASI8P/GgyVGFSpmCYsNLX
-         00i4DuoKJSJoTYJu6afS4lc/ceAALxkq/w6eGNCZOVTi7AydpO67ZV/LBskxtw66aBxN
-         lt5snF3TGxH470nH2e+IrE2AWEEcgITohwGbTX+8NQ7zuHNSV/oNqSrL7MCc++4nu8ld
-         u1A3VagiazlX88BbdEd2vYuZ5ztvfFe2ALFYRWReWHgiQ98N370ssEWT5fVucx4Mb57y
-         yj1A==
+        with ESMTP id S235074AbiCATaD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 14:30:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 08F3543EE4
+        for <linux-doc@vger.kernel.org>; Tue,  1 Mar 2022 11:29:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646162961;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=b+msLQunHEcmiuuu7B6KPaPcoKHsejBtZdFml9n1AXs=;
+        b=OVKvkIRDPw3LHKGovHjAzOnRksEoKBhk4PIFnl0m1Th2tbnZ7UcSt50/MyKuThZWjeixBC
+        GVBHKgJFGTNejWh0kR5BS3kAEZpyf0p21TAWuN3h5clJt+toeDEzOf+32LNv2wYlpoYTjr
+        vX3SvzdHTk0cOtw6+uCIVMuF1MKSRx4=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-166-DolpFyzfPkuSaZl9cDUNhw-1; Tue, 01 Mar 2022 14:29:20 -0500
+X-MC-Unique: DolpFyzfPkuSaZl9cDUNhw-1
+Received: by mail-ot1-f70.google.com with SMTP id 38-20020a9d0829000000b005afe328b01dso7616839oty.16
+        for <linux-doc@vger.kernel.org>; Tue, 01 Mar 2022 11:29:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dWNa4jnkJUdD4zmrmu2TXP/cBbtNwd4vnJSmx1wcNdA=;
-        b=yeD4197lYduFDg0kxmC6jiMdv9bn7i129x0eqeMJKsveeUjRGEviZwdGeMh5tsy79U
-         OE69ESv6bL469MJ71jFVl3DWnH0Ywyp+daSfHjm/diIi7djB8C6icSbg5xct4udVhwWV
-         8akHDhNRgZKx7v+vQjEaJILw6hiKcKI9mqPYhYy+cMjy7VEmXNb7Qg6HIP+7iSD3k9Q/
-         qCiSF3kWfad4jADqTkju95bobVaDr/JeA0xM0J8nZDPQLFcKKPe4NYQyfTEv7XoumerD
-         QrY+gBcq/HRWQuKQJA1woLT4iAPPGxoxsmAOilrl0qhFM6FQs8MDAyKzumL5eIXAb9J0
-         9BIg==
-X-Gm-Message-State: AOAM5308J6ISUIQlify7Wbpsia9ao/+GLev1FvHoiYs8WCzCnuljzx4d
-        XO+JNTooJUpLFQyMEldpNXUa4DMNgqs=
-X-Google-Smtp-Source: ABdhPJz6TKAi8o7S/ijB/g3kZZVCZKlC5i0rdkD6wYrU7My3EccH19Fs2cJQD0r8qdloLCw7PFNW3Q==
-X-Received: by 2002:a4a:d295:0:b0:2da:7b0b:281 with SMTP id h21-20020a4ad295000000b002da7b0b0281mr12909720oos.56.1646162438718;
-        Tue, 01 Mar 2022 11:20:38 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g16-20020a544f90000000b002d3c88c9ec2sm8625035oiy.16.2022.03.01.11.20.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Mar 2022 11:20:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <67be7041-6489-54ba-f595-f179b4056af5@roeck-us.net>
-Date:   Tue, 1 Mar 2022 11:20:36 -0800
+        bh=b+msLQunHEcmiuuu7B6KPaPcoKHsejBtZdFml9n1AXs=;
+        b=uV1PPKMnOacPAwCu3q2Lj2yc2brprkoCysxnwcssJ8UIER3/wrqVyBfhBe1jN9e+A/
+         TbNM/zrYdKFCkMLCDi1l6SL2CdfL5a6mHKfec1KSiznOMzEtrM8Im6aHaVEwMAsE5WBA
+         h5MCzwdt3nqkSsHC/xThY6STv6wPFuU777eFhaU1N8kZD3CZIs/s+bI7ftFUxpI03NsC
+         oSTS0Dl7itR+bPPEPEgsnc/GJ/hfU+2ehRLjiLd7j4XdCplG8tgpj7OOxfTsbS5vrSZH
+         sucH14uOWz8iMPoW1+KPsRibVQfzpgBxIQ23C0FgSZSfxHMRwWgPHKMspIPXonmFsl+v
+         IfiQ==
+X-Gm-Message-State: AOAM5314yBesyXB0i/FNdSwG1k95VEA8fsadcyrf/y9xFTyx7lji9ZlT
+        v6BYK6M3lZ+IJR1yfQTiaTkMcftGDRcLuzGCfXiwGXeZY1U/xkmtIzxEC8y4PmcTDCEa8amnE+M
+        7RID7AvvgqSU+v5EyBnaL
+X-Received: by 2002:a05:6870:87c4:b0:bc:4b13:b0c0 with SMTP id s4-20020a05687087c400b000bc4b13b0c0mr5039319oam.136.1646162959408;
+        Tue, 01 Mar 2022 11:29:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxpLY9TTBQgKSPEKTWZlSp5xirp8uo7AKtiTGqXvhErF6hETfzSvsXuEhplLz2OX8xyyVD/vQ==
+X-Received: by 2002:a05:6870:87c4:b0:bc:4b13:b0c0 with SMTP id s4-20020a05687087c400b000bc4b13b0c0mr5039301oam.136.1646162959171;
+        Tue, 01 Mar 2022 11:29:19 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id t7-20020a9d5907000000b005afa4058a4csm7019270oth.1.2022.03.01.11.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 11:29:18 -0800 (PST)
+From:   trix@redhat.com
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        corbet@lwn.net, bhelgaas@google.com
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: [PATCH] vgaarbiter: fix vgaarbiter doc build break
+Date:   Tue,  1 Mar 2022 11:29:09 -0800
+Message-Id: <20220301192909.294900-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 2/3] hwmon (xdpe12284): Add support for xdpe11280
-Content-Language: en-US
-To:     Marcello Sylvester Bauer <sylv@sylv.io>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        Patrick Rudolph <patrick.rudolph@9elements.com>,
-        linux-doc@vger.kernel.org
-References: <cover.1646157237.git.sylv@sylv.io>
- <c9c0bcd8106c370243ba061dc4298d58b4e2f64b.1646157237.git.sylv@sylv.io>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <c9c0bcd8106c370243ba061dc4298d58b4e2f64b.1646157237.git.sylv@sylv.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/1/22 10:01, Marcello Sylvester Bauer wrote:
-> Add support for another Infineon Multi-phase controller chip. The
-> xdpe11280 uses linear instead of vid data format for VOUT. Detect
-> VOUT_MODE format during probing and set the xdpe122 related pointers
-> in case it uses vid.
-> 
-> Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
-> ---
->   Documentation/hwmon/xdpe12284.rst | 12 ++++++++----
->   drivers/hwmon/pmbus/xdpe12284.c   | 22 +++++++++++++++++++---
->   2 files changed, 27 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/xdpe12284.rst b/Documentation/hwmon/xdpe12284.rst
-> index 67d1f87808e5..a224dc74ad35 100644
-> --- a/Documentation/hwmon/xdpe12284.rst
-> +++ b/Documentation/hwmon/xdpe12284.rst
-> @@ -5,6 +5,10 @@ Kernel driver xdpe122
->   
->   Supported chips:
->   
-> +  * Infineon XDPE11280
-> +
-> +    Prefix: 'xdpe11280'
-> +
->     * Infineon XDPE12254
->   
->       Prefix: 'xdpe12254'
-> @@ -20,10 +24,10 @@ Authors:
->   Description
->   -----------
->   
-> -This driver implements support for Infineon Multi-phase XDPE122 family
-> -dual loop voltage regulators.
-> -The family includes XDPE12284 and XDPE12254 devices.
-> -The devices from this family complaint with:
-> +This driver implements support for Infineon Multi-phase XDPE112 and XDPE122
-> +family dual loop voltage regulators.
-> +These families include XDPE11280, XDPE12284 and XDPE12254 devices.
-> +The devices from this family compliant with:
->   
->   - Intel VR13 and VR13HC rev 1.3, IMVP8 rev 1.2 and IMPVP9 rev 1.3 DC-DC
->     converter specification.
-> diff --git a/drivers/hwmon/pmbus/xdpe12284.c b/drivers/hwmon/pmbus/xdpe12284.c
-> index b07da06a40c9..3413aba9d5be 100644
-> --- a/drivers/hwmon/pmbus/xdpe12284.c
-> +++ b/drivers/hwmon/pmbus/xdpe12284.c
-> @@ -110,7 +110,6 @@ static int xdpe122_identify(struct i2c_client *client,
->   static struct pmbus_driver_info xdpe122_info = {
->   	.pages = XDPE122_PAGE_NUM,
->   	.format[PSC_VOLTAGE_IN] = linear,
-> -	.format[PSC_VOLTAGE_OUT] = vid,
->   	.format[PSC_TEMPERATURE] = linear,
->   	.format[PSC_CURRENT_IN] = linear,
->   	.format[PSC_CURRENT_OUT] = linear,
-> @@ -123,23 +122,39 @@ static struct pmbus_driver_info xdpe122_info = {
->   		PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
->   		PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP |
->   		PMBUS_HAVE_POUT | PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT,
-> -	.identify = xdpe122_identify,
-> -	.read_word_data = xdpe122_read_word_data,
->   };
->   
->   static int xdpe122_probe(struct i2c_client *client)
->   {
->   	struct pmbus_driver_info *info;
-> +	int vout_mode;
->   
->   	info = devm_kmemdup(&client->dev, &xdpe122_info, sizeof(*info),
->   			    GFP_KERNEL);
->   	if (!info)
->   		return -ENOMEM;
->   
-> +	vout_mode = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
-> +	if (vout_mode >= 0 && vout_mode != 0xff) {
-> +		switch (vout_mode >> 5) {
-> +		case 0:
-> +			info->format[PSC_VOLTAGE_OUT] = linear;
-> +			break;
-> +		case 1:
-> +			info->format[PSC_VOLTAGE_OUT] = vid;
-> +			info->identify = xdpe122_identify;
-> +			info->read_word_data = xdpe122_read_word_data;
-> +			break;
-> +		default:
-> +			return -ENODEV;
-> +		}
-> +	}
+From: Tom Rix <trix@redhat.com>
 
-I am not entirely happy with this. Why not detect the mode (linear vs. vid)
-in the identify function ?
+make htmldocs fails with
+Error: Cannot open file ./drivers/gpu/vga/vgaarb.c
 
-Thanks,
-Guenter
+The location of the file changed
+drivers/gpu/vga/vgaarb.c -> drivers/pci/vgaarb.c
+So update the docs with the new location.
 
-> +
->   	return pmbus_do_probe(client, info);
->   }
->   
->   static const struct i2c_device_id xdpe122_id[] = {
-> +	{"xdpe11280", 0},
->   	{"xdpe12254", 0},
->   	{"xdpe12284", 0},
->   	{}
-> @@ -148,6 +163,7 @@ static const struct i2c_device_id xdpe122_id[] = {
->   MODULE_DEVICE_TABLE(i2c, xdpe122_id);
->   
->   static const struct of_device_id __maybe_unused xdpe122_of_match[] = {
-> +	{.compatible = "infineon,xdpe11280"},
->   	{.compatible = "infineon,xdpe12254"},
->   	{.compatible = "infineon,xdpe12284"},
->   	{}
+Fixes: d6e1898bfa5b ("PCI/VGA: Move vgaarb to drivers/pci")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ Documentation/gpu/vgaarbiter.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index 339ed5fecd2e4..bde3c0afb0590 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -100,7 +100,7 @@ In-kernel interface
+ .. kernel-doc:: include/linux/vgaarb.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/vga/vgaarb.c
++.. kernel-doc:: drivers/pci/vgaarb.c
+    :export:
+ 
+ libpciaccess
+-- 
+2.26.3
 
