@@ -2,153 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A48C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 17:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D964C43217
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 18:01:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231542AbiCARjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 12:39:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        id S236792AbiCASCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 13:02:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbiCARjb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 12:39:31 -0500
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A06DBB4;
-        Tue,  1 Mar 2022 09:38:49 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id b35so28606320ybi.13;
-        Tue, 01 Mar 2022 09:38:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ePx51Sv7Ld1agccWIj8+pLXD3OH6ltHUbmMwSVt9KXI=;
-        b=ntFrOp3HcDRuH99EjZBT1aqMYXPO6HBQ8UHjSdwvH+Pv8mgUIzSWRJizRpD+2kFmk9
-         bhDUCAp6o2GN+mfjKHYhV/WO9kaPtoYR+BwxetYxgkFpffqoPAVxsF3JEYaJm2FewU56
-         zyFxPwr2yWzEw7OA0YUgl43XbnB7yE/JrWiCgSUNcbxfv6KVSvhbs0wMMeGD4OPtr5Vb
-         GuZoazsGdN7CwAO8agOgt5ZanRrQgtfOWSbM5yv/twIkh/0WlhFl7E99M6/uUoV+VgsG
-         eTv/+Un+xZ4c4l2dvbXCDjus8Q5cjeFuA7t7xC1MX7z018waZD9X3OFPjFizWFpyNu/r
-         mA/g==
-X-Gm-Message-State: AOAM531cl4OjY8YuoqFQN6tVR2iVtL1loPv9D6UkKyNRlDhS/FYOtqmk
-        Jt5FQa4ZQWCU7RTQ6rX8q95e1IsOg93ApX7N84I=
-X-Google-Smtp-Source: ABdhPJyyQieBvRl6bas64kvLFYV1/I+bMwcYSMzLk6Fn5RL6vekpAsGWBdDVpIh837co3bbUusTlxHgykN94S3Fvolc=
-X-Received: by 2002:a25:bbc1:0:b0:610:b4ce:31db with SMTP id
- c1-20020a25bbc1000000b00610b4ce31dbmr24915976ybk.482.1646156328715; Tue, 01
- Mar 2022 09:38:48 -0800 (PST)
+        with ESMTP id S236785AbiCASCX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 13:02:23 -0500
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC123F336;
+        Tue,  1 Mar 2022 10:01:41 -0800 (PST)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [80.241.60.245])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4K7Q6q4LcMz9sTM;
+        Tue,  1 Mar 2022 19:01:39 +0100 (CET)
+From:   Marcello Sylvester Bauer <sylv@sylv.io>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
+        t=1646157697;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=gd09qvc3Z6SaSzk9E+3whnDKKoWn8INGP5nwCpQZBzc=;
+        b=bbXmRNKtow7THbBZJ9jfYyKdAauLCgEs2w2wPE8J5bo047Totoh42oZvmq7DwdXIZ/KRMu
+        w6YRKnkr8kuOrA4bVJXxBL3An4fcNJ36iHsZcXTv9gS/2VJdeXPxD1cSkFQz4reF6aKuCu
+        rW19d4klWcXG8MQx8QLXq91XxEDPKR/5Rrq6Rglfln5wKK+SdlmMSX3GJbIcVdYSJ+Dc5Q
+        FO7fjt4iULPBLZoFRE3UOop5jtFP4Uvp8+KZ7H/ky1IKS3yIuhl4oAl7SNY6WZg5mE0PSm
+        HK2knAiDOrsNgujMtWOitL9oe6OxxpXpOyud/WCE47iI9fmLZDHJwBNX8HmLMQ==
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Marcello Sylvester Bauer <sylv@sylv.io>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 2/3] hwmon (xdpe12284): Add support for xdpe11280
+Date:   Tue,  1 Mar 2022 19:01:12 +0100
+Message-Id: <c9c0bcd8106c370243ba061dc4298d58b4e2f64b.1646157237.git.sylv@sylv.io>
+In-Reply-To: <cover.1646157237.git.sylv@sylv.io>
+References: <cover.1646157237.git.sylv@sylv.io>
 MIME-Version: 1.0
-References: <20220228195800.1422004-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20220228195800.1422004-1-srinivas.pandruvada@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 1 Mar 2022 18:38:37 +0100
-Message-ID: <CAJZ5v0gyL2C=wUO6-H5Lnu9ue4VGasRThmQ3PWE0y0Afa6UZMg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] Documentation: admin-guide: pm: Document uncore
- frequency scaling
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 8:58 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Added documentation to configure uncore frequency limits in Intel
-> Xeon processors.
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v2
-> As suggested removed "===" (chapter) for Introduction and added two sections
-> "Introduction" and "Sysfs interface".
->
->  .../pm/intel_uncore_frequency_scaling.rst     | 59 +++++++++++++++++++
->  .../admin-guide/pm/working-state.rst          |  1 +
->  2 files changed, 60 insertions(+)
->  create mode 100644 Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
->
-> diff --git a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-> new file mode 100644
-> index 000000000000..a55cf68d77df
-> --- /dev/null
-> +++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-> @@ -0,0 +1,59 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +==============================
-> +Intel Uncore Frequency Scaling
-> +==============================
-> +
-> +:Copyright: |copy| 2022 Intel Corporation
-> +
-> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> +
-> +Introduction
-> +------------
-> +
-> +Uncore can consume significant amount of power in Intel's Xeon servers based
-> +on the workload characteristics. To optimize total power and improve overall
-> +performance, SoC has an internal algorithm for scaling uncore frequency. These
-> +algorithms monitor workload usage of uncore and set a desirable frequency.
-> +
-> +It is possible that users have different expectations of uncore performance and
-> +want to have control over it. The objective is similar to set scaling min/max
-> +frequencies using cpufreq sysfs to improve compute performance. Users may have
-> +some latency sensitive workload where they do not want any change to uncore
-> +frequency. Also, users may have workload which requires different core and
-> +uncore performance at distinct phases and they want to use both cpufreq and
-> +uncore scaling interface to distribute power and improve overall performance.
-> +
-> +Sysfs Interface
-> +---------------
-> +
-> +To control uncore frequency, a sysfs interface is provided in the directory:
-> +`/sys/devices/system/cpu/intel_uncore_frequency/`.
-> +
-> +There is one directory for each package and die combination as the scope of
-> +uncore scaling control is per die in multiple dies/package SoC or per
-> +package for single die per package SoC. The name represents the
-> +scope of control. For example: 'package_00_die_00' is for package id 0 and
-> +die 0 in it.
-> +
-> +Each package_*_die_* contains following attributes:
-> +
-> +``initial_max_freq_khz``
-> +       Out of reset, this attribute represent the maximum possible frequency.
-> +       This is a read only attribute. If users adjust max_freq_khz,
-> +       they can always go back to maximum using the value from this attribute.
-> +
-> +``initial_min_freq_khz``
-> +       Out of reset, this attribute represent the minimum possible frequency.
-> +       This is a read only attribute. If users adjust min_freq_khz,
-> +       they can always go back to minimum using the value from this attribute.
-> +
-> +``max_freq_khz``
-> +       This attribute is used to set the maximum uncore frequency.
-> +
-> +``min_freq_khz``
-> +       This attribute is used to set the minimum uncore frequency.
-> +
-> +``current_freq_khz``
-> +       This attribute is used to get the current uncore frequency.
-> diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
-> index 5d2757e2de65..ee45887811ff 100644
-> --- a/Documentation/admin-guide/pm/working-state.rst
-> +++ b/Documentation/admin-guide/pm/working-state.rst
-> @@ -15,3 +15,4 @@ Working-State Power Management
->     cpufreq_drivers
->     intel_epb
->     intel-speed-select
-> +   intel_uncore_frequency_scaling
-> --
+Add support for another Infineon Multi-phase controller chip. The
+xdpe11280 uses linear instead of vid data format for VOUT. Detect
+VOUT_MODE format during probing and set the xdpe122 related pointers
+in case it uses vid.
 
-Applied (with some cleanup of the wording in the document in some
-places) as 5.18 material, along with the [2/2].
+Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+---
+ Documentation/hwmon/xdpe12284.rst | 12 ++++++++----
+ drivers/hwmon/pmbus/xdpe12284.c   | 22 +++++++++++++++++++---
+ 2 files changed, 27 insertions(+), 7 deletions(-)
 
-Thanks!
+diff --git a/Documentation/hwmon/xdpe12284.rst b/Documentation/hwmon/xdpe12284.rst
+index 67d1f87808e5..a224dc74ad35 100644
+--- a/Documentation/hwmon/xdpe12284.rst
++++ b/Documentation/hwmon/xdpe12284.rst
+@@ -5,6 +5,10 @@ Kernel driver xdpe122
+ 
+ Supported chips:
+ 
++  * Infineon XDPE11280
++
++    Prefix: 'xdpe11280'
++
+   * Infineon XDPE12254
+ 
+     Prefix: 'xdpe12254'
+@@ -20,10 +24,10 @@ Authors:
+ Description
+ -----------
+ 
+-This driver implements support for Infineon Multi-phase XDPE122 family
+-dual loop voltage regulators.
+-The family includes XDPE12284 and XDPE12254 devices.
+-The devices from this family complaint with:
++This driver implements support for Infineon Multi-phase XDPE112 and XDPE122
++family dual loop voltage regulators.
++These families include XDPE11280, XDPE12284 and XDPE12254 devices.
++The devices from this family compliant with:
+ 
+ - Intel VR13 and VR13HC rev 1.3, IMVP8 rev 1.2 and IMPVP9 rev 1.3 DC-DC
+   converter specification.
+diff --git a/drivers/hwmon/pmbus/xdpe12284.c b/drivers/hwmon/pmbus/xdpe12284.c
+index b07da06a40c9..3413aba9d5be 100644
+--- a/drivers/hwmon/pmbus/xdpe12284.c
++++ b/drivers/hwmon/pmbus/xdpe12284.c
+@@ -110,7 +110,6 @@ static int xdpe122_identify(struct i2c_client *client,
+ static struct pmbus_driver_info xdpe122_info = {
+ 	.pages = XDPE122_PAGE_NUM,
+ 	.format[PSC_VOLTAGE_IN] = linear,
+-	.format[PSC_VOLTAGE_OUT] = vid,
+ 	.format[PSC_TEMPERATURE] = linear,
+ 	.format[PSC_CURRENT_IN] = linear,
+ 	.format[PSC_CURRENT_OUT] = linear,
+@@ -123,23 +122,39 @@ static struct pmbus_driver_info xdpe122_info = {
+ 		PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+ 		PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP |
+ 		PMBUS_HAVE_POUT | PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT,
+-	.identify = xdpe122_identify,
+-	.read_word_data = xdpe122_read_word_data,
+ };
+ 
+ static int xdpe122_probe(struct i2c_client *client)
+ {
+ 	struct pmbus_driver_info *info;
++	int vout_mode;
+ 
+ 	info = devm_kmemdup(&client->dev, &xdpe122_info, sizeof(*info),
+ 			    GFP_KERNEL);
+ 	if (!info)
+ 		return -ENOMEM;
+ 
++	vout_mode = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
++	if (vout_mode >= 0 && vout_mode != 0xff) {
++		switch (vout_mode >> 5) {
++		case 0:
++			info->format[PSC_VOLTAGE_OUT] = linear;
++			break;
++		case 1:
++			info->format[PSC_VOLTAGE_OUT] = vid;
++			info->identify = xdpe122_identify;
++			info->read_word_data = xdpe122_read_word_data;
++			break;
++		default:
++			return -ENODEV;
++		}
++	}
++
+ 	return pmbus_do_probe(client, info);
+ }
+ 
+ static const struct i2c_device_id xdpe122_id[] = {
++	{"xdpe11280", 0},
+ 	{"xdpe12254", 0},
+ 	{"xdpe12284", 0},
+ 	{}
+@@ -148,6 +163,7 @@ static const struct i2c_device_id xdpe122_id[] = {
+ MODULE_DEVICE_TABLE(i2c, xdpe122_id);
+ 
+ static const struct of_device_id __maybe_unused xdpe122_of_match[] = {
++	{.compatible = "infineon,xdpe11280"},
+ 	{.compatible = "infineon,xdpe12254"},
+ 	{.compatible = "infineon,xdpe12284"},
+ 	{}
+-- 
+2.35.1
+
