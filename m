@@ -2,144 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5C9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 04:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9C7C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 04:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231785AbiCAER5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 23:17:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39124 "EHLO
+        id S229848AbiCAEWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Feb 2022 23:22:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232249AbiCAER4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 23:17:56 -0500
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1BC473A9;
-        Mon, 28 Feb 2022 20:17:15 -0800 (PST)
-Received: by mail-vs1-xe35.google.com with SMTP id e5so15214432vsg.12;
-        Mon, 28 Feb 2022 20:17:15 -0800 (PST)
+        with ESMTP id S229786AbiCAEWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 23:22:25 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42D8036B42
+        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 20:21:45 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id x18so13034249pfh.5
+        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 20:21:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XX+IWGQPoFeh97VSAKm6031fD11VKSEYMPq0/2cLTeY=;
-        b=JFOATMfyEe+q2YvZrNExXmlIiIjnIwcxdvHk/WzuC0p/XbwABgHaZFREv0E2vYcOCh
-         44pY9ThY1M5Y7nwfcQWLFmDp6IMbLLs3M/oeUuISm7mV189rZoSNx2aws5ZDt5Cgr7+K
-         t/QIzoA5kzWRBKBOhtDlw5oKY4auHKRoUizfIFNWNqPsTLw4LI0UI2WeuiEvOmD8Ka5J
-         dkuGJ2gRwfEwNpgli04YlIxiKa6c9U+NnrXu2mnyW0pKYXc3r1XFqU7bmXJGn6MvEILs
-         WLNyII5lJ6h4OQg2CsqcsBMIO0N1d+mzet+gJwMUbuvzxfU4CYZO025TqeAxzilU4b/e
-         LDyg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RM5+y6my5bnvu7UBWU0IBvxxT5eON5dsbnRoTRo/yzA=;
+        b=nBh6mtY+IDBX86t5UtGHWPD9naC3sOYALOU7XQATmNkPyDN6s5Ex7r+hM8Zbw+Ogrx
+         NdStidN3JIH1x3pKjK6sZ0kuoYoB7IDBQk42GUA8QrBYATLCnHTWprdoV786Yf66RkQ+
+         5+Ms2z/+9NPb/H3QEjzc8p0WZIiGV9gLk24QlWKpYjP4HP7v+9gJNPSCSrfNfEWT9yNa
+         pjCmblTlKqNgoSvG544AMqZDbDGpOctVcnRR2PMYfSuFBl6CDit+Er/GQKNBwzVd3CJr
+         /l0N0DLs8igV/qWj4Zg8vQRzo48yC3hFRJ3e3u5jYaAgydPqoxHxZFYAPAdD8h+IPdBv
+         BV4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XX+IWGQPoFeh97VSAKm6031fD11VKSEYMPq0/2cLTeY=;
-        b=7VQxrg83EMfy5ULK7+5mPBvOVztxegDnAH3wlZrH2xpVijd1bcFdGHFb3gdoLUHuzD
-         4XNEcAMCoKAzo/PsBrigIrLBUGAEBRgdBfWeXA5w/ua3fwxJ4wzZXGSjlPvsslVdGL5U
-         jLCw8SEpIZ4XpjM0px/wn7GNw1aQzTRlq/c2k1OgK5WjSj78y9X4j7dm+QPiLwMhIPNm
-         gmgoHjw+R34EoD0ICqOM0dYwB4rDCZcSY2PtG05yVUCRDpJ/QFETqZmBjMqo5ba+qFdZ
-         Ml7qxQmZqpuJuEPuUnaa68/afn8zkAbD2PKQyn0Vw0jvO2w3oeVG/5j9arwnUkiFKv02
-         j41A==
-X-Gm-Message-State: AOAM533yHptaWTlztSmqDBxb/EhE+hzdWJdUmvtML5KOnQRFV+E+Nk5h
-        IH2w8CP+q1/r4+Sa6QypK0eKCzfEbfJeagOPRqrG2ecZ3S/Q+w==
-X-Google-Smtp-Source: ABdhPJwsPqTLqByAywbPvHbUlZ0RmBQQuT3nqAGrXPiTyDCpCNQ4pE+4K+lDpxX3ZVso8ruv7YjBCeaONpdv8zk6tdU=
-X-Received: by 2002:a67:c10e:0:b0:31b:7197:5751 with SMTP id
- d14-20020a67c10e000000b0031b71975751mr9775554vsj.43.1646108235078; Mon, 28
- Feb 2022 20:17:15 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RM5+y6my5bnvu7UBWU0IBvxxT5eON5dsbnRoTRo/yzA=;
+        b=PQeBLcMLrZpKNfKQY/Y3IucKTfFG+0WCpilfTQ+7DEK6uNDG3aNEK2PeSAK+AyM5F6
+         2A0HpeqWhNlEY011KH2etc8I+CkdoxVWy9JgSIS0HVt4GeuboWrKQkh/YrS4OaFAKnUh
+         xu5O9DJiSWGvYt/+knjlOUkRkKc6GzpqGjqIUV9WeYre/+rEgXJa0OUa8urgXbNPvXtT
+         4J8OijzhI0lfiJgF99erlE0F5T/GxbyZo+dUHe00JxAKQsX+CPpoFdjTHYlNfS+TLvZC
+         KGutco3ZsH14Z3xkLsXl64xN0R8TKzLYIHoXAcZk4q6+NEq6tpzAp65RDU7X0WJnVJUf
+         eFlA==
+X-Gm-Message-State: AOAM531EMjhP3iKIDUh+VPQ9aIa7sr7FP5qxecoDeppD1gra+/i5Bs8r
+        L4Gls56BIf/RcccCKPMcOXI=
+X-Google-Smtp-Source: ABdhPJz0ODsilK6zX8eiL9E6M7e37xSi7KXomM4nvIbhvKRcZcpEtmos92Pon5a1TnpNghjXbUV8BA==
+X-Received: by 2002:a05:6a00:16d3:b0:4cb:51e2:1923 with SMTP id l19-20020a056a0016d300b004cb51e21923mr25098870pfc.7.1646108504678;
+        Mon, 28 Feb 2022 20:21:44 -0800 (PST)
+Received: from localhost.localdomain (111-250-8-126.dynamic-ip.hinet.net. [111.250.8.126])
+        by smtp.gmail.com with ESMTPSA id t41-20020a056a0013a900b004e167af0c0dsm15937178pfg.89.2022.02.28.20.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 20:21:44 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: [PATCH v2 0/3] docs/zh_CN: add riscv vm-layout and peci translation
+Date:   Tue,  1 Mar 2022 12:18:23 +0800
+Message-Id: <cover.1646108017.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
- <YhupaVZvbipgke2Z@kroah.com> <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
- <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
- <CAAhV-H7X+Txq4HaaF49QZ9deD=Dwx_GX-2E9q_nA8P76ZRDeXg@mail.gmail.com>
- <CAMj1kXGH1AtL8_KbFkK+FRgWQPzPm1dCdvEF0A2KksREGTSeCg@mail.gmail.com>
- <CAAhV-H6fdJwbVG_m0ZL_JGROKCrCbc-fKpj3dnOowaEUA+3ujQ@mail.gmail.com>
- <CAK8P3a2hr2rjyLpkeG1EKiOVGrY4UCB61OHGj5nzft-KCS3jYA@mail.gmail.com> <CAMj1kXHGG80LdNUUA+Ug1VBXWuvtPxKpqnuChg2N=6Hf2EhY7g@mail.gmail.com>
-In-Reply-To: <CAMj1kXHGG80LdNUUA+Ug1VBXWuvtPxKpqnuChg2N=6Hf2EhY7g@mail.gmail.com>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Tue, 1 Mar 2022 12:17:03 +0800
-Message-ID: <CAAhV-H6dxkdmDizd+ZVhJ_zHZ9RK8QjKU-3U-CaovLiNbEVpbg@mail.gmail.com>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ard & Arnd,
+v2:
+* Pick Alexs's Reviewed-by tag. [PATCH 1/3 and 3/3 ]
 
-On Mon, Feb 28, 2022 at 7:35 PM Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Mon, 28 Feb 2022 at 12:24, Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Mon, Feb 28, 2022 at 11:42 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > On Mon, Feb 28, 2022 at 4:52 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > On Mon, 28 Feb 2022 at 09:38, Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > > > >
-> > > > > > RISC-V is a useful reference for the changes needed - this is the most
-> > > > > > recent addition to the EFI stub, and avoids some legacy stuff that new
-> > > > > > architectures have no need for.
-> > > > > We still want to support the raw elf kernel (RISC-V also does),
-> > > > > because LoongArch also has MCU and SoC and we want to support FDT (I
-> > > > > think this is reasonable, because RISC-V also supports raw elf).
-> > > > >
-> > > >
-> > > > That is fine. So perhaps the best course of action is to omit the
-> > > > UEFI/ACPI parts entirely for now, and focus on the DT/embedded use
-> > > > case. Once all the spec pieces are in place, the UEFI + ACPI changes
-> > > > can be presented as a single coherent set.
-> > > It seems that I made you confusing. :)
-> > > There are big CPUs and small CPUs (MCU and SoC), big CPUs use
-> > > UEFI+ACPI, while small CPUs use FDT.
-> > > At present, the only matured LoongArch CPU is Loongson-3A5000 (big
-> > > CPU) which uses UEFI+ACPI.
-> > > We want to support raw elf because it can run on both ACPI firmware
-> > > and FDT firmware, but at present we only have ACPI firmware.
-> >
-> > Can't you just use the UEFI protocol for kernel entry regardless
-> > of the bootloader? It seems odd to use a different protocol for loading
-> > grub and the kernel, especially if that means you end up having to
-> > support both protocols inside of u-boot and grub, in order to chain-load
-> > a uefi application like grub.
-> >
->
-> I think this would make sense. Now that the EFI stub has generic
-> support for loading the initrd via a UEFI specific protocol (of which
-> u-boot already carries an implementation), booting via UEFI only would
-> mean that no Linux boot protocol would need to be defined outside of
-> the kernel at all (i.e., where to load the kernel, where to put the
-> command line, where to put the initrd, other arch specific rules etc
-> etc) UEFI already supports both ACPI and DT boot
+v1:
+* Translate .../riscv/vm-layout.rst into Chinese.
+* Translate .../peci/* into Chinese.
 
-After one night thinking, I agree with Ard that we can use RISCV-style
-fdt to support the raw elf kernel at present, and add efistub support
-after new UEFI SPEC released.
+Yanteng Si (3):
+  docs/zh_CN: add riscv vm-layout translation
+  docs/zh_CN: add peci index translation
+  docs/zh_CN: add peci subsystem translation
 
-If I'm right, it seems that RISC-V passes a0 (hartid) and a1 (fdt
-pointer, which contains cmdline, initrd, etc.) to the raw elf kernel.
-And in my opinion, the main drawback of current LoongArch method
-(a0=argc a1=argv a2=bootparamsinterface pointer) is it uses a
-non-standard method to pass kernel args and initrd. So, can the below
-new solution be acceptable?
+ Documentation/translations/zh_CN/index.rst    |  1 +
+ .../translations/zh_CN/peci/index.rst         | 26 +++++++
+ .../translations/zh_CN/peci/peci.rst          | 54 +++++++++++++++
+ .../translations/zh_CN/riscv/index.rst        |  1 +
+ .../translations/zh_CN/riscv/vm-layout.rst    | 67 +++++++++++++++++++
+ 5 files changed, 149 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/peci/index.rst
+ create mode 100644 Documentation/translations/zh_CN/peci/peci.rst
+ create mode 100644 Documentation/translations/zh_CN/riscv/vm-layout.rst
 
-a0=bootparamsinterface pointer (the same as a2 in current method)
-a1=fdt pointer (contains cmdline, initrd, etc., like RISC-V, I think
-this is the standard method)
+-- 
+2.27.0
 
-Huacai
