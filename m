@@ -2,88 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D360C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 05:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20008C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 06:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiCAFIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 00:08:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60978 "EHLO
+        id S232579AbiCAGZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 01:25:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiCAFIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 00:08:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 667503BA4D
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 21:07:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646111274;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vlgiMOTcMFuWjlU/kYz9NUh93Lw07HNBV3j58qzJq4U=;
-        b=ZqYHz16VpA4Wb+RAZsBMu/ZsGkvVYAI3EdvzsZGo9hPuBhdFwO/E+2sOzRf2cw083rV5Kw
-        ipP4OmI5pqREI4W2QQ5KKG8DZHkKm8+EUUoQTKSBQykbcWOpBRUVz4+BTqaUdCVblaIwIf
-        x2d7PHskO4hxdz/zGWuHTmFJCI1h38s=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122-5jTmQ0tGPpOUadaNTad3Zg-1; Tue, 01 Mar 2022 00:07:52 -0500
-X-MC-Unique: 5jTmQ0tGPpOUadaNTad3Zg-1
-Received: by mail-pj1-f69.google.com with SMTP id p3-20020a17090a748300b001bcf48f00a6so5617125pjk.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Feb 2022 21:07:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vlgiMOTcMFuWjlU/kYz9NUh93Lw07HNBV3j58qzJq4U=;
-        b=Hi9PlOFSAdMKD233Vi+4JaUvY7KaoHW5vTa1iuoKkmdbJJONskDXaDraOfAeq10pxc
-         qXnWLmhLXr77P0fEg0CeMzjhSxb24dUKoTsuswmaNub2xilrlamjpMQI/eSxXDwphHvv
-         91zmPoIq7HahJ9jdr6VTlo3j0q6uNBN9Iy/7rp1GpR2EsKKgEWisd1eFw7Ofwq04UXkJ
-         inTo/6TYSE1kLURiDrtwlxOrbDh6eHKPJgDOKtiLP+5PjguWvEuVy7pbBKHF86MuDZ9E
-         BGyL/sBCzjbEEIutwRhYamwrWaESrTZCt0K1AeeGF8R05w/vxIYKAnjvXwn9rCj8CJKC
-         KapQ==
-X-Gm-Message-State: AOAM530Jrkw1FRW7clcgsC2kedFZqZfC00TzsyFKvqMEC9vGLfbRBaYP
-        7082UVXJPV5PA4PgdQMGbBXqgw0WK60zXyQC17WwAImVFkqvEHa3MdWFhq6tbb3wuNSTtZYwm8b
-        lKX+atuEPyH3TYQy3icmv
-X-Received: by 2002:a17:90a:fa95:b0:1bc:509f:c668 with SMTP id cu21-20020a17090afa9500b001bc509fc668mr20178123pjb.189.1646111271500;
-        Mon, 28 Feb 2022 21:07:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwpWy4HUgxZrmcVNuxA49DZr6RGtDz1nFMnVlTkwtXe5piwCyDrG+ElImiz3DW22yqWJyL/vA==
-X-Received: by 2002:a17:90a:fa95:b0:1bc:509f:c668 with SMTP id cu21-20020a17090afa9500b001bc509fc668mr20178109pjb.189.1646111271251;
-        Mon, 28 Feb 2022 21:07:51 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.144])
-        by smtp.gmail.com with ESMTPSA id a16-20020a056a000c9000b004f0f8babedfsm15379890pfv.29.2022.02.28.21.07.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 21:07:50 -0800 (PST)
-Date:   Tue, 1 Mar 2022 13:07:42 +0800
-From:   Peter Xu <peterx@redhat.com>
-To:     Yun Zhou <yun.zhou@windriver.com>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net,
-        tiberiu.georgescu@nutanix.com, florian.schmidt@nutanix.com,
-        ivan.teterevkov@nutanix.com, sj@kernel.org, shy828301@gmail.com,
-        david@redhat.com, axelrasmussen@google.com, linmiaohe@huawei.com,
-        aarcange@redhat.com, ccross@google.com, apopple@nvidia.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [v2][PATCH] proc: fix documentation and description of pagemap
-Message-ID: <Yh2qHgA+689dq+5i@xz-m1.local>
-References: <20220301044538.3042713-1-yun.zhou@windriver.com>
+        with ESMTP id S232602AbiCAGZV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 01:25:21 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664F870057;
+        Mon, 28 Feb 2022 22:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646115877; x=1677651877;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0z+d/djRZAN/bUfCevnkgRsdQIo7+qDRoRp8ZY3kjos=;
+  b=eN2eIRhvTSRfucqtst3OOi97SY60h2HD0F8UCSQJs/skP63OLtHAcxK1
+   6Y1m7W4VcrgZ1iq+6J1WEUi27Tp0xvQAD3FHImfxFcvn70zy22UIlXn3i
+   TvDPlCi8NPpvp63xZ4Ute7QbomjqDgXw2SYCSMBUHDm/Xos5wm+RulKoB
+   nHwOQVAgPWq5P4A2U/hHWW8BBCwZB38oYfYr/Gkq2MATfoXoftNcrDVzv
+   OkWWMGzMYxp3zA/C1VreZ8FadltGJI9JA1z2+qgYbQgmKupmBbO4HCE4r
+   2ggf305JY4DhEKflIoVuYPhMSdiR4H6KksbIhIdaLPOaQFRyPZmnQqiDn
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="251900296"
+X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; 
+   d="scan'208";a="251900296"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 22:24:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,145,1643702400"; 
+   d="scan'208";a="708941734"
+Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
+  by orsmga005.jf.intel.com with ESMTP; 28 Feb 2022 22:24:34 -0800
+From:   Tianfei zhang <tianfei.zhang@intel.com>
+To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        Tianfei zhang <tianfei.zhang@intel.com>
+Subject: [PATCH v3 0/5] Add OFS support for DFL driver
+Date:   Tue,  1 Mar 2022 01:21:18 -0500
+Message-Id: <20220301062123.818687-1-tianfei.zhang@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220301044538.3042713-1-yun.zhou@windriver.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 12:45:38PM +0800, Yun Zhou wrote:
-> Since bit 57 was exported for uffd-wp write-protected(commit fb8e37f35a2f),
-> fixing it can reduce some unnecessary confusion.
-> 
-> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+This is v3 patchset adding OFS (Open FPGA stack) support for
+DFL driver. OFS is a collection of RTL and open software providing
+interface to access the instantiated RTL easily in FPGA. OFS
+leverages the DFL for the implementation of the FPGA RTL design.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Patch 1, allows for ports without specific bar space.
+Patch 2, introduces features in dfl_fpga_cdev after DFL enumeration.
+On OFS, we will add more extensions or features in DFL in
+future, so adding a new member "features"in dfl_fpga_cdev.
+Patch 3, fixs VF creation in "Multiple VFs per PR slot" and legacy model.
+Patch 4, handles dfl's starting with AFU and allows for VFs to be created.
+Patch 5, adds architecture description about OFS support for DFL
+in documentation.
 
-Thanks,
+Changelog v2 -> v3:
+   - no code change, just change the name from IOFS to OFS.
+
+Changelog v1 -> v2:
+   - Introducing a new member "features" in dfl_fpga_cdev for feature
+     control.
+   - Adding new flag DFL_FEAT_PORT_CONNECTED_AFU for OFS legacy model.
+   - Updates the documentation for the access models about AFU in OFS.
+   - Drop the PCI PID patch and will send it later.
+
+Matthew Gerlach (2):
+  fpga: dfl: Allow for ports without specific bar space.
+  fpga: dfl: Handle dfl's starting with AFU
+
+Tianfei zhang (3):
+  fpga: dfl: add features in dfl_fpga_cdev
+  fpga: dfl: fix VF creation in OFS
+  Documentation: fpga: dfl: add description of OFS
+
+ Documentation/fpga/dfl.rst | 113 +++++++++++++++++++++++++++++++++++++
+ drivers/fpga/dfl-pci.c     |  13 ++++-
+ drivers/fpga/dfl.c         |  38 ++++++++-----
+ drivers/fpga/dfl.h         |   6 ++
+ 4 files changed, 155 insertions(+), 15 deletions(-)
 
 -- 
-Peter Xu
+2.26.2
 
