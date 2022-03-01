@@ -2,90 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A074C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 04:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66801C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 05:04:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbiCAErR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Feb 2022 23:47:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42372 "EHLO
+        id S230499AbiCAFEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 00:04:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbiCAErO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Feb 2022 23:47:14 -0500
-Received: from mail1.wrs.com (unknown-3-146.windriver.com [147.11.3.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DCD4652CC;
-        Mon, 28 Feb 2022 20:46:34 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-        by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 2214jhhJ024345
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 28 Feb 2022 20:45:43 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 28 Feb 2022 20:45:43 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 28 Feb 2022 20:45:43 -0800
-Received: from pek-lpd-ccm4.wrs.com (128.224.153.194) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 28 Feb 2022 20:45:39 -0800
-From:   Yun Zhou <yun.zhou@windriver.com>
-To:     <akpm@linux-foundation.org>, <corbet@lwn.net>, <peterx@redhat.com>,
-        <yun.zhou@windriver.com>
-CC:     <tiberiu.georgescu@nutanix.com>, <florian.schmidt@nutanix.com>,
-        <ivan.teterevkov@nutanix.com>, <sj@kernel.org>,
-        <shy828301@gmail.com>, <david@redhat.com>,
-        <axelrasmussen@google.com>, <linmiaohe@huawei.com>,
-        <aarcange@redhat.com>, <ccross@google.com>, <apopple@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>
-Subject: [v2][PATCH] proc: fix documentation and description of pagemap
-Date:   Tue, 1 Mar 2022 12:45:38 +0800
-Message-ID: <20220301044538.3042713-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S229584AbiCAFEw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 00:04:52 -0500
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24312506DC;
+        Mon, 28 Feb 2022 21:04:10 -0800 (PST)
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21SNdCPM004837;
+        Mon, 28 Feb 2022 21:04:07 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : subject
+ : date : message-id : mime-version : content-type; s=pfpt0220;
+ bh=wi5o7Y7sCRxccy4y24dsqi8UOjoJfYnZnegCjPxpeSc=;
+ b=ZcfvDLQ3SFSx8LmyTgs2pDVB4gz8QwIMaIf0akM798CgiwgZNBJxZ6DywXD0idNjj2iT
+ 8HfCwndgGkq6qsbhpbSoKx61adjKKh0s8P4mq+knCRcgpgkqQyb6tGNkffOa862vuheB
+ 96ePw0Y4s6her5YebFeQhjQyqnj8jpemPZmQ4ly9Sq5dkdzV6tVV9ZaFpp9g1L6opyM6
+ axFYSRLN3r1gQF4Erl/fQSyQ6l9CIZmLB5BkMeQ0uaGIuygfXIk2opPB8NRVEcsg6HGu
+ 09aJvFGq0Esnat99Id4peT3nWw4KQpzGu8FBgCIN19xJhszqNu/2r8L6nmMgK/oNauLD hA== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3eh88ps3s1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 28 Feb 2022 21:04:07 -0800
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 28 Feb
+ 2022 21:04:06 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 28 Feb 2022 21:04:06 -0800
+Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
+        by maili.marvell.com (Postfix) with ESMTP id CE9483F7152;
+        Mon, 28 Feb 2022 21:04:05 -0800 (PST)
+From:   Veerasenareddy Burru <vburru@marvell.com>
+To:     <vburru@marvell.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+        <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/7]  Add octeon_ep driver
+Date:   Mon, 28 Feb 2022 21:03:52 -0800
+Message-ID: <20220301050359.19374-1-vburru@marvell.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
+Content-Type: text/plain
+X-Proofpoint-GUID: _xPZvfw9tvnmpmF0mPO_gwim-ieUIx8Q
+X-Proofpoint-ORIG-GUID: _xPZvfw9tvnmpmF0mPO_gwim-ieUIx8Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-28_10,2022-02-26_01,2022-02-23_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since bit 57 was exported for uffd-wp write-protected(commit fb8e37f35a2f),
-fixing it can reduce some unnecessary confusion.
+This driver implements networking functionality of Marvell's Octeon
+PCI Endpoint NIC.
 
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
----
- Documentation/admin-guide/mm/pagemap.rst | 2 +-
- fs/proc/task_mmu.c                       | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+This driver support following devices:
+ * Network controller: Cavium, Inc. Device b200
 
-diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-index bfc28704856c..6e2e416af783 100644
---- a/Documentation/admin-guide/mm/pagemap.rst
-+++ b/Documentation/admin-guide/mm/pagemap.rst
-@@ -23,7 +23,7 @@ There are four components to pagemap:
-     * Bit  56    page exclusively mapped (since 4.2)
-     * Bit  57    pte is uffd-wp write-protected (since 5.13) (see
-       :ref:`Documentation/admin-guide/mm/userfaultfd.rst <userfaultfd>`)
--    * Bits 57-60 zero
-+    * Bits 58-60 zero
-     * Bit  61    page is file-page or shared-anon (since 3.5)
-     * Bit  62    page swapped
-     * Bit  63    page present
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 78125ef20255..2f110089d50e 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -1596,7 +1596,8 @@ static const struct mm_walk_ops pagemap_ops = {
-  * Bits 5-54  swap offset if swapped
-  * Bit  55    pte is soft-dirty (see Documentation/admin-guide/mm/soft-dirty.rst)
-  * Bit  56    page exclusively mapped
-- * Bits 57-60 zero
-+ * Bit  57    pte is uffd-wp write-protected
-+ * Bits 58-60 zero
-  * Bit  61    page is file-page or shared-anon
-  * Bit  62    page swapped
-  * Bit  63    page present
+v2: address review comments on original patch series.
+    Divide PATCH 1/4 from the original series into 4 patches in
+    v2 patch series: PATCH 1/7 to PATCH 4/7.
+    Fix clang build errors.
+
+Veerasenareddy Burru (7):
+  octeon_ep: Add driver framework and device initialization
+  octeon_ep: add hardware configuration APIs
+  octeon_ep: Add mailbox for control commands
+  octeon_ep: add Tx/Rx ring resource setup and cleanup
+  octeon_ep: add support for ndo ops
+  octeon_ep: add Tx/Rx processing and interrupt support
+  octeon_ep: add ethtool support for Octeon PCI Endpoint NIC
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../ethernet/marvell/octeon_ep.rst            |   35 +
+ MAINTAINERS                                   |    7 +
+ drivers/net/ethernet/marvell/Kconfig          |    1 +
+ drivers/net/ethernet/marvell/Makefile         |    1 +
+ .../net/ethernet/marvell/octeon_ep/Kconfig    |   20 +
+ .../net/ethernet/marvell/octeon_ep/Makefile   |    9 +
+ .../marvell/octeon_ep/octep_cn9k_pf.c         |  737 +++++++++++
+ .../ethernet/marvell/octeon_ep/octep_config.h |  204 +++
+ .../marvell/octeon_ep/octep_ctrl_mbox.c       |  254 ++++
+ .../marvell/octeon_ep/octep_ctrl_mbox.h       |  170 +++
+ .../marvell/octeon_ep/octep_ctrl_net.c        |  197 +++
+ .../marvell/octeon_ep/octep_ctrl_net.h        |  299 +++++
+ .../marvell/octeon_ep/octep_ethtool.c         |  463 +++++++
+ .../ethernet/marvell/octeon_ep/octep_main.c   | 1177 +++++++++++++++++
+ .../ethernet/marvell/octeon_ep/octep_main.h   |  379 ++++++
+ .../marvell/octeon_ep/octep_regs_cn9k_pf.h    |  367 +++++
+ .../net/ethernet/marvell/octeon_ep/octep_rx.c |  508 +++++++
+ .../net/ethernet/marvell/octeon_ep/octep_rx.h |  199 +++
+ .../net/ethernet/marvell/octeon_ep/octep_tx.c |  334 +++++
+ .../net/ethernet/marvell/octeon_ep/octep_tx.h |  284 ++++
+ 21 files changed, 5646 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/marvell/octeon_ep.rst
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/Kconfig
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/Makefile
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_config.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ethtool.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_main.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_rx.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_rx.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_tx.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_tx.h
+
 -- 
-2.27.0
+2.17.1
 
