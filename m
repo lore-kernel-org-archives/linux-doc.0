@@ -2,97 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 917B9C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 14:53:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52020C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Mar 2022 14:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235448AbiCAOxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Mar 2022 09:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45026 "EHLO
+        id S235454AbiCAOy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Mar 2022 09:54:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235433AbiCAOxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 09:53:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26EF483BC;
-        Tue,  1 Mar 2022 06:52:52 -0800 (PST)
+        with ESMTP id S235453AbiCAOy0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Mar 2022 09:54:26 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2474570CD5;
+        Tue,  1 Mar 2022 06:53:45 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 76EC36159D;
-        Tue,  1 Mar 2022 14:52:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC19EC340F2;
-        Tue,  1 Mar 2022 14:52:48 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B57396159A;
+        Tue,  1 Mar 2022 14:53:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190CCC340EE;
+        Tue,  1 Mar 2022 14:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646146371;
-        bh=LfiWmfs6qErICD+TfIJqX84uNv2I/FQMxqCURJD4QRk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oj5yynkamny/AtSQRD5xLhnAE4W3TodX8euUSgx+w4IDEx9hwirHYK/YzcWwlAiKe
-         Mg3CZZjAlee0DdCyh69ulex4StSRHfMowWaXSiygI/D7T3pAtRjY/7TduakOK2tRp0
-         ruh5tHf11STcPDIDu7/jTpRxTT5Ep9eXIh3KpArhOdIc5KNHgjEgBMUVOZccPOHz8d
-         SKWzudpfx2tkaCKiX3qXiLE+5BEHg+bZoUdHwM9tmQhSEHDsr0peusS2SV76uDkNwp
-         mOBX1cTcDDulQKZqtFCr+w47Nq6KtbMZwHVWg9lzZJrJ/gDP0JG4lL2HDvHsc8Pxnx
-         14M0Azozwf7pw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-Date:   Tue,  1 Mar 2022 15:52:33 +0100
-Message-Id: <20220301145233.3689119-3-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220301145233.3689119-1-arnd@kernel.org>
-References: <20220301145233.3689119-1-arnd@kernel.org>
+        s=k20201202; t=1646146424;
+        bh=GD3ppfugRqIV23Miab38fww3xcaKUQM6WrDR9+Hobac=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=OJ7+ZGm984efelp+NWTFaTZSwNtYW/hotKfXQQAbmPQdU2DVLAhJDKxty1YwNe0wF
+         uuW9ZbcHwfWHZSqQ1OL1yL3tumw8R4ryx+4OYpt1149PryFFu7Ac7hOBFA6zFbMTku
+         bW9e8qosXA3Tlfh+OcfCdAHOjFAZrARLsyn1rKGxYm4up4Uku7AP5vrV3Cb3FWjg/Y
+         CxMe4D1OXlGPjDEw/n42MjQ4ImqnzkfNxub9psGTfcTKVKid9TAqCiFpw98pKmMcrh
+         n8dFCGb3GkLb7R4kHn4Ye5eC/vGdQuUJBzEG0Ftyd2Tsn1v0iOLhA6hPH4yei5RT9N
+         k8sic9WuMTR2w==
+Date:   Tue, 1 Mar 2022 15:53:31 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?ISO-8859-2?Q?Ahelenia_Ziemia=F1ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] HID: fix for generic input processing
+In-Reply-To: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2203011552560.24795@cbobk.fhfr.pm>
+References: <20220203143226.4023622-1-benjamin.tissoires@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, 3 Feb 2022, Benjamin Tissoires wrote:
 
-As we change the C language standard for the kernel from gnu89 to
-gnu11, it makes sense to also update the version for user space
-compilation.
+> Hi,
+> 
+> this is the v2 of my series which reworks the HID report processing.
+> 
+> I took Ping's comments into account, and amended my MR with the
+> regression tests[0].
+> More specifically, the tests (and thus this new version of the series)
+> enforces that only one BTN_TOOL_* event gets forwarded between each
+> EV_SYN frame, and that BTN_TOUCH are properly translated too.
+> 
+> This also magivally solved some worrying transitions we had in the
+> pen state machine where the pen was jumping from "eraser" to "in
+> contact". This new behavior enforces a "out-of-range" state in the
+> middle, making it easier for userspace to understand now.
+> 
+> Again, tests are welcome :)
+> 
+> Cheers,
+> Benjamin
+> 
+> [0] https://gitlab.freedesktop.org/libevdev/hid-tools/-/merge_requests/127
+> 
+> Benjamin Tissoires (12):
+>   HID: core: statically allocate read buffers
+>   HID: core: de-duplicate some code in hid_input_field()
+>   HID: core: split data fetching from processing in hid_input_field()
+>   HID: input: tag touchscreens as such if the physical is not there
+>   HID: input: rework spaghetti code with switch statements
+>   HID: input: move up out-of-range processing of input values
+>   HID: compute an ordered list of input fields to process
+>   HID: core: for input reports, process the usages by priority list
+>   HID: input: enforce Invert usage to be processed before InRange
+>   HID: input: remove the need for HID_QUIRK_INVERT
+>   HID: input: accommodate priorities for slotted devices
+>   Input: docs: add more details on the use of BTN_TOOL
+> 
+>  Documentation/input/event-codes.rst |   6 +-
+>  drivers/hid/hid-core.c              | 280 ++++++++++++++++++---
+>  drivers/hid/hid-input.c             | 364 ++++++++++++++++++++++------
+>  include/linux/hid.h                 |  23 +-
+>  4 files changed, 568 insertions(+), 105 deletions(-)
 
-Some users have older native compilers than what they use for
-kernel builds, so I considered using gnu99 as the default version
-for wider compatibility with gcc-4.6 and earlier.
+This is now in hid.git#for-5.18/core.
 
-However, testing with older compilers showed that we already require
-HOSTCC version 5.1 as well because a lot of host tools include
-linux/compiler.h that uses __has_attribute():
+Thanks a lot Benjamin, very nice work.
 
-  CC      tools/objtool/exec-cmd.o
-In file included from tools/include/linux/compiler_types.h:36:0,
-                 from tools/include/linux/compiler.h:5,
-                 from exec-cmd.c:2:
-tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 37ef6a555dcd..7c9be7f1ccd4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -432,7 +432,7 @@ HOSTCXX	= g++
- endif
- 
- export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
--			    -O2 -fomit-frame-pointer -std=gnu89 \
-+			    -O2 -fomit-frame-pointer -std=gnu11 \
- 			    -Wdeclaration-after-statement
- export KBUILD_USERLDFLAGS :=
- 
 -- 
-2.29.2
+Jiri Kosina
+SUSE Labs
 
