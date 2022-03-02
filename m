@@ -2,127 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 283E6C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:34:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB88EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:42:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245238AbiCBVfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 16:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
+        id S245382AbiCBVmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 16:42:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235450AbiCBVfc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:35:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7508447397
-        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 13:34:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646256887;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5WupCZ6aFmy9XKTwO56vm8BsGbMlpzmFfI9+PMks/QM=;
-        b=SCU86IDPU8JpUKNClxgaJJULkaHNWeI/OchJhR/YQFjBm/ED5an4KVM0SPbsbZf7TvBV/O
-        gM8a4pe5eanbKq3Hlo7aktuQCbuIgP+RoH+/yin5NnmkrFbScjTA6rDtC2HkPFFKVYSlu1
-        8wE4+1nbZYvpRMzQpeDgJ5h7Gpouhaw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-3uD10isAMkWRY571MPzaJA-1; Wed, 02 Mar 2022 16:34:46 -0500
-X-MC-Unique: 3uD10isAMkWRY571MPzaJA-1
-Received: by mail-ed1-f71.google.com with SMTP id m12-20020a056402510c00b00413298c3c42so1685927edd.15
-        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 13:34:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version:content-transfer-encoding;
-        bh=5WupCZ6aFmy9XKTwO56vm8BsGbMlpzmFfI9+PMks/QM=;
-        b=22aT94NTHGOupitvPjPfK+sdb9EKkscnNhNO5Y6N4+XTlbhQ/yG85sPUskHmdCOmA6
-         KnIQgLQLIwAnTKXra02Y7cvgUzVkWnTsyi3yEuv4zkvNXcBFjnuOojw0zmX9KCYnfxfI
-         ki+Qtx1pE17sVed3+l53eIa/X769TMgM8D7WhJakGFGpDEX/fuundZHPRfM9+HIhvBLn
-         oKdgki6dmef8AxHE/AnJqEbtixDXYk/BDNzr2nFApF4qpBoKyp6q4LE7Zi5vDjxTG+mR
-         GK8YmsEeqqhCOoNlsXTCmN81MOt2YZRil5qhm1281Ef3RnVwpJ+LWmDd0czBE0DySnlz
-         IVTw==
-X-Gm-Message-State: AOAM532brmUuan8QKvcqvIQX4nfLwMF1RH+Aln7wwDnz0+/8S4HOe5gs
-        IAa/kSE/dAnDOlJ0STJneRDmOMDoGj9NdODKBe5C0I4bzevy8p2mOsuQBJUa/AgEohjTxH9ANkN
-        ld5pACB/Q35VYcPWSVVgi
-X-Received: by 2002:a17:907:3e19:b0:6da:86b9:acc with SMTP id hp25-20020a1709073e1900b006da86b90accmr1238128ejc.655.1646256884073;
-        Wed, 02 Mar 2022 13:34:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxcayKVAMFXQkrG7XvksKP1j+QP+060buGhwLWrqFAmSuFl4FDYRfszoadjhe+++DTe9PMNQg==
-X-Received: by 2002:a17:907:3e19:b0:6da:86b9:acc with SMTP id hp25-20020a1709073e1900b006da86b90accmr1238062ejc.655.1646256882831;
-        Wed, 02 Mar 2022 13:34:42 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
-        by smtp.gmail.com with ESMTPSA id o7-20020a17090608c700b006cef23cf158sm31871eje.175.2022.03.02.13.34.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 13:34:42 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 44E70131929; Wed,  2 Mar 2022 22:34:41 +0100 (CET)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v8 2/5] Documentation/bpf: Add documentation
- for BPF_PROG_RUN
-In-Reply-To: <20220302190440.t5cvezlkg7ynajam@ast-mbp.dhcp.thefacebook.com>
-References: <20220218175029.330224-1-toke@redhat.com>
- <20220218175029.330224-3-toke@redhat.com>
- <20220302190440.t5cvezlkg7ynajam@ast-mbp.dhcp.thefacebook.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Wed, 02 Mar 2022 22:34:41 +0100
-Message-ID: <87bkyodoni.fsf@toke.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S241447AbiCBVmm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:42:42 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A703CA320;
+        Wed,  2 Mar 2022 13:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646257317; x=1677793317;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=tICJn7O0frWHzJ+wfRZLQugK3cqy6m5DqqQk0iFZOIE=;
+  b=fLXHlNzIcG1wfnYsGuUmghj/0F+DLkXGmWUax2zUzLW5VeIzKLHUvYsN
+   LrSi3pNrKq5BY/gXuw+NQqneM8cSdgOVlLw7mHmboQQeJsaQeEWes6tK9
+   GiYXE/Lz32Pfu4Hv5130GNE7aUlJlMoK6tZ2QMLAOPa1UUIWcuCDtJYGB
+   GIvo64yfWPoPioqy9RnuhsmhNwTCydToNyL+Y2hzBBJRTqzoFVJl7HM/1
+   yTGaJjz/iDV0zc8YAkNE6kCll1DIL9rvZ4CT+rhwfX0bt2ElWuSdKyImO
+   Pp76dmwF4CiA/vWnUQOzu1iqlgZVRw9GO93EAVieWs0byvBsN3LuwUVFk
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="251086289"
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
+   d="scan'208";a="251086289"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 13:41:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
+   d="scan'208";a="576255809"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2022 13:41:56 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 2 Mar 2022 13:41:55 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 2 Mar 2022 13:41:55 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.021;
+ Wed, 2 Mar 2022 13:41:55 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+CC:     "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [RFC 00/10] Introduce In Field Scan driver
+Thread-Topic: [RFC 00/10] Introduce In Field Scan driver
+Thread-Index: AQHYLaZcmKq0UuRYGU6xp1k7P7vRw6yspmuA///mywCAAJPCgP//faKA
+Date:   Wed, 2 Mar 2022 21:41:55 +0000
+Message-ID: <f927a309de734c50a5ea8e62077e9e30@intel.com>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <1b793ead-a47c-4719-b7b5-cba7d49633f2@www.fastmail.com>
+ <Yh/Tt50Y8ubGNwS6@agluck-desk3.sc.intel.com>
+ <bdc14f77-98e0-4af8-9bef-5dd3d41f22c2@www.fastmail.com>
+In-Reply-To: <bdc14f77-98e0-4af8-9bef-5dd3d41f22c2@www.fastmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+> How does this work?  Is there an Intel IFS blob v1.17 that is expected
+> to be *the* blob for a given CPU until an update happens?
 
-> On Fri, Feb 18, 2022 at 06:50:26PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
-n wrote:
->> This adds documentation for the BPF_PROG_RUN command; a short overview of
->> the command itself, and a more verbose description of the "live packet"
->> mode for XDP introduced in the previous commit.
->
-> Overall the patch set looks great. The doc really helps.
+This is the model. Although internally the blob is divided into chunks
+that can be run separately, folks outside Intel have no visibility into
+which chunk tests which circuits (even *inside* ... I don't know what
+each chunk does :-) )
 
-Great, thanks!
+How often will updates occur? No idea. Since this is new, I'd expect
+that there might be some improvements when there is feedback from
+large CSPs running on many more systems than we have.
 
-> One nit below.
->
->> +- When running the program with multiple repetitions, the execution wil=
-l happen
->> +  in batches, where the program is executed multiple times in a loop, t=
-he result
->> +  is saved, and other actions (like redirecting the packet or passing i=
-t to the
->> +  networking stack) will happen for the whole batch after the execution=
-. This is
->> +  similar to how execution happens in driver-mode XDP for each hardware=
- NAPI
->> +  cycle. The batch size defaults to 64 packets (which is same as the NA=
-PI batch
->> +  size), but the batch size can be specified by userspace through the
->> +  ``batch_size`` parameter, up to a maximum of 256 packets.
->
-> This paragraph is a bit confusing.
-> I've read it as the program can do only one kind of result per batch and
-> it will apply to the whole batch.
-> But the program can do XDP_PASS/REDIRECT in any order.
-> Can you make "the result is saved" a bit more clear?
+>  Or is the
+> expectation that several different blobs might all useful on the same
+> system and operators might want to run different blobs under different
+> circumstances?
 
-Yeah, re-reading it now, I see what you mean; will try to make it
-clearer...
+One of our early implementations included extra sysfs hooks to only
+test specific chunks ... but we dropped that complexity as there's no
+way for end users to decide which chunks to run.
 
--Toke
+So the posted series just iterates all chunks for a core.
+
+-Tony
 
