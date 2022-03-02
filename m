@@ -2,131 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD8B3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:19:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE633C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:21:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244842AbiCBVTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 16:19:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
+        id S241359AbiCBVWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 16:22:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241687AbiCBVTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:19:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB791E3ED
-        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 13:19:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C7546189F
-        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 21:19:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C56C340E9;
-        Wed,  2 Mar 2022 21:19:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646255941;
-        bh=QWYFjNcvQTfY+YtFSmf2UYt24f74I0kgvcEW3PVNDe4=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=twI1GO/2S7YDunBjQC3+qvtYGlcT6gAPGd5HumDYEA/ag5uGxgEFGgHqWK22NAEIv
-         vNabYmlHSd/6UAUzyr10lfOfFwRM0rjKz6seS+tHswp3/DTqMu4zah2tFz9ceFkLFc
-         m0QAGib+fX3F/D5sq6jD41M+IQChafLmtPCRTZD4ZwWf5RCz+1+yEE0nW7vt1Ev9zq
-         dbLmIUpHmHY1WXu2A486dXBR6BoSOefBlQodKVjftqsdp3FAKwZwSJS6C+pEiEeVwI
-         C3qytg3C0Vg2hF2GEXizpAxMaM8+7SoznbB3Weopf9BgNndBq7z1ZA0Sti8N/lHqst
-         7z6Ln4uy/+mmw==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailauth.nyi.internal (Postfix) with ESMTP id D3B2D27C0054;
-        Wed,  2 Mar 2022 16:18:59 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
-  by compute5.internal (MEProxy); Wed, 02 Mar 2022 16:18:59 -0500
-X-ME-Sender: <xms:Q98fYnlx5xkkDz-9hc7NxAVXSn2oGEQh-CSeOZb4cb705yBBoCISYg>
-    <xme:Q98fYq0iAMnzYiIHSwB84QECz7awOG8VoKo2cMG1tujvz3_7CzyeDMrJuwF6h-6ix
-    wjd7J5hX83kOrPrNOU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgudegvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
-    ftrfgrthhtvghrnheptdfhheettddvtedvtedugfeuuefhtddugedvleevleefvdetleff
-    gfefvdekgeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
-    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
-    igrdhluhhtohdruhhs
-X-ME-Proxy: <xmx:Q98fYtqJEqk96supIOOfDZ6MFEKnexjywz0tki-SaKQiEUWITp2lnQ>
-    <xmx:Q98fYvn5mQpBWBmRojd4nndxZih2-rAJU-a0tgD3_ZN7JlhGyyZQKQ>
-    <xmx:Q98fYl3p9HXfjx5tbAF8kB5QvUCfhsFnmGHsfcAo-LsCW3Zkyn_KOA>
-    <xmx:Q98fYh7Kd72wN8PvUv3DFfnTD6Y6XcDlvbUVXlOPQR_LPIvDHyqilyS5Fpk>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0232121E006E; Wed,  2 Mar 2022 16:18:58 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
-Mime-Version: 1.0
-Message-Id: <bdc14f77-98e0-4af8-9bef-5dd3d41f22c2@www.fastmail.com>
-In-Reply-To: <Yh/Tt50Y8ubGNwS6@agluck-desk3.sc.intel.com>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <1b793ead-a47c-4719-b7b5-cba7d49633f2@www.fastmail.com>
- <Yh/Tt50Y8ubGNwS6@agluck-desk3.sc.intel.com>
-Date:   Wed, 02 Mar 2022 13:18:37 -0800
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Tony Luck" <tony.luck@intel.com>
-Cc:     "Jithu Joseph" <jithu.joseph@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org, "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
-        "Raj Ashok" <ashok.raj@intel.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [RFC 00/10] Introduce In Field Scan driver
-Content-Type: text/plain
+        with ESMTP id S234737AbiCBVWi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:22:38 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D7C48E42;
+        Wed,  2 Mar 2022 13:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:References;
+        bh=QGQwHCQX3j+TcKKZtmw4Nue4CTnQRxDyxtp3O3ZauA8=; b=lYcaijEmRslYq3x6eyRWtLcAQq
+        wgJKfe0IUb0dX0eXRFwcI6S944b3Z5XXManZwwaU0TDGnbXOGosC5c7Nu4I9eC5zC8TbwlHSvFGEg
+        wSAI45wlWP0NsAInVV5SjB4H/HtpONAc0AUA7hTtXdbayCwIbPdvWj/m3HrPsLfTv/GH10RACIqi4
+        7csgyH7+04vAD1fd4l9ef23dhGfG7l2qPzm/+yURq3r8Ly8FOw8gX63GWTBnQCoT8PMvEuBzd7zIf
+        +v5tpjWY4p7SDs+rgxj/+LqQ1HVMqSRcKh1t7TgAdTLSBkni4sGEcpSBwsF4dnCUkyTKfOaYcMVAc
+        Sk/hxRBA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nPWPt-004Gph-Mq; Wed, 02 Mar 2022 21:21:49 +0000
+Date:   Wed, 2 Mar 2022 13:21:49 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        keescook@chromium.org, yzaikin@google.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Adam Manzanares <a.manzanares@samsung.com>,
+        Davidlohr Bueso <dave@stgolabs.net>
+Subject: Re: [PATCH v2 1/3] mm: hugetlb: disable freeing vmemmap pages when
+ struct page crosses page boundaries
+Message-ID: <Yh/f7YpP0Oc2Nkun@bombadil.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220302083758.32528-2-songmuchun@bytedance.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 02, 2022 at 04:37:56PM +0800, Muchun Song wrote:
+> If CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON is enabled and the size
+> of "struct page" is not power of two, we cannot optimize vmemmap pages
+> of HugeTLB pages. We should disable this feature in this case.
 
+The commit log does not descrie what happens if this is left enabled in
+that case? Is this a fix? Why would it be a fix? Was something failing?
+How did you spot this issue? What are the consequences of not applying
+this patch?
 
-On Wed, Mar 2, 2022, at 12:29 PM, Luck, Tony wrote:
-> On Wed, Mar 02, 2022 at 05:59:59AM -0800, Andy Lutomirski wrote:
->> > /sys/devices/system/cpu/ifs/reload
->> >   Writing "1" to this file will reload the tests from
->> >   /lib/firmware/intel/ifs/{ff-mm-ss}.scan
->> 
->> IMO this interface is wrong.  /lib/firmware is for firmware (or
->> ucode, etc) files that should be provided by a distribution and loaded,
->> as needed, by a driver so the hardware can function.  This is not at
->> all what IFS does. For IFS, an administrator wants to run a specific
->> test, and the test blob is part of the instruction to run the test.
->> The distribution should not be involved, and this should work even on
->> systems where /lib/firmware is immutable.
->
-> "so the hardware can function"
->
-> Data center customers want to know which aging systems in their
-> data centers are not functioning correctly. So this is not just
-> a random test that people might run when they suspect they have
-> a problem. It is expected that every core will run this test
-> periodically (period dependent on paranoia level of the system
-> owner ... maybe daily ... perhaps even more often).
->
-> This is so that the data centre can function.
->
-
-How does this work?  Is there an Intel IFS blob v1.17 that is expected to be *the* blob for a given CPU until an update happens?  Or is the expectation that several different blobs might all useful on the same system and operators might want to run different blobs under different circumstances?
-
->> 
->> So either the blob should be written to a file in sysfs or it should
->> be supplied by write or ioctl to a device node.
->
-> I don't see the drive to create a new mechanism for the kernel
-> to load from a file when the firmware loader already exists.
->
-> If the problem is just immuatbility of /lib ... then make
-> an immutable symlink from /lib/firmware/intel/ifs to some
-> other place in the file system (which is what some OS
-> vendors already do for microcode).
->
-> -Tony
+  Luis
