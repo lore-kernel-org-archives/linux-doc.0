@@ -2,120 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB88EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:42:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F98BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 22:14:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245382AbiCBVmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 16:42:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
+        id S236335AbiCBWPb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 17:15:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241447AbiCBVmm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:42:42 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A703CA320;
-        Wed,  2 Mar 2022 13:41:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646257317; x=1677793317;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=tICJn7O0frWHzJ+wfRZLQugK3cqy6m5DqqQk0iFZOIE=;
-  b=fLXHlNzIcG1wfnYsGuUmghj/0F+DLkXGmWUax2zUzLW5VeIzKLHUvYsN
-   LrSi3pNrKq5BY/gXuw+NQqneM8cSdgOVlLw7mHmboQQeJsaQeEWes6tK9
-   GiYXE/Lz32Pfu4Hv5130GNE7aUlJlMoK6tZ2QMLAOPa1UUIWcuCDtJYGB
-   GIvo64yfWPoPioqy9RnuhsmhNwTCydToNyL+Y2hzBBJRTqzoFVJl7HM/1
-   yTGaJjz/iDV0zc8YAkNE6kCll1DIL9rvZ4CT+rhwfX0bt2ElWuSdKyImO
-   Pp76dmwF4CiA/vWnUQOzu1iqlgZVRw9GO93EAVieWs0byvBsN3LuwUVFk
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="251086289"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="251086289"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 13:41:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="576255809"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2022 13:41:56 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 2 Mar 2022 13:41:55 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 2 Mar 2022 13:41:55 -0800
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.021;
- Wed, 2 Mar 2022 13:41:55 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-CC:     "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Borislav Petkov" <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [RFC 00/10] Introduce In Field Scan driver
-Thread-Topic: [RFC 00/10] Introduce In Field Scan driver
-Thread-Index: AQHYLaZcmKq0UuRYGU6xp1k7P7vRw6yspmuA///mywCAAJPCgP//faKA
-Date:   Wed, 2 Mar 2022 21:41:55 +0000
-Message-ID: <f927a309de734c50a5ea8e62077e9e30@intel.com>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <1b793ead-a47c-4719-b7b5-cba7d49633f2@www.fastmail.com>
- <Yh/Tt50Y8ubGNwS6@agluck-desk3.sc.intel.com>
- <bdc14f77-98e0-4af8-9bef-5dd3d41f22c2@www.fastmail.com>
-In-Reply-To: <bdc14f77-98e0-4af8-9bef-5dd3d41f22c2@www.fastmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230045AbiCBWPa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 17:15:30 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09C9BE1CD;
+        Wed,  2 Mar 2022 14:14:46 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id q4so2608098ilt.0;
+        Wed, 02 Mar 2022 14:14:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=9ub8TndGmTDnXv5II0vAs1rwRRkggXTkQUEfUiR0zUM=;
+        b=O+XP97fQEzccgNOmdZKRo9ExVQ6aP9qNniiLwYD8WAvJPbeMRPKx6qhcYfeOpm0jG7
+         2kfV6H5Avz5r9Z+Iou+NSRVgPwPyPX0cX1Yh74n49X9gYvVvK66tIN+4U3E4EnQJ7Ix5
+         jWPLTXBBZ1pMEyhmLG+OdDJy0s4gHZNgvKCPey2ibIH/50zY0fZTcgWDcXiT/E4pH84j
+         iknTD0iNaiGnirSwb0OoN8BZ8zcRCWoy9dxo2ZqVN6lTbZAPMXrIjBLpM0CvkhUeOKTI
+         eTrWkYr2nJjuReRc1dWQ2pdcjso9mx/Gr3a8IU2YoBpTYfhgTJJT9fYYzl2YzeKBpMzH
+         llaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=9ub8TndGmTDnXv5II0vAs1rwRRkggXTkQUEfUiR0zUM=;
+        b=E4bxqwnPhJQJJsOi5SViVkP/WHeWFGDbuXmu9IEJMt/xeqk4qcGY+aNxtS4m6g6t3H
+         CQ/POq2mLDYe4E9RUt/RrURPLAiuftnfpjPLZPfz1Re5x+Gqu+TOLYdUEyKe+KQdqu58
+         GItVc3Cfv+Inj2nWhwjQIQ+fnNLvRb8eMF1GD7uKjb4yfR6UcIZdZKS/pJm/wAopzGBq
+         PyZ4QYaCvSzVCEr5FGMurhdK2UJsLekE+8iDZ6dObWQPFugfbJfRAbcPe2ywEc9xBkLO
+         bRO9U6k1xoCTVOH3Sc/VB9p3AVCwb7cxtsYJ7gVy3AvANuiUzjHXi9kuxNFE4uRkIm3r
+         JPyg==
+X-Gm-Message-State: AOAM530Kum6m+mX5LlBrNIBOJOsQRHc62TRS3REK/vya95saNLhW3mhJ
+        suMToQVB2gebWSCUIym1pci1MNNs1eWsUtLqAMk=
+X-Google-Smtp-Source: ABdhPJzli2sDxakapKJWnAyE4Ias/tvbMiWhQHQ+dnKForLGnwLdQ++qGFoPyE7z1ZhQJ/yaEqdh8N2Jt0Lib+cjkjw=
+X-Received: by 2002:a05:6e02:1c04:b0:2be:4c61:20f4 with SMTP id
+ l4-20020a056e021c0400b002be4c6120f4mr29224878ilh.245.1646259286229; Wed, 02
+ Mar 2022 14:14:46 -0800 (PST)
 MIME-Version: 1.0
+References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
+In-Reply-To: <20220301145233.3689119-3-arnd@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 2 Mar 2022 23:14:10 +0100
+Message-ID: <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> How does this work?  Is there an Intel IFS blob v1.17 that is expected
-> to be *the* blob for a given CPU until an update happens?
+On Wed, Mar 2, 2022 at 10:47 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As we change the C language standard for the kernel from gnu89 to
+> gnu11, it makes sense to also update the version for user space
+> compilation.
+>
 
-This is the model. Although internally the blob is divided into chunks
-that can be run separately, folks outside Intel have no visibility into
-which chunk tests which circuits (even *inside* ... I don't know what
-each chunk does :-) )
+Overdue.
 
-How often will updates occur? No idea. Since this is new, I'd expect
-that there might be some improvements when there is feedback from
-large CSPs running on many more systems than we have.
+Can you point me to a lore link where I can easily fetch the full 3/3
+v3 patchset?
 
->  Or is the
-> expectation that several different blobs might all useful on the same
-> system and operators might want to run different blobs under different
-> circumstances?
+I would like to give this a try on x86-64 with my latest kernel-config
+(based on the latest kernel-config v5.17-rc5 from Debian/unstable).
 
-One of our early implementations included extra sysfs hooks to only
-test specific chunks ... but we dropped that complexity as there's no
-way for end users to decide which chunks to run.
+What Linux source base do I need?
+Is Linux v5.17-rc6 good enough (patchset applicable) for testing?
 
-So the posted series just iterates all chunks for a core.
+Thanks, Arnd.
 
--Tony
+Regards,
+- Sedat -
 
+> Some users have older native compilers than what they use for
+> kernel builds, so I considered using gnu99 as the default version
+> for wider compatibility with gcc-4.6 and earlier.
+>
+> However, testing with older compilers showed that we already require
+> HOSTCC version 5.1 as well because a lot of host tools include
+> linux/compiler.h that uses __has_attribute():
+>
+>   CC      tools/objtool/exec-cmd.o
+> In file included from tools/include/linux/compiler_types.h:36:0,
+>                  from tools/include/linux/compiler.h:5,
+>                  from exec-cmd.c:2:
+> tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 37ef6a555dcd..7c9be7f1ccd4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -432,7 +432,7 @@ HOSTCXX     = g++
+>  endif
+>
+>  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+> -                           -O2 -fomit-frame-pointer -std=gnu89 \
+> +                           -O2 -fomit-frame-pointer -std=gnu11 \
+>                             -Wdeclaration-after-statement
+>  export KBUILD_USERLDFLAGS :=
+>
+> --
+> 2.29.2
+>
