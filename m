@@ -2,215 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D27BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 283E6C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 21:34:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245107AbiCBV0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 16:26:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49878 "EHLO
+        id S245238AbiCBVfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 16:35:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236363AbiCBV0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:26:31 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12BBBECE7;
-        Wed,  2 Mar 2022 13:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=lVF6m9QgZUAbOU/dXdGrVqsI+ZX3uNFQUVqEhiINOzw=; b=FZp4wIVLOfMGHVp9iDtJ2OT31l
-        Oab4IOVWSCP+7godZvjIarWYkI3Esxn1Q7pNYAkEWk+tNQmpoHaUXZ9NNdAL0+vXN7JNzCpz0Asu0
-        FVmJ5PzKyAg2XDlQIOlzvWwZLsfpMwhTqbYcTnx6h0/v9ACVnvBbMorjmMYWzz3xVYfSwQP+vAurD
-        Ncegd6WOpALK14VFITyDKZ49XxDT5THrPkR35tTWT0gqTqZTXQm9YcC4joB6bBtDNt+6H+3O/d35k
-        XXUCxQvxJNqKC/zFEha6pvzFrvJt+SoKBp1OLDuO1EsknCnVzaFwMUOJh3O6JmAcosjo4kok26CVL
-        R7gi7ZrQ==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nPWTg-004IP1-He; Wed, 02 Mar 2022 21:25:44 +0000
-Date:   Wed, 2 Mar 2022 13:25:44 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        keescook@chromium.org, yzaikin@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Adam Manzanares <a.manzanares@samsung.com>,
-        Davidlohr Bueso <dave@stgolabs.net>
-Subject: Re: [PATCH v2 3/3] mm: hugetlb: add hugetlb_free_vmemmap sysctl
-Message-ID: <Yh/g2BRPZC3370mX@bombadil.infradead.org>
-References: <20220302083758.32528-1-songmuchun@bytedance.com>
- <20220302083758.32528-4-songmuchun@bytedance.com>
+        with ESMTP id S235450AbiCBVfc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 16:35:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7508447397
+        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 13:34:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646256887;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5WupCZ6aFmy9XKTwO56vm8BsGbMlpzmFfI9+PMks/QM=;
+        b=SCU86IDPU8JpUKNClxgaJJULkaHNWeI/OchJhR/YQFjBm/ED5an4KVM0SPbsbZf7TvBV/O
+        gM8a4pe5eanbKq3Hlo7aktuQCbuIgP+RoH+/yin5NnmkrFbScjTA6rDtC2HkPFFKVYSlu1
+        8wE4+1nbZYvpRMzQpeDgJ5h7Gpouhaw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-252-3uD10isAMkWRY571MPzaJA-1; Wed, 02 Mar 2022 16:34:46 -0500
+X-MC-Unique: 3uD10isAMkWRY571MPzaJA-1
+Received: by mail-ed1-f71.google.com with SMTP id m12-20020a056402510c00b00413298c3c42so1685927edd.15
+        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 13:34:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version:content-transfer-encoding;
+        bh=5WupCZ6aFmy9XKTwO56vm8BsGbMlpzmFfI9+PMks/QM=;
+        b=22aT94NTHGOupitvPjPfK+sdb9EKkscnNhNO5Y6N4+XTlbhQ/yG85sPUskHmdCOmA6
+         KnIQgLQLIwAnTKXra02Y7cvgUzVkWnTsyi3yEuv4zkvNXcBFjnuOojw0zmX9KCYnfxfI
+         ki+Qtx1pE17sVed3+l53eIa/X769TMgM8D7WhJakGFGpDEX/fuundZHPRfM9+HIhvBLn
+         oKdgki6dmef8AxHE/AnJqEbtixDXYk/BDNzr2nFApF4qpBoKyp6q4LE7Zi5vDjxTG+mR
+         GK8YmsEeqqhCOoNlsXTCmN81MOt2YZRil5qhm1281Ef3RnVwpJ+LWmDd0czBE0DySnlz
+         IVTw==
+X-Gm-Message-State: AOAM532brmUuan8QKvcqvIQX4nfLwMF1RH+Aln7wwDnz0+/8S4HOe5gs
+        IAa/kSE/dAnDOlJ0STJneRDmOMDoGj9NdODKBe5C0I4bzevy8p2mOsuQBJUa/AgEohjTxH9ANkN
+        ld5pACB/Q35VYcPWSVVgi
+X-Received: by 2002:a17:907:3e19:b0:6da:86b9:acc with SMTP id hp25-20020a1709073e1900b006da86b90accmr1238128ejc.655.1646256884073;
+        Wed, 02 Mar 2022 13:34:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcayKVAMFXQkrG7XvksKP1j+QP+060buGhwLWrqFAmSuFl4FDYRfszoadjhe+++DTe9PMNQg==
+X-Received: by 2002:a17:907:3e19:b0:6da:86b9:acc with SMTP id hp25-20020a1709073e1900b006da86b90accmr1238062ejc.655.1646256882831;
+        Wed, 02 Mar 2022 13:34:42 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id o7-20020a17090608c700b006cef23cf158sm31871eje.175.2022.03.02.13.34.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 13:34:42 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 44E70131929; Wed,  2 Mar 2022 22:34:41 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v8 2/5] Documentation/bpf: Add documentation
+ for BPF_PROG_RUN
+In-Reply-To: <20220302190440.t5cvezlkg7ynajam@ast-mbp.dhcp.thefacebook.com>
+References: <20220218175029.330224-1-toke@redhat.com>
+ <20220218175029.330224-3-toke@redhat.com>
+ <20220302190440.t5cvezlkg7ynajam@ast-mbp.dhcp.thefacebook.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Wed, 02 Mar 2022 22:34:41 +0100
+Message-ID: <87bkyodoni.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220302083758.32528-4-songmuchun@bytedance.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 02, 2022 at 04:37:58PM +0800, Muchun Song wrote:
-> We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
-> server to enable the feature of freeing vmemmap pages of HugeTLB
-> pages. Rebooting usually taske a long time. Add a sysctl to enable
-> the feature at runtime and do not need to reboot.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 13 ++++++++++
->  include/linux/memory_hotplug.h          |  9 +++++++
->  mm/hugetlb_vmemmap.c                    | 42 ++++++++++++++++++++++++++++-----
->  mm/hugetlb_vmemmap.h                    |  4 +++-
->  mm/memory_hotplug.c                     |  5 ++++
->  5 files changed, 66 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index f4804ce37c58..01f18e6cc227 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -561,6 +561,19 @@ Change the minimum size of the hugepage pool.
->  See Documentation/admin-guide/mm/hugetlbpage.rst
->  
->  
-> +hugetlb_free_vmemmap
-> +====================
-> +
-> +A toggle value indicating if vmemmap pages are allowed to be optimized.
-> +If it is off (0), then it can be set true (1).  Once true, the vmemmap
-> +pages associated with each HugeTLB page will be optimized, and the toggle
-> +cannot be set back to false.  It only optimizes the subsequent allocation
-> +of HugeTLB pages from buddy system, while already allocated HugeTLB pages
-> +will not be optimized.
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
 
-The commit log or documentation does not descrie why its safe to toggle
-one way and not the other?
+> On Fri, Feb 18, 2022 at 06:50:26PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
+n wrote:
+>> This adds documentation for the BPF_PROG_RUN command; a short overview of
+>> the command itself, and a more verbose description of the "live packet"
+>> mode for XDP introduced in the previous commit.
+>
+> Overall the patch set looks great. The doc really helps.
 
-  Luis
+Great, thanks!
 
-> +
-> +See Documentation/admin-guide/mm/hugetlbpage.rst
-> +
-> +
->  nr_hugepages_mempolicy
->  ======================
->  
-> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-> index e0b2209ab71c..20d7edf62a6a 100644
-> --- a/include/linux/memory_hotplug.h
-> +++ b/include/linux/memory_hotplug.h
-> @@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
->  extern bool mhp_supports_memmap_on_memory(unsigned long size);
->  #endif /* CONFIG_MEMORY_HOTPLUG */
->  
-> +#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-> +bool mhp_memmap_on_memory(void);
-> +#else
-> +static inline bool mhp_memmap_on_memory(void)
-> +{
-> +	return false;
-> +}
-> +#endif
-> +
->  #endif /* __LINUX_MEMORY_HOTPLUG_H */
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 836d1117f08b..3bcc8f25bd50 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -10,6 +10,7 @@
->  
->  #define pr_fmt(fmt)	"HugeTLB: " fmt
->  
-> +#include <linux/memory_hotplug.h>
->  #include "hugetlb_vmemmap.h"
->  
->  /*
-> @@ -118,17 +119,14 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->  	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
->  		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
->  
-> -	if (!hugetlb_free_vmemmap_enabled())
-> -		return;
-> -
-> -	if (IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON) &&
-> -	    !is_power_of_2(sizeof(struct page))) {
-> +	if (!is_power_of_2(sizeof(struct page))) {
->  		/*
->  		 * The hugetlb_free_vmemmap_enabled_key can be enabled when
->  		 * CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON. It should
->  		 * be disabled if "struct page" crosses page boundaries.
->  		 */
-> -		static_branch_disable(&hugetlb_free_vmemmap_enabled_key);
-> +		if (IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON))
-> +			static_branch_disable(&hugetlb_free_vmemmap_enabled_key);
->  		return;
->  	}
->  
-> @@ -147,3 +145,35 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->  	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
->  		h->name);
->  }
-> +
-> +static struct ctl_table hugetlb_vmemmap_sysctls[] = {
-> +	{
-> +		.procname	= "hugetlb_free_vmemmap",
-> +		.data		= &hugetlb_free_vmemmap_enabled_key.key,
-> +		.mode		= 0644,
-> +		/* only handle a transition from default "0" to "1" */
-> +		.proc_handler	= proc_do_static_key,
-> +		.extra1		= SYSCTL_ONE,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
-> +	{ }
-> +};
-> +
-> +static __init int hugetlb_vmemmap_sysctls_init(void)
-> +{
-> +	/*
-> +	 * The vmemmap pages cannot be optimized if
-> +	 * "memory_hotplug.memmap_on_memory" is enabled unless
-> +	 * "hugetlb_free_vmemmap" is enabled as well since
-> +	 * "hugetlb_free_vmemmap" takes precedence over
-> +	 * "memory_hotplug.memmap_on_memory".
-> +	 */
-> +	if (mhp_memmap_on_memory() && !hugetlb_free_vmemmap_enabled())
-> +		return 0;
-> +
-> +	if (is_power_of_2(sizeof(struct page)))
-> +		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-> +
-> +	return 0;
-> +}
-> +late_initcall(hugetlb_vmemmap_sysctls_init);
-> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> index cb2bef8f9e73..b67a159027f4 100644
-> --- a/mm/hugetlb_vmemmap.h
-> +++ b/mm/hugetlb_vmemmap.h
-> @@ -21,7 +21,9 @@ void hugetlb_vmemmap_init(struct hstate *h);
->   */
->  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
->  {
-> -	return h->nr_free_vmemmap_pages;
-> +	if (hugetlb_free_vmemmap_enabled())
-> +		return h->nr_free_vmemmap_pages;
-> +	return 0;
->  }
->  #else
->  static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index c226a337c1ef..c2115e566abc 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -50,6 +50,11 @@ static bool memmap_on_memory __ro_after_init;
->  #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
->  module_param(memmap_on_memory, bool, 0444);
->  MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
-> +
-> +bool mhp_memmap_on_memory(void)
-> +{
-> +	return memmap_on_memory;
-> +}
->  #endif
->  
->  enum {
-> -- 
-> 2.11.0
-> 
+> One nit below.
+>
+>> +- When running the program with multiple repetitions, the execution wil=
+l happen
+>> +  in batches, where the program is executed multiple times in a loop, t=
+he result
+>> +  is saved, and other actions (like redirecting the packet or passing i=
+t to the
+>> +  networking stack) will happen for the whole batch after the execution=
+. This is
+>> +  similar to how execution happens in driver-mode XDP for each hardware=
+ NAPI
+>> +  cycle. The batch size defaults to 64 packets (which is same as the NA=
+PI batch
+>> +  size), but the batch size can be specified by userspace through the
+>> +  ``batch_size`` parameter, up to a maximum of 256 packets.
+>
+> This paragraph is a bit confusing.
+> I've read it as the program can do only one kind of result per batch and
+> it will apply to the whole batch.
+> But the program can do XDP_PASS/REDIRECT in any order.
+> Can you make "the result is saved" a bit more clear?
+
+Yeah, re-reading it now, I see what you mean; will try to make it
+clearer...
+
+-Toke
+
