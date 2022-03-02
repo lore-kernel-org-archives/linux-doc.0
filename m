@@ -2,227 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C18C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 23:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD04AC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 00:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229473AbiCBXsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 18:48:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33582 "EHLO
+        id S229972AbiCCADI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 19:03:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbiCBXsD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 18:48:03 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1CF17185A;
-        Wed,  2 Mar 2022 15:47:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D3278B82259;
-        Wed,  2 Mar 2022 23:47:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1D5C004E1;
-        Wed,  2 Mar 2022 23:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646264823;
-        bh=iNqELq+lX+h6oGIXCLQayAVdk7lzG1NGvnedGOzYkkM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RTYDe4ktdxhZsPRhExKj5tzN1nAbRVZrUpiXPL2JtIpf2z/I5dM3rN/1hplrrHVs/
-         AUUE+VpS6cjgBRyL66ETXfgZwMZAYlZPgDbdWIDa65uq/AxQlf6oG9J9RWutENDa0o
-         JHHftuSm5ZOPYgoGkP591g+wjyXgKK4yZnaK9ZJHlbBAiVQE63iEGuokIK6nUFN1bo
-         RG3Yiz6cY6KfcrZwCa2dsWYIkiI1oEgeaUI1Fn4LFh3SGmg1IkY7WRVNAVZ/j7wXGM
-         Ri3ihv+umpKM4bgUArI+aDAWp5qB1oWbM1js+cB/KBgtkh2ZZh7Q4NtKvdNxLpbAff
-         socg10N3TsW5Q==
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: [PATCH] kbuild: Allow a suffix with $(LLVM)
-Date:   Wed,  2 Mar 2022 16:44:01 -0700
-Message-Id: <20220302234400.782002-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S229936AbiCCADH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 19:03:07 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC0010FC3;
+        Wed,  2 Mar 2022 16:02:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646265741; x=1677801741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y6ExcioFqlJjDZQpSBxXHW53xAZe9Os27BCVKLck3NM=;
+  b=jPfE10oPlf9CFds7d6MCbvoSWyd/te2l7pfVFcH2jVgl0izWxAiGmThj
+   7rJZBRI8VoRs2mnbStWPoiwzvUcm2nL3sj76K13guOYxx4NrBnmpTwdCd
+   NOx4/drpsc0Z8TvCoROIkAYamAVR9csOXPrYptNpYOPlZZKZzzJ6aAeW+
+   44BlztYW/RTRKgPQ8vDAd0BLKnVNoKKFNb+cTleSChz8ahdBA1QRFxEi+
+   lT8OGuDyB50ocaB9tnp+GcUz4s+r/yyLxKIWw9Zzws6q20r3spVjpF3kP
+   oBScnOSt266DYNIZFTmqlhZhazX59IRVcc9FOpbmd2Pkcp+9jApChSpsT
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="278208534"
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
+   d="scan'208";a="278208534"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 15:39:16 -0800
+X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
+   d="scan'208";a="641884850"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.125])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 15:39:16 -0800
+Date:   Wed, 2 Mar 2022 15:31:00 -0800
+From:   "Raj, Ashok" <ashok.raj@intel.com>
+To:     "Williams, Dan J" <dan.j.williams@intel.com>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, Ashok Raj <ashok.raj@intel.com>
+Subject: Re: [RFC 03/10] platform/x86/intel/ifs: Add driver for In-Field Scan
+Message-ID: <20220302233100.GE9351@otc-nc-03>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <20220301195457.21152-4-jithu.joseph@intel.com>
+ <f0e958c612ac4dab30ba458a08a7681e1114668f.camel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f0e958c612ac4dab30ba458a08a7681e1114668f.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The LLVM make variable allows a developer to quickly switch between the
-GNU and LLVM tools. However, it does not handle versioned binaries, such
-as the ones shipped by Debian, as LLVM=1 just defines the tool variables
-with the unversioned binaries.
+On Wed, Mar 02, 2022 at 03:24:47PM -0800, Dan Williams wrote:
+> On Tue, 2022-03-01 at 11:54 -0800, Jithu Joseph wrote:
+> > In-Field Scan (IFS) provides hardware hooks to perform core tests and
+> > report failures for portions of silicon that lack error detection
+> > capabilities, which will be available in some server SKUs starting with
+> > Sapphire Rapids. It offers infrastructure to specific users such as cloud
+> > providers or OEMs to schedule tests and find in-field failures due to aging
+> > in silicon that might not necessarily be reported with normal machine
+> > checks.
+> >
+> > Add basic parts of the IFS module (initialization and check IFS capability
+> > support in a processor).
+> >
+> > MSR IA32_CORE_CAPABILITY is a feature-enumerating MSR, bit 2 of which
+> > reports MSR_INTEGRITY_CAPABILITIES. Processor that supports IFS
+> > should reports the MSR_INTEGRITY_CAPABILITIES enabled.
+> >
+> > Please check the latest Intel 64 and IA-32 Architectures Software
+> > Developer's Manual for more detailed information on the MSR and the
+> > MSR_INTEGRITY_CAPABILITIES.
+> >
+> > Originally-by: Kyung Min Park <kyung.min.park@intel.com>
+> > Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
+> > Reviewed-by: Ashok Raj <ashok.raj@intel.com>
+> > Reviewed-by: Tony Luck <tony.luck@intel.com>
+> > ---
+> >  MAINTAINERS                             |  7 ++++
+> >  drivers/platform/x86/intel/Kconfig      |  1 +
+> >  drivers/platform/x86/intel/Makefile     |  1 +
+> >  drivers/platform/x86/intel/ifs/Kconfig  |  9 +++++
+> >  drivers/platform/x86/intel/ifs/Makefile |  7 ++++
+> >  drivers/platform/x86/intel/ifs/core.c   | 49 +++++++++++++++++++++++++
+> >  drivers/platform/x86/intel/ifs/ifs.h    | 14 +++++++
+> >  7 files changed, 88 insertions(+)
+> >  create mode 100644 drivers/platform/x86/intel/ifs/Kconfig
+> >  create mode 100644 drivers/platform/x86/intel/ifs/Makefile
+> >  create mode 100644 drivers/platform/x86/intel/ifs/core.c
+> >  create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 777cd6fa2b3d..4c9912c0d725 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -9685,6 +9685,13 @@ B:       https://bugzilla.kernel.org
+> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git
+> >  F:     drivers/idle/intel_idle.c
+> >
+> > +INTEL IN FIELD SCAN (IFS) DRIVER
+> > +M:     Jithu Joseph <jithu.joseph@intel.com>
+> > +R:     Ashok Raj <ashok.raj@intel.com>
+> > +R:     Tony Luck <tony.luck@intel.com>
+> > +S:     Maintained
+> > +F:     drivers/platform/x86/intel/ifs
+> > +
+> >  INTEL INTEGRATED SENSOR HUB DRIVER
+> >  M:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> >  M:     Jiri Kosina <jikos@kernel.org>
+> > diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/intel/Kconfig
+> > index 8e65086bb6c8..7339e7daf0a1 100644
+> > --- a/drivers/platform/x86/intel/Kconfig
+> > +++ b/drivers/platform/x86/intel/Kconfig
+> > @@ -4,6 +4,7 @@
+> >  #
+> >
+> >  source "drivers/platform/x86/intel/atomisp2/Kconfig"
+> > +source "drivers/platform/x86/intel/ifs/Kconfig"
+> >  source "drivers/platform/x86/intel/int1092/Kconfig"
+> >  source "drivers/platform/x86/intel/int33fe/Kconfig"
+> >  source "drivers/platform/x86/intel/int3472/Kconfig"
+> > diff --git a/drivers/platform/x86/intel/Makefile b/drivers/platform/x86/intel/Makefile
+> > index 35f2066578b2..bd7f2ef5e767 100644
+> > --- a/drivers/platform/x86/intel/Makefile
+> > +++ b/drivers/platform/x86/intel/Makefile
+> > @@ -5,6 +5,7 @@
+> >  #
+> >
+> >  obj-$(CONFIG_INTEL_ATOMISP2_PDX86)     += atomisp2/
+> > +obj-$(CONFIG_INTEL_IFS)                        += ifs/
+> >  obj-$(CONFIG_INTEL_SAR_INT1092)                += int1092/
+> >  obj-$(CONFIG_INTEL_CHT_INT33FE)                += int33fe/
+> >  obj-$(CONFIG_INTEL_SKL_INT3472)                += int3472/
+> > diff --git a/drivers/platform/x86/intel/ifs/Kconfig b/drivers/platform/x86/intel/ifs/Kconfig
+> > new file mode 100644
+> > index 000000000000..88e3d4fa1759
+> > --- /dev/null
+> > +++ b/drivers/platform/x86/intel/ifs/Kconfig
+> > @@ -0,0 +1,9 @@
+> > +config INTEL_IFS
+> > +       tristate "Intel In Field Scan"
+> > +       depends on X86 && 64BIT && SMP
+> 
+> Are there actual CONFIG_SMP and CONFIG_64BIT compilation dependencies
+> in this driver? It looks like this could compile without those config
+> dependencies.
 
-There was some discussion during the review of the patch that introduces
-LLVM=1 around versioned binaries, ultimately coming to the conclusion
-that developers can just add the folder that contains the unversioned
-binaries to their PATH, as Debian's versioned suffixed binaries are
-really just symlinks to the unversioned binaries in /usr/lib/llvm-#/bin:
+Don't think this is anything specific to compile dependencies. 
 
-$ realpath /usr/bin/clang-14
-/usr/lib/llvm-14/bin/clang
-
-$ PATH=/usr/lib/llvm-14/bin:$PATH make ... LLVM=1
-
-However, that can be cumbersome to developers who are constantly testing
-series with different toolchains and versions. It is simple enough to
-support these versioned binaries directly in the Kbuild system by
-allowing the developer to specify the version suffix with LLVM=, which
-is shorter than the above suggestion:
-
-$ make ... LLVM=-14
-
-It does not change the meaning of LLVM=1 (which will continue to use
-unversioned binaries) and it does not add too much additional complexity
-to the existing $(LLVM) code, while allowing developers to quickly test
-their series with different versions of the whole LLVM suite of tools.
-
-Link: https://lore.kernel.org/r/20200317215515.226917-1-ndesaulniers@google.com/
-Link: https://lore.kernel.org/r/20220224151322.072632223@infradead.org/
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-
-RFC -> v1: https://lore.kernel.org/r/Yh%2FegU1LZudfrgVy@dev-arch.thelio-3990X/
-
-* Tidy up commit message slightly.
-
-* Add tags.
-
-* Add links to prior discussions for context.
-
-* Add change to tools/testing/selftests/lib.mk.
-
-I would like for this to go through the Kbuild tree, please ack as
-necessary.
-
- Documentation/kbuild/llvm.rst  |  7 +++++++
- Makefile                       | 24 ++++++++++++++----------
- tools/scripts/Makefile.include | 20 ++++++++++++--------
- tools/testing/selftests/lib.mk |  6 +++++-
- 4 files changed, 38 insertions(+), 19 deletions(-)
-
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index d32616891dcf..5805a8473a36 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -60,6 +60,13 @@ They can be enabled individually. The full list of the parameters: ::
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
- 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
- 
-+If your LLVM tools have a suffix and you prefer to test an explicit version rather
-+than the unsuffixed executables, use ``LLVM=<suffix>``. For example: ::
-+
-+	make LLVM=-14
-+
-+will use ``clang-14``, ``ld.lld-14``, etc.
-+
- The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
- disable it.
- 
-diff --git a/Makefile b/Makefile
-index a82095c69fdd..963840c00eae 100644
---- a/Makefile
-+++ b/Makefile
-@@ -424,8 +424,12 @@ HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
- HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
- 
- ifneq ($(LLVM),)
--HOSTCC	= clang
--HOSTCXX	= clang++
-+ifneq ($(LLVM),1)
-+LLVM_SFX := $(LLVM)
-+endif
-+
-+HOSTCC	= clang$(LLVM_SFX)
-+HOSTCXX	= clang++$(LLVM_SFX)
- else
- HOSTCC	= gcc
- HOSTCXX	= g++
-@@ -444,14 +448,14 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
- # Make variables (CC, etc...)
- CPP		= $(CC) -E
- ifneq ($(LLVM),)
--CC		= clang
--LD		= ld.lld
--AR		= llvm-ar
--NM		= llvm-nm
--OBJCOPY		= llvm-objcopy
--OBJDUMP		= llvm-objdump
--READELF		= llvm-readelf
--STRIP		= llvm-strip
-+CC		= clang$(LLVM_SFX)
-+LD		= ld.lld$(LLVM_SFX)
-+AR		= llvm-ar$(LLVM_SFX)
-+NM		= llvm-nm$(LLVM_SFX)
-+OBJCOPY		= llvm-objcopy$(LLVM_SFX)
-+OBJDUMP		= llvm-objdump$(LLVM_SFX)
-+READELF		= llvm-readelf$(LLVM_SFX)
-+STRIP		= llvm-strip$(LLVM_SFX)
- else
- CC		= $(CROSS_COMPILE)gcc
- LD		= $(CROSS_COMPILE)ld
-diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-index 79d102304470..ab3b2a7dcc94 100644
---- a/tools/scripts/Makefile.include
-+++ b/tools/scripts/Makefile.include
-@@ -52,11 +52,15 @@ define allow-override
- endef
- 
- ifneq ($(LLVM),)
--$(call allow-override,CC,clang)
--$(call allow-override,AR,llvm-ar)
--$(call allow-override,LD,ld.lld)
--$(call allow-override,CXX,clang++)
--$(call allow-override,STRIP,llvm-strip)
-+ifneq ($(LLVM),1)
-+LLVM_SFX := $(LLVM)
-+endif
-+
-+$(call allow-override,CC,clang$(LLVM_SFX))
-+$(call allow-override,AR,llvm-ar$(LLVM_SFX))
-+$(call allow-override,LD,ld.lld$(LLVM_SFX))
-+$(call allow-override,CXX,clang++$(LLVM_SFX))
-+$(call allow-override,STRIP,llvm-strip$(LLVM_SFX))
- else
- # Allow setting various cross-compile vars or setting CROSS_COMPILE as a prefix.
- $(call allow-override,CC,$(CROSS_COMPILE)gcc)
-@@ -69,9 +73,9 @@ endif
- CC_NO_CLANG := $(shell $(CC) -dM -E -x c /dev/null | grep -Fq "__clang__"; echo $$?)
- 
- ifneq ($(LLVM),)
--HOSTAR  ?= llvm-ar
--HOSTCC  ?= clang
--HOSTLD  ?= ld.lld
-+HOSTAR  ?= llvm-ar$(LLVM_SFX)
-+HOSTCC  ?= clang$(LLVM_SFX)
-+HOSTLD  ?= ld.lld$(LLVM_SFX)
- else
- HOSTAR  ?= ar
- HOSTCC  ?= gcc
-diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
-index a40add31a2e3..b3ab713537c6 100644
---- a/tools/testing/selftests/lib.mk
-+++ b/tools/testing/selftests/lib.mk
-@@ -1,7 +1,11 @@
- # This mimics the top-level Makefile. We do it explicitly here so that this
- # Makefile can operate with or without the kbuild infrastructure.
- ifneq ($(LLVM),)
--CC := clang
-+ifneq ($(LLVM),1)
-+LLVM_SFX := $(LLVM)
-+endif
-+
-+CC := clang$(LLVM_SFX)
- else
- CC := $(CROSS_COMPILE)gcc
- endif
-
-base-commit: 55de8686df7ed2b5237867b130e30c728bbd9db4
--- 
-2.35.1
+This is a server feature and only targetted and validated in those configs,
+untested and unsupported in 32bit configs. 
 
