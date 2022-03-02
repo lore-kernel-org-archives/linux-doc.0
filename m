@@ -2,130 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F98BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 22:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD4BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 23:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236335AbiCBWPb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 17:15:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46874 "EHLO
+        id S229475AbiCBXpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 18:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbiCBWPa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 17:15:30 -0500
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09C9BE1CD;
-        Wed,  2 Mar 2022 14:14:46 -0800 (PST)
-Received: by mail-il1-x132.google.com with SMTP id q4so2608098ilt.0;
-        Wed, 02 Mar 2022 14:14:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=9ub8TndGmTDnXv5II0vAs1rwRRkggXTkQUEfUiR0zUM=;
-        b=O+XP97fQEzccgNOmdZKRo9ExVQ6aP9qNniiLwYD8WAvJPbeMRPKx6qhcYfeOpm0jG7
-         2kfV6H5Avz5r9Z+Iou+NSRVgPwPyPX0cX1Yh74n49X9gYvVvK66tIN+4U3E4EnQJ7Ix5
-         jWPLTXBBZ1pMEyhmLG+OdDJy0s4gHZNgvKCPey2ibIH/50zY0fZTcgWDcXiT/E4pH84j
-         iknTD0iNaiGnirSwb0OoN8BZ8zcRCWoy9dxo2ZqVN6lTbZAPMXrIjBLpM0CvkhUeOKTI
-         eTrWkYr2nJjuReRc1dWQ2pdcjso9mx/Gr3a8IU2YoBpTYfhgTJJT9fYYzl2YzeKBpMzH
-         llaw==
+        with ESMTP id S229491AbiCBXpx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 18:45:53 -0500
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB41483B0;
+        Wed,  2 Mar 2022 15:43:48 -0800 (PST)
+Received: by mail-oo1-xc29.google.com with SMTP id j7-20020a4ad6c7000000b0031c690e4123so3845592oot.11;
+        Wed, 02 Mar 2022 15:43:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=9ub8TndGmTDnXv5II0vAs1rwRRkggXTkQUEfUiR0zUM=;
-        b=E4bxqwnPhJQJJsOi5SViVkP/WHeWFGDbuXmu9IEJMt/xeqk4qcGY+aNxtS4m6g6t3H
-         CQ/POq2mLDYe4E9RUt/RrURPLAiuftnfpjPLZPfz1Re5x+Gqu+TOLYdUEyKe+KQdqu58
-         GItVc3Cfv+Inj2nWhwjQIQ+fnNLvRb8eMF1GD7uKjb4yfR6UcIZdZKS/pJm/wAopzGBq
-         PyZ4QYaCvSzVCEr5FGMurhdK2UJsLekE+8iDZ6dObWQPFugfbJfRAbcPe2ywEc9xBkLO
-         bRO9U6k1xoCTVOH3Sc/VB9p3AVCwb7cxtsYJ7gVy3AvANuiUzjHXi9kuxNFE4uRkIm3r
-         JPyg==
-X-Gm-Message-State: AOAM530Kum6m+mX5LlBrNIBOJOsQRHc62TRS3REK/vya95saNLhW3mhJ
-        suMToQVB2gebWSCUIym1pci1MNNs1eWsUtLqAMk=
-X-Google-Smtp-Source: ABdhPJzli2sDxakapKJWnAyE4Ias/tvbMiWhQHQ+dnKForLGnwLdQ++qGFoPyE7z1ZhQJ/yaEqdh8N2Jt0Lib+cjkjw=
-X-Received: by 2002:a05:6e02:1c04:b0:2be:4c61:20f4 with SMTP id
- l4-20020a056e021c0400b002be4c6120f4mr29224878ilh.245.1646259286229; Wed, 02
- Mar 2022 14:14:46 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/c70eOOtZ8Slm0RoKC+PAhJNIVgAv9doZtxHf/Xm/kc=;
+        b=D75DC4zuoJBqmhya9kPnt4KrKzDXMqZ75ebnx3hhjnbfIBCys7HuFEWftGWMjJ4p9j
+         CKCm3AMypFD3XKtVX2VPFs3ECFXjgxwYTrSCkhFwMYHnoP1fJyrGSFM9jvOqHx16Phk/
+         RAi2XZRM9JZsd9Wx5gbt9gagkLhGwDMCYFzkWdYm9VCHVHkwqt8IiwTx1Gb9QHERnYMJ
+         5As4v7RqFn7ivCaNPlNV4LSIZNBqR+gQif5sLQBvINiLqgJJ1rSd6+V4RYG7/Ctdc1QA
+         eteYk5L5EAaQzOiVpiRAyEQ9AvFuPx4P0avz2jCtdPxuQxWMCR4v+t0VWDrS0B5CPFs7
+         nBjA==
+X-Gm-Message-State: AOAM532NaU3rEKogtt/dZRINul3XjGJJ0+J2bcQsxMNmEN7cjNEyuEQp
+        ZgOoJeCA+0s/UWyHX15I+ZatRE6XOw==
+X-Google-Smtp-Source: ABdhPJwgPoO9G+g2UL7d6AnfejCdiifxATPEVty//3FdiAhYyj/XEHnLOtfsAaL+W8FuBOOev/+m4Q==
+X-Received: by 2002:a05:6871:85:b0:d9:ac7a:7a5a with SMTP id u5-20020a056871008500b000d9ac7a7a5amr1932120oaa.9.1646264526194;
+        Wed, 02 Mar 2022 15:42:06 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id a11-20020a0568300b8b00b005acfd19434asm163073otv.75.2022.03.02.15.42.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 15:42:05 -0800 (PST)
+Received: (nullmailer pid 276450 invoked by uid 1000);
+        Wed, 02 Mar 2022 23:42:04 -0000
+Date:   Wed, 2 Mar 2022 17:42:04 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Pawel Dembicki <paweldembicki@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH] leds: add new functions for mobile routers
+Message-ID: <YiAAzH4GDnC8ridY@robh.at.kernel.org>
+References: <20220218085002.18110-1-paweldembicki@gmail.com>
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
-In-Reply-To: <20220301145233.3689119-3-arnd@kernel.org>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 2 Mar 2022 23:14:10 +0100
-Message-ID: <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220218085002.18110-1-paweldembicki@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 2, 2022 at 10:47 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> As we change the C language standard for the kernel from gnu89 to
-> gnu11, it makes sense to also update the version for user space
-> compilation.
->
-
-Overdue.
-
-Can you point me to a lore link where I can easily fetch the full 3/3
-v3 patchset?
-
-I would like to give this a try on x86-64 with my latest kernel-config
-(based on the latest kernel-config v5.17-rc5 from Debian/unstable).
-
-What Linux source base do I need?
-Is Linux v5.17-rc6 good enough (patchset applicable) for testing?
-
-Thanks, Arnd.
-
-Regards,
-- Sedat -
-
-> Some users have older native compilers than what they use for
-> kernel builds, so I considered using gnu99 as the default version
-> for wider compatibility with gcc-4.6 and earlier.
->
-> However, testing with older compilers showed that we already require
-> HOSTCC version 5.1 as well because a lot of host tools include
-> linux/compiler.h that uses __has_attribute():
->
->   CC      tools/objtool/exec-cmd.o
-> In file included from tools/include/linux/compiler_types.h:36:0,
->                  from tools/include/linux/compiler.h:5,
->                  from exec-cmd.c:2:
-> tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Fri, Feb 18, 2022 at 09:50:02AM +0100, Pawel Dembicki wrote:
+> 2G/2G/4G routers have some special leds functions:
+>   - signal strength, which shows info about signal status.
+>     Some devices have multicolor indication (e.g. D-Link DWR-960)
+>     other use multiple leds for different levels (e.g. Cell-C RTL30VW)
+>   - connection status, which shows if connection is active. Some devices
+>     have multiple leds for different bands (e.g. D-Link DWR-960).
+>   - sms indicator
+> 
+> This patch adds new LED_FUNCTION_* defines of them.
+> 
+> Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
 > ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 37ef6a555dcd..7c9be7f1ccd4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -432,7 +432,7 @@ HOSTCXX     = g++
->  endif
->
->  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -                           -O2 -fomit-frame-pointer -std=gnu89 \
-> +                           -O2 -fomit-frame-pointer -std=gnu11 \
->                             -Wdeclaration-after-statement
->  export KBUILD_USERLDFLAGS :=
->
-> --
-> 2.29.2
->
+>  Documentation/leds/well-known-leds.txt | 9 +++++++++
+>  include/dt-bindings/leds/common.h      | 5 +++++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
+> index 2160382c86be..677cf7e57a76 100644
+> --- a/Documentation/leds/well-known-leds.txt
+> +++ b/Documentation/leds/well-known-leds.txt
+> @@ -16,6 +16,15 @@ but then try the legacy ones, too.
+>  
+>  Notice there's a list of functions in include/dt-bindings/leds/common.h .
+>  
+> +* 4G/3G/2G routers
+> +
+> +Cellular routers use LEDs for signal strength identification and connection
+> +status. Some models also have incoming SMS indicator.
+> +
+> +Good: "*:connection"
+> +Good: "*:signal"
+> +Good: "*:sms"
+> +
+>  * Gamepads and joysticks
+>  
+>  Game controllers may feature LEDs to indicate a player number. This is commonly
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 3be89a7c20a9..3adfa120353e 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -60,6 +60,11 @@
+>  #define LED_FUNCTION_MICMUTE "micmute"
+>  #define LED_FUNCTION_MUTE "mute"
+>  
+> +/* Used for 4G/3G/2G routers. */
+> +#define LED_FUNCTION_CONNECTION "connection"
+
+wan?
+
+> +#define LED_FUNCTION_SIGNAL "signal"
+> +#define LED_FUNCTION_SMS "sms"
+
+mail?
+
+The whole idea with defining the names was to not create different names 
+for roughly the same thing.
+
+Rob
