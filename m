@@ -2,144 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6A3C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 19:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6248EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Mar 2022 19:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244860AbiCBTFX convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 14:05:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
+        id S244906AbiCBTFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 14:05:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244888AbiCBTFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 14:05:22 -0500
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 666B6C0866
-        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 11:04:38 -0800 (PST)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-aG4RKoFBPGemeqfLWlHP9w-1; Wed, 02 Mar 2022 14:04:32 -0500
-X-MC-Unique: aG4RKoFBPGemeqfLWlHP9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 853BD501E3;
-        Wed,  2 Mar 2022 19:04:30 +0000 (UTC)
-Received: from x1.com (unknown [10.22.32.168])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 941C719724;
-        Wed,  2 Mar 2022 19:04:27 +0000 (UTC)
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Clark Williams <williams@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-devel@vger.kernel.org,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH V3 15/15] rtla: Tools main loop cleanup
-Date:   Wed,  2 Mar 2022 20:01:40 +0100
-Message-Id: <3c1642110aa87c396f5da4a037dabc72dbb9c601.1646247211.git.bristot@kernel.org>
-In-Reply-To: <cover.1646247211.git.bristot@kernel.org>
-References: <cover.1646247211.git.bristot@kernel.org>
+        with ESMTP id S244920AbiCBTFa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 14:05:30 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE08FCE912;
+        Wed,  2 Mar 2022 11:04:45 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id e6so2440692pgn.2;
+        Wed, 02 Mar 2022 11:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=89mCuEEPrHsDNLVc4CIhD+BpAIBZ4ipH8mmu8QHY24I=;
+        b=ASaAtjHAZ6ZUzTh4PD6SWipUIIfM/2THlxXj1EddQIJUeNE+f0Ed54nasQgGf6sSRm
+         fmGv9F894L/kwRtROdxR+bmzOdzy+ltKxEuR+0ewjxemfuHKW05FZ1fTVPCZVBVp5vxN
+         DBF+pVPbE6Snnwa0J+28pRn2uopN4fBBe/peJkEWLEqhO5skx5H0Xser4LjMTXIC0Ncl
+         gkhBehQfs2HPUKBwc+ZClo21sS2huqlmadns2kPEzCZvzBwADXCYobjOkWR7PQ/bmPoL
+         ijsDDnmWdd7deZhKeNupBsY4puZymFVArw/JyCQHczo/Qm0+RWrwlCj0gsmm029pflPt
+         WEjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=89mCuEEPrHsDNLVc4CIhD+BpAIBZ4ipH8mmu8QHY24I=;
+        b=dFIV+YO+aIs46nSKMUXJiyDGxNLx6TO9liGMj4VFy586duePAkALx9bicY9YhdCn9d
+         Kl6sc2Xf7uAsd1Oh8Pywj1YTprWA8zAGQHL3PD7gKtblAiV3i6v6gDkp/VsXTbkwABAL
+         v8n9jnvn6/Q5uBLHd9ruXatTV59qAVFrCgMV7dqdMyqJEvG0Ght8mb0zRkdfpkefyE8c
+         K8TZJ+Fw0xGg7OHOtPV1qtvifHjgnZIpn9bzKu/q3ntnz3mmqXlbS74H75HbouX6yZ5c
+         SEbeHYuFbQlIIAdMjfLlVGNkuIDuTL9DSwXwzA0MVbpZl8W+JkCXqiqcEaPHGEeQr8Gy
+         ACVQ==
+X-Gm-Message-State: AOAM533ku4sOaMgqC7cdQ1ulRyd28TyfY0qH+zluDDILvjJcZfUandaH
+        LHrr7plnEzBoev6nyHF9cFA=
+X-Google-Smtp-Source: ABdhPJzSF4lKkKQmBZEuODpUX0JiH/7aVt+3OpLX5P4rezHsTIcSBmTrJlQOsdKcjOnhkR7LWLOTYA==
+X-Received: by 2002:a05:6a00:c95:b0:4e1:1f5a:35cf with SMTP id a21-20020a056a000c9500b004e11f5a35cfmr34510025pfv.56.1646247884848;
+        Wed, 02 Mar 2022 11:04:44 -0800 (PST)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:500::2:156b])
+        by smtp.gmail.com with ESMTPSA id q13-20020a056a00088d00b004e1bea9c582sm22324779pfj.43.2022.03.02.11.04.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 11:04:44 -0800 (PST)
+Date:   Wed, 2 Mar 2022 11:04:40 -0800
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v8 2/5] Documentation/bpf: Add documentation for
+ BPF_PROG_RUN
+Message-ID: <20220302190440.t5cvezlkg7ynajam@ast-mbp.dhcp.thefacebook.com>
+References: <20220218175029.330224-1-toke@redhat.com>
+ <20220218175029.330224-3-toke@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bristot@kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kernel.org
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220218175029.330224-3-toke@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I probably started using "do {} while();", but changed all but osnoise_top
-to "while(){};" leaving the ; behind.
+On Fri, Feb 18, 2022 at 06:50:26PM +0100, Toke Høiland-Jørgensen wrote:
+> This adds documentation for the BPF_PROG_RUN command; a short overview of
+> the command itself, and a more verbose description of the "live packet"
+> mode for XDP introduced in the previous commit.
 
-Cleanup the main loop code, making all tools use "while() {}"
+Overall the patch set looks great. The doc really helps.
+One nit below.
 
-Changcheng Deng reported this problem, as reported by coccicheck:
+> +- When running the program with multiple repetitions, the execution will happen
+> +  in batches, where the program is executed multiple times in a loop, the result
+> +  is saved, and other actions (like redirecting the packet or passing it to the
+> +  networking stack) will happen for the whole batch after the execution. This is
+> +  similar to how execution happens in driver-mode XDP for each hardware NAPI
+> +  cycle. The batch size defaults to 64 packets (which is same as the NAPI batch
+> +  size), but the batch size can be specified by userspace through the
+> +  ``batch_size`` parameter, up to a maximum of 256 packets.
 
-Fix the following coccicheck review:
-./tools/tracing/rtla/src/timerlat_hist.c: 800: 2-3: Unneeded semicolon
-./tools/tracing/rtla/src/osnoise_hist.c:  776: 2-3: Unneeded semicolon
-./tools/tracing/rtla/src/timerlat_top.c:  596: 2-3: Unneeded semicolon
-
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Reported-by: Changcheng Deng <deng.changcheng@zte.com.cn>
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- tools/tracing/rtla/src/osnoise_hist.c  | 2 +-
- tools/tracing/rtla/src/osnoise_top.c   | 4 ++--
- tools/tracing/rtla/src/timerlat_hist.c | 2 +-
- tools/tracing/rtla/src/timerlat_top.c  | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/tools/tracing/rtla/src/osnoise_hist.c b/tools/tracing/rtla/src/osnoise_hist.c
-index c47780fedbaf..b4380d45cacd 100644
---- a/tools/tracing/rtla/src/osnoise_hist.c
-+++ b/tools/tracing/rtla/src/osnoise_hist.c
-@@ -850,7 +850,7 @@ int osnoise_hist_main(int argc, char *argv[])
- 
- 		if (trace_is_off(&tool->trace, &record->trace))
- 			break;
--	};
-+	}
- 
- 	osnoise_read_trace_hist(tool);
- 
-diff --git a/tools/tracing/rtla/src/osnoise_top.c b/tools/tracing/rtla/src/osnoise_top.c
-index fd29a4049322..72c2fd6ce005 100644
---- a/tools/tracing/rtla/src/osnoise_top.c
-+++ b/tools/tracing/rtla/src/osnoise_top.c
-@@ -612,7 +612,7 @@ int osnoise_top_main(int argc, char **argv)
- 	tool->start_time = time(NULL);
- 	osnoise_top_set_signals(params);
- 
--	do {
-+	while (!stop_tracing) {
- 		sleep(params->sleep_time);
- 
- 		retval = tracefs_iterate_raw_events(trace->tep,
-@@ -632,7 +632,7 @@ int osnoise_top_main(int argc, char **argv)
- 		if (trace_is_off(&tool->trace, &record->trace))
- 			break;
- 
--	} while (!stop_tracing);
-+	}
- 
- 	osnoise_print_stats(params, tool);
- 
-diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
-index 0f6ce80a198a..dc908126c610 100644
---- a/tools/tracing/rtla/src/timerlat_hist.c
-+++ b/tools/tracing/rtla/src/timerlat_hist.c
-@@ -885,7 +885,7 @@ int timerlat_hist_main(int argc, char *argv[])
- 
- 		if (trace_is_off(&tool->trace, &record->trace))
- 			break;
--	};
-+	}
- 
- 	timerlat_print_stats(params, tool);
- 
-diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
-index 53f4cdfd395e..1f754c3df53f 100644
---- a/tools/tracing/rtla/src/timerlat_top.c
-+++ b/tools/tracing/rtla/src/timerlat_top.c
-@@ -680,7 +680,7 @@ int timerlat_top_main(int argc, char *argv[])
- 		if (trace_is_off(&top->trace, &record->trace))
- 			break;
- 
--	};
-+	}
- 
- 	timerlat_print_stats(params, top);
- 
--- 
-2.34.1
-
+This paragraph is a bit confusing.
+I've read it as the program can do only one kind of result per batch and
+it will apply to the whole batch.
+But the program can do XDP_PASS/REDIRECT in any order.
+Can you make "the result is saved" a bit more clear?
