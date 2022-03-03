@@ -2,152 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8037C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 13:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A7EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 13:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbiCCN07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 08:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38058 "EHLO
+        id S231370AbiCCN2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 08:28:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230286AbiCCN07 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 08:26:59 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09123188859
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 05:26:13 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id j78so3851115qke.2
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 05:26:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xpFSLJk6xKOFxZPPVd3YFcbRrJP4XDdwGDuqEjaZtmQ=;
-        b=3llJu4jH8nD8ONt+PRBtWAFa2tiEhb1yakIAnoRXoZkBUk+IosQevkXw3mRR59RsGy
-         IJqu1WDUyatVi28OT6G0Q32TltuIuh1pUfylvsLQbhYwE7/Y+R7fYYgj6jP2xNSZoDwx
-         sl1xlLq4VVExuSqX+QXMKk8Vp5kX90W5KLWOR9oTpREZ0ugRZyzqXLqv4meZt1DLBc7T
-         sDE1mDDP1oyrv75csrM84UCDtxIRbNbCNeAguWVKBy2lNcAnTgesunH+ObfQXWp4YKqc
-         DA7RSWAspDVSISewmm8BfdgcPRkJmw5CMlGWiGPE/oBmIj4huz61hD+VBx0uiJv2+sf1
-         5vTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xpFSLJk6xKOFxZPPVd3YFcbRrJP4XDdwGDuqEjaZtmQ=;
-        b=GMDsE7FX4Bj5mF/qyoFetlbve8EDaqEB7/GiD3mvns4Vujbfvi/6ymjF3CF7ugoaA4
-         UkTfbSmonugJfI9HQn/Eo5B/k+BcUOGm1JXtfQ5OzyDjRFavtrAL9SpDh9FzfPfnB8rS
-         IzOKENW2gMQ403QT1A7IZ+G4budc4QxS2Tgf3PvBxsIZbUtPmHtAqYkt3jxxcRxxn9aG
-         lZc6vKASWC0nKzq4NTBbM37jg1ToHe5f9sAU9eJzcvApjCgX20w6q33RmLBXXeuIw+b5
-         GAteX5w4Zf0QVUFu2RRc6FE8pe4M84Y+NPF1n/N0VncVTNpDHmHTPduQ+81iXUz/jgrJ
-         PDQQ==
-X-Gm-Message-State: AOAM531ijjV6q38QYfrouLjEO3D390MWmI8qQY94bb4zTVD8jCj3RMu9
-        nvD95CH1uuu1Lm+SCmiyzCLGHJeQAfhIfA==
-X-Google-Smtp-Source: ABdhPJziSoDBPGbtMosaCPuOPDiOnHlOyQAD6ZVyRDJ3H28pB/a5yTPK0LVJnUj9R6m+pNkgp9c5OQ==
-X-Received: by 2002:a37:bd4:0:b0:606:4caa:650a with SMTP id 203-20020a370bd4000000b006064caa650amr18832304qkl.197.1646313972139;
-        Thu, 03 Mar 2022 05:26:12 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id w3-20020ac857c3000000b002de99dba1c3sm1428797qta.90.2022.03.03.05.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 05:26:11 -0800 (PST)
-Date:   Thu, 3 Mar 2022 08:26:10 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        surenb@google.com, ebiggers@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        Martin Steigerwald <Martin.Steigerwald@proact.de>
-Subject: Re: [PATCH] psi: remove CPU full metric at system level
-Message-ID: <YiDB8pjzthSk0X7Q@cmpxchg.org>
-References: <20220303055814.93057-1-zhouchengming@bytedance.com>
+        with ESMTP id S229944AbiCCN2c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 08:28:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B9C45AC9;
+        Thu,  3 Mar 2022 05:27:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3528F61A74;
+        Thu,  3 Mar 2022 13:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDF0C340ED;
+        Thu,  3 Mar 2022 13:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646314065;
+        bh=dGIwofzMp743lq/H6G0kmTunNZasKG3kTyo9mb8RtCE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JqQ0xJQfx03q10afTRnX1WtqexTWH7TWB8f+Hq0ExLUtz4/t0JaK3REzp+tVKdGDh
+         0SRjxMC0zcAqlgyxCvnSDsxx1w20JF3IpnvnlIKt4+pPSUoj9vYi4Zbms5jnRVnB5e
+         vOQVCI9WNzT7riiWbOzRGSL8cFITI3FJ70/YziRelPCrLsQoNj8VC3bst5nX8SVgWK
+         DtGT7VUXPw4nvugRAZTx4O9DpOU17ukuAuPqVMur/ocFQWOij7KKYUiBIgAbulZ6Og
+         PMzHSvI2/qn+6kZw+mEg8RF2HYfsqQ2OVIoPBaT+gRrnC2caWHAVM42tJywGYW/QqR
+         n0rHf5YYMR3mQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nPlUc-0000EZ-O7; Thu, 03 Mar 2022 14:27:43 +0100
+Date:   Thu, 3 Mar 2022 14:27:42 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>, kbuild-all@lists.01.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Eckert <fe@dev.tdt.de>
+Subject: Re: [PATCH v1 1/1] docs: process: submitting-patches: Clarify the
+ Reported-by usage
+Message-ID: <YiDCTqWzdCeNfOdv@hovoldconsulting.com>
+References: <20220127155334.47154-1-andriy.shevchenko@linux.intel.com>
+ <87o83xrwk9.fsf@meer.lwn.net>
+ <YfPzNNvK8Sy8YmGW@casper.infradead.org>
+ <Yff9xoh873aEikY4@hovoldconsulting.com>
+ <YfgBi9dn8LI8d/bo@smile.fi.intel.com>
+ <YfgSpArfoL9LUaBO@hovoldconsulting.com>
+ <YfgninPOaJhq7dsZ@smile.fi.intel.com>
+ <Yfj0lb50vS3ssrsn@hovoldconsulting.com>
+ <20220303095432.GB9912@kili>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220303055814.93057-1-zhouchengming@bytedance.com>
+In-Reply-To: <20220303095432.GB9912@kili>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 01:58:14PM +0800, Chengming Zhou wrote:
-> Martin find it confusing when look at the /proc/pressure/cpu output,
-> and found no hint about that CPU "full" line in psi Documentation.
-> 
-> % cat /proc/pressure/cpu
-> some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
-> full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
-> 
-> The PSI_CPU_FULL state is introduced by commit e7fcd7622823
-> ("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
-> but also counted at the system level as a side effect.
-> 
-> Naturally, the FULL state doesn't exist for the CPU resource at
-> the system level. These "full" numbers can come from CPU idle
-> schedule latency. For example, t1 is the time when task wakeup
-> on an idle CPU, t2 is the time when CPU pick and switch to it.
-> The delta of (t2 - t1) will be in CPU_FULL state.
-> 
-> Another case all processes can be stalled is when all cgroups
-> have been throttled at the same time, which unlikely to happen.
-> 
-> Anyway, CPU_FULL metric is meaningless and confusing at the
-> system level. So this patch removed CPU full metric at the
-> system level, and removed it's monitor function too. The psi
-> Documentation has also been updated accordingly.
-> 
-> Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
-> Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
-> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
-> ---
->  Documentation/accounting/psi.rst | 18 +++++++++++++++---
->  kernel/sched/psi.c               | 10 +++++++++-
->  2 files changed, 24 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
-> index 860fe651d645..519652c06d7d 100644
-> --- a/Documentation/accounting/psi.rst
-> +++ b/Documentation/accounting/psi.rst
-> @@ -178,8 +178,20 @@ Cgroup2 interface
->  In a system with a CONFIG_CGROUP=y kernel and the cgroup2 filesystem
->  mounted, pressure stall information is also tracked for tasks grouped
->  into cgroups. Each subdirectory in the cgroupfs mountpoint contains
-> -cpu.pressure, memory.pressure, and io.pressure files; the format is
-> -the same as the /proc/pressure/ files.
-> +cpu.pressure, memory.pressure, and io.pressure files; the format of
-> +memory.pressure and io.pressure is the same as the /proc/pressure/ files.
-> +
-> +But the format of cpu.pressure is as such::
-> +	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
-> +	full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+On Thu, Mar 03, 2022 at 12:54:32PM +0300, Dan Carpenter wrote:
+> On Tue, Feb 01, 2022 at 09:51:33AM +0100, Johan Hovold wrote:
+> > On Mon, Jan 31, 2022 at 08:16:42PM +0200, Andy Shevchenko wrote:
+> > > On Mon, Jan 31, 2022 at 05:47:32PM +0100, Johan Hovold wrote:
+> > > > On Mon, Jan 31, 2022 at 05:34:35PM +0200, Andy Shevchenko wrote:
+> > > > > On Mon, Jan 31, 2022 at 04:18:30PM +0100, Johan Hovold wrote:
+> > > > > > On Fri, Jan 28, 2022 at 01:44:20PM +0000, Matthew Wilcox wrote:
+> > > > 
+> > > > > > > I think this misunderstands the problem that Andy is trying to fix.
+> > > > > > > 
+> > > > > > > The situation: I write a patch.  I post it for review.  A bot does
+> > > > > > > something and finds a bug (could be compile-error, could be boot
+> > > > > > > problem).  That bot sends a bug report with a suggestion to add
+> > > > > > > Reported-by:.  That suggestion is inappropriate because the bug never
+> > > > > > > made it upstream, so it looks like the bot reported the "problem"
+> > > > > > > that the patch "fixes".
+> > > > > > > 
+> > > > > > > It's not unique to "new feature" patches.  If I'm fixing a bug and
+> > > > > > > my fix also contains a bug spotted by a bot, adding Reported-by
+> > > > > > > makes it look like the bot spotted the original bug, rather than
+> > > > > > > spotting a bug in the fix.
+> > > > > > > 
+> > > > > > > The best thing to do in this case is nothing.  Do not credit the bot.
+> > > > > > > Maybe add a Checked-by:, but that would be a new trailer and I really
+> > > > > > > don't think we need a new kind of trailer to get wrong.
+> > > > > > 
+> > > > > > It seems like the only way to fix this is to fix the bots. Adding more
+> > > > > > documentation is unlikely to help in this case.
 
-It's the format of cpu.pressure, except when it's
-/sys/fs/cgroup/cpu.pressure... I think this is getting maybe a tad too
-difficult to write parsers for. Plus, we added the line over a year
-ago so we might break somebody by removing it again.
+> > Perhaps I'm missing something, but if you re-read Mathews description
+> > above, it still seems to me like the issue is that the bots are trying
+> > to claim credit for finding things that haven't been merged yet.
+> > 
+> > Your suggestion is to document that the bots should be ignored. My
+> > suggestion is to fix the bots.
+> 
+> Originally the kbuild bot used to not have that notice but adding it
+> meant that kbuild bot got a lot more visibility.  The truth is that
+> managers love metrics and it helps people get paid.
+> 
+> The whole point of kbuild-bot was to search the lists and test code
+> before it gets merged.  If they just waited and tested linux-next they
+> would get their reported by tags because most trees don't rebase.  But
+> we're punishing them for being better at their job.  It's a perverse
+> incentive.
 
-How about reporting zeroes at the system level?
+I hear you. But I also get Matthew's and Andy's point about it not being
+quite right to give an automatic test program Reported-by credit for
+finding, say, an unused variable in a not yet merged patch. And perhaps
+even more so since real reviewers often get no credit at all (but
+perhaps a mention in a cover letter).
 
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index e14358178849..86824de404bc 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -1062,14 +1062,17 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
- 	mutex_unlock(&group->avgs_lock);
- 
- 	for (full = 0; full < 2; full++) {
--		unsigned long avg[3];
--		u64 total;
-+		unsigned long avg[3] = { 0, };
-+		u64 total = 0;
- 		int w;
- 
--		for (w = 0; w < 3; w++)
--			avg[w] = group->avg[res * 2 + full][w];
--		total = div_u64(group->total[PSI_AVGS][res * 2 + full],
--				NSEC_PER_USEC);
-+		/* CPU FULL is undefined at the system level */
-+		if (!(group == &psi_system && res == PSI_CPU && full)) {
-+			for (w = 0; w < 3; w++)
-+				avg[w] = group->avg[res * 2 + full][w];
-+			total = div_u64(group->total[PSI_AVGS][res * 2 + full],
-+					NSEC_PER_USEC);
-+		}
- 
- 		seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu avg300=%lu.%02lu total=%llu\n",
- 			   full ? "full" : "some",
+> We should create a new tag for finding bugs during review.
+
+Yeah, I guess your perverse incentive argument applies equally to human
+reviewers even if I'm also reluctant to going down this path.
+
+Johan
