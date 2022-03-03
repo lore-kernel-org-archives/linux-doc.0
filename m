@@ -2,161 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB99C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 22:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F272C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 23:00:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236714AbiCCWLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 17:11:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S235497AbiCCXBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 18:01:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236130AbiCCWLr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 17:11:47 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3361FD19
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 14:11:00 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id qt6so13588433ejb.11
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:11:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O15QTD4cJWZUCrV53Q7o/AL5EB1oKwJTXEHaA5LT8Z8=;
-        b=LArKsEtR2mGirSRnS4QPB7n7g9uLcdhGS2kHqFIb8XMf4LzumrX1fTUWS3uLd0WvY7
-         WLmzhRTfJFRSwidr8ido80GjMNVcP71/BhUV6EopxiDenC4YhqBj6Dwh6h95iQIK1orX
-         IVEDLOvBMjjsnhO237DselDbca8Q8omBwAy+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O15QTD4cJWZUCrV53Q7o/AL5EB1oKwJTXEHaA5LT8Z8=;
-        b=TWaqY3VeD+MyRwEDvnDKKtAL4XlwZpzn1GTY1lvsLoPsf8fctBNxHB8hR6NQxM2JuL
-         b5OtHqeeWL7QItCBaU8WgnXfEST1nJgTSR5LxlfaRp8CqDTdB/fXgWHMsbrbu4o9woOM
-         R3ic9IaT92Qpl4bylSsSr6m/yyc5aazV6nZo69Xh5f5YcK1HC+FBjs0pYbIZGBZGH0n6
-         zt8cXZntEcU42YzimHI8MjkgEFopEIBSmSZpk8bWFNlUXIdyOza1U0i8fCkOeK2SuzOF
-         aq0u7j2ErGzULmgJvXqzdzsVW1pOzWc8AnTUkYFC2Q5bUF3R7M5pwmIbTG56dFeBRmTj
-         s+qg==
-X-Gm-Message-State: AOAM533/1gzkXSbjSZl9liD2EClxecjiVF8r+yVNj8I9oVppQ+AIJWXE
-        hvuXQOdjtG34JjgPw0aR9Hr74A77XiJjEw==
-X-Google-Smtp-Source: ABdhPJws8ud8GpauJcmmtxkSGmGm/AQoZ1lEKwZFuEsbAwYBHtqgCOl9ZoP+118rToeyf1kA5NQQjQ==
-X-Received: by 2002:a17:907:8a25:b0:6d7:d59:6912 with SMTP id sc37-20020a1709078a2500b006d70d596912mr11056676ejc.259.1646345459098;
-        Thu, 03 Mar 2022 14:10:59 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id n9-20020a05640205c900b00415fbbdabbbsm14480edx.9.2022.03.03.14.10.57
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Mar 2022 14:10:57 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id k29-20020a05600c1c9d00b003817fdc0f00so4056446wms.4
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:10:57 -0800 (PST)
-X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
- s1-20020a7bc0c1000000b00385be1b0e6amr5367480wmh.73.1646345456912; Thu, 03 Mar
- 2022 14:10:56 -0800 (PST)
+        with ESMTP id S232735AbiCCXBm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 18:01:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E46F11B5
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 15:00:55 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 98103B82704
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 23:00:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDDDC340F2
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 23:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646348453;
+        bh=FYI/8Y1WBT4HzXcUE12f554+O6V/H3p/NTj/MzLSdWk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=sJ22pLyfo4SwdnyPR1TPpzG4XTwr7HOvlPSTg9CLhbH9fJf1Y4yiZbJk5l9LxqoGr
+         jceF9VVuMY54RS8QavmAHxO4msQMLJaJp/5xbNt6bN3BBGFuLEfXPzGZvOu8DvbHeE
+         QftAuFTbzjALHOjXPomGJNG3sntvLR7yPAQGR9nc6s06SiVJP3/AC529jyzPvUuP65
+         JUVsSBlOnoKZT9RGuwx7DvZVLmuJYDus1vjnsYR6bMVZzGXPAHTrIQEOwByLKmF1nc
+         mU1uKosE1UJI6QzHX+kmNMzyGmrIM/rv1W+cWWjjL7mD1ekyGEliMgd0ISd/vOLbk+
+         LUW0C1sQjwBbw==
+Received: by mail-lj1-f176.google.com with SMTP id l12so8712793ljh.12
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 15:00:53 -0800 (PST)
+X-Gm-Message-State: AOAM530rfnn06yt+FIwSWyBd3CVCVlRjw85RspKm2b63rLm16GpzjKM0
+        22OBEiAuMfNUG97X9oAtvceJY+LKXy58MDvFNjR4+w==
+X-Google-Smtp-Source: ABdhPJz3cl4jMqcvfSKVHunCPtaNdRheKNjy3rSm1wymcJSedk+TallQEQF6erOXFO+yao9Hp2Eo8ER04EB83dGMZ7o=
+X-Received: by 2002:a05:6402:2c6:b0:415:b06c:de71 with SMTP id
+ b6-20020a05640202c600b00415b06cde71mr11466619edx.50.1646348441080; Thu, 03
+ Mar 2022 15:00:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org> <20220303214300.59468-2-bjorn.andersson@linaro.org>
-In-Reply-To: <20220303214300.59468-2-bjorn.andersson@linaro.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 3 Mar 2022 14:10:44 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
-Message-ID: <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-pwm <linux-pwm@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+References: <YgI1A0CtfmT7GMIp@kernel.org> <YgI37n+3JfLSNQCQ@grain>
+ <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com> <YgKiKEcsNt7mpMHN@grain>
+ <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+ <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org> <Yh0wIMjFdDl8vaNM@kernel.org>
+ <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com> <Yh0+9cFyAfnsXqxI@kernel.org>
+ <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com> <YiEZyTT/UBFZd6Am@kernel.org>
+In-Reply-To: <YiEZyTT/UBFZd6Am@kernel.org>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 3 Mar 2022 15:00:29 -0800
+X-Gmail-Original-Message-ID: <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
+Message-ID: <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Balbir Singh <bsingharora@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Adrian Reber <adrian@lisas.de>,
+        Florian Weimer <fweimer@redhat.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Jann Horn <jannh@google.com>, Andrei Vagin <avagin@gmail.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, Borislav Petkov <bp@alien8.de>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Dave Martin <dave.martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Mar 3, 2022 at 11:43 AM Mike Rapoport <rppt@kernel.org> wrote:
+>
+> On Mon, Feb 28, 2022 at 02:55:30PM -0800, Andy Lutomirski wrote:
+> >
+> >
+> > On Mon, Feb 28, 2022, at 1:30 PM, Mike Rapoport wrote:
+> > > On Mon, Feb 28, 2022 at 12:30:41PM -0800, Andy Lutomirski wrote:
+> > >>
+> > >>
+> > >> On Mon, Feb 28, 2022, at 12:27 PM, Mike Rapoport wrote:
+> > >> > On Wed, Feb 09, 2022 at 06:37:53PM -0800, Andy Lutomirski wrote:
+> > >> >> On 2/8/22 18:18, Edgecombe, Rick P wrote:
+> > >> >> > On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
+> > >> >> >
+> > >> >
+> > >> > Even with the current shadow stack interface Rick proposed, CRIU can restore
+> > >> > the victim using ptrace without any additional knobs, but we loose an
+> > >> > important ability to "self-cure" the victim from the parasite in case
+> > >> > anything goes wrong with criu control process.
+> > >> >
+> > >> > Moreover, the issue with backward compatibility is not with ptrace but with
+> > >> > sigreturn and it seems that criu is not its only user.
+> > >>
+> > >> So we need an ability for a tracer to cause the tracee to call a function
+> > >> and to return successfully.  Apparently a gdb branch can already do this
+> > >> with shstk, and my PTRACE_CALL_FUNCTION_SIGFRAME should also do the
+> > >> trick.  I don't see why we need a sigretur-but-dont-verify -- we just
+> > >> need this mechanism to create a frame such that sigreturn actually works.
+> > >
+> > > If I understand correctly, PTRACE_CALL_FUNCTION_SIGFRAME() injects a frame
+> > > into the tracee and makes the tracee call sigreturn.
+> > > I.e. the tracee is stopped and this is used pretty much as PTRACE_CONT or
+> > > PTRACE_SYSCALL.
+> > >
+> > > In such case this defeats the purpose of sigreturn in CRIU because it is
+> > > called asynchronously by the tracee when the tracer is about to detach or
+> > > even already detached.
+> >
+> > The intent of PTRACE_CALL_FUNCTION_SIGFRAME is push a signal frame onto
+> > the stack and call a function.  That function should then be able to call
+> > sigreturn just like any normal signal handler.
+>
+> Ok, let me reiterate.
+>
+> We have a seized and stopped tracee, use PTRACE_CALL_FUNCTION_SIGFRAME
+> to push a signal frame onto the tracee's stack so that sigreturn could use
+> that frame, then set the tracee %rip to the function we'd like to call and
+> then we PTRACE_CONT the tracee. Tracee continues to execute the parasite
+> code that calls sigreturn to clean up and restore the tracee process.
+>
+> PTRACE_CALL_FUNCTION_SIGFRAME also pushes a restore token to the shadow
+> stack, just like setup_rt_frame() does, so that sys_rt_sigreturn() won't
+> bail out at restore_signal_shadow_stack().
 
-On Thu, Mar 3, 2022 at 1:41 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-> with their output being routed to various other components, such as
-> current sinks or GPIOs.
->
-> Each LPG instance can operate on fixed parameters or based on a shared
-> lookup-table, altering the duty cycle over time. This provides the means
-> for hardware assisted transitions of LED brightness.
->
-> A typical use case for the fixed parameter mode is to drive a PWM
-> backlight control signal, the driver therefor allows each LPG instance
-> to be exposed to the kernel either through the LED framework or the PWM
-> framework.
->
-> A typical use case for the LED configuration is to drive RGB LEDs in
-> smartphones etc, for which the driver supports multiple channels to be
-> ganged up to a MULTICOLOR LED. In this configuration the pattern
-> generators will be synchronized, to allow for multi-color patterns.
->
-> The idea of modelling this as a LED driver ontop of a PWM driver was
-> considered, but setting the properties related to patterns does not fit
-> in the PWM API. Similarly the idea of just duplicating the lower bits in
-> a PWM and LED driver separately was considered, but this would not allow
-> the PWM channels and LEDs to be configured on a per-board basis. The
-> driver implements the more complex LED interface, and provides a PWM
-> interface on the side of that, in the same driver.
->
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->
-> Changes since v13:
-> - Fixed mixed space/tab indentation in documentation
-> - Added 0 as to lpg_clk_rates[] to match the hardware state, to avoid + 1 in
->   lpg_apply_freq() and - 1 in lpg_pwm_get_state()
-> - Don't divide with 0 if current clock is 0 in lpg_pwm_get_state(), just return
->   period = duty = 0 in this case
-> - Renamed "clk" in struct lpg_channel to clk_sel
-> - Renamed "pre_div" in struct lpg_channel to pre_div_sel
->
-> Changes since v12:
-> - Initialize ret in lpg_pwm_apply()
->
-> Changes since v11:
-> - Extended commit message to cover decision to put pwm_chip in the LED driver
-> - Added Documentation, in particular for the hw_pattern format
-> - Added a lock to synchronize requests from LED and PWM frameworks
-> - Turned out that the 9bit selector differs per channel in some PMICs, so
->   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
-> - Fixed kerneldoc for the struct device pointer in struct lpg
-> - Rewrote conditional in lut_free() to make it easier to read
-> - Corrected and deduplicated max_period expression in lpg_calc_freq()
-> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
-> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
-> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for reading the
->   same in get_state()
-> - Cleaned up the pattern format, to allow specifying both low and high pause
->   with and without pingpong mode.
-> - Only update frequency and pwm_value if PWM channel is enabled in lpg_pwm_apply
-> - Make lpg_pwm_get_state() read the hardware state, in order to pick up e.g.
->   bootloader backlight configuration
-> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
-> - Use dev_err_probe() in lpg_probe()
-> - Extended Kconfig help text to mention module name and satisfy checkpatch
->
->  Documentation/leds/leds-qcom-lpg.rst |   76 ++
->  drivers/leds/Kconfig                 |    3 +
->  drivers/leds/Makefile                |    3 +
->  drivers/leds/rgb/Kconfig             |   18 +
->  drivers/leds/rgb/Makefile            |    3 +
->  drivers/leds/rgb/leds-qcom-lpg.c     | 1405 ++++++++++++++++++++++++++
->  6 files changed, 1508 insertions(+)
+That is the intent.
 
-Gets rid of the KASAN error and PWM still works for me, so happy to add back:
+>
+> The only thing that CRIU actually needs is to push a restore token to the
+> shadow stack, so for us a ptrace call that does that would be ideal.
+>
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
-
-I haven't done a full review of the driver but I did a once-over of
-the changes between v12 and v13 and they look good to me.
-
--Doug
+That seems fine too.  The main benefit of the SIGFRAME approach is
+that, AIUI, CRIU eventually constructs a signal frame anyway, and
+getting one ready-made seems plausibly helpful.  But if it's not
+actually that useful, then there's no need to do it.
