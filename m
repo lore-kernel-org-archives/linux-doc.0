@@ -2,295 +2,444 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70ABBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 15:29:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 860A6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 16:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234428AbiCCPaf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 10:30:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49922 "EHLO
+        id S233963AbiCCQRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 11:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234422AbiCCPad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 10:30:33 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3636AE3C64
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 07:29:47 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id b20so4118915qkn.9
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 07:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=T8thn2mB/ppQpWbyQ7im9TnM2/JxxytI355jY/Bhilk=;
-        b=vb2g9+UTXGE9JVUAdFvLQFaK40Fzo/KR/Wyc1iAd70hZcpP4J7qYBRo9ziJ6pTWNpo
-         GHqdNARWvNGxXTRVc4scAxB45F+vWsKAXB5VpQz2wIxiXGbLsPP2J9yuiz2Gu7Kcv9CM
-         w+LLICGUrWrOW0ZXRHk6I1XCBwEUA3lMhwXPc5vcqyyk5ZL+lwLZ1eV83Qk7lFqdCDEM
-         VqPvdRlUkMz1aaBHWmpuylcdNqwmn1oeaDB9IFS2Y8EmNUeT7E8xUZGHoni8kLsxj3Ul
-         3xL1pSY+UOYTKRE5FcOo178orvQkcxSIQ6yB8Qo8ld4J+y66PK8LUE8lMnlRu7lji/uY
-         JyXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=T8thn2mB/ppQpWbyQ7im9TnM2/JxxytI355jY/Bhilk=;
-        b=QmAMnKfUWCuTVjHZEc5/wt06dki0CBf4e9KplbliRi4zdltXwzEuglFOhgzfdgUbt6
-         WAlG5uASii+R5e+o8IEoTzBeXd6Lfqn8GjqyG/SL/u1mj3OO8bBzyICe9/pLaf/uIqgv
-         WrOGlNr4gXz/DS0gB0hnKQGNpl7BqaiFuxwB7f0mznUDZL9UhfyKCEadXilxIPkzrlP1
-         0QEa+H7agnlggtVq6t4dqCzdcUOsUBWvJvotOP6YAp0zrV6BGnQSpq0hni/oUfPq23US
-         BIS8GZarP0v0NS0Cwd7gfA6pCG6pcaqIKWS6DQFnlXgY/jeQ+yXXya8UwZkCNGgiY6q4
-         3DjQ==
-X-Gm-Message-State: AOAM533eaXgQhttx7LRnCjb4VwJycxgLhkc7eW2IJBlDeeZ4H7kxBmSo
-        s55IJkBcGK0aRbD9s7dGmT6jFw==
-X-Google-Smtp-Source: ABdhPJwvEGkm3dghfQ28xfPR4A725Ug3F6RrYEBmX/tBy75H3GfZgPVNvLYLSVgRGJT6mAqdfRNOew==
-X-Received: by 2002:ae9:ed55:0:b0:60d:d41c:9e9c with SMTP id c82-20020ae9ed55000000b0060dd41c9e9cmr18783481qkg.276.1646321386184;
-        Thu, 03 Mar 2022 07:29:46 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id i3-20020a05620a074300b006630cbe7ec0sm1291038qki.90.2022.03.03.07.29.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 07:29:45 -0800 (PST)
-Date:   Thu, 3 Mar 2022 10:29:44 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
+        with ESMTP id S233329AbiCCQRU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 11:17:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C234198EE0;
+        Thu,  3 Mar 2022 08:16:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CF64561269;
+        Thu,  3 Mar 2022 16:16:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE890C004E1;
+        Thu,  3 Mar 2022 16:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646324193;
+        bh=ZBgu8qB7ikjiop06p0mbS+ll8oA4xHLp5J/GkO6hDo0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kvNE5ThaqQ9xL+L6i0Kj+YbJFiPNat8saIjy9ABNoqdAKG2c5vczMQQs+YJpw0g81
+         xdFBuJRaScEHveO2/5/NmEb/bf+prLczK1lN7TAF+y3JTNpmEiaQVtnbZ41O1w3B+i
+         QHOcsxx8WAgJd/R0XvSA5jzfLgPHP0vwJ8phVKZe1tL9Lpj+j0nvfMyMSiPsnpXwUd
+         qO7f6svLffxWs4cCMSIc4ZDVisw1xQ32XokmRJMSQzmw+6q/+/qZxCL7RVj5pAAn38
+         EukTlJykGBB6+spw4eivdm08mDszwWO/jRIBKpfaQn5kBm6q+6kCsPWsi1+3FOPqdH
+         jqN2ibVqxFNeQ==
+Date:   Thu, 3 Mar 2022 18:16:21 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-Message-ID: <YiDe6DcLGEfTTKD5@cmpxchg.org>
-References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-5-yuzhao@google.com>
- <YgV4lZXc6+jhUdsR@cmpxchg.org>
- <Ygt1qaQM5YobEZK9@google.com>
- <Ygwg9NXzQ+6U3RON@cmpxchg.org>
- <YhNJ4LVWpmZgLh4I@google.com>
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH V6 12/22] LoongArch: Add memory management
+Message-ID: <YiDp1VmAv4aMfX3B@kernel.org>
+References: <20220226110338.77547-1-chenhuacai@loongson.cn>
+ <20220226110338.77547-13-chenhuacai@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YhNJ4LVWpmZgLh4I@google.com>
+In-Reply-To: <20220226110338.77547-13-chenhuacai@loongson.cn>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yu,
-
-On Mon, Feb 21, 2022 at 01:14:24AM -0700, Yu Zhao wrote:
-> On Tue, Feb 15, 2022 at 04:53:56PM -0500, Johannes Weiner wrote:
-> > On Tue, Feb 15, 2022 at 02:43:05AM -0700, Yu Zhao wrote:
-> > > On Thu, Feb 10, 2022 at 03:41:57PM -0500, Johannes Weiner wrote:
-> > > > > +static inline bool lru_gen_is_active(struct lruvec *lruvec, int gen)
-> > > > > +{
-> > > > > +	unsigned long max_seq = lruvec->lrugen.max_seq;
-> > > > > +
-> > > > > +	VM_BUG_ON(gen >= MAX_NR_GENS);
-> > > > > +
-> > > > > +	/* see the comment on MIN_NR_GENS */
-> > > > > +	return gen == lru_gen_from_seq(max_seq) || gen == lru_gen_from_seq(max_seq - 1);
-> > > > > +}
-> > > > 
-> > > > I'm still reading the series, so correct me if I'm wrong: the "active"
-> > > > set is split into two generations for the sole purpose of the
-> > > > second-chance policy for fresh faults, right?
-> > > 
-> > > To be precise, the active/inactive notion on top of generations is
-> > > just for ABI compatibility, e.g., the counters in /proc/vmstat.
-> > > Otherwise, this function wouldn't be needed.
-> > 
-> > Ah! would you mind adding this as a comment to the function?
+On Sat, Feb 26, 2022 at 07:03:28PM +0800, Huacai Chen wrote:
+> This patch adds memory management support for LoongArch, including:
+> cache and tlb management, page fault handling and ioremap/mmap support.
 > 
-> Will do.
-> 
-> > But AFAICS there is the lru_gen_del_folio() callsite that maps it to
-> > the PG_active flag - which in turn gets used by add_folio() to place
-> > the thing back on the max_seq generation. So I suppose there is a
-> > secondary purpose of the function for remembering the page's rough age
-> > for non-reclaim isolation.>
-> 
-> Yes, e.g., migration.
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> ---
 
-Ok, thanks for clarifying. That should also be in the comment.
+...
 
-On scan resistance:
+> diff --git a/arch/loongarch/include/asm/fixmap.h b/arch/loongarch/include/asm/fixmap.h
+> new file mode 100644
+> index 000000000000..04ac3c871294
+> --- /dev/null
+> +++ b/arch/loongarch/include/asm/fixmap.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * fixmap.h: compile-time virtual memory allocation
+> + *
+> + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef _ASM_FIXMAP_H
+> +#define _ASM_FIXMAP_H
+> +
+> +#include <asm/page.h>
 
-> > The concern isn't the scan overhead, but jankiness from the workingset
-> > being flooded out by streaming IO.
-> 
-> Yes, MGLRU uses a different approach to solve this problem, and for
-> its approach, the scan overhead is the concern.
-> 
-> MGLRU detects (defines) the working set by scanning the entire memory
-> for each generation, and it counters the flooding by accelerating the
-> creation of generations. IOW, all mapped pages have an equal chance to
-> get scanned, no matter which generation they are in. This is a design
-> difference compared with the active/inactive LRU, which tries to scans
-> the active/inactive lists less/more frequently.
->
-> > The concrete usecase at the time was a torrent client hashing a
-> > downloaded file and thereby kicking out the desktop environment, which
-> > caused jankiness. The hashing didn't benefit from caching - the file
-> > wouldn't have fit into RAM anyway - so this was pointless to boot.
-> > 
-> > Essentially, the tradeoff is this:
-> > 
-> > 1) If you treat new pages as hot, you accelerate workingset
-> > transitions, but on the flipside you risk unnecessary refaults in
-> > running applications when those new pages are one-off.
-> > 
-> > 2) If you take new pages with a grain of salt, you protect existing
-> > applications better from one-off floods, but risk refaults in NEW
-> > application while they're trying to start up.
-> 
-> Agreed.
-> 
-> > There are two arguments for why 2) is preferable:
-> > 
-> > 1) Users are tolerant of cache misses when applications first launch,
-> >    much less so after they've been running for hours.
-> 
-> Our CUJs (Critical User Journeys) respectfully disagree :)
-> 
-> They are built on the observation that once users have moved onto
-> another tab/app, they are more likely to stay with the new tab/app
-> rather than go back to the old ones. Speaking for myself, this is
-> generally the case.
+Why this include is needed here?
 
-That's in line with what I said. Where is the disagreement?
+> +
+> +#define NR_FIX_BTMAPS 64
+> +
+> +#endif
+> diff --git a/arch/loongarch/include/asm/page.h b/arch/loongarch/include/asm/page.h
+> new file mode 100644
+> index 000000000000..8619ef2823ad
+> --- /dev/null
+> +++ b/arch/loongarch/include/asm/page.h
+> @@ -0,0 +1,127 @@
 
-> > 2) Workingset transitions (and associated jankiness) are bounded by
-> >    the amount of RAM you need to repopulate. But streaming IO is
-> >    bounded by storage, and datasets are routinely several times the
-> >    amount of RAM. Uncacheable sets in excess of RAM can produce an
-> >    infinite stream of "new" references; not protecting the workingset
-> >    from that means longer or even sustained jankiness.
-> 
-> I'd argue the opposite -- we shouldn't risk refaulting fresh hot pages
-> just to accommodate this concrete yet minor use case, especially
-> considering torrent has been given the means (MADV_SEQUENTIAL) to help
-> itself.
->
-> I appreciate all your points here. The bottom line is we agree this is
-> a trade off. For what disagree about, we could be both right -- it
-> comes down to what workloads we care about *more*.
+...
 
-It's a straight-forward question: How does MGLRU avoid cache pollution
-from scans?
+> +/*
+> + * __pa()/__va() should be used only during mem init.
+> + */
+> +#define __pa(x)		PHYSADDR(x)
+> +#define __va(x)		((void *)((unsigned long)(x) + PAGE_OFFSET - PHYS_OFFSET))
+> +
+> +#ifndef __pa_symbol
+> +#define __pa_symbol(x)	__pa(RELOC_HIDE((unsigned long)(x), 0))
+> +#endif
 
-Your answer above seems to be "it just does". Your answer here seems
-to be "it doesn't, but it doesn't matter". Forgive me if I'm
-misreading what you're saying.
+This is the same definition as in include/linux/mm.h.
+Is it required here?
 
-But it's not a minor concern. Read the motivation behind any modern
-cache algorithm - ARC, LIRS, Clock-Pro, LRU-K, 2Q - and scan
-resistance is the reason for why they all exist in the first place.
+...
 
+> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
+> new file mode 100644
+> index 000000000000..61993cd4c3d7
+> --- /dev/null
+> +++ b/arch/loongarch/include/asm/pgtable.h
 
-    "The LRU-K algorithm surpasses conventional buffering algorithms
-     in discriminating between frequently and infrequently referenced
-     pages."
+...
 
-        - The LRU-K page replacement algorithm for database disk
-          buffering, O'Neil et al, 1993
+> +#define PGD_ORDER		0
+> +#define PUD_ORDER		0
+> +#define PMD_ORDER		0
+> +#define PTE_ORDER		0
 
-    "Although LRU replacement policy has been commonly used in the
-     buffer cache management, it is well known for its inability to
-     cope with access patterns with weak locality."
+Is it possible for these to change? 
+If not, please remove them.
 
-        - LIRS: an efficient low inter-reference recency set
-         replacement policy to improve buffer cache performance,
-         Jiang, Zhang, 2002
+...
 
-    "The self-tuning, low-overhead, scan-resistant adaptive
-     replacement cache algorithm outperforms the least-recently-used
-     algorithm by dynamically responding to changing access patterns
-     and continually balancing between workload recency and frequency
-     features."
+> diff --git a/arch/loongarch/mm/fault.c b/arch/loongarch/mm/fault.c
+> new file mode 100644
+> index 000000000000..d0170e4d5fe0
+> --- /dev/null
+> +++ b/arch/loongarch/mm/fault.c
+> @@ -0,0 +1,257 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> + *
+> + * Derived from MIPS:
+> + * Copyright (C) 1995 - 2000 by Ralf Baechle
+> + */
+> +#include <linux/context_tracking.h>
+> +#include <linux/signal.h>
+> +#include <linux/sched.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/entry-common.h>
+> +#include <linux/errno.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +#include <linux/ptrace.h>
+> +#include <linux/ratelimit.h>
+> +#include <linux/mman.h>
+> +#include <linux/mm.h>
+> +#include <linux/smp.h>
+> +#include <linux/kdebug.h>
+> +#include <linux/kprobes.h>
+> +#include <linux/perf_event.h>
+> +#include <linux/uaccess.h>
+> +
+> +#include <asm/branch.h>
+> +#include <asm/mmu_context.h>
+> +#include <asm/ptrace.h>
+> +
+> +int show_unhandled_signals = 1;
+> +
+> +/*
+> + * This routine handles page faults.  It determines the address,
+> + * and the problem, and then passes it off to one of the appropriate
+> + * routines.
+> + */
+> +static void __kprobes __do_page_fault(struct pt_regs *regs, unsigned long write,
+> +	unsigned long address)
+> +{
+> +	int si_code;
+> +	const int field = sizeof(unsigned long) * 2;
+> +	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
+> +	struct task_struct *tsk = current;
+> +	struct mm_struct *mm = tsk->mm;
+> +	struct vm_area_struct *vma = NULL;
+> +	vm_fault_t fault;
+> +
+> +	static DEFINE_RATELIMIT_STATE(ratelimit_state, 5 * HZ, 10);
+> +
+> +	si_code = SEGV_MAPERR;
+> +
+> +	if (user_mode(regs) && (address & __UA_LIMIT))
+> +		goto bad_area_nosemaphore;
+> +
+> +	/*
+> +	 * We fault-in kernel-space virtual memory on-demand. The
+> +	 * 'reference' page table is init_mm.pgd.
+> +	 *
+> +	 * NOTE! We MUST NOT take any locks for this case. We may
+> +	 * be in an interrupt or a critical region, and should
+> +	 * only copy the information from the master page table,
+> +	 * nothing more.
+> +	 */
+> +	if (unlikely(address >= MODULES_VADDR && address <= MODULES_END))
+> +		goto no_context;
+> +
+> +	if (unlikely(address >= VMALLOC_START && address <= VMALLOC_END))
+> +		goto no_context;
+> +
+> +	/*
+> +	 * If we're in an interrupt or have no user
+> +	 * context, we must not take the fault..
+> +	 */
+> +	if (faulthandler_disabled() || !mm)
+> +		goto bad_area_nosemaphore;
+> +
+> +	if (user_mode(regs))
+> +		flags |= FAULT_FLAG_USER;
+> +retry:
+> +	mmap_read_lock(mm);
+> +	vma = find_vma(mm, address);
+> +	if (!vma)
+> +		goto bad_area;
+> +	if (vma->vm_start <= address)
+> +		goto good_area;
+> +	if (!(vma->vm_flags & VM_GROWSDOWN))
+> +		goto bad_area;
+> +	if (expand_stack(vma, address))
+> +		goto bad_area;
+> +/*
+> + * Ok, we have a good vm_area for this memory access, so
+> + * we can handle it..
+> + */
+> +good_area:
+> +	si_code = SEGV_ACCERR;
+> +
+> +	if (write) {
+> +		if (!(vma->vm_flags & VM_WRITE))
+> +			goto bad_area;
+> +		flags |= FAULT_FLAG_WRITE;
+> +	} else {
+> +		if (address == regs->csr_era && !(vma->vm_flags & VM_EXEC))
+> +			goto bad_area;
+> +		if (!(vma->vm_flags & VM_READ) && exception_era(regs) != address)
+> +			goto bad_area;
+> +	}
+> +
+> +	/*
+> +	 * If for any reason at all we couldn't handle the fault,
+> +	 * make sure we exit gracefully rather than endlessly redo
+> +	 * the fault.
+> +	 */
+> +	fault = handle_mm_fault(vma, address, flags, regs);
+> +
+> +	if (fault_signal_pending(fault, regs)) {
+> +		if (!user_mode(regs))
+> +			goto no_context;
+> +		return;
+> +	}
+> +
+> +	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+> +	if (unlikely(fault & VM_FAULT_ERROR)) {
+> +		if (fault & VM_FAULT_OOM)
+> +			goto out_of_memory;
+> +		else if (fault & VM_FAULT_SIGSEGV)
+> +			goto bad_area;
+> +		else if (fault & (VM_FAULT_SIGBUS|VM_FAULT_HWPOISON|VM_FAULT_HWPOISON_LARGE))
+> +			goto do_sigbus;
+> +		BUG();
+> +	}
+> +	if (flags & FAULT_FLAG_ALLOW_RETRY) {
+> +		if (fault & VM_FAULT_MAJOR) {
+> +			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1,
+> +						  regs, address);
+> +			tsk->maj_flt++;
+> +		} else {
+> +			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1,
+> +						  regs, address);
+> +			tsk->min_flt++;
+> +		}
+> +		if (fault & VM_FAULT_RETRY) {
+> +			flags &= ~FAULT_FLAG_ALLOW_RETRY;
+> +			flags |= FAULT_FLAG_TRIED;
+> +
+> +			/*
+> +			 * No need to mmap_read_unlock(mm) as we would
+> +			 * have already released it in __lock_page_or_retry
+> +			 * in mm/filemap.c.
+> +			 */
+> +
+> +			goto retry;
+> +		}
+> +	}
+> +
+> +	mmap_read_unlock(mm);
+> +	return;
+> +
+> +/*
+> + * Something tried to access memory that isn't in our memory map..
+> + * Fix it, but check if it's kernel or user first..
+> + */
+> +bad_area:
+> +	mmap_read_unlock(mm);
+> +
+> +bad_area_nosemaphore:
+> +	/* User mode accesses just cause a SIGSEGV */
+> +	if (user_mode(regs)) {
+> +		tsk->thread.csr_badvaddr = address;
+> +		if (!write)
+> +			tsk->thread.error_code = 1;
+> +		else
+> +			tsk->thread.error_code = 2;
+> +
+> +		if (show_unhandled_signals &&
+> +		    unhandled_signal(tsk, SIGSEGV) &&
+> +		    __ratelimit(&ratelimit_state)) {
+> +			pr_info("do_page_fault(): sending SIGSEGV to %s for invalid %s %0*lx\n",
+> +				tsk->comm,
+> +				write ? "write access to" : "read access from",
+> +				field, address);
+> +			pr_info("era = %0*lx in", field,
+> +				(unsigned long) regs->csr_era);
+> +			print_vma_addr(KERN_CONT " ", regs->csr_era);
+> +			pr_cont("\n");
+> +			pr_info("ra  = %0*lx in", field,
+> +				(unsigned long) regs->regs[1]);
+> +			print_vma_addr(KERN_CONT " ", regs->regs[1]);
+> +			pr_cont("\n");
+> +		}
+> +		current->thread.trap_nr = read_csr_excode();
+> +		force_sig_fault(SIGSEGV, si_code, (void __user *)address);
+> +		return;
+> +	}
+> +
+> +no_context:
+> +	/* Are we prepared to handle this kernel fault?	 */
+> +	if (fixup_exception(regs))
+> +		return;
+> +
+> +	/*
+> +	 * Oops. The kernel tried to access some bad page. We'll have to
+> +	 * terminate things with extreme prejudice.
+> +	 */
+> +	bust_spinlocks(1);
+> +
+> +	pr_alert("CPU %d Unable to handle kernel paging request at "
+> +	       "virtual address %0*lx, era == %0*lx, ra == %0*lx\n",
+> +	       raw_smp_processor_id(), field, address, field, regs->csr_era,
+> +	       field,  regs->regs[1]);
+> +	die("Oops", regs);
+> +
+> +out_of_memory:
+> +	/*
+> +	 * We ran out of memory, call the OOM killer, and return the userspace
+> +	 * (which will retry the fault, or kill us if we got oom-killed).
+> +	 */
+> +	mmap_read_unlock(mm);
+> +	if (!user_mode(regs))
+> +		goto no_context;
+> +	pagefault_out_of_memory();
+> +
+> +	return;
+> +
+> +do_sigbus:
+> +	mmap_read_unlock(mm);
+> +
+> +	/* Kernel mode? Handle exceptions or die */
+> +	if (!user_mode(regs))
+> +		goto no_context;
+> +
+> +	/*
+> +	 * Send a sigbus, regardless of whether we were in kernel
+> +	 * or user mode.
+> +	 */
+> +	current->thread.trap_nr = read_csr_excode();
+> +	tsk->thread.csr_badvaddr = address;
+> +	force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *)address);
+> +
 
-        - Outperforming LRU with an adaptive replacement cache
-          algorithm, Megiddo, Modha, 2004
+The page fault handler is really long.
+Consider splitting it to several functions.
 
-    "Over the last three decades, the inability of LRU as well as
-     CLOCK to handle weak locality accesses has become increasingly
-     serious, and an effective fix becomes increasingly desirable.
+> +	return;
+> +}
+> +
+> +asmlinkage void __kprobes do_page_fault(struct pt_regs *regs,
+> +	unsigned long write, unsigned long address)
+> +{
+> +	irqentry_state_t state = irqentry_enter(regs);
+> +
+> +	/* Enable interrupt if enabled in parent context */
+> +	if (likely(regs->csr_prmd & CSR_PRMD_PIE))
+> +		local_irq_enable();
+> +
+> +	__do_page_fault(regs, write, address);
+> +
+> +	local_irq_disable();
+> +
+> +	irqentry_exit(regs, state);
+> +}
 
-        - CLOCK-Pro: An Effective Improvement of the CLOCK
-          Replacement, Jiang et al, 2005
+...
 
+> diff --git a/arch/loongarch/mm/init.c b/arch/loongarch/mm/init.c
+> new file mode 100644
+> index 000000000000..b8aa96903056
+> --- /dev/null
+> +++ b/arch/loongarch/mm/init.c
+> @@ -0,0 +1,196 @@
 
-We can't rely on MADV_SEQUENTIAL alone. Not all accesses know in
-advance that they'll be one-off; it can be a group of uncoordinated
-tasks causing the pattern etc.
+...
 
-This is a pretty fundamental issue. It would be good to get a more
-satisfying answer on this.
+> +void free_init_pages(const char *what, unsigned long begin, unsigned long end)
+> +{
 
-> > > > You can drop the memcg parameter and use lruvec_memcg().
-> > > 
-> > > lruvec_memcg() isn't available yet when pgdat_init_internals() calls
-> > > this function because mem_cgroup_disabled() is initialized afterward.
-> > 
-> > Good catch. That'll container_of() into garbage. However, we have to
-> > assume that somebody's going to try that simplification again, so we
-> > should set up the code now to prevent issues.
-> > 
-> > cgroup_disable parsing is self-contained, so we can pull it ahead in
-> > the init sequence. How about this?
-> > 
-> > diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> > index 9d05c3ca2d5e..b544d768edc8 100644
-> > --- a/kernel/cgroup/cgroup.c
-> > +++ b/kernel/cgroup/cgroup.c
-> > @@ -6464,9 +6464,9 @@ static int __init cgroup_disable(char *str)
-> >  			break;
-> >  		}
-> >  	}
-> > -	return 1;
-> > +	return 0;
-> >  }
-> > -__setup("cgroup_disable=", cgroup_disable);
-> > +early_param("cgroup_disable", cgroup_disable);
-> 
-> I think early_param() is still after pgdat_init_internals(), no?
+This function seems unused
 
-It's called twice for some reason, but AFAICS the first one is always
-called before pgdat_init_internals():
+> +	unsigned long pfn;
+> +
+> +	for (pfn = PFN_UP(begin); pfn < PFN_DOWN(end); pfn++) {
+> +		struct page *page = pfn_to_page(pfn);
+> +		void *addr = phys_to_virt(PFN_PHYS(pfn));
+> +
+> +		memset(addr, POISON_FREE_INITMEM, PAGE_SIZE);
+> +		free_reserved_page(page);
+> +	}
+> +	pr_info("Freeing %s: %ldk freed\n", what, (end - begin) >> 10);
+> +}
+> +
+> +#ifdef CONFIG_BLK_DEV_INITRD
+> +void free_initrd_mem(unsigned long start, unsigned long end)
+> +{
 
-start_kernel()
-  setup_arch()
-    parse_early_param()
-    x86_init.paging.pagetable_init();
-      paging_init()
-        zone_sizes_init()
-          free_area_init()
-            free_area_init_node()
-              free_area_init_core()
-                pgdat_init_internals()
-  parse_early_param()
+There is a generic free_initrd_mem(), no need to override it.
 
-It's the same/similar for arm, sparc and mips.
+> +	free_reserved_area((void *)start, (void *)end, POISON_FREE_INITMEM,
+> +			   "initrd");
+> +}
+> +#endif
+
+-- 
+Sincerely yours,
+Mike.
