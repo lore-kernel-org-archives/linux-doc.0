@@ -2,145 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E3EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 06:26:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9842C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 06:47:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiCCG11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 01:27:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
+        id S229771AbiCCGrw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 01:47:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiCCG10 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 01:27:26 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6E11680B6;
-        Wed,  2 Mar 2022 22:26:42 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id i1so3259647ilu.6;
-        Wed, 02 Mar 2022 22:26:42 -0800 (PST)
+        with ESMTP id S229900AbiCCGrv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 01:47:51 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F1E2CF
+        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 22:47:07 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id r7so4727426iot.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 22:47:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=6cIMVIL+CCfpPGGYjFcu/o0ZTv3OrIkZlvD7/pJ5jLE=;
-        b=qAPglD6WY9eqhPAwpMIjhiwYNT2dKn4CN38Zc82q2s1SK/f3Natf+VLErUyGTKjrWy
-         CRbOAq9HpURnNbnXCMUOr+t9a1Mn870/X6I7oaKHv1pzPlIbjauqddiERKoJBul3r10s
-         nCWQcGOmXStt50Ncw7yT0WSq1l1J//LuF6ExO0Rn6TUTaWT+RAhlPh71W9bEKT6SNXvG
-         H0szLTUbOPDyzykmzzajMj9cC+kp9+YVW/thD+dHHr6TDs9PFlk+GIUrSrwKCVqRkwMM
-         v8xPgMzjlEaISe+pvI16QKOSkVWMsrLAT0LzSwCDMWsXnMANbDx24bQ13bVNQLl/O3pI
-         +Dug==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=awOJT5ml/p/iN0KxyefzrE4LGX6n2gmPWGzJTQAAet8=;
+        b=Z7xCW4mND+wy80Una/SWNauxNVOG2MeRjOVmgRuceJWQNh1cSBnbSY3ys7FM+GkcpH
+         11ndhfuRDKCQvGwzM9qQtoV6GowdOm/Shi2alLhQeRbCGg36z9Z+LIpieBfrxXLSH1ne
+         SlfSmB2AX9wExRzUSCvoXbPT6zI0aRsgrrrY5Kn0mcQUIJdy0s4K6+XBLVVCFPWIw6ON
+         jmEwC11nVn9P5gw76AQOHv7yGrNIm5dy6Rz5k4M3A/YY2YQclDj1ZNSpPRZ7a0Sp239m
+         sT5J4EZgesuQCTWpgbFWABXdsFjqwl81g4QsViKCrD5lsGQtD31SohEe5weVdg/yFfmt
+         YRQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=6cIMVIL+CCfpPGGYjFcu/o0ZTv3OrIkZlvD7/pJ5jLE=;
-        b=pGXyOJUmUbkEspdVAp0AkMZSEBV4u+ZFeySNOqaH+4tkYSv5SOMA1pTwhJUMds8Fb6
-         qwPJiFbTgGuryIM2LUiPz9WBcqVRAuwv4Au8YMMpgK1M4xreAngZNE2GWQve+gFXzBo5
-         zP4zUB2krmubYtGlzKx0szWol+1K1Atbxdr1y33/ejoSBMM+oRD5rkaF3eJQIH64LD82
-         yMPNiidgduVX3brHneJTC7tqIYp8crXJUdDjX4mMfOYc74BamjQcTKUZtQEny8yW3cC1
-         Y36DVp53unAExLQ33TJtay03BOO0cXYrHEMEMjFG5x0hAAaqjq9hd+DaENwbxv59FHB/
-         2m1g==
-X-Gm-Message-State: AOAM533lRUuMI29Ur//sjef/lcQay9kEDSIKq9zAbmTadg0u1eprdJ06
-        t11fRV28mP9giVvJLL4YW7ko6YVfefNHNFEQWOs=
-X-Google-Smtp-Source: ABdhPJxN4sEwUhUly0CT6JZ3A4I17A47qSawqzxX8rRhMHb82FN8jNix1RE7+RJJ1Gk2Z/4ey0Hz4TWtsMIElevu9YY=
-X-Received: by 2002:a05:6e02:1ba5:b0:2c2:b1a8:efcf with SMTP id
- n5-20020a056e021ba500b002c2b1a8efcfmr26236724ili.20.1646288801478; Wed, 02
- Mar 2022 22:26:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
- <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com> <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
-In-Reply-To: <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 3 Mar 2022 07:26:05 +0100
-Message-ID: <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=awOJT5ml/p/iN0KxyefzrE4LGX6n2gmPWGzJTQAAet8=;
+        b=rdk4Fipd97XQusdyXqa8YfecgOrSzoeLBwCx8gYlyHJ9MQMJ1VmB1YpICA5gMX9jea
+         8WoT5MxbABK1HVW47N9Vt6TPxyUpr2H/xsgOKzJtqsqoZ8gLDAxaVIko5aaM5VNBecX2
+         ZT1xxfts/rPciWHskapiXHfjmDi6hazccHVf0UuWHmDZYke75IepVB6Yw0IY0ddA269/
+         SDo95WpBUm3Ps4udMuQWoGwtlFsLjO0P7zjVEcJSXfF6Qb6LNFR5ZYyXQP/d13cCxmyr
+         Mfpuuy2NNUe5EPXGHB+kQwrbC4WnVMR53Ov9HeOWfdjAQHXDICeObWH3w8fvF2g8Dc2m
+         lOLg==
+X-Gm-Message-State: AOAM531yWIaAVQqrANz6Co7AqZxgv1WXQlRMm7pr4JnenjRLyU0/Xuet
+        9pchpTtZ+LhuBEpq4LcXYPehoQ==
+X-Google-Smtp-Source: ABdhPJyQoPuVVRCc89Y1QnkaBzULkzh6Atn4Xpkt02waxT59G145ji8tP+U8C/JfEGb3Zggs1qfu8w==
+X-Received: by 2002:a02:93a3:0:b0:313:f1cd:2bde with SMTP id z32-20020a0293a3000000b00313f1cd2bdemr27667395jah.238.1646290026470;
+        Wed, 02 Mar 2022 22:47:06 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:3c49:7c37:fbd6:d914])
+        by smtp.gmail.com with ESMTPSA id e17-20020a5d8ad1000000b00644d51bbffcsm1075276iot.36.2022.03.02.22.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 22:47:05 -0800 (PST)
+Date:   Wed, 2 Mar 2022 23:47:01 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Matthew Wilcox <willy@infradead.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org
+Subject: Re: [PATCH v7 00/12] Multigenerational LRU Framework
+Message-ID: <YiBkZaIpQjv0D2fC@google.com>
+References: <20220208081902.3550911-1-yuzhao@google.com>
+ <87czj3mux0.fsf@vajain21.in.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87czj3mux0.fsf@vajain21.in.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 2, 2022 at 11:54 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Wed, Mar 2, 2022 at 2:14 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Wed, Mar 2, 2022 at 10:47 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > >
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > As we change the C language standard for the kernel from gnu89 to
-> > > gnu11, it makes sense to also update the version for user space
-> > > compilation.
-> > >
-> >
-> > Overdue.
-> >
-> > Can you point me to a lore link where I can easily fetch the full 3/3
-> > v3 patchset?
->
-> Hey Sedat!
->
-> $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel=
-.org/
-> -o - | git am -3
->
+On Thu, Mar 03, 2022 at 11:36:51AM +0530, Vaibhav Jain wrote:
+> 
+> In a synthetic MongoDB Benchmark (YCSB) seeing an average of ~19% throughput
+> improvement on POWER10(Radix MMU + 64K Page Size) with MGLRU patches on
+> top of v5.16 kernel for MongoDB + YCSB bench across three different
+> request distriburions namely Exponential,Uniform and Zipfan
 
-Hey Nick!
-
-This only applies 1/3.
-
-$ b4 --version
-0.8.0
-
-$ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel.o=
-rg/
--o - | git am -3
-Analyzing 14 messages in the thread
-Will use the latest revision: v3
-You can pick other revisions using the -vN flag
-Checking attestation on all messages, may take a moment...
----
- =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
-   =E2=9C=93 Signed: DKIM/kernel.org
-   + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 DKIM/ker=
-nel.org)
- ERROR: missing [2/3]!
- ERROR: missing [3/3]!
- ---
- NOTE: install patatt for end-to-end signature verification
----
-Total patches: 1
----
-WARNING: Thread incomplete!
-Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.org
-Base: not specified
-Wende an: Kbuild: move to -std=3Dgnu11
-
-- Sedat -
-
-> https://people.kernel.org/monsieuricon/introducing-b4-and-patch-attestati=
-on
->
-> >
-> > I would like to give this a try on x86-64 with my latest kernel-config
-> > (based on the latest kernel-config v5.17-rc5 from Debian/unstable).
-> >
-> > What Linux source base do I need?
-> > Is Linux v5.17-rc6 good enough (patchset applicable) for testing?
->
-> I suspect so.
-> --
-> Thanks,
-> ~Nick Desaulniers
+Thanks, Vaibhav. I'll post the next version in a few days and include
+your tested-by tag.
