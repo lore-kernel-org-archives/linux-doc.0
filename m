@@ -2,168 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52035C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 21:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3696DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 22:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236617AbiCCVoc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 16:44:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
+        id S236684AbiCCWEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 17:04:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231588AbiCCVoc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 16:44:32 -0500
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E26FDF4A8
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 13:43:45 -0800 (PST)
-Received: by mail-qt1-x835.google.com with SMTP id f18so5856482qtb.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 13:43:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hTwwN6PiJVHaKqnPKPesjc7eXIn2FCgdMkVnCPREWLc=;
-        b=bq6u4nU32h9czB4hqHrURQXbdgy/m7NrxkgoFp2Hqjia8te+uATT004m1EnZOopthW
-         GaTmCBg8Xik6cbS1qGfn/dB5PE1l8OmlWNnFC1WEwdu0EKjaFsGPZd5uUw034wyTvgh/
-         O6UrmV5s5rdSOlBF+7Wz3yOiFHWzI6DVlAOh19zoSm/F9UD9jwpnv80X/k6AqicljJB2
-         h0KU8+QZaCRLxl78mf3LXT1f8fVPzTtYE2OiNQrWkE8P3qCE0pkNleQB8vD6O55BKalo
-         wmrD51eJCZvV/qXZBBG09fPPU9Az1vVhsH5OdNVrecuZhj6Ft3kRYHUEoaxiOa4TtXIS
-         TFhQ==
+        with ESMTP id S231659AbiCCWEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 17:04:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9138D1480DF
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 14:04:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646345045;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6wGROgyYuQGjMhOFoWGJ+5bmZEJUNDacGYc0J6ktUME=;
+        b=PHqjG93MTG5SsDMSdyN2ObYDI8HPlLXViIBH592oGzbLoGwH5PKowmJk1o/9RaWGCxT1fu
+        KTiaW5drI3JbZFl5BaE4UArQEcAZv5IEdk7Rc4WVMoybTa40H3O8pE8v/y9Yoeh8KhdYQ8
+        u15XherdZkw4VHpruMmEUf4MsTbvp9U=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-297-OpIOsZY4ObSjIGOVQhNYMg-1; Thu, 03 Mar 2022 17:04:04 -0500
+X-MC-Unique: OpIOsZY4ObSjIGOVQhNYMg-1
+Received: by mail-oo1-f70.google.com with SMTP id d21-20020a4a3c15000000b003191ee182f0so4422275ooa.13
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:04:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hTwwN6PiJVHaKqnPKPesjc7eXIn2FCgdMkVnCPREWLc=;
-        b=czMb+1jlgig2/kaaxm+F8ttbLRbVxUf2cOUx5cpmbBKfmg/ZQMgeRSxIx1zWjOb0Ke
-         wvmO0wIy/HxTXKCy0472PKfzD3KQwhWAHxBnH4rjd6D1qPeUnAhoxnYRsicflHyVyEdj
-         n6pFcutv0mjkc14xgPk/ELiFDoJxl9qDTY8Uj7pM5RlFrXGZ0/Op5lM7V71ZmZ/Tu5Bx
-         huQDJqo1c36f+ZnLyY2eIMMfMZw5UYtqWeJGjqa1ZiZ/t8R/v7nxml4kgyr8d+EKAuYR
-         QfX48d1/ogD3V6nsycmYf2tdrJMiF/vK1uGQ7lGHWtIzQItfD3/6lCf9JOACpo4WoSk4
-         XQkw==
-X-Gm-Message-State: AOAM530DtIffyi3GMZWVgT5+ro+CKLK0bsJfqf1BimJ/1iiCPPc61/gM
-        7zHI1EkrsImw7tE0PYbQZ8GywA==
-X-Google-Smtp-Source: ABdhPJzFu79fPe/pA+ZUmBn0NTH8kz6UBe2UfFjuH7s7jtI5XJqDyMox+AgQF9nHb+vLn+ADauoR2g==
-X-Received: by 2002:ac8:7c4b:0:b0:2dc:a139:52c7 with SMTP id o11-20020ac87c4b000000b002dca13952c7mr29178649qtv.188.1646343824657;
-        Thu, 03 Mar 2022 13:43:44 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id c6-20020ac87d86000000b002ddd9f33ed1sm2376259qtd.44.2022.03.03.13.43.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 13:43:43 -0800 (PST)
-Date:   Thu, 3 Mar 2022 16:43:43 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-Message-ID: <YiE2jz6dHzVU7awj@cmpxchg.org>
-References: <20220208081902.3550911-1-yuzhao@google.com>
- <20220208081902.3550911-5-yuzhao@google.com>
- <YgV4lZXc6+jhUdsR@cmpxchg.org>
- <Ygt1qaQM5YobEZK9@google.com>
- <Ygwg9NXzQ+6U3RON@cmpxchg.org>
- <YhNJ4LVWpmZgLh4I@google.com>
- <YiDe6DcLGEfTTKD5@cmpxchg.org>
- <CAOUHufYSAUT+t3bTUoNwXTpYPKX0N437m_WQoT79gzWYgnLY9A@mail.gmail.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=6wGROgyYuQGjMhOFoWGJ+5bmZEJUNDacGYc0J6ktUME=;
+        b=pWO8kICiCsbF3ZRVUkwHsUPZj3hjCPMqZVg9AHVRf7thhxlFPa85x/uXFFiFFt6md4
+         K8hhYzbNfWsUxBuoIENDtI3fgmDn0kwlj0eaDhsQFGKMyWv6026NBxrba99InL0wDO0m
+         +I9jr2dNeJ0t8C9t8Gm+KseIYnC2npgtjf6sI/wmJCuqzQf6ODbl6yLWPXIp6q0SrAPa
+         7EY3AYIjs0PRmomrpBAVcceKbGu2pXRv3ZwMRK5U8px6jniJyxgG0HuDWPhtUi22uteY
+         SRuVBAEdNb19q9dmKqMVA7Uefb3OWGQpSRUPykr9IJvGRaqZffhKAt0SrfakIAPGoOH8
+         236A==
+X-Gm-Message-State: AOAM532jbBYVxCRdk5IkXWYkWPqpz3ce9xVDjbUPl72vhmnPDGp3IoNF
+        dXpx8Z22uZMtZg8AAwycjWTYqQBbZnJXm0j+w9C2RYyuEGBPHDzpKBgkO7sk0tUfHUYUt5f1VKW
+        CzE3UtpfFlOCL5VhwCjze
+X-Received: by 2002:aca:1a04:0:b0:2d4:f855:aad1 with SMTP id a4-20020aca1a04000000b002d4f855aad1mr6496529oia.63.1646345043694;
+        Thu, 03 Mar 2022 14:04:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKYRe1JYF3+Y9OgmsQmqUokJoxxr0aKd4vk81gnA67Q062qAtgyawzk9SpEORQGWaOqANqfA==
+X-Received: by 2002:aca:1a04:0:b0:2d4:f855:aad1 with SMTP id a4-20020aca1a04000000b002d4f855aad1mr6496506oia.63.1646345043499;
+        Thu, 03 Mar 2022 14:04:03 -0800 (PST)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id q7-20020a9d6647000000b005af185bf273sm1582024otm.25.2022.03.03.14.04.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Mar 2022 14:04:02 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] Documentation: fpga: dfl: add PCI Identification
+ documentation
+To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
+        yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org, corbet@lwn.net,
+        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
+        ashok.raj@intel.com, tianfei.zhang@intel.com
+References: <20220303003534.3307971-1-matthew.gerlach@linux.intel.com>
+ <20220303003534.3307971-2-matthew.gerlach@linux.intel.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <6448f21f-7ce1-d9ce-1048-29aca14f9d3d@redhat.com>
+Date:   Thu, 3 Mar 2022 14:04:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOUHufYSAUT+t3bTUoNwXTpYPKX0N437m_WQoT79gzWYgnLY9A@mail.gmail.com>
+In-Reply-To: <20220303003534.3307971-2-matthew.gerlach@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 12:26:45PM -0700, Yu Zhao wrote:
-> On Thu, Mar 3, 2022 at 8:29 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> > On Mon, Feb 21, 2022 at 01:14:24AM -0700, Yu Zhao wrote:
-> > > On Tue, Feb 15, 2022 at 04:53:56PM -0500, Johannes Weiner wrote:
-> > > > On Tue, Feb 15, 2022 at 02:43:05AM -0700, Yu Zhao wrote:
-> > > > > On Thu, Feb 10, 2022 at 03:41:57PM -0500, Johannes Weiner wrote:
-> > > > > > You can drop the memcg parameter and use lruvec_memcg().
-> > > > >
-> > > > > lruvec_memcg() isn't available yet when pgdat_init_internals() calls
-> > > > > this function because mem_cgroup_disabled() is initialized afterward.
-> > > >
-> > > > Good catch. That'll container_of() into garbage. However, we have to
-> > > > assume that somebody's going to try that simplification again, so we
-> > > > should set up the code now to prevent issues.
-> > > >
-> > > > cgroup_disable parsing is self-contained, so we can pull it ahead in
-> > > > the init sequence. How about this?
-> > > >
-> > > > diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> > > > index 9d05c3ca2d5e..b544d768edc8 100644
-> > > > --- a/kernel/cgroup/cgroup.c
-> > > > +++ b/kernel/cgroup/cgroup.c
-> > > > @@ -6464,9 +6464,9 @@ static int __init cgroup_disable(char *str)
-> > > >                     break;
-> > > >             }
-> > > >     }
-> > > > -   return 1;
-> > > > +   return 0;
-> > > >  }
-> > > > -__setup("cgroup_disable=", cgroup_disable);
-> > > > +early_param("cgroup_disable", cgroup_disable);
-> > >
-> > > I think early_param() is still after pgdat_init_internals(), no?
-> >
-> > It's called twice for some reason, but AFAICS the first one is always
-> > called before pgdat_init_internals():
-> >
-> > start_kernel()
-> >   setup_arch()
-> >     parse_early_param()
-> >     x86_init.paging.pagetable_init();
-> >       paging_init()
-> >         zone_sizes_init()
-> >           free_area_init()
-> >             free_area_init_node()
-> >               free_area_init_core()
-> >                 pgdat_init_internals()
-> >   parse_early_param()
-> >
-> > It's the same/similar for arm, sparc and mips.
-> 
-> Thanks for checking. But I'd rather live with an additional parameter
-> than risk breaking some archs.
 
-As per above, somebody is going to try to make that simplification
-again in the future. It doesn't make a lot of sense to have a reviewer
-trip over it, have a discussion about just how subtle this dependency
-is, and then still leave it in for others. parse_early_param() is
-documented to be called by arch code early on, there isn't a good
-reason to mistrust our own codebase like that. And special-casing this
-situation just complicates maintainability and hackability.
+On 3/2/22 4:35 PM, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>
+> Add documentation on identifying FPGA based PCI cards prompted
+> by discussion on the linux-fpga@vger.kernel.org mailing list.
+>
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+> v2: Introduced in v2.
+> ---
+>   Documentation/fpga/dfl.rst | 20 ++++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+>
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index ef9eec71f6f3..5fb2ca8e76d7 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -502,6 +502,26 @@ Developer only needs to provide a sub feature driver with matched feature id.
+>   FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
+>   could be a reference.
+>   
+> +PCI Device Identification
+> +================================
+> +Since FPGA based PCI cards can be reconfigured to a perform a completely
+> +new function at runtime, properly identifying such cards and binding the
+> +correct driver can be challenging. In many use cases, deployed FPGA based
+> +PCI cards are essentially static and the PCI Product ID and Vendor ID pair
+> +is sufficient to identify the card.  The DFL framework helps with the
+> +dynamic case of deployed FPGA cards changing at run time by providing
+> +more detailed information about card discoverable at runtime.
+> +
+> +At one level, the DFL on a PCI card describes the function of the card.
+> +However, the same DFL could be instantiated on different physical cards.
+> +Conversely, different DFLs could be instantiated on the same physical card.
+> +Practical management of a cloud containing a heterogeneous set of such cards
+> +requires a PCI level of card identification. While the PCI Product ID and
+> +Vendor ID may be sufficient to bind the dfl-pci driver, it is expected
+> +that FPGA PCI cards would advertise suitable Subsystem ID and Subsystem
+> +Vendor ID values. PCI Vital Product Data (VPD) can also be used for
+> +more granular information about the board.
 
-Please just fix the ordering and use lruvec_memcg(), thanks.
+This describes a bit more of the problem, it should describe it wrt ofs 
+dev id. The introduction of the ofs dev should be explicitly called out 
+as a generic pci id.
+
+Why couldn't one of the old pci id's be reused ?
+
+How will the subvendor/subid be enforced ?
+
+Is the current security manager patchset smart enough to save the board 
+from being bricked when a user doesn't look beyond the pci id ?
+
+What happens if a board uses this device id but doesn't have a max10 to 
+do the update ?
+
+Tom
+
+> +
+>   Location of DFLs on a PCI Device
+>   ================================
+>   The original method for finding a DFL on a PCI device assumed the start of the
+
