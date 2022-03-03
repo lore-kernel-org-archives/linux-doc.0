@@ -2,241 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE109C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 09:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9D2C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 11:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231442AbiCCJ6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 04:58:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54234 "EHLO
+        id S232663AbiCCLQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 06:16:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231133AbiCCJ6B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 04:58:01 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F84315F615
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 01:57:15 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id q8so5170923iod.2
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 01:57:15 -0800 (PST)
+        with ESMTP id S232616AbiCCLQ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 06:16:28 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851AB1688EF
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 03:15:42 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id g26so9444200ybj.10
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 03:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PoSMZe9g3SxoCLJToMckMXQ2wx06QsM5EtejbpelSU4=;
-        b=CuBklPtMTdhwS7/QuW2fyUwSm6kIFYSeQlX3py/ER8PULUr6IecK7+f6fKwUrnCBFY
-         oJrbgNXlFaggTzlA1llMjZvD91FqvIrXT9yOyO3OuhBnUADGnMF78gMzRBo5Ax7MoMIv
-         Z33gelcwAlBs3VsQJSMrykkyQmNgf0AhA9l/4ctJdpsT4oAeWs4lpAXveytBFUy44N2P
-         hZD4SnMvWOl7iG9RH6wo/8Qfy8PQ5JU1QZkAUUvWK4ZagkVMTSIab6rHEFgzoLR3XO0M
-         Vke0YjJ7uux1gz6F+oAZ9dWl6zCMU8f/dTs/N9c8xEKxO9qFAIt/y/8Gejiv4GhWa6KN
-         TVlA==
+         :cc;
+        bh=HoCF6NhxARCr3ueC6ZsYxpx/8H0Eb++Uzi1onIsqoOI=;
+        b=vEyMm8AoudFkaUiSf63rN3f+y8qOG2p1y/HS/fJTPu1jm6bL42nRqFnoFdDWk0eOIM
+         wCzc7FNE4wVhBJARwJalFPSk2FcLPnKaTOtkSwUef3OgINTy7HXa2sVBxjDJnJ1yGhxO
+         WKm0iCHP9rlmjVEacE7KW27nIEUwBj7ExG2KwaoQjzPEbfJmlS+Xw5cY7cLNwtlyjmm4
+         8HntGVf2ezfkJ3yHo7X1k8k0/lmA356l/zbX0yaHFNej17DLMOJvyW+LDESdoPZxNby9
+         Vqoi+9OzQbmFmQLc5IACX+pgGYjrB4HD5QKAygv6e6vWDCxhVUKDC14SWRqSZYeIuk8I
+         SDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PoSMZe9g3SxoCLJToMckMXQ2wx06QsM5EtejbpelSU4=;
-        b=047//8/42jpgVYFzlnNk7UOUMGPeNtELYI+J77Fp/wNsTwROzLv0jhNzVy+IX1kxpf
-         Yz+hCorfrLSvgfQ+ioaSvV9c0QuUVRzawtcvUgkSyUBJwgw32t5MnEk7/C6UdtQiy40A
-         7PzQRYcUlrhv0+FxsKWZbP8848xskeC7aQd6Jy0vnbfd9ALmNoOjeralg3Dkz/xh9bia
-         EyGIMMqULi8d7uMYmMBYYEkMs52h4Ooku0ogv2v6nPS4Gu8rcWl+YvSxuR0L+NQBDDQi
-         xVVveDX2zkB+k34zfExPq8HlcIEwABQyHLyuqvRYZ5cX6oroPxxq8xPgjGUvdaFPvFem
-         FWPA==
-X-Gm-Message-State: AOAM531dsUZMk0UB7xb96Bxw9VCK8W69bAt0vj/IF+i9BzwF+OuywX40
-        GmI2pd6MwgstfMdENE0sZ9w2CFdO1z4Yl6ixhjg=
-X-Google-Smtp-Source: ABdhPJyL0HCUvS6GYlLetzphCcdkzIWZzo/Aqf9qeaAbI5/aokavbFrlcKrI3zhJ4pKi2i0Iv9tlgFYSTKI+Dyem0xs=
-X-Received: by 2002:a02:3501:0:b0:314:48d3:2d6b with SMTP id
- k1-20020a023501000000b0031448d32d6bmr28489686jaa.169.1646301434812; Thu, 03
- Mar 2022 01:57:14 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=HoCF6NhxARCr3ueC6ZsYxpx/8H0Eb++Uzi1onIsqoOI=;
+        b=tk4UA6HR4DOYpNEUweL9c/ZNFC+CJPB6mJ6XG48G4Lt/Kyk5gpoPQZB/E3/XG18FjG
+         jCVkAcFFIbcyM+R4BtB8g5B3+GDy6NpskaurkCOiGzXFJxk7u3p1j8u7/bi/98EdOo/p
+         5LBXPTNfNWruWcs9Hsr7MnZKb5MFlwZkxiA53muDnF5/bTjIM3AYYnWOEStsxfis4zJk
+         t1bYDyLBARpftIHPrzogBejfcBIaY4osjmd3Y5JYzebc+I9jEibEe8Ox7FIBmGgK+zzp
+         kA4js9j8l2xwzdGFtenW0vcmQkX+/zcXtG6fmcbcqcUgef+jhwN+T0BshzMIoUq/mNGX
+         U+Og==
+X-Gm-Message-State: AOAM531Wgawvm6ymy77DjREKxh9GEL5b+KeFPHDkAmPT1CUiIiAwO6Bb
+        Jh7x57bUc3TjsYTvU2w4XzFPPdqHyfoSj8z32I1B8saPz7jW0Q==
+X-Google-Smtp-Source: ABdhPJxaDIq/YEzZwJfm09LBLmjgPY+iewMxbF1kjAykJ3N+XvyUN9PxI2ut1UTmptmNB87P4qQubfrG5JzIp82VraM=
+X-Received: by 2002:a25:d188:0:b0:628:ba86:ee68 with SMTP id
+ i130-20020a25d188000000b00628ba86ee68mr3937633ybg.427.1646306141760; Thu, 03
+ Mar 2022 03:15:41 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646294349.git.siyanteng@loongson.cn> <1769ee238ef217f0d55bf6d9b200a37bb8eb386d.1646294349.git.siyanteng@loongson.cn>
-In-Reply-To: <1769ee238ef217f0d55bf6d9b200a37bb8eb386d.1646294349.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Thu, 3 Mar 2022 17:56:38 +0800
-Message-ID: <CAJy-AmnqiegijNEnTzpL5WA-crZzzKi5r4evQ3dB2sfDL-gn_Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] docs/zh_CN: add devicetree of_unittest translation
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20220302083758.32528-1-songmuchun@bytedance.com>
+ <20220302083758.32528-4-songmuchun@bytedance.com> <Yh/g2BRPZC3370mX@bombadil.infradead.org>
+In-Reply-To: <Yh/g2BRPZC3370mX@bombadil.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 3 Mar 2022 19:15:05 +0800
+Message-ID: <CAMZfGtUCPAc2Ff7Cg1oxo=JYMaX1GM3HVNvK_Nka+4j5Xg3AtA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] mm: hugetlb: add hugetlb_free_vmemmap sysctl
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>,
+        Adam Manzanares <a.manzanares@samsung.com>,
+        Davidlohr Bueso <dave@stgolabs.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCBNYXIgMywgMjAyMiBhdCA0OjA5IFBNIFlhbnRlbmcgU2kgPHNpeWFudGVuZzAxQGdt
-YWlsLmNvbT4gd3JvdGU6DQo+DQo+IFRyYW5zbGF0ZSAuLi4vRGV2aWNldHJlZS9vZl91bml0dGVz
-dC5yc3QgaW50byBDaGluZXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlh
-bnRlbmdAbG9vbmdzb24uY24+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVu
-ZzAxQGdtYWlsLmNvbT4NCj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2RldmljZXRy
-ZWUvaW5kZXgucnN0ICAgfCAgIDMgKy0NCj4gIC4uLi96aF9DTi9kZXZpY2V0cmVlL29mX3VuaXR0
-ZXN0LnJzdCAgICAgICAgICB8IDE4OSArKysrKysrKysrKysrKysrKysNCj4gIDIgZmlsZXMgY2hh
-bmdlZCwgMTkwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ICBjcmVhdGUgbW9kZSAx
-MDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2aWNldHJlZS9vZl91bml0
-dGVzdC5yc3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL2RldmljZXRyZWUvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
-Q04vZGV2aWNldHJlZS9pbmRleC5yc3QNCj4gaW5kZXggNmQ5YWM0MjU0YTFjLi4yM2QwYjZmY2Nk
-NTggMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldmlj
-ZXRyZWUvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L2RldmljZXRyZWUvaW5kZXgucnN0DQo+IEBAIC0yMywxMSArMjMsMTAgQEAgT3BlbiBGaXJtd2Fy
-ZSDlkowgRGV2aWNldHJlZQ0KPiAgICAgOm1heGRlcHRoOiAxDQo+DQo+ICAgICB1c2FnZS1tb2Rl
-bA0KPiArICAgb2ZfdW5pdHRlc3QNCj4NCj4gIFRvZG9saXN0Og0KPg0KPiAtDQo+IC0qICAgb2Zf
-dW5pdHRlc3QNCj4gICogICBrZXJuZWwtYXBpDQo+DQo+ICBEZXZpY2V0cmVlIE92ZXJsYXlzDQo+
-IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZpY2V0cmVl
-L29mX3VuaXR0ZXN0LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldmlj
-ZXRyZWUvb2ZfdW5pdHRlc3QucnN0DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAw
-MDAwMDAwMDAwMC4uZmM3ZjM5MzRiMzQ1DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2aWNldHJlZS9vZl91bml0dGVzdC5yc3QNCj4g
-QEAgLTAsMCArMSwxODkgQEANCj4gKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
-DQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gKw0KPiArOk9yaWdp
-bmFsOiBEb2N1bWVudGF0aW9uL0RldmljZXRyZWUvb2ZfdW5pdHRlc3QucnN0DQo+ICsNCj4gKzrn
-v7vor5E6DQo+ICsNCj4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29u
-LmNuPg0KPiArDQo+ICs65qCh6K+ROg0KPiArDQo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT0NCj4gK09wZW4gRmlybXdhcmUgRGV2aWNldHJlZSDljZXlhYPmtYvor5UNCj4gKz09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArDQo+ICvkvZzogIU6IEdhdXJhdiBN
-aW5vY2hhIDxnYXVyYXYubWlub2NoYS5vc0BnbWFpbC5jb20+DQo+ICsNCj4gKzEuIOamgui/sA0K
-PiArPT09PT09PQ0KPiArDQo+ICvmnKzmlofmoaPop6Pph4rkuobmiafooYwgT0Yg5Y2V5YWD5rWL
-6K+V5omA6ZyA55qE5rWL6K+V5pWw5o2u5piv5aaC5L2V5Yqo5oCB5Zyw6ZmE5Yqg5Yiw5a6e5pe2
-5qCR5LiK55qE77yM5LiO5py65Zmo55qE5p625p6E5peg5YWz44CCDQo+ICsNCj4gK+W7uuiuruWc
-qOe7p+e7reivu+S4i+WOu+S5i+WJje+8jOWFiOmYheivu+S7peS4i+aWh+S7tuOAgg0KPiArDQo+
-ICsoMSkgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL3VzYWdlLW1vZGVsLnJzdA0KPiArKDIpIGh0
-dHA6Ly93d3cuZGV2aWNldHJlZS5vcmcvRGV2aWNlX1RyZWVfVXNhZ2UNCj4gKw0KPiArT0YgU2Vs
-ZnRlc3Tooqvorr7orqHnlKjmnaXmtYvor5Xmj5Dkvpvnu5norr7lpIfpqbHliqjlvIDlj5HogIXn
-moTmjqXlj6PvvIhpbmNsdWRlL2xpbnV4L29mLmjvvInvvIzku6Xku47mnKrmiYHlubMNCj4gK+WM
-lueahOiuvuWkh+agkeaVsOaNrue7k+aehOS4reiOt+WPluiuvuWkh+S/oeaBr+etieOAgui/meS4
-quaOpeWPo+iiq+Wkp+WkmuaVsOiuvuWkh+mpseWKqOWcqOWQhOenjeS9v+eUqOaDheWGteS4i+S9
-v+eUqOOAgg0KPiArDQo+ICsNCj4gKzIuIFRlc3QtZGF0YQ0KDQrmtYvor5XmlbDmja7vvJ8NClRv
-IG90aGVycw0KDQpSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQoNCj4g
-Kz09PT09PT09PT09PQ0KPiArDQo+ICvorr7lpIfmoJHmupDmlofku7bvvIhkcml2ZXJzL29mL3Vu
-aXR0ZXN0LWRhdGEvdGVzdGNhc2VzLmR0c++8ieWMheWQq+aJp+ihjGRyaXZlcnMvb2YvdW5pdHRl
-c3QuYw0KPiAr5Lit6Ieq5Yqo5YyW5Y2V5YWD5rWL6K+V5omA6ZyA55qE5rWL6K+V5pWw5o2u44CC
-55uu5YmN77yM5Lul5LiL6K6+5aSH5qCR5rqQ5YyF5ZCr5paH5Lu277yILmR0c2nvvInooqvljIXl
-kKvlnKh0ZXN0Y2FzZXMuZHTkuK06Og0KPiArDQo+ICsgICAgZHJpdmVycy9vZi91bml0dGVzdC1k
-YXRhL3Rlc3RzLWludGVycnVwdHMuZHRzaQ0KPiArICAgIGRyaXZlcnMvb2YvdW5pdHRlc3QtZGF0
-YS90ZXN0cy1wbGF0Zm9ybS5kdHNpDQo+ICsgICAgZHJpdmVycy9vZi91bml0dGVzdC1kYXRhL3Rl
-c3RzLXBoYW5kbGUuZHRzaQ0KPiArICAgIGRyaXZlcnMvb2YvdW5pdHRlc3QtZGF0YS90ZXN0cy1t
-YXRjaC5kdHNpDQo+ICsNCj4gK+W9k+WGheaguOWcqOWQr+eUqE9GX1NFTEZURVNU55qE5oOF5Ya1
-5LiL6KKr5p6E5bu65pe277yM6YKj5LmI5LiL6Z2i55qEbWFrZeinhOWImTo6DQo+ICsNCj4gKyAg
-ICAkKG9iaikvJS5kdGI6ICQoc3JjKS8lLmR0cyBGT1JDRQ0KPiArICAgICAgICAgICAkKGNhbGwg
-aWZfY2hhbmdlZF9kZXAsIGR0YykNCj4gKw0KPiAr55So5LqO5bCGRFTmupDmlofku7bvvIh0ZXN0
-Y2FzZXMuZHRz77yJ57yW6K+R5oiQ5LqM6L+b5Yi2YmxvYu+8iHRlc3RjYXNlcy5kdGLvvInvvIzk
-uZ/ooqvnp7DkuLrmiYHlubPljJbnmoREVOOAgg0KPiArDQo+ICvkuYvlkI7vvIzkvb/nlKjku6Xk
-uIvop4TliJnlsIbkuIrov7Dkuozov5vliLZibG9i5YyF6KOF5oiQ5LiA5Liq5rGH57yW5paH5Lu2
-77yIdGVzdGNhc2VzLmR0Yi5T77yJOjoNCj4gKw0KPiArICAgICQob2JqKS8lLmR0Yi5TOiAkKG9i
-aikvJS5kdGINCj4gKyAgICAgICAgICAgJChjYWxsIGNtZCwgZHRfU19kdGIpDQo+ICsNCj4gK+ax
-h+e8luaWh+S7tuiiq+e8luivkeaIkOS4gOS4quWvueixoeaWh+S7tu+8iHRlc3RjYXNlcy5kdGIu
-b++8ie+8jOW5tuiiq+mTvuaOpeWIsOWGheaguOmVnOWDj+S4reOAgg0KPiArDQo+ICsNCj4gKzIu
-MS4g5re75Yqg5rWL6K+V5pWw5o2uDQo+ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICvmnKrm
-iYHlubPljJbnmoTorr7lpIfmoJHnu5PmnoTkvZM6DQo+ICsNCj4gK+acquaJgeW5s+WMlueahOiu
-vuWkh+agkeeUsei/nuaOpeeahOiuvuWkh+iKgueCuee7hOaIkO+8jOWFtuagkeeKtue7k+aehOW9
-ouW8j+WmguS4i+aJgOi/sDo6DQo+ICsNCj4gKyAgICAvLyBmb2xsb3dpbmcgc3RydWN0IG1lbWJl
-cnMgYXJlIHVzZWQgdG8gY29uc3RydWN0IHRoZSB0cmVlDQo+ICsgICAgc3RydWN0IGRldmljZV9u
-b2RlIHsNCj4gKyAgICAgICAuLi4NCj4gKyAgICAgICBzdHJ1Y3QgIGRldmljZV9ub2RlICpwYXJl
-bnQ7DQo+ICsgICAgICAgc3RydWN0ICBkZXZpY2Vfbm9kZSAqY2hpbGQ7DQo+ICsgICAgICAgc3Ry
-dWN0ICBkZXZpY2Vfbm9kZSAqc2libGluZzsNCj4gKyAgICAgICAuLi4NCj4gKyAgICB9Ow0KPiAr
-DQo+ICvlm74x5o+P6L+w5LqG5LiA5Liq5py65Zmo55qE5pyq5omB5bmz5YyW6K6+5aSH5qCR55qE
-6YCa55So57uT5p6E77yM5Y+q6ICD6JmR5LqG5a2Q6IqC54K55ZKM5ZCM57qn5oyH6ZKI44CC5a2Y
-5Zyo5Y+m5LiA5Liq5oyH6ZKI77yMDQo+ICtgYCpwYXJlbnRgYCDvvIznlKjkuo7lj43lkJHpgY3l
-jobor6XmoJHjgILlm6DmraTvvIzlnKjkuIDkuKrnibnlrprnmoTlsYLmrKHkuIrvvIzlrZDoioLn
-grnlkozmiYDmnInnmoTlhYTlvJ/lp5DlprnoioLngrnlsIYNCj4gK+acieS4gOS4quaMh+WQkeWF
-seWQjOiKgueCueeahOeItuaMh+mSiO+8iOS+i+Wmgu+8jGNoaWxkMeOAgXNpYmxpbmcy44CBc2li
-bGluZzPjgIFzaWJsaW5nNOeahOeItuaMh+mSiOaMh+WQkQ0KPiAr5qC56IqC54K577yJOjoNCj4g
-Kw0KPiArICAgIHJvb3QgKCcvJykNCj4gKyAgICB8DQo+ICsgICAgY2hpbGQxIC0+IHNpYmxpbmcy
-IC0+IHNpYmxpbmczIC0+IHNpYmxpbmc0IC0+IG51bGwNCj4gKyAgICB8ICAgICAgICAgfCAgICAg
-ICAgICAgfCAgICAgICAgICAgfA0KPiArICAgIHwgICAgICAgICB8ICAgICAgICAgICB8ICAgICAg
-ICAgIG51bGwNCj4gKyAgICB8ICAgICAgICAgfCAgICAgICAgICAgfA0KPiArICAgIHwgICAgICAg
-ICB8ICAgICAgICBjaGlsZDMxIC0+IHNpYmxpbmczMiAtPiBudWxsDQo+ICsgICAgfCAgICAgICAg
-IHwgICAgICAgICAgIHwgICAgICAgICAgfA0KPiArICAgIHwgICAgICAgICB8ICAgICAgICAgIG51
-bGwgICAgICAgbnVsbA0KPiArICAgIHwgICAgICAgICB8DQo+ICsgICAgfCAgICAgIGNoaWxkMjEg
-LT4gc2libGluZzIyIC0+IHNpYmxpbmcyMyAtPiBudWxsDQo+ICsgICAgfCAgICAgICAgIHwgICAg
-ICAgICAgfCAgICAgICAgICAgIHwNCj4gKyAgICB8ICAgICAgICBudWxsICAgICAgIG51bGwgICAg
-ICAgICBudWxsDQo+ICsgICAgfA0KPiArICAgIGNoaWxkMTEgLT4gc2libGluZzEyIC0+IHNpYmxp
-bmcxMyAtPiBzaWJsaW5nMTQgLT4gbnVsbA0KPiArICAgIHwgICAgICAgICAgIHwgICAgICAgICAg
-IHwgICAgICAgICAgICB8DQo+ICsgICAgfCAgICAgICAgICAgfCAgICAgICAgICAgfCAgICAgICAg
-ICAgbnVsbA0KPiArICAgIHwgICAgICAgICAgIHwgICAgICAgICAgIHwNCj4gKyAgICBudWxsICAg
-ICAgICBudWxsICAgICAgIGNoaWxkMTMxIC0+IG51bGwNCj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIG51bGwNCj4gKw0KPiArRmln
-dXJlIDE6IOacquaJgeW5s+WMlueahOiuvuWkh+agkeeahOmAmueUqOe7k+aehA0KPiArDQo+ICsN
-Cj4gK+WcqOaJp+ihjE9G5Y2V5YWD5rWL6K+V5LmL5YmN77yM6ZyA6KaB5bCG5rWL6K+V5pWw5o2u
-6ZmE5Yqg5Yiw5py65Zmo55qE6K6+5aSH5qCR5LiK77yI5aaC5p6c5a2Y5Zyo77yJ44CC5Zug5q2k
-77yM5b2T6LCD55SoDQo+ICtzZWxmdGVzdF9kYXRhX2FkZCgp5pe277yM6aaW5YWI5Lya6K+75Y+W
-6YCa6L+H5Lul5LiL5YaF5qC456ym5Y+36ZO+5o6l5Yiw5YaF5qC46ZWc5YOP5Lit55qE5omB5bmz
-5YyW6K6+5aSH5qCRDQo+ICvmlbDmja46Og0KPiArDQo+ICsgICAgX19kdGJfdGVzdGNhc2VzX2Jl
-Z2luIC0gYWRkcmVzcyBtYXJraW5nIHRoZSBzdGFydCBvZiB0ZXN0IGRhdGEgYmxvYg0KPiArICAg
-IF9fZHRiX3Rlc3RjYXNlc19lbmQgICAtIGFkZHJlc3MgbWFya2luZyB0aGUgZW5kIG9mIHRlc3Qg
-ZGF0YSBibG9iDQo+ICsNCj4gK+WFtuasoe+8jOWug+iwg+eUqG9mX2ZkdF91bmZsYXR0ZW5fdHJl
-ZSgp5p2l6Kej6Zmk5omB5bmz5YyW55qEYmxvYuOAguacgOWQju+8jOWmguaenOacuuWZqOeahOiu
-vuWkh+agkQ0KPiAr77yI5Y2z5a6e5pe25qCR77yJ5piv5a2Y5Zyo55qE77yM6YKj5LmI5a6D5bCG
-5pyq5omB5bmz5YyW55qE5rWL6K+V5pWw5o2u5qCR6ZmE5Yqg5Yiw5a6e5pe25qCR5LiK77yM5ZCm
-5YiZ5a6D5bCG6Ieq5bex5L2c5Li6DQo+ICvlrp7ml7borr7lpIfmoJHpmYTliqDjgIINCj4gKw0K
-PiArYXR0YWNoX25vZGVfYW5kX2NoaWxkcmVuKCnkvb/nlKhvZl9hdHRhY2hfbm9kZSgp5bCG6IqC
-54K56ZmE5Yqg5Yiw5a6e5pe25qCR5LiK77yM5aaC5LiL5omADQo+ICvov7DjgILkuLrkuobop6Pp
-h4rov5nkuIDngrnvvIzlm74y5Lit5o+P6L+w55qE5rWL6K+V5pWw5o2u5qCR6KKr6ZmE5Yqg5Yiw
-5Zu+MeS4reaPj+i/sOeahOWunuaXtuagkeS4ijo6DQo+ICsNCj4gKyAgICByb290ICgnLycpDQo+
-ICsgICAgICAgfA0KPiArICAgIHRlc3RjYXNlLWRhdGENCj4gKyAgICAgICB8DQo+ICsgICAgdGVz
-dC1jaGlsZDAgLT4gdGVzdC1zaWJsaW5nMSAtPiB0ZXN0LXNpYmxpbmcyIC0+IHRlc3Qtc2libGlu
-ZzMgLT4gbnVsbA0KPiArICAgICAgIHwgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgIHwg
-ICAgICAgICAgICAgICAgfA0KPiArICAgIHRlc3QtY2hpbGQwMSAgICAgIG51bGwgICAgICAgICAg
-ICAgbnVsbCAgICAgICAgICAgICBudWxsDQo+ICsNCj4gKw0KPiArRmlndXJlIDI6IOWwhua1i+iv
-leaVsOaNruagkemZhOWcqOWunuaXtuagkeS4iueahOS+i+WtkOOAgg0KPiArDQo+ICvmoLnmja7k
-uIrpnaLnmoTmlrnmoYjvvIzlrp7ml7bmoJHlt7Lnu4/lrZjlnKjvvIzmiYDku6XkuI3pnIDopoHp
-mYTliqDmoLkoJy8nKeiKgueCueOAguaJgOacieWFtuS7luiKgueCuemDveaYr+mAmui/h+WcqA0K
-PiAr5q+P5Liq6IqC54K55LiK6LCD55Sob2ZfYXR0YWNoX25vZGUoKeadpemZhOWKoOeahOOAgg0K
-PiArDQo+ICvlnKjlh73mlbBvZl9hdHRhY2hfbm9kZSgp5Lit77yM5paw55qE6IqC54K56KKr6ZmE
-5Zyo5a6e5pe25qCR5Lit57uZ5a6a55qE54i26IqC54K555qE5a2Q6IqC54K55LiK44CC5L2G5piv
-77yM5aaCDQo+ICvmnpzniLboioLngrnlt7Lnu4/mnInkuobkuIDkuKrlranlrZDvvIzpgqPkuYjm
-lrDoioLngrnlsLHkvJrlj5bku6PlvZPliY3nmoTlranlrZDvvIzlubblsIblhbblj5jmiJDlhbbl
-hYTlvJ/lp5DlprnjgILlm6DmraTvvIwNCj4gK+W9k+a1i+ivleahiOS+i+eahOaVsOaNruiKgueC
-ueiiq+i/nuaOpeWIsOS4iumdoueahOWunuaXtuagke+8iOWbvjHvvInml7bvvIzmnIDnu4jnmoTn
-u5PmnoTlpoLlm74z5omA56S6OjoNCj4gKw0KPiArICAgIHJvb3QgKCcvJykNCj4gKyAgICB8DQo+
-ICsgICAgdGVzdGNhc2UtZGF0YSAtPiBjaGlsZDEgLT4gc2libGluZzIgLT4gc2libGluZzMgLT4g
-c2libGluZzQgLT4gbnVsbA0KPiArICAgIHwgICAgICAgICAgICAgICB8ICAgICAgICAgIHwgICAg
-ICAgICAgIHwgICAgICAgICAgIHwNCj4gKyAgICAoLi4uKSAgICAgICAgICAgICB8ICAgICAgICAg
-IHwgICAgICAgICAgIHwgICAgICAgICAgbnVsbA0KPiArICAgICAgICAgICAgICAgICAgIHwgICAg
-ICAgICAgfCAgICAgICAgIGNoaWxkMzEgLT4gc2libGluZzMyIC0+IG51bGwNCj4gKyAgICAgICAg
-ICAgICAgICAgICB8ICAgICAgICAgIHwgICAgICAgICAgIHwgICAgICAgICAgIHwNCj4gKyAgICAg
-ICAgICAgICAgICAgICB8ICAgICAgICAgIHwgICAgICAgICAgbnVsbCAgICAgICAgbnVsbA0KPiAr
-ICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgfA0KPiArICAgICAgICAgICAgICAgICAgIHwg
-ICAgICAgIGNoaWxkMjEgLT4gc2libGluZzIyIC0+IHNpYmxpbmcyMyAtPiBudWxsDQo+ICsgICAg
-ICAgICAgICAgICAgICAgfCAgICAgICAgICB8ICAgICAgICAgICB8ICAgICAgICAgICAgfA0KPiAr
-ICAgICAgICAgICAgICAgICAgIHwgICAgICAgICBudWxsICAgICAgICBudWxsICAgICAgICAgbnVs
-bA0KPiArICAgICAgICAgICAgICAgICAgIHwNCj4gKyAgICAgICAgICAgICAgICAgICBjaGlsZDEx
-IC0+IHNpYmxpbmcxMiAtPiBzaWJsaW5nMTMgLT4gc2libGluZzE0IC0+IG51bGwNCj4gKyAgICAg
-ICAgICAgICAgICAgICB8ICAgICAgICAgIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfA0KPiAr
-ICAgICAgICAgICAgICAgICAgIG51bGwgICAgICAgbnVsbCAgICAgICAgICB8ICAgICAgICAgICBu
-dWxsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0KPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNoaWxkMTMxIC0+IG51
-bGwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnVsbA0KPiArICAgIC0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tDQo+ICsNCj4gKyAgICByb290ICgnLycpDQo+ICsgICAgfA0KPiArICAgIHRl
-c3RjYXNlLWRhdGEgLT4gY2hpbGQxIC0+IHNpYmxpbmcyIC0+IHNpYmxpbmczIC0+IHNpYmxpbmc0
-IC0+IG51bGwNCj4gKyAgICB8ICAgICAgICAgICAgICAgfCAgICAgICAgICB8ICAgICAgICAgICB8
-ICAgICAgICAgICB8DQo+ICsgICAgfCAgICAgICAgICAgICAoLi4uKSAgICAgICguLi4pICAgICAg
-ICguLi4pICAgICAgICBudWxsDQo+ICsgICAgfA0KPiArICAgIHRlc3Qtc2libGluZzMgLT4gdGVz
-dC1zaWJsaW5nMiAtPiB0ZXN0LXNpYmxpbmcxIC0+IHRlc3QtY2hpbGQwIC0+IG51bGwNCj4gKyAg
-ICB8ICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICB8
-DQo+ICsgICAgbnVsbCAgICAgICAgICAgICBudWxsICAgICAgICAgICAgICAgIG51bGwgICAgICAg
-ICB0ZXN0LWNoaWxkMDENCj4gKw0KPiArDQo+ICtGaWd1cmUgMzog6ZmE5Yqg5rWL6K+V5qGI5L6L
-5pWw5o2u5ZCO55qE5a6e5pe26K6+5aSH5qCR57uT5p6E44CCDQo+ICsNCj4gKw0KPiAr6IGq5piO
-55qE6K+76ICF5Lya5rOo5oSP5Yiw77yM5LiO5YWI5YmN55qE57uT5p6E55u45q+U77yMdGVzdC1j
-aGlsZDDoioLngrnmiJDkuLrmnIDlkI7kuIDkuKrlhYTlvJ/lp5DlprnvvIjlm74y77yJ44CCDQo+
-ICvlnKjov57mjqXkuobnrKzkuIDkuKp0ZXN0LWNoaWxkMOiKgueCueS5i+WQju+8jOWPiOi/nuaO
-peS6hnRlc3Qtc2libGluZzHoioLngrnvvIzor6XoioLngrnmjqjliqjlrZDoioLngrkNCj4gK++8
-iOWNs3Rlc3QtY2hpbGQw77yJ5oiQ5Li65YWE5byf5aeQ5aa577yM5bm25L2/6Ieq5bex5oiQ5Li6
-5a2Q6IqC54K577yM5aaC5LiK5omA6L+w44CCDQo+ICsNCj4gK+WmguaenOWPkeeOsOS4gOS4qumH
-jeWkjeeahOiKgueCue+8iOWNs+WmguaenOS4gOS4quWFt+acieebuOWQjGZ1bGxfbmFtZeWxnuaA
-p+eahOiKgueCueW3sue7j+WtmOWcqOS6juWunuaXtuagkeS4re+8ie+8jA0KPiAr6YKj5LmI6K+l
-6IqC54K55LiN5Lya6KKr6ZmE5Yqg77yM6ICM5piv6YCa6L+H6LCD55So5Ye95pWwdXBkYXRlX25v
-ZGVfcHJvcGVydGllcygp5bCG5YW25bGe5oCn5pu05paw5Yiw5rS7DQo+ICvmoJHnmoToioLngrnk
-uK3jgIINCj4gKw0KPiArDQo+ICsyLjIuIOWIoOmZpOa1i+ivleaVsOaNrg0KPiArLS0tLS0tLS0t
-LS0tLS0tLS0NCj4gKw0KPiAr5LiA5pem5rWL6K+V55So5L6L5omn6KGM5a6M77yMc2VsZnRlc3Rf
-ZGF0YV9yZW1vdmXooqvosIPnlKjvvIzku6Xnp7vpmaTmnIDliJ3ov57mjqXnmoTorr7lpIfoioLn
-grnvvIjpppblhYjmmK8NCj4gK+WPtuWtkOiKgueCueiiq+WIhuemu++8jOeEtuWQjuWQkeS4iuen
-u+WKqOeItuiKgueCueiiq+enu+mZpO+8jOacgOWQjuaYr+aVtOS4quagke+8ieOAgnNlbGZ0ZXN0
-X2RhdGFfcmVtb3ZlKCkNCj4gK+iwg+eUqGRldGFjaF9ub2RlX2FuZF9jaGlsZHJlbigp77yM5L2/
-55Sob2ZfZGV0YWNoX25vZGUoKeWwhuiKgueCueS7juWunuaXtuiuvuWkh+agkeS4iuWIhuemu+OA
-gg0KPiArDQo+ICvkuLrkuobliIbnprvkuIDkuKroioLngrnvvIxvZl9kZXRhY2hfbm9kZSgp6KaB
-5LmI5bCG57uZ5a6a6IqC54K555qE54i26IqC54K555qE5a2Q6IqC54K55oyH6ZKI5pu05paw5Li6
-5YW25ZCM57qn6IqCDQo+ICvngrnvvIzopoHkuYjmoLnmja7mg4XlhrXlsIbliY3kuIDkuKrlkIzn
-uqfoioLngrnpmYTlnKjnu5nlrproioLngrnnmoTlkIznuqfoioLngrnkuIrjgILlsLHov5nmoLfl
-kKfjgIIgOikNCj4gLS0NCj4gMi4yNy4wDQo+DQo=
+On Thu, Mar 3, 2022 at 5:25 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Wed, Mar 02, 2022 at 04:37:58PM +0800, Muchun Song wrote:
+> > We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
+> > server to enable the feature of freeing vmemmap pages of HugeTLB
+> > pages. Rebooting usually taske a long time. Add a sysctl to enable
+> > the feature at runtime and do not need to reboot.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  Documentation/admin-guide/sysctl/vm.rst | 13 ++++++++++
+> >  include/linux/memory_hotplug.h          |  9 +++++++
+> >  mm/hugetlb_vmemmap.c                    | 42 ++++++++++++++++++++++++++++-----
+> >  mm/hugetlb_vmemmap.h                    |  4 +++-
+> >  mm/memory_hotplug.c                     |  5 ++++
+> >  5 files changed, 66 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> > index f4804ce37c58..01f18e6cc227 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -561,6 +561,19 @@ Change the minimum size of the hugepage pool.
+> >  See Documentation/admin-guide/mm/hugetlbpage.rst
+> >
+> >
+> > +hugetlb_free_vmemmap
+> > +====================
+> > +
+> > +A toggle value indicating if vmemmap pages are allowed to be optimized.
+> > +If it is off (0), then it can be set true (1).  Once true, the vmemmap
+> > +pages associated with each HugeTLB page will be optimized, and the toggle
+> > +cannot be set back to false.  It only optimizes the subsequent allocation
+> > +of HugeTLB pages from buddy system, while already allocated HugeTLB pages
+> > +will not be optimized.
+>
+> The commit log or documentation does not descrie why its safe to toggle
+> one way and not the other?
+>
+
+I thought it was easy to handle the transition from disable to enable
+(code is simple).  I might be wrong. I'll try to handle the other side in
+the next version if it is not hard to handle.
+
+Thanks Luis.
