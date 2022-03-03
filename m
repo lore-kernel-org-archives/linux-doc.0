@@ -2,94 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78485C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 02:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24819C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 02:40:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231875AbiCCCjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 21:39:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
+        id S231771AbiCCCll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 21:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231888AbiCCCjp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 21:39:45 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13D4D74
-        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 18:39:00 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id f38so7425199ybi.3
-        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 18:39:00 -0800 (PST)
+        with ESMTP id S231800AbiCCClk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 21:41:40 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B001FCDA
+        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 18:40:55 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id c9so3313430pll.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 18:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XVZxRuOCFhfG5UcNmUMrWY5dCexmZUcmM57vzOUtIzc=;
-        b=GVGoVZQOnRHwG3P1PJBo4RsNL8GTz8cSKlk7KeWh3ORutP3ONhWSiWCJv/naf7dd1p
-         Aj2ieYCAxIGIriKvQ7QxjqwIeznojcIS6o8j0DA0n/vGhnMUDtgtUyWL9aZhyuBUMyOL
-         iRqrBthwmJvILGWjOj5oxXyz5L9rxeW1Br5WF7pFIr1MYvl2XfiLW9LY/MqQoDi57te6
-         tmrtvYxRKD4DKzveOAX62nDZFsWngJajNYhwlvwJ4wqKF0WwkpPJrYM75nqyrFbWf030
-         yygB8L5NdBLlxDXn6BjUHB51vASX1hIK91GUP/64hrJwqTP2VbEsKMCu5JHyYRxoacls
-         dS+w==
+        h=message-id:date:mime-version:user-agent:subject:content-language:cc
+         :references:from:to:in-reply-to:content-transfer-encoding;
+        bh=WKpgUKvbgmgS/+XZIYcGoureDOsojTAGGMqwpMVSdx0=;
+        b=WkDu5aHPpmG3JoGrcKXOSVtPyVZqVsnK9TfxUoj9Yj3PEpa6J+V/9fQwamFkioHzpi
+         GfDxjNVajhLweHzfHllvGWROpleV0ERKGRiDG21o9iU9qu1YjprDnWiFRcatw9XQC1rM
+         7sg4g4v4ucriVtTOi9A7iZ1PpUOhOET1ALx40wMhkt9JLGx1rqA7RfYuNcLxag7aq98/
+         KcLZKC4flRjOBeebXDCRsK5wGicPYjIg80LIBmi25TK/xcQQqYjtNnSuK6ls/CWInWJ2
+         a+AM1y8HzMvC5pKjQmwpWGBoprOZm5xBsply77UPufQIJWTVWaNIU4DMAjALn8ot1XPS
+         ShKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XVZxRuOCFhfG5UcNmUMrWY5dCexmZUcmM57vzOUtIzc=;
-        b=47W/pXcHr+2H1WykvBAmMHHxmXK9kEv7rbsxhqt3pCb2WjjE1vbnKl+eGnb+Dj+QWf
-         XWdI6UMGvi7QbATRllhbCazwkXPAx4Lc3v29CPATm5F0cAxH92//9r/zbWIOt3zuQcjb
-         PwfSYsvyoCoGU5wJdWrHGTj92OMHOxeSjsYCkECyQruh/CBB+CC+1i2qJ/MiuI92NiWz
-         toL3vIHis88zSmD/cTQ2PlLg2Rz3tMc6slCEMdz1KeR/oIIu1ETxzKYM3xQWblWi1a8O
-         v0BqcxygRESpwJIGJMhs6T1f2xojoPUsWtQeWgVU5r/uHYPefSFMBtVJHWrnXbHY/xez
-         uBfg==
-X-Gm-Message-State: AOAM533hLb+rwiDTG3XcdH/ISnozXMGm5WZd0G9FSxrLJXMfZuMJPryx
-        Yaq+oWhmbVkXVVTllGGI7nlrpLjFQF8Qy6xEdT96qQ==
-X-Google-Smtp-Source: ABdhPJyVo566mGN4RFWjXSz/157hchstvm+m2G3uKWYOLAaPNg1L1WKOChYGCOJPt2Oz/k7cF1IPbIHim9gAA2gjasQ=
-X-Received: by 2002:a25:6b4a:0:b0:628:a387:6123 with SMTP id
- o10-20020a256b4a000000b00628a3876123mr5114625ybm.132.1646275140013; Wed, 02
- Mar 2022 18:39:00 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:cc:references:from:to:in-reply-to
+         :content-transfer-encoding;
+        bh=WKpgUKvbgmgS/+XZIYcGoureDOsojTAGGMqwpMVSdx0=;
+        b=v1nqaUynal55IlbFB7vvTrbd3qjhekO4cmZQkDjIQxC8BXag3TdZlMQF0UaTrfCPD/
+         gPbh2qzeYT0kR4q4z/E/xe4EiYV6stDB1E5g+ZeloWjPvO4St6Bl2ZeNcpyNoCGKxC2r
+         T9s0cIB+9fl2mVQbGy/11wc5lDimUn7EB/ZspLvb0KfUTz8RBkwlV96O1UbTUOcx0YEa
+         MOQer3iwNycvsUmGkVW4gUnUVD5T0bbER1i8XvQOQRbVGmDjYRLNFbj/aQCiGkoFGrpB
+         XSbQnaRrSuXLZ6v9cKSYb/7p0CrtKFKJNsvCjBsxxWzKdvjNZGyisOdQ9vYe1f14i526
+         IDig==
+X-Gm-Message-State: AOAM531nSydK0tVs8Rri/LNsRuPlAu/yVWd++8z0hB5cKYgXujAmkJ6s
+        dHeywlCHuzGV+vHcia+5QHgDUZjjsEbo+g==
+X-Google-Smtp-Source: ABdhPJxOdMLArkpmLe9NJIzj5q5ePqZMNN5SzGfTtRGy/eUE2Cok/FhJL8qVgYMzK4uz3BqAkLF3Xg==
+X-Received: by 2002:a17:902:7fc5:b0:151:863e:44ee with SMTP id t5-20020a1709027fc500b00151863e44eemr10350330plb.163.1646275254888;
+        Wed, 02 Mar 2022 18:40:54 -0800 (PST)
+Received: from [10.76.43.192] ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id q7-20020a056a0002a700b004f357e3e42fsm546095pfs.36.2022.03.02.18.40.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Mar 2022 18:40:54 -0800 (PST)
+Message-ID: <b31b0c6b-4a97-e03a-0bc0-4bf17d2ed946@bytedance.com>
+Date:   Thu, 3 Mar 2022 10:40:48 +0800
 MIME-Version: 1.0
-References: <20220302083758.32528-2-songmuchun@bytedance.com> <Yh/f7YpP0Oc2Nkun@bombadil.infradead.org>
-In-Reply-To: <Yh/f7YpP0Oc2Nkun@bombadil.infradead.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 3 Mar 2022 10:38:23 +0800
-Message-ID: <CAMZfGtV2y1RpQpYCuZpNMXzOwOd5JmzknoYyZk1MaULcaZR+zg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] mm: hugetlb: disable freeing vmemmap pages when
- struct page crosses page boundaries
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>,
-        Adam Manzanares <a.manzanares@samsung.com>,
-        Davidlohr Bueso <dave@stgolabs.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] sched/numa: add per-process numa_balancing
+Content-Language: en-US
+Cc:     songmuchun@bytedance.com, zhengqi.arch@bytedance.com,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20220224075227.27127-1-ligang.bdlg@bytedance.com>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Peter Zijlstra <peterz@infradead.org>, Mel Gorman <mgorman@suse.de>
+In-Reply-To: <20220224075227.27127-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 3, 2022 at 5:21 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Wed, Mar 02, 2022 at 04:37:56PM +0800, Muchun Song wrote:
-> > If CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON is enabled and the size
-> > of "struct page" is not power of two, we cannot optimize vmemmap pages
-> > of HugeTLB pages. We should disable this feature in this case.
->
-> The commit log does not describe what happens if this is left enabled in
-> that case? Is this a fix? Why would it be a fix? Was something failing?
-> How did you spot this issue? What are the consequences of not applying
-> this patch?
->
+Hi Peter Zijlstra,
 
-If the size of "struct page" is not the power of two and this feature is
-enabled, then the vmemmap pages of HugeTLB will be corrupted
-after remapping (panic is about to happen in theory).  But this only
-exists when !CONFIG_MEMCG && CONFIG_SLAB on x86_64.
-However, it is not a conventional configuration nowadays.  So it is
-not a real word issue, just the result of a code review.  But we cannot
-prevent someone from configuring that combined configure.  OK,
-this information should go to the commit log. Will update it.
+On 2022/1/12 22:43, Peter Zijlstra wrote:
+ >> Set per-process numa balancing:
+ >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+ >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+ >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+ >
+ > This seems to imply you can prctl(ENABLE) even if the global is
+ > disabled, IOW sched_numa_balancing is off.
 
-Thanks.
+I have discussed the semantics of this API with Mel Gorman, we both
+agree that we can prctl(ENABLE) even if the global is disabled.
+
+On 2021/11/10 00:26, Mel Gorman wrote: [1]
+ > For symmetry and consistency of the tuning. Either there is per-process
+ > control or there is not. Right now, there is only the ability to turn
+ > off NUMA balancing via prctl if globally enabled. There is no option to
+ > turn NUMA balancing on for a single task if globally disabled.
+
+On 11/18/21 4:58 PM, Mel Gorman wrote: [2]
+ > On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
+ >> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+ >
+ > If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
+ > kernel.numa_balancing == 0 instead of returning an error then sure.
+
+[1] Link: https://lore.kernel.org/lkml/20211109162647.GY3891@suse.de/
+[2] Link: https://lore.kernel.org/lkml/20211118085819.GD3301@suse.de/
+-- 
+Thanks
+Gang Li
+
