@@ -2,147 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50477C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 17:26:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A4FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 17:38:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235338AbiCCR1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 12:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
+        id S230504AbiCCRip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 12:38:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235332AbiCCR1J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 12:27:09 -0500
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF08419E08D
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 09:26:22 -0800 (PST)
-Received: by mail-oo1-xc2a.google.com with SMTP id j7-20020a4ad6c7000000b0031c690e4123so6503800oot.11
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 09:26:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Hi+eKfkvL+1ELz8vCd2J8tALPiN2Yeq81v7WF2HdAvA=;
-        b=ST/Z+X1lhcPRR3gkR9suvwoVxqwduRsMYavBHcuzH6MEWvRTvI8XehW5GVLJKxx+FC
-         NE7DS70gcRfuBP+bWOto18cMXOIZPLk609iw8smuy/WxCEcWYm/+G+iCdIlMCCWpSINZ
-         +DfLXoHb7999QY5ssTrZRl7n0KNUX8O58zRTFoWlx3ttRtJXmbbewgi9suaOM+NiV36v
-         NmeOZAmFGzTuS00K7V5if14XLORNd3xksz9NN+wJMfw08Eh1bK23PFyL0ckhuwl0BCpJ
-         0VrqKXWYsDnU5ViWauFzYYUT0AyGj/KfqWwXDxN3Hn0HNlf+Zxf4qRSEUTD/zgtZ55wd
-         vatw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Hi+eKfkvL+1ELz8vCd2J8tALPiN2Yeq81v7WF2HdAvA=;
-        b=eAIlDoV8DY8h81WITmJsvk4OUOdENodgoJhrXb/txlF8jTPNab38MoLpOS3H/mT3Ag
-         mOk9V0nNUHvgOP3CA6uOYm1xpt9AG0NVUnN2cNojATKJwI5eeAZDOD8KZBkFPcaewfV7
-         a5Nekcebyg6FKS6FNGh3cWcQUHfE7KRjWURuto4LLREpiQgm24zP7LuSVUHndW2xGevm
-         NksYw0eKK6g6Tn1yCno0BTIkxoKt4BmuXoXHffafG2eWlPT2O0Ay1aozOUZxWgxmx7IS
-         NFeB7gOptGXaJ21FfuIRXD5ZM+JGAmzehBjA2TiYvJc4/2JKRkjuhE5VatO1EiJCmYuT
-         W9vA==
-X-Gm-Message-State: AOAM530hCKUUBOpQjUyQM1ntmqeYGP74WPLkTR30k+p/re7ql4stB79t
-        Lwcd+MC9f6zEE63tcxcKa+aNcQ==
-X-Google-Smtp-Source: ABdhPJwv1sxGTZF0niRgbP0qtUDDm24paYlb1odjA9ejm9/YPSBr9Tb4EAnKGNswbr1L/KDB331RZA==
-X-Received: by 2002:a05:6870:a1a0:b0:d9:b198:4cfa with SMTP id a32-20020a056870a1a000b000d9b1984cfamr3722424oaf.159.1646328381877;
-        Thu, 03 Mar 2022 09:26:21 -0800 (PST)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id c26-20020a4ae25a000000b0031c268c5436sm1195619oot.16.2022.03.03.09.26.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 09:26:21 -0800 (PST)
-Date:   Thu, 3 Mar 2022 09:28:10 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-pwm <linux-pwm@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Luca Weiss <luca@z3ntu.xyz>
-Subject: Re: [PATCH v13 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YiD6qrLC9B4A8sNz@ripper>
-References: <20220218183116.2261770-1-bjorn.andersson@linaro.org>
- <20220218183116.2261770-2-bjorn.andersson@linaro.org>
- <CAD=FV=UOLcu5xycimDsYTO1spwf=CMRPUSU3o0qRRC+a+zuRTQ@mail.gmail.com>
- <CAD=FV=We4Lv25h2XF6BsdYhMbYu4716LBuhAjH5N0s_HHt_Xcw@mail.gmail.com>
+        with ESMTP id S230479AbiCCRim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 12:38:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B1F5E756;
+        Thu,  3 Mar 2022 09:37:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 70516B82664;
+        Thu,  3 Mar 2022 17:37:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08654C004E1;
+        Thu,  3 Mar 2022 17:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646329073;
+        bh=AwsKZjrCfieTvEUDAR753VxI0pVb5/yxhVzdc73s6Yk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tF5Eio8uUmDzrs/3lfLgba6ZKgS7Ii7J/dwr0kY6gz/UhLzHURAFIaI/M5dyQ6ucz
+         NlbPzoiUdcbga83R9Y7yZr5Q6rOasQ/j1He7GtMgLXb/dSTBXTabb31tRcCwU/Yh9I
+         xK6TxKV9UEG4QZejP9tBw354Xm+JsNnGhWoyRt6s3oFeh2ouyEOXpldXxopj1WfIEf
+         o/RGNS29GXVTg2jsc8SR3sLzL9IqRaGEjML0ROExY5AnsbsL/B7Y/VF7dQKm1xTYx4
+         tS9Gga8Y1p0BkuOS3N875xSu8a9VmeDAwlj2WuBGqeSbLgqoUneElE7AIKAcbMX/2Z
+         K2otOXLxE4u6g==
+Date:   Thu, 3 Mar 2022 10:37:46 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
+Message-ID: <YiD86pay2ENCebkR@dev-arch.thelio-3990X>
+References: <20220301145233.3689119-1-arnd@kernel.org>
+ <20220301145233.3689119-3-arnd@kernel.org>
+ <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
+ <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
+ <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=We4Lv25h2XF6BsdYhMbYu4716LBuhAjH5N0s_HHt_Xcw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 03 Mar 08:41 PST 2022, Doug Anderson wrote:
+Hi Sedat,
 
-> Hi,
+On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
+> Hey Nick!
 > 
-> On Wed, Mar 2, 2022 at 4:03 PM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, Feb 18, 2022 at 10:29 AM Bjorn Andersson
-> > <bjorn.andersson@linaro.org> wrote:
-> > >
-> > > +static void lpg_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> > > +                             struct pwm_state *state)
-> > > +{
-> > > +       struct lpg *lpg = container_of(chip, struct lpg, pwm);
-> > > +       struct lpg_channel *chan = &lpg->channels[pwm->hwpwm];
-> > > +       unsigned int pre_div;
-> > > +       unsigned int refclk;
-> > > +       unsigned int val;
-> > > +       unsigned int m;
-> > > +       u16 pwm_value;
-> > > +       int ret;
-> > > +
-> > > +       ret = regmap_read(lpg->map, chan->base + LPG_SIZE_CLK_REG, &val);
-> > > +       if (ret)
-> > > +               return;
-> > > +
-> > > +       refclk = lpg_clk_rates[(val & PWM_CLK_SELECT_MASK) - 1];
-> >
-> > I don't know why I didn't notice it before (maybe I was accidentally
-> > not building with KASAN?), but in my recent boots I'm getting a KASAN
-> > error pointing at the line above.
-> >
-> > Sure enough, the above looks a bit on the unsafe side. If (val & 0x3)
-> > is 0 then the "-1" will not be so wonderful. I put some printouts and,
-> > indeed, it's not so great.
-> >
-> > [    7.201635] DOUG: val is 0x00000004
-> >
-> > Amazingly my `refclk` ends up as 0 and I guess somehow this doesn't
-> > cause a divide by 0.
+> This only applies 1/3.
 > 
-> I dug a little more and found a document that talks about this
-> register. I guess the answer here is that at boot time on my device
-> the PWM is disabled and has never been enabled. That explains why, at
-> boot time, the "clk_select" is 0 AKA "no clock". So we do an invalid
-> memory access here and that's not so great, but it doesn't _truly_
-> cause any harm. All we need is something like this right before the
-> array dereference:
+> $ b4 --version
+> 0.8.0
 > 
-> if ((val & PWM_CLK_SELECT_MASK) == 0)
->   return;
-> 
+> $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel.org/
+> -o - | git am -3
+> Analyzing 14 messages in the thread
+> Will use the latest revision: v3
+> You can pick other revisions using the -vN flag
+> Checking attestation on all messages, may take a moment...
+> ---
+>  ✓ [PATCH v3 1/3] Kbuild: move to -std=gnu11
+>    ✓ Signed: DKIM/kernel.org
+>    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (✓ DKIM/kernel.org)
+>  ERROR: missing [2/3]!
+>  ERROR: missing [3/3]!
+>  ---
+>  NOTE: install patatt for end-to-end signature verification
+> ---
+> Total patches: 1
+> ---
+> WARNING: Thread incomplete!
+> Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.org
+> Base: not specified
+> Wende an: Kbuild: move to -std=gnu11
 
-Thanks for spotting and digging that up. I can confirm that the
-documentation has 0 as "no clock" and I think it would be nice if
-lpg_clk_rates[] reflected the possible hardware values. That way we can
-also get rid of the + 1 in lpg_apply_freq().
+It looks like the threading somehow got broken, likely due to the [v3]
+on the first patch and not the second or third:
 
-I will fix this up, as well as fix up the indentation issue spotted by
-Uwe in the documentation and repost.
+This worked for me on v5.17-rc6:
 
-Regards,
-Bjorn
+$ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-arnd@kernel.org; done
 
-> I'm still pretty interested in seeing this patch series land and, if
-> it helps it land sooner, I wouldn't object to the above getting fixed
-> in a followup patch.
-> 
-> -Doug
+"b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
+"-P _" tells b4 to only fetch that exact message ID, not the whole
+thread.
+
+Cheers,
+Nathan
