@@ -2,143 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3696DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 22:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB99C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 22:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236684AbiCCWEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 17:04:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
+        id S236714AbiCCWLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 17:11:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231659AbiCCWEy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 17:04:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9138D1480DF
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 14:04:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646345045;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6wGROgyYuQGjMhOFoWGJ+5bmZEJUNDacGYc0J6ktUME=;
-        b=PHqjG93MTG5SsDMSdyN2ObYDI8HPlLXViIBH592oGzbLoGwH5PKowmJk1o/9RaWGCxT1fu
-        KTiaW5drI3JbZFl5BaE4UArQEcAZv5IEdk7Rc4WVMoybTa40H3O8pE8v/y9Yoeh8KhdYQ8
-        u15XherdZkw4VHpruMmEUf4MsTbvp9U=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-OpIOsZY4ObSjIGOVQhNYMg-1; Thu, 03 Mar 2022 17:04:04 -0500
-X-MC-Unique: OpIOsZY4ObSjIGOVQhNYMg-1
-Received: by mail-oo1-f70.google.com with SMTP id d21-20020a4a3c15000000b003191ee182f0so4422275ooa.13
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:04:04 -0800 (PST)
+        with ESMTP id S236130AbiCCWLr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 17:11:47 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3361FD19
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 14:11:00 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id qt6so13588433ejb.11
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O15QTD4cJWZUCrV53Q7o/AL5EB1oKwJTXEHaA5LT8Z8=;
+        b=LArKsEtR2mGirSRnS4QPB7n7g9uLcdhGS2kHqFIb8XMf4LzumrX1fTUWS3uLd0WvY7
+         WLmzhRTfJFRSwidr8ido80GjMNVcP71/BhUV6EopxiDenC4YhqBj6Dwh6h95iQIK1orX
+         IVEDLOvBMjjsnhO237DselDbca8Q8omBwAy+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=6wGROgyYuQGjMhOFoWGJ+5bmZEJUNDacGYc0J6ktUME=;
-        b=pWO8kICiCsbF3ZRVUkwHsUPZj3hjCPMqZVg9AHVRf7thhxlFPa85x/uXFFiFFt6md4
-         K8hhYzbNfWsUxBuoIENDtI3fgmDn0kwlj0eaDhsQFGKMyWv6026NBxrba99InL0wDO0m
-         +I9jr2dNeJ0t8C9t8Gm+KseIYnC2npgtjf6sI/wmJCuqzQf6ODbl6yLWPXIp6q0SrAPa
-         7EY3AYIjs0PRmomrpBAVcceKbGu2pXRv3ZwMRK5U8px6jniJyxgG0HuDWPhtUi22uteY
-         SRuVBAEdNb19q9dmKqMVA7Uefb3OWGQpSRUPykr9IJvGRaqZffhKAt0SrfakIAPGoOH8
-         236A==
-X-Gm-Message-State: AOAM532jbBYVxCRdk5IkXWYkWPqpz3ce9xVDjbUPl72vhmnPDGp3IoNF
-        dXpx8Z22uZMtZg8AAwycjWTYqQBbZnJXm0j+w9C2RYyuEGBPHDzpKBgkO7sk0tUfHUYUt5f1VKW
-        CzE3UtpfFlOCL5VhwCjze
-X-Received: by 2002:aca:1a04:0:b0:2d4:f855:aad1 with SMTP id a4-20020aca1a04000000b002d4f855aad1mr6496529oia.63.1646345043694;
-        Thu, 03 Mar 2022 14:04:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwKYRe1JYF3+Y9OgmsQmqUokJoxxr0aKd4vk81gnA67Q062qAtgyawzk9SpEORQGWaOqANqfA==
-X-Received: by 2002:aca:1a04:0:b0:2d4:f855:aad1 with SMTP id a4-20020aca1a04000000b002d4f855aad1mr6496506oia.63.1646345043499;
-        Thu, 03 Mar 2022 14:04:03 -0800 (PST)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id q7-20020a9d6647000000b005af185bf273sm1582024otm.25.2022.03.03.14.04.01
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O15QTD4cJWZUCrV53Q7o/AL5EB1oKwJTXEHaA5LT8Z8=;
+        b=TWaqY3VeD+MyRwEDvnDKKtAL4XlwZpzn1GTY1lvsLoPsf8fctBNxHB8hR6NQxM2JuL
+         b5OtHqeeWL7QItCBaU8WgnXfEST1nJgTSR5LxlfaRp8CqDTdB/fXgWHMsbrbu4o9woOM
+         R3ic9IaT92Qpl4bylSsSr6m/yyc5aazV6nZo69Xh5f5YcK1HC+FBjs0pYbIZGBZGH0n6
+         zt8cXZntEcU42YzimHI8MjkgEFopEIBSmSZpk8bWFNlUXIdyOza1U0i8fCkOeK2SuzOF
+         aq0u7j2ErGzULmgJvXqzdzsVW1pOzWc8AnTUkYFC2Q5bUF3R7M5pwmIbTG56dFeBRmTj
+         s+qg==
+X-Gm-Message-State: AOAM533/1gzkXSbjSZl9liD2EClxecjiVF8r+yVNj8I9oVppQ+AIJWXE
+        hvuXQOdjtG34JjgPw0aR9Hr74A77XiJjEw==
+X-Google-Smtp-Source: ABdhPJws8ud8GpauJcmmtxkSGmGm/AQoZ1lEKwZFuEsbAwYBHtqgCOl9ZoP+118rToeyf1kA5NQQjQ==
+X-Received: by 2002:a17:907:8a25:b0:6d7:d59:6912 with SMTP id sc37-20020a1709078a2500b006d70d596912mr11056676ejc.259.1646345459098;
+        Thu, 03 Mar 2022 14:10:59 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id n9-20020a05640205c900b00415fbbdabbbsm14480edx.9.2022.03.03.14.10.57
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Mar 2022 14:04:02 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] Documentation: fpga: dfl: add PCI Identification
- documentation
-To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org, corbet@lwn.net,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        ashok.raj@intel.com, tianfei.zhang@intel.com
-References: <20220303003534.3307971-1-matthew.gerlach@linux.intel.com>
- <20220303003534.3307971-2-matthew.gerlach@linux.intel.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <6448f21f-7ce1-d9ce-1048-29aca14f9d3d@redhat.com>
-Date:   Thu, 3 Mar 2022 14:04:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 03 Mar 2022 14:10:57 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id k29-20020a05600c1c9d00b003817fdc0f00so4056446wms.4
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 14:10:57 -0800 (PST)
+X-Received: by 2002:a7b:c0c1:0:b0:385:be1b:e6a with SMTP id
+ s1-20020a7bc0c1000000b00385be1b0e6amr5367480wmh.73.1646345456912; Thu, 03 Mar
+ 2022 14:10:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220303003534.3307971-2-matthew.gerlach@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20220303214300.59468-1-bjorn.andersson@linaro.org> <20220303214300.59468-2-bjorn.andersson@linaro.org>
+In-Reply-To: <20220303214300.59468-2-bjorn.andersson@linaro.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 3 Mar 2022 14:10:44 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
+Message-ID: <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
+Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-pwm <linux-pwm@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
-On 3/2/22 4:35 PM, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+On Thu, Mar 3, 2022 at 1:41 PM Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
 >
-> Add documentation on identifying FPGA based PCI cards prompted
-> by discussion on the linux-fpga@vger.kernel.org mailing list.
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
+> with their output being routed to various other components, such as
+> current sinks or GPIOs.
 >
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Each LPG instance can operate on fixed parameters or based on a shared
+> lookup-table, altering the duty cycle over time. This provides the means
+> for hardware assisted transitions of LED brightness.
+>
+> A typical use case for the fixed parameter mode is to drive a PWM
+> backlight control signal, the driver therefor allows each LPG instance
+> to be exposed to the kernel either through the LED framework or the PWM
+> framework.
+>
+> A typical use case for the LED configuration is to drive RGB LEDs in
+> smartphones etc, for which the driver supports multiple channels to be
+> ganged up to a MULTICOLOR LED. In this configuration the pattern
+> generators will be synchronized, to allow for multi-color patterns.
+>
+> The idea of modelling this as a LED driver ontop of a PWM driver was
+> considered, but setting the properties related to patterns does not fit
+> in the PWM API. Similarly the idea of just duplicating the lower bits in
+> a PWM and LED driver separately was considered, but this would not allow
+> the PWM channels and LEDs to be configured on a per-board basis. The
+> driver implements the more complex LED interface, and provides a PWM
+> interface on the side of that, in the same driver.
+>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
-> v2: Introduced in v2.
-> ---
->   Documentation/fpga/dfl.rst | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
 >
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index ef9eec71f6f3..5fb2ca8e76d7 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -502,6 +502,26 @@ Developer only needs to provide a sub feature driver with matched feature id.
->   FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
->   could be a reference.
->   
-> +PCI Device Identification
-> +================================
-> +Since FPGA based PCI cards can be reconfigured to a perform a completely
-> +new function at runtime, properly identifying such cards and binding the
-> +correct driver can be challenging. In many use cases, deployed FPGA based
-> +PCI cards are essentially static and the PCI Product ID and Vendor ID pair
-> +is sufficient to identify the card.  The DFL framework helps with the
-> +dynamic case of deployed FPGA cards changing at run time by providing
-> +more detailed information about card discoverable at runtime.
-> +
-> +At one level, the DFL on a PCI card describes the function of the card.
-> +However, the same DFL could be instantiated on different physical cards.
-> +Conversely, different DFLs could be instantiated on the same physical card.
-> +Practical management of a cloud containing a heterogeneous set of such cards
-> +requires a PCI level of card identification. While the PCI Product ID and
-> +Vendor ID may be sufficient to bind the dfl-pci driver, it is expected
-> +that FPGA PCI cards would advertise suitable Subsystem ID and Subsystem
-> +Vendor ID values. PCI Vital Product Data (VPD) can also be used for
-> +more granular information about the board.
+> Changes since v13:
+> - Fixed mixed space/tab indentation in documentation
+> - Added 0 as to lpg_clk_rates[] to match the hardware state, to avoid + 1 in
+>   lpg_apply_freq() and - 1 in lpg_pwm_get_state()
+> - Don't divide with 0 if current clock is 0 in lpg_pwm_get_state(), just return
+>   period = duty = 0 in this case
+> - Renamed "clk" in struct lpg_channel to clk_sel
+> - Renamed "pre_div" in struct lpg_channel to pre_div_sel
+>
+> Changes since v12:
+> - Initialize ret in lpg_pwm_apply()
+>
+> Changes since v11:
+> - Extended commit message to cover decision to put pwm_chip in the LED driver
+> - Added Documentation, in particular for the hw_pattern format
+> - Added a lock to synchronize requests from LED and PWM frameworks
+> - Turned out that the 9bit selector differs per channel in some PMICs, so
+>   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
+> - Fixed kerneldoc for the struct device pointer in struct lpg
+> - Rewrote conditional in lut_free() to make it easier to read
+> - Corrected and deduplicated max_period expression in lpg_calc_freq()
+> - Extended nom/dom to numerator/denominator in lpg_calc_freq()
+> - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
+> - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for reading the
+>   same in get_state()
+> - Cleaned up the pattern format, to allow specifying both low and high pause
+>   with and without pingpong mode.
+> - Only update frequency and pwm_value if PWM channel is enabled in lpg_pwm_apply
+> - Make lpg_pwm_get_state() read the hardware state, in order to pick up e.g.
+>   bootloader backlight configuration
+> - Use devm_bitmap_zalloc() to allocate the lut_bitmap
+> - Use dev_err_probe() in lpg_probe()
+> - Extended Kconfig help text to mention module name and satisfy checkpatch
+>
+>  Documentation/leds/leds-qcom-lpg.rst |   76 ++
+>  drivers/leds/Kconfig                 |    3 +
+>  drivers/leds/Makefile                |    3 +
+>  drivers/leds/rgb/Kconfig             |   18 +
+>  drivers/leds/rgb/Makefile            |    3 +
+>  drivers/leds/rgb/leds-qcom-lpg.c     | 1405 ++++++++++++++++++++++++++
+>  6 files changed, 1508 insertions(+)
 
-This describes a bit more of the problem, it should describe it wrt ofs 
-dev id. The introduction of the ofs dev should be explicitly called out 
-as a generic pci id.
+Gets rid of the KASAN error and PWM still works for me, so happy to add back:
 
-Why couldn't one of the old pci id's be reused ?
+Tested-by: Douglas Anderson <dianders@chromium.org>
 
-How will the subvendor/subid be enforced ?
+I haven't done a full review of the driver but I did a once-over of
+the changes between v12 and v13 and they look good to me.
 
-Is the current security manager patchset smart enough to save the board 
-from being bricked when a user doesn't look beyond the pci id ?
-
-What happens if a board uses this device id but doesn't have a max10 to 
-do the update ?
-
-Tom
-
-> +
->   Location of DFLs on a PCI Device
->   ================================
->   The original method for finding a DFL on a PCI device assumed the start of the
-
+-Doug
