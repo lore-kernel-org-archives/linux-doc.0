@@ -2,101 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA42C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 00:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3777C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 00:45:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbiCCAe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 19:34:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
+        id S230474AbiCCApz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 19:45:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230402AbiCCAe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 19:34:26 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D33732EE7;
-        Wed,  2 Mar 2022 16:33:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646267617; x=1677803617;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=h3pvaJzVup7pXnuQkVHvNdcjk0nARUMaKJwO0XAacDg=;
-  b=i/7tH8IpcgBpwTaE4vrq1elO8pDbnE34N7IANHvlgTJfjJ2JlFtchmn0
-   R2x1dA5utGCqUuZ6v1xE/q4eSHdDLQd6Mk0VT5jUkaWRiLbbUvsxyQcwY
-   xGhw8cPQKnxhZ6+zYAgeNWOiYcsgj1YypQeAcjHYP6OEXE5Xo5rEJ1cJt
-   dlqbOwFM9ua/S+46ycwwkAmNihibBIUkzSRqmdpuNWyPabXEhGd9NDW+C
-   0753VuCHABk0BDinUmHzNHK/zZmxDjBYj+gs28CWeIjSBd3i/0scyiVjE
-   PR8/9Hu1fxSa+NG79UlRISxSyOLkujSlAb3RrVLm5yHoAU8GHnQuM/hG8
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253468952"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="253468952"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 16:33:32 -0800
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="686309315"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.40])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 16:33:32 -0800
-From:   matthew.gerlach@linux.intel.com
-To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, corbet@lwn.net, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dan.j.williams@intel.com, ashok.raj@intel.com,
-        tianfei.zhang@intel.com
-Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v2 2/2] drivers: fpga: dfl-pci: Add PCIE device IDs for Intel DFL cards
-Date:   Wed,  2 Mar 2022 16:35:34 -0800
-Message-Id: <20220303003534.3307971-3-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220303003534.3307971-1-matthew.gerlach@linux.intel.com>
-References: <20220303003534.3307971-1-matthew.gerlach@linux.intel.com>
+        with ESMTP id S230466AbiCCApz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 19:45:55 -0500
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC75B11AA3F;
+        Wed,  2 Mar 2022 16:45:10 -0800 (PST)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 2230ipOW000573;
+        Thu, 3 Mar 2022 09:44:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2230ipOW000573
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646268291;
+        bh=qFJlBbOGHIjmGqrsHLgsSVnCFKYD56zFTMBoZ4bzgoI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=d+QqzInMPNKAtFKqHwSKLeqtPTZMXtp4QljZokz0tRh+GlX8mJPKdroYJxp+/+qXQ
+         Iaqv/Yu6Tg6A0Dkt2XTm7Bh0H9n92eKjSuW7Qx6lhHkxguuCqBRBW7APC2GxA4BSyZ
+         ZENOD4LuUhXWd+jLgGDEY/StHwUeGdJAvx4dgTV5JynbQ5fx14N9o9zJCEtpjrLTKo
+         KF2Ul3a6+iisSvW9VA/umjTlM9b9jmZbDrI9DEiqNKRi7Hfhrj67HKJz1MXrGvabP6
+         LIS7HU6TQC0/5uiwPf+m4vm8iGHn0GDaCC9KAv5ja41rneuHjcfpreWnfrJl+vKccs
+         /l7vqgtT9K2nQ==
+X-Nifty-SrcIP: [209.85.210.171]
+Received: by mail-pf1-f171.google.com with SMTP id u16so3373750pfg.12;
+        Wed, 02 Mar 2022 16:44:51 -0800 (PST)
+X-Gm-Message-State: AOAM532lTzm+eNbFdsKlOuuJQALlY7pjhXZEwy5b6iRs5hhqD6VM6Swe
+        1bGxqxr5F2QrOn6m+sJzzy1wpkc7kfvalbalN9w=
+X-Google-Smtp-Source: ABdhPJxJmpCr7cqZbg0899QCITX2rIIHdJURDFdP7XyJOclpsettcbZAqBuZIHSTaJ8scctyB/vsOG2d8BxfkFG7zqE=
+X-Received: by 2002:a05:6a00:24c7:b0:4e1:cb76:32d1 with SMTP id
+ d7-20020a056a0024c700b004e1cb7632d1mr35565422pfv.36.1646268290741; Wed, 02
+ Mar 2022 16:44:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-2-arnd@kernel.org>
+In-Reply-To: <20220301145233.3689119-2-arnd@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 3 Mar 2022 09:44:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQpmqncnnaO+NKEuDajx4G0=7eQ1s5e+o+fPyuxrkwncg@mail.gmail.com>
+Message-ID: <CAK7LNAQpmqncnnaO+NKEuDajx4G0=7eQ1s5e+o+fPyuxrkwncg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+On Tue, Mar 1, 2022 at 11:52 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Mark Rutland <mark.rutland@arm.com>
+>
+> In a subsequent patch we'll move the kernel from using `-std=3Dgnu89` to
 
-Add the PCIE device IDs for Intel cards with Device Feature Lists
-(DFL) to the pci_dev_table for the dfl-pci driver.
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
----
-v2: changed names from INTEL_OFS to INTEL_DFL
----
- drivers/fpga/dfl-pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Precisely speaking,
+"In a subsequent patch we'll move the userspace tools ..."
 
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index 717ac9715970..8faf284509e7 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -77,12 +77,14 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
- #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
- #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
- #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
-+#define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
- 
- /* VF Device */
- #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
- #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
- #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
- #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
-+#define PCIE_DEVICE_ID_INTEL_DFL_VF		0xbccf
- 
- static struct pci_device_id cci_pcie_id_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
-@@ -96,6 +98,8 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
- 	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
- 	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL),},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF),},
- 	{0,}
- };
- MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
--- 
-2.25.1
+The kernel part was done by 1/3.
 
+
+
+> `-std=3Dgnu11`, permitting the use of additional C11 features such as
+> for-loop initial declarations.
+>
+> One contentious aspect of C99 is that it permits mixed declarations and
+> code, and for now at least, it seems preferable to enforce that
+> declarations must come first.
+>
+> These warnings were already disabled in the kernel itself, but not
+
+Is this the opposite?
+
+"These warnings were already _enabled_ in the kernel itself, ..."
+
+
+
+
+If you have a chance to resend this,
+can you please rebase on top of kbuild/for-next?
+
+This is not applicable due to the conflict with:
+https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808=
+035-1-quic_eberman@quicinc.com/
+
+
+
+
+
+
+> for KBUILD_USERCFLAGS or the compat VDSO on arch/arm64, which uses
+> a separate set of CFLAGS.
+>
+> This patch fixes an existing violation in modpost.c, which is not
+> reported because of the missing flag in KBUILD_USERCFLAGS:
+>
+> | scripts/mod/modpost.c: In function =E2=80=98match=E2=80=99:
+> | scripts/mod/modpost.c:837:3: warning: ISO C90 forbids mixed declaration=
+s and code [-Wdeclaration-after-statement]
+> |   837 |   const char *endp =3D p + strlen(p) - 1;
+> |       |   ^~~~~
+>
+> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+> [arnd: don't add a duplicate flag to the default set, update changelog]
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  Makefile                          | 3 ++-
+>  arch/arm64/kernel/vdso32/Makefile | 1 +
+>  scripts/mod/modpost.c             | 4 +++-
+>  3 files changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 94fa9a849a7a..37ef6a555dcd 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -432,7 +432,8 @@ HOSTCXX     =3D g++
+>  endif
+>
+>  export KBUILD_USERCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-protot=
+ypes \
+> -                             -O2 -fomit-frame-pointer -std=3Dgnu89
+> +                           -O2 -fomit-frame-pointer -std=3Dgnu89 \
+> +                           -Wdeclaration-after-statement
+>  export KBUILD_USERLDFLAGS :=3D
+>
+>  KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTC=
+FLAGS)
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
+/Makefile
+> index 9378ea055bf2..ed181bedbffc 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -68,6 +68,7 @@ VDSO_CFLAGS +=3D -Wall -Wundef -Wstrict-prototypes -Wno=
+-trigraphs \
+>                 -fno-strict-aliasing -fno-common \
+>                 -Werror-implicit-function-declaration \
+>                 -Wno-format-security \
+> +               -Wdeclaration-after-statement \
+>                 -std=3Dgnu11
+>  VDSO_CFLAGS  +=3D -O2
+>  # Some useful compiler-dependent flags from top-level Makefile
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 6bfa33217914..fe693304b120 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -833,8 +833,10 @@ static int match(const char *sym, const char * const=
+ pat[])
+>  {
+>         const char *p;
+>         while (*pat) {
+> +               const char *endp;
+> +
+>                 p =3D *pat++;
+> -               const char *endp =3D p + strlen(p) - 1;
+> +               endp =3D p + strlen(p) - 1;
+>
+>                 /* "*foo*" */
+>                 if (*p =3D=3D '*' && *endp =3D=3D '*') {
+> --
+> 2.29.2
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
