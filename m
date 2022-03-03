@@ -2,149 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D9E7C43219
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 19:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E25C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 19:59:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234338AbiCCTnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 14:43:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33600 "EHLO
+        id S235683AbiCCT76 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 14:59:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236688AbiCCTnW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 14:43:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D80F18F22E;
-        Thu,  3 Mar 2022 11:42:07 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B3F461BC4;
-        Thu,  3 Mar 2022 19:41:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B140C340EF;
-        Thu,  3 Mar 2022 19:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646336479;
-        bh=HnIl+skYzj5iayObsog4Gwt5/mfT/IRPSSfVgeKmYz4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X8uZsrLg1wS1ue15JXjIfxZfrIa5F6ODclaaSFiZyVkfNfMcHMXT3ZbuxvxL7Onx8
-         Jg3ctOHPmPbwyxM14NsFAMoQZDC94faFO3AnXRrbYnP5vExv6Pp6sqnuEEjRneOQi3
-         LYeiFVb5PPd9pZVQPx3LC5YuaO19KOL1EPs/TBf1MVY9gntS+Br+wUj2CKKhM1ENU0
-         IMfniBvcYagWlGE9YWSjJDj8z9mSsmy1ktQBYlVWdLbcK+stdWxDtvFncBv2sMDXAR
-         PVmhc2UjgnYwP6/OD9BYsNZcmOKoLeuX5rTxEML3bz6tggMoY63Qjg//nwj605iKyU
-         /9ENWwMajevMA==
-Date:   Thu, 3 Mar 2022 21:40:57 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Balbir Singh <bsingharora@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Florian Weimer <fweimer@redhat.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Jann Horn <jannh@google.com>, Andrei Vagin <avagin@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, Borislav Petkov <bp@alien8.de>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S235678AbiCCT74 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 14:59:56 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D9719CCC8;
+        Thu,  3 Mar 2022 11:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646337550; x=1677873550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pwhtk1GrrqE/4VynDFryxgHiiPKn9d6coiqO1HnGW5Q=;
+  b=Jj8P/Zy5EOtwhxQnbeJD9jTMAuvKkvB+vn4VJdhIrY8E/ZfDt8HCpqMc
+   9A5EV28QpCAUJ1ST27kr3x8rpUEs2qawQrHMQ6liC0t4uU7+okuJC2vyG
+   +tUt/tvQthPXOHAVKQXdlAvlTKH/hOGOxZHOB6YaT9FMaEnN2UIlG4Ab5
+   hDB2+KHhABfpvqLFMKgeuPlRR85Q1u3yQNl0Za+xk4FlO58eK+EiM78pC
+   GvLKHJGcpzkThyT1qvC9kFYkh17in7AUwbSDnv8SyhycDu5+LpEVO1Ecx
+   uWp6jfa89lEb+yKEL9ZIPyurC//CXKpz2xsMCcSIO3JKR85YF9SJd0pcL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="251373167"
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
+   d="scan'208";a="251373167"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 11:59:10 -0800
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
+   d="scan'208";a="630922010"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.60])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 11:59:10 -0800
+Date:   Thu, 3 Mar 2022 11:59:09 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Williams, Dan J" <dan.j.williams@intel.com>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YiEZyTT/UBFZd6Am@kernel.org>
-References: <YgI1A0CtfmT7GMIp@kernel.org>
- <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
- <YgKiKEcsNt7mpMHN@grain>
- <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
- <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
- <Yh0wIMjFdDl8vaNM@kernel.org>
- <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com>
- <Yh0+9cFyAfnsXqxI@kernel.org>
- <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
+        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Subject: Re: [RFC 07/10] platform/x86/intel/ifs: Create kthreads for online
+ cpus for scan test
+Message-ID: <YiEeDfuQyqperN9x@agluck-desk3.sc.intel.com>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <20220301195457.21152-8-jithu.joseph@intel.com>
+ <09b5b05018a8600ca8fab896790ab16827c80e4e.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
+In-Reply-To: <09b5b05018a8600ca8fab896790ab16827c80e4e.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 02:55:30PM -0800, Andy Lutomirski wrote:
-> 
-> 
-> On Mon, Feb 28, 2022, at 1:30 PM, Mike Rapoport wrote:
-> > On Mon, Feb 28, 2022 at 12:30:41PM -0800, Andy Lutomirski wrote:
-> >> 
-> >> 
-> >> On Mon, Feb 28, 2022, at 12:27 PM, Mike Rapoport wrote:
-> >> > On Wed, Feb 09, 2022 at 06:37:53PM -0800, Andy Lutomirski wrote:
-> >> >> On 2/8/22 18:18, Edgecombe, Rick P wrote:
-> >> >> > On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
-> >> >> > 
-> >> >
-> >> > Even with the current shadow stack interface Rick proposed, CRIU can restore
-> >> > the victim using ptrace without any additional knobs, but we loose an
-> >> > important ability to "self-cure" the victim from the parasite in case
-> >> > anything goes wrong with criu control process.
-> >> >
-> >> > Moreover, the issue with backward compatibility is not with ptrace but with
-> >> > sigreturn and it seems that criu is not its only user.
-> >> 
-> >> So we need an ability for a tracer to cause the tracee to call a function
-> >> and to return successfully.  Apparently a gdb branch can already do this
-> >> with shstk, and my PTRACE_CALL_FUNCTION_SIGFRAME should also do the
-> >> trick.  I don't see why we need a sigretur-but-dont-verify -- we just
-> >> need this mechanism to create a frame such that sigreturn actually works.
-> >
-> > If I understand correctly, PTRACE_CALL_FUNCTION_SIGFRAME() injects a frame
-> > into the tracee and makes the tracee call sigreturn.
-> > I.e. the tracee is stopped and this is used pretty much as PTRACE_CONT or
-> > PTRACE_SYSCALL.
-> >
-> > In such case this defeats the purpose of sigreturn in CRIU because it is
-> > called asynchronously by the tracee when the tracer is about to detach or
-> > even already detached.
-> 
-> The intent of PTRACE_CALL_FUNCTION_SIGFRAME is push a signal frame onto
-> the stack and call a function.  That function should then be able to call
-> sigreturn just like any normal signal handler.  
+On Wed, Mar 02, 2022 at 08:17:32PM -0800, Williams, Dan J wrote:
 
-Ok, let me reiterate.
+> What is this requirement to try to synchronize CPU execution? Comments
+> should explain the "why", the code usually explains the "what".
 
-We have a seized and stopped tracee, use PTRACE_CALL_FUNCTION_SIGFRAME
-to push a signal frame onto the tracee's stack so that sigreturn could use
-that frame, then set the tracee %rip to the function we'd like to call and
-then we PTRACE_CONT the tracee. Tracee continues to execute the parasite
-code that calls sigreturn to clean up and restore the tracee process.
+I need to put some more bits into the Documentation/x86/ifs.rst
+because if I had explained the IFS feature better there, you wouldn't
+have had to ask this (and some other questions).
 
-PTRACE_CALL_FUNCTION_SIGFRAME also pushes a restore token to the shadow
-stack, just like setup_rt_frame() does, so that sys_rt_sigreturn() won't
-bail out at restore_signal_shadow_stack().
+IFS works on one CORE at a time. But with HT enabled there are two
+logical CPUs that are on that core.
 
-The only thing that CRIU actually needs is to push a restore token to the
-shadow stack, so for us a ptrace call that does that would be ideal.
+Entering IFS test mode is done by all HT threads writing to the
+ACTIVATE_SCAN MSR "together". The microcode for that MSR will
+make the first logical CPU to write wait for a while. User can
+choose how many cycles to wait with some of the bits in the value
+written to the MSR ... in this driver we hard coded 5 milli-seconds.
+That seemed plenty to allow for the bottom half of interrupts, or
+a perf NMI to knock the HT threads a little bit out of sync with
+each other.
 
--- 
-Sincerely yours,
-Mike.
+So the code flow when running a test is to wake the kthreads for
+the logical CPUs that share the core. The threads may wake at
+different times, so there is the software sync to get them close
+enough.
+
+Then comes the loop to execute the test ... it is a loop because
+the core may not complete all "chunks" in one ACTIVATE_SCAN
+MSR write ... if it doesn't, the loop restarts execution from
+the chunk where IFS execution stopped.
+
+Interrupts are only blocked during the ACTIVATE_SCAN to
+increase the chances of completion. But preemption is
+disabled for the whole loop so that the threads won't
+get too far out of sync.
+
+-Tony
