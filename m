@@ -2,226 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 764D4C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 02:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7449C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 02:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbiCCCGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Mar 2022 21:06:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43152 "EHLO
+        id S231749AbiCCC3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Mar 2022 21:29:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231635AbiCCCGb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 21:06:31 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EB9443EE;
-        Wed,  2 Mar 2022 18:05:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646273146; x=1677809146;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Yx3ADF+wJiKzflafjiPP03NTyWuM94lYTFQVCi0qNd0=;
-  b=UrH95FOTriYqr875ub9FRrRZ0Dv2Kc2vB2S4obhSIIlMRak8wADTKQNQ
-   LRvwA1Py6a/EiEqgMiJmS6C+gWI6bppTyqZ6xDpKs6al02wEz7MW+ilKw
-   ZgXIrZRkU4wtHRq4TpwE5ft0edDiWWbQCQkaGyQ0uZo6X/31aNCLUeCTB
-   A5XX0gtkBxuoxdJ6yzzhzlDs+JIYA3ZrUeK3eNsi1+A/K5g5ih3KBeHKs
-   6gtVw97CkZk+xgPn1H49xB7hPOFh7UuU4tn1f+r00rDY6XoskF/YzqTYG
-   R78FsT2X5KcsgbhDauHQFVY63vP+3yD/yzweqeLj7N/nWlU+p+iRvZot/
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="234168614"
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="234168614"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 18:04:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,150,1643702400"; 
-   d="scan'208";a="576318762"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga001.jf.intel.com with ESMTP; 02 Mar 2022 18:04:30 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 2 Mar 2022 18:04:30 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 2 Mar 2022 18:04:29 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Wed, 2 Mar 2022 18:04:29 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Wed, 2 Mar 2022 18:04:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SzsqxaD9Oi9wBdVkh01g/qedBKSCUGp3iw2WnSyF2j/wrHuX77xPsFnm4ylbdA1vmtlY0UY5qWoyTb/BDdg/HT91B0IU0qj8613g4H0gjNnAUjQsAOLOCzr842e1x4qiwOQhH8HivOfkS7r0ZjiC4+jc0lAXpmoI37beTiE38fjfSUVWeY0SnmPpfgFEq6uinxSyx7fAuIK+dbn5F0fuDBZL1K7RfrNJOhK0BsYREl2Do+ZSvutUHPhSMFNQQZzrZ9XhMcOmcTErl3aB44ossgg3cZffUrLRpbqGpgOhQEz9x4bK8qwgusyHGnrTf8eWIih3aVPoGJrRRFyjKVflYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dBR/vdEM+43hWYOH/kn1hgEG+h1g1KBopQj4VfiO0lo=;
- b=Pfj9u3259MuD7HG7e1e3MBtEn4rrhv8srWGdigQ2e6na3BR5Pe5CrAbYiAyr1qH21ydMGhuJyoavQ8sR43keZP0gt5Y1dlwEKOxGOalIRkSpUyAPSdFleXJMV/XDpMpze/XeabZQyNKHQjZbzmSS03lpXprd9BOq8IeR/35SN+2b2F8kKWJ7d00i4i1tuRa2SfWgN90YK4C2XO8hJRmDo39Bxg1DforacT9WRdqVxsQAHfIqOQfAsYXqL1/m6VpspUzuGq1oF67ej+70gP9wbUBSpI+hUAy3kh/484j9Kken0zJWxjjtP4HwJEMJPpoguBuAM3boor8yLqFzIrCx0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3768.namprd11.prod.outlook.com (2603:10b6:a03:fa::20)
- by CY4PR11MB1720.namprd11.prod.outlook.com (2603:10b6:903:2f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Thu, 3 Mar
- 2022 02:04:26 +0000
-Received: from BYAPR11MB3768.namprd11.prod.outlook.com
- ([fe80::dc03:366a:dae3:aee]) by BYAPR11MB3768.namprd11.prod.outlook.com
- ([fe80::dc03:366a:dae3:aee%4]) with mapi id 15.20.5038.014; Thu, 3 Mar 2022
- 02:04:26 +0000
-Message-ID: <855de2f6-8223-d271-86b6-edb36cfdebb6@intel.com>
-Date:   Wed, 2 Mar 2022 18:04:22 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [RFC 03/10] platform/x86/intel/ifs: Add driver for In-Field Scan
-Content-Language: en-US
-To:     "Williams, Dan J" <dan.j.williams@intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-4-jithu.joseph@intel.com>
- <f0e958c612ac4dab30ba458a08a7681e1114668f.camel@intel.com>
-From:   "Joseph, Jithu" <jithu.joseph@intel.com>
-In-Reply-To: <f0e958c612ac4dab30ba458a08a7681e1114668f.camel@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0131.namprd03.prod.outlook.com
- (2603:10b6:303:8c::16) To BYAPR11MB3768.namprd11.prod.outlook.com
- (2603:10b6:a03:fa::20)
+        with ESMTP id S231752AbiCCC3j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Mar 2022 21:29:39 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A515A1BEA5
+        for <linux-doc@vger.kernel.org>; Wed,  2 Mar 2022 18:28:54 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-2dc0364d2ceso40220057b3.7
+        for <linux-doc@vger.kernel.org>; Wed, 02 Mar 2022 18:28:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v2tz3AuOoQeFoLXvffTr2cIrrixjHNaOs+XLOL0KCfw=;
+        b=Cf/ju3K84F49k8wI7YQgyVYv3aMiVSZ7LUjx6feXZrNHr1cnaJFLUrSSLIwOUaEdtV
+         9tVTIXdEla4GZAOr3bbyF+liAgp/0T6++nQbK7rLWODyVm5sULM4XB9QCYXoe73uBXgC
+         d+cqehy56gj3gkfnaziTmIW+f6zLOu4MPFhb4ngMlS54sPtUdpqSJrSNZ++HhPn/5t0P
+         jymhfGHsOU63FPtX5lGhPABzo6+5Jx+1Q7XxI6QiL6A7HW8EnZkmhCupezBUc+6PRaJc
+         3fLtt+boLXSQc1SWIb3suDEZuEkrIlFSBBJ2Y639LLAkGjCYgSJEmjZIiSQ5Zy/X4dv7
+         igpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v2tz3AuOoQeFoLXvffTr2cIrrixjHNaOs+XLOL0KCfw=;
+        b=3Xd/eJ48fGZ3uE69gqj7AXBHOqgI7npk1e4Kl4mRLTnxL8NhiTc3mRVnfg/NntEBNV
+         oPEB/yWaabju4Jbbe6UF5dTyQG9NMv9JAH8bDe44MKP/C+oqumuTLq7CnZZ373lgw2xX
+         WlwAgSRw4Q4tCefqMRkE3lgAfxWv/X1EKznNZNCbgTqfN/c5kKaYc4XMDn+LrShzs493
+         Zz7zAWsAkQi/svDEuNiJelDtw+gPYPFbsXQzA3WQ+ZcZQZMCAOJQSTSzsk8elGgtV6vp
+         3dxZjU17BKKn0iTgAShhsQblLunpSDcyS/TfXwne4J/dYqCPxd/48gBAUFIPpGAUCUvJ
+         J1nQ==
+X-Gm-Message-State: AOAM532L1uaGh6MQYFeTwfQG83I+v2iYN6jKXlna12v6w9M03glbBe4+
+        vpEoNqclxV94AO6ovTGJ3avOmvLLeHRif2wGJe/DCw==
+X-Google-Smtp-Source: ABdhPJzghYtIErFg1LL0XWlyHrqePiGoOB5PMKNoSnMLd1aQ8LcM0OZbgcs0kzaIvSgwZl0ATRheQRHUCPaCaMM23yY=
+X-Received: by 2002:a81:5dd6:0:b0:2d6:3041:12e0 with SMTP id
+ r205-20020a815dd6000000b002d6304112e0mr33446832ywb.331.1646274533419; Wed, 02
+ Mar 2022 18:28:53 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 902ccb44-8b3e-4578-8c6f-08d9fcba24e9
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1720:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
-X-Microsoft-Antispam-PRVS: <CY4PR11MB17200BC2804F615114402DC580049@CY4PR11MB1720.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /5bYISZZWWIr+f9ng2qdXqNoUzUo79UcUerQ2jf75Mf0JUNRLR4o3OzIb6hsbgNLaxAIoX+a92GYfgMgLVsp2q/lTjsBZcIYiqGEW9V8Bz+EDKknlHNNvGsqLJTsp9aIZ6/i3oizG8Su+ZkrebiD6J7Zb+k178WlJ2yXfsVZiglj/oCQUyqBMWHuqEH4/oFOcrdoNh5j8l5jKFXtHDer7TcVePurWT0HbAI/NzXxhj+FkOTHhzSx99k9yBdVx2I5VnpplrZjyvd1FU2+qXFOkndmvoFOIq8MrC2jgYOKAMuYJ+QybWzZy7rxS4bqjBiDQ8yFa9CuEiU5eJR85iY2cC/V0qETdUUp5j8NAn3LseD0OS8IrXQdaipekQAxFy4ux0gr9d2o6FjU916Ni5xzyczICFo3Cn43YZrpFv45qlt0e3bPgHPv9OOUIIJW4JATZQl4UuxyOhy73I/T9536jzIZGPcvqmOVzbxyCvUYBIkbOfjLRWTG6kg09PdUn1KnmE5rqp4t03SQzmkGtX7pfY0vbU7x3U55tOUCk1Mk1FELpe96UY/79Rm0AFNJrF6AFBpHCg2e8XRcmo9IizP2ZrsvO3oKkcy21G9SMzV35eACTKWmQYUVTIQ5UamuwYQLJ6YBjyVDzxhcGNBb/jckQMUkGa8hOyt695vKNL4SaVFve+UZjtyh+k1Km773pABcZXlTT8dcSNxvVI9ULunBWA6+gsPKhTSgc0ICopDC5z8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3768.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(38100700002)(26005)(2616005)(86362001)(53546011)(5660300002)(31696002)(186003)(7416002)(6512007)(82960400001)(316002)(54906003)(2906002)(110136005)(31686004)(6666004)(4326008)(6486002)(508600001)(6506007)(8676002)(66946007)(66556008)(66476007)(8936002)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1BERm5MSExKTnFJMitVNW1NMmpSU09TbTZJcllLVk5UdE5GaGhZSWFqZ2dy?=
- =?utf-8?B?U1Vab1pWazFkeTI1YkMyR1ZXR1FCZkNWMitKR0tLOG9uc0ZuengraG9jTWhU?=
- =?utf-8?B?OWlYM2h4Q0hncko0SlcyRm5NTVlIWVZaK1BXQXQ3SU5KMllLL09WRHp1VUEv?=
- =?utf-8?B?dmRTSmtxUzFINlQ5QlFvaXpPVURYTXpyNTFEaWx0d0dFWkVrVmpTTS8rU2ph?=
- =?utf-8?B?VzFJQlpmZ0ZQZ0lVQTQ0UmpvRmNyYVR6Rk5pQjJrcW5nRlIwSW9sRVpIZExn?=
- =?utf-8?B?aWhpcUJyWnFMQUZIdkxNRHIzcFRKR1EvQng1RXhlL1ZFR0NxVFd6ZlcxNU4z?=
- =?utf-8?B?Vnl2OEVGaWU0WHFBSVF2dE9oTkpTbXMxMHpLQTE2UVZFaVBPaXNhLys2eitG?=
- =?utf-8?B?eEFoLzNpcE1HUFdKSFdRZ1BncTB2Mm8rRUlpUUIzUHd1dXZqMkdpUDFnd0Ja?=
- =?utf-8?B?RzZVZElJUU9zZ1VTV2dYZW5VR2ZvZGdlNzJUMkdDekdyZS9FMDFseE10K29Z?=
- =?utf-8?B?cHFKMUM0NkJZbnFQMzkxMmg4cEUrcVRwT0I5UmNPQzFlVnVpSFJQSWZobEl0?=
- =?utf-8?B?c3hDeEFTMGttRjJEWEpQWXFUblhWQXdJV2ZkMHFuVGpZaDlaMUhSY3J0c01i?=
- =?utf-8?B?TjB4bGhMUEwzOC9rT0k2Rm5HMzRzQkRSY3U4M3c5WWozbkk2MnF4czlicnZj?=
- =?utf-8?B?QVMyNUs0ZDZPL0FkVitJNWxIaG9sZFRXL0s3bjRJZUlZRkV6RmJNVG9vUEpD?=
- =?utf-8?B?REdJdlFaTGZuNGFFWU1Bb0wvQ1JpQ1R3Skh4WFFydTRUeXlDVkpIUFRaaXdj?=
- =?utf-8?B?WDZuZTd2d0ljNXU4THd4bzJNbGtWaXowTXFjc1kzWFluRm1DSUY0cjBYWEpV?=
- =?utf-8?B?L0pDU2tXUWJ0am9sWkhBOVdGUjZRNDRIVUpTMVcxQURCRDBLMmRuYVJ6dHZP?=
- =?utf-8?B?L1NVU1dYRHVsUnlFNnZITlNEN3NzVzMxL1dsczB4dWQ1QmMvQTRHMm1vYmVk?=
- =?utf-8?B?SDQ5emZOSklWRGlZZFJmem1xMU4xMWxKbFBzZU13THlkQkMzaWNpanBWVFVW?=
- =?utf-8?B?a1RFZGlnSVMwNU8xdmFWNjBTN3NSWGVJcWYrVzgyaENXTlZkWTVYWVlQNCtl?=
- =?utf-8?B?eTZyeXdpOVNUQlN5RXVlMzZPQTdtM3FNQVJjYnVlSzlobUFmSXhTb0dHSzgw?=
- =?utf-8?B?ZWFMVE8rRGR0eG1IQnV4anlNTFRHSkVsMVBFTTFUazFrQkU4ZEJxQ0NBajhV?=
- =?utf-8?B?cWVKMi95QWVjU1ZQeFZSYXZBQWc0emtMUldTbkMxbFpzQ0VrYTdmOEl2dy8y?=
- =?utf-8?B?RmwxWHEzK2ppUVU3c2ZRWnZKN3JBcGZEbXB4bjlHNU1JTzYwQlU0aWRrMTRk?=
- =?utf-8?B?NUxuUnNzUi82ZURBSjFqbTFNSEtLYkt4ZDNqYUE0UnZ3cmZ5N1d6Z2lyVUtj?=
- =?utf-8?B?RENUTHVOZjhCVDd4RDRRaURnSGdYdEtZQTVJZzd5N08ycGo1b2hCY3htcjl5?=
- =?utf-8?B?dWdiUml3LzJ4WkFwMzFwTCt0UHQzZHFWYVg2TSt2bExVNHNkc2NVUG45VStN?=
- =?utf-8?B?cHdaQ1pPV1A2SkxhWXpPRTdvUHhwOFdZeGFjU2ZoQzlhQ3hSSVhLMTJEZWhV?=
- =?utf-8?B?V0hJV0VwNHErR1JnUmNlZVFaY0h6UkIwQmFrQitkY21aUXB5ZkJSUUZYTFZw?=
- =?utf-8?B?K2I1R3VsQTVmVEx3SWhkMjhqb29sNEJHTExMWEYvV0U1VXIyYVZzZk8veVd6?=
- =?utf-8?B?V1Bhd250cGJaeFh3MnJSN01ySFlMR0hiWUI0ZnBSdUwwREdTbHVpcGIxR0Y3?=
- =?utf-8?B?NjZoY25qQmtndHN4UW9sb0YxRHd6MmEvbGtyblZheTZ2ampDN3VkVmVjaGpR?=
- =?utf-8?B?QjY4K2o0VjhHRDhXdUtsNlhremg5THU5YXdUR3JJZ2FVOCtUMVhkZUsvdzl6?=
- =?utf-8?B?aHJkY3VzMXEwRlcySFBXektBUzBOeStzcVpDWXhVR1ZVRVBRc1Ftai91L2xQ?=
- =?utf-8?B?NXUvekdCNHlBQ1hPNGl3L3dnNDVUaVEyblRPWlpBNWF2WkxZUUNFMVhHNDhZ?=
- =?utf-8?B?RDNsU3BvNU5NQnhFMEwzeVJsVVpwZURLOHdEVFpackV0VG9FemdpS3A2ZmZU?=
- =?utf-8?B?bS9wcmtHZVR5bTBSM3lQMGNONjB2Nms0M2djUzVHNG42R3dnU3p3YjdaaUVV?=
- =?utf-8?Q?ksbWb3nOKwDRpVJv5TrQAZI=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 902ccb44-8b3e-4578-8c6f-08d9fcba24e9
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3768.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 02:04:26.4444
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hJXonAnaUtm94iPakqJKZ0ZoFV+tS8QWc7KP/fu0OF9K2+94NNEgtLSbSEXRpzveVA8OUYM65Mx35tgP2xdmEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1720
-X-OriginatorOrg: intel.com
+References: <20220302083758.32528-1-songmuchun@bytedance.com>
+ <20220302083758.32528-2-songmuchun@bytedance.com> <e0ecfbdf-2d9e-4e2e-f538-fab115eaf4da@oracle.com>
+In-Reply-To: <e0ecfbdf-2d9e-4e2e-f538-fab115eaf4da@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 3 Mar 2022 10:28:17 +0800
+Message-ID: <CAMZfGtUcGGuq4ZoS44aMAYfYZQk-S-cJap3LZKLS-2fgi_s3Rw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] mm: hugetlb: disable freeing vmemmap pages when
+ struct page crosses page boundaries
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Mar 3, 2022 at 8:25 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>
+> On 3/2/22 00:37, Muchun Song wrote:
+> > If CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON is enabled and the size
+> > of "struct page" is not power of two, we cannot optimize vmemmap pages
+> > of HugeTLB pages. We should disable this feature in this case.
+>
+> I'll let you reply to the question from Luis, but IIUC there is no issue
+> today as "struct page" is certainly a power of two.  This is more future
+> looking.  Correct?
 
+Partly right. The size of "struct page" is not the power of two if
+!CONFIG_MEMCG && CONFIG_SLAB on x86_64.  But it is not
+a conventional configuration nowadays.  So it is not a critical
+problem. I am not sure if a Fixes tag is necessary.
 
-On 3/2/2022 3:24 PM, Williams, Dan J wrote:
+>
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  mm/hugetlb_vmemmap.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > index b3118dba0518..836d1117f08b 100644
+> > --- a/mm/hugetlb_vmemmap.c
+> > +++ b/mm/hugetlb_vmemmap.c
+> > @@ -121,6 +121,17 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+> >       if (!hugetlb_free_vmemmap_enabled())
+> >               return;
+> >
+> > +     if (IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON) &&
+> > +         !is_power_of_2(sizeof(struct page))) {
+> > +             /*
+> > +              * The hugetlb_free_vmemmap_enabled_key can be enabled when
+> > +              * CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON. It should
+> > +              * be disabled if "struct page" crosses page boundaries.
+> > +              */
+> > +             static_branch_disable(&hugetlb_free_vmemmap_enabled_key);
+>
+> Should we possibly print a warning here as in the routine early_hugetlb_free_vmemmap_param?  This is called once per hstate, so
+> perhaps pr_warn_once.
 
-> 
-> I don't see any need to include author info in source files, that's
-> what 'git blame' is for.
+Good point. Will do.
 
-Noted. Will remove it then
-
-
->> +
->> +MODULE_LICENSE("GPL");
->> +MODULE_INFO(name, "ifs");
->> +MODULE_DESCRIPTION("ifs");
-> 
-> Just omit MODULE_INFO and MODULE_DESCRIPTION if nothing of importance
-> needs to be added.
-
-Will try to be more informative and descriptive 
-
-> 
->> +module_init(ifs_init);
->> +module_exit(ifs_exit);
->> diff --git a/drivers/platform/x86/intel/ifs/ifs.h b/drivers/platform/x86/intel/ifs/ifs.h
->> new file mode 100644
->> index 000000000000..f3f924fced06
->> --- /dev/null
->> +++ b/drivers/platform/x86/intel/ifs/ifs.h
->> @@ -0,0 +1,14 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/* Copyright(c) 2021 Intel Corporation.
->> + *
->> + * Author: Jithu Joseph <jithu.joseph@intel.com>
->> + */
->> +
->> +#ifndef _IFS_H_
->> +#define _IFS_H_
->> +
->> +/* These bits are in the IA32_CORE_CAPABILITIES MSR */
->> +#define MSR_IA32_CORE_CAPS_INTEGRITY_BIT       2
->> +#define MSR_IA32_CORE_CAPS_INTEGRITY           BIT(MSR_IA32_CORE_CAPS_INTEGRITY_BIT)
-> 
-> Is this header going to grow any more definitions? Otherwise these 2
-> lines can just move into the source file.
-
-Subsequent patches adds more definitions to this header.
-
-
-Jithu
+Thanks.
