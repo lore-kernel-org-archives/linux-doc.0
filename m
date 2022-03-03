@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A0EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 08:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66DCC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 08:09:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229752AbiCCIKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230513AbiCCIKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 3 Mar 2022 03:10:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53268 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbiCCIKl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 03:10:41 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368EE170D7E
-        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 00:09:56 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id c16-20020a17090aa61000b001befad2bfaaso3688551pjq.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 00:09:56 -0800 (PST)
+        with ESMTP id S231197AbiCCIKj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 03:10:39 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEDCF1704F4
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 00:09:53 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id z15so4111568pfe.7
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 00:09:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BlHftytjBuyoRKIXnSA9u4UHiVRKtBie/ZZSVHzn4HE=;
-        b=L2UNx+WqtGzUPMfGtVgcgF51DX9vz7Sw4DogZVN2phE/aKEyzlwm9UfWoPEASAaT/v
-         Fh9/NqolS5gXOJV5UOJPFxfoY88TtSmaP5x6LUHBvdhQZDqEjjIlN3uRGq9JRxaoAE+n
-         9Dn4pF7UovFMYxwOaW3RAVLrf0EAjRHl1P+cVfMvAmAQzWcGewzDIG9mTbTEtZN2qqXJ
-         Mj5HaKQsDdPDm6YKp2dImq0HaYhI7d4tJZLbA/ky+FG++xSDHdvB/P9js6MOKAbMvreT
-         Sw/31hnKkpcRa0puWe0aD9cs/m2Q//ZUMBOhBe0KlD1NH9B1H8y/k50WxPPo6UIUWohh
-         qUcg==
+        bh=orPULcKvRuXoR0YwIOjWsH7Ly46johFuzT89K8VgXk4=;
+        b=PRR4O8YOaB2DzQnWWWDi1jE+6L4UAPm+PXsJa8/8LbNPDcOxkqkk1VTcow0/nB7Mv/
+         +dGmxqJJU7sN5RFEHOM7vzFa4BhOo3E7WRJpxKju5yiCC68VPgAiDtB20vXi7Ryty6qy
+         yomjlVq0PGAzeGuhrr8q6bJmguIA9hUGPHtb8fov4aepdX7UEAZa6hC+KVuCF+BFNY+4
+         ebKivBaAApXXUijDfK1NkSXjQ44+WHraeGlOAmq+Lnhbcau+gc7j0p2MjvX0d/SdktZK
+         2lNFOPw7aMYV/XHUnkpvhEC1oh/sK6nlGqk8Fg20PzumE0lfCSJk+q5GWH+FnwCSQByZ
+         44bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BlHftytjBuyoRKIXnSA9u4UHiVRKtBie/ZZSVHzn4HE=;
-        b=4BbObnz/78iY0uuTFiv2dMxfrGff4qOchQK9Zo2dT6uGarP32ExKz6pxSKDRk7qNdf
-         UZWpXoI3kr/7Ju7cPxXCEH8VyXDkkHF6+8WGdOOcnFJmUCMBxrO0vxBEvDIyZvJf9ncy
-         d4Ev8hS1IRMHcSMeQDO+I1VwFwov7HVHtgayr4ug4Pcoq6w4yAtyf5xMF6QDh9iofAb9
-         pjLqhnP9k1/fXS+rWoU1777xsLmcx1mrwkr8ZYQcOTdVLXKmw1ZxynOB1FThxMr9hFxt
-         qUUAY4JITRAsY170iGJ8vMm/evOvmms4vBTjYw6xvdtl8nRcQl8biTVe68mCxCJg16Vi
-         akQA==
-X-Gm-Message-State: AOAM531ojJUldRaxOYS4WzB1GYTeNyyLdmawcF58Fz9Ru0J7Ua+3/1it
-        BjS4MzP5HHhiQg2/df2nJuGEKeUb8KT16N03
-X-Google-Smtp-Source: ABdhPJzzsMAwm4LBgYt3v6EcHuqdrldA7D+hWR+NzhYiYgDPa6we4kppLmw1MN9iEzFguC7XiVNQnA==
-X-Received: by 2002:a17:90a:8581:b0:1b2:7541:af6c with SMTP id m1-20020a17090a858100b001b27541af6cmr4076980pjn.48.1646294995626;
-        Thu, 03 Mar 2022 00:09:55 -0800 (PST)
+        bh=orPULcKvRuXoR0YwIOjWsH7Ly46johFuzT89K8VgXk4=;
+        b=Az5KgaZdZ9c4MtuWWXll/+TiGzexrX2VO7HNhO/8xk46Xy9Nupwsi942ahL5nzrJAd
+         8M5yPUC9VKr8BhAO14yhdI+bxqgjn7s7NDUbbNg/5P7Yf/JBPwZ/9xpqgHK3xQl8jqLH
+         fjY3yCwXc4KmuKpgvVK3mPbk9SlQihZBgtPFbkj/Kg9+kRl8BR8kAvbXRuksdyNYgQQ8
+         bQ/f1slA3P9oi+3MeVyLUV9duThvVElT0H8udvAfMAPqFaHXb+bZ159tTit8FgJZ7p3R
+         235RL7HsH5j2IzWCzOSW+t46x0wCqtvaSExvuWJ7jt4Ok9WMZ17E/072JlycSWHxQ4ph
+         N2Vw==
+X-Gm-Message-State: AOAM53367VyByhk3eZ+Bdz5f4yfV2iIgHXvHrOCiXjnz9wr1T4Hu4/bK
+        VPUJvVESDj78y640fqtew70=
+X-Google-Smtp-Source: ABdhPJzjGTSHmobipt/gHyjMZrj1X4tUq5uYLmdGt2H3bWqRrWQr3mlkdxOEYDKCcx3qvf2arNKsZw==
+X-Received: by 2002:a63:ba5e:0:b0:372:9bb2:c12d with SMTP id l30-20020a63ba5e000000b003729bb2c12dmr29443380pgu.380.1646294992925;
+        Thu, 03 Mar 2022 00:09:52 -0800 (PST)
 Received: from localhost.localdomain (42-200-190-71.static.imsbiz.com. [42.200.190.71])
-        by smtp.gmail.com with ESMTPSA id 6-20020a630006000000b0036d11540db8sm1371229pga.76.2022.03.03.00.09.53
+        by smtp.gmail.com with ESMTPSA id 6-20020a630006000000b0036d11540db8sm1371229pga.76.2022.03.03.00.09.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 00:09:55 -0800 (PST)
+        Thu, 03 Mar 2022 00:09:52 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: [PATCH 3/3] docs/zh_CN: add devicetree of_unittest translation
-Date:   Thu,  3 Mar 2022 16:06:29 +0800
-Message-Id: <1769ee238ef217f0d55bf6d9b200a37bb8eb386d.1646294349.git.siyanteng@loongson.cn>
+Subject: [PATCH 2/3] docs/zh_CN: add devicetree usage-model translation
+Date:   Thu,  3 Mar 2022 16:06:28 +0800
+Message-Id: <0e26f082895b643afcd9334661d42e94311e3c27.1646294349.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1646294349.git.siyanteng@loongson.cn>
 References: <cover.1646294349.git.siyanteng@loongson.cn>
@@ -66,43 +66,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../Devicetree/of_unittest.rst into Chinese.
+Translate .../Devicetree/usage-model.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Signed-off-by: Yanteng Si <siyanteng01@gmail.com>
 ---
- .../translations/zh_CN/devicetree/index.rst   |   3 +-
- .../zh_CN/devicetree/of_unittest.rst          | 189 ++++++++++++++++++
- 2 files changed, 190 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/devicetree/of_unittest.rst
+ .../translations/zh_CN/devicetree/index.rst   |   4 +-
+ .../zh_CN/devicetree/usage-model.rst          | 330 ++++++++++++++++++
+ 2 files changed, 333 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/devicetree/usage-model.rst
 
 diff --git a/Documentation/translations/zh_CN/devicetree/index.rst b/Documentation/translations/zh_CN/devicetree/index.rst
-index 6d9ac4254a1c..23d0b6fccd58 100644
+index 5ca1ae87b57d..6d9ac4254a1c 100644
 --- a/Documentation/translations/zh_CN/devicetree/index.rst
 +++ b/Documentation/translations/zh_CN/devicetree/index.rst
-@@ -23,11 +23,10 @@ Open Firmware 和 Devicetree
+@@ -22,9 +22,11 @@ Open Firmware 和 Devicetree
+ .. toctree::
     :maxdepth: 1
  
-    usage-model
-+   of_unittest
- 
++   usage-model
++
  Todolist:
  
--
--*   of_unittest
+-*   usage-model
++
+ *   of_unittest
  *   kernel-api
  
- Devicetree Overlays
-diff --git a/Documentation/translations/zh_CN/devicetree/of_unittest.rst b/Documentation/translations/zh_CN/devicetree/of_unittest.rst
+diff --git a/Documentation/translations/zh_CN/devicetree/usage-model.rst b/Documentation/translations/zh_CN/devicetree/usage-model.rst
 new file mode 100644
-index 000000000000..fc7f3934b345
+index 000000000000..318a3c6a0114
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/devicetree/of_unittest.rst
-@@ -0,0 +1,189 @@
++++ b/Documentation/translations/zh_CN/devicetree/usage-model.rst
+@@ -0,0 +1,330 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/Devicetree/of_unittest.rst
++:Original: Documentation/Devicetree/usage-model.rst
 +
 +:翻译:
 +
@@ -110,184 +110,325 @@ index 000000000000..fc7f3934b345
 +
 +:校译:
 +
-+=================================
-+Open Firmware Devicetree 单元测试
-+=================================
 +
-+作者: Gaurav Minocha <gaurav.minocha.os@gmail.com>
++===================
++Linux 和 Devicetree
++===================
 +
-+1. 概述
-+=======
++Linux对设备树数据的使用模型
 +
-+本文档解释了执行 OF 单元测试所需的测试数据是如何动态地附加到实时树上的，与机器的架构无关。
++:作者: Grant Likely <grant.likely@secretlab.ca>
 +
-+建议在继续读下去之前，先阅读以下文件。
++这篇文章描述了Linux如何使用设备树。关于设备树数据格式的概述可以在
++devicetree.org\ [1]_ 的设备树使用页面上找到。
 +
-+(1) Documentation/devicetree/usage-model.rst
-+(2) http://www.devicetree.org/Device_Tree_Usage
++.. [1] https://www.devicetree.org/specifications/
 +
-+OF Selftest被设计用来测试提供给设备驱动开发者的接口（include/linux/of.h），以从未扁平
-+化的设备树数据结构中获取设备信息等。这个接口被大多数设备驱动在各种使用情况下使用。
++"Open Firmware Device Tree"，或简称为Devicetree（DT），是一种用于描述硬
++件的数据结构和语言。更确切地说，它是一种操作系统可读的硬件描述，这样操作系统就不
++需要对机器的细节进行硬编码。
 +
++从结构上看，DT是一棵树，或者说是带有命名节点的无环图，节点可以有任意数量的命名
++属性来封装任意的数据。还存在一种机制，可以在自然的树状结构之外创建从一个节点到
++另一个节点的任意链接。
 +
-+2. Test-data
-+============
++从概念上讲，一套通用的使用惯例，称为 "bindings"（后文译为绑定），被定义为数据
++应该如何出现在树中，以描述典型的硬件特性，包括数据总线、中断线、GPIO连接和外围
++设备。
 +
-+设备树源文件（drivers/of/unittest-data/testcases.dts）包含执行drivers/of/unittest.c
-+中自动化单元测试所需的测试数据。目前，以下设备树源包含文件（.dtsi）被包含在testcases.dt中::
++尽可能使用现有的绑定来描述硬件，以最大限度地利用现有的支持代码，但由于属性和节
++点名称是简单的文本字符串，通过定义新的节点和属性来扩展现有的绑定或创建新的绑定
++很容易。然而，要警惕的是，在创建一个新的绑定之前，最好先对已经存在的东西做一些
++功课。目前有两种不同的、不兼容的i2c总线的绑定，这是因为在创建新的绑定时没有事先
++调查i2c设备在现有系统中是如何被枚举的。
 +
-+    drivers/of/unittest-data/tests-interrupts.dtsi
-+    drivers/of/unittest-data/tests-platform.dtsi
-+    drivers/of/unittest-data/tests-phandle.dtsi
-+    drivers/of/unittest-data/tests-match.dtsi
++1. 历史
++-------
++DT最初是由Open Firmware创建的，作为将数据从Open Firmware传递给客户程序
++（如传递给操作系统）的通信方法的一部分。操作系统使用设备树在运行时探测硬件的拓
++扑结构，从而在没有硬编码信息的情况下支持大多数可用的硬件（假设所有设备的驱动程
++序都可用）。
 +
-+当内核在启用OF_SELFTEST的情况下被构建时，那么下面的make规则::
++由于Open Firmware通常在PowerPC和SPARC平台上使用，长期以来，对这些架构的
++Linux支持一直使用设备树。
 +
-+    $(obj)/%.dtb: $(src)/%.dts FORCE
-+	    $(call if_changed_dep, dtc)
++2005年，当PowerPC Linux开始大规模清理并合并32位和64位支持时，决定在所有
++Powerpc平台上要求DT支持，无论它们是否使用Open Firmware。为了做到这一点，
++我们创建了一个叫做扁平化设备树（FDT）的DT表示法，它可以作为一个二进制的blob
++传递给内核，而不需要真正的Open Firmware实现。U-Boot、kexec和其他引导程序
++被修改，以支持传递设备树二进制（dtb）和在引导时修改dtb。DT也被添加到PowerPC
++引导包装器（arch/powerpc/boot/\*）中，这样dtb就可以被包裹在内核镜像中，以
++支持引导现有的非DT察觉的固件。
 +
-+用于将DT源文件（testcases.dts）编译成二进制blob（testcases.dtb），也被称为扁平化的DT。
++一段时间后，FDT基础架构被普及到了所有的架构中。在写这篇文章的时候，6个主线架
++构（arm、microblaze、mips、powerpc、sparc和x86）和1个非主线架构（ios）
++有某种程度的DT支持。
 +
-+之后，使用以下规则将上述二进制blob包装成一个汇编文件（testcases.dtb.S）::
++1. 数据模型
++-----------
++如果你还没有读过设备树用法\ [1]_页，那么现在就去读吧。没关系，我等着....
 +
-+    $(obj)/%.dtb.S: $(obj)/%.dtb
-+	    $(call cmd, dt_S_dtb)
++2.1 高层次视角
++--------------
++最重要的是要明白，DT只是一个描述硬件的数据结构。它没有什么神奇之处，也不会神
++奇地让所有的硬件配置问题消失。它所做的是提供一种语言，将硬件配置与Linux内核
++（或任何其他操作系统）中的板卡和设备驱动支持解耦。使用它可以使板卡和设备支持
++变成数据驱动；根据传递到内核的数据做出设置决定，而不是根据每台机器的硬编码选
++择。
 +
-+汇编文件被编译成一个对象文件（testcases.dtb.o），并被链接到内核镜像中。
++理想情况下，数据驱动的平台设置应该导致更少的代码重复，并使其更容易用一个内核
++镜像支持各种硬件。
 +
++Linux使用DT数据有三个主要目的:
 +
-+2.1. 添加测试数据
-+-----------------
++1) 平台识别。
++2) 运行时配置，以及
++3) 设备数量。
 +
-+未扁平化的设备树结构体:
++2.2 平台识别
++------------
++首先，内核将使用DT中的数据来识别特定的机器。在一个理想的世界里，具体的平台对
++内核来说并不重要，因为所有的平台细节都会被设备树以一致和可靠的方式完美描述。
++但是，硬件并不完美，所以内核必须在早期启动时识别机器，以便有机会运行特定于机
++器的修复程序。
 +
-+未扁平化的设备树由连接的设备节点组成，其树状结构形式如下所述::
++在大多数情况下，机器的身份是不相关的，而内核将根据机器的核心CPU或SoC来选择
++设置代码。例如，在ARM上，arch/arm/kernel/setup.c中的setup_arch()将调
++用arch/arm/kernel/devtree.c中的setup_machine_fdt()，它通过
++machine_desc表搜索并选择与设备树数据最匹配的machine_desc。它通过查看根
++设备树节点中的'compatible'属性，并将其与struct machine_desc中的
++dt_compat列表（如果你好奇，该列表定义在arch/arm/include/asm/mach/arch.h
++中）进行比较，从而确定最佳匹配。
 +
-+    // following struct members are used to construct the tree
-+    struct device_node {
-+	...
-+	struct  device_node *parent;
-+	struct  device_node *child;
-+	struct  device_node *sibling;
-+	...
-+    };
++“compatible” 属性包含一个排序的字符串列表，以机器的确切名称开始，后面是
++一个可选的与之兼容的板子列表，从最兼容到最不兼容排序。例如，TI BeagleBoard
++和它的后继者BeagleBoard xM板的根兼容属性可能看起来分别为::
 +
-+图1描述了一个机器的未扁平化设备树的通用结构，只考虑了子节点和同级指针。存在另一个指针，
-+``*parent`` ，用于反向遍历该树。因此，在一个特定的层次上，子节点和所有的兄弟姐妹节点将
-+有一个指向共同节点的父指针（例如，child1、sibling2、sibling3、sibling4的父指针指向
-+根节点）::
++	compatible = "ti,omap3-beagleboard", "ti,omap3450", "ti,omap3";
++	compatible = "ti,omap3-beagleboard-xm", "ti,omap3450", "ti,omap3";
 +
-+    root ('/')
-+    |
-+    child1 -> sibling2 -> sibling3 -> sibling4 -> null
-+    |         |           |           |
-+    |         |           |          null
-+    |         |           |
-+    |         |        child31 -> sibling32 -> null
-+    |         |           |          |
-+    |         |          null       null
-+    |         |
-+    |      child21 -> sibling22 -> sibling23 -> null
-+    |         |          |            |
-+    |        null       null         null
-+    |
-+    child11 -> sibling12 -> sibling13 -> sibling14 -> null
-+    |           |           |            |
-+    |           |           |           null
-+    |           |           |
-+    null        null       child131 -> null
-+			    |
-+			    null
++其中 "ti,map3-beagleboard-xm "指定了确切的型号，它还声称它与OMAP 3450 SoC
++以及一般的OMP3系列SoC兼容。你会注意到，该列表从最具体的（确切的板子）到最
++不具体的（SoC系列）进行排序。
 +
-+Figure 1: 未扁平化的设备树的通用结构
++聪明的读者可能会指出，Beagle xM也可以声称与原Beagle板兼容。然而，我们应
++该当心在板级上这样做，因为通常情况下，即使在同一产品系列中，每块板都有很高
++的变化，而且当一块板声称与另一块板兼容时，很难确定到底是什么意思。对于高层
++来说，最好是谨慎行事，不要声称一块板子与另一块板子兼容。值得注意的例外是，
++当一块板子是另一块板子的载体时，例如CPU模块连接到一个载体板上。
 +
++关于兼容值还有一个注意事项。在兼容属性中使用的任何字符串都必须有文件说明它
++表示什么。在Documentation/devicetree/bindings中添加兼容字符串的文档。
 +
-+在执行OF单元测试之前，需要将测试数据附加到机器的设备树上（如果存在）。因此，当调用
-+selftest_data_add()时，首先会读取通过以下内核符号链接到内核镜像中的扁平化设备树
-+数据::
++同样在ARM上，对于每个machine_desc，内核会查看是否有任何dt_compat列表条
++目出现在兼容属性中。如果有，那么该机器_desc就是驱动该机器的候选者。在搜索
++了整个machine_descs表之后，setup_machine_fdt()根据每个machine_desc
++在兼容属性中匹配的条目，返回 “最兼容” 的machine_desc。如果没有找到匹配
++的machine_desc，那么它将返回NULL。
 +
-+    __dtb_testcases_begin - address marking the start of test data blob
-+    __dtb_testcases_end   - address marking the end of test data blob
++这个方案背后的原因是观察到，在大多数情况下，如果它们都使用相同的SoC或相同
++系列的SoC，一个机器_desc可以支持大量的电路板。然而，不可避免地会有一些例
++外情况，即特定的板子需要特殊的设置代码，这在一般情况下是没有用的。特殊情况
++可以通过在通用设置代码中明确检查有问题的板子来处理，但如果超过几个情况下，
++这样做很快就会变得很难看和/或无法维护。
 +
-+其次，它调用of_fdt_unflatten_tree()来解除扁平化的blob。最后，如果机器的设备树
-+（即实时树）是存在的，那么它将未扁平化的测试数据树附加到实时树上，否则它将自己作为
-+实时设备树附加。
++相反，兼容列表允许通用机器_desc通过在dt_compat列表中指定“不太兼容”的值
++来提供对广泛的通用板的支持。在上面的例子中，通用板支持可以声称与“ti,ompa3”
++或“ti,ompa3450”兼容。如果在最初的beagleboard上发现了一个bug，需要在
++早期启动时使用特殊的变通代码，那么可以添加一个新的machine_desc，实现变通，
++并且只在“ti,omap3-beagleboard”上匹配。
 +
-+attach_node_and_children()使用of_attach_node()将节点附加到实时树上，如下所
-+述。为了解释这一点，图2中描述的测试数据树被附加到图1中描述的实时树上::
++PowerPC使用了一个稍微不同的方案，它从每个机器_desc中调用.probe()钩子，
++并使用第一个返回TRUE的钩子。然而，这种方法没有考虑到兼容列表的优先级，对于
++新的架构支持可能应该避免。
 +
-+    root ('/')
-+	|
-+    testcase-data
-+	|
-+    test-child0 -> test-sibling1 -> test-sibling2 -> test-sibling3 -> null
-+	|               |                |                |
-+    test-child01      null             null             null
++2.3 运行时配置
++--------------
++在大多数情况下，DT是将数据从固件传递给内核的唯一方法，所以也被用来传递运行
++时和配置数据，如内核参数字符串和initrd镜像的位置。
 +
++这些数据大部分都包含在/chosen节点中，当启动Linux时，它看起来就像这样::
 +
-+Figure 2: 将测试数据树附在实时树上的例子。
++	chosen {
++		bootargs = "console=ttyS0,115200 loglevel=8";
++		initrd-start = <0xc8000000>;
++		initrd-end = <0xc8200000>;
++	};
 +
-+根据上面的方案，实时树已经存在，所以不需要附加根('/')节点。所有其他节点都是通过在
-+每个节点上调用of_attach_node()来附加的。
++bootargs属性包含内核参数，initrd-\*属性定义initrd blob的地址和大小。注
++意initrd-end是initrd映像后的第一个地址，所以这与结构体资源的通常语义不一
++致。选择的节点也可以选择包含任意数量的额外属性，用于平台特定的配置数据。
 +
-+在函数of_attach_node()中，新的节点被附在实时树中给定的父节点的子节点上。但是，如
-+果父节点已经有了一个孩子，那么新节点就会取代当前的孩子，并将其变成其兄弟姐妹。因此，
-+当测试案例的数据节点被连接到上面的实时树（图1）时，最终的结构如图3所示::
++在早期启动过程中，架构设置代码通过不同的辅助回调函数多次调用
++of_scan_flat_dt()来解析设备树数据，然后进行分页设置。of_scan_flat_dt()
++代码扫描设备树，并使用辅助函数来提取早期启动期间所需的信息。通常情况下，
++early_init_dt_scan_chosen()辅助函数用于解析所选节点，包括内核参数，
++early_init_dt_scan_root()用于初始化DT地址空间模型，early_init_dt_scan_memory()
++用于确定可用RAM的大小和位置。
 +
-+    root ('/')
-+    |
-+    testcase-data -> child1 -> sibling2 -> sibling3 -> sibling4 -> null
-+    |               |          |           |           |
-+    (...)             |          |           |          null
-+		    |          |         child31 -> sibling32 -> null
-+		    |          |           |           |
-+		    |          |          null        null
-+		    |          |
-+		    |        child21 -> sibling22 -> sibling23 -> null
-+		    |          |           |            |
-+		    |         null        null         null
-+		    |
-+		    child11 -> sibling12 -> sibling13 -> sibling14 -> null
-+		    |          |            |            |
-+		    null       null          |           null
-+					    |
-+					    child131 -> null
-+					    |
-+					    null
-+    -----------------------------------------------------------------------
++在ARM上，函数setup_machine_fdt()负责在选择支持板子的正确machine_desc
++后，对设备树进行早期扫描。
 +
-+    root ('/')
-+    |
-+    testcase-data -> child1 -> sibling2 -> sibling3 -> sibling4 -> null
-+    |               |          |           |           |
-+    |             (...)      (...)       (...)        null
-+    |
-+    test-sibling3 -> test-sibling2 -> test-sibling1 -> test-child0 -> null
-+    |                |                   |                |
-+    null             null                null         test-child01
++2.4 设备数量
++------------
++在电路板被识别后，在早期配置数据被解析后，内核初始化可以以正常方式进行。在
++这个过程中的某个时刻，unflatten_device_tree()被调用以将数据转换成更有
++效的运行时表示。这也是调用机器特定设置钩子的时候，比如ARM上的machine_desc
++.init_early()、.init_irq()和.init_machine()钩子。本节的其余部分使用
++了ARM实现的例子，但所有架构在使用DT时都会做几乎相同的事情。
 +
++从名称上可以猜到，.init_early()用于在启动过程早期需要执行的任何机器特定设
++置，而.init_irq()则用于设置中断处理。使用DT并不会实质性地改变这两个函数的
++行为。如果提供了DT，那么.init_early()和.init_irq()都能调用任何一个DT查
++询函数（of_* in include/linux/of*.h），以获得关于平台的额外数据。
 +
-+Figure 3: 附加测试案例数据后的实时设备树结构。
++DT上下文中最有趣的钩子是.init_machine()，它主要负责将平台的数据填充到
++Linux设备模型中。历史上，这在嵌入式平台上是通过在板卡support .c文件中定
++义一组静态时钟结构、platform_devices和其他数据，并在.init_machine()中
++大量注册来实现的。当使用DT时，就不用为每个平台的静态设备进行硬编码，可以通过
++解析DT获得设备列表，并动态分配设备结构体。
 +
++最简单的情况是，.init_machine()只负责注册一个platform_devices。
++platform_device是Linux使用的一个概念，用于不能被硬件检测到的内存或I/O映
++射的设备，以及“复合”或 “虚拟”设备（后面会详细介绍）。虽然DT没有“平台设备”的
++术语，但平台设备大致对应于树根的设备节点和简单内存映射总线节点的子节点。
 +
-+聪明的读者会注意到，与先前的结构相比，test-child0节点成为最后一个兄弟姐妹（图2）。
-+在连接了第一个test-child0节点之后，又连接了test-sibling1节点，该节点推动子节点
-+（即test-child0）成为兄弟姐妹，并使自己成为子节点，如上所述。
++现在是举例说明的好时机。下面是NVIDIA Tegra板的设备树的一部分::
 +
-+如果发现一个重复的节点（即如果一个具有相同full_name属性的节点已经存在于实时树中），
-+那么该节点不会被附加，而是通过调用函数update_node_properties()将其属性更新到活
-+树的节点中。
++  /{
++	compatible = "nvidia,harmony", "nvidia,tegra20";
++	#address-cells = <1>;
++	#size-cells = <1>;
++	interrupt-parent = <&intc>;
 +
++	chosen { };
++	aliases { };
 +
-+2.2. 删除测试数据
-+-----------------
++	memory {
++		device_type = "memory";
++		reg = <0x00000000 0x40000000>;
++	};
 +
-+一旦测试用例执行完，selftest_data_remove被调用，以移除最初连接的设备节点（首先是
-+叶子节点被分离，然后向上移动父节点被移除，最后是整个树）。selftest_data_remove()
-+调用detach_node_and_children()，使用of_detach_node()将节点从实时设备树上分离。
++	soc {
++		compatible = "nvidia,tegra20-soc", "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
 +
-+为了分离一个节点，of_detach_node()要么将给定节点的父节点的子节点指针更新为其同级节
-+点，要么根据情况将前一个同级节点附在给定节点的同级节点上。就这样吧。 :)
++		intc: interrupt-controller@50041000 {
++			compatible = "nvidia,tegra20-gic";
++			interrupt-controller;
++			#interrupt-cells = <1>;
++			reg = <0x50041000 0x1000>, < 0x50040100 0x0100 >;
++		};
++
++		serial@70006300 {
++			compatible = "nvidia,tegra20-uart";
++			reg = <0x70006300 0x100>;
++			interrupts = <122>;
++		};
++
++		i2s1: i2s@70002800 {
++			compatible = "nvidia,tegra20-i2s";
++			reg = <0x70002800 0x100>;
++			interrupts = <77>;
++			codec = <&wm8903>;
++		};
++
++		i2c@7000c000 {
++			compatible = "nvidia,tegra20-i2c";
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x7000c000 0x100>;
++			interrupts = <70>;
++
++			wm8903: codec@1a {
++				compatible = "wlf,wm8903";
++				reg = <0x1a>;
++				interrupts = <347>;
++			};
++		};
++	};
++
++	sound {
++		compatible = "nvidia,harmony-sound";
++		i2s-controller = <&i2s1>;
++		i2s-codec = <&wm8903>;
++	};
++  };
++
++在.init_machine()时，Tegra板支持代码将需要查看这个DT，并决定为哪些节点
++创建platform_devices。然而，看一下这个树，并不能立即看出每个节点代表什么
++类型的设备，甚至不能看出一个节点是否代表一个设备。/chosen、/aliases和
++/memory节点是信息节点，并不描述设备（尽管可以说内存可以被认为是一个设备）。
++/soc节点的子节点是内存映射的设备，但是codec@1a是一个i2c设备，而sound节
++点代表的不是一个设备，而是其他设备是如何连接在一起以创建音频子系统的。我知
++道每个设备是什么，因为我熟悉电路板的设计，但是内核怎么知道每个节点该怎么做？
++
++诀窍在于，内核从树的根部开始，寻找具有“兼容”属性的节点。首先，一般认为任何
++具有“兼容”属性的节点都代表某种设备；其次，可以认为树根的任何节点要么直接连
++接到处理器总线上，要么是无法用其他方式描述的杂项系统设备。对于这些节点中的
++每一个，Linux都会分配和注册一个platform_device，它又可能被绑定到一个
++platform_driver。
++
++为什么为这些节点使用platform_device是一个安全的假设？嗯，就Linux对设备
++的建模方式而言，几乎所有的总线类型都假定其设备是总线控制器的孩子。例如，每
++个i2c_client是i2c_master的一个子节点。每个spi_device都是SPI总线的一
++个子节点。类似的还有USB、PCI、MDIO等。同样的层次结构也出现在DT中，I2C设
++备节点只作为I2C总线节点的子节点出现。同理，SPI、MDIO、USB等等。唯一不需
++要特定类型的父设备的设备是platform_devices（和amba_devices，但后面会
++详细介绍），它们将愉快地运行在Linux/sys/devices树的底部。因此，如果一个
++DT节点位于树的根部，那么它真的可能最好注册为platform_device。
++
++Linux板支持代码调用of_platform_populate(NULL, NULL, NULL, NULL)来
++启动树根的设备发现。参数都是NULL，因为当从树的根部开始时，不需要提供一个起
++始节点（第一个NULL），一个父结构设备（最后一个NULL），而且我们没有使用匹配
++表（尚未）。对于只需要注册设备的板子，除了of_platform_populate()的调用，
++.init_machine()可以完全为空。
++
++在Tegra的例子中，这说明了/soc和/sound节点，但是SoC节点的子节点呢？它们
++不应该也被注册为平台设备吗？对于Linux DT支持，一般的行为是子设备在驱动
++.probe()时被父设备驱动注册。因此，一个i2c总线设备驱动程序将为每个子节点
++注册一个i2c_client，一个SPI总线驱动程序将注册其spi_device子节点，其他
++总线类型也是如此。根据该模型，可以编写一个与SoC节点绑定的驱动程序，并简单
++地为其每个子节点注册platform_device。板卡支持代码将分配和注册一个SoC设
++备，一个（理论上的）SoC设备驱动程序可以绑定到SoC设备，并在其.probe()钩
++中为/soc/interruptcontroller、/soc/serial、/soc/i2s和/soc/i2c注
++册platform_devices。很简单，对吗？
++
++实际上，事实证明，将一些platform_device的子设备注册为更多的platform_device
++是一种常见的模式，设备树支持代码反映了这一点，并使上述例子更简单。
++of_platform_populate()的第二个参数是一个of_device_id表，任何与该表
++中的条目相匹配的节点也将获得其子节点的注册。在Tegra的例子中，代码可以是
++这样的::
++
++  static void __init harmony_init_machine(void)
++  {
++	/* ... */
++	of_platform_populate(NULL, of_default_bus_match_table, NULL, NULL);
++  }
++
++“simple-bus”在Devicetree规范中被定义为一个属性，意味着一个简单的内存映射
++的总线，所以of_platform_populate()代码可以被写成只是假设简单总线兼容的节
++点将总是被遍历。然而，我们把它作为一个参数传入，以便电路板支持代码可以随时覆
++盖默认行为。
++
++[需要添加关于添加i2c/spi/etc子设备的讨论] 。
++
++附录A：AMBA设备
++---------------
++
++ARM Primecell是连接到ARM AMBA总线的某种设备，它包括对硬件检测和电源管理
++的一些支持。在Linux中，amba_device和amba_bus_type结构体被用来表示
++Primecell设备。然而，棘手的一点是，AMBA总线上的所有设备并非都是Primecell，
++而且对于Linux来说，典型的情况是amba_device和platform_device实例都是同
++一总线段的同义词。
++
++当使用DT时，这给of_platform_populate()带来了问题，因为它必须决定是否将
++每个节点注册为platform_device或amba_device。不幸的是，这使设备创建模型
++变得有点复杂，但解决方案原来并不是太具有侵略性。如果一个节点与“arm,amba-primecell”
++兼容，那么of_platform_populate()将把它注册为amba_device而不是
++platform_device。
 -- 
 2.27.0
 
