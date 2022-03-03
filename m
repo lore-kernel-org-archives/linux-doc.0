@@ -2,205 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDEBC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 09:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B46BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Mar 2022 09:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbiCCJzU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Mar 2022 04:55:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46312 "EHLO
+        id S229672AbiCCJzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Mar 2022 04:55:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbiCCJzU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 04:55:20 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D3915DB1B;
-        Thu,  3 Mar 2022 01:54:34 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 88F89B82461;
-        Thu,  3 Mar 2022 09:54:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E494C340EF;
-        Thu,  3 Mar 2022 09:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646301272;
-        bh=tIodI2Hud+QBpoZXN7zKKPXqPQ1ebddBIKjXe7wyLco=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BLZTNr+I20KCM66UzQQ64UqOLDenanYbvWYnkkl1KVuK2ZhK1TrQujavQ6NPhQR8f
-         02rEXT6JFviQ6F1zcQgD1PN9apZ3ktb+1mH8j/osjgscN9sV1D3A8uweEgYuBZ12gL
-         ma2ZjuSmRvE/R9tVL6SYf4QPIfp75xZ2uNjazKAlQYRYiQCQQ6RS0/6LlOnjH8CxsN
-         VL/DdBP0eWsAiomzTTTTwtpyeKpgK5paKSsYRbu1vxugxY/o8NWDdusQoh2pXFW7Is
-         1lOO6fvasrQJqL9VaaVgyhvG6SOqH3iZkrwhMxXrVgMmUEfGbztA88dBSUi3n4WILN
-         lc2U1TLgpJnvA==
-Received: by mail-yb1-f172.google.com with SMTP id e186so9071979ybc.7;
-        Thu, 03 Mar 2022 01:54:32 -0800 (PST)
-X-Gm-Message-State: AOAM532eLN36C8Sa5RLCfr7pC7dwHvpC9foHTx6bem5c7c0CNl39D1D3
-        LueTmOSWM2EbfsfrrSa4oW0h9jLdAxd/x5c8CCU=
-X-Google-Smtp-Source: ABdhPJyHYDUNXhzk6J7M8BSCGmB29RrwdM9CZzel6nEjh11lBBidQUmLAGxSs3L4T09tNq8StA7c1r7BV5sQqpuQD0Y=
-X-Received: by 2002:a25:53c4:0:b0:628:a0de:b4d6 with SMTP id
- h187-20020a2553c4000000b00628a0deb4d6mr6260062ybb.299.1646301270987; Thu, 03
- Mar 2022 01:54:30 -0800 (PST)
+        with ESMTP id S231740AbiCCJzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Mar 2022 04:55:41 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0B8B15DB23
+        for <linux-doc@vger.kernel.org>; Thu,  3 Mar 2022 01:54:55 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id w4so3591956ilj.5
+        for <linux-doc@vger.kernel.org>; Thu, 03 Mar 2022 01:54:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=dry1et1ezCosrUvGsFPj2D/fRggcShEU+N7yi1GKims=;
+        b=EX5FjtVN1IF3aGbVfFmcEt9xapdy8tEkoMt7kTQcNTB4BWVwxgad88vmYvLzq04G9q
+         mSZmEzPWH/+ZJ2iHfxlp2lf9hSTJDhrWguG5ArLmz0XiQZp52mOlZWAVFfWNarfv+L12
+         3NrLs3UPpKlPZWemhWK1vdRCz80RZIzD2+i2Q3XDJ7JibmpuTcatUqlPcz+xb1QBhLyR
+         WEKI0Jyd/YNlxQ4jPi9h5f6U8u93ULr8oNBaEWyMltJ0AUltfNIxRy/bmVWZTqwpokxp
+         FwQ5XQrDjzREQKMCtIMwkIcNNPy/tCBBcpF++aSm/Re6vzH8MUpbgm4JGSFdVVTgG1Om
+         2JuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=dry1et1ezCosrUvGsFPj2D/fRggcShEU+N7yi1GKims=;
+        b=HZ+524u87Y8GUYu5jNJ3evljQ4yHnebBYDkoU1al79zE9kZFIDMfvMCwfVWw2iM09g
+         jiyhmOUTuYE4y7e3gTLZJTScVIe6yIP5qpYjyPSvXL/NO1vj70Y81EtPbzLMvZ4F8VKB
+         PKKBp9+hbD1/O0La93YIZCdFuSejpPyPz8bk3tf2QEqOrqEwDwayMmdOnwBiaW4CG3l/
+         2EnpLSp0FLoKp3IFgq2Z8+2wkfScpdIj3voG3TF9dbpFvymERT4C999xZUOW15BCViVs
+         XW/VAw5rl219Tz4o5OQZ5U2sgHB4V3L0p64Y4rTmVVXhdDBxlUZ6tdSHlRdb/pqnL9SX
+         9fBw==
+X-Gm-Message-State: AOAM533zRsjlqDuAyde5WaO18nJqjwVLwXXZP5fZeWUaoU8geDWCU2D+
+        cHUa2Un6xVkelUAa2XpGzL6dgQk6FsEV5Gijg+A=
+X-Google-Smtp-Source: ABdhPJwU4a5jWRltxTm03k+lTtWAODh6QFRnYI4NdaCHShYHjU6S29vdUshkeIW8QSvnrO7iebdbWNkSDmOndL2NfDw=
+X-Received: by 2002:a05:6e02:1746:b0:2c2:8a1f:8ca6 with SMTP id
+ y6-20020a056e02174600b002c28a1f8ca6mr30214064ill.178.1646301294974; Thu, 03
+ Mar 2022 01:54:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn> <CAMj1kXHWRZcjF9H2jZ+p-HNuXyPs-=9B8WiYLsrDJGpipgKo_w@mail.gmail.com>
- <YhupaVZvbipgke2Z@kroah.com> <CAAhV-H6hmvyniHP-CMxtOopRHp6XYaF58re13snMrk_Umj+wSQ@mail.gmail.com>
- <CAMj1kXFa447Z21q3uu0UFExDDDG9Y42ZHtiUppu6QpuNA_5bhA@mail.gmail.com>
- <CAAhV-H7X+Txq4HaaF49QZ9deD=Dwx_GX-2E9q_nA8P76ZRDeXg@mail.gmail.com>
- <CAMj1kXGH1AtL8_KbFkK+FRgWQPzPm1dCdvEF0A2KksREGTSeCg@mail.gmail.com>
- <CAAhV-H6fdJwbVG_m0ZL_JGROKCrCbc-fKpj3dnOowaEUA+3ujQ@mail.gmail.com>
- <CAK8P3a2hr2rjyLpkeG1EKiOVGrY4UCB61OHGj5nzft-KCS3jYA@mail.gmail.com>
- <CAMj1kXHGG80LdNUUA+Ug1VBXWuvtPxKpqnuChg2N=6Hf2EhY7g@mail.gmail.com>
- <CAAhV-H6dxkdmDizd+ZVhJ_zHZ9RK8QjKU-3U-CaovLiNbEVpbg@mail.gmail.com>
- <CAK8P3a2wF2XA8wCFtP9RNTNQf3W9D8fKOuQ704yE+dRSS5aCVw@mail.gmail.com>
- <CAAhV-H65PeK8w0U2DSbQ0eSWzAR-zjhPz8swSgZhbtKKJAYAKg@mail.gmail.com>
- <CAMj1kXFgCu659zGuZPpRLYPzFemtBv0jsOt1Yz0U0-R4DucqTw@mail.gmail.com>
- <CAAhV-H6GrAH_HGehqernowaTyZjQRNOyp=O8QNE3_7RHfarUFQ@mail.gmail.com> <CAAhV-H7B0xxNeTLd5n1cqPbF_hCp2N1KTbnNMAXFGxfZDzMcpw@mail.gmail.com>
-In-Reply-To: <CAAhV-H7B0xxNeTLd5n1cqPbF_hCp2N1KTbnNMAXFGxfZDzMcpw@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 3 Mar 2022 09:54:20 +0000
-X-Gmail-Original-Message-ID: <CAMj1kXHc-Mpt_NTyR1CVzttV3ORtPerj23BBGNf=g7WmDu7BhA@mail.gmail.com>
-Message-ID: <CAMj1kXHc-Mpt_NTyR1CVzttV3ORtPerj23BBGNf=g7WmDu7BhA@mail.gmail.com>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
+References: <cover.1646294349.git.siyanteng@loongson.cn> <ed0830eaad6b9832204e753bb571d21e87f52130.1646294349.git.siyanteng@loongson.cn>
+In-Reply-To: <ed0830eaad6b9832204e753bb571d21e87f52130.1646294349.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Thu, 3 Mar 2022 17:54:19 +0800
+Message-ID: <CAJy-AmmQxxADyui0fRJt_L9ZHYEi_KgJUk-8ODyd25r+OU17xQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs/zh_CN: add devicetree index translation
+To:     Yanteng Si <siyanteng01@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-efi <linux-efi@vger.kernel.org>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 3 Mar 2022 at 07:26, Huacai Chen <chenhuacai@gmail.com> wrote:
->
-> Hi, Ard & Arnd,
->
-> On Wed, Mar 2, 2022 at 5:20 PM Huacai Chen <chenhuacai@gmail.com> wrote:
-> >
-> > Hi, Ard,
-> >
-> > On Wed, Mar 2, 2022 at 4:58 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > >
-> > > On Wed, 2 Mar 2022 at 09:56, Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > >
-> > > > Hi, Arnd & Ard,
-> > > >
-> > > > On Tue, Mar 1, 2022 at 6:19 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > >
-> > > > > On Tue, Mar 1, 2022 at 5:17 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > > > > On Mon, Feb 28, 2022 at 7:35 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > > > > On Mon, 28 Feb 2022 at 12:24, Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > > > > On Mon, Feb 28, 2022 at 11:42 AM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > > > > > > Can't you just use the UEFI protocol for kernel entry regardless
-> > > > > > > > of the bootloader? It seems odd to use a different protocol for loading
-> > > > > > > > grub and the kernel, especially if that means you end up having to
-> > > > > > > > support both protocols inside of u-boot and grub, in order to chain-load
-> > > > > > > > a uefi application like grub.
-> > > > > > > >
-> > > > > > >
-> > > > > > > I think this would make sense. Now that the EFI stub has generic
-> > > > > > > support for loading the initrd via a UEFI specific protocol (of which
-> > > > > > > u-boot already carries an implementation), booting via UEFI only would
-> > > > > > > mean that no Linux boot protocol would need to be defined outside of
-> > > > > > > the kernel at all (i.e., where to load the kernel, where to put the
-> > > > > > > command line, where to put the initrd, other arch specific rules etc
-> > > > > > > etc) UEFI already supports both ACPI and DT boot
-> > > > > >
-> > > > > > After one night thinking, I agree with Ard that we can use RISCV-style
-> > > > > > fdt to support the raw elf kernel at present, and add efistub support
-> > > > > > after new UEFI SPEC released.
-> > > > >
-> > > > > I think that is the opposite of what Ard and I discussed above.
-> > > > Hmm, I thought that new UEFI SPEC is a requirement of efistub, maybe I'm wrong?
-> > > >
-> > > > >
-> > > > > > If I'm right, it seems that RISC-V passes a0 (hartid) and a1 (fdt
-> > > > > > pointer, which contains cmdline, initrd, etc.) to the raw elf kernel.
-> > > > > > And in my opinion, the main drawback of current LoongArch method
-> > > > > > (a0=argc a1=argv a2=bootparamsinterface pointer) is it uses a
-> > > > > > non-standard method to pass kernel args and initrd. So, can the below
-> > > > > > new solution be acceptable?
-> > > > > >
-> > > > > > a0=bootparamsinterface pointer (the same as a2 in current method)
-> > > > > > a1=fdt pointer (contains cmdline, initrd, etc., like RISC-V, I think
-> > > > > > this is the standard method)
-> > > > >
-> > > > > It would seem more logical to me to keep those details as part of the
-> > > > > interface between the EFI stub and the kernel, rather than the
-> > > > > documented boot interface.
-> > > > >
-> > > > > You said that there is already grub support using the UEFI
-> > > > > loader, so I assume you have a working draft of the boot
-> > > > > protocol. Are there still open questions about the interface
-> > > > > definition for that preventing you from using it as the only
-> > > > > way to enter the kernel from a bootloader?
-> > > > Things become simple if we only consider efistub rather than raw elf.
-> > > > But there are still some problems:
-> > > > 1, We want the first patch series as minimal as possible, efistub
-> > > > support will add a lot of code.
-> > > > 2, EFISTUB hides the interface between bootloader and raw kernel, but
-> > > > the interface does actually exist (efistub itself is also a
-> > > > bootloader, though it binds with the raw kernel). In the current
-> > > > implementation (a0=argc a1=argv a2=bootparaminterface), we should
-> > > > select EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER which is marked as
-> > > > deprecated. Is this acceptable? If not, we still need to change the
-> > > > bootloader-kernel interface, maybe use the method in my previous
-> > > > email?
-> > >
-> > > Why do you need this?
-> > Because in the current implementation (a0=argc a1=argv
-> > a2=bootparaminterface), initrd should be passed by cmdline
-> > (initrd=xxxx). If without that option, efi_load_initrd_cmdline() will
-> > not call handle_cmdline_files().
-> It seems I'm wrong. EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER controls
-> "initrd=xxxx" from BIOS to EFISTUB, but has nothing to do with
-> a0/a1/a2 usage (which controls the "initrd=xxxx" from efistub to raw
-> kernel). The real reason is our UEFI BIOS has an old codebase without
-> LoadFile2 support.
->
-
-The problem with initrd= is that it can only load the initrd from the
-same EFI block device that the kernel was loaded from, which is highly
-restrictive, and doesn't work with bootloaders that call LoadImage()
-on a kernel image loaded into memory. This is why x86 supports passing
-the initrd in memory, and provide the base/size via struct bootparams,
-and arm64 supports the same using DT.
-
-The LoadImage2 protocol based method intends to provide a generic
-alternative to this, as it uses a pure EFI abstraction, and therefore
-does not rely on struct bootparams or DT at all.
-
-So the LoadImage2() based method is preferred, but if your
-architecture implements DT support already, there is nothing
-preventing you from passing initrd information directly to the kernel
-via the /chosen node.
-
-> Then, my new questions are:
-> 1, Is EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER an unacceptable option
-> for a new Arch? If yes, we should backport LoadFile2 support to our
-> BIOS.
-
-See above.
-
-> 2, We now all agree that EFISTUB is the standard and maybe the only
-> way in future. But, can we do the efistub work in the second series,
-> in order to make the first series as minimal as possible? (I will
-> update the commit message to make it clear that a0/a1/a2 usage is only
-> an internal interface between efistub and raw kernel).
->
-
-I think it would be better to drop the UEFI and ACPI pieces for now,
-and resubmit it once the dust has settled around this.
+T24gVGh1LCBNYXIgMywgMjAyMiBhdCA0OjA5IFBNIFlhbnRlbmcgU2kgPHNpeWFudGVuZzAxQGdt
+YWlsLmNvbT4gd3JvdGU6DQo+DQo+IFRyYW5zbGF0ZSAuLi4vZGV2aWNldHJlZS9pbmRleC5yc3Qg
+aW50byBDaGluZXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdA
+bG9vbmdzb24uY24+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZzAxQGdt
+YWlsLmNvbT4NCg0KVWgsIGl0J3MgZmlyc3QgdGltZSBmb3IgbWUgdG8gc2VlIDIgc2lnbmVkLW9m
+ZiBmcm9tIHNhbWUgIHBlcnNvbi4gOikNCg0KUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0Br
+ZXJuZWwub3JnPg0KDQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZpY2V0cmVl
+L2luZGV4LnJzdCAgIHwgNDkgKysrKysrKysrKysrKysrKysrKw0KPiAgRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0ICAgIHwgIDYgKystDQo+ICAyIGZpbGVzIGNoYW5n
+ZWQsIDU0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZpY2V0cmVlL2luZGV4LnJzdA0K
+Pg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2aWNl
+dHJlZS9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZpY2V0
+cmVlL2luZGV4LnJzdA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAw
+MDAuLjVjYTFhZTg3YjU3ZA0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL2RldmljZXRyZWUvaW5kZXgucnN0DQo+IEBAIC0wLDAgKzEsNDkg
+QEANCj4gKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsuLiBpbmNsdWRl
+OjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QNCj4gKw0KPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0
+aW9uL0RldmljZXRyZWUvaW5kZXgucnN0DQo+ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDlj7jl
+u7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiArDQo+ICs65qCh6K+R
+Og0KPiArDQo+ICsNCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICtPcGVuIEZp
+cm13YXJlIOWSjCBEZXZpY2V0cmVlDQo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0K
+PiArDQo+ICvor6XmlofmoaPmmK/mlbTkuKrorr7lpIfmoJHmlofmoaPnmoTmgLvnm67lvZXvvIzm
+oIfpopjkuK3lpJrmmK/kuJrlhoXpu5jorqTnmoTmnK/or63vvIzliJ3op4HlsLHnv7vor5HmiJDk
+uK3mlofvvIwNCj4gK+aZpua2qemavuaHgu+8jOWboOatpOWwvemHj+S/neeVme+8jOWQjumdoue/
+u+ivkeWFtuWtkOaWh+aho+aXtu+8jOWPr+iDveS8muagueaNruivreWig++8jOeBtea0u+WcsOe/
+u+ivkeS4uuS4reaWh+OAgg0KPiArDQo+ICvlhoXmoLhEZXZpY2V0cmVl55qE5L2/55SoDQo+ICs9
+PT09PT09PT09PT09PT09PT09PT09PQ0KPiArLi4gdG9jdHJlZTo6DQo+ICsgICA6bWF4ZGVwdGg6
+IDENCj4gKw0KPiArVG9kb2xpc3Q6DQo+ICsNCj4gKyogICB1c2FnZS1tb2RlbA0KPiArKiAgIG9m
+X3VuaXR0ZXN0DQo+ICsqICAga2VybmVsLWFwaQ0KPiArDQo+ICtEZXZpY2V0cmVlIE92ZXJsYXlz
+DQo+ICs9PT09PT09PT09PT09PT09PT09DQo+ICsuLiB0b2N0cmVlOjoNCj4gKyAgIDptYXhkZXB0
+aDogMQ0KPiArDQo+ICtUb2RvbGlzdDoNCj4gKw0KPiArKiAgIGNoYW5nZXNldHMNCj4gKyogICBk
+eW5hbWljLXJlc29sdXRpb24tbm90ZXMNCj4gKyogICBvdmVybGF5LW5vdGVzDQo+ICsNCj4gK0Rl
+dmljZXRyZWUgQmluZGluZ3MNCj4gKz09PT09PT09PT09PT09PT09PT0NCj4gKy4uIHRvY3RyZWU6
+Og0KPiArICAgOm1heGRlcHRoOiAxDQo+ICsNCj4gK1RvZG9saXN0Og0KPiArDQo+ICsqICAgYmlu
+ZGluZ3MvaW5kZXgNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJz
+dA0KPiBpbmRleCAyM2Y4ZjRjNjhlODMuLjQ2YTI5ZjAwNmJkNCAxMDA2NDQNCj4gLS0tIGEvRG9j
+dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJzdA0KPiBAQCAtNTYsMTAgKzU2LDE0IEBA
+IFRPRE9MaXN0Og0KPg0KPiAg5LiL5YiX5paH5qGj5o+P6L+w5LqG5YaF5qC46ZyA6KaB55qE5bmz
+5Y+w5Zu65Lu255u45YWz5L+h5oGv44CCDQo+DQo+ICsuLiB0b2N0cmVlOjoNCj4gKyAgIDptYXhk
+ZXB0aDogMg0KPiArDQo+ICsgICBkZXZpY2V0cmVlL2luZGV4DQo+ICsNCj4gIFRPRE9MaXN0Og0K
+Pg0KPiAgKiBmaXJtd2FyZS1ndWlkZS9pbmRleA0KPiAtKiBkZXZpY2V0cmVlL2luZGV4DQo+DQo+
+ICDlupTnlKjnqIvluo/lvIDlj5HkurrlkZjmlofmoaMNCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0t
+DQo+IC0tDQo+IDIuMjcuMA0KPg0K
