@@ -2,217 +2,361 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D548C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 12:24:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5272DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 12:43:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236408AbiCDMZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 07:25:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
+        id S229608AbiCDMoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 07:44:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236434AbiCDMZf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 07:25:35 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8450C1B018C
-        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 04:24:47 -0800 (PST)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 224AMivk019607;
-        Fri, 4 Mar 2022 12:24:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=21FHX/RC3w5Y+vHbWPBEM+B78U3WV5harCh8hQyEgK4=;
- b=0s8LO+1XdspIyPQPvMcE5aIq21Kq9TdzbKr4aYjg8tBZyzuMqhTJUPRcou5gL52ophLM
- e7OycUUj5njlMEJBEJAdEv6xqBla6g54YVpsfAwdAAKPSlQ6gb3zzUrruSqikpO/gVqY
- ITJG48Efmo15IvPGGPBqLpH5nKo4/nf1oWzbX4bnb1ivMPv0tn+09dYVOnax3TTyP0r5
- 2dyxVaW8Fpf34ycgECWMjD74S/VOtTTmFFEFPqtw22PlAYYDnvZYqgYBTQl20Akd/7Nq
- U+g1xIA94Vry5DDEvCRcUej2yNvOGnBR6atg/0wl08tM5YAUkswB+Xwq+IZ1FfXzmNLO 0A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ek4hrsnnv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 04 Mar 2022 12:24:28 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 224CFOTL133106;
-        Fri, 4 Mar 2022 12:24:28 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam07lp2043.outbound.protection.outlook.com [104.47.56.43])
-        by aserp3030.oracle.com with ESMTP id 3ek4jgsbsw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 04 Mar 2022 12:24:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wuki0vVg5EznYMPq1dR2NiDv8sHG4XpaIs76UgvtRDbN0NYS7W2qoKHF9wI7YE7sOCNnhrSUsfi+8vFRyZ7mG94i4ZpFCXn6Alx/ridUcxu9av1AI9gNMF+duaW4K+PUkUuoyPcpA7Rr9vuFrAV/e+nxmXgk2ol6ZY9cH85VG/YgFbIuHzIXIGZiFpJbWHhh3z5glu3oz0zyShIyVO1N0akYefL69XxlS0kWUCpJi7vPaaqCna72wy68OjcBDEyZFdkb/Ih7kUTCwQIu0/YyQ7uU/e42sOgY8fLv79jIW3fXAzCS3aaPGMLS4YALkUO7LFlIgVIywEx/OtueRXYn3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=21FHX/RC3w5Y+vHbWPBEM+B78U3WV5harCh8hQyEgK4=;
- b=jTCDGMflCSIPYsYIuxaSibhw9mzNCuIOKehnprGHFhgHHc9RsD9SCG5pA0/h+9lSGesqiwsHQkJbkPzDi6kTLVA8OzEiO56PZauhQhoezAbXUqft8Jzas/dp3hMLZl4p+Ufrp3Ba4bJoJXX9zgBXLIBRRNg492bdnLvArNXWJuAy+g8ysFgdnK4KAHXoyEH1BVhQz7Vp3hFKZBDlWmLMnX4jOGeW6lStNkSkbW74xbNa677JCaR8leK56quqHBlqqOyNf599lA2LZ3fgfac7/YlZMpmaLVwY55R7ZTGef2cJZAlzlPdWrjEW/ltw4U7B0OGp0fMf6a/p0cW19zbLqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S229530AbiCDMoF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 07:44:05 -0500
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343B6155C23;
+        Fri,  4 Mar 2022 04:43:17 -0800 (PST)
+Received: by mail-vs1-xe2a.google.com with SMTP id g20so8917972vsb.9;
+        Fri, 04 Mar 2022 04:43:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=21FHX/RC3w5Y+vHbWPBEM+B78U3WV5harCh8hQyEgK4=;
- b=mDktltXvThK8WkXscYptklPDAtJ70uXPrEujij25y0FVXVKMRsKF4+JV8FXTsLo34A/jFXn1axAtQKJs5QQlndlQ5ot3x5JIafkNAwVxmn49R6984ZFxzXllkZkVdlj9cTCbZWD0Btc15/coUqu1HFDK0SOuoRpfH1VaGYdX7es=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BN6PR1001MB2370.namprd10.prod.outlook.com (2603:10b6:405:31::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
- 2022 12:24:26 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::750f:bf1d:1599:3406]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::750f:bf1d:1599:3406%5]) with mapi id 15.20.5038.017; Fri, 4 Mar 2022
- 12:24:26 +0000
-Message-ID: <06b708d9-87c9-2d70-ccf2-3ba858435208@oracle.com>
-Date:   Fri, 4 Mar 2022 12:24:19 +0000
-Subject: Re: [PATCH v7 5/5] mm/page_alloc: reuse tail struct pages for
- compound devmaps
-Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Linux Memory Management List <linux-mm@kvack.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20220303213252.28593-1-joao.m.martins@oracle.com>
- <20220303213252.28593-6-joao.m.martins@oracle.com>
- <CAMZfGtV2-NKPDxvOjCnCzAJCwG_3D3F_CO44iNfOJuwTy3Nirw@mail.gmail.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <CAMZfGtV2-NKPDxvOjCnCzAJCwG_3D3F_CO44iNfOJuwTy3Nirw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0451.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::6) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2mO2VzycCtNIO/u2LxL3KMbj02vj50yVeeNdHwEmY5s=;
+        b=hxjDFkMhkLCmpMIqkXxzxIlh9mntkHi6I+zSIFw3QXJ6V7bCcwhwpjctOcErRwavGx
+         cLBoLwt4RBSvSjKpQ3oYJshA5S6DY2vB3a8TzMLdLOA1NK2td5Cuat1XkOccAmvNFwga
+         8qD/Y3TpeDGfOV/5RQW9lSUwayaIG/BIRLMp+2p3/rBTmzehDJgvQ6V85w9M609H31dP
+         lnD/ebLizcYrZpkVkJaclHgSuEMz2i639S8zSoj6EnzYNbhSEjVbNdA5XEwNGBFNj7sL
+         hMSsUexpoTY7PCa1QDdN6EmLVmF+mrkcjOwmZPmgaA3IrxShAG8riLFTM4Ofr+Fze0Ye
+         C3Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2mO2VzycCtNIO/u2LxL3KMbj02vj50yVeeNdHwEmY5s=;
+        b=zVHNOpyLhxxhePptPOAeZH5VTYHCddCgyBhwfv8C6pTTFzodgiPci13dquCMEh14eM
+         TJi3Vt+8XUe4wPcB+brEEolvlR+7N851ZRCOjMOe3ZR2NEhP3YeLxMsU4gt4u8p8LYMD
+         3szBpiNixQJUMvBkWhj3VozKe5Z/hJUCuACwumtmI/Sfd36HKTDeC3rEyW3uZE1+9qBs
+         M0OJmBlRRLeLLxU3YBfDkycGiiOkJ5+9kXGs5oFko9bDQkrAPTHa1ptBcqtzJIyHyDZk
+         /TOb+TYW3dpfDRrdT+woU4vp4zpAzAgoaG43evECnNmJlJalFYfwgkHxIMJ+JAXaxYTI
+         86Kw==
+X-Gm-Message-State: AOAM532mkKvb1srv1RXZk7W5JHxhaHLH1xCQr+iEJ/gYkpSTgwVCWn9m
+        AzK5IME+hDaV7gAXrCztoO3QJBVE14BKXXgylUM=
+X-Google-Smtp-Source: ABdhPJyJ1HWTXercL7713aP5IRTehuV00Pz1srXzFbB2ZajSJ7uj7dTlnrrksFFqSWgidcLGap6rR4r8qb86owXMIt4=
+X-Received: by 2002:a05:6102:418a:b0:307:8e85:7b7d with SMTP id
+ cd10-20020a056102418a00b003078e857b7dmr16847605vsb.53.1646397796207; Fri, 04
+ Mar 2022 04:43:16 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ff08a017-66f8-4a02-d640-08d9fdd9ec2b
-X-MS-TrafficTypeDiagnostic: BN6PR1001MB2370:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR1001MB23706C85C7333D80437A3FA4BB059@BN6PR1001MB2370.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X1Pfh/z+BBoCA7QLrAr/J1CwXrAAUQ0R1agx+O56vYTCo65jek722ZlQq5+zR3tsF6zXGLyf8q3PWtzR67rikZCPB7vA6ETKG39l9epRk0C9FT86JsYTYzM4iwTZlpL/sE4L/IRd06zxDkEHPi4pfRlS4As90wVWhCl8nnR+S9n6dEx3HRBKfMNU+npgxz7jGXkHk7/Gydm+DCDSKwiULZqCAPv95gzNMny0/sEZxiT7lj6f0q7csASboUCD5vQfuH85jzcu7OFSEpQIUEJ0cHq0pjU109aYTIrCV4I+eHOmt+01I4mkXwHdYZ5egabTIZd0xS4KNqD10qR98KMcQlSHM3r2GcyWdRLQFOIpmXj+GnsgiKLUCugyAV4JRhxSZx2KpWKsI2yE6oywRy2aq/KhD9xkPQbkPqgAmyE60SGOdFoasFN3XyrIq5wSWdkaT9XDzj3/MRdhEkMyI+TdKRcVqkXGmLEi9q88DWxrWNG0nIprFl9y4YjmM8Qr/Z6KpiXQe+U+tRRnXmndaCi9SIFUPZUj+uaLHbClXDWOdRM7W+riG60rU+B0hvB4X9ocIlqQ6+87yiEuwBb2NB3kMqzCjdLKDggSLJVZSbYtISEMaViaQYrZ8hbdinRAlJH58loBc6LxFqrgj2Y91wfDPlAfWtT/tBzhW0u4VQNfgwiS3Pk2BQbm4yGsyi+OiQPzYU4dbE8fvd6nHvH8ax3UFA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(54906003)(31686004)(66946007)(6666004)(66556008)(5660300002)(66476007)(7416002)(31696002)(316002)(6916009)(36756003)(38100700002)(53546011)(6512007)(6506007)(2616005)(8936002)(86362001)(26005)(83380400001)(186003)(8676002)(508600001)(2906002)(4326008)(6486002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ym9GQmo4T2I1bnpybUhvUzVncmo4UTZjVmRCNXVuWnhmN1cyeUpSSFhaOE1a?=
- =?utf-8?B?WGRsTUpUZE96NWNKMDlDd1A5WEJYZlBQUjBtYVpaRXppN0ZReVZrYXNRMExm?=
- =?utf-8?B?RUYrelppNTZZUnZuYjBTR2VsRXBmOE05S3dFTGY4RUtnNDlncDhvU3pqbnYw?=
- =?utf-8?B?UDZRUkcxQ0UzYzVpUGptRVA2Ym5xZEwyc2hnbnEyOUdyb0tzaGkwc3FmdkFq?=
- =?utf-8?B?ZHc2dDAvWkZHaitZTExkSTAydzVZdGRqKzlhVmRmVk5VY0pYWkt1Sm45S283?=
- =?utf-8?B?UXlZVjg4T3N0VDlRQjZydGVuRmRPbkdWREdaWFhZZXViemlwTTlSN0RrQWZi?=
- =?utf-8?B?UmlmampyRUhSdnBRVVFWK3BhOEM5TXBocnhqZUdkNlpBYjQrWVh6OTRCSDBo?=
- =?utf-8?B?ZFNLU1ZVQXZub1IvczRESkNMN3FhbTJhUStlZlhSMjNNMFpLZDZScGh6d0ZV?=
- =?utf-8?B?ZDhiU3FvdURxV1Y4V1hlV0dzcUpKeEwyaENTZ3ZWS1RES252VFMycVVTV0xz?=
- =?utf-8?B?WXdwNDVnd1dVajlPOHNGdEVnSWZ2MVhPOHV0UE0yeExPNWhsZXppK0E1QkRU?=
- =?utf-8?B?OHBKL3NVZnhnQ1B5bnp4Q0xQK0tQczAxZm9oN3laaFB3V2RBYkdjZHpCZjFK?=
- =?utf-8?B?TGlKSzZLaXZGa0h2dVVxTnY1SVNIcUo0Rzh6YkYzaDRmM0xNeVAxbmUyak5i?=
- =?utf-8?B?b05ESTVPYTBNZy9EWitpVlRwR3M4VmR2aVpNMGRRYjNHTUdwN29WWDdkMXdx?=
- =?utf-8?B?U3JPamwzMVNXdjR0SGVlSlZxZzV6VEtMS2J3WXZHbGR3ME9mUXVkSEJoakEx?=
- =?utf-8?B?TzJLdHpFSlZiTUdqVE5hbWF2UnpGZWpnR0V4aG0yRzdPZ3lISEh1UUkybDU0?=
- =?utf-8?B?eGd4UjJIODhUaUtJdnZjVm83djJGU3U4bW13SVhNLzZ2UUIwSW9LbXFZelZ1?=
- =?utf-8?B?V0crKzhuT2szTjJsanh4SUhQUDBKZlFSTnZXdlBRejRmcjU3VEMyVEllTmpu?=
- =?utf-8?B?ZUdSeTZkZy8vUWYreTNZUG9UbnJqQnBTRkswZmRZODlRbFlOQkVxK0d5cDlJ?=
- =?utf-8?B?Ry9Oc3l6eDNKbjJSV2xFUCtHUnEybnViM2RXSlJJTUYwWHlDdGZOT20vTTRs?=
- =?utf-8?B?c3RudHEvYU1TdVhWOHVuTGlBK3YzS01LRmk3WXRCRXBCNlpESy91L0JFZFFD?=
- =?utf-8?B?OFFELzZESzJ5T0REeGl4a25lT2xBakl6NDA5cXNlQXpWQTN0a2JCaU5OUUZD?=
- =?utf-8?B?MHRpckgwOUxHWERYWXU0NkViR2UyRTh4YWN6Qng0aFErMUtST21EVlN5NnVY?=
- =?utf-8?B?OGdkTFF0cWZZb1RwUkdGVGlGV1FLYWUzcEViYnRLZUdqWG05TDhPRHFQM2RM?=
- =?utf-8?B?TVNFUm5jRnE3dTYrR05qWS80TVl0c01vMVVzTVZXa21lci9GODVPenVpdjJM?=
- =?utf-8?B?OWNSYXRnS1JoOFg3cFQ2dDNHY2xGS0N3QVlSczNQdUhVOTBkcHVDb3p1Qnh4?=
- =?utf-8?B?TEVmWEd4RFpNYXgxS1hYdVY0MlZWTTZqbkNLYnpDSE5FMjVGUDg2NXBBOGEr?=
- =?utf-8?B?KzNjVG1kdm5HWVZ0QTVYb2l5VWE3QkNCcUFjNmtMeDRoTDJqSzFPQ05TYUJV?=
- =?utf-8?B?dTBRYW40ZDJNK05OKzZxa0tBLzFuUmdpNS9IUEZvUGVZMmxrNjRObDhyQ3VR?=
- =?utf-8?B?UTFwNlVVRUFxL0xDeHdsZkh5VFlEcTdpNVNjYm1xdHZCYWRKSkkrT1FET1NR?=
- =?utf-8?B?bC83cFVEdnQrbTAvWnJsWVltcUI5UUliMWtnZ3R2VzE2QklrWENQcUlMWWNy?=
- =?utf-8?B?NkI3WG9HdHhkMExRODFTRy9iMUtlcVhCZ3FSSmFLTEt3R1hwT2Rqd0Z5WWdi?=
- =?utf-8?B?cGNGWUszYXpSU28zL0hTd3d2VkdDVklweUcvMEhRNURFSXBvNEhLZVdsQmF4?=
- =?utf-8?B?V0N5a0lZNFN4NmtoanBvVnhRbWt3SnhGMTN0LzVsTllNTUpmR2VxWFRBN09z?=
- =?utf-8?B?SitzNHFTUjA2RmI2Z0p0aFR0Z0x2MDZ5R0I0K2ZrOW9VM29KWlc3WDd3by9s?=
- =?utf-8?B?TmVIMmhyVit4NGluYjJPU1hneEc3aWNiRSt5dXUzM2htZVpSdzdpRFBTOG1k?=
- =?utf-8?B?TUxsV2NXZjA4dWpUQXNCOXIyZmVsOWxwT2Q3WTVjSjJRMlhwcEw0NU1iZjVj?=
- =?utf-8?B?ZVgvY1g3WHFoTzN3bktuOC9pc0RuVzBjSG4rZjBpWlBFNGlLcUpGclJQSlA4?=
- =?utf-8?Q?kAfqWfNxpq5jRyaCGrhFUQrGE/wByRlFfdD/exzye0=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff08a017-66f8-4a02-d640-08d9fdd9ec2b
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 12:24:26.4474
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XeIUY9NpqurMTVFVmZAcDVaaJxFPL7qJDiNsN4mGmcBCbN4tFv7VgOcfsLjyQ9Az2Vi+A5uL5XyqPCqnWQW8fYcVJOTJvRR1lOuxyQlmlBU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1001MB2370
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10275 signatures=686983
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203040067
-X-Proofpoint-GUID: z8NCskoro7SIQxlFd1brB1ZSjPOA7P33
-X-Proofpoint-ORIG-GUID: z8NCskoro7SIQxlFd1brB1ZSjPOA7P33
+References: <20220226110338.77547-1-chenhuacai@loongson.cn>
+ <20220226110338.77547-10-chenhuacai@loongson.cn> <YiCpYRwoUSmd/GE3@kernel.org>
+ <CAAhV-H4-zVjjUkoVFw4ppg_tsM-wxBZmPr-2q8zuoLDHTWAE0w@mail.gmail.com> <YiHuuyqW8KSAri/M@kernel.org>
+In-Reply-To: <YiHuuyqW8KSAri/M@kernel.org>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 4 Mar 2022 20:43:03 +0800
+Message-ID: <CAAhV-H6z3H3QbzvG6=fgVJF1z2qEvKVGnyqb--bkqomH3jTXJQ@mail.gmail.com>
+Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/4/22 03:27, Muchun Song wrote:
-> On Fri, Mar 4, 2022 at 5:33 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->>
->> Currently memmap_init_zone_device() ends up initializing 32768 pages
->> when it only needs to initialize 128 given tail page reuse. That
->> number is worse with 1GB compound pages, 262144 instead of 128. Update
->> memmap_init_zone_device() to skip redundant initialization, detailed
->> below.
->>
->> When a pgmap @vmemmap_shift is set, all pages are mapped at a given
->> huge page alignment and use compound pages to describe them as opposed
->> to a struct per 4K.
->>
->> With @vmemmap_shift > 0 and when struct pages are stored in ram
->> (!altmap) most tail pages are reused. Consequently, the amount of
->> unique struct pages is a lot smaller than the total amount of struct
->> pages being mapped.
->>
->> The altmap path is left alone since it does not support memory savings
->> based on compound pages devmap.
->>
->> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
-> 
-Thanks!
+Hi, Mike,
 
-> But a nit below.
-> 
->> ---
->>  mm/page_alloc.c | 17 ++++++++++++++++-
->>  1 file changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->> index e0c1e6bb09dd..e9282d043cca 100644
->> --- a/mm/page_alloc.c
->> +++ b/mm/page_alloc.c
->> @@ -6653,6 +6653,21 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
->>         }
->>  }
->>
->> +/*
->> + * With compound page geometry and when struct pages are stored in ram most
->> + * tail pages are reused. Consequently, the amount of unique struct pages to
->> + * initialize is a lot smaller that the total amount of struct pages being
->> + * mapped. This is a paired / mild layering violation with explicit knowledge
->> + * of how the sparse_vmemmap internals handle compound pages in the lack
->> + * of an altmap. See vmemmap_populate_compound_pages().
->> + */
->> +static inline unsigned long compound_nr_pages(struct vmem_altmap *altmap,
->> +                                             unsigned long nr_pages)
->> +{
->> +       return is_power_of_2(sizeof(struct page)) &&
->> +               !altmap ? 2 * (PAGE_SIZE/sizeof(struct page)) : nr_pages;
-> 
-> It is better to add spaces around that '/'.
+On Fri, Mar 4, 2022 at 6:49 PM Mike Rapoport <rppt@kernel.org> wrote:
+>
+> Hi,
+>
+> On Thu, Mar 03, 2022 at 10:47:53PM +0800, Huacai Chen wrote:
+> > Hi, Mike,
+> >
+> > On Thu, Mar 3, 2022 at 7:41 PM Mike Rapoport <rppt@kernel.org> wrote:
+> > >
+> > > On Sat, Feb 26, 2022 at 07:03:25PM +0800, Huacai Chen wrote:
+> > > > This patch adds basic boot, setup and reset routines for LoongArch.
+> > > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
+> > > > SMBIOS to pass configuration information to the Linux kernel (in elf
+> > > > format).
+> > > >
+> > > > Now the boot information passed to kernel is like this:
+> > > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
+> > > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
+> > > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
+> > > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
+> > > >    type is "efi_system_table_t". Most configuration information, include
+> > > >    ACPI tables and SMBIOS tables, come from here.
+> > > >
+> > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > Cc: linux-efi@vger.kernel.org
+> > > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > > > ---
+> > >
+> > > > +void __init arch_reserve_mem_area(acpi_physical_address addr, size_t size)
+> > > > +{
+> > > > +     memblock_mark_nomap(addr, size);
+> > > > +}
+> > >
+> > > Is there any problem if the memory ranges used by ACPI will be mapped into
+> > > the kernel page tables?
+> > >
+> > > If not, consider dropping this function.
+> >
+> > This API is mostly used for ACPI upgrading. ACPI upgrading alloc a
+> > normal memory block and then is used as ACPI memory, and this memory
+> > block will not be used by the page allocator. Other architectures,
+> > such as ARM64, do the same thing here.
+>
+> ARM64 had quite a lot of issues with NOMAP memory, so I'd recommend to
+> avoid using memblock_mark_nomap() unless it is required by MMU constraints
+> on loongarch.
+>
+> I'm not familiar with loongarch MMU details, so I can only give some
+> background for NOMAP for you to decide.
+>
+> Marking memory region NOMAP is required when this region cannot be a part
+> of the kernel linear mapping because MMU does not allow aliased mappings
+> with different caching modes. E.g. in ARM64 case, ACPI memory that should
+> be mapped uncached cannot be mapped as cached in the kernel linear map.
+>
+> If the memory block should not be used by the page allocator, it should be
+> memblock_reserve()'ed rather than marked NOMAP.
+Thank you for telling me the background, we will use memblock_reserve() instead.
 
-/me nods
+>
+> > > > diff --git a/arch/loongarch/kernel/mem.c b/arch/loongarch/kernel/mem.c
+> > > > new file mode 100644
+> > > > index 000000000000..361d108a2b82
+> > > > --- /dev/null
+> > > > +++ b/arch/loongarch/kernel/mem.c
+> > > > @@ -0,0 +1,89 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > > +/*
+> > > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > > + */
+> > > > +#include <linux/fs.h>
+> > > > +#include <linux/mm.h>
+> > > > +#include <linux/memblock.h>
+> > > > +
+> > > > +#include <asm/bootinfo.h>
+> > > > +#include <asm/loongson.h>
+> > > > +#include <asm/sections.h>
+> > > > +
+> > > > +void __init early_memblock_init(void)
+> > > > +{
+> > > > +     int i;
+> > > > +     u32 mem_type;
+> > > > +     u64 mem_start, mem_end, mem_size;
+> > > > +
+> > > > +     /* Parse memory information */
+> > > > +     for (i = 0; i < loongson_mem_map->map_count; i++) {
+> > > > +             mem_type = loongson_mem_map->map[i].mem_type;
+> > > > +             mem_start = loongson_mem_map->map[i].mem_start;
+> > > > +             mem_size = loongson_mem_map->map[i].mem_size;
+> > > > +             mem_end = mem_start + mem_size;
+> > > > +
+> > > > +             switch (mem_type) {
+> > > > +             case ADDRESS_TYPE_SYSRAM:
+> > > > +                     memblock_add(mem_start, mem_size);
+> > > > +                     if (max_low_pfn < (mem_end >> PAGE_SHIFT))
+> > > > +                             max_low_pfn = mem_end >> PAGE_SHIFT;
+> > > > +                     break;
+> > > > +             }
+> > > > +     }
+> > > > +     memblock_set_current_limit(PFN_PHYS(max_low_pfn));
+> > > > +}
+> > > > +
+> > > > +void __init fw_init_memory(void)
+> > > > +{
+> > > > +     int i;
+> > > > +     u32 mem_type;
+> > > > +     u64 mem_start, mem_end, mem_size;
+> > > > +     unsigned long start_pfn, end_pfn;
+> > > > +     static unsigned long num_physpages;
+> > > > +
+> > > > +     /* Parse memory information */
+> > > > +     for (i = 0; i < loongson_mem_map->map_count; i++) {
+> > > > +             mem_type = loongson_mem_map->map[i].mem_type;
+> > > > +             mem_start = loongson_mem_map->map[i].mem_start;
+> > > > +             mem_size = loongson_mem_map->map[i].mem_size;
+> > > > +             mem_end = mem_start + mem_size;
+> > >
+> > > I think this loop can be merged with loop in early_memblock_init() then ...
+> > >
+> > > > +
+> > > > +             switch (mem_type) {
+> > > > +             case ADDRESS_TYPE_SYSRAM:
+> > > > +                     mem_start = PFN_ALIGN(mem_start);
+> > > > +                     mem_end = PFN_ALIGN(mem_end - PAGE_SIZE + 1);
+> > > > +                     num_physpages += (mem_size >> PAGE_SHIFT);
+> > > > +                     memblock_set_node(mem_start, mem_size, &memblock.memory, 0);
+> > >
+> > > this will become memblock_add_node()
+> > >
+> > > > +                     break;
+> > > > +             case ADDRESS_TYPE_ACPI:
+> > > > +                     mem_start = PFN_ALIGN(mem_start);
+> > > > +                     mem_end = PFN_ALIGN(mem_end - PAGE_SIZE + 1);
+> > > > +                     num_physpages += (mem_size >> PAGE_SHIFT);
+> > > > +                     memblock_add(mem_start, mem_size);
+> > > > +                     memblock_set_node(mem_start, mem_size, &memblock.memory, 0);
+> > >
+> > > as well as this.
+> > early_memblock_init() only adds the "usable" memory (SYSRAM) for early
+> > use and without numa node information. Other types of memory are
+> > handled later by fw_init_memory()/fw_init_numa_memory(), depending on
+> > whether CONFIG_NUMA is enabled. So, in
+> > fw_init_memory()/fw_init_numa_memory() we only need to call
+> > memblock_set_node() to add the node information for SYSRAM type.
+>
+> There are two potential issues here with doing memblock_add() and
+> memblock_set_node() and memblock_reserve() separately with a couple of
+> functions called in between.
+>
+> First, and most important is that you must to memblock_reserve() all the
+> memory used by the firmware, like ADDRESS_TYPE_ACPI, ADDRESS_TYPE_RESERVED,
+> kernel image, initrd etc *before* any call to memblock_alloc*()
+> functions. If you add memory to memblock before reserving firmware regions,
+> a call to memblock_alloc*() may allocate the used memory and all kinds of
+> errors may happen because of that.
+>
+> Second, presuming you use SRAT for NUMA information, if you set nodes in
+> memblock after there were memory allocations from memblock you may impair
+> the ability to hot-remove memory banks.
+>
+> So ideally, the physical memory detection and registration should follow
+> something like:
+>
+> * memblock_reserve() the memory used by firmware, kernel and initrd
+> * detect NUMA topology
+> * add memory regions along with their node ids to memblock.
+>
+> s390::setup_arch() is a good example of doing early reservations:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/s390/kernel/setup.c#n988
+I have a fast reading of S390, and I think we can do some adjust:
+1, call memblock_set_node(0, ULONG_MAX, &memblock.memory, 0) in
+early_memblock_init().
+2, move memblock_reserve(PHYS_OFFSET, 0x200000) and
+memblock_reserve(__pa_symbol(&_text), __pa_symbol(&_end) -
+__pa_symbol(&_text)) to early_memblock_init().
+3, Reserve initrd memory in the first place.
+It is nearly the same as the S390, then.
+
+>
+> > > > diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setup.c
+> > > > new file mode 100644
+> > > > index 000000000000..8dfe1d9b55f7
+> > > > --- /dev/null
+> > > > +++ b/arch/loongarch/kernel/setup.c
+> > > > +
+> > > > +static int usermem __initdata;
+> > > > +
+> > > > +static int __init early_parse_mem(char *p)
+> > > > +{
+> > > > +     phys_addr_t start, size;
+> > > > +
+> > > > +     /*
+> > > > +      * If a user specifies memory size, we
+> > > > +      * blow away any automatically generated
+> > > > +      * size.
+> > > > +      */
+> > > > +     if (usermem == 0) {
+> > > > +             usermem = 1;
+> > > > +             memblock_remove(memblock_start_of_DRAM(),
+> > > > +                     memblock_end_of_DRAM() - memblock_start_of_DRAM());
+> > > > +     }
+> > > > +     start = 0;
+> > > > +     size = memparse(p, &p);
+> > > > +     if (*p == '@')
+> > > > +             start = memparse(p + 1, &p);
+> > > > +
+> > > > +     memblock_add(start, size);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +early_param("mem", early_parse_mem);
+> > > > +
+> > > > +static int __init early_parse_memmap(char *p)
+> > > > +{
+> > > > +     char *oldp;
+> > > > +     u64 start_at, mem_size;
+> > > > +
+> > > > +     if (!p)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     if (!strncmp(p, "exactmap", 8)) {
+> > > > +             pr_err("\"memmap=exactmap\" invalid on LoongArch\n");
+> > > > +             return 0;
+> > > > +     }
+> > > > +
+> > > > +     oldp = p;
+> > > > +     mem_size = memparse(p, &p);
+> > > > +     if (p == oldp)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     if (*p == '@') {
+> > > > +             start_at = memparse(p+1, &p);
+> > > > +             memblock_add(start_at, mem_size);
+> > > > +     } else if (*p == '#') {
+> > > > +             pr_err("\"memmap=nn#ss\" (force ACPI data) invalid on LoongArch\n");
+> > > > +             return -EINVAL;
+> > > > +     } else if (*p == '$') {
+> > > > +             start_at = memparse(p+1, &p);
+> > > > +             memblock_add(start_at, mem_size);
+> > > > +             memblock_reserve(start_at, mem_size);
+> > > > +     } else {
+> > > > +             pr_err("\"memmap\" invalid format!\n");
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > > > +     if (*p == '\0') {
+> > > > +             usermem = 1;
+> > > > +             return 0;
+> > > > +     } else
+> > > > +             return -EINVAL;
+> > > > +}
+> > > > +early_param("memmap", early_parse_memmap);
+> > >
+> > > The memmap= processing is a hack indented to workaround bugs in firmware
+> > > related to the memory detection. Please don't copy if over unless there is
+> > > really strong reason.
+> >
+> > Hmmm, I have read the documents, most archs only support mem=limit,
+> > but MIPS support mem=limit@base. memmap not only supports
+> > memmap=limit@base, but also a lot of advanced syntax. LoongArch needs
+> > both limit and limit@base syntax. So can we make our code to support
+> > only mem=limit and memmap=limit@base, and remove all other syntax
+> > here?
+>
+> The documentation describes what was there historically and both these
+> options tend not to play well with complex memory layouts.
+>
+> If you must have them it's better to use x86 as an example rather than
+> MIPS, just take into the account that on x86 memory always starts from 0,
+> so they never needed to have a different base.
+>
+> For what use-cases LoongArch needs options?
+The use-case of limit@base syntax is kdump, because our kernel is not
+relocatable. I'll use X86 as an example.
+
+Huacai
+
+>
+> --
+> Sincerely yours,
+> Mike.
