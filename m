@@ -2,170 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A45DC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 11:14:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDF8C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 11:17:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239123AbiCDLO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 06:14:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35704 "EHLO
+        id S239547AbiCDLSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 06:18:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239127AbiCDLOz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 06:14:55 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5191B0BD7;
-        Fri,  4 Mar 2022 03:14:07 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7918361D00;
-        Fri,  4 Mar 2022 11:14:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7958DC340E9;
-        Fri,  4 Mar 2022 11:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646392446;
-        bh=oMRkrgkieQqbJLozH2f1WWABMteAvIgUeoZgr4XZLG4=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ik9/iqlkSYV+ppGVcBuwu2APgDACKwcHntHw+Hu2Xr2jfUIu91CbsiGhv5jpiECni
-         a9ovy2jThDcrU31vb3KB6PNgCDbjxn7wJSUL91b4PsewrN4+rSSjwpeYjmoA689kh4
-         iDM6CtEhfpShSDPSpPc8OIhQniSoJ0vCl0gEMEfWWqbowcPyp/OV9D5KAOaqrN4GF7
-         NkaSTJNMWNW1q7JiBxw6Y8agL6pJATIClarAY+MMxefSgKrrjMeZe0bTtYVrgIPW8i
-         BgnfCclXxDPDHqmIImbnZl+viTCZzSUfh9tCE21gQuO0asP18iC8AbQv7azba/hjRh
-         5NjtEiNztu8Xw==
-Message-ID: <1c5aa5552850dc90bdeb5f8bc0e4f5dd3270a382.camel@kernel.org>
-Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
-From:   Jeff Layton <jlayton@kernel.org>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
-        Wu Fengguang <fengguang.wu@intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 04 Mar 2022 06:14:03 -0500
-In-Reply-To: <164636204663.29369.1845040729675190216@noble.neil.brown.name>
-References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-        , <164549983739.9187.14895675781408171186.stgit@noble.brown>
-        , <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
-        , <164568131640.25116.884631856219777713@noble.neil.brown.name>
-        , <e8ec98a9c4fab9b7aa099001f09ff9b11f0c3f96.camel@kernel.org>
-         <164636204663.29369.1845040729675190216@noble.neil.brown.name>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+        with ESMTP id S239374AbiCDLRw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 06:17:52 -0500
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE79465DE;
+        Fri,  4 Mar 2022 03:17:01 -0800 (PST)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 224BGhll019681;
+        Fri, 4 Mar 2022 20:16:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 224BGhll019681
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646392604;
+        bh=W6k2BHrnNOy39xSqewRMQbMofahKYk5Brxmt9EJz6Nc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=V4KSee13/pj6J41xh5A1QLBMfyBErkTPp1VxwGIEumZhUEu2DwO2Jvjs8/nJeWh3h
+         jujs38cbATkf1AMXaGaTPPOTE59CUM3KGERTLASxLutu0nDOhbJzum6WZHPvzlPf7z
+         ruw/cDuMrlg1Eu2nrezByaMwaV2KyJ+EUBPA/j0mYy3qaoe1qE2t8amX+LfwFW/Z8b
+         APg1CgIGIilq0xbWJoYDEfHwSk8IYP1TY4UGlrLkWyNT5Eq3MURPsQMxfGI7xdjX/g
+         kMd/H/aBEdbUP9/zaU5DAYMiKR8U+ipH0zk4CJYdXoIU16CrfmygWL+rsPCALEXBke
+         Njd/mBcX3vajQ==
+X-Nifty-SrcIP: [209.85.215.179]
+Received: by mail-pg1-f179.google.com with SMTP id e6so7265729pgn.2;
+        Fri, 04 Mar 2022 03:16:44 -0800 (PST)
+X-Gm-Message-State: AOAM533Li7GScAIhtHm/7ia+invEHB0RkIZP5iX1idCCW/JWISy3V5qF
+        aGTnRHBPeQzXxS73uYmZKSHMMLnUX9dtmUlcNO4=
+X-Google-Smtp-Source: ABdhPJx48QClcHXtWeFNvF97kN246Gr70cVbpgO7WkxLIIG015beCFLpkmM0yM5tAUCjgLubUveURZi0kZgLIpYmVHU=
+X-Received: by 2002:a05:6a00:c90:b0:4bd:22a:bb1d with SMTP id
+ a16-20020a056a000c9000b004bd022abb1dmr42453625pfv.32.1646392603459; Fri, 04
+ Mar 2022 03:16:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220302234400.782002-1-nathan@kernel.org>
+In-Reply-To: <20220302234400.782002-1-nathan@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 4 Mar 2022 20:16:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARAPqTaO0Zho0VFib6kxjfpbnvrX-ZwcVPQgES5T8z4qQ@mail.gmail.com>
+Message-ID: <CAK7LNARAPqTaO0Zho0VFib6kxjfpbnvrX-ZwcVPQgES5T8z4qQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Allow a suffix with $(LLVM)
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-03-04 at 13:47 +1100, NeilBrown wrote:
-> On Thu, 24 Feb 2022, Jeff Layton wrote:
-> > On Thu, 2022-02-24 at 16:41 +1100, NeilBrown wrote:
-> > > On Thu, 24 Feb 2022, Jeff Layton wrote:
-> > > > On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
-> > > > > The bdi congestion tracking in not widely used and will be removed.
-> > > > > 
-> > > > > CEPHfs is one of a small number of filesystems that uses it, setting
-> > > > > just the async (write) congestion flags at what it determines are
-> > > > > appropriate times.
-> > > > > 
-> > > > > The only remaining effect of the async flag is to cause (some)
-> > > > > WB_SYNC_NONE writes to be skipped.
-> > > > > 
-> > > > > So instead of setting the flag, set an internal flag and change:
-> > > > >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
-> > > > >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
-> > > > >     and the flag is set.
-> > > > > 
-> > > > > The writepages change causes a behavioural change in that pageout() can
-> > > > > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
-> > > > > be called on the page which (I think) wil further delay the next attempt
-> > > > > at writeout.  This might be a good thing.
-> > > > > 
-> > > > > Signed-off-by: NeilBrown <neilb@suse.de>
-> > > > 
-> > > > Maybe. I have to wonder whether all of this is really useful.
-> > > > 
-> > > > When things are congested we'll avoid trying to issue new writeback
-> > > > requests. Note that we don't prevent new pages from being dirtied here -
-> > > > - only their being written back.
-> > > > 
-> > > > This also doesn't do anything in the DIO or sync_write cases, so if we
-> > > > lose caps or are doing DIO, we'll just keep churning out "unlimited"
-> > > > writes in those cases anyway.
-> > > 
-> > > I think the point of congestion tracking is to differentiate between
-> > > sync and async IO.  Or maybe "required" and "optional".
-> > > Eventually the "optional" IO will become required, but if we can delay
-> > > it until a time when there is less "required" io, then maybe we can
-> > > improve perceived latency.
-> > > 
-> > > "optional" IO here is write-back and read-ahead.  If the load of
-> > > "required" IO is bursty, and if we can shuffle that optional stuff into
-> > > the quiet periods, we might win.
-> > > 
-> > 
-> > In that case, maybe we should be counting in-flight reads too and deny
-> > readahead when the count crosses some threshold? It seems a bit silly to
-> > only look at writes when it comes to "congestion".
-> 
-> I agree that seems a bit silly.
-> 
-> > 
-> > > Whether this is a real need is an important question that I don't have an
-> > > answer for.  And whether it is better to leave delayed requests in the
-> > > page cache, or in the low-level queue with sync requests able to
-> > > over-take them - I don't know.  If you have multiple low-level queue as
-> > > you say you can with ceph, then lower might be better.
-> > > 
-> > > The block layer has REQ_RAHEAD ..  maybe those request get should get a
-> > > lower priority ... though I don't think they do.
-> > > NFS has a 3 level priority queue, with write-back going at a lower
-> > > priority ... I think... for NFSv3 at least.
-> > > 
-> > > Sometimes I suspect that as all our transports have become faster, we
-> > > have been able to ignore the extra latency caused by poor scheduling of
-> > > optional requests.  But at other times when my recently upgraded desktop
-> > > is struggling to view a web page while compiling a kernel ...  I wonder
-> > > if maybe we don't have the balance right any more.
-> > > 
-> > > So maybe you are right - maybe we can rip all this stuff out.
-> > > 
-> > 
-> > I lean more toward just removing it. The existing implementation seems a
-> > bit half-baked with the gaps in what's being counted. Granted, the
-> > default congestion threshold is pretty high with modern memory sizes, so
-> > it probably doesn't come into play much in practice, but removing it
-> > would reduce some complexity in the client.
-> 
-> I'd love to have some test that could reliably generate congestion and
-> measure latencies for other IO.  Without that, it is mostly guess work.
-> So I cannot argue against your proposal, and do agree that removing the
-> code would reduce complexity.  I have no idea what the costs might be -
-> if any.  Hence my focus was on not changing behaviour.
-> 
+On Thu, Mar 3, 2022 at 8:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> The LLVM make variable allows a developer to quickly switch between the
+> GNU and LLVM tools. However, it does not handle versioned binaries, such
+> as the ones shipped by Debian, as LLVM=1 just defines the tool variables
+> with the unversioned binaries.
+>
+> There was some discussion during the review of the patch that introduces
+> LLVM=1 around versioned binaries, ultimately coming to the conclusion
+> that developers can just add the folder that contains the unversioned
+> binaries to their PATH, as Debian's versioned suffixed binaries are
+> really just symlinks to the unversioned binaries in /usr/lib/llvm-#/bin:
+>
+> $ realpath /usr/bin/clang-14
+> /usr/lib/llvm-14/bin/clang
+>
+> $ PATH=/usr/lib/llvm-14/bin:$PATH make ... LLVM=1
+>
+> However, that can be cumbersome to developers who are constantly testing
+> series with different toolchains and versions. It is simple enough to
+> support these versioned binaries directly in the Kbuild system by
+> allowing the developer to specify the version suffix with LLVM=, which
+> is shorter than the above suggestion:
+>
+> $ make ... LLVM=-14
+>
+> It does not change the meaning of LLVM=1 (which will continue to use
+> unversioned binaries) and it does not add too much additional complexity
+> to the existing $(LLVM) code, while allowing developers to quickly test
+> their series with different versions of the whole LLVM suite of tools.
+>
+> Link: https://lore.kernel.org/r/20200317215515.226917-1-ndesaulniers@google.com/
+> Link: https://lore.kernel.org/r/20220224151322.072632223@infradead.org/
+> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>
+> RFC -> v1: https://lore.kernel.org/r/Yh%2FegU1LZudfrgVy@dev-arch.thelio-3990X/
+>
+> * Tidy up commit message slightly.
+>
+> * Add tags.
+>
+> * Add links to prior discussions for context.
+>
+> * Add change to tools/testing/selftests/lib.mk.
+>
+> I would like for this to go through the Kbuild tree, please ack as
+> necessary.
+>
+>  Documentation/kbuild/llvm.rst  |  7 +++++++
+>  Makefile                       | 24 ++++++++++++++----------
+>  tools/scripts/Makefile.include | 20 ++++++++++++--------
+>  tools/testing/selftests/lib.mk |  6 +++++-
+>  4 files changed, 38 insertions(+), 19 deletions(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index d32616891dcf..5805a8473a36 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -60,6 +60,13 @@ They can be enabled individually. The full list of the parameters: ::
+>           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+>           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+>
+> +If your LLVM tools have a suffix and you prefer to test an explicit version rather
+> +than the unsuffixed executables, use ``LLVM=<suffix>``. For example: ::
+> +
+> +       make LLVM=-14
+> +
+> +will use ``clang-14``, ``ld.lld-14``, etc.
+> +
+>  The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
+>  disable it.
 
-Fair enough -- caution is warranted.
 
-I think the thing to do here is to take your patch for now, and then we
-can look at just removing all of this stuff at some point in the future.
-That would also give us a fallback that doesn't require the old
-congestion infrastructure if it turns out that it is needed.
+Perhaps, it might be worth mentioning the difference between
+LLVM=1 and LLVM=<suffix>
 
-I'm assuming this is going in via Andrew's tree, but let us know if
-you'd like us to take any of these in via the ceph tree.
+The current behavior is,
+any value other than '1' is regarded as a suffix.
 
-Thanks,
+
+
+> diff --git a/Makefile b/Makefile
+> index a82095c69fdd..963840c00eae 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -424,8 +424,12 @@ HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
+>  HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
+>
+>  ifneq ($(LLVM),)
+> -HOSTCC = clang
+> -HOSTCXX        = clang++
+> +ifneq ($(LLVM),1)
+> +LLVM_SFX := $(LLVM)
+> +endif
+
+I am OK with this, but please note LLVM=0
+uses 'clang0', 'ld.lld0' instead of disabling
+LLVM explicitly.
+
+This might be a small surprise because LLVM_IAS=0
+is used to disable the integrated assembler.
+
+
+
+
+If you want handle LLVM=<suffix>
+only when <suffix> start with a hyphen,
+you can do like this:
+
+ifneq ($(filter -%, $(LLVM)),)
+LLVM_SFX := $(LLVM)
+endif
+
+
+
+
+In the future, If somebody requests to support
+    make LLVM=/path/to/my/own/llvm/dir/
+to use llvm tools in that path,
+we can expand the code like this:
+
+
+
+# "LLVM=foo/bar/" is a syntax sugar of "LLVM=1 LLVM_PFX=foo/bar"
+# "LLVM=-foo" is a syntax sugar of "LLVM=1 LLVM_SFX=-foo"
+
+ifneq ($(filter %/, $(LLVM)),)
+LLVM_PFX := $(LLVM)
+else ifneq ($(filter -%, $(LLVM)),)
+LLVM_SFX := $(LLVM)
+endif
+
+
+
+
+Lastly, I personally prefer to fully spell LLVM_SUFFIX
+as Nick originally suggested:
+https://lkml.org/lkml/2020/3/17/1477
+
+
+
+
+
+
 -- 
-Jeff Layton <jlayton@kernel.org>
+Best Regards
+Masahiro Yamada
