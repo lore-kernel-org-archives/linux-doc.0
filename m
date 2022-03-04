@@ -2,352 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D631CC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 05:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D5A5C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 06:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230389AbiCDFFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 00:05:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        id S238279AbiCDG0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 01:26:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbiCDFF3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 00:05:29 -0500
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80EF15DB20;
-        Thu,  3 Mar 2022 21:04:41 -0800 (PST)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 22454SmI025698;
-        Fri, 4 Mar 2022 14:04:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 22454SmI025698
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646370268;
-        bh=jTwouyxM3J2bGsjkif3hrT7Ur9j36OcaWK3XsK/Pf0g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HZxyqhpvaaGXOMstMeva4g11sJkk1mM3kc78uyYDTKsDQmtHrpszVU67fkMdh6NEm
-         K0e3zELCn9CjXEY0Lud5PWS+wnU/3cIvqE6NdsDqEogGAz1ej1u5+1jB+ZSVJgKhmi
-         3H447i87Jqj1ttE8q6Zt2W8LqjYkqIqoezh8iRv7bvSBDPybRnvSUKpoBjLFHgAmlw
-         4kOdGOxxhTvCt826LQmEPPkkjpXIPsNnznrc8CWTDfe1/ZcYgCzgqI83cCgRWgXZxT
-         kzr+sBBU3Lsrzt1lKSqgovPhBWspe+eS/9cFHY5hJVBocr0t7P88o+g9JEBIKB/+vw
-         9aWhRM0T8+CTg==
-X-Nifty-SrcIP: [209.85.215.172]
-Received: by mail-pg1-f172.google.com with SMTP id 6so2016390pgg.0;
-        Thu, 03 Mar 2022 21:04:28 -0800 (PST)
-X-Gm-Message-State: AOAM5300EnFyClbS35adIWJBR5xC//BjLUW94G5157bsPXo/XxjDUUE6
-        omwTzKmCmiUimdOuuDBuRgyfGSVuixBwfdJAY4M=
-X-Google-Smtp-Source: ABdhPJy7yEBFzg8WVxU6/sj/Ux+ZdTxFr+OJzk/reUK8ZrhDBHy/0ChWjVVKYQFgs5mGheJGY/lCU6ek25oVyKnWIys=
-X-Received: by 2002:a63:1d44:0:b0:373:5612:629b with SMTP id
- d4-20020a631d44000000b003735612629bmr33492754pgm.352.1646370267758; Thu, 03
- Mar 2022 21:04:27 -0800 (PST)
+        with ESMTP id S232071AbiCDG0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 01:26:42 -0500
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2099.outbound.protection.outlook.com [40.107.255.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89D3AF1DA;
+        Thu,  3 Mar 2022 22:25:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HTuc7Xm0bkBK15BBvE4ibpb+pR61Cq7TgE5vq7wSmI6PPkMGeIQLbgY3WS95ZtJ6C99oGykT2bWZ9fzjlcKmmr99SF0dYjT2UGkLvWPL3Tt/xsS3uFE/LGwomzlAHM2wyR/V30wEFrShy+FEF7gsy3S0OK9cJgjHQAzmndV56AFPsE0+Fwba1FSZorwXKSjIUsxouuNrJucH9MxW9SJrecEdbUIr7/cQeFKY9/fCsBO/BIa8dWJ6/l91IM0T1yXvhRDZKc9G1RhvK+lbJs/9e+8BwF6Ti4y8yBfV29NT1RwVWRkf0wa5PqaIA8sQY0LKswz3Y1mXiBxcoOdWl9AlEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W9UjCJhrMFHgrzhto+GR0opGkPZr2TkaqDOvMk6GKNM=;
+ b=bLocSLgF8XwIkv1KHBZM2T/gmi+EBXCzoRqsA/iY/LHWT0rjPN27zSMtKMt6Sycaoz3LL+XSGTxVsfX1XBZ9fGHjl1L4HfzjtLj5DFDyWfX5eUp5wB1W26YPffMXojMCCWYfGY+m/RbYB2WyPn1RECE6iz/hDrkb3pV1om0RhXRsOmB3js1gpGzTWcM0xabefNEM1UopsZgoaCU5mAycRCCTDnU7UXK/DGk3f6rd6GdWsKU//BAavxa4nuCYI+iF0InqG2bb3B4JiZMRRvdim9jbtE9Pv5AD86GkqzhiaQg1IDsat0I5203AIXb1oJPWsrx+CD9gPpeJZrlxO5i39w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W9UjCJhrMFHgrzhto+GR0opGkPZr2TkaqDOvMk6GKNM=;
+ b=XnyUhd4Wohmf8/RC/tKLSeh7eATlKQ30s/fiw8NvGhxqzUKJ6CpVyM8eorUzLRGVVow5e512XsxY3IpldBCESis9gqz+1TqGfukm8JZvwiatVdMgtsk7wgWnq8tUqqoH2PsVJTrlmzqTVRu7izkoaReZjt88/H7EQfyR+WPPB9Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ KL1PR0601MB3767.apcprd06.prod.outlook.com (2603:1096:820:17::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.16; Fri, 4 Mar
+ 2022 06:25:48 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732%4]) with mapi id 15.20.5017.026; Fri, 4 Mar 2022
+ 06:25:47 +0000
+From:   Wan Jiabing <wanjiabing@vivo.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rohith Surabattula <rohiths@microsoft.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kael_w@qq.com
+Subject: [PATCH] netfs: rename read_helper.c to io.c in netfs_library.rst
+Date:   Fri,  4 Mar 2022 14:25:21 +0800
+Message-Id: <20220304062526.336853-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.35.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR0401CA0005.apcprd04.prod.outlook.com
+ (2603:1096:3:1::15) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <Yh5PhDDLcVe4kSqk@dev-arch.archlinux-ax161>
-In-Reply-To: <Yh5PhDDLcVe4kSqk@dev-arch.archlinux-ax161>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 4 Mar 2022 14:03:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQYdUEPiAsLp749u9NiVXkvZzasHjCjKR+HA81qUDB+yw@mail.gmail.com>
-Message-ID: <CAK7LNAQYdUEPiAsLp749u9NiVXkvZzasHjCjKR+HA81qUDB+yw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] [v3] Kbuild: move to -std=gnu11
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        llvm@lists.linux.dev,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a00b180-539d-41be-a61c-08d9fda7d1bb
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB3767:EE_
+X-Microsoft-Antispam-PRVS: <KL1PR0601MB3767E53F758284A2B4D2CFEAAB059@KL1PR0601MB3767.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nRieriuo1JZ5JgbQbCSXeIVX04DA+C6pfxNBGyXLA7fIENwjHd4R823zEVA4DEds2s9OPfXB9tyj2fFH3IJzhpY717PaAv0sjGwajxXp+S8wGu9ytzZI83AlAiolkb5j428iBjMhFW8j1BAxAoXIlsGhBiSAVmUQSSn3+VBE8pVsn9Cd+0yF7HakRpkE+PU1rAMPGO125QKVabB0pp/y5NahG1Xi7QD0j0//RZZhVTsA66EAcw0w83APqDbtKDMiHbhmTN7zcvTxA/czErglTHs8j2vGiBiHDBR83lIjY0F2eY8RHtdSUKEHXJxF78PUq/LjCL4UVZ8ufQ6TF7RE1iIfMqcWMx2+kMwi8Oj+bPkpUDOojIlfYjQrUAxe92eWg7tHi6p2IkzL22Gy0FRetYXavseUXadKImmgAXzKlHneq0gibDDVuH5LmjQaGQx5WIeZPY/3ksKSq57ZtuW5fJWHn+rFjdcKgILx+Qyd1Dr0r1S5AMvJzza1oli/Hdu8ONbl8fNVq/qUfta1jbNlmw3pKv57hmrJTHlEwnm0F79At3qbT5shFdzIKv4v4THxZWEPIe2TCPuqzUI/T/Y+f/kt0nTcAyFlAk5nvxQ19nw7ZK3GaOniQXU5cqWPHHaecu6M9ySvkGVcqXyewxr+fhd9FQJNGhD0yumMvBhC+QYY/3+r79f+cJc+xckPzL6g
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(38350700002)(508600001)(6486002)(86362001)(4326008)(8676002)(66556008)(66476007)(8936002)(316002)(5660300002)(4744005)(110136005)(66946007)(83380400001)(26005)(186003)(1076003)(2616005)(6512007)(6666004)(6506007)(2906002)(52116002)(36756003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1hNTEMaNPjNVkO+s8QHOkOnAALBqKNBpTADuppCEzDXudofPVyda8TKOXv5M?=
+ =?us-ascii?Q?usLQGi2g6Jhi+Og4VMJdu4a/VEFHxhUpzL0cLXTXQnf0wVKD7R6/oPCWGo2s?=
+ =?us-ascii?Q?tbYtjPUkkL6T5/1XDXmJXzhA9KiLxoi4RTF0HqKSf1sf380s2XCadm9XoXIU?=
+ =?us-ascii?Q?JabJ0xRTfRxzlMIUCnIpL0WE78eqcxKwImkF2mGSU8x6kKSC+jwbxKAi+Za9?=
+ =?us-ascii?Q?u1IcmY2G6U5/8uD9jKgUn26xD+/QVHrhSgbodNU6Fhfv3Nqa7um+LTJteFyE?=
+ =?us-ascii?Q?jPHNOuHY1fbfQ+nKI6cD7PwzAtMNq4zq9QZqn2HZXmQNoARsazae0tK0jnFU?=
+ =?us-ascii?Q?ysdnb9bnjs6REBPIX9ZSRkObL2u+IHIL0OAdWn+ErzvdhYyUKl8Gvvxj/YCN?=
+ =?us-ascii?Q?wtlzx3Enk8EuyfEQJglL5dTRNcrP+aciEe3OnZLndzaADKafzgXuu5HPBqnj?=
+ =?us-ascii?Q?kj3B29W6IiAJjuPPDZpAmc5ks0BB31MDOJfwivNgZQC5tL65Ozkm7I2nAFW1?=
+ =?us-ascii?Q?j8Wp9e6fvnfSjSTBnGWDLIf4F6og4HcQhUb0OK+e1GW6d+WQYYh9VyfmUjpQ?=
+ =?us-ascii?Q?PS4Pwqxl5TPWSirYK8kQetkhP1+V1LmO/JouxUiNe4TGPp8K2LR84OifvQbT?=
+ =?us-ascii?Q?Nb378p6Pj2YtBDy2x58RMzYaVSVCYSR/qoc/YnCqhYRZh4jO/QMixPFIFU2c?=
+ =?us-ascii?Q?pLIkLlSlFbmTIOUtzJW8f2AmblBU4DnDtx1Rq82d++/4VDeENnjPhioYqWHm?=
+ =?us-ascii?Q?8gEHmkolBHeljASI7v60nqPc5ZuSBvygC3OcYX82KEPV6lFAj+wLtxFx7hsN?=
+ =?us-ascii?Q?e/497rxXcfiuKjG1JTCCnIYGw/oUb9TOxSAQ2UbH9Tus5sBlNLIYGkW/38ke?=
+ =?us-ascii?Q?MM4yEtUd/7AG0RIjffVDu84wLs3tlDKb7WucDAih6pUc/VRngNaCQbHPVLvK?=
+ =?us-ascii?Q?yoULo9EQCbNewH7LHCLGpVcz7rEIgt7G8ki4VZDANMm0a+WMF7o8B7efaT75?=
+ =?us-ascii?Q?rKrDcx8y2KGY4mgFZj67a7QInGjoR4tsn9K9SxRjHpIuk4pYeTiLMa7U/Jgp?=
+ =?us-ascii?Q?6pTmqrOc/v1WHbjzINLgJxvC79NUA62Su00/uLl/zyFs9nvt0SqL8+LRjJdj?=
+ =?us-ascii?Q?sICC5PsjPXpWARLJd2JAi5zWUiBSVggjuys4/j8836LywAVszWivi1MqTr8t?=
+ =?us-ascii?Q?vDxEUYYuWx0ZlyJOzOLgaASqJIPQb/CwGDRMfQmMRRsKFtzwz+rhXiqiFeH3?=
+ =?us-ascii?Q?7y08eqnKy6ipEJ/st8zCA13PGeEs5s+hGohFwauTqc5EI+ODBeeIH2inZjKX?=
+ =?us-ascii?Q?rW1Z1wjbgY8RX1Xmx0BxTcy2ZzIZwTapa3Vrr+GQDFnjMbWSf4Q+e84/FvEs?=
+ =?us-ascii?Q?0zkbMtF3IiNLLxHtFJFMdBkVmUe85V5ti2xrcgtkmjKe3SM6z6LVZvUoEj+L?=
+ =?us-ascii?Q?zglFkGJWeOuXoJjIND+CM4F+Ft0qwNY0OicwKJqzr32JAa/OoFIe74TSXj/A?=
+ =?us-ascii?Q?sflhp3Tj9jgbbl96Cpp7O9VOSqi/UjIPLPdXNufb58mvbpBpqq/k8TkRFrhY?=
+ =?us-ascii?Q?xeyG/N9C/T/M/tTNjD6NunxSUTm81AxEpZYJe5DTz9lbXNFPXUcWnb1gElV/?=
+ =?us-ascii?Q?kYAo1uTcC3J0/vQl+iFokWY=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a00b180-539d-41be-a61c-08d9fda7d1bb
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 06:25:47.4893
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PQsHxhpTx1VIrOVKsbvqz5u5bJtbFZSZCL7ek3/T8U+4mjF9rXsoUR111HQ4ADJgQEYowt9do+LNEmYLNVMBWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB3767
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 2, 2022 at 1:53 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Tue, Mar 01, 2022 at 03:52:31PM +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > During a patch discussion, Linus brought up the option of changing
-> > the C standard version from gnu89 to gnu99, which allows using variable
-> > declaration inside of a for() loop. While the C99, C11 and later standa=
-rds
-> > introduce many other features, most of these are already available in
-> > gnu89 as GNU extensions as well.
-> >
-> > An earlier attempt to do this when gcc-5 started defaulting to
-> > -std=3Dgnu11 failed because at the time that caused warnings about
-> > designated initializers with older compilers. Now that gcc-5.1 is
-> > the minimum compiler version used for building kernels, that is no
-> > longer a concern. Similarly, the behavior of 'inline' functions changes
-> > between gnu89 using gnu_inline behavior and gnu11 using standard c99+
-> > behavior, but this was taken care of by defining 'inline' to include
-> > __attribute__((gnu_inline)) in order to allow building with clang a
-> > while ago.
-> >
-> > One minor issue that remains is an added gcc warning for shifts of
-> > negative integers when building with -Wextra, which happens with the
-> > 'make W=3D1' option, as well as for three drivers in the kernel that al=
-ways
-> > enable -Wextra, but it was only observed with the i915 driver so far.
-> > To be on the safe side, add -Wno-shift-negative-value to any -Wextra
-> > in a Makefile.
-> >
-> > Nathan Chancellor reported an additional -Wdeclaration-after-statement
-> > warning that appears in a system header on arm, this still needs a
-> > workaround.
-> >
-> > The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
-> > minimal and mainly impact warnings at the -Wpedantic level that the
-> > kernel never enables. Between these, gnu11 is the newest version
-> > that is supported by all supported compiler versions, though it is
-> > only the default on gcc-5, while all other supported versions of
-> > gcc or clang default to gnu1x/gnu17.
-> >
-> > Link: https://lore.kernel.org/lkml/CAHk-=3DwiyCH7xeHcmiFJ-YgXUy2Jaj7pnk=
-dKpcovt8fYbVFW3TA@mail.gmail.com/
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > Acked-by: Marco Elver <elver@google.com>
-> > Acked-by: Jani Nikula <jani.nikula@intel.com>
-> > Acked-by: David Sterba <dsterba@suse.com>
-> > Reviewed-by: Alex Shi <alexs@kernel.org>
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > Cc: linux-kbuild@vger.kernel.org
-> > Cc: llvm@lists.linux.dev
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> One comment below.
->
-> > ---
-> > [v3]
-> >  - split out USERCFLAGS to a separate patch
-> >  - add -Wdeclaration-after-statement patch from Mark Rutland
-> >  - leave out C17 reference
-> >  - more rewording the descrption
-> >
-> > [v2]
-> >  - added -std=3Dgnu11 back, rather than just relying on the default
-> >  - minor changes to changelog text
-> > ---
-> >  Documentation/process/programming-language.rst              | 6 +++---
-> >  .../translations/it_IT/process/programming-language.rst     | 4 ++--
-> >  .../translations/zh_CN/process/programming-language.rst     | 3 +--
-> >  .../translations/zh_TW/process/programming-language.rst     | 3 +--
-> >  Makefile                                                    | 4 ++--
-> >  arch/arm64/kernel/vdso32/Makefile                           | 2 +-
-> >  drivers/gpu/drm/i915/Makefile                               | 1 +
-> >  drivers/staging/greybus/tools/Makefile                      | 3 ++-
-> >  fs/btrfs/Makefile                                           | 1 +
-> >  scripts/Makefile.extrawarn                                  | 1 +
-> >  10 files changed, 15 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/process/programming-language.rst b/Documenta=
-tion/process/programming-language.rst
-> > index ec474a70a02f..5fc9160ca1fa 100644
-> > --- a/Documentation/process/programming-language.rst
-> > +++ b/Documentation/process/programming-language.rst
-> > @@ -5,9 +5,9 @@ Programming Language
-> >
-> >  The kernel is written in the C programming language [c-language]_.
-> >  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
-> > -under ``-std=3Dgnu89`` [gcc-c-dialect-options]_: the GNU dialect of IS=
-O C90
-> > -(including some C99 features). ``clang`` [clang]_ is also supported, s=
-ee
-> > -docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-> > +under ``-std=3Dgnu11`` [gcc-c-dialect-options]_: the GNU dialect of IS=
-O C11.
-> > +``clang`` [clang]_ is also supported, see docs on
-> > +:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-> >
-> >  This dialect contains many extensions to the language [gnu-extensions]=
-_,
-> >  and many of them are used within the kernel as a matter of course.
-> > diff --git a/Documentation/translations/it_IT/process/programming-langu=
-age.rst b/Documentation/translations/it_IT/process/programming-language.rst
-> > index 41db2598ce11..c1a9b481a6f9 100644
-> > --- a/Documentation/translations/it_IT/process/programming-language.rst
-> > +++ b/Documentation/translations/it_IT/process/programming-language.rst
-> > @@ -10,8 +10,8 @@ Linguaggio di programmazione
-> >
-> >  Il kernel =C3=A8 scritto nel linguaggio di programmazione C [it-c-lang=
-uage]_.
-> >  Pi=C3=B9 precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_=
- usando
-> > -l'opzione ``-std=3Dgnu89`` [it-gcc-c-dialect-options]_: il dialetto GN=
-U
-> > -dello standard ISO C90 (con l'aggiunta di alcune funzionalit=C3=A0 da =
-C99).
-> > +l'opzione ``-std=3Dgnu11`` [it-gcc-c-dialect-options]_: il dialetto GN=
-U
-> > +dello standard ISO C11.
-> >  Linux supporta anche ``clang`` [it-clang]_, leggete la documentazione
-> >  :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-> >
-> > diff --git a/Documentation/translations/zh_CN/process/programming-langu=
-age.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-> > index 2a47a1d2ec20..fabdc338dbfb 100644
-> > --- a/Documentation/translations/zh_CN/process/programming-language.rst
-> > +++ b/Documentation/translations/zh_CN/process/programming-language.rst
-> > @@ -9,8 +9,7 @@
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> >  =E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 :ref:`c-langua=
-ge <cn_c-language>` =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=
-=E7=A1=AE=E5=9C=B0=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=
-=98=AF=E7=94=A8 :ref:`gcc <cn_gcc>`
-> > -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-diale=
-ct-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 =
-GNU =E6=96=B9=E8=A8=80=EF=BC=88
-> > -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
-> > +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-diale=
-ct-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 =
-GNU =E6=96=B9=E8=A8=80
-> >
-> >  =E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=
-=AD=E8=A8=80 :ref:`gnu-extensions <cn_gnu-extensions>` =E7=9A=84=E8=AE=B8=
-=E5=A4=9A=E6=89=A9=E5=B1=95=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=
-=BB=AC=E8=AE=B8=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=
-=BF=E7=94=A8=E3=80=82
-> >
-> > diff --git a/Documentation/translations/zh_TW/process/programming-langu=
-age.rst b/Documentation/translations/zh_TW/process/programming-language.rst
-> > index 54e3699eadf8..144bdaf81a41 100644
-> > --- a/Documentation/translations/zh_TW/process/programming-language.rst
-> > +++ b/Documentation/translations/zh_TW/process/programming-language.rst
-> > @@ -12,8 +12,7 @@
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> >  =E5=85=A7=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AA=9E=E8=A8=80 :ref:`c-langua=
-ge <tw_c-language>` =E7=B7=A8=E5=AF=AB=E7=9A=84=E3=80=82=E6=9B=B4=E6=BA=96=
-=E7=A2=BA=E5=9C=B0=E8=AA=AA=EF=BC=8C=E5=85=A7=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=
-=98=AF=E7=94=A8 :ref:`gcc <tw_gcc>`
-> > -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <tw_gcc-c-diale=
-ct-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 =
-GNU =E6=96=B9=E8=A8=80=EF=BC=88
-> > -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
-> > +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-diale=
-ct-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 =
-GNU =E6=96=B9=E8=A8=80
-> >
-> >  =E9=80=99=E7=A8=AE=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=B0=8D=E8=AA=
-=9E=E8=A8=80 :ref:`gnu-extensions <tw_gnu-extensions>` =E7=9A=84=E8=A8=B1=
-=E5=A4=9A=E6=93=B4=E5=B1=95=EF=BC=8C=E7=95=B6=E7=84=B6=EF=BC=8C=E5=AE=83=E5=
-=80=91=E8=A8=B1=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=85=A7=E6=A0=B8=E4=B8=AD=E4=BD=
-=BF=E7=94=A8=E3=80=82
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 289ce2be8032..94fa9a849a7a 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -515,7 +515,7 @@ KBUILD_CFLAGS   :=3D -Wall -Wundef -Werror=3Dstrict=
--prototypes -Wno-trigraphs \
-> >                  -fno-strict-aliasing -fno-common -fshort-wchar -fno-PI=
-E \
-> >                  -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
-icit-int \
-> >                  -Werror=3Dreturn-type -Wno-format-security \
-> > -                -std=3Dgnu89
-> > +                -std=3Dgnu11
-> >  KBUILD_CPPFLAGS :=3D -D__KERNEL__
-> >  KBUILD_AFLAGS_KERNEL :=3D
-> >  KBUILD_CFLAGS_KERNEL :=3D
-> > @@ -782,7 +782,7 @@ KBUILD_CFLAGS +=3D $(KBUILD_CFLAGS-y) $(CONFIG_CC_I=
-MPLICIT_FALLTHROUGH)
-> >
-> >  ifdef CONFIG_CC_IS_CLANG
-> >  KBUILD_CPPFLAGS +=3D -Qunused-arguments
-> > -# The kernel builds with '-std=3Dgnu89' so use of GNU extensions is ac=
-ceptable.
-> > +# The kernel builds with '-std=3Dgnu11' so use of GNU extensions is ac=
-ceptable.
-> >  KBUILD_CFLAGS +=3D -Wno-gnu
-> >  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost=
-, as the
-> >  # source of a reference will be _MergedGlobals and not on of the white=
-listed names.
-> > diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso=
-32/Makefile
-> > index 6c01b63ff56d..9378ea055bf2 100644
-> > --- a/arch/arm64/kernel/vdso32/Makefile
-> > +++ b/arch/arm64/kernel/vdso32/Makefile
-> > @@ -68,7 +68,7 @@ VDSO_CFLAGS +=3D -Wall -Wundef -Wstrict-prototypes -W=
-no-trigraphs \
-> >                 -fno-strict-aliasing -fno-common \
-> >                 -Werror-implicit-function-declaration \
-> >                 -Wno-format-security \
-> > -               -std=3Dgnu89
-> > +               -std=3Dgnu11
-> >  VDSO_CFLAGS  +=3D -O2
-> >  # Some useful compiler-dependent flags from top-level Makefile
-> >  VDSO_CFLAGS +=3D $(call cc32-option,-Wdeclaration-after-statement,)
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makef=
-ile
-> > index 1b62b9f65196..1618a6e0af4e 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -17,6 +17,7 @@ subdir-ccflags-y +=3D -Wno-unused-parameter
-> >  subdir-ccflags-y +=3D -Wno-type-limits
-> >  subdir-ccflags-y +=3D -Wno-missing-field-initializers
-> >  subdir-ccflags-y +=3D -Wno-sign-compare
-> > +subdir-ccflags-y +=3D -Wno-shift-negative-value
-> >  subdir-ccflags-y +=3D $(call cc-disable-warning, unused-but-set-variab=
-le)
-> >  subdir-ccflags-y +=3D $(call cc-disable-warning, frame-address)
-> >  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) +=3D -Werror
-> > diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/g=
-reybus/tools/Makefile
-> > index ad0ae8053b79..a3bbd73171f2 100644
-> > --- a/drivers/staging/greybus/tools/Makefile
-> > +++ b/drivers/staging/greybus/tools/Makefile
-> > @@ -12,7 +12,8 @@ CFLAGS      +=3D -std=3Dgnu99 -Wall -Wextra -g \
-> >           -Wredundant-decls \
-> >           -Wcast-align \
-> >           -Wsign-compare \
-> > -         -Wno-missing-field-initializers
-> > +         -Wno-missing-field-initializers \
-> > +         -Wno-shift-negative-value
->
-> This Makefile uses its own -std=3D option because it is a userland tool.
-> Seems like this hunk could just be dropped or the -std=3D argument could
-> be bumped here too?
->
+Fix following 'make htmldocs' error:
+Error: Cannot open file ./fs/netfs/read_helper.c
+WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno
+-sphinx-version 2.4.4 ./fs/netfs/read_helper.c' failed with return code 1
 
-Right, this is a userland tool.
+Fixes: ad9e5adb388f ("netfs: Rename rename read_helper.c to io.c")
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+ Documentation/filesystems/netfs_library.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I do not mind either way.
+diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
+index 5e1b25349c41..d3123348d2a2 100644
+--- a/Documentation/filesystems/netfs_library.rst
++++ b/Documentation/filesystems/netfs_library.rst
+@@ -562,4 +562,4 @@ API Function Reference
+ ======================
+ 
+ .. kernel-doc:: include/linux/netfs.h
+-.. kernel-doc:: fs/netfs/read_helper.c
++.. kernel-doc:: fs/netfs/io.c
+-- 
+2.35.1
 
-BTW, this makefile is somewhat corrupted
-because ../greybus_protocols.h does not exist.
-(but it is working, relying on the built-in rules)
-
-
-
-If Arnd does not mind sending v4, maybe we
-can split this into two paches:
-
-1/4 : add -Wno-shift-negative-value where -Wextra is used
-2/4 : Kbuild: move to -std=3Dgnu11
-
-
-
-
-1/4 adds -Wno-shift-negative-value
-whether it is the kernel space or user-land.
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
