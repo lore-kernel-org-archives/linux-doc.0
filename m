@@ -2,215 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A0EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 16:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3952CC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 16:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240673AbiCDQ2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 11:28:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        id S238266AbiCDQaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 11:30:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234137AbiCDQ2d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 11:28:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE6DE0AE4;
-        Fri,  4 Mar 2022 08:27:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CA8D61D9B;
-        Fri,  4 Mar 2022 16:27:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F54C340E9;
-        Fri,  4 Mar 2022 16:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646411262;
-        bh=yZI5SE6Yu+jf7Glt6Q2PXdc260ByZ2le2G+I7rC8g30=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uhjbWDuzVvPCDeEj1zw4Zlqge7qOxShxUw02Rp0btAvpb5w/0LC8Imq9dZ28tjC8z
-         c72oJQxuGOD+ci74xSH+nFhX4jjJu6t9p2vs8g0T/IbuW2kXAsnEFoPIu/iuRtRk1d
-         eLhVVIzZ9dW9Bxu1RNAUQN6JNpSGGOO2OoAcstmdr6dEx/z9CjfbGCAvHdqqDHOY9w
-         r3NFNerdsKRzeFaCJOJ7CU09WhkuoCDzL2Y6Utx39ZL9IqlRUjMBbX9mlgeNFpgUIB
-         d7TUFZXl+R32aSVPO31VJemVXOBVG92w43Zl2aYLFis869e5gYqUYU3M9vvJ7l9LEO
-         bbZjRUgnggwDQ==
-Date:   Fri, 4 Mar 2022 09:27:35 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] kbuild: Allow a suffix with $(LLVM)
-Message-ID: <YiI993aaIYSv23sI@dev-arch.thelio-3990X>
-References: <20220302234400.782002-1-nathan@kernel.org>
- <CAK7LNARAPqTaO0Zho0VFib6kxjfpbnvrX-ZwcVPQgES5T8z4qQ@mail.gmail.com>
+        with ESMTP id S234137AbiCDQaV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 11:30:21 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA5A148937;
+        Fri,  4 Mar 2022 08:29:33 -0800 (PST)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 224FJOLu010359;
+        Fri, 4 Mar 2022 16:29:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=IL+VWTIPQ3j6xGTOOsrsIIrVRc8PdvkQHCT9sWI1nk4=;
+ b=C8gzfYV8fZEwexUhUq/lYkk/koIpnQPZWAELeS9bp75MBQuginOdpP2XRxJFP0FDGJxL
+ 2ywHZWNUSesKz6fd+dorgYmcEyx4LYAPu5DQYF/h5Bnixm4JkJgx0idNj4+pLYCps/7D
+ rmNOkimVC21PkFMP7lB0xk7I0u7jDNJDbzBidU++8bv+ZoZAGcspOzWU4Z/BjuJSHsVr
+ AlhFyKWSrLxviTjHK6dew3pKx3Vpfez3Z0D73YZNqZVhIEeE/SCVViHx/7IqGxqEgiCU
+ snhBebj8a/hmAOiUaIhyhGQMd1KDgkyJ6M0YM5/KTCA+mlhgCvdC49xu+Wje2Q3W/PWF kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3eknae1d5n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 04 Mar 2022 16:29:18 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 224FZ2Z8002766;
+        Fri, 4 Mar 2022 16:29:18 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3eknae1d58-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 04 Mar 2022 16:29:17 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 224GHCeu013271;
+        Fri, 4 Mar 2022 16:29:15 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma06fra.de.ibm.com with ESMTP id 3ek4k3hx27-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 04 Mar 2022 16:29:15 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 224GIBGd47776052
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 4 Mar 2022 16:18:11 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 050694203F;
+        Fri,  4 Mar 2022 16:29:12 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2999342041;
+        Fri,  4 Mar 2022 16:29:11 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.94.215])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Fri,  4 Mar 2022 16:29:11 +0000 (GMT)
+Date:   Fri, 4 Mar 2022 17:29:08 +0100
+From:   Halil Pasic <pasic@linux.ibm.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Doug Gilbert <dgilbert@interlog.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        stable@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 0/2] swiotlb: rework fix info leak with DMA_FROM_DEVICE
+Message-ID: <20220304172908.43ab261d.pasic@linux.ibm.com>
+In-Reply-To: <YiI2DPIrNLKwanZw@infradead.org>
+References: <20220304135859.3521513-1-pasic@linux.ibm.com>
+        <YiI2DPIrNLKwanZw@infradead.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARAPqTaO0Zho0VFib6kxjfpbnvrX-ZwcVPQgES5T8z4qQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tNfSGfEP4uLov8R8L2q7BvqqGLkldnZk
+X-Proofpoint-ORIG-GUID: 3S84OGo6w6kSTSeKENgrp7gsrPLWKL8A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-04_07,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 impostorscore=0 malwarescore=0
+ spamscore=0 mlxscore=0 clxscore=1015 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203040083
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 04, 2022 at 08:16:00PM +0900, Masahiro Yamada wrote:
-> On Thu, Mar 3, 2022 at 8:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > The LLVM make variable allows a developer to quickly switch between the
-> > GNU and LLVM tools. However, it does not handle versioned binaries, such
-> > as the ones shipped by Debian, as LLVM=1 just defines the tool variables
-> > with the unversioned binaries.
-> >
-> > There was some discussion during the review of the patch that introduces
-> > LLVM=1 around versioned binaries, ultimately coming to the conclusion
-> > that developers can just add the folder that contains the unversioned
-> > binaries to their PATH, as Debian's versioned suffixed binaries are
-> > really just symlinks to the unversioned binaries in /usr/lib/llvm-#/bin:
-> >
-> > $ realpath /usr/bin/clang-14
-> > /usr/lib/llvm-14/bin/clang
-> >
-> > $ PATH=/usr/lib/llvm-14/bin:$PATH make ... LLVM=1
-> >
-> > However, that can be cumbersome to developers who are constantly testing
-> > series with different toolchains and versions. It is simple enough to
-> > support these versioned binaries directly in the Kbuild system by
-> > allowing the developer to specify the version suffix with LLVM=, which
-> > is shorter than the above suggestion:
-> >
-> > $ make ... LLVM=-14
-> >
-> > It does not change the meaning of LLVM=1 (which will continue to use
-> > unversioned binaries) and it does not add too much additional complexity
-> > to the existing $(LLVM) code, while allowing developers to quickly test
-> > their series with different versions of the whole LLVM suite of tools.
-> >
-> > Link: https://lore.kernel.org/r/20200317215515.226917-1-ndesaulniers@google.com/
-> > Link: https://lore.kernel.org/r/20220224151322.072632223@infradead.org/
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >
-> > RFC -> v1: https://lore.kernel.org/r/Yh%2FegU1LZudfrgVy@dev-arch.thelio-3990X/
-> >
-> > * Tidy up commit message slightly.
-> >
-> > * Add tags.
-> >
-> > * Add links to prior discussions for context.
-> >
-> > * Add change to tools/testing/selftests/lib.mk.
-> >
-> > I would like for this to go through the Kbuild tree, please ack as
-> > necessary.
-> >
-> >  Documentation/kbuild/llvm.rst  |  7 +++++++
-> >  Makefile                       | 24 ++++++++++++++----------
-> >  tools/scripts/Makefile.include | 20 ++++++++++++--------
-> >  tools/testing/selftests/lib.mk |  6 +++++-
-> >  4 files changed, 38 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index d32616891dcf..5805a8473a36 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -60,6 +60,13 @@ They can be enabled individually. The full list of the parameters: ::
-> >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> >
-> > +If your LLVM tools have a suffix and you prefer to test an explicit version rather
-> > +than the unsuffixed executables, use ``LLVM=<suffix>``. For example: ::
-> > +
-> > +       make LLVM=-14
-> > +
-> > +will use ``clang-14``, ``ld.lld-14``, etc.
-> > +
-> >  The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
-> >  disable it.
+On Fri, 4 Mar 2022 07:53:48 -0800
+Christoph Hellwig <hch@infradead.org> wrote:
+
+> On Fri, Mar 04, 2022 at 02:58:57PM +0100, Halil Pasic wrote:
+> > Unfortunately, we ended up with the wrong version of the patch "fix info
+> > leak with DMA_FROM_DEVICE" getting merged. We got v4 merged, but the
+> > version we want is v7 with some minor tweaks which were supposed to be
+> > applied by Christoph (swiotlb maintainer). After pointing this out, I
+> > was asked by Christoph to create an incremental fix. 
+> > 
+> > IMHO the cleanest way to do this is a reverting the incorrect version
+> > of the patch and applying the correct one. I hope that qualifies as
+> > an incremental fix.  
 > 
-> 
-> Perhaps, it might be worth mentioning the difference between
-> LLVM=1 and LLVM=<suffix>
-> 
-> The current behavior is,
-> any value other than '1' is regarded as a suffix.
+> I'd really do one patch to move to the expected state.  I'd volunteer
+> to merge the two patches, but I've recently shown that I'm not
+> exactly good at that..
 
-Maybe just adding something like:
+No problem, I can do that. It isn't hard to squash things together, but
+when I was about to write the commit message, I had the feeling doing
+a revert is cleaner.
 
-"... prefer to test an explicit version rather than the unsuffixed
-executables like above, ..."
+Any other opinions?
 
-? I'll try to come up with a clearer way to word everything for v2.
-
-> > diff --git a/Makefile b/Makefile
-> > index a82095c69fdd..963840c00eae 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -424,8 +424,12 @@ HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
-> >  HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
-> >
-> >  ifneq ($(LLVM),)
-> > -HOSTCC = clang
-> > -HOSTCXX        = clang++
-> > +ifneq ($(LLVM),1)
-> > +LLVM_SFX := $(LLVM)
-> > +endif
-> 
-> I am OK with this, but please note LLVM=0
-> uses 'clang0', 'ld.lld0' instead of disabling
-> LLVM explicitly.
-> 
-> This might be a small surprise because LLVM_IAS=0
-> is used to disable the integrated assembler.
-
-Right, but we have that problem right now, as LLVM=0 is currently
-treated like LLVM=1. I suppose I could add a line to the documentation
-in a follow up change to clarify this.
-
-> If you want handle LLVM=<suffix>
-> only when <suffix> start with a hyphen,
-> you can do like this:
-> 
-> ifneq ($(filter -%, $(LLVM)),)
-> LLVM_SFX := $(LLVM)
-> endif
-
-I did think about this. I guess the only reason I did not do that in
-this version is someone might have a different suffix scheme than
-Debian's but it is probably better to be a little bit more precise based
-on what we know in this moment. I will change it to that and update the
-documentation.
-
-> In the future, If somebody requests to support
->     make LLVM=/path/to/my/own/llvm/dir/
-> to use llvm tools in that path,
-> we can expand the code like this:
-> 
-> 
-> 
-> # "LLVM=foo/bar/" is a syntax sugar of "LLVM=1 LLVM_PFX=foo/bar"
-> # "LLVM=-foo" is a syntax sugar of "LLVM=1 LLVM_SFX=-foo"
-> 
-> ifneq ($(filter %/, $(LLVM)),)
-> LLVM_PFX := $(LLVM)
-> else ifneq ($(filter -%, $(LLVM)),)
-> LLVM_SFX := $(LLVM)
-> endif
-
-I know I personally I would use the prefix form when testing with LLVM=1
-so I think I will just go ahead and support that now, especially since
-Peter had aimed to support a full path with his CC patch that we NAK'd.
-
-> Lastly, I personally prefer to fully spell LLVM_SUFFIX
-> as Nick originally suggested:
-> https://lkml.org/lkml/2020/3/17/1477
-
-Ack, I have changed this locally and I'll send a v2 along shortly once I
-have written some documentation to codify these suggested changes.
-
-Thank you for the comments and review, cheers!
-Nathan
+Regards,
+Halil
