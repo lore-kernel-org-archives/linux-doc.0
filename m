@@ -2,89 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D180C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 17:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B45C43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 17:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230080AbiCDRVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 12:21:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40924 "EHLO
+        id S240739AbiCDRXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 12:23:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238271AbiCDRVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 12:21:32 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 334DD1520EF;
-        Fri,  4 Mar 2022 09:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=CH7QcMqwraV+tePSOfKGoron6GD0xdpdLgX8+rteWow=; b=uv1Al54t6vIc14pePuc5ns6yRx
-        Vs2ijGWG39+uXUMxC9X9KBHhWH85RNQltC7n6XL1uykxj9BvmZlLACCHVxEQ1ssN34uXih0/PqDlw
-        sFlJ7X0mwHCFfEba1SOYaWvKH2QPaHnuCVeU4mArJ93IC5h8hyIplYTcUAzZBD2w9sq5fZ9SlvC2e
-        34hc6qo5IHbfWXFRVxD1Gqp1BzPo28/1mxleZiE3SleSmoP19ZbNtyDRY/9DFJ/aR1AAKSa1VGjgj
-        YrP/qkD0ieEUoGHBy/Y/XX1yf4yNqNiynlcegnL+s5Z2KKL5vEJfq3M7jnVG9gfeV2jW2uD0nVwdn
-        PlSz6CLg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nQBbF-00CoyB-HS; Fri, 04 Mar 2022 17:20:17 +0000
-Message-ID: <0e7a145e-d95e-a5ec-eb5b-729b48061200@infradead.org>
-Date:   Fri, 4 Mar 2022 09:20:12 -0800
+        with ESMTP id S241184AbiCDRXI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 12:23:08 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EBB51520DF;
+        Fri,  4 Mar 2022 09:22:20 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A8EB62C0;
+        Fri,  4 Mar 2022 17:22:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A8EB62C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1646414539; bh=oxqXpFYHpIv/m/1a18AtruSu7jdnaHfA1jf9v/hyMxc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=IuNBJ/vCvpz4WPzgxJh1rF8qnaiA6UOVPqBlG7Wul0TcLAUqL34b6xFpj3O5EELVw
+         /YHCLJtElqC3aOpiPsIDDTDUeoMKMhBC70l4Lq+vSSRYwcKrNLU3EaEldjb0OPB8Vb
+         MnM6fT+HBSp1zwGFWdf+reJyta4fJXo+WGojEfQNBnL9MP8J0SBluoeps6BOAxzP0Z
+         o8uqp0cYTa03INFYNY3PA4LskGXWSjttrembjacwl9XeSTHaHU/GDHcmqhrpe4uqwS
+         vHuDsJgA1u9skxLatY6r7Poby1AGhXNNfa9eo9dt+PTGZnovr011rYySkY0gbOwHQm
+         HNxMiUqSetkcg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wan Jiabing <wanjiabing@vivo.com>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Shaokun Zhang <zhangshaokun@hisilicon.com>,
+        Qi Liu <liuqi115@huawei.com>, Will Deacon <will@kernel.org>,
+        John Garry <john.garry@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     jiabing.wan@qq.com
+Subject: Re: [PATCH] docs: fix 'make htmldocs' warning in perf
+In-Reply-To: <20220228031700.1669086-1-wanjiabing@vivo.com>
+References: <20220228031700.1669086-1-wanjiabing@vivo.com>
+Date:   Fri, 04 Mar 2022 10:22:19 -0700
+Message-ID: <87tucdfx9w.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] Documentation/process: Add Researcher Guidelines
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stefano Zacchiroli <zack@upsilon.cc>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Wenwen Wang <wenwen@cs.uga.edu>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20220224001403.1307377-1-keescook@chromium.org>
- <974cf8f2-06f3-99a5-9a77-6d7b7cc8271a@leemhuis.info>
- <202202251044.F509C7F3@keescook> <871qzhhc39.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <871qzhhc39.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Wan Jiabing <wanjiabing@vivo.com> writes:
 
+> Fix following 'make htmldocs' warnings:
+> ./Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING:
+> document isn't included in any toctree
+>
+> Fixes: c8602008e247 ("docs: perf: Add description for HiSilicon PCIe PMU driver")
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> ---
+>  Documentation/admin-guide/perf/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
+> index 5a8f2529a033..69b23f087c05 100644
+> --- a/Documentation/admin-guide/perf/index.rst
+> +++ b/Documentation/admin-guide/perf/index.rst
+> @@ -8,6 +8,7 @@ Performance monitor support
+>     :maxdepth: 1
+>  
+>     hisi-pmu
+> +   hisi-pcie-pmu
+>     imx-ddr
 
-On 3/4/22 09:16, Jonathan Corbet wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> 
->> On Thu, Feb 24, 2022 at 09:19:24AM +0100, Thorsten Leemhuis wrote:
->>> Hmm, the intro for "Documentation/admin-guide/" states that "The
->>> following manuals are written for users of the kernel", but the added
->>> text afaics providing nothing regular users care about. So wouldn't it
->>> be better if this lived below Documentation/process/ ? It might not a
->>> really good fit either, but I'd say it's the better place.
->>>
->>> But well, the best person to know is Jonathan, who is listed as a
->>> Co-developer above, so maybe I'm wrong my suggestion is a bad one.
->>
->> I started in process/ and eventually settled on admin-guide/ since that's
->> basically the "front page". But I agree, there isn't an obviously correct
->> place for it.
-> 
-> Sorry, been a bit distracted...when we were working on this I was more
-> focused on the text than the location.  My own feeling is that
-> Documentation/process is a better place for this - that's where we tell
-> the world how to work with the kernel community, after all.  I'm not
-> going to dig in my heels and fight about it, but that's my sense.
-> 
-> Otherwise, it kind of seems like this is ready to go in. I'd like to
-> apply it before the merge window; lemme know where you want it in the
-> end and we can get it done.
+Applied, thanks.
 
-There is a v2 of this patch, but yes, it should be in process/ IMO also.
-
--- 
-~Randy
+jon
