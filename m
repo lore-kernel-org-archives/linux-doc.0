@@ -2,165 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB6EEC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 14:43:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B81E4C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 15:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239901AbiCDOoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 09:44:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
+        id S240207AbiCDPWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 10:22:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239912AbiCDOoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 09:44:01 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81E9A1BD073
-        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 06:43:12 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id mg21-20020a17090b371500b001bef9e4657cso7404834pjb.0
-        for <linux-doc@vger.kernel.org>; Fri, 04 Mar 2022 06:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Ze2fqoG8Uv2ivOdemEby3h5mEqMYX8ZelC0Z+W02JsY=;
-        b=MByDOnLKlFXdAZczHK4WVBzn4RAn6PAHsHIoSaVTs0Hd0A9DZT3CFOy2QmicB40p5j
-         DyQT2LZiwFafH9eamIKEoh0PuIFAkMzhGsEHPz3VgijVEDjImTUWNn3mozIJp4QgnY27
-         276pkjtyHVm1SQY0FstynGu5/6sB0ML6eFEtcWccIgrlTJHhr8TTnrm4LfEwgtOXealL
-         tD1WrPbWEc8eDFGMgCY2rjJHVFUyEXMnHWQuv9H1xvDQ4rCi08c2njHZ26qCI5CR6mCM
-         +zHqtbNTXi6AzslQtMfQr4syff73Alj+suX1drdIzowGvnnE7J1T6oyNxdn0W2Uqs2O6
-         vPBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Ze2fqoG8Uv2ivOdemEby3h5mEqMYX8ZelC0Z+W02JsY=;
-        b=BjIV1K+Pp4eSvc2rBxyl590OfbGgKLpA83lx9IzB8li7dh8fxcMDPc0Agz5Li3zDf/
-         Txn/0z4CQE99Ko+VOK3/e2R+xCLWIJ1kgr9WrnPsd9pryGimOvnIQNMHjtm7gWwFdp4/
-         d2vcIs60tlxUECyXYJEWqS9DiXlKjIay5ZKqoxahgXtgjCxh3S7JdJiTK6Co0c2CmlEG
-         y2li5T/33E8kg1PvB7UZ2OKp9Yq44r+2tBdsMsshjN6OEka6pNppRcDny9VJzkMqAyuo
-         CHg1JKYfiw/FR5m8mxYgsp8ImHojAbtn1GlMcR+L8ma9jk7GX+klkv0tvKRtXPZ/JSEC
-         rG0A==
-X-Gm-Message-State: AOAM5309D1K2bEMN29h3/+i2HGUGSrCUyX+vtXILDDyIl41uRKlIjXVW
-        Tb/DUp2U3mGHhDfbuujMWLrJkQ==
-X-Google-Smtp-Source: ABdhPJx2Krb3aVoml7oYDj/wYF2zHt9MFApRDg9L25cSW2GzVlZ0CxIxRFV7Ju0TLpp/Uo/PKUNvRg==
-X-Received: by 2002:a17:90a:a887:b0:1bc:388a:329f with SMTP id h7-20020a17090aa88700b001bc388a329fmr11106568pjq.17.1646404991696;
-        Fri, 04 Mar 2022 06:43:11 -0800 (PST)
-Received: from ?IPV6:2409:8a28:e6d:cc00:d089:89fd:5c33:f12? ([2409:8a28:e6d:cc00:d089:89fd:5c33:f12])
-        by smtp.gmail.com with ESMTPSA id s21-20020a056a00195500b004f65b15b3a0sm6169814pfk.8.2022.03.04.06.43.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Mar 2022 06:43:11 -0800 (PST)
-Message-ID: <f649a2f1-1029-dd69-47c6-f61f0fcc4313@bytedance.com>
-Date:   Fri, 4 Mar 2022 22:43:01 +0800
+        with ESMTP id S231589AbiCDPWR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 10:22:17 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34D11C2F75
+        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 07:21:29 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 458762B2;
+        Fri,  4 Mar 2022 15:21:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 458762B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1646407289; bh=AhHVtg/426WKGFSGTFlnmzgHgc/rCgdo3CzDRsHi0+U=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=I3ux9Nk937rQeghegNLHqwynXlUDCPBjc6XCc5xU2k9JBfKg23znK5PB2A7+q5Sb1
+         wi/IqKiBgXGlqHy8fWTkBD0R3cmC7B79cgCjsiYX3N3voagDXFFhX6ugQAYH6cz1WB
+         GLULLzOYIYtaLmHWI+8sGYicc8t/uZ9/0r08F2YFoVH8og07/Fb5QLvPvCX+6OfUgk
+         M2RXgXqAbkRwUQNm+JBxUw0gZ2JaTkWFQb75GREUjc1T5i8loQXva/A+M+yE2dXbo4
+         1ZtWBAJ5zXMT+frhWE8LP5FmBN7VPxeRT64AgHtBge4eiT6R1dRPxPH6moli6eiy+h
+         bzSfHxwdaAZPw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joao Martins <joao.m.martins@oracle.com>, linux-mm@kvack.org
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v7 3/5] mm/hugetlb_vmemmap: move comment block to
+ Documentation/vm
+In-Reply-To: <20220303213252.28593-4-joao.m.martins@oracle.com>
+References: <20220303213252.28593-1-joao.m.martins@oracle.com>
+ <20220303213252.28593-4-joao.m.martins@oracle.com>
+Date:   Fri, 04 Mar 2022 08:21:28 -0700
+Message-ID: <87r17hhhfr.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [External] Re: [PATCH] psi: remove CPU full metric at system
- level
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        surenb@google.com, ebiggers@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        Martin Steigerwald <Martin.Steigerwald@proact.de>
-References: <20220303055814.93057-1-zhouchengming@bytedance.com>
- <YiDB8pjzthSk0X7Q@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YiDB8pjzthSk0X7Q@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/3/3 9:26 下午, Johannes Weiner wrote:
-> On Thu, Mar 03, 2022 at 01:58:14PM +0800, Chengming Zhou wrote:
->> Martin find it confusing when look at the /proc/pressure/cpu output,
->> and found no hint about that CPU "full" line in psi Documentation.
->>
->> % cat /proc/pressure/cpu
->> some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
->> full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
->>
->> The PSI_CPU_FULL state is introduced by commit e7fcd7622823
->> ("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
->> but also counted at the system level as a side effect.
->>
->> Naturally, the FULL state doesn't exist for the CPU resource at
->> the system level. These "full" numbers can come from CPU idle
->> schedule latency. For example, t1 is the time when task wakeup
->> on an idle CPU, t2 is the time when CPU pick and switch to it.
->> The delta of (t2 - t1) will be in CPU_FULL state.
->>
->> Another case all processes can be stalled is when all cgroups
->> have been throttled at the same time, which unlikely to happen.
->>
->> Anyway, CPU_FULL metric is meaningless and confusing at the
->> system level. So this patch removed CPU full metric at the
->> system level, and removed it's monitor function too. The psi
->> Documentation has also been updated accordingly.
->>
->> Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
->> Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
->> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
->> ---
->>  Documentation/accounting/psi.rst | 18 +++++++++++++++---
->>  kernel/sched/psi.c               | 10 +++++++++-
->>  2 files changed, 24 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
->> index 860fe651d645..519652c06d7d 100644
->> --- a/Documentation/accounting/psi.rst
->> +++ b/Documentation/accounting/psi.rst
->> @@ -178,8 +178,20 @@ Cgroup2 interface
->>  In a system with a CONFIG_CGROUP=y kernel and the cgroup2 filesystem
->>  mounted, pressure stall information is also tracked for tasks grouped
->>  into cgroups. Each subdirectory in the cgroupfs mountpoint contains
->> -cpu.pressure, memory.pressure, and io.pressure files; the format is
->> -the same as the /proc/pressure/ files.
->> +cpu.pressure, memory.pressure, and io.pressure files; the format of
->> +memory.pressure and io.pressure is the same as the /proc/pressure/ files.
->> +
->> +But the format of cpu.pressure is as such::
->> +	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
->> +	full avg10=0.00 avg60=0.00 avg300=0.00 total=0
-> 
-> It's the format of cpu.pressure, except when it's
-> /sys/fs/cgroup/cpu.pressure... I think this is getting maybe a tad too
-> difficult to write parsers for. Plus, we added the line over a year
-> ago so we might break somebody by removing it again.
-> 
-> How about reporting zeroes at the system level?
+Joao Martins <joao.m.martins@oracle.com> writes:
 
-Ok, it's really better for userspace parsers, will change to this way
-and send later.
+> In preparation for device-dax for using hugetlbfs compound page tail
+> deduplication technique, move the comment block explanation into a
+> common place in Documentation/vm.
+>
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> ---
+>  Documentation/vm/index.rst         |   1 +
+>  Documentation/vm/vmemmap_dedup.rst | 175 +++++++++++++++++++++++++++++
+>  mm/hugetlb_vmemmap.c               | 168 +--------------------------
+>  3 files changed, 177 insertions(+), 167 deletions(-)
+>  create mode 100644 Documentation/vm/vmemmap_dedup.rst
 
-Thanks.
+Thanks for remembering to add this to the index.rst file!  That said, I
+get the impression you didn't actually build the docs afterward and look
+at the result; there are a number of things here that won't render the
+way you might like.
 
-> 
-> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> index e14358178849..86824de404bc 100644
-> --- a/kernel/sched/psi.c
-> +++ b/kernel/sched/psi.c
-> @@ -1062,14 +1062,17 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
->  	mutex_unlock(&group->avgs_lock);
->  
->  	for (full = 0; full < 2; full++) {
-> -		unsigned long avg[3];
-> -		u64 total;
-> +		unsigned long avg[3] = { 0, };
-> +		u64 total = 0;
->  		int w;
->  
-> -		for (w = 0; w < 3; w++)
-> -			avg[w] = group->avg[res * 2 + full][w];
-> -		total = div_u64(group->total[PSI_AVGS][res * 2 + full],
-> -				NSEC_PER_USEC);
-> +		/* CPU FULL is undefined at the system level */
-> +		if (!(group == &psi_system && res == PSI_CPU && full)) {
-> +			for (w = 0; w < 3; w++)
-> +				avg[w] = group->avg[res * 2 + full][w];
-> +			total = div_u64(group->total[PSI_AVGS][res * 2 + full],
-> +					NSEC_PER_USEC);
-> +		}
->  
->  		seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu avg300=%lu.%02lu total=%llu\n",
->  			   full ? "full" : "some",
+> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> index 44365c4574a3..2fb612bb72c9 100644
+> --- a/Documentation/vm/index.rst
+> +++ b/Documentation/vm/index.rst
+> @@ -37,5 +37,6 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+>     transhuge
+>     unevictable-lru
+>     vmalloced-kernel-stacks
+> +   vmemmap_dedup
+>     z3fold
+>     zsmalloc
+> diff --git a/Documentation/vm/vmemmap_dedup.rst b/Documentation/vm/vmemmap_dedup.rst
+> new file mode 100644
+> index 000000000000..8143b2ce414d
+> --- /dev/null
+> +++ b/Documentation/vm/vmemmap_dedup.rst
+> @@ -0,0 +1,175 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _vmemmap_dedup:
+
+This label isn't needed, I'd take it out.
+
+> +==================================
+> +Free some vmemmap pages of HugeTLB
+> +==================================
+> +
+> +The struct page structures (page structs) are used to describe a physical
+> +page frame. By default, there is a one-to-one mapping from a page frame to
+> +it's corresponding page struct.
+> +
+> +HugeTLB pages consist of multiple base page size pages and is supported by
+> +many architectures. See hugetlbpage.rst in the Documentation directory for
+> +more details. On the x86-64 architecture, HugeTLB pages of size 2MB and 1GB
+> +are currently supported. Since the base page size on x86 is 4KB, a 2MB
+> +HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
+> +4096 base pages. For each base page, there is a corresponding page struct.
+> +
+> +Within the HugeTLB subsystem, only the first 4 page structs are used to
+> +contain unique information about a HugeTLB page. __NR_USED_SUBPAGE provides
+> +this upper limit. The only 'useful' information in the remaining page structs
+> +is the compound_head field, and this field is the same for all tail pages.
+> +
+> +By removing redundant page structs for HugeTLB pages, memory can be returned
+> +to the buddy allocator for other uses.
+> +
+> +Different architectures support different HugeTLB pages. For example, the
+> +following table is the HugeTLB page size supported by x86 and arm64
+> +architectures. Because arm64 supports 4k, 16k, and 64k base pages and
+> +supports contiguous entries, so it supports many kinds of sizes of HugeTLB
+> +page.
+> +
+> ++--------------+-----------+-----------------------------------------------+
+> +| Architecture | Page Size |                HugeTLB Page Size              |
+> ++--------------+-----------+-----------+-----------+-----------+-----------+
+> +|    x86-64    |    4KB    |    2MB    |    1GB    |           |           |
+> ++--------------+-----------+-----------+-----------+-----------+-----------+
+> +|              |    4KB    |   64KB    |    2MB    |    32MB   |    1GB    |
+> +|              +-----------+-----------+-----------+-----------+-----------+
+> +|    arm64     |   16KB    |    2MB    |   32MB    |     1GB   |           |
+> +|              +-----------+-----------+-----------+-----------+-----------+
+> +|              |   64KB    |    2MB    |  512MB    |    16GB   |           |
+> ++--------------+-----------+-----------+-----------+-----------+-----------+
+> +
+> +When the system boot up, every HugeTLB page has more than one struct page
+> +structs which size is (unit: pages):
+> +
+> +   struct_size = HugeTLB_Size / PAGE_SIZE * sizeof(struct page) / PAGE_SIZE
+
+This, for example, needs to be in a literal block or you won't get what
+you expect; that's true of all of the code samples and ascii-art
+sections.  Easiest way to do that is to end the preceding text line with
+:: instead of :
+
+Thanks,
+
+jon
