@@ -2,330 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8814FC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 10:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1929FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 11:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235645AbiCDKue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 05:50:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43350 "EHLO
+        id S238872AbiCDLOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 06:14:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbiCDKue (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 05:50:34 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4CD5B8B8;
-        Fri,  4 Mar 2022 02:49:46 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 04749B827E0;
-        Fri,  4 Mar 2022 10:49:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0405C340E9;
-        Fri,  4 Mar 2022 10:49:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646390983;
-        bh=/fzsqOjvxlJfpDTQHQyahusZXTlcolIKENy9tXtYbME=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cKv2gtF8kJ1Egr7w35fuFRDG6AJDnkA9gTxr5KJuLnNjZ9w5SwUTrgBwMlBF2Lkdl
-         4i+iUVjAOGmh+Q0vvsZ/gnesiPZ3Q8M7cz0DWG9STSO6hrEmiQsZGdXYJwrROJ/PeY
-         6z+WShjunGDp8jlJuB3nilvxr6ApJ4ty8RS5sIvF0loHe9Ob1mNC0DNKmo60MEO/hg
-         TP4cV12RijnlG2U5z0B9wxhO+JfMH4eAEhOZbfbCMA5pUxQ+NywXN+iAw0xL/SuEyR
-         3TD4SozGGHIVXTcLO90v7Wgxt72hvN1cp0l03G/Dj4gLFMQik2VRqSxe4ZM/tMZN2z
-         ZUaHhjDj6v+zw==
-Date:   Fri, 4 Mar 2022 12:49:31 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>
-Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
-Message-ID: <YiHuuyqW8KSAri/M@kernel.org>
-References: <20220226110338.77547-1-chenhuacai@loongson.cn>
- <20220226110338.77547-10-chenhuacai@loongson.cn>
- <YiCpYRwoUSmd/GE3@kernel.org>
- <CAAhV-H4-zVjjUkoVFw4ppg_tsM-wxBZmPr-2q8zuoLDHTWAE0w@mail.gmail.com>
+        with ESMTP id S238057AbiCDLN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 06:13:58 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AC71B0BD5;
+        Fri,  4 Mar 2022 03:13:07 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id 9so6248938ily.11;
+        Fri, 04 Mar 2022 03:13:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=pix5KDHACk5xuaWSUAnT0P8xCzYZyA+b1xfvdOjbWuQ=;
+        b=iPZ/H1n3eyVmsRIMvk6KjphmQVML8dWniJcFydrYkBZnD8D/yr//2bAXTdLz+Ahs7D
+         PsVdZZS93PmFF8tea3XV/GmTiWf/pd/ReZ75FFbq11Xx3Y9cB+MXaz+vjBFzFWMj9K3S
+         IphB5/FbyBUL9+vvQkaYYZ8Jwh6bp4WF+vTlGmXNbfFxV7j12HwN9zsyRxRIZvqR6pgx
+         kjNvwPU4Sa91Qie372VTsa36PwkWzfsSEibQAXZhaWwCK6ErJW+smWPIEEI2KQK1SMLa
+         dtUIm2wIttSzC864Rc5cRjjJzRaJanrqLR7uy3GYsV50PuGMloSWavptw8SEIGp5k5/9
+         TBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=pix5KDHACk5xuaWSUAnT0P8xCzYZyA+b1xfvdOjbWuQ=;
+        b=7rHWQv6D3oHGLEUKyKSfONydki0701wqyV+2DtZoFs9XABPGOjWG/2CbewiNDs0k9I
+         QcNUpnS8WhD+anYZC8GHwhxv/ZlrsA57RAIIXsT2zkWMfj3ZjV45/zxtv8Yj4iMrz92g
+         Fblj8v8Se60J5X7hSltiJHmXVj85YluiuMcoCIRmsrR8V+teFhuvNFoiC2iP7BsFNKyF
+         YX4+t7HG2NpqMgNnawPBxThacYm166w0MYAnrX5h6AFYq2R3WlYxyWL7iqFDQvbwJZ3k
+         +E5V5fE4MaPtA1ltZDgMaUo1JQ8+kES3r0VXZGpmupjMJ6dtn0p3vBiYFq3U389Uinbp
+         IDsA==
+X-Gm-Message-State: AOAM532Safx8WPRD/clHhHnKazb494L4VvoRdLn5C4afwGnIGVtiWZsX
+        vVsUh+aM1lfXzaXPLfZrLJJjCAdUvzVs0ouJHGs=
+X-Google-Smtp-Source: ABdhPJxVn0I1gYNcDyZWKfKxwXFubpSLDqDezcfdt+oRTcpIclWTeQb4GwhGqPoNLCc+9sUT94M0RiZ/tnc/M8p/P1o=
+X-Received: by 2002:a05:6e02:1c04:b0:2be:4c61:20f4 with SMTP id
+ l4-20020a056e021c0400b002be4c6120f4mr35937854ilh.245.1646392386116; Fri, 04
+ Mar 2022 03:13:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAhV-H4-zVjjUkoVFw4ppg_tsM-wxBZmPr-2q8zuoLDHTWAE0w@mail.gmail.com>
+References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
+ <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
+ <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
+ <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
+ <YiD86pay2ENCebkR@dev-arch.thelio-3990X> <CA+icZUXDBe5MF6G_2v4XoV0SFVkTZ96M5i-VGSvHsP1pFJ+nAg@mail.gmail.com>
+ <CA+icZUXNtq3+cW6OBiO1TPhHT2xwXFe_D-Ja8HAO0XH2y6h=GA@mail.gmail.com>
+In-Reply-To: <CA+icZUXNtq3+cW6OBiO1TPhHT2xwXFe_D-Ja8HAO0XH2y6h=GA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 4 Mar 2022 12:12:30 +0100
+Message-ID: <CA+icZUVKJdtCWhhwcY5UkWwFA4TQAn+MF2w1DeZistYmG_ZEuQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Thu, Mar 03, 2022 at 10:47:53PM +0800, Huacai Chen wrote:
-> Hi, Mike,
-> 
-> On Thu, Mar 3, 2022 at 7:41 PM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > On Sat, Feb 26, 2022 at 07:03:25PM +0800, Huacai Chen wrote:
-> > > This patch adds basic boot, setup and reset routines for LoongArch.
-> > > LoongArch uses UEFI-based firmware. The firmware uses ACPI and DMI/
-> > > SMBIOS to pass configuration information to the Linux kernel (in elf
-> > > format).
-> > >
-> > > Now the boot information passed to kernel is like this:
-> > > 1, kernel get 3 register values (a0, a1 and a2) from bootloader.
-> > > 2, a0 is "argc", a1 is "argv", so "kernel cmdline" comes from a0/a1.
-> > > 3, a2 is "environ", which is a pointer to "struct bootparamsinterface".
-> > > 4, "struct bootparamsinterface" include a "systemtable" pointer, whose
-> > >    type is "efi_system_table_t". Most configuration information, include
-> > >    ACPI tables and SMBIOS tables, come from here.
-> > >
-> > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > Cc: linux-efi@vger.kernel.org
-> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > > ---
-> >
-> > > +void __init arch_reserve_mem_area(acpi_physical_address addr, size_t size)
-> > > +{
-> > > +     memblock_mark_nomap(addr, size);
-> > > +}
-> >
-> > Is there any problem if the memory ranges used by ACPI will be mapped into
-> > the kernel page tables?
-> >
-> > If not, consider dropping this function.
+On Fri, Mar 4, 2022 at 8:18 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> This API is mostly used for ACPI upgrading. ACPI upgrading alloc a
-> normal memory block and then is used as ACPI memory, and this memory
-> block will not be used by the page allocator. Other architectures,
-> such as ARM64, do the same thing here.
-
-ARM64 had quite a lot of issues with NOMAP memory, so I'd recommend to
-avoid using memblock_mark_nomap() unless it is required by MMU constraints
-on loongarch.
-
-I'm not familiar with loongarch MMU details, so I can only give some
-background for NOMAP for you to decide.
-
-Marking memory region NOMAP is required when this region cannot be a part
-of the kernel linear mapping because MMU does not allow aliased mappings
-with different caching modes. E.g. in ARM64 case, ACPI memory that should
-be mapped uncached cannot be mapped as cached in the kernel linear map.
-
-If the memory block should not be used by the page allocator, it should be
-memblock_reserve()'ed rather than marked NOMAP.
- 
-> > > diff --git a/arch/loongarch/kernel/mem.c b/arch/loongarch/kernel/mem.c
-> > > new file mode 100644
-> > > index 000000000000..361d108a2b82
-> > > --- /dev/null
-> > > +++ b/arch/loongarch/kernel/mem.c
-> > > @@ -0,0 +1,89 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +/*
-> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-> > > + */
-> > > +#include <linux/fs.h>
-> > > +#include <linux/mm.h>
-> > > +#include <linux/memblock.h>
-> > > +
-> > > +#include <asm/bootinfo.h>
-> > > +#include <asm/loongson.h>
-> > > +#include <asm/sections.h>
-> > > +
-> > > +void __init early_memblock_init(void)
-> > > +{
-> > > +     int i;
-> > > +     u32 mem_type;
-> > > +     u64 mem_start, mem_end, mem_size;
-> > > +
-> > > +     /* Parse memory information */
-> > > +     for (i = 0; i < loongson_mem_map->map_count; i++) {
-> > > +             mem_type = loongson_mem_map->map[i].mem_type;
-> > > +             mem_start = loongson_mem_map->map[i].mem_start;
-> > > +             mem_size = loongson_mem_map->map[i].mem_size;
-> > > +             mem_end = mem_start + mem_size;
-> > > +
-> > > +             switch (mem_type) {
-> > > +             case ADDRESS_TYPE_SYSRAM:
-> > > +                     memblock_add(mem_start, mem_size);
-> > > +                     if (max_low_pfn < (mem_end >> PAGE_SHIFT))
-> > > +                             max_low_pfn = mem_end >> PAGE_SHIFT;
-> > > +                     break;
-> > > +             }
-> > > +     }
-> > > +     memblock_set_current_limit(PFN_PHYS(max_low_pfn));
-> > > +}
-> > > +
-> > > +void __init fw_init_memory(void)
-> > > +{
-> > > +     int i;
-> > > +     u32 mem_type;
-> > > +     u64 mem_start, mem_end, mem_size;
-> > > +     unsigned long start_pfn, end_pfn;
-> > > +     static unsigned long num_physpages;
-> > > +
-> > > +     /* Parse memory information */
-> > > +     for (i = 0; i < loongson_mem_map->map_count; i++) {
-> > > +             mem_type = loongson_mem_map->map[i].mem_type;
-> > > +             mem_start = loongson_mem_map->map[i].mem_start;
-> > > +             mem_size = loongson_mem_map->map[i].mem_size;
-> > > +             mem_end = mem_start + mem_size;
+> On Fri, Mar 4, 2022 at 7:47 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 > >
-> > I think this loop can be merged with loop in early_memblock_init() then ...
+> > On Thu, Mar 3, 2022 at 6:37 PM Nathan Chancellor <nathan@kernel.org> wr=
+ote:
+> > >
+> > > Hi Sedat,
+> > >
+> > > On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
+> > > > Hey Nick!
+> > > >
+> > > > This only applies 1/3.
+> > > >
+> > > > $ b4 --version
+> > > > 0.8.0
+> > > >
+> > > > $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@=
+kernel.org/
+> > > > -o - | git am -3
+> > > > Analyzing 14 messages in the thread
+> > > > Will use the latest revision: v3
+> > > > You can pick other revisions using the -vN flag
+> > > > Checking attestation on all messages, may take a moment...
+> > > > ---
+> > > >  =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
+> > > >    =E2=9C=93 Signed: DKIM/kernel.org
+> > > >    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 =
+DKIM/kernel.org)
+> > > >  ERROR: missing [2/3]!
+> > > >  ERROR: missing [3/3]!
+> > > >  ---
+> > > >  NOTE: install patatt for end-to-end signature verification
+> > > > ---
+> > > > Total patches: 1
+> > > > ---
+> > > > WARNING: Thread incomplete!
+> > > > Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kerne=
+l.org
+> > > > Base: not specified
+> > > > Wende an: Kbuild: move to -std=3Dgnu11
+> > >
+> > > It looks like the threading somehow got broken, likely due to the [v3=
+]
+> > > on the first patch and not the second or third:
+> > >
+> > > This worked for me on v5.17-rc6:
+> > >
+> > > $ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-=
+arnd@kernel.org; done
+> > >
+> > > "b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
+> > > "-P _" tells b4 to only fetch that exact message ID, not the whole
+> > > thread.
+> > >
 > >
-> > > +
-> > > +             switch (mem_type) {
-> > > +             case ADDRESS_TYPE_SYSRAM:
-> > > +                     mem_start = PFN_ALIGN(mem_start);
-> > > +                     mem_end = PFN_ALIGN(mem_end - PAGE_SIZE + 1);
-> > > +                     num_physpages += (mem_size >> PAGE_SHIFT);
-> > > +                     memblock_set_node(mem_start, mem_size, &memblock.memory, 0);
+> > Hmm, the universe is not good to me...
 > >
-> > this will become memblock_add_node()
+> > $ for i in $(seq 1 3); do b4 shazam -P _
+> > 20220301145233.3689119-"$i"-arnd@kernel.org; done
+> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
+> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
+> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
 > >
-> > > +                     break;
-> > > +             case ADDRESS_TYPE_ACPI:
-> > > +                     mem_start = PFN_ALIGN(mem_start);
-> > > +                     mem_end = PFN_ALIGN(mem_end - PAGE_SIZE + 1);
-> > > +                     num_physpages += (mem_size >> PAGE_SHIFT);
-> > > +                     memblock_add(mem_start, mem_size);
-> > > +                     memblock_set_node(mem_start, mem_size, &memblock.memory, 0);
+> > Do I need a higher version of b4 (here: v0.8.0)?
 > >
-> > as well as this.
-> early_memblock_init() only adds the "usable" memory (SYSRAM) for early
-> use and without numa node information. Other types of memory are
-> handled later by fw_init_memory()/fw_init_numa_memory(), depending on
-> whether CONFIG_NUMA is enabled. So, in
-> fw_init_memory()/fw_init_numa_memory() we only need to call
-> memblock_set_node() to add the node information for SYSRAM type.
-
-There are two potential issues here with doing memblock_add() and
-memblock_set_node() and memblock_reserve() separately with a couple of
-functions called in between.
-
-First, and most important is that you must to memblock_reserve() all the
-memory used by the firmware, like ADDRESS_TYPE_ACPI, ADDRESS_TYPE_RESERVED,
-kernel image, initrd etc *before* any call to memblock_alloc*()
-functions. If you add memory to memblock before reserving firmware regions,
-a call to memblock_alloc*() may allocate the used memory and all kinds of
-errors may happen because of that. 
-
-Second, presuming you use SRAT for NUMA information, if you set nodes in
-memblock after there were memory allocations from memblock you may impair
-the ability to hot-remove memory banks.
-
-So ideally, the physical memory detection and registration should follow
-something like:
-
-* memblock_reserve() the memory used by firmware, kernel and initrd
-* detect NUMA topology
-* add memory regions along with their node ids to memblock.
-
-s390::setup_arch() is a good example of doing early reservations:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/s390/kernel/setup.c#n988
- 
-> > > diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setup.c
-> > > new file mode 100644
-> > > index 000000000000..8dfe1d9b55f7
-> > > --- /dev/null
-> > > +++ b/arch/loongarch/kernel/setup.c
-> > > +
-> > > +static int usermem __initdata;
-> > > +
-> > > +static int __init early_parse_mem(char *p)
-> > > +{
-> > > +     phys_addr_t start, size;
-> > > +
-> > > +     /*
-> > > +      * If a user specifies memory size, we
-> > > +      * blow away any automatically generated
-> > > +      * size.
-> > > +      */
-> > > +     if (usermem == 0) {
-> > > +             usermem = 1;
-> > > +             memblock_remove(memblock_start_of_DRAM(),
-> > > +                     memblock_end_of_DRAM() - memblock_start_of_DRAM());
-> > > +     }
-> > > +     start = 0;
-> > > +     size = memparse(p, &p);
-> > > +     if (*p == '@')
-> > > +             start = memparse(p + 1, &p);
-> > > +
-> > > +     memblock_add(start, size);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +early_param("mem", early_parse_mem);
-> > > +
-> > > +static int __init early_parse_memmap(char *p)
-> > > +{
-> > > +     char *oldp;
-> > > +     u64 start_at, mem_size;
-> > > +
-> > > +     if (!p)
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (!strncmp(p, "exactmap", 8)) {
-> > > +             pr_err("\"memmap=exactmap\" invalid on LoongArch\n");
-> > > +             return 0;
-> > > +     }
-> > > +
-> > > +     oldp = p;
-> > > +     mem_size = memparse(p, &p);
-> > > +     if (p == oldp)
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (*p == '@') {
-> > > +             start_at = memparse(p+1, &p);
-> > > +             memblock_add(start_at, mem_size);
-> > > +     } else if (*p == '#') {
-> > > +             pr_err("\"memmap=nn#ss\" (force ACPI data) invalid on LoongArch\n");
-> > > +             return -EINVAL;
-> > > +     } else if (*p == '$') {
-> > > +             start_at = memparse(p+1, &p);
-> > > +             memblock_add(start_at, mem_size);
-> > > +             memblock_reserve(start_at, mem_size);
-> > > +     } else {
-> > > +             pr_err("\"memmap\" invalid format!\n");
-> > > +             return -EINVAL;
-> > > +     }
-> > > +
-> > > +     if (*p == '\0') {
-> > > +             usermem = 1;
-> > > +             return 0;
-> > > +     } else
-> > > +             return -EINVAL;
-> > > +}
-> > > +early_param("memmap", early_parse_memmap);
+> > Check myself... b4.git:
 > >
-> > The memmap= processing is a hack indented to workaround bugs in firmware
-> > related to the memory detection. Please don't copy if over unless there is
-> > really strong reason.
+> > commit 7c1d044ff1d5235e598d4c777c4abfe60e0a09a8
+> > ("shazam: change default behaviour to be "apply-here"")
+> >
+> > ...is post-v0.8.0.
+> >
 >
-> Hmmm, I have read the documents, most archs only support mem=limit,
-> but MIPS support mem=limit@base. memmap not only supports
-> memmap=limit@base, but also a lot of advanced syntax. LoongArch needs
-> both limit and limit@base syntax. So can we make our code to support
-> only mem=limit and memmap=limit@base, and remove all other syntax
-> here?
+> I brutally applied the post-v0.8.0 patches stolen from b4.git over my
+> local distro b4 files.
+>
+> And was able to apply the triple:
+>
+> $ git log --oneline --no-merges
+> 5.17.0-rc6-1-amd64-clang13-lto..5.17.0-rc6-2-amd64-clang13-lto
+> 96a4222bdd4c (for-5.17/kbuild-std_gnu11-arndb-20220301) Kbuild: use
+> -std=3Dgnu11 for KBUILD_USERCFLAGS
+> c4e8cef401a8 treewide: use -Wdeclaration-after-statement
+> 6a7cc105b238 Kbuild: move to -std=3Dgnu11
+>
 
-The documentation describes what was there historically and both these
-options tend not to play well with complex memory layouts.
+I was able to build and boot on bare metal.
 
-If you must have them it's better to use x86 as an example rather than
-MIPS, just take into the account that on x86 memory always starts from 0,
-so they never needed to have a different base.
+No new warnings in my build-log here after switching to -std=3Dgnu11.
 
-For what use-cases LoongArch needs options?
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13.0.0 x86-64
 
--- 
-Sincerely yours,
-Mike.
+- sed@ -
