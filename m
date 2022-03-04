@@ -2,93 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA70C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 17:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B01C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 17:13:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231778AbiCDRKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 12:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37920 "EHLO
+        id S240912AbiCDROf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 12:14:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231630AbiCDRKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 12:10:12 -0500
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 866CA1107E0
-        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 09:09:24 -0800 (PST)
+        with ESMTP id S235037AbiCDROf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 12:14:35 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708671B0C42;
+        Fri,  4 Mar 2022 09:13:47 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CAE542C0;
-        Fri,  4 Mar 2022 17:09:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CAE542C0
+        by ms.lwn.net (Postfix) with ESMTPSA id B88B22B2;
+        Fri,  4 Mar 2022 17:13:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B88B22B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1646413763; bh=x/slY9C6tmnmBap2rXeohnLiheN+ELf6S7MYzFUCiTQ=;
+        t=1646414026; bh=g5o2ryWaYQu9REprkJxgGT1nLR2b6vhVSdyiaZoA/A0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ehNk3hpGpCzRd9styBC7b8YDVbORDkTNR9QjkhdP8qaVJgeSBgMJDNBvG+NsSOZjJ
-         mz236yC3xCy1QMi1f1q5bM6TTGmzcVO/6ejwLg3lmHvdihhnLj25uOqasoG8lA0rmh
-         kdblQsJlFcaN4mFYZhQU4vALD4gWJUO/YHW6DVvvfRjvpTuQ4BcQtf3qeG1x8u4MdW
-         vehBPUkymjMwf9MlNEva7TcoGUx3+KlCXiudAgWgmqJ3iepZlNi4WCksq1AFLFysoN
-         p658Fcn2qp+jkfl1CCazHHDcH72T6rt/J32qU6MIwl893JOAamKEzcRKgGa1qfBlrD
-         n+G8769iYLzaA==
+        b=rYf9Cp6F+YK/HVF8dz5VoLYjhz9W+I+Xg5QSs/xHeNmxpYpGmcuhdnlVua8tRYojN
+         4xSKWTA7FMAW89vSbQHQkwqVAuECPkijC3Y0gNOknJCLH2ZXv61dwiMrfrZwjlSQ+N
+         7et8vSlF7KmqNJcJ6T1WXGRM6HbnnAdc3VW5qKJ4+JqK3ybahGif2+Y1nldHccTSox
+         vxZGeRU1GMFDJSwRqhPncVmkXpa6wvcDneIwJTCT+49++JpxgITC51r5Fr3EncDShc
+         qomD0Ke1cPZ+NyAcamcmlZEHSk70wj+MVsG2gs3aZU6MGtkUw6XzCfWIQ3nZPu1gIa
+         /phqt/xj/hVaA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com, seakeel@gmail.com
-Subject: Re: [PATCH v4 0/3] Add Chinese translations for KSM documents
-In-Reply-To: <cover.1645669457.git.siyanteng@loongson.cn>
-References: <cover.1645669457.git.siyanteng@loongson.cn>
-Date:   Fri, 04 Mar 2022 10:09:23 -0700
-Message-ID: <87a6e5hcfw.fsf@meer.lwn.net>
+To:     Andrew Halaney <ahalaney@redhat.com>
+Cc:     peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        longman@redhat.com, boqun.feng@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrew Halaney <ahalaney@redhat.com>,
+        Leah Leshchinsky <lleshchi@redhat.com>
+Subject: Re: [PATCH] Documentation/locking/locktypes: Fix PREEMPT_RT _bh()
+ description
+In-Reply-To: <20220224212312.2601153-1-ahalaney@redhat.com>
+References: <20220224212312.2601153-1-ahalaney@redhat.com>
+Date:   Fri, 04 Mar 2022 10:13:46 -0700
+Message-ID: <875yothc8l.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng01@gmail.com> writes:
+Andrew Halaney <ahalaney@redhat.com> writes:
 
-> v4:
->   Fix build error and build warning.
+> With PREEMPT_RT the _bh() version of a spinlock leaves preemption
+> enabled, align the doc to say that instead of the opposite.
 >
-> v3:
-> 	Fix the patch '[1/3] Add Chinese translation for vm/ksm.rst'
-> 	because its old version does not apply for the latest commit.
+> Reported-by: Leah Leshchinsky <lleshchi@redhat.com>
+> Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
+> ---
+>  Documentation/locking/locktypes.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> v2:
->
-> 	According to the suggestions from Yanteng Si, Alex Shi and
-> 	Jonathan Corbet, I have modified my patches. Here are my specific
-> 	changelog:
->
-> 	1. Remove Redundant Labels in added Documents like ``.. _ksm_sysfs:``
->
-> 	   Yanteng Si said: Too many tags will cause a compilation
-> 	   warning, because an identical one already exists for the Origin
-> 	   document. Jonathan Corbet think so.
->
-> 	2. Align with standard Chinese format on the 'original', 'translator',
-> 	   etc.
->
-> 	3. fix some translation error like =E2=80=9Cpages_unshared=E2=80=9D, I r=
-emove  '=E7=8B=AC=E4=BA=AB'.
->
-> 	   Alex Shi suggest to remove '=E7=8B=AC=E4=BA=AB'.
->
-> 	4. Refactor translations/zh_CN/admin-guide/mm/index.rst.
->
-> 	   Yanteng Si: Compile pass is only one of the basis for checking
-> 	   through, we also have to check the html for any problems, as
-> 	   far as I know, the above treatment is very ugly.
->
-> xu xin (3):
->   Add Chinese translation for vm/ksm.rst
->   zh_CN: Add translations for admin-guide/mm/ksm.rst
->   zh_CN: Add translation for admin-guide/mm/index.rst
+> diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+> index 4fd7b70fcde1..bfa75ea1b66a 100644
+> --- a/Documentation/locking/locktypes.rst
+> +++ b/Documentation/locking/locktypes.rst
+> @@ -247,7 +247,7 @@ based on rt_mutex which changes the semantics:
+>     Non-PREEMPT_RT kernels disable preemption to get this effect.
+>  
+>     PREEMPT_RT kernels use a per-CPU lock for serialization which keeps
+> -   preemption disabled. The lock disables softirq handlers and also
+> +   preemption enabled. The lock disables softirq handlers and also
+>     prevents reentrancy due to task preemption.
 
-So you are passing on somebody else's patches, and have modified one of
-them.  That means that your signoff needs to be in the chain, but you've
-not added it.  Please fix that and I should be able to apply this set.
-
-Thanks,
+Applied, thanks.
 
 jon
