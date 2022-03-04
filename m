@@ -2,155 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B81E4C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 15:21:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAFD3C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 15:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240207AbiCDPWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 10:22:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37068 "EHLO
+        id S232066AbiCDPyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 10:54:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231589AbiCDPWR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 10:22:17 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34D11C2F75
-        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 07:21:29 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 458762B2;
-        Fri,  4 Mar 2022 15:21:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 458762B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1646407289; bh=AhHVtg/426WKGFSGTFlnmzgHgc/rCgdo3CzDRsHi0+U=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=I3ux9Nk937rQeghegNLHqwynXlUDCPBjc6XCc5xU2k9JBfKg23znK5PB2A7+q5Sb1
-         wi/IqKiBgXGlqHy8fWTkBD0R3cmC7B79cgCjsiYX3N3voagDXFFhX6ugQAYH6cz1WB
-         GLULLzOYIYtaLmHWI+8sGYicc8t/uZ9/0r08F2YFoVH8og07/Fb5QLvPvCX+6OfUgk
-         M2RXgXqAbkRwUQNm+JBxUw0gZ2JaTkWFQb75GREUjc1T5i8loQXva/A+M+yE2dXbo4
-         1ZtWBAJ5zXMT+frhWE8LP5FmBN7VPxeRT64AgHtBge4eiT6R1dRPxPH6moli6eiy+h
-         bzSfHxwdaAZPw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joao Martins <joao.m.martins@oracle.com>, linux-mm@kvack.org
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v7 3/5] mm/hugetlb_vmemmap: move comment block to
- Documentation/vm
-In-Reply-To: <20220303213252.28593-4-joao.m.martins@oracle.com>
-References: <20220303213252.28593-1-joao.m.martins@oracle.com>
- <20220303213252.28593-4-joao.m.martins@oracle.com>
-Date:   Fri, 04 Mar 2022 08:21:28 -0700
-Message-ID: <87r17hhhfr.fsf@meer.lwn.net>
+        with ESMTP id S240525AbiCDPyp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 10:54:45 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D48C1C4B2D;
+        Fri,  4 Mar 2022 07:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=1+Qh0+uXxcAV1aciqUFtIAq+pnhtnrmQDTbORGN7Wvs=; b=3QQrs5rXY6WU70eO/f3dbib5GH
+        1Ws7kXHYxdcDcAalTNsFLK3BV1kg7uGIHGVnBQete1rgLW9fjlhnqalk9dOEL4JJa0MPBVJwlxqzO
+        3UzDYk4CkgReFuLQE8JMN3vTlaedMY+f+WSzSqWSZ/1kLzmW//fsbQMNve5dYzvrxDlWD93ocTpqy
+        /Lxvj+suxpIpyo1DOLyDHSclHsL0ZMNHWETaraBuE18e/b2PKmCEN7emT3yeb64ie6gKiVNrFMUMf
+        6TrTwrsXmvRy2MIkLwTSE5ayJXIjKVEBRaSdpUnWkMLwKwI1fKfY2nj9SudJlPQrMAXuLdKcvtDZp
+        Y2j0uk1Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nQAFY-00As6b-1X; Fri, 04 Mar 2022 15:53:48 +0000
+Date:   Fri, 4 Mar 2022 07:53:48 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Halil Pasic <pasic@linux.ibm.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Doug Gilbert <dgilbert@interlog.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        stable@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2] swiotlb: rework fix info leak with DMA_FROM_DEVICE
+Message-ID: <YiI2DPIrNLKwanZw@infradead.org>
+References: <20220304135859.3521513-1-pasic@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220304135859.3521513-1-pasic@linux.ibm.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joao Martins <joao.m.martins@oracle.com> writes:
+On Fri, Mar 04, 2022 at 02:58:57PM +0100, Halil Pasic wrote:
+> Unfortunately, we ended up with the wrong version of the patch "fix info
+> leak with DMA_FROM_DEVICE" getting merged. We got v4 merged, but the
+> version we want is v7 with some minor tweaks which were supposed to be
+> applied by Christoph (swiotlb maintainer). After pointing this out, I
+> was asked by Christoph to create an incremental fix. 
+> 
+> IMHO the cleanest way to do this is a reverting the incorrect version
+> of the patch and applying the correct one. I hope that qualifies as
+> an incremental fix.
 
-> In preparation for device-dax for using hugetlbfs compound page tail
-> deduplication technique, move the comment block explanation into a
-> common place in Documentation/vm.
->
-> Cc: Muchun Song <songmuchun@bytedance.com>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> ---
->  Documentation/vm/index.rst         |   1 +
->  Documentation/vm/vmemmap_dedup.rst | 175 +++++++++++++++++++++++++++++
->  mm/hugetlb_vmemmap.c               | 168 +--------------------------
->  3 files changed, 177 insertions(+), 167 deletions(-)
->  create mode 100644 Documentation/vm/vmemmap_dedup.rst
-
-Thanks for remembering to add this to the index.rst file!  That said, I
-get the impression you didn't actually build the docs afterward and look
-at the result; there are a number of things here that won't render the
-way you might like.
-
-> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> index 44365c4574a3..2fb612bb72c9 100644
-> --- a/Documentation/vm/index.rst
-> +++ b/Documentation/vm/index.rst
-> @@ -37,5 +37,6 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
->     transhuge
->     unevictable-lru
->     vmalloced-kernel-stacks
-> +   vmemmap_dedup
->     z3fold
->     zsmalloc
-> diff --git a/Documentation/vm/vmemmap_dedup.rst b/Documentation/vm/vmemmap_dedup.rst
-> new file mode 100644
-> index 000000000000..8143b2ce414d
-> --- /dev/null
-> +++ b/Documentation/vm/vmemmap_dedup.rst
-> @@ -0,0 +1,175 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _vmemmap_dedup:
-
-This label isn't needed, I'd take it out.
-
-> +==================================
-> +Free some vmemmap pages of HugeTLB
-> +==================================
-> +
-> +The struct page structures (page structs) are used to describe a physical
-> +page frame. By default, there is a one-to-one mapping from a page frame to
-> +it's corresponding page struct.
-> +
-> +HugeTLB pages consist of multiple base page size pages and is supported by
-> +many architectures. See hugetlbpage.rst in the Documentation directory for
-> +more details. On the x86-64 architecture, HugeTLB pages of size 2MB and 1GB
-> +are currently supported. Since the base page size on x86 is 4KB, a 2MB
-> +HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
-> +4096 base pages. For each base page, there is a corresponding page struct.
-> +
-> +Within the HugeTLB subsystem, only the first 4 page structs are used to
-> +contain unique information about a HugeTLB page. __NR_USED_SUBPAGE provides
-> +this upper limit. The only 'useful' information in the remaining page structs
-> +is the compound_head field, and this field is the same for all tail pages.
-> +
-> +By removing redundant page structs for HugeTLB pages, memory can be returned
-> +to the buddy allocator for other uses.
-> +
-> +Different architectures support different HugeTLB pages. For example, the
-> +following table is the HugeTLB page size supported by x86 and arm64
-> +architectures. Because arm64 supports 4k, 16k, and 64k base pages and
-> +supports contiguous entries, so it supports many kinds of sizes of HugeTLB
-> +page.
-> +
-> ++--------------+-----------+-----------------------------------------------+
-> +| Architecture | Page Size |                HugeTLB Page Size              |
-> ++--------------+-----------+-----------+-----------+-----------+-----------+
-> +|    x86-64    |    4KB    |    2MB    |    1GB    |           |           |
-> ++--------------+-----------+-----------+-----------+-----------+-----------+
-> +|              |    4KB    |   64KB    |    2MB    |    32MB   |    1GB    |
-> +|              +-----------+-----------+-----------+-----------+-----------+
-> +|    arm64     |   16KB    |    2MB    |   32MB    |     1GB   |           |
-> +|              +-----------+-----------+-----------+-----------+-----------+
-> +|              |   64KB    |    2MB    |  512MB    |    16GB   |           |
-> ++--------------+-----------+-----------+-----------+-----------+-----------+
-> +
-> +When the system boot up, every HugeTLB page has more than one struct page
-> +structs which size is (unit: pages):
-> +
-> +   struct_size = HugeTLB_Size / PAGE_SIZE * sizeof(struct page) / PAGE_SIZE
-
-This, for example, needs to be in a literal block or you won't get what
-you expect; that's true of all of the code samples and ascii-art
-sections.  Easiest way to do that is to end the preceding text line with
-:: instead of :
-
-Thanks,
-
-jon
+I'd really do one patch to move to the expected state.  I'd volunteer
+to merge the two patches, but I've recently shown that I'm not
+exactly good at that..
