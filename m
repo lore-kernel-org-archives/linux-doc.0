@@ -2,177 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1929FC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 11:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A45DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 11:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238872AbiCDLOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 06:14:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60714 "EHLO
+        id S239123AbiCDLO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 06:14:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238057AbiCDLN6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 06:13:58 -0500
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AC71B0BD5;
-        Fri,  4 Mar 2022 03:13:07 -0800 (PST)
-Received: by mail-il1-x134.google.com with SMTP id 9so6248938ily.11;
-        Fri, 04 Mar 2022 03:13:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=pix5KDHACk5xuaWSUAnT0P8xCzYZyA+b1xfvdOjbWuQ=;
-        b=iPZ/H1n3eyVmsRIMvk6KjphmQVML8dWniJcFydrYkBZnD8D/yr//2bAXTdLz+Ahs7D
-         PsVdZZS93PmFF8tea3XV/GmTiWf/pd/ReZ75FFbq11Xx3Y9cB+MXaz+vjBFzFWMj9K3S
-         IphB5/FbyBUL9+vvQkaYYZ8Jwh6bp4WF+vTlGmXNbfFxV7j12HwN9zsyRxRIZvqR6pgx
-         kjNvwPU4Sa91Qie372VTsa36PwkWzfsSEibQAXZhaWwCK6ErJW+smWPIEEI2KQK1SMLa
-         dtUIm2wIttSzC864Rc5cRjjJzRaJanrqLR7uy3GYsV50PuGMloSWavptw8SEIGp5k5/9
-         TBHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=pix5KDHACk5xuaWSUAnT0P8xCzYZyA+b1xfvdOjbWuQ=;
-        b=7rHWQv6D3oHGLEUKyKSfONydki0701wqyV+2DtZoFs9XABPGOjWG/2CbewiNDs0k9I
-         QcNUpnS8WhD+anYZC8GHwhxv/ZlrsA57RAIIXsT2zkWMfj3ZjV45/zxtv8Yj4iMrz92g
-         Fblj8v8Se60J5X7hSltiJHmXVj85YluiuMcoCIRmsrR8V+teFhuvNFoiC2iP7BsFNKyF
-         YX4+t7HG2NpqMgNnawPBxThacYm166w0MYAnrX5h6AFYq2R3WlYxyWL7iqFDQvbwJZ3k
-         +E5V5fE4MaPtA1ltZDgMaUo1JQ8+kES3r0VXZGpmupjMJ6dtn0p3vBiYFq3U389Uinbp
-         IDsA==
-X-Gm-Message-State: AOAM532Safx8WPRD/clHhHnKazb494L4VvoRdLn5C4afwGnIGVtiWZsX
-        vVsUh+aM1lfXzaXPLfZrLJJjCAdUvzVs0ouJHGs=
-X-Google-Smtp-Source: ABdhPJxVn0I1gYNcDyZWKfKxwXFubpSLDqDezcfdt+oRTcpIclWTeQb4GwhGqPoNLCc+9sUT94M0RiZ/tnc/M8p/P1o=
-X-Received: by 2002:a05:6e02:1c04:b0:2be:4c61:20f4 with SMTP id
- l4-20020a056e021c0400b002be4c6120f4mr35937854ilh.245.1646392386116; Fri, 04
- Mar 2022 03:13:06 -0800 (PST)
+        with ESMTP id S239127AbiCDLOz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 06:14:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5191B0BD7;
+        Fri,  4 Mar 2022 03:14:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7918361D00;
+        Fri,  4 Mar 2022 11:14:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7958DC340E9;
+        Fri,  4 Mar 2022 11:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646392446;
+        bh=oMRkrgkieQqbJLozH2f1WWABMteAvIgUeoZgr4XZLG4=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ik9/iqlkSYV+ppGVcBuwu2APgDACKwcHntHw+Hu2Xr2jfUIu91CbsiGhv5jpiECni
+         a9ovy2jThDcrU31vb3KB6PNgCDbjxn7wJSUL91b4PsewrN4+rSSjwpeYjmoA689kh4
+         iDM6CtEhfpShSDPSpPc8OIhQniSoJ0vCl0gEMEfWWqbowcPyp/OV9D5KAOaqrN4GF7
+         NkaSTJNMWNW1q7JiBxw6Y8agL6pJATIClarAY+MMxefSgKrrjMeZe0bTtYVrgIPW8i
+         BgnfCclXxDPDHqmIImbnZl+viTCZzSUfh9tCE21gQuO0asP18iC8AbQv7azba/hjRh
+         5NjtEiNztu8Xw==
+Message-ID: <1c5aa5552850dc90bdeb5f8bc0e4f5dd3270a382.camel@kernel.org>
+Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
+From:   Jeff Layton <jlayton@kernel.org>
+To:     NeilBrown <neilb@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 04 Mar 2022 06:14:03 -0500
+In-Reply-To: <164636204663.29369.1845040729675190216@noble.neil.brown.name>
+References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
+        , <164549983739.9187.14895675781408171186.stgit@noble.brown>
+        , <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
+        , <164568131640.25116.884631856219777713@noble.neil.brown.name>
+        , <e8ec98a9c4fab9b7aa099001f09ff9b11f0c3f96.camel@kernel.org>
+         <164636204663.29369.1845040729675190216@noble.neil.brown.name>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
- <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
- <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
- <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
- <YiD86pay2ENCebkR@dev-arch.thelio-3990X> <CA+icZUXDBe5MF6G_2v4XoV0SFVkTZ96M5i-VGSvHsP1pFJ+nAg@mail.gmail.com>
- <CA+icZUXNtq3+cW6OBiO1TPhHT2xwXFe_D-Ja8HAO0XH2y6h=GA@mail.gmail.com>
-In-Reply-To: <CA+icZUXNtq3+cW6OBiO1TPhHT2xwXFe_D-Ja8HAO0XH2y6h=GA@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 4 Mar 2022 12:12:30 +0100
-Message-ID: <CA+icZUVKJdtCWhhwcY5UkWwFA4TQAn+MF2w1DeZistYmG_ZEuQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 4, 2022 at 8:18 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Fri, Mar 4, 2022 at 7:47 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Thu, Mar 3, 2022 at 6:37 PM Nathan Chancellor <nathan@kernel.org> wr=
-ote:
-> > >
-> > > Hi Sedat,
-> > >
-> > > On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
-> > > > Hey Nick!
-> > > >
-> > > > This only applies 1/3.
-> > > >
-> > > > $ b4 --version
-> > > > 0.8.0
-> > > >
-> > > > $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@=
-kernel.org/
-> > > > -o - | git am -3
-> > > > Analyzing 14 messages in the thread
-> > > > Will use the latest revision: v3
-> > > > You can pick other revisions using the -vN flag
-> > > > Checking attestation on all messages, may take a moment...
-> > > > ---
-> > > >  =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
-> > > >    =E2=9C=93 Signed: DKIM/kernel.org
-> > > >    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 =
-DKIM/kernel.org)
-> > > >  ERROR: missing [2/3]!
-> > > >  ERROR: missing [3/3]!
-> > > >  ---
-> > > >  NOTE: install patatt for end-to-end signature verification
-> > > > ---
-> > > > Total patches: 1
-> > > > ---
-> > > > WARNING: Thread incomplete!
-> > > > Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kerne=
-l.org
-> > > > Base: not specified
-> > > > Wende an: Kbuild: move to -std=3Dgnu11
-> > >
-> > > It looks like the threading somehow got broken, likely due to the [v3=
-]
-> > > on the first patch and not the second or third:
-> > >
-> > > This worked for me on v5.17-rc6:
-> > >
-> > > $ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-=
-arnd@kernel.org; done
-> > >
-> > > "b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
-> > > "-P _" tells b4 to only fetch that exact message ID, not the whole
-> > > thread.
-> > >
-> >
-> > Hmm, the universe is not good to me...
-> >
-> > $ for i in $(seq 1 3); do b4 shazam -P _
-> > 20220301145233.3689119-"$i"-arnd@kernel.org; done
-> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
-> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
-> > usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-> > b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-> > 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
-> >
-> > Do I need a higher version of b4 (here: v0.8.0)?
-> >
-> > Check myself... b4.git:
-> >
-> > commit 7c1d044ff1d5235e598d4c777c4abfe60e0a09a8
-> > ("shazam: change default behaviour to be "apply-here"")
-> >
-> > ...is post-v0.8.0.
-> >
->
-> I brutally applied the post-v0.8.0 patches stolen from b4.git over my
-> local distro b4 files.
->
-> And was able to apply the triple:
->
-> $ git log --oneline --no-merges
-> 5.17.0-rc6-1-amd64-clang13-lto..5.17.0-rc6-2-amd64-clang13-lto
-> 96a4222bdd4c (for-5.17/kbuild-std_gnu11-arndb-20220301) Kbuild: use
-> -std=3Dgnu11 for KBUILD_USERCFLAGS
-> c4e8cef401a8 treewide: use -Wdeclaration-after-statement
-> 6a7cc105b238 Kbuild: move to -std=3Dgnu11
->
+On Fri, 2022-03-04 at 13:47 +1100, NeilBrown wrote:
+> On Thu, 24 Feb 2022, Jeff Layton wrote:
+> > On Thu, 2022-02-24 at 16:41 +1100, NeilBrown wrote:
+> > > On Thu, 24 Feb 2022, Jeff Layton wrote:
+> > > > On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
+> > > > > The bdi congestion tracking in not widely used and will be removed.
+> > > > > 
+> > > > > CEPHfs is one of a small number of filesystems that uses it, setting
+> > > > > just the async (write) congestion flags at what it determines are
+> > > > > appropriate times.
+> > > > > 
+> > > > > The only remaining effect of the async flag is to cause (some)
+> > > > > WB_SYNC_NONE writes to be skipped.
+> > > > > 
+> > > > > So instead of setting the flag, set an internal flag and change:
+> > > > >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
+> > > > >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
+> > > > >     and the flag is set.
+> > > > > 
+> > > > > The writepages change causes a behavioural change in that pageout() can
+> > > > > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
+> > > > > be called on the page which (I think) wil further delay the next attempt
+> > > > > at writeout.  This might be a good thing.
+> > > > > 
+> > > > > Signed-off-by: NeilBrown <neilb@suse.de>
+> > > > 
+> > > > Maybe. I have to wonder whether all of this is really useful.
+> > > > 
+> > > > When things are congested we'll avoid trying to issue new writeback
+> > > > requests. Note that we don't prevent new pages from being dirtied here -
+> > > > - only their being written back.
+> > > > 
+> > > > This also doesn't do anything in the DIO or sync_write cases, so if we
+> > > > lose caps or are doing DIO, we'll just keep churning out "unlimited"
+> > > > writes in those cases anyway.
+> > > 
+> > > I think the point of congestion tracking is to differentiate between
+> > > sync and async IO.  Or maybe "required" and "optional".
+> > > Eventually the "optional" IO will become required, but if we can delay
+> > > it until a time when there is less "required" io, then maybe we can
+> > > improve perceived latency.
+> > > 
+> > > "optional" IO here is write-back and read-ahead.  If the load of
+> > > "required" IO is bursty, and if we can shuffle that optional stuff into
+> > > the quiet periods, we might win.
+> > > 
+> > 
+> > In that case, maybe we should be counting in-flight reads too and deny
+> > readahead when the count crosses some threshold? It seems a bit silly to
+> > only look at writes when it comes to "congestion".
+> 
+> I agree that seems a bit silly.
+> 
+> > 
+> > > Whether this is a real need is an important question that I don't have an
+> > > answer for.  And whether it is better to leave delayed requests in the
+> > > page cache, or in the low-level queue with sync requests able to
+> > > over-take them - I don't know.  If you have multiple low-level queue as
+> > > you say you can with ceph, then lower might be better.
+> > > 
+> > > The block layer has REQ_RAHEAD ..  maybe those request get should get a
+> > > lower priority ... though I don't think they do.
+> > > NFS has a 3 level priority queue, with write-back going at a lower
+> > > priority ... I think... for NFSv3 at least.
+> > > 
+> > > Sometimes I suspect that as all our transports have become faster, we
+> > > have been able to ignore the extra latency caused by poor scheduling of
+> > > optional requests.  But at other times when my recently upgraded desktop
+> > > is struggling to view a web page while compiling a kernel ...  I wonder
+> > > if maybe we don't have the balance right any more.
+> > > 
+> > > So maybe you are right - maybe we can rip all this stuff out.
+> > > 
+> > 
+> > I lean more toward just removing it. The existing implementation seems a
+> > bit half-baked with the gaps in what's being counted. Granted, the
+> > default congestion threshold is pretty high with modern memory sizes, so
+> > it probably doesn't come into play much in practice, but removing it
+> > would reduce some complexity in the client.
+> 
+> I'd love to have some test that could reliably generate congestion and
+> measure latencies for other IO.  Without that, it is mostly guess work.
+> So I cannot argue against your proposal, and do agree that removing the
+> code would reduce complexity.  I have no idea what the costs might be -
+> if any.  Hence my focus was on not changing behaviour.
+> 
 
-I was able to build and boot on bare metal.
+Fair enough -- caution is warranted.
 
-No new warnings in my build-log here after switching to -std=3Dgnu11.
+I think the thing to do here is to take your patch for now, and then we
+can look at just removing all of this stuff at some point in the future.
+That would also give us a fallback that doesn't require the old
+congestion infrastructure if it turns out that it is needed.
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13.0.0 x86-64
+I'm assuming this is going in via Andrew's tree, but let us know if
+you'd like us to take any of these in via the ceph tree.
 
-- sed@ -
+Thanks,
+-- 
+Jeff Layton <jlayton@kernel.org>
