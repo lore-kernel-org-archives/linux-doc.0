@@ -2,116 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB4BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 09:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDD2C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 10:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238139AbiCDJjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 04:39:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54872 "EHLO
+        id S239171AbiCDKDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 05:03:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239216AbiCDJh4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 04:37:56 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0689C1AA04F;
-        Fri,  4 Mar 2022 01:36:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B1900B827B1;
-        Fri,  4 Mar 2022 09:36:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECFDC340E9;
-        Fri,  4 Mar 2022 09:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646386585;
-        bh=RysmT+LMcL7CcpTbcFEHYgnbXGPnkMn9nXWQC+7jnwQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D1Lu1XiBXLAfS47x5JoNRhFXBRxeA60mOqx9qyQskBf/8h4u7xIjYB3IHNe9xpM4z
-         KKndUrIen8ZKb2cIafCmhRx4YWhaAzIAMCqchHdCRogMreJwaMMAR1JVVaUaU/raRT
-         Ew0QQq2jkR31VfRbpKzfKgZ+QtX/SsSRLlfhAj0lSRmxgZPyp9U3To6iKcMY0qDqCY
-         z4SKI6Z86pKsxJmygN/CQwSnq8x5PHhea5bS2GzKctN27+AVy/K3iQQ6i7RbYSkzQD
-         pdXo1YnTLrg1yt0Fvttw70EulSJCI+9M2fCS02jL35LuUbyoSDeGMJagjV+uGC/qNx
-         5/TF1KdEJxXMw==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     linux-sgx@vger.kernel.org
-Cc:     Nathaniel McCallum <nathaniel@profian.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND
-        64-BIT)), linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [RFC PATCH v2.1 05/30] Documentation/x86: Document SGX permission details
-Date:   Fri,  4 Mar 2022 11:34:59 +0200
-Message-Id: <20220304093524.397485-5-jarkko@kernel.org>
+        with ESMTP id S234745AbiCDKDA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 05:03:00 -0500
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2107.outbound.protection.outlook.com [40.107.215.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF4D19D60C;
+        Fri,  4 Mar 2022 02:02:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I9IdyCZf9SB2pRyBwIz9uXHrvey206FF6Yg/PKNMLpOchGSKsLCggC2KPpe3uLgWOlOLh8UjR/lIHIc25c1+w2uDN+ggM8+uOUPehDtsajB11AmXsFf9Z7mKO2XEezUUwvJhFjsi9JXlmYKQ2gSTcrUDAEwpmpXIbyTYlqRYtn5BLvBVULm5kOe+lpq6xk2IkLv7n6CPkRkhp/t/zMfO6sG+pzcCDBDrCAy1jRyxfOU5LQHIA43ZNn7rVIM3tei5kHDluWnbC9SX44tBkgGpmKb4pK3RzAQJDSshmBgLQ4rI5C3XsfkW7QjHdFoysEHTAHOQxukGmNOaJyL3CNI+Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oetpaxtHWOP5+0DCn7mDMNfhCXcZqaMiwpnRFmsFF+U=;
+ b=WOSBoWq2ZUbXDrbDr+gufU9EktfYm8NEHjJf9nAPwHqpNvM8y0wkUPs6yCuXCNsOzGCuz9AZ36CK5yNh+r677DO4pCp7znua7aUGdJ+usTIR6eATKQ0VXqw1ldkw/RqF/okOnZJIoZnCRits9arcxQPbYjfWAgXFiVK4TwlEn291uKjoGSF71U4v4AN9ebB75bp/KhDcJS9gJS0W1OZcfIUQ1fDCdZWNIRbwuP8raMAlprhNRUT+M+QJrCbUv6uSkFUGCmWxrwRmGHnE2uUFt54M+qlMZNtn3M0YNnLk5RDp53d5dhTqyqjWr75CibcLPOZTI5Y1A6iopCio7dYHqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oetpaxtHWOP5+0DCn7mDMNfhCXcZqaMiwpnRFmsFF+U=;
+ b=n6a62M7XioI5QJbz1U6EHBQQ2fYQb9u3SwkXQ76SUbTPZI+AVyB8oc5XPSP3i1IWbamg5mXS9SO6/hnsN845fHDkmorkURyV7O5kGBA2jxKSQs+bwHwAjI8cypDgXpoKf0BfUIQI99YHCV6R3/vSVeTJZT7GFMuIkZXTjfA9vBU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ KL1PR0601MB3783.apcprd06.prod.outlook.com (2603:1096:820:18::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
+ 2022 10:02:07 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732%4]) with mapi id 15.20.5017.026; Fri, 4 Mar 2022
+ 10:02:07 +0000
+From:   Wan Jiabing <wanjiabing@vivo.com>
+To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kael_w@qq.com
+Subject: [PATCH] docs/zh_CN: fix a reference file name in free_page_reporting.rst
+Date:   Fri,  4 Mar 2022 18:01:39 +0800
+Message-Id: <20220304100145.6356-1-wanjiabing@vivo.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220304093524.397485-1-jarkko@kernel.org>
-References: <20220304093524.397485-1-jarkko@kernel.org>
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: HK2PR06CA0008.apcprd06.prod.outlook.com
+ (2603:1096:202:2e::20) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 814eb10b-78b5-443b-75da-08d9fdc60ab2
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB3783:EE_
+X-Microsoft-Antispam-PRVS: <KL1PR0601MB3783D96F19A46923CEE9F7F2AB059@KL1PR0601MB3783.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YWuqRGDlRlYPMrLet0wKKY1EKLi3sKBWaprHlV9WT/x+sQ2SX3fpX3N0IZ0cWCERJLGk+dEGaa5SpTd23As215K4GoXTTceUTCZxHqWrSHo8YoOoJ/2/ACoXARuEuR7m0Sp2ypKbpyRVftHJrdZ4/FPlxsj9ieLPW8KEkXOjjBngjietZgIUcnphamANT6BwcvTEIU1+7Wpamg9qMNhYUALv8WEjHQiIFFarErKwrwUq5dGCzSb5rsBoyx4S9m4p1MpHGQVRkIANuD7UreSgaSHJY3cDJuCJmZx+HZMY0aMLMUkzn31znO6hBLbru0lrNqPnK/ujb7Vk9tsESyehx6rez5eaBq4sIluXvQ6t5Abs0pDDoMTCOTRazl2Yp7Uhj8+PSBoFykGEvVMlGPe/M1WPSST7U4qqNOpjLBk7Ev/5xDZnZ5lAUb8zTrXM4lAtpiyNePSr9S2pSCGFnJTIpHE7K1qDTJnTaZjwKkNPUt5MQOTzUjxpne/YsDMcIHZTZV6rQHonq4jg7NJxP2NxvuxBJskdixqYw0n5xOO4Ig5iR1E259nOf6tC2AePeV5kz1U7xRnzrFY3omAlGPGKxRvQM/0gfNcDvrJPmXv4x7++66co4IXGMa7B0wL0osK8BiQZhai7jfg5rRqseNaNE+Um27XNclee4FFnfZOA4GvZVOntyaUKIhoVJfiSNQZ4R2pqyC1N06KNxkMV/QSfvg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(66556008)(66476007)(66946007)(1076003)(38350700002)(316002)(38100700002)(508600001)(6512007)(5660300002)(2906002)(8676002)(2616005)(4326008)(86362001)(6486002)(36756003)(6666004)(186003)(26005)(110136005)(6506007)(52116002)(83380400001)(4744005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnZVd0pnSGJWUTVqbkRDSXpZSklMZFV1UlErSXIydlBkc2N2ZDdwZ0JtaitW?=
+ =?utf-8?B?TytLcEM3YVdoTWkwVTI4NXNJZmo4OEI3Umg3dHcxRUVmU0dzQUJZMVZRc2w1?=
+ =?utf-8?B?dEJWakpqa3Z2VFpyNGtjclRCNXRVbjFJM3BsZzBIbFFDeTNTY2FwWjgzRGRJ?=
+ =?utf-8?B?by9RYk5QRXEyd1VjV2IyUFZCdHFnOU4zM3NyUkFPV2trdXhnSENXT3FoZnVW?=
+ =?utf-8?B?Zng3cVBZQk5QY3J3U0dUb3FNa3JnSEMwRzZETnJnVmJHNDZMRzBqQndqSXkx?=
+ =?utf-8?B?RmlidkFHTEROSzNvNHNXbit6V1VBNlNSSS9jTlFYOWh5d2cxdmplKzJ3UmRy?=
+ =?utf-8?B?cU1pSzRpM0wrd2VPWHhXekFqck1pOG9uWmR0Z2RIc29jZjQ5bDRaK254QzhU?=
+ =?utf-8?B?QjFXU3lrdEl1R25CaGgyOWsyaHl0UDFZeUQ0OUtwZW82UjBjZ0ZSU0VtZnd2?=
+ =?utf-8?B?YU9zdnhCbTNYejFQc3ZEOVdXM3RDb2t1ZXhGOEVVS3d3eUEwT3J6UHB2eEF6?=
+ =?utf-8?B?aUtPbFdxRmNtek5uTThJN2ZjQU9pbWM0bmUrbTNBMngyM2FJTlFBUFdyV3NR?=
+ =?utf-8?B?Z2w5cTJRdFl5RE82dkNaOU1QN3lGSnlrdUpEOFRHVXFYZWhrNjhSNm5JdUQ0?=
+ =?utf-8?B?UDV6NWhKOVdZTm5QeWtDd2lnQUdVQ3l4d0pBTFBYZGViV2FPc2Nqc1lvY0hj?=
+ =?utf-8?B?ei9BWEhHQjlPY3NpUGRIMm5nTkxScVcyaUkxV0RyMER2NXBvd0ZZemsvdGdR?=
+ =?utf-8?B?cUFwU2U3OFdhMlk2OFZDS0V0TERQNmVXazdGYi90a0M0M0JrTXlKMHV2K1NF?=
+ =?utf-8?B?a3JLY1BNbENxVkdHL0tYT1ZVUnNGV05oRTdOS0Z4NXg1K0IwUThzQ3ZhLzla?=
+ =?utf-8?B?ZFA3T0lXRjVEelVIZFdMa05CcmViNGNhUEdmVjJ6OUVmYW9CaG5MZ2pzREFY?=
+ =?utf-8?B?anJ4UVdlcVg3ZDBKSjBxQWNadXp0aElyNmZnZVFIT2F1Q09Oc1R3bmhxUkJ1?=
+ =?utf-8?B?SFJVQ1hNK2hJaVU1NUJkNTA5Z2g4cERveE5ySWVlTVBNWVlHRHh1WC8vRUVR?=
+ =?utf-8?B?Z01PcStJN1NrZnhqeXdFMDF5bGZPSHl5N2tSUkN1cTZBK0dGaTUvK2k5L25T?=
+ =?utf-8?B?aUhleEVMTkhmSlRManY5ODFmeEdPZ3kxM2pLMTdwclFINE1qcDlBSlNJYkxS?=
+ =?utf-8?B?WlVCWU9oQnpoM20zT2FEUGVjZ0V2czdsdmxRZ0xMdUhyZXpKMm1LKy83eGRS?=
+ =?utf-8?B?SWdoR0piNjZWWk9JWDNYRncra09aSmZaNmtYc21YWTZzZDFwTHlJQ3hKalN1?=
+ =?utf-8?B?anZyU1ZZcW5BTmNNZWUwWVdaL2ZraU85bThDeFZBVjBFZWJ0b2pLT3A2VXpN?=
+ =?utf-8?B?eWVpWEdDVVBjRVE0VDg2NzJEZGdkRE9BVzhkZHdEZmtkczF1M3NWQW44MFdD?=
+ =?utf-8?B?OW5teVExUUhnL0NyYWxFd3VXNEZYazdNZEcwaE53UDdRTWhRTXpEd09rK1Vj?=
+ =?utf-8?B?WmFhMHlMSHVaeXNJOUI4WmhiVHJwLzRLZUpKQmxvSXlobk1YN2VsaXBtRDd6?=
+ =?utf-8?B?U2xSKzBaUDNpTzc4a29YVVFGVldUc2pEQTdSdTUwKzBnZlVadkc4Sk9VRE9w?=
+ =?utf-8?B?bHRwUy9QYzh6d0lZTHVHYktwK3BPOTRLYmp3OVhobG9FTkF5S0pTa01ESGZi?=
+ =?utf-8?B?UHQvVTRkWEpXUDg4bWk5RmlFWnR2RWpFTGYxZ2tRcVZmZlg3ZEJUOHgvOStn?=
+ =?utf-8?B?ampGc1daNVoybnZ5U2FKL29mQ0NRTVFTejNxVmphdHJuR2FGTWVxS3FzMFJ4?=
+ =?utf-8?B?QUIxcjJzNTU5MnFJNlJrM3dLRGZXb0dMeDhoMzhQS3BORW5EQ01mc0k5V1JJ?=
+ =?utf-8?B?MnlKcFB2ZUZvWFRpak14UjhvOFR2WS9JLzF3V2NUWEYvR1VmcVdXM0dXR3RD?=
+ =?utf-8?B?VllrUDRIbTY4ck5QUi9GNmxIQ2xrWDRrUzZObkx1QVBGWk5FbXNXa0Rqbnc4?=
+ =?utf-8?B?TkI1aGJub2pVV1RvVzlyZ0xQd1Q4MU1JaDYyR004U2Vmc2NCcWJrcnJxVi9X?=
+ =?utf-8?B?TzFaSXdiRUNZcnYzQWZmbkhqVUdjRjB1a3JUYVVIbU8yV1NtR1lxZTdWRm41?=
+ =?utf-8?B?YVZRSDcyY08xZ0Nkc2ZuVlF5ZnZidkUzVjVBY1hRQjlPa29nQ28zQXpyN0dN?=
+ =?utf-8?Q?tQ8UoZhyT/bdEFrhr3VW5+E=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 814eb10b-78b5-443b-75da-08d9fdc60ab2
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 10:02:07.6486
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uahs8vfP7W41G5GZnaRVLi1LPWUF3Og/MPsh15T2cIfcFUFACGU+vGEVVjVTl97JDkb38rGDtPaUsvV46aQ72Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB3783
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Reinette Chatre <reinette.chatre@intel.com>
+Fix the following 'make refcheckdocs' warning:
+Warning: Documentation/translations/zh_CN/vm/free_page_reporting.rst
+references a file that doesn't exist: Documentation/vm/_free_page_reporting.rst
 
-Provide summary of the various permissions involved in
-managing access to enclave pages. This summary documents
-the foundation for additions related to runtime managing of
-enclave page permissions that is made possible with SGX2.
-
-Suggested-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 ---
- Documentation/x86/sgx.rst | 28 +++++++++++++++++++++++-----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+ Documentation/translations/zh_CN/vm/free_page_reporting.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/x86/sgx.rst b/Documentation/x86/sgx.rst
-index 265568a9292c..89ff924b1480 100644
---- a/Documentation/x86/sgx.rst
-+++ b/Documentation/x86/sgx.rst
-@@ -71,16 +71,34 @@ The processor tracks EPC pages in a hardware metadata structure called the
- which describes the owning enclave, access rights and page type among the other
- things.
+diff --git a/Documentation/translations/zh_CN/vm/free_page_reporting.rst b/Documentation/translations/zh_CN/vm/free_page_reporting.rst
+index 31d6c34b956b..14336a3aa5f4 100644
+--- a/Documentation/translations/zh_CN/vm/free_page_reporting.rst
++++ b/Documentation/translations/zh_CN/vm/free_page_reporting.rst
+@@ -1,6 +1,6 @@
+ .. include:: ../disclaimer-zh_CN.rst
  
--EPCM permissions are separate from the normal page tables.  This prevents the
--kernel from, for instance, allowing writes to data which an enclave wishes to
--remain read-only.  EPCM permissions may only impose additional restrictions on
--top of normal x86 page permissions.
--
- For all intents and purposes, the SGX architecture allows the processor to
- invalidate all EPCM entries at will.  This requires that software be prepared to
- handle an EPCM fault at any time.  In practice, this can happen on events like
- power transitions when the ephemeral key that encrypts enclave memory is lost.
+-:Original: Documentation/vm/_free_page_reporting.rst
++:Original: Documentation/vm/free_page_reporting.rst
  
-+Details about enclave page permissions
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+EPCM permissions are separate from the normal page tables.  This prevents the
-+kernel from, for instance, allowing writes to data which an enclave wishes
-+to remain read-only.
-+
-+Three permission masks are relevant to SGX:
-+
-+* EPCM permissions.
-+* Page Table Entry (PTE) permissions.
-+* Virtual Memory Area (VMA) permissions.
-+
-+An enclave is only able to access an enclave page if all three permission
-+masks enable it to do so.
-+
-+The relationships between the different permission masks are:
-+
-+* An SGX VMA can only be created if its permissions are the same or weaker
-+  than the EPCM permissions.
-+* PTEs are installed to match the EPCM permissions, but not be more
-+  relaxed than the VMA permissions.
-+
- Application interface
- =====================
+ :翻译:
  
 -- 
 2.35.1
