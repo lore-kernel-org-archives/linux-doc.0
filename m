@@ -2,65 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A862C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 18:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFF2C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 18:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230422AbiCDSuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 13:50:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
+        id S229563AbiCDS5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 13:57:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233327AbiCDSuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 13:50:23 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1EB31D67CF;
-        Fri,  4 Mar 2022 10:49:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vdCOfW9AA5pXpyysIv5oA6baxsdWJvIveo/FjSSwSb0=; b=OF7MGL/zQ7Zt2b8OOThljpYjTW
-        ty2cu1wmG4x8JrCx4Qifj7YhWqJ6gt3qL2jRDZ2IrYkpR+FzNwOa2NL/uj2Ky7W0ps22YwLUHlanH
-        EoMI6jlstrEUYM2l11LatKIp0GzBPwEO64nOYC1t1tmRTFPkWFiOGynAkLcvIk0n1A+M9KaX3CUQG
-        82guEbNFyGF4Lqg9A5yRaHMCmcpcsCWJzpAJV6+RIDkkdJ+o+FvnS4QhS3AZY4xk2167Hv/K8Nbwb
-        2Iln+dud1D8cD3q0rbyODLqsA8Q0wJhtUUccipr2ax2e88ISa7a0touBwuCfSThUagQqGrVgdXePM
-        tFpLSabg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nQCzE-00CtOx-Bj; Fri, 04 Mar 2022 18:49:08 +0000
-Date:   Fri, 4 Mar 2022 18:49:08 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Halil Pasic <pasic@linux.ibm.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Doug Gilbert <dgilbert@interlog.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        stable@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] swiotlb: rework fix info leak with DMA_FROM_DEVICE
-Message-ID: <YiJfJEo4xvq/YIZW@casper.infradead.org>
-References: <20220304135859.3521513-1-pasic@linux.ibm.com>
- <YiI2DPIrNLKwanZw@infradead.org>
- <20220304172908.43ab261d.pasic@linux.ibm.com>
+        with ESMTP id S230443AbiCDS5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 13:57:30 -0500
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D239F1D6F54;
+        Fri,  4 Mar 2022 10:56:41 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 224IuJHs020122;
+        Sat, 5 Mar 2022 03:56:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 224IuJHs020122
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646420179;
+        bh=ae5Yd4J05pJERqgIww/ekBg7J6J/HW2Ax8vCdSSmy7I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WKMGWPQS0Angn6t12jeTQy1uq7SLzAJU1sXmgpzQtIHXctTlvx1O0lx3cm1Mn/83A
+         f4BNL0rhAMmm3jEPmI9iYkzOGjqwz0Hw8hAZfrdcUZTTOBv1zl35I0a1QhcjaR1kXg
+         PVNwELdrqMn/QhbIfySunaXJa4W7oHu1fSQ4QdmOYGKONCQzltHfAxL916AOH7qMBD
+         OXSwajo5M5YSX9KY9yONKMtmjySyfsD8mRYrZc0d/CdanYqsmXfRA9sgZ/ZNDwTPa/
+         24dEYq9D/tTuJ90JcGf92jiA8byZ6erLknY4PA27638/IAImOhPOSLQl2lZM5bvNyr
+         Js+MOIERcMr6g==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id m11-20020a17090a7f8b00b001beef6143a8so8748642pjl.4;
+        Fri, 04 Mar 2022 10:56:19 -0800 (PST)
+X-Gm-Message-State: AOAM533e4EUJWcFmMOPyXUohtVpK3SWdGNf8NFgsB/24D2cbt4fqMdzt
+        QsmQGn5Zz/BwGCNmBhAH+BqBDW5TxlTqexyANiQ=
+X-Google-Smtp-Source: ABdhPJwRRAwCRJWCopAh560BqX5nnMFeJX4fJRkUamLZIOmZSLvfoVWOOqJxRKhig5RNtnEWMDnmuKsSg5SnHO/by8w=
+X-Received: by 2002:a17:902:b183:b0:14f:c266:20d5 with SMTP id
+ s3-20020a170902b18300b0014fc26620d5mr43172969plr.136.1646420178457; Fri, 04
+ Mar 2022 10:56:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220304172908.43ab261d.pasic@linux.ibm.com>
+References: <20220304170813.1689186-1-nathan@kernel.org> <202203041005.A3B985C@keescook>
+ <YiJXUL3zIik+4QDv@thelio-3990X>
+In-Reply-To: <YiJXUL3zIik+4QDv@thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 5 Mar 2022 03:55:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT+4t_c=SLJqVWYVMaQ8C1uqWCeOFJ6eNczT1TUgEG_Cg@mail.gmail.com>
+Message-ID: <CAK7LNAT+4t_c=SLJqVWYVMaQ8C1uqWCeOFJ6eNczT1TUgEG_Cg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 04, 2022 at 05:29:08PM +0100, Halil Pasic wrote:
-> No problem, I can do that. It isn't hard to squash things together, but
-> when I was about to write the commit message, I had the feeling doing
-> a revert is cleaner.
-> 
-> Any other opinions?
+On Sat, Mar 5, 2022 at 3:15 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Fri, Mar 04, 2022 at 10:09:03AM -0800, Kees Cook wrote:
+> > On Fri, Mar 04, 2022 at 10:08:14AM -0700, Nathan Chancellor wrote:
+> > > [...]
+> > >
+> > > Update and reorder the documentation to reflect these new additions.
+> > > At the same time, notate that LLVM=0 is not the same as just omitting it
+> > > altogether, which has confused people in the past.
+> >
+> > Is it worth making LLVM=0 actually act the way it's expected to?
+>
+> I don't really see the point, omitting $(LLVM) altogether is simpler.
+> Why specify LLVM=0 if you want GNU tools, since it is the default?
+> However, I can look into changing that in a new revision or a follow up
+> if others disagree?
 
-One patch, not two.
+
+Changing the meaning of LLVM=0 is beyond the scope of what
+we are trying to achieve now.
+
+I think documenting it is enough.
+
+(If we have a good reason to change it, we can. But, it should be
+done in a separate patch, at least)
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
