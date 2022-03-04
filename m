@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D428C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 06:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA28C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Mar 2022 07:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238560AbiCDGss (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 01:48:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
+        id S231979AbiCDHTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 02:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236380AbiCDGsr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 01:48:47 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903F74DF5C;
-        Thu,  3 Mar 2022 22:47:51 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id d19so8560028ioc.8;
-        Thu, 03 Mar 2022 22:47:51 -0800 (PST)
+        with ESMTP id S229934AbiCDHTk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 02:19:40 -0500
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0F3EDF3D;
+        Thu,  3 Mar 2022 23:18:52 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id q4so5950622ilt.0;
+        Thu, 03 Mar 2022 23:18:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc:content-transfer-encoding;
-        bh=j23UEdgmoD3PT7cpFQAiB9cWyyGiVLaUvaBGU1GyBnM=;
-        b=O4anCBKrsFyHyGzL2RF8B7cVoEGN7VorjGDN2lWfWk7InIipFAsHECPDsdOCfaRbpB
-         2Kt82y1BnVO5YHOf3TxW7h/ybyzM3bT9MqjlwgrpF2WtQIymp3JrcV5QOJEJ8rNAIy4a
-         PLCK58ysJgdl6mAUW1D1vHWF/bPt2T/nCsKva5+pRKypjda9JkxpjO555iUWjqjtp6yX
-         zHOy96yoFqH9Ox7QiF69+hVa9y7GMf1LfN3bnbRccWkQk1lRwTQ5rw3V4NJLJHSc6e0c
-         VwIf3JuNMtpCudUkuFthPr30ar6Xx9zkMXFuboIjXHL3QE+cBaOVO72cXXKQ0MYLNUUC
-         qmAQ==
+        bh=Em4vIFtbnAfHzqImau3wflNwYLrEwWXRRPlRb6fFAik=;
+        b=AQ+vItkCK/KQHEUSzHxM2ukwePVCTPXqZLpjiIIjLSzXBM/fx496O/ME8K9a7ToBPr
+         Zq/k+3ePgMPSe6/WF3bnzmmZU5Ug/g+LbCGqp5NhR3bRqIRxVh+Y8849i/zi+5H2xKa+
+         WvKzoo/YAHjnKJpu/mzRt1wMIvnb7xB16f6eaX/nkdpqFUQR3ARHHwvH4TNBStQ4qI7u
+         lyApT9q8gW3izpqDEn/R6+kyou2u7qEWkYx+SintwAhnrMjMom0UDKV/p3KqrFFl1kd2
+         rxrbIa3NgFagkcYzZik+r/acVk4SrJVa5BOMLQtPg5ZqGFw64XI63tPA+UOUQNwzvtqS
+         wwYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=j23UEdgmoD3PT7cpFQAiB9cWyyGiVLaUvaBGU1GyBnM=;
-        b=EIWJKxLuaZjNPU0LmcF8cDkwAq9ngR+mdK8bsVpJCGcbFbjpMPcLDvzWHYpAn9yq47
-         Icd443w3TnxHlDHSPJxGJEWejQaeQ8MUUNzCfKYbOxSR71OgZ3U/Y3bxo0RKb6orkhCM
-         WLRC5ME66XoaWdf8woMGmJexguOVua8cULNdOU1dSI/TQ9yz75sKn1qq8z8eOxZWfwl0
-         Esmaz7Tu7i6oZBYCmF15YWMAJTn5kqMBdJEH0KjgLmRfAosgOq8vpPCIKGH+O/o0No2L
-         dlDWx/hEGVDmoyHKAVtl8iwhpIt91Jt+HHHh+E/w5Ru/BZG75HBw+3+JvFBaDZqwOyb0
-         ukZw==
-X-Gm-Message-State: AOAM530QWvkRdgD7Nl6oOSuSxW7IAvy26KMZXE/uLE4LLVfu10TPlUpO
-        FLi+ws4Jt91Kni9DdMlxbnFK7iTvlofHV2tlHwU=
-X-Google-Smtp-Source: ABdhPJxjDfv6jFJYN4fxfZbOXWdF3sJLBJrEkBPrcaNpWv3Ngca5sjQyQ48mqksXjVECGHbzT/Tk6PN8pi5cV3tELNU=
-X-Received: by 2002:a05:6638:a9b:b0:317:12d1:5a46 with SMTP id
- 27-20020a0566380a9b00b0031712d15a46mr15095078jas.306.1646376471271; Thu, 03
- Mar 2022 22:47:51 -0800 (PST)
+        bh=Em4vIFtbnAfHzqImau3wflNwYLrEwWXRRPlRb6fFAik=;
+        b=M4pcmKU6/EOuG4htYGYfCuv4tGApsniVloDfgkOW25FEMAOEDquhgklukQvS+Q+7Am
+         YIDjcDll9J710qqw7gQPOZlebfWIpBZxAXfYNx8bH2qs8jP78YEOdiJM4vzykb8AIAMh
+         Th2SDusumXriXuAQSatIcdgPWfP9nQ0OC0AFcwJmkRmE27oPC5P2lkVhOGR3rkdxKyX0
+         GLCnL/QEG1sVihyD3c1xLNLWNS8vSxIjChf3vkJHuRTpLq11g6xLV6vaORmO5TtUidAe
+         Wg1O4mCfZvsh0+5TMmigSROAYm1pVKYUdQU7uuMocxgodY27yebNlcHOsRSFM066yK6J
+         VCoQ==
+X-Gm-Message-State: AOAM530sMNn6mTWxSq2X72snOyZHFOnUKTdchqse4IgN7MV3uC/aIchY
+        iDmScH8lVi1YOlf3uIElqe8CT9o9veXFI0hh8gs=
+X-Google-Smtp-Source: ABdhPJybQ6fYgvuM8D5CD0i1MixyIsqbUa6RJpl03+vMLWnwjvlqkhpRtmzXdXhlPEcIGQg643vX7Clekr+saOwTIKA=
+X-Received: by 2002:a05:6e02:de2:b0:2c6:f14:884a with SMTP id
+ m2-20020a056e020de200b002c60f14884amr2995481ilj.100.1646378332178; Thu, 03
+ Mar 2022 23:18:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
  <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
  <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
- <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com> <YiD86pay2ENCebkR@dev-arch.thelio-3990X>
-In-Reply-To: <YiD86pay2ENCebkR@dev-arch.thelio-3990X>
+ <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
+ <YiD86pay2ENCebkR@dev-arch.thelio-3990X> <CA+icZUXDBe5MF6G_2v4XoV0SFVkTZ96M5i-VGSvHsP1pFJ+nAg@mail.gmail.com>
+In-Reply-To: <CA+icZUXDBe5MF6G_2v4XoV0SFVkTZ96M5i-VGSvHsP1pFJ+nAg@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 4 Mar 2022 07:47:14 +0100
-Message-ID: <CA+icZUXDBe5MF6G_2v4XoV0SFVkTZ96M5i-VGSvHsP1pFJ+nAg@mail.gmail.com>
+Date:   Fri, 4 Mar 2022 08:18:15 +0100
+Message-ID: <CA+icZUXNtq3+cW6OBiO1TPhHT2xwXFe_D-Ja8HAO0XH2y6h=GA@mail.gmail.com>
 Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -74,147 +75,93 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 3, 2022 at 6:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Fri, Mar 4, 2022 at 7:47 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> Hi Sedat,
->
-> On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
-> > Hey Nick!
+> On Thu, Mar 3, 2022 at 6:37 PM Nathan Chancellor <nathan@kernel.org> wrot=
+e:
 > >
-> > This only applies 1/3.
+> > Hi Sedat,
 > >
-> > $ b4 --version
-> > 0.8.0
+> > On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
+> > > Hey Nick!
+> > >
+> > > This only applies 1/3.
+> > >
+> > > $ b4 --version
+> > > 0.8.0
+> > >
+> > > $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@ke=
+rnel.org/
+> > > -o - | git am -3
+> > > Analyzing 14 messages in the thread
+> > > Will use the latest revision: v3
+> > > You can pick other revisions using the -vN flag
+> > > Checking attestation on all messages, may take a moment...
+> > > ---
+> > >  =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
+> > >    =E2=9C=93 Signed: DKIM/kernel.org
+> > >    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 DK=
+IM/kernel.org)
+> > >  ERROR: missing [2/3]!
+> > >  ERROR: missing [3/3]!
+> > >  ---
+> > >  NOTE: install patatt for end-to-end signature verification
+> > > ---
+> > > Total patches: 1
+> > > ---
+> > > WARNING: Thread incomplete!
+> > > Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.=
+org
+> > > Base: not specified
+> > > Wende an: Kbuild: move to -std=3Dgnu11
 > >
-> > $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kern=
-el.org/
-> > -o - | git am -3
-> > Analyzing 14 messages in the thread
-> > Will use the latest revision: v3
-> > You can pick other revisions using the -vN flag
-> > Checking attestation on all messages, may take a moment...
-> > ---
-> >  =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
-> >    =E2=9C=93 Signed: DKIM/kernel.org
-> >    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 DKIM=
-/kernel.org)
-> >  ERROR: missing [2/3]!
-> >  ERROR: missing [3/3]!
-> >  ---
-> >  NOTE: install patatt for end-to-end signature verification
-> > ---
-> > Total patches: 1
-> > ---
-> > WARNING: Thread incomplete!
-> > Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.or=
-g
-> > Base: not specified
-> > Wende an: Kbuild: move to -std=3Dgnu11
+> > It looks like the threading somehow got broken, likely due to the [v3]
+> > on the first patch and not the second or third:
+> >
+> > This worked for me on v5.17-rc6:
+> >
+> > $ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-ar=
+nd@kernel.org; done
+> >
+> > "b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
+> > "-P _" tells b4 to only fetch that exact message ID, not the whole
+> > thread.
+> >
 >
-> It looks like the threading somehow got broken, likely due to the [v3]
-> on the first patch and not the second or third:
+> Hmm, the universe is not good to me...
 >
-> This worked for me on v5.17-rc6:
+> $ for i in $(seq 1 3); do b4 shazam -P _
+> 20220301145233.3689119-"$i"-arnd@kernel.org; done
+> usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
+> usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
+> usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
+> b4: error: argument subcmd: invalid choice: 'shazam' (choose from
+> 'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
 >
-> $ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-arnd=
-@kernel.org; done
+> Do I need a higher version of b4 (here: v0.8.0)?
 >
-> "b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
-> "-P _" tells b4 to only fetch that exact message ID, not the whole
-> thread.
+> Check myself... b4.git:
+>
+> commit 7c1d044ff1d5235e598d4c777c4abfe60e0a09a8
+> ("shazam: change default behaviour to be "apply-here"")
+>
+> ...is post-v0.8.0.
 >
 
-Hmm, the universe is not good to me...
+I brutally applied the post-v0.8.0 patches stolen from b4.git over my
+local distro b4 files.
 
-$ for i in $(seq 1 3); do b4 shazam -P _
-20220301145233.3689119-"$i"-arnd@kernel.org; done
-usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
-usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
-usage: b4 [-h] [--version] [-d] [-q] {mbox,am,attest,pr,ty,diff,kr} ...
-b4: error: argument subcmd: invalid choice: 'shazam' (choose from
-'mbox', 'am', 'attest', 'pr', 'ty', 'diff', 'kr')
+And was able to apply the triple:
 
-Do I need a higher version of b4 (here: v0.8.0)?
+$ git log --oneline --no-merges
+5.17.0-rc6-1-amd64-clang13-lto..5.17.0-rc6-2-amd64-clang13-lto
+96a4222bdd4c (for-5.17/kbuild-std_gnu11-arndb-20220301) Kbuild: use
+-std=3Dgnu11 for KBUILD_USERCFLAGS
+c4e8cef401a8 treewide: use -Wdeclaration-after-statement
+6a7cc105b238 Kbuild: move to -std=3Dgnu11
 
-Check myself... b4.git:
-
-commit 7c1d044ff1d5235e598d4c777c4abfe60e0a09a8
-("shazam: change default behaviour to be "apply-here"")
-
-...is post-v0.8.0.
-
-Lemme see if I can apply this patch...
-
-# cd /usr/lib/python3/dist-packages
-
-# LC_ALL=3DC git apply --check --verbose /root/b4-shazam.patch
-Checking patch b4/command.py...
-error: while searching for:
-   sp.add_argument('-M', '--save-as-maildir', dest=3D'maildir',
-action=3D'store_true', default=3DFalse,
-                   help=3D'Save as maildir (avoids mbox format ambiguities)=
-')
-
-def cmd_am_common_opts(sp):
-   sp.add_argument('-v', '--use-version', dest=3D'wantver', type=3Dint,
-default=3DNone,
-                   help=3D'Get a specific version of the patch/series')
-
-error: patch failed: b4/command.py:35
-error: b4/command.py: patch does not apply
-Checking patch b4/mbox.py...
-error: while searching for:
-       ifh =3D io.StringIO()
-       b4.save_git_am_mbox(am_msgs, ifh)
-       ambytes =3D ifh.getvalue().encode()
-       if cmdargs.applyhere:
-           amflags =3D config.get('git-am-flags', '')
-           sp =3D shlex.shlex(amflags, posix=3DTrue)
-           sp.whitespace_split =3D True
-
-error: patch failed: b4/mbox.py:262
-error: b4/mbox.py: patch does not apply
-
-Nope.
-Dunno if I am willing to do that manually or build-from-git.
-
-Anyway, can you add this b4 shazam tipp/trick to our wiki, please?
-
-Last question:
-
-LLVM/Clang-14...
-Do I need any patches to Linux v5.17-rc6 or upstream Git?
-Dependent/Independent of "std-gnu-11"?
-
-I can see on my Debian/unstable AMD64 system:
-
-# LC_ALL=3DC apt-cache policy clang-14
-clang-14:
- Installed: (none)
- Candidate: 1:14.0.0~++20220301114802+19149538e9a9-1~exp1~20220301234814.85
- Version table:
-    1:14.0.0~++20220301114802+19149538e9a9-1~exp1~20220301234814.85 99
-        99 https://apt.llvm.org/unstable llvm-toolchain-14/main amd64 Packa=
-ges
-    1:14.0.0~+rc1-1 99
-        99 https://ftp.debian.org/debian unstable/main amd64 Packages
-        99 https://deb.debian.org/debian unstable/main amd64 Packages
-
-The one from apt.llvm.org I guess is LLVM/Clang v14.0.0-rc2?
-
-Maybe, I wait until Masahiroy has the triple in his kbuild Git tree...
-
-Thanks.
-
-Have a nice Friday,
 - sed@ -
-
-[1] https://git.kernel.org/pub/scm/utils/b4/b4.git/tag/?h=3Dv0.8.0
-[2] https://git.kernel.org/pub/scm/utils/b4/b4.git/commit/?id=3D7c1d044ff1d=
-5235e598d4c777c4abfe60e0a09a8
-[3] https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tri=
-cks
