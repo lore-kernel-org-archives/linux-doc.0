@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA342C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 16:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0319FC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 16:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbiCEQZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Mar 2022 11:25:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
+        id S229864AbiCEQZo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Mar 2022 11:25:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbiCEQZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 11:25:40 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060ED1DA466
-        for <linux-doc@vger.kernel.org>; Sat,  5 Mar 2022 08:24:49 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id j1so6183894pfj.5
-        for <linux-doc@vger.kernel.org>; Sat, 05 Mar 2022 08:24:49 -0800 (PST)
+        with ESMTP id S231993AbiCEQZn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 11:25:43 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51481DC987
+        for <linux-doc@vger.kernel.org>; Sat,  5 Mar 2022 08:24:52 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id kx1-20020a17090b228100b001bf2dd26729so3291711pjb.1
+        for <linux-doc@vger.kernel.org>; Sat, 05 Mar 2022 08:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HwSPQntLfxszXRkurUvrEyLYmAXZMbHnv1TVlTtHd40=;
-        b=Ef1leReDIxtUnF2HcFeoGi1cDBzkdbCa0Q18e236OO7jABk2aGwLBrUCPEuBuxfqxM
-         mArSz5yFowh9y1wIrlyYhpJlWRE8/oh/llwIiKs82aW8HgppTOIPco+meNSgzPetf3IN
-         5E9xOY/yQEw3P5d7hs3iJMX46iC7FQ0uflZD1HzOaScBc3ZWtPKtIG4yolqTtHxkavQy
-         nxQIkYBqEcDiR02WuzplG2sQqZwZirw3y5mb4IFTJ2Adrb3ni3eErDYY/+cc1xMT/qmM
-         drkNa4/FDD9w7INa+KRvz9lM8yD77He/B+2Lshcc8goVlx+34hoF9D714og8X9x9pYNi
-         cQ7w==
+        bh=mLBj8fyJ8mY3dZZ2JAsmDR8H7KE/OtKnAAJd3TJOe6o=;
+        b=UUzk3cZIKAOyPEwo6QnUICt44m8YyoCqx058LJyVwC3tIGA84FxOH5VY+HiAsT+mYz
+         H4CC02Tev79r48x3izdxguZFXLIHzvtOMkejXza5JovaVN/ixMQ3u7LRJ8Jr/uJOf+Cw
+         O3NEIQj1eAuS6BMsoUM8UQpEubuTsMtg2XkdS6sxFbG2mV4twESBVvQTrT1Y8oxAN8pQ
+         Y9m1EW7kxhx0UJ+QWPJyyhp/E/1lso8+XHHi7GwuIl4pAemdMqLWCBCpE4zV+FESISED
+         YXqsWNn6I6PsP44lNrK1/Z9wu2e17pyTXgZGWNL8WfhirBFF3m1NgMejDiFg05gvH1Y9
+         82Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HwSPQntLfxszXRkurUvrEyLYmAXZMbHnv1TVlTtHd40=;
-        b=MtlmG5VS8ZjBeg22c9z0/M47zugi4H0prC2VlRz33hjmoMLYGEaMYUvjeLkat1RF0Y
-         q1XGhRJYwUq4AmVXhkwPXjlYPz2jc2dIXV4owCupVgIsAqfpIjIUJltLxLEbB/gc9M1T
-         +2vsinPS5k3yVejPnOoO7cOVhEqaTv+4ElgEu+UZDAfGhNPvdHjgJVGH1RCNfYcbZd5H
-         6YTJVsj0D2ztd5vjldFuhBXhep6vjfbxHgTEcXPtaCfaGczZcBB4lyr5It3rZ/fUPQPI
-         /eDdDyyS5SINZfpLFKp+9xStNPcrSQVt3lq12+8w75FjNZgOp2k8cl4GN7fDXkpjPOvy
-         XGAw==
-X-Gm-Message-State: AOAM533v9HZCsfjBnR91xTd2DP0Kj6zqMgTK7qOk5LHGCLKxbNE9P7ld
-        2BT/LJ31oYzVg5hA86TecGA=
-X-Google-Smtp-Source: ABdhPJx/odOlFxH34FnOldhL+sK/6f1as2SsjP5C7AFmaKmJ2JsryYmk93iWxvv1xRc6//gdRNREng==
-X-Received: by 2002:a63:f14b:0:b0:374:7b9e:dc8f with SMTP id o11-20020a63f14b000000b003747b9edc8fmr3210380pgk.357.1646497489350;
-        Sat, 05 Mar 2022 08:24:49 -0800 (PST)
+        bh=mLBj8fyJ8mY3dZZ2JAsmDR8H7KE/OtKnAAJd3TJOe6o=;
+        b=LsdkPgV3YVDXGm//yFEhAlvrDhIlSNxef1+Zf7ixPGIMbMpl2nWwXQvY8ei0r+PsZY
+         v+kd7PyHkKF73Ym4XDLJU9iaQE1wNsoPHrOLPv/brVgCfj0TUTpbr36Dq9sweAb3E3+e
+         JuNlPl10O1RVvVozw7rhTpuqkU9v2bSqLdxsehNmHaNz2M4P6BfthatnBqw0liHDrjn7
+         Cv7Abvio1QKBykVfXH2YhwfIE2/XA1u3giLuyh0anQlnJbm5e3GjJ2kUmBHN4yF8rU9r
+         U3wX7WP4Kk9K8sJ8mqlhFg/Kn03+/QyF9/8RmYIO2vbG1dJs1MzUMHcdK/dzAgLw3BLh
+         osfQ==
+X-Gm-Message-State: AOAM532agysK7UT6KBeyWCMcQzl3DCwdKejnm1Ji1JzioaQJgXEqxcAL
+        6x5PMO89ekCGuqKtwZ3IgpY=
+X-Google-Smtp-Source: ABdhPJwqsQer+zzr9D7qOlICwZdwQAcqWGTKPKQ3z0QoJVJ6Y175Hvy2UbNNVEeSpQDrDitVbrKkWw==
+X-Received: by 2002:a17:902:c215:b0:14f:f1c2:9fe3 with SMTP id 21-20020a170902c21500b0014ff1c29fe3mr4022939pll.145.1646497492056;
+        Sat, 05 Mar 2022 08:24:52 -0800 (PST)
 Received: from localhost.localdomain (42-200-190-71.static.imsbiz.com. [42.200.190.71])
-        by smtp.gmail.com with ESMTPSA id x7-20020a17090a1f8700b001bf1db72189sm6106269pja.23.2022.03.05.08.24.46
+        by smtp.gmail.com with ESMTPSA id x7-20020a17090a1f8700b001bf1db72189sm6106269pja.23.2022.03.05.08.24.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Mar 2022 08:24:49 -0800 (PST)
+        Sat, 05 Mar 2022 08:24:51 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: [PATCH 02/12] docs/zh_CN: add vm hwpoison translation
-Date:   Sun,  6 Mar 2022 00:26:02 +0800
-Message-Id: <e3bf0689a815a73665e57fe46ea81259ff08e660.1646496448.git.siyanteng@loongson.cn>
+Subject: [PATCH 03/12] docs/zh_CN: add vm memory-model translation
+Date:   Sun,  6 Mar 2022 00:26:03 +0800
+Message-Id: <7128b4af9512bfa2c8915442df228ea239162859.1646496448.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1646496448.git.siyanteng@loongson.cn>
 References: <cover.1646496448.git.siyanteng@loongson.cn>
@@ -66,23 +66,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/hwpoison.rst into Chinese.
+Translate .../vm/memory-model.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/vm/hwpoison.rst        | 166 ++++++++++++++++++
- Documentation/translations/zh_CN/vm/index.rst |   2 +-
- 2 files changed, 167 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/hwpoison.rst
+ Documentation/translations/zh_CN/vm/index.rst |   3 +-
+ .../translations/zh_CN/vm/memory-model.rst    | 135 ++++++++++++++++++
+ 2 files changed, 137 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/memory-model.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/hwpoison.rst b/Documentation/translations/zh_CN/vm/hwpoison.rst
-new file mode 100644
-index 000000000000..7c4477c33e56
---- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/hwpoison.rst
-@@ -0,0 +1,166 @@
+diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+index dd0b3d4c0ab8..186f85a156c0 100644
+--- a/Documentation/translations/zh_CN/vm/index.rst
++++ b/Documentation/translations/zh_CN/vm/index.rst
+@@ -28,13 +28,14 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+    highmem
+    frontswap
+    hwpoison
++   memory-model
+ 
+ TODOLIST:
+ * arch_pgtable_helpers
+ * free_page_reporting
+ * hmm
+ * hugetlbfs_reserv
+-* memory-model
 +
-+:Original: Documentation/vm/hwpoison.rst
+ * mmu_notifier
+ * numa
+ * overcommit-accounting
+diff --git a/Documentation/translations/zh_CN/vm/memory-model.rst b/Documentation/translations/zh_CN/vm/memory-model.rst
+new file mode 100644
+index 000000000000..5fe475581cbd
+--- /dev/null
++++ b/Documentation/translations/zh_CN/vm/memory-model.rst
+@@ -0,0 +1,135 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++:Original: Documentation/vm/memory-model.rst
 +
 +:翻译:
 +
@@ -91,180 +112,130 @@ index 000000000000..7c4477c33e56
 +:校译:
 +
 +
-+========
-+hwpoison
-+========
-+
-+什么是hwpoison?
-+===============
-+
-+
-+即将推出的英特尔CPU支持从一些内存错误中恢复（ ``MCA恢复`` ）。这需要操作系统宣布
-+一个页面"poisoned"，杀死与之相关的进程，并避免在未来使用它。
-+
-+这个补丁包在虚拟机中实现了必要的基础设施。
-+
-+引用概述中的评论::
-+
-+	高水平的机器检查处理程序。处理被硬件报告为损坏的页面，通常是由于2位ECC内存或
-+	高速缓存故障。
-+
-+	这主要是针对在后台检测到的损坏的页面。当当前的CPU试图访问它时，当前运行的进程
-+	可以直接被杀死。这意味着，如果错误由于某种原因不能被处理，就可以安全地忽略它，
-+	因为还没有访问损坏的页面。相反，当这种情况发生时，另一个机器检查将出现。
-+
-+	处理不同状态的页面缓存页。这里棘手的部分是，我们可以异步访问任何页面给其他虚拟
-+	机用户，因为内存故障可能随时随地发生，可能违反了他们的一些假设。这就是为什么这
-+	段代码必须非常小心。一般来说，它试图使用正常的锁定规则，如获得标准锁，即使这意
-+	味着错误处理可能需要很长的时间。
-+
-+	这里的一些操作有点低效，并且具有非线性的算法复杂性，因为数据结构没有针对这种情
-+	况进行优化。特别是从vma到进程的映射就是这种情况。由于这种情况预计是罕见的，我
-+	们希望我们可以摆脱这种情况。
-+
-+该代码由mm/memory-failure.c中的高级处理程序、一个新的页面poison 位和虚拟机中的
-+各种检查组成，用来处理poison 的页面。
-+
-+现在的主要针对的是KVM客户机，但它适用于所有类型的应用程序。支持KVM需要最近的qemu-kvm
-+版本。
-+
-+对于KVM的使用，需要一个新的信号类型，这样KVM就可以用适当的地址将机器检查注入到客户
-+机中。这在理论上也允许其他应用程序处理内存故障。我们的期望是，几乎所有的应用程序都不
-+会这样做，但一些非常专业的应用程序可能会这样做。
-+
-+故障恢复模式
++============
++物理内存模型
 +============
 +
-+有两种（实际上是三种）模式的内存故障恢复可以在。
++系统中的物理内存可以用不同的方式进行寻址。最简单的情况是，物理内存从地址0开
++始，跨越一个连续的范围，直到最大的地址。然而，这个范围可能包含CPU无法访问的
++小孔隙。那么，在完全不同的地址可能有几个连续的范围。而且，别忘了NUMA，即不
++同的内存库连接到不同的CPU。
 +
-+vm.memory_failure_recovery sysctl 置零:
-+	所有的内存故障都会导致panic。请不要尝试恢复。
++Linux使用两种内存模型中的一种对这种多样性进行抽象。FLATMEM和SPARSEM。每
++个架构都定义了它所支持的内存模型，默认的内存模型是什么，以及是否有可能手动
++覆盖该默认值。
 +
-+early kill
-+	(可以在全局和每个进程中控制) 一旦检测到错误，立即向应用程序发送SIGBUS 这允许
-+	应用程序以温和的方式处理内存错误（例如，放弃受影响的对象） 这是KVM qemu使用的
-+	模式。
++所有的内存模型都使用排列在一个或多个数组中的 `struct page` 来跟踪物理页
++帧的状态。
 +
-+late kill
-+	当应用程序运行到损坏的页面时，发送SIGBUS。这对不知道内存错误的应用程序来说是
-+	最好的，默认情况下注意一些页面总是被当作 late kill处理。
++无论选择哪种内存模型，物理页框号（PFN）和相应的 `struct page` 之间都存
++在一对一的映射关系。
 +
-+用户控制
-+========
++每个内存模型都定义了 :c:func:`pfn_to_page` 和 :c:func:`page_to_pfn`
++帮助函数，允许从PFN到 `struct page` 的转换，反之亦然。
 +
-+vm.memory_failure_recovery
-+	参阅 sysctl.txt
++FLATMEM
++=======
 +
-+vm.memory_failure_early_kill
-+	全局启用early kill
++最简单的内存模型是FLATMEM。这个模型适用于非NUMA系统的连续或大部分连续的
++物理内存。
 +
-+PR_MCE_KILL
-+	设置early/late kill mode/revert 到系统默认值。
++在FLATMEM内存模型中，有一个全局的 `mem_map` 数组来映射整个物理内存。对
++于大多数架构，孔隙在 `mem_map` 数组中都有条目。与孔洞相对应的 `struct page`
++对象从未被完全初始化。
 +
-+	arg1: PR_MCE_KILL_CLEAR:
-+		恢复到系统默认值
-+	arg1: PR_MCE_KILL_SET:
-+		arg2定义了线程特定模式
++为了分配 `mem_map` 数组，架构特定的设置代码应该调用free_area_init()函数。
++然而，在调用memblock_free_all()函数之前，映射数组是不能使用的，该函数
++将所有的内存交给页分配器。
 +
-+		PR_MCE_KILL_EARLY:
-+			Early kill
-+		PR_MCE_KILL_LATE:
-+			Late kill
-+		PR_MCE_KILL_DEFAULT
-+			使用系统全局默认值
++一个架构可能会释放 `mem_map` 数组中不包括实际物理页的部分。在这种情况下，特
++定架构的 :c:func:`pfn_valid` 实现应该考虑到 `mem_map` 中的孔隙。
 +
-+	注意，如果你想有一个专门的线程代表进程处理SIGBUS(BUS_MCEERR_AO)，你应该在
-+	指定线程上调用prctl(PR_MCE_KILL_EARLY)。否则，SIGBUS将被发送到主线程。
++使用FLATMEM，PFN和 `struct page` 之间的转换是直接的。 `PFN - ARCH_PFN_OFFSET`
++是 `mem_map` 数组的一个索引。
 +
-+PR_MCE_KILL_GET
-+	返回当前模式
++`ARCH_PFN_OFFSET` 定义了物理内存起始地址不同于0的系统的第一个页框号。
 +
-+测试
-+====
++SPARSEMEM
++=========
 +
-+* madvise(MADV_HWPOISON, ....) (as root) - 在测试过程中Poison一个页面
++SPARSEMEM是Linux中最通用的内存模型，它是唯一支持若干高级功能的内存模型，
++如物理内存的热插拔、非易失性内存设备的替代内存图和较大系统的内存图的延迟
++初始化。
 +
-+* 通过debugfs ``/sys/kernel/debug/hwpoison/`` hwpoison-inject模块
++SPARSEMEM模型将物理内存显示为一个部分的集合。一个区段用mem_section结构
++体表示，它包含 `section_mem_map` ，从逻辑上讲，它是一个指向 `struct page`
++阵列的指针。然而，它被存储在一些其他的magic中，以帮助分区管理。区段的大小
++和最大区段数是使用 `SECTION_SIZE_BITS` 和 `MAX_PHYSMEM_BITS` 常量
++来指定的，这两个常量是由每个支持SPARSEMEM的架构定义的。 `MAX_PHYSMEM_BITS`
++是一个架构所支持的物理地址的实际宽度，而 `SECTION_SIZE_BITS` 是一个任
++意的值。
 +
-+  corrupt-pfn
-+	在PFN处注入hwpoison故障，并echoed到这个文件。这做了一些早期过滤，以避
-+	免在测试套件中损坏的非预期页面。
-+  unpoison-pfn
-+	在PFN的Software-unpoison 页面呼应到这个文件。这样，一个页面可以再次被
-+	复用。这只对Linux注入的故障起作用，对真正的内存故障不起作用。
++最大的段数表示为 `NR_MEM_SECTIONS` ，定义为
 +
-+  注意这些注入接口并不稳定，可能会在不同的内核版本中发生变化
++.. math::
 +
-+  corrupt-filter-dev-major, corrupt-filter-dev-minor
-+	只处理与块设备major/minor定义的文件系统相关的页面的内存故障。-1U是通
-+	配符值。这应该只用于人工注入的测试。
++   NR\_MEM\_SECTIONS = 2 ^ {(MAX\_PHYSMEM\_BITS - SECTION\_SIZE\_BITS)}
 +
-+  corrupt-filter-memcg
-+	限制注入到memgroup拥有的页面。由memcg的inode号指定。
++`mem_section` 对象被安排在一个叫做 `mem_sections` 的二维数组中。这个数组的
++大小和位置取决于 `CONFIG_SPARSEM_EXTREME` 和可能的最大段数:
 +
-+	Example::
++* 当 `CONFIG_SPARSEMEM_EXTREME` 被禁用时， `mem_sections` 数组是静态的，有
++  `NR_MEM_SECTIONS` 行。每一行持有一个 `mem_section` 对象。
++* 当 `CONFIG_SPARSEMEM_EXTREME` 被启用时， `mem_sections` 数组被动态分配。
++  每一行包含价值 `PAGE_SIZE` 的 `mem_section` 对象，行数的计算是为了适应所有的
++  内存区。
 +
-+		mkdir /sys/fs/cgroup/mem/hwpoison
++架构设置代码应该调用sparse_init()来初始化内存区和内存映射。
 +
-+	        usemem -m 100 -s 1000 &
-+		echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
++通过SPARSEMEM，有两种可能的方式将PFN转换为相应的 `struct page` --"classic sparse"和
++ "sparse vmemmap"。选择是在构建时进行的，它由 `CONFIG_SPARSEMEM_VMEMMAP` 的
++ 值决定。
 +
-+		memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
-+		echo $memcg_ino > /debug/hwpoison/corrupt-filter-memcg
++Classic sparse在page->flags中编码了一个页面的段号，并使用PFN的高位来访问映射该页
++框的段。在一个区段内，PFN是指向页数组的索引。
 +
-+		page-types -p `pidof init`   --hwpoison  # shall do nothing
-+		page-types -p `pidof usemem` --hwpoison  # poison its pages
++Sparse vmemmapvmemmap使用虚拟映射的内存映射来优化pfn_to_page和page_to_pfn操
++作。有一个全局的 `struct page *vmemmap` 指针，指向一个虚拟连续的 `struct page`
++对象阵列。PFN是该数组的一个索引，`struct page` 从 `vmemmap` 的偏移量是该页的PFN。
 +
-+  corrupt-filter-flags-mask, corrupt-filter-flags-value
-+	当指定时，只有在((page_flags & mask) == value)的情况下才会poison页面。
-+	这允许对许多种类的页面进行压力测试。page_flags与/proc/kpageflags中的相
-+	同。这些标志位在include/linux/kernel-page-flags.h中定义，并在
-+	Documentation/admin-guide/mm/pagemap.rst中记录。
++为了使用vmemmap，一个架构必须保留一个虚拟地址的范围，以映射包含内存映射的物理页，并
++确保 `vmemmap`指向该范围。此外，架构应该实现 :c:func:`vmemmap_populate` 方法，
++它将分配物理内存并为虚拟内存映射创建页表。如果一个架构对vmemmap映射没有任何特殊要求，
++它可以使用通用内存管理提供的默认 :c:func:`vmemmap_populate_basepages`。
 +
-+* 架构特定的MCE注入器
++虚拟映射的内存映射允许将持久性内存设备的 `struct page` 对象存储在这些设备上预先分
++配的存储中。这种存储用vmem_altmap结构表示，最终通过一长串的函数调用传递给
++vmemmap_populate()。vmemmap_populate()实现可以使用 `vmem_altmap` 和
++:c:func:`vmemmap_alloc_block_buf` 助手来分配持久性内存设备上的内存映射。
 +
-+  x86 有 mce-inject, mce-test
++ZONE_DEVICE
++===========
++`ZONE_DEVICE` 设施建立在 `SPARSEM_VMEMMAP` 之上，为设备驱动识别的物理地址范
++围提供 `struct page` `mem_map` 服务。 `ZONE_DEVICE` 的 "设备" 方面与以下
++事实有关：这些地址范围的页面对象从未被在线标记过，而且必须对设备进行引用，而不仅仅
++是页面，以保持内存被pinned以便使用。 `ZONE_DEVICE` ，通过 :c:func:`devm_memremap_pages` ，
++为给定的pfns范围执行足够的内存热插拔来开启 :c:func:`pfn_to_page`，
++:c:func:`page_to_pfn`, ，和 :c:func:`get_user_pages` 服务。由于页面引
++用计数永远不会低于1，所以页面永远不会被追踪为空闲内存，页面的 `struct list_head lru`
++空间被重新利用，用于向映射该内存的主机设备/驱动程序进行反向引用。
 +
-+  在mce-test中的一些便携式hwpoison测试程序，见下文。
++虽然 `SPARSEMEM` 将内存作为一个区段的集合，可以选择收集并合成内存块，但
++`ZONE_DEVICE` 用户需要更小的颗粒度来填充 `mem_map` 。鉴于 `ZONE_DEVICE`
++内存从未被在线标记，因此它的内存范围从未通过sysfs内存热插拔api暴露在内存块边界
++上。这个实现依赖于这种缺乏用户接口的约束，允许子段大小的内存范围被指定给
++:c:func:`arch_add_memory` ，即内存热插拔的上半部分。子段支持允许2MB作为
++:c:func:`devm_memremap_pages` 的跨架构通用对齐颗粒度。
 +
-+引用
-+====
++`ZONE_DEVICE` 的用户是:
 +
-+http://halobates.de/mce-lc09-2.pdf
-+	09年LinuxCon的概述演讲
++* pmem: 通过DAX映射将平台持久性内存作为直接I/O目标使用。
 +
-+git://git.kernel.org/pub/scm/utils/cpu/mce/mce-test.git
-+	测试套件（在tsrc中的hwpoison特定可移植测试）。
++* hmm: 用 `->page_fault()` 和 `->page_free()` 事件回调扩展 `ZONE_DEVICE` ，
++  以允许设备驱动程序协调与设备内存相关的内存管理事件，通常是GPU内存。参见/vm/hmm.rst。
 +
-+git://git.kernel.org/pub/scm/utils/cpu/mce/mce-inject.git
-+	x86特定的注入器
-+
-+
-+限制
-+====
-+- 不是所有的页面类型都被支持，而且永远不会。大多数内核内部对象不能被恢
-+  复，目前只有LRU页。
-+
-+---
-+Andi Kleen, 2009年10月
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index cc8d68b0cbb5..dd0b3d4c0ab8 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -27,12 +27,12 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    free_page_reporting
-    highmem
-    frontswap
-+   hwpoison
- 
- TODOLIST:
- * arch_pgtable_helpers
- * free_page_reporting
- * hmm
--* hwpoison
- * hugetlbfs_reserv
- * memory-model
- * mmu_notifier
++* p2pdma: 创建 `struct page` 对象，允许PCI/E拓扑结构中的peer设备协调它们之间的
++  直接DMA操作，即绕过主机内存。
 -- 
 2.27.0
 
