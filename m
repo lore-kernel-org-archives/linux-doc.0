@@ -2,180 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BF5C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 16:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A93D2C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 17:07:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbiCEQ0M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Mar 2022 11:26:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35266 "EHLO
+        id S232068AbiCERIf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Mar 2022 12:08:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231487AbiCEQ0M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 11:26:12 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7035C1EBA98
-        for <linux-doc@vger.kernel.org>; Sat,  5 Mar 2022 08:25:22 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id 6so5489972pgg.0
-        for <linux-doc@vger.kernel.org>; Sat, 05 Mar 2022 08:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8SRbN7nx2fMQAWrEvGNzCXR7mDWX6WsD2vPxTMBC5pg=;
-        b=aP8QW9tPYBn5K+DFfBIqHdGb4g0mx80lea4Wg+Fh3ZvraNwGrYzgrrUtHX3nX6+T0Z
-         E9MnPAahewsoWIi2EFKDK74uLtX8zgGOOnty5PdXlnlhAmWGduRT6Pl7+tsmKOhR+Kqu
-         sXYIARbP9Mufn+/OBwXlrGQiVQNY97my/DIp1ddY0bdVA9mxaKLd3jCCCOLeiHEXl5Mc
-         Po37qx3FKQWzRG2/FqeuKfUrD8jRZSO3smr5aPN4m6NX3qDPES4dikB2rSSAvAJRbuwb
-         BX2GVHygqVoQbV3hotTZO27S/H9cESjqwOUuhXQsOwdwi2sGBb9dIqt7nOktNed+23qi
-         wCCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8SRbN7nx2fMQAWrEvGNzCXR7mDWX6WsD2vPxTMBC5pg=;
-        b=beSpoj0u6FniIUdn9/UHOKdtbICdkO16VqY0oMaiJo0hAn1gDK5LM76zxIGwRt+eee
-         QfG1GMJllw/oFNvbhz6xF+CWxT6nRm2kpY9U/rvo6FnTW9l5omWTXjmcOBURD/s6VJB5
-         jEbnK+9jn7xS1binUCO8htN3uPWFgKwEyaxkUO/IArYjyDOq5buz9iuMI9tB3xI/SIJE
-         fydVq47Rc9Fm1jjnePlL7teWpT9GWvr1/0elmZsWBjVcRxodYU8Nr5J95OBIdgQIq8cJ
-         RmDnEvm4WcVAyj1UYoqhDLFz7y05TShAH8bLDOAayccDEwC1ZTniywV3PhK7AVw5ayVf
-         Wx0Q==
-X-Gm-Message-State: AOAM532UnN7rvDiMlv8hMbhltT+TSIwVgRd81/mnjX9WIFc0ciCq8JtP
-        PSTMrSOXumDo5QsQPX+r7vo=
-X-Google-Smtp-Source: ABdhPJzsn+GuEDiihaxWPSFqQM1vpkX16OyOEhvK3PqD5a2pMeoOwAeQnpQD+LJT4doXPiQoneM1bA==
-X-Received: by 2002:a63:1d45:0:b0:37e:d39e:b78a with SMTP id d5-20020a631d45000000b0037ed39eb78amr3233863pgm.410.1646497521892;
-        Sat, 05 Mar 2022 08:25:21 -0800 (PST)
-Received: from localhost.localdomain (42-200-190-71.static.imsbiz.com. [42.200.190.71])
-        by smtp.gmail.com with ESMTPSA id x7-20020a17090a1f8700b001bf1db72189sm6106269pja.23.2022.03.05.08.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Mar 2022 08:25:21 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH 12/12] docs/zh_CN: add vm zsmalloc translation
-Date:   Sun,  6 Mar 2022 00:26:12 +0800
-Message-Id: <ae2a085bda9c86f08789b0657f5fe3afe716ba65.1646496448.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1646496448.git.siyanteng@loongson.cn>
-References: <cover.1646496448.git.siyanteng@loongson.cn>
+        with ESMTP id S232118AbiCERIe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 12:08:34 -0500
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EE0643F;
+        Sat,  5 Mar 2022 09:07:43 -0800 (PST)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 225Ekpkv021484;
+        Sat, 5 Mar 2022 17:07:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=CjjaDICE9qp7Mt1XQhKMMDzt+o3GVrg5kqTFwzDYrIE=;
+ b=MSZiDpzkAZra8gtb9RNQRTsda9fhv+pnQooGt82//Z1OMXdlJOYrd/EtiAftx1ifk4P2
+ vyW7Ch4dXJnkHYrCemH/yfanrvzzSWtg+a9ukdyaRUpWEbTyG8wvuA7+DcdZEKb5JJH3
+ GRpnPeoSxcYlMGSKXmuwnSnB7a72iEMt0JEpdK6nub+7pHpuCFM1TJ83bRFHf++JH+eA
+ Ey2Luy5mGOtE/ZdXo6r79V6zRfDLEs2BhIO4fAMODJHKWufjFyLusY9aXJ3OaXKYLUOj
+ WChAdEsFIVFaeW/7p4KMAI161Rrq/psny+0P1bQL2yGvnBT1MxSff/dMbj4Cu++8KbWw 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3em9x2hbmm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 05 Mar 2022 17:07:24 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 225H0S75000412;
+        Sat, 5 Mar 2022 17:07:23 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3em9x2hbme-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 05 Mar 2022 17:07:23 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 225H2FLQ028151;
+        Sat, 5 Mar 2022 17:07:21 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma04fra.de.ibm.com with ESMTP id 3ekyg9103p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 05 Mar 2022 17:07:21 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 225H7HQv11207064
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 5 Mar 2022 17:07:18 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CD1B2A405C;
+        Sat,  5 Mar 2022 17:07:17 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 503E7A4060;
+        Sat,  5 Mar 2022 17:07:17 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Sat,  5 Mar 2022 17:07:17 +0000 (GMT)
+From:   Halil Pasic <pasic@linux.ibm.com>
+To:     Christoph Hellwig <hch@infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     Halil Pasic <pasic@linux.ibm.com>, stable@vger.kernel.org,
+        Doug Gilbert <dgilbert@interlog.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/1] swiotlb: rework "fix info leak with DMA_FROM_DEVICE"
+Date:   Sat,  5 Mar 2022 18:07:14 +0100
+Message-Id: <20220305170714.2043896-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: xNihlkriGFho-yIpQJBAfi_pDW_B_E7d
+X-Proofpoint-GUID: 39xXBozy0PyLvckmlNJouvjwPBjyz_LX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-05_06,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ mlxscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203050097
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/zsmalloc.rst into Chinese.
+Unfortunately, we ended up merging an old version of the patch "fix info
+leak with DMA_FROM_DEVICE" instead of merging the latest one. Christoph
+(the swiotlb maintainer), he asked me to create an incremental fix
+(after I have pointed this out the mix up, and asked him for guidance).
+So here we go.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+The main differences between what we got and what was agreed are:
+* swiotlb_sync_single_for_device is also required to do an extra bounce
+* We decided not to introduce DMA_ATTR_OVERWRITE until we have exploiters
+* The implantation of DMA_ATTR_OVERWRITE is flawed: DMA_ATTR_OVERWRITE
+  must take precedence over DMA_ATTR_SKIP_CPU_SYNC
+
+Thus this patch removes DMA_ATTR_OVERWRITE, and makes
+swiotlb_sync_single_for_device() bounce unconditionally (that is, also
+when dir == DMA_TO_DEVICE) in order do avoid synchronising back stale
+data from the swiotlb buffer.
+
+Let me note, that if the size used with dma_sync_* API is less than the
+size used with dma_[un]map_*, under certain circumstances we may still
+end up with swiotlb not being transparent. In that sense, this is no
+perfect fix either.
+
+To get this bullet proof, we would have to bounce the entire
+mapping/bounce buffer. For that we would have to figure out the starting
+address, and the size of the mapping in
+swiotlb_sync_single_for_device(). While this does seem possible, there
+seems to be no firm consensus on how things are supposed to work.
+
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: ddbd89deb7d3 ("swiotlb: fix info leak with DMA_FROM_DEVICE")
+Cc: stable@vger.kernel.org
+
 ---
- Documentation/translations/zh_CN/vm/index.rst |  2 +-
- .../translations/zh_CN/vm/zsmalloc.rst        | 78 +++++++++++++++++++
- 2 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/zsmalloc.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index fb9a6aaf2b57..efd298865c3f 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -37,6 +37,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    remap_file_pages
-    split_page_table_lock
-    z3fold
-+   zsmalloc
+I just realized that there are still scenarios where swiotlb may produce
+some strange effects. Thus I don't think we have discussed the
+dma_sync_* part in detail.
+
+v1 -> v2:
+* single patch instead of revert + right version
+---
+ Documentation/core-api/dma-attributes.rst |  8 --------
+ include/linux/dma-mapping.h               |  8 --------
+ kernel/dma/swiotlb.c                      | 23 +++++++++++++++--------
+ 3 files changed, 15 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
+index 17706dc91ec9..1887d92e8e92 100644
+--- a/Documentation/core-api/dma-attributes.rst
++++ b/Documentation/core-api/dma-attributes.rst
+@@ -130,11 +130,3 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
+ subsystem that the buffer is fully accessible at the elevated privilege
+ level (and ideally inaccessible or at least read-only at the
+ lesser-privileged levels).
+-
+-DMA_ATTR_OVERWRITE
+-------------------
+-
+-This is a hint to the DMA-mapping subsystem that the device is expected to
+-overwrite the entire mapped size, thus the caller does not require any of the
+-previous buffer contents to be preserved. This allows bounce-buffering
+-implementations to optimise DMA_FROM_DEVICE transfers.
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 6150d11a607e..dca2b1355bb1 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -61,14 +61,6 @@
+  */
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
  
- TODOLIST:
- * arch_pgtable_helpers
-@@ -49,4 +50,3 @@ TODOLIST:
- * transhuge
- * unevictable-lru
- * vmalloced-kernel-stacks
--* zsmalloc
-diff --git a/Documentation/translations/zh_CN/vm/zsmalloc.rst b/Documentation/translations/zh_CN/vm/zsmalloc.rst
-new file mode 100644
-index 000000000000..29e9c70a8eb6
---- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/zsmalloc.rst
-@@ -0,0 +1,78 @@
-+:Original: Documentation/vm/zs_malloc.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+========
-+zsmalloc
-+========
-+
-+这个分配器是为与zram一起使用而设计的。因此，该分配器应该在低内存条件下工作良好。特别是，
-+它从未尝试过higher order页面的分配，这在内存压力下很可能会失败。另一方面，如果我们只
-+是使用单（0-order）页，它将遭受非常高的碎片化 - 任何大小为PAGE_SIZE/2或更大的对象将
-+占据整个页面。这是其前身（xvmalloc）的主要问题之一。
-+
-+为了克服这些问题，zsmalloc分配了一堆0-order页面，并使用各种"struct page"字段将它
-+们链接起来。这些链接的页面作为一个单一的higher order页面，即一个对象可以跨越0-order
-+页面的边界。代码将这些链接的页面作为一个实体，称为zspage。
-+
-+为了简单起见，zsmalloc只能分配大小不超过PAGE_SIZE的对象，因为这满足了所有当前用户的
-+要求（在最坏的情况下，页面是不可压缩的，因此以"原样"即未压缩的形式存储）。对于大于这
-+个大小的分配请求，会返回失败（见zs_malloc）。
-+
-+此外，zs_malloc()并不返回一个可重复引用的指针。相反，它返回一个不透明的句柄（无符号
-+长），它编码了被分配对象的实际位置。这种间接性的原因是zsmalloc并不保持zspages的永久
-+映射，因为这在32位系统上会导致问题，因为内核空间映射的VA区域非常小。因此，在使用分配
-+的内存之前，对象必须使用zs_map_object()进行映射以获得一个可用的指针，随后使用
-+zs_unmap_object()解除映射。
-+
-+stat
-+====
-+
-+通过CONFIG_ZSMALLOC_STAT，我们可以通过 ``/sys/kernel/debug/zsmalloc/<user name>``
-+看到zsmalloc内部信息。下面是一个统计输出的例子。::
-+
-+ # cat /sys/kernel/debug/zsmalloc/zram0/classes
-+
-+ class  size almost_full almost_empty obj_allocated   obj_used pages_used pages_per_zspage
-+    ...
-+    ...
-+     9   176           0            1           186        129          8                4
-+    10   192           1            0          2880       2872        135                3
-+    11   208           0            1           819        795         42                2
-+    12   224           0            1           219        159         12                4
-+    ...
-+    ...
-+
-+
-+class
-+	索引
-+size
-+	zspage存储对象大小
-+almost_empty
-+	ZS_ALMOST_EMPTY zspage的数量（见下文）。
-+almost_full
-+	ZS_ALMOST_FULL zspage的数量(见下图)
-+obj_allocated
-+	已分配对象的数量
-+obj_used
-+	分配给用户的对象的数量
-+pages_used
-+	为该类分配的页数
-+pages_per_zspage
-+	组成一个zspage的0-order页面的数量
-+
-+当n <= N / f时，我们将一个zspage分配给ZS_ALMOST_EMPTYfullness组，其中
-+
-+* n = 已分配对象的数量
-+* N = zspage可以存储的对象总数
-+* f = fullness_threshold_frac(即，目前是4个)
-+
-+同样地，我们将zspage分配给:
-+
-+* ZS_ALMOST_FULL  when n > N / f
-+* ZS_EMPTY        when n == 0
-+* ZS_FULL         when n == N
+-/*
+- * This is a hint to the DMA-mapping subsystem that the device is expected
+- * to overwrite the entire mapped size, thus the caller does not require any
+- * of the previous buffer contents to be preserved. This allows
+- * bounce-buffering implementations to optimise DMA_FROM_DEVICE transfers.
+- */
+-#define DMA_ATTR_OVERWRITE		(1UL << 10)
+-
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+  * be given to a device to use as a DMA source or target.  It is specific to a
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index bfc56cb21705..6db1c475ec82 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -627,10 +627,14 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+ 	for (i = 0; i < nr_slots(alloc_size + offset); i++)
+ 		mem->slots[index + i].orig_addr = slot_addr(orig_addr, i);
+ 	tlb_addr = slot_addr(mem->start, index) + offset;
+-	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+-	    (!(attrs & DMA_ATTR_OVERWRITE) || dir == DMA_TO_DEVICE ||
+-	    dir == DMA_BIDIRECTIONAL))
+-		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
++	/*
++	 * When dir == DMA_FROM_DEVICE we could omit the copy from the orig
++	 * to the tlb buffer, if we knew for sure the device will
++	 * overwirte the entire current content. But we don't. Thus
++	 * unconditional bounce may prevent leaking swiotlb content (i.e.
++	 * kernel memory) to user-space.
++	 */
++	swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
+ 	return tlb_addr;
+ }
+ 
+@@ -697,10 +701,13 @@ void swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
+ void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
+ 		size_t size, enum dma_data_direction dir)
+ {
+-	if (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL)
+-		swiotlb_bounce(dev, tlb_addr, size, DMA_TO_DEVICE);
+-	else
+-		BUG_ON(dir != DMA_FROM_DEVICE);
++	/*
++	 * Unconditional bounce is necessary to avoid corruption on
++	 * sync_*_for_cpu or dma_ummap_* when the device didn't overwrite
++	 * the whole lengt of the bounce buffer.
++	 */
++	swiotlb_bounce(dev, tlb_addr, size, DMA_TO_DEVICE);
++	BUG_ON(!valid_dma_direction(dir));
+ }
+ 
+ void swiotlb_sync_single_for_cpu(struct device *dev, phys_addr_t tlb_addr,
+
+base-commit: 38f80f42147ff658aff218edb0a88c37e58bf44f
 -- 
-2.27.0
+2.32.0
 
