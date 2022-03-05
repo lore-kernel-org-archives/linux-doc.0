@@ -2,154 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3525DC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 00:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56747C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 02:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbiCEAoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Mar 2022 19:44:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36260 "EHLO
+        id S230014AbiCECPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Mar 2022 21:15:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbiCEAoL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 19:44:11 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5540172E6A;
-        Fri,  4 Mar 2022 16:43:20 -0800 (PST)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 224KE5Zw019015;
-        Sat, 5 Mar 2022 00:43:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=unLmegORgTqQP18ephKn5ovwRrDAmzIrqKCM25UePpk=;
- b=qiKwIAM3pZLUfzV5zBxsjUEXnSubJ1GMdoJFImZ2IS/md9W8x/wx/NQ2ePIqqReEOQUs
- v980OG6jEPDyNHMrcaFQOJdAUMgR0JLqSePT2gD6dDxVlcsQEvGWI6h/eq18KBHYZeK0
- 1xTPU64nUNzhrWW7uWx0X+tS6v+u7Ns3sBWEbE4T4CcAj3uNq6GKUd4DDZF0vhIr+j0E
- w1i7KX00qc2PgErG8WkA3O+Ni/vc6QHFx01KcrXCrq1b6kRfy3hm1BrA2iNjTvX50JxD
- GQxVU5ZC1WFtFFuzAqOcBhU9+QP/tIJJ+zQry0QeUI/r5RJiw1ZdZILoux3Stie5lWDp fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3eksma3njx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 05 Mar 2022 00:43:06 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2250h5vU019817;
-        Sat, 5 Mar 2022 00:43:05 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3eksma3njj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 05 Mar 2022 00:43:05 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2250S3GK007323;
-        Sat, 5 Mar 2022 00:43:03 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma04ams.nl.ibm.com with ESMTP id 3ek4kgay5e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 05 Mar 2022 00:43:02 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2250gxsi20840924
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 5 Mar 2022 00:42:59 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ACCD6AE051;
-        Sat,  5 Mar 2022 00:42:59 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CA5B9AE04D;
-        Sat,  5 Mar 2022 00:42:58 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.94.215])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Sat,  5 Mar 2022 00:42:58 +0000 (GMT)
-Date:   Sat, 5 Mar 2022 01:42:56 +0100
-From:   Halil Pasic <pasic@linux.ibm.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Doug Gilbert <dgilbert@interlog.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        stable@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/2] Revert "swiotlb: fix info leak with
- DMA_FROM_DEVICE"
-Message-ID: <20220305014256.687c77aa.pasic@linux.ibm.com>
-In-Reply-To: <YiJEjLdpXoGxtJsO@kroah.com>
-References: <20220304135859.3521513-1-pasic@linux.ibm.com>
-        <20220304135859.3521513-2-pasic@linux.ibm.com>
-        <YiIiHD7uA1o7Sj1X@kroah.com>
-        <20220304173447.27dc0798.pasic@linux.ibm.com>
-        <YiJEjLdpXoGxtJsO@kroah.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        with ESMTP id S229533AbiCECPJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Mar 2022 21:15:09 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4BE1DC9AC
+        for <linux-doc@vger.kernel.org>; Fri,  4 Mar 2022 18:14:20 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id bc27so8947573pgb.4
+        for <linux-doc@vger.kernel.org>; Fri, 04 Mar 2022 18:14:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1gJQr+FTDZ4M1UygRfcjeFTuDAI/oNr3Uxq3pS6131Q=;
+        b=4HVvPT9IUNfcSAn6wxI/76TaxpvEYn6rTAQVdwGPQbVrdZgpcNvs0YDxiuW+Enfo2S
+         kp/s0SvhqHrXOjB+G7PHbq6O25fg89N3/WV9jkkKC1DCsxA7dmahL1HmDWixbgTYsUkr
+         Srzwj2GmyjTlYa73tU/yXMPITQ0vikQR8RmJDtqOBPS6IdWBYeaQGYkbX9EKdVhz4mnt
+         If4fEP54ZZypHXci6eYKitLvPN3oydpB5yqwLT+S4g4gR8QhVM7dHn1JdyQb4abQvug3
+         UEfmVa87vjsYyXJtkvBg01AHbWxdSOJT52EJeGoRwDV5ITRakCwlpZiA8icRobwaCDNN
+         4KfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1gJQr+FTDZ4M1UygRfcjeFTuDAI/oNr3Uxq3pS6131Q=;
+        b=Ig+nxvI+vd17xFmYJj5lr8XaLA4TsEGaFWx1w3QTJCsVUCzu+q9hIe1XTeXtzrn0Wg
+         F9XCd7m8C+jaZlFzO0ugxd3NysJneUPgkPnBalfDI0dsjkHm6YKL9shIgsMEqNH7i45G
+         TMLJCIkQosyjuZaBftxfjx9ClvcQNfu5jl+4ZfnX+wza6C9/EeAxThAlIGAqQAYUPbmO
+         1ieVWgR29E5jx8AWPk0KJrybvQMHias2vP8GipdV0+lEioem/9TRum1JGvqBq5DkMTrh
+         aCgo5DeONoLnVJao/24I68mGIRfa+NtLD3aygGAyunGKw3QGobLxAbvKWGXwHUgCTCxV
+         d5bw==
+X-Gm-Message-State: AOAM530UCxCMC5ZbCA2MhVyZ4n354H26Y/lDfJ2k7+77Yr3kqW+FrnvC
+        XZKLkcFMgTM2KMqjQhViPVqzEw==
+X-Google-Smtp-Source: ABdhPJya+LIXcDq4e1JBgbqkMj3zOIEN+Yv4z+hQh464a/ErocbEZZyEbWbmJaWopBSyec6ytb9RtQ==
+X-Received: by 2002:a05:6a00:2166:b0:4f6:67fe:a336 with SMTP id r6-20020a056a00216600b004f667fea336mr1527165pff.17.1646446459795;
+        Fri, 04 Mar 2022 18:14:19 -0800 (PST)
+Received: from localhost.localdomain ([2409:8a28:e6d:cc00:d089:89fd:5c33:f12])
+        by smtp.gmail.com with ESMTPSA id f17-20020a056a001ad100b004f0ec1cbc4fsm6886691pfv.109.2022.03.04.18.14.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Mar 2022 18:14:19 -0800 (PST)
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     corbet@lwn.net, hannes@cmpxchg.org, mingo@redhat.com,
+        peterz@infradead.org, ebiggers@google.com, surenb@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com,
+        Chengming Zhou <zhouchengming@bytedance.com>,
+        Martin Steigerwald <Martin.Steigerwald@proact.de>
+Subject: [PATCH] psi: report zeroes for CPU full at the system level
+Date:   Sat,  5 Mar 2022 10:13:29 +0800
+Message-Id: <20220305021329.54119-1-zhouchengming@bytedance.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _KGvmWxgYA9bjO_iRD2EW5fQtLgEy9Or
-X-Proofpoint-ORIG-GUID: P21Y3rHEKAzPfl_buFJc9ZSaEfiGpiU2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-04_09,2022-03-04_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 impostorscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203050000
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 4 Mar 2022 17:55:40 +0100
-Greg KH <gregkh@linuxfoundation.org> wrote:
+Martin find it confusing when look at the /proc/pressure/cpu output,
+and found no hint about that CPU "full" line in psi Documentation.
 
-> On Fri, Mar 04, 2022 at 05:34:47PM +0100, Halil Pasic wrote:
-> > On Fri, 4 Mar 2022 15:28:44 +0100
-> > Greg KH <gregkh@linuxfoundation.org> wrote:
-> >   
-> > > On Fri, Mar 04, 2022 at 02:58:58PM +0100, Halil Pasic wrote:  
-> > > > This reverts commit ddbd89deb7d32b1fbb879f48d68fda1a8ac58e8e.    
-> > > 
-> > > Why???  
-> > 
-> > TLDR; We got v4 merged instead of v7  
-> 
-> That makes no sense at all to me, you need to describe it in detail.
-> 
-> You know better than this :(
-> 
+% cat /proc/pressure/cpu
+some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
+full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
 
-I have described the why in the cover letter of the series. Let me
-copy-paste it here:
+The PSI_CPU_FULL state is introduced by commit e7fcd7622823
+("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
+but also counted at the system level as a side effect.
 
-Unfortunately, we ended up with the wrong version of the patch "fix info
-leak with DMA_FROM_DEVICE" getting merged. We got v4 merged, but the
-version we want is v7 with some minor tweaks which were supposed to be
-applied by Christoph (swiotlb maintainer). After pointing this out, I
-was asked by Christoph to create an incremental fix. 
+Naturally, the FULL state doesn't exist for the CPU resource at
+the system level. These "full" numbers can come from CPU idle
+schedule latency. For example, t1 is the time when task wakeup
+on an idle CPU, t2 is the time when CPU pick and switch to it.
+The delta of (t2 - t1) will be in CPU_FULL state.
 
-IMHO the cleanest way to do this is a reverting the incorrect version
-of the patch and applying the correct one. I hope that qualifies as
-an incremental fix.
+Another case all processes can be stalled is when all cgroups
+have been throttled at the same time, which unlikely to happen.
 
-The main differences between what we got and what we need are:
-* swiotlb_sync_single_for_device is also required to do an extra bounce
-* It was decided that we want to defer introducing DMA_ATTR_OVERWRITE,
-  until we have exploiters 
-* And anyway DMA_ATTR_OVERWRITE must take precedence over
-  DMA_ATTR_SKIP_CPU_SYNC, so the v4 implementation of DMA_ATTR_OVERWRITE
-  ain't even correct.
+Anyway, CPU_FULL metric is meaningless and confusing at the
+system level. So this patch will report zeroes for CPU full
+at the system level, and update psi Documentation accordingly.
 
-Describing it in the revert commit would have been a wiser choice, I
-agree.
+Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
+Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+---
+ Documentation/accounting/psi.rst |  6 +-----
+ kernel/sched/psi.c               | 15 +++++++++------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-BTW the consensus seems to be, that a revert should be avoided, so I will
-send a single-patch version of this fix soon(ish).
+diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
+index 860fe651d645..7e15e37d3179 100644
+--- a/Documentation/accounting/psi.rst
++++ b/Documentation/accounting/psi.rst
+@@ -37,11 +37,7 @@ Pressure interface
+ Pressure information for each resource is exported through the
+ respective file in /proc/pressure/ -- cpu, memory, and io.
+ 
+-The format for CPU is as such::
+-
+-	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+-
+-and for memory and IO::
++The format is as such::
+ 
+ 	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+ 	full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index e14358178849..97fd85c5143c 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -1062,14 +1062,17 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
+ 	mutex_unlock(&group->avgs_lock);
+ 
+ 	for (full = 0; full < 2; full++) {
+-		unsigned long avg[3];
+-		u64 total;
++		unsigned long avg[3] = { 0, };
++		u64 total = 0;
+ 		int w;
+ 
+-		for (w = 0; w < 3; w++)
+-			avg[w] = group->avg[res * 2 + full][w];
+-		total = div_u64(group->total[PSI_AVGS][res * 2 + full],
+-				NSEC_PER_USEC);
++		/* CPU FULL is undefined at the system level */
++		if (!(group == &psi_system && res == PSI_CPU && full)) {
++			for (w = 0; w < 3; w++)
++				avg[w] = group->avg[res * 2 + full][w];
++			total = div_u64(group->total[PSI_AVGS][res * 2 + full],
++					NSEC_PER_USEC);
++		}
+ 
+ 		seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu avg300=%lu.%02lu total=%llu\n",
+ 			   full ? "full" : "some",
+-- 
+2.20.1
 
-Sorry for the inconvenience!
-
-Regards,
-Halil
