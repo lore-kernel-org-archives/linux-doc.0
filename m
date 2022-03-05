@@ -2,92 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4427CC433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 16:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF6FC433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Mar 2022 16:13:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231389AbiCEQMM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Mar 2022 11:12:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
+        id S230376AbiCEQOA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Mar 2022 11:14:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbiCEQMM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 11:12:12 -0500
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C531A8CB3;
-        Sat,  5 Mar 2022 08:11:21 -0800 (PST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2d07ae0b1c0so122037097b3.2;
-        Sat, 05 Mar 2022 08:11:21 -0800 (PST)
+        with ESMTP id S229923AbiCEQOA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Mar 2022 11:14:00 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1987CDF494
+        for <linux-doc@vger.kernel.org>; Sat,  5 Mar 2022 08:13:10 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id w16so22778104ybi.12
+        for <linux-doc@vger.kernel.org>; Sat, 05 Mar 2022 08:13:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=tmdN0Wx0WiOtxWo9RPNayDEHKMGDKTOmsWU1SSOA3c0=;
-        b=nczZcheOu2LkbRSYD2oRcotZ8BmDYFYsJTPEifCtDh8WWg/h52Vne6Q1Lz7mvEsbbX
-         muBkseMobZcWe0RAZmYiT4EaZVVLK1nSdTlf4bJJaYtVxluHSesRU7pO/tcgb8e2XVyp
-         jR/0BVCeMT7IscAKKmhyvad49Lz6/4rMSSPvx4Taj1YK5yDP8LVCfQ+R70oeyb6Pz7Ww
-         Jd2MVuE7SmMVQmPhPi82y0YgPgPHgs7YDbowIWg59VeztZjnCgQydJT7qbGMHvAU/UJo
-         svq3OLYrq7fSC15V6MYXHcGTGnbg8h71jxa+YUyghHD0aDtyMHgYptYmmKLWjnXE4YXB
-         V58g==
+        bh=1cfb/nn077Ec8GJU4qIIFMYN/GdF2b6pVpRmpIKeBH4=;
+        b=FR0H/SAbI3abnPBBRfp57Ib52QMIyIaQdqS7w3WO+QM6jCOwTkm4WV69e8iejuANPv
+         knmh0vzVV3EoUkHt7GA2g9g6nfkHc9/mGu+fLEtRmomQE/euSNnDOcocjSdKcJnarmZu
+         Tt1MBVSraTnXC/1Wwy8eA1YpgnvCsb5rVh0Xv4dERY2cku8k1YF6YGf+V36q49Xancin
+         viU95n9yMi6fWtNCtKsKkkD/II3RMJZmuKilcSITQnAdYrcVeJ1Z12fWkPZ5mSX5LN8c
+         L7JI4jwQKy5Sg9cydnApwDpH/EMTsJKVDd0a3PFWP6tBLv48kJ4EpZw2sxyxnyMrTPI3
+         m9uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tmdN0Wx0WiOtxWo9RPNayDEHKMGDKTOmsWU1SSOA3c0=;
-        b=a98ITzh13+V+mOlpUi1hgnKqng9qmD9z/Oc9pUhb3J5NZfaqpVAkRGR4l7Vnv9H+ni
-         /vdrRnCXHvhn7GnHJ+jyIwdFpgAk13y3Sr1kGfmPDtLNDayFehAk93SWEQqVwoz4Vwje
-         pn/bw8dMVE0TcwaNWGNchL28Cvf2HthET57w3n0RddNBhRiHrKHB+N9dQRk3ILUevC6k
-         kN3WFJe0afDzNgkIo9lWSaKBPfYGpx2b2GE8pqFQi3NfrTgTwfehRBsSQFRq/b8NDdVf
-         HIoZ6xP56RL0iErJT4B59UdNbhfE7Xtuz+hdjhFKU4k/+P5wFPbW6GkSG4QcSKGe71eh
-         UYfw==
-X-Gm-Message-State: AOAM530Tn5/DCOCnpjFEirLPxTo1/xG4KrABH33GFlpGj3cekW1zalRQ
-        vOjofzsDqpLClnY5Wp0dSJSlof2NtksrAawIYgI=
-X-Google-Smtp-Source: ABdhPJxshUS9MZ0MKEraBYqWoPu8CWBX0qYTF+zKsIFYHOhy86O3rZz29WlhfkwL43x8Y4I9xsruSG9n6haA8qAMHto=
-X-Received: by 2002:a0d:e80d:0:b0:2dc:8c0:df1f with SMTP id
- r13-20020a0de80d000000b002dc08c0df1fmr2841042ywe.52.1646496680890; Sat, 05
- Mar 2022 08:11:20 -0800 (PST)
+        bh=1cfb/nn077Ec8GJU4qIIFMYN/GdF2b6pVpRmpIKeBH4=;
+        b=qdECHiVfeSvOSMMhfqq0uWf5UElbZLdTyKIczxF4IXNWyRt7xX9NF9g0SKNWz353TP
+         EstzJxBHea8siY9YABTpL2ztXcmKJj75//jKVxdr32zDAtsMywDnjmCwFReEVDFIpx+1
+         XXh57Iy4lQYUT4YWOXH3gWN75T3rLXAyO0IR1JJsrCgI6YLJ/PrqCLyv5badG/hNuMZL
+         Jl+p/rA9u2LKRpAuuz/6CMFEk3lceMCAtklzIeKhXUCpMMlDo6nEbf0juAFcxd6qWODM
+         wc7lFqC2rnHM4Z8ly4/B17k3XnheCFJCOKPgHe+bfuaG1sEJZbDwb6Lk7VrXo3Pv1mxV
+         EW5A==
+X-Gm-Message-State: AOAM531gCRUlBr3gbGY2k6VkukvQAuAVLGnxQs3d1GHmy2sYAZAncbJN
+        Fbs4QDExPFo67a5Mc7hrdU5vFspmgcR1Y9zRDOM=
+X-Google-Smtp-Source: ABdhPJwEYZM621LzO+15Q7q151ewpW30ZhABuKGfEBfYVbH9YPr195ASP5FHDu7FCSBH95mlzsEhoibAVR+Di23vXrs=
+X-Received: by 2002:a25:fd4:0:b0:628:f1b9:cf1e with SMTP id
+ 203-20020a250fd4000000b00628f1b9cf1emr2793362ybp.104.1646496789278; Sat, 05
+ Mar 2022 08:13:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20220304100145.6356-1-wanjiabing@vivo.com>
-In-Reply-To: <20220304100145.6356-1-wanjiabing@vivo.com>
+References: <cover.1645669457.git.siyanteng@loongson.cn> <87a6e5hcfw.fsf@meer.lwn.net>
+In-Reply-To: <87a6e5hcfw.fsf@meer.lwn.net>
 From:   yanteng si <siyanteng01@gmail.com>
-Date:   Sun, 6 Mar 2022 00:11:07 +0800
-Message-ID: <CAEensMykqQfrj2rnTh19KWt87XHazSPqn3XuBsw_JWVvb_c7Tg@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: fix a reference file name in free_page_reporting.rst
-To:     Wan Jiabing <wanjiabing@vivo.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Date:   Sun, 6 Mar 2022 00:12:55 +0800
+Message-ID: <CAEensMzxriv0Vho=a+T5Ce-5Fox=RfLyPPe-=At7StUDPg=JJw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Add Chinese translations for KSM documents
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, kael_w@qq.com
+        Alex Shi <seakeel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wan Jiabing <wanjiabing@vivo.com> =E4=BA=8E2022=E5=B9=B43=E6=9C=884=E6=97=
-=A5=E5=91=A8=E4=BA=94 18:02=E5=86=99=E9=81=93=EF=BC=9A
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2022=E5=B9=B43=E6=9C=885=E6=97=A5=
+=E5=91=A8=E5=85=AD 01:09=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Fix the following 'make refcheckdocs' warning:
-> Warning: Documentation/translations/zh_CN/vm/free_page_reporting.rst
-> references a file that doesn't exist: Documentation/vm/_free_page_reporti=
-ng.rst
+> Yanteng Si <siyanteng01@gmail.com> writes:
 >
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
-Acked-by:  Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/translations/zh_CN/vm/free_page_reporting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > v4:
+> >   Fix build error and build warning.
+> >
+> > v3:
+> >       Fix the patch '[1/3] Add Chinese translation for vm/ksm.rst'
+> >       because its old version does not apply for the latest commit.
+> >
+> > v2:
+> >
+> >       According to the suggestions from Yanteng Si, Alex Shi and
+> >       Jonathan Corbet, I have modified my patches. Here are my specific
+> >       changelog:
+> >
+> >       1. Remove Redundant Labels in added Documents like ``.. _ksm_sysf=
+s:``
+> >
+> >          Yanteng Si said: Too many tags will cause a compilation
+> >          warning, because an identical one already exists for the Origi=
+n
+> >          document. Jonathan Corbet think so.
+> >
+> >       2. Align with standard Chinese format on the 'original', 'transla=
+tor',
+> >          etc.
+> >
+> >       3. fix some translation error like =E2=80=9Cpages_unshared=E2=80=
+=9D, I remove  '=E7=8B=AC=E4=BA=AB'.
+> >
+> >          Alex Shi suggest to remove '=E7=8B=AC=E4=BA=AB'.
+> >
+> >       4. Refactor translations/zh_CN/admin-guide/mm/index.rst.
+> >
+> >          Yanteng Si: Compile pass is only one of the basis for checking
+> >          through, we also have to check the html for any problems, as
+> >          far as I know, the above treatment is very ugly.
+> >
+> > xu xin (3):
+> >   Add Chinese translation for vm/ksm.rst
+> >   zh_CN: Add translations for admin-guide/mm/ksm.rst
+> >   zh_CN: Add translation for admin-guide/mm/index.rst
 >
-> diff --git a/Documentation/translations/zh_CN/vm/free_page_reporting.rst =
-b/Documentation/translations/zh_CN/vm/free_page_reporting.rst
-> index 31d6c34b956b..14336a3aa5f4 100644
-> --- a/Documentation/translations/zh_CN/vm/free_page_reporting.rst
-> +++ b/Documentation/translations/zh_CN/vm/free_page_reporting.rst
-> @@ -1,6 +1,6 @@
->  .. include:: ../disclaimer-zh_CN.rst
->
-> -:Original: Documentation/vm/_free_page_reporting.rst
-> +:Original: Documentation/vm/free_page_reporting.rst
->
->  :=E7=BF=BB=E8=AF=91:
->
-> --
-> 2.35.1
->
+> So you are passing on somebody else's patches, and have modified one of
+> them.  That means that your signoff needs to be in the chain, but you've
+> not added it.  Please fix that and I should be able to apply this set.
+Will do.
+
+Thanks,
+Yanteng
