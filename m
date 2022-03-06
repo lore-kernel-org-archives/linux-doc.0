@@ -2,179 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D24C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Mar 2022 14:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4224C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Mar 2022 15:32:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbiCFOWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Mar 2022 09:22:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
+        id S233442AbiCFPcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Mar 2022 10:32:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiCFOWx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Mar 2022 09:22:53 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF9713F897;
-        Sun,  6 Mar 2022 06:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Py4p6iS6EYZuvEmVNp0u2Xszje9rqH2a0r3dEaBrDKY=; b=I6z8nkqYupJIL9fdF/+cj5VkWW
-        rGpMh4385K6I/UX+qNroLSy0xlWald17f4KzPRGlCHLwj8UD55D0UA/l4jynz3vyPVHfIBdSyxBIi
-        a+OykIHn1wD7VEcSLzjFn7TqgdDVRN7FpHuol+hOrKgbuDYy/AvOCFYcUAGvA3wIik9w3D4TDSTHm
-        nXaO3uCHQg/84Rw2TDleypxOZr/T6md2HPilZNYKPEi+srOfujw5LcTMHcd8QWu66+9szF8857SeE
-        404i9i5L9WcGwZo9kVLxkzUwcGIsPpw3ziNg5sgEG2WiJ4U5w4n+d96QkeCG7fdxwjePmMUzV6EUW
-        AbOd8Wqg==;
-Received: from [187.56.66.217] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nQrlZ-0004v2-94; Sun, 06 Mar 2022 15:21:45 +0100
-Message-ID: <73011b6f-084b-43f5-cc01-1818a8a57e56@igalia.com>
-Date:   Sun, 6 Mar 2022 11:21:28 -0300
+        with ESMTP id S230420AbiCFPcx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Mar 2022 10:32:53 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4762540928;
+        Sun,  6 Mar 2022 07:32:01 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id t11so14567637ioi.7;
+        Sun, 06 Mar 2022 07:32:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=lTxXsLQ3/sJFqkOXAUPDqcJOvuhEL+3+rvVpOV3yWgw=;
+        b=RnGMWIJ3X7XTQvdkajhB5xVRNavoMahZJLBD9vyo0KNzdbWHGQaNf6knBDBoQ55VKT
+         F1YZYuOBsKX7jyVBVwT6yyn6ij94uvyHV75j+fGsXYREYMcGkTcobcAkuRiSpWYhyHbj
+         4apRIQoLGDHinLIEd+yHG8G1ErdUdvduAtRLBoAmOf3DsWksKa8xDilKfoZNdqxC0urv
+         8sYOAwGPAjSknRcnPCgDWuzHcloa4RF3zBgQPUqtiLbF1xLpauScZEhOgHQJQUCzcu13
+         1g46ZyUKbOOCasFMGWhP2+Arb1JT/MrH66sT0nJia2yu+1W1ufX86S1zeHHIF+9e8M+O
+         HYnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=lTxXsLQ3/sJFqkOXAUPDqcJOvuhEL+3+rvVpOV3yWgw=;
+        b=tGppqTxHMLi1QrCSoiQmmc3yLzTrXPKz6e0P7a0pkiLmrDHdrtFQ5YxZLs5yCcIyV0
+         CwGyUDyGGg4SkfrDRDY74susVcc8gZdeZrBD/6Mq+bmvkhsSbocOO6IZB3k1rHuE1cMh
+         Eg91o5pK31b2VSCkmc+xpq5CQJUs61L8rG4eQ36aRlP+Ixmmvgz7G6dyoUHIaaLYP57p
+         2yBp8zFHDmXAMf7wEGel3n4R4awGkifOMfpTx+qKd0u2CX4He0sew8Ab6sSQRXOnhl1Z
+         LrBxV7Z35i3hITzm3fCeyqEbrd+RLQraoIwlbn8/b82mggxQ1CrQ2RVl+eVNwE5QZxQx
+         T+IA==
+X-Gm-Message-State: AOAM530FfYYbQdazA3wcJiV+/0VQGq7G2KssEAaza6qBI5RPIpPyOHzl
+        B2D5h8EnxnS61ojkuGzVaDB6eKFeVJ1lQYW/JH8LRo+GIZDinw==
+X-Google-Smtp-Source: ABdhPJyurIugi2NpH/AHJdPJSjrCSnkjk+CgFnV6VItjl+2OHue5fkK5G7G6tY9vo60gMRNBnEb4/q68ZQ/zEQ56f2o=
+X-Received: by 2002:a05:6638:168b:b0:314:7a8d:19d4 with SMTP id
+ f11-20020a056638168b00b003147a8d19d4mr7354926jat.199.1646580720634; Sun, 06
+ Mar 2022 07:32:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     Petr Mladek <pmladek@suse.com>, "bhe@redhat.com" <bhe@redhat.com>
-Cc:     "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
- <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com> <YfPxvzSzDLjO5ldp@alley>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <YfPxvzSzDLjO5ldp@alley>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220301145233.3689119-1-arnd@kernel.org> <CA+icZUW8N25F_9_DVhRiQoe6rnvARH2AhKJgjKeYyNmdz5t_Lw@mail.gmail.com>
+In-Reply-To: <CA+icZUW8N25F_9_DVhRiQoe6rnvARH2AhKJgjKeYyNmdz5t_Lw@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sun, 6 Mar 2022 16:31:24 +0100
+Message-ID: <CA+icZUUM1v1FCaJDk1BaRN9+uOQD53r5Rwcv=ESQHhdN9QRedA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] [v3] Kbuild: move to -std=gnu11
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/01/2022 10:38, Petr Mladek wrote:
-> [...] 
-> I think about the following solution:
-> 
->     + split the notifiers into three lists:
-> 
-> 	+ info: stop watchdogs, provide extra info
-> 	+ hypervisor: poke hypervisor
-> 	+ reboot: actions needed only when crash dump did not happen
-> 
->     + allow to call hypervisor notifiers before or after kdump
-> 
->     + stop CPUs before kdump when either hypervisor notifiers or
->       kmsg_dump is enabled
-> 
-> Note that it still allows to call kdump as the first action when
-> hypervisor notifiers are called after kdump and no kmsg dumper
-> is registered.
-> 
-> 
-> void panic(void)
-> {
-> 	[...]
-> 
-> 	if (crash_kexec_post_hypervisor || panic_print || enabled_kmsg_dump()) {
-> 		/*
-> 		 * Stop CPUs when some extra action is required before
-> 		 * crash dump. We will need architecture dependent extra
-> 		 * works in addition to stopping other CPUs.
-> 		 */
-> 		 crash_smp_send_stop();
-> 		 cpus_stopped = true;
-> 	}
-> 
-> 	if (crash_kexec_post_hypervisor) {
-> 		  /* Tell hypervisor about the panic */
-> 		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
-> 	}
-> 
-> 	if (enabled_kmsg_dump) {
-> 		  /*
-> 		   * Print extra info by notifiers.
-> 		   * Prevent rumors, for example, by stopping watchdogs.
-> 		   */
-> 		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
-> 	}
-> 
-> 	/* Optional extra info */
-> 	panic_printk_sys_info();
-> 
-> 	/* No dumper by default */
-> 	kmsg_dump();
-> 
-> 	/* Used only when crash kernel loaded */
-> 	__crash_kexec(NULL);
-> 
-> 	if (!cpus_stopped) {
-> 		/*
-> 		 * Note smp_send_stop is the usual smp shutdown function, which
-> 		 * unfortunately means it may not be hardened to work in a
-> 		 * panic situation.
-> 		 */
-> 		smp_send_stop();
-> 	}
-> 
-> 	if (!crash_kexec_post_hypervisor) {
-> 		  /* Tell hypervisor about the panic */
-> 		  atomic_notifier_call_chain(&panic_hypervisor_notifier_list, 0, buf);
-> 	}
-> 
-> 	if (!enabled_kmsg_dump) {
-> 		  /*
-> 		   * Print extra info by notifiers.
-> 		   * Prevent rumors, for example, by stopping watchdogs.
-> 		   */
-> 		  atomic_notifier_call_chain(&panic_info_notifier_list, 0, buf);
-> 	}
-> 
-> 	/*
-> 	 * Help to reboot a safe way.
-> 	 */
-> 	atomic_notifier_call_chain(&panic_reboot_notifier_list, 0, buf);
-> 
-> 	[...]
-> }
-> 
-> Any opinion?
-> Do the notifier list names make sense?
-> 
-> Best Regards,
-> Petr
+On Fri, Mar 4, 2022 at 5:25 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+[ ... ]
+> When I saw the first patches in this area, I was thinking what about
+> the tools/ build-system?
+> This ECO system has its own rules.
+>
 
+My other goal was to build perf with my selfmade or distro LLVM/Clang
+and -std=gnu11.
 
-Hi folks, I'm working on this now, and while looking into it I've
-noticed that we have the concept of "priority" in the notifiers list.
-Basically, you can order the calls the way it fits best, priority is an
-integer and must the set in the moment of registration, it's up to the
-users of the notifiers to set it and enforce the ordering.
+I was able to do so:
 
-So what I'm thinking is: currently, only 3 or 4 panic notifiers make use
-of that. What if, since we're re-working this, we add a priority for
-*all* notifiers and enforce its usage? This way we guarantee
-consistency, it'd make debug easier and maybe even more important:
-having all the notifiers and their priorities in a list present in the
-header file would be great documentation about all the existing
-notifiers and how they are called - today this information is quite
-obscure and requires lots of code grepping!
+$ git log --oneline --no-merges v5.17-rc6..for-5.17/tools-std_gnu11-dileks-v2
+2d99b1cfa897 (for-5.17/tools-std_gnu11-dileks-v2) perf: Use -std=gnu11
+c345a183c4ef tools: libtraceevent: Use -std=gnu11
+26f77082f233 tools: libsubcmd: Use -std=gnu11
+aaba58ec81c8 tools: libbpf: Use -std=gnu11
+ffc800af3be4 tools: libapi: Use -std=gnu11
 
-Let me know your thoughts Petr / Baoquan - it would add slightly more
-code / complexity, but in my opinion the payback is very good.
-Cheers,
+For perf/libperl-support I needed an extra patch:
 
+$ git log --oneline --no-merges
+v5.17-rc6..for-5.17/perf-libperl_support-clang-dileks
+316a1917ec05 (for-5.17/perf-libperl_support-clang-dileks) perf: Fix
+libperl support with clang and perl v5.34
 
-Guilherme
+For details see [1].
+
+I can send the patches if someone wants them.
+
+[1] https://marc.info/?t=164646683300002&r=1&w=2
