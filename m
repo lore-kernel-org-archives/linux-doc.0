@@ -2,62 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AF39C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 21:28:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A731C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 21:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245311AbiCGV3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 16:29:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45350 "EHLO
+        id S245463AbiCGVbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 16:31:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245033AbiCGV3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 16:29:07 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CD301BE9A
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 13:28:13 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id g1so15533019pfv.1
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 13:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PImHJe2UAKTKdLzbka2oPzbR4jyxspwMY4yN+DC78os=;
-        b=YIwcUYinBHuQkOw71MFOJWXaviYwDf15Zt5dUlHw84q4j9Oc2/RPyplay1J6d8oA8J
-         6llbD5EBv8KpGaTOmo8ubzhcn4XVaMCoJ4tfZHncBCvOj+o4lYL6gbtLjah7KvbaJos0
-         V4jPV3R8UjHI6WMXCHQPpAbebPTxZjmnBLWKMZTiiMSrF1xMH85S1MdVQNueDJuazC+N
-         VUzW8sUj8xICv6NIlCIo3Mu7OJRwGl1L8oQHm6LXCZfG5lMEW6PFATgnWGxJgD37CoR/
-         w0B/JTTUsxeqCxM8+st3XJUzoHNB03Cpcu2FTkL9wkkVnDjZfxcV1LDbdHFAmV6N+I92
-         mq4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PImHJe2UAKTKdLzbka2oPzbR4jyxspwMY4yN+DC78os=;
-        b=TUK16JB3strXpzYQM/0KZzwYJIiVuciJlj+ZhwGaSk6LUPBbc7YAh2hSdoPJDMyrWX
-         XwNjgqH0B/FxjvfmQJOr5r4tSWmpe/SWS1JQS3ChOZEuCMojp5z5TTXpMYdA4fBBrbt9
-         4oUHtGvdVqlcTpmTEDAidhLz2TtRH7rzFtMBbAH+dBzKeHsIFeOEnFwgrEKlvineHkFc
-         n6lQYV/S1J+OvSymY4fqiEhiRP/Zu38aqBMkNy3dEJ2phynmot9XUHPYft0vzqK9aRiq
-         H2nNXUvw1ZULq9AJ/3+MpKJraKfbS0xAKRdVcUx1QT56HcYr+sm/dmz3vi/Hity98QjS
-         zW3A==
-X-Gm-Message-State: AOAM533YZWnjlT+y7AXNR0t14YCSFqCxpobz2C36Jbyj4fX6NBOv+dzZ
-        LKY88pyZSJtA2LyfydbUi17sq/bjl9dGA5WxRi49Sroz8B8=
-X-Google-Smtp-Source: ABdhPJwuLzmS+KlSHxrMx4r8+wjAkPbvfS39sMJUhbtoQlDMdOBplYzGmTuAc3AWOm7gWL9xtmeUhJBVldl1o9SJVLk=
-X-Received: by 2002:a05:6a02:283:b0:342:703e:1434 with SMTP id
- bk3-20020a056a02028300b00342703e1434mr11374652pgb.74.1646688492661; Mon, 07
- Mar 2022 13:28:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-9-jithu.joseph@intel.com> <188492dc80c017375da76d444347b1d00c2031f6.camel@intel.com>
- <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com> <CAPcyv4h=qPFrP+mRqaZhkh5ZmYjuQawsqvf+-R036ZJVKBNK4Q@mail.gmail.com>
- <33d0e764-86d9-8504-17fa-14b31c87de4e@intel.com> <CAPcyv4g5bq9+u0iLjhpeJw8bkbCREUw60H2z_KfDz4hHCrKdFQ@mail.gmail.com>
- <7c620f8a-189e-5ac4-30fe-1fa14ba799ea@intel.com> <CAPcyv4iUuZ0aAWckWvwbxJJgt5tDJRpeonfE4DegWS6KPtJq8A@mail.gmail.com>
- <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com>
-In-Reply-To: <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Mon, 7 Mar 2022 13:28:04 -0800
-Message-ID: <CAPcyv4h7E5mJ5FAhO3pkqyJPTSnRs-3+0e8zFXbX3FcW838ctA@mail.gmail.com>
-Subject: Re: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
+        with ESMTP id S236560AbiCGVbW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 16:31:22 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E7C44B877;
+        Mon,  7 Mar 2022 13:30:26 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9B250B8171C;
+        Mon,  7 Mar 2022 21:30:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EBFC340F3;
+        Mon,  7 Mar 2022 21:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1646688624;
+        bh=25OEIosfzfLsgOqshpbBYPHXAtM3hYgfp1P/4yp+bJw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gE84yXIf2xfNZsellXdbqzUntaL74KJQdmB1VNVIGG9/YF8JBUx3R2Z6XGAUkBKw3
+         4Yop2fPzh6jUshBGTWunXWH06bEJ9G2DW+TQN1pSxpAMOFk6l08AU4Q5Cd6smMSVqv
+         W/4bqIAklo3xf70iYy35w1kM0f+rc3JPLrNQScno=
+Date:   Mon, 7 Mar 2022 22:30:21 +0100
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 To:     "Joseph, Jithu" <jithu.joseph@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
         "markgross@kernel.org" <markgross@kernel.org>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "Raj, Ashok" <ashok.raj@intel.com>,
@@ -73,22 +48,35 @@ Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
         <platform-driver-x86@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "andriy.shevchenko@linux.intel.com" 
         <andriy.shevchenko@linux.intel.com>,
         "x86@kernel.org" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
+Message-ID: <YiZ5bYPvssUFYGZj@kroah.com>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <20220301195457.21152-9-jithu.joseph@intel.com>
+ <188492dc80c017375da76d444347b1d00c2031f6.camel@intel.com>
+ <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com>
+ <CAPcyv4h=qPFrP+mRqaZhkh5ZmYjuQawsqvf+-R036ZJVKBNK4Q@mail.gmail.com>
+ <33d0e764-86d9-8504-17fa-14b31c87de4e@intel.com>
+ <CAPcyv4g5bq9+u0iLjhpeJw8bkbCREUw60H2z_KfDz4hHCrKdFQ@mail.gmail.com>
+ <7c620f8a-189e-5ac4-30fe-1fa14ba799ea@intel.com>
+ <CAPcyv4iUuZ0aAWckWvwbxJJgt5tDJRpeonfE4DegWS6KPtJq8A@mail.gmail.com>
+ <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 7, 2022 at 12:56 PM Joseph, Jithu <jithu.joseph@intel.com> wrote:
->
->
->
+On Mon, Mar 07, 2022 at 12:56:08PM -0800, Joseph, Jithu wrote:
+> 
+> 
 > On 3/7/2022 12:25 PM, Dan Williams wrote:
->
-> >
+> 
+> > 
 > > I am speaking of the state of the case where 2 threads are doing
 > > run_test and polling for results. Unless you can guarantee that run2
 > > does not start before the results of run1 have been collected then
@@ -96,18 +84,11 @@ On Mon, Mar 7, 2022 at 12:56 PM Joseph, Jithu <jithu.joseph@intel.com> wrote:
 > > resolve that race to collect previous result which would not be a
 > > problem in the first place if there was an atomic way to log test
 > > results.
->
->
+> 
+> 
 > Yes "status" shows the status of the latest run. You cannot get the status of the previous run.
->
+> 
 > Also some context on test frequency: Hardware has  strict rate limiting of tests.
 > Every core can be tested only once in every 30 minutes. So it is pointless to test at high frequency.
 
-Is that enforced in the ABI? Did I miss that detail in the
-documentation? Does that per-core time limitation also mitigate the
-race to read the global status? I.e. back-to-back tests on the same
-core may need to be spaced by 30 minutes, but between different cores
-as well. Again, these are questions that can not even be posed with an
-ABI that eliminates the possibility of result races like uevent.
-Please think through that suggestion, that's my main motivation for
-continuing to poke at this ABI as currently presented.
+What limits this, the kernel?
