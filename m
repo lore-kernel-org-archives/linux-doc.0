@@ -2,199 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0EEC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 13:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE216C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 14:04:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbiCGNil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 08:38:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52450 "EHLO
+        id S242981AbiCGOFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:05:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242893AbiCGNhK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 08:37:10 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792577D028;
-        Mon,  7 Mar 2022 05:36:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646660176; x=1678196176;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i7gwv5O4GkNL6rgs1vkOvdH5VNk7zaVgX2afxTaLEy4=;
-  b=MoDAPU9H3GPgaxamESCCMILqA7Rxwpnema6lIoPThO568+4Qgd5xqgZ9
-   Xs9rGGEa6O2JvBfEsrhwccGknUJTnYNRDYyc0oySHXzQkplNaaF+/srax
-   ViA5Q+2UJeCK3XfQeOuqSKRjTuleU96iTIZd9LCg2jq+getkMGnKpM2Em
-   HhsJcKBYyJ2DNNN2dgF5pBG77iXlHXTdtDZCYBaF9T162vjmnyex22aIW
-   Nzqjw5njwk7TiEUfJZnzwEgHFcbXUk9JmZz6Z8nSFh++f4J9OmAfrZVpv
-   y3uyKu4eRIbsvXykzuFBiloACLapiI8DPPSp3DQbTza/1vFLgH7pRVjw4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="254579377"
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
-   d="scan'208";a="254579377"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 05:36:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
-   d="scan'208";a="643247030"
-Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
-  by orsmga004.jf.intel.com with ESMTP; 07 Mar 2022 05:36:13 -0800
-From:   Tianfei zhang <tianfei.zhang@intel.com>
-To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, Tianfei zhang <tianfei.zhang@intel.com>
-Subject: [PATCH v4 6/6] Documentation: fpga: dfl: add description of OFS
-Date:   Mon,  7 Mar 2022 08:32:43 -0500
-Message-Id: <20220307133243.1426300-7-tianfei.zhang@intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220307133243.1426300-1-tianfei.zhang@intel.com>
-References: <20220307133243.1426300-1-tianfei.zhang@intel.com>
+        with ESMTP id S242977AbiCGOFw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 09:05:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D63DF5C65E
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 06:04:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646661897;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+/lGec4dDaa2PRCmRBpnfAUw2RsLSGmneKuOWF+Jy7s=;
+        b=Wq4UVYcYFUmouqf3RNaoTlP4H5MnlXm/EU+99YyWODt1gWNGns7OG16ph3HHAIHqz6Iagh
+        Lw4UlMXaal1A6JLdDiNG6sWxyzBkM77f+Z3aYow5XdvqZRRuNTtO1vZFm5FD4ptRK9Jht2
+        eDaL5WgH4CCbR95s68jaS1aoxXRfMsA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-T9rlbQuhOnSjEboWkQd7lQ-1; Mon, 07 Mar 2022 09:04:53 -0500
+X-MC-Unique: T9rlbQuhOnSjEboWkQd7lQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E6A3801DDB;
+        Mon,  7 Mar 2022 14:04:51 +0000 (UTC)
+Received: from localhost (ovpn-13-211.pek2.redhat.com [10.72.13.211])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FF417A542;
+        Mon,  7 Mar 2022 14:04:49 +0000 (UTC)
+Date:   Mon, 7 Mar 2022 22:04:47 +0800
+From:   "bhe@redhat.com" <bhe@redhat.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "vgoyal@redhat.com" <vgoyal@redhat.com>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "halves@canonical.com" <halves@canonical.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YiYQ/w6Hn5Zb67di@MiWiFi-R3L-srv>
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
+ <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
+ <YfPxvzSzDLjO5ldp@alley>
+ <73011b6f-084b-43f5-cc01-1818a8a57e56@igalia.com>
+ <YiV/HbXftVF2iAvU@MiWiFi-R3L-srv>
+ <e1033adc-46ff-5dbc-e739-1bf725b6fed0@igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e1033adc-46ff-5dbc-e739-1bf725b6fed0@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds description about OFS support for DFL.
+On 03/07/22 at 10:11am, Guilherme G. Piccoli wrote:
+> On 07/03/2022 00:42, bhe@redhat.com wrote:
+> > [...]
+> >> Let me know your thoughts Petr / Baoquan - it would add slightly more
+> >> code / complexity, but in my opinion the payback is very good.
+> >> Cheers,
+> > 
+> > The ideal situation is each panic notifier has an order or index to
+> > indicate its priority. Wondering how to make it. What I think of is
+> > copying initcall. We have several priorities, at the same priority,
+> > execution sequence is not important. Not sure if I get your point.
+> > 
+> > ~~~~~~~
+> > #define core_initcall(fn)               __define_initcall(fn, 1)
+> > #define core_initcall_sync(fn)          __define_initcall(fn, 1s)
+> > ......
+> > #define late_initcall(fn)               __define_initcall(fn, 7)
+> > #define late_initcall_sync(fn)          __define_initcall(fn, 7s)
+> > 
+> 
+> Hi Baoquan, thanks for you consideration! In fact, the notifiers
+> infrastructure already have a mechanism of ordering, my idea is to make
+> use of that. It's not that different from the initcall system...
 
----
-v4:
-add description about access the AFU on "multiple VFs per PR slot" model.
-v3:
-change IOFS to OFS in documentation.
-v2:
-* Fixs some typos.
-* Adds more detail description about the models of AFU access which supported in OFS.
+Ah, sorry, I even didn't notice that. That's awesome if we can make use
+of that. While I still have concerns:
 
-Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
----
- Documentation/fpga/dfl.rst | 114 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 114 insertions(+)
+1) about those we have decided to take out from panic notifier list and
+put before kdump, e.g the Hypver-V notifier, how will we do with it? Are
+we going to handle them as we have discussed?
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index ef9eec71f6f3..4dcd5cc101c4 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -556,6 +556,120 @@ new DFL feature via UIO direct access, its feature id should be added to the
- driver's id_table.
- 
- 
-+Open FPGA stack
-+=====================
-+
-+Open FPGA stack aka OFS, a collection of RTL and open software providing interface
-+to access the instantiated RTL easily in FPGA. OFS leverages the DFL for the
-+implementation of the FPGA RTL design.
-+
-+OFS designs allow for the arrangement of software interfaces across multiple
-+PCIe endpoints. Some of these interfaces may be PFs defined in the static region
-+that connect to interfaces in an IP that is loaded via Partial Reconfiguration (PR).
-+And some of these interfaces may be VFs defined in the PR region that can be
-+reconfigured by the end-user. Furthermore, these PFs/VFs may also be arranged
-+using a DFL such that features may be discovered and accessed in user space
-+(with the aid of a generic kernel driver like vfio-pci). The diagram below depicts
-+an example design with two PFs and two VFs. In this example, it will export the
-+management functions via PF0, PF1 will bind with virtio-net driver presenting itself
-+as a network interface to the OS. The other functions, VF0 and VF1, leverage VFIO
-+to export the MMIO space to an application or assign to a VM.
-+::
-+
-+     +-----------------+  +--------------+  +-------------+  +------------+
-+     | FPGA Management |  |   VirtIO     |  |  User App   |  | Virtual    |
-+     |      App        |  |     App      |  |             |  | Machine    |
-+     +--------+--------+  +------+-------+  +------+------+  +-----+------+
-+              |                  |                 |               |
-+     +--------+--------+  +------+-------+  +------+------+        |
-+     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
-+     +--------+--------+  +------+-------+  +------+------+        |
-+              |                  |                 |               |
-+              |                  |                 |               |
-+     +--------+--------+  +------+-------+  +------+------+   +----+------+
-+     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1  |
-+     +-----------------+  +--------------+  +-------------+   +-----------+
-+
-+As accelerators are specialized hardware, they are typically limited in the
-+number installed in a given system. Many use cases require them to be shared
-+across multiple software contexts or threads of software execution, either
-+through partitioning of individual dedicated resources, or virtualization of
-+shared resources. On OFS, it provides several models to share the AFU
-+resources via PR mechanism and hardware-based virtualization schemes.
-+
-+1. Legacy model.
-+   In legacy FPGA card platforms (like Intel PAC N3000 or N5000 Card),there is
-+   a notion that the boundary between the AFU and the shell is also the unit of
-+   PR for those FPGA platforms. In this model, it can only able to handle a
-+   single context, because it only has one PR engine, and one PR region which
-+   has an associated Port device.
-+2. Multiple VFs per PR slot.
-+   In this model, available AFU resources may allow instantiation of many of VFs
-+   which has a dedicated PCIe function with their own dedicated MMIO space, or
-+   partition a region of MMIO space on a single PCIe function. Intel PAC N6000
-+   card has implemented this model.
-+   In this model, the AFU/PR slot was not connected to port device. For DFL's view,
-+   the Next_AFU pointer in FIU feature header of port device points to NULL in this
-+   model, so in AFU driver perspective, there are no AFU MMIO region managed by
-+   AFU driver. On the other hand, each VF can start with an AFU feature header without
-+   connected to a FIU Port feature header.
-+
-+In multiple VFs per PR slot model, it still can access the port device using
-+ioctls API which expose by /dev/dfl-port.n device node, like port reset, get
-+port info, whose APIs were mentioned in AFU section in this documentation. But
-+it cannot access the AFU MMIO space via AFU ioctl APIs like DFL_FPGA_PORT_DMA_MAP
-+because no AFU MMIO space managed in AFU driver. Users can access the AFU resource
-+by create VF devices via PCIe SRIOV interface, and then access the VF via VFIO
-+driver or assign the VF to VM.
-+
-+In multiple VFs per PR slot model, the steps enable VFs are compatible with
-+legacy mode which mentioned in "FPGA virtualization - PCIe SRIOV" section
-+in this documentation.
-+
-+OFS provides the diversity for access the AFU resource to RTL developer.
-+An IP designer may choose to add more than one PF for interfacing with IP
-+on the FPGA and choose different model to access the AFU resource.
-+
-+There is one reference architecture design using the "Multiple VFs per PR slot"
-+model for OFS as illustrated below. In this reference design, it exports the
-+FPGA management functions via PF0. PF1 will bind with virtio-net driver
-+presenting itself as a network interface to the OS. PF2 will bound to the
-+vfio-pci driver allowing the user space software to discover and interface
-+with the specific workload like diagnostic test. To access the AFU resource,
-+it uses SR-IOV to partition workload interfaces across various VFs.
-+::
-+
-+                              +----------------------+
-+                              |   PF/VF mux/demux    |
-+                              +--+--+-----+------+-+-+
-+                                 |  |     |      | |
-+        +------------------------+  |     |      | |
-+  PF0   |                 +---------+   +-+      | |
-+    +---+---+             |         +---+----+   | |
-+    |  DFH  |             |         |   DFH  |   | |
-+    +-------+       +-----+----+    +--------+   | |
-+    |  FME  |       |  VirtIO  |    |  Test  |   | |
-+    +---+---+       +----------+    +--------+   | |
-+        |                PF1            PF2      | |
-+        |                                        | |
-+        |                             +----------+ |
-+        |                             |           ++
-+        |                             |           |
-+        |                             | PF0_VF0   | PF0_VF1
-+        |           +-----------------+-----------+------------+
-+        |           |           +-----+-----------+--------+   |
-+        |           |           |     |           |        |   |
-+        |           | +------+  |  +--+ -+     +--+---+    |   |
-+        |           | | Port |  |  | DFH |     |  DFH |    |   |
-+        +-----------+ +------+  |  +-----+     +------+    |   |
-+                    |           |  | DEV |     |  DEV |    |   |
-+                    |           |  +-----+     +------+    |   |
-+                    |           |            PR Slot       |   |
-+                    |           +--------------------------+   |
-+                    | Port Gasket                              |
-+                    +------------------------------------------+
-+
-+
- Open discussion
- ===============
- FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
--- 
-2.26.2
+2) Combing and settling priority for all existing panic notifier looks
+great, even though it will take some effort. How about the later newly
+added one? How can we guarantee that those new notifiers are getting
+appropriate priority to mark their order? Sometime we even don't know
+a new panic notifier is added since code change may be made in any
+component or driver.
+
+> 
+> For instance, the code in the notifier register function checks for the
+> priority field in the notifier block:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/notifier.c#n31
+> .
+> 
+> For example, the Xen panic notifier is one of the few blocks that make
+> use of that, currently:
+> 
+> static struct notifier_block xen_panic_block = {
+> 	.notifier_call = xen_panic_event,
+> 	.priority = INT_MIN
+> };
+> 
+> (see
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/xen/enlighten.c#n286)
+> 
+> In this case, xen_panic_event() will be the latest one to run. My idea
+> is to make use of that in *all* panic notifiers, having a table/list on
+> panic_notifier.h (defines or enum, I'll think about that when writing
+> this part) so all notifiers are documented and the ordering is clear and
+> enforced.
+> 
+> Makes sense to you?
+> Cheers,
+> 
+> 
+> Guilherme
+> 
 
