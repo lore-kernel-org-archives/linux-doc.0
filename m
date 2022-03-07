@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BDAC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 08:15:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93FFC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 08:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbiCGIPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 03:15:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
+        id S231339AbiCGIQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 03:16:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiCGIPy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 03:15:54 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2025B8AB
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 00:14:59 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id a5so1492999pfv.2
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 00:14:59 -0800 (PST)
+        with ESMTP id S229824AbiCGIQA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 03:16:00 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47465B3CB
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 00:15:06 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id p8so13066702pfh.8
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 00:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ekd/xN/CAMqlsjRdRgshA/nuApjXxhIITrzRGQLRnxM=;
-        b=avKSNyuE8MCL30jZhYe6WHW+jS9kJgjxb1uGpAOnTBcPwtxEIQoXJD9xo27lNCZ8P7
-         8pjcfcjN4yi6yDJKeZci1T+U/K16Cs7YC9pxZzJ/FD9oc4XFU3MRSpyzcuRRnBrwmHsS
-         dHRVAZtqeolmVbS46zaCfSfNHkgcsIHLB9hmCvWjuX8rlvVynqNDco9eiQv6m+jhtB/T
-         +oO4YgUeyzlBjw5aDFW0WnhnTf6/zHd0mQi8jb1NfUBXIeZoZVgBdTHl+nn/cvfTm6HN
-         npk1rEOvfz/drb2QcxEyVq3BEdWEeS4igiKPQPGx4hiHv7nHf572EB7/p2ZVENTeFU5c
-         AQSw==
+        bh=TVhS/QgscOK935cZhJxh1oXd08LjzAHII2V6HUDPiC8=;
+        b=oTOYT30O9HsFj0+nJN8/vBiGYbsfdsc+ZPIkdoueEkAsSuJA+fIvu3yBeSN1d99QTd
+         /+szEi3Hs34QbFADZX9CMXEHKSTw+fxaYae2H+ECwjPjyBfnnuNyWRwzkRmXirRHyRC7
+         WLejID24Cxkj1H8tD6iKraXXY0FnxasjQ3gPioveSOSQbjPNm7Tf4AX/i9x5fSTF8L43
+         dK3DmkfDcdnd6B1HD2wNkSCPN/EMG2er0ktYyR7OMfSQ9qBkSbMRU9kG0wjfARZAI4S0
+         GHHAzx16PBjrX1DOX2z3Z/4m3H8LOOq6GTrTLt1lYMuUkIyS/jHfbqA+r0CSdbZ7b2iw
+         ilww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ekd/xN/CAMqlsjRdRgshA/nuApjXxhIITrzRGQLRnxM=;
-        b=qP9oIdejeuUcWaaUCp/6V/FryehM21uux4P9M3TWF7pZbbY9CB5DBmKXGs5pYXHSoe
-         MsKpH7tqhRqJQZ6Yd9b22hTZn7/8bHhT6Da3rIKU9qLw6vKo/9qMskow7VCX/DhLh5Qm
-         q2iSkj3VoDf/31bdc8FsE8pv21CcirDvFSAvhi4HrS1UXV7yB5jkBD4jsRjLWgBaz2pg
-         wuFMI+f4BoCRWqipdKnYbMuEJOlGN9uqrDWg4WEyyd1mTTXJZwXLdvZoUJDryMqV0QTQ
-         AXl3SNqHYZi1Acs9ilzbvdxFQ4UG6Hq0RNpl4tk4R9skchcvsUtmeZ64eyO6jHXb5Q1r
-         uSRQ==
-X-Gm-Message-State: AOAM532RrJ2kH1a9WvTaV5r+vXyrhdajVJb0zYJn+ueachCTDI76fw+5
-        6tm6HgZZiVJaznfLo+C8+nA=
-X-Google-Smtp-Source: ABdhPJzI3PNEN9QPRPAITFMTdU/WZN353tVVg2kT3KtbmVWFb9VsL+i9nvlESutdL/Dh02oNr/8Ubg==
-X-Received: by 2002:a65:5b8d:0:b0:376:2310:ab09 with SMTP id i13-20020a655b8d000000b003762310ab09mr8894675pgr.339.1646640898656;
-        Mon, 07 Mar 2022 00:14:58 -0800 (PST)
+        bh=TVhS/QgscOK935cZhJxh1oXd08LjzAHII2V6HUDPiC8=;
+        b=0zK+/EoP+L82K8b/rh2qmUvxn6P92EdJn2oukjrhxwwiTiDim6sJN30x+RBaH2NvOw
+         ZR9R3LifhEL9LkDcmNULMTsHgDFj0ILFMV92rGpTHo5qyrGr6T9B82Av7Y+voTif/shE
+         gZwA7lI6Us4zCl//VXBKrgVQqeXJEEVi99n6mIks0JXE5ffpiC1/Gz3shbqL7MYN8ED0
+         2+6CzXKXG0a+52hAudOLDbwLxmHVfS1TtqleGi0gTdPSl2xZcdfilQ6LV/ICtuhmHmOX
+         D6nHmmI8kqUNsklymBmcCSiwiTxe/MXL8+/+JVtMjg6/lwQfBBh/M8cSe8EG1K6Ll8by
+         Sjyw==
+X-Gm-Message-State: AOAM53171+ZWPO90+Ri8kBRnIa6KI/Fu7BWaXFNjtItltVcfRRYeS1cO
+        zcSosCkKkZ6A+o9fMKbTJpw=
+X-Google-Smtp-Source: ABdhPJyGPUiMLJYMKXgoKBg0C8qfC42NaoYRy2mcvXylYgDngrFKtFfANjC+rNPIj+/CyxynYDdQ/Q==
+X-Received: by 2002:a63:c1d:0:b0:365:7d16:f648 with SMTP id b29-20020a630c1d000000b003657d16f648mr8988140pgl.517.1646640906171;
+        Mon, 07 Mar 2022 00:15:06 -0800 (PST)
 Received: from localhost.localdomain ([50.7.17.55])
-        by smtp.gmail.com with ESMTPSA id w17-20020a056a0014d100b004f1063290basm15426309pfu.15.2022.03.07.00.14.52
+        by smtp.gmail.com with ESMTPSA id w17-20020a056a0014d100b004f1063290basm15426309pfu.15.2022.03.07.00.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Mar 2022 00:14:58 -0800 (PST)
+        Mon, 07 Mar 2022 00:15:05 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     xu xin <xu.xin16@zte.com.cn>, yang.yang29@zte.com.cn,
         linux-doc@vger.kernel.org, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v5 1/3] Add Chinese translation for vm/ksm.rst
-Date:   Mon,  7 Mar 2022 16:16:05 +0800
-Message-Id: <d9eb72716da3702ac44a853a988fbee50a51587d.1646634928.git.siyanteng@loongson.cn>
+Subject: [PATCH v5 2/3] zh_CN: Add translations for admin-guide/mm/ksm.rst
+Date:   Mon,  7 Mar 2022 16:16:06 +0800
+Message-Id: <f0c833bc260687bd8ba6bf85613137250b4e10f7.1646634928.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1646634928.git.siyanteng@loongson.cn>
 References: <cover.1646634928.git.siyanteng@loongson.cn>
@@ -68,107 +68,172 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: xu xin <xu.xin16@zte.com.cn>
 
-Translate Documentation/vm/ksm.rst into Chinese.
-Update Documentation/translations/zh_CN/vm/index.rst.
+Translate Documentation/admin-guide/mm/ksm.rst into Chinese.
 
 Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/vm/index.rst |  1 +
- Documentation/translations/zh_CN/vm/ksm.rst   | 70 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/vm/ksm.rst
+ .../translations/zh_CN/admin-guide/mm/ksm.rst | 148 ++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index 2f9834eb9475..a1d2f0356cc1 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -26,6 +26,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    damon/index
-    free_page_reporting
-    highmem
-+   ksm
- 
- TODOLIST:
- * arch_pgtable_helpers
-diff --git a/Documentation/translations/zh_CN/vm/ksm.rst b/Documentation/translations/zh_CN/vm/ksm.rst
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst b/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
 new file mode 100644
-index 000000000000..83b0c73984da
+index 000000000000..4829156ef1ae
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/ksm.rst
-@@ -0,0 +1,70 @@
-+.. include:: ../disclaimer-zh_CN.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
+@@ -0,0 +1,148 @@
++.. include:: ../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/vm/ksm.rst
++:Original: Documentation/admin-guide/mm/ksm.rst
 +
 +:翻译:
 +
-+   徐鑫 xu xin <xu.xin16@zte.com.cn>
++  徐鑫 xu xin <xu.xin16@zte.com.cn>
++
 +
 +============
 +内核同页合并
 +============
 +
-+KSM 是一种节省内存的数据去重功能，由CONFIG_KSM=y启用，并在2.6.32版本时被添加
-+到Linux内核。详见 ``mm/ksm.c`` 的实现，以及http://lwn.net/Articles/306704和
-+https://lwn.net/Articles/330589
-+
-+KSM的用户空间的接口在Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
-+文档中有描述。
-+
-+设计
-+====
 +
 +概述
-+----
-+
-+概述内容请见mm/ksm.c文档中的“DOC: Overview”
-+
-+逆映射
-+------
-+KSM维护着稳定树中的KSM页的逆映射信息。
-+
-+当KSM页面的共享数小于 ``max_page_sharing`` 的虚拟内存区域(VMAs)时，则代表了
-+KSM页的稳定树其中的节点指向了一个rmap_item结构体类型的列表。同时，这个KSM页
-+的 ``page->mapping`` 指向了该稳定树节点。
-+
-+如果共享数超过了阈值，KSM将给稳定树添加第二个维度。稳定树就变成链接一个或多
-+个稳定树"副本"的"链"。每个副本都保留KSM页的逆映射信息，其中 ``page->mapping``
-+指向该"副本"。
-+
-+每个链以及链接到该链中的所有"副本"强制不变的是，它们代表了相同的写保护内存
-+内容，尽管任中一个"副本"是由同一片内存区的不同的KSM复制页所指向的。
-+
-+这样一来，相比与无限的逆映射链表，稳定树的查找计算复杂性不受影响。但在稳定树
-+本身中不能有重复的KSM页面内容仍然是强制要求。
-+
-+由 ``max_page_sharing`` 强制决定的数据去重限制是必要的，以此来避免虚拟内存
-+rmap链表变得过大。rmap的遍历具有O(N)的复杂度，其中N是共享页面的rmap_项（即
-+虚拟映射）的数量，而这个共享页面的节点数量又被 ``max_page_sharing`` 所限制。
-+因此，这有效地将线性O(N)计算复杂度从rmap遍历中分散到不同的KSM页面上。ksmd进
-+程在稳定节点"链"上的遍历也是O(N)，但这个N是稳定树"副本"的数量，而不是rmap项
-+的数量，因此它对ksmd性能没有显著影响。实际上，最佳稳定树"副本"的候选节点将
-+保留在"副本"列表的开头。
-+
-+``max_page_sharing`` 的值设置得高了会促使更快的内存合并（因为将有更少的稳定
-+树副本排队进入稳定节点chain->hlist）和更高的数据去重系数，但代价是在交换、压
-+缩、NUMA平衡和页面迁移过程中可能导致KSM页的最大rmap遍历速度较慢。
-+
-+``stable_node_dups/stable_node_chains`` 的比值还受 ``max_page_sharing`` 调控
-+的影响，高比值可能意味着稳定节点dup中存在碎片，这可以通过在ksmd中引入碎片算
-+法来解决，该算法将rmap项从一个稳定节点dup重定位到另一个稳定节点dup，以便释放
-+那些仅包含极少rmap项的稳定节点"dup"，但这可能会增加ksmd进程的CPU使用率，并可
-+能会减慢应用程序在KSM页面上的只读计算。
-+
-+KSM会定期扫描稳定节点"链"中链接的所有稳定树"副本"，以便删减过时了的稳定节点。
-+这种扫描的频率由 ``stable_node_chains_prune_millisecs`` 这个sysfs 接口定义。
-+
-+参考
 +====
-+内核代码请见mm/ksm.c。
-+涉及的函数(mm_slot  ksm_scan  stable_node  rmap_item)。
++
++KSM是一种能节省内存的数据去重功能，由CONFIG_KSM=y启用，并在2.6.32版本时被添
++加到Linux内核。详见 ``mm/ksm.c`` 的实现，以及http://lwn.net/Articles/306704
++和https://lwn.net/Articles/330589
++
++KSM最初目的是为了与KVM（即著名的内核共享内存）一起使用而开发的，通过共享虚拟机
++之间的公共数据，将更多虚拟机放入物理内存。但它对于任何会生成多个相同数据实例的
++应用程序都是很有用的。
++
++KSM的守护进程ksmd会定期扫描那些已注册的用户内存区域，查找内容相同的页面，这些
++页面可以被单个写保护页面替换（如果进程以后想要更新其内容，将自动复制）。使用：
++引用:`sysfs intraface  <ksm_sysfs>` 接口来配置KSM守护程序在单个过程中所扫描的页
++数以及两个过程之间的间隔时间。
++
++KSM只合并匿名（私有）页面，从不合并页缓存（文件）页面。KSM的合并页面最初只能被
++锁定在内核内存中，但现在可以就像其他用户页面一样被换出（但当它们被交换回来时共
++享会被破坏: ksmd必须重新发现它们的身份并再次合并）。
++
++以madvise控制KSM
++================
++
++KSM仅在特定的地址空间区域时运行，即应用程序通过使用如下所示的madvise(2)系统调
++用来请求某块地址成为可能的合并候选者的地址空间::
++
++    int madvise(addr, length, MADV_MERGEABLE)
++
++应用程序当然也可以通过调用::
++
++    int madvise(addr, length, MADV_UNMERGEABLE)
++
++来取消该请求，并恢复为非共享页面：此时KSM将去除合并在该范围内的任何合并页。注意：
++这个去除合并的调用可能突然需要的内存量超过实际可用的内存量-那么可能会出现EAGAIN
++失败，但更可能会唤醒OOM killer。
++
++如果KSM未被配置到正在运行的内核中，则madvise MADV_MERGEABLE 和 MADV_UNMERGEABLE
++的调用只会以EINVAL 失败。如果正在运行的内核是用CONFIG_KSM=y方式构建的，那么这些
++调用通常会成功：即使KSM守护程序当前没有运行，MADV_MERGEABLE 仍然会在KSM守护程序
++启动时注册范围，即使该范围不能包含KSM实际可以合并的任何页面，即使MADV_UNMERGEABLE
++应用于从未标记为MADV_MERGEABLE的范围。
++
++如果一块内存区域必须被拆分为至少一个新的MADV_MERGEABLE区域或MADV_UNMERGEABLE区域，
++当该进程将超过 ``vm.max_map_count`` 的设定，则madvise可能返回ENOMEM。（请参阅文档
++Documentation/admin-guide/sysctl/vm.rst）。
++
++与其他madvise调用一样，它们在用户地址空间的映射区域上使用：如果指定的范围包含未
++映射的间隙（尽管在中间的映射区域工作），它们将报告ENOMEM，如果没有足够的内存用于
++内部结构，则可能会因EAGAIN而失败。
++
++KSM守护进程sysfs接口
++====================
++
++KSM守护进程可以由``/sys/kernel/mm/ksm/`` 中的sysfs文件控制，所有人都可以读取，但
++只能由root用户写入。各接口解释如下：
++
++
++pages_to_scan
++        ksmd进程进入睡眠前要扫描的页数。
++        例如， ``echo 100 > /sys/kernel/mm/ksm/pages_to_scan``
++
++        默认值：100（该值被选择用于演示目的）
++
++sleep_millisecs
++        ksmd在下次扫描前应休眠多少毫秒
++        例如， ``echo 20 > /sys/kernel/mm/ksm/sleep_millisecs``
++
++        默认值：20（该值被选择用于演示目的）
++
++merge_across_nodes
++        指定是否可以合并来自不同NUMA节点的页面。当设置为0时，ksm仅合并在物理上位
++        于同一NUMA节点的内存区域中的页面。这降低了访问共享页面的延迟。在有明显的
++        NUMA距离上，具有更多节点的系统可能受益于设置该值为0时的更低延迟。而对于
++        需要对内存使用量最小化的较小系统来说，设置该值为1（默认设置）则可能会受
++        益于更大共享页面。在决定使用哪种设置之前，您可能希望比较系统在每种设置下
++        的性能。 ``merge_across_nodes`` 仅当系统中没有ksm共享页面时，才能被更改设
++        置：首先将接口`run` 设置为2从而对页进行去合并，然后在修改
++        ``merge_across_nodes`` 后再将‘run’又设置为1，以根据新设置来重新合并。
++
++        默认值：1（如早期的发布版本一样合并跨站点）
++
++run
++        * 设置为0可停止ksmd运行，但保留合并页面，
++        * 设置为1可运行ksmd，例如， ``echo 1 > /sys/kernel/mm/ksm/run`` ，
++        * 设置为2可停止ksmd运行，并且对所有目前已合并的页进行去合并，但保留可合并
++          区域以供下次运行。
++
++        默认值：0（必须设置为1才能激活KSM，除非禁用了CONFIG_SYSFS）
++
++use_zero_pages
++        指定是否应当特殊处理空页（即那些仅含zero的已分配页）。当该值设置为1时，
++        空页与内核零页合并，而不是像通常情况下那样空页自身彼此合并。这可以根据
++        工作负载的不同，在具有着色零页的架构上可以提高性能。启用此设置时应小心，
++        因为它可能会降低某些工作负载的KSM性能，比如，当待合并的候选页面的校验和
++        与空页面的校验和恰好匹配的时候。此设置可随时更改，仅对那些更改后再合并
++        的页面有效。
++
++        默认值：0（如同早期版本的KSM正常表现）
++
++max_page_sharing
++        单个KSM页面允许的最大共享站点数。这将强制执行重复数据消除限制，以避免涉
++        及遍历共享KSM页面的虚拟映射的虚拟内存操作的高延迟。最小值为2，因为新创
++        建的KSM页面将至少有两个共享者。该值越高，KSM合并内存的速度越快，去重
++        因子也越高，但是对于任何给定的KSM页面，虚拟映射的最坏情况遍历的速度也会
++        越慢。减慢了这种遍历速度就意味着在交换、压缩、NUMA平衡和页面迁移期间，
++        某些虚拟内存操作将有更高的延迟，从而降低这些虚拟内存操作调用者的响应能力。
++        其他任务如果不涉及执行虚拟映射遍历的VM操作，其任务调度延迟不受此参数的影
++        响，因为这些遍历本身是调度友好的。
++
++stable_node_chains_prune_millisecs
++        指定KSM检查特定页面的元数据的频率（即那些达到过时信息数据去重限制标准的
++        页面）单位是毫秒。较小的毫秒值将以更低的延迟来释放KSM元数据，但它们将使
++        ksmd在扫描期间使用更多CPU。如果还没有一个KSM页面达到 ``max_page_sharing``
++        标准，那就没有什么用。
++
++KSM与MADV_MERGEABLE的工作有效性体现于 ``/sys/kernel/mm/ksm/`` 路径下的接口：
++
++pages_shared
++        表示多少共享页正在被使用
++pages_sharing
++        表示还有多少站点正在共享这些共享页，即节省了多少
++pages_unshared
++        表示有多少页是唯一的，但被反复检查以进行合并
++pages_volatile
++        表示有多少页因变化太快而无法放在tree中
++full_scans
++        表示所有可合并区域已扫描多少次
++stable_node_chains
++        达到 ``max_page_sharing`` 限制的KSM页数
++stable_node_dups
++        重复的KSM页数
++
++比值 ``pages_sharing/pages_shared`` 的最大值受限制于 ``max_page_sharing``
++的设定。要想增加该比值，则相应地要增加 ``max_page_sharing`` 的值。
 -- 
 2.27.0
 
