@@ -2,192 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D52CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 19:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F43C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 19:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237523AbiCGTIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 14:08:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47014 "EHLO
+        id S241168AbiCGTJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 14:09:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236762AbiCGTId (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 14:08:33 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E3C76E02;
-        Mon,  7 Mar 2022 11:07:37 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id n2so5318192plf.4;
-        Mon, 07 Mar 2022 11:07:37 -0800 (PST)
+        with ESMTP id S243291AbiCGTJl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 14:09:41 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE3AF1C138
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 11:08:44 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id u3so5423385ljd.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 11:08:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dZFFGAI41Xqgivfjx6QQZdhcCE9AkmS2075GxxH2TUk=;
-        b=D2blqdjH51q+kC52swKVIAnyEuirhV+zuTeosT8tBUiuQ8JUZgr6lFdKZSetysZjXY
-         6snR+ZPSonkq8jJ3vvey8b+lzRj46QG4ezhO5OHnhjKmmcR4DZvVw5+gNeukXrg/e2ul
-         qRRKG5h1hTJjgvjYbCoHsEWXS6goEtaLaUyz9aONsMEpd+6bDnYsu1nfRThBMO4iLVX/
-         6mZ5+CGqbiCCwAVXXfA/jNT2f5QAV3h3Yrfg6hMWe+S3s9mjl5RtI7tjPfpGVCF3jVkh
-         aw/lCVjp3XSNOL2Ngy3mUk9qqSZ/rdOmZooPGCthOQJGiIlwMlSIEiPDd7/dDswgdEtD
-         YGVw==
+        bh=lqdFcj/W3ROtaaLGNZJbzsf9vyM2NVPkSBm3INx+BLs=;
+        b=rfR0JcG6nuRaVIkXXgGAegektp5HSFDVUF91VlM0HcyOauIq6tLbs7wauxENXC0btb
+         p8y1dXe10FP3m4bn7GIwnpvC6FX6LCWi8n0s3OsVBh5zR2vtqauwBqooPEyXFXPwsIXI
+         62bdrmK25fNTgDZg8wJzs40LnOGNLG1en3+O2YHwTaLzbIVSg/0cJQFsDDU6mwqDgdRq
+         8VIfwpxBj8u6NEY7gT9YpRSH4XlxawGUuOk2T4WsVMqRa405CTVD4rzPmUfb9jJIWnOH
+         v5czkolhWUGk6Kk7sv9Vye1CuebzWG4LHHYshIxfssyFSMc2MP+BlO+5ww1BiNEr34zx
+         gkKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dZFFGAI41Xqgivfjx6QQZdhcCE9AkmS2075GxxH2TUk=;
-        b=GpAprmTVgWbxyTNvULE8oE2qZGYbasy8lSLlOy9w3XvRU7QgZySXPhFXjmYQLpqS1F
-         biPTtnYKsFIfH0EA9n6OFjpb3tHEqfas6Mm1ET07Ooeiiz/CA5bXF0okYq0QLqjlH+4a
-         OpJqGpPtJXRwQJArkvvcOMiqiDECuUFX+37x/55Lnuw/Bvf63RddC7zVo9pXqKl8tlac
-         xO7Lmjr+3pKeAduJ31gemKWplSAdpDnkl4ZaBy2zHl+JgrcRv6Yf0rjduEnD6v8gUeB1
-         vtiSABmt+ESrNqmuO4/ljWSH1JSA9zNYadwh1Mym+r2fWOTDTWNxIotg2PtvuXtXi0Di
-         6sIw==
-X-Gm-Message-State: AOAM532OJ3fBTDET5fP8Ka7f6NrOE7ZIOA6Qt/u2tk/Fq2XfBDYP1Tlf
-        9sXQ5Rb+qan2kr6rlhHpe+et7Sp3UgtiwuYCNdk=
-X-Google-Smtp-Source: ABdhPJwt/gHLXtSar7JyewiFUXyqtmRnlaI7KiXXwYh3XzgPj2SzKQC04MUqErP8JFshxuzc56MxgGeD3GNuhYO2LQ8=
-X-Received: by 2002:a17:90a:74c7:b0:1bf:5532:3ae8 with SMTP id
- p7-20020a17090a74c700b001bf55323ae8mr464224pjl.120.1646680057174; Mon, 07 Mar
- 2022 11:07:37 -0800 (PST)
+        bh=lqdFcj/W3ROtaaLGNZJbzsf9vyM2NVPkSBm3INx+BLs=;
+        b=HipRPXS7E25a0ETFJhbl0XUyTDeL4rGRMtaUBTRNbFynLz9xTqB/W+Wcv2Ls32xeIf
+         +1cf5qIzbZ8NwBpkUc4Sb0jLGf9CiCtyJwG5q/OXb6qGfROUyMP89lMpEGw5R5FUDmdo
+         Jay9vbNEQcpL6eILXei63szO0reUZzMz7iHwybirg7t2mjtfve4qY4nzjYwawFhB3ky2
+         ch9aYqNkIOzhucGf8CkmnIBW4bYZZaVjxNb+KD0HOYarTeavpLgUx4hw52iXHlY6JbMc
+         zN/+TvycPt2BMP16m6iTd7cVom929Em/HHQHrQR1h+PLaz2Rh+CrvNhqaPbmnYGdmYJc
+         UT7Q==
+X-Gm-Message-State: AOAM533n5MEr/jeMiOxv7kbf95llvLOph2N1lCPylHHFeJuPF98bUKAd
+        GLh59lvbgSknK0BDRlDuu2clxRB1SPIjC5kyg2r4eEBhQVSHlA==
+X-Google-Smtp-Source: ABdhPJxUEH+WXE4ZEDL3yAUMLDOBvQpg4ljCyCYbedmFgU3xFcH283DgaImI8yUXP7kHpdQV2ZWAnn0IBgfQDPiwNxM=
+X-Received: by 2002:a05:651c:1542:b0:233:8ff5:eb80 with SMTP id
+ y2-20020a05651c154200b002338ff5eb80mr8416360ljp.352.1646680120998; Mon, 07
+ Mar 2022 11:08:40 -0800 (PST)
 MIME-Version: 1.0
-References: <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
- <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org> <Yh0wIMjFdDl8vaNM@kernel.org>
- <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com> <Yh0+9cFyAfnsXqxI@kernel.org>
- <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com> <YiEZyTT/UBFZd6Am@kernel.org>
- <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
- <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
- <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org> <YiZVbPwlgSFnhadv@kernel.org>
-In-Reply-To: <YiZVbPwlgSFnhadv@kernel.org>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Mon, 7 Mar 2022 11:07:01 -0800
-Message-ID: <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "dave.martin@arm.com" <dave.martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <20220304170813.1689186-1-nathan@kernel.org>
+In-Reply-To: <20220304170813.1689186-1-nathan@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 7 Mar 2022 11:08:29 -0800
+Message-ID: <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
+To:     Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
+        llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 7, 2022 at 10:57 AM Mike Rapoport <rppt@kernel.org> wrote:
+On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On Fri, Mar 04, 2022 at 11:13:19AM -0800, Andy Lutomirski wrote:
-> > On 3/3/22 17:30, Edgecombe, Rick P wrote:
-> > > On Thu, 2022-03-03 at 15:00 -0800, Andy Lutomirski wrote:
-> > > > > > The intent of PTRACE_CALL_FUNCTION_SIGFRAME is push a signal
-> > > > > > frame onto
-> > > > > > the stack and call a function.  That function should then be able
-> > > > > > to call
-> > > > > > sigreturn just like any normal signal handler.
-> > > > >
-> > > > > Ok, let me reiterate.
-> > > > >
-> > > > > We have a seized and stopped tracee, use
-> > > > > PTRACE_CALL_FUNCTION_SIGFRAME
-> > > > > to push a signal frame onto the tracee's stack so that sigreturn
-> > > > > could use
-> > > > > that frame, then set the tracee %rip to the function we'd like to
-> > > > > call and
-> > > > > then we PTRACE_CONT the tracee. Tracee continues to execute the
-> > > > > parasite
-> > > > > code that calls sigreturn to clean up and restore the tracee
-> > > > > process.
-> > > > >
-> > > > > PTRACE_CALL_FUNCTION_SIGFRAME also pushes a restore token to the
-> > > > > shadow
-> > > > > stack, just like setup_rt_frame() does, so that sys_rt_sigreturn()
-> > > > > won't
-> > > > > bail out at restore_signal_shadow_stack().
-> > > >
-> > > > That is the intent.
-> > > >
-> > > > >
-> > > > > The only thing that CRIU actually needs is to push a restore token
-> > > > > to the
-> > > > > shadow stack, so for us a ptrace call that does that would be
-> > > > > ideal.
-> > > > >
-> > > >
-> > > > That seems fine too.  The main benefit of the SIGFRAME approach is
-> > > > that, AIUI, CRIU eventually constructs a signal frame anyway, and
-> > > > getting one ready-made seems plausibly helpful.  But if it's not
-> > > > actually that useful, then there's no need to do it.
-> > >
-> > > I guess pushing a token to the shadow stack could be done like GDB does
-> > > calls, with just the basic CET ptrace support. So do we even need a
-> > > specific push token operation?
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index d32616891dcf..68b74416ec48 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -49,17 +49,36 @@ example: ::
+>  LLVM Utilities
+>  --------------
 >
-> I've tried to follow gdb CET push implementation, but got lost.
-> What is "basic CET ptrace support"? I don't see any ptrace changes in this
-> series.
-
-Here is the CET ptrace patch on CET 5.16 kernel branch:
-
-https://github.com/hjl-tools/linux/commit/3a43ec29ddac56f87807161b5aeafa80f632363d
-
-> > > I suppose if CRIU already used some kernel encapsulation of a seized
-> > > call/return operation it would have been easier to make CRIU work with
-> > > the introduction of CET. But the design of CRIU seems to be to have the
-> > > kernel expose just enough and then tie it all together in userspace.
-> > >
-> > > Andy, did you have any other usages for PTRACE_CALL_FUNCTION in mind? I
-> > > couldn't find any other CRIU-like users of sigreturn in the debian
-> > > source search (but didn't read all 819 pages that come up with
-> > > "sigreturn"). It seemed to be mostly seccomp sandbox references.
-> >
-> > I don't see a benefit compelling enough to justify the added complexity,
-> > given that existing mechanisms can do it.
-> >
-> > The sigframe thing, OTOH, seems genuinely useful if CRIU would actually use
-> > it to save the full register state.  Generating a signal frame from scratch
-> > is a pain.  That being said, if CRIU isn't excited, then don't bother.
+> -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
+> -to enable them. ::
+> -
+> -       make LLVM=1
+> -
+> -They can be enabled individually. The full list of the parameters: ::
+> +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
+> +The full list of supported make variables: ::
 >
-> CRIU is excited :)
+>         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+>           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+>           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
 >
-> I just was looking for the minimal possible interface that will allow us to
-> call sigreturn. Rick is right and CRIU does try to expose as little as
-> possible and handle the pain in the userspace.
->
-> The SIGFRAME approach is indeed very helpful, especially if we can make it
-> work on other architectures eventually.
->
-> --
-> Sincerely yours,
-> Mike.
+> +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
+> +
+> +       make LLVM=1
+> +
+> +If your LLVM tools are not available in your PATH, you can supply their
+> +location using the LLVM variable with a trailing slash: ::
+> +
+> +       make LLVM=/path/to/llvm/
+> +
+> +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
 
+I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
+works and (my interpretation of what) Masahiro said "if anyone asks
+for this, here's how we could do that."  I don't think I've seen an
+explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
+won't hold this patch up over that.  Either way:
 
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
--- 
-H.J.
+> +
+> +If your LLVM tools have a version suffix and you want to test with that
+> +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
+> +can pass the suffix using the ``LLVM`` variable: ::
+> +
+> +       make LLVM=-14
+> +
+> +which will use ``clang-14``, ``ld.lld-14``, etc.
+> +
+> +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
+> +``LLVM=1``.
+
+Hmm... I can see someone's build wrappers setting LLVM=1, then them
+being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
+might expect.  But Masahiro says let's fix this later which is fine.
+
+--
+Thanks,
+~Nick Desaulniers
