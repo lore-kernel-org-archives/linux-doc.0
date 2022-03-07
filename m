@@ -2,121 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06401C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 12:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B2BC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 13:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242602AbiCGM5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 07:57:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58444 "EHLO
+        id S236868AbiCGNJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 08:09:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236235AbiCGM5m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 07:57:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93C889322;
-        Mon,  7 Mar 2022 04:56:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7652C61197;
-        Mon,  7 Mar 2022 12:56:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26F9AC340F3;
-        Mon,  7 Mar 2022 12:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646657806;
-        bh=reG5RZ7HrJK4JyufvZOAHy2tfOD1OaIgA9NSsvUAytA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M0xI2PvzdGyROJ9hMldBHjymGdSnU0N4D7niEQptgodJ7Vt+aBdirgRZ6hVlRdXFM
-         JG+Y4k6HeToe7vHFyWbVnqyDlWXLpvBGaBvKpNT33PjLLZk60Di8pmYQA8PuVBrd1V
-         P5iJjAGuVL9JdaZVt+N9SKYipzsowNfT4juNDGu+vvhmYuNVyWbZetgxMhKYh/6Iop
-         YIUhy3jBi9IK6nUBcV+l/pnMZwrARqRnY3Ghj5RRw1Ih+MWltK8IzvtgT8TMGUY+CC
-         Cw42u/hCXJ3jMFGTgAoPP3ggZrREarDbpsD/55KqE/TN6E/VVJ42Gm3E20iDvtpnxI
-         n+QVEKZn/ZVgg==
-Date:   Mon, 7 Mar 2022 14:56:43 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Abhijit Ayarekar <aayarekar@marvell.com>,
-        Satananda Burla <sburla@marvell.com>
-Subject: Re: [PATCH v3 1/7] octeon_ep: Add driver framework and device
- initialization
-Message-ID: <YiYBC/AE0ltKNS9J@unreal>
-References: <20220307092646.17156-1-vburru@marvell.com>
- <20220307092646.17156-2-vburru@marvell.com>
+        with ESMTP id S235112AbiCGNJa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 08:09:30 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688095BD17
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 05:08:35 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id d17so4883920pfv.6
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 05:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HJPfLXFh8zeL0ZGxZZAtDpaG7vHzuWPH4ZZJpp3Y79g=;
+        b=f/e7pAUL9+MhXiC5/0IlcGejZvwIdXseqcgbxNJ2Sup/ujWZ5v52uvd+Odm9ZDaphn
+         lxPc1WLidrEBle5uWhp2AwPySNNCA9SX4HQL/9I4jUuuhWZJ1e0JgeUoZaSu0En0WRqJ
+         ON88vnF2LIU6qj56icOBNUjomTkvg7H12zSNbKGhy/ZRmHFwAJJVrPDFxxeeRX5voEXF
+         n/fCSm+Z6VajvnzMeNpwGtZKhZ4UmtKqrg7eKt5FZMcvSPNC6ytsjw3j1+KCBSqGVKpG
+         C42DlijM9tjRgaATdm+sTWwNhgCzpfPRO1YWghiCxjPgMRuzc/1Tm5VhhymbhceUB8fL
+         HhrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HJPfLXFh8zeL0ZGxZZAtDpaG7vHzuWPH4ZZJpp3Y79g=;
+        b=LJuV+9p7tY1Wo2y/KoNIoaJtfz+aKj9uNMXD3seuB9wodQ+CRFc1w7+7rYdbieFK/Y
+         gsHzxHiJcGMHyWujWZubxIN7vkwJe4oD7fFg4L0ez8s2658+Ji0IDcCslLNc9Tomvf3d
+         IbgnUoKzNZOsfUJ3FTRAjCN0Sw1SW3m0RFdUpU0e1EILBjUgWDdwUtheLX0A526PG5cu
+         8oldjsbi6R8+syN+0Gs+eb79SbO2zzucCEQZKu8jGQypTX/OAR/amP5Ul5WqcXLno2/0
+         A9/8qMMDHfQ3ki2cS6VdV311SBsS4419M5EIIlww+iTymjaMPWJyhGhSi0Z/+rqOVYDP
+         oCTw==
+X-Gm-Message-State: AOAM530G6+NFuk+8C9XUYClmqcag9dnywMwr2/Sa2mw/cubp+SpoPD1x
+        A3praNWVgYa5pwxyIQrC/N2cSw==
+X-Google-Smtp-Source: ABdhPJw5RDwGaMofaK51SgcgAGQmNJackUvqcMSogw6ycP0+UhBodVpqboWXcPaGByz0fNXkdDukBQ==
+X-Received: by 2002:aa7:9522:0:b0:4e1:d277:ce8 with SMTP id c2-20020aa79522000000b004e1d2770ce8mr12390233pfp.16.1646658514956;
+        Mon, 07 Mar 2022 05:08:34 -0800 (PST)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.245])
+        by smtp.gmail.com with ESMTPSA id x9-20020aa79409000000b004f704d33ca0sm3258528pfo.136.2022.03.07.05.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Mar 2022 05:08:34 -0800 (PST)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v3 0/4] add hugetlb_free_vmemmap sysctl
+Date:   Mon,  7 Mar 2022 21:07:04 +0800
+Message-Id: <20220307130708.58771-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220307092646.17156-2-vburru@marvell.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 07, 2022 at 01:26:40AM -0800, Veerasenareddy Burru wrote:
-> Add driver framework and device setup and initialization for Octeon
-> PCI Endpoint NIC.
-> 
-> Add implementation to load module, initilaize, register network device,
-> cleanup and unload module.
-> 
-> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
-> Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
-> Signed-off-by: Satananda Burla <sburla@marvell.com>
-> ---
-> V2 -> V3:
->   - fix the Title overline & underline mismatch in octeon_ep.rst,
->     reported by kernel test robot:
->     Reported-by: kernel test robot <lkp@intel.com>
-> 
-> V1 -> V2:
->   - split the patch into smaller patches.
->   - fix build errors observed with clang and "make W=1 C=1".
-> 
->  .../device_drivers/ethernet/index.rst         |   1 +
->  .../ethernet/marvell/octeon_ep.rst            |  35 ++
->  MAINTAINERS                                   |   7 +
->  drivers/net/ethernet/marvell/Kconfig          |   1 +
->  drivers/net/ethernet/marvell/Makefile         |   1 +
->  .../net/ethernet/marvell/octeon_ep/Kconfig    |  20 +
->  .../net/ethernet/marvell/octeon_ep/Makefile   |   9 +
->  .../marvell/octeon_ep/octep_cn9k_pf.c         | 241 +++++++++
->  .../ethernet/marvell/octeon_ep/octep_config.h | 204 +++++++
->  .../marvell/octeon_ep/octep_ctrl_mbox.c       |  84 +++
->  .../marvell/octeon_ep/octep_ctrl_mbox.h       | 170 ++++++
->  .../marvell/octeon_ep/octep_ctrl_net.c        |  42 ++
->  .../marvell/octeon_ep/octep_ctrl_net.h        | 299 ++++++++++
->  .../ethernet/marvell/octeon_ep/octep_main.c   | 512 ++++++++++++++++++
->  .../ethernet/marvell/octeon_ep/octep_main.h   | 379 +++++++++++++
->  .../marvell/octeon_ep/octep_regs_cn9k_pf.h    | 367 +++++++++++++
->  .../net/ethernet/marvell/octeon_ep/octep_rx.c |  42 ++
->  .../net/ethernet/marvell/octeon_ep/octep_rx.h | 199 +++++++
->  .../net/ethernet/marvell/octeon_ep/octep_tx.c |  43 ++
->  .../net/ethernet/marvell/octeon_ep/octep_tx.h | 284 ++++++++++
->  20 files changed, 2940 insertions(+)
->  create mode 100644 Documentation/networking/device_drivers/ethernet/marvell/octeon_ep.rst
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/Kconfig
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/Makefile
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_config.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_main.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_main.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_rx.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_rx.h
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_tx.c
->  create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_tx.h
+This series amis to add hugetlb_free_vmemmap sysctl to enable the feature
+of freeing vmemmap pages of HugeTLB pages.
 
-<...>
+v3:
+  - Add pr_warn_once() (Mike).
+  - Handle the transition from enabling to disabling (Luis)
 
-> +MODULE_AUTHOR("Veerasenareddy Burru <vburru@marvell.com>");
-> +MODULE_DESCRIPTION(OCTEP_DRV_STRING);
-> +MODULE_LICENSE("GPL");
-> +MODULE_VERSION(OCTEP_DRV_VERSION_STR);
+v2:
+  - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
+    test robot <lkp@intel.com>.
+  - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
 
-Please don't add driver versions to new drivers.
+Muchun Song (4):
+  mm: hugetlb: disable freeing vmemmap pages when struct page crosses
+    page boundaries
+  mm: memory_hotplug: override memmap_on_memory when
+    hugetlb_free_vmemmap=on
+  sysctl: allow to set extra1 to SYSCTL_ONE
+  mm: hugetlb: add hugetlb_free_vmemmap sysctl
 
-Thanks
+ Documentation/admin-guide/sysctl/vm.rst |  14 ++++
+ include/linux/memory_hotplug.h          |   9 +++
+ kernel/sysctl.c                         |   2 +-
+ mm/hugetlb_vmemmap.c                    | 113 +++++++++++++++++++++++++++-----
+ mm/hugetlb_vmemmap.h                    |   4 +-
+ mm/memory_hotplug.c                     |  27 ++++++--
+ 6 files changed, 143 insertions(+), 26 deletions(-)
+
+-- 
+2.11.0
+
