@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8581BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31803C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238330AbiCGRFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 12:05:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
+        id S233838AbiCGROp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 12:14:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240544AbiCGRFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:05:45 -0500
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8CC64BC5
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 09:04:50 -0800 (PST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2dc242a79beso161442067b3.8
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 09:04:50 -0800 (PST)
+        with ESMTP id S231767AbiCGROo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:14:44 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7585888E1
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 09:13:49 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id u3so32353877ybh.5
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 09:13:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MFytkXFVm+nQKBfdysr1CcxHAqYCnsg45+4U4K+ObQM=;
-        b=4nXPz/240sTZkTNjrrs+YCUsZXJ69EFBHPB4zrzlis4OZy6aLv9xkGR+r5be2fVmfs
-         PEFFMQp6c8hnOFOpwKWExugg1BcQ5/SvRKOOFxDtKUKr8y4pVFwIrFFF+rS9E0Ey6T4X
-         t5b4BFCCWTqKOtckWBbRvAXOnqFn4jyBu2LXY6HMi0VEgnO7IaaQq1PduZfg6mjOnUGK
-         mYXR+KWSp8EEbDu1mkeIaIpCQOzGYzMpYVmjuC2Dyzi8+jKs7p8xWcXzFSQBQ4dZzpKO
-         TdB+ORLfdFIQKKlM1tB7rExkxI4EtpLiVN0raeK2SJKuI146TvS43W4PnTQbc3Rpc3Gw
-         WeQQ==
+        bh=X79+cMNSS1ZIdonvLOYEw31mZ4UOgIRIrMSuxiLNwqs=;
+        b=Nd1UyuTvcWJZhAMUVe66Y3LBQ7krURoXNjJyL9N1qvXxDiuG1apnvlZVaERKYOeZCz
+         S9BN14kz7JlilZvwPNsWQnbA+LJfF5CBuSx/lDCI8WaFL53mGzaKOhzw43I3p9HDdSor
+         rZx1eKHHxcDsNyNS4+CiXfZNDH66pu3jrXPxA6j0vzr7ygp1CavI6Mn9hRe/R+SufDKn
+         p+FMRo6UIuWO+HJ9ZysHVqhNZj8rUrshMFd11UjRHuIJ4+kGto/faPFLutotUvNU4pqV
+         TxSIshPyAX6kurMeLjuUv8siLleryoFXojmKuS7fmXDqwgWzCvphiFzaR3GPJN8YxwIC
+         3DYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MFytkXFVm+nQKBfdysr1CcxHAqYCnsg45+4U4K+ObQM=;
-        b=ZZxHJLtxfRQUG/dBgeNv51gtY9gjK1IJJF+Ew6iox14jqlMBEm+8+u8tnFGALK1BQl
-         94wPdJW/Q+xtjdK+dD/zWFwheR9TEa9kdk3ZjYuLcwaVjY/PLqvtGT3/lEv1oErVlwmQ
-         IJefJHGDKYK/1ryMM1i1h+BAzBDbis/B7n1/h6vyWh6zDsXyLZOxfa0KC0EeFVRlAbFL
-         r5NAgYSuNaHSyX2GQ/Y+IqPPnamccxGWAZR6atiH/nP9QSQLX7FqTA0lQaGxFuEAh9eX
-         FJ6yYNZqKRKijbeWXdVztYvbeRT5VnVMaXdJDSXCCzwgX1uxHcSU6vzu5wECnLaPPBEK
-         e5CQ==
-X-Gm-Message-State: AOAM5307wOTlKJz8f+aLJexSY9/GC+XQSuB6ULAgVBpOTh0sJULHV5YK
-        GYTQ7AlrkUkwDj9XNwIwo/NI+sTgWELJuDPdm1jXLA==
-X-Google-Smtp-Source: ABdhPJztR+S2W/s9ItNiWnCahlnxnbCNypLwubklaZAxAS+l5RMXq/fSTQrA9tZ86ojAdf2uRsrxoeq1F/D9AmvN2/0=
-X-Received: by 2002:a0d:e609:0:b0:2d6:b8b0:8608 with SMTP id
- p9-20020a0de609000000b002d6b8b08608mr9223373ywe.31.1646672689245; Mon, 07 Mar
- 2022 09:04:49 -0800 (PST)
+        bh=X79+cMNSS1ZIdonvLOYEw31mZ4UOgIRIrMSuxiLNwqs=;
+        b=flDi1vKzFSTuvtCgveAPSn/u/wA4vCGpoziVnYv8I8De6YLF6aNOoBZ+saFTMdBIiP
+         7Xmglb8VWSbGA5DscQ0zxESXytAm030Bw2r21ffM8ovuL7sD4X3Oo7PpsxKAvPKrB8c8
+         BfPf3ETfp7XFlrUWabGz/2r1jhYZSzbe5YkKWuZaK5AB77ejB3pVz6vPUNDoP4Z5WARS
+         HxGtAJHEFqqdLEhi40Ik78UFFMH0K7K9uX1nAxkhcnz3WUEUelY5fsR9SovhD4/ZY4Dr
+         FkCbV2A7e2mBRQYligDJLtl4AQC1leSD6OdwNiSZ2Q6VLyIqd2wb1vHIL+8rMUUQ7eaj
+         hvDw==
+X-Gm-Message-State: AOAM530y5hCl+XVwNDNbT7A78Mgl1ik2aURhVRKgX0kORA4TYbIW88gd
+        OOpm10SLnMEF/PEElbXK8hxHwmyWXsklfmhMm9gjQw==
+X-Google-Smtp-Source: ABdhPJwWjHGDU3vKlcY2eVkECJJt/KQSRMof+n3QMrZTHYiiNY/DfKR3JuCdSzZZFz34oLIQv+Fsf2cV4EqROGV7FA0=
+X-Received: by 2002:a25:d188:0:b0:628:ba86:ee68 with SMTP id
+ i130-20020a25d188000000b00628ba86ee68mr8622549ybg.427.1646673229137; Mon, 07
+ Mar 2022 09:13:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20220307130708.58771-1-songmuchun@bytedance.com>
  <20220307130708.58771-2-songmuchun@bytedance.com> <YiY0QkE+efo1hyda@bombadil.infradead.org>
-In-Reply-To: <YiY0QkE+efo1hyda@bombadil.infradead.org>
+ <CAMZfGtWHZgvFSE0P1LNprcjt0YAvC5XFAz=aUZw9vJFPGzUTbw@mail.gmail.com>
+In-Reply-To: <CAMZfGtWHZgvFSE0P1LNprcjt0YAvC5XFAz=aUZw9vJFPGzUTbw@mail.gmail.com>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 8 Mar 2022 01:03:08 +0800
-Message-ID: <CAMZfGtWHZgvFSE0P1LNprcjt0YAvC5XFAz=aUZw9vJFPGzUTbw@mail.gmail.com>
+Date:   Tue, 8 Mar 2022 01:12:08 +0800
+Message-ID: <CAMZfGtWUMLhYtYLNYq8WD5K1YSOegk05vtW4xwLWQcDD7pUJQA@mail.gmail.com>
 Subject: Re: [PATCH v3 1/4] mm: hugetlb: disable freeing vmemmap pages when
  struct page crosses page boundaries
 To:     Luis Chamberlain <mcgrof@kernel.org>
@@ -71,28 +72,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 12:35 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+On Tue, Mar 8, 2022 at 1:03 AM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> On Mon, Mar 07, 2022 at 09:07:05PM +0800, Muchun Song wrote:
-> > If the size of "struct page" is not the power of two and this
-> > feature is enabled, then the vmemmap pages of HugeTLB will be
-> > corrupted after remapping (panic is about to happen in theory).
+> On Tue, Mar 8, 2022 at 12:35 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >
+> > On Mon, Mar 07, 2022 at 09:07:05PM +0800, Muchun Song wrote:
+> > > If the size of "struct page" is not the power of two and this
+> > > feature is enabled, then the vmemmap pages of HugeTLB will be
+> > > corrupted after remapping (panic is about to happen in theory).
+> >
+> > Huh what? If a panic is possible best we prevent this in kconfig
+> > all together. I'd instead just put some work into this instead of
+> > adding all this run time hacks.
 >
-> Huh what? If a panic is possible best we prevent this in kconfig
-> all together. I'd instead just put some work into this instead of
-> adding all this run time hacks.
-
-If the size of `struct page` is not power of 2, then those lines added
-by this patch will be optimized away by the compiler, therefore there
-is going to be no extra overhead to detect this.
-
+> If the size of `struct page` is not power of 2, then those lines added
+> by this patch will be optimized away by the compiler, therefore there
+> is going to be no extra overhead to detect this.
 >
-> Can you try to add kconfig magic to detect if a PAGE_SIZE is PO2?
+> >
+> > Can you try to add kconfig magic to detect if a PAGE_SIZE is PO2?
+> >
 >
+> I agree with you that it is better if we can move this check
+> into Kconfig. I tried this a few months ago. It is not easy to
+> do this. How to check if a `struct page size` is PO2 in
+> Kconfig? If you have any thoughts please let me know.
+>
+> Thanks.
 
-I agree with you that it is better if we can move this check
-into Kconfig. I tried this a few months ago. It is not easy to
-do this. How to check if a `struct page size` is PO2 in
-Kconfig? If you have any thoughts please let me know.
+Here is a discussion [1] from a few months ago.
 
-Thanks.
+[1] https://lore.kernel.org/all/CAMZfGtWfz8DcwKBLdf3j0x9Dt6ZvOd+MvjX6yXrAoKDeXxW95w@mail.gmail.com/
