@@ -2,191 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF93DC4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:38:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A76C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:43:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233274AbiCGRjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 12:39:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47904 "EHLO
+        id S234597AbiCGRoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 12:44:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239529AbiCGRjm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:39:42 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA42673F5
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 09:38:46 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id z3so6025076plg.8
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 09:38:46 -0800 (PST)
+        with ESMTP id S234088AbiCGRoJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:44:09 -0500
+Received: from mail-oo1-xc4a.google.com (mail-oo1-xc4a.google.com [IPv6:2607:f8b0:4864:20::c4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561566D3A1
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 09:43:14 -0800 (PST)
+Received: by mail-oo1-xc4a.google.com with SMTP id x8-20020a4a3948000000b00320c4f9ae47so4786114oog.15
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 09:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SjU0oXobpRpnXcUO/93qSq5ehS6YBCVrORBGrEIUgVg=;
-        b=35y2SvUPBz9DIp9rCXt7B/HVCyv1VFUBkQJ8QhgJ2GRQi9cY7AoWnbibFGfqXgp6R3
-         By80QYVp8UzzPU+fqMKE2WdYHu0sOfXc4JXWnuJLOFkOcH5j/7bnhU/c0cJaN8EP70ge
-         gM8f9oA7DSR1PqUl8R0Hzy8CcEtzlo8MjBlq/YbD4G7FPAr4sb0n4g+9CRESsCltnFd5
-         TBSCgxsB5rv/2dgMe7AzwNdh02g9HStKTe0JdybFUjzh+8xpX2KQuyf/5OybEQ0t0Rxk
-         XCAZM8EOKVH8aYO3jUu1kc6w/AckLet71KdJAj79ldmvkjLFq+rbcI9Rzmiwc3dOPt5n
-         HuiQ==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=X/9lHEU+QGc0nI2nAACqYpQr+17HGhHYUvPPJfgT8kM=;
+        b=pEwYMpn8oySjV6Utj6EEzgWsvnO6Xt0CD+gtOWs5SGolvSpzA/U83AP1iQmlQNCULe
+         D+j6yyxbdHl7ae657D2pA2M3M77zItRbpe2nn2ckanXaGB40tKYQkdib6gqF3HbK86kF
+         z9KfEYeO4e4/7jU+jrxUYtL5Hr4LnSn4U5gKD9gcEkBcNMBuvkN2UAUD5YpRlPIYHcyr
+         mm0kDMKSzUngUob8AivOKkSpa0x3YZ+QBTDDs8xbRbtqyJzcJnYz/zlxraSAFVRX6WT9
+         XKrGPBJJCitAGUsRqh4rLGq8D3OsxVPVZJXfLV+IFgDKbdpHCuJJC6mO493eXlhcLPwk
+         Cp3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SjU0oXobpRpnXcUO/93qSq5ehS6YBCVrORBGrEIUgVg=;
-        b=NzkIE4WJXW/l99vG6W+4xix7LlpaKmnwJIcYmUZmWmOp1fbOEu58FT8MDvPLksFuYy
-         5+R3DyhnWfxnoNAIEg4BDdhguvdVPtjdLccC35e6VNKfpHhlKoHHeJpB1jtt95nwtI0o
-         ID7joMCR3YFPDDRCSo0kf0sbeJJETr4+QAPK6C51lhypnzjViJIZa3SkPMXMTiSx9hq5
-         TTjvhqQMQ8Ao8Ys2/x4MOYw5T2tfP8wlCAfEMlz1fxfAI01kwvrF8i8gRAiCW18c6maJ
-         HcDVJvyU3JNIDkXSPvNoJgukBhDUeTkii+io52pQl0FlIsqBus2Hu9d3q3/UFlq3o/no
-         L+4g==
-X-Gm-Message-State: AOAM531FSKUuTslO0NFni3Wbbmq/VIt2ajpF8XDIiWB2h+voN3kKBLB9
-        toZl0BqoKRPtQd1CPIkmkBcI3b7WWa1/TEh++wqtRg==
-X-Google-Smtp-Source: ABdhPJyl1MNAZYmuSUn5DffojCNiXtCU4KLr9RzODEdlQb8ACV697LzSMGC0kpeiJqnZxYn1ir+yx0ojFb8zWlLOhrs=
-X-Received: by 2002:a17:902:d506:b0:151:ced2:3cf with SMTP id
- b6-20020a170902d50600b00151ced203cfmr13366259plg.147.1646674725766; Mon, 07
- Mar 2022 09:38:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-9-jithu.joseph@intel.com> <188492dc80c017375da76d444347b1d00c2031f6.camel@intel.com>
- <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com>
-In-Reply-To: <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Mon, 7 Mar 2022 09:38:37 -0800
-Message-ID: <CAPcyv4h=qPFrP+mRqaZhkh5ZmYjuQawsqvf+-R036ZJVKBNK4Q@mail.gmail.com>
-Subject: Re: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
-To:     "Joseph, Jithu" <jithu.joseph@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=X/9lHEU+QGc0nI2nAACqYpQr+17HGhHYUvPPJfgT8kM=;
+        b=uLZVkLt50Szm3STNr2R/UBMH2Sg/7Qe0GY1zQMhCbaFMmnS5Dx0b9ClKvaUkBPYkmd
+         0+oSAxdrRidfmFr9Tx1o3+1DG1LR2b7o6C8LP5PsrkkXfrpgrFiU/vVy8bSqskVHMK+A
+         XCUkblAJyRKprFY7lDu6JY+wA+9K5PMx8kqzmRCCR4zcMbIqmra0lKgcMQTDJL+tjuiw
+         HyPa/zFIFWEr3gfwJE8VzF3mAIdh4xM2shb2jTWuE5WvF9nBRGNO/ywVq0e5FmobkfmF
+         WpOOH4cneSMeMgHRQ7vn4Euwf4BJQZTe5rnNYIUPTaxgVgMrxvZxN3cZIeHcmUQ10kd7
+         j6ww==
+X-Gm-Message-State: AOAM533XNvy5k813lWmHoSa9r9anRZHvtF5GUvXU0Epjezu/2Aw8fImH
+        Pda5r9pAwZdsEeqBMviPEKQbkd1VwnB8VtTA
+X-Google-Smtp-Source: ABdhPJwPbR6U+LXQSNXuJaQrnwbRN5yAucZLYmovXxogrcCczRTFRvQNuvnNO06dthncEXV38v3s73s0NedMhZUz
+X-Received: from cawhitelaw1.bld.corp.google.com ([2620:15c:183:200:f8ae:e848:13ef:8f61])
+ (user=cawhitelaw job=sendgmr) by 2002:a05:6870:f150:b0:da:3ad6:c149 with SMTP
+ id l16-20020a056870f15000b000da3ad6c149mr22667oac.51.1646674993664; Mon, 07
+ Mar 2022 09:43:13 -0800 (PST)
+Date:   Mon,  7 Mar 2022 10:43:01 -0700
+Message-Id: <20220307174301.1852106-1-cawhitelaw@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH] Documentation/process: Replace broken link with snapshot
+From:   Clayton Whitelaw <cawhitelaw@google.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, rostedt@goodmis.org,
+        Clayton Whitelaw <cawhitelaw@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 4, 2022 at 12:42 PM Joseph, Jithu <jithu.joseph@intel.com> wrote:
->
->
->
-> On 3/3/2022 4:31 PM, Williams, Dan J wrote:
-> > On Tue, 2022-03-01 at 11:54 -0800, Jithu Joseph wrote:
-> >> Implement sysfs interface to trigger ifs test for a targeted core or
-> >> all cores. For all core testing, the kernel will start testing from core 0
-> >> and proceed to the next core one after another. After the ifs test on the
-> >> last core, the test stops until the administrator starts another round of
->
-> >> +
-> >> +/*
-> >> + * The sysfs interface to check the test status:
-> >> + * To check the result, for example, cpu0
-> >> + * cat /sys/devices/system/cpu/cpu0/ifs/details
-> >> + */
-> >> +static ssize_t details_show(struct device *dev,
-> >> +                           struct device_attribute *attr,
-> >> +                           char *buf)
-> >> +{
-> >> +       unsigned int cpu = dev->id;
-> >> +       int ret;
-> >> +
-> >> +       if (down_trylock(&ifs_sem))
-> >> +               return -EBUSY;
-> >
-> > What is the ifs_sem protecting? This result is immediately invalid
-> > after the lock is dropped anyway, so why hold it over reading the
-> > value? You can't prevent 2 threads racing each other here.
->
-> percpu thread running scan_test_worker() will update per_cpu(ifs_state, cpu).scan_details. (before signalling this thread to run, this lock would be acquired)
-> This is to protect against the scenario where if the percpu thread is running a test and if at the same time a user is querying its status, they would see busy.
+The link is for the reference article, "The perfect patch":
+https://www.ozlabs.org/~akpm/stuff/tpp.txt
 
-That begs the question why would userspace be polling this file? Is it
-because it does not know when a test completes otherwise? How does it
-know that the result it is seeing is from the test it ran and not some
-other invocation to start a new test?
+This link is down currently and apparently since at least 2022 Jan:
+https://web.archive.org/web/20220112192643/https://www.ozlabs.org/~akpm/stuff/tpp.txt
 
-These questions would be easier to answer with a sample tool
-implementation to look at even if that's only test code that lives in
-tools/testing/. At first glance it seems possible to fake a scan to
-test the ABI.
+Replace with most recent good snapshot, from 2021 Oct
 
-> >> +
-> >> +       ret = sprintf(buf, "%llx\n", per_cpu(ifs_state, cpu).scan_details);
-> >
-> > Should be sysfs_emit() which includes the page buffer safety.
->
-> grep KH also pointed this out ... will replace this throughout
->
-> >
-> > Also, you likely want that format string to be %#llx so that userspace
-> > knows explicitly that this is a hexadecimal value.
->
-> Agreed will do this
->
->
-> >> +
-> >> +/*
-> >> + * The sysfs interface for single core testing
-> >> + * To start test, for example, cpu0
-> >> + * echo 1 > /sys/devices/system/cpu/cpu0/ifs/run_test
-> >> + * To check the result:
-> >> + * cat /sys/devices/system/cpu/cpu0/ifs/result
-> (there is a typo in the comment result -> status)
-> >
-> > Just have a CPU mask as an input parameter and avoid needing to hang
-> > ifs sysfs attributes underneath /sys/device/system/cpu/ifs.
->
-> The percpu sysfs has the additional function of providing percpu status and  details.
+Signed-off-by: Clayton Whitelaw <cawhitelaw@google.com>
+---
+ Documentation/process/submitting-patches.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That still does not answer the question about the input parameter for
-selecting cores.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 31ea120ce..2a4c4065d 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -802,7 +802,7 @@ References
+ ----------
+ 
+ Andrew Morton, "The perfect patch" (tpp).
+-  <https://www.ozlabs.org/~akpm/stuff/tpp.txt>
++  <https://web.archive.org/web/20211008233254/https://www.ozlabs.org/~akpm/stuff/tpp.txt>
+ 
+ Jeff Garzik, "Linux kernel patch submission format".
+   <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+-- 
+2.35.1.616.g0bdcbb4464-goog
 
-> The global interface is unable to provide the status and details for all the cores in the system. It does give a summary, which
-> guides the user to the appropriate percpu status/details
-
-It does not sound like the global sysfs interface is all that useful,
-especially as it just expands the window for the global results to
-become out of sync with the per-cpu results. With a uevent  the tool
-can get called to handle results on per-cpu / per-test,chunk basis
-atomically. I.e. a udev rule like:
-
-ACTION=="change", DRIVER=="ifs", SUBSYSTEM=="platform" \
-RUN+="/bin/ifs-log
---testid=$env{IFS_TESTID}\t--cpu=$end{IFS_CPU}\t--result=$env{IFS_RESULT}\t--detail=$env{IFS_DETAIL}\t--hardware-status=$env{IFS_HWSTATUS}\t--software-status=$env{IFS_SWSTATUS}
-
-...that way this retrieves all the relevant details without a need to
-poll sysfs, it does so atomically so there is no worry about running
-back to back tests as that will just increment IFS_TESTID to keep all
-the runs distinct in the log, it allows for separation of software and
-hardware error codes, and it's extensible for new fields if the need
-arises.
-
->
->
-> >> + */
-> >> +static ssize_t allcpu_run_test_store(struct device *dev,
-> >> +                                    struct device_attribute *attr,
-> >> +                                    const char *buf, size_t count)
-> >> +{
-> >> +       bool var;
-> >> +       int rc;
-> >> +
-> >> +       if (ifs_disabled)
-> >> +               return -ENXIO;
-
-I missed this earlier, but you could remove the sysfs ABI visibility
-entirely when this happens with sysfs_update_group() rather than leave
-dead ABI files.
