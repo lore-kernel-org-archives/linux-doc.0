@@ -2,105 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1DABC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 14:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EB9C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 15:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbiCGO0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:26:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40868 "EHLO
+        id S241456AbiCGPdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 10:33:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233094AbiCGO0t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 09:26:49 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B0C79392;
-        Mon,  7 Mar 2022 06:25:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6c2lABTBXkqH3piZDcmcp4tKU51yf7bKQlChnZc1puI=; b=HyVEq1Id5fcjuyIM4h//ARGHuz
-        ff2H2jPEeb0oQHzHhlFvu7XWNBpRXYZRtbj06y8FdPl9OCE9axsnOleYh8LkdrPDRxy+OMcSfalZD
-        vNdFQ0Ak9lQCR0auV5QO+i3LuVMg/8qV4/9xDeHyQOuB9xCsH59kOhyuxHqGCrUw4NwpWXjgW33ni
-        onr2xAefdxEi+WUlg8mbppSWplYnrr0hSjK/SITKuWDXpvDE6v9omrkvPs9kRYKUbNU2J6kGhXcqY
-        7ZZ2dJXpV6rL9tlm7tUUw4dR8KYUYlGg3+v8pUX4+hZ4nYKjEQTpOtFZVe97+PZTN/oBuMSgrpdHb
-        UsOXtVtA==;
-Received: from [187.56.66.217] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nREJ0-000BxM-KQ; Mon, 07 Mar 2022 15:25:46 +0100
-Message-ID: <788ab36d-ef65-4cc8-4edf-a46d2687d97e@igalia.com>
-Date:   Mon, 7 Mar 2022 11:25:30 -0300
+        with ESMTP id S243812AbiCGPdt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 10:33:49 -0500
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07665403D1;
+        Mon,  7 Mar 2022 07:32:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1646667173; x=1678203173;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Gsmx9JsR+nCJ1tL1LopmQSPZOhGLxmtw74vFEai5lBE=;
+  b=h5dj0Vv9gfNotDjru9MdDRnenfhEOhcnjSHGQ8pH8HaEICjN3KH5h9de
+   T3Q9lNJbjX84cD6mEAwSOxOXeIo+WzucdhjgAc02RvhXbkvyIThhF3t7A
+   vWTftTVlRAh7QhiVxJ6JoaK39Emy6Hrt5QUZDfC8rAiWeE+clZpkU/nZC
+   Y=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Mar 2022 07:32:52 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 07:32:51 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 7 Mar 2022 07:32:51 -0800
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 7 Mar 2022 07:32:50 -0800
+From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
+To:     <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+        <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+        <corbet@lwn.net>
+CC:     <pekka.paalanen@collabora.com>, <dri-devel@lists.freedesktop.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [RESEND PATCH] drm/doc: Clarify what ioctls can be used on render nodes
+Date:   Mon, 7 Mar 2022 08:32:36 -0700
+Message-ID: <1646667156-16366-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     "bhe@redhat.com" <bhe@redhat.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
- <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com> <YfPxvzSzDLjO5ldp@alley>
- <73011b6f-084b-43f5-cc01-1818a8a57e56@igalia.com>
- <YiV/HbXftVF2iAvU@MiWiFi-R3L-srv>
- <e1033adc-46ff-5dbc-e739-1bf725b6fed0@igalia.com>
- <YiYQ/w6Hn5Zb67di@MiWiFi-R3L-srv>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <YiYQ/w6Hn5Zb67di@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03/2022 11:04, bhe@redhat.com wrote:
-> [...]
-> Ah, sorry, I even didn't notice that. That's awesome if we can make use
-> of that. While I still have concerns:
-> 
+The documentation for render nodes indicates that only "PRIME-related"
+ioctls are valid on render nodes, but the documentation does not clarify
+what that means.  If the reader is not familiar with PRIME, they may
+beleive this to be only the ioctls with "PRIME" in the name and not other
+ioctls such as set of syncobj ioctls.  Clarify the situation for the
+reader by referencing where the reader will find a current list of valid
+ioctls.
 
-Thanks, nice that you liked the idea.
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+---
 
-> 1) about those we have decided to take out from panic notifier list and
-> put before kdump, e.g the Hypver-V notifier, how will we do with it? Are
-> we going to handle them as we have discussed?
-> 
+I was confused by this when reading the documentation.  Now that I have
+figured out what the documentation means, I would like to add a clarification
+for the next reader which would have helped me.
 
-While implementing that I will think of something, but if
-understood/remember correctly Hyper-V gonna be one of the first to run
-in the first notifier list proposed by Petr - so we might still use
-ordering by priority there, having Hyper-V being the first heh
+ Documentation/gpu/drm-uapi.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 2) Combing and settling priority for all existing panic notifier looks
-> great, even though it will take some effort. How about the later newly
-> added one? How can we guarantee that those new notifiers are getting
-> appropriate priority to mark their order? Sometime we even don't know
-> a new panic notifier is added since code change may be made in any
-> component or driver.
-> 
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 199afb5..ce47b42 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -148,7 +148,9 @@ clients together with the legacy drmAuth authentication procedure.
+ If a driver advertises render node support, DRM core will create a
+ separate render node called renderD<num>. There will be one render node
+ per device. No ioctls except PRIME-related ioctls will be allowed on
+-this node. Especially GEM_OPEN will be explicitly prohibited. Render
++this node. Especially GEM_OPEN will be explicitly prohibited. For a
++complete list of driver-independent ioctls that can be used on render
++nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
+ nodes are designed to avoid the buffer-leaks, which occur if clients
+ guess the flink names or mmap offsets on the legacy interface.
+ Additionally to this basic interface, drivers must mark their
+-- 
+2.7.4
 
-This is a great point! How to do it? One idea is to have a special
-registering function for panic notifiers that checks for priority field
-missing, and good documentation is a good idea as well, always.
-
-But if you / others have other suggestions, let me know - appreciate that.
-Cheers,
-
-
-Guilherme
