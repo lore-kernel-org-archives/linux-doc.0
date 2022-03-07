@@ -2,87 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A76C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C57CC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 17:47:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234597AbiCGRoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 12:44:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
+        id S229824AbiCGRsN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 12:48:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234088AbiCGRoJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:44:09 -0500
-Received: from mail-oo1-xc4a.google.com (mail-oo1-xc4a.google.com [IPv6:2607:f8b0:4864:20::c4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561566D3A1
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 09:43:14 -0800 (PST)
-Received: by mail-oo1-xc4a.google.com with SMTP id x8-20020a4a3948000000b00320c4f9ae47so4786114oog.15
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 09:43:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=X/9lHEU+QGc0nI2nAACqYpQr+17HGhHYUvPPJfgT8kM=;
-        b=pEwYMpn8oySjV6Utj6EEzgWsvnO6Xt0CD+gtOWs5SGolvSpzA/U83AP1iQmlQNCULe
-         D+j6yyxbdHl7ae657D2pA2M3M77zItRbpe2nn2ckanXaGB40tKYQkdib6gqF3HbK86kF
-         z9KfEYeO4e4/7jU+jrxUYtL5Hr4LnSn4U5gKD9gcEkBcNMBuvkN2UAUD5YpRlPIYHcyr
-         mm0kDMKSzUngUob8AivOKkSpa0x3YZ+QBTDDs8xbRbtqyJzcJnYz/zlxraSAFVRX6WT9
-         XKrGPBJJCitAGUsRqh4rLGq8D3OsxVPVZJXfLV+IFgDKbdpHCuJJC6mO493eXlhcLPwk
-         Cp3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=X/9lHEU+QGc0nI2nAACqYpQr+17HGhHYUvPPJfgT8kM=;
-        b=uLZVkLt50Szm3STNr2R/UBMH2Sg/7Qe0GY1zQMhCbaFMmnS5Dx0b9ClKvaUkBPYkmd
-         0+oSAxdrRidfmFr9Tx1o3+1DG1LR2b7o6C8LP5PsrkkXfrpgrFiU/vVy8bSqskVHMK+A
-         XCUkblAJyRKprFY7lDu6JY+wA+9K5PMx8kqzmRCCR4zcMbIqmra0lKgcMQTDJL+tjuiw
-         HyPa/zFIFWEr3gfwJE8VzF3mAIdh4xM2shb2jTWuE5WvF9nBRGNO/ywVq0e5FmobkfmF
-         WpOOH4cneSMeMgHRQ7vn4Euwf4BJQZTe5rnNYIUPTaxgVgMrxvZxN3cZIeHcmUQ10kd7
-         j6ww==
-X-Gm-Message-State: AOAM533XNvy5k813lWmHoSa9r9anRZHvtF5GUvXU0Epjezu/2Aw8fImH
-        Pda5r9pAwZdsEeqBMviPEKQbkd1VwnB8VtTA
-X-Google-Smtp-Source: ABdhPJwPbR6U+LXQSNXuJaQrnwbRN5yAucZLYmovXxogrcCczRTFRvQNuvnNO06dthncEXV38v3s73s0NedMhZUz
-X-Received: from cawhitelaw1.bld.corp.google.com ([2620:15c:183:200:f8ae:e848:13ef:8f61])
- (user=cawhitelaw job=sendgmr) by 2002:a05:6870:f150:b0:da:3ad6:c149 with SMTP
- id l16-20020a056870f15000b000da3ad6c149mr22667oac.51.1646674993664; Mon, 07
- Mar 2022 09:43:13 -0800 (PST)
-Date:   Mon,  7 Mar 2022 10:43:01 -0700
-Message-Id: <20220307174301.1852106-1-cawhitelaw@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH] Documentation/process: Replace broken link with snapshot
-From:   Clayton Whitelaw <cawhitelaw@google.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, rostedt@goodmis.org,
-        Clayton Whitelaw <cawhitelaw@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S244613AbiCGRsD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 12:48:03 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E2D68A6F7;
+        Mon,  7 Mar 2022 09:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646675229; x=1678211229;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=MIOZqOY86PC5jyX0VHsiHdfzcdqYJexCZN2Y/A/z7XU=;
+  b=P8jyCITgKQaBmGEAjTrfoG61n4RUuG/pTRpc918eFZ/Vwkd6hu/kTDiC
+   VZ8bTcorKJK6yeRCatErcVJ2MrambzF/UA5OIeqP3SIsrI7lTqYV9ypld
+   4Yxh+9XZz7gZmsoxo7VFJ1mxyxtV+TPby+nD+Q0kJt50beTCZj+UrMZnT
+   aFNdisuqjvgXM6HGf5RR13A6JExO0jCUaL6wEK6yDtnXrPhWveDzd56CG
+   oYk56mifXRGYWNWSquzD3nRVRIhAX2S/KjiUCpW0UBorugk/0+ACOby7F
+   hA0T7eLY9UBpR69UOahWWd9brfb4fige+SkJzqz+8H8VRlhtvHSJg5cLx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="234411122"
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
+   d="scan'208";a="234411122"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 09:46:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
+   d="scan'208";a="610692182"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+  by fmsmga004.fm.intel.com with ESMTP; 07 Mar 2022 09:46:48 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Mar 2022 09:46:46 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Mon, 7 Mar 2022 09:46:45 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.021;
+ Mon, 7 Mar 2022 09:46:45 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Williams, Dan J" <dan.j.williams@intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>
+CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Subject: RE: [RFC 07/10] platform/x86/intel/ifs: Create kthreads for online
+ cpus for scan test
+Thread-Topic: [RFC 07/10] platform/x86/intel/ifs: Create kthreads for online
+ cpus for scan test
+Thread-Index: AQHYLaZdiIBs/15S5Ua8Iei72+JPkKytlgQAgAKOhgCABI3OgP//h3pg
+Date:   Mon, 7 Mar 2022 17:46:44 +0000
+Message-ID: <1503c7940a7149679025173a46dd0daf@intel.com>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <20220301195457.21152-8-jithu.joseph@intel.com>
+ <09b5b05018a8600ca8fab896790ab16827c80e4e.camel@intel.com>
+ <e282377b-8ee4-99fc-432f-2aa3441b2989@intel.com>
+ <CAPcyv4gcfMZu38EAGBq59A-RPUmR3fFiamRiR6QaP=D1gPS+6A@mail.gmail.com>
+In-Reply-To: <CAPcyv4gcfMZu38EAGBq59A-RPUmR3fFiamRiR6QaP=D1gPS+6A@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The link is for the reference article, "The perfect patch":
-https://www.ozlabs.org/~akpm/stuff/tpp.txt
-
-This link is down currently and apparently since at least 2022 Jan:
-https://web.archive.org/web/20220112192643/https://www.ozlabs.org/~akpm/stuff/tpp.txt
-
-Replace with most recent good snapshot, from 2021 Oct
-
-Signed-off-by: Clayton Whitelaw <cawhitelaw@google.com>
----
- Documentation/process/submitting-patches.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 31ea120ce..2a4c4065d 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -802,7 +802,7 @@ References
- ----------
- 
- Andrew Morton, "The perfect patch" (tpp).
--  <https://www.ozlabs.org/~akpm/stuff/tpp.txt>
-+  <https://web.archive.org/web/20211008233254/https://www.ozlabs.org/~akpm/stuff/tpp.txt>
- 
- Jeff Garzik, "Linux kernel patch submission format".
-   <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
--- 
-2.35.1.616.g0bdcbb4464-goog
-
+Pj4gVGhlc2UgYXJlIHNvZnR3YXJlKGRyaXZlcikgZGVmaW5lZCBlcnJvciBjb2Rlcy4gUmVzdCBv
+ZiB0aGUgZXJyb3IgY29kZXMgYXJlIHN1cHBsaWVkIGJ5DQo+PiB0aGUgaGFyZHdhcmUuIFNvZnR3
+YXJlIGRlZmluZWQgZXJyb3IgY29kZXMgd2VyZSBrZXB0IGF0IHRoZSBvdGhlciBlbmQgdG8gcHJv
+dmlkZSBhbXBsZSBzcGFjZQ0KPj4gaW4gY2FzZSAoZnV0dXJlKSBoYXJkd2FyZSBkZWNpZGVzIHRv
+IHByb3ZpZGUgZXh0ZW5kIGVycm9yIGNvZGVzLg0KPg0KPiBXaHkgcHV0IHRoZW0gaW4gdGhlIHNh
+bWUgbnVtYmVyIHNwYWNlPyBTZXBhcmF0ZSBzb2Z0d2FyZSByZXN1bHRzIGZyb20NCj4gdGhlIHJh
+dyBoYXJkd2FyZSByZXN1bHRzIGFuZCBoYXZlIGEgc2VwYXJhdGUgbWVjaGFuaXNtIHRvIGNvbnZl
+eSBlYWNoLg0KDQpXZSB3YW50ZWQgdG8gaW5jbHVkZSBpbiB0aGUgImRldGFpbHMiIGZpbGUsIHdo
+aWNoIGlzIG90aGVyd2lzZSBhIGRpcmVjdCBjb3B5IG9mDQp0aGUgU0NBTl9TVEFUVVMgTVNSLiBN
+YWtpbmcgc3VyZSB0aGUgc29mdHdhcmUgZXJyb3IgY29kZXMgZGlkbid0IG92ZXJsYXANCndpdGgg
+YW55IGgvdyBnZW5lcmF0ZWQgY29kZXMgc2VlbWVkIGxpa2UgYSBnb29kIGlkZWEuDQoNCkJ1dCBt
+YXliZSB3ZSBzaG91bGQgaGF2ZSBkb25lIHRoaXMgd2l0aCBhZGRpdGlvbmFsIHN0cmluZyB2YWx1
+ZXMgaW4gdGhlIHN0YXR1cw0KZmlsZToNCg0KQ3VycmVudDoNCg0KcGFzcw0KdW50ZXN0ZWQNCmZh
+aWwNCg0KQWRkIGEgY291cGxlIG9mIG5ldyBvcHRpb25zIGZvciB0aGUgcy93IGNhc2VzOg0KDQpz
+d190aW1lb3V0DQpzd19yZXRyaWVzX2V4Y2VlZGVkDQoNCi1Ub255DQoNCg==
