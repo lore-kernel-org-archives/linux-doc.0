@@ -2,96 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EB9C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 15:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B60C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 16:35:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241456AbiCGPdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 10:33:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46436 "EHLO
+        id S237696AbiCGQgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 11:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243812AbiCGPdt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 10:33:49 -0500
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07665403D1;
-        Mon,  7 Mar 2022 07:32:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1646667173; x=1678203173;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Gsmx9JsR+nCJ1tL1LopmQSPZOhGLxmtw74vFEai5lBE=;
-  b=h5dj0Vv9gfNotDjru9MdDRnenfhEOhcnjSHGQ8pH8HaEICjN3KH5h9de
-   T3Q9lNJbjX84cD6mEAwSOxOXeIo+WzucdhjgAc02RvhXbkvyIThhF3t7A
-   vWTftTVlRAh7QhiVxJ6JoaK39Emy6Hrt5QUZDfC8rAiWeE+clZpkU/nZC
-   Y=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Mar 2022 07:32:52 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 07:32:51 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 7 Mar 2022 07:32:51 -0800
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Mon, 7 Mar 2022 07:32:50 -0800
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-To:     <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-        <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <corbet@lwn.net>
-CC:     <pekka.paalanen@collabora.com>, <dri-devel@lists.freedesktop.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [RESEND PATCH] drm/doc: Clarify what ioctls can be used on render nodes
-Date:   Mon, 7 Mar 2022 08:32:36 -0700
-Message-ID: <1646667156-16366-1-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S236323AbiCGQgT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 11:36:19 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1214B8A6F1;
+        Mon,  7 Mar 2022 08:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tEpagJj9t2o6OBo2LyfR78mC1PBCzGopqSpUCsiMZj8=; b=mgLq5vWcrbHbqiR1CIRlDBbC1g
+        vM1ubvNcbK3M8PCoJWLMzo3gSOluj7/rCcw7pLHRPVO860CDISJ6STa1uly8hoktHdm2uPe1uDcFC
+        3Ak/yIdl+4Bh6iy5AKiLZYxzj7fANOYl7ZFaZJDwOoj5FJpNHPg04sUzOqPo9IScToRtej51OxplV
+        2jQLJv4FGmTSRL/SErTy/dFT8pFGBQ7Z1j+/b3flYSsmUbGbbsaymgQUSITK6kMIhElaugocayadJ
+        BnU+2agxFd9yLoTqG4llKUBSA0FiOnGWX0R26bvNANdmvRHI/s1ucv8GvgwIlGuj9h/HXP2wGtT3F
+        rcharuow==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nRGKI-000r2h-Pq; Mon, 07 Mar 2022 16:35:14 +0000
+Date:   Mon, 7 Mar 2022 08:35:14 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v3 1/4] mm: hugetlb: disable freeing vmemmap pages when
+ struct page crosses page boundaries
+Message-ID: <YiY0QkE+efo1hyda@bombadil.infradead.org>
+References: <20220307130708.58771-1-songmuchun@bytedance.com>
+ <20220307130708.58771-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220307130708.58771-2-songmuchun@bytedance.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation for render nodes indicates that only "PRIME-related"
-ioctls are valid on render nodes, but the documentation does not clarify
-what that means.  If the reader is not familiar with PRIME, they may
-beleive this to be only the ioctls with "PRIME" in the name and not other
-ioctls such as set of syncobj ioctls.  Clarify the situation for the
-reader by referencing where the reader will find a current list of valid
-ioctls.
+On Mon, Mar 07, 2022 at 09:07:05PM +0800, Muchun Song wrote:
+> If the size of "struct page" is not the power of two and this
+> feature is enabled, then the vmemmap pages of HugeTLB will be
+> corrupted after remapping (panic is about to happen in theory).
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
----
+Huh what? If a panic is possible best we prevent this in kconfig
+all together. I'd instead just put some work into this instead of
+adding all this run time hacks.
 
-I was confused by this when reading the documentation.  Now that I have
-figured out what the documentation means, I would like to add a clarification
-for the next reader which would have helped me.
+Can you try to add kconfig magic to detect if a PAGE_SIZE is PO2?
 
- Documentation/gpu/drm-uapi.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 199afb5..ce47b42 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -148,7 +148,9 @@ clients together with the legacy drmAuth authentication procedure.
- If a driver advertises render node support, DRM core will create a
- separate render node called renderD<num>. There will be one render node
- per device. No ioctls except PRIME-related ioctls will be allowed on
--this node. Especially GEM_OPEN will be explicitly prohibited. Render
-+this node. Especially GEM_OPEN will be explicitly prohibited. For a
-+complete list of driver-independent ioctls that can be used on render
-+nodes, see the ioctls marked DRM_RENDER_ALLOW in drm_ioctl.c  Render
- nodes are designed to avoid the buffer-leaks, which occur if clients
- guess the flink names or mmap offsets on the legacy interface.
- Additionally to this basic interface, drivers must mark their
--- 
-2.7.4
-
+  Luis
