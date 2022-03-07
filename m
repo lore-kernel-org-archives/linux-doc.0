@@ -2,115 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA9CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 21:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F06ECC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 21:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240588AbiCGVeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 16:34:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60040 "EHLO
+        id S239221AbiCGVod (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 16:44:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232501AbiCGVen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 16:34:43 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0547450457;
-        Mon,  7 Mar 2022 13:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646688829; x=1678224829;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=P7fA5VAziyLx4eErnIxNtk976YKxMu7dfIcAeyiLxV0=;
-  b=CtRBnAEk995hrpSLj8dkq0b8//iZBcS4hN5Heu9La8xxk/4tW+uY62er
-   rmIKDt1Grhv+JE/SjhNmGNdOe00YefpNdEQeKVaSl7g4+6ijBu2q1k9Si
-   lLOlVaVFvSgo7+0UGNW/RASGE6LjBoMxSLM8iqu3iYEWHNes7O0Z6wDQQ
-   LDPLKsBMMRoB/p3j1sYwuT0tExMXkeVMip3u7KhxoPml5v4t8P4bwfkqM
-   vfwZ2qvPVvstaS0gLKbGdsvI5rlwNLjdhN1qo7P82nK7Ht5K2t6UuoGkx
-   ouLRXhCrYATESwtgw/vuFvf61qEjrfqD0R3GmnD74NU+ICjrxOomzEQ03
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="317743362"
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
-   d="scan'208";a="317743362"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 13:33:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
-   d="scan'208";a="687687259"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2022 13:33:48 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 13:33:47 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 13:33:46 -0800
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.021;
- Mon, 7 Mar 2022 13:33:46 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>
-CC:     "Williams, Dan J" <dan.j.williams@intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: RE: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
-Thread-Topic: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
-Thread-Index: AQHYLaZd5d+yEBuhdEqmhIRDOkET6qyu6T6AgAFSX4CABIOMgIAAGXcAgAABjACAAAs3AIAACG0AgAAIiACAAAmQgP//ejMg
-Date:   Mon, 7 Mar 2022 21:33:46 +0000
-Message-ID: <5129ec667d734f3da4043ce1b7df0439@intel.com>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-9-jithu.joseph@intel.com>
- <188492dc80c017375da76d444347b1d00c2031f6.camel@intel.com>
- <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com>
- <CAPcyv4h=qPFrP+mRqaZhkh5ZmYjuQawsqvf+-R036ZJVKBNK4Q@mail.gmail.com>
- <33d0e764-86d9-8504-17fa-14b31c87de4e@intel.com>
- <CAPcyv4g5bq9+u0iLjhpeJw8bkbCREUw60H2z_KfDz4hHCrKdFQ@mail.gmail.com>
- <7c620f8a-189e-5ac4-30fe-1fa14ba799ea@intel.com>
- <CAPcyv4iUuZ0aAWckWvwbxJJgt5tDJRpeonfE4DegWS6KPtJq8A@mail.gmail.com>
- <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com> <YiZ5bYPvssUFYGZj@kroah.com>
-In-Reply-To: <YiZ5bYPvssUFYGZj@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+        with ESMTP id S244662AbiCGVoU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 16:44:20 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6773555496;
+        Mon,  7 Mar 2022 13:43:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2495EB815E0;
+        Mon,  7 Mar 2022 21:43:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD754C340E9;
+        Mon,  7 Mar 2022 21:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1646689383;
+        bh=eRMJgtnDGNNfgUuXduX0onTDj3k2zP2aHDdREvIZkjU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YV4optdzdCMwxfSQOm9avBRX0BAhXvUJKhLdEij6AbCi6o5ATS+oqGCmk5nEwWtg1
+         H4mpclnkUN+o8tx4quKs3A/4JxUtkuLGqRBXL6l+0ZM5hf/uz99BQqkV9vK0tJVMvm
+         euEKO22ONfA9/55r7KHTWuBZLzEDj/kNukYhQPgY=
+Date:   Mon, 7 Mar 2022 13:43:02 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Clayton Whitelaw <cawhitelaw@google.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        rostedt@goodmis.org
+Subject: Re: [PATCH] Documentation/process: Replace broken link with
+ snapshot
+Message-Id: <20220307134302.faaf3149ead4ccf0fb05a703@linux-foundation.org>
+In-Reply-To: <87o82hd575.fsf@meer.lwn.net>
+References: <20220307174301.1852106-1-cawhitelaw@google.com>
+        <87o82hd575.fsf@meer.lwn.net>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > Also some context on test frequency: Hardware has  strict rate limiting=
- of tests.
-> > Every core can be tested only once in every 30 minutes. So it is pointl=
-ess to test at high frequency.
->
-> What limits this, the kernel?
+On Mon, 07 Mar 2022 10:48:30 -0700 Jonathan Corbet <corbet@lwn.net> wrote:
 
-Microcode enforces the per-core repeat rate on the first implementation.
+> Clayton Whitelaw <cawhitelaw@google.com> writes:
+> 
+> > The link is for the reference article, "The perfect patch":
+> > https://www.ozlabs.org/~akpm/stuff/tpp.txt
+> >
+> > This link is down currently and apparently since at least 2022 Jan:
+> > https://web.archive.org/web/20220112192643/https://www.ozlabs.org/~akpm/stuff/tpp.txt
+> >
+> > Replace with most recent good snapshot, from 2021 Oct
+> 
+> We can do that, but first maybe we should ask Andrew (CC'd) whether he
+> has a copy up somewhere that we can link to?
+> 
 
-But this limit isn't architectural. Future implementations may not have
-the same, or perhaps any, limit.
+Huh, whatever happened to that?
 
--Tony
+I had a copy and have restored the file on ozlabs, thanks.
