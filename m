@@ -2,118 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1E7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 13:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32AC0C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 13:16:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232509AbiCGNNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 08:13:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48350 "EHLO
+        id S232711AbiCGNRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 08:17:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242837AbiCGNNG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 08:13:06 -0500
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B6F7C161;
-        Mon,  7 Mar 2022 05:12:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zdVOZSv8Dl1mXAQ3jsdVs/VHAcNFaHrMfeEDreIacvk=; b=AgoOurRk63K06dWCs+e44Y8/jF
-        eM9yU2YU08p7svHM8ZN8XgB7VLuYYVdQVo/NoVQXbilOJ/vd1K5HIj2BN5yrXIhM8tGDdy+9nmjl6
-        eIaM8XID73hFthDCP4PitHZ76yy0LAbr/st0TiMPnmFSEph/4i4WSYgy8p9gGKs8GLmED2oXWOnk2
-        rbTvNiZvjbhSjeFwKR+MJbJB4mWCi2Dl1tTq7oYtVZbCqJqSmoUUAdd8BVaWidg3czLC16cnuc79d
-        aC5TrhcJVC3KKNyxA79zZzkklPIsG0ZtcEbAWmNmM3E1a96IPONUXm0b2exw/3Vy+boowfZSlfaNA
-        WQe5VZiQ==;
-Received: from [187.56.66.217] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nRD9Z-0008j1-DB; Mon, 07 Mar 2022 14:11:57 +0100
-Message-ID: <e1033adc-46ff-5dbc-e739-1bf725b6fed0@igalia.com>
-Date:   Mon, 7 Mar 2022 10:11:41 -0300
+        with ESMTP id S241581AbiCGNRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 08:17:22 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBCD8BF46;
+        Mon,  7 Mar 2022 05:16:25 -0800 (PST)
+Received: from mail-wm1-f54.google.com ([209.85.128.54]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Mlf8e-1nrEZB2dTG-00iih2; Mon, 07 Mar 2022 14:16:23 +0100
+Received: by mail-wm1-f54.google.com with SMTP id bi14-20020a05600c3d8e00b00386f2897400so5559291wmb.5;
+        Mon, 07 Mar 2022 05:16:23 -0800 (PST)
+X-Gm-Message-State: AOAM530Z21qC5OU6RfI9f7s+aOzJUCNxoQ+zVqSZ7JFRXBBxbhqP3wr9
+        cgD37uURIsN7wXV01A8jPzgrpMtqNWvK4t7v2lo=
+X-Google-Smtp-Source: ABdhPJysabRPmKcRrE/Kx/6xr0pdCTUYYBYzw9UdGhnsD750vY5MOm+A6ymUb8srsaOas8KbFQonhsx1JUb8yl80qaQ=
+X-Received: by 2002:a1c:7919:0:b0:389:79c5:fe83 with SMTP id
+ l25-20020a1c7919000000b0038979c5fe83mr10387102wme.173.1646658983039; Mon, 07
+ Mar 2022 05:16:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     "bhe@redhat.com" <bhe@redhat.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "halves@canonical.com" <halves@canonical.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
-References: <20220108153451.195121-1-gpiccoli@igalia.com>
- <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
- <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
- <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com> <YfPxvzSzDLjO5ldp@alley>
- <73011b6f-084b-43f5-cc01-1818a8a57e56@igalia.com>
- <YiV/HbXftVF2iAvU@MiWiFi-R3L-srv>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <YiV/HbXftVF2iAvU@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211224041352.29405-1-quan@os.amperecomputing.com>
+ <20211224041352.29405-9-quan@os.amperecomputing.com> <51603aa7-4113-dba4-9a38-0a6683a1d249@os.amperecomputing.com>
+In-Reply-To: <51603aa7-4113-dba4-9a38-0a6683a1d249@os.amperecomputing.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 7 Mar 2022 14:16:06 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1Fw5cdxtr3LeG=tNbrTRbseXP+fDzfr-2B+LqbShA99w@mail.gmail.com>
+Message-ID: <CAK8P3a1Fw5cdxtr3LeG=tNbrTRbseXP+fDzfr-2B+LqbShA99w@mail.gmail.com>
+Subject: Re: [PATCH v6 8/9] misc: smpro-misc: Add Ampere's Altra SMpro misc driver
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Pz4zb/GLH1qI19x07wJW5N9i+PPZOvCU5axiU12F9XtpS19weck
+ b0y5o9IF0eONu5cHJidiJhMBWqr3WbNHA8PvsH3rm8nBhRQb0mwzrvuqLHIowVzMvBV1dC9
+ HL2OLK1WTgbZfKKsMlQhT55g72fc8M9YnEivajODS3VI1wQ3A1FL/z40siURtQQAvqJKPld
+ hDf1WyCO7IFrR2oQpKbhw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nwmwTtx+NwI=:PjFNEcviuydLjHqeumDBlC
+ 8egcuNZTMxwVo1ZZRfu+27KDFfRydZjRnpkgsE7+kcMPu1mYSevWbTykn+cEvcdfzuqMu51RH
+ csOWZpl2wZm/0OQFvzLDv+VIxZtt5/mur+OG0+atJQvX8mYTT6OuOVA5++Zj2E2B0e2cOmSSg
+ aommICQ6awRLTfKyKnz+Z6k1CubhBiP+w48BNNzKSbBv00dIFgSLADvqvRM2JEOc2pnvKI/03
+ m2z6wO1o1n64u6IuSYky/TCWWwfqE4fvWKSBdfN2jNPrSyMtgcPUIaXmLQn8827H5QU3o6fa/
+ ZvhaTBn5VjtFOH7Ib1uF5NWmh0luaeJNdVw0x7idg5895WzYXZ2Cqc/GLu7ow1LVuYzCKTTHO
+ gZXRGEIf9QkpAscFzLPt9obplKDsSv4WKzaP6lckufct9sR1lQI81opH9kg61k+qAhPD4XP0x
+ X9e3w/dWj26pSKFLAcuam1UNPl8KlTYQqN25yaQQOs9vNJlHBezIKQGAq9Np+3nQQqNTbFzD/
+ TbQrG/Vt/7A/j9VSm8uv5ZWI0nnocpwQkWltCxeQuZXLfFa4KhvG45rjwFq9vIFKB+8n46KZQ
+ PRfKZ1SR2eFUOQCieNO0Gaa/h+WfaXXLqssM9E8/Hj3FT4YIiYLPxfreHUk87G4TuyqJr1ZT1
+ nFxEeqNXKkOhNz1cNR/0sf8ljlImJnVRWpWqrZnyc67/MzTn9t8mhj92EN5f+lgEI/eXUVHH8
+ jOouD+jzcEa+2gwbsLiHWT3LvHfjgkui9RiNVaRQQ2QwjEZJHVdjaOYjR0ksmaE+s4XNYtOPf
+ LM7uM4WRpZXpHr7BRcIUq/Khemir+0jut0HCEhqZgEJHE89ysE=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03/2022 00:42, bhe@redhat.com wrote:
-> [...]
->> Let me know your thoughts Petr / Baoquan - it would add slightly more
->> code / complexity, but in my opinion the payback is very good.
->> Cheers,
-> 
-> The ideal situation is each panic notifier has an order or index to
-> indicate its priority. Wondering how to make it. What I think of is
-> copying initcall. We have several priorities, at the same priority,
-> execution sequence is not important. Not sure if I get your point.
-> 
-> ~~~~~~~
-> #define core_initcall(fn)               __define_initcall(fn, 1)
-> #define core_initcall_sync(fn)          __define_initcall(fn, 1s)
-> ......
-> #define late_initcall(fn)               __define_initcall(fn, 7)
-> #define late_initcall_sync(fn)          __define_initcall(fn, 7s)
-> 
+On Mon, Mar 7, 2022 at 9:32 AM Quan Nguyen <quan@os.amperecomputing.com> wrote:
+> > diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
+> > index a7cd64bf9eaa..5611dd30f8f4 100644
+> > --- a/drivers/mfd/smpro-mfd.c
+> > +++ b/drivers/mfd/smpro-mfd.c
+> > @@ -28,6 +28,7 @@ static const struct regmap_config simple_word_regmap_config = {
+> >   static const struct mfd_cell smpro_devs[] = {
+> >       MFD_CELL_NAME("smpro-hwmon"),
+> >       MFD_CELL_NAME("smpro-errmon"),
+> > +     MFD_CELL_NAME("smpro-misc"),
+>
+> [Lee Jones]
+> Misc is a Linuxisum which are not allowed in DT.
+>
+> What does this driver actually do?
+>
+> [Quan]
+> This drivers is to report the boot progress to BMC and allow BMC to
+> configure the Soc Power Limit of Ampere's Altra family processor.
 
-Hi Baoquan, thanks for you consideration! In fact, the notifiers
-infrastructure already have a mechanism of ordering, my idea is to make
-use of that. It's not that different from the initcall system...
+That doesn't sound like it should be platform specific at all, but rather
+a generic BMC interface. I see you already have the openbmc list on Cc,
+so I assume the right people can see this. Presumably this is a BMC that
+already runs on openbmc and can have a platform-independent interface
+for doing this.
 
-For instance, the code in the notifier register function checks for the
-priority field in the notifier block:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/notifier.c#n31
-.
-
-For example, the Xen panic notifier is one of the few blocks that make
-use of that, currently:
-
-static struct notifier_block xen_panic_block = {
-	.notifier_call = xen_panic_event,
-	.priority = INT_MIN
-};
-
-(see
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/xen/enlighten.c#n286)
-
-In this case, xen_panic_event() will be the latest one to run. My idea
-is to make use of that in *all* panic notifiers, having a table/list on
-panic_notifier.h (defines or enum, I'll think about that when writing
-this part) so all notifiers are documented and the ordering is clear and
-enforced.
-
-Makes sense to you?
-Cheers,
-
-
-Guilherme
+        Arnd
