@@ -2,61 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2DDC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 08:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BDAC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 08:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbiCGIPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 03:15:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S231217AbiCGIPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 03:15:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiCGIPp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 03:15:45 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064D95B8AB
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 00:14:52 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id n15so3101515plh.2
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 00:14:52 -0800 (PST)
+        with ESMTP id S229824AbiCGIPy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 03:15:54 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2025B8AB
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 00:14:59 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id a5so1492999pfv.2
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 00:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QIkkzYHwge85g5EjrEMJ1RxO6SrNiu3zXBscNPHWnFA=;
-        b=qdLYe6jusffDmCFrMVxIy7WtXriwkcNsUS34XSdhAPF8HJGsvLK1vXMSDMkM2AbsNT
-         XaMHmsp3murcf/Fdu9pc9bL4BQsRlY2ppU4IJ06Wo0vtom1q4Bbj4py4F72k3O01zILL
-         wHOT0aJnouHrOF7LuDJP5SwvvE/bJgyWWYYfngTStzx1OFxY+cRS1GQ4eqD7Yz9fj1y4
-         J54o31GxlpbghR151M8Sr9il2Y0sOrG9M0GArU/L00xJbRvrCk0yVuvRI5ZTFiBW3kEj
-         b8jbcVI7Kx9pZZGTJvNXPJmjj6kUbUaht3jdplmz9Z2t04ZroreMksyeRu8SJv7E1aXt
-         FRLQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Ekd/xN/CAMqlsjRdRgshA/nuApjXxhIITrzRGQLRnxM=;
+        b=avKSNyuE8MCL30jZhYe6WHW+jS9kJgjxb1uGpAOnTBcPwtxEIQoXJD9xo27lNCZ8P7
+         8pjcfcjN4yi6yDJKeZci1T+U/K16Cs7YC9pxZzJ/FD9oc4XFU3MRSpyzcuRRnBrwmHsS
+         dHRVAZtqeolmVbS46zaCfSfNHkgcsIHLB9hmCvWjuX8rlvVynqNDco9eiQv6m+jhtB/T
+         +oO4YgUeyzlBjw5aDFW0WnhnTf6/zHd0mQi8jb1NfUBXIeZoZVgBdTHl+nn/cvfTm6HN
+         npk1rEOvfz/drb2QcxEyVq3BEdWEeS4igiKPQPGx4hiHv7nHf572EB7/p2ZVENTeFU5c
+         AQSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QIkkzYHwge85g5EjrEMJ1RxO6SrNiu3zXBscNPHWnFA=;
-        b=fyytmG2HqXS/SOBnNiKTlTbCvMY4797xE5HX3X2UFWJ7y9O48ecZMejglbky1UDh9s
-         D89uM11OZEum0TkGGwKpaqFB9v3QYtq6m/uVwlbbehUHBdpEwPPIbOb5wAoRX0Zl+V7Z
-         LLowHwtRYLP5Lspxtlt0C++jWzsAUeQoxj2PktE+6XNOLygCaZXwgdpRCGkbmiKTcXUr
-         q+MFdeEKx2UGWyu6e6DQsDPBB3gXZGt1o5noaZ0xGxKXNK4iIk0NmcNNb0B10dbEqUBF
-         mFBeyXovqzwYq/VDfPmZuLp+COwEGXxFSScFpqe117DEgIfkCnLbAN0nCNXEVNb4nVxY
-         62TA==
-X-Gm-Message-State: AOAM530J6P2dEE3kFlZ2WnN3pvRcje0klnUwFhorf3uol/c9+oLzCNGO
-        tMDLtzVYOkwr3UOAKEJyfHc=
-X-Google-Smtp-Source: ABdhPJw7lx0eqFwHiaGyocYMl174UDI/5/d3xJKVNeE7LoCtYLCIKEex5ceXtAoLMwpO4Rs4YKZ2Wg==
-X-Received: by 2002:a17:903:1206:b0:151:7d67:2924 with SMTP id l6-20020a170903120600b001517d672924mr10933875plh.45.1646640891290;
-        Mon, 07 Mar 2022 00:14:51 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Ekd/xN/CAMqlsjRdRgshA/nuApjXxhIITrzRGQLRnxM=;
+        b=qP9oIdejeuUcWaaUCp/6V/FryehM21uux4P9M3TWF7pZbbY9CB5DBmKXGs5pYXHSoe
+         MsKpH7tqhRqJQZ6Yd9b22hTZn7/8bHhT6Da3rIKU9qLw6vKo/9qMskow7VCX/DhLh5Qm
+         q2iSkj3VoDf/31bdc8FsE8pv21CcirDvFSAvhi4HrS1UXV7yB5jkBD4jsRjLWgBaz2pg
+         wuFMI+f4BoCRWqipdKnYbMuEJOlGN9uqrDWg4WEyyd1mTTXJZwXLdvZoUJDryMqV0QTQ
+         AXl3SNqHYZi1Acs9ilzbvdxFQ4UG6Hq0RNpl4tk4R9skchcvsUtmeZ64eyO6jHXb5Q1r
+         uSRQ==
+X-Gm-Message-State: AOAM532RrJ2kH1a9WvTaV5r+vXyrhdajVJb0zYJn+ueachCTDI76fw+5
+        6tm6HgZZiVJaznfLo+C8+nA=
+X-Google-Smtp-Source: ABdhPJzI3PNEN9QPRPAITFMTdU/WZN353tVVg2kT3KtbmVWFb9VsL+i9nvlESutdL/Dh02oNr/8Ubg==
+X-Received: by 2002:a65:5b8d:0:b0:376:2310:ab09 with SMTP id i13-20020a655b8d000000b003762310ab09mr8894675pgr.339.1646640898656;
+        Mon, 07 Mar 2022 00:14:58 -0800 (PST)
 Received: from localhost.localdomain ([50.7.17.55])
-        by smtp.gmail.com with ESMTPSA id w17-20020a056a0014d100b004f1063290basm15426309pfu.15.2022.03.07.00.14.44
+        by smtp.gmail.com with ESMTPSA id w17-20020a056a0014d100b004f1063290basm15426309pfu.15.2022.03.07.00.14.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Mar 2022 00:14:50 -0800 (PST)
+        Mon, 07 Mar 2022 00:14:58 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, yang.yang29@zte.com.cn,
-        xu.xin16@zte.com.cn, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH v5 0/3] Add Chinese translations for KSM documents
-Date:   Mon,  7 Mar 2022 16:16:04 +0800
-Message-Id: <cover.1646634928.git.siyanteng@loongson.cn>
+Cc:     xu xin <xu.xin16@zte.com.cn>, yang.yang29@zte.com.cn,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v5 1/3] Add Chinese translation for vm/ksm.rst
+Date:   Mon,  7 Mar 2022 16:16:05 +0800
+Message-Id: <d9eb72716da3702ac44a853a988fbee50a51587d.1646634928.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1646634928.git.siyanteng@loongson.cn>
+References: <cover.1646634928.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,56 +66,109 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v5:
-    Add Yanteng's Signoff tag. [PATCH v5 2/3 and 3/3]
+From: xu xin <xu.xin16@zte.com.cn>
 
-v4:
-    Fix build error and build warning.
+Translate Documentation/vm/ksm.rst into Chinese.
+Update Documentation/translations/zh_CN/vm/index.rst.
 
-v3:
-	Fix the patch '[1/3] Add Chinese translation for vm/ksm.rst'
-	because its old version does not apply for the latest commit.
-
-v2:
-
-	According to the suggestions from Yanteng Si, Alex Shi and
-	Jonathan Corbet, I have modified my patches. Here are my specific
-	changelog:
-
-	1. Remove Redundant Labels in added Documents like ``.. _ksm_sysfs:``
-
-	   Yanteng Si said: Too many tags will cause a compilation
-	   warning, because an identical one already exists for the Origin
-	   document. Jonathan Corbet think so.
-
-	2. Align with standard Chinese format on the 'original', 'translator',
-	   etc.
-
-	3. fix some translation error like “pages_unshared”, I remove  '独享'.
-
-	   Alex Shi suggest to remove '独享'.
-
-	4. Refactor translations/zh_CN/admin-guide/mm/index.rst.
-
-	   Yanteng Si: Compile pass is only one of the basis for checking
-	   through, we also have to check the html for any problems, as
-	   far as I know, the above treatment is very ugly.
-
-xu xin (3):
-  Add Chinese translation for vm/ksm.rst
-  zh_CN: Add translations for admin-guide/mm/ksm.rst
-  zh_CN: Add translation for admin-guide/mm/index.rst
-
- .../translations/zh_CN/admin-guide/index.rst  |   2 +-
- .../zh_CN/admin-guide/mm/index.rst            |  49 ++++++
- .../translations/zh_CN/admin-guide/mm/ksm.rst | 148 ++++++++++++++++++
- Documentation/translations/zh_CN/vm/index.rst |   1 +
- Documentation/translations/zh_CN/vm/ksm.rst   |  70 +++++++++
- 5 files changed, 269 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/index.rst
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
+Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+---
+ Documentation/translations/zh_CN/vm/index.rst |  1 +
+ Documentation/translations/zh_CN/vm/ksm.rst   | 70 +++++++++++++++++++
+ 2 files changed, 71 insertions(+)
  create mode 100644 Documentation/translations/zh_CN/vm/ksm.rst
 
+diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+index 2f9834eb9475..a1d2f0356cc1 100644
+--- a/Documentation/translations/zh_CN/vm/index.rst
++++ b/Documentation/translations/zh_CN/vm/index.rst
+@@ -26,6 +26,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+    damon/index
+    free_page_reporting
+    highmem
++   ksm
+ 
+ TODOLIST:
+ * arch_pgtable_helpers
+diff --git a/Documentation/translations/zh_CN/vm/ksm.rst b/Documentation/translations/zh_CN/vm/ksm.rst
+new file mode 100644
+index 000000000000..83b0c73984da
+--- /dev/null
++++ b/Documentation/translations/zh_CN/vm/ksm.rst
+@@ -0,0 +1,70 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/vm/ksm.rst
++
++:翻译:
++
++   徐鑫 xu xin <xu.xin16@zte.com.cn>
++
++============
++内核同页合并
++============
++
++KSM 是一种节省内存的数据去重功能，由CONFIG_KSM=y启用，并在2.6.32版本时被添加
++到Linux内核。详见 ``mm/ksm.c`` 的实现，以及http://lwn.net/Articles/306704和
++https://lwn.net/Articles/330589
++
++KSM的用户空间的接口在Documentation/translations/zh_CN/admin-guide/mm/ksm.rst
++文档中有描述。
++
++设计
++====
++
++概述
++----
++
++概述内容请见mm/ksm.c文档中的“DOC: Overview”
++
++逆映射
++------
++KSM维护着稳定树中的KSM页的逆映射信息。
++
++当KSM页面的共享数小于 ``max_page_sharing`` 的虚拟内存区域(VMAs)时，则代表了
++KSM页的稳定树其中的节点指向了一个rmap_item结构体类型的列表。同时，这个KSM页
++的 ``page->mapping`` 指向了该稳定树节点。
++
++如果共享数超过了阈值，KSM将给稳定树添加第二个维度。稳定树就变成链接一个或多
++个稳定树"副本"的"链"。每个副本都保留KSM页的逆映射信息，其中 ``page->mapping``
++指向该"副本"。
++
++每个链以及链接到该链中的所有"副本"强制不变的是，它们代表了相同的写保护内存
++内容，尽管任中一个"副本"是由同一片内存区的不同的KSM复制页所指向的。
++
++这样一来，相比与无限的逆映射链表，稳定树的查找计算复杂性不受影响。但在稳定树
++本身中不能有重复的KSM页面内容仍然是强制要求。
++
++由 ``max_page_sharing`` 强制决定的数据去重限制是必要的，以此来避免虚拟内存
++rmap链表变得过大。rmap的遍历具有O(N)的复杂度，其中N是共享页面的rmap_项（即
++虚拟映射）的数量，而这个共享页面的节点数量又被 ``max_page_sharing`` 所限制。
++因此，这有效地将线性O(N)计算复杂度从rmap遍历中分散到不同的KSM页面上。ksmd进
++程在稳定节点"链"上的遍历也是O(N)，但这个N是稳定树"副本"的数量，而不是rmap项
++的数量，因此它对ksmd性能没有显著影响。实际上，最佳稳定树"副本"的候选节点将
++保留在"副本"列表的开头。
++
++``max_page_sharing`` 的值设置得高了会促使更快的内存合并（因为将有更少的稳定
++树副本排队进入稳定节点chain->hlist）和更高的数据去重系数，但代价是在交换、压
++缩、NUMA平衡和页面迁移过程中可能导致KSM页的最大rmap遍历速度较慢。
++
++``stable_node_dups/stable_node_chains`` 的比值还受 ``max_page_sharing`` 调控
++的影响，高比值可能意味着稳定节点dup中存在碎片，这可以通过在ksmd中引入碎片算
++法来解决，该算法将rmap项从一个稳定节点dup重定位到另一个稳定节点dup，以便释放
++那些仅包含极少rmap项的稳定节点"dup"，但这可能会增加ksmd进程的CPU使用率，并可
++能会减慢应用程序在KSM页面上的只读计算。
++
++KSM会定期扫描稳定节点"链"中链接的所有稳定树"副本"，以便删减过时了的稳定节点。
++这种扫描的频率由 ``stable_node_chains_prune_millisecs`` 这个sysfs 接口定义。
++
++参考
++====
++内核代码请见mm/ksm.c。
++涉及的函数(mm_slot  ksm_scan  stable_node  rmap_item)。
 -- 
 2.27.0
 
