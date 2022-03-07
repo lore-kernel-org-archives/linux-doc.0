@@ -2,139 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C803C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 06:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC68C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 06:41:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbiCGGf2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 01:35:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54366 "EHLO
+        id S232666AbiCGGmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 01:42:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232389AbiCGGf1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 01:35:27 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17771409D;
-        Sun,  6 Mar 2022 22:34:33 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id s11so12842219pfu.13;
-        Sun, 06 Mar 2022 22:34:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Al0YeHlSZcSS4QCKRtFyAOPKrqPPjHztCvNSPqTvt8k=;
-        b=lbFEXIgx3/FZzJ6Bpq6H23qkCE3wi0vEbHqKjS2245Rcdtk8FpXGyf/reYE1SG3o1l
-         0gRmwxX+DGtWdcexzqQ0GiM1h81JP+jUIce0qrJTWhiwW6c1taOwb9KUGiHWsTtWdzym
-         I97btsyrc3yLMNuWfdQ/rMmk4U1lZk/gR2NhvrV/ifpXhjZSgniJS6QST/sizaapVCSS
-         KWGMmJJxCdIaVwVabncL2obmZAh0O7dvSUOkhdeVZRGZLJkLSPBhfzS6X1orrtRPpXjk
-         JgWTLQHw2T+gAcAIQ9FK+UPFHkxGYwlbtVjC3BHYxUqpLgyr5vi6uBCQk2bkoERUZSu6
-         Rkgw==
+        with ESMTP id S229461AbiCGGmn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 01:42:43 -0500
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B5438189;
+        Sun,  6 Mar 2022 22:41:50 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id qt6so29594758ejb.11;
+        Sun, 06 Mar 2022 22:41:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=Al0YeHlSZcSS4QCKRtFyAOPKrqPPjHztCvNSPqTvt8k=;
-        b=S99Gr3sp1V0IEOGvJujUHAhyeqkfQg2R2RessohLuJQk82mexsb2w0ALOwWUsh7N49
-         WrWABxiFJyOEGrm45KQkCh1hR0v3e8GQb4masYQc15hRU5LLMVbps1p5QB6IHX30DVmi
-         Ukb8t4JEYfCfqsLwaWgXb6qC2DT7oiXSx5Q+2fSHmNHtAivPcxLvVUs03mUWazLnS3iC
-         kPoKTlSZsV20rKrx8aEcE6j9TzfTKEW+hsFj16aCV/LkXKyf3vFfpw7feFkktQrNDJSc
-         JUcR9t4AUvL1ClTvkUl2QK88Fqkzx4OUyGWm9t8efbOPTayy5kbV49P1FUkmMyuNtVia
-         qR+w==
-X-Gm-Message-State: AOAM530JZycgfqIZsy8042LAIhX6A08qKU4rYQTUOWj/i9/+6cw/4GUk
-        S/6caP233xoiMo4npow09cB7q3hNBC8=
-X-Google-Smtp-Source: ABdhPJz591+WWFKk5GdiNQr6RztVHEiWiiMANV9V95huqFPq+a3Wi2PBZzzvhNPCQbeFmQJag+hWNg==
-X-Received: by 2002:a63:7c5c:0:b0:380:7412:341b with SMTP id l28-20020a637c5c000000b003807412341bmr172282pgn.38.1646634872466;
-        Sun, 06 Mar 2022 22:34:32 -0800 (PST)
-Received: from ubuntu.mate (subs02-180-214-232-81.three.co.id. [180.214.232.81])
-        by smtp.gmail.com with ESMTPSA id x1-20020a637c01000000b0038007eeee0bsm4834288pgc.22.2022.03.06.22.34.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Mar 2022 22:34:31 -0800 (PST)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        SeongJae Park <sjpark@amazon.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: describe how to apply incremental stable patches
-Date:   Mon,  7 Mar 2022 13:33:41 +0700
-Message-Id: <20220307063340.256671-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        bh=J7DC1Vzn2L5a72N66qdsn8mPgbxF2/NaUgybTaQB4J4=;
+        b=oTwxVBaGorMjnUXba2XiGt45qtmYW9qFWItGNwcrJpG4grN5N43ss4S12B98ncaG6Y
+         /g6+d9A8426MqgqSMjJmjLGI4yX8qMgUYz61bon6DD9UiBekZ2+qx/+8C6zTRwlr/SxW
+         82o+Opmk///sWrBobAI201uC9oPuuPiBQdDKG66feZYgdJmrGfchBryhlUoygluVznm2
+         NFd1prx7QlBIxcGtiOiVcj4iRQffyJb3GtSDB4K/WBleN7I6n6W6qqrPUMfNWi1m8pf3
+         9MKy4jOWvZOzkfL2JxYtRQ1EMECdwQ8wmelkRJkEGp61s7lNSI5ntksWJtQYesiLLP3S
+         D9Qw==
+X-Gm-Message-State: AOAM530Uzd3oQ5KcpEGL6Td0MwU+OLNqEpctPNmLJKYXVaw8MKrVjc2B
+        Kcn/WVwY5GpvRJ23IPXfYS1OdomF8AA=
+X-Google-Smtp-Source: ABdhPJw7dZa0tv9xj0VQVou4oKFiZULTaWLDsEJ478Yot9VphVBdeR51NxVCUqWrCbUIWKn1Oala3Q==
+X-Received: by 2002:a17:907:970e:b0:6da:9204:1d3a with SMTP id jg14-20020a170907970e00b006da92041d3amr7731948ejc.687.1646635308739;
+        Sun, 06 Mar 2022 22:41:48 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+        by smtp.gmail.com with ESMTPSA id k7-20020aa7c047000000b004132d3b60aasm5708170edo.78.2022.03.06.22.41.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Mar 2022 22:41:48 -0800 (PST)
+Message-ID: <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
+Date:   Mon, 7 Mar 2022 07:41:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] docs: serial: fix a reference file name in driver.rst
+Content-Language: en-US
+To:     Wan Jiabing <wanjiabing@vivo.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kael_w@qq.com
+References: <20220304100315.6732-1-wanjiabing@vivo.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <20220304100315.6732-1-wanjiabing@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The applying patches document
-(Documentation/process/applying-patches.rst) mentions incremental stable
-patches, but there is no example of how to apply them. Describe the
-process.
+On 04. 03. 22, 11:03, Wan Jiabing wrote:
+> Fix the following 'make refcheckdocs' warning:
+> Warning: Documentation/driver-api/serial/driver.rst references a file
+> that doesn't exist: Documentation/driver-api/serial/tty.rst
+> 
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 
-While at it, remove note about incremental patches and move the external
-link of 5.x.y incremental patches to "Where can I download patches?"
-section.
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: SeongJae Park <sjpark@amazon.de>
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/process/applying-patches.rst | 28 ++++++++++++++++++----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+> ---
+>   Documentation/driver-api/serial/driver.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
+> index 31bd4e16fb1f..06ec04ba086f 100644
+> --- a/Documentation/driver-api/serial/driver.rst
+> +++ b/Documentation/driver-api/serial/driver.rst
+> @@ -311,7 +311,7 @@ hardware.
+>   	This call must not sleep
+>   
+>     set_ldisc(port,termios)
+> -	Notifier for discipline change. See Documentation/driver-api/serial/tty.rst.
+> +	Notifier for discipline change. See Documentation/tty/tty_ldisc.rst.
+>   
+>   	Locking: caller holds tty_port->mutex
+>   
 
-diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-index c2121c1e55d..c269f5e1a0a 100644
---- a/Documentation/process/applying-patches.rst
-+++ b/Documentation/process/applying-patches.rst
-@@ -249,6 +249,10 @@ The 5.x.y (-stable) and 5.x patches live at
- 
- 	https://www.kernel.org/pub/linux/kernel/v5.x/
- 
-+The 5.x.y incremental patches live at
-+
-+	https://www.kernel.org/pub/linux/kernel/v5.x/incr/
-+
- The -rc patches are not stored on the webserver but are generated on
- demand from git tags such as
- 
-@@ -308,12 +312,11 @@ versions.
- If no 5.x.y kernel is available, then the highest numbered 5.x kernel is
- the current stable kernel.
- 
--.. note::
-+The -stable team provides normal as well as incremental patches. Below is
-+how to apply these patches.
- 
-- The -stable team usually do make incremental patches available as well
-- as patches against the latest mainline release, but I only cover the
-- non-incremental ones below. The incremental ones can be found at
-- https://www.kernel.org/pub/linux/kernel/v5.x/incr/
-+Normal patches
-+~~~~~~~~~~~~~~
- 
- These patches are not incremental, meaning that for example the 5.7.3
- patch does not apply on top of the 5.7.2 kernel source, but rather on top
-@@ -331,6 +334,21 @@ Here's a small example::
- 	$ cd ..
- 	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
- 
-+Incremental patches
-+~~~~~~~~~~~~~~~~~~~
-+
-+Incremental patches are different: instead of being applied on top
-+of base 5.x kernel, they are applied on top of previous stable kernel
-+(5.x.y-1).
-+
-+Here's the example to apply these::
-+
-+	$ cd ~/linux-5.7.2		# change to the kernel source dir
-+	$ patch -p1 < ../patch-5.7.2-3	# apply the new 5.7.3 patch
-+	$ cd ..
-+	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
-+
-+
- The -rc kernels
- ===============
- 
-
-base-commit: ffb217a13a2eaf6d5bd974fc83036a53ca69f1e2
+thanks,
 -- 
-An old man doll... just what I always wanted! - Clara
-
+js
+suse labs
