@@ -2,66 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1ACC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5186C4332F
 	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbiCIBOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 20:14:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
+        id S230212AbiCIBOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 20:14:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231435AbiCIBNW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:13:22 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9404D141E38
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:56:44 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id bi12so1611874ejb.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:56:44 -0800 (PST)
+        with ESMTP id S230314AbiCIBMt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:12:49 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A29512D92F
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 17:03:44 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id v1-20020a25fc01000000b006289a83ed20so559020ybd.7
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 17:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dlXc7nO4VVenbG9TQJ/z1TWtkG9nDmF64Ost29V8AWc=;
-        b=fk9Kkf3UiaboVe5n2sPqRmsu9R/9pSJ0MBG82T7odsoD9Z+4tUrGity1EBUSVcd5bO
-         Ay+GVgtTlqOjk5DG157lanciRnAlDA9OLu41FZ3ehebtgoQkdRl4IX3y8PNM/lSEI5AP
-         dZRPNM6mHBzmKNa87ZpX/gBVrjQgnOz7vbrW0=
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:content-transfer-encoding;
+        bh=Yy5tsDcd68WP2pPFOldj5ImTljRQrxxQbB0W/VdFifI=;
+        b=b5lAjQE8r1DEbBPedd60rKa6+76988i0gaD01NKhWSvAbggK5fAUfUjLdDSqtCvhi9
+         pSdAuIJUfsWqSY+yKR3opn1rWFJFPyd6uw0EZTOi89mg3w+9Kij3hZgzSNzQ5uXTIO8Y
+         HaMdUR+NTV2+ofLu655yGEGiMMsv0+/LtxcARukANmdSz0BAgX6igRbXlyWUhH6ywAsw
+         zycuNFFrPjtLG6b4DYVMH54gLp/6K2firQt4JHBz5JuUND1ASXZYseK7OsOP1xFz/xkY
+         WH6L9ooZaCWmADf90u5JzOTRFfZi//lfdLr4wAbqfl+F9F2vsAjm0w5yazXQEOjFRlkI
+         3Kjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dlXc7nO4VVenbG9TQJ/z1TWtkG9nDmF64Ost29V8AWc=;
-        b=3wp+oos4IfaC8Y8UTac43SJHY2ZB03XmNwDsItenoWEmWfgxgwU/Kf8XA+HV+IOIWt
-         Tq+yzNGHHcFVtrpPlDYIXPMn7+/N3kUrzL8B5ks799wWJuzNH9OYDSIPeiHQYUHNKxpV
-         DYRw5E9X7Ol5pTIPZOvzk9ivBqeiTD1Su3091MacC8uh3q4ssyFC+SyF8IK7a1PTAPyi
-         v/jZa9z35p3vKFmKhn/rHuahs609KpBO3cCmp4fGqcKE78MMPUHP/OPQnlVGDGm3UqIL
-         WWNpFdh4qIi89msQ4SkDaASihaGqqbutVT8VBwzTooePkaVvg1qJLldJr98FraaDW+M2
-         OAog==
-X-Gm-Message-State: AOAM533siQB7XDo83GcIgaqYyZepmhk+5l5desQDXPdTYyUJMrZs6t++
-        tyZvocScqc92XlVF2w8Su6NjZNNhnVW8/sKpXzU=
-X-Google-Smtp-Source: ABdhPJxiDFW0uvmX5HQ3sZnHJjXv8FXEtIky8PxYck5f9b9anFofUPHY6AwsRoZ/fq1EcT8Z/2blyQ==
-X-Received: by 2002:a17:907:6d9f:b0:6db:62b6:f3d6 with SMTP id sb31-20020a1709076d9f00b006db62b6f3d6mr1669581ejc.366.1646785800973;
-        Tue, 08 Mar 2022 16:30:00 -0800 (PST)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id y13-20020a1709060a8d00b006dabeaf86c7sm102105ejf.137.2022.03.08.16.30.00
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 16:30:00 -0800 (PST)
-Received: by mail-ej1-f43.google.com with SMTP id bi12so1516066ejb.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:30:00 -0800 (PST)
-X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
- c4-20020ac244a4000000b004458fc5a12amr12499712lfm.27.1646785789558; Tue, 08
- Mar 2022 16:29:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20220308234723.3834941-1-yuzhao@google.com> <CAHk-=wi5wg=72exwHODJdVtAfqa1e85dGfjGftuhHQ5Z4v-DNA@mail.gmail.com>
- <CAOUHufYFDawK6vmkQ16EQm7FSHresViifnxW2yj_RDuMSjJPjg@mail.gmail.com>
-In-Reply-To: <CAOUHufYFDawK6vmkQ16EQm7FSHresViifnxW2yj_RDuMSjJPjg@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 8 Mar 2022 16:29:33 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgwgqJMyxbrxa-mY3cYh--BZ5JKDieVc=RfXR1mdqsYkQ@mail.gmail.com>
-Message-ID: <CAHk-=wgwgqJMyxbrxa-mY3cYh--BZ5JKDieVc=RfXR1mdqsYkQ@mail.gmail.com>
-Subject: Re: [PATCH v8 00/14] Multi-Gen LRU Framework
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding;
+        bh=Yy5tsDcd68WP2pPFOldj5ImTljRQrxxQbB0W/VdFifI=;
+        b=esN2sSu+Ut3YZN4wSjl6paz4t4Z6Pi1L02kF2I9NxM7AvRglhFQoy9WKy9+/ayszUQ
+         pCcQVAnlQizK0ueqipcQ6UWQWLY4adfwt20UAyDotShPI3nNj+vAimEIV4fIEig0OhCn
+         OvcoHBsAvbkb03C9VxVvulUghA2Zr95sNHKAQ68S9aR4djtv38Re4NmIxcrIRR1jjbVs
+         jagGbfNzzhi6iHm8PvPFm//wWKbrft067/evUOcGpYd2rMN73myVMjYMe1dpMZPK8lIS
+         C/WY0ypOORdkZRSYId+7tNUAABL+n01XM62iQyfw+kLSRpm7EiPvrmZBZM/snWjhjDyU
+         15Fw==
+X-Gm-Message-State: AOAM531VlYyAiI89E2CuzBWdjiDRpf3ofAkO7iBmc2EuraGM43VGK1+j
+        vqzsjcqWTtY2e6tEnU0hUVQG/1pgO7k=
+X-Google-Smtp-Source: ABdhPJzVnM44uuYLVqWxi2C6HusyvMeenfA/ZcHczyWerbLbS/aJiKNUW4mZoiizV40TQ7wKAK96owR34vA=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:57a6:54a6:aad1:c0a8])
+ (user=yuzhao job=sendgmr) by 2002:a25:dfcd:0:b0:628:d031:e3a7 with SMTP id
+ w196-20020a25dfcd000000b00628d031e3a7mr14090539ybg.305.1646783309668; Tue, 08
+ Mar 2022 15:48:29 -0800 (PST)
+Date:   Tue,  8 Mar 2022 16:47:14 -0700
+In-Reply-To: <20220308234723.3834941-1-yuzhao@google.com>
+Message-Id: <20220308234723.3834941-5-yuzhao@google.com>
+Mime-Version: 1.0
+References: <20220308234723.3834941-1-yuzhao@google.com>
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v8 04/14] Revert "include/linux/mm_inline.h: fold
+ __update_lru_size() into its sole caller"
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -69,6 +63,7 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
@@ -78,44 +73,80 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Yu Zhao <yuzhao@google.com>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 4:15 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> This sounds self-serving: our data centers want them, so I had to try.
+This patch undoes the following refactor:
+commit 289ccba18af4 ("include/linux/mm_inline.h: fold __update_lru_size() i=
+nto its sole caller")
 
-Heh. I'm not opposed to putting them back in, but if/when we merge the
-multi-gen LRU code, I really want people to be all testing the same
-thing.
+The upcoming changes to include/linux/mm_inline.h will reuse
+__update_lru_size().
 
-I also think that if we put them back in, that should come with
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+Acked-by: Brian Geffon <bgeffon@google.com>
+Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Acked-by: Steven Barrett <steven@liquorix.net>
+Acked-by: Suleiman Souhlal <suleiman@google.com>
+Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+Tested-by: Donald Carr <d@chaos-reins.com>
+Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+---
+ include/linux/mm_inline.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- (a) performance numbers for the different cases
+diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+index cf90b1fa2c60..2c24f5ac3e2a 100644
+--- a/include/linux/mm_inline.h
++++ b/include/linux/mm_inline.h
+@@ -32,7 +32,7 @@ static inline int page_is_file_lru(struct page *page)
+ 	return folio_is_file_lru(page_folio(page));
+ }
+=20
+-static __always_inline void update_lru_size(struct lruvec *lruvec,
++static __always_inline void __update_lru_size(struct lruvec *lruvec,
+ 				enum lru_list lru, enum zone_type zid,
+ 				long nr_pages)
+ {
+@@ -41,6 +41,13 @@ static __always_inline void update_lru_size(struct lruve=
+c *lruvec,
+ 	__mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+ 	__mod_zone_page_state(&pgdat->node_zones[zid],
+ 				NR_ZONE_LRU_BASE + lru, nr_pages);
++}
++
++static __always_inline void update_lru_size(struct lruvec *lruvec,
++				enum lru_list lru, enum zone_type zid,
++				int nr_pages)
++{
++	__update_lru_size(lruvec, lru, zid, nr_pages);
+ #ifdef CONFIG_MEMCG
+ 	mem_cgroup_update_lru_size(lruvec, lru, zid, nr_pages);
+ #endif
+--=20
+2.35.1.616.g0bdcbb4464-goog
 
- (b) hard guidance of what the numbers should be, and under what
-circumstances (ie giving the user enough information that he *can*
-answer the question for his configuration)
-
- (c) some thought about perhaps making them possibly more dynamic than
-a hardcoded build-time value (assuming the numbers show that it's
-worth doing in the first place, of course)
-
-so I think that the support for the concept can/should be left in, but
-I think that kind of fancy "I want more generations or fewer
-tiers-per-generation because of XYZ" needs to be a separate issue with
-more explanation from the initial "This multi-gen LRU gives better
-performance" merge.
-
-Because as-is, I don't think those config options had nearly enough
-information associated with them to merit them existing.
-
-                  Linus
