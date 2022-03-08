@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F72C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5101DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:14:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230273AbiCIBOm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 20:14:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39948 "EHLO
+        id S230391AbiCIBPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 20:15:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231951AbiCIBNy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:13:54 -0500
-Received: from mail-oi1-x249.google.com (mail-oi1-x249.google.com [IPv6:2607:f8b0:4864:20::249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651D3163066
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 17:01:51 -0800 (PST)
-Received: by mail-oi1-x249.google.com with SMTP id h25-20020a056808015900b002d6048692beso755926oie.8
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 17:01:51 -0800 (PST)
+        with ESMTP id S230343AbiCIBOK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:14:10 -0500
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEB2E8697
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 17:00:32 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2dc383ba34eso4526637b3.21
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 17:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc:content-transfer-encoding;
-        bh=Tgx8ae//L5IA0Yqg+D9TLCaQ78LCepfaB8sQmorTCkw=;
-        b=VOKPAsZMw2EV5dnaXWEgHzcI5T7bLhbnjoKi9m50b58E08xYQ7AQ9wyvJWF/iwQD2i
-         aBXNXX/+p5kssXAP/xEEA3iE4zfOV/rH1m4zIE6673YDm2JTUpG3vhISAhVnVF10BZDA
-         er/lKNdTchIWlOMT8Mla52KvQtNMtEt9wsIyC6NF+oclvaI3bW05E/B9XEX9wmL4iINU
-         f0EG9As4WkKNuXXMbHqrhPU6ANTfBbNNev1NL0Mo1YxqfJqgwfQb3+vzaKCEGigpkhUM
-         7XDGWwezEmMQZpnvkAmwolSIauMUP6Qkdgy7xp0FCmDnQsCgZGbAPTtAnZlTffldFHoW
-         8SkQ==
+        bh=2eLf1OQ5c5M4ayVX+55KychHLqSf2s8rTUtR5N1e2O4=;
+        b=mYotAHnmck7cPQSLQ5H1Jgup5Q0G9nVPyWtfD7SnKNQ/M1hTgghhfpZ4cCWtoxTj44
+         csktK1vQp32m/Bge+p2XZSFeDfN3BXrGi2ngYB4B65c8GF5Yvc7CLZrTXZ11atQzrGM5
+         VjENj2CN3KFi5es5T3m/Q7BW01EhOnrOo2x7oMaydXpG4LIHJd+ec5LbiaMNTwNwIvnl
+         oMFKIdT5QiCz69GuODtpKmAewOxPROVTG3nziYa8tllTKYTT3dkOKF/7mIBANAhva48u
+         DRpSchfdmuLJQq9gWHowdHZaMNiPSaR1K16OSkOVXkcsbYAcKUyt1NRFc+fCE0Se/+po
+         AJAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc:content-transfer-encoding;
-        bh=Tgx8ae//L5IA0Yqg+D9TLCaQ78LCepfaB8sQmorTCkw=;
-        b=0DDNye6DA60bqvwVoSl2fLYp1lhLuq7V7ORqh6EKW9tMy8gYAaffmEXnzn/B/TRASC
-         qkMzyLEsanoJmruR7jn7OVzifuF4EbGw5iPzp8lPpi3iKpWzW9BMI7EZJGJND2y1FBqF
-         EfNZ+n9n2HBW2seacTW8qpqU1edCNMM/GI2dQnh1xFTtujD2yFbBjgtP89E5J236989m
-         IsmoICYapmqL2/i1sRjw/GsmHpHWLecpoFcpGviSCavIHW/51IW6MuobWCcIsWVJjR8Y
-         +0LB7r2oGz6b43He15EeUMUm7ye/ZfbzlylPR7wYTljPkAisNjVg9PfNUPVrYIQAZf1C
-         pplA==
-X-Gm-Message-State: AOAM533TehmtXRUSkQoXYrwi76OCMxbNzV/6RgiwUHcwGqn0cpfU5JmM
-        Iq72SfZDykDPdQ82sm9JnxbVpT4XfG4=
-X-Google-Smtp-Source: ABdhPJzr/LkGrf4zyQbWc/3GKFRSRZHS+D+1l8yz6GSzSf+zXSNr/RBGB8TIrC/rAfzru4/+7Vn4wNwfMpY=
+        bh=2eLf1OQ5c5M4ayVX+55KychHLqSf2s8rTUtR5N1e2O4=;
+        b=v8hTsStHBp3BTxQ3u2qAe7gqop2Ob7zvmFIo7MoebvkPPnlIw8jnF/Gdj3VWsoz3Nz
+         OvyFa+wt35NWyurc64qrBU9LKMBJHqdDSyepcT+59AzuYDkKcDmJmpJqfGnVZDtKBWeQ
+         xiOy+mdRXn3W2WzfyO0MTob/aRTmymBOV/AMRsXCzNBEahX94Zy+0J67cX8rZVc7/kb7
+         4RRtiSy/CqveU//pPa9aWMXM2yoI2qEeGJQcGdcgfvg8F7lbPjRJ9WXHmOuVKGuvrALv
+         LpE44XQqul/vLC3rtdIe3/4cJuoBjljFYEbt5JD3tRVItkhDzpQhUxmIwLbq+dyBOCEb
+         1nbQ==
+X-Gm-Message-State: AOAM532G/PGWeIEehxWbMzRr4rHb8ZTBPQDAii9F6gAXWyVCmIbk6wdU
+        Voe2hsq/voPT6jorUPLYtUZyMmGe7Fk=
+X-Google-Smtp-Source: ABdhPJy2qWRKAnebFlR4r0klAb03fdPmcYWhFD9wA2KdO3CK7iDFRKSpNcQybt31JhmXhU2fP2/5pR0E+WE=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:57a6:54a6:aad1:c0a8])
- (user=yuzhao job=sendgmr) by 2002:a25:dd87:0:b0:628:e822:bd with SMTP id
- u129-20020a25dd87000000b00628e82200bdmr13462896ybg.505.1646783306798; Tue, 08
- Mar 2022 15:48:26 -0800 (PST)
-Date:   Tue,  8 Mar 2022 16:47:12 -0700
+ (user=yuzhao job=sendgmr) by 2002:a81:1d2:0:b0:2dc:5915:661 with SMTP id
+ 201-20020a8101d2000000b002dc59150661mr15391184ywb.154.1646783324137; Tue, 08
+ Mar 2022 15:48:44 -0800 (PST)
+Date:   Tue,  8 Mar 2022 16:47:24 -0700
 In-Reply-To: <20220308234723.3834941-1-yuzhao@google.com>
-Message-Id: <20220308234723.3834941-3-yuzhao@google.com>
+Message-Id: <20220308234723.3834941-15-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20220308234723.3834941-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v8 02/14] mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+Subject: [PATCH v8 14/14] mm: multi-gen LRU: design doc
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Andi Kleen <ak@linux.intel.com>,
@@ -94,20 +94,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some architectures support the accessed bit in non-leaf PMD entries,
-e.g., x86 sets the accessed bit in a non-leaf PMD entry when using it
-as part of linear address translation [1]. Page table walkers that
-clear the accessed bit may use this capability to reduce their search
-space.
-
-Note that:
-1. Although an inline function is preferable, this capability is added
-   as a configuration option for consistency with the existing macros.
-2. Due to the little interest in other varieties, this capability was
-   only tested on Intel and AMD CPUs.
-
-[1]: Intel 64 and IA-32 Architectures Software Developer's Manual
-     Volume 3 (June 2021), section 4.8
+Add a design doc.
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
 Acked-by: Brian Geffon <bgeffon@google.com>
@@ -123,112 +110,187 @@ Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
 Tested-by: Sofia Trinh <sofia.trinh@edi.works>
 Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 ---
- arch/Kconfig                   | 9 +++++++++
- arch/x86/Kconfig               | 1 +
- arch/x86/include/asm/pgtable.h | 3 ++-
- arch/x86/mm/pgtable.c          | 5 ++++-
- include/linux/pgtable.h        | 4 ++--
- 5 files changed, 18 insertions(+), 4 deletions(-)
+ Documentation/vm/index.rst        |   1 +
+ Documentation/vm/multigen_lru.rst | 156 ++++++++++++++++++++++++++++++
+ 2 files changed, 157 insertions(+)
+ create mode 100644 Documentation/vm/multigen_lru.rst
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 678a80713b21..f9c59ecadbbb 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1322,6 +1322,15 @@ config DYNAMIC_SIGFRAME
- config HAVE_ARCH_NODE_DEV_GROUP
- 	bool
-=20
-+config ARCH_HAS_NONLEAF_PMD_YOUNG
-+	bool
-+	depends on PGTABLE_LEVELS > 2
-+	help
-+	  Architectures that select this option are capable of setting the
-+	  accessed bit in non-leaf PMD entries when using them as part of linear
-+	  address translations. Page table walkers that clear the accessed bit
-+	  may use this capability to reduce their search space.
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 44365c4574a3..b48434300226 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -25,6 +25,7 @@ algorithms.  If you are looking for advice on simply allo=
+cating memory, see the
+    ksm
+    memory-model
+    mmu_notifier
++   multigen_lru
+    numa
+    overcommit-accounting
+    page_migration
+diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_=
+lru.rst
+new file mode 100644
+index 000000000000..cde60de16621
+--- /dev/null
++++ b/Documentation/vm/multigen_lru.rst
+@@ -0,0 +1,156 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- source "kernel/gcov/Kconfig"
-=20
- source "scripts/gcc-plugins/Kconfig"
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 9f5bd41bf660..e787b7fc75be 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -85,6 +85,7 @@ config X86
- 	select ARCH_HAS_PMEM_API		if X86_64
- 	select ARCH_HAS_PTE_DEVMAP		if X86_64
- 	select ARCH_HAS_PTE_SPECIAL
-+	select ARCH_HAS_NONLEAF_PMD_YOUNG
- 	select ARCH_HAS_UACCESS_FLUSHCACHE	if X86_64
- 	select ARCH_HAS_COPY_MC			if X86_64
- 	select ARCH_HAS_SET_MEMORY
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.=
-h
-index 60b6ce45c2e3..f973788f6b21 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -819,7 +819,8 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
-=20
- static inline int pmd_bad(pmd_t pmd)
- {
--	return (pmd_flags(pmd) & ~_PAGE_USER) !=3D _KERNPG_TABLE;
-+	return (pmd_flags(pmd) & ~(_PAGE_USER | _PAGE_ACCESSED)) !=3D
-+	       (_KERNPG_TABLE & ~_PAGE_ACCESSED);
- }
-=20
- static inline unsigned long pages_to_mb(unsigned long npg)
-diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-index 3481b35cb4ec..a224193d84bf 100644
---- a/arch/x86/mm/pgtable.c
-+++ b/arch/x86/mm/pgtable.c
-@@ -550,7 +550,7 @@ int ptep_test_and_clear_young(struct vm_area_struct *vm=
-a,
- 	return ret;
- }
-=20
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONLEA=
-F_PMD_YOUNG)
- int pmdp_test_and_clear_young(struct vm_area_struct *vma,
- 			      unsigned long addr, pmd_t *pmdp)
- {
-@@ -562,6 +562,9 @@ int pmdp_test_and_clear_young(struct vm_area_struct *vm=
-a,
-=20
- 	return ret;
- }
-+#endif
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Multi-Gen LRU
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
- int pudp_test_and_clear_young(struct vm_area_struct *vma,
- 			      unsigned long addr, pud_t *pudp)
- {
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 79f64dcff07d..743e7fc4afda 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -212,7 +212,7 @@ static inline int ptep_test_and_clear_young(struct vm_a=
-rea_struct *vma,
- #endif
-=20
- #ifndef __HAVE_ARCH_PMDP_TEST_AND_CLEAR_YOUNG
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONLEA=
-F_PMD_YOUNG)
- static inline int pmdp_test_and_clear_young(struct vm_area_struct *vma,
- 					    unsigned long address,
- 					    pmd_t *pmdp)
-@@ -233,7 +233,7 @@ static inline int pmdp_test_and_clear_young(struct vm_a=
-rea_struct *vma,
- 	BUILD_BUG();
- 	return 0;
- }
--#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE || CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=
- */
- #endif
-=20
- #ifndef __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
++Design overview
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Objectives
++----------
++The design objectives are:
++
++* Good representation of access recency
++* Try to profit from spatial locality
++* Fast paths to make obvious choices
++* Simple self-correcting heuristics
++
++The representation of access recency is at the core of all LRU
++implementations. In the multi-gen LRU, each generation represents a
++group of pages with similar access recency. Generations establish a
++common frame of reference and therefore help make better choices,
++e.g., between different memcgs on a computer or different computers in
++a data center (for job scheduling).
++
++Exploiting spatial locality improves efficiency when gathering the
++accessed bit. A rmap walk targets a single page and does not try to
++profit from discovering a young PTE. A page table walk can sweep all
++the young PTEs in an address space, but the address space can be too
++large to make a profit. The key is to optimize both methods and use
++them in combination.
++
++Fast paths reduce code complexity and runtime overhead. Unmapped pages
++do not require TLB flushes; clean pages do not require writeback.
++These facts are only helpful when other conditions, e.g., access
++recency, are similar. With generations as a common frame of reference,
++additional factors stand out. But obvious choices might not be good
++choices; thus self-correction is required.
++
++The benefits of simple self-correcting heuristics are self-evident.
++Again, with generations as a common frame of reference, this becomes
++attainable. Specifically, pages in the same generation can be
++categorized based on additional factors, and a feedback loop can
++statistically compare the refault percentages across those categories
++and infer which of them are better choices.
++
++Assumptions
++-----------
++The protection of hot pages and the selection of cold pages are based
++on page access channels and patterns. There are two access channels:
++
++* Accesses through page tables
++* Accesses through file descriptors
++
++The protection of the former channel is by design stronger because:
++
++1. The uncertainty in determining the access patterns of the former
++   channel is higher due to the approximation of the accessed bit.
++2. The cost of evicting the former channel is higher due to the TLB
++   flushes required and the likelihood of encountering the dirty bit.
++3. The penalty of underprotecting the former channel is higher because
++   applications usually do not prepare themselves for major page
++   faults like they do for blocked I/O. E.g., GUI applications
++   commonly use dedicated I/O threads to avoid blocking the rendering
++   threads.
++
++There are also two access patterns:
++
++* Accesses exhibiting temporal locality
++* Accesses not exhibiting temporal locality
++
++For the reasons listed above, the former channel is assumed to follow
++the former pattern unless ``VM_SEQ_READ`` or ``VM_RAND_READ`` is
++present, and the latter channel is assumed to follow the latter
++pattern unless outlying refaults have been observed.
++
++Workflow overview
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Evictable pages are divided into multiple generations for each
++``lruvec``. The youngest generation number is stored in
++``lrugen->max_seq`` for both anon and file types as they are aged on
++an equal footing. The oldest generation numbers are stored in
++``lrugen->min_seq[]`` separately for anon and file types as clean file
++pages can be evicted regardless of swap constraints. These three
++variables are monotonically increasing.
++
++Generation numbers are truncated into ``order_base_2(MAX_NR_GENS+1)``
++bits in order to fit into the gen counter in ``folio->flags``. Each
++truncated generation number is an index to ``lrugen->lists[]``. The
++sliding window technique is used to track at least ``MIN_NR_GENS`` and
++at most ``MAX_NR_GENS`` generations. The gen counter stores a value
++within ``[1, MAX_NR_GENS]`` while a page is on one of
++``lrugen->lists[]``; otherwise it stores zero.
++
++Each generation is divided into multiple tiers. Tiers represent
++different ranges of numbers of accesses through file descriptors. A
++page accessed ``N`` times through file descriptors is in tier
++``order_base_2(N)``. In contrast to moving across generations, which
++requires the LRU lock, moving across tiers only requires operations on
++``folio->flags`` and therefore has a negligible cost. A feedback loop
++modeled after the PID controller monitors refaults over all the tiers
++from anon and file types and decides which tiers from which types to
++evict or protect.
++
++There are two conceptually independent procedures: the aging and the
++eviction. They form a closed-loop system, i.e., the page reclaim.
++
++Aging
++-----
++The aging produces young generations. Given an ``lruvec``, it
++increments ``max_seq`` when ``max_seq-min_seq+1`` approaches
++``MIN_NR_GENS``. The aging promotes hot pages to the youngest
++generation when it finds them accessed through page tables; the
++demotion of cold pages happens consequently when it increments
++``max_seq``. The aging uses page table walks and rmap walks to find
++young PTEs. For the former, it iterates ``lruvec_memcg()->mm_list``
++and calls ``walk_page_range()`` with each ``mm_struct`` on this list
++to scan PTEs. On finding a young PTE, it clears the accessed bit and
++updates the gen counter of the page mapped by this PTE to
++``(max_seq%MAX_NR_GENS)+1``. After each iteration of this list, it
++increments ``max_seq``. For the latter, when the eviction walks the
++rmap and finds a young PTE, the aging scans the adjacent PTEs and
++follows the same steps just described.
++
++Eviction
++--------
++The eviction consumes old generations. Given an ``lruvec``, it
++increments ``min_seq`` when ``lrugen->lists[]`` indexed by
++``min_seq%MAX_NR_GENS`` becomes empty. To select a type and a tier to
++evict from, it first compares ``min_seq[]`` to select the older type.
++If both types are equally old, it selects the one whose first tier has
++a lower refault percentage. The first tier contains single-use
++unmapped clean pages, which are the best bet. The eviction sorts a
++page according to the gen counter if the aging has found this page
++accessed through page tables and updated the gen counter. It also
++moves a page to the next generation, i.e., ``min_seq+1``, if this page
++was accessed multiple times through file descriptors and the feedback
++loop has detected outlying refaults from the tier this page is in. To
++do this, the feedback loop uses the first tier as the baseline, for
++the reason stated earlier.
++
++Summary
++-------
++The multi-gen LRU can be disassembled into the following parts:
++
++* Generations
++* Page table walks
++* Rmap walks
++* Bloom filters
++* The PID controller
++
++The aging and the eviction is a producer-consumer model; specifically,
++the latter drives the former by the sliding window over generations.
++Within the aging, rmap walks drive page table walks by inserting hot
++densely populated page tables to the Bloom filters. Within the
++eviction, the PID controller uses refaults as the feedback to select
++types to evict and tiers to protect.
 --=20
 2.35.1.616.g0bdcbb4464-goog
 
