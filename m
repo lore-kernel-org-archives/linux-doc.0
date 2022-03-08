@@ -2,198 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3EE6C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 20:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B0EC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 21:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346980AbiCHUKH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 15:10:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49708 "EHLO
+        id S1350572AbiCHV6A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 16:58:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234107AbiCHUKG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 15:10:06 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B767DEB7;
-        Tue,  8 Mar 2022 12:09:09 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD55C1650;
-        Tue,  8 Mar 2022 12:09:08 -0800 (PST)
-Received: from [10.57.41.254] (unknown [10.57.41.254])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A14E03F7D7;
-        Tue,  8 Mar 2022 12:09:06 -0800 (PST)
-Message-ID: <1cd577e8-1364-ffc5-020c-330378a72c78@arm.com>
-Date:   Tue, 8 Mar 2022 20:09:01 +0000
+        with ESMTP id S1350525AbiCHV5x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 16:57:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D5E50E07;
+        Tue,  8 Mar 2022 13:56:56 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 47A70B81E00;
+        Tue,  8 Mar 2022 21:56:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E0AC340EC;
+        Tue,  8 Mar 2022 21:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646776614;
+        bh=4XzJPlpa9kz5NaKF4aBUOW8yQiX35WK9mvoNY2IoxUc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EdmwsT93cR85kvRGXLJNWLy6O+FHjhyliK7EJ2gURYymWVwKiJGa5JJZtzjzXA1ZN
+         YKChNieE4EHJIKTlWdwmavfCZpbxUvGJ2i+dSKWeK6ZMKA5htfKVZW+5yvYJcp3+fR
+         HJ9M0ZjWf4lSlL3rpybHW1ylLH+dAK+Zanvv5wj09/ql5hre80r4WXl3BQM0iZi4xv
+         tZo1zFyvL1T4fhtUtc95NR8ZVKJoxHSta/wpUQqCZv8of7SMwXc3hqA3UUzlQaiP77
+         0sWvPfS2CuOGsBg5pB41wJmKOXNBGMSXC/kkopstfr251l89gth13ExQ4Fv5V9wTcR
+         xSuGfanLtjBEg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     alexs@kernel.org, arnd@arndb.de, arnd@kernel.org, dsterba@suse.com,
+        elver@google.com, jani.nikula@intel.com, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, mark.rutland@arm.com,
+        ndesaulniers@google.com, ojeda@kernel.org,
+        torvalds@linux-foundation.org
+Subject: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
+Date:   Tue,  8 Mar 2022 22:56:11 +0100
+Message-Id: <20220308215615.14183-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] Documentation: x86: add documenation for AMD IOMMU
-Content-Language: en-GB
-To:     Alex Deucher <alexander.deucher@amd.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, hpa@zytor.com, x86@kernel.org,
-        dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com,
-        tglx@linutronix.de, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        will@kernel.org, iommu@lists.linux-foundation.org
-References: <20220308190453.135068-1-alexander.deucher@amd.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220308190453.135068-1-alexander.deucher@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-03-08 19:04, Alex Deucher via iommu wrote:
-> Add preliminary documenation for AMD IOMMU.
-> 
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> ---
->   Documentation/x86/amd-iommu.rst   | 85 +++++++++++++++++++++++++++++++
->   Documentation/x86/index.rst       |  1 +
->   Documentation/x86/intel-iommu.rst |  2 +-
->   3 files changed, 87 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/x86/amd-iommu.rst
-> 
-> diff --git a/Documentation/x86/amd-iommu.rst b/Documentation/x86/amd-iommu.rst
-> new file mode 100644
-> index 000000000000..89820140fefa
-> --- /dev/null
-> +++ b/Documentation/x86/amd-iommu.rst
-> @@ -0,0 +1,85 @@
-> +=================
-> +AMD IOMMU Support
-> +=================
-> +
-> +The architecture spec can be obtained from the below location.
-> +
-> +https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-> +
-> +This guide gives a quick cheat sheet for some basic understanding.
-> +
-> +Some Keywords
-> +
-> +- IVRS - I/O Virtualization Reporting Structure
-> +- IVDB - I/O Virtualization Definition Block
-> +- IVHD - I/O Virtualization Hardware Definition
-> +- IOVA - I/O Virtual Address.
-> +
-> +Basic stuff
-> +-----------
-> +
-> +ACPI enumerates and lists the different DMA engines in the platform, and
-> +device scope relationships between PCI devices and which DMA engine controls
-> +them.
+From: Arnd Bergmann <arnd@arndb.de>
 
-"DMA engine" typically means a dedicated device for peripheral-to-memory 
-or memory-to-memory transfers, or the responsible block within a general 
-DMA-capable endpoint. In the context of the original Intel doc from 
-whence I see this is copied, this probably should have said "DMAR unit" 
-or similar; here I'd suggest picking your favourite vendor-appropriate 
-term for "instance of IOMMU translation hardware". Let's not promote 
-confusion more than necessary.
+I've incorporated the feedback from Masahiro Yamada in this
+version, splitting out one more patch, rebasing on top of 
+the kbuild tree, and changing the order of the patches.
 
-> +
-> +What is IVRS?
-> +-------------
-> +
-> +The architecture defines an ACPI-compatible data structure called an I/O
-> +Virtualization Reporting Structure (IVRS) that is used to convey information
-> +related to I/O virtualization to system software.  The IVRS describes the
-> +configuration and capabilities of the IOMMUs contained in the platform as
-> +well as information about the devices that each IOMMU virtualizes.
-> +
-> +The IVRS provides information about the following:
-> +- IOMMUs present in the platform including their capabilities and proper configuration
-> +- System I/O topology relevant to each IOMMU
-> +- Peripheral devices that cannot be otherwise enumerated
-> +- Memory regions used by SMI/SMM, platform firmware, and platform hardware. These are
-> +generally exclusion ranges to be configured by system software.
-> +
-> +How is IOVA generated?
-> +----------------------
-> +
-> +Well behaved drivers call pci_map_*() calls before sending command to device
+Please apply to the kbuild tree.
 
-Horribly out-of-date drivers call pci_map_*(). Modern well-behaved 
-drivers call dma_map_*() ;)
+       Arnd
 
-> +that needs to perform DMA. Once DMA is completed and mapping is no longer
-> +required, device performs a pci_unmap_*() calls to unmap the region.
-> +
-> +The AMD IOMMU driver allocates a virtual address per domain. Each PCIE
-> +device has its own domain (hence protection). Devices under p2p bridges
-> +share the virtual address with all devices under the p2p bridge due to
-> +transaction id aliasing for p2p bridges.
-> +
-> +IOVA generation is pretty generic. We used the same technique as vmalloc()
-> +but these are not global address spaces, but separate for each domain.
-> +Different DMA engines may support different number of domains.
+Cc: linux-kbuild@vger.kernel.org
+Cc: llvm@lists.linux.dev
 
-I'm not sure about this whole section, really - IOVA management was 
-entirely decoupled from drivers some time ago. If there's value in 
-having some overview documentation, then it's probably worth 
-consolidating into a common "IOMMU API" doc that can be cross-referenced 
-for a summary of domains, groups, and iommu_dma_ops.
+Arnd Bergmann (3):
+  [v4] Kbuild: add -Wno-shift-negative-value where -Wextra is used
+  [v4] Kbuild: move to -std=gnu11
+  Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
 
-> +
-> +
-> +Fault reporting
-> +---------------
-> +When errors are reported, the DMA engine signals via an interrupt. The fault
+Mark Rutland (1):
+  [v4] Kbuild: use -Wdeclaration-after-statement
 
-Again, here I instinctively read "DMA engine" as being the endpoint 
-device *making* the DMA transaction that faulted, and indeed that might 
-happen to raise its own error interrupt if it gets an unexpected abort 
-back from the IOMMU, which is coincidental to a thoroughly misleading 
-degree...
+ Documentation/process/programming-language.rst             | 6 +++---
+ .../translations/it_IT/process/programming-language.rst    | 4 ++--
+ .../translations/zh_CN/process/programming-language.rst    | 3 +--
+ .../translations/zh_TW/process/programming-language.rst    | 3 +--
+ Makefile                                                   | 7 ++++---
+ arch/arm64/kernel/vdso32/Makefile                          | 3 ++-
+ drivers/gpu/drm/i915/Makefile                              | 1 +
+ drivers/staging/greybus/tools/Makefile                     | 3 ++-
+ fs/btrfs/Makefile                                          | 1 +
+ scripts/Makefile.extrawarn                                 | 1 +
+ scripts/mod/modpost.c                                      | 4 +++-
+ 11 files changed, 21 insertions(+), 15 deletions(-)
 
-Thanks,
-Robin.
+-- 
+2.29.2
 
-> +reason and device that caused it with fault reason is printed on console.
-> +
-> +See below for sample.
-> +
-> +
-> +Boot Message Sample
-> +-------------------
-> +
-> +Something like this gets printed indicating presence of the IOMMU.
-> +
-> +	iommu: Default domain type: Translated
-> +	iommu: DMA domain TLB invalidation policy: lazy mode
-> +
-> +
-> +PCI-DMA: Using AMD IOMMU
-> +------------------------
-> +
-> +Fault reporting
-> +^^^^^^^^^^^^^^^
-> +
-> +::
-> +
-> +	AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0007 address=0xffffc02000 flags=0x0000]
-> +	AMD-Vi: Event logged [IO_PAGE_FAULT device=07:00.0 domain=0x0007 address=0xffffc02000 flags=0x0000]
-> +
-> diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-> index f498f1d36cd3..15711134eb68 100644
-> --- a/Documentation/x86/index.rst
-> +++ b/Documentation/x86/index.rst
-> @@ -22,6 +22,7 @@ x86-specific Documentation
->      mtrr
->      pat
->      intel-iommu
-> +   amd-iommu
->      intel_txt
->      amd-memory-encryption
->      pti
-> diff --git a/Documentation/x86/intel-iommu.rst b/Documentation/x86/intel-iommu.rst
-> index 099f13d51d5f..4d3391c7bd3f 100644
-> --- a/Documentation/x86/intel-iommu.rst
-> +++ b/Documentation/x86/intel-iommu.rst
-> @@ -1,5 +1,5 @@
->   ===================
-> -Linux IOMMU Support
-> +Intel IOMMU Support
->   ===================
->   
->   The architecture spec can be obtained from the below location.
