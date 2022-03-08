@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7ECC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 08:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68E1DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 08:11:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344841AbiCHIMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 03:12:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60764 "EHLO
+        id S234524AbiCHIMJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 03:12:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344732AbiCHILv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 03:11:51 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E643ED0F
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 00:10:54 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id s42so4082836pfg.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 00:10:54 -0800 (PST)
+        with ESMTP id S1344834AbiCHILz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 03:11:55 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005073ED12
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 00:10:57 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id mv5-20020a17090b198500b001bf2a039831so1515614pjb.5
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 00:10:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=l6ezvva7aIyQAg2OGi2GVTAkNprHIfCTgRi/sBSe3Ow=;
-        b=KaSaGnerkF4ppa4dH3Jt2i1Mp7RaJrJJfEHD/YNKVjNmmW6OWG12nngNNJEaCztDZO
-         fUPOxoXvKzqo1+UhP2UvhT44IGDD0IU2qna+vg1d/iQp54IUX5m1QV+jBunjBuJcD77d
-         9uIxlcXrcdHcx5Wd6QCSOnkOTcvJU2rdoZu2dwo7caBvitFUFhgKza0VJN5rdsAmp5Ml
-         eqVrwlaPEtgKyPaRu5ge4yleJypr6w3d2pn3qX+86fHf9e62LDDnV0S6n49VJ/eRXy3+
-         sC7jbK7ZhKen3FS4UVpsVpdPhTsuIv+wUYl8ZTqQsuVPUQedqtnMxA/2I0glfMqZcaiK
-         HO8A==
+        bh=UxOI+J6UzWM5slY0TOCuEuWcboX9Hj6RiOnNKbLBP7M=;
+        b=EgcHlyLrDHwNflVb+54zz42Y53opQdOYGtsbS4/aXfaGYKD+mUeVrfl7VVc6+y2Q8/
+         0ynIn7Kog+boLHqvhg6lbB99BuxEW+Isx5zxpsAlcxjE/FzycmWcLpyGcb4G9zjCYDG7
+         BeDMbGm3kjk3WEXPc5tSzJo61ahS+H6M2zrfAn6elMkSUyZAvGSsHM0hupbZO/9qpBdL
+         acFs+zbrl8LEhB4oAQp9AmO/lx9QJpfi3dRGUuM7LnA0Ifcp7oamjU9+rNflzyu+lF3d
+         8od20xCdd1wFDtXGnaHpNEMr6je1T8HbDGQ+8SNDrtiCURfnyrEi4Mv2/rHCLbMsNv+d
+         1Kqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=l6ezvva7aIyQAg2OGi2GVTAkNprHIfCTgRi/sBSe3Ow=;
-        b=IhvNbfdCnXwOjeeUIqdcABJh+M5wumBQbupsrkLSA1hrZCRwcC3WEkqqGywANqjBb1
-         1ESJ4kY8VO188xAvD+ZP5lvAoZICWnNpFWN1bmZqYGO0t/CQufZtBcRChavRPnKM2ZPr
-         sIF64XwO1wuH0JloXARNbD+UelJwtQFwPHxTFJVxATeGQPnya8j/DBzvVNOLNl10kf7E
-         RE01jop1pS5wtArPtr7K3f7p568IbFS+RaVUHHZEp0DdkoYj04kWoCxm/8YsgKfXyGzf
-         5c2D4QWqhq69i2dab27OlCVH4dblrYitIkGoYiMbfWya1HSWucA32AhNMaH/U+h/4uxa
-         AvTA==
-X-Gm-Message-State: AOAM5311SqfNd22kd8RR8z9DhP+KSLWjt+HyTi5IvVdxbZbWdoACsa31
-        shJjeX6dHpbkzMocstBN23kgYg8ENAUTWnPQ
-X-Google-Smtp-Source: ABdhPJz9LMPNuPIxLKclUztn6WLT8vX9L+iosZDKUN1S8XRgjePH++X503z83k8xbmPapY4eUZOBHg==
-X-Received: by 2002:a63:4f1e:0:b0:37c:9a79:f20f with SMTP id d30-20020a634f1e000000b0037c9a79f20fmr13124785pgb.532.1646727054186;
-        Tue, 08 Mar 2022 00:10:54 -0800 (PST)
+        bh=UxOI+J6UzWM5slY0TOCuEuWcboX9Hj6RiOnNKbLBP7M=;
+        b=aVYOe8Oq9h3v5ls4tOzi5g+5or3LyRaDrQ7a4aZStoKMeJUTN6pvdMS3yO2pqg3uiR
+         kr+Qc2ErX2OviWq415fmgDHuNr0u2LzAHHD78osDlugyr+It6Z+wV7fr1Tb4XDiZEIgY
+         uF+EAepF+xJeyj0DdALWZwrSaGrJN2HX3/jlTvl7aVMXRwneZcTHwvc2UGX0wXGbCrJF
+         dZ1V+TK38TX3i6EPUR/J0fn21+H2MF1iKA3A1w2RIziRakko+6DcGRE30QF5vKmZIVRH
+         RnoifbKPEHAxed1vkHO3PU+PKSCjKgG3QGDdCNmmp98fgPjRddMFAXVkyE8ITl/bMWLz
+         5tvw==
+X-Gm-Message-State: AOAM53342II3ghtt5uqYIvdDZMMBlyxg8kcWh9Sfin/ZFYUTFZTxHt+s
+        ELRihL5JnwTFvTM2BlBrjtM=
+X-Google-Smtp-Source: ABdhPJx5EOQXPXxOo6yTK6B0/GvnJ4945FQX2jBIXMMRmGX1wEUcCqpqZ1xver6xNcBa+20W2E4zkg==
+X-Received: by 2002:a17:902:ec81:b0:151:f1c5:2f9f with SMTP id x1-20020a170902ec8100b00151f1c52f9fmr6956606plg.123.1646727057379;
+        Tue, 08 Mar 2022 00:10:57 -0800 (PST)
 Received: from localhost.localdomain ([50.7.60.25])
-        by smtp.gmail.com with ESMTPSA id d14-20020a056a0024ce00b004f7281cda21sm2165282pfv.167.2022.03.08.00.10.51
+        by smtp.gmail.com with ESMTPSA id d14-20020a056a0024ce00b004f7281cda21sm2165282pfv.167.2022.03.08.00.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 00:10:53 -0800 (PST)
+        Tue, 08 Mar 2022 00:10:57 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4 4/5] docs/zh_CN: add damon usage translation
-Date:   Tue,  8 Mar 2022 16:12:02 +0800
-Message-Id: <0911479827f1119df1f6ed3e52c4406d07a52e3f.1646723250.git.siyanteng@loongson.cn>
+Subject: [PATCH v4 5/5] docs/zh_CN: add damon reclaim translation
+Date:   Tue,  8 Mar 2022 16:12:03 +0800
+Message-Id: <e3b3c0c011c0e4a719dd98dfe9cfc6e933ee2998.1646723250.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1646723249.git.siyanteng@loongson.cn>
 References: <cover.1646723249.git.siyanteng@loongson.cn>
@@ -68,41 +68,41 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate .../admin-guide/mm/damon/usage.rst into Chinese.
+Translate .../admin-guide/mm/damon/reclaim.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../zh_CN/admin-guide/mm/damon/index.rst      |   2 +-
- .../zh_CN/admin-guide/mm/damon/usage.rst      | 286 ++++++++++++++++++
- 2 files changed, 287 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+ .../zh_CN/admin-guide/mm/damon/index.rst      |   4 +-
+ .../zh_CN/admin-guide/mm/damon/reclaim.rst    | 232 ++++++++++++++++++
+ 2 files changed, 234 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
 
 diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-index 4aa122f375e3..bd1f1a551f0f 100644
+index bd1f1a551f0f..0c8276109fc0 100644
 --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
 +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-@@ -20,9 +20,9 @@
-    :maxdepth: 2
+@@ -21,8 +21,8 @@
  
     start
-+   usage
+    usage
++   reclaim
++
  
- Todolist:
+-Todolist:
  
  
--*   usage
- *   reclaim
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+-*   reclaim
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
 new file mode 100644
-index 000000000000..5d7533347216
+index 000000000000..5408d84118c7
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
-@@ -0,0 +1,286 @@
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+@@ -0,0 +1,232 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/admin-guide/mm/damon/usage.rst
++:Original: Documentation/admin-guide/mm/damon/reclaim.rst
 +
 +:翻译:
 +
@@ -110,281 +110,227 @@ index 000000000000..5d7533347216
 +
 +:校译:
 +
-+========
-+详细用法
-+========
-+
-+DAMON 为不同的用户提供了下面三种接口。
-+
-+- *DAMON用户空间工具。*
-+  `这 <https://github.com/awslabs/damo>`_ 为有这特权的人， 如系统管理员，希望有一个刚好
-+  可以工作的人性化界面。
-+  使用它，用户可以以人性化的方式使用DAMON的主要功能。不过，它可能不会为特殊情况进行高度调整。
-+  它同时支持虚拟和物理地址空间的监测。更多细节，请参考它的 `使用文档
-+  <https://github.com/awslabs/damo/blob/next/USAGE.md>`_。
-+- *debugfs接口。*
-+  :ref:`这 <debugfs_interface>` 是为那些希望更高级的使用DAMON的特权用户空间程序员准备的。
-+  使用它，用户可以通过读取和写入特殊的debugfs文件来使用DAMON的主要功能。因此，你可以编写和使
-+  用你个性化的DAMON debugfs包装程序，代替你读/写debugfs文件。  `DAMON用户空间工具
-+  <https://github.com/awslabs/damo>`_ 就是这种程序的一个例子  它同时支持虚拟和物理地址
-+  空间的监测。注意，这个界面只提供简单的监测结果 :ref:`统计 <damos_stats>`。对于详细的监测
-+  结果，DAMON提供了一个:ref:`跟踪点 <tracepoint>`。
-+
-+- *内核空间编程接口。*
-+  :doc:`This </vm/damon/api>` 这是为内核空间程序员准备的。使用它，用户可以通过为你编写内
-+  核空间的DAMON应用程序，最灵活有效地利用DAMON的每一个功能。你甚至可以为各种地址空间扩展DAMON。
-+  详细情况请参考接口 :doc:`文件 </vm/damon/api>`。
-+
-+
-+debugfs接口
-+===========
-+
-+DAMON导出了八个文件, ``attrs``, ``target_ids``, ``init_regions``,
-+``schemes``, ``monitor_on``, ``kdamond_pid``, ``mk_contexts`` 和
-+``rm_contexts`` under its debugfs directory, ``<debugfs>/damon/``.
-+
-+
-+属性
-+----
-+
-+用户可以通过读取和写入 ``attrs`` 文件获得和设置 ``采样间隔`` 、 ``聚集间隔`` 、 ``区域更新间隔``
-+以及监测目标区域的最小/最大数量。要详细了解监测属性，请参考 `:doc:/vm/damon/design` 。例如，
-+下面的命令将这些值设置为5ms、100ms、1000ms、10和1000，然后再次检查::
-+
-+    # cd <debugfs>/damon
-+    # echo 5000 100000 1000000 10 1000 > attrs
-+    # cat attrs
-+    5000 100000 1000000 10 1000
-+
-+
-+目标ID
-+------
-+
-+一些类型的地址空间支持多个监测目标。例如，虚拟内存地址空间的监测可以有多个进程作为监测目标。用户
-+可以通过写入目标的相关id值来设置目标，并通过读取 ``target_ids`` 文件来获得当前目标的id。在监
-+测虚拟地址空间的情况下，这些值应该是监测目标进程的pid。例如，下面的命令将pid为42和4242的进程设
-+为监测目标，并再次检查::
-+
-+    # cd <debugfs>/damon
-+    # echo 42 4242 > target_ids
-+    # cat target_ids
-+    42 4242
-+
-+用户还可以通过在文件中写入一个特殊的关键字 "paddr\n" 来监测系统的物理内存地址空间。因为物理地
-+址空间监测不支持多个目标，读取文件会显示一个假值，即 ``42`` ，如下图所示::
-+
-+    # cd <debugfs>/damon
-+    # echo paddr > target_ids
-+    # cat target_ids
-+    42
-+
-+请注意，设置目标ID并不启动监测。
-+
-+
-+初始监测目标区域
-+----------------
-+
-+在虚拟地址空间监测的情况下，DAMON自动设置和更新监测的目标区域，这样就可以覆盖目标进程的整个
-+内存映射。然而，用户可能希望将监测区域限制在特定的地址范围内，如堆、栈或特定的文件映射区域。
-+或者，一些用户可以知道他们工作负载的初始访问模式，因此希望为“自适应区域调整”设置最佳初始区域。
-+
-+相比之下，DAMON在物理内存监测的情况下不会自动设置和更新监测目标区域。因此，用户应该自己设置
-+监测目标区域。
-+
-+在这种情况下，用户可以通过在 ``init_regions`` 文件中写入适当的值，明确地设置他们想要的初
-+始监测目标区域。输入的每一行应代表一个区域，形式如下::
-+
-+    <target idx> <start address> <end address>
-+
-+目标idx应该是 ``target_ids`` 文件中目标的索引，从 ``0`` 开始，区域应该按照地址顺序传递。
-+例如，下面的命令将设置几个地址范围， ``1-100`` 和 ``100-200`` 作为pid 42的初始监测目标
-+区域，这是 ``target_ids`` 中的第一个（索引 ``0`` ），另外几个地址范围， ``20-40`` 和
-+``50-100`` 作为pid 4242的地址，这是 ``target_ids`` 中的第二个（索引 ``1`` ）::
-+
-+    # cd <debugfs>/damon
-+    # cat target_ids
-+    42 4242
-+    # echo "0   1       100
-+            0   100     200
-+            1   20      40
-+            1   50      100" > init_regions
-+
-+请注意，这只是设置了初始的监测目标区域。在虚拟内存监测的情况下，DAMON会在一个 ``区域更新间隔``
-+后自动更新区域的边界。因此，在这种情况下，如果用户不希望更新的话，应该把 ``区域的更新间隔`` 设
-+置得足够大。
-+
-+
-+方案
-+----
-+
-+对于通常的基于DAMON的数据访问感知的内存管理优化，用户只是希望系统对特定访问模式的内存区域应用内
-+存管理操作。DAMON从用户那里接收这种形式化的操作方案，并将这些方案应用到目标进程中。
-+
-+用户可以通过读取和写入 ``scheme`` debugfs文件来获得和设置这些方案。读取该文件还可以显示每个
-+方案的统计数据。在文件中，每一个方案都应该在每一行中以下列形式表示出来::
-+
-+    <target access pattern> <action> <quota> <watermarks>
-+
-+你可以通过简单地在文件中写入一个空字符串来禁用方案。
-+
-+目标访问模式
-+~~~~~~~~~~~~
-+
-+``<目标访问模式>`` 是由三个范围构成的，形式如下::
-+
-+    min-size max-size min-acc max-acc min-age max-age
-+
-+具体来说，区域大小的字节数（ `min-size` 和 `max-size` ），访问频率的每聚合区间的监测访问次
-+数（ `min-acc` 和 `max-acc` ），区域年龄的聚合区间数（ `min-age` 和 `max-age` ）都被指定。
-+请注意，这些范围是封闭区间。
-+
-+动作
-+~~~~
-+
-+``<action>`` 是一个预定义的内存管理动作的整数，DAMON将应用于具有目标访问模式的区域。支持
-+的数字和它们的含义如下::
-+
-+ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
-+ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
-+ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
-+ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
-+ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-+ - 5: Do nothing but count the statistics
-+
-+配额
-+~~~~
-+
-+每个 ``动作`` 的最佳 ``目标访问模式`` 取决于工作负载，所以不容易找到。更糟糕的是，将某个
-+动作的方案设置得过于激进会导致严重的开销。为了避免这种开销，用户可以通过下面表格中的 ``<quota>``
-+来限制方案的时间和大小配额::
-+
-+    <ms> <sz> <reset interval> <priority weights>
-+
-+这使得DAMON在 ``<reset interval>`` 毫秒内，尽量只用 ``<ms>`` 毫秒的时间对 ``目标访
-+问模式`` 的内存区域应用动作，并在 ``<reset interval>`` 内只对最多<sz>字节的内存区域应
-+用动作。将 ``<ms>`` 和 ``<sz>`` 都设置为零，可以禁用配额限制。
-+
-+当预计超过配额限制时，DAMON会根据 ``目标访问模式`` 的大小、访问频率和年龄，对发现的内存
-+区域进行优先排序。为了实现个性化的优先级，用户可以在 ``<优先级权重>`` 中设置这三个属性的
-+权重，具体形式如下::
-+
-+    <size weight> <access frequency weight> <age weight>
-+
-+水位
-+~~~~
-+
-+有些方案需要根据系统特定指标的当前值来运行，如自由内存比率。对于这种情况，用户可以为该条
-+件指定水位。::
-+
-+    <metric> <check interval> <high mark> <middle mark> <low mark>
-+
-+``<metric>`` 是一个预定义的整数，用于要检查的度量。支持的数字和它们的含义如下。
-+
-+ - 0: 忽视水位
-+ - 1: 系统空闲内存率 (千分比)
-+
-+每隔 ``<检查间隔>`` 微秒检查一次公制的值。
-+
-+如果该值高于 ``<高标>`` 或低于 ``<低标>`` ，该方案被停用。如果该值低于 ``<中标>`` ，
-+该方案将被激活。
-+
-+统计数据
-+~~~~~~~~
-+
-+它还统计每个方案被尝试应用的区域的总数量和字节数，每个方案被成功应用的区域的两个数量，以
-+及超过配额限制的总数量。这些统计数据可用于在线分析或调整方案。
-+
-+统计数据可以通过读取方案文件来显示。读取该文件将显示你在每一行中输入的每个 ``方案`` ，
-+统计的五个数字将被加在每一行的末尾。
-+
-+例子
-+~~~~
-+
-+下面的命令应用了一个方案：”如果一个大小为[4KiB, 8KiB]的内存区域在[10, 20]的聚合时间
-+间隔内显示出每一个聚合时间间隔[0, 5]的访问量，请分页出该区域。对于分页，每秒最多只能使
-+用10ms，而且每秒分页不能超过1GiB。在这一限制下，首先分页出具有较长年龄的内存区域。另外，
-+每5秒钟检查一次系统的可用内存率，当可用内存率低于50%时开始监测和分页，但如果可用内存率
-+大于60%，或低于30%，则停止监测“::
-+
-+    # cd <debugfs>/damon
-+    # scheme="4096 8192  0 5    10 20    2"  # target access pattern and action
-+    # scheme+=" 10 $((1024*1024*1024)) 1000" # quotas
-+    # scheme+=" 0 0 100"                     # prioritization weights
-+    # scheme+=" 1 5000000 600 500 300"       # watermarks
-+    # echo "$scheme" > schemes
-+
-+
-+开关
-+----
-+
-+除非你明确地启动监测，否则如上所述的文件设置不会产生效果。你可以通过写入和读取 ``monitor_on``
-+文件来启动、停止和检查监测的当前状态。写入 ``on`` 该文件可以启动对有属性的目标的监测。写入
-+``off`` 该文件则停止这些目标。如果每个目标进程被终止，DAMON也会停止。下面的示例命令开启、关
-+闭和检查DAMON的状态::
-+
-+    # cd <debugfs>/damon
-+    # echo on > monitor_on
-+    # echo off > monitor_on
-+    # cat monitor_on
-+    off
-+
-+请注意，当监测开启时，你不能写到上述的debugfs文件。如果你在DAMON运行时写到这些文件，将会返
-+回一个错误代码，如 ``-EBUSY`` 。
-+
-+
-+监测线程PID
-+-----------
-+
-+DAMON通过一个叫做kdamond的内核线程来进行请求监测。你可以通过读取 ``kdamond_pid`` 文件获
-+得该线程的 ``pid`` 。当监测被 ``关闭`` 时，读取该文件不会返回任何信息::
-+
-+    # cd <debugfs>/damon
-+    # cat monitor_on
-+    off
-+    # cat kdamond_pid
-+    none
-+    # echo on > monitor_on
-+    # cat kdamond_pid
-+    18594
-+
-+
-+使用多个监测线程
-+----------------
-+
-+每个监测上下文都会创建一个 ``kdamond`` 线程。你可以使用 ``mk_contexts`` 和 ``rm_contexts``
-+文件为多个 ``kdamond`` 需要的用例创建和删除监测上下文。
-+
-+将新上下文的名称写入 ``mk_contexts`` 文件，在 ``DAMON debugfs`` 目录上创建一个该名称的目录。
-+该目录将有该上下文的 ``DAMON debugfs`` 文件::
-+
-+    # cd <debugfs>/damon
-+    # ls foo
-+    # ls: cannot access 'foo': No such file or directory
-+    # echo foo > mk_contexts
-+    # ls foo
-+    # attrs  init_regions  kdamond_pid  schemes  target_ids
-+
-+如果不再需要上下文，你可以通过把上下文的名字放到 ``rm_contexts`` 文件中来删除它和相应的目录::
-+
-+    # echo foo > rm_contexts
-+    # ls foo
-+    # ls: cannot access 'foo': No such file or directory
-+
-+注意， ``mk_contexts`` 、 ``rm_contexts`` 和 ``monitor_on`` 文件只在根目录下。
-+
-+
-+监测结果的监测点
++===============
++基于DAMON的回收
++===============
++
++基于DAMON的回收（DAMON_RECLAIM）是一个静态的内核模块，旨在用于轻度内存压力下的主动和轻
++量级的回收。它的目的不是取代基于LRU列表的页面回收，而是有选择地用于不同程度的内存压力和要
++求。
++
++哪些地方需要主动复回收？
++========================
++
++在一般的内存过度分配（over-committed systems，虚拟化相关术语）的系统上，主动回收冷页
++有助于节省内存和减少延迟高峰，这些延迟是由直接回收进程或kswapd的CPU消耗引起的，同时只产
++生最小的性能下降 [1]_ [2]_ 。
++
++基于空闲页报告 [3]_ 的内存过度承诺的虚拟化系统就是很好的例子。在这样的系统中，客户虚拟机
++向主机报告他们的空闲内存，而主机则将报告的内存重新分配给其他客户。因此，系统的内存得到了充
++分的利用。然而，客户可能不那么节省内存，主要是因为一些内核子系统和用户空间应用程序被设计为
++使用尽可能多的内存。然后，客户可能只向主机报告少量的内存是空闲的，导致系统的内存利用率下降。
++在客户中运行主动回收可以缓解这个问题。
++
++它是如何工作的？
 +================
 +
-+DAMON通过一个tracepoint ``damon:damon_aggregated`` 提供监测结果.  当监测开启时，你可
-+以记录追踪点事件，并使用追踪点支持工具如perf显示结果。比如说::
++DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。为了避免它在分页操作中消耗过多
++的CPU，可以配置一个速度限制。在这个速度限制下，它首先分页出那些没有被访问过的内存区域。系
++统管理员还可以配置在什么情况下这个方案应该自动激活和停用三个内存压力水位。
 +
-+    # echo on > monitor_on
-+    # perf record -e damon:damon_aggregated &
-+    # sleep 5
-+    # kill 9 $(pidof perf)
-+    # echo off > monitor_on
-+    # perf script
++接口: 模块参数
++==============
++
++要使用这个功能，你首先要确保你的系统运行在一个以 ``CONFIG_DAMON_RECLAIM=y`` 构建的内
++核上。
++
++为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
++是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
++适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
++
++注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
++的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
++在重新启用之前，应将新的参数值写入适当的参数值中。
++
++下面是每个参数的描述。
++
++启用
++----
++
++启用或禁用DAMON_RECLAIM。
++
++你可以通过把这个参数的值设置为 ``Y`` 来启用DAMON_RCLAIM，把它设置为 ``N`` 可以禁用
++DAMON_RECLAIM。注意，由于基于水位的激活条件，DAMON_RECLAIM不能进行真正的监测和回收。
++这一点请参考下面关于水位参数的描述。
++
++min_age
++-------
++
++识别冷内存区域的时间阈值，单位是微秒。
++
++如果一个内存区域在这个时间或更长的时间内没有被访问，DAMON_RECLAIM会将该区域识别为冷的，
++并回收它。
++
++默认为120秒。
++
++quota_ms
++--------
++
++回收的时间限制，以毫秒为单位。
++
++DAMON_RECLAIM 试图在一个时间窗口（quota_reset_interval_ms）内只使用到这个时间，以
++尝试回收冷页。这可以用来限制DAMON_RECLAIM的CPU消耗。如果该值为零，则该限制被禁用。
++
++默认为10ms。
++
++quota_sz
++--------
++
++回收的内存大小限制，单位为字节。
++
++DAMON_RECLAIM 收取在一个时间窗口（quota_reset_interval_ms）内试图回收的内存量，并
++使其不超过这个限制。这可以用来限制CPU和IO的消耗。如果该值为零，则限制被禁用。
++
++默认情况下是128 MiB。
++
++quota_reset_interval_ms
++-----------------------
++
++时间/大小配额收取重置间隔，单位为毫秒。
++
++时间（quota_ms）和大小（quota_sz）的配额的目标重置间隔。也就是说，DAMON_RECLAIM在
++quota_ms毫秒内不尝试回收超过quota_ms毫秒或quota_sz字节。
++
++默认为1秒。
++
++wmarks_interval
++---------------
++
++当DAMON_RECLAIM被启用但由于其水位规则而不活跃时，在检查水位之前的最小等待时间。
++
++wmarks_high
++-----------
++
++高水位的可用内存率（每千字节）。
++
++如果系统的可用内存（以每千字节为单位）高于这个数值，DAMON_RECLAIM就会变得不活跃，所以
++它什么也不做，只是定期检查水位。
++
++wmarks_mid
++----------
++
++中间水位的可用内存率（每千字节）。
++
++如果系统的空闲内存（以每千字节为单位）在这个和低水位线之间，DAMON_RECLAIM就会被激活，
++因此开始监测和回收。
++
++wmarks_low
++----------
++
++低水位的可用内存率（每千字节）。
++
++如果系统的空闲内存（以每千字节为单位）低于这个数值，DAMON_RECLAIM就会变得不活跃，所以
++它除了定期检查水位外什么都不做。在这种情况下，系统会退回到基于LRU列表的页面粒度回收逻辑。
++
++sample_interval
++---------------
++
++监测的采样间隔，单位是微秒。
++
++DAMON用于监测冷内存的采样间隔。更多细节请参考DAMON文档 (:doc:`usage`) 。
++
++aggr_interval
++-------------
++
++监测的聚集间隔，单位是微秒。
++
++DAMON对冷内存监测的聚集间隔。更多细节请参考DAMON文档 (:doc:`usage`)。
++
++min_nr_regions
++--------------
++
++监测区域的最小数量。
++
++DAMON用于冷内存监测的最小监测区域数。这可以用来设置监测质量的下限。但是，设
++置的太高可能会导致监测开销的增加。更多细节请参考DAMON文档 (:doc:`usage`) 。
++
++max_nr_regions
++--------------
++
++监测区域的最大数量。
++
++DAMON用于冷内存监测的最大监测区域数。这可以用来设置监测开销的上限值。但是，
++设置得太低可能会导致监测质量不好。更多细节请参考DAMON文档 (:doc:`usage`) 。
++
++monitor_region_start
++--------------------
++
++目标内存区域的物理地址起点。
++
++DAMON_RECLAIM将对其进行工作的内存区域的起始物理地址。也就是说，DAMON_RECLAIM
++将在这个区域中找到冷的内存区域并进行回收。默认情况下，最大的系统RAM被用作该区域。
++
++monitor_region_end
++------------------
++
++目标内存区域的物理地址结束。
++
++DAMON_RECLAIM将对其进行工作的内存区域的末端物理地址。也就是说，DAMON_RECLAIM将
++在这个区域内找到冷的内存区域并进行回收。默认情况下，最大的系统RAM被用作该区域。
++
++kdamond_pid
++-----------
++
++DAMON线程的PID。
++
++如果DAMON_RECLAIM被启用，这将成为工作线程的PID。否则，为-1。
++
++nr_reclaim_tried_regions
++------------------------
++
++试图通过DAMON_RECLAIM回收的内存区域的数量。
++
++bytes_reclaim_tried_regions
++---------------------------
++
++试图通过DAMON_RECLAIM回收的内存区域的总字节数。
++
++nr_reclaimed_regions
++--------------------
++
++通过DAMON_RECLAIM成功回收的内存区域的数量。
++
++bytes_reclaimed_regions
++-----------------------
++
++通过DAMON_RECLAIM成功回收的内存区域的总字节数。
++
++nr_quota_exceeds
++----------------
++
++超过时间/空间配额限制的次数。
++
++例子
++====
++
++下面的运行示例命令使DAMON_RECLAIM找到30秒或更长时间没有访问的内存区域并分页出来。
++为了避免DAMON_RECLAIM在分页操作中消耗过多的CPU时间，回收被限制在每秒1GiB以内。
++它还要求DAMON_RECLAIM在系统的可用内存率超过50%时不做任何事情，但如果它低于40%时
++就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
++DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
++
++    # cd /sys/modules/damon_reclaim/parameters
++    # echo 30000000 > min_age
++    # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
++    # echo 1000 > quota_reset_interval_ms
++    # echo 500 > wmarks_high
++    # echo 400 > wmarks_mid
++    # echo 200 > wmarks_low
++    # echo Y > enabled
++
++.. [1] https://research.google/pubs/pub48551/
++.. [2] https://lwn.net/Articles/787611/
++.. [3] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
 -- 
 2.27.0
 
