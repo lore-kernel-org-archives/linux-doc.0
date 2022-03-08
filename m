@@ -2,344 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CEFC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C35F3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:08:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbiCIBIM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 20:08:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47106 "EHLO
+        id S230498AbiCIBJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 20:09:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbiCIBHx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:07:53 -0500
-Received: from mail-oo1-xc49.google.com (mail-oo1-xc49.google.com [IPv6:2607:f8b0:4864:20::c49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0D9140774
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:48:35 -0800 (PST)
-Received: by mail-oo1-xc49.google.com with SMTP id t72-20020a4a3e4b000000b0031af9ab8cc6so656309oot.18
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:48:35 -0800 (PST)
+        with ESMTP id S230501AbiCIBJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:09:32 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F9414ACB0
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:51:50 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id p17so586755plo.9
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=tbwoXRX83Ugtjl0wsQRtV4AtFgtOhQymRgtKRped+Rs=;
-        b=FaHiZcuF5xHCxl1JT9lspxdQ44aNXFbG8iBLVDLx9zy3OitvnFV+Beb47RdADmJ0ph
-         xYy6lsAlSr9BWwlnVzkuz1SM/BVDabqDEX2XK3dIr0CzY+6aeZpITbCKIMsvmKJ7eprO
-         I+2QhJk61V37v5LblBvEUsEKH9wqFnw4w2PFjWiOBkxRVrqkwsXxZHmRsoJGm9jgBb9M
-         eJ2qTYihkXABkg+8U7t2qvSmSIwgHZDbaqh8STwFhGV91MkK8Oi0vQ4oRE/flp5a4aFk
-         oX4DWBRca7tDjRhwRx1tfU08oCH+/jaT9QEImhy/iyaI1jZlRQUStRzUetyAiO6pWDK3
-         ZzHA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2kU1A0mZ+Yf718gi2yxK3phVn7nYLq00SbSALiBBt2c=;
+        b=a3wxXsXXiZ50ZckVfXFMr8KdVU78K5T3RLsMnlj3KUTmsXr2mTTchwj6lfSmoIW6Jw
+         Xxcj7nT6ioNm+beNeT7w/gpTTEoesAjFfDTQkbfIWQwfq91ifPoOm3HZ8d5QpMlRFFmu
+         /SvS/C3P+W10CB6HG+SZCcWMlW7qlD0MjWDZHoph8a3b1v7eqS2BfyKguOEWwdkttbdX
+         RqHb2uCJ+bspxUluBYFhwxvdHNOj0fFpnkuHxLzLPAlkPVyOzDfrRkJ8/tz488d1UDi3
+         MOfKNkuD4sJ9Xv7tvkhmywY4CjEK6CRMke81P29RSspDH8NnokaenIYa9TIs71rPiZ4j
+         hzYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=tbwoXRX83Ugtjl0wsQRtV4AtFgtOhQymRgtKRped+Rs=;
-        b=6HDT9EEj/4ZIChwcmVIi+kXetH2Wmv19QaSKuPKW5xEs7Rl+wEBPycGtuwk25jKdlw
-         mdDmMkP/tlOrSZJH+jiQ1EEMnfIKXeErYGLzKqmpFLJuklogR6rbee8cokdIgGEg24te
-         nhKr0KUfJ2xtaiqZxBGXqN3sw0AnGGF5ksSRflvvLrmEhwlV1Hb4sJuPHHZdnaVuSFdY
-         EruJMKYYeDKaLHgBiwdlnpsKbIlwgHlIG4HUpUlgwzxeTvOjPs7hpaJiBpBKs17MpYVb
-         ogkFiyqLdeFdnlsOflOlc6lZukXgAQLbW+loU+sqJ3W53dJFXC85rNHEcBibaQuQo19F
-         FhAQ==
-X-Gm-Message-State: AOAM533g018MS9z+ixbKqDinkjOmdighdHMIFkcJfiM1R52yYCodHkrp
-        5FKMk4vUnPbmu7fH9Hv4IUlUpSe8Z5g=
-X-Google-Smtp-Source: ABdhPJxbxr2M2FgKvqrmMwr9hhXO1sb7omSdq8pRxdDgBlhGgpeldIKXyVByveaf8aIhgXPx8+tQRzGQLBw=
-X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:57a6:54a6:aad1:c0a8])
- (user=yuzhao job=sendgmr) by 2002:a25:d60b:0:b0:628:9442:3e71 with SMTP id
- n11-20020a25d60b000000b0062894423e71mr14292277ybg.362.1646783308306; Tue, 08
- Mar 2022 15:48:28 -0800 (PST)
-Date:   Tue,  8 Mar 2022 16:47:13 -0700
-In-Reply-To: <20220308234723.3834941-1-yuzhao@google.com>
-Message-Id: <20220308234723.3834941-4-yuzhao@google.com>
-Mime-Version: 1.0
-References: <20220308234723.3834941-1-yuzhao@google.com>
-X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v8 03/14] mm/vmscan.c: refactor shrink_node()
-From:   Yu Zhao <yuzhao@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2kU1A0mZ+Yf718gi2yxK3phVn7nYLq00SbSALiBBt2c=;
+        b=FscnLH7nZMmg4NoXnLcTC0eaaOVoOkOpShHCEHwc7dLfOGwf3lQ/1vPNOeOpVTu49j
+         EHZckVrlcPPsTnb3IM6MTHjkz6y/nYJz/EB7ibzkooAOI6cIZC7Ian2/8QPJn9KTJyIh
+         XWL5HcSwKENfmI1rXV/lD/ElA+hpPId6YqcOPFqSoiO+HN3xQiLwNudPSxrd3mNtIEuP
+         KcMDDPbx1mLAKrjr7Mg3BViXfiNxIPmUlpCaOY+Yqvu0XTb/VTS5bfS8oW5fEv9T9/Wk
+         rk+ofmCWwT5awDUFF38C9kr06j/NMA3eoSBwbzaDRuww39vKNZAFLgrLZdRDE08FH/mH
+         PJrw==
+X-Gm-Message-State: AOAM531qnLUyt7CjD7SFcAi1yLWFLG+TxANYGGHO0ugmUI7a74Okauuf
+        7T9wF2LUd1QX/NBMuHAfc22hSiXfdAV7/A==
+X-Google-Smtp-Source: ABdhPJxu5BNOL66aUTFVR0ibkfjQAJZxN1/5Jln5I65fELTDrubmqTQaTFywu9mFnXzUzDH+EMVzEQ==
+X-Received: by 2002:a17:902:b602:b0:14f:e42b:d547 with SMTP id b2-20020a170902b60200b0014fe42bd547mr19779057pls.91.1646782670904;
+        Tue, 08 Mar 2022 15:37:50 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id e13-20020a056a001a8d00b004f0f28910cdsm185636pfv.42.2022.03.08.15.37.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Mar 2022 15:37:50 -0800 (PST)
+Date:   Tue, 8 Mar 2022 23:37:46 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm@vger.kernel.org, Kieran Bingham <kbingham@kernel.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Jones <drjones@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Yang Weijiang <weijiang.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v3 2/6] KVM: x86: add force_intercept_exceptions_mask
+Message-ID: <YifoysEvfnQgq59A@google.com>
+References: <20210811122927.900604-1-mlevitsk@redhat.com>
+ <20210811122927.900604-3-mlevitsk@redhat.com>
+ <YTECUaPa9kySQxRX@google.com>
+ <0cdac80177eea408b7e316bd1fc4c0c5839ba1d4.camel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0cdac80177eea408b7e316bd1fc4c0c5839ba1d4.camel@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch refactors shrink_node() to improve readability for the
-upcoming changes to mm/vmscan.c.
+On Tue, Feb 08, 2022, Maxim Levitsky wrote:
+> On Thu, 2021-09-02 at 16:56 +0000, Sean Christopherson wrote:
+> > Assuming this hasn't been abandoned...
+> > 
+> > On Wed, Aug 11, 2021, Maxim Levitsky wrote:
+> > > This parameter will be used by VMX and SVM code to force
+> > > interception of a set of exceptions, given by a bitmask
+> > > for guest debug and/or kvm debug.
+> > > 
+> > > This is based on an idea first shown here:
+> > > https://patchwork.kernel.org/project/kvm/patch/20160301192822.GD22677@pd.tnic/
+> > > 
+> > > CC: Borislav Petkov <bp@suse.de>
+> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > ---
+> > >  arch/x86/kvm/x86.c | 3 +++
+> > >  arch/x86/kvm/x86.h | 2 ++
+> > >  2 files changed, 5 insertions(+)
+> > > 
+> > > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > > index fdc0c18339fb..092e2fad3c0d 100644
+> > > --- a/arch/x86/kvm/x86.c
+> > > +++ b/arch/x86/kvm/x86.c
+> > > @@ -184,6 +184,9 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
+> > >  int __read_mostly pi_inject_timer = -1;
+> > >  module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
+> > >  
+> > > +uint force_intercept_exceptions_mask;
+> > > +module_param(force_intercept_exceptions_mask, uint, S_IRUGO | S_IWUSR);
+> > 
+> > Use octal permissions.  This also can't be a simple writable param, at least not
+> > without a well-documented disclaimer, as there's no guarantee a vCPU will update
+> > its exception bitmap in a timely fashion.  An alternative to a module param would
+> > be to extend/add a per-VM ioctl(), e.g. maybe KVM_SET_GUEST_DEBUG?  The downside
+> > of an ioctl() is that it would require userspace enabling :-/
+> > 
+> 
+> All other module params in this file use macros for permissions, that is why
+> I used them too.
+> 
+> I'll add a comment with a disclaimer here - this is only for debug.
+> I strongly don't want to have this as ioctl as that will indeed need qemu patches,
+> not to mention things like unit tests and which don't even always use qemu.
+> 
+> Or I can make this parameter read-only. I don't mind reloading kvm module when
+> I change this parameter.
 
-Signed-off-by: Yu Zhao <yuzhao@google.com>
-Acked-by: Brian Geffon <bgeffon@google.com>
-Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-Acked-by: Steven Barrett <steven@liquorix.net>
-Acked-by: Suleiman Souhlal <suleiman@google.com>
-Tested-by: Daniel Byrne <djbyrne@mtu.edu>
-Tested-by: Donald Carr <d@chaos-reins.com>
-Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
-Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
-Tested-by: Sofia Trinh <sofia.trinh@edi.works>
-Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
- mm/vmscan.c | 198 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 104 insertions(+), 94 deletions(-)
+Oh!  We can force an update, a la nx_huge_pages, where the setter loops through
+all VMs and does a kvm_make_all_cpus_request() to instruct vCPUs to update their
+bitmaps.  Requires a new request, but that doesn't seem like a huge deal, and it
+might help pave the way for adding more debug hooks for developers.
 
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 59b14e0d696c..8e744cdf802f 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -2718,6 +2718,109 @@ enum scan_balance {
- 	SCAN_FILE,
- };
-=20
-+static void prepare_scan_count(pg_data_t *pgdat, struct scan_control *sc)
-+{
-+	unsigned long file;
-+	struct lruvec *target_lruvec;
-+
-+	target_lruvec =3D mem_cgroup_lruvec(sc->target_mem_cgroup, pgdat);
-+
-+	/*
-+	 * Flush the memory cgroup stats, so that we read accurate per-memcg
-+	 * lruvec stats for heuristics.
-+	 */
-+	mem_cgroup_flush_stats();
-+
-+	/*
-+	 * Determine the scan balance between anon and file LRUs.
-+	 */
-+	spin_lock_irq(&target_lruvec->lru_lock);
-+	sc->anon_cost =3D target_lruvec->anon_cost;
-+	sc->file_cost =3D target_lruvec->file_cost;
-+	spin_unlock_irq(&target_lruvec->lru_lock);
-+
-+	/*
-+	 * Target desirable inactive:active list ratios for the anon
-+	 * and file LRU lists.
-+	 */
-+	if (!sc->force_deactivate) {
-+		unsigned long refaults;
-+
-+		refaults =3D lruvec_page_state(target_lruvec,
-+				WORKINGSET_ACTIVATE_ANON);
-+		if (refaults !=3D target_lruvec->refaults[0] ||
-+			inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
-+			sc->may_deactivate |=3D DEACTIVATE_ANON;
-+		else
-+			sc->may_deactivate &=3D ~DEACTIVATE_ANON;
-+
-+		/*
-+		 * When refaults are being observed, it means a new
-+		 * workingset is being established. Deactivate to get
-+		 * rid of any stale active pages quickly.
-+		 */
-+		refaults =3D lruvec_page_state(target_lruvec,
-+				WORKINGSET_ACTIVATE_FILE);
-+		if (refaults !=3D target_lruvec->refaults[1] ||
-+		    inactive_is_low(target_lruvec, LRU_INACTIVE_FILE))
-+			sc->may_deactivate |=3D DEACTIVATE_FILE;
-+		else
-+			sc->may_deactivate &=3D ~DEACTIVATE_FILE;
-+	} else
-+		sc->may_deactivate =3D DEACTIVATE_ANON | DEACTIVATE_FILE;
-+
-+	/*
-+	 * If we have plenty of inactive file pages that aren't
-+	 * thrashing, try to reclaim those first before touching
-+	 * anonymous pages.
-+	 */
-+	file =3D lruvec_page_state(target_lruvec, NR_INACTIVE_FILE);
-+	if (file >> sc->priority && !(sc->may_deactivate & DEACTIVATE_FILE))
-+		sc->cache_trim_mode =3D 1;
-+	else
-+		sc->cache_trim_mode =3D 0;
-+
-+	/*
-+	 * Prevent the reclaimer from falling into the cache trap: as
-+	 * cache pages start out inactive, every cache fault will tip
-+	 * the scan balance towards the file LRU.  And as the file LRU
-+	 * shrinks, so does the window for rotation from references.
-+	 * This means we have a runaway feedback loop where a tiny
-+	 * thrashing file LRU becomes infinitely more attractive than
-+	 * anon pages.  Try to detect this based on file LRU size.
-+	 */
-+	if (!cgroup_reclaim(sc)) {
-+		unsigned long total_high_wmark =3D 0;
-+		unsigned long free, anon;
-+		int z;
-+
-+		free =3D sum_zone_node_page_state(pgdat->node_id, NR_FREE_PAGES);
-+		file =3D node_page_state(pgdat, NR_ACTIVE_FILE) +
-+			   node_page_state(pgdat, NR_INACTIVE_FILE);
-+
-+		for (z =3D 0; z < MAX_NR_ZONES; z++) {
-+			struct zone *zone =3D &pgdat->node_zones[z];
-+
-+			if (!managed_zone(zone))
-+				continue;
-+
-+			total_high_wmark +=3D high_wmark_pages(zone);
-+		}
-+
-+		/*
-+		 * Consider anon: if that's low too, this isn't a
-+		 * runaway file reclaim problem, but rather just
-+		 * extreme pressure. Reclaim as per usual then.
-+		 */
-+		anon =3D node_page_state(pgdat, NR_INACTIVE_ANON);
-+
-+		sc->file_is_tiny =3D
-+			file + free <=3D total_high_wmark &&
-+			!(sc->may_deactivate & DEACTIVATE_ANON) &&
-+			anon >> sc->priority;
-+	}
-+}
-+
- /*
-  * Determine how aggressively the anon and file LRU lists should be
-  * scanned.  The relative value of each set of LRU lists is determined
-@@ -3188,109 +3291,16 @@ static void shrink_node(pg_data_t *pgdat, struct s=
-can_control *sc)
- 	unsigned long nr_reclaimed, nr_scanned;
- 	struct lruvec *target_lruvec;
- 	bool reclaimable =3D false;
--	unsigned long file;
-=20
- 	target_lruvec =3D mem_cgroup_lruvec(sc->target_mem_cgroup, pgdat);
-=20
- again:
--	/*
--	 * Flush the memory cgroup stats, so that we read accurate per-memcg
--	 * lruvec stats for heuristics.
--	 */
--	mem_cgroup_flush_stats();
--
- 	memset(&sc->nr, 0, sizeof(sc->nr));
-=20
- 	nr_reclaimed =3D sc->nr_reclaimed;
- 	nr_scanned =3D sc->nr_scanned;
-=20
--	/*
--	 * Determine the scan balance between anon and file LRUs.
--	 */
--	spin_lock_irq(&target_lruvec->lru_lock);
--	sc->anon_cost =3D target_lruvec->anon_cost;
--	sc->file_cost =3D target_lruvec->file_cost;
--	spin_unlock_irq(&target_lruvec->lru_lock);
--
--	/*
--	 * Target desirable inactive:active list ratios for the anon
--	 * and file LRU lists.
--	 */
--	if (!sc->force_deactivate) {
--		unsigned long refaults;
--
--		refaults =3D lruvec_page_state(target_lruvec,
--				WORKINGSET_ACTIVATE_ANON);
--		if (refaults !=3D target_lruvec->refaults[0] ||
--			inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
--			sc->may_deactivate |=3D DEACTIVATE_ANON;
--		else
--			sc->may_deactivate &=3D ~DEACTIVATE_ANON;
--
--		/*
--		 * When refaults are being observed, it means a new
--		 * workingset is being established. Deactivate to get
--		 * rid of any stale active pages quickly.
--		 */
--		refaults =3D lruvec_page_state(target_lruvec,
--				WORKINGSET_ACTIVATE_FILE);
--		if (refaults !=3D target_lruvec->refaults[1] ||
--		    inactive_is_low(target_lruvec, LRU_INACTIVE_FILE))
--			sc->may_deactivate |=3D DEACTIVATE_FILE;
--		else
--			sc->may_deactivate &=3D ~DEACTIVATE_FILE;
--	} else
--		sc->may_deactivate =3D DEACTIVATE_ANON | DEACTIVATE_FILE;
--
--	/*
--	 * If we have plenty of inactive file pages that aren't
--	 * thrashing, try to reclaim those first before touching
--	 * anonymous pages.
--	 */
--	file =3D lruvec_page_state(target_lruvec, NR_INACTIVE_FILE);
--	if (file >> sc->priority && !(sc->may_deactivate & DEACTIVATE_FILE))
--		sc->cache_trim_mode =3D 1;
--	else
--		sc->cache_trim_mode =3D 0;
--
--	/*
--	 * Prevent the reclaimer from falling into the cache trap: as
--	 * cache pages start out inactive, every cache fault will tip
--	 * the scan balance towards the file LRU.  And as the file LRU
--	 * shrinks, so does the window for rotation from references.
--	 * This means we have a runaway feedback loop where a tiny
--	 * thrashing file LRU becomes infinitely more attractive than
--	 * anon pages.  Try to detect this based on file LRU size.
--	 */
--	if (!cgroup_reclaim(sc)) {
--		unsigned long total_high_wmark =3D 0;
--		unsigned long free, anon;
--		int z;
--
--		free =3D sum_zone_node_page_state(pgdat->node_id, NR_FREE_PAGES);
--		file =3D node_page_state(pgdat, NR_ACTIVE_FILE) +
--			   node_page_state(pgdat, NR_INACTIVE_FILE);
--
--		for (z =3D 0; z < MAX_NR_ZONES; z++) {
--			struct zone *zone =3D &pgdat->node_zones[z];
--			if (!managed_zone(zone))
--				continue;
--
--			total_high_wmark +=3D high_wmark_pages(zone);
--		}
--
--		/*
--		 * Consider anon: if that's low too, this isn't a
--		 * runaway file reclaim problem, but rather just
--		 * extreme pressure. Reclaim as per usual then.
--		 */
--		anon =3D node_page_state(pgdat, NR_INACTIVE_ANON);
--
--		sc->file_is_tiny =3D
--			file + free <=3D total_high_wmark &&
--			!(sc->may_deactivate & DEACTIVATE_ANON) &&
--			anon >> sc->priority;
--	}
-+	prepare_scan_count(pgdat, sc);
-=20
- 	shrink_node_memcgs(pgdat, sc);
-=20
---=20
-2.35.1.616.g0bdcbb4464-goog
+The param should also be "unsafe".
 
+E.g. something like
+
+static const struct kernel_param_ops force_ex_intercepts_ops = {
+	.set = set_force_exception_intercepts,
+	.get = get_force_exception_intercepts,
+};
+module_param_cb_unsafe(force_exception_intercepts, &force_ex_intercepts_ops,
+		       &force_exception_intercepts, 0644);
