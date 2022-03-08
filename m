@@ -2,102 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CD1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 04:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4715C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 05:01:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240254AbiCHE6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 23:58:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
+        id S231258AbiCHFCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 00:02:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230105AbiCHE6a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 23:58:30 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC73A3893
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 20:57:34 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id f38so35471375ybi.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 20:57:34 -0800 (PST)
+        with ESMTP id S230105AbiCHFCU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 00:02:20 -0500
+Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300CC24BC3;
+        Mon,  7 Mar 2022 21:01:24 -0800 (PST)
+Received: by mail-ua1-x92e.google.com with SMTP id l45so7479045uad.1;
+        Mon, 07 Mar 2022 21:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VMalzZWLjKhYAY6S0sMp+MwEYz02mzHzL0nET0cV0sQ=;
-        b=mK5j2WxvOjk5J2yeejcxQ3w2ArnhIQym+lpkyMuxSZOvKkZfYYW54H/7ox/ZRc5LPX
-         i6F4MxIrev7ekLO1Zryazbkg30v+ntfdpMc2agpwFYo9+pIYULj2Nq6kTQJhaVwXg9+N
-         o9mbKYx8FY9pfbew0FbzBMaj8wkqEI5XFA4H1ZzO8kNZHRXKFajYGQBf+KyYicc+nSlN
-         Szx7zPmhv6f4WYaghJM5YK8Wp57Z3YDdbNzPFr5lEkXJvPPD/+A1MWap8zBCeXPWbzAQ
-         9QHP36Sx+IdHn6ldOhmbtJ0XcEIk5ss+FdbZRGPHfch9gP3+Tk2YDVV1DynMGnneGeW+
-         m9FQ==
+         :cc;
+        bh=HKvhppFceChLgmUpgQVEk1mZ3VY0JaSZJA2aB43Q7Vk=;
+        b=VSM2HLY0kX84OL07y9j206vTbYJdekrGShRw4CrfWN3ujt3SEitgG1bAfG8KlfUSOw
+         ElJWiSRFumUKR+fyDaiQhfWzvG908o7Ub3CRG6tvrBdC1ZBAlcQns5X15xg+DVcA98sR
+         xefn8uAIem+hS4+KTbQmIiAaZstaqv+dXPNdvJdQEX0DTlkxdbO9uz+LJhZEGYcq5ydy
+         SRQ8UlIZvCr9Ep4TQyn6e0AenP5jKJY5XOt87AXUbuP0M3OpLMIYGV1YwjzxOFyFeqvX
+         7GfhoIaJGtsAqYuTKqfFV/EG2YMuWM5eOZkavzjm/tqiEgUyIZLQSpgKMSrca/ZKaTP0
+         ItkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VMalzZWLjKhYAY6S0sMp+MwEYz02mzHzL0nET0cV0sQ=;
-        b=veRbQHhpcZ2Z2x3pTkfhCzcdi8v5Iv8MKv98IBEc+dy5QF2hqkpEQRIZzeY8fVmUHv
-         9p+oNYAzVbmqv2SlKDHsBr5rTfPRXFpjIpOqoswfvlEm3NfAvt4Mn9g4wKrLjIes/oKP
-         qUYb7ug3ZJ5QEJx5AYfc1yw+e/sXrGbw+cmg5q/2SP45S6AnZKYhWXhrNZI+ShzZE3rh
-         +FBHuwQWKNMge11IPcQA/5PpzblQ3JjC+sKTpAr9o8wIgfsUsgkVdp5aHYLxL/1O6rCG
-         ucbFxZrMCHuPq65muj6H5HFf/aEJWkcVmrFOAOxnlyfQUQTz4/AXQqdlHqwmxK8xliQ6
-         luPg==
-X-Gm-Message-State: AOAM533tVXneD00OXMWcfSiVArXb2JmV0bkxVhLSCPK6n+YMAkPcKKPl
-        SUhV2IMNd72nBRh1bvr+uUi1vuNqS2JcmIKXSqw=
-X-Google-Smtp-Source: ABdhPJxZnzIHcRbxz2hNcaZ984tUfqdxXKSeJ2ABrhcwDyhn+mVwqr49iKA81tTvzDMDTZsF10iwKA/5VrFTMYY4AXw=
-X-Received: by 2002:a25:b908:0:b0:61d:75f8:6eff with SMTP id
- x8-20020a25b908000000b0061d75f86effmr10693486ybj.641.1646715454089; Mon, 07
- Mar 2022 20:57:34 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=HKvhppFceChLgmUpgQVEk1mZ3VY0JaSZJA2aB43Q7Vk=;
+        b=dwxDxgOS+ujuBkT3lpxio1d75N8uR53sk19RGz+cUYlyV7aNGJ2GlO0PNKwFj1FAoH
+         uKUij1fTeRS3uMZuBehrVoskwPR33nuEzrfmGvh36JcL19j9ofQFUzZIL1mqfPBpOVni
+         eVupYGaKFkFOKKSR1oc4LSaD5eUKsdnCpY5yR6/exPAInQ09s++iupjv5UAemlDxZ2Qe
+         tE3kjHpOUI2tNwVG83jgHJh42NkD7GA/IgzkkhiY8y+g8VNJG5uietHRzbREm6A8oJgB
+         ozypjOrUqEd8mSDW/13O+6h0Fwa/Jdy8h0pFUPwTWIBErHzCLg7DZJiWgCDwnSdwZKRb
+         2b5g==
+X-Gm-Message-State: AOAM531Mod8Awta1IAXu/WmqgkzIWxaMlQiOZYtucITNMGOzO1otic3+
+        +1T9fSSyPziHALMaGWe3QeisdWFd5KkSfKc1SGQvVkbFS3ldCA==
+X-Google-Smtp-Source: ABdhPJzbMqED95ln7Nv/0kYruwHO9Qug+J1OiHrch1cXgj6krfHGEm91/jREsdcS5fHYIgs4Bkzz5WRXAqvKWZl8ixc=
+X-Received: by 2002:a9f:24d6:0:b0:348:d872:5917 with SMTP id
+ 80-20020a9f24d6000000b00348d8725917mr5014892uar.118.1646715683203; Mon, 07
+ Mar 2022 21:01:23 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646640696.git.siyanteng@loongson.cn>
-In-Reply-To: <cover.1646640696.git.siyanteng@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 8 Mar 2022 12:57:16 +0800
-Message-ID: <CAEensMzTR15iM0i7h3KRP7GJzhJqGoSuzQbxCNv-absa684U_A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] docs/zh_CN: add admin-guide damon translation
-To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
+References: <20220226110338.77547-1-chenhuacai@loongson.cn>
+ <20220226110338.77547-10-chenhuacai@loongson.cn> <YiCpYRwoUSmd/GE3@kernel.org>
+ <CAAhV-H4-zVjjUkoVFw4ppg_tsM-wxBZmPr-2q8zuoLDHTWAE0w@mail.gmail.com>
+ <YiHuuyqW8KSAri/M@kernel.org> <CAAhV-H6z3H3QbzvG6=fgVJF1z2qEvKVGnyqb--bkqomH3jTXJQ@mail.gmail.com>
+ <YiZCypeuJ+0FCJ+w@kernel.org>
+In-Reply-To: <YiZCypeuJ+0FCJ+w@kernel.org>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Tue, 8 Mar 2022 13:01:11 +0800
+Message-ID: <CAAhV-H6WnnqVs+9syRcRYWTdqYKWr1c03TR2_cJB-tN223MS-w@mail.gmail.com>
+Subject: Re: [PATCH V6 09/22] LoongArch: Add boot and setup routines
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+        Ard Biesheuvel <ardb@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng01@gmail.com> =E4=BA=8E2022=E5=B9=B43=E6=9C=887=E6=97=
-=A5=E5=91=A8=E4=B8=80 16:15=E5=86=99=E9=81=93=EF=BC=9A
->
->
-> v3:
-> *Build test in next-20220304.
->
-> v2:
-> * Pick Alexs Reviewed-by tag. [PATCH 1-3/5]
-> * Fix a build warning.(introduce from usage.rst)
->
-> v1:
-> * Translate .../admin-guide/mm/damon/* into Chinese
-> * note my patch thread is based on
-> <https://lore.kernel.org/linux-doc/20220212080024.1684590-1-xu.xin16@zte.=
-com.cn/T/#t>
->
-> Chengming Zhou (1):
->   kselftest/vm: override TARGETS from arguments
->
-> Stephen Rothwell (1):
->   Add linux-next specific files for 20220304
->
-> xu xin (3):
->   Add Chinese translation for vm/ksm.rst
->   zh_CN: Add translations for admin-guide/mm/ksm.rst
->   zh_CN: Add translation for admin-guide/mm/index.rst
+Hi, Mike,
 
-Hi all:
+On Tue, Mar 8, 2022 at 1:37 AM Mike Rapoport <rppt@kernel.org> wrote:
+>
+> Hi,
+>
+> On Fri, Mar 04, 2022 at 08:43:03PM +0800, Huacai Chen wrote:
+> > Hi, Mike,
+> >
+> > On Fri, Mar 4, 2022 at 6:49 PM Mike Rapoport <rppt@kernel.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > >
+> > > So ideally, the physical memory detection and registration should follow
+> > > something like:
+> > >
+> > > * memblock_reserve() the memory used by firmware, kernel and initrd
+> > > * detect NUMA topology
+> > > * add memory regions along with their node ids to memblock.
+> > >
+> > > s390::setup_arch() is a good example of doing early reservations:
+> > >
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/s390/kernel/setup.c#n988
+> > I have a fast reading of S390, and I think we can do some adjust:
+> > 1, call memblock_set_node(0, ULONG_MAX, &memblock.memory, 0) in
+> > early_memblock_init().
+> > 2, move memblock_reserve(PHYS_OFFSET, 0x200000) and
+> > memblock_reserve(__pa_symbol(&_text), __pa_symbol(&_end) -
+> > __pa_symbol(&_text)) to early_memblock_init().
+> > 3, Reserve initrd memory in the first place.
+> > It is nearly the same as the S390, then.
+>
+> It does not have to look like the same as s390 :)
+> The important thing is to reserve all the memory before memblock
+> allocations are possible.
+New version is here, it's not completely the same as S390, but very similar:
+https://lore.kernel.org/linux-arch/20220306112850.811504-1-chenhuacai@loongson.cn/T/#Z2e.:..:20220306112850.811504-10-chenhuacai::40loongson.cn:1arch:loongarch:kernel:mem.c
 
-I am so sorry, I executed "git format-patch -5" without applying my 5
-damon zh_CN patch; please ignore this thread, I will retest it later
-and send v4.
+Firmware is not in SYSRAM regions, so we don't need to reserve them.
+The first 2MB and the kernel region are reserved in
+early_memblock_init(), before any allocations.
 
-I really feel bad about it. T_T
+Initrd information is passed by cmdline, and initrd is now reserved
+immediately after cmdline has parsed, by merging
+init_initrd/finalize_initrd as you suggested:
+https://lore.kernel.org/linux-arch/20220306112850.811504-1-chenhuacai@loongson.cn/T/#Z2e.:..:20220306112850.811504-10-chenhuacai::40loongson.cn:1arch:loongarch:kernel:setup.c
 
-Thanks,
-Yanteng
+>
+> > > > > > +early_param("memmap", early_parse_memmap);
+> > > > >
+> > > > > The memmap= processing is a hack indented to workaround bugs in firmware
+> > > > > related to the memory detection. Please don't copy if over unless there is
+> > > > > really strong reason.
+> > > >
+> > > > Hmmm, I have read the documents, most archs only support mem=limit,
+> > > > but MIPS support mem=limit@base. memmap not only supports
+> > > > memmap=limit@base, but also a lot of advanced syntax. LoongArch needs
+> > > > both limit and limit@base syntax. So can we make our code to support
+> > > > only mem=limit and memmap=limit@base, and remove all other syntax
+> > > > here?
+> > >
+> > > The documentation describes what was there historically and both these
+> > > options tend not to play well with complex memory layouts.
+> > >
+> > > If you must have them it's better to use x86 as an example rather than
+> > > MIPS, just take into the account that on x86 memory always starts from 0,
+> > > so they never needed to have a different base.
+> > >
+> > > For what use-cases LoongArch needs options?
+> >
+> > The use-case of limit@base syntax is kdump, because our kernel is not
+> > relocatable. I'll use X86 as an example.
+>
+> I missed that mem= can be used several times, so with MIPS implementation
+> it's possible to define something like "mem=limit0@base0 mem=limit1@base1"
+> and this will create two contiguous memory regions.
+The new version is here:
+https://lore.kernel.org/linux-arch/20220306112850.811504-1-chenhuacai@loongson.cn/T/#Z2e.:..:20220306112850.811504-10-chenhuacai::40loongson.cn:1arch:loongarch:kernel:setup.c
+If I use the MIPS implementation, then memmap= is useless and can be
+removed, but the MIPS implementation is not obey the rules in kernel
+documents.
+
+Huacai
+>
+> > Huacai
+>
+> --
+> Sincerely yours,
+> Mike.
