@@ -2,199 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED84FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 12:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D76BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 12:55:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbiCHMjt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 07:39:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38446 "EHLO
+        id S231258AbiCHM4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 07:56:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346840AbiCHMj0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 07:39:26 -0500
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EA64830C
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 04:38:15 -0800 (PST)
-Received: by mail-io1-xd35.google.com with SMTP id s20so7356348iol.2
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 04:38:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=K0Tk071pMV37CeR1Hf7HP932i01KVOFl3+lhpjkgXok=;
-        b=W4kuotc9uEWudB28ZMTypDz+iJAgL+3SU/7tgPo1v9AIky+NlJC71OTmcwOMHppJup
-         o3r/3Hr+k23HZ5JNFMi6sIRXEZPS70c62+gVtjd85fwVLu9tGbxBjC1OvlO5qB2VU+tj
-         LuDJDE7lHXoihNE6LdXnxcJs7bHMczu/XFa1vBB34oKkNIpJ8pU1pZ6CxezRJ9y5hUwt
-         ikxysGWUlD7K+hKaDefLs8jdd4aS3GiRrjNpFrDpgDg+brGuKk9RpLELeLEgJZ14dkqp
-         xHNKCp3qrklZzfArPz6cbDgHKJRDuVc0F4YddyRxVpWgeBpDla2BqQ0eKqDh1OteRIOK
-         sVQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=K0Tk071pMV37CeR1Hf7HP932i01KVOFl3+lhpjkgXok=;
-        b=WcDcYyZLGDkrEsbqj017xh99t/+8GePrQ/UuIzDsjZ4o31F5xKc/xAektJCHl2uYxg
-         hOf+2HYlGQg+ULdiNmLjrLL+1ldGLplqWzsCXawsSfHZe8OsntH+CFwi2fbW+lAhUhFv
-         wjrrCE9IuQ/PTK+PYXUHbykq3XMgz8I/Xr3+eApSR8+Si0yRE18v3hqrPj3GoMvX9aCF
-         jnRINRk/ogLEWy8HKGbidYf6UhLmWQRw1/awjSRq0Vmyduw2O3aiGyM4hgmiXB5LERAM
-         wiVrjfejWpQx9D2AVY8uuB8g4IEVw5od5v97TSWQJ0+5jSrgUFwpU+srT0gSyzl+CKj/
-         JJAA==
-X-Gm-Message-State: AOAM532DyPA45E7UXaPXvJWCCiQ+jzk3WU894Y3ze4A54wMzHD1l3ojT
-        u/VFfYVhQ0Nm2juNBuEua+J+Rkoc09iR86UJpEH3hvr8db6ipBWS
-X-Google-Smtp-Source: ABdhPJyYgPdE4UOckd051uQV+dk8mPtd1IzZPxzbCrOf7/kiLNspCRNks0kzPAXO42L5dlQUO0J619V+vA8Nl6xftpo=
-X-Received: by 2002:a02:3501:0:b0:314:48d3:2d6b with SMTP id
- k1-20020a023501000000b0031448d32d6bmr14987399jaa.169.1646743094610; Tue, 08
- Mar 2022 04:38:14 -0800 (PST)
+        with ESMTP id S241323AbiCHM4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 07:56:00 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C95F0473B5;
+        Tue,  8 Mar 2022 04:55:03 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 778B0210F4;
+        Tue,  8 Mar 2022 12:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1646744102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0jKnX/F50qztDlLwiFAY7FdUc++7GIssZthEmQQhqQc=;
+        b=FuN4gT5N/Pwo0tqX2b9D4WbQu/FlWUaPaJ5FxWcm2mOTa+atw1FpvKmYiTRqF13exeHmTE
+        C5+LNcqzbqcbiJMVO77ZcS4mItaWd/ueViUK/RTn5qITzTDWD9RorGPM/aYkx7QmkeDpYG
+        xyCEsoOUAKEnqUVLpMXvpzjQdxF9YLw=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 159A6A3B85;
+        Tue,  8 Mar 2022 12:55:02 +0000 (UTC)
+Date:   Tue, 8 Mar 2022 13:54:59 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     "bhe@redhat.com" <bhe@redhat.com>,
+        "d.hatayama@fujitsu.com" <d.hatayama@fujitsu.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "vgoyal@redhat.com" <vgoyal@redhat.com>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "halves@canonical.com" <halves@canonical.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YidSI33Uk8wHDuO9@alley>
+References: <TYAPR01MB6507D06BA6D32218F6E88198955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fda509a5-ea0d-4d1d-a1c1-ca5e80010fc0@igalia.com>
+ <TYAPR01MB6507D9747647685B554B8F8F955F9@TYAPR01MB6507.jpnprd01.prod.outlook.com>
+ <fb5e66b6-049a-22ab-5913-a04cc302b629@igalia.com>
+ <YfPxvzSzDLjO5ldp@alley>
+ <73011b6f-084b-43f5-cc01-1818a8a57e56@igalia.com>
+ <YiV/HbXftVF2iAvU@MiWiFi-R3L-srv>
+ <e1033adc-46ff-5dbc-e739-1bf725b6fed0@igalia.com>
+ <YiYQ/w6Hn5Zb67di@MiWiFi-R3L-srv>
+ <788ab36d-ef65-4cc8-4edf-a46d2687d97e@igalia.com>
 MIME-Version: 1.0
-References: <cover.1646496448.git.siyanteng@loongson.cn> <7128b4af9512bfa2c8915442df228ea239162859.1646496448.git.siyanteng@loongson.cn>
-In-Reply-To: <7128b4af9512bfa2c8915442df228ea239162859.1646496448.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Tue, 8 Mar 2022 20:37:38 +0800
-Message-ID: <CAJy-Am=wv-hhz44ddc_7NS9QZ9ByegviF=6bye-xG9PeLx_ULw@mail.gmail.com>
-Subject: Re: [PATCH 03/12] docs/zh_CN: add vm memory-model translation
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <788ab36d-ef65-4cc8-4edf-a46d2687d97e@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNCBBTSBZYW50ZW5nIFNpIDxzaXlhbnRlbmcwMUBn
-bWFpbC5jb20+IHdyb3RlOg0KPg0KPiBUcmFuc2xhdGUgLi4uL3ZtL21lbW9yeS1tb2RlbC5yc3Qg
-aW50byBDaGluZXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdA
-bG9vbmdzb24uY24+DQo+IC0tLQ0KPiAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-dm0vaW5kZXgucnN0IHwgICAzICstDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL3ZtL21lbW9y
-eS1tb2RlbC5yc3QgICAgfCAxMzUgKysrKysrKysrKysrKysrKysrDQo+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDEzNyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2
-NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdA0K
-Pg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5k
-ZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0DQo+
-IGluZGV4IGRkMGIzZDRjMGFiOC4uMTg2Zjg1YTE1NmMwIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QNCj4gKysrIGIvRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0DQo+IEBAIC0yOCwxMyArMjgsMTQg
-QEAgVE9ETzrlvoXlvJXnlKjmlofmoaPpm4booqvnv7vor5Hlrozmr5XlkI7or7flj4rml7bkv67m
-lLnmraTlpITvvIkNCj4gICAgIGhpZ2htZW0NCj4gICAgIGZyb250c3dhcA0KPiAgICAgaHdwb2lz
-b24NCj4gKyAgIG1lbW9yeS1tb2RlbA0KPg0KPiAgVE9ET0xJU1Q6DQo+ICAqIGFyY2hfcGd0YWJs
-ZV9oZWxwZXJzDQo+ICAqIGZyZWVfcGFnZV9yZXBvcnRpbmcNCj4gICogaG1tDQo+ICAqIGh1Z2V0
-bGJmc19yZXNlcnYNCj4gLSogbWVtb3J5LW1vZGVsDQo+ICsNCj4gICogbW11X25vdGlmaWVyDQo+
-ICAqIG51bWENCj4gICogb3ZlcmNvbW1pdC1hY2NvdW50aW5nDQo+IGRpZmYgLS1naXQgYS9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9tZW1vcnktbW9kZWwucnN0IGIvRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdA0KPiBuZXcgZmls
-ZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjVmZTQ3NTU4MWNiZA0KPiAtLS0g
-L2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL21l
-bW9yeS1tb2RlbC5yc3QNCj4gQEAgLTAsMCArMSwxMzUgQEANCj4gKy4uIFNQRFgtTGljZW5zZS1J
-ZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsNCj4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi92bS9t
-ZW1vcnktbW9kZWwucnN0DQo+ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDlj7jlu7bohb4gWWFu
-dGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiArDQo+ICs65qCh6K+ROg0KPiArDQo+
-ICsNCj4gKz09PT09PT09PT09PQ0KPiAr54mp55CG5YaF5a2Y5qih5Z6LDQo+ICs9PT09PT09PT09
-PT0NCj4gKw0KPiAr57O757uf5Lit55qE54mp55CG5YaF5a2Y5Y+v5Lul55So5LiN5ZCM55qE5pa5
-5byP6L+b6KGM5a+75Z2A44CC5pyA566A5Y2V55qE5oOF5Ya15piv77yM54mp55CG5YaF5a2Y5LuO
-5Zyw5Z2AMOW8gA0KPiAr5aeL77yM6Leo6LaK5LiA5Liq6L+e57ut55qE6IyD5Zu077yM55u05Yiw
-5pyA5aSn55qE5Zyw5Z2A44CC54S26ICM77yM6L+Z5Liq6IyD5Zu05Y+v6IO95YyF5ZCrQ1BV5peg
-5rOV6K6/6Zeu55qEDQo+ICvlsI/lrZTpmpnjgILpgqPkuYjvvIzlnKjlrozlhajkuI3lkIznmoTl
-nLDlnYDlj6/og73mnInlh6DkuKrov57nu63nmoTojIPlm7TjgILogIzkuJTvvIzliKvlv5jkuoZO
-VU1B77yM5Y2z5LiNDQo+ICvlkIznmoTlhoXlrZjlupPov57mjqXliLDkuI3lkIznmoRDUFXjgIIN
-Cj4gKw0KPiArTGludXjkvb/nlKjkuKTnp43lhoXlrZjmqKHlnovkuK3nmoTkuIDnp43lr7nov5nn
-p43lpJrmoLfmgKfov5vooYzmir3osaHjgIJGTEFUTUVN5ZKMU1BBUlNFTeOAguavjw0KPiAr5Liq
-5p625p6E6YO95a6a5LmJ5LqG5a6D5omA5pSv5oyB55qE5YaF5a2Y5qih5Z6L77yM6buY6K6k55qE
-5YaF5a2Y5qih5Z6L5piv5LuA5LmI77yM5Lul5Y+K5piv5ZCm5pyJ5Y+v6IO95omL5YqoDQo+ICvo
-pobnm5bor6Xpu5jorqTlgLzjgIINCj4gKw0KPiAr5omA5pyJ55qE5YaF5a2Y5qih5Z6L6YO95L2/
-55So5o6S5YiX5Zyo5LiA5Liq5oiW5aSa5Liq5pWw57uE5Lit55qEIGBzdHJ1Y3QgcGFnZWAg5p2l
-6Lef6Liq54mp55CG6aG1DQo+ICvluKfnmoTnirbmgIHjgIINCj4gKw0KPiAr5peg6K666YCJ5oup
-5ZOq56eN5YaF5a2Y5qih5Z6L77yM54mp55CG6aG15qGG5Y+377yIUEZO77yJ5ZKM55u45bqU55qE
-IGBzdHJ1Y3QgcGFnZWAg5LmL6Ze06YO95a2YDQo+ICvlnKjkuIDlr7nkuIDnmoTmmKDlsITlhbPn
-s7vjgIINCj4gKw0KPiAr5q+P5Liq5YaF5a2Y5qih5Z6L6YO95a6a5LmJ5LqGIDpjOmZ1bmM6YHBm
-bl90b19wYWdlYCDlkowgOmM6ZnVuYzpgcGFnZV90b19wZm5gDQo+ICvluK7liqnlh73mlbDvvIzl
-hYHorrjku45QRk7liLAgYHN0cnVjdCBwYWdlYCDnmoTovazmjaLvvIzlj43kuYvkuqbnhLbjgIIN
-Cj4gKw0KPiArRkxBVE1FTQ0KPiArPT09PT09PQ0KPiArDQo+ICvmnIDnroDljZXnmoTlhoXlrZjm
-qKHlnovmmK9GTEFUTUVN44CC6L+Z5Liq5qih5Z6L6YCC55So5LqO6Z2eTlVNQeezu+e7n+eahOi/
-nue7reaIluWkp+mDqOWIhui/nue7reeahA0KPiAr54mp55CG5YaF5a2Y44CCDQo+ICsNCj4gK+Wc
-qEZMQVRNRU3lhoXlrZjmqKHlnovkuK3vvIzmnInkuIDkuKrlhajlsYDnmoQgYG1lbV9tYXBgIOaV
-sOe7hOadpeaYoOWwhOaVtOS4queJqeeQhuWGheWtmOOAguWvuQ0KPiAr5LqO5aSn5aSa5pWw5p62
-5p6E77yM5a2U6ZqZ5ZyoIGBtZW1fbWFwYCDmlbDnu4TkuK3pg73mnInmnaHnm67jgILkuI7lrZTm
-tJ7nm7jlr7nlupTnmoQgYHN0cnVjdCBwYWdlYA0KPiAr5a+56LGh5LuO5pyq6KKr5a6M5YWo5Yid
-5aeL5YyW44CCDQo+ICsNCj4gK+S4uuS6huWIhumFjSBgbWVtX21hcGAg5pWw57uE77yM5p625p6E
-54m55a6a55qE6K6+572u5Luj56CB5bqU6K+l6LCD55SoZnJlZV9hcmVhX2luaXQoKeWHveaVsOOA
-gg0KPiAr54S26ICM77yM5Zyo6LCD55SobWVtYmxvY2tfZnJlZV9hbGwoKeWHveaVsOS5i+WJje+8
-jOaYoOWwhOaVsOe7hOaYr+S4jeiDveS9v+eUqOeahO+8jOivpeWHveaVsA0KPiAr5bCG5omA5pyJ
-55qE5YaF5a2Y5Lqk57uZ6aG15YiG6YWN5Zmo44CCDQo+ICsNCj4gK+S4gOS4quaetuaehOWPr+iD
-veS8mumHiuaUviBgbWVtX21hcGAg5pWw57uE5Lit5LiN5YyF5ous5a6e6ZmF54mp55CG6aG155qE
-6YOo5YiG44CC5Zyo6L+Z56eN5oOF5Ya15LiL77yM54m5DQo+ICvlrprmnrbmnoTnmoQgOmM6ZnVu
-YzpgcGZuX3ZhbGlkYCDlrp7njrDlupTor6XogIPomZHliLAgYG1lbV9tYXBgIOS4reeahOWtlOma
-meOAgg0KPiArDQo+ICvkvb/nlKhGTEFUTUVN77yMUEZO5ZKMIGBzdHJ1Y3QgcGFnZWAg5LmL6Ze0
-55qE6L2s5o2i5piv55u05o6l55qE44CCIGBQRk4gLSBBUkNIX1BGTl9PRkZTRVRgDQo+ICvmmK8g
-YG1lbV9tYXBgIOaVsOe7hOeahOS4gOS4que0ouW8leOAgg0KPiArDQo+ICtgQVJDSF9QRk5fT0ZG
-U0VUYCDlrprkuYnkuobniannkIblhoXlrZjotbflp4vlnLDlnYDkuI3lkIzkuo4w55qE57O757uf
-55qE56ys5LiA5Liq6aG15qGG5Y+344CCDQo+ICsNCj4gK1NQQVJTRU1FTQ0KPiArPT09PT09PT09
-DQo+ICsNCj4gK1NQQVJTRU1FTeaYr0xpbnV45Lit5pyA6YCa55So55qE5YaF5a2Y5qih5Z6L77yM
-5a6D5piv5ZSv5LiA5pSv5oyB6Iul5bmy6auY57qn5Yqf6IO955qE5YaF5a2Y5qih5Z6L77yMDQo+
-ICvlpoLniannkIblhoXlrZjnmoTng63mj5Lmi5TjgIHpnZ7mmJPlpLHmgKflhoXlrZjorr7lpIfn
-moTmm7/ku6PlhoXlrZjlm77lkozovoPlpKfns7vnu5/nmoTlhoXlrZjlm77nmoTlu7bov58NCj4g
-K+WIneWni+WMluOAgg0KPiArDQo+ICtTUEFSU0VNRU3mqKHlnovlsIbniannkIblhoXlrZjmmL7n
-pLrkuLrkuIDkuKrpg6jliIbnmoTpm4blkIjjgILkuIDkuKrljLrmrrXnlKhtZW1fc2VjdGlvbue7
-k+aehA0KPiAr5L2T6KGo56S677yM5a6D5YyF5ZCrIGBzZWN0aW9uX21lbV9tYXBgIO+8jOS7jumA
-u+i+keS4iuiusu+8jOWug+aYr+S4gOS4quaMh+WQkSBgc3RydWN0IHBhZ2VgDQo+ICvpmLXliJfn
-moTmjIfpkojjgILnhLbogIzvvIzlroPooqvlrZjlgqjlnKjkuIDkupvlhbbku5bnmoRtYWdpY+S4
-re+8jOS7peW4ruWKqeWIhuWMuueuoeeQhuOAguWMuuauteeahOWkp+Wwjw0KPiAr5ZKM5pyA5aSn
-5Yy65q615pWw5piv5L2/55SoIGBTRUNUSU9OX1NJWkVfQklUU2Ag5ZKMIGBNQVhfUEhZU01FTV9C
-SVRTYCDluLjph48NCj4gK+adpeaMh+WumueahO+8jOi/meS4pOS4quW4uOmHj+aYr+eUseavj+S4
-quaUr+aMgVNQQVJTRU1FTeeahOaetuaehOWumuS5ieeahOOAgiBgTUFYX1BIWVNNRU1fQklUU2AN
-Cj4gK+aYr+S4gOS4quaetuaehOaJgOaUr+aMgeeahOeJqeeQhuWcsOWdgOeahOWunumZheWuveW6
-pu+8jOiAjCBgU0VDVElPTl9TSVpFX0JJVFNgIOaYr+S4gOS4quS7uw0KPiAr5oSP55qE5YC844CC
-DQo+ICsNCj4gK+acgOWkp+eahOauteaVsOihqOekuuS4uiBgTlJfTUVNX1NFQ1RJT05TYCDvvIzl
-rprkuYnkuLoNCj4gKw0KPiArLi4gbWF0aDo6DQo+ICsNCj4gKyAgIE5SXF9NRU1cX1NFQ1RJT05T
-ID0gMiBeIHsoTUFYXF9QSFlTTUVNXF9CSVRTIC0gU0VDVElPTlxfU0laRVxfQklUUyl9DQo+ICsN
-Cj4gK2BtZW1fc2VjdGlvbmAg5a+56LGh6KKr5a6J5o6S5Zyo5LiA5Liq5Y+r5YGaIGBtZW1fc2Vj
-dGlvbnNgIOeahOS6jOe7tOaVsOe7hOS4reOAgui/meS4quaVsOe7hOeahA0KPiAr5aSn5bCP5ZKM
-5L2N572u5Y+W5Yaz5LqOIGBDT05GSUdfU1BBUlNFTV9FWFRSRU1FYCDlkozlj6/og73nmoTmnIDl
-pKfmrrXmlbA6DQo+ICsNCj4gKyog5b2TIGBDT05GSUdfU1BBUlNFTUVNX0VYVFJFTUVgIOiiq+em
-geeUqOaXtu+8jCBgbWVtX3NlY3Rpb25zYCDmlbDnu4TmmK/pnZnmgIHnmoTvvIzmnIkNCj4gKyAg
-YE5SX01FTV9TRUNUSU9OU2Ag6KGM44CC5q+P5LiA6KGM5oyB5pyJ5LiA5LiqIGBtZW1fc2VjdGlv
-bmAg5a+56LGh44CCDQo+ICsqIOW9kyBgQ09ORklHX1NQQVJTRU1FTV9FWFRSRU1FYCDooqvlkK/n
-lKjml7bvvIwgYG1lbV9zZWN0aW9uc2Ag5pWw57uE6KKr5Yqo5oCB5YiG6YWN44CCDQo+ICsgIOav
-j+S4gOihjOWMheWQq+S7t+WAvCBgUEFHRV9TSVpFYCDnmoQgYG1lbV9zZWN0aW9uYCDlr7nosaHv
-vIzooYzmlbDnmoTorqHnrpfmmK/kuLrkuobpgILlupTmiYDmnInnmoQNCj4gKyAg5YaF5a2Y5Yy6
-44CCDQo+ICsNCj4gK+aetuaehOiuvue9ruS7o+eggeW6lOivpeiwg+eUqHNwYXJzZV9pbml0KCnm
-naXliJ3lp4vljJblhoXlrZjljLrlkozlhoXlrZjmmKDlsITjgIINCj4gKw0KPiAr6YCa6L+HU1BB
-UlNFTUVN77yM5pyJ5Lik56eN5Y+v6IO955qE5pa55byP5bCGUEZO6L2s5o2i5Li655u45bqU55qE
-IGBzdHJ1Y3QgcGFnZWAgLS0iY2xhc3NpYyBzcGFyc2Ui5ZKMDQo+ICsgInNwYXJzZSB2bWVtbWFw
-IuOAgumAieaLqeaYr+WcqOaehOW7uuaXtui/m+ihjOeahO+8jOWug+eUsSBgQ09ORklHX1NQQVJT
-RU1FTV9WTUVNTUFQYCDnmoQNCj4gKyDlgLzlhrPlrprjgIINCj4gKw0KPiArQ2xhc3NpYyBzcGFy
-c2XlnKhwYWdlLT5mbGFnc+S4ree8lueggeS6huS4gOS4qumhtemdoueahOauteWPt++8jOW5tuS9
-v+eUqFBGTueahOmrmOS9jeadpeiuv+mXruaYoOWwhOivpemhtQ0KPiAr5qGG55qE5q6144CC5Zyo
-5LiA5Liq5Yy65q615YaF77yMUEZO5piv5oyH5ZCR6aG15pWw57uE55qE57Si5byV44CCDQo+ICsN
-Cj4gK1NwYXJzZSB2bWVtbWFwdm1lbW1hcOS9v+eUqOiZmuaLn+aYoOWwhOeahOWGheWtmOaYoOWw
-hOadpeS8mOWMlnBmbl90b19wYWdl5ZKMcGFnZV90b19wZm7mk40NCj4gK+S9nOOAguacieS4gOS4
-quWFqOWxgOeahCBgc3RydWN0IHBhZ2UgKnZtZW1tYXBgIOaMh+mSiO+8jOaMh+WQkeS4gOS4quiZ
-muaLn+i/nue7reeahCBgc3RydWN0IHBhZ2VgDQo+ICvlr7nosaHpmLXliJfjgIJQRk7mmK/or6Xm
-lbDnu4TnmoTkuIDkuKrntKLlvJXvvIxgc3RydWN0IHBhZ2VgIOS7jiBgdm1lbW1hcGAg55qE5YGP
-56e76YeP5piv6K+l6aG155qEUEZO44CCDQo+ICsNCj4gK+S4uuS6huS9v+eUqHZtZW1tYXDvvIzk
-uIDkuKrmnrbmnoTlv4Xpobvkv53nlZnkuIDkuKromZrmi5/lnLDlnYDnmoTojIPlm7TvvIzku6Xm
-mKDlsITljIXlkKvlhoXlrZjmmKDlsITnmoTniannkIbpobXvvIzlubYNCj4gK+ehruS/nSBgdm1l
-bW1hcGDmjIflkJHor6XojIPlm7TjgILmraTlpJbvvIzmnrbmnoTlupTor6Xlrp7njrAgOmM6ZnVu
-Yzpgdm1lbW1hcF9wb3B1bGF0ZWAg5pa55rOV77yMDQo+ICvlroPlsIbliIbphY3niannkIblhoXl
-rZjlubbkuLromZrmi5/lhoXlrZjmmKDlsITliJvlu7rpobXooajjgILlpoLmnpzkuIDkuKrmnrbm
-noTlr7l2bWVtbWFw5pig5bCE5rKh5pyJ5Lu75L2V54m55q6K6KaB5rGC77yMDQo+ICvlroPlj6/k
-u6Xkvb/nlKjpgJrnlKjlhoXlrZjnrqHnkIbmj5DkvpvnmoTpu5jorqQgOmM6ZnVuYzpgdm1lbW1h
-cF9wb3B1bGF0ZV9iYXNlcGFnZXNg44CCDQo+ICsNCj4gK+iZmuaLn+aYoOWwhOeahOWGheWtmOaY
-oOWwhOWFgeiuuOWwhuaMgeS5heaAp+WGheWtmOiuvuWkh+eahCBgc3RydWN0IHBhZ2VgIOWvueix
-oeWtmOWCqOWcqOi/meS6m+iuvuWkh+S4iumihOWFiOWIhg0KPiAr6YWN55qE5a2Y5YKo5Lit44CC
-6L+Z56eN5a2Y5YKo55Sodm1lbV9hbHRtYXDnu5PmnoTooajnpLrvvIzmnIDnu4jpgJrov4fkuIDp
-lb/kuLLnmoTlh73mlbDosIPnlKjkvKDpgJLnu5kNCj4gK3ZtZW1tYXBfcG9wdWxhdGUoKeOAgnZt
-ZW1tYXBfcG9wdWxhdGUoKeWunueOsOWPr+S7peS9v+eUqCBgdm1lbV9hbHRtYXBgIOWSjA0KPiAr
-OmM6ZnVuYzpgdm1lbW1hcF9hbGxvY19ibG9ja19idWZgIOWKqeaJi+adpeWIhumFjeaMgeS5heaA
-p+WGheWtmOiuvuWkh+S4iueahOWGheWtmOaYoOWwhOOAgg0KPiArDQo+ICtaT05FX0RFVklDRQ0K
-PiArPT09PT09PT09PT0NCj4gK2BaT05FX0RFVklDRWAg6K6+5pa95bu656uL5ZyoIGBTUEFSU0VN
-X1ZNRU1NQVBgIOS5i+S4iu+8jOS4uuiuvuWkh+mpseWKqOivhuWIq+eahOeJqeeQhuWcsOWdgOiM
-gw0KPiAr5Zu05o+Q5L6bIGBzdHJ1Y3QgcGFnZWAgYG1lbV9tYXBgIOacjeWKoeOAgiBgWk9ORV9E
-RVZJQ0VgIOeahCAi6K6+5aSHIiDmlrnpnaLkuI7ku6XkuIsNCj4gK+S6i+WunuacieWFs++8mui/
-meS6m+WcsOWdgOiMg+WbtOeahOmhtemdouWvueixoeS7juacquiiq+WcqOe6v+agh+iusOi/h++8
-jOiAjOS4lOW/hemhu+WvueiuvuWkh+i/m+ihjOW8leeUqO+8jOiAjOS4jeS7heS7hQ0KPiAr5piv
-6aG16Z2i77yM5Lul5L+d5oyB5YaF5a2Y6KKrcGlubmVk5Lul5L6/5L2/55So44CCIGBaT05FX0RF
-VklDRWAg77yM6YCa6L+HIDpjOmZ1bmM6YGRldm1fbWVtcmVtYXBfcGFnZXNgIO+8jA0KDQrku6Xk
-v53mjIHlhoXlrZjooqvigJzplIHlrprigJ3ku6Xkvr/kvb/nlKjvvJ8NCg0KZm9yIG90aGVyczoN
-ClJldmlld2VkLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCg0KVGhhbmtzDQo=
+On Mon 2022-03-07 11:25:30, Guilherme G. Piccoli wrote:
+> On 07/03/2022 11:04, bhe@redhat.com wrote:
+> > [...]
+> > Ah, sorry, I even didn't notice that. That's awesome if we can make use
+> > of that. While I still have concerns:
+> > 
+> 
+> Thanks, nice that you liked the idea.
+> 
+> > 1) about those we have decided to take out from panic notifier list and
+> > put before kdump, e.g the Hypver-V notifier, how will we do with it? Are
+> > we going to handle them as we have discussed?
+> > 
+> 
+> While implementing that I will think of something, but if
+> understood/remember correctly Hyper-V gonna be one of the first to run
+> in the first notifier list proposed by Petr - so we might still use
+> ordering by priority there, having Hyper-V being the first heh
+
+My understanding is that the problem is not a priority but an ordering
+against other operations.
+
+Namely, Hyper-V must be called even before crash dump. Some others before
+kmsg_dump(). And the rest only when the crash dump is not called at all.
+
+
+> > 2) Combing and settling priority for all existing panic notifier looks
+> > great, even though it will take some effort. How about the later newly
+> > added one? How can we guarantee that those new notifiers are getting
+> > appropriate priority to mark their order? Sometime we even don't know
+> > a new panic notifier is added since code change may be made in any
+> > component or driver.
+> > 
+> 
+> This is a great point! How to do it? One idea is to have a special
+> registering function for panic notifiers that checks for priority field
+> missing, and good documentation is a good idea as well, always.
+> 
+> But if you / others have other suggestions, let me know - appreciate that.
+> Cheers,
+
+Honestly, I am not that keen about enforcing the priorities.
+
+It would make sense only when the ordering is really important.
+Then there should be some rules. It should be obvious why
+something has to be done earlier than something else.
+
+From my POV, it is just another complexity. Someone will need to
+assign the priority to the existing notifiers. People will wonder
+about it for newly added notifiers.
+
+Reproducibility seems to be the only motivation. Is it really a
+problem? Do the notifiers affect each other?
+
+Also the notifiers are typically registered by some early boot
+code. It will define some ordering out of box.
+
+Best Regards,
+Petr
