@@ -2,99 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 856DDC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 04:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CD1C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 04:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233935AbiCHEud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 23:50:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55102 "EHLO
+        id S240254AbiCHE6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 23:58:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231371AbiCHEuc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 23:50:32 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C5A33A01
-        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 20:49:36 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id g26so35361972ybj.10
-        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 20:49:36 -0800 (PST)
+        with ESMTP id S230105AbiCHE6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 23:58:30 -0500
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC73A3893
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 20:57:34 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id f38so35471375ybi.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 20:57:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=xuaJXgStO4V2/6OACg9pyt4+VjQwnKoW7tP0rVxp1rc=;
-        b=Z/B0PeDEwomh5qRn3fXnB0G02hiLRPnH5JfBrSHrV+b3TBk6CaamgpqCUtb20ZKT12
-         jZovQQh7syOWMXciaT9JSPo+O+YNoyOQYu9BdUNoTE6cUXi9hHlX03GAqYpmpoT0mJt5
-         EHxp3VZWrgk1M6M4XHKZcaCz6lgINg1EaN0DNuIWqwrBb85Q0RYBUulsbVaYX7sULYfg
-         hkPRfTDgev43ApaBi3WEDahQ2aSouBkD7JYcPKK6IpDxsHgvEPAHKg1vCPNDzNxnJGAT
-         wT7D3PgdxHZxO3zl24WwW6oHPSrzIg2rRTdani6Rkf3ZKrFbKlsWOqYHUVhublApeh1S
-         et+w==
+        bh=VMalzZWLjKhYAY6S0sMp+MwEYz02mzHzL0nET0cV0sQ=;
+        b=mK5j2WxvOjk5J2yeejcxQ3w2ArnhIQym+lpkyMuxSZOvKkZfYYW54H/7ox/ZRc5LPX
+         i6F4MxIrev7ekLO1Zryazbkg30v+ntfdpMc2agpwFYo9+pIYULj2Nq6kTQJhaVwXg9+N
+         o9mbKYx8FY9pfbew0FbzBMaj8wkqEI5XFA4H1ZzO8kNZHRXKFajYGQBf+KyYicc+nSlN
+         Szx7zPmhv6f4WYaghJM5YK8Wp57Z3YDdbNzPFr5lEkXJvPPD/+A1MWap8zBCeXPWbzAQ
+         9QHP36Sx+IdHn6ldOhmbtJ0XcEIk5ss+FdbZRGPHfch9gP3+Tk2YDVV1DynMGnneGeW+
+         m9FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xuaJXgStO4V2/6OACg9pyt4+VjQwnKoW7tP0rVxp1rc=;
-        b=0QKZ1iAwH03WBh+JEal94co7BbZ5VyXPVXGB/TMnr8sLoh7RedHjTUcj+MIyNBqqSt
-         /EyrqSooSOOV5kDjHfp8z/BHocWQH9IbIjBvxf92ECeclTCj8t8KJbE3kZrwDzOu5uQU
-         10FiPz3bgcSgNttXcpxVrctxyIrzr+gjcKODY6gaN92RaJMRuNL8A5FlIWG6CjqYVTTu
-         Qdqi99D54GaoAFrwvaqrLA5s2L2OUK4cSDB5nXzYOTa8/XjeGmGupCLxly+FN18mez3U
-         EvEdr5whXGLDCQYGq5+6Wzq8ljm82RUYOrZlS67iPAF8kHZIjhYQ1Z+BfgdaqDnwPF0g
-         BT4A==
-X-Gm-Message-State: AOAM532P86HfnvJWAcjaVBZX383di41Qb/+QwCIBPUtQADjJVe/v6Lvc
-        4/ivCLmdDaOpKwAPLyphM9xJs0/t8G7WKEzn+Wc=
-X-Google-Smtp-Source: ABdhPJzDRwl/duQfYWkdYaxHqXZ5xGc48BqkRimRlhTy71s0FkZLVsPN/Ns7lP0qkUzxdF1RyB06Blpv8YC0ATBn1QM=
-X-Received: by 2002:a25:9a43:0:b0:628:672c:e471 with SMTP id
- r3-20020a259a43000000b00628672ce471mr9965967ybo.73.1646714975773; Mon, 07 Mar
- 2022 20:49:35 -0800 (PST)
+        bh=VMalzZWLjKhYAY6S0sMp+MwEYz02mzHzL0nET0cV0sQ=;
+        b=veRbQHhpcZ2Z2x3pTkfhCzcdi8v5Iv8MKv98IBEc+dy5QF2hqkpEQRIZzeY8fVmUHv
+         9p+oNYAzVbmqv2SlKDHsBr5rTfPRXFpjIpOqoswfvlEm3NfAvt4Mn9g4wKrLjIes/oKP
+         qUYb7ug3ZJ5QEJx5AYfc1yw+e/sXrGbw+cmg5q/2SP45S6AnZKYhWXhrNZI+ShzZE3rh
+         +FBHuwQWKNMge11IPcQA/5PpzblQ3JjC+sKTpAr9o8wIgfsUsgkVdp5aHYLxL/1O6rCG
+         ucbFxZrMCHuPq65muj6H5HFf/aEJWkcVmrFOAOxnlyfQUQTz4/AXQqdlHqwmxK8xliQ6
+         luPg==
+X-Gm-Message-State: AOAM533tVXneD00OXMWcfSiVArXb2JmV0bkxVhLSCPK6n+YMAkPcKKPl
+        SUhV2IMNd72nBRh1bvr+uUi1vuNqS2JcmIKXSqw=
+X-Google-Smtp-Source: ABdhPJxZnzIHcRbxz2hNcaZ984tUfqdxXKSeJ2ABrhcwDyhn+mVwqr49iKA81tTvzDMDTZsF10iwKA/5VrFTMYY4AXw=
+X-Received: by 2002:a25:b908:0:b0:61d:75f8:6eff with SMTP id
+ x8-20020a25b908000000b0061d75f86effmr10693486ybj.641.1646715454089; Mon, 07
+ Mar 2022 20:57:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646640696.git.siyanteng@loongson.cn> <a43902460ff47a3aea8c7b01119cb7db647103e6.1646640696.git.siyanteng@loongson.cn>
- <20220307202026.3f2dc395@canb.auug.org.au>
-In-Reply-To: <20220307202026.3f2dc395@canb.auug.org.au>
+References: <cover.1646640696.git.siyanteng@loongson.cn>
+In-Reply-To: <cover.1646640696.git.siyanteng@loongson.cn>
 From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 8 Mar 2022 12:49:17 +0800
-Message-ID: <CAEensMy=DeLxgtOX=M4W+uK9uUqzkP5piitZFynUp-yeXXkRUg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] kselftest/vm: override TARGETS from arguments
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>,
-        Chengming Zhou <zhouchengming@bytedance.com>,
+Date:   Tue, 8 Mar 2022 12:57:16 +0800
+Message-ID: <CAEensMzTR15iM0i7h3KRP7GJzhJqGoSuzQbxCNv-absa684U_A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] docs/zh_CN: add admin-guide damon translation
+To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
         Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Rothwell <sfr@canb.auug.org.au> =E4=BA=8E2022=E5=B9=B43=E6=9C=887=
-=E6=97=A5=E5=91=A8=E4=B8=80 17:20=E5=86=99=E9=81=93=EF=BC=9A
+Yanteng Si <siyanteng01@gmail.com> =E4=BA=8E2022=E5=B9=B43=E6=9C=887=E6=97=
+=A5=E5=91=A8=E4=B8=80 16:15=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Hi Yanteng,
 >
-> On Mon,  7 Mar 2022 16:17:15 +0800 Yanteng Si <siyanteng01@gmail.com> wro=
-te:
-> >
-> > From: Chengming Zhou <zhouchengming@bytedance.com>
-> >
-> > We can specify which testcases to build using TARGETS argument, for
-> > example: make -C tools/testing/selftests TARGETS=3Dvm, cause the ordina=
-ry
-> > assignment of TARGETS in Makefile will be ignored.  So we need to use
-> > override directive to change that.
-> >
-> > Link: https://lkml.kernel.org/r/20220227055330.43087-1-zhouchengming@by=
-tedance.com
-> > Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
-> > Cc: Shuah Khan <shuah@kernel.org>
-> > Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> v3:
+> *Build test in next-20220304.
 >
-> Please do not take my Signed-off-by lines from linux-next.  It is only
-> there because I publish Andrew's patch queue as part of the linux-next
-> tree, and so is only relevant in the linux-next tree.
+> v2:
+> * Pick Alexs Reviewed-by tag. [PATCH 1-3/5]
+> * Fix a build warning.(introduce from usage.rst)
+>
+> v1:
+> * Translate .../admin-guide/mm/damon/* into Chinese
+> * note my patch thread is based on
+> <https://lore.kernel.org/linux-doc/20220212080024.1684590-1-xu.xin16@zte.=
+com.cn/T/#t>
+>
+> Chengming Zhou (1):
+>   kselftest/vm: override TARGETS from arguments
+>
+> Stephen Rothwell (1):
+>   Add linux-next specific files for 20220304
+>
+> xu xin (3):
+>   Add Chinese translation for vm/ksm.rst
+>   zh_CN: Add translations for admin-guide/mm/ksm.rst
+>   zh_CN: Add translation for admin-guide/mm/index.rst
 
-Sorry, this is my fault, I will regenerate this thread of patches.
+Hi all:
+
+I am so sorry, I executed "git format-patch -5" without applying my 5
+damon zh_CN patch; please ignore this thread, I will retest it later
+and send v4.
+
+I really feel bad about it. T_T
 
 Thanks,
 Yanteng
