@@ -2,95 +2,306 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F5EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:04:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BD2C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:05:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbiCIBFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 20:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S229637AbiCIBGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 20:06:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbiCIBFE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:05:04 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D4EAC929
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:42:50 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id s25so929638lji.5
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:42:50 -0800 (PST)
+        with ESMTP id S229881AbiCIBFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:05:48 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF468D10BA
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:44:04 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id x11-20020a5b0f0b000000b0062277953037so472084ybr.21
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tYmupwL1NthFsF42+Fr0z4aIrhKGW9iSWfQCfyDDaEk=;
-        b=T9Y8CKYiSW3hGc9HM0/MT5sFo5blD99UIhMWcRbFD5kggM3DUwxybXuISqMFUGIjrg
-         mWQ74CDHtfn9kXLqt5VqIvjs1zPAj3pO65tEdbgr+OX1FrAEaiMiYghKLtQSRfh7w9WS
-         TgKR2SZWDkmK6Hkv45V1e1kyBDZQ0M8AOrIp8=
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:content-transfer-encoding;
+        bh=5w1OIfygzSAzOtR1gEmt6DQmNATik/MV9LcnsLZ7twE=;
+        b=VmtraZ998i0c3SLIXGsaDapNpLDnNwC90h3F9NhYwhfeLG4kWQ0pxVDK0xFqBdd31/
+         O75Uyb1YCFIXEs3jPi1jSsnrhN0sSNoWLADWTG2DDE7svbB5RNZMPBETU0CZMpdwjnRk
+         cHhuCTwAjwuj5JW668Ylb4zSDeQyhvV6qavV9prGeugTCy3oekzyNdbW/I584eMcAcqz
+         3INfnz7jrWWKKBafzc+djKDRdNPjY/4BrQ/6yNQcHdfYf+VdHaxaPY/B1Rw8HKWzXhzn
+         oik6vT19Wq7DIt6GpFUpzrsli17ZFl72q1uqxb1D6dhlst7F0xhjsm3bgnqv+Yqs5hoG
+         S51A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tYmupwL1NthFsF42+Fr0z4aIrhKGW9iSWfQCfyDDaEk=;
-        b=uBB9ORTq6DPqqzQtSJIWz+yKi3I6xlWS4p8sH0fWNMb8Gxytsb9jNzvMKN6GnTILtu
-         zIaXZVNn9zN32SqJTlfn5xAuwyP0AKU6SNcXMkcgpBX1/Sbg50wa7Oe+3cnPoJE9dUV+
-         Vs7yeY86X1fDhH2Tk7946PHM7lYxXM+6NQWUFCNpD+BueF1lTWrbLnxWA2booVUKTAp7
-         EG/KRiQgoqSJjBhMqm5s1QKs+7BDEV4MDO+IzfLC5z6LbtPryDpbOZcObsvOGYPe/wgD
-         oU7qo2xro2rGIbyKKezzfgH3JZ3tIL1sh2A7/U14DPT8fmI1wqQsmKek3igk1Ou8e3XY
-         bxrQ==
-X-Gm-Message-State: AOAM530qQUrRdNTep8o3H4CQHoP6BT+zQjNv5eJoQRyopiLcyLeaGpQq
-        2PYzsURy/F5NJJLeB+2P30s6X3T31ZUHuvaCm+4=
-X-Google-Smtp-Source: ABdhPJz2XEykMLhmMUN6ozxvg3m1XH0XhomPSONGadtsygBNntZHZexqNmE49Iz8/Ejop+v5Z6SVjw==
-X-Received: by 2002:a2e:864b:0:b0:248:321:f13a with SMTP id i11-20020a2e864b000000b002480321f13amr39933ljj.210.1646784570057;
-        Tue, 08 Mar 2022 16:09:30 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id f4-20020a056512092400b004485164791csm43467lft.119.2022.03.08.16.09.27
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 16:09:28 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id u7so809597ljk.13
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:09:27 -0800 (PST)
-X-Received: by 2002:a2e:9b10:0:b0:247:f28c:ffd3 with SMTP id
- u16-20020a2e9b10000000b00247f28cffd3mr3400178lji.152.1646784567653; Tue, 08
- Mar 2022 16:09:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20220308215615.14183-1-arnd@kernel.org>
-In-Reply-To: <20220308215615.14183-1-arnd@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 8 Mar 2022 16:09:11 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
-Message-ID: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Alex Shi <alexs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        David Sterba <dsterba@suse.com>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding;
+        bh=5w1OIfygzSAzOtR1gEmt6DQmNATik/MV9LcnsLZ7twE=;
+        b=abP6/+pRzZruDGG0ePaBkkNLkKGRqZFspL8ug/JdsLWFZAe7V7E3H7DweIiLdb2hRt
+         oHvnbDrzgzSzevukbgHg/IcLcRuOKG34TOPyX7VyyOSthHhTAuaK7FNlyCl5ard78Gy5
+         HuylhGg+u5EKSiIJUO2vpJPIAsm1PjNa6HLXu6LUVvAoPSEEStVWqSqRcOS5eVQEPR6q
+         NvYdgmw9yJhNGNNSz+9/gmlpYm/+b9fquETLzQZlGFrxoh17+07nA7Pey9hViXyuMmr+
+         lUKeoaGdfZuUrgbq9B/5dvxskCumGs9lWFE2NCzphNpUctAd2TTeOy5NLO86HMBDQbDM
+         9rUQ==
+X-Gm-Message-State: AOAM530/TfkSZHWRdrT8mK/TEjLjv/YsZ8sjwoUqbhrP6XaFEMyEtgsd
+        BRyACDmUlE1NG8mi8xd4uO/yLZfI/lI=
+X-Google-Smtp-Source: ABdhPJzKcl/TP6kH+FmylpiM0aHD/7GierDsHJdkwsZVoIQCtyZIj202X1NnTxJc8Yav7hJXeGgtyQYmv+w=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:57a6:54a6:aad1:c0a8])
+ (user=yuzhao job=sendgmr) by 2002:a25:b9ca:0:b0:619:649f:1bf6 with SMTP id
+ y10-20020a25b9ca000000b00619649f1bf6mr14098274ybj.196.1646783322500; Tue, 08
+ Mar 2022 15:48:42 -0800 (PST)
+Date:   Tue,  8 Mar 2022 16:47:23 -0700
+In-Reply-To: <20220308234723.3834941-1-yuzhao@google.com>
+Message-Id: <20220308234723.3834941-14-yuzhao@google.com>
+Mime-Version: 1.0
+References: <20220308234723.3834941-1-yuzhao@google.com>
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v8 13/14] mm: multi-gen LRU: admin guide
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Yu Zhao <yuzhao@google.com>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> I've incorporated the feedback from Masahiro Yamada in this
-> version, splitting out one more patch, rebasing on top of
-> the kbuild tree, and changing the order of the patches.
->
-> Please apply to the kbuild tree.
+Add an admin guide.
 
-I'd actually like to see this as a separate branch, so that I can
-merge it early - or other peoples git branches end up depending on it.
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+Acked-by: Brian Geffon <bgeffon@google.com>
+Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Acked-by: Steven Barrett <steven@liquorix.net>
+Acked-by: Suleiman Souhlal <suleiman@google.com>
+Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+Tested-by: Donald Carr <d@chaos-reins.com>
+Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+---
+ Documentation/admin-guide/mm/index.rst        |   1 +
+ Documentation/admin-guide/mm/multigen_lru.rst | 146 ++++++++++++++++++
+ mm/Kconfig                                    |   3 +-
+ 3 files changed, 149 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
 
-Yeah, it shouldn't change anything on its own, but since it allows for
-new syntax, we might have other things depending on it (I'm obviously
-thinking of the list_for_each_entry() series that keeps getting
-posted).
+diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-g=
+uide/mm/index.rst
+index c21b5823f126..2cf5bae62036 100644
+--- a/Documentation/admin-guide/mm/index.rst
++++ b/Documentation/admin-guide/mm/index.rst
+@@ -32,6 +32,7 @@ the Linux memory management.
+    idle_page_tracking
+    ksm
+    memory-hotplug
++   multigen_lru
+    nommu-mmap
+    numa_memory_policy
+    numaperf
+diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Documentation/=
+admin-guide/mm/multigen_lru.rst
+new file mode 100644
+index 000000000000..c60dcae5a1a9
+--- /dev/null
++++ b/Documentation/admin-guide/mm/multigen_lru.rst
+@@ -0,0 +1,146 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Multi-Gen LRU
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Quick start
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Build the kernel with the following configurations.
++
++* ``CONFIG_LRU_GEN=3Dy``
++* ``CONFIG_LRU_GEN_ENABLED=3Dy``
++
++All set!
++
++Runtime options
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++``/sys/kernel/mm/lru_gen/`` contains stable ABIs described in the
++following subsections.
++
++Kill switch
++-----------
++``enable`` accepts different values to enable or disabled the
++following components. The default value of this file depends on
++``CONFIG_LRU_GEN_ENABLED``. All the components should be enabled
++unless some of them have unforeseen side effects. Writing to
++``enable`` has no effect when a component is not supported by the
++hardware, and valid values will be accepted even when the main switch
++is off.
++
++=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Values Components
++=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++0x0001 The main switch for the multi-gen LRU.
++0x0002 Clearing the accessed bit in leaf page table entries in large
++       batches, when MMU sets it (e.g., on x86). This behavior can
++       theoretically worsen lock contention (mmap_lock). If it is
++       disabled, the multi-gen LRU will suffer a minor performance
++       degradation.
++0x0004 Clearing the accessed bit in non-leaf page table entries as
++       well, when MMU sets it (e.g., on x86). This behavior was not
++       verified on x86 varieties other than Intel and AMD. If it is
++       disabled, the multi-gen LRU will suffer a negligible
++       performance degradation.
++[yYnN] Apply to all the components above.
++=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++E.g.,
++::
++
++    echo y >/sys/kernel/mm/lru_gen/enabled
++    cat /sys/kernel/mm/lru_gen/enabled
++    0x0007
++    echo 5 >/sys/kernel/mm/lru_gen/enabled
++    cat /sys/kernel/mm/lru_gen/enabled
++    0x0005
++
++Thrashing prevention
++--------------------
++Personal computers are more sensitive to thrashing because it can
++cause janks (lags when rendering UI) and negatively impact user
++experience. The multi-gen LRU offers thrashing prevention to the
++majority of laptop and desktop users who do not have ``oomd``.
++
++Users can write ``N`` to ``min_ttl_ms`` to prevent the working set of
++``N`` milliseconds from getting evicted. The OOM killer is triggered
++if this working set cannot be kept in memory. In other words, this
++option works as an adjustable pressure relief valve, and when open, it
++terminates applications that are hopefully not being used.
++
++Based on the average human detectable lag (~100ms), ``N=3D1000`` usually
++eliminates intolerable janks due to thrashing. Larger values like
++``N=3D3000`` make janks less noticeable at the risk of premature OOM
++kills.
++
++Experimental features
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++``/sys/kernel/debug/lru_gen`` accepts commands described in the
++following subsections. Multiple command lines are supported, so does
++concatenation with delimiters ``,`` and ``;``.
++
++``/sys/kernel/debug/lru_gen_full`` provides additional stats for
++debugging. ``CONFIG_LRU_GEN_STATS=3Dy`` keeps historical stats from
++evicted generations in this file.
++
++Working set estimation
++----------------------
++Working set estimation measures how much memory an application
++requires in a given time interval, and it is usually done with little
++impact on the performance of the application. E.g., data centers want
++to optimize job scheduling (bin packing) to improve memory
++utilizations. When a new job comes in, the job scheduler needs to find
++out whether each server it manages can allocate a certain amount of
++memory for this new job before it can pick a candidate. To do so, this
++job scheduler needs to estimate the working sets of the existing jobs.
++
++When it is read, ``lru_gen`` returns a histogram of numbers of pages
++accessed over different time intervals for each memcg and node.
++``CONFIG_NR_LRU_GENS`` decides the number of bins for each histogram.
++::
++
++    memcg  memcg_id  memcg_path
++       node  node_id
++           min_gen_nr  age_in_ms  nr_anon_pages  nr_file_pages
++           ...
++           max_gen_nr  age_in_ms  nr_anon_pages  nr_file_pages
++
++Each generation contains an estimated number of pages that have been
++accessed within ``age_in_ms`` non-cumulatively. E.g., ``min_gen_nr``
++contains the coldest pages and ``max_gen_nr`` contains the hottest
++pages, since ``age_in_ms`` of the former is the largest and that of
++the latter is the smallest.
++
++Users can write ``+ memcg_id node_id max_gen_nr
++[can_swap[full_scan]]`` to ``lru_gen`` to create a new generation
++``max_gen_nr+1``. ``can_swap`` defaults to the swap setting and, if it
++is set to ``1``, it forces the scan of anon pages when swap is off.
++``full_scan`` defaults to ``1`` and, if it is set to ``0``, it reduces
++the overhead as well as the coverage when scanning page tables.
++
++A typical use case is that a job scheduler writes to ``lru_gen`` at a
++certain time interval to create new generations, and it ranks the
++servers it manages based on the sizes of their cold memory defined by
++this time interval.
++
++Proactive reclaim
++-----------------
++Proactive reclaim induces memory reclaim when there is no memory
++pressure and usually targets cold memory only. E.g., when a new job
++comes in, the job scheduler wants to proactively reclaim memory on the
++server it has selected to improve the chance of successfully landing
++this new job.
++
++Users can write ``- memcg_id node_id min_gen_nr [swappiness
++[nr_to_reclaim]]`` to ``lru_gen`` to evict generations less than or
++equal to ``min_gen_nr``. Note that ``min_gen_nr`` should be less than
++``max_gen_nr-1`` as ``max_gen_nr`` and ``max_gen_nr-1`` are not fully
++aged and therefore cannot be evicted. ``swappiness`` overrides the
++default value in ``/proc/sys/vm/swappiness``. ``nr_to_reclaim`` limits
++the number of pages to evict.
++
++A typical use case is that a job scheduler writes to ``lru_gen``
++before it tries to land a new job on a server, and if it fails to
++materialize the cold memory without impacting the existing jobs on
++this server, it retries on the next server according to the ranking
++result obtained from the working set estimation step described
++earlier.
+diff --git a/mm/Kconfig b/mm/Kconfig
+index e9d5f1d09ac4..414eee6390a6 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -899,7 +899,8 @@ config LRU_GEN
+ 	# the following options can use up the spare bits in page flags
+ 	depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+ 	help
+-	  A high performance LRU implementation for memory overcommit.
++	  A high performance LRU implementation for memory overcommit. See
++	  Documentation/admin-guide/mm/multigen_lru.rst for details.
+=20
+ config LRU_GEN_ENABLED
+ 	bool "Enable by default"
+--=20
+2.35.1.616.g0bdcbb4464-goog
 
-                      Linus
