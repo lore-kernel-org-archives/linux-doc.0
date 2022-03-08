@@ -2,227 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FB5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 14:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B70C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 14:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347267AbiCHOGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 09:06:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52512 "EHLO
+        id S1345241AbiCHOPX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 09:15:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237273AbiCHOGs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 09:06:48 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649CF49F87;
-        Tue,  8 Mar 2022 06:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646748351; x=1678284351;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BW0pan9iM+VaZ50WsGuo6fggdgTImD3g+H0n+3pO1Jo=;
-  b=T5djVU8NPSFJe/5koHSwC317JMEaVvlTmPNWfMVb3eB19lViUW8enqrj
-   ikfXyRi0I8aN5JY/XXXrQz9IRzPeDP2XqfDnZuqNngQ5Jz+hqQkDJ+Ifl
-   +XqedHPSxFWck6L3oqv7zPDp9hJZiRNUS4Lja8NNcPSjgIKaaqgpgt78m
-   bJJoFW1fUyNLUlHnw9p9RcNZV/msECNX5oyZXzFoSfK+IuaD9PUgOLxXb
-   d5QkhlfoMMYgsTxezeBFBtQOOt3O8PumQB/e5GRAdi344m6XZMEsAFFhS
-   s1La0ZykBIDq/i2hXPJXz4PhzGh5DBqYqf5MrzAOuKDWboHA1OmuRHboI
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="234642024"
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
-   d="scan'208";a="234642024"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 06:05:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
-   d="scan'208";a="632237909"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2022 06:05:44 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id D1EE536A; Tue,  8 Mar 2022 16:06:02 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v1 1/1] ACPI: docs: gpio-properties: Unify ASL style for GPIO examples
-Date:   Tue,  8 Mar 2022 16:05:59 +0200
-Message-Id: <20220308140559.46932-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S239503AbiCHOPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 09:15:22 -0500
+Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com [IPv6:2a00:1450:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6FAD31DE4
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 06:14:25 -0800 (PST)
+Received: by mail-ed1-x549.google.com with SMTP id n11-20020a50cc4b000000b00415e939bf9eso8506459edi.22
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 06:14:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=gyMGBvpuWMfS9cnvL/h1tsboqRL4o8fwiR0D5Pa1mrE=;
+        b=q2POkYW1YeKnITLGDcWKnutHfsCisYKRva4yrqAUA+rihvnBLs8fN9iUwLD++uU+WG
+         uR7+nswf5DGs8L5xUPfntSbabDhdn+SQuGMOXv/0kQw7/a42EwJj8jBZBax0jzPLPMZp
+         cbaVbRm8FDJoysaKSeoeyykLy56NTg+e1e30m579EiYOzRNJ+FmBPv330zenq/cMbyJj
+         01CePPnVvJxO9Zh4O/uhs3Tb71UBgWfnq7DBBnpGl12E6EWbz1+0XUSy3Ae2YHmoGG0p
+         Xt29qvMTCAOb5IgFKSlK/pOhtDF67QEaNUxxuIW4GOXVeNVygX+r7sd196TjMXEfWvGR
+         sTYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=gyMGBvpuWMfS9cnvL/h1tsboqRL4o8fwiR0D5Pa1mrE=;
+        b=4LG7NTH66G5VzcpZWLBYDA+BUEepaREYXGdPORVUZ4TdfGnwBB+NY9yI5WvURbke6z
+         oE0ZRzEBPp1FHE+r3lx6dxlM+ZPnbdiRcJk5JEWCsEcIPMolcrXwSd/imdhThABzsiA+
+         5qBIa02CgCX4p6IZLtpfqZWtexf+M5qylMqiegVBS1N9N/67jwMdg60rzbmT3m/twM1x
+         um9zC081oXQkoladM4jB5/3bszrIWQdsyD2heQ0ixdqPzhWUPYFGkdtab2X2gm7ruImx
+         2UlHZ2IXyX57BUW/9NezLVGeLl7WLIwexXx5mdSfSbI1L7CQX4t5o684bJ8Rd/gp0ch6
+         pPQA==
+X-Gm-Message-State: AOAM531+aqglT0+ETgqy6Bc+1WraAqweECQ8/qJuK891drJu+NFIDTV5
+        1YWIa0cPq1bqNt4qV14QkLwING5Rsw==
+X-Google-Smtp-Source: ABdhPJyjGKAOe5D5WM5m7t1nu4yQN2fo/haxq+9mLVG9lQsaIlWMlvX9X9himb4U5X+Cj5kjj0kAu1iKuQ==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:edd7:29ac:9b6f:1abd])
+ (user=elver job=sendgmr) by 2002:a17:907:7244:b0:6d9:c722:577a with SMTP id
+ ds4-20020a170907724400b006d9c722577amr13651190ejc.0.1646748864121; Tue, 08
+ Mar 2022 06:14:24 -0800 (PST)
+Date:   Tue,  8 Mar 2022 15:14:15 +0100
+Message-Id: <20220308141415.3168078-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v2] kfence: allow use of a deferrable timer
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GPIO examples of ASL in the board.rst, enumeration.rst and gpio-properties.rst
-are not unified. Unify them for better reader experience.
+Allow the use of a deferrable timer, which does not force CPU wake-ups
+when the system is idle. A consequence is that the sample interval
+becomes very unpredictable, to the point that it is not guaranteed that
+the KFENCE KUnit test still passes.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Nevertheless, on power-constrained systems this may be preferable, so
+let's give the user the option should they accept the above trade-off.
+
+Signed-off-by: Marco Elver <elver@google.com>
 ---
- Documentation/driver-api/gpio/board.rst       | 21 +++++++--------
- .../firmware-guide/acpi/enumeration.rst       | 22 ++++------------
- .../firmware-guide/acpi/gpio-properties.rst   | 26 ++++++++++---------
- 3 files changed, 28 insertions(+), 41 deletions(-)
+v2:
+* Add more documentation.
+* Remove 'if EXPERT' from Kconfig option since it's configurable via
+  kernel boot param anyway.
+---
+ Documentation/dev-tools/kfence.rst | 12 ++++++++++++
+ lib/Kconfig.kfence                 | 12 ++++++++++++
+ mm/kfence/core.c                   | 15 +++++++++++++--
+ 3 files changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
-index 191fa867826a..4e3adf31c8d1 100644
---- a/Documentation/driver-api/gpio/board.rst
-+++ b/Documentation/driver-api/gpio/board.rst
-@@ -71,14 +71,14 @@ with the help of _DSD (Device Specific Data), introduced in ACPI 5.1::
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+index ac6b89d1a8c3..936f6aaa75c8 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -41,6 +41,18 @@ guarded by KFENCE. The default is configurable via the Kconfig option
+ ``CONFIG_KFENCE_SAMPLE_INTERVAL``. Setting ``kfence.sample_interval=0``
+ disables KFENCE.
  
- 	Device (FOO) {
- 		Name (_CRS, ResourceTemplate () {
--			GpioIo (Exclusive, ..., IoRestrictionOutputOnly,
--				"\\_SB.GPI0") {15} // red
--			GpioIo (Exclusive, ..., IoRestrictionOutputOnly,
--				"\\_SB.GPI0") {16} // green
--			GpioIo (Exclusive, ..., IoRestrictionOutputOnly,
--				"\\_SB.GPI0") {17} // blue
--			GpioIo (Exclusive, ..., IoRestrictionOutputOnly,
--				"\\_SB.GPI0") {1} // power
-+			GpioIo (Exclusive, PullUp, 0, 0, IoRestrictionOutputOnly,
-+				"\\_SB.GPI0", 0, ResourceConsumer) { 15 } // red
-+			GpioIo (Exclusive, PullUp, 0, 0, IoRestrictionOutputOnly,
-+				"\\_SB.GPI0", 0, ResourceConsumer) { 16 } // green
-+			GpioIo (Exclusive, PullUp, 0, 0, IoRestrictionOutputOnly,
-+				"\\_SB.GPI0", 0, ResourceConsumer) { 17 } // blue
-+			GpioIo (Exclusive, PullNone, 0, 0, IoRestrictionOutputOnly,
-+				"\\_SB.GPI0", 0, ResourceConsumer) { 1 } // power
- 		})
++The sample interval controls a timer that sets up KFENCE allocations. By
++default, to keep the real sample interval predictable, the normal timer also
++causes CPU wake-ups when the system is completely idle. This may be undesirable
++on power-constrained systems. The boot parameter ``kfence.deferrable=1``
++instead switches to a "deferrable" timer which does not force CPU wake-ups on
++idle systems, at the risk of unpredictable sample intervals. The default is
++configurable via the Kconfig option ``CONFIG_KFENCE_DEFERRABLE``.
++
++.. warning::
++   The KUnit test suite is very likely to fail when using a deferrable timer
++   since it currently causes very unpredictable sample intervals.
++
+ The KFENCE memory pool is of fixed size, and if the pool is exhausted, no
+ further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` (default
+ 255), the number of available guarded objects can be controlled. Each object
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index 912f252a41fc..459dda9ef619 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -45,6 +45,18 @@ config KFENCE_NUM_OBJECTS
+ 	  pages are required; with one containing the object and two adjacent
+ 	  ones used as guard pages.
  
- 		Name (_DSD, Package () {
-@@ -92,10 +92,7 @@ with the help of _DSD (Device Specific Data), introduced in ACPI 5.1::
- 						^FOO, 2, 0, 1,
- 					}
- 				},
--				Package () {
--					"power-gpios",
--					Package () {^FOO, 3, 0, 0},
--				},
-+				Package () { "power-gpios", Package () { ^FOO, 3, 0, 0 } },
- 			}
- 		})
- 	}
-diff --git a/Documentation/firmware-guide/acpi/enumeration.rst b/Documentation/firmware-guide/acpi/enumeration.rst
-index 8c9e758f6e9b..6b62425ef9cd 100644
---- a/Documentation/firmware-guide/acpi/enumeration.rst
-+++ b/Documentation/firmware-guide/acpi/enumeration.rst
-@@ -333,26 +333,13 @@ For example::
- 		{
- 			Name (SBUF, ResourceTemplate()
- 			{
--				...
- 				// Used to power on/off the device
--				GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
--					IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
--					0x00, ResourceConsumer,,)
--				{
--					// Pin List
--					0x0055
--				}
-+				GpioIo (Exclusive, PullNone, 0, 0, IoRestrictionOutputOnly,
-+					"\\_SB.PCI0.GPI0", 0, ResourceConsumer) { 85 }
++config KFENCE_DEFERRABLE
++	bool "Use a deferrable timer to trigger allocations"
++	help
++	  Use a deferrable timer to trigger allocations. This avoids forcing
++	  CPU wake-ups if the system is idle, at the risk of a less predictable
++	  sample interval.
++
++	  Warning: The KUnit test suite fails with this option enabled - due to
++	  the unpredictability of the sample interval!
++
++	  Say N if you are unsure.
++
+ config KFENCE_STATIC_KEYS
+ 	bool "Use static keys to set up allocations" if EXPERT
+ 	depends on JUMP_LABEL
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index f126b53b9b85..2f9fdfde1941 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -95,6 +95,10 @@ module_param_cb(sample_interval, &sample_interval_param_ops, &kfence_sample_inte
+ static unsigned long kfence_skip_covered_thresh __read_mostly = 75;
+ module_param_named(skip_covered_thresh, kfence_skip_covered_thresh, ulong, 0644);
  
- 				// Interrupt for the device
--				GpioInt (Edge, ActiveHigh, ExclusiveAndWake, PullNone,
--					0x0000, "\\_SB.PCI0.GPI0", 0x00, ResourceConsumer,,)
--				{
--					// Pin list
--					0x0058
--				}
--
--				...
--
-+				GpioInt (Edge, ActiveHigh, ExclusiveAndWake, PullNone, 0,
-+					 "\\_SB.PCI0.GPI0", 0, ResourceConsumer) { 88 }
- 			}
++/* If true, use a deferrable timer. */
++static bool kfence_deferrable __read_mostly = IS_ENABLED(CONFIG_KFENCE_DEFERRABLE);
++module_param_named(deferrable, kfence_deferrable, bool, 0444);
++
+ /* The pool of pages used for guard pages and objects. */
+ char *__kfence_pool __read_mostly;
+ EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
+@@ -740,6 +744,8 @@ late_initcall(kfence_debugfs_init);
  
- 			Return (SBUF)
-@@ -369,6 +356,7 @@ For example::
- 			}
- 		})
- 		...
-+	}
+ /* === Allocation Gate Timer ================================================ */
  
- These GPIO numbers are controller relative and path "\\_SB.PCI0.GPI0"
- specifies the path to the controller. In order to use these GPIOs in Linux
-diff --git a/Documentation/firmware-guide/acpi/gpio-properties.rst b/Documentation/firmware-guide/acpi/gpio-properties.rst
-index df4b711053ee..eaec732cc77c 100644
---- a/Documentation/firmware-guide/acpi/gpio-properties.rst
-+++ b/Documentation/firmware-guide/acpi/gpio-properties.rst
-@@ -21,18 +21,18 @@ index, like the ASL example below shows::
-       Name (_CRS, ResourceTemplate ()
-       {
-           GpioIo (Exclusive, PullUp, 0, 0, IoRestrictionOutputOnly,
--                  "\\_SB.GPO0", 0, ResourceConsumer) {15}
-+                  "\\_SB.GPO0", 0, ResourceConsumer) { 15 }
-           GpioIo (Exclusive, PullUp, 0, 0, IoRestrictionOutputOnly,
--                  "\\_SB.GPO0", 0, ResourceConsumer) {27, 31}
-+                  "\\_SB.GPO0", 0, ResourceConsumer) { 27, 31 }
-       })
++static struct delayed_work kfence_timer;
++
+ #ifdef CONFIG_KFENCE_STATIC_KEYS
+ /* Wait queue to wake up allocation-gate timer task. */
+ static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
+@@ -762,7 +768,6 @@ static DEFINE_IRQ_WORK(wake_up_kfence_timer_work, wake_up_kfence_timer);
+  * avoids IPIs, at the cost of not immediately capturing allocations if the
+  * instructions remain cached.
+  */
+-static struct delayed_work kfence_timer;
+ static void toggle_allocation_gate(struct work_struct *work)
+ {
+ 	if (!READ_ONCE(kfence_enabled))
+@@ -790,7 +795,6 @@ static void toggle_allocation_gate(struct work_struct *work)
+ 	queue_delayed_work(system_unbound_wq, &kfence_timer,
+ 			   msecs_to_jiffies(kfence_sample_interval));
+ }
+-static DECLARE_DELAYED_WORK(kfence_timer, toggle_allocation_gate);
  
-       Name (_DSD, Package ()
-       {
-           ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-           Package ()
--	  {
--              Package () {"reset-gpios", Package() {^BTH, 1, 1, 0 }},
--              Package () {"shutdown-gpios", Package() {^BTH, 0, 0, 0 }},
-+          {
-+              Package () { "reset-gpios", Package () { ^BTH, 1, 1, 0 } },
-+              Package () { "shutdown-gpios", Package () { ^BTH, 0, 0, 0 } },
-           }
-       })
-   }
-@@ -123,17 +123,17 @@ Example::
-       // _DSD Hierarchical Properties Extension UUID
-       ToUUID("dbb8e3e6-5886-4ba6-8795-1319f52a966b"),
-       Package () {
--          Package () {"hog-gpio8", "G8PU"}
-+          Package () { "hog-gpio8", "G8PU" }
-       }
-   })
+ /* === Public interface ===================================================== */
  
-   Name (G8PU, Package () {
-       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
-       Package () {
--          Package () {"gpio-hog", 1},
--          Package () {"gpios", Package () {8, 0}},
--          Package () {"output-high", 1},
--          Package () {"line-name", "gpio8-pullup"},
-+          Package () { "gpio-hog", 1 },
-+          Package () { "gpios", Package () { 8, 0 } },
-+          Package () { "output-high", 1 },
-+          Package () { "line-name", "gpio8-pullup" },
-       }
-   })
- 
-@@ -266,15 +266,17 @@ have a device like below::
- 
-       Name (_CRS, ResourceTemplate () {
-           GpioIo (Exclusive, PullNone, 0, 0, IoRestrictionNone,
--                  "\\_SB.GPO0", 0, ResourceConsumer) {15}
-+                  "\\_SB.GPO0", 0, ResourceConsumer) { 15 }
-           GpioIo (Exclusive, PullNone, 0, 0, IoRestrictionNone,
--                  "\\_SB.GPO0", 0, ResourceConsumer) {27}
-+                  "\\_SB.GPO0", 0, ResourceConsumer) { 27 }
-       })
-   }
- 
- The driver might expect to get the right GPIO when it does::
- 
-   desc = gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+  if (IS_ERR(desc))
-+	...error handling...
- 
- but since there is no way to know the mapping between "reset" and
- the GpioIo() in _CRS desc will hold ERR_PTR(-ENOENT).
+@@ -809,8 +813,15 @@ static void kfence_init_enable(void)
+ {
+ 	if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
+ 		static_branch_enable(&kfence_allocation_key);
++
++	if (kfence_deferrable)
++		INIT_DEFERRABLE_WORK(&kfence_timer, toggle_allocation_gate);
++	else
++		INIT_DELAYED_WORK(&kfence_timer, toggle_allocation_gate);
++
+ 	WRITE_ONCE(kfence_enabled, true);
+ 	queue_delayed_work(system_unbound_wq, &kfence_timer, 0);
++
+ 	pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p\n", KFENCE_POOL_SIZE,
+ 		CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
+ 		(void *)(__kfence_pool + KFENCE_POOL_SIZE));
 -- 
-2.34.1
+2.35.1.616.g0bdcbb4464-goog
 
