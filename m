@@ -2,739 +2,338 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBD9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 10:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D00C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 11:49:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346016AbiCHKxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 05:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
+        id S241629AbiCHLux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 06:50:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345988AbiCHKxn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 05:53:43 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24F0112C;
-        Tue,  8 Mar 2022 02:52:44 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id b24so1260536edu.10;
-        Tue, 08 Mar 2022 02:52:44 -0800 (PST)
+        with ESMTP id S235291AbiCHLuw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 06:50:52 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61DD02E0AE
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 03:49:55 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id i1so13817126ila.7
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 03:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VXPrRIBqr5I191LeojfD3+LpaN26oWjHD2NBNqE6geI=;
-        b=BIo6BlIQkSmwcMeDeRfr6vVWdcT0gZAnxkn6kVeyoJTtKwn1sSzc3DHrXcTNtiAml1
-         eGwrdvk5BRcfB1gZUj27UBZqLdb7QGWv7qGsoxiIlbcm0lyikV50QsumwwEXEcFKe0jQ
-         zrUo2xIWrOpJUnUEkQBiLVmAadSw86eqL/8/BZxmCj201BxPd3EVZVpUuOmS6agNFunl
-         FETUScXUPHssykeXWbQMwguD5En4HoqEUzNdzKB9Wk0c1sb+5Aj6MfxZ9kDxBfDyvTcB
-         mwRKkgK+kG+Qm2BZhIdtLsV9dL9hrTMpLmOXPdBMQYA5qnk+5XXkDE+YZU/EuuqQMDaf
-         k+gg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WYpzipsxhHWsSGa8GgDxApCkJdRuBu6Z1WBEnuQcycc=;
+        b=EsBjCH5sseUY7sH/HLPou4JoFJxquGDchHJF067/roNJAcB8uqbNdfCH8SvTywm884
+         NhhnOnva6o0ghlnMJ3oKqtjGrR1iS1GYi0+AhSgKW/LvfU5iFs8Ri1jJzRHsddj1nkbm
+         sc9PPVZ3r6Bnynk/R8qMAbC/fhJJwFkCZFx41jzFgCdpWpY/8CBAL+JLmNqrezuqmxkr
+         gDFXRFMcFS9PAB8YiRx+A4xZ6WMbaq1hwHK4cRgFPPMR/dIQqZg7/i9HIVAFNtzMZbhn
+         WdutFbTKfcZssQdxurYWzD5TYgJnGDJ8wYRpjFyNm7JzEhzw7bUlWTh8rSYwMIPP4zKR
+         Wg2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VXPrRIBqr5I191LeojfD3+LpaN26oWjHD2NBNqE6geI=;
-        b=zNqwBBp3zrECCjKNNYq5SK44XLZfUaKUUWcwIxadbhbuAJw/lem1KxirxIdtJQOkP+
-         mKulSryFz5ZCJfVqYCqyCz/wUPooGJwGB1M79oOZKliwppsEYa2/AJhFieQxPDiPUzzz
-         xdD7xWqm1wiFg3pdu6H6pPmivm7h0Xp3yDBXbY2rs+IYbblzqPvgpGCGLPKKDwuh1MKw
-         XRDX12rYXKRBFNJmVb9EdVXkD3kn9GSDhE3ZjGCR7fgORrp1g9XVWSDwn7TAqrB2JCbQ
-         hf1wjQmLoAZoLA2fGn28MYi5CRttwdLPwg7OvL8zFGd7TS0DVPqoq65Mk3e8l2d+6Jz9
-         87Yw==
-X-Gm-Message-State: AOAM532H/07nEGRzdaKz9msAnGQuhnzFXu0nGcNVm+kegqZDtTGVfAbB
-        BoEYODpTFAdGpGU25JnGDlf1QhOy10sgSg==
-X-Google-Smtp-Source: ABdhPJwaD7kGIYqcBTvewJFHCbH/9DUY/cqDLYQV5Kh9NbuBVQYkqoifbfYmftn7P30RAOEmHC705Q==
-X-Received: by 2002:a05:6402:492:b0:404:c4bf:8b7e with SMTP id k18-20020a056402049200b00404c4bf8b7emr15196496edv.318.1646736763057;
-        Tue, 08 Mar 2022 02:52:43 -0800 (PST)
-Received: from fedora.. ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id e22-20020a170906505600b006da7d71f25csm5729017ejk.41.2022.03.08.02.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 02:52:42 -0800 (PST)
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for Aquacomputer Octo
-Date:   Tue,  8 Mar 2022 11:52:25 +0100
-Message-Id: <20220308105225.24178-1-savicaleksa83@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WYpzipsxhHWsSGa8GgDxApCkJdRuBu6Z1WBEnuQcycc=;
+        b=ekZwQp0jRc040ZU3UACaAPkHCRNZmRJ//kUYeViAlIlpUs8tIJCAZqjYw/K3BoQv/l
+         hXMwqIf1KFyNwIrmOYPs3Zp5v12Z1iYeJdr33qRlL+ge+WH0LLblYcDOZvvcxp44GdF5
+         8MrOwgjaGT39yDPuv5Ed/Pa7Gi9UXi1PpCvutVEGxeB8K1v9f8mtmPkFPJxHPe4dWpsg
+         BCh2s5GcgwO4CgkrAsj7FZPA4yOEq9ImCYXYD8hnQQuH+cFaD90b44hDRVlAzH6P7JIi
+         JyQj3V7peVRW1lJ1OTviFsfneRyHXQSBF8BubrBtEskWUUMR06hOeOGeYjlCl1BKmpqV
+         Sx8A==
+X-Gm-Message-State: AOAM532g3IdVBmH27uzCplOVPtKPsY1ut/UxgaJF3bpNC4GOFjnBNeVS
+        sOtBa0ZUsuAav3CTVgSlKq8hCdi7XzxqF61+oMw=
+X-Google-Smtp-Source: ABdhPJyUVZBpYn/JpnYyUdLXtiQ9jgwSNznSkLJn3/SkjVV4fTCyfpH++2uy6K9WAuVnl6fu78Eff+YtZPDgKYoq9lg=
+X-Received: by 2002:a05:6e02:1543:b0:2be:d7b4:49b3 with SMTP id
+ j3-20020a056e02154300b002bed7b449b3mr16374694ilu.97.1646740194442; Tue, 08
+ Mar 2022 03:49:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1646496448.git.siyanteng@loongson.cn> <c9938dcfada6f5eef1d584f99984d1ab29af3ee9.1646496448.git.siyanteng@loongson.cn>
+In-Reply-To: <c9938dcfada6f5eef1d584f99984d1ab29af3ee9.1646496448.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Tue, 8 Mar 2022 19:49:18 +0800
+Message-ID: <CAJy-Am=2cHWbpG5awb_v=TY49=kEtJ2NiDuWe2nZhJmDvoLtWw@mail.gmail.com>
+Subject: Re: [PATCH 01/12] docs/zh_CN: add vm frontswap translation
+To:     Yanteng Si <siyanteng01@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend aquacomputer_d5next driver to expose hardware temperature sensors
-and fans of the Aquacomputer Octo fan controller, which communicates
-through a proprietary USB HID protocol.
-
-Four temperature sensors and eight PWM controllable fans are available.
-Additionally, serial number, firmware version and power-on count are
-exposed through debugfs.
-
-This driver has been tested on x86_64.
-
-Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
----
-Lindent works much better than VS Code, so there should be some
-formatting fixes. Also, update Kbuild to reflect new features of
-the driver.
----
- Documentation/hwmon/aquacomputer_d5next.rst |   4 +
- drivers/hwmon/Kconfig                       |   7 +-
- drivers/hwmon/aquacomputer_d5next.c         | 402 +++++++++++++++++++-
- 3 files changed, 396 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-index 3373e27b707d..e69f718caf5b 100644
---- a/Documentation/hwmon/aquacomputer_d5next.rst
-+++ b/Documentation/hwmon/aquacomputer_d5next.rst
-@@ -7,6 +7,7 @@ Supported devices:
- 
- * Aquacomputer D5 Next watercooling pump
- * Aquacomputer Farbwerk 360 RGB controller
-+* Aquacomputer Octo fan controller
- 
- Author: Aleksa Savic
- 
-@@ -28,6 +29,9 @@ seems to require sending it a complete configuration. That includes addressable
- RGB LEDs, for which there is no standard sysfs interface. Thus, that task is
- better suited for userspace tools.
- 
-+The Octo exposes four temperature sensors and eight PWM controllable fans, along
-+with their speed (in RPM), power, voltage and current.
-+
- The Farbwerk 360 exposes four temperature sensors. Depending on the device,
- not all sysfs and debugfs entries will be available.
- 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index d3986310ec21..0b6a84af1353 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -256,11 +256,12 @@ config SENSORS_AHT10
- 	  will be called aht10.
- 
- config SENSORS_AQUACOMPUTER_D5NEXT
--	tristate "Aquacomputer D5 Next watercooling pump"
-+	tristate "Aquacomputer D5 Next, Octo and Farbwerk 360"
- 	depends on USB_HID
- 	help
--	  If you say yes here you get support for the Aquacomputer D5 Next
--	  watercooling pump sensors.
-+	  If you say yes here you get support for sensors and fans of
-+	  the Aquacomputer D5 Next watercooling pump, Octo fan
-+	  controller and Farbwerk 360 RGB controller, where available.
- 
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aquacomputer_d5next.
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index 525809cf7c95..f45f8afc2b15 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk 360)
-+ * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk 360, Octo)
-  *
-  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
-  * sensor values.
-@@ -8,23 +8,27 @@
-  * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
-  */
- 
-+#include <linux/crc16.h>
- #include <linux/debugfs.h>
- #include <linux/hid.h>
- #include <linux/hwmon.h>
- #include <linux/jiffies.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/seq_file.h>
- #include <asm/unaligned.h>
- 
- #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
- #define USB_PRODUCT_ID_D5NEXT		0xf00e
- #define USB_PRODUCT_ID_FARBWERK360	0xf010
-+#define USB_PRODUCT_ID_OCTO		0xf011
- 
--enum kinds { d5next, farbwerk360 };
-+enum kinds { d5next, farbwerk360, octo };
- 
- static const char *const aqc_device_names[] = {
- 	[d5next] = "d5next",
--	[farbwerk360] = "farbwerk360"
-+	[farbwerk360] = "farbwerk360",
-+	[octo] = "octo"
- };
- 
- #define DRIVER_NAME			"aquacomputer_d5next"
-@@ -35,6 +39,18 @@ static const char *const aqc_device_names[] = {
- #define SERIAL_SECOND_PART		5
- #define FIRMWARE_VERSION		13
- 
-+#define CTRL_REPORT_ID			0x03
-+
-+/* The HID report that the official software always sends
-+ * after writing values, currently same for all devices
-+ */
-+#define SECONDARY_CTRL_REPORT_ID	0x02
-+#define SECONDARY_CTRL_REPORT_SIZE	0x0B
-+
-+static u8 secondary_ctrl_report[] = {
-+	0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x34, 0xC6
-+};
-+
- /* Register offsets for the D5 Next pump */
- #define D5NEXT_POWER_CYCLES		24
- 
-@@ -55,10 +71,34 @@ static const char *const aqc_device_names[] = {
- 
- /* Register offsets for the Farbwerk 360 RGB controller */
- #define FARBWERK360_NUM_SENSORS		4
--#define FARBWERK360_SENSOR_START		0x32
-+#define FARBWERK360_SENSOR_START	0x32
- #define FARBWERK360_SENSOR_SIZE		0x02
- #define FARBWERK360_SENSOR_DISCONNECTED	0x7FFF
- 
-+/* Register offsets for the Octo fan controller */
-+#define OCTO_POWER_CYCLES		0x18
-+#define OCTO_NUM_FANS			8
-+#define OCTO_FAN_PERCENT_OFFSET		0x00
-+#define OCTO_FAN_VOLTAGE_OFFSET		0x02
-+#define OCTO_FAN_CURRENT_OFFSET		0x04
-+#define OCTO_FAN_POWER_OFFSET		0x06
-+#define OCTO_FAN_SPEED_OFFSET		0x08
-+
-+static u8 octo_sensor_fan_offsets[] = { 0x7D, 0x8A, 0x97, 0xA4, 0xB1, 0xBE, 0xCB, 0xD8 };
-+
-+#define OCTO_NUM_SENSORS		4
-+#define OCTO_SENSOR_START		0x3D
-+#define OCTO_SENSOR_SIZE		0x02
-+#define OCTO_SENSOR_DISCONNECTED	0x7FFF
-+
-+#define OCTO_CTRL_REPORT_SIZE			0x65F
-+#define OCTO_CTRL_REPORT_CHECKSUM_OFFSET	0x65D
-+#define OCTO_CTRL_REPORT_CHECKSUM_START		0x01
-+#define OCTO_CTRL_REPORT_CHECKSUM_LENGTH	0x65C
-+
-+/* Fan speed registers in Octo control report (from 0-100%) */
-+static u16 octo_ctrl_fan_offsets[] = { 0x5B, 0xB0, 0x105, 0x15A, 0x1AF, 0x204, 0x259, 0x2AE };
-+
- /* Labels for D5 Next */
- #define L_D5NEXT_COOLANT_TEMP		"Coolant temp"
- 
-@@ -83,7 +123,7 @@ static const char *const label_d5next_current[] = {
- 	"Fan current"
- };
- 
--/* Labels for Farbwerk 360 temperature sensors */
-+/* Labels for Farbwerk 360 and Octo temperature sensors */
- static const char *const label_temp_sensors[] = {
- 	"Sensor 1",
- 	"Sensor 2",
-@@ -91,30 +131,192 @@ static const char *const label_temp_sensors[] = {
- 	"Sensor 4"
- };
- 
-+/* Labels for Octo */
-+static const char *const label_fan_speed[] = {
-+	"Fan 1 speed",
-+	"Fan 2 speed",
-+	"Fan 3 speed",
-+	"Fan 4 speed",
-+	"Fan 5 speed",
-+	"Fan 6 speed",
-+	"Fan 7 speed",
-+	"Fan 8 speed"
-+};
-+
-+static const char *const label_fan_power[] = {
-+	"Fan 1 power",
-+	"Fan 2 power",
-+	"Fan 3 power",
-+	"Fan 4 power",
-+	"Fan 5 power",
-+	"Fan 6 power",
-+	"Fan 7 power",
-+	"Fan 8 power"
-+};
-+
-+static const char *const label_fan_voltage[] = {
-+	"Fan 1 voltage",
-+	"Fan 2 voltage",
-+	"Fan 3 voltage",
-+	"Fan 4 voltage",
-+	"Fan 5 voltage",
-+	"Fan 6 voltage",
-+	"Fan 7 voltage",
-+	"Fan 8 voltage"
-+};
-+
-+static const char *const label_fan_current[] = {
-+	"Fan 1 current",
-+	"Fan 2 current",
-+	"Fan 3 current",
-+	"Fan 4 current",
-+	"Fan 5 current",
-+	"Fan 6 current",
-+	"Fan 7 current",
-+	"Fan 8 current"
-+};
-+
- struct aqc_data {
- 	struct hid_device *hdev;
- 	struct device *hwmon_dev;
- 	struct dentry *debugfs;
-+	struct mutex mutex; /* Used for locking access when reading and writing PWM values */
- 	enum kinds kind;
- 	const char *name;
- 
-+	int buffer_size;
-+	u8 *buffer; /* Stores the control report */
-+	int checksum_start; /* Where the checksummed region starts */
-+	int checksum_length; /* And where it ends */
-+	int checksum_offset; /* Position of checksum, usually at the very end */
-+
- 	/* General info, same across all devices */
- 	u32 serial_number[2];
- 	u16 firmware_version;
- 
--	/* D5 Next specific - how many times the device was powered on */
-+	/* How many times the device was powered on, if available */
- 	u32 power_cycles;
- 
- 	/* Sensor values */
- 	s32 temp_input[4];
--	u16 speed_input[2];
--	u32 power_input[2];
--	u16 voltage_input[3];
--	u16 current_input[2];
-+	u16 speed_input[8];
-+	u32 power_input[8];
-+	u16 voltage_input[8];
-+	u16 current_input[8];
- 
- 	unsigned long updated;
- };
- 
-+static int aqc_be_percent_to_pwm(u16 val)
-+{
-+	return DIV_ROUND_CLOSEST(ntohs(val) * 255, 100 * 100);
-+}
-+
-+static u16 aqc_pwm_to_percent(u8 val)
-+{
-+	return DIV_ROUND_CLOSEST(val * 100 * 100, 255);
-+}
-+
-+/* Expects the mutex to be locked */
-+static int aqc_get_ctrl_data(struct aqc_data *priv)
-+{
-+	int ret;
-+
-+	memset(priv->buffer, 0x00, priv->buffer_size);
-+	ret = hid_hw_raw_request(priv->hdev, CTRL_REPORT_ID, priv->buffer,
-+				 priv->buffer_size, HID_FEATURE_REPORT, HID_REQ_GET_REPORT);
-+	if (ret < 0)
-+		ret = -ENODATA;
-+
-+	return ret;
-+}
-+
-+/* Expects the mutex to be locked */
-+static int aqc_send_ctrl_data(struct aqc_data *priv)
-+{
-+	int ret;
-+	u16 checksum = 0xffff;	/* Init value for CRC-16/USB */
-+
-+	checksum = crc16(checksum, priv->buffer + priv->checksum_start, priv->checksum_length);
-+	checksum ^= 0xffff;	/* Xorout value for CRC-16/USB */
-+
-+	/* Place the new checksum at the end of the report */
-+	put_unaligned_be16(checksum, priv->buffer + priv->checksum_offset);
-+
-+	/* Send the patched up report back to the device - all other settings stay the same */
-+	ret = hid_hw_raw_request(priv->hdev, CTRL_REPORT_ID, priv->buffer, priv->buffer_size,
-+				 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-+	if (ret < 0)
-+		goto exit;
-+
-+	/* The official software sends this report after every change, so do it here as well */
-+	ret =
-+	    hid_hw_raw_request(priv->hdev, SECONDARY_CTRL_REPORT_ID, secondary_ctrl_report,
-+			       SECONDARY_CTRL_REPORT_SIZE, HID_FEATURE_REPORT,
-+			       HID_REQ_SET_REPORT);
-+exit:
-+	return ret;
-+}
-+
-+/* Refreshes the control buffer and returns value at offset in big endian */
-+static int aqc_get_ctrl_val(struct aqc_data *priv, int offset, void *val, size_t size)
-+{
-+	int ret;
-+
-+	mutex_lock(&priv->mutex);
-+
-+	if (size < 1 || size > 4) {
-+		ret = -EINVAL;
-+		goto unlock_and_return;
-+	}
-+
-+	ret = aqc_get_ctrl_data(priv);
-+	if (ret < 0)
-+		goto unlock_and_return;
-+
-+	memcpy(val, priv->buffer + offset, size);
-+
-+unlock_and_return:
-+	mutex_unlock(&priv->mutex);
-+	return ret;
-+}
-+
-+static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val, size_t size)
-+{
-+	int ret;
-+
-+	mutex_lock(&priv->mutex);
-+
-+	if (size < 1 || size > 4) {
-+		ret = -EINVAL;
-+		goto unlock_and_return;
-+	}
-+
-+	ret = aqc_get_ctrl_data(priv);
-+	if (ret < 0)
-+		goto unlock_and_return;
-+
-+	switch (size) {
-+	case 4:
-+		put_unaligned_be32(val, priv->buffer + offset);
-+		break;
-+	case 2:
-+		put_unaligned_be16((u16)val, priv->buffer + offset);
-+		break;
-+	case 1:
-+		priv->buffer[offset] = val;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	ret = aqc_send_ctrl_data(priv);
-+
-+unlock_and_return:
-+	mutex_unlock(&priv->mutex);
-+	return ret;
-+}
-+
- static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u32 attr,
- 			      int channel)
- {
-@@ -128,17 +330,47 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 				return 0444;
- 			break;
- 		case farbwerk360:
-+		case octo:
- 			return 0444;
- 		default:
- 			break;
- 		}
- 		break;
-+	case hwmon_pwm:
-+		switch (priv->kind) {
-+		case octo:
-+			switch (attr) {
-+			case hwmon_pwm_input:
-+				return 0644;
-+			default:
-+				break;
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+		break;
- 	case hwmon_fan:
- 	case hwmon_power:
--	case hwmon_in:
- 	case hwmon_curr:
- 		switch (priv->kind) {
- 		case d5next:
-+			if (channel < 2)
-+				return 0444;
-+			break;
-+		case octo:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_in:
-+		switch (priv->kind) {
-+		case d5next:
-+			if (channel < 3)
-+				return 0444;
-+			break;
-+		case octo:
- 			return 0444;
- 		default:
- 			break;
-@@ -154,6 +386,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
- 		    int channel, long *val)
- {
-+	int ret;
- 	struct aqc_data *priv = dev_get_drvdata(dev);
- 
- 	if (time_after(jiffies, priv->updated + STATUS_UPDATE_INTERVAL))
-@@ -172,6 +405,19 @@ static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
- 	case hwmon_power:
- 		*val = priv->power_input[channel];
- 		break;
-+	case hwmon_pwm:
-+		switch (priv->kind) {
-+		case octo:
-+			ret = aqc_get_ctrl_val(priv, octo_ctrl_fan_offsets[channel], val, 2);
-+			if (ret < 0)
-+				return ret;
-+
-+			*val = aqc_be_percent_to_pwm(*val);
-+			break;
-+		default:
-+			break;
-+		}
-+		break;
- 	case hwmon_in:
- 		*val = priv->voltage_input[channel];
- 		break;
-@@ -197,6 +443,7 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
- 			*str = L_D5NEXT_COOLANT_TEMP;
- 			break;
- 		case farbwerk360:
-+		case octo:
- 			*str = label_temp_sensors[channel];
- 			break;
- 		default:
-@@ -208,6 +455,9 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
- 		case d5next:
- 			*str = label_d5next_speeds[channel];
- 			break;
-+		case octo:
-+			*str = label_fan_speed[channel];
-+			break;
- 		default:
- 			break;
- 		}
-@@ -217,6 +467,9 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
- 		case d5next:
- 			*str = label_d5next_power[channel];
- 			break;
-+		case octo:
-+			*str = label_fan_power[channel];
-+			break;
- 		default:
- 			break;
- 		}
-@@ -226,6 +479,9 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
- 		case d5next:
- 			*str = label_d5next_voltages[channel];
- 			break;
-+		case octo:
-+			*str = label_fan_voltage[channel];
-+			break;
- 		default:
- 			break;
- 		}
-@@ -235,6 +491,41 @@ static int aqc_read_string(struct device *dev, enum hwmon_sensor_types type, u32
- 		case d5next:
- 			*str = label_d5next_current[channel];
- 			break;
-+		case octo:
-+			*str = label_fan_current[channel];
-+			break;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static int aqc_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+		     int channel, long val)
-+{
-+	int ret;
-+	struct aqc_data *priv = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_pwm:
-+		switch (attr) {
-+		case hwmon_pwm_input:
-+			switch (priv->kind) {
-+			case octo:
-+				ret =
-+				    aqc_set_ctrl_val(priv, octo_ctrl_fan_offsets[channel],
-+						     aqc_pwm_to_percent(val), 2);
-+				if (ret < 0)
-+					return ret;
-+				break;
-+			default:
-+				break;
-+			}
- 		default:
- 			break;
- 		}
-@@ -250,6 +541,7 @@ static const struct hwmon_ops aqc_hwmon_ops = {
- 	.is_visible = aqc_is_visible,
- 	.read = aqc_read,
- 	.read_string = aqc_read_string,
-+	.write = aqc_write
- };
- 
- static const struct hwmon_channel_info *aqc_info[] = {
-@@ -259,16 +551,48 @@ static const struct hwmon_channel_info *aqc_info[] = {
- 			   HWMON_T_INPUT | HWMON_T_LABEL,
- 			   HWMON_T_INPUT | HWMON_T_LABEL),
- 	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
-+			   HWMON_F_INPUT | HWMON_F_LABEL,
- 			   HWMON_F_INPUT | HWMON_F_LABEL,
- 			   HWMON_F_INPUT | HWMON_F_LABEL),
- 	HWMON_CHANNEL_INFO(power,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
-+			   HWMON_P_INPUT | HWMON_P_LABEL,
- 			   HWMON_P_INPUT | HWMON_P_LABEL,
- 			   HWMON_P_INPUT | HWMON_P_LABEL),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT),
- 	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
- 			   HWMON_I_INPUT | HWMON_I_LABEL,
- 			   HWMON_I_INPUT | HWMON_I_LABEL,
- 			   HWMON_I_INPUT | HWMON_I_LABEL),
- 	HWMON_CHANNEL_INFO(curr,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
- 			   HWMON_C_INPUT | HWMON_C_LABEL,
- 			   HWMON_C_INPUT | HWMON_C_LABEL),
- 	NULL
-@@ -326,6 +650,35 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 				priv->temp_input[i] = sensor_value * 10;
- 		}
- 		break;
-+	case octo:
-+		priv->power_cycles = get_unaligned_be32(data + OCTO_POWER_CYCLES);
-+
-+		/* Fan speed and related readings */
-+		for (i = 0; i < OCTO_NUM_FANS; i++) {
-+			priv->speed_input[i] =
-+			    get_unaligned_be16(data + octo_sensor_fan_offsets[i] +
-+					       OCTO_FAN_SPEED_OFFSET);
-+			priv->power_input[i] =
-+			    get_unaligned_be16(data + octo_sensor_fan_offsets[i] +
-+					       OCTO_FAN_POWER_OFFSET) * 10000;
-+			priv->voltage_input[i] =
-+			    get_unaligned_be16(data + octo_sensor_fan_offsets[i] +
-+					       OCTO_FAN_VOLTAGE_OFFSET) * 10;
-+			priv->current_input[i] =
-+			    get_unaligned_be16(data + octo_sensor_fan_offsets[i] +
-+					       OCTO_FAN_CURRENT_OFFSET);
-+		}
-+
-+		/* Temperature sensor readings */
-+		for (i = 0; i < OCTO_NUM_SENSORS; i++) {
-+			sensor_value = get_unaligned_be16(data + OCTO_SENSOR_START +
-+							  i * OCTO_SENSOR_SIZE);
-+			if (sensor_value == OCTO_SENSOR_DISCONNECTED)
-+				priv->temp_input[i] = -ENODATA;
-+			else
-+				priv->temp_input[i] = sensor_value * 10;
-+		}
-+		break;
- 	default:
- 		break;
- 	}
-@@ -376,10 +729,17 @@ static void aqc_debugfs_init(struct aqc_data *priv)
- 
- 	priv->debugfs = debugfs_create_dir(name, NULL);
- 	debugfs_create_file("serial_number", 0444, priv->debugfs, priv, &serial_number_fops);
--	debugfs_create_file("firmware_version", 0444, priv->debugfs, priv, &firmware_version_fops);
-+	debugfs_create_file("firmware_version", 0444, priv->debugfs, priv,
-+			    &firmware_version_fops);
- 
--	if (priv->kind == d5next)
--		debugfs_create_file("power_cycles", 0444, priv->debugfs, priv, &power_cycles_fops);
-+	switch (priv->kind) {
-+	case d5next:
-+	case octo:
-+		debugfs_create_file("power_cycles", 0444, priv->debugfs, priv,
-+				    &power_cycles_fops);
-+	default:
-+		break;
-+	}
- }
- 
- #else
-@@ -423,12 +783,25 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	case USB_PRODUCT_ID_FARBWERK360:
- 		priv->kind = farbwerk360;
- 		break;
-+	case USB_PRODUCT_ID_OCTO:
-+		priv->kind = octo;
-+		priv->buffer_size = OCTO_CTRL_REPORT_SIZE;
-+		priv->checksum_start = OCTO_CTRL_REPORT_CHECKSUM_START;
-+		priv->checksum_length = OCTO_CTRL_REPORT_CHECKSUM_LENGTH;
-+		priv->checksum_offset = OCTO_CTRL_REPORT_CHECKSUM_OFFSET;
-+		break;
- 	default:
- 		break;
- 	}
- 
- 	priv->name = aqc_device_names[priv->kind];
- 
-+	priv->buffer = devm_kzalloc(&hdev->dev, priv->buffer_size, GFP_KERNEL);
-+	if (!priv->buffer)
-+		return -ENOMEM;
-+
-+	mutex_init(&priv->mutex);
-+
- 	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, priv->name, priv,
- 							  &aqc_chip_info, NULL);
- 
-@@ -462,6 +835,7 @@ static void aqc_remove(struct hid_device *hdev)
- static const struct hid_device_id aqc_table[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_D5NEXT) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
- 	{ }
- };
- 
--- 
-2.35.1
-
+T24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNCBBTSBZYW50ZW5nIFNpIDxzaXlhbnRlbmcwMUBn
+bWFpbC5jb20+IHdyb3RlOg0KPg0KPiBUcmFuc2xhdGUgLi4uL3ZtL19mcmVlX3BhZ2VfcmVwb3J0
+aW5nLnJzdCBpbnRvIENoaW5lc2UuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbnRlbmcgU2kgPHNp
+eWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJu
+ZWwub3JnPg0KDQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9mcm9udHN3YXAu
+cnN0ICAgICAgIHwgMTk2ICsrKysrKysrKysrKysrKysrKw0KPiAgRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IHwgICAyICstDQo+ICAyIGZpbGVzIGNoYW5nZWQs
+IDE5NyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vZnJvbnRzd2FwLnJzdA0KPg0KPiBk
+aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vZnJvbnRzd2Fw
+LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2Zyb250c3dhcC5yc3QN
+Cj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi4zZWIwNzg3MGUy
+ZWYNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9DTi92bS9mcm9udHN3YXAucnN0DQo+IEBAIC0wLDAgKzEsMTk2IEBADQo+ICs6T3JpZ2luYWw6
+IERvY3VtZW50YXRpb24vdm0vX2ZyZWVfcGFnZV9yZXBvcnRpbmcucnN0DQo+ICsNCj4gKzrnv7vo
+r5E6DQo+ICsNCj4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNu
+Pg0KPiArDQo+ICs65qCh6K+ROg0KPiArDQo+ICs9PT09PT09PT0NCj4gK0Zyb250c3dhcA0KPiAr
+PT09PT09PT09DQo+ICsNCj4gK0Zyb250c3dhcOS4uuS6pOaNoumhteaPkOS+m+S6huS4gOS4qiDi
+gJx0cmFuc2NlbmRlbnQgbWVtb3J54oCdIOeahOaOpeWPo+OAguWcqOS4gOS6m+eOr+Wig+S4re+8
+jOeUsQ0KPiAr5LqO5Lqk5o2i6aG16KKr5L+d5a2Y5ZyoUkFN77yI5oiW57G75Ly8UkFN55qE6K6+
+5aSH77yJ5Lit77yM6ICM5LiN5piv5Lqk5o2i56OB55uY77yM5Zug5q2k5Y+v5Lul6I635b6X5beo
+5aSn55qE5oCn6IO9DQo+ICvoioLnnIHvvIjmj5Dpq5jvvInjgIINCj4gKw0KPiArLi4gX1RyYW5z
+Y2VuZGVudCBtZW1vcnkgaW4gYSBudXRzaGVsbDogaHR0cHM6Ly9sd24ubmV0L0FydGljbGVzLzQ1
+NDc5NS8NCj4gKw0KPiArRnJvbnRzd2Fw5LmL5omA5Lul6L+Z5LmI5ZG95ZCN77yM5piv5Zug5Li6
+5a6D5Y+v5Lul6KKr6K6k5Li65piv5LiOc3dhcOiuvuWkh+eahOKAnGJhY2vigJ3lrZjlgqjnm7jl
+j43jgILlrZgNCj4gK+WCqOWZqOiiq+iupOS4uuaYr+S4gOS4quWQjOatpeW5tuWPkeWuieWFqOea
+hOmdouWQkemhtemdoueahOKAnOS8qlJBTeiuvuWkh+KAne+8jOespuWQiHRyYW5zY2VuZGVudCBt
+ZW1vcnkNCj4gK++8iOWmglhlbueahOKAnHRtZW3igJ3vvIzmiJblhoXmoLjlhoXljovnvKnlhoXl
+rZjvvIzlj4jnp7DigJx6Y2FjaGXigJ3vvIzmiJbmnKrmnaXnmoTnsbvkvLxSQU3nmoTorr7lpIfv
+vInnmoTopoENCj4gK+axgu+8m+i/meS4quS8qlJBTeiuvuWkh+S4jeiDveiiq+WGheaguOebtOaO
+peiuv+mXruaIluWvu+WdgO+8jOWFtuWkp+Wwj+acquefpeS4lOWPr+iDvemaj+aXtumXtOWPmOWM
+luOAgumpseWKqOeoi+W6j+mAmui/hw0KPiAr6LCD55SoZnJvbnRzd2FwX3JlZ2lzdGVyX29wc+Ww
+huiHquW3seS4jmZyb250c3dhcOmTvuaOpei1t+adpe+8jOS7pemAguW9k+WcsOiuvue9rmZyb250
+c3dhcF9vcHMNCj4gK+eahOWKn+iDve+8jOWug+aPkOS+m+eahOWKn+iDveW/hemhu+espuWQiOaf
+kOS6m+etlueVpe+8jOWmguS4i+aJgOekujoNCj4gKw0KPiAr5LiA5LiqIOKAnGluaXTigJ0g5bCG
+6K6+5aSH5YeG5aSH5aW95o6l5pS25LiO5oyH5a6a55qE5Lqk5o2i6K6+5aSH57yW5Y+377yI5Y+I
+56ew4oCc57G75Z6L4oCd77yJ55u45YWz55qEZnJvbnRzd2FwDQo+ICvkuqTmjaLpobXjgILkuIDk
+uKog4oCcc3RvcmXigJ0g5bCG5oqK6K+l6aG15aSN5Yi25YiwdHJhbnNjZW5kZW50IG1lbW9yee+8
+jOW5tuS4juivpemhteeahOexu+Wei+WSjOWBj+enuw0KPiAr6YeP55u45YWz6IGU44CC5LiA5Liq
+IOKAnGxvYWTigJ0g5bCG5oqK6K+l6aG177yM5aaC5p6c5om+5Yiw55qE6K+d77yM5LuOdHJhbnNj
+ZW5kZW50IG1lbW9yeeWkjeWItuWIsOWGheaguA0KPiAr5YaF5a2Y77yM5L2G5LiN5Lya5LuOdHJh
+bnNjZW5kZW50IG1lbW9yeeS4reWIoOmZpOivpemhteOAguS4gOS4qiDigJxpbnZhbGlkYXRlX3Bh
+Z2XigJ0g5bCG5LuODQo+ICt0cmFuc2NlbmRlbnQgbWVtb3J55Lit5Yig6Zmk6K+l6aG177yM5LiA
+5LiqIOKAnGludmFsaWRhdGVfYXJlYeKAnSDlsIbliKDpmaTmiYDmnInkuI7kuqTmjaLnsbvlnosN
+Cj4gK+ebuOWFs+eahOmhte+8iOS+i+Wmgu+8jOWDj3N3YXBvZmbvvInlubbpgJrnn6Ug4oCcZGV2
+aWNl4oCdIOaLkue7nei/m+S4gOatpeWtmOWCqOivpeS6pOaNouexu+Wei+OAgg0KPiArDQo+ICvk
+uIDml6bkuIDkuKrpobXpnaLooqvmiJDlip/lrZjlgqjvvIzlnKjor6XpobXpnaLkuIrnmoTljLnp
+hY3liqDovb3pgJrluLjkvJrmiJDlip/jgILlm6DmraTvvIzlvZPlhoXmoLjlj5HnjrDoh6rlt7Hl
+pITkuo7pnIANCj4gK+imgeS6pOaNoumhtemdoueahOaDheWGteaXtu+8jOWug+mmluWFiOWwneiv
+leS9v+eUqGZyb250c3dhcOOAguWmguaenOWtmOWCqOeahOe7k+aenOaYr+aIkOWKn+eahO+8jOmC
+o+S5iOaVsOaNruWwseW3sg0KPiAr57uP5oiQ5Yqf55qE5L+d5a2Y5Yiw5LqGdHJhbnNjZW5kZW50
+IG1lbW9yeeS4re+8jOW5tuS4lOmBv+WFjeS6huejgeebmOWGmeWFpe+8jOWmguaenOWQjuadpeWG
+jeivu+WbnuaVsOaNru+8jA0KPiAr5Lmf6YG/5YWN5LqG56OB55uY6K+75Y+W44CC5aaC5p6c5a2Y
+5YKo6L+U5Zue5aSx6LSl77yMdHJhbnNjZW5kZW50IG1lbW9yeeW3sue7j+aLkue7neS6huivpeaV
+sOaNru+8jOS4lOivpemhtQ0KPiAr5Y+v5Lul5YOP5b6A5bi45LiA5qC36KKr5YaZ5YWl5Lqk5o2i
+56m66Ze044CCDQo+ICsNCj4gK+ivt+azqOaEj++8jOWmguaenOS4gOS4qumhtemdouiiq+WtmOWC
+qO+8jOiAjOivpemhtemdouW3sue7j+WtmOWcqOS6jnRyYW5zY2VuZGVudCBtZW1vcnnkuK3vvIjk
+uIDkuKog4oCc6YeN5aSN4oCdDQo+ICvnmoTlrZjlgqjvvInvvIzopoHkuYjlrZjlgqjmiJDlip/v
+vIzmlbDmja7ooqvopobnm5bvvIzopoHkuYjlrZjlgqjlpLHotKXvvIzor6XpobXpnaLooqvlup/m
+raLjgILov5nnoa7kv53kuobml6fnmoTmlbDmja7msLjov5wNCj4gK+S4jeS8muS7jmZyb250c3dh
+cOS4reiOt+W+l+OAgg0KPiArDQo+ICvlpoLmnpzphY3nva7mraPnoa7vvIzlr7lmcm9udHN3YXDn
+moTnm5HmjqfmmK/pgJrov4cgYC9zeXMva2VybmVsL2RlYnVnL2Zyb250c3dhcGAg55uu5b2V5LiL
+55qEDQo+ICtkZWJ1Z2Zz5a6M5oiQ55qE44CCZnJvbnRzd2Fw55qE5pyJ5pWI5oCn5Y+v5Lul6YCa
+6L+H5Lul5LiL5pa55byP5rWL6YeP77yI5Zyo5omA5pyJ5Lqk5o2i6K6+5aSH5Lit77yJOg0KPiAr
+DQo+ICtgYGZhaWxlZF9zdG9yZXNgYA0KPiArICAgICAgIOacieWkmuWwkeasoeWtmOWCqOeahOWw
+neivleaYr+Wksei0peeahA0KPiArDQo+ICtgYGxvYWRzYGANCj4gKyAgICAgICDlsJ3or5Xkuobl
+pJrlsJHmrKHliqDovb3vvIjlupTor6Xlhajpg6jmiJDlip/vvIkNCj4gKw0KPiArYGBzdWNjX3N0
+b3Jlc2BgDQo+ICsgICAgICAg5pyJ5aSa5bCR5qyh5a2Y5YKo55qE5bCd6K+V5piv5oiQ5Yqf55qE
+DQo+ICsNCj4gK2BgaW52YWxpZGF0ZXNgYA0KPiArICAgICAgIOWwneivleS6huWkmuWwkeasoeS9
+nOW6nw0KPiArDQo+ICvlkI7lj7Dlrp7njrDlj6/ku6Xmj5Dkvpvpop3lpJbnmoTmjIfmoIfjgIIN
+Cj4gKw0KPiAr57uP5bi46Zeu5Yiw55qE6Zeu6aKYDQo+ICs9PT09PT09PT09PT09PQ0KPiArDQo+
+ICsqIOS7t+WAvOWcqOWTqumHjD8NCj4gKw0KPiAr5b2T5LiA5Liq5bel5L2c6LSf6L295byA5aeL
+5Lqk5o2i5pe277yM5oCn6IO95bCx5Lya5LiL6ZmN44CCRnJvbnRzd2Fw6YCa6L+H5o+Q5L6b5LiA
+5Liq5bmy5YeA55qE44CB5Yqo5oCB55qE5o6l5Y+j5p2lDQo+ICvor7vlj5blkozlhpnlhaXkuqTm
+jaLpobXliLAg4oCcdHJhbnNjZW5kZW50IG1lbW9yeeKAne+8jOS7juiAjOWkp+Wkp+WinuWKoOS6
+huiuuOWkmui/meagt+eahOW3peS9nOi0n+i9veeahOaApw0KPiAr6IO977yM5ZCm5YiZ5YaF5qC4
+5piv5peg5rOV55u05o6l5a+75Z2A55qE44CC5b2T5pWw5o2u6KKr6L2s5o2i5Li65LiN5ZCM55qE
+5b2i5byP5ZKM5aSn5bCP77yI5q+U5aaC5Y6L57yp77yJ5oiW6ICF6KKr56eY5a+GDQo+ICvnp7vl
+iqjvvIjlr7nkuo7kuIDkupvnsbvkvLxSQU3nmoTorr7lpIfmnaXor7TvvIzov5nlj6/og73lr7nl
+hpnlubPooaHlvojmnInnlKjvvInml7bvvIzov5nkuKrmjqXlj6PmmK/nkIbmg7PnmoTjgILkuqTm
+jaINCj4gK+mhte+8iOWSjOiiq+mpsemAkOeahOmhtemdoue8k+WtmOmhte+8ieaYr+i/meenjeav
+lFJBTeaFouS9huavlOejgeebmOW/q+W+l+WkmueahOKAnOS8qlJBTeiuvuWkh+KAneeahOS4gOWk
+p+eUqOmAlOOAgg0KPiArDQo+ICtGcm9udHN3YXDlr7nlhoXmoLjnmoTlvbHlk43nm7jlvZPlsI/v
+vIzkuLrlkITnp43ns7vnu5/phY3nva7kuK3mm7TliqjmgIHjgIHmm7TngbXmtLvnmoRSQU3liKnn
+lKjmj5Dkvpvkuoblt6jlpKfnmoQNCj4gK+eBtea0u+aAp++8mg0KPiArDQo+ICvlnKjljZXkuIDl
+hoXmoLjnmoTmg4XlhrXkuIvvvIzlj4jnp7DigJx6Y2FjaGXigJ3vvIzpobXpnaLooqvljovnvKnl
+ubblrZjlgqjlnKjmnKzlnLDlhoXlrZjkuK3vvIzku47ogIzlop7liqDkuoblj6/ku6XlrokNCj4g
+K+WFqOS/neWtmOWcqFJBTeS4reeahOWMv+WQjemhtemdouaAu+aVsOOAglpjYWNoZeacrOi0qOS4
+iuaYr+eUqOWOi+e8qS/op6PljovnvKnnmoRDUFXlkajmnJ/mjaLlj5bmm7Tlpb3nmoTlhoXlrZjl
+iKkNCj4gK+eUqOeOh+OAgkJlbmNobWFya3PmtYvor5XmmL7npLrvvIzlvZPlhoXlrZjljovlipvo
+voPkvY7ml7bvvIzlh6DkuY7msqHmnInlvbHlk43vvIzogIzlnKjpq5jlhoXlrZjljovlipvkuIvn
+moTkuIDkupsNCj4gK+W3peS9nOi0n+i9veS4iu+8jOWImeacieaYjuaYvueahOaAp+iDveaUueWW
+hO+8iDI1JeS7peS4iu+8ieOAgg0KPiArDQo+ICvigJxSQU1zdGVy4oCdIOWcqHpjYWNoZeeahOWf
+uuehgOS4iuWinuWKoOS6huWvuembhue+pOezu+e7n+eahCDigJxwZWVyLXRvLXBlZXLigJ0gdHJh
+bnNjZW5kZW50IG1lbW9yeQ0KPiAr55qE5pSv5oyB44CCRnJvbnRzd2Fw6aG16Z2i5YOPemNhY2hl
+5LiA5qC36KKr5pys5Zyw5Y6L57yp77yM5L2G6ZqP5ZCO6KKr4oCccmVtb3RpZmllZOKAnSDliLDl
+j6bkuIDkuKrns7sNCj4gK+e7n+eahFJBTeOAgui/meS9v+W+l1JBTeWPr+S7peagueaNrumcgOim
+geWKqOaAgeWcsOadpeWbnui0n+i9veW5s+ihoe+8jOS5n+WwseaYr+ivtO+8jOW9k+ezu+e7n0Ho
+toXovb3ml7bvvIzlroPlj6/ku6UNCj4gK+S6pOaNouWIsOezu+e7n0LvvIzlj43kuYvkuqbnhLbj
+gIJSQU1zdGVy5Lmf5Y+v5Lul6KKr6YWN572u5oiQ5LiA5Liq5YaF5a2Y5pyN5Yqh5Zmo77yM5Zug
+5q2k6ZuG576k5Lit55qE6K645aSa5pyN5Yqh5ZmoDQo+ICvlj6/ku6XmoLnmja7pnIDopoHliqjm
+gIHlnLDkuqTmjaLliLDphY3nva7mnInlpKfph4/lhoXlrZjnmoTljZXkuIDmnI3liqHlmajkuIou
+Li4uLi7ogIzkuI3pnIDopoHpooTlhYjphY3nva7mr4/kuKrlrqLmiLcNCj4gK+acieWkmuWwkeWG
+heWtmOWPr+eUqA0KPiArDQo+ICvlnKjomZrmi5/mg4XlhrXkuIvvvIzomZrmi5/ljJbnmoTlhajp
+g6jmhI/kuYnlnKjkuo7nu5/orqHlnLDlsIbniannkIbotYTmupDlnKjlpJrkuKromZrmi5/mnLrn
+moTkuI3lkIzpnIDmsYLkuYvpl7Tov5vooYzlpI0NCj4gK+eUqOOAguWvueS6jlJBTeadpeivtO+8
+jOi/meecn+eahOW+iOmavuWBmuWIsO+8jOiAjOS4lOWcqOS4jeaUueWPmOWGheaguOeahOaDheWG
+teS4i++8jOimgeWBmuWlvei/meS4gOeCueeahOWKquWKm+WfuuacrOS4ig0KPiAr5piv5aSx6LSl
+55qE77yI6Zmk5LqG5LiA5Lqb5bm/5Li65Lq655+l55qE54m55q6K5oOF5Ya15LiL55qE5bel5L2c
+6LSf6L2977yJ44CC5YW35L2T5p2l6K+077yMWGVuIFRyYW5zY2VuZGVudCBNZW1vcnkNCj4gK+WQ
+juerr+WFgeiuuOeuoeeQhuWZqOaLpeacieeahFJBTSDigJxmYWxsb3figJ3vvIzkuI3ku4Xlj6/k
+u6XlnKjlpJrkuKromZrmi5/mnLrkuYvpl7Tov5vooYzigJx0aW1lLXNoYXJlZOKAne+8jA0KPiAr
+6ICM5LiU6aG16Z2i5Y+v5Lul6KKr5Y6L57yp5ZKM6YeN5aSN5Yip55So77yM5Lul5LyY5YyWUkFN
+55qE5Yip55So546H44CC5b2T5a6i5oi35pON5L2c57O757uf6KKr6K+x5a+85Lqk5Ye65pyq5YWF
+5YiG5Yip55SoDQo+ICvnmoRSQU3ml7bvvIjlpoIg4oCcc2VsZmJhbGxvb25pbmfigJ3vvInvvIzn
+qoHnhLblh7rnjrDnmoTmhI/lpJblhoXlrZjljovlipvlj6/og73kvJrlr7zoh7TkuqTmjaLvvJtm
+cm9udHN3YXANCj4gK+WFgeiuuOi/meS6m+mhtemdouiiq+S6pOaNouWIsOeuoeeQhuWZqFJBTeS4
+reaIluS7jueuoeeQhuWZqFJBTeS4reS6pOaNou+8iOWmguaenOaVtOS9k+S4u+acuuezu+e7n+WG
+heWtmOadoeS7tuWFgeiuuO+8ie+8jA0KPiAr5LuO6ICM5YeP6L276K6h5YiS5aSW5Lqk5o2i5Y+v
+6IO95bim5p2l55qE5Y+v5oCV55qE5oCn6IO95b2x5ZON44CCDQo+ICsNCj4gK+S4gOS4qktWTeea
+hOWunueOsOato+WcqOi/m+ihjOS4re+8jOW5tuS4lOW3sue7j+iiq1JGQydlZOWIsGxrbWzjgILo
+gIzkuJTvvIzliKnnlKhmcm9udHN3YXDvvIzlr7lOVk3kvZzkuLoNCj4gK+WGheWtmOaJqeWxleaK
+gOacr+eahOiwg+afpeS5n+WcqOi/m+ihjOS4reOAgg0KPiArDQo+ICsqIOW9k+eEtu+8jOWcqOaf
+kOS6m+aDheWGteS4i+WPr+iDveacieaAp+iDveS4iueahOS8mOWKv++8jOS9hmZyb250c3dhcOea
+hOepuumXtC/ml7bpl7TlvIDplIDmmK/lpJrlsJHvvJ8NCj4gKw0KPiAr5aaC5p6cIENPTkZJR19G
+Uk9OVFNXQVAg6KKr56aB55So77yM5q+P5LiqIGZyb250c3dhcCDpkqnlrZDpg73kvJrnvJbor5Hm
+iJDnqbrvvIzllK/kuIDnmoTlvIDplIDmmK/mr48NCj4gK+S4qiBzd2Fwb24nZWQgc3dhcCDorr7l
+pIfnmoTlh6DkuKrpop3lpJblrZfoioLjgILlpoLmnpwgQ09ORklHX0ZST05UU1dBUCDooqvlkK/n
+lKjvvIzkvYbmsqHmnIkNCj4gK2Zyb250c3dhcOeahCDigJxiYWNrZW5k4oCdIOWvhOWtmOWZqO+8
+jOavj+ivu+aIluWGmeS4gOS4quS6pOaNoumhteWwseS8muacieS4gOS4qumineWklueahOWFqOWx
+gOWPmOmHj++8jOiAjOS4jQ0KPiAr5piv6Zu244CC5aaC5p6cIENPTkZJR19GUk9OVFNXQVAg6KKr
+5ZCv55So77yM5bm25LiU5pyJ5LiA5LiqZnJvbnRzd2Fw55qEYmFja2VuZOWvhOWtmOWZqO+8jOW5
+tuS4lA0KPiAr5ZCO56uv5q+P5qyhIOKAnHN0b3Jl4oCdIOivt+axgumDveWksei0pe+8iOWNs+Ww
+veeuoeWjsOensOWPr+iDve+8jOS9huayoeacieaPkOS+m+WGheWtmO+8ie+8jENQVSDnmoTlvIDp
+lIDku43nhLblj6/ku6UNCj4gK+W/veeVpeS4jeiuoSAtIOWboOS4uuavj+asoWZyb250c3dhcOWk
+sei0pemDveaYr+WcqOS6pOaNoumhteWGmeWIsOejgeebmOS5i+WJje+8jOezu+e7n+W+iOWPr+iD
+veaYryBJL08g57uR5a6aDQo+ICvnmoTvvIzml6DorrrlpoLkvZXkvb/nlKjkuIDlsI/pg6jliIbn
+moQgQ1BVIOmDveaYr+S4jeebuOWFs+eahOOAgg0KPiArDQo+ICvoh7Pkuo7nqbrpl7TvvIzlpoLm
+npxDT05GSUdfRlJPTlRTV0FQ6KKr5ZCv55So77yM5bm25LiU5pyJ5LiA5LiqZnJvbnRzd2Fw55qE
+YmFja2VuZOazqOWGjO+8jOmCo+S5iA0KPiAr5q+P5Liq5Lqk5o2i6K6+5aSH55qE5q+P5Liq5Lqk
+5o2i6aG16YO95Lya6KKr5YiG6YWN5LiA5Liq5q+U54m544CC6L+Z5piv5Zyo5YaF5qC45bey57uP
+5Li65q+P5Liq5Lqk5o2i6K6+5aSH55qE5q+P5Liq5Lqk5o2iDQo+ICvpobXliIbphY3nmoQ45L2N
+77yI5ZyoMi42LjM05LmL5YmN5pivMTbkvY3vvInkuIrlop7liqDnmoTjgIIoSHVnaCBEaWNraW5z
+6KeC5a+f5Yiw77yMZnJvbnRzd2Fw5Y+v6IO9DQo+ICvkvJrlgbflj5bnjrDmnInnmoQ45Liq5q+U
+54m577yM5L2G5piv5oiR5Lus5Lul5ZCO5YaN5p2l5ouF5b+D6L+Z5Liq5bCP55qE5LyY5YyW6Zeu
+6aKYKeOAguWvueS6juagh+WHhueahDRL6aG16Z2i5aSn5bCP55qEDQo+ICvpnZ7luLjlpKfnmoTk
+uqTmjaLnm5jvvIjov5nlvojnvZXop4HvvInvvIzov5nmmK/mr48zMkdC5Lqk5o2i55uYMU1C5byA
+6ZSA44CCDQo+ICsNCj4gK+W9k+S6pOaNoumhteWtmOWCqOWcqHRyYW5zY2VuZGVudCBtZW1vcnnk
+uK3ogIzkuI3mmK/lhpnliLDno4Hnm5jkuIrml7bvvIzmnInkuIDkuKrlia/kvZznlKjvvIzljbPo
+v5nlj6/og73kvJoNCj4gK+S6p+eUn+abtOWkmueahOWGheWtmOWOi+WKm++8jOacieWPr+iDvei2
+hei/h+WFtuS7lueahOS8mOeCueOAguS4gOS4qmJhY2tlbmTvvIzmr5TlpoJ6Y2FjaGXvvIzlv4Xp
+obvlrp7njrDnrZbnlaUNCj4gK+adpeS7lOe7hu+8iOS9huWKqOaAgeWcsO+8ieeuoeeQhuWGheWt
+mOmZkOWItu+8jOS7peehruS/nei/meenjeaDheWGteS4jeS8muWPkeeUn+OAgg0KPiArDQo+ICsq
+IOWlveWQp++8jOmCo+WwseeUqOWGheaguOmqh+WuouiDveeQhuino+eahOacr+ivreadpeW/q+mA
+n+amgui/sOS4gOS4i+i/meS4qmZyb250c3dhcOihpeS4geeahOS9nOeUqOWmguS9le+8nw0KPiAr
+DQo+ICvmiJHku6zlgYforr7lnKjlhoXmoLjliJ3lp4vljJbov4fnqIvkuK3vvIzkuIDkuKpmcm9u
+dHN3YXAg55qEIOKAnGJhY2tlbmTigJ0g5bey57uP5rOo5YaM5LqG77yb6L+Z5Liq5rOo5YaM6KGo
+DQo+ICvmmI7ov5nkuKpmcm9udHN3YXAg55qEIOKAnGJhY2tlbmTigJ0g5Y+v5Lul6K6/6Zeu5LiA
+5Lqb5LiN6KKr5YaF5qC455u05o6l6K6/6Zeu55qE4oCc5YaF5a2Y4oCd44CC5a6D5Yiw5bqV5o+Q
+DQo+ICvkvpvkuoblpJrlsJHlhoXlrZjmmK/lrozlhajliqjmgIHlkozpmo/mnLrnmoTjgIINCj4g
+Kw0KPiAr5q+P5b2T5LiA5Liq5Lqk5o2i6K6+5aSH6KKr5Lqk5o2i5pe277yM5bCx5Lya6LCD55So
+ZnJvbnRzd2FwX2luaXQoKe+8jOaKiuS6pOaNouiuvuWkh+eahOe8luWPt++8iOWPiOensOKAnOex
+uw0KPiAr5Z6L4oCd77yJ5L2c5Li65LiA5Liq5Y+C5pWw5Lyg57uZ5a6D44CC6L+Z5bCx6YCa55+l
+5LqGZnJvbnRzd2Fw77yM5Lul5pyf5b6FIOKAnHN0b3Jl4oCdIOS4juivpeWPt+eggeebuOWFs+ea
+hOS6pA0KPiAr5o2i6aG155qE5bCd6K+V44CCDQo+ICsNCj4gK+avj+W9k+S6pOaNouWtkOezu+e7
+n+WHhuWkh+WwhuS4gOS4qumhtemdouWGmeWFpeS6pOaNouiuvuWkh+aXtu+8iOWPguingXN3YXBf
+d3JpdGVwYWdlKCnvvInvvIzlsLHkvJrosIPnlKgNCj4gK2Zyb250c3dhcF9zdG9yZeOAgkZyb250
+c3dhcOS4jmZyb250c3dhcCBiYWNrZW5k5Y2P5ZWG77yM5aaC5p6cYmFja2VuZOivtOWug+ayoeac
+ieepug0KPiAr6Ze077yMZnJvbnRzd2FwX3N0b3Jl6L+U5ZueLTHvvIzlhoXmoLjlsLHkvJrnhafl
+uLjmiorpobXmjaLliLDkuqTmjaLorr7lpIfkuIrjgILms6jmhI/vvIzmnaXoh6pmcm9udHN3YXAN
+Cj4gK2JhY2tlbmTnmoTlk43lupTlr7nlhoXmoLjmnaXor7TmmK/kuI3lj6/pooTmtYvnmoTvvJvl
+roPlj6/og73pgInmi6nku47kuI3mjqXlj5fkuIDkuKrpobXpnaLvvIzlj6/og73mjqXlj5fmr4/k
+uZ3kuKoNCj4gK+mhtemdou+8jOS5n+WPr+iDveaOpeWPl+avj+S4gOS4qumhtemdouOAguS9huaY
+r+WmguaenGJhY2tlbmTnoa7lrp7mjqXlj5fkuobkuIDkuKrpobXpnaLvvIzpgqPkuYjov5nkuKrp
+obXpnaLnmoTmlbANCj4gK+aNruW3sue7j+iiq+WkjeWItuW5tuS4juexu+Wei+WSjOWBj+enu+mH
+j+ebuOWFs+iBlOS6hu+8jOiAjOS4lGJhY2tlbmTkv53or4HkuobmlbDmja7nmoTmjIHkuYXmgKfj
+gILlnKjov5nnp43mg4XlhrUNCj4gK+S4i++8jGZyb250c3dhcOWcqOS6pOaNouiuvuWkh+eahOKA
+nGZyb250c3dhcF9tYXDigJ0g5Lit6K6+572u5LqG5LiA5Liq5L2N77yM5a+55bqU5LqO5Lqk5o2i
+6K6+5aSH5LiK55qEDQo+ICvpobXpnaLlgY/np7vph4/vvIzlkKbliJnlroPlsLHkvJrlsIbmlbDm
+ja7lhpnlhaXor6Xorr7lpIfjgIINCj4gKw0KPiAr5b2T5Lqk5o2i5a2Q57O757uf6ZyA6KaB5Lqk
+5o2i5LiA5Liq6aG16Z2i5pe277yIc3dhcF9yZWFkcGFnZSgp77yJ77yM5a6D6aaW5YWI6LCD55So
+ZnJvbnRzd2FwX2xvYWQoKe+8jA0KPiAr5qOA5p+lZnJvbnRzd2FwX21hcO+8jOeci+i/meS4qumh
+temdouaYr+WQpuaXqeWFiOiiq2Zyb250c3dhcCBiYWNrZW5k5o6l5Y+X44CC5aaC5p6c5piv77yM
+6K+l6aG1DQo+ICvnmoTmlbDmja7lsLHkvJrku45mcm9udHN3YXDlkI7nq6/loavlhYXvvIzmjaLl
+haXlsLHlrozmiJDkuobjgILlpoLmnpzkuI3mmK/vvIzmraPluLjnmoTkuqTmjaLku6PnoIHlsIbo
+oqvmiafooYzvvIwNCj4gK+S7peS+v+S7juecn+ato+eahOS6pOaNouiuvuWkh+S4iuiOt+W+l+i/
+meS4gOmhteeahOaVsOaNruOAgg0KPiArDQo+ICvmiYDku6Xmr4/mrKFmcm9udHN3YXAgYmFja2Vu
+ZOaOpeWPl+S4gOS4qumhtemdouaXtu+8jOS6pOaNouiuvuWkh+eahOivu+WPluWSjO+8iOWPr+iD
+ve+8ieS6pOaNouiuvuWkh+eahOWGmQ0KPiAr5YWl6YO96KKrIOKAnGZyb250c3dhcCBiYWNrZW5k
+IHN0b3Jl4oCdIOWSjO+8iOWPr+iDve+8ieKAnGZyb250c3dhcCBiYWNrZW5kIGxvYWRz4oCdDQo+
+ICvmiYDlj5bku6PvvIzov5nlj6/og73kvJrlv6vlvpflpJrjgIINCj4gKw0KPiArKiBmcm9udHN3
+YXDkuI3og73ooqvphY3nva7kuLrkuIDkuKog4oCc54m55q6K55qE4oCdIOS6pOaNouiuvuWkh++8
+jOWug+eahOS8mOWFiOe6p+imgemrmOS6juS7u+S9leecn+ato+eahOS6pOaNog0KPiArICDorr7l
+pIfvvIjkvovlpoLlg496c3dhcO+8jOaIluiAheWPr+iDveaYr3N3YXAtb3Zlci1uYmQvTkZT77yJ
+77yfDQo+ICsNCj4gK+mmluWFiO+8jOeOsOacieeahOS6pOaNouWtkOezu+e7n+S4jeWFgeiuuOac
+ieS7u+S9leenjeexu+eahOS6pOaNouWxguasoee7k+aehOOAguS5n+iuuOWug+WPr+S7peiiq+mH
+jeWGmeS7pemAguW6lOWxguasoQ0KPiAr57uT5p6E77yM5L2G6L+Z5bCG6ZyA6KaB55u45b2T5aSn
+55qE5pS55Y+Y44CC5Y2z5L2/5a6D6KKr6YeN5YaZ77yM546w5pyJ55qE5Lqk5o2i5a2Q57O757uf
+5Lmf5L2/55So5LqG5Z2XSS9P5bGC77yM5a6DDQo+ICvlgYflrprkuqTmjaLorr7lpIfmmK/lm7rl
+rprlpKflsI/nmoTvvIzlhbbkuK3nmoTku7vkvZXpobXpnaLpg73mmK/lj6/nur/mgKflr7vlnYDn
+moTjgIJGcm9udHN3YXDlh6DkuY7msqHmnInop6YNCj4gK+WPiueOsOacieeahOS6pOaNouWtkOez
+u+e7n++8jOiAjOaYr+WbtOe7leedgOWdl0kvT+WtkOezu+e7n+eahOmZkOWItu+8jOaPkOS+m+S6
+huWkp+mHj+eahOeBtea0u+aAp+WSjOWKqOaAgeaAp+OAgg0KPiArDQo+ICvkvovlpoLvvIxmcm9u
+dHN3YXAgYmFja2VuZOWvueS7u+S9leS6pOaNoumhteeahOaOpeWPl+aYr+WujOWFqOS4jeWPr+mi
+hOa1i+eahOOAgui/meWvuWZyb250c3dhcCBiYWNrZW5kDQo+ICvnmoTlrprkuYnoh7PlhbPph43o
+poHvvIzlm6DkuLrlroPotYvkuojkuoZiYWNrZW5k5a6M5YWo5Yqo5oCB55qE5Yaz5a6a5p2D44CC
+5ZyoemNhY2hl5Lit77yM5Lq65Lus5peg5rOV6aKEDQo+ICvlhYjnn6XpgZPkuIDkuKrpobXpnaLn
+moTlj6/ljovnvKnmgKflpoLkvZXjgILlj6/ljovnvKnmgKcg4oCc5beu4oCdIOeahOmhtemdouS8
+muiiq+aLkue7ne+8jOiAjCDigJzlt67igJ0g5pys6Lqr5Lmf5Y+vDQo+ICvku6XmoLnmja7lvZPl
+iY3nmoTlhoXlrZjpmZDliLbliqjmgIHlnLDlrprkuYnjgIINCj4gKw0KPiAr5q2k5aSW77yMZnJv
+bnRzd2Fw5piv5a6M5YWo5ZCM5q2l55qE77yM6ICM55yf5q2j55qE5Lqk5o2i6K6+5aSH77yM5qC5
+5o2u5a6a5LmJ77yM5piv5byC5q2l55qE77yM5bm25LiU5L2/55SoDQo+ICvlnZdJL0/jgILlnZdJ
+L0/lsYLkuI3ku4XmmK/kuI3lv4XopoHnmoTvvIzogIzkuJTlj6/og73ov5vooYwg4oCc5LyY5YyW
+4oCd77yM6L+Z5a+56Z2i5ZCRUkFN55qE6K6+5aSH5p2l6K+05pivDQo+ICvkuI3lkIjpgILnmoTv
+vIzljIXmi6zlsIbkuIDkupvpobXpnaLnmoTlhpnlhaXlu7bov5/nm7jlvZPplb/nmoTml7bpl7Tj
+gILlkIzmraXmmK/lv4XpobvnmoTvvIzku6Xnoa7kv53lkI7nq6/nmoTliqgNCj4gK+aAgeaAp++8
+jOW5tumBv+WFjeajmOaJi+eahOernuS6ieadoeS7tu+8jOi/meWwhuS4jeW/heimgeWcsOWkp+Wk
+p+WinuWKoGZyb250c3dhcOWSjC/miJblnZdJL0/lrZDns7vnu5/nmoQNCj4gK+WkjeadguaAp+OA
+guS5n+WwseaYr+ivtO+8jOWPquacieacgOWIneeahCDigJxzdG9yZeKAnSDlkowg4oCcbG9hZOKA
+nSDmk43kvZzmmK/pnIDopoHlkIzmraXnmoTjgILkuIDkuKrni6znq4sNCj4gK+eahOW8guatpee6
+v+eoi+WPr+S7peiHqueUseWcsOaTjeS9nOeUsWZyb250c3dhcOWtmOWCqOeahOmhtemdouOAguS+
+i+Wmgu+8jFJBTXN0ZXLkuK3nmoQg4oCccmVtb3RpZmljYXRpb27igJ0NCj4gK+e6v+eoi+S9v+eU
+qOagh+WHhueahOW8guatpeWGheaguOWll+aOpeWtl++8jOWwhuWOi+e8qeeahGZyb250c3dhcOmh
+temdouenu+WKqOWIsOi/nOeoi+acuuWZqOOAguWQjOagt++8jA0KPiArS1ZN55qE5a6i5oi35pa5
+5a6e546w5Y+v5Lul6L+b6KGM5a6i5oi35YaF5Y6L57yp77yM5bm25L2/55SoIOKAnGJhdGNoZWTi
+gJ0gaHlwZXJjYWxsc+OAgg0KPiArDQo+ICvlnKjomZrmi5/ljJbnjq/looPkuK3vvIzliqjmgIHm
+gKflhYHorrjnrqHnkIbnqIvluo/vvIjmiJbkuLvmnLrmk43kvZzns7vnu5/vvInlgZrigJxpbnRl
+bGxpZ2VudCBvdmVyY29tbWl04oCd44CCDQo+ICvkvovlpoLvvIzlroPlj6/ku6XpgInmi6nlj6rm
+jqXlj5fpobXpnaLvvIznm7TliLDkuLvmnLrkuqTmjaLlj6/og73ljbPlsIblj5HnlJ/vvIznhLbl
+kI7lvLrov6vlrqLmiLfmnLrlgZrku5bku6wNCj4gK+iHquW3seeahOS6pOaNouOAgg0KPiArDQo+
+ICt0cmFuc2NlbmRlbnQgbWVtb3J56KeE5qC855qEZnJvbnRzd2Fw5pyJ5LiA5Liq5Z2P5aSE44CC
+5Zug5Li65Lu75L2VIOKAnHN0b3Jl4oCdIOmDveWPrw0KPiAr6IO95aSx6LSl77yM5omA5Lul5b+F
+6aG75Zyo5LiA5Liq55yf5q2j55qE5Lqk5o2i6K6+5aSH5LiK5pyJ5LiA5Liq55yf5q2j55qE5o+S
+5qe95p2l5Lqk5o2i6aG16Z2i44CC5Zug5q2k77yMDQo+ICtmcm9udHN3YXDlv4XpobvkvZzkuLrm
+r4/kuKrkuqTmjaLorr7lpIfnmoQg4oCc5b2x5a2Q4oCdIOadpeWunueOsO+8jOWug+acieWPr+iD
+veWuuee6s+S6pOaNouiuvuWkh+WPr+iDvQ0KPiAr5a6557qz55qE5q+P5LiA5Liq6aG16Z2i77yM
+5Lmf5pyJ5Y+v6IO95qC55pys5LiN5a6557qz5Lu75L2V6aG16Z2i44CC6L+Z5oSP5ZGz552AZnJv
+bnRzd2Fw5LiN6IO95YyF5ZCr5q+UDQo+ICtzd2Fw6K6+5aSH5oC75pWw5pu05aSa55qE6aG16Z2i
+44CC5L6L5aaC77yM5aaC5p6c5Zyo5p+Q5Lqb5a6J6KOF5LiK5rKh5pyJ6YWN572u5Lqk5o2i6K6+
+5aSH77yMZnJvbnRzd2FwDQo+ICvlsLHmsqHmnInnlKjjgILml6DkuqTmjaLorr7lpIfnmoTkvr/m
+kLrlvI/orr7lpIfku43nhLblj6/ku6Xkvb/nlKhmcm9udHN3YXDvvIzkvYbmmK/ov5nnp43orr7l
+pIfnmoQNCj4gK2JhY2tlbmTlv4XpobvphY3nva7mn5Dnp40g4oCcZ2hvc3TigJ0g5Lqk5o2i6K6+
+5aSH77yM5bm256Gu5L+d5a6D5rC46L+c5LiN5Lya6KKr5L2/55So44CCDQo+ICsNCj4gKw0KPiAr
+KiDkuLrku4DkuYjkvJrmnInov5nnp43lhbPkuo4g4oCc6YeN5aSN5a2Y5YKo4oCdIOeahOWlh+aA
+quWumuS5ie+8n+WmguaenOS4gOS4qumhtemdouS7peWJjeiiq+aIkOWKn+WcsOWtmOWCqOi/h++8
+jA0KPiArICDpmr7pgZPlroPkuI3og73mgLvmmK/ooqvmiJDlip/lnLDopobnm5blkJfvvJ8NCj4g
+Kw0KPiAr5Yeg5LmO5oC75piv5Y+v5Lul55qE77yM5LiN77yM5pyJ5pe25LiN6IO944CC6ICD6JmR
+5LiA5Liq5L6L5a2Q77yM5pWw5o2u6KKr5Y6L57yp5LqG77yM5Y6f5p2l55qENEvpobXpnaLooqvl
+josNCj4gK+e8qeWIsOS6hjFL44CC546w5Zyo77yM5pyJ5Lq66K+V5Zu+55So5LiN5Y+v5Y6L57yp
+55qE5pWw5o2u6KaG55uW6K+l6aG177yM5Zug5q2k5Lya5Y2g55So5pW05LiqNEvjgILkvYbmmK8N
+Cj4gK2JhY2tlbmTmsqHmnInmm7TlpJrnmoTnqbrpl7TkuobjgILlnKjov5nnp43mg4XlhrXkuIvv
+vIzov5nkuKrlrZjlgqjlv4Xpobvooqvmi5Lnu53jgILmr4/lvZNmcm9udHN3YXANCj4gK+aLkue7
+neS4gOS4quS8muimhueblueahOWtmOWCqOaXtu+8jOWug+S5n+W/hemhu+S9v+aXp+eahOaVsOaN
+ruS9nOW6n++8jOW5tuehruS/neWug+S4jeWGjeiiq+iuv+mXruOAguWboOS4uuS6pA0KPiAr5o2i
+5a2Q57O757uf5Lya5oqK5paw55qE5pWw5o2u5YaZ5Yiw6K+75Lqk5o2i6K6+5aSH5LiK77yM6L+Z
+5piv56Gu5L+d5LiA6Ie05oCn55qE5q2j56Gu5YGa5rOV44CCDQo+ICsNCj4gKyog5Li65LuA5LmI
+ZnJvbnRzd2Fw6KGl5LiB5Lya5Yib5bu65paw55qE5aS05paH5Lu2c3dhcGZpbGUuaO+8nw0KPiAr
+DQo+ICtmcm9udHN3YXDku6PnoIHkvp3otZbkuo7kuIDkuptzd2Fw5a2Q57O757uf5YaF6YOo55qE
+5pWw5o2u57uT5p6E77yM6L+Z5Lqb5pWw5o2u57uT5p6E5aSa5bm05p2l5LiA55u0DQo+ICvlnKjp
+nZnmgIHlkozlhajlsYDkuYvpl7TmnaXlm57np7vliqjjgILov5nkvLzkuY7mmK/kuIDkuKrlkIjn
+kIbnmoTlpqXljY/vvJrlsIblroPku6zlrprkuYnkuLrlhajlsYDvvIzkvYblnKjkuIANCj4gK+S4
+quaWsOeahOWMheWQq+aWh+S7tuS4reWjsOaYjuWug+S7rO+8jOivpeaWh+S7tuS4jeiiq+WMheWQ
+q3N3YXAuaOeahOWkp+mHj+a6kOaWh+S7tuaJgOWMheWQq+OAgg0KPiArDQo+ICtEYW4gTWFnZW5o
+ZWltZXLvvIzmnIDlkI7mm7TmlrDkuo4yMDEy5bm0NOaciDnml6UNCj4gZGlmZiAtLWdpdCBhL0Rv
+Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdCBiL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiBpbmRleCAyZjk4MzRlYjk0NzUu
+LmNjOGQ2OGIwY2JiNSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
+emhfQ04vdm0vaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL3ZtL2luZGV4LnJzdA0KPiBAQCAtMjYsMTEgKzI2LDExIEBAIFRPRE865b6F5byV55So5paH
+5qGj6ZuG6KKr57+76K+R5a6M5q+V5ZCO6K+35Y+K5pe25L+u5pS55q2k5aSE77yJDQo+ICAgICBk
+YW1vbi9pbmRleA0KPiAgICAgZnJlZV9wYWdlX3JlcG9ydGluZw0KPiAgICAgaGlnaG1lbQ0KPiAr
+ICAgZnJvbnRzd2FwDQo+DQo+ICBUT0RPTElTVDoNCj4gICogYXJjaF9wZ3RhYmxlX2hlbHBlcnMN
+Cj4gICogZnJlZV9wYWdlX3JlcG9ydGluZw0KPiAtKiBmcm9udHN3YXANCj4gICogaG1tDQo+ICAq
+IGh3cG9pc29uDQo+ICAqIGh1Z2V0bGJmc19yZXNlcnYNCj4gLS0NCj4gMi4yNy4wDQo+DQo=
