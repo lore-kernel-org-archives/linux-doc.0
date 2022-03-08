@@ -2,54 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E37EFC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Mar 2022 23:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4FEC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Mar 2022 00:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236559AbiCGXI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Mar 2022 18:08:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39650 "EHLO
+        id S237646AbiCHAbN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Mar 2022 19:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234012AbiCGXIZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 18:08:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D448DE65;
-        Mon,  7 Mar 2022 15:07:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 327CFB8173D;
-        Mon,  7 Mar 2022 23:07:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EF22C340E9;
-        Mon,  7 Mar 2022 23:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646694445;
-        bh=Fa9/hR5GpkZWTKIcWmw21gpKT3rPGyOC+oDkhNJLxkw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HkQGJysvAlPT5rInm544njmDrm65VrbXaKnTAz91RRHlE5SYVmGzJm5xQ+KBXVDJ7
-         lVFYaTuRb4sEmM+ZedbOIVVAB5ENBInb+Mx7lPEw7GByVhUrc/xsbY2s/e/Qkn+JwW
-         qqWJNo9gxY2/8+3BuJIF8fiSs+Pi6RB6YNnamYDjrORPR54rcNklooJNKh+2uYJwjN
-         d+E75TYYIsYp5rBJquYL5Hljzce1XB43H8ez3t0GQdZBkB/LE2p6I4IosQ0KjzQYQh
-         8jFhpByv0bigKdvrfMSpVD9DKqMCS2P42zrofVz5dGgJvUnjbvkKQ57TrWbpB2tz/C
-         SU79hKeOgh5/w==
-Date:   Mon, 7 Mar 2022 15:07:24 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     <davem@davemloft.net>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/7] Add octeon_ep driver
-Message-ID: <20220307150724.5bd97429@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20220307092646.17156-1-vburru@marvell.com>
-References: <20220307092646.17156-1-vburru@marvell.com>
+        with ESMTP id S235165AbiCHAbM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Mar 2022 19:31:12 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0568C50
+        for <linux-doc@vger.kernel.org>; Mon,  7 Mar 2022 16:30:16 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id f8so5403302pfj.5
+        for <linux-doc@vger.kernel.org>; Mon, 07 Mar 2022 16:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=+b6U7xD5NsVIgrOaERyVM/BWmLRQRIumXagXORbvD2A=;
+        b=0GKybrjrYL+rRx8xyqPphQy4xU43Hygpubwr9knrRnPa7t6NZ3eLX1DmPVT0sOYtV1
+         OVzH/nOyojKgb5kZIPQEg6w6LtAbIHR53PtMTAnSSD7vfkREWtDNLsNdfDSHhRHCB6nR
+         ab1iw5YzFfUdxQhm3XcjSJNeIayb8qQwUhJlEbgsNHF/4mpwL67RTrtt5R/CUecDi+Br
+         HwOMEtpOfP8ZuTHdwAUmQaClJA/SWfMNyLySb7rKETPvf9TIyVgbzYWdlM3igRolvIMu
+         Eem7fku2tG9QnG8ygVE5EpILpoYL3ydFHfPO7YKUSilNoM2PkzGP3S80J/lpgyKIcWnc
+         2eKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=+b6U7xD5NsVIgrOaERyVM/BWmLRQRIumXagXORbvD2A=;
+        b=c9yNpKnEyYuBhIs+ENyADAzCTQfnOK3QZaf6CmIBBcOMrfo67hZMpJC4uGBtPvsGli
+         hufOdaA2NWKdEo5Z8fU8wINwiJ9zwIFpQmer2So/O8YQ9lXpgwpldPNcHpb7TyuIi3jO
+         uci93nklxAqBjj4I9wOOeJLkOf2SKKz3m0EYPfHbuNeI/AghLUiwewwLhgp5Sr9Hx3dp
+         I/oerhU97CWaUbjj23dJ+R0RIZn+kNVAYo3Bf3GYIn8yRj0cAKy8fPDpxDEcLkkuv0dK
+         Jqe5biR8MSTxVaOAy1UXpZM1QSPK9K3+9aqXC+jXELQyIBkmRDteWCURZw2yiemTHj+D
+         XpRw==
+X-Gm-Message-State: AOAM5321AY6dFWeJZ8fuFvK3NjYHPzkB/z6UNPPBsJynG7kHm6WPGQwJ
+        gnxN4JvTUd4AscTZ+gby2+i1pg==
+X-Google-Smtp-Source: ABdhPJw/7iJsmiq2YwFfj9dsu6bwiW5xWajh+0nrM2ivXA3sK9GoMhbd8KfXGrn9yFgYKnRgnn1qKg==
+X-Received: by 2002:a05:6a00:1912:b0:4f6:bf89:e157 with SMTP id y18-20020a056a00191200b004f6bf89e157mr15351575pfi.20.1646699416313;
+        Mon, 07 Mar 2022 16:30:16 -0800 (PST)
+Received: from [10.255.253.61] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id f15-20020a056a0022cf00b004f3b99a6c43sm17265233pfj.219.2022.03.07.16.30.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Mar 2022 16:30:15 -0800 (PST)
+Message-ID: <496cf920-f3e6-91d4-3dc8-a5d1b510ee5b@bytedance.com>
+Date:   Tue, 8 Mar 2022 08:30:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [Phishing Risk] [External] Re: [PATCH] psi: report zeroes for CPU
+ full at the system level
+Content-Language: en-US
+To:     Martin Steigerwald <Martin.Steigerwald@proact.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "ebiggers@google.com" <ebiggers@google.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "surenb@google.com" <surenb@google.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "songmuchun@bytedance.com" <songmuchun@bytedance.com>
+References: <20220305021329.54119-1-zhouchengming@bytedance.com>
+ <89d939a61f840683101542fe0da823e693ef6cc3.camel@proact.de>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <89d939a61f840683101542fe0da823e693ef6cc3.camel@proact.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 Mar 2022 01:26:39 -0800 Veerasenareddy Burru wrote:
-> V2 -> V3:
->     Fix warnings and errors reported by kernel test robot:
->     Reported-by: kernel test robot <lkp@intel.com>
+On 2022/3/7 7:01 下午, Martin Steigerwald wrote:
+> Am Samstag, dem 05.03.2022 um 10:13 +0800 schrieb Chengming Zhou:
+>> Martin find it confusing when look at the /proc/pressure/cpu output,
+>> and found no hint about that CPU "full" line in psi Documentation.
+>>
+>> % cat /proc/pressure/cpu
+>> some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
+>> full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
+>>
+>> The PSI_CPU_FULL state is introduced by commit e7fcd7622823
+>> ("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
+>> but also counted at the system level as a side effect.
+>>
+>> Naturally, the FULL state doesn't exist for the CPU resource at
+>> the system level. These "full" numbers can come from CPU idle
+>> schedule latency. For example, t1 is the time when task wakeup
+>> on an idle CPU, t2 is the time when CPU pick and switch to it.
+>> The delta of (t2 - t1) will be in CPU_FULL state.
+>>
+>> Another case all processes can be stalled is when all cgroups
+>> have been throttled at the same time, which unlikely to happen.
+>>
+>> Anyway, CPU_FULL metric is meaningless and confusing at the
+>> system level. So this patch will report zeroes for CPU full
+>> at the system level, and update psi Documentation accordingly.
+>>
+>> Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
+>> Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
+>> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+>> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+>> ---
+>>  Documentation/accounting/psi.rst |  6 +-----
+>>  kernel/sched/psi.c               | 15 +++++++++------
+>>  2 files changed, 10 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/accounting/psi.rst
+>> b/Documentation/accounting/psi.rst
+>> index 860fe651d645..7e15e37d3179 100644
+>> --- a/Documentation/accounting/psi.rst
+>> +++ b/Documentation/accounting/psi.rst
+>> @@ -37,11 +37,7 @@ Pressure interface
+>>  Pressure information for each resource is exported through the
+>>  respective file in /proc/pressure/ -- cpu, memory, and io.
+>>  
+>> -The format for CPU is as such::
+>> -
+>> -       some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+>> -
+>> -and for memory and IO::
+>> +The format is as such::
+>>  
+>>         some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+>>         full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+> 
+> This leaves unexplained why there is a CPU full line in the
+> documentation. And I bet someone – not me this time – could wonder why
+> it is always zero.
+> 
+> I recommend to either remove the CPU full line completely and hope to
+> get away with it just having been there for one, maybe two kernel
+> versions (5.17 and maybe 5.18) or to put a note in documentation:
+> 
+> "CPU full on the system level is undefined, but has been reported in
+> 5.17, so it is set to zero for backwards compatibility."
 
-Try building each patch with W=1 C=1, there's more to fix.
+Ok, it's better to leave a note there, if someone is curious about the
+zeros in CPU full line. Previous patch v1 does remove the CPU full line
+completely, but it may break some userspace parsers.
+
+Thanks.
+
+> 
+>> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+>> index e14358178849..97fd85c5143c 100644
+>> --- a/kernel/sched/psi.c
+>> +++ b/kernel/sched/psi.c
+>> @@ -1062,14 +1062,17 @@ int psi_show(struct seq_file *m, struct
+>> psi_group *group, enum psi_res res)
+>>         mutex_unlock(&group->avgs_lock);
+>>  
+>>         for (full = 0; full < 2; full++) {
+>> -               unsigned long avg[3];
+>> -               u64 total;
+>> +               unsigned long avg[3] = { 0, };
+>> +               u64 total = 0;
+>>                 int w;
+>>  
+>> -               for (w = 0; w < 3; w++)
+>> -                       avg[w] = group->avg[res * 2 + full][w];
+>> -               total = div_u64(group->total[PSI_AVGS][res * 2 +
+>> full],
+>> -                               NSEC_PER_USEC);
+>> +               /* CPU FULL is undefined at the system level */
+>> +               if (!(group == &psi_system && res == PSI_CPU && full))
+>> {
+>> +                       for (w = 0; w < 3; w++)
+>> +                               avg[w] = group->avg[res * 2 +
+>> full][w];
+>> +                       total = div_u64(group->total[PSI_AVGS][res * 2
+>> + full],
+>> +                                       NSEC_PER_USEC);
+>> +               }
+>>  
+>>                 seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu
+>> avg300=%lu.%02lu total=%llu\n",
+>>                            full ? "full" : "some",
+> 
+> 
+> Martin Steigerwald • 
+> Proact Deutschland GmbH
+> Trainer
+> Telefon: +49 911 30999 0 • 
+> www.proact.de
+> Südwestpark 43 • 
+> 90449 Nürnberg • 
+> Germany
+> Amtsgericht Nürnberg
+>  • 
+> HRB 18320
+> Geschäftsführer: 
+> René Schülein
+>  • 
+> Jonas Hasselberg
+>  • 
+> Linda Höljö
+> #ThePowerOfData  |  
+> #ThePowerOfTogether
+> 
+> This email and its attachments may be confidential and are intended solely for the use of the individual to whom it is addressed. Please read more in Proacts’ privacy notice,
+>  
+>  
+> 
