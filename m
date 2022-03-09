@@ -2,101 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C0F2C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 19:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 918C8C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 21:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237333AbiCITPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 14:15:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
+        id S233864AbiCIVPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 16:15:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237329AbiCITPh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 14:15:37 -0500
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA94310DA6B
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 11:14:37 -0800 (PST)
-Received: by mail-qk1-x732.google.com with SMTP id q194so2595882qke.5
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 11:14:37 -0800 (PST)
+        with ESMTP id S233850AbiCIVPE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 16:15:04 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2415BF500
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 13:14:04 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id m12so4458655edc.12
+        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 13:14:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=aNqfcNEZGjceg+UV7MiCwR4m/+vO50KsZYIOCuJEo8c=;
-        b=36TrIEKdsMjnR7Chc525qevaBESCl1mKL2De489X86GnsLdsf4+mvQ1ZMcNIROMSYO
-         yCGltj6ZHmV85LAY5X414jSI2M/X7EfReqYx80ZB/lbKZ1isvIgHAPVIFhlizprCE4ie
-         Rv93uyCm/H5c37PhSni5oMcTlfdNeprBpFPl7p/siwSBpl+kCtHyK0kbv3lUG8mnKnom
-         GAvEvDWMFHbGqzSwiuB8gkgYut4pT3apuanO8FxlqpXDlX/5tFjUmE2Tq4oH6Yvim8ce
-         dtQ39d8dHPjJiTABTKoBL0erxyMfA2nDOSqWW6viiYnWIOLaybhG0+AxgBbt8+zKuhK8
-         QhFQ==
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=f5IgrytsM1z255q0jxMkzG+bK0OqR/xpVoDKIJj7gWE=;
+        b=PYjTxrITXZ0P+IIMJ2kYz5DT9QrptbeaV2LKhBofyf71eguq7QgW7V5r55c2zIOHaS
+         bdQu7SYcWDdfxmOATNbUyNqofGYjskiLDE5mb5EQytDi7VaPpuH7uhahKYYeBdR6aitf
+         6ar3PhX5Q/Abm/7jZDVvuhDmRGNPaSzCbQkH/Eo3n0sjMIr4A/se2Z2gwla0M9UtXZ7y
+         YQ6v4zjuFxRqAqbegiErhyofxGDo0Mes3amvz6Vomx6gLQ0lSJFMWAQjL9z2wUKI9ARZ
+         UypFFga/ES+fy/rSYHqYGJ/mc76WQ6B3xNGL1rgmmU55h4twBjPewdS5OoV+LHlNDugf
+         ebtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=aNqfcNEZGjceg+UV7MiCwR4m/+vO50KsZYIOCuJEo8c=;
-        b=DsWpFwB0842KzyUOmWoLfErXCdGKEPd3wgSFpJMCpCJOn70c+vsuRAqsJXsBLrwXDN
-         +QwulLwns/a2tj86QSllyudUACGI8mmoZj8Fh5hxv/UumiCMzvFVeFC8JXvOm4dCgieK
-         8ytpp4kSI2tpjM2QJxJCyKujZCFtYuEpam50oviyvj4OMkCXbQBGlQHnMAIBZdmO8Vfo
-         BjNFSSojCjeR5QU5OIhxMXtLhUkltsZpk4fJfnWYT9FZ6PtxUmKeAkjYAqk/jf6IScbt
-         I7JaF74YivvptDy85pIQQiDDrKYZXIVI24/us+vVJ0XJtCpSYRfjtC6NwNDOCtBJw/IW
-         StQQ==
-X-Gm-Message-State: AOAM531nsnY7A1Roh7+fDRzcQZZ6fj72gvu2iYzz7dJ7U9zXSTulkafb
-        3p20XhC9GSUoYyxbEZpa6CL06Q==
-X-Google-Smtp-Source: ABdhPJxEad5S6wPK7a2NTjRrfC58JrsVr52wJnsXTsUalVv0RC3OWfazfcQbMinjlmvU76c5q/g2lg==
-X-Received: by 2002:a05:620a:2941:b0:67d:243d:3b7d with SMTP id n1-20020a05620a294100b0067d243d3b7dmr802338qkp.46.1646853276922;
-        Wed, 09 Mar 2022 11:14:36 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id n13-20020ac85b4d000000b002de6fe91d2fsm1795510qtw.68.2022.03.09.11.14.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 11:14:36 -0800 (PST)
-Date:   Wed, 9 Mar 2022 14:14:35 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        surenb@google.com, ebiggers@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        Martin Steigerwald <Martin.Steigerwald@proact.de>
-Subject: Re: [PATCH v2] psi: report zeroes for CPU full at the system level
-Message-ID: <Yij8m9qHtvNKyGMK@cmpxchg.org>
-References: <20220309111445.86484-1-zhouchengming@bytedance.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=f5IgrytsM1z255q0jxMkzG+bK0OqR/xpVoDKIJj7gWE=;
+        b=S1OKUsVPDpGv7Kgt7sCQnBFJBGrswPt7wT9tbw6gOH8iIs6+l6HO/HKeD7Wc/hF68r
+         EyNbu7IxOy3w+OVYuhX9PxhcPLhHN9c0pctLtDS1j0HOiFtiD689Hh16BIf2uHwlXZnA
+         eY0bkikQ0fi48kwLDj7BRfJ4V3AgoWFw3F0YS7Rdfu6hs6+XLNIja5T/ODdiD8tko0AB
+         3EftX8UeTM4YN1xoNTlWXe6Zq+CiN2NOVIIbpyQkfSmAJqVO/g6JdRDEI0PtRxtVfJj9
+         asVWyRF+/IQtr8HoOLLouN61CsWr3q7pBjbDOOB++rECjOj0i7h34xIpQhDkstlZdgEu
+         CXCQ==
+X-Gm-Message-State: AOAM531JWeyE2jRyNAk/6emqmSG/sEmv2SeO9VR7GYn4UzTgfd09uYz8
+        YUkHQ8RAGigrDY7R7U3CWahvRgUbbt1OmPT1BBR7
+X-Google-Smtp-Source: ABdhPJz4X98bQukjGwDFGAtygl26ij7BEag5McvZShhItQgyA0woPa848QS4nTdGZ1blYK7nPYrORSPSOQ3IdP7Aeno=
+X-Received: by 2002:aa7:d494:0:b0:415:a309:7815 with SMTP id
+ b20-20020aa7d494000000b00415a3097815mr1355507edr.340.1646860443242; Wed, 09
+ Mar 2022 13:14:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309111445.86484-1-zhouchengming@bytedance.com>
+References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
+ <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+ <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
+ <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
+In-Reply-To: <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 9 Mar 2022 16:13:52 -0500
+Message-ID: <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
+To:     David Anderson <dvander@google.com>
+Cc:     Vivek Goyal <vgoyal@redhat.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, luca.boccassi@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 09, 2022 at 07:14:45PM +0800, Chengming Zhou wrote:
-> Martin find it confusing when look at the /proc/pressure/cpu output,
-> and found no hint about that CPU "full" line in psi Documentation.
-> 
-> % cat /proc/pressure/cpu
-> some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
-> full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
-> 
-> The PSI_CPU_FULL state is introduced by commit e7fcd7622823
-> ("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
-> but also counted at the system level as a side effect.
-> 
-> Naturally, the FULL state doesn't exist for the CPU resource at
-> the system level. These "full" numbers can come from CPU idle
-> schedule latency. For example, t1 is the time when task wakeup
-> on an idle CPU, t2 is the time when CPU pick and switch to it.
-> The delta of (t2 - t1) will be in CPU_FULL state.
-> 
-> Another case all processes can be stalled is when all cgroups
-> have been throttled at the same time, which unlikely to happen.
-> 
-> Anyway, CPU_FULL metric is meaningless and confusing at the
-> system level. So this patch will report zeroes for CPU full
-> at the system level, and update psi Documentation accordingly.
-> 
-> Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
-> Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+On Tue, Mar 1, 2022 at 12:05 AM David Anderson <dvander@google.com> wrote:
+> On Mon, Feb 28, 2022 at 5:09 PM Paul Moore <paul@paul-moore.com> wrote:
+>>
+>> I wanted to try and bring this thread back from the dead (?) as I
+>> believe the use-case is still valid and worth supporting.  Some more
+>> brief comments below ...
+>>
+>> On Fri, Dec 3, 2021 at 1:34 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+>> > I am not sure. In the early version of patches I think argument was
+>> > that do not switch to mounter's creds and use caller's creds on
+>> > underlying filesystem as well. And each caller will be privileged
+>> > enough to be able to perform the operation.
+>
+> Indeed that was the argument - though, "userxattr" eliminated the need fo=
+r patches 1 & 2 completely for us, which is great. We're no longer carrying=
+ those in our 5.15 tree.
+>
+>> Unfortunately, this idea falls apart when we attempt to use overlayfs
+>> due to the clever/usual way it caches the mounting processes
+>> credentials and uses that in place of the current process' credentials
+>> when accessing certain parts of the underlying filesystems.  The
+>> current overlayfs implementation assumes that the mounter will always
+>> be more privileged than the processes accessing the filesystem, it
+>> would be nice if we could build a mechanism that didn't have this
+>> assumption baked into the implementation.
+>>
+>> This patchset may not have been The Answer, but surely there is
+>> something we can do to support this use-case.
+>
+> Yup exactly, and we still need patches 3 & 4 to deal with this. My curren=
+t plan is to try and rework our sepolicy (we have some ideas on how it coul=
+d be made compatible with how overlayfs works). If that doesn't pan out we'=
+ll revisit these patches and think harder about how to deal with the cohere=
+ncy issues.
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Can you elaborate a bit more on the coherency issues?  Is this the dir
+cache issue that is alluded to in the patchset?  Anything else that
+has come up on review?
 
-Peter, would you mind picking this up for 5.18?
+Before I start looking at the dir cache in any detail, did you have
+any thoughts on how to resolve the problems that have arisen?
 
-Thanks!
+--=20
+paul-moore.com
