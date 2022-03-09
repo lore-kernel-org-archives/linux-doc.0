@@ -2,234 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CFB5C43219
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 10:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C77C4C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 11:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231656AbiCIKyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 05:54:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39430 "EHLO
+        id S230392AbiCILPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 06:15:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbiCIKyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 05:54:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E83C910A7F7
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 02:53:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646823233;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VjXi0yetuRcNC+6LhXHTr8Ys2xt6TP3sU5g1QXQ/UPs=;
-        b=g+xh1e1eLf9JzcMOA0wl+ATEpT/KQohbVSh0fv4TiPN9NukXjFaj8DZvWmlw63H69VIFZ8
-        708eoKnKnDxmK+pTHVZXTfIm4hSMbMWIQjHmY0HJeuKKYzlYV6D49zhy2FvyXvLm+mGvrn
-        JLO1oBvzT29Z0K/hUnJW31/qTm83QDM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-5Up4l_KWP3ypeyjFImyMhQ-1; Wed, 09 Mar 2022 05:53:51 -0500
-X-MC-Unique: 5Up4l_KWP3ypeyjFImyMhQ-1
-Received: by mail-ed1-f72.google.com with SMTP id n11-20020aa7c68b000000b0041641550e11so1084304edq.8
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 02:53:51 -0800 (PST)
+        with ESMTP id S232016AbiCILPx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 06:15:53 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE9413CEC6
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 03:14:53 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id e15so1931606pfv.11
+        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 03:14:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsQsBuB2ms4XH7MMbYKCaAltmU40a94dVvRdCh2kPG8=;
+        b=giQbAvpiNC6GgihtPUmX/gFcKXYFcGs5sk/zxjgS1mngiwkVPSv4j6HBatM0A6SLlD
+         N8pUdXxYXl2dKA+Qime4DiOB5yxnMcG6y5PEEtMWzLJPHakjdt5TNPJ9vNIZBKiqfz5q
+         FIS9Y3LvOE9bG3rek35JoAtOfqqZLFepdhsm2MbOwIMeEuLWd+7m0UBTr8YeUl9qIqwH
+         DIMBlWDd/Hq4QUgfWKKEPdUYScu/rzE4O05+0ycytJSuR+bFfjPlArO5p5A6ZTAG0AFs
+         kK1ckGlUZqDk+8DjcadQrClsK0k3ZPNAGZ5w3AzjGd8bBNPWttN+iWpfE5e3PCWow/PV
+         ynGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VjXi0yetuRcNC+6LhXHTr8Ys2xt6TP3sU5g1QXQ/UPs=;
-        b=C4J6KtaUlnORjQTTgRsQHox2DoB3BMVuWYG2YVNNuHXJJRUDkY7UxxEOZ35oyMvLJh
-         RyP+TFaOclTh0K1DtikL0GNxhvH+368vZG62c+qfvRNTZSj5pQ3cQpYV/z50a5vCWVbC
-         jmFbecWvf4iQforOgGlC9CBqTn8mBIu3ksKgYl6Y0MTRUsm7DEfaVPKs7VwTRaUzfNQC
-         pJc6ZxTwpRw2pxM6hetQxpXN2WmFqTMicfpH3gC1We4DcL53SvExEv0vd6s98HxYKUh7
-         JHlBXwlrlH/qDeRhU7/uRyb/wFowXa6IQCoNA3Bcq32lj5JllqAE8mCpG2rGZ16lVcNb
-         ClVw==
-X-Gm-Message-State: AOAM531TtJfaRCgbCmV9BKshZ3c2SHp5X7+1vB/zpw87lb52NWmDOhCu
-        6qugyE3dE8w4Sygnn8P1wjJpdkvJJzlU2Mbbtvz62AS8PXx28szlzLVylYGgUGanNzgri9lpCx+
-        wpViqlJB7GSAq9nx7skm+
-X-Received: by 2002:a05:6402:1507:b0:415:f3c7:60fe with SMTP id f7-20020a056402150700b00415f3c760femr20712437edw.350.1646823229975;
-        Wed, 09 Mar 2022 02:53:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwpsezsbi1YaEImv8GNRn71DRgP5uKImUBsPZnOzxKILaUUveNW2d0aVEdZSHKuWgJM+bX+bg==
-X-Received: by 2002:a05:6402:1507:b0:415:f3c7:60fe with SMTP id f7-20020a056402150700b00415f3c760femr20712392edw.350.1646823229488;
-        Wed, 09 Mar 2022 02:53:49 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id d2-20020a50cf42000000b004135b6eef60sm652643edk.94.2022.03.09.02.53.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsQsBuB2ms4XH7MMbYKCaAltmU40a94dVvRdCh2kPG8=;
+        b=nP9L6PhLFKx7E4H+2yD/m1NJ3TKIwi/KOVaDKqoyKFKJis+7lLiOnXKrRpy/LYZWBL
+         nh80hx+7jATWjFMPvPNfKi/JN6Ih3a3zWnsoCb4cgiNoov/0QI5oD/FrHTYYTCqIkOz+
+         f+yHLanhuLNHsHtVDtz/cFZa98LMBWvynsNgpHGIIfI5jbl3CrlhKThpOJULGkmy5SNl
+         ZLpERVlmj1f8zvEXEOabLoJdP8h8hlgyd2SJK0qI1QuqVcoaqkdAZ4K6aSRBAHxSgvmf
+         uiXHIAhLjTtbqoXnmFEA1xaixAqmGyHBDutV+Z3ls/ABhAfVDPEqkeuxKJCGTI2W6aPf
+         55/Q==
+X-Gm-Message-State: AOAM532PO4KS5UCNiviqe53HFUbSeTLs73/h9RhWhxKiBU3fOcDdOb/p
+        iDx4wWos7KdJKqFA6R9UHNXLcQ==
+X-Google-Smtp-Source: ABdhPJwBIGZHoRknu7XKYBKDZJFavSBHX1JbW99jXbsjdCSN8eEhyiUwRrZ9tgEjVnaIgmQI9H+4+g==
+X-Received: by 2002:a63:204d:0:b0:378:c9e5:bea6 with SMTP id r13-20020a63204d000000b00378c9e5bea6mr17841111pgm.573.1646824493366;
+        Wed, 09 Mar 2022 03:14:53 -0800 (PST)
+Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.250])
+        by smtp.gmail.com with ESMTPSA id v66-20020a622f45000000b004f129e7767fsm2459618pfv.130.2022.03.09.03.14.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 02:53:48 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 55BD5192AA9; Wed,  9 Mar 2022 11:53:48 +0100 (CET)
-From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>
-Cc:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH bpf-next v11 2/5] Documentation/bpf: Add documentation for BPF_PROG_RUN
-Date:   Wed,  9 Mar 2022 11:53:43 +0100
-Message-Id: <20220309105346.100053-3-toke@redhat.com>
+        Wed, 09 Mar 2022 03:14:52 -0800 (PST)
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     corbet@lwn.net, hannes@cmpxchg.org, mingo@redhat.com,
+        peterz@infradead.org, surenb@google.com, ebiggers@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com,
+        Chengming Zhou <zhouchengming@bytedance.com>,
+        Martin Steigerwald <Martin.Steigerwald@proact.de>
+Subject: [PATCH v2] psi: report zeroes for CPU full at the system level
+Date:   Wed,  9 Mar 2022 19:14:45 +0800
+Message-Id: <20220309111445.86484-1-zhouchengming@bytedance.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220309105346.100053-1-toke@redhat.com>
-References: <20220309105346.100053-1-toke@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds documentation for the BPF_PROG_RUN command; a short overview of
-the command itself, and a more verbose description of the "live packet"
-mode for XDP introduced in the previous commit.
+Martin find it confusing when look at the /proc/pressure/cpu output,
+and found no hint about that CPU "full" line in psi Documentation.
 
-Acked-by: Martin KaFai Lau <kafai@fb.com>
-Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
+% cat /proc/pressure/cpu
+some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
+full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
+
+The PSI_CPU_FULL state is introduced by commit e7fcd7622823
+("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
+but also counted at the system level as a side effect.
+
+Naturally, the FULL state doesn't exist for the CPU resource at
+the system level. These "full" numbers can come from CPU idle
+schedule latency. For example, t1 is the time when task wakeup
+on an idle CPU, t2 is the time when CPU pick and switch to it.
+The delta of (t2 - t1) will be in CPU_FULL state.
+
+Another case all processes can be stalled is when all cgroups
+have been throttled at the same time, which unlikely to happen.
+
+Anyway, CPU_FULL metric is meaningless and confusing at the
+system level. So this patch will report zeroes for CPU full
+at the system level, and update psi Documentation accordingly.
+
+Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
+Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
 ---
- Documentation/bpf/bpf_prog_run.rst | 117 +++++++++++++++++++++++++++++
- Documentation/bpf/index.rst        |   1 +
- 2 files changed, 118 insertions(+)
- create mode 100644 Documentation/bpf/bpf_prog_run.rst
+Changes in v2:
+- update doc about the zeroes in CPU full at the system level.
+---
+ Documentation/accounting/psi.rst |  9 ++++-----
+ kernel/sched/psi.c               | 15 +++++++++------
+ 2 files changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/bpf/bpf_prog_run.rst b/Documentation/bpf/bpf_prog_run.rst
-new file mode 100644
-index 000000000000..4868c909df5c
---- /dev/null
-+++ b/Documentation/bpf/bpf_prog_run.rst
-@@ -0,0 +1,117 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
+index 860fe651d645..5e40b3f437f9 100644
+--- a/Documentation/accounting/psi.rst
++++ b/Documentation/accounting/psi.rst
+@@ -37,11 +37,7 @@ Pressure interface
+ Pressure information for each resource is exported through the
+ respective file in /proc/pressure/ -- cpu, memory, and io.
+ 
+-The format for CPU is as such::
+-
+-	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+-
+-and for memory and IO::
++The format is as such::
+ 
+ 	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
+ 	full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+@@ -58,6 +54,9 @@ situation from a state where some tasks are stalled but the CPU is
+ still doing productive work. As such, time spent in this subset of the
+ stall state is tracked separately and exported in the "full" averages.
+ 
++CPU full is undefined at the system level, but has been reported
++since 5.13, so it is set to zero for backward compatibility.
 +
-+===================================
-+Running BPF programs from userspace
-+===================================
-+
-+This document describes the ``BPF_PROG_RUN`` facility for running BPF programs
-+from userspace.
-+
-+.. contents::
-+    :local:
-+    :depth: 2
-+
-+
-+Overview
-+--------
-+
-+The ``BPF_PROG_RUN`` command can be used through the ``bpf()`` syscall to
-+execute a BPF program in the kernel and return the results to userspace. This
-+can be used to unit test BPF programs against user-supplied context objects, and
-+as way to explicitly execute programs in the kernel for their side effects. The
-+command was previously named ``BPF_PROG_TEST_RUN``, and both constants continue
-+to be defined in the UAPI header, aliased to the same value.
-+
-+The ``BPF_PROG_RUN`` command can be used to execute BPF programs of the
-+following types:
-+
-+- ``BPF_PROG_TYPE_SOCKET_FILTER``
-+- ``BPF_PROG_TYPE_SCHED_CLS``
-+- ``BPF_PROG_TYPE_SCHED_ACT``
-+- ``BPF_PROG_TYPE_XDP``
-+- ``BPF_PROG_TYPE_SK_LOOKUP``
-+- ``BPF_PROG_TYPE_CGROUP_SKB``
-+- ``BPF_PROG_TYPE_LWT_IN``
-+- ``BPF_PROG_TYPE_LWT_OUT``
-+- ``BPF_PROG_TYPE_LWT_XMIT``
-+- ``BPF_PROG_TYPE_LWT_SEG6LOCAL``
-+- ``BPF_PROG_TYPE_FLOW_DISSECTOR``
-+- ``BPF_PROG_TYPE_STRUCT_OPS``
-+- ``BPF_PROG_TYPE_RAW_TRACEPOINT``
-+- ``BPF_PROG_TYPE_SYSCALL``
-+
-+When using the ``BPF_PROG_RUN`` command, userspace supplies an input context
-+object and (for program types operating on network packets) a buffer containing
-+the packet data that the BPF program will operate on. The kernel will then
-+execute the program and return the results to userspace. Note that programs will
-+not have any side effects while being run in this mode; in particular, packets
-+will not actually be redirected or dropped, the program return code will just be
-+returned to userspace. A separate mode for live execution of XDP programs is
-+provided, documented separately below.
-+
-+Running XDP programs in "live frame mode"
-+-----------------------------------------
-+
-+The ``BPF_PROG_RUN`` command has a separate mode for running live XDP programs,
-+which can be used to execute XDP programs in a way where packets will actually
-+be processed by the kernel after the execution of the XDP program as if they
-+arrived on a physical interface. This mode is activated by setting the
-+``BPF_F_TEST_XDP_LIVE_FRAMES`` flag when supplying an XDP program to
-+``BPF_PROG_RUN``.
-+
-+The live packet mode is optimised for high performance execution of the supplied
-+XDP program many times (suitable for, e.g., running as a traffic generator),
-+which means the semantics are not quite as straight-forward as the regular test
-+run mode. Specifically:
-+
-+- When executing an XDP program in live frame mode, the result of the execution
-+  will not be returned to userspace; instead, the kernel will perform the
-+  operation indicated by the program's return code (drop the packet, redirect
-+  it, etc). For this reason, setting the ``data_out`` or ``ctx_out`` attributes
-+  in the syscall parameters when running in this mode will be rejected. In
-+  addition, not all failures will be reported back to userspace directly;
-+  specifically, only fatal errors in setup or during execution (like memory
-+  allocation errors) will halt execution and return an error. If an error occurs
-+  in packet processing, like a failure to redirect to a given interface,
-+  execution will continue with the next repetition; these errors can be detected
-+  via the same trace points as for regular XDP programs.
-+
-+- Userspace can supply an ifindex as part of the context object, just like in
-+  the regular (non-live) mode. The XDP program will be executed as though the
-+  packet arrived on this interface; i.e., the ``ingress_ifindex`` of the context
-+  object will point to that interface. Furthermore, if the XDP program returns
-+  ``XDP_PASS``, the packet will be injected into the kernel networking stack as
-+  though it arrived on that ifindex, and if it returns ``XDP_TX``, the packet
-+  will be transmitted *out* of that same interface. Do note, though, that
-+  because the program execution is not happening in driver context, an
-+  ``XDP_TX`` is actually turned into the same action as an ``XDP_REDIRECT`` to
-+  that same interface (i.e., it will only work if the driver has support for the
-+  ``ndo_xdp_xmit`` driver op).
-+
-+- When running the program with multiple repetitions, the execution will happen
-+  in batches. The batch size defaults to 64 packets (which is same as the
-+  maximum NAPI receive batch size), but can be specified by userspace through
-+  the ``batch_size`` parameter, up to a maximum of 256 packets. For each batch,
-+  the kernel executes the XDP program repeatedly, each invocation getting a
-+  separate copy of the packet data. For each repetition, if the program drops
-+  the packet, the data page is immediately recycled (see below). Otherwise, the
-+  packet is buffered until the end of the batch, at which point all packets
-+  buffered this way during the batch are transmitted at once.
-+
-+- When setting up the test run, the kernel will initialise a pool of memory
-+  pages of the same size as the batch size. Each memory page will be initialised
-+  with the initial packet data supplied by userspace at ``BPF_PROG_RUN``
-+  invocation. When possible, the pages will be recycled on future program
-+  invocations, to improve performance. Pages will generally be recycled a full
-+  batch at a time, except when a packet is dropped (by return code or because
-+  of, say, a redirection error), in which case that page will be recycled
-+  immediately. If a packet ends up being passed to the regular networking stack
-+  (because the XDP program returns ``XDP_PASS``, or because it ends up being
-+  redirected to an interface that injects it into the stack), the page will be
-+  released and a new one will be allocated when the pool is empty.
-+
-+  When recycling, the page content is not rewritten; only the packet boundary
-+  pointers (``data``, ``data_end`` and ``data_meta``) in the context object will
-+  be reset to the original values. This means that if a program rewrites the
-+  packet contents, it has to be prepared to see either the original content or
-+  the modified version on subsequent invocations.
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index ef5c996547ec..96056a7447c7 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -21,6 +21,7 @@ that goes into great technical depth about the BPF Architecture.
-    helpers
-    programs
-    maps
-+   bpf_prog_run
-    classic_vs_extended.rst
-    bpf_licensing
-    test_debug
+ The ratios (in %) are tracked as recent trends over ten, sixty, and
+ three hundred second windows, which gives insight into short term events
+ as well as medium and long term trends. The total absolute stall time
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index e14358178849..97fd85c5143c 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -1062,14 +1062,17 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
+ 	mutex_unlock(&group->avgs_lock);
+ 
+ 	for (full = 0; full < 2; full++) {
+-		unsigned long avg[3];
+-		u64 total;
++		unsigned long avg[3] = { 0, };
++		u64 total = 0;
+ 		int w;
+ 
+-		for (w = 0; w < 3; w++)
+-			avg[w] = group->avg[res * 2 + full][w];
+-		total = div_u64(group->total[PSI_AVGS][res * 2 + full],
+-				NSEC_PER_USEC);
++		/* CPU FULL is undefined at the system level */
++		if (!(group == &psi_system && res == PSI_CPU && full)) {
++			for (w = 0; w < 3; w++)
++				avg[w] = group->avg[res * 2 + full][w];
++			total = div_u64(group->total[PSI_AVGS][res * 2 + full],
++					NSEC_PER_USEC);
++		}
+ 
+ 		seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu avg300=%lu.%02lu total=%llu\n",
+ 			   full ? "full" : "some",
 -- 
-2.35.1
+2.20.1
 
