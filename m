@@ -2,84 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FC1C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 23:26:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A5AC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 23:29:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235871AbiCIX1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 18:27:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41866 "EHLO
+        id S235113AbiCIXaa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 18:30:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233798AbiCIX1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 18:27:16 -0500
+        with ESMTP id S230296AbiCIXaa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 18:30:30 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C730122F77;
-        Wed,  9 Mar 2022 15:26:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B794117C98;
+        Wed,  9 Mar 2022 15:29:29 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E745C2CD;
-        Wed,  9 Mar 2022 23:26:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E745C2CD
+        by ms.lwn.net (Postfix) with ESMTPSA id 5350E2C3;
+        Wed,  9 Mar 2022 23:29:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5350E2C3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1646868377; bh=Wrwgt7HXDmvhrJfZQQLH8FOF8me4AXFD7djPQdhzA+Q=;
+        t=1646868569; bh=k7gfBbkZAxC7X7iQ0/bDTYZDI/K/n7o0f6AKCNs7sdY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XS1pBDUp6cGTSINeE/bJ63FCmGnbpEsE8qTlo3N/SNF5OQSQqTXyC2HCHTG34UWdX
-         JkIscYV6hN/F3emDII1XHgmGMnayvf7XhcQLRFx4dCEVNfEqPgCwYwiejmUMWc6t7F
-         PPcdk4WIB9WLSR7S02WU/62v3YhxBanVT3sxyuguULa0T9zXRwd/C6allnDuul/Tke
-         Tcc2V31aNqdgJ2Nsv3GRCSOUetmAUHVJYf5vqNuwop0POOFiP17G5Uyv6DQO0TwZQK
-         MNll/Z8anQvuxexOHmhqzstk8gvmAeV4uWPH1wgyMlD+9GwpVWqAEMJxZGTULNyBBv
-         TnfJ8cacrDZcQ==
+        b=Amq62uC381WEh8sxLagJfXh0nhfY2eleAMfm4m76jdCQWJyJg8OmkX8f4LKR5gDSn
+         aCN58cCvzJBIP41i61IfEyCMRn82USr9xzvOAk0qaBsdlq9VHyJsdvZYRyZ8HhhmPv
+         +tTDwSBeKB+l7YfgfoidWtXOONZW+yQ4Leya3us3SeZ/t+j8FxlZmJYy80b/MP+oqn
+         uudmtuIHek5947KTmPUX5zIbMpBHVG17tgVSUFTyf+LGnDwcLCrok0GpBMrZrKMYiB
+         blnBlU+EeKBhUOdad2s++pLs2pyjWENXsaevwBQPIpZM7Q14z1G9KTLpPrpwDdy4Ho
+         pniYzcwRiIgSg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     YI <afctgo@gmail.com>, trivial@kernel.org
-Cc:     YI <afctgo@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: proc.rst: fix wrong time unit
-In-Reply-To: <20220302161122.3984304-1-uuuuuu@protonmail.com>
-References: <20220302161122.3984304-1-uuuuuu@protonmail.com>
-Date:   Wed, 09 Mar 2022 16:26:16 -0700
-Message-ID: <87r17a7lnr.fsf@meer.lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: describe how to apply incremental stable
+ patches
+In-Reply-To: <20220307063340.256671-1-bagasdotme@gmail.com>
+References: <20220307063340.256671-1-bagasdotme@gmail.com>
+Date:   Wed, 09 Mar 2022 16:29:28 -0700
+Message-ID: <87mthy7lif.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-YI <afctgo@gmail.com> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> From: YI <afctgo@gmail.com>
+> The applying patches document
+> (Documentation/process/applying-patches.rst) mentions incremental stable
+> patches, but there is no example of how to apply them. Describe the
+> process.
 >
-> Dear Trivial Patch Monkey, 
-
-The trivial patch monkey has gone into retirement, I'm as close as
-you're going to get.
-
-> This commit fixes a small documentaion problem reported in
-> https://bugzilla.kernel.org/show_bug.cgi?id=194593.
+> While at it, remove note about incremental patches and move the external
+> link of 5.x.y incremental patches to "Where can I download patches?"
+> section.
 >
-> Some fields in the file /proc/$pid/stat represent time.
-> Their units are clock_t, not jiffies as stated in the documentation.
-> This commit fixes https://bugzilla.kernel.org/show_bug.cgi?id=194593.
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: SeongJae Park <sjpark@amazon.de>
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/process/applying-patches.rst | 28 ++++++++++++++++++----
+>  1 file changed, 23 insertions(+), 5 deletions(-)
 
-We certainly don't need to give the bugzilla URL twice; I'm not
-convinced it's needed even once.  The changelog should just say what the
-patch does, please.
-
-Also, "clock_t" isn't really a unit type; what are the actual units of
-the field?
-
-> Reported-by: hujunjie
-
-This isn't a valid reported-by line
-
-> Signed-off-by: YI <afctgo@gmail.com>
-
-...and the signoff need to have your full name, please.
+I've applied this, thanks.  I do have to wonder, though, how useful this
+information is anymore.  Does anybody actually apply kernel-patch files
+this far into the Git era?
 
 Thanks,
 
