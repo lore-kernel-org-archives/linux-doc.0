@@ -2,145 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE1AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 17:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A578C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 18:02:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiCIR74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 12:59:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38850 "EHLO
+        id S236299AbiCISDL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 13:03:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbiCIR74 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 12:59:56 -0500
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam08on2043.outbound.protection.outlook.com [40.107.101.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AA7E12E9DE;
-        Wed,  9 Mar 2022 09:58:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TptIv0yUKmOVsYvJIhQv//l7C12fN8wePJYPzkhGbLWkmgbAweNx0Oko08ydF5FRpZizeP8p6FUJ+xZHYfVPnRswFc7kBSiMEJQwNtlC2uUz/ZJZ8YPhzZA59rLJ0r3NGj3r4D1802T9pEi908SrSZq3bot34adzZKiVqmtusC18EYRXfTJP64dCYcD9QnRbbXetA3dozlsmZOIB/u/+kLHC/64BYZJlhWV7Pr7TFDn2z7YGo1eKt1BboGWsxu0D9V7S/iU0n9QLnoA/an3oiyPglCOrTrmaRqPbq2GIq/P1cIqp3wuwQquGY0TaJMUA+i436RTfv+l0JXM//vEOmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sjRPfGccae/SCO21pZD78EY6CcSgw8S9OV3B853pBm0=;
- b=mOzOpKQZIwj6QPxgbAJfUGGgiZ6UIuACQtEeavNCUc+zNEOgFNMPDB8NujpRA0oSO6QtX9NhTn+LNf2F6EAJEqsslYS1jnYQM7avXjcQ9aDxrZkTq6MW+NHsBye7AE7PF6R0JS7BsmHQGES4jfJqQ+N7TsAShfCnVwNDwdX6H7yoH9n5ONujVHE5g0R4c/KbWnJ2GT0Uy36RiPc94nGvyv1ywmjrPw8R+Ho+oWJTsWma7fTyeIpmgrG728D1AEfLhrJ0oH27WNCokQuNQuQytKXFPPnX7cJhIJmROUEzP/fFHX2A8uj0JQ+mt7rixQXCy71P+e8qvTtNBLFDUDo+bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sjRPfGccae/SCO21pZD78EY6CcSgw8S9OV3B853pBm0=;
- b=LoJ9yhT+590bgBJU9RnbLoQOFuQRwzEBXPypjCkKbwwe5W6FHHpbheO/w3BMYeS+JhmjYpe5MoMt32Tj6G+St9UMpG56ihC33cNAWV4YPWdT/hk3zB1MK14OKjYlwmWF9MClD97cqCZv8221/HRJeXd/QueiHPzcgGjTA62cWbE=
-Received: from DM5PR20CA0020.namprd20.prod.outlook.com (2603:10b6:3:93::30) by
- MWHPR12MB1694.namprd12.prod.outlook.com (2603:10b6:301:11::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5038.14; Wed, 9 Mar 2022 17:58:24 +0000
-Received: from DM6NAM11FT063.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:93:cafe::b3) by DM5PR20CA0020.outlook.office365.com
- (2603:10b6:3:93::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
- Transport; Wed, 9 Mar 2022 17:58:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT063.mail.protection.outlook.com (10.13.172.219) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5038.14 via Frontend Transport; Wed, 9 Mar 2022 17:58:23 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 9 Mar
- 2022 11:58:20 -0600
-From:   Alex Deucher <alexander.deucher@amd.com>
-To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <corbet@lwn.net>, <hpa@zytor.com>, <x86@kernel.org>,
-        <dave.hansen@linux.intel.com>, <bp@alien8.de>, <mingo@redhat.com>,
-        <tglx@linutronix.de>, <joro@8bytes.org>,
-        <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
-        <iommu@lists.linux-foundation.org>, <robin.murphy@arm.com>
-CC:     Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH 2/2] Documentation: x86: Clarify Intel IOMMU documenation
-Date:   Wed, 9 Mar 2022 12:58:05 -0500
-Message-ID: <20220309175805.1298503-2-alexander.deucher@amd.com>
+        with ESMTP id S237312AbiCISDK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 13:03:10 -0500
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584C4F8B86;
+        Wed,  9 Mar 2022 10:02:10 -0800 (PST)
+Received: by mail-oo1-xc35.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so3854711ooj.2;
+        Wed, 09 Mar 2022 10:02:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mBlOVX0NXRJuM7V7BhS1Yc8WsbiXTu+ggP9Dq+jvbng=;
+        b=LHd0NfLaHbvBKe3Uq0ZOKggf6d+HcX9lA2Wy6AVpNPCL5XGB61yJT52s+4Wf4h0T6v
+         gxaUjPJq6C1VnwJyadIaRDrymwSgxkIOpigmpwP3XmWGZfLRocA982sRUFrRURigBnfj
+         Oz50CSmooN0YmGffy99Lpuxbw3AbqK20TMnaDOAWtT0zDGuQ4wFAD8ncQPvvO+xhJeeW
+         rgUHaFqMV6O6vYOVcZn5uBLkrLU0fgTeHZQlrm9+H/rSbMki3sY2mrSfqIenUlUnt6d6
+         hKCQMmi7sIvurQIbPKPUfu2aKmc1IxMFWMXkXS6zAfc3/5UfMkMO667gauxp04c1PLtB
+         +45w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mBlOVX0NXRJuM7V7BhS1Yc8WsbiXTu+ggP9Dq+jvbng=;
+        b=f3YrpuReI9S+OSrzPpwpYOGGkm2dYvq/8A1mbFRU8IAdQlBNyHrdWBRfSksyOgMWdD
+         kN880PTYtuyEKbMk3jeI5+h+0664224dUqvFZ7vhA566N8RtMw8qGs2QWkL3RjrLQMiN
+         3Z+BV4K5+1B8xL5rYIMNcRzu2ZRZCOxnBu9koCwqQbEnKdoeHnhHx9dpv5I4c2jNxHN5
+         8/tmJmOuWibaPkYuBqQwwBl5y0ssCKj5IJx2ijYKOcZv3qJGvGKLw7aFro040PwXvtlb
+         C+yVelvwODHujSHjn+G+nIS4ukcxFy5Lm7dOFgGH9LACMkuzKw1KDrHWIAdIdedt7F/9
+         nDlw==
+X-Gm-Message-State: AOAM532L2R2cxZC4XFy30/6pHcAYIXUezceIoZyRqex9VqP59FWXZp36
+        C4GV9JHj/L43ghN2zDMsRw4hH0ED9iHyUg==
+X-Google-Smtp-Source: ABdhPJziZIS+5ZU35znffxrn4eSvbE5Mvef0c5Y3OY+DRRFLLhiLIbVFN8f034gZmy/HqhBNTxwaHA==
+X-Received: by 2002:a05:6870:2389:b0:d6:caf1:9c72 with SMTP id e9-20020a056870238900b000d6caf19c72mr5889029oap.16.1646848929425;
+        Wed, 09 Mar 2022 10:02:09 -0800 (PST)
+Received: from tresc043793.tre-sc.gov.br (187-049-235-234.floripa.net.br. [187.49.235.234])
+        by smtp.gmail.com with ESMTPSA id c8-20020a4ad788000000b0031ce69b1640sm1255287oou.10.2022.03.09.10.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 10:02:08 -0800 (PST)
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, tobias@waldekranz.com, andrew@lunn.ch,
+        f.fainelli@gmail.com, vladimir.oltean@nxp.com, corbet@lwn.net,
+        kuba@kernel.org, davem@davemloft.net,
+        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+        =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+Subject: [PATCH net-next] docs: net: dsa: describe issues with checksum offload
+Date:   Wed,  9 Mar 2022 15:01:49 -0300
+Message-Id: <20220309180148.13286-1-luizluca@gmail.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220309175805.1298503-1-alexander.deucher@amd.com>
-References: <20220309175805.1298503-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac905de1-f8e1-47b0-07fa-08da01f6679a
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1694:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB16944A6E46288A0F3B1AB921F70A9@MWHPR12MB1694.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4fvUd24HY5pwqhPuIOWl1OVtU5oX7VkLCAHGOzvT244HZWW2RkZAre0Kp2BQvcLjbxSYNzsDz1784GVHHT7+8sKJKJ7L2FZoiAv6AaTKna1GiUrhePRF3A87jqeIIRhrjJkcMcHAint9IYHDPThUoAYAkhBHzdWK2XmJYXGcZyk5Jwl56Y1ZWo+nM7H/83WtcdmwALT/ooL9fbkNU8Q7YBXO4PT2AZXoI8iJH9JRRg7MDdmYh3np4gU8N6va3dZdVj9QvSvBvSn970r4xTZNAWBFdl8K82Lcsh8ALcDBA+oAITwGtDMFvYmilTLxhvqzzH5JhUW0JuvB5jKWoe0g/DhaUmhuIkIi9MkhnmkYRZm/XHss0u32WIIRGemSwINzWae42dPuvzs4tTHOOYddnaYWOWGAdbL82yr5Z0ZyF7DF/dDfEV67IP/e6GVAtLixt113MWR4vFkhUi9tGPXSSFhfVYlSiXuEMxCvRjdYnHiWYVcrRkwXVI8ouYn/dusuoSVHltHbFRFKLAjRZ3bcQwkN3jEsL8DaafWwhDAC9NDBp48+4KYLu7XPQEZww9i2MbR0G7qoWupjZb04Ysg4oVL/V7hAO4x6Ez+wJy20qyIkQNBjFlxwb5F5BS9qxHZSqAjkTf7hnaaGoq1rGn1uMMpYWUa5Dj5e1Qii96uVJzXN2evS0qT2vgskaKc78+rkPVzcjmB5zgivvyjzahqPheQQzdI5F3BF91BlGK/Q8GU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(921005)(8676002)(70586007)(70206006)(86362001)(4326008)(82310400004)(7416002)(83380400001)(40460700003)(2906002)(356005)(16526019)(426003)(81166007)(36860700001)(8936002)(2616005)(1076003)(6666004)(186003)(336012)(36756003)(26005)(7696005)(316002)(110136005)(508600001)(47076005)(5660300002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2022 17:58:23.7139
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac905de1-f8e1-47b0-07fa-08da01f6679a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT063.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1694
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Based on feedback from Robin on the initial AMD IOMMU
-documentation, fix up the Intel documentation to
-clarify IOMMU vs device and modern DMA API.
+DSA tags before IP header (categories 1 and 2) or after the payload (3)
+might introduce offload checksum issues.
 
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Reviewed-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 ---
- Documentation/x86/intel-iommu.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/networking/dsa/dsa.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/x86/intel-iommu.rst b/Documentation/x86/intel-iommu.rst
-index 4d3391c7bd3f..22e1934a1335 100644
---- a/Documentation/x86/intel-iommu.rst
-+++ b/Documentation/x86/intel-iommu.rst
-@@ -19,8 +19,8 @@ Some Keywords
- Basic stuff
- -----------
+diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
+index 89bb4fa4c362..c8885e60eac5 100644
+--- a/Documentation/networking/dsa/dsa.rst
++++ b/Documentation/networking/dsa/dsa.rst
+@@ -193,6 +193,18 @@ protocol. If not all packets are of equal size, the tagger can implement the
+ default behavior by specifying the correct offset incurred by each individual
+ RX packet. Tail taggers do not cause issues to the flow dissector.
  
--ACPI enumerates and lists the different DMA engines in the platform, and
--device scope relationships between PCI devices and which DMA engine  controls
-+ACPI enumerates and lists the different IOMMUs in the platform, and
-+device scope relationships between PCI devices and which IOMMU controls
- them.
- 
- What is RMRR?
-@@ -36,9 +36,9 @@ unity mappings for these regions for these devices to access these regions.
- How is IOVA generated?
- ----------------------
- 
--Well behaved drivers call pci_map_*() calls before sending command to device
-+Well behaved drivers call dma_map_*() calls before sending command to device
- that needs to perform DMA. Once DMA is completed and mapping is no longer
--required, device performs a pci_unmap_*() calls to unmap the region.
-+required, device performs a dma_unmap_*() calls to unmap the region.
- 
- The Intel IOMMU driver allocates a virtual address per domain. Each PCIE
- device has its own domain (hence protection). Devices under p2p bridges
-@@ -68,7 +68,7 @@ address from PCI MMIO ranges so they are not allocated for IOVA addresses.
- 
- Fault reporting
- ---------------
--When errors are reported, the DMA engine signals via an interrupt. The fault
-+When errors are reported, the IOMMU signals via an interrupt. The fault
- reason and device that caused it with fault reason is printed on console.
- 
- See below for sample.
++Tagging protocols might also break checksum offload. The offload hardware must
++either be able to parse the proprietary tag, usually when it matches the switch
++vendor, or, in the case of category 1 and 2, the driver and the hardware must
++be able to use the sum_start/csum_offset adjusted by the DSA framework. Drivers
++that enable the checksum offload based only on the network/transport headers
++might wrongly delegate the checksum to incompatible hardware, sending packets
++with an uncalculated checksum to the network. For category 3, when the offload
++hardware cannot parse the proprietary tag, the checksum must be calculated
++before any tag is inserted because both software and hardware checksums will
++include any trailing tag as part of the payload. When the switch strips the tag,
++the packet sent to the network will not match the checksum.
++
+ Due to various reasons (most common being category 1 taggers being associated
+ with DSA-unaware masters, mangling what the master perceives as MAC DA), the
+ tagging protocol may require the DSA master to operate in promiscuous mode, to
 -- 
 2.35.1
 
