@@ -2,67 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0A7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 21:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1721C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 23:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238505AbiCIV5T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 16:57:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60230 "EHLO
+        id S237861AbiCIXV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 18:21:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232704AbiCIV5T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 16:57:19 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56C011E3DE;
-        Wed,  9 Mar 2022 13:56:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=np/yWaL2SEzbDeedmW1sD91moVYVslUM9GnclnqGYR0=; b=XQZUONtNuJqS6qIBp1kK9rFEP/
-        I7aRgAaFTm79ECSAzXh6ErUdkF/XCrph62NI2+SmVBCZeeCa2/k5wWwaoXetSs8ez77os7vLkLrLS
-        aS5keUyklEULbOOlfYj29SWYR/upE5lYKMsXspqSQLSLw9k2YK75DXw9lnFk4ei6u4eXEdpxfOJC2
-        G4xCxH3IJAh+6GCI9JDluxdErRZzKdBOsuYV0Ws4gZ5Evw+5JMXfUsRWIpooNl3Z++CxExzsWlQaX
-        qSBaYC56Y9fpoI5S0ixuy4B8h61ioFTwqRcz9kzcMbuPeVR/ja76pvVINQJAYZLzNQNguYaGldsRu
-        4zhXabhA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nS4Hw-00HXMq-Nl; Wed, 09 Mar 2022 21:56:09 +0000
-Message-ID: <1e517288-fa06-e02f-ed6d-598a70b349ac@infradead.org>
-Date:   Wed, 9 Mar 2022 13:56:04 -0800
+        with ESMTP id S229618AbiCIXV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 18:21:27 -0500
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C51D56765;
+        Wed,  9 Mar 2022 15:20:27 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D9F432C3;
+        Wed,  9 Mar 2022 23:20:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D9F432C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1646868027; bh=QzLUU5mPra8AFEM4QUhgI2YBj6DwA7TTvMrUWq+e9+M=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=KUppseLPyiLaTsKqtczeB153um/WfRlKBnQgn3tIiBLSkZH6p6hSTAYdrIK7QnVYz
+         EN+iVUco4zxlvvz/uU+kHmKUtaUVMauMwTiuMCF3KoWqaWPSUSzmEcnnbKAYn4BJGn
+         SchGSYIf6sEopdzkwlAKof4BBY+DGsVdkjIW2i9dl8J1MhixYzh7DPUrqYw1iHI2Yv
+         aRjapvQa62IjW6c5r1peQD9xDxxn1sxIjREF/WbcC7tDlZlSk6iAl5giLV3FJKnWvR
+         atHJDfNsvH2FBcwW7xhUZVK9YoI2oa+HoLIFOkE5Y1WF+yPYSuPyORNInoCEm1N8ZB
+         Bd35Y7U7UT0wg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Stefano Zacchiroli <zack@upsilon.cc>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Wenwen Wang <wenwen@cs.uga.edu>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation/process: Add Researcher Guidelines
+In-Reply-To: <20220304181418.1692016-1-keescook@chromium.org>
+References: <20220304181418.1692016-1-keescook@chromium.org>
+Date:   Wed, 09 Mar 2022 16:20:26 -0700
+Message-ID: <87zgly7lxh.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4 6/6] Documentation: fpga: dfl: add description of OFS
-Content-Language: en-US
-To:     matthew.gerlach@linux.intel.com,
-        Tianfei zhang <tianfei.zhang@intel.com>
-Cc:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-References: <20220307133243.1426300-1-tianfei.zhang@intel.com>
- <20220307133243.1426300-7-tianfei.zhang@intel.com>
- <alpine.DEB.2.22.394.2203091331130.3679111@rhweight-WRK1>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <alpine.DEB.2.22.394.2203091331130.3679111@rhweight-WRK1>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Kees Cook <keescook@chromium.org> writes:
 
+> As a follow-up to the UMN incident[1], the TAB took the responsibility
+> to document Researcher Guidelines so there would be a common place to
+> point for describing our expectations as a developer community.
+>
+> Document best practices researchers should follow to participate
+> successfully with the Linux developer community.
+>
+> [1] https://lore.kernel.org/lkml/202105051005.49BFABCE@keescook/
+>
+> Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Co-developed-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Co-developed-by: Stefano Zacchiroli <zack@upsilon.cc>
+> Signed-off-by: Stefano Zacchiroli <zack@upsilon.cc>
+> Co-developed-by: Steven Rostedt <rostedt@goodmis.org>
+> Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Steve Rostedt <rostedt@goodmis.org>
+> Acked-by: Laura Abbott <labbott@kernel.org>
+> Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+> Reviewed-by: Wenwen Wang <wenwen@cs.uga.edu>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> v1: https://lore.kernel.org/lkml/20220224001403.1307377-1-keescook@chromium.org
+> v2: https://lore.kernel.org/lkml/20220225201424.3430857-1-keescook@chromium.org
+> v3:
+>  - move to /process
 
-On 3/9/22 13:54, matthew.gerlach@linux.intel.com wrote:
->> +Open FPGA stack
->> +=====================
->> +
-> How about the following minor changes for the first sentence?
-> 
-> Open FPGA Stack (OFS) is a collection of RTL and open source software providing interfaces to access the instantiated RTL easily in a FPGA.
+I've applied this, thanks.
 
-
-s/a FPGA/an FPGA/
-please.
-
--- 
-~Randy
+jon
