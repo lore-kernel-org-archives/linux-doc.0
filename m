@@ -2,117 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF29C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 19:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C0F2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 19:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbiCITGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 14:06:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48398 "EHLO
+        id S237333AbiCITPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 14:15:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237222AbiCITGX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 14:06:23 -0500
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AC16F482;
-        Wed,  9 Mar 2022 11:05:23 -0800 (PST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 4A151100BA624;
-        Wed,  9 Mar 2022 20:05:21 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 278F54C5886; Wed,  9 Mar 2022 20:05:21 +0100 (CET)
-Date:   Wed, 9 Mar 2022 20:05:21 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-api@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 6/7] serial: General support for multipoint addresses
-Message-ID: <20220309190521.GA9832@wunner.de>
-References: <20220302095606.14818-1-ilpo.jarvinen@linux.intel.com>
- <20220302095606.14818-7-ilpo.jarvinen@linux.intel.com>
- <20220306194001.GD19394@wunner.de>
- <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
+        with ESMTP id S237329AbiCITPh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 14:15:37 -0500
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA94310DA6B
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 11:14:37 -0800 (PST)
+Received: by mail-qk1-x732.google.com with SMTP id q194so2595882qke.5
+        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 11:14:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=aNqfcNEZGjceg+UV7MiCwR4m/+vO50KsZYIOCuJEo8c=;
+        b=36TrIEKdsMjnR7Chc525qevaBESCl1mKL2De489X86GnsLdsf4+mvQ1ZMcNIROMSYO
+         yCGltj6ZHmV85LAY5X414jSI2M/X7EfReqYx80ZB/lbKZ1isvIgHAPVIFhlizprCE4ie
+         Rv93uyCm/H5c37PhSni5oMcTlfdNeprBpFPl7p/siwSBpl+kCtHyK0kbv3lUG8mnKnom
+         GAvEvDWMFHbGqzSwiuB8gkgYut4pT3apuanO8FxlqpXDlX/5tFjUmE2Tq4oH6Yvim8ce
+         dtQ39d8dHPjJiTABTKoBL0erxyMfA2nDOSqWW6viiYnWIOLaybhG0+AxgBbt8+zKuhK8
+         QhFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=aNqfcNEZGjceg+UV7MiCwR4m/+vO50KsZYIOCuJEo8c=;
+        b=DsWpFwB0842KzyUOmWoLfErXCdGKEPd3wgSFpJMCpCJOn70c+vsuRAqsJXsBLrwXDN
+         +QwulLwns/a2tj86QSllyudUACGI8mmoZj8Fh5hxv/UumiCMzvFVeFC8JXvOm4dCgieK
+         8ytpp4kSI2tpjM2QJxJCyKujZCFtYuEpam50oviyvj4OMkCXbQBGlQHnMAIBZdmO8Vfo
+         BjNFSSojCjeR5QU5OIhxMXtLhUkltsZpk4fJfnWYT9FZ6PtxUmKeAkjYAqk/jf6IScbt
+         I7JaF74YivvptDy85pIQQiDDrKYZXIVI24/us+vVJ0XJtCpSYRfjtC6NwNDOCtBJw/IW
+         StQQ==
+X-Gm-Message-State: AOAM531nsnY7A1Roh7+fDRzcQZZ6fj72gvu2iYzz7dJ7U9zXSTulkafb
+        3p20XhC9GSUoYyxbEZpa6CL06Q==
+X-Google-Smtp-Source: ABdhPJxEad5S6wPK7a2NTjRrfC58JrsVr52wJnsXTsUalVv0RC3OWfazfcQbMinjlmvU76c5q/g2lg==
+X-Received: by 2002:a05:620a:2941:b0:67d:243d:3b7d with SMTP id n1-20020a05620a294100b0067d243d3b7dmr802338qkp.46.1646853276922;
+        Wed, 09 Mar 2022 11:14:36 -0800 (PST)
+Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
+        by smtp.gmail.com with ESMTPSA id n13-20020ac85b4d000000b002de6fe91d2fsm1795510qtw.68.2022.03.09.11.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 11:14:36 -0800 (PST)
+Date:   Wed, 9 Mar 2022 14:14:35 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        surenb@google.com, ebiggers@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
+        Martin Steigerwald <Martin.Steigerwald@proact.de>
+Subject: Re: [PATCH v2] psi: report zeroes for CPU full at the system level
+Message-ID: <Yij8m9qHtvNKyGMK@cmpxchg.org>
+References: <20220309111445.86484-1-zhouchengming@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220309111445.86484-1-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 07, 2022 at 11:48:01AM +0200, Ilpo Järvinen wrote:
-> On Sun, 6 Mar 2022, Lukas Wunner wrote:
-> > On Wed, Mar 02, 2022 at 11:56:05AM +0200, Ilpo Järvinen wrote:
-> > > This change is necessary for supporting devices with RS485
-> > > multipoint addressing [*].
-> > 
-> > If this is only used with RS485, why can't we just store the
-> > addresses in struct serial_rs485 and use the existing TIOCSRS485
-> > and TIOCGRS485 ioctls?  There's 20 bytes of padding left in
-> > struct serial_rs485 which you could use.  No need to add more
-> > user-space ABI.
+On Wed, Mar 09, 2022 at 07:14:45PM +0800, Chengming Zhou wrote:
+> Martin find it confusing when look at the /proc/pressure/cpu output,
+> and found no hint about that CPU "full" line in psi Documentation.
 > 
-> It could if it is agreed that serial multipoint addressing is just
-> a thing in RS-485 and nowhere else? In that case, there is no point
-> in adding more generic support for it.
-
-It's just that the above-quoted sentence in the commit message
-specifically mentions RS485.  If you intend to use it with RS232
-as well, that should be made explicit, otherwise one wonders why
-it wasn't integrated into struct serial_rs485.
-
-I have no idea how common 9th bit addressing mode is with RS232.
-Goggle turns up links saying it's mainly used with RS485, "but also
-RS232".  Since RS232 isn't a bus but a point-to-point link,
-9th bit addressing doesn't seem to make as much sense.
-
-
-> > > [*] Technically, RS485 is just an electronic spec and does not
-> > > itself specify the 9th bit addressing mode but 9th bit seems
-> > > at least "semi-standard" way to do addressing with RS485.
-> > 
-> > Is 9th bit addressing actually used by an Intel customer or was
-> > it implemented just for feature completeness? I think this mode
-> > isn't used often (I've never seen a use case myself), primarily
-> > because it requires disabling parity.
+> % cat /proc/pressure/cpu
+> some avg10=0.92 avg60=0.91 avg300=0.73 total=933490489
+> full avg10=0.22 avg60=0.23 avg300=0.16 total=358783277
 > 
-> On what basis? ...The datasheet I'm looking at has a timing diagram 
-> with both D8 (9th bit) and parity so I think your information must be
-> incorrect.
+> The PSI_CPU_FULL state is introduced by commit e7fcd7622823
+> ("psi: Add PSI_CPU_FULL state"), which mainly for cgroup level,
+> but also counted at the system level as a side effect.
+> 
+> Naturally, the FULL state doesn't exist for the CPU resource at
+> the system level. These "full" numbers can come from CPU idle
+> schedule latency. For example, t1 is the time when task wakeup
+> on an idle CPU, t2 is the time when CPU pick and switch to it.
+> The delta of (t2 - t1) will be in CPU_FULL state.
+> 
+> Another case all processes can be stalled is when all cgroups
+> have been throttled at the same time, which unlikely to happen.
+> 
+> Anyway, CPU_FULL metric is meaningless and confusing at the
+> system level. So this patch will report zeroes for CPU full
+> at the system level, and update psi Documentation accordingly.
+> 
+> Fixes: e7fcd7622823 ("psi: Add PSI_CPU_FULL state")
+> Reported-by: Martin Steigerwald <Martin.Steigerwald@proact.de>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
 
-E.g. the discussion here says that 9th bit addressing requires that
-parity is disabled or the character size is reduced to 7-bit:
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-https://www.microchip.com/forums/m299904.aspx
+Peter, would you mind picking this up for 5.18?
 
-I guess that applies only to some UARTs, the Synopsys databook doesn't
-mention any such constraints.
-
-Thanks,
-
-Lukas
+Thanks!
