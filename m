@@ -2,100 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFF0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 15:41:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC2C6C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 16:09:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233959AbiCIPl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 10:41:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
+        id S234516AbiCIQKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 11:10:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233953AbiCIPl5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 10:41:57 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F83315DDE3
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 07:40:58 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id z4so2243959pgh.12
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 07:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=awNm7ncYJS5runeS2crmI62S72vDnlHWFXIoD08zsCQ=;
-        b=L95s3l8KwvKSoVBp7CenGSpuMYCVVN7GYKixyJEeDlmj6to8MhL0pIcnvDahgNOvxi
-         JfjZ0TGsVg8yLTggwW59sBAVvTyJ2+ahvDMzZ1X/cpIaGcZw/Yfu+FTW13ogQdC5gcUx
-         WduOO+A0oDbV8KctSwlgphgr4QbcVJIbd4eTAk9QTeMSmzdnIvnMpo4DZt6s3GqCCXWQ
-         I9FjVUcItyTicv7V147R87ZLFIeV9kXVghbdYNWZYNmZvi5YRVLgDg/4HmWm3BJp0jeP
-         tBfOIvJm8gJ5J9VEv9NMcb8m5DNZx/lSzmLslFTLe9wlqmNqqJUqnt1TS7+FBUg/Et+J
-         4D3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=awNm7ncYJS5runeS2crmI62S72vDnlHWFXIoD08zsCQ=;
-        b=we/9WCadzzEd19FSFfYFia1aAbc1nZd3fX79a+q+Qxd3AYWJcqTsJRv+BD9+v5Msez
-         e7i9bFtRgOYfxO0OJVp+TUvH0sizr0Tg2PYzEQRohCQAEZRTpqDfRi8/lYmP9SAHmNrH
-         xXDxCFgl85vSTXd3V2XLomf107YNVN0vHUJX6CyjGTD6tN1Lib5nBSS+CoGGcn+lrXfm
-         nzq5zQzI/y9sPSYrIaH5MM39Zl/SCWOX7pbIrUQXnhhaP9i6/pQg1BI721nJxclF5jZp
-         sML8JL4jzC9dluFpPJsxxb1PqoT9rU6ysOhlzh04ELPvMLMVKoXlXKpISxXPuvv1Lg1p
-         5spg==
-X-Gm-Message-State: AOAM532sTsTZWbxXZuSu+iLowXX3+xSL68677xV4koL0NELAyyVWMZWf
-        RFmzCpEJtknrOhSIRz3o9aHlYw==
-X-Google-Smtp-Source: ABdhPJy0fy+gKxWpiweokALKmNhNvXvpZLPvXf3Aa/Du9Pmy7tGAgvR6HKEPghwWq0MWpSuGrYsfnQ==
-X-Received: by 2002:a05:6a00:ac1:b0:4f1:29e4:b3a1 with SMTP id c1-20020a056a000ac100b004f129e4b3a1mr295081pfl.63.1646840457963;
-        Wed, 09 Mar 2022 07:40:57 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id o1-20020a637e41000000b003804d0e2c9esm2819543pgn.35.2022.03.09.07.40.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 07:40:57 -0800 (PST)
-Date:   Wed, 9 Mar 2022 15:40:53 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        Kieran Bingham <kbingham@kernel.org>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Andrew Jones <drjones@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Yang Weijiang <weijiang.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>
-Subject: Re: [PATCH v3 2/6] KVM: x86: add force_intercept_exceptions_mask
-Message-ID: <YijKhYNjZpG7EX9y@google.com>
-References: <20210811122927.900604-1-mlevitsk@redhat.com>
- <20210811122927.900604-3-mlevitsk@redhat.com>
- <YTECUaPa9kySQxRX@google.com>
- <0cdac80177eea408b7e316bd1fc4c0c5839ba1d4.camel@redhat.com>
- <YifoysEvfnQgq59A@google.com>
- <3221c2385e1148fe0ee77d4717b52726e1db9d8d.camel@redhat.com>
- <a7b27887-ce00-c173-a7e7-8ad3470154f5@redhat.com>
+        with ESMTP id S235260AbiCIQIf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 11:08:35 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75AB18CC77;
+        Wed,  9 Mar 2022 08:05:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=qzB5SkChcUpXXTILPYEoiZsWblCS3kRjEhEA4tvWFBA=; b=JjBfU4RcbAJyJTf1dScNeR/9Ho
+        AlZkTmpj9SsK1oDq6UTB/AcWUopsbiSLBGR6rZ2kBCw7j4vNo2VJRBUq8/KFhsm1GawDk4dDcSTB0
+        CAcF6dfoPaEs0Gfz8X8csw4+TvxgiPIlR30lPYJvaOwQCM8VvYdi8Wsr4XICpNu/Qaygh0PysniQO
+        SyyGMm6lUhw5iTcltD/IOCdeqX++6/j+K96Pdx2bmwdewbe3c6YDhA7DoYvB3PWynCjiFTZ95BR6a
+        cfwFLvgkagvPcfT8tRBkxAXjKWBSrNNRFeT2Lc3lff5pJIccLtnRTXiKaaapODICmEkZ+Gvc9/379
+        brxt0HAQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nRyoJ-00HGIW-9U; Wed, 09 Mar 2022 16:05:11 +0000
+Message-ID: <faadb494-2ed9-f894-257d-9a70398a02b6@infradead.org>
+Date:   Wed, 9 Mar 2022 08:05:05 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7b27887-ce00-c173-a7e7-8ad3470154f5@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] docs/kernel-parameters: update description of mem=
+Content-Language: en-US
+To:     Mike Rapoport <rppt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <20220309122446.1118738-1-rppt@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220309122446.1118738-1-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 09, 2022, Paolo Bonzini wrote:
-> On 3/9/22 13:31, Maxim Levitsky wrote:
-> > Question: is it worth it? Since I am very busy with various things, this
-> > feature, beeing just small debug help which I used once in a while doesn't
-> > get much time from me.
-> 
-> I agree it's not very much worth.
+Hi Mike,
 
-I don't have a use case, was just trying to find the bottom of my inbox and came
-across this thread.
+On 3/9/22 04:24, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> The existing description of mem= does not cover all the cases and
+> differences between how architectures treat it.
+> 
+> Extend the description to match the code.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+> 
+> This is in a way a followup for the discussion of mem= usage on MIPS:
+> 
+> https://lore.kernel.org/all/1646461289-31992-1-git-send-email-yangtiezhu@loongson.cn
+> 
+>  .../admin-guide/kernel-parameters.txt         | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f5a27f067db9..f3597841a031 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2834,6 +2834,15 @@
+>  			2 when the kernel is not able to see the whole system memory;
+>  			3 memory that lies after 'mem=' boundary is excluded from
+>  			 the hypervisor, then assigned to KVM guests.
+> +			4 to limit the memory available for kdump kernel.
+> +
+> +			[ARC,MICROBLAZE] - the limit applies only to low memory,
+> +			high memory is not affected.
+> +
+> +			[ARM64] - only limits memory covered by the linear
+> +			mapping. The NOMAP regions are not affected.
+> +
+> +			[HEXAGON] - must be use to set the memory size, there is
+
+Above line seems to be missing something?
+
+Otherwise looks good AFAIK.
+
+>  
+>  			[X86] Work as limiting max address. Use together
+>  			with memmap= to avoid physical address space collisions.
+> @@ -2844,6 +2853,17 @@
+>  			in above case 3, memory may need be hot added after boot
+>  			if system memory of hypervisor is not sufficient.
+>  
+> +	mem=nn[KMG]@ss[KMG]
+> +			[ARM,MIPS] - override the memory layout reported by
+> +			firmware.
+> +			Define a memory region of size nn[KMG] starting at
+> +			ss[KMG].
+> +			Multiple different regions can be specified with
+> +			multiple mem= parameters on the command line.
+> +
+> +	mem=nn[KMG]	[HEXAGON] Set the memory size.
+> +			Must be specified, otherwise memory size will be 0.
+> +
+>  	mem=nopentium	[BUGS=X86-32] Disable usage of 4MB pages for kernel
+>  			memory.
+>  
+
+-- 
+~Randy
