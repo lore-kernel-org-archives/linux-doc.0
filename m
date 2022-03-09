@@ -2,76 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6BBC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 15:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFF0C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 15:41:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233925AbiCIPjz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 10:39:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
+        id S233959AbiCIPl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 10:41:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233773AbiCIPjz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 10:39:55 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59568117C89;
-        Wed,  9 Mar 2022 07:38:56 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B70EE2CD;
-        Wed,  9 Mar 2022 15:38:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B70EE2CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1646840335; bh=IRq50+la5AYtWifQd3OVie2+CJwU5PKGsaB20TQ7P/c=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qddCE+8tPhXjkgzkNDgQfRPPvj5282FzQ/o87NGf6qsXnihyiBRGKMPj4NWf1juM1
-         hPl/+oebWRrHGAY93H+sHWxstBqQeNMwp8byOWQymKw7OIEc6c1y4Ro3YZ6Gp9txCV
-         0ZnBHmAbzQO6tBsmZHNzvNTVXI0e2gS0mddLgiTMYTsXpNHW0KzTkAoixrAVrxOA2h
-         OymxXJQgTynW3FCRga01XSpKFKo62wmFrIevwUaeX2rx0MbmqkgQNTU7d0901MC/rp
-         O8t9u27P4by+MmCZL2W9fGQLbYrQnUqN2+/sPMvq8+0RsdMFnAACLiZ/8YKqV4pdtu
-         4780fHpfcqVGA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jui-Tse Huang <juitse.huang@gmail.com>, peterz@infradead.org,
-        valentin.schneider@arm.com, daniel.m.jordan@oracle.com,
-        siyanteng01@gmail.com, song.bao.hua@hisilicon.com,
-        henrybear327@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     jserv@ccns.ncku.edu.tw, Jui-Tse Huang <juitse.huang@gmail.com>
-Subject: Re: [PATCH 1/1] Rewrite mathematical expressions
-In-Reply-To: <20220309122206.37497-1-juitse.huang@gmail.com>
-References: <20220309122206.37497-1-juitse.huang@gmail.com>
-Date:   Wed, 09 Mar 2022 08:38:55 -0700
-Message-ID: <87r17b9lv4.fsf@meer.lwn.net>
+        with ESMTP id S233953AbiCIPl5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 10:41:57 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F83315DDE3
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 07:40:58 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id z4so2243959pgh.12
+        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 07:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=awNm7ncYJS5runeS2crmI62S72vDnlHWFXIoD08zsCQ=;
+        b=L95s3l8KwvKSoVBp7CenGSpuMYCVVN7GYKixyJEeDlmj6to8MhL0pIcnvDahgNOvxi
+         JfjZ0TGsVg8yLTggwW59sBAVvTyJ2+ahvDMzZ1X/cpIaGcZw/Yfu+FTW13ogQdC5gcUx
+         WduOO+A0oDbV8KctSwlgphgr4QbcVJIbd4eTAk9QTeMSmzdnIvnMpo4DZt6s3GqCCXWQ
+         I9FjVUcItyTicv7V147R87ZLFIeV9kXVghbdYNWZYNmZvi5YRVLgDg/4HmWm3BJp0jeP
+         tBfOIvJm8gJ5J9VEv9NMcb8m5DNZx/lSzmLslFTLe9wlqmNqqJUqnt1TS7+FBUg/Et+J
+         4D3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=awNm7ncYJS5runeS2crmI62S72vDnlHWFXIoD08zsCQ=;
+        b=we/9WCadzzEd19FSFfYFia1aAbc1nZd3fX79a+q+Qxd3AYWJcqTsJRv+BD9+v5Msez
+         e7i9bFtRgOYfxO0OJVp+TUvH0sizr0Tg2PYzEQRohCQAEZRTpqDfRi8/lYmP9SAHmNrH
+         xXDxCFgl85vSTXd3V2XLomf107YNVN0vHUJX6CyjGTD6tN1Lib5nBSS+CoGGcn+lrXfm
+         nzq5zQzI/y9sPSYrIaH5MM39Zl/SCWOX7pbIrUQXnhhaP9i6/pQg1BI721nJxclF5jZp
+         sML8JL4jzC9dluFpPJsxxb1PqoT9rU6ysOhlzh04ELPvMLMVKoXlXKpISxXPuvv1Lg1p
+         5spg==
+X-Gm-Message-State: AOAM532sTsTZWbxXZuSu+iLowXX3+xSL68677xV4koL0NELAyyVWMZWf
+        RFmzCpEJtknrOhSIRz3o9aHlYw==
+X-Google-Smtp-Source: ABdhPJy0fy+gKxWpiweokALKmNhNvXvpZLPvXf3Aa/Du9Pmy7tGAgvR6HKEPghwWq0MWpSuGrYsfnQ==
+X-Received: by 2002:a05:6a00:ac1:b0:4f1:29e4:b3a1 with SMTP id c1-20020a056a000ac100b004f129e4b3a1mr295081pfl.63.1646840457963;
+        Wed, 09 Mar 2022 07:40:57 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id o1-20020a637e41000000b003804d0e2c9esm2819543pgn.35.2022.03.09.07.40.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 07:40:57 -0800 (PST)
+Date:   Wed, 9 Mar 2022 15:40:53 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+        Kieran Bingham <kbingham@kernel.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Yang Weijiang <weijiang.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v3 2/6] KVM: x86: add force_intercept_exceptions_mask
+Message-ID: <YijKhYNjZpG7EX9y@google.com>
+References: <20210811122927.900604-1-mlevitsk@redhat.com>
+ <20210811122927.900604-3-mlevitsk@redhat.com>
+ <YTECUaPa9kySQxRX@google.com>
+ <0cdac80177eea408b7e316bd1fc4c0c5839ba1d4.camel@redhat.com>
+ <YifoysEvfnQgq59A@google.com>
+ <3221c2385e1148fe0ee77d4717b52726e1db9d8d.camel@redhat.com>
+ <a7b27887-ce00-c173-a7e7-8ad3470154f5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7b27887-ce00-c173-a7e7-8ad3470154f5@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jui-Tse Huang <juitse.huang@gmail.com> writes:
+On Wed, Mar 09, 2022, Paolo Bonzini wrote:
+> On 3/9/22 13:31, Maxim Levitsky wrote:
+> > Question: is it worth it? Since I am very busy with various things, this
+> > feature, beeing just small debug help which I used once in a while doesn't
+> > get much time from me.
+> 
+> I agree it's not very much worth.
 
->   There are lots of mathematical expressions in the documentation
-> which are written in plain text format, which costs reader more time to
-> recognize the expressions. If those expressions are written in LaTeX
-> format which is supported as an extension of Sphinx, the expressions
-> might become prettier as well as more straight forward to reader.
-
-I'm sorry, but I'm not going to be able to apply this.  We have to think
-about the readability of the plain-text documentation *first*, and LeTeX
-source scores poorly on that metric.
-
-So, just for example:
-
-> -  capacity(cpu) = work_per_hz(cpu) * max_freq(cpu)
-> +.. math::
-> +  \text{capacity(cpu)} = \text{work\_per\_hz(cpu)} \times \text{max\_freq(cpu)}
-
-The document is not improved by this kind of change, even if the
-rendered version is prettier.
-
-I do appreciate your effort to make the documentation better, but please
-focus on the readability of the original docs and not just the rendered
-version.
-
-Thanks,
-
-jon
+I don't have a use case, was just trying to find the bottom of my inbox and came
+across this thread.
