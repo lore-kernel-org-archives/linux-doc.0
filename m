@@ -2,110 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3945C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 12:24:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7712EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 12:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232744AbiCIMZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 07:25:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54592 "EHLO
+        id S232800AbiCIMc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 07:32:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232675AbiCIMZy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 07:25:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B834413CA1A;
-        Wed,  9 Mar 2022 04:24:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S232778AbiCIMcX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 07:32:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A688C1768EA
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 04:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646829083;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3TnDEK0JCXTbpdB9IZGtQZaJ3T3tAhTYIIWvW6puKns=;
+        b=hWC6DcIek8gcjI772hr4GJD+VYb0hWg1hvVR/JBZ31R/Pr3sO1kIVbCXJP/8MKQcxKdxXD
+        lJO/4pbCB31soQr12SboVaD2mkXkSLhJmItCJOaAnZFtlTI2Dl1PE4nrQ3lpVO4RVNDNEe
+        hgdhO5Go1OvMTallbghMkOWHFkaes94=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-215-zU3EStL0Mrux_sh9LmqqsQ-1; Wed, 09 Mar 2022 07:31:20 -0500
+X-MC-Unique: zU3EStL0Mrux_sh9LmqqsQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 547EF61973;
-        Wed,  9 Mar 2022 12:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF364C340E8;
-        Wed,  9 Mar 2022 12:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646828694;
-        bh=4U9KSoGP/RtOc59UTrmURxuIAqJs03Ww/sR14qn3McE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lMwopPMwwqoJU+2rf9HLq3gT33A036hqF5JzPJ2acELq9oQmVWQkPkntO42iHi+Q9
-         QEOQtWvhORZEvz21vMU+o3MTM9Lh//WiZPNq6Tkx/UejcYF8P+v2u5ZWEbfjOFCHRo
-         68wEYSCXi7GW9zk/Im3sc2wruaqGP1U3Ru1do6H9OFcAnq2UXNQScCutFxN+SbhUES
-         /XQt1tMtJZbWEWKRKITi/I5s+50Vv/dZVagW0PQRcy/YMYKjLN6dTSIgNgG2oOrFgB
-         ccXh2Wm32YJ1xg8FNd+hQyB2zxk4+/nn3pfVGi0rw/B9Ocb96E/HmnnzFPlj8l2dwK
-         GCkMmGtZKHQLg==
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Mike Rapport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/kernel-parameters: update description of mem=
-Date:   Wed,  9 Mar 2022 14:24:46 +0200
-Message-Id: <20220309122446.1118738-1-rppt@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E0A8145F6;
+        Wed,  9 Mar 2022 12:31:16 +0000 (UTC)
+Received: from starship (unknown [10.40.192.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D6EC37C0E0;
+        Wed,  9 Mar 2022 12:31:03 +0000 (UTC)
+Message-ID: <3221c2385e1148fe0ee77d4717b52726e1db9d8d.camel@redhat.com>
+Subject: Re: [PATCH v3 2/6] KVM: x86: add force_intercept_exceptions_mask
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Kieran Bingham <kbingham@kernel.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Yang Weijiang <weijiang.yang@intel.com>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>
+Date:   Wed, 09 Mar 2022 14:31:02 +0200
+In-Reply-To: <YifoysEvfnQgq59A@google.com>
+References: <20210811122927.900604-1-mlevitsk@redhat.com>
+         <20210811122927.900604-3-mlevitsk@redhat.com> <YTECUaPa9kySQxRX@google.com>
+         <0cdac80177eea408b7e316bd1fc4c0c5839ba1d4.camel@redhat.com>
+         <YifoysEvfnQgq59A@google.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+On Tue, 2022-03-08 at 23:37 +0000, Sean Christopherson wrote:
+> On Tue, Feb 08, 2022, Maxim Levitsky wrote:
+> > On Thu, 2021-09-02 at 16:56 +0000, Sean Christopherson wrote:
+> > > Assuming this hasn't been abandoned...
+> > > 
+> > > On Wed, Aug 11, 2021, Maxim Levitsky wrote:
+> > > > This parameter will be used by VMX and SVM code to force
+> > > > interception of a set of exceptions, given by a bitmask
+> > > > for guest debug and/or kvm debug.
+> > > > 
+> > > > This is based on an idea first shown here:
+> > > > https://patchwork.kernel.org/project/kvm/patch/20160301192822.GD22677@pd.tnic/
+> > > > 
+> > > > CC: Borislav Petkov <bp@suse.de>
+> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > > ---
+> > > >  arch/x86/kvm/x86.c | 3 +++
+> > > >  arch/x86/kvm/x86.h | 2 ++
+> > > >  2 files changed, 5 insertions(+)
+> > > > 
+> > > > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > > > index fdc0c18339fb..092e2fad3c0d 100644
+> > > > --- a/arch/x86/kvm/x86.c
+> > > > +++ b/arch/x86/kvm/x86.c
+> > > > @@ -184,6 +184,9 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
+> > > >  int __read_mostly pi_inject_timer = -1;
+> > > >  module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
+> > > >  
+> > > > +uint force_intercept_exceptions_mask;
+> > > > +module_param(force_intercept_exceptions_mask, uint, S_IRUGO | S_IWUSR);
+> > > 
+> > > Use octal permissions.  This also can't be a simple writable param, at least not
+> > > without a well-documented disclaimer, as there's no guarantee a vCPU will update
+> > > its exception bitmap in a timely fashion.  An alternative to a module param would
+> > > be to extend/add a per-VM ioctl(), e.g. maybe KVM_SET_GUEST_DEBUG?  The downside
+> > > of an ioctl() is that it would require userspace enabling :-/
+> > > 
+> > 
+> > All other module params in this file use macros for permissions, that is why
+> > I used them too.
+> > 
+> > I'll add a comment with a disclaimer here - this is only for debug.
+> > I strongly don't want to have this as ioctl as that will indeed need qemu patches,
+> > not to mention things like unit tests and which don't even always use qemu.
+> > 
+> > Or I can make this parameter read-only. I don't mind reloading kvm module when
+> > I change this parameter.
+> 
+> Oh!  We can force an update, a la nx_huge_pages, where the setter loops through
+> all VMs and does a kvm_make_all_cpus_request() to instruct vCPUs to update their
+> bitmaps.  Requires a new request, but that doesn't seem like a huge deal, and it
+> might help pave the way for adding more debug hooks for developers.
 
-The existing description of mem= does not cover all the cases and
-differences between how architectures treat it.
+Question: is it worth it? Since I am very busy with various things, this feature,
+beeing just small debug help which I used once in a while doesn't get much time from me.
 
-Extend the description to match the code.
+I can implement this in the future no doubt.
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
+Best regards,
+	Maxim Levitsky
 
-This is in a way a followup for the discussion of mem= usage on MIPS:
+> 
+> The param should also be "unsafe".
 
-https://lore.kernel.org/all/1646461289-31992-1-git-send-email-yangtiezhu@loongson.cn
+I didn't knew about unsafe parameters until recently. I can mark it as such,
+no objections.
 
- .../admin-guide/kernel-parameters.txt         | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Best regards,
+	Maxim Levitsky
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f5a27f067db9..f3597841a031 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2834,6 +2834,15 @@
- 			2 when the kernel is not able to see the whole system memory;
- 			3 memory that lies after 'mem=' boundary is excluded from
- 			 the hypervisor, then assigned to KVM guests.
-+			4 to limit the memory available for kdump kernel.
-+
-+			[ARC,MICROBLAZE] - the limit applies only to low memory,
-+			high memory is not affected.
-+
-+			[ARM64] - only limits memory covered by the linear
-+			mapping. The NOMAP regions are not affected.
-+
-+			[HEXAGON] - must be use to set the memory size, there is
- 
- 			[X86] Work as limiting max address. Use together
- 			with memmap= to avoid physical address space collisions.
-@@ -2844,6 +2853,17 @@
- 			in above case 3, memory may need be hot added after boot
- 			if system memory of hypervisor is not sufficient.
- 
-+	mem=nn[KMG]@ss[KMG]
-+			[ARM,MIPS] - override the memory layout reported by
-+			firmware.
-+			Define a memory region of size nn[KMG] starting at
-+			ss[KMG].
-+			Multiple different regions can be specified with
-+			multiple mem= parameters on the command line.
-+
-+	mem=nn[KMG]	[HEXAGON] Set the memory size.
-+			Must be specified, otherwise memory size will be 0.
-+
- 	mem=nopentium	[BUGS=X86-32] Disable usage of 4MB pages for kernel
- 			memory.
- 
--- 
-2.34.1
+> 
+> E.g. something like
+> 
+> static const struct kernel_param_ops force_ex_intercepts_ops = {
+> 	.set = set_force_exception_intercepts,
+> 	.get = get_force_exception_intercepts,
+> };
+> module_param_cb_unsafe(force_exception_intercepts, &force_ex_intercepts_ops,
+> 		       &force_exception_intercepts, 0644);
+> 
+
 
