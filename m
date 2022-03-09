@@ -2,237 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7307BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 17:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6D4C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 17:06:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237415AbiCIRFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 12:05:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
+        id S237041AbiCIRHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 12:07:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238968AbiCIREQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 12:04:16 -0500
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F351A06C8
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 08:53:04 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2dc1ce31261so19314977b3.6
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 08:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=ArtryYFgH5mlYpraW6Z9pzBKDmlE5B7N8QDWxuF8nCw=;
-        b=ET2G8YAxigglCgwH9ORXjYEpMOwkLAxVMGluElrrT20Iij1J38dmr6UP8EdlHvk4DN
-         azfkhu/4N5mTJEJm6TVVmQy58D9W8S5IKUZrU96emS4lJxesAiyxiaL+UhI4peXvb1ET
-         2NfRSubT3bKB7llEizgDSk5WlvkFPBL2wIZ+UrsonprCR0wGscERyJLQ5lFI6A7C+Mqr
-         bBt/5MUBkAllxZeIaBAydEb4kU5tR1u3dOU4OHuIMqo5beiURrjjfEoxT78k7cZx6CKK
-         JslptEply/Lv5cfDpBB3GPPAcjhXmY9D9nxBJ4PiqVjPoV/QbfVEvtvJmrpZObB+eaR2
-         BMJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=ArtryYFgH5mlYpraW6Z9pzBKDmlE5B7N8QDWxuF8nCw=;
-        b=f5ab8xUmzk5Ivyvp2HM7AchR/UI8UdUr8HQp2yEfI1NmnLmDXppHHsvth7uJ+m6zSc
-         NIngUjw3fbq/QT4w2D3b8wTcwhRTGNUXQV24El9kAONQtFMGAXbcyfRlmuYoh9BmomeS
-         L5RYe2H6LGoKiQMJVNLeZ2RDXSRmQe7B/sQwp2j5sBcPM0s7mo6eG1HGMPCyQAIN5rr9
-         pWJGnUkYcL40jl4B5f4PWV7jEHnk1rleWUoRZ1SVvUdtrsD6UyKPY8jgpixd9d8qUkM/
-         sDyBf57/1GWTu82gyT1m59V3hYT76oubD/z44HO+VBMDky/M1z11oPfCctXRvodsDeFR
-         4JWg==
-X-Gm-Message-State: AOAM532c9tB6OX+y/nyKLwYuJpBvO6pHX9e1Y3BchwGLi5CL+8YKDJzD
-        8q67gL9BHIl7KJB75JqYSfSwnlq3g3FFdUk=
-X-Google-Smtp-Source: ABdhPJwhCCM8fnCv/YYjH2ItlE07Kq6zIIhQQNOdvRKBR0On1xzyi6be0Wrkn7kWsIBobS2Z6B4GB8mh7xehQH8=
-X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
- (user=tjmercier job=sendgmr) by 2002:a25:3403:0:b0:628:a2e4:ae8a with SMTP id
- b3-20020a253403000000b00628a2e4ae8amr504446yba.219.1646844771702; Wed, 09 Mar
- 2022 08:52:51 -0800 (PST)
-Date:   Wed,  9 Mar 2022 16:52:16 +0000
-In-Reply-To: <20220309165222.2843651-1-tjmercier@google.com>
-Message-Id: <20220309165222.2843651-7-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20220309165222.2843651-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [RFC v3 6/8] binder: Add a buffer flag to relinquish ownership of fds
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>
-Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
-        "T.J. Mercier" <tjmercier@google.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S237029AbiCIRGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 12:06:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B541B8C93;
+        Wed,  9 Mar 2022 08:56:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5E4B7B82221;
+        Wed,  9 Mar 2022 16:56:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E769C340EC;
+        Wed,  9 Mar 2022 16:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646845003;
+        bh=kDMnZH3ho28GeAh47qD13Y8CWbmenm3wAL3cZzVX4RY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WZ/fu/uYkB4AJIYeqd2YGCJHbzXsMT7wtZryD15B5YtuYJZeMWLRRgwpit7N06+vW
+         UFi07RAEJ3kC3zLDtLzN51JqEn1mKwerx6wT4FhpgKMpWB8b/6guPjwWdZ0eZh4BqA
+         T1SgIlWeTDml1xiN59Jd8Q66goqaKW4tIa7iYP47RkGtbKaLDj23KE6gXjav4z0ONd
+         V8+1Hhmz1XXp+lkWrgbw/NGdZeC9kY5esWordEN8f5BNH285j6nkBC3KFnrjB5f1we
+         mI6dlmfz3YQXgDEIUBn4B0kxqBWN1knNHs/VhY5NpweCcWb+quwpefXveaeFIUWw4y
+         k7OawS80Qrozw==
+Date:   Wed, 9 Mar 2022 18:56:32 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/kernel-parameters: update description of mem=
+Message-ID: <YijcQAs3neDA/N1w@kernel.org>
+References: <20220309122446.1118738-1-rppt@kernel.org>
+ <faadb494-2ed9-f894-257d-9a70398a02b6@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <faadb494-2ed9-f894-257d-9a70398a02b6@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hridya Valsaraju <hridya@google.com>
+On Wed, Mar 09, 2022 at 08:05:05AM -0800, Randy Dunlap wrote:
+> Hi Mike,
+> 
+> On 3/9/22 04:24, Mike Rapoport wrote:
+> > From: Mike Rapoport <rppt@linux.ibm.com>
+> > 
+> > The existing description of mem= does not cover all the cases and
+> > differences between how architectures treat it.
+> > 
+> > Extend the description to match the code.
+> > 
+> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> > ---
+> > 
+> > This is in a way a followup for the discussion of mem= usage on MIPS:
+> > 
+> > https://lore.kernel.org/all/1646461289-31992-1-git-send-email-yangtiezhu@loongson.cn
+> > 
+> >  .../admin-guide/kernel-parameters.txt         | 20 +++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index f5a27f067db9..f3597841a031 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -2834,6 +2834,15 @@
+> >  			2 when the kernel is not able to see the whole system memory;
+> >  			3 memory that lies after 'mem=' boundary is excluded from
+> >  			 the hypervisor, then assigned to KVM guests.
+> > +			4 to limit the memory available for kdump kernel.
+> > +
+> > +			[ARC,MICROBLAZE] - the limit applies only to low memory,
+> > +			high memory is not affected.
+> > +
+> > +			[ARM64] - only limits memory covered by the linear
+> > +			mapping. The NOMAP regions are not affected.
+> > +
+> > +			[HEXAGON] - must be use to set the memory size, there is
+> 
+> Above line seems to be missing something?
 
-This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-that a process sending an fd array to another process over binder IPC
-can set to relinquish ownership of the fds being sent for memory
-accounting purposes. If the flag is found to be set during the fd array
-translation and the fd is for a DMA-BUF, the buffer is uncharged from
-the sender's cgroup and charged to the receiving process's cgroup
-instead.
+Yes :)
+ 
+> Otherwise looks good AFAIK.
+> 
+> >  
+> >  			[X86] Work as limiting max address. Use together
+> >  			with memmap= to avoid physical address space collisions.
+> > @@ -2844,6 +2853,17 @@
+> >  			in above case 3, memory may need be hot added after boot
+> >  			if system memory of hypervisor is not sufficient.
+> >  
+> > +	mem=nn[KMG]@ss[KMG]
+> > +			[ARM,MIPS] - override the memory layout reported by
+> > +			firmware.
+> > +			Define a memory region of size nn[KMG] starting at
+> > +			ss[KMG].
+> > +			Multiple different regions can be specified with
+> > +			multiple mem= parameters on the command line.
+> > +
+> > +	mem=nn[KMG]	[HEXAGON] Set the memory size.
+> > +			Must be specified, otherwise memory size will be 0.
+> > +
+> >  	mem=nopentium	[BUGS=X86-32] Disable usage of 4MB pages for kernel
+> >  			memory.
+> >  
+> 
+> -- 
+> ~Randy
 
-It is up to the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
-
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-correctly charge the buffers to the client processes instead of the
-graphics allocator HAL.
-
-Since this is a new feature exposed to userspace, the kernel and userspace
-must be compatible for the accounting to work for transfers. In all cases
-the allocation and transport of DMA buffers via binder will succeed, but
-only when both the kernel supports, and userspace depends on this feature
-will the transfer accounting work. The possible scenarios are detailed
-below:
-
-1. new kernel + old userspace
-The kernel supports the feature but userspace does not use it. The old
-userspace won't mount the new cgroup controller, accounting is not
-performed, charge is not transferred.
-
-2. old kernel + new userspace
-The new cgroup controller is not supported by the kernel, accounting is
-not performed, charge is not transferred.
-
-3. old kernel + old userspace
-Same as #2
-
-4. new kernel + new userspace
-Cgroup is mounted, feature is supported and used.
-
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-
----
-v3 changes
-Remove android from title per Todd Kjos.
-
-Use more common dual author commit message format per John Stultz.
-
-Include details on behavior for all combinations of kernel/userspace
-versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
-
-v2 changes
-Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-heap to a single dma-buf function for all heaps per Daniel Vetter and
-Christian K=C3=B6nig.
----
- drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
- include/uapi/linux/android/binder.h |  1 +
- 2 files changed, 27 insertions(+)
-
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 8351c5638880..f50d88ded188 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
-=20
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=20
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- {
- 	binder_size_t fdi, fd_buf_size;
- 	binder_size_t fda_offset;
-+	bool transfer_gpu_charge =3D false;
- 	const void __user *sender_ufda_base;
- 	struct binder_proc *proc =3D thread->proc;
-+	struct binder_proc *target_proc =3D t->to_proc;
- 	int ret;
-=20
- 	fd_buf_size =3D sizeof(u32) * fda->num_fds;
-@@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 	if (ret)
- 		return ret;
-=20
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-+		parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-+		transfer_gpu_charge =3D true;
-+
- 	for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
- 		u32 fd;
-+		struct dma_buf *dmabuf;
-+		struct gpucg *gpucg;
-+
- 		binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
- 		binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-=20
-@@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-+
-+		if (!transfer_gpu_charge)
-+			continue;
-+
-+		dmabuf =3D dma_buf_get(fd);
-+		if (IS_ERR(dmabuf))
-+			continue;
-+
-+		gpucg =3D gpucg_get(target_proc->tsk);
-+		ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-+		if (ret) {
-+			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
-+				proc->pid, thread->pid, target_proc->pid);
-+			gpucg_put(gpucg);
-+		}
-+		dma_buf_put(dmabuf);
- 	}
- 	return 0;
- }
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/andro=
-id/binder.h
-index 3246f2c74696..169fd5069a1a 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -137,6 +137,7 @@ struct binder_buffer_object {
-=20
- enum {
- 	BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-+	BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
- };
-=20
- /* struct binder_fd_array_object - object describing an array of fds in a =
-buffer
---=20
-2.35.1.616.g0bdcbb4464-goog
-
+-- 
+Sincerely yours,
+Mike.
