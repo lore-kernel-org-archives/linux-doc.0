@@ -2,335 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967DDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 09:31:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5ADC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 09:35:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbiCIJcJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 04:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60104 "EHLO
+        id S232156AbiCIJfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 04:35:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbiCIJcI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 04:32:08 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B02F216EAB0
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 01:31:09 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id 6so1531274pgg.0
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 01:31:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jz+KUpKbfj6Aq8e3iob65l/UJsGtdjSaQjPX+ztVChc=;
-        b=OUJQqZXrQXeNhz9bEGowdnX39/poxPg6ohb41Elfaxu4ok9UFV+TXS4lwrjhWZe9BU
-         cLmYLLnszYZuJMPciVxfAZBVqjRDr4wRz/N7wSwU4yURtclBAx8QlQUBBGxx46Cc9Bm0
-         VGxDTSI4U5bYtK0D4pqUjG7ppGWDDlL/CZDFR/HvpJ6WiZks9Sl70NH0GpHP2aqeT2YL
-         dHAPVOXU5TabQZHom9bGVKOKIVyWDTUJLP2n5vNZ7zldgWaJKW9DQCmPjyet1Zxo9FHe
-         9EAHAezzpAou/jUorDAhys6GaZAIa0cTy796W74j1O1LYs4x+zF9GbdgdMCbeFR2c/GD
-         wC0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jz+KUpKbfj6Aq8e3iob65l/UJsGtdjSaQjPX+ztVChc=;
-        b=B6x599tqhfZfBHfo05XcdrnU3zozB7rM02LK67Cks/miIvsc1z2T3LFAEyTZgZeMhn
-         CXe7ebDori+O1bCLoDpLTvj4Dn/Jn5EoVDBv99MOXisuaGbG1tdJd67G2sETONk9Povp
-         6kCN5/0Ik3GuK6ZfsiIaXCMLfHnInUdRrxfLWMNB7+a0kzU0OidJLjrXJQgJG01hcXda
-         275IGkhBzEcDlN7AaK0InYQFJWKkeNI+oj4MtH3SJRrsg+HI88uNIicTCucP9k01hAge
-         MoDjYaf41DfxmV1ESulArlQYMNiYAW/XkIqCLgYNx810Rl2KDyJlzq/bPi6s6qgUotuu
-         SfCA==
-X-Gm-Message-State: AOAM5306Qv5rnDBb3K6Nvrymbz7o2AgsmFTohnM8bOsAFTp+AwBtQOLh
-        Y+qUJIco+5A3FA2eb7+/nPY=
-X-Google-Smtp-Source: ABdhPJyReQpC7oLc/tMlXqmJZjQUo4NvdUuOZPXsKETO6KBAS/0LNMutFs7BoS3yqsF3YXAsUd06BA==
-X-Received: by 2002:a63:4526:0:b0:380:7c34:fc84 with SMTP id s38-20020a634526000000b003807c34fc84mr9052498pga.2.1646818268937;
-        Wed, 09 Mar 2022 01:31:08 -0800 (PST)
-Received: from localhost.localdomain ([50.7.60.25])
-        by smtp.gmail.com with ESMTPSA id h21-20020a056a00231500b004e13188af99sm2173369pfh.38.2022.03.09.01.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 01:31:08 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v5 5/5] docs/zh_CN: add damon reclaim translation
-Date:   Wed,  9 Mar 2022 17:32:10 +0800
-Message-Id: <d1efbb9829adbf1bc1b058300f141c12bf101a6e.1646817889.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1646817889.git.siyanteng@loongson.cn>
-References: <cover.1646817889.git.siyanteng@loongson.cn>
+        with ESMTP id S232155AbiCIJfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 04:35:54 -0500
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557356AA7D;
+        Wed,  9 Mar 2022 01:34:54 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 2299YNeB029111;
+        Wed, 9 Mar 2022 18:34:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2299YNeB029111
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646818464;
+        bh=ecQr6qIvWdbKOOftT0P5bw/2I4nX2mhfpun9h1TgUeg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=T3m02rMsnkG8ueOBQKJ+9EZUCgrBL0yxlqORHIdYbLJmwC+kyR+foPAE2CDaC9fTH
+         Lg33gby+NPDwlEIRnu63aMCybVu2qSFerzNxmInEjbacq05fo39qwIVZjKUsGkVlKT
+         +FUwzBplWXwfFKYGV2qr8r97p0IdzPUf2SPv6a9f02uNS0prdIIC9J85QugH99UKcl
+         V1hbPHDYwzlaZpsfmnAWEstKvWRGVnv2l6Cx6xSXc+bjt2YH1v0BGwQsLVd6L3Gj4+
+         /rBrYlfcxcr8sNWuVV2u1XsX24PdeAa9+Q3ZWgSFsusRfqUpl+tx9HZiEnpfNayTLE
+         QMOI2sSbr/1/Q==
+X-Nifty-SrcIP: [209.85.214.172]
+Received: by mail-pl1-f172.google.com with SMTP id p17so1443074plo.9;
+        Wed, 09 Mar 2022 01:34:23 -0800 (PST)
+X-Gm-Message-State: AOAM533yO7hA7wHcDBhTBG0MVOfueSiqLdRD5wbdzE4EWRV3mYPYDova
+        Cu2DS3fuIYIhz3HdP6stg9MVpxNhQVu65idsalw=
+X-Google-Smtp-Source: ABdhPJz2CczPHj/qvuG++hUUJmOu8k6TahMuAauT21WWVlzprNBuAo3FW0eZmY/eannNxGvP75auJcjlLg4O/GXMSf4=
+X-Received: by 2002:a17:90a:1108:b0:1be:e1bd:e2f0 with SMTP id
+ d8-20020a17090a110800b001bee1bde2f0mr9463553pja.144.1646818462899; Wed, 09
+ Mar 2022 01:34:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220304170813.1689186-1-nathan@kernel.org> <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
+ <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
+In-Reply-To: <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 9 Mar 2022 18:33:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+Message-ID: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yanteng Si <siyanteng01@gmail.com>
+On Wed, Mar 9, 2022 at 12:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
+> > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > > index d32616891dcf..68b74416ec48 100644
+> > > --- a/Documentation/kbuild/llvm.rst
+> > > +++ b/Documentation/kbuild/llvm.rst
+> > > @@ -49,17 +49,36 @@ example: ::
+> > >  LLVM Utilities
+> > >  --------------
+> > >
+> > > -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
+> > > -to enable them. ::
+> > > -
+> > > -       make LLVM=1
+> > > -
+> > > -They can be enabled individually. The full list of the parameters: ::
+> > > +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
+> > > +The full list of supported make variables: ::
+> > >
+> > >         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> > >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> > >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> > >
+> > > +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
+> > > +
+> > > +       make LLVM=1
+> > > +
+> > > +If your LLVM tools are not available in your PATH, you can supply their
+> > > +location using the LLVM variable with a trailing slash: ::
+> > > +
+> > > +       make LLVM=/path/to/llvm/
+> > > +
+> > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
+> >
+> > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
+> > works and (my interpretation of what) Masahiro said "if anyone asks
+> > for this, here's how we could do that."  I don't think I've seen an
+> > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
+> > won't hold this patch up over that.  Either way:
+>
+> Right, there has not been an explicit ask for the prefix support yet,
+> although I know I personally would use it, but I think that it is worth
+> doing now instead of later for a few reasons:
+>
+> 1. It makes path goofs easier to spot. If you do
+>
+>      $ PATH=/path/to/llvm:$PATH make LLVM=1 ...
+>
+>    with a path to LLVM that does not exist (maybe you are bisecting an
+>    issue and using a temporary build of LLVM and you forgot the path it
+>    was in), you fall back to the LLVM tools that are in other places in
+>    your PATH, which is not what the developer intended. I know that I
+>    have messed up bisects that way. If you did
+>
+>      $ make LLVM=/path/to/llvm/
+>
+>    with a path that does not exist, there will be an error much earlier:
+>
+>      $ make LLVM=/this/path/does/not/exist/ defconfig
+>      /bin/sh: line 1: /this/path/does/not/exist/clang: No such file or directory
+>
+> 2. It does not take that much more code or documentation to support. It
+>    is the same amount of code as the suffix and the documentation is
+>    roughly the same amount of lines as well.
+>
+> 3. If we wait to implement the path-based use of $(LLVM), we have three
+>    "sequence" points: the initial support of $(LLVM), the suffix
+>    support, and the prefix support. As we are constantly working with
+>    various trees, it would make it harder to know what to use when. If
+>    we just do it in the same patch, we know 5.18+ can use both of these
+>    methods.
+>
+> However, at the end of the day, we are a team and if you feel like we
+> should only have suffix support, I am more than happy to push a v3 that
+> does just that and we can revist prefix support in the future. Just let
+> me know!
 
-Translate .../admin-guide/mm/damon/reclaim.rst into Chinese.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../zh_CN/admin-guide/mm/damon/index.rst      |   4 +-
- .../zh_CN/admin-guide/mm/damon/reclaim.rst    | 232 ++++++++++++++++++
- 2 files changed, 234 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
+I do not have a strong opinion about this.
+(I just mentioned the LLVM=/path/to/llvm/ form because I guessed
+somebody would request this sooner or later.)
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-index bd1f1a551f0f..0c8276109fc0 100644
---- a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-@@ -21,8 +21,8 @@
- 
-    start
-    usage
-+   reclaim
-+
- 
--Todolist:
- 
- 
--*   reclaim
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-new file mode 100644
-index 000000000000..0ef5502e7cf3
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-@@ -0,0 +1,232 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/mm/damon/reclaim.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+===============
-+基于DAMON的回收
-+===============
-+
-+基于DAMON的回收（DAMON_RECLAIM）是一个静态的内核模块，旨在用于轻度内存压力下的主动和轻
-+量级的回收。它的目的不是取代基于LRU列表的页面回收，而是有选择地用于不同程度的内存压力和要
-+求。
-+
-+哪些地方需要主动回收？
-+======================
-+
-+在一般的内存超量使用（over-committed systems，虚拟化相关术语）的系统上，主动回收冷页
-+有助于节省内存和减少延迟高峰，这些延迟是由直接回收进程或kswapd的CPU消耗引起的，同时只产
-+生最小的性能下降 [1]_ [2]_ 。
-+
-+基于空闲页报告 [3]_ 的内存过度承诺的虚拟化系统就是很好的例子。在这样的系统中，客户机
-+向主机报告他们的空闲内存，而主机则将报告的内存重新分配给其他客户。因此，系统的内存得到了充
-+分的利用。然而，客户可能不那么节省内存，主要是因为一些内核子系统和用户空间应用程序被设计为
-+使用尽可能多的内存。然后，客户机可能只向主机报告少量的内存是空闲的，导致系统的内存利用率下降。
-+在客户中运行主动回收可以缓解这个问题。
-+
-+它是如何工作的？
-+================
-+
-+DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。为了避免它在分页操作中消耗过多
-+的CPU，可以配置一个速度限制。在这个速度限制下，它首先分页出那些没有被访问过的内存区域。系
-+统管理员还可以配置在什么情况下这个方案应该自动激活和停用三个内存压力水位。
-+
-+接口: 模块参数
-+==============
-+
-+要使用这个功能，你首先要确保你的系统运行在一个以 ``CONFIG_DAMON_RECLAIM=y`` 构建的内
-+核上。
-+
-+为了让系统管理员启用或禁用它，并为给定的系统进行调整，DAMON_RECLAIM利用了模块参数。也就
-+是说，你可以把 ``damon_reclaim.<parameter>=<value>`` 放在内核启动命令行上，或者把
-+适当的值写入 ``/sys/modules/damon_reclaim/parameters/<parameter>`` 文件。
-+
-+注意，除 ``启用`` 外的参数值只在DAMON_RECLAIM启动时应用。因此，如果你想在运行时应用新
-+的参数值，而DAMON_RECLAIM已经被启用，你应该通过 ``启用`` 的参数文件禁用和重新启用它。
-+在重新启用之前，应将新的参数值写入适当的参数值中。
-+
-+下面是每个参数的描述。
-+
-+Enable
-+------
-+
-+启用或禁用DAMON_RECLAIM。
-+
-+你可以通过把这个参数的值设置为 ``Y`` 来启用DAMON_RCLAIM，把它设置为 ``N`` 可以禁用
-+DAMON_RECLAIM。注意，由于基于水位的激活条件，DAMON_RECLAIM不能进行真正的监测和回收。
-+这一点请参考下面关于水位参数的描述。
-+
-+min_age
-+-------
-+
-+识别冷内存区域的时间阈值，单位是微秒。
-+
-+如果一个内存区域在这个时间或更长的时间内没有被访问，DAMON_RECLAIM会将该区域识别为冷的，
-+并回收它。
-+
-+默认为120秒。
-+
-+quota_ms
-+--------
-+
-+回收的时间限制，以毫秒为单位。
-+
-+DAMON_RECLAIM 试图在一个时间窗口（quota_reset_interval_ms）内只使用到这个时间，以
-+尝试回收冷页。这可以用来限制DAMON_RECLAIM的CPU消耗。如果该值为零，则该限制被禁用。
-+
-+默认为10ms。
-+
-+quota_sz
-+--------
-+
-+回收的内存大小限制，单位为字节。
-+
-+DAMON_RECLAIM 收取在一个时间窗口（quota_reset_interval_ms）内试图回收的内存量，并
-+使其不超过这个限制。这可以用来限制CPU和IO的消耗。如果该值为零，则限制被禁用。
-+
-+默认情况下是128 MiB。
-+
-+quota_reset_interval_ms
-+-----------------------
-+
-+时间/大小配额收取重置间隔，单位为毫秒。
-+
-+时间（quota_ms）和大小（quota_sz）的配额的目标重置间隔。也就是说，DAMON_RECLAIM在
-+尝试回收‘不’超过quota_ms毫秒或quota_sz字节的内存。
-+
-+默认为1秒。
-+
-+wmarks_interval
-+---------------
-+
-+当DAMON_RECLAIM被启用但由于其水位规则而不活跃时，在检查水位之前的最小等待时间。
-+
-+wmarks_high
-+-----------
-+
-+高水位的可用内存率（每千字节）。
-+
-+如果系统的可用内存（以每千字节为单位）高于这个数值，DAMON_RECLAIM就会变得不活跃，所以
-+它什么也不做，只是定期检查水位。
-+
-+wmarks_mid
-+----------
-+
-+中间水位的可用内存率（每千字节）。
-+
-+如果系统的空闲内存（以每千字节为单位）在这个和低水位线之间，DAMON_RECLAIM就会被激活，
-+因此开始监测和回收。
-+
-+wmarks_low
-+----------
-+
-+低水位的可用内存率（每千字节）。
-+
-+如果系统的空闲内存（以每千字节为单位）低于这个数值，DAMON_RECLAIM就会变得不活跃，所以
-+它除了定期检查水位外什么都不做。在这种情况下，系统会退回到基于LRU列表的页面粒度回收逻辑。
-+
-+sample_interval
-+---------------
-+
-+监测的采样间隔，单位是微秒。
-+
-+DAMON用于监测冷内存的采样间隔。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+aggr_interval
-+-------------
-+
-+监测的聚集间隔，单位是微秒。
-+
-+DAMON对冷内存监测的聚集间隔。更多细节请参考DAMON文档 (:doc:`usage`)。
-+
-+min_nr_regions
-+--------------
-+
-+监测区域的最小数量。
-+
-+DAMON用于冷内存监测的最小监测区域数。这可以用来设置监测质量的下限。但是，设
-+置的太高可能会导致监测开销的增加。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+max_nr_regions
-+--------------
-+
-+监测区域的最大数量。
-+
-+DAMON用于冷内存监测的最大监测区域数。这可以用来设置监测开销的上限值。但是，
-+设置得太低可能会导致监测质量不好。更多细节请参考DAMON文档 (:doc:`usage`) 。
-+
-+monitor_region_start
-+--------------------
-+
-+目标内存区域的物理地址起点。
-+
-+DAMON_RECLAIM将对其进行工作的内存区域的起始物理地址。也就是说，DAMON_RECLAIM
-+将在这个区域中找到冷的内存区域并进行回收。默认情况下，该区域使用最大系统内存区。
-+
-+monitor_region_end
-+------------------
-+
-+目标内存区域的结束物理地址。
-+
-+DAMON_RECLAIM将对其进行工作的内存区域的末端物理地址。也就是说，DAMON_RECLAIM将
-+在这个区域内找到冷的内存区域并进行回收。默认情况下，该区域使用最大系统内存区。
-+
-+kdamond_pid
-+-----------
-+
-+DAMON线程的PID。
-+
-+如果DAMON_RECLAIM被启用，这将成为工作线程的PID。否则，为-1。
-+
-+nr_reclaim_tried_regions
-+------------------------
-+
-+试图通过DAMON_RECLAIM回收的内存区域的数量。
-+
-+bytes_reclaim_tried_regions
-+---------------------------
-+
-+试图通过DAMON_RECLAIM回收的内存区域的总字节数。
-+
-+nr_reclaimed_regions
-+--------------------
-+
-+通过DAMON_RECLAIM成功回收的内存区域的数量。
-+
-+bytes_reclaimed_regions
-+-----------------------
-+
-+通过DAMON_RECLAIM成功回收的内存区域的总字节数。
-+
-+nr_quota_exceeds
-+----------------
-+
-+超过时间/空间配额限制的次数。
-+
-+例子
-+====
-+
-+下面的运行示例命令使DAMON_RECLAIM找到30秒或更长时间没有访问的内存区域并“回收”？
-+为了避免DAMON_RECLAIM在分页操作中消耗过多的CPU时间，回收被限制在每秒1GiB以内。
-+它还要求DAMON_RECLAIM在系统的可用内存率超过50%时不做任何事情，但如果它低于40%时
-+就开始真正的工作。如果DAMON_RECLAIM没有取得进展，因此空闲内存率低于20%，它会要求
-+DAMON_RECLAIM再次什么都不做，这样我们就可以退回到基于LRU列表的页面粒度回收了::
-+
-+    # cd /sys/modules/damon_reclaim/parameters
-+    # echo 30000000 > min_age
-+    # echo $((1 * 1024 * 1024 * 1024)) > quota_sz
-+    # echo 1000 > quota_reset_interval_ms
-+    # echo 500 > wmarks_high
-+    # echo 400 > wmarks_mid
-+    # echo 200 > wmarks_low
-+    # echo Y > enabled
-+
-+.. [1] https://research.google/pubs/pub48551/
-+.. [2] https://lwn.net/Articles/787611/
-+.. [3] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
+
+If you want me to pick up this version, I will apply it with fixing up
+a nit pointed out by Kees   (": ::" -> "::")
+
+If you want to send v3, that is fine with me as well.
+
+Please let me know your thoughts.
+
+
+
+
+
+
+
+
+>
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > > +
+> > > +If your LLVM tools have a version suffix and you want to test with that
+> > > +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
+> > > +can pass the suffix using the ``LLVM`` variable: ::
+> > > +
+> > > +       make LLVM=-14
+> > > +
+> > > +which will use ``clang-14``, ``ld.lld-14``, etc.
+> > > +
+> > > +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
+> > > +``LLVM=1``.
+> >
+> > Hmm... I can see someone's build wrappers setting LLVM=1, then them
+> > being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
+> > might expect.  But Masahiro says let's fix this later which is fine.
+>
+> Sure, I guess that is a reasonable case to support. I'll see if I can
+> come up with something that makes sense after this change lands.
+>
+> Cheers,
+> Nathan
+
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
