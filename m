@@ -2,192 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5ADC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 09:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CFB5C43219
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 10:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbiCIJfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 04:35:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
+        id S231656AbiCIKyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 05:54:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232155AbiCIJfy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 04:35:54 -0500
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557356AA7D;
-        Wed,  9 Mar 2022 01:34:54 -0800 (PST)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2299YNeB029111;
-        Wed, 9 Mar 2022 18:34:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2299YNeB029111
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646818464;
-        bh=ecQr6qIvWdbKOOftT0P5bw/2I4nX2mhfpun9h1TgUeg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=T3m02rMsnkG8ueOBQKJ+9EZUCgrBL0yxlqORHIdYbLJmwC+kyR+foPAE2CDaC9fTH
-         Lg33gby+NPDwlEIRnu63aMCybVu2qSFerzNxmInEjbacq05fo39qwIVZjKUsGkVlKT
-         +FUwzBplWXwfFKYGV2qr8r97p0IdzPUf2SPv6a9f02uNS0prdIIC9J85QugH99UKcl
-         V1hbPHDYwzlaZpsfmnAWEstKvWRGVnv2l6Cx6xSXc+bjt2YH1v0BGwQsLVd6L3Gj4+
-         /rBrYlfcxcr8sNWuVV2u1XsX24PdeAa9+Q3ZWgSFsusRfqUpl+tx9HZiEnpfNayTLE
-         QMOI2sSbr/1/Q==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id p17so1443074plo.9;
-        Wed, 09 Mar 2022 01:34:23 -0800 (PST)
-X-Gm-Message-State: AOAM533yO7hA7wHcDBhTBG0MVOfueSiqLdRD5wbdzE4EWRV3mYPYDova
-        Cu2DS3fuIYIhz3HdP6stg9MVpxNhQVu65idsalw=
-X-Google-Smtp-Source: ABdhPJz2CczPHj/qvuG++hUUJmOu8k6TahMuAauT21WWVlzprNBuAo3FW0eZmY/eannNxGvP75auJcjlLg4O/GXMSf4=
-X-Received: by 2002:a17:90a:1108:b0:1be:e1bd:e2f0 with SMTP id
- d8-20020a17090a110800b001bee1bde2f0mr9463553pja.144.1646818462899; Wed, 09
- Mar 2022 01:34:22 -0800 (PST)
+        with ESMTP id S231602AbiCIKyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 05:54:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E83C910A7F7
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 02:53:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646823233;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=VjXi0yetuRcNC+6LhXHTr8Ys2xt6TP3sU5g1QXQ/UPs=;
+        b=g+xh1e1eLf9JzcMOA0wl+ATEpT/KQohbVSh0fv4TiPN9NukXjFaj8DZvWmlw63H69VIFZ8
+        708eoKnKnDxmK+pTHVZXTfIm4hSMbMWIQjHmY0HJeuKKYzlYV6D49zhy2FvyXvLm+mGvrn
+        JLO1oBvzT29Z0K/hUnJW31/qTm83QDM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-558-5Up4l_KWP3ypeyjFImyMhQ-1; Wed, 09 Mar 2022 05:53:51 -0500
+X-MC-Unique: 5Up4l_KWP3ypeyjFImyMhQ-1
+Received: by mail-ed1-f72.google.com with SMTP id n11-20020aa7c68b000000b0041641550e11so1084304edq.8
+        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 02:53:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VjXi0yetuRcNC+6LhXHTr8Ys2xt6TP3sU5g1QXQ/UPs=;
+        b=C4J6KtaUlnORjQTTgRsQHox2DoB3BMVuWYG2YVNNuHXJJRUDkY7UxxEOZ35oyMvLJh
+         RyP+TFaOclTh0K1DtikL0GNxhvH+368vZG62c+qfvRNTZSj5pQ3cQpYV/z50a5vCWVbC
+         jmFbecWvf4iQforOgGlC9CBqTn8mBIu3ksKgYl6Y0MTRUsm7DEfaVPKs7VwTRaUzfNQC
+         pJc6ZxTwpRw2pxM6hetQxpXN2WmFqTMicfpH3gC1We4DcL53SvExEv0vd6s98HxYKUh7
+         JHlBXwlrlH/qDeRhU7/uRyb/wFowXa6IQCoNA3Bcq32lj5JllqAE8mCpG2rGZ16lVcNb
+         ClVw==
+X-Gm-Message-State: AOAM531TtJfaRCgbCmV9BKshZ3c2SHp5X7+1vB/zpw87lb52NWmDOhCu
+        6qugyE3dE8w4Sygnn8P1wjJpdkvJJzlU2Mbbtvz62AS8PXx28szlzLVylYGgUGanNzgri9lpCx+
+        wpViqlJB7GSAq9nx7skm+
+X-Received: by 2002:a05:6402:1507:b0:415:f3c7:60fe with SMTP id f7-20020a056402150700b00415f3c760femr20712437edw.350.1646823229975;
+        Wed, 09 Mar 2022 02:53:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwpsezsbi1YaEImv8GNRn71DRgP5uKImUBsPZnOzxKILaUUveNW2d0aVEdZSHKuWgJM+bX+bg==
+X-Received: by 2002:a05:6402:1507:b0:415:f3c7:60fe with SMTP id f7-20020a056402150700b00415f3c760femr20712392edw.350.1646823229488;
+        Wed, 09 Mar 2022 02:53:49 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id d2-20020a50cf42000000b004135b6eef60sm652643edk.94.2022.03.09.02.53.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 02:53:48 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 55BD5192AA9; Wed,  9 Mar 2022 11:53:48 +0100 (CET)
+From:   =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>
+Cc:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH bpf-next v11 2/5] Documentation/bpf: Add documentation for BPF_PROG_RUN
+Date:   Wed,  9 Mar 2022 11:53:43 +0100
+Message-Id: <20220309105346.100053-3-toke@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220309105346.100053-1-toke@redhat.com>
+References: <20220309105346.100053-1-toke@redhat.com>
 MIME-Version: 1.0
-References: <20220304170813.1689186-1-nathan@kernel.org> <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
- <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
-In-Reply-To: <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 9 Mar 2022 18:33:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
-Message-ID: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 9, 2022 at 12:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
-> > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > > index d32616891dcf..68b74416ec48 100644
-> > > --- a/Documentation/kbuild/llvm.rst
-> > > +++ b/Documentation/kbuild/llvm.rst
-> > > @@ -49,17 +49,36 @@ example: ::
-> > >  LLVM Utilities
-> > >  --------------
-> > >
-> > > -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
-> > > -to enable them. ::
-> > > -
-> > > -       make LLVM=1
-> > > -
-> > > -They can be enabled individually. The full list of the parameters: ::
-> > > +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
-> > > +The full list of supported make variables: ::
-> > >
-> > >         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> > >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> > >
-> > > +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
-> > > +
-> > > +       make LLVM=1
-> > > +
-> > > +If your LLVM tools are not available in your PATH, you can supply their
-> > > +location using the LLVM variable with a trailing slash: ::
-> > > +
-> > > +       make LLVM=/path/to/llvm/
-> > > +
-> > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-> >
-> > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
-> > works and (my interpretation of what) Masahiro said "if anyone asks
-> > for this, here's how we could do that."  I don't think I've seen an
-> > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
-> > won't hold this patch up over that.  Either way:
->
-> Right, there has not been an explicit ask for the prefix support yet,
-> although I know I personally would use it, but I think that it is worth
-> doing now instead of later for a few reasons:
->
-> 1. It makes path goofs easier to spot. If you do
->
->      $ PATH=/path/to/llvm:$PATH make LLVM=1 ...
->
->    with a path to LLVM that does not exist (maybe you are bisecting an
->    issue and using a temporary build of LLVM and you forgot the path it
->    was in), you fall back to the LLVM tools that are in other places in
->    your PATH, which is not what the developer intended. I know that I
->    have messed up bisects that way. If you did
->
->      $ make LLVM=/path/to/llvm/
->
->    with a path that does not exist, there will be an error much earlier:
->
->      $ make LLVM=/this/path/does/not/exist/ defconfig
->      /bin/sh: line 1: /this/path/does/not/exist/clang: No such file or directory
->
-> 2. It does not take that much more code or documentation to support. It
->    is the same amount of code as the suffix and the documentation is
->    roughly the same amount of lines as well.
->
-> 3. If we wait to implement the path-based use of $(LLVM), we have three
->    "sequence" points: the initial support of $(LLVM), the suffix
->    support, and the prefix support. As we are constantly working with
->    various trees, it would make it harder to know what to use when. If
->    we just do it in the same patch, we know 5.18+ can use both of these
->    methods.
->
-> However, at the end of the day, we are a team and if you feel like we
-> should only have suffix support, I am more than happy to push a v3 that
-> does just that and we can revist prefix support in the future. Just let
-> me know!
+This adds documentation for the BPF_PROG_RUN command; a short overview of
+the command itself, and a more verbose description of the "live packet"
+mode for XDP introduced in the previous commit.
 
+Acked-by: Martin KaFai Lau <kafai@fb.com>
+Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
+---
+ Documentation/bpf/bpf_prog_run.rst | 117 +++++++++++++++++++++++++++++
+ Documentation/bpf/index.rst        |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 Documentation/bpf/bpf_prog_run.rst
 
-I do not have a strong opinion about this.
-(I just mentioned the LLVM=/path/to/llvm/ form because I guessed
-somebody would request this sooner or later.)
-
-
-If you want me to pick up this version, I will apply it with fixing up
-a nit pointed out by Kees   (": ::" -> "::")
-
-If you want to send v3, that is fine with me as well.
-
-Please let me know your thoughts.
-
-
-
-
-
-
-
-
->
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> >
-> > > +
-> > > +If your LLVM tools have a version suffix and you want to test with that
-> > > +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-> > > +can pass the suffix using the ``LLVM`` variable: ::
-> > > +
-> > > +       make LLVM=-14
-> > > +
-> > > +which will use ``clang-14``, ``ld.lld-14``, etc.
-> > > +
-> > > +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> > > +``LLVM=1``.
-> >
-> > Hmm... I can see someone's build wrappers setting LLVM=1, then them
-> > being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
-> > might expect.  But Masahiro says let's fix this later which is fine.
->
-> Sure, I guess that is a reasonable case to support. I'll see if I can
-> come up with something that makes sense after this change lands.
->
-> Cheers,
-> Nathan
-
-
-
+diff --git a/Documentation/bpf/bpf_prog_run.rst b/Documentation/bpf/bpf_prog_run.rst
+new file mode 100644
+index 000000000000..4868c909df5c
+--- /dev/null
++++ b/Documentation/bpf/bpf_prog_run.rst
+@@ -0,0 +1,117 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===================================
++Running BPF programs from userspace
++===================================
++
++This document describes the ``BPF_PROG_RUN`` facility for running BPF programs
++from userspace.
++
++.. contents::
++    :local:
++    :depth: 2
++
++
++Overview
++--------
++
++The ``BPF_PROG_RUN`` command can be used through the ``bpf()`` syscall to
++execute a BPF program in the kernel and return the results to userspace. This
++can be used to unit test BPF programs against user-supplied context objects, and
++as way to explicitly execute programs in the kernel for their side effects. The
++command was previously named ``BPF_PROG_TEST_RUN``, and both constants continue
++to be defined in the UAPI header, aliased to the same value.
++
++The ``BPF_PROG_RUN`` command can be used to execute BPF programs of the
++following types:
++
++- ``BPF_PROG_TYPE_SOCKET_FILTER``
++- ``BPF_PROG_TYPE_SCHED_CLS``
++- ``BPF_PROG_TYPE_SCHED_ACT``
++- ``BPF_PROG_TYPE_XDP``
++- ``BPF_PROG_TYPE_SK_LOOKUP``
++- ``BPF_PROG_TYPE_CGROUP_SKB``
++- ``BPF_PROG_TYPE_LWT_IN``
++- ``BPF_PROG_TYPE_LWT_OUT``
++- ``BPF_PROG_TYPE_LWT_XMIT``
++- ``BPF_PROG_TYPE_LWT_SEG6LOCAL``
++- ``BPF_PROG_TYPE_FLOW_DISSECTOR``
++- ``BPF_PROG_TYPE_STRUCT_OPS``
++- ``BPF_PROG_TYPE_RAW_TRACEPOINT``
++- ``BPF_PROG_TYPE_SYSCALL``
++
++When using the ``BPF_PROG_RUN`` command, userspace supplies an input context
++object and (for program types operating on network packets) a buffer containing
++the packet data that the BPF program will operate on. The kernel will then
++execute the program and return the results to userspace. Note that programs will
++not have any side effects while being run in this mode; in particular, packets
++will not actually be redirected or dropped, the program return code will just be
++returned to userspace. A separate mode for live execution of XDP programs is
++provided, documented separately below.
++
++Running XDP programs in "live frame mode"
++-----------------------------------------
++
++The ``BPF_PROG_RUN`` command has a separate mode for running live XDP programs,
++which can be used to execute XDP programs in a way where packets will actually
++be processed by the kernel after the execution of the XDP program as if they
++arrived on a physical interface. This mode is activated by setting the
++``BPF_F_TEST_XDP_LIVE_FRAMES`` flag when supplying an XDP program to
++``BPF_PROG_RUN``.
++
++The live packet mode is optimised for high performance execution of the supplied
++XDP program many times (suitable for, e.g., running as a traffic generator),
++which means the semantics are not quite as straight-forward as the regular test
++run mode. Specifically:
++
++- When executing an XDP program in live frame mode, the result of the execution
++  will not be returned to userspace; instead, the kernel will perform the
++  operation indicated by the program's return code (drop the packet, redirect
++  it, etc). For this reason, setting the ``data_out`` or ``ctx_out`` attributes
++  in the syscall parameters when running in this mode will be rejected. In
++  addition, not all failures will be reported back to userspace directly;
++  specifically, only fatal errors in setup or during execution (like memory
++  allocation errors) will halt execution and return an error. If an error occurs
++  in packet processing, like a failure to redirect to a given interface,
++  execution will continue with the next repetition; these errors can be detected
++  via the same trace points as for regular XDP programs.
++
++- Userspace can supply an ifindex as part of the context object, just like in
++  the regular (non-live) mode. The XDP program will be executed as though the
++  packet arrived on this interface; i.e., the ``ingress_ifindex`` of the context
++  object will point to that interface. Furthermore, if the XDP program returns
++  ``XDP_PASS``, the packet will be injected into the kernel networking stack as
++  though it arrived on that ifindex, and if it returns ``XDP_TX``, the packet
++  will be transmitted *out* of that same interface. Do note, though, that
++  because the program execution is not happening in driver context, an
++  ``XDP_TX`` is actually turned into the same action as an ``XDP_REDIRECT`` to
++  that same interface (i.e., it will only work if the driver has support for the
++  ``ndo_xdp_xmit`` driver op).
++
++- When running the program with multiple repetitions, the execution will happen
++  in batches. The batch size defaults to 64 packets (which is same as the
++  maximum NAPI receive batch size), but can be specified by userspace through
++  the ``batch_size`` parameter, up to a maximum of 256 packets. For each batch,
++  the kernel executes the XDP program repeatedly, each invocation getting a
++  separate copy of the packet data. For each repetition, if the program drops
++  the packet, the data page is immediately recycled (see below). Otherwise, the
++  packet is buffered until the end of the batch, at which point all packets
++  buffered this way during the batch are transmitted at once.
++
++- When setting up the test run, the kernel will initialise a pool of memory
++  pages of the same size as the batch size. Each memory page will be initialised
++  with the initial packet data supplied by userspace at ``BPF_PROG_RUN``
++  invocation. When possible, the pages will be recycled on future program
++  invocations, to improve performance. Pages will generally be recycled a full
++  batch at a time, except when a packet is dropped (by return code or because
++  of, say, a redirection error), in which case that page will be recycled
++  immediately. If a packet ends up being passed to the regular networking stack
++  (because the XDP program returns ``XDP_PASS``, or because it ends up being
++  redirected to an interface that injects it into the stack), the page will be
++  released and a new one will be allocated when the pool is empty.
++
++  When recycling, the page content is not rewritten; only the packet boundary
++  pointers (``data``, ``data_end`` and ``data_meta``) in the context object will
++  be reset to the original values. This means that if a program rewrites the
++  packet contents, it has to be prepared to see either the original content or
++  the modified version on subsequent invocations.
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index ef5c996547ec..96056a7447c7 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -21,6 +21,7 @@ that goes into great technical depth about the BPF Architecture.
+    helpers
+    programs
+    maps
++   bpf_prog_run
+    classic_vs_extended.rst
+    bpf_licensing
+    test_debug
 -- 
-Best Regards
-Masahiro Yamada
+2.35.1
+
