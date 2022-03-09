@@ -2,62 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50F7C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:11:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1ACC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Mar 2022 01:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbiCIBMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Mar 2022 20:12:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33942 "EHLO
+        id S230159AbiCIBOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Mar 2022 20:14:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbiCIBMQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:12:16 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF70312E14D
-        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 17:03:46 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id d10so1561818eje.10
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 17:03:46 -0800 (PST)
+        with ESMTP id S231435AbiCIBNW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Mar 2022 20:13:22 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9404D141E38
+        for <linux-doc@vger.kernel.org>; Tue,  8 Mar 2022 16:56:44 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id bi12so1611874ejb.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BVNrGCcOfvHiAcGFTY5YLY7Z1HHPIFngZYQsO1KxKDY=;
-        b=SG8/miPNs2SqQ8nycTJeRar97B4Q7FMFusbGeyij2z7w6RORJwBq1pHwdtxhXCkrRP
-         31vF6vX9uuDq2YbmdD68fWT0Gox8vxJsIr/Xdf2NdLBT+tW3RUdzKm+1mBy81yu0fuoT
-         DDi5tUBGsrtwdVz6rvkrIvBZrf5rTovzb5E7U=
+        bh=dlXc7nO4VVenbG9TQJ/z1TWtkG9nDmF64Ost29V8AWc=;
+        b=fk9Kkf3UiaboVe5n2sPqRmsu9R/9pSJ0MBG82T7odsoD9Z+4tUrGity1EBUSVcd5bO
+         Ay+GVgtTlqOjk5DG157lanciRnAlDA9OLu41FZ3ehebtgoQkdRl4IX3y8PNM/lSEI5AP
+         dZRPNM6mHBzmKNa87ZpX/gBVrjQgnOz7vbrW0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BVNrGCcOfvHiAcGFTY5YLY7Z1HHPIFngZYQsO1KxKDY=;
-        b=hOXe+JwaxFAzdAjpImvzTg0QsjHgTsvfKmJIA+q4p/BEPkSK52fsImA0mL8MIU+50b
-         zeh1W8xx5NsxItI5qqXaqQL1SyJcBS9VNIFdiELN6fHNWcLF2eyZvfQiMweTsWfW0vfU
-         Zk1/W0cHNGfVgTq36WpXp77CrJA0ntg2cl033f2CvyXMsT4tvUcEVibGsh1hC0bXDq/v
-         Dai7rSrNA1qYgOLqNEQZGDJRSXRGiJnBDYVNV26qV3aihna1WCEuiovlW/xqKzDk0Yz+
-         4gkeIIFMpxn5ZZiFlBTTIvqyP+3ScatA1/hiO7QXPx0zi31JDtToTDfsRdvZoXJXn7RQ
-         rdpA==
-X-Gm-Message-State: AOAM5303613KpPJRGhC9A7VJZizDIB8FnF+DGJW3Vm0L9sVa453umYXx
-        a9cnMe2UuLotJMpDKzy1lUV5Nadr2N4VFoIZDUU=
-X-Google-Smtp-Source: ABdhPJy71PcGBgZJbGWqBXw+KqFh3F+UstasB3PGQOTV6poCCCySFWO32hlcdqmUMguUurdEZR3Pzg==
-X-Received: by 2002:a17:907:1c16:b0:6d7:622b:efea with SMTP id nc22-20020a1709071c1600b006d7622befeamr15434899ejc.110.1646783953506;
-        Tue, 08 Mar 2022 15:59:13 -0800 (PST)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id s5-20020a170906284500b006cc551d6cabsm86833ejc.63.2022.03.08.15.59.11
+        bh=dlXc7nO4VVenbG9TQJ/z1TWtkG9nDmF64Ost29V8AWc=;
+        b=3wp+oos4IfaC8Y8UTac43SJHY2ZB03XmNwDsItenoWEmWfgxgwU/Kf8XA+HV+IOIWt
+         Tq+yzNGHHcFVtrpPlDYIXPMn7+/N3kUrzL8B5ks799wWJuzNH9OYDSIPeiHQYUHNKxpV
+         DYRw5E9X7Ol5pTIPZOvzk9ivBqeiTD1Su3091MacC8uh3q4ssyFC+SyF8IK7a1PTAPyi
+         v/jZa9z35p3vKFmKhn/rHuahs609KpBO3cCmp4fGqcKE78MMPUHP/OPQnlVGDGm3UqIL
+         WWNpFdh4qIi89msQ4SkDaASihaGqqbutVT8VBwzTooePkaVvg1qJLldJr98FraaDW+M2
+         OAog==
+X-Gm-Message-State: AOAM533siQB7XDo83GcIgaqYyZepmhk+5l5desQDXPdTYyUJMrZs6t++
+        tyZvocScqc92XlVF2w8Su6NjZNNhnVW8/sKpXzU=
+X-Google-Smtp-Source: ABdhPJxiDFW0uvmX5HQ3sZnHJjXv8FXEtIky8PxYck5f9b9anFofUPHY6AwsRoZ/fq1EcT8Z/2blyQ==
+X-Received: by 2002:a17:907:6d9f:b0:6db:62b6:f3d6 with SMTP id sb31-20020a1709076d9f00b006db62b6f3d6mr1669581ejc.366.1646785800973;
+        Tue, 08 Mar 2022 16:30:00 -0800 (PST)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id y13-20020a1709060a8d00b006dabeaf86c7sm102105ejf.137.2022.03.08.16.30.00
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 15:59:12 -0800 (PST)
-Received: by mail-wr1-f53.google.com with SMTP id p9so495562wra.12
-        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 15:59:11 -0800 (PST)
-X-Received: by 2002:a2e:924d:0:b0:246:370c:5618 with SMTP id
- v13-20020a2e924d000000b00246370c5618mr12145935ljg.358.1646783940635; Tue, 08
- Mar 2022 15:59:00 -0800 (PST)
+        Tue, 08 Mar 2022 16:30:00 -0800 (PST)
+Received: by mail-ej1-f43.google.com with SMTP id bi12so1516066ejb.3
+        for <linux-doc@vger.kernel.org>; Tue, 08 Mar 2022 16:30:00 -0800 (PST)
+X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
+ c4-20020ac244a4000000b004458fc5a12amr12499712lfm.27.1646785789558; Tue, 08
+ Mar 2022 16:29:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308234723.3834941-1-yuzhao@google.com> <20220308234723.3834941-6-yuzhao@google.com>
-In-Reply-To: <20220308234723.3834941-6-yuzhao@google.com>
+References: <20220308234723.3834941-1-yuzhao@google.com> <CAHk-=wi5wg=72exwHODJdVtAfqa1e85dGfjGftuhHQ5Z4v-DNA@mail.gmail.com>
+ <CAOUHufYFDawK6vmkQ16EQm7FSHresViifnxW2yj_RDuMSjJPjg@mail.gmail.com>
+In-Reply-To: <CAOUHufYFDawK6vmkQ16EQm7FSHresViifnxW2yj_RDuMSjJPjg@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 8 Mar 2022 15:58:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wggLcQSk3i2h8RWR2GYnCDQW_t5sWOExh2Oojmxvz0hcA@mail.gmail.com>
-Message-ID: <CAHk-=wggLcQSk3i2h8RWR2GYnCDQW_t5sWOExh2Oojmxvz0hcA@mail.gmail.com>
-Subject: Re: [PATCH v8 05/14] mm: multi-gen LRU: groundwork
+Date:   Tue, 8 Mar 2022 16:29:33 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgwgqJMyxbrxa-mY3cYh--BZ5JKDieVc=RfXR1mdqsYkQ@mail.gmail.com>
+Message-ID: <CAHk-=wgwgqJMyxbrxa-mY3cYh--BZ5JKDieVc=RfXR1mdqsYkQ@mail.gmail.com>
+Subject: Re: [PATCH v8 00/14] Multi-Gen LRU Framework
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
@@ -80,76 +81,41 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, page-reclaim@google.com,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I still think this part is fundamentally wrong:
-
-On Tue, Mar 8, 2022 at 3:48 PM Yu Zhao <yuzhao@google.com> wrote:
+On Tue, Mar 8, 2022 at 4:15 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 3326ee3903f3..4ef67f157374 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -892,6 +892,28 @@ config ANON_VMA_NAME
->           area from being merged with adjacent virtual memory areas due to the
->           difference in their name.
->
-> +# the multi-gen LRU {
-> +config LRU_GEN
-> +       bool "Multi-Gen LRU"
-> +       depends on MMU
-> +       # the following options can use up the spare bits in page flags
-> +       depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
-> +       help
-> +         A high performance LRU implementation for memory overcommit.
-> +
-> +config NR_LRU_GENS
-> +       int "Max number of generations"
-> +       depends on LRU_GEN
-> +       range 4 31
-> +       default 4
-> +       help
-> +         Do not increase this value unless you plan to use working set
-> +         estimation and proactive reclaim. These features are usually for job
-> +         scheduling optimizations in data centers.
-> +
-> +         This option uses order_base_2(N+1) bits in page flags.
-> +# }
+> This sounds self-serving: our data centers want them, so I had to try.
 
-Pick a value. Don't ask a user for a value.
+Heh. I'm not opposed to putting them back in, but if/when we merge the
+multi-gen LRU code, I really want people to be all testing the same
+thing.
 
-If you don't know what the value should be, the user sure as hell doesn't.
+I also think that if we put them back in, that should come with
 
-And if you don't pick a value for people to test, then people will
-test random values and dilute and make the testing less valid in the
-process.
+ (a) performance numbers for the different cases
 
-There is absolutely no upside to asking people a question like this,
-and only downsides.
+ (b) hard guidance of what the numbers should be, and under what
+circumstances (ie giving the user enough information that he *can*
+answer the question for his configuration)
 
-If the quoted "schedulign optimizations" are real, then maybe bigger
-values should be the default? Or maybe it should be a run-time
-tunable, so that people can actually _test_ them?
+ (c) some thought about perhaps making them possibly more dynamic than
+a hardcoded build-time value (assuming the numbers show that it's
+worth doing in the first place, of course)
 
-Or - more likely - that config variable just shouldn't exist, at least
-in some initial series, and you just should say "we use four
-generations, we can tweak this if people have hard numbers later".
+so I think that the support for the concept can/should be left in, but
+I think that kind of fancy "I want more generations or fewer
+tiers-per-generation because of XYZ" needs to be a separate issue with
+more explanation from the initial "This multi-gen LRU gives better
+performance" merge.
 
-                 Linus
+Because as-is, I don't think those config options had nearly enough
+information associated with them to merit them existing.
+
+                  Linus
