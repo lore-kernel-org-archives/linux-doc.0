@@ -2,103 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C14C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 22:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6069DC4321E
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 22:11:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344238AbiCJWKs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 17:10:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33878 "EHLO
+        id S245170AbiCJWMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 17:12:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344200AbiCJWKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 17:10:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E14DA873;
-        Thu, 10 Mar 2022 14:09:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B14761B43;
-        Thu, 10 Mar 2022 22:09:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40AAC340E9;
-        Thu, 10 Mar 2022 22:09:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646950180;
-        bh=nbZcLuFYhFoAwayMU7WIynO05puat2p3vzjHgrWypJo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gbqrCE4jXmfgTJyo13N2P9AnUUqV53HHGqmjPA3cx5b08Ri4OJUnE9Q4OqHY5PeD8
-         NWws8QrfwaOztwnMhv8QUcPEk4r8MFwrYU+tXWGVIp7xUU5BakKICBMFEMUWWz2icn
-         MxxqIfETRUt7eAqy1gZX8lCFFOKzS3cDcxLj+kvGAIDN1UqIDlrc1Eioe3lwiKn1Jz
-         YJoD8RoOPu6ARD/+Ia5KWGfC28xGXIQ5YwoS3aHCYMYRs6qV1pNoY4EQ83gH11zPsr
-         cWE7WkSAdJjEC1tKr3aabgbmJV0hDrG6cRh+bzzKDuO0zPgt+OnuwKBnG5UEwOz5sH
-         iTlGGjDBG+wfg==
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH 2/2] Documentation/sparse: Add hints about __CHECKER__
-Date:   Thu, 10 Mar 2022 16:09:27 -0600
-Message-Id: <20220310220927.245704-3-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220310220927.245704-1-helgaas@kernel.org>
-References: <20220310220927.245704-1-helgaas@kernel.org>
+        with ESMTP id S240908AbiCJWMW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 17:12:22 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1C61959EB
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 14:11:18 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id p15so15172059ejc.7
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 14:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9km0i8SFuccdCOVZYquGLNsFmsoS5afCtujPM89debo=;
+        b=DkO/8stlw+jpHvI8npwNphLXTcJGdwo5HGKNzsLEQgRJKoqLNqUtQ14rO8YztWtv6H
+         bAxp1qhPNeH3fynL0mw7GJsoth6uZUwOJRQT3vdvrEI2RpF54ufTb0yXO3++rTXBespQ
+         x5lpjmtoM0L6NN0u9NAmn1YkWynYbmAVkFmqK9RxmA3NcICSIgE9yAEScpXJQ4VdYV+H
+         qGhCj6APjWltlRC5qBmw4vuoMHC3nKYsIbGWFHWJaXvc4I/QXkVgLDu0Y46f5aCQWnEh
+         nBP1d+G1PMaC87QCOjKfloK3Lw9CLGuuIdMcOaJnRc9h+7uDqcwjICH2qyHuewLribm8
+         lAZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9km0i8SFuccdCOVZYquGLNsFmsoS5afCtujPM89debo=;
+        b=d3NnE0XUJJVcKsrkCx699dAKSTY/H5VEsw/i6zMF/kJjAEmxoFfSwI4GP45mzD/l8O
+         QXwTYESMgc9N20FJM7buh6XA1oZadBrIV/Q6vOwtMKxrncCNxDJzikg67e9nQORGFFO7
+         nwMtglOryIBVIljsEgKVuHVEvzPFA/BT3tgpiNJBq9R4zMLCy5DXnKNxmujmG6F1ajxN
+         m+oaOb85nMR6YnG0pr5UGI0n/dYLnxekMQOTruEh+qcPSddw957TdnK7To/LkJgc0XjZ
+         2pWfm+4gopzfPDS/nN4abxLUePf2kOsFhueRpLK/M+jpei44Bu69zluZQHmZXEtkFF5o
+         Dk6A==
+X-Gm-Message-State: AOAM532EVQLw2JiKxB0AWe0wAJun2ap3RnXpb7E0NsRJ7goOwmNqbCI/
+        ZdPmeZDe54iW0G0WlwGQtQJn+yR5Ip/ggFNT4Bcp
+X-Google-Smtp-Source: ABdhPJzuqe7pKCSsXOm2hSO3J0hQynYE7R+uH9xz7Xj/FjdVN2m1z54F4ZugUJ/pEbmhBHGUILXKrslgjHDns1/T+QA=
+X-Received: by 2002:a17:907:216f:b0:6ce:d85f:35cf with SMTP id
+ rl15-20020a170907216f00b006ced85f35cfmr6109610ejb.517.1646950277373; Thu, 10
+ Mar 2022 14:11:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
+ <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+ <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
+ <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com> <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
+In-Reply-To: <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 10 Mar 2022 17:11:05 -0500
+Message-ID: <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
+To:     Vivek Goyal <vgoyal@redhat.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        David Anderson <dvander@google.com>
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, luca.boccassi@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+On Wed, Mar 9, 2022 at 4:13 PM Paul Moore <paul@paul-moore.com> wrote:
+> On Tue, Mar 1, 2022 at 12:05 AM David Anderson <dvander@google.com> wrote=
+:
+> > On Mon, Feb 28, 2022 at 5:09 PM Paul Moore <paul@paul-moore.com> wrote:
 
-Several attributes depend on __CHECKER__, but previously there was no clue
-in the tree about when __CHECKER__ might be defined.  Add hints at the most
-common places (__kernel, __user, __iomem, __bitwise) and in the sparse
-documentation.
+...
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
----
- Documentation/dev-tools/sparse.rst | 2 ++
- include/linux/compiler_types.h     | 1 +
- include/uapi/linux/types.h         | 1 +
- 3 files changed, 4 insertions(+)
+> >> This patchset may not have been The Answer, but surely there is
+> >> something we can do to support this use-case.
+> >
+> > Yup exactly, and we still need patches 3 & 4 to deal with this. My curr=
+ent plan is to try and rework our sepolicy (we have some ideas on how it co=
+uld be made compatible with how overlayfs works). If that doesn't pan out w=
+e'll revisit these patches and think harder about how to deal with the cohe=
+rency issues.
+>
+> Can you elaborate a bit more on the coherency issues?  Is this the dir
+> cache issue that is alluded to in the patchset?  Anything else that
+> has come up on review?
+>
+> Before I start looking at the dir cache in any detail, did you have
+> any thoughts on how to resolve the problems that have arisen?
 
-diff --git a/Documentation/dev-tools/sparse.rst b/Documentation/dev-tools/sparse.rst
-index 02102be7ff49..dc791c8d84d1 100644
---- a/Documentation/dev-tools/sparse.rst
-+++ b/Documentation/dev-tools/sparse.rst
-@@ -100,3 +100,5 @@ have already built it.
- 
- The optional make variable CF can be used to pass arguments to sparse.  The
- build system passes -Wbitwise to sparse automatically.
-+
-+Note that sparse defines the __CHECKER__ preprocessor symbol.
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index 3c1795fdb568..4b3915ce38a4 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -4,6 +4,7 @@
- 
- #ifndef __ASSEMBLY__
- 
-+/* sparse defines __CHECKER__; see Documentation/dev-tools/sparse.rst */
- #ifdef __CHECKER__
- /* address spaces */
- # define __kernel	__attribute__((address_space(0)))
-diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
-index 71696f424ac8..c4dc597f3dcf 100644
---- a/include/uapi/linux/types.h
-+++ b/include/uapi/linux/types.h
-@@ -19,6 +19,7 @@
-  * any application/library that wants linux/types.h.
-  */
- 
-+/* sparse defines __CHECKER__; see Documentation/dev-tools/sparse.rst */
- #ifdef __CHECKER__
- #define __bitwise	__attribute__((bitwise))
- #else
--- 
-2.25.1
+David, Vivek, Amir, Miklos, or anyone for that matter, can you please
+go into more detail on the cache issues?  I *think* I may have found a
+potential solution for an issue that could arise when the credential
+override is not in place, but I'm not certain it's the only issue :)
 
+There is motivation on our part to try and get the
+"override_creds=3Doff" portion of the patchset working and suitable for
+upstreaming, but I need some help in making sure I understand all the
+objections/problems.
+
+--=20
+paul-moore.com
