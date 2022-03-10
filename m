@@ -2,117 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D935C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 08:27:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C19C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 10:33:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240314AbiCJI2t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 03:28:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38778 "EHLO
+        id S241095AbiCJKe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 05:34:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240326AbiCJI2s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 03:28:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8DC41312;
-        Thu, 10 Mar 2022 00:27:46 -0800 (PST)
+        with ESMTP id S241384AbiCJKex (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 05:34:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA1F9125CBF
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 02:33:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3B40BB8254B;
-        Thu, 10 Mar 2022 08:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A27CC340E8;
-        Thu, 10 Mar 2022 08:27:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C2CB61022
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 10:33:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41595C340E8;
+        Thu, 10 Mar 2022 10:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646900863;
-        bh=lH6TNST8z+31kpvCNG8FuLutvp8PxFIvRRmTnLYxqCw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DQegw6R5caHc88KySqVtU1vH86//yELhBTtsmfAnD12HZsUdI7G2QvqpH0QQeqMwX
-         QQ5ohxya3KLIHlBinvH57fX5ED4ji1IpiV60pX9v+hJMOn4igo3J6d5stPpbvlWvw0
-         IS0wfHyGXTsdnowDoiEdIqGYWMz+siZ6n6d5GfAoiiLPkUYEr8K9rxXCzfZjqefnyA
-         w426wDkwnYMcazj6cIEvu1Fgwmlbo3jsUbvIbSrwsW/MvT17zWpXUqbaK3nEX+9gBB
-         gBWLU7h4Zepz+1JHkyk70RbwzdMWkPeByENTonVstUGhZyFaBS9x+dnu4gPx9DStV3
-         Nia9AZme1QDAQ==
+        s=k20201202; t=1646908386;
+        bh=PG7nVQzs60HQfTios5ZRzSgoy8K4YGTG2YZ7gK2A+mQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YARB3g9usKlUsLX7I7Zoj3pRTftcAEVuUJOwxfJYKKnxlNBQib8o7kRuYOTRzVReB
+         Z/kyIB47DKJDMEUg/cBj7AfB9WFWgioKze+/F/DK08xcHagzvNwxeu4RdDrDWxtAPu
+         tBrzP4j10Yaid7ZzUIqoGWS0pjS/WpHyL4NsvtrTwp8Y51B29YgPPcg2Reg/bTvLUe
+         asYxC8uEvPRig9Ao3MNl9Lzps5DlSGV08WctbDNH9XHd7d490kKuICcqgr9YbY3zyu
+         RtH91dbpngYngD+aVQ29FXG3KIxCHf7VfPaJtCGWPHR7gmNQf/CuSgOTAnnP4d3+OM
+         vStsgN4Vhsn9A==
+Date:   Thu, 10 Mar 2022 12:32:57 +0200
 From:   Mike Rapoport <rppt@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Mike Rapport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs/kernel-parameters: update description of mem=
-Date:   Thu, 10 Mar 2022 10:27:36 +0200
-Message-Id: <20220310082736.1346366-1-rppt@kernel.org>
-X-Mailer: git-send-email 2.34.1
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 3/5] mm/hugetlb_vmemmap: move comment block to
+ Documentation/vm
+Message-ID: <YinT2fO2cDmoLYXG@kernel.org>
+References: <20220307122457.10066-1-joao.m.martins@oracle.com>
+ <20220307122457.10066-4-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220307122457.10066-4-joao.m.martins@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+Hi,
 
-The existing description of mem= does not cover all the cases and
-differences between how architectures treat it.
+On Mon, Mar 07, 2022 at 12:24:55PM +0000, Joao Martins wrote:
+> In preparation for device-dax for using hugetlbfs compound page tail
+> deduplication technique, move the comment block explanation into a
+> common place in Documentation/vm.
+> 
+> Cc: Muchun Song <songmuchun@bytedance.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> ---
+>  Documentation/vm/index.rst         |   1 +
+>  Documentation/vm/vmemmap_dedup.rst | 173 +++++++++++++++++++++++++++++
 
-Extend the description to match the code.
+Sorry for jumping late.
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
-v2: https://lore.kernel.org/all/20220309172258.1183796-1-rppt@kernel.org
-* move Hexagon description to make it better visible
+Please consider moving this into Documentation/vm/memory-model.rst along
+with the documentation added in the next patch
 
-v1: https://lore.kernel.org/all/20220309122446.1118738-1-rppt@kernel.org
-* drop clumsy and redundant paragraph about Hexagon
- .../admin-guide/kernel-parameters.txt          | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f5a27f067db9..5b84cca62990 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2827,6 +2827,9 @@
- 
- 			For details see: Documentation/admin-guide/hw-vuln/mds.rst
- 
-+	mem=nn[KMG]	[HEXAGON] Set the memory size.
-+			Must be specified, otherwise memory size will be 0.
-+
- 	mem=nn[KMG]	[KNL,BOOT] Force usage of a specific amount of memory
- 			Amount of memory to be used in cases as follows:
- 
-@@ -2834,6 +2837,13 @@
- 			2 when the kernel is not able to see the whole system memory;
- 			3 memory that lies after 'mem=' boundary is excluded from
- 			 the hypervisor, then assigned to KVM guests.
-+			4 to limit the memory available for kdump kernel.
-+
-+			[ARC,MICROBLAZE] - the limit applies only to low memory,
-+			high memory is not affected.
-+
-+			[ARM64] - only limits memory covered by the linear
-+			mapping. The NOMAP regions are not affected.
- 
- 			[X86] Work as limiting max address. Use together
- 			with memmap= to avoid physical address space collisions.
-@@ -2844,6 +2854,14 @@
- 			in above case 3, memory may need be hot added after boot
- 			if system memory of hypervisor is not sufficient.
- 
-+	mem=nn[KMG]@ss[KMG]
-+			[ARM,MIPS] - override the memory layout reported by
-+			firmware.
-+			Define a memory region of size nn[KMG] starting at
-+			ss[KMG].
-+			Multiple different regions can be specified with
-+			multiple mem= parameters on the command line.
-+
- 	mem=nopentium	[BUGS=X86-32] Disable usage of 4MB pages for kernel
- 			memory.
- 
 -- 
-2.34.1
-
+Sincerely yours,
+Mike.
