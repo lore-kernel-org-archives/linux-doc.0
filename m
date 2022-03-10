@@ -2,187 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF1AC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 17:36:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C82C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 19:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237195AbiCJRh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 12:37:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
+        id S234016AbiCJTej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 14:34:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245250AbiCJRhx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 12:37:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05203191418;
-        Thu, 10 Mar 2022 09:36:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 937F361DFD;
-        Thu, 10 Mar 2022 17:36:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69144C340E8;
-        Thu, 10 Mar 2022 17:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646933811;
-        bh=h0waVYpyuTnkxGPqGqawZDdOqQAy45V3TgKXqVDiUgs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gGgZ9ufXsEo9xVy70iZNBJODuGslQ1+tolhXfEhoXVWR6AqvkeyQcsvQeD/AOt2V4
-         7GfFsQc0SBybJ2TgT/QjnghtIz9FaqXAZcua97AnhAxTWfZzZebelbBOCiHU8DeQjK
-         z7dWBNBei5WZ6MNIHnI4x152MF+LBn3KBWls7cuIwjczDJhFfIMbhz0DNortW5fqIg
-         LeDnJ08FqIqa+M74JiEfpJtCeE/z+XV3CAn8npZPVXcBkF0imyPcw9sOYTllUQT1aD
-         Dl+ym1SUXxpRfOkBQmv4qsjEswk1zps8/YN7keBqTbZeozmOrjrOsFeG9Au5LbJ8Wf
-         nu50xEtAaOVvg==
-Date:   Thu, 10 Mar 2022 10:36:43 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
-Message-ID: <Yio3K4bgdyFEBy7J@dev-arch.thelio-3990X>
-References: <20220304170813.1689186-1-nathan@kernel.org>
- <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
- <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
- <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+        with ESMTP id S238258AbiCJTei (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 14:34:38 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31ADE14CD9D
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 11:33:33 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id e6so4628052lfc.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 11:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4n6+idQ0426w+zkqVp6H2ORC9fnCFio1PZzrW8WKfUg=;
+        b=OqorwzMtB49Fqip4wdm9stFVvynD2x0VggX/za+LSk2+cpHubYR90RJjOnsqoXAZJS
+         PKEVUeYOlX9QtjBhjnUyqb2PSsDR+wETukIDxJkkWJI/DMsjfuTMhgIY8mWPWQI2oyra
+         o9JsTO9TomWo7QJKLuNr0wMP8y/j0gAZ8MvjywUAmGwereXi3I5q/gwobTMAtCKGo3oi
+         vt/8ah4AtRtGVIPPYFZ4mhGu4YhvT3BEEVZTIY2Bk+dPnS0QYjByJLaLoXqCs3CRn8kZ
+         L0EpsvYejfkgMhc+/apIKBKxCkq9x+U6bH72wsz5pbyzAid1oMjnyYZpZwTlBQCy59QM
+         HvbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4n6+idQ0426w+zkqVp6H2ORC9fnCFio1PZzrW8WKfUg=;
+        b=pz7+v3SX4Tb1R8bEFWYn7TLUvIVSasQTc8hifIvBs2A+AkK+wUFB2NGd7l8OFlomu5
+         nGYGe1mReVBtJLwgMNGO4Qdhxiq7GwKwv3NzIQTzQkuwEtSp+EobRNDr7r3oeLUnIfXU
+         rCgukSJ2JYp3blwoYpkHuA9jrb68ScXaWYPzkHBi/2TBYiTw7CMpylDwcdblKXHzzmGX
+         oA0F2TFDXtuJ+KNyMSJHUzqvyiOL8xudwdOsVY1YzGXuCwZgiiOsf55Q+BuBUztAS9zp
+         8a6CdsEw92RSb/Q4DFc/bHXto877ZnIn1Riyk8NHKrEo83zzWj2iN16B2hIGKLLBDfUM
+         0bgw==
+X-Gm-Message-State: AOAM530QCZwXVzClMYkuH5uL1Rl7rPVENnzyjzHRNO2Sg43e2paHJAC/
+        ih5oy20NdJ7jB0qX18sqUb7/JGBqk7v6DgTB9DGyuw==
+X-Google-Smtp-Source: ABdhPJwMmlW87gYnDG08JkAcAdSJk0r0l+PhyvspUkMuuh2orjECrIymDRz2y9i5JbalSY67z7Cseau7s6pXnUeek3s=
+X-Received: by 2002:a05:6512:5d2:b0:448:2e88:e9bd with SMTP id
+ o18-20020a05651205d200b004482e88e9bdmr4058133lfo.424.1646940811350; Thu, 10
+ Mar 2022 11:33:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+References: <20220309165222.2843651-1-tjmercier@google.com> <20220309165222.2843651-8-tjmercier@google.com>
+In-Reply-To: <20220309165222.2843651-8-tjmercier@google.com>
+From:   Todd Kjos <tkjos@google.com>
+Date:   Thu, 10 Mar 2022 11:33:20 -0800
+Message-ID: <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
+Subject: Re: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for userspace
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 09, 2022 at 06:33:40PM +0900, Masahiro Yamada wrote:
-> On Wed, Mar 9, 2022 at 12:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
-> > > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > > >
-> > > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > > > index d32616891dcf..68b74416ec48 100644
-> > > > --- a/Documentation/kbuild/llvm.rst
-> > > > +++ b/Documentation/kbuild/llvm.rst
-> > > > @@ -49,17 +49,36 @@ example: ::
-> > > >  LLVM Utilities
-> > > >  --------------
-> > > >
-> > > > -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
-> > > > -to enable them. ::
-> > > > -
-> > > > -       make LLVM=1
-> > > > -
-> > > > -They can be enabled individually. The full list of the parameters: ::
-> > > > +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
-> > > > +The full list of supported make variables: ::
-> > > >
-> > > >         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > > >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> > > >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> > > >
-> > > > +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
-> > > > +
-> > > > +       make LLVM=1
-> > > > +
-> > > > +If your LLVM tools are not available in your PATH, you can supply their
-> > > > +location using the LLVM variable with a trailing slash: ::
-> > > > +
-> > > > +       make LLVM=/path/to/llvm/
-> > > > +
-> > > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-> > >
-> > > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
-> > > works and (my interpretation of what) Masahiro said "if anyone asks
-> > > for this, here's how we could do that."  I don't think I've seen an
-> > > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
-> > > won't hold this patch up over that.  Either way:
-> >
-> > Right, there has not been an explicit ask for the prefix support yet,
-> > although I know I personally would use it, but I think that it is worth
-> > doing now instead of later for a few reasons:
-> >
-> > 1. It makes path goofs easier to spot. If you do
-> >
-> >      $ PATH=/path/to/llvm:$PATH make LLVM=1 ...
-> >
-> >    with a path to LLVM that does not exist (maybe you are bisecting an
-> >    issue and using a temporary build of LLVM and you forgot the path it
-> >    was in), you fall back to the LLVM tools that are in other places in
-> >    your PATH, which is not what the developer intended. I know that I
-> >    have messed up bisects that way. If you did
-> >
-> >      $ make LLVM=/path/to/llvm/
-> >
-> >    with a path that does not exist, there will be an error much earlier:
-> >
-> >      $ make LLVM=/this/path/does/not/exist/ defconfig
-> >      /bin/sh: line 1: /this/path/does/not/exist/clang: No such file or directory
-> >
-> > 2. It does not take that much more code or documentation to support. It
-> >    is the same amount of code as the suffix and the documentation is
-> >    roughly the same amount of lines as well.
-> >
-> > 3. If we wait to implement the path-based use of $(LLVM), we have three
-> >    "sequence" points: the initial support of $(LLVM), the suffix
-> >    support, and the prefix support. As we are constantly working with
-> >    various trees, it would make it harder to know what to use when. If
-> >    we just do it in the same patch, we know 5.18+ can use both of these
-> >    methods.
-> >
-> > However, at the end of the day, we are a team and if you feel like we
-> > should only have suffix support, I am more than happy to push a v3 that
-> > does just that and we can revist prefix support in the future. Just let
-> > me know!
-> 
-> 
-> I do not have a strong opinion about this.
-> (I just mentioned the LLVM=/path/to/llvm/ form because I guessed
-> somebody would request this sooner or later.)
-> 
-> 
-> If you want me to pick up this version, I will apply it with fixing up
-> a nit pointed out by Kees   (": ::" -> "::")
-> 
-> If you want to send v3, that is fine with me as well.
-> 
-> Please let me know your thoughts.
+On Wed, Mar 9, 2022 at 8:52 AM T.J. Mercier <tjmercier@google.com> wrote:
+>
+> The kernel interface should use types that the kernel defines instead of
+> pid_t and uid_t, whose definiton is owned by libc. This fixes the header
+> so that it can be included without first including sys/types.h.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+>  include/uapi/linux/android/binder.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
+> index 169fd5069a1a..aa28454dbca3 100644
+> --- a/include/uapi/linux/android/binder.h
+> +++ b/include/uapi/linux/android/binder.h
+> @@ -289,8 +289,8 @@ struct binder_transaction_data {
+>
+>         /* General information about the transaction. */
+>         __u32           flags;
+> -       pid_t           sender_pid;
+> -       uid_t           sender_euid;
+> +       __kernel_pid_t  sender_pid;
+> +       __kernel_uid_t  sender_euid;
 
-Given Nick's response, please pick up this revision with Kees' nit.
-Thank you!
+Are we guaranteed that this does not affect the UAPI at all? Userspace
+code using this definition will have to run with kernels using the old
+definition and visa-versa.
 
-Cheers,
-Nathan
-
-> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > >
-> > > > +
-> > > > +If your LLVM tools have a version suffix and you want to test with that
-> > > > +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-> > > > +can pass the suffix using the ``LLVM`` variable: ::
-> > > > +
-> > > > +       make LLVM=-14
-> > > > +
-> > > > +which will use ``clang-14``, ``ld.lld-14``, etc.
-> > > > +
-> > > > +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> > > > +``LLVM=1``.
-> > >
-> > > Hmm... I can see someone's build wrappers setting LLVM=1, then them
-> > > being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
-> > > might expect.  But Masahiro says let's fix this later which is fine.
-> >
-> > Sure, I guess that is a reasonable case to support. I'll see if I can
-> > come up with something that makes sense after this change lands.
-> >
-> > Cheers,
-> > Nathan
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+>         binder_size_t   data_size;      /* number of bytes of data */
+>         binder_size_t   offsets_size;   /* number of bytes of offsets */
+>
+> --
+> 2.35.1.616.g0bdcbb4464-goog
+>
