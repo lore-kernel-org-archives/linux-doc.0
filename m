@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC304C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 15:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A51C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 15:19:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235039AbiCJPUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 10:20:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
+        id S233190AbiCJPUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 10:20:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233190AbiCJPUn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 10:20:43 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74D704F9D3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 07:19:41 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id cx5so5549708pjb.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 07:19:41 -0800 (PST)
+        with ESMTP id S234386AbiCJPUq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 10:20:46 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28282527C7
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 07:19:45 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id cx5so5549904pjb.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 07:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IRhJnGUf7LgcfX3QkuNt17gYnklMoAiNEvH0nsk2B58=;
-        b=CDWCC1wE5tT59Nyn8j76Ed1MqZUb3cUwKxLhMC3yyzVjySXGcLBdoVLgnucqlNmWs8
-         KBoQD80iaR2tjvso/3/qSCBOCoYUx5WCFuw6UYLUBykEHs6045V+1/CO6vZ42PzfeCXc
-         jIO5Gq/NokxWXZhUc9Vtkj50wHGvEVjvyVJSjnq1CBHK4dR4Pg2fHwZggcmoxUs6Ft28
-         K5gUttDWEAcWxw2jptBddUXHClozcao2Kqts8O2oNJCdhpaRrFHEqhLzVQowLxVVmAHn
-         LEeIz1aEojT7xhs+4SB9nC3dKg11/8MS7/ILj68KnZIhEz29AUh6/UgmfslPxadFogGW
-         sAiw==
+        bh=l6ezvva7aIyQAg2OGi2GVTAkNprHIfCTgRi/sBSe3Ow=;
+        b=nrpAnkfkmbUNLZx+SP33X3h9252vWWa2A5qpJ4a4Jyxo55OyMOMjjrkQfBWopmDVdj
+         ncf4QvrnLQ08gZDhLZ32/ipYV9Pc9AYOoSOEXB3oa2VDqTYWmFNazdZlgKZqT3ZUer9P
+         SZIz5eHWEHzoetCOwG21bAbN0QVSfn79gWOPXIwK8OJmnKsiVlkDL/2PO7QR0C9jnccU
+         t19fPvlu0OHi8lMzGsxrvkhZmsYjOOkA2dKzGDafksmzY1IuASzMH3OpXlLg7nx3sF5y
+         4w4CqE91zS/JwfIEMYsS98aCLRcWWLI9S7L9cYLsSEOepnvMkqPJeEzAbYMSKdvdh7gw
+         j1vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IRhJnGUf7LgcfX3QkuNt17gYnklMoAiNEvH0nsk2B58=;
-        b=fjR7GdLnkJ/2rqObSl/QsGuYKiRpYJ1d55MFD6R1G54ZdGjSGO/ATvBa2tJOgAg7av
-         Jj/HMr27Tyl5t/gWheczUJI4SHHk0t3FLRDERAUjoV6izRhH+Zk5HdNVz6joxqv018nb
-         Dtv0oYGb9YzrjbnTQcKt2c2fUCBkjsEDxRa6EbfyuGznjJ7MB+aAbPDi74WikXWvPwpq
-         IF8FO4di58fkZV4Mf1/i9Rz+HdzqAf1Tc5RnWb2bvYiPDdSx2FyI/PpB/25Btx3QBVI1
-         g8Xy2oX3RjFhcUrd9Wlh5RMOeToxd/catRppVOwGP6YcE6VyXU2/90VSoGszDejFUgRN
-         8ylg==
-X-Gm-Message-State: AOAM530ileREW4eeZiApkB2ZAGxbKVKpc6QPFRlVctMclXpkAgYSfMgH
-        k1UYNXvJP4raKIeo3XnuSFY=
-X-Google-Smtp-Source: ABdhPJxdRODyo/JVibH5Iz+p66CDO/HG6e0DE+Wb5nzAUVq2qVEK/RHMT7Y/fnyUNSymKSiJmhhIQg==
-X-Received: by 2002:a17:90a:8911:b0:1bd:395e:40e5 with SMTP id u17-20020a17090a891100b001bd395e40e5mr16260231pjn.121.1646925580844;
-        Thu, 10 Mar 2022 07:19:40 -0800 (PST)
+        bh=l6ezvva7aIyQAg2OGi2GVTAkNprHIfCTgRi/sBSe3Ow=;
+        b=6EnzdHGaj+mTFXNXRczw8R8rdmdWWVXasnhX8ncydYkInlWJ8rRib2yz1op+Og3SwY
+         bu47XnzQqYTZUt+XAnoHQMXPuzrTgM04gqE3SY1qIpp2QZDSax0ahLVa+u4Iu3Gv2E4Q
+         VBpSmHdKm8hg5r/PjREjqIVG2C63Xdn72vTPILzZsANXo4S6P0YE6qKdTv7Vz2ZNQcu4
+         fKE8T2LlUj1h9lJKM6gsn6+2CzQzPvv+NLvWL3pt1SVn4X8/9XS7pFxHLqR5vDrn+5GL
+         +YRBFZQAjpmQnSGW5jimGlFIPjJF0SOlZ3HgJWqpAes/6OQ5ZXiPGimHM0b5+jB/pXCh
+         KyFw==
+X-Gm-Message-State: AOAM530AQhMs3IoX4cV9wsH38OcwIP5mUGWg3suRHaXKc7Irfv4bGtIa
+        Yhl8EpdOZiBThw/KCDCfex4=
+X-Google-Smtp-Source: ABdhPJySwBc3KOcZhxsvA8DeyykEEGfqRCDRJ5XrM09QwrPKjZz1oZ6VfPeeLhaxeFBIKqH//wv7zg==
+X-Received: by 2002:a17:902:ce0d:b0:14f:c36f:afd with SMTP id k13-20020a170902ce0d00b0014fc36f0afdmr5472663plg.63.1646925584373;
+        Thu, 10 Mar 2022 07:19:44 -0800 (PST)
 Received: from localhost.localdomain ([50.7.60.25])
-        by smtp.gmail.com with ESMTPSA id q11-20020a056a00084b00b004f73e6c26b8sm7474424pfk.25.2022.03.10.07.19.37
+        by smtp.gmail.com with ESMTPSA id q11-20020a056a00084b00b004f73e6c26b8sm7474424pfk.25.2022.03.10.07.19.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Mar 2022 07:19:40 -0800 (PST)
+        Thu, 10 Mar 2022 07:19:44 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v6 3/5] docs/zh_CN: add admin-guide damon start translation
-Date:   Thu, 10 Mar 2022 23:20:50 +0800
-Message-Id: <e6e328be018cbf5f9105adfdad56c951acbb8c8f.1646899089.git.siyanteng@loongson.cn>
+Subject: [PATCH v6 4/5] docs/zh_CN: add damon usage translation
+Date:   Thu, 10 Mar 2022 23:20:51 +0800
+Message-Id: <431f1c2a158c61a6556f58048cb54961ab7a8790.1646899089.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1646899089.git.siyanteng@loongson.cn>
 References: <cover.1646899089.git.siyanteng@loongson.cn>
@@ -68,42 +68,41 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate Documentation/admin-guide/mm/damon/start.rst into Chinese.
+Translate .../admin-guide/mm/damon/usage.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../zh_CN/admin-guide/mm/damon/index.rst      |   4 +-
- .../zh_CN/admin-guide/mm/damon/start.rst      | 132 ++++++++++++++++++
- 2 files changed, 135 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst
+ .../zh_CN/admin-guide/mm/damon/index.rst      |   2 +-
+ .../zh_CN/admin-guide/mm/damon/usage.rst      | 286 ++++++++++++++++++
+ 2 files changed, 287 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
 
 diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-index 4581e1bc2506..4aa122f375e3 100644
+index 4aa122f375e3..bd1f1a551f0f 100644
 --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
 +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst
-@@ -19,8 +19,10 @@
- .. toctree::
+@@ -20,9 +20,9 @@
     :maxdepth: 2
  
-+   start
-+
+    start
++   usage
+ 
  Todolist:
  
--*   start
-+
- *   usage
+ 
+-*   usage
  *   reclaim
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
 new file mode 100644
-index 000000000000..67d1b49481dc
+index 000000000000..5d7533347216
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst
-@@ -0,0 +1,132 @@
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+@@ -0,0 +1,286 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/admin-guide/mm/damon/start.rst
++:Original: Documentation/admin-guide/mm/damon/usage.rst
 +
 +:翻译:
 +
@@ -112,126 +111,280 @@ index 000000000000..67d1b49481dc
 +:校译:
 +
 +========
-+入门指南
++详细用法
 +========
 +
-+本文通过演示DAMON的默认用户空间工具，简要地介绍了如何使用DAMON。请注意，为了简洁
-+起见，本文档只描述了它的部分功能。更多细节请参考该工具的使用文档。
-+`doc <https://github.com/awslabs/damo/blob/next/USAGE.md>`_ .
++DAMON 为不同的用户提供了下面三种接口。
++
++- *DAMON用户空间工具。*
++  `这 <https://github.com/awslabs/damo>`_ 为有这特权的人， 如系统管理员，希望有一个刚好
++  可以工作的人性化界面。
++  使用它，用户可以以人性化的方式使用DAMON的主要功能。不过，它可能不会为特殊情况进行高度调整。
++  它同时支持虚拟和物理地址空间的监测。更多细节，请参考它的 `使用文档
++  <https://github.com/awslabs/damo/blob/next/USAGE.md>`_。
++- *debugfs接口。*
++  :ref:`这 <debugfs_interface>` 是为那些希望更高级的使用DAMON的特权用户空间程序员准备的。
++  使用它，用户可以通过读取和写入特殊的debugfs文件来使用DAMON的主要功能。因此，你可以编写和使
++  用你个性化的DAMON debugfs包装程序，代替你读/写debugfs文件。  `DAMON用户空间工具
++  <https://github.com/awslabs/damo>`_ 就是这种程序的一个例子  它同时支持虚拟和物理地址
++  空间的监测。注意，这个界面只提供简单的监测结果 :ref:`统计 <damos_stats>`。对于详细的监测
++  结果，DAMON提供了一个:ref:`跟踪点 <tracepoint>`。
++
++- *内核空间编程接口。*
++  :doc:`This </vm/damon/api>` 这是为内核空间程序员准备的。使用它，用户可以通过为你编写内
++  核空间的DAMON应用程序，最灵活有效地利用DAMON的每一个功能。你甚至可以为各种地址空间扩展DAMON。
++  详细情况请参考接口 :doc:`文件 </vm/damon/api>`。
 +
 +
-+前提条件
-+========
++debugfs接口
++===========
 +
-+内核
++DAMON导出了八个文件, ``attrs``, ``target_ids``, ``init_regions``,
++``schemes``, ``monitor_on``, ``kdamond_pid``, ``mk_contexts`` 和
++``rm_contexts`` under its debugfs directory, ``<debugfs>/damon/``.
++
++
++属性
 +----
 +
-+首先，你要确保你当前系统中跑的内核构建时选定了这个功能选项 ``CONFIG_DAMON_*=y``.
++用户可以通过读取和写入 ``attrs`` 文件获得和设置 ``采样间隔`` 、 ``聚集间隔`` 、 ``区域更新间隔``
++以及监测目标区域的最小/最大数量。要详细了解监测属性，请参考 `:doc:/vm/damon/design` 。例如，
++下面的命令将这些值设置为5ms、100ms、1000ms、10和1000，然后再次检查::
++
++    # cd <debugfs>/damon
++    # echo 5000 100000 1000000 10 1000 > attrs
++    # cat attrs
++    5000 100000 1000000 10 1000
 +
 +
-+用户空间工具
-+------------
++目标ID
++------
 +
-+在演示中，我们将使用DAMON的默认用户空间工具，称为DAMON Operator（DAMO）。它可以在
-+https://github.com/awslabs/damo找到。下面的例子假设DAMO在你的$PATH上。当然，但
-+这并不是强制性的。
++一些类型的地址空间支持多个监测目标。例如，虚拟内存地址空间的监测可以有多个进程作为监测目标。用户
++可以通过写入目标的相关id值来设置目标，并通过读取 ``target_ids`` 文件来获得当前目标的id。在监
++测虚拟地址空间的情况下，这些值应该是监测目标进程的pid。例如，下面的命令将pid为42和4242的进程设
++为监测目标，并再次检查::
 +
-+因为DAMO使用的是DAMON的debugfs接口(详情请参考 :doc:`usage` 中的使用方法) 你应该
-+确保debugfs被挂载。手动挂载它，如下所示::
++    # cd <debugfs>/damon
++    # echo 42 4242 > target_ids
++    # cat target_ids
++    42 4242
 +
-+    # mount -t debugfs none /sys/kernel/debug/
++用户还可以通过在文件中写入一个特殊的关键字 "paddr\n" 来监测系统的物理内存地址空间。因为物理地
++址空间监测不支持多个目标，读取文件会显示一个假值，即 ``42`` ，如下图所示::
 +
-+或者在你的 ``/etc/fstab`` 文件中添加以下一行，这样你的系统就可以在启动时自动挂载
-+debugfs了::
++    # cd <debugfs>/damon
++    # echo paddr > target_ids
++    # cat target_ids
++    42
 +
-+    debugfs /sys/kernel/debug debugfs defaults 0 0
++请注意，设置目标ID并不启动监测。
 +
 +
-+记录数据访问模式
++初始监测目标区域
++----------------
++
++在虚拟地址空间监测的情况下，DAMON自动设置和更新监测的目标区域，这样就可以覆盖目标进程的整个
++内存映射。然而，用户可能希望将监测区域限制在特定的地址范围内，如堆、栈或特定的文件映射区域。
++或者，一些用户可以知道他们工作负载的初始访问模式，因此希望为“自适应区域调整”设置最佳初始区域。
++
++相比之下，DAMON在物理内存监测的情况下不会自动设置和更新监测目标区域。因此，用户应该自己设置
++监测目标区域。
++
++在这种情况下，用户可以通过在 ``init_regions`` 文件中写入适当的值，明确地设置他们想要的初
++始监测目标区域。输入的每一行应代表一个区域，形式如下::
++
++    <target idx> <start address> <end address>
++
++目标idx应该是 ``target_ids`` 文件中目标的索引，从 ``0`` 开始，区域应该按照地址顺序传递。
++例如，下面的命令将设置几个地址范围， ``1-100`` 和 ``100-200`` 作为pid 42的初始监测目标
++区域，这是 ``target_ids`` 中的第一个（索引 ``0`` ），另外几个地址范围， ``20-40`` 和
++``50-100`` 作为pid 4242的地址，这是 ``target_ids`` 中的第二个（索引 ``1`` ）::
++
++    # cd <debugfs>/damon
++    # cat target_ids
++    42 4242
++    # echo "0   1       100
++            0   100     200
++            1   20      40
++            1   50      100" > init_regions
++
++请注意，这只是设置了初始的监测目标区域。在虚拟内存监测的情况下，DAMON会在一个 ``区域更新间隔``
++后自动更新区域的边界。因此，在这种情况下，如果用户不希望更新的话，应该把 ``区域的更新间隔`` 设
++置得足够大。
++
++
++方案
++----
++
++对于通常的基于DAMON的数据访问感知的内存管理优化，用户只是希望系统对特定访问模式的内存区域应用内
++存管理操作。DAMON从用户那里接收这种形式化的操作方案，并将这些方案应用到目标进程中。
++
++用户可以通过读取和写入 ``scheme`` debugfs文件来获得和设置这些方案。读取该文件还可以显示每个
++方案的统计数据。在文件中，每一个方案都应该在每一行中以下列形式表示出来::
++
++    <target access pattern> <action> <quota> <watermarks>
++
++你可以通过简单地在文件中写入一个空字符串来禁用方案。
++
++目标访问模式
++~~~~~~~~~~~~
++
++``<目标访问模式>`` 是由三个范围构成的，形式如下::
++
++    min-size max-size min-acc max-acc min-age max-age
++
++具体来说，区域大小的字节数（ `min-size` 和 `max-size` ），访问频率的每聚合区间的监测访问次
++数（ `min-acc` 和 `max-acc` ），区域年龄的聚合区间数（ `min-age` 和 `max-age` ）都被指定。
++请注意，这些范围是封闭区间。
++
++动作
++~~~~
++
++``<action>`` 是一个预定义的内存管理动作的整数，DAMON将应用于具有目标访问模式的区域。支持
++的数字和它们的含义如下::
++
++ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
++ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
++ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
++ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
++ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
++ - 5: Do nothing but count the statistics
++
++配额
++~~~~
++
++每个 ``动作`` 的最佳 ``目标访问模式`` 取决于工作负载，所以不容易找到。更糟糕的是，将某个
++动作的方案设置得过于激进会导致严重的开销。为了避免这种开销，用户可以通过下面表格中的 ``<quota>``
++来限制方案的时间和大小配额::
++
++    <ms> <sz> <reset interval> <priority weights>
++
++这使得DAMON在 ``<reset interval>`` 毫秒内，尽量只用 ``<ms>`` 毫秒的时间对 ``目标访
++问模式`` 的内存区域应用动作，并在 ``<reset interval>`` 内只对最多<sz>字节的内存区域应
++用动作。将 ``<ms>`` 和 ``<sz>`` 都设置为零，可以禁用配额限制。
++
++当预计超过配额限制时，DAMON会根据 ``目标访问模式`` 的大小、访问频率和年龄，对发现的内存
++区域进行优先排序。为了实现个性化的优先级，用户可以在 ``<优先级权重>`` 中设置这三个属性的
++权重，具体形式如下::
++
++    <size weight> <access frequency weight> <age weight>
++
++水位
++~~~~
++
++有些方案需要根据系统特定指标的当前值来运行，如自由内存比率。对于这种情况，用户可以为该条
++件指定水位。::
++
++    <metric> <check interval> <high mark> <middle mark> <low mark>
++
++``<metric>`` 是一个预定义的整数，用于要检查的度量。支持的数字和它们的含义如下。
++
++ - 0: 忽视水位
++ - 1: 系统空闲内存率 (千分比)
++
++每隔 ``<检查间隔>`` 微秒检查一次公制的值。
++
++如果该值高于 ``<高标>`` 或低于 ``<低标>`` ，该方案被停用。如果该值低于 ``<中标>`` ，
++该方案将被激活。
++
++统计数据
++~~~~~~~~
++
++它还统计每个方案被尝试应用的区域的总数量和字节数，每个方案被成功应用的区域的两个数量，以
++及超过配额限制的总数量。这些统计数据可用于在线分析或调整方案。
++
++统计数据可以通过读取方案文件来显示。读取该文件将显示你在每一行中输入的每个 ``方案`` ，
++统计的五个数字将被加在每一行的末尾。
++
++例子
++~~~~
++
++下面的命令应用了一个方案：”如果一个大小为[4KiB, 8KiB]的内存区域在[10, 20]的聚合时间
++间隔内显示出每一个聚合时间间隔[0, 5]的访问量，请分页出该区域。对于分页，每秒最多只能使
++用10ms，而且每秒分页不能超过1GiB。在这一限制下，首先分页出具有较长年龄的内存区域。另外，
++每5秒钟检查一次系统的可用内存率，当可用内存率低于50%时开始监测和分页，但如果可用内存率
++大于60%，或低于30%，则停止监测“::
++
++    # cd <debugfs>/damon
++    # scheme="4096 8192  0 5    10 20    2"  # target access pattern and action
++    # scheme+=" 10 $((1024*1024*1024)) 1000" # quotas
++    # scheme+=" 0 0 100"                     # prioritization weights
++    # scheme+=" 1 5000000 600 500 300"       # watermarks
++    # echo "$scheme" > schemes
++
++
++开关
++----
++
++除非你明确地启动监测，否则如上所述的文件设置不会产生效果。你可以通过写入和读取 ``monitor_on``
++文件来启动、停止和检查监测的当前状态。写入 ``on`` 该文件可以启动对有属性的目标的监测。写入
++``off`` 该文件则停止这些目标。如果每个目标进程被终止，DAMON也会停止。下面的示例命令开启、关
++闭和检查DAMON的状态::
++
++    # cd <debugfs>/damon
++    # echo on > monitor_on
++    # echo off > monitor_on
++    # cat monitor_on
++    off
++
++请注意，当监测开启时，你不能写到上述的debugfs文件。如果你在DAMON运行时写到这些文件，将会返
++回一个错误代码，如 ``-EBUSY`` 。
++
++
++监测线程PID
++-----------
++
++DAMON通过一个叫做kdamond的内核线程来进行请求监测。你可以通过读取 ``kdamond_pid`` 文件获
++得该线程的 ``pid`` 。当监测被 ``关闭`` 时，读取该文件不会返回任何信息::
++
++    # cd <debugfs>/damon
++    # cat monitor_on
++    off
++    # cat kdamond_pid
++    none
++    # echo on > monitor_on
++    # cat kdamond_pid
++    18594
++
++
++使用多个监测线程
++----------------
++
++每个监测上下文都会创建一个 ``kdamond`` 线程。你可以使用 ``mk_contexts`` 和 ``rm_contexts``
++文件为多个 ``kdamond`` 需要的用例创建和删除监测上下文。
++
++将新上下文的名称写入 ``mk_contexts`` 文件，在 ``DAMON debugfs`` 目录上创建一个该名称的目录。
++该目录将有该上下文的 ``DAMON debugfs`` 文件::
++
++    # cd <debugfs>/damon
++    # ls foo
++    # ls: cannot access 'foo': No such file or directory
++    # echo foo > mk_contexts
++    # ls foo
++    # attrs  init_regions  kdamond_pid  schemes  target_ids
++
++如果不再需要上下文，你可以通过把上下文的名字放到 ``rm_contexts`` 文件中来删除它和相应的目录::
++
++    # echo foo > rm_contexts
++    # ls foo
++    # ls: cannot access 'foo': No such file or directory
++
++注意， ``mk_contexts`` 、 ``rm_contexts`` 和 ``monitor_on`` 文件只在根目录下。
++
++
++监测结果的监测点
 +================
 +
-+下面的命令记录了一个程序的内存访问模式，并将监测结果保存到文件中。 ::
++DAMON通过一个tracepoint ``damon:damon_aggregated`` 提供监测结果.  当监测开启时，你可
++以记录追踪点事件，并使用追踪点支持工具如perf显示结果。比如说::
 +
-+    $ git clone https://github.com/sjp38/masim
-+    $ cd masim; make; ./masim ./configs/zigzag.cfg &
-+    $ sudo damo record -o damon.data $(pidof masim)
-+
-+命令的前两行下载了一个人工内存访问生成器程序并在后台运行。生成器将重复地逐一访问两个
-+100 MiB大小的内存区域。你可以用你的真实工作负载来代替它。最后一行要求 ``damo`` 将
-+访问模式记录在 ``damon.data`` 文件中。
-+
-+
-+将记录的模式可视化
-+==================
-+
-+你可以在heatmap中直观地看到这种模式，显示哪个内存区域（X轴）何时被访问（Y轴）以及访
-+问的频率（数字）。::
-+
-+    $ sudo damo report heats --heatmap stdout
-+    22222222222222222222222222222222222222211111111111111111111111111111111111111100
-+    44444444444444444444444444444444444444434444444444444444444444444444444444443200
-+    44444444444444444444444444444444444444433444444444444444444444444444444444444200
-+    33333333333333333333333333333333333333344555555555555555555555555555555555555200
-+    33333333333333333333333333333333333344444444444444444444444444444444444444444200
-+    22222222222222222222222222222222222223355555555555555555555555555555555555555200
-+    00000000000000000000000000000000000000288888888888888888888888888888888888888400
-+    00000000000000000000000000000000000000288888888888888888888888888888888888888400
-+    33333333333333333333333333333333333333355555555555555555555555555555555555555200
-+    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-+    88888888888888888888888888888888888888600000000000000000000000000000000000000000
-+    33333333333333333333333333333333333333444444444444444444444444444444444444443200
-+    00000000000000000000000000000000000000288888888888888888888888888888888888888400
-+    [...]
-+    # access_frequency:  0  1  2  3  4  5  6  7  8  9
-+    # x-axis: space (139728247021568-139728453431248: 196.848 MiB)
-+    # y-axis: time (15256597248362-15326899978162: 1 m 10.303 s)
-+    # resolution: 80x40 (2.461 MiB and 1.758 s for each character)
-+
-+你也可以直观地看到工作集的大小分布，按大小排序。::
-+
-+    $ sudo damo report wss --range 0 101 10
-+    # <percentile> <wss>
-+    # target_id     18446632103789443072
-+    # avr:  107.708 MiB
-+      0             0 B |                                                           |
-+     10      95.328 MiB |****************************                               |
-+     20      95.332 MiB |****************************                               |
-+     30      95.340 MiB |****************************                               |
-+     40      95.387 MiB |****************************                               |
-+     50      95.387 MiB |****************************                               |
-+     60      95.398 MiB |****************************                               |
-+     70      95.398 MiB |****************************                               |
-+     80      95.504 MiB |****************************                               |
-+     90     190.703 MiB |*********************************************************  |
-+    100     196.875 MiB |***********************************************************|
-+
-+在上述命令中使用 ``--sortby`` 选项，可以显示工作集的大小是如何按时间顺序变化的。::
-+
-+    $ sudo damo report wss --range 0 101 10 --sortby time
-+    # <percentile> <wss>
-+    # target_id     18446632103789443072
-+    # avr:  107.708 MiB
-+      0       3.051 MiB |                                                           |
-+     10     190.703 MiB |***********************************************************|
-+     20      95.336 MiB |*****************************                              |
-+     30      95.328 MiB |*****************************                              |
-+     40      95.387 MiB |*****************************                              |
-+     50      95.332 MiB |*****************************                              |
-+     60      95.320 MiB |*****************************                              |
-+     70      95.398 MiB |*****************************                              |
-+     80      95.398 MiB |*****************************                              |
-+     90      95.340 MiB |*****************************                              |
-+    100      95.398 MiB |*****************************                              |
-+
-+
-+数据访问模式感知的内存管理
-+==========================
-+
-+以下三个命令使每一个大小>=4K的内存区域在你的工作负载中没有被访问>=60秒，就会被换掉。 ::
-+
-+    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > test_scheme
-+    $ echo "4K        max      0       0       60s     max     pageout" >> test_scheme
-+    $ damo schemes -c test_scheme <pid of your workload>
++    # echo on > monitor_on
++    # perf record -e damon:damon_aggregated &
++    # sleep 5
++    # kill 9 $(pidof perf)
++    # echo off > monitor_on
++    # perf script
 -- 
 2.27.0
 
