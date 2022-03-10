@@ -2,127 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB98C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 12:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC76C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 12:30:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241997AbiCJMae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 07:30:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47790 "EHLO
+        id S230391AbiCJMbK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 07:31:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233734AbiCJMae (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 07:30:34 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7266A818A5;
-        Thu, 10 Mar 2022 04:29:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646915373; x=1678451373;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=KpU7qHsFQttScVYV4Sy+C7cKf/dHAGOyV91juLQL6gk=;
-  b=NgFY8eRdD81ohSejE1d5DO20LjYbv3RY7ET76nPkYeMlSHg+aTstckek
-   S8/ctGS3G1ijTVnjn2V2MsmQBDECfd/WZvpxEVm2IgscOkJs+vKOoW2R1
-   Tg5/RbkIrbMIVpdK/CSoAwz4XaaVqm/BSVs7q72b21hpCQNN2lU//vuSh
-   KrvPemzpbYV7jvLCigfVO/dNhbya2kQUeWEN3/Dclbug8ZNYwZd4FyuZW
-   fQTUUJSUa5eBvBFgNovM0f5gwecjeXRZKDkfFUsU6KY5xe+PUvF7W7awO
-   v+fMUYdLsZ5fp5+4hzDD/MyQsKaGsAhe6tFIDP6zC3mCuyqEtSCIUS5B/
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="318459313"
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; 
-   d="scan'208";a="318459313"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 04:29:31 -0800
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; 
-   d="scan'208";a="554624288"
-Received: from mborg-mobl.ger.corp.intel.com ([10.252.33.144])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 04:29:23 -0800
-Date:   Thu, 10 Mar 2022 14:29:21 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Lukas Wunner <lukas@wunner.de>
-cc:     linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-api@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 6/7] serial: General support for multipoint
- addresses
-In-Reply-To: <20220309190521.GA9832@wunner.de>
-Message-ID: <6feb796a-ea58-9a6-f2f9-a11ca72acfd@linux.intel.com>
-References: <20220302095606.14818-1-ilpo.jarvinen@linux.intel.com> <20220302095606.14818-7-ilpo.jarvinen@linux.intel.com> <20220306194001.GD19394@wunner.de> <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com> <20220309190521.GA9832@wunner.de>
+        with ESMTP id S235393AbiCJMbJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 07:31:09 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC0F85657;
+        Thu, 10 Mar 2022 04:30:07 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1431DB825E3;
+        Thu, 10 Mar 2022 12:30:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67109C340E8;
+        Thu, 10 Mar 2022 12:29:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646915404;
+        bh=BMfXhQNWNRn/yzUdJMcXXLf95J2UZ0eeQUTcFVksuU4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rH1gIViIL+0z6FLcRyuMSAPplogfcfHI8e9WG3jGPGYP8vp5BHWM46PMxPBbCXL1u
+         Nmj4h1U7waVPSPohwN+6fybEM9u4Zk46+H+hVX6lvlVv7BtX4xPEA41htyBcL8+j+i
+         JFZ2iZVegBrcv0rV6MI74QT1leuTdNW9x1B99LNt8P55agpqROOjHpkw+XFKw9tcXe
+         jKEpWV9DHq9Z28pfvVRv5OLnq3Ve0wh5RR/JA5qQLGiB+ygSmUB9vKyzr4vTEh0pUG
+         XTI4lPqHRX7R29TNH5SeuzesbaO1lVcKjX96/kB+j6bzgMHbdmpdD3D1zRhpWNoni6
+         tg4W5b9t9yMqA==
+Date:   Thu, 10 Mar 2022 14:29:48 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v9 13/14] mm: multi-gen LRU: admin guide
+Message-ID: <YinvPMIP4oEwCo6T@kernel.org>
+References: <20220309021230.721028-1-yuzhao@google.com>
+ <20220309021230.721028-14-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-24784813-1646915371=:1973"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220309021230.721028-14-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi,
 
---8323329-24784813-1646915371=:1973
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 9 Mar 2022, Lukas Wunner wrote:
-
-> On Mon, Mar 07, 2022 at 11:48:01AM +0200, Ilpo Järvinen wrote:
-> > On Sun, 6 Mar 2022, Lukas Wunner wrote:
-> > > On Wed, Mar 02, 2022 at 11:56:05AM +0200, Ilpo Järvinen wrote:
-> > > > This change is necessary for supporting devices with RS485
-> > > > multipoint addressing [*].
-> > > 
-> > > If this is only used with RS485, why can't we just store the
-> > > addresses in struct serial_rs485 and use the existing TIOCSRS485
-> > > and TIOCGRS485 ioctls?  There's 20 bytes of padding left in
-> > > struct serial_rs485 which you could use.  No need to add more
-> > > user-space ABI.
-> > 
-> > It could if it is agreed that serial multipoint addressing is just
-> > a thing in RS-485 and nowhere else? In that case, there is no point
-> > in adding more generic support for it.
+On Tue, Mar 08, 2022 at 07:12:30PM -0700, Yu Zhao wrote:
+> Add an admin guide.
 > 
-> It's just that the above-quoted sentence in the commit message
-> specifically mentions RS485.
-
-That sentence is just to justify why addressing mode is needed,
-not to take a stance on whether it is only used with RS485 or not.
-
-> If you intend to use it with RS232
-> as well, that should be made explicit, otherwise one wonders why
-> it wasn't integrated into struct serial_rs485.
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Acked-by: Brian Geffon <bgeffon@google.com>
+> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Acked-by: Steven Barrett <steven@liquorix.net>
+> Acked-by: Suleiman Souhlal <suleiman@google.com>
+> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> Tested-by: Donald Carr <d@chaos-reins.com>
+> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> ---
+>  Documentation/admin-guide/mm/index.rst        |   1 +
+>  Documentation/admin-guide/mm/multigen_lru.rst | 146 ++++++++++++++++++
+>  mm/Kconfig                                    |   3 +-
+>  3 files changed, 149 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
 > 
-> I have no idea how common 9th bit addressing mode is with RS232.
-> Goggle turns up links saying it's mainly used with RS485, "but also
-> RS232".  Since RS232 isn't a bus but a point-to-point link,
-> 9th bit addressing doesn't seem to make as much sense.
+> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
+> index c21b5823f126..2cf5bae62036 100644
+> --- a/Documentation/admin-guide/mm/index.rst
+> +++ b/Documentation/admin-guide/mm/index.rst
+> @@ -32,6 +32,7 @@ the Linux memory management.
+>     idle_page_tracking
+>     ksm
+>     memory-hotplug
+> +   multigen_lru
+>     nommu-mmap
+>     numa_memory_policy
+>     numaperf
+> diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Documentation/admin-guide/mm/multigen_lru.rst
+> new file mode 100644
+> index 000000000000..4ea6a801dc56
+> --- /dev/null
+> +++ b/Documentation/admin-guide/mm/multigen_lru.rst
+> @@ -0,0 +1,146 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=============
+> +Multi-Gen LRU
+> +=============
 
-While I don't know any better, I can image though that with an 
-RS232-to-RS485 converter, it could make some sense.
+I'm still missing an opening paragraph the explains what is Multi-gen LRU
+and why users would want it.
 
-If I put them back to serial_rs485 / rs485 config, it's basically just 
-where I initially started from with this patchset (offlist).
+Something like 
 
+  Multi-gen LRU is an efficient mechanism for page reclamation.
+
+More details are of course welcome :)
+
+
+> +Quick start
+> +===========
+> +Build the kernel with the following configurations.
+> +
+> +* ``CONFIG_LRU_GEN=y``
+> +* ``CONFIG_LRU_GEN_ENABLED=y``
+> +
+> +All set!
+> +
+> +Runtime options
+> +===============
+> +``/sys/kernel/mm/lru_gen/`` contains stable ABIs described in the
+> +following subsections.
+> +
+> +Kill switch
+> +-----------
+> +``enable`` accepts different values to enable or disabled the
+
+                                                   ^ disable
+
+> +following components. The default value of this file depends on
+> +``CONFIG_LRU_GEN_ENABLED``. All the components should be enabled
+> +unless some of them have unforeseen side effects. Writing to
+> +``enable`` has no effect when a component is not supported by the
+> +hardware, and valid values will be accepted even when the main switch
+> +is off.
+> +
+> +====== ===============================================================
+> +Values Components
+> +====== ===============================================================
+> +0x0001 The main switch for the multi-gen LRU.
+> +0x0002 Clearing the accessed bit in leaf page table entries in large
+> +       batches, when MMU sets it (e.g., on x86). This behavior can
+> +       theoretically worsen lock contention (mmap_lock). If it is
+> +       disabled, the multi-gen LRU will suffer a minor performance
+> +       degradation.
+> +0x0004 Clearing the accessed bit in non-leaf page table entries as
+> +       well, when MMU sets it (e.g., on x86). This behavior was not
+> +       verified on x86 varieties other than Intel and AMD. If it is
+> +       disabled, the multi-gen LRU will suffer a negligible
+> +       performance degradation.
+> +[yYnN] Apply to all the components above.
+> +====== ===============================================================
+> +
+> +E.g.,
+> +::
+> +
+> +    echo y >/sys/kernel/mm/lru_gen/enabled
+> +    cat /sys/kernel/mm/lru_gen/enabled
+> +    0x0007
+> +    echo 5 >/sys/kernel/mm/lru_gen/enabled
+> +    cat /sys/kernel/mm/lru_gen/enabled
+> +    0x0005
+> +
+> +Thrashing prevention
+> +--------------------
+> +Personal computers are more sensitive to thrashing because it can
+> +cause janks (lags when rendering UI) and negatively impact user
+> +experience. The multi-gen LRU offers thrashing prevention to the
+> +majority of laptop and desktop users who do not have ``oomd``.
+> +
+> +Users can write ``N`` to ``min_ttl_ms`` to prevent the working set of
+> +``N`` milliseconds from getting evicted. The OOM killer is triggered
+> +if this working set cannot be kept in memory. In other words, this
+> +option works as an adjustable pressure relief valve, and when open, it
+> +terminates applications that are hopefully not being used.
+> +
+> +Based on the average human detectable lag (~100ms), ``N=1000`` usually
+> +eliminates intolerable janks due to thrashing. Larger values like
+> +``N=3000`` make janks less noticeable at the risk of premature OOM
+> +kills.
+
+What is the default value of min_ttl_ms?
+
+> +
+> +Experimental features
+> +=====================
 
 -- 
- i.
-
---8323329-24784813-1646915371=:1973--
+Sincerely yours,
+Mike.
