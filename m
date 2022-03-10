@@ -2,90 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD63C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 21:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19866C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 21:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344003AbiCJVcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 16:32:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37934 "EHLO
+        id S238587AbiCJVnI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 16:43:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343997AbiCJVcr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 16:32:47 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F38B7192CB8;
-        Thu, 10 Mar 2022 13:31:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=hXDUTjVWZxaANyNbVmfaGwGIxc8fx/dmvUspBOucNHU=; b=SLbeJyQS9Z8zsqhg28pFcFjGF7
-        a3oYJINv+p4BxZ2p8HN5twBPvAyaOwVe0+XqUDhnVIUIseDVeGziE+/gRa3g/XtwcmA/g8/bcYh+N
-        aEzryAoGihBDOvkvB9aLX5ejESI/fP9fpn4zOp+Him25I7/CGgMXpCqIrX8CirdFc+spNzvkE6kB4
-        ETkXANSO3Y7dJyKDM/twOCV2/WH/tMOHK9NRkIk1stL/IDSUqk7eqGLEB0Gk3+cs2c5pHi2hjw0Io
-        Biy4jE4jiljSnU1kr5XunmlMFnYCdiHMR1ya2uDj5JCtb5vlho3YP5fpxSEPKWBp8Sx/sbjD3n/DI
-        PnUl+NGw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nSQNl-00E5UB-U1; Thu, 10 Mar 2022 21:31:37 +0000
-Date:   Thu, 10 Mar 2022 13:31:37 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>
-Subject: Re: [PATCH v3 1/4] mm: hugetlb: disable freeing vmemmap pages when
- struct page crosses page boundaries
-Message-ID: <YipuORuIdxq89Lqg@bombadil.infradead.org>
-References: <20220307130708.58771-1-songmuchun@bytedance.com>
- <20220307130708.58771-2-songmuchun@bytedance.com>
- <YiY0QkE+efo1hyda@bombadil.infradead.org>
- <CAMZfGtWHZgvFSE0P1LNprcjt0YAvC5XFAz=aUZw9vJFPGzUTbw@mail.gmail.com>
+        with ESMTP id S230387AbiCJVnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 16:43:07 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A694192CB8;
+        Thu, 10 Mar 2022 13:42:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646948526; x=1678484526;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Wu9xQh13qOE2SQCUN+y0wm4du69ScDsFeOiJ0FkDQCg=;
+  b=hu5I3kLUlNxdMCRcYV9cnVBayhOR06Nxg62cf/odlqFUTxua12rU2iHE
+   ah5uJko2e+wzA+HWmz9tQW1lrTX/Od/Xenm9Y8EgQKMlo8dnSn6WIa4MT
+   E1oeemwQp1Nku5xIknUrljMj9R3QmMzEUsMiACbXahJ60cPKYM7CjC4Ka
+   7pZm/iLK/5BaHMCu8GeTuXCmk6ra4Tmxj+GwtEusQLyDnbFh8X9aHISK+
+   L68RMiwhAOksG2tldnN0aezPmzoRG9Zro5FH/JZM22HQRoaJSaId+qXwx
+   7w/m9hiEOfdziZVtKeOXvPiWVBx6lL75tVteYUTPrf4HsWVtH19i4vTII
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="235338638"
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
+   d="scan'208";a="235338638"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 13:42:05 -0800
+X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
+   d="scan'208";a="596833491"
+Received: from dhrumil1-mobl1.amr.corp.intel.com (HELO [10.209.77.231]) ([10.209.77.231])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 13:42:03 -0800
+Message-ID: <4062bb5c-1e9c-5e1f-5b27-2a4a8fb58078@intel.com>
+Date:   Thu, 10 Mar 2022 13:42:01 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtWHZgvFSE0P1LNprcjt0YAvC5XFAz=aUZw9vJFPGzUTbw@mail.gmail.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC 07/10] platform/x86/intel/ifs: Create kthreads for online
+ cpus for scan test
+Content-Language: en-US
+To:     "Luck, Tony" <tony.luck@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <20220301195457.21152-8-jithu.joseph@intel.com>
+ <09b5b05018a8600ca8fab896790ab16827c80e4e.camel@intel.com>
+ <e282377b-8ee4-99fc-432f-2aa3441b2989@intel.com>
+ <CAPcyv4gcfMZu38EAGBq59A-RPUmR3fFiamRiR6QaP=D1gPS+6A@mail.gmail.com>
+ <1503c7940a7149679025173a46dd0daf@intel.com>
+From:   "Kok, Auke" <auke-jan.h.kok@intel.com>
+In-Reply-To: <1503c7940a7149679025173a46dd0daf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 08, 2022 at 01:03:08AM +0800, Muchun Song wrote:
-> On Tue, Mar 8, 2022 at 12:35 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Mon, Mar 07, 2022 at 09:07:05PM +0800, Muchun Song wrote:
-> > > If the size of "struct page" is not the power of two and this
-> > > feature is enabled, then the vmemmap pages of HugeTLB will be
-> > > corrupted after remapping (panic is about to happen in theory).
-> >
-> > Huh what? If a panic is possible best we prevent this in kconfig
-> > all together. I'd instead just put some work into this instead of
-> > adding all this run time hacks.
-> 
-> If the size of `struct page` is not power of 2, then those lines added
-> by this patch will be optimized away by the compiler, therefore there
-> is going to be no extra overhead to detect this.
-> 
-> >
-> > Can you try to add kconfig magic to detect if a PAGE_SIZE is PO2?
-> >
-> 
-> I agree with you that it is better if we can move this check
-> into Kconfig. I tried this a few months ago. It is not easy to
-> do this. How to check if a `struct page size` is PO2 in
-> Kconfig? If you have any thoughts please let me know.
 
-Can you query this with a script?
+On 3/7/22 09:46, Luck, Tony wrote:
+>>> These are software(driver) defined error codes. Rest of the error codes are supplied by
+>>> the hardware. Software defined error codes were kept at the other end to provide ample space
+>>> in case (future) hardware decides to provide extend error codes.
+>> Why put them in the same number space? Separate software results from
+>> the raw hardware results and have a separate mechanism to convey each.
+> We wanted to include in the "details" file, which is otherwise a direct copy of
+> the SCAN_STATUS MSR. Making sure the software error codes didn't overlap
+> with any h/w generated codes seemed like a good idea.
+>
+> But maybe we should have done this with additional string values in the status
+> file:
+>
+> Current:
+>
+> pass
+> untested
+> fail
+>
+> Add a couple of new options for the s/w cases:
+>
+> sw_timeout
+> sw_retries_exceeded
 
-config HAS_PAGE_SIZE_PO2
-	bool                                                                    
-	default $(shell, scripts/check_po2_page_size.sh arguments_are_allowed)
 
-  Luis
+We've made a userspace implementation for this API already as part of 
+opendcdiag that uses it:
+
+https://github.com/opendcdiag/opendcdiag/commit/0cbfcee30e0666b0f79a2e452d7f8167d2a0cb90
+
+What I really like is that with this proposed API, we can unambiguously 
+determine whether "the core failed" or "everything is fine, for now" by 
+reading a single file. I hate to see this file become unusable because 
+its content changes from "pass" to "sw_timeout" or, even worse, it 
+changes from "fail" to "sw_timeout". That would render it useless for 
+the purpose that I think our users will be looking at it.
+
+So, my preference would be to keep this file functioning as-is in this 
+patch series.
+
+I would think that some sort of expandable "statistics" file would be a 
+better way to output various metrics:
+
+```
+
+sw_timeout: 0
+
+sw_retries_exceeded: 2
+
+runs: 42
+
+first_run: 1405529347
+
+last_run: 1646948140
+
+<etc..>
+
+```
+
+just as a suggested alternative for more/incompatble output values or a 
+complex, dynamic format.
+
+I don't have any use in opendcdiag for these values and data. If someone 
+does, they should want to chime in perhaps.
+
+
+Auke
+
