@@ -2,90 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA08C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 00:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F140C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 00:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238997AbiCJAhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Mar 2022 19:37:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
+        id S239057AbiCJArB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Mar 2022 19:47:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238583AbiCJAhd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 19:37:33 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5501052A3
-        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 16:36:33 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id w27so6698483lfa.5
-        for <linux-doc@vger.kernel.org>; Wed, 09 Mar 2022 16:36:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tU+Fe+vcmWYII8bcpQckbuUOYQxVwc8Ms6FjnpeZUXo=;
-        b=L/mvPUr5+ed9/8F1xYBeOkHEQX/N5BqBnxQcWBYwpz8RAerWYK3vG+jQ8UcnJ76O8n
-         Z6F8qP7cE8tNgjablMkD4TSjih/QPIMEsvNLTgmbdeWBRVediWkgAMhZdVVhEgcgGEdK
-         lMZ1J3pO3p0Ql46BLe9TS7msF+0WkJiXc3GEYEhfXxvSABXRpmnJrXBNidzsucgWij7W
-         h71P/xxdG4gMnr+gam3ehpQ7R8zTNQQGhJ/hYPRcyYsfLb7u+8rs0B5WjYUfbEvSpW08
-         3VtCaxMUJjZ5zrZuYEdWuLeNzUmAVqnhioFkV1FhQj3OlGZ8RQb3TRq3538igabd/3yR
-         jrhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tU+Fe+vcmWYII8bcpQckbuUOYQxVwc8Ms6FjnpeZUXo=;
-        b=kA26y2+RUr43IJo5u+J907zfe6FHSJwE1u78xOkOGAiUkKQCIUtWzn6GQ4AwJI426K
-         F0LznOMkYTchk+M//rRh6thLu5od6Dcop5k012Ex+POaoWvdRU+I+GYWykjyeKIBMFa4
-         9HdX3B1/P75Jx7ZTkWUAH31jNdihOYWcR66OFZnAvZ4PC7I9g/6Ale7pc6/gprmI1qf6
-         HYJl1TIEVALWYa14ifbNVxtQ6/lJUHzxfado4Xw9o2tgoxqwJVif62/UqkmSiCjTUP6M
-         P4qCb/hOFoq0QX/fk4vuW1WjKvYONKT9+dtVGlwJybGPK/PDMGBfQZ+B/UxLmzLwEI4p
-         aiVA==
-X-Gm-Message-State: AOAM532MTV/2OPRMY7oe0glSU+geFBRF9JC91rV247oHMLfqKzvfBwfi
-        3Gz/dXOeQUtomth0B3GUcS0Jfu20m1Oi1K37OR7VNQ==
-X-Google-Smtp-Source: ABdhPJytXKwI98E3nQqK0BdQ0dFxt9GnezH6c63KyMKM/BPYYzDCKWIjWSo338Qxmgo/66zO3+BC+IAEhGNy/BYPIF4=
-X-Received: by 2002:ac2:5223:0:b0:448:5100:e427 with SMTP id
- i3-20020ac25223000000b004485100e427mr1387380lfl.87.1646872591569; Wed, 09 Mar
- 2022 16:36:31 -0800 (PST)
+        with ESMTP id S232540AbiCJAq7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Mar 2022 19:46:59 -0500
+X-Greylist: delayed 965 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Mar 2022 16:46:00 PST
+Received: from smtpq3.tb.ukmail.iss.as9143.net (smtpq3.tb.ukmail.iss.as9143.net [212.54.57.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AA1D65437
+        for <linux-doc@vger.kernel.org>; Wed,  9 Mar 2022 16:46:00 -0800 (PST)
+Received: from [212.54.57.96] (helo=smtpq1.tb.ukmail.iss.as9143.net)
+        by smtpq3.tb.ukmail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <zarniwhoop@ntlworld.com>)
+        id 1nS6gl-0007ZM-6X
+        for linux-doc@vger.kernel.org; Thu, 10 Mar 2022 01:29:55 +0100
+Received: from [212.54.57.106] (helo=csmtp2.tb.ukmail.iss.as9143.net)
+        by smtpq1.tb.ukmail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <zarniwhoop@ntlworld.com>)
+        id 1nS6gj-0002sH-8B
+        for linux-doc@vger.kernel.org; Thu, 10 Mar 2022 01:29:53 +0100
+Received: from llamedos.mydomain ([81.97.236.130])
+        by cmsmtp with ESMTPA
+        id S6ginWO6qB5IlS6ginzfBV; Thu, 10 Mar 2022 01:29:53 +0100
+X-SourceIP: 81.97.236.130
+X-Authenticated-Sender: zarniwhoop@ntlworld.com
+X-Spam: 0
+X-Authority: v=2.4 cv=XIEj9CtE c=1 sm=1 tr=0 ts=62294681 cx=a_exe
+ a=OGiDJHazYrvzwCbh7ZIPzQ==:117 a=OGiDJHazYrvzwCbh7ZIPzQ==:17
+ a=IkcTkHD0fZMA:10 a=o8Y5sQTvuykA:10 a=pGLkceISAAAA:8 a=07d9gI8wAAAA:8
+ a=VwQbUJbxAAAA:8 a=5gREawPU8w4pKPWqZwoA:9 a=QEXdDO2ut3YA:10
+ a=e2CUPOnPG4QKp8I52DXD:22 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ntlworld.com;
+        s=meg.feb2017; t=1646872193;
+        bh=itlXJNpz8fUGS/shN3O1AKR2ZZ8QkAg/FhMvnKn4DDc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=D+ZDBuBVvEaIi8YQ4xpbEYK4eYFqIUi42FxAXwVdx4XtOubizvEK8VvgtJC5VPe/W
+         aYRx73kkjrTpYAXF/xcbSLh/++gpCg6cmoOy1pAIdlaF8p2B+24QfVTW+9LHF5yeqs
+         ZnMY3zMkp/kr+8vvyx5HinJqF9wq/cQZ2AjQBsPgc1tAQWoLmM+mdikK+NZUbLg34s
+         qhRP8T1zhUyd+uH9cW68b4+NzErObc7acgJn0oFf4f6cmbOUCqQuWIdFr1VHAfOtzv
+         d+Zn51S9Qm2yFbKjW9D201slH+8ToJZa36SP1SPOfVwUgKOr8Wv5DdNIenYYRj7o4D
+         munX5+AksRNSA==
+Received: by llamedos.mydomain (Postfix, from userid 1000)
+        id D5CFE60C4F; Thu, 10 Mar 2022 00:29:52 +0000 (GMT)
+Date:   Thu, 10 Mar 2022 00:29:52 +0000
+From:   Ken Moffat <zarniwhoop@ntlworld.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
+        SeongJae Park <sjpark@amazon.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: describe how to apply incremental stable
+ patches
+Message-ID: <YilGgO03v+CM0aDq@llamedos.localdomain>
+References: <20220307063340.256671-1-bagasdotme@gmail.com>
+ <87mthy7lif.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20220304170813.1689186-1-nathan@kernel.org> <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
- <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
-In-Reply-To: <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 9 Mar 2022 16:36:20 -0800
-Message-ID: <CAKwvOd=0tn3DeqDkKxxk61EvHY9Vb+SnHkXugUmHCMFF_0VVoQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87mthy7lif.fsf@meer.lwn.net>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-CMAE-Envelope: MS4xfHUqsACAFenD9OguapbTyegxxLYTnV8mJh64zwNVt3Tgg+VfIvzTPQMLGrrPy5Dtpj3sfc9VQTp8vEqAvF5E5ivkgvOhV3KN4qswmB5Ct9z5E90WdV8+
+ meUWmYW7YmLfv9KuI17sJMcuS0me33iPkEaaFG0ZELukS7I/ObusBphPu+5p+1b5HdrombyZk3QUwlAnF/O4irBv1+CPfnAlKeX6nB55CTPTddH5BTWHs3+j
+ 8L3r21RV6puQ+pAogSm5tnY8D60/iRcpUXb/MGKBHWb3mdWyaQaqQWjiot5+ds61wpsm+an4mh4b5vwOpJTqGtrjONrzWX8uXDnhsn4KoHs=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 7:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
-> > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > +If your LLVM tools are not available in your PATH, you can supply their
-> > > +location using the LLVM variable with a trailing slash: ::
-> > > +
-> > > +       make LLVM=/path/to/llvm/
-> > > +
-> > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
+On Wed, Mar 09, 2022 at 04:29:28PM -0700, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+> > The applying patches document
+> > (Documentation/process/applying-patches.rst) mentions incremental stable
+> > patches, but there is no example of how to apply them. Describe the
+> > process.
 > >
-> > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
-> > works and (my interpretation of what) Masahiro said "if anyone asks
-> > for this, here's how we could do that."  I don't think I've seen an
-> > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
-> > won't hold this patch up over that.  Either way:
->
-> Right, there has not been an explicit ask for the prefix support yet,
-> although I know I personally would use it,
+> > While at it, remove note about incremental patches and move the external
+> > link of 5.x.y incremental patches to "Where can I download patches?"
+> > section.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: SeongJae Park <sjpark@amazon.de>
+> > Cc: linux-kernel@vger.kernel.org
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> >  Documentation/process/applying-patches.rst | 28 ++++++++++++++++++----
+> >  1 file changed, 23 insertions(+), 5 deletions(-)
+> 
+> I've applied this, thanks.  I do have to wonder, though, how useful this
+> information is anymore.  Does anybody actually apply kernel-patch files
+> this far into the Git era?
+> 
+> Thanks,
+> 
+> jon
 
-Then let that be reason enough. :)
+I do.  I have several machines with multiple systems (current, old,
+older, experimental) and mostly I build current kernels in the
+current system, and older LTS in the old systems.  Ideally I will
+find time to test an rc, but I only use git for kernels when I need
+to bisect.  I find it much easier to keep the initial relase tarball
+and chosen point patches on my local nfs.
+
+My interests are userspace, and some of my machines are
+comparatively slow to compile kernels.
+
+ĸen 
+
 -- 
-Thanks,
-~Nick Desaulniers
+The beauty of reading a page of de Selby is that it leads one
+inescapably to the conclusion that one is not, of all nincompoops,
+the greatest.            -- du Garbandier
