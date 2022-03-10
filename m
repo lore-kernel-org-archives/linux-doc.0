@@ -2,150 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19866C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 21:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909B0C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Mar 2022 22:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238587AbiCJVnI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 16:43:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35992 "EHLO
+        id S243166AbiCJWKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 17:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230387AbiCJVnH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 16:43:07 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A694192CB8;
-        Thu, 10 Mar 2022 13:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646948526; x=1678484526;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Wu9xQh13qOE2SQCUN+y0wm4du69ScDsFeOiJ0FkDQCg=;
-  b=hu5I3kLUlNxdMCRcYV9cnVBayhOR06Nxg62cf/odlqFUTxua12rU2iHE
-   ah5uJko2e+wzA+HWmz9tQW1lrTX/Od/Xenm9Y8EgQKMlo8dnSn6WIa4MT
-   E1oeemwQp1Nku5xIknUrljMj9R3QmMzEUsMiACbXahJ60cPKYM7CjC4Ka
-   7pZm/iLK/5BaHMCu8GeTuXCmk6ra4Tmxj+GwtEusQLyDnbFh8X9aHISK+
-   L68RMiwhAOksG2tldnN0aezPmzoRG9Zro5FH/JZM22HQRoaJSaId+qXwx
-   7w/m9hiEOfdziZVtKeOXvPiWVBx6lL75tVteYUTPrf4HsWVtH19i4vTII
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="235338638"
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="235338638"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 13:42:05 -0800
-X-IronPort-AV: E=Sophos;i="5.90,171,1643702400"; 
-   d="scan'208";a="596833491"
-Received: from dhrumil1-mobl1.amr.corp.intel.com (HELO [10.209.77.231]) ([10.209.77.231])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 13:42:03 -0800
-Message-ID: <4062bb5c-1e9c-5e1f-5b27-2a4a8fb58078@intel.com>
-Date:   Thu, 10 Mar 2022 13:42:01 -0800
+        with ESMTP id S240075AbiCJWKi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 17:10:38 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0174AD4470;
+        Thu, 10 Mar 2022 14:09:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 926B261AD2;
+        Thu, 10 Mar 2022 22:09:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A48C340E8;
+        Thu, 10 Mar 2022 22:09:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646950176;
+        bh=tMUOhG6pFcuv+nm+xL9hctLl6S7C9WHjH9Uakei9h3Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XlPypQDQiKimc+h5jKNd/kO20l9tAqk2BjsVoie/Ir707iCNJhlJgKriUcj3G2zdX
+         8m01cRbngXRKN0YjPpanM5FEfNRSpfYRchDNbi2tLcAO9qCl/FbpIVHNx/qSQjo4HE
+         r4PL8GZy442kLEBI7fKQAiDtPC/W//sp1Vtz6UKA22WfZ4Y7lAJeGkfCsrlqVVdR3Y
+         ovazFtLUEt/TlGYsrimlshq2DcRGEDMrRmnCis+9h06SO3Dd65pkUANXuiwvRQhq8F
+         t9bH9RpU5iz2pydQQJFd0F60Hybi4JRKNf+CoIM0Q+tbigNW7gqiYYw9i0rRaF/jMy
+         OaWfZLNLMlYEA==
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH 0/2] linux/types.h: Tidy __bitwise, add __CHECKER__ hints
+Date:   Thu, 10 Mar 2022 16:09:25 -0600
+Message-Id: <20220310220927.245704-1-helgaas@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC 07/10] platform/x86/intel/ifs: Create kthreads for online
- cpus for scan test
-Content-Language: en-US
-To:     "Luck, Tony" <tony.luck@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-8-jithu.joseph@intel.com>
- <09b5b05018a8600ca8fab896790ab16827c80e4e.camel@intel.com>
- <e282377b-8ee4-99fc-432f-2aa3441b2989@intel.com>
- <CAPcyv4gcfMZu38EAGBq59A-RPUmR3fFiamRiR6QaP=D1gPS+6A@mail.gmail.com>
- <1503c7940a7149679025173a46dd0daf@intel.com>
-From:   "Kok, Auke" <auke-jan.h.kok@intel.com>
-In-Reply-To: <1503c7940a7149679025173a46dd0daf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-On 3/7/22 09:46, Luck, Tony wrote:
->>> These are software(driver) defined error codes. Rest of the error codes are supplied by
->>> the hardware. Software defined error codes were kept at the other end to provide ample space
->>> in case (future) hardware decides to provide extend error codes.
->> Why put them in the same number space? Separate software results from
->> the raw hardware results and have a separate mechanism to convey each.
-> We wanted to include in the "details" file, which is otherwise a direct copy of
-> the SCAN_STATUS MSR. Making sure the software error codes didn't overlap
-> with any h/w generated codes seemed like a good idea.
->
-> But maybe we should have done this with additional string values in the status
-> file:
->
-> Current:
->
-> pass
-> untested
-> fail
->
-> Add a couple of new options for the s/w cases:
->
-> sw_timeout
-> sw_retries_exceeded
+- Tidy up __bitwise__, which is unused except in the __bitwise definition
 
+- Add hints about what __CHECKER__ means
 
-We've made a userspace implementation for this API already as part of 
-opendcdiag that uses it:
+Bjorn Helgaas (2):
+  linux/types.h: Remove unnecessary __bitwise__
+  Documentation/sparse: Add hints about __CHECKER__
 
-https://github.com/opendcdiag/opendcdiag/commit/0cbfcee30e0666b0f79a2e452d7f8167d2a0cb90
+ Documentation/dev-tools/sparse.rst | 2 ++
+ include/linux/compiler_types.h     | 1 +
+ include/uapi/linux/types.h         | 6 +++---
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-What I really like is that with this proposed API, we can unambiguously 
-determine whether "the core failed" or "everything is fine, for now" by 
-reading a single file. I hate to see this file become unusable because 
-its content changes from "pass" to "sw_timeout" or, even worse, it 
-changes from "fail" to "sw_timeout". That would render it useless for 
-the purpose that I think our users will be looking at it.
-
-So, my preference would be to keep this file functioning as-is in this 
-patch series.
-
-I would think that some sort of expandable "statistics" file would be a 
-better way to output various metrics:
-
-```
-
-sw_timeout: 0
-
-sw_retries_exceeded: 2
-
-runs: 42
-
-first_run: 1405529347
-
-last_run: 1646948140
-
-<etc..>
-
-```
-
-just as a suggested alternative for more/incompatble output values or a 
-complex, dynamic format.
-
-I don't have any use in opendcdiag for these values and data. If someone 
-does, they should want to chime in perhaps.
-
-
-Auke
+-- 
+2.25.1
 
