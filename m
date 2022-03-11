@@ -2,64 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C7AC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 23:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73285C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 23:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229884AbiCKXEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Mar 2022 18:04:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57814 "EHLO
+        id S229674AbiCKXMX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Mar 2022 18:12:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229993AbiCKXEb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 18:04:31 -0500
+        with ESMTP id S229522AbiCKXMV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 18:12:21 -0500
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C726E61A30;
-        Fri, 11 Mar 2022 15:01:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41F14924A;
+        Fri, 11 Mar 2022 15:11:17 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4C6362CD;
-        Fri, 11 Mar 2022 21:06:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4C6362CD
+        by ms.lwn.net (Postfix) with ESMTPSA id 35D5D2C3;
+        Fri, 11 Mar 2022 21:15:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 35D5D2C3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1647032761; bh=IyMpYQ9kln0EK8/pE+QsiTKmFWwoyuRDhba1yJzMID8=;
+        t=1647033332; bh=0/483QzGB30kNJZAm68LV8BK75E5dsf9QB/OPM1v+VI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=HWNpdeAbZ36NZaMZUDX/c7DIG4duixCytjeZQ4Igq69Ci9oTzU0PtXAOPRidn8cpU
-         VV5c7E3Gz44am1BGsAlI283+UPG8FvAgoWdVE4Jmx/1SJK/2zC9uNKX+5vgK/DHG7C
-         lpqQKMlM/b+q8+2UMZfTvg/BkqS3TAhrkfHgGm5byDkVF3D8zwIvphKEXzs002P9Js
-         5wBpZNHn/u1yOLN0aikH7uVmHkfj3ghbCZGl8ZV/XgO8Sq6y/v36iDKAfvlzdsbQVv
-         7DCS2yZ25O/a9csmYrRdGCeZju0/rXmvS3Ys48Psa30k+2fRGO2xfENxOKTJ5NQBCB
-         ibz5eL7u1r1zw==
+        b=nMVL4CO+nGhSSSOc4+P3qrAN7+tzfmVlreuIKwh81LhbMacZz7zKADrNiBPXO56qi
+         zvqkfZ5CRwIaO7cWWSsMLrRck5hCjrNSJznG74avYURgps6cY84XT+odG7cMLh3DHi
+         t2GouQ/7IyLlqm7h7judn33EpjVtgR45prF7qndJAwXx175XsLAXTzFMbKyUYJmnuD
+         fytEkmNsfLnVFgum/eC+fVXGJvnfvEnzIGFE0IEo/zSEKUt1CO9YPSIqlC6SjD5VGm
+         ND7cSeT8PedbM7llk4lngV2zTqQmQJOnh065aC/k1MskNb2S63hsOkh+2rNNrlQY8L
+         tx1JLMKucnOlA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jiri Slaby <jirislaby@kernel.org>,
-        Wan Jiabing <wanjiabing@vivo.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kael_w@qq.com
-Subject: Re: [PATCH] docs: serial: fix a reference file name in driver.rst
-In-Reply-To: <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
-References: <20220304100315.6732-1-wanjiabing@vivo.com>
- <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
-Date:   Fri, 11 Mar 2022 14:06:00 -0700
-Message-ID: <87mthw2o93.fsf@meer.lwn.net>
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Rae Moar <rmoar@google.com>, David Gow <davidgow@google.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs: ktap: add code-block type
+In-Reply-To: <c29f1836-5e85-2c8d-fb98-d63c3d8a654d@gmail.com>
+References: <20220131003637.14274-1-rdunlap@infradead.org>
+ <c29f1836-5e85-2c8d-fb98-d63c3d8a654d@gmail.com>
+Date:   Fri, 11 Mar 2022 14:15:31 -0700
+Message-ID: <87ilsk2nt8.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jiri Slaby <jirislaby@kernel.org> writes:
+Frank Rowand <frowand.list@gmail.com> writes:
 
-> On 04. 03. 22, 11:03, Wan Jiabing wrote:
->> Fix the following 'make refcheckdocs' warning:
->> Warning: Documentation/driver-api/serial/driver.rst references a file
->> that doesn't exist: Documentation/driver-api/serial/tty.rst
->> 
->> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> Hi Jon,
 >
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> Are you planning to pick up this patch?
+>
+> I had independently included the same fix in another patch series, but David Gow
+> let me know that Randy's patch already existed, so I removed this fix from my
+> patch.
+>
+> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
 
-I've applied this.  But I have to wonder why Documentation/tty exists at
-all; is there any reason not to move it all under driver-api?
+I never know what to do with the testing-tools patches; some of them get
+picked up by others, some done.
+
+I've just applied this, because it's better than what we had.  The
+proper fix, though, would be to just turn all those "code-block"
+directives into straightforward literal blocks - that what they are,
+after all.
 
 Thanks,
 
