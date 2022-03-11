@@ -2,201 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B88D5C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 02:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5264BC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 04:10:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345636AbiCKCdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 21:33:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40766 "EHLO
+        id S245593AbiCKELL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 23:11:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240600AbiCKCdM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 21:33:12 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6620FE86AF
-        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 18:32:09 -0800 (PST)
-Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KF8w43bLszcb2g;
-        Fri, 11 Mar 2022 10:27:16 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Mar 2022 10:32:07 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 11 Mar
- 2022 10:32:07 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <corbet@lwn.net>, <peterz@infradead.org>, <mingo@redhat.com>
-CC:     <linux-doc@vger.kernel.org>, <zhengbin13@huawei.com>,
-        <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <tangyeechou@gmail.com>, Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH] docs: scheduler: Convert schedutil.txt to ReST
-Date:   Fri, 11 Mar 2022 11:04:00 +0800
-Message-ID: <20220311030400.32320-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S231511AbiCKELK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 23:11:10 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C26986FF;
+        Thu, 10 Mar 2022 20:10:08 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id n7so8157799oif.5;
+        Thu, 10 Mar 2022 20:10:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9QeKB4cZIGNALzfAGtAHD8EFO6aEieNDe1cqjoQ6gsM=;
+        b=W9vUjPbowBxn+x7F9t0T9ph91PQtdPdrKRG92teEt6N37XUEPsuq7+Semk0Sq7eBL6
+         dcYQ9Tv22KHCDJpJTZArvmF8RQJMWhrnNFrlH0Z9uAj420D8GZTtOsl5n/GtRwmZJ8IA
+         76XZx0gnVjqsOEJfE51RvM5322G6zPl57koGYA+BKcBlE7vuRS9sF5hcoMo88FJDRAK5
+         +kwRe4M+oG+gEgYFREXYAIe783yanNbzuJWyEOA9cbY052rFHSqbNMsxjUA23QLzXa3/
+         qwh29b/LmPrDFBeRC3n+EEkGfabc7nyxk2erQfzTI/vhMLMU2KsmYvLjrtBhha2kRRP/
+         ijHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9QeKB4cZIGNALzfAGtAHD8EFO6aEieNDe1cqjoQ6gsM=;
+        b=NZW/LNPYvMyDD0iILIXVPwu3OT8GGJdCO4UJtixsPhNlztP4E6LlKBS9jgeqz3M2AM
+         tCweRqyvOVRbGq27iZiMFyj6xf9hBTs5S8ENRkCBDVeR/VMIqtbUWgyS4EBOl+dxKQyv
+         oXJoU/QrLAbMqXsBh7gJf5UONGHNHOuGO/1Remqi/V4Zvxp7xxViNvgu3GjM8sVDaVUU
+         PtWGGdBIa8dDl+hhhKskXt3wLUTunnprJFb2+bPoGJoEASC0r2yOWUklCuMwXl180Aa2
+         mAVzGzGSy3L9MNl1Qu+Xsy9+pIZUtR0RVos1mXFaURus2XzrenovKsHDXTNTGwlDlI5i
+         xZbA==
+X-Gm-Message-State: AOAM533+F5d23lhlFDMU4ZheXcb+Qdzb8jLj9KFs0TNCPnm0zsEmPZP0
+        +npyH6o6yAYkawv1QWEMDsCi5w59RZb1LbvWl9z6yTm6sBQ=
+X-Google-Smtp-Source: ABdhPJx+9DTvJp/p1u4f9zeF1IL/TTETZ9pXW0fHuKtmLByfNy/fessGS5yeAZyPOoS/6x3jVT2neAlc+D3agDdooSw=
+X-Received: by 2002:a05:6808:23c1:b0:2da:30fd:34d9 with SMTP id
+ bq1-20020a05680823c100b002da30fd34d9mr8741863oib.203.1646971807529; Thu, 10
+ Mar 2022 20:10:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
+ <Yao51m9EXszPsxNN@redhat.com> <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+ <YapjNRrjpDu2a5qQ@redhat.com> <CAHC9VhQTUgBRBEz_wFX8daSA70nGJCJLXj8Yvcqr5+DHcfDmwA@mail.gmail.com>
+ <CA+FmFJA-r+JgMqObNCvE_X+L6jxWtDrczM9Jh0L38Fq-6mnbbA@mail.gmail.com>
+ <CAHC9VhRer7UWdZyizWO4VuxrgQDnLCOyj8LO7P6T5BGjd=s9zQ@mail.gmail.com> <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
+In-Reply-To: <CAHC9VhQkLSBGQ-F5Oi9p3G6L7Bf_jQMWAxug_G4bSOJ0_cYXxQ@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 11 Mar 2022 06:09:56 +0200
+Message-ID: <CAOQ4uxhfU+LGunL3cweorPPdoCXCZU0xMtF=MekOAe-F-68t_Q@mail.gmail.com>
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     Vivek Goyal <vgoyal@redhat.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        David Anderson <dvander@google.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, luca.boccassi@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All other scheduler documents have been converted to *.rst. Let's do
-the same for schedutil.txt.
+On Fri, Mar 11, 2022 at 12:11 AM Paul Moore <paul@paul-moore.com> wrote:
+>
+> On Wed, Mar 9, 2022 at 4:13 PM Paul Moore <paul@paul-moore.com> wrote:
+> > On Tue, Mar 1, 2022 at 12:05 AM David Anderson <dvander@google.com> wro=
+te:
+> > > On Mon, Feb 28, 2022 at 5:09 PM Paul Moore <paul@paul-moore.com> wrot=
+e:
+>
+> ...
+>
+> > >> This patchset may not have been The Answer, but surely there is
+> > >> something we can do to support this use-case.
+> > >
+> > > Yup exactly, and we still need patches 3 & 4 to deal with this. My cu=
+rrent plan is to try and rework our sepolicy (we have some ideas on how it =
+could be made compatible with how overlayfs works). If that doesn't pan out=
+ we'll revisit these patches and think harder about how to deal with the co=
+herency issues.
+> >
+> > Can you elaborate a bit more on the coherency issues?  Is this the dir
+> > cache issue that is alluded to in the patchset?  Anything else that
+> > has come up on review?
+> >
+> > Before I start looking at the dir cache in any detail, did you have
+> > any thoughts on how to resolve the problems that have arisen?
+>
+> David, Vivek, Amir, Miklos, or anyone for that matter, can you please
+> go into more detail on the cache issues?  I *think* I may have found a
+> potential solution for an issue that could arise when the credential
+> override is not in place, but I'm not certain it's the only issue :)
+>
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
- Documentation/scheduler/index.rst             |  1 +
- .../{schedutil.txt => schedutil.rst}          | 50 ++++++++++---------
- 2 files changed, 28 insertions(+), 23 deletions(-)
- rename Documentation/scheduler/{schedutil.txt => schedutil.rst} (85%)
+Hi Paul,
 
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-index 30cca8a37b3b..b430d856056a 100644
---- a/Documentation/scheduler/index.rst
-+++ b/Documentation/scheduler/index.rst
-@@ -14,6 +14,7 @@ Linux Scheduler
-     sched-domains
-     sched-capacity
-     sched-energy
-+    schedutil
-     sched-nice-design
-     sched-rt-group
-     sched-stats
-diff --git a/Documentation/scheduler/schedutil.txt b/Documentation/scheduler/schedutil.rst
-similarity index 85%
-rename from Documentation/scheduler/schedutil.txt
-rename to Documentation/scheduler/schedutil.rst
-index 78f6b91e2291..bd96e08cdf88 100644
---- a/Documentation/scheduler/schedutil.txt
-+++ b/Documentation/scheduler/schedutil.rst
-@@ -1,11 +1,15 @@
-+=========
-+Schedutil
-+=========
- 
-+.. note::
- 
--NOTE; all this assumes a linear relation between frequency and work capacity,
--we know this is flawed, but it is the best workable approximation.
-+   All this assumes a linear relation between frequency and work capacity,
-+   we know this is flawed, but it is the best workable approximation.
- 
- 
- PELT (Per Entity Load Tracking)
---------------------------------
-+===============================
- 
- With PELT we track some metrics across the various scheduler entities, from
- individual tasks to task-group slices to CPU runqueues. As the basis for this
-@@ -38,8 +42,8 @@ while 'runnable' will increase to reflect the amount of contention.
- For more detail see: kernel/sched/pelt.c
- 
- 
--Frequency- / CPU Invariance
-----------------------------
-+Frequency / CPU Invariance
-+==========================
- 
- Because consuming the CPU for 50% at 1GHz is not the same as consuming the CPU
- for 50% at 2GHz, nor is running 50% on a LITTLE CPU the same as running 50% on
-@@ -47,23 +51,23 @@ a big CPU, we allow architectures to scale the time delta with two ratios, one
- Dynamic Voltage and Frequency Scaling (DVFS) ratio and one microarch ratio.
- 
- For simple DVFS architectures (where software is in full control) we trivially
--compute the ratio as:
-+compute the ratio as::
- 
--	    f_cur
-+            f_cur
-   r_dvfs := -----
-             f_max
- 
- For more dynamic systems where the hardware is in control of DVFS we use
- hardware counters (Intel APERF/MPERF, ARMv8.4-AMU) to provide us this ratio.
--For Intel specifically, we use:
-+For Intel specifically, we use::
- 
--	   APERF
-+           APERF
-   f_cur := ----- * P0
--	   MPERF
-+           MPERF
- 
--	     4C-turbo;	if available and turbo enabled
--  f_max := { 1C-turbo;	if turbo enabled
--	     P0;	otherwise
-+             4C-turbo;  if available and turbo enabled
-+  f_max := { 1C-turbo;  if turbo enabled
-+             P0;        otherwise
- 
-                     f_cur
-   r_dvfs := min( 1, ----- )
-@@ -87,7 +91,7 @@ For more detail see:
- 
- 
- UTIL_EST / UTIL_EST_FASTUP
----------------------------
-+==========================
- 
- Because periodic tasks have their averages decayed while they sleep, even
- though when running their expected utilization will be the same, they suffer a
-@@ -106,7 +110,7 @@ For more detail see: kernel/sched/fair.c:util_est_dequeue()
- 
- 
- UCLAMP
--------
-+======
- 
- It is possible to set effective u_min and u_max clamps on each CFS or RT task;
- the runqueue keeps an max aggregate of these clamps for all running tasks.
-@@ -115,7 +119,7 @@ For more detail see: include/uapi/linux/sched/types.h
- 
- 
- Schedutil / DVFS
------------------
-+================
- 
- Every time the scheduler load tracking is updated (task wakeup, task
- migration, time progression) we call out to schedutil to update the hardware
-@@ -123,19 +127,19 @@ DVFS state.
- 
- The basis is the CPU runqueue's 'running' metric, which per the above it is
- the frequency invariant utilization estimate of the CPU. From this we compute
--a desired frequency like:
-+a desired frequency like::
- 
--             max( running, util_est );	if UTIL_EST
--  u_cfs := { running;			otherwise
-+             max( running, util_est );  if UTIL_EST
-+  u_cfs := { running;                   otherwise
- 
--               clamp( u_cfs + u_rt , u_min, u_max );	if UCLAMP_TASK
--  u_clamp := { u_cfs + u_rt;				otherwise
-+               clamp( u_cfs + u_rt, u_min, u_max );  if UCLAMP_TASK
-+  u_clamp := { u_cfs + u_rt;                         otherwise
- 
-   u := u_clamp + u_irq + u_dl;		[approx. see source for more detail]
- 
-   f_des := min( f_max, 1.25 u * f_max )
- 
--XXX IO-wait; when the update is due to a task wakeup from IO-completion we
-+XXX IO-wait: when the update is due to a task wakeup from IO-completion we
- boost 'u' above.
- 
- This frequency is then used to select a P-state/OPP or directly munged into a
-@@ -153,7 +157,7 @@ For more information see: kernel/sched/cpufreq_schedutil.c
- 
- 
- NOTES
-------
-+=====
- 
-  - On low-load scenarios, where DVFS is most relevant, the 'running' numbers
-    will closely reflect utilization.
--- 
-2.17.1
+In this thread I claimed that the authors of the patches did not present
+a security model for overlayfs, such as the one currently in overlayfs.rst.
+If we had a model we could have debated its correctness and review its
+implementation.
 
+As a proof that there is no solid model, I gave an *example* regarding
+the overlay readdir cache.
+
+When listing a merged dir, meaning, a directory containing entries from
+several overlay layers, ovl_permission() is called to check user's permissi=
+on,
+but ovl_permission() does not currently check permissions to read all layer=
+s,
+because that is not the current overlayfs model.
+
+Overlayfs has a readdir cache, so without override_cred, a user with high
+credentials can populate the readdir cache and then a user will fewer
+credentials, not enough to access the lower layers, but enough to access
+the upper most layer, will pass ovl_permission() check and be allowed to
+read from readdir cache.
+
+This specific problem can be solved in several ways - disable readdir
+cache with override_cred=3Doff, check all layers in ovl_permission().
+That's not my point. My point is that I provided a proof that the current
+model of override_cred=3Doff is flawed and it is up to the authors of the
+patch to fix the model and provide the analysis of overlayfs code to
+prove the model's correctness.
+
+The core of the matter is there is no easy way to "merge" the permissions
+from all layers into a single permission blob that could be checked once.
+
+Maybe the example I gave is the only flaw in the model, maybe not
+I am not sure. I will be happy to help you in review of a model and the
+solution that you may have found.
+
+Thanks,
+Amir.
