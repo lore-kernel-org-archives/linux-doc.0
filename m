@@ -2,84 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D93CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 01:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600B6C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 02:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345455AbiCKBxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 20:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58356 "EHLO
+        id S240837AbiCKCGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 21:06:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238035AbiCKBxV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 20:53:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC15417B88A;
-        Thu, 10 Mar 2022 17:52:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 74BD5B829A4;
-        Fri, 11 Mar 2022 01:52:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C67C340E8;
-        Fri, 11 Mar 2022 01:52:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1646963537;
-        bh=2Gke8hh3aIhj9iTkxhpQghxW0+aYsJifVXn4KB8RgQY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XGekMziLl59NDO8JIAbgZiw2jhRA9ZtLzNZDJb2liZKXKA0C4dovTLBI1D9lg8Ct8
-         lVnjqvriGUWQBOqfbKY8YFNYF7LrXRprhxODCRRFgmmPqnpCu5ec6+aL3w5Y3OcZ6q
-         a4YmwV9WrQIiWolOegSe2xs0R3gW9/sdvQoXo8eg=
-Date:   Thu, 10 Mar 2022 17:52:16 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH 1/2] linux/types.h: Remove unnecessary __bitwise__
-Message-Id: <20220310175216.252fabefeca040004216d40d@linux-foundation.org>
-In-Reply-To: <20220310220927.245704-2-helgaas@kernel.org>
-References: <20220310220927.245704-1-helgaas@kernel.org>
-        <20220310220927.245704-2-helgaas@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S236911AbiCKCGS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 21:06:18 -0500
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D44481A6149;
+        Thu, 10 Mar 2022 18:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646964315; x=1678500315;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f7icsPcwe22Y3Rkg4PbfygTUhgxSU2Ht81aYqhv3kAM=;
+  b=LQu706m5eSHRFVvodmFkVn3k+F3PzQMBD8xTSnnE6Ia9rb5Ch00gbxdg
+   5RERn8qxCgTDVsrqBQI66+IMfLZ2JZUlsGDFQvWU1qN/3tcsSL0DTxEkc
+   QII3Q2KZvQ6Rp2XFRoX85ps8KK99C8UC2pbN/UBSMxXV455qcVVc5xruw
+   DMdEUjVsmDou9BM9k+e2u3hF4tBNDcDkHbiO0BEFMvcFTMsWctwZzCp2k
+   a4I7KEVmnH25YnAhELX60X5C/tb1eJOYB+P23LXAcaKD8eFkQlC/ohPFh
+   yjfwZqsOfKVkQHMlaz6PO4pKvbRwSPqWZTBG7aDJI4rbD6GFLmYvc7+VO
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="316195969"
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; 
+   d="scan'208";a="316195969"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 18:05:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; 
+   d="scan'208";a="712675009"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 10 Mar 2022 18:05:13 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nSUeW-0005hD-OH; Fri, 11 Mar 2022 02:05:12 +0000
+Date:   Fri, 11 Mar 2022 10:04:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     kbuild-all@lists.01.org,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:palmer/linux/riscv-pmu 4/10]
+ drivers/perf/riscv_pmu_legacy.c:76: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203110927.3ArrLPWM-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Mar 2022 16:09:26 -0600 Bjorn Helgaas <helgaas@kernel.org> wrote:
+Hi Atish,
 
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> There are no users of "__bitwise__" except the definition of "__bitwise".
-> Remove __bitwise__ and define __bitwise directly.
-> 
-> This is a follow-up to 05de97003c77 ("linux/types.h: enable endian checks
-> for all sparse builds").
-> 
+FYI, the error/warning still remains.
 
-Can we change the copy-pasted code in tools/include/linux/types.h while
-we're there?
+tree:   https://github.com/ammarfaizi2/linux-block palmer/linux/riscv-pmu
+head:   7a94c6fb363cfe62906cb0503d763204b0fe32b8
+commit: e4d5f33e63b1260f378512c0f6e5a117ed6b894a [4/10] RISC-V: Add a simple platform driver for RISC-V legacy perf
+config: riscv-randconfig-r042-20211213 (https://download.01.org/0day-ci/archive/20220311/202203110927.3ArrLPWM-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/e4d5f33e63b1260f378512c0f6e5a117ed6b894a
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block palmer/linux/riscv-pmu
+        git checkout e4d5f33e63b1260f378512c0f6e5a117ed6b894a
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/perf/riscv_pmu_legacy.c:76: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This is just a simple implementation to allow legacy implementations
 
 
---- a/tools/include/linux/types.h~linux-typesh-remove-unnecessary-__bitwise__-fix
-+++ a/tools/include/linux/types.h
-@@ -43,11 +43,10 @@ typedef __u8  u8;
- typedef __s8  s8;
- 
- #ifdef __CHECKER__
--#define __bitwise__ __attribute__((bitwise))
-+#define __bitwise	__attribute__((bitwise))
- #else
--#define __bitwise__
-+#define __bitwise
- #endif
--#define __bitwise __bitwise__
- 
- #define __force
- #define __user
-_
+vim +76 drivers/perf/riscv_pmu_legacy.c
 
+    74	
+    75	/**
+  > 76	 * This is just a simple implementation to allow legacy implementations
+    77	 * compatible with new RISC-V PMU driver framework.
+    78	 * This driver only allows reading two counters i.e CYCLE & INSTRET.
+    79	 * However, it can not start or stop the counter. Thus, it is not very useful
+    80	 * will be removed in future.
+    81	 */
+    82	static void pmu_legacy_init(struct riscv_pmu *pmu)
+    83	{
+    84		pr_info("Legacy PMU implementation is available\n");
+    85	
+    86		pmu->num_counters = RISCV_PMU_LEGACY_NUM_CTR;
+    87		pmu->ctr_start = pmu_legacy_ctr_start;
+    88		pmu->ctr_stop = NULL;
+    89		pmu->event_map = pmu_legacy_event_map;
+    90		pmu->ctr_get_idx = pmu_legacy_ctr_get_idx;
+    91		pmu->ctr_get_width = NULL;
+    92		pmu->ctr_clear_idx = NULL;
+    93		pmu->ctr_read = pmu_legacy_read_ctr;
+    94	
+    95		perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
+    96	}
+    97	
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
