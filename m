@@ -2,353 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A574C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 22:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD78C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 23:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbiCKWpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Mar 2022 17:45:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53910 "EHLO
+        id S230260AbiCKXDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Mar 2022 18:03:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiCKWph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 17:45:37 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AE7148671;
-        Fri, 11 Mar 2022 14:21:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647037276; x=1678573276;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aXpYOn6ZRsuTaRkD1g4T1EgJ06+xggd+9isCrVZMGXo=;
-  b=jCTUM9rslUpRnz45xGT2RwDUDP2tWm08aBSkI43AnadT+f/cs7bj+kin
-   lZqpAolIykE9Q8A24aUuRK9WUPzQAWTbta+kbJX5z9u+nqJHqX5ng5d/6
-   qhbzOSLDgmSpD9DTvlFdhlhEh0M/+WIHDxgEutJCkyGVCp2Vkc9tMXUJK
-   Plr9npeesT798LIY44r8vnSjW2PKmaotEwDdjjI0UnGPW5we9HXLmxB/t
-   IG71vcLUjcWrC+0u9wgw4b3ddjQBqisseijRRQ+ipOEH5S1TISwJPGGi7
-   C5Zb4NaDGG/4mviq1wTD/LLhAyYhPReVgiKnW0oIGtF/LTJwIneJ2iKkf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="255853491"
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="255853491"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 14:14:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="496896178"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.8])
-  by orsmga003.jf.intel.com with ESMTP; 11 Mar 2022 14:14:14 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     rafael@kernel.org, daniel.lezcano@linaro.org, corbet@lwn.net
-Cc:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] documentation: thermal: DPTF Documentation
-Date:   Fri, 11 Mar 2022 14:14:13 -0800
-Message-Id: <20220311221413.714859-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S231336AbiCKXDI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 18:03:08 -0500
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9FE24893B
+        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 14:58:10 -0800 (PST)
+Received: by mail-vk1-xa35.google.com with SMTP id w128so5459632vkd.3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 14:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3INdYjmD9sI3AAGt1tE2s/Am9WLmWC+N03DHnuY4rE8=;
+        b=BMA7qz0hmDXjgLAj/07b1iUaF7Hpsjn69duyTb+GziOeEl6FfVlZDbJDnlOKFb5OxL
+         993gwyQ2uOEj3GwTJER0T9zTHJQ6k2YiGQTupxTGAeMkt/rxQ8SU7B9al7D4z9jq+inU
+         xbnrI77JFap8h53TWHjivFVxM/5MoRxNBSh2yX54H67Yp6YZMsQAViCyWkISwhr/YT+i
+         mF5wyHwgkInp+C4d5kf++Um69oOINKpvHpy1b28ckD6Y+qNFCGvwWa9cJ9efFbon6Epm
+         qL/hHNgx/Su35VLn9pfl0NE6jHYctKc0W1IDlZ6EMyJaDiqCHBSVDl5l8Gtv573d3IuH
+         NkEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3INdYjmD9sI3AAGt1tE2s/Am9WLmWC+N03DHnuY4rE8=;
+        b=Me8gCFfndqxia+/TbDBF89aAgPvs8xF57zp91u7fEoc57rneugxAWjRIVX7Cf9WMot
+         wwT9KGXLKEsgxJVZ0XJmgsUOaLeu01Qc0v9wMxyFYNWbv7eDT7URiGubJq3s87FSWX5Z
+         Hi67MdjYch0wMo153iiQSLSHnnt9URzd7wl8g/8YDakB3dNqhPS1JGr9i2cTb70qrZBN
+         HZX/YSqq6sXQWYfcjlKwNFVm++atk12pXlpTOuOCaxceBnD35GiSQH6RrxKAxNk23i41
+         gJtTpPy1ZdMlnwPPq6IwjLGK3x8ZaL+Vm6noW59HFzvCjEmNcmel/eF2HDZf7VQTMZIC
+         WpDA==
+X-Gm-Message-State: AOAM5337enr9+KB/JWjUXINCXWg3XRfHQxAwF3zmDp1YHMdyujnEOg8h
+        j05eDygZ3ZMI+wgnUlLbtQc1apHRCw2z/ore9RQb4A==
+X-Google-Smtp-Source: ABdhPJwGpXBfC5BGWFXcbt51OotnQdLdCIZrxqrjphxJw0BNDdEab0gCbm4RnWAIGbVNilKBQ/CyJES1Xl9HPBWgrnk=
+X-Received: by 2002:a05:6122:2089:b0:337:bb38:9145 with SMTP id
+ i9-20020a056122208900b00337bb389145mr5955292vkd.14.1647039488964; Fri, 11 Mar
+ 2022 14:58:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-2-yuzhao@google.com>
+ <CAGsJ_4yt_q4=pPW1M6fHN9HrV5JuTo9_9GQ0wv4-VT7tivU1+Q@mail.gmail.com>
+In-Reply-To: <CAGsJ_4yt_q4=pPW1M6fHN9HrV5JuTo9_9GQ0wv4-VT7tivU1+Q@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Fri, 11 Mar 2022 15:57:57 -0700
+Message-ID: <CAOUHufZy+3+0zWTpAr8wJkWeQ4c4b9msiuWWu0XK=_aedqB=8w@mail.gmail.com>
+Subject: Re: [PATCH v9 01/14] mm: x86, arm64: add arch_has_hw_pte_young()
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document Intel Dynamic Platform and Thermal Framework (DPTF)
-ABI.
+On Fri, Mar 11, 2022 at 3:55 AM Barry Song <21cnbao@gmail.com> wrote:
+>
+> On Wed, Mar 9, 2022 at 3:47 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > Some architectures automatically set the accessed bit in PTEs, e.g.,
+> > x86 and arm64 v8.2. On architectures that do not have this capability,
+> > clearing the accessed bit in a PTE usually triggers a page fault
+> > following the TLB miss of this PTE (to emulate the accessed bit).
+> >
+> > Being aware of this capability can help make better decisions, e.g.,
+> > whether to spread the work out over a period of time to reduce bursty
+> > page faults when trying to clear the accessed bit in many PTEs.
+> >
+> > Note that theoretically this capability can be unreliable, e.g.,
+> > hotplugged CPUs might be different from builtin ones. Therefore it
+> > should not be used in architecture-independent code that involves
+> > correctness, e.g., to determine whether TLB flushes are required (in
+> > combination with the accessed bit).
+> >
+> > Signed-off-by: Yu Zhao <yuzhao@google.com>
+> > Acked-by: Brian Geffon <bgeffon@google.com>
+> > Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> > Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> > Acked-by: Steven Barrett <steven@liquorix.net>
+> > Acked-by: Suleiman Souhlal <suleiman@google.com>
+> > Acked-by: Will Deacon <will@kernel.org>
+> > Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> > Tested-by: Donald Carr <d@chaos-reins.com>
+> > Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> > Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> > Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> > Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> > ---
+>
+> Reviewed-by: Barry Song <baohua@kernel.org>
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- Documentation/driver-api/thermal/index.rst    |   1 +
- .../driver-api/thermal/intel_dptf.rst         | 272 ++++++++++++++++++
- 2 files changed, 273 insertions(+)
- create mode 100644 Documentation/driver-api/thermal/intel_dptf.rst
+Thanks.
 
-diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-index 4cb0b9b6bfb8..030306ffa408 100644
---- a/Documentation/driver-api/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -17,3 +17,4 @@ Thermal
-    intel_powerclamp
-    nouveau_thermal
-    x86_pkg_temperature_thermal
-+   intel_dptf
-diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
-new file mode 100644
-index 000000000000..96668dca753a
---- /dev/null
-+++ b/Documentation/driver-api/thermal/intel_dptf.rst
-@@ -0,0 +1,272 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============================================================
-+Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
-+===============================================================
-+
-+:Copyright: |copy| 2022 Intel Corporation
-+
-+:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-+
-+Introduction
-+------------
-+
-+Intel(R) Dynamic Platform and Thermal Framework (DPTF) is a platform
-+level hardware/software solution for power and thermal management.
-+
-+As a container for multiple power/thermal technologies, DPTF provides
-+a coordinated approach for different policies to effect the hardware
-+state of a system.
-+
-+Since it is a platform level framework, this has several components.
-+Some parts of the technology is implemented in the firmware and uses
-+ACPI and PCI devices to expose various features for monitoring and
-+control. Linux has a set of kernel drivers exposing hardware interface
-+to user space. This allows user space thermal solutions like
-+"Linux Thermal Daemon" to read platform specific thermal and power
-+tables to deliver adequate performance while keeping the system under
-+thermal limits.
-+
-+DPTF ACPI Drivers interface
-+----------------------------
-+
-+:file:`/sys/bus/platform/devices/<N>/uuids`, where <N>
-+=INT3400|INTC1040|INTC1041|INTC10A0
-+
-+``available_uuids`` (RO)
-+	A set of UUIDs strings presenting available policies
-+	which should be notified to the firmware when the
-+	user space can support those policies.
-+
-+	UUID strings:
-+
-+	"42A441D6-AE6A-462b-A84B-4A8CE79027D3" : Passive 1
-+
-+	"3A95C389-E4B8-4629-A526-C52C88626BAE" : Active
-+
-+	"97C68AE7-15FA-499c-B8C9-5DA81D606E0A" : Critical
-+
-+	"63BE270F-1C11-48FD-A6F7-3AF253FF3E2D" : Adaptive performance
-+
-+	"5349962F-71E6-431D-9AE8-0A635B710AEE" : Emergency call
-+
-+	"9E04115A-AE87-4D1C-9500-0F3E340BFE75" : Passive 2
-+
-+	"F5A35014-C209-46A4-993A-EB56DE7530A1" : Power Boss
-+
-+	"6ED722A7-9240-48A5-B479-31EEF723D7CF" : Virtual Sensor
-+
-+	"16CAF1B7-DD38-40ED-B1C1-1B8A1913D531" : Cooling mode
-+
-+	"BE84BABF-C4D4-403D-B495-3128FD44dAC1" : HDC
-+
-+``current_uuid`` (RW)
-+	User space can write strings from available UUIDs, one at a
-+	time.
-+
-+:file:`/sys/bus/platform/devices/<N>/`, where <N>
-+=INT3400|INTC1040|INTC1041|INTC10A0
-+
-+``imok`` (WO)
-+	User space daemon write 1 to respond to firmware event
-+	for sending keep alive notification. User space receives
-+	THERMAL_EVENT_KEEP_ALIVE kobject uevent notification when
-+	firmware calls for user space to respond with imok ACPI
-+	method.
-+
-+``odvp*`` (RO)
-+	Firmware thermal status variable values. Thermal tables
-+	calls for different processing based on these variable
-+	values.
-+
-+``data_vault`` (RO)
-+	Binary thermal table. Refer to
-+	https:/github.com/intel/thermal_daemon for decoding
-+	thermal table.
-+
-+
-+ACPI Thermal Relationship table interface
-+------------------------------------------
-+
-+:file:`/dev/acpi_thermal_rel`
-+
-+	This device provides IOCTL interface to read standard ACPI
-+	thermal relationship tables via ACPI methods _TRT and _ART.
-+	These IOCTLs are defined in
-+	drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-+
-+	IOCTLs:
-+
-+	ACPI_THERMAL_GET_TRT_LEN: Get length of TRT table
-+
-+	ACPI_THERMAL_GET_ART_LEN: Get length of ART table
-+
-+	ACPI_THERMAL_GET_TRT_COUNT: Number of records in TRT table
-+
-+	ACPI_THERMAL_GET_ART_COUNT: Number of records in ART table
-+
-+	ACPI_THERMAL_GET_TRT: Read binary TRT table, length to read is
-+	provided via argument to ioctl().
-+
-+	ACPI_THERMAL_GET_ART: Read binary ART table, length to read is
-+	provided via argument to ioctl().
-+
-+DPTF ACPI Sensor drivers
-+-------------------------
-+
-+DPTF Sensor drivers are presented as standard thermal sysfs thermal_zone.
-+
-+
-+DPTF ACPI Cooling drivers
-+--------------------------
-+
-+DPTF cooling drivers are presented as standard thermal sysfs cooling_device.
-+
-+
-+DPTF Processor thermal PCI Driver interface
-+--------------------------------------------
-+
-+:file:`/sys/bus/pci/devices/0000\:00\:04.0/power_limits/`
-+
-+Refer to Documentation/power/powercap/powercap.rst for powercap
-+ABI.
-+
-+``power_limit_0_max_uw`` (RO)
-+	Maximum powercap sysfs constraint_0_power_limit_uw for Intel RAPL
-+
-+``power_limit_0_step_uw`` (RO)
-+	Power limit increment/decrements for Intel RAPL constraint 0 power limit
-+
-+``power_limit_0_min_uw`` (RO)
-+	Minimum powercap sysfs constraint_0_power_limit_uw for Intel RAPL
-+
-+``power_limit_0_tmin_us`` (RO)
-+	Minimum powercap sysfs constraint_0_time_window_us for Intel RAPL
-+
-+``power_limit_0_tmax_us`` (RO)
-+	Maximum powercap sysfs constraint_0_time_window_us for Intel RAPL
-+
-+``power_limit_1_max_uw`` (RO)
-+	Maximum powercap sysfs constraint_1_power_limit_uw for Intel RAPL
-+
-+``power_limit_1_step_uw`` (RO)
-+	Power limit increment/decrements for Intel RAPL constraint 1 power limit
-+
-+``power_limit_1_min_uw`` (RO)
-+	Minimum powercap sysfs constraint_1_power_limit_uw for Intel RAPL
-+
-+``power_limit_1_tmin_us`` (RO)
-+	Minimum powercap sysfs constraint_1_time_window_us for Intel RAPL
-+
-+``power_limit_1_tmax_us`` (RO)
-+	Maximum powercap sysfs constraint_1_time_window_us for Intel RAPL
-+
-+:file:`/sys/bus/pci/devices/0000\:00\:04.0/`
-+
-+``tcc_offset_degree_celsius`` (RW)
-+	TCC offset from the critical temperature where hardware will throttle
-+	CPU.
-+
-+:file:`/sys/bus/pci/devices/0000\:00\:04.0/workload_request`
-+
-+``workload_available_types`` (RO)
-+	Available workload types. User space can specify one of the workload type
-+	it is currently executing via workload_type. For example: idle, bursty,
-+	sustained etc.
-+
-+``workload_type`` (RW)
-+	User space can specify any one of the available workload type using
-+	this interface.
-+
-+DPTF Processor thermal RFIM interface
-+--------------------------------------------
-+
-+RFIM interface allows adjustment of FIVR (Fully Integrated Voltage Regulator)
-+and DDR (Double Data Rate)frequencies to avoid RF interference with WiFi and 5G.
-+
-+Switching voltage regulators (VR) generate radiated EMI or RFI at the
-+fundamental frequency and its harmonics. Some harmonics may interfere
-+with very sensitive wireless receivers such as Wi-Fi and cellular that
-+are integrated into host systems like notebook PCs.  One of mitigation
-+methods is requesting SOC integrated VR (IVR) switching frequency to a
-+small % and shift away the switching noise harmonic interference from
-+radio channels.  OEM or ODMs can use the driver to control SOC IVR
-+operation within the range where it does not impact IVR performance.
-+
-+DRAM devices of DDR IO interface and their power plane can generate EMI
-+at the data rates. Similar to IVR control mechanism, Intel offers a
-+mechanism by which DDR data rates can be changed if several conditions
-+are met: there is strong RFI interference because of DDR; CPU power
-+management has no other restriction in changing DDR data rates;
-+PC ODMs enable this feature (real time DDR RFI Mitigation referred to as
-+DDR-RFIM) for Wi-Fi from BIOS.
-+
-+
-+FIVR attributes
-+
-+:file:`/sys/bus/pci/devices/0000\:00\:04.0/fivr/`
-+
-+``vco_ref_code_lo`` (RW)
-+	The VCO reference code is an 11-bit field and controls the FIVR
-+	switching frequency. This is the 3-bit LSB field.
-+
-+``vco_ref_code_hi`` (RW)
-+	The VCO reference code is an 11-bit field and controls the FIVR
-+	switching frequency. This is the 8-bit MSB field.
-+
-+``spread_spectrum_pct`` (RW)
-+	Set the FIVR spread spectrum clocking percentage
-+
-+``spread_spectrum_clk_enable`` (RW)
-+	Enable/disable of the FIVR spread spectrum clocking feature
-+
-+``rfi_vco_ref_code`` (RW)
-+	This field is a read only status register which reflects the
-+	current FIVR switching frequency
-+
-+``fivr_fffc_rev`` (RW)
-+	This field indicated the revision of the FIVR HW.
-+
-+
-+DVFS attributes
-+
-+:file:`/sys/bus/pci/devices/0000\:00\:04.0/dvfs/`
-+
-+``rfi_restriction_run_busy`` (RW)
-+	Request the restriction of specific DDR data rate and set this
-+	value 1. Self reset to 0 after operation.
-+
-+``rfi_restriction_err_code`` (RW)
-+	0 :Request is accepted, 1:Feature disabled,
-+	2: the request restricts more points than it is allowed
-+
-+``rfi_restriction_data_rate_Delta`` (RW)
-+	Restricted DDR data rate for RFI protection: Lower Limit
-+
-+``rfi_restriction_data_rate_Base`` (RW)
-+	Restricted DDR data rate for RFI protection: Upper Limit
-+
-+``ddr_data_rate_point_0`` (RO)
-+	DDR data rate selection 1st point
-+
-+``ddr_data_rate_point_1`` (RO)
-+	DDR data rate selection 2nd point
-+
-+``ddr_data_rate_point_2`` (RO)
-+	DDR data rate selection 3rd point
-+
-+``ddr_data_rate_point_3`` (RO)
-+	DDR data rate selection 4th point
-+
-+``rfi_disable (RW)``
-+	Disable DDR rate change feature
-+
-+DPTF Power supply and Battery Interface
-+----------------------------------------
-+
-+Refer to Documentation/ABI/testing/sysfs-platform-dptf
-+
-+DPTF Fan Control
-+----------------------------------------
-+
-+Refer to Documentation/admin-guide/acpi/fan_performance_states.rst
--- 
-2.31.1
+> i guess arch_has_hw_pte_young() isn't called that often in either
+> mm/memory.c or mm/vmscan.c.
+> Otherwise, moving to a static key might help. Is it?
 
+MRS shouldn't be slower than either branch of a static key. With a
+static key, we only can optimize one of the two cases.
+
+There is a *theoretical* problem with MRS: ARM specs don't prohibit a
+physical CPU to support both cases (on different logical CPUs).
