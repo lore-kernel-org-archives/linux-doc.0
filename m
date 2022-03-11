@@ -2,120 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C75EBC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 16:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEB7C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 18:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343513AbiCKQdr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Mar 2022 11:33:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56110 "EHLO
+        id S1346895AbiCKSIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Mar 2022 13:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244586AbiCKQdq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 11:33:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7628517FC
-        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 08:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647016361;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wIiyo/Hz9JMpDwt94KYeCOdCYlTzYuM5+GHnQsk/7+4=;
-        b=XfBXaUe1mvTlppshHGteBc5saB2kMeAv9RlR0Iz94zBe+ChNOD0PgFr7DIbq+krAP4rOf+
-        7PZgLloUjsa0dNRyymnJQ07lsXek/90L881ZYUvWf+qdR2sDFqb2X8/qGK8ne4Z/xHHxlC
-        2eumQNcp2DruZ9LypirKR9xtTt9l3JU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-O3Ff8i_eM3uSiR79hYrNIQ-1; Fri, 11 Mar 2022 11:32:40 -0500
-X-MC-Unique: O3Ff8i_eM3uSiR79hYrNIQ-1
-Received: by mail-wr1-f71.google.com with SMTP id y13-20020adfee0d000000b001f1fa450a3dso3013155wrn.11
-        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 08:32:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wIiyo/Hz9JMpDwt94KYeCOdCYlTzYuM5+GHnQsk/7+4=;
-        b=UT7Q/2zDN1z8+gRwDAYiXiAZ2cufvNmZkDE3CrBnqdkOCnuRoe0S1IL14c8VuLksRM
-         sW3zglMMu/Oc1A4EhPVGqSOXkvhTxcc80uuj3l9mVVLAQwCLcsiwBXzVHUk8eLAP2NZZ
-         +SdYmu8dLfmBV4HVrcEIgw/2gk+3DG9ULlI8mqBMxQT1Reo6MaYUnr5TElvlm9slFu39
-         DMGvGsSOyx83aDHX+B0i62bh0oLWAJZuia3y0G8SoNJQPf9kvZseRBVKzkJnCnLYEYNW
-         c6DHpdroCba+NB1kFJklAqlj+2fzDToVbhWMQYSvaYf0h+SBEUHh2GpPlwp7xcRUsgkw
-         FySQ==
-X-Gm-Message-State: AOAM532OU7EoaR6anY7zSwlB/rdCY4i2AKjbCvqYTmb5Iw+CwE+ssCA3
-        zAue4HUZuHxTT++HQ/edrsup4GNXM4ORRkEUqrEv0j7JRMCC9KaBTK0riC6ihxQXOnuihzWEw51
-        YxHabezwBawtpKsoHopLK
-X-Received: by 2002:a05:6000:1104:b0:1f9:7df6:c864 with SMTP id z4-20020a056000110400b001f97df6c864mr7890482wrw.63.1647016359448;
-        Fri, 11 Mar 2022 08:32:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxW7xVvJKrOS4i/VOXAwIU8h5bRNK36QLS+yGu7beP2gTUOBkmEGhe0SKy7JrVLcX09APi9Jw==
-X-Received: by 2002:a05:6000:1104:b0:1f9:7df6:c864 with SMTP id z4-20020a056000110400b001f97df6c864mr7890465wrw.63.1647016359206;
-        Fri, 11 Mar 2022 08:32:39 -0800 (PST)
-Received: from localhost.localdomain ([2a00:23c6:4a1c:5a01:f0e6:1d65:f381:51c4])
-        by smtp.gmail.com with ESMTPSA id i1-20020a1c5401000000b00389f76c1325sm578681wmb.47.2022.03.11.08.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Mar 2022 08:32:38 -0800 (PST)
-Date:   Fri, 11 Mar 2022 16:32:36 +0000
-From:   Juri Lelli <juri.lelli@redhat.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V3 00/15] rtla: Improved tracing support
-Message-ID: <Yit5pMZVCPFAXE/e@localhost.localdomain>
-References: <cover.1646247211.git.bristot@kernel.org>
+        with ESMTP id S232941AbiCKSIG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 13:08:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85AAF1BA17B;
+        Fri, 11 Mar 2022 10:07:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 178EB61E70;
+        Fri, 11 Mar 2022 18:07:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2AEBC340E9;
+        Fri, 11 Mar 2022 18:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647022021;
+        bh=FbqNvOscYJ7Bfr/Vx00UgkhPaUqUnhlZCF+USYAVP7s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vOMJW+v9J+BqQYR/PnmJ698oQuG3E+dq1i4rfVycrdqD+cso8RQTZa5pT2Yo4F9LD
+         1xtdIuzSSBeZcdQ96Kbk9RN5+OYHpfdue+UzoY3aB6SU5fKqE1TQlTGFMJygCFc1EP
+         pFK3kzS7x2d1SfpMUz5b+96BnjndaCnL3HRyaSVI2TFYBQToCgbIz0lSWd9CWrq8bG
+         LVLkcTRBT+tWtgdRhTNsce+EUu/l7QLK7ZlZFGRCDcw+jPkopTFWyLAE5KrPS6espp
+         J/DSeNVhR/jDSNkGi6xHavFIrUTqc4sN119HRZv1mFz+qnkc2xwSt8J5xD6WvekkeU
+         gzrqZFrmzJR1w==
+Date:   Fri, 11 Mar 2022 18:06:54 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc:     linux-kernel@vger.kernel.org, kernel@axis.com,
+        devicetree@vger.kernel.org, linux-um@lists.infradead.org,
+        shuah@kernel.org, brendanhiggins@google.com,
+        linux-kselftest@vger.kernel.org, jic23@kernel.org,
+        linux-iio@vger.kernel.org, lgirdwood@gmail.com,
+        a.zummo@towertech.it, alexandre.belloni@bootlin.com,
+        linux-rtc@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC v1 09/10] regulator: tps62864: add roadtest
+Message-ID: <YiuPvkQroV/WdFpx@sirena.org.uk>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-10-vincent.whitchurch@axis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="MolxjZU9V35M/+dw"
 Content-Disposition: inline
-In-Reply-To: <cover.1646247211.git.bristot@kernel.org>
+In-Reply-To: <20220311162445.346685-10-vincent.whitchurch@axis.com>
+X-Cookie: A fool and his money are soon popular.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On 02/03/22 20:01, Daniel Bristot de Oliveira wrote:
-> This set introduces some tracing facilities to rtla tools:
-> 
-> - Add the possibility to change the tracing_thresh to osnoise,
-> allowing a fine tune of OS noise detection.
-> 
-> - Add the auto-tracing feature (-a threshold us), which aims
-> helping the first approach to a problem by setting common
-> tracing features with a single parameter.
-> 
-> - Add -e/--event option, allowing osnoise and timerlat to
-> enable additional trace events via (possible multiple)
-> -e sys:event options.
-> 
-> - Add the --filter option to filter the previous -e event.
-> 
-> - Add the --trigger option to allow the usage of tracing
-> trigger of the previously set -e event. If the trigger
-> is hist: one, rtla automatically saves the hist file
-> associated with the -e event.
-> 
-> And some more improvements:
-> 
-> - Add --dma-latency option to tune exit from idle latencies
-> 
-> - Some minor fixes
-> 
-> Changes from V2:
->  - Rebased to for-next
->  - Add --dma-latency
->  - Some more fixes
-> Changes from V1:
->  - Add -e to osnoise/timerlat hist
->  - Add --trigger
->  - Add --filter
->  - Add support to save hist file
->  - Function name refactoring
+--MolxjZU9V35M/+dw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I took this for a spin and it looked good to me!
+On Fri, Mar 11, 2022 at 05:24:44PM +0100, Vincent Whitchurch wrote:
 
-Tested-by: Juri Lelli <juri.lelli@redhat.com>
+This looks like it could be useful, modulo the general concerns with
+mocking stuff.  I've not looked at the broader framework stuff in any
+meanigful way.
 
-Thanks,
-Juri
+> +    @classmethod
+> +    def setUpClass(cls) -> None:
+> +        insmod("tps6286x-regulator")
 
+Shouldn't this get figured out when the device gets created in DT (if it
+doesn't I guess the tests found a bug...)?
+
+> +    def setUp(self) -> None:
+> +        self.driver = I2CDriver("tps6286x")
+> +        self.hw = Hardware("i2c")
+> +        self.hw.load_model(TPS62864)
+
+This feels like there could be some syntactic sugar to say "create this
+I2C device" in one call?  In general a lot of the frameworkish stuff
+feels verbose.
+
+> +    def test_voltage(self) -> None:
+> +        with (
+> +            self.driver.bind(self.dts["normal"]),
+> +            PlatformDriver("reg-virt-consumer").bind(
+> +                "tps62864_normal_consumer"
+> +            ) as consumerdev,
+> +        ):
+> +            maxfile = consumerdev.path / "max_microvolts"
+> +            minfile = consumerdev.path / "min_microvolts"
+> +
+> +            write_int(maxfile, 1675000)
+> +            write_int(minfile, 800000)
+> +
+> +            mock = self.hw.update_mock()
+> +            mock.assert_reg_write_once(self, REG_CONTROL, 1 << 5)
+> +            mock.assert_reg_write_once(self, REG_VOUT1, 0x50)
+> +            mock.reset_mock()
+
+Some comments about the assertations here would seem to be in order.
+It's not altogether clear what this is testing - it looks to be
+verifying that the regulator is enabled with the voltage set to 800mV
+mapping to 0x50 in VOUT1 but I'm not sure that the idle reader would
+pick that up.
+
+> +            mV = 1000
+> +            data = [
+> +                (400 * mV, 0x00),
+> +                (900 * mV, 0x64),
+> +                (1675 * mV, 0xFF),
+> +            ]
+> +
+> +            for voltage, val in data:
+> +                write_int(minfile, voltage)
+> +                mock = self.hw.update_mock()
+> +                mock.assert_reg_write_once(self, REG_VOUT1, val)
+> +                mock.reset_mock()
+
+For covering regulators in general (especially those like this that use
+the generic helpers) I'd be inclined to go through every single voltage
+that can be set which isn't so interesting for this driver with it's
+linear voltage control but more interesting for something that's not
+continuous.  I'd also put a cross check in that the voltage and enable
+state that's reported via the read interface in sysfs is the one that we
+think we've just set, that'd validate that the framework's model of
+what's going on matches both what the driver did to the "hardware" and
+what the running kernel thinks is going on so we're joined up top to
+bottom (for the regulator framework the read values come from the
+driver so it is actually covering the driver).
+
+This all feels like it could readily be factored out into a generic
+helper, much as the actual drivers are especially when they're more data
+driven.  Ideally with the ability to override the default I/O operations
+for things with sequences that need to be followed instead of just a
+bitfield to update.  Callbacks to validate enable state, voltage, mode
+and so on in the hardware.  If we did that then rather than open coding
+every single test for every single device we could approach things at
+the framework level and give people working on a given device a pile of
+off the shelf tests which are more likely to catch things that an
+individual driver author might've missed, it also avoids the test
+coverage being more laborious than writing the actual driver.
+
+This does raise the questions I mentioned about how useful the testing
+really is of course, even more so when someone works out how to generate
+the data tables for the test and the driver from the same source, but
+that's just generally an issue for mocked tests at the conceptual level
+and clearly it's an approach that's fairly widely used and people get
+value from.
+
+--MolxjZU9V35M/+dw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIrj70ACgkQJNaLcl1U
+h9D1Rgf9Ftqa1fE0HqpChhmXg9bevuB0hQF8ey0T0Ypw/UorQPenedWbtt0/waZY
+K8rGaxJFPJbpC26PeXga6PnVPe7rm+uJtKQe7kICGvkvdCzVfqEH6uNxUfMwPki3
+zD2nhS1EvX7bB4NUDP8a3BgrFu8KWh6Npx2yj1cUKUoKFAPBhktCFs/wP5xfhvDV
+16sVYMN3QInL8IERk5F+lJSZHHOqfyt0lu7hgW70d+GoAlix/NwXL67ezPMykft/
+iyATJkFPB6KoBG2IChUzCFOzMN8KVfjXMCcl5JxOgSpER4jqMeDIbjTsv4uilzFf
+LUaSWbjwsd5iJoc7O2UJ+5I6S6vUDA==
+=X5TK
+-----END PGP SIGNATURE-----
+
+--MolxjZU9V35M/+dw--
