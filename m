@@ -2,251 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC3EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 00:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CB8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 01:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233639AbiCKAix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 19:38:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44504 "EHLO
+        id S239646AbiCKBCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 20:02:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbiCKAiv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 19:38:51 -0500
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B270E0B3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 16:37:49 -0800 (PST)
-Received: by mail-vs1-xe2e.google.com with SMTP id v128so7888095vsb.8
-        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 16:37:49 -0800 (PST)
+        with ESMTP id S237426AbiCKBCe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 20:02:34 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEF81A39E3;
+        Thu, 10 Mar 2022 17:01:31 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id x4so8523626iop.7;
+        Thu, 10 Mar 2022 17:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2LimIffJ+2+Hyyt6gnHQ4aWXqCPLYzM2e759iW7Bjvs=;
-        b=mty1HpxRPn8/WTH88zZr9s6Y/9AXI8+ZtcAXwR/9jYzMRHoIgkazky9PnIXWRBLL6l
-         a/S/hZsKCU0Nk0IRq/Rv5fahGNUE+EenmVeNpzrbcXsNf2AtS3gZyedkIpAYS1gYXqKL
-         zinynolnVzRXP6jgATvA8yuhMPWBZ/ZlTL9PKGP0ODk3aMdgbmX/MU66KZ3dw0fyrYHR
-         YI7ZkrsASQv6OLRNQ8beTXmxnJ+5zu22EipsaenH6yvjYgmXGW4alIKYyGYfMLmTe/ZQ
-         m3DQKDMT0v3vSvOALsG4dN9ZvTfxewswnTzQjahtAr3WrfEuvSfXAo5u7d3Sep3EwoEx
-         7Yqg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=pRxA0EhnfxgZREQ1JvLzAPp++HtgLS4XlH6e6oYQepQ=;
+        b=Vjyrm+kxdESZsbe9Az2HSAn1ZpwOhiXOQhxWSpGgTSM6JMYxnEEe0SCktudWT3F5XE
+         swt0tuE0Hy+xbGfbZn3E7alYtyxeQI7b30khdNhKZd2moPZ5H/yCp2PUiHKFGDqi4fXv
+         iJu7wQTUj1bxP/oV5fScpxSWxptw7coza83wBrqnoqidrZBXDwx7bg11LchfTWjGofEa
+         pRYj07cJAvx0KLkoncwItp+hX7own7GZp0HIbCa8T5P0L+ffzQy/SOxiuejlFmIXDEbF
+         O7+ZLSSAOm6Tuam5uE5mYwADZzyArnJziKAYIE6kVjMAVypCWgLfj5J81e06T/m8VD18
+         VjkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2LimIffJ+2+Hyyt6gnHQ4aWXqCPLYzM2e759iW7Bjvs=;
-        b=DTSXLdC35stOkMtcjd7zEzl+C1Q1qPtdq0NHbyfeMsGDWNABXmOQZk5F2KyraPUo/Q
-         Zs9+h0PSsGH1jMg4c3U+QuvGvjeMBgrCFZesVhcXvgQQyB1uC9iMgM4TuFIASqIWYSuK
-         D6liNohZOJpUp0tfHmnDQQPDJJpFgNbmtHZjSTyO0M4lKxRFi9ra1MwIwmXXEeshRUKC
-         T2QmFP0yoG8Fns0Xxh9iddruSc6wkm8J+MkOp9KL50HzjeGdsqTwevGoyBNy2BBkC2D+
-         twRmTaoN/4MQ0lACGlRm2mVLxYauLj7ISswS2HZtqdHJ9ft6qAKio46UvyyDJeLGpO2t
-         lqiw==
-X-Gm-Message-State: AOAM532AksmJaDdUTKFD9D7huoE6VmoHDev2k7zlYr3S165itAJEwxvy
-        028srdPbCIWKqqF2yyKIIcYCe+54k/zdxzcxm4wr8w==
-X-Google-Smtp-Source: ABdhPJwEZjiPQbHIsygGqzPp3H8aq0we/iEyH5B93eTNUR7mxTEl549bv+jWAgmUn9+GF3xxu2xt236nKnjQsePTdzc=
-X-Received: by 2002:a05:6102:3a06:b0:31b:d9c6:c169 with SMTP id
- b6-20020a0561023a0600b0031bd9c6c169mr3806840vsu.22.1646959067809; Thu, 10 Mar
- 2022 16:37:47 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=pRxA0EhnfxgZREQ1JvLzAPp++HtgLS4XlH6e6oYQepQ=;
+        b=BPjaB7L2bpwfMpvvNQKFM12KH4NtoLPQa016Vw0O069OBNZlIjHsWNJi3ZzbxMRkz+
+         djYUjq1A/O8Hom1cSiN6TCZZu8HoAOXTOtFGoaaQBi+H5xXaRd8EbH3PAI1qFyrvn0Ha
+         vK/crG0I5t4XrGLj1sZ+3Fp3U4ANHDloRWH6aw7BRZJbw44kubwTVXOrHPNmI9g+2Rcm
+         TssbnbYHeF+K8WaeV/h0hSuvW6hD2BYqcbtucQVbOaTASO/UFOIf9Fe5hxAQSM/cA94T
+         2Z8fmpf4+Kthn+W8S/PL+zFOmJoWOMx0e55XX1LzrJVZZY46YHA7/g8f8cYPQcENDK2d
+         qQsw==
+X-Gm-Message-State: AOAM531ry1TKf2H+l4HS8xhQc7J1u7AyKwCntF+NZE8t2VFEWG4oVFhe
+        rTIHdsxgWkhJWWTwvEdlUFY4gNgQryorhRaEx+c=
+X-Google-Smtp-Source: ABdhPJzg+9ZIr0/5erj9eCsxaC8HgT2nZx0GKAKjWV4ekUcW2ZeWfYetjEmfk7Yd433gAaCBj883R1wfARex/2tSmKU=
+X-Received: by 2002:a6b:8f15:0:b0:645:dfdb:7a35 with SMTP id
+ r21-20020a6b8f15000000b00645dfdb7a35mr5902984iod.36.1646960490953; Thu, 10
+ Mar 2022 17:01:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-14-yuzhao@google.com>
- <YinvPMIP4oEwCo6T@kernel.org>
-In-Reply-To: <YinvPMIP4oEwCo6T@kernel.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 10 Mar 2022 17:37:36 -0700
-Message-ID: <CAOUHufbYhRoiFgwbRpz7Ce5tfec7fbUEjk8b9Zty22jz9tN5TA@mail.gmail.com>
-Subject: Re: [PATCH v9 13/14] mm: multi-gen LRU: admin guide
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+References: <20220308215615.14183-1-arnd@kernel.org> <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+ <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
+ <CAK7LNASuy5hSOU7Y7Tr8_6Ks1ZqEeUKv_-c6fDjMubq0_ENRaw@mail.gmail.com> <YilBFcKIN1Ao5Ld1@dev-arch.thelio-3990X>
+In-Reply-To: <YilBFcKIN1Ao5Ld1@dev-arch.thelio-3990X>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 11 Mar 2022 02:00:55 +0100
+Message-ID: <CA+icZUX0SXwBF+CzaOAPKzOujSRVOKRZwS7nppPjraLvOSeMDw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 5:30 AM Mike Rapoport <rppt@kernel.org> wrote:
+On Thu, Mar 10, 2022 at 5:01 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> Hi,
->
-> On Tue, Mar 08, 2022 at 07:12:30PM -0700, Yu Zhao wrote:
-> > Add an admin guide.
+> On Wed, Mar 09, 2022 at 06:18:18PM +0900, Masahiro Yamada wrote:
+> > On Wed, Mar 9, 2022 at 11:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Wed, Mar 9, 2022 at 9:09 AM Linus Torvalds
+> > > <torvalds@linux-foundation.org> wrote:
+> > > >
+> > > > On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> > > > >
+> > > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > > >
+> > > > > I've incorporated the feedback from Masahiro Yamada in this
+> > > > > version, splitting out one more patch, rebasing on top of
+> > > > > the kbuild tree, and changing the order of the patches.
+> > > > >
+> > > > > Please apply to the kbuild tree.
+> > > >
+> > > > I'd actually like to see this as a separate branch, so that I can
+> > > > merge it early - or other peoples git branches end up depending on it.
+> > >
+> > >
+> > > OK, I can apply this to a separate branch, kbuild-gnu11.
+> > > (and I will queue this up shortly because it is already -rc7)
+> > >
+> > > Then, I will send two pull reqs in the next MW,
+> > > but please note they will conflict with each other,
+> > > between this gnu11 patch set and the following
+> > > one in my usual kbuild branch:
+> > >
+> > > https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808035-1-quic_eberman@quicinc.com/
+> > >
+> > >
+> > > I hope this is not a complex conflict, but please let me know
+> > > if you have any requests to me.
+> > >
+> > >
+> > >
+> > >
+> > >
 > >
-> > Signed-off-by: Yu Zhao <yuzhao@google.com>
-> > Acked-by: Brian Geffon <bgeffon@google.com>
-> > Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> > Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> > Acked-by: Steven Barrett <steven@liquorix.net>
-> > Acked-by: Suleiman Souhlal <suleiman@google.com>
-> > Tested-by: Daniel Byrne <djbyrne@mtu.edu>
-> > Tested-by: Donald Carr <d@chaos-reins.com>
-> > Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
-> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> > Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
-> > Tested-by: Sofia Trinh <sofia.trinh@edi.works>
-> > Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > ---
-> >  Documentation/admin-guide/mm/index.rst        |   1 +
-> >  Documentation/admin-guide/mm/multigen_lru.rst | 146 ++++++++++++++++++
-> >  mm/Kconfig                                    |   3 +-
-> >  3 files changed, 149 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
 > >
-> > diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/adm=
-in-guide/mm/index.rst
-> > index c21b5823f126..2cf5bae62036 100644
-> > --- a/Documentation/admin-guide/mm/index.rst
-> > +++ b/Documentation/admin-guide/mm/index.rst
-> > @@ -32,6 +32,7 @@ the Linux memory management.
-> >     idle_page_tracking
-> >     ksm
-> >     memory-hotplug
-> > +   multigen_lru
-> >     nommu-mmap
-> >     numa_memory_policy
-> >     numaperf
-> > diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Documentat=
-ion/admin-guide/mm/multigen_lru.rst
-> > new file mode 100644
-> > index 000000000000..4ea6a801dc56
-> > --- /dev/null
-> > +++ b/Documentation/admin-guide/mm/multigen_lru.rst
-> > @@ -0,0 +1,146 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Multi-Gen LRU
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > All, applied to linux-kbuild/kbuild-gnu11.
+> >
+> > If somebody wants to give Reviewed-by, Acked-by, Tested-by, please.
+> >
+> > I will append them later.
 >
-> I'm still missing an opening paragraph the explains what is Multi-gen LRU
-> and why users would want it.
+> For the series:
 >
-> Something like
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 >
->   Multi-gen LRU is an efficient mechanism for page reclamation.
->
-> More details are of course welcome :)
 
-I've add the following for the next spin:
+For the series:
 
-+Page reclaim decides the kernel's caching policy and ability to
-+overcommit memory. It directly impacts the kswapd CPU usage and RAM
-+efficiency. Multi-gen LRU aims to optimize page reclaim and improve
-+performance under memory pressure.
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13.0.0 (x86-64)
 
-> > +Quick start
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Build the kernel with the following configurations.
-> > +
-> > +* ``CONFIG_LRU_GEN=3Dy``
-> > +* ``CONFIG_LRU_GEN_ENABLED=3Dy``
-> > +
-> > +All set!
-> > +
-> > +Runtime options
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +``/sys/kernel/mm/lru_gen/`` contains stable ABIs described in the
-> > +following subsections.
-> > +
-> > +Kill switch
-> > +-----------
-> > +``enable`` accepts different values to enable or disabled the
->
->                                                    ^ disable
-
-Good catch. Will fix it up.
-
-> > +following components. The default value of this file depends on
-> > +``CONFIG_LRU_GEN_ENABLED``. All the components should be enabled
-> > +unless some of them have unforeseen side effects. Writing to
-> > +``enable`` has no effect when a component is not supported by the
-> > +hardware, and valid values will be accepted even when the main switch
-> > +is off.
-> > +
-> > +=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Values Components
-> > +=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +0x0001 The main switch for the multi-gen LRU.
-> > +0x0002 Clearing the accessed bit in leaf page table entries in large
-> > +       batches, when MMU sets it (e.g., on x86). This behavior can
-> > +       theoretically worsen lock contention (mmap_lock). If it is
-> > +       disabled, the multi-gen LRU will suffer a minor performance
-> > +       degradation.
-> > +0x0004 Clearing the accessed bit in non-leaf page table entries as
-> > +       well, when MMU sets it (e.g., on x86). This behavior was not
-> > +       verified on x86 varieties other than Intel and AMD. If it is
-> > +       disabled, the multi-gen LRU will suffer a negligible
-> > +       performance degradation.
-> > +[yYnN] Apply to all the components above.
-> > +=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +E.g.,
-> > +::
-> > +
-> > +    echo y >/sys/kernel/mm/lru_gen/enabled
-> > +    cat /sys/kernel/mm/lru_gen/enabled
-> > +    0x0007
-> > +    echo 5 >/sys/kernel/mm/lru_gen/enabled
-> > +    cat /sys/kernel/mm/lru_gen/enabled
-> > +    0x0005
-> > +
-> > +Thrashing prevention
-> > +--------------------
-> > +Personal computers are more sensitive to thrashing because it can
-> > +cause janks (lags when rendering UI) and negatively impact user
-> > +experience. The multi-gen LRU offers thrashing prevention to the
-> > +majority of laptop and desktop users who do not have ``oomd``.
-> > +
-> > +Users can write ``N`` to ``min_ttl_ms`` to prevent the working set of
-> > +``N`` milliseconds from getting evicted. The OOM killer is triggered
-> > +if this working set cannot be kept in memory. In other words, this
-> > +option works as an adjustable pressure relief valve, and when open, it
-> > +terminates applications that are hopefully not being used.
-> > +
-> > +Based on the average human detectable lag (~100ms), ``N=3D1000`` usual=
-ly
-> > +eliminates intolerable janks due to thrashing. Larger values like
-> > +``N=3D3000`` make janks less noticeable at the risk of premature OOM
-> > +kills.
->
-> What is the default value of min_ttl_ms?
-
-Right. I've added the following for the next spin:
-
-+The default value ``0`` means disabled.
+- Sedat -
