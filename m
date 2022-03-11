@@ -2,154 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F962C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 02:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B88D5C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 02:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236058AbiCKCPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Mar 2022 21:15:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54734 "EHLO
+        id S1345636AbiCKCdN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Mar 2022 21:33:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233354AbiCKCPo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 21:15:44 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0C8C5DA9;
-        Thu, 10 Mar 2022 18:14:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646964883; x=1678500883;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Dv5GNx9VK3y1DpDwUXAucqtut9NvxauOUvgUnuU3e1w=;
-  b=EYtDVx1lbhYHY6uz750EBobkU1fo0j6iwMG8FC4w+tHDrVUR2nRfnxW/
-   XOMacHwf62YV2drKae9vwIeINwbe2H76CZiA3QDMQBkG6oj4XrZEPGWSV
-   7VtkYVmOf0Wy/MZglERq4dbpQaPmZ7BzuP1XjhTsr25jHcbGgG8ZfwI2u
-   0Iq3z5xdHkwH2ub6QxWpHMMJRjoTXP7kmetM7tRwVDD5kzEA0F1+EdEdi
-   JrIEAvC5PcTew/ZhLLu70POxb+ezHxl7mBRylD9QUZeqLqEORsy8MakPL
-   gaqQ6L07FM+MT71sES3aHL0kDv9cYPJ+nbHN8NUKF+wQSA76vHILgnxj8
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="255667100"
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; 
-   d="scan'208";a="255667100"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2022 18:14:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,172,1643702400"; 
-   d="scan'208";a="548318297"
-Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Mar 2022 18:14:38 -0800
-From:   Tianfei Zhang <tianfei.zhang@intel.com>
-To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, Tianfei Zhang <tianfei.zhang@intel.com>
-Subject: [PATCH v3] fpga: dfl: check feature type before parse irq info
-Date:   Thu, 10 Mar 2022 21:11:21 -0500
-Message-Id: <20220311021121.1504442-1-tianfei.zhang@intel.com>
-X-Mailer: git-send-email 2.26.2
+        with ESMTP id S240600AbiCKCdM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Mar 2022 21:33:12 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6620FE86AF
+        for <linux-doc@vger.kernel.org>; Thu, 10 Mar 2022 18:32:09 -0800 (PST)
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KF8w43bLszcb2g;
+        Fri, 11 Mar 2022 10:27:16 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 11 Mar 2022 10:32:07 +0800
+Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 11 Mar
+ 2022 10:32:07 +0800
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <corbet@lwn.net>, <peterz@infradead.org>, <mingo@redhat.com>
+CC:     <linux-doc@vger.kernel.org>, <zhengbin13@huawei.com>,
+        <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
+        <tangyeechou@gmail.com>, Tang Yizhou <tangyizhou@huawei.com>
+Subject: [PATCH] docs: scheduler: Convert schedutil.txt to ReST
+Date:   Fri, 11 Mar 2022 11:04:00 +0800
+Message-ID: <20220311030400.32320-1-tangyizhou@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The feature ID of "Port User Interrupt" and the
-"PMCI Subsystem" are identical, 0x12, but one is for FME,
-other is for Port. It should check the feature type While
-parsing the irq info in parse_feature_irqs().
+All other scheduler documents have been converted to *.rst. Let's do
+the same for schedutil.txt.
 
+Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
 ---
-v3: Remove "Fixes" in commit log with Hao's comment, this is a
-    extension not a bug fix.
+ Documentation/scheduler/index.rst             |  1 +
+ .../{schedutil.txt => schedutil.rst}          | 50 ++++++++++---------
+ 2 files changed, 28 insertions(+), 23 deletions(-)
+ rename Documentation/scheduler/{schedutil.txt => schedutil.rst} (85%)
 
-v2: add DFL Feature ID Registry in documentation.
-
-Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
----
- Documentation/fpga/dfl.rst | 11 +++++++++++
- drivers/fpga/dfl.c         | 38 ++++++++++++++++++++++----------------
- 2 files changed, 33 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index ef9eec71f6f3..14f342bb85e4 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -502,6 +502,17 @@ Developer only needs to provide a sub feature driver with matched feature id.
- FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
- could be a reference.
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 30cca8a37b3b..b430d856056a 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -14,6 +14,7 @@ Linux Scheduler
+     sched-domains
+     sched-capacity
+     sched-energy
++    schedutil
+     sched-nice-design
+     sched-rt-group
+     sched-stats
+diff --git a/Documentation/scheduler/schedutil.txt b/Documentation/scheduler/schedutil.rst
+similarity index 85%
+rename from Documentation/scheduler/schedutil.txt
+rename to Documentation/scheduler/schedutil.rst
+index 78f6b91e2291..bd96e08cdf88 100644
+--- a/Documentation/scheduler/schedutil.txt
++++ b/Documentation/scheduler/schedutil.rst
+@@ -1,11 +1,15 @@
++=========
++Schedutil
++=========
  
-+Individual DFL drivers are bound DFL devices based on Feature Type and Feature ID.
-+The definition of Feature Type and Feature ID can be found:
-+
-+https://github.com/OPAE/linux-dfl-feature-id/blob/master/dfl-feature-ids.rst
-+
-+If you want to add a new feature ID for FPGA DFL feature device, we recommend that
-+use a pull request to reserve a feature ID for DFL. Here is the DFL Feature ID
-+Registry:
-+
-+https://github.com/OPAE/linux-dfl-feature-id
-+
- Location of DFLs on a PCI Device
- ================================
- The original method for finding a DFL on a PCI device assumed the start of the
-diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-index 599bb21d86af..6bff39ff21a0 100644
---- a/drivers/fpga/dfl.c
-+++ b/drivers/fpga/dfl.c
-@@ -940,9 +940,12 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
- {
- 	void __iomem *base = binfo->ioaddr + ofst;
- 	unsigned int i, ibase, inr = 0;
-+	enum dfl_id_type type;
- 	int virq;
- 	u64 v;
++.. note::
  
-+	type = feature_dev_id_type(binfo->feature_dev);
-+
- 	/*
- 	 * Ideally DFL framework should only read info from DFL header, but
- 	 * current version DFL only provides mmio resources information for
-@@ -957,22 +960,25 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
- 	 * code will be added. But in order to be compatible to old version
- 	 * DFL, the driver may still fall back to these quirks.
- 	 */
--	switch (fid) {
--	case PORT_FEATURE_ID_UINT:
--		v = readq(base + PORT_UINT_CAP);
--		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
--		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
--		break;
--	case PORT_FEATURE_ID_ERROR:
--		v = readq(base + PORT_ERROR_CAP);
--		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
--		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
--		break;
--	case FME_FEATURE_ID_GLOBAL_ERR:
--		v = readq(base + FME_ERROR_CAP);
--		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
--		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
--		break;
-+	if (type == PORT_ID) {
-+		switch (fid) {
-+		case PORT_FEATURE_ID_UINT:
-+			v = readq(base + PORT_UINT_CAP);
-+			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-+			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-+			break;
-+		case PORT_FEATURE_ID_ERROR:
-+			v = readq(base + PORT_ERROR_CAP);
-+			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-+			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-+			break;
-+		}
-+	} else if (type == FME_ID) {
-+		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
-+			v = readq(base + FME_ERROR_CAP);
-+			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-+			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-+		}
- 	}
+-NOTE; all this assumes a linear relation between frequency and work capacity,
+-we know this is flawed, but it is the best workable approximation.
++   All this assumes a linear relation between frequency and work capacity,
++   we know this is flawed, but it is the best workable approximation.
  
- 	if (!inr) {
+ 
+ PELT (Per Entity Load Tracking)
+--------------------------------
++===============================
+ 
+ With PELT we track some metrics across the various scheduler entities, from
+ individual tasks to task-group slices to CPU runqueues. As the basis for this
+@@ -38,8 +42,8 @@ while 'runnable' will increase to reflect the amount of contention.
+ For more detail see: kernel/sched/pelt.c
+ 
+ 
+-Frequency- / CPU Invariance
+----------------------------
++Frequency / CPU Invariance
++==========================
+ 
+ Because consuming the CPU for 50% at 1GHz is not the same as consuming the CPU
+ for 50% at 2GHz, nor is running 50% on a LITTLE CPU the same as running 50% on
+@@ -47,23 +51,23 @@ a big CPU, we allow architectures to scale the time delta with two ratios, one
+ Dynamic Voltage and Frequency Scaling (DVFS) ratio and one microarch ratio.
+ 
+ For simple DVFS architectures (where software is in full control) we trivially
+-compute the ratio as:
++compute the ratio as::
+ 
+-	    f_cur
++            f_cur
+   r_dvfs := -----
+             f_max
+ 
+ For more dynamic systems where the hardware is in control of DVFS we use
+ hardware counters (Intel APERF/MPERF, ARMv8.4-AMU) to provide us this ratio.
+-For Intel specifically, we use:
++For Intel specifically, we use::
+ 
+-	   APERF
++           APERF
+   f_cur := ----- * P0
+-	   MPERF
++           MPERF
+ 
+-	     4C-turbo;	if available and turbo enabled
+-  f_max := { 1C-turbo;	if turbo enabled
+-	     P0;	otherwise
++             4C-turbo;  if available and turbo enabled
++  f_max := { 1C-turbo;  if turbo enabled
++             P0;        otherwise
+ 
+                     f_cur
+   r_dvfs := min( 1, ----- )
+@@ -87,7 +91,7 @@ For more detail see:
+ 
+ 
+ UTIL_EST / UTIL_EST_FASTUP
+---------------------------
++==========================
+ 
+ Because periodic tasks have their averages decayed while they sleep, even
+ though when running their expected utilization will be the same, they suffer a
+@@ -106,7 +110,7 @@ For more detail see: kernel/sched/fair.c:util_est_dequeue()
+ 
+ 
+ UCLAMP
+-------
++======
+ 
+ It is possible to set effective u_min and u_max clamps on each CFS or RT task;
+ the runqueue keeps an max aggregate of these clamps for all running tasks.
+@@ -115,7 +119,7 @@ For more detail see: include/uapi/linux/sched/types.h
+ 
+ 
+ Schedutil / DVFS
+-----------------
++================
+ 
+ Every time the scheduler load tracking is updated (task wakeup, task
+ migration, time progression) we call out to schedutil to update the hardware
+@@ -123,19 +127,19 @@ DVFS state.
+ 
+ The basis is the CPU runqueue's 'running' metric, which per the above it is
+ the frequency invariant utilization estimate of the CPU. From this we compute
+-a desired frequency like:
++a desired frequency like::
+ 
+-             max( running, util_est );	if UTIL_EST
+-  u_cfs := { running;			otherwise
++             max( running, util_est );  if UTIL_EST
++  u_cfs := { running;                   otherwise
+ 
+-               clamp( u_cfs + u_rt , u_min, u_max );	if UCLAMP_TASK
+-  u_clamp := { u_cfs + u_rt;				otherwise
++               clamp( u_cfs + u_rt, u_min, u_max );  if UCLAMP_TASK
++  u_clamp := { u_cfs + u_rt;                         otherwise
+ 
+   u := u_clamp + u_irq + u_dl;		[approx. see source for more detail]
+ 
+   f_des := min( f_max, 1.25 u * f_max )
+ 
+-XXX IO-wait; when the update is due to a task wakeup from IO-completion we
++XXX IO-wait: when the update is due to a task wakeup from IO-completion we
+ boost 'u' above.
+ 
+ This frequency is then used to select a P-state/OPP or directly munged into a
+@@ -153,7 +157,7 @@ For more information see: kernel/sched/cpufreq_schedutil.c
+ 
+ 
+ NOTES
+------
++=====
+ 
+  - On low-load scenarios, where DVFS is most relevant, the 'running' numbers
+    will closely reflect utilization.
 -- 
-2.26.2
+2.17.1
 
