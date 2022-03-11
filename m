@@ -2,244 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 010FBC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 15:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C55C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Mar 2022 16:18:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbiCKP5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Mar 2022 10:57:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
+        id S245167AbiCKQTN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Mar 2022 11:19:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232546AbiCKP5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 10:57:32 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F4614CDBE
-        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 07:56:12 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id q14so13607491wrc.4
-        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 07:56:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yBab81rlsXVfIrb1h5ugmlXAnmE0dZk087QNoq8lEw4=;
-        b=usv/7QYbADl2R0gma2J6J5sYrjRw4TDBnKEeY2m5BrJxInoEh23dkuXQowKqQZwUi1
-         fVqYVr9Z//li8WbUkitTqPkn/gaJv6nhYvMmT7qz0ovfQeb4JJCjKxdHkPX4ea44XVl/
-         YqyoH8eyNpliPfG06CzQsl2zZKyOfoe/6lL7NbLo2gaAy0/md4nK3MJXE8mcE0GkO8Z/
-         LyY3KFqx/85OFkBU+Svo/0OIxh8wEOknlbdYWOr94y+CRto3VjCdPgc4oZkzgP31La6C
-         Og/51kAY3M1RIkN9ZoUJv3xB2OWzN6p7tXyAaiAI2damReBHdb6p9lGOCyyBarml2Tal
-         kvcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yBab81rlsXVfIrb1h5ugmlXAnmE0dZk087QNoq8lEw4=;
-        b=cJY4wCK6Lg0zPERjAZTEzySIGiP/UZtzu5W698+lNnbDNxRi4CbCCRU3eBVTIsz/HV
-         hlVRfgjtqQnNI6G+F+KpR3dXz4VLn/p6NW0zJAzhdApHZj6H7WRz/xnxVjzqQUKspstz
-         iDaJoTu+d5Kh6HdFLhzHIDpdUV/UO0VKAle6RNS8IsbqZNETew5th3KNcEDn9Sn0B91V
-         tL8lk9CND/6ZrESEwhWihm8/0+5zoLnKmt/sqTBmU6dZPB6A4kekXhdR+zQoj5sGM0rS
-         6jcCv9yJkSCX87xp4JB90VRpN9wVXykD16MHxUGbIHgX4hzTvuUnvu2meKDHnetLV5Lq
-         ZfkA==
-X-Gm-Message-State: AOAM532klNa3/H1d8tzbt1EyZsYeuD2Ph9ouIDob6wbkmlB5G5moXsse
-        GSa9uGq25ZuNGKD8MVXrhLYmZGcPWV4+jICHq+NWZQ==
-X-Google-Smtp-Source: ABdhPJyHRl575oJ/E1f/YImGvu+xA6j3CfpVKm2dTU3ZrtKOXYSGHQkH5/l443BVjYhYSzAzYaAurPGVf+bw/uab3is=
-X-Received: by 2002:a5d:4a8f:0:b0:1f0:4af2:4e29 with SMTP id
- o15-20020a5d4a8f000000b001f04af24e29mr7798876wrq.519.1647014165262; Fri, 11
- Mar 2022 07:56:05 -0800 (PST)
+        with ESMTP id S242453AbiCKQTN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Mar 2022 11:19:13 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C44FA0BD6;
+        Fri, 11 Mar 2022 08:18:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 728B661B77;
+        Fri, 11 Mar 2022 16:18:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DAEFC340E9;
+        Fri, 11 Mar 2022 16:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647015488;
+        bh=0cZ6b7AXYUuBOJstkAJvZYlOE56pXKXh0+MXEe4ilt4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=bB44RNJRgO12CFLMJfvtN1ALIgpjM0ISOh98aXoHrV4oBVvMBWQwNrFwqSw8Eia4E
+         KkVvEiNjIZgSTdlg7CbSYxzSSbdTQ/dIqLhJWXJAfqkLsCTWxTFoYjSUfxH+gm85bx
+         j0KcaRgviBPwBM33xK6jpiJhtjFjmAhX41lHTABOMVIZ5MXwmZM/+We+CRzVOECSy5
+         lThdGaVKKdgrej4/GGRdGTX5pThtNx8+XtW2THufklst1w4Mw23j8UkLKI2tneIF2B
+         y5iaNFRjlEP90KBeHI1frVg7vThMDrmPMhNXLCvYprz5Eu9lGIsRC97XWf5lex9WUY
+         +10LtiIw9lMsw==
+Date:   Fri, 11 Mar 2022 10:18:06 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH 1/2] linux/types.h: Remove unnecessary __bitwise__
+Message-ID: <20220311161806.GA304449@bhelgaas>
 MIME-Version: 1.0
-References: <20220113091056.1297982-1-james.clark@arm.com> <20220113091056.1297982-2-james.clark@arm.com>
- <b3545a88-4743-db95-4676-b0b193cbea78@arm.com> <CAJ9a7Vi584BcY49TaRn5CJT=wcpafMf-3cA0R+sZ54p6iUKmeQ@mail.gmail.com>
- <7fae6630-fdec-3f95-9eac-3f7a5c789272@arm.com>
-In-Reply-To: <7fae6630-fdec-3f95-9eac-3f7a5c789272@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 11 Mar 2022 15:56:00 +0000
-Message-ID: <CAJ9a7VjTJ4E7=qdPgfTTVjoW01rCzd-f1mFYHjtA3BHk25saMA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] coresight: Add config flag to enable branch broadcast
-To:     James Clark <James.Clark@arm.com>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        mathieu.poirier@linaro.org, coresight@lists.linaro.org,
-        leo.yan@linaro.com, Leo Yan <leo.yan@linaro.org>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310175216.252fabefeca040004216d40d@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
+On Thu, Mar 10, 2022 at 05:52:16PM -0800, Andrew Morton wrote:
+> On Thu, 10 Mar 2022 16:09:26 -0600 Bjorn Helgaas <helgaas@kernel.org> wrote:
+> 
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > There are no users of "__bitwise__" except the definition of "__bitwise".
+> > Remove __bitwise__ and define __bitwise directly.
+> > 
+> > This is a follow-up to 05de97003c77 ("linux/types.h: enable endian checks
+> > for all sparse builds").
+> > 
+> 
+> Can we change the copy-pasted code in tools/include/linux/types.h while
+> we're there?
 
-On Fri, 11 Mar 2022 at 14:58, James Clark <james.clark@arm.com> wrote:
->
->
->
-> On 02/02/2022 20:25, Mike Leach wrote:
-> > Hi James, Suzuki
-> >
-> > On Fri, 28 Jan 2022 at 11:19, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
-> >>
-> >> On 13/01/2022 09:10, James Clark wrote:
-> >>> When enabled, all taken branch addresses are output, even if the branch
-> >>> was because of a direct branch instruction. This enables reconstruction
-> >>> of the program flow without having access to the memory image of the
-> >>> code being executed.
-> >>>
-> >>> Use bit 8 for the config option which would be the correct bit for
-> >>> programming ETMv3. Although branch broadcast can't be enabled on ETMv3
-> >>> because it's not in the define ETM3X_SUPPORTED_OPTIONS, using the
-> >>> correct bit might help prevent future collisions or allow it to be
-> >>> enabled if needed.
-> >>>
-> >>> Signed-off-by: James Clark <james.clark@arm.com>
-> >>> ---
-> >>>   drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
-> >>>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 10 ++++++++++
-> >>>   include/linux/coresight-pmu.h                      |  2 ++
-> >>>   3 files changed, 14 insertions(+)
-> >>>
-> >>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> >>> index c039b6ae206f..43bbd5dc3d3b 100644
-> >>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> >>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> >>> @@ -52,6 +52,7 @@ static DEFINE_PER_CPU(struct coresight_device *, csdev_src);
-> >>>    * The PMU formats were orignally for ETMv3.5/PTM's ETMCR 'config';
-> >>>    * now take them as general formats and apply on all ETMs.
-> >>>    */
-> >>> +PMU_FORMAT_ATTR(branch_broadcast, "config:"__stringify(ETM_OPT_BRANCH_BROADCAST));
-> >>>   PMU_FORMAT_ATTR(cycacc,             "config:" __stringify(ETM_OPT_CYCACC));
-> >>>   /* contextid1 enables tracing CONTEXTIDR_EL1 for ETMv4 */
-> >>>   PMU_FORMAT_ATTR(contextid1, "config:" __stringify(ETM_OPT_CTXTID));
-> >>> @@ -97,6 +98,7 @@ static struct attribute *etm_config_formats_attr[] = {
-> >>>       &format_attr_sinkid.attr,
-> >>>       &format_attr_preset.attr,
-> >>>       &format_attr_configid.attr,
-> >>> +     &format_attr_branch_broadcast.attr,
-> >>
-> >> Does it make sense to hide the option if the bb is not supported ? I
-> >> guess it will be tricky as we don't track the common feature set. So,
-> >> that said...
-> >>
-> >>>       NULL,
-> >>>   };
-> >>>
-> >>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> >>> index bf18128cf5de..04669ecc0efa 100644
-> >>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> >>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> >>> @@ -692,6 +692,16 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
-> >>>               ret = cscfg_csdev_enable_active_config(csdev, cfg_hash, preset);
-> >>>       }
-> >>>
-> >>> +     /* branch broadcast - enable if selected and supported */
-> >>> +     if (attr->config & BIT(ETM_OPT_BRANCH_BROADCAST)) {
-> >>> +             if (!drvdata->trcbb) {
-> >>> +                     ret = -EINVAL;
-> >>
-> >> Should we fail here ? We could simply ignore this and generate the trace
-> >> normally. This would work on a big.LITTLE system with one set missing
-> >> the branch broadcast, while the others support.
-> >>
-> >> Mike,
-> >>
-> >> Does this affect the trace decoding ? As such the OpenCSD should be able
-> >> to decode the packets as they appear in the stream. Correct ?
-> >>
-> >
-> > Depends on what you mean by affect the trace decoding!
-> > From the simplest perspective - no - there is no issue as the packets
-> > will be decode as seen. THE decoder does not know that BB exists - nor
-> > if it is enabled.
-> >
-> > However, the reason that a user may engage BB is that the code is in
-> > some way self modifying - so that following the code static image and
-> > calculating addresses will result in a different path taken.
-> >
-> > e.g. imagine an opcode:-
-> >
-> > B <address0>
-> >
-> > Without BB, this will trace as a single E atom, the decoder will
-> > calculate address0 from the opcode in the static image and continue
-> > from there as the next trace address.
-> >
-> > Now look at the case where this is changed on the fly to
-> >
-> > B <address1>
-> >
-> > With BB, This will trace to
-> > E
-> > TGT_ADDR<address1>
-> >
-> > The decoder will initially  extract address0 from the static image,
-> > but the immediately following target address packet will alter the
-> > next address traced to address1
-> > This is why we have BB.
-> >
-> >  So if the user has a reason to engage BB - we should really fail if
-> > it is not present - as the outcome of the trace can be affected.
->
-> Hi Mike,
->
-> Now I'm starting to wonder if it's best to have some kind of non-binary
-> image mode for BB where you'd just get a list of addresses output by
-> perf script and it doesn't attempt to do any lookups.
+Oh, you bet!  Thanks for pointing that out!
 
-Not at all sure what you mean by this
-
-Mike
-
->  Although I think
-> that would require a change in OpenCSD if it's not aware of the mode?
->
-> I also need to go back to my JVM profiling test and see what's
-> going on again. But I think I understand your points a bit more now.
->
-> Thanks
-> James
->
-> >
-> >> Suzuki
-> >>
-> >>
-> >>> +                     goto out;
-> >>> +             } else {
-> >>> +                     config->cfg |= BIT(ETM4_CFG_BIT_BB);
-> >>> +             }
-> >>> +     }
-> >>> +
-> >>>   out:
-> >>>       return ret;
-> >>>   }
-> >>> diff --git a/include/linux/coresight-pmu.h b/include/linux/coresight-pmu.h
-> >>> index 4ac5c081af93..6c2fd6cc5a98 100644
-> >>> --- a/include/linux/coresight-pmu.h
-> >>> +++ b/include/linux/coresight-pmu.h
-> >>> @@ -18,6 +18,7 @@
-> >>>    * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
-> >>>    * directly use below macros as config bits.
-> >>>    */
-> >>> +#define ETM_OPT_BRANCH_BROADCAST 8
-> >>>   #define ETM_OPT_CYCACC              12
-> >>>   #define ETM_OPT_CTXTID              14
-> >>>   #define ETM_OPT_CTXTID2             15
-> >>> @@ -25,6 +26,7 @@
-> >>>   #define ETM_OPT_RETSTK              29
-> >>>
-> >>>   /* ETMv4 CONFIGR programming bits for the ETM OPTs */
-> >>> +#define ETM4_CFG_BIT_BB         3
-> >>>   #define ETM4_CFG_BIT_CYCACC 4
-> >>>   #define ETM4_CFG_BIT_CTXTID 6
-> >>>   #define ETM4_CFG_BIT_VMID   7
-> >>
-> >
-> >
-
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+> --- a/tools/include/linux/types.h~linux-typesh-remove-unnecessary-__bitwise__-fix
+> +++ a/tools/include/linux/types.h
+> @@ -43,11 +43,10 @@ typedef __u8  u8;
+>  typedef __s8  s8;
+>  
+>  #ifdef __CHECKER__
+> -#define __bitwise__ __attribute__((bitwise))
+> +#define __bitwise	__attribute__((bitwise))
+>  #else
+> -#define __bitwise__
+> +#define __bitwise
+>  #endif
+> -#define __bitwise __bitwise__
+>  
+>  #define __force
+>  #define __user
+> _
+> 
