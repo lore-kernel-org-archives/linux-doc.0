@@ -2,182 +2,229 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF04C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 06:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D6DC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 06:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbiCLGzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Mar 2022 01:55:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57112 "EHLO
+        id S230498AbiCLG73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Mar 2022 01:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiCLGzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 01:55:52 -0500
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05CA246F50
-        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 22:54:46 -0800 (PST)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KFthc1jfFz1GC02;
-        Sat, 12 Mar 2022 14:49:52 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 12 Mar 2022 14:54:44 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Sat, 12 Mar
- 2022 14:54:44 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH] docs/zh_CN: Add sched-nice-design Chinese translation
-Date:   Sat, 12 Mar 2022 15:26:42 +0800
-Message-ID: <20220312072642.23118-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229448AbiCLG72 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 01:59:28 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D8F4B854
+        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 22:58:22 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id g19so9748149pfc.9
+        for <linux-doc@vger.kernel.org>; Fri, 11 Mar 2022 22:58:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8IWEKdPyVvolpnOSuxir86XbGUS+YtCt+QShkTKy2vI=;
+        b=3cIBfacJ4Ngt0vxOsAI3eGekmsLwkkcuxIySQrBeDF2CVcEbrd0g+mhjcK88bmQS3u
+         VpWCY7trcpLvHv3RD433T4Tq4AWklAAK3jLPfp5ZpkEW7peB5UkygzNNgtFyHE/xBAL0
+         0ykEX1LD4lJ2Sojxv2emy/u0xWCE7TvfdLMYEzfuuVYudddlHYcTMdO+Iqh2HB++H38R
+         MoOgEq2kdc8QOk0miUFI7OqrEaFW5t7C2gJ2eCf8fPBLlffNIXT5WZ9w1BmADAV3ouf6
+         8QH+5ZkWtcwXmg9px/e18owU8aBhKYBcK8B6x0eGJOL6l5RdClgkFoNWMUFrI3JBqdss
+         ey3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8IWEKdPyVvolpnOSuxir86XbGUS+YtCt+QShkTKy2vI=;
+        b=RgSmpZ1fqsXyLanPxAatonVRW4lns8+ll7NAAHtHT3EUnqdYyl2VNdVZ1P8qYbYYzV
+         9GNfWnzKKepK+pbVd63YnvSgyoVfqxGUGRXzuGedv/leBD8d8LTrdBYdrOk+/+lDILPC
+         HXlVyRsKhWHnn+j7Hc6ktkvuuvwwsm0wtaRMpvRMtXv9BMSwwSowyQbamZXUsylTM5y/
+         dFopT/Kz7/pSNFFAjZNbAahZr8+jG85IE0HUAQamKhq/WKErgX8uZBws3QHW77lIsp4f
+         bF/ubDgU+JTUUCW1GvqgwJKTC3Bs6U863zBZbbnuxGctmeNn5AifF9okG6oKH4m8rMs7
+         OYSA==
+X-Gm-Message-State: AOAM532ZMPZt7W1mppsywviLa0dtRzXua72pYyQ/Ave+6lbX3YbwMhsr
+        Qej/ncq02xMXgUcDBQVovegdvA==
+X-Google-Smtp-Source: ABdhPJw9NxbTKMqYmhV3GYkJeL1pcfmqyQ7KmwdtjC1OFhPRsbzMEqY/gk8HNh38I8mzagvZa3OYLg==
+X-Received: by 2002:aa7:918f:0:b0:4cc:3c00:b2dd with SMTP id x15-20020aa7918f000000b004cc3c00b2ddmr14117555pfa.77.1647068302047;
+        Fri, 11 Mar 2022 22:58:22 -0800 (PST)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.233])
+        by smtp.gmail.com with ESMTPSA id lb4-20020a17090b4a4400b001b9b20eabc4sm11915419pjb.5.2022.03.11.22.58.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Mar 2022 22:58:21 -0800 (PST)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH RFC] mm: hugetlb_vmemmap: introduce HAS_STRUCT_PAGE_SIZE_POWER_OF_2
+Date:   Sat, 12 Mar 2022 14:56:54 +0800
+Message-Id: <20220312065654.44543-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate scheduler/sched-nice-design.rst into Chinese.
+If the size of "struct page" is not the power of two and this
+feature is enabled, then the vmemmap pages of HugeTLB will be
+corrupted after remapping (panic is about to happen in theory).
+But this only exists when !CONFIG_MEMCG && !CONFIG_SLUB on
+x86_64.  However, it is not a conventional configuration nowadays.
+So it is not a real word issue, just the result of a code review.
+But we have to prevent anyone from configuring that combined
+configuration.  In order to avoid many checks like "is_power_of_2
+(sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce
+HAS_STRUCT_PAGE_SIZE_POWER_OF_2 to detect if the size of struct
+page is power of 2 and make this feature depends on this new
+config.  Then we could prevent anyone do any unexpected
+configuration.
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- .../translations/zh_CN/scheduler/index.rst    |  2 +-
- .../zh_CN/scheduler/sched-nice-design.rst     | 99 +++++++++++++++++++
- 2 files changed, 100 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-nice-design.rst
 
-diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
-index c020f8382785..12bf3bd02ccf 100644
---- a/Documentation/translations/zh_CN/scheduler/index.rst
-+++ b/Documentation/translations/zh_CN/scheduler/index.rst
-@@ -25,12 +25,12 @@ Linux调度器
-     sched-domains
-     sched-capacity
-     sched-energy
-+    sched-nice-design
-     sched-stats
+Thanks Luis for proposing this idea.  The initial implementation is as
+follows.  I found it could work properly at the first time after creating
+.config.  Then, if we use "make menuconfig" to disable CONFIG_MEMCG and
+CONFIG_SLOB meaning the size of "struct page" becomes not power of 2,
+whereas HAS_STRUCT_PAGE_SIZE_POWER_OF_2 will not be changed to "n"
+accordingly.  I don't know how to make HAS_STRUCT_PAGE_SIZE_POWER_OF_2
+realize the potential change of the size of "struct page" since I am not
+familiar with the Kconfig and how to detect this dependency.  If you have
+any suggestions, comments are really welcome.
+
+ Kbuild                           | 11 +++++++++++
+ fs/Kconfig                       |  5 ++++-
+ include/linux/mm_types.h         |  2 ++
+ mm/hugetlb_vmemmap.c             |  6 ------
+ mm/struct_page_size.c            | 19 +++++++++++++++++++
+ scripts/check_struct_page_po2.sh | 16 ++++++++++++++++
+ 6 files changed, 52 insertions(+), 7 deletions(-)
+ create mode 100644 mm/struct_page_size.c
+ create mode 100755 scripts/check_struct_page_po2.sh
+
+diff --git a/Kbuild b/Kbuild
+index fa441b98c9f6..7885e1211135 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -14,6 +14,17 @@ $(bounds-file): kernel/bounds.s FORCE
+ 	$(call filechk,offsets,__LINUX_BOUNDS_H__)
  
- TODOList:
+ #####
++# Generate struct_page_size.h. Must follows bounds.h.
++
++struct_page_size-file := include/generated/struct_page_size.h
++
++always-y := $(struct_page_size-file)
++targets := mm/struct_page_size.s
++
++$(struct_page_size-file): mm/struct_page_size.s FORCE
++	$(call filechk,offsets,__LINUX_STRUCT_PAGE_SIZE_H__)
++
++#####
+ # Generate timeconst.h
  
-     sched-deadline
--    sched-nice-design
-     sched-rt-group
+ timeconst-file := include/generated/timeconst.h
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 7f2455e8e18a..d663f600c608 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -245,10 +245,13 @@ config HUGETLBFS
+ config HUGETLB_PAGE
+ 	def_bool HUGETLBFS
  
-     text_files
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-nice-design.rst b/Documentation/translations/zh_CN/scheduler/sched-nice-design.rst
++config HAS_STRUCT_PAGE_SIZE_POWER_OF_2
++	def_bool $(success,test "$(shell, $(srctree)/scripts/check_struct_page_po2.sh)" = y)
++
+ config HUGETLB_PAGE_FREE_VMEMMAP
+ 	def_bool HUGETLB_PAGE
+ 	depends on X86_64
+-	depends on SPARSEMEM_VMEMMAP
++	depends on SPARSEMEM_VMEMMAP && HAS_STRUCT_PAGE_SIZE_POWER_OF_2
+ 
+ config HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON
+ 	bool "Default freeing vmemmap pages of HugeTLB to on"
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 11dc4586464d..5da7dfa26596 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -224,6 +224,7 @@ struct page {
+ #endif
+ } _struct_page_alignment;
+ 
++#ifndef __GENERATING_STRUCT_PAGE_SIZE_H
+ /**
+  * struct folio - Represents a contiguous set of bytes.
+  * @flags: Identical to the page flags.
+@@ -849,5 +850,6 @@ enum fault_flag {
+ 	FAULT_FLAG_INSTRUCTION =	1 << 8,
+ 	FAULT_FLAG_INTERRUPTIBLE =	1 << 9,
+ };
++#endif /* !__GENERATING_STRUCT_PAGE_SIZE_H */
+ 
+ #endif /* _LINUX_MM_TYPES_H */
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index b3118dba0518..d9e6b8b0af30 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -28,12 +28,6 @@ EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled_key);
+ 
+ static int __init early_hugetlb_free_vmemmap_param(char *buf)
+ {
+-	/* We cannot optimize if a "struct page" crosses page boundaries. */
+-	if (!is_power_of_2(sizeof(struct page))) {
+-		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+-		return 0;
+-	}
+-
+ 	if (!buf)
+ 		return -EINVAL;
+ 
+diff --git a/mm/struct_page_size.c b/mm/struct_page_size.c
 new file mode 100644
-index 000000000000..9107f0c0b979
+index 000000000000..6022a95ffc8a
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/scheduler/sched-nice-design.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
++++ b/mm/struct_page_size.c
+@@ -0,0 +1,19 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Generate definitions needed by the preprocessor.
++ * This code generates raw asm output which is post-processed
++ * to extract and format the required data.
++ */
 +
-+:Original: Documentation/scheduler/sched-nice-design.rst
++#define __GENERATING_STRUCT_PAGE_SIZE_H
++/* Include headers that define the enum constants of interest */
++#include <linux/kbuild.h>
++#include <linux/log2.h>
++#include <linux/mm_types.h>
 +
-+:翻译:
++int main(void)
++{
++	DEFINE(STRUCT_PAGE_SIZE_POWER_OF_2, is_power_of_2(sizeof(struct page)));
 +
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
++	return 0;
++}
+diff --git a/scripts/check_struct_page_po2.sh b/scripts/check_struct_page_po2.sh
+new file mode 100755
+index 000000000000..cf54c6b16cd2
+--- /dev/null
++++ b/scripts/check_struct_page_po2.sh
+@@ -0,0 +1,16 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Check if the size of "struct page" is power of 2
 +
-+=====================
-+调度器nice值设计
-+=====================
++file="include/generated/struct_page_size.h"
++if [ ! -f "$file" ]; then
++	exit 1
++fi
 +
-+本文档解释了新的Linux调度器中修改和精简后的nice级别的实现思路。
-+
-+Linux的nice级别总是非常脆弱，人们持续不断地缠着我们，让nice +19的任务占用
-+更少的CPU时间。
-+
-+不幸的是，在旧的调度器中，这不是那么容易实现的（否则我们早就做到了），因为对
-+nice级别的支持在历史上是与时间片长度耦合的，而时间片单位是由HZ滴答驱动的，
-+所以最小的时间片是1/HZ。
-+
-+在O(1)调度器中（2003年），我们改变了负的nice级别，使它们比2.4内核更强
-+（人们对这一变化很满意），而且我们还故意校正了线性时间片准则，使得nice +19
-+的级别 _正好_ 是1 jiffy。为了让大家更好地理解它，时间片的图会是这样的（质量
-+不佳的ASCII艺术提醒！）::
-+
-+
-+                   A
-+             \     | [timeslice length]
-+              \    |
-+               \   |
-+                \  |
-+                 \ |
-+                  \|___100msecs
-+                   |^ . _
-+                   |      ^ . _
-+                   |            ^ . _
-+ -*----------------------------------*-----> [nice level]
-+ -20               |                +19
-+                   |
-+                   |
-+
-+因此，如果有人真的想renice任务，相较线性规则，+19会给出更大的效果（改变
-+ABI来扩展优先级的解决方案在早期就被放弃了）。
-+
-+这种方法在一定程度上奏效了一段时间，但后来HZ=1000时，它导致1 jiffy为
-+1ms，这意味着0.1%的CPU使用率，我们认为这有点过度。过度 _不是_ 因为它表示
-+的CPU使用率过小，而是因为它引发了过于频繁（每毫秒1次）的重新调度（因此会
-+破坏缓存，等等。请记住，硬件更弱、cache更小是很久以前的事了，当时人们在
-+nice +19级别运行数量颇多的应用程序）。
-+
-+因此，对于HZ=1000，我们将nice +19改为5毫秒，因为这感觉像是正确的最小
-+粒度——这相当于5%的CPU利用率。但nice +19的根本的HZ敏感属性依然保持不变，
-+我们没有收到过关于nice +19在CPU利用率方面太 _弱_ 的任何抱怨，我们只收到
-+过它（依然）太 _强_ 的抱怨 :-)。
-+
-+总结一下：我们一直想让nice各级别一致性更强，但在HZ和jiffies的限制下，以及
-+nice级别与时间片、调度粒度耦合是令人讨厌的设计，这一目标并不真正可行。
-+
-+第二个关于Linux nice级别支持的抱怨是（不那么频繁，但仍然定期发生），它
-+在原点周围的不对称性（你可以在上面的图片中看到），或者更准确地说：事实上
-+nice级别的行为取决于 _绝对的_ nice级别，而nice应用程序接口本身从根本上
-+说是“相对”的：
-+
-+   int nice(int inc);
-+
-+   asmlinkage long sys_nice(int increment)
-+
-+（第一个是glibc的应用程序接口，第二个是syscall的应用程序接口）
-+注意，“inc”是相对当前nice级别而言的，类似bash的“nice”命令等工具是这个
-+相对性应用程序接口的镜像。
-+
-+在旧的调度器中，举例来说，如果你以nice +1启动一个任务，并以nice +2启动
-+另一个任务，这两个任务的CPU分配将取决于父外壳程序的nice级别——如果它是
-+nice -10，那么CPU的分配不同于+5或+10。
-+
-+第三个关于Linux nice级别支持的抱怨是，负数nice级别“不够有力”，以很多人
-+不得不诉诸于实时调度优先级来运行音频（和其它多媒体）应用程序，比如
-+SCHED_FIFO。但这也造成了其它问题：SCHED_FIFO未被证明是免于饥饿的，一个
-+有问题的SCHED_FIFO应用程序也会锁住运行良好的系统。
-+
-+v2.6.23版内核的新调度器解决了这三种类型的抱怨：
-+
-+为了解决第一个抱怨（nice级别不够“有力”），调度器与“时间片”、HZ的概念
-+解耦（调度粒度被处理成一个和nice级别独立的概念），因此有可能实现更好、
-+更一致的nice +19支持：在新的调度器中，nice +19的任务得到一个HZ无关的
-+1.5%CPU使用率，而不是旧版调度器中3%-5%-9%的可变范围。
-+
-+为了解决第二个抱怨（nice各级别不一致），新调度器令调用nice(1)对各任务的
-+CPU利用率有相同的影响，无论其绝对nice级别如何。所以在新调度器上，运行一个
-+nice +10和一个nice +11的任务会与运行一个nice -5和一个nice -4的任务的
-+CPU利用率分割是相同的（一个会得到55%的CPU，另一个会得到45%）。这是为什么
-+nice级别被改为“乘法”（或指数）——这样的话，不管你从哪个级别开始，“相对”
-+结果将总是一样的。
-+
-+第三个抱怨（负数nice级别不够“有力”，并迫使音频应用程序在更危险的
-+SCHED_FIFO调度策略下运行）几乎被新的调度器自动解决了：更强的负数级别
-+具有重新校正nice级别动态范围的自动化副作用。
++struct_page_po2=$(grep STRUCT_PAGE_SIZE_POWER_OF_2 "$file" | cut -d' ' -f3)
++if [ "$struct_page_po2" = "1" ]; then
++	echo y
++else
++	echo n
++fi
 -- 
-2.17.1
+2.11.0
 
