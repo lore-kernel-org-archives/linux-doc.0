@@ -2,70 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F9AC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 11:40:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152FCC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 19:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbiCLLls (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Mar 2022 06:41:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46242 "EHLO
+        id S232439AbiCLTFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Mar 2022 14:05:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229851AbiCLLlr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 06:41:47 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6B121EB97
-        for <linux-doc@vger.kernel.org>; Sat, 12 Mar 2022 03:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=AK9rS7g42J6WvuMM45CwDm11zP0nFYUAK2iji7Qoe0Y=; b=nZoFAD7KGWxLTCZhgXae029Xmh
-        weDGohbWWhmwGe/NmZdISFpWR3s12bol32aeV08PgONi3ZfHhfZN5kVL8NGMuvNC68ngynwMAjQDH
-        ngm2ZPPAnRQdeK05GujreZMH/QTpfVR2G57TU2m9HTLrtiPIsKuzrQMZJadgmxalIvGElqh2trB+6
-        Fq7MaHBcsIynMUeQttao/bcMF4GRYZwt4Fb7NS13/M9dj+/b7UN/ljAstRXPSCx+ePqydu8m4x4wx
-        ZkUGfRNUnYOqKs1T0auYkFj4Xd1K3VbzPhtGGEJMp7DiuB0t7PpHuThuVdrCy8pPRmLzNBSBlZtrR
-        U9bgCd/g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nT06e-002NmD-6g; Sat, 12 Mar 2022 11:40:20 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BC0D3986857; Sat, 12 Mar 2022 12:40:17 +0100 (CET)
-Date:   Sat, 12 Mar 2022 12:40:17 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Tang Yizhou <tangyizhou@huawei.com>, mingo@redhat.com,
-        linux-doc@vger.kernel.org, zhengbin13@huawei.com,
-        siyanteng@loongson.cn, siyanteng01@gmail.com, tangyeechou@gmail.com
-Subject: Re: [PATCH] docs: scheduler: Convert schedutil.txt to ReST
-Message-ID: <20220312114017.GA6235@worktop.programming.kicks-ass.net>
-References: <20220311030400.32320-1-tangyizhou@huawei.com>
- <87v8wk2ozc.fsf@meer.lwn.net>
+        with ESMTP id S231138AbiCLTFr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 14:05:47 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F082CCBE;
+        Sat, 12 Mar 2022 11:04:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647111880; x=1678647880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WcTqN6pdrnRV8s7lHgAdNuSKmxqY21awmplFp41zZus=;
+  b=cB+3Gr9meQ99pwHZ7EewPbsz+y4Q/2drCeTprOdnvkd7vfuMmrTxWx3U
+   nqvdjwcAgkjnxPtnbPxavdnsiiO4wzApYDj/146gDkJtVos7AplepAgae
+   Pf8KylHROmyRtDKB0cBjWm1GVauLGbUabp3SbWF7xNd78cJhP0VX82cHz
+   8YCgyyXbZJ6Ki7/SDjUN1KzNzNs5EtZsdzD4CFWFMT9S2XsyldsDEuymD
+   Dv6tgDEpl3OrnRS4anPbGiZ0VPssnLYe4TVLTAMlmy2OCJ1nTOS48rszm
+   GcBDQbJaHePYNi8kooN0vg9/+emf80Ug4qPPgRBisKzJNp/OJ9qIqWztG
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10284"; a="342239607"
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; 
+   d="scan'208";a="342239607"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2022 11:04:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; 
+   d="scan'208";a="579684543"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 12 Mar 2022 11:04:38 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nT72c-0008BU-6K; Sat, 12 Mar 2022 19:04:38 +0000
+Date:   Sun, 13 Mar 2022 03:03:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, linux-doc@vger.kernel.org
+Subject: arch/riscv/kvm/vcpu_sbi.c:3: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203130225.OBpOOQrW-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87v8wk2ozc.fsf@meer.lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 01:50:15PM -0700, Jonathan Corbet wrote:
-> Tang Yizhou <tangyizhou@huawei.com> writes:
-> 
-> > All other scheduler documents have been converted to *.rst. Let's do
-> > the same for schedutil.txt.
-> >
-> > Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
-> > ---
-> >  Documentation/scheduler/index.rst             |  1 +
-> >  .../{schedutil.txt => schedutil.rst}          | 50 ++++++++++---------
-> >  2 files changed, 28 insertions(+), 23 deletions(-)
-> >  rename Documentation/scheduler/{schedutil.txt => schedutil.rst} (85%)
-> 
-> I would like to see this change made so that this document can be built
-> with the rest of the kernel docs.  I will, however, defer to Peter and
-> will not accept this change over his objections.
+Hi Atish,
 
-As I'm sure you're aware, I'd *love* to convert the whole lot to plain
-text again :-)
+FYI, the error/warning still remains.
 
-People, throughout the ages, have been able to read plain text, I don't
-see why it should be made more difficult than that.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   68453767131a5deec1e8f9ac92a9042f929e585d
+commit: dea8ee31a039277576c215fffa13957970246366 RISC-V: KVM: Add SBI v0.1 support
+date:   5 months ago
+config: riscv-randconfig-c006-20220312 (https://download.01.org/0day-ci/archive/20220313/202203130225.OBpOOQrW-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 43f668b98e8d87290fc6bbf5ed13c3ab542e3497)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dea8ee31a039277576c215fffa13957970246366
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dea8ee31a039277576c215fffa13957970246366
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/kvm/vcpu_sbi.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Copyright (c) 2019 Western Digital Corporation or its affiliates.
+
+
+vim +3 arch/riscv/kvm/vcpu_sbi.c
+
+   > 3	 * Copyright (c) 2019 Western Digital Corporation or its affiliates.
+     4	 *
+     5	 * Authors:
+     6	 *     Atish Patra <atish.patra@wdc.com>
+     7	 */
+     8	
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
