@@ -2,68 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F512C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 07:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B29C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Mar 2022 08:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231131AbiCLHBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Mar 2022 02:01:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
+        id S231154AbiCLICF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Mar 2022 03:02:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbiCLHBM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 02:01:12 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109C02FFF0;
-        Fri, 11 Mar 2022 23:00:07 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5477060BAC;
-        Sat, 12 Mar 2022 07:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B385C340EB;
-        Sat, 12 Mar 2022 07:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1647068406;
-        bh=4uN+7f/qFhBahHeSyeOv6MveYXUDbTPad9CTKrm+XcM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cgRO9gGr+fz1ZKDe3NhHNmISgHyEOCV926uyxreZcR3JCFpoRIGESE/QvBZYCjJ1D
-         c68Z3a88ZQh2H9HKc58eFiCSQd8GDGBVrxh04FgmMxRj7ump7EZmiyF7hCS0sJYf8e
-         FMTZJ4sXsR3RY/cNX/EIeFhD76/CQnOJNHb6O1s0=
-Date:   Sat, 12 Mar 2022 07:59:44 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Wan Jiabing <wanjiabing@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kael_w@qq.com
-Subject: Re: [PATCH] docs: serial: fix a reference file name in driver.rst
-Message-ID: <YixE4K3ScGL3v5yQ@kroah.com>
-References: <20220304100315.6732-1-wanjiabing@vivo.com>
- <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
- <87mthw2o93.fsf@meer.lwn.net>
+        with ESMTP id S230415AbiCLICE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Mar 2022 03:02:04 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951BA1C60CE;
+        Sat, 12 Mar 2022 00:00:59 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id c11so9348065pgu.11;
+        Sat, 12 Mar 2022 00:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pz807mPXL9wmAOsZik9uq5miIUnAKaI7W2BvkwtKBhw=;
+        b=CDlX98WpFMvMUJQXbIQMsrF/8YCY16xZsoQRbDtI/ZTetdXoMX4tM8lCVX+injymgF
+         9eiPveWl8yE/o0AThp2w3cWm7nDCMFMMgxNprFiMgLobrwNbXep4gK9W1h4rUL0eo+7R
+         Tgk0bN3PG6+4qrD9+UM8dNqyRnWA2AsFYiTw+CyA7yxOV8seAXRNra4AQAW/D6Z28KN6
+         vPt+9jX5C/qBgsnsFVgiNl1NGGJlB/HLeKKp/Q+iiw5BWv3RqtWw/dSp76+Gg0cYRgw+
+         r4avuWZXqA9OFUU19idwrPOotQ5Cr4xYQ1aH+w+zvRSWVcHHswHl1OAJt2OhQtQ8tx8I
+         hdkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pz807mPXL9wmAOsZik9uq5miIUnAKaI7W2BvkwtKBhw=;
+        b=oyoLkTfzdV5wLzXL1iW0lxsyGSbYAnYq5Qd05B/iN52zmtcSOw/U46k9dAFpFRQTGa
+         8bWQhYc2KDlc1985xk3eNZTdEIpsABw99cw6ZO+t0ZUDxOpamhnY/CWh82h7HaSULFxe
+         RhB5PU6pl5PlC7Zs6QYLnU45ZXOc6QUnPVwBqJT1OJUO0yi/pnTS18+zJomfRRcLcHU8
+         awaARmaMHLCoNgl1J7Ok/I/8gPzB6YunhIRzSM3dgG0t434Lo4SO8cm1uPVEbPbBCAjq
+         I+YxIhIR9UIVIHELSQTYKwlkh0pB+3+Zu+HgzpOj21dfxnXedOStxHBcsAmt2bcajadN
+         9jtw==
+X-Gm-Message-State: AOAM533O1OO2G/TIewQ2wGtQujDJZlOnFFGm2cV8xWqBLJpm8ek/bbq0
+        rezqPTLzxjDmQSylHmJhsrLoVuY0maRhUw==
+X-Google-Smtp-Source: ABdhPJxwpB0uaAFH91wsxCSokGUcPouvlPPxxlPVpb8sn2MIGYwfHB4yDzT7bJHogOb0EojAVsaCCg==
+X-Received: by 2002:a65:6246:0:b0:363:396a:a00f with SMTP id q6-20020a656246000000b00363396aa00fmr11413522pgv.28.1647072058704;
+        Sat, 12 Mar 2022 00:00:58 -0800 (PST)
+Received: from ubuntu.mate (subs02-180-214-232-88.three.co.id. [180.214.232.88])
+        by smtp.gmail.com with ESMTPSA id x33-20020a056a0018a100b004f71b6a8698sm13025141pfh.169.2022.03.12.00.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Mar 2022 00:00:57 -0800 (PST)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, stable@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Stable kernel release process update
+Date:   Sat, 12 Mar 2022 15:00:39 +0700
+Message-Id: <20220312080043.37581-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87mthw2o93.fsf@meer.lwn.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 02:06:00PM -0700, Jonathan Corbet wrote:
-> Jiri Slaby <jirislaby@kernel.org> writes:
-> 
-> > On 04. 03. 22, 11:03, Wan Jiabing wrote:
-> >> Fix the following 'make refcheckdocs' warning:
-> >> Warning: Documentation/driver-api/serial/driver.rst references a file
-> >> that doesn't exist: Documentation/driver-api/serial/tty.rst
-> >> 
-> >> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
-> >
-> > Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
-> 
-> I've applied this.  But I have to wonder why Documentation/tty exists at
-> all; is there any reason not to move it all under driver-api?
+The stable release process documented in stable-kernel-rules.rst needs
+to be updated to reflect current procedure.
 
-No reason at all, it should probably be moved someday.
+Patch 1 is merely reorganizing three submission option lists to be
+subsection of the procedure section.
 
-thanks,
+Patch 2 contains the actual process documentation update.
 
-greg k-h
+Patch 3 and 4 updates "Tree" section by adding stable -rc tree link and
+correcting link for stable tree, respectively.
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: stable@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Bagas Sanjaya (4):
+  Documentation: make option lists subsection of "Procedure for
+    submitting patches to the -stable tree" in stable-kernel-rules.rst
+  Documentation: update stable review cycle documentation
+  Documentation: add link to stable release candidate tree
+  Documentation: update stable tree link
+
+ Documentation/process/stable-kernel-rules.rst | 31 ++++++++++++++-----
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+
+base-commit: ffb217a13a2eaf6d5bd974fc83036a53ca69f1e2
+-- 
+An old man doll... just what I always wanted! - Clara
+
