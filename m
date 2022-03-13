@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D70C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Mar 2022 10:58:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1FEC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Mar 2022 10:58:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233927AbiCMK7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Mar 2022 06:59:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
+        id S234449AbiCMK7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Mar 2022 06:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235004AbiCMK62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Mar 2022 06:58:28 -0400
+        with ESMTP id S235014AbiCMK63 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Mar 2022 06:58:29 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7043912D083;
-        Sun, 13 Mar 2022 03:57:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8529B1749FE;
+        Sun, 13 Mar 2022 03:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647169033; x=1678705033;
+  t=1647169040; x=1678705040;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BLFuTRhqE482sqaHRif7NDKXQY4BaFJ4C/qrheqYfJs=;
-  b=IEVsMmDObpC7RVtowkc07zK5ygfZmHsKZr52pS+elcC+LcH00uC4Yi2x
-   hEWKnanqBxZA8lVdZ16Gnq7D8Z8omP9VpAXslIjGO8sXu3e+CX3UkhRPm
-   wd2Ug41UsJYK+Ydi4Wvj1y5Q4bTtGSofebrS75185FjQ2V0tUd8hB98EG
-   SqrlojBIoNYj45EmjQZB9n3KGCgMGfjpHiiORtgroUbt80+B2/qTuU4gX
-   mUGK0zvYwIfklYwJhlIjRPEyvPOYNsuTCostwMzQUvt3ws9Pjvy6Ofl71
-   jHquE2RVuWAgcTqkyRR8QbUOrmVswTi8Mub5W0jpkiO1ylret3jHNGGy/
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10284"; a="319086324"
+  bh=82RRYaqdq5m//xBFiiE6/hsoZBDz6vsg38N2TZZZ+hQ=;
+  b=kFFa7Cs+z4qbdY3aEfjhFXadO2mllcztJJ5qC9NkYR/B2Uq3ZK+9K5iW
+   +lyNQWdCK+hA/GUWZnzgN7YjtAlGchQ01An2KiXPtqeQnr6D/Ctj//isg
+   nz+f2vPjrWC5dbehKpXrbtGK2pi9tbteCJSx0nI9jKdHMwyBYx3T3riMj
+   GfDri13OpxhfrYO9GTN5EbBqDD3Hom91atgjkWjxbul6FUIKhSVZKhh9q
+   LJ2pPEUhWOjgULItKIQuB28+II+3sFDaOY0wgEz9wf5Fa3DYTMh6PF83z
+   TsHF/s1qDvTci/6CNcr8qCwECFsFwhI/45EvQZWwzh+4Er9sO5sFqq2ED
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10284"; a="319086330"
 X-IronPort-AV: E=Sophos;i="5.90,178,1643702400"; 
-   d="scan'208";a="319086324"
+   d="scan'208";a="319086330"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2022 03:56:04 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2022 03:56:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,178,1643702400"; 
-   d="scan'208";a="713380315"
+   d="scan'208";a="713380329"
 Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
-  by orsmga005.jf.intel.com with ESMTP; 13 Mar 2022 03:56:01 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Mar 2022 03:56:07 -0700
 From:   Tianfei Zhang <tianfei.zhang@intel.com>
 To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
         yilun.xu@intel.com, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, Matthew Gerlach <matthew.gerlach@linux.intel.com>,
-        Tianfei Zhang <tianfei.zhang@intel.com>
-Subject: [PATCH v5 1/6] fpga: dfl: Allow ports without local bar space.
-Date:   Sun, 13 Mar 2022 06:52:37 -0400
-Message-Id: <20220313105242.1567774-2-tianfei.zhang@intel.com>
+Cc:     corbet@lwn.net, Tianfei zhang <tianfei.zhang@intel.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v5 3/6] fpga: dfl: check released_port_num and num_vfs for legacy model
+Date:   Sun, 13 Mar 2022 06:52:39 -0400
+Message-Id: <20220313105242.1567774-4-tianfei.zhang@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220313105242.1567774-1-tianfei.zhang@intel.com>
 References: <20220313105242.1567774-1-tianfei.zhang@intel.com>
@@ -55,59 +55,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+From: Tianfei zhang <tianfei.zhang@intel.com>
 
-In OFS, each PR slot (AFU) has one port device which include Port
-control, Port user clock control and Port errors. In legacy model,
-the AFU MMIO space was connected with Port device, so from port
-device point of view, there is a bar space associated with this
-port device. But in "Multiple VFs per PR slot" model, the AFU MMIO
-space was not connected with Port device. The BarID (3bits field) in
-PORTn_OFFSET register indicates which PCI bar space associated with
-this port device, the value 0b111 (FME_HDR_NO_PORT_BAR) means that
-no PCI bar for this port device.
-
----
-v3: add PCI bar number checking with PCI_STD_NUM_BARS.
-v2: use FME_HDR_NO_PORT_BAR instead of PCI_STD_NUM_BARS.
+In OFS legacy model, there is 1:1 mapping for Port device and VF,
+so it need to check the number of released port match the number of
+VFs or not. But in "Multiple VFs per PR slot" model, there is 1:N
+mapping for the Port device and VFs.
 
 Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
 ---
- drivers/fpga/dfl-pci.c | 7 +++++++
- drivers/fpga/dfl.h     | 1 +
- 2 files changed, 8 insertions(+)
+ drivers/fpga/dfl.c | 10 ++++++----
+ drivers/fpga/dfl.h |  2 ++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index 4d68719e608f..2e9abeca3625 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -258,6 +258,13 @@ static int find_dfls_by_default(struct pci_dev *pcidev,
- 			 */
- 			bar = FIELD_GET(FME_PORT_OFST_BAR_ID, v);
- 			offset = FIELD_GET(FME_PORT_OFST_DFH_OFST, v);
-+			if (bar >= PCI_STD_NUM_BARS ||
-+			    bar == FME_HDR_NO_PORT_BAR) {
-+				dev_dbg(&pcidev->dev, "skipping port without local BAR space %d\n",
-+					bar);
-+				continue;
-+			}
-+
- 			start = pci_resource_start(pcidev, bar) + offset;
- 			len = pci_resource_len(pcidev, bar) - offset;
+diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+index 712c53363fda..b95b29c5c81d 100644
+--- a/drivers/fpga/dfl.c
++++ b/drivers/fpga/dfl.c
+@@ -1707,11 +1707,13 @@ int dfl_fpga_cdev_config_ports_vf(struct dfl_fpga_cdev *cdev, int num_vfs)
  
+ 	mutex_lock(&cdev->lock);
+ 	/*
+-	 * can't turn multiple ports into 1 VF device, only 1 port for 1 VF
+-	 * device, so if released port number doesn't match VF device number,
+-	 * then reject the request with -EINVAL error code.
++	 * In the OFS legacy model, it can't turn multiple ports into 1 VF
++	 * device, because only 1 port conneced to 1 VF device, so if released
++	 * port number doesn't match VF device number, then reject the request
++	 * with -EINVAL error code.
+ 	 */
+-	if (cdev->released_port_num != num_vfs) {
++	if ((dfl_has_port_connected_afu(cdev) &&
++	     cdev->released_port_num != num_vfs)) {
+ 		ret = -EINVAL;
+ 		goto done;
+ 	}
 diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index 53572c7aced0..1fd493e82dd8 100644
+index bc56b7e8c01b..83c2c50975e5 100644
 --- a/drivers/fpga/dfl.h
 +++ b/drivers/fpga/dfl.h
-@@ -91,6 +91,7 @@
- #define FME_HDR_PORT_OFST(n)	(0x38 + ((n) * 0x8))
- #define FME_HDR_BITSTREAM_ID	0x60
- #define FME_HDR_BITSTREAM_MD	0x68
-+#define FME_HDR_NO_PORT_BAR	7
+@@ -471,6 +471,8 @@ void dfl_fpga_enum_info_free(struct dfl_fpga_enum_info *info);
+ #define DFL_PORT_CONNECT_BITS  MAX_DFL_FPGA_PORT_NUM
+ #define DFL_FEAT_PORT_CONNECT_MASK ((1UL << (DFL_PORT_CONNECT_BITS)) - 1)
  
- /* FME Fab Capability Register Bitfield */
- #define FME_CAP_FABRIC_VERID	GENMASK_ULL(7, 0)	/* Fabric version ID */
++#define dfl_has_port_connected_afu(cdev) ((cdev)->flags & DFL_FEAT_PORT_CONNECT_MASK)
++
+ /**
+  * struct dfl_fpga_cdev - container device of DFL based FPGA
+  *
 -- 
 2.26.2
 
