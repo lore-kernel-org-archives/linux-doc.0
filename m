@@ -2,364 +2,837 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D78C433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Mar 2022 11:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF620C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Mar 2022 11:02:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbiCMLDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Mar 2022 07:03:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
+        id S231604AbiCMLDo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Mar 2022 07:03:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234717AbiCMLDP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Mar 2022 07:03:15 -0400
-X-Greylist: delayed 323 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 13 Mar 2022 04:02:05 PDT
+        with ESMTP id S231540AbiCMLDo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Mar 2022 07:03:44 -0400
 Received: from ceres.rohieb.name (ceres.rohieb.name [46.38.232.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 882B51A3638
-        for <linux-doc@vger.kernel.org>; Sun, 13 Mar 2022 04:02:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 923351AAA65
+        for <linux-doc@vger.kernel.org>; Sun, 13 Mar 2022 04:02:35 -0700 (PDT)
 Received: from glados.home.rohieb.name (p4ff9fcb6.dip0.t-ipconnect.de [79.249.252.182])
-        by ceres.rohieb.name (Postfix) with ESMTPSA id DFF511000FD;
-        Sun, 13 Mar 2022 11:56:14 +0100 (CET)
-Received: by glados.home.rohieb.name (sSMTP sendmail emulation); Sun, 13 Mar 2022 11:56:14 +0100
+        by ceres.rohieb.name (Postfix) with ESMTPSA id C1C6C1002C9;
+        Sun, 13 Mar 2022 11:56:17 +0100 (CET)
+Received: by glados.home.rohieb.name (sSMTP sendmail emulation); Sun, 13 Mar 2022 11:56:17 +0100
 From:   Roland Hieber <rhi@pengutronix.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Steven Rostedt <rostedt@goodmis.org>,
         Ingo Molnar <mingo@redhat.com>,
         Daniel Bristot de Oliveira <bristot@kernel.org>
 Cc:     linux-doc@vger.kernel.org, Roland Hieber <rhi@pengutronix.de>
-Subject: [PATCH 1/3] docs: tracing: use refs for cross-referencing
-Date:   Sun, 13 Mar 2022 11:55:55 +0100
-Message-Id: <20220313105557.172732-1-rhi@pengutronix.de>
+Subject: [PATCH 3/3] docs: trace: events: apply literal markup
+Date:   Sun, 13 Mar 2022 11:55:57 +0100
+Message-Id: <20220313105557.172732-3-rhi@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220313105557.172732-1-rhi@pengutronix.de>
+References: <20220313105557.172732-1-rhi@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Help cross-linking the documents by using the :ref: role.
+The document can be easier readable if not everything is in 'quotes',
+but sometimes also in fixed-width font.
 
 Signed-off-by: Roland Hieber <rhi@pengutronix.de>
 ---
 PATCH v2:
- * new in v2
+* new in v2
 
- Documentation/trace/events.rst          | 25 ++++++++++------
- Documentation/trace/ftrace.rst          | 38 ++++++++++++++++---------
- Documentation/trace/kprobetrace.rst     |  2 +-
- Documentation/trace/timerlat-tracer.rst |  6 ++--
- 4 files changed, 46 insertions(+), 25 deletions(-)
+ Documentation/trace/events.rst | 298 ++++++++++++++++-----------------
+ 1 file changed, 149 insertions(+), 149 deletions(-)
 
 diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index c47f381d0c00..e83d0d5378be 100644
+index 0d4f8f63236f..f4bbc4f7c115 100644
 --- a/Documentation/trace/events.rst
 +++ b/Documentation/trace/events.rst
-@@ -20,6 +20,8 @@ tracing information should be printed.
- 2. Using Event Tracing
- ======================
+@@ -22,25 +22,25 @@ Using Event Tracing
  
-+.. _tracing_set_event_interface:
-+
- 2.1 Via the 'set_event' interface
- ---------------------------------
+ .. _tracing_set_event_interface:
  
-@@ -91,21 +93,23 @@ In order to facilitate early boot debugging, use boot option::
+-Via the 'set_event' interface
+------------------------------
++Via the ``set_event`` interface
++-------------------------------
  
- 	trace_event=[event-list]
+ The events which are available for tracing can be found in the file
+-/sys/kernel/debug/tracing/available_events.
++``/sys/kernel/debug/tracing/available_events``.
  
--event-list is a comma separated list of events. See section 2.1 for event
--format.
-+event-list is a comma separated list of events. See
-+:ref:`tracing_set_event_interface` for event format.
+-To enable a particular event, such as 'sched_wakeup', simply echo it
+-to /sys/kernel/debug/tracing/set_event. For example::
++To enable a particular event, such as ``sched_wakeup``, simply echo it
++to ``/sys/kernel/debug/tracing/set_event``. For example::
  
- 3. Defining an event-enabled tracepoint
- =======================================
+ 	# echo sched_wakeup >> /sys/kernel/debug/tracing/set_event
  
- See The example provided in samples/trace_events
+-.. Note:: '>>' is necessary, otherwise it will firstly disable all the events.
++.. Note:: ``>>`` is necessary, otherwise it will firstly disable all the events.
  
-+.. _tracing_event_formats:
-+
- 4. Event formats
- ================
+ To disable an event, echo the event name to the set_event file prefixed
+ with an exclamation point::
  
- Each trace event has a 'format' file associated with it that contains
+ 	# echo '!sched_wakeup' >> /sys/kernel/debug/tracing/set_event
+ 
+-To disable all events, echo an empty line to the set_event file::
++To disable all events, echo an empty line to the ``set_event`` file::
+ 
+ 	# echo > /sys/kernel/debug/tracing/set_event
+ 
+@@ -49,7 +49,7 @@ To enable all events, echo ``*:*`` or ``*:`` to the set_event file::
+ 	# echo *:* > /sys/kernel/debug/tracing/set_event
+ 
+ The events are organized into subsystems, such as ext4, irq, sched,
+-etc., and a full event name looks like this: <subsystem>:<event>.  The
++etc., and a full event name looks like this: ``<subsystem>:<event>``.  The
+ subsystem name is optional, but it is displayed in the available_events
+ file.  All of the events in a subsystem can be specified via the syntax
+ ``<subsystem>:*``; for example, to enable all irq events, you can use the
+@@ -57,13 +57,13 @@ command::
+ 
+ 	# echo 'irq:*' > /sys/kernel/debug/tracing/set_event
+ 
+-Via the 'enable' toggle
+------------------------
++Via the ``enable`` toggle
++-------------------------
+ 
+-The events available are also listed in /sys/kernel/debug/tracing/events/ hierarchy
++The events available are also listed in the ``/sys/kernel/debug/tracing/events/`` hierarchy
+ of directories.
+ 
+-To enable event 'sched_wakeup'::
++To enable event ``sched_wakeup``::
+ 
+ 	# echo 1 > /sys/kernel/debug/tracing/events/sched/sched_wakeup/enable
+ 
+@@ -106,7 +106,7 @@ See The example provided in samples/trace_events
+ Event formats
+ =============
+ 
+-Each trace event has a 'format' file associated with it that contains
++Each trace event has a ``format`` file associated with it that contains
  a description of each field in a logged event.  This information can
  be used to parse the binary trace stream, and is also the place to
--find the field names that can be used in event filters (see section 5).
-+find the field names that can be used in :ref:`event filters <tracing_event_filters>`.
+ find the field names that can be used in :ref:`event filters <tracing_event_filters>`.
+@@ -127,7 +127,7 @@ Each field in the format has the form::
+ where offset is the offset of the field in the trace record and size
+ is the size of the data item, in bytes.
  
- It also displays the format string that will be used to print the
- event in text mode, along with the event name and ID used for
-@@ -150,6 +154,8 @@ This event contains 10 fields, the first 5 common and the remaining 5
+-For example, here's the information displayed for the 'sched_wakeup'
++For example, here's the information displayed for the ``sched_wakeup``
+ event::
+ 
+ 	# cat /sys/kernel/debug/tracing/events/sched/sched_wakeup/format
+@@ -152,7 +152,7 @@ event::
+ 
+ This event contains 10 fields, the first 5 common and the remaining 5
  event-specific.  All the fields for this event are numeric, except for
- 'comm' which is a string, a distinction important for event filtering.
+-'comm' which is a string, a distinction important for event filtering.
++``comm`` which is a string, a distinction important for event filtering.
  
-+.. _tracing_event_filters:
-+
- 5. Event filtering
- ==================
+ .. _tracing_event_filters:
  
-@@ -178,7 +184,7 @@ double-quotes can be used to prevent the shell from interpreting
+@@ -172,7 +172,7 @@ Expression syntax
+ -----------------
+ 
+ A filter expression consists of one or more 'predicates' that can be
+-combined using the logical operators '&&' and '||'.  A predicate is
++combined using the logical operators ``&&`` and ``||``.  A predicate is
+ simply a clause that compares the value of a field contained within a
+ logged event with a constant value and returns either 0 or 1 depending
+ on whether the field value matched (1) or didn't match (0)::
+@@ -184,20 +184,20 @@ double-quotes can be used to prevent the shell from interpreting
  operators as shell metacharacters.
  
  The field-names available for use in filters can be found in the
--'format' files for trace events (see section 4).
-+'format' files for trace events (see :ref:`tracing_event_filters`).
+-'format' files for trace events (see :ref:`tracing_event_filters`).
++``format`` files for trace events (see :ref:`tracing_event_filters`).
  
  The relational-operators depend on the type of the field being tested:
  
-@@ -324,6 +330,7 @@ To add more PIDs without losing the PIDs already included, use '>>'.
+-The operators available for numeric fields are:
++The operators available for numeric fields are::
+ 
+-==, !=, <, <=, >, >=, &
++  ==, !=, <, <=, >, >=, &
+ 
+-And for string fields they are:
++And for string fields they are::
+ 
+-==, !=, ~
++  ==, !=, ~
+ 
+-The glob (~) accepts a wild card character (\*,?) and character classes
+-([). For example::
++The glob (``~``) accepts a wild card character (``*``, ``?``) and character classes
++(``[``). For example::
+ 
+   prev_comm ~ "*sh"
+   prev_comm ~ "sh*"
+@@ -217,7 +217,7 @@ Setting filters
+ ---------------
+ 
+ A filter for an individual event is set by writing a filter expression
+-to the 'filter' file for the given event.
++to the ``filter`` file for the given event.
+ 
+ For example::
+ 
+@@ -241,7 +241,7 @@ an error message can be seen by looking at the filter e.g.::
+ 	^
+ 	parse_error: Field not found
+ 
+-Currently the caret ('^') for an error always appears at the beginning of
++Currently the caret (``^``) for an error always appears at the beginning of
+ the filter string; the error message should still be useful though
+ even without more accurate position info.
+ 
+@@ -258,10 +258,10 @@ string compare will be treated as not matching.
+ Clearing filters
+ ----------------
+ 
+-To clear the filter for an event, write a '0' to the event's filter
++To clear the filter for an event, write a ``0`` to the event's filter
+ file.
+ 
+-To clear the filters for all events in a subsystem, write a '0' to the
++To clear the filters for all events in a subsystem, write a ``0`` to the
+ subsystem's filter file.
+ 
+ Subsystem filters
+@@ -301,7 +301,7 @@ subsystem (all events end up with the same filter)::
+ 	common_pid == 0
+ 
+ Attempt to set a filter using a non-common field for all events in the
+-sched subsystem (all events but those that have a prev_pid field retain
++sched subsystem (all events but those that have a ``prev_pid`` field retain
+ their old filters)::
+ 
+ 	# cd /sys/kernel/debug/tracing/events/sched
+@@ -314,9 +314,9 @@ their old filters)::
+ PID filtering
+ -------------
+ 
+-The set_event_pid file in the same directory as the top events directory
++The ``set_event_pid`` file in the same directory as the top events directory
+ exists, will filter all events from tracing any task that does not have the
+-PID listed in the set_event_pid file.
++PID listed in the ``set_event_pid`` file.
+ ::
+ 
+ 	# cd /sys/kernel/debug/tracing
+@@ -325,7 +325,7 @@ PID listed in the set_event_pid file.
+ 
+ Will only trace events for the current task.
+ 
+-To add more PIDs without losing the PIDs already included, use '>>'.
++To add more PIDs without losing the PIDs already included, use ``>>``.
+ ::
  
  	# echo 123 244 1 >> set_event_pid
- 
-+.. _tracing_event_triggers:
- 
- 6. Event triggers
- =================
-@@ -335,7 +342,7 @@ a stack trace whenever the trace event is hit.  Whenever a trace event
- with attached triggers is invoked, the set of trigger commands
- associated with that event is invoked.  Any given trigger can
- additionally have an event filter of the same form as described in
--section 5 (Event filtering) associated with it - the command will only
-+:ref:`tracing_event_filters` associated with it - the command will only
- be invoked if the event being invoked passes the associated filter.
+@@ -347,7 +347,7 @@ be invoked if the event being invoked passes the associated filter.
  If no filter is associated with the trigger, it always passes.
  
-@@ -356,8 +363,8 @@ enabled, and also allows the current event filter implementation to be
+ Triggers are added to and removed from a particular event by writing
+-trigger expressions to the 'trigger' file for the given event.
++trigger expressions to the ``trigger`` file for the given event.
+ 
+ A given event can have any number of triggers associated with it,
+ subject to any restrictions that individual commands may have in that
+@@ -363,46 +363,46 @@ enabled, and also allows the current event filter implementation to be
  used for conditionally invoking triggers.
  
  The syntax for event triggers is roughly based on the syntax for
--set_ftrace_filter 'ftrace filter commands' (see the 'Filter commands'
--section of Documentation/trace/ftrace.rst), but there are major
-+set_ftrace_filter 'ftrace filter commands' (see the section
-+:ref:`ftrace_filter_commands`), but there are major
+-set_ftrace_filter 'ftrace filter commands' (see the section
++``set_ftrace_filter`` ftrace filter commands (see the section
+ :ref:`ftrace_filter_commands`), but there are major
  differences and the implementation isn't currently tied to it in any
  way, so beware about making generalizations between the two.
  
-@@ -382,8 +389,8 @@ The [if filter] part isn't used in matching commands when removing, so
- leaving that off in a '!' command will accomplish the same thing as
+ .. Note::
+-     Writing into trace_marker (See Documentation/trace/ftrace.rst)
++     Writing into ``trace_marker`` (See Documentation/trace/ftrace.rst)
+      can also enable triggers that are written into
+-     /sys/kernel/tracing/events/ftrace/print/trigger
++     ``/sys/kernel/tracing/events/ftrace/print/trigger``.
+ 
+ Expression syntax
+ -----------------
+ 
+-Triggers are added by echoing the command to the 'trigger' file::
++Triggers are added by echoing the command to the ``trigger`` file::
+ 
+   # echo 'command[:count] [if filter]' > trigger
+ 
+-Triggers are removed by echoing the same command but starting with '!'
+-to the 'trigger' file::
++Triggers are removed by echoing the same command but starting with ``!``
++to the ``trigger`` file::
+ 
+   # echo '!command[:count] [if filter]' > trigger
+ 
+ The [if filter] part isn't used in matching commands when removing, so
+-leaving that off in a '!' command will accomplish the same thing as
++leaving that off in a ``!`` command will accomplish the same thing as
  having it in.
  
--The filter syntax is the same as that described in the 'Event
--filtering' section above.
-+The filter syntax is the same as that described in the section
-+:ref:`tracing_event_filters` above.
+ The filter syntax is the same as that described in the section
+ :ref:`tracing_event_filters` above.
  
- For ease of use, writing to the trigger file using '>' currently just
- adds or removes a single trigger and there's no explicit '>>' support
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 45b8c56af67a..d018bd332200 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -42,6 +42,7 @@ Implementation Details
+-For ease of use, writing to the trigger file using '>' currently just
+-adds or removes a single trigger and there's no explicit '>>' support
+-('>' actually behaves like '>>') or truncation support to remove all
+-triggers (you have to use '!' for each one added.)
++For ease of use, writing to the trigger file using ``>`` currently just
++adds or removes a single trigger and there's no explicit ``>>`` support
++(``>`` actually behaves like ``>>``) or truncation support to remove all
++triggers (you have to use ``!`` for each one added.)
  
- See Documentation/trace/ftrace-design.rst for details for arch porters and such.
+ Supported trigger commands
+ --------------------------
  
-+.. _ftrace_the_file_system:
+ The following commands are supported:
  
- The File System
- ---------------
-@@ -223,7 +224,7 @@ of ftrace. Here is a list of some of the key files:
-   set_ftrace_filter:
+-- enable_event/disable_event
++- ``enable_event``/``disable_event``
  
- 	When dynamic ftrace is configured in (see the
--	section below "dynamic ftrace"), the code is dynamically
-+	section :ref:`ftrace_dynamic_ftrace`), the code is dynamically
- 	modified (code text rewrite) to disable calling of the
- 	function profiler (mcount). This lets tracing be configured
- 	in with practically no overhead in performance.  This also
-@@ -237,7 +238,7 @@ of ftrace. Here is a list of some of the key files:
- 	can be written into this file.
+   These commands can enable or disable another trace event whenever
+   the triggering event is hit.  When these commands are registered,
+@@ -412,7 +412,7 @@ The following commands are supported:
+   in effect that can trigger it.
  
- 	This interface also allows for commands to be used. See the
--	"Filter commands" section for more details.
-+	:ref:`ftrace_dynamic_ftrace` section for more details.
+   For example, the following trigger causes kmalloc events to be
+-  traced when a read system call is entered, and the :1 at the end
++  traced when a read system call is entered, and the ``:1`` at the end
+   specifies that this enablement happens only once::
  
- 	As a speed up, since processing strings can be quite expensive
- 	and requires a check of all functions registered to tracing, instead
-@@ -305,7 +306,7 @@ of ftrace. Here is a list of some of the key files:
+ 	  # echo 'enable_event:kmem:kmalloc:1' > \
+@@ -438,15 +438,15 @@ The following commands are supported:
+ 	  # echo '!disable_event:kmem:kmalloc' > \
+ 	      /sys/kernel/debug/tracing/events/syscalls/sys_exit_read/trigger
  
- 	Functions listed in this file will cause the function graph
- 	tracer to only trace these functions and the functions that
--	they call. (See the section "dynamic ftrace" for more details).
-+	they call. (See the section :ref:`ftrace_dynamic_ftrace` for more details).
- 	Note, set_ftrace_filter and set_ftrace_notrace still affects
- 	what functions are being traced.
+-  Note that there can be any number of enable/disable_event triggers
++  Note that there can be any number of ``enable_event``/``disable_event`` triggers
+   per triggering event, but there can only be one trigger per
+-  triggered event. e.g. sys_enter_read can have triggers enabling both
+-  kmem:kmalloc and sched:sched_switch, but can't have two kmem:kmalloc
+-  versions such as kmem:kmalloc and kmem:kmalloc:1 or 'kmem:kmalloc if
+-  bytes_req == 256' and 'kmem:kmalloc if bytes_alloc == 256' (they
+-  could be combined into a single filter on kmem:kmalloc though).
++  triggered event. e.g. ``sys_enter_read`` can have triggers enabling both
++  ``kmem:kmalloc`` and ``sched:sched_switch``, but can't have two ``kmem:kmalloc``
++  versions such as ``kmem:kmalloc`` and ``kmem:kmalloc:1`` or ``kmem:kmalloc if
++  bytes_req == 256`` and ``kmem:kmalloc if bytes_alloc == 256`` (they
++  could be combined into a single filter on ``kmem:kmalloc`` though).
  
-@@ -322,7 +323,7 @@ of ftrace. Here is a list of some of the key files:
- 	These are the function names that you can pass to
- 	"set_ftrace_filter", "set_ftrace_notrace",
- 	"set_graph_function", or "set_graph_notrace".
--	(See the section "dynamic ftrace" below for more details.)
-+	(See the section :ref:`ftrace_dynamic_ftrace` for more details.)
+-- stacktrace
++- ``stacktrace``
  
-   dyn_ftrace_total_info:
+   This command dumps a stacktrace in the trace buffer whenever the
+   triggering event occurs.
+@@ -481,10 +481,10 @@ The following commands are supported:
+ 	  # echo '!stacktrace:5' > \
+ 		/sys/kernel/debug/tracing/events/kmem/kmalloc/trigger
  
-@@ -426,19 +427,19 @@ of ftrace. Here is a list of some of the key files:
+-  Note that there can be only one stacktrace trigger per triggering
++  Note that there can be only one ``stacktrace`` trigger per triggering
+   event.
  
- 	This displays the "snapshot" buffer and also lets the user
- 	take a snapshot of the current running trace.
--	See the "Snapshot" section below for more details.
-+	See the section :ref:`ftrace_snapshot` below for more details.
+-- snapshot
++- ``snapshot``
  
-   stack_max_size:
+   This command causes a snapshot to be triggered whenever the
+   triggering event occurs.
+@@ -510,10 +510,10 @@ The following commands are supported:
+ 	  # echo '!snapshot:1 if nr_rq > 1' > \
+ 		/sys/kernel/debug/tracing/events/block/block_unplug/trigger
  
- 	When the stack tracer is activated, this will display the
- 	maximum stack size it has encountered.
--	See the "Stack Trace" section below.
-+	See the section :ref:`ftrace_stack_trace` below.
+-  Note that there can be only one snapshot trigger per triggering
++  Note that there can be only one ``snapshot`` trigger per triggering
+   event.
  
-   stack_trace:
+-- traceon/traceoff
++- ``traceon``/``traceoff``
  
- 	This displays the stack back trace of the largest stack
- 	that was encountered when the stack tracer is activated.
--	See the "Stack Trace" section below.
-+	See the section :ref:`ftrace_stack_trace` below.
+   These commands turn tracing on and off when the specified events are
+   hit. The parameter determines how many times the tracing system is
+@@ -528,7 +528,7 @@ The following commands are supported:
+ 	  # echo 'traceoff:1 if nr_rq > 1' > \
+ 		/sys/kernel/debug/tracing/events/block/block_unplug/trigger
  
-   stack_trace_filter:
+-  To always disable tracing when nr_rq  > 1::
++  To always disable tracing when ``nr_rq``  > 1::
  
-@@ -578,7 +579,7 @@ of ftrace. Here is a list of some of the key files:
+ 	  # echo 'traceoff if nr_rq > 1' > \
+ 		/sys/kernel/debug/tracing/events/block/block_unplug/trigger
+@@ -541,10 +541,10 @@ The following commands are supported:
+ 	  # echo '!traceoff if nr_rq > 1' > \
+ 		/sys/kernel/debug/tracing/events/block/block_unplug/trigger
  
- 	This is a way to make multiple trace buffers where different
- 	events can be recorded in different buffers.
--	See "Instances" section below.
-+	See section :ref:`ftrace_instances` below.
+-  Note that there can be only one traceon or traceoff trigger per
++  Note that there can be only one ``traceon`` or ``traceoff`` trigger per
+   triggering event.
  
-   events:
+-- hist
++- ``hist``
  
-@@ -630,7 +631,7 @@ of ftrace. Here is a list of some of the key files:
-   hwlat_detector:
+   This command aggregates event hits into a hash table keyed on one or
+   more trace event format fields (or stacktrace) and a set of running
+@@ -592,17 +592,17 @@ Dyamically creating synthetic event definitions
+ There are a couple ways to create a new synthetic event from a kernel
+ module or other kernel code.
  
- 	Directory for the Hardware Latency Detector.
--	See "Hardware Latency Detector" section below.
-+	See section :ref:`ftrace_hardware_latency_detector` below.
+-The first creates the event in one step, using synth_event_create().
++The first creates the event in one step, using ``synth_event_create()``.
+ In this method, the name of the event to create and an array defining
+-the fields is supplied to synth_event_create().  If successful, a
++the fields is supplied to ``synth_event_create()``.  If successful, a
+ synthetic event with that name and fields will exist following that
+-call.  For example, to create a new "schedtest" synthetic event::
++call.  For example, to create a new ``schedtest`` synthetic event::
  
-   per_cpu:
+   ret = synth_event_create("schedtest", sched_fields,
+                            ARRAY_SIZE(sched_fields), THIS_MODULE);
  
-@@ -739,7 +740,7 @@ Here is the list of current tracers that may be configured.
-   "hwlat"
+-The sched_fields param in this example points to an array of struct
+-synth_field_desc, each of which describes an event field by type and
++The ``sched_fields`` param in this example points to an array of struct
++``synth_field_desc``, each of which describes an event field by type and
+ name::
  
- 	The Hardware Latency tracer is used to detect if the hardware
--	produces any latency. See "Hardware Latency Detector" section
-+	produces any latency. See section :ref:`ftrace_hardware_latency_detector`
- 	below.
+   static struct synth_field_desc sched_fields[] = {
+@@ -615,11 +615,11 @@ name::
+         { .type = "int",                .name = "my_int_field" },
+   };
  
-   "irqsoff"
-@@ -2156,6 +2157,8 @@ events.
-     <idle>-0       2d..3    6us :      0:120:R ==> [002]  5882: 94:R sleep
+-See synth_field_size() for available types.
++See ``synth_field_size()`` for available types.
  
+-If field_name contains [n], the field is considered to be a static array.
++If ``field_name`` contains ``[n]``, the field is considered to be a static array.
  
-+.. _ftrace_hardware_latency_detector:
+-If field_names contains[] (no subscript), the field is considered to
++If ``field_names`` contains ``[]`` (no subscript), the field is considered to
+ be a dynamic array, which will only take as much space in the event as
+ is required to hold the array.
+ 
+@@ -630,7 +630,7 @@ other non-piecewise in-kernel APIs can, however, be used with dynamic
+ arrays.
+ 
+ If the event is created from within a module, a pointer to the module
+-must be passed to synth_event_create().  This will ensure that the
++must be passed to ``synth_event_create()``.  This will ensure that the
+ trace buffer won't contain unreadable events when the module is
+ removed.
+ 
+@@ -642,17 +642,17 @@ allows events to be created dynamically and without the need to create
+ and populate an array of fields beforehand.
+ 
+ To use this method, an empty or partially empty synthetic event should
+-first be created using synth_event_gen_cmd_start() or
+-synth_event_gen_cmd_array_start().  For synth_event_gen_cmd_start(),
++first be created using ``synth_event_gen_cmd_start()`` or
++``synth_event_gen_cmd_array_start()``.  For ``synth_event_gen_cmd_start()``,
+ the name of the event along with one or more pairs of args each pair
+-representing a 'type field_name;' field specification should be
+-supplied.  For synth_event_gen_cmd_array_start(), the name of the
+-event along with an array of struct synth_field_desc should be
+-supplied. Before calling synth_event_gen_cmd_start() or
+-synth_event_gen_cmd_array_start(), the user should create and
+-initialize a dynevent_cmd object using synth_event_cmd_init().
+-
+-For example, to create a new "schedtest" synthetic event with two
++representing a ``type field_name;`` field specification should be
++supplied.  For ``synth_event_gen_cmd_array_start()``, the name of the
++event along with an array of ``struct synth_field_desc`` should be
++supplied. Before calling ``synth_event_gen_cmd_start()`` or
++``synth_event_gen_cmd_array_start()``, the user should create and
++initialize a ``dynevent_cmd`` object using ``synth_event_cmd_init()``.
 +
- Hardware Latency Detector
- -------------------------
++For example, to create a new ``schedtest`` synthetic event with two
+ fields::
  
-@@ -2258,7 +2261,7 @@ function
- This tracer is the function tracer. Enabling the function tracer
- can be done from the debug file system. Make sure the
- ftrace_enabled is set; otherwise this tracer is a nop.
--See the "ftrace_enabled" section below.
-+See the :ref:`ftrace_ftrace_enabled` section below.
- ::
+   struct dynevent_cmd cmd;
+@@ -668,7 +668,7 @@ fields::
+                                   "pid_t", "next_pid_field",
+                                   "u64", "ts_ns");
  
-   # sysctl kernel.ftrace_enabled=1
-@@ -2679,6 +2682,8 @@ You might find other useful features for this tracer in the
- following "dynamic ftrace" section such as tracing only specific
- functions or tasks.
+-Alternatively, using an array of struct synth_field_desc fields
++Alternatively, using an array of ``struct synth_field_desc`` fields
+ containing the same information::
  
-+.. _ftrace_dynamic_ftrace:
-+
- dynamic ftrace
- --------------
+   ret = synth_event_gen_cmd_array_start(&cmd, "schedtest", THIS_MODULE,
+@@ -676,27 +676,27 @@ containing the same information::
  
-@@ -3029,6 +3034,7 @@ this special filter via::
+ Once the synthetic event object has been created, it can then be
+ populated with more fields.  Fields are added one by one using
+-synth_event_add_field(), supplying the dynevent_cmd object, a field
+-type, and a field name.  For example, to add a new int field named
+-"intfield", the following call should be made::
++``synth_event_add_field()``, supplying the ``dynevent_cmd`` object, a field
++``type``, and a field ``name``.  For example, to add a new int field named
++``intfield``, the following call should be made::
  
-  echo > set_graph_function
+   ret = synth_event_add_field(&cmd, "int", "intfield");
  
-+.. _ftrace_ftrace_enabled:
+-See synth_field_size() for available types. If field_name contains [n]
++See ``synth_field_size()`` for available types. If ``field_name`` contains ``[n]``
+ the field is considered to be an array.
  
- ftrace_enabled
- --------------
-@@ -3053,6 +3059,7 @@ This can be disable (and enabled) with::
-   echo 0 > /proc/sys/kernel/ftrace_enabled
-   echo 1 > /proc/sys/kernel/ftrace_enabled
+ A group of fields can also be added all at once using an array of
+-synth_field_desc with add_synth_fields().  For example, this would add
+-just the first four sched_fields::
++``synth_field_desc`` with ``add_synth_fields()``.  For example, this would add
++just the first four ``sched_fields``::
  
-+.. _ftrace_filter_commands:
+   ret = synth_event_add_fields(&cmd, sched_fields, 4);
  
- Filter commands
- ---------------
-@@ -3281,6 +3288,8 @@ This is where the buffer_total_size_kb is useful:
- Writing to the top level buffer_size_kb will reset all the buffers
- to be the same again.
+-If you already have a string of the form 'type field_name',
+-synth_event_add_field_str() can be used to add it as-is; it will
+-also automatically append a ';' to the string.
++If you already have a string of the form ``type field_name``,
++``synth_event_add_field_str()`` can be used to add it as-is; it will
++also automatically append a ``;`` to the string.
  
-+.. _ftrace_snapshot:
-+
- Snapshot
- --------
- CONFIG_TRACER_SNAPSHOT makes a generic snapshot feature
-@@ -3303,8 +3312,8 @@ feature:
- 	of the snapshot. Echo 1 into this file to allocate a
- 	spare buffer and to take a snapshot (swap), then read
- 	the snapshot from this file in the same format as
--	"trace" (described above in the section "The File
--	System"). Both reads snapshot and tracing are executable
-+	"trace" (described above in the section :ref:`ftrace_the_file_system`).
-+	Both reads snapshot and tracing are executable
- 	in parallel. When the spare buffer is allocated, echoing
- 	0 frees it, and echoing else (positive) values clear the
- 	snapshot contents.
-@@ -3367,6 +3376,7 @@ one of the latency tracers, you will get the following results.
-   # cat snapshot
-   cat: snapshot: Device or resource busy
+ Once all the fields have been added, the event should be finalized and
+-registered by calling the synth_event_gen_cmd_end() function::
++registered by calling the ``synth_event_gen_cmd_end()`` function::
  
-+.. _ftrace_instances:
+   ret = synth_event_gen_cmd_end(&cmd);
  
- Instances
- ---------
-@@ -3495,6 +3505,8 @@ Note, if a process has a trace file open in one of the instance
- directories, the rmdir will fail with EBUSY.
+@@ -707,23 +707,23 @@ Tracing synthetic events from in-kernel code
+ --------------------------------------------
  
+ To trace a synthetic event, there are several options.  The first
+-option is to trace the event in one call, using synth_event_trace()
+-with a variable number of values, or synth_event_trace_array() with an
++option is to trace the event in one call, using ``synth_event_trace()``
++with a variable number of values, or ``synth_event_trace_array()`` with an
+ array of values to be set.  A second option can be used to avoid the
+ need for a pre-formed array of values or list of arguments, via
+-synth_event_trace_start() and synth_event_trace_end() along with
+-synth_event_add_next_val() or synth_event_add_val() to add the values
++``synth_event_trace_start()`` and ``synth_event_trace_end()`` along with
++``synth_event_add_next_val()`` or ``synth_event_add_val()`` to add the values
+ piecewise.
  
-+.. _ftrace_stack_trace:
-+
- Stack trace
- -----------
- Since the kernel has a fixed sized stack, it is important not to
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index b175d88f31eb..8c903e39bdf2 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -141,7 +141,7 @@ id:
+ Tracing a synthetic event all at once
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
- trigger:
-   This allows to install trigger commands which are executed when the event is
--  hit (for details, see Documentation/trace/events.rst, section 6).
-+  hit (for details, see :ref:`tracing_event_triggers`).
+-To trace a synthetic event all at once, the synth_event_trace() or
+-synth_event_trace_array() functions can be used.
++To trace a synthetic event all at once, the ``synth_event_trace()`` or
++``synth_event_trace_array()`` functions can be used.
  
- Event Profiling
- ---------------
-diff --git a/Documentation/trace/timerlat-tracer.rst b/Documentation/trace/timerlat-tracer.rst
-index 64d1fe6e9b93..92bfc3729025 100644
---- a/Documentation/trace/timerlat-tracer.rst
-+++ b/Documentation/trace/timerlat-tracer.rst
-@@ -96,8 +96,8 @@ For example::
+-The synth_event_trace() function is passed the trace_event_file
++The ``synth_event_trace()`` function is passed the ``trace_event_file``
+ representing the synthetic event (which can be retrieved using
+-trace_get_event_file() using the synthetic event name, "synthetic" as
++``trace_get_event_file()`` using the synthetic event name, "synthetic" as
+ the system name, and the trace instance name (NULL if using the global
+ trace array)), along with an variable number of u64 args, one for each
+ synthetic event field, and the number of values being passed.
+@@ -744,10 +744,10 @@ All vals should be cast to u64, and string vals are just pointers to
+ strings, cast to u64.  Strings will be copied into space reserved in
+ the event for the string, using these pointers.
  
- In this case, the root cause of the timer latency does not point to a
- single cause but to multiple ones. Firstly, the timer IRQ was delayed
--for 13 us, which may point to a long IRQ disabled section (see IRQ
--stacktrace section). Then the timer interrupt that wakes up the timerlat
-+for 13 us, which may point to a long IRQ disabled section (see section
-+:ref:`timerlat_tracer_irq_stacktrace`). Then the timer interrupt that wakes up the timerlat
- thread took 7597 ns, and the qxl:21 device IRQ took 7139 ns. Finally,
- the cc1 thread noise took 9909 ns of time before the context switch.
- Such pieces of evidence are useful for the developer to use other
-@@ -133,6 +133,8 @@ in the timelines means circa 1 us, and the time moves ==>::
-                             |          +-> irq_noise: 6139 ns
-                             +-> irq_noise: 7597 ns
+-Alternatively, the synth_event_trace_array() function can be used to
+-accomplish the same thing.  It is passed the trace_event_file
++Alternatively, the ``synth_event_trace_array()`` function can be used to
++accomplish the same thing.  It is passed the ``trace_event_file``
+ representing the synthetic event (which can be retrieved using
+-trace_get_event_file() using the synthetic event name, "synthetic" as
++``trace_get_event_file()`` using the synthetic event name, "synthetic" as
+ the system name, and the trace instance name (NULL if using the global
+ trace array)), along with an array of u64, one for each synthetic
+ event field.
+@@ -765,7 +765,7 @@ above, code like the following could be used::
+   vals[5] = (u64)"thneed";        /* my_string_field */
+   vals[6] = 398;                  /* my_int_field */
  
-+.. _timerlat_tracer_irq_stacktrace:
-+
- IRQ stacktrace
- ---------------------------
+-The 'vals' array is just an array of u64, the number of which must
++The ``vals`` array is just an array of u64, the number of which must
+ match the number of field in the synthetic event, and which must be in
+ the same order as the synthetic event fields.
  
+@@ -774,7 +774,7 @@ strings, cast to u64.  Strings will be copied into space reserved in
+ the event for the string, using these pointers.
+ 
+ In order to trace a synthetic event, a pointer to the trace event file
+-is needed.  The trace_get_event_file() function can be used to get
++is needed.  The ``trace_get_event_file()`` function can be used to get
+ it - it will find the file in the given trace instance (in this case
+ NULL since the top trace array is being used) while at the same time
+ preventing the instance containing it from going away::
+@@ -785,34 +785,34 @@ preventing the instance containing it from going away::
+ Before tracing the event, it should be enabled in some way, otherwise
+ the synthetic event won't actually show up in the trace buffer.
+ 
+-To enable a synthetic event from the kernel, trace_array_set_clr_event()
++To enable a synthetic event from the kernel, ``trace_array_set_clr_event()``
+ can be used (which is not specific to synthetic events, so does need
+ the "synthetic" system name to be specified explicitly).
+ 
+-To enable the event, pass 'true' to it::
++To enable the event, pass ``true`` to it::
+ 
+        trace_array_set_clr_event(schedtest_event_file->tr,
+                                  "synthetic", "schedtest", true);
+ 
+-To disable it pass false::
++To disable it pass ``false``::
+ 
+        trace_array_set_clr_event(schedtest_event_file->tr,
+                                  "synthetic", "schedtest", false);
+ 
+-Finally, synth_event_trace_array() can be used to actually trace the
++Finally, ``synth_event_trace_array()`` can be used to actually trace the
+ event, which should be visible in the trace buffer afterwards::
+ 
+        ret = synth_event_trace_array(schedtest_event_file, vals,
+                                      ARRAY_SIZE(vals));
+ 
+ To remove the synthetic event, the event should be disabled, and the
+-trace instance should be 'put' back using trace_put_event_file()::
++trace instance should be 'put' back using ``trace_put_event_file()``::
+ 
+        trace_array_set_clr_event(schedtest_event_file->tr,
+                                  "synthetic", "schedtest", false);
+        trace_put_event_file(schedtest_event_file);
+ 
+-If those have been successful, synth_event_delete() can be called to
++If those have been successful, ``synth_event_delete()`` can be called to
+ remove the event::
+ 
+        ret = synth_event_delete("schedtest");
+@@ -821,16 +821,16 @@ Tracing a synthetic event piecewise
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ To trace a synthetic using the piecewise method described above, the
+-synth_event_trace_start() function is used to 'open' the synthetic
++``synth_event_trace_start()`` function is used to 'open' the synthetic
+ event trace::
+ 
+        struct synth_event_trace_state trace_state;
+ 
+        ret = synth_event_trace_start(schedtest_event_file, &trace_state);
+ 
+-It's passed the trace_event_file representing the synthetic event
++It's passed the ``trace_event_file`` representing the synthetic event
+ using the same methods as described above, along with a pointer to a
+-struct synth_event_trace_state object, which will be zeroed before use and
++``struct synth_event_trace_state`` object, which will be zeroed before use and
+ used to maintain state between this and following calls.
+ 
+ Once the event has been opened, which means space for it has been
+@@ -841,8 +841,8 @@ tradeoff is flexibility in doing the assignments vs the cost of a
+ lookup per field.
+ 
+ To assign the values one after the other without lookups,
+-synth_event_add_next_val() should be used.  Each call is passed the
+-same synth_event_trace_state object used in the synth_event_trace_start(),
++``synth_event_add_next_val()`` should be used.  Each call is passed the
++same ``synth_event_trace_state`` object used in the ``synth_event_trace_start()``,
+ along with the value to set the next field in the event.  After each
+ field is set, the 'cursor' points to the next field, which will be set
+ by the subsequent call, continuing until all the fields have been set
+@@ -870,9 +870,9 @@ this method would be (without error-handling code)::
+        /* my_int_field */
+        ret = synth_event_add_next_val(395, &trace_state);
+ 
+-To assign the values in any order, synth_event_add_val() should be
+-used.  Each call is passed the same synth_event_trace_state object used in
+-the synth_event_trace_start(), along with the field name of the field
++To assign the values in any order, ``synth_event_add_val()`` should be
++used.  Each call is passed the same ``synth_event_trace_state`` object used in
++the ``synth_event_trace_start()``, along with the field name of the field
+ to set and the value to set it to.  The same sequence of calls as in
+ the above examples using this method would be (without error-handling
+ code)::
+@@ -887,17 +887,17 @@ code)::
+                                  &trace_state);
+        ret = synth_event_add_val("my_int_field", 3999, &trace_state);
+ 
+-Note that synth_event_add_next_val() and synth_event_add_val() are
++Note that ``synth_event_add_next_val()`` and ``synth_event_add_val()`` are
+ incompatible if used within the same trace of an event - either one
+ can be used but not both at the same time.
+ 
+ Finally, the event won't be actually traced until it's 'closed',
+-which is done using synth_event_trace_end(), which takes only the
+-struct synth_event_trace_state object used in the previous calls::
++which is done using ``synth_event_trace_end()``, which takes only the
++struct ``synth_event_trace_state`` object used in the previous calls::
+ 
+        ret = synth_event_trace_end(&trace_state);
+ 
+-Note that synth_event_trace_end() must be called at the end regardless
++Note that ``synth_event_trace_end()`` must be called at the end regardless
+ of whether any of the add calls failed (say due to a bad field name
+ being passed in).
+ 
+@@ -905,18 +905,18 @@ Dyamically creating kprobe and kretprobe event definitions
+ ----------------------------------------------------------
+ 
+ To create a kprobe or kretprobe trace event from kernel code, the
+-kprobe_event_gen_cmd_start() or kretprobe_event_gen_cmd_start()
++``kprobe_event_gen_cmd_start()`` or ``kretprobe_event_gen_cmd_start()``
+ functions can be used.
+ 
+ To create a kprobe event, an empty or partially empty kprobe event
+-should first be created using kprobe_event_gen_cmd_start().  The name
++should first be created using ``kprobe_event_gen_cmd_start()``.  The name
+ of the event and the probe location should be specfied along with one
+ or args each representing a probe field should be supplied to this
+-function.  Before calling kprobe_event_gen_cmd_start(), the user
+-should create and initialize a dynevent_cmd object using
+-kprobe_event_cmd_init().
++function.  Before calling ``kprobe_event_gen_cmd_start()``, the user
++should create and initialize a ``dynevent_cmd`` object using
++``kprobe_event_cmd_init()``.
+ 
+-For example, to create a new "schedtest" kprobe event with two fields::
++For example, to create a new ``schedtest`` kprobe event with two fields::
+ 
+   struct dynevent_cmd cmd;
+   char *buf;
+@@ -936,15 +936,15 @@ For example, to create a new "schedtest" kprobe event with two fields::
+ 
+ Once the kprobe event object has been created, it can then be
+ populated with more fields.  Fields can be added using
+-kprobe_event_add_fields(), supplying the dynevent_cmd object along
++``kprobe_event_add_fields()``, supplying the ``dynevent_cmd`` object along
+ with a variable arg list of probe fields.  For example, to add a
+ couple additional fields, the following call could be made::
+ 
+   ret = kprobe_event_add_fields(&cmd, "flags=%cx", "mode=+4($stack)");
+ 
+ Once all the fields have been added, the event should be finalized and
+-registered by calling the kprobe_event_gen_cmd_end() or
+-kretprobe_event_gen_cmd_end() functions, depending on whether a kprobe
++registered by calling the ``kprobe_event_gen_cmd_end()`` or
++``kretprobe_event_gen_cmd_end()`` functions, depending on whether a kprobe
+ or kretprobe command was started::
+ 
+   ret = kprobe_event_gen_cmd_end(&cmd);
+@@ -957,7 +957,7 @@ At this point, the event object is ready to be used for tracing new
+ events.
+ 
+ Similarly, a kretprobe event can be created using
+-kretprobe_event_gen_cmd_start() with a probe name and location and
++``kretprobe_event_gen_cmd_start()`` with a probe name and location and
+ additional params such as $retval::
+ 
+   ret = kretprobe_event_gen_cmd_start(&cmd, "gen_kretprobe_test",
+@@ -978,11 +978,11 @@ used to give the kprobe event file back and delete the event::
+ 
+   ret = kprobe_event_delete("gen_kprobe_test");
+ 
+-The "dynevent_cmd" low-level API
++The ``dynevent_cmd`` low-level API
+ --------------------------------
+ 
+ Both the in-kernel synthetic event and kprobe interfaces are built on
+-top of a lower-level "dynevent_cmd" interface.  This interface is
++top of a lower-level ``dynevent_cmd`` interface.  This interface is
+ meant to provide the basis for higher-level interfaces such as the
+ synthetic and kprobe interfaces, which can be used as examples.
+ 
+@@ -994,14 +994,14 @@ subystem for creating the corresponding trace events.
+ 
+ In a nutshell, the way it works is that the higher-level interface
+ code creates a struct dynevent_cmd object, then uses a couple
+-functions, dynevent_arg_add() and dynevent_arg_pair_add() to build up
++functions, ``dynevent_arg_add()`` and ``dynevent_arg_pair_add()`` to build up
+ a command string, which finally causes the command to be executed
+-using the dynevent_create() function.  The details of the interface
++using the ``dynevent_create()`` function.  The details of the interface
+ are described below.
+ 
+ The first step in building a new command string is to create and
+-initialize an instance of a dynevent_cmd.  Here, for instance, we
+-create a dynevent_cmd on the stack and initialize it::
++initialize an instance of a ``dynevent_cmd``.  Here, for instance, we
++create a ``dynevent_cmd`` on the stack and initialize it::
+ 
+   struct dynevent_cmd cmd;
+   char *buf;
+@@ -1012,20 +1012,20 @@ create a dynevent_cmd on the stack and initialize it::
+   dynevent_cmd_init(cmd, buf, maxlen, DYNEVENT_TYPE_FOO,
+                     foo_event_run_command);
+ 
+-The dynevent_cmd initialization needs to be given a user-specified
+-buffer and the length of the buffer (MAX_DYNEVENT_CMD_LEN can be used
++The ``dynevent_cmd`` initialization needs to be given a user-specified
++buffer and the length of the buffer (``MAX_DYNEVENT_CMD_LEN`` can be used
+ for this purpose - at 2k it's generally too big to be comfortably put
+ on the stack, so is dynamically allocated), a dynevent type id, which
+ is meant to be used to check that further API calls are for the
+-correct command type, and a pointer to an event-specific run_command()
++correct command type, and a pointer to an event-specific ``run_command()``
+ callback that will be called to actually execute the event-specific
+ command function.
+ 
+ Once that's done, the command string can by built up by successive
+ calls to argument-adding functions.
+ 
+-To add a single argument, define and initialize a struct dynevent_arg
+-or struct dynevent_arg_pair object.  Here's an example of the simplest
++To add a single argument, define and initialize a struct ``dynevent_arg``
++or ``struct dynevent_arg_pair`` object.  Here's an example of the simplest
+ possible arg addition, which is simply to append the given string as
+ a whitespace-separated argument to the command::
+ 
+@@ -1037,15 +1037,15 @@ a whitespace-separated argument to the command::
+ 
+   ret = dynevent_arg_add(cmd, &arg);
+ 
+-The arg object is first initialized using dynevent_arg_init() and in
++The arg object is first initialized using ``dynevent_arg_init()`` and in
+ this case the parameters are NULL or 0, which means there's no
+ optional sanity-checking function or separator appended to the end of
+ the arg.
+ 
+ Here's another more complicated example using an 'arg pair', which is
+ used to create an argument that consists of a couple components added
+-together as a unit, for example, a 'type field_name;' arg or a simple
+-expression arg e.g. 'flags=%cx'::
++together as a unit, for example, a ``type field_name;`` arg or a simple
++expression arg e.g. ``flags=%cx``::
+ 
+   struct dynevent_arg_pair arg_pair;
+ 
+@@ -1062,19 +1062,19 @@ neither part of the pair is NULL), along with a character to be used
+ to add an operator between the pair (here none) and a separator to be
+ appended onto the end of the arg pair (here ';').
+ 
+-There's also a dynevent_str_add() function that can be used to simply
++There's also a ``dynevent_str_add()`` function that can be used to simply
+ add a string as-is, with no spaces, delimeters, or arg check.
+ 
+-Any number of dynevent_*_add() calls can be made to build up the string
+-(until its length surpasses cmd->maxlen).  When all the arguments have
++Any number of ``dynevent_*_add()`` calls can be made to build up the string
++(until its length surpasses ``cmd->maxlen``).  When all the arguments have
+ been added and the command string is complete, the only thing left to
+ do is run the command, which happens by simply calling
+-dynevent_create()::
++``dynevent_create()``::
+ 
+   ret = dynevent_create(&cmd);
+ 
+ At that point, if the return value is 0, the dynamic event has been
+ created and is ready to use.
+ 
+-See the dynevent_cmd function definitions themselves for the details
++See the ``dynevent_cmd`` function definitions themselves for the details
+ of the API.
 -- 
 2.30.2
 
