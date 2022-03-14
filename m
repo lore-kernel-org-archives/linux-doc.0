@@ -2,185 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2218FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 20:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB2DC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 21:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237105AbiCNU0D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 16:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54694 "EHLO
+        id S245432AbiCNViN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 17:38:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234868AbiCNU0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 16:26:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D7663878A
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 13:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647289491;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=qRHljpgGvVgnDGtfezqn+KWyVVjnp4ljpx+/v6Obqe8=;
-        b=MNLA3XIVFZwam69KILJ9I1uffFpUKSrA+ZdYc7GI7mDDi96LvwFZ8zL63vzciT+BK8BT9p
-        J5unuAhUg4STOlzbImuqwVaDPnJ2c1vucgmvUa3NZOjjGihj7Hxg5SxN5l1exhxoML2+Y6
-        Y+d5E24+XKtHYdSeOEFWvtlTymnpOLQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-EyVu_tTiPtaCn_i4mjo1jw-1; Mon, 14 Mar 2022 16:24:50 -0400
-X-MC-Unique: EyVu_tTiPtaCn_i4mjo1jw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A02A98038E3;
-        Mon, 14 Mar 2022 20:24:49 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.2.17.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A9503145BEE1;
-        Mon, 14 Mar 2022 20:24:48 +0000 (UTC)
-Subject: [PATCH v3] vfio-pci: Provide reviewers and acceptance criteria for
- vendor drivers
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     alex.williamson@redhat.com, kvm@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, jgg@nvidia.com,
-        shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-        yishaih@nvidia.com, linux-doc@vger.kernel.org, corbet@lwn.net
-Date:   Mon, 14 Mar 2022 14:24:48 -0600
-Message-ID: <164728932975.54581.1235687116658126625.stgit@omen>
-User-Agent: StGit/1.0-8-g6af9-dirty
+        with ESMTP id S245422AbiCNViL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 17:38:11 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7980D3E0D7;
+        Mon, 14 Mar 2022 14:36:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nwuFUdPqoClDFAFh+2fOktyfLru8evFg09atgb2U27uJbhsB9mFCAtdrpJ13FO27nHZYuXXPZMetw/z2vSqldzghgY8PiIndLJH2DkbEopfRCDUgNAlVp+ifXrLeFMdrbjKrFfZcYbvLa4vWwOhaXUWOGj5WvTN8dqNq504f5CdOYr1suLdPyVAnNDccGxEW3pfSLAecB1ls1I07+S8/h9saJ5zLnB/VA5JU1DCmwMj7wunNNdbsIqgH7Wr3j5TO9mYzRNZwDj/dDYyy9XpMj9PX1jNzCNiIewXsPItiASwlI1LhLUIpzNtYtjNKltDQ8fyTIOrcmabp0R0DvYCn9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zoZjdsQM5EUxTwQICO2RzIRGKB0KqFp/hjtyUcXhKA0=;
+ b=IEOMBAE2JZqn1cNREAhPY0wLwe15jsP0B+K5vwKtPL1MtyNS0A0G2orxXcXDzqlUfhEatvFvgfUwT0yGJPiCtpP0e+3TUtLO+sTGCcTEs4Pt8KyLTHoJsh8AJmVBq1AurIAy5LPk8sk30gt91FmCFhjewn7fq+PP7Ho2VVbeSr78KQfNqczo+lDME38wQrsQT7mWwzL8TbtqDjsDhFmHewYYTdy2hwc3UTH31JuuYrcEck0GP2L5wRDb28Nkr80RraUrJyyWWKh/Fypx4CJPiSkJhxc5rArqElxM211qAdysyamYki4VEEpXcJM+hpdql4TUPeFgFBmWqzaOgZRbMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zoZjdsQM5EUxTwQICO2RzIRGKB0KqFp/hjtyUcXhKA0=;
+ b=kCHicBkMi0sL7j5XD0huoSYcEq+HE0CeJT1i2e3Xl6CFzJixW+2GACKCuV60dH1jmb1Tg7Ypuey+eeHQJeE4SteUCbVtITjTS9QwARQA3rHo33p7uF5g6MtPUxCOw/YwpD6gPGK8HiV0p08hGmfLr8gTLfH41CrvANHJFK1BU8Oa2T8LAamAWIl22uoXJ+JIT0lGUqsT3ANKaxHRlrIoV6pXrOncaErwDSoPWoWwwXkmpDBiZhwlBSfUvEDxXTFS1ye5i0jtSM9GlRC1ODklYPGQN+FXgPenfTeB5sNI+Tn7aUPN5TrD8PcqE9IQzgZVoH4nu4g1KRsdwO4p425IpQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by PH7PR12MB5805.namprd12.prod.outlook.com (2603:10b6:510:1d1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Mon, 14 Mar
+ 2022 21:36:56 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::51a0:4aee:2b4c:ca28]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::51a0:4aee:2b4c:ca28%4]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
+ 21:36:56 +0000
+Date:   Mon, 14 Mar 2022 18:36:55 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>
+Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
+        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
+        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
+        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
+        pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 14/32] iommu: introduce iommu_domain_alloc_type and
+ the KVM type
+Message-ID: <20220314213655.GH11336@nvidia.com>
+References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
+ <20220314194451.58266-15-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220314194451.58266-15-mjrosato@linux.ibm.com>
+X-ClientProxiedBy: BLAPR03CA0066.namprd03.prod.outlook.com
+ (2603:10b6:208:329::11) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c33b55f9-9a30-4926-c6ee-08da0602c35e
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5805:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB5805A2AAF5246DA8E9DA8166C20F9@PH7PR12MB5805.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: g/O93nSJSHOY41LsTLVwz5jKhnzI5XfzwvO+lkcgibsiBt+cqR4U0rBG1yk42nSPqq5lnoxK5YVr6Lh964h2Yero+BYizBa1Rc+d+B7vdqpq9GJgSU0DgWakWrU4JE3JNAMQLUKOnizf3OM6hQM6+gqUDESPtXfrLPJ42rbvGRvFAftIIZ6pK3Z7Okfap152/2L/9Sp/0lj2lRcp9r63pJnwrRX3AY3IUbUhh8pyPJyIDZTiCh6ReBgKEbg8Sc3FnqXKWsLM+JaNB2pkMgi0hcbrIQvipo96/nCh0YZnMJONbAknaCG9NeGATffHY8zm1qp4abjk4KJZcytpLLSwSRPhQDW0eeO+80TJZYzdasHxE5UoQbidVMASGoyr1Jp5GHNBYBswLK8xlbOd4F1yL91TX5XHiJ5Q/YYefvTq79Pe2rOWTr1z9kGK+a5ksj+3BbgtUJLlykdPNFE7Vl9+QVvfec558CWrlAqJKklAfCGGPXaBinGtruamWVKlbfI4ga9FseRRhxTg/L1ykCL2abNot2+WH1Io0UXMbIXPk9SHIFRmmlOy8OULK4cH1ReTrxMUBT6SSwDkUp0dsu4uy/gx13RPOv9hRht+ZyMISYRGzB+WRgM8u/xlQN9nHW+zlCz9FdcqEkFkZrKyZ0iwrg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(33656002)(6506007)(86362001)(6486002)(6512007)(66476007)(66556008)(66946007)(4326008)(8676002)(316002)(36756003)(4744005)(38100700002)(7416002)(6916009)(2906002)(5660300002)(508600001)(26005)(2616005)(1076003)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9LAWV3LDIOSoEzp3obm4XfZyrhwwu8hsLAh/F6QRC2UZZ+7wyd3AFWDxxTBI?=
+ =?us-ascii?Q?0oF8O3FYNSEgbRjZdlKfD986HoOBQNKVE5ZS6atQT/wvztqtv17TWAxwkDvp?=
+ =?us-ascii?Q?FyZGjb0sznO2fzK2HYJWQS1gJMHRuGCL62c0o9HBRt31dTcdaLU3S+DSBMT8?=
+ =?us-ascii?Q?Ud8fxLQCLIAjplxDrslbmgchvS8OOZrYTZNJWUGdabIHWbxN3JjJifwaA/Yx?=
+ =?us-ascii?Q?GuAJiy/SYxaIdhVeihhsTBlGoo/vb/fhABFRWneYti5QPyfvRd01ZAab2wOs?=
+ =?us-ascii?Q?mE5e58JCFhMmw1iJYUgPqJjcqhEZ1A/m7Y/xTxY+l0oxCtbtdS4I/11LVOUc?=
+ =?us-ascii?Q?L8oigVmqMjPkJg1n7vpH5RxS+7Tx55xtBF1jdIF0tlwhAtCvFozBP42s8ImJ?=
+ =?us-ascii?Q?S4rT18umQ5YRsRGojR+f6rwRf+xeBDohlUi4BYC2LmgLaBhy3KgEs6A6Lr9U?=
+ =?us-ascii?Q?ccUvyUsTQ9mj9OXOhp9cAR2rC3MPhhD4FQVRxotlK1kj7+alV8zzdvvYV4yJ?=
+ =?us-ascii?Q?LKHwBUh1LO8MsC7jGZyv7F4+/pemTih8QH6uQnWPSqqN6o+kdcL4k+3lPFTr?=
+ =?us-ascii?Q?PYV14AEFGvxcYeSNotIbZ5M3CInHNW8mPNv8b2QKeNK+YmzW7dlqzvsY0zbn?=
+ =?us-ascii?Q?5C19DZhqAhLjfHVFGGG9TTWv66AwPiBySlrhidEpHb3gj4nB0ZCtkO79uBZG?=
+ =?us-ascii?Q?25HOD+M82PFeyxyay3zXT+M4NOuLB3a0duFSBOESifje2dV3tvW0X9ZkmwRL?=
+ =?us-ascii?Q?nl80UmmrbsxeZOyDKFRATW/TbeeFrlNiU2X6JwF8jW6Pu4Y+os0JwYUFW/Yd?=
+ =?us-ascii?Q?muk4CG4w3A30DrWoYdwlWA0YPecyVL81BVZVaBFP1L+4S4Nsrz5QHdHZBA5U?=
+ =?us-ascii?Q?eqLA0R4GsecCSZWqrOFSj31tUau8TmuKya93LsgwXooagZS70Mt8jX7C4brX?=
+ =?us-ascii?Q?3wE4mNXa80UmhFJDkMQNFXYcZDYWI+152Ykez4NRSawPPy0WrdhpnhakXIhW?=
+ =?us-ascii?Q?bt35qPW6+zeTiVLGfLeLEoL4sOnxZyf1RhaEBn4zUf2T9ImbTsu5b9Ei+lPT?=
+ =?us-ascii?Q?Hpa6gWioq37fBMv4cLiaXmOrgnSqI9VU8bS3UuKWMG7jpjlVaWVlGwSMXTH0?=
+ =?us-ascii?Q?DaKoO2F0rHYZhrb+AYf6T2snEjPzF78M0N6jGKWiV5RTxl5vmuajClhVRe+l?=
+ =?us-ascii?Q?niIPfKSEu03qu6MxKM+CcC+89Ua5YFFqgjihFP2M9jSM1jq2kBr8W3cZTYZt?=
+ =?us-ascii?Q?CbSG53wGnrTdFtMvKGhCH2azJI07DztiTi8mxa008Xg+BuSVGIfOVLjwLIfL?=
+ =?us-ascii?Q?ifvfAcA9R2c6DrTFMYbWiFAfX1FRtKo7EcEED97myP8mZqPdgteRVQ9CJu1w?=
+ =?us-ascii?Q?LnwkC9FJ3lpBa9e9HM0q0luhrExbs7TvxVjia9/c1uzgOtzUNKr3xLHLPkOQ?=
+ =?us-ascii?Q?D4PMHYKS1pbKiABj/D9W/K6oGYjS9/hu?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c33b55f9-9a30-4926-c6ee-08da0602c35e
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 21:36:56.5222
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LUDLicngyasqJDvTnBjUE6XqZ91FSysnA73zOMKl1mq4kdoaY2uYv0yUeoIvfiak
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5805
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Vendor or device specific extensions for devices exposed to userspace
-through the vfio-pci-core library open both new functionality and new
-risks.  Here we attempt to provided formalized requirements and
-expectations to ensure that future drivers both collaborate in their
-interaction with existing host drivers, as well as receive additional
-reviews from community members with experience in this area.
+On Mon, Mar 14, 2022 at 03:44:33PM -0400, Matthew Rosato wrote:
+> s390x will introduce an additional domain type that is used for
+> managing IOMMU owned by KVM.  Define the type here and add an
+> interface for allocating a specified type vs the default type.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  drivers/iommu/iommu.c |  7 +++++++
+>  include/linux/iommu.h | 12 ++++++++++++
+>  2 files changed, 19 insertions(+)
 
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Yishai Hadas <yishaih@nvidia.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Acked-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
+I think the general idea is right, but I'm not keen on this as an
+interface at all.
 
-v3:
+We are trying to build in iommufd a generic interface for an IOMMU
+driver to expose IOMMU-device-specific domains such as this in a
+general purpose way so all the platforms can get what they need.
 
-Relocate to Documentation/driver-api/
-Include index.rst reference
-Cross link from maintainer-entry-profile
-Add Shameer's Ack
-
-v2:
-
-Added Yishai
-
-v1:
-
-Per the proposal here[1], I've collected those that volunteered and
-those that I interpreted as showing interest (alpha by last name).  For
-those on the reviewers list below, please R-b/A-b to keep your name as a
-reviewer.  More volunteers are still welcome, please let me know
-explicitly; R-b/A-b will not be used to automatically add reviewers but
-are of course welcome.  Thanks,
-
-Alex
-
-[1]https://lore.kernel.org/all/20220310134954.0df4bb12.alex.williamson@redhat.com/
-
- Documentation/driver-api/index.rst                 |    1 +
- .../vfio-pci-vendor-driver-acceptance.rst          |   35 ++++++++++++++++++++
- .../maintainer/maintainer-entry-profile.rst        |    1 +
- MAINTAINERS                                        |   10 ++++++
- 4 files changed, 47 insertions(+)
- create mode 100644 Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index c57c609ad2eb..da1372c8ec3d 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -103,6 +103,7 @@ available subsections can be seen below.
-    sync_file
-    vfio-mediated-device
-    vfio
-+   vfio-pci-vendor-driver-acceptance
-    xilinx/index
-    xillybus
-    zorro
-diff --git a/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-new file mode 100644
-index 000000000000..3a108d748681
---- /dev/null
-+++ b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Acceptance criteria for vfio-pci device specific driver variants
-+================================================================
-+
-+Overview
-+--------
-+The vfio-pci driver exists as a device agnostic driver using the
-+system IOMMU and relying on the robustness of platform fault
-+handling to provide isolated device access to userspace.  While the
-+vfio-pci driver does include some device specific support, further
-+extensions for yet more advanced device specific features are not
-+sustainable.  The vfio-pci driver has therefore split out
-+vfio-pci-core as a library that may be reused to implement features
-+requiring device specific knowledge, ex. saving and loading device
-+state for the purposes of supporting migration.
-+
-+In support of such features, it's expected that some device specific
-+variants may interact with parent devices (ex. SR-IOV PF in support of
-+a user assigned VF) or other extensions that may not be otherwise
-+accessible via the vfio-pci base driver.  Authors of such drivers
-+should be diligent not to create exploitable interfaces via such
-+interactions or allow unchecked userspace data to have an effect
-+beyond the scope of the assigned device.
-+
-+New driver submissions are therefore requested to have approval via
-+Sign-off/Acked-by/etc for any interactions with parent drivers.
-+Additionally, drivers should make an attempt to provide sufficient
-+documentation for reviewers to understand the device specific
-+extensions, for example in the case of migration data, how is the
-+device state composed and consumed, which portions are not otherwise
-+available to the user via vfio-pci, what safeguards exist to validate
-+the data, etc.  To that extent, authors should additionally expect to
-+require reviews from at least one of the listed reviewers, in addition
-+to the overall vfio maintainer.
-diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-index 5d5cc3acdf85..8b4971c7e3fa 100644
---- a/Documentation/maintainer/maintainer-entry-profile.rst
-+++ b/Documentation/maintainer/maintainer-entry-profile.rst
-@@ -103,3 +103,4 @@ to do something different in the near future.
-    ../nvdimm/maintainer-entry-profile
-    ../riscv/patch-acceptance
-    ../driver-api/media/maintainer-entry-profile
-+   ../driver-api/vfio-pci-vendor-driver-acceptance
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4322b5321891..fd17d1891216 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20314,6 +20314,16 @@ F:	drivers/vfio/mdev/
- F:	include/linux/mdev.h
- F:	samples/vfio-mdev/
- 
-+VFIO PCI VENDOR DRIVERS
-+R:	Jason Gunthorpe <jgg@nvidia.com>
-+R:	Yishai Hadas <yishaih@nvidia.com>
-+R:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-+R:	Kevin Tian <kevin.tian@intel.com>
-+L:	kvm@vger.kernel.org
-+S:	Maintained
-+P:	Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-+F:	drivers/vfio/pci/*/
-+
- VFIO PLATFORM DRIVER
- M:	Eric Auger <eric.auger@redhat.com>
- L:	kvm@vger.kernel.org
-
-
+Jason
