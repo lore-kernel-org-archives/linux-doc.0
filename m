@@ -2,301 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A32F4C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 16:46:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B52C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 18:36:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232691AbiCNQrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 12:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
+        id S235368AbiCNShm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 14:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232662AbiCNQrL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 12:47:11 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397FE2D1C6
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 09:45:35 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id b190so17801808vsc.4
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 09:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AK6xQEzNUd1duBz+V1fGWLl/8kdUc06iK3+U1HXRjMo=;
-        b=s67JNRlTb4fgxk/9MHbNMID4yckc1N0y4F1nwnI5A5QmtYN8ZJ8xeBmj4G7HCKKOib
-         3t5loeG2myKl1qM85EH7iiE7UjGcQRjnobKJwNjxqz4UEgDCj0VHq2qIe0F8k/3Id+Yw
-         2xrNT+LRWHzn2beP0j9vtTNUfhyJ7YrSLxEX4CIf5gkQBJHvzFIbv5SvNfogwlKB9jaz
-         3PVpS6hrzvFxrX7YmeA+3psFuv2TqlMjvOYfhwvc7KbtofhJEpP5CCWWTYunpUrJzJ8Z
-         Bks4WPvNi9f3QIjv4iyi/d0L72cscRYhEghBgbPJ+T6ct0Usd2y79ype4iVXlKKbPxgJ
-         JA0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AK6xQEzNUd1duBz+V1fGWLl/8kdUc06iK3+U1HXRjMo=;
-        b=rWYin/AgghZ6sFsKJvdI+3/6Cp4fWVqyswKsbjrKNMbUYnneCh+wpTPRamv7qoKG8U
-         1F2XSEwATr4GNxeqaxhWT4prK0VjZOpBqxUOYwnDYGZhAqp9S4ZXMdwHFyrXKgQp1KJD
-         09goL3GTcvYJVtCuYNszh7dlCCS8ionhQAqVo3p3fv7JNYPzNjxRAFq0iCx6Ie7CL0m4
-         atW1a9A3+fu7H1N1rSUjyg0myruUbrTwtKpmmBoDvQNUOQOx5pCVLR4Thheoe791Ydge
-         FXJrF9hvaDykwFxOPiy0r8dKGB/3lzEeenP25FVd8pnt6RQoB4OwDkTm7EKGA74emwoN
-         pJ5g==
-X-Gm-Message-State: AOAM532GQBRV3PrJKzag4jd/tM7hOKfPHzjw/yJv7Yf3QiJY/h/gs7IP
-        qMzDlyxgCvxlx/wJp4aX1kZtxGpSeGrNFKQZeD6oOA==
-X-Google-Smtp-Source: ABdhPJxItz/ZL1udHjdruNW05yngkUA9HNr7DupiDKhUsGJNi3CQjWpVNvETb3XoDdRgCaeVdt1dESHMLDkgH0IAY3g=
-X-Received: by 2002:a05:6102:f0c:b0:320:9156:732f with SMTP id
- v12-20020a0561020f0c00b003209156732fmr10338597vss.6.1647276332996; Mon, 14
- Mar 2022 09:45:32 -0700 (PDT)
+        with ESMTP id S239156AbiCNShm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 14:37:42 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2067A3EA9F;
+        Mon, 14 Mar 2022 11:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647282991; x=1678818991;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CGGYoQy8Uh6eqetAPU1rnwgpZHWRk+Ntx869mxlvjLI=;
+  b=JfZP8rTHlDzhpuJgQdvQUibRjN/99s1lX5vnO+TuESwo/wGHSmsgRzkn
+   CeXEfVVM03eH26Qrj/gLm8MJma/1nLkXnadfgwxkVCL7XPZQHM+HrFDnl
+   Znlx2TwTIdovHGnYl+diXvLPZkkersCut0GO9X1NYr+fYnG732BZfET/F
+   UR3rfZyNPzNIolzvHOHT3elWs1Xe5Bq+pnFT8Cjy8g2k4l10nefxTzpi+
+   gHxjvIcxd5YPRGQaRXquymfpxMqDjutw1l81ury8wISDp0f0iegr+4MAD
+   bSYiM29cTyXz370a/urfau+c7qc0SdCTWwPsKj4T/wCJJiFPGga7ik5Jk
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255844732"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="255844732"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 11:36:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="512321592"
+Received: from zborja-mobl1.amr.corp.intel.com (HELO ray2.sr71.net) ([10.212.239.199])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 11:36:28 -0700
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
+        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] [RFC] Documentation/process: Add testing section to tip handbook
+Date:   Mon, 14 Mar 2022 11:35:52 -0700
+Message-Id: <20220314183552.1446911-1-dave.hansen@linux.intel.com>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-5-yuzhao@google.com>
- <YgV4lZXc6+jhUdsR@cmpxchg.org> <Ygt1qaQM5YobEZK9@google.com>
- <CAGsJ_4wN_CAOsyR3LATE+EUhuV0gO-zhhNiMwEBwyXOp0CbkZg@mail.gmail.com>
- <CAOUHufaUJD8nC6PDVfmkeTwB4BtzBzigxh+V-hfR-_26VwjOPA@mail.gmail.com>
- <CAGsJ_4zT7gtGSEoAay=VE6x_YZkNKtLymRL94pBnVgKekPzxaQ@mail.gmail.com>
- <CAOUHufbor4L5OfjNFEMcaM5bXnM9VWXw-LK9A04vP65rkcLNMg@mail.gmail.com>
- <CAGsJ_4x+BP1RuB4ig=z67br+cdUom1eUov6_t-wxGjWvbpF2Rg@mail.gmail.com> <CAGsJ_4zLWqQ44KkBwJW6e3AHS8XzzNK1D5WVU31mDGdzdqfgaQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4zLWqQ44KkBwJW6e3AHS8XzzNK1D5WVU31mDGdzdqfgaQ@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Mon, 14 Mar 2022 10:45:21 -0600
-Message-ID: <CAOUHufbN_56UJBkgA2LjAfbTt9nzPOCHaSeS4P3GHcYst+Y+eg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 14, 2022 at 5:12 AM Barry Song <21cnbao@gmail.com> wrote:
->
-> > > > >
-> > > > > > We used to put a faulted file page in inactive, if we access it a
-> > > > > > second time, it can be promoted
-> > > > > > to active. then in recent years, we have also applied this to anon
-> > > > > > pages while kernel adds
-> > > > > > workingset protection for anon pages. so basically both anon and file
-> > > > > > pages go into the inactive
-> > > > > > list for the 1st time, if we access it for the second time, they go to
-> > > > > > the active list. if we don't access
-> > > > > > it any more, they are likely to be reclaimed as they are inactive.
-> > > > > > we do have some special fastpath for code section, executable file
-> > > > > > pages are kept on active list
-> > > > > > as long as they are accessed.
-> > > > >
-> > > > > Yes.
-> > > > >
-> > > > > > so all of the above concerns are actually not that correct?
-> > > > >
-> > > > > They are valid concerns but I don't know any popular workloads that
-> > > > > care about them.
-> > > >
-> > > > Hi Yu,
-> > > > here we can get a workload in Kim's patchset while he added workingset
-> > > > protection
-> > > > for anon pages:
-> > > > https://patchwork.kernel.org/project/linux-mm/cover/1581401993-20041-1-git-send-email-iamjoonsoo.kim@lge.com/
-> > >
-> > > Thanks. I wouldn't call that a workload because it's not a real
-> > > application. By popular workloads, I mean applications that the
-> > > majority of people actually run on phones, in cloud, etc.
-> > >
-> > > > anon pages used to go to active rather than inactive, but kim's patchset
-> > > > moved to use inactive first. then only after the anon page is accessed
-> > > > second time, it can move to active.
-> > >
-> > > Yes. To clarify, the A-bit doesn't really mean the first or second
-> > > access. It can be many accesses each time it's set.
-> > >
-> > > > "In current implementation, newly created or swap-in anonymous page is
-> > > >
-> > > > started on the active list. Growing the active list results in rebalancing
-> > > > active/inactive list so old pages on the active list are demoted to the
-> > > > inactive list. Hence, hot page on the active list isn't protected at all.
-> > > >
-> > > > Following is an example of this situation.
-> > > >
-> > > > Assume that 50 hot pages on active list and system can contain total
-> > > > 100 pages. Numbers denote the number of pages on active/inactive
-> > > > list (active | inactive). (h) stands for hot pages and (uo) stands for
-> > > > used-once pages.
-> > > >
-> > > > 1. 50 hot pages on active list
-> > > > 50(h) | 0
-> > > >
-> > > > 2. workload: 50 newly created (used-once) pages
-> > > > 50(uo) | 50(h)
-> > > >
-> > > > 3. workload: another 50 newly created (used-once) pages
-> > > > 50(uo) | 50(uo), swap-out 50(h)
-> > > >
-> > > > As we can see, hot pages are swapped-out and it would cause swap-in later."
-> > > >
-> > > > Is MGLRU able to avoid the swap-out of the 50 hot pages?
-> > >
-> > > I think the real question is why the 50 hot pages can be moved to the
-> > > inactive list. If they are really hot, the A-bit should protect them.
-> >
-> > This is a good question.
-> >
-> > I guess it  is probably because the current lru is trying to maintain a balance
-> > between the sizes of active and inactive lists. Thus, it can shrink active list
-> > even though pages might be still "hot" but not the recently accessed ones.
-> >
-> > 1. 50 hot pages on active list
-> > 50(h) | 0
-> >
-> > 2. workload: 50 newly created (used-once) pages
-> > 50(uo) | 50(h)
-> >
-> > 3. workload: another 50 newly created (used-once) pages
-> > 50(uo) | 50(uo), swap-out 50(h)
-> >
-> > the old kernel without anon workingset protection put workload 2 on active, so
-> > pushed 50 hot pages from active to inactive. workload 3 would further contribute
-> > to evict the 50 hot pages.
-> >
-> > it seems mglru doesn't demote pages from the youngest generation to older
-> > generation only in order to balance the list size? so mglru is probably safe
-> > in these cases.
-> >
-> > I will run some tests mentioned in Kim's patchset and report the result to you
-> > afterwards.
-> >
->
-> Hi Yu,
-> I did find putting faulted pages to the youngest generation lead to some
-> regression in the case ebizzy Kim's patchset mentioned while he tried
-> to support workingset protection for anon pages.
-> i did a little bit modification for rand_chunk() which is probably similar
-> with the modifcation() Kim mentioned in his patchset. The modification
-> can be found here:
-> https://github.com/21cnbao/ltp/commit/7134413d747bfa9ef
->
-> The test env is a x86 machine in which I have set memory size to 2.5GB and
-> set zRAM to 2GB and disabled external disk swap.
->
-> with the vanilla kernel:
-> \time -v ./a.out -vv -t 4 -s 209715200 -S 200000
->
-> so we have 10 chunks and 4 threads, each trunk is 209715200(200MB)
->
-> typical result:
->         Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
->         User time (seconds): 36.19
->         System time (seconds): 229.72
->         Percent of CPU this job got: 371%
->         Elapsed (wall clock) time (h:mm:ss or m:ss): 1:11.59
->         Average shared text size (kbytes): 0
->         Average unshared data size (kbytes): 0
->         Average stack size (kbytes): 0
->         Average total size (kbytes): 0
->         Maximum resident set size (kbytes): 2166196
->         Average resident set size (kbytes): 0
->         Major (requiring I/O) page faults: 9990128
->         Minor (reclaiming a frame) page faults: 33315945
->         Voluntary context switches: 59144
->         Involuntary context switches: 167754
->         Swaps: 0
->         File system inputs: 2760
->         File system outputs: 8
->         Socket messages sent: 0
->         Socket messages received: 0
->         Signals delivered: 0
->         Page size (bytes): 4096
->         Exit status: 0
->
-> with gen_lru and lru_gen/enabled=0x3:
-> typical result:
-> Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-> User time (seconds): 36.34
-> System time (seconds): 276.07
-> Percent of CPU this job got: 378%
-> Elapsed (wall clock) time (h:mm:ss or m:ss): 1:22.46
->            **** 15% time +
-> Average shared text size (kbytes): 0
-> Average unshared data size (kbytes): 0
-> Average stack size (kbytes): 0
-> Average total size (kbytes): 0
-> Maximum resident set size (kbytes): 2168120
-> Average resident set size (kbytes): 0
-> Major (requiring I/O) page faults: 13362810
->              ***** 30% page fault +
-> Minor (reclaiming a frame) page faults: 33394617
-> Voluntary context switches: 55216
-> Involuntary context switches: 137220
-> Swaps: 0
-> File system inputs: 4088
-> File system outputs: 8
-> Socket messages sent: 0
-> Socket messages received: 0
-> Signals delivered: 0
-> Page size (bytes): 4096
-> Exit status: 0
->
-> with gen_lru and lru_gen/enabled=0x7:
-> typical result:
-> Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-> User time (seconds): 36.13
-> System time (seconds): 251.71
-> Percent of CPU this job got: 378%
-> Elapsed (wall clock) time (h:mm:ss or m:ss): 1:16.00
->          *****better than enabled=0x3, worse than vanilla
-> Average shared text size (kbytes): 0
-> Average unshared data size (kbytes): 0
-> Average stack size (kbytes): 0
-> Average total size (kbytes): 0
-> Maximum resident set size (kbytes): 2120988
-> Average resident set size (kbytes): 0
-> Major (requiring I/O) page faults: 12706512
-> Minor (reclaiming a frame) page faults: 33422243
-> Voluntary context switches: 49485
-> Involuntary context switches: 126765
-> Swaps: 0
-> File system inputs: 2976
-> File system outputs: 8
-> Socket messages sent: 0
-> Socket messages received: 0
-> Signals delivered: 0
-> Page size (bytes): 4096
-> Exit status: 0
->
-> I can also reproduce the problem on arm64.
->
-> I am not saying this is going to block mglru from being mainlined. But  I am
-> still curious if this is an issue worth being addressed somehow in mglru.
+From: Dave Hansen <dave.hansen@linux.intel.com>
 
-You've missed something very important: *thoughput* :)
+The kernel has a wide variety of debugging options to help catch
+and squash bugs.  However, new debugging is added all the time and
+the existing options can be hard to find.
 
-Dollars to doughnuts there was a large increase in throughput -- I
-haven't tried this benchmark but I've seen many reports similar to
-this one.
+Add a list of debugging options which tip maintainers expect to be
+used to test contributions.
+
+This should make it easier for contributors to test their code and
+find issues before submission.
+
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86@kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+index c74f4a81588b..75f86b0f1cf0 100644
+--- a/Documentation/process/maintainer-tip.rst
++++ b/Documentation/process/maintainer-tip.rst
+@@ -437,6 +437,30 @@ in a private repository which allows interested people to easily pull the
+ series for testing. The usual way to offer this is a git URL in the cover
+ letter of the patch series.
+ 
++Testing
++^^^^^^^
++
++Code should be tested before submitting to the tip maintainers.  Anything
++other than minor changes should be built, booted and tested with the
++following set of comprehensive (and heavyweight) set of kernel debugging
++options enabled.
++
++	CONFIG_X86_DEBUG_FPU=y
++	CONFIG_LOCK_STAT=y
++	CONFIG_DEBUG_VM=y
++	CONFIG_DEBUG_VM_VMACACHE=y
++	CONFIG_DEBUG_VM_RB=y
++	CONFIG_DEBUG_SLAB=y
++	CONFIG_DEBUG_KMEMLEAK=y
++	CONFIG_DEBUG_PAGEALLOC=y
++	CONFIG_SLUB_DEBUG_ON=y
++	CONFIG_KMEMCHECK=y
++	CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=y
++	CONFIG_GCOV_KERNEL=y
++	CONFIG_LOCKDEP=y
++	CONFIG_PROVE_LOCKING=y
++	CONFIG_SCHEDSTATS=y
++	CONFIG_VMLINUX_VALIDATION=y
+ 
+ Coding style notes
+ ------------------
+-- 
+2.34.0
+
