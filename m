@@ -2,350 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 964BFC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 23:38:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF69C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 23:45:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343721AbiCNXjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 19:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
+        id S1343750AbiCNXqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 19:46:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343720AbiCNXjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 19:39:51 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B28012617;
-        Mon, 14 Mar 2022 16:38:40 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id mj15-20020a17090b368f00b001c637aa358eso444821pjb.0;
-        Mon, 14 Mar 2022 16:38:40 -0700 (PDT)
+        with ESMTP id S1343744AbiCNXqx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 19:46:53 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E0723E5F0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 16:45:41 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id gb39so37230162ejc.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 16:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N4obkUD8+Xm15wKaQvsDfW38K//v1SvAKl3Zz6bdAF8=;
-        b=CX0UxRl7yteSgeLkynLXlv/zDjZEe0djx5kWxYBmDLeLdB6pkgl/LH3Rqp+2e7E+ZB
-         oDrEhVr82GizbOvFz6pRQl5HczpIMDAxcCZJsLjAowxkvvAteGe50tTBuZuj7fGmgNyW
-         Q6jyc5nRJkTCkHHUgYobnEtL85JD8gKf2jjLXzAT+3feDX4QxgKRN9NdpqRa+0v4xfLj
-         cWMWDw4M8JyI26GYVxHF14mzq/i2nWjorpSCOfqY+ViN2lFH1073nNxifCCW83lurE4g
-         pMP/VSb5E0Qy5yymmk4J6Q0RHZ3RzC4UQX1cPKpB4zBl7uEv/rghiBCVaTVPEE4Sxsun
-         ZN2A==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=mMcKlcLkl25csYGtmWB99GmowZ54MQeoPUbWxxcyFU0=;
+        b=bp+YoIVGfFN/43D3vqHErY1NhIRJApUAhtw6o/hQeIyaDBqIfE66EIhFuNlzouKqsM
+         ICMTNUqtiRAq88ITvYxr1uiF5OmdPGah32szvxsrVE8+TbWCoOGxOG6L25aPWaho7kdy
+         3FU/jNh6QDkaRKObZiMMOkBlD8Aqv99swKSc8YZ9bFy6T0F/mbML6sVVYqbR6qCMVE6H
+         bYhE/ZUbxEYhn6H6a+/VharXFDIBFPo45r3fdwvvEZ51SgbTUi25vilSjvica56rkM6I
+         xTjLcOE3UXJzEYpLAj8t0ISFMLBTpHiYS87O0Yj4+2ZJb/rKhYVFzvJMGee+en585/rw
+         GBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N4obkUD8+Xm15wKaQvsDfW38K//v1SvAKl3Zz6bdAF8=;
-        b=3Ig71/qoJNTXjLDwaW9Oycw12PUCAGwQm4AL01fRe6lwPfPrnfGy1JeCwVPWtzjnrm
-         GN+A2lVzkdSo8FVA8lbT8CAlvhP6gXrST3oRR0nRhVkcci+wp1SwPfts5JR2xSbR8D8p
-         5fH5Mg7PNaEDUJpZfiaIUCKx9DP9WdXE6YJhvDxSwpjEnfiEsTzk+OwAy9Ys556yRLmr
-         4eIh2Yt4Xmv78Im1QBlzFFpdjca6WHS0cF1EWmgUS6UzL//DB8eOLAD8ZTT8j308tCtT
-         qJDXD49Dh+a+YmQNV59P/mwxNPrh7kxxDoyD4EeQzcA00jlXpzsoQIg8DPiFHLsNE8cV
-         stoA==
-X-Gm-Message-State: AOAM533J3r81UOxsDlrJZNfo6lJdM4FU9egu7FvaDtCLUAUQzm8Api48
-        0ReTO1Pq3d2d/9mqWx6z56Y=
-X-Google-Smtp-Source: ABdhPJw8yRb7sdUwWB/JBXh4wMyTG4fG1xh0oPeDmrnBqnraMyyeVBHrVOHl/tNSRyifDNvg/Pj6Cw==
-X-Received: by 2002:a17:902:dacc:b0:152:268:27d9 with SMTP id q12-20020a170902dacc00b00152026827d9mr25586273plx.76.1647301119933;
-        Mon, 14 Mar 2022 16:38:39 -0700 (PDT)
-Received: from barry-desktop.hub ([2407:7000:8942:5500:8d71:31d1:e9fc:88f3])
-        by smtp.gmail.com with ESMTPSA id b10-20020a056a00114a00b004f784ba5e6asm15128066pfm.17.2022.03.14.16.38.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 16:38:39 -0700 (PDT)
-From:   Barry Song <21cnbao@gmail.com>
-To:     yuzhao@google.com
-Cc:     21cnbao@gmail.com, Hi-Angel@yandex.ru, Michael@michaellarabel.com,
-        ak@linux.intel.com, akpm@linux-foundation.org,
-        aneesh.kumar@linux.ibm.com, axboe@kernel.dk, bgeffon@google.com,
-        catalin.marinas@arm.com, corbet@lwn.net, d@chaos-reins.com,
-        dave.hansen@linux.intel.com, djbyrne@mtu.edu, hannes@cmpxchg.org,
-        hdanton@sina.com, heftig@archlinux.org,
-        holger@applied-asynchrony.com, jsbarnes@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de,
-        mhocko@kernel.org, oleksandr@natalenko.name,
-        page-reclaim@google.com, riel@surriel.com, rppt@kernel.org,
-        sofia.trinh@edi.works, steven@liquorix.net, suleiman@google.com,
-        szhai2@cs.rochester.edu, torvalds@linux-foundation.org,
-        vbabka@suse.cz, will@kernel.org, willy@infradead.org,
-        x86@kernel.org, ying.huang@intel.com
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-Date:   Tue, 15 Mar 2022 12:38:12 +1300
-Message-Id: <20220314233812.9011-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <CAOUHufbN_56UJBkgA2LjAfbTt9nzPOCHaSeS4P3GHcYst+Y+eg@mail.gmail.com>
-References: <CAOUHufbN_56UJBkgA2LjAfbTt9nzPOCHaSeS4P3GHcYst+Y+eg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mMcKlcLkl25csYGtmWB99GmowZ54MQeoPUbWxxcyFU0=;
+        b=DxrXIm77yC/N1FcojJ8db1X/apNSEXAcXka/rHSd1nsX1sAYsPzcGrpkfad01uujPL
+         DpT81YLtDk28Kdc9d5Mlm+Ky/r9+m0bWRiKtdGFWz1j8/+pPipI4Yrq21Us4Rt9II3k3
+         +kl45J5aHZjHqsTwB4WzkaAj3TGNZpc03OP6YYCHAMnAU4Snbeh2I0o2mhkOdHwqOtAQ
+         VpluII1skrLd8OiU+evt8xpsMUgjX9AfMbF30cpSNM4Ju/2vTQ/5lbdog+3d33WVCIXS
+         42T5UFOM/JNcXsXWE2e5yIXgmwLRK+kdvjmCxiawCU/5dTIXAX1EpsjbxbaERM3Zti70
+         O6oA==
+X-Gm-Message-State: AOAM533pMHe9tnHzQA3D+k5E9xKUWyzohrCPvGZzC/esdHytAKlkim5k
+        6SDx/6y3lzE5FLwWJ/jDAR0v9M70eoesjgGzSwz4mg==
+X-Google-Smtp-Source: ABdhPJzivdKSx3a2ptS01jjlhP74llQ2PdFx6OA83cn+BAtPtg6OtNsv++AhnKe1mUMAW8amvG7lkgIAO9oTvOh6yGc=
+X-Received: by 2002:a17:906:5d08:b0:6da:b4ea:937 with SMTP id
+ g8-20020a1709065d0800b006dab4ea0937mr20516098ejt.446.1647301539672; Mon, 14
+ Mar 2022 16:45:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-8-tjmercier@google.com> <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
+In-Reply-To: <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Mon, 14 Mar 2022 16:45:28 -0700
+Message-ID: <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com>
+Subject: Re: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for userspace
+To:     Todd Kjos <tkjos@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 5:45 AM Yu Zhao <yuzhao@google.com> wrote:
+On Thu, Mar 10, 2022 at 11:33 AM Todd Kjos <tkjos@google.com> wrote:
 >
-> On Mon, Mar 14, 2022 at 5:12 AM Barry Song <21cnbao@gmail.com> wrote:
+> On Wed, Mar 9, 2022 at 8:52 AM T.J. Mercier <tjmercier@google.com> wrote:
 > >
-> > > > > >
-> > > > > > > We used to put a faulted file page in inactive, if we access it a
-> > > > > > > second time, it can be promoted
-> > > > > > > to active. then in recent years, we have also applied this to anon
-> > > > > > > pages while kernel adds
-> > > > > > > workingset protection for anon pages. so basically both anon and file
-> > > > > > > pages go into the inactive
-> > > > > > > list for the 1st time, if we access it for the second time, they go to
-> > > > > > > the active list. if we don't access
-> > > > > > > it any more, they are likely to be reclaimed as they are inactive.
-> > > > > > > we do have some special fastpath for code section, executable file
-> > > > > > > pages are kept on active list
-> > > > > > > as long as they are accessed.
-> > > > > >
-> > > > > > Yes.
-> > > > > >
-> > > > > > > so all of the above concerns are actually not that correct?
-> > > > > >
-> > > > > > They are valid concerns but I don't know any popular workloads that
-> > > > > > care about them.
-> > > > >
-> > > > > Hi Yu,
-> > > > > here we can get a workload in Kim's patchset while he added workingset
-> > > > > protection
-> > > > > for anon pages:
-> > > > > https://patchwork.kernel.org/project/linux-mm/cover/1581401993-20041-1-git-send-email-iamjoonsoo.kim@lge.com/
-> > > >
-> > > > Thanks. I wouldn't call that a workload because it's not a real
-> > > > application. By popular workloads, I mean applications that the
-> > > > majority of people actually run on phones, in cloud, etc.
-> > > >
-> > > > > anon pages used to go to active rather than inactive, but kim's patchset
-> > > > > moved to use inactive first. then only after the anon page is accessed
-> > > > > second time, it can move to active.
-> > > >
-> > > > Yes. To clarify, the A-bit doesn't really mean the first or second
-> > > > access. It can be many accesses each time it's set.
-> > > >
-> > > > > "In current implementation, newly created or swap-in anonymous page is
-> > > > >
-> > > > > started on the active list. Growing the active list results in rebalancing
-> > > > > active/inactive list so old pages on the active list are demoted to the
-> > > > > inactive list. Hence, hot page on the active list isn't protected at all.
-> > > > >
-> > > > > Following is an example of this situation.
-> > > > >
-> > > > > Assume that 50 hot pages on active list and system can contain total
-> > > > > 100 pages. Numbers denote the number of pages on active/inactive
-> > > > > list (active | inactive). (h) stands for hot pages and (uo) stands for
-> > > > > used-once pages.
-> > > > >
-> > > > > 1. 50 hot pages on active list
-> > > > > 50(h) | 0
-> > > > >
-> > > > > 2. workload: 50 newly created (used-once) pages
-> > > > > 50(uo) | 50(h)
-> > > > >
-> > > > > 3. workload: another 50 newly created (used-once) pages
-> > > > > 50(uo) | 50(uo), swap-out 50(h)
-> > > > >
-> > > > > As we can see, hot pages are swapped-out and it would cause swap-in later."
-> > > > >
-> > > > > Is MGLRU able to avoid the swap-out of the 50 hot pages?
-> > > >
-> > > > I think the real question is why the 50 hot pages can be moved to the
-> > > > inactive list. If they are really hot, the A-bit should protect them.
-> > >
-> > > This is a good question.
-> > >
-> > > I guess it  is probably because the current lru is trying to maintain a balance
-> > > between the sizes of active and inactive lists. Thus, it can shrink active list
-> > > even though pages might be still "hot" but not the recently accessed ones.
-> > >
-> > > 1. 50 hot pages on active list
-> > > 50(h) | 0
-> > >
-> > > 2. workload: 50 newly created (used-once) pages
-> > > 50(uo) | 50(h)
-> > >
-> > > 3. workload: another 50 newly created (used-once) pages
-> > > 50(uo) | 50(uo), swap-out 50(h)
-> > >
-> > > the old kernel without anon workingset protection put workload 2 on active, so
-> > > pushed 50 hot pages from active to inactive. workload 3 would further contribute
-> > > to evict the 50 hot pages.
-> > >
-> > > it seems mglru doesn't demote pages from the youngest generation to older
-> > > generation only in order to balance the list size? so mglru is probably safe
-> > > in these cases.
-> > >
-> > > I will run some tests mentioned in Kim's patchset and report the result to you
-> > > afterwards.
-> > >
+> > The kernel interface should use types that the kernel defines instead o=
+f
+> > pid_t and uid_t, whose definiton is owned by libc. This fixes the heade=
+r
+> > so that it can be included without first including sys/types.h.
 > >
-> > Hi Yu,
-> > I did find putting faulted pages to the youngest generation lead to some
-> > regression in the case ebizzy Kim's patchset mentioned while he tried
-> > to support workingset protection for anon pages.
-> > i did a little bit modification for rand_chunk() which is probably similar
-> > with the modifcation() Kim mentioned in his patchset. The modification
-> > can be found here:
-> > https://github.com/21cnbao/ltp/commit/7134413d747bfa9ef
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> >  include/uapi/linux/android/binder.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
-> > The test env is a x86 machine in which I have set memory size to 2.5GB and
-> > set zRAM to 2GB and disabled external disk swap.
+> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
+ndroid/binder.h
+> > index 169fd5069a1a..aa28454dbca3 100644
+> > --- a/include/uapi/linux/android/binder.h
+> > +++ b/include/uapi/linux/android/binder.h
+> > @@ -289,8 +289,8 @@ struct binder_transaction_data {
 > >
-> > with the vanilla kernel:
-> > \time -v ./a.out -vv -t 4 -s 209715200 -S 200000
-> >
-> > so we have 10 chunks and 4 threads, each trunk is 209715200(200MB)
-> >
-> > typical result:
-> >         Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-> >         User time (seconds): 36.19
-> >         System time (seconds): 229.72
-> >         Percent of CPU this job got: 371%
-> >         Elapsed (wall clock) time (h:mm:ss or m:ss): 1:11.59
-> >         Average shared text size (kbytes): 0
-> >         Average unshared data size (kbytes): 0
-> >         Average stack size (kbytes): 0
-> >         Average total size (kbytes): 0
-> >         Maximum resident set size (kbytes): 2166196
-> >         Average resident set size (kbytes): 0
-> >         Major (requiring I/O) page faults: 9990128
-> >         Minor (reclaiming a frame) page faults: 33315945
-> >         Voluntary context switches: 59144
-> >         Involuntary context switches: 167754
-> >         Swaps: 0
-> >         File system inputs: 2760
-> >         File system outputs: 8
-> >         Socket messages sent: 0
-> >         Socket messages received: 0
-> >         Signals delivered: 0
-> >         Page size (bytes): 4096
-> >         Exit status: 0
-> >
-> > with gen_lru and lru_gen/enabled=0x3:
-> > typical result:
-> > Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-> > User time (seconds): 36.34
-> > System time (seconds): 276.07
-> > Percent of CPU this job got: 378%
-> > Elapsed (wall clock) time (h:mm:ss or m:ss): 1:22.46
-> >            **** 15% time +
-> > Average shared text size (kbytes): 0
-> > Average unshared data size (kbytes): 0
-> > Average stack size (kbytes): 0
-> > Average total size (kbytes): 0
-> > Maximum resident set size (kbytes): 2168120
-> > Average resident set size (kbytes): 0
-> > Major (requiring I/O) page faults: 13362810
-> >              ***** 30% page fault +
-> > Minor (reclaiming a frame) page faults: 33394617
-> > Voluntary context switches: 55216
-> > Involuntary context switches: 137220
-> > Swaps: 0
-> > File system inputs: 4088
-> > File system outputs: 8
-> > Socket messages sent: 0
-> > Socket messages received: 0
-> > Signals delivered: 0
-> > Page size (bytes): 4096
-> > Exit status: 0
-> >
-> > with gen_lru and lru_gen/enabled=0x7:
-> > typical result:
-> > Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-> > User time (seconds): 36.13
-> > System time (seconds): 251.71
-> > Percent of CPU this job got: 378%
-> > Elapsed (wall clock) time (h:mm:ss or m:ss): 1:16.00
-> >          *****better than enabled=0x3, worse than vanilla
-> > Average shared text size (kbytes): 0
-> > Average unshared data size (kbytes): 0
-> > Average stack size (kbytes): 0
-> > Average total size (kbytes): 0
-> > Maximum resident set size (kbytes): 2120988
-> > Average resident set size (kbytes): 0
-> > Major (requiring I/O) page faults: 12706512
-> > Minor (reclaiming a frame) page faults: 33422243
-> > Voluntary context switches: 49485
-> > Involuntary context switches: 126765
-> > Swaps: 0
-> > File system inputs: 2976
-> > File system outputs: 8
-> > Socket messages sent: 0
-> > Socket messages received: 0
-> > Signals delivered: 0
-> > Page size (bytes): 4096
-> > Exit status: 0
-> >
-> > I can also reproduce the problem on arm64.
-> >
-> > I am not saying this is going to block mglru from being mainlined. But  I am
-> > still curious if this is an issue worth being addressed somehow in mglru.
+> >         /* General information about the transaction. */
+> >         __u32           flags;
+> > -       pid_t           sender_pid;
+> > -       uid_t           sender_euid;
+> > +       __kernel_pid_t  sender_pid;
+> > +       __kernel_uid_t  sender_euid;
 >
-> You've missed something very important: *thoughput* :)
+> Are we guaranteed that this does not affect the UAPI at all? Userspace
+> code using this definition will have to run with kernels using the old
+> definition and visa-versa.
+
+A standards compliant userspace should be expecting a signed integer
+type here. So the only way I can think userspace would be affected is
+if:
+1) pid_t is a long AND
+2) sizeof(long) > sizeof(int) AND
+3) Consumers of the pid_t definition actually attempt to mutate the
+result to make use of extra bits in the variable (which are not there)
+
+This seems extremely unlikely. For instance just on the topic of the
+first item, all of the C library implementations with pid_t
+definitions linked here use an int, except for Bionic which typdefs
+pid_t to __kernel_pid_t and Sortix which uses long.
+https://wiki.osdev.org/C_Library
+
+However I would argue this is already broken and should count as a bug
+fix since I can't do this:
+
+$ cat binder_include.c ; gcc binder_include.c
+#include <linux/android/binder.h>
+int main() {}
+In file included from binder_include.c:1:
+/usr/include/linux/android/binder.h:291:9: error: unknown type name =E2=80=
+=98pid_t=E2=80=99
+  291 |         pid_t           sender_pid;
+      |         ^~~~~
+/usr/include/linux/android/binder.h:292:9: error: unknown type name =E2=80=
+=98uid_t=E2=80=99
+  292 |         uid_t           sender_euid;
+      |         ^~~~~
+
+This is also the only occurrence of pid_t in all of
+include/uapi/linux. All 40+ other uses are __kernel_pid_t, and I don't
+see why the binder header should be different.
+
+
 >
-
-noop :-)
-in the test case, there are 4 threads. they are searching a key in 10 chunks
-of memory. for each chunk, the size is 200MB.
-a "random" chunk index is returned for those threads to search. but chunk2
-is the hottest, and chunk3, 7, 4 are relatively hotter than others.
-static inline unsigned int rand_chunk(void)
-{
-	/* simulate hot and cold chunk */
-	unsigned int rand[16] = {2, 2, 3, 4, 5, 2, 6, 7, 9, 2, 8, 3, 7, 2, 2, 4};
-	static int nr = 0;
-	return rand[nr++%16];
-}
-
-each thread does search_mem():
-static unsigned int search_mem(void)
-{
-	record_t key, *found;
-	record_t *src, *copy;
-	unsigned int chunk;
-	size_t copy_size = chunk_size;
-	unsigned int i;
-	unsigned int state = 0;
-
-	/* run 160 loops or till timeout */
-	for (i = 0; threads_go == 1 && i < 160; i++) {
-		chunk = rand_chunk();
-		src = mem[chunk];
-		...
-		copy = alloc_mem(copy_size);
-		...
-		memcpy(copy, src, copy_size);
-
-		key = rand_num(copy_size / record_size, &state);
-
-		bsearch(&key, copy, copy_size / record_size,
-			record_size, compare);
-
-			/* Below check is mainly for memory corruption or other bug */
-			if (found == NULL) {
-				fprintf(stderr, "Couldn't find key %zd\n", key);
-				exit(1);
-			}
-		}		/* end if ! touch_pages */
-
-		free_mem(copy, copy_size);
-	}
-
-	return (i);
-}
-
-each thread picks up a chunk, then allocates a new memory and copies the chunk to the
-new allocated memory, and searches a key in the allocated memory.
-
-as i have set time to rather big by -S, so each thread actually exits while it
-completes 160 loops.
-$ \time -v ./ebizzy -t 4 -s $((200*1024*1024)) -S 6000000
-
-so the one who finishes the whole jobs earlier wins in throughput as
-well.
-
-> Dollars to doughnuts there was a large increase in throughput -- I
-> haven't tried this benchmark but I've seen many reports similar to
-> this one.
-
-I have no doubt about this. I am just trying to figure out some potential we can
-further achieve in mglru.
-
-Thanks,
-Barry
+> >         binder_size_t   data_size;      /* number of bytes of data */
+> >         binder_size_t   offsets_size;   /* number of bytes of offsets *=
+/
+> >
+> > --
+> > 2.35.1.616.g0bdcbb4464-goog
+> >
