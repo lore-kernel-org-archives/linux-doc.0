@@ -2,113 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B32C6C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 16:02:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70356C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 16:09:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242545AbiCNQDY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 12:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56122 "EHLO
+        id S242893AbiCNQK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 12:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236530AbiCNQDX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 12:03:23 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D520E45ACD;
-        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id r12so13931219pla.1;
-        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PcvQcPN5XoKvKQxrvFmbQntxTbKqV4dSuPUsUyk1/VU=;
-        b=loHgcdmDNyqZUA5/3x9feCiH8Ec3JeAmEtwKAF4HAFZent55/QExx9FK4FQT5X6JzT
-         aPkeG6j9eH4bffZpllzupw/Nmg/nn37qeBADEp8Ui+lQFAmxYzCvxKMfXdwJ8Y4+Gq8k
-         +0w2MS9lw56fRluUZSEJgViVv0K5Hh7OUxGZw8eKTey0GtnfS9z8SWjHQlzf2MN7c1Hr
-         U6HWPOjQyyeusLHpfroC98VTMgYFd5T6MC5QB9dGdfU6b3O0rac0BBis0IUT2hW7a18x
-         Lwav9aZHiJtVhLBwmvbv3zpLWN/WToQnHmBnotVOlAkfiIB4Q5+obxj9M10/IIVpUA2a
-         CPnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PcvQcPN5XoKvKQxrvFmbQntxTbKqV4dSuPUsUyk1/VU=;
-        b=D/YN3Bj7N4A0r2xZDtl17bx5nlKZcR+UoMtJhE7K6SjxqAyoc0Wt5ZUbIIokbqYf0h
-         3/BIMXucG6I5l4LIB+tKnluXDB9arxkReXzEBga/y3fud08m4zyanWYzPsHJuMLOSlVm
-         1XoyPwN1dHSQaaBzD7jPHmBa6aURCkz8hm9m6f/Usgx6361Mc+iuh5kgm3GJ1vGBO+9I
-         9oxvBFvf46prcGBdGEbiItxiHPvT+7czOYtCYar+pbmJtD0MT/whiKR54wKxFbxoUVXa
-         O+rmSccWJkFXyJaq0tFCrpAN1CW0Yb15FhpsgNeEOPTv3fZ6alpNbsp7vSjNFevyHRG8
-         8Q6g==
-X-Gm-Message-State: AOAM532jyW9SZLP2R3m9LW0LXsmIYyd3iWGZQ91JZ7qmXayaAk89dAIC
-        G5L0AKcaqvDNCjboeXf/Guk=
-X-Google-Smtp-Source: ABdhPJwjdy4jTXNMl0tz+SzVz6fwoQH5DqEth/4JnvhoImqAipGstlKJCFk9sLUX4ZHW10XUeilIYw==
-X-Received: by 2002:a17:90a:178f:b0:1bf:5f5a:728 with SMTP id q15-20020a17090a178f00b001bf5f5a0728mr26399573pja.171.1647273733246;
-        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
-Received: from localhost.localdomain (2001-b011-20e0-3483-4350-64e3-9d63-74cc.dynamic-ip6.hinet.net. [2001:b011:20e0:3483:4350:64e3:9d63:74cc])
-        by smtp.googlemail.com with ESMTPSA id x15-20020a056a00188f00b004f7675962d5sm19022584pfh.175.2022.03.14.09.02.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 09:02:12 -0700 (PDT)
-From:   Chin En Lin <shiyn.lin@gmail.com>
-To:     corbet@lwn.net
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Chin En Lin <shiyn.lin@gmail.com>
-Subject: [PATCH] Documentation: x86: Fix obsolete name of page fault handler
-Date:   Mon, 14 Mar 2022 23:59:01 +0800
-Message-Id: <20220314155901.227257-1-shiyn.lin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S240967AbiCNQKZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 12:10:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A89F73E0C6
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 09:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647274153;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=eRrQObFUahcLPQZ/TYAwN/v6sVBzI0WsVdJ7+dwE/Wg=;
+        b=Kd8o1baarO9Sgmk21ok2sH9Gp9igIzgdffOuhQOdDgUq57WAkJXWCodL4dy769iJrmsz/S
+        OBSTcPK3m7Tykw8KuSKsavs9FOWzckET9T5n8am3H5a6w2flZlcxDY6eeaA+l4tHGPh9Zv
+        jMVSGD4uxmHsd+ASTWLGaLWu42XGUv8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-669-B0yzMFd_PC2rL0ngtCkrlw-1; Mon, 14 Mar 2022 12:09:09 -0400
+X-MC-Unique: B0yzMFd_PC2rL0ngtCkrlw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4084B833959;
+        Mon, 14 Mar 2022 16:09:09 +0000 (UTC)
+Received: from [172.30.41.16] (unknown [10.2.17.101])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9606F404C31A;
+        Mon, 14 Mar 2022 16:09:08 +0000 (UTC)
+Subject: [PATCH] vfio-pci: Provide reviewers and acceptance criteria for
+ vendor drivers
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     alex.williamson@redhat.com, kvm@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, jgg@nvidia.com,
+        shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
+        yishaih@nvidia.com, linux-doc@vger.kernel.org, corbet@lwn.net
+Date:   Mon, 14 Mar 2022 10:09:08 -0600
+Message-ID: <164727326053.17467.1731353533389014796.stgit@omen>
+User-Agent: StGit/1.0-8-g6af9-dirty
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 91eeafea1e4b ("x86/entry: Switch page fault
-exception to IDTENTRY_RAW"), the function name of page
-fault handler is out of date. This patch change
-do_page_fault() to exc_page_fault().
+Vendor or device specific extensions for devices exposed to userspace
+through the vfio-pci-core library open both new functionality and new
+risks.  Here we attempt to provided formalized requirements and
+expectations to ensure that future drivers both collaborate in their
+interaction with existing host drivers, as well as receive additional
+reviews from community members with experience in this area.
 
-Signed-off-by: Chin En Lin <shiyn.lin@gmail.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Yishai Hadas <yishaih@nvidia.com>
+Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- Documentation/x86/exception-tables.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/x86/exception-tables.rst b/Documentation/x86/exception-tables.rst
-index de58110c5ffd..0140a06b2705 100644
---- a/Documentation/x86/exception-tables.rst
-+++ b/Documentation/x86/exception-tables.rst
-@@ -32,14 +32,14 @@ Whenever the kernel tries to access an address that is currently not
- accessible, the CPU generates a page fault exception and calls the
- page fault handler::
+Per the proposal here[1], I've collected those that volunteered and
+those that I interpreted as showing interest (alpha by last name).  For
+those on the reviewers list below, please R-b/A-b to keep your name as a
+reviewer.  More volunteers are still welcome, please let me know
+explicitly; R-b/A-b will not be used to automatically add reviewers but
+are of course welcome.  Thanks,
+
+Alex
+
+[1]https://lore.kernel.org/all/20220310134954.0df4bb12.alex.williamson@redhat.com/
+
+ .../vfio/vfio-pci-vendor-driver-acceptance.rst     |   35 ++++++++++++++++++++
+ MAINTAINERS                                        |    9 +++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
+
+diff --git a/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst b/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
+new file mode 100644
+index 000000000000..3a108d748681
+--- /dev/null
++++ b/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
+@@ -0,0 +1,35 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Acceptance criteria for vfio-pci device specific driver variants
++================================================================
++
++Overview
++--------
++The vfio-pci driver exists as a device agnostic driver using the
++system IOMMU and relying on the robustness of platform fault
++handling to provide isolated device access to userspace.  While the
++vfio-pci driver does include some device specific support, further
++extensions for yet more advanced device specific features are not
++sustainable.  The vfio-pci driver has therefore split out
++vfio-pci-core as a library that may be reused to implement features
++requiring device specific knowledge, ex. saving and loading device
++state for the purposes of supporting migration.
++
++In support of such features, it's expected that some device specific
++variants may interact with parent devices (ex. SR-IOV PF in support of
++a user assigned VF) or other extensions that may not be otherwise
++accessible via the vfio-pci base driver.  Authors of such drivers
++should be diligent not to create exploitable interfaces via such
++interactions or allow unchecked userspace data to have an effect
++beyond the scope of the assigned device.
++
++New driver submissions are therefore requested to have approval via
++Sign-off/Acked-by/etc for any interactions with parent drivers.
++Additionally, drivers should make an attempt to provide sufficient
++documentation for reviewers to understand the device specific
++extensions, for example in the case of migration data, how is the
++device state composed and consumed, which portions are not otherwise
++available to the user via vfio-pci, what safeguards exist to validate
++the data, etc.  To that extent, authors should additionally expect to
++require reviews from at least one of the listed reviewers, in addition
++to the overall vfio maintainer.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4322b5321891..7847b1492586 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20314,6 +20314,15 @@ F:	drivers/vfio/mdev/
+ F:	include/linux/mdev.h
+ F:	samples/vfio-mdev/
  
--  void do_page_fault(struct pt_regs *regs, unsigned long error_code)
-+  void exc_page_fault(struct pt_regs *regs, unsigned long error_code)
- 
- in arch/x86/mm/fault.c. The parameters on the stack are set up by
- the low level assembly glue in arch/x86/entry/entry_32.S. The parameter
- regs is a pointer to the saved registers on the stack, error_code
- contains a reason code for the exception.
- 
--do_page_fault first obtains the unaccessible address from the CPU
-+exc_page_fault first obtains the unaccessible address from the CPU
- control register CR2. If the address is within the virtual address
- space of the process, the fault probably occurred, because the page
- was not swapped in, write protected or something similar. However,
-@@ -281,12 +281,12 @@ vma occurs?
- 
-     > c017e7a5 <do_con_write+e1> movb   (%ebx),%dl
- #. MMU generates exception
--#. CPU calls do_page_fault
-+#. CPU calls exc_page_fault
- #. do page fault calls search_exception_table (regs->eip == c017e7a5);
- #. search_exception_table looks up the address c017e7a5 in the
-    exception table (i.e. the contents of the ELF section __ex_table)
-    and returns the address of the associated fault handle code c0199ff5.
--#. do_page_fault modifies its own return address to point to the fault
-+#. exc_page_fault modifies its own return address to point to the fault
-    handle code and returns.
- #. execution continues in the fault handling code.
- #. a) EAX becomes -EFAULT (== -14)
--- 
-2.25.1
++VFIO PCI VENDOR DRIVERS
++R:	Jason Gunthorpe <jgg@nvidia.com>
++R:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
++R:	Kevin Tian <kevin.tian@intel.com>
++L:	kvm@vger.kernel.org
++S:	Maintained
++P:	Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
++F:	drivers/vfio/pci/*/
++
+ VFIO PLATFORM DRIVER
+ M:	Eric Auger <eric.auger@redhat.com>
+ L:	kvm@vger.kernel.org
+
 
