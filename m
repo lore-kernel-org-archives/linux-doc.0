@@ -2,154 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FBD1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 19:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C44F3C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 19:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243978AbiCNTQG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 15:16:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
+        id S243941AbiCNTSy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 15:18:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243889AbiCNTP7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 15:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 887CA39686
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 12:14:49 -0700 (PDT)
+        with ESMTP id S234586AbiCNTSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 15:18:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9468C39BB6
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 12:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647285288;
+        s=mimecast20190719; t=1647285461;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=z1uQSR/wU6/VDM/YhWDXbRd14pQqRJkq5gumoQhYWHI=;
-        b=KP6PLzygJZyKonoQ+qKJmyPki3yDhsIUkHNt+HzMifKYGAE1EFU7DhXQcRXGLm5ihP5KQl
-        EYSyGk2mvkjlCMrdKxhw+fYG8QakHf23zzQBOp0c1Ub9mKFzrmlYoPHAvENnQq82+PIAud
-        HKm2ydOaa/SBy9jgAPcx/S2xrpatxaU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=daDOGiFxYv+daOkza11q48xlAEr2nJLNiwY29z+sBn8=;
+        b=T1WBWK/uB5k8/avts5YsQ9PXqUDk/DBdSlRIg5QgL5CBD24YuMwuMo3mDFInKIcGBJmUEs
+        XqrVnIBeXTqjMsByQfbpgdZ0//cVSymS/ftsefGC8exN9yUsuQFGLUB2PvX02fKzUqnP7l
+        HkboYVbi+p7naDpRqza6YjUgtcc7WZ4=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-oiA1B2uXPjO5QQ_skZsuxg-1; Mon, 14 Mar 2022 15:14:45 -0400
-X-MC-Unique: oiA1B2uXPjO5QQ_skZsuxg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D616811E7A;
-        Mon, 14 Mar 2022 19:14:44 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.2.17.101])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4681EC28103;
-        Mon, 14 Mar 2022 19:14:42 +0000 (UTC)
-Subject: [PATCH v2] vfio-pci: Provide reviewers and acceptance criteria for
- vendor drivers
+ us-mta-88-t1SmcVp0NyKlyrIxHuoOpQ-1; Mon, 14 Mar 2022 15:17:40 -0400
+X-MC-Unique: t1SmcVp0NyKlyrIxHuoOpQ-1
+Received: by mail-io1-f72.google.com with SMTP id e27-20020a056602045b00b00645bd576184so12967666iov.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 12:17:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=daDOGiFxYv+daOkza11q48xlAEr2nJLNiwY29z+sBn8=;
+        b=1oOB7yOvFpAmOTJ7BhFRtKsGNVU1lV/sNUrZNAvZg+ha5pJWhVX1pY0NRRZznXSjC1
+         p0+EN5MtF0nPXv2WvusVfYHhlzkhuFjtAMj4HnTCGCC4R+GGB7tq2yGIkgLbp7FvIVtI
+         o4CpgxIfO7Su/d0ivRy77gi5d6ZAHhivIOdlse1NV+myvK3GMpu1pom1z3iU62EvV0v5
+         pZMucDoEnJAYg4QzPZ8fhYBJO0FtT2FVOzEq1xPGzYThMnFYfbSdblcUq9Y3121EGhGO
+         EGdyR0imq8usKfhyaMN4cTLDSuOmle9Vpta3swXJO47JPH3dyoCFUFju0hhcy1MTPZD4
+         tt9g==
+X-Gm-Message-State: AOAM533T3K/EzhBkdVKarzZqu4tK7aoY4dDFilRT7ihAcFC3/eMpGddm
+        der7ylwj8ysZ52zWEg39U32R2AASfYzBJqyqMYv5Sbx9e+k7ryATt//j7bk/lmv3XP5zQyDHoHC
+        2XH2NDBosxvCzpi9Q4Fnu
+X-Received: by 2002:a05:6e02:1c8c:b0:2c7:9b38:69ea with SMTP id w12-20020a056e021c8c00b002c79b3869eamr7193967ill.50.1647285459486;
+        Mon, 14 Mar 2022 12:17:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzo3y4VD1H3SQM7st2tJN84lL8sPivPb1chKeRJw63xDV4M4CIwHF2nrTiSJFiTG0fkaJKYBw==
+X-Received: by 2002:a05:6e02:1c8c:b0:2c7:9b38:69ea with SMTP id w12-20020a056e021c8c00b002c79b3869eamr7193954ill.50.1647285459222;
+        Mon, 14 Mar 2022 12:17:39 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id n14-20020a056602340e00b00648c287cc02sm6029337ioz.27.2022.03.14.12.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 12:17:38 -0700 (PDT)
+Date:   Mon, 14 Mar 2022 13:17:38 -0600
 From:   Alex Williamson <alex.williamson@redhat.com>
-To:     alex.williamson@redhat.com, kvm@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, jgg@nvidia.com,
-        shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-        yishaih@nvidia.com, linux-doc@vger.kernel.org, corbet@lwn.net
-Date:   Mon, 14 Mar 2022 13:14:41 -0600
-Message-ID: <164728518026.40450.7442813673746870904.stgit@omen>
-User-Agent: StGit/1.0-8-g6af9-dirty
+To:     Yishai Hadas <yishaih@nvidia.com>
+Cc:     <linux-kernel@vger.kernel.org>, <jgg@nvidia.com>,
+        <shameerali.kolothum.thodi@huawei.com>, <kevin.tian@intel.com>,
+        <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH] vfio-pci: Provide reviewers and acceptance criteria for
+ vendor drivers
+Message-ID: <20220314131738.146c3e79.alex.williamson@redhat.com>
+In-Reply-To: <a635abc8-be36-a9ee-dd8b-2950cc368562@nvidia.com>
+References: <164727326053.17467.1731353533389014796.stgit@omen>
+        <a635abc8-be36-a9ee-dd8b-2950cc368562@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Vendor or device specific extensions for devices exposed to userspace
-through the vfio-pci-core library open both new functionality and new
-risks.  Here we attempt to provided formalized requirements and
-expectations to ensure that future drivers both collaborate in their
-interaction with existing host drivers, as well as receive additional
-reviews from community members with experience in this area.
+On Mon, 14 Mar 2022 21:07:01 +0200
+Yishai Hadas <yishaih@nvidia.com> wrote:
 
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Yishai Hadas <yishaih@nvidia.com>
-Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
+> On 3/14/2022 6:09 PM, Alex Williamson wrote:
+> > Vendor or device specific extensions for devices exposed to userspace
+> > through the vfio-pci-core library open both new functionality and new
+> > risks.  Here we attempt to provided formalized requirements and
+> > expectations to ensure that future drivers both collaborate in their
+> > interaction with existing host drivers, as well as receive additional
+> > reviews from community members with experience in this area.
+> >
+> > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > Cc: Yishai Hadas <yishaih@nvidia.com>
+> > Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > Cc: Kevin Tian <kevin.tian@intel.com>
+> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> > ---
+> >
+> > Per the proposal here[1], I've collected those that volunteered and
+> > those that I interpreted as showing interest (alpha by last name).  For
+> > those on the reviewers list below, please R-b/A-b to keep your name as a
+> > reviewer.  More volunteers are still welcome, please let me know
+> > explicitly; R-b/A-b will not be used to automatically add reviewers but
+> > are of course welcome.  Thanks,  
+> 
+> You can add me as well to the reviewers list.
 
-v2:
-
-Added Yishai
-
-v1:
-
-Per the proposal here[1], I've collected those that volunteered and
-those that I interpreted as showing interest (alpha by last name).  For
-those on the reviewers list below, please R-b/A-b to keep your name as a
-reviewer.  More volunteers are still welcome, please let me know
-explicitly; R-b/A-b will not be used to automatically add reviewers but
-are of course welcome.  Thanks,
+Thanks, Yishai!  v2 posted including you, please send ack or review.
+Thanks,
 
 Alex
-
-[1]https://lore.kernel.org/all/20220310134954.0df4bb12.alex.williamson@redhat.com/
- .../vfio/vfio-pci-vendor-driver-acceptance.rst     |   35 ++++++++++++++++++++
- MAINTAINERS                                        |   10 ++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
-
-diff --git a/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst b/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
-new file mode 100644
-index 000000000000..3a108d748681
---- /dev/null
-+++ b/Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Acceptance criteria for vfio-pci device specific driver variants
-+================================================================
-+
-+Overview
-+--------
-+The vfio-pci driver exists as a device agnostic driver using the
-+system IOMMU and relying on the robustness of platform fault
-+handling to provide isolated device access to userspace.  While the
-+vfio-pci driver does include some device specific support, further
-+extensions for yet more advanced device specific features are not
-+sustainable.  The vfio-pci driver has therefore split out
-+vfio-pci-core as a library that may be reused to implement features
-+requiring device specific knowledge, ex. saving and loading device
-+state for the purposes of supporting migration.
-+
-+In support of such features, it's expected that some device specific
-+variants may interact with parent devices (ex. SR-IOV PF in support of
-+a user assigned VF) or other extensions that may not be otherwise
-+accessible via the vfio-pci base driver.  Authors of such drivers
-+should be diligent not to create exploitable interfaces via such
-+interactions or allow unchecked userspace data to have an effect
-+beyond the scope of the assigned device.
-+
-+New driver submissions are therefore requested to have approval via
-+Sign-off/Acked-by/etc for any interactions with parent drivers.
-+Additionally, drivers should make an attempt to provide sufficient
-+documentation for reviewers to understand the device specific
-+extensions, for example in the case of migration data, how is the
-+device state composed and consumed, which portions are not otherwise
-+available to the user via vfio-pci, what safeguards exist to validate
-+the data, etc.  To that extent, authors should additionally expect to
-+require reviews from at least one of the listed reviewers, in addition
-+to the overall vfio maintainer.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4322b5321891..7f6b14013412 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20314,6 +20314,16 @@ F:	drivers/vfio/mdev/
- F:	include/linux/mdev.h
- F:	samples/vfio-mdev/
- 
-+VFIO PCI VENDOR DRIVERS
-+R:	Jason Gunthorpe <jgg@nvidia.com>
-+R:	Yishai Hadas <yishaih@nvidia.com>
-+R:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-+R:	Kevin Tian <kevin.tian@intel.com>
-+L:	kvm@vger.kernel.org
-+S:	Maintained
-+P:	Documentation/vfio/vfio-pci-vendor-driver-acceptance.rst
-+F:	drivers/vfio/pci/*/
-+
- VFIO PLATFORM DRIVER
- M:	Eric Auger <eric.auger@redhat.com>
- L:	kvm@vger.kernel.org
-
 
