@@ -2,159 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D64E6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 12:10:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1B8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 15:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239640AbiCNML2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 08:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58628 "EHLO
+        id S242781AbiCNPyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 11:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240789AbiCNMHy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 08:07:54 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D0E2612F
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 05:03:54 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id u10so30189325ybd.9
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 05:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VKHSptGTtDWpWAfeYmE7mRLCiwPqgGT9ni2QXIekWXQ=;
-        b=BCG4ZUpHpZ35ywjf43lyzLvpb+sYPvX8ZhjcGSL3OGG+OkmxlOd/Deo5LqjXi0twfw
-         2+5QWTO/DnrZVrfuodoZ2l7M6pma1XaNRowrOZTmegDFmaCcbAzaW39qdS7MK6HL8dBf
-         lhGMDfeQF33FMJMs/IyZNn9UuQPCKvO/vgyKDMHY8VsQwiOrNCNeZV8QunQq1br2iH/V
-         jTUfnoWRIh52zUYcTzO+uX2eB+4ZuUK7BwMrhAx9vKCfsmqXYL0YvtXd+qx3y6HfgN88
-         Cct3q9gRqX5at6OPkmu3mTmF38u00gVolaTphSWsVqE59qaRGKRYPc4LbaYoSsT+gvSW
-         hAZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VKHSptGTtDWpWAfeYmE7mRLCiwPqgGT9ni2QXIekWXQ=;
-        b=4+S3JmEYbjkeI2m4JR9ja8t3sG7fBKran3mKsOK4xqYE+w4wUfVXlHpC5Tq45ELGW3
-         7txIaLVZkFZfoL6epwUtBfaSE/TmdBcfFwU/PvJkaT5PWT38emc+as+WNZdpQIOdBqiB
-         1NnVzseVyZkQ93P19GVluxZTXqIbrmF19ac+4kpqdcMXE0klQs8AC6zVo2p5JcMtZJAw
-         rV34vjuUGnS8UMwWxM2oP1iKNckYf46VgR20+dKmH3NLNyBGkYM9jx9jlkqvGi7osaSS
-         aicJZgCfsHmNElsCRvjlM347HCxWzRa7+UN7qVQUO6K3rXnChTonbKRDNbeOHopNlM3d
-         pb7g==
-X-Gm-Message-State: AOAM531ru92/Wbr6pvHSBXpc83K1Ty9DDflu5/KjdvuadguCu7AeEFgk
-        H3E26LghH68ZCQoQTVpfD4tqFZjly86yPi/nFxw=
-X-Google-Smtp-Source: ABdhPJyrOxsHZbpYXth6x44p9Cpa1sNkR3yX5G055Zk+iyG8kYrZoVHwfnpbaya0c9ig353MTEoG9wkenXO2Li7O3Dw=
-X-Received: by 2002:a25:9a43:0:b0:628:672c:e471 with SMTP id
- r3-20020a259a43000000b00628672ce471mr16228440ybo.73.1647259433443; Mon, 14
- Mar 2022 05:03:53 -0700 (PDT)
+        with ESMTP id S242775AbiCNPyF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 11:54:05 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B4213D57;
+        Mon, 14 Mar 2022 08:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=YPjKuh1WORHuHsKRyd3ugLDmy9mAtje1baZB7sPm6bI=; b=l4gH9/ZN8SbfjmV4CN5o82JaT5
+        RIPRxKdoZgmtGb8Te5bhMN6pjAqiYEoemzQGtAhKuVPJ/O9DDyTbM/mwglTioZCvjg3r2RS3XYvxD
+        GfpQloC7ECWbdUn4uL5dZLNxp5vgpX/DNfL39Ewc87QYKUC63IT5BykHy2ohcC9rXerjZeBDMWo1n
+        ZDZPwgBgX4Ewi61W514MXRKmd+6EuwtCVSL5zETo4vQMTXfwmX4rMcYSooSIz2DaFzm4AItL+BjVq
+        5VexDwM1iQG8ywFr6ZGc/nkvAsZ2+aGDfBZsCQEEvSLOZT6Tb4TrpYY2/gqdyeWMl5aliQXgDvU1y
+        Q4HOPpmQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nTmzt-000tJu-BG; Mon, 14 Mar 2022 15:52:37 +0000
+Message-ID: <617e1903-fd21-3394-0e27-cd514c32f89b@infradead.org>
+Date:   Mon, 14 Mar 2022 08:52:30 -0700
 MIME-Version: 1.0
-References: <cover.1646496448.git.siyanteng@loongson.cn> <f8b38603bc022c4d2c8017bf8b66a4c26bc48fb3.1646496448.git.siyanteng@loongson.cn>
- <CAJy-AmnQqooh7OpNG_wpwoaCsyZLNFPyyaYgNKHUZv15_vvgvQ@mail.gmail.com>
-In-Reply-To: <CAJy-AmnQqooh7OpNG_wpwoaCsyZLNFPyyaYgNKHUZv15_vvgvQ@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 14 Mar 2022 20:03:30 +0800
-Message-ID: <CAEensMw2TQv7SezQ1rYvfjdYH_cF3Ko+QAi0Kngfy+8kRsauOQ@mail.gmail.com>
-Subject: Re: [PATCH 05/12] docs/zh_CN: add vm overcommit-accounting translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] docs/scheduler: Introduce the doc of load average
+Content-Language: en-US
+To:     Jui-Tse Huang <juitse.huang@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Huaixin Chang <changhuaixin@linux.alibaba.com>,
+        Beata Michalska <beata.michalska@arm.com>,
+        Chun-Hung Tseng <henrybear327@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
+        Yiwei Lin <s921975628@gmail.com>
+References: <20220314084759.9849-1-juitse.huang@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220314084759.9849-1-juitse.huang@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIy5bm0M+aciDjml6XlkajkuowgMjM6
-MTblhpnpgZPvvJoNCj4NCj4gT24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNSBBTSBZYW50ZW5n
-IFNpIDxzaXlhbnRlbmcwMUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNsYXRlIC4u
-Li92bS9vdmVyY29tbWl0LWFjY291bnRpbmcucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IFNp
-Z25lZC1vZmYtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0N
-Cj4gPiAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IHwgIDIg
-Ky0NCj4gPiAgLi4uL3poX0NOL3ZtL292ZXJjb21taXQtYWNjb3VudGluZy5yc3QgICAgICAgIHwg
-ODYgKysrKysrKysrKysrKysrKysrKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDg3IGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL292ZXJjb21taXQtYWNjb3VudGluZy5yc3QNCj4gPg0K
-PiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9pbmRl
-eC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QNCj4g
-PiBpbmRleCA5MTllODc5YjgxNjcuLjJhM2E5M2E0YzA1MCAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QNCj4gPiArKysgYi9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QNCj4gPiBAQCAtMzAsNiAr
-MzAsNyBAQCBUT0RPOuW+heW8leeUqOaWh+aho+mbhuiiq+e/u+ivkeWujOavleWQjuivt+WPiuaX
-tuS/ruaUueatpOWkhO+8iQ0KPiA+ICAgICBod3BvaXNvbg0KPiA+ICAgICBtZW1vcnktbW9kZWwN
-Cj4gPiAgICAgbW11X25vdGlmaWVyDQo+ID4gKyAgIG92ZXJjb21taXQtYWNjb3VudGluZw0KPiA+
-DQo+ID4gIFRPRE9MSVNUOg0KPiA+ICAqIGFyY2hfcGd0YWJsZV9oZWxwZXJzDQo+ID4gQEAgLTM3
-LDcgKzM4LDYgQEAgVE9ET0xJU1Q6DQo+ID4gICogaG1tDQo+ID4gICogaHVnZXRsYmZzX3Jlc2Vy
-dg0KPiA+ICAqIG51bWENCj4gPiAtKiBvdmVyY29tbWl0LWFjY291bnRpbmcNCj4gPiAgKiBwYWdl
-X21pZ3JhdGlvbg0KPiA+ICAqIHBhZ2VfZnJhZ3MNCj4gPiAgKiBwYWdlX293bmVyDQo+ID4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL292ZXJjb21taXQt
-YWNjb3VudGluZy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9vdmVy
-Y29tbWl0LWFjY291bnRpbmcucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRl
-eCAwMDAwMDAwMDAwMDAuLjFlM2VhZTEzMzhjYg0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysg
-Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9vdmVyY29tbWl0LWFjY291bnRp
-bmcucnN0DQo+ID4gQEAgLTAsMCArMSw4NiBAQA0KPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRp
-b24vdm0vb3ZlcmNvbW1pdC5yc3QNCj4NCj4gRG9jdW1lbnRhdGlvbi92bS9vdmVyY29tbWl0LWFj
-Y291bnRpbmcucnN0ID8NCm9rIQ0KPg0KPiA+ICsNCj4gPiArOue/u+ivkToNCj4gPiArDQo+ID4g
-KyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+ICsNCj4g
-PiArOuagoeivkToNCj4gPiArDQo+ID4gKw0KPiA+ICsNCj4gPiArPT09PT09PT09PT09PT0NCj4g
-PiArT3ZlcmNvbW1pdOWuoeiuoQ0KPg0KPiBvdmVyY29tbWl0IC0+IOi2hemHj+S9v+eUqD8NCm9r
-IQ0KPg0KPiA+ICs9PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArTGludXjlhoXmoLjmlK/mjIHk
-uIvliJdvdmVyY29tbWl05aSE55CG5qih5byPDQo+ID4gKw0KPiA+ICswDQo+ID4gKyAgICAgICDl
-kK/lj5HlvI9vdmVyY29tbWl05aSE55CG44CC5ouS57ud5piO5pi+55qE5Zyw5Z2A56m66Ze0b3Zl
-cmNvbW1pdOOAgueUqOS6juS4gOS4quWFuOWei+eahOezu+e7n+OAgg0KPiA+ICsgICAgICAg5a6D
-56Gu5L+d5Lil6YeN55qE55av54uC5YiG6YWN5aSx6LSl77yM5ZCM5pe25YWB6K64b3ZlcmNvbW1p
-dOS7peWHj+WwkXN3YXDnmoTkvb/nlKjjgILlnKjov5nnp43mqKHlvI/kuIvvvIwNCj4gPiArICAg
-ICAgIOWFgeiuuHJvb3TliIbphY3nqI3lpJrnmoTlhoXlrZjjgILov5nmmK/pu5jorqTnmoTjgIIN
-Cj4gPiArMQ0KPiA+ICsgICAgICAg5oC75pivb3ZlcmNvbW1pdOOAgumAgueUqOS6juS4gOS6m+en
-keWtpuW6lOeUqOOAgue7j+WFuOeahOS+i+WtkOaYr+S9v+eUqOeogOeWj+aVsOe7hOeahOS7o+eg
-ge+8jOWPquaYr+S+nei1lg0KPiA+ICsgICAgICAg5Yeg5LmO5a6M5YWo55Sx6Zu26aG157uE5oiQ
-55qE6Jma5ouf5YaF5a2YDQo+ID4gKw0KPiA+ICsyDQo+ID4gKyAgICAgICDkuI1vdmVyY29tbWl0
-44CC57O757uf5o+Q5Lqk55qE5oC75Zyw5Z2A56m66Ze05LiN5YWB6K646LaF6L+Hc3dhcCvkuIDk
-uKrlj6/phY3nva7nmoTniannkIZSQU3nmoTmlbDph48NCj4gPiArICAgICAgIO+8iOm7mOiupOS4
-ujUwJe+8ieOAguagueaNruS9oOS9v+eUqOeahOaVsOmHj++8jOWcqOWkp+WkmuaVsOaDheWGteS4
-i++8jOi/meaEj+WRs+edgOS4gOS4qui/m+eoi+WcqOiuv+mXrumhtemdouaXtg0KPiA+ICsgICAg
-ICAg5LiN5Lya6KKr5p2A5q2777yM5L2G5Lya5Zyo5YaF5a2Y5YiG6YWN5LiK5pS25Yiw55u45bqU
-55qE6ZSZ6K+v44CCDQo+ID4gKw0KPiA+ICsgICAgICAg5a+55LqO6YKj5Lqb5oOz5L+d6K+B5LuW
-5Lus55qE5YaF5a2Y5YiG6YWN5Zyo5pyq5p2l5Y+v55So6ICM5Y+I5LiN6ZyA6KaB5Yid5aeL5YyW
-5q+P5LiA5Liq6aG16Z2i55qE5bqU55So56iL5bqP5p2l6K+0DQo+ID4gKyAgICAgICDmmK/lvojm
-nInnlKjnmoTjgIINCj4gPiArDQo+ID4gK292ZXJjb21taXTnrZbnlaXmmK/pgJrov4dzeXNjdGwg
-IGB2bS5vdmVyY29tbWl0X21lbW9yeWAg6K6+572u55qE44CCDQo+ID4gKw0KPiA+ICvlj6/ku6Xp
-gJrov4cgYHZtLm92ZXJjb21taXRfcmF0aW9gIO+8iOeZvuWIhuavlO+8ieaIliBgdm0ub3ZlcmNv
-bW1pdF9rYnl0ZXNgIO+8iOe7neWvueWAvO+8iQ0KPiA+ICvmnaXorr7nva7otoXpmZDmlbDph4/j
-gILov5nkupvlj6rmnInlnKggYHZtLm92ZXJjb21taXRfbWVtb3J5YCDooqvorr7nva7kuLoy5pe2
-5omN5pyJ5pWI5p6c44CCDQo+ID4gKw0KPiA+ICvlnKggYGAvcHJvYy9tZW1pbmZvYGAg5Lit5Y+v
-5Lul5YiG5Yir5LulQ29tbWl0TGltaXTlkoxDb21taXR0ZWRfQVPnmoTlvaLlvI/mn6XnnIvlvZPl
-iY0NCj4gPiAr55qEb3ZlcmNvbW1pdOWSjOaPkOS6pOmHj+OAgg0KPiA+ICsNCj4gPiAr6Zm36Zix
-DQo+ID4gKz09PT0NCj4gPiArDQo+ID4gK0Por63oqIDnmoTloIbmoIjlop7plb/mmK/kuIDkuKrp
-mpDlkKvnmoRtcmVtYXDjgILlpoLmnpzkvaDmg7PlvpfliLDnu53lr7nnmoTkv53or4HvvIzlubbl
-nKjmjqXov5HovrnnvJjnmoTlnLDmlrnov5DooYzvvIwNCj4gPiAr5L2gICoq5b+F6aG7Kiog5Li6
-5L2g6K6k5Li65L2g6ZyA6KaB55qE5pyA5aSn5bC65a+455qE5aCG5qCI6L+b6KGMbW1hcOOAguWv
-ueS6juWFuOWei+eahOWghuagiOS9v+eUqOadpeivtO+8jOi/meW5tg0KPiA+ICvkuI3ph43opoHv
-vIzkvYblpoLmnpzkvaDnnJ/nmoTpnZ7luLjlhbPlv4PnmoTor53vvIzov5nlsLHmmK/kuIDkuKrl
-gLzlvpflhbPms6jnmoTmoYjkvovjgIINCj4gPiArDQo+ID4gKw0KPiA+ICvlnKjmqKHlvI8y5Lit
-77yMTUFQX05PUkVTRVJWReagh+W/l+iiq+W/veeVpeOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+Wu
-g+aYr+WmguS9leW3peS9nOeahA0KPiA+ICs9PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArb3Zl
-cmNvbW1pdOaYr+WfuuS6juS7peS4i+inhOWImQ0KPiA+ICsNCj4gPiArRm9yIGEgZmlsZSBiYWNr
-ZWQgbWFwDQo+DQo+IOWvueS6juaWh+S7tuaYoOWwhA0Kb2sNCj4NCj4gPiArICAgICAgIHwgU0hB
-UkVEIG9yIFJFQUQtb25seSAgIC0gICAgICAgMCBjb3N0ICjor6Xmlofku7bmmK/mmKDlsITogIzk
-uI3mmK/kuqTmjaIpDQo+ID4gKyAgICAgICB8IFBSSVZBVEUgV1JJVEFCTEUgICAgICAtICAgICAg
-IOavj+S4quWunuS+i+eahOaYoOWwhOWkp+Wwjw0KPiA+ICsNCj4gPiArRm9yIGFuIGFub255bW91
-cyBvciBgYC9kZXYvemVyb2BgIG1hcA0KPiDlr7nkuo7ljL/lkI3miJbogIUvZGV2L3plcm8g5pig
-5bCE77yfDQpvaw0KPg0KPiA+ICsgICAgICAgfCBTSEFSRUQgICAgICAgICAgICAgICAgICAgICAg
-ICAtICAgICAgIOaYoOWwhOeahOWkp+Wwjw0KPiA+ICsgICAgICAgfCBQUklWQVRFIFJFQUQtb25s
-eSAgICAgLSAgICAgICAwIGNvc3QgKOS9huS9nOeUqOS4jeWkpykNCj4gPiArICAgICAgIHwgUFJJ
-VkFURSBXUklUQUJMRSAgICAgIC0gICAgICAg5q+P5Liq5a6e5L6L55qE5pig5bCE5aSn5bCPDQo+
-ID4gKw0KPiA+ICtBZGRpdGlvbmFsIGFjY291bnRpbmcNCj4g6aKd5aSW55qE6K6h5pWwDQpvaw0K
-Pg0KPiA+ICsgICAgICAgfCDpgJrov4dtbWFw5Yi25L2c5Y+v5YaZ5Ymv5pys55qE6aG16Z2iDQo+
-ID4gKyAgICAgICB8IOS7juWQjOS4gOaxoOS4reaPkOWPlueahHNobWZz5YaF5a2YDQo+ID4gKw0K
-PiA+ICvnirbmgIENCj4gPiArPT09PQ0KPiA+ICsNCj4gPiArKiAgICAgIOaIkeS7rOaguOeul21t
-YXDlhoXlrZjmmKDlsIQNCj4gPiArKiAgICAgIOaIkeS7rOaguOeul21wcm90ZWN05Zyo5o+Q5Lqk
-5Lit55qE5Y+Y5YyWDQo+ID4gKyogICAgICDmiJHku6zmoLjnrpdtcmVtYXDnmoTlpKflsI/lj5jl
-jJYNCj4gPiArKiAgICAgIOaIkeS7rOeahOWuoeiuoSBicmsNCj4gPiArKiAgICAgIOWuoeiuoW11
-bm1hcA0KPiA+ICsqICAgICAg5oiR5Lus5ZyoL3Byb2PkuK3miqXlkYpjb21taXQg54q25oCBDQo+
-ID4gKyogICAgICDmoLjlr7nlubbmo4Dmn6XliIblj4nnmoTmg4XlhrUNCj4gPiArKiAgICAgIOWu
-oeafpeWghuagiOWkhOeQhi/miafooYzkuK3nmoTmnoTlu7oNCj4gPiArKiAgICAgIOWPmei/sFNI
-TWZz55qE5oOF5Ya1DQo+ID4gKyogICAgICDlrp7njrDlrp7pmYXpmZDliLbnmoTmiafooYwNCj4g
-PiArDQo+ID4gK+W+hee7rQ0KPiA+ICs9PT09DQo+ID4gKyogICAgICDluJDmiLd0cmFjZemhte+8
-iOi/meW+iOmavu+8ieOAgg0KPg0KPiBwdHJhY2Ug6aG16K6h5pWw77yfDQpvayENCg0KVGhhbmtz
-LA0KWWFudGVuZw0KPg0KPiBUaGFua3MNCj4gQWxleA0KPg0KPiA+IC0tDQo+ID4gMi4yNy4wDQo+
-ID4NCg==
+
+
+On 3/14/22 01:47, Jui-Tse Huang wrote:
+> The load average is one of a common as well as easy observed statistic
+> provied by Linux, but still not well documented, which makes the numbers
+> that users observes from the output of top, htop or other system
+> monitoring application are only numbers. This patch gives a discussion
+> on how Linux calculates the load average as well as what metrics are
+> concerned while calculating the load average.
+> 
+> The discussion flow is divided into several parts:
+> 1. The expression used to get the load average.
+> 2. Why Linux choose such average method from the other.
+> 2. The meaning of each term in the expression.
+> 3. The metrics, that is, the type of tasks that will be covered in the
+>    calculation.
+> 4. A brief explanation over the fixed-point nubmer since the weights
+>    defined in the Linux kernel are based on it.
+> 
+> Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
+> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+> Co-Developed-by: Yiwei Lin <s921975628@gmail.com>
+> 
+> ---
+> v1 -> v2:
+>     fix typo: '$cat /proc/laodavg' -> '$cat /proc/loadavg'
+> 
+>  Documentation/scheduler/index.rst        |  1 +
+>  Documentation/scheduler/load-average.rst | 77 ++++++++++++++++++++++++
+>  2 files changed, 78 insertions(+)
+>  create mode 100644 Documentation/scheduler/load-average.rst
+> 
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 88900aabdbf7..bdc779b4190f 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -17,6 +17,7 @@ Linux Scheduler
+>      sched-nice-design
+>      sched-rt-group
+>      sched-stats
+> +    load-average
+>  
+>      text_files
+>  
+> diff --git a/Documentation/scheduler/load-average.rst b/Documentation/scheduler/load-average.rst
+> new file mode 100644
+> index 000000000000..589320ee1cd7
+> --- /dev/null
+> +++ b/Documentation/scheduler/load-average.rst
+> @@ -0,0 +1,77 @@
+> +============
+> +Load Average
+> +============
+> +
+> +Load average is a basic statistic provided by almost all operating systems that
+> +aims to report the usage of system hardware resources. In Linux kernel, the
+> +load average is calculated via the following expression::
+> +
+> +                / 0                                      , if t = 0
+> +    load_{t} = |
+> +                \ laod_{t - 1} * exp + active * (1 - exp), otherwise
+
+                     load_
+
+> +
+> +The expression represents the exponential moving average of the historical
+> +loading of the system. There are several reasons that Linux kernel chooses
+> +exponential moving average from other similar average equations such as simple
+> +moving average or cumulative moving average:
+> +
+> +#. The exponential moving average consumes fixed memory space, while the simple
+> +   moving average has O(n) space complexity where n is the number of timeslice
+
+                                                                        timeslices
+
+> +   within a given interval.
+> +#. The exponential moving average not only applies a higher weight to the most
+> +   recent record but also declines the weight exponentially, which makes the
+> +   resulting load average reflect the situation of the current system. Neither
+> +   the simple moving average nor cumulative moving average has this feature.
+> +
+> +In the expression, the load_{t} in the expression indicates the calculated load
+
+Don't need the second             "in the expression" above.
+
+> +average at the given time t.
+> +The active is the most recent recorded system load. In Linux, the system load
+> +means the number of tasks in the state of TASK_RUNNING or TASK_UNINTERRUPTIBLE
+> +of the entire system. Tasks with TASK_UNINTERRUPTIBLE state are usually waiting
+> +for disk I/O or holding an uninterruptible lock, which is considered as a part
+> +of system resource, thus, Linux kernel covers them while calculating the load
+> +average.
+> +The exp means the weight applied to the previous report of load average, while
+> +(1 - exp) is the weight applied to the most recently recorded system load.
+> +There are three different weights defined in the Linux kernel, in
+> +include/linux/sched/loadavg.h, to perform statistics in various timescales::
+> +
+> +    // include/linux/sched/loadavg.h
+> +    ...
+> +    #define EXP_1    1884    /* 1/exp(5sec/1min) as fixed-point */
+> +    #define EXP_5    2014    /* 1/exp(5sec/5min) */
+> +    #define EXP_15   2037    /* 1/exp(5sec/15min) */
+> +    ...
+> +
+> +According to the expression shown on the top of this page, the weight (exp)
+> +controls how much of the last load load_{t - 1} will take place in the
+> +calculation of current load, while (1 - exp) is the weight applied to the most
+> +recent record of system load active.
+> +
+> +Due to the security issue, the weights are defined as fixed-point numbers based
+> +on the unsigned integer rather than floating-pointing numbers. The introduction
+> +of the fixed-point number keeps the FPU away from the calculation process. Since
+> +the precession of the fixed-point used in the Linux kernel is 11 bits, a
+> +fixed-point can be converted to a floating-point by dividing it by 2048, as the
+> +expression shown below::
+
+              shows below::
+or
+  as in the expressions shown below::
+
+> +
+> +    EXP_1  = 1884 / 2048 = 0.919922
+> +    EXP_5  = 2014 / 2048 = 0.983398
+> +    EXP_15 = 2037 / 2048 = 0.994629
+> +
+> +Which indicates the weights applied to active are::
+> +
+> +    (1 - EXP_1)  = (1 - 0.919922) = 0.080078
+> +    (1 - EXP_5)  = (1 - 0.983398) = 0.016602
+> +    (1 - EXP_15) = (1 - 0.994629) = 0.005371
+> +
+> +The load average will be updated every 5 seconds. Each time the scheduler_tick()
+> +be called, the function calc_global_load_tick() will also be invoked, which
+> +makes the active of each CPU core be calculated and be merged globally, finally,
+
+                                                                 globally. Finally,
+
+> +the load average will be updated with that global active.
+> +
+> +As a user, the load average can be observed via top, htop, or other system
+> +monitor application, or more directly, by the following command::
+> +
+> +    $ cat /proc/loadavg
+> +
+
+thanks.
+-- 
+~Randy
