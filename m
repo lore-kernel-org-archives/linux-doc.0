@@ -2,104 +2,246 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17750C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 23:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C1EC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 23:12:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343579AbiCNXLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 19:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
+        id S236443AbiCNXNQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 19:13:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbiCNXLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 19:11:50 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A64273BF8E;
-        Mon, 14 Mar 2022 16:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647299440; x=1678835440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6C9nVg8jyii5VHo88KHjPTiSG9eWD7pgA09gtw2HDFo=;
-  b=RsAX6IxqipUuwfY7L5im2eSk7jSsDzRGNpSRuCJNOK3xhy7X8PCFAaZM
-   +Y9fQWmMewXbJNdDydzHKR99l+Sbu17WRI+QegzDqbac43yL9KdaM1nca
-   4XCvv4J8S2+pUZwfnUrwuUkJXsmZYsRlyNcR0vK0MKYtIFlatUTdm17dA
-   7UmjjRxYqG99NXIXoYV25OFZslmANhf8KzGUCSPDUH4HVcvUZEvjcqtxi
-   fhKiFhY8OJkIqW21P/M+Vj3ua4sdGxT4IIPduhgrx6unKT3o52AlgkS5A
-   1dxpxxuXStS7yo315mwf4lgB4cPd3813eysApsHQft7W7Zs+oH52yMpWV
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="253726560"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
-   d="scan'208";a="253726560"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 16:10:40 -0700
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
-   d="scan'208";a="598096916"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.60])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 16:10:40 -0700
-Date:   Mon, 14 Mar 2022 16:10:39 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Jithu Joseph <jithu.joseph@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, andriy.shevchenko@linux.intel.com,
-        ashok.raj@intel.com, rostedt@goodmis.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com, Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [RFC 00/10] Introduce In Field Scan driver
-Message-ID: <Yi/Lb5laEki0JHft@agluck-desk3.sc.intel.com>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <Yh59rOIH24X+6GyI@kroah.com>
- <Yh5+om/Nr06V0+Qj@kroah.com>
+        with ESMTP id S1343594AbiCNXNP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 19:13:15 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713983BFA1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 16:12:04 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id r13so37468812ejd.5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 16:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=13A/gfkIaAByq4gAjyXkarTV6d8yj2S6x1jqYzFsBbY=;
+        b=XyhHGdtsqR5jO4+gdhJ+ojCimLghZaCx6WwKcAAr9p/2GHkSdRv19zrt+XUtu0LuJ1
+         4Gi3j0ozCaHiWgxhJc4o3NtmD//SjQ72LePzqe4q9e8nM9zUasMsb8biiDYMtwoPpEiK
+         HiEQwniQHvCSrEdIgduOKuvq5s7i1I61Hc25rgZasnYsPug81ADoCsCnTDZdjqQkvvrc
+         u7MiR0TGkpcQ8Zcq8IwJmMfz/vudNt99WnaGo1qHlKZqAE+13K9TG1hMprm48aLrDHKG
+         KLTxKsyGj+myiFI0F5MUapN41yj6qFYTl4WnkkqKuAziWcCDY/3yvCe8iF3wjdp+upo9
+         pSbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=13A/gfkIaAByq4gAjyXkarTV6d8yj2S6x1jqYzFsBbY=;
+        b=PZch46WjjfeNddJGvnW9ONKSWUAwXB6wC+MVXg9041L0IiRiihBoJlXFzSUFVatBl9
+         FxlG9ygc81C3YNsw7PS4w1XhZlpdZoBLPS4bqh1JHdZy7zWSpETJcB9HwgVsNEtmGlkG
+         D6eScOT7fkJB4dIgykknklXdLfhMiUpE0ecdKMr41Xn4bKXER/iRwHVqD9ZjAX2kmd5s
+         tHxkdPdU4OAo7tjqKsd5XVPN4g/jrMj5+AsWm8IuQYPL+BhZ/ECXkZmrW87r3j5qQ9uF
+         yBmTpvgfciIPL0li8pqBnytiK9RvIESyzU+zND0tGpPhIbIcXreAxuPrSHHZ7Zai9xTw
+         SNRg==
+X-Gm-Message-State: AOAM533joDUQy+n53hCatMelA+q/UPQDcPfg9+202e9o//ffT18xvf7k
+        D5xJdFWxI26b0iE4L/eLf8ctqRG1Z9ZMz1Jwp26pWQ==
+X-Google-Smtp-Source: ABdhPJxrYa+KB1WbMq/YAdFrphjTMXfrrUez93q/arw+NPP8ockEEmt+q4BVAJMOhiHKlLzSTBYxF0kk+h/zL39D7LI=
+X-Received: by 2002:a17:906:36ce:b0:6d6:e540:ed65 with SMTP id
+ b14-20020a17090636ce00b006d6e540ed65mr20941241ejc.330.1647299522669; Mon, 14
+ Mar 2022 16:12:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yh5+om/Nr06V0+Qj@kroah.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com> <20220311162445.346685-8-vincent.whitchurch@axis.com>
+In-Reply-To: <20220311162445.346685-8-vincent.whitchurch@axis.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 14 Mar 2022 19:11:50 -0400
+Message-ID: <CAFd5g47O2PbqaUZRoioRROtywTm=6t7cVgHqO7qc0ZGewQk16A@mail.gmail.com>
+Subject: Re: [RFC v1 07/10] iio: light: opt3001: add roadtest
+To:     Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc:     linux-kernel@vger.kernel.org, kernel@axis.com,
+        devicetree@vger.kernel.org, linux-um@lists.infradead.org,
+        shuah@kernel.org, linux-kselftest@vger.kernel.org,
+        jic23@kernel.org, linux-iio@vger.kernel.org, lgirdwood@gmail.com,
+        broonie@kernel.org, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 09:14:26PM +0100, Greg KH wrote:
-> On Tue, Mar 01, 2022 at 09:10:20PM +0100, Greg KH wrote:
-> > On Tue, Mar 01, 2022 at 11:54:47AM -0800, Jithu Joseph wrote:
-> > > Note to Maintainers:
-> > > Requesting x86 Maintainers to take a look at patch01 as it
-> > > touches arch/x86 portion of the kernel. Also would like to guide them
-> > > to patch07 which sets up hotplug notifiers and creates kthreads.
-> > > 
-> > > Patch 2/10 - Adds Documentation. Requesting Documentation maintainer to review it.
-> > > 
-> > > Requesting Greg KH to review the sysfs changes added by patch08.
-> > 
-> > "RFC" means you are not comfortable submitting the changes yet, so you
-> > don't need my review at this point in time.  Become confident in your
-> > changes before asking for others to review the code please.
-> 
-> Hint, it needs work, sysfs_emit() for one thing, lack of reference
-> counting on your cpu objects is another...
+On Fri, Mar 11, 2022 at 11:24 AM Vincent Whitchurch
+<vincent.whitchurch@axis.com> wrote:
+>
+> Add a regression test for the problem fixed by the following patch,
+> which would require specific environmental conditions to be able to be
+> reproduced and regression-tested on real hardware:
+>
+>  iio: light: opt3001: Fixed timeout error when 0 lux
+>  https://lore.kernel.org/lkml/20210920125351.6569-1-valek@2n.cz/
+>
+> No other aspects of the driver are tested.
+>
+> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+> ---
+>  .../roadtest/roadtest/tests/iio/__init__.py   |  0
+>  .../roadtest/roadtest/tests/iio/config        |  1 +
+>  .../roadtest/tests/iio/light/__init__.py      |  0
+>  .../roadtest/roadtest/tests/iio/light/config  |  1 +
+>  .../roadtest/tests/iio/light/test_opt3001.py  | 95 +++++++++++++++++++
+>  5 files changed, 97 insertions(+)
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_opt3001.py
+>
+> diff --git a/tools/testing/roadtest/roadtest/tests/iio/__init__.py b/tools/testing/roadtest/roadtest/tests/iio/__init__.py
+> new file mode 100644
+> index 000000000000..e69de29bb2d1
+> diff --git a/tools/testing/roadtest/roadtest/tests/iio/config b/tools/testing/roadtest/roadtest/tests/iio/config
+> new file mode 100644
+> index 000000000000..a08d9e23ce38
+> --- /dev/null
+> +++ b/tools/testing/roadtest/roadtest/tests/iio/config
+> @@ -0,0 +1 @@
+> +CONFIG_IIO=y
+> diff --git a/tools/testing/roadtest/roadtest/tests/iio/light/__init__.py b/tools/testing/roadtest/roadtest/tests/iio/light/__init__.py
+> new file mode 100644
+> index 000000000000..e69de29bb2d1
+> diff --git a/tools/testing/roadtest/roadtest/tests/iio/light/config b/tools/testing/roadtest/roadtest/tests/iio/light/config
+> new file mode 100644
+> index 000000000000..b9753f2d0728
+> --- /dev/null
+> +++ b/tools/testing/roadtest/roadtest/tests/iio/light/config
+> @@ -0,0 +1 @@
+> +CONFIG_OPT3001=m
+> diff --git a/tools/testing/roadtest/roadtest/tests/iio/light/test_opt3001.py b/tools/testing/roadtest/roadtest/tests/iio/light/test_opt3001.py
+> new file mode 100644
+> index 000000000000..abf20b8f3516
+> --- /dev/null
+> +++ b/tools/testing/roadtest/roadtest/tests/iio/light/test_opt3001.py
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright Axis Communications AB
+> +
+> +from typing import Any, Final
+> +
+> +from roadtest.backend.i2c import SMBusModel
+> +from roadtest.core.devicetree import DtFragment, DtVar
+> +from roadtest.core.hardware import Hardware
+> +from roadtest.core.modules import insmod, rmmod
+> +from roadtest.core.suite import UMLTestCase
+> +from roadtest.core.sysfs import I2CDriver, read_float
+> +
+> +REG_RESULT: Final = 0x00
+> +REG_CONFIGURATION: Final = 0x01
+> +REG_LOW_LIMIT: Final = 0x02
+> +REG_HIGH_LIMIT: Final = 0x03
+> +REG_MANUFACTURER_ID: Final = 0x7E
+> +REG_DEVICE_ID: Final = 0x7F
+> +
+> +REG_CONFIGURATION_CRF: Final = 1 << 7
+> +
+> +
+> +class OPT3001(SMBusModel):
+> +    def __init__(self, **kwargs: Any) -> None:
+> +        super().__init__(regbytes=2, byteorder="big", **kwargs)
+> +        # Reset values from datasheet
+> +        self.regs = {
+> +            REG_RESULT: 0x0000,
+> +            REG_CONFIGURATION: 0xC810,
+> +            REG_LOW_LIMIT: 0xC000,
+> +            REG_HIGH_LIMIT: 0xBFFF,
+> +            REG_MANUFACTURER_ID: 0x5449,
+> +            REG_DEVICE_ID: 0x3001,
+> +        }
+> +
+> +    def reg_read(self, addr: int) -> int:
+> +        val = self.regs[addr]
+> +
+> +        if addr == REG_CONFIGURATION:
+> +            # Always indicate that the conversion is ready.  This is good
+> +            # enough for our current purposes.
+> +            val |= REG_CONFIGURATION_CRF
+> +
+> +        return val
+> +
+> +    def reg_write(self, addr: int, val: int) -> None:
+> +        assert addr in self.regs
+> +        self.regs[addr] = val
+> +
+> +
+> +class TestOPT3001(UMLTestCase):
 
-Greg,
+I am partial to starting with UML since there are a lot of nice easy
+things about starting there; however, I imagine people will eventually
+want to use this on other architectures (speaking from experience).
+How difficult do you think it would be to extend this to support
+manipulating fake devices in say QEMU?
 
-Thanks for the comments. They triggered a bunch of internal
-re-thinking of the interface.  One idea that has some traction
-(Credit/Blame: Dan Williams) is to:
+I also have some colleagues inside of Google that worked on some
+projects to simulate simple devices on an FPGA to test software and
+adjacent devices in a conceptually similar way; one of these teams
+built a Domain Specific Language kind of like roadtest to implement
+the tests and the environment for the tests. The main reason I mention
+this here is I am thinking about maybe one day having an API you can
+implement so you can run your roadtests on UML, QEMU, or on any
+emulator or hardware testbed that implements the appropriate API.
 
-1) Don't put anything in /sys/devices/system/cpu/*
-2) Driver creates some info/control files in its own
-   corner of /sys/devices/.../ifs
-3) No per-cpu files ... run a test with:
-   # echo ${cpu} > /sys/devices/.../ifs/run_test
-4) No test result files.
-   When tests complete they report using uevents
+I'll try to dig up some people who might be interested and add them here.
 
-Using uevent to report means that we can easily have
-mutiple parts to the result (pass/fail/incomplete status, as well
-as diagnostic details about the reason for the failure,
-or why the test was not completed).
+> +    dts = DtFragment(
+> +        src="""
+> +&i2c {
+> +    light-sensor@$addr$ {
+> +        compatible = "ti,opt3001";
+> +        reg = <0x$addr$>;
+> +    };
+> +};
+> +        """,
+> +        variables={
+> +            "addr": DtVar.I2C_ADDR,
+> +        },
+> +    )
+> +
+> +    @classmethod
+> +    def setUpClass(cls) -> None:
+> +        insmod("opt3001")
+> +
+> +    @classmethod
+> +    def tearDownClass(cls) -> None:
+> +        rmmod("opt3001")
+> +
+> +    def setUp(self) -> None:
+> +        self.driver = I2CDriver("opt3001")
+> +        self.hw = Hardware("i2c")
+> +        self.hw.load_model(OPT3001)
+> +
+> +    def tearDown(self) -> None:
+> +        self.hw.close()
+> +
+> +    def test_illuminance(self) -> None:
+> +        data = [
+> +            # Some values from datasheet, and 0
+> +            (0b_0000_0000_0000_0000, 0),
+> +            (0b_0000_0000_0000_0001, 0.01),
+> +            (0b_0011_0100_0101_0110, 88.80),
+> +            (0b_0111_1000_1001_1010, 2818.56),
+> +        ]
+> +        with self.driver.bind(self.dts["addr"]) as dev:
+> +            luxfile = dev.path / "iio:device0/in_illuminance_input"
+> +
+> +            for regval, lux in data:
+> +                self.hw.reg_write(REG_RESULT, regval)
+> +                self.assertEqual(read_float(luxfile), lux)
 
-This seems a novel use of uevent ... is it OK, or is is abuse?
+I love the framework; this looks very easy to use.
 
-Thanks
+One nit about this test; it seems like you cover just one test case
+here - the happy path. Can you cover some other one? Particularly some
+error paths?
 
--Tony
+Sorry, I am not trying to be cheeky here; it looks like this driver
+actually should probably be fully (or very close to fully) testable
+via roadtest as I understand it. It only looks like there are a
+handful of cases to cover for the driver: the device is busy, the
+device returned something invalid, the user requested something
+invalid, and several SMBus read/write failures - it really only looks
+like there are a handful of paths and I think they are all accessible
+via the I2C interface (except for maybe the user requesting something
+invalid).
