@@ -2,208 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBC8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7DBC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:28:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238007AbiCNLUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 07:20:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53822 "EHLO
+        id S238491AbiCNL3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 07:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237211AbiCNLUD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:20:03 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B473D36155
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:18:53 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id f38so30044090ybi.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mXZspInqM53u4/Vhb2XmZIK/wQcyt9SsBMnfAkZUqQM=;
-        b=jZT2uFqmTv65w7jWeuM3xDpajBMUFzmprzZPI5Ze1OZeFM0BbUU25S4N2EylW5HXBO
-         m0CVx+I6+zbldLTnRnfN8aEW1bH47FJbMzCOMYyYWllyYm+451gv12A/W4Q9ulTJJLkk
-         f+GrNV8ciFUFV++G+4jKtIsy3CYtpi/etI+4OhECcmG4iZ9E3vxk9dPiTTNHDHxcH69l
-         wc1Icma4yI4Be6T970a1n+dDY6/yDfqIAP8dcl55He7lbS+fJFFHvN3YXD3kziskDroT
-         XvqSZncuUAEFT1c7nErgx5DlC3s9HJsJjFmDjZQtS1oji60ScWtqRcGsdRPj18FwqJRA
-         YPtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mXZspInqM53u4/Vhb2XmZIK/wQcyt9SsBMnfAkZUqQM=;
-        b=AJhBxtU8HEOoG9S636kVE5G9nKbKIR3Z3gyRLe7WkAuHKvl+e0jJLmm2J5znPs8OFi
-         7DhKkWYlcu9BlP+idvgKazk/Zb6Kc2jA58sW45meqjfVyZcrA6dooF1y8ThQ3iPcEF8x
-         cn/pWLz8ojc90ZtIsSkSXDR7iM5nrlxtZVt9PnHCxj2PLvDOeECO1oWhUYfGy/YhDzEG
-         G5BJnT/e47tyAK7OkE/kkswVExMFioV7uK5dfZlqBgxv/RecKRlBio2E/6TEkxyqNQpN
-         bTAwrRL6AAvWAJMgShQOAvf0y2WU7Z0AoO+7QQwkPXZ8ajIG73/HgGgyneD9XSRsxiDD
-         uCog==
-X-Gm-Message-State: AOAM532JhChaN8ARYE+7TxsGsIPIfSzJ3NPpXs/e0fxM+3CYK0G7vtJy
-        zK1rwr9CevKuP7/Lm92BrPaGZVSdU2qAK8ZIrCoMdLm2N5/m4g==
-X-Google-Smtp-Source: ABdhPJzQLJKoe6FCogZo7fxGRdaNTBTXPxmiMcM6CXnI32iipkTJfg8S7lFhWQ64SGjRssX9Zu1m32kvdPi01fOViyE=
-X-Received: by 2002:a5b:247:0:b0:624:4d24:94ee with SMTP id
- g7-20020a5b0247000000b006244d2494eemr17883973ybp.197.1647256732865; Mon, 14
- Mar 2022 04:18:52 -0700 (PDT)
+        with ESMTP id S237023AbiCNL3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:29:53 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1133BA68
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:28:39 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <rhi@pengutronix.de>)
+        id 1nTis9-0001Nw-Ke; Mon, 14 Mar 2022 12:28:21 +0100
+Received: from rhi by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <rhi@pengutronix.de>)
+        id 1nTis7-0001q2-Tk; Mon, 14 Mar 2022 12:28:19 +0100
+Date:   Mon, 14 Mar 2022 12:28:19 +0100
+From:   Roland Hieber <rhi@pengutronix.de>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] docs: trace: bring headings in order
+Message-ID: <20220314112819.up5sls4m4u6bu4oa@pengutronix.de>
+References: <20220313105557.172732-1-rhi@pengutronix.de>
+ <20220313105557.172732-2-rhi@pengutronix.de>
+ <20220313200143.3328cb87@rorschach.local.home>
 MIME-Version: 1.0
-References: <cover.1646496448.git.siyanteng@loongson.cn> <7128b4af9512bfa2c8915442df228ea239162859.1646496448.git.siyanteng@loongson.cn>
- <CAJy-Am=wv-hhz44ddc_7NS9QZ9ByegviF=6bye-xG9PeLx_ULw@mail.gmail.com>
-In-Reply-To: <CAJy-Am=wv-hhz44ddc_7NS9QZ9ByegviF=6bye-xG9PeLx_ULw@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 14 Mar 2022 19:18:28 +0800
-Message-ID: <CAEensMzC8Aqy_TCmbvv7-m+CZxSjdRu7Um2dS8kjFrhtBS2H7A@mail.gmail.com>
-Subject: Re: [PATCH 03/12] docs/zh_CN: add vm memory-model translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220313200143.3328cb87@rorschach.local.home>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: rhi@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIy5bm0M+aciDjml6XlkajkuowgMjA6
-MzjlhpnpgZPvvJoNCj4NCj4gT24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNCBBTSBZYW50ZW5n
-IFNpIDxzaXlhbnRlbmcwMUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNsYXRlIC4u
-Li92bS9tZW1vcnktbW9kZWwucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0NCj4gPiAgRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IHwgICAzICstDQo+ID4g
-IC4uLi90cmFuc2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdCAgICB8IDEzNSArKysr
-KysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMzcgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
-L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdCBiL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+IGluZGV4IGRkMGIzZDRj
-MGFiOC4uMTg2Zjg1YTE1NmMwIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+IEBAIC0yOCwxMyArMjgsMTQgQEAgVE9ETzrl
-voXlvJXnlKjmlofmoaPpm4booqvnv7vor5Hlrozmr5XlkI7or7flj4rml7bkv67mlLnmraTlpITv
-vIkNCj4gPiAgICAgaGlnaG1lbQ0KPiA+ICAgICBmcm9udHN3YXANCj4gPiAgICAgaHdwb2lzb24N
-Cj4gPiArICAgbWVtb3J5LW1vZGVsDQo+ID4NCj4gPiAgVE9ET0xJU1Q6DQo+ID4gICogYXJjaF9w
-Z3RhYmxlX2hlbHBlcnMNCj4gPiAgKiBmcmVlX3BhZ2VfcmVwb3J0aW5nDQo+ID4gICogaG1tDQo+
-ID4gICogaHVnZXRsYmZzX3Jlc2Vydg0KPiA+IC0qIG1lbW9yeS1tb2RlbA0KPiA+ICsNCj4gPiAg
-KiBtbXVfbm90aWZpZXINCj4gPiAgKiBudW1hDQo+ID4gICogb3ZlcmNvbW1pdC1hY2NvdW50aW5n
-DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL21l
-bW9yeS1tb2RlbC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9tZW1v
-cnktbW9kZWwucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAw
-MDAwMDAuLjVmZTQ3NTU4MWNiZA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9tZW1vcnktbW9kZWwucnN0DQo+ID4gQEAgLTAs
-MCArMSwxMzUgQEANCj4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4g
-PiArDQo+ID4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi92bS9tZW1vcnktbW9kZWwucnN0DQo+
-ID4gKw0KPiA+ICs657+76K+ROg0KPiA+ICsNCj4gPiArIOWPuOW7tuiFviBZYW50ZW5nIFNpIDxz
-aXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICs65qCh6K+ROg0KPiA+ICsNCj4gPiAr
-DQo+ID4gKz09PT09PT09PT09PQ0KPiA+ICvniannkIblhoXlrZjmqKHlnosNCj4gPiArPT09PT09
-PT09PT09DQo+ID4gKw0KPiA+ICvns7vnu5/kuK3nmoTniannkIblhoXlrZjlj6/ku6XnlKjkuI3l
-kIznmoTmlrnlvI/ov5vooYzlr7vlnYDjgILmnIDnroDljZXnmoTmg4XlhrXmmK/vvIzniannkIbl
-hoXlrZjku47lnLDlnYAw5byADQo+ID4gK+Wni++8jOi3qOi2iuS4gOS4qui/nue7reeahOiMg+Wb
-tO+8jOebtOWIsOacgOWkp+eahOWcsOWdgOOAgueEtuiAjO+8jOi/meS4quiMg+WbtOWPr+iDveWM
-heWQq0NQVeaXoOazleiuv+mXrueahA0KPiA+ICvlsI/lrZTpmpnjgILpgqPkuYjvvIzlnKjlrozl
-hajkuI3lkIznmoTlnLDlnYDlj6/og73mnInlh6DkuKrov57nu63nmoTojIPlm7TjgILogIzkuJTv
-vIzliKvlv5jkuoZOVU1B77yM5Y2z5LiNDQo+ID4gK+WQjOeahOWGheWtmOW6k+i/nuaOpeWIsOS4
-jeWQjOeahENQVeOAgg0KPiA+ICsNCj4gPiArTGludXjkvb/nlKjkuKTnp43lhoXlrZjmqKHlnovk
-uK3nmoTkuIDnp43lr7nov5nnp43lpJrmoLfmgKfov5vooYzmir3osaHjgIJGTEFUTUVN5ZKMU1BB
-UlNFTeOAguavjw0KPiA+ICvkuKrmnrbmnoTpg73lrprkuYnkuoblroPmiYDmlK/mjIHnmoTlhoXl
-rZjmqKHlnovvvIzpu5jorqTnmoTlhoXlrZjmqKHlnovmmK/ku4DkuYjvvIzku6Xlj4rmmK/lkKbm
-nInlj6/og73miYvliqgNCj4gPiAr6KaG55uW6K+l6buY6K6k5YC844CCDQo+ID4gKw0KPiA+ICvm
-iYDmnInnmoTlhoXlrZjmqKHlnovpg73kvb/nlKjmjpLliJflnKjkuIDkuKrmiJblpJrkuKrmlbDn
-u4TkuK3nmoQgYHN0cnVjdCBwYWdlYCDmnaXot5/ouKrniannkIbpobUNCj4gPiAr5bin55qE54q2
-5oCB44CCDQo+ID4gKw0KPiA+ICvml6DorrrpgInmi6nlk6rnp43lhoXlrZjmqKHlnovvvIzniann
-kIbpobXmoYblj7fvvIhQRk7vvInlkoznm7jlupTnmoQgYHN0cnVjdCBwYWdlYCDkuYvpl7Tpg73l
-rZgNCj4gPiAr5Zyo5LiA5a+55LiA55qE5pig5bCE5YWz57O744CCDQo+ID4gKw0KPiA+ICvmr4/k
-uKrlhoXlrZjmqKHlnovpg73lrprkuYnkuoYgOmM6ZnVuYzpgcGZuX3RvX3BhZ2VgIOWSjCA6Yzpm
-dW5jOmBwYWdlX3RvX3BmbmANCj4gPiAr5biu5Yqp5Ye95pWw77yM5YWB6K645LuOUEZO5YiwIGBz
-dHJ1Y3QgcGFnZWAg55qE6L2s5o2i77yM5Y+N5LmL5Lqm54S244CCDQo+ID4gKw0KPiA+ICtGTEFU
-TUVNDQo+ID4gKz09PT09PT0NCj4gPiArDQo+ID4gK+acgOeugOWNleeahOWGheWtmOaooeWei+aY
-r0ZMQVRNRU3jgILov5nkuKrmqKHlnovpgILnlKjkuo7pnZ5OVU1B57O757uf55qE6L+e57ut5oiW
-5aSn6YOo5YiG6L+e57ut55qEDQo+ID4gK+eJqeeQhuWGheWtmOOAgg0KPiA+ICsNCj4gPiAr5Zyo
-RkxBVE1FTeWGheWtmOaooeWei+S4re+8jOacieS4gOS4quWFqOWxgOeahCBgbWVtX21hcGAg5pWw
-57uE5p2l5pig5bCE5pW05Liq54mp55CG5YaF5a2Y44CC5a+5DQo+ID4gK+S6juWkp+WkmuaVsOae
-tuaehO+8jOWtlOmameWcqCBgbWVtX21hcGAg5pWw57uE5Lit6YO95pyJ5p2h55uu44CC5LiO5a2U
-5rSe55u45a+55bqU55qEIGBzdHJ1Y3QgcGFnZWANCj4gPiAr5a+56LGh5LuO5pyq6KKr5a6M5YWo
-5Yid5aeL5YyW44CCDQo+ID4gKw0KPiA+ICvkuLrkuobliIbphY0gYG1lbV9tYXBgIOaVsOe7hO+8
-jOaetuaehOeJueWumueahOiuvue9ruS7o+eggeW6lOivpeiwg+eUqGZyZWVfYXJlYV9pbml0KCnl
-h73mlbDjgIINCj4gPiAr54S26ICM77yM5Zyo6LCD55SobWVtYmxvY2tfZnJlZV9hbGwoKeWHveaV
-sOS5i+WJje+8jOaYoOWwhOaVsOe7hOaYr+S4jeiDveS9v+eUqOeahO+8jOivpeWHveaVsA0KPiA+
-ICvlsIbmiYDmnInnmoTlhoXlrZjkuqTnu5npobXliIbphY3lmajjgIINCj4gPiArDQo+ID4gK+S4
-gOS4quaetuaehOWPr+iDveS8mumHiuaUviBgbWVtX21hcGAg5pWw57uE5Lit5LiN5YyF5ous5a6e
-6ZmF54mp55CG6aG155qE6YOo5YiG44CC5Zyo6L+Z56eN5oOF5Ya15LiL77yM54m5DQo+ID4gK+Wu
-muaetuaehOeahCA6YzpmdW5jOmBwZm5fdmFsaWRgIOWunueOsOW6lOivpeiAg+iZkeWIsCBgbWVt
-X21hcGAg5Lit55qE5a2U6ZqZ44CCDQo+ID4gKw0KPiA+ICvkvb/nlKhGTEFUTUVN77yMUEZO5ZKM
-IGBzdHJ1Y3QgcGFnZWAg5LmL6Ze055qE6L2s5o2i5piv55u05o6l55qE44CCIGBQRk4gLSBBUkNI
-X1BGTl9PRkZTRVRgDQo+ID4gK+aYryBgbWVtX21hcGAg5pWw57uE55qE5LiA5Liq57Si5byV44CC
-DQo+ID4gKw0KPiA+ICtgQVJDSF9QRk5fT0ZGU0VUYCDlrprkuYnkuobniannkIblhoXlrZjotbfl
-p4vlnLDlnYDkuI3lkIzkuo4w55qE57O757uf55qE56ys5LiA5Liq6aG15qGG5Y+344CCDQo+ID4g
-Kw0KPiA+ICtTUEFSU0VNRU0NCj4gPiArPT09PT09PT09DQo+ID4gKw0KPiA+ICtTUEFSU0VNRU3m
-mK9MaW51eOS4reacgOmAmueUqOeahOWGheWtmOaooeWei++8jOWug+aYr+WUr+S4gOaUr+aMgeiL
-peW5sumrmOe6p+WKn+iDveeahOWGheWtmOaooeWei++8jA0KPiA+ICvlpoLniannkIblhoXlrZjn
-moTng63mj5Lmi5TjgIHpnZ7mmJPlpLHmgKflhoXlrZjorr7lpIfnmoTmm7/ku6PlhoXlrZjlm77l
-kozovoPlpKfns7vnu5/nmoTlhoXlrZjlm77nmoTlu7bov58NCj4gPiAr5Yid5aeL5YyW44CCDQo+
-ID4gKw0KPiA+ICtTUEFSU0VNRU3mqKHlnovlsIbniannkIblhoXlrZjmmL7npLrkuLrkuIDkuKrp
-g6jliIbnmoTpm4blkIjjgILkuIDkuKrljLrmrrXnlKhtZW1fc2VjdGlvbue7k+aehA0KPiA+ICvk
-vZPooajnpLrvvIzlroPljIXlkKsgYHNlY3Rpb25fbWVtX21hcGAg77yM5LuO6YC76L6R5LiK6K6y
-77yM5a6D5piv5LiA5Liq5oyH5ZCRIGBzdHJ1Y3QgcGFnZWANCj4gPiAr6Zi15YiX55qE5oyH6ZKI
-44CC54S26ICM77yM5a6D6KKr5a2Y5YKo5Zyo5LiA5Lqb5YW25LuW55qEbWFnaWPkuK3vvIzku6Xl
-uK7liqnliIbljLrnrqHnkIbjgILljLrmrrXnmoTlpKflsI8NCj4gPiAr5ZKM5pyA5aSn5Yy65q61
-5pWw5piv5L2/55SoIGBTRUNUSU9OX1NJWkVfQklUU2Ag5ZKMIGBNQVhfUEhZU01FTV9CSVRTYCDl
-uLjph48NCj4gPiAr5p2l5oyH5a6a55qE77yM6L+Z5Lik5Liq5bi46YeP5piv55Sx5q+P5Liq5pSv
-5oyBU1BBUlNFTUVN55qE5p625p6E5a6a5LmJ55qE44CCIGBNQVhfUEhZU01FTV9CSVRTYA0KPiA+
-ICvmmK/kuIDkuKrmnrbmnoTmiYDmlK/mjIHnmoTniannkIblnLDlnYDnmoTlrp7pmYXlrr3luqbv
-vIzogIwgYFNFQ1RJT05fU0laRV9CSVRTYCDmmK/kuIDkuKrku7sNCj4gPiAr5oSP55qE5YC844CC
-DQo+ID4gKw0KPiA+ICvmnIDlpKfnmoTmrrXmlbDooajnpLrkuLogYE5SX01FTV9TRUNUSU9OU2Ag
-77yM5a6a5LmJ5Li6DQo+ID4gKw0KPiA+ICsuLiBtYXRoOjoNCj4gPiArDQo+ID4gKyAgIE5SXF9N
-RU1cX1NFQ1RJT05TID0gMiBeIHsoTUFYXF9QSFlTTUVNXF9CSVRTIC0gU0VDVElPTlxfU0laRVxf
-QklUUyl9DQo+ID4gKw0KPiA+ICtgbWVtX3NlY3Rpb25gIOWvueixoeiiq+WuieaOkuWcqOS4gOS4
-quWPq+WBmiBgbWVtX3NlY3Rpb25zYCDnmoTkuoznu7TmlbDnu4TkuK3jgILov5nkuKrmlbDnu4Tn
-moQNCj4gPiAr5aSn5bCP5ZKM5L2N572u5Y+W5Yaz5LqOIGBDT05GSUdfU1BBUlNFTV9FWFRSRU1F
-YCDlkozlj6/og73nmoTmnIDlpKfmrrXmlbA6DQo+ID4gKw0KPiA+ICsqIOW9kyBgQ09ORklHX1NQ
-QVJTRU1FTV9FWFRSRU1FYCDooqvnpoHnlKjml7bvvIwgYG1lbV9zZWN0aW9uc2Ag5pWw57uE5piv
-6Z2Z5oCB55qE77yM5pyJDQo+ID4gKyAgYE5SX01FTV9TRUNUSU9OU2Ag6KGM44CC5q+P5LiA6KGM
-5oyB5pyJ5LiA5LiqIGBtZW1fc2VjdGlvbmAg5a+56LGh44CCDQo+ID4gKyog5b2TIGBDT05GSUdf
-U1BBUlNFTUVNX0VYVFJFTUVgIOiiq+WQr+eUqOaXtu+8jCBgbWVtX3NlY3Rpb25zYCDmlbDnu4To
-oqvliqjmgIHliIbphY3jgIINCj4gPiArICDmr4/kuIDooYzljIXlkKvku7flgLwgYFBBR0VfU0la
-RWAg55qEIGBtZW1fc2VjdGlvbmAg5a+56LGh77yM6KGM5pWw55qE6K6h566X5piv5Li65LqG6YCC
-5bqU5omA5pyJ55qEDQo+ID4gKyAg5YaF5a2Y5Yy644CCDQo+ID4gKw0KPiA+ICvmnrbmnoTorr7n
-va7ku6PnoIHlupTor6XosIPnlKhzcGFyc2VfaW5pdCgp5p2l5Yid5aeL5YyW5YaF5a2Y5Yy65ZKM
-5YaF5a2Y5pig5bCE44CCDQo+ID4gKw0KPiA+ICvpgJrov4dTUEFSU0VNRU3vvIzmnInkuKTnp43l
-j6/og73nmoTmlrnlvI/lsIZQRk7ovazmjaLkuLrnm7jlupTnmoQgYHN0cnVjdCBwYWdlYCAtLSJj
-bGFzc2ljIHNwYXJzZSLlkowNCj4gPiArICJzcGFyc2Ugdm1lbW1hcCLjgILpgInmi6nmmK/lnKjm
-noTlu7rml7bov5vooYznmoTvvIzlroPnlLEgYENPTkZJR19TUEFSU0VNRU1fVk1FTU1BUGAg55qE
-DQo+ID4gKyDlgLzlhrPlrprjgIINCj4gPiArDQo+ID4gK0NsYXNzaWMgc3BhcnNl5ZyocGFnZS0+
-ZmxhZ3PkuK3nvJbnoIHkuobkuIDkuKrpobXpnaLnmoTmrrXlj7fvvIzlubbkvb/nlKhQRk7nmoTp
-q5jkvY3mnaXorr/pl67mmKDlsITor6XpobUNCj4gPiAr5qGG55qE5q6144CC5Zyo5LiA5Liq5Yy6
-5q615YaF77yMUEZO5piv5oyH5ZCR6aG15pWw57uE55qE57Si5byV44CCDQo+ID4gKw0KPiA+ICtT
-cGFyc2Ugdm1lbW1hcHZtZW1tYXDkvb/nlKjomZrmi5/mmKDlsITnmoTlhoXlrZjmmKDlsITmnaXk
-vJjljJZwZm5fdG9fcGFnZeWSjHBhZ2VfdG9fcGZu5pONDQo+ID4gK+S9nOOAguacieS4gOS4quWF
-qOWxgOeahCBgc3RydWN0IHBhZ2UgKnZtZW1tYXBgIOaMh+mSiO+8jOaMh+WQkeS4gOS4quiZmuaL
-n+i/nue7reeahCBgc3RydWN0IHBhZ2VgDQo+ID4gK+WvueixoemYteWIl+OAglBGTuaYr+ivpeaV
-sOe7hOeahOS4gOS4que0ouW8le+8jGBzdHJ1Y3QgcGFnZWAg5LuOIGB2bWVtbWFwYCDnmoTlgY/n
-p7vph4/mmK/or6XpobXnmoRQRk7jgIINCj4gPiArDQo+ID4gK+S4uuS6huS9v+eUqHZtZW1tYXDv
-vIzkuIDkuKrmnrbmnoTlv4Xpobvkv53nlZnkuIDkuKromZrmi5/lnLDlnYDnmoTojIPlm7TvvIzk
-u6XmmKDlsITljIXlkKvlhoXlrZjmmKDlsITnmoTniannkIbpobXvvIzlubYNCj4gPiAr56Gu5L+d
-IGB2bWVtbWFwYOaMh+WQkeivpeiMg+WbtOOAguatpOWklu+8jOaetuaehOW6lOivpeWunueOsCA6
-YzpmdW5jOmB2bWVtbWFwX3BvcHVsYXRlYCDmlrnms5XvvIwNCj4gPiAr5a6D5bCG5YiG6YWN54mp
-55CG5YaF5a2Y5bm25Li66Jma5ouf5YaF5a2Y5pig5bCE5Yib5bu66aG16KGo44CC5aaC5p6c5LiA
-5Liq5p625p6E5a+5dm1lbW1hcOaYoOWwhOayoeacieS7u+S9leeJueauiuimgeaxgu+8jA0KPiA+
-ICvlroPlj6/ku6Xkvb/nlKjpgJrnlKjlhoXlrZjnrqHnkIbmj5DkvpvnmoTpu5jorqQgOmM6ZnVu
-Yzpgdm1lbW1hcF9wb3B1bGF0ZV9iYXNlcGFnZXNg44CCDQo+ID4gKw0KPiA+ICvomZrmi5/mmKDl
-sITnmoTlhoXlrZjmmKDlsITlhYHorrjlsIbmjIHkuYXmgKflhoXlrZjorr7lpIfnmoQgYHN0cnVj
-dCBwYWdlYCDlr7nosaHlrZjlgqjlnKjov5nkupvorr7lpIfkuIrpooTlhYjliIYNCj4gPiAr6YWN
-55qE5a2Y5YKo5Lit44CC6L+Z56eN5a2Y5YKo55Sodm1lbV9hbHRtYXDnu5PmnoTooajnpLrvvIzm
-nIDnu4jpgJrov4fkuIDplb/kuLLnmoTlh73mlbDosIPnlKjkvKDpgJLnu5kNCj4gPiArdm1lbW1h
-cF9wb3B1bGF0ZSgp44CCdm1lbW1hcF9wb3B1bGF0ZSgp5a6e546w5Y+v5Lul5L2/55SoIGB2bWVt
-X2FsdG1hcGAg5ZKMDQo+ID4gKzpjOmZ1bmM6YHZtZW1tYXBfYWxsb2NfYmxvY2tfYnVmYCDliqnm
-iYvmnaXliIbphY3mjIHkuYXmgKflhoXlrZjorr7lpIfkuIrnmoTlhoXlrZjmmKDlsITjgIINCj4g
-PiArDQo+ID4gK1pPTkVfREVWSUNFDQo+ID4gKz09PT09PT09PT09DQo+ID4gK2BaT05FX0RFVklD
-RWAg6K6+5pa95bu656uL5ZyoIGBTUEFSU0VNX1ZNRU1NQVBgIOS5i+S4iu+8jOS4uuiuvuWkh+mp
-seWKqOivhuWIq+eahOeJqeeQhuWcsOWdgOiMgw0KPiA+ICvlm7Tmj5DkvpsgYHN0cnVjdCBwYWdl
-YCBgbWVtX21hcGAg5pyN5Yqh44CCIGBaT05FX0RFVklDRWAg55qEICLorr7lpIciIOaWuemdouS4
-juS7peS4iw0KPiA+ICvkuovlrp7mnInlhbPvvJrov5nkupvlnLDlnYDojIPlm7TnmoTpobXpnaLl
-r7nosaHku47mnKrooqvlnKjnur/moIforrDov4fvvIzogIzkuJTlv4Xpobvlr7norr7lpIfov5vo
-oYzlvJXnlKjvvIzogIzkuI3ku4Xku4UNCj4gPiAr5piv6aG16Z2i77yM5Lul5L+d5oyB5YaF5a2Y
-6KKrcGlubmVk5Lul5L6/5L2/55So44CCIGBaT05FX0RFVklDRWAg77yM6YCa6L+HIDpjOmZ1bmM6
-YGRldm1fbWVtcmVtYXBfcGFnZXNgIO+8jA0KPg0KPiDku6Xkv53mjIHlhoXlrZjooqvigJzplIHl
-rprigJ3ku6Xkvr/kvb/nlKjvvJ8NCk9rLHRoYW5rcyENCg0KVGhhbmtzLA0KWWFudGVuZw0KPg0K
-PiBmb3Igb3RoZXJzOg0KPiBSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+
-DQo+DQo+IFRoYW5rcw0K
+On Sun, Mar 13, 2022 at 08:01:43PM -0400, Steven Rostedt wrote:
+> On Sun, 13 Mar 2022 11:55:56 +0100
+> Roland Hieber <rhi@pengutronix.de> wrote:
+> 
+> >  
+> > -2.2 Inter-event hist triggers
+> > ------------------------------
+> > +Inter-event hist triggers
+> > +-------------------------
+> >  
+> >  Inter-event hist triggers are hist triggers that combine values from
+> >  one or more other events and create a histogram using that data.  Data
+> > @@ -1676,8 +1676,8 @@ pseudo-file.
+> >  
+> >  These features are described in more detail in the following sections.
+> >  
+> > -2.2.1 Histogram Variables
+> > --------------------------
+> > +Histogram Variables
+> > +-------------------
+> >  
+> 
+> Histogram Variables is a sub section of Inter-event hist triggers,
+> which this now removes. This affects the output a breaks the intention
+> of the document. I haven't looked at all the other updates, I just
+> stopped when I saw this.
+
+Ah, yes. This was probably overlooked when the document was convert into
+reST initially.
+
+I'll fix it in the next iteration.
+
+ - Roland
+
+-- 
+Roland Hieber, Pengutronix e.K.          | r.hieber@pengutronix.de     |
+Steuerwalder Str. 21                     | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686         | Fax:   +49-5121-206917-5555 |
