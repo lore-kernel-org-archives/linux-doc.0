@@ -2,305 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 166D9C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBC8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231800AbiCNLNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 07:13:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37014 "EHLO
+        id S238007AbiCNLUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 07:20:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbiCNLNL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:13:11 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED60213E3B;
-        Mon, 14 Mar 2022 04:12:01 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id e186so29949385ybc.7;
-        Mon, 14 Mar 2022 04:12:01 -0700 (PDT)
+        with ESMTP id S237211AbiCNLUD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:20:03 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B473D36155
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:18:53 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id f38so30044090ybi.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NrHL268kYTQKU4P/1wkUZzdGz3tsAsC9tQJaQPpuhuw=;
-        b=dfyY3aPCvZgBdhCbIskssGSkz1cIjNj3niZVF1fMEDNssC7eZXPPKC4V4d3Kn++8JB
-         vmC1rm09tpzKPKrwA9M/acKBmv5HCV+ihe0knLzgEquZzzMWhMM83Rr6Epy/RQabxwf8
-         8sJAfFDkJ+cF8FlSRanzzSJYon6mnOn+NyUR/sCpB49au+ehE98SRUAaRHCcFFSF8c7w
-         7NK+aSicKLUmofLMuCSgpSmcgx7ATWGpONpHrBOlK684BuS5fVqp5GRBkdsVSqLeieXf
-         3vT4fGwYvIjNAr53YShmo7m9jCZoVkhalM5eC4u89KIDJI0BHAXVODrZ11zKaGyMjT+6
-         rdUA==
+         :cc:content-transfer-encoding;
+        bh=mXZspInqM53u4/Vhb2XmZIK/wQcyt9SsBMnfAkZUqQM=;
+        b=jZT2uFqmTv65w7jWeuM3xDpajBMUFzmprzZPI5Ze1OZeFM0BbUU25S4N2EylW5HXBO
+         m0CVx+I6+zbldLTnRnfN8aEW1bH47FJbMzCOMYyYWllyYm+451gv12A/W4Q9ulTJJLkk
+         f+GrNV8ciFUFV++G+4jKtIsy3CYtpi/etI+4OhECcmG4iZ9E3vxk9dPiTTNHDHxcH69l
+         wc1Icma4yI4Be6T970a1n+dDY6/yDfqIAP8dcl55He7lbS+fJFFHvN3YXD3kziskDroT
+         XvqSZncuUAEFT1c7nErgx5DlC3s9HJsJjFmDjZQtS1oji60ScWtqRcGsdRPj18FwqJRA
+         YPtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NrHL268kYTQKU4P/1wkUZzdGz3tsAsC9tQJaQPpuhuw=;
-        b=CP+n2xqzrbD3Y0ZZstXVa8y1sa69liEF7v5nGXUwIhC4tA+tDa7q8/4xT7550yZkxc
-         SpHgIOH1oVJ9cUTYQrTXN9vWe9HLPIQ5KPflULTCkDHQDHzbN9pTcvVS4ixjlRW5f5h9
-         qwjhdY9gVXkUlDMW4DX1L4/eqWKQnXVtPSfzaaiLijgGeHMShAEw9l5hROhT32OZSFCQ
-         qq05AcpsbS2XgEtIe3f6EJd4FH0mtkM2AXQ+MhxFa5XN+eEbxI+SihDozpsE0GC5eEoR
-         ePITiI70qWLab2yCkEARnSLMD8jDzX9LrO0Mi+vrE5Pd/J2vPEaBsLgntkwwedjrRXtt
-         fi8Q==
-X-Gm-Message-State: AOAM533zVhxJKvjbjkkz1WZVjJAxmP/qP0XSxPJbrXJA9b7AD9gn4GES
-        xe9llAJuCV95fBYgU88MbaJ6ZDDVmUoA5mrQRDc=
-X-Google-Smtp-Source: ABdhPJws/fpfY+OebPw5PnXLzpcwwAkHXKhoKO32xvpUOeSozhDQhfrG2imKe/Bk7UFZD/+TtWQGCIrYRG+Gt7cN0GM=
-X-Received: by 2002:a5b:7c6:0:b0:60b:a0ce:19b with SMTP id t6-20020a5b07c6000000b0060ba0ce019bmr17145561ybq.407.1647256321073;
- Mon, 14 Mar 2022 04:12:01 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mXZspInqM53u4/Vhb2XmZIK/wQcyt9SsBMnfAkZUqQM=;
+        b=AJhBxtU8HEOoG9S636kVE5G9nKbKIR3Z3gyRLe7WkAuHKvl+e0jJLmm2J5znPs8OFi
+         7DhKkWYlcu9BlP+idvgKazk/Zb6Kc2jA58sW45meqjfVyZcrA6dooF1y8ThQ3iPcEF8x
+         cn/pWLz8ojc90ZtIsSkSXDR7iM5nrlxtZVt9PnHCxj2PLvDOeECO1oWhUYfGy/YhDzEG
+         G5BJnT/e47tyAK7OkE/kkswVExMFioV7uK5dfZlqBgxv/RecKRlBio2E/6TEkxyqNQpN
+         bTAwrRL6AAvWAJMgShQOAvf0y2WU7Z0AoO+7QQwkPXZ8ajIG73/HgGgyneD9XSRsxiDD
+         uCog==
+X-Gm-Message-State: AOAM532JhChaN8ARYE+7TxsGsIPIfSzJ3NPpXs/e0fxM+3CYK0G7vtJy
+        zK1rwr9CevKuP7/Lm92BrPaGZVSdU2qAK8ZIrCoMdLm2N5/m4g==
+X-Google-Smtp-Source: ABdhPJzQLJKoe6FCogZo7fxGRdaNTBTXPxmiMcM6CXnI32iipkTJfg8S7lFhWQ64SGjRssX9Zu1m32kvdPi01fOViyE=
+X-Received: by 2002:a5b:247:0:b0:624:4d24:94ee with SMTP id
+ g7-20020a5b0247000000b006244d2494eemr17883973ybp.197.1647256732865; Mon, 14
+ Mar 2022 04:18:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220208081902.3550911-1-yuzhao@google.com> <20220208081902.3550911-5-yuzhao@google.com>
- <YgV4lZXc6+jhUdsR@cmpxchg.org> <Ygt1qaQM5YobEZK9@google.com>
- <CAGsJ_4wN_CAOsyR3LATE+EUhuV0gO-zhhNiMwEBwyXOp0CbkZg@mail.gmail.com>
- <CAOUHufaUJD8nC6PDVfmkeTwB4BtzBzigxh+V-hfR-_26VwjOPA@mail.gmail.com>
- <CAGsJ_4zT7gtGSEoAay=VE6x_YZkNKtLymRL94pBnVgKekPzxaQ@mail.gmail.com>
- <CAOUHufbor4L5OfjNFEMcaM5bXnM9VWXw-LK9A04vP65rkcLNMg@mail.gmail.com> <CAGsJ_4x+BP1RuB4ig=z67br+cdUom1eUov6_t-wxGjWvbpF2Rg@mail.gmail.com>
-In-Reply-To: <CAGsJ_4x+BP1RuB4ig=z67br+cdUom1eUov6_t-wxGjWvbpF2Rg@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Tue, 15 Mar 2022 00:11:50 +1300
-Message-ID: <CAGsJ_4zLWqQ44KkBwJW6e3AHS8XzzNK1D5WVU31mDGdzdqfgaQ@mail.gmail.com>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>
+References: <cover.1646496448.git.siyanteng@loongson.cn> <7128b4af9512bfa2c8915442df228ea239162859.1646496448.git.siyanteng@loongson.cn>
+ <CAJy-Am=wv-hhz44ddc_7NS9QZ9ByegviF=6bye-xG9PeLx_ULw@mail.gmail.com>
+In-Reply-To: <CAJy-Am=wv-hhz44ddc_7NS9QZ9ByegviF=6bye-xG9PeLx_ULw@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 14 Mar 2022 19:18:28 +0800
+Message-ID: <CAEensMzC8Aqy_TCmbvv7-m+CZxSjdRu7Um2dS8kjFrhtBS2H7A@mail.gmail.com>
+Subject: Re: [PATCH 03/12] docs/zh_CN: add vm memory-model translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > >
-> > > > > We used to put a faulted file page in inactive, if we access it a
-> > > > > second time, it can be promoted
-> > > > > to active. then in recent years, we have also applied this to anon
-> > > > > pages while kernel adds
-> > > > > workingset protection for anon pages. so basically both anon and file
-> > > > > pages go into the inactive
-> > > > > list for the 1st time, if we access it for the second time, they go to
-> > > > > the active list. if we don't access
-> > > > > it any more, they are likely to be reclaimed as they are inactive.
-> > > > > we do have some special fastpath for code section, executable file
-> > > > > pages are kept on active list
-> > > > > as long as they are accessed.
-> > > >
-> > > > Yes.
-> > > >
-> > > > > so all of the above concerns are actually not that correct?
-> > > >
-> > > > They are valid concerns but I don't know any popular workloads that
-> > > > care about them.
-> > >
-> > > Hi Yu,
-> > > here we can get a workload in Kim's patchset while he added workingset
-> > > protection
-> > > for anon pages:
-> > > https://patchwork.kernel.org/project/linux-mm/cover/1581401993-20041-1-git-send-email-iamjoonsoo.kim@lge.com/
-> >
-> > Thanks. I wouldn't call that a workload because it's not a real
-> > application. By popular workloads, I mean applications that the
-> > majority of people actually run on phones, in cloud, etc.
-> >
-> > > anon pages used to go to active rather than inactive, but kim's patchset
-> > > moved to use inactive first. then only after the anon page is accessed
-> > > second time, it can move to active.
-> >
-> > Yes. To clarify, the A-bit doesn't really mean the first or second
-> > access. It can be many accesses each time it's set.
-> >
-> > > "In current implementation, newly created or swap-in anonymous page is
-> > >
-> > > started on the active list. Growing the active list results in rebalancing
-> > > active/inactive list so old pages on the active list are demoted to the
-> > > inactive list. Hence, hot page on the active list isn't protected at all.
-> > >
-> > > Following is an example of this situation.
-> > >
-> > > Assume that 50 hot pages on active list and system can contain total
-> > > 100 pages. Numbers denote the number of pages on active/inactive
-> > > list (active | inactive). (h) stands for hot pages and (uo) stands for
-> > > used-once pages.
-> > >
-> > > 1. 50 hot pages on active list
-> > > 50(h) | 0
-> > >
-> > > 2. workload: 50 newly created (used-once) pages
-> > > 50(uo) | 50(h)
-> > >
-> > > 3. workload: another 50 newly created (used-once) pages
-> > > 50(uo) | 50(uo), swap-out 50(h)
-> > >
-> > > As we can see, hot pages are swapped-out and it would cause swap-in later."
-> > >
-> > > Is MGLRU able to avoid the swap-out of the 50 hot pages?
-> >
-> > I think the real question is why the 50 hot pages can be moved to the
-> > inactive list. If they are really hot, the A-bit should protect them.
->
-> This is a good question.
->
-> I guess it  is probably because the current lru is trying to maintain a balance
-> between the sizes of active and inactive lists. Thus, it can shrink active list
-> even though pages might be still "hot" but not the recently accessed ones.
->
-> 1. 50 hot pages on active list
-> 50(h) | 0
->
-> 2. workload: 50 newly created (used-once) pages
-> 50(uo) | 50(h)
->
-> 3. workload: another 50 newly created (used-once) pages
-> 50(uo) | 50(uo), swap-out 50(h)
->
-> the old kernel without anon workingset protection put workload 2 on active, so
-> pushed 50 hot pages from active to inactive. workload 3 would further contribute
-> to evict the 50 hot pages.
->
-> it seems mglru doesn't demote pages from the youngest generation to older
-> generation only in order to balance the list size? so mglru is probably safe
-> in these cases.
->
-> I will run some tests mentioned in Kim's patchset and report the result to you
-> afterwards.
->
-
-Hi Yu,
-I did find putting faulted pages to the youngest generation lead to some
-regression in the case ebizzy Kim's patchset mentioned while he tried
-to support workingset protection for anon pages.
-i did a little bit modification for rand_chunk() which is probably similar
-with the modifcation() Kim mentioned in his patchset. The modification
-can be found here:
-https://github.com/21cnbao/ltp/commit/7134413d747bfa9ef
-
-The test env is a x86 machine in which I have set memory size to 2.5GB and
-set zRAM to 2GB and disabled external disk swap.
-
-with the vanilla kernel:
-\time -v ./a.out -vv -t 4 -s 209715200 -S 200000
-
-so we have 10 chunks and 4 threads, each trunk is 209715200(200MB)
-
-typical result:
-        Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-        User time (seconds): 36.19
-        System time (seconds): 229.72
-        Percent of CPU this job got: 371%
-        Elapsed (wall clock) time (h:mm:ss or m:ss): 1:11.59
-        Average shared text size (kbytes): 0
-        Average unshared data size (kbytes): 0
-        Average stack size (kbytes): 0
-        Average total size (kbytes): 0
-        Maximum resident set size (kbytes): 2166196
-        Average resident set size (kbytes): 0
-        Major (requiring I/O) page faults: 9990128
-        Minor (reclaiming a frame) page faults: 33315945
-        Voluntary context switches: 59144
-        Involuntary context switches: 167754
-        Swaps: 0
-        File system inputs: 2760
-        File system outputs: 8
-        Socket messages sent: 0
-        Socket messages received: 0
-        Signals delivered: 0
-        Page size (bytes): 4096
-        Exit status: 0
-
-with gen_lru and lru_gen/enabled=0x3:
-typical result:
-Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-User time (seconds): 36.34
-System time (seconds): 276.07
-Percent of CPU this job got: 378%
-Elapsed (wall clock) time (h:mm:ss or m:ss): 1:22.46
-           **** 15% time +
-Average shared text size (kbytes): 0
-Average unshared data size (kbytes): 0
-Average stack size (kbytes): 0
-Average total size (kbytes): 0
-Maximum resident set size (kbytes): 2168120
-Average resident set size (kbytes): 0
-Major (requiring I/O) page faults: 13362810
-             ***** 30% page fault +
-Minor (reclaiming a frame) page faults: 33394617
-Voluntary context switches: 55216
-Involuntary context switches: 137220
-Swaps: 0
-File system inputs: 4088
-File system outputs: 8
-Socket messages sent: 0
-Socket messages received: 0
-Signals delivered: 0
-Page size (bytes): 4096
-Exit status: 0
-
-with gen_lru and lru_gen/enabled=0x7:
-typical result:
-Command being timed: "./a.out -vv -t 4 -s 209715200 -S 200000"
-User time (seconds): 36.13
-System time (seconds): 251.71
-Percent of CPU this job got: 378%
-Elapsed (wall clock) time (h:mm:ss or m:ss): 1:16.00
-         *****better than enabled=0x3, worse than vanilla
-Average shared text size (kbytes): 0
-Average unshared data size (kbytes): 0
-Average stack size (kbytes): 0
-Average total size (kbytes): 0
-Maximum resident set size (kbytes): 2120988
-Average resident set size (kbytes): 0
-Major (requiring I/O) page faults: 12706512
-Minor (reclaiming a frame) page faults: 33422243
-Voluntary context switches: 49485
-Involuntary context switches: 126765
-Swaps: 0
-File system inputs: 2976
-File system outputs: 8
-Socket messages sent: 0
-Socket messages received: 0
-Signals delivered: 0
-Page size (bytes): 4096
-Exit status: 0
-
-I can also reproduce the problem on arm64.
-
-I am not saying this is going to block mglru from being mainlined. But  I am
-still curious if this is an issue worth being addressed somehow in mglru.
-
-> >
-> > > since MGLRU
-> > > is putting faulted pages to the youngest generation directly, do we have the
-> > > risk mentioned in Kim's patchset?
-> >
-> > There are always risks :) I could imagine a thousand ways to make VM
-> > suffer, but all of them could be irrelevant to how it actually does in
-> > production. So a concrete use case of yours would be much appreciated
-> > for this discussion.
->
-
-Thanks
-Barry
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIy5bm0M+aciDjml6XlkajkuowgMjA6
+MzjlhpnpgZPvvJoNCj4NCj4gT24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNCBBTSBZYW50ZW5n
+IFNpIDxzaXlhbnRlbmcwMUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNsYXRlIC4u
+Li92bS9tZW1vcnktbW9kZWwucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYt
+Ynk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0NCj4gPiAgRG9j
+dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IHwgICAzICstDQo+ID4g
+IC4uLi90cmFuc2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdCAgICB8IDEzNSArKysr
+KysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMzcgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvemhfQ04vdm0vbWVtb3J5LW1vZGVsLnJzdA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
+L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdCBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+IGluZGV4IGRkMGIzZDRj
+MGFiOC4uMTg2Zjg1YTE1NmMwIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNs
+YXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNs
+YXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+IEBAIC0yOCwxMyArMjgsMTQgQEAgVE9ETzrl
+voXlvJXnlKjmlofmoaPpm4booqvnv7vor5Hlrozmr5XlkI7or7flj4rml7bkv67mlLnmraTlpITv
+vIkNCj4gPiAgICAgaGlnaG1lbQ0KPiA+ICAgICBmcm9udHN3YXANCj4gPiAgICAgaHdwb2lzb24N
+Cj4gPiArICAgbWVtb3J5LW1vZGVsDQo+ID4NCj4gPiAgVE9ET0xJU1Q6DQo+ID4gICogYXJjaF9w
+Z3RhYmxlX2hlbHBlcnMNCj4gPiAgKiBmcmVlX3BhZ2VfcmVwb3J0aW5nDQo+ID4gICogaG1tDQo+
+ID4gICogaHVnZXRsYmZzX3Jlc2Vydg0KPiA+IC0qIG1lbW9yeS1tb2RlbA0KPiA+ICsNCj4gPiAg
+KiBtbXVfbm90aWZpZXINCj4gPiAgKiBudW1hDQo+ID4gICogb3ZlcmNvbW1pdC1hY2NvdW50aW5n
+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL21l
+bW9yeS1tb2RlbC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9tZW1v
+cnktbW9kZWwucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAw
+MDAwMDAuLjVmZTQ3NTU4MWNiZA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVu
+dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9tZW1vcnktbW9kZWwucnN0DQo+ID4gQEAgLTAs
+MCArMSwxMzUgQEANCj4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4g
+PiArDQo+ID4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi92bS9tZW1vcnktbW9kZWwucnN0DQo+
+ID4gKw0KPiA+ICs657+76K+ROg0KPiA+ICsNCj4gPiArIOWPuOW7tuiFviBZYW50ZW5nIFNpIDxz
+aXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICs65qCh6K+ROg0KPiA+ICsNCj4gPiAr
+DQo+ID4gKz09PT09PT09PT09PQ0KPiA+ICvniannkIblhoXlrZjmqKHlnosNCj4gPiArPT09PT09
+PT09PT09DQo+ID4gKw0KPiA+ICvns7vnu5/kuK3nmoTniannkIblhoXlrZjlj6/ku6XnlKjkuI3l
+kIznmoTmlrnlvI/ov5vooYzlr7vlnYDjgILmnIDnroDljZXnmoTmg4XlhrXmmK/vvIzniannkIbl
+hoXlrZjku47lnLDlnYAw5byADQo+ID4gK+Wni++8jOi3qOi2iuS4gOS4qui/nue7reeahOiMg+Wb
+tO+8jOebtOWIsOacgOWkp+eahOWcsOWdgOOAgueEtuiAjO+8jOi/meS4quiMg+WbtOWPr+iDveWM
+heWQq0NQVeaXoOazleiuv+mXrueahA0KPiA+ICvlsI/lrZTpmpnjgILpgqPkuYjvvIzlnKjlrozl
+hajkuI3lkIznmoTlnLDlnYDlj6/og73mnInlh6DkuKrov57nu63nmoTojIPlm7TjgILogIzkuJTv
+vIzliKvlv5jkuoZOVU1B77yM5Y2z5LiNDQo+ID4gK+WQjOeahOWGheWtmOW6k+i/nuaOpeWIsOS4
+jeWQjOeahENQVeOAgg0KPiA+ICsNCj4gPiArTGludXjkvb/nlKjkuKTnp43lhoXlrZjmqKHlnovk
+uK3nmoTkuIDnp43lr7nov5nnp43lpJrmoLfmgKfov5vooYzmir3osaHjgIJGTEFUTUVN5ZKMU1BB
+UlNFTeOAguavjw0KPiA+ICvkuKrmnrbmnoTpg73lrprkuYnkuoblroPmiYDmlK/mjIHnmoTlhoXl
+rZjmqKHlnovvvIzpu5jorqTnmoTlhoXlrZjmqKHlnovmmK/ku4DkuYjvvIzku6Xlj4rmmK/lkKbm
+nInlj6/og73miYvliqgNCj4gPiAr6KaG55uW6K+l6buY6K6k5YC844CCDQo+ID4gKw0KPiA+ICvm
+iYDmnInnmoTlhoXlrZjmqKHlnovpg73kvb/nlKjmjpLliJflnKjkuIDkuKrmiJblpJrkuKrmlbDn
+u4TkuK3nmoQgYHN0cnVjdCBwYWdlYCDmnaXot5/ouKrniannkIbpobUNCj4gPiAr5bin55qE54q2
+5oCB44CCDQo+ID4gKw0KPiA+ICvml6DorrrpgInmi6nlk6rnp43lhoXlrZjmqKHlnovvvIzniann
+kIbpobXmoYblj7fvvIhQRk7vvInlkoznm7jlupTnmoQgYHN0cnVjdCBwYWdlYCDkuYvpl7Tpg73l
+rZgNCj4gPiAr5Zyo5LiA5a+55LiA55qE5pig5bCE5YWz57O744CCDQo+ID4gKw0KPiA+ICvmr4/k
+uKrlhoXlrZjmqKHlnovpg73lrprkuYnkuoYgOmM6ZnVuYzpgcGZuX3RvX3BhZ2VgIOWSjCA6Yzpm
+dW5jOmBwYWdlX3RvX3BmbmANCj4gPiAr5biu5Yqp5Ye95pWw77yM5YWB6K645LuOUEZO5YiwIGBz
+dHJ1Y3QgcGFnZWAg55qE6L2s5o2i77yM5Y+N5LmL5Lqm54S244CCDQo+ID4gKw0KPiA+ICtGTEFU
+TUVNDQo+ID4gKz09PT09PT0NCj4gPiArDQo+ID4gK+acgOeugOWNleeahOWGheWtmOaooeWei+aY
+r0ZMQVRNRU3jgILov5nkuKrmqKHlnovpgILnlKjkuo7pnZ5OVU1B57O757uf55qE6L+e57ut5oiW
+5aSn6YOo5YiG6L+e57ut55qEDQo+ID4gK+eJqeeQhuWGheWtmOOAgg0KPiA+ICsNCj4gPiAr5Zyo
+RkxBVE1FTeWGheWtmOaooeWei+S4re+8jOacieS4gOS4quWFqOWxgOeahCBgbWVtX21hcGAg5pWw
+57uE5p2l5pig5bCE5pW05Liq54mp55CG5YaF5a2Y44CC5a+5DQo+ID4gK+S6juWkp+WkmuaVsOae
+tuaehO+8jOWtlOmameWcqCBgbWVtX21hcGAg5pWw57uE5Lit6YO95pyJ5p2h55uu44CC5LiO5a2U
+5rSe55u45a+55bqU55qEIGBzdHJ1Y3QgcGFnZWANCj4gPiAr5a+56LGh5LuO5pyq6KKr5a6M5YWo
+5Yid5aeL5YyW44CCDQo+ID4gKw0KPiA+ICvkuLrkuobliIbphY0gYG1lbV9tYXBgIOaVsOe7hO+8
+jOaetuaehOeJueWumueahOiuvue9ruS7o+eggeW6lOivpeiwg+eUqGZyZWVfYXJlYV9pbml0KCnl
+h73mlbDjgIINCj4gPiAr54S26ICM77yM5Zyo6LCD55SobWVtYmxvY2tfZnJlZV9hbGwoKeWHveaV
+sOS5i+WJje+8jOaYoOWwhOaVsOe7hOaYr+S4jeiDveS9v+eUqOeahO+8jOivpeWHveaVsA0KPiA+
+ICvlsIbmiYDmnInnmoTlhoXlrZjkuqTnu5npobXliIbphY3lmajjgIINCj4gPiArDQo+ID4gK+S4
+gOS4quaetuaehOWPr+iDveS8mumHiuaUviBgbWVtX21hcGAg5pWw57uE5Lit5LiN5YyF5ous5a6e
+6ZmF54mp55CG6aG155qE6YOo5YiG44CC5Zyo6L+Z56eN5oOF5Ya15LiL77yM54m5DQo+ID4gK+Wu
+muaetuaehOeahCA6YzpmdW5jOmBwZm5fdmFsaWRgIOWunueOsOW6lOivpeiAg+iZkeWIsCBgbWVt
+X21hcGAg5Lit55qE5a2U6ZqZ44CCDQo+ID4gKw0KPiA+ICvkvb/nlKhGTEFUTUVN77yMUEZO5ZKM
+IGBzdHJ1Y3QgcGFnZWAg5LmL6Ze055qE6L2s5o2i5piv55u05o6l55qE44CCIGBQRk4gLSBBUkNI
+X1BGTl9PRkZTRVRgDQo+ID4gK+aYryBgbWVtX21hcGAg5pWw57uE55qE5LiA5Liq57Si5byV44CC
+DQo+ID4gKw0KPiA+ICtgQVJDSF9QRk5fT0ZGU0VUYCDlrprkuYnkuobniannkIblhoXlrZjotbfl
+p4vlnLDlnYDkuI3lkIzkuo4w55qE57O757uf55qE56ys5LiA5Liq6aG15qGG5Y+344CCDQo+ID4g
+Kw0KPiA+ICtTUEFSU0VNRU0NCj4gPiArPT09PT09PT09DQo+ID4gKw0KPiA+ICtTUEFSU0VNRU3m
+mK9MaW51eOS4reacgOmAmueUqOeahOWGheWtmOaooeWei++8jOWug+aYr+WUr+S4gOaUr+aMgeiL
+peW5sumrmOe6p+WKn+iDveeahOWGheWtmOaooeWei++8jA0KPiA+ICvlpoLniannkIblhoXlrZjn
+moTng63mj5Lmi5TjgIHpnZ7mmJPlpLHmgKflhoXlrZjorr7lpIfnmoTmm7/ku6PlhoXlrZjlm77l
+kozovoPlpKfns7vnu5/nmoTlhoXlrZjlm77nmoTlu7bov58NCj4gPiAr5Yid5aeL5YyW44CCDQo+
+ID4gKw0KPiA+ICtTUEFSU0VNRU3mqKHlnovlsIbniannkIblhoXlrZjmmL7npLrkuLrkuIDkuKrp
+g6jliIbnmoTpm4blkIjjgILkuIDkuKrljLrmrrXnlKhtZW1fc2VjdGlvbue7k+aehA0KPiA+ICvk
+vZPooajnpLrvvIzlroPljIXlkKsgYHNlY3Rpb25fbWVtX21hcGAg77yM5LuO6YC76L6R5LiK6K6y
+77yM5a6D5piv5LiA5Liq5oyH5ZCRIGBzdHJ1Y3QgcGFnZWANCj4gPiAr6Zi15YiX55qE5oyH6ZKI
+44CC54S26ICM77yM5a6D6KKr5a2Y5YKo5Zyo5LiA5Lqb5YW25LuW55qEbWFnaWPkuK3vvIzku6Xl
+uK7liqnliIbljLrnrqHnkIbjgILljLrmrrXnmoTlpKflsI8NCj4gPiAr5ZKM5pyA5aSn5Yy65q61
+5pWw5piv5L2/55SoIGBTRUNUSU9OX1NJWkVfQklUU2Ag5ZKMIGBNQVhfUEhZU01FTV9CSVRTYCDl
+uLjph48NCj4gPiAr5p2l5oyH5a6a55qE77yM6L+Z5Lik5Liq5bi46YeP5piv55Sx5q+P5Liq5pSv
+5oyBU1BBUlNFTUVN55qE5p625p6E5a6a5LmJ55qE44CCIGBNQVhfUEhZU01FTV9CSVRTYA0KPiA+
+ICvmmK/kuIDkuKrmnrbmnoTmiYDmlK/mjIHnmoTniannkIblnLDlnYDnmoTlrp7pmYXlrr3luqbv
+vIzogIwgYFNFQ1RJT05fU0laRV9CSVRTYCDmmK/kuIDkuKrku7sNCj4gPiAr5oSP55qE5YC844CC
+DQo+ID4gKw0KPiA+ICvmnIDlpKfnmoTmrrXmlbDooajnpLrkuLogYE5SX01FTV9TRUNUSU9OU2Ag
+77yM5a6a5LmJ5Li6DQo+ID4gKw0KPiA+ICsuLiBtYXRoOjoNCj4gPiArDQo+ID4gKyAgIE5SXF9N
+RU1cX1NFQ1RJT05TID0gMiBeIHsoTUFYXF9QSFlTTUVNXF9CSVRTIC0gU0VDVElPTlxfU0laRVxf
+QklUUyl9DQo+ID4gKw0KPiA+ICtgbWVtX3NlY3Rpb25gIOWvueixoeiiq+WuieaOkuWcqOS4gOS4
+quWPq+WBmiBgbWVtX3NlY3Rpb25zYCDnmoTkuoznu7TmlbDnu4TkuK3jgILov5nkuKrmlbDnu4Tn
+moQNCj4gPiAr5aSn5bCP5ZKM5L2N572u5Y+W5Yaz5LqOIGBDT05GSUdfU1BBUlNFTV9FWFRSRU1F
+YCDlkozlj6/og73nmoTmnIDlpKfmrrXmlbA6DQo+ID4gKw0KPiA+ICsqIOW9kyBgQ09ORklHX1NQ
+QVJTRU1FTV9FWFRSRU1FYCDooqvnpoHnlKjml7bvvIwgYG1lbV9zZWN0aW9uc2Ag5pWw57uE5piv
+6Z2Z5oCB55qE77yM5pyJDQo+ID4gKyAgYE5SX01FTV9TRUNUSU9OU2Ag6KGM44CC5q+P5LiA6KGM
+5oyB5pyJ5LiA5LiqIGBtZW1fc2VjdGlvbmAg5a+56LGh44CCDQo+ID4gKyog5b2TIGBDT05GSUdf
+U1BBUlNFTUVNX0VYVFJFTUVgIOiiq+WQr+eUqOaXtu+8jCBgbWVtX3NlY3Rpb25zYCDmlbDnu4To
+oqvliqjmgIHliIbphY3jgIINCj4gPiArICDmr4/kuIDooYzljIXlkKvku7flgLwgYFBBR0VfU0la
+RWAg55qEIGBtZW1fc2VjdGlvbmAg5a+56LGh77yM6KGM5pWw55qE6K6h566X5piv5Li65LqG6YCC
+5bqU5omA5pyJ55qEDQo+ID4gKyAg5YaF5a2Y5Yy644CCDQo+ID4gKw0KPiA+ICvmnrbmnoTorr7n
+va7ku6PnoIHlupTor6XosIPnlKhzcGFyc2VfaW5pdCgp5p2l5Yid5aeL5YyW5YaF5a2Y5Yy65ZKM
+5YaF5a2Y5pig5bCE44CCDQo+ID4gKw0KPiA+ICvpgJrov4dTUEFSU0VNRU3vvIzmnInkuKTnp43l
+j6/og73nmoTmlrnlvI/lsIZQRk7ovazmjaLkuLrnm7jlupTnmoQgYHN0cnVjdCBwYWdlYCAtLSJj
+bGFzc2ljIHNwYXJzZSLlkowNCj4gPiArICJzcGFyc2Ugdm1lbW1hcCLjgILpgInmi6nmmK/lnKjm
+noTlu7rml7bov5vooYznmoTvvIzlroPnlLEgYENPTkZJR19TUEFSU0VNRU1fVk1FTU1BUGAg55qE
+DQo+ID4gKyDlgLzlhrPlrprjgIINCj4gPiArDQo+ID4gK0NsYXNzaWMgc3BhcnNl5ZyocGFnZS0+
+ZmxhZ3PkuK3nvJbnoIHkuobkuIDkuKrpobXpnaLnmoTmrrXlj7fvvIzlubbkvb/nlKhQRk7nmoTp
+q5jkvY3mnaXorr/pl67mmKDlsITor6XpobUNCj4gPiAr5qGG55qE5q6144CC5Zyo5LiA5Liq5Yy6
+5q615YaF77yMUEZO5piv5oyH5ZCR6aG15pWw57uE55qE57Si5byV44CCDQo+ID4gKw0KPiA+ICtT
+cGFyc2Ugdm1lbW1hcHZtZW1tYXDkvb/nlKjomZrmi5/mmKDlsITnmoTlhoXlrZjmmKDlsITmnaXk
+vJjljJZwZm5fdG9fcGFnZeWSjHBhZ2VfdG9fcGZu5pONDQo+ID4gK+S9nOOAguacieS4gOS4quWF
+qOWxgOeahCBgc3RydWN0IHBhZ2UgKnZtZW1tYXBgIOaMh+mSiO+8jOaMh+WQkeS4gOS4quiZmuaL
+n+i/nue7reeahCBgc3RydWN0IHBhZ2VgDQo+ID4gK+WvueixoemYteWIl+OAglBGTuaYr+ivpeaV
+sOe7hOeahOS4gOS4que0ouW8le+8jGBzdHJ1Y3QgcGFnZWAg5LuOIGB2bWVtbWFwYCDnmoTlgY/n
+p7vph4/mmK/or6XpobXnmoRQRk7jgIINCj4gPiArDQo+ID4gK+S4uuS6huS9v+eUqHZtZW1tYXDv
+vIzkuIDkuKrmnrbmnoTlv4Xpobvkv53nlZnkuIDkuKromZrmi5/lnLDlnYDnmoTojIPlm7TvvIzk
+u6XmmKDlsITljIXlkKvlhoXlrZjmmKDlsITnmoTniannkIbpobXvvIzlubYNCj4gPiAr56Gu5L+d
+IGB2bWVtbWFwYOaMh+WQkeivpeiMg+WbtOOAguatpOWklu+8jOaetuaehOW6lOivpeWunueOsCA6
+YzpmdW5jOmB2bWVtbWFwX3BvcHVsYXRlYCDmlrnms5XvvIwNCj4gPiAr5a6D5bCG5YiG6YWN54mp
+55CG5YaF5a2Y5bm25Li66Jma5ouf5YaF5a2Y5pig5bCE5Yib5bu66aG16KGo44CC5aaC5p6c5LiA
+5Liq5p625p6E5a+5dm1lbW1hcOaYoOWwhOayoeacieS7u+S9leeJueauiuimgeaxgu+8jA0KPiA+
+ICvlroPlj6/ku6Xkvb/nlKjpgJrnlKjlhoXlrZjnrqHnkIbmj5DkvpvnmoTpu5jorqQgOmM6ZnVu
+Yzpgdm1lbW1hcF9wb3B1bGF0ZV9iYXNlcGFnZXNg44CCDQo+ID4gKw0KPiA+ICvomZrmi5/mmKDl
+sITnmoTlhoXlrZjmmKDlsITlhYHorrjlsIbmjIHkuYXmgKflhoXlrZjorr7lpIfnmoQgYHN0cnVj
+dCBwYWdlYCDlr7nosaHlrZjlgqjlnKjov5nkupvorr7lpIfkuIrpooTlhYjliIYNCj4gPiAr6YWN
+55qE5a2Y5YKo5Lit44CC6L+Z56eN5a2Y5YKo55Sodm1lbV9hbHRtYXDnu5PmnoTooajnpLrvvIzm
+nIDnu4jpgJrov4fkuIDplb/kuLLnmoTlh73mlbDosIPnlKjkvKDpgJLnu5kNCj4gPiArdm1lbW1h
+cF9wb3B1bGF0ZSgp44CCdm1lbW1hcF9wb3B1bGF0ZSgp5a6e546w5Y+v5Lul5L2/55SoIGB2bWVt
+X2FsdG1hcGAg5ZKMDQo+ID4gKzpjOmZ1bmM6YHZtZW1tYXBfYWxsb2NfYmxvY2tfYnVmYCDliqnm
+iYvmnaXliIbphY3mjIHkuYXmgKflhoXlrZjorr7lpIfkuIrnmoTlhoXlrZjmmKDlsITjgIINCj4g
+PiArDQo+ID4gK1pPTkVfREVWSUNFDQo+ID4gKz09PT09PT09PT09DQo+ID4gK2BaT05FX0RFVklD
+RWAg6K6+5pa95bu656uL5ZyoIGBTUEFSU0VNX1ZNRU1NQVBgIOS5i+S4iu+8jOS4uuiuvuWkh+mp
+seWKqOivhuWIq+eahOeJqeeQhuWcsOWdgOiMgw0KPiA+ICvlm7Tmj5DkvpsgYHN0cnVjdCBwYWdl
+YCBgbWVtX21hcGAg5pyN5Yqh44CCIGBaT05FX0RFVklDRWAg55qEICLorr7lpIciIOaWuemdouS4
+juS7peS4iw0KPiA+ICvkuovlrp7mnInlhbPvvJrov5nkupvlnLDlnYDojIPlm7TnmoTpobXpnaLl
+r7nosaHku47mnKrooqvlnKjnur/moIforrDov4fvvIzogIzkuJTlv4Xpobvlr7norr7lpIfov5vo
+oYzlvJXnlKjvvIzogIzkuI3ku4Xku4UNCj4gPiAr5piv6aG16Z2i77yM5Lul5L+d5oyB5YaF5a2Y
+6KKrcGlubmVk5Lul5L6/5L2/55So44CCIGBaT05FX0RFVklDRWAg77yM6YCa6L+HIDpjOmZ1bmM6
+YGRldm1fbWVtcmVtYXBfcGFnZXNgIO+8jA0KPg0KPiDku6Xkv53mjIHlhoXlrZjooqvigJzplIHl
+rprigJ3ku6Xkvr/kvb/nlKjvvJ8NCk9rLHRoYW5rcyENCg0KVGhhbmtzLA0KWWFudGVuZw0KPg0K
+PiBmb3Igb3RoZXJzOg0KPiBSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+
+DQo+DQo+IFRoYW5rcw0K
