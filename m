@@ -2,99 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 796FFC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 511D6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236169AbiCNLer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 07:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55400 "EHLO
+        id S238983AbiCNLeu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 07:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238973AbiCNLeq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:34:46 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D073C71C
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:33:37 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id n18so10575621plg.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:33:37 -0700 (PDT)
+        with ESMTP id S238976AbiCNLeu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:34:50 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75873E0E6;
+        Mon, 14 Mar 2022 04:33:40 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id lj8-20020a17090b344800b001bfaa46bca3so13986836pjb.2;
+        Mon, 14 Mar 2022 04:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C1LFSQMrUjw1hA4K2fVGnila7Rls1wkFOMUHmHW3f7Q=;
-        b=HvJHN+xsRkMwaj9LCtDy/TVmsOqI2PGn/iofh9WA7zBj2SLT78eLOVkYlwxAaOOuat
-         QdPYsFtHSUnulVYf9E6y7ZbtLJw63i7KdL7cIZZOf3uyGYhh6MVfUt5Uy5jM5AROdEfP
-         ZT3ry9ghCTOEQAS9q5bJG7LJayp2C59z8tx7VWfgkLavej6F4uW074TG0jDKkHr9GJ4c
-         8VSXr7j5Rm/wj5aj2H7hORQhdDwEix+fz41F1B6+967yA4mWzh6yNBkZudb2nC368I44
-         ut7J+En8YoRJtkT1B8XiaBHDZkh4mcfTAEs9ACifeVcx6Po9z8j6hyPUDYjLE3wOd1BO
-         SDwA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rxW8OLV5d60dDbim/dUwb9rNzRVo7FQCDOFB+aWV7eg=;
+        b=QoRMqnitnVM14BHaQtaI2c20aX26T1RAomxWsNHNQJw0abCypxhyc7NFpRiASbFGg4
+         zysZOlgn8zfU+ljGcCN7RfGy2fX7ldH1ptlZXySk20MAILTHIQmbe0CtOUSOvPZJRdDw
+         GejNNS4eZAV7uDDMIm9kKg3ONZ5UymMYraDO6Sf8aeby3v7bEy9EoZo83FASZXJxOM4e
+         O86ysF1so4eFsA99A2OMWV3UjY0N6+PlSUqZYnA5a9JOVi4npertAwY8egTIH+IoeSGK
+         EdEH55z+aTprUA0qWA/3XvYkjzsjK9chsEEiFBzMJE/3Zlcv6Un2yG72xCjtPSqaRBK5
+         GzXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C1LFSQMrUjw1hA4K2fVGnila7Rls1wkFOMUHmHW3f7Q=;
-        b=o6+i8zdbgvQzSkbN946XNnZvi4gglXIrILyduiobmmrQMjpIJaB08dKIKnU8kTl1G3
-         vc6G0QQSivRlW+LbSf0q+tU0qADFjCWTxXd0O3Ca4wcxfx+lwVXO+Z0axf8PR/PsfDDr
-         tp2Q0j6mZDzX5s+b7llUZ51tuLozb24G3kHxpmrZaYNyEUZ0sm1kKEvoPugxGW8cDOnd
-         J02hpcuKafM0h8YcVcHnEYH/yCfTCj5awVOd5RxzZ7F9b2cDt/rNjFkWACD9C64YBX1h
-         2zE/5G/E6ljfnfCySWQ9+lXR4w1kZ6M7404XVXD97oPg6/f9hYqzGE7f1L1EpZ6yVVya
-         Lh6Q==
-X-Gm-Message-State: AOAM532Mo/79lvVWN8tndwxMy6ZnTmo+AUrH3zQMIueq6/VJfyAywFDE
-        zfYK2t6I3aVo+S3gxvnlR5iXqvXOR7KgZw==
-X-Google-Smtp-Source: ABdhPJymErEfb3gVHq4PSR26o9jVGXuYXPxfiaczlwNxjoOGRXy0sQk4WFH2me+/b+0vBiX2PBNx3Q==
-X-Received: by 2002:a17:902:8f96:b0:153:62bb:c4a3 with SMTP id z22-20020a1709028f9600b0015362bbc4a3mr6398007plo.154.1647257616887;
-        Mon, 14 Mar 2022 04:33:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rxW8OLV5d60dDbim/dUwb9rNzRVo7FQCDOFB+aWV7eg=;
+        b=6viTcevrZ6jnUaDScHzW2ntzTIZbcGfDFwEbD1PLJaztEgwNNc+6fH3MqZVSDwlaP/
+         C85AUJLRjGh+LXt/SMIU03zexMqrJ5pWIw1qpQal0F1Eh/JxW4GAbBN3oALMIuzVFfS2
+         oLK0sIwld7T1CuEoYZ4IgKgB/K0PUZHrvQsd7I45//12ImT7Q1xDR6/fwlqxrRBOWysw
+         +Sap6SDrmG7tTCKeVNuMItwlIqn6A3fFS69c/09zb9iGJPReJ4N4GEJZQusSiRkIjn5N
+         8cbsT8hgMPNbgMCHEWKtJrH319iu0/5UBsJYwISEuJ/3dGaTqkIQl5V9vSG/sm7oUqwG
+         rZCQ==
+X-Gm-Message-State: AOAM533j2iEE6RjGDVHBTrY6JCZL7FaKUfaz01Rg2dBaVc3vTqvZXG3l
+        GqRa5xdQmaCVln+BHN/SgZ3jC1tQmxrRYg==
+X-Google-Smtp-Source: ABdhPJytWK1z7s2L76wA6jYHZDUaYM6dcVhGfK2yPMIuO7aFw3Q5zDsTDK+dllJSllDghb8rOD+f5w==
+X-Received: by 2002:a17:90b:1c88:b0:1b8:a77e:c9cb with SMTP id oo8-20020a17090b1c8800b001b8a77ec9cbmr35970237pjb.205.1647257620081;
+        Mon, 14 Mar 2022 04:33:40 -0700 (PDT)
 Received: from ubuntu.mate (subs02-180-214-232-74.three.co.id. [180.214.232.74])
-        by smtp.gmail.com with ESMTPSA id 3-20020a17090a030300b001c17851b6a1sm13608117pje.28.2022.03.14.04.33.34
+        by smtp.gmail.com with ESMTPSA id 3-20020a17090a030300b001c17851b6a1sm13608117pje.28.2022.03.14.04.33.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 04:33:36 -0700 (PDT)
+        Mon, 14 Mar 2022 04:33:39 -0700 (PDT)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2 0/5] Stable kernel release update
-Date:   Mon, 14 Mar 2022 18:33:24 +0700
-Message-Id: <20220314113329.485372-1-bagasdotme@gmail.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, stable@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/5] Documentation: add note block surrounding security patch note
+Date:   Mon, 14 Mar 2022 18:33:25 +0700
+Message-Id: <20220314113329.485372-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220314113329.485372-1-bagasdotme@gmail.com>
+References: <20220314113329.485372-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The stable release process documented in stable-kernel-rules.rst needs
-to be updated to reflect current procedure.
+Security patches have different handling than rest of patches for
+review.
 
-Patch 1 and 2 reorganize section on submission procedure.
+Enclose note paragraph about such patches in `.. note::` block.
 
-Patch 3 contains the actual process documentation update.
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: stable@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/process/stable-kernel-rules.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Patch 4 and 5 deals with various stable tree links.
-
-Changes since v1 [1]:
-  - Following the submission: remove the case when manual backport is
-    requested from the maintainer
-  - Review cycle: remove mention to [PATCH AUTOSEL/MANUALSEL]
-  - Review cycle: just spell "developers and testers" when testing -rc
-    releases
-  - Review cycle: respond to -rc releases with Tested-by: message
-  - Submission procedure: split security patch note commit into its own
-    patch
-  - Trees: add warning for stable-rc tree
-
-[1]:
-https://lore.kernel.org/linux-doc/20220312080043.37581-1-bagasdotme@gmail.com/T/#t
-
-Bagas Sanjaya (5):
-  Documentation: add note block surrounding security patch note
-  Documentation: remove "For all other submissions..." section
-  Documentation: update stable review cycle documentation
-  Documentation: add link to stable release candidate tree
-  Documentation: update stable tree link
-
- Documentation/process/stable-kernel-rules.rst | 35 ++++++++++++++-----
- 1 file changed, 27 insertions(+), 8 deletions(-)
-
-
-base-commit: ffb217a13a2eaf6d5bd974fc83036a53ca69f1e2
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index 003c865e9c2..691d7052546 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -35,7 +35,9 @@ Rules on what kind of patches are accepted, and which ones are not, into the
+ Procedure for submitting patches to the -stable tree
+ ----------------------------------------------------
+ 
+- - Security patches should not be handled (solely) by the -stable review
++.. note::
++
++   Security patches should not be handled (solely) by the -stable review
+    process but should follow the procedures in
+    :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>`.
+ 
 -- 
 An old man doll... just what I always wanted! - Clara
 
