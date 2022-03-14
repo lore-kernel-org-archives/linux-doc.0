@@ -2,134 +2,396 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAB6C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 21:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF277C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 22:25:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245378AbiCNVuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 17:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S245570AbiCNW0Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 18:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236193AbiCNVup (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 17:50:45 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2044.outbound.protection.outlook.com [40.107.236.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE836340F6;
-        Mon, 14 Mar 2022 14:49:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Omq6Pc0L5YKE0/jTx3HjzJi8VTDsOgTTROMl9GEeX6Kj/dZd9MPJyy1Wea86m4TJMHh/hiVTTBPLqgQDZNpnxySeF4Df4FA8xqu0fEV92jZmcWa5GxEeC3TfdswbmkmXIgswBpouTKvT+s9vPh13hOnE2yH/ca7raUHvGAEeWf7FgKS18xnf7t4QFqx7vL1VxoYR+iikNqRI5JRX+C/k7+QplXCcWGXLhyvqhImRsSx8awldkp/MpEQF+nW7Ofr+cMJxkynss0rVmPua1Hhmb+48Ew5iJVEAU0ZASkBtbEBDd7qFK2SvA6SuAsS64fOo1jgqRwToViwUhSfeYDd4HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=31SYqNiHWFjuf56QD8Z23OoU3v91m/m3QJxpZCzNnag=;
- b=FRHxBwQQSudtj2bhHUhSOt3zBSQctCj0mE2ZbXKfvVRuJK0uDg8T4yVg8UDrUlI7JX5GkE0ckb/cZXIndze9Y7KIy42kYG7JTxsWU0qVRr3Rti7AiJu2GP84CkBbgp2kYQb9rPFfskbYRNQA4sw96M0gFuesSmyaSlhFL6gpQ3yMENiTuXVDJY/8qprpTAvS9Z58A5AUgyckEwVVG9bGjoyh++Ow3yXM+O1gXsikT9vyNcEbnCCLrLe8Bq1VGy8Z12GIWaxYNY6e2zhEiCUXQ8n7bBdvLL4fkLF1/dchM/VEsjHk37blT1BzoaeednbpLE8gBLOAJBlLeOlLGCjZUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=31SYqNiHWFjuf56QD8Z23OoU3v91m/m3QJxpZCzNnag=;
- b=jvU8doVx6qWuZnqwxPF8scniMZy8wGoyYs3MsbCZc2P7RpuGu2f4gjaWM4Gz3yXh/fB61MHW01LVGoMHXk/YGs12GGyvpbzM0FM9oC7bdOny4cwTHhE3mPfEfmM5jhUgeTa1aonR+zJPcTBlxet+GkvQzgsoxSrRY8ozml1dWU6ysh0r7a1zd6r89hd7AJ2vAIGtC1JSzyfSt5NyhzxRdOGxNdRFhIGO5lobAr2ie61/MNQZBCTEoPqEi4q85l/HEmVImceDrV97+i44Nc7DSsurpZQ39CD11e2VGG9tPHFQ57Bmftwg1zZq8uhPjDs0VzG0ukX3ZwwphsjtOYN2kQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY4PR12MB1174.namprd12.prod.outlook.com (2603:10b6:903:36::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Mon, 14 Mar
- 2022 21:49:29 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::51a0:4aee:2b4c:ca28]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::51a0:4aee:2b4c:ca28%4]) with mapi id 15.20.5061.028; Mon, 14 Mar 2022
- 21:49:29 +0000
-Date:   Mon, 14 Mar 2022 18:49:28 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
-        pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 29/32] vfio-pci/zdev: add DTSM to clp group capability
-Message-ID: <20220314214928.GK11336@nvidia.com>
-References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
- <20220314194451.58266-30-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220314194451.58266-30-mjrosato@linux.ibm.com>
-X-ClientProxiedBy: MN2PR06CA0023.namprd06.prod.outlook.com
- (2603:10b6:208:23d::28) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S245547AbiCNW0Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 18:26:25 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995383D481
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 15:25:13 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id r13so37269427ejd.5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 15:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C2afl50vRzCzlzNSM1o5i8QhGcaBpuDd6T9qiMLVa1s=;
+        b=eiWfqNLwPSMITSi4tZA697TINLHoTWddjX2tdwgu8rOVSjVpJDeuT64LyWwJJpv7w/
+         el4YHcBT53FfPNHY0wRGqGQOPAMU5oXA0RxxJwkaoR8sVkdrxOK2mRSVie5dLEiuHNDh
+         krGToc9wLAuONsOZgZ09i1aoXwtyzdKQzE0AOL//CHMUTyd7aCVKcTCfZ5FKIJDDgJNA
+         LsrmgbI0VhKa5UlYxETs3bCvSh1SH5bZEqkVVTxLA/UvnI0+raKNXceSVvhs5WK4SQvj
+         hkWVagKvz4P7O0uY0DVuqKCg641y0QCJ7R1AYIyovi6jz8iYloJ/5cXkF2e5L8880i1k
+         zv+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C2afl50vRzCzlzNSM1o5i8QhGcaBpuDd6T9qiMLVa1s=;
+        b=zzfHyd4+HcKsBcl1jeUmUKh+4MICundPPWk6Akch407nKjXkEVrIxNWnKaROQjnFaJ
+         wwsk7nM7UgtetNGsQ0bE8pjHFIWw4jBWr+dWoBGvE2z46I4Z8tCLvCLuVsxKpW5aoJhy
+         rX6fskDmef6F8zdmWkNpHB8gY9vrYj5ZKk5fp0VSwaJBEm3R2R1pdp/DxrKLbk6xQj24
+         frhVyVAk0X+vC+4IhV+ua6mfHm6b4xckc+wCidQWZIrgb8JcVy3TbjHIblVgkSgwJutd
+         V/KpGbQ0VuK3j5D7tBP+44HmXCllQ59Bwm4inI5KSb6qP9ClXgi1Ypwd32AbTK+O2J1p
+         hsYw==
+X-Gm-Message-State: AOAM531sVmA+NYaQp/Gmq7cDOiN0PRiFxepCeHjc50UzG+jnDeYCH8TU
+        aExOtnxxgCbu/Gl6T9PFdjl2MdGLhm02WlffVvZV1Q==
+X-Google-Smtp-Source: ABdhPJxT+L+PoW2vGW+ultLAUaUQT0+vlwQouCpp/zyLolVzqtlFshODHZZJzjvlv5tGpakhMs0ZQPFx43iH18P5PGk=
+X-Received: by 2002:a17:906:c14b:b0:6da:b30d:76a0 with SMTP id
+ dp11-20020a170906c14b00b006dab30d76a0mr19915713ejc.279.1647296711838; Mon, 14
+ Mar 2022 15:25:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7900b9f4-e3e0-461d-a170-08da06048412
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1174:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB117480D2774739DDC0A1F387C20F9@CY4PR12MB1174.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pBh7RkmfwwhB8Zixsc2nzm35NuhVbKBoYNCJ0nkfJPBK+z1twCTA30kEp/I8iZCW8vtcsdSsANn6dux/z8c/r5z03308hu7ssa4rzayh7cClzg8BApssY7qnWEGGSwsrJBkb19cXO3BHxuMEqNGZaCc4SoIoB02y2nFColXoaJSf4f86guY3M51uMR49NfV4x6sfRP9oXlm8mGrr0aa1/pRGHIAvyY6mOxAigbkSlOdl5yrVe99g16HbUHcYFhjvh+XXPpRW7oRfIgLRRGhjYTZS8Ou7JkZs4GmXZlsuTkLOGl6lhx9aszilDqxOFnCYtBYnTWh06znZzIXLYmiL+U6ilA4VkJuPCmwYVB5HRAiNF0QiQ0j00PmGEN9uHLpP93++uLRZ+vg4WosG1/ojVoFntCUbTeB+YMUWJC80TyEyoTtliqnq4q5TNl+PmLRpS5G9DvT3x6dFq/nzv06LhzKvRcnEBKlbnjg4021ix7N2Y3JhGictqSxTvkQIa/qmg23jJk8C39Pm/Bt15LEB92OYxgDOb7QcdhvUiqnYKlDA8i6LIRLnVQDIQ/sNo4jwNAztIblBHVYFt16ivIGZM1qZVZNTcWj4aFYpeE7fMSTnjHIKmyP9+35m4/sikwGF/ngKvk+lqGuJRvoLX2B97g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6916009)(316002)(33656002)(2906002)(36756003)(66946007)(508600001)(8936002)(6486002)(4744005)(7416002)(66476007)(5660300002)(38100700002)(8676002)(4326008)(66556008)(86362001)(186003)(6512007)(6506007)(26005)(1076003)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JXLz8C8CDg2ibpjBeDUZAhe/RBRYjYSAYb9Yo7/F9FhA0/q6+6pbCX27QeZJ?=
- =?us-ascii?Q?sjXhbP3CrWGPBXx/JAcwQtwI27/K3J3NWUgQKMjqevp/NHN0RDwJTNi+XcY9?=
- =?us-ascii?Q?u6ko/wiYbNYmbfsRHF+RNpZdTYdb3w+szInjfNn1Rj6hv9XUX3LFmeIGqHtA?=
- =?us-ascii?Q?OmucCDHuLCxDLM+PS2naEpGeuiyNMa7PM7NP4JRsVlT1rlnYkJko2KcRHpFR?=
- =?us-ascii?Q?swexLSUMKJZ4aq4DkaO9LPTliFfLcNnoZO+3BoVesW4lcWnRB9mco7gGKqDj?=
- =?us-ascii?Q?BRmPlme1WmbBa8z9hl5F1NWM+6thUeC6m67sMVqUMuKOiV1FSaAHxnvSdMyn?=
- =?us-ascii?Q?WWJ465569o9W1L/C5oG8PpIPL4wM6wo2AFARon3vTk3jlg35D5D2xFJigGRy?=
- =?us-ascii?Q?eCGHGJBNWqEjBB4scsB/2AncdcdLpPiY1FCKKPj6Uh+ASDTj/LjS8R4ur2Ww?=
- =?us-ascii?Q?zoEG2QVCML4iceUwyminPFjIxydOGzAT2+v5kKzgPZZ96hbx/sZU4/kmbSXZ?=
- =?us-ascii?Q?dmBp2jDyh9ApSYguJBpjKQUoE9IwmGxFaH7JC0HUw99dU/Nl9EhsPZbCLCHI?=
- =?us-ascii?Q?cl/e8jgDNONAoqwmwD0c/IMD1jDxArJv2OhrpUg7zQrkabf+/sZkdaaROCyx?=
- =?us-ascii?Q?0VKwcyBIh84rdvUL9EV/vSfhXNBoY1SVdUmKcpdDtTrXDmm8i+6jxMWQ3Np1?=
- =?us-ascii?Q?UP5acGbBoVIr+9D6LsooNJYP/r1edc0gpZba4AEd0LTF3W2c1hpstr6uRODP?=
- =?us-ascii?Q?rA0GQEjQALAqjz2ot5OwZSPYp4x4NbhhXjRJCcRiN1A+mXO3htdzX8zl8YK8?=
- =?us-ascii?Q?O1W2c5VcUYKphjJoahuHCu54y7cAIwgDFOuE9oRthAjjbLfhVgIwIfhUFvTX?=
- =?us-ascii?Q?FvbFPC2Y3ma/MaHJui2Gf84ifLKakQs+ZBz6vrE4+G7yw2FCvns3JMUYTh59?=
- =?us-ascii?Q?mqj3PWIuw6Gj69YTX/O/5k72nBRNp4ArEqDLL9vzqmY1B6nx+BoadtHGwS3y?=
- =?us-ascii?Q?M8wuqm0fidPRl6cxv89W6YPczUe9/3KhQHP3CuZy5xj5KJ2EVpkSX6FmsYTe?=
- =?us-ascii?Q?yH/oKoGI46tUSGCh2lccIJl9liG9eFXUmhHfhUSiIVSGzWs069DIkwfN2QPm?=
- =?us-ascii?Q?Qms3VIwI/2lYjRHC/s0plU7O8MWuBky1PdSzin0pfOSUH1vWdn15PVzIxM5B?=
- =?us-ascii?Q?X5k5aQykIq4LVVtqiZpi5vpSA8LqfFS1gUJ77DGqdM1uQPqLL547fyaYrdSR?=
- =?us-ascii?Q?lnUy6Dgk2zQMEZXoYu07+k0p99xnB2gW+HJDYtQLnxX7QrGIW00qztAp+2hd?=
- =?us-ascii?Q?RJh8hxucWjmyB1WwswCqPnLUMaoENcBxAiQ+aAH7BMOeSdkmJh9MqAmVj78r?=
- =?us-ascii?Q?FaOF7jeSpIbw8VhnUhZwuOhFhJYOjgrlg4tHpzEINCjK60NvzLqYkifNk2UC?=
- =?us-ascii?Q?eR9qu0fVYTBn/RU3Gvnael4XWQgn+2JA?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7900b9f4-e3e0-461d-a170-08da06048412
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2022 21:49:29.3201
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jLx/2rceEV40bH+wEiqgKMMldtrdLV1Z4ZGoEzWYxb/NSNFW6lJL0gcuAyr+dIpo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1174
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+In-Reply-To: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 14 Mar 2022 18:24:59 -0400
+Message-ID: <CAFd5g45zwSNr-_PSbtGn1MiQgombSBTCjXOG-cvcQW8xQQUo+Q@mail.gmail.com>
+Subject: Re: [RFC v1 00/10] roadtest: a driver testing framework
+To:     Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, kernel@axis.com,
+        devicetree@vger.kernel.org, linux-um@lists.infradead.org,
+        shuah@kernel.org, linux-kselftest@vger.kernel.org,
+        jic23@kernel.org, linux-iio@vger.kernel.org, lgirdwood@gmail.com,
+        broonie@kernel.org, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 14, 2022 at 03:44:48PM -0400, Matthew Rosato wrote:
-> The DTSM, or designation type supported mask, indicates what IOAT formats
-> are available to the guest.  For an interpreted device, userspace will not
-> know what format(s) the IOAT assist supports, so pass it via the
-> capability chain.  Since the value belongs to the Query PCI Function Group
-> clp, let's extend the existing capability with a new version.
++Kees Cook - I imagine you have already seen this, but I figured you
+would be interested because of your recent work on the KUnit UAPI and
+the mocking discussions.
++Dmitry Vyukov - This made me think of the syzkaller/KUnit experiments
+we did a couple of years back - this would probably work a bit better.
 
-Why is this on the VFIO device?
+On Fri, Mar 11, 2022 at 11:24 AM Vincent Whitchurch
+<vincent.whitchurch@axis.com> wrote:
+>
+> This patchset proposes roadtest, a device-driver testing framework.  Drivers
+> are tested under User Mode Linux (UML) and interact with mocked/modelled
+> hardware.  The tests and hardware models are written in Python, the former
+> using Python's built-in unittest framework.
 
-Maybe I don't quite understand it right, but the IOAT is the
-'userspace page table'?
+Wow! This sounds awesome! I was hoping to get some kind of hardware
+modeling with KUnit eventually. I did some experiments, but this looks
+way more mature.
 
-That is something that should be modeled as a nested iommu domain.
+> Drivers are tested via their userspace interfaces.  The hardware models allow
+> tests to inject values into registers and assert that drivers control the
+> hardware in the right way and react as expected to stimuli.
 
-Querying the formats and any control logic for this should be on the
-iommu side not built into VFIO.
+I already took a look at the documentation patch - I'll comment there
+more in detail, but I like the hardware modelling and device tree
+code; it seems very usable.
 
-Jason
+> Roadtest is meant to be used for relatively simple drivers, such as the ones
+> part of the IIO, regulator and RTC subsystems.
+
+Obviously for an initial version going after simple stuff makes sense,
+but I would hope there is applicability to any driver stack
+eventually.
+
+> Questions and answers:
+>
+> = Why do we need this?
+>
+> There are a large amount of these kind of drivers in the kernel.  Most of the
+> hardware is not available in current CI systems so most drivers can only, at
+> best, be build-tested there.  Even basic soundness such as a driver
+> successfully probing and binding to the devices it tries to be support cannot
+> be tested.  Drivers cannot be easily regression-tested to ensure that bugs
+> fixed once do not get reintroduced.
+>
+> Many drivers support multiple related hardware variants, and far from all patch
+> submitters have access to all the variants which the driver that they are
+> patching supports, so there is no way for them to easily verify that they
+> haven't broken something basic on a variant which they do not own.
+>
+> Furthermore, hardware can be used in many different configurations with drivers
+> supporting many different devicetree properties, so even just having access to
+> all the variants would be insufficient.
+>
+> On top of that, some of the chips measure environmental conditions such as
+> temperature, so testing extreme cases may not be simple even if one has access
+> to the hardware.
+>
+> All this makes development, modification, maintenance, and reviewing of these
+> drivers harder than it necessarily needs to be.  Roadtest hopes to make some of
+> these things slightly easier by providing a framework to create hardware
+> models/mocks and to write testcases which exercise drivers using these models.
+
+Very much agree. I used to do driver development and these
+difficulties are what prompted me to do KUnit.
+
+> = Do you have some specific examples of the kind of code this could be used to
+>   test?
+>
+> Here is an example of a patch which can easily be regression-tested using
+> roadtest (in fact, this series includes such a regression test) but is much
+> harder to do so automatically with real hardware since it requires specific
+> environmental conditions:
+>
+>  iio: light: opt3001: Fixed timeout error when 0 lux
+>  https://lore.kernel.org/lkml/20210920125351.6569-1-valek@2n.cz/
+>
+> Here is another example.  This driver has code which correctly parses a
+> documented devicetree property (amstaos,proximity-diodes) but which then fails
+> to actually communicate this setting to the hardware in any way.  Such code can
+> be easily tested with roadtest since the framework integrates devicetree
+> support and provides functions to assert that drivers writes expected registers
+> with expected values:
+>
+>  drivers/iio/light/tsl2772.c tsl2772_read_prox_diodes()
+>
+> (Both the above examples happen to be from the same subsystem but that should
+> in no way be taken to imply that such issues are unique to that subsystem or
+> that that subsystem has more of them.)
+>
+> = How does this relate to kselftests?
+>
+> Tests in kselftests also test kernel code using the userspace interfaces, but
+> that's about what's common between the frameworks.  kselftests has other goals
+> and does not provide any kind of mechanism for hardware mocking.
+
+I had a question that after thinking about it; I think I know the
+answer, so I am going to ask the question anyway and attempt to answer
+it myself:
+
+I agree in regard to mocking, but why not use kselftest for driving
+tests that check drivers from userspace? I believe there are other
+kselftest tests implemented in Python, why can't you just run your
+tests inside of kselftest?
+
+Now, I believe the answer to this question is that you need to control
+spinning up your own kernel to run inside your test harness because
+you need to control the environment that the kernel runs in - is this
+correct?
+
+> = How does this relate to kunit?
+>
+> Kunit is for unit testing of functions in kernel code, and is not meant for
+> testing kernel code via userspace interfaces.  It could in theory be used to
+> test some of the simple drivers too, but that would require (1) a large amount
+> of mocking code in various kernel frameworks, and, more importantly, (2)
+> refactoring of the drivers to be tested.
+
+I mostly agree, but I think there is something that is missing here:
+so roadtest seems to depend on having a user interface to test a
+driver - for a simple smoke test on a simple driver without a big
+driver stack on top, that makes sense, but what about testing error
+paths or a platform driver buried beneath a deep driver stack? I think
+there is potential for a powerful combination using KUnit to test the
+low level kernel API and using roadtest to mock the hardware
+environment and provide configuration.
+
+I am imagining that we could have an in-kernel KUnit/roadtest API that
+we can use to have an in-kernel test request changes to the
+environment for creating error cases and the like that can be
+validated by KUnit test cases.
+
+Going even further, I wonder if we could run kselftests inside of
+roadtest since roadtest allows us to change the environment on the
+fly.
+
+> This can be contrasted with roadtest which works with mostly unmodified drivers
+> and which mocks the hardware at the lowest level without having to change
+> kernel frameworks.
+
+I think that is both potentially an advantage and a disadvantage.
+
+The advantage is that your test is very general; roadtests would
+likely be portable across kernel versions.
+
+The disadvantage is that you don't get as much code introspection: I
+imagine roadtest is not as good as testing error paths for example.
+
+I also think that having to change code to make it more testable is
+often an advantage as much as a disadvantage.
+
+Still, I think that is a good set of tradeoffs for roadtest to make
+when set against KUnit and kselftest since roadtest seems to fit in
+where kselftest and KUnit are weak.
+
+> = How do I use it?
+>
+> See Documentation/dev-tools/roadtest.rst added by the documentation patch for
+> more information about running and writing tests using this framework.
+>
+> = What's included in the patchset?
+>
+> The current framework allows developing tests for hardware which uses the I2C
+> bus.  Hardware models can also control GPIOs and use them to trigger
+> interrupts.
+>
+> This series includes tests for some IIO, regulator and RTC drivers.  The
+> regulator and RTC tests depend on a few driver patches which are either in
+> review or in linux-next.  These are noted in the commit messages.
+>
+> The entire patch set, including the required dependencies, is also available in
+> a git tree:
+>
+>  https://github.com/vwax/linux/commits/roadtest/rfc-v1
+>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+>
+> Cc: shuah@kernel.org
+> Cc: brendanhiggins@google.com
+> Cc: linux-kselftest@vger.kernel.org
+>
+> Cc: jic23@kernel.org
+> Cc: linux-iio@vger.kernel.org
+>
+> Cc: lgirdwood@gmail.com
+> Cc: broonie@kernel.org
+>
+> Cc: a.zummo@towertech.it
+> Cc: alexandre.belloni@bootlin.com
+> Cc: linux-rtc@vger.kernel.org
+>
+> Cc: corbet@lwn.net
+> Cc: linux-doc@vger.kernel.org
+>
+> Vincent Whitchurch (10):
+>   roadtest: import libvhost-user from QEMU
+>   roadtest: add C backend
+>   roadtest: add framework
+>   roadtest: add base config
+>   roadtest: add build files
+>   roadtest: add documentation
+>   iio: light: opt3001: add roadtest
+>   iio: light: vcnl4000: add roadtest
+>   regulator: tps62864: add roadtest
+>   rtc: pcf8563: add roadtest
+>
+>  Documentation/dev-tools/index.rst             |    1 +
+>  Documentation/dev-tools/roadtest.rst          |  669 ++++
+>  tools/testing/roadtest/.gitignore             |    2 +
+>  tools/testing/roadtest/Dockerfile             |   25 +
+>  tools/testing/roadtest/Makefile               |   84 +
+>  tools/testing/roadtest/init.sh                |   19 +
+>  tools/testing/roadtest/pyproject.toml         |   10 +
+>  tools/testing/roadtest/requirements.txt       |    4 +
+>  tools/testing/roadtest/roadtest/__init__.py   |    2 +
+>  .../roadtest/roadtest/backend/__init__.py     |    0
+>  .../roadtest/roadtest/backend/backend.py      |   32 +
+>  .../testing/roadtest/roadtest/backend/gpio.py |  111 +
+>  .../testing/roadtest/roadtest/backend/i2c.py  |  123 +
+>  .../testing/roadtest/roadtest/backend/main.py |   13 +
+>  .../testing/roadtest/roadtest/backend/mock.py |   20 +
+>  .../roadtest/roadtest/backend/test_gpio.py    |   98 +
+>  .../roadtest/roadtest/backend/test_i2c.py     |   84 +
+>  .../testing/roadtest/roadtest/cmd/__init__.py |    0
+>  tools/testing/roadtest/roadtest/cmd/main.py   |  146 +
+>  tools/testing/roadtest/roadtest/cmd/remote.py |   48 +
+>  .../roadtest/roadtest/core/__init__.py        |    0
+>  .../testing/roadtest/roadtest/core/control.py |   52 +
+>  .../roadtest/roadtest/core/devicetree.py      |  155 +
+>  .../roadtest/roadtest/core/hardware.py        |   94 +
+>  tools/testing/roadtest/roadtest/core/log.py   |   42 +
+>  .../testing/roadtest/roadtest/core/modules.py |   38 +
+>  .../testing/roadtest/roadtest/core/opslog.py  |   35 +
+>  tools/testing/roadtest/roadtest/core/proxy.py |   48 +
+>  tools/testing/roadtest/roadtest/core/suite.py |  286 ++
+>  tools/testing/roadtest/roadtest/core/sysfs.py |   77 +
+>  .../roadtest/roadtest/core/test_control.py    |   35 +
+>  .../roadtest/roadtest/core/test_devicetree.py |   31 +
+>  .../roadtest/roadtest/core/test_hardware.py   |   41 +
+>  .../roadtest/roadtest/core/test_log.py        |   54 +
+>  .../roadtest/roadtest/core/test_opslog.py     |   27 +
+>  .../roadtest/roadtest/tests/__init__.py       |    0
+>  .../roadtest/roadtest/tests/base/config       |   84 +
+>  .../roadtest/roadtest/tests/iio/__init__.py   |    0
+>  .../roadtest/roadtest/tests/iio/config        |    1 +
+>  .../roadtest/roadtest/tests/iio/iio.py        |  112 +
+>  .../roadtest/tests/iio/light/__init__.py      |    0
+>  .../roadtest/roadtest/tests/iio/light/config  |    2 +
+>  .../roadtest/tests/iio/light/test_opt3001.py  |   95 +
+>  .../roadtest/tests/iio/light/test_vcnl4000.py |  132 +
+>  .../roadtest/tests/iio/light/test_vcnl4010.py |  282 ++
+>  .../roadtest/tests/iio/light/test_vcnl4040.py |  104 +
+>  .../roadtest/tests/iio/light/test_vcnl4200.py |   96 +
+>  .../roadtest/tests/regulator/__init__.py      |    0
+>  .../roadtest/roadtest/tests/regulator/config  |    4 +
+>  .../roadtest/tests/regulator/test_tps62864.py |  187 ++
+>  .../roadtest/roadtest/tests/rtc/__init__.py   |    0
+>  .../roadtest/roadtest/tests/rtc/config        |    1 +
+>  .../roadtest/roadtest/tests/rtc/rtc.py        |   73 +
+>  .../roadtest/tests/rtc/test_pcf8563.py        |  348 ++
+>  tools/testing/roadtest/src/.gitignore         |    1 +
+>  tools/testing/roadtest/src/backend.c          |  884 +++++
+>  .../src/libvhost-user/include/atomic.h        |  310 ++
+>  .../src/libvhost-user/libvhost-user.c         | 2885 +++++++++++++++++
+>  .../src/libvhost-user/libvhost-user.h         |  691 ++++
+>  59 files changed, 8798 insertions(+)
+>  create mode 100644 Documentation/dev-tools/roadtest.rst
+>  create mode 100644 tools/testing/roadtest/.gitignore
+>  create mode 100644 tools/testing/roadtest/Dockerfile
+>  create mode 100644 tools/testing/roadtest/Makefile
+>  create mode 100755 tools/testing/roadtest/init.sh
+>  create mode 100644 tools/testing/roadtest/pyproject.toml
+>  create mode 100644 tools/testing/roadtest/requirements.txt
+>  create mode 100644 tools/testing/roadtest/roadtest/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/backend.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/gpio.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/i2c.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/main.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/mock.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/test_gpio.py
+>  create mode 100644 tools/testing/roadtest/roadtest/backend/test_i2c.py
+>  create mode 100644 tools/testing/roadtest/roadtest/cmd/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/cmd/main.py
+>  create mode 100644 tools/testing/roadtest/roadtest/cmd/remote.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/control.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/devicetree.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/hardware.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/log.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/modules.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/opslog.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/proxy.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/suite.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/sysfs.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/test_control.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/test_devicetree.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/test_hardware.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/test_log.py
+>  create mode 100644 tools/testing/roadtest/roadtest/core/test_opslog.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/base/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/iio.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_opt3001.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_vcnl4000.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_vcnl4010.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_vcnl4040.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/iio/light/test_vcnl4200.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/regulator/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/regulator/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/regulator/test_tps62864.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/rtc/__init__.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/rtc/config
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/rtc/rtc.py
+>  create mode 100644 tools/testing/roadtest/roadtest/tests/rtc/test_pcf8563.py
+>  create mode 100644 tools/testing/roadtest/src/.gitignore
+>  create mode 100644 tools/testing/roadtest/src/backend.c
+>  create mode 100644 tools/testing/roadtest/src/libvhost-user/include/atomic.h
+>  create mode 100644 tools/testing/roadtest/src/libvhost-user/libvhost-user.c
+>  create mode 100644 tools/testing/roadtest/src/libvhost-user/libvhost-user.h
+>
+> --
+> 2.34.1
+>
