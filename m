@@ -2,115 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF04C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 09:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F162AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 09:31:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237850AbiCNJKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 05:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
+        id S231858AbiCNJcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 05:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237855AbiCNJKI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 05:10:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22B833D4AA;
-        Mon, 14 Mar 2022 02:08:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 97FF9612BB;
-        Mon, 14 Mar 2022 09:08:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B682DC340E9;
-        Mon, 14 Mar 2022 09:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647248934;
-        bh=FwRy95YaoTK2BNBsAgnwyFkUwJ1K6hC1h5SRyvWqEcc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eFv4qW0zk+Q4ROflZLHSfSc7/GdW/JJTymTEGHG4ab37a+OEHGBLg6hucLF/BEMOc
-         4u0LS/E0OoHkXaX+D8c7tDe1zzKlffiRv5Dt9Z8tOjDYB4GXpNCucxNpR3ZiUSVj7t
-         VJ1qVYGrCNXO/jBw/wTqbRch/pPViqesEmFf81yRHcwS59I0WDiJ1+3STDgXa5wRhM
-         eRul9IN2FQz/yHS5TWfuMBIJHSZM+9ncVf/aenPo8/ir4/UOr4lHiF+83iehh07SRa
-         +YDGzpYqSRJm1+RFwCkK3CRM4rONeSjSoQP55KOSznp0HYSZithsyrc8ZVoDTHptPd
-         8x/5rlYGRYYlg==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2 3/3] docs: bootconfig: Add how to embed the bootconfig into kernel
-Date:   Mon, 14 Mar 2022 18:08:50 +0900
-Message-Id: <164724893057.731226.7051999254450413648.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <164724890153.731226.1478494969800777757.stgit@devnote2>
-References: <164724890153.731226.1478494969800777757.stgit@devnote2>
-User-Agent: StGit/0.19
+        with ESMTP id S232812AbiCNJcY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 05:32:24 -0400
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A331043EF8
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 02:30:44 -0700 (PDT)
+Received: by mail-vs1-xe34.google.com with SMTP id u82so16392881vsu.0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 02:30:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KeEKIGDs9aXtMIhttJqsnMc0I5powM9Tr74wlg/y0N4=;
+        b=lJ3K5cO3Dq2yUA9tXv+g2KWoRQVbUQykq7rgnVsvdNTinvfq2zVR/yeWcYQ91TJnvm
+         tgEhlsMQRIGR3LbKXt1i7eQBVLAIwooq1wvCKm2WmQ2slDHMaRu8xBxhaCBW482uRynU
+         tE+hG69ChaKdnzLD1jMRGbnyP3MSuZlba7K1c7cBgQ5reXpaOdLgSh1wX9mVgBnrxEjI
+         ymH2dl4bqWPZnYxoIjbGUbAD/bhuCjtJw7SN/Ra74Q7+T2YdUCqmV+O+K8TDvAh4HQ19
+         0V+5K6ZMorsvLVs706dbT3zQzir4kkgQWkOXYGnJYffXDPM5a/UOKqy/Mr+hk6gKXtbQ
+         /h0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KeEKIGDs9aXtMIhttJqsnMc0I5powM9Tr74wlg/y0N4=;
+        b=BYpW7OVB3HrQ2UhMbIRFfoThx2cY0EfHH3Mbofu8E3hqRajTqRBZrgTBJnA8hFlRJp
+         oAVB+b7QQKSOWlxezjuFLzupD6CrUgWlkiqYGA9uiKE+3msBYnsE97Kv1p6UnYKcaf14
+         18ZbygGA47Wg/A/V8xYcOtXgzVt5xA6EvV6pJWKIFNAtKtBr5uUOewz+oJacMxDUw1Cp
+         weUf47IkkVP6gEbabWMMlPFzIH8bXfkkjpJYek/UEp+CCABB9cDDoHim35bKkkq7XIJ3
+         m0C6PXUNthLuozJbqgqiVFLITSS+istrCu6AUAn2BaDoxUnkD/h6VwasEyyaYPolG8Zc
+         5E9Q==
+X-Gm-Message-State: AOAM531d7966uJjTnzO+B6t62t1qk9cPmtzQi5/wef9chQexCN2PecMT
+        ClG/4QI8mCm2MHeidsCPIjG7nBXaMF5N1PUfWpwKRQ==
+X-Google-Smtp-Source: ABdhPJysb3Sw3/ukECu2h8EIWocceI4MckxeGuz3tnGwSYqea1336M0S1Iw+cCwN7NQ7GEwY+pua/xA+S5ZNz8vIosY=
+X-Received: by 2002:a05:6102:290c:b0:322:b864:22f5 with SMTP id
+ cz12-20020a056102290c00b00322b86422f5mr6266141vsb.41.1647250243519; Mon, 14
+ Mar 2022 02:30:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-6-yuzhao@google.com>
+ <875yoh552i.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <875yoh552i.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 14 Mar 2022 03:30:31 -0600
+Message-ID: <CAOUHufYPSesiePfxaV=y9Vne5cb+Y_vQtJyQ1NiO1CFus=8WOA@mail.gmail.com>
+Subject: Re: [PATCH v9 05/14] mm: multi-gen LRU: groundwork
+To:     "Huang, Ying" <ying.huang@intel.com>,
+        kernel@lists.fedoraproject.org, kernel-team@lists.ubuntu.com
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description how to embed the bootconfig file into kernel.
+On Mon, Mar 14, 2022 at 2:09 AM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Hi, Yu,
+>
+> Yu Zhao <yuzhao@google.com> writes:
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 3326ee3903f3..747ab1690bcf 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -892,6 +892,16 @@ config ANON_VMA_NAME
+> >         area from being merged with adjacent virtual memory areas due to the
+> >         difference in their name.
+> >
+> > +# the multi-gen LRU {
+> > +config LRU_GEN
+> > +     bool "Multi-Gen LRU"
+> > +     depends on MMU
+> > +     # the following options can use up the spare bits in page flags
+> > +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+>
+> LRU_GEN depends on !MAXSMP.  So, What is the maximum NR_CPUS supported
+> by LRU_GEN?
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Changes in v3:
-  - Fix typos.
- Changes in v2:
-  - Corrected the text accoding to Randy's suggestion.
-  - Do not reccomend to use relative path for CONFIG_EMBED_BOOT_CONFIG_FILE.
----
- Documentation/admin-guide/bootconfig.rst |   30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+LRU_GEN doesn't really care about NR_CPUS. IOW, it doesn't impose a
+max number. The dependency is with NODES_SHIFT selected by MAXSMP:
+    default "10" if MAXSMP
+This combined with LAST_CPUPID_SHIFT can exhaust the spare bits in page flags.
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index a1860fc0ca88..9028e0f1307b 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -158,9 +158,15 @@ Each key-value pair is shown in each line with following style::
- Boot Kernel With a Boot Config
- ==============================
- 
--Since the boot configuration file is loaded with initrd, it will be added
--to the end of the initrd (initramfs) image file with padding, size,
--checksum and 12-byte magic word as below.
-+There are two options to boot the kernel with bootconfig: attaching the
-+bootconfig to the initrd image or embedding it in the kernel itself.
-+
-+Attaching a Boot Config to Initrd
-+---------------------------------
-+
-+Since the boot configuration file is loaded with initrd by default,
-+it will be added to the end of the initrd (initramfs) image file with
-+padding, size, checksum and 12-byte magic word as below.
- 
- [initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
- 
-@@ -196,6 +202,24 @@ To remove the config from the image, you can use -d option as below::
- Then add "bootconfig" on the normal kernel command line to tell the
- kernel to look for the bootconfig at the end of the initrd file.
- 
-+Embedding a Boot Config into Kernel
-+-----------------------------------
-+
-+If you can not use initrd, you can also embed the bootconfig file in the
-+kernel by Kconfig options. In this case, you need to recompile the kernel
-+with the following configs::
-+
-+ CONFIG_EMBED_BOOT_CONFIG=y
-+ CONFIG_EMBED_BOOT_CONFIG_FILE="/PATH/TO/BOOTCONFIG/FILE"
-+
-+``CONFIG_EMBED_BOOT_CONFIG_FILE`` requires a correct absolute path to
-+the bootconfig file. The kernel will embed it as the default bootconfig.
-+
-+Just as when attaching the bootconfig to the initrd, you need ``bootconfig``
-+option on the kernel command line to enable the embedded bootconfig.
-+
-+Note that even if you set this option, you can override the embedded
-+bootconfig by another bootconfig which attached to the initrd.
- 
- Kernel parameters via Boot Config
- =================================
+MAXSMP is meant for kernel developers to test their code, and it
+should not be used in production [1]. But some distros unfortunately
+ship kernels built with this option, e.g., Fedora and Ubuntu. And
+their users reported build errors to me after they applied MGLRU on
+those kernels ("Not enough bits in page flags"). Let me add Fedora and
+Ubuntu to this thread.
 
+Fedora and Ubuntu,
+
+Could you please clarify if there is a reason to ship kernels built
+with MAXSMP? Otherwise, please consider disabling this option. Thanks.
+
+As per above, MAXSMP enables ridiculously large numbers of CPUs and
+NUMA nodes for testing purposes. It is detrimental to performance,
+e.g., CPUMASK_OFFSTACK.
+
+[1] https://lore.kernel.org/lkml/20131106055634.GA24044@gmail.com/
