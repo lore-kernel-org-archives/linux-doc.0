@@ -2,203 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1B8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 15:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B32C6C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 16:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242781AbiCNPyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 11:54:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
+        id S242545AbiCNQDY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 12:03:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242775AbiCNPyF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 11:54:05 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B4213D57;
-        Mon, 14 Mar 2022 08:52:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=YPjKuh1WORHuHsKRyd3ugLDmy9mAtje1baZB7sPm6bI=; b=l4gH9/ZN8SbfjmV4CN5o82JaT5
-        RIPRxKdoZgmtGb8Te5bhMN6pjAqiYEoemzQGtAhKuVPJ/O9DDyTbM/mwglTioZCvjg3r2RS3XYvxD
-        GfpQloC7ECWbdUn4uL5dZLNxp5vgpX/DNfL39Ewc87QYKUC63IT5BykHy2ohcC9rXerjZeBDMWo1n
-        ZDZPwgBgX4Ewi61W514MXRKmd+6EuwtCVSL5zETo4vQMTXfwmX4rMcYSooSIz2DaFzm4AItL+BjVq
-        5VexDwM1iQG8ywFr6ZGc/nkvAsZ2+aGDfBZsCQEEvSLOZT6Tb4TrpYY2/gqdyeWMl5aliQXgDvU1y
-        Q4HOPpmQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nTmzt-000tJu-BG; Mon, 14 Mar 2022 15:52:37 +0000
-Message-ID: <617e1903-fd21-3394-0e27-cd514c32f89b@infradead.org>
-Date:   Mon, 14 Mar 2022 08:52:30 -0700
+        with ESMTP id S236530AbiCNQDX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 12:03:23 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D520E45ACD;
+        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id r12so13931219pla.1;
+        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PcvQcPN5XoKvKQxrvFmbQntxTbKqV4dSuPUsUyk1/VU=;
+        b=loHgcdmDNyqZUA5/3x9feCiH8Ec3JeAmEtwKAF4HAFZent55/QExx9FK4FQT5X6JzT
+         aPkeG6j9eH4bffZpllzupw/Nmg/nn37qeBADEp8Ui+lQFAmxYzCvxKMfXdwJ8Y4+Gq8k
+         +0w2MS9lw56fRluUZSEJgViVv0K5Hh7OUxGZw8eKTey0GtnfS9z8SWjHQlzf2MN7c1Hr
+         U6HWPOjQyyeusLHpfroC98VTMgYFd5T6MC5QB9dGdfU6b3O0rac0BBis0IUT2hW7a18x
+         Lwav9aZHiJtVhLBwmvbv3zpLWN/WToQnHmBnotVOlAkfiIB4Q5+obxj9M10/IIVpUA2a
+         CPnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PcvQcPN5XoKvKQxrvFmbQntxTbKqV4dSuPUsUyk1/VU=;
+        b=D/YN3Bj7N4A0r2xZDtl17bx5nlKZcR+UoMtJhE7K6SjxqAyoc0Wt5ZUbIIokbqYf0h
+         3/BIMXucG6I5l4LIB+tKnluXDB9arxkReXzEBga/y3fud08m4zyanWYzPsHJuMLOSlVm
+         1XoyPwN1dHSQaaBzD7jPHmBa6aURCkz8hm9m6f/Usgx6361Mc+iuh5kgm3GJ1vGBO+9I
+         9oxvBFvf46prcGBdGEbiItxiHPvT+7czOYtCYar+pbmJtD0MT/whiKR54wKxFbxoUVXa
+         O+rmSccWJkFXyJaq0tFCrpAN1CW0Yb15FhpsgNeEOPTv3fZ6alpNbsp7vSjNFevyHRG8
+         8Q6g==
+X-Gm-Message-State: AOAM532jyW9SZLP2R3m9LW0LXsmIYyd3iWGZQ91JZ7qmXayaAk89dAIC
+        G5L0AKcaqvDNCjboeXf/Guk=
+X-Google-Smtp-Source: ABdhPJwjdy4jTXNMl0tz+SzVz6fwoQH5DqEth/4JnvhoImqAipGstlKJCFk9sLUX4ZHW10XUeilIYw==
+X-Received: by 2002:a17:90a:178f:b0:1bf:5f5a:728 with SMTP id q15-20020a17090a178f00b001bf5f5a0728mr26399573pja.171.1647273733246;
+        Mon, 14 Mar 2022 09:02:13 -0700 (PDT)
+Received: from localhost.localdomain (2001-b011-20e0-3483-4350-64e3-9d63-74cc.dynamic-ip6.hinet.net. [2001:b011:20e0:3483:4350:64e3:9d63:74cc])
+        by smtp.googlemail.com with ESMTPSA id x15-20020a056a00188f00b004f7675962d5sm19022584pfh.175.2022.03.14.09.02.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 09:02:12 -0700 (PDT)
+From:   Chin En Lin <shiyn.lin@gmail.com>
+To:     corbet@lwn.net
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Chin En Lin <shiyn.lin@gmail.com>
+Subject: [PATCH] Documentation: x86: Fix obsolete name of page fault handler
+Date:   Mon, 14 Mar 2022 23:59:01 +0800
+Message-Id: <20220314155901.227257-1-shiyn.lin@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] docs/scheduler: Introduce the doc of load average
-Content-Language: en-US
-To:     Jui-Tse Huang <juitse.huang@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Huaixin Chang <changhuaixin@linux.alibaba.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Chun-Hung Tseng <henrybear327@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
-        Yiwei Lin <s921975628@gmail.com>
-References: <20220314084759.9849-1-juitse.huang@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220314084759.9849-1-juitse.huang@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Since commit 91eeafea1e4b ("x86/entry: Switch page fault
+exception to IDTENTRY_RAW"), the function name of page
+fault handler is out of date. This patch change
+do_page_fault() to exc_page_fault().
 
+Signed-off-by: Chin En Lin <shiyn.lin@gmail.com>
+---
+ Documentation/x86/exception-tables.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On 3/14/22 01:47, Jui-Tse Huang wrote:
-> The load average is one of a common as well as easy observed statistic
-> provied by Linux, but still not well documented, which makes the numbers
-> that users observes from the output of top, htop or other system
-> monitoring application are only numbers. This patch gives a discussion
-> on how Linux calculates the load average as well as what metrics are
-> concerned while calculating the load average.
-> 
-> The discussion flow is divided into several parts:
-> 1. The expression used to get the load average.
-> 2. Why Linux choose such average method from the other.
-> 2. The meaning of each term in the expression.
-> 3. The metrics, that is, the type of tasks that will be covered in the
->    calculation.
-> 4. A brief explanation over the fixed-point nubmer since the weights
->    defined in the Linux kernel are based on it.
-> 
-> Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
-> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
-> Co-Developed-by: Yiwei Lin <s921975628@gmail.com>
-> 
-> ---
-> v1 -> v2:
->     fix typo: '$cat /proc/laodavg' -> '$cat /proc/loadavg'
-> 
->  Documentation/scheduler/index.rst        |  1 +
->  Documentation/scheduler/load-average.rst | 77 ++++++++++++++++++++++++
->  2 files changed, 78 insertions(+)
->  create mode 100644 Documentation/scheduler/load-average.rst
-> 
-> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-> index 88900aabdbf7..bdc779b4190f 100644
-> --- a/Documentation/scheduler/index.rst
-> +++ b/Documentation/scheduler/index.rst
-> @@ -17,6 +17,7 @@ Linux Scheduler
->      sched-nice-design
->      sched-rt-group
->      sched-stats
-> +    load-average
->  
->      text_files
->  
-> diff --git a/Documentation/scheduler/load-average.rst b/Documentation/scheduler/load-average.rst
-> new file mode 100644
-> index 000000000000..589320ee1cd7
-> --- /dev/null
-> +++ b/Documentation/scheduler/load-average.rst
-> @@ -0,0 +1,77 @@
-> +============
-> +Load Average
-> +============
-> +
-> +Load average is a basic statistic provided by almost all operating systems that
-> +aims to report the usage of system hardware resources. In Linux kernel, the
-> +load average is calculated via the following expression::
-> +
-> +                / 0                                      , if t = 0
-> +    load_{t} = |
-> +                \ laod_{t - 1} * exp + active * (1 - exp), otherwise
-
-                     load_
-
-> +
-> +The expression represents the exponential moving average of the historical
-> +loading of the system. There are several reasons that Linux kernel chooses
-> +exponential moving average from other similar average equations such as simple
-> +moving average or cumulative moving average:
-> +
-> +#. The exponential moving average consumes fixed memory space, while the simple
-> +   moving average has O(n) space complexity where n is the number of timeslice
-
-                                                                        timeslices
-
-> +   within a given interval.
-> +#. The exponential moving average not only applies a higher weight to the most
-> +   recent record but also declines the weight exponentially, which makes the
-> +   resulting load average reflect the situation of the current system. Neither
-> +   the simple moving average nor cumulative moving average has this feature.
-> +
-> +In the expression, the load_{t} in the expression indicates the calculated load
-
-Don't need the second             "in the expression" above.
-
-> +average at the given time t.
-> +The active is the most recent recorded system load. In Linux, the system load
-> +means the number of tasks in the state of TASK_RUNNING or TASK_UNINTERRUPTIBLE
-> +of the entire system. Tasks with TASK_UNINTERRUPTIBLE state are usually waiting
-> +for disk I/O or holding an uninterruptible lock, which is considered as a part
-> +of system resource, thus, Linux kernel covers them while calculating the load
-> +average.
-> +The exp means the weight applied to the previous report of load average, while
-> +(1 - exp) is the weight applied to the most recently recorded system load.
-> +There are three different weights defined in the Linux kernel, in
-> +include/linux/sched/loadavg.h, to perform statistics in various timescales::
-> +
-> +    // include/linux/sched/loadavg.h
-> +    ...
-> +    #define EXP_1    1884    /* 1/exp(5sec/1min) as fixed-point */
-> +    #define EXP_5    2014    /* 1/exp(5sec/5min) */
-> +    #define EXP_15   2037    /* 1/exp(5sec/15min) */
-> +    ...
-> +
-> +According to the expression shown on the top of this page, the weight (exp)
-> +controls how much of the last load load_{t - 1} will take place in the
-> +calculation of current load, while (1 - exp) is the weight applied to the most
-> +recent record of system load active.
-> +
-> +Due to the security issue, the weights are defined as fixed-point numbers based
-> +on the unsigned integer rather than floating-pointing numbers. The introduction
-> +of the fixed-point number keeps the FPU away from the calculation process. Since
-> +the precession of the fixed-point used in the Linux kernel is 11 bits, a
-> +fixed-point can be converted to a floating-point by dividing it by 2048, as the
-> +expression shown below::
-
-              shows below::
-or
-  as in the expressions shown below::
-
-> +
-> +    EXP_1  = 1884 / 2048 = 0.919922
-> +    EXP_5  = 2014 / 2048 = 0.983398
-> +    EXP_15 = 2037 / 2048 = 0.994629
-> +
-> +Which indicates the weights applied to active are::
-> +
-> +    (1 - EXP_1)  = (1 - 0.919922) = 0.080078
-> +    (1 - EXP_5)  = (1 - 0.983398) = 0.016602
-> +    (1 - EXP_15) = (1 - 0.994629) = 0.005371
-> +
-> +The load average will be updated every 5 seconds. Each time the scheduler_tick()
-> +be called, the function calc_global_load_tick() will also be invoked, which
-> +makes the active of each CPU core be calculated and be merged globally, finally,
-
-                                                                 globally. Finally,
-
-> +the load average will be updated with that global active.
-> +
-> +As a user, the load average can be observed via top, htop, or other system
-> +monitor application, or more directly, by the following command::
-> +
-> +    $ cat /proc/loadavg
-> +
-
-thanks.
+diff --git a/Documentation/x86/exception-tables.rst b/Documentation/x86/exception-tables.rst
+index de58110c5ffd..0140a06b2705 100644
+--- a/Documentation/x86/exception-tables.rst
++++ b/Documentation/x86/exception-tables.rst
+@@ -32,14 +32,14 @@ Whenever the kernel tries to access an address that is currently not
+ accessible, the CPU generates a page fault exception and calls the
+ page fault handler::
+ 
+-  void do_page_fault(struct pt_regs *regs, unsigned long error_code)
++  void exc_page_fault(struct pt_regs *regs, unsigned long error_code)
+ 
+ in arch/x86/mm/fault.c. The parameters on the stack are set up by
+ the low level assembly glue in arch/x86/entry/entry_32.S. The parameter
+ regs is a pointer to the saved registers on the stack, error_code
+ contains a reason code for the exception.
+ 
+-do_page_fault first obtains the unaccessible address from the CPU
++exc_page_fault first obtains the unaccessible address from the CPU
+ control register CR2. If the address is within the virtual address
+ space of the process, the fault probably occurred, because the page
+ was not swapped in, write protected or something similar. However,
+@@ -281,12 +281,12 @@ vma occurs?
+ 
+     > c017e7a5 <do_con_write+e1> movb   (%ebx),%dl
+ #. MMU generates exception
+-#. CPU calls do_page_fault
++#. CPU calls exc_page_fault
+ #. do page fault calls search_exception_table (regs->eip == c017e7a5);
+ #. search_exception_table looks up the address c017e7a5 in the
+    exception table (i.e. the contents of the ELF section __ex_table)
+    and returns the address of the associated fault handle code c0199ff5.
+-#. do_page_fault modifies its own return address to point to the fault
++#. exc_page_fault modifies its own return address to point to the fault
+    handle code and returns.
+ #. execution continues in the fault handling code.
+ #. a) EAX becomes -EFAULT (== -14)
 -- 
-~Randy
+2.25.1
+
