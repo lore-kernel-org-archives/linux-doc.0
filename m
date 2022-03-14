@@ -2,113 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B52C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 18:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD2A5C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 18:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235368AbiCNShm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 14:37:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53504 "EHLO
+        id S234404AbiCNSyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 14:54:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239156AbiCNShm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 14:37:42 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2067A3EA9F;
-        Mon, 14 Mar 2022 11:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647282991; x=1678818991;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CGGYoQy8Uh6eqetAPU1rnwgpZHWRk+Ntx869mxlvjLI=;
-  b=JfZP8rTHlDzhpuJgQdvQUibRjN/99s1lX5vnO+TuESwo/wGHSmsgRzkn
-   CeXEfVVM03eH26Qrj/gLm8MJma/1nLkXnadfgwxkVCL7XPZQHM+HrFDnl
-   Znlx2TwTIdovHGnYl+diXvLPZkkersCut0GO9X1NYr+fYnG732BZfET/F
-   UR3rfZyNPzNIolzvHOHT3elWs1Xe5Bq+pnFT8Cjy8g2k4l10nefxTzpi+
-   gHxjvIcxd5YPRGQaRXquymfpxMqDjutw1l81ury8wISDp0f0iegr+4MAD
-   bSYiM29cTyXz370a/urfau+c7qc0SdCTWwPsKj4T/wCJJiFPGga7ik5Jk
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255844732"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
-   d="scan'208";a="255844732"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 11:36:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
-   d="scan'208";a="512321592"
-Received: from zborja-mobl1.amr.corp.intel.com (HELO ray2.sr71.net) ([10.212.239.199])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 11:36:28 -0700
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] [RFC] Documentation/process: Add testing section to tip handbook
-Date:   Mon, 14 Mar 2022 11:35:52 -0700
-Message-Id: <20220314183552.1446911-1-dave.hansen@linux.intel.com>
-X-Mailer: git-send-email 2.34.0
+        with ESMTP id S232144AbiCNSyW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 14:54:22 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D792705
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 11:53:11 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id o64so18372588oib.7
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 11:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:content-transfer-encoding;
+        bh=jq8oDufjxD+Tr7++uEPxOzL2NCEVrBdlbO9CHS51BGU=;
+        b=ga1KU+oKxCT4nsHb8gjFO3ZTARHDxR/vv9dM1Ed6Kc/R78mtyHWzpDn4NkY0jY13rt
+         p+1fK+QX4mjpdKwjzIQeg6qNDtJZEkLK0fsNnH7DXzFKoGD4nrgN3Xy1P6zSE9P0ooqC
+         zacmRN1wrCOEbtt8K9msArKqXar1X1uv/Zs6cJ7sjEE9+HTUD9MDvjInTOyXpJzQq97Y
+         cB6cpGLyb1yLCSECCp2D31cHK2mVbVFLV6dVNlRglTHKq3dtjVUVmt812iWWPBUHs5UQ
+         Q7rrlJBuh5gy/DoxywsNNCG0wtKAwHQtW/RUN03fLITK57B8q44ZzXL7LZpVCYMw4spQ
+         GQoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=jq8oDufjxD+Tr7++uEPxOzL2NCEVrBdlbO9CHS51BGU=;
+        b=FC0UZ731AsHmjNHD0DcrZ9fpDxbEZV4HWfS80MCJJXnHwYel/0XmXiYAwqCsUd/xJd
+         L+t0knbaCZJ2V8K7tjXT3/cgm2TrQmsXa8MiL3/jvL3gfg7FhLVem6qIFmhprMsixQYe
+         15pI8WC/OkNjecaTuma/KyEptZE7BDWe3ngFfxqVeBPV5qffsQzt7NUIgO5uHQDT1Qw1
+         KGySS7zVn9c8MKYGKMqaJURq1yhRXg6NhbaL1OYaKWmfsqlZI8GJ3wh+52QcT2NXn7ro
+         V3/GNLXVon9sYq0WZJLrh2ysd4ZZpiKtq5jBTbKcqVJaON5K+Zw42vq+kIR6StPMhDfH
+         +rgw==
+X-Gm-Message-State: AOAM533dMUdRfRXAnHiHe5J6zQuq/X+nB6r6hl9WJV9ZKlA9iZra2Yv7
+        PIx3BvvPmobgZoUA2BzxwSyFCg6P3tQ=
+X-Google-Smtp-Source: ABdhPJydyKwr70V3ObXkixe92ACT7NHyv/vVypLpq8seSGcbADpd4mil5C/QaDbq7uOHplxan8VJ+w==
+X-Received: by 2002:a05:6808:914:b0:2ec:bcde:efb with SMTP id w20-20020a056808091400b002ecbcde0efbmr257033oih.155.1647283990743;
+        Mon, 14 Mar 2022 11:53:10 -0700 (PDT)
+Received: from [172.31.250.1] ([47.184.51.90])
+        by smtp.gmail.com with ESMTPSA id j126-20020acab984000000b002da77222b7dsm6238568oif.22.2022.03.14.11.53.10
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Mar 2022 11:53:10 -0700 (PDT)
+Message-ID: <01660fd4-a88a-0725-af5f-fef384be7c64@gmail.com>
+Date:   Mon, 14 Mar 2022 13:53:09 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     linux-doc@vger.kernel.org
+From:   Ian Pilcher <arequipeno@gmail.com>
+Subject: "Disappearing" file in Documentation/ABI/testing
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Hansen <dave.hansen@linux.intel.com>
+I am working on resubmitting a patch that adds an entry to
+Documentation/ABI/testing/sysfs-block.  That file does not exist in
+Linus's most recent tree.  All (presumably) of the entries documented in
+that file have been merged into Documentation/ABI/stable/sysfs-block.
 
-The kernel has a wide variety of debugging options to help catch
-and squash bugs.  However, new debugging is added all the time and
-the existing options can be hard to find.
+How should I handle this?  Should my patch now add its entry to the
+"stable" file, or should it recreate the "testing" file?
 
-Add a list of debugging options which tip maintainers expect to be
-used to test contributions.
+Thanks!
 
-This should make it easier for contributors to test their code and
-find issues before submission.
-
-Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: x86@kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-index c74f4a81588b..75f86b0f1cf0 100644
---- a/Documentation/process/maintainer-tip.rst
-+++ b/Documentation/process/maintainer-tip.rst
-@@ -437,6 +437,30 @@ in a private repository which allows interested people to easily pull the
- series for testing. The usual way to offer this is a git URL in the cover
- letter of the patch series.
- 
-+Testing
-+^^^^^^^
-+
-+Code should be tested before submitting to the tip maintainers.  Anything
-+other than minor changes should be built, booted and tested with the
-+following set of comprehensive (and heavyweight) set of kernel debugging
-+options enabled.
-+
-+	CONFIG_X86_DEBUG_FPU=y
-+	CONFIG_LOCK_STAT=y
-+	CONFIG_DEBUG_VM=y
-+	CONFIG_DEBUG_VM_VMACACHE=y
-+	CONFIG_DEBUG_VM_RB=y
-+	CONFIG_DEBUG_SLAB=y
-+	CONFIG_DEBUG_KMEMLEAK=y
-+	CONFIG_DEBUG_PAGEALLOC=y
-+	CONFIG_SLUB_DEBUG_ON=y
-+	CONFIG_KMEMCHECK=y
-+	CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=y
-+	CONFIG_GCOV_KERNEL=y
-+	CONFIG_LOCKDEP=y
-+	CONFIG_PROVE_LOCKING=y
-+	CONFIG_SCHEDSTATS=y
-+	CONFIG_VMLINUX_VALIDATION=y
- 
- Coding style notes
- ------------------
 -- 
-2.34.0
-
+========================================================================
+Google                                      Where SkyNet meets Idiocracy
+========================================================================
