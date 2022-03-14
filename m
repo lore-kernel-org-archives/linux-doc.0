@@ -2,408 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9734DC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC9BC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Mar 2022 11:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232506AbiCNLsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Mar 2022 07:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
+        id S239882AbiCNL6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Mar 2022 07:58:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232688AbiCNLsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:48:07 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9537FBF56
-        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:46:56 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <rhi@pengutronix.de>)
-        id 1nTj9x-0003xj-FI; Mon, 14 Mar 2022 12:46:45 +0100
-Received: from rhi by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <rhi@pengutronix.de>)
-        id 1nTj9w-0002j6-9s; Mon, 14 Mar 2022 12:46:44 +0100
-Date:   Mon, 14 Mar 2022 12:46:44 +0100
-From:   Roland Hieber <rhi@pengutronix.de>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs: tracing: use refs for cross-referencing
-Message-ID: <20220314114644.6unqdbpxcsqin3qu@pengutronix.de>
-References: <20220313105557.172732-1-rhi@pengutronix.de>
- <20220313195519.78b96a2c@rorschach.local.home>
+        with ESMTP id S239973AbiCNL5u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Mar 2022 07:57:50 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFED1A391
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:56:39 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-2dbd97f9bfcso159464127b3.9
+        for <linux-doc@vger.kernel.org>; Mon, 14 Mar 2022 04:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=PAa5pFNtafMYjLs+4/AEkbRtYk+xW/0IBR46HToSxbg=;
+        b=akQ3Ntwp8Hoe6G0amSPzoWd7SuPvygkoS7WK0HUifzzaig6KVDk9jCKn8ZfTPe4OWO
+         CRGWLmN0CLo7mFaLs2nL4VkSpgIWdPUypiZqHmFuT3R2JNvC1H/IuQQKzJCPx5IoMSGV
+         OXUzCZMsb/nKNmjsPw3ZJUDGB8aEt8CF+IMZF8GDS0crfk3VFKXRAwVzTpG6vCgqe/xJ
+         S2lto7vWV9N62FI4bsSbjMI+xyEQKysWpNQXyhTEcvAF8mfK0YgZYZvHnt+ittb3mM/P
+         yT2P9kUSiHK7ms9u7hrdNXvUdEftx6GYmbXir57BgM9bN/9+D+Ab7D02xhOA/2mmuDEd
+         MOVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=PAa5pFNtafMYjLs+4/AEkbRtYk+xW/0IBR46HToSxbg=;
+        b=1F0ImqBV5fwBfmAWOqZ2AvRI2beolY6jFtBga7RdfMVfcsa0xeDP3Q8LIdlPvIQtbD
+         zF1vv4F8UIKZ2x3d2uwXamnAl9HBnQmcICE16FAaPbLiTdFbsZBc6M9YD9DZa7+5pkl/
+         4B0qCjb/+HGbvhDy4r1SMgxelmMkc6Mt25WAGOsavRCoIQC7xJ+x6fUiwJeWL22xTCOM
+         CxCNSk7w1fYklie9tz4Jk+K1gGyIo5ymm0RXlpR0PX9QqR+igTzil4wK44bA3d69QXp3
+         yM6YyQp7SIJG0ZCmcmmH0APFPQ2d+Wf4iqHFNXbRkPem7tN5QAmo7/tzebJxEVafNvbj
+         ooNw==
+X-Gm-Message-State: AOAM531BSb2LMD1fNRfSbT6Icbc5LsS4Fyci6Qe0iwZrtFHR9DFqoHw3
+        dU8suMYQiBIorBAJnbd8ANiPEL4OosGbLYGTp1MoBGEW1MIrxN14
+X-Google-Smtp-Source: ABdhPJxpNDhfwsS2syw72HdNvcY8huOntfkZVN46+Cy1fHriqEu8Q+QDtGh8S47gcCPGBik9zS3HsCnlhHQ7VAmw3pM=
+X-Received: by 2002:a0d:d9ca:0:b0:2dc:49d9:db56 with SMTP id
+ b193-20020a0dd9ca000000b002dc49d9db56mr18329913ywe.92.1647258998059; Mon, 14
+ Mar 2022 04:56:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220313195519.78b96a2c@rorschach.local.home>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: rhi@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <cover.1646496448.git.siyanteng@loongson.cn> <e3bf0689a815a73665e57fe46ea81259ff08e660.1646496448.git.siyanteng@loongson.cn>
+ <CAJy-Amk6M24F9xSVZq7TdMkYR8RHttwxr4JoDYifNqYrcpwyZA@mail.gmail.com>
+In-Reply-To: <CAJy-Amk6M24F9xSVZq7TdMkYR8RHttwxr4JoDYifNqYrcpwyZA@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 14 Mar 2022 19:56:14 +0800
+Message-ID: <CAEensMzu5sZmB2roquh-cEOYiqehz+KJr7XFYUaeZALH01r=4A@mail.gmail.com>
+Subject: Re: [PATCH 02/12] docs/zh_CN: add vm hwpoison translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 13, 2022 at 07:55:19PM -0400, Steven Rostedt wrote:
-> On Sun, 13 Mar 2022 11:55:55 +0100
-> Roland Hieber <rhi@pengutronix.de> wrote:
-> 
-> > Help cross-linking the documents by using the :ref: role.
-> 
-> Note, I and many other people read the .rst files directly, and do not
-> rely on any processing. Is there a better way to do a cross reference
-> like this, because I find this a bit ugly to read.
-
-The main point of this series was to get rid of the manually numbered
-sections (which the next patch does). Relying on manual section numbers
-for cross-referencing is error-prone, which my first iteration of the
-patch already showed… Unfortunately, the sphinx reST syntax is not very
-flexible here.
-
-I could imagine leaving the file names in when a reference points to a
-different document, like in this hunk:
-
-> > -set_ftrace_filter 'ftrace filter commands' (see the 'Filter commands'
-> > -section of Documentation/trace/ftrace.rst), but there are major
-> > +set_ftrace_filter 'ftrace filter commands' (see the section
-> > +:ref:`ftrace_filter_commands`), but there are major
-
-Otherwise jumping around in the same document should be easy by
-searching for the reference label (i.e. pressing '#' or '*' in vim),
-which is the same as searching for section numbers or titles.
-
- - Roland
-
-> > Signed-off-by: Roland Hieber <rhi@pengutronix.de>
-> > ---
-> > PATCH v2:
-> >  * new in v2
-> > 
-> >  Documentation/trace/events.rst          | 25 ++++++++++------
-> >  Documentation/trace/ftrace.rst          | 38 ++++++++++++++++---------
-> >  Documentation/trace/kprobetrace.rst     |  2 +-
-> >  Documentation/trace/timerlat-tracer.rst |  6 ++--
-> >  4 files changed, 46 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> > index c47f381d0c00..e83d0d5378be 100644
-> > --- a/Documentation/trace/events.rst
-> > +++ b/Documentation/trace/events.rst
-> > @@ -20,6 +20,8 @@ tracing information should be printed.
-> >  2. Using Event Tracing
-> >  ======================
-> >  
-> > +.. _tracing_set_event_interface:
-> > +
-> >  2.1 Via the 'set_event' interface
-> >  ---------------------------------
-> >  
-> > @@ -91,21 +93,23 @@ In order to facilitate early boot debugging, use boot option::
-> >  
-> >  	trace_event=[event-list]
-> >  
-> > -event-list is a comma separated list of events. See section 2.1 for event
-> > -format.
-> > +event-list is a comma separated list of events. See
-> > +:ref:`tracing_set_event_interface` for event format.
-> >  
-> >  3. Defining an event-enabled tracepoint
-> >  =======================================
-> >  
-> >  See The example provided in samples/trace_events
-> >  
-> > +.. _tracing_event_formats:
-> > +
-> >  4. Event formats
-> >  ================
-> >  
-> >  Each trace event has a 'format' file associated with it that contains
-> >  a description of each field in a logged event.  This information can
-> >  be used to parse the binary trace stream, and is also the place to
-> > -find the field names that can be used in event filters (see section 5).
-> > +find the field names that can be used in :ref:`event filters <tracing_event_filters>`.
-> >  
-> >  It also displays the format string that will be used to print the
-> >  event in text mode, along with the event name and ID used for
-> > @@ -150,6 +154,8 @@ This event contains 10 fields, the first 5 common and the remaining 5
-> >  event-specific.  All the fields for this event are numeric, except for
-> >  'comm' which is a string, a distinction important for event filtering.
-> >  
-> > +.. _tracing_event_filters:
-> > +
-> >  5. Event filtering
-> >  ==================
-> >  
-> > @@ -178,7 +184,7 @@ double-quotes can be used to prevent the shell from interpreting
-> >  operators as shell metacharacters.
-> >  
-> >  The field-names available for use in filters can be found in the
-> > -'format' files for trace events (see section 4).
-> > +'format' files for trace events (see :ref:`tracing_event_filters`).
-> >  
-> >  The relational-operators depend on the type of the field being tested:
-> >  
-> > @@ -324,6 +330,7 @@ To add more PIDs without losing the PIDs already included, use '>>'.
-> >  
-> >  	# echo 123 244 1 >> set_event_pid
-> >  
-> > +.. _tracing_event_triggers:
-> >  
-> >  6. Event triggers
-> >  =================
-> > @@ -335,7 +342,7 @@ a stack trace whenever the trace event is hit.  Whenever a trace event
-> >  with attached triggers is invoked, the set of trigger commands
-> >  associated with that event is invoked.  Any given trigger can
-> >  additionally have an event filter of the same form as described in
-> > -section 5 (Event filtering) associated with it - the command will only
-> > +:ref:`tracing_event_filters` associated with it - the command will only
-> >  be invoked if the event being invoked passes the associated filter.
-> >  If no filter is associated with the trigger, it always passes.
-> >  
-> > @@ -356,8 +363,8 @@ enabled, and also allows the current event filter implementation to be
-> >  used for conditionally invoking triggers.
-> >  
-> >  The syntax for event triggers is roughly based on the syntax for
-> > -set_ftrace_filter 'ftrace filter commands' (see the 'Filter commands'
-> > -section of Documentation/trace/ftrace.rst), but there are major
-> > +set_ftrace_filter 'ftrace filter commands' (see the section
-> > +:ref:`ftrace_filter_commands`), but there are major
-> >  differences and the implementation isn't currently tied to it in any
-> >  way, so beware about making generalizations between the two.
-> >  
-> > @@ -382,8 +389,8 @@ The [if filter] part isn't used in matching commands when removing, so
-> >  leaving that off in a '!' command will accomplish the same thing as
-> >  having it in.
-> >  
-> > -The filter syntax is the same as that described in the 'Event
-> > -filtering' section above.
-> > +The filter syntax is the same as that described in the section
-> > +:ref:`tracing_event_filters` above.
-> >  
-> >  For ease of use, writing to the trigger file using '>' currently just
-> >  adds or removes a single trigger and there's no explicit '>>' support
-> > diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> > index 45b8c56af67a..d018bd332200 100644
-> > --- a/Documentation/trace/ftrace.rst
-> > +++ b/Documentation/trace/ftrace.rst
-> > @@ -42,6 +42,7 @@ Implementation Details
-> >  
-> >  See Documentation/trace/ftrace-design.rst for details for arch porters and such.
-> >  
-> > +.. _ftrace_the_file_system:
-> >  
-> >  The File System
-> >  ---------------
-> > @@ -223,7 +224,7 @@ of ftrace. Here is a list of some of the key files:
-> >    set_ftrace_filter:
-> >  
-> >  	When dynamic ftrace is configured in (see the
-> > -	section below "dynamic ftrace"), the code is dynamically
-> > +	section :ref:`ftrace_dynamic_ftrace`), the code is dynamically
-> >  	modified (code text rewrite) to disable calling of the
-> >  	function profiler (mcount). This lets tracing be configured
-> >  	in with practically no overhead in performance.  This also
-> > @@ -237,7 +238,7 @@ of ftrace. Here is a list of some of the key files:
-> >  	can be written into this file.
-> >  
-> >  	This interface also allows for commands to be used. See the
-> > -	"Filter commands" section for more details.
-> > +	:ref:`ftrace_dynamic_ftrace` section for more details.
-> >  
-> >  	As a speed up, since processing strings can be quite expensive
-> >  	and requires a check of all functions registered to tracing, instead
-> > @@ -305,7 +306,7 @@ of ftrace. Here is a list of some of the key files:
-> >  
-> >  	Functions listed in this file will cause the function graph
-> >  	tracer to only trace these functions and the functions that
-> > -	they call. (See the section "dynamic ftrace" for more details).
-> > +	they call. (See the section :ref:`ftrace_dynamic_ftrace` for more details).
-> >  	Note, set_ftrace_filter and set_ftrace_notrace still affects
-> >  	what functions are being traced.
-> >  
-> > @@ -322,7 +323,7 @@ of ftrace. Here is a list of some of the key files:
-> >  	These are the function names that you can pass to
-> >  	"set_ftrace_filter", "set_ftrace_notrace",
-> >  	"set_graph_function", or "set_graph_notrace".
-> > -	(See the section "dynamic ftrace" below for more details.)
-> > +	(See the section :ref:`ftrace_dynamic_ftrace` for more details.)
-> >  
-> >    dyn_ftrace_total_info:
-> >  
-> > @@ -426,19 +427,19 @@ of ftrace. Here is a list of some of the key files:
-> >  
-> >  	This displays the "snapshot" buffer and also lets the user
-> >  	take a snapshot of the current running trace.
-> > -	See the "Snapshot" section below for more details.
-> > +	See the section :ref:`ftrace_snapshot` below for more details.
-> >  
-> >    stack_max_size:
-> >  
-> >  	When the stack tracer is activated, this will display the
-> >  	maximum stack size it has encountered.
-> > -	See the "Stack Trace" section below.
-> > +	See the section :ref:`ftrace_stack_trace` below.
-> >  
-> >    stack_trace:
-> >  
-> >  	This displays the stack back trace of the largest stack
-> >  	that was encountered when the stack tracer is activated.
-> > -	See the "Stack Trace" section below.
-> > +	See the section :ref:`ftrace_stack_trace` below.
-> >  
-> >    stack_trace_filter:
-> >  
-> > @@ -578,7 +579,7 @@ of ftrace. Here is a list of some of the key files:
-> >  
-> >  	This is a way to make multiple trace buffers where different
-> >  	events can be recorded in different buffers.
-> > -	See "Instances" section below.
-> > +	See section :ref:`ftrace_instances` below.
-> >  
-> >    events:
-> >  
-> > @@ -630,7 +631,7 @@ of ftrace. Here is a list of some of the key files:
-> >    hwlat_detector:
-> >  
-> >  	Directory for the Hardware Latency Detector.
-> > -	See "Hardware Latency Detector" section below.
-> > +	See section :ref:`ftrace_hardware_latency_detector` below.
-> >  
-> >    per_cpu:
-> >  
-> > @@ -739,7 +740,7 @@ Here is the list of current tracers that may be configured.
-> >    "hwlat"
-> >  
-> >  	The Hardware Latency tracer is used to detect if the hardware
-> > -	produces any latency. See "Hardware Latency Detector" section
-> > +	produces any latency. See section :ref:`ftrace_hardware_latency_detector`
-> >  	below.
-> >  
-> >    "irqsoff"
-> > @@ -2156,6 +2157,8 @@ events.
-> >      <idle>-0       2d..3    6us :      0:120:R ==> [002]  5882: 94:R sleep
-> >  
-> >  
-> > +.. _ftrace_hardware_latency_detector:
-> > +
-> >  Hardware Latency Detector
-> >  -------------------------
-> >  
-> > @@ -2258,7 +2261,7 @@ function
-> >  This tracer is the function tracer. Enabling the function tracer
-> >  can be done from the debug file system. Make sure the
-> >  ftrace_enabled is set; otherwise this tracer is a nop.
-> > -See the "ftrace_enabled" section below.
-> > +See the :ref:`ftrace_ftrace_enabled` section below.
-> >  ::
-> >  
-> >    # sysctl kernel.ftrace_enabled=1
-> > @@ -2679,6 +2682,8 @@ You might find other useful features for this tracer in the
-> >  following "dynamic ftrace" section such as tracing only specific
-> >  functions or tasks.
-> >  
-> > +.. _ftrace_dynamic_ftrace:
-> > +
-> >  dynamic ftrace
-> >  --------------
-> >  
-> > @@ -3029,6 +3034,7 @@ this special filter via::
-> >  
-> >   echo > set_graph_function
-> >  
-> > +.. _ftrace_ftrace_enabled:
-> >  
-> >  ftrace_enabled
-> >  --------------
-> > @@ -3053,6 +3059,7 @@ This can be disable (and enabled) with::
-> >    echo 0 > /proc/sys/kernel/ftrace_enabled
-> >    echo 1 > /proc/sys/kernel/ftrace_enabled
-> >  
-> > +.. _ftrace_filter_commands:
-> >  
-> >  Filter commands
-> >  ---------------
-> > @@ -3281,6 +3288,8 @@ This is where the buffer_total_size_kb is useful:
-> >  Writing to the top level buffer_size_kb will reset all the buffers
-> >  to be the same again.
-> >  
-> > +.. _ftrace_snapshot:
-> > +
-> >  Snapshot
-> >  --------
-> >  CONFIG_TRACER_SNAPSHOT makes a generic snapshot feature
-> > @@ -3303,8 +3312,8 @@ feature:
-> >  	of the snapshot. Echo 1 into this file to allocate a
-> >  	spare buffer and to take a snapshot (swap), then read
-> >  	the snapshot from this file in the same format as
-> > -	"trace" (described above in the section "The File
-> > -	System"). Both reads snapshot and tracing are executable
-> > +	"trace" (described above in the section :ref:`ftrace_the_file_system`).
-> > +	Both reads snapshot and tracing are executable
-> >  	in parallel. When the spare buffer is allocated, echoing
-> >  	0 frees it, and echoing else (positive) values clear the
-> >  	snapshot contents.
-> > @@ -3367,6 +3376,7 @@ one of the latency tracers, you will get the following results.
-> >    # cat snapshot
-> >    cat: snapshot: Device or resource busy
-> >  
-> > +.. _ftrace_instances:
-> >  
-> >  Instances
-> >  ---------
-> > @@ -3495,6 +3505,8 @@ Note, if a process has a trace file open in one of the instance
-> >  directories, the rmdir will fail with EBUSY.
-> >  
-> >  
-> > +.. _ftrace_stack_trace:
-> > +
-> >  Stack trace
-> >  -----------
-> >  Since the kernel has a fixed sized stack, it is important not to
-> > diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> > index b175d88f31eb..8c903e39bdf2 100644
-> > --- a/Documentation/trace/kprobetrace.rst
-> > +++ b/Documentation/trace/kprobetrace.rst
-> > @@ -141,7 +141,7 @@ id:
-> >  
-> >  trigger:
-> >    This allows to install trigger commands which are executed when the event is
-> > -  hit (for details, see Documentation/trace/events.rst, section 6).
-> > +  hit (for details, see :ref:`tracing_event_triggers`).
-> >  
-> >  Event Profiling
-> >  ---------------
-> > diff --git a/Documentation/trace/timerlat-tracer.rst b/Documentation/trace/timerlat-tracer.rst
-> > index 64d1fe6e9b93..92bfc3729025 100644
-> > --- a/Documentation/trace/timerlat-tracer.rst
-> > +++ b/Documentation/trace/timerlat-tracer.rst
-> > @@ -96,8 +96,8 @@ For example::
-> >  
-> >  In this case, the root cause of the timer latency does not point to a
-> >  single cause but to multiple ones. Firstly, the timer IRQ was delayed
-> > -for 13 us, which may point to a long IRQ disabled section (see IRQ
-> > -stacktrace section). Then the timer interrupt that wakes up the timerlat
-> > +for 13 us, which may point to a long IRQ disabled section (see section
-> > +:ref:`timerlat_tracer_irq_stacktrace`). Then the timer interrupt that wakes up the timerlat
-> >  thread took 7597 ns, and the qxl:21 device IRQ took 7139 ns. Finally,
-> >  the cc1 thread noise took 9909 ns of time before the context switch.
-> >  Such pieces of evidence are useful for the developer to use other
-> > @@ -133,6 +133,8 @@ in the timelines means circa 1 us, and the time moves ==>::
-> >                              |          +-> irq_noise: 6139 ns
-> >                              +-> irq_noise: 7597 ns
-> >  
-> > +.. _timerlat_tracer_irq_stacktrace:
-> > +
-> >  IRQ stacktrace
-> >  ---------------------------
-> >  
-> 
-> 
-
--- 
-Roland Hieber, Pengutronix e.K.          | r.hieber@pengutronix.de     |
-Steuerwalder Str. 21                     | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686         | Fax:   +49-5121-206917-5555 |
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIy5bm0M+aciDjml6XlkajkuowgMjE6
+MDTlhpnpgZPvvJoNCj4NCj4gT24gU3VuLCBNYXIgNiwgMjAyMiBhdCAxMjoyNCBBTSBZYW50ZW5n
+IFNpIDxzaXlhbnRlbmcwMUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVHJhbnNsYXRlIC4u
+Li92bS9od3BvaXNvbi5yc3QgaW50byBDaGluZXNlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTog
+WWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+IC0tLQ0KPiA+ICAuLi4vdHJh
+bnNsYXRpb25zL3poX0NOL3ZtL2h3cG9pc29uLnJzdCAgICAgICAgfCAxNjYgKysrKysrKysrKysr
+KysrKysrDQo+ID4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJz
+dCB8ICAgMiArLQ0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDE2NyBpbnNlcnRpb25zKCspLCAxIGRl
+bGV0aW9uKC0pDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi92bS9od3BvaXNvbi5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9od3BvaXNvbi5yc3QgYi9Eb2N1bWVudGF0aW9u
+L3RyYW5zbGF0aW9ucy96aF9DTi92bS9od3BvaXNvbi5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEw
+MDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uN2M0NDc3YzMzZTU2DQo+ID4gLS0tIC9kZXYv
+bnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2h3cG9p
+c29uLnJzdA0KPiA+IEBAIC0wLDAgKzEsMTY2IEBADQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERv
+Y3VtZW50YXRpb24vdm0vaHdwb2lzb24ucnN0DQo+ID4gKw0KPiA+ICs657+76K+ROg0KPiA+ICsN
+Cj4gPiArIOWPuOW7tuiFviBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4g
+Kw0KPiA+ICs65qCh6K+ROg0KPiA+ICsNCj4gPiArDQo+ID4gKz09PT09PT09DQo+ID4gK2h3cG9p
+c29uDQo+ID4gKz09PT09PT09DQo+ID4gKw0KPiA+ICvku4DkuYjmmK9od3BvaXNvbj8NCj4gPiAr
+PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICsNCj4gPiAr5Y2z5bCG5o6o5Ye655qE6Iux54m5
+5bCUQ1BV5pSv5oyB5LuO5LiA5Lqb5YaF5a2Y6ZSZ6K+v5Lit5oGi5aSN77yIIGBgTUNB5oGi5aSN
+YGAg77yJ44CC6L+Z6ZyA6KaB5pON5L2c57O757uf5a6j5biDDQo+ID4gK+S4gOS4qumhtemdoiJw
+b2lzb25lZCLvvIzmnYDmrbvkuI7kuYvnm7jlhbPnmoTov5vnqIvvvIzlubbpgb/lhY3lnKjmnKrm
+naXkvb/nlKjlroPjgIINCj4gPiArDQo+ID4gK+i/meS4quihpeS4geWMheWcqOiZmuaLn+acuuS4
+reWunueOsOS6huW/heimgeeahOWfuuehgOiuvuaWveOAgg0KPg0KPiAi5a6e546w5LqG5b+F6KaB
+55qEKOe8lueoiynmoYbmnrYiPw0KT0shDQo+DQo+ID4gKw0KPiA+ICvlvJXnlKjmpoLov7DkuK3n
+moTor4Torro6Og0KPiA+ICsNCj4gPiArICAgICAgIOmrmOawtOW5s+eahOacuuWZqOajgOafpeWk
+hOeQhueoi+W6j+OAguWkhOeQhuiiq+ehrOS7tuaKpeWRiuS4uuaNn+Wdj+eahOmhtemdou+8jOmA
+muW4uOaYr+eUseS6jjLkvY1FQ0PlhoXlrZjmiJYNCj4NCj4g4oCc6auY5bGC5qyh55qE5py65Zmo
+5qOA5p+l5aSE55CG56iL5bqP4oCd77yfDQo+DQo+ID4gKyAgICAgICDpq5jpgJ/nvJPlrZjmlYXp
+mpzjgIINCj4gPiArDQo+ID4gKyAgICAgICDov5nkuLvopoHmmK/pkojlr7nlnKjlkI7lj7Dmo4Dm
+tYvliLDnmoTmjZ/lnY/nmoTpobXpnaLjgILlvZPlvZPliY3nmoRDUFXor5Xlm77orr/pl67lroPm
+l7bvvIzlvZPliY3ov5DooYznmoTov5vnqIsNCj4gPiArICAgICAgIOWPr+S7peebtOaOpeiiq+ad
+gOatu+OAgui/meaEj+WRs+edgO+8jOWmguaenOmUmeivr+eUseS6juafkOenjeWOn+WboOS4jeiD
+veiiq+WkhOeQhu+8jOWwseWPr+S7peWuieWFqOWcsOW/veeVpeWug++8jA0KPiA+ICsgICAgICAg
+5Zug5Li66L+Y5rKh5pyJ6K6/6Zeu5o2f5Z2P55qE6aG16Z2i44CC55u45Y+N77yM5b2T6L+Z56eN
+5oOF5Ya15Y+R55Sf5pe277yM5Y+m5LiA5Liq5py65Zmo5qOA5p+l5bCG5Ye6546w44CCDQo+DQo+
+IGNoYW5nZSB0aGUgd29yZHMgdG86IOWboOS4uui/mOayoeacieiuv+mXruaNn+Wdj+eahOmhtemd
+oiwg5aaC5p6c6ZSZ6K+v55Sx5LqO5p+Q56eN5Y6f5Zug5LiN6IO96KKr5aSE55CG77yM5bCx5Y+v
+5Lul5a6J5YWo5Zyw5b+955Wl5a6DLiDogIzkuI3mmK/nlKjlj6blpJbkuIDkuKrmnLrlmajmo4Dm
+n6XljrvlpITnkIblroPjgIINCm9rIQ0KPg0KPiA+ICsNCj4gPiArICAgICAgIOWkhOeQhuS4jeWQ
+jOeKtuaAgeeahOmhtemdoue8k+WtmOmhteOAgui/memHjOajmOaJi+eahOmDqOWIhuaYr++8jOaI
+keS7rOWPr+S7peW8guatpeiuv+mXruS7u+S9lemhtemdoue7meWFtuS7luiZmuaLnw0KPg0KPiDn
+m7jlr7nkuo7lhbbku5bomZrmi5/mnLrnlKjmiLfvvIwg5oiR5Lus5Y+v5Lul5byC5q2l6K6/6Zeu
+5Lu75L2V6aG16Z2i44CCDQpvayENCj4NCj4gPiArICAgICAgIOacuueUqOaIt++8jOWboOS4uuWG
+heWtmOaVhemanOWPr+iDvemaj+aXtumaj+WcsOWPkeeUn++8jOWPr+iDvei/neWPjeS6huS7luS7
+rOeahOS4gOS6m+WBh+iuvuOAgui/meWwseaYr+S4uuS7gOS5iOi/mQ0KPiA+ICsgICAgICAg5q61
+5Luj56CB5b+F6aG76Z2e5bi45bCP5b+D44CC5LiA6Iis5p2l6K+077yM5a6D6K+V5Zu+5L2/55So
+5q2j5bi455qE6ZSB5a6a6KeE5YiZ77yM5aaC6I635b6X5qCH5YeG6ZSB77yM5Y2z5L2/6L+Z5oSP
+DQo+ID4gKyAgICAgICDlkbPnnYDplJnor6/lpITnkIblj6/og73pnIDopoHlvojplb/nmoTml7bp
+l7TjgIINCj4gPiArDQo+ID4gKyAgICAgICDov5nph4znmoTkuIDkupvmk43kvZzmnInngrnkvY7m
+lYjvvIzlubbkuJTlhbfmnInpnZ7nur/mgKfnmoTnrpfms5XlpI3mnYLmgKfvvIzlm6DkuLrmlbDm
+ja7nu5PmnoTmsqHmnInpkojlr7nov5nnp43mg4UNCj4gPiArICAgICAgIOWGtei/m+ihjOS8mOWM
+luOAgueJueWIq+aYr+S7jnZtYeWIsOi/m+eoi+eahOaYoOWwhOWwseaYr+i/meenjeaDheWGteOA
+gueUseS6jui/meenjeaDheWGtemihOiuoeaYr+e9leingeeahO+8jOaIkQ0KPiA+ICsgICAgICAg
+5Lus5biM5pyb5oiR5Lus5Y+v5Lul5pGG6ISx6L+Z56eN5oOF5Ya144CCDQo+ID4gKw0KPiA+ICvo
+r6Xku6PnoIHnlLFtbS9tZW1vcnktZmFpbHVyZS5j5Lit55qE6auY57qn5aSE55CG56iL5bqP44CB
+5LiA5Liq5paw55qE6aG16Z2icG9pc29uIOS9jeWSjOiZmuaLn+acuuS4reeahA0KPiA+ICvlkITn
+p43mo4Dmn6Xnu4TmiJDvvIznlKjmnaXlpITnkIZwb2lzb24g55qE6aG16Z2i44CCDQo+ID4gKw0K
+PiA+ICvnjrDlnKjnmoTkuLvopoHpkojlr7nnmoTmmK9LVk3lrqLmiLfmnLrvvIzkvYblroPpgILn
+lKjkuo7miYDmnInnsbvlnovnmoTlupTnlKjnqIvluo/jgILmlK/mjIFLVk3pnIDopoHmnIDov5Hn
+moRxZW11LWt2bQ0KPg0KPiDnjrDlnKjkuLvopoHnm67moIfmmK9LVk3lrqLmiLfmnLrvvJ8NCk9L
+IQ0KPg0KPiA+ICvniYjmnKzjgIINCj4gPiArDQo+ID4gK+WvueS6jktWTeeahOS9v+eUqO+8jOmc
+gOimgeS4gOS4quaWsOeahOS/oeWPt+exu+Wei++8jOi/meagt0tWTeWwseWPr+S7peeUqOmAguW9
+k+eahOWcsOWdgOWwhuacuuWZqOajgOafpeazqOWFpeWIsOWuouaItw0KPiA+ICvmnLrkuK3jgILo
+v5nlnKjnkIborrrkuIrkuZ/lhYHorrjlhbbku5blupTnlKjnqIvluo/lpITnkIblhoXlrZjmlYXp
+mpzjgILmiJHku6znmoTmnJ/mnJvmmK/vvIzlh6DkuY7miYDmnInnmoTlupTnlKjnqIvluo/pg73k
+uI0NCj4gPiAr5Lya6L+Z5qC35YGa77yM5L2G5LiA5Lqb6Z2e5bi45LiT5Lia55qE5bqU55So56iL
+5bqP5Y+v6IO95Lya6L+Z5qC35YGa44CCDQo+DQo+IGNoYW5nZSB0bzog4oCc5omA5pyJ55qE5bqU
+55So56iL5bqP6YO95LiN6KaB6L+Z5qC35YGa4oCd77yfDQpvayENCj4NCj4gPiArDQo+ID4gK+aV
+hemanOaBouWkjeaooeW8jw0KPiA+ICs9PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+acieS4pOen
+je+8iOWunumZheS4iuaYr+S4ieenje+8ieaooeW8j+eahOWGheWtmOaVhemanOaBouWkjeWPr+S7
+peWcqOOAgg0KPiA+ICsNCj4gPiArdm0ubWVtb3J5X2ZhaWx1cmVfcmVjb3Zlcnkgc3lzY3RsIOe9
+rumbtjoNCj4gPiArICAgICAgIOaJgOacieeahOWGheWtmOaVhemanOmDveS8muWvvOiHtHBhbmlj
+44CC6K+35LiN6KaB5bCd6K+V5oGi5aSN44CCDQo+ID4gKw0KPiA+ICtlYXJseSBraWxsDQo+DQo+
+IOaXqeacn+WkhOeQhu+8nw0Kb2sNCj4NCj4gPiArICAgICAgICjlj6/ku6XlnKjlhajlsYDlkozm
+r4/kuKrov5vnqIvkuK3mjqfliLYpIOS4gOaXpuajgOa1i+WIsOmUmeivr++8jOeri+WNs+WQkeW6
+lOeUqOeoi+W6j+WPkemAgVNJR0JVUyDov5nlhYHorrgNCj4gPiArICAgICAgIOW6lOeUqOeoi+W6
+j+S7pea4qeWSjOeahOaWueW8j+WkhOeQhuWGheWtmOmUmeivr++8iOS+i+Wmgu+8jOaUvuW8g+WP
+l+W9seWTjeeahOWvueixoe+8iSDov5nmmK9LVk0gcWVtdeS9v+eUqOeahA0KPiA+ICsgICAgICAg
+5qih5byP44CCDQo+ID4gKw0KPiA+ICtsYXRlIGtpbGwNCj4NCj4g5o6o6L+f5aSE55CG77yfDQpv
+aw0KPg0KPiA+ICsgICAgICAg5b2T5bqU55So56iL5bqP6L+Q6KGM5Yiw5o2f5Z2P55qE6aG16Z2i
+5pe277yM5Y+R6YCBU0lHQlVT44CC6L+Z5a+55LiN55+l6YGT5YaF5a2Y6ZSZ6K+v55qE5bqU55So
+56iL5bqP5p2l6K+05pivDQo+ID4gKyAgICAgICDmnIDlpb3nmoTvvIzpu5jorqTmg4XlhrXkuIvm
+s6jmhI/kuIDkupvpobXpnaLmgLvmmK/ooqvlvZPkvZwgbGF0ZSBraWxs5aSE55CG44CCDQo+ID4g
+Kw0KPiA+ICvnlKjmiLfmjqfliLYNCj4gPiArPT09PT09PT0NCj4gPiArDQo+ID4gK3ZtLm1lbW9y
+eV9mYWlsdXJlX3JlY292ZXJ5DQo+ID4gKyAgICAgICDlj4LpmIUgc3lzY3RsLnR4dA0KPiA+ICsN
+Cj4gPiArdm0ubWVtb3J5X2ZhaWx1cmVfZWFybHlfa2lsbA0KPiA+ICsgICAgICAg5YWo5bGA5ZCv
+55SoZWFybHkga2lsbA0KPiA+ICsNCj4gPiArUFJfTUNFX0tJTEwNCj4gPiArICAgICAgIOiuvue9
+rmVhcmx5L2xhdGUga2lsbCBtb2RlL3JldmVydCDliLDns7vnu5/pu5jorqTlgLzjgIINCj4gPiAr
+DQo+ID4gKyAgICAgICBhcmcxOiBQUl9NQ0VfS0lMTF9DTEVBUjoNCj4gPiArICAgICAgICAgICAg
+ICAg5oGi5aSN5Yiw57O757uf6buY6K6k5YC8DQo+ID4gKyAgICAgICBhcmcxOiBQUl9NQ0VfS0lM
+TF9TRVQ6DQo+ID4gKyAgICAgICAgICAgICAgIGFyZzLlrprkuYnkuobnur/nqIvnibnlrprmqKHl
+vI8NCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIFBSX01DRV9LSUxMX0VBUkxZOg0KPiA+ICsg
+ICAgICAgICAgICAgICAgICAgICAgIEVhcmx5IGtpbGwNCj4gPiArICAgICAgICAgICAgICAgUFJf
+TUNFX0tJTExfTEFURToNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBMYXRlIGtpbGwNCj4g
+PiArICAgICAgICAgICAgICAgUFJfTUNFX0tJTExfREVGQVVMVA0KPiA+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIOS9v+eUqOezu+e7n+WFqOWxgOm7mOiupOWAvA0KPiA+ICsNCj4gPiArICAgICAg
+IOazqOaEj++8jOWmguaenOS9oOaDs+acieS4gOS4quS4k+mXqOeahOe6v+eoi+S7o+ihqOi/m+eo
+i+WkhOeQhlNJR0JVUyhCVVNfTUNFRVJSX0FPKe+8jOS9oOW6lOivpeWcqA0KPiA+ICsgICAgICAg
+5oyH5a6a57q/56iL5LiK6LCD55SocHJjdGwoUFJfTUNFX0tJTExfRUFSTFkp44CC5ZCm5YiZ77yM
+U0lHQlVT5bCG6KKr5Y+R6YCB5Yiw5Li757q/56iL44CCDQo+ID4gKw0KPiA+ICtQUl9NQ0VfS0lM
+TF9HRVQNCj4gPiArICAgICAgIOi/lOWbnuW9k+WJjeaooeW8jw0KPiA+ICsNCj4gPiAr5rWL6K+V
+DQo+ID4gKz09PT0NCj4gPiArDQo+ID4gKyogbWFkdmlzZShNQURWX0hXUE9JU09OLCAuLi4uKSAo
+YXMgcm9vdCkgLSDlnKjmtYvor5Xov4fnqIvkuK1Qb2lzb27kuIDkuKrpobXpnaINCj4gPiArDQo+
+ID4gKyog6YCa6L+HZGVidWdmcyBgYC9zeXMva2VybmVsL2RlYnVnL2h3cG9pc29uL2BgIGh3cG9p
+c29uLWluamVjdOaooeWdlw0KPiA+ICsNCj4gPiArICBjb3JydXB0LXBmbg0KPiA+ICsgICAgICAg
+5ZyoUEZO5aSE5rOo5YWlaHdwb2lzb27mlYXpmpzvvIzlubZlY2hvZWTliLDov5nkuKrmlofku7bj
+gILov5nlgZrkuobkuIDkupvml6nmnJ/ov4fmu6TvvIzku6Xpgb8NCj4gPiArICAgICAgIOWFjeWc
+qOa1i+ivleWll+S7tuS4reaNn+Wdj+eahOmdnumihOacn+mhtemdouOAgg0KPg0KPiDku6Xpgb/l
+hY3lnKjmtYvor5XlpZfku7bkuK3mjZ/lnY/pnZ7pooTmnJ/pobXpnaLvvJ8NCj4NCj4gVGhpcyBk
+b2MgaXMgaGFyZCB0byB1bmRlcnN0YW5kIGZvciBkZXRhaWxzLCBndWVzcyB0aGF0IGNhdXNlIG1v
+cmUNCj4gdHJvdWJsZSB0byB0cmFuc2FsYXRlLg0KWWVzLCBidXQgSSB3aWxsIGRvIG15IGJlc3Qg
+dG8gdHJhbnNsYXRlIGl0IGFuZCBzdHVkeSBpdC4NCg0KVGhhbmtz77yMDQpZYW50ZW5nDQo+DQo+
+IFRoYW5rcw0KPiBBbGV4DQo+DQo+ID4gKyAgdW5wb2lzb24tcGZuDQo+ID4gKyAgICAgICDlnKhQ
+Rk7nmoRTb2Z0d2FyZS11bnBvaXNvbiDpobXpnaLlkbzlupTliLDov5nkuKrmlofku7bjgILov5nm
+oLfvvIzkuIDkuKrpobXpnaLlj6/ku6Xlho3mrKHooqsNCj4gPiArICAgICAgIOWkjeeUqOOAgui/
+meWPquWvuUxpbnV45rOo5YWl55qE5pWF6Zqc6LW35L2c55So77yM5a+555yf5q2j55qE5YaF5a2Y
+5pWF6Zqc5LiN6LW35L2c55So44CCDQo+ID4gKw0KPiA+ICsgIOazqOaEj+i/meS6m+azqOWFpeaO
+peWPo+W5tuS4jeeos+Wumu+8jOWPr+iDveS8muWcqOS4jeWQjOeahOWGheaguOeJiOacrOS4reWP
+keeUn+WPmOWMlg0KPiA+ICsNCj4gPiArICBjb3JydXB0LWZpbHRlci1kZXYtbWFqb3IsIGNvcnJ1
+cHQtZmlsdGVyLWRldi1taW5vcg0KPiA+ICsgICAgICAg5Y+q5aSE55CG5LiO5Z2X6K6+5aSHbWFq
+b3IvbWlub3LlrprkuYnnmoTmlofku7bns7vnu5/nm7jlhbPnmoTpobXpnaLnmoTlhoXlrZjmlYXp
+mpzjgIItMVXmmK/pgJoNCj4gPiArICAgICAgIOmFjeespuWAvOOAgui/meW6lOivpeWPqueUqOS6
+juS6uuW3peazqOWFpeeahOa1i+ivleOAgg0KPiA+ICsNCj4gPiArICBjb3JydXB0LWZpbHRlci1t
+ZW1jZw0KPiA+ICsgICAgICAg6ZmQ5Yi25rOo5YWl5YiwbWVtZ3JvdXDmi6XmnInnmoTpobXpnaLj
+gILnlLFtZW1jZ+eahGlub2Rl5Y+35oyH5a6a44CCDQo+ID4gKw0KPiA+ICsgICAgICAgRXhhbXBs
+ZTo6DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBta2RpciAvc3lzL2ZzL2Nncm91cC9tZW0v
+aHdwb2lzb24NCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIHVzZW1lbSAtbSAxMDAgLXMgMTAw
+MCAmDQo+ID4gKyAgICAgICAgICAgICAgIGVjaG8gYGpvYnMgLXBgID4gL3N5cy9mcy9jZ3JvdXAv
+bWVtL2h3cG9pc29uL3Rhc2tzDQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBtZW1jZ19pbm89
+JChscyAtaWQgL3N5cy9mcy9jZ3JvdXAvbWVtL2h3cG9pc29uIHwgY3V0IC1mMSAtZCcgJykNCj4g
+PiArICAgICAgICAgICAgICAgZWNobyAkbWVtY2dfaW5vID4gL2RlYnVnL2h3cG9pc29uL2NvcnJ1
+cHQtZmlsdGVyLW1lbWNnDQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBwYWdlLXR5cGVzIC1w
+IGBwaWRvZiBpbml0YCAgIC0taHdwb2lzb24gICMgc2hhbGwgZG8gbm90aGluZw0KPiA+ICsgICAg
+ICAgICAgICAgICBwYWdlLXR5cGVzIC1wIGBwaWRvZiB1c2VtZW1gIC0taHdwb2lzb24gICMgcG9p
+c29uIGl0cyBwYWdlcw0KPiA+ICsNCj4gPiArICBjb3JydXB0LWZpbHRlci1mbGFncy1tYXNrLCBj
+b3JydXB0LWZpbHRlci1mbGFncy12YWx1ZQ0KPiA+ICsgICAgICAg5b2T5oyH5a6a5pe277yM5Y+q
+5pyJ5ZyoKChwYWdlX2ZsYWdzICYgbWFzaykgPT0gdmFsdWUp55qE5oOF5Ya15LiL5omN5LyacG9p
+c29u6aG16Z2i44CCDQo+ID4gKyAgICAgICDov5nlhYHorrjlr7norrjlpJrnp43nsbvnmoTpobXp
+naLov5vooYzljovlipvmtYvor5XjgIJwYWdlX2ZsYWdz5LiOL3Byb2Mva3BhZ2VmbGFnc+S4reea
+hOebuA0KPiA+ICsgICAgICAg5ZCM44CC6L+Z5Lqb5qCH5b+X5L2N5ZyoaW5jbHVkZS9saW51eC9r
+ZXJuZWwtcGFnZS1mbGFncy5o5Lit5a6a5LmJ77yM5bm25ZyoDQo+ID4gKyAgICAgICBEb2N1bWVu
+dGF0aW9uL2FkbWluLWd1aWRlL21tL3BhZ2VtYXAucnN05Lit6K6w5b2V44CCDQo+ID4gKw0KPiA+
+ICsqIOaetuaehOeJueWumueahE1DReazqOWFpeWZqA0KPiA+ICsNCj4gPiArICB4ODYg5pyJIG1j
+ZS1pbmplY3QsIG1jZS10ZXN0DQo+ID4gKw0KPiA+ICsgIOWcqG1jZS10ZXN05Lit55qE5LiA5Lqb
+5L6/5pC65byPaHdwb2lzb27mtYvor5XnqIvluo/vvIzop4HkuIvmlofjgIINCj4gPiArDQo+ID4g
+K+W8leeUqA0KPiA+ICs9PT09DQo+ID4gKw0KPiA+ICtodHRwOi8vaGFsb2JhdGVzLmRlL21jZS1s
+YzA5LTIucGRmDQo+ID4gKyAgICAgICAwOeW5tExpbnV4Q29u55qE5qaC6L+w5ryU6K6yDQo+ID4g
+Kw0KPiA+ICtnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL3V0aWxzL2NwdS9tY2UvbWNlLXRl
+c3QuZ2l0DQo+ID4gKyAgICAgICDmtYvor5XlpZfku7bvvIjlnKh0c3Jj5Lit55qEaHdwb2lzb27n
+ibnlrprlj6/np7vmpI3mtYvor5XvvInjgIINCj4gPiArDQo+ID4gK2dpdDovL2dpdC5rZXJuZWwu
+b3JnL3B1Yi9zY20vdXRpbHMvY3B1L21jZS9tY2UtaW5qZWN0LmdpdA0KPiA+ICsgICAgICAgeDg2
+54m55a6a55qE5rOo5YWl5ZmoDQo+ID4gKw0KPiA+ICsNCj4gPiAr6ZmQ5Yi2DQo+ID4gKz09PT0N
+Cj4gPiArLSDkuI3mmK/miYDmnInnmoTpobXpnaLnsbvlnovpg73ooqvmlK/mjIHvvIzogIzkuJTm
+sLjov5zkuI3kvJrjgILlpKflpJrmlbDlhoXmoLjlhoXpg6jlr7nosaHkuI3og73ooqvmgaINCj4g
+PiArICDlpI3vvIznm67liY3lj6rmnIlMUlXpobXjgIINCj4gPiArDQo+ID4gKy0tLQ0KPiA+ICtB
+bmRpIEtsZWVuLCAyMDA55bm0MTDmnIgNCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vdm0vaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vdm0vaW5kZXgucnN0DQo+ID4gaW5kZXggY2M4ZDY4YjBjYmI1Li5kZDBiM2Q0YzBh
+YjggMTAwNjQ0DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0v
+aW5kZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0v
+aW5kZXgucnN0DQo+ID4gQEAgLTI3LDEyICsyNywxMiBAQCBUT0RPOuW+heW8leeUqOaWh+aho+mb
+huiiq+e/u+ivkeWujOavleWQjuivt+WPiuaXtuS/ruaUueatpOWkhO+8iQ0KPiA+ICAgICBmcmVl
+X3BhZ2VfcmVwb3J0aW5nDQo+ID4gICAgIGhpZ2htZW0NCj4gPiAgICAgZnJvbnRzd2FwDQo+ID4g
+KyAgIGh3cG9pc29uDQo+ID4NCj4gPiAgVE9ET0xJU1Q6DQo+ID4gICogYXJjaF9wZ3RhYmxlX2hl
+bHBlcnMNCj4gPiAgKiBmcmVlX3BhZ2VfcmVwb3J0aW5nDQo+ID4gICogaG1tDQo+ID4gLSogaHdw
+b2lzb24NCj4gPiAgKiBodWdldGxiZnNfcmVzZXJ2DQo+ID4gICogbWVtb3J5LW1vZGVsDQo+ID4g
+ICogbW11X25vdGlmaWVyDQo+ID4gLS0NCj4gPiAyLjI3LjANCj4gPg0K
