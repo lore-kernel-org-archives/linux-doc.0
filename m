@@ -2,123 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC668C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 12:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A90B1C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 13:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348231AbiCOMXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 08:23:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42376 "EHLO
+        id S1348699AbiCONd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 09:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348223AbiCOMXA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 08:23:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF348522DC
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 05:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647346907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=AXboPqU1D0WQ3MWcUTFOVkR/M0ow9vS7S0ofpF7HN+U=;
-        b=TfBs6GeYMowVe85X9H8LXQ2NQSPQFxJeMNIqL8til1w12MNijUHZeH4wRsvxkn/0oIihcA
-        31jqL1Oh66M7PTE2cwOYxssk2ymEoSRfnXus8NVcasgS3rx3/1z9B+IMbE3wQUi9yrNNNE
-        WYgqmvj9O+c0aUOWOHrXznpAs9mS0cA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-152-65-ms_gAPJqQqa2udcNlUg-1; Tue, 15 Mar 2022 08:21:42 -0400
-X-MC-Unique: 65-ms_gAPJqQqa2udcNlUg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9FDA833961;
-        Tue, 15 Mar 2022 12:21:41 +0000 (UTC)
-Received: from localhost (ovpn-12-225.pek2.redhat.com [10.72.12.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 32F18426322;
-        Tue, 15 Mar 2022 12:21:40 +0000 (UTC)
-Date:   Tue, 15 Mar 2022 20:21:37 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S1343569AbiCONd0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 09:33:26 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343F652E04;
+        Tue, 15 Mar 2022 06:32:14 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KHvRm5zvzzfZ0w;
+        Tue, 15 Mar 2022 21:30:44 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 15 Mar 2022 21:32:12 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 15 Mar 2022 21:32:11 +0800
+Subject: Re: [PATCH v21 1/5] kdump: return -ENOENT if required cmdline option
+ does not exist
+To:     Baoquan He <bhe@redhat.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
+        <kexec@lists.infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
+        <linux-arm-kernel@lists.infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v21 1/5] kdump: return -ENOENT if required cmdline option
- does not exist
-Message-ID: <YjCE0Scp2YiEJXBM@MiWiFi-R3L-srv>
 References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
  <20220227030717.1464-2-thunder.leizhen@huawei.com>
- <YjB/QILintgvo1AL@MiWiFi-R3L-srv>
+ <YjB/QILintgvo1AL@MiWiFi-R3L-srv> <YjCE0Scp2YiEJXBM@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <d237a2ae-300c-2c51-d97c-417bdfaa5fda@huawei.com>
+Date:   Tue, 15 Mar 2022 21:32:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YjB/QILintgvo1AL@MiWiFi-R3L-srv>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+In-Reply-To: <YjCE0Scp2YiEJXBM@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/15/22 at 07:57pm, Baoquan He wrote:
-> On 02/27/22 at 11:07am, Zhen Lei wrote:
-> > The crashkernel=Y,low is an optional command-line option. When it doesn't
-> > exist, kernel will try to allocate minimum required memory below 4G
-> > automatically. Give it a unique error code to distinguish it from other
-> > error scenarios.
-> > 
-> > Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> > ---
-> >  kernel/crash_core.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > index 256cf6db573cd09..4d57c03714f4e13 100644
-> > --- a/kernel/crash_core.c
-> > +++ b/kernel/crash_core.c
-> > @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
-> >  	*crash_base = 0;
-> >  
-> >  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
-> > -
-> >  	if (!ck_cmdline)
-> > -		return -EINVAL;
-> > +		return -ENOENT;
-> 
-> Firstly, I am not sure if '-ENOENT' is a right value to return. From the
-> code comment of ENOENT, it's used for file or dir?
-> #define ENOENT           2      /* No such file or directory */
-> 
-> Secondly, we ever discussed the case including
->  - no crashkernel=,low is provided;
->  - messy code is provied, e.g crashkernel=aaaaaabbbb,low
 
-Checking the 3rd pach, this is handled. Take back my below words,
-continue reviewing.
+
+On 2022/3/15 20:21, Baoquan He wrote:
+> On 03/15/22 at 07:57pm, Baoquan He wrote:
+>> On 02/27/22 at 11:07am, Zhen Lei wrote:
+>>> The crashkernel=Y,low is an optional command-line option. When it doesn't
+>>> exist, kernel will try to allocate minimum required memory below 4G
+>>> automatically. Give it a unique error code to distinguish it from other
+>>> error scenarios.
+>>>
+>>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>>> ---
+>>>  kernel/crash_core.c | 3 +--
+>>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>>> index 256cf6db573cd09..4d57c03714f4e13 100644
+>>> --- a/kernel/crash_core.c
+>>> +++ b/kernel/crash_core.c
+>>> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
+>>>  	*crash_base = 0;
+>>>  
+>>>  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
+>>> -
+>>>  	if (!ck_cmdline)
+>>> -		return -EINVAL;
+>>> +		return -ENOENT;
+>>
+>> Firstly, I am not sure if '-ENOENT' is a right value to return. From the
+>> code comment of ENOENT, it's used for file or dir?
+>> #define ENOENT           2      /* No such file or directory */
+
+This error code does not return to user mode, so there is no problem.
+There are a lot of places in the kernel that are used this way. For example:
+
+int stop_one_cpu(unsigned int cpu, cpu_stop_fn_t fn, void *arg)
+{
+	if (!cpu_stop_queue_work(cpu, &work))
+		return -ENOENT;
+
+>>
+>> Secondly, we ever discussed the case including
+>>  - no crashkernel=,low is provided;
+>>  - messy code is provied, e.g crashkernel=aaaaaabbbb,low
+> 
+> Checking the 3rd pach, this is handled. Take back my below words,
+> continue reviewing.
+
+Yes.
 
 > 
-> The 2nd one is not handled in this patchset. How about taking the
-> handling into another round of patches. This patchset just adds
-> crashkernel=,high purely.
+>>
+>> The 2nd one is not handled in this patchset. How about taking the
+>> handling into another round of patches. This patchset just adds
+>> crashkernel=,high purely.
+>>
+>>>  
+>>>  	ck_cmdline += strlen(name);
+>>>  
+>>> -- 
+>>> 2.25.1
+>>>
+>>
 > 
-> >  
-> >  	ck_cmdline += strlen(name);
-> >  
-> > -- 
-> > 2.25.1
-> > 
+> .
 > 
 
+-- 
+Regards,
+  Zhen Lei
