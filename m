@@ -2,139 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A90B1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 13:32:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E36A4C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 13:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348699AbiCONd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 09:33:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
+        id S1348798AbiCONiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 09:38:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343569AbiCONd0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 09:33:26 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343F652E04;
-        Tue, 15 Mar 2022 06:32:14 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KHvRm5zvzzfZ0w;
-        Tue, 15 Mar 2022 21:30:44 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 15 Mar 2022 21:32:12 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 15 Mar 2022 21:32:11 +0800
-Subject: Re: [PATCH v21 1/5] kdump: return -ENOENT if required cmdline option
- does not exist
-To:     Baoquan He <bhe@redhat.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
- <20220227030717.1464-2-thunder.leizhen@huawei.com>
- <YjB/QILintgvo1AL@MiWiFi-R3L-srv> <YjCE0Scp2YiEJXBM@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <d237a2ae-300c-2c51-d97c-417bdfaa5fda@huawei.com>
-Date:   Tue, 15 Mar 2022 21:32:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S1348753AbiCONhz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 09:37:55 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FBE52E30;
+        Tue, 15 Mar 2022 06:36:42 -0700 (PDT)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FD11ns030246;
+        Tue, 15 Mar 2022 13:36:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=leBgtOc/BpHS3N7gQuH82IY5WMqgYUIxm2e3mHS2D+0=;
+ b=s0UdQPKZVhxkdi58StsYbIZ1FY5vIqBltk999xWUAbsz80bO74SULLeJ2bGykgH6KTsv
+ 8KaE4z2Zao4wXC+G7H3TQSUBgLeaPw16h2rRF7P4DaSPIFt0vmHWyliHzt85cmpKUG+A
+ jffHm25Itvmtn5v77RJCxxZTZrEdCSmhYxtmW+qGwQLBhxOnglO19pXNCksMZ6nRRVV6
+ 1ilkKB2HoMXp9x2hMmzLzdb28Z866U5NBPDI7jjhJuYrclW8tLfeaZGvHPb7KgX5QiOI
+ XMY+c80rsWJKUpE65i2rroynbPIZR/nNC43a2hsFcsZoWyQLWoApnUhjcyajbXspu2ok aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3etuajgtab-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Mar 2022 13:36:27 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FD1lB0030806;
+        Tue, 15 Mar 2022 13:36:26 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3etuajgta2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Mar 2022 13:36:26 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FDUASk019596;
+        Tue, 15 Mar 2022 13:36:25 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
+        by ppma03wdc.us.ibm.com with ESMTP id 3etjmnk3y0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Mar 2022 13:36:25 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 22FDaOeH30212458
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Mar 2022 13:36:24 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3F472AC062;
+        Tue, 15 Mar 2022 13:36:24 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B3191AC065;
+        Tue, 15 Mar 2022 13:36:10 +0000 (GMT)
+Received: from [9.211.32.184] (unknown [9.211.32.184])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 15 Mar 2022 13:36:10 +0000 (GMT)
+Message-ID: <9618afae-2a91-6e4e-e8c3-cb83e2f5c3d9@linux.ibm.com>
+Date:   Tue, 15 Mar 2022 09:36:08 -0400
 MIME-Version: 1.0
-In-Reply-To: <YjCE0Scp2YiEJXBM@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
 Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>
+Cc:     linux-s390@vger.kernel.org, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
+        pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org
+References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
+ <20220314194451.58266-16-mjrosato@linux.ibm.com>
+ <20220314165033.6d2291a5.alex.williamson@redhat.com>
+ <20220314231801.GN11336@nvidia.com>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20220314231801.GN11336@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ssit5_KaQXJf7t9EchayqlSsw0iusdnM
+X-Proofpoint-GUID: G4FMJgpQ5_Oh7_ArkLgAdBmgq5It9L8e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-15_03,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
+ clxscore=1015 mlxscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203150089
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2022/3/15 20:21, Baoquan He wrote:
-> On 03/15/22 at 07:57pm, Baoquan He wrote:
->> On 02/27/22 at 11:07am, Zhen Lei wrote:
->>> The crashkernel=Y,low is an optional command-line option. When it doesn't
->>> exist, kernel will try to allocate minimum required memory below 4G
->>> automatically. Give it a unique error code to distinguish it from other
->>> error scenarios.
->>>
->>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->>> ---
->>>  kernel/crash_core.c | 3 +--
->>>  1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
->>> index 256cf6db573cd09..4d57c03714f4e13 100644
->>> --- a/kernel/crash_core.c
->>> +++ b/kernel/crash_core.c
->>> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
->>>  	*crash_base = 0;
->>>  
->>>  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
->>> -
->>>  	if (!ck_cmdline)
->>> -		return -EINVAL;
->>> +		return -ENOENT;
->>
->> Firstly, I am not sure if '-ENOENT' is a right value to return. From the
->> code comment of ENOENT, it's used for file or dir?
->> #define ENOENT           2      /* No such file or directory */
-
-This error code does not return to user mode, so there is no problem.
-There are a lot of places in the kernel that are used this way. For example:
-
-int stop_one_cpu(unsigned int cpu, cpu_stop_fn_t fn, void *arg)
-{
-	if (!cpu_stop_queue_work(cpu, &work))
-		return -ENOENT;
-
->>
->> Secondly, we ever discussed the case including
->>  - no crashkernel=,low is provided;
->>  - messy code is provied, e.g crashkernel=aaaaaabbbb,low
+On 3/14/22 7:18 PM, Jason Gunthorpe wrote:
+> On Mon, Mar 14, 2022 at 04:50:33PM -0600, Alex Williamson wrote:
 > 
-> Checking the 3rd pach, this is handled. Take back my below words,
-> continue reviewing.
+>>> +/*
+>>> + * The KVM_IOMMU type implies that the hypervisor will control the mappings
+>>> + * rather than userspace
+>>> + */
+>>> +#define VFIO_KVM_IOMMU			11
+>>
+>> Then why is this hosted in the type1 code that exposes a wide variety
+>> of userspace interfaces?  Thanks,
+> 
+> It is really badly named, this is the root level of a 2 stage nested
+> IO page table, and this approach needed a special flag to distinguish
+> the setup from the normal iommu_domain.
 
-Yes.
+^^ Yes, this.
 
 > 
->>
->> The 2nd one is not handled in this patchset. How about taking the
->> handling into another round of patches. This patchset just adds
->> crashkernel=,high purely.
->>
->>>  
->>>  	ck_cmdline += strlen(name);
->>>  
->>> -- 
->>> 2.25.1
->>>
->>
-> 
-> .
+> If we do try to stick this into VFIO it should probably use the
+> VFIO_TYPE1_NESTING_IOMMU instead - however, we would like to delete
+> that flag entirely as it was never fully implemented, was never used,
+> and isn't part of what we are proposing for IOMMU nesting on ARM
+> anyhow. (So far I've found nobody to explain what the plan here was..)
 > 
 
--- 
-Regards,
-  Zhen Lei
+I'm open to suggestions on how better to tie this into vfio.  The 
+scenario basically plays out that:
+
+1) the iommu will be domain_alloc'd once VFIO_SET_IOMMU is issued -- so 
+at that time (or earlier) we have to make the decision on whether to use 
+the standard IOMMU or this alternate KVM/nested IOMMU.
+
+2) At the time VFIO_SET_IOMMU is received, we have not yet associated 
+the vfio group with a KVM, so we can't (today) use this as an indicator 
+to guess which IOMMU strategy to use.
+
+3) Ideally, even if we changed QEMU vfio to make the KVM association 
+earlier, it would be nice to still be able to indicate that we want to 
+use the standard iommu/type1 despite a KVM association existing (e.g. 
+backwards compatibility with older QEMU that lacks 'interpretation' 
+support, nested virtualization scenarios).
+
+> This is why I said the second level should be an explicit iommu_domain
+> all on its own that is explicitly coupled to the KVM to read the page
+> tables, if necessary.
+
+Maybe I misunderstood this.  Are you proposing 2 layers of IOMMU that
+interact with each other within host kernel space?
+
+A second level runs the guest tables, pins the appropriate pieces from 
+the guest to get the resulting phys_addr(s) which are then passed via 
+iommu to a first level via map (or unmap)?
+
+> 
+> But I'm not sure that reading the userspace io page tables with KVM is
+> even the best thing to do - the iommu driver already has the pinned
+> memory, it would be faster and more modular to traverse the io page
+> tables through the pfns in the root iommu_domain than by having KVM do
+> the translations. Lets see what Matthew says..
+
+OK, you lost me a bit here.  And this may be associated with the above.
+
+So, what the current implementation is doing is reading the guest DMA 
+tables (which we must pin the first time we access them) and then map 
+the PTEs of the associated guest DMA entries into the associated host 
+DMA table (so, again pin and place the address, or unpin and 
+invalidate).  Basically we are shadowing the first level DMA table as a 
+copy of the second level DMA table with the host address(es) of the 
+pinned guest page(s).
+
+I'm unclear where you are proposing the pinning be done if not by the 
+iommu domain traversing the tables to perform the 'shadow' operation.
+
+
+
