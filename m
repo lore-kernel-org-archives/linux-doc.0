@@ -2,128 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CD7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 08:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA765C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 09:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245428AbiCOI7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 04:59:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55558 "EHLO
+        id S1346598AbiCOJ1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 05:27:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243669AbiCOI7e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 04:59:34 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422D513CCB;
-        Tue, 15 Mar 2022 01:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647334701; x=1678870701;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eM6LHcaNGQVN5WrUTYWD2ky/uBMOwVU98kaZGqKUhns=;
-  b=eYTFfcYaJfV4XqFNGfVJARk6zQVqpE4xzJFhUwolP/kXwClZWnFADup0
-   EriORgfzHve7qtrN+FvOK6BVH4BTqh/0KzcXPTSgivCL7SdmmX2YX3mv1
-   MlA2OoFKaHtrozvrl6gLmizL2KZqmPYPMYEs3PA21DSBCpIEzt+hLqYAN
-   lpFXtmsC7ibDcudtHg0PTHXmlehx1/0R+Nw685qhymwuaGkuK7acUFbdD
-   8kZpivr2nXX+Co7UrHKrkuI3S01oLct4n0goxSyM3DPdK/K16/0ff4E5c
-   0v0UJZWV5Zmf4QfY9gDgQUBspUlx++t6pzIHFZ3lBL0mb8/uJeCNS49f1
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255080033"
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; 
-   d="scan'208";a="255080033"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 01:58:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; 
-   d="scan'208";a="515787342"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Mar 2022 01:58:18 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nU30U-000AlC-4w; Tue, 15 Mar 2022 08:58:18 +0000
-Date:   Tue, 15 Mar 2022 16:57:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Gabriel Niebler <gniebler@suse.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        David Sterba <dsterba@suse.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.com>,
-        linux-doc@vger.kernel.org
-Subject: [kdave-btrfs-devel:misc-next 122/137] fs/btrfs/ctree.c:2302:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202203151609.xUNBpLp7-lkp@intel.com>
+        with ESMTP id S1346593AbiCOJ1h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 05:27:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD7FD3FD8B
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 02:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647336384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=musgu39DMn+QpLBIcTaqCJ85bbJTBT0GNCkqT/YTdCw=;
+        b=F07fzLNkWFJ/Ic+rPCkRURCDf63YCrhQJCb1Lc16OtXRwpC9nZ7rO8q0zAHzoHiiIamJDw
+        p20ep7BHUY7/zia/xzXq8Plp4bTg/0c2Z1L5ybcb6A+fEIY7M8AELl4Dq1ws5DDw71OmwW
+        CkCHuouTj8liiWURb6bJvj1j2sHtGUo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-gjlaw87DM8G4TWOA9TQRfg-1; Tue, 15 Mar 2022 05:26:19 -0400
+X-MC-Unique: gjlaw87DM8G4TWOA9TQRfg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 109F3185A79C;
+        Tue, 15 Mar 2022 09:26:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.62])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 74D0D141DC2B;
+        Tue, 15 Mar 2022 09:26:18 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        alex.williamson@redhat.com, kvm@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, jgg@nvidia.com,
+        shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
+        yishaih@nvidia.com, linux-doc@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH v3] vfio-pci: Provide reviewers and acceptance criteria
+ for vendor drivers
+In-Reply-To: <164728932975.54581.1235687116658126625.stgit@omen>
+Organization: Red Hat GmbH
+References: <164728932975.54581.1235687116658126625.stgit@omen>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Tue, 15 Mar 2022 10:26:17 +0100
+Message-ID: <87a6drh8hy.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/kdave/btrfs-devel.git misc-next
-head:   534513d9f513c4b9a622b34c8fb11281d9ee5a06
-commit: 3be2b28d45e8f37457d0d9efa5af6a97fab060c9 [122/137] btrfs: introduce btrfs_for_each_slot iterator macro
-config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20220315/202203151609.xUNBpLp7-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/kdave/btrfs-devel/commit/3be2b28d45e8f37457d0d9efa5af6a97fab060c9
-        git remote add kdave-btrfs-devel https://github.com/kdave/btrfs-devel.git
-        git fetch --no-tags kdave-btrfs-devel misc-next
-        git checkout 3be2b28d45e8f37457d0d9efa5af6a97fab060c9
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc64 SHELL=/bin/bash fs/btrfs/
+On Mon, Mar 14 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> Vendor or device specific extensions for devices exposed to userspace
+> through the vfio-pci-core library open both new functionality and new
+> risks.  Here we attempt to provided formalized requirements and
+> expectations to ensure that future drivers both collaborate in their
+> interaction with existing host drivers, as well as receive additional
+> reviews from community members with experience in this area.
+>
+> Cc: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Yishai Hadas <yishaih@nvidia.com>
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Acked-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
 
-All warnings (new ones prefixed by >>):
+(...)
 
->> fs/btrfs/ctree.c:2302: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Search for a valid slot for the given path.
+> diff --git a/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
+> new file mode 100644
+> index 000000000000..3a108d748681
+> --- /dev/null
+> +++ b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
 
+What about Christoph's request to drop the "vendor" name?
+vfio-pci-device-specific-driver-acceptance.rst would match the actual
+title of the document, and the only drawback I see is that it is a bit
+longer.
 
-vim +2302 fs/btrfs/ctree.c
+> @@ -0,0 +1,35 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Acceptance criteria for vfio-pci device specific driver variants
+> +================================================================
+> +
+> +Overview
+> +--------
+> +The vfio-pci driver exists as a device agnostic driver using the
+> +system IOMMU and relying on the robustness of platform fault
+> +handling to provide isolated device access to userspace.  While the
+> +vfio-pci driver does include some device specific support, further
+> +extensions for yet more advanced device specific features are not
+> +sustainable.  The vfio-pci driver has therefore split out
+> +vfio-pci-core as a library that may be reused to implement features
+> +requiring device specific knowledge, ex. saving and loading device
+> +state for the purposes of supporting migration.
+> +
+> +In support of such features, it's expected that some device specific
+> +variants may interact with parent devices (ex. SR-IOV PF in support of
+> +a user assigned VF) or other extensions that may not be otherwise
+> +accessible via the vfio-pci base driver.  Authors of such drivers
+> +should be diligent not to create exploitable interfaces via such
+> +interactions or allow unchecked userspace data to have an effect
+> +beyond the scope of the assigned device.
+> +
+> +New driver submissions are therefore requested to have approval via
+> +Sign-off/Acked-by/etc for any interactions with parent drivers.
 
-  2300	
-  2301	/**
-> 2302	 * Search for a valid slot for the given path.
-  2303	 *
-  2304	 * @root:	The root node of the tree.
-  2305	 * @key:	Will contain a valid item if found.
-  2306	 * @path:	The starting point to validate the slot.
-  2307	 *
-  2308	 * Return: 0  if the item is valid
-  2309	 *         1  if not found
-  2310	 *         <0 if error.
-  2311	 */
-  2312	int btrfs_get_next_valid_item(struct btrfs_root *root, struct btrfs_key *key,
-  2313				      struct btrfs_path *path)
-  2314	{
-  2315		while (1) {
-  2316			int ret;
-  2317			const int slot = path->slots[0];
-  2318			const struct extent_buffer *leaf = path->nodes[0];
-  2319	
-  2320			/* This is where we start walking the path. */
-  2321			if (slot >= btrfs_header_nritems(leaf)) {
-  2322				/*
-  2323				 * If we've reached the last slot in this leaf we need
-  2324				 * to go to the next leaf and reset the path.
-  2325				 */
-  2326				ret = btrfs_next_leaf(root, path);
-  2327				if (ret)
-  2328					return ret;
-  2329				continue;
-  2330			}
-  2331			/* Store the found, valid item in @key. */
-  2332			btrfs_item_key_to_cpu(leaf, key, slot);
-  2333			break;
-  2334		}
-  2335		return 0;
-  2336	}
-  2337	
+s/Sign-off/Reviewed-by/ ?
 
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+I would not generally expect the reviewers listed to sign off on other
+people's patches.
+
+> +Additionally, drivers should make an attempt to provide sufficient
+> +documentation for reviewers to understand the device specific
+> +extensions, for example in the case of migration data, how is the
+> +device state composed and consumed, which portions are not otherwise
+> +available to the user via vfio-pci, what safeguards exist to validate
+> +the data, etc.  To that extent, authors should additionally expect to
+> +require reviews from at least one of the listed reviewers, in addition
+> +to the overall vfio maintainer.
+> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+> index 5d5cc3acdf85..8b4971c7e3fa 100644
+> --- a/Documentation/maintainer/maintainer-entry-profile.rst
+> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
+> @@ -103,3 +103,4 @@ to do something different in the near future.
+>     ../nvdimm/maintainer-entry-profile
+>     ../riscv/patch-acceptance
+>     ../driver-api/media/maintainer-entry-profile
+> +   ../driver-api/vfio-pci-vendor-driver-acceptance
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4322b5321891..fd17d1891216 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20314,6 +20314,16 @@ F:	drivers/vfio/mdev/
+>  F:	include/linux/mdev.h
+>  F:	samples/vfio-mdev/
+>  
+> +VFIO PCI VENDOR DRIVERS
+
+VFIO PCI DEVICE SPECIFIC DRIVERS ?
+
+> +R:	Jason Gunthorpe <jgg@nvidia.com>
+> +R:	Yishai Hadas <yishaih@nvidia.com>
+> +R:	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> +R:	Kevin Tian <kevin.tian@intel.com>
+> +L:	kvm@vger.kernel.org
+> +S:	Maintained
+> +P:	Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
+> +F:	drivers/vfio/pci/*/
+> +
+>  VFIO PLATFORM DRIVER
+>  M:	Eric Auger <eric.auger@redhat.com>
+>  L:	kvm@vger.kernel.org
+
+Other than that, looks good to me (and thanks to the people volunteering
+for review!)
+
