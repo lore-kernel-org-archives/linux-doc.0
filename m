@@ -2,159 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8A7BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 15:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21932C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 16:04:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346635AbiCOPyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 11:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46112 "EHLO
+        id S1343524AbiCOQFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 12:05:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343807AbiCOPyT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 11:54:19 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D95B1098;
-        Tue, 15 Mar 2022 08:53:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TdXI7V+fYlh3lxlXZmt8XsvR2Ua0vqMT+wE44zQsbd0hzV/wnWuvRnTZ8kVpNLIzwCWaUfdiMsNGqytUQfPmwDLBSw5BnxSn37oBTvRizSoF+jWWUEaiOI3Zy2cbzTafbg+0hMYJ9jbVbWMVgIJTAjDf/3MgXczKCIFiNEYxZWLCqeyhuIMEMFX9hG3/BHvT6RLSLEsaWZ29bWbRG24m6jiy3PXEiWfqZRiWPuPpClIacvwS+cHookbJDo6WmFelTwXCqmmlArZaiIC9CK27+V/yyVi6QFUCFizFTr8H8QBas4FXxpQy26/qPe4PtgeQ98HE20KDIcngOMGUj6cx8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LTM96XFO/0LmNGQnCDe2Xt97iXmT5/IWzhbSRsmJuRc=;
- b=CgNKzoVjyrk8QDngEe6KhNOc+ytVNVvT7+0pCs7d224MS5NOZd+KPlWwrWtaHVVtCQTIlPeBkzqwjX5AlQH1ibwVxyifrabHDAsOUpLenfHfB5P+Ag7v9Ig0guF6CeYwsuVmYE+anjR9/T7inbhFY/330ouNyM/HVDxOx/YJQaQSEbHLYkJaTUmzMsoaxOOLs+1+x42FRQ+1ygcSszk0FRM5AFXtBSe0SMhEWqvUD+lc4hOabvEoe5Jjt83L62LFe3VTIvwfEWE/A0rWuu47vJcLIoLEmfqRlZfZeSEdOi/Bviyq65fSOarNSDXCp05ftF+qQuYBbE4ocbvADa4F6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LTM96XFO/0LmNGQnCDe2Xt97iXmT5/IWzhbSRsmJuRc=;
- b=oxcyUk27oZMxBctAuQvv5UV+0/6GEWv0LwJvFn/Ocwh9+SzLZtBPKlJ+dNLopkAf5qko7i+uFyPm5/XU16/GIot6JqZzzGpFFFHe1NcGzhhi5oJHT19wueZ1ehcrk6TQWNsZLy0aIrSxrTxzfoa3Cq1gQ3/6SD2sKTfVZ1zSwHKqq7Fe9cHOllSg4OrWw6PXeKtesSq25OOy+9r7Jj7n1m8s8F0YJwskk2UA9OFFq8zSE1EpTeZJhsN9cauNaMOrQlFvKrOf9xw6EqjlrLkbzXB4JsJVUdknGZ2oQKgyV0jsip91nx8H+IY/mwcdU92do+Aj6p+zFhwKRx/bXCajyQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by SA1PR12MB5671.namprd12.prod.outlook.com (2603:10b6:806:23b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Tue, 15 Mar
- 2022 15:53:05 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::51a0:4aee:2b4c:ca28]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::51a0:4aee:2b4c:ca28%4]) with mapi id 15.20.5061.029; Tue, 15 Mar 2022
- 15:53:05 +0000
-Date:   Tue, 15 Mar 2022 12:53:04 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, shameerali.kolothum.thodi@huawei.com,
-        kevin.tian@intel.com, yishaih@nvidia.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v3] vfio-pci: Provide reviewers and acceptance criteria
- for vendor drivers
-Message-ID: <20220315155304.GC11336@nvidia.com>
-References: <164728932975.54581.1235687116658126625.stgit@omen>
- <87a6drh8hy.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a6drh8hy.fsf@redhat.com>
-X-ClientProxiedBy: BLAPR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:208:32b::34) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S241981AbiCOQFo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 12:05:44 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B49D1FCC3
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 09:04:32 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id v4so18261266pjh.2
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 09:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gvkC3jGwM0BSWnuGpgckFHOiTk6SWYeHrSDlcpLuLck=;
+        b=3gqdwDRiCpRYgnbCiljAUJPe+a2nTGkGs2zkB5QHuuedEezypdquacGD/eUaQO1L48
+         W8q+bQNYgZzYuWRLozKeXY/T6eFQRQeF0zEZJj2Uj51n8r+WEVn59ZGNDqZ3WRH9Ixbr
+         vjfaZmO3t+A/a04EBXTmKgmCaYz6pFUFvcPblzGN9GWeI0uTrZv+8qlpHoRUapzOJIA0
+         0LAxv4xPNTNd8ErCac5s+GPIxnEWbZF6vtS5bIIgEOOeBIDJ+DEp1UkRkXlpE8LPq4pU
+         4LskO51J4VqSAb83p4KhKkgt/VPsn4Al4Dr/pozZ5fSQdu/gp2Ukcgmrc5f3QRI8t8tu
+         7VRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gvkC3jGwM0BSWnuGpgckFHOiTk6SWYeHrSDlcpLuLck=;
+        b=C5guGvDy9ko1qcCagNxsChWJKdRMoInglpAR1POF/n3EbSO6/oMcgU6FrnaoK10OXc
+         /ee1CzK+HlodAjvb4cwzuVKvMeuGm0t1+ASsb3hV2RlNKnk/WaycauGm5uHvD+nq55kJ
+         Rf60XOytlmf2n/NmNScJ56LuV+MluKEphP5d91DU/O/4qNzFajMuWNP0WdFJBzYUzIct
+         pQDwS8B5QYRcPgJwVe3iFqxytrnTfqO9Bs7Pj30Tc8sNKpH0jT73ti+dWOxc8betVUtf
+         HMsFXDoykyS4Fw/Fj+Fz2jitCmlhCAdnI9xrgg/eUMeJEPOLabK5Yssim47rT6WDz3xU
+         XU4A==
+X-Gm-Message-State: AOAM533EjDx1jT2yxVcFzHNh84fFhQwssH5I/okqAyIVDY+se5ftp3w8
+        kxfq0SEwlF9CRGdxdwVDJuaDEsOT3F1vUy69heJZSxEB4aU=
+X-Google-Smtp-Source: ABdhPJx4iexvZ9E7ec4YTysWAlz/seulvJb3IeWy/vdbRcyyJyL0GKEJRsaIdVfIyVQD8KsXXN09cpfz7Pj3dHUw5t0=
+X-Received: by 2002:a17:90a:430d:b0:1bc:f340:8096 with SMTP id
+ q13-20020a17090a430d00b001bcf3408096mr5395590pjg.93.1647360271908; Tue, 15
+ Mar 2022 09:04:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 376e4519-5051-4f10-8656-08da069be4b5
-X-MS-TrafficTypeDiagnostic: SA1PR12MB5671:EE_
-X-Microsoft-Antispam-PRVS: <SA1PR12MB5671E5BBB362C59B12201517C2109@SA1PR12MB5671.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +toLMVLUmXGT5nI/PcFLiHHrnOaArG6fmlwM9zB4RVoOAEX2hbzKjZ2Lyac+oBy53mCJOzJZ+mTUMluKisxmEPlYvEUmFMMTs+auHrm7wYsW8gvk0qkOOckm5SggwL+58yshU6gWemZBhJYm+OUVeYnKqJe48wGI50vipFiQnS9UPz4vHVJG8/bQTJ9B5BhSP8upJ7PhtAMU2QXGnRfSbPHHS+a+s43um/zS00xCsT9Fj4YbA7vH+x9i+xSwpvNne1lny/H0/H8ZBqPI7dpgwWHByI4kXKe4QMaeYJxpPsfzlBr9B7p6UsZgltM9Q8E6p2r4CKb15ZifAg8huNi40z/yDk5EX45xGSftxKXj/Wr5Qx2RzMnHPS1zKeldIMz0mTHJcqY+jISLLg8w85Lgu+QHJ0cgmA65ru92XMEUBli6juGMrTK1sRtQgEvwxn38JSYJI5wGhh4vEv4klVWqwNxFO1cUIYZvrwXjU7eJXR2KnjPZM7JnmASFY1W/1GAQHSr2P+mDVzvmUS130czvtTqebltT5L9tv/GPmLRmzRNI+vGUzBB6NXQI2q5v5CaJ44J4J9LNG6UbV7KNjrwfUGb91MQ7lACKClDrE2fBPrB98gVbaJOsVEPvgsaPHdPv86wXUVAUaQTK4gwlJCqlSw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(2616005)(6916009)(186003)(38100700002)(8936002)(83380400001)(5660300002)(8676002)(6512007)(26005)(508600001)(1076003)(86362001)(33656002)(36756003)(6486002)(316002)(66946007)(66476007)(66556008)(6506007)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WanPxfu8lZ3iEZXlaFyx6DFHEItDuo+9doD6cg0X5brXQsmOHjNTuxhzC3Xw?=
- =?us-ascii?Q?kQE3JhOQ8DQKFN3jhqKdw8pbMfaYuGSNXjfGd0557b+3K2dA1Ve/q9mR+6XE?=
- =?us-ascii?Q?83W8kCk0J61slp6UYnCFtCHaMORYByaYJwgztS5BkNrjwNakif3HpNYyazKH?=
- =?us-ascii?Q?TjLodF4UtFjulnaFKQoNhpyI2mX9Y3P/jtGdcTRjRJx7kZMRk79wSTsJU3Ll?=
- =?us-ascii?Q?WzOFwRUXRFr3wBUaWaLda9+twpsshqQPcqQb/2/Rb8dfhDX+TD9p9S0+Inm9?=
- =?us-ascii?Q?kDOBzpPEaCtjWZ9LJoKcOhjnIAZBBIRQf9aG2p4C+2jX1MPDVY4KwTFn3wBQ?=
- =?us-ascii?Q?eds1X7Gl2R3jpD4zoXksEI9TmKeS86kMdaLa7aLUWY0yJ7JL6zNHSWJy2IIo?=
- =?us-ascii?Q?Sp7JIqUYWwkidHGrLL++qlG3j1QI+aD0t/c/AF2FM5ny49irZ0f6v3I/Xc4R?=
- =?us-ascii?Q?8CyMVxHS0XmN9AVszjlOyGOFMA+RwFTDrtDH6ofwayHF5JQmF55If6canv1q?=
- =?us-ascii?Q?5TxbBox5JsWS9w7bBjgq+sboeeorSFE+5NMgYf7YTwUM4YuWXSxUG3Df0KLS?=
- =?us-ascii?Q?kehqnAbwRDgZydqTdp83ZDnyVN3UVjtUKADQ+A25tk0x+XDB+2X0cp08QmKt?=
- =?us-ascii?Q?n5x6nkNB7T+ovb7+WBqUSqNB3PvQcD9RBz8YZ7twADGwbT7MyyW5OfaLdPtl?=
- =?us-ascii?Q?vZ61DXfsU4DBSTYeFgidCxjC/ZwlpFuiZvjp6e9Qedl5epaq+4SxCskh0C9+?=
- =?us-ascii?Q?ZK2/n7PIvBGd2FxYu7HdvmVZbcp4jvoHxFUc1PRBwIE3bEmy3Qu2mE8prrCA?=
- =?us-ascii?Q?HTTkMOEhUYaM36qettF+rH9i20++tISvfYKDNlmyBSUhegkMNxMPWl4wOUR2?=
- =?us-ascii?Q?opNPanjsdJ+zmBQ0UijHE9/3OgWVPia4nLAvaNBdq2u2V1eC9BEtriE71CCT?=
- =?us-ascii?Q?yg5ik1HxxspcvuKzc68gbLDbcAHpaH+jbNJpE53mJib440Ge6lGdpn2rR8KF?=
- =?us-ascii?Q?AjchgxiKq0q1z22GXLiTCdIaDlhUQXom9DBHsp6qbB6DK+TIq5yHyPGb6EpG?=
- =?us-ascii?Q?5RcktTdjbxfj+Kpe7s8XdYZEZeuAzkPE8treX8tGh83auDD0skjSovqUhCh+?=
- =?us-ascii?Q?UOb1E62UQbRiI5VSQCAkS4jnC8YGV4GiHyVbZ/W/S9kDOpTKxr7x/oq1f4JL?=
- =?us-ascii?Q?wjCKQBG/l39gCyW8U1Z1Amcq3d5XTmA2ziHsc5bYL463Yfmu6SIvcWfNCjST?=
- =?us-ascii?Q?AIKDM2DctR4MZzhaPagR3EslloAqG+pU2QGj6VRhfGpS3I0iEic3h2SFAQic?=
- =?us-ascii?Q?/x1B2nj6qtUUvCIj3QQ3GkoM4PwYP1ttAhiHZ863K3HLS5pBD87q1M7zZGfq?=
- =?us-ascii?Q?BozGt8ZzP8iH+aWKKz0rmFfoGGjC5EOdkYl9UzNCvfxHtcJFoe77f/m7pgx+?=
- =?us-ascii?Q?rcTa7JJyyR1/CZbyLvsVjWCw+84TAoPi?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 376e4519-5051-4f10-8656-08da069be4b5
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2022 15:53:05.5176
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W9rmIGQw6uSVJg+gE0g0MW3S7kxOB9sbAHJniO1cPC0q5HuJIe/4/90AU3cQdwGI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5671
+References: <20220301195457.21152-1-jithu.joseph@intel.com>
+ <Yh59rOIH24X+6GyI@kroah.com> <Yh5+om/Nr06V0+Qj@kroah.com> <Yi/Lb5laEki0JHft@agluck-desk3.sc.intel.com>
+ <YjBBmEjbIaqTbVt+@kroah.com> <c4af81bd788e43dda915a1052af0be55@intel.com> <YjCwI4N00reBuIqA@kroah.com>
+In-Reply-To: <YjCwI4N00reBuIqA@kroah.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Tue, 15 Mar 2022 09:04:20 -0700
+Message-ID: <CAPcyv4iU5mXAjkUe-c_-Ba4Ejse90gqd=db+00jybnkV1-K6=g@mail.gmail.com>
+Subject: Re: [RFC 00/10] Introduce In Field Scan driver
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 10:26:17AM +0100, Cornelia Huck wrote:
-> On Mon, Mar 14 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
-> 
-> > Vendor or device specific extensions for devices exposed to userspace
-> > through the vfio-pci-core library open both new functionality and new
-> > risks.  Here we attempt to provided formalized requirements and
-> > expectations to ensure that future drivers both collaborate in their
-> > interaction with existing host drivers, as well as receive additional
-> > reviews from community members with experience in this area.
+On Tue, Mar 15, 2022 at 8:27 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Mar 15, 2022 at 02:59:03PM +0000, Luck, Tony wrote:
+> > >> This seems a novel use of uevent ... is it OK, or is is abuse?
+> > >
+> > > Don't create "novel" uses of uevents.  They are there to express a
+> > > change in state of a device so that userspace can then go and do
+> > > something with that information.  If that pattern fits here, wonderful.
 > >
-> > Cc: Jason Gunthorpe <jgg@nvidia.com>
-> > Cc: Yishai Hadas <yishaih@nvidia.com>
-> > Cc: Kevin Tian <kevin.tian@intel.com>
-> > Acked-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> 
-> (...)
-> 
-> > diff --git a/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-> > new file mode 100644
-> > index 000000000000..3a108d748681
-> > +++ b/Documentation/driver-api/vfio-pci-vendor-driver-acceptance.rst
-> 
-> What about Christoph's request to drop the "vendor" name?
-> vfio-pci-device-specific-driver-acceptance.rst would match the actual
-> title of the document, and the only drawback I see is that it is a bit
-> longer.
+> > Maybe Dan will chime in here to better explain his idea. I think for
+> > the case where the core test fails, there is a good match with uevent.
+> > The device (one CPU core) has changed state from "working" to
+> > "untrustworthy". Userspace can do things like: take the logical CPUs
+> > on that core offline, initiate a service call, or in a VMM cluster environment
+> > migrate work to a different node.
+>
+> Again, I have no idea what you are doing at all with this driver, nor
+> what you want to do with it.
+>
+> Start over please.
+>
+> What is the hardware you have to support?
+>
+> What is the expectation from userspace with regards to using the
+> hardware?
 
-I agree we should not use the vendor name
+Here is what I have learned about this driver since engaging on this
+patch set. Cores go bad at run time. Datacenters can detect them at
+scale. When I worked at Facebook there was an epic story of debugging
+random user login failures that resulted in the discovery of a
+marginal lot-number of CPUs in a certain cluster. In that case the
+crypto instructions on a few cores of those CPUs gave wrong answers.
+Whether that was an electromigration effect, or just a marginal bin of
+CPUs, the only detection method was A-B testing different clusters of
+CPUs to isolate the differences.
 
-In general I wonder if this is a bit too specific to PCI, really this
-is just review criteria for any driver making a struct vfio_device_ops
-implementation, and we have some specific guidance for migration here
-as well.
+This driver takes advantage of a CPU feature to inject a diagnostic
+test similar to what can be done via JTAG to validate the
+functionality of a given core on a CPU at a low level. The diagnostic
+is run periodically since some failures may be sensitive to thermals
+while other failures may be be related to the lifetime of the CPU. The
+result of the diagnostic is "here are 1 or more cores that may
+miscalculate, stop using them and replace the CPU".
 
-Like if IBM makes s390 migration drivers all of this applies just as
-well even though they are not PCI.
+At a base level the ABI need only be something that conveys "core X
+failed its last diagnostic". All the other details are just extra, and
+in my opinion can be dropped save for maybe "core X was unable to run
+the diagnostic".
 
-> > +New driver submissions are therefore requested to have approval via
-> > +Sign-off/Acked-by/etc for any interactions with parent drivers.
-> 
-> s/Sign-off/Reviewed-by/ ?
-> 
-> I would not generally expect the reviewers listed to sign off on other
-> people's patches.
+The thought process that got me from the proposal on the table "extend
+/sys/devices/system/cpu with per-cpu result state and other details"
+to "emit uevents on each test completion" were the following:
+-The complexity and maintenance burden of dynamically extending
+/sys/devices/system/cpu: Given that you identified a reference
+counting issue, I wondered why this was trying to use
+/sys/devices/system/cpu in the first instance.
 
-It happens quite a lot when those people help write the patches too :)
+- The result of the test is an event that kicks off remediation
+actions: When this fails a tech is paged to replace the CPU and in the
+meantime the system can either be taken offline, or if some of the
+cores are still good the workloads can be moved off of the bad cores
+to keep some capacity online until the replacement can be made.
 
-Jason
+- KOBJ_CHANGE uevents are already deployed in NVME for AEN
+(Asynchronous Event Notifications): If the results of the test were
+conveyed only in sysfs then there would be a program that would scrape
+sysfs and turn around and fire an event for the downstream remediation
+actions. Uevent cuts to the chase and lets udev rule policy log,
+notify, and/or take pre-emptive CPU offline action. The CPU state has
+changed after a test run. It has either changed to a failed CPU, or it
+has changed to one that has recently asserted its health.
+
+> > > I doubt you can report "test results" via a uevent in a way that the
+> > > current uevent states and messages would properly convey, but hey, maybe
+> > > I'm wrong.
+> >
+> > But here things get a bit sketchy. Reporting "pass", or "didn't complete the test"
+> > isn't a state change.  But it seems like a poor interface if there is no feedback
+> > that the test was run. Using different methods to report pass/fail/incomplete
+> > also seems user hostile.
+>
+> We have an in-kernel "test" framework.  Yes, it's for kernel code, but
+> why not extend that to also include hardware tests?
+
+This is where my head was at when starting out with this, but this is
+more of an asynchronous error reporting mechanism like machine check,
+or PCIe AER, than a test. The only difference being that the error in
+this case is only reported by first requesting an error check. So it
+is more similar to something like a background patrol scrub that seeks
+out latent ECC errors in memory.
