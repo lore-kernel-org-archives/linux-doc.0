@@ -2,236 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A772C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 07:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CD7C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 08:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343497AbiCOH6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 03:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39790 "EHLO
+        id S245428AbiCOI7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 04:59:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236001AbiCOH6a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 03:58:30 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B93364BBA6;
-        Tue, 15 Mar 2022 00:57:18 -0700 (PDT)
+        with ESMTP id S243669AbiCOI7e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 04:59:34 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422D513CCB;
+        Tue, 15 Mar 2022 01:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647331038; x=1678867038;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=RHdUpGj01IqEN9UmROmg+gxPPv7Yvjww92N/V+dn3c4=;
-  b=ZCb36ffh88g6vZ+5OldLN/V4DvQM3LSINT9ap6qEswbJRz7nehmRoGV3
-   wllb+T+lMsElOJNF+MChcBxn+8MyKMGvF2tT5F59ttk7+c/VBPQTH3UTt
-   DgXH1a3rmXjnJAVCIU7q5s04qo+H4o0lucaasnqFEsYQ9JahtcsphIdA+
-   LBHc7rvQIKBf2QGsxSHobUqxDvoJXBntwhhmGwCczKKQJL8H8ll0nvJ4i
-   9eP0kVlQ/8Wib38QQpKZT7u8lpJz4+b5//nOzxKR4IndHWRXvC0dv1wyF
-   S439a4oYBBGnM8Aec7kbvPC3Vb2RZLgRNHIx5Uzf71yt0vLeb7B6vsbx2
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255967344"
+  t=1647334701; x=1678870701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eM6LHcaNGQVN5WrUTYWD2ky/uBMOwVU98kaZGqKUhns=;
+  b=eYTFfcYaJfV4XqFNGfVJARk6zQVqpE4xzJFhUwolP/kXwClZWnFADup0
+   EriORgfzHve7qtrN+FvOK6BVH4BTqh/0KzcXPTSgivCL7SdmmX2YX3mv1
+   MlA2OoFKaHtrozvrl6gLmizL2KZqmPYPMYEs3PA21DSBCpIEzt+hLqYAN
+   lpFXtmsC7ibDcudtHg0PTHXmlehx1/0R+Nw685qhymwuaGkuK7acUFbdD
+   8kZpivr2nXX+Co7UrHKrkuI3S01oLct4n0goxSyM3DPdK/K16/0ff4E5c
+   0v0UJZWV5Zmf4QfY9gDgQUBspUlx++t6pzIHFZ3lBL0mb8/uJeCNS49f1
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="255080033"
 X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; 
-   d="scan'208";a="255967344"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 00:57:13 -0700
+   d="scan'208";a="255080033"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 01:58:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,182,1643702400"; 
-   d="scan'208";a="497925405"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga003.jf.intel.com with ESMTP; 15 Mar 2022 00:57:13 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 15 Mar 2022 00:57:13 -0700
-Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 15 Mar 2022 00:57:12 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Tue, 15 Mar 2022 00:57:12 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Tue, 15 Mar 2022 00:57:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FtLe2x0XaUUEZDG6p1dqUUoqbmRzPsP8tkdzEOAX/fhxJq4Bvg9cgG1juckQ98XpT9/6FOmuwYwo/Z1I/JbmJhvLul+aSQM3I2EQdOHoPUeNstB/fY7O7RX8yA2ovD01kiZl5mtIzrscnJMnlB69ZmwuRgVOM1IKOG38hAp82jw9FeFqUvGKr5D1THLoGn1rWl/SczoEDRAlg9KJQzWxEfcz1SCc0tL0FQHAAVG1oNzryEhw8oBXdWrAhM7cRSAa+CeiNxFg89t7P+tnImVOHkpJMjP3GZdIZBK2HVzgYMlTGxXCNmx5ghzba/oAl+urCUl2q0kD8tqeVQvbXtW1DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oPsAC0RU35VZDfyr7i33mhnVRK+ost9SNJp4p4hbnqw=;
- b=WxcecIt+6TqT6cm7sCyl2ZlCuPJ0I+Lt3zVFQMpWFFJP3kPOoelSY0QdsGPN6MMkg9zW2pcif+rp4YqqnwWRVxlDqhEYZGgX50T/ai0jVRnGi/Fi+WJd1obXwL/0bJmaA60BbJTsKukjseFkl9ifDdNUMTVjjY0AMfdeLM0n0R1+w+JLbtTcQqts2uJQvIdmhwXJIelr+1+5zQ+Vqa/NeiqFpLHvDCf6LsbR9GBiaEQH5/DAp90n+ruMvOsIMyclKK3fhQvk5H//Qr46uUxW6lbY7OJ9Yagk+7CaOOist67SEeCT6g6Qz6i69Om+cYjgj7/ZkZvqTVgwU5f/Fof6RA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BL1PR11MB5271.namprd11.prod.outlook.com (2603:10b6:208:31a::21)
- by SJ0PR11MB5599.namprd11.prod.outlook.com (2603:10b6:a03:3af::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 15 Mar
- 2022 07:57:11 +0000
-Received: from BL1PR11MB5271.namprd11.prod.outlook.com
- ([fe80::b9cf:9108:ae17:5f96]) by BL1PR11MB5271.namprd11.prod.outlook.com
- ([fe80::b9cf:9108:ae17:5f96%3]) with mapi id 15.20.5061.029; Tue, 15 Mar 2022
- 07:57:11 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>
-CC:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "schnelle@linux.ibm.com" <schnelle@linux.ibm.com>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "pmorel@linux.ibm.com" <pmorel@linux.ibm.com>,
-        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
-        "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "svens@linux.ibm.com" <svens@linux.ibm.com>,
-        "frankja@linux.ibm.com" <frankja@linux.ibm.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "imbrenda@linux.ibm.com" <imbrenda@linux.ibm.com>,
-        "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
-        "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
-        "freude@linux.ibm.com" <freude@linux.ibm.com>,
-        "thuth@redhat.com" <thuth@redhat.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
-Thread-Topic: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
-Thread-Index: AQHYN9xrQVYDc2PUskGgAyzdZ+WZ86y/fBmAgAAHrYCAAIrs8A==
-Date:   Tue, 15 Mar 2022 07:57:10 +0000
-Message-ID: <BL1PR11MB5271DE700698C5FB11F5EEE78C109@BL1PR11MB5271.namprd11.prod.outlook.com>
-References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
- <20220314194451.58266-16-mjrosato@linux.ibm.com>
- <20220314165033.6d2291a5.alex.williamson@redhat.com>
- <20220314231801.GN11336@nvidia.com>
-In-Reply-To: <20220314231801.GN11336@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.401.20
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: abd83022-249e-4d1a-c109-08da0659691d
-x-ms-traffictypediagnostic: SJ0PR11MB5599:EE_
-x-microsoft-antispam-prvs: <SJ0PR11MB5599120D4D5CC1B6AAEC10A68C109@SJ0PR11MB5599.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5cZ13trWKJASAmx2TNaAOnfyobstd2xIkvxbOZzzIEGBbpR2chbVUtVjzqYCtyZcZRPHKiH1oLr6ywn5xPNCzflQLNCBucfIxLb6My0IU8Jt8CRvEMe0DzI4gmO5y56dHGWuowyxkFHEaECJppUXTfCAuxWYmgRar5VsOsK6n9/xIHQ7iFPhhAW59g8uzAZLVlZ7UXkgx8TyR3lkQES4piXmwpaTEEORVB7xVGF4K2M8v6BH4gR/XYiT23dYWKHpDzjsgICkam+JrIwxxF/X3b34knyCAwgJJvJc4WO/hW+ApwN32V1DTnw3JiVtUekAizNXn41g1DqHm7WRB+8Ka92YPUb2ojY0TEZIBcXDsCpcYADH28B7HbcB7zL6XscodmB5Z0qnjIsrmCagojgE+JMfVXwuPNgfUvWcbqHnGE0MTgJ5/xkTQOs53FmvjqMz7kCA/XD5k9yGkIjvibYNuAu9NPtkF8wGd3zXQ3qbQ1mU/FwmcpcQyFZ7XUCtwu6++B1e0H2L6A3ml+mjKsH/sUCmvmnF9Im7h05jEAu/5NaThaozQ0CVhCaZ1WfwEcy6JDT4s0wGN3SyeNInprYl6VYFkzmRDxLoeOoXNTKCLU5HU2z9Hjec2Sdct2AVY5wThJ0ziaA7HQEOIHeoGunsJtpvyplqV/jUUk0aWWNAk49O7GLlcK5R/twGdWumYX4QQRqQMC7p3X5pAlYtmUPS5Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5271.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(122000001)(6506007)(7696005)(82960400001)(83380400001)(33656002)(2906002)(9686003)(38100700002)(71200400001)(52536014)(86362001)(508600001)(55016003)(38070700005)(110136005)(54906003)(64756008)(4326008)(8676002)(66446008)(26005)(186003)(66476007)(66556008)(7406005)(7416002)(8936002)(5660300002)(76116006)(66946007)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WPkY+Vzrr40zXp0JpYrX6ED6CNMY5bYXgN1Qyo9GVbTYiSlo5sNSDRh7Oiuv?=
- =?us-ascii?Q?5TJnQgEA3M8VqaSKzuNYgNgWGTHPaMk7hPjPyITTgonvAs/w1PlnQsqbZRY/?=
- =?us-ascii?Q?GkxRqXUTn86FExUV5Uw4XLGXuV1v8bSkLt+GBf6dviJo4JiO68CUv3g7j66p?=
- =?us-ascii?Q?1A4zSgsKfLaUBFtmQV/wWwXlDRpekisGHWFA5NoGPvNRIQhzH/DE9HhOalxk?=
- =?us-ascii?Q?B8PDUkKeFX4B7PRln8F15XNjjTZW/yYINTqkQPqv7vFyQ/EO2gYWKZjvkS5C?=
- =?us-ascii?Q?NTihzyumwr1Cu0ZRoCRbN1KkgXO1IOjyrQkZEWELfPRdQ0Ax1Qggm2TBrZfW?=
- =?us-ascii?Q?qAoVQycWeg4ZoAMS1LWlL3bqSzDYWBrgC4NKUrjQyKWpqqo7CEY5laUDBHT3?=
- =?us-ascii?Q?dgi1qzJMKVc47UP3oli6Q9qxzbfYESoIvamKRP4krEIKIkll47BrcDjYmpbw?=
- =?us-ascii?Q?OsQUdztlGGqbr4xn4R0B5cDntGqUPKg9FYqj+2tEOBDUdTa8RcLhmj+W2CLy?=
- =?us-ascii?Q?zIBcefcoqk8ShnzNXUthMLINaELceMLiTuZ7CCaaR+lHsbj2Bkc1iTbiPYZ5?=
- =?us-ascii?Q?VN68oQKvODbd7m9Qe91MaDDimaCr/JjiSAAM+MMFTT7vHFElU/TEG+lMRaMk?=
- =?us-ascii?Q?v5GSONjwom+DdYTWu+0Ewa41Ns8PANj6M7ohfPqEuXcYbHDPV6Da/uf10SRh?=
- =?us-ascii?Q?tD2t5CWMs4fln/jTJqpDuXz5E4HhYtV/tzDWvBfJXH+qWimOO13KxZDqJOst?=
- =?us-ascii?Q?0eSAy3ndc8wSXVg9sZMHJeNVCdMxJ4DViUmVHQA4PjOCJcRsI50jbaZRKfU+?=
- =?us-ascii?Q?OUNAfEnmvVfpFYIByjn9aRbfcRo8gRl6EH24W8qgpIVLwUqz7KhGX/ihSpML?=
- =?us-ascii?Q?YPo4+DlZG+xCR9g9+2EPfUXvMw7DHkkZZ52PBDrI24B2qb1JDCA52apelRYP?=
- =?us-ascii?Q?/PMb+ssT+rzoEbmOszGPV7gdopMRikFPehuwCKuueetNd99LW2J+9SiSlAAh?=
- =?us-ascii?Q?B450JbqTXKPp0CPP0n0zZf6moUOFzgpgcuY/TAxvJgHHqq0kfS9BTY1Ms4oN?=
- =?us-ascii?Q?nhoYs+wFXNuMpfCRzA7PJjUzV8mf2D4bvvUfj96oWHXYtuayXgUm4qtfW6Uj?=
- =?us-ascii?Q?eH1he6bD6rGE1/4NyTxENpMmQvX6vtGxNS9c0rlYGctHeBLcZjlK3vVE5bx2?=
- =?us-ascii?Q?XE40Jq5Mn1mz2hIWnmAwUxb18V4RFFfg1dD8FZWfDwyeMKE7A1iNI+Efg8IP?=
- =?us-ascii?Q?Ewe49IAI1bs2KGxruCUG0dKqb7++g8U0mwbz1DR+NAtyvlPeELrNZnFr1mjk?=
- =?us-ascii?Q?u6Rh/+7ozzxxkn/K1zwghcip5rNYtqhxyaufPDQgBUXXWngV2/wOq9u8sL3P?=
- =?us-ascii?Q?8HnVqXHl9xtX2mOFdSiWeDniSLoLP2HbhQIm4x9Bv7c6Is8wc4gmJcNiPbDj?=
- =?us-ascii?Q?yPoLlfhv25NUzahiMAudiTrTBMSyIgc8?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="515787342"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 15 Mar 2022 01:58:18 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nU30U-000AlC-4w; Tue, 15 Mar 2022 08:58:18 +0000
+Date:   Tue, 15 Mar 2022 16:57:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Gabriel Niebler <gniebler@suse.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        David Sterba <dsterba@suse.com>,
+        Marcos Paulo de Souza <mpdesouza@suse.com>,
+        linux-doc@vger.kernel.org
+Subject: [kdave-btrfs-devel:misc-next 122/137] fs/btrfs/ctree.c:2302:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203151609.xUNBpLp7-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5271.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abd83022-249e-4d1a-c109-08da0659691d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2022 07:57:10.9104
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +X1G4VEu8S1n7WJL0TXRD9E5D6yMxsjHGpib/cjO1Sd6TeEU5OAiQxpELyka2447Q9RwsgF46Sbij0ZV96F2IA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5599
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Tuesday, March 15, 2022 7:18 AM
->=20
-> On Mon, Mar 14, 2022 at 04:50:33PM -0600, Alex Williamson wrote:
->=20
-> > > +/*
-> > > + * The KVM_IOMMU type implies that the hypervisor will control the
-> mappings
-> > > + * rather than userspace
-> > > + */
-> > > +#define VFIO_KVM_IOMMU			11
-> >
-> > Then why is this hosted in the type1 code that exposes a wide variety
-> > of userspace interfaces?  Thanks,
->=20
-> It is really badly named, this is the root level of a 2 stage nested
-> IO page table, and this approach needed a special flag to distinguish
-> the setup from the normal iommu_domain.
->=20
-> If we do try to stick this into VFIO it should probably use the
-> VFIO_TYPE1_NESTING_IOMMU instead - however, we would like to delete
-> that flag entirely as it was never fully implemented, was never used,
-> and isn't part of what we are proposing for IOMMU nesting on ARM
-> anyhow. (So far I've found nobody to explain what the plan here was..)
->=20
-> This is why I said the second level should be an explicit iommu_domain
-> all on its own that is explicitly coupled to the KVM to read the page
-> tables, if necessary.
->=20
-> But I'm not sure that reading the userspace io page tables with KVM is
-> even the best thing to do - the iommu driver already has the pinned
-> memory, it would be faster and more modular to traverse the io page
-> tables through the pfns in the root iommu_domain than by having KVM do
-> the translations. Lets see what Matthew says..
->=20
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   534513d9f513c4b9a622b34c8fb11281d9ee5a06
+commit: 3be2b28d45e8f37457d0d9efa5af6a97fab060c9 [122/137] btrfs: introduce btrfs_for_each_slot iterator macro
+config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20220315/202203151609.xUNBpLp7-lkp@intel.com/config)
+compiler: hppa64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/kdave/btrfs-devel/commit/3be2b28d45e8f37457d0d9efa5af6a97fab060c9
+        git remote add kdave-btrfs-devel https://github.com/kdave/btrfs-devel.git
+        git fetch --no-tags kdave-btrfs-devel misc-next
+        git checkout 3be2b28d45e8f37457d0d9efa5af6a97fab060c9
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc64 SHELL=/bin/bash fs/btrfs/
 
-Reading this thread it's sort of like an optimization to software nesting.
-If that is the case does it make more sense to complete the basic form
-of software nesting first and then adds this optimization?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-The basic form would allow the userspace to create a special domain
-type which points to a user/guest page table (like hardware nesting)
-but doesn't install the user page table to the IOMMU hardware (unlike
-hardware nesting). When receiving invalidate cmd from userspace=20
-the iommu driver walks the user page table (1st-level) and the parent=20
-page table (2nd-level) to generate a shadow mapping for the=20
-invalidated range in the non-nested hardware page table of this
-special domain type.
+All warnings (new ones prefixed by >>):
 
-Once that works what this series does just changes the matter of
-how the invalidate cmd is triggered. Previously iommu driver receives
-invalidate cmd from Qemu (via iommufd uAPI) while now receiving
-the cmd from kvm (via iommufd kAPI) upon interception of RPCIT.
-From this angle once the connection between iommufd and kvm fd=20
-is established there is even no direct talk between iommu driver and
-kvm.=20
+>> fs/btrfs/ctree.c:2302: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Search for a valid slot for the given path.
 
-Thanks
-Kevin
 
+vim +2302 fs/btrfs/ctree.c
+
+  2300	
+  2301	/**
+> 2302	 * Search for a valid slot for the given path.
+  2303	 *
+  2304	 * @root:	The root node of the tree.
+  2305	 * @key:	Will contain a valid item if found.
+  2306	 * @path:	The starting point to validate the slot.
+  2307	 *
+  2308	 * Return: 0  if the item is valid
+  2309	 *         1  if not found
+  2310	 *         <0 if error.
+  2311	 */
+  2312	int btrfs_get_next_valid_item(struct btrfs_root *root, struct btrfs_key *key,
+  2313				      struct btrfs_path *path)
+  2314	{
+  2315		while (1) {
+  2316			int ret;
+  2317			const int slot = path->slots[0];
+  2318			const struct extent_buffer *leaf = path->nodes[0];
+  2319	
+  2320			/* This is where we start walking the path. */
+  2321			if (slot >= btrfs_header_nritems(leaf)) {
+  2322				/*
+  2323				 * If we've reached the last slot in this leaf we need
+  2324				 * to go to the next leaf and reset the path.
+  2325				 */
+  2326				ret = btrfs_next_leaf(root, path);
+  2327				if (ret)
+  2328					return ret;
+  2329				continue;
+  2330			}
+  2331			/* Store the found, valid item in @key. */
+  2332			btrfs_item_key_to_cpu(leaf, key, slot);
+  2333			break;
+  2334		}
+  2335		return 0;
+  2336	}
+  2337	
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
