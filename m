@@ -2,166 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC65FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 19:03:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F5DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 23:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351229AbiCOTEL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 15:04:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
+        id S1346865AbiCOX12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 19:27:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351220AbiCOTEJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 15:04:09 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B37415A153
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 12:02:49 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id bi12so43622829ejb.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 12:02:48 -0700 (PDT)
+        with ESMTP id S237567AbiCOX11 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 19:27:27 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6B0D55777
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 16:26:14 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id s11so1315463pfu.13
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 16:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nYOjHF+WhaOll744zl3KXczQ6UnybRfVr7cW3I5uN/U=;
-        b=eWq9aQSnpFSM7gGPtqgzIwr8bb/qKsDMvo0mIbS4s59AMIIHEMyCDMwhpLWRS+EYBR
-         qN4oTEZNXWPjiFCM5wbN4L3FVB0yMfHlzKy9DLlhHVCdkUAg+H8m96o6+l6phOAtZZtL
-         HqEaabMV1A231GA5THyiGjQn+CcdPV6Wcj7+UPW4PCAGWku/81HP+8C5q//5lWvhO0Pu
-         3zeib+NRZoI9eWeTsoj34Li0T9JVhg3Z1kUYOR1XGxD8A2nRmcx8ve9PFlZCqJIC6N4E
-         zEz1m0vSJoc3+NJsHrbvJr8ATMwQ+P3zv+QChYRQcRSYL4oNsBWZ06rrB2G0G0fVIJ1p
-         NQSA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UgBsS+NtdwCUhRkVs917jaRxQ+xowkqmP8HkCdcv4i0=;
+        b=DRfYmbGbqekTwx0Zu3FNGrFk1ALwu+qHe+eJdCYGUlPUXYGPKxsuCbL2bxl99TcErc
+         la15ifRp4U/H1W2PjeSKT2i6spJrOnJQ5v9H8RR5ztkt4NCIfuks3GxoNAN7MrdrB5JE
+         QIJdFclbBpWIANDAJS9dLMfEI6EW5rOYSXAJDRR8/NMInPXPPP9d/enjtnkWXfenQGmm
+         /YQbcgV4AaVuHytdcPlBKAQccwDrFHuY7u6KXaYzSJjur6NKmKTtqiL5o5UPs3WKClDp
+         e1mxYbY/6/CN2GpbfyDkpfpPpbAQVaeV5wXibFp/cMKLEONrmwf46N8eHpTYmCcUSfG2
+         t8Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nYOjHF+WhaOll744zl3KXczQ6UnybRfVr7cW3I5uN/U=;
-        b=x+vB+tlu8dzyt5p5ZQ+ZoZc5os3+IJO95LWXlv+ezUVm2pSgE7nqbQFqzaQhIrDpd6
-         y+MNhoN9sGD+i9FFDOBfuApm9WVp42Cx9ugZQchRSgR2CskgH6SFHOIJJH5EYdDyA1Ck
-         wDj37SFv+s2GBEp98RZ8clSN8Ir2/t6sPdX4ny9Bbj63f89aPH6ZWbr7NviFL0CqgnLG
-         Wa327lO63k4DnVtIFXwf5neXT7qMts5iLz0IEB3jG+ZSsJxW5Ibu4T4Fz6w8ATEboQs5
-         AAwnWI9f3S1+eXHL/Iwpz8y9n6K95V20n5GaPUjuU8vATStZZNRtIgRtgmo7Xt5+XQ5s
-         tPVg==
-X-Gm-Message-State: AOAM532DzoQuQDPW03enoIxSN6AUhYTYdLyRxGBolxJ2Gsw8cd3wy+Wd
-        eRSju57VBqIygdybT30JNptQKmd864mDprlLGwb8SQ==
-X-Google-Smtp-Source: ABdhPJxRVh2ZUD0Nbieh2mZpcZVRDFfmA10fIZydckRgsnzTb2ustxoM9NqZuPCgmtI1mueDRq1Ne12Wp4MutQ+KdLw=
-X-Received: by 2002:a17:907:7f2a:b0:6d6:df12:7f57 with SMTP id
- qf42-20020a1709077f2a00b006d6df127f57mr23761361ejc.122.1647370967391; Tue, 15
- Mar 2022 12:02:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UgBsS+NtdwCUhRkVs917jaRxQ+xowkqmP8HkCdcv4i0=;
+        b=4nxUCRvU1hfslkHQulcZWEKOBR0/U6JA3Rb2wHq8I+HrmqXsN9zfzmKEvNJQJE9Ez0
+         ikLrubeaduv0Xz54TiGiKnL2Mh3LYgfTXF6XQb9F4D3xMzpB4w/DaEMDKPAe5f8IOhcM
+         NYzO1tWc9nitrDEiMrctpHybUitaXvue9NeszgAXj/mNPHsym4cDYD7l9HvO3absl2tj
+         z3hoFmCVE3qSeuV+hZgIUbg1AWxuXYviw3WPSdT7L1BRHvsaiD5ngNOp1DyUxI9wrhV5
+         MXOZk9N+hjbqLUcuciN++tFrtHcN5eUDUHoGDtCGEzKLJl5/MOYEi8czO9mIt8i5/T6s
+         pEFg==
+X-Gm-Message-State: AOAM531MiQNoPQD+IHoFQELK1/ejQnFv7j7D4aoo3yvJKzrjQzvLl1vp
+        DQ7QYb1P2dIHqLNpAy0dw8Gftxg+vn43bAcj
+X-Google-Smtp-Source: ABdhPJzbSvtnDPFops/eahcFsfuUn/WRWzraql0f1znkh2QJTPbtdpPMegtfWSF1rfL6R3MLu6DsAA==
+X-Received: by 2002:a05:6a00:b83:b0:4f7:374c:10ef with SMTP id g3-20020a056a000b8300b004f7374c10efmr31195605pfj.31.1647386774446;
+        Tue, 15 Mar 2022 16:26:14 -0700 (PDT)
+Received: from localhost ([2406:da14:36f:1b00:83fe:7e83:ccf0:685a])
+        by smtp.gmail.com with ESMTPSA id u17-20020a056a00159100b004f763ac761fsm214935pfk.33.2022.03.15.16.26.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Mar 2022 16:26:13 -0700 (PDT)
+From:   Zhou Yuheng <woshoxxx@gmail.com>
+To:     alexs@kernel.org
+Cc:     linux-doc@vger.kernel.org, Zhou Yuheng <woshoxxx@gmail.com>
+Subject: [PATCH v3] docs/zh_CN: Fix typo in process/howto.rst
+Date:   Wed, 16 Mar 2022 07:24:28 +0800
+Message-Id: <20220315232428.4982-1-woshoxxx@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-8-tjmercier@google.com> <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
- <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com> <a365a5f6c7864a879b133b99d1f43fb2@AcuMS.aculab.com>
-In-Reply-To: <a365a5f6c7864a879b133b99d1f43fb2@AcuMS.aculab.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 15 Mar 2022 12:02:35 -0700
-Message-ID: <CABdmKX3NEm8+pDBj2VG-r8E91CVHwQ+gGcKhG8D=5MgWcgincg@mail.gmail.com>
-Subject: Re: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for userspace
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Todd Kjos <tkjos@google.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        "Kenny.Ho@amd.com" <Kenny.Ho@amd.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 12:56 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: T.J. Mercier
-> > Sent: 14 March 2022 23:45
-> >
-> > On Thu, Mar 10, 2022 at 11:33 AM Todd Kjos <tkjos@google.com> wrote:
-> > >
-> > > On Wed, Mar 9, 2022 at 8:52 AM T.J. Mercier <tjmercier@google.com> wrote:
-> > > >
-> > > > The kernel interface should use types that the kernel defines instead of
-> > > > pid_t and uid_t, whose definiton is owned by libc. This fixes the header
-> > > > so that it can be included without first including sys/types.h.
-> > > >
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > > ---
-> > > >  include/uapi/linux/android/binder.h | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-> > > > index 169fd5069a1a..aa28454dbca3 100644
-> > > > --- a/include/uapi/linux/android/binder.h
-> > > > +++ b/include/uapi/linux/android/binder.h
-> > > > @@ -289,8 +289,8 @@ struct binder_transaction_data {
-> > > >
-> > > >         /* General information about the transaction. */
-> > > >         __u32           flags;
-> > > > -       pid_t           sender_pid;
-> > > > -       uid_t           sender_euid;
-> > > > +       __kernel_pid_t  sender_pid;
-> > > > +       __kernel_uid_t  sender_euid;
-> > >
-> > > Are we guaranteed that this does not affect the UAPI at all? Userspace
-> > > code using this definition will have to run with kernels using the old
-> > > definition and visa-versa.
-> >
-> > A standards compliant userspace should be expecting a signed integer
-> > type here. So the only way I can think userspace would be affected is
-> > if:
-> > 1) pid_t is a long AND
-> > 2) sizeof(long) > sizeof(int) AND
-> > 3) Consumers of the pid_t definition actually attempt to mutate the
-> > result to make use of extra bits in the variable (which are not there)
->
-> Or the userspace headers have a 16bit pid_t.
+Correct the url of linux-next
 
-Since the kernel uses an int for PIDs, wouldn't a 16 bit pid_t already
-be potentially broken (overflow) on systems where int is not 16 bits?
-On systems where int is 16 bits, there is no change here except to
-achieve uniform use of __kernel_pid_t in the kernel headers and fix
-the include problem.
+Signed-off-by: Zhou Yuheng <woshoxxx@gmail.com>
+---
+ Documentation/translations/zh_CN/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> I can't help feeling that uapi headers should only use explicit
-> fixed sized types.
-> There is no point indirecting the type names - the sizes still
-> can't be changes.
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 2903d7161..1334cdb32 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -252,7 +252,7 @@ Linux-next 集成测试树
+ 在将子系统树的更新合并到主线树之前，需要对它们进行集成测试。为此，存在一个
+ 特殊的测试存储库，其中几乎每天都会提取所有子系统树：
+ 
+-        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
++        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+ 通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
+ 展望。非常欢冒险的测试者运行测试Linux-next。
+-- 
+2.17.1
 
-I think it's still unlikely to be an actual problem. For example there
-are other occasions where a switch like this was made:
-https://github.com/torvalds/linux/commit/694a58e29ef27c4c26f103a9decfd053f94dd34c
-https://github.com/torvalds/linux/commit/269b8fd5d058f2c0da01a42b20315ffc2640d99b
-
-And also since Binder's only known user is Android through Bionic
-which already expects the type of pid_t to be __kernel_pid_t.
-
-
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
