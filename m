@@ -2,111 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77309C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 17:32:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C695DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 17:35:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244948AbiCORde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 13:33:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
+        id S243258AbiCORgN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 13:36:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240568AbiCORdd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 13:33:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 648725883A
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 10:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647365540;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vIoYTkbN3Ug6dTUhmuqPkv63yNtg6n8OcRSZGx3ZPto=;
-        b=g4a+O2sFhVe1fNLB9X3ukxpCjicfSkITwfA1UudW7h75TYUKWJj+tSoJRx38KqA+Mf1ScX
-        uvbPJ//YtRolA8QjAMsmr0BAuSMy57b8wSMsMj8ZRx61KRi0U1sRfYzR7YX4416izcd8F8
-        25L5GZz/Vxj4NJgPCaGPwLcmkSvCRjk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-DnOvd3EJMken7kVGUZ0rGw-1; Tue, 15 Mar 2022 13:32:17 -0400
-X-MC-Unique: DnOvd3EJMken7kVGUZ0rGw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAA8A802809;
-        Tue, 15 Mar 2022 17:32:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6410C404C33F;
-        Tue, 15 Mar 2022 17:32:16 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com,
-        yishaih@nvidia.com, linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v3] vfio-pci: Provide reviewers and acceptance criteria
- for vendor drivers
-In-Reply-To: <20220315102200.15a86b16.alex.williamson@redhat.com>
-Organization: Red Hat GmbH
-References: <164728932975.54581.1235687116658126625.stgit@omen>
- <87a6drh8hy.fsf@redhat.com> <20220315155304.GC11336@nvidia.com>
- <20220315102200.15a86b16.alex.williamson@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Tue, 15 Mar 2022 18:32:14 +0100
-Message-ID: <87zglrf7fl.fsf@redhat.com>
+        with ESMTP id S236650AbiCORgM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 13:36:12 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BC92F033
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 10:35:00 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id dr20so41794899ejc.6
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 10:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=01vubDCka59+RytoWaJjo8FyvSBZWQhJIVc+vafyJ0E=;
+        b=fxRcChAFjOVezx4HjRe0TkRKHQAIxaquoe4fNRsez2/ZTv7c1Hedfsw72FAvxFxT2b
+         G8Sb2r0a4mjCmehTMgpQ/PBF3fhYmsjHRGLe/D1pAWwkrV9gocgmWB54/1u0VtYQBgUW
+         W/sA0shGDck8Vths0eWpWcEwySkbWiJCiFLe8TYDTgAoBoddox/XevAiaeUfYEw8SrBz
+         uOXrh33AR4t5sdVQse9DRha1jcKuZIWrZWaPcF8evyb5Gfasa659KzWsbVHjVMEZz2Vi
+         V8Cnsx7ywhxqOmpWczX2WdEcpn2NU3opjtfmEu2+UusCXSlRGsRMkXudbN8A9I11kaYa
+         PwSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=01vubDCka59+RytoWaJjo8FyvSBZWQhJIVc+vafyJ0E=;
+        b=SvjfbSulzBGhjO9rmGQ4VRgUinQh2sykpZndFzA+xQsA7B1Pzv5JNxF+SkJbGzNh5K
+         0NRV7bWjtFUvRkMbJzRFyNzttbCP4EUpN1p9rj8ftlV/FiR4nFutoaErtzy9EOLduPsN
+         A1YJTuTGgD0sYDyZvoRzLibBgy5kFWdLA2mitidcR92tSwquUy7T/pbHQypu2+Xnll/l
+         b5vzYxtqRJSJO5TcRADhSCrzoDG8PN+OuTTjA/ujsoi+3ADEQFMF656TlkvhvL3uhGql
+         yVX7UgKre0Sny06AAk8bz0H82BT44tmMh0kwxJdh3ZfJXsu3H0SONiA7v+f3RiHUv+8g
+         fjmA==
+X-Gm-Message-State: AOAM531y28ZRYhvgFE5p65zGqYFMhyxeFd7HqjlbLaaEbAvDfIJYiXfb
+        4egUh3SdYXv/UvxnNuQ/8DMi9a7gNmHLB1kDp3YsUg==
+X-Google-Smtp-Source: ABdhPJwlZTvVcqHl5XIEdYScyeQjLdixdoVpg6f/gEKQhUTzLUEU4xkUfpNk5HQuHkCX2rgh0KphrFfAvLY0rZjSKk0=
+X-Received: by 2002:a17:906:6a24:b0:6db:ad7b:9066 with SMTP id
+ qw36-20020a1709066a2400b006dbad7b9066mr17480090ejc.697.1647365698176; Tue, 15
+ Mar 2022 10:34:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+References: <20220315172221.9522-1-bgeffon@google.com> <YjDMo35Q/cvPLkxu@casper.infradead.org>
+In-Reply-To: <YjDMo35Q/cvPLkxu@casper.infradead.org>
+From:   Brian Geffon <bgeffon@google.com>
+Date:   Tue, 15 Mar 2022 13:34:21 -0400
+Message-ID: <CADyq12yK+qODV2ut1acjwkyXKDbh_YS3MHpRoJaq_g9G1HAyEw@mail.gmail.com>
+Subject: Re: [PATCH] zram: Add a huge_idle writeback mode
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linnux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
-
-> On Tue, 15 Mar 2022 12:53:04 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Tue, Mar 15, 2022 at 1:28 PM Matthew Wilcox <willy@infradead.org> wrote:
 >
->> On Tue, Mar 15, 2022 at 10:26:17AM +0100, Cornelia Huck wrote:
->> > On Mon, Mar 14 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
-
->> In general I wonder if this is a bit too specific to PCI, really this
->> is just review criteria for any driver making a struct vfio_device_ops
->> implementation, and we have some specific guidance for migration here
->> as well.
->> 
->> Like if IBM makes s390 migration drivers all of this applies just as
->> well even though they are not PCI.
+> On Tue, Mar 15, 2022 at 10:22:21AM -0700, Brian Geffon wrote:
+> > Today it's only possible to write back as a page, idle, or huge.
+> > A user might want to writeback pages which are huge and idle first
+> > as these idle pages do not require decompression and make a good
+> > first pass for writeback.
 >
-> Are you volunteering to be a reviewer under drivers/vfio/?  Careful,
-> I'll add you ;)
+> We're moving towards having many different sizes of page in play,
+> not just PMD and PTE sizes.  Is this patch actually a good idea in
+> a case where we have, eg, a 32kB anonymous page on a system with 4kB
+> pages?  How should zram handle this case?  What's our cut-off for
+> declaring a page to be "huge"?
 >
-> What you're saying is true of course and it could be argued that this
-> sort of criteria is true for any new driver, I think the unique thing
-> here that raises it to a point where we want to formalize the breadth
-> of reviews is how significantly lower the bar is to create a device
-> specific driver now that we have a vfio-pci-core library.  Shameer's
-> stub driver is 100 LoC.  I also expect that the pool of people willing
-> to volunteer to be reviewers for PCI related device specific drivers is
-> large than we might see for arbitrary drivers.
 
-Yes. Also, I expect that more people understand how a PCI driver works
-than how an s390 channel subsystem driver works :)
+Huge isn't a great term IMO, but it is what it is. ZRAM_HUGE is used
+to identify pages which are incompressible. Since zram is a block
+device which presents PAGE_SIZED blocks, do these new changes which
+involve many different page sizes matter as that seems orthogonal to
+the block subsystem. Correct me if I'm misunderstanding.
 
-I think we'll just have to hope that attempts to add e.g. migration
-support to a driver outside of vfio-pci show up on the correct mailing
-lists and that the right people notice it or can be pointed towards it.
-
->
->> > > +New driver submissions are therefore requested to have approval via
->> > > +Sign-off/Acked-by/etc for any interactions with parent drivers.  
->> > 
->> > s/Sign-off/Reviewed-by/ ?
->> > 
->> > I would not generally expect the reviewers listed to sign off on other
->> > people's patches.  
->> 
->> It happens quite a lot when those people help write the patches too :)
->
-> This is what "etc" is for, the owners are involved and have endorsed it
-> in some way, that's all we care about.
-
-Fair enough.
-
+Thanks
+Brian
