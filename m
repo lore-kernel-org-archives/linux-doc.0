@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F252AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 11:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F7BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 11:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343920AbiCOL7Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 07:59:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56422 "EHLO
+        id S1348106AbiCOMAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 08:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348097AbiCOL7O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 07:59:14 -0400
+        with ESMTP id S236841AbiCOMAy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 08:00:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D27413EB8
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 04:58:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4CF0C52B22
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 04:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647345481;
+        s=mimecast20190719; t=1647345582;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=2FtWagwkwgX0MltETfIs1AByeqI6nXJsssWt9g1O7mo=;
-        b=Z8zRRvyR2614gDVbDV9ML7h1fLQ08Jce8DmSMzmnVe8uKihjMNQp2MVUPZ0iaTFReCDkgi
-        U6ocKtwePb21Ky3D7B1Byl+WwkllNENtTy/NB4Cog0vFtRERqTs9FK6rYuvyKOpGs/EH/B
-        PFxvudn71BRBROAWlfcbVE1a4pOLjAA=
+        bh=kt3DJA4isK0c4GS/JPeqMKduS9oS6ZcarVp783V2EyA=;
+        b=ZYu+TBKp0k8dQDFym9UdKkuIW7UAuQwIJqKCuCFPSduWK5ttZqCimy0VkEgEt8cbnGQprI
+        alQaDUFcREcUO9efWElqYPze6aO5ah3bcvBCHz1Sgq4Jjmp7D1VXlgNJTRa7Cq7yUE54EP
+        D2BdDPJrQnVaTOhzpPZlGUvVKUqt4i4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-fGbAOanoNcKg9MmMCcJeiQ-1; Tue, 15 Mar 2022 07:57:58 -0400
-X-MC-Unique: fGbAOanoNcKg9MmMCcJeiQ-1
+ us-mta-184-ytsku21pNCybtc2XlFXeOg-1; Tue, 15 Mar 2022 07:59:39 -0400
+X-MC-Unique: ytsku21pNCybtc2XlFXeOg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 192D7811E84;
-        Tue, 15 Mar 2022 11:57:57 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F15B899EC2;
+        Tue, 15 Mar 2022 11:59:38 +0000 (UTC)
 Received: from localhost (ovpn-12-225.pek2.redhat.com [10.72.12.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A1E4B40C1247;
-        Tue, 15 Mar 2022 11:57:55 +0000 (UTC)
-Date:   Tue, 15 Mar 2022 19:57:52 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BF8340D1B9A;
+        Tue, 15 Mar 2022 11:59:37 +0000 (UTC)
+Date:   Tue, 15 Mar 2022 19:59:33 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     Zhen Lei <thunder.leizhen@huawei.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -58,59 +58,72 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Chen Zhou <dingguo.cz@antgroup.com>,
         John Donnelly <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v21 1/5] kdump: return -ENOENT if required cmdline option
- does not exist
-Message-ID: <YjB/QILintgvo1AL@MiWiFi-R3L-srv>
+Subject: Re: [PATCH v21 5/5] docs: kdump: Update the crashkernel description
+ for arm64
+Message-ID: <YjB/pTWF8wKcATaq@MiWiFi-R3L-srv>
 References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
- <20220227030717.1464-2-thunder.leizhen@huawei.com>
+ <20220227030717.1464-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220227030717.1464-2-thunder.leizhen@huawei.com>
+In-Reply-To: <20220227030717.1464-6-thunder.leizhen@huawei.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 02/27/22 at 11:07am, Zhen Lei wrote:
-> The crashkernel=Y,low is an optional command-line option. When it doesn't
-> exist, kernel will try to allocate minimum required memory below 4G
-> automatically. Give it a unique error code to distinguish it from other
-> error scenarios.
+> Now arm64 has added support for "crashkernel=X,high" and
+> "crashkernel=Y,low", and implements "crashkernel=X[@offset]" in the
+> same way as x86. So update the Documentation.
 > 
 > Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+
+Looks good to me, thx.
+
+Acked-by: Baoquan He <bhe@redhat.com>
+
 > ---
->  kernel/crash_core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 256cf6db573cd09..4d57c03714f4e13 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
->  	*crash_base = 0;
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f5a27f067db9ed9..63098786c93828c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -789,7 +789,7 @@
+>  			memory region [offset, offset + size] for that kernel
+>  			image. If '@offset' is omitted, then a suitable offset
+>  			is selected automatically.
+> -			[KNL, X86-64] Select a region under 4G first, and
+> +			[KNL, X86-64, ARM64] Select a region under 4G first, and
+>  			fall back to reserve region above 4G when '@offset'
+>  			hasn't been specified.
+>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
+> @@ -802,20 +802,20 @@
+>  			Documentation/admin-guide/kdump/kdump.rst for an example.
 >  
->  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
-> -
->  	if (!ck_cmdline)
-> -		return -EINVAL;
-> +		return -ENOENT;
-
-Firstly, I am not sure if '-ENOENT' is a right value to return. From the
-code comment of ENOENT, it's used for file or dir?
-#define ENOENT           2      /* No such file or directory */
-
-Secondly, we ever discussed the case including
- - no crashkernel=,low is provided;
- - messy code is provied, e.g crashkernel=aaaaaabbbb,low
-
-The 2nd one is not handled in this patchset. How about taking the
-handling into another round of patches. This patchset just adds
-crashkernel=,high purely.
-
->  
->  	ck_cmdline += strlen(name);
->  
+>  	crashkernel=size[KMG],high
+> -			[KNL, X86-64] range could be above 4G. Allow kernel
+> +			[KNL, X86-64, ARM64] range could be above 4G. Allow kernel
+>  			to allocate physical memory region from top, so could
+>  			be above 4G if system have more than 4G ram installed.
+>  			Otherwise memory region will be allocated below 4G, if
+>  			available.
+>  			It will be ignored if crashkernel=X is specified.
+>  	crashkernel=size[KMG],low
+> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
+> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
+>  			is passed, kernel could allocate physical memory region
+>  			above 4G, that cause second kernel crash on system
+>  			that require some amount of low memory, e.g. swiotlb
+>  			requires at least 64M+32K low memory, also enough extra
+>  			low memory is needed to make sure DMA buffers for 32-bit
+> -			devices won't run out. Kernel would try to allocate at
+> +			devices won't run out. Kernel would try to allocate
+>  			at least 256M below 4G automatically.
+>  			This one let user to specify own low range under 4G
+>  			for second kernel instead.
 > -- 
 > 2.25.1
 > 
