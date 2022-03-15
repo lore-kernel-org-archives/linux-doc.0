@@ -2,167 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C41DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 13:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0BC2C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 13:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344575AbiCONup (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 09:50:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
+        id S1348877AbiCOOAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 10:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244349AbiCONuo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 09:50:44 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4931C3136D;
-        Tue, 15 Mar 2022 06:49:32 -0700 (PDT)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FDca95012141;
-        Tue, 15 Mar 2022 13:49:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TxfgcTKc07nlrXFUhSC30L72jD1k5H4V5HcijoyEaSc=;
- b=fpUVMqS0JTWVhHylY9Yere5Ajpkei7TOhIYmdc9V/mvb2xaNyLReQGa61qsTXj4/zE40
- X9aEwzKYSahadMxlZsbrAjXwfHnH/7XmXK83a6wc8VgHFTMeFsve/RutpSEM4pWt8TMh
- Vi/kYxPwyLn2aXJqxkoKz4Nz5cNbzl10Ng6PFgbcjePCiYEKKG5wVFTuawqcxbuG+YHI
- CGqN90o81G5MPY7WZZ8SMQGSoMRpCmC90gBI73rrNZWsUkGjwbiNr3afxvTBPrSIdUVe
- fACxOREUa1yyNcTLdgCX2ChanlDyv+sW4RulYVyAFFfUHqQHmxvF95SUoxvJv23vDuMO kQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3etscykwpr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 13:49:19 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FCuwWs018942;
-        Tue, 15 Mar 2022 13:49:19 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3etscykwnu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 13:49:19 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FDnCZr017782;
-        Tue, 15 Mar 2022 13:49:17 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
-        by ppma01dal.us.ibm.com with ESMTP id 3erk59jxnx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 13:49:17 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 22FDnFA341681242
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 15 Mar 2022 13:49:15 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B32F8AC062;
-        Tue, 15 Mar 2022 13:49:15 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A17FBAC05E;
-        Tue, 15 Mar 2022 13:49:03 +0000 (GMT)
-Received: from [9.211.32.184] (unknown [9.211.32.184])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 15 Mar 2022 13:49:03 +0000 (GMT)
-Message-ID: <decc5320-eb3e-af25-fd2b-77fabe56a897@linux.ibm.com>
-Date:   Tue, 15 Mar 2022 09:49:01 -0400
+        with ESMTP id S237766AbiCOOAh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 10:00:37 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38FB6205E4
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 06:59:24 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id mj15-20020a17090b368f00b001c637aa358eso2060887pjb.0
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 06:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FT3o/Z6QRes6v2fqBmxOTq5l2W4zpeVgffhkIoRiN/k=;
+        b=DY6lZQjtCB8wtDwsLUDTTmf1DRp3PyTxBwG6vmn/VGjjdKaf32YKg59x0y+q2SOzoR
+         TNtogQCeTRvYGcHeEOzu/3TAkMkDKiagjqbltYabbxFFok+ZH6mJa/N1TEF8McPj1V6d
+         LvxQYObKUL/qkNKVDlC+srYmocrIkY75AqhEPxrDr4iv9JHcqscGtDHMF9y0oeMIzNl5
+         zd3tmn+uiQXTPQ+J2NPVaAP5JXXYYEtfy7V5tGumRYDS5dqSW/THwa8WYdq3bmgzPdEx
+         yvQAx8QAqLnig5Ee+FQ3D9BbWcv42kWq54Ugx7B2mYc4x0MuNJVjaTVUWb4imEkAAmTX
+         Xx6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FT3o/Z6QRes6v2fqBmxOTq5l2W4zpeVgffhkIoRiN/k=;
+        b=o4krZk3tyjmHNNMICM+za/5rVAFpJFL8Y8H8iyqvHjAURhK5KDMEE+vjN+bFbQ2ySj
+         6u8e4d3UDUrTa1OPL3/mdEGIlb6kG+dRAwRYs66FD6lXcMEBbemsnAdbQtRGdLo0Bz3d
+         6+/iXrf4maLgLbqd6ia+vJ5FbLtvZU/+3Slheq7lOOuxaG6RbRYmmNcM4PA6/V0ZUMBs
+         iXMJwtastMNe+U0X3WK3L/VLgTr1zeRbH2c0TBQpLobXb4NsB17sNYzvf1kv4f9Hvkmc
+         oKOiRgxcerO78EVsPSesgnHq9ehDqH28z1RgqQlU77bG+rd3TXYQ5I4SPNOZK218A9k9
+         zxKA==
+X-Gm-Message-State: AOAM531tHgyLCknwdvJQ7yiCtieJrsZBaY7pNCFxymH8/mBHG6rfKvuL
+        TfjaSy6o4LYm1O5j/Eyqklbwl6qTKiBspRONvSg=
+X-Google-Smtp-Source: ABdhPJzQK2TF2dnZqOedWmwsyxthi008oNH04bg4aupfYoID58b8GKB/x3Z8hqA62R6vG672ywN3Bg==
+X-Received: by 2002:a17:902:bb92:b0:153:4eae:c77e with SMTP id m18-20020a170902bb9200b001534eaec77emr14065328pls.93.1647352763769;
+        Tue, 15 Mar 2022 06:59:23 -0700 (PDT)
+Received: from localhost ([2406:da14:36f:1b00:83fe:7e83:ccf0:685a])
+        by smtp.gmail.com with ESMTPSA id q18-20020a637512000000b003816cf04406sm2084542pgc.22.2022.03.15.06.59.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Mar 2022 06:59:23 -0700 (PDT)
+From:   Zhou Yuheng <woshoxxx@gmail.com>
+To:     alexs@kernel.org
+Cc:     linux-doc@vger.kernel.org, Zhou Yuheng <wwoshoxxx@gmail.com>
+Subject: [PATCH] docs/zh_CN: Fix typo in process/howto.rst
+Date:   Tue, 15 Mar 2022 21:59:18 +0800
+Message-Id: <20220315135918.3816-1-woshoxxx@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
-        pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-doc@vger.kernel.org
-References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
- <20220314194451.58266-16-mjrosato@linux.ibm.com>
- <20220314213808.GI11336@nvidia.com>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20220314213808.GI11336@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -HG82bqFxwKpGAenjEvaj6JEYqh38rKE
-X-Proofpoint-ORIG-GUID: NOD6qgg6fWSwIgyRDPz07n5dLRz0WJeN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-15_03,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 impostorscore=0 mlxlogscore=999 mlxscore=0 clxscore=1015
- spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203150089
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/14/22 5:38 PM, Jason Gunthorpe wrote:
-> On Mon, Mar 14, 2022 at 03:44:34PM -0400, Matthew Rosato wrote:
-> 
->> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
->> index 9394aa9444c1..0bec97077d61 100644
->> +++ b/drivers/vfio/vfio_iommu_type1.c
->> @@ -77,6 +77,7 @@ struct vfio_iommu {
->>   	bool			nesting;
->>   	bool			dirty_page_tracking;
->>   	bool			container_open;
->> +	bool			kvm;
->>   	struct list_head	emulated_iommu_groups;
->>   };
->>   
->> @@ -2203,7 +2204,12 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
->>   		goto out_free_group;
->>   
->>   	ret = -EIO;
->> -	domain->domain = iommu_domain_alloc(bus);
->> +
->> +	if (iommu->kvm)
->> +		domain->domain = iommu_domain_alloc_type(bus, IOMMU_DOMAIN_KVM);
->> +	else
->> +		domain->domain = iommu_domain_alloc(bus);
->> +
->>   	if (!domain->domain)
->>   		goto out_free_domain;
->>   
->> @@ -2552,6 +2558,9 @@ static void *vfio_iommu_type1_open(unsigned long arg)
->>   	case VFIO_TYPE1v2_IOMMU:
->>   		iommu->v2 = true;
->>   		break;
->> +	case VFIO_KVM_IOMMU:
->> +		iommu->kvm = true;
->> +		break;
-> 
-> Same remark for this - but more - this is called KVM but it doesn't
-> accept a kvm FD or any thing else to link the domain to the KVM
-> in-use.
+From: Zhou Yuheng <wwoshoxxx@gmail.com>
 
-Right...  The name is poor, but with the current design the KVM 
-association comes shortly after.  To summarize, with this series, the 
-following relevant steps occur:
+   - Change the full-width symbol into half-width symbol for the url of linux-next to make it can be accessed.
 
-1) VFIO_SET_IOMMU: Indicate we wish to use the alternate IOMMU domain
-	-> At this point, the IOMMU will reject any maps (no KVM, no guest 
-table anchor)
-2) KVM ioctl "start":
-	-> Register the KVM with the IOMMU domain
-	-> At this point, IOMMU will still reject any maps (no guest table anchor)
-3) KVM ioctl "register ioat"
-	-> Register the guest DMA table head with the IOMMU domain
-	-> now IOMMU maps are allowed
+Signed-off-by: Zhou Yuheng <wwoshoxxx@gmail.com>
+---
+ Documentation/translations/zh_CN/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The rationale for splitting steps 1 and 2 are that VFIO_SET_IOMMU 
-doesn't have a mechanism for specifying more than the type as an arg, 
-no?  Otherwise yes, you could specify a kvm fd at this point and it 
-would have some other advantages (e.g. skip notifier).  But we still 
-can't use the IOMMU for mapping until step 3.
-
-The rationale for splitting steps 2 and 3 are twofold:  1) during init, 
-we simply don't know where the guest anchor will be when we allocate the 
-domain and 2) because the guest can technically clear and re-initialize 
-their DMA space during the life of the guest, moving the location of the 
-table anchor.  We would receive another ioctl operation to unregister 
-the guest table anchor and again reject any map operation until a new 
-table location is provided.
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 2903d7161..1334cdb32 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -252,7 +252,7 @@ Linux-next 集成测试树
+ 在将子系统树的更新合并到主线树之前，需要对它们进行集成测试。为此，存在一个
+ 特殊的测试存储库，其中几乎每天都会提取所有子系统树：
+ 
+-        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
++        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+ 通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
+ 展望。非常欢冒险的测试者运行测试Linux-next。
+-- 
+2.17.1
 
