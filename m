@@ -2,209 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1320DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 14:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C5FC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 14:39:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230484AbiCOOim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 10:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52478 "EHLO
+        id S243990AbiCOOkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 10:40:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349370AbiCOOiW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 10:38:22 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661395548F;
-        Tue, 15 Mar 2022 07:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=mKZgpBJtPUvTEog2OOpGUjyTeQRlLu1FawE9R01V1Rw=; b=npixrOoFSPGLx2a30o3licOIVW
-        IbMwjV9ypqPGYBGJIKX5lMt0P3oRQXHnJEAMLngw4qLCvaHtUGsqriKegQ+l2hD2H/xW2IDzNzM7K
-        jx1739qZDQ8DYLp1ybETBc3SJc7ZmwQF4MYbPzeNRl8cS/hzNfl0V68DwcEIE9LJR5hxPy5jy6O1r
-        vStGCwzHxvBlCQZE8e1C34QmmPOGtArKf37kO4UYBW5ZE9MxK0MBBRgQN3usjEdU7jQ9Z3q4H+cWY
-        Fqn3GrW4FFGxLlqhDZi6K7aoHQC3odPgMG8QlYdTksNjsEMbHPb/XDlIhJ7mg9E3XZ6JhwZduZBtc
-        G/tmAzEQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nU8I1-0057A4-Me; Tue, 15 Mar 2022 14:36:45 +0000
-Message-ID: <2254badd-9eea-9af5-2aef-c39719070215@infradead.org>
-Date:   Tue, 15 Mar 2022 07:36:40 -0700
+        with ESMTP id S244030AbiCOOkM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 10:40:12 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam07on2057.outbound.protection.outlook.com [40.107.95.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF6E554BB;
+        Tue, 15 Mar 2022 07:39:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j727ywfAqCNe2f9v8cM48dHpwZXzhnyQZAoeZm/VVaX/cqB9CVojx8+QKU42ooi5laFrqCgHMFNG01o/VFq/J9lFBbj40Fjrhb1wjqX6uKMynC1CtZ78/1Qde8e4BcAAu1lTHTPCegl+mKftXOKWVo79nxS7iUIXjsHz5PFMyh0iMqhnlKv2yxSLd9Fv6IkI3tS6t6cO+4XXyxqEMwyOEssPrgkQQgjlGOCV8oOVW6xf2iezzlhjh5HPN/QAYphtTyFEXFE6X6oR5WmvS8ZDCYLL6+mhbiCdCaUfpeKaZzBzWYvb7K0M677SVcv4YkT2wpvz5IXpaqXKu20BFdIrCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T53ifrrZ3TFU3o249ofbbE57hDCzS9ZqiBVJjyGdBWI=;
+ b=FiORkkhcrlcx8GZN2quRJ+27+FPz+LALHS3qS7qDvfcx/lzXWZKDG43V7Fg1LOqowSW5CLztPVNmJFb8qaU6tqdnF9YZilSvnfndZkMd+SREQ1FkADLnHsUe3oZe+YPiq94h63Ik7eTxMfxlfgY2ZqS6pOINl7vJRvP6b+6U5/PJ3VGnmd2Ac+vfrVAsMVPM4MyqX7T3/duOKuxMNmCRuolCsmA6cXhj0sEX+y5Y26ZolM7thcHHanZzwkhfyoQbESDOkTfqroqo0mrtuc6lAJYWfNtspBwKJyNeReEylg5TCdOHP2lu6ff9nn6m45CfCynkTe/bhoTnGwWVB/XMwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T53ifrrZ3TFU3o249ofbbE57hDCzS9ZqiBVJjyGdBWI=;
+ b=YXdlGje2IWIClWqzZpjJpdCxqx7wgTZTqDEoLYBo3YKBm+HrWkk6iOqEQAVz/sfR6dNmThrh9JjXOJ4RpYDt6MECP8zy7PDcWJ46/BNMgGUxoEW6vOFQTgeOJShm5qdcJzrQ6Yw2XhTNLKKjTIGZQSmg1aNbuKJ1X4jxxZ7Ptw4uN76uIduKwpUwg2IOMOf/Ni8ChCVWlcBX1Tvp41/VZAS2z6RHye11Jaz0yLmZH7/v/H7lvYGrpCVaeoCsQMETe/chuuggsxgElJ8wgNj/yAq7L5VWVG3BxAKAUd9KmVYbExzKJ87nXwJhXPbUxmLKfOqZAByQNVmy2A0MgvICLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB2957.namprd12.prod.outlook.com (2603:10b6:208:100::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Tue, 15 Mar
+ 2022 14:38:59 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::51a0:4aee:2b4c:ca28]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::51a0:4aee:2b4c:ca28%4]) with mapi id 15.20.5061.029; Tue, 15 Mar 2022
+ 14:38:59 +0000
+Date:   Tue, 15 Mar 2022 11:38:58 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>
+Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
+        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
+        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
+        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
+        pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
+Message-ID: <20220315143858.GY11336@nvidia.com>
+References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
+ <20220314194451.58266-16-mjrosato@linux.ibm.com>
+ <20220314213808.GI11336@nvidia.com>
+ <decc5320-eb3e-af25-fd2b-77fabe56a897@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <decc5320-eb3e-af25-fd2b-77fabe56a897@linux.ibm.com>
+X-ClientProxiedBy: BLAPR03CA0085.namprd03.prod.outlook.com
+ (2603:10b6:208:329::30) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3] docs/scheduler: Introduce the doc of load average
-Content-Language: en-US
-To:     Jui-Tse Huang <juitse.huang@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Huaixin Chang <changhuaixin@linux.alibaba.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Chun-Hung Tseng <henrybear327@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Yiwei Lin <s921975628@gmail.com>
-References: <20220315140857.41697-1-juitse.huang@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220315140857.41697-1-juitse.huang@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d9ae89f-bf99-4c95-6f1b-08da06918aa4
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2957:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB2957EBB87771B0A46C678711C2109@MN2PR12MB2957.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dsvxlG5REqDVisZLyOU2pW+XMWEaL7h/V5lrpfrm7LQjZKFPNYEbDB47izNqkjfT96BfhhsH9fOlj8E4YsRlrR0F50uAgpL9dUkq24oZJeu9WmmbJWasQQ2k99Oe5N+v2sY+G0P2QVKLUpBY9UuRpfRjVo3XbTTNEc9hUQekUWFkrDxpIpAUwQmtGvDmQRrbz+w44S7MDJ+AevcXrf2OyH0DJyVzNRQb9s9BBU6QE84BvQjBjdA3XcUQd4hjdCLP9S7zxbSbmtPqb9W3RXH1aAehsJQKtVRWmTXIugBvartvqu8SqECjZKWKSrfKdNELTE3DVdYZRJr1w8Tlieazwwl10esKJuzJNnCTV5dbx3SrWqXtzQCZTpjgp17jmN3tozqWFYhGRdv/1l/dQk14zgXDw1PiXZq9tDTlQ4XomgB+SX9dyALZ1Ob0ATZU9NMdOLHObMedLPN0gN0BEwSSIHnZPvVtjp7W0FkKwKhG55zUxi6tu/Kt6KE+n92u+PTnMg0RKCKKMd+9Paha+15ilsRpOwpJhLZ6AtI6lFVi8lBZFh60fYM3uh6f0dSTXwXTNHgMCa8ed3KxY+AUe6XdyEsnjpxJLkRFOcjMfVn47yRYVLuGbYRPj28mLJqQZ8GTVGrbVm9gEeiunUBQzqj9tw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4326008)(8676002)(66556008)(38100700002)(186003)(26005)(86362001)(6512007)(2616005)(1076003)(6506007)(66946007)(508600001)(36756003)(316002)(6916009)(33656002)(2906002)(6486002)(7416002)(4744005)(66476007)(5660300002)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZNLFrO4VZZiZnzRqMEriaQCQIwFsShbrrMr2FQ+QwC42avm2YXWCLmMnvLO4?=
+ =?us-ascii?Q?I4YV/MapRxCqE2OfD00jSNTt8Y8FdlTsvU2G0xbiEw+s3gOF2Ewvd0nnG8tk?=
+ =?us-ascii?Q?P/iAt2z6Go9shug1/nZUI9mEWJH3U9e0y7rjHuCzOu3eu7QLDdv/p+cmVeDu?=
+ =?us-ascii?Q?pSqqd0kMjLwTiazLft7Zx74H/54fMj/NEIN14mmwB7GRnXLvshDH6m0vQB5D?=
+ =?us-ascii?Q?hy6gRmCxTBafwyivABwp2E+PMAg5qmvd6g83g5wd/iWWFswOHB9uJ5vRNRgb?=
+ =?us-ascii?Q?7LaaXDv6x0qMyYHly3kyKzkOBX8tkbIH3b92cz9mA+ZtXO+NBVkSANfstXi6?=
+ =?us-ascii?Q?z81kh9VRUx3UcZ2T+Rf5f6CZrQMA+MOpLH9zTCCieUPgPYlKGFCpz6uFwACu?=
+ =?us-ascii?Q?dTBjRRb5Aa9RybzR/JCUeXwF6eKtD6+SJx2dDG089BpQJNNITkTmxVfX7rY3?=
+ =?us-ascii?Q?Q4IU6Od5WDFMGg5RIkyMUeSwW/AZ1NX4M+TGiwP2rsyvuXWdTeCosWfWpIxd?=
+ =?us-ascii?Q?XJjr8g63aXFsmt9vzq6if8Ojp3xjmHRVsoEQAwNtMps+6zWfDBxL1RHWwreC?=
+ =?us-ascii?Q?+PN798LV5Eq85gB4kL/ER2Z4Zz0k228ygx6HJVNoqYmYSbNGVvXwvLX2+IIz?=
+ =?us-ascii?Q?x9pkDkLzqrswuW29jGnL6MweTHqeRJ0yIRhyy4NO4Pu/BGcWfO32QazkPcWe?=
+ =?us-ascii?Q?U317Y/bETESCXxEEWPCI1ADZiFSWFXBtOWLTgbz36hGX7NI7c3WxqdC51jeh?=
+ =?us-ascii?Q?mTEOd5AFDM0R3F2KicfSdvwJ180LyYDHCSaVZ/DlWAf4A5wiu0TEfV1tnQPk?=
+ =?us-ascii?Q?K/wMMp29ba5oGDN1wWV/i19Tmb2IO5AyXdXDJZIT/kVOnwkpLDutjrLCkz7j?=
+ =?us-ascii?Q?aiS3dRe9rrxNXS4Q3I3GudnyjvxNM/2SD8gZzjh7RldtxJuf+id1nsqQ2nG1?=
+ =?us-ascii?Q?fPX/LMq3Y8DVx6VQQDtMRdLj/txs82DYmMkHujc5PwxpCDmP9aCtI8YZ5m7I?=
+ =?us-ascii?Q?yzafZYh0YWCg9D1r2++XxWoeN55aNOs3d2N+FKmYoCo4LnQO8VvHOfsRa+tO?=
+ =?us-ascii?Q?iyOFnZevIYhPXSnElbbUDMDOpb8qeq9ZRjbxIZ6NqOJ1ydLrWN+NXTodxga3?=
+ =?us-ascii?Q?bKJIm4+/Ubdv3k84Ss5E/1CAdujC2IOqj4xnhJzp4EKj6UqWRzn50F8BsT60?=
+ =?us-ascii?Q?CkyhaxSujF7yPhcqtnHVXlQeDnw0hi+qvRtyYFaieLPwPSu9MGgrUXDsZYLJ?=
+ =?us-ascii?Q?ER3bk6RFWHpexqQ2QFuuwQvCBVE/3bQEy/F2AMJL3X/jG2GW9dN8GsoaF6Yp?=
+ =?us-ascii?Q?C1YIN4YPF9EvCK94de2QeqyGNJBpQDasRWcl7S5axUum+geLY3FWq8GkMuMX?=
+ =?us-ascii?Q?dYldXJzSZvIBeFT6UlhCTuWSYqDalQS83wFWX0+plmuJuPYTmAB2x5pSdZ/I?=
+ =?us-ascii?Q?7keL4A8AXrtsADF9keOO811Th2D43+IB?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9ae89f-bf99-4c95-6f1b-08da06918aa4
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2022 14:38:59.4747
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6kFSrRY+UxUMTcejoABIPYTfYn6CpAIysUNDgs2aEqjfpi949C4Yn8YboPDxVSrC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2957
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On Tue, Mar 15, 2022 at 09:49:01AM -0400, Matthew Rosato wrote:
 
-On 3/15/22 07:08, Jui-Tse Huang wrote:
-> The load average is one of a common as well as easy observed statistic
-> provied by Linux, but still not well documented, which makes the numbers
-> that users observes from the output of top, htop or other system
-> monitoring application are only numbers. This patch gives a discussion
-> on how Linux calculates the load average as well as what metrics are
-> concerned while calculating the load average.
-> 
-> The discussion flow is divided into several parts:
-> 1. The expression used to get the load average.
-> 2. Why Linux choose such average method from the other.
-> 2. The meaning of each term in the expression.
-> 3. The metrics, that is, the type of tasks that will be covered in the
->    calculation.
-> 4. A brief explanation over the fixed-point nubmer since the weights
->    defined in the Linux kernel are based on it.
-> 
-> Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
-> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
-> Signed-off-by: Ching-Chun (Jim) Huang <jserv@ccns.ncku.edu.tw>
-> Co-Developed-by: Yiwei Lin <s921975628@gmail.com>
-> 
-> ---
-> 
-> v3:
->   - Fix typo (Randy Dunlap)
->   - Add further reading that links to Brendan Gregg's blog
-> 
-> v2:
->   - Fix typo (Chun-Hung Tseng) 
-> 
->  Documentation/scheduler/index.rst        |  1 +
->  Documentation/scheduler/load-average.rst | 82 ++++++++++++++++++++++++
->  2 files changed, 83 insertions(+)
->  create mode 100644 Documentation/scheduler/load-average.rst
-> 
-> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-> index 88900aabdbf7..bdc779b4190f 100644
-> --- a/Documentation/scheduler/index.rst
-> +++ b/Documentation/scheduler/index.rst
-> @@ -17,6 +17,7 @@ Linux Scheduler
->      sched-nice-design
->      sched-rt-group
->      sched-stats
-> +    load-average
->  
->      text_files
->  
-> diff --git a/Documentation/scheduler/load-average.rst b/Documentation/scheduler/load-average.rst
-> new file mode 100644
-> index 000000000000..27ce6cbae5f4
-> --- /dev/null
-> +++ b/Documentation/scheduler/load-average.rst
-> @@ -0,0 +1,82 @@
-> +============
-> +Load Average
-> +============
-> +
-> +The load average, provided by common operating systems, indicates the average
-> +number of system load over a period of time.  In Linux, it shows the average
-> +number of tasks running and waiting for CPU time. The following expression is
-> +used in Linux to update the load average::
-> +
-> +                / 0                                      , if t = 0
-> +    load_{t} = |
-> +                \ load_{t - 1} * exp + active * (1 - exp), otherwise
-> +
-> +The expression represents the exponential moving average of the historical
-> +loading of the system. There are several reasons that Linux kernel chooses
-> +exponential moving average from other similar average equations such as simple
-> +moving average or cumulative moving average:
-> +
-> +#. The exponential moving average consumes fixed memory space, while the simple
-> +   moving average has O(n) space complexity where n is the number of timeslices
-> +   within a given interval.
-> +#. The exponential moving average not only applies a higher weight to the most
-> +   recent record but also declines the weight exponentially, which makes the
-> +   resulting load average reflect the situation of the current system. Neither
-> +   the simple moving average nor cumulative moving average has this feature.
-> +
-> +In the expression, the load_{t} indicates the calculated load average at the
-> +given time t.
-> +The active is the most recent recorded system load. In Linux, the system load
-> +means the number of tasks in the state of TASK_RUNNING or TASK_UNINTERRUPTIBLE
-> +of the entire system. Tasks with TASK_UNINTERRUPTIBLE state are usually waiting
-> +for disk I/O or holding an uninterruptible lock, which is considered as a part
-> +of system resource, thus, Linux kernel covers them while calculating the load
-> +average.
-> +The exp means the weight applied to the previous report of load average, while
-> +(1 - exp) is the weight applied to the most recently recorded system load.
-> +There are three different weights defined in the Linux kernel, in
-> +include/linux/sched/loadavg.h, to perform statistics in various timescales::
-> +
-> +    // include/linux/sched/loadavg.h
-> +    ...
-> +    #define EXP_1    1884    /* 1/exp(5sec/1min) as fixed-point */
-> +    #define EXP_5    2014    /* 1/exp(5sec/5min) */
-> +    #define EXP_15   2037    /* 1/exp(5sec/15min) */
-> +    ...
-> +
-> +According to the expression shown on the top of this page, the weight (exp)
-> +controls how much of the last load load_{t - 1} will take place in the
-> +calculation of current load, while (1 - exp) is the weight applied to the most
-> +recent record of system load active.
-> +
-> +Due to the security issue, the weights are defined as fixed-point numbers based
-> +on the unsigned integer rather than floating-pointing numbers. The introduction
-> +of the fixed-point number keeps the FPU away from the calculation process. Since
-> +the precision of the fixed-point used in the Linux kernel is 11 bits, a
-> +fixed-point can be converted to a floating-point by dividing it by 2048, as in
-> +the expressions shown bellow::
+> The rationale for splitting steps 1 and 2 are that VFIO_SET_IOMMU doesn't
+> have a mechanism for specifying more than the type as an arg, no?  Otherwise
+> yes, you could specify a kvm fd at this point and it would have some other
+> advantages (e.g. skip notifier).  But we still can't use the IOMMU for
+> mapping until step 3.
 
-                         below::
+Stuff like this is why I'd be much happier if this could join our
+iommfd project so we can have clean modeling of the multiple iommu_domains.
 
-> +
-> +    EXP_1  = 1884 / 2048 = 0.919922
-> +    EXP_5  = 2014 / 2048 = 0.983398
-> +    EXP_15 = 2037 / 2048 = 0.994629
-> +
-> +Which indicates the weights applied to active are::
-> +
-> +    (1 - EXP_1)  = (1 - 0.919922) = 0.080078
-> +    (1 - EXP_5)  = (1 - 0.983398) = 0.016602
-> +    (1 - EXP_15) = (1 - 0.994629) = 0.005371
-> +
-> +The load average will be updated every 5 seconds. Each time the scheduler_tick()
-> +be called, the function calc_global_load_tick() will also be invoked, which
-
-   is called,
-
-> +makes the active of each CPU core be calculated and be merged globally. Finally,
-> +the load average will be updated with that global active.
-> +
-> +As a user, the load average can be observed via top, htop, or other system
-> +monitor application, or more directly, by the following command::
-> +
-> +    $ cat /proc/loadavg
-> +
-> +Further Reading
-> +---------------
-> +The explanation and analysis done by Brendan Gregg on `his blog
-> +<https://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html>`_.
-
-
-After those corrections, you can add:
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
--- 
-~Randy
+Jason
