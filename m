@@ -2,120 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFCFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 16:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCEFC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Mar 2022 16:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350073AbiCOQaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 12:30:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45400 "EHLO
+        id S1345579AbiCOQku (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 12:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350067AbiCOQat (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 12:30:49 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAF657142;
-        Tue, 15 Mar 2022 09:29:36 -0700 (PDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FGEM4Y029688;
-        Tue, 15 Mar 2022 16:29:18 GMT
+        with ESMTP id S236164AbiCOQkt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 12:40:49 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF6257155;
+        Tue, 15 Mar 2022 09:39:37 -0700 (PDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FGPEvF029511;
+        Tue, 15 Mar 2022 16:39:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=cbkYVQbQRRtLfFZ4wdGkiRutFnpOquBvZJYoshzzZi4=;
- b=caTfq98QMeGQf248z9VAEzG1kRAcOYKzm+X1QOZ5FmuJtUaEx+k71YYYAk1Wz/FgIs4+
- YRKcQSi26TjPnDq5zu+/6QTTt0FrN8brPa1+p/5DGaP575dA+oaBTKybXXhm8Mibft+F
- qYqrSQ2o2k1UKco4FK8nJA9lkEiMG4mM8gcCHm6LAOV4z1CRBfQlrHXtefLglzKEdzHx
- btiTfqQucAH9RE/q8SKADdWYcfLVJELHfwGlPZgQKAEn41AJqzjW0W3y1dzSLD3D9RGI
- pcGyDmwAPx135bzu91zAVrKoK1VyNue49E3vA8BHroMDjsy63McaODciBVrDNuyMlGD4 +A== 
+ bh=86aL+xbwdE1jgnOidVY4JgtAIE9bJ2Wd34ptqVKlogo=;
+ b=BCG0f1Q12c1R85DRkjPGeZ+FTiyyDAir1dVi/qiNF20mpbbwYXkPm+FoE9bq3aRUaMUf
+ X2wuJzcvd8sLNKIQipm6kCwdndDWV4LzAXEuCqU67xkSAVa5oIBsUHQezvuY+zBd9nmh
+ eRGvbjq3uKQgVdz/8J768mZCyWGH3fNr0CJwoLFBiU5yi3BdkWzZ5xN+GnzI4+xOf5vB
+ I25fZlFE+04vYoec8Q3Sg7LohQTgUp8RcTE5i+4IshU5oDe5ukmHVevOpbA9IVuGxvtX
+ stYv2pGXXB3lA9N5TtCBZCYK+VgEHr+klT4UkoSpngstJNyqPEcPTPj5yO3AYV14KOrk SQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3etw7p24wv-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3etxa28dbk-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 16:29:18 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FGEw13007435;
-        Tue, 15 Mar 2022 16:29:18 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3etw7p24wm-1
+        Tue, 15 Mar 2022 16:39:30 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FGPjNs012271;
+        Tue, 15 Mar 2022 16:39:29 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3etxa28dax-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 16:29:18 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
-        by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FGRDhn009206;
-        Tue, 15 Mar 2022 16:29:17 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
-        by ppma04wdc.us.ibm.com with ESMTP id 3erk59pkqa-1
+        Tue, 15 Mar 2022 16:39:28 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FGR9Mo019322;
+        Tue, 15 Mar 2022 16:39:27 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
+        by ppma02wdc.us.ibm.com with ESMTP id 3erk59ps5e-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 15 Mar 2022 16:29:17 +0000
+        Tue, 15 Mar 2022 16:39:27 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 22FGTFtc25297208
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 22FGdP3Q27853244
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 15 Mar 2022 16:29:15 GMT
+        Tue, 15 Mar 2022 16:39:25 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D2482AC06D;
-        Tue, 15 Mar 2022 16:29:15 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id B5F6DAC06A;
+        Tue, 15 Mar 2022 16:39:25 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8898FAC05E;
-        Tue, 15 Mar 2022 16:29:04 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id E478AAC066;
+        Tue, 15 Mar 2022 16:39:14 +0000 (GMT)
 Received: from [9.211.32.184] (unknown [9.211.32.184])
         by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 15 Mar 2022 16:29:04 +0000 (GMT)
-Message-ID: <5a1c64ac-df10-fb66-ad6d-39adf786f32b@linux.ibm.com>
-Date:   Tue, 15 Mar 2022 12:29:02 -0400
+        Tue, 15 Mar 2022 16:39:14 +0000 (GMT)
+Message-ID: <3cc6dff9-0346-c449-249f-5812b3df379c@linux.ibm.com>
+Date:   Tue, 15 Mar 2022 12:39:13 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v4 15/32] vfio: introduce KVM-owned IOMMU type
+Subject: Re: [PATCH v4 22/32] KVM: s390: pci: routines for (dis)associating
+ zPCI devices with a KVM
 Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>, borntraeger@linux.ibm.com
+To:     Jason Gunthorpe <jgg@nvidia.com>
 Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
         cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
+        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
         oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
         pasic@linux.ibm.com, joro@8bytes.org, will@kernel.org,
         pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
         linux-doc@vger.kernel.org
 References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
- <20220314194451.58266-16-mjrosato@linux.ibm.com>
- <20220314213808.GI11336@nvidia.com>
- <decc5320-eb3e-af25-fd2b-77fabe56a897@linux.ibm.com>
- <20220315143858.GY11336@nvidia.com>
+ <20220314194451.58266-23-mjrosato@linux.ibm.com>
+ <20220314214633.GJ11336@nvidia.com>
 From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20220315143858.GY11336@nvidia.com>
+In-Reply-To: <20220314214633.GJ11336@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: XovYpnHnN8X7XvZsXcj1wbC8jRUcunWF
-X-Proofpoint-GUID: VyCBJft7M62L1ZwToTemOEV0VPlk6L0Q
+X-Proofpoint-GUID: iSDqed2p1r28JmWsOMYySAiM5fB1UvOT
+X-Proofpoint-ORIG-GUID: xNu_0DWt1lKw2zQUPUBiiledYjR3anGK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-15_03,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- phishscore=0 impostorscore=0 spamscore=0 bulkscore=0 clxscore=1015
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203150102
+ definitions=2022-03-15_07,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203150103
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/15/22 10:38 AM, Jason Gunthorpe wrote:
-> On Tue, Mar 15, 2022 at 09:49:01AM -0400, Matthew Rosato wrote:
+On 3/14/22 5:46 PM, Jason Gunthorpe wrote:
+> On Mon, Mar 14, 2022 at 03:44:41PM -0400, Matthew Rosato wrote:
+>> +int kvm_s390_pci_zpci_start(struct kvm *kvm, struct zpci_dev *zdev)
+>> +{
+>> +	struct vfio_device *vdev;
+>> +	struct pci_dev *pdev;
+>> +	int rc;
+>> +
+>> +	rc = kvm_s390_pci_dev_open(zdev);
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	pdev = pci_get_slot(zdev->zbus->bus, zdev->devfn);
+>> +	if (!pdev) {
+>> +		rc = -ENODEV;
+>> +		goto exit_err;
+>> +	}
+>> +
+>> +	vdev = get_vdev(&pdev->dev);
+>> +	if (!vdev) {
+>> +		pci_dev_put(pdev);
+>> +		rc = -ENODEV;
+>> +		goto exit_err;
+>> +	}
+>> +
+>> +	zdev->kzdev->nb.notifier_call = kvm_s390_pci_group_notifier;
+>> +
+>> +	/*
+>> +	 * At this point, a KVM should already be associated with this device,
+>> +	 * so registering the notifier now should immediately trigger the
+>> +	 * event.  We also want to know if the KVM association is later removed
+>> +	 * to ensure proper cleanup happens.
+>> +	 */
+>> +	rc = register_notifier(vdev->dev, &zdev->kzdev->nb);
+>> +
+>> +	put_vdev(vdev);
+>> +	pci_dev_put(pdev);
+>> +
+>> +	/* Make sure the registered KVM matches the KVM issuing the ioctl */
+>> +	if (rc || zdev->kzdev->kvm != kvm) {
+>> +		rc = -ENODEV;
+>> +		goto exit_err;
+>> +	}
+>> +
+>> +	/* Must support KVM-managed IOMMU to proceed */
+>> +	if (IS_ENABLED(CONFIG_S390_KVM_IOMMU))
+>> +		rc = zpci_iommu_attach_kvm(zdev, kvm);
+>> +	else
+>> +		rc = -EINVAL;
 > 
->> The rationale for splitting steps 1 and 2 are that VFIO_SET_IOMMU doesn't
->> have a mechanism for specifying more than the type as an arg, no?  Otherwise
->> yes, you could specify a kvm fd at this point and it would have some other
->> advantages (e.g. skip notifier).  But we still can't use the IOMMU for
->> mapping until step 3.
+> This seems like kind of a strange API, shouldn't kvm be getting a
+> reference on the underlying iommu_domain and then calling into it to
+> get the mapping table instead of pushing KVM specific logic into the
+> iommu driver?
 > 
-> Stuff like this is why I'd be much happier if this could join our
-> iommfd project so we can have clean modeling of the multiple iommu_domains.
+> I would be nice if all the special kvm stuff could more isolated in
+> kvm code.
 > 
+> I'm still a little unclear about why this is so complicated - can't
+> you get the iommu_domain from the group FD directly in KVM code as
+> power does?
 
-I'd certainly be willing to collaborate so feel free to loop me in on 
-the discussions; but I got the impression that iommufd is not close to 
-ready (maybe I'm wrong?) -- if so I really don't want to completely 
-delay this zPCI support behind it as it has a significant benefit for 
-kvm guests on s390x :(
+Yeah, I think I could do something like that using the vfio group fd 
+like power does.
+
+Providing a reference to the kvm itself inside iommu was being used for 
+the pin/unpin operations, which would not be necessary if we switched to 
+the 1st layer iommu pinning all of guest memory.
+
+
 
