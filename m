@@ -2,240 +2,384 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FB4C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 09:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A17C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 12:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354872AbiCPJW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 05:22:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49306 "EHLO
+        id S1355578AbiCPMNT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 08:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353461AbiCPJWr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 05:22:47 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594BE652F2;
-        Wed, 16 Mar 2022 02:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=cZoOhn7yksZ8A8Ig5DEqI3AypkEzFO+D55ijtno6Otk=; b=V0APTf9IbANRluXADviIieoO8p
-        q6L3r0Ume1BQ7Zi5zlj2GPo51tIQH2MvAGlfWWO5zBScWlcPEJMhChUF3CtLgzct+qBX4F6+UAtGV
-        Vwo5at3Qg7SUJxlt3BIjKg/ZsIr8xH9G6fG7dju4FYQPLdJs6DUd9wKxyNXc2iZsOOhnzLsdkM/kT
-        bKvfxNkg7O6QCCCbLPfVCOfMKyvjP2P1PJQ/Gavhb/VMO8Wk732t1iJTSL9XHqWHhMO0SAJ0NZVem
-        aBIhRr+AxjCH1KRNQeyobSZeLdnhVhcN2eJF9OICwdf/JX7x78nqVP1LSmFsohCLYbaMkuUSuP/af
-        N6Lu0DGg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nUPqH-001V17-Mq; Wed, 16 Mar 2022 09:21:18 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BA31B30007E;
-        Wed, 16 Mar 2022 10:21:15 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 731602D602535; Wed, 16 Mar 2022 10:21:15 +0100 (CET)
-Date:   Wed, 16 Mar 2022 10:21:15 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jui-Tse Huang <juitse.huang@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Huaixin Chang <changhuaixin@linux.alibaba.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Chun-Hung Tseng <henrybear327@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Yiwei Lin <s921975628@gmail.com>
-Subject: Re: [PATCH v3] docs/scheduler: Introduce the doc of load average
-Message-ID: <YjGsCyS0t/+pdzZh@hirez.programming.kicks-ass.net>
-References: <20220315140857.41697-1-juitse.huang@gmail.com>
+        with ESMTP id S1355584AbiCPMNS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 08:13:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EAA685BE7B
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 05:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647432723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NFvT60sZqo3HaKmg6w6yCwx/Ub8DpG+qf8E82rYKcwc=;
+        b=IN4NnOhFZ7vSqrfMJUA4skmG4+ecPAfZ+aFt2Kuv8GsHwc+FQZD/mmsvUYmpbkjpG1yiVG
+        j7qT3I4RtBVvr4nIsLOg8plDQ6okQxN2rTtUQEsfKMOSfRKse8z9RgTlN/znN95kaReWCU
+        0eRtU+KeGkR+i1kjC3ncIgMv4YJPJGA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638--jMse2_6PYW9ytbJubyphA-1; Wed, 16 Mar 2022 08:12:00 -0400
+X-MC-Unique: -jMse2_6PYW9ytbJubyphA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07469892D28;
+        Wed, 16 Mar 2022 12:11:52 +0000 (UTC)
+Received: from localhost (ovpn-12-236.pek2.redhat.com [10.72.12.236])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D1E90C44AEE;
+        Wed, 16 Mar 2022 12:11:49 +0000 (UTC)
+Date:   Wed, 16 Mar 2022 20:11:46 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
+Message-ID: <YjHUAi0xrUy+qk/L@MiWiFi-R3L-srv>
+References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
+ <20220227030717.1464-4-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220315140857.41697-1-juitse.huang@gmail.com>
+In-Reply-To: <20220227030717.1464-4-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 10:08:57PM +0800, Jui-Tse Huang wrote:
-> The load average is one of a common as well as easy observed statistic
-> provied by Linux, but still not well documented, which makes the numbers
-
-I'm really not sure what the target audience is; and I hate you're
-making me read rst garbage. For someone trying to make changes to
-load_avg.c this document is pure confusion, for a user trying to make
-sense of that number, I would imagine much the same.
-
-> that users observes from the output of top, htop or other system
-> monitoring application are only numbers. This patch gives a discussion
-> on how Linux calculates the load average as well as what metrics are
-> concerned while calculating the load average.
+On 02/27/22 at 11:07am, Zhen Lei wrote:
+> From: Chen Zhou <chenzhou10@huawei.com>
 > 
-> The discussion flow is divided into several parts:
-> 1. The expression used to get the load average.
-> 2. Why Linux choose such average method from the other.
-> 2. The meaning of each term in the expression.
-> 3. The metrics, that is, the type of tasks that will be covered in the
->    calculation.
-> 4. A brief explanation over the fixed-point nubmer since the weights
->    defined in the Linux kernel are based on it.
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
 > 
-> Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
-> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
-> Signed-off-by: Ching-Chun (Jim) Huang <jserv@ccns.ncku.edu.tw>
-> Co-Developed-by: Yiwei Lin <s921975628@gmail.com>
+> To solve these issues, change the behavior of crashkernel=X and
+> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
+> in DMA zone, and fall back to high allocation if it fails.
+> We can also use "crashkernel=X,high" to select a region above DMA zone,
+> which also tries to allocate at least 256M in DMA zone automatically.
+> "crashkernel=Y,low" can be used to allocate specified size low memory.
 > 
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 > ---
+>  arch/arm64/kernel/machine_kexec.c      |   9 ++-
+>  arch/arm64/kernel/machine_kexec_file.c |  12 ++-
+>  arch/arm64/mm/init.c                   | 106 +++++++++++++++++++++++--
+>  3 files changed, 115 insertions(+), 12 deletions(-)
 > 
-> v3:
->   - Fix typo (Randy Dunlap)
->   - Add further reading that links to Brendan Gregg's blog
-> 
-> v2:
->   - Fix typo (Chun-Hung Tseng) 
-> 
->  Documentation/scheduler/index.rst        |  1 +
->  Documentation/scheduler/load-average.rst | 82 ++++++++++++++++++++++++
->  2 files changed, 83 insertions(+)
->  create mode 100644 Documentation/scheduler/load-average.rst
-> 
-> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-> index 88900aabdbf7..bdc779b4190f 100644
-> --- a/Documentation/scheduler/index.rst
-> +++ b/Documentation/scheduler/index.rst
-> @@ -17,6 +17,7 @@ Linux Scheduler
->      sched-nice-design
->      sched-rt-group
->      sched-stats
-> +    load-average
+> diff --git a/arch/arm64/kernel/machine_kexec.c b/arch/arm64/kernel/machine_kexec.c
+> index e16b248699d5c3c..19c2d487cb08feb 100644
+> --- a/arch/arm64/kernel/machine_kexec.c
+> +++ b/arch/arm64/kernel/machine_kexec.c
+> @@ -329,8 +329,13 @@ bool crash_is_nosave(unsigned long pfn)
 >  
->      text_files
+>  	/* in reserved memory? */
+>  	addr = __pfn_to_phys(pfn);
+> -	if ((addr < crashk_res.start) || (crashk_res.end < addr))
+> -		return false;
+> +	if ((addr < crashk_res.start) || (crashk_res.end < addr)) {
+> +		if (!crashk_low_res.end)
+> +			return false;
+> +
+> +		if ((addr < crashk_low_res.start) || (crashk_low_res.end < addr))
+> +			return false;
+> +	}
 >  
-> diff --git a/Documentation/scheduler/load-average.rst b/Documentation/scheduler/load-average.rst
-> new file mode 100644
-> index 000000000000..27ce6cbae5f4
-> --- /dev/null
-> +++ b/Documentation/scheduler/load-average.rst
-> @@ -0,0 +1,82 @@
-> +============
-> +Load Average
-> +============
+>  	if (!kexec_crash_image)
+>  		return true;
+> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+> index 59c648d51848886..889951291cc0f9c 100644
+> --- a/arch/arm64/kernel/machine_kexec_file.c
+> +++ b/arch/arm64/kernel/machine_kexec_file.c
+> @@ -65,10 +65,18 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  
+>  	/* Exclude crashkernel region */
+>  	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+> +	if (ret)
+> +		goto out;
 > +
-> +The load average, provided by common operating systems, indicates the average
-> +number of system load over a period of time.  In Linux, it shows the average
-> +number of tasks running and waiting for CPU time. The following expression is
-> +used in Linux to update the load average::
+> +	if (crashk_low_res.end) {
+> +		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+> +		if (ret)
+> +			goto out;
+> +	}
+>  
+> -	if (!ret)
+> -		ret =  crash_prepare_elf64_headers(cmem, true, addr, sz);
+> +	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+>  
+> +out:
+>  	kfree(cmem);
+>  	return ret;
+>  }
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 90f276d46b93bc6..30ae6638ff54c47 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -65,6 +65,44 @@ EXPORT_SYMBOL(memstart_addr);
+>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>  
+>  #ifdef CONFIG_KEXEC_CORE
+> +/* Current arm64 boot protocol requires 2MB alignment */
+> +#define CRASH_ALIGN			SZ_2M
 > +
-> +                / 0                                      , if t = 0
-> +    load_{t} = |
-> +                \ load_{t - 1} * exp + active * (1 - exp), otherwise
-
-
-Easier to follow is:
-
-	load_{0} = 0
-	load_{t+1} = load_{t} * exp + active * (1 - exp)
-
-> +The expression represents the exponential moving average of the historical
-> +loading of the system. There are several reasons that Linux kernel chooses
-> +exponential moving average from other similar average equations such as simple
-> +moving average or cumulative moving average:
+> +#define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+> +#define CRASH_ADDR_HIGH_MAX		memblock.current_limit
 > +
-> +#. The exponential moving average consumes fixed memory space, while the simple
-> +   moving average has O(n) space complexity where n is the number of timeslices
-> +   within a given interval.
-> +#. The exponential moving average not only applies a higher weight to the most
-> +   recent record but also declines the weight exponentially, which makes the
-> +   resulting load average reflect the situation of the current system. Neither
-> +   the simple moving average nor cumulative moving average has this feature.
+> +/*
+> + * This is an empirical value in x86_64 and taken here directly. Please
+> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+> + * details.
+> + */
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
 > +
-> +In the expression, the load_{t} indicates the calculated load average at the
-> +given time t.
-
-> +The active is the most recent recorded system load. In Linux, the system load
-
-That's inaccurate at best, active is not the load, since you just gave a
-definition of load. As such, load is a function of time and active.
-
-Also, stop saying in Linux, you're reading the Linux documentation this
-is a given.
-
-> +means the number of tasks in the state of TASK_RUNNING or TASK_UNINTERRUPTIBLE
-> +of the entire system. Tasks with TASK_UNINTERRUPTIBLE state are usually waiting
-> +for disk I/O or holding an uninterruptible lock, which is considered as a part
-> +of system resource, thus, Linux kernel covers them while calculating the load
-> +average.
-
-This is inacurate, consider TASK_NOLOAD.
-
-> +The exp means the weight applied to the previous report of load average, while
-> +(1 - exp) is the weight applied to the most recently recorded system load.
-
-I get really itchy from statements like this; either you can read a
-formula or you can't, stuff like this doesn't help much in either case.
-
-> +There are three different weights defined in the Linux kernel, in
-> +include/linux/sched/loadavg.h, to perform statistics in various timescales::
+> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+> +{
+> +	unsigned long long low_base;
 > +
-> +    // include/linux/sched/loadavg.h
-> +    ...
-> +    #define EXP_1    1884    /* 1/exp(5sec/1min) as fixed-point */
-> +    #define EXP_5    2014    /* 1/exp(5sec/5min) */
-> +    #define EXP_15   2037    /* 1/exp(5sec/15min) */
-> +    ...
+> +	/* passed with crashkernel=0,low ? */
+> +	if (!low_size)
+> +		return 0;
 > +
-> +According to the expression shown on the top of this page, the weight (exp)
-> +controls how much of the last load load_{t - 1} will take place in the
-> +calculation of current load, while (1 - exp) is the weight applied to the most
-> +recent record of system load active.
-
-What page, this is a non-paginated document. Also, you're repeating
-yourself.
-
-> +Due to the security issue, the weights are defined as fixed-point numbers based
-
-This is complete nonsense
-
-> +on the unsigned integer rather than floating-pointing numbers. The introduction
-> +of the fixed-point number keeps the FPU away from the calculation process. Since
-> +the precision of the fixed-point used in the Linux kernel is 11 bits, a
-> +fixed-point can be converted to a floating-point by dividing it by 2048, as in
-> +the expressions shown bellow::
+> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> +	if (!low_base) {
+> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+> +		return -ENOMEM;
+> +	}
 > +
-> +    EXP_1  = 1884 / 2048 = 0.919922
-> +    EXP_5  = 2014 / 2048 = 0.983398
-> +    EXP_15 = 2037 / 2048 = 0.994629
+> +	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
+> +		low_base, low_base + low_size, low_size >> 20);
 > +
-> +Which indicates the weights applied to active are::
+> +	crashk_low_res.start = low_base;
+> +	crashk_low_res.end   = low_base + low_size - 1;
+> +	insert_resource(&iomem_resource, &crashk_low_res);
 > +
-> +    (1 - EXP_1)  = (1 - 0.919922) = 0.080078
-> +    (1 - EXP_5)  = (1 - 0.983398) = 0.016602
-> +    (1 - EXP_15) = (1 - 0.994629) = 0.005371
-
-I don't think this is the place to explain fixed point arithmetic. The
-consumer of load_avg doesn't need the know, the developer looking at
-loadavg.c will have *MUCH* bigger problems.
-
-> +The load average will be updated every 5 seconds. Each time the scheduler_tick()
-> +be called, the function calc_global_load_tick() will also be invoked, which
-> +makes the active of each CPU core be calculated and be merged globally. Finally,
-> +the load average will be updated with that global active.
-
-That's wishful thinking, have you read loadavg.c ?
-
+> +	return 0;
+> +}
 > +
-> +As a user, the load average can be observed via top, htop, or other system
-> +monitor application, or more directly, by the following command::
-> +
-> +    $ cat /proc/loadavg
-> +
-> +Further Reading
-> +---------------
-> +The explanation and analysis done by Brendan Gregg on `his blog
-> +<https://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html>`_.
+>  /*
+>   * reserve_crashkernel() - reserves memory for crash kernel
+>   *
+> @@ -75,30 +113,79 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>  static void __init reserve_crashkernel(void)
+>  {
+>  	unsigned long long crash_base, crash_size;
+> -	unsigned long long crash_max = arm64_dma_phys_limit;
+> +	unsigned long long crash_low_size;
+> +	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>  	int ret;
 
-That blogpost is actually useful, unlike most of what you've written
-here. Why not only link that and leave out the rest?
+Even though reverse xmas tree style is not enforced, this 'int ret;' is
+really annoying to look at. Maybe move it down two lines.
+
+> +	bool fixed_base, high = false;
+> +	char *cmdline = boot_command_line;
+>  
+> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+> +	/* crashkernel=X[@offset] */
+> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base);
+> -	/* no crashkernel= or invalid value specified */
+> -	if (ret || !crash_size)
+> -		return;
+> +	if (ret || !crash_size) {
+> +		/* crashkernel=X,high */
+> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+> +		if (ret || !crash_size)
+> +			return;
+> +
+> +		/* crashkernel=Y,low */
+> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+> +		if (ret == -ENOENT)
+> +			/*
+> +			 * crashkernel=Y,low is not specified explicitly, use
+> +			 * default size automatically.
+> +			 */
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		else if (ret)
+> +			/* crashkernel=Y,low is specified but Y is invalid */
+> +			return;
+> +
+> +		/* Mark crashkernel=X,high is specified */
+> +		high = true;
+> +		crash_max = CRASH_ADDR_HIGH_MAX;
+> +	}
+>  
+> +	fixed_base = !!crash_base;
+>  	crash_size = PAGE_ALIGN(crash_size);
+>  
+>  	/* User specifies base address explicitly. */
+This is over commenting, can't see why it's needed.
+> -	if (crash_base)
+> +	if (fixed_base)
+>  		crash_max = crash_base + crash_size;
+
+Hi leizhen,
+
+I made change on reserve_crashkenrel(), inline comment may be slow.
+Please check and consider if they can be taken.
+
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 30ae6638ff54..f96351da1e3e 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -109,38 +109,43 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+  * This function reserves memory area given in "crashkernel=" kernel command
+  * line parameter. The memory reserved is used by dump capture kernel when
+  * primary kernel is crashing.
++ *
++ * NOTE: Reservation of crashkernel,low is special since its existence
++ * is not independent, need rely on the existence of crashkernel,high.
++ * Hence there are different cases for crashkernel,low reservation:
++ * 1) crashkernel=Y,low is specified explicitly, crashkernel,low takes Y;
++ * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
++ *    take the default crashkernel,low value;
++ * 3) crashkernel=X is specified, while fallback to get a memory region
++ *    in high memory, take the default crashkernel,low value;
++ * 4) crashkernel='invalid value',low is specified, failed the whole
++ *    crashkernel reservation and bail out.
+  */
+ static void __init reserve_crashkernel(void)
+ {
+ 	unsigned long long crash_base, crash_size;
+ 	unsigned long long crash_low_size;
+ 	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+-	int ret;
+ 	bool fixed_base, high = false;
+ 	char *cmdline = boot_command_line;
++	int ret;
+ 
+ 	/* crashkernel=X[@offset] */
+ 	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+ 				&crash_size, &crash_base);
+ 	if (ret || !crash_size) {
+-		/* crashkernel=X,high */
+ 		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+ 		if (ret || !crash_size)
+ 			return;
+ 
+-		/* crashkernel=Y,low */
+ 		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+ 		if (ret == -ENOENT)
+-			/*
+-			 * crashkernel=Y,low is not specified explicitly, use
+-			 * default size automatically.
+-			 */
++			/* case #2 of crashkernel,low reservation */
+ 			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+ 		else if (ret)
+-			/* crashkernel=Y,low is specified but Y is invalid */
++			/* case #4 of crashkernel,low reservation */
+ 			return;
+ 
+-		/* Mark crashkernel=X,high is specified */
+ 		high = true;
+ 		crash_max = CRASH_ADDR_HIGH_MAX;
+ 	}
+@@ -148,7 +153,6 @@ static void __init reserve_crashkernel(void)
+ 	fixed_base = !!crash_base;
+ 	crash_size = PAGE_ALIGN(crash_size);
+ 
+-	/* User specifies base address explicitly. */
+ 	if (fixed_base)
+ 		crash_max = crash_base + crash_size;
+ 
+@@ -172,11 +176,7 @@ static void __init reserve_crashkernel(void)
+ 	}
+ 
+ 	if (crash_base >= SZ_4G) {
+-		/*
+-		 * For case crashkernel=X, low memory is not enough and fall
+-		 * back to reserve specified size of memory above 4G, try to
+-		 * allocate minimum required memory below 4G again.
+-		 */
++		/* case #3 of crashkernel,low reservation */
+ 		if (!high)
+ 			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+ 
+
+>  
+> -	/* Current arm64 boot protocol requires 2MB alignment */
+> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+> +retry:
+> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>  					       crash_base, crash_max);
+>  	if (!crash_base) {
+> +		/*
+> +		 * Attempt to fully allocate low memory failed, fall back
+> +		 * to high memory, the minimum required low memory will be
+> +		 * reserved later.
+> +		 */
+> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+> +			crash_max = CRASH_ADDR_HIGH_MAX;
+> +			goto retry;
+> +		}
+> +
+>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>  			crash_size);
+>  		return;
+>  	}
+>  
+> +	if (crash_base >= SZ_4G) {
+> +		/*
+> +		 * For case crashkernel=X, low memory is not enough and fall
+> +		 * back to reserve specified size of memory above 4G, try to
+> +		 * allocate minimum required memory below 4G again.
+> +		 */
+> +		if (!high)
+> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +
+> +		if (reserve_crashkernel_low(crash_low_size)) {
+> +			memblock_phys_free(crash_base, crash_size);
+> +			return;
+> +		}
+> +	}
+> +
+>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>  
+> @@ -107,6 +194,9 @@ static void __init reserve_crashkernel(void)
+>  	 * map. Inform kmemleak so that it won't try to access it.
+>  	 */
+>  	kmemleak_ignore_phys(crash_base);
+> +	if (crashk_low_res.end)
+> +		kmemleak_ignore_phys(crashk_low_res.start);
+> +
+>  	crashk_res.start = crash_base;
+>  	crashk_res.end = crash_base + crash_size - 1;
+>  	insert_resource(&iomem_resource, &crashk_res);
+> -- 
+> 2.25.1
+> 
+
