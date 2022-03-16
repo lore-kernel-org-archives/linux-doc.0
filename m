@@ -2,60 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE3EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 21:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF8B0C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 21:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358188AbiCPVwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 17:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
+        id S1344206AbiCPVxt convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 17:53:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358159AbiCPVw1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 17:52:27 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0FE11C30
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 14:51:12 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        with ESMTP id S238254AbiCPVxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 17:53:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF87511C28
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 14:52:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5F4362C3;
-        Wed, 16 Mar 2022 21:51:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5F4362C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1647467472; bh=mJWjxMnI+2nlNx0KF+siStzh4CrYx06d+Z6j+k6pR/8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=m6jwSmQAavP3ygYJABzq39ZJGiJP6bwbwpQ3/J6n8XJAtqwe/ZLd9inSv9SLB7UmB
-         KlCBorLx303GLIhekcsFCbNa9eyMa6woKFeINi7rV7AW05vQHnBGauTPbG3VIyoMLc
-         RVjOp6JBINp3t7W+cXNKkroenUqtF7XVO5WcREX37NcfkvjuxipvHPtQF8jVXOX5jF
-         ocwcAE9qarLJvEDjHliGpEQT4x46fnVzq+iOpTd+mWZOBArjMd5gLDw1sR0VcpdYBd
-         I5QgzFvcFqfXAJYaqX/qBFLTXE1Wb2WGKFmO3P34fbwYlJIfDYIy5kqsEz439+Y0c+
-         wDnaC6xv0cI4A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tang Yizhou <tangyizhou@huawei.com>, siyanteng@loongson.cn,
-        siyanteng01@gmail.com, alexs@kernel.org, seakeel@gmail.com
-Cc:     linux-doc@vger.kernel.org, zhengbin13@huawei.com,
-        tangyeechou@gmail.com, Tang Yizhou <tangyizhou@huawei.com>
-Subject: Re: [PATCH] docs/zh_CN: Add sched-nice-design Chinese translation
-In-Reply-To: <20220312072642.23118-1-tangyizhou@huawei.com>
-References: <20220312072642.23118-1-tangyizhou@huawei.com>
-Date:   Wed, 16 Mar 2022 15:51:11 -0600
-Message-ID: <87bky5sh0w.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4CD28615A2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 21:52:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09AD3C340E9;
+        Wed, 16 Mar 2022 21:52:31 +0000 (UTC)
+Date:   Wed, 16 Mar 2022 17:52:30 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Roland Hieber <rhi@pengutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] docs: tracing: use refs for cross-referencing
+Message-ID: <20220316175230.25e0efaf@gandalf.local.home>
+In-Reply-To: <87fsnhsh4n.fsf@meer.lwn.net>
+References: <20220313105557.172732-1-rhi@pengutronix.de>
+        <20220313195519.78b96a2c@rorschach.local.home>
+        <20220314114644.6unqdbpxcsqin3qu@pengutronix.de>
+        <87fsnhsh4n.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tang Yizhou <tangyizhou@huawei.com> writes:
+On Wed, 16 Mar 2022 15:48:56 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Translate scheduler/sched-nice-design.rst into Chinese.
->
-> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
-> ---
->  .../translations/zh_CN/scheduler/index.rst    |  2 +-
->  .../zh_CN/scheduler/sched-nice-design.rst     | 99 +++++++++++++++++++
->  2 files changed, 100 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-nice-design.rst
+> > The main point of this series was to get rid of the manually numbered
+> > sections (which the next patch does). Relying on manual section numbers
+> > for cross-referencing is error-prone, which my first iteration of the
+> > patch already showed… Unfortunately, the sphinx reST syntax is not very
+> > flexible here.  
+> 
+> I agree on the removal of the numbered sections.  Those always end up
+> being wrong after a while.
+> 
+> > I could imagine leaving the file names in when a reference points to a
+> > different document, like in this hunk:
+> >  
+> >> > -set_ftrace_filter 'ftrace filter commands' (see the 'Filter commands'
+> >> > -section of Documentation/trace/ftrace.rst), but there are major
+> >> > +set_ftrace_filter 'ftrace filter commands' (see the section
+> >> > +:ref:`ftrace_filter_commands`), but there are major  
+> 
+> In general, all of those references and labels clutter the source
+> considerably and aren't hugely useful to readers of the plain-text
+> documents.  There are times when they are the best thing to do, but I
+> think that moderation is indicated.  Just giving the file name will
+> generate a cross-reference to that file; I would hope that would be
+> enough most of the time.
 
-Applied, thanks.
+I agree on both points.
 
-jon
+Thanks Jon.
+
+-- Steve
