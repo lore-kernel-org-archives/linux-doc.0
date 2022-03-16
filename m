@@ -2,109 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA6AC4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 07:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB60C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 07:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347362AbiCPHNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 03:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44760 "EHLO
+        id S1354324AbiCPHul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 03:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354247AbiCPHM6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 03:12:58 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D035DE74;
-        Wed, 16 Mar 2022 00:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647414705; x=1678950705;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=82RRYaqdq5m//xBFiiE6/hsoZBDz6vsg38N2TZZZ+hQ=;
-  b=SfYA5E9IaBSag5LmC5H38xKat5RbkGZk9AHPnZJylivVjXBVON2M3J4A
-   9a+YG7qXn16v51GRJDPKomIKVJemEPbqf1e4fa/UBUNpUJahBDF5Lfy5w
-   iu5+GDfw05aKT05eeaQpQjzSTX9sQaRLCniE7/0RNtAMxLc9M6RSIbRVt
-   9FkkEb42d347opE8U+DuBTjdkwhHjooZQqkqLR/BN95LgUnP5vg9TedAY
-   0auc17uH352rhbNCB+bMpG2V4vn43uVTVW1myu/R6E/U2E0qP3qNZ5Ehl
-   7i569qwispARbkhzFBB3hNbU9/8vJGyXnXqZlhTgM5NfTx3DLR6HDrhzv
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281289037"
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="281289037"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 00:11:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="646538353"
-Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
-  by orsmga004.jf.intel.com with ESMTP; 16 Mar 2022 00:11:42 -0700
-From:   Tianfei Zhang <tianfei.zhang@intel.com>
-To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-Cc:     corbet@lwn.net, Tianfei zhang <tianfei.zhang@intel.com>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v6 3/6] fpga: dfl: check released_port_num and num_vfs for legacy model
-Date:   Wed, 16 Mar 2022 03:08:11 -0400
-Message-Id: <20220316070814.1916017-4-tianfei.zhang@intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220316070814.1916017-1-tianfei.zhang@intel.com>
-References: <20220316070814.1916017-1-tianfei.zhang@intel.com>
+        with ESMTP id S1354319AbiCPHul (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 03:50:41 -0400
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B825B3CC;
+        Wed, 16 Mar 2022 00:49:27 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id qx21so2301959ejb.13;
+        Wed, 16 Mar 2022 00:49:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=tUhUqhCZr3Ci9RwcBawEUsZqc3exEqG+C+hiEi1bt3o=;
+        b=Qdz3pKmqBlQml7ykunNJ/2JZd3cNQv7tHehFkUAPf34XiFOrK/ikMKNpdXu8G/GVS6
+         0Ue/yjavDy5/F7t96PQjwftMdCCZ9Ox161NdP8UQvaUvIOPOrv+eeWAdpRMMhWwVckvv
+         eXUdgGgGv970IJy8V3q7YBrlxFrNr1OHGzW3UItTfUouFZom1PNsM4eygMYGcXG3k2t6
+         2y02UvdiKXwMQdCZA5mEFPZ7PBk6lHzauVpgtlk1E7TvqITAeaSbxBnMoxiF1puw9mbW
+         GuSY0kT8Q9K1RreoBFhDuq0H6Rpn50WWr0rHCQ6kdNhPLUcSR/jWo4NaHJ7566IlpY3P
+         siTg==
+X-Gm-Message-State: AOAM530NbhmDwpkFtUrkha0QJsuoWXoCgy5E4OOrTXjhUHz+HbdaI1lh
+        0qUS4i9QmPUWo/GPsYGKYyhAhzIjjL0=
+X-Google-Smtp-Source: ABdhPJyomDpckdtCRwpmmD3AhOt4xIymEoU15tK2Y1+NiAVFCV2W9tXei0gENoMkOVoEhK47YRiRsw==
+X-Received: by 2002:a17:907:1c10:b0:6da:6316:d009 with SMTP id nc16-20020a1709071c1000b006da6316d009mr25815337ejc.621.1647416965904;
+        Wed, 16 Mar 2022 00:49:25 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+        by smtp.gmail.com with ESMTPSA id y20-20020a056402271400b004187d967b1asm564659edd.84.2022.03.16.00.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Mar 2022 00:49:25 -0700 (PDT)
+Message-ID: <af1c7dd1-d86d-d737-643e-1f20a19c3890@kernel.org>
+Date:   Wed, 16 Mar 2022 08:49:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] docs: serial: fix a reference file name in driver.rst
+Content-Language: en-US
+From:   Jiri Slaby <jirislaby@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Wan Jiabing <wanjiabing@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kael_w@qq.com
+References: <20220304100315.6732-1-wanjiabing@vivo.com>
+ <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
+ <87mthw2o93.fsf@meer.lwn.net> <YixE4K3ScGL3v5yQ@kroah.com>
+ <eee93a4c-2629-af0f-03b3-4379a128c7dd@kernel.org>
+In-Reply-To: <eee93a4c-2629-af0f-03b3-4379a128c7dd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tianfei zhang <tianfei.zhang@intel.com>
+On 14. 03. 22, 7:16, Jiri Slaby wrote:
+> On 12. 03. 22, 7:59, Greg Kroah-Hartman wrote:
+>> On Fri, Mar 11, 2022 at 02:06:00PM -0700, Jonathan Corbet wrote:
+>>> Jiri Slaby <jirislaby@kernel.org> writes:
+>>>
+>>>> On 04. 03. 22, 11:03, Wan Jiabing wrote:
+>>>>> Fix the following 'make refcheckdocs' warning:
+>>>>> Warning: Documentation/driver-api/serial/driver.rst references a file
+>>>>> that doesn't exist: Documentation/driver-api/serial/tty.rst
+>>>>>
+>>>>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+>>>>
+>>>> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+>>>
+>>> I've applied this.  But I have to wonder why Documentation/tty exists at
+>>> all; is there any reason not to move it all under driver-api?
+>>
+>> No reason at all, it should probably be moved someday.
+> 
+> The only reason was that I don't completely understand what "driver-api" 
+> should contain. To be presice, documentation of line disciplines, tty 
+> buffer and tty internals (which is all contained in Documentation/tty) 
+> doesn't belong to "driver-api" IMO. If it it preferred to be there, I 
+> can move it, of course.
 
-In OFS legacy model, there is 1:1 mapping for Port device and VF,
-so it need to check the number of released port match the number of
-VFs or not. But in "Multiple VFs per PR slot" model, there is 1:N
-mapping for the Port device and VFs.
+Returning to this: staring into Documentation/index.rst and 
+Documentation/driver-api/index.rst. Looking at documents/paths they 
+reference, I still don't quite understand what is the rule to put the 
+stuff to either of them.
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
----
- drivers/fpga/dfl.c | 10 ++++++----
- drivers/fpga/dfl.h |  2 ++
- 2 files changed, 8 insertions(+), 4 deletions(-)
+What I used to decide to put the tty stuff to the root is that it's not 
+only driver-api documented there. It documents also tty internals and 
+implementation of some line disciplines.
 
-diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-index 712c53363fda..b95b29c5c81d 100644
---- a/drivers/fpga/dfl.c
-+++ b/drivers/fpga/dfl.c
-@@ -1707,11 +1707,13 @@ int dfl_fpga_cdev_config_ports_vf(struct dfl_fpga_cdev *cdev, int num_vfs)
- 
- 	mutex_lock(&cdev->lock);
- 	/*
--	 * can't turn multiple ports into 1 VF device, only 1 port for 1 VF
--	 * device, so if released port number doesn't match VF device number,
--	 * then reject the request with -EINVAL error code.
-+	 * In the OFS legacy model, it can't turn multiple ports into 1 VF
-+	 * device, because only 1 port conneced to 1 VF device, so if released
-+	 * port number doesn't match VF device number, then reject the request
-+	 * with -EINVAL error code.
- 	 */
--	if (cdev->released_port_num != num_vfs) {
-+	if ((dfl_has_port_connected_afu(cdev) &&
-+	     cdev->released_port_num != num_vfs)) {
- 		ret = -EINVAL;
- 		goto done;
- 	}
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index bc56b7e8c01b..83c2c50975e5 100644
---- a/drivers/fpga/dfl.h
-+++ b/drivers/fpga/dfl.h
-@@ -471,6 +471,8 @@ void dfl_fpga_enum_info_free(struct dfl_fpga_enum_info *info);
- #define DFL_PORT_CONNECT_BITS  MAX_DFL_FPGA_PORT_NUM
- #define DFL_FEAT_PORT_CONNECT_MASK ((1UL << (DFL_PORT_CONNECT_BITS)) - 1)
- 
-+#define dfl_has_port_connected_afu(cdev) ((cdev)->flags & DFL_FEAT_PORT_CONNECT_MASK)
-+
- /**
-  * struct dfl_fpga_cdev - container device of DFL based FPGA
-  *
+So, now I'm confused why it does NOT belong to the root.
+
+thanks,
 -- 
-2.26.2
-
+js
+suse labs
