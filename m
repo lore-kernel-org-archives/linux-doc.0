@@ -2,75 +2,266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C9AC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 21:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14275C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 22:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240859AbiCPV7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 17:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47168 "EHLO
+        id S229687AbiCPWQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 18:16:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344834AbiCPV7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 17:59:43 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E5D717E3E;
-        Wed, 16 Mar 2022 14:58:28 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 018072CD;
-        Wed, 16 Mar 2022 21:58:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 018072CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1647467908; bh=mkEu1wloGTkm0xeCjB+YLUuIuUcxOva+qbVOTd2bpF0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=mOAmTmWkyrimqb3IewjMj4VU6pEAU+P6v6BLdUgvZQ6sgE7KR4wIludswKJ6erqWr
-         54+RDW02ZuDJvjKxfSec4BFmLerifdIXBooPSM114KOSpQhlJbIHre9ctqkGmlkzEz
-         8oHtAlO2OzUCq7v18QH3Cnl2QzmeaCggcbF5aqs+dD0a8Jk5mA1ZnPILd6mGljNlzL
-         LIzMLVvZMsbA5aNmnrSA/8c8eSM0OWRM9FTIQSU1dz4FyifPhNQyJAWfbX3zVjT5iE
-         KcThg0Thdv4UyCCY/9c45M2j09yCi9vlmsEsOTRUIQiFPuoSvUS8g/WuCiOl9iR8hP
-         +gIilHaNs7mPA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Mike Rapport <rppt@kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs/kernel-parameters: update description of mem=
-In-Reply-To: <20220310082736.1346366-1-rppt@kernel.org>
-References: <20220310082736.1346366-1-rppt@kernel.org>
-Date:   Wed, 16 Mar 2022 15:58:27 -0600
-Message-ID: <877d8tsgos.fsf@meer.lwn.net>
+        with ESMTP id S1358272AbiCPWQs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 18:16:48 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E523E2F8;
+        Wed, 16 Mar 2022 15:15:25 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id f38so7014907ybi.3;
+        Wed, 16 Mar 2022 15:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=fzy1q7yZxTsQqPTdZtzeZYFh+ifL58Ovi/YokXT2mF8=;
+        b=ShVBfQQjJC7lfytQX/nrlKpzsp/2D5XSF8wTWdFmFhgJNoyk/LwGb/acBV+KKTBtWe
+         MqGHo9wJmy5e+HtdYRP5icDbxW3pAaX/Z3CSNKWxMUAHmHFKXkuwgAbmOwb4R/F8UAKV
+         oZxlPUn0Iq5YnfRohk6KxSpo75h5trFMAGU+AHIa9UBUvkZaRBdlw7zOECMQnF99KwOj
+         7B2PizgWfvf/HoQlpSGMwzKmhsGlJWxJOW3pow6Nm3Rs7KUqHh6TJc0T3liGlBeCS3Ps
+         17Ui7uVBymoILX1qq0GdZWy4bnM4UkBCvcp2OR7XJLwhFO8hDYJaiFwqT7rw/GqZvRzX
+         yHqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=fzy1q7yZxTsQqPTdZtzeZYFh+ifL58Ovi/YokXT2mF8=;
+        b=ESoWDTVZrgDQoPheJ71pc95uLvY28zpKxj/KABM04MjuNCaSEkH4s4Cd0VcvaE1deG
+         Kw1bVJsrDLjD56mqIxvQ3euoBa7DWCUXT0tNSVjKfXvvzr6HIlQzEkYQjRenTFpWMDaq
+         rAKdqO7/V5CGxmCxDaUDU/6EWJLzgUvWDUDfecncQkXkjiMcQ5y7tCXzdbg6V0qGP/8J
+         aGjea1CMIiurVjFzEo5ODo5MP0MMIL+6Dls7UM+Y7JwSc1H80SQSl5IaTFvbCPr8f8v5
+         ZJSeRUzHaiVyOdI7FfSofmzfAT68lGX5nUu0Q1xaw3iG6gQszCQpQySRpabE6AszR7Dd
+         lqaw==
+X-Gm-Message-State: AOAM530v9GGWli3QsB0bNOt+xbpa5d+1R1bCrij8MtEozfcYwpcqcxcH
+        zBA6NGXpfiejq2WfZ9RcG9anY3xLFUm2/EzqFCQ=
+X-Google-Smtp-Source: ABdhPJyFQMuz/0hw/ZkMi8DFHi/gflT4UxHsJLPA6TMY/fcwGpClrwi2RSsYQfr+aJ1+yNfj2mJqAUQrzPf9DXl3/Lg=
+X-Received: by 2002:a25:c046:0:b0:633:7235:afda with SMTP id
+ c67-20020a25c046000000b006337235afdamr2263706ybf.540.1647468925020; Wed, 16
+ Mar 2022 15:15:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-3-yuzhao@google.com>
+In-Reply-To: <20220309021230.721028-3-yuzhao@google.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Thu, 17 Mar 2022 11:15:11 +1300
+Message-ID: <CAGsJ_4xjC6Shp6R0ZQA5A7f67hm1DVE8iZ5f4LUONuA7=CHOtQ@mail.gmail.com>
+Subject: Re: [PATCH v9 02/14] mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mike Rapoport <rppt@kernel.org> writes:
-
-> From: Mike Rapoport <rppt@linux.ibm.com>
+On Wed, Mar 9, 2022 at 3:47 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-> The existing description of mem= does not cover all the cases and
-> differences between how architectures treat it.
+> Some architectures support the accessed bit in non-leaf PMD entries,
+> e.g., x86 sets the accessed bit in a non-leaf PMD entry when using it
+> as part of linear address translation [1]. Page table walkers that
+> clear the accessed bit may use this capability to reduce their search
+> space.
 >
-> Extend the description to match the code.
+> Note that:
+> 1. Although an inline function is preferable, this capability is added
+>    as a configuration option for consistency with the existing macros.
+> 2. Due to the little interest in other varieties, this capability was
+>    only tested on Intel and AMD CPUs.
 >
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> [1]: Intel 64 and IA-32 Architectures Software Developer's Manual
+>      Volume 3 (June 2021), section 4.8
+>
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Acked-by: Brian Geffon <bgeffon@google.com>
+> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> Acked-by: Steven Barrett <steven@liquorix.net>
+> Acked-by: Suleiman Souhlal <suleiman@google.com>
+> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> Tested-by: Donald Carr <d@chaos-reins.com>
+> Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 > ---
-> v2: https://lore.kernel.org/all/20220309172258.1183796-1-rppt@kernel.org
-> * move Hexagon description to make it better visible
+
+Reviewed-by: Barry Song <baohua@kernel.org>
+
+hard to read this patch by itself. but after reading the change in
+walk_pmd_range(), it seems this patch becomes quite clear:
+walk_pmd_range()
+{
+...
+#ifdef CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+                if (get_cap(LRU_GEN_NONLEAF_YOUNG)) {
+                        if (!pmd_young(val))
+                                continue;
+
+                        walk_pmd_range_locked(pud, addr, vma, walk, &pos);
+                }
+#endif
+...
+}
+this gives us the chance to skip the scan of all ptes within the
+pmd.
+so i am not quite sure this should necessarily be a separate
+patch, or should be put together with the change in
+walk_pmd_range() to make readers understand its purpose.
+
+
+>  arch/Kconfig                   | 9 +++++++++
+>  arch/x86/Kconfig               | 1 +
+>  arch/x86/include/asm/pgtable.h | 3 ++-
+>  arch/x86/mm/pgtable.c          | 5 ++++-
+>  include/linux/pgtable.h        | 4 ++--
+>  5 files changed, 18 insertions(+), 4 deletions(-)
 >
-> v1: https://lore.kernel.org/all/20220309122446.1118738-1-rppt@kernel.org
-> * drop clumsy and redundant paragraph about Hexagon
->  .../admin-guide/kernel-parameters.txt          | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 678a80713b21..f9c59ecadbbb 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -1322,6 +1322,15 @@ config DYNAMIC_SIGFRAME
+>  config HAVE_ARCH_NODE_DEV_GROUP
+>         bool
+>
+> +config ARCH_HAS_NONLEAF_PMD_YOUNG
+> +       bool
+> +       depends on PGTABLE_LEVELS > 2
+> +       help
+> +         Architectures that select this option are capable of setting th=
+e
+> +         accessed bit in non-leaf PMD entries when using them as part of=
+ linear
+> +         address translations. Page table walkers that clear the accesse=
+d bit
+> +         may use this capability to reduce their search space.
+> +
+>  source "kernel/gcov/Kconfig"
+>
+>  source "scripts/gcc-plugins/Kconfig"
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 9f5bd41bf660..e787b7fc75be 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -85,6 +85,7 @@ config X86
+>         select ARCH_HAS_PMEM_API                if X86_64
+>         select ARCH_HAS_PTE_DEVMAP              if X86_64
+>         select ARCH_HAS_PTE_SPECIAL
+> +       select ARCH_HAS_NONLEAF_PMD_YOUNG
+>         select ARCH_HAS_UACCESS_FLUSHCACHE      if X86_64
+>         select ARCH_HAS_COPY_MC                 if X86_64
+>         select ARCH_HAS_SET_MEMORY
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtabl=
+e.h
+> index 60b6ce45c2e3..f973788f6b21 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -819,7 +819,8 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+>
+>  static inline int pmd_bad(pmd_t pmd)
+>  {
+> -       return (pmd_flags(pmd) & ~_PAGE_USER) !=3D _KERNPG_TABLE;
+> +       return (pmd_flags(pmd) & ~(_PAGE_USER | _PAGE_ACCESSED)) !=3D
+> +              (_KERNPG_TABLE & ~_PAGE_ACCESSED);
+>  }
+>
+>  static inline unsigned long pages_to_mb(unsigned long npg)
+> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+> index 3481b35cb4ec..a224193d84bf 100644
+> --- a/arch/x86/mm/pgtable.c
+> +++ b/arch/x86/mm/pgtable.c
+> @@ -550,7 +550,7 @@ int ptep_test_and_clear_young(struct vm_area_struct *=
+vma,
+>         return ret;
+>  }
+>
+> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONL=
+EAF_PMD_YOUNG)
+>  int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+>                               unsigned long addr, pmd_t *pmdp)
+>  {
+> @@ -562,6 +562,9 @@ int pmdp_test_and_clear_young(struct vm_area_struct *=
+vma,
+>
+>         return ret;
+>  }
+> +#endif
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  int pudp_test_and_clear_young(struct vm_area_struct *vma,
+>                               unsigned long addr, pud_t *pudp)
+>  {
+> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+> index 79f64dcff07d..743e7fc4afda 100644
+> --- a/include/linux/pgtable.h
+> +++ b/include/linux/pgtable.h
+> @@ -212,7 +212,7 @@ static inline int ptep_test_and_clear_young(struct vm=
+_area_struct *vma,
+>  #endif
+>
+>  #ifndef __HAVE_ARCH_PMDP_TEST_AND_CLEAR_YOUNG
+> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONL=
+EAF_PMD_YOUNG)
+>  static inline int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+>                                             unsigned long address,
+>                                             pmd_t *pmdp)
+> @@ -233,7 +233,7 @@ static inline int pmdp_test_and_clear_young(struct vm=
+_area_struct *vma,
+>         BUILD_BUG();
+>         return 0;
+>  }
+> -#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> +#endif /* CONFIG_TRANSPARENT_HUGEPAGE || CONFIG_ARCH_HAS_NONLEAF_PMD_YOU=
+NG */
+>  #endif
+>
+>  #ifndef __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
+> --
+> 2.35.1.616.g0bdcbb4464-goog
+>
 
-Applied, thanks.
-
-jon
+Thanks
+Barry
