@@ -2,424 +2,356 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 963A1C4167E
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 16:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D33F3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 18:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357505AbiCPQpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 12:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
+        id S236268AbiCPSfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 14:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357503AbiCPQpX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 12:45:23 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D27D2B24E
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 09:44:07 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1nUWkM-0003gW-JO; Wed, 16 Mar 2022 17:43:38 +0100
-Received: from afa by dude.hi.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <afa@pengutronix.de>)
-        id 1nUWkK-007DXK-2G; Wed, 16 Mar 2022 17:43:36 +0100
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     kernel@pengutronix.de, David Gstir <david@sigma-star.at>,
-        Pankaj Gupta <pankaj.gupta@nxp.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v6 4/4] KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
-Date:   Wed, 16 Mar 2022 17:43:35 +0100
-Message-Id: <20220316164335.1720255-5-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220316164335.1720255-1-a.fatoum@pengutronix.de>
-References: <20220316164335.1720255-1-a.fatoum@pengutronix.de>
+        with ESMTP id S1343956AbiCPSfX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 14:35:23 -0400
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C36642D;
+        Wed, 16 Mar 2022 11:34:07 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id j2so6123680ybu.0;
+        Wed, 16 Mar 2022 11:34:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3dM8foIYimRBAabR5hTDbsSnD+w/pDoTg5WTDUXv8WY=;
+        b=2Poxjry9Dh0Ne5pcKKPQ21t0aDu4Qe/WM2ULl7+DUh7j68UdN+dfaOe3m1uZDZ1NHv
+         lCgsqqKY7efw+ohfh5xV56Gv7UOu/oji91m7TF1p1l+e8WZ3RWb/fH8H3uyPC1ljY/zm
+         e+m30tcZ0LJwX0i+/imr89s8RO87Ea+6YsSi/O9dNcIacQiwSquP/0ZPOfvLbAc756Al
+         1x4lX/S9n6F5oxDNmnoPW5w4RsB7p/ek2JYIqoQxAXCJWHGxj48FFeU1C0bySWXj42OD
+         Il+s7dJfmtVu0N3W8aFZ8haPQ9WZFBhCJGxYyNSiyxHhbDsbYKq7WNNzNTvoEi1Zr4Xv
+         iW0g==
+X-Gm-Message-State: AOAM531mAGE2SSep8Zv8Ytx05ZU0JgYW1IqMABacOkDx+8Wts9Sh9m5k
+        nVBvx4WizlMXNLofCKXR1Ds18vuoDJOKGAkba9I=
+X-Google-Smtp-Source: ABdhPJyjOMNlbX3nH93iSMa/Ys58iozydn/tyO8zOvD6uzzg9tGO2DVV2Ddgvx6YCiePGkb36dDh2/ofikgz3UiQbe4=
+X-Received: by 2002:a25:fe10:0:b0:625:262f:e792 with SMTP id
+ k16-20020a25fe10000000b00625262fe792mr1247788ybe.365.1647455646424; Wed, 16
+ Mar 2022 11:34:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20220311221413.714859-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <20220311221413.714859-1-srinivas.pandruvada@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 16 Mar 2022 19:33:55 +0100
+Message-ID: <CAJZ5v0ghGDys3WuBLtW_BSu_P5aRJQJT4VFoRyuEQWvcUPp9mg@mail.gmail.com>
+Subject: Re: [PATCH] documentation: thermal: DPTF Documentation
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-built into many newer i.MX and QorIQ SoCs by NXP.
+On Fri, Mar 11, 2022 at 11:14 PM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> Document Intel Dynamic Platform and Thermal Framework (DPTF)
+> ABI.
+>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> ---
+>  Documentation/driver-api/thermal/index.rst    |   1 +
+>  .../driver-api/thermal/intel_dptf.rst         | 272 ++++++++++++++++++
+>  2 files changed, 273 insertions(+)
+>  create mode 100644 Documentation/driver-api/thermal/intel_dptf.rst
+>
+> diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
+> index 4cb0b9b6bfb8..030306ffa408 100644
+> --- a/Documentation/driver-api/thermal/index.rst
+> +++ b/Documentation/driver-api/thermal/index.rst
+> @@ -17,3 +17,4 @@ Thermal
+>     intel_powerclamp
+>     nouveau_thermal
+>     x86_pkg_temperature_thermal
+> +   intel_dptf
+> diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
+> new file mode 100644
+> index 000000000000..96668dca753a
+> --- /dev/null
+> +++ b/Documentation/driver-api/thermal/intel_dptf.rst
+> @@ -0,0 +1,272 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============================================================
+> +Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
+> +===============================================================
+> +
+> +:Copyright: |copy| 2022 Intel Corporation
+> +
+> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> +
+> +Introduction
+> +------------
+> +
+> +Intel(R) Dynamic Platform and Thermal Framework (DPTF) is a platform
+> +level hardware/software solution for power and thermal management.
+> +
+> +As a container for multiple power/thermal technologies, DPTF provides
+> +a coordinated approach for different policies to effect the hardware
+> +state of a system.
+> +
+> +Since it is a platform level framework, this has several components.
+> +Some parts of the technology is implemented in the firmware and uses
+> +ACPI and PCI devices to expose various features for monitoring and
+> +control. Linux has a set of kernel drivers exposing hardware interface
+> +to user space. This allows user space thermal solutions like
+> +"Linux Thermal Daemon" to read platform specific thermal and power
+> +tables to deliver adequate performance while keeping the system under
+> +thermal limits.
+> +
+> +DPTF ACPI Drivers interface
+> +----------------------------
+> +
+> +:file:`/sys/bus/platform/devices/<N>/uuids`, where <N>
+> +=INT3400|INTC1040|INTC1041|INTC10A0
+> +
+> +``available_uuids`` (RO)
+> +       A set of UUIDs strings presenting available policies
+> +       which should be notified to the firmware when the
+> +       user space can support those policies.
+> +
+> +       UUID strings:
+> +
+> +       "42A441D6-AE6A-462b-A84B-4A8CE79027D3" : Passive 1
+> +
+> +       "3A95C389-E4B8-4629-A526-C52C88626BAE" : Active
+> +
+> +       "97C68AE7-15FA-499c-B8C9-5DA81D606E0A" : Critical
+> +
+> +       "63BE270F-1C11-48FD-A6F7-3AF253FF3E2D" : Adaptive performance
+> +
+> +       "5349962F-71E6-431D-9AE8-0A635B710AEE" : Emergency call
+> +
+> +       "9E04115A-AE87-4D1C-9500-0F3E340BFE75" : Passive 2
+> +
+> +       "F5A35014-C209-46A4-993A-EB56DE7530A1" : Power Boss
+> +
+> +       "6ED722A7-9240-48A5-B479-31EEF723D7CF" : Virtual Sensor
+> +
+> +       "16CAF1B7-DD38-40ED-B1C1-1B8A1913D531" : Cooling mode
+> +
+> +       "BE84BABF-C4D4-403D-B495-3128FD44dAC1" : HDC
+> +
+> +``current_uuid`` (RW)
+> +       User space can write strings from available UUIDs, one at a
+> +       time.
+> +
+> +:file:`/sys/bus/platform/devices/<N>/`, where <N>
+> +=INT3400|INTC1040|INTC1041|INTC10A0
+> +
+> +``imok`` (WO)
+> +       User space daemon write 1 to respond to firmware event
+> +       for sending keep alive notification. User space receives
+> +       THERMAL_EVENT_KEEP_ALIVE kobject uevent notification when
+> +       firmware calls for user space to respond with imok ACPI
+> +       method.
+> +
+> +``odvp*`` (RO)
+> +       Firmware thermal status variable values. Thermal tables
+> +       calls for different processing based on these variable
+> +       values.
+> +
+> +``data_vault`` (RO)
+> +       Binary thermal table. Refer to
+> +       https:/github.com/intel/thermal_daemon for decoding
+> +       thermal table.
+> +
+> +
+> +ACPI Thermal Relationship table interface
+> +------------------------------------------
+> +
+> +:file:`/dev/acpi_thermal_rel`
+> +
+> +       This device provides IOCTL interface to read standard ACPI
+> +       thermal relationship tables via ACPI methods _TRT and _ART.
+> +       These IOCTLs are defined in
+> +       drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> +
+> +       IOCTLs:
+> +
+> +       ACPI_THERMAL_GET_TRT_LEN: Get length of TRT table
+> +
+> +       ACPI_THERMAL_GET_ART_LEN: Get length of ART table
+> +
+> +       ACPI_THERMAL_GET_TRT_COUNT: Number of records in TRT table
+> +
+> +       ACPI_THERMAL_GET_ART_COUNT: Number of records in ART table
+> +
+> +       ACPI_THERMAL_GET_TRT: Read binary TRT table, length to read is
+> +       provided via argument to ioctl().
+> +
+> +       ACPI_THERMAL_GET_ART: Read binary ART table, length to read is
+> +       provided via argument to ioctl().
+> +
+> +DPTF ACPI Sensor drivers
+> +-------------------------
+> +
+> +DPTF Sensor drivers are presented as standard thermal sysfs thermal_zone.
+> +
+> +
+> +DPTF ACPI Cooling drivers
+> +--------------------------
+> +
+> +DPTF cooling drivers are presented as standard thermal sysfs cooling_device.
+> +
+> +
+> +DPTF Processor thermal PCI Driver interface
+> +--------------------------------------------
+> +
+> +:file:`/sys/bus/pci/devices/0000\:00\:04.0/power_limits/`
+> +
+> +Refer to Documentation/power/powercap/powercap.rst for powercap
+> +ABI.
+> +
+> +``power_limit_0_max_uw`` (RO)
+> +       Maximum powercap sysfs constraint_0_power_limit_uw for Intel RAPL
+> +
+> +``power_limit_0_step_uw`` (RO)
+> +       Power limit increment/decrements for Intel RAPL constraint 0 power limit
+> +
+> +``power_limit_0_min_uw`` (RO)
+> +       Minimum powercap sysfs constraint_0_power_limit_uw for Intel RAPL
+> +
+> +``power_limit_0_tmin_us`` (RO)
+> +       Minimum powercap sysfs constraint_0_time_window_us for Intel RAPL
+> +
+> +``power_limit_0_tmax_us`` (RO)
+> +       Maximum powercap sysfs constraint_0_time_window_us for Intel RAPL
+> +
+> +``power_limit_1_max_uw`` (RO)
+> +       Maximum powercap sysfs constraint_1_power_limit_uw for Intel RAPL
+> +
+> +``power_limit_1_step_uw`` (RO)
+> +       Power limit increment/decrements for Intel RAPL constraint 1 power limit
+> +
+> +``power_limit_1_min_uw`` (RO)
+> +       Minimum powercap sysfs constraint_1_power_limit_uw for Intel RAPL
+> +
+> +``power_limit_1_tmin_us`` (RO)
+> +       Minimum powercap sysfs constraint_1_time_window_us for Intel RAPL
+> +
+> +``power_limit_1_tmax_us`` (RO)
+> +       Maximum powercap sysfs constraint_1_time_window_us for Intel RAPL
+> +
+> +:file:`/sys/bus/pci/devices/0000\:00\:04.0/`
+> +
+> +``tcc_offset_degree_celsius`` (RW)
+> +       TCC offset from the critical temperature where hardware will throttle
+> +       CPU.
+> +
+> +:file:`/sys/bus/pci/devices/0000\:00\:04.0/workload_request`
+> +
+> +``workload_available_types`` (RO)
+> +       Available workload types. User space can specify one of the workload type
+> +       it is currently executing via workload_type. For example: idle, bursty,
+> +       sustained etc.
+> +
+> +``workload_type`` (RW)
+> +       User space can specify any one of the available workload type using
+> +       this interface.
+> +
+> +DPTF Processor thermal RFIM interface
+> +--------------------------------------------
+> +
+> +RFIM interface allows adjustment of FIVR (Fully Integrated Voltage Regulator)
+> +and DDR (Double Data Rate)frequencies to avoid RF interference with WiFi and 5G.
+> +
+> +Switching voltage regulators (VR) generate radiated EMI or RFI at the
+> +fundamental frequency and its harmonics. Some harmonics may interfere
+> +with very sensitive wireless receivers such as Wi-Fi and cellular that
+> +are integrated into host systems like notebook PCs.  One of mitigation
+> +methods is requesting SOC integrated VR (IVR) switching frequency to a
+> +small % and shift away the switching noise harmonic interference from
+> +radio channels.  OEM or ODMs can use the driver to control SOC IVR
+> +operation within the range where it does not impact IVR performance.
+> +
+> +DRAM devices of DDR IO interface and their power plane can generate EMI
+> +at the data rates. Similar to IVR control mechanism, Intel offers a
+> +mechanism by which DDR data rates can be changed if several conditions
+> +are met: there is strong RFI interference because of DDR; CPU power
+> +management has no other restriction in changing DDR data rates;
+> +PC ODMs enable this feature (real time DDR RFI Mitigation referred to as
+> +DDR-RFIM) for Wi-Fi from BIOS.
+> +
+> +
+> +FIVR attributes
+> +
+> +:file:`/sys/bus/pci/devices/0000\:00\:04.0/fivr/`
+> +
+> +``vco_ref_code_lo`` (RW)
+> +       The VCO reference code is an 11-bit field and controls the FIVR
+> +       switching frequency. This is the 3-bit LSB field.
+> +
+> +``vco_ref_code_hi`` (RW)
+> +       The VCO reference code is an 11-bit field and controls the FIVR
+> +       switching frequency. This is the 8-bit MSB field.
+> +
+> +``spread_spectrum_pct`` (RW)
+> +       Set the FIVR spread spectrum clocking percentage
+> +
+> +``spread_spectrum_clk_enable`` (RW)
+> +       Enable/disable of the FIVR spread spectrum clocking feature
+> +
+> +``rfi_vco_ref_code`` (RW)
+> +       This field is a read only status register which reflects the
+> +       current FIVR switching frequency
+> +
+> +``fivr_fffc_rev`` (RW)
+> +       This field indicated the revision of the FIVR HW.
+> +
+> +
+> +DVFS attributes
+> +
+> +:file:`/sys/bus/pci/devices/0000\:00\:04.0/dvfs/`
+> +
+> +``rfi_restriction_run_busy`` (RW)
+> +       Request the restriction of specific DDR data rate and set this
+> +       value 1. Self reset to 0 after operation.
+> +
+> +``rfi_restriction_err_code`` (RW)
+> +       0 :Request is accepted, 1:Feature disabled,
+> +       2: the request restricts more points than it is allowed
+> +
+> +``rfi_restriction_data_rate_Delta`` (RW)
+> +       Restricted DDR data rate for RFI protection: Lower Limit
+> +
+> +``rfi_restriction_data_rate_Base`` (RW)
+> +       Restricted DDR data rate for RFI protection: Upper Limit
+> +
+> +``ddr_data_rate_point_0`` (RO)
+> +       DDR data rate selection 1st point
+> +
+> +``ddr_data_rate_point_1`` (RO)
+> +       DDR data rate selection 2nd point
+> +
+> +``ddr_data_rate_point_2`` (RO)
+> +       DDR data rate selection 3rd point
+> +
+> +``ddr_data_rate_point_3`` (RO)
+> +       DDR data rate selection 4th point
+> +
+> +``rfi_disable (RW)``
+> +       Disable DDR rate change feature
+> +
+> +DPTF Power supply and Battery Interface
+> +----------------------------------------
+> +
+> +Refer to Documentation/ABI/testing/sysfs-platform-dptf
+> +
+> +DPTF Fan Control
+> +----------------------------------------
+> +
+> +Refer to Documentation/admin-guide/acpi/fan_performance_states.rst
+> --
 
-The CAAM does crypto acceleration, hardware number generation and
-has a blob mechanism for encapsulation/decapsulation of sensitive material.
-
-This blob mechanism depends on a device specific random 256-bit One Time
-Programmable Master Key that is fused in each SoC at manufacturing
-time. This key is unreadable and can only be used by the CAAM for AES
-encryption/decryption of user data.
-
-This makes it a suitable backend (source) for kernel trusted keys.
-
-Previous commits generalized trusted keys to support multiple backends
-and added an API to access the CAAM blob mechanism. Based on these,
-provide the necessary glue to use the CAAM for trusted keys.
-
-Reviewed-by: David Gstir <david@sigma-star.at>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Tested-By: Tim Harvey <tharvey@gateworks.com>
-Tested-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Tested-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
-v5 -> v6:
-  - Rename caam_trusted_key_ops to trusted_key_caam_ops for symmetry
-    with other trust sources (Pankaj)
-  - collected Pankaj's Reviewed-by
-v4 -> v5:
-  - Collected Reviewed-by's and Tested-by's
-  - Changed modifier to SECURE_KEY for compatibility with linux-imx
-    (Matthias)
-v3 -> v4:
-  - Collected Acked-by's, Reviewed-by's and Tested-by
-v2 -> v3:
- - add MAINTAINERS entry
-v1 -> v2:
- - Extend trusted keys documentation for CAAM
-
-To: Jonathan Corbet <corbet@lwn.net>
-To: David Howells <dhowells@redhat.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-To: James Bottomley <jejb@linux.ibm.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: "Horia Geantă" <horia.geanta@nxp.com>
-Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Biggers <ebiggers@kernel.org>
-Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-Cc: David Gstir <david@sigma-star.at>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>
-Cc: keyrings@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
----
- .../admin-guide/kernel-parameters.txt         |  1 +
- .../security/keys/trusted-encrypted.rst       | 40 +++++++++-
- MAINTAINERS                                   |  9 +++
- include/keys/trusted_caam.h                   | 11 +++
- security/keys/trusted-keys/Kconfig            | 11 ++-
- security/keys/trusted-keys/Makefile           |  2 +
- security/keys/trusted-keys/trusted_caam.c     | 74 +++++++++++++++++++
- security/keys/trusted-keys/trusted_core.c     |  6 +-
- 8 files changed, 151 insertions(+), 3 deletions(-)
- create mode 100644 include/keys/trusted_caam.h
- create mode 100644 security/keys/trusted-keys/trusted_caam.c
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 844c883ca9d8..9e7ef4c6585d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5875,6 +5875,7 @@
- 			sources:
- 			- "tpm"
- 			- "tee"
-+			- "caam"
- 			If not specified then it defaults to iterating through
- 			the trust source list starting with TPM and assigns the
- 			first trust source as a backend which is initialized
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 99cf34d7c025..ed60c48cb692 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -35,6 +35,13 @@ safe.
-          Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
-          fuses and is accessible to TEE only.
- 
-+     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
-+
-+         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
-+         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
-+         randomly generated and fused into each SoC at manufacturing time.
-+         Otherwise, a common fixed test key is used instead.
-+
-   *  Execution isolation
- 
-      (1) TPM
-@@ -46,6 +53,10 @@ safe.
-          Customizable set of operations running in isolated execution
-          environment verified via Secure/Trusted boot process.
- 
-+     (3) CAAM
-+
-+         Fixed set of operations running in isolated execution environment.
-+
-   * Optional binding to platform integrity state
- 
-      (1) TPM
-@@ -63,6 +74,11 @@ safe.
-          Relies on Secure/Trusted boot process for platform integrity. It can
-          be extended with TEE based measured boot process.
- 
-+     (3) CAAM
-+
-+         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
-+         for platform integrity.
-+
-   *  Interfaces and APIs
- 
-      (1) TPM
-@@ -74,10 +90,13 @@ safe.
-          TEEs have well-documented, standardized client interface and APIs. For
-          more details refer to ``Documentation/staging/tee.rst``.
- 
-+     (3) CAAM
-+
-+         Interface is specific to silicon vendor.
- 
-   *  Threat model
- 
--     The strength and appropriateness of a particular TPM or TEE for a given
-+     The strength and appropriateness of a particular trust source for a given
-      purpose must be assessed when using them to protect security-relevant data.
- 
- 
-@@ -104,6 +123,12 @@ selected trust source:
-      from platform specific hardware RNG or a software based Fortuna CSPRNG
-      which can be seeded via multiple entropy sources.
- 
-+  *  CAAM: Kernel RNG
-+
-+     The normal kernel random number generator is used. To seed it from the
-+     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
-+     is probed.
-+
- Users may override this by specifying ``trusted.rng=kernel`` on the kernel
- command-line to override the used RNG with the kernel's random number pool.
- 
-@@ -192,6 +217,19 @@ Usage::
- specific to TEE device implementation.  The key length for new keys is always
- in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
- 
-+Trusted Keys usage: CAAM
-+------------------------
-+
-+Usage::
-+
-+    keyctl add trusted name "new keylen" ring
-+    keyctl add trusted name "load hex_blob" ring
-+    keyctl print keyid
-+
-+"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
-+specific to CAAM device implementation.  The key length for new keys is always
-+in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-+
- Encrypted Keys usage
- --------------------
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 05fd080b82f3..f13382a14967 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10647,6 +10647,15 @@ S:	Supported
- F:	include/keys/trusted_tee.h
- F:	security/keys/trusted-keys/trusted_tee.c
- 
-+KEYS-TRUSTED-CAAM
-+M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-+R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-+L:	linux-integrity@vger.kernel.org
-+L:	keyrings@vger.kernel.org
-+S:	Maintained
-+F:	include/keys/trusted_caam.h
-+F:	security/keys/trusted-keys/trusted_caam.c
-+
- KEYS/KEYRINGS
- M:	David Howells <dhowells@redhat.com>
- M:	Jarkko Sakkinen <jarkko@kernel.org>
-diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
-new file mode 100644
-index 000000000000..73fe2f32f65e
---- /dev/null
-+++ b/include/keys/trusted_caam.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
-+
-+#ifndef __CAAM_TRUSTED_KEY_H
-+#define __CAAM_TRUSTED_KEY_H
-+
-+extern struct trusted_key_ops trusted_key_caam_ops;
-+
-+#endif
-diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
-index fc4abd581abb..dbfdd8536468 100644
---- a/security/keys/trusted-keys/Kconfig
-+++ b/security/keys/trusted-keys/Kconfig
-@@ -24,6 +24,15 @@ config TRUSTED_KEYS_TEE
- 	  Enable use of the Trusted Execution Environment (TEE) as trusted
- 	  key backend.
- 
--if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
-+config TRUSTED_KEYS_CAAM
-+	bool "CAAM-based trusted keys"
-+	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
-+	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
-+	default y
-+	help
-+	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
-+	  (CAAM) as trusted key backend.
-+
-+if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
- comment "No trust source selected!"
- endif
-diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-index 2e2371eae4d5..735aa0bc08ef 100644
---- a/security/keys/trusted-keys/Makefile
-+++ b/security/keys/trusted-keys/Makefile
-@@ -12,3 +12,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) += trusted_tpm2.o
- trusted-$(CONFIG_TRUSTED_KEYS_TPM) += tpm2key.asn1.o
- 
- trusted-$(CONFIG_TRUSTED_KEYS_TEE) += trusted_tee.o
-+
-+trusted-$(CONFIG_TRUSTED_KEYS_CAAM) += trusted_caam.o
-diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-new file mode 100644
-index 000000000000..5457c76c6602
---- /dev/null
-+++ b/security/keys/trusted-keys/trusted_caam.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
-+
-+#include <keys/trusted_caam.h>
-+#include <keys/trusted-type.h>
-+#include <linux/build_bug.h>
-+#include <linux/key-type.h>
-+#include <soc/fsl/caam-blob.h>
-+
-+static struct caam_blob_priv *blobifier;
-+
-+#define KEYMOD "SECURE_KEY"
-+
-+static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
-+static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-+
-+static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-+	int ret;
-+
-+	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
-+	if (ret)
-+		return ret;
-+
-+	p->blob_len = length;
-+	return 0;
-+}
-+
-+static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->blob_len;
-+	int ret;
-+
-+	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
-+	if (ret)
-+		return ret;
-+
-+	p->key_len = length - CAAM_BLOB_OVERHEAD;
-+	return 0;
-+}
-+
-+static int trusted_caam_init(void)
-+{
-+	int ret;
-+
-+	blobifier = caam_blob_gen_init();
-+	if (IS_ERR(blobifier)) {
-+		pr_err("Job Ring Device allocation for transform failed\n");
-+		return PTR_ERR(blobifier);
-+	}
-+
-+	ret = register_key_type(&key_type_trusted);
-+	if (ret)
-+		caam_blob_gen_exit(blobifier);
-+
-+	return ret;
-+}
-+
-+static void trusted_caam_exit(void)
-+{
-+	unregister_key_type(&key_type_trusted);
-+	caam_blob_gen_exit(blobifier);
-+}
-+
-+struct trusted_key_ops trusted_key_caam_ops = {
-+	.migratable = 0, /* non-migratable */
-+	.init = trusted_caam_init,
-+	.seal = trusted_caam_seal,
-+	.unseal = trusted_caam_unseal,
-+	.exit = trusted_caam_exit,
-+};
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index 9235fb7d0ec9..c6fc50d67214 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -9,6 +9,7 @@
- #include <keys/user-type.h>
- #include <keys/trusted-type.h>
- #include <keys/trusted_tee.h>
-+#include <keys/trusted_caam.h>
- #include <keys/trusted_tpm.h>
- #include <linux/capability.h>
- #include <linux/err.h>
-@@ -29,7 +30,7 @@ MODULE_PARM_DESC(rng, "Select trusted key RNG");
- 
- static char *trusted_key_source;
- module_param_named(source, trusted_key_source, charp, 0);
--MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-+MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
- 
- static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TRUSTED_KEYS_TPM)
-@@ -38,6 +39,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TRUSTED_KEYS_TEE)
- 	{ "tee", &trusted_key_tee_ops },
- #endif
-+#if defined(CONFIG_TRUSTED_KEYS_CAAM)
-+	{ "caam", &trusted_key_caam_ops },
-+#endif
- };
- 
- DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
--- 
-2.30.2
-
+Applied as 5.18 material, thanks!
