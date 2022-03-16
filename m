@@ -2,94 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC42C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 00:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8369DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 01:15:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235212AbiCPADn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 20:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56054 "EHLO
+        id S242484AbiCPBQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 21:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344372AbiCPADm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 20:03:42 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628545DA68
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 17:02:29 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id r13so917709ejd.5
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 17:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0ZUG3daTjBSNeQ09LqP7cMF4OOdcfPX1L9Gvauwm3p4=;
-        b=cNgJESNNXO6CVxh1c4d+IFacASUh8b8hgVKzMhf0/q+zag5BY3uZQIOsYYfoyq5v8o
-         IhePtWh0pGptQ8qaIWEZ9Z/zv09alp3AXeFV1V4XZ2OoY8X6MAwlF5HKMjpar3uNPtFm
-         ygSfHnZ8QD0cB6Yj7WRQ3IHzNH/l3OyZSY/3fCDCpwVIfWYy/6jA4VassSG4GsJUrTwo
-         zXqIviTwFJiQf8MjjTwCtIREDtGBO5h4bt40DxwnQmmDI9mV99EdLYSG+eHM4Cv3gicF
-         ZYzHFnrWPAIcDyFPZvWnIybAMgGlcum3r7hvW6j9MY0MFkON9H2SBXz5gtlzGLYN0KbE
-         uGBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0ZUG3daTjBSNeQ09LqP7cMF4OOdcfPX1L9Gvauwm3p4=;
-        b=8M9cEbAGXRb+kKKTGH56i7Ue+5IBaXuOXnJgZRdkfJf/ZWnmZvkXRSlXsshUTnahke
-         s6gYNL62fwigo0vxcnvhEBcL/jROb0vZd+TMCwY1FcVM2CEZnQX8Mh2u4gImaZIKaZkD
-         AUazkJO77aLnjJNSQxDYfHzbGxIVwaZzYt8l8qTHReF/6xWClH1RmsdVxskP00uUg4M7
-         HKrPQj93zsKqevBsIZnntsU8IRnFkhkR0xaXeOZoV+ZFFL6xVt263fkMovj/7/tfFz1b
-         MZQ9BXv+HTUuU57lD2Mj7FLqLndlx06SnaZhq1GyvMDXyYgE398mKMqoMSNmsvgVn9fa
-         99Ew==
-X-Gm-Message-State: AOAM530lzMqvcrYWwYmSD243DQQaleXxt2nsrW+L7UsFAPqifq2RwBLT
-        VoQZIzoMz1mWm7kU6MrV9s48besyw6wrqBRgcuejltNYAMF1eQ==
-X-Google-Smtp-Source: ABdhPJwOS0I4hArhmI83705iboyKEE6Janp7V5RBBNVLVBJ2XiVer4+vbsGzg4VWhvkr9vEvKQ8DOpavrHz0PqdnhEM=
-X-Received: by 2002:a17:907:8692:b0:6da:866c:6355 with SMTP id
- qa18-20020a170907869200b006da866c6355mr25354574ejc.174.1647388947747; Tue, 15
- Mar 2022 17:02:27 -0700 (PDT)
+        with ESMTP id S239951AbiCPBQn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 21:16:43 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475D63C494
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 18:15:30 -0700 (PDT)
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KJC3D6j8DzfZ34;
+        Wed, 16 Mar 2022 09:14:00 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 16 Mar 2022 09:15:28 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 16 Mar 2022 09:15:28 +0800
+Subject: Re: [PATCH v3] docs/zh_CN: Fix typo in process/howto.rst
+To:     Zhou Yuheng <woshoxxx@gmail.com>, <alexs@kernel.org>
+CC:     <linux-doc@vger.kernel.org>
+References: <20220315232428.4982-1-woshoxxx@gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <6c103edc-5831-a4f9-dc33-a6f5962697c5@huawei.com>
+Date:   Wed, 16 Mar 2022 09:15:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-References: <20220315172221.9522-1-bgeffon@google.com> <YjDMo35Q/cvPLkxu@casper.infradead.org>
- <CADyq12yK+qODV2ut1acjwkyXKDbh_YS3MHpRoJaq_g9G1HAyEw@mail.gmail.com> <YjDQj9dr34Jpw3cU@casper.infradead.org>
-In-Reply-To: <YjDQj9dr34Jpw3cU@casper.infradead.org>
-From:   Brian Geffon <bgeffon@google.com>
-Date:   Tue, 15 Mar 2022 20:01:51 -0400
-Message-ID: <CADyq12y32GFr9FmJ2-u1rarozb_JegJPeQB8L9q1E3LZJ20zbQ@mail.gmail.com>
-Subject: Re: [PATCH] zram: Add a huge_idle writeback mode
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220315232428.4982-1-woshoxxx@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 1:44 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Tue, Mar 15, 2022 at 01:34:21PM -0400, Brian Geffon wrote:
-> > On Tue, Mar 15, 2022 at 1:28 PM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Tue, Mar 15, 2022 at 10:22:21AM -0700, Brian Geffon wrote:
-> > > > Today it's only possible to write back as a page, idle, or huge.
-> > > > A user might want to writeback pages which are huge and idle first
-> > > > as these idle pages do not require decompression and make a good
-> > > > first pass for writeback.
-> > >
-> > > We're moving towards having many different sizes of page in play,
-> > > not just PMD and PTE sizes.  Is this patch actually a good idea in
-> > > a case where we have, eg, a 32kB anonymous page on a system with 4kB
-> > > pages?  How should zram handle this case?  What's our cut-off for
-> > > declaring a page to be "huge"?
-> > >
-> >
-> > Huge isn't a great term IMO, but it is what it is. ZRAM_HUGE is used
-> > to identify pages which are incompressible. Since zram is a block
-> > device which presents PAGE_SIZED blocks, do these new changes which
-> > involve many different page sizes matter as that seems orthogonal to
-> > the block subsystem. Correct me if I'm misunderstanding.
->
-> Oh, so ZRAM's concept of huge is not the same as the "huge" in
-> "hugetlbfs" or "THP"?  That's not at all confusing ...
+On 2022/3/16 7:24, Zhou Yuheng wrote:
+> Correct the url of linux-next
+> 
+> Signed-off-by: Zhou Yuheng <woshoxxx@gmail.com>
+> ---
+>  Documentation/translations/zh_CN/process/howto.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+> index 2903d7161..1334cdb32 100644
+> --- a/Documentation/translations/zh_CN/process/howto.rst
+> +++ b/Documentation/translations/zh_CN/process/howto.rst
+> @@ -252,7 +252,7 @@ Linux-next 集成测试树
+>  在将子系统树的更新合并到主线树之前，需要对它们进行集成测试。为此，存在一个
+>  特殊的测试存储库，其中几乎每天都会提取所有子系统树：
+>  
+> -        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
+> +        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+>  
+>  通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
+>  展望。非常欢冒险的测试者运行测试Linux-next。
+> 
 
-I do not disagree, but there isn't much that can be done about it at
-this point given the sysfs file takes an argument called "huge"
+Acked-by: Tang Yizhou <tangyizhou@huawei.com>
+
+Thanks.
