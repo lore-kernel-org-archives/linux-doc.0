@@ -2,231 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B27C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 02:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C43C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 02:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353292AbiCPCsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 22:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43878 "EHLO
+        id S1347552AbiCPCzE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 22:55:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353290AbiCPCsV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 22:48:21 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB22D5C342
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 19:47:08 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id z85so885580vsz.5
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 19:47:08 -0700 (PDT)
+        with ESMTP id S239548AbiCPCzD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 22:55:03 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E3932ED9;
+        Tue, 15 Mar 2022 19:53:50 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id fs4-20020a17090af28400b001bf5624c0aaso1235009pjb.0;
+        Tue, 15 Mar 2022 19:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9s2wPJ81mMPRQ9gKjGVbTISXtogTfVpq/gtC9cJuzqI=;
-        b=GjkKu3nm+a6Q4p6a37fbkiR/KmEel3iC3NfKdwJvpoM0FWLw5mMxfyyFyvjpqO3WV+
-         qe15nqGFGZhMZTwwbTT1xCDFt8DstI9/dekJ2MVxB8IHTMFfvK/hTs4nqp6tWgnJk+Ec
-         Pg3Xr6a27snSa2syPd+B+1d64GVUdLakJT9rMVKmVGW68UBv5n0+CbGH5iek84HNakT7
-         HUiHJBLKDcymtGuKFLlQfLVuQhI1ETC0WyHnV1fbwaMXWAIypfL67nXAg3GTBq70BxY8
-         5jQy6itjw8wfGFkY7dxK/+qhaUCp9UG56Dw+NgWHQ17ZNtUEZ1jU0kS5k4chSaLJlkeI
-         /Oxg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rRuEiZtGwZMqp5hN4A7t0cPi9l0lVAH9LTZF4YhiTuw=;
+        b=GOk1u4Q4xahk+DqeIvZwYQQlKGHRcsmyPgsDWS17jS4qhSE4KS3ir/1sLCddc+twn2
+         RlPYZWAjSObrfUZN1VWARy8RSHPqvvO4/atNoC3h6WkjjqAAfzLZqKzzmdC8NRucdVcK
+         Mfx2Sm10OZnZaMb9f94mZ7vzHXQg7VvAfak2xMmhiVs3LhMwjSnqXmKzYWheSoq65i3+
+         AkWseCES/nF/aoz3e2LpgmcQrTMx9zAkx17x7tzLsgeVv026a929WB7JaeMwBPMCh9/k
+         +4twTDH6vSjiOGzciujN8JG1fmPQKO0F3+eQjP8upyrEe6OzIZoFpoXJ+Do2f6xF8ddC
+         CMmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9s2wPJ81mMPRQ9gKjGVbTISXtogTfVpq/gtC9cJuzqI=;
-        b=GV2O4ql4Q9cBuZUQo2McWlx5YcEpNf3JA+zxML0gOjXdfTW5gThCEMkyTKOVhktugG
-         ju0H9xTiKAtvFp9yS762cS5RN2wANaLwCKOajSQ4z/PgneezUOZjqRDIFy8uhw+emw/S
-         TpIoZuHkARu0F7c6bAKkRj6mO7wtYNzEk6JvkvLyDR0wVPP/OIjmI07PQtYTh/AUfQrZ
-         lrVNqsT08yFkJlRQemevvk9Gla9NDAsvQC7yCqNOiRt9QRhQhDJn91Qs0EyyQh3aqzir
-         tg3cKXwkUqjWOyJXk6wbK+UuS+EWAkBkgsuGqLf3DRpMzzEplLV/pkwd2/4oJzPwPjpq
-         eKNg==
-X-Gm-Message-State: AOAM530XpnDgxxnvHzcYazHFpwIx//QxxAeKxUoQesea/JahtRbvQXhk
-        7tqs6Dcl3c2QD1j6q1KKJ5FO7KuzsrNDcn2KNqkaxg==
-X-Google-Smtp-Source: ABdhPJxsBdO38pIg06nwM5qh96kvoFzpdmkXbs4CTFj0A3FjWJFFn+vBFc6AUWZyc0ubmVIFSY2lyV30JRMUBjpkIhQ=
-X-Received: by 2002:a05:6102:f0c:b0:320:9156:732f with SMTP id
- v12-20020a0561020f0c00b003209156732fmr13091866vss.6.1647398827504; Tue, 15
- Mar 2022 19:47:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rRuEiZtGwZMqp5hN4A7t0cPi9l0lVAH9LTZF4YhiTuw=;
+        b=QQ8QXt3dmATeN/+vDNxESfBdftV/LaNGYR3cYnfN8KS9g7jTkDOOAh3KDukblQuVoh
+         1Z7F+6Qwe/wAfAPmStRhWNgkRnhmYTAANgR26WeWH3rAcFEGDtExFm3HbuP+istOeXFg
+         bkuCyEwGDLWwt6Iuk/V0QlSAzrRRLuTAYt9tKuyl+u7NlUalCj63xZJ7W/FT95VW0xtE
+         Qa1R0A/lSd6LFNZphWyRU0zoOOUpgdg/p3p7eXoTq19y86XXprZyt/r9/znxYzcWU3Ex
+         VX88mJcP8CxfMxf5U/I6DIOPNS07AaQZ4lLRvZu6BlzZTJv/cQOQMzpOUjFuzvFztMXk
+         3s/Q==
+X-Gm-Message-State: AOAM530rSVm2ex2YX8/i3gxdM+T5OdiYLvwm3/KfroykQbEox05SEUqu
+        QY/AqUKZGnYxXwfKnquoXkz9r/DaOzg=
+X-Google-Smtp-Source: ABdhPJwQwyfpyfEKBfsFUH0iOEaO/RQI2ZQaLMkT3S1ZHdOByg9qVB2C+QgPibGi4GDPg8x1rNP4Yg==
+X-Received: by 2002:a17:902:d4cc:b0:153:32a9:2479 with SMTP id o12-20020a170902d4cc00b0015332a92479mr24690809plg.25.1647399229867;
+        Tue, 15 Mar 2022 19:53:49 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:a2d:3f15:4d5c:16dc:7b54:eab4])
+        by smtp.gmail.com with ESMTPSA id l5-20020a056a0016c500b004f768db4c94sm537857pfc.212.2022.03.15.19.53.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Mar 2022 19:53:49 -0700 (PDT)
+From:   Jui-Tse Huang <juitse.huang@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Huaixin Chang <changhuaixin@linux.alibaba.com>,
+        Beata Michalska <beata.michalska@arm.com>,
+        Chun-Hung Tseng <henrybear327@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jui-Tse Huang <juitse.huang@gmail.com>,
+        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Yiwei Lin <s921975628@gmail.com>
+Subject: [PATCH v4] docs/scheduler: Introduce the doc of load average
+Date:   Wed, 16 Mar 2022 10:53:10 +0800
+Message-Id: <20220316025310.13344-1-juitse.huang@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAOUHufbN_56UJBkgA2LjAfbTt9nzPOCHaSeS4P3GHcYst+Y+eg@mail.gmail.com>
- <20220314233812.9011-1-21cnbao@gmail.com> <CAOUHufa9eY44QadfGTzsxa2=hEvqwahXd7Canck5Gt-N6c4UKA@mail.gmail.com>
- <CAGsJ_4zvj5rmz7DkW-kJx+jmUT9G8muLJ9De--NZma9ey0Oavw@mail.gmail.com> <CAGsJ_4zZc0oFSmBKAN77vm7VstQH=ieaQ0cfyvcMi3OQRrEpSg@mail.gmail.com>
-In-Reply-To: <CAGsJ_4zZc0oFSmBKAN77vm7VstQH=ieaQ0cfyvcMi3OQRrEpSg@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 15 Mar 2022 20:46:56 -0600
-Message-ID: <CAOUHufau34de-FmdBxNHpWWUUuN4DxT1fci9aX8Uc+RAfVXwXw@mail.gmail.com>
-Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Brian Geffon <bgeffon@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Donald Carr <d@chaos-reins.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Mel Gorman <mgorman@suse.de>,
-        Michal Hocko <mhocko@kernel.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Huang Ying <ying.huang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 4:29 AM Barry Song <21cnbao@gmail.com> wrote:
+The load average is one of a common as well as easy observed statistic
+provied by Linux, but still not well documented, which makes the numbers
+that users observes from the output of top, htop or other system
+monitoring application are only numbers. This patch gives a discussion
+on how Linux calculates the load average as well as what metrics are
+concerned while calculating the load average.
 
-<snipped>
+The discussion flow is divided into several parts:
+1. The expression used to get the load average.
+2. Why Linux choose such average method from the other.
+2. The meaning of each term in the expression.
+3. The metrics, that is, the type of tasks that will be covered in the
+   calculation.
+4. A brief explanation over the fixed-point nubmer since the weights
+   defined in the Linux kernel are based on it.
 
-> > I guess the main cause of the regression for the previous sequence
-> > with 16 entries is that the ebizzy has a new allocated copy in
-> > search_mem(), which is mapped and used only once in each loop.
-> > and the temp copy can push out those hot chunks.
-> >
-> > Anyway, I understand it is a trade-off between warmly embracing new
-> > pages and holding old pages tightly. Real user cases from phone, server,
-> > desktop will be judging this better.
+Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
+Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+Signed-off-by: Ching-Chun (Jim) Huang <jserv@ccns.ncku.edu.tw>
+Co-Developed-by: Yiwei Lin <s921975628@gmail.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks for all the details. I looked into them today and found no
-regressions when running with your original program.
+---
 
-After I explain why, I hope you'd be convinced that using programs
-like this one is not a good way to measure things :)
+Notes:
+    v4:
+      - Fix typo and grammar error (Randy Dunlap)
+    
+    v3:
+      - Fix typo (Randy Dunlap)
+      - Add further reading that links to Brendan Gregg's blog
+    
+    v2:
+      - Fix typo (Chun-Hung Tseng)
 
-Problems:
-1) Given the 2.5GB configuration and a sequence of cold/hot chunks, I
-assume your program tries to simulate a handful of apps running on a
-phone.  A short repeating sequence is closer to sequential access than
-to real user behaviors, as I suggested last time. You could check out
-how something similar is done here [1].
-2) Under the same assumption (phone), C programs are very different
-from Android apps in terms of runtime memory behaviors, e.g., JVM GC
-[2].
-3) Assuming you are interested in the runtime memory behavior of C/C++
-programs, your program is still not very representative. All C/C++
-programs I'm familiar with choose to link against TCmalloc, jemalloc
-or implement their own allocators. GNU libc, IMO, has a small market
-share nowadays.
-4) TCmalloc/jemalloc are not only optimized for multithreading, they
-are also THP aware. THP is very important when benchmarking page
-reclaim, e.g., two similarly warm THPs can comprise 511+1 or 1+511 of
-warm+cold 4K pages. The LRU algorithm that chooses more of the former
-is at the disadvantage. Unless it's recommended by the applications
-you are trying to benchmark, THP should be disabled. (Android
-generally doesn't use THP.)
-5) Swap devices are also important. Zram should NOT be used unless you
-know your benchmark doesn't generate incompressible data. The LRU
-algorithm that chooses more incompressible pages is at disadvantage.
+ Documentation/scheduler/index.rst        |  1 +
+ Documentation/scheduler/load-average.rst | 82 ++++++++++++++++++++++++
+ 2 files changed, 83 insertions(+)
+ create mode 100644 Documentation/scheduler/load-average.rst
 
-Here is my result: on the same Snapdragon 7c + 2.5GB RAM + 1.5GB
-ramdisk swap, with your original program compiled against libc malloc
-and TCMalloc, to 32-bit and 64-bit binaries:
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 88900aabdbf7..bdc779b4190f 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -17,6 +17,7 @@ Linux Scheduler
+     sched-nice-design
+     sched-rt-group
+     sched-stats
++    load-average
+ 
+     text_files
+ 
+diff --git a/Documentation/scheduler/load-average.rst b/Documentation/scheduler/load-average.rst
+new file mode 100644
+index 000000000000..bdb5567e1e46
+--- /dev/null
++++ b/Documentation/scheduler/load-average.rst
+@@ -0,0 +1,82 @@
++============
++Load Average
++============
++
++The load average, provided by common operating systems, indicates the average
++number of system load over a period of time.  In Linux, it shows the average
++number of tasks running and waiting for CPU time. The following expression is
++used in Linux to update the load average::
++
++                / 0                                      , if t = 0
++    load_{t} = |
++                \ load_{t - 1} * exp + active * (1 - exp), otherwise
++
++The expression represents the exponential moving average of the historical
++loading of the system. There are several reasons that Linux kernel chooses
++exponential moving average from other similar average equations such as simple
++moving average or cumulative moving average:
++
++#. The exponential moving average consumes fixed memory space, while the simple
++   moving average has O(n) space complexity where n is the number of timeslices
++   within a given interval.
++#. The exponential moving average not only applies a higher weight to the most
++   recent record but also declines the weight exponentially, which makes the
++   resulting load average reflect the situation of the current system. Neither
++   the simple moving average nor cumulative moving average has this feature.
++
++In the expression, the load_{t} indicates the calculated load average at the
++given time t.
++The active is the most recent recorded system load. In Linux, the system load
++means the number of tasks in the state of TASK_RUNNING or TASK_UNINTERRUPTIBLE
++of the entire system. Tasks with TASK_UNINTERRUPTIBLE state are usually waiting
++for disk I/O or holding an uninterruptible lock, which is considered as a part
++of system resource, thus, Linux kernel covers them while calculating the load
++average.
++The exp means the weight applied to the previous report of load average, while
++(1 - exp) is the weight applied to the most recently recorded system load.
++There are three different weights defined in the Linux kernel, in
++include/linux/sched/loadavg.h, to perform statistics in various timescales::
++
++    // include/linux/sched/loadavg.h
++    ...
++    #define EXP_1    1884    /* 1/exp(5sec/1min) as fixed-point */
++    #define EXP_5    2014    /* 1/exp(5sec/5min) */
++    #define EXP_15   2037    /* 1/exp(5sec/15min) */
++    ...
++
++According to the expression shown on the top of this page, the weight (exp)
++controls how much of the last load load_{t - 1} will take place in the
++calculation of current load, while (1 - exp) is the weight applied to the most
++recent record of system load active.
++
++Due to the security issue, the weights are defined as fixed-point numbers based
++on the unsigned integer rather than floating-pointing numbers. The introduction
++of the fixed-point number keeps the FPU away from the calculation process. Since
++the precision of the fixed-point used in the Linux kernel is 11 bits, a
++fixed-point can be converted to a floating-point by dividing it by 2048, as in
++the expressions shown below::
++
++    EXP_1  = 1884 / 2048 = 0.919922
++    EXP_5  = 2014 / 2048 = 0.983398
++    EXP_15 = 2037 / 2048 = 0.994629
++
++Which indicates the weights applied to active are::
++
++    (1 - EXP_1)  = (1 - 0.919922) = 0.080078
++    (1 - EXP_5)  = (1 - 0.983398) = 0.016602
++    (1 - EXP_15) = (1 - 0.994629) = 0.005371
++
++The load average will be updated every 5 seconds. Each time the scheduler_tick()
++is called, the function calc_global_load_tick() will also be invoked, which
++makes the active of each CPU core be calculated and be merged globally. Finally,
++the load average will be updated with that global active.
++
++As a user, the load average can be observed via top, htop, or other system
++monitor application, or more directly, by the following command::
++
++    $ cat /proc/loadavg
++
++Further Reading
++---------------
++The explanation and analysis done by Brendan Gregg on `his blog
++<https://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html>`_.
+-- 
+2.25.1
 
-# cat /sys/kernel/mm/lru_gen/enabled
-0x0003
-# cat /sys/kernel/mm/transparent_hugepage/enabled
-always madvise [never]
-
-# modprobe brd rd_nr=1 rd_size=1572864
-# if=/dev/zero of=/dev/ram0 bs=1M
-# mkswap /dev/ram0
-# swapoff -a
-# swapon /dev/ram0
-
-# ldd test_absl_32
-        linux-vdso.so.1 (0xf6e7f000)
-        libabsl_malloc.so.2103.0.1 =>
-/usr/lib/libabsl_malloc.so.2103.0.1 (0xf6e23000)
-        libpthread.so.0 => /lib/libpthread.so.0 (0xf6dff000)
-        libc.so.6 => /lib/libc.so.6 (0xf6d07000)
-        /lib/ld-linux-armhf.so.3 (0x09df0000)
-        libabsl_base.so.2103.0.1 => /usr/lib/libabsl_base.so.2103.0.1
-(0xf6ce5000)
-        libabsl_raw_logging.so.2103.0.1 =>
-/usr/lib/libabsl_raw_logging.so.2103.0.1 (0xf6cc4000)
-        libabsl_spinlock_wait.so.2103.0.1 =>
-/usr/lib/libabsl_spinlock_wait.so.2103.0.1 (0xf6ca3000)
-        libc++.so.1 => /usr/lib/libc++.so.1 (0xf6c04000)
-        libc++abi.so.1 => /usr/lib/libc++abi.so.1 (0xf6bcd000)
-# file test_absl_64
-test_absl_64: ELF 64-bit LSB executable, ARM aarch64, version 1
-(SYSV), statically linked
-# ldd test_gnu_32
-        linux-vdso.so.1 (0xeabef000)
-        libpthread.so.0 => /lib/libpthread.so.0 (0xeab92000)
-        libc.so.6 => /lib/libc.so.6 (0xeaa9a000)
-        /lib/ld-linux-armhf.so.3 (0x05690000)
-# file test_gnu_64
-test_gnu_64: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV),
-statically linked
-
-### baseline 5.17-rc8
-
-# perf record ./test_gnu_64 -t 4 -s $((200*1024*1024)) -S 6000000
-10 records/s
-real 59.00 s
-user 39.83 s
-sys  174.18 s
-
-    18.51%  [.] memcpy
-    15.98%  [k] __pi_clear_page
-     5.59%  [k] rmqueue_pcplist
-     5.19%  [k] do_raw_spin_lock
-     5.09%  [k] memmove
-     4.60%  [k] _raw_spin_unlock_irq
-     3.62%  [k] _raw_spin_unlock_irqrestore
-     3.61%  [k] free_unref_page_list
-     3.29%  [k] zap_pte_range
-     2.53%  [k] local_daif_restore
-     2.50%  [k] down_read_trylock
-     1.41%  [k] handle_mm_fault
-     1.32%  [k] do_anonymous_page
-     1.31%  [k] up_read
-     1.03%  [k] free_swap_cache
-
-### MGLRU v9
-
-# perf record ./test_gnu_64 -t 4 -s $((200*1024*1024)) -S 6000000
-11 records/s
-real 57.00 s
-user 39.39 s
-
-    19.36%  [.] memcpy
-    16.50%  [k] __pi_clear_page
-     6.21%  [k] memmove
-     5.57%  [k] rmqueue_pcplist
-     5.07%  [k] do_raw_spin_lock
-     4.96%  [k] _raw_spin_unlock_irqrestore
-     4.25%  [k] free_unref_page_list
-     3.80%  [k] zap_pte_range
-     3.69%  [k] _raw_spin_unlock_irq
-     2.71%  [k] local_daif_restore
-     2.10%  [k] down_read_trylock
-     1.50%  [k] handle_mm_fault
-     1.29%  [k] do_anonymous_page
-     1.17%  [k] free_swap_cache
-     1.08%  [k] up_read
-
-[1] https://chromium.googlesource.com/chromiumos/platform/tast-tests/+/refs/heads/main/src/chromiumos/tast/local/memory/mempressure/mempressure.go
-[2] https://developer.android.com/topic/performance/memory-overview
