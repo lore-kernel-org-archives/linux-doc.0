@@ -2,139 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B6DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 06:15:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0878FC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 07:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353826AbiCPGQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 02:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46866 "EHLO
+        id S1347069AbiCPHNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 03:13:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237256AbiCPGQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 02:16:22 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489643EF18;
-        Tue, 15 Mar 2022 23:15:07 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KJKcv11V6z1GCNR;
-        Wed, 16 Mar 2022 14:10:07 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 14:15:04 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 14:15:03 +0800
-Subject: Re: [PATCH v21 1/5] kdump: return -ENOENT if required cmdline option
- does not exist
-To:     Baoquan He <bhe@redhat.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
- <20220227030717.1464-2-thunder.leizhen@huawei.com>
- <YjF4IMuMlVDMYOas@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <06dce01e-3587-11c8-3bc1-fa8cf7359176@huawei.com>
-Date:   Wed, 16 Mar 2022 14:15:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S1352982AbiCPHMt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 03:12:49 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB4F5EBC3;
+        Wed, 16 Mar 2022 00:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647414696; x=1678950696;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=r8G3/imUc7OpFrdZEZZ+1wtrkMA8d3Hutb8kBhLqMpU=;
+  b=EuCxIf2VbiGtQKxI/5ZGJKOub0NQ4f/x8lq2s5ok2SfpLQ64h52PHebi
+   0mivPynWLuEs5fyB7XnAT+J2vwQi86+rQ3CIwqlG6aDa3bnIlUYmRDvmB
+   qvzPEdCuOPRiK4n20uGYtZXVUZC1GQTlRt4Ye9BZdKH5SGBUC87eaoA6I
+   1iad3IS+YpdDz2rgulgR/4nnaCkgiXcA9jOdF0GGAdmEqKFmpqBjaKa5J
+   v2iNrtVtyG/5b1wVjTlRSjdpI1JUu/9gx+DMnsl2plLQu9EhBUfoEeYAf
+   9UQN/lNIhVIt8WphkTLXXwoAWnHWFKw6puTjV/ptiIJ+okNd0704mWo2+
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281289015"
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
+   d="scan'208";a="281289015"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 00:11:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
+   d="scan'208";a="646538293"
+Received: from unknown (HELO localhost.localdomain.sh.intel.com) ([10.238.175.107])
+  by orsmga004.jf.intel.com with ESMTP; 16 Mar 2022 00:11:32 -0700
+From:   Tianfei Zhang <tianfei.zhang@intel.com>
+To:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+Cc:     corbet@lwn.net, Tianfei Zhang <tianfei.zhang@intel.com>
+Subject: [PATCH v6 0/6] Add OFS support for DFL driver
+Date:   Wed, 16 Mar 2022 03:08:08 -0400
+Message-Id: <20220316070814.1916017-1-tianfei.zhang@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <YjF4IMuMlVDMYOas@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is v6 patchset adding OFS (Open FPGA Stack) support for
+DFL driver, based on v5.17-rc8. OFS is a collection of RTL
+and open source software providing interface to access the
+instantiated RTL easily in an FPGA. OFS leverages the DFL for
+the implementation of the FPGA RTL design.
 
+Patch 1, allows for ports without local bar space for "multiple VFs per
+PR slot" model.
+Patch 2, uses some lowest bits of flags to track the port status which
+the AFU was connected to port device or not.
+Patch 3, checks the number of released port match the number of
+VFs or not in legacy model.
+Patch 4, configures port access mode for afu connected with port.
+Patch 5, handles dfl's starting with AFU.
+Patch 6, adds architecture description about OFS support for DFL
+in documentation.
 
-On 2022/3/16 13:39, Baoquan He wrote:
-> On 02/27/22 at 11:07am, Zhen Lei wrote:
->> The crashkernel=Y,low is an optional command-line option. When it doesn't
->> exist, kernel will try to allocate minimum required memory below 4G
->> automatically. Give it a unique error code to distinguish it from other
->> error scenarios.
-> 
-> This log is a little confusing. __parse_crashkernel() has three callers. 
->  - parse_crashkernel()
->  - parse_crashkernel_high()
->  - parse_crashkernel_low()
-> 
-> How about tuning the git log as below:
+Changelog v5 -> v6:
+   - fix documentation with Randy's comment.
 
-Sure. Your description is much clearer than mine.
+Changelog v4 -> v5:
+   - fix documentation with Matthew and Randy's comment.
 
-> 
-> ==================
-> According to the current crashkernel=Y,low support in other ARCHes, it's
-> an optional command-line option. When it doesn't exist, kernel will try
-> to allocate minimum required memory below 4G automatically. 
-> 
-> However, __parse_crashkernel() returns '-EINVAL' for all error cases. It
-> can't distinguish the nonexistent option from invalid option. 
-> 
-> Change __parse_crashkernel() to return '-ENOENT' for the nonexistent option
-> case. With this change, crashkernel,low memory will take the default
-> value if crashkernel=,low is not specified; while crashkernel reservation
-> will fail and bail out if an invalid option is specified.
-> ==================
-> 
->>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  kernel/crash_core.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  kernel/crash_core.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
->> index 256cf6db573cd09..4d57c03714f4e13 100644
->> --- a/kernel/crash_core.c
->> +++ b/kernel/crash_core.c
->> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
->>  	*crash_base = 0;
->>  
->>  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
->> -
->>  	if (!ck_cmdline)
->> -		return -EINVAL;
->> +		return -ENOENT;
->>  
->>  	ck_cmdline += strlen(name);
->>  
->> -- 
->> 2.25.1
->>
-> 
-> .
-> 
+Changelog v3 -> v4:
+   - change "features" to "flags" in dfl_fpga_cdev to track the status
+     of port device.
+   - use dfl_fpga_cdev->flags to check if it need configure the port access
+     mode or not.
+   - add description about access the AFU on "multiple VFs per PR slot"
+     model.
+
+Changelog v2 -> v3:
+   - no code change, just change the name from IOFS to OFS.
+
+Changelog v1 -> v2:
+   - Introducing a new member "features" in dfl_fpga_cdev for feature
+     control.
+   - Adding new flag DFL_FEAT_PORT_CONNECTED_AFU for OFS legacy model.
+   - Updates the documentation for the access models about AFU in OFS.
+   - Drop the PCI PID patch and will send it later.
+
+Matthew Gerlach (2):
+  fpga: dfl: Allow ports without local bar space.
+  fpga: dfl: support PF/VF starting with DFH
+
+Tianfei zhang (4):
+  fpga: dfl: tracking port conntected with AFU
+  fpga: dfl: check released_port_num and num_vfs for legacy model
+  fpga: dfl: configure port access mode for afu connected with port
+  Documentation: fpga: dfl: add description of OFS
+
+ Documentation/fpga/dfl.rst | 114 +++++++++++++++++++++++++++++++++++++
+ drivers/fpga/dfl-pci.c     |   9 +++
+ drivers/fpga/dfl.c         |  62 ++++++++++++++------
+ drivers/fpga/dfl.h         |  22 +++++++
+ 4 files changed, 191 insertions(+), 16 deletions(-)
 
 -- 
-Regards,
-  Zhen Lei
+2.26.2
+
