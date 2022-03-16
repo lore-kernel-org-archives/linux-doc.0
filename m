@@ -2,74 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8369DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 01:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B27C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 02:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242484AbiCPBQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Mar 2022 21:16:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
+        id S1353292AbiCPCsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Mar 2022 22:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239951AbiCPBQn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 21:16:43 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475D63C494
-        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 18:15:30 -0700 (PDT)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KJC3D6j8DzfZ34;
-        Wed, 16 Mar 2022 09:14:00 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 09:15:28 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 09:15:28 +0800
-Subject: Re: [PATCH v3] docs/zh_CN: Fix typo in process/howto.rst
-To:     Zhou Yuheng <woshoxxx@gmail.com>, <alexs@kernel.org>
-CC:     <linux-doc@vger.kernel.org>
-References: <20220315232428.4982-1-woshoxxx@gmail.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <6c103edc-5831-a4f9-dc33-a6f5962697c5@huawei.com>
-Date:   Wed, 16 Mar 2022 09:15:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        with ESMTP id S1353290AbiCPCsV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Mar 2022 22:48:21 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB22D5C342
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 19:47:08 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id z85so885580vsz.5
+        for <linux-doc@vger.kernel.org>; Tue, 15 Mar 2022 19:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9s2wPJ81mMPRQ9gKjGVbTISXtogTfVpq/gtC9cJuzqI=;
+        b=GjkKu3nm+a6Q4p6a37fbkiR/KmEel3iC3NfKdwJvpoM0FWLw5mMxfyyFyvjpqO3WV+
+         qe15nqGFGZhMZTwwbTT1xCDFt8DstI9/dekJ2MVxB8IHTMFfvK/hTs4nqp6tWgnJk+Ec
+         Pg3Xr6a27snSa2syPd+B+1d64GVUdLakJT9rMVKmVGW68UBv5n0+CbGH5iek84HNakT7
+         HUiHJBLKDcymtGuKFLlQfLVuQhI1ETC0WyHnV1fbwaMXWAIypfL67nXAg3GTBq70BxY8
+         5jQy6itjw8wfGFkY7dxK/+qhaUCp9UG56Dw+NgWHQ17ZNtUEZ1jU0kS5k4chSaLJlkeI
+         /Oxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9s2wPJ81mMPRQ9gKjGVbTISXtogTfVpq/gtC9cJuzqI=;
+        b=GV2O4ql4Q9cBuZUQo2McWlx5YcEpNf3JA+zxML0gOjXdfTW5gThCEMkyTKOVhktugG
+         ju0H9xTiKAtvFp9yS762cS5RN2wANaLwCKOajSQ4z/PgneezUOZjqRDIFy8uhw+emw/S
+         TpIoZuHkARu0F7c6bAKkRj6mO7wtYNzEk6JvkvLyDR0wVPP/OIjmI07PQtYTh/AUfQrZ
+         lrVNqsT08yFkJlRQemevvk9Gla9NDAsvQC7yCqNOiRt9QRhQhDJn91Qs0EyyQh3aqzir
+         tg3cKXwkUqjWOyJXk6wbK+UuS+EWAkBkgsuGqLf3DRpMzzEplLV/pkwd2/4oJzPwPjpq
+         eKNg==
+X-Gm-Message-State: AOAM530XpnDgxxnvHzcYazHFpwIx//QxxAeKxUoQesea/JahtRbvQXhk
+        7tqs6Dcl3c2QD1j6q1KKJ5FO7KuzsrNDcn2KNqkaxg==
+X-Google-Smtp-Source: ABdhPJxsBdO38pIg06nwM5qh96kvoFzpdmkXbs4CTFj0A3FjWJFFn+vBFc6AUWZyc0ubmVIFSY2lyV30JRMUBjpkIhQ=
+X-Received: by 2002:a05:6102:f0c:b0:320:9156:732f with SMTP id
+ v12-20020a0561020f0c00b003209156732fmr13091866vss.6.1647398827504; Tue, 15
+ Mar 2022 19:47:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220315232428.4982-1-woshoxxx@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+References: <CAOUHufbN_56UJBkgA2LjAfbTt9nzPOCHaSeS4P3GHcYst+Y+eg@mail.gmail.com>
+ <20220314233812.9011-1-21cnbao@gmail.com> <CAOUHufa9eY44QadfGTzsxa2=hEvqwahXd7Canck5Gt-N6c4UKA@mail.gmail.com>
+ <CAGsJ_4zvj5rmz7DkW-kJx+jmUT9G8muLJ9De--NZma9ey0Oavw@mail.gmail.com> <CAGsJ_4zZc0oFSmBKAN77vm7VstQH=ieaQ0cfyvcMi3OQRrEpSg@mail.gmail.com>
+In-Reply-To: <CAGsJ_4zZc0oFSmBKAN77vm7VstQH=ieaQ0cfyvcMi3OQRrEpSg@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 15 Mar 2022 20:46:56 -0600
+Message-ID: <CAOUHufau34de-FmdBxNHpWWUUuN4DxT1fci9aX8Uc+RAfVXwXw@mail.gmail.com>
+Subject: Re: [PATCH v7 04/12] mm: multigenerational LRU: groundwork
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Brian Geffon <bgeffon@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Donald Carr <d@chaos-reins.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Mel Gorman <mgorman@suse.de>,
+        Michal Hocko <mhocko@kernel.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Huang Ying <ying.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/3/16 7:24, Zhou Yuheng wrote:
-> Correct the url of linux-next
-> 
-> Signed-off-by: Zhou Yuheng <woshoxxx@gmail.com>
-> ---
->  Documentation/translations/zh_CN/process/howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-> index 2903d7161..1334cdb32 100644
-> --- a/Documentation/translations/zh_CN/process/howto.rst
-> +++ b/Documentation/translations/zh_CN/process/howto.rst
-> @@ -252,7 +252,7 @@ Linux-next 集成测试树
->  在将子系统树的更新合并到主线树之前，需要对它们进行集成测试。为此，存在一个
->  特殊的测试存储库，其中几乎每天都会提取所有子系统树：
->  
-> -        https://git.kernel.org/？p=linux/kernel/git/next/linux-next.git
-> +        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
->  
->  通过这种方式，Linux-next 对下一个合并阶段将进入主线内核的内容给出了一个概要
->  展望。非常欢冒险的测试者运行测试Linux-next。
-> 
+On Tue, Mar 15, 2022 at 4:29 AM Barry Song <21cnbao@gmail.com> wrote:
 
-Acked-by: Tang Yizhou <tangyizhou@huawei.com>
+<snipped>
 
-Thanks.
+> > I guess the main cause of the regression for the previous sequence
+> > with 16 entries is that the ebizzy has a new allocated copy in
+> > search_mem(), which is mapped and used only once in each loop.
+> > and the temp copy can push out those hot chunks.
+> >
+> > Anyway, I understand it is a trade-off between warmly embracing new
+> > pages and holding old pages tightly. Real user cases from phone, server,
+> > desktop will be judging this better.
+
+Thanks for all the details. I looked into them today and found no
+regressions when running with your original program.
+
+After I explain why, I hope you'd be convinced that using programs
+like this one is not a good way to measure things :)
+
+Problems:
+1) Given the 2.5GB configuration and a sequence of cold/hot chunks, I
+assume your program tries to simulate a handful of apps running on a
+phone.  A short repeating sequence is closer to sequential access than
+to real user behaviors, as I suggested last time. You could check out
+how something similar is done here [1].
+2) Under the same assumption (phone), C programs are very different
+from Android apps in terms of runtime memory behaviors, e.g., JVM GC
+[2].
+3) Assuming you are interested in the runtime memory behavior of C/C++
+programs, your program is still not very representative. All C/C++
+programs I'm familiar with choose to link against TCmalloc, jemalloc
+or implement their own allocators. GNU libc, IMO, has a small market
+share nowadays.
+4) TCmalloc/jemalloc are not only optimized for multithreading, they
+are also THP aware. THP is very important when benchmarking page
+reclaim, e.g., two similarly warm THPs can comprise 511+1 or 1+511 of
+warm+cold 4K pages. The LRU algorithm that chooses more of the former
+is at the disadvantage. Unless it's recommended by the applications
+you are trying to benchmark, THP should be disabled. (Android
+generally doesn't use THP.)
+5) Swap devices are also important. Zram should NOT be used unless you
+know your benchmark doesn't generate incompressible data. The LRU
+algorithm that chooses more incompressible pages is at disadvantage.
+
+Here is my result: on the same Snapdragon 7c + 2.5GB RAM + 1.5GB
+ramdisk swap, with your original program compiled against libc malloc
+and TCMalloc, to 32-bit and 64-bit binaries:
+
+# cat /sys/kernel/mm/lru_gen/enabled
+0x0003
+# cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]
+
+# modprobe brd rd_nr=1 rd_size=1572864
+# if=/dev/zero of=/dev/ram0 bs=1M
+# mkswap /dev/ram0
+# swapoff -a
+# swapon /dev/ram0
+
+# ldd test_absl_32
+        linux-vdso.so.1 (0xf6e7f000)
+        libabsl_malloc.so.2103.0.1 =>
+/usr/lib/libabsl_malloc.so.2103.0.1 (0xf6e23000)
+        libpthread.so.0 => /lib/libpthread.so.0 (0xf6dff000)
+        libc.so.6 => /lib/libc.so.6 (0xf6d07000)
+        /lib/ld-linux-armhf.so.3 (0x09df0000)
+        libabsl_base.so.2103.0.1 => /usr/lib/libabsl_base.so.2103.0.1
+(0xf6ce5000)
+        libabsl_raw_logging.so.2103.0.1 =>
+/usr/lib/libabsl_raw_logging.so.2103.0.1 (0xf6cc4000)
+        libabsl_spinlock_wait.so.2103.0.1 =>
+/usr/lib/libabsl_spinlock_wait.so.2103.0.1 (0xf6ca3000)
+        libc++.so.1 => /usr/lib/libc++.so.1 (0xf6c04000)
+        libc++abi.so.1 => /usr/lib/libc++abi.so.1 (0xf6bcd000)
+# file test_absl_64
+test_absl_64: ELF 64-bit LSB executable, ARM aarch64, version 1
+(SYSV), statically linked
+# ldd test_gnu_32
+        linux-vdso.so.1 (0xeabef000)
+        libpthread.so.0 => /lib/libpthread.so.0 (0xeab92000)
+        libc.so.6 => /lib/libc.so.6 (0xeaa9a000)
+        /lib/ld-linux-armhf.so.3 (0x05690000)
+# file test_gnu_64
+test_gnu_64: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV),
+statically linked
+
+### baseline 5.17-rc8
+
+# perf record ./test_gnu_64 -t 4 -s $((200*1024*1024)) -S 6000000
+10 records/s
+real 59.00 s
+user 39.83 s
+sys  174.18 s
+
+    18.51%  [.] memcpy
+    15.98%  [k] __pi_clear_page
+     5.59%  [k] rmqueue_pcplist
+     5.19%  [k] do_raw_spin_lock
+     5.09%  [k] memmove
+     4.60%  [k] _raw_spin_unlock_irq
+     3.62%  [k] _raw_spin_unlock_irqrestore
+     3.61%  [k] free_unref_page_list
+     3.29%  [k] zap_pte_range
+     2.53%  [k] local_daif_restore
+     2.50%  [k] down_read_trylock
+     1.41%  [k] handle_mm_fault
+     1.32%  [k] do_anonymous_page
+     1.31%  [k] up_read
+     1.03%  [k] free_swap_cache
+
+### MGLRU v9
+
+# perf record ./test_gnu_64 -t 4 -s $((200*1024*1024)) -S 6000000
+11 records/s
+real 57.00 s
+user 39.39 s
+
+    19.36%  [.] memcpy
+    16.50%  [k] __pi_clear_page
+     6.21%  [k] memmove
+     5.57%  [k] rmqueue_pcplist
+     5.07%  [k] do_raw_spin_lock
+     4.96%  [k] _raw_spin_unlock_irqrestore
+     4.25%  [k] free_unref_page_list
+     3.80%  [k] zap_pte_range
+     3.69%  [k] _raw_spin_unlock_irq
+     2.71%  [k] local_daif_restore
+     2.10%  [k] down_read_trylock
+     1.50%  [k] handle_mm_fault
+     1.29%  [k] do_anonymous_page
+     1.17%  [k] free_swap_cache
+     1.08%  [k] up_read
+
+[1] https://chromium.googlesource.com/chromiumos/platform/tast-tests/+/refs/heads/main/src/chromiumos/tast/local/memory/mempressure/mempressure.go
+[2] https://developer.android.com/topic/performance/memory-overview
