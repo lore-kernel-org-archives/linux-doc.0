@@ -2,101 +2,326 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB60C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 07:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC401C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Mar 2022 07:54:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354324AbiCPHul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 03:50:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
+        id S1354360AbiCPH4I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 03:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354319AbiCPHul (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 03:50:41 -0400
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B825B3CC;
-        Wed, 16 Mar 2022 00:49:27 -0700 (PDT)
-Received: by mail-ej1-f42.google.com with SMTP id qx21so2301959ejb.13;
-        Wed, 16 Mar 2022 00:49:27 -0700 (PDT)
+        with ESMTP id S1345747AbiCPH4H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 03:56:07 -0400
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188BF60CEB
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 00:54:53 -0700 (PDT)
+Received: by mail-vs1-xe2c.google.com with SMTP id g21so1364039vsp.6
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 00:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b5gTRuko97eI/fthkcfnm9gayEQtvFpZFqZB8tduF7c=;
+        b=WEe9+Bxpxgg10owxznjLHnSwYsxADD5OwT5rKXFFA++k6khG8td0tx9nt5rmyU+hKE
+         gyqj+Vj4rThPsgWeQqN/nUwF+EhGps1cOTqW8y8kn3HflTz0/RlrfHsoJrXexBqRxRSv
+         4w2LSS6KYHffsXK+CNuyGjSqRUiaCtYTHvkfNn7VhTOzljys9we1ZgXrh83Z+WEQgPtp
+         LzKIRHetzS+NyotLb5RgaeAJJd1KTkWIX3t2A5f5I0PHf4RVEj9ccb7uyFEPm30pJN7t
+         uQqAlWqe7whNwPfU2GEq5GzeaTP6oh3fHKjQRM3PBFASqZ1d5W0d8KeWPlIzlthazodb
+         otgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=tUhUqhCZr3Ci9RwcBawEUsZqc3exEqG+C+hiEi1bt3o=;
-        b=Qdz3pKmqBlQml7ykunNJ/2JZd3cNQv7tHehFkUAPf34XiFOrK/ikMKNpdXu8G/GVS6
-         0Ue/yjavDy5/F7t96PQjwftMdCCZ9Ox161NdP8UQvaUvIOPOrv+eeWAdpRMMhWwVckvv
-         eXUdgGgGv970IJy8V3q7YBrlxFrNr1OHGzW3UItTfUouFZom1PNsM4eygMYGcXG3k2t6
-         2y02UvdiKXwMQdCZA5mEFPZ7PBk6lHzauVpgtlk1E7TvqITAeaSbxBnMoxiF1puw9mbW
-         GuSY0kT8Q9K1RreoBFhDuq0H6Rpn50WWr0rHCQ6kdNhPLUcSR/jWo4NaHJ7566IlpY3P
-         siTg==
-X-Gm-Message-State: AOAM530NbhmDwpkFtUrkha0QJsuoWXoCgy5E4OOrTXjhUHz+HbdaI1lh
-        0qUS4i9QmPUWo/GPsYGKYyhAhzIjjL0=
-X-Google-Smtp-Source: ABdhPJyomDpckdtCRwpmmD3AhOt4xIymEoU15tK2Y1+NiAVFCV2W9tXei0gENoMkOVoEhK47YRiRsw==
-X-Received: by 2002:a17:907:1c10:b0:6da:6316:d009 with SMTP id nc16-20020a1709071c1000b006da6316d009mr25815337ejc.621.1647416965904;
-        Wed, 16 Mar 2022 00:49:25 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
-        by smtp.gmail.com with ESMTPSA id y20-20020a056402271400b004187d967b1asm564659edd.84.2022.03.16.00.49.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Mar 2022 00:49:25 -0700 (PDT)
-Message-ID: <af1c7dd1-d86d-d737-643e-1f20a19c3890@kernel.org>
-Date:   Wed, 16 Mar 2022 08:49:24 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b5gTRuko97eI/fthkcfnm9gayEQtvFpZFqZB8tduF7c=;
+        b=Bhxhy/Zzia7WLLTkNfkFzWpl0Wxl9SJDNPz3koL1ChjRbqFT7tr4/+bAZIyzGhmUEM
+         DHkLeijXeFMe9P6sGjEa710SVGcTzMHZLj4J+9QAqj1k5rNUvj1vQui9NNADykLbt2TT
+         eGlmze1tfZx61OpLg8gUDH6+TUROdy5aLiUVhh21VxchSDHIJaGSmEjoP0LPOw7WAzJe
+         gHpd/+keZNM9I+KjFBquK7ZL9X9bbl7Khhyd0r1EtvcPsTl9aM+xZTQUxSLGhCvfrVCW
+         Hfyzka6kUxH+bhENOlUdLnZs9NOGPPuu028dxmqr87p/m856pjbMYpb3o55f7RHKRSBi
+         Cl+A==
+X-Gm-Message-State: AOAM530Q1RQEYwar4FzHKzFIfB+74y0IctDGied6FpsaeDSWS7y7KdBW
+        OqdpFdzgiGOyKy+B+Pc3lo/FtPXH9RDmcs3pcKj62g==
+X-Google-Smtp-Source: ABdhPJwGuAArwozEUZv8gKaGEUnT0xpDpZgIxvxFfayV12kU/WqsaR4Ko1uznCEbu2B6kiUcO73yy/9VP99wOuSBNVI=
+X-Received: by 2002:a05:6102:f0c:b0:320:9156:732f with SMTP id
+ v12-20020a0561020f0c00b003209156732fmr13355818vss.6.1647417291993; Wed, 16
+ Mar 2022 00:54:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] docs: serial: fix a reference file name in driver.rst
-Content-Language: en-US
-From:   Jiri Slaby <jirislaby@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Wan Jiabing <wanjiabing@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kael_w@qq.com
-References: <20220304100315.6732-1-wanjiabing@vivo.com>
- <f48dcaba-8015-380f-ac3b-54818c48350d@kernel.org>
- <87mthw2o93.fsf@meer.lwn.net> <YixE4K3ScGL3v5yQ@kroah.com>
- <eee93a4c-2629-af0f-03b3-4379a128c7dd@kernel.org>
-In-Reply-To: <eee93a4c-2629-af0f-03b3-4379a128c7dd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
+ <87wnguwif3.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87wnguwif3.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 16 Mar 2022 01:54:41 -0600
+Message-ID: <CAOUHufYBPSx8W5oP=Rf2Sa9QoMhUbEyiF-heR9SuQhcVp+42Rw@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14. 03. 22, 7:16, Jiri Slaby wrote:
-> On 12. 03. 22, 7:59, Greg Kroah-Hartman wrote:
->> On Fri, Mar 11, 2022 at 02:06:00PM -0700, Jonathan Corbet wrote:
->>> Jiri Slaby <jirislaby@kernel.org> writes:
->>>
->>>> On 04. 03. 22, 11:03, Wan Jiabing wrote:
->>>>> Fix the following 'make refcheckdocs' warning:
->>>>> Warning: Documentation/driver-api/serial/driver.rst references a file
->>>>> that doesn't exist: Documentation/driver-api/serial/tty.rst
->>>>>
->>>>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
->>>>
->>>> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
->>>
->>> I've applied this.  But I have to wonder why Documentation/tty exists at
->>> all; is there any reason not to move it all under driver-api?
->>
->> No reason at all, it should probably be moved someday.
-> 
-> The only reason was that I don't completely understand what "driver-api" 
-> should contain. To be presice, documentation of line disciplines, tty 
-> buffer and tty internals (which is all contained in Documentation/tty) 
-> doesn't belong to "driver-api" IMO. If it it preferred to be there, I 
-> can move it, of course.
+On Tue, Mar 15, 2022 at 11:55 PM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Hi, Yu,
+>
+> Yu Zhao <yuzhao@google.com> writes:
+>
+> [snip]
+>
+> >
+> > +static int get_swappiness(struct lruvec *lruvec, struct scan_control *sc)
+> > +{
+> > +     struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > +     struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+> > +
+> > +     if (!can_demote(pgdat->node_id, sc) &&
+> > +         mem_cgroup_get_nr_swap_pages(memcg) < MIN_LRU_BATCH)
+> > +             return 0;
+> > +
+> > +     return mem_cgroup_swappiness(memcg);
+> > +}
+> > +
+>
+> We have tested v9 for memory tiering system, the demotion works now even
+> without swap devices configured.  Thanks!
 
-Returning to this: staring into Documentation/index.rst and 
-Documentation/driver-api/index.rst. Looking at documents/paths they 
-reference, I still don't quite understand what is the rule to put the 
-stuff to either of them.
+Admittedly I didn't test it :) So thanks for testing -- I'm glad to
+hear it didn't fall apart.
 
-What I used to decide to put the tty stuff to the root is that it's not 
-only driver-api documented there. It documents also tty internals and 
-implementation of some line disciplines.
+> And we found that the demotion (page reclaiming on DRAM nodes) speed is
+> lower than the original implementation.
 
-So, now I'm confused why it does NOT belong to the root.
+This sounds like an improvement to me, assuming the initial hot/cold
+memory placements were similar for both the baseline and MGLRU.
 
-thanks,
--- 
-js
-suse labs
+Correct me if I'm wrong: since demotion is driven by promotion, lower
+demotion speed means hot and cold pages were sorted out to DRAM and
+AEP at a faster speed, hence an improvement.
+
+# promotion path:
+numa_hint_faults    498301236
+numa_pages_migrated 152650705
+
+numa_hint_faults    494583387
+numa_pages_migrated 34165992
+
+# demotion path:
+pgsteal_anon 153798203
+pgsteal_file 33
+
+pgsteal_anon 32701576
+pgsteal_file 33
+
+The hint faults are similar but MGLRU has much fewer migrated -- my
+guess is it demoted much fewer hot/warm pages and therefore led to
+less work on the promotion path.
+
+>  The workload itself is just a
+> memory accessing micro-benchmark with Gauss distribution.  It is run on
+> a system with DRAM and PMEM.  Initially, quite some hot pages are placed
+> in PMEM and quite some cold pages are placed in DRAM.  Then the page
+> placement optimizing mechanism based on NUMA balancing will try to
+> promote some hot pages from PMEM node to DRAM node.
+
+My understanding seems to be correct?
+
+>  If the DRAM node
+> near full (reach high watermark), kswapd of the DRAM node will be woke
+> up to demote (reclaim) some cold DRAM pages to PMEM.  Because quite some
+> pages on DRAM is very cold (not accessed for at least several seconds),
+> the benchmark performance will be better if demotion speed is faster.
+
+I'm confused. It seems to me demotion speed is irrelevant. The time to
+reach the equilibrium is what we want to measure.
+
+> Some data comes from /proc/vmstat and perf-profile is as follows.
+>
+> From /proc/vmstat, it seems that the page scanned and page demoted is
+> much less with MGLRU enabled.  The pgdemote_kswapd / pgscan_kswapd is
+> 5.22 times higher with MGLRU enabled than that with MGLRU disabled.  I
+> think this shows the value of direct page table scanning.
+
+Can't disagree :)
+
+> From perf-profile, the CPU cycles for kswapd is same.  But less pages
+> are demoted (reclaimed) with MGLRU.  And it appears that the total page
+> table scanning time of MGLRU is longer if we compare walk_page_range
+> (1.97%, MGLRU enabled) and page_referenced (0.54%, MGLRU disabled)?
+
+It's possible if the address space is very large and sparse. But once
+MGLRU warms up, it should detect it and fall back to
+page_referenced().
+
+> Because we only demote (reclaim) from DRAM nodes, but not demote
+> (reclaim) from PMEM nodes and bloom filter doesn't work well enough?
+
+The bloom filters are per lruvec. So this should affect them.
+
+> One thing that may be not friendly for bloom filter is that some virtual
+> pages may change their resident nodes because of demotion/promotion.
+
+Yes, it's possible.
+
+> Can you teach me to how interpret these data for MGLRU?  Or can you
+> point me to the other/better data for MGLRU?
+
+You are the expert :)
+
+My current understanding is that this is an improvement. IOW, with
+MGLRU, DRAM (hot) <-> AEP (cold) reached equilibrium a lot faster.
+
+
+> MGLRU disabled via: echo -n 0 > /sys/kernel/mm/lru_gen/enabled
+> --------------------------------------------------------------
+>
+> /proc/vmstat:
+>
+> pgactivate 1767172340
+> pgdeactivate 1740111896
+> pglazyfree 0
+> pgfault 583875828
+> pgmajfault 0
+> pglazyfreed 0
+> pgrefill 1740111896
+> pgreuse 22626572
+> pgsteal_kswapd 153796237
+> pgsteal_direct 1999
+> pgdemote_kswapd 153796237
+> pgdemote_direct 1999
+> pgscan_kswapd 2055504891
+> pgscan_direct 1999
+> pgscan_direct_throttle 0
+> pgscan_anon 2055356614
+> pgscan_file 150276
+> pgsteal_anon 153798203
+> pgsteal_file 33
+> zone_reclaim_failed 0
+> pginodesteal 0
+> slabs_scanned 82761
+> kswapd_inodesteal 0
+> kswapd_low_wmark_hit_quickly 2960
+> kswapd_high_wmark_hit_quickly 17732
+> pageoutrun 21583
+> pgrotated 0
+> drop_pagecache 0
+> drop_slab 0
+> oom_kill 0
+> numa_pte_updates 515994024
+> numa_huge_pte_updates 154
+> numa_hint_faults 498301236
+> numa_hint_faults_local 121109067
+> numa_pages_migrated 152650705
+> pgmigrate_success 307213704
+> pgmigrate_fail 39
+> thp_migration_success 93
+> thp_migration_fail 0
+> thp_migration_split 0
+>
+> perf-profile:
+>
+> kswapd.kthread.ret_from_fork: 2.86
+> balance_pgdat.kswapd.kthread.ret_from_fork: 2.86
+> shrink_node.balance_pgdat.kswapd.kthread.ret_from_fork: 2.85
+> shrink_lruvec.shrink_node.balance_pgdat.kswapd.kthread: 2.76
+> shrink_inactive_list.shrink_lruvec.shrink_node.balance_pgdat.kswapd: 1.9
+> shrink_page_list.shrink_inactive_list.shrink_lruvec.shrink_node.balance_pgdat: 1.52
+> shrink_active_list.shrink_lruvec.shrink_node.balance_pgdat.kswapd: 0.85
+> migrate_pages.shrink_page_list.shrink_inactive_list.shrink_lruvec.shrink_node: 0.79
+> page_referenced.shrink_page_list.shrink_inactive_list.shrink_lruvec.shrink_node: 0.54
+>
+>
+> MGLRU enabled via: echo -n 7 > /sys/kernel/mm/lru_gen/enabled
+> -------------------------------------------------------------
+>
+> /proc/vmstat:
+>
+> pgactivate 47212585
+> pgdeactivate 0
+> pglazyfree 0
+> pgfault 580056521
+> pgmajfault 0
+> pglazyfreed 0
+> pgrefill 6911868880
+> pgreuse 25108929
+> pgsteal_kswapd 32701609
+> pgsteal_direct 0
+> pgdemote_kswapd 32701609
+> pgdemote_direct 0
+> pgscan_kswapd 83582770
+> pgscan_direct 0
+> pgscan_direct_throttle 0
+> pgscan_anon 83549777
+> pgscan_file 32993
+> pgsteal_anon 32701576
+> pgsteal_file 33
+> zone_reclaim_failed 0
+> pginodesteal 0
+> slabs_scanned 84829
+> kswapd_inodesteal 0
+> kswapd_low_wmark_hit_quickly 313
+> kswapd_high_wmark_hit_quickly 5262
+> pageoutrun 5895
+> pgrotated 0
+> drop_pagecache 0
+> drop_slab 0
+> oom_kill 0
+> numa_pte_updates 512084786
+> numa_huge_pte_updates 198
+> numa_hint_faults 494583387
+> numa_hint_faults_local 129411334
+> numa_pages_migrated 34165992
+> pgmigrate_success 67833977
+> pgmigrate_fail 7
+> thp_migration_success 135
+> thp_migration_fail 0
+> thp_migration_split 0
+>
+> perf-profile:
+>
+> kswapd.kthread.ret_from_fork: 2.86
+> balance_pgdat.kswapd.kthread.ret_from_fork: 2.86
+> lru_gen_age_node.balance_pgdat.kswapd.kthread.ret_from_fork: 1.97
+> walk_page_range.try_to_inc_max_seq.lru_gen_age_node.balance_pgdat.kswapd: 1.97
+> shrink_node.balance_pgdat.kswapd.kthread.ret_from_fork: 0.89
+> evict_folios.lru_gen_shrink_lruvec.shrink_lruvec.shrink_node.balance_pgdat: 0.89
+> scan_folios.evict_folios.lru_gen_shrink_lruvec.shrink_lruvec.shrink_node: 0.66
+>
+> Best Regards,
+> Huang, Ying
+>
+> [snip]
+>
