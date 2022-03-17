@@ -2,135 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9510C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 19:41:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B93C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 21:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbiCQTmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 15:42:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
+        id S230287AbiCQVdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 17:33:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiCQTmy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 15:42:54 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C55D2359C3;
-        Thu, 17 Mar 2022 12:41:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCTRwy1W3LuRKGt97a9dIJst07SnrMG5rwjBHpeYUA2WmXnebuALJCXkiHGtwk2yC39NU4Cr71QE8ziPV7eLB7BeFSQtECXiJCnLgZFz8KLL6TJdrIuLtLPcoSuN8kv0aajZoic6QiLGZvhTwhdgIxPK/OHv3oTT3j3qLzyJBXE64Ds9/ZnXYT0JlWBWWPBhtZphlGA5ERJcW0uFEUb6SA/DLP9eLFscuNCRer6Wq4GJhmuBNuBxdTxixHOkuMtZVG41IAwCDMr/dwiNJKPqiQYBOPeePeqpmJCqGNd3SQguPE8CT9i8BIdsF59C3PZlk9eyASv9RliKL0Q556o50Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BoI8sNH3TpdUr8tYBodRZdHIxG7/m/iQLMpnONnADoY=;
- b=F6ovW5A4tuyAJWC4eoDuOIErohrUmJ4WzN2VmGqoS14oAf+exDtfjM8+Q3Ze5rGyBjaICU0MyHDt92PflxOhfpE7Zs8qlS8Os+2jnba99l5xS6tYpJNBlc5R19yhwFsFVii5sbvNniWrs/rBuoz9VHDb5AcTnmaYwt5Wc5nGI88naOWlDJZRXfmwaFQXU8mS3tTZEootZ5icz5nVchqyznNfOq2uhyA/RtLCtYe3dP8f0YairAe4Jt4J3QIWqxAUwxU8wZI61o+PEfos6ElC3iaT1Vh8WyO89LpdHKLWCeT3HlrsWQ5U7qoteq/2qZz6zNBwtHbCXSCjScvTdWkziQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BoI8sNH3TpdUr8tYBodRZdHIxG7/m/iQLMpnONnADoY=;
- b=KmlTmiIQdJ8lKK9mm/kOkdgutbKuuiyDrJa2VxZsgIlCH3zQQNzhuoBbYOnz/EWWkOrB8CS84IKqls4Oro9ka8EuehlAFukb3AldnJQvt+PflYKOdzseA7j2vGiv321whB4ulyITyvbMcpFNM+92gNezRXegzgpigABaSmB9lYXaTtkFzlqFm1ISiDwhwEb9/kOeQ+ycqEQo2rQsKLSiXTa7AMnT/h3ooVClCIUvpkQ/3RH7Xh74i7AZCQCdd4aVSIbw+WB7yrf4B/z7Uc5Ew8wz1up1VqD/IC/x93Xtwdv0nlr9DQIjGqjU/yPca4rvJqxqD5km3OALoxJFScXRsQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by SA0PR12MB4384.namprd12.prod.outlook.com (2603:10b6:806:9f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Thu, 17 Mar
- 2022 19:41:35 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::11a0:970a:4c24:c70c]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::11a0:970a:4c24:c70c%5]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
- 19:41:35 +0000
-Date:   Thu, 17 Mar 2022 16:41:33 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, shameerali.kolothum.thodi@huawei.com,
-        kevin.tian@intel.com, yishaih@nvidia.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v3] vfio-pci: Provide reviewers and acceptance criteria
- for vendor drivers
-Message-ID: <20220317194133.GE11336@nvidia.com>
-References: <164728932975.54581.1235687116658126625.stgit@omen>
- <87a6drh8hy.fsf@redhat.com>
- <20220315155304.GC11336@nvidia.com>
- <20220315102200.15a86b16.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220315102200.15a86b16.alex.williamson@redhat.com>
-X-ClientProxiedBy: BL1P221CA0015.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:2c5::34) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S230195AbiCQVdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 17:33:22 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB4331A8C2B
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 14:32:03 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id d10so13354368eje.10
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 14:32:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qd/QzJroXqS76+vpGYR32s8ZS/L6ajxFmNzuyLr4spE=;
+        b=SNT6l8pmb5pFsrqYmvLpPI/3ZKsi7wR83fXrEqcnFeeUXRxfmvozk6F5QOLZ9vy/Tp
+         cOzpMNpimxIruZ//9FwUlZsqOJzHXIf7cwW6zjMBpkeSF1Xka5Z93J9Iwr3TtbUaKyjq
+         VEKw02nl5xUI/Za71AOlfDMXN0H7h5ks7WdgPujnp5PYpjnwbzzKceAR/tEjDzFEI54z
+         TNNTjkqLSR9Z9VJ8DY+sxaI4o6Ut567U3VMk6VHL9/yyYG9RU3J/8nbVjQ6/lLH9Qrm4
+         4RkkcKOUE2DNa8gjLL0V6ONfKewve0+38rxi4+tCpIE2vD41h+HyA6yHSsflfKRbnkFK
+         vsqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qd/QzJroXqS76+vpGYR32s8ZS/L6ajxFmNzuyLr4spE=;
+        b=RSua9V1Arzv63gGSmFNb5bwClGCVcvsiUlmFzxt05SnXu44qwe8PTicyiTnfQzH+8U
+         iP6kELhGHCk1CdSKsTnP+F2maoZOZuriVJz0sBLoIqVJaz7DlTP9romZRMxvbwrDE7Gh
+         tv0R7dnTW1mFLBg1kR9eH8VPzcYzMJuv6HJnQ7x9zGEw5nwff92x5uQfEtQML3RHH41y
+         wQxG/5a/ktSeUuXkEu2hLAGGsiUrF+5CjTHcRofxpvRZH75PW1O8NkL8Dk6Ob029fa6j
+         KeZB8YAwI5RfjsR2wJbn6hfEYt4UJPbtPElu0zA25Fbj9xBchAdfB+YUrLCdtNeTsCV3
+         Eagg==
+X-Gm-Message-State: AOAM532t/skjjPUd9+N6QQmBjRynsiuCz0XN4CLC5JyNoQ7wZZ9446B9
+        6IOM0emdBCRQMdV+P5ETkyEXFZ3BIEPvUxm5hOi4
+X-Google-Smtp-Source: ABdhPJxKiPHpnNQuOXjMk22qXkfCq7IIUqiUBCrX2aFtCf5Iu8Dj8BXOZ5EU1cEya3DvG41VZWdOzUEB7Yp0ZudJb2I=
+X-Received: by 2002:a17:907:7202:b0:6df:83a9:67d2 with SMTP id
+ dr2-20020a170907720200b006df83a967d2mr6248163ejc.327.1647552722265; Thu, 17
+ Mar 2022 14:32:02 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1b5a1efc-72c0-4487-97fe-08da084e24ed
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4384:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4384FAC3528C7349D8A91C08C2129@SA0PR12MB4384.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L4PfJXvzU9uHseNphPfz0wWCfPgv6spdy5zjQ8cGRw1+CyVsvtvpP8HO2jH6e+3oas+mYASosMYCFwKpvjH9aTtodf1xcIOlD7+AFVkNqc4dzwQ23U9L7WxP4S9TWnGOlYoTpaZKNPikzvcozr0b3Lu1sKBD7A81tAW5luORj4xu+uZ9PnhUTm5Fc46SZLgfMgmcnFuYTqFMGRHp4n3zeb1YRWSVR3teBxw2eNr104FHPHhrgdRhMnHjiW3pPTJ0uz5ic+ZMf5ABqhDfFCoJljOjKcu3xrawZQ+LYKCNmwnjgg48pTq3ijpH8MJwqJ5fvyNy2tBVFfDTX3PN+JsJxG84q7mAvP/XnFDacud1g4GA006yj3aZlQLPvHD7J59dDZUf2lKAUlIWpp/5ZG4qA8zUvn+ERSZHvT0xKjzoxQ7boqj2b3ID9OZ2+9To2jY8Ca96Z84nw9LKIYXHqWfzm4Ovvm+ug134+0avFWwvb+g3ZhKE+udkz0Dl/kMS7XVebeyCrVwzK39wgQnP5ITJ8kKPYqqp4oea3319rxUXn9rHUypxJJDeCDH2v6uVcidEaOCHFZpUxBTys3N/m1Fvr4aD27BaZ3Iy1XGb0eq9BrOxHKb3LNxHJN54xUB6BTkHllrUFddJ9kgPyriy6IvHww==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(8676002)(66476007)(86362001)(316002)(66556008)(6916009)(508600001)(6486002)(6512007)(6506007)(186003)(1076003)(26005)(2616005)(38100700002)(5660300002)(33656002)(8936002)(36756003)(4744005)(2906002)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A7KJelQ9J3YkPI93/HqA5TfxKlGnmdCxapFSPNA/KY2fn9Eu8A/fGlkNYk1v?=
- =?us-ascii?Q?bgfkSx4apD7S/IpRmCzxnaQZRehYMjXf44yL7/kK9HGMsoktG1l4nVQAKpcX?=
- =?us-ascii?Q?au15YbcD/IaHZ/FSlr7V3toBf4Oi5tk23D94WsuTmJ84CUwlADvoVmP80QVB?=
- =?us-ascii?Q?zIokbAvHJ6Fm+QJHjpgCL5nKtk0QPSvD8ma7LjalJ2r4VIGKblkqPwwgxj+j?=
- =?us-ascii?Q?1FUzWe2i7MMSu7GxxLmjnmaxPuOWJITX5qZ+3r+Vy8IQMjJXIhv8WKY1DXuE?=
- =?us-ascii?Q?GpNJVs6N1mVECYu5xaUvzVsGLpzHmHH3mznN/uBicEWRHySj7H+O2UCjKYwR?=
- =?us-ascii?Q?kxdrctxnUvtm2cYZJoUgiMp3yI499NNm39ugHlwj5x89DjdcQhirFPgChcQs?=
- =?us-ascii?Q?ilj6Vv6HXHBfpTOmXOPDn0KhTVxUkMhI0+ZcdXiwJOpafC0WNpWTkxbelwQD?=
- =?us-ascii?Q?xFDTvDs1duxX3q0miuem1CC6F0pNy8Pifu8KPJ97cdWC0RbSkVa3Flrwrc76?=
- =?us-ascii?Q?X3a/q/iHBSOim2aWoSmQ+O1rloCRoHrYAwyraj/KvSRKqno8y8N8LxAKcN4M?=
- =?us-ascii?Q?dKJFeOw6ThzlsDHwjvDUWWgk7TxZ160X0p0V3r5ejP6Q8BY6Rnxb/6T+rF9N?=
- =?us-ascii?Q?j4T890wXuvtrGKWGzIxfDNWe8ns1fy9Kl2Sab/2HajNflvhJ4qFilEgcqyQU?=
- =?us-ascii?Q?9FOEZ3MSb43A/wzyXloxvTW3Kf4THvw2bP+rVEGH0ZiWGRjRAsqQgOAkG0QF?=
- =?us-ascii?Q?Hhqy4anl330IZHzsut5U9SqScIFQTx8Y2JV/0dJdHichLmM4bgtrXVnN9wa7?=
- =?us-ascii?Q?GYz+Bu2Mader+StTp4VwGYnpmbaR0xZLsHw3F5QXx+bOjgJQVhZrQm7FYrJt?=
- =?us-ascii?Q?lFwqOuJQ1A29j1lO9JC9oj61TgWIOiCA5QSPDC9Dr5Jrd6jVWNdXKUtIZUWo?=
- =?us-ascii?Q?zungvoDcgZ9fhhyJ09v18ttA+zbLDg/Rut1B0s2wo6q9r7lzQkH2KeGE56al?=
- =?us-ascii?Q?d0G95CF+a3mS9ebuJJKMGDb/CIbNCMqspf7of5/c/7nHkoZSSgrNmm2NCFV/?=
- =?us-ascii?Q?JELxTh+rQfkJMGOu0OvnUVuXhZV9uwTf9nmyRLoWibvL8NL3CA3KowJu4gKD?=
- =?us-ascii?Q?28mtZUIZZXN94jsM/5TRLNq/SxQdFIWNEuv5wmjnWGdP1aqMLAYVZjcqNcvI?=
- =?us-ascii?Q?HHwXjkSE8NABlCb4sx65R1kzbgf2Wjhegs8X3DE2v55MEbBTVOwc/8NGlckM?=
- =?us-ascii?Q?wcVd44y7FWDXK2tjJX4chqY63Cu4JZeiUCRNnfuBHCgElGhOVqNLWNUlBsOH?=
- =?us-ascii?Q?oSo7aesTOeZm+E7/0OYdVuRmUXv7kuNgGG1J92Rj/juumzPibva+O82xVOiU?=
- =?us-ascii?Q?t4mi6UxB6qDz/HTbFJC2elyfmmhL8d3jk7V46DHXa3tIH19+sfFzmFLJUyk4?=
- =?us-ascii?Q?OEx+kbyzgXbWDD5fTPAL3YVPk+Q185g2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b5a1efc-72c0-4487-97fe-08da084e24ed
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 19:41:35.1512
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mJCHGRsxepuEIhiixIBbhuNjxShQ03B0q06Yo0Cu2WZ3kxnxQmTqA6Ulo2SKEo8N
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4384
+References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-2-mic@digikod.net>
+ <CAHC9VhQEEKGgCn7fYgUt-_WhXc-vrKq9TVm=cfwJUyWaUgY2Vw@mail.gmail.com> <ed8467f2-dcd0-bc2f-8e98-1d9129fb2c30@digikod.net>
+In-Reply-To: <ed8467f2-dcd0-bc2f-8e98-1d9129fb2c30@digikod.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 17 Mar 2022 17:31:51 -0400
+Message-ID: <CAHC9VhRhYbxyBK39uRRpXF9o-Yf-yMwWRvsE15wJnZr3-dexMA@mail.gmail.com>
+Subject: Re: [PATCH v1 01/11] landlock: Define access_mask_t to enforce a
+ consistent access mask size
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 10:22:00AM -0600, Alex Williamson wrote:
-> On Tue, 15 Mar 2022 12:53:04 -0300
+On Thu, Mar 17, 2022 at 4:35 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 17/03/2022 02:26, Paul Moore wrote:
+> > On Mon, Feb 21, 2022 at 4:15 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
+et> wrote:
+> >>
+> >> From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> >>
+> >> Create and use the access_mask_t typedef to enforce a consistent acces=
+s
+> >> mask size and uniformly use a 16-bits type.  This will helps transitio=
+n
+> >> to a 32-bits value one day.
+> >>
+> >> Add a build check to make sure all (filesystem) access rights fit in.
+> >> This will be extended with a following commit.
+> >>
+> >> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> >> Link: https://lore.kernel.org/r/20220221212522.320243-2-mic@digikod.ne=
+t
+> >> ---
+> >>   security/landlock/fs.c      | 19 ++++++++++---------
+> >>   security/landlock/fs.h      |  2 +-
+> >>   security/landlock/limits.h  |  2 ++
+> >>   security/landlock/ruleset.c |  6 ++++--
+> >>   security/landlock/ruleset.h | 17 +++++++++++++----
+> >>   5 files changed, 30 insertions(+), 16 deletions(-)
 
-> > I agree we should not use the vendor name
-> > 
-> > In general I wonder if this is a bit too specific to PCI, really this
-> > is just review criteria for any driver making a struct vfio_device_ops
-> > implementation, and we have some specific guidance for migration here
-> > as well.
-> > 
-> > Like if IBM makes s390 migration drivers all of this applies just as
-> > well even though they are not PCI.
-> 
-> Are you volunteering to be a reviewer under drivers/vfio/?  Careful,
-> I'll add you ;)
+...
 
-Haha, sure you can do that if it helps
+> >> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+> >> index 2a0a1095ee27..458d1de32ed5 100644
+> >> --- a/security/landlock/limits.h
+> >> +++ b/security/landlock/limits.h
+> >> @@ -9,6 +9,7 @@
+> >>   #ifndef _SECURITY_LANDLOCK_LIMITS_H
+> >>   #define _SECURITY_LANDLOCK_LIMITS_H
+> >>
+> >> +#include <linux/bitops.h>
+> >>   #include <linux/limits.h>
+> >>   #include <uapi/linux/landlock.h>
+> >>
+> >> @@ -17,5 +18,6 @@
+> >>
+> >>   #define LANDLOCK_LAST_ACCESS_FS                LANDLOCK_ACCESS_FS_MA=
+KE_SYM
+> >>   #define LANDLOCK_MASK_ACCESS_FS                ((LANDLOCK_LAST_ACCES=
+S_FS << 1) - 1)
+> >> +#define LANDLOCK_NUM_ACCESS_FS         __const_hweight64(LANDLOCK_MAS=
+K_ACCESS_FS)
+> >
+> > The line above, and the static_assert() in ruleset.h are clever.  I'll
+> > admit I didn't even know the hweightX() macros existed until looking
+> > at this code :)
+> >
+> > However, the LANDLOCK_NUM_ACCESS_FS is never really going to be used
+> > outside the static_assert() in ruleset.h is it?  I wonder if it would
+> > be better to skip the extra macro and rewrite the static_assert like
+> > this:
+> >
+> > static_assert(BITS_PER_TYPE(access_mask_t) >=3D
+> > __const_hweight64(LANDLOCK_MASK_ACCESS_FS));
+> >
+> > If not, I might suggest changing LANDLOCK_NUM_ACCESS_FS to
+> > LANDLOCK_BITS_ACCESS_FS or something similar.
+>
+> I declared LANDLOCK_NUM_ACCESS_FS in this patch to be able to have the
+> static_assert() here and ease the review, but LANDLOCK_NUM_ACCESS_FS is
+> really used in patch 6/11 to define an array size:
+> get_handled_acceses(), init_layer_masks(), is_superset(),
+> check_access_path_dual()=E2=80=A6
 
-We still have a quite a ways to go before all the iommu features are
-exposed and we get dirty tracking done.
+I wrote my comments as I was working my way through the patchset and
+didn't think to go back and check this when I hit patch 6/11 :)
 
-Thanks,
-Jason
+Looks good to me, sorry for the noise.
+
+Reviewed-by: Paul Moore <paul@paul-moore.com>
+
+--=20
+paul-moore.com
