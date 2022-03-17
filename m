@@ -2,315 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21190C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 02:50:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA92C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 03:19:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241911AbiCQCvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 22:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
+        id S229551AbiCQDUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 23:20:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237023AbiCQCvv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 22:51:51 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2431205F6;
-        Wed, 16 Mar 2022 19:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647485435; x=1679021435;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=yrCKNch9pvQtA495w+XMZ/xp2BYXZKt8m19piGIekkg=;
-  b=QqtU1o9FN0vi+hlfy2a115NgaoFG2Y7NB4pNUegiQV2aIkkg9aldYtas
-   BsIEUNLuenGRU5QPDZXXTFKyOj4y9XmFgraFLyL3FnD5zF/AY6V3Csy+i
-   FR/fei/jRHEibSH0GXNmM4Av+W60qAyvcHwyfS3ol5Z9yYeiuBr2qEtbZ
-   D6yKyF6RKGb0QXfN0hmCO6476uoWaUfCa0mRXfald5gJ+ysaTBB9CEHd2
-   IPhcHzlaH9/wY1t+oDkrPI9RI/VQOvyjYhFl1CPwsJhVFpOBcV3BGGPmA
-   4CCBNW3r13Dl2D9M7ryTqdXy2WMwLlWiOCQSJrtTG5zeWzgpwyOPyGsUy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236712177"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="236712177"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 19:50:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="646891781"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by orsmga004.jf.intel.com with ESMTP; 16 Mar 2022 19:50:34 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+        with ESMTP id S230274AbiCQDUY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 23:20:24 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD1121836;
+        Wed, 16 Mar 2022 20:19:07 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KJsgL0RVnzcb6B;
+        Thu, 17 Mar 2022 11:14:06 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 16 Mar 2022 19:50:34 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2308.21; Thu, 17 Mar 2022 11:19:05 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Wed, 16 Mar 2022 19:50:34 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Wed, 16 Mar 2022 19:50:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OoPu074mAgUE4y8s+a3nX43vCno5flUBS7UgadcBt55cg7Izl91PnMWd5eGLLz+Nx/7I85L8UQx/1xbsh67N+IcpPj3xszY1pUWbAd1NzJ7BMWdg4QJ+RR6QjWHOk01MYHJCef1ECxte8/11RyxYFWnJX9YBll+/ChPafH/bGf+y9Xom9GlWS5c3viCaFvSK7ox/3SG4N9vUAF5EaE3N4Sb+x/w9aiwp1CBghg/q45/um6+WayYEmNiZVSqlQfI3GN+D6pb/gb+QmlxRZiKHlCilY0NvtcsHqSgfI/7ba17N0vqe/wmeGwZYwoKbVsMozrkx7Zc5HsUx5s3ji4c9RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oVKqQQc2SioY2o/x+ngkN0T8iMZNPdEJZYtms1KdgVg=;
- b=mK8l8+berNDVyKWRM7arnbNg6zbtCnSP3j02hOBky/6KUdUUkaKRs9JJLuiGPGfiy4cYFNFXnD+ZjhPN6z72Jei2UHi5p4bIMUET6bUeaFSIa29P0klbyvlU3czOqmoXNjysBL+XkJ+1m9fGKj7O0EotERE5vK3ZP3Js4kTxVlls+jYWUIudViVzwNIV+aUOyCITxeXpGkwtNs1U66M0cG64h1cFGRw1adgnMRZMa/ruL7JZe3QGi7n2+6Is+30BMArKxxkILTLgcafZy+4Np49DaF8obGMgWz3qQ+U/upP35SzjeigdqaCs2Q1/X9fDMvre/bxDBuH2pSkmlTFC/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
- by BYAPR11MB2583.namprd11.prod.outlook.com (2603:10b6:a02:c6::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Thu, 17 Mar
- 2022 02:50:29 +0000
-Received: from BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809]) by BN9PR11MB5483.namprd11.prod.outlook.com
- ([fe80::8c4b:e24c:c69f:7809%5]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
- 02:50:29 +0000
-From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
-To:     "Wu, Hao" <hao.wu@intel.com>, "trix@redhat.com" <trix@redhat.com>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH v3] fpga: dfl: check feature type before parse irq info
-Thread-Topic: [PATCH v3] fpga: dfl: check feature type before parse irq info
-Thread-Index: AQHYNO3Mz7yyGRAOxUOWMPv4ER/dsqzC2COAgAAQnVA=
-Date:   Thu, 17 Mar 2022 02:50:28 +0000
-Message-ID: <BN9PR11MB5483AD216BC179029E279E0BE3129@BN9PR11MB5483.namprd11.prod.outlook.com>
-References: <20220311021121.1504442-1-tianfei.zhang@intel.com>
- <BYAPR11MB3816A2AD9C59AC3A1B6494C485129@BYAPR11MB3816.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB3816A2AD9C59AC3A1B6494C485129@BYAPR11MB3816.namprd11.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.401.20
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9e70ca9e-1dbb-4c06-473b-08da07c0e564
-x-ms-traffictypediagnostic: BYAPR11MB2583:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BYAPR11MB25835C7C67C2EFCE02489614E3129@BYAPR11MB2583.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7s0YywHLf8fJyBGk9+NHZQmFqHOmakqhftNR5U+hYnq6xTTugGlySjhvI4OSzXa9/1lmTovElyMdu604gwdflLYLhWiOHA3IsTHf/46EbylcYQ9IUKT0KlAOYgMRygvnrZWEWS9CS+UAWo+n5Hds+ZYfYdiRvrU4lUyYA15ZAOlvDn9FO0KC8Ks3BfkwJFh+mE8QTQeyrlkmwD94DidWhvGVWXXwqWeVbWHz+kL52lPMbrt0chpME2VlCBPoxQro63P/dMOlwupumiO8sWT8OVt9NJRD8YHmtSOsKVqdCIb1w4iPbBIFNLJwJ5z2r2GjYAh6uuCkTQDFe8sCtkjKw3NjV4vV0R7OxlhevXJpVHJ/z5EFgbH2iHa0HqWCU/QUBwAaLRrIsQxTGBIjTop48LJoAlMJbhKcdA8gYexnf8h5M49Z0GXyfPi11S+DsivF6VI1iSmVzdfoPelo/6k+Dp60kh21m8uWsfNUwXJWspmk45W4JSzPYW509vrEIVcORGcxzRRnBhrNeKqPqsfroruxsRWJddSsImNgyHEWlikOHRhKTwWG1N8ys+36iQGagsjz362uVQyJGe6vO45itq02csIAyg1PN53eFaPgdSLMwDvBdSqNpReFsCExOQyYcgotOv5yNfUytSUbrPobzcbZJpBotSSMwbPIECTxVJ+9AZx5hw2RIXuqvEtDFvYbpX9DHXIVU2YDDMQdlHvW8Yf0Lw4KJMjhBnqTlCDXbU86tOJiKOSLJllmyHOlFYXgZQM61LGBKTIuPIcSw0+3K1OZqpGLWbNVQVvwmYsZR6zCexPmEGSKu8G3abXw6jpB45IB129rGAR63L/4R/S66A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(52536014)(8936002)(5660300002)(38070700005)(82960400001)(83380400001)(186003)(2906002)(26005)(53546011)(6506007)(4326008)(9686003)(110136005)(7696005)(316002)(86362001)(71200400001)(508600001)(122000001)(966005)(64756008)(8676002)(66476007)(66446008)(76116006)(66946007)(38100700002)(55016003)(33656002)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?v6t0fegptKE2L2iv9YZKklFK+EeU2ngyM5v7sdNMm/mYgDFeMIWzLq7NsLTz?=
- =?us-ascii?Q?hWC/HNvW06WHc2ODoRJUmFy7LIYLNV3IvARHP9mgAh63/+J2RO7v4PU2kReA?=
- =?us-ascii?Q?uRfx6NWn1Acus02QTpBPzneu8eGz5XDivNlXCHo/ZlhP8yJzoK2WVXjx9xrC?=
- =?us-ascii?Q?gV/LzoKAILy/G1Pr9ZjaKU1RTg3yzd5i0u47hb0Ue5f5v7IQJzkzg1jDaOto?=
- =?us-ascii?Q?G6B5aTwF5F1Pcdl8nPo0Y34soS5vJDtj1G+YyY1NfdKRybdtfL+sm01CUFBS?=
- =?us-ascii?Q?liNK2mg+ppUa6X5eTM8i2y5kwEJhZ02HwzETq1/dklT2Ls7RUs+cjqS+Xrug?=
- =?us-ascii?Q?Aze4e+qrIvO4AZmaasPpvxxqq+akISPkLVyhP2vMGES94rGHZalNer3kChRO?=
- =?us-ascii?Q?5w94idu2dThwlAoOgKrhXljEroWyvKEE97LAp+U31vvsup9peMAftuJRrh60?=
- =?us-ascii?Q?7nZsK0GN71g2zD5quk6/65DUimUqsTfG+iKXbX6PBevFKiu8/4/FIYbgq7z8?=
- =?us-ascii?Q?XcWk7KZSpu/UOhYhUniYTUQUeu/3H+EI+Af/+0/tE9f29tqde8DRCKvaeT6S?=
- =?us-ascii?Q?Oy8pZt5aYchnc5RVWg/FnKXyWSKzQ1zZtL/1XHGTCc8gtKyjPIgaOFkpIpmc?=
- =?us-ascii?Q?bBhaagN31XqhCdwxc2QeqNZ6s/HRqFooPgPl4GH4FJ4WYPgqnd9Bxw/f6D1I?=
- =?us-ascii?Q?xVVa5LImkPbVqQlljReORWiQo80sDfTWZlisf+HOhv5GYeT6Gz6R8/DCJzOh?=
- =?us-ascii?Q?j88KWCyqqQRbrxUQyL3imIR+Q0Elb2BPf3FUsi2Tr5HR3Vc4AbNRg5Ag+9fj?=
- =?us-ascii?Q?3smWFMJbFFndsSK0WHzxpEPYQRKlz3npu/z2o+XpaZkVlZz/M1HzIe3YlTXM?=
- =?us-ascii?Q?xhfBTWnjMRXZVADEjzrDNzFiB4PmHpw5gRB5/ejCyTjN1XrGmwbgNvE6NKN8?=
- =?us-ascii?Q?xAcEeWWECSu2p6iUObaC/F4jqHlWfZcXTudIzcwL7VK1eIniyrm8YP6EvhsA?=
- =?us-ascii?Q?aFCkLKS0pZOYFzJuwvkuktSEHr2DzsDZqnElmA1XZx6EMWSIe0urvmLDY0vh?=
- =?us-ascii?Q?CvsbY3EwZjyIbcIISVE90fxtVYoB1LwutDc0D81ABVvg1FTwJ8prKymtmvvc?=
- =?us-ascii?Q?NoPbP8benI7ElP6ECNvb9ZpCg4T2536UPs2sRERoLndNEz/7cCCTqO7DUmGE?=
- =?us-ascii?Q?ah36fZQ4qtzKJ0vK3S0DOEKc4kfi4dJMY+K9mmX+hkC3o18heSOM0/HLc3BK?=
- =?us-ascii?Q?OiNVQKFPjBoon/k9PdL33dW7i+bdzkPfVgPYFtqumLI0/fbPjEqwfODyukuP?=
- =?us-ascii?Q?aYr0qTvMv/VVRnyxDMcG7GSKXwWJVWN7Wc5y+oGoFQFiML6/EGaLkj6mWVy1?=
- =?us-ascii?Q?/3TgA7RX9TWfHNg/PP0o4GrwWezB3Nf6F866Sm714cBi9Ef9wXBw+Q4k2qpb?=
- =?us-ascii?Q?D4g9G98dfT/wxrtoKeJEuvwXZ4hJySgH?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2308.21; Thu, 17 Mar 2022 11:19:04 +0800
+Subject: Re: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
+To:     Baoquan He <bhe@redhat.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
+ <20220227030717.1464-4-thunder.leizhen@huawei.com>
+ <YjHUAi0xrUy+qk/L@MiWiFi-R3L-srv>
+ <7d7a3e70-6a46-b722-ef48-7206a47185dd@huawei.com>
+ <YjKeuFGtjI7944uy@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <05a96786-cfe8-029f-f29a-60fb94129f91@huawei.com>
+Date:   Thu, 17 Mar 2022 11:19:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e70ca9e-1dbb-4c06-473b-08da07c0e564
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2022 02:50:28.9078
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J3pUDyf8BG2WHJfqop3cjwOvJDeV5CLhYmBK15FhYV4GkCP9h72t+SwZqlvWVomLfB/+a/QEiHOPocwEAi1V1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2583
-X-OriginatorOrg: intel.com
+In-Reply-To: <YjKeuFGtjI7944uy@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-> -----Original Message-----
-> From: Wu, Hao <hao.wu@intel.com>
-> Sent: Thursday, March 17, 2022 9:48 AM
-> To: Zhang, Tianfei <tianfei.zhang@intel.com>; trix@redhat.com;
-> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>; linux-fpga@vger.kernel.or=
-g;
-> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org
-> Cc: corbet@lwn.net
-> Subject: RE: [PATCH v3] fpga: dfl: check feature type before parse irq in=
-fo
->=20
-> > -----Original Message-----
-> > From: Zhang, Tianfei <tianfei.zhang@intel.com>
-> > Sent: Friday, March 11, 2022 10:11 AM
-> > To: Wu, Hao <hao.wu@intel.com>; trix@redhat.com; mdf@kernel.org; Xu,
-> > Yilun <yilun.xu@intel.com>; linux-fpga@vger.kernel.org;
-> > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Cc: corbet@lwn.net; Zhang, Tianfei <tianfei.zhang@intel.com>
-> > Subject: [PATCH v3] fpga: dfl: check feature type before parse irq
-> > info
-> >
-> > The feature ID of "Port User Interrupt" and the "PMCI Subsystem" are
-> > identical, 0x12, but one is for FME, other is for Port. It should
-> > check the feature type While parsing the irq info in
-> > parse_feature_irqs().
-> >
->=20
-> What about this
-> "Previously the feature IDs defined are unique, no matter which feature t=
-ype.
-> But currently we want to extend its usage to have a per-type feature ID s=
-pace,
-> so this patch adds feature type checking as well just before look into fe=
-ature ID
-> for different features which have irq info."
+On 2022/3/17 10:36, Baoquan He wrote:
+> On 03/16/22 at 09:11pm, Leizhen (ThunderTown) wrote:
+>>
+>>
+>> On 2022/3/16 20:11, Baoquan He wrote:
+>>> On 02/27/22 at 11:07am, Zhen Lei wrote:
+> ...... 
+> 
+>>> Hi leizhen,
+>>>
+>>> I made change on reserve_crashkenrel(), inline comment may be slow.
+>>> Please check and consider if they can be taken.
+>>
+>> That's great. Thank you very much.
+>>
+>>>
+>>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>>> index 30ae6638ff54..f96351da1e3e 100644
+>>> --- a/arch/arm64/mm/init.c
+>>> +++ b/arch/arm64/mm/init.c
+>>> @@ -109,38 +109,43 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+>>>   * This function reserves memory area given in "crashkernel=" kernel command
+>>>   * line parameter. The memory reserved is used by dump capture kernel when
+>>>   * primary kernel is crashing.
+>>> + *
+>>> + * NOTE: Reservation of crashkernel,low is special since its existence
+>>> + * is not independent, need rely on the existence of crashkernel,high.
+>>> + * Hence there are different cases for crashkernel,low reservation:
+> 
+> Considering to update the 3rd line as below:
+> 
+>  * NOTE: Reservation of crashkernel,low is special since its existence
+>  * is not independent, need rely on the existence of crashkernel,high.
+>  * Here, four cases of crashkernel,low reservation are summarized: 
 
-This commit looks good for me.
+OK. How about change "crashkernel,low" to "crashkernel low memory"?
+"crashkernel=Y,low", "crashkernel=,low" and "crashkernel,low" are very similar,
+may dazzle the reader.
 
->=20
-> > ---
-> > v3: Remove "Fixes" in commit log with Hao's comment, this is a
-> >     extension not a bug fix.
-> >
-> > v2: add DFL Feature ID Registry in documentation.
-> >
-> > Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
->=20
-> Move up your signed off line before these changelogs.
->=20
-> > ---
-> >  Documentation/fpga/dfl.rst | 11 +++++++++++
-> >  drivers/fpga/dfl.c         | 38 ++++++++++++++++++++++----------------
-> >  2 files changed, 33 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> > index ef9eec71f6f3..14f342bb85e4 100644
-> > --- a/Documentation/fpga/dfl.rst
-> > +++ b/Documentation/fpga/dfl.rst
-> > @@ -502,6 +502,17 @@ Developer only needs to provide a sub feature
-> > driver with matched feature id.
-> >  FME Partial Reconfiguration Sub Feature driver (see
-> > drivers/fpga/dfl-fme-pr.c)  could be a reference.
-> >
-> > +Individual DFL drivers are bound DFL devices based on Feature Type
-> > +and
-> > Feature ID.
-> > +The definition of Feature Type and Feature ID can be found:
-> > +
-> > +https://github.com/OPAE/linux-dfl-feature-id/blob/master/dfl-feature-
-> > +ids.rst
-> > +
-> > +If you want to add a new feature ID for FPGA DFL feature device, we
-> > recommend that
->=20
-> "recommend" or "must"
+> 
+>>> + * 1) crashkernel=Y,low is specified explicitly, crashkernel,low takes Y;
+>>> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
+>>> + *    take the default crashkernel,low value;
+>>> + * 3) crashkernel=X is specified, while fallback to get a memory region
+>>> + *    in high memory, take the default crashkernel,low value;
+>>> + * 4) crashkernel='invalid value',low is specified, failed the whole
+>>> + *    crashkernel reservation and bail out.
+>>>   */
+>>>  static void __init reserve_crashkernel(void)
+>>>  {
+>>>  	unsigned long long crash_base, crash_size;
+>>>  	unsigned long long crash_low_size;
+>>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>>> -	int ret;
+>>>  	bool fixed_base, high = false;
+>>>  	char *cmdline = boot_command_line;
+>>> +	int ret;
+>>>  
+>>>  	/* crashkernel=X[@offset] */
+>>>  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>>>  				&crash_size, &crash_base);
+>>>  	if (ret || !crash_size) {
+>>> -		/* crashkernel=X,high */
+>>>  		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+>>>  		if (ret || !crash_size)
+>>>  			return;
+>>>  
+>>> -		/* crashkernel=Y,low */
+>>>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>>>  		if (ret == -ENOENT)
+>>> -			/*
+>>> -			 * crashkernel=Y,low is not specified explicitly, use
+>>> -			 * default size automatically.
+>>> -			 */
+>>> +			/* case #2 of crashkernel,low reservation */
+>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>  		else if (ret)
+>>> -			/* crashkernel=Y,low is specified but Y is invalid */
+>>> +			/* case #4 of crashkernel,low reservation */
+>>>  			return;
+>>>  
+>>> -		/* Mark crashkernel=X,high is specified */
+>>>  		high = true;
+>>>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>>>  	}
+>>> @@ -148,7 +153,6 @@ static void __init reserve_crashkernel(void)
+>>>  	fixed_base = !!crash_base;
+>>>  	crash_size = PAGE_ALIGN(crash_size);
+>>>  
+>>> -	/* User specifies base address explicitly. */
+>>>  	if (fixed_base)
+>>>  		crash_max = crash_base + crash_size;
+>>>  
+>>> @@ -172,11 +176,7 @@ static void __init reserve_crashkernel(void)
+>>>  	}
+>>>  
+>>>  	if (crash_base >= SZ_4G) {
+>>> -		/*
+>>> -		 * For case crashkernel=X, low memory is not enough and fall
+>>> -		 * back to reserve specified size of memory above 4G, try to
+>>> -		 * allocate minimum required memory below 4G again.
+>>> -		 */
+>>> +		/* case #3 of crashkernel,low reservation */
+>>>  		if (!high)
+>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>  
+>>>
+>>>>  
+>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
+>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+>>>> +retry:
+>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>>>  					       crash_base, crash_max);
+>>>>  	if (!crash_base) {
+>>>> +		/*
+>>>> +		 * Attempt to fully allocate low memory failed, fall back
+>>>> +		 * to high memory, the minimum required low memory will be
+>>>> +		 * reserved later.
+>>>> +		 */
+>>>> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+>>>> +			crash_max = CRASH_ADDR_HIGH_MAX;
+>>>> +			goto retry;
+>>>> +		}
+>>>> +
+>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>>>>  			crash_size);
+>>>>  		return;
+>>>>  	}
+>>>>  
+>>>> +	if (crash_base >= SZ_4G) {
+>>>> +		/*
+>>>> +		 * For case crashkernel=X, low memory is not enough and fall
+>>>> +		 * back to reserve specified size of memory above 4G, try to
+>>>> +		 * allocate minimum required memory below 4G again.
+>>>> +		 */
+>>>> +		if (!high)
+>>>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>> +
+>>>> +		if (reserve_crashkernel_low(crash_low_size)) {
+>>>> +			memblock_phys_free(crash_base, crash_size);
+>>>> +			return;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>>>>  
+>>>> @@ -107,6 +194,9 @@ static void __init reserve_crashkernel(void)
+>>>>  	 * map. Inform kmemleak so that it won't try to access it.
+>>>>  	 */
+>>>>  	kmemleak_ignore_phys(crash_base);
+>>>> +	if (crashk_low_res.end)
+>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
+>>>> +
+>>>>  	crashk_res.start = crash_base;
+>>>>  	crashk_res.end = crash_base + crash_size - 1;
+>>>>  	insert_resource(&iomem_resource, &crashk_res);
+>>>> -- 
+>>>> 2.25.1
+>>>>
+>>>
+>>> .
+>>>
+>>
+>> -- 
+>> Regards,
+>>   Zhen Lei
+>>
+> 
+> .
+> 
 
-I think it is "must" if you want to use linux dfl driver.
-
->=20
-> > +use a pull request to reserve a feature ID for DFL. Here is the DFL
-> > +Feature ID
-> > +Registry:
-> > +
-> > +https://github.com/OPAE/linux-dfl-feature-id
-> > +
->=20
-> Actually we don't have to put all details in kernel doc, and feature ID i=
-s used
-> inside the device, it could be used in linux or windows or other OS.
-> What about putting a README file in your repo to describe the detailed pr=
-ocess,
-> not in kernel doc. And we can just put a link to that README here.
-> Then split this one into another patch? How do you think?
-
-I think the process is that submit a patch/pull request to " https://github=
-.com/OPAE/linux-dfl-feature-id" for review if you have a new FeatureID.
-
->=20
-> >  Location of DFLs on a PCI Device
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >  The original method for finding a DFL on a PCI device assumed the
-> > start of the diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> > index 599bb21d86af..6bff39ff21a0 100644
-> > --- a/drivers/fpga/dfl.c
-> > +++ b/drivers/fpga/dfl.c
-> > @@ -940,9 +940,12 @@ static int parse_feature_irqs(struct
-> > build_feature_devs_info *binfo,  {
-> >  	void __iomem *base =3D binfo->ioaddr + ofst;
-> >  	unsigned int i, ibase, inr =3D 0;
-> > +	enum dfl_id_type type;
-> >  	int virq;
-> >  	u64 v;
-> >
-> > +	type =3D feature_dev_id_type(binfo->feature_dev);
-> > +
-> >  	/*
-> >  	 * Ideally DFL framework should only read info from DFL header, but
-> >  	 * current version DFL only provides mmio resources information for
-> > @@ -957,22 +960,25 @@ static int parse_feature_irqs(struct
-> > build_feature_devs_info *binfo,
-> >  	 * code will be added. But in order to be compatible to old version
-> >  	 * DFL, the driver may still fall back to these quirks.
-> >  	 */
-> > -	switch (fid) {
-> > -	case PORT_FEATURE_ID_UINT:
-> > -		v =3D readq(base + PORT_UINT_CAP);
-> > -		ibase =3D FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> > -		inr =3D FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> > -		break;
-> > -	case PORT_FEATURE_ID_ERROR:
-> > -		v =3D readq(base + PORT_ERROR_CAP);
-> > -		ibase =3D FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> > -		inr =3D FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> > -		break;
-> > -	case FME_FEATURE_ID_GLOBAL_ERR:
-> > -		v =3D readq(base + FME_ERROR_CAP);
-> > -		ibase =3D FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> > -		inr =3D FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> > -		break;
-> > +	if (type =3D=3D PORT_ID) {
-> > +		switch (fid) {
-> > +		case PORT_FEATURE_ID_UINT:
-> > +			v =3D readq(base + PORT_UINT_CAP);
-> > +			ibase =3D FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> > +			inr =3D FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> > +			break;
-> > +		case PORT_FEATURE_ID_ERROR:
-> > +			v =3D readq(base + PORT_ERROR_CAP);
-> > +			ibase =3D FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> > +			inr =3D FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> > +			break;
-> > +		}
-> > +	} else if (type =3D=3D FME_ID) {
-> > +		if (fid =3D=3D FME_FEATURE_ID_GLOBAL_ERR) {
-> > +			v =3D readq(base + FME_ERROR_CAP);
-> > +			ibase =3D FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> > +			inr =3D FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> > +		}
-> >  	}
-> >
-> >  	if (!inr) {
-> > --
-> > 2.26.2
-
+-- 
+Regards,
+  Zhen Lei
