@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E43C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A189C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358304AbiCQB2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 21:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39834 "EHLO
+        id S1358330AbiCQB2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 21:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358401AbiCQB2I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:28:08 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402E41E3C2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:52 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id gb39so7739952ejc.1
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:52 -0700 (PDT)
+        with ESMTP id S1358299AbiCQB1u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:27:50 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7F81E3DC
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:34 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id yy13so7756671ejb.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=k7yicPIk+Z77xC2Jk5lIM3J4ayt0t0RngElOD1HAw4g=;
-        b=rmXwQK3hU5r16A4VKdmhW6Ak9o21AzTO5x3KUBlzHD2dFxLANWlDhla7+jMAxwl0b9
-         cofCUQwTGiGS4hT6hi1VscFkJLbgg4CqKsQrEg7/rZN7W02rsqGCSMHyJxMEwVIr/Ehw
-         y14GzqGaagHLq1eJCLHdZ60DQ7v4R9y+0bDIaysTFHHjUndXiD/B7oeRv2OgYnIRFWPZ
-         yfpSwTYQAsnSC8etUqZVoh3HPLOD8nn2ytExpf6pNYp5+I29p9STNaGDjE66uusbvmAi
-         PfnocbZdpwVzDrDrNfHcB7EYLkTmAZJkHP2NpgZixULGY9vivSs9MNC+IqMz3kjkbBio
-         ws7A==
+        bh=pg72bDDMXKgIFi4/3pJ510z+c/iucl3unZbSLqSuVPE=;
+        b=D1BJhdsQ8C0/EXJsr5prdMYV5Iy4RSwkDYjHmUKFnj2CZKCBGkzkAXu4Rs7DIr/+Z4
+         ZfSM/kuOa35PMdjptMxhHqP2t3+VNoupShB1xXjFBk2DzX2cUzoIjI7XT6JJODM/tYIf
+         8lA6KtoFMhwT3j+PcPePSF9MOQeW3WwSzzks8E+NX55uvktEGS5MWcESDp9pUYBUVPsq
+         6pa2CviNGYWuBVueLigdwYK4kL52uaysCvcWIbWphWhVeFY8OjFosN0Iy/flCQqmQP8U
+         IrSh3kH82dc44rF5DEX70LabAkVZhbxhKhFez87gath/Ru7xG+g8/aKc+mC+hshrjnPh
+         iZxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=k7yicPIk+Z77xC2Jk5lIM3J4ayt0t0RngElOD1HAw4g=;
-        b=kGKPIXVQNaFIkurh7E69QGdHTcXSVKU1XtFDLJc4Ss2JGHv7vUvJx8v9V5nmW2VAlu
-         dDXSpurjMjXgwAJQNd0QHmka8EccSlidmTLxAwxp0/eSlJnW6Sb8af0B8IzU7Vjf9Uox
-         o0//uAVuXofXrjFvoGimqFKDS8YJ8w/EvO7q9zPZDJg2aNoTin/XK5fBp7kv4cRaIuc/
-         Obm7BJO1B6uUmZHxy15XiFVSLd43SvZ7E5G2Cb3JT2zBvr7vMHghPitm1fsY0bldKZY4
-         167HpEvyUkknmZZ27axoqxLcbs2HnkJxqLwDJ5l3QdmT8tqVsYhIOUXWC5jbqMyXQqjA
-         lX6Q==
-X-Gm-Message-State: AOAM533j3lc4rYPEOz/tcQE9D4WcKak3hUKoX8BMSVFMwtzo7e1KNxvR
-        TFmby3XeYeN5Xsh7T6TSgK1hx8kjo0shJELSx4Ep
-X-Google-Smtp-Source: ABdhPJwRKa3vBL+HOFo2rnyMrLxHJvet528O/eIh737dM8Fqorv1ZTHburtLRJbVy4qlwVdRb99NwNuZ6JLOHDLf8rY=
-X-Received: by 2002:a17:907:7202:b0:6df:83a9:67d2 with SMTP id
- dr2-20020a170907720200b006df83a967d2mr2189662ejc.327.1647480410692; Wed, 16
- Mar 2022 18:26:50 -0700 (PDT)
+        bh=pg72bDDMXKgIFi4/3pJ510z+c/iucl3unZbSLqSuVPE=;
+        b=c4U92yISfCDkql42qZkD875Sz5dSZsbwYYMUOJfBV4idJD155DmNdRYyOT2SF3WYIt
+         CjL35FDO+KddYprMuynKafaZ91BZTxAOM7zNCq2mdGC/ffqaH5gYCr3InuEkCf061g/S
+         vrstz873d4l/bAzTpj0h7jfCfrZ7p1ekt0U0M9867zgfcpuiJUva7h+IqxYcxjEflLTO
+         7yhXOXTPKI/tIFyPgGO/nzZ+xnzhmIYDMH03JXWIs/OY3U7lvjC4EbNwHsyuxNzgfLGL
+         rszNxjJ9zqgzxSLoMo+anOe3ZwLYxOgE6LwA3Ht85oFLS0thKTRBaSEs3USctNJPNRKC
+         1Vkw==
+X-Gm-Message-State: AOAM5329ETd9xtOqCVcolUyLL+zz35dgnvIq3OEJB972eNQZtesndEaL
+        PpvCbaXY7zYlOBEH11Jd5cpwZAwefbJh6s2aQjJx
+X-Google-Smtp-Source: ABdhPJzpu6lp6njiy52N0zdfBqZGt9nd46eib4HOnCsGmHdwyVJiXgdilrP0Ia8kUmKFsYygmbE/G+cWMPcsCXk/jHw=
+X-Received: by 2002:a17:906:4443:b0:6cf:6a7d:5f9b with SMTP id
+ i3-20020a170906444300b006cf6a7d5f9bmr2251417ejp.12.1647480393427; Wed, 16 Mar
+ 2022 18:26:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-6-mic@digikod.net>
-In-Reply-To: <20220221212522.320243-6-mic@digikod.net>
+References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-4-mic@digikod.net>
+In-Reply-To: <20220221212522.320243-4-mic@digikod.net>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 16 Mar 2022 21:26:39 -0400
-Message-ID: <CAHC9VhQM33jnJYMz+z1YoNt9=nNceW=TutuGO=x+SSpHW7PMyg@mail.gmail.com>
-Subject: Re: [PATCH v1 05/11] landlock: Move filesystem helpers and add a new one
+Date:   Wed, 16 Mar 2022 21:26:22 -0400
+Message-ID: <CAHC9VhTF4j+z-kp5apB2MYK0zk9q4RNu2ou9yWm7jBNk7BG1=Q@mail.gmail.com>
+Subject: Re: [PATCH v1 03/11] landlock: Create find_rule() from unmask_layers()
 To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
 Cc:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>,
@@ -73,54 +73,16 @@ wrote:
 >
 > From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
 >
-> Move the SB_NOUSER and IS_PRIVATE dentry check to a standalone
-> is_nouser_or_private() helper.  This will be useful for a following
-> commit.
->
-> Move get_mode_access() and maybe_remove() to make them usable by new
-> code provided by a following commit.
+> This refactoring will be useful in a following commit.
 >
 > Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> Link: https://lore.kernel.org/r/20220221212522.320243-6-mic@digikod.net
+> Link: https://lore.kernel.org/r/20220221212522.320243-4-mic@digikod.net
 > ---
->  security/landlock/fs.c | 87 ++++++++++++++++++++++--------------------
->  1 file changed, 46 insertions(+), 41 deletions(-)
-
-One nit-picky comment below, otherwise it looks fine to me.
+>  security/landlock/fs.c | 39 +++++++++++++++++++++++++++------------
+>  1 file changed, 27 insertions(+), 12 deletions(-)
 
 Reviewed-by: Paul Moore <paul@paul-moore.com>
 
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index 9662f9fb3cd0..3886f9ad1a60 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -257,6 +257,18 @@ static inline bool unmask_layers(const struct landlo=
-ck_rule *const rule,
->         return false;
->  }
->
-> +static inline bool is_nouser_or_private(const struct dentry *dentry)
-> +{
-> +       /*
-> +        * Allows access to pseudo filesystems that will never be mountab=
-le
-> +        * (e.g. sockfs, pipefs), but can still be reachable through
-> +        * /proc/<pid>/fd/<file-descriptor> .
-> +        */
-
-I might suggest moving this explanation up to a function header comment blo=
-ck.
-
-
-> +       return (dentry->d_sb->s_flags & SB_NOUSER) ||
-> +                       (d_is_positive(dentry) &&
-> +                        unlikely(IS_PRIVATE(d_backing_inode(dentry))));
-> +}
-> +
->  static int check_access_path(const struct landlock_ruleset *const domain=
-,
->                 const struct path *const path,
->                 const access_mask_t access_request)
 
 --
 paul-moore.com
