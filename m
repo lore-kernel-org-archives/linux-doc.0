@@ -2,224 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF58C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CC4DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:49:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231206AbiCQIul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 04:50:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42386 "EHLO
+        id S231192AbiCQIu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 04:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbiCQIuj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:50:39 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A97E71C16E2;
-        Thu, 17 Mar 2022 01:49:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647506961; x=1679042961;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=THSmDaUYhUXwpzD/LRroNFtu5MvAMJPSWNSOH7fBQr0=;
-  b=h7Whcc/cMztS7wLd3UfMV8fGITpj5v0Wk9iZDjV90uIh2A90R4MXoxk2
-   zICWC6e3h/twe2m2hgx8ifp0ZFAf+IlT5Szo9ybRDL9BNtPLMHai6s38i
-   wvWuxdwOmcfj0txVVUPPKOgmqZytUmRc6A78lTUjklx4tphg4mjFtF89W
-   mBAnsao0T4hjgKhbrTRFAURBL4Rzy+Mxmli+v7DMxya2MXzxlLKgPraEL
-   8ntQIeyb4FCKyeI0xWD4rlStt+qrA4uHvtTIPfvtKgCenTmxYtN6LL9sb
-   Q01ghYulRvdEGQ5fLeeSXVpV0h5dvFinCO0KYlHa8hoUR3sNoueH9WU96
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="256769424"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="256769424"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:49:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="516684732"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
-  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2022 01:49:20 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 17 Mar 2022 01:49:20 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Thu, 17 Mar 2022 01:49:20 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Thu, 17 Mar 2022 01:49:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HlDEdta4qanKN7C37rLHW93Zy9TZ8CmnunTyfMmcR7QSsc2HLuG+0x2MRJ0Cq6u9684qUhlQEjYHx7h9BA2hE8pILyfBQZTo62Q3mpkXE/k/zkPEAllmfM7LIZCUdPCxlJYjtTzAAjl24ur9usSfCklN5ANLzBQ2+VPSvT7IP3bS+4P8GwqzvGR9B8sTA3xf4XcXTsO507RzQqP9V2ZYVaeEoARpKbMoaceb/vEgSNzBdxuyoSdiiniKrJEJ7CrGC60qNx6TjHZuQJSYBd9+9xnraVVozJAGo8g/+ZY1idd/rsmEmUi2DGj0RfddHt3o+ce6PWW8669aSbcRHNGjyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zz9Ff0wWklWAW8McMZ8nqpxWR3u3wDQgh0RFTkMjQFE=;
- b=bUvAiHGv3uduqXHsWGl7cY6lJ7Cq/nXDrKOyuaiI3KcUedmGQrrZrXbK2HutWXurPdXcCWrrDsb9C7xV7mSE24c1WzfCvJ5Y6r/8nGGX4kOCC0BiPurzICd2Eu4F4pHpweuGO4yZ/AOMYLeYu78aDByQ1+Zyemp2z19yxpkEBaA4BDoMqlvO/cihKu3WTW8kMc33CkwMojclZFK6K3RAHb1sNa9Q6UMJzHzNeADUDmMdGkWvMDSXGHxl5ysRAjkpepdDxOrydkc9hHYRw8bgQJtKB8uk+fV7kyHTSEhWa3mRTkNRBUl3NaI9ggQjbSc47WH6fNQtmOX2Thqq+yyl4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by BN6PR11MB4115.namprd11.prod.outlook.com (2603:10b6:405:80::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.15; Thu, 17 Mar
- 2022 08:49:16 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::d9ee:5bb8:1828:222d]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::d9ee:5bb8:1828:222d%7]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
- 08:49:16 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: RE: [PATCH v6 3/6] fpga: dfl: check released_port_num and num_vfs for
- legacy model
-Thread-Topic: [PATCH v6 3/6] fpga: dfl: check released_port_num and num_vfs
- for legacy model
-Thread-Index: AQHYOQUgSs9N1UoLREyNbEPguLG93azDQyug
-Date:   Thu, 17 Mar 2022 08:49:16 +0000
-Message-ID: <DM6PR11MB381950AC46C7913128AE212D85129@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20220316070814.1916017-1-tianfei.zhang@intel.com>
- <20220316070814.1916017-4-tianfei.zhang@intel.com>
-In-Reply-To: <20220316070814.1916017-4-tianfei.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f68bd180-f588-4d53-016f-08da07f304aa
-x-ms-traffictypediagnostic: BN6PR11MB4115:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BN6PR11MB41150215B2749E8A6655CF7F85129@BN6PR11MB4115.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BfyFEyYpiZvg1uSLELHMwBhkL4/VpA2k5nAxdW+RYdTbTlSGV9Hm0jYKDd8x3q5MdcCcGFXRBIOq8I5XO70esOSwCGS5vqtLy1lpTni5tsDsKtW5zxqB7a0IZW76trrMqyzEI4FGgYXSGwLfX172xwNdRDc3m/ZPX+c6/WezgvofHjLoLo706r7wlf/0g3dQhUxi0plIOpBNazD8EzkSVrzaZuCFvUfpzEr3cnF2pdc91h27nZQa/N5mzhsNEF+h63o64tgt2gIZczvd5LrJW4J5HPmUPVOv4pc6AP16K/m/V9JbV/FKJ2/i7fB0iUR5YUtQaRJRrL2mpR/dXukyfLSjml8JpWEahApD39OQd4tm04zu4B+nAyWv9JdEmkE+9NeYGTPcW9iPZShnjkZ5/aglRFS30RQBzCeOceB1nwje79W/RGaECppGEeFgnIkKqejlDd96ZjOyMeNBI4534nS7ELmKtBJNs1n4eDu+XjrKw8ukA1j32xSfqUR8UGqTsMJrjm+/R6Jy2eJLKJ24RPHiqc50Lxh6zbAT/hHDKvk1CWwCM4eu7zgApdOS3ksSZhhVgRwC2/Sjd9Dsj07+xa9JFB5vxxB834+NSwe20uGvwnVxVfiYXxRk1Ee0ke3Xfm3k0fIPDOegP/fcv5ZEKRxSgiP+4PLUCsfpb6qKQCMSt+WD9pvuLAI7LTnJYfL+L/ERDndXu2HHqIPPWgKq2nIxfaW6IxVGJbpoOHOIxts=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(38070700005)(55016003)(8936002)(2906002)(83380400001)(5660300002)(33656002)(8676002)(122000001)(66556008)(66476007)(66446008)(64756008)(110136005)(186003)(26005)(4326008)(66946007)(54906003)(316002)(76116006)(52536014)(9686003)(71200400001)(38100700002)(6506007)(921005)(82960400001)(7696005)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GDV7iqLB6yk2xA2fisPAIcViu5lAMujl0zl5i6N48XsJDEjTkLkbTkJ//+Qa?=
- =?us-ascii?Q?S+yYrSOUE6D42Ey13cwjpeJ07ApdPoho7tVnHmbUH4cVld5k1Tm/HUtc/BD+?=
- =?us-ascii?Q?PqurO8SI3S9F21l/9NGyAin8M9+XWiwz/aDd7dE0xW2lKQngx4CfQ926DsD9?=
- =?us-ascii?Q?SP1GiCKqWduK7OxojYaJYibRWF27Imw9Bpn8vIM8SDlPe9L4Hwlnn2M9G5ii?=
- =?us-ascii?Q?RP1paO3QcjIvUxQKl4fD3LNzy+z+PeDjz4LJ0yPpMtSNaJvcefy+LLE36pGb?=
- =?us-ascii?Q?KWRprOwynhO5AvSjf2UtdZR5HaefjkWPkFE66kXmIvsM68inc+FFnIv7VTc0?=
- =?us-ascii?Q?G2mtZkRxxppbQkax+LY7JjRoYlP/CAZ2SekFC0r9yAj44ANVZX5JIlZse/fz?=
- =?us-ascii?Q?K6raqza9j74rmkkYF0Vxt7/j3d1yNa1CEnUILhYbQovlVSO1GHOoLcYqfKRo?=
- =?us-ascii?Q?y/S5gKpJGv1oqr/YgGZH9mdudL43gmrxRR5+h1Ijjm7SxPUJHJ6DEbdlEdhb?=
- =?us-ascii?Q?s9SJoJsAXe0WHieEkVWGxRdBcWMEvlmHrm8V/LYqevqudc7o05ihf78mGgfu?=
- =?us-ascii?Q?mwSELna7/k05oquj5HDrAaE1ndl3D+wn8MRo5fGs2gCUj7MB4BkGExfZMGR6?=
- =?us-ascii?Q?dEQnEhKgR4ysXpo7m7fTEzzOkNokZp2lXtZMvw9h7dBVCx9O4FBmlCDjolex?=
- =?us-ascii?Q?HWRXM5MvwRXSVlrFPnufDF6bks+l2HUQC/wu2WMCEMdJx4c2Ik0hKJ++7y4T?=
- =?us-ascii?Q?RU2Nqfna+4cEYnu196Jd5PMZn2Ezwh/7Ei4UOY/zZV/uNUJEm8lRSU9/3oX+?=
- =?us-ascii?Q?76x0o6adUN8aUv7Bag8SuA8oAHh4IDgFNeEdrZao384ADl72TjfJJSVwvRfL?=
- =?us-ascii?Q?MnyuZSl6cjyATmyVqxLS8SEmojKBWDvVymyRvBGEYuYnEcQxdozn98E4aA6y?=
- =?us-ascii?Q?LmV2vUo9WuUj/Z1gdyly+G8c4R9BayrGloR4vCwBQJ8rq8CQtnrsK6Mwg/oD?=
- =?us-ascii?Q?aXbda6Uj4w+8eMepVnO1Th19DxsAgTCVk1kMUpze+0Ch44N6tuMAmtadwEkc?=
- =?us-ascii?Q?grJ80rDg5QcoN6JA5u/UscOFcwmj3bZN8vOZp/jlYPE9Qa7kr1UhaiwA4Ude?=
- =?us-ascii?Q?2WqmfA9IkmPr8fD112oW3xrHFgG04P8tTIJU/pBjCUL2NkB6Gfty2CETDRw1?=
- =?us-ascii?Q?J7fHNx0LagQB2mT6KM4eSL6L1MCFIMCudzepbpi5VqFoerC5Bsgpwf6foqtf?=
- =?us-ascii?Q?r/9h6tYKTRCuCyZ7948ZMpnbKFCvRtBxl6w5L4G6TyGNCyl+pz08ZPCo8SnY?=
- =?us-ascii?Q?KIBNjJSa6vfbXLA3NTqTvxM4MuCie8Z6lbybxaMIW4DfKIJY4OlnpX7Uudea?=
- =?us-ascii?Q?H+D00D0ww+mmksCcPaMvaGybmKYwzUkZpYiEpRChNEzw52oa27McYzQysIQT?=
- =?us-ascii?Q?J77jv0+BgUg=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S231143AbiCQIu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:50:58 -0400
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404C9D1CFB
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:49:41 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KK0pf5LWCzMq31C;
+        Thu, 17 Mar 2022 09:35:54 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4KK0pd1DtQzlhRV1;
+        Thu, 17 Mar 2022 09:35:53 +0100 (CET)
+Message-ID: <ed8467f2-dcd0-bc2f-8e98-1d9129fb2c30@digikod.net>
+Date:   Thu, 17 Mar 2022 09:36:36 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f68bd180-f588-4d53-016f-08da07f304aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2022 08:49:16.2106
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PODQamkjdjvhmlhgnqC1qKltvlRvUZFyxOsyJGQQB/vtXNyxa0iWY/IthgA6XVpado+Kq4XzhFF21G2tyrgQNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4115
-X-OriginatorOrg: intel.com
+User-Agent: 
+Content-Language: en-US
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20220221212522.320243-1-mic@digikod.net>
+ <20220221212522.320243-2-mic@digikod.net>
+ <CAHC9VhQEEKGgCn7fYgUt-_WhXc-vrKq9TVm=cfwJUyWaUgY2Vw@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Subject: Re: [PATCH v1 01/11] landlock: Define access_mask_t to enforce a
+ consistent access mask size
+In-Reply-To: <CAHC9VhQEEKGgCn7fYgUt-_WhXc-vrKq9TVm=cfwJUyWaUgY2Vw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Subject: [PATCH v6 3/6] fpga: dfl: check released_port_num and num_vfs fo=
-r
-> legacy model
->=20
-> From: Tianfei zhang <tianfei.zhang@intel.com>
->=20
-> In OFS legacy model, there is 1:1 mapping for Port device and VF,
-> so it need to check the number of released port match the number of
-> VFs or not. But in "Multiple VFs per PR slot" model, there is 1:N
-> mapping for the Port device and VFs.
 
-The title and commit message seems not matching the code..
-From code it sounds like we are trying to skip the PORT=20
-(PF access-> VF access) function, as new SRIOV usage model is introduced.
-Probably we can skip it early in this function or even skip this function
-directly. It doesn't matter it's 1:N or 1:1, we always want to keep PF
-access to port, right?
+On 17/03/2022 02:26, Paul Moore wrote:
+> On Mon, Feb 21, 2022 at 4:15 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>
+>> From: Mickaël Salaün <mic@linux.microsoft.com>
+>>
+>> Create and use the access_mask_t typedef to enforce a consistent access
+>> mask size and uniformly use a 16-bits type.  This will helps transition
+>> to a 32-bits value one day.
+>>
+>> Add a build check to make sure all (filesystem) access rights fit in.
+>> This will be extended with a following commit.
+>>
+>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>> Link: https://lore.kernel.org/r/20220221212522.320243-2-mic@digikod.net
+>> ---
+>>   security/landlock/fs.c      | 19 ++++++++++---------
+>>   security/landlock/fs.h      |  2 +-
+>>   security/landlock/limits.h  |  2 ++
+>>   security/landlock/ruleset.c |  6 ++++--
+>>   security/landlock/ruleset.h | 17 +++++++++++++----
+>>   5 files changed, 30 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+>> index 97b8e421f617..9de2a460a762 100644
+>> --- a/security/landlock/fs.c
+>> +++ b/security/landlock/fs.c
+>> @@ -150,7 +150,7 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+>>    * @path: Should have been checked by get_path_from_fd().
+>>    */
+>>   int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+>> -               const struct path *const path, u32 access_rights)
+>> +               const struct path *const path, access_mask_t access_rights)
+>>   {
+>>          int err;
+>>          struct landlock_object *object;
+>> @@ -182,8 +182,8 @@ int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+>>
+>>   static inline u64 unmask_layers(
+>>                  const struct landlock_ruleset *const domain,
+>> -               const struct path *const path, const u32 access_request,
+>> -               u64 layer_mask)
+>> +               const struct path *const path,
+>> +               const access_mask_t access_request, u64 layer_mask)
+>>   {
+>>          const struct landlock_rule *rule;
+>>          const struct inode *inode;
+>> @@ -223,7 +223,8 @@ static inline u64 unmask_layers(
+>>   }
+>>
+>>   static int check_access_path(const struct landlock_ruleset *const domain,
+>> -               const struct path *const path, u32 access_request)
+>> +               const struct path *const path,
+>> +               const access_mask_t access_request)
+>>   {
+>>          bool allowed = false;
+>>          struct path walker_path;
+>> @@ -308,7 +309,7 @@ static int check_access_path(const struct landlock_ruleset *const domain,
+>>   }
+>>
+>>   static inline int current_check_access_path(const struct path *const path,
+>> -               const u32 access_request)
+>> +               const access_mask_t access_request)
+>>   {
+>>          const struct landlock_ruleset *const dom =
+>>                  landlock_get_current_domain();
+>> @@ -511,7 +512,7 @@ static int hook_sb_pivotroot(const struct path *const old_path,
+>>
+>>   /* Path hooks */
+>>
+>> -static inline u32 get_mode_access(const umode_t mode)
+>> +static inline access_mask_t get_mode_access(const umode_t mode)
+>>   {
+>>          switch (mode & S_IFMT) {
+>>          case S_IFLNK:
+>> @@ -563,7 +564,7 @@ static int hook_path_link(struct dentry *const old_dentry,
+>>                          get_mode_access(d_backing_inode(old_dentry)->i_mode));
+>>   }
+>>
+>> -static inline u32 maybe_remove(const struct dentry *const dentry)
+>> +static inline access_mask_t maybe_remove(const struct dentry *const dentry)
+>>   {
+>>          if (d_is_negative(dentry))
+>>                  return 0;
+>> @@ -631,9 +632,9 @@ static int hook_path_rmdir(const struct path *const dir,
+>>
+>>   /* File hooks */
+>>
+>> -static inline u32 get_file_access(const struct file *const file)
+>> +static inline access_mask_t get_file_access(const struct file *const file)
+>>   {
+>> -       u32 access = 0;
+>> +       access_mask_t access = 0;
+>>
+>>          if (file->f_mode & FMODE_READ) {
+>>                  /* A directory can only be opened in read mode. */
+>> diff --git a/security/landlock/fs.h b/security/landlock/fs.h
+>> index 187284b421c9..74be312aad96 100644
+>> --- a/security/landlock/fs.h
+>> +++ b/security/landlock/fs.h
+>> @@ -65,6 +65,6 @@ static inline struct landlock_superblock_security *landlock_superblock(
+>>   __init void landlock_add_fs_hooks(void);
+>>
+>>   int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+>> -               const struct path *const path, u32 access_hierarchy);
+>> +               const struct path *const path, access_mask_t access_hierarchy);
+>>
+>>   #endif /* _SECURITY_LANDLOCK_FS_H */
+>> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+>> index 2a0a1095ee27..458d1de32ed5 100644
+>> --- a/security/landlock/limits.h
+>> +++ b/security/landlock/limits.h
+>> @@ -9,6 +9,7 @@
+>>   #ifndef _SECURITY_LANDLOCK_LIMITS_H
+>>   #define _SECURITY_LANDLOCK_LIMITS_H
+>>
+>> +#include <linux/bitops.h>
+>>   #include <linux/limits.h>
+>>   #include <uapi/linux/landlock.h>
+>>
+>> @@ -17,5 +18,6 @@
+>>
+>>   #define LANDLOCK_LAST_ACCESS_FS                LANDLOCK_ACCESS_FS_MAKE_SYM
+>>   #define LANDLOCK_MASK_ACCESS_FS                ((LANDLOCK_LAST_ACCESS_FS << 1) - 1)
+>> +#define LANDLOCK_NUM_ACCESS_FS         __const_hweight64(LANDLOCK_MASK_ACCESS_FS)
+> 
+> The line above, and the static_assert() in ruleset.h are clever.  I'll
+> admit I didn't even know the hweightX() macros existed until looking
+> at this code :)
+> 
+> However, the LANDLOCK_NUM_ACCESS_FS is never really going to be used
+> outside the static_assert() in ruleset.h is it?  I wonder if it would
+> be better to skip the extra macro and rewrite the static_assert like
+> this:
+> 
+> static_assert(BITS_PER_TYPE(access_mask_t) >=
+> __const_hweight64(LANDLOCK_MASK_ACCESS_FS));
+> 
+> If not, I might suggest changing LANDLOCK_NUM_ACCESS_FS to
+> LANDLOCK_BITS_ACCESS_FS or something similar.
 
->=20
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-> ---
->  drivers/fpga/dfl.c | 10 ++++++----
->  drivers/fpga/dfl.h |  2 ++
->  2 files changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index 712c53363fda..b95b29c5c81d 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -1707,11 +1707,13 @@ int dfl_fpga_cdev_config_ports_vf(struct
-> dfl_fpga_cdev *cdev, int num_vfs)
->=20
->  	mutex_lock(&cdev->lock);
->  	/*
-> -	 * can't turn multiple ports into 1 VF device, only 1 port for 1 VF
-> -	 * device, so if released port number doesn't match VF device number,
-> -	 * then reject the request with -EINVAL error code.
-> +	 * In the OFS legacy model, it can't turn multiple ports into 1 VF
-> +	 * device, because only 1 port conneced to 1 VF device, so if released
-> +	 * port number doesn't match VF device number, then reject the request
-> +	 * with -EINVAL error code.
->  	 */
-> -	if (cdev->released_port_num !=3D num_vfs) {
-> +	if ((dfl_has_port_connected_afu(cdev) &&
+I declared LANDLOCK_NUM_ACCESS_FS in this patch to be able to have the 
+static_assert() here and ease the review, but LANDLOCK_NUM_ACCESS_FS is 
+really used in patch 6/11 to define an array size: 
+get_handled_acceses(), init_layer_masks(), is_superset(), 
+check_access_path_dual()…
 
-Could we really use this as indication for which SRIOV model of hardware?
 
-> +	     cdev->released_port_num !=3D num_vfs)) {
->  		ret =3D -EINVAL;
->  		goto done;
->  	}
-> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-> index bc56b7e8c01b..83c2c50975e5 100644
-> --- a/drivers/fpga/dfl.h
-> +++ b/drivers/fpga/dfl.h
-> @@ -471,6 +471,8 @@ void dfl_fpga_enum_info_free(struct
-> dfl_fpga_enum_info *info);
->  #define DFL_PORT_CONNECT_BITS  MAX_DFL_FPGA_PORT_NUM
->  #define DFL_FEAT_PORT_CONNECT_MASK ((1UL <<
-> (DFL_PORT_CONNECT_BITS)) - 1)
->=20
-> +#define dfl_has_port_connected_afu(cdev) ((cdev)->flags &
-> DFL_FEAT_PORT_CONNECT_MASK)
-> +
->  /**
->   * struct dfl_fpga_cdev - container device of DFL based FPGA
->   *
+> 
+> 
+>> diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
+>> index 2d3ed7ec5a0a..7e7cac68e443 100644
+>> --- a/security/landlock/ruleset.h
+>> +++ b/security/landlock/ruleset.h
+>> @@ -9,13 +9,20 @@
+>>   #ifndef _SECURITY_LANDLOCK_RULESET_H
+>>   #define _SECURITY_LANDLOCK_RULESET_H
+>>
+>> +#include <linux/bitops.h>
+>> +#include <linux/build_bug.h>
+>>   #include <linux/mutex.h>
+>>   #include <linux/rbtree.h>
+>>   #include <linux/refcount.h>
+>>   #include <linux/workqueue.h>
+>>
+>> +#include "limits.h"
+>>   #include "object.h"
+>>
+>> +typedef u16 access_mask_t;
+>> +/* Makes sure all filesystem access rights can be stored. */
+>> +static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_ACCESS_FS);
+> 
 > --
-> 2.26.2
-
+> paul-moore.com
