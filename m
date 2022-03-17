@@ -2,124 +2,252 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F9D4C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBE1C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:26:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242548AbiCQBNv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 21:13:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59094 "EHLO
+        id S242485AbiCQB1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 21:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiCQBNu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:13:50 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2FD1D313
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:12:35 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id w8so3197247pll.10
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:12:35 -0700 (PDT)
+        with ESMTP id S230000AbiCQB1g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:27:36 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4EE91DA6B
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:20 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id hw13so7658264ejc.9
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=c2v6g9kNzFsmkyuqUh8l9rtwzjVM9fq/KxPr5NbkIAs=;
-        b=e9AKGXXtjzizIENIcwCaWdrTwfytf5bMZf40wvz+UWOHrpqrfFY2A1CEHvjImudEOk
-         LI5cT+7SMYg2Fe0qbmQE0NqzCS+4NsC5nS1cY2fch5UOeymVYbC3Mv42oRcXTEn83kyS
-         ven1vTq/6fmAiPSvLEk5WSjqKQ7DF9nXAC9nDMoP65j1b1/0wsyYGETLE/Y8ie6dQOaC
-         7KkFYCIRmduvW9mcQZ6AkpO6Zdy3Lyu/yt6AQncxJkwFbp+o7nP0OIugNfQpOtUZbwNk
-         Y0XF9GNm6hWILI8WhXK+qtol+Uyb2AFH8teqYNOkjovozLgmbH7M941L3WMOeg49wUxk
-         yTQA==
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LgV0fd+BwTbg7RPyItVYlkUF0L+G2JNvxHK98uutjq8=;
+        b=JO1KCJzGLyWUg+CcEOyBJkeMyoi+vIaQI14wNzjfXi1lAp2PKNTGC/c7IqNotADydK
+         JX9qKj0RuPxPp5mKMrDIXRbRIzi8KLu5s23Z4IG8O/6CFH9ilcrq+goVjn0+QBOEfcFX
+         6u0so/mdr8g/iCsIMqkikbXLqC70pRU7Njs8OrviG9h6dKamlLqEc/lBSzmeB+X28yD8
+         SS0LWuxioyIXGElOMrMf1XfZs84rwRYEBEo8PAcz5EEj6MbpDCyrfFJiT18pCyKso31s
+         j66xTtcav3dWJtPBm+U9Yn/l1dEOIhXXPbLBhB4t2CgOBipaZOwE2wxGbjL9IW+v7jGB
+         liJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=c2v6g9kNzFsmkyuqUh8l9rtwzjVM9fq/KxPr5NbkIAs=;
-        b=sfEY9I4NC6vKrhNL2PzdVQTjZdZKb66rQH2dqIqrnb1HvabTpOSv7rYHY+7jajBdj9
-         YhyjNmuEwLwECi1eyXVLFZJZO1e5yE0VsygteC3SfsMnc6L+KpZZ5XnZ/iP68wX8jYpe
-         eNtNvBcuUPr56u3GgNaL9qgTx2HZQEfbvjGjxUdGbdRmv6XDS6gLpHBPm6K4Ft+WoxEd
-         aP/7ahOAyfG0eDTqCe6HQ6RU9n4sLjnGYL7F7dELqKJQKXo+VhaDJqJUt1EAx/QpsFjA
-         EPI8Khn0trbvKXZGq2ScOFzMfAQcUndmRde+XNdVtFHN2F8bRMhf5n7NgMq4eptEMVLS
-         jwIg==
-X-Gm-Message-State: AOAM530vJyro/8gN3e2/VZb4+jDRnj+Jw+OIXuOPAmsO2UYfBs0AzYX7
-        zvcDGxed0EDpqxct7N3zt2I=
-X-Google-Smtp-Source: ABdhPJyzuWpgfqgqGQjZKI1AqhBlzu0rC4tKGt7bMpC9iXR/pvnNB02mtPpYIg+jODJFlcQ41cfn0g==
-X-Received: by 2002:a17:90a:ccd:b0:1bc:76eb:ea73 with SMTP id 13-20020a17090a0ccd00b001bc76ebea73mr13041865pjt.178.1647479554678;
-        Wed, 16 Mar 2022 18:12:34 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x7-20020a17090a1f8700b001bf1db72189sm3752063pja.23.2022.03.16.18.12.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Mar 2022 18:12:34 -0700 (PDT)
-Message-ID: <8c36fd06-b378-409b-6772-972b76cf630c@gmail.com>
-Date:   Thu, 17 Mar 2022 10:12:30 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LgV0fd+BwTbg7RPyItVYlkUF0L+G2JNvxHK98uutjq8=;
+        b=GlGLReBmi5t9xoB0j9zrnrv5N1hd6Z4WCuxiRBDYmpZK75SHb6JTXYHGRcXDvyiENn
+         NjZyuvAeeDvubWZ4AonNPTf+E/ZiLlht4+8b6lXkPOdgYzVXLuoeTJghOkZPLjdrQ0wu
+         3S2up4nxYqVqFZCWHAtMBmVdDWRE2qxm2psHtuSkxrQUHcs8gefMcuB3nkPq6113q651
+         PAVNhGJ9DG5nO6g4gCpA/Z/XMpWDNVmLml17jkhGM7sp3DPrH6s243h7/N7z+k20YA9H
+         hziphPxpwRvDBFydhONdzTyuxjEdtKRZ3sqs1lKKvpP7OiWsDdUd+buTf9W6W2PY9xs4
+         APRA==
+X-Gm-Message-State: AOAM531ZKBTHb6ROntDG1UESffVdsBihAwx6NxKGuraoB3bY8fVGUQGl
+        afgnkTXLBbd3YK8Wkwd+GYoxDcrkst52DNGCO3d/
+X-Google-Smtp-Source: ABdhPJz6fiEEFi+Q35JiW3eZl06su1XRmZErVn79mSPE8R2VXQXUbM6SSUcQ/vlKwDD/wXijrtbrvgqXR12FWRfxars=
+X-Received: by 2002:a17:907:3f86:b0:6db:b745:f761 with SMTP id
+ hr6-20020a1709073f8600b006dbb745f761mr2168517ejc.610.1647480379164; Wed, 16
+ Mar 2022 18:26:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-        siyanteng01@gmail.com, siyanteng@loongson.cn,
-        tangyeechou@gmail.com, tangyizhou@huawei.com, zhengbin13@huawei.com
-References: <871qz1txmp.fsf@meer.lwn.net>
-Subject: Re: [PATCH v2] docs: scheduler: Convert schedutil.txt to ReST
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <871qz1txmp.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-2-mic@digikod.net>
+In-Reply-To: <20220221212522.320243-2-mic@digikod.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 16 Mar 2022 21:26:08 -0400
+Message-ID: <CAHC9VhQEEKGgCn7fYgUt-_WhXc-vrKq9TVm=cfwJUyWaUgY2Vw@mail.gmail.com>
+Subject: Re: [PATCH v1 01/11] landlock: Define access_mask_t to enforce a
+ consistent access mask size
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+On Mon, Feb 21, 2022 at 4:15 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+>
+> From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+>
+> Create and use the access_mask_t typedef to enforce a consistent access
+> mask size and uniformly use a 16-bits type.  This will helps transition
+> to a 32-bits value one day.
+>
+> Add a build check to make sure all (filesystem) access rights fit in.
+> This will be extended with a following commit.
+>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Link: https://lore.kernel.org/r/20220221212522.320243-2-mic@digikod.net
+> ---
+>  security/landlock/fs.c      | 19 ++++++++++---------
+>  security/landlock/fs.h      |  2 +-
+>  security/landlock/limits.h  |  2 ++
+>  security/landlock/ruleset.c |  6 ++++--
+>  security/landlock/ruleset.h | 17 +++++++++++++----
+>  5 files changed, 30 insertions(+), 16 deletions(-)
+>
+> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> index 97b8e421f617..9de2a460a762 100644
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -150,7 +150,7 @@ static struct landlock_object *get_inode_object(struc=
+t inode *const inode)
+>   * @path: Should have been checked by get_path_from_fd().
+>   */
+>  int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+> -               const struct path *const path, u32 access_rights)
+> +               const struct path *const path, access_mask_t access_right=
+s)
+>  {
+>         int err;
+>         struct landlock_object *object;
+> @@ -182,8 +182,8 @@ int landlock_append_fs_rule(struct landlock_ruleset *=
+const ruleset,
+>
+>  static inline u64 unmask_layers(
+>                 const struct landlock_ruleset *const domain,
+> -               const struct path *const path, const u32 access_request,
+> -               u64 layer_mask)
+> +               const struct path *const path,
+> +               const access_mask_t access_request, u64 layer_mask)
+>  {
+>         const struct landlock_rule *rule;
+>         const struct inode *inode;
+> @@ -223,7 +223,8 @@ static inline u64 unmask_layers(
+>  }
+>
+>  static int check_access_path(const struct landlock_ruleset *const domain=
+,
+> -               const struct path *const path, u32 access_request)
+> +               const struct path *const path,
+> +               const access_mask_t access_request)
+>  {
+>         bool allowed =3D false;
+>         struct path walker_path;
+> @@ -308,7 +309,7 @@ static int check_access_path(const struct landlock_ru=
+leset *const domain,
+>  }
+>
+>  static inline int current_check_access_path(const struct path *const pat=
+h,
+> -               const u32 access_request)
+> +               const access_mask_t access_request)
+>  {
+>         const struct landlock_ruleset *const dom =3D
+>                 landlock_get_current_domain();
+> @@ -511,7 +512,7 @@ static int hook_sb_pivotroot(const struct path *const=
+ old_path,
+>
+>  /* Path hooks */
+>
+> -static inline u32 get_mode_access(const umode_t mode)
+> +static inline access_mask_t get_mode_access(const umode_t mode)
+>  {
+>         switch (mode & S_IFMT) {
+>         case S_IFLNK:
+> @@ -563,7 +564,7 @@ static int hook_path_link(struct dentry *const old_de=
+ntry,
+>                         get_mode_access(d_backing_inode(old_dentry)->i_mo=
+de));
+>  }
+>
+> -static inline u32 maybe_remove(const struct dentry *const dentry)
+> +static inline access_mask_t maybe_remove(const struct dentry *const dent=
+ry)
+>  {
+>         if (d_is_negative(dentry))
+>                 return 0;
+> @@ -631,9 +632,9 @@ static int hook_path_rmdir(const struct path *const d=
+ir,
+>
+>  /* File hooks */
+>
+> -static inline u32 get_file_access(const struct file *const file)
+> +static inline access_mask_t get_file_access(const struct file *const fil=
+e)
+>  {
+> -       u32 access =3D 0;
+> +       access_mask_t access =3D 0;
+>
+>         if (file->f_mode & FMODE_READ) {
+>                 /* A directory can only be opened in read mode. */
+> diff --git a/security/landlock/fs.h b/security/landlock/fs.h
+> index 187284b421c9..74be312aad96 100644
+> --- a/security/landlock/fs.h
+> +++ b/security/landlock/fs.h
+> @@ -65,6 +65,6 @@ static inline struct landlock_superblock_security *land=
+lock_superblock(
+>  __init void landlock_add_fs_hooks(void);
+>
+>  int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+> -               const struct path *const path, u32 access_hierarchy);
+> +               const struct path *const path, access_mask_t access_hiera=
+rchy);
+>
+>  #endif /* _SECURITY_LANDLOCK_FS_H */
+> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+> index 2a0a1095ee27..458d1de32ed5 100644
+> --- a/security/landlock/limits.h
+> +++ b/security/landlock/limits.h
+> @@ -9,6 +9,7 @@
+>  #ifndef _SECURITY_LANDLOCK_LIMITS_H
+>  #define _SECURITY_LANDLOCK_LIMITS_H
+>
+> +#include <linux/bitops.h>
+>  #include <linux/limits.h>
+>  #include <uapi/linux/landlock.h>
+>
+> @@ -17,5 +18,6 @@
+>
+>  #define LANDLOCK_LAST_ACCESS_FS                LANDLOCK_ACCESS_FS_MAKE_S=
+YM
+>  #define LANDLOCK_MASK_ACCESS_FS                ((LANDLOCK_LAST_ACCESS_FS=
+ << 1) - 1)
+> +#define LANDLOCK_NUM_ACCESS_FS         __const_hweight64(LANDLOCK_MASK_A=
+CCESS_FS)
 
-On Wed, 16 Mar 2022 15:07:10 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-> Tang Yizhou <tangyizhou@huawei.com> writes:
-> 
->> All other scheduler documents have been converted to *.rst. Let's do
->> the same for schedutil.txt.
->>
->> Also fixed some typos.
->>
->> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
->> ---
->> v2:
->> Remove unnecessary space-to-tab conversions.
->>
->>  Documentation/scheduler/index.rst             |  1 +
->>  .../{schedutil.txt => schedutil.rst}          | 30 +++++++++++--------
->>  2 files changed, 18 insertions(+), 13 deletions(-)
->>  rename Documentation/scheduler/{schedutil.txt => schedutil.rst} (92%)
-> 
-> I have applied this version.
+The line above, and the static_assert() in ruleset.h are clever.  I'll
+admit I didn't even know the hweightX() macros existed until looking
+at this code :)
 
-Jon, I think you missed Peter'z (implied) Nak on this conversion.
+However, the LANDLOCK_NUM_ACCESS_FS is never really going to be used
+outside the static_assert() in ruleset.h is it?  I wonder if it would
+be better to skip the extra macro and rewrite the static_assert like
+this:
 
-Quote from Peter's message [1]:
+static_assert(BITS_PER_TYPE(access_mask_t) >=3D
+__const_hweight64(LANDLOCK_MASK_ACCESS_FS));
 
-> As I'm sure you're aware, I'd *love* to convert the whole lot to plain
-> text again :-)
-> 
-> People, throughout the ages, have been able to read plain text, I don't
-> see why it should be made more difficult than that.
+If not, I might suggest changing LANDLOCK_NUM_ACCESS_FS to
+LANDLOCK_BITS_ACCESS_FS or something similar.
 
-I'd recommend you to drop this from docs-next for now.
-I think this should go through -tip.
 
-I don't want to see another unfortunate removal of doc.
-Remember what happened to atomc_opt.txt:
+> diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
+> index 2d3ed7ec5a0a..7e7cac68e443 100644
+> --- a/security/landlock/ruleset.h
+> +++ b/security/landlock/ruleset.h
+> @@ -9,13 +9,20 @@
+>  #ifndef _SECURITY_LANDLOCK_RULESET_H
+>  #define _SECURITY_LANDLOCK_RULESET_H
+>
+> +#include <linux/bitops.h>
+> +#include <linux/build_bug.h>
+>  #include <linux/mutex.h>
+>  #include <linux/rbtree.h>
+>  #include <linux/refcount.h>
+>  #include <linux/workqueue.h>
+>
+> +#include "limits.h"
+>  #include "object.h"
+>
+> +typedef u16 access_mask_t;
+> +/* Makes sure all filesystem access rights can be stored. */
+> +static_assert(BITS_PER_TYPE(access_mask_t) >=3D LANDLOCK_NUM_ACCESS_FS);
 
-  - conversion [2]
-  - addition of alternative plaintext docs [3] (See final words in the changelog.)
-  - removal [4]
-
-[1]: https://lore.kernel.org/r/20220312114017.GA6235@worktop.programming.kicks-ass.net
-[2]: 326bc876fed4 ("Documentation/atomic_ops.txt: convert to ReST markup")
-[3]: 706eeb3e9c6f ("Documentation/locking/atomic: Add documents for new atomic_t APIs")
-[4]: f0400a77ebdc ("atomic: Delete obsolete documentation")
-
-        Thanks, Akira
- 
-
-> 
-> Thanks,
-> 
-> jon
+--
+paul-moore.com
