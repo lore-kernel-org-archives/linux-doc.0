@@ -2,182 +2,564 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50929C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 17:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA40EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 18:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235157AbiCQRyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 13:54:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
+        id S232713AbiCQSMc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 14:12:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232658AbiCQRyr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 13:54:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DA514F107;
-        Thu, 17 Mar 2022 10:53:29 -0700 (PDT)
+        with ESMTP id S234468AbiCQSMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 14:12:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F460217C70;
+        Thu, 17 Mar 2022 11:11:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F13B60C2B;
-        Thu, 17 Mar 2022 17:53:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FC39C340E9;
-        Thu, 17 Mar 2022 17:53:25 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1C262B81F38;
+        Thu, 17 Mar 2022 18:11:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82AA2C340E9;
+        Thu, 17 Mar 2022 18:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647539608;
-        bh=G3vTTUVjzClhBp/Uh6N1QJFyi0WktLqSYrQr2Sarmvk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pYQDd4fdZ3b3iIRkJA/LH1g5oppy0x2AcD0Dv4pMFjtEjkhBy259htydTKrnoyTuc
-         T3wUMnW7Q780oR8WVyLyk4VO6O2nb0EkAtuSQAKIUd/sgtMcaoGrP+jRgzbLym/o0n
-         d0mMT29hka51UlK5pla4jF0bUw2V3b6Dk/WTbnSn6WZjqkdEuPZQfkRtbobStoocF6
-         +iydm8uCvLqDT3flTgTX7aBKNg3+RwM7m0q14Vktk42gzb+JouvMzczci5ii9lakTC
-         /yKNRYqNhljr9ERGYhIUmm67FVkH0ZCH/Bj6XI2CnGjpH9nDz6NnI3GdXdjgjytBwh
-         iNuGfR38HIttA==
-Date:   Thu, 17 Mar 2022 17:53:22 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Vincent Whitchurch <vincent.whitchurch@axis.com>
-Cc:     linux-kernel@vger.kernel.org, kernel@axis.com,
-        devicetree@vger.kernel.org, linux-um@lists.infradead.org,
-        shuah@kernel.org, brendanhiggins@google.com,
-        linux-kselftest@vger.kernel.org, jic23@kernel.org,
-        linux-iio@vger.kernel.org, lgirdwood@gmail.com,
-        a.zummo@towertech.it, alexandre.belloni@bootlin.com,
-        linux-rtc@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC v1 09/10] regulator: tps62864: add roadtest
-Message-ID: <YjN1ksNGujV611Ka@sirena.org.uk>
-References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
- <20220311162445.346685-10-vincent.whitchurch@axis.com>
- <YiuPvkQroV/WdFpx@sirena.org.uk>
- <20220317151326.GA7832@axis.com>
+        s=k20201202; t=1647540670;
+        bh=XdgzuXN9aeiZfb9/RrTbmUugTKoTTSFNgHTlI0iJos8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vLjaZJaxmo531Mi1n7H19XJu/GxO5162QeJ+FG/vMCecmulIudwOj8+3iCDM7DoMN
+         q0tbyyarTHDi2WBOlOc17afP30b27KMTQMECxxaWv0pOkVzqDCSf3KgxcIi9z3eaJH
+         KnI8iZBnnG/sR7sHpdY0c9aj+rlaqCjb+aYg3ZSBKkQF6VtKwX9prE6UaRuYBtIZ4I
+         5C47ZsXGaeJ0WLvBFCkwIlS0K9OJWKnhNUHmVNdnwKIXksy0ltCXIwXr6vRPMPFlMe
+         SzEGR8a6tnPSeH9iMqNOKZOvYMmr/nia1eGYzFZLOf0Aytdk3DArm8eaE4mphDaXfX
+         qV3YLz3aYwiMw==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, live-patching@vger.kernel.org
+Subject: [PATCH v5 00/20] Rust support
+Date:   Thu, 17 Mar 2022 19:09:48 +0100
+Message-Id: <20220317181032.15436-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3BInDUkmR9BH6QDl"
-Content-Disposition: inline
-In-Reply-To: <20220317151326.GA7832@axis.com>
-X-Cookie: What foods these morsels be!
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Rust support
 
---3BInDUkmR9BH6QDl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is the patch series (v5) to add support for Rust as a second
+language to the Linux kernel.
 
-On Thu, Mar 17, 2022 at 04:13:26PM +0100, Vincent Whitchurch wrote:
-> On Fri, Mar 11, 2022 at 06:06:54PM +0000, Mark Brown wrote:
+If you are interested in following this effort, please join us in
+the mailing list at:
 
-> > > +    @classmethod
-> > > +    def setUpClass(cls) -> None:
-> > > +        insmod("tps6286x-regulator")
+    rust-for-linux@vger.kernel.org
 
-> > Shouldn't this get figured out when the device gets created in DT (if it
-> > doesn't I guess the tests found a bug...)?
+and take a look at the project itself at:
 
-> The system isn't set up to load modules automatically.  The reason for
-> this is to give the test cases full control of when the module is loaded
-> and unload, since the tests could want to load the module with specific
-> options.
+    https://github.com/Rust-for-Linux
 
-That seems like the uncommon case which could remove the module if it
-explicitly needed it.
+As usual, special thanks go to ISRG (Internet Security Research
+Group) and Google for their financial support on this endeavor.
 
-> Also, the framework splits up logs and shows errors that occurs during
-> each specific test if the tests fail, and this would become less useful
-> if all modules for all the devices in the devicetree get loaded on
-> startup when the devicetree is parsed and one of the modules failed to
-> load or crashed when loaded.
+Cheers,
+Miguel
 
-That sounds like stuff that would be covered already by normal boot
-testing?
+--
 
-> > > +                write_int(minfile, voltage)
-> > > +                mock = self.hw.update_mock()
-> > > +                mock.assert_reg_write_once(self, REG_VOUT1, val)
-> > > +                mock.reset_mock()
+# Rust support
 
-> > For covering regulators in general (especially those like this that use
-> > the generic helpers) I'd be inclined to go through every single voltage
-> > that can be set which isn't so interesting for this driver with it's
-> > linear voltage control but more interesting for something that's not
-> > continuous.
+This cover letter explains the major changes and updates done since
+the previous ones. For those, please see:
 
-> That could be useful in some cases, but if going through all the
-> voltages in a loop requires that the test implement the exact same
-> voltage-to-bitfield conversion function as the driver, then the benefit
-> of that part of the test is unclear.  That's the reason why for example
-> the OPT3001 test uses known values from the datasheet rather than just
-> copying the conversion function in the driver to Python.
+    RFC: https://lore.kernel.org/lkml/20210414184604.23473-1-ojeda@kernel.org/
+    v1:  https://lore.kernel.org/lkml/20210704202756.29107-1-ojeda@kernel.org/
+    v2:  https://lore.kernel.org/lkml/20211206140313.5653-1-ojeda@kernel.org/
+    v3:  https://lore.kernel.org/lkml/20220117053349.6804-1-ojeda@kernel.org/
+    v4:  https://lore.kernel.org/lkml/20220212130410.6901-1-ojeda@kernel.org/
 
-That's just a generic problem with mocking though - ultimately you have
-to type the same values into the mock and the driver somehow, it's just
-a question of if you type in all the values or some of the values and if
-you use the same format to type them in.  My inclination is to get
-better coverage since it makes it more likely that the interesting cases
-will be picked up, and you can make tests that do things like combine
-multiple settings which might turn something up.
 
-> > This all feels like it could readily be factored out into a generic
-> > helper, much as the actual drivers are especially when they're more data
-> > driven.  Ideally with the ability to override the default I/O operations
-> > for things with sequences that need to be followed instead of just a
-> > bitfield to update.  Callbacks to validate enable state, voltage, mode
-> > and so on in the hardware.  If we did that then rather than open coding
-> > every single test for every single device we could approach things at
-> > the framework level and give people working on a given device a pile of
-> > off the shelf tests which are more likely to catch things that an
-> > individual driver author might've missed, it also avoids the test
-> > coverage being more laborious than writing the actual driver.
+## Infrastructure updates
 
-> Things could certainly be factored out in the future, but I'm a bit wary
-> of attempting to do that when we have a test for only one regulator
-> driver, and a very minimal regulator driver at that.
+There have been several improvements to the overall Rust support:
 
-My thinking here is that since the driver is so minimal and data driven
-it's clear that any tests for it can also be generalised to cover at the
-very least all similarly data driven drivers.
+  - The toolchain and `alloc` have been upgraded to Rust 1.59.0.
+    This version stabilized `feature(global_asm)` as well as
+    the `-Csymbol-mangling-version=v0` flag.
 
-> > This does raise the questions I mentioned about how useful the testing
-> > really is of course, even more so when someone works out how to generate
-> > the data tables for the test and the driver from the same source, but
-> > that's just generally an issue for mocked tests at the conceptual level
-> > and clearly it's an approach that's fairly widely used and people get
-> > value from.
+  - Added support for host programs written in Rust. This should
+    only be used in scenarios where Rust is required to be available.
 
-> For the regulator drivers which are purely-data driven such as the ones
-> mostly implemented by setting the various fields in struct
-> regulator_desc along with the helpers in the framework, it could perhaps
-> be useful to implement kunit tests in the regulator subsystem which test
-> that using the various fields actually results in the expected
-> consumer-visible behaviour with the regulator API.
+  - Target specification files are now generated on the fly based
+    on the kernel configuration, via a Rust script, instead of
+    having a few predefined files.
 
-> Then, for the indivudal drivers themselves, roadtests could cover things
-> like probe handling, functions implemented without using helpers, checks
-> that the correct variant's registers are used in drivers supporting
-> multiple variants, custom devicetree properties, interrupt handling, and
-> the like.
+    The content of the generated file has been simplified and,
+    for x86, all the options that can be specified through the
+    command-line have been moved to the architecture `Makefile`.
 
-That would be the more obvious approach than roadtest, but that's what's
-there in the patch I was reviewing so...  There is also the fact that
-the external pattern for the operations is the same no matter if they're
-for a simple data driven driver or one using custom ops so you should
-really be able to get the core coverage for every driver set up in a way
-that lets you plug in a model of how the I/O performing each operation
-is expected to work and then have the framework crunch through
-combinations of actions to make sure that all the corner cases check out.
+    The goal is to reduce the content of the file as much as possible
+    for all architectures, and eventually, stop needing such a file.
 
---3BInDUkmR9BH6QDl
-Content-Type: application/pgp-signature; name="signature.asc"
+  - Added `HAVE_RUST` kernel option. This symbol should be selected
+    by an architecture if it supports Rust.
 
------BEGIN PGP SIGNATURE-----
+  - Added documentation on `RUSTFLAGS*` and `KBUILD_RUST*` variables.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIzdZEACgkQJNaLcl1U
-h9B4rAf/ZpllSWKucbyOqwVRoPGzNotZ9RmGuzBTvHuM047iZNtftHLSpZBvc/tJ
-aisx5jUAVHZjAUDPBcoboPOu2KBTUU+irzH6Kab2394Wp62uPH/FZ74fTTWCW6Po
-KThSSPxuV6DZ/LeNXZFyVGAvR7++odTcXrUfWtbBpm1jut29th0on3LoHbh+QNrO
-/YmSFNJRfgaD5PMyrteebEOn7ZRZT4W/dLLeV0oJUiEb1vv6h47H3yJiSOET3v2P
-YU/J5eQwdovc6iiPkiXcrhdsf7pdpcLDlxertBVzqdJLrD26eMmOn9cSZfiTGwC4
-ADj2eVE8IYCqR7V4BGqbRlircjsd4A==
-=bHyi
------END PGP SIGNATURE-----
+  - Simplified tags and cross-references in the documentation.
 
---3BInDUkmR9BH6QDl--
+  - Other cleanups, fixes and improvements on the build system.
+
+
+## Abstractions and driver updates
+
+Some of the improvements to the abstractions and example drivers are:
+
+  - Added abstraction for the Hardware Random Number Generator.
+
+  - `%pA` rework in `vsprintf` following the review.
+
+  - The `sync` sample now shows how to use static mutexes and
+    conditional variables.
+
+  - Error codes can now be used without prefixing them with
+    `Error::`, which makes using them closer to C. For instance:
+
+        fn f(...) -> Result {
+            if ... {
+                return Err(EINVAL);
+            }
+            ...
+            Ok(())
+        }
+
+  - Added `CString` type for owned C strings.
+
+  - `miscdev` registration now holds an owned C string, which enables
+    scenarios when the device name is constructed at runtime.
+
+  - Added `Bool` trait meant to be used in type states to allow
+    boolean constraints in implementation blocks.
+
+  - Added `LockInfo` trait that lock "type states" must implement.
+    This allows the definition of additional writable type states.
+
+  - Simplification of the spin lock implementation by splitting
+    acquisition types. Type states are used to implement two versions
+    of the `Lock` trait: one which never modifies the interrupt state
+    and one that disables them (if they are enabled, then re-enables
+    on unlock).
+
+  - `Result::unwrap` can now be used in examples that are compiled,
+    linked and run.
+
+  - Merged `Formatter` and `Buffer` types.
+
+  - Added `IoMem::offset_ok` for runtime sizes.
+
+  - Other cleanups, fixes and improvements.
+
+
+## Patch series status
+
+The Rust support is still to be considered experimental. However,
+support is good enough that kernel developers can start working on the
+Rust abstractions for subsystems and write drivers and other modules.
+
+The current series has just arrived in `linux-next`, as usual.
+Similarly, the preview docs for this series can be seen at:
+
+    https://rust-for-linux.github.io/docs/kernel/
+
+As usual, please see the following link for the
+live list of unstable Rust features we are using:
+
+    https://github.com/Rust-for-Linux/linux/issues/2
+
+Note that this time the series depends on a patch queued in
+powerpc-next:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?h=next&id=d4be60fe66b7380530868ceebe549f8eebccacc5
+
+
+## Acknowledgements
+
+The signatures in the main commits correspond to the people that
+wrote code that has ended up in them at the present time. For details
+on contributions to code and discussions, please see our repository:
+
+    https://github.com/Rust-for-Linux/linux
+
+However, we would like to give credit to everyone that has contributed
+in one way or another to the Rust for Linux project. Since the
+previous cover letter:
+
+  - Akira Yokosawa for a detailed review of the documentation and
+    suggesting several improvements.
+
+  - Petr Mladek and Rasmus Villemoes for their printing/formatting
+    review and suggestions.
+
+  - Russell King for his review of the Kconfig changes.
+
+  - Andy Shevchenko, Sergey Senozhatsky, John Paul Adrian Glaubitz
+    and David Laight for their reviews and feedback on the previous
+    round.
+
+  - bjorn3 for reviewing many PRs.
+
+  - As usual, bjorn3 and Gary Guo for all the input on Rust compiler
+    details and suggestions.
+
+  - Philip Li, Yujie Liu et al. for continuing their work on adding
+    Rust support to the Intel 0DAY/LKP kernel test robot. Also,
+    thanks to Nathan Chancellor and Nick Desaulniers for their input.
+
+  - Wei Liu for taking the time to answer questions from newcomers
+    in Zulip.
+
+  - Antoni Boucher (and his supporters) et al. for their ongoing
+    work on `rustc_codegen_gcc`.
+
+  - Philip Herrons (and his supporters Open Source Security and
+    Embecosm) et al. for their ongoing work on GCC Rust.
+
+  - Mats Larsen, Marc Poulhiès et al. for their ongoing work on
+    improving Rust support in Compiler Explorer.
+
+  - Many folks that have reported issues, tested the project,
+    helped spread the word, joined discussions and contributed in
+    other ways!
+
+Please see also the acknowledgements on the previous cover letters.
+
+Boqun Feng (1):
+  kallsyms: use the correct buffer size for symbols
+
+Gary Guo (2):
+  rust: add `build_error` crate
+  vsprintf: add new `%pA` format specifier
+
+Miguel Ojeda (13):
+  kallsyms: support "big" kernel symbols
+  kallsyms: increase maximum kernel symbol length to 512
+  rust: add C helpers
+  rust: add `compiler_builtins` crate
+  rust: add `alloc` crate
+  rust: add `macros` crate
+  rust: export generated symbols
+  scripts: add `generate_rust_analyzer.py`
+  scripts: decode_stacktrace: demangle Rust symbols
+  docs: add Rust documentation
+  Kbuild: add Rust support
+  samples: add Rust examples
+  MAINTAINERS: Rust
+
+Wedson Almeida Filho (4):
+  rust: add `kernel` crate's `sync` module
+  rust: add `kernel` crate
+  [RFC] drivers: gpio: PrimeCell PL061 in Rust
+  [RFC] drivers: android: Binder IPC in Rust
+
+ .gitignore                                   |    5 +
+ .rustfmt.toml                                |   12 +
+ Documentation/doc-guide/kernel-doc.rst       |    3 +
+ Documentation/index.rst                      |    1 +
+ Documentation/kbuild/kbuild.rst              |   17 +
+ Documentation/kbuild/makefiles.rst           |   50 +-
+ Documentation/process/changes.rst            |   41 +
+ Documentation/rust/arch-support.rst          |   34 +
+ Documentation/rust/coding-guidelines.rst     |  214 ++
+ Documentation/rust/general-information.rst   |   77 +
+ Documentation/rust/index.rst                 |   20 +
+ Documentation/rust/logo.svg                  |  357 ++
+ Documentation/rust/quick-start.rst           |  230 ++
+ MAINTAINERS                                  |   15 +
+ Makefile                                     |  173 +-
+ arch/Kconfig                                 |    6 +
+ arch/arm/Kconfig                             |    1 +
+ arch/arm64/Kconfig                           |    1 +
+ arch/powerpc/Kconfig                         |    1 +
+ arch/riscv/Kconfig                           |    1 +
+ arch/riscv/Makefile                          |    5 +
+ arch/x86/Kconfig                             |    1 +
+ arch/x86/Makefile                            |   14 +
+ drivers/android/Kconfig                      |    6 +
+ drivers/android/Makefile                     |    2 +
+ drivers/android/allocation.rs                |  266 ++
+ drivers/android/context.rs                   |   80 +
+ drivers/android/defs.rs                      |   99 +
+ drivers/android/node.rs                      |  476 +++
+ drivers/android/process.rs                   |  960 +++++
+ drivers/android/range_alloc.rs               |  189 +
+ drivers/android/rust_binder.rs               |  111 +
+ drivers/android/thread.rs                    |  870 +++++
+ drivers/android/transaction.rs               |  326 ++
+ drivers/gpio/Kconfig                         |    8 +
+ drivers/gpio/Makefile                        |    1 +
+ drivers/gpio/gpio_pl061_rust.rs              |  370 ++
+ include/linux/kallsyms.h                     |    2 +-
+ include/linux/spinlock.h                     |   17 +-
+ include/uapi/linux/android/binder.h          |   28 +-
+ init/Kconfig                                 |   44 +-
+ kernel/kallsyms.c                            |   26 +-
+ kernel/livepatch/core.c                      |    4 +-
+ lib/Kconfig.debug                            |  143 +
+ lib/vsprintf.c                               |   13 +
+ rust/.gitignore                              |    8 +
+ rust/Makefile                                |  376 ++
+ rust/alloc/README.md                         |   32 +
+ rust/alloc/alloc.rs                          |  440 +++
+ rust/alloc/borrow.rs                         |  498 +++
+ rust/alloc/boxed.rs                          | 2008 +++++++++++
+ rust/alloc/collections/mod.rs                |  156 +
+ rust/alloc/fmt.rs                            |  601 ++++
+ rust/alloc/lib.rs                            |  231 ++
+ rust/alloc/macros.rs                         |  126 +
+ rust/alloc/raw_vec.rs                        |  561 +++
+ rust/alloc/slice.rs                          | 1279 +++++++
+ rust/alloc/str.rs                            |  632 ++++
+ rust/alloc/string.rs                         | 2862 +++++++++++++++
+ rust/alloc/vec/drain.rs                      |  186 +
+ rust/alloc/vec/drain_filter.rs               |  145 +
+ rust/alloc/vec/into_iter.rs                  |  356 ++
+ rust/alloc/vec/is_zero.rs                    |  106 +
+ rust/alloc/vec/mod.rs                        | 3353 ++++++++++++++++++
+ rust/alloc/vec/partial_eq.rs                 |   49 +
+ rust/alloc/vec/set_len_on_drop.rs            |   30 +
+ rust/alloc/vec/spec_extend.rs                |  174 +
+ rust/bindgen_parameters                      |   13 +
+ rust/build_error.rs                          |   29 +
+ rust/compiler_builtins.rs                    |   57 +
+ rust/exports.c                               |   20 +
+ rust/helpers.c                               |  531 +++
+ rust/kernel/allocator.rs                     |   65 +
+ rust/kernel/amba.rs                          |  259 ++
+ rust/kernel/bindings.rs                      |   47 +
+ rust/kernel/bindings_helper.h                |   37 +
+ rust/kernel/build_assert.rs                  |   80 +
+ rust/kernel/c_types.rs                       |  119 +
+ rust/kernel/chrdev.rs                        |  207 ++
+ rust/kernel/clk.rs                           |   75 +
+ rust/kernel/cred.rs                          |   73 +
+ rust/kernel/device.rs                        |  554 +++
+ rust/kernel/driver.rs                        |  440 +++
+ rust/kernel/error.rs                         |  560 +++
+ rust/kernel/file.rs                          |  873 +++++
+ rust/kernel/gpio.rs                          |  478 +++
+ rust/kernel/hwrng.rs                         |  242 ++
+ rust/kernel/io_buffer.rs                     |  153 +
+ rust/kernel/io_mem.rs                        |  237 ++
+ rust/kernel/iov_iter.rs                      |   81 +
+ rust/kernel/irq.rs                           |  409 +++
+ rust/kernel/lib.rs                           |  260 ++
+ rust/kernel/linked_list.rs                   |  247 ++
+ rust/kernel/miscdev.rs                       |  291 ++
+ rust/kernel/mm.rs                            |  149 +
+ rust/kernel/module_param.rs                  |  498 +++
+ rust/kernel/of.rs                            |   63 +
+ rust/kernel/pages.rs                         |  144 +
+ rust/kernel/platform.rs                      |  224 ++
+ rust/kernel/power.rs                         |  118 +
+ rust/kernel/prelude.rs                       |   36 +
+ rust/kernel/print.rs                         |  414 +++
+ rust/kernel/random.rs                        |   50 +
+ rust/kernel/raw_list.rs                      |  361 ++
+ rust/kernel/rbtree.rs                        |  562 +++
+ rust/kernel/revocable.rs                     |  163 +
+ rust/kernel/security.rs                      |   36 +
+ rust/kernel/static_assert.rs                 |   39 +
+ rust/kernel/std_vendor.rs                    |  150 +
+ rust/kernel/str.rs                           |  592 ++++
+ rust/kernel/sync/arc.rs                      |  500 +++
+ rust/kernel/sync/condvar.rs                  |  138 +
+ rust/kernel/sync/guard.rs                    |  166 +
+ rust/kernel/sync/locked_by.rs                |  112 +
+ rust/kernel/sync/mod.rs                      |  157 +
+ rust/kernel/sync/mutex.rs                    |  114 +
+ rust/kernel/sync/revocable_mutex.rs          |  184 +
+ rust/kernel/sync/rwsem.rs                    |  149 +
+ rust/kernel/sync/seqlock.rs                  |  202 ++
+ rust/kernel/sync/spinlock.rs                 |  192 +
+ rust/kernel/sysctl.rs                        |  199 ++
+ rust/kernel/task.rs                          |  182 +
+ rust/kernel/types.rs                         |  569 +++
+ rust/kernel/user_ptr.rs                      |  175 +
+ rust/macros/helpers.rs                       |   79 +
+ rust/macros/lib.rs                           |   94 +
+ rust/macros/module.rs                        |  631 ++++
+ samples/Kconfig                              |    2 +
+ samples/Makefile                             |    1 +
+ samples/rust/Kconfig                         |  130 +
+ samples/rust/Makefile                        |   15 +
+ samples/rust/hostprogs/.gitignore            |    3 +
+ samples/rust/hostprogs/Makefile              |    5 +
+ samples/rust/hostprogs/a.rs                  |    7 +
+ samples/rust/hostprogs/b.rs                  |    5 +
+ samples/rust/hostprogs/single.rs             |   12 +
+ samples/rust/rust_chrdev.rs                  |   50 +
+ samples/rust/rust_minimal.rs                 |   35 +
+ samples/rust/rust_miscdev.rs                 |  143 +
+ samples/rust/rust_module_parameters.rs       |   69 +
+ samples/rust/rust_platform.rs                |   22 +
+ samples/rust/rust_print.rs                   |   54 +
+ samples/rust/rust_random.rs                  |   60 +
+ samples/rust/rust_semaphore.rs               |  171 +
+ samples/rust/rust_semaphore_c.c              |  212 ++
+ samples/rust/rust_stack_probing.rs           |   36 +
+ samples/rust/rust_sync.rs                    |   93 +
+ scripts/.gitignore                           |    1 +
+ scripts/Kconfig.include                      |    6 +-
+ scripts/Makefile                             |    3 +
+ scripts/Makefile.build                       |   60 +
+ scripts/Makefile.debug                       |   10 +
+ scripts/Makefile.host                        |   34 +-
+ scripts/Makefile.lib                         |   12 +
+ scripts/Makefile.modfinal                    |    8 +-
+ scripts/cc-version.sh                        |   12 +-
+ scripts/decode_stacktrace.sh                 |   14 +
+ scripts/generate_rust_analyzer.py            |  133 +
+ scripts/generate_rust_target.rs              |  227 ++
+ scripts/is_rust_module.sh                    |   13 +
+ scripts/kallsyms.c                           |   40 +-
+ scripts/kconfig/confdata.c                   |   75 +
+ scripts/min-tool-version.sh                  |    6 +
+ scripts/rust-is-available-bindgen-libclang.h |    2 +
+ scripts/rust-is-available.sh                 |  158 +
+ tools/include/linux/kallsyms.h               |    2 +-
+ tools/lib/perf/include/perf/event.h          |    2 +-
+ tools/lib/symbol/kallsyms.h                  |    2 +-
+ 168 files changed, 35290 insertions(+), 63 deletions(-)
+ create mode 100644 .rustfmt.toml
+ create mode 100644 Documentation/rust/arch-support.rst
+ create mode 100644 Documentation/rust/coding-guidelines.rst
+ create mode 100644 Documentation/rust/general-information.rst
+ create mode 100644 Documentation/rust/index.rst
+ create mode 100644 Documentation/rust/logo.svg
+ create mode 100644 Documentation/rust/quick-start.rst
+ create mode 100644 drivers/android/allocation.rs
+ create mode 100644 drivers/android/context.rs
+ create mode 100644 drivers/android/defs.rs
+ create mode 100644 drivers/android/node.rs
+ create mode 100644 drivers/android/process.rs
+ create mode 100644 drivers/android/range_alloc.rs
+ create mode 100644 drivers/android/rust_binder.rs
+ create mode 100644 drivers/android/thread.rs
+ create mode 100644 drivers/android/transaction.rs
+ create mode 100644 drivers/gpio/gpio_pl061_rust.rs
+ create mode 100644 rust/.gitignore
+ create mode 100644 rust/Makefile
+ create mode 100644 rust/alloc/README.md
+ create mode 100644 rust/alloc/alloc.rs
+ create mode 100644 rust/alloc/borrow.rs
+ create mode 100644 rust/alloc/boxed.rs
+ create mode 100644 rust/alloc/collections/mod.rs
+ create mode 100644 rust/alloc/fmt.rs
+ create mode 100644 rust/alloc/lib.rs
+ create mode 100644 rust/alloc/macros.rs
+ create mode 100644 rust/alloc/raw_vec.rs
+ create mode 100644 rust/alloc/slice.rs
+ create mode 100644 rust/alloc/str.rs
+ create mode 100644 rust/alloc/string.rs
+ create mode 100644 rust/alloc/vec/drain.rs
+ create mode 100644 rust/alloc/vec/drain_filter.rs
+ create mode 100644 rust/alloc/vec/into_iter.rs
+ create mode 100644 rust/alloc/vec/is_zero.rs
+ create mode 100644 rust/alloc/vec/mod.rs
+ create mode 100644 rust/alloc/vec/partial_eq.rs
+ create mode 100644 rust/alloc/vec/set_len_on_drop.rs
+ create mode 100644 rust/alloc/vec/spec_extend.rs
+ create mode 100644 rust/bindgen_parameters
+ create mode 100644 rust/build_error.rs
+ create mode 100644 rust/compiler_builtins.rs
+ create mode 100644 rust/exports.c
+ create mode 100644 rust/helpers.c
+ create mode 100644 rust/kernel/allocator.rs
+ create mode 100644 rust/kernel/amba.rs
+ create mode 100644 rust/kernel/bindings.rs
+ create mode 100644 rust/kernel/bindings_helper.h
+ create mode 100644 rust/kernel/build_assert.rs
+ create mode 100644 rust/kernel/c_types.rs
+ create mode 100644 rust/kernel/chrdev.rs
+ create mode 100644 rust/kernel/clk.rs
+ create mode 100644 rust/kernel/cred.rs
+ create mode 100644 rust/kernel/device.rs
+ create mode 100644 rust/kernel/driver.rs
+ create mode 100644 rust/kernel/error.rs
+ create mode 100644 rust/kernel/file.rs
+ create mode 100644 rust/kernel/gpio.rs
+ create mode 100644 rust/kernel/hwrng.rs
+ create mode 100644 rust/kernel/io_buffer.rs
+ create mode 100644 rust/kernel/io_mem.rs
+ create mode 100644 rust/kernel/iov_iter.rs
+ create mode 100644 rust/kernel/irq.rs
+ create mode 100644 rust/kernel/lib.rs
+ create mode 100644 rust/kernel/linked_list.rs
+ create mode 100644 rust/kernel/miscdev.rs
+ create mode 100644 rust/kernel/mm.rs
+ create mode 100644 rust/kernel/module_param.rs
+ create mode 100644 rust/kernel/of.rs
+ create mode 100644 rust/kernel/pages.rs
+ create mode 100644 rust/kernel/platform.rs
+ create mode 100644 rust/kernel/power.rs
+ create mode 100644 rust/kernel/prelude.rs
+ create mode 100644 rust/kernel/print.rs
+ create mode 100644 rust/kernel/random.rs
+ create mode 100644 rust/kernel/raw_list.rs
+ create mode 100644 rust/kernel/rbtree.rs
+ create mode 100644 rust/kernel/revocable.rs
+ create mode 100644 rust/kernel/security.rs
+ create mode 100644 rust/kernel/static_assert.rs
+ create mode 100644 rust/kernel/std_vendor.rs
+ create mode 100644 rust/kernel/str.rs
+ create mode 100644 rust/kernel/sync/arc.rs
+ create mode 100644 rust/kernel/sync/condvar.rs
+ create mode 100644 rust/kernel/sync/guard.rs
+ create mode 100644 rust/kernel/sync/locked_by.rs
+ create mode 100644 rust/kernel/sync/mod.rs
+ create mode 100644 rust/kernel/sync/mutex.rs
+ create mode 100644 rust/kernel/sync/revocable_mutex.rs
+ create mode 100644 rust/kernel/sync/rwsem.rs
+ create mode 100644 rust/kernel/sync/seqlock.rs
+ create mode 100644 rust/kernel/sync/spinlock.rs
+ create mode 100644 rust/kernel/sysctl.rs
+ create mode 100644 rust/kernel/task.rs
+ create mode 100644 rust/kernel/types.rs
+ create mode 100644 rust/kernel/user_ptr.rs
+ create mode 100644 rust/macros/helpers.rs
+ create mode 100644 rust/macros/lib.rs
+ create mode 100644 rust/macros/module.rs
+ create mode 100644 samples/rust/Kconfig
+ create mode 100644 samples/rust/Makefile
+ create mode 100644 samples/rust/hostprogs/.gitignore
+ create mode 100644 samples/rust/hostprogs/Makefile
+ create mode 100644 samples/rust/hostprogs/a.rs
+ create mode 100644 samples/rust/hostprogs/b.rs
+ create mode 100644 samples/rust/hostprogs/single.rs
+ create mode 100644 samples/rust/rust_chrdev.rs
+ create mode 100644 samples/rust/rust_minimal.rs
+ create mode 100644 samples/rust/rust_miscdev.rs
+ create mode 100644 samples/rust/rust_module_parameters.rs
+ create mode 100644 samples/rust/rust_platform.rs
+ create mode 100644 samples/rust/rust_print.rs
+ create mode 100644 samples/rust/rust_random.rs
+ create mode 100644 samples/rust/rust_semaphore.rs
+ create mode 100644 samples/rust/rust_semaphore_c.c
+ create mode 100644 samples/rust/rust_stack_probing.rs
+ create mode 100644 samples/rust/rust_sync.rs
+ create mode 100755 scripts/generate_rust_analyzer.py
+ create mode 100644 scripts/generate_rust_target.rs
+ create mode 100755 scripts/is_rust_module.sh
+ create mode 100644 scripts/rust-is-available-bindgen-libclang.h
+ create mode 100755 scripts/rust-is-available.sh
+
+
+base-commit: 09688c0166e76ce2fb85e86b9d99be8b0084cdf9
+-- 
+2.35.1
+
