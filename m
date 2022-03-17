@@ -2,379 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A02F8C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:36:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5BAC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbiCQIhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 04:37:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35298 "EHLO
+        id S230307AbiCQIoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 04:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbiCQIho (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:37:44 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449091B989E;
-        Thu, 17 Mar 2022 01:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647506187; x=1679042187;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jf3cycBY4b9bAa1z4+DQe7hnOaypKuYYrMB41iTWVvE=;
-  b=QXtw5QGivTKgHD5zqAHWVO3NLIvzylUL64xy4iTDtEoZ2t/YkKwZXFw8
-   Yk66i7OUqTmdiC61ICs0UzZJbHitosc+SdHD7VKvOMJiyqRN1WtvhZIWJ
-   bC336QzVwi++cpVdnbMkNY5QnEd44lH3CnEhR5wSBO7l8N0vFheSSO64e
-   chJZ4MhI2A7pNheXo0xZuttJY+LuUE39MVTMK3bpt5nLuVGhPBgmTRP1N
-   CO+mzaV970Y7NkHionWXg9Icem4/45vd7ZnuP5/qXuyObtWpZW0FLKNVb
-   +Sf+m9LGVIrCPzb8gWe60Wt/AbzbdvB2xYHTt2YAIxzEB5fX9uxOmzTgk
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="256767267"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="256767267"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:36:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="498753607"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by orsmga003.jf.intel.com with ESMTP; 17 Mar 2022 01:36:26 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 17 Mar 2022 01:36:26 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 17 Mar 2022 01:36:25 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Thu, 17 Mar 2022 01:36:25 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Thu, 17 Mar 2022 01:36:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NO1VsK2GlEcN9df1VhFF8WSKdXfeK3PsacXcAH5ctcY69WbRRX2+SNXw9lvmlfbOuTwFGGA6OnEK+S238A1/VdTHPCwjVy53fwPwl/BRSGxusFUL5C3N0QSiCeX6WILQLWdDiDkVYFD8AV0ez7ipE7qbbHKlpmTxla3RBkg+YTtJShFCqlDCuoEHrDOWJWMRMSezoRtb2gUj7xFAiogTNrRm2x/06nCKmltoQ/8KGJBaWVW0ERIGB2GcSkOjIfl0AtsQtZf3e3nFCA/vbpiw06w+cgtNjNqbJZdIxkhMvHWtB5pziOpSCyL6kvPoWXfwAGyMV21ON+dyMDdTTvVmzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i8CMYHj05OzMRTepSAfD/UHnESFHX4LOSDsO+WgaFUg=;
- b=CSC1zWFix5owiCNfZYE/U0/R9l0u6LBZoMWlyuiASIjukO31v/aLzZ68moYgSZHYrqAJn5oIW1b2gw/GA1L0G/BIXJGlMHOSO5gdtIurHMImSFAzD0uGYr2paG6whsri1vu2DgpccdsZMQGHvoR5oxsMe18MKv1sLyTeVfQW+aASbVZLzsSr74sB55N3VD/oeNT9vRdMGWRNHBUsgTreUMOxdbf+Gu6QQ+HmU5EGFjLrzqrNpTeSBGj/umqzEZ0WuE5bGvBc16iELABskw6v23BXNdejsa7ecGeut3GRNth1xt0x958bhddLQY1ziKhOSiuK1GdTNOdL729jMoM7yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by DM5PR11MB1258.namprd11.prod.outlook.com (2603:10b6:3:14::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Thu, 17 Mar
- 2022 08:36:21 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::d9ee:5bb8:1828:222d]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::d9ee:5bb8:1828:222d%7]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
- 08:36:21 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "mdf@kernel.org" <mdf@kernel.org>,
-        "Xu, Yilun" <yilun.xu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>
-Subject: RE: [PATCH v6 6/6] Documentation: fpga: dfl: add description of OFS
-Thread-Topic: [PATCH v6 6/6] Documentation: fpga: dfl: add description of OFS
-Thread-Index: AQHYOQUjzk21EyQOPEqBNWzwea0TrazDPyyQ
-Date:   Thu, 17 Mar 2022 08:36:21 +0000
-Message-ID: <DM6PR11MB381974F8F1D288871C1FB5A285129@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20220316070814.1916017-1-tianfei.zhang@intel.com>
- <20220316070814.1916017-7-tianfei.zhang@intel.com>
-In-Reply-To: <20220316070814.1916017-7-tianfei.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d9583599-761d-42b7-2152-08da07f13701
-x-ms-traffictypediagnostic: DM5PR11MB1258:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <DM5PR11MB125878452ACDCC3A6E8929CA85129@DM5PR11MB1258.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uURVer1yTWPgR+FizgnACKrf59kGRGzBp60b6/2b7XaG5tN2fM6eFj4UtxDIMiMRpQjhJQqLrYnQJQxIU3py57oSA3QHmxH8Yv0OczTZIkVX2IqAWOHNkfLrB0Uf6Wty8viiLw+85wu8btMRoI/V+GbZB85hFxBXbpQ9fRcOeUKXDDWZFw8S2E7LplgcoGVl98Vk2uM4mhhCbppQZZvVMFua55kVCdQv+ByNsbVa7n3gqy6a/Ev0/RRTRX/AICmHlIcf3mg65K5fe+ERP8tqIXCyizHMoIsk17wznALuEkgC63SaHgygN3UsKtQ4av9obnTV7Y2TY2vdW+wOd3cpWDxDF5yq4p1aDAU0pZYJvGc7sCOMkwSI1jTUNgnBvjEA+NLgpTJWznDK3rKxZajAuyUXajCmuZpO4Tcj8gug6FtQ/zzFg9xpo2j3eQJO1u5wkqL7GXqTs359jUWMqlRe6HhIkV5ac5PJ5ReLc76YlMzcfT2dNCMahV9Y4dB1SjhFL2QfJbKDMtslNUCri9lQVDwTi0AQljWcdTuyTR0fiqRKl82Ihg1mDcrOvjM9+OIH6ur/TicvE0qw+oEDKOkUX0+C5Z67LGzr5bvfCQ51MWOGFIltPM06Z9jKYgXj6Nz2NArVo8yraazVWBnjKadOA3Ix89jI3YIdeeqkkU3JOVWCxeZzhVMhfk13WBNyrw33sItHj41N1NpzqtU/iTtuh/8wyyQC79j3KmuX8stD/lI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(82960400001)(38100700002)(921005)(122000001)(9686003)(7696005)(83380400001)(6506007)(186003)(86362001)(26005)(71200400001)(2906002)(508600001)(55016003)(4326008)(66946007)(52536014)(66556008)(66476007)(66446008)(64756008)(5660300002)(316002)(76116006)(38070700005)(8936002)(33656002)(8676002)(110136005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?W39WVgmhcfkhYZZ3vGUNEALwADln8nlnbJl+zgvIJBV9kORyqeeCZ+y/6tol?=
- =?us-ascii?Q?WZESRMvAeHzJlhapfofvlhHA86FkDvwxP3CApujZlsx4q513by8faBCYTCfZ?=
- =?us-ascii?Q?1wWMvu+K79rnhGvLNP7pb37wZCrmYLRVsnXALAtjE645A0XVnteoo4jE2vwG?=
- =?us-ascii?Q?KerVJ7N04Ab/YMB2Ek50IHy7qyah6s9xQrvqoCb4ZFYdyrt9l8EJ7Bnu7big?=
- =?us-ascii?Q?wdz1cwrdRdqGsX/6khsHydn2TM3/LqzuX5YQCfFGy2MrSqwyAFoqCtVZ2IU6?=
- =?us-ascii?Q?pO+87678Fzq92V0NvBfutGgG9AXEh073hAI23O2djCQFI2QtlCsJ9iYvnKmT?=
- =?us-ascii?Q?Bw/xvubrvbdVm3YatAp9i6g2fcKB8g3Br9C849uyw1dZPbEv7KuZiW2PUmtj?=
- =?us-ascii?Q?L6T0pkjU3Cd4QZiSJ/vI3UP7lm3e4t7llGmFOPGH2kblyaBkuhfMkhkf2PYO?=
- =?us-ascii?Q?Kzzd/75gsCPxcspg1dlgeRiO12KEc/LgTbPVBjesvMbHlxwzUaVLmfEfT87P?=
- =?us-ascii?Q?Whh4X1+jcaZd7g/DCAm5E22a8tFWjo44zeFE7hs+WaTu4A7yfBnjVk/h6uMs?=
- =?us-ascii?Q?ohyU3AuzVBontb+FZfKsfcd/pmj7TzROfV5dySerMPIWmwKMCRE/ypDx6/Op?=
- =?us-ascii?Q?BOCPZX57AhHgX/rrL7i72hxKhghlk4LweTa9IQl1nDcpzV+kr4Ta8c4zSXJv?=
- =?us-ascii?Q?TI9phXyquxmRV7pzB6RQ5+kvtqejaSKB2/x2BEAvFhAirBgwDK4cTZympNCA?=
- =?us-ascii?Q?iXvP8GFYE6vncflB/DIIMCLupj2eqCKERswh1XUOQo5NIe0kHgssg842E3Ki?=
- =?us-ascii?Q?FNJJgBgxM+JIVCA5/OBFuCOEqDl9yzGygONYUa05dy7g4AuPM7QKKhuggQnW?=
- =?us-ascii?Q?lMxcr113wqv5zmX1JvDfMdoqQMbB9fMGencQUFHPQZoanGzci2w6/jNe5h66?=
- =?us-ascii?Q?x1BSMl/kP+YfyIohBXhP+Tz3s2E4XIR0kKk0nDgilrEwKet46eTcOuETBRnc?=
- =?us-ascii?Q?WlEDaIsk+vdTJI6U/DDIjhOhIZLG1fZHz8QMhi19DjPNBfhaYMvfe2PnPflq?=
- =?us-ascii?Q?y2abGbvld97YIZpMQ02hYY1CeS+eDUSSHmK/4RejVbGHRNBcvnKfB7CrguRQ?=
- =?us-ascii?Q?b+/vWKUpas27yXfmSDy1evU3RzL/0aTggMYbRH9Eqid88XjMyeiGlIjPpLJX?=
- =?us-ascii?Q?slzTYobRz58SZCwaqhHrbLmjcvPk2buAQ6A9FLBwd40Zl0aJ63eWLoIBbLtG?=
- =?us-ascii?Q?dAzKTwK9kuuL3uZw0bWIr9FQD4uiSC41iWaztmzpqFsLcsaT2yic1mZ2DLS/?=
- =?us-ascii?Q?aIbg4ABOMR5x4/C0Np0NPLcEtXI9hKKkQs0xN4rj6zbVKZRZhRJ141LLvXzj?=
- =?us-ascii?Q?KyVRgqE890/pK+RTbnJ9r38zRBNNOuG67esLtv9+1bpv80DUiN/2JReMPX9+?=
- =?us-ascii?Q?Tx8JUKcMENQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229890AbiCQIoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:44:23 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2407DAB9
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:06 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id kl20so3706441qvb.10
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qJ5324mXHmvmdy0RadTI1yXZIuPol7vGmq96jYGkv+E=;
+        b=NNBZ9VphAmb4E1ipnE9WDRoZFhKMvDCB7MUeuTp8jEqeXdDxYz0OkjDN6SRKIoBsG0
+         5wJOSNZakF2vhUqGTyWh7DditsA/GzgnkwuLrXbbg9ZCVF7h+ekIh7MmrC1OG/3yUtLK
+         LCBeldb9MMNRE8oZwTAQ8E5VN9QMZuIMYxjKEjEgT2n+Lkgu1Z/MnSPr4WE1sJxp1KQo
+         bXux3GVHHErK3+F7ibVMmbmWbWkUfVsnLhDqVOlNFFM/vqk9krzLABLoJdQ/IstIQMhp
+         JY/yC/KcwAJj5tCQ8DX6rrfbTx1/7JBTHX9cDSmXbzzbLEky9OYeZN1Ugth7/SKVR5RP
+         XmgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qJ5324mXHmvmdy0RadTI1yXZIuPol7vGmq96jYGkv+E=;
+        b=c8P3u9AFt1mot72CDBXmupxd01UNd2a2jCP7rZQtAmLg9gNZH1tZTtMTjfTrKc4T0I
+         KhSHaC/8PEJVK0/T9eZqjv3TX3PN9/n5sC8QymKnYOQpRBU0FNbLc7rm6o3eIGB/P1Fw
+         1d+0Wgj+QdwWg8Z6SONifUyiEXt8aRXO8DJFEmPuGiKrc6A5ZPV6KXM6uKjEP0GRVInI
+         X8Vo3hCoYRnYkiRxQ1ixgtmCUXRCOeUc8ckrQGMpXoS+hXq5ZVK5t1UvsE8BngOiKx8J
+         y34T8zhkTMsM5XJVi+bInAySX3fWYgewJeCJgxP5/4c7oTrdUPKgikMS7HzGcEKBZZr8
+         ApCQ==
+X-Gm-Message-State: AOAM533oL8iSjpU5rPfaFuFr0RsjUkZmZK2kuxHZ6qY3RovthwIBjMDG
+        pgZlz8SopfBjGeVM5QoboqOXzB/vBjxi9PbRfSSLbQ==
+X-Google-Smtp-Source: ABdhPJyMaPc+wBVz0IYSasdBtgb8T2E7a2EUZN9kgmCOuoZkWd/JEx7gXuELJXoMc1WGWhFBoNA5i3897Jj4qXASHbc=
+X-Received: by 2002:a05:6214:29c7:b0:435:d0ae:dcd9 with SMTP id
+ gh7-20020a05621429c700b00435d0aedcd9mr2559194qvb.101.1647506585131; Thu, 17
+ Mar 2022 01:43:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9583599-761d-42b7-2152-08da07f13701
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2022 08:36:21.6117
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hfWhFbtn+JfdNQtpCgFiDhlxWblNYp/reLYl0bP+LFDbul7DDK/7JEZJpcklkcth/KkDQFY5KHSqsUQMEqbvPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1258
-X-OriginatorOrg: intel.com
+References: <20220316202622.324866-1-frowand.list@gmail.com>
+In-Reply-To: <20220316202622.324866-1-frowand.list@gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Thu, 17 Mar 2022 16:42:50 +0800
+Message-ID: <CABVgOSmkvxhHSJx0W6BEYz=Ai9vB=nCz625dSKLLUfU0rMLkFA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Documentation: dev-tools: begin KTAP spec v2 process
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Rae Moar <rmr167@gmail.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000cbdd4605da6604b0"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Subject: [PATCH v6 6/6] Documentation: fpga: dfl: add description of OFS
->=20
-> From: Tianfei zhang <tianfei.zhang@intel.com>
->=20
-> This patch adds description about OFS support for DFL.
+--000000000000cbdd4605da6604b0
+Content-Type: text/plain; charset="UTF-8"
 
-I think another major extension is for SRIOV support, DFL needs to be exten=
-ded to support
-another SRIOV usage model, could we have some more descriptions for that?
-e.g. In the new usage model, that PORT is not turned into VF and still can =
-be accessed
-in PF? how port release will be handled (or ignored) in this new model?=20
+On Thu, Mar 17, 2022 at 4:26 AM <frowand.list@gmail.com> wrote:
+>
+> From: Frank Rowand <frank.rowand@sony.com>
+>
+> An August 2021 RFC patch [1] to create the KTAP Specification resulted in
+> some discussion of possible items to add to the specification.
+> The conversation ended without completing the document.
+>
+> Progress resumed with a December 2021 RFC patch [2] to add a KTAP
+> Specification file (Version 1) to the Linux kernel.  Many of the
+> suggestions from the August 2021 discussion were not included in
+> Version 1.  This patch series is intended to revisit some of the
+> suggestions from the August 2021 discussion.
 
->=20
-> ---
-> v6:
-> fix documentation with Randy's comment.
-> v5:
-> fix documentation with Matthew and Randy's comment.
-> v4:
-> add description about access the AFU on "multiple VFs per PR slot" model.
-> v3:
-> change IOFS to OFS in documentation.
-> v2:
-> * Fixs some typos.
-> * Adds more detail description about the models of AFU access which suppo=
-rted
-> in OFS.
->=20
-> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-> ---
->  Documentation/fpga/dfl.rst | 114 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 114 insertions(+)
->=20
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index ef9eec71f6f3..93f262fe7b8c 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -556,6 +556,120 @@ new DFL feature via UIO direct access, its feature =
-id
-> should be added to the
->  driver's id_table.
->=20
->=20
-> +Open FPGA Stack
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Open FPGA Stack (OFS) is a collection of RTL and open source software
-> providing
-> +interfaces to access the instantiated RTL easily in an FPGA. OFS leverag=
-es the
-> +DFL for the implementation of the FPGA RTL design.
-> +
-> +OFS designs allow for the arrangement of software interfaces across mult=
-iple
-> +PCIe endpoints. Some of these interfaces may be PFs defined in the stati=
-c
-> region
-> +that connect to interfaces in an IP that is loaded via Partial Reconfigu=
-ration
-> (PR).
-> +And some of these interfaces may be VFs defined in the PR region that ca=
-n be
-> +reconfigured by the end-user. Furthermore, these PFs/VFs may use DFLs su=
-ch
-> that
-> +features may be discovered and accessed in user space (with the aid of a
-> generic
-> +kernel driver like vfio-pci). The diagram below depicts an example desig=
-n with
-> two
-> +PFs and two VFs. In this example, it will export the management function=
-s via
-> PF0,
-> +PF1 will bind with virtio-net driver presenting itself as a network inte=
-rface to
-> +the OS. The other functions, VF0 and VF1, leverage VFIO to export the MM=
-IO
-> space
-> +to an application or assign to a VM.
-> +::
-> +
-> +     +-----------------+  +--------------+  +-------------+  +----------=
---+
-> +     | FPGA Management |  |   VirtIO     |  |  User App   |  | Virtual  =
-  |
-> +     |      App        |  |     App      |  |             |  | Machine  =
-  |
-> +     +--------+--------+  +------+-------+  +------+------+  +-----+----=
---+
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +     |     DFL Driver  |  |VirtIO driver |  |    VFIO     |        |
-> +     +--------+--------+  +------+-------+  +------+------+        |
-> +              |                  |                 |               |
-> +              |                  |                 |               |
-> +     +--------+--------+  +------+-------+  +------+------+   +----+----=
---+
-> +     |     PF0         |  |     PF1      |  |   PF0_VF0   |   |  PF0_VF1=
-  |
-> +     +-----------------+  +--------------+  +-------------+   +---------=
---+
-> +
-> +As accelerators are specialized hardware, they are typically limited in =
-the
-> +number installed in a given system. Many use cases require them to be sh=
-ared
-> +across multiple software contexts or threads of software execution, eith=
-er
-> +through partitioning of individual dedicated resources, or virtualizatio=
-n of
-> +shared resources. OFS provides several models to share the AFU resources=
- via
-> +PR mechanism and hardware-based virtualization schemes.
-> +
-> +1. Legacy model.
-> +   With legacy model FPGA cards like Intel PAC N3000 or N5000, there is
-> +   a notion that the boundary between the AFU and the shell is also the =
-unit of
-> +   PR for those FPGA platforms. This model is only able to handle a
-> +   single context, because it only has one PR engine, and one PR region =
-which
-> +   has an associated Port device.
-> +2. Multiple VFs per PR slot.
-> +   In this model, available AFU resources may allow instantiation of man=
-y VFs
-> +   which have a dedicated PCIe function with their own dedicated MMIO sp=
-ace,
-> or
-> +   partition a region of MMIO space on a single PCIe function. Intel PAC=
- N6000
-> +   card has implemented this model.
-> +   In this model, the AFU/PR slot was not connected to port device. For =
-DFL's
-> view,
-> +   the Next_AFU pointer in FIU feature header of port device points to N=
-ULL in
-> this
-> +   model, so in AFU driver perspective, there is no AFU MMIO region mana=
-ged
-> by
-> +   AFU driver. On the other hand, each VF can start with an AFU feature =
-header
-> without
-> +   being connected to a FIU Port feature header.
-> +
-> +In multiple VFs per PR slot model, the port device can still be accessed=
- using
-> +ioctls API which expose /dev/dfl-port.h device nodes, like port reset, g=
-et
-> +port info, whose APIs were mentioned in AFU section in this documentatio=
-n.
-> But
-> +it cannot access the AFU MMIO space via AFU ioctl APIs like
-> DFL_FPGA_PORT_DMA_MAP
-> +because there is no AFU MMIO space managed in the AFU driver. Users can
-> access
-> +the AFU resource by creating VF devices via PCIe SRIOV interface, and th=
-en
-> access
-> +the VF via VFIO driver or assign the VF to VM.
-> +
-> +In multiple VFs per PR slot model, the steps to enable VFs are compatibl=
-e with
-> +legacy mode which are mentioned in "FPGA virtualization - PCIe SRIOV" se=
-ction
-> +in this documentation.
-> +
-> +OFS provides the diversity for accessing the AFU resource to RTL develop=
-er.
-> +An IP designer may choose to add more than one PF for interfacing with I=
-P
-> +on the FPGA and choose different model to access the AFU resource.
-> +
-> +There is one reference architecture design using the "Multiple VFs per P=
-R slot"
-> +model for OFS as illustrated below. In this reference design, it exports=
- the
-> +FPGA management functions via PF0. PF1 will bind with virtio-net driver
-> +presenting itself as a network interface to the OS. PF2 will bind to the
-> +vfio-pci driver allowing the user space software to discover and interfa=
-ce
-> +with the specific workload like diagnostic test. To access the AFU resou=
-rce,
-> +it uses SR-IOV to partition workload interfaces across various VFs.
-> +::
-> +
-> +                              +----------------------+
-> +                              |   PF/VF mux/demux    |
-> +                              +--+--+-----+------+-+-+
-> +                                 |  |     |      | |
-> +        +------------------------+  |     |      | |
-> +  PF0   |                 +---------+   +-+      | |
-> +    +---+---+             |         +---+----+   | |
-> +    |  DFH  |             |         |   DFH  |   | |
-> +    +-------+       +-----+----+    +--------+   | |
-> +    |  FME  |       |  VirtIO  |    |  Test  |   | |
-> +    +---+---+       +----------+    +--------+   | |
-> +        |                PF1            PF2      | |
-> +        |                                        | |
-> +        |                             +----------+ |
-> +        |                             |           ++
-> +        |                             |           |
-> +        |                             | PF0_VF0   | PF0_VF1
-> +        |           +-----------------+-----------+------------+
-> +        |           |           +-----+-----------+--------+   |
-> +        |           |           |     |           |        |   |
-> +        |           | +------+  |  +--+ -+     +--+---+    |   |
-> +        |           | | Port |  |  | DFH |     |  DFH |    |   |
-> +        +-----------+ +------+  |  +-----+     +------+    |   |
-> +                    |           |  | DEV |     |  DEV |    |   |
-> +                    |           |  +-----+     +------+    |   |
-> +                    |           |            PR Slot       |   |
-> +                    |           +--------------------------+   |
-> +                    | Port Gasket                              |
-> +                    +------------------------------------------+
-> +
-> +
->  Open discussion
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial
-> reconfiguration
+Thanks for kicking this off again. There were definitely a lot of good
+ideas in those threads which we haven't got to yet.
+
+I think there is an interesting line to walk between keeping KTAP
+sufficiently "TAP-like" (particularly w/r/t being able to reuse
+existing TAP parsers), and actually adding features, but I don't
+recall seeing many such issues in the previous threads.
+
+>
+> Patch 1 changes the Specification version to "2-rc" to indicate
+> that following patches are not yet accepted into a final version 2.
+
+I'm okay with this, though I'd want us to be a little careful with the
+timing so we don't end up with, for example, 5.18 having a KTAP spec
+called 2-rc which is functionally indistinguishable from v1.
+
+>
+> Patch 2 is an example of a simple change to the Specification.  The
+> change does not change the content of the Specification, but updates
+> a formatting directive as suggested by the Documentation maintainer.
+
+Thanks -- personally, I'd rather this change _does_ go in straight
+away, even before the 2-rc renaming.
+
+> I intend to take some specific suggestions from the August 2021
+> discussion to create stand-alone RFC patches to the Specification
+> instead of adding them as additional patches in this series.  The
+> intent is to focus discussion on a single area of the Specification
+> in each patch email thread.
+
+Seems like a sensible way to structure the discussion. It could get a
+little bit messy if there end up being merge conflicts, but the whole
+thing could be collapsed into a single patchset later if that ended up
+making more sense. (Though that might remove the need for the "rc"
+version, depending on exactly when and how it happened.)
+
+I'd also be curious to see patches to tests and/or test parsers to
+show off any particularly compatibility-breaking and/or interesting
+changes, though I don't think that _has_ to be a prerequisite for
+discussion or the spec.
+
+>
+> [1] https://lore.kernel.org/r/CA+GJov6tdjvY9x12JsJT14qn6c7NViJxqaJk+r-K1YJzPggFDQ@mail.gmail.com
+> [2] https://lore.kernel.org/r/20211207190251.18426-1-davidgow@google.com
+>
+> Frank Rowand (2):
+>   Documentation: dev-tools: KTAP spec change version to 2-rc
+>   Documentation: dev-tools: use literal block instead of code-block
+>
+>  Documentation/dev-tools/ktap.rst | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
+>
 > --
-> 2.26.2
+> Frank Rowand <frank.rowand@sony.com>
+>
 
+Cheers,
+-- David
+
+--000000000000cbdd4605da6604b0
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
+2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
+dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
+jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
+ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
+QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBn
+daIT+gpBNflXR4eLXrgbGfvj3MmwMqJl0RWGuPkw1DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjAzMTcwODQzMDVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAo8L6wf0I/ZY1xewwSQTI
+EhaTLXZy/q023l2Lse8T/Zpk9V0p80n8P9lnY9fj8Pzs4YRM7NWQywvXhI8JctLfQIPpKN6cP4WZ
+ke44wDVqyD2WZJCFeumnrS3TRLKXYKZ9NjQ7BWRvxsogcsgKmPRrEbDb6OiWz1fbNCjWhrl6rzyy
+usM5r4ZheVxA55ua/MleCH8DnzVwNIardaYtA3hDap4D8fA4PeGFWAxlos++gyKaLLF9UijfNmyw
+zKPd01WixgDbhL4f5Z60VRry/0ntcMF68A0HEUvSx2XrtNvl+SDdltYB6+SRjVdUMQ6Yib6KHAjp
+R0Xsncfu+A1WRlXOIg==
+--000000000000cbdd4605da6604b0--
