@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7F0C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:27:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C23C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 01:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243789AbiCQB27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Mar 2022 21:28:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41136 "EHLO
+        id S244111AbiCQB3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Mar 2022 21:29:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358363AbiCQB2z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:28:55 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63F41EEC9
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:27:14 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id w4so4801062edc.7
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:27:14 -0700 (PDT)
+        with ESMTP id S1358379AbiCQB25 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Mar 2022 21:28:57 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22DB61F600
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:27:20 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id w25so4787527edi.11
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 18:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=4X0ye1R7E6Vo4MC211w7WY9WZ/7Q3fReVh7P7560P4k=;
-        b=N6ZSZ8Ph7eiABP1o37mkgHP4+uGIu3jgQrZXh7Dn9e5IGu/P6kRi7fDu4PFGzCtzXg
-         7zifTba4yE9Izmqbyi3AYxurV58PJXmLY5kSX/AQUsIRqVcF1lWX8S4NEo5Z7QK4fAug
-         RJ4gkUZkhGUv7QknDlQMmYE2Nt7YTQ4dSOvFw3DXnZMVQkss8ktiMIY1W4ogMpRrwNrt
-         Mx4ABIkIBlCcbp9CskTBPsj/Db367CPv/Dnpkt74J7CJ+CEYz2Q39MOKZ+38Knd+C5bv
-         mcZpt/tTaMBgDruAnR6EHaKx7AvoIOGm/8O2tBUCk7+X5BwpRpLzxTV8NdrqoD+5FTR2
-         fd5Q==
+        bh=VOxKsTGlBiXPbLWsRjfTqw/sHWeUi1uspD6WChZvBGc=;
+        b=LNQndeOSXW/bAWh7JNokNGhZ5eqGvlPxbUsfct7uX8e652+AZTZFl6ZnbKhzWsZnR1
+         F98RG8Wz1O2VsVCedS3lzBDewtqbBDLRgtzBBR4D0o7EZvQZNJjxyuAKcQhdfpXgs2kj
+         KIIyEkSMSMqcOZyYfIPhbZTyng29T83GGHYU2CJJoH9IK8oJWnuaI8G4WSTUQr7ENP5L
+         TNY2t+1Q1U69nlq1sH6hKoMoKg1JCpnaIZSqb3up1G95PvRLagrF6NifKl20EyuOChZ9
+         J7dAHfJVKkdxD77XohB1NZlmtuNEsAZkWX2IGX4KCaGAcTbIRASL5NQ6BYDQFt4YerPo
+         B6Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4X0ye1R7E6Vo4MC211w7WY9WZ/7Q3fReVh7P7560P4k=;
-        b=0yXTxbgP5SaS08Z3kTGhN3vyDvDQ96DyWvgigkDcq6bQDvMGIC+/NhSDygA1SOcRaa
-         1x1srKDwAVJTCyCZX/CzQmm82wQrvNUseaMSFG6yGlcRlJePe4en2j6HdSOcV0M2qo/l
-         /w7pfFMGKIqhAeGDgUyrmTEaoHScDOLAA0dgKyuwG97ukDXluobaC8CF7yhrWS62SKMj
-         3FPZOxU0eAW3VpgfZlb8DgXkkzvwb2pIyHM63Oy3eq0YE6H0cn9uTNfqtyb8B6hQkt5Q
-         LA2hzVSg5b8O+ZW66oVeISUEjaPYTUVdSKDG8VsdSYJcT1Bb9l5EfMgT10gDUEPrJVwu
-         AE+w==
-X-Gm-Message-State: AOAM530eFi1GsKKkIe90C18oHpqct51VHtl7K9n97eRNqdt6L7AfcmMZ
-        wam5bM0T9ql95jTNROT2oqZ16vLVTc4OWTNsxzY4
-X-Google-Smtp-Source: ABdhPJwqC8RXOESLQdvVVq8pj/tOvJDSwoQ3b6OA2k0xBWNAZNnTD01ZmDN947akS0a+aBmeO35Kg5c2elFuOM7OO7g=
-X-Received: by 2002:a05:6402:42d4:b0:412:c26b:789 with SMTP id
- i20-20020a05640242d400b00412c26b0789mr2085214edc.232.1647480433254; Wed, 16
- Mar 2022 18:27:13 -0700 (PDT)
+        bh=VOxKsTGlBiXPbLWsRjfTqw/sHWeUi1uspD6WChZvBGc=;
+        b=Tz+rhwLcJmGBgugFbQEG5ISjWWqr9EHRpTsUUnXl1xI0gVshD4umF1WaZQGdzQZZjk
+         2CZZ13xwie0ysw52ePQPfpmAKAVYK6WrWHv4Dwv/+IzMSKblfcsOLn6yEnXJcQ01VfI5
+         K64UDCpZpRRkthrB0ayb8erV24BsEcRev6KLt4Tj9DXkTkwj6QrZ8Lx4bV+QYt9TEW19
+         xUGk8xPgrlDeMZ/Dxkj05XrlX3aEFvwq9BgrbLlqSeal1NXyjB9WN8CCVd9jAw5npAka
+         Gb8du0lHnXpM6mAcFVYv5sZYhL9hESptnq7fUS6FK/L9r4gDmggRK2lAmOSgzHgBnrHZ
+         F+SA==
+X-Gm-Message-State: AOAM530ndgy4N7LfByxwWB4w/G5V3a24SFwk3O9jJNwKPwABGqy1noVr
+        ONvxypvymjv3lWVuAag2UtPt3UqYvKfmR8cooA0s
+X-Google-Smtp-Source: ABdhPJzKzxlZ+0pm3CY5Kl7j8CFXMcoRrP56pFWJh+04iR0sxvt0PPoz+ZQBE4MeZ3T3Tg/mmXPL96Pxy2osfTaCu6E=
+X-Received: by 2002:a05:6402:1746:b0:418:d816:14e0 with SMTP id
+ v6-20020a056402174600b00418d81614e0mr2016945edx.340.1647480439041; Wed, 16
+ Mar 2022 18:27:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-10-mic@digikod.net>
-In-Reply-To: <20220221212522.320243-10-mic@digikod.net>
+References: <20220221212522.320243-1-mic@digikod.net> <20220221212522.320243-11-mic@digikod.net>
+In-Reply-To: <20220221212522.320243-11-mic@digikod.net>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 16 Mar 2022 21:27:02 -0400
-Message-ID: <CAHC9VhSmz1ga5NTu=vG3+Z+gxD8C+-W+k5UweUROe2p4BfjSTg@mail.gmail.com>
-Subject: Re: [PATCH v1 09/11] landlock: Document LANDLOCK_ACCESS_FS_REFER and
- ABI versioning
+Date:   Wed, 16 Mar 2022 21:27:07 -0400
+Message-ID: <CAHC9VhTSTkOLx_CfB9DsG1GqZm87o2Ds0urZv+gS+sA4gMjfFA@mail.gmail.com>
+Subject: Re: [PATCH v1 10/11] landlock: Document good practices about
+ filesystem policies
 To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
 Cc:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>,
@@ -74,77 +74,14 @@ wrote:
 >
 > From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
 >
-> Add LANDLOCK_ACCESS_FS_REFER in the example and properly check to only
-> use it if the current kernel support it thanks to the Landlock ABI
-> version.
->
-> Move the file renaming and linking limitation to a new "Previous
-> limitations" section.
->
-> Improve documentation about the backward and forward compatibility,
-> including the rational for ruleset's handled_access_fs.
->
 > Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> Link: https://lore.kernel.org/r/20220221212522.320243-10-mic@digikod.net
+> Link: https://lore.kernel.org/r/20220221212522.320243-11-mic@digikod.net
 > ---
->  Documentation/userspace-api/landlock.rst | 124 +++++++++++++++++++----
->  1 file changed, 104 insertions(+), 20 deletions(-)
-
-Thanks for remembering to update the docs :)  I made a few phrasing
-suggestions below, but otherwise it looks good to me.
+>  Documentation/userspace-api/landlock.rst | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 
 Reviewed-by: Paul Moore <paul@paul-moore.com>
 
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/use=
-rspace-api/landlock.rst
-> index f35552ff19ba..97db09d36a5c 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -281,6 +347,24 @@ Memory usage
->  Kernel memory allocated to create rulesets is accounted and can be restr=
-icted
->  by the Documentation/admin-guide/cgroup-v1/memory.rst.
->
-> +Previous limitations
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +File renaming and linking (ABI 1)
-> +---------------------------------
-> +
-> +Because Landlock targets unprivileged access controls, it is needed to p=
-roperly
-                                                          ^^^^^
-                                           "... controls, it needs to ..."
-
-> +handle composition of rules.  Such property also implies rules nesting.
-> +Properly handling multiple layers of ruleset, each one of them able to r=
-estrict
-                                        ^^^^^^^
-                                      "rulesets,"
-
-> +access to files, also implies to inherit the ruleset restrictions from a=
- parent
-                                 ^^^^^^^^^^
-                    "... implies inheritance of the ..."
-
-> +to its hierarchy.  Because files are identified and restricted by their
-> +hierarchy, moving or linking a file from one directory to another implie=
-s to
-> +propagate the hierarchy constraints.
-
-"... one directory to another implies propagation of the hierarchy constrai=
-nts."
-
-> +                                     To protect against privilege escala=
-tions
-
-> +through renaming or linking, and for the sake of simplicity, Landlock pr=
-eviously
-> +limited linking and renaming to the same directory.  Starting with the L=
-andlock
-> +ABI version 2, it is now possible to securely control renaming and linki=
-ng
-> +thanks to the new `LANDLOCK_ACCESS_FS_REFER` access right.
 
 --
 paul-moore.com
