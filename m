@@ -2,129 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C154C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 14:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4C1C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 15:13:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235431AbiCQOwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 10:52:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35746 "EHLO
+        id S235660AbiCQPOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 11:14:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235430AbiCQOwK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 10:52:10 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C2420288E;
-        Thu, 17 Mar 2022 07:50:51 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id kx13-20020a17090b228d00b001c6715c9847so3393505pjb.1;
-        Thu, 17 Mar 2022 07:50:51 -0700 (PDT)
+        with ESMTP id S235663AbiCQPOy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 11:14:54 -0400
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9D51EC6D;
+        Thu, 17 Mar 2022 08:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Ult9/ByMuaDuRWu9wegLfYo3cD7pdC8YBvUdPcfln2g=;
-        b=T517SpSpDL+enl1+v3+I5yfkt5E2hHJD3z2stzP5AjDTOC8WuLind6JgtHAHp3Ls3R
-         Lt/8f1MGkzeT5ibHptTfBMVtCk4utRyLvrxBSu+b+Q6tlV2alIsMSx0CeqCev2uy0KjC
-         rlVOljaoT02QJvvX2oOPaNOocwhCqhLFph8FEC7MVLQ8bQOZMs3LfBtIPLuxm1n0t+Po
-         UUy32UY+2ssqYQWEJ9GXwOrCvflP889u5QcG+npuSm9/o4Z6jt8LdhnqEkYCkHFDzIHa
-         kwouUOcXo4LOjjhg1cUKUewGnzffGol1GQgEtqx8+Z1xODWPt9AIS2axbo16hhyyUOMa
-         zDXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Ult9/ByMuaDuRWu9wegLfYo3cD7pdC8YBvUdPcfln2g=;
-        b=oC77KhE2hcvigVqmwX6tKT08MprdCaSP10XIBqe7CAqZw63uriHuvOqD8YQ307VqPe
-         18609hQ8dZzAQJX7Pmd7lbfvvV9eChG6jgvaG0slHRmNAqTRAFJQbSqGzBPok4Czi4TI
-         EPHZvexN2lbCBn4xIC2gRUqSF0IXI/PJnuEqoU1XS5wmduKhGgxKYrDnfn3LdjHoJMmW
-         Cg8DkKFF/984v81R+/vMcXkpjrMzfzjsbIVJ4tpF9LrCCinYQkX5E1QIv7eYPr08jwEq
-         Mid9ZmKS0zG92VgqR2K19PpLckDb3ncNsBl6vVpa/s9VJump7t8kQP6kllMT8MxrJ+Zv
-         yKuw==
-X-Gm-Message-State: AOAM532kByZGOGXne1UlGHjMK7QM3hxzV5u3F5IY66x3PlwSZrARKKj/
-        NML34fDN1hw8+1fa2Xb/9Ck=
-X-Google-Smtp-Source: ABdhPJzFCIQ9U1a5Ff/NkoQwA2u5QpYwRvFkzLuMNq8vKBUpmH511ahdUg5ea8QEBhH0/mIsgY9mHg==
-X-Received: by 2002:a17:90b:4b4a:b0:1bf:83d:6805 with SMTP id mi10-20020a17090b4b4a00b001bf083d6805mr16755000pjb.174.1647528650948;
-        Thu, 17 Mar 2022 07:50:50 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id l2-20020a056a0016c200b004f7e3181a41sm7579754pfc.98.2022.03.17.07.50.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Mar 2022 07:50:50 -0700 (PDT)
-Message-ID: <61547556-790f-f74f-ca2e-b2fde714a7fa@gmail.com>
-Date:   Thu, 17 Mar 2022 23:50:42 +0900
+  d=axis.com; q=dns/txt; s=axis-central1; t=1647530014;
+  x=1679066014;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fHWs2R0/HroMWVTCgnVUe4lBXlDwFYBBcGLvlS7a3UU=;
+  b=eCq2n5lNToApmhDsKXn4E79J8H4m7M/YXX6eaIbt5TBne2OfQ18/VdR8
+   AfwwUCEwN5ZGJlxcONC1XDxcb8mjhGlfZ7sYceaK6NEN6YWvCxQLEbYJ2
+   p9kefYYFBf0iWQrJyGJC1aQPYSAohoDKQu+C1TJV+0DaPWDqAFvmAtZ96
+   N/1fJXReS1Wyxn5jlZhFOo4uLUZuz/AoZ+k70MRjgt5+RGMsV+u4o8Il0
+   +32WuT5ti+4qJT3WkU7ARWFi+2mX1CclqcnlduLRHrPknPQ1XiLScwXBE
+   MnZY7G+q5qacSWdKWphD/AI5foCpo0nYeLzxD8nnvZwpk7dRFeLo2Xbx4
+   A==;
+Date:   Thu, 17 Mar 2022 16:13:26 +0100
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     Mark Brown <broonie@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <kernel@axis.com>,
+        <devicetree@vger.kernel.org>, <linux-um@lists.infradead.org>,
+        <shuah@kernel.org>, <brendanhiggins@google.com>,
+        <linux-kselftest@vger.kernel.org>, <jic23@kernel.org>,
+        <linux-iio@vger.kernel.org>, <lgirdwood@gmail.com>,
+        <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>,
+        <linux-rtc@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 09/10] regulator: tps62864: add roadtest
+Message-ID: <20220317151326.GA7832@axis.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-10-vincent.whitchurch@axis.com>
+ <YiuPvkQroV/WdFpx@sirena.org.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 15/20] docs: add Rust documentation
-Content-Language: en-US
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
-        Gary Guo <gary@garyguo.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Yuki Okushi <jtitor@2k36.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Finn Behrens <me@kloenk.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Wei Liu <wei.liu@kernel.org>
-References: <20220212130410.6901-16-ojeda@kernel.org>
- <8baf7006-90ed-25b8-3005-69b5475215cf@gmail.com>
- <CANiq72mQffofeW4C=AWF4CHu=WpgpwB4hAv_q9QiTX_+U38qGg@mail.gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <CANiq72mQffofeW4C=AWF4CHu=WpgpwB4hAv_q9QiTX_+U38qGg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YiuPvkQroV/WdFpx@sirena.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Miguel,
+On Fri, Mar 11, 2022 at 06:06:54PM +0000, Mark Brown wrote:
+> On Fri, Mar 11, 2022 at 05:24:44PM +0100, Vincent Whitchurch wrote:
+> This looks like it could be useful, modulo the general concerns with
+> mocking stuff.  I've not looked at the broader framework stuff in any
+> meanigful way.
 
-On Thu, 17 Mar 2022 09:19:37 +0100,
-Miguel Ojeda wrote:
-> Hi Akira,
+Thank you for having a look!
+
+Here's a bit of background story about how I used this particular test,
+which hopefully shows an example of where I've seen the benefits of
+mocking hardware: 
+
+When I wrote this tps6286x driver a while ago, I tested it as one
+usually does, checking with i2cdump that the correct register values are
+written, measuring the voltages with a multimeter, rising and repeating
+with different devicetree properties, and so on.  (This framework didn't
+exist at that point.)
+
+Later, when preparing the driver for mainline submission, I wanted a
+quick way to check that any changes or cleanups that I needed to do
+during that process didn't invalidate all my and others' earlier
+testing.  The easiest way to do that was to ensure that the driver
+continued to write the same bits in the same registers when given the
+same set of inputs and devicetree properties, and that is where I found
+the mocking to be useful.
+
+In this case where there is no external input, the testing could of
+course have all been done manually with the real hardware, but there was
+little reason to do so when the hardware was the one factor which had
+not changed.  The abilitly to create multiple devices with different
+devicetree properties (such as fast mode on/off) was a real time-saver
+too.
+
+> > +    @classmethod
+> > +    def setUpClass(cls) -> None:
+> > +        insmod("tps6286x-regulator")
 > 
-> On Mon, Feb 14, 2022 at 11:47 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->>
->>> diff --git a/Documentation/rust/logo.svg b/Documentation/rust/logo.svg
->>> new file mode 100644
->>> index 000000000000..65be792a5abe
->>> --- /dev/null
->>
->> How about adding a suitable license identifier in a comment?
-> 
-> For the next round, I did not apply this suggestion, because it is
-> unclear which license identifier to use: it would be probably be the
-> same as the `COPYING-logo` one (which would be used also for the Tux
-> SVG, if it gets merged -- it was sent a while ago).
+> Shouldn't this get figured out when the device gets created in DT (if it
+> doesn't I guess the tests found a bug...)?
 
-I see.
+The system isn't set up to load modules automatically.  The reason for
+this is to give the test cases full control of when the module is loaded
+and unload, since the tests could want to load the module with specific
+options.
 
-As I see v2 15/20, the SVG figure is among other documentation updates.
-IIUC, this figure/logo was in PNG at first, but Jon suggested vector graphics.
-If this is the case, it deserves an individual patch with a changelog
-explaining why it is in SVG, where the Tux figure came from, what was the
-original PNG logo, who contributed the SVG conversion, etc.
-
-I understand you did all the SVG work, didn't you?
-I don't think those many Co-developed-by tags apply to this figure.
-
-I'm saying this because this figure/logo can be reused in other open-
-source projects on its own.  It would be worth clarifying its origin 
-in the Git history as well as in COPYING-logo.
-
-        Thanks, Akira
+Also, the framework splits up logs and shows errors that occurs during
+each specific test if the tests fail, and this would become less useful
+if all modules for all the devices in the devicetree get loaded on
+startup when the devicetree is parsed and one of the modules failed to
+load or crashed when loaded.
 
 > 
-> Cheers,
-> Miguel
+> > +    def setUp(self) -> None:
+> > +        self.driver = I2CDriver("tps6286x")
+> > +        self.hw = Hardware("i2c")
+> > +        self.hw.load_model(TPS62864)
+> 
+> This feels like there could be some syntactic sugar to say "create this
+> I2C device" in one call?  In general a lot of the frameworkish stuff
+> feels verbose.
+
+Yes, I agree this could be simplified.  I think the
+update_mock/reset_mock dance could also potentially be simplified with a
+with statement.
+
+Beyond that, yes, there is some boilerplate setup for each test to bind
+the devices.  This can differ between drivers and subsystems so I'm not
+sure how much could be shared, but I guess some of them could be
+separated out into a internal function for this particular test.
+
+> > +    def test_voltage(self) -> None:
+> > +        with (
+> > +            self.driver.bind(self.dts["normal"]),
+> > +            PlatformDriver("reg-virt-consumer").bind(
+> > +                "tps62864_normal_consumer"
+> > +            ) as consumerdev,
+> > +        ):
+> > +            maxfile = consumerdev.path / "max_microvolts"
+> > +            minfile = consumerdev.path / "min_microvolts"
+> > +
+> > +            write_int(maxfile, 1675000)
+> > +            write_int(minfile, 800000)
+> > +
+> > +            mock = self.hw.update_mock()
+> > +            mock.assert_reg_write_once(self, REG_CONTROL, 1 << 5)
+> > +            mock.assert_reg_write_once(self, REG_VOUT1, 0x50)
+> > +            mock.reset_mock()
+> 
+> Some comments about the assertations here would seem to be in order.
+> It's not altogether clear what this is testing - it looks to be
+> verifying that the regulator is enabled with the voltage set to 800mV
+> mapping to 0x50 in VOUT1 but I'm not sure that the idle reader would
+> pick that up.
+
+Yes, I will add some comments.  I also made some of the bit fields use
+constants in some of the other driver, that could be done here too.
+
+> 
+> > +            mV = 1000
+> > +            data = [
+> > +                (400 * mV, 0x00),
+> > +                (900 * mV, 0x64),
+> > +                (1675 * mV, 0xFF),
+> > +            ]
+> > +
+> > +            for voltage, val in data:
+> > +                write_int(minfile, voltage)
+> > +                mock = self.hw.update_mock()
+> > +                mock.assert_reg_write_once(self, REG_VOUT1, val)
+> > +                mock.reset_mock()
+> 
+> For covering regulators in general (especially those like this that use
+> the generic helpers) I'd be inclined to go through every single voltage
+> that can be set which isn't so interesting for this driver with it's
+> linear voltage control but more interesting for something that's not
+> continuous.
+
+That could be useful in some cases, but if going through all the
+voltages in a loop requires that the test implement the exact same
+voltage-to-bitfield conversion function as the driver, then the benefit
+of that part of the test is unclear.  That's the reason why for example
+the OPT3001 test uses known values from the datasheet rather than just
+copying the conversion function in the driver to Python.
+
+> I'd also put a cross check in that the voltage and enable
+> state that's reported via the read interface in sysfs is the one that we
+> think we've just set, that'd validate that the framework's model of
+> what's going on matches both what the driver did to the "hardware" and
+> what the running kernel thinks is going on so we're joined up top to
+> bottom (for the regulator framework the read values come from the
+> driver so it is actually covering the driver).
+
+Makes sense, I can add that.
+
+> This all feels like it could readily be factored out into a generic
+> helper, much as the actual drivers are especially when they're more data
+> driven.  Ideally with the ability to override the default I/O operations
+> for things with sequences that need to be followed instead of just a
+> bitfield to update.  Callbacks to validate enable state, voltage, mode
+> and so on in the hardware.  If we did that then rather than open coding
+> every single test for every single device we could approach things at
+> the framework level and give people working on a given device a pile of
+> off the shelf tests which are more likely to catch things that an
+> individual driver author might've missed, it also avoids the test
+> coverage being more laborious than writing the actual driver.
+
+Things could certainly be factored out in the future, but I'm a bit wary
+of attempting to do that when we have a test for only one regulator
+driver, and a very minimal regulator driver at that.
+
+> This does raise the questions I mentioned about how useful the testing
+> really is of course, even more so when someone works out how to generate
+> the data tables for the test and the driver from the same source, but
+> that's just generally an issue for mocked tests at the conceptual level
+> and clearly it's an approach that's fairly widely used and people get
+> value from.
+
+For the regulator drivers which are purely-data driven such as the ones
+mostly implemented by setting the various fields in struct
+regulator_desc along with the helpers in the framework, it could perhaps
+be useful to implement kunit tests in the regulator subsystem which test
+that using the various fields actually results in the expected
+consumer-visible behaviour with the regulator API.
+
+Then, for the indivudal drivers themselves, roadtests could cover things
+like probe handling, functions implemented without using helpers, checks
+that the correct variant's registers are used in drivers supporting
+multiple variants, custom devicetree properties, interrupt handling, and
+the like.
