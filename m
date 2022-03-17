@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C548C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 06:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5BDC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 06:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbiCQGwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 02:52:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48836 "EHLO
+        id S229973AbiCQGwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 02:52:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230060AbiCQGwO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 02:52:14 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC9EABF49
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 23:50:52 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d18so3710615plr.6
-        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 23:50:52 -0700 (PDT)
+        with ESMTP id S229968AbiCQGwV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 02:52:21 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84F70ECB20
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 23:51:01 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id o13so1966452pgc.12
+        for <linux-doc@vger.kernel.org>; Wed, 16 Mar 2022 23:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L2gPV0F/03w1jItK70XO3UddjLcx3kD0WXvWhviOE9M=;
-        b=kpRsLtfVH4xQ3Jp/mbZBLPoIRtEg9cFiNAPKuZDAu02n/vLFxK43ZQuV+GFA1ASphw
-         cr+OHiF9Zitc3ntRbG2dpkNcVe3ADLoxfEYvBhQDTGGAmyw3Eumw01T9OKeb29OU3iBD
-         DgRhB3P4+y/KWAda4aOkBAx+yWlWM1T+y30rcBgMwG2mLaMQm6OTt4wJHOEuXc4IQAdh
-         2Pw4lc/d5MI8gcNUsB+jSmy+W5o39PF183LIhs8Dsf8Yj4EnpEXFoWoShnL2py32gP7p
-         DbjC3Bpnu9/BreXwFpUGZEgXHeVNCYxCeZl9yL2F8UMAdobQ7DcHARjCm4pjZo1fnzDR
-         gzzg==
+        bh=l7P/KYRv+yTC7MhkzdfF7f21IgSIuaHW9VkLgIPsnps=;
+        b=XKlsTgipCIs6zOS6jXR/A16ao0D3HRjMRt06LGVbVw6mqCASoN2MeMRzH5Vj/WQ/sT
+         SBsxaMs8/SvJG0k+DVfIO2lMe4Shnv1OaGEp65AhQvhwy+3AtDiy1LjoDtZy0nRzid9p
+         8ae+fAtA59dS/DP4h/drpm6yLPOesfpH14lTkdg9ugS6E7IHXpCfP2H6gAySk+vaLzYc
+         1A5ibyZVVwtY/dBviQ0yEYpOMvl2fPqU3GjBypCVpTA0dxSytYWYkhb0kxWBMsfj5+jy
+         9rtJBvB8XoIK9+1DfYl8AvFVwgyAUzSBTBG2QQHJrCDa+3tfsgxqr6vO26EeSN1J5xR4
+         NYaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L2gPV0F/03w1jItK70XO3UddjLcx3kD0WXvWhviOE9M=;
-        b=3W6qcltUYq/eK/XtxvTiP9L0SCek6GnR1AOLi1M+0m5VHrHcTjaUgq9om8LBnfTgEM
-         hIQ7lZpYEF6Tu7g8LHESseMHJxdBiWTVa1UfxfE7Y+Sh0zagobSOECRnACZ/6i755juk
-         FeeiC6Ra3JYuaNeoI8SQKRsKfMQ9le04vUifbCbVkLhMq2TiC2u2YS6RAJ2Czor/HCGy
-         mHOt5k4Lbny2RqsMzsiQUztnSiAhk6D4SuR8xVSIXRtRjSjoRKekfpMIcnXRFKsGO9Ug
-         f+AiDREaR4CGi2kGdUFK4S7cEyPafHaqu9VzZL5qhNfgbsv5dQ0n/TWnNOkCtqfilhLW
-         P6jQ==
-X-Gm-Message-State: AOAM533tZt6/XdGe5o5ktmTA16jXAd02RjDBUAJ3sOjcxWmCgdQyYNej
-        YNpR4QsMWgqp87st3q3MT6s=
-X-Google-Smtp-Source: ABdhPJw4UAAo3Q/Q9kxW4v9ny75L5pqr/hPsfIX/wEn9vh+M9hq5OYIqruJ9ESMrPLG5GY0ajCbJqw==
-X-Received: by 2002:a17:902:b406:b0:14f:bb35:95ab with SMTP id x6-20020a170902b40600b0014fbb3595abmr3284371plr.140.1647499851801;
-        Wed, 16 Mar 2022 23:50:51 -0700 (PDT)
+        bh=l7P/KYRv+yTC7MhkzdfF7f21IgSIuaHW9VkLgIPsnps=;
+        b=vSjY3zzjTxahHkVxrl9Roz9Rtj795ckCoYzcwJZtVUPkL0psc51InCSPPRhKn5rK5b
+         CsWwyoHbJfx6lSEubbkbUyWhsoIHjSifnFVi7MMNn4Gd/3u9bY6FnMbenGUw1I23kXVa
+         wuNPlsK28PTYcB0Ddc/ELogznsE2Sc0bltRQkWXWOiN2u48e9Jxn7FfsSWlCqVKlE1UA
+         c2dNp72wfBeAvCSvGzkkM/FHVDjy2ZLG+O9jpfcQTs6DnNMjcCNeiITObVhrwcfB+VHv
+         iamDPZy1chumDyEujL+VUCo9K0fmu4lyqqID90xeAdi74ZqfS3qeceSShablkf6kSMKT
+         /R3g==
+X-Gm-Message-State: AOAM533b8VvYALPCOUN1CIDPlh3+xWSAmDjoTwPxY705mKbBgYRb19U7
+        mh76So6ieWyIOeFRqVHudGk=
+X-Google-Smtp-Source: ABdhPJyf3ksVaA0AjxSKygQ/WUYbkJm/DAsGzGueZCYtDksRRE7NdVzfrvDQL9SbtNuWmbxyszuTdw==
+X-Received: by 2002:a63:2a45:0:b0:373:1850:d5b with SMTP id q66-20020a632a45000000b0037318500d5bmr2486275pgq.563.1647499860770;
+        Wed, 16 Mar 2022 23:51:00 -0700 (PDT)
 Received: from localhost.localdomain (pcd454078.netvigator.com. [203.218.244.78])
-        by smtp.gmail.com with ESMTPSA id k15-20020a63ab4f000000b00381eef69bfbsm3622152pgp.3.2022.03.16.23.50.48
+        by smtp.gmail.com with ESMTPSA id k15-20020a63ab4f000000b00381eef69bfbsm3622152pgp.3.2022.03.16.23.50.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 23:50:51 -0700 (PDT)
+        Wed, 16 Mar 2022 23:51:00 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2 01/12] docs/zh_CN: add vm frontswap translation
-Date:   Thu, 17 Mar 2022 14:50:42 +0800
-Message-Id: <accc983e252a6b70471280a3db1c93e07bce386d.1647498763.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 03/12] docs/zh_CN: add vm memory-model translation
+Date:   Thu, 17 Mar 2022 14:50:44 +0800
+Message-Id: <13d115e9c255dbda635021da983112716bafe1a7.1647498763.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1647498763.git.siyanteng@loongson.cn>
 References: <cover.1647498763.git.siyanteng@loongson.cn>
@@ -68,23 +68,45 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate .../vm/_free_page_reporting.rst into Chinese.
+Translate .../vm/memory-model.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../translations/zh_CN/vm/frontswap.rst       | 196 ++++++++++++++++++
- Documentation/translations/zh_CN/vm/index.rst |   2 +-
- 2 files changed, 197 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/frontswap.rst
+ Documentation/translations/zh_CN/vm/index.rst |   3 +-
+ .../translations/zh_CN/vm/memory-model.rst    | 135 ++++++++++++++++++
+ 2 files changed, 137 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/memory-model.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/frontswap.rst b/Documentation/translations/zh_CN/vm/frontswap.rst
+diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+index c5b3d5ba21f1..c1f517da81f4 100644
+--- a/Documentation/translations/zh_CN/vm/index.rst
++++ b/Documentation/translations/zh_CN/vm/index.rst
+@@ -29,13 +29,14 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+    ksm
+    frontswap
+    hwpoison
++   memory-model
+ 
+ TODOLIST:
+ * arch_pgtable_helpers
+ * free_page_reporting
+ * hmm
+ * hugetlbfs_reserv
+-* memory-model
++
+ * mmu_notifier
+ * numa
+ * overcommit-accounting
+diff --git a/Documentation/translations/zh_CN/vm/memory-model.rst b/Documentation/translations/zh_CN/vm/memory-model.rst
 new file mode 100644
-index 000000000000..3eb07870e2ef
+index 000000000000..013e30c88d72
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/frontswap.rst
-@@ -0,0 +1,196 @@
-+:Original: Documentation/vm/_free_page_reporting.rst
++++ b/Documentation/translations/zh_CN/vm/memory-model.rst
+@@ -0,0 +1,135 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++:Original: Documentation/vm/memory-model.rst
 +
 +:翻译:
 +
@@ -92,211 +114,131 @@ index 000000000000..3eb07870e2ef
 +
 +:校译:
 +
++
++============
++物理内存模型
++============
++
++系统中的物理内存可以用不同的方式进行寻址。最简单的情况是，物理内存从地址0开
++始，跨越一个连续的范围，直到最大的地址。然而，这个范围可能包含CPU无法访问的
++小孔隙。那么，在完全不同的地址可能有几个连续的范围。而且，别忘了NUMA，即不
++同的内存库连接到不同的CPU。
++
++Linux使用两种内存模型中的一种对这种多样性进行抽象。FLATMEM和SPARSEM。每
++个架构都定义了它所支持的内存模型，默认的内存模型是什么，以及是否有可能手动
++覆盖该默认值。
++
++所有的内存模型都使用排列在一个或多个数组中的 `struct page` 来跟踪物理页
++帧的状态。
++
++无论选择哪种内存模型，物理页框号（PFN）和相应的 `struct page` 之间都存
++在一对一的映射关系。
++
++每个内存模型都定义了 :c:func:`pfn_to_page` 和 :c:func:`page_to_pfn`
++帮助函数，允许从PFN到 `struct page` 的转换，反之亦然。
++
++FLATMEM
++=======
++
++最简单的内存模型是FLATMEM。这个模型适用于非NUMA系统的连续或大部分连续的
++物理内存。
++
++在FLATMEM内存模型中，有一个全局的 `mem_map` 数组来映射整个物理内存。对
++于大多数架构，孔隙在 `mem_map` 数组中都有条目。与孔洞相对应的 `struct page`
++对象从未被完全初始化。
++
++为了分配 `mem_map` 数组，架构特定的设置代码应该调用free_area_init()函数。
++然而，在调用memblock_free_all()函数之前，映射数组是不能使用的，该函数
++将所有的内存交给页分配器。
++
++一个架构可能会释放 `mem_map` 数组中不包括实际物理页的部分。在这种情况下，特
++定架构的 :c:func:`pfn_valid` 实现应该考虑到 `mem_map` 中的孔隙。
++
++使用FLATMEM，PFN和 `struct page` 之间的转换是直接的。 `PFN - ARCH_PFN_OFFSET`
++是 `mem_map` 数组的一个索引。
++
++`ARCH_PFN_OFFSET` 定义了物理内存起始地址不同于0的系统的第一个页框号。
++
++SPARSEMEM
 +=========
-+Frontswap
-+=========
 +
-+Frontswap为交换页提供了一个 “transcendent memory” 的接口。在一些环境中，由
-+于交换页被保存在RAM（或类似RAM的设备）中，而不是交换磁盘，因此可以获得巨大的性能
-+节省（提高）。
++SPARSEMEM是Linux中最通用的内存模型，它是唯一支持若干高级功能的内存模型，
++如物理内存的热插拔、非易失性内存设备的替代内存图和较大系统的内存图的延迟
++初始化。
 +
-+.. _Transcendent memory in a nutshell: https://lwn.net/Articles/454795/
++SPARSEMEM模型将物理内存显示为一个部分的集合。一个区段用mem_section结构
++体表示，它包含 `section_mem_map` ，从逻辑上讲，它是一个指向 `struct page`
++阵列的指针。然而，它被存储在一些其他的magic中，以帮助分区管理。区段的大小
++和最大区段数是使用 `SECTION_SIZE_BITS` 和 `MAX_PHYSMEM_BITS` 常量
++来指定的，这两个常量是由每个支持SPARSEMEM的架构定义的。 `MAX_PHYSMEM_BITS`
++是一个架构所支持的物理地址的实际宽度，而 `SECTION_SIZE_BITS` 是一个任
++意的值。
 +
-+Frontswap之所以这么命名，是因为它可以被认为是与swap设备的“back”存储相反。存
-+储器被认为是一个同步并发安全的面向页面的“伪RAM设备”，符合transcendent memory
-+（如Xen的“tmem”，或内核内压缩内存，又称“zcache”，或未来的类似RAM的设备）的要
-+求；这个伪RAM设备不能被内核直接访问或寻址，其大小未知且可能随时间变化。驱动程序通过
-+调用frontswap_register_ops将自己与frontswap链接起来，以适当地设置frontswap_ops
-+的功能，它提供的功能必须符合某些策略，如下所示:
++最大的段数表示为 `NR_MEM_SECTIONS` ，定义为
 +
-+一个 “init” 将设备准备好接收与指定的交换设备编号（又称“类型”）相关的frontswap
-+交换页。一个 “store” 将把该页复制到transcendent memory，并与该页的类型和偏移
-+量相关联。一个 “load” 将把该页，如果找到的话，从transcendent memory复制到内核
-+内存，但不会从transcendent memory中删除该页。一个 “invalidate_page” 将从
-+transcendent memory中删除该页，一个 “invalidate_area” 将删除所有与交换类型
-+相关的页（例如，像swapoff）并通知 “device” 拒绝进一步存储该交换类型。
++.. math::
 +
-+一旦一个页面被成功存储，在该页面上的匹配加载通常会成功。因此，当内核发现自己处于需
-+要交换页面的情况时，它首先尝试使用frontswap。如果存储的结果是成功的，那么数据就已
-+经成功的保存到了transcendent memory中，并且避免了磁盘写入，如果后来再读回数据，
-+也避免了磁盘读取。如果存储返回失败，transcendent memory已经拒绝了该数据，且该页
-+可以像往常一样被写入交换空间。
++   NR\_MEM\_SECTIONS = 2 ^ {(MAX\_PHYSMEM\_BITS - SECTION\_SIZE\_BITS)}
 +
-+请注意，如果一个页面被存储，而该页面已经存在于transcendent memory中（一个 “重复”
-+的存储），要么存储成功，数据被覆盖，要么存储失败，该页面被废止。这确保了旧的数据永远
-+不会从frontswap中获得。
++`mem_section` 对象被安排在一个叫做 `mem_sections` 的二维数组中。这个数组的
++大小和位置取决于 `CONFIG_SPARSEM_EXTREME` 和可能的最大段数:
 +
-+如果配置正确，对frontswap的监控是通过 `/sys/kernel/debug/frontswap` 目录下的
-+debugfs完成的。frontswap的有效性可以通过以下方式测量（在所有交换设备中）:
++* 当 `CONFIG_SPARSEMEM_EXTREME` 被禁用时， `mem_sections` 数组是静态的，有
++  `NR_MEM_SECTIONS` 行。每一行持有一个 `mem_section` 对象。
++* 当 `CONFIG_SPARSEMEM_EXTREME` 被启用时， `mem_sections` 数组被动态分配。
++  每一行包含价值 `PAGE_SIZE` 的 `mem_section` 对象，行数的计算是为了适应所有的
++  内存区。
 +
-+``failed_stores``
-+	有多少次存储的尝试是失败的
++架构设置代码应该调用sparse_init()来初始化内存区和内存映射。
 +
-+``loads``
-+	尝试了多少次加载（应该全部成功）
++通过SPARSEMEM，有两种可能的方式将PFN转换为相应的 `struct page` --"classic sparse"和
++ "sparse vmemmap"。选择是在构建时进行的，它由 `CONFIG_SPARSEMEM_VMEMMAP` 的
++ 值决定。
 +
-+``succ_stores``
-+	有多少次存储的尝试是成功的
++Classic sparse在page->flags中编码了一个页面的段号，并使用PFN的高位来访问映射该页
++框的段。在一个区段内，PFN是指向页数组的索引。
 +
-+``invalidates``
-+	尝试了多少次作废
++Sparse vmemmapvmemmap使用虚拟映射的内存映射来优化pfn_to_page和page_to_pfn操
++作。有一个全局的 `struct page *vmemmap` 指针，指向一个虚拟连续的 `struct page`
++对象阵列。PFN是该数组的一个索引，`struct page` 从 `vmemmap` 的偏移量是该页的PFN。
 +
-+后台实现可以提供额外的指标。
++为了使用vmemmap，一个架构必须保留一个虚拟地址的范围，以映射包含内存映射的物理页，并
++确保 `vmemmap`指向该范围。此外，架构应该实现 :c:func:`vmemmap_populate` 方法，
++它将分配物理内存并为虚拟内存映射创建页表。如果一个架构对vmemmap映射没有任何特殊要求，
++它可以使用通用内存管理提供的默认 :c:func:`vmemmap_populate_basepages`。
 +
-+经常问到的问题
-+==============
++虚拟映射的内存映射允许将持久性内存设备的 `struct page` 对象存储在这些设备上预先分
++配的存储中。这种存储用vmem_altmap结构表示，最终通过一长串的函数调用传递给
++vmemmap_populate()。vmemmap_populate()实现可以使用 `vmem_altmap` 和
++:c:func:`vmemmap_alloc_block_buf` 助手来分配持久性内存设备上的内存映射。
 +
-+* 价值在哪里?
++ZONE_DEVICE
++===========
++`ZONE_DEVICE` 设施建立在 `SPARSEM_VMEMMAP` 之上，为设备驱动识别的物理地址范
++围提供 `struct page` `mem_map` 服务。 `ZONE_DEVICE` 的 "设备" 方面与以下
++事实有关：这些地址范围的页面对象从未被在线标记过，而且必须对设备进行引用，而不仅仅
++是页面，以保持内存被“锁定”以便使用。 `ZONE_DEVICE` ，通过 :c:func:`devm_memremap_pages` ，
++为给定的pfns范围执行足够的内存热插拔来开启 :c:func:`pfn_to_page`，
++:c:func:`page_to_pfn`, ，和 :c:func:`get_user_pages` 服务。由于页面引
++用计数永远不会低于1，所以页面永远不会被追踪为空闲内存，页面的 `struct list_head lru`
++空间被重新利用，用于向映射该内存的主机设备/驱动程序进行反向引用。
 +
-+当一个工作负载开始交换时，性能就会下降。Frontswap通过提供一个干净的、动态的接口来
-+读取和写入交换页到 “transcendent memory”，从而大大增加了许多这样的工作负载的性
-+能，否则内核是无法直接寻址的。当数据被转换为不同的形式和大小（比如压缩）或者被秘密
-+移动（对于一些类似RAM的设备来说，这可能对写平衡很有用）时，这个接口是理想的。交换
-+页（和被驱逐的页面缓存页）是这种比RAM慢但比磁盘快得多的“伪RAM设备”的一大用途。
++虽然 `SPARSEMEM` 将内存作为一个区段的集合，可以选择收集并合成内存块，但
++`ZONE_DEVICE` 用户需要更小的颗粒度来填充 `mem_map` 。鉴于 `ZONE_DEVICE`
++内存从未被在线标记，因此它的内存范围从未通过sysfs内存热插拔api暴露在内存块边界
++上。这个实现依赖于这种缺乏用户接口的约束，允许子段大小的内存范围被指定给
++:c:func:`arch_add_memory` ，即内存热插拔的上半部分。子段支持允许2MB作为
++:c:func:`devm_memremap_pages` 的跨架构通用对齐颗粒度。
 +
-+Frontswap对内核的影响相当小，为各种系统配置中更动态、更灵活的RAM利用提供了巨大的
-+灵活性：
++`ZONE_DEVICE` 的用户是:
 +
-+在单一内核的情况下，又称“zcache”，页面被压缩并存储在本地内存中，从而增加了可以安
-+全保存在RAM中的匿名页面总数。Zcache本质上是用压缩/解压缩的CPU周期换取更好的内存利
-+用率。Benchmarks测试显示，当内存压力较低时，几乎没有影响，而在高内存压力下的一些
-+工作负载上，则有明显的性能改善（25%以上）。
++* pmem: 通过DAX映射将平台持久性内存作为直接I/O目标使用。
 +
-+“RAMster” 在zcache的基础上增加了对集群系统的 “peer-to-peer” transcendent memory
-+的支持。Frontswap页面像zcache一样被本地压缩，但随后被“remotified” 到另一个系
-+统的RAM。这使得RAM可以根据需要动态地来回负载平衡，也就是说，当系统A超载时，它可以
-+交换到系统B，反之亦然。RAMster也可以被配置成一个内存服务器，因此集群中的许多服务器
-+可以根据需要动态地交换到配置有大量内存的单一服务器上......而不需要预先配置每个客户
-+有多少内存可用
++* hmm: 用 `->page_fault()` 和 `->page_free()` 事件回调扩展 `ZONE_DEVICE` ，
++  以允许设备驱动程序协调与设备内存相关的内存管理事件，通常是GPU内存。参见/vm/hmm.rst。
 +
-+在虚拟情况下，虚拟化的全部意义在于统计地将物理资源在多个虚拟机的不同需求之间进行复
-+用。对于RAM来说，这真的很难做到，而且在不改变内核的情况下，要做好这一点的努力基本上
-+是失败的（除了一些广为人知的特殊情况下的工作负载）。具体来说，Xen Transcendent Memory
-+后端允许管理器拥有的RAM “fallow”，不仅可以在多个虚拟机之间进行“time-shared”，
-+而且页面可以被压缩和重复利用，以优化RAM的利用率。当客户操作系统被诱导交出未充分利用
-+的RAM时（如 “selfballooning”），突然出现的意外内存压力可能会导致交换；frontswap
-+允许这些页面被交换到管理器RAM中或从管理器RAM中交换（如果整体主机系统内存条件允许），
-+从而减轻计划外交换可能带来的可怕的性能影响。
-+
-+一个KVM的实现正在进行中，并且已经被RFC'ed到lkml。而且，利用frontswap，对NVM作为
-+内存扩展技术的调查也在进行中。
-+
-+* 当然，在某些情况下可能有性能上的优势，但frontswap的空间/时间开销是多少？
-+
-+如果 CONFIG_FRONTSWAP 被禁用，每个 frontswap 钩子都会编译成空，唯一的开销是每
-+个 swapon'ed swap 设备的几个额外字节。如果 CONFIG_FRONTSWAP 被启用，但没有
-+frontswap的 “backend” 寄存器，每读或写一个交换页就会有一个额外的全局变量，而不
-+是零。如果 CONFIG_FRONTSWAP 被启用，并且有一个frontswap的backend寄存器，并且
-+后端每次 “store” 请求都失败（即尽管声称可能，但没有提供内存），CPU 的开销仍然可以
-+忽略不计 - 因为每次frontswap失败都是在交换页写到磁盘之前，系统很可能是 I/O 绑定
-+的，无论如何使用一小部分的 CPU 都是不相关的。
-+
-+至于空间，如果CONFIG_FRONTSWAP被启用，并且有一个frontswap的backend注册，那么
-+每个交换设备的每个交换页都会被分配一个比特。这是在内核已经为每个交换设备的每个交换
-+页分配的8位（在2.6.34之前是16位）上增加的。(Hugh Dickins观察到，frontswap可能
-+会偷取现有的8个比特，但是我们以后再来担心这个小的优化问题)。对于标准的4K页面大小的
-+非常大的交换盘（这很罕见），这是每32GB交换盘1MB开销。
-+
-+当交换页存储在transcendent memory中而不是写到磁盘上时，有一个副作用，即这可能会
-+产生更多的内存压力，有可能超过其他的优点。一个backend，比如zcache，必须实现策略
-+来仔细（但动态地）管理内存限制，以确保这种情况不会发生。
-+
-+* 好吧，那就用内核骇客能理解的术语来快速概述一下这个frontswap补丁的作用如何？
-+
-+我们假设在内核初始化过程中，一个frontswap 的 “backend” 已经注册了；这个注册表
-+明这个frontswap 的 “backend” 可以访问一些不被内核直接访问的“内存”。它到底提
-+供了多少内存是完全动态和随机的。
-+
-+每当一个交换设备被交换时，就会调用frontswap_init()，把交换设备的编号（又称“类
-+型”）作为一个参数传给它。这就通知了frontswap，以期待 “store” 与该号码相关的交
-+换页的尝试。
-+
-+每当交换子系统准备将一个页面写入交换设备时（参见swap_writepage()），就会调用
-+frontswap_store。Frontswap与frontswap backend协商，如果backend说它没有空
-+间，frontswap_store返回-1，内核就会照常把页换到交换设备上。注意，来自frontswap
-+backend的响应对内核来说是不可预测的；它可能选择从不接受一个页面，可能接受每九个
-+页面，也可能接受每一个页面。但是如果backend确实接受了一个页面，那么这个页面的数
-+据已经被复制并与类型和偏移量相关联了，而且backend保证了数据的持久性。在这种情况
-+下，frontswap在交换设备的“frontswap_map” 中设置了一个位，对应于交换设备上的
-+页面偏移量，否则它就会将数据写入该设备。
-+
-+当交换子系统需要交换一个页面时（swap_readpage()），它首先调用frontswap_load()，
-+检查frontswap_map，看这个页面是否早先被frontswap backend接受。如果是，该页
-+的数据就会从frontswap后端填充，换入就完成了。如果不是，正常的交换代码将被执行，
-+以便从真正的交换设备上获得这一页的数据。
-+
-+所以每次frontswap backend接受一个页面时，交换设备的读取和（可能）交换设备的写
-+入都被 “frontswap backend store” 和（可能）“frontswap backend loads”
-+所取代，这可能会快得多。
-+
-+* frontswap不能被配置为一个 “特殊的” 交换设备，它的优先级要高于任何真正的交换
-+  设备（例如像zswap，或者可能是swap-over-nbd/NFS）？
-+
-+首先，现有的交换子系统不允许有任何种类的交换层次结构。也许它可以被重写以适应层次
-+结构，但这将需要相当大的改变。即使它被重写，现有的交换子系统也使用了块I/O层，它
-+假定交换设备是固定大小的，其中的任何页面都是可线性寻址的。Frontswap几乎没有触
-+及现有的交换子系统，而是围绕着块I/O子系统的限制，提供了大量的灵活性和动态性。
-+
-+例如，frontswap backend对任何交换页的接受是完全不可预测的。这对frontswap backend
-+的定义至关重要，因为它赋予了backend完全动态的决定权。在zcache中，人们无法预
-+先知道一个页面的可压缩性如何。可压缩性 “差” 的页面会被拒绝，而 “差” 本身也可
-+以根据当前的内存限制动态地定义。
-+
-+此外，frontswap是完全同步的，而真正的交换设备，根据定义，是异步的，并且使用
-+块I/O。块I/O层不仅是不必要的，而且可能进行 “优化”，这对面向RAM的设备来说是
-+不合适的，包括将一些页面的写入延迟相当长的时间。同步是必须的，以确保后端的动
-+态性，并避免棘手的竞争条件，这将不必要地大大增加frontswap和/或块I/O子系统的
-+复杂性。也就是说，只有最初的 “store” 和 “load” 操作是需要同步的。一个独立
-+的异步线程可以自由地操作由frontswap存储的页面。例如，RAMster中的 “remotification”
-+线程使用标准的异步内核套接字，将压缩的frontswap页面移动到远程机器。同样，
-+KVM的客户方实现可以进行客户内压缩，并使用 “batched” hypercalls。
-+
-+在虚拟化环境中，动态性允许管理程序（或主机操作系统）做“intelligent overcommit”。
-+例如，它可以选择只接受页面，直到主机交换可能即将发生，然后强迫客户机做他们
-+自己的交换。
-+
-+transcendent memory规格的frontswap有一个坏处。因为任何 “store” 都可
-+能失败，所以必须在一个真正的交换设备上有一个真正的插槽来交换页面。因此，
-+frontswap必须作为每个交换设备的 “影子” 来实现，它有可能容纳交换设备可能
-+容纳的每一个页面，也有可能根本不容纳任何页面。这意味着frontswap不能包含比
-+swap设备总数更多的页面。例如，如果在某些安装上没有配置交换设备，frontswap
-+就没有用。无交换设备的便携式设备仍然可以使用frontswap，但是这种设备的
-+backend必须配置某种 “ghost” 交换设备，并确保它永远不会被使用。
-+
-+
-+* 为什么会有这种关于 “重复存储” 的奇怪定义？如果一个页面以前被成功地存储过，
-+  难道它不能总是被成功地覆盖吗？
-+
-+几乎总是可以的，不，有时不能。考虑一个例子，数据被压缩了，原来的4K页面被压
-+缩到了1K。现在，有人试图用不可压缩的数据覆盖该页，因此会占用整个4K。但是
-+backend没有更多的空间了。在这种情况下，这个存储必须被拒绝。每当frontswap
-+拒绝一个会覆盖的存储时，它也必须使旧的数据作废，并确保它不再被访问。因为交
-+换子系统会把新的数据写到读交换设备上，这是确保一致性的正确做法。
-+
-+* 为什么frontswap补丁会创建新的头文件swapfile.h？
-+
-+frontswap代码依赖于一些swap子系统内部的数据结构，这些数据结构多年来一直
-+在静态和全局之间来回移动。这似乎是一个合理的妥协：将它们定义为全局，但在一
-+个新的包含文件中声明它们，该文件不被包含swap.h的大量源文件所包含。
-+
-+Dan Magenheimer，最后更新于2012年4月9日
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index a1d2f0356cc1..a78060a0c2ed 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -27,11 +27,11 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    free_page_reporting
-    highmem
-    ksm
-+   frontswap
- 
- TODOLIST:
- * arch_pgtable_helpers
- * free_page_reporting
--* frontswap
- * hmm
- * hwpoison
- * hugetlbfs_reserv
++* p2pdma: 创建 `struct page` 对象，允许PCI/E拓扑结构中的peer设备协调它们之间的
++  直接DMA操作，即绕过主机内存。
 -- 
 2.27.0
 
