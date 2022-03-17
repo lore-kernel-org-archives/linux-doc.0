@@ -2,222 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4C1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 15:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C89B0C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 15:25:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbiCQPOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 11:14:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59074 "EHLO
+        id S232609AbiCQP0b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 11:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235663AbiCQPOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 11:14:54 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9D51EC6D;
-        Thu, 17 Mar 2022 08:13:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1647530014;
-  x=1679066014;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fHWs2R0/HroMWVTCgnVUe4lBXlDwFYBBcGLvlS7a3UU=;
-  b=eCq2n5lNToApmhDsKXn4E79J8H4m7M/YXX6eaIbt5TBne2OfQ18/VdR8
-   AfwwUCEwN5ZGJlxcONC1XDxcb8mjhGlfZ7sYceaK6NEN6YWvCxQLEbYJ2
-   p9kefYYFBf0iWQrJyGJC1aQPYSAohoDKQu+C1TJV+0DaPWDqAFvmAtZ96
-   N/1fJXReS1Wyxn5jlZhFOo4uLUZuz/AoZ+k70MRjgt5+RGMsV+u4o8Il0
-   +32WuT5ti+4qJT3WkU7ARWFi+2mX1CclqcnlduLRHrPknPQ1XiLScwXBE
-   MnZY7G+q5qacSWdKWphD/AI5foCpo0nYeLzxD8nnvZwpk7dRFeLo2Xbx4
-   A==;
-Date:   Thu, 17 Mar 2022 16:13:26 +0100
-From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <kernel@axis.com>,
-        <devicetree@vger.kernel.org>, <linux-um@lists.infradead.org>,
-        <shuah@kernel.org>, <brendanhiggins@google.com>,
-        <linux-kselftest@vger.kernel.org>, <jic23@kernel.org>,
-        <linux-iio@vger.kernel.org>, <lgirdwood@gmail.com>,
-        <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>,
-        <linux-rtc@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: Re: [RFC v1 09/10] regulator: tps62864: add roadtest
-Message-ID: <20220317151326.GA7832@axis.com>
-References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
- <20220311162445.346685-10-vincent.whitchurch@axis.com>
- <YiuPvkQroV/WdFpx@sirena.org.uk>
+        with ESMTP id S232422AbiCQP0a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 11:26:30 -0400
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2044.outbound.protection.outlook.com [40.92.52.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18E6205BCD
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 08:25:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l7mHKZbvqQZK849z31guEePWP+BmKWTW+ZsvVBsXfuodotNoroIn7FBLGglfpnk+01e9+nWA8UvynBRA202pIU51KBBMI6voljfwKv6tcRIrOvdiu6Ewwyes/G6tRri5F/vIwr2lyigKBGfz/5ouOQt2ysjCqJkpUR57H6qecEJgjA/shdEiy9PNRDP5Akx2pa4zbXn1oBLXqDfzwEOGe3xBhnyV8iLRrDkEBfJqKpX2mFg8Z2BH1h82vSNgEUEtMCGUm56fHHOuBGwMyrJyMoAtkMY8rKSFKdOGTlVElnHrJ+QIz3xB4tdoenQ7BSjnKqPQqKYwEsLcVT4A+6SY1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ONWWTqygwuWFyy6Ddb9rb/zuYzUE3x4vx36LLXZz/zQ=;
+ b=n2xi6Qo0bB6QUQ9DzlKlgFLEx02A03KKV+jliYgdodw7HhczF106YeiypovBRkXNyZO7Fj83J9121b2h5Jtt/hcVYdx2uIb908Ke4GHRkbMxwhrN3JUID+pf0WI5iXeSWdKaMUOU6eISf2zvjoxa4AevpZ12mEArtQUzb5P2/NlbttZ8aAhMR6FwuF5nH2JprZ9KkRnpq9y1h95tj+HeUvcaL//u0r91NqDoQm2ulXqAwUzuU01v8xQBAeCeDAUoaBbinpRfR6ShZgkISMQ7Z5P6Ti6PUGEil/g2Lwmlz3Ryq3DJ9h9KXwnYsQ5qMx2EAVxPUt0HH+WOcnBBAI+7Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ONWWTqygwuWFyy6Ddb9rb/zuYzUE3x4vx36LLXZz/zQ=;
+ b=A8ONRUYaYcClfs5xOJ2rjZp4U8Mt4hDmnQk73FWhqKKpvhy/iqR8PgzsuMtuGle+CUTJVsJ0WLA6w//C5I64ws9oBdEgbvSUWBelQKW2+BnuP1ALGo57sRA0evQTYu83vCNWhmU4AYdvMuphgfMVKByVxqVMbWoxyamyDO00hTS6fypoMBuWhkyJkix5HRMUumNYBkLFCeVAWMsG+ih/zcwtg1stUoXdMlzj+N13mRmlmUyTIyj0tk19VFY7FM6+7ZKOrxUMxPrSf2GSPSJji6DO9e/oUazCYJmthZHwg/snBCjKHtTLDTO8V2NH5pnfqwS8XwCUuemyn+KSHhprUA==
+Received: from SI2PR01MB3929.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:106::5) by TY2PR0101MB3151.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:f4::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Thu, 17 Mar
+ 2022 15:25:09 +0000
+Received: from SI2PR01MB3929.apcprd01.prod.exchangelabs.com
+ ([fe80::d179:ecb6:188c:f9a]) by SI2PR01MB3929.apcprd01.prod.exchangelabs.com
+ ([fe80::d179:ecb6:188c:f9a%3]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
+ 15:25:09 +0000
+Message-ID: <SI2PR01MB3929000E406A2DCA53A25F55F8129@SI2PR01MB3929.apcprd01.prod.exchangelabs.com>
+Subject: [ PATCH ] Documentation: fixed typos
+From:   kushagra765@outlook.com
+To:     linux-doc@vger.kernel.org
+Date:   Thu, 17 Mar 2022 20:55:04 +0530
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-TMN:  [4Hn8MiiG/2CRzgI+mvYqc0h8it1y4I7uL9YbcyT2/aI=]
+X-ClientProxiedBy: BMXPR01CA0032.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:c::18) To SI2PR01MB3929.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:106::5)
+X-Microsoft-Original-Message-ID: <95f6027698a33753abf1aba10c6bd634275f3e3d.camel@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YiuPvkQroV/WdFpx@sirena.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7422ddbf-3bf9-4d39-13b9-08da082a5224
+X-MS-TrafficTypeDiagnostic: TY2PR0101MB3151:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B/XqdE8BSqEGRL5jc35dHpHsbJ/s4A102YZvdRUqzgkxUVoAcPAxDljcWX/PVRw8Izl2TZqudFLER4dzR9+E/k/nNWTbLKuEnpwzuEGAQD5ZZykwrBo+O85v3ZuuSwL3X7ErUOAipDrpmQHiLo1C8vOldkltpmu8amPxy+whTXIZGucWuQJQVKtWcOTWLws++s0Akr207d5cp0TRFZqsS7JD5HfS+vbNOHMWz99l55ddo5kdrvh6MlQiNywLRdjlHEVTRASbJn59G1eAE57ozpJACcUDhLnON1EpgdLl92wNA3tI7HJ6J01zmG7DuELomEe7eAcNsCxWA3+OjneSio2NssHHVRtYbOgLl4irG/Y8i9YDR8wGolK9VWburkwi1IlgLH2OdIsy8Zqlum2RZ7FzwV/HzDnmGS8349I0D86y7XzUBPDTTwIdBztODGrTa3MnT6biXzbXdABoog7cUXuQFuUXfmxpJN4fUcI83XTStKZUGk1zVZJvvW3ja6kp7A/aNGttLcZfAp4ijBypkYKWLFGmvRvzcshj6WBH1CX4T15RbyZsIgG9vZlqDUDpTaXV9O4MWZmnYu2BVSyIKA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RStHZEFHOUxMdkRnVmU1R1lWUjE4RVF3VmNwd1pYUmZINDU2QU1MdUJ0SWRT?=
+ =?utf-8?B?aWgzZDJ2WVovKzBvWlIrK3dmbnNxWlNHc2oxQ2V2MERzai9QUGZWTEdleENz?=
+ =?utf-8?B?SGR4YVg4MTZGVEFubWFnNnlqbHdxaUNTampkZ1hmL1dBRG9QR3BLWjRLUGVU?=
+ =?utf-8?B?ODV1S1hWMDkzN1o5ZUdSUUF6Ni9zeEdoYmJqT0p2NnRYeEpEaUZ1VmJCdTZz?=
+ =?utf-8?B?eWtTTmNwVHh3WVNqblhwaStBbmY1YlhUS3l3OE5UQ2ZuRmVEaS9icUlraVUz?=
+ =?utf-8?B?WTQ0T2x1dTd0WVdrUm5WbXRRTndZa2Z1ZWpmMC90NVJTMlZ4bmJYb05oOHpv?=
+ =?utf-8?B?cnFIVzh1L1I4bEhibWhqSWJDSTV5cFRacVpDWGpjVk9SVHRSUk9odlFMRUsv?=
+ =?utf-8?B?QkZoeTlCR2F5aG45aGRuVkpUNlM4dXY3OXFxRmhEUTExY2ZCTmkvd2VIR205?=
+ =?utf-8?B?L21LV3Q2WHkzK2xONHdhT3F5TWxSMi94K2JVdEtmcGd3b2swV0JMQTVuVUhi?=
+ =?utf-8?B?K1NaYmNIVDRoMStpU0IweUE2ZnRUZWJiM0hKaEFxWG1BT1Y5TzBjbDhYbDBI?=
+ =?utf-8?B?Y2RMOGc4WWRkWTBjcHluYkZta0ppM3NlRXRXRklURE92MGNWK0JZVUxGeUdF?=
+ =?utf-8?B?cko2NG82eko4NGpZdlN6Y016OGd0WE5YWUZzamJydWJlQVA5cFNPVk5BYTdn?=
+ =?utf-8?B?QnE1Q1dGc01OSjFHMnNCRUV3eFRoUDI0NFlFL3dockpKYkRwcmZhZ1FhTkJ6?=
+ =?utf-8?B?N2JrdXhlNkIySmxTU1lBdXEwcStWVXM4ZHhGSzYvSlM2RGg2aDJwcXh6cXRv?=
+ =?utf-8?B?VlJ3TnpUTnNreTFIVDY3Z29sK0dNUEhDVU16U05OVmVTZG5XNGxYRzMxeU1k?=
+ =?utf-8?B?VGVJS1BTbkliSkMxa1VLc3g5MHZwN2x5R3lFRzhwM2dFSDlycmlNY2p1VnRq?=
+ =?utf-8?B?dzVJaHd5VVVBRHNrZUNBZ1YxbWxDMmJ2MHRzVzRDalBUSGxzSmFFakFPNEgw?=
+ =?utf-8?B?TmVzTDl6S0NPNFNPSWtIbGZOSlVqa2o1SzZqa0Y5bzE3SUZyWlJPMmJzcWtv?=
+ =?utf-8?B?REtYTGFELzkyTDVqL3lJUmFvNmN1M25rVi9meGJxaEt6T1hIMXk5VVRQRm5r?=
+ =?utf-8?B?TzRqYXlCWE9WcFY4ajlMQWgwUWlXZUpmNFJFSnY2SlVJQlBuQnRadEI1Rm5N?=
+ =?utf-8?B?MzJWQURFTk92Smc0SFdKajgzUkxMVjh0dm5ISHNXLzdNWHV1cEczakdLL0g4?=
+ =?utf-8?B?QnhaM05NZ2VqVEtIRUtwVFhQMjhOQjN4YXl1dFdxVStFL0VpWWpyaGRHMTNH?=
+ =?utf-8?B?UWtaM0VOVmMrZGd5L2JFSlU0VFNjb0VlQVRQaGZ0T2FlT3JzaFd1SDVQcE5P?=
+ =?utf-8?B?OWNSSEk1NGpRRmM0OUhXSVFPdjBGYng2Y3RzOGw1QVY3eHFjRDFCQjlZTWtG?=
+ =?utf-8?B?VEdGclFZdXZHOGJ1MDRwU2N6NW9ydzRMUVgrYWlFdGMySEdDejJmWHZTdFAy?=
+ =?utf-8?B?OTRmZVRxbWVXQWpyWFhTUEhhTS9VZkVuZnBXM3BpamdmYktqTFZHMyttUzNW?=
+ =?utf-8?Q?HkiHxJk7ud/QEzh+/bPjntfeQ=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7422ddbf-3bf9-4d39-13b9-08da082a5224
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB3929.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 15:25:09.2652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR0101MB3151
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 06:06:54PM +0000, Mark Brown wrote:
-> On Fri, Mar 11, 2022 at 05:24:44PM +0100, Vincent Whitchurch wrote:
-> This looks like it could be useful, modulo the general concerns with
-> mocking stuff.  I've not looked at the broader framework stuff in any
-> meanigful way.
+From ade08e81a63db0faf39791f9cd7c87e5787186f5 Mon Sep 17 00:00:00 2001
+From: Kushagra Verma <kushagra765@outlook.com>
+Date: Thu, 17 Mar 2022 20:37:36 +0530
+Subject: [PATCH] Documentation: fixed typos
 
-Thank you for having a look!
+   1. Documentation/admin-guide/bootconfig.rst:207: fixed a typo in the word 'concatenated`
+   2. Documentation/atomic_t.txt:327: fixed a typo in the word `architecture`
 
-Here's a bit of background story about how I used this particular test,
-which hopefully shows an example of where I've seen the benefits of
-mocking hardware: 
+Signed-off-by: Kushagra Verma <kushagra765@outlook.com>
+---
+ Documentation/admin-guide/bootconfig.rst | 2 +-
+ Documentation/atomic_t.txt               | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-When I wrote this tps6286x driver a while ago, I tested it as one
-usually does, checking with i2cdump that the correct register values are
-written, measuring the voltages with a multimeter, rising and repeating
-with different devicetree properties, and so on.  (This framework didn't
-exist at that point.)
+diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+index a1860fc0ca88..d4ea063aca0c 100644
+--- a/Documentation/admin-guide/bootconfig.rst
++++ b/Documentation/admin-guide/bootconfig.rst
+@@ -204,7 +204,7 @@ In addition to the kernel command line, the boot config can be used for
+ passing the kernel parameters. All the key-value pairs under ``kernel``
+ key will be passed to kernel cmdline directly. Moreover, the key-value
+ pairs under ``init`` will be passed to init process via the cmdline.
+-The parameters are concatinated with user-given kernel cmdline string
++The parameters are concatenated with user-given kernel cmdline string
+ as the following order, so that the command line parameter can override
+ bootconfig parameters (this depends on how the subsystem handles parameters
+ but in general, earlier parameter will be overwritten by later one.)::
+diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
+index 0f1ffa03db09..d7adc6d543db 100644
+--- a/Documentation/atomic_t.txt
++++ b/Documentation/atomic_t.txt
+@@ -324,7 +324,7 @@ atomic operations.
+ 
+ Specifically 'simple' cmpxchg() loops are expected to not starve one another
+ indefinitely. However, this is not evident on LL/SC architectures, because
+-while an LL/SC architecure 'can/should/must' provide forward progress
++while an LL/SC architecture 'can/should/must' provide forward progress
+ guarantees between competing LL/SC sections, such a guarantee does not
+ transfer to cmpxchg() implemented using LL/SC. Consider:
+ 
+-- 
+2.25.1
 
-Later, when preparing the driver for mainline submission, I wanted a
-quick way to check that any changes or cleanups that I needed to do
-during that process didn't invalidate all my and others' earlier
-testing.  The easiest way to do that was to ensure that the driver
-continued to write the same bits in the same registers when given the
-same set of inputs and devicetree properties, and that is where I found
-the mocking to be useful.
 
-In this case where there is no external input, the testing could of
-course have all been done manually with the real hardware, but there was
-little reason to do so when the hardware was the one factor which had
-not changed.  The abilitly to create multiple devices with different
-devicetree properties (such as fast mode on/off) was a real time-saver
-too.
-
-> > +    @classmethod
-> > +    def setUpClass(cls) -> None:
-> > +        insmod("tps6286x-regulator")
-> 
-> Shouldn't this get figured out when the device gets created in DT (if it
-> doesn't I guess the tests found a bug...)?
-
-The system isn't set up to load modules automatically.  The reason for
-this is to give the test cases full control of when the module is loaded
-and unload, since the tests could want to load the module with specific
-options.
-
-Also, the framework splits up logs and shows errors that occurs during
-each specific test if the tests fail, and this would become less useful
-if all modules for all the devices in the devicetree get loaded on
-startup when the devicetree is parsed and one of the modules failed to
-load or crashed when loaded.
-
-> 
-> > +    def setUp(self) -> None:
-> > +        self.driver = I2CDriver("tps6286x")
-> > +        self.hw = Hardware("i2c")
-> > +        self.hw.load_model(TPS62864)
-> 
-> This feels like there could be some syntactic sugar to say "create this
-> I2C device" in one call?  In general a lot of the frameworkish stuff
-> feels verbose.
-
-Yes, I agree this could be simplified.  I think the
-update_mock/reset_mock dance could also potentially be simplified with a
-with statement.
-
-Beyond that, yes, there is some boilerplate setup for each test to bind
-the devices.  This can differ between drivers and subsystems so I'm not
-sure how much could be shared, but I guess some of them could be
-separated out into a internal function for this particular test.
-
-> > +    def test_voltage(self) -> None:
-> > +        with (
-> > +            self.driver.bind(self.dts["normal"]),
-> > +            PlatformDriver("reg-virt-consumer").bind(
-> > +                "tps62864_normal_consumer"
-> > +            ) as consumerdev,
-> > +        ):
-> > +            maxfile = consumerdev.path / "max_microvolts"
-> > +            minfile = consumerdev.path / "min_microvolts"
-> > +
-> > +            write_int(maxfile, 1675000)
-> > +            write_int(minfile, 800000)
-> > +
-> > +            mock = self.hw.update_mock()
-> > +            mock.assert_reg_write_once(self, REG_CONTROL, 1 << 5)
-> > +            mock.assert_reg_write_once(self, REG_VOUT1, 0x50)
-> > +            mock.reset_mock()
-> 
-> Some comments about the assertations here would seem to be in order.
-> It's not altogether clear what this is testing - it looks to be
-> verifying that the regulator is enabled with the voltage set to 800mV
-> mapping to 0x50 in VOUT1 but I'm not sure that the idle reader would
-> pick that up.
-
-Yes, I will add some comments.  I also made some of the bit fields use
-constants in some of the other driver, that could be done here too.
-
-> 
-> > +            mV = 1000
-> > +            data = [
-> > +                (400 * mV, 0x00),
-> > +                (900 * mV, 0x64),
-> > +                (1675 * mV, 0xFF),
-> > +            ]
-> > +
-> > +            for voltage, val in data:
-> > +                write_int(minfile, voltage)
-> > +                mock = self.hw.update_mock()
-> > +                mock.assert_reg_write_once(self, REG_VOUT1, val)
-> > +                mock.reset_mock()
-> 
-> For covering regulators in general (especially those like this that use
-> the generic helpers) I'd be inclined to go through every single voltage
-> that can be set which isn't so interesting for this driver with it's
-> linear voltage control but more interesting for something that's not
-> continuous.
-
-That could be useful in some cases, but if going through all the
-voltages in a loop requires that the test implement the exact same
-voltage-to-bitfield conversion function as the driver, then the benefit
-of that part of the test is unclear.  That's the reason why for example
-the OPT3001 test uses known values from the datasheet rather than just
-copying the conversion function in the driver to Python.
-
-> I'd also put a cross check in that the voltage and enable
-> state that's reported via the read interface in sysfs is the one that we
-> think we've just set, that'd validate that the framework's model of
-> what's going on matches both what the driver did to the "hardware" and
-> what the running kernel thinks is going on so we're joined up top to
-> bottom (for the regulator framework the read values come from the
-> driver so it is actually covering the driver).
-
-Makes sense, I can add that.
-
-> This all feels like it could readily be factored out into a generic
-> helper, much as the actual drivers are especially when they're more data
-> driven.  Ideally with the ability to override the default I/O operations
-> for things with sequences that need to be followed instead of just a
-> bitfield to update.  Callbacks to validate enable state, voltage, mode
-> and so on in the hardware.  If we did that then rather than open coding
-> every single test for every single device we could approach things at
-> the framework level and give people working on a given device a pile of
-> off the shelf tests which are more likely to catch things that an
-> individual driver author might've missed, it also avoids the test
-> coverage being more laborious than writing the actual driver.
-
-Things could certainly be factored out in the future, but I'm a bit wary
-of attempting to do that when we have a test for only one regulator
-driver, and a very minimal regulator driver at that.
-
-> This does raise the questions I mentioned about how useful the testing
-> really is of course, even more so when someone works out how to generate
-> the data tables for the test and the driver from the same source, but
-> that's just generally an issue for mocked tests at the conceptual level
-> and clearly it's an approach that's fairly widely used and people get
-> value from.
-
-For the regulator drivers which are purely-data driven such as the ones
-mostly implemented by setting the various fields in struct
-regulator_desc along with the helpers in the framework, it could perhaps
-be useful to implement kunit tests in the regulator subsystem which test
-that using the various fields actually results in the expected
-consumer-visible behaviour with the regulator API.
-
-Then, for the indivudal drivers themselves, roadtests could cover things
-like probe handling, functions implemented without using helpers, checks
-that the correct variant's registers are used in drivers supporting
-multiple variants, custom devicetree properties, interrupt handling, and
-the like.
