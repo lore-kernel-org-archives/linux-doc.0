@@ -2,74 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40EB3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 06:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2060C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 07:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbiCQGxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 02:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
+        id S230215AbiCQHb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 03:31:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230042AbiCQGxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 02:53:23 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0315FE6C57;
-        Wed, 16 Mar 2022 23:52:05 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id s42so6148781pfg.0;
-        Wed, 16 Mar 2022 23:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uJWcE2jFJ9mIKDgXPPI83qOA+MOx6pJaPjrxpvWVjuQ=;
-        b=pn7KiUlHNsHO4kgalgbLqrRX4GyI7J+AowftiG4P3mZ5dTvSQCNPg2ZWBhtesfjmIM
-         N3cPBJWcqFbKrjAErwJnH/o4rNd1NUD5GPaEpdh7gcrNYX1epO0I+Rp1F1hmenAanSXt
-         uqqG8gt5bCyj1E4wH4rZOKc6X/fM1sdbNJJPkyBU0o/OycGB4qG1kaIi+tPtZVQptfwB
-         UjCYWKGXqyqW9GsNbdoqWwp9MWzNkq2rK0qpcpLF8wKEvPtXDcFPuCXYcXQa5W9tkiSa
-         NvEkSEk5HvJrCsxoFulWonbDWG0mctUpUZLPwaGie/cef6yMhJZx5gUdnNfD6XSlLP83
-         YnoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uJWcE2jFJ9mIKDgXPPI83qOA+MOx6pJaPjrxpvWVjuQ=;
-        b=OQBaCT89UL3nVzO2fnZBwOEJCNd+xTnj672zEb+ddvItFZB0NM3DxnzlMGFwP4q1D7
-         tqtoMugBdhf4Kc0HA76OxxjpyYBm/mkUdU8jI60yoSrqjiuyGZ0GrLfTuUkQr0NsF0hu
-         jnu9pxi2pmzLBAKbREZTaXBxvxfCqxrXK4hsV/A2htrtVrYmmdW7bkc8hUZuAOfI6Fnv
-         5dHTMQRqrmAlPhBsGTqA2GaM5e3s5qRYNf3r/BpGcAw94N4GteQCAQeIljn6upJH95PQ
-         agYEzHNCF12pXRGYR+1h2SInz6cmpfjMIudR0qnilJRPab+2d/OgsbXgEAXW4dpRTF50
-         eX8w==
-X-Gm-Message-State: AOAM532MJ/srfoyaCJq0XL+isa9VSwywGjz/JkOb0/oRzAvZyKr8jW2i
-        gddAL/1Sp0QkHjy8cLpYTjE=
-X-Google-Smtp-Source: ABdhPJwMZ0+vZrZgH2U8ovXGf+0CrhP3LZbrB5y3Env6a6w2gkNoTlUebUgT4XCRbajOzz7Hr0QEog==
-X-Received: by 2002:a05:6a00:1a11:b0:4f7:bf07:c068 with SMTP id g17-20020a056a001a1100b004f7bf07c068mr3174982pfv.81.1647499925032;
-        Wed, 16 Mar 2022 23:52:05 -0700 (PDT)
-Received: from ubuntu ([140.121.198.208])
-        by smtp.gmail.com with ESMTPSA id z16-20020a056a00241000b004f3a647ae89sm5701736pfh.174.2022.03.16.23.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 23:52:04 -0700 (PDT)
-Date:   Thu, 17 Mar 2022 14:51:59 +0800
-From:   Chih-En Lin <shiyn.lin@gmail.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: x86: Fix obsolete name of page fault
- handler
-Message-ID: <20220317065159.GA10609@ubuntu>
-References: <20220314155901.227257-1-shiyn.lin@gmail.com>
- <YjIyZyDfg6+Hsq9a@zn.tnic>
+        with ESMTP id S229447AbiCQHbY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 03:31:24 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA8E1C16E5;
+        Thu, 17 Mar 2022 00:30:08 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KJzGJ6mJxz9sfZ;
+        Thu, 17 Mar 2022 15:26:16 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 17 Mar 2022 15:30:06 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 17 Mar 2022 15:30:04 +0800
+Subject: Re: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
+To:     Baoquan He <bhe@redhat.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
+ <20220227030717.1464-4-thunder.leizhen@huawei.com>
+ <YjHUAi0xrUy+qk/L@MiWiFi-R3L-srv>
+ <7d7a3e70-6a46-b722-ef48-7206a47185dd@huawei.com>
+ <YjKeuFGtjI7944uy@MiWiFi-R3L-srv>
+ <05a96786-cfe8-029f-f29a-60fb94129f91@huawei.com>
+ <YjKvUz+dKRkyxUAd@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <eb26c623-6c7b-c3ba-acc8-654023ddd82b@huawei.com>
+Date:   Thu, 17 Mar 2022 15:30:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YjIyZyDfg6+Hsq9a@zn.tnic>
+In-Reply-To: <YjKvUz+dKRkyxUAd@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Thanks for reviewing.
-I will fix all stuff mentioned.
-Also, before submitting the next patch,
-I will read/follow submitting-patch.rst carefully.
 
-Thanks!
+
+On 2022/3/17 11:47, Baoquan He wrote:
+> On 03/17/22 at 11:19am, Leizhen (ThunderTown) wrote:
+>>
+>>
+>> On 2022/3/17 10:36, Baoquan He wrote:
+>>> On 03/16/22 at 09:11pm, Leizhen (ThunderTown) wrote:
+>>>>
+>>>>
+>>>> On 2022/3/16 20:11, Baoquan He wrote:
+>>>>> On 02/27/22 at 11:07am, Zhen Lei wrote:
+>>> ...... 
+>>>
+>>>>> Hi leizhen,
+>>>>>
+>>>>> I made change on reserve_crashkenrel(), inline comment may be slow.
+>>>>> Please check and consider if they can be taken.
+>>>>
+>>>> That's great. Thank you very much.
+>>>>
+>>>>>
+>>>>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>>>>> index 30ae6638ff54..f96351da1e3e 100644
+>>>>> --- a/arch/arm64/mm/init.c
+>>>>> +++ b/arch/arm64/mm/init.c
+>>>>> @@ -109,38 +109,43 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+>>>>>   * This function reserves memory area given in "crashkernel=" kernel command
+>>>>>   * line parameter. The memory reserved is used by dump capture kernel when
+>>>>>   * primary kernel is crashing.
+>>>>> + *
+>>>>> + * NOTE: Reservation of crashkernel,low is special since its existence
+>>>>> + * is not independent, need rely on the existence of crashkernel,high.
+>>>>> + * Hence there are different cases for crashkernel,low reservation:
+>>>
+>>> Considering to update the 3rd line as below:
+>>>
+>>>  * NOTE: Reservation of crashkernel,low is special since its existence
+>>>  * is not independent, need rely on the existence of crashkernel,high.
+>>>  * Here, four cases of crashkernel,low reservation are summarized: 
+>>
+>> OK. How about change "crashkernel,low" to "crashkernel low memory"?
+>> "crashkernel=Y,low", "crashkernel=,low" and "crashkernel,low" are very similar,
+>> may dazzle the reader.
+> 
+> Fine by me. 'crashkernel low memory' is formal, just make sentence a
+> little longer. Please take what you think fitter.
+
+OK, I will send v22 after v5.18-rc1.
+
+> 
+>>
+>>>
+>>>>> + * 1) crashkernel=Y,low is specified explicitly, crashkernel,low takes Y;
+>>>>> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
+>>>>> + *    take the default crashkernel,low value;
+>>>>> + * 3) crashkernel=X is specified, while fallback to get a memory region
+>>>>> + *    in high memory, take the default crashkernel,low value;
+>>>>> + * 4) crashkernel='invalid value',low is specified, failed the whole
+>>>>> + *    crashkernel reservation and bail out.
+>>>>>   */
+>>>>>  static void __init reserve_crashkernel(void)
+>>>>>  {
+>>>>>  	unsigned long long crash_base, crash_size;
+>>>>>  	unsigned long long crash_low_size;
+>>>>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>>>>> -	int ret;
+>>>>>  	bool fixed_base, high = false;
+>>>>>  	char *cmdline = boot_command_line;
+>>>>> +	int ret;
+>>>>>  
+>>>>>  	/* crashkernel=X[@offset] */
+>>>>>  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>>>>>  				&crash_size, &crash_base);
+>>>>>  	if (ret || !crash_size) {
+>>>>> -		/* crashkernel=X,high */
+>>>>>  		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+>>>>>  		if (ret || !crash_size)
+>>>>>  			return;
+>>>>>  
+>>>>> -		/* crashkernel=Y,low */
+>>>>>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>>>>>  		if (ret == -ENOENT)
+>>>>> -			/*
+>>>>> -			 * crashkernel=Y,low is not specified explicitly, use
+>>>>> -			 * default size automatically.
+>>>>> -			 */
+>>>>> +			/* case #2 of crashkernel,low reservation */
+>>>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>>>  		else if (ret)
+>>>>> -			/* crashkernel=Y,low is specified but Y is invalid */
+>>>>> +			/* case #4 of crashkernel,low reservation */
+>>>>>  			return;
+>>>>>  
+>>>>> -		/* Mark crashkernel=X,high is specified */
+>>>>>  		high = true;
+>>>>>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>>>>>  	}
+>>>>> @@ -148,7 +153,6 @@ static void __init reserve_crashkernel(void)
+>>>>>  	fixed_base = !!crash_base;
+>>>>>  	crash_size = PAGE_ALIGN(crash_size);
+>>>>>  
+>>>>> -	/* User specifies base address explicitly. */
+>>>>>  	if (fixed_base)
+>>>>>  		crash_max = crash_base + crash_size;
+>>>>>  
+>>>>> @@ -172,11 +176,7 @@ static void __init reserve_crashkernel(void)
+>>>>>  	}
+>>>>>  
+>>>>>  	if (crash_base >= SZ_4G) {
+>>>>> -		/*
+>>>>> -		 * For case crashkernel=X, low memory is not enough and fall
+>>>>> -		 * back to reserve specified size of memory above 4G, try to
+>>>>> -		 * allocate minimum required memory below 4G again.
+>>>>> -		 */
+>>>>> +		/* case #3 of crashkernel,low reservation */
+>>>>>  		if (!high)
+>>>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>>>  
+>>>>>
+>>>>>>  
+>>>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
+>>>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+>>>>>> +retry:
+>>>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>>>>>  					       crash_base, crash_max);
+>>>>>>  	if (!crash_base) {
+>>>>>> +		/*
+>>>>>> +		 * Attempt to fully allocate low memory failed, fall back
+>>>>>> +		 * to high memory, the minimum required low memory will be
+>>>>>> +		 * reserved later.
+>>>>>> +		 */
+>>>>>> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
+>>>>>> +			crash_max = CRASH_ADDR_HIGH_MAX;
+>>>>>> +			goto retry;
+>>>>>> +		}
+>>>>>> +
+>>>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>>>>>>  			crash_size);
+>>>>>>  		return;
+>>>>>>  	}
+>>>>>>  
+>>>>>> +	if (crash_base >= SZ_4G) {
+>>>>>> +		/*
+>>>>>> +		 * For case crashkernel=X, low memory is not enough and fall
+>>>>>> +		 * back to reserve specified size of memory above 4G, try to
+>>>>>> +		 * allocate minimum required memory below 4G again.
+>>>>>> +		 */
+>>>>>> +		if (!high)
+>>>>>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>>>> +
+>>>>>> +		if (reserve_crashkernel_low(crash_low_size)) {
+>>>>>> +			memblock_phys_free(crash_base, crash_size);
+>>>>>> +			return;
+>>>>>> +		}
+>>>>>> +	}
+>>>>>> +
+>>>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>>>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>>>>>>  
+>>>>>> @@ -107,6 +194,9 @@ static void __init reserve_crashkernel(void)
+>>>>>>  	 * map. Inform kmemleak so that it won't try to access it.
+>>>>>>  	 */
+>>>>>>  	kmemleak_ignore_phys(crash_base);
+>>>>>> +	if (crashk_low_res.end)
+>>>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
+>>>>>> +
+>>>>>>  	crashk_res.start = crash_base;
+>>>>>>  	crashk_res.end = crash_base + crash_size - 1;
+>>>>>>  	insert_resource(&iomem_resource, &crashk_res);
+>>>>>> -- 
+>>>>>> 2.25.1
+>>>>>>
+>>>>>
+>>>>> .
+>>>>>
+>>>>
+>>>> -- 
+>>>> Regards,
+>>>>   Zhen Lei
+>>>>
+>>>
+>>> .
+>>>
+>>
+>> -- 
+>> Regards,
+>>   Zhen Lei
+>>
+> 
+> .
+> 
+
+-- 
+Regards,
+  Zhen Lei
