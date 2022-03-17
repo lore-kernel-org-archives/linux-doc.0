@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5BAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:43:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2E9C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 08:43:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbiCQIoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 04:44:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55836 "EHLO
+        id S231400AbiCQIof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 04:44:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbiCQIoX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:44:23 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2407DAB9
-        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:06 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id kl20so3706441qvb.10
-        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:06 -0700 (PDT)
+        with ESMTP id S231326AbiCQIob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 04:44:31 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 972758933F
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:13 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id b189so3797976qkf.11
+        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 01:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qJ5324mXHmvmdy0RadTI1yXZIuPol7vGmq96jYGkv+E=;
-        b=NNBZ9VphAmb4E1ipnE9WDRoZFhKMvDCB7MUeuTp8jEqeXdDxYz0OkjDN6SRKIoBsG0
-         5wJOSNZakF2vhUqGTyWh7DditsA/GzgnkwuLrXbbg9ZCVF7h+ekIh7MmrC1OG/3yUtLK
-         LCBeldb9MMNRE8oZwTAQ8E5VN9QMZuIMYxjKEjEgT2n+Lkgu1Z/MnSPr4WE1sJxp1KQo
-         bXux3GVHHErK3+F7ibVMmbmWbWkUfVsnLhDqVOlNFFM/vqk9krzLABLoJdQ/IstIQMhp
-         JY/yC/KcwAJj5tCQ8DX6rrfbTx1/7JBTHX9cDSmXbzzbLEky9OYeZN1Ugth7/SKVR5RP
-         XmgA==
+        bh=tv4iDzmQNJPmszLaFtRkr+UCWY8CGYDA+mXIMsbsnuQ=;
+        b=XgtwpcQ9iRBYy+hiz/Sl5Nfjy/Yz5BQn2JyO88qdUGfGMMPDXUE/Y+zfxzwCZtdZ0Q
+         W6A/pwIfWYiGP1nlk38cPjSh8myy+CTfiOkTQ2bhptbmHbvQMdg5bLRncFEcNjEi5B1M
+         RD7W5j+zx6/wnbBYG8CjUfvTD8BmtuQIjHtWxC0P+dAu1cnQ4JYpldtacxbR0Gv7b3j2
+         AtvKKsI/qKySlOUxafq5KHLPZC0mQjhlK9JcMkwdvzMlXfpgFHR+VhAnZBmVIvFrukU1
+         3aFIT00RxYaltF5IDnVx40Rh5TmLoCFPdE0xD/DW1a5N4JVp2AmjHP32dCXDx/b07CGT
+         myYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qJ5324mXHmvmdy0RadTI1yXZIuPol7vGmq96jYGkv+E=;
-        b=c8P3u9AFt1mot72CDBXmupxd01UNd2a2jCP7rZQtAmLg9gNZH1tZTtMTjfTrKc4T0I
-         KhSHaC/8PEJVK0/T9eZqjv3TX3PN9/n5sC8QymKnYOQpRBU0FNbLc7rm6o3eIGB/P1Fw
-         1d+0Wgj+QdwWg8Z6SONifUyiEXt8aRXO8DJFEmPuGiKrc6A5ZPV6KXM6uKjEP0GRVInI
-         X8Vo3hCoYRnYkiRxQ1ixgtmCUXRCOeUc8ckrQGMpXoS+hXq5ZVK5t1UvsE8BngOiKx8J
-         y34T8zhkTMsM5XJVi+bInAySX3fWYgewJeCJgxP5/4c7oTrdUPKgikMS7HzGcEKBZZr8
-         ApCQ==
-X-Gm-Message-State: AOAM533oL8iSjpU5rPfaFuFr0RsjUkZmZK2kuxHZ6qY3RovthwIBjMDG
-        pgZlz8SopfBjGeVM5QoboqOXzB/vBjxi9PbRfSSLbQ==
-X-Google-Smtp-Source: ABdhPJyMaPc+wBVz0IYSasdBtgb8T2E7a2EUZN9kgmCOuoZkWd/JEx7gXuELJXoMc1WGWhFBoNA5i3897Jj4qXASHbc=
-X-Received: by 2002:a05:6214:29c7:b0:435:d0ae:dcd9 with SMTP id
- gh7-20020a05621429c700b00435d0aedcd9mr2559194qvb.101.1647506585131; Thu, 17
- Mar 2022 01:43:05 -0700 (PDT)
+        bh=tv4iDzmQNJPmszLaFtRkr+UCWY8CGYDA+mXIMsbsnuQ=;
+        b=nwj5SMhOLTNmEA0v1i7q501OSU/4dqCMxvUdADx7QQMf26VG8MnJmKPby2wHnmzDZC
+         KYJOzjTLKtiLFWScZ3phy867N9Ke2h5CgIeaMnGiVyDadDdEqsqS1GnZbdnUZxRouGx8
+         Gf8qfVvikG9RHABEzVQ+1axxucpiLEA7eNn3JLQUm6DDoRpJ2cTC2M1ZMSIw37PHyTgr
+         +r3TWQlcYqifm/T0PNccVh6hYOI4LBMfJxi23HgghxTd2u2PXOzEG688Qwjdb5lgh1Eq
+         GhKKWRJRJF9Pnb+FnRDF/gyBWI+iraImEKlX0GydQJBCBJd0NRsfPrzgeffAPbdps3ph
+         4FNg==
+X-Gm-Message-State: AOAM533/yXAEl6Jd71DHTPuRYdVzQZM6LxP4TJcrc86xSqexXE9KnBXF
+        tdvyZHbdlOyt2VwYN55V4lSlSmhBqubsZlPPNQRxPg==
+X-Google-Smtp-Source: ABdhPJxDx5zqb/CO4eBwMWctdU1OC2nZfmL/RDU6S20tEDv4fUUVbz7t6iX/Hxz4EYOmkE0aRA6A7ukFfyQ9IPcwoS4=
+X-Received: by 2002:a05:620a:404f:b0:67d:dc82:6319 with SMTP id
+ i15-20020a05620a404f00b0067ddc826319mr2094461qko.359.1647506592791; Thu, 17
+ Mar 2022 01:43:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220316202622.324866-1-frowand.list@gmail.com>
-In-Reply-To: <20220316202622.324866-1-frowand.list@gmail.com>
+References: <20220316202622.324866-1-frowand.list@gmail.com> <20220316202622.324866-2-frowand.list@gmail.com>
+In-Reply-To: <20220316202622.324866-2-frowand.list@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Thu, 17 Mar 2022 16:42:50 +0800
-Message-ID: <CABVgOSmkvxhHSJx0W6BEYz=Ai9vB=nCz625dSKLLUfU0rMLkFA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Documentation: dev-tools: begin KTAP spec v2 process
+Date:   Thu, 17 Mar 2022 16:43:01 +0800
+Message-ID: <CABVgOSm_rQcBhbC5C7Z7_+zEheCjkjHCmzKHyx7b5bYLESvA0A@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] Documentation: dev-tools: KTAP spec change
+ version to 2-rc
 To:     Frank Rowand <frowand.list@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -66,88 +67,71 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000cbdd4605da6604b0"
+        boundary="0000000000003fa4d905da6605b9"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000cbdd4605da6604b0
+--0000000000003fa4d905da6605b9
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, Mar 17, 2022 at 4:26 AM <frowand.list@gmail.com> wrote:
 >
 > From: Frank Rowand <frank.rowand@sony.com>
 >
-> An August 2021 RFC patch [1] to create the KTAP Specification resulted in
-> some discussion of possible items to add to the specification.
-> The conversation ended without completing the document.
+> Prepare KTAP Specification for the process of creating Version 2.
+> The version will remain 2-rc until the final commit to complete
+> Version 2.
 >
-> Progress resumed with a December 2021 RFC patch [2] to add a KTAP
-> Specification file (Version 1) to the Linux kernel.  Many of the
-> suggestions from the August 2021 discussion were not included in
-> Version 1.  This patch series is intended to revisit some of the
-> suggestions from the August 2021 discussion.
+> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+> ---
 
-Thanks for kicking this off again. There were definitely a lot of good
-ideas in those threads which we haven't got to yet.
+This seems okay to me, though I'd generally rather this stay in a
+branch rather than hitting torvalds/master while there aren't any
+substantive changes to the actual spec. (Basically, let's not rush
+naming this "2-rc" for 5.18 if there aren't any other changes: a 2-rc
+which is practically the same as 1 is probably going to be more
+confusing than helpful if it sticks around for a whole kernel release.
 
-I think there is an interesting line to walk between keeping KTAP
-sufficiently "TAP-like" (particularly w/r/t being able to reuse
-existing TAP parsers), and actually adding features, but I don't
-recall seeing many such issues in the previous threads.
-
->
-> Patch 1 changes the Specification version to "2-rc" to indicate
-> that following patches are not yet accepted into a final version 2.
-
-I'm okay with this, though I'd want us to be a little careful with the
-timing so we don't end up with, for example, 5.18 having a KTAP spec
-called 2-rc which is functionally indistinguishable from v1.
-
->
-> Patch 2 is an example of a simple change to the Specification.  The
-> change does not change the content of the Specification, but updates
-> a formatting directive as suggested by the Documentation maintainer.
-
-Thanks -- personally, I'd rather this change _does_ go in straight
-away, even before the 2-rc renaming.
-
-> I intend to take some specific suggestions from the August 2021
-> discussion to create stand-alone RFC patches to the Specification
-> instead of adding them as additional patches in this series.  The
-> intent is to focus discussion on a single area of the Specification
-> in each patch email thread.
-
-Seems like a sensible way to structure the discussion. It could get a
-little bit messy if there end up being merge conflicts, but the whole
-thing could be collapsed into a single patchset later if that ended up
-making more sense. (Though that might remove the need for the "rc"
-version, depending on exactly when and how it happened.)
-
-I'd also be curious to see patches to tests and/or test parsers to
-show off any particularly compatibility-breaking and/or interesting
-changes, though I don't think that _has_ to be a prerequisite for
-discussion or the spec.
-
->
-> [1] https://lore.kernel.org/r/CA+GJov6tdjvY9x12JsJT14qn6c7NViJxqaJk+r-K1YJzPggFDQ@mail.gmail.com
-> [2] https://lore.kernel.org/r/20211207190251.18426-1-davidgow@google.com
->
-> Frank Rowand (2):
->   Documentation: dev-tools: KTAP spec change version to 2-rc
->   Documentation: dev-tools: use literal block instead of code-block
->
->  Documentation/dev-tools/ktap.rst | 20 +++++++++-----------
->  1 file changed, 9 insertions(+), 11 deletions(-)
->
-> --
-> Frank Rowand <frank.rowand@sony.com>
->
+(Also, when would we want to update the various mentions of "KTAP
+version 1" in the document to "KTAP version 2" or "KTAP version 2-rc"?
+Now, when 2 is released, at the first breaking change to that example,
+etc?)
 
 Cheers,
 -- David
 
---000000000000cbdd4605da6604b0
+>  Documentation/dev-tools/ktap.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
+> index 5ee735c6687f..37b5dc61bfb8 100644
+> --- a/Documentation/dev-tools/ktap.rst
+> +++ b/Documentation/dev-tools/ktap.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>
+>  ===================================================
+> -The Kernel Test Anything Protocol (KTAP), version 1
+> +The Kernel Test Anything Protocol (KTAP), version 2-rc
+>  ===================================================
+
+Nit: Sphinx complains that we now need more '=' signs:
+
+Documentation/dev-tools/ktap.rst:3: WARNING: Title overline too short.
+===================================================
+
+
+The Kernel Test Anything Protocol (KTAP), version 2-rc
+===================================================
+
+>
+>  TAP, or the Test Anything Protocol is a format for specifying test results used
+> --
+> Frank Rowand <frank.rowand@sony.com>
+>
+
+--0000000000003fa4d905da6605b9
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -214,14 +198,14 @@ jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
 ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
 QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBn
-daIT+gpBNflXR4eLXrgbGfvj3MmwMqJl0RWGuPkw1DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjAzMTcwODQzMDVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDw
+tItYCAgJ/bRlpimWHGUYIqXUdsRV/avp5ObTVs5ztTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjAzMTcwODQzMTNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAo8L6wf0I/ZY1xewwSQTI
-EhaTLXZy/q023l2Lse8T/Zpk9V0p80n8P9lnY9fj8Pzs4YRM7NWQywvXhI8JctLfQIPpKN6cP4WZ
-ke44wDVqyD2WZJCFeumnrS3TRLKXYKZ9NjQ7BWRvxsogcsgKmPRrEbDb6OiWz1fbNCjWhrl6rzyy
-usM5r4ZheVxA55ua/MleCH8DnzVwNIardaYtA3hDap4D8fA4PeGFWAxlos++gyKaLLF9UijfNmyw
-zKPd01WixgDbhL4f5Z60VRry/0ntcMF68A0HEUvSx2XrtNvl+SDdltYB6+SRjVdUMQ6Yib6KHAjp
-R0Xsncfu+A1WRlXOIg==
---000000000000cbdd4605da6604b0--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAGd+sl70+zVJe6yTwawdw
+uSUWxCAISxCs/yiw/KD8Pf4Psdb4iqx7skYPflWvBaiz6pPCIK8D/V+fvnT4Ry5lEY3Y1P36j5L+
+7LZEafUwv1mKLkjfa6GSFx9+lVZa+BnhCmckddXWv7Jg8HKXumsTULyJ2vulvCfm9y81dd9oTiJZ
+M8UyZkGD4UOAqloGFiqdmFV85M9IlwbDq3zIejhpPgTHwvpyXaOWZvU7GupHfZVUgQhZLtQqwJvY
+vwVUqr4mzNyEmrpCdsCTxUokoV+b6EK2hVqfwhE0snAheXbKb8yA1MPMdNmrdv4bYvIhNeL6ZfNt
+f2JmEjaj8Zhsm5c8wQ==
+--0000000000003fa4d905da6605b9--
