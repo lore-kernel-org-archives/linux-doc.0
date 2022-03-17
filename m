@@ -2,268 +2,290 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2060C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 07:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F6FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Mar 2022 07:34:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbiCQHb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Mar 2022 03:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37536 "EHLO
+        id S230336AbiCQHf0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Mar 2022 03:35:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiCQHbY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 03:31:24 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA8E1C16E5;
-        Thu, 17 Mar 2022 00:30:08 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KJzGJ6mJxz9sfZ;
-        Thu, 17 Mar 2022 15:26:16 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+        with ESMTP id S230335AbiCQHfY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Mar 2022 03:35:24 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD16F8455;
+        Thu, 17 Mar 2022 00:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647502448; x=1679038448;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=kslqP82opOYUjwSmN0dayOFq80Y0G+Wty4ijFXFxKLw=;
+  b=Qh8eIQSpbQ57IHT2fgESeZRn+MkhsqQhpE685P7B8QLqShc6IAj3eOhQ
+   XWpvV+trSQJd9+WtjYIgk/F9uHVjlS88yfpZBYdQtv4ch/y6joa/r718i
+   VXyY/4WnWiSYLCQWOPzYA5BjzdWpQJArrkStnTw08KakS28FgnaefFrRO
+   FS0ujs/qdOQvmd5O4bDPKQDr1iV4zoEpFed173dXDCOUDbM0QJPOPg1PQ
+   nrbehSWlwpm6mPAKxOJbmz51vy+qrDxygPsRhZlUAU7AJT/Sut9q1Ml1H
+   Wf4HQDTODVOXxVB1cS9emkN+/89hnUCUQLzeRHc0wlr9ebRgO36JvClok
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="255635708"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
+   d="scan'208";a="255635708"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 00:34:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
+   d="scan'208";a="498739426"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga003.jf.intel.com with ESMTP; 17 Mar 2022 00:34:08 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 17 Mar 2022 15:30:06 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ 15.1.2308.21; Thu, 17 Mar 2022 00:34:07 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 17 Mar 2022 15:30:04 +0800
-Subject: Re: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
-To:     Baoquan He <bhe@redhat.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
- <20220227030717.1464-4-thunder.leizhen@huawei.com>
- <YjHUAi0xrUy+qk/L@MiWiFi-R3L-srv>
- <7d7a3e70-6a46-b722-ef48-7206a47185dd@huawei.com>
- <YjKeuFGtjI7944uy@MiWiFi-R3L-srv>
- <05a96786-cfe8-029f-f29a-60fb94129f91@huawei.com>
- <YjKvUz+dKRkyxUAd@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <eb26c623-6c7b-c3ba-acc8-654023ddd82b@huawei.com>
-Date:   Thu, 17 Mar 2022 15:30:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <YjKvUz+dKRkyxUAd@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
+ 15.1.2308.21; Thu, 17 Mar 2022 00:34:07 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21 via Frontend Transport; Thu, 17 Mar 2022 00:34:07 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.21; Thu, 17 Mar 2022 00:34:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aHHcO/5lV88z5qeGFnCQaIjVfZmhJynjMkzc1NADXqneq08hRegSXVBpKLUc4a/6JjMK+HX6xAHbaHQqIlpVzYjp5yBWl7yOcF6rERC1XrJm+veQxnQVYtXInV54HeEqm1kJx5VYyllUVkBOeTcnHpj+R2dQDY9xNQM0FXndG/Ur98hTDuVeefOPgBfFdNpWS8eDexQiR7iwzrOa8kzaQN5skc3kyI7UXFtSF13ZNUibCMwLYpo3lz9eExclxUj6jtGJ7cH8j/Mr+JjQB82MV2U0v32kLEW3ehE3IzPGzYNMK+8QuqNrOQo0BjDSHqttJDQ56kUbyCACFLKQeb/j4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C4Pm8cceRICP79DNO6CqDERFJld5ijm+nB2QnVmVb0U=;
+ b=Z/WJFWDbPX1LX0+2NAjr+B5ElbdYjVzbqEEtmEXx9BVCn+8Rjyp5/5+HTRoybPifAFdH9xijgLzSHghTZBKG+9CE9SZQDc27BynXLfIgIeH8Ud03TyqTEXZr7Uj7whv61Vl6dctezW6DEjdtknQnnCdVteZqT6nQ1gO1E/JQyyhb5+IsW5iyMiIPXZuqyqpX1wee9HVhNxiRLfWLfAbZIuP6niWj4O/HBXbtjberqTqbADHj9Ud5GVcWrEORZ0FWMT606nBwNf+V/WJbSpAEvmpg3d4OHE2Vok+f/TrAbvclrfkDBJCAoMvtJCzAkcbxMcVEKbaTNNBjI89PIUpTww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com (2603:10b6:408:104::10)
+ by MN2PR11MB4414.namprd11.prod.outlook.com (2603:10b6:208:17b::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Thu, 17 Mar
+ 2022 07:34:04 +0000
+Received: from BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::8c4b:e24c:c69f:7809]) by BN9PR11MB5483.namprd11.prod.outlook.com
+ ([fe80::8c4b:e24c:c69f:7809%5]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
+ 07:34:04 +0000
+From:   "Zhang, Tianfei" <tianfei.zhang@intel.com>
+To:     "Wu, Hao" <hao.wu@intel.com>, "trix@redhat.com" <trix@redhat.com>,
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "Xu, Yilun" <yilun.xu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: RE: [PATCH v6 1/6] fpga: dfl: Allow ports without local bar space.
+Thread-Topic: [PATCH v6 1/6] fpga: dfl: Allow ports without local bar space.
+Thread-Index: AQHYOQUcVwr1NO7I9EaBR7STlp8buqzC1K+AgABHRmA=
+Date:   Thu, 17 Mar 2022 07:34:04 +0000
+Message-ID: <BN9PR11MB54839B3ABC5844DF45602995E3129@BN9PR11MB5483.namprd11.prod.outlook.com>
+References: <20220316070814.1916017-1-tianfei.zhang@intel.com>
+ <20220316070814.1916017-2-tianfei.zhang@intel.com>
+ <BYAPR11MB3816EAB6CC0047B2DBB5086685129@BYAPR11MB3816.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB3816EAB6CC0047B2DBB5086685129@BYAPR11MB3816.namprd11.prod.outlook.com>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.401.20
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1852c1fd-5458-413b-4307-08da07e8833a
+x-ms-traffictypediagnostic: MN2PR11MB4414:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <MN2PR11MB44149C4F07EE650410A2C84AE3129@MN2PR11MB4414.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fIlroCAQe52x+3ccIFvYRAFNwtHEeCh+3T84hcgcdpelWccTweECJ9BnPhv1YOFR1q8akjg1GVjRVRcLA6nsonYPNBDDk8AF16B/jKdK00WxoeAb6JEW2Om+HLXRI9E+zArtX+McCL6xslJ1CnGISacw0BC0UoZgYIfaiMg86TiMnqMusiApIRl6zuPJc62phTXJQRgZtmCWr/V8w1OUG8U6obkuvhKOXrvb6FGAJXrNf2dGD2emdHhQw35TuTqRpxTXT1c+laEA4TsmFBw3j9M1CuRlW6+AC+UqfuAONm/P1GoRkjfcqRMOceJ69AqBJDK3/yLTw2KlyZrcLie4lJJbKuX3kFtJdl1pAxV499gIH3ySUlFyD0HWNQO3XZXiDu+6JJA3mGfyw9d5beATkmJBuqS5Qin+5zZoi8u+hItsSIEDs8bKy4qnkCxuYwI8eRb2WwtRimPHyXXeRp8pQm9O+qsdDVXqvlK/UR2oEserZiv1qbqoKsaJJGq2XGHGgR64wYgVSriZJjJpQ/364W2o9/rx46ZbYx+XOQMYpkmGNgGd4PftehdMQfnR7v7nTN5sr2ZSZaxT3dbbJIq5ayDGncwdrAixuRUDEQcPDsAdtdTDNlZ2fOsPvlXhO4dJDeeuc2bOKlX6PqrPGFcVa8qIBJL3oNHh9cVkeW+8eAzt3Id7xcHJmI8hWCEFwDm/+knYzl3kHBQMNGbN38x7BQXiyHtveSAL1nz3DbWbW9Y=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5483.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(8936002)(26005)(83380400001)(186003)(9686003)(7696005)(6506007)(316002)(5660300002)(53546011)(71200400001)(54906003)(76116006)(66946007)(66556008)(38070700005)(122000001)(82960400001)(33656002)(66476007)(110136005)(8676002)(921005)(66446008)(64756008)(52536014)(55016003)(508600001)(2906002)(38100700002)(4326008)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2SB0Vb49tvoKN6nP6jquW2kAisiDjR5QmVe8yWKd0rrKK3QgJ+9cl/Uuqwkl?=
+ =?us-ascii?Q?Dyd1FXdGGPpnCpFZQCtCUw1LKSRLTMFPHsIwmbwNJaRFzzsDod7IluKxTCIl?=
+ =?us-ascii?Q?Wrzm0oqL4szcPrkBBXtVD/VtwyesIZg0txtEBfrS56TdQ0SZ2L+RdHU77T3d?=
+ =?us-ascii?Q?PGCDjr32LGboz8j6ys/pCoYLqS3Ds3tchU3DipMxgHxHFgNCDCUS2UNTnvrL?=
+ =?us-ascii?Q?a5yB4o8sS48Tf4ut64nUbPF5KdTurYsr8rTjgh50KaWsHl/2nX3shchJ1Ply?=
+ =?us-ascii?Q?JfUQfngyE7NIxnIEgV6Xo8VN7YtM3lmRaKLz4pa8RxyrWs5zN/eUZpy11Wo9?=
+ =?us-ascii?Q?m6he53mlgVOaN9yxtYSlfRETzMsYYlvbadgEYmEA4WNXmYPeqhefUEd+bg27?=
+ =?us-ascii?Q?FmiRlUZZzGor6TEQwgmoR77WNhEbe7NqpOcv3gwpbUVuqYIoXmg8yimFzeS6?=
+ =?us-ascii?Q?1cf6q4CI4A7FpjBWOqpHGRvBbdIy6Fq7LNEGr8PThwPhR/gCESphIZtEshan?=
+ =?us-ascii?Q?a8cw98S1Sj+Pc4wBi1BiYzgjG465XV213I/8S8DEXVinevy/FVeZvrqiTZml?=
+ =?us-ascii?Q?4FS6TNV5c6UXJ1Nr4s0zNEuzg9bm4rjHufeVhH+e2h7/l33Jbg0VJe7hBUHz?=
+ =?us-ascii?Q?nPW6MTN3w2aijgKPW51L6ahr6TaG16nrSMYgQ4+/P3OBYnClZQsS9lTLlFFh?=
+ =?us-ascii?Q?cYyXggPOsvhUlnCiWdaCs2R4/B3O1dfS0hCLr/SVv46yDn3MR+I7DBKWjBGd?=
+ =?us-ascii?Q?kRAh+Xxm9YgiAgyjQTf2dYgVwfpGbgyrfWMmTZobFsVxkecOpSqF+RP9F8u6?=
+ =?us-ascii?Q?hsSPse9vNnPkpmeQDSnoEPazAJ7NPNKQLJtHxco6Z9/AJM9VVdCe+J0uftAK?=
+ =?us-ascii?Q?IogCjfQjgDfZAIWD+v3p7uDivQnHiUIAwTpnMJg7fNcFLJegKT/NFjcLvklp?=
+ =?us-ascii?Q?I5RuahrXCzuU56uzJh8BojlWmH2w5FEBP1bggzaXgBSN8zJ55SyzTWTZ40gG?=
+ =?us-ascii?Q?GimHZT0sqMDQRrMeYKKyHiFZpkQ0XUujqUmxujFyl0rrcKryyII0MA4p8UOE?=
+ =?us-ascii?Q?mktv75fR32ouVQv14ZYZRImB19xYafbLz6Gq51+4Pm7N3oNtgUF2bSFTzr+g?=
+ =?us-ascii?Q?l4WBmhkN0x2lFQIWc6k9l2Jh0GVUzx9W8jQsXDtFwgmTX8Y4FddGxiPGVIbJ?=
+ =?us-ascii?Q?XHBjaJP0leramCmmEXT2fVDaj+mPeWsqFEqw35Wpamb2pENZ/aoVO3MvqCt5?=
+ =?us-ascii?Q?3bdCLvgbnNyZ6UVMCENVAO8NAep+beY+liwKYJ9jNJoKtFcYZs0m+ERyvSnY?=
+ =?us-ascii?Q?Czp37ph9ZqlpKFPUH3/YXUa8FZw8f0JbgHS/9Zn2ocwJLaTR0hAqMYRTUZhV?=
+ =?us-ascii?Q?L0X9seoWyIfWqyWUnkIPdAOs3IjV5QToUMqTyQGtvN/fkXhwDeP0VYWuWjqE?=
+ =?us-ascii?Q?E+DGHWaXmc6QGONAJkjMv8CxhzzOLzqP?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5483.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1852c1fd-5458-413b-4307-08da07e8833a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2022 07:34:04.0225
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7E7moZdU+4o3fCDw+6xsiLAtACA58QuhjPyU9654FkKYPzNQFWVkzlEOK8K1Ay2jmTaWNBxzLuGEbVykF6rI4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4414
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+> -----Original Message-----
+> From: Wu, Hao <hao.wu@intel.com>
+> Sent: Thursday, March 17, 2022 10:05 AM
+> To: Zhang, Tianfei <tianfei.zhang@intel.com>; trix@redhat.com;
+> mdf@kernel.org; Xu, Yilun <yilun.xu@intel.com>; linux-fpga@vger.kernel.or=
+g;
+> linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> rdunlap@infradead.org
+> Cc: corbet@lwn.net; Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Subject: RE: [PATCH v6 1/6] fpga: dfl: Allow ports without local bar spac=
+e.
+>=20
+> > -----Original Message-----
+> > From: Zhang, Tianfei <tianfei.zhang@intel.com>
+> > Sent: Wednesday, March 16, 2022 3:08 PM
+> > To: Wu, Hao <hao.wu@intel.com>; trix@redhat.com; mdf@kernel.org; Xu,
+> > Yilun <yilun.xu@intel.com>; linux-fpga@vger.kernel.org;
+> > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > rdunlap@infradead.org
+> > Cc: corbet@lwn.net; Matthew Gerlach <matthew.gerlach@linux.intel.com>;
+> > Zhang, Tianfei <tianfei.zhang@intel.com>
+> > Subject: [PATCH v6 1/6] fpga: dfl: Allow ports without local bar space.
+> >
+> > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> >
+> > In OFS, each PR slot (AFU) has one port device which include Port
+> > control, Port user clock control and Port errors. In legacy model, the
+> > AFU MMIO space was connected with Port device, so from port device
+> > point of view, there is a bar space associated with this port device.
+> > But in "Multiple VFs per PR slot" model, the AFU MMIO space was not
+> > connected with Port device. The BarID (3bits field) in PORTn_OFFSET
+> > register indicates which PCI bar space associated with this port
+> > device, the value 0b111 (FME_HDR_NO_PORT_BAR) means that no PCI bar
+> > for this port device.
+>=20
+> The commit message is not matching the change, it's not related to AFU...
+>=20
+> Current usage (FME DFL and PORT DFL are not linked together)
 
-On 2022/3/17 11:47, Baoquan He wrote:
-> On 03/17/22 at 11:19am, Leizhen (ThunderTown) wrote:
->>
->>
->> On 2022/3/17 10:36, Baoquan He wrote:
->>> On 03/16/22 at 09:11pm, Leizhen (ThunderTown) wrote:
->>>>
->>>>
->>>> On 2022/3/16 20:11, Baoquan He wrote:
->>>>> On 02/27/22 at 11:07am, Zhen Lei wrote:
->>> ...... 
->>>
->>>>> Hi leizhen,
->>>>>
->>>>> I made change on reserve_crashkenrel(), inline comment may be slow.
->>>>> Please check and consider if they can be taken.
->>>>
->>>> That's great. Thank you very much.
->>>>
->>>>>
->>>>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->>>>> index 30ae6638ff54..f96351da1e3e 100644
->>>>> --- a/arch/arm64/mm/init.c
->>>>> +++ b/arch/arm64/mm/init.c
->>>>> @@ -109,38 +109,43 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
->>>>>   * This function reserves memory area given in "crashkernel=" kernel command
->>>>>   * line parameter. The memory reserved is used by dump capture kernel when
->>>>>   * primary kernel is crashing.
->>>>> + *
->>>>> + * NOTE: Reservation of crashkernel,low is special since its existence
->>>>> + * is not independent, need rely on the existence of crashkernel,high.
->>>>> + * Hence there are different cases for crashkernel,low reservation:
->>>
->>> Considering to update the 3rd line as below:
->>>
->>>  * NOTE: Reservation of crashkernel,low is special since its existence
->>>  * is not independent, need rely on the existence of crashkernel,high.
->>>  * Here, four cases of crashkernel,low reservation are summarized: 
->>
->> OK. How about change "crashkernel,low" to "crashkernel low memory"?
->> "crashkernel=Y,low", "crashkernel=,low" and "crashkernel,low" are very similar,
->> may dazzle the reader.
-> 
-> Fine by me. 'crashkernel low memory' is formal, just make sentence a
-> little longer. Please take what you think fitter.
+This usage is only on Intel PAC N3000 and N5000 card.=20
+In my understand, the space of Port can put into any PCI bar space.=20
+In the previous use case, the space of port was located on Bar 2.
+For OFS, it allows the port without specific bar space.
 
-OK, I will send v22 after v5.18-rc1.
+>=20
+> FME DFL
+> PORT DFL (located by FME's PORTn_OFFSET register, BAR + offset)
+>=20
+> Your proposed new usage is (FME DFL and PORT DFL are linked together)
+>=20
+> FME DFL -> PORT DFL
+> So FME's PORTn_OFFSET can be marked, then driver could skip it.
+>=20
+> Is my understanding correct? If yes, please update your title and commit
+> message, and add some comments in code as well.
 
-> 
->>
->>>
->>>>> + * 1) crashkernel=Y,low is specified explicitly, crashkernel,low takes Y;
->>>>> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
->>>>> + *    take the default crashkernel,low value;
->>>>> + * 3) crashkernel=X is specified, while fallback to get a memory region
->>>>> + *    in high memory, take the default crashkernel,low value;
->>>>> + * 4) crashkernel='invalid value',low is specified, failed the whole
->>>>> + *    crashkernel reservation and bail out.
->>>>>   */
->>>>>  static void __init reserve_crashkernel(void)
->>>>>  {
->>>>>  	unsigned long long crash_base, crash_size;
->>>>>  	unsigned long long crash_low_size;
->>>>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->>>>> -	int ret;
->>>>>  	bool fixed_base, high = false;
->>>>>  	char *cmdline = boot_command_line;
->>>>> +	int ret;
->>>>>  
->>>>>  	/* crashkernel=X[@offset] */
->>>>>  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
->>>>>  				&crash_size, &crash_base);
->>>>>  	if (ret || !crash_size) {
->>>>> -		/* crashkernel=X,high */
->>>>>  		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
->>>>>  		if (ret || !crash_size)
->>>>>  			return;
->>>>>  
->>>>> -		/* crashkernel=Y,low */
->>>>>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
->>>>>  		if (ret == -ENOENT)
->>>>> -			/*
->>>>> -			 * crashkernel=Y,low is not specified explicitly, use
->>>>> -			 * default size automatically.
->>>>> -			 */
->>>>> +			/* case #2 of crashkernel,low reservation */
->>>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->>>>>  		else if (ret)
->>>>> -			/* crashkernel=Y,low is specified but Y is invalid */
->>>>> +			/* case #4 of crashkernel,low reservation */
->>>>>  			return;
->>>>>  
->>>>> -		/* Mark crashkernel=X,high is specified */
->>>>>  		high = true;
->>>>>  		crash_max = CRASH_ADDR_HIGH_MAX;
->>>>>  	}
->>>>> @@ -148,7 +153,6 @@ static void __init reserve_crashkernel(void)
->>>>>  	fixed_base = !!crash_base;
->>>>>  	crash_size = PAGE_ALIGN(crash_size);
->>>>>  
->>>>> -	/* User specifies base address explicitly. */
->>>>>  	if (fixed_base)
->>>>>  		crash_max = crash_base + crash_size;
->>>>>  
->>>>> @@ -172,11 +176,7 @@ static void __init reserve_crashkernel(void)
->>>>>  	}
->>>>>  
->>>>>  	if (crash_base >= SZ_4G) {
->>>>> -		/*
->>>>> -		 * For case crashkernel=X, low memory is not enough and fall
->>>>> -		 * back to reserve specified size of memory above 4G, try to
->>>>> -		 * allocate minimum required memory below 4G again.
->>>>> -		 */
->>>>> +		/* case #3 of crashkernel,low reservation */
->>>>>  		if (!high)
->>>>>  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->>>>>  
->>>>>
->>>>>>  
->>>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
->>>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
->>>>>> +retry:
->>>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->>>>>>  					       crash_base, crash_max);
->>>>>>  	if (!crash_base) {
->>>>>> +		/*
->>>>>> +		 * Attempt to fully allocate low memory failed, fall back
->>>>>> +		 * to high memory, the minimum required low memory will be
->>>>>> +		 * reserved later.
->>>>>> +		 */
->>>>>> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
->>>>>> +			crash_max = CRASH_ADDR_HIGH_MAX;
->>>>>> +			goto retry;
->>>>>> +		}
->>>>>> +
->>>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
->>>>>>  			crash_size);
->>>>>>  		return;
->>>>>>  	}
->>>>>>  
->>>>>> +	if (crash_base >= SZ_4G) {
->>>>>> +		/*
->>>>>> +		 * For case crashkernel=X, low memory is not enough and fall
->>>>>> +		 * back to reserve specified size of memory above 4G, try to
->>>>>> +		 * allocate minimum required memory below 4G again.
->>>>>> +		 */
->>>>>> +		if (!high)
->>>>>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->>>>>> +
->>>>>> +		if (reserve_crashkernel_low(crash_low_size)) {
->>>>>> +			memblock_phys_free(crash_base, crash_size);
->>>>>> +			return;
->>>>>> +		}
->>>>>> +	}
->>>>>> +
->>>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
->>>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
->>>>>>  
->>>>>> @@ -107,6 +194,9 @@ static void __init reserve_crashkernel(void)
->>>>>>  	 * map. Inform kmemleak so that it won't try to access it.
->>>>>>  	 */
->>>>>>  	kmemleak_ignore_phys(crash_base);
->>>>>> +	if (crashk_low_res.end)
->>>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
->>>>>> +
->>>>>>  	crashk_res.start = crash_base;
->>>>>>  	crashk_res.end = crash_base + crash_size - 1;
->>>>>>  	insert_resource(&iomem_resource, &crashk_res);
->>>>>> -- 
->>>>>> 2.25.1
->>>>>>
->>>>>
->>>>> .
->>>>>
->>>>
->>>> -- 
->>>> Regards,
->>>>   Zhen Lei
->>>>
->>>
->>> .
->>>
->>
->> -- 
->> Regards,
->>   Zhen Lei
->>
-> 
-> .
-> 
+From DLF perspective, I think it is yes.
 
--- 
-Regards,
-  Zhen Lei
+How about the title:  "fpga: dfl: Allow Port and FME's DFL link together" ?
+
+I will also add some comments in code.
+Here is the new git commit for this patch, any comments?=20
+
+In previous FPGA platform like Intel PAC N3000 and N5000, The BarID (3bits =
+field) in PORTn_OFFSET
+register indicated which PCI bar space was associated with this port device=
+. In this case, the DFL of Port device
+was located in the specific PCI bar space, and then the FME and Port's DFL =
+were not linked. But in OFS, we extend
+the usage, it allows the FME and Port's DFL  linked together when there was=
+ no local PCI bar space specified by=20
+the Port device. The value 0b111 (FME_HDR_NO_PORT_BAR) of BarID means that =
+no specific PCI bar space=20
+was associated with the port device.
+
+>=20
+> Again, the change you did in dfl core code, is not only impacting your OF=
+S
+> device, but also future DFL devices, it's an extension to DFL.
+
+Yes, I agree that is an extended usage.
+
+>=20
+> Thanks
+> Hao
+>=20
+> >
+> > ---
+> > v3: add PCI bar number checking with PCI_STD_NUM_BARS.
+> > v2: use FME_HDR_NO_PORT_BAR instead of PCI_STD_NUM_BARS.
+> >
+> > Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> > Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> > ---
+> >  drivers/fpga/dfl-pci.c | 7 +++++++
+> >  drivers/fpga/dfl.h     | 1 +
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c index
+> > 4d68719e608f..2e9abeca3625 100644
+> > --- a/drivers/fpga/dfl-pci.c
+> > +++ b/drivers/fpga/dfl-pci.c
+> > @@ -258,6 +258,13 @@ static int find_dfls_by_default(struct pci_dev *pc=
+idev,
+> >  			 */
+> >  			bar =3D FIELD_GET(FME_PORT_OFST_BAR_ID, v);
+> >  			offset =3D FIELD_GET(FME_PORT_OFST_DFH_OFST, v);
+> > +			if (bar >=3D PCI_STD_NUM_BARS ||
+> > +			    bar =3D=3D FME_HDR_NO_PORT_BAR) {
+> > +				dev_dbg(&pcidev->dev, "skipping port without
+> > local BAR space %d\n",
+> > +					bar);
+> > +				continue;
+> > +			}
+> > +
+> >  			start =3D pci_resource_start(pcidev, bar) + offset;
+> >  			len =3D pci_resource_len(pcidev, bar) - offset;
+> >
+> > diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h index
+> > 53572c7aced0..1fd493e82dd8 100644
+> > --- a/drivers/fpga/dfl.h
+> > +++ b/drivers/fpga/dfl.h
+> > @@ -91,6 +91,7 @@
+> >  #define FME_HDR_PORT_OFST(n)	(0x38 + ((n) * 0x8))
+> >  #define FME_HDR_BITSTREAM_ID	0x60
+> >  #define FME_HDR_BITSTREAM_MD	0x68
+> > +#define FME_HDR_NO_PORT_BAR	7
+> >
+> >  /* FME Fab Capability Register Bitfield */
+> >  #define FME_CAP_FABRIC_VERID	GENMASK_ULL(7, 0)	/* Fabric
+> > version ID */
+> > --
+> > 2.26.2
+
