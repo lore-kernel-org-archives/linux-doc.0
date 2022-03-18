@@ -2,147 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 792BBC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 14:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBFBC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 15:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237101AbiCRO1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 10:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53102 "EHLO
+        id S237469AbiCRPux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 11:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236864AbiCRO1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 10:27:49 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C0E1FCD2F;
-        Fri, 18 Mar 2022 07:26:30 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id mm4-20020a17090b358400b001c68e836fa6so4039885pjb.3;
-        Fri, 18 Mar 2022 07:26:30 -0700 (PDT)
+        with ESMTP id S236491AbiCRPux (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 11:50:53 -0400
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F81A2D0241;
+        Fri, 18 Mar 2022 08:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e9LVXJkPYFMBKXJnnDag3FAe8PKU0RnJXImEy8QBsiI=;
-        b=DJMi0bsj3ErbEaJswjOyjUSQQ8RBan8LpxcYP9PmInFdrCJ0NuBBagwiT+/9Ylz8+K
-         ssgpF9Sw79PLasGaqq9/qtCdUO35i32QVk8p/byHfW0p73KzbJ8gbNOUFONwcl9qV6yE
-         SpFAT3Fz+uXzqXFw7CdRu4m7iDbfCig5F+CUT+ctRUcNga66nE+47JcpIZq0FcxCaj+v
-         gg8ivG6wqYBg44HHnSGkeJl9BSd+nSL8+hhuDUXeow9EnJzn1ErOCvqzYzFtpX8bTgjP
-         Kt5x/OnaEKErIOdb6VnPNBgoLHNGHBTWg6Gk3ZozYnqHMatbW+2p2kgB4CY2XKmBk4YV
-         pxSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e9LVXJkPYFMBKXJnnDag3FAe8PKU0RnJXImEy8QBsiI=;
-        b=SxkFo9gNxTYv2H/48Jy6ufbCUeMP2g9rgQhg8GgQYg+K0jA8JQpbQxDMMW/lWD6/l0
-         spwI2LgfcU6fSEFDKkVtUCVt0glTRjGf3vMuNZNv1Kl/z0Jjw33z3L+RJEED3AuByeoR
-         dAZbYcWQ+njhuI3qz4YKg10Mf8VEV0BZQJlfStCcvYLZjyJH2RZtdjyOse/4V8gDFrzR
-         540eaJa5gHqKrC095UCVLa08LkVDCsb0TCJrwRa4VTkRR+P3gcelTS20WkdScWfrUi6P
-         VyDOLrNHd56IM/e5j4Cyzby2lLuJmNmt2vY3n37J5VDvAurmkDMlqItLJ1CuIpM7JRCi
-         pcvw==
-X-Gm-Message-State: AOAM530I+bllMQjojMIDFhcSuRaAkOW5D28DEYfE1oLGoOTW6/5XiNvo
-        Unuy89H7xUyZld1VWcQ4KpE=
-X-Google-Smtp-Source: ABdhPJx/vPMSfk6+dSksj9kt7CIVhYP2bKnXTOJhvwcx3x1Pa3SG2bBuX1UobkUiReDS+yhW8ip51A==
-X-Received: by 2002:a17:902:f549:b0:151:f9ce:4ec1 with SMTP id h9-20020a170902f54900b00151f9ce4ec1mr9836166plf.3.1647613589825;
-        Fri, 18 Mar 2022 07:26:29 -0700 (PDT)
-Received: from localhost.localdomain (2001-b011-20e0-3ff5-1d2d-7804-c968-aa19.dynamic-ip6.hinet.net. [2001:b011:20e0:3ff5:1d2d:7804:c968:aa19])
-        by smtp.googlemail.com with ESMTPSA id m11-20020a056a00080b00b004f791d0115esm10690839pfk.171.2022.03.18.07.26.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 07:26:29 -0700 (PDT)
-From:   Chin En Lin <shiyn.lin@gmail.com>
-To:     corbet@lwn.net
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Chin En Lin <shiyn.lin@gmail.com>
-Subject: [PATCH v2] Documentation: x86: Fix obsolete name of page fault handler
-Date:   Fri, 18 Mar 2022 22:25:36 +0800
-Message-Id: <20220318142536.116761-1-shiyn.lin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1647618572;
+  x=1679154572;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wcKA0KxoiU/AM8nvFRewTqVOc2fCyIBAGriShKCLLSk=;
+  b=dfmcli8lf8C/XrNUNuU0x786nL0kFuaD/1YntgoYgOkvvwBibABvLFqR
+   8YnSP88uLG367QGRmB6CtOph3gD/bKCJsKLqXV51LZxaJ4A3Wb51+XcVv
+   gRLTNBMRpvtE8DYR12nTyt4z17lK/ZTk8odYASip4n5FVK0cgSvQkO6gu
+   iVVn9Ymg/3zeVY154dMkslySSKtEGFqvwOPIRZOJliBSQBAo+F4Nd7zHO
+   j5ZtfM2r5MK/8TkH6j1v9l0lmmoRRM2/sZKjAghrqU05Ko+lztH4yDDx4
+   5tYjz0V8FC5RJNZE2641t2usoyopTo2t2IhXLjTsh+2yfm/56KAYRel2R
+   g==;
+Date:   Fri, 18 Mar 2022 16:49:27 +0100
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     Brendan Higgins <brendanhiggins@google.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kernel <kernel@axis.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 07/10] iio: light: opt3001: add roadtest
+Message-ID: <20220318154927.GA32172@axis.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-8-vincent.whitchurch@axis.com>
+ <CAFd5g47O2PbqaUZRoioRROtywTm=6t7cVgHqO7qc0ZGewQk16A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAFd5g47O2PbqaUZRoioRROtywTm=6t7cVgHqO7qc0ZGewQk16A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 91eeafea1e4b ("x86/entry: Switch page fault exception to
-IDTENTRY_RAW"), the function name of the page fault handler is out of date.
-And because of commit aa37c51b9421 ("x86/mm: Break out user address space
-handling"), the description of search_exception_table is not correct
-anymore. It may mislead the user who wants to use the documentation to
-figure out the page fault handler.
+On Tue, Mar 15, 2022 at 12:11:50AM +0100, Brendan Higgins wrote:
+> On Fri, Mar 11, 2022 at 11:24 AM Vincent Whitchurch
+> <vincent.whitchurch@axis.com> wrote:
+> > +class TestOPT3001(UMLTestCase):
+> 
+> I am partial to starting with UML since there are a lot of nice easy
+> things about starting there; however, I imagine people will eventually
+> want to use this on other architectures (speaking from experience).
+> How difficult do you think it would be to extend this to support
+> manipulating fake devices in say QEMU?
 
-Also, fix typo and add the parentheses after function and macro name.
+It should be possible, but upstream QEMU doesn't have everything that we
+need so some work is needed there.  Also, of course work is need to
+provide user space for running the tests and communicating between the
+virtual machine and the backend:
 
-Signed-off-by: Chin En Lin <shiyn.lin@gmail.com>
----
- Documentation/x86/exception-tables.rst | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+- We need user space, so build scripts would need to be provided to
+  cross-compile busybox and Python (and whatever libraries it needs) for
+  the target architecture.
 
-diff --git a/Documentation/x86/exception-tables.rst b/Documentation/x86/exception-tables.rst
-index de58110c5ffd..efde1fef4fbd 100644
---- a/Documentation/x86/exception-tables.rst
-+++ b/Documentation/x86/exception-tables.rst
-@@ -32,14 +32,14 @@ Whenever the kernel tries to access an address that is currently not
- accessible, the CPU generates a page fault exception and calls the
- page fault handler::
- 
--  void do_page_fault(struct pt_regs *regs, unsigned long error_code)
-+  void exc_page_fault(struct pt_regs *regs, unsigned long error_code)
- 
- in arch/x86/mm/fault.c. The parameters on the stack are set up by
- the low level assembly glue in arch/x86/entry/entry_32.S. The parameter
- regs is a pointer to the saved registers on the stack, error_code
- contains a reason code for the exception.
- 
--do_page_fault first obtains the unaccessible address from the CPU
-+exc_page_fault() first obtains the inaccessible address from the CPU
- control register CR2. If the address is within the virtual address
- space of the process, the fault probably occurred, because the page
- was not swapped in, write protected or something similar. However,
-@@ -57,10 +57,10 @@ Where does fixup point to?
- 
- Since we jump to the contents of fixup, fixup obviously points
- to executable code. This code is hidden inside the user access macros.
--I have picked the get_user macro defined in arch/x86/include/asm/uaccess.h
-+I have picked the get_user() macro defined in arch/x86/include/asm/uaccess.h
- as an example. The definition is somewhat hard to follow, so let's peek at
- the code generated by the preprocessor and the compiler. I selected
--the get_user call in drivers/char/sysrq.c for a detailed examination.
-+the get_user() call in drivers/char/sysrq.c for a detailed examination.
- 
- The original code in sysrq.c line 587::
- 
-@@ -281,12 +281,15 @@ vma occurs?
- 
-     > c017e7a5 <do_con_write+e1> movb   (%ebx),%dl
- #. MMU generates exception
--#. CPU calls do_page_fault
--#. do page fault calls search_exception_table (regs->eip == c017e7a5);
--#. search_exception_table looks up the address c017e7a5 in the
-+#. CPU calls exc_page_fault()
-+#. exc_page_fault() calls do_user_addr_fault()
-+#. do_user_addr_fault() calls kernelmode_fixup_or_oops()
-+#. kernelmode_fixup_or_oops() calls fixup_exception() (regs->eip == c017e7a5);
-+#. fixup_exception() calls search_exception_tables()
-+#. search_exception_tables() looks up the address c017e7a5 in the
-    exception table (i.e. the contents of the ELF section __ex_table)
-    and returns the address of the associated fault handle code c0199ff5.
--#. do_page_fault modifies its own return address to point to the fault
-+#. fixup_exception() modifies its own return address to point to the fault
-    handle code and returns.
- #. execution continues in the fault handling code.
- #. a) EAX becomes -EFAULT (== -14)
-@@ -298,9 +301,9 @@ The steps 8a to 8c in a certain way emulate the faulting instruction.
- 
- That's it, mostly. If you look at our example, you might ask why
- we set EAX to -EFAULT in the exception handler code. Well, the
--get_user macro actually returns a value: 0, if the user access was
-+get_user() macro actually returns a value: 0, if the user access was
- successful, -EFAULT on failure. Our original code did not test this
--return value, however the inline assembly code in get_user tries to
-+return value, however the inline assembly code in get_user() tries to
- return -EFAULT. GCC selected EAX to return this value.
- 
- NOTE:
--- 
-2.25.1
+- We also use UML's hostfs feature to make things transparent to the
+  user and to avoid having to set up things like networking for
+  communication between the host and the backend.  I think QEMU's 9pfs
+  support can be used as a rootfs too but it's not something I've
+  personally tested.
 
+- We use virtio-i2c and virtio-gpio and use virtio-uml which uses the
+  vhost-user API to communicate from UML to the backend.  The latest
+  version of QEMU has support for vhost-user-i2c, but vhost-user-gpio
+  doesn't seem to have been merged yet, so work is needed on the QEMU
+  side.  This will also be true for other buses in the future, if they
+  are implemented with new virtio devices.
+
+- For MMIO, UML has virtio-mmio which allows implementing any PCIe
+  device (and by extension any platform device) outside of UML, but last
+  I checked, upstream QEMU did not have something similar.
+
+> I also have some colleagues inside of Google that worked on some
+> projects to simulate simple devices on an FPGA to test software and
+> adjacent devices in a conceptually similar way; one of these teams
+> built a Domain Specific Language kind of like roadtest to implement
+> the tests and the environment for the tests. The main reason I mention
+> this here is I am thinking about maybe one day having an API you can
+> implement so you can run your roadtests on UML, QEMU, or on any
+> emulator or hardware testbed that implements the appropriate API.
+> 
+> I'll try to dig up some people who might be interested and add them here.
+> 
+> > +    dts = DtFragment(
+> > +        src="""
+> > +&i2c {
+> > +    light-sensor@$addr$ {
+> > +        compatible = "ti,opt3001";
+> > +        reg = <0x$addr$>;
+> > +    };
+> > +};
+> > +        """,
+> > +        variables={
+> > +            "addr": DtVar.I2C_ADDR,
+> > +        },
+> > +    )
+> > +
+> > +    @classmethod
+> > +    def setUpClass(cls) -> None:
+> > +        insmod("opt3001")
+> > +
+> > +    @classmethod
+> > +    def tearDownClass(cls) -> None:
+> > +        rmmod("opt3001")
+> > +
+> > +    def setUp(self) -> None:
+> > +        self.driver = I2CDriver("opt3001")
+> > +        self.hw = Hardware("i2c")
+> > +        self.hw.load_model(OPT3001)
+> > +
+> > +    def tearDown(self) -> None:
+> > +        self.hw.close()
+> > +
+> > +    def test_illuminance(self) -> None:
+> > +        data = [
+> > +            # Some values from datasheet, and 0
+> > +            (0b_0000_0000_0000_0000, 0),
+> > +            (0b_0000_0000_0000_0001, 0.01),
+> > +            (0b_0011_0100_0101_0110, 88.80),
+> > +            (0b_0111_1000_1001_1010, 2818.56),
+> > +        ]
+> > +        with self.driver.bind(self.dts["addr"]) as dev:
+> > +            luxfile = dev.path / "iio:device0/in_illuminance_input"
+> > +
+> > +            for regval, lux in data:
+> > +                self.hw.reg_write(REG_RESULT, regval)
+> > +                self.assertEqual(read_float(luxfile), lux)
+> 
+> I love the framework; this looks very easy to use.
+> 
+> One nit about this test; it seems like you cover just one test case
+> here - the happy path. Can you cover some other one? Particularly some
+> error paths?
+> 
+> Sorry, I am not trying to be cheeky here; it looks like this driver
+> actually should probably be fully (or very close to fully) testable
+> via roadtest as I understand it. It only looks like there are a
+> handful of cases to cover for the driver: the device is busy, the
+> device returned something invalid, the user requested something
+> invalid, and several SMBus read/write failures - it really only looks
+> like there are a handful of paths and I think they are all accessible
+> via the I2C interface (except for maybe the user requesting something
+> invalid).
+
+Yes, there are more things that could be tested in this driver.
+However, as the commit message says, I only indented this particular
+test to serve as a regression test for the specific bug fix, which would
+need an environment where the chip detects 0 lux to be able to test on
+real hardware.  There are a few reasons for this:
+
+ - Unlike the other drivers being tested in this series, I don't have
+   access to boards with this chip so my interest in this particular
+   piece of hardware is limited.
+
+ - I actually started writing more tests for this driver earlier on
+   (specifically, testing the configuration which uses interrupts), but
+   I quickly discovered that this driver has race conditions which
+   result in unbalanced mutex locking (in brief: the ok_to_ignore_lock
+   stuff is broken).  This shows the value of the test framework, but I
+   also didn't want to write non-trivial fixes for drivers where I
+   didn't have real hardware to test.
+
+ - Also, some paths in this driver needs a modification to be tested
+   under roadtest.  It uses wait_event_timeout() with a fixed value, but
+   we cannot guarantee that this constraint is met in the test
+   environment since it depends on things like CPU load on the host.
+
+   (Also, we use UML's "time travel" feature which essentially
+   fast-forwards through idle time, so the constraint can never be met
+   in practice.)
+   
+   So the timeout parameter would have to be made adjustable via say a
+   module parameter, to be able to make it infinite (to test the normal
+   case) and not (to be able to test timeout handling).  I think this
+   could be done fairly cleanly with a one- or two-liner patch to the
+   driver and by hiding the details in a header file behind a
+   roadtest-specific config option, but I wanted to avoid having to
+   patch the kernel proper for the initial version of the framework.
+
+For vcnl4000, I have actually inherited some out-of-tree patches which
+are in need of mainlining so the tests are a bit more complete since I'm
+hoping to send some patches to that driver soon.  The period mode busy
+handling is not tested there either though, I can try to add that.
+
+As for I2C API failures, I have not added tests for them in any of the
+drivers.  There's not much the test cases could assert, other than
+perhaps error propagation, so it's unclear if there is enough value
+compared to the effort required to implement test cases to make sure
+that every I2C transaction's failure path is tested.
+
+But I think that we do want to at least make sure the error paths are
+executed, to check that drivers don't crash or deadlock due to faulty
+cleanups and the like.  A way to solve this could be to implement fault
+injection support in the I2C framework.  The fail-nth feature could be
+used to systemically trigger each and every I2C transaction failure and
+check that the driver doesn't blow up, while using the roadtest as a
+means to hit the various code paths in the driver during each of the
+iterations of fail-nth.  Fault injection support would also be helpful
+when testing on real hardware.
