@@ -2,101 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FFBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 17:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB78C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 18:05:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234507AbiCRRbp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 13:31:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53738 "EHLO
+        id S239994AbiCRSHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 14:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233290AbiCRRbp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 13:31:45 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB7A37BE3;
-        Fri, 18 Mar 2022 10:30:25 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id q1-20020a17090a4f8100b001c6575ae105so5980879pjh.0;
-        Fri, 18 Mar 2022 10:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1wKylVeXOlh5a/xJZmfHNeqpE/OOU4LWHviEMispbow=;
-        b=P7nIf6UKiM4fPEnynbxsjHAS81Z785zj3unC6tm/0AIdEzo2iqXmIxKvDUN4qN1MlO
-         2B8BLdVBKoTlPUQaagv2upR2GiuihkW91yTU1SSurPeoSjxGKOoMyNX6cJbCoU/oLRlC
-         2SPZNVFO/rGoBfHy8o/zKCyXVmmk+lv8dZ95gmq4Dou/oMsk8W94xifeOuv4RPiaOffO
-         cpwas7YgFlUe15Wks32njZ4PWyBA5uT/nXcqX7uWbUVKPUml+YOVQPE5Ur3IyM2TG1qs
-         sU0g4Xzc7t9bEH5YN+mBalXGlOL+qjIR+uA9v7q0XB76t5+QGqWcIcOVgqfsNmiQSTai
-         k+ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=1wKylVeXOlh5a/xJZmfHNeqpE/OOU4LWHviEMispbow=;
-        b=blsX4Nk3SpbPmyjasuLFL7oIDrXnTB3Hz2sDI7MDeDwirLqygsyrLCX6eOXaXApl/H
-         BjOjbJ5Thoc5Pyf/eSSefgtNc0CO3lC1HKrNmHfxVK2FxPc0VuPcJ+EId+EBap9KPoDb
-         CMV73RjtZJNMI22G0huWfkzwszj50JmlTCy55MhiDan/A3Q9l7zrluPWa/Lz4xBqF0lu
-         1ktAKZYX2nWVN5G9sg5LixQLtdzoM5FiA7BT7HMRuVgdmPT/UvTRneOvk/viqMycLkSs
-         PG7qDctdnF1/OBkNv9WHUb/obExoW6X3z9Bj4HyvAgjIksLe0lttvc92Rry64RJqrW8+
-         epRA==
-X-Gm-Message-State: AOAM530gSof/05LPRLicbiRn0wUTlgqqrQigUIjnunVpfHxrh4kcI7J7
-        pGBO5pHZaLMIJ/s6CQvguoM=
-X-Google-Smtp-Source: ABdhPJxD78C0n16ixwFCcF6HT6dXoMQUwcecD6VhKWgf3/RHBUjz/buDYder3UAVjtffqmkbxj3KwQ==
-X-Received: by 2002:a17:90b:3a91:b0:1bf:261e:7773 with SMTP id om17-20020a17090b3a9100b001bf261e7773mr22740003pjb.155.1647624625297;
-        Fri, 18 Mar 2022 10:30:25 -0700 (PDT)
-Received: from google.com ([2620:15c:211:201:20b4:90a0:8e2e:6022])
-        by smtp.gmail.com with ESMTPSA id h6-20020a056a00218600b004f65315bb37sm10665223pfi.13.2022.03.18.10.30.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 10:30:24 -0700 (PDT)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Fri, 18 Mar 2022 10:30:23 -0700
-From:   Minchan Kim <minchan@kernel.org>
-To:     Brian Geffon <bgeffon@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org
-Subject: Re: [PATCH] zram: Add a huge_idle writeback mode
-Message-ID: <YjTBryFvhCZXXJ5/@google.com>
-References: <20220315172221.9522-1-bgeffon@google.com>
- <YjS2SJU7VE1bGb/F@google.com>
- <CADyq12wQ=vGaGoqt5RXJ5aYM1tQJ2BCT8cav-ONpPrCc85q-5Q@mail.gmail.com>
+        with ESMTP id S239969AbiCRSHL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 14:07:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C56E2BD23E;
+        Fri, 18 Mar 2022 11:05:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4D609B82519;
+        Fri, 18 Mar 2022 18:05:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA95C340F5;
+        Fri, 18 Mar 2022 18:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647626750;
+        bh=zIkEvsZc/kt2D5So3dCzeb7vp7iTdkL0bnV/3Yh8e6o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bHrLverKp3mcWzc1G29Sb/a1reCKciGcsMTF1EDF2zrLXmvg6DkYO+pfabwrx7aIM
+         XNcbRfZ7mfkQf1NfRH3CxdG9oIhkPkUluzdp1I8DlBEkX0HZuMopArqj9d0c/v4VKY
+         uS0Ve7y5J2MNgd297ck+IGgl70X/MkJjVhGrz1+uLUi2uXf88Av0PCTUU0RqB3Ivwb
+         oyaXLOPDjQSfkB84vopOizd4hjySbGbzI13W/0/6jtu3RJIl5cGRYo7liaUC9qWFsy
+         f042OPdcM8WSEKU2F2OR7OTdSdDG9hKVfxBf6KNxxo4Q0Vj3ukRU90WaUuyiqZ7JTX
+         kGqWp/Nm4jyDw==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2dbd97f9bfcso99068487b3.9;
+        Fri, 18 Mar 2022 11:05:49 -0700 (PDT)
+X-Gm-Message-State: AOAM533j/W5XU6R0myNtfS4lqq4QNu5SKxrnoZvz0sDbM0TIO4iJ6D5o
+        TsD0VkngYZLR01IGdna9vkXR42G3gZ/93KFMzuw=
+X-Google-Smtp-Source: ABdhPJxU3eil1V5K5GaKG42/whotQoFT+jQjFfgiF8ydKM3XEv8FLTKY6+WlHvQaK+D7ZByxlpUwobzVGsn3qOHQ9co=
+X-Received: by 2002:a81:951:0:b0:2e5:9e38:147c with SMTP id
+ 78-20020a810951000000b002e59e38147cmr12482496ywj.211.1647626748837; Fri, 18
+ Mar 2022 11:05:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADyq12wQ=vGaGoqt5RXJ5aYM1tQJ2BCT8cav-ONpPrCc85q-5Q@mail.gmail.com>
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <20220318161528.1531164-18-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220318161528.1531164-18-benjamin.tissoires@redhat.com>
+From:   Song Liu <song@kernel.org>
+Date:   Fri, 18 Mar 2022 11:05:37 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW77u64mxxLxp3B99cvu8NbqgNv1oW5Ffv0yn-k=YBw6GQ@mail.gmail.com>
+Message-ID: <CAPhsuW77u64mxxLxp3B99cvu8NbqgNv1oW5Ffv0yn-k=YBw6GQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 17/17] Documentation: add HID-BPF docs
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 12:51:14PM -0400, Brian Geffon wrote:
-> On Fri, Mar 18, 2022 at 12:41 PM Minchan Kim <minchan@kernel.org> wrote:
-> >
-> > On Tue, Mar 15, 2022 at 10:22:21AM -0700, Brian Geffon wrote:
-> > > Today it's only possible to write back as a page, idle, or huge.
-> > > A user might want to writeback pages which are huge and idle first
-> > > as these idle pages do not require decompression and make a good
-> > > first pass for writeback.
-> >
-> > Hi Brian,
-> >
-> > I am not sure how much the decompression overhead matter for idle pages
-> > writeback since it's already *very slow* path in zram but I agree that
-> > it would be a good first pass since the memory saving for huge writing
-> > would be cost efficient.
-> >
-> > Just out of curiosity. Do you have real usecase?
-> 
-> Hi Minchan,
-> Thank you for taking a look. When we are thinking about writeback
-> we're trying to be very sensitive to our devices storage endurance,
-> for this reason we will have a fairly conservative writeback limit.
-> Given that, we want to make sure we're maximizing what lands on disk
-> while still minimizing the refault time. We could take the approach
-> where we always writeback huge pages but then we may result in very
-> quick refaults which would be a huge waste of time. So idle writeback
-> is a must for us and being able to writeback the pages which have
-> maximum value (huge) would be very useful.
+On Fri, Mar 18, 2022 at 9:22 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Gives a primer on HID-BPF.
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
+>
+> new in v3
+> ---
+>  Documentation/hid/hid-bpf.rst | 444 ++++++++++++++++++++++++++++++++++
+>  Documentation/hid/index.rst   |   1 +
+>  include/uapi/linux/bpf_hid.h  |  54 ++++-
+>  3 files changed, 492 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/hid/hid-bpf.rst
+>
+> diff --git a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-bpf.rst
+> new file mode 100644
+> index 000000000000..0bf0d937b0e1
+> --- /dev/null
+> +++ b/Documentation/hid/hid-bpf.rst
+> @@ -0,0 +1,444 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======
+> +HID-BPF
+> +=======
+> +
+> +HID is a standard protocol for input devices and it can greatly make use
+> +of the eBPF capabilities to speed up development and add new capabilities
+> +to the existing HID interfaces.
+> +
+> +.. contents::
+> +    :local:
+> +    :depth: 2
+> +
+> +
+> +When (and why) using HID-BPF
+> +============================
+> +
+> +We can enumerate several use cases for when using HID-BPF is better than
+> +using a standard kernel driver fix.
+> +
+> +dead zone of a joystick
+> +-----------------------
+> +
+> +Assuming you have a joystick that is getting older, it is common to see it
+> +wobbling around its neutral point. This is usually filtered at the application
+> +level by adding a *dead zone* for this specific axis.
+> +
+> +With HID-BPF, we can put the filtering of this dead zone in the kernel directly
+> +so we don't wake up userspace when nothing else is happening on the input
+> +controller.
+> +
+> +Of course, given that this dead zone is device specific, we can not create a
 
-Thanks for sharing the thought. It really make sense to me and
-would be great if it goes on the description.
+nit: s/can not/cannot
+
+There are a few more "can not" below.
+
+[...]
+
+> +firewall
+> +--------
+> +
+> +What if we want to prevent other users to access a specific feature of a
+> +device? (think a possibly bonker firmware update entry popint)
+nit: point
+
+> +
+> +With eBPF, we can intercept any HID command emitted to the device and
+> +validate it or not.
+> +
+> +This also allows to sync the state between the userspace and the
+> +kernel/bpf program because we can intercept any incoming command.
+> +
+[...]
+
+> +
+> +The main idea behind HID-BPF is that it works at an array of bytes level.
+> +Thus, all of the parsing of the HID report and the HID report descriptor
+> +must be implemented in the userspace component that loads the eBPF
+> +program.
+> +
+> +For example, in the dead zone joystick from above, knowing which fields
+> +in the data stream needs to be set to ``0`` needs to be computed by userspace.
+> +
+> +A corrolar of this is that HID-BPF doesn't know about the other subsystems
+
+nit: corollary?
+
+> +available in the kernel. *You can not directly emit input event through the
+> +input API from eBPF*.
+> +
+> +When a BPF program need to emit input events, it needs to talk HID, and rely
+> +on the HID kernel processing to translate the HID data into input events.
+> +
+> +Available types of programs
+> +===========================
+[...]
+> +
+> +``BPF_HID_RDESC_FIXUP``
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Last, the ``BPF_HID_RDESC_FIXUP`` program works in the similar maneer than
+nit: manner.
+
+> +``.report_fixup`` of ``struct hid_driver``.
+> +
+
+[...]
