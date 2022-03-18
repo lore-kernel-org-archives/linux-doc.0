@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42768C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 16:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF74CC4167E
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 16:17:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238747AbiCRQRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 12:17:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
+        id S238809AbiCRQTM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 12:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238733AbiCRQRd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 12:17:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1E6DE1D78AC
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 09:16:10 -0700 (PDT)
+        with ESMTP id S239050AbiCRQSv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 12:18:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34AF91D760C
+        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 09:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647620169;
+        s=mimecast20190719; t=1647620251;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xDf7SF2Fra40bZaEdvr7u9jw/RZ02CEurbENm/arAE4=;
-        b=Wj9lANzsQ2JqgXHqH/pg7PFN/6laJ4tcDcfcoDWuGdWI68131VjHJ2RIPsWkn13WNEX2NC
-        29XZmU02wwQMrFsx0ppYPGUC/8WO+u7OzHaLH4M0PJe9UqjQ9Uuu9Hk/ZzxbhiJm0tzohG
-        RVrCAHqkEbmhWPo/n6ny3B3pci2rHSs=
+        bh=/OVyC0zaH1G/so0ZWrJlP+iwVNUqwQaVb/Gii8MLOPM=;
+        b=TQvnDPY43a8b5idmlsHU9ZiVUQyRcqDIc8kGTlMzwyJ6nUbU3+O1+pd3iWlt9G4f4YDaT3
+        sPJsbqP2DYxGWHdtAObEjn84S6+TrC/qqsNsoUglAEbaTAgoxRJKWak4jxWErJ/BAwUVhu
+        lo9rwPjUYFGrx13oY+Fv7SHet6dkw3g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-uvKNlS3pNXaCQvW5KvtJmw-1; Fri, 18 Mar 2022 12:16:03 -0400
-X-MC-Unique: uvKNlS3pNXaCQvW5KvtJmw-1
+ us-mta-528-GokVlFHFMx6rNO_pb1c6EA-1; Fri, 18 Mar 2022 12:17:27 -0400
+X-MC-Unique: GokVlFHFMx6rNO_pb1c6EA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2D1F803524;
-        Fri, 18 Mar 2022 16:16:01 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF68B83396E;
+        Fri, 18 Mar 2022 16:17:26 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.192.159])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B90A33250;
-        Fri, 18 Mar 2022 16:15:44 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 30DF433250;
+        Fri, 18 Mar 2022 16:17:10 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -53,11 +53,10 @@ Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sean Young <sean@mess.org>
-Subject: [PATCH bpf-next v3 01/17] bpf: add new is_sys_admin_prog_type() helper
-Date:   Fri, 18 Mar 2022 17:15:12 +0100
-Message-Id: <20220318161528.1531164-2-benjamin.tissoires@redhat.com>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v3 10/17] selftests/bpf: add test for user call of HID bpf programs
+Date:   Fri, 18 Mar 2022 17:15:21 +0100
+Message-Id: <20220318161528.1531164-11-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
 References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -67,63 +66,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-LIRC_MODE2 does not really need net_admin capability, but only sys_admin.
+Add a simple test to see if we can trigger a bpf program of type
+"hid/user_event".
 
-Extract a new helper for it, it will be also used for the HID bpf
-implementation.
-
-Cc: Sean Young <sean@mess.org>
-Acked-by: Sean Young <sean@mess.org>
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 ---
 
 changes in v3:
-- dropped BPF_PROG_TYPE_EXT from the new helper
+- use the new hid_get_data API
 
-new in v2
+changes in v2:
+- split the series by bpf/libbpf/hid/selftests and samples
 ---
- kernel/bpf/syscall.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ tools/testing/selftests/bpf/prog_tests/hid.c | 56 ++++++++++++++++++++
+ tools/testing/selftests/bpf/progs/hid.c      | 15 ++++++
+ 2 files changed, 71 insertions(+)
 
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index 9beb585be5a6..b88688264ad0 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -2165,7 +2165,6 @@ static bool is_net_admin_prog_type(enum bpf_prog_type prog_type)
- 	case BPF_PROG_TYPE_LWT_SEG6LOCAL:
- 	case BPF_PROG_TYPE_SK_SKB:
- 	case BPF_PROG_TYPE_SK_MSG:
--	case BPF_PROG_TYPE_LIRC_MODE2:
- 	case BPF_PROG_TYPE_FLOW_DISSECTOR:
- 	case BPF_PROG_TYPE_CGROUP_DEVICE:
- 	case BPF_PROG_TYPE_CGROUP_SOCK:
-@@ -2202,6 +2201,16 @@ static bool is_perfmon_prog_type(enum bpf_prog_type prog_type)
- 	}
+diff --git a/tools/testing/selftests/bpf/prog_tests/hid.c b/tools/testing/selftests/bpf/prog_tests/hid.c
+index b8d4dcf20b05..edc3af71e9ed 100644
+--- a/tools/testing/selftests/bpf/prog_tests/hid.c
++++ b/tools/testing/selftests/bpf/prog_tests/hid.c
+@@ -478,6 +478,59 @@ static int test_hid_attach_flags(struct hid *hid_skel, int uhid_fd, int sysfs_fd
+ 	return ret;
  }
  
-+static bool is_sys_admin_prog_type(enum bpf_prog_type prog_type)
++/*
++ * Attach hid_user to the given uhid device,
++ * call the bpf program from userspace
++ * check that the program is called and does the expected.
++ */
++static int test_hid_user_call(struct hid *hid_skel, int uhid_fd, int sysfs_fd)
 +{
-+	switch (prog_type) {
-+	case BPF_PROG_TYPE_LIRC_MODE2:
-+		return true;
-+	default:
-+		return false;
-+	}
++	int err, prog_fd;
++	u8 buf[10] = {0};
++	int ret = -1;
++
++	LIBBPF_OPTS(bpf_test_run_opts, run_attrs,
++		    .repeat = 1,
++		    .ctx_in = &sysfs_fd,
++		    .ctx_size_in = sizeof(sysfs_fd),
++		    .data_in = buf,
++		    .data_size_in = sizeof(buf),
++		    .data_out = buf,
++		    .data_size_out = sizeof(buf),
++	);
++
++	/* attach hid_user program */
++	hid_skel->links.hid_user = bpf_program__attach_hid(hid_skel->progs.hid_user, sysfs_fd, 0);
++	if (!ASSERT_OK_PTR(hid_skel->links.hid_user,
++			   "attach_hid(hid_user)"))
++		return PTR_ERR(hid_skel->links.hid_user);
++
++	buf[0] = 39;
++
++	prog_fd = bpf_program__fd(hid_skel->progs.hid_user);
++
++	err = bpf_prog_test_run_opts(prog_fd, &run_attrs);
++	if (!ASSERT_EQ(err, 0, "bpf_prog_test_run_xattr"))
++		goto cleanup;
++
++	if (!ASSERT_EQ(run_attrs.retval, 72, "bpf_prog_test_run_opts"))
++		goto cleanup;
++
++	if (!ASSERT_EQ(buf[1], 42, "hid_user_check_in"))
++		goto cleanup;
++
++	if (!ASSERT_EQ(buf[2], 4, "hid_user_check_static_out"))
++		goto cleanup;
++
++	ret = 0;
++
++cleanup:
++
++	hid__detach(hid_skel);
++
++	return ret;
 +}
 +
- /* last field in 'union bpf_attr' used by this command */
- #define	BPF_PROG_LOAD_LAST_FIELD core_relo_rec_size
+ /*
+  * Attach hid_rdesc_fixup to the given uhid device,
+  * retrieve and open the matching hidraw node,
+@@ -585,6 +638,9 @@ void serial_test_hid_bpf(void)
+ 	err = test_hid_attach_flags(hid_skel, uhid_fd, sysfs_fd);
+ 	ASSERT_OK(err, "hid_user_raw_request");
  
-@@ -2252,6 +2261,8 @@ static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr)
- 		return -EPERM;
- 	if (is_perfmon_prog_type(type) && !perfmon_capable())
- 		return -EPERM;
-+	if (is_sys_admin_prog_type(type) && !capable(CAP_SYS_ADMIN))
-+		return -EPERM;
++	err = test_hid_user_call(hid_skel, uhid_fd, sysfs_fd);
++	ASSERT_OK(err, "hid_user");
++
+ 	/*
+ 	 * this test should be run last because we disconnect/reconnect
+ 	 * the device, meaning that it changes the overall uhid device
+diff --git a/tools/testing/selftests/bpf/progs/hid.c b/tools/testing/selftests/bpf/progs/hid.c
+index 390c1bb8d850..fbdbe9d1b605 100644
+--- a/tools/testing/selftests/bpf/progs/hid.c
++++ b/tools/testing/selftests/bpf/progs/hid.c
+@@ -128,3 +128,18 @@ int hid_test_insert3(struct hid_bpf_ctx *ctx)
  
- 	/* attach_prog_fd/attach_btf_obj_fd can specify fd of either bpf_prog
- 	 * or btf, we need to check which one it is
+ 	return 0;
+ }
++
++SEC("hid/user_event")
++int hid_user(struct hid_bpf_ctx *ctx)
++{
++	__u8 *data = bpf_hid_get_data(ctx, 0 /* offset */, 3 /* size */);
++
++	if (!data)
++		return 0; /* EPERM check */
++
++	data[1] = data[0] + 3;
++	data[2] = 4;
++	ctx->retval = 72;
++
++	return 0;
++}
 -- 
 2.35.1
 
