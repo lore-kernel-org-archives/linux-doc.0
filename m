@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A57C47081
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 16:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4979AC38161
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 16:18:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238782AbiCRQTR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 12:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
+        id S238802AbiCRQTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 12:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238768AbiCRQR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 12:17:56 -0400
+        with ESMTP id S238932AbiCRQTR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 12:19:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E6CB1D7891
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 09:16:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BE44017FD0C
+        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 09:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647620188;
+        s=mimecast20190719; t=1647620275;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=OQUDhoqS/TjN6VMPOB7LXHwoVdY1tkFbLh8p1nVVoZ4=;
-        b=dGBPHOopHpK8a5dYsW9vDFAVnFHnMH0Uxgp69ZM/vsbi+R6/HKgt7G1IIUgssCoas9Hs5h
-        EVQcf4RvWy3nKbqSgrCIP5SNaVDRfEZbIXD4vlERZKioabO+cWLAWJ2RCn0qmXw6JbNfWJ
-        1EfbyXDdux4fBEQ6aZ1yf0X74jAAVrI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=vwfuaDa4j47STZzMRDPLEShn/FOuirkz9TKMgr+3Hk8=;
+        b=J8i3EYcITzCmOcWpCQDC8Qlq8/PSgecou+ybMC3zPiUW37BBHOebrL8Qs1SYO9b1mmt2oN
+        Nozmaroz1EbWHDb9SoBejo1uKmcD4t+8Tj07dGZ5gVWLRbPFFr5hDzGJl65vi0zWaK/Cr2
+        xYyi5uN1Zc0lT1u5gwHas6dBSj9sffk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-MtPvz53eNkyP14MEJMP5fg-1; Fri, 18 Mar 2022 12:16:23 -0400
-X-MC-Unique: MtPvz53eNkyP14MEJMP5fg-1
+ us-mta-614-5tYOD3ijOPeJ_u9ROme-vQ-1; Fri, 18 Mar 2022 12:17:52 -0400
+X-MC-Unique: 5tYOD3ijOPeJ_u9ROme-vQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58852296A624;
-        Fri, 18 Mar 2022 16:16:22 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 758C2811E80;
+        Fri, 18 Mar 2022 16:17:50 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.192.159])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 39658421C3;
-        Fri, 18 Mar 2022 16:16:19 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5883E7AD1;
+        Fri, 18 Mar 2022 16:17:30 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -54,9 +54,9 @@ Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH bpf-next v3 03/17] bpf/verifier: prevent non GPL programs to be loaded against HID
-Date:   Fri, 18 Mar 2022 17:15:14 +0100
-Message-Id: <20220318161528.1531164-4-benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v3 12/17] bpf/hid: add more HID helpers
+Date:   Fri, 18 Mar 2022 17:15:23 +0100
+Message-Id: <20220318161528.1531164-13-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
 References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -66,111 +66,253 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is just to hammer the obvious because I suspect you can not already
-load a bpf HID program which is not GPL because all of the useful
-functions are GPL only.
+When we process an incoming HID report, it is common to have to account
+for fields that are not aligned in the report. HID is using 2 helpers
+hid_field_extract() and implement() to pick up any data at any offset
+within the report.
 
-Anyway, this ensures that users are not tempted to bypass this requirement
-and will allow us to ship tested BPF programs in the kernel without having
-to aorry about the license.
+Export those 2 helpers in BPF programs so users can also rely on them.
+The second net worth advantage of those helpers is that now we can
+fetch data anywhere in the report without knowing at compile time the
+location of it. The boundary checks are done in hid-bpf.c, to prevent
+a memory leak.
+
+The third exported helper allows to communicate with the HID device.
+We give a data buffer, and call either HID_GET_REPORT or HID_SET_REPORT
+on the device.
 
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 ---
 
-no changes in v3
+changes in v3:
+- renamed hid_{get|set}_data into hid_{get|set}_bits
+- squashed with bpf/hid: add bpf_hid_raw_request helper function
 
-new in v2:
- - Note: I placed this statement in check_attach_btf_id() to be local to
-   other similar checks (regarding LSM), however, I have no idea if this
-   is the correct place. Please shout at me if it isn't.
+changes in v2:
+- split the patch with libbpf and HID left outside.
 ---
- include/linux/bpf-hid.h |  8 ++++++++
- kernel/bpf/hid.c        | 12 ++++++++++++
- kernel/bpf/verifier.c   |  7 +++++++
- 3 files changed, 27 insertions(+)
+ include/linux/bpf-hid.h        |  6 +++
+ include/uapi/linux/bpf.h       | 36 +++++++++++++++++
+ kernel/bpf/hid.c               | 73 ++++++++++++++++++++++++++++++++++
+ tools/include/uapi/linux/bpf.h | 36 +++++++++++++++++
+ 4 files changed, 151 insertions(+)
 
 diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
-index 9c8dbd389995..7f596554fe8c 100644
+index 7f596554fe8c..82b7466b5008 100644
 --- a/include/linux/bpf-hid.h
 +++ b/include/linux/bpf-hid.h
-@@ -2,6 +2,7 @@
- #ifndef _BPF_HID_H
- #define _BPF_HID_H
+@@ -102,6 +102,12 @@ struct bpf_hid_hooks {
+ 	int (*pre_link_attach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+ 	void (*post_link_attach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
+ 	void (*array_detach)(struct hid_device *hdev, enum bpf_hid_attach_type type);
++	int (*hid_get_bits)(struct hid_device *hdev, u8 *buf, size_t buf_size,
++			    u64 offset, u32 n, u32 *data);
++	int (*hid_set_bits)(struct hid_device *hdev, u8 *buf, size_t buf_size,
++			    u64 offset, u32 n, u32 data);
++	int (*hid_raw_request)(struct hid_device *hdev, u8 *buf, size_t size,
++			       u8 rtype, u8 reqtype);
+ };
  
-+#include <linux/bpf_verifier.h>
- #include <linux/mutex.h>
- #include <uapi/linux/bpf.h>
- #include <uapi/linux/bpf_hid.h>
-@@ -69,6 +70,8 @@ int bpf_hid_prog_query(const union bpf_attr *attr,
- 		       union bpf_attr __user *uattr);
- int bpf_hid_link_create(const union bpf_attr *attr,
- 			struct bpf_prog *prog);
-+int bpf_hid_verify_prog(struct bpf_verifier_log *vlog,
-+			const struct bpf_prog *prog);
- #else
- static inline int bpf_hid_prog_query(const union bpf_attr *attr,
- 				     union bpf_attr __user *uattr)
-@@ -81,6 +84,11 @@ static inline int bpf_hid_link_create(const union bpf_attr *attr,
- {
- 	return -EOPNOTSUPP;
- }
-+static inline int bpf_hid_verify_prog(struct bpf_verifier_log *vlog,
-+				      const struct bpf_prog *prog)
-+{
-+	return -EOPNOTSUPP;
-+}
- #endif
+ #ifdef CONFIG_BPF
+diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+index 0e8438e93768..41ab1d068369 100644
+--- a/include/uapi/linux/bpf.h
++++ b/include/uapi/linux/bpf.h
+@@ -5155,6 +5155,39 @@ union bpf_attr {
+  *		by a call to bpf_hid_discard;
+  *	Return
+  *		The pointer to the data. On error, a null value is returned.
++ *
++ * int bpf_hid_get_bits(void *ctx, u64 offset, u32 n, u32 *data)
++ *	Description
++ *		Get the data of size n (in bits) at the given offset (bits) in the
++ *		ctx->event.data field and store it into data.
++ *
++ *		n must be less or equal than 32, and we can address with bit
++ *		precision the value in the buffer. data must be a pointer
++ *		to a u32.
++ *	Return
++ *		The length of data copied into data. On error, a negative value
++ *		is returned.
++ *
++ * int bpf_hid_set_bits(void *ctx, u64 offset, u32 n, u32 data)
++ *	Description
++ *		Set the data of size n (in bits) at the given offset (bits) in the
++ *		ctx->event.data field.
++ *
++ *		n must be less or equal than 32, and we can address with bit
++ *		precision the value in the buffer.
++ *	Return
++ *		The length of data copied into ctx->event.data. On error, a negative
++ *		value is returned.
++ *
++ * int bpf_hid_raw_request(void *ctx, void *buf, u64 size, u8 report_type, u8 request_type)
++ *	Description
++ *		communicate with the HID device
++ *
++ *		report_type is one of HID_INPUT_REPORT, HID_OUTPUT_REPORT, HID_FEATURE_REPORT
++ *		request_type is one of HID_REQ_SET_REPORT or HID_REQ_GET_REPORT
++ *	Return
++ *		0 on success.
++ *		negative value on error.
+  */
+ #define __BPF_FUNC_MAPPER(FN)		\
+ 	FN(unspec),			\
+@@ -5352,6 +5385,9 @@ union bpf_attr {
+ 	FN(skb_set_tstamp),		\
+ 	FN(ima_file_hash),		\
+ 	FN(hid_get_data),		\
++	FN(hid_get_bits),		\
++	FN(hid_set_bits),		\
++	FN(hid_raw_request),		\
+ 	/* */
  
- static inline bool bpf_hid_link_empty(struct bpf_hid *bpf,
+ /* integer value in 'imm' field of BPF_CALL instruction selects which helper
 diff --git a/kernel/bpf/hid.c b/kernel/bpf/hid.c
-index c21dc05f6207..2dfeaaa8a83f 100644
+index 2dfeaaa8a83f..30a62e8e0f0a 100644
 --- a/kernel/bpf/hid.c
 +++ b/kernel/bpf/hid.c
-@@ -34,6 +34,18 @@ void bpf_hid_set_hooks(struct bpf_hid_hooks *hooks)
- }
- EXPORT_SYMBOL_GPL(bpf_hid_set_hooks);
+@@ -66,12 +66,85 @@ static const struct bpf_func_proto bpf_hid_get_data_proto = {
+ 	.arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
+ };
  
-+int bpf_hid_verify_prog(struct bpf_verifier_log *vlog,
-+			const struct bpf_prog *prog)
++BPF_CALL_4(bpf_hid_get_bits, struct hid_bpf_ctx_kern*, ctx, u64, offset, u32, n, u32*, data)
 +{
-+	if (!prog->gpl_compatible) {
-+		bpf_log(vlog,
-+			"HID programs must have a GPL compatible license\n");
-+		return -EINVAL;
-+	}
++	if (!hid_hooks.hid_get_bits)
++		return -EOPNOTSUPP;
 +
++	return hid_hooks.hid_get_bits(ctx->hdev,
++				      ctx->data,
++				      ctx->allocated_size,
++				      offset, n,
++				      data);
++}
++
++static const struct bpf_func_proto bpf_hid_get_bits_proto = {
++	.func      = bpf_hid_get_bits,
++	.gpl_only  = true,
++	.ret_type  = RET_INTEGER,
++	.arg1_type = ARG_PTR_TO_CTX,
++	.arg2_type = ARG_ANYTHING,
++	.arg3_type = ARG_ANYTHING,
++	.arg4_type = ARG_PTR_TO_INT,
++};
++
++BPF_CALL_4(bpf_hid_set_bits, struct hid_bpf_ctx_kern*, ctx, u64, offset, u32, n, u32, data)
++{
++	if (!hid_hooks.hid_set_bits)
++		return -EOPNOTSUPP;
++
++	hid_hooks.hid_set_bits(ctx->hdev,
++			       ctx->data,
++			       ctx->allocated_size,
++			       offset, n,
++			       data);
 +	return 0;
 +}
 +
- BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64, offset, u64, size)
- {
- 	if (!size)
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index cf92f9c01556..da06d633fb8d 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -21,6 +21,7 @@
- #include <linux/perf_event.h>
- #include <linux/ctype.h>
- #include <linux/error-injection.h>
-+#include <linux/bpf-hid.h>
- #include <linux/bpf_lsm.h>
- #include <linux/btf_ids.h>
- 
-@@ -14272,6 +14273,12 @@ static int check_attach_btf_id(struct bpf_verifier_env *env)
- 	if (prog->type == BPF_PROG_TYPE_STRUCT_OPS)
- 		return check_struct_ops_btf_id(env);
- 
-+	if (prog->type == BPF_PROG_TYPE_HID) {
-+		ret = bpf_hid_verify_prog(&env->log, prog);
-+		if (ret < 0)
-+			return ret;
-+	}
++static const struct bpf_func_proto bpf_hid_set_bits_proto = {
++	.func      = bpf_hid_set_bits,
++	.gpl_only  = true,
++	.ret_type  = RET_INTEGER,
++	.arg1_type = ARG_PTR_TO_CTX,
++	.arg2_type = ARG_ANYTHING,
++	.arg3_type = ARG_ANYTHING,
++	.arg4_type = ARG_ANYTHING,
++};
 +
- 	if (prog->type != BPF_PROG_TYPE_TRACING &&
- 	    prog->type != BPF_PROG_TYPE_LSM &&
- 	    prog->type != BPF_PROG_TYPE_EXT)
++BPF_CALL_5(bpf_hid_raw_request, struct hid_bpf_ctx_kern*, ctx, void*, buf, u64, size,
++	   u8, report_type, u8, request_type)
++{
++	if (!hid_hooks.hid_raw_request)
++		return -EOPNOTSUPP;
++
++	return hid_hooks.hid_raw_request(ctx->hdev, buf, size, report_type, request_type);
++}
++
++static const struct bpf_func_proto bpf_hid_raw_request_proto = {
++	.func      = bpf_hid_raw_request,
++	.gpl_only  = true, /* hid_raw_request is EXPORT_SYMBOL_GPL */
++	.ret_type  = RET_INTEGER,
++	.arg1_type = ARG_PTR_TO_CTX,
++	.arg2_type = ARG_PTR_TO_MEM,
++	.arg3_type = ARG_CONST_SIZE_OR_ZERO,
++	.arg4_type = ARG_ANYTHING,
++	.arg5_type = ARG_ANYTHING,
++};
++
+ static const struct bpf_func_proto *
+ hid_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+ {
+ 	switch (func_id) {
+ 	case BPF_FUNC_hid_get_data:
+ 		return &bpf_hid_get_data_proto;
++	case BPF_FUNC_hid_get_bits:
++		return &bpf_hid_get_bits_proto;
++	case BPF_FUNC_hid_set_bits:
++		return &bpf_hid_set_bits_proto;
++	case BPF_FUNC_hid_raw_request:
++		if (prog->expected_attach_type != BPF_HID_DEVICE_EVENT)
++			return &bpf_hid_raw_request_proto;
++		return NULL;
+ 	default:
+ 		return bpf_base_func_proto(func_id);
+ 	}
+diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/bpf.h
+index 0e8438e93768..41ab1d068369 100644
+--- a/tools/include/uapi/linux/bpf.h
++++ b/tools/include/uapi/linux/bpf.h
+@@ -5155,6 +5155,39 @@ union bpf_attr {
+  *		by a call to bpf_hid_discard;
+  *	Return
+  *		The pointer to the data. On error, a null value is returned.
++ *
++ * int bpf_hid_get_bits(void *ctx, u64 offset, u32 n, u32 *data)
++ *	Description
++ *		Get the data of size n (in bits) at the given offset (bits) in the
++ *		ctx->event.data field and store it into data.
++ *
++ *		n must be less or equal than 32, and we can address with bit
++ *		precision the value in the buffer. data must be a pointer
++ *		to a u32.
++ *	Return
++ *		The length of data copied into data. On error, a negative value
++ *		is returned.
++ *
++ * int bpf_hid_set_bits(void *ctx, u64 offset, u32 n, u32 data)
++ *	Description
++ *		Set the data of size n (in bits) at the given offset (bits) in the
++ *		ctx->event.data field.
++ *
++ *		n must be less or equal than 32, and we can address with bit
++ *		precision the value in the buffer.
++ *	Return
++ *		The length of data copied into ctx->event.data. On error, a negative
++ *		value is returned.
++ *
++ * int bpf_hid_raw_request(void *ctx, void *buf, u64 size, u8 report_type, u8 request_type)
++ *	Description
++ *		communicate with the HID device
++ *
++ *		report_type is one of HID_INPUT_REPORT, HID_OUTPUT_REPORT, HID_FEATURE_REPORT
++ *		request_type is one of HID_REQ_SET_REPORT or HID_REQ_GET_REPORT
++ *	Return
++ *		0 on success.
++ *		negative value on error.
+  */
+ #define __BPF_FUNC_MAPPER(FN)		\
+ 	FN(unspec),			\
+@@ -5352,6 +5385,9 @@ union bpf_attr {
+ 	FN(skb_set_tstamp),		\
+ 	FN(ima_file_hash),		\
+ 	FN(hid_get_data),		\
++	FN(hid_get_bits),		\
++	FN(hid_set_bits),		\
++	FN(hid_raw_request),		\
+ 	/* */
+ 
+ /* integer value in 'imm' field of BPF_CALL instruction selects which helper
 -- 
 2.35.1
 
