@@ -2,163 +2,422 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14992C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 20:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C689FC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 20:48:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239679AbiCRUKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 16:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
+        id S240792AbiCRUt4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 16:49:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbiCRUKt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 16:10:49 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBB523D76C;
-        Fri, 18 Mar 2022 13:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=O6uGUdoW6Lxm5JY3J83NMEK8xoTghOZASOlRneAdaZw=;
-        t=1647634168; x=1648843768; b=bQEwG1o/Vm4jlHUDF+ToofOnblLQp81bKySVJxlmbEbsTGn
-        4gvHkbTR8d8B3MxOztQno0siDPdV5gVSqAWK19RmH5esSBx41VpshuQQbAes/L7fDsZlG1FvbE+yW
-        km60nvngaxquE56d8CoLT9Pz71P0SHxF7cXiH4ITdhHSWhsZSluCGW/IxL43NADxXMySUK7FKMBCM
-        ZSiZ5bR3aU9bPSnXeY0LgBzU2MZoKNjydhmBzZEJnWDyXfp+xRxlh13U0E6fFejC/ZBY37KCpiV3f
-        exQi9IIl6VfLm+FroqGiypZHdOmoKjTfJbasmlV02WZMhDWilEIZixke0stAAqSA==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.95)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1nVIuF-00F0HF-AC;
-        Fri, 18 Mar 2022 21:09:03 +0100
-Message-ID: <1e61b0f21794e67fb4e87dc41fab90829d3c7cd6.camel@sipsolutions.net>
-Subject: Re: [RFC v1 07/10] iio: light: opt3001: add roadtest
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Vincent Whitchurch <vincent.whitchurch@axis.com>,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kernel <kernel@axis.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Date:   Fri, 18 Mar 2022 21:09:02 +0100
-In-Reply-To: <20220318154927.GA32172@axis.com>
-References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
-         <20220311162445.346685-8-vincent.whitchurch@axis.com>
-         <CAFd5g47O2PbqaUZRoioRROtywTm=6t7cVgHqO7qc0ZGewQk16A@mail.gmail.com>
-         <20220318154927.GA32172@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+        with ESMTP id S238418AbiCRUtz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 16:49:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D60F8EF2;
+        Fri, 18 Mar 2022 13:48:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60D6E60B63;
+        Fri, 18 Mar 2022 20:48:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BC8C340F3;
+        Fri, 18 Mar 2022 20:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647636512;
+        bh=6OTsRaGWWIIN07PPy+vzcT2zKtbU35cgCZ518v/U5iI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JZawGVTvISjTHDzu71DGyl+uP1t9sBaaAqibaqz3GzK+GR+ahKfcyUvtzd5IKuVO+
+         PkJhqoymwnPfg3kOhT64o13cHF4tsrFXdDJUw+nZL7XdzrWWiWGFQVgJ//7zHA31JL
+         XTtzG9kMSPu7Vt2Q18oK4IosNlm15YXFlBCyaxZ37bNNDJS6jhByG5fFAEaQJ+dn4x
+         8gjmOLYrbrDoBLM5FNnwtMbv0symGeRZgiOL+A2NPYTZgFY03LohrzfhBKD4LhyuHK
+         7lHykLgBs0cfJpe1obkUBKrqV4EqglTXNWaeIg+tRtXUO4ughs0wgkvZJZEyBjdqeR
+         Ht7533wqxSVdQ==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2e592e700acso103467077b3.5;
+        Fri, 18 Mar 2022 13:48:32 -0700 (PDT)
+X-Gm-Message-State: AOAM531zdC92U72JtYv8iswIRPQ3WM/RJYjEF5R5wV8vE9t4Zm5RYd8m
+        pYnJh650R/oRc1JkrvhqBzxcXJB5ONJKCaCxyqk=
+X-Google-Smtp-Source: ABdhPJyAJqzK22k10HsduvEfhFAHEbo1x6Da0+PIgRuJO7qR3Qg2nFr2pAcxw0uxvCjA3hQf1vpR2YBkxn+bayN+BR8=
+X-Received: by 2002:a81:951:0:b0:2e5:9e38:147c with SMTP id
+ 78-20020a810951000000b002e59e38147cmr13214784ywj.211.1647636511711; Fri, 18
+ Mar 2022 13:48:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <20220318161528.1531164-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220318161528.1531164-3-benjamin.tissoires@redhat.com>
+From:   Song Liu <song@kernel.org>
+Date:   Fri, 18 Mar 2022 13:48:20 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+Message-ID: <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-03-18 at 16:49 +0100, Vincent Whitchurch wrote:
-> 
-> It should be possible, but upstream QEMU doesn't have everything that we
-> need so some work is needed there.  Also, of course work is need to
-> provide user space for running the tests and communicating between the
-> virtual machine and the backend:
-> 
-> - We need user space, so build scripts would need to be provided to
->   cross-compile busybox and Python (and whatever libraries it needs) for
->   the target architecture.
+On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+[...]
+>
+> diff --git a/include/linux/bpf-hid.h b/include/linux/bpf-hid.h
+> new file mode 100644
+> index 000000000000..9c8dbd389995
+> --- /dev/null
+> +++ b/include/linux/bpf-hid.h
+>
+[...]
+> +
+> +struct hid_bpf_ctx_kern {
+> +       enum hid_bpf_event type;        /* read-only */
+> +       struct hid_device *hdev;        /* read-only */
+> +
+> +       u16 size;                       /* used size in data (RW) */
+> +       u8 *data;                       /* data buffer (RW) */
+> +       u32 allocated_size;             /* allocated size of data (RO) */
 
-You could possibly use some nix recipes for all of this, but that's a
-fairly arcane thing (we use it, but ...)
+Why u16 size vs. u32 allocated_size? Also, maybe shuffle the members
+to remove some holes?
 
-> - We also use UML's hostfs feature to make things transparent to the
->   user and to avoid having to set up things like networking for
->   communication between the host and the backend.  I think QEMU's 9pfs
->   support can be used as a rootfs too but it's not something I've
->   personally tested.
+> +
+> +       s32 retval;                     /* in use when BPF_HID_ATTACH_USER_EVENT (RW) */
+> +};
+> +
+[...]
 
-That works just fine, yes. We used to do exactly this in the wireless
-test suite before we switched to UML, but the switch to UML was due to
-the "time-travel" feature.
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
 
-https://w1.fi/cgit/hostap/tree/tests/hwsim/vm
+We need to mirror these changes to tools/include/uapi/linux/bpf.h.
 
-has support for both UML and qemu/kvm.
+> index 99fab54ae9c0..0e8438e93768 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -952,6 +952,7 @@ enum bpf_prog_type {
+>         BPF_PROG_TYPE_LSM,
+>         BPF_PROG_TYPE_SK_LOOKUP,
+>         BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+> +       BPF_PROG_TYPE_HID,
+>  };
+[...]
+> +
+>  /* When BPF ldimm64's insn[0].src_reg != 0 then this can have
+>   * the following extensions:
+>   *
+> @@ -5129,6 +5145,16 @@ union bpf_attr {
+>   *             The **hash_algo** is returned on success,
+>   *             **-EOPNOTSUP** if the hash calculation failed or **-EINVAL** if
+>   *             invalid arguments are passed.
+> + *
+> + * void *bpf_hid_get_data(void *ctx, u64 offset, u64 size)
+> + *     Description
+> + *             Returns a pointer to the data associated with context at the given
+> + *             offset and size (in bytes).
+> + *
+> + *             Note: the returned pointer is refcounted and must be dereferenced
+> + *             by a call to bpf_hid_discard;
+> + *     Return
+> + *             The pointer to the data. On error, a null value is returned.
 
-> - We use virtio-i2c and virtio-gpio and use virtio-uml which uses the
->   vhost-user API to communicate from UML to the backend.  The latest
->   version of QEMU has support for vhost-user-i2c, but vhost-user-gpio
->   doesn't seem to have been merged yet, so work is needed on the QEMU
->   side.  This will also be true for other buses in the future, if they
->   are implemented with new virtio devices.
-> 
-> - For MMIO, UML has virtio-mmio which allows implementing any PCIe
->   device (and by extension any platform device) outside of UML, but last
->   I checked, upstream QEMU did not have something similar.
+Please use annotations like *size*, **NULL**.
 
-I think you have this a bit fuzzy.
+>   */
+>  #define __BPF_FUNC_MAPPER(FN)          \
+>         FN(unspec),                     \
+> @@ -5325,6 +5351,7 @@ union bpf_attr {
+>         FN(copy_from_user_task),        \
+>         FN(skb_set_tstamp),             \
+>         FN(ima_file_hash),              \
+> +       FN(hid_get_data),               \
+>         /* */
+>
+>  /* integer value in 'imm' field of BPF_CALL instruction selects which helper
+> @@ -5925,6 +5952,10 @@ struct bpf_link_info {
+>                 struct {
+>                         __u32 ifindex;
+>                 } xdp;
+> +               struct  {
+> +                       __s32 hidraw_number;
+> +                       __u32 attach_type;
+> +               } hid;
+>         };
+>  } __attribute__((aligned(8)));
+>
+> diff --git a/include/uapi/linux/bpf_hid.h b/include/uapi/linux/bpf_hid.h
+> new file mode 100644
+> index 000000000000..64a8b9dd8809
+> --- /dev/null
+> +++ b/include/uapi/linux/bpf_hid.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
+> +
+> +/*
+> + *  HID BPF public headers
+> + *
+> + *  Copyright (c) 2022 Benjamin Tissoires
+> + */
+> +
+> +#ifndef _UAPI__LINUX_BPF_HID_H__
+> +#define _UAPI__LINUX_BPF_HID_H__
+> +
+> +#include <linux/types.h>
+> +
+> +enum hid_bpf_event {
+> +       HID_BPF_UNDEF = 0,
+> +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
+> +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
+> +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
 
-The virtio_uml[.c] you speak of is the "bus" driver for virtio in UML.
-Obviously, qemu has support for virtio, so you don't need those bits.
+Why don't we have a DRIVER_EVENT type here?
 
-Now, virtio_uml is actually the virtio (bus) driver inside the kernel,
-like you'd have virtio-mmio/virtio-pci in qemu. However, virtio_uml
-doesn't implement the devices in the hypervisor, where most qemu devices
-are implemented, but uses vhost-user to run the device implementation in
-a separate userspace. [1]
+>
+[...]
+> +
+> +BPF_CALL_3(bpf_hid_get_data, struct hid_bpf_ctx_kern*, ctx, u64, offset, u64, size)
+> +{
+> +       if (!size)
+> +               return 0UL;
+> +
+> +       if (offset + size > ctx->allocated_size)
+> +               return 0UL;
+> +
+> +       return (unsigned long)(ctx->data + offset);
+> +}
+> +
+> +static const struct bpf_func_proto bpf_hid_get_data_proto = {
+> +       .func      = bpf_hid_get_data,
+> +       .gpl_only  = true,
+> +       .ret_type  = RET_PTR_TO_ALLOC_MEM_OR_NULL,
+> +       .arg1_type = ARG_PTR_TO_CTX,
+> +       .arg2_type = ARG_ANYTHING,
+> +       .arg3_type = ARG_CONST_ALLOC_SIZE_OR_ZERO,
 
-Now we're talking about vhost-user to talk to the device, and qemu
-supports this as well, in fact the vhost-user spec is part of qemu:
-https://git.qemu.org/?p=qemu.git;a=blob;f=docs/system/devices/vhost-user.rst;h=86128114fa3788a73679f0af38e141021087c828;hb=1d60bb4b14601e38ed17384277aa4c30c57925d3
-https://www.qemu.org/docs/master/interop/vhost-user.html
+I think we should use ARG_CONST_SIZE or ARG_CONST_SIZE_OR_ZERO?
 
-The docs on how to use it are here:
-https://www.qemu.org/docs/master/system/devices/vhost-user.html
+> +};
+> +
+> +static const struct bpf_func_proto *
+> +hid_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+> +{
+> +       switch (func_id) {
+> +       case BPF_FUNC_hid_get_data:
+> +               return &bpf_hid_get_data_proto;
+> +       default:
+> +               return bpf_base_func_proto(func_id);
+> +       }
+> +}
+[...]
+> +
+> +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
+> +                                const union bpf_attr *attr,
+> +                                union bpf_attr __user *uattr)
+> +{
+> +       struct hid_device *hdev = NULL;
+> +       struct bpf_prog_array *progs;
+> +       bool valid_prog = false;
+> +       int i;
+> +       int target_fd, ret;
+> +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
+> +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
+> +       u32 user_size_in = attr->test.data_size_in;
+> +       u32 user_size_out = attr->test.data_size_out;
+> +       u32 allocated_size = max(user_size_in, user_size_out);
+> +       struct hid_bpf_ctx_kern ctx = {
+> +               .type = HID_BPF_USER_EVENT,
+> +               .allocated_size = allocated_size,
+> +       };
+> +
+> +       if (!hid_hooks.hdev_from_fd)
+> +               return -EOPNOTSUPP;
+> +
+> +       if (attr->test.ctx_size_in != sizeof(int))
+> +               return -EINVAL;
 
-So once you have a device implementation (regardless of whether it's for
-use with any of the virtio-i2c, arch/um/drivers/virt-pci.c, virtio-gpio,
-virtio-net, ... drivers) you can actually connect it to virtual machines
-running as UML or in qemu.
+ctx_size_in is always 4 bytes?
 
-(Actually, that's not strictly true today since it's
-arch/um/drivers/virt-pci.c and I didn't get a proper device ID assigned
-etc since it was for experimentation, I guess if we make this more
-commonly used then we should move it to drivers/pci/controller/virtio-
-pci.c and actually specify it in the OASIS virtio spec., at the very
-least it'd have to be possible to compile this and lib/logic_iomem.c on
-x86, but that's possible. Anyway I think PCI(e) is probably low on your
-list of things ...)
-
->  - Also, some paths in this driver needs a modification to be tested
->    under roadtest.  It uses wait_event_timeout() with a fixed value, but
->    we cannot guarantee that this constraint is met in the test
->    environment since it depends on things like CPU load on the host.
-> 
->    (Also, we use UML's "time travel" feature which essentially
->    fast-forwards through idle time, so the constraint can never be met
->    in practice.)
-
-Wohoo! This makes me very happy, finally somebody else who uses it :-)
-
-
-
-[1] As an aside, you might be interested in usfstl (which you can find
-at https://github.com/linux-test-project/usfstl) which is one way you
-could implement the device side - though the focus here is on making a
-device implementation easy while under "time-travel" mode.
-
-If you ever want to use time-travel with multiple machines or actually
-with virtio devices, it also contains the necessary controller program
-to glue the entire simulation together. We use this very successfully to
-test the (real but compiled for x86) wifi firmware for iwlwifi together
-with the real driver actually seeing a PCIe device in UML, under time-
-travel :)
-
-johannes
+> +
+> +       if (allocated_size > HID_MAX_BUFFER_SIZE)
+> +               return -E2BIG;
+> +
+> +       if (copy_from_user(&target_fd, (void *)attr->test.ctx_in, attr->test.ctx_size_in))
+> +               return -EFAULT;
+> +
+> +       hdev = hid_hooks.hdev_from_fd(target_fd);
+> +       if (IS_ERR(hdev))
+> +               return PTR_ERR(hdev);
+> +
+> +       if (allocated_size) {
+> +               ctx.data = kzalloc(allocated_size, GFP_KERNEL);
+> +               if (!ctx.data)
+> +                       return -ENOMEM;
+> +
+> +               ctx.allocated_size = allocated_size;
+> +       }
+> +       ctx.hdev = hdev;
+> +
+> +       ret = mutex_lock_interruptible(&bpf_hid_mutex);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /* check if the given program is of correct type and registered */
+> +       progs = rcu_dereference_protected(hdev->bpf.run_array[BPF_HID_ATTACH_USER_EVENT],
+> +                                         lockdep_is_held(&bpf_hid_mutex));
+> +       if (!progs) {
+> +               ret = -EFAULT;
+> +               goto unlock;
+> +       }
+> +
+> +       for (i = 0; i < bpf_prog_array_length(progs); i++) {
+> +               if (progs->items[i].prog == prog) {
+> +                       valid_prog = true;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!valid_prog) {
+> +               ret = -EINVAL;
+> +               goto unlock;
+> +       }
+> +
+> +       /* copy data_in from userspace */
+> +       if (user_size_in) {
+> +               if (copy_from_user(ctx.data, data_in, user_size_in)) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +
+> +               ctx.size = user_size_in;
+> +       }
+> +
+> +       migrate_disable();
+> +
+> +       ret = bpf_prog_run(prog, &ctx);
+> +
+> +       migrate_enable();
+> +
+> +       if (user_size_out && data_out) {
+> +               user_size_out = min3(user_size_out, (u32)ctx.size, allocated_size);
+> +
+> +               if (copy_to_user(data_out, ctx.data, user_size_out)) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +
+> +               if (copy_to_user(&uattr->test.data_size_out,
+> +                                &user_size_out,
+> +                                sizeof(user_size_out))) {
+> +                       ret = -EFAULT;
+> +                       goto unlock;
+> +               }
+> +       }
+> +
+> +       if (copy_to_user(&uattr->test.retval, &ctx.retval, sizeof(ctx.retval)))
+> +               ret = -EFAULT;
+> +
+> +unlock:
+> +       kfree(ctx.data);
+> +
+> +       mutex_unlock(&bpf_hid_mutex);
+> +       return ret;
+> +}
+> +
+> +const struct bpf_prog_ops hid_prog_ops = {
+> +       .test_run = hid_bpf_prog_test_run,
+> +};
+> +
+> +int bpf_hid_init(struct hid_device *hdev)
+> +{
+> +       int type;
+> +
+> +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++)
+> +               INIT_LIST_HEAD(&hdev->bpf.links[type]);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(bpf_hid_init);
+> +
+> +void bpf_hid_exit(struct hid_device *hdev)
+> +{
+> +       enum bpf_hid_attach_type type;
+> +       struct bpf_hid_link *hid_link;
+> +
+> +       mutex_lock(&bpf_hid_mutex);
+> +       for (type = 0; type < MAX_BPF_HID_ATTACH_TYPE; type++) {
+> +               bpf_hid_run_array_detach(hdev, type);
+> +               list_for_each_entry(hid_link, &hdev->bpf.links[type], node) {
+> +                       hid_link->hdev = NULL; /* auto-detach link */
+> +               }
+> +       }
+> +       mutex_unlock(&bpf_hid_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(bpf_hid_exit);
+> diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> index b88688264ad0..d1c05011e5ab 100644
+> --- a/kernel/bpf/syscall.c
+> +++ b/kernel/bpf/syscall.c
+> @@ -3,6 +3,7 @@
+>   */
+>  #include <linux/bpf.h>
+>  #include <linux/bpf-cgroup.h>
+> +#include <linux/bpf-hid.h>
+>  #include <linux/bpf_trace.h>
+>  #include <linux/bpf_lirc.h>
+>  #include <linux/bpf_verifier.h>
+> @@ -2205,6 +2206,7 @@ static bool is_sys_admin_prog_type(enum bpf_prog_type prog_type)
+>  {
+>         switch (prog_type) {
+>         case BPF_PROG_TYPE_LIRC_MODE2:
+> +       case BPF_PROG_TYPE_HID:
+>                 return true;
+>         default:
+>                 return false;
+> @@ -3199,6 +3201,11 @@ attach_type_to_prog_type(enum bpf_attach_type attach_type)
+>                 return BPF_PROG_TYPE_SK_LOOKUP;
+>         case BPF_XDP:
+>                 return BPF_PROG_TYPE_XDP;
+> +       case BPF_HID_DEVICE_EVENT:
+> +       case BPF_HID_RDESC_FIXUP:
+> +       case BPF_HID_USER_EVENT:
+> +       case BPF_HID_DRIVER_EVENT:
+> +               return BPF_PROG_TYPE_HID;
+>         default:
+>                 return BPF_PROG_TYPE_UNSPEC;
+>         }
+> @@ -3342,6 +3349,11 @@ static int bpf_prog_query(const union bpf_attr *attr,
+>         case BPF_SK_MSG_VERDICT:
+>         case BPF_SK_SKB_VERDICT:
+>                 return sock_map_bpf_prog_query(attr, uattr);
+> +       case BPF_HID_DEVICE_EVENT:
+> +       case BPF_HID_RDESC_FIXUP:
+> +       case BPF_HID_USER_EVENT:
+> +       case BPF_HID_DRIVER_EVENT:
+> +               return bpf_hid_prog_query(attr, uattr);
+>         default:
+>                 return -EINVAL;
+>         }
+> @@ -4336,6 +4348,8 @@ static int link_create(union bpf_attr *attr, bpfptr_t uattr)
+>                 ret = bpf_perf_link_attach(attr, prog);
+>                 break;
+>  #endif
+> +       case BPF_PROG_TYPE_HID:
+> +               return bpf_hid_link_create(attr, prog);
+>         default:
+>                 ret = -EINVAL;
+>         }
+> --
+> 2.35.1
+>
