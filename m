@@ -2,339 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8A6C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 10:09:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C68ECC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 10:11:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234865AbiCRKKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 06:10:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S233096AbiCRKNM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 06:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234882AbiCRKKt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 06:10:49 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419B91FAA3D
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 03:09:31 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id p17so6607077plo.9
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 03:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yxPYjtXpfBf0hnIpFUPE7iclhmNThzJGoUWla3RxJ4c=;
-        b=hnKOFrBbu1/7WR02NgOeXBxwK+ROyYs3aHbIACeEBqNgtvcSUTgVCZdgWSyBYMFr0j
-         2rkzhGzTEm14AdWbacYdTQuP44qjRRhC/JtEo0KxsptigAIRK9wk2LURhB7HgZ35C8hF
-         gh9xVWWxACVAPBwe/X4CSSppNgAMu3sBBiaW/YQCY5hv3nACsN7bY3s2j89D0+xOA3iB
-         X5Iw/6hTXg6ze/45TjYkBkD4xuLSmGGmwgfuLIEpBC5RXdrjyh3sVsExtq+CKEeyscTU
-         unBaXqEKnH/e/CHO85C+Tty0bgpI3KiA/aTqckNxOFDuirGq6GCfTXWmFJIoD7jdnAGc
-         iilQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yxPYjtXpfBf0hnIpFUPE7iclhmNThzJGoUWla3RxJ4c=;
-        b=WSaQed93NDYrTwEJvc1RsyYRwGxIW9TzN3cb+HJdD8Wuf7OzawFevdu40koUOBRriQ
-         YSF+CcjpxkUb2iyGC5SgNDPdIbkGkCGBlTAEbUmRRohUACLtef3FAaflM/hxnuXtXQDQ
-         DQO3WqyqoaZKFqUHevZEZ8iGgARXzsn5b7N1O3pV7y4DnqEDEtv7B22OTi5M//MjH6+U
-         vN9ApwRYCnXRu+o26XQbnEbNLAFEzw/QSQn7x+x5FQpFLSPSgDMx6a+TaiRO2Bf/5HCB
-         kZyTuGmp1p68Ka0a9/yHxVCPQsApHc4pG0k/Hjdpi8kJITSuUDGttFUbcThS0DS4wo+M
-         hnZg==
-X-Gm-Message-State: AOAM53065uw3sBAAqWuZSwszt4akrJRZSCPv5ijPu2ZBd+n7SsxZ8X9X
-        ZZZj9ONFbAKrc+4nd8m6kTY0ww==
-X-Google-Smtp-Source: ABdhPJz4cmjJa5gjbYkzAbeXtq6exBZgu6Q7fEKo5yUsm6W7EX0gl+E4lNHOJtVyPSInwrZiBFRgDw==
-X-Received: by 2002:a17:90b:4f4b:b0:1bf:bd24:263f with SMTP id pj11-20020a17090b4f4b00b001bfbd24263fmr10417342pjb.228.1647598170645;
-        Fri, 18 Mar 2022 03:09:30 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.241])
-        by smtp.gmail.com with ESMTPSA id j3-20020a056a00234300b004fa042e8216sm9541252pfj.2.2022.03.18.03.09.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 03:09:30 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v4 4/4] mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
-Date:   Fri, 18 Mar 2022 18:07:20 +0800
-Message-Id: <20220318100720.14524-5-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220318100720.14524-1-songmuchun@bytedance.com>
-References: <20220318100720.14524-1-songmuchun@bytedance.com>
+        with ESMTP id S230223AbiCRKNL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 06:13:11 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DA08A2CC346
+        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 03:11:50 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.108.139])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxLxPhWjRiMoALAA--.9602S3;
+        Fri, 18 Mar 2022 18:11:47 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: [PATCH 1/3] docs/zh_CN/damon: update outdated term 'regions update interval'
+Date:   Fri, 18 Mar 2022 18:12:56 +0800
+Message-Id: <b996bc4cc9db7517d9938c19edbab86313d0dc7f.1647598049.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1647598049.git.siyanteng@loongson.cn>
+References: <cover.1647598049.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxLxPhWjRiMoALAA--.9602S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuryUKry3JF4fKFW5Aw1UJrb_yoWrXw15pr
+        92k34Ika42yFyUXr4xKryUKF18GF97Ga17KF95Cw1xXFsIyrZ5trWkKayjkF97XFyxAFW7
+        CrW0kFW8ta4Ivw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBS14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+        A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+        IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gw1l42xK82
+        IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+        0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
+        IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
+        0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+        Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5UUUUUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
-server to enable the feature of freeing vmemmap pages of HugeTLB
-pages.  Rebooting usually takes a long time.  Add a sysctl to enable
-or disable the feature at runtime without rebooting.
+Since 072fd1b47215("Docs/damon: update outdated term 'regions update interval'")
+use update interval,zh_CN should use 更新间隔, so let's sync update.
 
-Disabling requires there is no any optimized HugeTLB page in the
-system.  If you fail to disable it, you can set "nr_hugepages" to 0
-and then retry.
-
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/admin-guide/sysctl/vm.rst |  14 +++++
- include/linux/memory_hotplug.h          |   9 +++
- mm/hugetlb_vmemmap.c                    | 101 +++++++++++++++++++++++++-------
- mm/hugetlb_vmemmap.h                    |   4 +-
- mm/memory_hotplug.c                     |   7 +--
- 5 files changed, 108 insertions(+), 27 deletions(-)
+ .../translations/zh_CN/admin-guide/mm/damon/usage.rst      | 6 +++---
+ Documentation/translations/zh_CN/vm/damon/design.rst       | 7 ++++---
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index f4804ce37c58..9e0e153ed935 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -561,6 +561,20 @@ Change the minimum size of the hugepage pool.
- See Documentation/admin-guide/mm/hugetlbpage.rst
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+index 5d7533347216..10b9ac7664d3 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+@@ -46,7 +46,7 @@ DAMON导出了八个文件, ``attrs``, ``target_ids``, ``init_regions``,
+ 属性
+ ----
+ 
+-用户可以通过读取和写入 ``attrs`` 文件获得和设置 ``采样间隔`` 、 ``聚集间隔`` 、 ``区域更新间隔``
++用户可以通过读取和写入 ``attrs`` 文件获得和设置 ``采样间隔`` 、 ``聚集间隔`` 、 ``更新间隔``
+ 以及监测目标区域的最小/最大数量。要详细了解监测属性，请参考 `:doc:/vm/damon/design` 。例如，
+ 下面的命令将这些值设置为5ms、100ms、1000ms、10和1000，然后再次检查::
+ 
+@@ -108,8 +108,8 @@ DAMON导出了八个文件, ``attrs``, ``target_ids``, ``init_regions``,
+             1   20      40
+             1   50      100" > init_regions
+ 
+-请注意，这只是设置了初始的监测目标区域。在虚拟内存监测的情况下，DAMON会在一个 ``区域更新间隔``
+-后自动更新区域的边界。因此，在这种情况下，如果用户不希望更新的话，应该把 ``区域的更新间隔`` 设
++请注意，这只是设置了初始的监测目标区域。在虚拟内存监测的情况下，DAMON会在一个 ``更新间隔``
++后自动更新区域的边界。因此，在这种情况下，如果用户不希望更新的话，应该把 ``更新间隔`` 设
+ 置得足够大。
  
  
-+hugetlb_free_vmemmap
-+====================
-+
-+Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap
-+pages associated with each HugeTLB page.  Once true, the vmemmap pages of
-+subsequent allocation of HugeTLB pages from buddy system will be optimized,
-+whereas already allocated HugeTLB pages will not be optimized.  If you fail
-+to disable this feature, you can set "nr_hugepages" to 0 and then retry
-+since it is only allowed to be disabled after there is no any optimized
-+HugeTLB page in the system.
-+
-+See Documentation/admin-guide/mm/hugetlbpage.rst
-+
-+
- nr_hugepages_mempolicy
- ======================
+diff --git a/Documentation/translations/zh_CN/vm/damon/design.rst b/Documentation/translations/zh_CN/vm/damon/design.rst
+index 05f66c02740a..46128b77c2b3 100644
+--- a/Documentation/translations/zh_CN/vm/damon/design.rst
++++ b/Documentation/translations/zh_CN/vm/damon/design.rst
+@@ -77,7 +77,7 @@ DAMON目前为物理和虚拟地址空间提供了基元的实现。下面两个
+ ========================
  
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 1ce6f8044f1e..9b015b254e86 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -348,4 +348,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
- extern bool mhp_supports_memmap_on_memory(unsigned long size);
- #endif /* CONFIG_MEMORY_HOTPLUG */
+ 下面四个部分分别描述了DAMON的核心机制和五个监测属性，即 ``采样间隔`` 、 ``聚集间隔`` 、
+-``区域更新间隔`` 、 ``最小区域数`` 和 ``最大区域数`` 。
++``更新间隔`` 、 ``最小区域数`` 和 ``最大区域数`` 。
  
-+#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-+bool mhp_memmap_on_memory(void);
-+#else
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return false;
-+}
-+#endif
-+
- #endif /* __LINUX_MEMORY_HOTPLUG_H */
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 33ecb77c2b2a..f920073d52ba 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -176,6 +176,7 @@
-  */
- #define pr_fmt(fmt)	"HugeTLB: " fmt
  
-+#include <linux/memory_hotplug.h>
- #include "hugetlb_vmemmap.h"
+ 访问频率监测
+@@ -135,5 +135,6 @@ DAMON的输出显示了在给定的时间内哪些页面的访问频率是多少
+ 监测目标地址范围可以动态改变。例如，虚拟内存可以动态地被映射和解映射。物理内存可以被
+ 热插拔。
  
- /*
-@@ -192,6 +193,10 @@ DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
- 			hugetlb_free_vmemmap_enabled_key);
- EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled_key);
- 
-+/* How many HugeTLB pages with vmemmap pages optimized. */
-+static atomic_long_t optimized_pages = ATOMIC_LONG_INIT(0);
-+static DECLARE_RWSEM(sysctl_rwsem);
-+
- static int __init early_hugetlb_free_vmemmap_param(char *buf)
- {
- 	if (!buf)
-@@ -208,11 +213,6 @@ static int __init early_hugetlb_free_vmemmap_param(char *buf)
- }
- early_param("hugetlb_free_vmemmap", early_hugetlb_free_vmemmap_param);
- 
--static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
--{
--	return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
--}
--
- /*
-  * Previously discarded vmemmap pages will be allocated and remapping
-  * after this function returns zero.
-@@ -221,14 +221,18 @@ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- 	int ret;
- 	unsigned long vmemmap_addr = (unsigned long)head;
--	unsigned long vmemmap_end, vmemmap_reuse;
-+	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
- 
- 	if (!HPageVmemmapOptimized(head))
- 		return 0;
- 
--	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
--	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
--	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
-+	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
-+	vmemmap_pages	= free_vmemmap_pages_per_hpage(h);
-+	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
-+	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-+
-+	VM_BUG_ON_PAGE(!vmemmap_pages, head);
-+
- 	/*
- 	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
- 	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-@@ -238,8 +242,14 @@ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	 */
- 	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
- 				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
--	if (!ret)
-+	if (!ret) {
- 		ClearHPageVmemmapOptimized(head);
-+		/*
-+		 * Paired with acquire semantic in
-+		 * hugetlb_free_vmemmap_handler().
-+		 */
-+		atomic_long_dec_return_release(&optimized_pages);
-+	}
- 
- 	return ret;
- }
-@@ -247,22 +257,28 @@ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
- void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- 	unsigned long vmemmap_addr = (unsigned long)head;
--	unsigned long vmemmap_end, vmemmap_reuse;
-+	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
- 
--	if (!free_vmemmap_pages_per_hpage(h))
--		return;
-+	down_read(&sysctl_rwsem);
-+	vmemmap_pages = free_vmemmap_pages_per_hpage(h);
-+	if (!vmemmap_pages)
-+		goto out;
- 
--	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
--	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
--	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
-+	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
-+	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
-+	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
- 
- 	/*
- 	 * Remap the vmemmap virtual address range [@vmemmap_addr, @vmemmap_end)
- 	 * to the page which @vmemmap_reuse is mapped to, then free the pages
- 	 * which the range [@vmemmap_addr, @vmemmap_end] is mapped to.
- 	 */
--	if (!vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+	if (!vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse)) {
- 		SetHPageVmemmapOptimized(head);
-+		atomic_long_inc(&optimized_pages);
-+	}
-+out:
-+	up_read(&sysctl_rwsem);
- }
- 
- void __init hugetlb_vmemmap_init(struct hstate *h)
-@@ -278,9 +294,6 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
- 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- 
--	if (!hugetlb_free_vmemmap_enabled())
--		return;
--
- 	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
- 	/*
- 	 * The head page is not to be freed to buddy allocator, the other tail
-@@ -296,3 +309,51 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
- 		h->name);
- }
-+
-+static int hugetlb_free_vmemmap_handler(struct ctl_table *table, int write,
-+					void *buffer, size_t *length,
-+					loff_t *ppos)
-+{
-+	int ret;
-+
-+	down_write(&sysctl_rwsem);
-+	/*
-+	 * Cannot be disabled when there is at lease one optimized
-+	 * HugeTLB in the system.
-+	 *
-+	 * The acquire semantic is paired with release semantic in
-+	 * alloc_huge_page_vmemmap(). If we saw the @optimized_pages
-+	 * with 0, all the operations of vmemmap pages remapping from
-+	 * alloc_huge_page_vmemmap() are visible too so that we can
-+	 * safely disable static key.
-+	 */
-+	table->extra1 = atomic_long_read_acquire(&optimized_pages) ?
-+			SYSCTL_ONE : SYSCTL_ZERO;
-+	ret = proc_do_static_key(table, write, buffer, length, ppos);
-+	up_write(&sysctl_rwsem);
-+
-+	return ret;
-+}
-+
-+static struct ctl_table hugetlb_vmemmap_sysctls[] = {
-+	{
-+		.procname	= "hugetlb_free_vmemmap",
-+		.data		= &hugetlb_free_vmemmap_enabled_key.key,
-+		.mode		= 0644,
-+		.proc_handler	= hugetlb_free_vmemmap_handler,
-+	},
-+	{ }
-+};
-+
-+static __init int hugetlb_vmemmap_sysctls_init(void)
-+{
-+	/*
-+	 * The vmemmap pages cannot be optimized if
-+	 * "memory_hotplug.memmap_on_memory" is enabled.
-+	 */
-+	if (!mhp_memmap_on_memory())
-+		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-+
-+	return 0;
-+}
-+late_initcall(hugetlb_vmemmap_sysctls_init);
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index cb2bef8f9e73..b67a159027f4 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -21,7 +21,9 @@ void hugetlb_vmemmap_init(struct hstate *h);
-  */
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
--	return h->nr_free_vmemmap_pages;
-+	if (hugetlb_free_vmemmap_enabled())
-+		return h->nr_free_vmemmap_pages;
-+	return 0;
- }
- #else
- static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index da594b382829..793c04cfe46f 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -63,15 +63,10 @@ static bool memmap_on_memory __ro_after_init;
- module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
- MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
- 
--static inline bool mhp_memmap_on_memory(void)
-+bool mhp_memmap_on_memory(void)
- {
- 	return memmap_on_memory;
- }
--#else
--static inline bool mhp_memmap_on_memory(void)
--{
--	return false;
--}
- #endif
- 
- enum {
+-由于在某些情况下变化可能相当频繁，DAMON检查动态内存映射的变化，并仅在用户指定的时间
+-间隔（ ``区域更新间隔`` ）内将其应用于抽象的目标区域。
++由于在某些情况下变化可能相当频繁，DAMON允许监控操作检查动态变化，包括内存映射变化，
++并仅在用户指定的时间间隔（ ``更新间隔`` ）中的每个时间段，将其应用于监控操作相关的
++数据结构，如抽象的监控目标内存区。
+\ No newline at end of file
 -- 
-2.11.0
+2.27.0
 
