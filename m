@@ -2,116 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02456C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 04:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 365E0C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 04:50:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232382AbiCREdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 00:33:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46746 "EHLO
+        id S232376AbiCREwA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 00:52:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbiCREdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 00:33:18 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D43247836
-        for <linux-doc@vger.kernel.org>; Thu, 17 Mar 2022 21:31:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8F159B82164
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 04:31:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0997AC340E8;
-        Fri, 18 Mar 2022 04:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647577917;
-        bh=VgLtfPS5g2gN0R7TeIWedNsoc4yKHrDeDwJifEJDoSM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=B+tZfTxc7nLYFgpte/wnKlJyI2qqmi+RCgIkc5L0+W1UHXcyjiXzGLIyrs7HfEZqi
-         C6kGuL4BDeUTZD3LAa53jqHCF2g1SOUGqnIuxzCHEytPMpHOCFuWNElYEoMbpm+pqP
-         hcM5ZxwhujM9D1s+Y0zYpUmdSgB748ZhPy2n4B30jDaQ9Ir+nVARdwiF7UY27QfCmq
-         +ZOUXJFGqDe7M8PpWtVWN++HYvUNAiWTpTwAawaQuaYPtM5D7Y+jDkoA/Cn1GThFDG
-         hi/LTxmCuSJsrTat2qsSmd4HK/YoePTweHPDoE9kBkGNQsV4yeZQV/GpVB5ERYmCJ7
-         TjjseO0ghkzBg==
-Date:   Fri, 18 Mar 2022 13:31:53 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     kushagra765@outlook.com, linux-doc@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [ PATCH ] Documentation: fixed typos
-Message-Id: <20220318133153.9c96b904d251faf29808dc3d@kernel.org>
-In-Reply-To: <82331905-8b04-ccd4-0317-384ad16bb4bb@infradead.org>
-References: <SI2PR01MB3929000E406A2DCA53A25F55F8129@SI2PR01MB3929.apcprd01.prod.exchangelabs.com>
-        <82331905-8b04-ccd4-0317-384ad16bb4bb@infradead.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        with ESMTP id S231846AbiCREwA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 00:52:00 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05E831934;
+        Thu, 17 Mar 2022 21:50:40 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id q19so4272396pgm.6;
+        Thu, 17 Mar 2022 21:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=aPJHHquyjBnSufkdQ/CHMVfaCdWkcaHC/wocvUvtM2g=;
+        b=L5+IUfXTkDjiK+ANw+KnlygW7x1M6zI1nZKYKG8jW93yJ0tEAcGlUx48T0NZ2sFz6L
+         jDxT0gbkygNOOKK8Tc1gVyd6ymspz90eonQ6TBa9V4zx3wN+Dthk53JLZ74y06zljXlz
+         VQaly16G1x2Hl2uxOXsUJUU7hVD2hrCLJkQ5fODbmlMU/PInY7mTYAZ8MO0ETg1B9dDH
+         WSiG2J1HZzIXHJdqmFhD32TclV02lEfivp3bBcbXzPgM/zhTItKhadan3OnKhc2aVkzv
+         lLkvJkBnbik5ttZL0XPEhbpaEruniAVu5asVUQ9WaWcY0DS/6zFjiyJDajkoueovd9i6
+         hM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=aPJHHquyjBnSufkdQ/CHMVfaCdWkcaHC/wocvUvtM2g=;
+        b=4/fuLvu89KkL6d0wmYMQguq5HiFDNP3GlyDH54qP4WiQWFPiH7yP88pLRRKDDkbsZT
+         gAJJW6rAiVP1tPvVf5YWGJtV0ynMBQ1g7V/3PNAO6wshj7xfSgKTy7kfT1J2s/rmmjo7
+         5bYqkRUkvshOnqNVpxSsTXrotI/qBnwpWMyiI7g5/MGqlBpdTKxNZpE0gcwi+rmSseAx
+         0GSrsMOyPPujCXbudWdFG4qVeom67aqGX+9jFfZLaUL2yuV5S0gjHOOPlxRNhAUjfWic
+         VsCnV8RyDirKxmyyuFMcrgXTx+trp7nkqfRS/26hl2bTSH6yn0ezwBxBqZZaO94o6HXl
+         cTEw==
+X-Gm-Message-State: AOAM531bss81YfZ18v7m6Mu0eU4TaxKcYUZ6HhnKcjEgtyNjBTiQrXdM
+        HMQShiuEx24hMvU8sWr6sMufA+zkWZAMGQ==
+X-Google-Smtp-Source: ABdhPJzhxM+hugE7owmzEeU+bzQPYLXLvCW/ZmgFw14Vv0YIH0K1U6rFcf3IiYlZhsK58SGQHcP1rw==
+X-Received: by 2002:a65:538f:0:b0:382:b4d:bdd8 with SMTP id x15-20020a65538f000000b003820b4dbdd8mr4457255pgq.262.1647579040371;
+        Thu, 17 Mar 2022 21:50:40 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-92.three.co.id. [180.214.233.92])
+        by smtp.gmail.com with ESMTPSA id u4-20020a056a00158400b004fa0263cf5dsm8788368pfk.130.2022.03.17.21.50.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Mar 2022 21:50:39 -0700 (PDT)
+Message-ID: <07033c8a-fe1a-f97e-49b3-48d1da1e0413@gmail.com>
+Date:   Fri, 18 Mar 2022 11:50:34 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs/kselftest: add more guidelines for adding new tests
+Content-Language: en-US
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     kernel@collabora.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220317172758.582690-1-usama.anjum@collabora.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220317172758.582690-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Mar 2022 08:28:58 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On 18/03/22 00.27, Muhammad Usama Anjum wrote:
+> Add the following new guidelines:
+> - Add instruction to use lib.mk
+> - Add instruction about how to use headers from kernel source
+> - Add instruction to add .gitignore file
+> - Add instruction about how to add new test in selftests/Makefile
+> - Add instruction about different build commands to test
+> 
 
-> 
-> 
-> On 3/17/22 08:25, kushagra765@outlook.com wrote:
-> > From ade08e81a63db0faf39791f9cd7c87e5787186f5 Mon Sep 17 00:00:00 2001
-> > From: Kushagra Verma <kushagra765@outlook.com>
-> > Date: Thu, 17 Mar 2022 20:37:36 +0530
-> > Subject: [PATCH] Documentation: fixed typos
-> > 
-> >    1. Documentation/admin-guide/bootconfig.rst:207: fixed a typo in the word 'concatenated`
-> >    2. Documentation/atomic_t.txt:327: fixed a typo in the word `architecture`
-> > 
-> > Signed-off-by: Kushagra Verma <kushagra765@outlook.com>
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> for the text changes.
-> But you should Cc one or more maintainers and the file's "owner". (done now)
+Too verbose, because people can figure out what were added in the diff
+without explicitly mention them.
+  
+> + * Use lib.mk instead of writing Makefile from sratch. Specify flags and
+> +   binaries generation flags on need basis before including lib.mk. ::
+> +
+> +    CFLAGS = $(KHDR_INCLUDES)
+> +    TEST_GEN_PROGS := close_range_test
+> +    include ../lib.mk
+> +
 
-Thanks Randy,
+I think what you mean is "In your Makefile, use facilities from lib.mk by
+including it instead of reinventing the wheel.", right?
 
-Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+> + * Add new test name in TARGETS in selftests/Makefile::
+> +
+> +    TARGETS += android
+> +
+> + * All of the following build commands should be successful
+> +
+> +   - Same directory build of kselftests::
+> +
+> +      make kselftest-all
+> +      make kselftest-install
+> +      make kselftest-clean
+> +      make kselftest-gen_tar
+> +
+> +   - Build with absolute output directory path::
+> +
+> +      make kselftest-all O=/abs_build_path
+> +      make kselftest-install O=/abs_build_path
+> +      make kselftest-clean O=/abs_build_path
+> +      make kselftest-gen_tar O=/abs_build_path
+> +
+> +   - Build with relative output directory path::
+> +
+> +      make kselftest-all O=relative_path
+> +      make kselftest-install O=relative_path
+> +      make kselftest-clean O=relative_path
+> +      make kselftest-gen_tar O=relative_path
+> +
+> +   - Build from Makefile of selftests directly::
+> +
+> +      make -C tools/testing/selftests
+> +      make -C tools/testing/selftests O=/abs_build_path
+> +      make -C tools/testing/selftests O=relative_path
+> +
 
-> 
-> > ---
-> >  Documentation/admin-guide/bootconfig.rst | 2 +-
-> >  Documentation/atomic_t.txt               | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-> > index a1860fc0ca88..d4ea063aca0c 100644
-> > --- a/Documentation/admin-guide/bootconfig.rst
-> > +++ b/Documentation/admin-guide/bootconfig.rst
-> > @@ -204,7 +204,7 @@ In addition to the kernel command line, the boot config can be used for
-> >  passing the kernel parameters. All the key-value pairs under ``kernel``
-> >  key will be passed to kernel cmdline directly. Moreover, the key-value
-> >  pairs under ``init`` will be passed to init process via the cmdline.
-> > -The parameters are concatinated with user-given kernel cmdline string
-> > +The parameters are concatenated with user-given kernel cmdline string
-> >  as the following order, so that the command line parameter can override
-> >  bootconfig parameters (this depends on how the subsystem handles parameters
-> >  but in general, earlier parameter will be overwritten by later one.)::
-> > diff --git a/Documentation/atomic_t.txt b/Documentation/atomic_t.txt
-> > index 0f1ffa03db09..d7adc6d543db 100644
-> > --- a/Documentation/atomic_t.txt
-> > +++ b/Documentation/atomic_t.txt
-> > @@ -324,7 +324,7 @@ atomic operations.
-> >  
-> >  Specifically 'simple' cmpxchg() loops are expected to not starve one another
-> >  indefinitely. However, this is not evident on LL/SC architectures, because
-> > -while an LL/SC architecure 'can/should/must' provide forward progress
-> > +while an LL/SC architecture 'can/should/must' provide forward progress
-> >  guarantees between competing LL/SC sections, such a guarantee does not
-> >  transfer to cmpxchg() implemented using LL/SC. Consider:
-> >  
-> 
-> thanks.
-> -- 
-> ~Randy
+For simplicity, we can say "All changes should pass
+kselftest-{all,install,clean,gen_tar} builds."
 
+You don't need to spell out full command-line in the guideline unless
+absolutely necessary, in general.
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+An old man doll... just what I always wanted! - Clara
