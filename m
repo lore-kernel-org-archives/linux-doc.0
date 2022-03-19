@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B904C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Mar 2022 10:14:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC62FC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Mar 2022 11:15:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242663AbiCSKQR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 19 Mar 2022 06:16:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49158 "EHLO
+        id S242749AbiCSLQc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Mar 2022 07:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235071AbiCSKQQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Mar 2022 06:16:16 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5925C1AFE85;
-        Sat, 19 Mar 2022 03:14:56 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2e5969bdf31so112725737b3.8;
-        Sat, 19 Mar 2022 03:14:56 -0700 (PDT)
+        with ESMTP id S236984AbiCSLQc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Mar 2022 07:16:32 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1502C3DD4;
+        Sat, 19 Mar 2022 04:15:11 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id o5so20107691ybe.2;
+        Sat, 19 Mar 2022 04:15:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D28RjDg0IIqsedMZiUTeTKR3AfquY6OXe4oxRWEJ2lM=;
-        b=QGQCc9TMOPGLYL8s5mQbPX8X6J7/it2KQjPcOjm3W5A1X1wJr6lt11KRnCf4khbnPl
-         W2RcZ1hTzC0lFofJf2N+HyT4A7715ZrFGsRd56ADXzkC3mhgR7xZnjiA3S2PAZWzvBce
-         qBmrgRjYbV9Dtz+p9VxWq9DdvNe6r9L9KXnUadtwjQVEKqLGS11ox028JAQFMOdTw565
-         FlvhTZoXpMFJqyUdZrzDxHYYlm1uVq3o96a4onOm9BKYZQL5CHmFBL0Jp2d3C0CS50Y0
-         g8bnLQyCo8c+aEC/PMDcUVDE7TBkNK+sQNi+sAsrUAIkE+DGWpvx8M1hz0wgTf8lfoof
-         shnw==
+         :cc;
+        bh=JmpfHS1P+qpaVI9DLkTFbIW8LYRa15RLKPALOZCQDKk=;
+        b=U2lczM+Kei/H8pl07DdkRF/zKfwtoBL7jGf/hZk6ujcHWCiCiUIOg+g+eqUv5YMNQU
+         sE3SJxo82a1CAdrGtGIK1WNfH3hgGzJqW8l95OP68GFDbkjIdaflEC3/VyslJacg938Y
+         fw7vv4WJg2Ze898KPgW406xg16quHSMDJJjeLfZ+AGBs3P6EMcHWK5J2cUq2lp9TMVdq
+         rISsYg+8UBpFBVKu7YUjca2eIgncLRWlnFqpjku7saZ8H1MFWO9yRbvTUSfKMwCLDwQC
+         5qwjcxH6Wup0k1IrYotTOjMWuMAltNeGrnfEp6KI8jacb1kxnjx89ji/U5KmkKDbe7oJ
+         5rxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D28RjDg0IIqsedMZiUTeTKR3AfquY6OXe4oxRWEJ2lM=;
-        b=ygxETty/QsU3MaaYwNOOH0Poh2Rg04q583+t63/K0ziJtBRceXblXbRUKNS9yDCVnm
-         apLPoS1GLwEZAIUWIByHCO/Ax/Kptek7wc88MXh+xidJL9PK5VGeHFibAqmLA04+QJcQ
-         D/KpHhQPDT1HfDDxrinnCB7UvlHR5n6W5e//LBVBMD817HlmZcTOo4BCfaEWCS9PFDDb
-         wHsK8iL3ufyK6uDjCIvIv/bRTkV1nPZhCTWdUvagC6TwhI64WjmyElvORZp6u2vfok7E
-         +5ZCkxD48EYRHxrVaUrSIUvSd8qSQ+1BbDQVD6ukBhhrVj6MVHDQlaq5zUtrPmQbbON/
-         J+Cw==
-X-Gm-Message-State: AOAM533xxhePWa/X2hCnAcq/he0hxAG2UP4zI0fOFNmGlakIH2jXMX58
-        9zlHGThUA+3dIuYVbEYJPFR0HdO4RwWI8/me7oA=
-X-Google-Smtp-Source: ABdhPJzJrX2B/OXlsxOEw1tdhFyFNMg00bXB1Jc7YkruqljBL7SBfoUlpJXYokrcB+ueqDcCLkyF1DinAmFTH/odJx8=
-X-Received: by 2002:a81:944:0:b0:2e5:e5cb:a04a with SMTP id
- 65-20020a810944000000b002e5e5cba04amr5799603ywj.406.1647684895529; Sat, 19
- Mar 2022 03:14:55 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=JmpfHS1P+qpaVI9DLkTFbIW8LYRa15RLKPALOZCQDKk=;
+        b=YStwtHM6GqeZMizK+g8B05dzfKEKo+n0Bx1RS4hkHlr9R0t0I0e7/uR1KketpZkkZV
+         CP2oEXo6yvpNF6wMHH8v5fOMfxEO+NjvfqIHLcQc058VEiEVO79USGVmyuO3H1DpCPxA
+         MemqiX1/Nm7iJVXewuSfY6BbMLMk6/mv5lZWfT9sKTLbEgsH31XtVW1vCy8udOSC07hz
+         LPHJTVWfYsGx+rZDLa87XYG99RPrP14niaEdCxHBdn/TQTeks7WiUjM+AupYRY1KOzHj
+         fA2T09s4mTGAMxpcZdBTRBtfUDyiqcGt5Fv9EkSd58R4azmBdQl8CCTXbx2YR/lB4Oe0
+         xM0w==
+X-Gm-Message-State: AOAM533kD5/7v+7HG9B1H585KLPmKTHoH7jalNOPDobTukG9ozFHmR/4
+        0IzwUSJU+mkf0R6zoOSh7b6Jpw3ZNlijYQSYOVs=
+X-Google-Smtp-Source: ABdhPJxlHmYPruUoNqz/mzX0ofnX1IhGKWK+gllmONTx2BCLV1p3PSGIbJQ6vwLyx55cqi63NW1jMmc+uZUxWKWHiII=
+X-Received: by 2002:a25:fe04:0:b0:628:af01:f734 with SMTP id
+ k4-20020a25fe04000000b00628af01f734mr14210131ybe.441.1647688510994; Sat, 19
+ Mar 2022 04:15:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
 In-Reply-To: <20220309021230.721028-7-yuzhao@google.com>
 From:   Barry Song <21cnbao@gmail.com>
-Date:   Sat, 19 Mar 2022 23:14:45 +1300
-Message-ID: <CAGsJ_4wW-SUPZ+soz5L+TROcmWtiYoABMcYzNyw4p=f2ro9vLQ@mail.gmail.com>
+Date:   Sun, 20 Mar 2022 00:15:00 +1300
+Message-ID: <CAGsJ_4zw0gX0+OPE3MPaSRH53LdVR0TNv1RN5DK9dtNPvgd8iQ@mail.gmail.com>
 Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -89,63 +89,66 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static void inc_max_seq(struct lruvec *lruvec, unsigned long max_seq)
+> +                            unsigned long *min_seq, bool can_swap, bool *need_aging)
 > +{
-> +       int prev, next;
-> +       int type, zone;
-> +       struct lru_gen_struct *lrugen =3D &lruvec->lrugen;
+> +       int gen, type, zone;
+> +       long old = 0;
+> +       long young = 0;
+> +       long total = 0;
+> +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
 > +
-> +       spin_lock_irq(&lruvec->lru_lock);
+> +       for (type = !can_swap; type < ANON_AND_FILE; type++) {
+> +               unsigned long seq;
 > +
-> +       VM_BUG_ON(!seq_is_valid(lruvec));
+> +               for (seq = min_seq[type]; seq <= max_seq; seq++) {
+> +                       long size = 0;
 > +
-> +       if (max_seq !=3D lrugen->max_seq)
-> +               goto unlock;
+> +                       gen = lru_gen_from_seq(seq);
 > +
-> +       inc_min_seq(lruvec);
+> +                       for (zone = 0; zone < MAX_NR_ZONES; zone++)
+> +                               size += READ_ONCE(lrugen->nr_pages[gen][type][zone]);
 > +
-> +       /* update the active/inactive LRU sizes for compatibility */
-> +       prev =3D lru_gen_from_seq(lrugen->max_seq - 1);
-> +       next =3D lru_gen_from_seq(lrugen->max_seq + 1);
-> +
-> +       for (type =3D 0; type < ANON_AND_FILE; type++) {
-> +               for (zone =3D 0; zone < MAX_NR_ZONES; zone++) {
-> +                       enum lru_list lru =3D type * LRU_INACTIVE_FILE;
-> +                       long delta =3D lrugen->nr_pages[prev][type][zone]=
- -
-> +                                    lrugen->nr_pages[next][type][zone];
-
-this is confusing to me. does lrugen->nr_pages[next][type][zone] have a
-chance to be none-zero even before max_seq is increased? some pages
-can be in the next generation before the generation is born?
-
-isn't it a bug if(lrugen->nr_pages[next][type][zone] > 0)? shouldn't it be=
-=EF=BC=9F
-
-delta =3D lrugen->nr_pages[prev][type][zone]=EF=BC=9B
-
-> +
-> +                       if (!delta)
-> +                               continue;
-> +
-> +                       __update_lru_size(lruvec, lru, zone, delta);
-> +                       __update_lru_size(lruvec, lru + LRU_ACTIVE, zone,=
- -delta);
+> +                       total += size;
+> +                       if (seq == max_seq)
+> +                               young += size;
+> +                       if (seq + MIN_NR_GENS == max_seq)
+> +                               old += size;
 > +               }
 > +       }
 > +
-> +       for (type =3D 0; type < ANON_AND_FILE; type++)
-> +               reset_ctrl_pos(lruvec, type, false);
+> +       /* try to spread pages out across MIN_NR_GENS+1 generations */
+> +       if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
+> +               *need_aging = true;
+> +       else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
+> +               *need_aging = false;
+> +       else if (young * MIN_NR_GENS > total)
+> +               *need_aging = true;
+
+Could we have some doc here? Given MIN_NR_GENS=2 and MAX_NR_GENS=4,
+it seems you mean if we have three generations and the youngest pages are more
+than 1/2 of the total pages, we need aging?
+
+
+> +       else if (old * (MIN_NR_GENS + 2) < total)
+> +               *need_aging = true;
+
+it seems you mean if the oldest pages are less than 1/4 of the total pages,
+we need aging? Can we have comments to explain why here?
+
+your commit message only says " The aging produces young generations.
+Given an lruvec, it increments max_seq when max_seq-min_seq+1
+approaches MIN_NR_GENS." it can't explain what the code is doing
+here.
+
+
+> +       else
+> +               *need_aging = false;
 > +
-> +       /* make sure preceding modifications appear */
-> +       smp_store_release(&lrugen->max_seq, lrugen->max_seq + 1);
-> +unlock:
-> +       spin_unlock_irq(&lruvec->lru_lock);
+> +       return total > 0 ? total : 0;
 > +}
 
 Thanks
