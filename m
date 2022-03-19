@@ -2,128 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1272C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Mar 2022 03:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32DD3C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Mar 2022 03:59:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241883AbiCSDMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 23:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60326 "EHLO
+        id S242098AbiCSEAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 19 Mar 2022 00:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241856AbiCSDMl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 23:12:41 -0400
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6917320094B
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 20:11:21 -0700 (PDT)
-Received: by mail-vk1-xa33.google.com with SMTP id 188so1823544vku.5
-        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 20:11:21 -0700 (PDT)
+        with ESMTP id S242191AbiCSEAG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Mar 2022 00:00:06 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C978C7DD
+        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 20:58:11 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id u3so19082721ybh.5
+        for <linux-doc@vger.kernel.org>; Fri, 18 Mar 2022 20:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DPWkpEZTUPx8RezVYIweJltfbI2PstSaIw69Jkk1LgA=;
-        b=SCIWl/14VSpA5cOd0Lwaoa1Kf3xHGcWMoESYsocaRg2Gut/yFp8ifxnBAnvkP2gz9Y
-         2apsTQZ/jGJvR1BXCxH0Knp85D2Qzt+tuIoUAp9shcvxlAoEubSSxVPInCcz5EFRNEQm
-         9+PmghRAO6RoU+Bxeh6f4yMnVm9JqmTVMBZxQwkfILnV5GpUZAnShVs2NkkUrWg97MVa
-         YyMr2EfmQoQiQ0qAEEiPCsc8rgEscohw/A9EsaXbv1QGORD5aR3bH3/3ZsUBeAFH2R2b
-         Sb8fLcR03p308VBkhhdfk4ukE7liTmo+jfC9S9e+3Qtmfvs5A5pFPt5pgX3NdGDqrOPT
-         z+0A==
+        bh=0gA2qXzSRl9qE4e/yYCKLgAXKN8MMVbC49krdg3yp3I=;
+        b=t6/7N1sZ0ZkI6hW5qc6ora09i0y+N1UhwsfsFLFL74GSygv+Glm57pstuNI/fDtPTR
+         /fzfKTU47bUXAyFve35zGys6ry7fp6P0n3+dEej8JfBkQdDoQAVOkSyEZckc23r1+dyJ
+         QUoVnunu1WTQClkMrK66Hmm1eBAJ9zjuNNTYKYEZi2dBucihutg0niDaBEEG7K+Eiuvt
+         PFgHrBK0esrxgY3edNfwPqWYoy00o+SVWwFtQpGqvDv5L06QOJ+VwgWAkDqZOMpEKYHE
+         lhEiVpiVcZ8O6SQEdGLZjdqUMdL8QlXAIk5aBozC8b5DWbPVHxfc7xuf612ezBUZnwkY
+         Ki7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DPWkpEZTUPx8RezVYIweJltfbI2PstSaIw69Jkk1LgA=;
-        b=uB4aW0SMp+XvTRatkrjZoEGRki4i1p2ttn7kxXqQ3s8/FE4gkyq40/cPLk2k8W6TWn
-         q9vvAjhu5/FsxDOD0Z9+63xaCUQDBUekvkHIGSKPMP5pEMw986Ui9Cl/bo1vElr8UH59
-         EuKzU/wMUQpnSGKA0teiCO4gaxiLyq68WDdq0xDzfrt1wDU6GhnZPB4vI9khj3SdyBDI
-         Yfg+XN1xA0ztmddbK5FwPIMT3SKDy5/S9y8kz1SRJ0cl+6HvLbKM3L4KsIHTvhKPjeB4
-         U2UNmP5gZ0EeiFEMnTgdYA8MpsynJnCDxnLLT9llRB5vRDv8CiaEckVcDhrKdiwilBK2
-         zMPQ==
-X-Gm-Message-State: AOAM531WIetAwZIezHjzTeug+7YHIor6+wEBVStGSHWQSHkXOFdt/HCK
-        wkmy1faEW5P+DoOqExXrsf/0lwnc9CkByaUdYZXAxA==
-X-Google-Smtp-Source: ABdhPJy/iE22VepUPG4b5BxoTJh/Okw9HmCdMV+xoYJkkoh2isbFfIcgEUs0IHWCL1BtdLwbslwt8FedPDz0XzORp6w=
-X-Received: by 2002:a05:6122:2089:b0:337:bb38:9145 with SMTP id
- i9-20020a056122208900b00337bb389145mr4778638vkd.14.1647659480347; Fri, 18 Mar
- 2022 20:11:20 -0700 (PDT)
+        bh=0gA2qXzSRl9qE4e/yYCKLgAXKN8MMVbC49krdg3yp3I=;
+        b=CED07QD9hVTmvGVnuwoUzskeWGIesq4YJtcuzTnhNmUoBqrU0OCEjVPO0dO93ySg/B
+         pefw2w2XSYeaqscw4DzDeeDNTsCghvLGjbVws7hGzgsgb6A84FqXEBcYNBUuWFbBECK8
+         QkCmp9fny9bBlEHxpW+2D/HdabR2NJUNAikfOLO6YJ1QNUi9HwUINkMKBjsVYnifOJQs
+         tiidpqMV5WwE0ijCgYFy8aVg/GSsasg9kKLMjx7RlQzDkPheJb7bSRW8jeZJYxZvX/la
+         2kiLtsYhr5ARnZ5g3SsfUkDdoFxq3bPiq42yZfkdoDjTtkDPOgS/Pxa2VJE86CxaE1xy
+         zIyw==
+X-Gm-Message-State: AOAM533qRoKu901yiJTTazkjJlP1ng5EwQ6ZnO2cnPMLqUtW6lnwUdK/
+        2NP4rcMHi+RXbBXBxhgxW0OJF/xQxF8Rc29rV+6pig==
+X-Google-Smtp-Source: ABdhPJynV8+lYCBUqF2tFn5s5qKnLh+GnL5M2HPtr94nl6OYf+yVbOOsr28Uz1gniP+AOeBXRZQC3YG3haZrbPFqT6w=
+X-Received: by 2002:a25:33d7:0:b0:633:134a:6e7c with SMTP id
+ z206-20020a2533d7000000b00633134a6e7cmr12855599ybz.89.1647662290616; Fri, 18
+ Mar 2022 20:58:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
- <CAGsJ_4xfL7h6M92WGusxbTxQzHOJDj4X4AuC=0HgrEyAYJaJFg@mail.gmail.com>
-In-Reply-To: <CAGsJ_4xfL7h6M92WGusxbTxQzHOJDj4X4AuC=0HgrEyAYJaJFg@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Fri, 18 Mar 2022 21:11:09 -0600
-Message-ID: <CAOUHufbiSShp=khZFL6BmJKNNkG-LBrsPoLwYxewcgtZhi5tFg@mail.gmail.com>
-Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+References: <20220318100720.14524-1-songmuchun@bytedance.com>
+ <20220318100720.14524-2-songmuchun@bytedance.com> <YjS2BiqKlDrPYslc@bombadil.infradead.org>
+In-Reply-To: <YjS2BiqKlDrPYslc@bombadil.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 19 Mar 2022 11:56:18 +0800
+Message-ID: <CAMZfGtXPJ=0Xm_rm6AVGdL9hupkXyw7EtykY-B315LCkzdaZNg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 9:01 PM Barry Song <21cnbao@gmail.com> wrote:
+On Sat, Mar 19, 2022 at 12:40 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
-> > +static int folio_inc_gen(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
-> > +{
-> > +       unsigned long old_flags, new_flags;
-> > +       int type = folio_is_file_lru(folio);
-> > +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> > +       int new_gen, old_gen = lru_gen_from_seq(lrugen->min_seq[type]);
+> On Fri, Mar 18, 2022 at 06:07:17PM +0800, Muchun Song wrote:
+>
+> You can add Suggested-by tag here.
+
+Will do. Sorry for forgetting it.
+
+>
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  Kbuild                           | 12 ++++++++++++
+> >  fs/Kconfig                       |  2 +-
+> >  include/linux/mm_types.h         |  2 ++
+> >  mm/Kconfig                       |  3 +++
+> >  mm/hugetlb_vmemmap.c             |  6 ------
+> >  mm/struct_page_size.c            | 19 +++++++++++++++++++
+> >  scripts/check_struct_page_po2.sh | 11 +++++++++++
+> >  7 files changed, 48 insertions(+), 7 deletions(-)
+> >  create mode 100644 mm/struct_page_size.c
+> >  create mode 100755 scripts/check_struct_page_po2.sh
+> >
+> > diff --git a/Kbuild b/Kbuild
+> > index fa441b98c9f6..6bb97d348d62 100644
+> > --- a/Kbuild
+> > +++ b/Kbuild
+> > @@ -14,6 +14,18 @@ $(bounds-file): kernel/bounds.s FORCE
+> >       $(call filechk,offsets,__LINUX_BOUNDS_H__)
+> >
+> >  #####
+> > +# Generate struct_page_size.h. Must follows bounds.h.
 > > +
-> > +       do {
-> > +               new_flags = old_flags = READ_ONCE(folio->flags);
-> > +               VM_BUG_ON_FOLIO(!(new_flags & LRU_GEN_MASK), folio);
+> > +struct_page_size-file := include/generated/struct_page_size.h
 > > +
-> > +               new_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-> > +               new_gen = (old_gen + 1) % MAX_NR_GENS;
+> > +always-y := $(struct_page_size-file)
+> > +targets := mm/struct_page_size.s
+> > +
+> > +$(struct_page_size-file): mm/struct_page_size.s FORCE
+> > +     $(call filechk,offsets,__LINUX_STRUCT_PAGE_SIZE_H__)
+> > +     $(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
+> > +
+> > +#####
 >
-> new_gen is assigned twice, i assume you mean
->                old_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
->                new_gen = (old_gen + 1) % MAX_NR_GENS;
+> Shouldn't this go into mm/Makefile instead?
 >
-> or do you always mean new_gen =  lru_gen_from_seq(min_seq) + 1?
 
-Thanks a lot for your attention to details!
+We should guarantee that the include/generated/struct_page_size.h
+which Kconfig depends on is created before processing Makefile
+since processing Kconfig is before Makefile. Right?
 
-The first line should be in the next patch but I overlooked during the
-last refactoring:
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 034d87953600..9314bd34f49e 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -2,6 +2,9 @@
+> >
+> >  menu "Memory Management options"
+> >
+> > +config STRUCT_PAGE_SIZE_IS_POWER_OF_2
+> > +     def_bool $(success,test "$(shell, $(srctree)/scripts/check_struct_page_po2.sh)" = 1)
+> > +
+> >  config SELECT_MEMORY_MODEL
+> >       def_bool y
+> >       depends on ARCH_SELECT_MEMORY_MODEL
+> > new file mode 100755
+> > index 000000000000..9547ad3aca05
+> > --- /dev/null
+> > +++ b/scripts/check_struct_page_po2.sh
+> > @@ -0,0 +1,11 @@
+> > +#!/bin/sh
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +#
+> > +# Check if the size of "struct page" is power of 2
+> > +
+> > +file="include/generated/struct_page_size.h"
+> > +if [ ! -f "$file" ]; then
+>
+> Does this really work if one is workig off of a very clean build
+> like make mrproper and then make menuconfig or or mrproper followed
+> by a defconfig file ? Have you tried it for both cases po2 and npo2?
+>
+> Because isn't include/generated/struct_page_size.h generated? At
+> which point does it get generated and why would the condition hole
+> true that the file exists at a new 'make menuconfig' time?
+>
 
-  new_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-+ /* folio_update_gen() has promoted this page? */
-+ if (new_gen >= 0 && new_gen != old_gen)
-+ return new_gen;
+You are right. include/generated/struct_page_size.h does not exist
+in this case, CONFIG_STRUCT_PAGE_SIZE_IS_POWER_OF_2
+will be default off in .config. Then it will be switched on/off accordingly
+when you build the kernel, for instance make bzImage, which is done via
+"make syncconfig" which follows the generation of struct_page_size.h.
+
+While testing this case, I found some bugs. The following patch
+could fix this.  Thanks.
+
+--- a/Kbuild
++++ b/Kbuild
+@@ -21,6 +21,8 @@ struct_page_size-file := include/generated/struct_page_size.h
+ always-y := $(struct_page_size-file)
+ targets := mm/struct_page_size.s
+
++mm/struct_page_size.s: $(timeconst-file) $(bounds-file)
 +
-  new_gen = (old_gen + 1) % MAX_NR_GENS;
+ $(struct_page_size-file): mm/struct_page_size.s FORCE
+        $(call filechk,offsets,__LINUX_STRUCT_PAGE_SIZE_H__)
+        $(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
+diff --git a/scripts/check_struct_page_po2.sh b/scripts/check_struct_page_po2.sh
+index 9547ad3aca05..1764ef9a4f1d 100755
+--- a/scripts/check_struct_page_po2.sh
++++ b/scripts/check_struct_page_po2.sh
+@@ -4,8 +4,6 @@
+ # Check if the size of "struct page" is power of 2
+
+ file="include/generated/struct_page_size.h"
+-if [ ! -f "$file" ]; then
+-       exit 1
++if [ -f "$file" ]; then
++       grep STRUCT_PAGE_SIZE_IS_POWER_OF_2 "$file" | cut -d' ' -f3
+ fi
+-
+-grep STRUCT_PAGE_SIZE_IS_POWER_OF_2 "$file" | cut -d' ' -f3
