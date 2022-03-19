@@ -2,174 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B9BC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Mar 2022 21:21:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA16C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Mar 2022 03:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239608AbiCRVW2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Mar 2022 17:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55404 "EHLO
+        id S241870AbiCSDCq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Mar 2022 23:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241103AbiCRVW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 17:22:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACEC421FC6F;
-        Fri, 18 Mar 2022 14:21:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4AE6B612AC;
-        Fri, 18 Mar 2022 21:21:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EF4C36AE3;
-        Fri, 18 Mar 2022 21:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647638467;
-        bh=Vk5mzHbIg17vZ6G2aaaTRJ/qc3wtRp4U3dpTA+mQTzk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ELbYGJ5s13fJLbEKv95M5pVw7hO7DtSYZ0YpTw3usN05tXHbv2RI/LMOrZ9RvazFC
-         LKvWI9DHFrTXTdQ5NF2TNzFoQuiFV6G24Br9GEyC8hQHayVOTzJDPf+w1s2IMdy6yU
-         wqF+2/LEOGg59KR03baTx/feAPOiwR72Cu1smHzVen/JSY4ll7IJwKloDR1RUnuTLT
-         VhrSdPTUQt8lLE52izSQjSw/0mKq7ehBlQSqMiyXv70d3eNWHEPv3ZQT6CKSIbG/Sj
-         DYF2fr/vqXxhPOxtVSzMbHqaZm5yjFlwapmRWSrtHJHkI9yDBsyOZH82JGzw9qNIDQ
-         B+0vj43BUdwXQ==
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-2e5a8a8c1cdso95489317b3.3;
-        Fri, 18 Mar 2022 14:21:07 -0700 (PDT)
-X-Gm-Message-State: AOAM533GGYVhVaqQnOb4korkjuBryjjBMfznHfUsdMGF1bnP4djVeMdf
-        ZLWUzWnKjaszKkuxcQGEnm4POyxOMHcn3X9XavU=
-X-Google-Smtp-Source: ABdhPJy9p6xLR9FKRtMxw8beAYraAaLqJ52YfwUWGPSjxPQqNRKqdW6sylYGLO220Y1ivS1CkbruJKJ4SGRK3Hm/jho=
-X-Received: by 2002:a81:a006:0:b0:2e5:963a:4c42 with SMTP id
- x6-20020a81a006000000b002e5963a4c42mr12976417ywg.73.1647638466787; Fri, 18
- Mar 2022 14:21:06 -0700 (PDT)
+        with ESMTP id S241856AbiCSDCo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Mar 2022 23:02:44 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D0F71107ED;
+        Fri, 18 Mar 2022 20:01:24 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id f38so18985328ybi.3;
+        Fri, 18 Mar 2022 20:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=reWmP4Yyv0Mmo6tNnGsk6in1wc+xPjfMEBmvAdgMoDc=;
+        b=QUlxX+ZAOMShNBy+QnsJ90r1OQ2VOtNFYnHa00oELbHAs+M54BOXEIoxDVlOVm/s8+
+         avht463rTX2aoWPIV+BF3uceUVZhaAzjTpjizML6oKG8iMMqogbfibpNdUf98CWNccr4
+         C+fxRZgXq2MlqUAHZxYCiVIfvISSh3lQLoo40Q4yzat43Ymskbt10DuKHxzG5udvK0od
+         qL6a0umXrn4MC3BVDm/TzRjtG4++Mld7fHrAEWnXA+4pxW5VBLG7HLO5pfqIxcyR3WLd
+         bxsuv20v9YTz/bGw93sfTvaPzQRSLLFu3tGQENkL00hciLjvIN/mZKLB9RuoDtYCfAig
+         1O4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=reWmP4Yyv0Mmo6tNnGsk6in1wc+xPjfMEBmvAdgMoDc=;
+        b=rCxymcfEV8osH1DyP8GWdecImFS6YYQYOeLbEQgvqQAEkPp4R3EdR/9h3h1kArc/yc
+         +Gxe/u9d5poVQe+Yty7Z+KW7fEl+R2LPoCXL0zbTS3zT+vXajbGI/oCjoNMuYg52aw7k
+         dSbXkf7R1jNiLfDRwEbWbtyz9Z2BCs8uoXpZ9WdfAoBIIaCNRU1VX7IFGLbV32ierTBw
+         3hg3Grz5MfVfievkbSSM+nVQnml3Fea0n1Jf4fbs6RZbp3YbtaNx3Gbv/t68ZmZkkW2e
+         ExoRzhbxFYOcW7YsHPu/B4sqbUn9WnV6bm9BXoGcHLvGcZ/SM9z+8mIX487rHfe9Xj9p
+         0qgw==
+X-Gm-Message-State: AOAM532f6h5/U8lv8UBcxCB7ugANVO5BcXnQ1KYgYRI8/rmJaP4yJ7YS
+        rnNrR8YK0rEpygnsZd1yGLn03YRpWyZwj6JkLV8=
+X-Google-Smtp-Source: ABdhPJy0KTsGLEMJSC7xXZIBl4jfjABsDmKySWeDy3fUv2e8cUQp/c8hnHRCm9bEJfcTFciPSvLiI0NwgGoMEQ7JcNk=
+X-Received: by 2002:a25:fe04:0:b0:628:af01:f734 with SMTP id
+ k4-20020a25fe04000000b00628af01f734mr13139432ybe.441.1647658883838; Fri, 18
+ Mar 2022 20:01:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <20220318161528.1531164-14-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220318161528.1531164-14-benjamin.tissoires@redhat.com>
-From:   Song Liu <song@kernel.org>
-Date:   Fri, 18 Mar 2022 14:20:56 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW5mKPT+Vw4FVFBokwnY1kkCm9i_HA3Pd2DUznHJfqV+4A@mail.gmail.com>
-Message-ID: <CAPhsuW5mKPT+Vw4FVFBokwnY1kkCm9i_HA3Pd2DUznHJfqV+4A@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 13/17] HID: bpf: implement hid_bpf_get|set_bits
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
+In-Reply-To: <20220309021230.721028-7-yuzhao@google.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Sat, 19 Mar 2022 16:01:13 +1300
+Message-ID: <CAGsJ_4xfL7h6M92WGusxbTxQzHOJDj4X4AuC=0HgrEyAYJaJFg@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 9:18 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Export implement() outside of hid-core.c and use this and
-
-Maybe rename implement() to something that makes sense?
-
-> hid_field_extract() to implement the helprs for hid-bpf.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
->
-> changes in v3:
-> - renamed hid_{get|set}_data into hid_{get|set}_bits
->
-> changes in v2:
-> - split the series by bpf/libbpf/hid/selftests and samples
-> - allow for n > 32, by relying on memcpy
-> ---
->  drivers/hid/hid-bpf.c  | 29 +++++++++++++++++++++++++++++
->  drivers/hid/hid-core.c |  4 ++--
->  include/linux/hid.h    |  2 ++
->  3 files changed, 33 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hid/hid-bpf.c b/drivers/hid/hid-bpf.c
-> index 45c87ff47324..650dd5e54919 100644
-> --- a/drivers/hid/hid-bpf.c
-> +++ b/drivers/hid/hid-bpf.c
-> @@ -122,6 +122,33 @@ static void hid_bpf_array_detach(struct hid_device *hdev, enum bpf_hid_attach_ty
->         }
->  }
->
-> +static int hid_bpf_get_bits(struct hid_device *hdev, u8 *buf, size_t buf_size, u64 offset, u32 n,
-> +                           u32 *data)
+> +static int folio_inc_gen(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
 > +{
-> +       if (n > 32)
-> +               return -EINVAL;
+> +       unsigned long old_flags, new_flags;
+> +       int type = folio_is_file_lru(folio);
+> +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
+> +       int new_gen, old_gen = lru_gen_from_seq(lrugen->min_seq[type]);
 > +
-> +       if (((offset + n) >> 3) >= buf_size)
-> +               return -E2BIG;
+> +       do {
+> +               new_flags = old_flags = READ_ONCE(folio->flags);
+> +               VM_BUG_ON_FOLIO(!(new_flags & LRU_GEN_MASK), folio);
 > +
-> +       *data = hid_field_extract(hdev, buf, offset, n);
-> +       return n;
+> +               new_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
+> +               new_gen = (old_gen + 1) % MAX_NR_GENS;
+
+new_gen is assigned twice, i assume you mean
+               old_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
+               new_gen = (old_gen + 1) % MAX_NR_GENS;
+
+or do you always mean new_gen =  lru_gen_from_seq(min_seq) + 1?
+
+> +
+> +               new_flags &= ~LRU_GEN_MASK;
+> +               new_flags |= (new_gen + 1UL) << LRU_GEN_PGOFF;
+> +               new_flags &= ~(LRU_REFS_MASK | LRU_REFS_FLAGS);
+> +               /* for folio_end_writeback() */
+> +               if (reclaiming)
+> +                       new_flags |= BIT(PG_reclaim);
+> +       } while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+> +
+> +       lru_gen_update_size(lruvec, folio, old_gen, new_gen);
+> +
+> +       return new_gen;
 > +}
 > +
-> +static int hid_bpf_set_bits(struct hid_device *hdev, u8 *buf, size_t buf_size, u64 offset, u32 n,
-> +                           u32 data)
-> +{
-> +       if (n > 32)
-> +               return -EINVAL;
-> +
-> +       if (((offset + n) >> 3) >= buf_size)
-> +               return -E2BIG;
-> +
-> +       /* data must be a pointer to a u32 */
-> +       implement(hdev, buf, offset, n, data);
-> +       return n;
-> +}
-> +
->  static int hid_bpf_run_progs(struct hid_device *hdev, struct hid_bpf_ctx_kern *ctx)
->  {
->         enum bpf_hid_attach_type type;
-> @@ -223,6 +250,8 @@ int __init hid_bpf_module_init(void)
->                 .pre_link_attach = hid_bpf_pre_link_attach,
->                 .post_link_attach = hid_bpf_post_link_attach,
->                 .array_detach = hid_bpf_array_detach,
-> +               .hid_get_bits = hid_bpf_get_bits,
-> +               .hid_set_bits = hid_bpf_set_bits,
->         };
->
->         bpf_hid_set_hooks(&hooks);
-> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> index 3182c39db006..4f669dcddc08 100644
-> --- a/drivers/hid/hid-core.c
-> +++ b/drivers/hid/hid-core.c
-> @@ -1416,8 +1416,8 @@ static void __implement(u8 *report, unsigned offset, int n, u32 value)
->         }
->  }
->
-> -static void implement(const struct hid_device *hid, u8 *report,
-> -                     unsigned offset, unsigned n, u32 value)
-> +void implement(const struct hid_device *hid, u8 *report, unsigned int offset, unsigned int n,
-> +              u32 value)
->  {
->         if (unlikely(n > 32)) {
->                 hid_warn(hid, "%s() called with n (%d) > 32! (%s)\n",
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 66d949d10b78..7454e844324c 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -944,6 +944,8 @@ bool hid_compare_device_paths(struct hid_device *hdev_a,
->  s32 hid_snto32(__u32 value, unsigned n);
->  __u32 hid_field_extract(const struct hid_device *hid, __u8 *report,
->                      unsigned offset, unsigned n);
-> +void implement(const struct hid_device *hid, u8 *report, unsigned int offset, unsigned int n,
-> +              u32 value);
->
->  #ifdef CONFIG_PM
->  int hid_driver_suspend(struct hid_device *hdev, pm_message_t state);
-> --
-> 2.35.1
->
+
+Thanks
+Barry
