@@ -2,189 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF0BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 14:28:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 011B7C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 14:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349086AbiCUO3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 10:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34100 "EHLO
+        id S243880AbiCUOwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 10:52:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349090AbiCUO3T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 10:29:19 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3BD5675B;
-        Mon, 21 Mar 2022 07:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647872706; x=1679408706;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZRgMOrMKRu4QklsqExf2gmjTp684KRU6lmpsY+ibWYM=;
-  b=i0/4zLYkwiJ8NvI69RnJ/Eg2uKUZ27hDn5B90vRAAJHIxqUp4nVJhvQD
-   FLIRifQoWSx0uXI2FB7o6FtMes/po82QJpzo7cpJ6v44BKXs1kst0XfY1
-   hGLRusJWVnJ/nqttbjkMSE4UvI5qvTLvyf4e8VxeJlbR4uMSjuXgbWRVl
-   4AMHvZxbdT4RalOsU2cWM3E8lGltXZvTeIZZxqIJB0Zo+nAzTdHH4SYrC
-   ZlaqkVfJ0HDD3Lsn2JXRrzivQzGv9i5uPjYLZqLl3146OqLCE3e01wcsb
-   DDOyFv//8Tf7cXvMEWPidEuI98Is629XEwcHHv6GCez0ySqyNPSUn6fC+
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="237506512"
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
-   d="scan'208";a="237506512"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 07:25:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
-   d="scan'208";a="824465825"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Mar 2022 07:25:01 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWIxu-000HtG-Qp; Mon, 21 Mar 2022 14:24:58 +0000
-Date:   Mon, 21 Mar 2022 22:24:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Quan Nguyen <quan@os.amperecomputing.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [PATCH v7 3/9] misc: smpro-errmon: Add Ampere's SMpro error
- monitor driver
-Message-ID: <202203212244.dJ8wLdCt-lkp@intel.com>
-References: <20220321081355.6802-4-quan@os.amperecomputing.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220321081355.6802-4-quan@os.amperecomputing.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S240991AbiCUOwH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 10:52:07 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD65463C6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 07:50:41 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id t9-20020a5b03c9000000b0063363e52dd1so12210090ybp.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 07:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=j/FXTEmOSxH0gjgjdSzeFMh8shZcXNYs1S5aZMLLEM4=;
+        b=SBrVSoKXdDsuaByiB5bpEuvHlzX6PEE7ScTFdcnyvBB3LM8FjBIxb4HE452P7nW/1P
+         x8Uhx569twf4z5ULHgqQdUEGzVl4SU+QwvbLAIFQyuTyB21bcIOsfkT6/PBkBr+1n4Y9
+         hsFezBjQyP+3jHyQKzGIyLT/UH4/gWuwY3xOeR6unA65Om/6xbAmfUO+De3vhuy15UEC
+         zrrJLt9FdxLdYyM926/tTlpnRZTG53MfuP8rZklNPPTyNZfK1RA5vggICA2wqeExGlfZ
+         AfbURLvOReHTpT55NHCBSLztJoEA6UoKzhUD4WkTaY5lbkIRXroMJHZHY4psJj9DqtPU
+         W+LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=j/FXTEmOSxH0gjgjdSzeFMh8shZcXNYs1S5aZMLLEM4=;
+        b=51gl3pSQYNU9wuRPc4b9WKzGtBgUB8U4NsjqV+hLrTVqKbfSKZojHjlnpeo1es4Rag
+         d0LbIjke/r1nJqsgIhD+fvjkUGEzxgMXy19LSebU5kqr1KQ9w+etySVbPL29nY0/gskm
+         N+cjrhAHkWuqyobXh6gBI6Q5ofQQE4TZDCYXEpwfnkR6prvHuyRQeuPQzgVPtlC8lkFq
+         joH57dJWJE9Jc2C1NbGbAqj/pUJ1wHtXFXQz78znPaE5sehx7SU1TdwteFRPTUURJce6
+         dP64sFra5jEXYNnCibUjl5DT+7q4FQIdFxutCi/DeNCXtc8xoMb0k7ciYHMlg+s8uuh5
+         k+3Q==
+X-Gm-Message-State: AOAM531WHBFOabpdwOMIwSj0zfZddq6WZ/haTR/t/PIlFla1QwH4/L8z
+        dY1opBfLpSNchgHit390BPyGD7jtYVPC
+X-Google-Smtp-Source: ABdhPJxLCtNARAk+EJOSYZ01zh/M9UDj+P8uAmI3Yand6sFtWYVr5ajlQJ7KLCg0hyNWZ/skpNcv8bBOhH9u
+X-Received: from bg.sfo.corp.google.com ([2620:15c:11a:202:3257:ddd6:5193:4ceb])
+ (user=bgeffon job=sendgmr) by 2002:a25:7686:0:b0:633:bdb7:1e75 with SMTP id
+ r128-20020a257686000000b00633bdb71e75mr14061753ybc.634.1647874240929; Mon, 21
+ Mar 2022 07:50:40 -0700 (PDT)
+Date:   Mon, 21 Mar 2022 07:50:37 -0700
+In-Reply-To: <20220315172221.9522-1-bgeffon@google.com>
+Message-Id: <20220321145037.1024083-1-bgeffon@google.com>
+Mime-Version: 1.0
+References: <20220315172221.9522-1-bgeffon@google.com>
+X-Mailer: git-send-email 2.35.1.894.gb6a874cedc-goog
+Subject: [PATCH] zram: Add a huge_idle writeback mode
+From:   Brian Geffon <bgeffon@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, Brian Geffon <bgeffon@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Quan,
+Today it's only possible to write back as a page, idle, or huge.
+A user might want to writeback pages which are huge and idle first
+as these idle pages do not require decompression and make a good
+first pass for writeback.
 
-I love your patch! Perhaps something to improve:
+Idle writeback specifically has the advantage that a refault is
+unlikely given that the page has been swapped for some amount of
+time without being refaulted.
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on groeck-staging/hwmon-next lee-mfd/for-mfd-next v5.17 next-20220318]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Huge writeback has the advantage that you're guaranteed to get
+the maximum benefit from a single page writeback, that is, you're
+reclaiming one full page of memory. Pages which are compressed in
+zram being written back result in some benefit which is always
+less than a page size because of the fact that it was compressed.
 
-url:    https://github.com/0day-ci/linux/commits/Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220321-161811
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git 37fd83916da2e4cae03d350015c82a67b1b334c4
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220321/202203212244.dJ8wLdCt-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2687a13d1908aa86d1b89c5ce398a06cd39)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/3e85c45303bab9bd02a4761bc7e182fb001ac625
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220321-161811
-        git checkout 3e85c45303bab9bd02a4761bc7e182fb001ac625
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hwmon/ drivers/misc/
+This change allows for users to write back huge pages which are
+also idle.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Brian Geffon <bgeffon@google.com>
+---
+ Documentation/admin-guide/blockdev/zram.rst |  6 ++++++
+ drivers/block/zram/zram_drv.c               | 10 ++++++----
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/misc/smpro-errmon.c:276:6: warning: variable 'data_hi' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (addr2 != 0xff) {
-               ^~~~~~~~~~~~~
-   drivers/misc/smpro-errmon.c:303:28: note: uninitialized use occurs here
-                            ret_hi & 0xff, ret_lo, data_hi, data_lo);
-                                                   ^~~~~~~
-   drivers/misc/smpro-errmon.c:276:2: note: remove the 'if' if its condition is always true
-           if (addr2 != 0xff) {
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/smpro-errmon.c:265:47: note: initialize the variable 'data_hi' to silence this warning
-           unsigned int ret_hi, ret_lo, data_lo, data_hi;
-                                                        ^
-                                                         = 0
->> drivers/misc/smpro-errmon.c:276:6: warning: variable 'data_lo' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (addr2 != 0xff) {
-               ^~~~~~~~~~~~~
-   drivers/misc/smpro-errmon.c:303:37: note: uninitialized use occurs here
-                            ret_hi & 0xff, ret_lo, data_hi, data_lo);
-                                                            ^~~~~~~
-   drivers/misc/smpro-errmon.c:276:2: note: remove the 'if' if its condition is always true
-           if (addr2 != 0xff) {
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/smpro-errmon.c:265:38: note: initialize the variable 'data_lo' to silence this warning
-           unsigned int ret_hi, ret_lo, data_lo, data_hi;
-                                               ^
-                                                = 0
-   2 warnings generated.
-
-
-vim +276 drivers/misc/smpro-errmon.c
-
-   261	
-   262	static s32 smpro_internal_err_get_info(struct regmap *regmap, u8 addr, u8 addr1,
-   263					       u8 addr2, u8 addr3, u8 subtype, char *buf)
-   264	{
-   265		unsigned int ret_hi, ret_lo, data_lo, data_hi;
-   266		int ret;
-   267	
-   268		ret = regmap_read(regmap, addr, &ret_lo);
-   269		if (ret)
-   270			return ret;
-   271	
-   272		ret = regmap_read(regmap, addr1, &ret_hi);
-   273		if (ret)
-   274			return ret;
-   275	
- > 276		if (addr2 != 0xff) {
-   277			ret = regmap_read(regmap, addr2, &data_lo);
-   278			if (ret)
-   279				return ret;
-   280			ret = regmap_read(regmap, addr3, &data_hi);
-   281			if (ret)
-   282				return ret;
-   283		}
-   284		/*
-   285		 * Output format:
-   286		 * <errType> <image> <dir> <Location> <errorCode> <data>
-   287		 * Where:
-   288		 *   + errType: SCP Error Type (3 bits)
-   289		 *      1: Warning
-   290		 *      2: Error
-   291		 *      4: Error with data
-   292		 *   + image: SCP Image Code (8 bits)
-   293		 *   + dir: Direction (1 bit)
-   294		 *      0: Enter
-   295		 *      1: Exit
-   296		 *   + location: SCP Module Location Code (8 bits)
-   297		 *   + errorCode: SCP Error Code (16 bits)
-   298		 *   + data : Extensive data (32 bits)
-   299		 *      All bits are 0 when errType is warning or error.
-   300		 */
-   301		return scnprintf(buf, MAX_MSG_LEN, "%01x %02x %01x %02x %04x %04x%04x\n",
-   302				 subtype, (ret_hi & 0xf000) >> 12, (ret_hi & 0x0800) >> 11,
-   303				 ret_hi & 0xff, ret_lo, data_hi, data_lo);
-   304	}
-   305	
-
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 3e11926a4df9..af1123bfaf92 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -343,6 +343,12 @@ Admin can request writeback of those idle pages at right timing via::
+ 
+ With the command, zram writeback idle pages from memory to the storage.
+ 
++Additionally, if a user choose to writeback only huge and idle pages
++this can be accomplished with::
++
++        echo huge_idle > /sys/block/zramX/writeback
++
++
+ If admin want to write a specific page in zram device to backing device,
+ they could write a page index into the interface.
+ 
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index cb253d80d72b..f196902ae554 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -643,8 +643,8 @@ static int read_from_bdev_async(struct zram *zram, struct bio_vec *bvec,
+ #define PAGE_WB_SIG "page_index="
+ 
+ #define PAGE_WRITEBACK 0
+-#define HUGE_WRITEBACK 1
+-#define IDLE_WRITEBACK 2
++#define HUGE_WRITEBACK (1<<0)
++#define IDLE_WRITEBACK (1<<1)
+ 
+ 
+ static ssize_t writeback_store(struct device *dev,
+@@ -664,6 +664,8 @@ static ssize_t writeback_store(struct device *dev,
+ 		mode = IDLE_WRITEBACK;
+ 	else if (sysfs_streq(buf, "huge"))
+ 		mode = HUGE_WRITEBACK;
++	else if (sysfs_streq(buf, "huge_idle"))
++		mode = IDLE_WRITEBACK | HUGE_WRITEBACK;
+ 	else {
+ 		if (strncmp(buf, PAGE_WB_SIG, sizeof(PAGE_WB_SIG) - 1))
+ 			return -EINVAL;
+@@ -725,10 +727,10 @@ static ssize_t writeback_store(struct device *dev,
+ 				zram_test_flag(zram, index, ZRAM_UNDER_WB))
+ 			goto next;
+ 
+-		if (mode == IDLE_WRITEBACK &&
++		if (mode & IDLE_WRITEBACK &&
+ 			  !zram_test_flag(zram, index, ZRAM_IDLE))
+ 			goto next;
+-		if (mode == HUGE_WRITEBACK &&
++		if (mode & HUGE_WRITEBACK &&
+ 			  !zram_test_flag(zram, index, ZRAM_HUGE))
+ 			goto next;
+ 		/*
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1.894.gb6a874cedc-goog
+
