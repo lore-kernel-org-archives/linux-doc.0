@@ -2,198 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3802C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 19:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C88C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 19:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347064AbiCUTTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 15:19:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+        id S1352692AbiCUT3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 15:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352539AbiCUTTa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 15:19:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A7C171717BA
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 12:18:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647890280;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uvhBps1UXtsrc+nGVheIq+OQ/K59QvLDMVnB+No/i7I=;
-        b=AgQD6PVigewuCHQjOGkGKUwEvAlhsLyITdgn8tMyS5Nu3YCwZuIKVc28qPdEKAFpuucDPG
-        x55EqpoUcyR1YakkHtCYveJI7JvxIjZRHvIwuRnoo7Pcwaowh8npENBaS/5MMCYwtAvxcX
-        5659j+cP7yN7qrG5jBnUTDZA9kfxDPI=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-_mDudOx5NGmCkr-QQs6zng-1; Mon, 21 Mar 2022 15:17:59 -0400
-X-MC-Unique: _mDudOx5NGmCkr-QQs6zng-1
-Received: by mail-qt1-f200.google.com with SMTP id x10-20020ac8700a000000b002c3ef8fc44cso9975613qtm.8
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 12:17:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uvhBps1UXtsrc+nGVheIq+OQ/K59QvLDMVnB+No/i7I=;
-        b=e99ePFOB9PAwEFEmxknASZwSN/+rtIAQm8Kl46T5z/iVQJOZCqQ/k5R+It8NvdOGei
-         yhK+JCwnwz2fkf3psqQnvqgYyCQzKX9i0pcn+PHmMMJMA+zIzFCooFYZuWxIHaAx9wBH
-         gOIT5gnl1uUlMYC7c8erx6WGcZ2bUJFaadFz3ifwDNyASrNJl5ytmvwNjhQr5ATZSQ+C
-         /VMzuHSPcSOsHHSjMkeOGaTEK9gJuMnaK09UHvDxm8pM2h+L+fwHal+QgrbXneKADE2Y
-         +NownRAc5U97cyMyNXeyXC8jRBpW2POyaBMbEFFv+3rB0CzMP4lcwkFPMr6ohr3+rlHj
-         nkVQ==
-X-Gm-Message-State: AOAM531aajc75fUn94wZwgeq+FhYHX8tvyy4Y8Mcn5BLYxqukWHPfaN9
-        qFEu+y2PdRHV6JXyTYybOoo7bkEqt4PYiOvmihtb9iPwqfJo2DqGFAsIaMp/GG0BY+akunAK7n8
-        nfs/TB0TGFierWbjH9X4D
-X-Received: by 2002:a05:622a:50d:b0:2e2:1006:35b6 with SMTP id l13-20020a05622a050d00b002e2100635b6mr6045839qtx.536.1647890278923;
-        Mon, 21 Mar 2022 12:17:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxT6OD/Y0C23YFhyuuCC1pdsNk4eMbxjtnCENsX9okSWpzu6X4wl532+Yylnnt9cpM9agH2sw==
-X-Received: by 2002:a05:622a:50d:b0:2e2:1006:35b6 with SMTP id l13-20020a05622a050d00b002e2100635b6mr6045807qtx.536.1647890278574;
-        Mon, 21 Mar 2022 12:17:58 -0700 (PDT)
-Received: from [10.16.222.26] (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id t1-20020a05620a0b0100b0067d3ac00982sm7944596qkg.57.2022.03.21.12.17.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Mar 2022 12:17:57 -0700 (PDT)
-Message-ID: <cf736b49-57e3-51df-56af-5b71d0304e4a@redhat.com>
-Date:   Mon, 21 Mar 2022 15:17:54 -0400
+        with ESMTP id S1352683AbiCUT3n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 15:29:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50AC9B44;
+        Mon, 21 Mar 2022 12:28:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 964B1B819C2;
+        Mon, 21 Mar 2022 19:28:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F53C340E8;
+        Mon, 21 Mar 2022 19:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647890890;
+        bh=2DJ2Ykmemas9uAd8SgNaZWXrO/X4eO+ejMl3uWdMH7M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fwnb1bdv9WmgMmHlUZAq7N+pYfeOf8Vf1ZMuH9E+LkaMXbYXekCBVrWevSq+mGE6Z
+         aPmXdfDFeyCDlpB4iMpFIkjIlg7RgLouMpEjTMVMAH8R3HgoWss6/CXRApfZsASQ//
+         gkfsDDyCxgLmMik4ljcMDYT8T/SDG55wjdOZDP5Wku6fxBXHmj40p/HdmEqSv/8B53
+         /323YNGreXoK17wUsFqE9HkpVFLp7QK3NKzvKrIFa2iK5fpbyb00ASrMkF4e1rlC5G
+         rm8aUmZqys2mUXJVwtGMnxC/G52rndWfV6TuC/wtEmh0MkwxEgXfPx9EgyjfRHfChL
+         a3uzxx/FxH1tQ==
+Date:   Mon, 21 Mar 2022 12:28:08 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     <davem@davemloft.net>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Abhijit Ayarekar <aayarekar@marvell.com>,
+        Satananda Burla <sburla@marvell.com>
+Subject: Re: [net-next PATCH v4 1/7] octeon_ep: Add driver framework and
+ device initialization
+Message-ID: <20220321122808.427d7872@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20220321055337.4488-2-vburru@marvell.com>
+References: <20220321055337.4488-1-vburru@marvell.com>
+        <20220321055337.4488-2-vburru@marvell.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v9 05/14] mm: multi-gen LRU: groundwork
-Content-Language: en-US
-To:     Justin Forbes <jforbes@fedoraproject.org>,
-        Yu Zhao <yuzhao@google.com>
-Cc:     Andi Kleen <ak@linux.intel.com>, kernel-team@lists.ubuntu.com,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Rik van Riel <riel@surriel.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Brian Geffon <bgeffon@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        "Huang, Ying" <ying.huang@intel.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Steven Barrett <steven@liquorix.net>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
-        Will Deacon <will@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jens Axboe <axboe@kernel.dk>, Hillf Danton <hdanton@sina.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        kernel <kernel@lists.fedoraproject.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-References: <20220309021230.721028-1-yuzhao@google.com>
- <20220309021230.721028-6-yuzhao@google.com>
- <875yoh552i.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <CAOUHufYPSesiePfxaV=y9Vne5cb+Y_vQtJyQ1NiO1CFus=8WOA@mail.gmail.com>
- <CAFxkdAouXr5Qn9asFge0P-HqA4aAk56yqP4xEiaWYRioJ1ssyA@mail.gmail.com>
-From:   Prarit Bhargava <prarit@redhat.com>
-In-Reply-To: <CAFxkdAouXr5Qn9asFge0P-HqA4aAk56yqP4xEiaWYRioJ1ssyA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/21/22 14:58, Justin Forbes wrote:
-> On Mon, Mar 14, 2022 at 4:30 AM Yu Zhao <yuzhao@google.com> wrote:
->>
->> On Mon, Mar 14, 2022 at 2:09 AM Huang, Ying <ying.huang@intel.com> wrote:
->>>
->>> Hi, Yu,
->>>
->>> Yu Zhao <yuzhao@google.com> writes:
->>>> diff --git a/mm/Kconfig b/mm/Kconfig
->>>> index 3326ee3903f3..747ab1690bcf 100644
->>>> --- a/mm/Kconfig
->>>> +++ b/mm/Kconfig
->>>> @@ -892,6 +892,16 @@ config ANON_VMA_NAME
->>>>          area from being merged with adjacent virtual memory areas due to the
->>>>          difference in their name.
->>>>
->>>> +# the multi-gen LRU {
->>>> +config LRU_GEN
->>>> +     bool "Multi-Gen LRU"
->>>> +     depends on MMU
->>>> +     # the following options can use up the spare bits in page flags
->>>> +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
->>>
->>> LRU_GEN depends on !MAXSMP.  So, What is the maximum NR_CPUS supported
->>> by LRU_GEN?
->>
->> LRU_GEN doesn't really care about NR_CPUS. IOW, it doesn't impose a
->> max number. The dependency is with NODES_SHIFT selected by MAXSMP:
->>      default "10" if MAXSMP
->> This combined with LAST_CPUPID_SHIFT can exhaust the spare bits in page flags.
->>
->> MAXSMP is meant for kernel developers to test their code, and it
->> should not be used in production [1]. But some distros unfortunately
->> ship kernels built with this option, e.g., Fedora and Ubuntu. And
->> their users reported build errors to me after they applied MGLRU on
->> those kernels ("Not enough bits in page flags"). Let me add Fedora and
->> Ubuntu to this thread.
->>
->> Fedora and Ubuntu,
->>
->> Could you please clarify if there is a reason to ship kernels built
->> with MAXSMP? Otherwise, please consider disabling this option. Thanks.
->>
->> As per above, MAXSMP enables ridiculously large numbers of CPUs and
->> NUMA nodes for testing purposes. It is detrimental to performance,
->> e.g., CPUMASK_OFFSTACK.
+On Sun, 20 Mar 2022 22:53:31 -0700 Veerasenareddy Burru wrote:
+> Add driver framework and device setup and initialization for Octeon
+> PCI Endpoint NIC.
 > 
-> It was enabled for Fedora, and RHEL because we did need more than 512
-> CPUs, originally only in RHEL until SGI (years ago) complained that
-> they were testing very large machines with Fedora.  The testing done
-> on RHEL showed that the performance impact was minimal.   For a very
-> long time we had MAXSMP off and carried a patch which allowed us to
-> turn on CPUMASK_OFFSTACK without debugging because there was supposed
-> to be "something else" coming.  In 2019 we gave up, dropped that patch
-> and just turned on MAXSMP.
+> Add implementation to load module, initilaize, register network device,
+> cleanup and unload module.
 > 
-> I do not have any metrics for how often someone runs Fedora on a
-> ridiculously large machine these days, but I would guess that number
-> is not 0.
+> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+> Signed-off-by: Satananda Burla <sburla@marvell.com>
 
-It is not 0.  I've seen data from large systems (1000+ logical threads) 
-that are running Fedora albeit with a modified Fedora kernel.
+Clang says:
 
-Additionally the max limit for CPUS in RHEL is 1792, however, we have 
-recently had a request to *double* that to 3584.  You should just assume 
-that number will continue to increase.
+drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c:51:19: warning: unused function 'octep_ctrl_mbox_circq_inc' [-Wunused-function]
+static inline u32 octep_ctrl_mbox_circq_inc(u32 index, u32 mask)
+                  ^
+drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c:56:19: warning: unused function 'octep_ctrl_mbox_circq_space' [-Wunused-function]
+static inline u32 octep_ctrl_mbox_circq_space(u32 pi, u32 ci, u32 mask)
+                  ^
+drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c:61:19: warning: unused function 'octep_ctrl_mbox_circq_depth' [-Wunused-function]
+static inline u32 octep_ctrl_mbox_circq_depth(u32 pi, u32 ci, u32 mask)
+                  ^
 
-P.
+Please don't use static inlines in C files, static is enough for 
+the compiler to do a reasonable job.
 
+Please fix and repost in 2 weeks we're currently in the merge window
+so networking trees are not accepting new drivers.
 
-> 
-> Justin
-> 
->> [1] https://lore.kernel.org/lkml/20131106055634.GA24044@gmail.com/
->>
-> _______________________________________________
-> kernel mailing list -- kernel@lists.fedoraproject.org
-> To unsubscribe send an email to kernel-leave@lists.fedoraproject.org
-> Fedora Code of Conduct: https://docs.fedoraproject.org/en-US/project/code-of-conduct/
-> List Guidelines: https://fedoraproject.org/wiki/Mailing_list_guidelines
-> List Archives: https://lists.fedoraproject.org/archives/list/kernel@lists.fedoraproject.org
-> Do not reply to spam on the list, report it: https://pagure.io/fedora-infrastructure
-
+Thanks.
