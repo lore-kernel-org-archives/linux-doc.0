@@ -2,199 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 971FAC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 14:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A1C4C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 14:13:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348565AbiCUOOm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 10:14:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57692 "EHLO
+        id S1349161AbiCUOOx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 10:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351814AbiCUOLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 10:11:50 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA3C9DFDC1;
-        Mon, 21 Mar 2022 07:10:24 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22LCwA0S009877;
-        Mon, 21 Mar 2022 14:09:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=jJvjaD9nDPINy+yDER4EzUWY4D2RflHCie4NZqkBL5M=;
- b=yzinJ2+Z10kVBOUVRRRflvhCizRqfLTxhzITyZk68qsGj8SJ6WCJm1ORyZSMTLLZU857
- FxXycx6ws5J1DfPnShaBppZI9REk/AIzJPbqfSjKwemo/+2jInNtNrftOdhr/u7cUrFt
- glL5A5rl8LJ6Y80zXyOWqkbZjgHeQzUo5UxYs85Y71ewT2tWQuoJGb1qhSoXrvLql9lQ
- wQW17ppoTMDC6zL1vhB+Kbbne9WKYzHaDRxxsS8xerZc/wzNq1l3uBoLBTVrscpJMq42
- /9ug7bMr/4K872OGlnHmBAo6Uew8Rtf3lA+7Shlve8ZbJdnP2bvxbVUIT9LpAx3fNf2b LA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80] (may be forged))
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ew72abb8f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 21 Mar 2022 14:09:28 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22LE85vv038153;
-        Mon, 21 Mar 2022 14:09:27 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
-        by userp3030.oracle.com with ESMTP id 3ew49r3k8h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 21 Mar 2022 14:09:26 +0000
+        with ESMTP id S1351435AbiCUOLE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 10:11:04 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937D81100;
+        Mon, 21 Mar 2022 07:07:09 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fi3vHHOQmg/8+J8BUfKOs5SO+Obgu09/6kMplfMFQic6+XgyFsaVGW78q4ewpvx/0W0DBnz0AGSW+OFq7RxRXhsPkUy7zcf2HIXvDNLi4GWf5oDnjLrB/R3O+7h0nir3tXy2JyUouoOxBN2ZnvUmqoyVq1csuvTHUPXcybvXb0gNlM2w8Dxvtrnlw0Z+0S+QMSnXG9zGNAh6oj0xnqTAycluLL3SJHMWnAZqULDANwMfkRLn3mb9dJ5gW5Eg/0h/OCVwwyQUIhmWMldOyd72SQsV2k1Yk5LPrxDTjWoSB4DLFqLAffAiEg5G8ASgn/xqm5WA14od13Wh4hceQ+o/lQ==
+ b=NDfxK8ZrbMzKdstimr3jEpS437g9g8k0XGuY8f9W+HkFf8CUoU84hKOSdruCC2SuZf0Mlk9BcEIkhicgFfarVdy3SfJaWKfSRlYCLOzHfoHvu4NxVllBQbv/pdmSKTyJDUPHvIiT8mRcgIynv5mY2QA+25HVioYI+ZI7Lyl+pFibA35AaLPvQsQVLZG4Pv95EYbJbWHnvcPm6HCKCRDOQV7ilWFMeD/oPe9g2v7uJx09XwTcpcYkY+XQm3+GxAec33wCa/HXtEoh/1r0ZgZhJexIsDCCm6IjJsN0URHdh9jz5XOaJWVyW/fEvm98le1E7eMBBgos5JqwcQXY2l2JCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jJvjaD9nDPINy+yDER4EzUWY4D2RflHCie4NZqkBL5M=;
- b=kRDGgPJ7u2eUqLjUlKziDP/QrFhs2FHmJMO3ZABM4eOMcOc26alBWIkYcidx0dvtS1LMiPvikLqHtPV/U+EgLMF1YQvuAPR1yJGoYgXgueVA46hXE4wNf2FYfOkv01eqvyWmpmaUskjB7r2FzNIbRS2AMR+XXC7TV+RA4uCF9/nnEQ87n5wF+sa30qr4QDrcVtp7qXgTRvj07VMGQpbImTRa6zBdeaWkPuY/ChyOkksTvNZh0YMW/RzIJ2NzL5IuC19huqy1x/n6Uk1/7AgG0TcelyG5p8Tp3pPv1GsP/4B5kDhEcGfiQzVbetWG3KcebtIf30nI6KjG/kBZPVQpXw==
+ bh=I8cpz5mqDR80LUfIirnOdhMXugefKNY5Yd6+kyK5mNE=;
+ b=MKCjOP65cCcGmXw1VAAqTxkxzSuF7/vBcKbuD8KS95nYl9/5RZXqYcqu4LKgHQoWNqUirNQlNlTBDBt29WMEhjMGwJ8tcZ2doXuWxhBK9o+kk5Vb+o72LUQsojv00gxnHil8KHRYSmm+eLt/K0JpCyYZHICAOTzkRYXxZPS80ZHxtTJfQtfOtYS4B7gu0Napuz8kNIXf2lmU4JEWGPyJpeOIEnv/QOmlalikCKXnClYY6pTJNeE5KP21hbuCZtd08WEvtjUaVaIF8OgSEI61UivKntYzOoy5ro5Dphg2SRh5EF6QQPthy0hFnbJeV940G5s2BGvUla4Sv8SGU5Og1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jJvjaD9nDPINy+yDER4EzUWY4D2RflHCie4NZqkBL5M=;
- b=QKVz2fJRGHsmQhQCAJm+/ClYQRFhl7TLanghabE8JGvznKUIPqLYmv1u7V++pUXNsR6/j5n3SDddF1Ne0r3s3VqoMN9WZBQASW1NyFQSJu37cwnI6uXajsm99bUMM4N+Z3yjxiAYmg2+lHmOnBt6kk0vBDQ+LfYZYHn4Q049Yy4=
-Received: from SJ0PR10MB5742.namprd10.prod.outlook.com (2603:10b6:a03:3ed::20)
- by SA2PR10MB4714.namprd10.prod.outlook.com (2603:10b6:806:111::7) with
+ bh=I8cpz5mqDR80LUfIirnOdhMXugefKNY5Yd6+kyK5mNE=;
+ b=UrD5Kyg0pUDgmnrSCHZtV7zy9rjUbyZolSYJhwfprEZokO3f4IepqYNoWOTM+L5sx/5K3y65QQo9aj1+bpyLYMD/3w/gcJ4LCmMgJhgAaNuiVF1oN2g3UJP2fKrzW+uATTnpPu7HX+WMu2vhlaJHDmlW5ONQOT6V2Oc9+ciFAHM6pYCadYnFV0XyV1xluC7/9lkbLWIQsiusillKU8StKlOeKnN9uE6PBhaLAzoAaCOlOXa7BO6JtwiFXh9pcuwgIXg26M+GD5bVDdIdPbZ5n+cND5num7M1wEXYIUtwSWA2bE8xkVoTas7H44jNanU+nno0v2HFyRPM6E3b3mQEQg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by CH2PR12MB4296.namprd12.prod.outlook.com (2603:10b6:610:af::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Mon, 21 Mar
- 2022 14:09:24 +0000
-Received: from SJ0PR10MB5742.namprd10.prod.outlook.com
- ([fe80::2400:c9fb:a176:3502]) by SJ0PR10MB5742.namprd10.prod.outlook.com
- ([fe80::2400:c9fb:a176:3502%2]) with mapi id 15.20.5081.022; Mon, 21 Mar 2022
- 14:09:23 +0000
-Message-ID: <d938a7e8-6b4f-f24d-41d3-8058ca2b2ac8@oracle.com>
-Date:   Mon, 21 Mar 2022 09:09:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v21 3/5] arm64: kdump: reimplement crashkernel=X
-Content-Language: en-US
-To:     John Donnelly <John.p.donnelly@oracle.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-References: <20220227030717.1464-1-thunder.leizhen@huawei.com>
- <20220227030717.1464-4-thunder.leizhen@huawei.com>
- <cc0186d9-29a3-8eff-e38a-95fd4dd9c46f@oracle.com>
-From:   Dave Kleikamp <dave.kleikamp@oracle.com>
-In-Reply-To: <cc0186d9-29a3-8eff-e38a-95fd4dd9c46f@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0176.namprd04.prod.outlook.com
- (2603:10b6:806:125::31) To SJ0PR10MB5742.namprd10.prod.outlook.com
- (2603:10b6:a03:3ed::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Mon, 21 Mar
+ 2022 14:07:02 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::11a0:970a:4c24:c70c]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::11a0:970a:4c24:c70c%5]) with mapi id 15.20.5081.023; Mon, 21 Mar 2022
+ 14:07:02 +0000
+Date:   Mon, 21 Mar 2022 11:07:01 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "david@redhat.com" <david@redhat.com>,
+        "farman@linux.ibm.com" <farman@linux.ibm.com>,
+        "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
+        "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
+        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+        "imbrenda@linux.ibm.com" <imbrenda@linux.ibm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "frankja@linux.ibm.com" <frankja@linux.ibm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+        "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
+        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+        "thuth@redhat.com" <thuth@redhat.com>,
+        "gor@linux.ibm.com" <gor@linux.ibm.com>,
+        "schnelle@linux.ibm.com" <schnelle@linux.ibm.com>,
+        "hca@linux.ibm.com" <hca@linux.ibm.com>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "freude@linux.ibm.com" <freude@linux.ibm.com>,
+        "pmorel@linux.ibm.com" <pmorel@linux.ibm.com>,
+        "cohuck@redhat.com" <cohuck@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "svens@linux.ibm.com" <svens@linux.ibm.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Zhao, Yan Y" <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v4 14/32] iommu: introduce iommu_domain_alloc_type and
+ the KVM type
+Message-ID: <20220321140701.GV11336@nvidia.com>
+References: <20220314194451.58266-1-mjrosato@linux.ibm.com>
+ <20220314194451.58266-15-mjrosato@linux.ibm.com>
+ <a9637631-c23b-4158-d2cb-597a36b09a6b@arm.com>
+ <BN9PR11MB5276360F6DBDC3A238F3E41A8C129@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220317135254.GZ11336@nvidia.com>
+ <BN9PR11MB52764EF888DDB7822B88CF918C139@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220318141317.GO11336@nvidia.com>
+ <BN9PR11MB527649907D241347BCB540528C149@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB527649907D241347BCB540528C149@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR03CA0012.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::17) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: acde4f42-0a05-482f-c5ce-08da0b4466ae
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4714:EE_
-X-Microsoft-Antispam-PRVS: <SA2PR10MB4714316445B7D14C213E503087169@SA2PR10MB4714.namprd10.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 250986d1-7ac7-4f9e-f979-08da0b441291
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4296:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB429657047FFEC3C210AAE62BC2169@CH2PR12MB4296.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LUg/c+pnbFntsIAIdpaRfkDVRaSEmJno+d1iGmyXkROQUhOs8O5or1T7f2vHF+MOv9iZfCjc3FUvBelR0BEW4Sz2t0a3Y3tt2wUs8hXo2K14wysKC8FmlRjffrwLefvJWoRgn8FLJ/Wt6IJ7OGcpV5JOQLK/xTtPR5PSbs0dPrJervG9zi93EnoRlr3qJE+qgR3nffIAeLo3zmtFej4B2Bes162ddEk+nMbW1fe4O5TrryTn0imSR0now4+RUB2HGWoQgwOV5jNPUcJSS+lpiVzcMF4Puh9Sgd/L3654E9NNsiMjcWBTyQeuZLRbjwpZRpOrNRi6tlZy5Do44M3/5+TSvmclKrPeOERJWPXuxw3aDHVUmgoiVhf0boNe6t4wxvvzFLMOHkmngqCyIDZoXIk89ArliIMpfI9M//UgvI83Cc1Sr5ICLfgG64bqUPJfUNlez23lXpVxj7gjS9hb1kiPYxTJgbR3KQob8gNJ4q6P2jxuYm9+3SqzUFqvxSGqo0pL56jiMEPzI3bxnOUfqPk52gt3fAqmCMSmTmQCTAFV+uCBXUvSOfSwlRh5TejJhrzHIjQ/QRBx5Y0mhm+TAMBWWukiRq92TgrXd6WveGT6F2leU6VFaGyVu8L/FB1W105ytHeD6oFJ0a3uWsfcfdt4Rqf4DqCGAk/RoO8p91uOWglQnBBRPeKfqaQSov28BBjKu/uytJyg5yduZgtQrg8mG0JuhoHWkHocpsVY842W0gyz/YpF9sMmbxSjixl33TSgiG/qIzIy9prTsEPi4Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB5742.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(54906003)(31686004)(316002)(38100700002)(6512007)(44832011)(110136005)(6666004)(8936002)(4326008)(8676002)(6506007)(83380400001)(86362001)(31696002)(36756003)(26005)(921005)(66556008)(66946007)(186003)(53546011)(5660300002)(7416002)(508600001)(2906002)(6486002)(2616005)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: CKoAj/jnlmMJbberT6z7QbxBlajT5rKtu6/OjY38Obr0rJtDv8xZQrZhMVWH75/Dq2cSzrg3oDJn166RdxvDnk0KWINk76TuBa+WKVCnbI1UBog4JrfQYzrxbGKUMw19VBvtjWpI4WqXYsaWNB7DU+jI/HZqW9C+EDjPwCqj6maAV9udyv/Q2ocqYtv7yPurMYdp4kLa4fEtUc5ApvpY74BnVeB9VBBF7pGAsDMy/rt565ovdjI/dcpWpCcJqqCnGCD1Z2PJD3X7OZRFguUG92cdyjZIGmZfF3sHigxVw6wZnYh5qr1+vgny76K73yX7839r/7oLHKmJaknbNiTvKAC0kdAfK/O0Bq8VkcHPOj6dI56FoJvHrtc8J8tsj66cvtodUrQXX7OFMnNaKFGXwJdG3Zpridha8EGd4wj2i7vfvlAidjpys23x2yZJ9Fflf5gO5cn1WM336xiQr6Kwq66FunrPiaJlPbwBVo6flZeNjL7R8fskwep91HxDNB6Jp48YvEl9ugp6FDjwz/wjepSlcY6u945OSoK3hdP7ld0ltCF3ezGGpYx1qekCZXtQ4quYRL9G6ANnndxJVZEtKohdwxwRQa6PK9PZFvSJkO7UiUsJbaO+6pwl0mVLaQerp0zIr9RSRi68BhG9vgM9wQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66556008)(66946007)(66476007)(5660300002)(8676002)(4326008)(6916009)(54906003)(508600001)(6486002)(83380400001)(316002)(33656002)(2616005)(6512007)(1076003)(36756003)(186003)(26005)(86362001)(7406005)(8936002)(38100700002)(7416002)(2906002)(6506007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWRydVFLNndoaUlaS2pnS1hjSG5PV3d5aUliYU9HZzZhc216NlFUcndXcFNa?=
- =?utf-8?B?YjBVNm1vYkpwQzhCRjJqTTY1WWtHSUFsMmZoemdQNkhPcHh1cnJYRVpJTEs3?=
- =?utf-8?B?dnZYMWpoWlVSVDlnWkVZYzM3bnpLT0loc3k2MVowWi9JQ2ZZNWVlOXRWUW1K?=
- =?utf-8?B?Y0hhVlZwODFDS0NldlVDNVh6V3JtRmhLS1NGVXVmNzUyeXF1UlBuQzV2NSti?=
- =?utf-8?B?bWozNGlnMTU2OVFyWTBUWlFZZ0txRGxmU3RRNWtyVlBjUDNhZEJWUTVaYjlF?=
- =?utf-8?B?ZHk3NXpReDJRdXlPN2tDdG9rYlFTNDEzaFBSUTFVOUpRNGthSzdRemEyTFVq?=
- =?utf-8?B?aVBLcEp6Smt5aWRQNVJmNkpIVkhLOE5XRFdhZXBlT2gxanhiQU5pRDFOYjcz?=
- =?utf-8?B?aGRFMCtMTkNJemNvTXoxdGY4Zi9jZWtmazUvSjJkK3VxL2xVVW8xL3VBbGhR?=
- =?utf-8?B?MmJFc0pBU1IrSTd3WGIwR2pSbHNWa3BDaU5TUm9TQ0IxMy9JZ1puY21PZi9N?=
- =?utf-8?B?R3g4UUlVZ0IvUEFYbHY1R1pWaHUwYVZZTE9ncE1PZ2dvNThaQnNzL3JHRlh6?=
- =?utf-8?B?akVqMEdTVlMwL2xpOFhPcHo3V1BBby9RN0NUaXMxVmxvYTdCUUIxaWlyUHUw?=
- =?utf-8?B?bmJmKzR2N3BTaW9kalVSMWRuK1pMU2x3N2U4enVmeXFLL05FVDcxc2NpRFJu?=
- =?utf-8?B?aDdlTVU1KzVDdkovYjNTRXp3bGZacXZvQjF6SFhmUkRCd0dDdTU3dUFRMFlx?=
- =?utf-8?B?TGhXcTBpem90dzRBeDA2dUZYakgzVWZ3YURKbThreDE5WEZEaWY2VER0dGVx?=
- =?utf-8?B?VHdwalJTYldYOU5pazAyK0dFaHZ4RVZmd3REQlZzeXc2YUxPajhJalBLYnFZ?=
- =?utf-8?B?Vmx4REhQRzFnZWplU3hZZ0xWMTJ6MkorOStIVmExcnBOVzBuckNlajYvRUdw?=
- =?utf-8?B?Q1NnYUExc2s3bCs2L0NUMVpRL1UzdDJYQUtrS0V2akFlb0pBK29zTUhCemtI?=
- =?utf-8?B?WGVJNXdKQlNLYTZEUWorQ3ZmVzhtYjFIMWVnc3RTZkR3aUtPYStIb3g5TDlG?=
- =?utf-8?B?dE9haGZaSTZnaEpQNkJpR3l0QzNTcHhCb2IwQUdDV015WisyWWhtcWVmY2F4?=
- =?utf-8?B?YW9abHYrdFlmckEwd2tHc0V3TlVNOFJ0M2NBamxzVUhhOWQ4Z3NOdUZwbEVT?=
- =?utf-8?B?c0RXVVA3YXU3emV5Y0VMVi9hQUcxYkhuMUdkSEoxcm5qZXBIS21ZN0VLWk50?=
- =?utf-8?B?eVowNXVON2E3UmhCdk01bGY0ZncvZFR1cElINFRKLzc0RURaWHB6WUZNZWxV?=
- =?utf-8?B?b3NvRU5wcVQzRkZ4VzFQL0tXMzhhRFhNc013TXJGUllBeTJ6aU1wSGRHaVoy?=
- =?utf-8?B?bkZORi9rTXRIak44NVdTZGh0aUdtNHhyT2RtS2ZBWlB1aUhTVzF6Z25SZ3NF?=
- =?utf-8?B?VHJ2eERZeTdXR044NFhhR0VzNDJiOVlZczhlZ1loSFAzOXlITGVIWVJaRFda?=
- =?utf-8?B?RkhHUndsMlJuRWNVTTJYeC9kT0VJRDU0dldodDRBUzcwMVJ6c3JEdHNLYURJ?=
- =?utf-8?B?N0Q4QmhlcnprTUNSbUZBZUFjWDhnQVVnTGNQY1p1NUc0aGhvZlFBMkptcVIr?=
- =?utf-8?B?UUg1N2lYNVNMaTllTzkvbmFJb1RUM2VRWURXYUdVcG1UNGlGUGtOMFBsWm9a?=
- =?utf-8?B?ZDJ3TzgzcUptbEhlTXJxZWlGMFU1KzRGV1FJZkFtMG1GTi9tbEVrUzBIczdJ?=
- =?utf-8?B?TkduaHl1Vmh6Sk9tVVJOUXZkam1KVXhMbmxwdnB2Y1FkV2ZuUmpvejZ1SG1h?=
- =?utf-8?B?ZDNPc2NHQ0lZYXE4SnNFSnBJbTdoVVNSNDUyUmY2MEpiVkZxWjNRaWNjckQ5?=
- =?utf-8?B?K3ptWXQrODI4eTlnalNXdmVyemVyMU1xQXdpdFBCSWs1Y3VQTjJKOFoyZFBZ?=
- =?utf-8?B?QkNmbUp1K2NzN0tCYjd1Ri93MVpNZWNteEVLSDhJL3hUa1NGMGNNR2hhekk2?=
- =?utf-8?B?UnkralFKWTRBPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acde4f42-0a05-482f-c5ce-08da0b4466ae
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB5742.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XGVPAknhUyhm0K88wW+3o+nj4hh2vnCErlyNJDQ0SAEFLBy03SlndrCx7WwM?=
+ =?us-ascii?Q?/9cCnklrzBNVwOUfLGGkOxDMfyBCv9vdAzQsugddqfrDVCR1GdaNyEsrznUC?=
+ =?us-ascii?Q?Hi+37odDxPHGlw83R/jkPpvf3Wzn9X3lZAmcqLeSTW5S0t77JOWrnaI/eugy?=
+ =?us-ascii?Q?vWC/5fqavna0H1cH90FkNvLP69iMg3PFNnGppH+JCizivnFchFETXQpud9GH?=
+ =?us-ascii?Q?r/JqPRSq1ZaebGaR3Vb4BPKG1h49HqQPPOEMrJBH+TrdV8ezgQFj/tK8NrvH?=
+ =?us-ascii?Q?rRttRUQkD9Wl/Ous3HUbpSefcQBOPyxV7GrcVlNcDtKcNPh+cmMk6XEPed5j?=
+ =?us-ascii?Q?tfPYhkWWn3uaOnKcDkmiIJvU4eiDmeIlJB9GaPMWax/HlcsM/O751FukWj57?=
+ =?us-ascii?Q?BdniCdktmlHzM/qAVKF2Sw95/SgBg/quIomtzCjcJBMe4afeeFtNMuC3xPMG?=
+ =?us-ascii?Q?CDaOvMbtTOM7WID6I4RVWh7XyZ8XI5Fep0atNEvHyM3qbzwlMqIISmMC0cb4?=
+ =?us-ascii?Q?hshQe5FsgZ10n8yMN4IAjeuOUuNEuFuEUyMZIQomkKICWAgT1MbEJdA79c/a?=
+ =?us-ascii?Q?tdY+NCmbvDtNyMn52PZFGMfpH9800aE/Rl57HmgxEeBsj5G+ei3jLguGxzfr?=
+ =?us-ascii?Q?q9ENea7WAiNEzWjXJ9aKHG/BtCpg0Qe3izsvXHPm3RvbHoMieamf6vngkZT7?=
+ =?us-ascii?Q?UyEm6DANthEN6snti3q2TshOTCywxfda8E84HxLJ7pfArLGa5KlZlvbM0frB?=
+ =?us-ascii?Q?4pAxrUOkOgn537TmzIHULKLtVkMWK9ZdwWpfZD0hJzwPPjOl8rPckwn25duB?=
+ =?us-ascii?Q?F3Bfkt3T6DTDrNucy/BwZQNMlnwCFzmXwIPLdcqC8UAD0OJeQFTi7tj5Q5gZ?=
+ =?us-ascii?Q?cHLv+hX2hJWLr9r6Jno9FtBvpQi8kpOt//y0O+X9vp8hsgz+W6N+dchbGgBC?=
+ =?us-ascii?Q?SvCgONd7T3Vy+q1tyIkrBSdu7U/PtXwyBxgKsfjKa7nSJWA8XZLYIwBtqbhI?=
+ =?us-ascii?Q?e+GSMRzmV7KmEjNQ5/pQw1DA+yKcBdMLq4DNTHI7DpuMpaGo5cN7uRuzIq/H?=
+ =?us-ascii?Q?K6/0Yq2ClsRKgR/A+UAR9V2ReP68sGIfUTkOkZFLgRZzuGJ9qej60jDJ1qAU?=
+ =?us-ascii?Q?nbz9zE3EpvHr/Dm1ATb6vhjmQCXuZIpYqYI7t55TCLD4P+bnRrmOLC8e65Bz?=
+ =?us-ascii?Q?cl+/2NO9RYDs6696OOMO7Gi/kwcbwAHCcdfsWbnOKX2OmMta9sesNML5G+PI?=
+ =?us-ascii?Q?QTNDqU7RcCvg2nLS5AckLwivqlrHrVJp2JKiiaEF11M1CwD/GUx83ZxjV0+W?=
+ =?us-ascii?Q?sKk14JVyBqZxpVl2vPArwYxuildnwwrotrsf7WZlkHWoACeN5G+e9fBQihyX?=
+ =?us-ascii?Q?dm1zkSYqRtgo+s47YpWZcmPwD+L8hPPkWSTkGBX3iZW5aoCayuftG+wuBdXe?=
+ =?us-ascii?Q?VSD4h/YmYwqLob36FCh7lrJzszqP/Rb9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 250986d1-7ac7-4f9e-f979-08da0b441291
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2022 14:09:23.6164
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2022 14:07:02.5459
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nzWL1sSv5bw9oP+u6Tn5kKBT03trK8lspgBr3sLXLXLTfVujtgcwmaUyOkhbGK7MPBcP/oti6AhYO23yVLww9D2xiLR86rlvVEWDl/UB2dk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4714
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10292 signatures=694221
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 phishscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203210091
-X-Proofpoint-GUID: IRD0u_w1U8uV-9o6ukynIRVo8EFQqtM2
-X-Proofpoint-ORIG-GUID: IRD0u_w1U8uV-9o6ukynIRVo8EFQqtM2
+X-MS-Exchange-CrossTenant-UserPrincipalName: vArQL2dkE+bAFBv27NnXD9Hng4Ntl/RD+08NKFpK/QowIbI0SGg5jWgRf2ZCKPzl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4296
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/21/22 8:29AM, John Donnelly wrote:
-> On 2/26/22 9:07 PM, Zhen Lei wrote:
->> From: Chen Zhou <chenzhou10@huawei.com>
->>
->> There are following issues in arm64 kdump:
->> 1. We use crashkernel=X to reserve crashkernel below 4G, which
->> will fail when there is no enough low memory.
+On Sat, Mar 19, 2022 at 07:51:31AM +0000, Tian, Kevin wrote:
+> > From: Jason Gunthorpe <jgg@nvidia.com>
+> > Sent: Friday, March 18, 2022 10:13 PM
+> > 
+> > On Fri, Mar 18, 2022 at 02:23:57AM +0000, Tian, Kevin wrote:
+> > 
+> > > Yes, that is another major part work besides the iommufd work. And
+> > > it is not compatible with KVM features which rely on the dynamic
+> > > manner of EPT. Though It is a bit questionable whether it's worthy of
+> > > doing so just for saving memory footprint while losing other capabilities,
+> > > it is a requirement for some future security extension in Intel trusted
+> > > computing architecture. And KVM has been pinning pages for SEV/TDX/etc.
+> > > today thus some facilities can be reused. But I agree it is not a simple
+> > > task thus we need start discussion early to explore various gaps in
+> > > iommu and kvm.
+> > 
+> > Yikes. IMHO this might work better going the other way, have KVM
+> > import the iommu_domain and use that as the KVM page table than vice
+> > versa.
+> > 
+> > The semantics are a heck of a lot clearer, and it is really obvious
+> > that alot of KVM becomes disabled if you do this.
+> > 
 > 
->                          " Not enough "
->> 2. If reserving crashkernel above 4G, in this case, crash dump
->> kernel will boot failure because there is no low memory available
->> for allocation.
-> 
->   We can't have a "boot failure". If the requested reservation
->   can not be met,  the kdump  configuration is not setup.
+> This is an interesting angle to look at it. But given pinning is already
+> required in KVM to support SEV/TDX even w/o assigned device, those
+> restrictions have to be understood by KVM MMU code which makes
+> a KVM-managed page table under such restrictions closer to be 
+> sharable with IOMMU.
 
-I think you misread this. Without these patches, if only high memory is 
-reserved for the crash kernel, then the crash kernel will fail to boot.
+I thought the SEV/TDX stuff wasn't being done with pinning but via a
+memfd in a special mode that does sort of pin under the covers, but it
+is not necessarily a DMA pin. (it isn't even struct page memory, so
+I'm not even sure what pin means)
 
->>
->> To solve these issues, change the behavior of crashkernel=X and
->> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
->> in DMA zone, and fall back to high allocation if it fails.
->> We can also use "crashkernel=X,high" to select a region above DMA zone,
->> which also tries to allocate at least 256M in DMA zone automatically.
->> "crashkernel=Y,low" can be used to allocate specified size low memory.
-> 
-> Is there going to be documentation on what values certain Arm platforms 
-> are going to use this on ?
-> 
->>
->> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
->> Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+Certainly, there is no inherent problem with SEV/TDX having movable
+memory and KVM could concievably handle this - but iommu cannot.
+
+I would not make an equivilance with SEV/TDX and iommu at least..
+
+Jason
