@@ -2,106 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E58C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 17:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFE4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 17:39:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349429AbiCURjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 13:39:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S1349682AbiCURlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 13:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348746AbiCURi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 13:38:56 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12AD187BA4;
-        Mon, 21 Mar 2022 10:37:30 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 58BE31F37C;
-        Mon, 21 Mar 2022 17:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1647884249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FG/voD+DgWXmOAGe303ur6CUB56T56c8MHMtIMwufHs=;
-        b=ZV6x/1DC0p7tuAxJI2DaKbablWASdPnbFE2nSJ1RXrHZQUwroTi8Q9KwCCRyacn1+ZPueP
-        WYBKzbNFNFkbpPdhbqmW+fj0+PZUyLxxW1U2kg7YsSnKmIuBWqSzYB8C8wLxVo90H+4Ss2
-        SbJDDHjvSS09x+Abxn2HnFk0v+cBHag=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48CC2139DB;
-        Mon, 21 Mar 2022 17:37:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id gmh6ENi3OGL9TQAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Mon, 21 Mar 2022 17:37:28 +0000
-Date:   Mon, 21 Mar 2022 18:37:26 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        with ESMTP id S245499AbiCURlG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 13:41:06 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5730150E37;
+        Mon, 21 Mar 2022 10:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647884380; x=1679420380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=93ScEXCpyveWIKDjm3CXxJUD3n+Kkxyy8pTNpHBuZjg=;
+  b=RC2vxF5HXTAwOBq98TPibdqxiSsoaML0M1R93+v3fyt2jc3k2YJoXziB
+   xo7u6ZlOkMj43N3mVrEaWFxNo3g9sAhtfiChnzCwWx5jZPL79hBl+tHqe
+   NIWu8W2yoe5bRgV4QZCJGZRmyvbmcUkyKd/+erENui1IPM6C/wBbhZ0FH
+   7gZfNa0OZW5A20JVIdX0aV7jkbnZcJH4Epp08+Q5cjgid4kklDb4o+OIw
+   kX/CCameEIJr+jLCfQBd0kCvtsvBySzQYifJkcmP401NbxdT/Rq7RSNju
+   iA7ILzVH/tJ9XBQf2TyXMPdU9bVgTc75RAuKP+xkBbcDyBC2iiVo7gZ/6
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="257561102"
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
+   d="scan'208";a="257561102"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 10:39:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
+   d="scan'208";a="515015749"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 21 Mar 2022 10:39:15 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nWLzu-000I1T-Vq; Mon, 21 Mar 2022 17:39:15 +0000
+Date:   Tue, 22 Mar 2022 01:38:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Quan Nguyen <quan@os.amperecomputing.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
-        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC v3 1/8] gpu: rfc: Proposal for a GPU cgroup controller
-Message-ID: <20220321173726.GA9640@blackbody.suse.cz>
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-2-tjmercier@google.com>
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: Re: [PATCH v7 8/9] mfd: smpro-mfd: Adds Ampere's Altra SMpro MFD
+ driver
+Message-ID: <202203220139.67ewF74A-lkp@intel.com>
+References: <20220321081355.6802-9-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220309165222.2843651-2-tjmercier@google.com>
+In-Reply-To: <20220321081355.6802-9-quan@os.amperecomputing.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+Hi Quan,
 
-On Wed, Mar 09, 2022 at 04:52:11PM +0000, "T.J. Mercier" <tjmercier@google.com> wrote:
-> +The new cgroup controller would:
-> +
-> +* Allow setting per-cgroup limits on the total size of buffers charged to it.
+I love your patch! Perhaps something to improve:
 
-What is the meaning of the total? (I only have very naïve
-understanding of the device buffers.)
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on groeck-staging/hwmon-next lee-mfd/for-mfd-next v5.17 next-20220321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Is it like a) there's global pool of memory that is partitioned among
-individual devices or b) each device has its own specific type of memory
-and adding across two devices is adding apples and oranges or c) there
-can be various devices both of a) and b) type?
+url:    https://github.com/0day-ci/linux/commits/Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220321-161811
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git 37fd83916da2e4cae03d350015c82a67b1b334c4
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220322/202203220139.67ewF74A-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2687a13d1908aa86d1b89c5ce398a06cd39)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/20d62dfe69d4a3a0cb64bf97df0062d050d6a4d4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220321-161811
+        git checkout 20d62dfe69d4a3a0cb64bf97df0062d050d6a4d4
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hwmon/
 
-(Apologies not replying to previous versions and possibly missing
-anything.)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks,
-Michal
+All warnings (new ones prefixed by >>):
 
+>> drivers/hwmon/smpro-hwmon.c:378:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   drivers/hwmon/smpro-hwmon.c:378:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   1 warning generated.
+
+
+vim +378 drivers/hwmon/smpro-hwmon.c
+
+91d3fe230bebb1c Quan Nguyen 2022-03-21  359  
+91d3fe230bebb1c Quan Nguyen 2022-03-21  360  static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
+91d3fe230bebb1c Quan Nguyen 2022-03-21  361  				u32 attr, int channel)
+91d3fe230bebb1c Quan Nguyen 2022-03-21  362  {
+91d3fe230bebb1c Quan Nguyen 2022-03-21  363  	const struct smpro_hwmon *hwmon = data;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  364  	unsigned int value;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  365  	int ret;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  366  
+91d3fe230bebb1c Quan Nguyen 2022-03-21  367  	switch (type) {
+91d3fe230bebb1c Quan Nguyen 2022-03-21  368  	case hwmon_temp:
+91d3fe230bebb1c Quan Nguyen 2022-03-21  369  		switch (attr) {
+91d3fe230bebb1c Quan Nguyen 2022-03-21  370  		case hwmon_temp_input:
+91d3fe230bebb1c Quan Nguyen 2022-03-21  371  		case hwmon_temp_label:
+91d3fe230bebb1c Quan Nguyen 2022-03-21  372  		case hwmon_temp_crit:
+91d3fe230bebb1c Quan Nguyen 2022-03-21  373  			ret = regmap_read(hwmon->regmap, temperature[channel].reg, &value);
+91d3fe230bebb1c Quan Nguyen 2022-03-21  374  			if (ret || value == 0xFFFF)
+91d3fe230bebb1c Quan Nguyen 2022-03-21  375  				return 0;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  376  		break;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  377  		}
+91d3fe230bebb1c Quan Nguyen 2022-03-21 @378  	default:
+91d3fe230bebb1c Quan Nguyen 2022-03-21  379  		break;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  380  	}
+91d3fe230bebb1c Quan Nguyen 2022-03-21  381  
+91d3fe230bebb1c Quan Nguyen 2022-03-21  382  	return 0444;
+91d3fe230bebb1c Quan Nguyen 2022-03-21  383  }
+91d3fe230bebb1c Quan Nguyen 2022-03-21  384  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
