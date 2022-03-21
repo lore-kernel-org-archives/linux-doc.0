@@ -2,273 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5848C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 20 Mar 2022 21:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152CAC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 01:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343641AbiCTVCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 20 Mar 2022 17:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46474 "EHLO
+        id S237150AbiCUBXx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 20 Mar 2022 21:23:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233463AbiCTVCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Mar 2022 17:02:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A70610E06C;
-        Sun, 20 Mar 2022 14:01:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF9376120E;
-        Sun, 20 Mar 2022 21:01:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11773C340E9;
-        Sun, 20 Mar 2022 21:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647810063;
-        bh=QkcuWtvqI1Q66ovVqgPxGTb0hK/D8TPonQFWbPcoTf4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GAQVx9UifFRIj2eKn6LDYXWXtndTiid3dn2V7S4gjL+GLoVI3kSb+QN1J+e2xnBTH
-         sff82e2DEpCqKwE/kVsLJ7Zcs18DWtjyNVXULBYXIOgO4zgz/E/DdGR5CzAJe+kGV0
-         thrIjyPwKxmc4wy1NxG+Oe0wfrBC+a/qDcrOUBBaSSeKkh72OXc5t9sLKeZJgddg39
-         mMmuuTxZ3IvtEOeM06b4sGVs+eZe8faA6RL39CXSr9daC/UAhSQdUQtI2fFsuDRfEr
-         e9I6hjKjwu01+VUWzZ/OdoKT6KIQxU2SUMZbYzHOX16e0klnn5kt3vjHkcRcV8C3bV
-         cBqtPQZf5KVqA==
-Date:   Sun, 20 Mar 2022 23:02:03 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, kernel@pengutronix.de,
-        David Gstir <david@sigma-star.at>,
-        Pankaj Gupta <pankaj.gupta@nxp.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        with ESMTP id S232714AbiCUBXw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Mar 2022 21:23:52 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395F270928;
+        Sun, 20 Mar 2022 18:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=7sdUiS9GK2a9IHOMaMalD7HEg3D293dhjq705r7V1jI=; b=Teh+nVdS5SpmsugSPBqwZ2vtd0
+        +SGAN9nxcaeCe3VA5LVBeMAqUMzhmVKv18sUTKrjFyfop5ThCr3djxe15ixxXfRpem7/MuQEdzgWz
+        CVVcIg/Dch7Ogyg+3sapjfNxUUDzrh6kqHpmGT/15Av4lUe5Po/R4ahBZ/grelV6Q9zF++WT96mDL
+        qDvwtntshBNv3Lov8iKnswDa+tIeVHsiF49D5oIp90upBOF+zD3Hv6fsXXgxliPO9mluIobGUwGk8
+        3w5ldhwx4uHqWlFkNFKTwU9EfAI9a78p51Qfnkle88ey82rLKhI4AvArMYd3vzuZBsHFh1y7detFW
+        24gPw2vA==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nW6kU-006Dnt-Sg; Mon, 21 Mar 2022 01:22:19 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-s390@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-Message-ID: <YjeWSx84ev7u/YAi@iki.fi>
-References: <20220316164335.1720255-1-a.fatoum@pengutronix.de>
- <20220316164335.1720255-5-a.fatoum@pengutronix.de>
+        sparclinux@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-ia64@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <lenb@kernel.org>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] Docs: admin/kernel-parameters: edit a few boot options
+Date:   Sun, 20 Mar 2022 18:22:16 -0700
+Message-Id: <20220321012216.23724-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220316164335.1720255-5-a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 16, 2022 at 05:43:35PM +0100, Ahmad Fatoum wrote:
-> The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-> built into many newer i.MX and QorIQ SoCs by NXP.
-> 
-> The CAAM does crypto acceleration, hardware number generation and
-> has a blob mechanism for encapsulation/decapsulation of sensitive material.
-> 
-> This blob mechanism depends on a device specific random 256-bit One Time
-> Programmable Master Key that is fused in each SoC at manufacturing
-> time. This key is unreadable and can only be used by the CAAM for AES
-> encryption/decryption of user data.
-> 
-> This makes it a suitable backend (source) for kernel trusted keys.
-> 
-> Previous commits generalized trusted keys to support multiple backends
-> and added an API to access the CAAM blob mechanism. Based on these,
-> provide the necessary glue to use the CAAM for trusted keys.
-> 
-> Reviewed-by: David Gstir <david@sigma-star.at>
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Tested-By: Tim Harvey <tharvey@gateworks.com>
-> Tested-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Tested-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
-> v5 -> v6:
->   - Rename caam_trusted_key_ops to trusted_key_caam_ops for symmetry
->     with other trust sources (Pankaj)
->   - collected Pankaj's Reviewed-by
-> v4 -> v5:
->   - Collected Reviewed-by's and Tested-by's
->   - Changed modifier to SECURE_KEY for compatibility with linux-imx
->     (Matthias)
-> v3 -> v4:
->   - Collected Acked-by's, Reviewed-by's and Tested-by
-> v2 -> v3:
->  - add MAINTAINERS entry
-> v1 -> v2:
->  - Extend trusted keys documentation for CAAM
-> 
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: David Howells <dhowells@redhat.com>
-> To: Jarkko Sakkinen <jarkko@kernel.org>
-> To: James Bottomley <jejb@linux.ibm.com>
-> To: Mimi Zohar <zohar@linux.ibm.com>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: "Horia Geantă" <horia.geanta@nxp.com>
-> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-> Cc: David Gstir <david@sigma-star.at>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-> Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Cc: Sumit Garg <sumit.garg@linaro.org>
-> Cc: keyrings@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-integrity@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> ---
->  .../admin-guide/kernel-parameters.txt         |  1 +
->  .../security/keys/trusted-encrypted.rst       | 40 +++++++++-
->  MAINTAINERS                                   |  9 +++
->  include/keys/trusted_caam.h                   | 11 +++
->  security/keys/trusted-keys/Kconfig            | 11 ++-
->  security/keys/trusted-keys/Makefile           |  2 +
->  security/keys/trusted-keys/trusted_caam.c     | 74 +++++++++++++++++++
->  security/keys/trusted-keys/trusted_core.c     |  6 +-
->  8 files changed, 151 insertions(+), 3 deletions(-)
->  create mode 100644 include/keys/trusted_caam.h
->  create mode 100644 security/keys/trusted-keys/trusted_caam.c
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 844c883ca9d8..9e7ef4c6585d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5875,6 +5875,7 @@
->  			sources:
->  			- "tpm"
->  			- "tee"
-> +			- "caam"
->  			If not specified then it defaults to iterating through
->  			the trust source list starting with TPM and assigns the
->  			first trust source as a backend which is initialized
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 99cf34d7c025..ed60c48cb692 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -35,6 +35,13 @@ safe.
->           Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
->           fuses and is accessible to TEE only.
->  
-> +     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
-> +
-> +         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
-> +         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
-> +         randomly generated and fused into each SoC at manufacturing time.
-> +         Otherwise, a common fixed test key is used instead.
-> +
->    *  Execution isolation
->  
->       (1) TPM
-> @@ -46,6 +53,10 @@ safe.
->           Customizable set of operations running in isolated execution
->           environment verified via Secure/Trusted boot process.
->  
-> +     (3) CAAM
-> +
-> +         Fixed set of operations running in isolated execution environment.
-> +
->    * Optional binding to platform integrity state
->  
->       (1) TPM
-> @@ -63,6 +74,11 @@ safe.
->           Relies on Secure/Trusted boot process for platform integrity. It can
->           be extended with TEE based measured boot process.
->  
-> +     (3) CAAM
-> +
-> +         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
-> +         for platform integrity.
-> +
->    *  Interfaces and APIs
->  
->       (1) TPM
-> @@ -74,10 +90,13 @@ safe.
->           TEEs have well-documented, standardized client interface and APIs. For
->           more details refer to ``Documentation/staging/tee.rst``.
->  
-> +     (3) CAAM
-> +
-> +         Interface is specific to silicon vendor.
->  
->    *  Threat model
->  
-> -     The strength and appropriateness of a particular TPM or TEE for a given
-> +     The strength and appropriateness of a particular trust source for a given
->       purpose must be assessed when using them to protect security-relevant data.
->  
->  
-> @@ -104,6 +123,12 @@ selected trust source:
->       from platform specific hardware RNG or a software based Fortuna CSPRNG
->       which can be seeded via multiple entropy sources.
->  
-> +  *  CAAM: Kernel RNG
-> +
-> +     The normal kernel random number generator is used. To seed it from the
-> +     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
-> +     is probed.
-> +
->  Users may override this by specifying ``trusted.rng=kernel`` on the kernel
->  command-line to override the used RNG with the kernel's random number pool.
->  
-> @@ -192,6 +217,19 @@ Usage::
->  specific to TEE device implementation.  The key length for new keys is always
->  in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
->  
-> +Trusted Keys usage: CAAM
-> +------------------------
-> +
-> +Usage::
-> +
-> +    keyctl add trusted name "new keylen" ring
-> +    keyctl add trusted name "load hex_blob" ring
-> +    keyctl print keyid
-> +
-> +"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
-> +specific to CAAM device implementation.  The key length for new keys is always
-> +in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-> +
->  Encrypted Keys usage
->  --------------------
->  
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 05fd080b82f3..f13382a14967 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10647,6 +10647,15 @@ S:	Supported
->  F:	include/keys/trusted_tee.h
->  F:	security/keys/trusted-keys/trusted_tee.c
->  
-> +KEYS-TRUSTED-CAAM
-> +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-> +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> +L:	linux-integrity@vger.kernel.org
-> +L:	keyrings@vger.kernel.org
-> +S:	Maintained
-> +F:	include/keys/trusted_caam.h
-> +F:	security/keys/trusted-keys/trusted_caam.c
-> +
->  KEYS/KEYRINGS
->  M:	David Howells <dhowells@redhat.com>
->  M:	Jarkko Sakkinen <jarkko@kernel.org>
+Clean up some of admin-guide/kernel-parameters.txt:
 
-Documentation and MAINTAINERS updates must be separate patches.
+a. "smt" should be "smt=" (S390)
+b. add "smt-enabled" for POWERPC
+c. Sparc supports the vdso= boot option
+d. make the tp_printk options (2) formatting similar to other options
+   by adding spacing
+e. add "trace_clock=" with a reference to Documentation/trace/ftrace.rst
+f. use [IA-64] as documented instead of [ia64]
+g. fix formatting and text for test_suspend=
+h. fix formatting for swapaccount=
+i. fix formatting and grammar for video.brightness_switch_enabled=
 
-BR, Jarkko
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: linux-s390@vger.kernel.org
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-ia64@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Len Brown <lenb@kernel.org>
+Cc: linux-pm@vger.kernel.org
+Cc: linux-acpi@vger.kernel.org
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |   33 +++++++++-----
+ 1 file changed, 22 insertions(+), 11 deletions(-)
+
+--- linux-next-20220318.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20220318/Documentation/admin-guide/kernel-parameters.txt
+@@ -2814,7 +2814,7 @@
+ 			different yeeloong laptops.
+ 			Example: machtype=lemote-yeeloong-2f-7inch
+ 
+-	max_addr=nn[KMG]	[KNL,BOOT,ia64] All physical memory greater
++	max_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory greater
+ 			than or equal to this physical address is ignored.
+ 
+ 	maxcpus=	[SMP] Maximum number of processors that	an SMP kernel
+@@ -3057,7 +3057,7 @@
+ 
+ 	mga=		[HW,DRM]
+ 
+-	min_addr=nn[KMG]	[KNL,BOOT,ia64] All physical memory below this
++	min_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory below this
+ 			physical address is ignored.
+ 
+ 	mini2440=	[ARM,HW,KNL]
+@@ -5382,13 +5382,19 @@
+ 				1: Fast pin select (default)
+ 				2: ATC IRMode
+ 
+-	smt		[KNL,S390] Set the maximum number of threads (logical
++	smt=		[KNL,S390] Set the maximum number of threads (logical
+ 			CPUs) to use per physical CPU on systems capable of
+ 			symmetric multithreading (SMT). Will be capped to the
+ 			actual hardware limit.
+ 			Format: <integer>
+ 			Default: -1 (no limit)
+ 
++	smt-enabled=	[PPC 64-bit] Enable SMT, disable SMT, or set the
++			maximum number of threads. This can be used to override
++			the Open Firmware (OF) option.
++			Format: on | off | <integer>
++			Default: all threads enabled
++
+ 	softlockup_panic=
+ 			[KNL] Should the soft-lockup detector generate panics.
+ 			Format: 0 | 1
+@@ -5768,8 +5774,9 @@
+ 			This parameter controls use of the Protected
+ 			Execution Facility on pSeries.
+ 
+-	swapaccount=[0|1]
+-			[KNL] Enable accounting of swap in memory resource
++	swapaccount=	[KNL]
++			Format: [0|1]
++			Enable accounting of swap in memory resource
+ 			controller if no parameter or 1 is given or disable
+ 			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
+ 
+@@ -5815,7 +5822,8 @@
+ 
+ 	tdfx=		[HW,DRM]
+ 
+-	test_suspend=	[SUSPEND][,N]
++	test_suspend=	[SUSPEND]
++			Format: { "mem" | "standby" | "freeze" }[,N]
+ 			Specify "mem" (for Suspend-to-RAM) or "standby" (for
+ 			standby suspend) or "freeze" (for suspend type freeze)
+ 			as the system sleep state during system startup with
+@@ -5902,6 +5910,8 @@
+ 	trace_buf_size=nn[KMG]
+ 			[FTRACE] will set tracing buffer size on each cpu.
+ 
++	trace_clock=	[FTRACE] See Documentation/trace/ftrace.rst
++
+ 	trace_event=[event-list]
+ 			[FTRACE] Set and start specified trace events in order
+ 			to facilitate early boot debugging. The event-list is a
+@@ -5924,7 +5934,7 @@
+ 			See also Documentation/trace/ftrace.rst "trace options"
+ 			section.
+ 
+-	tp_printk[FTRACE]
++	tp_printk	[FTRACE]
+ 			Have the tracepoints sent to printk as well as the
+ 			tracing ring buffer. This is useful for early boot up
+ 			where the system hangs or reboots and does not give the
+@@ -5946,7 +5956,7 @@
+ 			frequency tracepoints such as irq or sched, can cause
+ 			the system to live lock.
+ 
+-	tp_printk_stop_on_boot[FTRACE]
++	tp_printk_stop_on_boot [FTRACE]
+ 			When tp_printk (above) is set, it can cause a lot of noise
+ 			on the console. It may be useful to only include the
+ 			printing of events during boot up, as user space may
+@@ -6295,7 +6305,7 @@
+ 					HIGHMEM regardless of setting
+ 					of CONFIG_HIGHPTE.
+ 
+-	vdso=		[X86,SH]
++	vdso=		[X86,SH,SPARC]
+ 			On X86_32, this is an alias for vdso32=.  Otherwise:
+ 
+ 			vdso=1: enable VDSO (the default)
+@@ -6321,11 +6331,12 @@
+ 	video=		[FB] Frame buffer configuration
+ 			See Documentation/fb/modedb.rst.
+ 
+-	video.brightness_switch_enabled= [0,1]
++	video.brightness_switch_enabled= [ACPI]
++			Format: [0|1]
+ 			If set to 1, on receiving an ACPI notify event
+ 			generated by hotkey, video driver will adjust brightness
+ 			level and then send out the event to user space through
+-			the allocated input device; If set to 0, video driver
++			the allocated input device. If set to 0, video driver
+ 			will only send out the event without touching backlight
+ 			brightness level.
+ 			default: 1
