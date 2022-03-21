@@ -2,150 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B08C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 18:58:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3802C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 19:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240618AbiCUS7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 14:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
+        id S1347064AbiCUTTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 15:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352369AbiCUS7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 14:59:53 -0400
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0379623BD2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 11:58:26 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id pv16so31823817ejb.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 11:58:25 -0700 (PDT)
+        with ESMTP id S1352539AbiCUTTa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 15:19:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A7C171717BA
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 12:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647890280;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uvhBps1UXtsrc+nGVheIq+OQ/K59QvLDMVnB+No/i7I=;
+        b=AgQD6PVigewuCHQjOGkGKUwEvAlhsLyITdgn8tMyS5Nu3YCwZuIKVc28qPdEKAFpuucDPG
+        x55EqpoUcyR1YakkHtCYveJI7JvxIjZRHvIwuRnoo7Pcwaowh8npENBaS/5MMCYwtAvxcX
+        5659j+cP7yN7qrG5jBnUTDZA9kfxDPI=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-_mDudOx5NGmCkr-QQs6zng-1; Mon, 21 Mar 2022 15:17:59 -0400
+X-MC-Unique: _mDudOx5NGmCkr-QQs6zng-1
+Received: by mail-qt1-f200.google.com with SMTP id x10-20020ac8700a000000b002c3ef8fc44cso9975613qtm.8
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 12:17:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6aLAHA+A+XxV/kMRfZhDtEhgsmAuTureOTlZFDIWkzs=;
-        b=zPLEMrGxnyGbmCVJGDfqW3i0tCu8vNkGiyW32MTjvzjPUZd3+esTP8d8ZhOlAZ9CB0
-         RJ7MdRPYJOdzUEWb8L5nhSg7fg9J24ASxSnr/tRlOFr8dZ634rbkZJMimH7/+gguLzG8
-         Qwr5Wfo2eSUODMs0XLzMpaej9W5hPR8dKW39QnEHjsiIkp2DeKQzkvCWERWRcPaRSHiv
-         3A+y+6b3RIzP+oIt+sweB9beZ0n9yA82C+8lCs8C7iBR9Dtb7ArPJ99o5ANqWIPD7Y50
-         vWNYWHb+l8a8vwPOckGAa0XfXCi4mn52VOwwhTzrvyQYkdDxzKG2rURb4YMQEPS35Uv8
-         t7EA==
-X-Gm-Message-State: AOAM530+Sot7eo/T9g2hY4lx0FXo3/FserY4bhj2W97dIFbplTxOwfAk
-        tviKrcj522bJ7JL7MD/MyenxFUnlMlQOAiBJ3fkUIw==
-X-Google-Smtp-Source: ABdhPJw43iRiq+D1zfQ0J+MApKYivTG9ixyQabZWo7Hz7p1g9hAkNUhsYf004S6F+kC1U+OJfh6k71JDJTdo67TQ4cg=
-X-Received: by 2002:a17:907:3e98:b0:6d7:7c21:529f with SMTP id
- hs24-20020a1709073e9800b006d77c21529fmr22525233ejc.104.1647889098743; Mon, 21
- Mar 2022 11:58:18 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=uvhBps1UXtsrc+nGVheIq+OQ/K59QvLDMVnB+No/i7I=;
+        b=e99ePFOB9PAwEFEmxknASZwSN/+rtIAQm8Kl46T5z/iVQJOZCqQ/k5R+It8NvdOGei
+         yhK+JCwnwz2fkf3psqQnvqgYyCQzKX9i0pcn+PHmMMJMA+zIzFCooFYZuWxIHaAx9wBH
+         gOIT5gnl1uUlMYC7c8erx6WGcZ2bUJFaadFz3ifwDNyASrNJl5ytmvwNjhQr5ATZSQ+C
+         /VMzuHSPcSOsHHSjMkeOGaTEK9gJuMnaK09UHvDxm8pM2h+L+fwHal+QgrbXneKADE2Y
+         +NownRAc5U97cyMyNXeyXC8jRBpW2POyaBMbEFFv+3rB0CzMP4lcwkFPMr6ohr3+rlHj
+         nkVQ==
+X-Gm-Message-State: AOAM531aajc75fUn94wZwgeq+FhYHX8tvyy4Y8Mcn5BLYxqukWHPfaN9
+        qFEu+y2PdRHV6JXyTYybOoo7bkEqt4PYiOvmihtb9iPwqfJo2DqGFAsIaMp/GG0BY+akunAK7n8
+        nfs/TB0TGFierWbjH9X4D
+X-Received: by 2002:a05:622a:50d:b0:2e2:1006:35b6 with SMTP id l13-20020a05622a050d00b002e2100635b6mr6045839qtx.536.1647890278923;
+        Mon, 21 Mar 2022 12:17:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxT6OD/Y0C23YFhyuuCC1pdsNk4eMbxjtnCENsX9okSWpzu6X4wl532+Yylnnt9cpM9agH2sw==
+X-Received: by 2002:a05:622a:50d:b0:2e2:1006:35b6 with SMTP id l13-20020a05622a050d00b002e2100635b6mr6045807qtx.536.1647890278574;
+        Mon, 21 Mar 2022 12:17:58 -0700 (PDT)
+Received: from [10.16.222.26] (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id t1-20020a05620a0b0100b0067d3ac00982sm7944596qkg.57.2022.03.21.12.17.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Mar 2022 12:17:57 -0700 (PDT)
+Message-ID: <cf736b49-57e3-51df-56af-5b71d0304e4a@redhat.com>
+Date:   Mon, 21 Mar 2022 15:17:54 -0400
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-6-yuzhao@google.com>
- <875yoh552i.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAOUHufYPSesiePfxaV=y9Vne5cb+Y_vQtJyQ1NiO1CFus=8WOA@mail.gmail.com>
-In-Reply-To: <CAOUHufYPSesiePfxaV=y9Vne5cb+Y_vQtJyQ1NiO1CFus=8WOA@mail.gmail.com>
-From:   Justin Forbes <jforbes@fedoraproject.org>
-Date:   Mon, 21 Mar 2022 13:58:07 -0500
-Message-ID: <CAFxkdAouXr5Qn9asFge0P-HqA4aAk56yqP4xEiaWYRioJ1ssyA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [PATCH v9 05/14] mm: multi-gen LRU: groundwork
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     "Huang, Ying" <ying.huang@intel.com>,
-        kernel <kernel@lists.fedoraproject.org>,
-        kernel-team@lists.ubuntu.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
+Content-Language: en-US
+To:     Justin Forbes <jforbes@fedoraproject.org>,
+        Yu Zhao <yuzhao@google.com>
+Cc:     Andi Kleen <ak@linux.intel.com>, kernel-team@lists.ubuntu.com,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
         Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        "Huang, Ying" <ying.huang@intel.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Steven Barrett <steven@liquorix.net>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        Will Deacon <will@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jens Axboe <axboe@kernel.dk>, Hillf Danton <hdanton@sina.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        kernel <kernel@lists.fedoraproject.org>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Matthew Wilcox <willy@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <20220309021230.721028-1-yuzhao@google.com>
+ <20220309021230.721028-6-yuzhao@google.com>
+ <875yoh552i.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <CAOUHufYPSesiePfxaV=y9Vne5cb+Y_vQtJyQ1NiO1CFus=8WOA@mail.gmail.com>
+ <CAFxkdAouXr5Qn9asFge0P-HqA4aAk56yqP4xEiaWYRioJ1ssyA@mail.gmail.com>
+From:   Prarit Bhargava <prarit@redhat.com>
+In-Reply-To: <CAFxkdAouXr5Qn9asFge0P-HqA4aAk56yqP4xEiaWYRioJ1ssyA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 14, 2022 at 4:30 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Mon, Mar 14, 2022 at 2:09 AM Huang, Ying <ying.huang@intel.com> wrote:
-> >
-> > Hi, Yu,
-> >
-> > Yu Zhao <yuzhao@google.com> writes:
-> > > diff --git a/mm/Kconfig b/mm/Kconfig
-> > > index 3326ee3903f3..747ab1690bcf 100644
-> > > --- a/mm/Kconfig
-> > > +++ b/mm/Kconfig
-> > > @@ -892,6 +892,16 @@ config ANON_VMA_NAME
-> > >         area from being merged with adjacent virtual memory areas due to the
-> > >         difference in their name.
-> > >
-> > > +# the multi-gen LRU {
-> > > +config LRU_GEN
-> > > +     bool "Multi-Gen LRU"
-> > > +     depends on MMU
-> > > +     # the following options can use up the spare bits in page flags
-> > > +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
-> >
-> > LRU_GEN depends on !MAXSMP.  So, What is the maximum NR_CPUS supported
-> > by LRU_GEN?
->
-> LRU_GEN doesn't really care about NR_CPUS. IOW, it doesn't impose a
-> max number. The dependency is with NODES_SHIFT selected by MAXSMP:
->     default "10" if MAXSMP
-> This combined with LAST_CPUPID_SHIFT can exhaust the spare bits in page flags.
->
-> MAXSMP is meant for kernel developers to test their code, and it
-> should not be used in production [1]. But some distros unfortunately
-> ship kernels built with this option, e.g., Fedora and Ubuntu. And
-> their users reported build errors to me after they applied MGLRU on
-> those kernels ("Not enough bits in page flags"). Let me add Fedora and
-> Ubuntu to this thread.
->
-> Fedora and Ubuntu,
->
-> Could you please clarify if there is a reason to ship kernels built
-> with MAXSMP? Otherwise, please consider disabling this option. Thanks.
->
-> As per above, MAXSMP enables ridiculously large numbers of CPUs and
-> NUMA nodes for testing purposes. It is detrimental to performance,
-> e.g., CPUMASK_OFFSTACK.
+On 3/21/22 14:58, Justin Forbes wrote:
+> On Mon, Mar 14, 2022 at 4:30 AM Yu Zhao <yuzhao@google.com> wrote:
+>>
+>> On Mon, Mar 14, 2022 at 2:09 AM Huang, Ying <ying.huang@intel.com> wrote:
+>>>
+>>> Hi, Yu,
+>>>
+>>> Yu Zhao <yuzhao@google.com> writes:
+>>>> diff --git a/mm/Kconfig b/mm/Kconfig
+>>>> index 3326ee3903f3..747ab1690bcf 100644
+>>>> --- a/mm/Kconfig
+>>>> +++ b/mm/Kconfig
+>>>> @@ -892,6 +892,16 @@ config ANON_VMA_NAME
+>>>>          area from being merged with adjacent virtual memory areas due to the
+>>>>          difference in their name.
+>>>>
+>>>> +# the multi-gen LRU {
+>>>> +config LRU_GEN
+>>>> +     bool "Multi-Gen LRU"
+>>>> +     depends on MMU
+>>>> +     # the following options can use up the spare bits in page flags
+>>>> +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+>>>
+>>> LRU_GEN depends on !MAXSMP.  So, What is the maximum NR_CPUS supported
+>>> by LRU_GEN?
+>>
+>> LRU_GEN doesn't really care about NR_CPUS. IOW, it doesn't impose a
+>> max number. The dependency is with NODES_SHIFT selected by MAXSMP:
+>>      default "10" if MAXSMP
+>> This combined with LAST_CPUPID_SHIFT can exhaust the spare bits in page flags.
+>>
+>> MAXSMP is meant for kernel developers to test their code, and it
+>> should not be used in production [1]. But some distros unfortunately
+>> ship kernels built with this option, e.g., Fedora and Ubuntu. And
+>> their users reported build errors to me after they applied MGLRU on
+>> those kernels ("Not enough bits in page flags"). Let me add Fedora and
+>> Ubuntu to this thread.
+>>
+>> Fedora and Ubuntu,
+>>
+>> Could you please clarify if there is a reason to ship kernels built
+>> with MAXSMP? Otherwise, please consider disabling this option. Thanks.
+>>
+>> As per above, MAXSMP enables ridiculously large numbers of CPUs and
+>> NUMA nodes for testing purposes. It is detrimental to performance,
+>> e.g., CPUMASK_OFFSTACK.
+> 
+> It was enabled for Fedora, and RHEL because we did need more than 512
+> CPUs, originally only in RHEL until SGI (years ago) complained that
+> they were testing very large machines with Fedora.  The testing done
+> on RHEL showed that the performance impact was minimal.   For a very
+> long time we had MAXSMP off and carried a patch which allowed us to
+> turn on CPUMASK_OFFSTACK without debugging because there was supposed
+> to be "something else" coming.  In 2019 we gave up, dropped that patch
+> and just turned on MAXSMP.
+> 
+> I do not have any metrics for how often someone runs Fedora on a
+> ridiculously large machine these days, but I would guess that number
+> is not 0.
 
-It was enabled for Fedora, and RHEL because we did need more than 512
-CPUs, originally only in RHEL until SGI (years ago) complained that
-they were testing very large machines with Fedora.  The testing done
-on RHEL showed that the performance impact was minimal.   For a very
-long time we had MAXSMP off and carried a patch which allowed us to
-turn on CPUMASK_OFFSTACK without debugging because there was supposed
-to be "something else" coming.  In 2019 we gave up, dropped that patch
-and just turned on MAXSMP.
+It is not 0.  I've seen data from large systems (1000+ logical threads) 
+that are running Fedora albeit with a modified Fedora kernel.
 
-I do not have any metrics for how often someone runs Fedora on a
-ridiculously large machine these days, but I would guess that number
-is not 0.
+Additionally the max limit for CPUS in RHEL is 1792, however, we have 
+recently had a request to *double* that to 3584.  You should just assume 
+that number will continue to increase.
 
-Justin
+P.
 
-> [1] https://lore.kernel.org/lkml/20131106055634.GA24044@gmail.com/
->
+
+> 
+> Justin
+> 
+>> [1] https://lore.kernel.org/lkml/20131106055634.GA24044@gmail.com/
+>>
+> _______________________________________________
+> kernel mailing list -- kernel@lists.fedoraproject.org
+> To unsubscribe send an email to kernel-leave@lists.fedoraproject.org
+> Fedora Code of Conduct: https://docs.fedoraproject.org/en-US/project/code-of-conduct/
+> List Guidelines: https://fedoraproject.org/wiki/Mailing_list_guidelines
+> List Archives: https://lists.fedoraproject.org/archives/list/kernel@lists.fedoraproject.org
+> Do not reply to spam on the list, report it: https://pagure.io/fedora-infrastructure
+
