@@ -2,123 +2,306 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C88C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 17:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CB0C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 18:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243879AbiCURrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 13:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50538 "EHLO
+        id S1352210AbiCUSga (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 14:36:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238056AbiCURrA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 13:47:00 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 448CE3B039;
-        Mon, 21 Mar 2022 10:45:34 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B8B6C1F381;
-        Mon, 21 Mar 2022 17:45:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1647884732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=peglqrh0TeDc2F8OaZcmUkLDagjJhol7WzzofXyyxO4=;
-        b=PnmDb1Bn2lmsEUIPSG3oXSY46IqI6iAnrhkUOd3imYGHhzUBGrywA4Q9uGXh7c/svUPKw5
-        ngHuZu78cVggAJKMr47ybLtd326kLSE1NoNSHr9Gfg480gkY2G8m9HV1lQGRPPiKOrSgdz
-        U10jIZn2E3ClJ36uP4+4GnMAPYs5WBQ=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB410139DB;
-        Mon, 21 Mar 2022 17:45:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id uViIKLu5OGIeUQAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Mon, 21 Mar 2022 17:45:31 +0000
-Date:   Mon, 21 Mar 2022 18:45:30 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     "T.J. Mercier" <tjmercier@google.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
-        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
-Message-ID: <20220321174530.GB9640@blackbody.suse.cz>
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-6-tjmercier@google.com>
+        with ESMTP id S1352204AbiCUSg3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 14:36:29 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18E117CDD8;
+        Mon, 21 Mar 2022 11:35:03 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id r13so31630858ejd.5;
+        Mon, 21 Mar 2022 11:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=70EhybVMpn2jeXLei4BUqXO5qVf421e5ZHKcPrLPMWE=;
+        b=npJ4M/OLURWnOMLC38RxvQKgwfIj6ccStDShQutgct3Ee/yRbBIsd11ZbEY5WMrj8I
+         n9DRmUgSbKgAo7t9Vjtm/ry/Guc4vZyJbpbHgXDQ6IYHMcMwec58W3WZuRNC3PY7BPOv
+         53FXJrq6R27bIzMNUpdqsz2Ba6rCW+kVyyBioIwZpwSOW/skNaSwS/Mc8Lef0eiGA/rG
+         7KsSJD40oZarZYA/8WsNu6hPo/+0clzLTDcDDryJdjBiUX+nU7GmKDHTS2ecCLP/kn6t
+         zBTFs03qQXFemN8AX8ZKsWWFOzWqbDT/u9qO/+u7NyJjD9x7DO7mNCcMen5CVH+0OPSo
+         XFUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=70EhybVMpn2jeXLei4BUqXO5qVf421e5ZHKcPrLPMWE=;
+        b=YHSmDVBERryl4/DLQsvd5HxF04lKYx7PRkpaoDv2IZ26+ktt6hUSj2Q48O1XedLNKL
+         6aEOykWNw2WHh9ziQ8imvt+v6fBG6Iwa9GXOpr3JwfpSGnNwzOXg5I25yk4NvyOBuldD
+         exhqRcWxYGDDq6SIk+BOGOjNSSQdxD2TzhLDIf8h/lbJEKILRIY6LKkXR4Uhp5iHhTdh
+         /R1BSMBIeMNur5VHdYtd1R3H91zYlInH8AnN/vPIR3jlBujSwrfR5oOCRa57YTdhDF92
+         UfX7NtS4nJp7ifceLvhO88T2/G+DvrDOydqTRdnC93AZLVio6MEcKBEjXNGQb4T3neMc
+         oWpA==
+X-Gm-Message-State: AOAM532LL6A9MbP0rWKVYGcI8Qnc+ndbfTeQseDZe+xrnBsXtIB65O+b
+        fTrjCNmn1XBVJMQDCABYVGsTKIWwmyB8k+htTwM=
+X-Google-Smtp-Source: ABdhPJxJNrJl3sJn8XHpjCub4gXAqsNaMq5KYqc37G8g3vQSAmk+GtxomgWUdu7cenHzrRYGg2d4VA==
+X-Received: by 2002:a17:906:99c1:b0:6db:f0cf:e38c with SMTP id s1-20020a17090699c100b006dbf0cfe38cmr21845461ejn.692.1647887701351;
+        Mon, 21 Mar 2022 11:35:01 -0700 (PDT)
+Received: from pswork ([62.96.250.75])
+        by smtp.gmail.com with ESMTPSA id l2-20020aa7cac2000000b003f9b3ac68d6sm8282363edt.15.2022.03.21.11.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Mar 2022 11:35:01 -0700 (PDT)
+Date:   Mon, 21 Mar 2022 19:35:00 +0100
+From:   Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file
+ in kernel
+Message-ID: <20220321183500.GA4065@pswork>
+References: <164724890153.731226.1478494969800777757.stgit@devnote2>
+ <164724892075.731226.14103557516176115189.stgit@devnote2>
+ <20220316191649.GA11547@pswork>
+ <20220318101445.fdb151efe58c6c3a1c572500@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220309165222.2843651-6-tjmercier@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220318101445.fdb151efe58c6c3a1c572500@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+Hello Masami Hiramatsu,
 
-On Wed, Mar 09, 2022 at 04:52:15PM +0000, "T.J. Mercier" <tjmercier@google.com> wrote:
-> +int dma_buf_charge_transfer(struct dma_buf *dmabuf, struct gpucg *gpucg)
-> +{
-> +#ifdef CONFIG_CGROUP_GPU
-> +	struct gpucg *current_gpucg;
-> +	int ret = 0;
-> +
-> +	/*
-> +	 * Verify that the cgroup of the process requesting the transfer is the
-> +	 * same as the one the buffer is currently charged to.
-> +	 */
-> +	current_gpucg = gpucg_get(current);
-> +	mutex_lock(&dmabuf->lock);
-> +	if (current_gpucg != dmabuf->gpucg) {
-> +		ret = -EPERM;
-> +		goto err;
-> +	}
+On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
+> On Wed, 16 Mar 2022 20:16:49 +0100
+> Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+> 
+> > Hello Masami Hiramatsu,
+> > 
+> > On Mon, Mar 14, 2022 at 06:08:41PM +0900, Masami Hiramatsu wrote:
+> > > This allows kernel developer to embed a default bootconfig file in
+> > > the kernel instead of embedding it in the initrd. This will be good
+> > > for who are using the kernel without initrd, or who needs a default
+> > > bootconfigs.
+> > > This needs to set two kconfigs: CONFIG_EMBED_BOOT_CONFIG=y and set
+> > > the file path to CONFIG_EMBED_BOOT_CONFIG_FILE.
+> > > 
+> > > Note that you still need 'bootconfig' command line option to load the
+> > > embedded bootconfig. Also if you boot using an initrd with a different
+> > > bootconfig, the kernel will use the bootconfig in the initrd, instead
+> > > of the default bootconfig.
+> > > 
+> > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > ---
+> > >  include/linux/bootconfig.h |   10 ++++++++++
+> > >  init/Kconfig               |   21 +++++++++++++++++++++
+> > >  init/main.c                |   13 ++++++++-----
+> > >  lib/.gitignore             |    1 +
+> > >  lib/Makefile               |   12 ++++++++++++
+> > >  lib/bootconfig.c           |   23 +++++++++++++++++++++++
+> > >  6 files changed, 75 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
+> > > index a4665c7ab07c..5dbda5e3e9bb 100644
+> > > --- a/include/linux/bootconfig.h
+> > > +++ b/include/linux/bootconfig.h
+> > > @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
+> > >  /* XBC cleanup data structures */
+> > >  void __init xbc_exit(void);
+> > >  
+> > > +/* XBC embedded bootconfig data in kernel */
+> > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
+> > > +char * __init xbc_get_embedded_bootconfig(size_t *size);
+> > > +#else
+> > > +static inline char *xbc_get_embedded_bootconfig(size_t *size)
+> > > +{
+> > > +	return NULL;
+> > > +}
+> > > +#endif
+> > > +
+> > >  #endif
+> > > diff --git a/init/Kconfig b/init/Kconfig
+> > > index e9119bf54b1f..70440804874d 100644
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -1357,6 +1357,27 @@ config BOOT_CONFIG
+> > >  
+> > >  	  If unsure, say Y.
+> > >  
+> > > +config EMBED_BOOT_CONFIG
+> > > +	bool "Embed bootconfig file in the kernel"
+> > > +	depends on BOOT_CONFIG
+> > > +	default n
+> > > +	help
+> > > +	  Embed a bootconfig file given by EMBED_BOOT_CONFIG_FILE in the
+> > > +	  kernel. Usually, the bootconfig file is loaded with the initrd
+> > > +	  image. But if the system doesn't support initrd, this option will
+> > > +	  help you by embedding a bootconfig file while building the kernel.
+> > > +
+> > > +	  If unsure, say N.
+> > > +
+> > > +config EMBED_BOOT_CONFIG_FILE
+> > > +	string "Embedded bootconfig file path"
+> > > +	default ""
+> > > +	depends on EMBED_BOOT_CONFIG
+> > > +	help
+> > > +	  Specify a bootconfig file which will be embedded to the kernel.
+> > > +	  This bootconfig will be used if there is no initrd or no other
+> > > +	  bootconfig in the initrd.
+> > > +
+> > >  choice
+> > >  	prompt "Compiler optimization level"
+> > >  	default CC_OPTIMIZE_FOR_PERFORMANCE
+> > > diff --git a/init/main.c b/init/main.c
+> > > index 421050be5039..3803bf2e22ea 100644
+> > > --- a/init/main.c
+> > > +++ b/init/main.c
+> > > @@ -265,7 +265,7 @@ static int __init loglevel(char *str)
+> > >  early_param("loglevel", loglevel);
+> > >  
+> > >  #ifdef CONFIG_BLK_DEV_INITRD
+> > > -static void * __init get_boot_config_from_initrd(u32 *_size)
+> > > +static void * __init get_boot_config_from_initrd(size_t *_size)
+> > >  {
+> > >  	u32 size, csum;
+> > >  	char *data;
+> > > @@ -411,12 +411,15 @@ static void __init setup_boot_config(void)
+> > >  	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
+> > >  	const char *msg;
+> > >  	int pos;
+> > > -	u32 size;
+> > > +	size_t size;
+> > >  	char *data, *err;
+> > >  	int ret;
+> > >  
+> > >  	/* Cut out the bootconfig data even if we have no bootconfig option */
+> > >  	data = get_boot_config_from_initrd(&size);
+> > > +	/* If there is no bootconfig in initrd, try embedded one. */
+> > > +	if (!data)
+> > > +		data = xbc_get_embedded_bootconfig(&size);
+> > >  
+> > >  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+> > >  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+> > > @@ -435,8 +438,8 @@ static void __init setup_boot_config(void)
+> > >  	}
+> > >  
+> > >  	if (size >= XBC_DATA_MAX) {
+> > > -		pr_err("bootconfig size %d greater than max size %d\n",
+> > > -			size, XBC_DATA_MAX);
+> > > +		pr_err("bootconfig size %ld greater than max size %d\n",
+> > > +			(long)size, XBC_DATA_MAX);
+> > >  		return;
+> > >  	}
+> > >  
+> > > @@ -449,7 +452,7 @@ static void __init setup_boot_config(void)
+> > >  				msg, pos);
+> > >  	} else {
+> > >  		xbc_get_info(&ret, NULL);
+> > > -		pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
+> > > +		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
+> > >  		/* keys starting with "kernel." are passed via cmdline */
+> > >  		extra_command_line = xbc_make_cmdline("kernel");
+> > >  		/* Also, "init." keys are init arguments */
+> > > diff --git a/lib/.gitignore b/lib/.gitignore
+> > > index e5e217b8307b..30a2a5db7033 100644
+> > > --- a/lib/.gitignore
+> > > +++ b/lib/.gitignore
+> > > @@ -6,3 +6,4 @@
+> > >  /oid_registry_data.c
+> > >  /test_fortify.log
+> > >  /test_fortify/*.log
+> > > +/default.bconf
+> > > diff --git a/lib/Makefile b/lib/Makefile
+> > > index 300f569c626b..8183785ee99d 100644
+> > > --- a/lib/Makefile
+> > > +++ b/lib/Makefile
+> > > @@ -279,6 +279,18 @@ $(foreach file, $(libfdt_files), \
+> > >  	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
+> > >  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
+> > >  
+> > > +ifeq ($(CONFIG_EMBED_BOOT_CONFIG),y)
+> > > +# Since the specified bootconfig file can be switched, we forcibly update the
+> > > +# default.bconf file always.
+> > > +$(obj)/default.bconf: FORCE
+> > > +	$(call cmd,defbconf)
+> > > +
+> > > +quiet_cmd_defbconf = GEN     $@
+> > > +      cmd_defbconf = cat < /dev/null $(CONFIG_EMBED_BOOT_CONFIG_FILE) > $@
+> > > +clean-files	+= default.bconf
+> > > +$(obj)/bootconfig.o: $(obj)/default.bconf
+> > > +endif
+> > > +
+> > >  lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
+> > >  
+> > >  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
+> > > diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+> > > index 74f3201ab8e5..3a3bf3a208e3 100644
+> > > --- a/lib/bootconfig.c
+> > > +++ b/lib/bootconfig.c
+> > > @@ -12,6 +12,29 @@
+> > >  #include <linux/kernel.h>
+> > >  #include <linux/memblock.h>
+> > >  #include <linux/string.h>
+> > > +
+> > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
+> > > +asm (
+> > > +"	.pushsection .init.data, \"aw\"			\n"
+> > > +"	.global embedded_bootconfig_data		\n"
+> > > +"embedded_bootconfig_data:				\n"
+> > > +"	.incbin \"lib/default.bconf\"			\n"
+> > > +"	.global embedded_bootconfig_data_end		\n"
+> > > +"embedded_bootconfig_data_end:				\n"
+> > > +"	.popsection					\n"
+> > > +);
+> > > +
+> > > +extern __visible char embedded_bootconfig_data[];
+> > > +extern __visible char embedded_bootconfig_data_end[];
+> > > +
+> > > +char * __init xbc_get_embedded_bootconfig(size_t *size)
+> > > +{
+> > > +	*size = embedded_bootconfig_data_end - embedded_bootconfig_data;
+> > > +	return (*size) ? embedded_bootconfig_data : NULL;
+> > > +}
+> > > +
+> > > +#endif
+> > > +
+> > >  #else /* !__KERNEL__ */
+> > >  /*
+> > >   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
+> > >
+> > 
+> > Thanks tested the implemation, it works as expected.
+> 
+> Great!
+> 
+> > 
+> > Also noted that a change in default.bconf requries a clean build, is it
+> > expected behaviour?
+> 
+> default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
+> do incremental build. (I tested it with the incremental build environment)
+>
 
-Add a shortcut for gpucg == current_gpucg?
+Thanks, your observation made me to further experiment ther incremental build.
 
-> +
-> +	ret = gpucg_try_charge(gpucg, dmabuf->gpucg_dev, dmabuf->size);
-> +	if (ret)
-> +		goto err;
-> +
-> +	dmabuf->gpucg = gpucg;
-> +
-> +	/* uncharge the buffer from the cgroup it's currently charged to. */
-> +	gpucg_uncharge(current_gpucg, dmabuf->gpucg_dev, dmabuf->size);
+Below are the observations I have:
 
-I think gpucg_* API would need to cater for such transfers too since
-possibly transitional breach of a limit during the transfer may
-unnecessarily fail the operation.
+When I use GCC for a build; yes, the modified default.conf was observed on
+the target.
 
-My 0.02€,
-Michal
+But when I use clang; either with FULL or THIN LTO, the modified
+default.conf doesnt get reflected on the target.
+
+PS: Using: GCC version 8.2.1 20180802, LLVM version 13.0.2git.
+
+Thank you,
+Padmanabha.S
+> Thank you,
+> 
+> > 
+> > Thanks and Regards,
+> > Padmanabha.S
+> 
+> 
+> -- 
+> Masami Hiramatsu <mhiramat@kernel.org>
