@@ -2,150 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BDFC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 17:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E58C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 17:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347213AbiCURJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 13:09:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52868 "EHLO
+        id S1349429AbiCURjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 13:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351686AbiCURJk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 13:09:40 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CE52BE;
-        Mon, 21 Mar 2022 10:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647882494; x=1679418494;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KfO3FDuPvou5MkoqbbYqi9PWLKEbm5Zj4sMWJXhm5aA=;
-  b=Trs3hE9c7lPs9UiEodTjlIv1kGybrNLxBifrv6hiKhOnDX2K8JC4Q+qF
-   P2fq/L0qAkE5C5wva3zcyQEXDvxSZ9CMdntkRBor69k3FxnIeroqYSWPR
-   n2c+LjCO01RtwiCi8jH9NSybZr0uoB3njweS8hw2YDyxzv0XNKK/p05/Q
-   Je2yfubAZRKApEnqiIOPqtUs/o29lT4sE+TWFw75T4XRJHS295kqlBdfD
-   Nj4VKMhXBwJOhJTknRtrhGjZ2dFNHYVUCmn/erqiswagTzY77UPiIGnQM
-   VGRhbzFqtBTJD6vO4F7pj6f3lg+8F4FTWOEIKZeSSBWIIl1MFWG4qAO8O
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="282431645"
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
-   d="scan'208";a="282431645"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 10:08:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,199,1643702400"; 
-   d="scan'208";a="500241838"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 21 Mar 2022 10:08:11 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWLVq-000I0c-Ti; Mon, 21 Mar 2022 17:08:10 +0000
-Date:   Tue, 22 Mar 2022 01:07:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: drivers/gpu/drm/sti/sti_hdmi.c:187: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202203220003.ultJrIat-lkp@intel.com>
+        with ESMTP id S1348746AbiCURi4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 13:38:56 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12AD187BA4;
+        Mon, 21 Mar 2022 10:37:30 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 58BE31F37C;
+        Mon, 21 Mar 2022 17:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1647884249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FG/voD+DgWXmOAGe303ur6CUB56T56c8MHMtIMwufHs=;
+        b=ZV6x/1DC0p7tuAxJI2DaKbablWASdPnbFE2nSJ1RXrHZQUwroTi8Q9KwCCRyacn1+ZPueP
+        WYBKzbNFNFkbpPdhbqmW+fj0+PZUyLxxW1U2kg7YsSnKmIuBWqSzYB8C8wLxVo90H+4Ss2
+        SbJDDHjvSS09x+Abxn2HnFk0v+cBHag=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48CC2139DB;
+        Mon, 21 Mar 2022 17:37:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id gmh6ENi3OGL9TQAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Mon, 21 Mar 2022 17:37:28 +0000
+Date:   Mon, 21 Mar 2022 18:37:26 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v3 1/8] gpu: rfc: Proposal for a GPU cgroup controller
+Message-ID: <20220321173726.GA9640@blackbody.suse.cz>
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-2-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220309165222.2843651-2-tjmercier@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Aditya,
+Hello.
 
-FYI, the error/warning still remains.
+On Wed, Mar 09, 2022 at 04:52:11PM +0000, "T.J. Mercier" <tjmercier@google.com> wrote:
+> +The new cgroup controller would:
+> +
+> +* Allow setting per-cgroup limits on the total size of buffers charged to it.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f443e374ae131c168a065ea1748feac6b2e76613
-commit: f9bbc12ccb35ac8b3fa01cec1a19cb523a7707c7 scripts: kernel-doc: improve parsing for kernel-doc comments syntax
-date:   11 months ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20220322/202203220003.ultJrIat-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f9bbc12ccb35ac8b3fa01cec1a19cb523a7707c7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f9bbc12ccb35ac8b3fa01cec1a19cb523a7707c7
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-omap2/ drivers/gpu/drm/sti/ drivers/usb/gadget/udc/
+What is the meaning of the total? (I only have very naïve
+understanding of the device buffers.)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Is it like a) there's global pool of memory that is partitioned among
+individual devices or b) each device has its own specific type of memory
+and adding across two devices is adding apples and oranges or c) there
+can be various devices both of a) and b) type?
 
-All warnings (new ones prefixed by >>):
+(Apologies not replying to previous versions and possibly missing
+anything.)
 
->> drivers/gpu/drm/sti/sti_hdmi.c:187: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * HDMI interrupt handler threaded
-   drivers/gpu/drm/sti/sti_hdmi.c:219: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * HDMI interrupt handler
-   drivers/gpu/drm/sti/sti_hdmi.c:241: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Set hdmi active area depending on the drm display mode selected
-   drivers/gpu/drm/sti/sti_hdmi.c:262: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Overall hdmi configuration
-   drivers/gpu/drm/sti/sti_hdmi.c:340: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Helper to concatenate infoframe in 32 bits word
-   drivers/gpu/drm/sti/sti_hdmi.c:357: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Helper to write info frame
-   drivers/gpu/drm/sti/sti_hdmi.c:427: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Prepare and configure the AVI infoframe
-   drivers/gpu/drm/sti/sti_hdmi.c:470: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Prepare and configure the AUDIO infoframe
-   drivers/gpu/drm/sti/sti_hdmi.c:555: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Software reset of the hdmi subsystem
---
->> arch/arm/mach-omap2/cpuidle44xx.c:88: warning: expecting prototype for omap_enter_idle_[simple/coupled](). Prototype was for omap_enter_idle_simple() instead
+Thanks,
+Michal
 
-
-vim +187 drivers/gpu/drm/sti/sti_hdmi.c
-
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  185  
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  186  /**
-5402626c83a2f19 Benjamin Gaignard 2014-07-30 @187   * HDMI interrupt handler threaded
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  188   *
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  189   * @irq: irq number
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  190   * @arg: connector structure
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  191   */
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  192  static irqreturn_t hdmi_irq_thread(int irq, void *arg)
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  193  {
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  194  	struct sti_hdmi *hdmi = arg;
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  195  
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  196  	/* Hot plug/unplug IRQ */
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  197  	if (hdmi->irq_status & HDMI_INT_HOT_PLUG) {
-765692078f08d02 Benjamin Gaignard 2014-10-09  198  		hdmi->hpd = readl(hdmi->regs + HDMI_STA) & HDMI_STA_HOT_PLUG;
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  199  		if (hdmi->drm_dev)
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  200  			drm_helper_hpd_irq_event(hdmi->drm_dev);
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  201  	}
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  202  
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  203  	/* Sw reset and PLL lock are exclusive so we can use the same
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  204  	 * event to signal them
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  205  	 */
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  206  	if (hdmi->irq_status & (HDMI_INT_SW_RST | HDMI_INT_DLL_LCK)) {
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  207  		hdmi->event_received = true;
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  208  		wake_up_interruptible(&hdmi->wait_event);
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  209  	}
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  210  
-2c348e505328155 Arnaud Pouliquen  2016-05-30  211  	/* Audio FIFO underrun IRQ */
-2c348e505328155 Arnaud Pouliquen  2016-05-30  212  	if (hdmi->irq_status & HDMI_INT_AUDIO_FIFO_XRUN)
-29ffa77668235bd Fabien Dessenne   2016-09-06  213  		DRM_INFO("Warning: audio FIFO underrun occurs!\n");
-2c348e505328155 Arnaud Pouliquen  2016-05-30  214  
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  215  	return IRQ_HANDLED;
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  216  }
-5402626c83a2f19 Benjamin Gaignard 2014-07-30  217  
-
-:::::: The code at line 187 was first introduced by commit
-:::::: 5402626c83a2f19da14859e2bab231a53e16ee74 drm: sti: add HDMI driver
-
-:::::: TO: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
