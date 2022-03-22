@@ -2,117 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6629C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 21:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AB2C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 21:58:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236958AbiCVVy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 17:54:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50514 "EHLO
+        id S237219AbiCVV74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 17:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236965AbiCVVy1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 17:54:27 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD35B92
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 14:52:58 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id b15so23332603edn.4
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 14:52:58 -0700 (PDT)
+        with ESMTP id S237238AbiCVV7z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 17:59:55 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D711CBE04
+        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 14:58:25 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2e62857e0d2so61353827b3.14
+        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 14:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=bGrxL9KoLqKPHkR/6k4DFcIQZaJzGdo7QploaybSREM=;
-        b=ECA2Ww2aYirZnEdzSOcxu7YgwzbRhVUmZuMhV/G6M+U49OOFm78QrA15+YaD6UD0wl
-         PAxZXf/l5F88ZnyArz/FvKnyw/p/Pi41OL5vnX2nilPiuLSD49vOtIICak5w//Dvvyy4
-         YnL4gHKr90yMWCwQSI/eWr9J9vf7pw6Bgxk5KCHI+xuHIewcGwMIa8V7AeUZ7uHaXRYC
-         g4fW6n7PZpbeWwSQqm0EW9tQOAQZJdx4/Cw0orEdjFnzl9ddD40F/e7DTkQrj6nCCPqV
-         64HcorUnowrzn+jmne1AAqR1IaW4DfjJprEe7rjXVoHYDwnD/Euy11gPsiYhh2Iwtosh
-         PxqA==
+        bh=qCgb1rQ2NSk0/+tpvGzgIXhekPoKGmbH5RRhGZElgeQ=;
+        b=AC4IZ0WRGywgszT2I5C1P7dkLhuWoxBlmhwDw53CtgGHdsX1XZuBCegossGZ4XTGVh
+         6S4N4oQaQdhlMdrBCgGhf4lQ2pnJagMl/jGZztRvWWHTymvbJJJFcyQHhAndqjxSU3Wk
+         fXrGZdl1QEPw7YKhm+mCPGOHOwyW2uHeZOQtvP+gyGxAXBXjzJtdTcL+0tE6ySD0c7P/
+         8zdQ56X4s24Fz+wk+QFGQo/Z3kT50NzTGZjZ66ukn/OHGkR3IiwQZDXADaAJ1HcxiCt1
+         vjA2m00j2/b1z8aBVM7zJbifXusEo/fG0mt3Lfj5NmfV4twBUoUpDVdv+deCPPlfE1j9
+         IkVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bGrxL9KoLqKPHkR/6k4DFcIQZaJzGdo7QploaybSREM=;
-        b=F7qMxxs3ARgz5vtacoHivSBM7CPrMiWzlQ5DyhNa2A1nyTiEm9WF2gAC8d0lZIV3Ll
-         geM2OHNJ4qbCI3r8DWYE9G7+wXvoc201k54A5h8z0P2haLcpDNzXZJnREm6FsAEGJkvp
-         S5B5IF/VYtEQk97Pu+PFxZN/Dl1pg38brUsUS+4PQ2NDuJh9Aaluvb8QfI6D1X+iP0Ez
-         4QFJhXYdTdsaOtzXo325lBEFH/I6lB9qCg0VBcorFMZp49d93xt57T75bWrzMheYR4hh
-         WFH/dR9jqjWgQrS/s7M7HT4dSN30zv20U7JaxDBnBiOE9r0ippXrE4a2V9ye5VvUeqUK
-         IreQ==
-X-Gm-Message-State: AOAM532BKftNy11Cg4fBxl9kARXg6j7kiqwdvpshV7mfUvKLNdL57n3a
-        ZAHQEF4X7el/5loUD6pDKBgiBFUS31N6RD22kG+vMw==
-X-Google-Smtp-Source: ABdhPJzZT/ZfEv9w/dLy4UgNNPTxUnu85oRsyTxaXhMhcL2jk3SMKARLvBt+csyqXY8LJ/G6HJq/fXAzd034Xe6BAlo=
-X-Received: by 2002:a05:6402:50cf:b0:418:ee57:ed9 with SMTP id
- h15-20020a05640250cf00b00418ee570ed9mr30615764edb.37.1647985976854; Tue, 22
- Mar 2022 14:52:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220315172221.9522-1-bgeffon@google.com> <20220321145037.1024083-1-bgeffon@google.com>
- <Yjo75atYTpXqCM4g@google.com>
-In-Reply-To: <Yjo75atYTpXqCM4g@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=qCgb1rQ2NSk0/+tpvGzgIXhekPoKGmbH5RRhGZElgeQ=;
+        b=yYDlebisogcWBiyhrPi96RmqiTuShGsHeUS3FJDM5ftlSJTGe5kbaIpkK/7X1Kbxkx
+         NZ4Azbx6QkR+0IqwK5Iqlacyh5gHnLUjnHh/vCCw0jTXWMWutk0F/TSO7yf9VXVEJnF4
+         Mg5vwAKhIh5TnH5KcP1EBgSqZgFAnwyJCuZtKkZoIWrJEups8IPz8AFcRuIVIOcbKmgR
+         dFDlK3egi7gRwHwceRa6qNWYFVLnur8tPdtI51HUFCaccsZ6ZKXo/AZvQixs0RFijfBx
+         ftUbuW4IkkfoCXPw/xlt0GBd6g1jLQxtrC6juNH1bjdhrLwCn5g9Nyes/k2GshKwobye
+         dFFg==
+X-Gm-Message-State: AOAM530Mps/VkG0XGLhO5Jb7VnE/4jdOM4axIVAb2Frdw/JoqoMnEy81
+        OL5pjsO9lMrh9IoJqwUzGwi5D+I3a6k8
+X-Google-Smtp-Source: ABdhPJyTdOXDPQvbHdvKPmPexGJUYUoBc9yHFZ2ap2avIfYjKIg2RKMrG2cddv1xdLke9d6CIuYnATU3Fcja
+X-Received: from bg.sfo.corp.google.com ([2620:15c:11a:202:49:910f:4d0:9fd7])
+ (user=bgeffon job=sendgmr) by 2002:a05:6902:c8:b0:633:ee0c:bca2 with SMTP id
+ i8-20020a05690200c800b00633ee0cbca2mr14920563ybs.82.1647986305071; Tue, 22
+ Mar 2022 14:58:25 -0700 (PDT)
+Date:   Tue, 22 Mar 2022 14:58:21 -0700
+In-Reply-To: <20220315172221.9522-1-bgeffon@google.com>
+Message-Id: <20220322215821.1196994-1-bgeffon@google.com>
+Mime-Version: 1.0
+References: <20220315172221.9522-1-bgeffon@google.com>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+Subject: [PATCH v2] zram: Add a huge_idle writeback mode
 From:   Brian Geffon <bgeffon@google.com>
-Date:   Tue, 22 Mar 2022 17:52:20 -0400
-Message-ID: <CADyq12zYGJ-L-h5QRt3k7mPATx-sNKhqyeRyugPkbuMHF1G86w@mail.gmail.com>
-Subject: Re: [PATCH] zram: Add a huge_idle writeback mode
-To:     Minchan Kim <minchan@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Nitin Gupta <ngupta@vflare.org>,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, Brian Geffon <bgeffon@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 5:13 PM Minchan Kim <minchan@kernel.org> wrote:
->
-> On Mon, Mar 21, 2022 at 07:50:37AM -0700, Brian Geffon wrote:
-> > Today it's only possible to write back as a page, idle, or huge.
-> > A user might want to writeback pages which are huge and idle first
-> > as these idle pages do not require decompression and make a good
-> > first pass for writeback.
-> >
-> > Idle writeback specifically has the advantage that a refault is
-> > unlikely given that the page has been swapped for some amount of
-> > time without being refaulted.
-> >
-> > Huge writeback has the advantage that you're guaranteed to get
-> > the maximum benefit from a single page writeback, that is, you're
-> > reclaiming one full page of memory. Pages which are compressed in
-> > zram being written back result in some benefit which is always
-> > less than a page size because of the fact that it was compressed.
-> >
-> > This change allows for users to write back huge pages which are
-> > also idle.
->
-> Hey Brian,
->
-> I really want to add your explanation about the storage endurance
-> because it's real issue.
->
-> So, could't you add up below in the description?
+Today it's only possible to write back as a page, idle, or huge.
+A user might want to writeback pages which are huge and idle first
+as these idle pages do not require decompression and make a good
+first pass for writeback.
 
-Sure thing.
+Idle writeback specifically has the advantage that a refault is
+unlikely given that the page has been swapped for some amount of
+time without being refaulted.
 
->
-> From your previous reply
-> "
-> we're trying to be very sensitive to our devices storage endurance,
-> for this reason we will have a fairly conservative writeback limit.
-> Given that, we want to make sure we're maximizing what lands on disk
-> while still minimizing the refault time. We could take the approach
-> where we always writeback huge pages but then we may result in very
-> quick refaults which would be a huge waste of time. So idle writeback
-> is a must for us and being able to writeback the pages which have
-> maximum value (huge) would be very useful
-> "
->
-> >
-> > Signed-off-by: Brian Geffon <bgeffon@google.com>
->
-> Other than that, feel free to add my
-> Acked-by: Minchan Kim <minchan@kernel.org>
+Huge writeback has the advantage that you're guaranteed to get
+the maximum benefit from a single page writeback, that is, you're
+reclaiming one full page of memory. Pages which are compressed in
+zram being written back result in some benefit which is always
+less than a page size because of the fact that it was compressed.
 
-Thanks Minchan.
+The primary use of this is for minimizing refaults in situations
+where the device has to be sensitive to storage endurance. On
+ChromeOS we have devices with slow eMMC and repeated writes and
+refaults can negatively affect performance and endurance.
 
->
-> Thanks.
+Signed-off-by: Brian Geffon <bgeffon@google.com>
+Acked-by: Minchan Kim <minchan@kernel.org>
+---
+ Documentation/admin-guide/blockdev/zram.rst |  5 +++++
+ drivers/block/zram/zram_drv.c               | 10 ++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 54fe63745ed8..c73b16930449 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -343,6 +343,11 @@ Admin can request writeback of those idle pages at right timing via::
+ 
+ With the command, zram will writeback idle pages from memory to the storage.
+ 
++Additionally, if a user choose to writeback only huge and idle pages
++this can be accomplished with::
++
++        echo huge_idle > /sys/block/zramX/writeback
++
+ If an admin wants to write a specific page in zram device to the backing device,
+ they could write a page index into the interface.
+ 
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index e9474b02012d..8562a7cce558 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -639,8 +639,8 @@ static int read_from_bdev_async(struct zram *zram, struct bio_vec *bvec,
+ #define PAGE_WB_SIG "page_index="
+ 
+ #define PAGE_WRITEBACK 0
+-#define HUGE_WRITEBACK 1
+-#define IDLE_WRITEBACK 2
++#define HUGE_WRITEBACK (1<<0)
++#define IDLE_WRITEBACK (1<<1)
+ 
+ 
+ static ssize_t writeback_store(struct device *dev,
+@@ -660,6 +660,8 @@ static ssize_t writeback_store(struct device *dev,
+ 		mode = IDLE_WRITEBACK;
+ 	else if (sysfs_streq(buf, "huge"))
+ 		mode = HUGE_WRITEBACK;
++	else if (sysfs_streq(buf, "huge_idle"))
++		mode = IDLE_WRITEBACK | HUGE_WRITEBACK;
+ 	else {
+ 		if (strncmp(buf, PAGE_WB_SIG, sizeof(PAGE_WB_SIG) - 1))
+ 			return -EINVAL;
+@@ -721,10 +723,10 @@ static ssize_t writeback_store(struct device *dev,
+ 				zram_test_flag(zram, index, ZRAM_UNDER_WB))
+ 			goto next;
+ 
+-		if (mode == IDLE_WRITEBACK &&
++		if (mode & IDLE_WRITEBACK &&
+ 			  !zram_test_flag(zram, index, ZRAM_IDLE))
+ 			goto next;
+-		if (mode == HUGE_WRITEBACK &&
++		if (mode & HUGE_WRITEBACK &&
+ 			  !zram_test_flag(zram, index, ZRAM_HUGE))
+ 			goto next;
+ 		/*
+-- 
+2.35.1.894.gb6a874cedc-goog
+
