@@ -2,154 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FA4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Mar 2022 23:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7705C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 00:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233587AbiCUX6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 19:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34236 "EHLO
+        id S233829AbiCVAbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 20:31:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233609AbiCUX5x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 19:57:53 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74EA9284E73
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 16:55:02 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id bi12so33033328ejb.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 16:55:02 -0700 (PDT)
+        with ESMTP id S234274AbiCVAbp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 20:31:45 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EE9375D06
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 17:30:19 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id i63so12995848vsi.5
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 17:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qiaO27WzdyEkhPCgtVcKJYNpZr9WKp2+zwnsf/1VvSc=;
-        b=Ri8yuR7/Vfc3fPL9gQLx7nlC2w5WarFCPritcrnsHpSsxuLwI5G3Voo8JeXcgyszLb
-         +2uoYc1aMEeZckMfuvJ2tS1RQ4sV4x2bEw3/t6bZI8mymUrBIyCvE8fdVOZNpVekttmd
-         gL3/aF9rUmS8p0UDTQfskhyx+I2egHowIc+sQ/N03tFWDWkkas9yz9J6z6/pRbfJotOJ
-         Hya7yMo0Sw59opqFkSYTZhc7F9NiPgJ8uwx1p8C0nJ00wLf8jKvLHqjCFphRAZgfpYi+
-         VVSQCs5iHmIrTMa+g/VlfDJHcUV27McnejGmfZoaaKiH2IvdAJP5kg+Lda21FYCK3UME
-         MrGg==
+         :cc;
+        bh=zZqXUZvSGoiAU4OWPpv+kWmYsbJWpiQeFt4daxe81ds=;
+        b=hfrCmbEHl2h5Rii7re10yHpXsfBWYOfGCKo+XQHmbiS2ORaNCnijKzF+qeBzW3BQpF
+         fyyM1ZUD/bMfWg5gp9nIKppanhrDqXzd0BiDWLV4odII5vc2bLY4QqqpziOuJ2O1TrJw
+         flhQd3vAAwtgT1Xv8Ojt/JsqvVFijWUgiWh0miJ97JPj/PZDacbcaVTJnJ+7etv/AVCb
+         /mgprhIyrwN2hOE5UMF6b/8I774/2nwphiQzlUB+Lwssicdx9Q+0boWzoygBzkomBf1m
+         M0MRwgVymI1GJRyV7aTF9G1e9F0CjK38bjWTNQmYAksU3FtMFXOstcscKc0OheQ8B1wS
+         VTwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qiaO27WzdyEkhPCgtVcKJYNpZr9WKp2+zwnsf/1VvSc=;
-        b=m0ymOQrOXMy2LquGY4di6mG7lsx+pjoxKhOl3fHOrDizUiKbzsTBZ4pjHRN7L4Iliq
-         Os+fMBfi6U/2Tug8JT4Zgb2ePk8cJ1hVnNbbZxEi4k6Lbk60N8R73HbWbNQbYdOxL2jh
-         C3JKrW7U0QuxjwZNy+/b/FY/QhrNgozpzMD3Wq4YAu1/nExtjlSmcRUnCDBSg62kNzWp
-         03JVecspnXP77bfS5IWX3mOw91tIpAU6hYsH99UJC7usnJxItJxWIYtH2X2W5ywsQGY6
-         z1uZiyGe5B03N2wYv/aiQKxyn/H8vd5LUDd4m0xWAf6U92a7YnmnMFIqwvNvlFaksuWD
-         TC2g==
-X-Gm-Message-State: AOAM532TVnpfLLeRw1NSQPljqtDPuwRtV6vK4IiQmayVxwg3zPcOQE/e
-        v5sjtIPnaLzc5ys++u42f3eaGe3NSGdupDeBeLE9xA==
-X-Google-Smtp-Source: ABdhPJwljarBa64DW7LUA/1wDxvFxLHgPtNYizJ4BJSCb3j/73bGTaegZtVwv4hXKy5Ey64Opp4zZ4UPfFj0Fl96E/A=
-X-Received: by 2002:a17:907:3eaa:b0:6df:b058:96a with SMTP id
- hs42-20020a1709073eaa00b006dfb058096amr18101556ejc.368.1647906877844; Mon, 21
- Mar 2022 16:54:37 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=zZqXUZvSGoiAU4OWPpv+kWmYsbJWpiQeFt4daxe81ds=;
+        b=sXARTIZPiA8Bc2zkYMdCQrN1eSOKm7w2HMxaCzrEzwzcNX/VIFS86IYFjaCEMD/dlg
+         vkqtFl6Ay05MHZqyoUCOnsYGjFgkx+z85B7bjdw9mfPrhU2BLN+4TBGvYeP5pvCJSyzz
+         jturnv7g8HVumDYCtPt8EmkswJRP5VYGfUbkW5fX4yauAqg9Hx2CFIzFCYSCq4ofwnnC
+         sPM8a3rdgaJhwx3EgSGhyfQoRtADbbbn6YDFwk6QDNR5+leTjwBGbw69d8ETJ8wflP6D
+         qbtBRNJLL+TSXhmbMGT8eerFWTQyVJ7d5Q/640wxTpKB8xAbPZ7U3kkAWha6XkNzeC19
+         n02A==
+X-Gm-Message-State: AOAM531xVZBfeypTsIyQyBeumDQjY1bsmMiQDiI5TZVADSPISnzmDGwC
+        Q+BmtSmZtMiW1UvtTdQ95XgA3C0aEicYFIRbsyuoPQ==
+X-Google-Smtp-Source: ABdhPJzz/wKqvQqJK+JokQegaEl/jW4BCcQKHCuV6sRHJ+7nBGMqKAZzoeJYJwW4PjrsgyHNP+iVv5C2qA0h2jzH8mg=
+X-Received: by 2002:a05:6102:291f:b0:325:11be:5bf0 with SMTP id
+ cz31-20020a056102291f00b0032511be5bf0mr2955888vsb.41.1647909018098; Mon, 21
+ Mar 2022 17:30:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-6-tjmercier@google.com> <20220321174530.GB9640@blackbody.suse.cz>
-In-Reply-To: <20220321174530.GB9640@blackbody.suse.cz>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 21 Mar 2022 16:54:26 -0700
-Message-ID: <CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com>
-Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
-To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
+ <CAGsJ_4zw0gX0+OPE3MPaSRH53LdVR0TNv1RN5DK9dtNPvgd8iQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4zw0gX0+OPE3MPaSRH53LdVR0TNv1RN5DK9dtNPvgd8iQ@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 21 Mar 2022 18:30:06 -0600
+Message-ID: <CAOUHufYmUPZY0gCC+wYk6Vr1L8KEx+tJeEAhjpBfUnLJsAHq5A@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 10:45 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrot=
-e:
+On Sat, Mar 19, 2022 at 5:15 AM Barry Song <21cnbao@gmail.com> wrote:
 >
-> Hello.
->
-> On Wed, Mar 09, 2022 at 04:52:15PM +0000, "T.J. Mercier" <tjmercier@googl=
-e.com> wrote:
-> > +int dma_buf_charge_transfer(struct dma_buf *dmabuf, struct gpucg *gpuc=
-g)
+> > +                            unsigned long *min_seq, bool can_swap, bool *need_aging)
 > > +{
-> > +#ifdef CONFIG_CGROUP_GPU
-> > +     struct gpucg *current_gpucg;
-> > +     int ret =3D 0;
+> > +       int gen, type, zone;
+> > +       long old = 0;
+> > +       long young = 0;
+> > +       long total = 0;
+> > +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
 > > +
-> > +     /*
-> > +      * Verify that the cgroup of the process requesting the transfer =
-is the
-> > +      * same as the one the buffer is currently charged to.
-> > +      */
-> > +     current_gpucg =3D gpucg_get(current);
-> > +     mutex_lock(&dmabuf->lock);
-> > +     if (current_gpucg !=3D dmabuf->gpucg) {
-> > +             ret =3D -EPERM;
-> > +             goto err;
-> > +     }
->
-> Add a shortcut for gpucg =3D=3D current_gpucg?
-
-Good idea, thank you!
-
->
+> > +       for (type = !can_swap; type < ANON_AND_FILE; type++) {
+> > +               unsigned long seq;
 > > +
-> > +     ret =3D gpucg_try_charge(gpucg, dmabuf->gpucg_dev, dmabuf->size);
-> > +     if (ret)
-> > +             goto err;
+> > +               for (seq = min_seq[type]; seq <= max_seq; seq++) {
+> > +                       long size = 0;
 > > +
-> > +     dmabuf->gpucg =3D gpucg;
+> > +                       gen = lru_gen_from_seq(seq);
 > > +
-> > +     /* uncharge the buffer from the cgroup it's currently charged to.=
- */
-> > +     gpucg_uncharge(current_gpucg, dmabuf->gpucg_dev, dmabuf->size);
+> > +                       for (zone = 0; zone < MAX_NR_ZONES; zone++)
+> > +                               size += READ_ONCE(lrugen->nr_pages[gen][type][zone]);
+> > +
+> > +                       total += size;
+> > +                       if (seq == max_seq)
+> > +                               young += size;
+> > +                       if (seq + MIN_NR_GENS == max_seq)
+> > +                               old += size;
+> > +               }
+> > +       }
+> > +
+> > +       /* try to spread pages out across MIN_NR_GENS+1 generations */
+> > +       if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
+> > +               *need_aging = true;
+> > +       else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
+> > +               *need_aging = false;
+> > +       else if (young * MIN_NR_GENS > total)
+> > +               *need_aging = true;
 >
-> I think gpucg_* API would need to cater for such transfers too since
-> possibly transitional breach of a limit during the transfer may
-> unnecessarily fail the operation.
+> Could we have some doc here?
 
-Since the charge is duplicated in two cgroups for a short period
-before it is uncharged from the source cgroup I guess the situation
-you're thinking about is a global (or common ancestor) limit? I can
-see how that would be a problem for transfers done this way and an
-alternative would be to swap the order of the charge operations: first
-uncharge, then try_charge. To be certain the uncharge is reversible if
-the try_charge fails, I think I'd need either a mutex used at all
-gpucg_*charge call sites or access to the gpucg_mutex, which implies
-adding transfer support to gpu.c as part of the gpucg_* API itself and
-calling it here. Am I following correctly here?
+Will do.
 
-This series doesn't actually add limit support just accounting, but
-I'd like to get it right here.
+> Given MIN_NR_GENS=2 and MAX_NR_GENS=4,
+> it seems you mean if we have three generations and the youngest pages are more
+> than 1/2 of the total pages, we need aging?
 
+Yes.
+
+> > +       else if (old * (MIN_NR_GENS + 2) < total)
+> > +               *need_aging = true;
 >
-> My 0.02=E2=82=AC,
-> Michal
+> it seems you mean if the oldest pages are less than 1/4 of the total pages,
+> we need aging?
 
-Thanks!
+Yes.
+
+> Can we have comments to explain why here?
+>
+> your commit message only says " The aging produces young generations.
+> Given an lruvec, it increments max_seq when max_seq-min_seq+1
+> approaches MIN_NR_GENS." it can't explain what the code is doing
+> here.
+
+Fair enough. Approaching MIN_NR_GENS=2 means getting close to it. From
+the consumer's POV, if it *reaches* 2, the eviction will have to
+stall, because the two youngest generations are not yet fully aged,
+i.e., the second chance policy similar to the active/inactive lru.
+From the producer's POV, the aging tries to be lazy to reduce the
+overhead. So ideally, we want 3 generations, which gives a reasonable
+range [2, 4], hence the first two if's.
+
+In addition, we want pages to spread out evenly over these 3
+generations, meaning an average 1/3 of total pages for each
+generation, which gives another reasonable range [1/2, 1/4]. Since the
+eviction reduces the number of old pages, we only need to check
+against the lower bound, i.e., 1/4. On the other hand, page (re)faults
+increase the number of young pages, so in this case, we need to check
+against the upper bound.
+
+I'll include these details in the next spin.
