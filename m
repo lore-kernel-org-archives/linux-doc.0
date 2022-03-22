@@ -2,154 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC56C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 08:45:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A72C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 09:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbiCVIrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 04:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43146 "EHLO
+        id S232056AbiCVJBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 05:01:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231732AbiCVIrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 04:47:05 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86570488A0;
-        Tue, 22 Mar 2022 01:45:37 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id m67so32410087ybm.4;
-        Tue, 22 Mar 2022 01:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+iR4cCSnBvYIEX8JGakAV745I2rgE58S9R2YY4Ged7c=;
-        b=NIARtr2oBs7uLYQBYidFLx6MPr55F+lN7qAoql6P3hnq45R1mXdc9VfJ8mEFo9hZXB
-         brCk27+g2z4tjCw+jNan4V813Fu7jvJb4vKphwkvh0ixkI/X0rAJUfH/PMx12sHVSi6I
-         5vB4YSwU7b7V0ZUbHVme3qC+0mM/LGF0as2ysi8L/04eTWPfCA1Tg/0GvoO3Q4Rh8W2i
-         wRaNcLi/NQYckSD8SAv5+Ys0piFZrTv/qFor7iThwAjc1eu+sNNDfpwWobhd03+7bSEb
-         xlYh+RuGpr0nY/ByJ43BeJNeSg8ECs3u6x9WvWLFjwaLpRQdNc+PxKPQPoAnjX0IxwBl
-         n1Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+iR4cCSnBvYIEX8JGakAV745I2rgE58S9R2YY4Ged7c=;
-        b=DR3Z3Mw2kUPjxbOWXrfA4K1Yofmx5x1uI2REfWTkcqnkxBlUPhqrNKvPmHJH2D9y7g
-         Etbsw43OZupZkxfGGWkFZ6z+Uz1fcsbf3eFbg/LRZw/w/k/m9jNflmfU1Uch+HXrri3a
-         2b/2mLmoheunOhPioBV2uz6b4G/fDCmXCcu1DuNk8gkomoeUrrK1UtmtJ4kucYFvqI+f
-         tKDHDoKDiYeCClySL87zTUQ96PFg7qwDoo60ArhXlw4qL8ig9DLVvSrTWXvTinAF8omf
-         TZMUyfCjcU0bXGwhjH4HQPE1uGSIUpjazDB+Yz8h3yEUXReijZbgoRlZ95GCFpRwFvRW
-         01+Q==
-X-Gm-Message-State: AOAM532NtC2Ej/UVzKpGn49+UD1BoMUEY/gsT+s8T6iV4odQmTOBbgBG
-        s5X2kHQZEJc18dFLui5VHn/oylFF8ixCbvSK7Tk=
-X-Google-Smtp-Source: ABdhPJw6H/IKc8pB2tyJzweSxfHKCrXN2p8geLUHg4bnZl1ae8zz+b4V+A1AAXqfxr8U643fQljqZsv1xh/JqETo5gI=
-X-Received: by 2002:a25:4003:0:b0:633:8ab5:b93e with SMTP id
- n3-20020a254003000000b006338ab5b93emr26470634yba.387.1647938736779; Tue, 22
- Mar 2022 01:45:36 -0700 (PDT)
+        with ESMTP id S231142AbiCVJBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 05:01:47 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5362DE97;
+        Tue, 22 Mar 2022 02:00:19 -0700 (PDT)
+Received: from mail-wr1-f44.google.com ([209.85.221.44]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MKsaz-1nmtPJ2Yqz-00LGhI; Tue, 22 Mar 2022 10:00:16 +0100
+Received: by mail-wr1-f44.google.com with SMTP id r13so8890534wrr.9;
+        Tue, 22 Mar 2022 02:00:16 -0700 (PDT)
+X-Gm-Message-State: AOAM5323lrNfjkjIt385uW2kxCR0p87FIr/EhYJrs2p5XN9Ip8vA9HLR
+        ONLNw+KImh2rDv5xio/5sN3LGLctfS2ErN2pWhA=
+X-Google-Smtp-Source: ABdhPJz+0N9qi9MDERkBo94wRqfVEQA+BUZLonIFsmSQAIgn4FGS8f4CYsBn+NI2HJG468ewXScxwPyLNX/EnR1d1PI=
+X-Received: by 2002:adf:d081:0:b0:1ef:9378:b7cc with SMTP id
+ y1-20020adfd081000000b001ef9378b7ccmr21833938wrh.407.1647939616226; Tue, 22
+ Mar 2022 02:00:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-11-yuzhao@google.com>
- <CAGsJ_4xqRGp1gV89+bAx5iA=AVwj2TA+No92UqLHFa0i14MBMQ@mail.gmail.com> <CAOUHufbP7kHquWiD3VsmD=veNFF2v_E9HWqdYSMbS1nPJic0Fg@mail.gmail.com>
-In-Reply-To: <CAOUHufbP7kHquWiD3VsmD=veNFF2v_E9HWqdYSMbS1nPJic0Fg@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Tue, 22 Mar 2022 21:45:23 +1300
-Message-ID: <CAGsJ_4wPWRkmioxGYOwZ9KwdiJUUdgH9Xd38MJH6B2sKJNG+iA@mail.gmail.com>
-Subject: Re: [PATCH v9 10/14] mm: multi-gen LRU: kill switch
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
+ <20220319143817.1026708-1-chenhuacai@loongson.cn> <20220319143817.1026708-4-chenhuacai@loongson.cn>
+ <CAK8P3a1ST1hBnhepvoQ9UTbAM=56JEU=-OiBAFQeK2rgaZ5aWw@mail.gmail.com> <CAAhV-H7akp8RNyw=7qJPgWeApAzf0u4kBNbOHzgQN9Mx3PfzcQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H7akp8RNyw=7qJPgWeApAzf0u4kBNbOHzgQN9Mx3PfzcQ@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 22 Mar 2022 10:00:00 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0WzntBkQiEK+nBrfUNw8TMyQwBQ=cQ+=3EeXLYNT+=iw@mail.gmail.com>
+Message-ID: <CAK8P3a0WzntBkQiEK+nBrfUNw8TMyQwBQ=cQ+=3EeXLYNT+=iw@mail.gmail.com>
+Subject: Re: [PATCH V8 11/22] LoongArch: Add process management
+To:     Huacai Chen <chenhuacai@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Huacai Chen <chenhuacai@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:KFGabE3KmUmB0m4i/4yl/TwS2C6ATJnFZbMOZ+WZLRJU8+DoTBQ
+ sOM70tgz42K5PzeLtdTrm52MW74lExLaDbcTAOSGeUv7aul0QBaT9OBre6ZJxrrjDqVFGjB
+ /ZsBC1l/CWq28yZDxO1jOtBqj7nc/NV3YyZRQtS/6vTQJSeAj/Vv8v+PcTh5qYgkzPfwvmU
+ gvNSyAdoSVknJ8aNiao2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5JVpZtY7/U4=:gb8fRQ/fpADc4MpWQVGP5q
+ 9ZYv43cERUZjnocWIS0aRF9icv88LkUpGslot3EbZoQGBLkpMkiH86no9SnBnuXGzdK+z4yVb
+ S3aieZOvk06AFo9u4UgArN46VSYqTWWwBlEuXkk5X+LYSE96vceNdSI3jvaXo55UnjQK3OXxX
+ aYXz57aO4FwO/iXIAA3/4JLhwmhaueAhw2MTVepxCG/xM9f6t5SRJ2eKfKsJwxydtjyaiJH+Q
+ +BHGKT/mwBILPFUvQyZeeRc8iOlGSt29eBtLWXcq0bwot86kUv6EEVicbD4e3JryEPrmRXWK5
+ 4CSB6LxNgyoKBDh677L1TOOkbuPKxHbxtmBHvF/h22BsMArVOSyctJHj8abmZGZFUCrqNhvBn
+ 1DA66U86/+21f7eJfk0j/QbWoyfpCBYZYsvxm/yOxcX50w5KZWuW8jzec1AThu1u9F3UjCGxB
+ DJsKXls9/yGbYjK168pWXojyJ0Lh0oIrZFI3dPpFX0twqHiT5T0ris/HhdqIckLrfN2lejvtO
+ KSVG3AGsgAYIlz6+IH1J5SUtix7feVPqXWI9KQWsWV7fcF2uw4z2jUtkl2DrAV82QwXZCrfjL
+ //E7idE8wykGDTSpl/Dlegafot1YgrBH+1eLqhYleHL6Wh06oUBbn3lK9SItwWvwhz5xAwSBN
+ mRX0FrRD6+q+WwLaMnjtPCkuTeqIbVzGtrnq36zO60uu1MlmtkgTCfgIi0UBxLc4bZ0fukJoz
+ lqqQQrBkrbXtvcXasPy53POG39dYC+0ZecgIjnCM23xlkAyuKrsQdsS5RVy05KsTLIXWVnYxv
+ u12szQQj/6xMXggBf/cxMW3e87u2lN4wlaCATpI1LwOu64RDGc=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 9:20 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Tue, Mar 22, 2022 at 1:47 AM Barry Song <21cnbao@gmail.com> wrote:
+On Tue, Mar 22, 2022 at 4:07 AM Huacai Chen <chenhuacai@kernel.org> wrote:
+> On Mon, Mar 21, 2022 at 4:43 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Sat, Mar 19, 2022 at 3:38 PM Huacai Chen <chenhuacai@kernel.org> wrote:
 > >
-> ...
-> > > +static bool drain_evictable(struct lruvec *lruvec)
-> > > +{
-> > > +       int gen, type, zone;
-> > > +       int remaining = MAX_LRU_BATCH;
+> > > +#ifdef CONFIG_PAGE_SIZE_64KB
+> > > +#define THREAD_SIZE_ORDER (0)
+> > > +#endif
 > > > +
-> > > +       for_each_gen_type_zone(gen, type, zone) {
-> > > +               struct list_head *head = &lruvec->lrugen.lists[gen][type][zone];
+> > > +#define THREAD_SIZE (PAGE_SIZE << THREAD_SIZE_ORDER)
+> > > +#define THREAD_MASK (THREAD_SIZE - 1UL)
 > > > +
-> > > +               while (!list_empty(head)) {
-> > > +                       bool success;
-> > > +                       struct folio *folio = lru_to_folio(head);
-> > > +
-> > > +                       VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-> > > +                       VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
-> > > +                       VM_BUG_ON_FOLIO(folio_is_file_lru(folio) != type, folio);
-> > > +                       VM_BUG_ON_FOLIO(folio_zonenum(folio) != zone, folio);
-> > > +
-> > > +                       success = lru_gen_del_folio(lruvec, folio, false);
-> > > +                       VM_BUG_ON(!success);
-> > > +                       lruvec_add_folio(lruvec, folio);
 > >
-> > for example, max_seq=4(GEN=0) and max_seq-1=3, then we are supposed to put
-> > max_seq in the head of active list. but your code seems to be putting max_seq-1
-> > after putting max_seq, then max_seq is more likely to be evicted
-> > afterwards as it
-> > is in the tail of the active list.
->
-> This is correct.
+> > Having a 64KB stack area is rather wasteful. I think you should use a sub-page
+> > allocation in this configuration, or possibly disallow 64KB page configuration
+> > entirely.
+> >
+> > Note that you have to use full pages when using CONFIG_VMAP_STACK, but
+> > you don't seem to support that at the moment, so allocating only 16KB stacks
+> > on a 64KB page config should still work.
+> I think using a 16KB stack for all configurations (4KB/16KB/64KB) is
+> the simplest way. Right?
 
-maybe something like below can fix it:
- #define for_each_gen_type_zone(gen, type, zone)
-         \
--       for ((gen) = 0; (gen) < MAX_NR_GENS; (gen)++)                   \
-+       for (int seq = min_seq[type], (gen)=(seq_to_gen(seq)); seq <=
-max_seq ; seq++)                       \
-                for ((type) = 0; (type) < ANON_AND_FILE; (type)++)      \
-                        for ((zone) = 0; (zone) < MAX_NR_ZONES; (zone)++)
+Yes, I agree. 16KB is what almost all 64-bit architectures use, though when
+you add 32-bit support that can probably be limited to 8KB like most others.
 
-but i am not quite sure it is worth it if we don't switch mglru/lru that
-often. so it is all up to you, either fix it or put a comment to describe
-we are not trying to make an active list with completely the same
-temperature (hot/cold) as pages were in mglru lists.
+As a side note, you should definitely consider supporting both separate
+IRQ stacks and CONFIG_VMAP_STACK if you don't do that already.
+Running with those two enabled makes the kernel more robust both
+against accidental stack overflow and against malicious code that
+attempts to abuse a potential overflow code path.
 
->
-> > anyway, it might not be so important. I can't imagine we will
-> > frequently switch mglru
-> > with lru dynamically. will we?
->
-> I certainly hope not :)
-
-me too.
-
-Thanks
-Barry
+        Arnd
