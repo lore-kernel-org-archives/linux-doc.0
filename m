@@ -2,212 +2,232 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C38B1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 17:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC92C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 17:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236782AbiCVRNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 13:13:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
+        id S236683AbiCVRnN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 13:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234822AbiCVRNV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 13:13:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B1ED8A334
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 10:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647969112;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FnfZQdkwW5dihtTgqyz06MglxhoHBi2vvWX4st2kjQw=;
-        b=Qec37p0j+oTcjQZk7kccm+EXDMQAG1j+Mzfh0yogoCYB6R4KRSpwVC0XqWnxfkDRcf76o4
-        PyQBjRsJuwnOL45XTXdmJAWn+1Zch4pHsASxQI+LTjxrA2I+avNP1zV3qvoeBJ8bKNGFOL
-        mwE/7CMfQ/f20EHZ2ee2JOao36dU2pE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-WNg_zPAmNu-HOvmDYwWhoA-1; Tue, 22 Mar 2022 13:11:51 -0400
-X-MC-Unique: WNg_zPAmNu-HOvmDYwWhoA-1
-Received: by mail-qv1-f69.google.com with SMTP id s14-20020ad4446e000000b00440d3810126so13829031qvt.5
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 10:11:51 -0700 (PDT)
+        with ESMTP id S239871AbiCVRnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 13:43:07 -0400
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28DFC888E1;
+        Tue, 22 Mar 2022 10:41:32 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id l2so34975549ybe.8;
+        Tue, 22 Mar 2022 10:41:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=FnfZQdkwW5dihtTgqyz06MglxhoHBi2vvWX4st2kjQw=;
-        b=FDesCpj8ep+HzGvzBCGiwHAvkJGJXl79qYp7oYhJGW2LTgEXVfvMjwV7jdhhLMft+l
-         +guDw/urVbeZzbt+ZocKb9jOu0+dePiR1+8AMuXVhMhDzKniDWu27FNGN0WRHx1enyVH
-         1fNeO4yOFqO5cADCXj6Q5EBgGgriY78TychmLv/ptAgn3HahKP1b2Cx+jrfiBZ5afxUd
-         inlBuVS0h8W/PUnyCakqzUfQCStDMon3e4GirtbSXdt+uoe79VEWWp2vRvrJFMA15Q4v
-         VDDlDFNepwhpZZ+vuHkJZhQOnw2ls6RVImP2Hg8EapWyVqMQvrN6QmP2hVeGRQ2b5lfV
-         rU2A==
-X-Gm-Message-State: AOAM532wiGMpq0CYtjhhePp3DP8RKPeaSDAKq4fgbQpPIgiClPDIJ3FE
-        qrUG6hk2W09p5EXPAAW7/HUSEEohyzKe5jjund7ksAEgq9BHgTCRQmLLhrPZyHtCvc+pJU9k+OP
-        AYWqRAkPzV4PtujZxrjbh
-X-Received: by 2002:a05:622a:1742:b0:2e1:ecf4:900c with SMTP id l2-20020a05622a174200b002e1ecf4900cmr20877245qtk.473.1647969111064;
-        Tue, 22 Mar 2022 10:11:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTqkdeotbR+nVjUJ0XbMNpYDChyjCG9RGlT1P9GYGEPw1eh6FSLHW6zPJa2Fvxl9ybteTx2Q==
-X-Received: by 2002:a05:622a:1742:b0:2e1:ecf4:900c with SMTP id l2-20020a05622a174200b002e1ecf4900cmr20877224qtk.473.1647969110797;
-        Tue, 22 Mar 2022 10:11:50 -0700 (PDT)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id e7-20020a37ac07000000b0067d7cd47af4sm9327602qkm.31.2022.03.22.10.11.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Mar 2022 10:11:50 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] Documentation: fpga: dfl: add PCI Identification
- documentation
-To:     matthew.gerlach@linux.intel.com,
-        Russ Weight <russell.h.weight@intel.com>
-Cc:     hao.wu@intel.com, yilun.xu@intel.com,
-        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org, corbet@lwn.net,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        ashok.raj@intel.com, tianfei.zhang@intel.com
-References: <20220303003534.3307971-1-matthew.gerlach@linux.intel.com>
- <20220303003534.3307971-2-matthew.gerlach@linux.intel.com>
- <6448f21f-7ce1-d9ce-1048-29aca14f9d3d@redhat.com>
- <bc41bc12-0d88-771f-7e78-4e29361fcfd8@intel.com>
- <alpine.DEB.2.22.394.2203041021240.3408681@rhweight-WRK1>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <6c943903-0fb2-324c-5831-d569d53a7a4c@redhat.com>
-Date:   Tue, 22 Mar 2022 10:11:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uBwvYMbRVWzNNTUELOPjunMscPYO6cMzGqNzPKWdzP4=;
+        b=pqSkVKr9o5xxU9E3uC1DqaDY4d7CFIftzyPbBG9upaShWKRLQoQrNJ+dKnhHwaWOhf
+         gS9dPn0tEt0rN4N6GmQ0IdeuRavH+Tjhx965wW1I/Q74CdmACK4A1BkbcKmkd7KUx67/
+         rPuGZPAaFS8nrgmTloz1H6wMLH2AMF92+5mCMqJ9OnmEU5vHlxMGr/31fheAlMkAQI/d
+         ssOI4qflSmrHI4ue8FY8hCsaOjSH/87iqFDlVlxVVbn6qCwcgtJIgODh0BiU8HVLEFtg
+         JDDtXSfIrZ1oH8ylsOX1pTJm58WgTVZ5IpjcAlwOUmKrfI9GvWNTtRkfDaKpj0fq5svv
+         Xd1Q==
+X-Gm-Message-State: AOAM5331pEgSJ48pa9L1VNpUc1402f/3GwcGy5AU14SKIVEzKZGoDgq/
+        Xoms/5bil+yB0ZqTP9r+Mbeel+chmJ8D7S7wK1A=
+X-Google-Smtp-Source: ABdhPJxQ4E8QnsbmqO3EZO6txiQD37jFX04p93gcdE/1YLnV3YAWltpIKi/mcrTNopQ2Ayq1ac6N0Ls0Fa9Cpq5Tvyg=
+X-Received: by 2002:a25:508:0:b0:633:bcf2:d29a with SMTP id
+ 8-20020a250508000000b00633bcf2d29amr19967378ybf.81.1647970891362; Tue, 22 Mar
+ 2022 10:41:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2203041021240.3408681@rhweight-WRK1>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20220321012216.23724-1-rdunlap@infradead.org>
+In-Reply-To: <20220321012216.23724-1-rdunlap@infradead.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 22 Mar 2022 18:41:20 +0100
+Message-ID: <CAJZ5v0jBFOWZZrGuBb0GyJa3rKRwSYXrMFOtGu8jLnQ+OPtXHw@mail.gmail.com>
+Subject: Re: [PATCH] Docs: admin/kernel-parameters: edit a few boot options
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-s390@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-ia64@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <lenb@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Mar 21, 2022 at 2:22 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Clean up some of admin-guide/kernel-parameters.txt:
+>
+> a. "smt" should be "smt=" (S390)
+> b. add "smt-enabled" for POWERPC
+> c. Sparc supports the vdso= boot option
+> d. make the tp_printk options (2) formatting similar to other options
+>    by adding spacing
+> e. add "trace_clock=" with a reference to Documentation/trace/ftrace.rst
+> f. use [IA-64] as documented instead of [ia64]
+> g. fix formatting and text for test_suspend=
 
-On 3/4/22 10:30 AM, matthew.gerlach@linux.intel.com wrote:
->
->
-> On Fri, 4 Mar 2022, Russ Weight wrote:
->
->>
->>
->> On 3/3/22 14:04, Tom Rix wrote:
->>>
->>> On 3/2/22 4:35 PM, matthew.gerlach@linux.intel.com wrote:
->>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>
->>>> Add documentation on identifying FPGA based PCI cards prompted
->>>> by discussion on the linux-fpga@vger.kernel.org mailing list.
->>>>
->>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>> ---
->>>> v2: Introduced in v2.
->>>> ---
->>>>   Documentation/fpga/dfl.rst | 20 ++++++++++++++++++++
->>>>   1 file changed, 20 insertions(+)
->>>>
->>>> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
->>>> index ef9eec71f6f3..5fb2ca8e76d7 100644
->>>> --- a/Documentation/fpga/dfl.rst
->>>> +++ b/Documentation/fpga/dfl.rst
->>>> @@ -502,6 +502,26 @@ Developer only needs to provide a sub feature 
->>>> driver with matched feature id.
->>>>   FME Partial Reconfiguration Sub Feature driver (see 
->>>> drivers/fpga/dfl-fme-pr.c)
->>>>   could be a reference.
->>>>   +PCI Device Identification
->>>> +================================
->>>> +Since FPGA based PCI cards can be reconfigured to a perform a 
->>>> completely
->>>> +new function at runtime, properly identifying such cards and 
->>>> binding the
->>>> +correct driver can be challenging. In many use cases, deployed 
->>>> FPGA based
->>>> +PCI cards are essentially static and the PCI Product ID and Vendor 
->>>> ID pair
->>>> +is sufficient to identify the card.  The DFL framework helps with the
->>>> +dynamic case of deployed FPGA cards changing at run time by providing
->>>> +more detailed information about card discoverable at runtime.
->>>> +
->>>> +At one level, the DFL on a PCI card describes the function of the 
->>>> card.
->>>> +However, the same DFL could be instantiated on different physical 
->>>> cards.
->>>> +Conversely, different DFLs could be instantiated on the same 
->>>> physical card.
->>>> +Practical management of a cloud containing a heterogeneous set of 
->>>> such cards
->>>> +requires a PCI level of card identification. While the PCI Product 
->>>> ID and
->>>> +Vendor ID may be sufficient to bind the dfl-pci driver, it is 
->>>> expected
->>>> +that FPGA PCI cards would advertise suitable Subsystem ID and 
->>>> Subsystem
->>>> +Vendor ID values. PCI Vital Product Data (VPD) can also be used for
->>>> +more granular information about the board.
->>>
->>> This describes a bit more of the problem, it should describe it wrt 
->>> ofs dev id. The introduction of the ofs dev should be explicitly 
->>> called out as a generic pci id.
->
-> The problem I'm describing exists for all FPGA based PCI cards; so I 
-> am purposely trying to be abstract as much as possible.
->
->>>
->>> Why couldn't one of the old pci id's be reused ?
->
-> Yes, old pci id's could be reused, and people have done just that.  We 
-> thought a new PCI ID would minimize confusion with cards that have 
-> already been deployed.
->
->>>
->>> How will the subvendor/subid be enforced ?
->
-> Subvendor and Subid are managed just like any other PCI card with or 
-> without a FPGA.
+This ->
 
-Reviewing how the kernel uses subvendor and subsystem shows it is not 
-widely used.
+> h. fix formatting for swapaccount=
+> i. fix formatting and grammar for video.brightness_switch_enabled=
 
-And when it is, it is used to isolate small variations or hw problems in 
-the device, not completely unique cards
+-> and the last one are fine with me, but I suppose that there will be a v2?
 
-There are very few subsytem/subvendor's in pci_id.h, the usual case 
-seems to be hardcoded hex.
-
-So there is no enforcement.
-
-I can not see how this generic id would not be abused by vendors nor how 
-it would not be confusing to the end users.
-
-Tom
-
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+> Cc: Sven Schnelle <svens@linux.ibm.com>
+> Cc: linux-s390@vger.kernel.org
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: sparclinux@vger.kernel.org
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-ia64@vger.kernel.org
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-acpi@vger.kernel.org
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |   33 +++++++++-----
+>  1 file changed, 22 insertions(+), 11 deletions(-)
 >
->>>
->>> Is the current security manager patchset smart enough to save the 
->>> board from being bricked when a user doesn't look beyond the pci id ?
->>
->> Yes - the security manager is invoked based of DFL feature ID and 
->> revision, and the functionality is differentiated based on the same 
->> information.
->>
->>>
->>> What happens if a board uses this device id but doesn't have a max10 
->>> to do the update ?
+> --- linux-next-20220318.orig/Documentation/admin-guide/kernel-parameters.txt
+> +++ linux-next-20220318/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2814,7 +2814,7 @@
+>                         different yeeloong laptops.
+>                         Example: machtype=lemote-yeeloong-2f-7inch
 >
-> If a board doesn't have a max10, then there will be no DFH for a max10 
-> in the board's DFLs.  Presumeably, the board would need some update 
-> process, and an approprate DFH would be in that board's DFL.
+> -       max_addr=nn[KMG]        [KNL,BOOT,ia64] All physical memory greater
+> +       max_addr=nn[KMG]        [KNL,BOOT,IA-64] All physical memory greater
+>                         than or equal to this physical address is ignored.
 >
->>>
->>> Tom
->>>
->>>> +
->>>>   Location of DFLs on a PCI Device
->>>>   ================================
->>>>   The original method for finding a DFL on a PCI device assumed the 
->>>> start of the
->>>
->>
->>
-
+>         maxcpus=        [SMP] Maximum number of processors that an SMP kernel
+> @@ -3057,7 +3057,7 @@
+>
+>         mga=            [HW,DRM]
+>
+> -       min_addr=nn[KMG]        [KNL,BOOT,ia64] All physical memory below this
+> +       min_addr=nn[KMG]        [KNL,BOOT,IA-64] All physical memory below this
+>                         physical address is ignored.
+>
+>         mini2440=       [ARM,HW,KNL]
+> @@ -5382,13 +5382,19 @@
+>                                 1: Fast pin select (default)
+>                                 2: ATC IRMode
+>
+> -       smt             [KNL,S390] Set the maximum number of threads (logical
+> +       smt=            [KNL,S390] Set the maximum number of threads (logical
+>                         CPUs) to use per physical CPU on systems capable of
+>                         symmetric multithreading (SMT). Will be capped to the
+>                         actual hardware limit.
+>                         Format: <integer>
+>                         Default: -1 (no limit)
+>
+> +       smt-enabled=    [PPC 64-bit] Enable SMT, disable SMT, or set the
+> +                       maximum number of threads. This can be used to override
+> +                       the Open Firmware (OF) option.
+> +                       Format: on | off | <integer>
+> +                       Default: all threads enabled
+> +
+>         softlockup_panic=
+>                         [KNL] Should the soft-lockup detector generate panics.
+>                         Format: 0 | 1
+> @@ -5768,8 +5774,9 @@
+>                         This parameter controls use of the Protected
+>                         Execution Facility on pSeries.
+>
+> -       swapaccount=[0|1]
+> -                       [KNL] Enable accounting of swap in memory resource
+> +       swapaccount=    [KNL]
+> +                       Format: [0|1]
+> +                       Enable accounting of swap in memory resource
+>                         controller if no parameter or 1 is given or disable
+>                         it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
+>
+> @@ -5815,7 +5822,8 @@
+>
+>         tdfx=           [HW,DRM]
+>
+> -       test_suspend=   [SUSPEND][,N]
+> +       test_suspend=   [SUSPEND]
+> +                       Format: { "mem" | "standby" | "freeze" }[,N]
+>                         Specify "mem" (for Suspend-to-RAM) or "standby" (for
+>                         standby suspend) or "freeze" (for suspend type freeze)
+>                         as the system sleep state during system startup with
+> @@ -5902,6 +5910,8 @@
+>         trace_buf_size=nn[KMG]
+>                         [FTRACE] will set tracing buffer size on each cpu.
+>
+> +       trace_clock=    [FTRACE] See Documentation/trace/ftrace.rst
+> +
+>         trace_event=[event-list]
+>                         [FTRACE] Set and start specified trace events in order
+>                         to facilitate early boot debugging. The event-list is a
+> @@ -5924,7 +5934,7 @@
+>                         See also Documentation/trace/ftrace.rst "trace options"
+>                         section.
+>
+> -       tp_printk[FTRACE]
+> +       tp_printk       [FTRACE]
+>                         Have the tracepoints sent to printk as well as the
+>                         tracing ring buffer. This is useful for early boot up
+>                         where the system hangs or reboots and does not give the
+> @@ -5946,7 +5956,7 @@
+>                         frequency tracepoints such as irq or sched, can cause
+>                         the system to live lock.
+>
+> -       tp_printk_stop_on_boot[FTRACE]
+> +       tp_printk_stop_on_boot [FTRACE]
+>                         When tp_printk (above) is set, it can cause a lot of noise
+>                         on the console. It may be useful to only include the
+>                         printing of events during boot up, as user space may
+> @@ -6295,7 +6305,7 @@
+>                                         HIGHMEM regardless of setting
+>                                         of CONFIG_HIGHPTE.
+>
+> -       vdso=           [X86,SH]
+> +       vdso=           [X86,SH,SPARC]
+>                         On X86_32, this is an alias for vdso32=.  Otherwise:
+>
+>                         vdso=1: enable VDSO (the default)
+> @@ -6321,11 +6331,12 @@
+>         video=          [FB] Frame buffer configuration
+>                         See Documentation/fb/modedb.rst.
+>
+> -       video.brightness_switch_enabled= [0,1]
+> +       video.brightness_switch_enabled= [ACPI]
+> +                       Format: [0|1]
+>                         If set to 1, on receiving an ACPI notify event
+>                         generated by hotkey, video driver will adjust brightness
+>                         level and then send out the event to user space through
+> -                       the allocated input device; If set to 0, video driver
+> +                       the allocated input device. If set to 0, video driver
+>                         will only send out the event without touching backlight
+>                         brightness level.
+>                         default: 1
