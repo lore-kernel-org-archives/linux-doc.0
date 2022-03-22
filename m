@@ -2,132 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 461F6C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 08:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 524A7C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 08:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbiCVIWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 04:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35674 "EHLO
+        id S231153AbiCVIZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 04:25:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230241AbiCVIV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 04:21:59 -0400
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A37D5EDD6
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 01:20:32 -0700 (PDT)
-Received: by mail-vk1-xa32.google.com with SMTP id w123so1491899vkg.7
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 01:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=42YXUZS4Bh5f7hZiKMs+uWT14p+nXPI0hRRdRy/jBrw=;
-        b=HIPCGJVN9RSH1xeF7DYptNWpIBgK5qTF6waBgSfWsR4iPSDHQ0R00bHPHJdDkN960d
-         K7G1Q/6J52SMtagmwRDP4lSrs52niH41e/LBaFclp7unH1AbDGZdOrOR+zGUpYmRtmC1
-         pilPjufkqcjV3hlOTs8zT2MSTqVXKiErKeWhpQ2QbTkZJZ28mm7wvOgo6ntWobN6L4Xt
-         sCxCFYNtSfTOHAaIo9ncr4syVy4JuVFSa2RJ8nhK7gVVtYjaVCIoeuZACTgnbtGzIUzC
-         PBeAJStLHBI7ryXcA/uBYCbzEht6PpalY/d3EFU6hDOzpvE+FTd2Mhft7LrwySgVuWT1
-         TTgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=42YXUZS4Bh5f7hZiKMs+uWT14p+nXPI0hRRdRy/jBrw=;
-        b=ub7syiU4cD9J7v0oS1r+Yw1L+dScp+PObNGPcgNtZjPgkfOY77Nb4/jfUbeM6VT7fh
-         iEGr9Yd9aQPisc8tGtmIAjP53eTERSZShneEAMxru6LK8FKBTdksDlSgc1CxYu7d2JBF
-         cZ8OVP2Dv+UZf6Z9/ucptA5r2STH6DV9yjhUSqTvJ8I13JXbBz5si2/lgN1+oMGPK617
-         xOIMpea9WF4ZiSKbDIobdyrfV/liTXaTAHYcMzDhMihq3fxkDsRluScTx8OcnzkIJYzv
-         9Za15fOKDrfyc/iM+zD7AsYRXeW3mTgOxaYZ633Raf3E95Lehq9aI0TMRNT1DhhtkJ+X
-         5gww==
-X-Gm-Message-State: AOAM532sIz1FkDas/YTXYYauseiW3Fl+ViUbBHxdCdAveARUOaAjEmrS
-        Cqo98sQ5AmpjnhFkYMWYZiitloHnV8Blb4hehdEAFg==
-X-Google-Smtp-Source: ABdhPJyk9a1oX9F0PyYF9vK0N7xNfdbrYjqPWxhBwPh3TBqJeyDmyw2FybEi5s6bYuVOH4xB/QKDtj49PVeU9VdWwX4=
-X-Received: by 2002:a05:6122:2213:b0:31b:76c3:16df with SMTP id
- bb19-20020a056122221300b0031b76c316dfmr9732880vkb.31.1647937231477; Tue, 22
- Mar 2022 01:20:31 -0700 (PDT)
+        with ESMTP id S231147AbiCVIZo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 04:25:44 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F68865D2;
+        Tue, 22 Mar 2022 01:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647937457; x=1679473457;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wB3S8pSPevQh6/8HkfQMLomFq9C3BaSJuM4REr4EMLU=;
+  b=oFgXG2G3KXy6mlahubrECrIs/eZgiFfooQbTgJYXhLaX3KeQHmzuJuxg
+   vZTXRZjQZj334kXAHaC8idyuDvO0Ege6v8cvUsNybXUv5jRDhjINbBFn8
+   Fj0XIdjkMj1MtW0deiUadABDdTqlwqZ0Py+O6V9DsYc0+wTuo/GuKzme9
+   7/9rUtf258ViXXJMKyJu85oSKv+ohQ7vdHK6Tn+XHQA8tkp3ovI3wjVC+
+   DwdpicOxEBhXUAuRxTKXgVgPkN3tePFdUM5kBGt1HDvTP87fK4ozZm4Rc
+   NOey8TWBvbV/oxQRba52fIcRhqQIO8AF9/+fMZRpeOKC++asgVkrbVynd
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="344188832"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; 
+   d="scan'208";a="344188832"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2022 01:24:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400"; 
+   d="scan'208";a="716836990"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 22 Mar 2022 01:24:14 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nWZoL-000IdT-Mr; Tue, 22 Mar 2022 08:24:13 +0000
+Date:   Tue, 22 Mar 2022 16:23:28 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:palmer/linux/riscv-pmu 13/15]
+ drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203221658.OweUGgeC-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-11-yuzhao@google.com>
- <CAGsJ_4xqRGp1gV89+bAx5iA=AVwj2TA+No92UqLHFa0i14MBMQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4xqRGp1gV89+bAx5iA=AVwj2TA+No92UqLHFa0i14MBMQ@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 22 Mar 2022 02:20:20 -0600
-Message-ID: <CAOUHufbP7kHquWiD3VsmD=veNFF2v_E9HWqdYSMbS1nPJic0Fg@mail.gmail.com>
-Subject: Re: [PATCH v9 10/14] mm: multi-gen LRU: kill switch
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 1:47 AM Barry Song <21cnbao@gmail.com> wrote:
->
-...
-> > +static bool drain_evictable(struct lruvec *lruvec)
-> > +{
-> > +       int gen, type, zone;
-> > +       int remaining = MAX_LRU_BATCH;
-> > +
-> > +       for_each_gen_type_zone(gen, type, zone) {
-> > +               struct list_head *head = &lruvec->lrugen.lists[gen][type][zone];
-> > +
-> > +               while (!list_empty(head)) {
-> > +                       bool success;
-> > +                       struct folio *folio = lru_to_folio(head);
-> > +
-> > +                       VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-> > +                       VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
-> > +                       VM_BUG_ON_FOLIO(folio_is_file_lru(folio) != type, folio);
-> > +                       VM_BUG_ON_FOLIO(folio_zonenum(folio) != zone, folio);
-> > +
-> > +                       success = lru_gen_del_folio(lruvec, folio, false);
-> > +                       VM_BUG_ON(!success);
-> > +                       lruvec_add_folio(lruvec, folio);
->
-> for example, max_seq=4(GEN=0) and max_seq-1=3, then we are supposed to put
-> max_seq in the head of active list. but your code seems to be putting max_seq-1
-> after putting max_seq, then max_seq is more likely to be evicted
-> afterwards as it
-> is in the tail of the active list.
+tree:   https://github.com/ammarfaizi2/linux-block palmer/linux/riscv-pmu
+head:   33363c336516e4beb9dd7e8265b369ff96d07dcb
+commit: 4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98 [13/15] RISC-V: Add sscofpmf extension support
+config: riscv-randconfig-r042-20220320 (https://download.01.org/0day-ci/archive/20220322/202203221658.OweUGgeC-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2687a13d1908aa86d1b89c5ce398a06cd39)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block palmer/linux/riscv-pmu
+        git checkout 4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
 
-This is correct.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> anyway, it might not be so important. I can't imagine we will
-> frequently switch mglru
-> with lru dynamically. will we?
+All warnings (new ones prefixed by >>):
 
-I certainly hope not :)
+   drivers/perf/riscv_pmu_sbi.c:42: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
+>> drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This function starts all the used counters in two step approach.
+
+
+vim +498 drivers/perf/riscv_pmu_sbi.c
+
+   496	
+   497	/**
+ > 498	 * This function starts all the used counters in two step approach.
+   499	 * Any counter that did not overflow can be start in a single step
+   500	 * while the overflowed counters need to be started with updated initialization
+   501	 * value.
+   502	 */
+   503	static inline void pmu_sbi_start_overflow_mask(struct riscv_pmu *pmu,
+   504						       unsigned long ctr_ovf_mask)
+   505	{
+   506		int idx = 0;
+   507		struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
+   508		struct perf_event *event;
+   509		unsigned long flag = SBI_PMU_START_FLAG_SET_INIT_VALUE;
+   510		unsigned long ctr_start_mask = 0;
+   511		uint64_t max_period;
+   512		struct hw_perf_event *hwc;
+   513		u64 init_val = 0;
+   514	
+   515		ctr_start_mask = cpu_hw_evt->used_hw_ctrs[0] & ~ctr_ovf_mask;
+   516	
+   517		/* Start all the counters that did not overflow in a single shot */
+   518		sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, 0, ctr_start_mask,
+   519			  0, 0, 0, 0);
+   520	
+   521		/* Reinitialize and start all the counter that overflowed */
+   522		while (ctr_ovf_mask) {
+   523			if (ctr_ovf_mask & 0x01) {
+   524				event = cpu_hw_evt->events[idx];
+   525				hwc = &event->hw;
+   526				max_period = riscv_pmu_ctr_get_width_mask(event);
+   527				init_val = local64_read(&hwc->prev_count) & max_period;
+   528				sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, idx, 1,
+   529					  flag, init_val, 0, 0);
+   530			}
+   531			ctr_ovf_mask = ctr_ovf_mask >> 1;
+   532			idx++;
+   533		}
+   534	}
+   535	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
