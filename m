@@ -2,103 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D504CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 16:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FD9C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 16:07:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234340AbiCVQEQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 12:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33328 "EHLO
+        id S238911AbiCVQIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 12:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234304AbiCVQEP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 12:04:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF4585C36E;
-        Tue, 22 Mar 2022 09:02:47 -0700 (PDT)
+        with ESMTP id S236568AbiCVQIs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 12:08:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E848D68F;
+        Tue, 22 Mar 2022 09:07:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F38D6126E;
-        Tue, 22 Mar 2022 16:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B72C340EC;
-        Tue, 22 Mar 2022 16:02:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D1A5261224;
+        Tue, 22 Mar 2022 16:07:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD3BC340F2;
+        Tue, 22 Mar 2022 16:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647964966;
-        bh=53qhTxwIy68V/G2LTGU3ZP7e3PIWiRm5YddHHvOGxXg=;
+        s=k20201202; t=1647965240;
+        bh=uSOOq0K0AgKLPEeuKOwHFh4OYgLE2Hvt3voMGhHzT6o=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TYTt1n9K9NQ0sVF+i5iOM90fsEoISAnF4ekEo5NM2Q6qavYzlU8FTwRdkAFx4MH7D
-         oKlB0+XXboSDJb9pHvpMLb+tymOJoyYKLhANS/IwqHsaxv9jk9P+POCejcbVc4g56I
-         tgG1AHyFuMw0tqFhDQOXERtCjcMQBGewEE7HJv5aAKpN2CyuHBxECyjz62gVvzuGlm
-         MqPxdmvBg8E8hP8zuGhRqXeaDz4V/rd00J18PJIteP71u7aJ9KNxrxA+2z9lYPchMp
-         kDeTlOfpsijC4ucm7AQ5RyWcovn+UfaWKbkJwpixHhpetjmmkmXoYd7Jnwj8Od1nu+
-         4qv0Jtg0q7FPA==
-Date:   Tue, 22 Mar 2022 17:02:34 +0100
+        b=fQPHI71f0BUCbQYIhPaRBwike/7mbu7HfbqKAyTZyeXxvTFSZBW8OJHw75FyNjjct
+         TkJ06nuufpzYFl30PfmHHBsdFoAVO/Rx0Py/EjuoAKDdpB/pe2RWuS3m6aOIijxKqc
+         4QUbiO92sHlJvwFEXOPCHmImzlFcOAhg54Q+11qL1v3uqtjpAMaTzXM5VBvwNrUQaM
+         0pDSwIOEuTE6bHlxoGYzBa9s329CV9bgmt8q09zcbRbyvOe2RQxTg2mokYrSjoByFw
+         q9ZWxV41RiPsyAX4zQlvXxD0pIV62dPOK62WraDz62dbu/RjKCEGPO0AZga3dK4b2/
+         RdPvbVQNl8fyQ==
+Date:   Tue, 22 Mar 2022 17:07:09 +0100
 From:   Christian Brauner <brauner@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Huacai Chen <chenhuacai@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Todd Kjos <tkjos@google.com>
+Cc:     "T.J. Mercier" <tjmercier@google.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "H.J. Lu" <hjl.tools@gmail.com>
-Subject: Re: [PATCH V8 13/22] LoongArch: Add system call support
-Message-ID: <20220322160234.hxyiugzm3qstyun2@wittgenstein>
-References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
- <20220319143817.1026708-1-chenhuacai@loongson.cn>
- <20220319143817.1026708-6-chenhuacai@loongson.cn>
- <CAK8P3a2kroHVN3fTabuFVMz08SXytz-SC8X11BxxszsUCksJ4g@mail.gmail.com>
- <CAAhV-H6zE7p6Tq8rg1Fq5cK5L38z-VHjxsZ+qm8+Cp5x=u_bUQ@mail.gmail.com>
- <CAK8P3a38nUyAt8gGEYregqivdP7NsXS0RuU1NX4_EAVvwGQBWA@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v3 8/8] selftests: Add binder cgroup gpu memory transfer
+ test
+Message-ID: <20220322160709.rcbjgqdoar7lvbox@wittgenstein>
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-9-tjmercier@google.com>
+ <CAHRSSEwN4Xuo2vLt8d2QfJbNOK21VB7_NjjbO_XGDz6pYUaXZg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a38nUyAt8gGEYregqivdP7NsXS0RuU1NX4_EAVvwGQBWA@mail.gmail.com>
+In-Reply-To: <CAHRSSEwN4Xuo2vLt8d2QfJbNOK21VB7_NjjbO_XGDz6pYUaXZg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 10:47:49AM +0100, Arnd Bergmann wrote:
-> On Mon, Mar 21, 2022 at 10:41 AM Huacai Chen <chenhuacai@kernel.org> wrote:
-> > On Mon, Mar 21, 2022 at 5:01 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > >
-> > > On Sat, Mar 19, 2022 at 3:38 PM Huacai Chen <chenhuacai@kernel.org> wrote:
-> > > >
-> > > > This patch adds system call support and related uaccess.h for LoongArch.
-> > > >
-> > > > Q: Why keep __ARCH_WANT_NEW_STAT definition while there is statx:
-> > > > A: Until the latest glibc release (2.34), statx is only used for 32-bit
-> > > >    platforms, or 64-bit platforms with 32-bit timestamp. I.e., Most 64-
-> > > >    bit platforms still use newstat now.
-> > > >
-> > > > Q: Why keep _ARCH_WANT_SYS_CLONE definition while there is clone3:
-> > > > A: The latest glibc release (2.34) has some basic support for clone3 but
-> > > >    it isn't complete. E.g., pthread_create() and spawni() have converted
-> > > >    to use clone3 but fork() will still use clone. Moreover, some seccomp
-> > > >    related applications can still not work perfectly with clone3.
-> > >
-> > > Please leave those out of the mainline kernel support though: Any users
-> > > of existing glibc binaries can keep using patched kernels for the moment,
-> > > and then later drop those pages when the proper glibc support gets
-> > > merged.
-> > The glibc commit d8ea0d0168b190bdf138a20358293c939509367f ("Add an
-> > internal wrapper for clone, clone2 and clone3") modified nearly
-> > everything in order to move to clone3(), except arch_fork() which used
-> > by fork(). And I cannot find any submitted patches to solve it. So I
-> > don't think this is just a forget, maybe there are other fundamental
-> > problems?
+On Mon, Mar 14, 2022 at 05:43:40PM -0700, Todd Kjos wrote:
+> On Wed, Mar 9, 2022 at 8:53 AM T.J. Mercier <tjmercier@google.com> wrote:
+> >
+> > This test verifies that the cgroup GPU memory charge is transferred
+> > correctly when a dmabuf is passed between processes in two different
+> > cgroups and the sender specifies BINDER_BUFFER_FLAG_SENDER_NO_NEED in the
+> > binder transaction data containing the dmabuf file descriptor.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
 > 
-> I don't think there are fundamental issues, they probably did not consider
-> it necessary because so far all architectures supported clone().
-> 
-> Adding Christian Brauner and H.J. Lu for clarificatoin.
+> Reviewed-by: Todd Kjos <tkjos@google.com>
+> for the binder driver interactions. Need Christian to take a look at
+> the binderfs interactions.
 
-Probably, yes. I don't know of any fundamental problems there either.
+Sorry, just saw this now. I'll take a look tomorrow!
