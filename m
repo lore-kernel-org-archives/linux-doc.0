@@ -2,97 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04729C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 03:07:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B2DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 04:03:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235991AbiCVDIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 23:08:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
+        id S229478AbiCVEEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 00:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235872AbiCVDIt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 23:08:49 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2E9140F4;
-        Mon, 21 Mar 2022 20:07:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BF37EB81B41;
-        Tue, 22 Mar 2022 03:07:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80126C340E8;
-        Tue, 22 Mar 2022 03:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647918440;
-        bh=JbminCrwvlKeHI7BEmFEsF5mDATqt+IS8qjcZ0/Jt9M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QXAmVA5wzyUI2A1gidTxf5+Lo6mDAbigvc7Oy0OmXaaB60pzd2ZM3RZzXh1ONfLiQ
-         rcm70kJ/Ci2YoNfEesX6/y+NDr/MfTm7yzMJcVfqf5rppfBhzFhpYm3soqnr8vyEqY
-         0T9J/oRiVAWY51zw2o99VDzbxSp85Gx2cfDifP5vWxNS/tMHx13Ea+2/y90cvg03l5
-         6gAp8I2yarUR5IZlxfxhCsGvLMrXZeLHenIZlvc706Alb8DGCG8hGWzfBl0t1Me22X
-         omXtfJopIWR+aXYBRHLZKCZK3ZkqQ73ONWYFzfcorVZgEMzViOXN3wifI1BFd32Ulv
-         JiY+QggjG5riw==
-Received: by mail-vs1-f41.google.com with SMTP id 2so9784745vse.4;
-        Mon, 21 Mar 2022 20:07:20 -0700 (PDT)
-X-Gm-Message-State: AOAM531aCzh68XRbmaPpJ+FEO+ZW9rMf/PBCYllqnCNNjpVHOJJ2ZfBK
-        NApFte2jWFdiHEXUbfg/fIdhYsGJQiSR/jFfPkU=
-X-Google-Smtp-Source: ABdhPJx4+oH0hOgpdvstgqFyVbmteIBIBzG7Uewe8HbwCzcGggSv3RFh+6z7krU1v8KMTHuDPkzMCzfD1G8XtTDEGEY=
-X-Received: by 2002:a05:6102:2e5:b0:325:30d7:c452 with SMTP id
- j5-20020a05610202e500b0032530d7c452mr1451473vsj.67.1647918439548; Mon, 21 Mar
- 2022 20:07:19 -0700 (PDT)
+        with ESMTP id S236269AbiCVEEh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 00:04:37 -0400
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956A320183
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:03:09 -0700 (PDT)
+Received: by mail-vk1-xa34.google.com with SMTP id j204so850764vkj.8
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U1WDVkBMGb1UWaUiP/BMa1bimDceuIIYF6DsrMPvkIE=;
+        b=S0qxjRqltQsnLpu+b9uTdJ1ZzChP2TnUXVIzPiQtTKv7rlk1UWjMjpE3h3bJ1v9sW5
+         huKNUHAUPdXtj83a+494lrok1KWMjxoILFSd5pHwf9iQmsFVDC1eRjvLfix18amc27kO
+         MsjP26xdR64RX1aD6Hw91Gd0LUTxfC6mxTRGSBJ99LzE7YFS5Z9RjF5ytt9aaGyHf81w
+         sz+tauM57ujRXoLkISPTzAxt18Hgulk2BRNjkFZj9kKAWXZw37XWQVAZvAPw/rP+8Jg7
+         rcHa715+9N1drYanKpzpnvhAK+KvRyfiowz/VQuifj507DPS+Fq82rZrypJidfABzyVr
+         plzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U1WDVkBMGb1UWaUiP/BMa1bimDceuIIYF6DsrMPvkIE=;
+        b=ssXDAmONWGmqa6CMDerJT+Tw8h0YbONje+fVtPjln4z+vunz/YAetqFPSZRjm9jEbE
+         17C+gMjVRyeOyCX8b7h3MlFTZuZQ4M+9EXYVd0x37WDIEanohJZn7fvanufg66NA62rm
+         oR9qPyZZgiP1CT3wKJcgX5hQWEPfvTkpv1RT/uI3rFnCEyyZ0LyDh21tegucxQfEFN4R
+         hbqph8dmdwsu3h2AotptCyAxTkt7zYq/NZBSw1Pg4/ybkse6nc1uhaEAngM6OZdlfOA/
+         zgfxCY78WctdmlanT4UuxZyzMP6Uf2nzpb90qEHWuX+JITMm/uh+EVdlqI7KF2FUtsNo
+         QD/w==
+X-Gm-Message-State: AOAM5337POxuqaKO8jTs7F65SsS6EAHhPQHcrqAcgLBqc98HtSIC4kLr
+        WWQh3I0TBs772cTR9B49CqPo7mXwqEiVOHbfVPePaQ==
+X-Google-Smtp-Source: ABdhPJxtzx4fQPL53yxR2Z+LZ1DoZuKamA0ncWy8RZCGDsKAcQCH9+DROmoF8tqhSlZxwTp/BlxCUFz+Sjx0CpOrPd0=
+X-Received: by 2002:a05:6122:20a1:b0:33e:e79d:25c2 with SMTP id
+ i33-20020a05612220a100b0033ee79d25c2mr3933628vkd.14.1647921788539; Mon, 21
+ Mar 2022 21:03:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
- <20220319143817.1026708-1-chenhuacai@loongson.cn> <20220319143817.1026708-4-chenhuacai@loongson.cn>
- <CAK8P3a1ST1hBnhepvoQ9UTbAM=56JEU=-OiBAFQeK2rgaZ5aWw@mail.gmail.com>
-In-Reply-To: <CAK8P3a1ST1hBnhepvoQ9UTbAM=56JEU=-OiBAFQeK2rgaZ5aWw@mail.gmail.com>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Tue, 22 Mar 2022 11:07:11 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7akp8RNyw=7qJPgWeApAzf0u4kBNbOHzgQN9Mx3PfzcQ@mail.gmail.com>
-Message-ID: <CAAhV-H7akp8RNyw=7qJPgWeApAzf0u4kBNbOHzgQN9Mx3PfzcQ@mail.gmail.com>
-Subject: Re: [PATCH V8 11/22] LoongArch: Add process management
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
+ <87czif79k2.fsf@linux.ibm.com>
+In-Reply-To: <87czif79k2.fsf@linux.ibm.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 21 Mar 2022 22:02:57 -0600
+Message-ID: <CAOUHufa1nuyJ1MawqBTRZS78EFOGTw0_qh5k3XvDo9XQCvan7g@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@loongson.cn>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Arnd,
-
-On Mon, Mar 21, 2022 at 4:43 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Mon, Mar 21, 2022 at 6:52 AM Aneesh Kumar K.V
+<aneesh.kumar@linux.ibm.com> wrote:
 >
-> On Sat, Mar 19, 2022 at 3:38 PM Huacai Chen <chenhuacai@kernel.org> wrote:
->
-> > +#ifdef CONFIG_PAGE_SIZE_64KB
-> > +#define THREAD_SIZE_ORDER (0)
-> > +#endif
+>  +
+> > +static long get_nr_evictable(struct lruvec *lruvec, unsigned long max_seq,
+> > +                          unsigned long *min_seq, bool can_swap, bool *need_aging)
+> > +{
+> > +     int gen, type, zone;
+> > +     long old = 0;
+> > +     long young = 0;
+> > +     long total = 0;
+> > +     struct lru_gen_struct *lrugen = &lruvec->lrugen;
 > > +
-> > +#define THREAD_SIZE (PAGE_SIZE << THREAD_SIZE_ORDER)
-> > +#define THREAD_MASK (THREAD_SIZE - 1UL)
+> > +     for (type = !can_swap; type < ANON_AND_FILE; type++) {
+> > +             unsigned long seq;
 > > +
+> > +             for (seq = min_seq[type]; seq <= max_seq; seq++) {
+> > +                     long size = 0;
+> > +
+> > +                     gen = lru_gen_from_seq(seq);
+> > +
+> > +                     for (zone = 0; zone < MAX_NR_ZONES; zone++)
+> > +                             size += READ_ONCE(lrugen->nr_pages[gen][type][zone]);
+> > +
+> > +                     total += size;
+> > +                     if (seq == max_seq)
+> > +                             young += size;
+> > +                     if (seq + MIN_NR_GENS == max_seq)
+> > +                             old += size;
+> > +             }
+> > +     }
+> > +
+> > +     /* try to spread pages out across MIN_NR_GENS+1 generations */
+> > +     if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
+> > +             *need_aging = true;
+> > +     else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
+> > +             *need_aging = false;
 >
-> Having a 64KB stack area is rather wasteful. I think you should use a sub-page
-> allocation in this configuration, or possibly disallow 64KB page configuration
-> entirely.
+> Can you explain/document the reason for the considering the below
+> conditions for ageing?
 >
-> Note that you have to use full pages when using CONFIG_VMAP_STACK, but
-> you don't seem to support that at the moment, so allocating only 16KB stacks
-> on a 64KB page config should still work.
-I think using a 16KB stack for all configurations (4KB/16KB/64KB) is
-the simplest way. Right?
+> > +     else if (young * MIN_NR_GENS > total)
+> > +             *need_aging = true;
+>
+> Are we trying to consdier the case of more than half the total pages
+> young as needing ageing? If so should MIN_NR_GENS be 2 instead of using
+> that #define? Or
+>
+> > +     else if (old * (MIN_NR_GENS + 2) < total)
+> > +             *need_aging = true;
+>
+> What is the significance of '+ 2' ?
 
-Huacai
->
->        Arnd
+Will improve the comment according to my previous reply here [1].
+
+[1] https://lore.kernel.org/linux-mm/CAOUHufYmUPZY0gCC+wYk6Vr1L8KEx+tJeEAhjpBfUnLJsAHq5A@mail.gmail.com/
