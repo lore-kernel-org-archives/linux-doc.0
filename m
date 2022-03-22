@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B2DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 04:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEE3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 04:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbiCVEEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 00:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60368 "EHLO
+        id S236497AbiCVElE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 00:41:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236269AbiCVEEh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 00:04:37 -0400
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956A320183
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:03:09 -0700 (PDT)
-Received: by mail-vk1-xa34.google.com with SMTP id j204so850764vkj.8
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:03:09 -0700 (PDT)
+        with ESMTP id S236485AbiCVElC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 00:41:02 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7B6747AC2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:39:33 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id o67so380264vsc.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 21:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=U1WDVkBMGb1UWaUiP/BMa1bimDceuIIYF6DsrMPvkIE=;
-        b=S0qxjRqltQsnLpu+b9uTdJ1ZzChP2TnUXVIzPiQtTKv7rlk1UWjMjpE3h3bJ1v9sW5
-         huKNUHAUPdXtj83a+494lrok1KWMjxoILFSd5pHwf9iQmsFVDC1eRjvLfix18amc27kO
-         MsjP26xdR64RX1aD6Hw91Gd0LUTxfC6mxTRGSBJ99LzE7YFS5Z9RjF5ytt9aaGyHf81w
-         sz+tauM57ujRXoLkISPTzAxt18Hgulk2BRNjkFZj9kKAWXZw37XWQVAZvAPw/rP+8Jg7
-         rcHa715+9N1drYanKpzpnvhAK+KvRyfiowz/VQuifj507DPS+Fq82rZrypJidfABzyVr
-         plzA==
+        bh=qzc7xhnDWFDyGEZ9XczoWDDRN1//lp5rWNOk/MNR6Qc=;
+        b=oj6Fa/oNOKoiISVs1Ikr/rzuXcz69rLctJa+06Hz/ntpa/w1ijb8EX+sQ8tWoC4k9s
+         BaNT3TlaWgceZHzKDzKDwoXsU1JdT4F5R8X1mxFOVKXEj7/rMGtKypk3SKhl1xdeGCMq
+         4FWXRY+oJdTUQp8oKXMigBUkVCxGHuzOF7bhiB7ltNHGtDlSKq7QhWZn3EjIdrD3nyOy
+         ShiML/kIoLgen2R8zUVAc32UyR7d9Xt8x1BCFR/m5o2cUWjzULCBmqem78CbKQdz6n95
+         JLRqHGJtOrybTEwtoKVJ0kFwYTxXeA2KXBKbXFlTmkdaGXKKe3CBxFG4Qn1EaSFy0CfZ
+         E4zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=U1WDVkBMGb1UWaUiP/BMa1bimDceuIIYF6DsrMPvkIE=;
-        b=ssXDAmONWGmqa6CMDerJT+Tw8h0YbONje+fVtPjln4z+vunz/YAetqFPSZRjm9jEbE
-         17C+gMjVRyeOyCX8b7h3MlFTZuZQ4M+9EXYVd0x37WDIEanohJZn7fvanufg66NA62rm
-         oR9qPyZZgiP1CT3wKJcgX5hQWEPfvTkpv1RT/uI3rFnCEyyZ0LyDh21tegucxQfEFN4R
-         hbqph8dmdwsu3h2AotptCyAxTkt7zYq/NZBSw1Pg4/ybkse6nc1uhaEAngM6OZdlfOA/
-         zgfxCY78WctdmlanT4UuxZyzMP6Uf2nzpb90qEHWuX+JITMm/uh+EVdlqI7KF2FUtsNo
-         QD/w==
-X-Gm-Message-State: AOAM5337POxuqaKO8jTs7F65SsS6EAHhPQHcrqAcgLBqc98HtSIC4kLr
-        WWQh3I0TBs772cTR9B49CqPo7mXwqEiVOHbfVPePaQ==
-X-Google-Smtp-Source: ABdhPJxtzx4fQPL53yxR2Z+LZ1DoZuKamA0ncWy8RZCGDsKAcQCH9+DROmoF8tqhSlZxwTp/BlxCUFz+Sjx0CpOrPd0=
-X-Received: by 2002:a05:6122:20a1:b0:33e:e79d:25c2 with SMTP id
- i33-20020a05612220a100b0033ee79d25c2mr3933628vkd.14.1647921788539; Mon, 21
- Mar 2022 21:03:08 -0700 (PDT)
+        bh=qzc7xhnDWFDyGEZ9XczoWDDRN1//lp5rWNOk/MNR6Qc=;
+        b=ZValVXwPFL3o7sME4VzRVnXAg1hzarq+82ZYjp29w+YUjyvC1edKG2e1MPgxDixKKz
+         cMsj+q4Sko63O2+1k6YYCDjEtxNA+y+tQlXFUzQ8VytErJdb8cAjzw6y4v6iILgBFabA
+         hjw8EsFIhMloWrrJBCDkz+CH6o2JrbqJ2/FurVDaim4vpICu4gcwMRKsn/jLHRl0A8UW
+         Hdg1Vz1yeLY5t5Z98SbSz2bbmmpb7SpwzOo3wz4dfreD2AdcDkzX7luGEH0i/dvzVG91
+         cz0ORVy+CBkt3x1GviLcJo9QZhXDTHkPNZcF4Ie6yCP09Tsnn9CwucuJ/l/caVSeidFN
+         u5tg==
+X-Gm-Message-State: AOAM5312ERmvE0XTS9SaM/+uk3K5xzN5FSP21I0wTSHpYVe+hvcfh/3L
+        Fe+UiTwa7TBPK5nPemY48T4PzXdlPOqmmIPHXg7RWg==
+X-Google-Smtp-Source: ABdhPJxefLANlaq+qPI8GTvOzY0DYXscT+QrMjjT+L1xVXhF0FUVv+/fBcCrd2jQ68TGtCC08s8uJkG+6HgUJ8u8x6A=
+X-Received: by 2002:a05:6102:5cc:b0:320:9bd2:3823 with SMTP id
+ v12-20020a05610205cc00b003209bd23823mr8796701vsf.81.1647923972368; Mon, 21
+ Mar 2022 21:39:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
- <87czif79k2.fsf@linux.ibm.com>
-In-Reply-To: <87czif79k2.fsf@linux.ibm.com>
+ <87a6dj793j.fsf@linux.ibm.com>
+In-Reply-To: <87a6dj793j.fsf@linux.ibm.com>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Mon, 21 Mar 2022 22:02:57 -0600
-Message-ID: <CAOUHufa1nuyJ1MawqBTRZS78EFOGTw0_qh5k3XvDo9XQCvan7g@mail.gmail.com>
+Date:   Mon, 21 Mar 2022 22:39:21 -0600
+Message-ID: <CAOUHufYfpiGdLSdffvzDqaD5oYFG99oDJ2xgQd2Ph77OFR5NAA@mail.gmail.com>
 Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
 To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -94,59 +94,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 21, 2022 at 6:52 AM Aneesh Kumar K.V
+On Mon, Mar 21, 2022 at 7:01 AM Aneesh Kumar K.V
 <aneesh.kumar@linux.ibm.com> wrote:
 >
->  +
-> > +static long get_nr_evictable(struct lruvec *lruvec, unsigned long max_seq,
-> > +                          unsigned long *min_seq, bool can_swap, bool *need_aging)
-> > +{
-> > +     int gen, type, zone;
-> > +     long old = 0;
-> > +     long young = 0;
-> > +     long total = 0;
-> > +     struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> > +
-> > +     for (type = !can_swap; type < ANON_AND_FILE; type++) {
-> > +             unsigned long seq;
-> > +
-> > +             for (seq = min_seq[type]; seq <= max_seq; seq++) {
-> > +                     long size = 0;
-> > +
-> > +                     gen = lru_gen_from_seq(seq);
-> > +
-> > +                     for (zone = 0; zone < MAX_NR_ZONES; zone++)
-> > +                             size += READ_ONCE(lrugen->nr_pages[gen][type][zone]);
-> > +
-> > +                     total += size;
-> > +                     if (seq == max_seq)
-> > +                             young += size;
-> > +                     if (seq + MIN_NR_GENS == max_seq)
-> > +                             old += size;
-> > +             }
-> > +     }
-> > +
-> > +     /* try to spread pages out across MIN_NR_GENS+1 generations */
-> > +     if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
-> > +             *need_aging = true;
-> > +     else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
-> > +             *need_aging = false;
+> Yu Zhao <yuzhao@google.com> writes:
 >
-> Can you explain/document the reason for the considering the below
-> conditions for ageing?
+> > To avoid confusion, the terms "promotion" and "demotion" will be
+> > applied to the multi-gen LRU, as a new convention; the terms
+> > "activation" and "deactivation" will be applied to the active/inactive
+> > LRU, as usual.
+> >
+> > The aging produces young generations. Given an lruvec, it increments
+> > max_seq when max_seq-min_seq+1 approaches MIN_NR_GENS. The aging
+> > promotes hot pages to the youngest generation when it finds them
+> > accessed through page tables; the demotion of cold pages happens
+> > consequently when it increments max_seq. The aging has the complexity
+> > O(nr_hot_pages), since it is only interested in hot pages. Promotion
+> > in the aging path does not require any LRU list operations, only the
+> > updates of the gen counter and lrugen->nr_pages[]; demotion, unless as
+> > the result of the increment of max_seq, requires LRU list operations,
+> > e.g., lru_deactivate_fn().
+> >
+> > The eviction consumes old generations. Given an lruvec, it increments
+> > min_seq when the lists indexed by min_seq%MAX_NR_GENS become empty. A
+> > feedback loop modeled after the PID controller monitors refaults over
+> > anon and file types and decides which type to evict when both types
+> > are available from the same generation.
+> >
+> > Each generation is divided into multiple tiers. Tiers represent
+> > different ranges of numbers of accesses through file descriptors. A
+> > page accessed N times through file descriptors is in tier
+> > order_base_2(N). Tiers do not have dedicated lrugen->lists[], only
+> > bits in folio->flags. In contrast to moving across generations, which
+> > requires the LRU lock, moving across tiers only involves operations on
+> > folio->flags. The feedback loop also monitors refaults over all tiers
+> > and decides when to protect pages in which tiers (N>1), using the
+> > first tier (N=0,1) as a baseline. The first tier contains single-use
+> > unmapped clean pages, which are most likely the best choices. The
+> > eviction moves a page to the next generation, i.e., min_seq+1, if the
+> > feedback loop decides so. This approach has the following advantages:
+> > 1. It removes the cost of activation in the buffered access path by
+> >    inferring whether pages accessed multiple times through file
+> >    descriptors are statistically hot and thus worth protecting in the
+> >    eviction path.
+> > 2. It takes pages accessed through page tables into account and avoids
+> >    overprotecting pages accessed multiple times through file
+> >    descriptors. (Pages accessed through page tables are in the first
+> >    tier, since N=0.)
+> > 3. More tiers provide better protection for pages accessed more than
+> >    twice through file descriptors, when under heavy buffered I/O
+> >    workloads.
+> >
+> > Server benchmark results:
+> >   Single workload:
+> >     fio (buffered I/O): +[47, 49]%
+> >                 IOPS         BW
+> >       5.17-rc2: 2242k        8759MiB/s
+> >       patch1-5: 3321k        12.7GiB/s
+> >
+> >   Single workload:
+> >     memcached (anon): +[101, 105]%
+> >                 Ops/sec      KB/sec
+> >       5.17-rc2: 476771.79    18544.31
+> >       patch1-5: 972526.07    37826.95
+> >
+> >   Configurations:
+> >     CPU: two Xeon 6154
+> >     Mem: total 256G
+> >
+> >     Node 1 was only used as a ram disk to reduce the variance in the
+> >     results.
+> >
+> >     patch drivers/block/brd.c <<EOF
+> >     99,100c99,100
+> >     <         gfp_flags = GFP_NOIO | __GFP_ZERO | __GFP_HIGHMEM;
+> >     <         page = alloc_page(gfp_flags);
+> >     ---
+> >     >         gfp_flags = GFP_NOIO | __GFP_ZERO | __GFP_HIGHMEM | __GFP_THISNODE;
+> >     >         page = alloc_pages_node(1, gfp_flags, 0);
+> >     EOF
+> >
+> >     cat >>/etc/systemd/system.conf <<EOF
+> >     CPUAffinity=numa
+> >     NUMAPolicy=bind
+> >     NUMAMask=0
+> >     EOF
+> >
+> >     cat >>/etc/memcached.conf <<EOF
+> >     -m 184320
+> >     -s /var/run/memcached/memcached.sock
+> >     -a 0766
+> >     -t 36
+> >     -B binary
+> >     EOF
+> >
+> >     cat fio.sh
+> >     modprobe brd rd_nr=1 rd_size=113246208
+> >     mkfs.ext4 /dev/ram0
+> >     mount -t ext4 /dev/ram0 /mnt
+> >
+> >     mkdir /sys/fs/cgroup/user.slice/test
+> >     echo 38654705664 >/sys/fs/cgroup/user.slice/test/memory.max
+> >     echo $$ >/sys/fs/cgroup/user.slice/test/cgroup.procs
+> >     fio -name=mglru --numjobs=72 --directory=/mnt --size=1408m \
+> >       --buffered=1 --ioengine=io_uring --iodepth=128 \
+> >       --iodepth_batch_submit=32 --iodepth_batch_complete=32 \
+> >       --rw=randread --random_distribution=random --norandommap \
+> >       --time_based --ramp_time=10m --runtime=5m --group_reporting
+> >
+> >     cat memcached.sh
+> >     modprobe brd rd_nr=1 rd_size=113246208
+> >     swapoff -a
+> >     mkswap /dev/ram0
+> >     swapon /dev/ram0
+> >
+> >     memtier_benchmark -S /var/run/memcached/memcached.sock \
+> >       -P memcache_binary -n allkeys --key-minimum=1 \
+> >       --key-maximum=65000000 --key-pattern=P:P -c 1 -t 36 \
+> >       --ratio 1:0 --pipeline 8 -d 2000
+> >
+> >     memtier_benchmark -S /var/run/memcached/memcached.sock \
+> >       -P memcache_binary -n allkeys --key-minimum=1 \
+> >       --key-maximum=65000000 --key-pattern=R:R -c 1 -t 36 \
+> >       --ratio 0:1 --pipeline 8 --randomize --distinct-client-seed
+> >
+> > Client benchmark results:
+> >   kswapd profiles:
+> >     5.17-rc2
+> >       38.05%  page_vma_mapped_walk
+> >       20.86%  lzo1x_1_do_compress (real work)
+> >        6.16%  do_raw_spin_lock
+> >        4.61%  _raw_spin_unlock_irq
+> >        2.20%  vma_interval_tree_iter_next
+> >        2.19%  vma_interval_tree_subtree_search
+> >        2.15%  page_referenced_one
+> >        1.93%  anon_vma_interval_tree_iter_first
+> >        1.65%  ptep_clear_flush
+> >        1.00%  __zram_bvec_write
+> >
+> >     patch1-5
+> >       39.73%  lzo1x_1_do_compress (real work)
+> >       14.96%  page_vma_mapped_walk
+> >        6.97%  _raw_spin_unlock_irq
+> >        3.07%  do_raw_spin_lock
+> >        2.53%  anon_vma_interval_tree_iter_first
+> >        2.04%  ptep_clear_flush
+> >        1.82%  __zram_bvec_write
+> >        1.76%  __anon_vma_interval_tree_subtree_search
+> >        1.57%  memmove
+> >        1.45%  free_unref_page_list
+> >
+> >   Configurations:
+> >     CPU: single Snapdragon 7c
+> >     Mem: total 4G
+> >
+> >     Chrome OS MemoryPressure [1]
+> >
+> > [1] https://chromium.googlesource.com/chromiumos/platform/tast-tests/
+> >
 >
-> > +     else if (young * MIN_NR_GENS > total)
-> > +             *need_aging = true;
->
-> Are we trying to consdier the case of more than half the total pages
-> young as needing ageing? If so should MIN_NR_GENS be 2 instead of using
-> that #define? Or
->
-> > +     else if (old * (MIN_NR_GENS + 2) < total)
-> > +             *need_aging = true;
->
-> What is the significance of '+ 2' ?
+> In shrink_active_list we do preferential treatment of VM_EXEC pages.
+> Do we do similar thing with MGLRU? if not why is that not needed?
 
-Will improve the comment according to my previous reply here [1].
+No, because MGLRU has a different set of assumptions than the
+active/inactive LRU does [1]. It provides mmapped pages with equal
+opportunities, and the tradeoff was discussed here [2].
 
-[1] https://lore.kernel.org/linux-mm/CAOUHufYmUPZY0gCC+wYk6Vr1L8KEx+tJeEAhjpBfUnLJsAHq5A@mail.gmail.com/
+Note that even with this preferential treatment of executable pages,
+plus other heuristics added since then, executable pages are still
+underprotected for at least desktop workloads [3]. And I can confirm
+the problem reported is genuine -- we recently accidentally removed
+our private patch that works around the problem for the last 12 years,
+and observed immediate consequences on a small portion of devices not
+using MGLRU [4].
+
+[1] https://lore.kernel.org/linux-mm/20220309021230.721028-15-yuzhao@google.com/
+[2] https://lore.kernel.org/linux-mm/20220208081902.3550911-5-yuzhao@google.com/
+[3] https://lore.kernel.org/linux-mm/2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru/
+[4] https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3429559
