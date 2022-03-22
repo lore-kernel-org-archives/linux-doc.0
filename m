@@ -2,147 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CD5C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 09:00:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B846BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 09:24:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232089AbiCVJCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 05:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
+        id S231492AbiCVJZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 05:25:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232103AbiCVJCC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 05:02:02 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2278224595
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 02:00:35 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id 2so10363525vse.4
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 02:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hgfIwOPYuptRsTuNKCi9/HUJBoBxu7b265kLbqakkq0=;
-        b=obV+azB1p6rhDPLAT0mRjy/R6+VmuleFeLZBUgp5ejFvuaC31FwKArh69ninRxOilY
-         UOU0mD/cvDa75BFcaL93QMAAZsiZAhJYBQ5VpmVLW2Q4PEv5FQF3RJgY6lA/rz/aaGJ2
-         FuoXy83LFS0Z/Ew2bm7VRW/0blWe3YJ00+lshmiaHdProRlqRvuXL3GJBjCSWHGDu3bC
-         EpH6UX6k9qzwSQkpNIWrE8Uoi32P/XA4Hcp68A28HOUACLo4+gl9KpKHeNha/evqng88
-         dPuLNKhCo2RPcYFSludSG698aIqeFgcvYwFJp3CzL5ntwwPPWJphFFW3BbDYzc4g1JVl
-         aZNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hgfIwOPYuptRsTuNKCi9/HUJBoBxu7b265kLbqakkq0=;
-        b=D9c0yAT1+ZZVm0b3rm/rVQPkDSp0++OYjuPgRlnlyqbeZz3F2h8sJv3zWPNygyB/GA
-         8l5aqfpHgMWLh4BwShIVHQcb64XdTuTVskoGmM96JVQKgLfNi4Mfew0jwVvf1F5gepAw
-         7S3BcdVj76uIzyll0TTOR1vdPQTG+eNJhT6cqU4JrE1A8wpgkj49goVAihFiQDYK2YUG
-         DJj+570g0HRf+otink7f9tXNdF/R0SsJ22vx5HuMjzeKH6Mg2d0DN8f8tdhUfaBNW+4h
-         iUwK09CG1I1tyMpCldo8j/EBgKXu5asquE7TS4LE9bvc0wepkITVXVOyC+Md0B9WDrnD
-         jCLw==
-X-Gm-Message-State: AOAM530niJ4W2oaGC45EP6elRMOxaniPO6doGYMW4fhjtTXVVITh6DkE
-        kH+viWjfptYimtK2qXf1e904gkOZakVf+BU7t6NI5w==
-X-Google-Smtp-Source: ABdhPJwBytuxvl00Jby+t9xir1uQGJuN5IuNFpeHLDV+zBSHYjNu3Il+S3/PGYJpCRGGBFbHf0jtzBkDYfSUSEGwcTY=
-X-Received: by 2002:a67:f956:0:b0:324:eb38:52fb with SMTP id
- u22-20020a67f956000000b00324eb3852fbmr5387865vsq.22.1647939634018; Tue, 22
- Mar 2022 02:00:34 -0700 (PDT)
+        with ESMTP id S231376AbiCVJZj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 05:25:39 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D423337D;
+        Tue, 22 Mar 2022 02:24:12 -0700 (PDT)
+Received: from mail-wm1-f54.google.com ([209.85.128.54]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M2Nm2-1nW32y3IzO-003vD9; Tue, 22 Mar 2022 10:24:10 +0100
+Received: by mail-wm1-f54.google.com with SMTP id r7so9991344wmq.2;
+        Tue, 22 Mar 2022 02:24:10 -0700 (PDT)
+X-Gm-Message-State: AOAM5319y3xG6KE30cXZa02tZk5szEol9jGRNrauJbCyUcQNUwIXEKW5
+        D3bVOk3lTl+dzBtV+8d82q9cjcLJBNBS2iGz450=
+X-Google-Smtp-Source: ABdhPJwsixCYKczxHEkB8tnxWnn7WcRL3uS0+upLMvgBna2t7w8kHg6YLFFU+Drbavx3w8/MLHV5750XhIVVex2zZF0=
+X-Received: by 2002:a7b:cd13:0:b0:38b:f39c:1181 with SMTP id
+ f19-20020a7bcd13000000b0038bf39c1181mr2957769wmj.20.1647941050207; Tue, 22
+ Mar 2022 02:24:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-11-yuzhao@google.com>
- <CAGsJ_4xqRGp1gV89+bAx5iA=AVwj2TA+No92UqLHFa0i14MBMQ@mail.gmail.com>
- <CAOUHufbP7kHquWiD3VsmD=veNFF2v_E9HWqdYSMbS1nPJic0Fg@mail.gmail.com> <CAGsJ_4wPWRkmioxGYOwZ9KwdiJUUdgH9Xd38MJH6B2sKJNG+iA@mail.gmail.com>
-In-Reply-To: <CAGsJ_4wPWRkmioxGYOwZ9KwdiJUUdgH9Xd38MJH6B2sKJNG+iA@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 22 Mar 2022 03:00:23 -0600
-Message-ID: <CAOUHufaLdywz7UtACypbGQsZ9m9cLhfZw78f0wiPGGjQYSGquQ@mail.gmail.com>
-Subject: Re: [PATCH v9 10/14] mm: multi-gen LRU: kill switch
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
+ <20220319143130.1026432-1-chenhuacai@loongson.cn> <20220319143130.1026432-7-chenhuacai@loongson.cn>
+ <CAK8P3a0wVKWFASv6cVDOZmX=1h7EeAVyrxLFXmoH5REVaAoNhQ@mail.gmail.com> <CAAhV-H6zddef+ezmXhK+K3eZtvVECqq-nujyr9H2RjS1iJndrg@mail.gmail.com>
+In-Reply-To: <CAAhV-H6zddef+ezmXhK+K3eZtvVECqq-nujyr9H2RjS1iJndrg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 22 Mar 2022 10:23:53 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0rJi35Bx+_Joq1NH79Pvd-+hNV8apDv5othr0_7_SqcQ@mail.gmail.com>
+Message-ID: <CAK8P3a0rJi35Bx+_Joq1NH79Pvd-+hNV8apDv5othr0_7_SqcQ@mail.gmail.com>
+Subject: Re: [PATCH V8 07/22] LoongArch: Add atomic/locking headers
+To:     Huacai Chen <chenhuacai@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Guo Ren <guoren@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:GsZZXVIyiFWAil3OKfUQDeR3PG8Hyp4LfdjBL4/0CGCIX9DyTBw
+ 79WB2ES2iqdZNU3UkmpzmCAhKwBmVSmz8qtKMqHUA5Eo7HFh74XAdGStqFhe6lEtv+bw18Q
+ +r998ajs2qP4kwCrIauh1scQXo4DcG1SfJczz1a2hIaMkDDIeBJSMRP8BjGrz9Sf4+2iAv+
+ kqoHgKzvs5XoOdjgjpzUQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0cUHH2aJ6Tw=:7C5yPvboapmwLvnOrfGXe/
+ IDOct5/8Rnu68+uGrbNLpYTdu6Rlr/RAoalDiNAXAHBfHRvP/wPwgcFCHBENJfX6dJcx7a0hy
+ 4fmgDIR0J9P/MESv2PxehvkicPb/3usvpJ3pCe2RYkhJmETYa+4JT9x2JEZ1Rkwu/2ISAEPys
+ +Iw6jQSSlWKKb5iqJ0KYW1zTOC4fu5+/Rjca259fDNT4WmTm7A0qPnFRsDBiTgZfdzis6h/wv
+ jEgegu+aHR+ejR8QBIasddGA6YMFqcnyHrBeLxLcUaT7IFIoIQCwiEhfIQZXvDsvX2TkjXsFQ
+ tkMbD8n+rolnk5yc01u3y7qfsBT46xdw0wfow/LGABLMnvFeSIe6uo39aI6e9TEsGrB9XnyDW
+ eMM1RqV0Lr8zpMdqqyc/tvrWda5IZNwHyRkW7s8c+lhTJ4FbQgTdr8qmW9pcVizad7qmiM+l0
+ el7ESCr1duVvmquTRQ5EwHNx9DJ5nDkKFZx5yT+JQ90JgGmuh5OG+dIyiujRXk7/U/zn8HZ/o
+ LdiTh4neRito/mq9hcxA1rnI6ozzT7J1+mGZrRItgfvw5TszFqNzAgCDuO6kuSVkXVAfO0WWj
+ 6JtLQEgR7ECRjP1oAzh09q/HhiWU27QYn2cN8zJcqokM7GPNBd/6e74afj0MHFVhq/i+Qh46Q
+ 4wcL+Z3acwAAtkFH6brvW0myBt/AalGCM6f39FOORqPHWsnivCyQukH7lzGls2q8EEBG+o/qd
+ lc49B2EvJ4+4qYd03FF+lGDbMuWKQUMdbkNljO29eSAvZEoHYAmLkvMBdy8bEwanvhB8nxyGN
+ 0MCrmjbm4FyHaxqwuGkGOPsjRrHvF8pCycDNmkKfbyaSvU+4T0=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 2:45 AM Barry Song <21cnbao@gmail.com> wrote:
+On Tue, Mar 22, 2022 at 4:03 AM Huacai Chen <chenhuacai@kernel.org> wrote:
+> On Mon, Mar 21, 2022 at 5:42 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Sat, Mar 19, 2022 at 3:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
+
+> > Please coordinate the inclusion of the patches with them and use that
+> > spinlock implementation for the initial merge, to avoid further discussion
+> > on the topic. If at a later point you are able to come up with a qspinlock
+> > implementation that has convincing forward-progress guarantees and
+> > can be shown to be better, we can revisit this.
 >
-> On Tue, Mar 22, 2022 at 9:20 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > On Tue, Mar 22, 2022 at 1:47 AM Barry Song <21cnbao@gmail.com> wrote:
-> > >
-> > ...
-> > > > +static bool drain_evictable(struct lruvec *lruvec)
-> > > > +{
-> > > > +       int gen, type, zone;
-> > > > +       int remaining = MAX_LRU_BATCH;
-> > > > +
-> > > > +       for_each_gen_type_zone(gen, type, zone) {
-> > > > +               struct list_head *head = &lruvec->lrugen.lists[gen][type][zone];
-> > > > +
-> > > > +               while (!list_empty(head)) {
-> > > > +                       bool success;
-> > > > +                       struct folio *folio = lru_to_folio(head);
-> > > > +
-> > > > +                       VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-> > > > +                       VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
-> > > > +                       VM_BUG_ON_FOLIO(folio_is_file_lru(folio) != type, folio);
-> > > > +                       VM_BUG_ON_FOLIO(folio_zonenum(folio) != zone, folio);
-> > > > +
-> > > > +                       success = lru_gen_del_folio(lruvec, folio, false);
-> > > > +                       VM_BUG_ON(!success);
-> > > > +                       lruvec_add_folio(lruvec, folio);
-> > >
-> > > for example, max_seq=4(GEN=0) and max_seq-1=3, then we are supposed to put
-> > > max_seq in the head of active list. but your code seems to be putting max_seq-1
-> > > after putting max_seq, then max_seq is more likely to be evicted
-> > > afterwards as it
-> > > is in the tail of the active list.
-> >
-> > This is correct.
->
-> maybe something like below can fix it:
->  #define for_each_gen_type_zone(gen, type, zone)
->          \
-> -       for ((gen) = 0; (gen) < MAX_NR_GENS; (gen)++)                   \
-> +       for (int seq = min_seq[type], (gen)=(seq_to_gen(seq)); seq <=
-> max_seq ; seq++)                       \
->                 for ((type) = 0; (type) < ANON_AND_FILE; (type)++)      \
->                         for ((zone) = 0; (zone) < MAX_NR_ZONES; (zone)++)
+> In my opinion, forward-progress is solved in V2, since we have
+> reworked __xchg_small()/__cmpxchg_small(), and qspinlock is needed by
+> NUMA.
+> However, if the generic ticket lock is merged later, I will try to use
+> it at present.
 
-I explained in another email that you might not have the time to go
-over yet [1].
+Yes, please do. If I merge both the ticket spinlock code and your architecture
+code through the asm-generic tree for 5.19, this should work out nicely.
 
-This has to be all *possible* generations, not just [min_seq, max_seq].
+I'd good to hear that you have a solution for the forward-progress
+issue with qspinlock, We should discuss that when the architecture
+is merged then, and see what this means for the other architectures
+that currently use the qspinlock code, to decide which ones of those
+should be converted to ticket lock, which can use the same approach
+that you have, and which are already safe.
 
-[1] https://lore.kernel.org/linux-mm/CAOUHufa50Mj6wusKvFX2cCAk58oTwCLDC8im+_B6OS_dP6=TJQ@mail.gmail.com/
+        Arnd
