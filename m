@@ -2,66 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4738C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 05:28:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 426B8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 05:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236747AbiCVFaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 01:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
+        id S236925AbiCVF5a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 01:57:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236704AbiCVFaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 01:30:03 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 344A4DAF;
-        Mon, 21 Mar 2022 22:28:34 -0700 (PDT)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22M47KBQ018787;
-        Tue, 22 Mar 2022 05:27:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=TqqfIpaYW5JGR3JKgjRylpIbTY9DrPh5H2+7LKVkXyY=;
- b=Yk1O5LcktVUoQcWy1/VJG12+S6hktSZSyaUh3TGeEjFvDh5mDbe02e3L2js/pTZqCJU2
- 3X6lNb9uIRGdyNMKp4dcb4hcUVudCs3hNZsNGvNjqYKaXwHAlUnS6WcUWFQ+VDKNGaDO
- unwcxCOXFOWn45zrrg1mrz8oa19xT/TSSwwtcO1t/Q8LDnSyNhtf8ZrjcIwChmAYnecW
- ucdJw/jRmR69ur7lln3Sg11CjyU50DeYJ4uJ7Y44uJjs4x1FlTjG5U6yfEGyeutGb4V4
- J9pNUdIRikUclNKo0neG06P+AY1gGhe1YuT1A5hiOSzdXK6xZouO7+aP+VjLcfDCg304 lA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3expy0wdpc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Mar 2022 05:27:14 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22M5Qc3f001357;
-        Tue, 22 Mar 2022 05:27:13 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3expy0wdnv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Mar 2022 05:27:13 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22M5MmWb027594;
-        Tue, 22 Mar 2022 05:27:12 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma01dal.us.ibm.com with ESMTP id 3ew6t9xf10-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 22 Mar 2022 05:27:11 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 22M5RAap5439978
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 Mar 2022 05:27:10 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3BE62136065;
-        Tue, 22 Mar 2022 05:27:10 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A1E1613605D;
-        Tue, 22 Mar 2022 05:26:53 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.43.75.167])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue, 22 Mar 2022 05:26:53 +0000 (GMT)
-X-Mailer: emacs 29.0.50 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
+        with ESMTP id S236881AbiCVF51 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 01:57:27 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7132A268
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 22:55:57 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id i26so6600927uap.6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 22:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qVziKtonTIkNbV/B71HuGD9fXJjRE/zSA9pL7FZgyn4=;
+        b=rWG3R5qtX3GucWwH/rM7jmJOCfVi1T2dvoGI6lKrW+Kouh7f4j1XUU0D9xwMNzNHOo
+         dCnFw11acEpDzgxXIxKkr9JUAeKCz8hqSXKb3u0uMF7Ds2qDxH5HRCPUWjY0KheQt5ys
+         dVCRYr3EJc33+LNjGUoQn+m6pD7G2XugAlmc+o/BOLG9KKf5ii9XOblcuHbqLUrW6C2r
+         GkCpVUgz7ej3LX9oiCj8+FQoXwEuWTYiR+JgnaNATpY/mb+E+UWRf4BX71w153S3JWuS
+         iQ7HJcjF4rNDbIqhlJtMxxMFzQ46p2okOvFx3s6tVJ5pGcqFH90djo0dIcO0q1QlI5zX
+         AfVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qVziKtonTIkNbV/B71HuGD9fXJjRE/zSA9pL7FZgyn4=;
+        b=lE+0sF4PcElrrRs3bebTKm1h6Jg6kRWorvMkDhXD2HNJENVjYlShoanpRzh4QHkkG0
+         Ko56ygTd3E2xPiIuRyOewB9omRSTmohUPfgCoRkFEJ4X0/TPUdo5cWUidRoR2k8ZNqsM
+         Q+Sa0MG4rRCLJUSwhH8bPtZMHTqhTM8CzDcLEtnYNpcsDRg658+wKZVtKaQZ+56Hz+D9
+         mVjJkYdV2rQXHW5Z7qASP1F9aVQsr9VnJov1KNUVV8kcnoxPZ64hIobKWN/PhKzUMYhU
+         8BKV3RV3/Yt39y6/yRMGAc6+JuyrrSdUUaQ9W36W6+Gf48xeb7OydgU2OO8Xnb9bEUja
+         AhVw==
+X-Gm-Message-State: AOAM533j3I0dsdBDfkdMwSJTlzBQklauxPjow/nmRgRDUj95Be97fxyc
+        BFQMm6BaW7fhBPpDRRbNlTDlUIFvIbv80R9kLvohEA==
+X-Google-Smtp-Source: ABdhPJx9NAJdm7wGUG2vKQV8Iy5sHiwmlsE4VyWbB4rB7wkz+hRMGuViJsfZh1uA1fHdTyd2MGjS27NegFyZsCL0rhM=
+X-Received: by 2002:ab0:77d5:0:b0:352:42d7:88c2 with SMTP id
+ y21-20020ab077d5000000b0035242d788c2mr8221502uar.1.1647928556608; Mon, 21 Mar
+ 2022 22:55:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
+ <877d8m7e1x.fsf@linux.ibm.com>
+In-Reply-To: <877d8m7e1x.fsf@linux.ibm.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 21 Mar 2022 23:55:45 -0600
+Message-ID: <CAOUHufbDfwgm8PgCGkhCjbhMbm=fekfjgRR56NL-j+5iUGfVuw@mail.gmail.com>
+Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
@@ -77,181 +71,96 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>, Brian Geffon <bgeffon@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
         Steven Barrett <steven@liquorix.net>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        Holger =?utf-8?Q?Hoffst=C3=A4tte?= 
-        <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
-In-Reply-To: <20220309021230.721028-7-yuzhao@google.com>
-References: <20220309021230.721028-1-yuzhao@google.com>
- <20220309021230.721028-7-yuzhao@google.com>
-Date:   Tue, 22 Mar 2022 10:56:50 +0530
-Message-ID: <877d8m7e1x.fsf@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Ql37j01KajwgF00k2OgU6gOK2r3sWXEJ
-X-Proofpoint-GUID: DAQxEiwBayf4Zp-JJHxC8P33uRYSCots
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-21_10,2022-03-21_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203220028
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yu Zhao <yuzhao@google.com> writes:
+On Mon, Mar 21, 2022 at 11:27 PM Aneesh Kumar K.V
+<aneesh.kumar@linux.ibm.com> wrote:
+>
+> Yu Zhao <yuzhao@google.com> writes:
+>
+> > +static void inc_max_seq(struct lruvec *lruvec, unsigned long max_seq)
+> > +{
+> > +     int prev, next;
+> > +     int type, zone;
+> > +     struct lru_gen_struct *lrugen = &lruvec->lrugen;
+> > +
+> > +     spin_lock_irq(&lruvec->lru_lock);
+> > +
+> > +     VM_BUG_ON(!seq_is_valid(lruvec));
+> > +
+> > +     if (max_seq != lrugen->max_seq)
+> > +             goto unlock;
+> > +
+> > +     inc_min_seq(lruvec);
+>
+> Can this min seq update result in pages considered oldest become young.
+> ie, if we had seq value of 0 - 3 and we need ageing, the new min seq and
+> max_seq value will now become 1 - 4. What happens to pages in the
+> generation value 0 which was oldest generation earlier and is youngest
+> now.
 
- +
-> +static void inc_min_seq(struct lruvec *lruvec)
-> +{
-> +	int type;
-> +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> +
-> +	VM_BUG_ON(!seq_is_valid(lruvec));
-> +
-> +	for (type = 0; type < ANON_AND_FILE; type++) {
-> +		if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
-> +			continue;
-> +
-> +		reset_ctrl_pos(lruvec, type, true);
-> +		WRITE_ONCE(lrugen->min_seq[type], lrugen->min_seq[type] + 1);
-> +	}
-> +}
-> +
-> +static bool try_to_inc_min_seq(struct lruvec *lruvec, bool can_swap)
-> +{
-> +	int gen, type, zone;
-> +	bool success = false;
-> +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> +	DEFINE_MIN_SEQ(lruvec);
-> +
-> +	VM_BUG_ON(!seq_is_valid(lruvec));
-> +
-> +	for (type = !can_swap; type < ANON_AND_FILE; type++) {
-> +		while (min_seq[type] + MIN_NR_GENS <= lrugen->max_seq) {
-> +			gen = lru_gen_from_seq(min_seq[type]);
-> +
-> +			for (zone = 0; zone < MAX_NR_ZONES; zone++) {
-> +				if (!list_empty(&lrugen->lists[gen][type][zone]))
-> +					goto next;
-> +			}
-> +
-> +			min_seq[type]++;
-> +		}
-> +next:
-> +		;
-> +	}
-> +
-> +	/* see the comment on lru_gen_struct */
-> +	if (can_swap) {
-> +		min_seq[LRU_GEN_ANON] = min(min_seq[LRU_GEN_ANON], min_seq[LRU_GEN_FILE]);
-> +		min_seq[LRU_GEN_FILE] = max(min_seq[LRU_GEN_ANON], lrugen->min_seq[LRU_GEN_FILE]);
-> +	}
-> +
-> +	for (type = !can_swap; type < ANON_AND_FILE; type++) {
-> +		if (min_seq[type] == lrugen->min_seq[type])
-> +			continue;
-> +
-> +		reset_ctrl_pos(lruvec, type, true);
-> +		WRITE_ONCE(lrugen->min_seq[type], min_seq[type]);
-> +		success = true;
-> +	}
-> +
-> +	return success;
-> +}
-> +
-> +static void inc_max_seq(struct lruvec *lruvec, unsigned long max_seq)
-> +{
-> +	int prev, next;
-> +	int type, zone;
-> +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> +
-> +	spin_lock_irq(&lruvec->lru_lock);
-> +
-> +	VM_BUG_ON(!seq_is_valid(lruvec));
-> +
-> +	if (max_seq != lrugen->max_seq)
-> +		goto unlock;
-> +
-> +	inc_min_seq(lruvec);
+If anon pages are not reclaimable, e.g., no swapfile, they won't be
+scanned at all. So their coldness/hotness don't matter -- they don't
+need to be on lrugen->lists[] at all.
 
-Can this min seq update result in pages considered oldest become young.
-ie, if we had seq value of 0 - 3 and we need ageing, the new min seq and
-max_seq value will now become 1 - 4. What happens to pages in the
-generation value 0 which was oldest generation earlier and is youngest
-now.
+If there is a swapfile but it's full, then yes, the inversion will
+happen. This can be handled by moving pages from the oldest generation
+to the tail of the second oldest generation, which maintains the LRU
+order.
 
+In fact, both were handled in the previous versions [1] [2]. They were
+removed in v6 for simplicity.
 
-> +
-> +	/* update the active/inactive LRU sizes for compatibility */
-> +	prev = lru_gen_from_seq(lrugen->max_seq - 1);
-> +	next = lru_gen_from_seq(lrugen->max_seq + 1);
-> +
-> +	for (type = 0; type < ANON_AND_FILE; type++) {
-> +		for (zone = 0; zone < MAX_NR_ZONES; zone++) {
-> +			enum lru_list lru = type * LRU_INACTIVE_FILE;
-> +			long delta = lrugen->nr_pages[prev][type][zone] -
-> +				     lrugen->nr_pages[next][type][zone];
-> +
-> +			if (!delta)
-> +				continue;
-> +
-> +			__update_lru_size(lruvec, lru, zone, delta);
-> +			__update_lru_size(lruvec, lru + LRU_ACTIVE, zone, -delta);
-> +		}
-> +	}
-> +
-> +	for (type = 0; type < ANON_AND_FILE; type++)
-> +		reset_ctrl_pos(lruvec, type, false);
-> +
-> +	/* make sure preceding modifications appear */
-> +	smp_store_release(&lrugen->max_seq, lrugen->max_seq + 1);
-> +unlock:
-> +	spin_unlock_irq(&lruvec->lru_lock);
-> +}
-> +
+[1] https://lore.kernel.org/linux-mm/20211111041510.402534-5-yuzhao@google.com/
+[2] https://lore.kernel.org/linux-mm/20211111041510.402534-7-yuzhao@google.com/
 
-....
+> > +static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness)
+> > +{
+> > +     int type;
+> > +     int scanned;
+> > +     int reclaimed;
+> > +     LIST_HEAD(list);
+> > +     struct folio *folio;
+> > +     enum vm_event_item item;
+> > +     struct reclaim_stat stat;
+> > +     struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > +     struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+> > +
+> > +     spin_lock_irq(&lruvec->lru_lock);
+> > +
+> > +     scanned = isolate_folios(lruvec, sc, swappiness, &type, &list);
+> > +
+> > +     if (try_to_inc_min_seq(lruvec, swappiness))
+> > +             scanned++;
+>
+> we are doing this before we shrink the page list. Any reason to do this before?
 
- +
-> +static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness)
-> +{
-> +	int type;
-> +	int scanned;
-> +	int reclaimed;
-> +	LIST_HEAD(list);
-> +	struct folio *folio;
-> +	enum vm_event_item item;
-> +	struct reclaim_stat stat;
-> +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> +	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-> +
-> +	spin_lock_irq(&lruvec->lru_lock);
-> +
-> +	scanned = isolate_folios(lruvec, sc, swappiness, &type, &list);
-> +
-> +	if (try_to_inc_min_seq(lruvec, swappiness))
-> +		scanned++;
-
-we are doing this before we shrink the page list. Any reason to do this before?
-
-> +
-> +	if (get_nr_gens(lruvec, LRU_GEN_FILE) == MIN_NR_GENS)
-> +		scanned = 0;
+We have isolated pages from lrugen->lists[], and we might have
+exhausted all pages in the oldest generations, i.e.,
+lrugen->lists[min_seq] is now empty. Incrementing min_seq after
+shrink_page_list() is not wrong. However, it's better we do it ASAP so
+that concurrent reclaimers are less likely to see a stale min_seq and
+come here under the false impression that they'd make some progress.
+(Instead, they will go to the aging path and inc_max_seq() first
+before coming here.)
