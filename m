@@ -2,102 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B846BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 09:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA27C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 11:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231492AbiCVJZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 05:25:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
+        id S233892AbiCVLIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 07:08:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbiCVJZj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 05:25:39 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D423337D;
-        Tue, 22 Mar 2022 02:24:12 -0700 (PDT)
-Received: from mail-wm1-f54.google.com ([209.85.128.54]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M2Nm2-1nW32y3IzO-003vD9; Tue, 22 Mar 2022 10:24:10 +0100
-Received: by mail-wm1-f54.google.com with SMTP id r7so9991344wmq.2;
-        Tue, 22 Mar 2022 02:24:10 -0700 (PDT)
-X-Gm-Message-State: AOAM5319y3xG6KE30cXZa02tZk5szEol9jGRNrauJbCyUcQNUwIXEKW5
-        D3bVOk3lTl+dzBtV+8d82q9cjcLJBNBS2iGz450=
-X-Google-Smtp-Source: ABdhPJwsixCYKczxHEkB8tnxWnn7WcRL3uS0+upLMvgBna2t7w8kHg6YLFFU+Drbavx3w8/MLHV5750XhIVVex2zZF0=
-X-Received: by 2002:a7b:cd13:0:b0:38b:f39c:1181 with SMTP id
- f19-20020a7bcd13000000b0038bf39c1181mr2957769wmj.20.1647941050207; Tue, 22
- Mar 2022 02:24:10 -0700 (PDT)
+        with ESMTP id S233895AbiCVLHy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 07:07:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D18A46B089
+        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 04:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647947184;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FCN73VojYTO9kljcWQ13H5/nQPlAxw07sJxBf+2VjUA=;
+        b=H2Zq1cVoJydixIK2B2CsbTdLcTbRe7kxljmiuqaaW/LETNRDoaPEs7LggRGM2BCptnvRsu
+        kR4fff6qf9H5tuG+QS3noE7GmSOjKKlhHi/niNl4OGpQ/6TOD++N2SbEHqEx4/zml199eg
+        mZaTkVscn6WMo5CEzL0X47N6hygNkF4=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-qcejWYUAM2Gtf6gWhWWe9Q-1; Tue, 22 Mar 2022 07:06:23 -0400
+X-MC-Unique: qcejWYUAM2Gtf6gWhWWe9Q-1
+Received: by mail-pg1-f197.google.com with SMTP id p21-20020a631e55000000b00372d919267cso8650965pgm.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 04:06:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FCN73VojYTO9kljcWQ13H5/nQPlAxw07sJxBf+2VjUA=;
+        b=OlUBavTZl5OoVJbqKJH7Yg7BQvSYqQOPchbmUboeDNI0anI26xOIObkUAaEu6PrA1g
+         r+HxpwNrROXKexOyOvh7xnqudjOVLy+24OgC0PldTe/PJSHcGzGCvDsylmSwGd/VLdwr
+         NkD1IP7QvrZY3A7S4b5Jgf7IuSRH8lZLVCtvO2E7uwIvrwXYM6uY5IU7qs75LY9lSu0s
+         5q7QecD814KDRrmqqMVNQKeqs5VR1DI8Cf00rmJWOw/IcCgeUZ6YkNmwHil1Z1iBFOcL
+         WA/eb51Y0aVBzV9Ax6IXsDIMq/yKc/kx8GWjVtj97EydvGSrEOCaTpMsHFzMzj0fI+IA
+         Nsrg==
+X-Gm-Message-State: AOAM53125jHhmZkHyKin22NepN2XPhLajQ5P50IACmcsKyFmdLFcWNL7
+        4FQlkKui9u5WOlQhxwj5Fa7GJqSxQdheI8+PSoEL/u+yfBcn3zcmSsb/Y4Rmadw4Dyq4gISpeYv
+        bp26w6yj8EDhNgESfMDskZ7X9C6Fhi8az6rN8
+X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id g1-20020a056a00078100b004f4002a2d89mr28353613pfu.13.1647947182514;
+        Tue, 22 Mar 2022 04:06:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxr+q2ATbHevtxQq+KnIYNOBZEc3a+OTtO21QwUxoenZhXslv90N6P5NwAn9zxlvY4pCldPh/cy5+2PEff6pyY=
+X-Received: by 2002:a05:6a00:781:b0:4f4:2a:2d89 with SMTP id
+ g1-20020a056a00078100b004f4002a2d89mr28353561pfu.13.1647947182060; Tue, 22
+ Mar 2022 04:06:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
- <20220319143130.1026432-1-chenhuacai@loongson.cn> <20220319143130.1026432-7-chenhuacai@loongson.cn>
- <CAK8P3a0wVKWFASv6cVDOZmX=1h7EeAVyrxLFXmoH5REVaAoNhQ@mail.gmail.com> <CAAhV-H6zddef+ezmXhK+K3eZtvVECqq-nujyr9H2RjS1iJndrg@mail.gmail.com>
-In-Reply-To: <CAAhV-H6zddef+ezmXhK+K3eZtvVECqq-nujyr9H2RjS1iJndrg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 22 Mar 2022 10:23:53 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0rJi35Bx+_Joq1NH79Pvd-+hNV8apDv5othr0_7_SqcQ@mail.gmail.com>
-Message-ID: <CAK8P3a0rJi35Bx+_Joq1NH79Pvd-+hNV8apDv5othr0_7_SqcQ@mail.gmail.com>
-Subject: Re: [PATCH V8 07/22] LoongArch: Add atomic/locking headers
-To:     Huacai Chen <chenhuacai@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-3-benjamin.tissoires@redhat.com> <CAPhsuW5qseqVs4=hz3VvSJ2ObqB2kTbKXoaOCh=5vjoU_AXnKQ@mail.gmail.com>
+ <CAO-hwJ+WSi645HhNV_BYACoJe2UTc4KZzqH0oHocfnBR8xUYEQ@mail.gmail.com> <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
+In-Reply-To: <CAPhsuW4+b66Keh_f+UoApM8UenhnJ5wD_SaatAFDms9=g7ENyw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 22 Mar 2022 12:06:11 +0100
+Message-ID: <CAO-hwJLAAB=hAffiRAEsv-qgj+GYcLsULQVjQ2i1_ZZTB5dPRw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 02/17] bpf: introduce hid program type
+To:     Song Liu <song@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:GsZZXVIyiFWAil3OKfUQDeR3PG8Hyp4LfdjBL4/0CGCIX9DyTBw
- 79WB2ES2iqdZNU3UkmpzmCAhKwBmVSmz8qtKMqHUA5Eo7HFh74XAdGStqFhe6lEtv+bw18Q
- +r998ajs2qP4kwCrIauh1scQXo4DcG1SfJczz1a2hIaMkDDIeBJSMRP8BjGrz9Sf4+2iAv+
- kqoHgKzvs5XoOdjgjpzUQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0cUHH2aJ6Tw=:7C5yPvboapmwLvnOrfGXe/
- IDOct5/8Rnu68+uGrbNLpYTdu6Rlr/RAoalDiNAXAHBfHRvP/wPwgcFCHBENJfX6dJcx7a0hy
- 4fmgDIR0J9P/MESv2PxehvkicPb/3usvpJ3pCe2RYkhJmETYa+4JT9x2JEZ1Rkwu/2ISAEPys
- +Iw6jQSSlWKKb5iqJ0KYW1zTOC4fu5+/Rjca259fDNT4WmTm7A0qPnFRsDBiTgZfdzis6h/wv
- jEgegu+aHR+ejR8QBIasddGA6YMFqcnyHrBeLxLcUaT7IFIoIQCwiEhfIQZXvDsvX2TkjXsFQ
- tkMbD8n+rolnk5yc01u3y7qfsBT46xdw0wfow/LGABLMnvFeSIe6uo39aI6e9TEsGrB9XnyDW
- eMM1RqV0Lr8zpMdqqyc/tvrWda5IZNwHyRkW7s8c+lhTJ4FbQgTdr8qmW9pcVizad7qmiM+l0
- el7ESCr1duVvmquTRQ5EwHNx9DJ5nDkKFZx5yT+JQ90JgGmuh5OG+dIyiujRXk7/U/zn8HZ/o
- LdiTh4neRito/mq9hcxA1rnI6ozzT7J1+mGZrRItgfvw5TszFqNzAgCDuO6kuSVkXVAfO0WWj
- 6JtLQEgR7ECRjP1oAzh09q/HhiWU27QYn2cN8zJcqokM7GPNBd/6e74afj0MHFVhq/i+Qh46Q
- 4wcL+Z3acwAAtkFH6brvW0myBt/AalGCM6f39FOORqPHWsnivCyQukH7lzGls2q8EEBG+o/qd
- lc49B2EvJ4+4qYd03FF+lGDbMuWKQUMdbkNljO29eSAvZEoHYAmLkvMBdy8bEwanvhB8nxyGN
- 0MCrmjbm4FyHaxqwuGkGOPsjRrHvF8pCycDNmkKfbyaSvU+4T0=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 4:03 AM Huacai Chen <chenhuacai@kernel.org> wrote:
-> On Mon, Mar 21, 2022 at 5:42 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Sat, Mar 19, 2022 at 3:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
-
-> > Please coordinate the inclusion of the patches with them and use that
-> > spinlock implementation for the initial merge, to avoid further discussion
-> > on the topic. If at a later point you are able to come up with a qspinlock
-> > implementation that has convincing forward-progress guarantees and
-> > can be shown to be better, we can revisit this.
+On Mon, Mar 21, 2022 at 10:52 PM Song Liu <song@kernel.org> wrote:
 >
-> In my opinion, forward-progress is solved in V2, since we have
-> reworked __xchg_small()/__cmpxchg_small(), and qspinlock is needed by
-> NUMA.
-> However, if the generic ticket lock is merged later, I will try to use
-> it at present.
+> On Mon, Mar 21, 2022 at 9:07 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > Hi Song,
+> >
+> > many thanks for the quick response.
+> >
+> > On Fri, Mar 18, 2022 at 9:48 PM Song Liu <song@kernel.org> wrote:
+> [...]
+> > >
+> > > > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> > >
+> > > We need to mirror these changes to tools/include/uapi/linux/bpf.h.
+> >
+> > OK. I did that in patch 4/17 but I can bring in the changes there too.
+>
+> Let's keep changes to the two files in the same patch. This will make
+> sure they are back ported together.
 
-Yes, please do. If I merge both the ticket spinlock code and your architecture
-code through the asm-generic tree for 5.19, this should work out nicely.
+Ack
 
-I'd good to hear that you have a solution for the forward-progress
-issue with qspinlock, We should discuss that when the architecture
-is merged then, and see what this means for the other architectures
-that currently use the qspinlock code, to decide which ones of those
-should be converted to ticket lock, which can use the same approach
-that you have, and which are already safe.
+>
+> [...]
+> > > > +enum hid_bpf_event {
+> > > > +       HID_BPF_UNDEF = 0,
+> > > > +       HID_BPF_DEVICE_EVENT,           /* when attach type is BPF_HID_DEVICE_EVENT */
+> > > > +       HID_BPF_RDESC_FIXUP,            /* ................... BPF_HID_RDESC_FIXUP */
+> > > > +       HID_BPF_USER_EVENT,             /* ................... BPF_HID_USER_EVENT */
+> > >
+> > > Why don't we have a DRIVER_EVENT type here?
+> >
+> > For driver event, I want to have a little bit more of information
+> > which tells which event we have:
+> > - HID_BPF_DRIVER_PROBE
+> > - HID_BPF_DRIVER_SUSPEND
+> > - HID_BPF_DRIVER_RAW_REQUEST
+> > - HID_BPF_DRIVER_RAW_REQUEST_ANSWER
+> > - etc...
+> >
+> > However, I am not entirely sure on the implementation of all of those,
+> > so I left them aside for now.
+> >
+> > I'll work on that for v4.
+>
+> This set is already pretty big. I guess we can add them in a follow-up set.
+>
+> >
+> > >
+> > > >
+> > > [...]
+ [...]
+> > > > +
+> > > > +static int hid_bpf_prog_test_run(struct bpf_prog *prog,
+> > > > +                                const union bpf_attr *attr,
+> > > > +                                union bpf_attr __user *uattr)
+> > > > +{
+> > > > +       struct hid_device *hdev = NULL;
+> > > > +       struct bpf_prog_array *progs;
+> > > > +       bool valid_prog = false;
+> > > > +       int i;
+> > > > +       int target_fd, ret;
+> > > > +       void __user *data_out = u64_to_user_ptr(attr->test.data_out);
+> > > > +       void __user *data_in = u64_to_user_ptr(attr->test.data_in);
+> > > > +       u32 user_size_in = attr->test.data_size_in;
+> > > > +       u32 user_size_out = attr->test.data_size_out;
+> > > > +       u32 allocated_size = max(user_size_in, user_size_out);
+> > > > +       struct hid_bpf_ctx_kern ctx = {
+> > > > +               .type = HID_BPF_USER_EVENT,
+> > > > +               .allocated_size = allocated_size,
+> > > > +       };
+> > > > +
+> > > > +       if (!hid_hooks.hdev_from_fd)
+> > > > +               return -EOPNOTSUPP;
+> > > > +
+> > > > +       if (attr->test.ctx_size_in != sizeof(int))
+> > > > +               return -EINVAL;
+> > >
+> > > ctx_size_in is always 4 bytes?
+> >
+> > Yes. Basically what I had in mind is that the "ctx" for
+> > user_prog_test_run is the file descriptor to the sysfs that represent
+> > the HID device.
+> > This seemed to me to be the easiest to handle for users.
+> >
+> > I'm open to suggestions though.
+>
+> How about we use data_in? ctx for test_run usually means the program ctx,
+> which is struct hid_bpf_ctx here.
+>
 
-        Arnd
+I'd rather not use data_in. data_in is forwarded as it is in the ctx
+of the program, so adding a bulky API where the first byte is the
+target_fd doesn't make a lot of sense IMO.
+
+However, I just managed to achieve what I initially wanted to do
+without luck: just use the struct bpf_prog as the sole argument.
+I thought iterating over all hid devices would be painful, but it
+turns out that is exactly what hid_bpf_fd_to_hdev() was doing, so
+there is no penalty in doing so.
+
+Anyway, I'll drop ctx_in in the next version.
+
+Cheers,
+Benjamin
+
