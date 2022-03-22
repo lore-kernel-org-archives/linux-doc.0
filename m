@@ -2,140 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB5EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 22:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90701C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 22:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237385AbiCVWIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 18:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55662 "EHLO
+        id S238444AbiCVWxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 18:53:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237542AbiCVWIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 18:08:02 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8105B5F8DD
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 15:06:34 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id mz9-20020a17090b378900b001c657559290so4546643pjb.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Mar 2022 15:06:34 -0700 (PDT)
+        with ESMTP id S229778AbiCVWxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 18:53:02 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04D25DA72;
+        Tue, 22 Mar 2022 15:51:33 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id i184so2851551pgc.1;
+        Tue, 22 Mar 2022 15:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UNsiBHkIycmbBebNQ6EEEfxiUV1hLv6uy9LOGdGxxp0=;
-        b=evHtH6FbBsevNuVMM+CjK8h381YvBcpulMNttJ4M8pODP3fLQap6AG0oVjDp0xSaAc
-         qrx+gI61ilHDzryS2kmrTKUO3DZC4ugMnAvNhdN5+JYSdUhzJFP1AfMzTuZxwQhCWhjD
-         duUcEmfIR5Mvrg7zU1lmT4oCzYzONxPMCfFIu4+V2zY4M4TqsZJByVli8SNzXiV/D1pB
-         0AmsCnSedvD3wgqjogpHXrTvaK9u8+fU+eFe602P8rQ2OqySRonrZfiwSxTKupVKH094
-         +Kk6WJMqc3+ceBj4oh8cuN0R4nC+gGNzo23nShqjEPzw9G7iLRPB8kSJKZQZJTrkIWie
-         wz+g==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1vztlqi0NlGRoIXQyqiMSOi7b8rX2cFL0tMJ+wH/2ZQ=;
+        b=ZkaCFeD4okTI/mcV3ziegaOTmSg/J+0RaFUIlC8MYQP/DrFEQb7gGi1KPaWaTSktCo
+         QiVQkhLhaua8oH9WYAA+gwWgpDMsZqF+qYAsIx6/itHn5lsfgFvdPiAZtEo58gW3U+5y
+         Xj3X6rNyub9Zwu50L6TLSjfBD4ldzTSdYrkSN0I0j/oXkyNedfSHx44zL1jn20yAL0r7
+         5q9B0OZuB1W4s5PkM23+U/v63t4JG8ATPv9NxwaYiMiZlfPAlOCSkb8FEGYkHvU4MH6m
+         7tOZG7fWSrAkHiooTVrewT4wOSS9awCRHf5W0rISbSX+cYESykVlJSixcPzbw6slllia
+         AhAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=UNsiBHkIycmbBebNQ6EEEfxiUV1hLv6uy9LOGdGxxp0=;
-        b=7+TDCP7RIUW3rpG8q1HrcwDFP9lD4EGmC/fk5xZXrtr12LnCM6W2zHCnEiH+BQqpRc
-         2o3RzZBlOJxC9KoO0w3T5oSOUVH4phpA89OlBR9pyxT93cTcW1pr0izEdS2iZp/0X4aD
-         w1sYPVU80l9NtI5DkO/kiEL1jwGABzE1Rn3n6p3nWMHl4PqO0emWHW7wMPeUQgJw1xcE
-         AjCM0Th2LQ7B3Z+vZjckiNNbiiSOCNDqcgIN9Fmc4TmGrmbrfAoIQzXjxJG/Du1aeVuc
-         EVI04pp5pkYoOJ6JXY3ea1YnrK3uyUmkNapZ+gOedpXnc7heZFyIEkxTFahN4/86fqyk
-         zV5Q==
-X-Gm-Message-State: AOAM530gKtKs2iraGhIN6xEaNWY0stLAqhw3YtMAhz9tdS2b1u63IHDj
-        JXllfXrARvMexvEV+ZY2TmKO4Q==
-X-Google-Smtp-Source: ABdhPJyfrE3B95j0EbsXnNcJrfKGEs/oGxzU2kibrzzKOTADW17seKL6oZDtdSuTJcxhrYPGZggDaA==
-X-Received: by 2002:a17:90b:3b42:b0:1bf:b72:30e9 with SMTP id ot2-20020a17090b3b4200b001bf0b7230e9mr7598374pjb.135.1647986789160;
-        Tue, 22 Mar 2022 15:06:29 -0700 (PDT)
-Received: from localhost ([12.3.194.138])
-        by smtp.gmail.com with ESMTPSA id b13-20020a056a00114d00b004c122b90703sm24463694pfm.27.2022.03.22.15.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 15:06:27 -0700 (PDT)
-Date:   Tue, 22 Mar 2022 15:06:27 -0700 (PDT)
-X-Google-Original-Date: Tue, 22 Mar 2022 15:06:24 PDT (-0700)
-Subject:     Re: [ammarfaizi2-block:palmer/linux/riscv-pmu 13/15] drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-In-Reply-To: <202203222137.eK8TFhiJ-lkp@intel.com>
-CC:     lkp@intel.com, kbuild-all@lists.01.org, gwml@vger.gnuweeb.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     Atish Patra <atishp@rivosinc.com>
-Message-ID: <mhng-cc3dade0-37d7-4832-bb05-c23669599378@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1vztlqi0NlGRoIXQyqiMSOi7b8rX2cFL0tMJ+wH/2ZQ=;
+        b=OyHdIKrphA4SyjZqTUYD81r4oWQDm4rp15lf4BKXK1RawPnzDVDJbD2+rwWZPAPMUg
+         bxHH+91lO2CLt8s+8knCNnQRrcjXMYERIV42y7W4PwTJ8ZiED9RLlbs/8BT3/TVLTC7V
+         U9/LhnhnbtscaR4SOBpZIEtNLsGtQEb55I1NpMBWNhZVBRsDGUwfAjbNQvU0OLhVJN3k
+         geQk5Mi4hRFN9twwnpr/+6Nz/DYVAMVkTbBZlZDIMhZ7wj/hK0i7zT/76+fxjnIdkKpe
+         7dLkz4Tyt58gH27bjE2swNx5EA0oTY6usXwrGdtsDKq0dX+UTFusSHfyiAEW4muD0z8I
+         p66Q==
+X-Gm-Message-State: AOAM5306kcs0seQOwGmyWdw5Fa2CeJiTwMGl1UG6563GRnnt6vkVOsg2
+        nnU3CCVpoLQvpd5W+G4O7/FgINTFLvCkBrcFkvA=
+X-Google-Smtp-Source: ABdhPJxaDjb86XDSFFXHgm/5BHKgjZ1H5gBhPR6BvzC2gzZJ1eD2Zb8MXXorlR5YVKbkUivid4o3lla3Vec5E33VExI=
+X-Received: by 2002:aa7:805a:0:b0:4f6:dc68:5d41 with SMTP id
+ y26-20020aa7805a000000b004f6dc685d41mr31193479pfm.69.1647989493007; Tue, 22
+ Mar 2022 15:51:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <20220318161528.1531164-7-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220318161528.1531164-7-benjamin.tissoires@redhat.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Tue, 22 Mar 2022 15:51:21 -0700
+Message-ID: <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Mar 2022 06:24:04 PDT (-0700), lkp@intel.com wrote:
-> tree:   https://github.com/ammarfaizi2/linux-block palmer/linux/riscv-pmu
-> head:   33363c336516e4beb9dd7e8265b369ff96d07dcb
-> commit: 4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98 [13/15] RISC-V: Add sscofpmf extension support
-> config: riscv-randconfig-r006-20220320 (https://download.01.org/0day-ci/archive/20220322/202203222137.eK8TFhiJ-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 11.2.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/ammarfaizi2/linux-block/commit/4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98
->         git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
->         git fetch --no-tags ammarfaizi2-block palmer/linux/riscv-pmu
->         git checkout 4905ec2fb7e6421c14c9fb7276f5aa92f60f2b98
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
+On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
 >
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+> +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> +{
+> +       int ret;
+> +       struct hid_bpf_ctx_kern ctx = {
+> +               .type = HID_BPF_RDESC_FIXUP,
+> +               .hdev = hdev,
+> +               .size = *size,
+> +       };
+> +
+> +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> +               goto ignore_bpf;
+> +
+> +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> +       if (!ctx.data)
+> +               goto ignore_bpf;
+> +
+> +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> +
+> +       ret = hid_bpf_run_progs(hdev, &ctx);
+> +       if (ret)
+> +               goto ignore_bpf;
+> +
+> +       if (ctx.size > ctx.allocated_size)
+> +               goto ignore_bpf;
+> +
+> +       *size = ctx.size;
+> +
+> +       if (*size) {
+> +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> +       } else {
+> +               rdesc = NULL;
+> +               kfree(ctx.data);
+> +       }
+> +
+> +       return rdesc;
+> +
+> + ignore_bpf:
+> +       kfree(ctx.data);
+> +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> +}
+> +
+>  int __init hid_bpf_module_init(void)
+>  {
+>         struct bpf_hid_hooks hooks = {
+>                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+>                 .pre_link_attach = hid_bpf_pre_link_attach,
+> +               .post_link_attach = hid_bpf_post_link_attach,
+>                 .array_detach = hid_bpf_array_detach,
+>         };
 >
-> All warnings (new ones prefixed by >>):
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index 937fab7eb9c6..3182c39db006 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+>                 return -ENODEV;
+>         size = device->dev_rsize;
 >
->    drivers/perf/riscv_pmu_sbi.c:42: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
+> -       buf = kmemdup(start, size, GFP_KERNEL);
+> +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> +       buf = hid_bpf_report_fixup(device, start, &size);
 
-Looks like that's just fallout from the ** comments.
+Looking at this patch and the majority of other patches...
+the code is doing a lot of work to connect HID side with bpf.
+At the same time the evolution of the patch series suggests
+that these hook points are not quite stable. More hooks and
+helpers are being added.
+It tells us that it's way too early to introduce a stable
+interface between HID and bpf.
+We suggest to use __weak global functions and unstable kfunc helpers
+to achieve the same goal.
+This way HID side and bpf side can evolve without introducing
+stable uapi burden.
+For example this particular patch can be compressed to:
+__weak int hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc,
+unsigned int *size)
+{
+   return 0;
+}
+ALLOW_ERROR_INJECTION(ALLOW_ERROR_INJECTION, ERRNO);
 
->>> drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+- buf = kmemdup(start, size, GFP_KERNEL);
++ if (!hid_bpf_report_fixup(device, start, &size))
++   buf = kmemdup(start, size, GFP_KERNEL);
 
-I sent a fix for this one, there were a handful of them.  Sorry I missed 
-that.
+Then bpf program can replace hid_bpf_report_fixup function and adjust its
+return value while reading args.
 
->     * This function starts all the used counters in two step approach.
->
->
-> vim +498 drivers/perf/riscv_pmu_sbi.c
->
->    496
->    497	/**
->  > 498	 * This function starts all the used counters in two step approach.
->    499	 * Any counter that did not overflow can be start in a single step
->    500	 * while the overflowed counters need to be started with updated initialization
->    501	 * value.
->    502	 */
->    503	static inline void pmu_sbi_start_overflow_mask(struct riscv_pmu *pmu,
->    504						       unsigned long ctr_ovf_mask)
->    505	{
->    506		int idx = 0;
->    507		struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
->    508		struct perf_event *event;
->    509		unsigned long flag = SBI_PMU_START_FLAG_SET_INIT_VALUE;
->    510		unsigned long ctr_start_mask = 0;
->    511		uint64_t max_period;
->    512		struct hw_perf_event *hwc;
->    513		u64 init_val = 0;
->    514
->    515		ctr_start_mask = cpu_hw_evt->used_hw_ctrs[0] & ~ctr_ovf_mask;
->    516
->    517		/* Start all the counters that did not overflow in a single shot */
->    518		sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, 0, ctr_start_mask,
->    519			  0, 0, 0, 0);
->    520
->    521		/* Reinitialize and start all the counter that overflowed */
->    522		while (ctr_ovf_mask) {
->    523			if (ctr_ovf_mask & 0x01) {
->    524				event = cpu_hw_evt->events[idx];
->    525				hwc = &event->hw;
->    526				max_period = riscv_pmu_ctr_get_width_mask(event);
->    527				init_val = local64_read(&hwc->prev_count) & max_period;
->    528				sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, idx, 1,
->    529					  flag, init_val, 0, 0);
->    530			}
->    531			ctr_ovf_mask = ctr_ovf_mask >> 1;
->    532			idx++;
->    533		}
->    534	}
->    535
+Similar approach can be done with all other hooks.
+
+Once api between HID and bpf stabilizes we can replace nop functions
+with writeable tracepoints to make things a bit more stable
+while still allowing for change of the interface in the future.
+
+The amount of bpf specific code in HID core will be close to zero
+while bpf can be used to flexibly tweak it.
+
+kfunc is a corresponding mechanism to introduce unstable api
+from bpf into the kernel instead of stable helpers.
+Just whitelist some functions as unstable kfunc helpers and call them
+from bpf progs.
+See net/bpf/test_run.c and bpf_kfunc_call* for inspiration.
