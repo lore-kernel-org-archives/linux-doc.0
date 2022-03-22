@@ -2,174 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7705C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 00:30:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159D3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 00:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbiCVAbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Mar 2022 20:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        id S234367AbiCVArF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Mar 2022 20:47:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbiCVAbp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 20:31:45 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EE9375D06
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 17:30:19 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id i63so12995848vsi.5
-        for <linux-doc@vger.kernel.org>; Mon, 21 Mar 2022 17:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zZqXUZvSGoiAU4OWPpv+kWmYsbJWpiQeFt4daxe81ds=;
-        b=hfrCmbEHl2h5Rii7re10yHpXsfBWYOfGCKo+XQHmbiS2ORaNCnijKzF+qeBzW3BQpF
-         fyyM1ZUD/bMfWg5gp9nIKppanhrDqXzd0BiDWLV4odII5vc2bLY4QqqpziOuJ2O1TrJw
-         flhQd3vAAwtgT1Xv8Ojt/JsqvVFijWUgiWh0miJ97JPj/PZDacbcaVTJnJ+7etv/AVCb
-         /mgprhIyrwN2hOE5UMF6b/8I774/2nwphiQzlUB+Lwssicdx9Q+0boWzoygBzkomBf1m
-         M0MRwgVymI1GJRyV7aTF9G1e9F0CjK38bjWTNQmYAksU3FtMFXOstcscKc0OheQ8B1wS
-         VTwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zZqXUZvSGoiAU4OWPpv+kWmYsbJWpiQeFt4daxe81ds=;
-        b=sXARTIZPiA8Bc2zkYMdCQrN1eSOKm7w2HMxaCzrEzwzcNX/VIFS86IYFjaCEMD/dlg
-         vkqtFl6Ay05MHZqyoUCOnsYGjFgkx+z85B7bjdw9mfPrhU2BLN+4TBGvYeP5pvCJSyzz
-         jturnv7g8HVumDYCtPt8EmkswJRP5VYGfUbkW5fX4yauAqg9Hx2CFIzFCYSCq4ofwnnC
-         sPM8a3rdgaJhwx3EgSGhyfQoRtADbbbn6YDFwk6QDNR5+leTjwBGbw69d8ETJ8wflP6D
-         qbtBRNJLL+TSXhmbMGT8eerFWTQyVJ7d5Q/640wxTpKB8xAbPZ7U3kkAWha6XkNzeC19
-         n02A==
-X-Gm-Message-State: AOAM531xVZBfeypTsIyQyBeumDQjY1bsmMiQDiI5TZVADSPISnzmDGwC
-        Q+BmtSmZtMiW1UvtTdQ95XgA3C0aEicYFIRbsyuoPQ==
-X-Google-Smtp-Source: ABdhPJzz/wKqvQqJK+JokQegaEl/jW4BCcQKHCuV6sRHJ+7nBGMqKAZzoeJYJwW4PjrsgyHNP+iVv5C2qA0h2jzH8mg=
-X-Received: by 2002:a05:6102:291f:b0:325:11be:5bf0 with SMTP id
- cz31-20020a056102291f00b0032511be5bf0mr2955888vsb.41.1647909018098; Mon, 21
- Mar 2022 17:30:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
- <CAGsJ_4zw0gX0+OPE3MPaSRH53LdVR0TNv1RN5DK9dtNPvgd8iQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4zw0gX0+OPE3MPaSRH53LdVR0TNv1RN5DK9dtNPvgd8iQ@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Mon, 21 Mar 2022 18:30:06 -0600
-Message-ID: <CAOUHufYmUPZY0gCC+wYk6Vr1L8KEx+tJeEAhjpBfUnLJsAHq5A@mail.gmail.com>
-Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
+        with ESMTP id S234341AbiCVArE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Mar 2022 20:47:04 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2121AD89;
+        Mon, 21 Mar 2022 17:45:36 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4KMt7c59Xkz4xNq;
+        Tue, 22 Mar 2022 11:45:31 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1647909935;
+        bh=Bz/qcPUjp+xnV7sXCh9T8SQ8nU42UdydAMwhj8Gidog=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=FjhBV/tZn1kcZ4dWO/m6PQ4NBY/1TmhFEco/B6C53AQXstdUeha5I3IejnddSEuPw
+         is6OQZ5OPzJD0frfPMkGWDb3eETKdrp4Phzu6WIMqCWxNtJuXm32JFDN9w7WHGaJPd
+         LOj8kLeRGOos/QGUfYETYnfKRTYxm7AriiEQT9ptxv9v7RXkmaWITrML+1IyUJllQQ
+         nJKHY9MKhuZZ6RfRVPyLlh7g5AEz/2Pbl+zIFYHd6tQhOU+CbtuaMCK6z2L7GFPr89
+         pRRWHI83Ck69gZWjOTV7MTCKu3wA/Fpet2YGTJREXUm2zWg0AAgxSAL3g2+ec3+Cnd
+         r2F6/D4d6PrYg==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-s390@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-ia64@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <lenb@kernel.org>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs: admin/kernel-parameters: edit a few boot options
+In-Reply-To: <20220321012216.23724-1-rdunlap@infradead.org>
+References: <20220321012216.23724-1-rdunlap@infradead.org>
+Date:   Tue, 22 Mar 2022 11:45:28 +1100
+Message-ID: <87ils6hl1z.fsf@mpe.ellerman.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 19, 2022 at 5:15 AM Barry Song <21cnbao@gmail.com> wrote:
+Randy Dunlap <rdunlap@infradead.org> writes:
+> Clean up some of admin-guide/kernel-parameters.txt:
 >
-> > +                            unsigned long *min_seq, bool can_swap, bool *need_aging)
-> > +{
-> > +       int gen, type, zone;
-> > +       long old = 0;
-> > +       long young = 0;
-> > +       long total = 0;
-> > +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> > +
-> > +       for (type = !can_swap; type < ANON_AND_FILE; type++) {
-> > +               unsigned long seq;
-> > +
-> > +               for (seq = min_seq[type]; seq <= max_seq; seq++) {
-> > +                       long size = 0;
-> > +
-> > +                       gen = lru_gen_from_seq(seq);
-> > +
-> > +                       for (zone = 0; zone < MAX_NR_ZONES; zone++)
-> > +                               size += READ_ONCE(lrugen->nr_pages[gen][type][zone]);
-> > +
-> > +                       total += size;
-> > +                       if (seq == max_seq)
-> > +                               young += size;
-> > +                       if (seq + MIN_NR_GENS == max_seq)
-> > +                               old += size;
-> > +               }
-> > +       }
-> > +
-> > +       /* try to spread pages out across MIN_NR_GENS+1 generations */
-> > +       if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
-> > +               *need_aging = true;
-> > +       else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
-> > +               *need_aging = false;
-> > +       else if (young * MIN_NR_GENS > total)
-> > +               *need_aging = true;
->
-> Could we have some doc here?
+> a. "smt" should be "smt=" (S390)
+> b. add "smt-enabled" for POWERPC
 
-Will do.
+I'd rather you didn't. It's not well tested and we ignore it entirely on
+some platforms because it causes bugs. Eventually I'd like to remove it.
 
-> Given MIN_NR_GENS=2 and MAX_NR_GENS=4,
-> it seems you mean if we have three generations and the youngest pages are more
-> than 1/2 of the total pages, we need aging?
+If we ever get time we'd want to support the generic `nosmt` argument
+instead.
 
-Yes.
-
-> > +       else if (old * (MIN_NR_GENS + 2) < total)
-> > +               *need_aging = true;
->
-> it seems you mean if the oldest pages are less than 1/4 of the total pages,
-> we need aging?
-
-Yes.
-
-> Can we have comments to explain why here?
->
-> your commit message only says " The aging produces young generations.
-> Given an lruvec, it increments max_seq when max_seq-min_seq+1
-> approaches MIN_NR_GENS." it can't explain what the code is doing
-> here.
-
-Fair enough. Approaching MIN_NR_GENS=2 means getting close to it. From
-the consumer's POV, if it *reaches* 2, the eviction will have to
-stall, because the two youngest generations are not yet fully aged,
-i.e., the second chance policy similar to the active/inactive lru.
-From the producer's POV, the aging tries to be lazy to reduce the
-overhead. So ideally, we want 3 generations, which gives a reasonable
-range [2, 4], hence the first two if's.
-
-In addition, we want pages to spread out evenly over these 3
-generations, meaning an average 1/3 of total pages for each
-generation, which gives another reasonable range [1/2, 1/4]. Since the
-eviction reduces the number of old pages, we only need to check
-against the lower bound, i.e., 1/4. On the other hand, page (re)faults
-increase the number of young pages, so in this case, we need to check
-against the upper bound.
-
-I'll include these details in the next spin.
+cheers
