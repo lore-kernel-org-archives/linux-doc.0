@@ -2,93 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A5C1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 19:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98C99C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 21:13:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbiCVTij (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 15:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
+        id S235216AbiCVVOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 17:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiCVTii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 15:38:38 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7888A6C8;
-        Tue, 22 Mar 2022 12:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=GNyzORUx4GXTT7/hj1mCmOnIXmKv2J5yosWB9fpbDWg=; b=MdScEsmNUv8CYjaq6xyKA/QxN9
-        99HtzcD8C5Luv02SuH8KKYzNXG2/z9eoPR6F+Of7b2lajNndvnQgTFYcmirKYEOKIl7Se9JldmMm5
-        E/263AwsHbY1LjLCfck+kKyE6/+BtsVrjFp+MPte5dcSxYvDzYluqVmur6voqTxcLZcU/xVskTKBX
-        Rnv8nuDMz3n95ftN044wXbdf+9PPcPf2/ifZZPTxINFS9hvFes7ZlPcS7C7k6pCnwJElIJDlz3crP
-        egdH6e1Il32660Qsnf7ExebqC9Kk7y4mHrwW7K5cop+zlkCe1y9/jFjb5XLJZ52VLs82F0v5GP/LB
-        LQ5sxRaA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nWkJR-003Y0z-FU; Tue, 22 Mar 2022 19:37:01 +0000
-Message-ID: <adfeb8bb-50b3-7ff3-a55f-19fc23cd1121@infradead.org>
-Date:   Tue, 22 Mar 2022 12:36:52 -0700
+        with ESMTP id S235209AbiCVVOq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 17:14:46 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F1F11A2D;
+        Tue, 22 Mar 2022 14:13:17 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id l8so19280269pfu.1;
+        Tue, 22 Mar 2022 14:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=03tYtiA5KKmFTpDLZLnqLpWtIG1hK5GKwEWKVkVUCGM=;
+        b=AymEJ3DLGTRyadwp2af38C6hVt6EF5qW0et5KZg3nCgeQNz5X4yY2EGTqECzqlvkhX
+         VKpCXWGL9an+EFgF1DcbyC/4zZa5JFRser4DLlEt938uP3Zj1owzzE4Z8bqrEnkhp1yk
+         Ev7E/diLUu+ITuMxWWbPG53krPRQbuURR98qGKMxulWz9CGw/qpFOv4wfGde8ORnIxcS
+         Bl8Q8p0pVoJWXTW/ZuEutbTzPplBZ+C0+EOR6XdLQmYtALY+SlNKJ2IxLGy5QAQPdwNa
+         Sahxs2DsIyOK239Cuc87dCJquzxveRbcO00pPP3WqYfE5w9es4c+BibGbzb9GzYA0Gj8
+         GOww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=03tYtiA5KKmFTpDLZLnqLpWtIG1hK5GKwEWKVkVUCGM=;
+        b=umm8+yNfGXAanocBPP7r/Yf2eaIfQ4RyFbteBaPm7toZOQyUgDpeCSqowWZ3fg3vnW
+         vPNCUkU+bKQqV8SX529XMXBrKXoZNTiwvYweY1DCrRJzTImOkRciMiqta8ISpS/KL8d8
+         s57lgaJ+XrZoaSFW6D/083kMxGL5GRUS4M0yiGTrMB5aHZivOE8dumz+5zLAbnzSi0B/
+         yi0o3S40kOGNxcHI1WK4uiYZIhE8Dk3AeVIECTtIPMv3dSIK5NMcfSEbEwE9ARyVSeI7
+         GyFu2g+MbKFSYJxiNVREaOxLJ0yNP+iqCuinvEepfliOMaMtQpxV2GjjWUU8E+9ExHeC
+         EQUg==
+X-Gm-Message-State: AOAM533rcUgsNxlHWvJH8IRioLvn3fS8Zr5cK512CaTQ/LSxPMFSDWqM
+        hDpv4tYtznjymK3trRAWtEk=
+X-Google-Smtp-Source: ABdhPJwDqReX6cCd1yPNLAr6G/6vxoxQ+ACIXmA+YyRvFv8WA+XFEnDNCwAOpDMr0gNEp5BJzHkr7g==
+X-Received: by 2002:a05:6a00:2310:b0:4fa:7eb1:e855 with SMTP id h16-20020a056a00231000b004fa7eb1e855mr19416543pfh.14.1647983591745;
+        Tue, 22 Mar 2022 14:13:11 -0700 (PDT)
+Received: from google.com ([2620:15c:211:201:f2c8:5487:5fb6:3ab8])
+        by smtp.gmail.com with ESMTPSA id a38-20020a056a001d2600b004f70d5e92basm24208931pfx.34.2022.03.22.14.13.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Mar 2022 14:13:11 -0700 (PDT)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Tue, 22 Mar 2022 14:13:09 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Brian Geffon <bgeffon@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Nitin Gupta <ngupta@vflare.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org
+Subject: Re: [PATCH] zram: Add a huge_idle writeback mode
+Message-ID: <Yjo75atYTpXqCM4g@google.com>
+References: <20220315172221.9522-1-bgeffon@google.com>
+ <20220321145037.1024083-1-bgeffon@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] Docs: admin/kernel-parameters: edit a few boot options
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        linux-s390@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-ia64@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Len Brown <lenb@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220321012216.23724-1-rdunlap@infradead.org>
- <CAJZ5v0jBFOWZZrGuBb0GyJa3rKRwSYXrMFOtGu8jLnQ+OPtXHw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAJZ5v0jBFOWZZrGuBb0GyJa3rKRwSYXrMFOtGu8jLnQ+OPtXHw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220321145037.1024083-1-bgeffon@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 3/22/22 10:41, Rafael J. Wysocki wrote:
-> On Mon, Mar 21, 2022 at 2:22 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->> Clean up some of admin-guide/kernel-parameters.txt:
->>
->> a. "smt" should be "smt=" (S390)
->> b. add "smt-enabled" for POWERPC
->> c. Sparc supports the vdso= boot option
->> d. make the tp_printk options (2) formatting similar to other options
->>    by adding spacing
->> e. add "trace_clock=" with a reference to Documentation/trace/ftrace.rst
->> f. use [IA-64] as documented instead of [ia64]
->> g. fix formatting and text for test_suspend=
-> This ->
+On Mon, Mar 21, 2022 at 07:50:37AM -0700, Brian Geffon wrote:
+> Today it's only possible to write back as a page, idle, or huge.
+> A user might want to writeback pages which are huge and idle first
+> as these idle pages do not require decompression and make a good
+> first pass for writeback.
 > 
->> h. fix formatting for swapaccount=
->> i. fix formatting and grammar for video.brightness_switch_enabled=
-> -> and the last one are fine with me, but I suppose that there will be a v2?
+> Idle writeback specifically has the advantage that a refault is
+> unlikely given that the page has been swapped for some amount of
+> time without being refaulted.
+> 
+> Huge writeback has the advantage that you're guaranteed to get
+> the maximum benefit from a single page writeback, that is, you're
+> reclaiming one full page of memory. Pages which are compressed in
+> zram being written back result in some benefit which is always
+> less than a page size because of the fact that it was compressed.
+> 
+> This change allows for users to write back huge pages which are
+> also idle.
 
-Yes, there will be a v2.
+Hey Brian,
 
-thanks.
+I really want to add your explanation about the storage endurance
+because it's real issue.
 
--- 
-~Randy
+So, could't you add up below in the description?
+
+From your previous reply
+"
+we're trying to be very sensitive to our devices storage endurance,
+for this reason we will have a fairly conservative writeback limit.
+Given that, we want to make sure we're maximizing what lands on disk
+while still minimizing the refault time. We could take the approach
+where we always writeback huge pages but then we may result in very
+quick refaults which would be a huge waste of time. So idle writeback
+is a must for us and being able to writeback the pages which have
+maximum value (huge) would be very useful
+"
+
+> 
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
+
+Other than that, feel free to add my
+Acked-by: Minchan Kim <minchan@kernel.org>
+
+Thanks.
