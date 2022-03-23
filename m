@@ -2,90 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 894F5C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 12:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A17C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 12:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240122AbiCWMU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 08:20:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35736 "EHLO
+        id S236350AbiCWMpo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 08:45:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239152AbiCWMU0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 08:20:26 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C2154BEB;
-        Wed, 23 Mar 2022 05:18:56 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id e5so1349191pls.4;
-        Wed, 23 Mar 2022 05:18:56 -0700 (PDT)
+        with ESMTP id S236374AbiCWMpk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 08:45:40 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BFB75200
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 05:44:09 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id e22so1470913ioe.11
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 05:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=KrOAEwdJIBQHysyGTc8MR/8Fl2/7DHu459R4bzhCCXA=;
-        b=Hdb6LUVmMLHMFB88LZalE3YlqGQFxKn6StXKfCNcLnwedSffq63vc6GYAt9VDEudgW
-         U7LP1G1pCHI7ry++xhqOpzqeUq2i6jQwoTHyDpcwAgP7FUHuGDY+7BgO/jfbzER6azb/
-         GEAo6mV9cRiZbV2EIl47yJ7Atbautj78Q/UO8eDu93NEQSJ0YUxBsnytJbhnT6vt6Kzv
-         wiIqBQKxOw34GwA5QaalOHQlAGdURXxpJ2ksWvnJxbO6maeGcCaomkm4zMkGiiN+M1uG
-         7hmmCNsDpl5T6BOzDsT8OhJE12qDoFQuZbO2X4nAa2Y1KhwZJmuhUHdcMaf5DqyUspR1
-         TCHg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=l8ym8SgV3CD5/B8NUZIPaAPfyfzOyaAjOjmfGL+Cy8Y=;
+        b=OwYrW0Yw1sBQ6YmBkcmX95PH9NM6pl+KWGX4rfIlc9rF851BslAzg4vLmHIlgNvgBr
+         oN2zP0TAaqa56zWpgjncpMz9cwTWtRWd1u+S2XCDu3ymc+KGZ400/zDYI/CmVHGSutS3
+         PNvyZI/Cw5VwJDCNgJWsn0mX7OE7ehLKMfSUatADfkc9vh+5JHu7WN2uEjJ0Lq/DqPz4
+         Oi4nyiNJevoSxdaM9dR0i7xzuMcRUObld1tZ1RKITIcTvzibGVdPjOZ0O8TiuiU+/t3o
+         hcraYqU7IQjtLI1lHhur0ZBsBku23TR+TKBdZEqGc3nWLFZPnYn0oMnXPbb3HgsEIBWt
+         tTIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=KrOAEwdJIBQHysyGTc8MR/8Fl2/7DHu459R4bzhCCXA=;
-        b=JKa4N7ngEmnCiKSCO+dqptPzLB3QODGWsW9pPA/ngmFF0B/wuvo9MFKnlG+9bHjMUI
-         b64HDO0sMrCxRc4AMo8ja79Eld27u14RMIryMZwOYiOyjqqA9Oo2LFF0Y2DdEz1JgY5K
-         ZX3dmHNB+2gobIK+ihVfp7CmuMWpAo3CNGZJ0GL5+Ud77qr7PSeuRt8gGpx77cXON54D
-         sUB3FAdFOvDdSU6w285Facp5Ro8jz529D0JmcakHoJvRtGmyCSbMmaYUxxdAgQJh/OZl
-         /kiJ2fuOYwzvevhnACH4mOcwN8eDX6wsgFXMtWwCzWgbzj1Rx+PKa1N8KQz+wAiuCsTt
-         cSRQ==
-X-Gm-Message-State: AOAM533Mq9WQnRUITkdrfXTlecNg8foWNJZwnL+0Z5CaBWN3HcUHSPX2
-        biqmh1vlk7JY7emb3v+DckA=
-X-Google-Smtp-Source: ABdhPJz9rNauBjyC7mJiIiMRzgRY+obTufzebjU3xVXY8Ra1/1jftU2jnwN/KdizwnMASycF5/p+gw==
-X-Received: by 2002:a17:90b:1b12:b0:1c7:6f5d:d7e8 with SMTP id nu18-20020a17090b1b1200b001c76f5dd7e8mr7499891pjb.154.1648037935572;
-        Wed, 23 Mar 2022 05:18:55 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-71.three.co.id. [180.214.233.71])
-        by smtp.gmail.com with ESMTPSA id e6-20020a63aa06000000b00380c8bed5a6sm21451042pgf.46.2022.03.23.05.18.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Mar 2022 05:18:54 -0700 (PDT)
-Message-ID: <e1ea44f5-de48-e5ff-6feb-5f6ee7a68828@gmail.com>
-Date:   Wed, 23 Mar 2022 19:18:51 +0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=l8ym8SgV3CD5/B8NUZIPaAPfyfzOyaAjOjmfGL+Cy8Y=;
+        b=eBR4cjpxhl4MLX6IP7O3hzY0idycNiqAX27V6TQP4UPgSsKVxksCRm4Llq7xT1uVaG
+         nnbe6+PkuEwNlaWvA1+k5FxGq1vTyiVy6/sUKNLbqJyiZeguhbSzflvp0jG14bdUDjY1
+         NbtrthbQ2KBxYt2qHG2lKgFd/HCXt0dbJ9ed1dTIrT5JZiBN/EbsGK+TZrsvNrsMv15z
+         rzh1R/MQBVpC3RClyOqlRo1TuG572XLjwMUq+1Tw/Y71JuQs/1WXeYGNnqNsb0jh4w2v
+         VIB5xlZRyijdqKJnLwUIWulqG9kJngnDYHagFNdoB7Lb3o0gDYZgrOK8n9alEMAcgWnH
+         4aOA==
+X-Gm-Message-State: AOAM530UfasLVyirEx44i5VkiljRZnUVLOelGo5/tjOrGdX9aZ1PECMP
+        0pj5QM8mNA0t3k1zAF91Hb9T3+h97yyWNWJ6pO8=
+X-Google-Smtp-Source: ABdhPJyy2a83cADGK0U0hUXNoVSyzY8qYNf67epHFV6uNF+/6V2Ic0Pi6eADjKWftn80OMK3HfCbDvb9VxpUK8/7vMA=
+X-Received: by 2002:a05:6638:1685:b0:321:4904:c9b5 with SMTP id
+ f5-20020a056638168500b003214904c9b5mr6822862jat.40.1648039447215; Wed, 23 Mar
+ 2022 05:44:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [ammarfaizi2-block:palmer/linux/riscv-pmu 13/15]
- drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Content-Language: en-US
-To:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>
-Cc:     lkp@intel.com, kbuild-all@lists.01.org, gwml@vger.gnuweeb.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <mhng-cc3dade0-37d7-4832-bb05-c23669599378@palmer-ri-x1c9>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <mhng-cc3dade0-37d7-4832-bb05-c23669599378@palmer-ri-x1c9>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1647498763.git.siyanteng@loongson.cn> <cffe009c8b94682200c46fb4d80313f603a65cb6.1647498763.git.siyanteng@loongson.cn>
+In-Reply-To: <cffe009c8b94682200c46fb4d80313f603a65cb6.1647498763.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Wed, 23 Mar 2022 20:43:31 +0800
+Message-ID: <CAJy-AmnCfb+TvFmYfXmTCYSWYQS_w7Q01pg7RQX2Ry3Q7Q7fwA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] docs/zh_CN: add vm mmu_notifier translation
+To:     Yanteng Si <siyanteng01@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/03/22 05.06, Palmer Dabbelt wrote:
->> All warnings (new ones prefixed by >>):
->>
->>    drivers/perf/riscv_pmu_sbi.c:42: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
-> 
-> Looks like that's just fallout from the ** comments.
-> 
->>>> drivers/perf/riscv_pmu_sbi.c:498: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> 
-> I sent a fix for this one, there were a handful of them.  Sorry I missed that.
-> 
+On Thu, Mar 17, 2022 at 2:51 PM Yanteng Si <siyanteng01@gmail.com> wrote:
+>
+> From: Yanteng Si <siyanteng01@gmail.com>
+>
+> Translate .../vm/mmu_notifier.rst into Chinese.
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> ---
+>  Documentation/translations/zh_CN/vm/index.rst |  3 +-
+>  .../translations/zh_CN/vm/mmu_notifier.rst    | 97 +++++++++++++++++++
+>  2 files changed, 98 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/vm/mmu_notifier.rst
+>
+> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentatio=
+n/translations/zh_CN/vm/index.rst
+> index c1f517da81f4..1fb80aa7a08b 100644
+> --- a/Documentation/translations/zh_CN/vm/index.rst
+> +++ b/Documentation/translations/zh_CN/vm/index.rst
+> @@ -30,14 +30,13 @@ TODO:=E5=BE=85=E5=BC=95=E7=94=A8=E6=96=87=E6=A1=A3=E9=
+=9B=86=E8=A2=AB=E7=BF=BB=E8=AF=91=E5=AE=8C=E6=AF=95=E5=90=8E=E8=AF=B7=E5=8F=
+=8A=E6=97=B6=E4=BF=AE=E6=94=B9=E6=AD=A4=E5=A4=84=EF=BC=89
+>     frontswap
+>     hwpoison
+>     memory-model
+> +   mmu_notifier
+>
+>  TODOLIST:
+>  * arch_pgtable_helpers
+>  * free_page_reporting
+>  * hmm
+>  * hugetlbfs_reserv
+> -
+> -* mmu_notifier
+>  * numa
+>  * overcommit-accounting
+>  * page_migration
+> diff --git a/Documentation/translations/zh_CN/vm/mmu_notifier.rst b/Docum=
+entation/translations/zh_CN/vm/mmu_notifier.rst
+> new file mode 100644
+> index 000000000000..9a85d6acb249
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/vm/mmu_notifier.rst
+> @@ -0,0 +1,97 @@
+> +:Original: Documentation/vm/mmu_notifier.rst
+> +
+> +:=E7=BF=BB=E8=AF=91:
+> +
+> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:=E6=A0=A1=E8=AF=91:
+> +
+> +
+> +
+> +=E4=BB=80=E4=B9=88=E6=97=B6=E5=80=99=E9=9C=80=E8=A6=81=E9=80=9A=E7=9F=A5=
+=E5=86=85=E9=A1=B5=E8=A1=A8=E9=94=81=EF=BC=9F
 
-I have already sent the fix for vcpu_sbi.c at [1], but forgot to
-Cc: lkp@intel.com (I put it on To: instead), can you please pick it up?
+Is it better to translate as "=E4=BB=80=E4=B9=88=E6=97=B6=E5=80=99=E9=9C=80=
+=E8=A6=81=E9=A1=B5=E8=A1=A8=E9=94=81=E5=86=85=E9=80=9A=E7=9F=A5"?
 
-[1]: https://lore.kernel.org/linux-doc/20220320081810.405589-1-bagasdotme@gmail.com/
-
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks
+Alex
