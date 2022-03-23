@@ -2,149 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFF2C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A6ECC433FE
 	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 23:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345977AbiCWXjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 19:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53696 "EHLO
+        id S1345993AbiCWXjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 19:39:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347120AbiCWXiy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 19:38:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5608F78071;
-        Wed, 23 Mar 2022 16:37:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 18146B82199;
-        Wed, 23 Mar 2022 23:37:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE67C36AE2;
-        Wed, 23 Mar 2022 23:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648078641;
-        bh=B3RWqzz/ptsmVjfvKfKwBqksGQ4Ftru0F8kv1MbiSuA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W4Jqv6Bxd8Cy+O5//GIbNpeLvvk6c/KTklmSEkJ+UU2ggtRPxrmpTjl0RAgXdvMwV
-         zimbLLzMpvOr3J1HzZeyPPr0RZMl1iRjCYJ6dbYvS81iT+kGGCudPWvmnsVEqO/WaN
-         0Jq643F7oRjdIBQh2uXKYqe/uA7S1X8azFgKq3zAuUe2Q607xl3FLO5PEa616QNMk2
-         4AIGSCylD1UVX2RkfTk6bbou+NkDskTn5GpH/3oCZ69YubB7GejGNUfrJ/NZmQvmba
-         BFQAXsZGWRnaRRuMwLj12nnD2QTWI9uDLOh5Cooaxk+RqDb4mFK2MmzsM/3udaanC3
-         Zl8PvVKzzdidQ==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
-        imagedong@tencent.com, edumazet@google.com, dsahern@kernel.org,
-        talalahmad@google.com, linux-doc@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [RFC net-next 2/3] skbuff: rewrite the doc for data-only skbs
-Date:   Wed, 23 Mar 2022 16:37:14 -0700
-Message-Id: <20220323233715.2104106-3-kuba@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220323233715.2104106-1-kuba@kernel.org>
-References: <20220323233715.2104106-1-kuba@kernel.org>
+        with ESMTP id S1347107AbiCWXiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 19:38:52 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8A778071
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 16:37:20 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id y10so3692688edv.7
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 16:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
+        b=lKb4AaK6N9O62KVZSBFpoXMFMKi2DX++d0hcldo7VKltrYvP1ZV+I9dYXZlx13MpxC
+         U6xbiC42KS2p1EnoJU/ZpUu2VFNzNn/B5ByWL9Zt/vr5XdA+yDneUYBZIcau3mhQ0muv
+         V4ah+EZCicq3OsyPu2g/e6akuJDlkHFQFQdx2jnBGU1XDVC3q67LkJ1lTpu2QD3b10Gm
+         //++HMvqfQRnNJ7DQNGYM/1Pf8y6AjoqHMxScOBz3cW/cZXBbkCYsHBTNfYHMC39INi5
+         cHWn+JRXaDWTnRSK6VSSXCSqWAo9ASLt+74RRIvM/eLnYs1Iz3CUqvYDSdMrTd/CQ+rq
+         7Uww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
+        b=rg1oIQBXVyYUZOTLRNcQgmHsKgd40yquH/VDYxWYTY0ibkfVYx6ypnRRi9vE8jjP0M
+         Zm+G3CdjhC/B0ZAB9rE5KypMpvtwslFM96t0T+0ZIip148vFHdG/e9tzHPvKzVzspEa8
+         jQJ0krNjStI9GbO/i7SuBG9wdeHdBG6ECOBGa242SYkdxntqlaOEnwyQhhPCOEWKSHwB
+         QDGQIYiWhFYmvWOmNyvhCZkPzEgxilwXMHopVsj8T9BNq+Fn8z8dPSwAPZxhBVL1BL8H
+         Tn/+IlHSEqhDdDcn/7xe1OmETNdIwYiijqWb1Ht2nEtXsKL28bytZz+FIfrAgFDS621C
+         sr4A==
+X-Gm-Message-State: AOAM5314KrRvq2xZM09rd02Ngwgnc15t08dVL9DJXsPEvODkQO2uthMZ
+        J2RoTFcbemVWypB14QwmfLQ9nqJyQ47KqTOC+L/VBA==
+X-Google-Smtp-Source: ABdhPJwADoSTh9axrzXODWW9/zmv/BOuIsIRoK4uginvkl+fxm/Pmh4atOmF02EcDNdhjJn90v29djoFR8TlCQGU8F0=
+X-Received: by 2002:a50:9b4f:0:b0:419:49af:429c with SMTP id
+ a15-20020a509b4f000000b0041949af429cmr3390112edj.276.1648078639171; Wed, 23
+ Mar 2022 16:37:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220322095223.GG8477@blackbody.suse.cz> <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
+In-Reply-To: <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 23 Mar 2022 16:37:08 -0700
+Message-ID: <CABdmKX3Un=k3yU1BuCnEEoZkOqMovVrjcg=GiqDEtLZD_awX3g@mail.gmail.com>
+Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
+To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        "Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer
+        function Reply-To: In-Reply-To:" 
+        <CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The comment about shinfo->dataref split is really unhelpful,
-at least to me. Rewrite it and render it to skb documentation.
+On Tue, Mar 22, 2022 at 9:47 AM T.J. Mercier <tjmercier@google.com> wrote:
+>
+> On Tue, Mar 22, 2022 at 2:52 AM Michal Koutn=C3=BD <mkoutny@suse.com> wro=
+te:
+> >
+> > On Mon, Mar 21, 2022 at 04:54:26PM -0700, "T.J. Mercier"
+> > <tjmercier@google.com> wrote:
+> > > Since the charge is duplicated in two cgroups for a short period
+> > > before it is uncharged from the source cgroup I guess the situation
+> > > you're thinking about is a global (or common ancestor) limit?
+> >
+> > The common ancestor was on my mind (after the self-shortcut).
+> >
+> > > I can see how that would be a problem for transfers done this way and
+> > > an alternative would be to swap the order of the charge operations:
+> > > first uncharge, then try_charge. To be certain the uncharge is
+> > > reversible if the try_charge fails, I think I'd need either a mutex
+> > > used at all gpucg_*charge call sites or access to the gpucg_mutex,
+> >
+> > Yes, that'd provide safe conditions for such operations, although I'm
+> > not sure these special types of memory can afford global lock on their
+> > fast paths.
+>
+> I have a benchmark I think is suitable, so let me try this change to
+> the transfer implementation and see how it compares.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- Documentation/networking/index.rst  |  1 +
- Documentation/networking/skbuff.rst |  6 ++++++
- include/linux/skbuff.h              | 33 +++++++++++++++++++----------
- 3 files changed, 29 insertions(+), 11 deletions(-)
+I added a mutex to struct gpucg which is locked when charging the
+cgroup initially during allocation, and also only for the source
+cgroup during dma_buf_charge_transfer. Then I used a multithreaded
+benchmark where each thread allocates 4, 8, 16, or 32 DMA buffers and
+then sends them through Binder to another process with charge transfer
+enabled. This was intended to generate contention for the mutex in
+dma_buf_charge_transfer. The results of this benchmark show that the
+difference between a mutex protected charge transfer and an
+unprotected charge transfer is within measurement noise. The worst
+data point shows about 3% overheard for the mutex.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index ce017136ab05..1b3c45add20d 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -96,6 +96,7 @@ Linux Networking Documentation
-    sctp
-    secid
-    seg6-sysctl
-+   skbuff
-    smc-sysctl
-    statistics
-    strparser
-diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
-index 7c6be64f486a..581e5561c362 100644
---- a/Documentation/networking/skbuff.rst
-+++ b/Documentation/networking/skbuff.rst
-@@ -23,3 +23,9 @@ skb_clone() allows for fast duplication of skbs. None of the data buffers
- get copied, but caller gets a new metadata struct (struct sk_buff).
- &skb_shared_info.refcount indicates the number of skbs pointing at the same
- packet data (i.e. clones).
-+
-+dataref and headerless skbs
-+---------------------------
-+
-+.. kernel-doc:: include/linux/skbuff.h
-+   :doc: dataref and headerless skbs
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 5431be4aa309..5b838350931c 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -691,16 +691,25 @@ struct skb_shared_info {
- 	skb_frag_t	frags[MAX_SKB_FRAGS];
- };
- 
--/* We divide dataref into two halves.  The higher 16 bits hold references
-- * to the payload part of skb->data.  The lower 16 bits hold references to
-- * the entire skb->data.  A clone of a headerless skb holds the length of
-- * the header in skb->hdr_len.
-+/**
-+ * DOC: dataref and headerless skbs
-+ *
-+ * Transport layers send out clones of data skbs they hold for retransmissions.
-+ * To allow lower layers of the stack to prepend their headers
-+ * we split &skb_shared_info.dataref into two halves.
-+ * The lower 16 bits count the overall number of references.
-+ * The higher 16 bits indicate number of data-only references.
-+ * skb_header_cloned() checks if skb is allowed to add / write the headers.
-  *
-- * All users must obey the rule that the skb->data reference count must be
-- * greater than or equal to the payload reference count.
-+ * The creator of the skb (e.g. TCP) marks its data-only skb as &sk_buff.nohdr
-+ * (via __skb_header_release()). Any clone created from marked skb will get
-+ * &sk_buff.hdr_len populated with the available headroom.
-+ * If it's the only clone in existence it's able to modify the headroom at will.
-  *
-- * Holding a reference to the payload part means that the user does not
-- * care about modifications to the header part of skb->data.
-+ * This is not a very generic construct and it depends on the transport layers
-+ * doing the right thing. In practice there's usually only one data-only skb.
-+ * Having multiple data-only skbs with different lengths of hdr_len is not
-+ * possible. The data-only skbs should never leave their owner.
-  */
- #define SKB_DATAREF_SHIFT 16
- #define SKB_DATAREF_MASK ((1 << SKB_DATAREF_SHIFT) - 1)
-@@ -833,7 +842,7 @@ typedef unsigned char *sk_buff_data_t;
-  *	@ignore_df: allow local fragmentation
-  *	@cloned: Head may be cloned (check refcnt to be sure)
-  *	@ip_summed: Driver fed us an IP checksum
-- *	@nohdr: Payload reference only, must not modify header
-+ *	@nohdr: Data-only skb, must not modify header
-  *	@pkt_type: Packet class
-  *	@fclone: skbuff clone status
-  *	@ipvs_property: skbuff is owned by ipvs
-@@ -1962,8 +1971,10 @@ static inline int skb_header_unclone(struct sk_buff *skb, gfp_t pri)
- }
- 
- /**
-- *	__skb_header_release - release reference to header
-- *	@skb: buffer to operate on
-+ * __skb_header_release() - allow clones to use the headroom
-+ * @skb: buffer to operate on
-+ *
-+ * See "DOC: dataref and headerless skbs".
-  */
- static inline void __skb_header_release(struct sk_buff *skb)
- {
--- 
-2.34.1
-
+So I'll prep this change for the next revision. Thanks for pointing it out.
+>
+> >
+> > > which implies adding transfer support to gpu.c as part of the gpucg_*
+> > > API itself and calling it here. Am I following correctly here?
+> >
+> > My idea was to provide a special API (apart from
+> > gpucp_{try_charge,uncharge}) to facilitate transfers...
+> >
+> > > This series doesn't actually add limit support just accounting, but
+> > > I'd like to get it right here.
+> >
+> > ...which could be implemented (or changed) depending on how the chargin=
+g
+> > is realized internally.
+> >
+> >
+> > Michal
