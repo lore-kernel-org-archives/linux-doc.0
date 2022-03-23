@@ -2,91 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6B3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 22:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFF2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 23:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345162AbiCWWOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 18:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
+        id S1345977AbiCWXjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 19:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241243AbiCWWOp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 18:14:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F5DF5C871;
-        Wed, 23 Mar 2022 15:13:14 -0700 (PDT)
+        with ESMTP id S1347120AbiCWXiy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 19:38:54 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5608F78071;
+        Wed, 23 Mar 2022 16:37:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CDB42617A3;
-        Wed, 23 Mar 2022 22:13:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0740C340E8;
-        Wed, 23 Mar 2022 22:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1648073593;
-        bh=GVW7c7hhrRFbkL8w+WMuFuS1n0YCG9iV99pcNSRGqDg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=u9FvMkpXubTNDn4g9ArSG2VK57P2cvmKmkoKcCTH85E5lfaTEw924a/QKjsYS6O3d
-         CSaPtnMy3QWCQvlDr8kvLG/GP31St966/zS9LlSj1VOcUfNk1JbW3IZiA762tlslNI
-         NiweYuGqU4sU6Dg84zJaoGk/LoomPr+Ft+Nuu3iA=
-Date:   Wed, 23 Mar 2022 15:13:11 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, mcgrof@kernel.org, keescook@chromium.org,
-        yzaikin@google.com, osalvador@suse.de, david@redhat.com,
-        kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v5 1/4] mm: hugetlb_vmemmap: introduce
- STRUCT_PAGE_SIZE_IS_POWER_OF_2
-Message-Id: <20220323151311.289dd405440932e1d6d80f30@linux-foundation.org>
-In-Reply-To: <202203240546.MHJzsBaO-lkp@intel.com>
-References: <20220323125523.79254-2-songmuchun@bytedance.com>
-        <202203240546.MHJzsBaO-lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        by ams.source.kernel.org (Postfix) with ESMTPS id 18146B82199;
+        Wed, 23 Mar 2022 23:37:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE67C36AE2;
+        Wed, 23 Mar 2022 23:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648078641;
+        bh=B3RWqzz/ptsmVjfvKfKwBqksGQ4Ftru0F8kv1MbiSuA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=W4Jqv6Bxd8Cy+O5//GIbNpeLvvk6c/KTklmSEkJ+UU2ggtRPxrmpTjl0RAgXdvMwV
+         zimbLLzMpvOr3J1HzZeyPPr0RZMl1iRjCYJ6dbYvS81iT+kGGCudPWvmnsVEqO/WaN
+         0Jq643F7oRjdIBQh2uXKYqe/uA7S1X8azFgKq3zAuUe2Q607xl3FLO5PEa616QNMk2
+         4AIGSCylD1UVX2RkfTk6bbou+NkDskTn5GpH/3oCZ69YubB7GejGNUfrJ/NZmQvmba
+         BFQAXsZGWRnaRRuMwLj12nnD2QTWI9uDLOh5Cooaxk+RqDb4mFK2MmzsM/3udaanC3
+         Zl8PvVKzzdidQ==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        imagedong@tencent.com, edumazet@google.com, dsahern@kernel.org,
+        talalahmad@google.com, linux-doc@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [RFC net-next 2/3] skbuff: rewrite the doc for data-only skbs
+Date:   Wed, 23 Mar 2022 16:37:14 -0700
+Message-Id: <20220323233715.2104106-3-kuba@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220323233715.2104106-1-kuba@kernel.org>
+References: <20220323233715.2104106-1-kuba@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Mar 2022 06:06:41 +0800 kernel test robot <lkp@intel.com> wrote:
+The comment about shinfo->dataref split is really unhelpful,
+at least to me. Rewrite it and render it to skb documentation.
 
-> Hi Muchun,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on hnaz-mm/master]
-> [also build test ERROR on linus/master next-20220323]
-> [cannot apply to mcgrof/sysctl-next v5.17]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
-> base:   https://github.com/hnaz/linux-mm master
-> config: arc-randconfig-r043-20220323 (https://download.01.org/0day-ci/archive/20220324/202203240546.MHJzsBaO-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 11.2.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/64211be650af117819368a26d7b86c33df5deea4
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
->         git checkout 64211be650af117819368a26d7b86c33df5deea4
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc prepare
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> cc1: fatal error: cannot open 'kernel/bounds.s' for writing: No such file or directory
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/networking/index.rst  |  1 +
+ Documentation/networking/skbuff.rst |  6 ++++++
+ include/linux/skbuff.h              | 33 +++++++++++++++++++----------
+ 3 files changed, 29 insertions(+), 11 deletions(-)
 
-It would take a lot of talent for Munchun to have caused this!
-
-Methinks you just ran out of disk space?
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index ce017136ab05..1b3c45add20d 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -96,6 +96,7 @@ Linux Networking Documentation
+    sctp
+    secid
+    seg6-sysctl
++   skbuff
+    smc-sysctl
+    statistics
+    strparser
+diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
+index 7c6be64f486a..581e5561c362 100644
+--- a/Documentation/networking/skbuff.rst
++++ b/Documentation/networking/skbuff.rst
+@@ -23,3 +23,9 @@ skb_clone() allows for fast duplication of skbs. None of the data buffers
+ get copied, but caller gets a new metadata struct (struct sk_buff).
+ &skb_shared_info.refcount indicates the number of skbs pointing at the same
+ packet data (i.e. clones).
++
++dataref and headerless skbs
++---------------------------
++
++.. kernel-doc:: include/linux/skbuff.h
++   :doc: dataref and headerless skbs
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 5431be4aa309..5b838350931c 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -691,16 +691,25 @@ struct skb_shared_info {
+ 	skb_frag_t	frags[MAX_SKB_FRAGS];
+ };
+ 
+-/* We divide dataref into two halves.  The higher 16 bits hold references
+- * to the payload part of skb->data.  The lower 16 bits hold references to
+- * the entire skb->data.  A clone of a headerless skb holds the length of
+- * the header in skb->hdr_len.
++/**
++ * DOC: dataref and headerless skbs
++ *
++ * Transport layers send out clones of data skbs they hold for retransmissions.
++ * To allow lower layers of the stack to prepend their headers
++ * we split &skb_shared_info.dataref into two halves.
++ * The lower 16 bits count the overall number of references.
++ * The higher 16 bits indicate number of data-only references.
++ * skb_header_cloned() checks if skb is allowed to add / write the headers.
+  *
+- * All users must obey the rule that the skb->data reference count must be
+- * greater than or equal to the payload reference count.
++ * The creator of the skb (e.g. TCP) marks its data-only skb as &sk_buff.nohdr
++ * (via __skb_header_release()). Any clone created from marked skb will get
++ * &sk_buff.hdr_len populated with the available headroom.
++ * If it's the only clone in existence it's able to modify the headroom at will.
+  *
+- * Holding a reference to the payload part means that the user does not
+- * care about modifications to the header part of skb->data.
++ * This is not a very generic construct and it depends on the transport layers
++ * doing the right thing. In practice there's usually only one data-only skb.
++ * Having multiple data-only skbs with different lengths of hdr_len is not
++ * possible. The data-only skbs should never leave their owner.
+  */
+ #define SKB_DATAREF_SHIFT 16
+ #define SKB_DATAREF_MASK ((1 << SKB_DATAREF_SHIFT) - 1)
+@@ -833,7 +842,7 @@ typedef unsigned char *sk_buff_data_t;
+  *	@ignore_df: allow local fragmentation
+  *	@cloned: Head may be cloned (check refcnt to be sure)
+  *	@ip_summed: Driver fed us an IP checksum
+- *	@nohdr: Payload reference only, must not modify header
++ *	@nohdr: Data-only skb, must not modify header
+  *	@pkt_type: Packet class
+  *	@fclone: skbuff clone status
+  *	@ipvs_property: skbuff is owned by ipvs
+@@ -1962,8 +1971,10 @@ static inline int skb_header_unclone(struct sk_buff *skb, gfp_t pri)
+ }
+ 
+ /**
+- *	__skb_header_release - release reference to header
+- *	@skb: buffer to operate on
++ * __skb_header_release() - allow clones to use the headroom
++ * @skb: buffer to operate on
++ *
++ * See "DOC: dataref and headerless skbs".
+  */
+ static inline void __skb_header_release(struct sk_buff *skb)
+ {
+-- 
+2.34.1
 
