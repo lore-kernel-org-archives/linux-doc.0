@@ -2,334 +2,370 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1186C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Mar 2022 23:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDDBFC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 00:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238751AbiCVXOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Mar 2022 19:14:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57104 "EHLO
+        id S240923AbiCWASB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Mar 2022 20:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbiCVXOS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 19:14:18 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam08on2080.outbound.protection.outlook.com [40.107.101.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D43B60CC3;
-        Tue, 22 Mar 2022 16:12:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fGdIFHWT/sVqdN5qH5Dylzd7eVfKNqzPQL7/45MyiDjwLee+aBZ388NoXPw+3kUfIAm/VfUkUyRct2jWMmg9oyiQcqiC1EJTE5gp5+pezPpIAhjba8gjuh9I7cVYmUFuFlxbIuQ1kH/C5++9QGa23angwzIc6OzOo5CUYt6sfqsq1qmo1Xg8xYUwFKeRDZCyEq+0LKpYo05lr/+DQmOacyPmOiJHf17kxtHrEEx3/cdxnQje1g7pErqS/hLFvapF96t1+i3Jh7vL1ntI4biDapiL55pfZyfPudHzQMDftg4dNTUpZ4aXapb2q0luwBSmrkFD4keXZJzQeEpHi9Gvxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ak5+xcbd0zW2AhhK3YKAT/i/bg+wB2MamXFZWieui+k=;
- b=GEup6EtfKQLRBI+D1WcVCqwgkdiakBfBdezuZKj0l84nl5D3V16JeJTWPWtPuFJnvKEi9ZFRT9CikmLEengY5X8P5/9EVwOFQ9ONDEVrCx1pUvzCPWxOYzq8Atw46rWkzm0X6NmOl0c21O3LxDWQhrDNw9l7f9coKWprvC6yopTY3O6TJxSItqZid5Dr0F/Vaq+XSyA2ay2sE7c+bzcZI4ppJwCbfcC/G7DJnIV6JzNM1FWVCUrsUBs5o0M1PSSc2/y1GQDcSbyhjeT5BTSUiIQoJVYzU24WE+MX9UrZF/uwQpnUfNRkjrnb6BkRfCvEQNlSdfIXH2MhU7GBvMakTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ak5+xcbd0zW2AhhK3YKAT/i/bg+wB2MamXFZWieui+k=;
- b=lpwm2WyX8sM5uLKXhdZCd6Gq9LUPy0vAmY1yOrfI2pLvbP+W7A4WexuzLbpeD1gMJJJzbYRRtjBdE7hCNz3zRQRPUMPThY7mX8+5eHxP/Ac3N930dtzFT4FkR4kML9xAGha2jVxrF//qu6qRedjfntmQ1ao+u6iSYqc2FKpB00Y18hV97uGzoSWrHUDQuNwqvJ4sDWXjcFXIxGs/ilQFkx/TDVNjCJUN5tg4V5Z45MLgtjND212S6Bf3Xx8lgakYRIzLBSo7Y3mkGuWrIkTXNn9fjVm/Kk/4sRZcEfT3j43E7fjqeTYL1Qlp+awpkV5UC3FmsTRYj6BDvO24EE25tw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
- by DM6PR12MB4842.namprd12.prod.outlook.com (2603:10b6:5:1fe::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.19; Tue, 22 Mar
- 2022 23:12:46 +0000
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::8940:4e31:b98a:c02b]) by BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::8940:4e31:b98a:c02b%5]) with mapi id 15.20.5102.016; Tue, 22 Mar 2022
- 23:12:46 +0000
-Message-ID: <60f09bc9-2399-29aa-123e-db48c1aa77a7@nvidia.com>
-Date:   Tue, 22 Mar 2022 16:10:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 04/11] dt-bindings: Add HTE bindings
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     smangipudi@nvidia.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        warthog618@gmail.com, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220201222630.21246-1-dipenp@nvidia.com>
- <20220201222630.21246-5-dipenp@nvidia.com>
- <Yf24nR9drkBAnYA5@robh.at.kernel.org>
-X-Nvconfidentiality: public
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <Yf24nR9drkBAnYA5@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S240912AbiCWARy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Mar 2022 20:17:54 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AFF6E8F9;
+        Tue, 22 Mar 2022 17:16:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 31028B81DAB;
+        Wed, 23 Mar 2022 00:16:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE9EC340EC;
+        Wed, 23 Mar 2022 00:16:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647994581;
+        bh=y+dtGw6McxL1TRjTK6IxUDJLsLXUtEPVWq1aFpw0ikU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cIhxq6Xay1G5a9HDNm9fccvMRlcHNUK4pyySJo8ffcbigILBrzOX65P+59NPwFfuq
+         FsObihDZuWDIlLMq0dLRaPChg9DZf+sFVD/yok5WRnkNkRz16G3ktVIqoFzw/e41Ta
+         fyVoqwsoq5Irlkb4RZOryiLkEyIV1ZsFOt+27o29bQhxj3PZUEBE/QBiz6SjDorj9y
+         UVZqf2DjGltpNJZjtfH5Q54L4kFhtUWTH9ympKriVbWd8Y8SUNNjl8MpKgsSzbWfAA
+         uU3UO4Y48DqyZniSrDND8pga/qUNDQFJ7kxF2aoFu1Sb09yVeNH6lUxer2EZDR6mrO
+         UkXOfLLVpy0yA==
+Date:   Wed, 23 Mar 2022 09:16:17 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file
+ in kernel
+Message-Id: <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+In-Reply-To: <20220322190219.GA26859@pswork>
+References: <164724890153.731226.1478494969800777757.stgit@devnote2>
+        <164724892075.731226.14103557516176115189.stgit@devnote2>
+        <20220316191649.GA11547@pswork>
+        <20220318101445.fdb151efe58c6c3a1c572500@kernel.org>
+        <20220321183500.GA4065@pswork>
+        <20220322120311.690f237b63ddfd9c0e4f78ec@kernel.org>
+        <20220322190219.GA26859@pswork>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR03CA0016.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::21) To BY5PR12MB4116.namprd12.prod.outlook.com
- (2603:10b6:a03:210::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b058da33-1f4b-4315-56df-08da0c59790b
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4842:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB484225E44C6268426431ADDEAE179@DM6PR12MB4842.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MPzNRs63L8DrQEq2gHJh5v6nslsKHPYGO2cztniKeDv/KknoRSK74tyzkfzXdPzcfFV+o+CBEVMIpgmuGvBT4uMgp8CsRf9WoAEwIkIPQTxMwZ2sekMk5hp3EStWTOsMEpnlQ8dSjVLwIauLE4Ix5xW398iI5b0fVN9bXOHipWi60EpgK+cBSSJ6ZNKfow3MLxnFSRfGKIQnrmKDencGiKEFAASSz5BotB581k4sYG8HBw/Zp4k3PzQVH6B6tVNptKB9x1tBKDLVwVkFx8dW+/5IknyLAxsXsKdOLnHdZ6Ve+2Xi6BwQgiXw9SmJ4T02NRtoiAyj2zNuuXWof8KcWV9tD30owWphFuCOAGpVrTxM1ikZIavAi/6E8n6VWEfABUx2qlZvRm2GhaDFiCkA9JG+wmCvol7CKaN+iljx+qb4+uJcCdbW30TvABqcq9wG4SCPYQMA1VWcl3Xx3M9QuCPQ87Eqea31ayn8CGQXT0mQjyJZxRAYDWEzAfww0FHulXVgFbvYvCZbLmxmJ9oMT38H1eqOmWr6OahOjA8szQyd3JakVWMLx0ynpDxu9YknlBquT5c0y4GG7abL3bXZtDF4otDx1kbSA1T2GtZkpYdW1WG4YUVRBLAhiPkBS/mAaO8tzc3k0/xWdcy+66i1LPpn8bT2n6rmgbN7WBuXou7/c3xd/rtNNqZueLJNfGGJa9B4ntLKjarOnWDzGFo8NLDyk6+JMP8OwzYBwt92TavorPkciLnvo713rWm818wOhfoFrA3S04tYzgOnnaQM3la1y/2S7pCfAQ0U6YpRrGVqEGIfebme6yfWmGH4BQVEJ2/uqE/tslimTGZJQheSO2Nffj052R3YgmZRk7Fy6KY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4116.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(26005)(38100700002)(186003)(86362001)(31696002)(2616005)(6506007)(6512007)(53546011)(7416002)(6666004)(2906002)(83380400001)(5660300002)(508600001)(6916009)(316002)(966005)(4326008)(8676002)(6486002)(31686004)(66556008)(8936002)(36756003)(66476007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0VNUlozQWlBamJSWVMvaHBlN0djYkVZK0U4TWEyb1lrNmtIeW5QQ2VKZ3Bn?=
- =?utf-8?B?QllHS1V4VjlvSkh2aWoxWmVrYjhralU1UUhKMDAyck9wZmIzS2pqUXhURU1R?=
- =?utf-8?B?YlE2QUxSZnQxd3Jtd1JNUTh5dGJKREdSZDZBQzhZZ0hzMktUeitrU3lvUHIz?=
- =?utf-8?B?elQ1bkF0a3Y0RUI2RDFCK2FlS3ZHSGxNMUR1akZrWDRxeW9NOGpDVXlNT0dW?=
- =?utf-8?B?TFZ0a3BFVVhkSlJwWEZ6eWFTUlNUbkZBNXJRaUlkc285YllEczNJRlBleFRz?=
- =?utf-8?B?dElBM1EvRkdxdTBSTmFCbVJPb0JwcHI2UzhicTNmMTE4REVVWjI4K2dOSmZB?=
- =?utf-8?B?Y3VmMkg5ZFVXVTdNVXpqSnUrbWdqN0hHYWRYSkt4bkRSVGVMbW1tbHpGK2ln?=
- =?utf-8?B?QTQ4eXN3V2NURVF0S3R0NXcxWGRZOExzSFNlUnJmN2lxZUxWeldweDlYa3BS?=
- =?utf-8?B?R2xlUmVuOXJEd2d5RURsTTNOMm9FWHg1N0ZFTW1HRkpQWHhFWFVXZm5Xbk03?=
- =?utf-8?B?UEl2Mng5czJFS3lyQUQ0N1JIRXFtZldlcC9zR3V1c1VvQ3pUN1p2bGxVck9j?=
- =?utf-8?B?VTQ0bEhFTTJKYVh2aXFOVG9HK1ZyNk05ZVFXc2hIZ01paDhPVEwxVXNZb2p0?=
- =?utf-8?B?YlZsVHBISFdJSUhIcjB1SGxDNnRqUXlJMzNKV3VKQ2lmdHFlN2JmSEU2eW5S?=
- =?utf-8?B?VUpwMUhRdHJLYVk4cUJCSWc5VC9KTEVySGVGNE55eTJmbHoxRUlEMXBnVkha?=
- =?utf-8?B?S3ltWVZRbk0rMis2K1VkSHVEc1B5KzZZMUdsMlF0TXhlK05HeW4yaXFZbWdB?=
- =?utf-8?B?QkxFanFLNFhrNE9mSTA3bTlZRHRsUlExOW11VXVLTWo0VzRCYStRTjJvazk4?=
- =?utf-8?B?cFp2YS84UUludlRZOXNJSzRuSVl4OHcyNFYvZ2VTN2pFeE5PblljZXc5Slpt?=
- =?utf-8?B?Zk5leG5lMi9GazU3K3FNNURjcU1OcnkzQUQ5U1o3SlJPQkZKbTJHL2M3djV3?=
- =?utf-8?B?enhGQnF0eW0xbWxQTzFucGNXL216bytEUUYyK054UXV0Zzkwd0VPa3FEa2g5?=
- =?utf-8?B?Mm91b1U2UVNKMjk0WmovNzB4bUJWTnlXbHNmTHZLd21ETWt3cUtpTnk5OXZq?=
- =?utf-8?B?YWttTlZoa0IwajczV0NOTzA4RHQwRlBRS1BvVzlTTHdWaUhXZEp5ZXpSYmlj?=
- =?utf-8?B?UWI4VkFFbXV6M1NOYjBqSHhkS3Bhd0pTZldoZWdtWm5CNWt0K2ZGSG4wczFM?=
- =?utf-8?B?NCt2dituQlgxMUljQkJYTHVkWkk2NjRIc1lLZGpKOWZuQlljT0tGRStXZGl0?=
- =?utf-8?B?YVIzWnQ5TWMxQnUrcUYwU2hQdmZ2ekRSWlptWUI1UDlNR3dnb0JnV2syWDV0?=
- =?utf-8?B?L2IzTVJFNFB4TERGZWFxUVdLei9oK3hTV0J5ZWZSNWFWeXBzd0l5UmloUmlk?=
- =?utf-8?B?Y2NmQlZmZzNqeW5IYmh2T2wyZWVpTzlQRW1MMnM3Y3c2dFhrT0RycmlKNi8y?=
- =?utf-8?B?Y1pxT3BxeC9aK1Q5SUhNRFdmaEJtWWgvbk54NnQ2UVVJK29xcUpNSWxicDd5?=
- =?utf-8?B?TjY5VDFnOU9OTmxxeTk4czRUdmsvWUg4QTY2V2xubkVWeS9uZU83NXI3dEJy?=
- =?utf-8?B?dlkvZFR5M1NKTnpOYm5OYjlzeFhWMWR6L3UyN2hxTkJwRnFoNDBNSWtSeGFF?=
- =?utf-8?B?Z0RGTzMxQndsWWM5MFQyUFJvekpNTVB5T0prMHVPeUNYbGc5aTFpNEhlTDg1?=
- =?utf-8?B?SnB2RmVNZkNURUQ4dGE1dTZqTUZmQVFIbGxLbXB0cXBlbjZjUnZvWlJ2Mnhi?=
- =?utf-8?B?WmY5bURNK0VNbnI4SmY3cDFneXU5OHhhU3ZJN004MzdrY3k5QXJBRXNvT2cy?=
- =?utf-8?B?NnRNTFE0bWsrWTZXbXRwRU5QY2l5YXNrajRPY0c1emxRNk1EdzhJZW9kZmRU?=
- =?utf-8?Q?y3aFdvRjaQ/zdbzt6BsKGMf60SY62mmg?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b058da33-1f4b-4315-56df-08da0c59790b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 23:12:45.9837
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +F8xBeQIgt9lGXRzJsqxBteMy8mcrwNYmrk5urXbeyYXtVosmxgoPDORFG+o5r31G28OtgQX8lyDd9Bv9Aio7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4842
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+On Tue, 22 Mar 2022 20:02:19 +0100
+Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
 
-I will implement your review comments in next patch. Thanks for the review.
+> Hello Masami Hiramatsu,
+> 
+> On Tue, Mar 22, 2022 at 12:03:11PM +0900, Masami Hiramatsu wrote:
+> > On Mon, 21 Mar 2022 19:35:00 +0100
+> > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+> > 
+> > > Hello Masami Hiramatsu,
+> > > 
+> > > On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
+> > > > On Wed, 16 Mar 2022 20:16:49 +0100
+> > > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+> > > > 
+> > > > > Hello Masami Hiramatsu,
+> > > > > 
+> > > > > On Mon, Mar 14, 2022 at 06:08:41PM +0900, Masami Hiramatsu wrote:
+> > > > > > This allows kernel developer to embed a default bootconfig file in
+> > > > > > the kernel instead of embedding it in the initrd. This will be good
+> > > > > > for who are using the kernel without initrd, or who needs a default
+> > > > > > bootconfigs.
+> > > > > > This needs to set two kconfigs: CONFIG_EMBED_BOOT_CONFIG=y and set
+> > > > > > the file path to CONFIG_EMBED_BOOT_CONFIG_FILE.
+> > > > > > 
+> > > > > > Note that you still need 'bootconfig' command line option to load the
+> > > > > > embedded bootconfig. Also if you boot using an initrd with a different
+> > > > > > bootconfig, the kernel will use the bootconfig in the initrd, instead
+> > > > > > of the default bootconfig.
+> > > > > > 
+> > > > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > > > > ---
+> > > > > >  include/linux/bootconfig.h |   10 ++++++++++
+> > > > > >  init/Kconfig               |   21 +++++++++++++++++++++
+> > > > > >  init/main.c                |   13 ++++++++-----
+> > > > > >  lib/.gitignore             |    1 +
+> > > > > >  lib/Makefile               |   12 ++++++++++++
+> > > > > >  lib/bootconfig.c           |   23 +++++++++++++++++++++++
+> > > > > >  6 files changed, 75 insertions(+), 5 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
+> > > > > > index a4665c7ab07c..5dbda5e3e9bb 100644
+> > > > > > --- a/include/linux/bootconfig.h
+> > > > > > +++ b/include/linux/bootconfig.h
+> > > > > > @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
+> > > > > >  /* XBC cleanup data structures */
+> > > > > >  void __init xbc_exit(void);
+> > > > > >  
+> > > > > > +/* XBC embedded bootconfig data in kernel */
+> > > > > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
+> > > > > > +char * __init xbc_get_embedded_bootconfig(size_t *size);
+> > > > > > +#else
+> > > > > > +static inline char *xbc_get_embedded_bootconfig(size_t *size)
+> > > > > > +{
+> > > > > > +	return NULL;
+> > > > > > +}
+> > > > > > +#endif
+> > > > > > +
+> > > > > >  #endif
+> > > > > > diff --git a/init/Kconfig b/init/Kconfig
+> > > > > > index e9119bf54b1f..70440804874d 100644
+> > > > > > --- a/init/Kconfig
+> > > > > > +++ b/init/Kconfig
+> > > > > > @@ -1357,6 +1357,27 @@ config BOOT_CONFIG
+> > > > > >  
+> > > > > >  	  If unsure, say Y.
+> > > > > >  
+> > > > > > +config EMBED_BOOT_CONFIG
+> > > > > > +	bool "Embed bootconfig file in the kernel"
+> > > > > > +	depends on BOOT_CONFIG
+> > > > > > +	default n
+> > > > > > +	help
+> > > > > > +	  Embed a bootconfig file given by EMBED_BOOT_CONFIG_FILE in the
+> > > > > > +	  kernel. Usually, the bootconfig file is loaded with the initrd
+> > > > > > +	  image. But if the system doesn't support initrd, this option will
+> > > > > > +	  help you by embedding a bootconfig file while building the kernel.
+> > > > > > +
+> > > > > > +	  If unsure, say N.
+> > > > > > +
+> > > > > > +config EMBED_BOOT_CONFIG_FILE
+> > > > > > +	string "Embedded bootconfig file path"
+> > > > > > +	default ""
+> > > > > > +	depends on EMBED_BOOT_CONFIG
+> > > > > > +	help
+> > > > > > +	  Specify a bootconfig file which will be embedded to the kernel.
+> > > > > > +	  This bootconfig will be used if there is no initrd or no other
+> > > > > > +	  bootconfig in the initrd.
+> > > > > > +
+> > > > > >  choice
+> > > > > >  	prompt "Compiler optimization level"
+> > > > > >  	default CC_OPTIMIZE_FOR_PERFORMANCE
+> > > > > > diff --git a/init/main.c b/init/main.c
+> > > > > > index 421050be5039..3803bf2e22ea 100644
+> > > > > > --- a/init/main.c
+> > > > > > +++ b/init/main.c
+> > > > > > @@ -265,7 +265,7 @@ static int __init loglevel(char *str)
+> > > > > >  early_param("loglevel", loglevel);
+> > > > > >  
+> > > > > >  #ifdef CONFIG_BLK_DEV_INITRD
+> > > > > > -static void * __init get_boot_config_from_initrd(u32 *_size)
+> > > > > > +static void * __init get_boot_config_from_initrd(size_t *_size)
+> > > > > >  {
+> > > > > >  	u32 size, csum;
+> > > > > >  	char *data;
+> > > > > > @@ -411,12 +411,15 @@ static void __init setup_boot_config(void)
+> > > > > >  	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
+> > > > > >  	const char *msg;
+> > > > > >  	int pos;
+> > > > > > -	u32 size;
+> > > > > > +	size_t size;
+> > > > > >  	char *data, *err;
+> > > > > >  	int ret;
+> > > > > >  
+> > > > > >  	/* Cut out the bootconfig data even if we have no bootconfig option */
+> > > > > >  	data = get_boot_config_from_initrd(&size);
+> > > > > > +	/* If there is no bootconfig in initrd, try embedded one. */
+> > > > > > +	if (!data)
+> > > > > > +		data = xbc_get_embedded_bootconfig(&size);
+> > > > > >  
+> > > > > >  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+> > > > > >  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+> > > > > > @@ -435,8 +438,8 @@ static void __init setup_boot_config(void)
+> > > > > >  	}
+> > > > > >  
+> > > > > >  	if (size >= XBC_DATA_MAX) {
+> > > > > > -		pr_err("bootconfig size %d greater than max size %d\n",
+> > > > > > -			size, XBC_DATA_MAX);
+> > > > > > +		pr_err("bootconfig size %ld greater than max size %d\n",
+> > > > > > +			(long)size, XBC_DATA_MAX);
+> > > > > >  		return;
+> > > > > >  	}
+> > > > > >  
+> > > > > > @@ -449,7 +452,7 @@ static void __init setup_boot_config(void)
+> > > > > >  				msg, pos);
+> > > > > >  	} else {
+> > > > > >  		xbc_get_info(&ret, NULL);
+> > > > > > -		pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
+> > > > > > +		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
+> > > > > >  		/* keys starting with "kernel." are passed via cmdline */
+> > > > > >  		extra_command_line = xbc_make_cmdline("kernel");
+> > > > > >  		/* Also, "init." keys are init arguments */
+> > > > > > diff --git a/lib/.gitignore b/lib/.gitignore
+> > > > > > index e5e217b8307b..30a2a5db7033 100644
+> > > > > > --- a/lib/.gitignore
+> > > > > > +++ b/lib/.gitignore
+> > > > > > @@ -6,3 +6,4 @@
+> > > > > >  /oid_registry_data.c
+> > > > > >  /test_fortify.log
+> > > > > >  /test_fortify/*.log
+> > > > > > +/default.bconf
+> > > > > > diff --git a/lib/Makefile b/lib/Makefile
+> > > > > > index 300f569c626b..8183785ee99d 100644
+> > > > > > --- a/lib/Makefile
+> > > > > > +++ b/lib/Makefile
+> > > > > > @@ -279,6 +279,18 @@ $(foreach file, $(libfdt_files), \
+> > > > > >  	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
+> > > > > >  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
+> > > > > >  
+> > > > > > +ifeq ($(CONFIG_EMBED_BOOT_CONFIG),y)
+> > > > > > +# Since the specified bootconfig file can be switched, we forcibly update the
+> > > > > > +# default.bconf file always.
+> > > > > > +$(obj)/default.bconf: FORCE
+> > > > > > +	$(call cmd,defbconf)
+> > > > > > +
+> > > > > > +quiet_cmd_defbconf = GEN     $@
+> > > > > > +      cmd_defbconf = cat < /dev/null $(CONFIG_EMBED_BOOT_CONFIG_FILE) > $@
+> > > > > > +clean-files	+= default.bconf
+> > > > > > +$(obj)/bootconfig.o: $(obj)/default.bconf
+> > > > > > +endif
+> > > > > > +
+> > > > > >  lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
+> > > > > >  
+> > > > > >  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
+> > > > > > diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+> > > > > > index 74f3201ab8e5..3a3bf3a208e3 100644
+> > > > > > --- a/lib/bootconfig.c
+> > > > > > +++ b/lib/bootconfig.c
+> > > > > > @@ -12,6 +12,29 @@
+> > > > > >  #include <linux/kernel.h>
+> > > > > >  #include <linux/memblock.h>
+> > > > > >  #include <linux/string.h>
+> > > > > > +
+> > > > > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
+> > > > > > +asm (
+> > > > > > +"	.pushsection .init.data, \"aw\"			\n"
+> > > > > > +"	.global embedded_bootconfig_data		\n"
+> > > > > > +"embedded_bootconfig_data:				\n"
+> > > > > > +"	.incbin \"lib/default.bconf\"			\n"
+> > > > > > +"	.global embedded_bootconfig_data_end		\n"
+> > > > > > +"embedded_bootconfig_data_end:				\n"
+> > > > > > +"	.popsection					\n"
+> > > > > > +);
+> > > > > > +
+> > > > > > +extern __visible char embedded_bootconfig_data[];
+> > > > > > +extern __visible char embedded_bootconfig_data_end[];
+> > > > > > +
+> > > > > > +char * __init xbc_get_embedded_bootconfig(size_t *size)
+> > > > > > +{
+> > > > > > +	*size = embedded_bootconfig_data_end - embedded_bootconfig_data;
+> > > > > > +	return (*size) ? embedded_bootconfig_data : NULL;
+> > > > > > +}
+> > > > > > +
+> > > > > > +#endif
+> > > > > > +
+> > > > > >  #else /* !__KERNEL__ */
+> > > > > >  /*
+> > > > > >   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
+> > > > > >
+> > > > > 
+> > > > > Thanks tested the implemation, it works as expected.
+> > > > 
+> > > > Great!
+> > > > 
+> > > > > 
+> > > > > Also noted that a change in default.bconf requries a clean build, is it
+> > > > > expected behaviour?
+> > > > 
+> > > > default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
+> > > > do incremental build. (I tested it with the incremental build environment)
+> > > >
+> > > 
+> > > Thanks, your observation made me to further experiment ther incremental build.
+> > > 
+> > > Below are the observations I have:
+> > > 
+> > > When I use GCC for a build; yes, the modified default.conf was observed on
+> > > the target.
+> > > 
+> > > But when I use clang; either with FULL or THIN LTO, the modified
+> > > default.conf doesnt get reflected on the target.
+> > 
+> > Hmm, curious. So you just add 'CC=clang' on the make command line, right?
+> Yes, CC=clang ARCH=arm64 LLVM=1. As specified here:
+> https://docs.kernel.org/kbuild/llvm.html.
+> 
+> > Can you confirm that following line in your build log,
+> > 
+> >   GEN     lib/default.bconf
+> >
+> Yes, I do see above line. Indeed lib/default.bconf will get incremental
+> change.
+> 
+>   GEN     lib/default.bconf
+>   CC      lib/bootconfig.o
+>   AR      lib/lib.a
+> 
+> > and the timestamp of lib/bootconfig.o is built after lib/default.bconf file?
+> > 
+> Yes, verified timestamp for all above artifacts including vmlinux.o.
+> 
+> ex:
+> -rw-rw-r-- 1 psrinivasaia psrinivasaia 22K Mar 22 14:50
+> ../out/lib/bootconfig.o
+> -rw-rw-r-- 1 psrinivasaia psrinivasaia 355 Mar 22 14:50
+> ../out/lib/default.bconf
+> -rw-rw-r-- 1 psrinivasaia psrinivasaia 54M Mar 22 14:50 ../out/vmlinux.o
+> 
+> As said incremnetal change was refelected in artifact default.bconf.
+> But not in vmlinux.o/vmlinux, used below command to verify.
 
-On 2/4/22 3:37 PM, Rob Herring wrote:
-> On Tue, Feb 01, 2022 at 02:26:23PM -0800, Dipen Patel wrote:
->> Introduces HTE devicetree binding details for the HTE subsystem. It
->> includes examples for the consumers, binding details for the providers
->> and specific binding details for the Tegra194 based HTE providers.
->>
->> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
->> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> ---
->>  .../hte/hardware-timestamps-common.yaml       | 29 +++++++
->>  .../devicetree/bindings/hte/hte-consumer.yaml | 44 ++++++++++
->>  .../bindings/hte/nvidia,tegra194-hte.yaml     | 82 +++++++++++++++++++
->>  3 files changed, 155 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
->>  create mode 100644 Documentation/devicetree/bindings/hte/hte-consumer.yaml
->>  create mode 100644 Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
->> new file mode 100644
->> index 000000000000..ee6f94890695
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
->> @@ -0,0 +1,29 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hte/hardware-timestamps-common.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Hardware timestamp providers
->> +
->> +maintainers:
->> +  - Dipen Patel <dipenp@nvidia.com>
->> +
->> +description: |
->> +  Some devices/SoCs have hardware time stamping engines which can use hardware
->> +  means to timestamp entity in realtime. The entity could be anything from
->> +  GPIOs, IRQs, Bus and so on. The hardware timestamp engine (HTE) present
->> +  itself as a provider with the bindings described in this document.
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^hardware-timestamp(@.*|-[0-9a-f])?$"
->> +
->> +  "#hardware-timestamp-cells":
->> +    description:
->> +      Number of cells in a HTE specifier.
->> +
->> +required:
->> +  - "#hardware-timestamp-cells"
->> +
->> +additionalProperties: true
->> diff --git a/Documentation/devicetree/bindings/hte/hte-consumer.yaml b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
->> new file mode 100644
->> index 000000000000..bb1232b31455
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
->> @@ -0,0 +1,44 @@
->> +# SPDX-License-Identifier: GPL-2.0
-> dual license
->
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hte/hte-consumer.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: HTE Consumer Device Tree Bindings
->> +
->> +maintainers:
->> +  - Dipen Patel <dipenp@nvidia.com>
-> select: true
->
-> Or this is never applied.
->
->> +
->> +description: |
->> +  HTE properties should be named "hardware-timestamps". The exact meaning of
->> +  each hardware-timestamps property must be documented in the device tree
->> +  binding for each device. An optional property "hardware-timestamp-names" may
->> +  contain a list of strings to label each of the HTE devices listed in the
->> +  "hardware-timestamps" property.
->> +
->> +properties:
->> +  hardware-timestamps:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    description:
->> +      The list of HTE provider phandle. The provider must document the number
->> +      of cell that must be passed in this property along with phandle.
->> +
->> +  hardware-timestamp-names:
->> +    $ref: /schemas/types.yaml#/definitions/string-array
->> +    description:
->> +      An optional string property.
->> +
->> +required:
->> +  - hardware-timestamps
-> And drop this or it will then fail everywhere.
->
->> +
->> +dependencies:
->> +  hardware-timestamp-names: [ hardware-timestamps ]
->> +
->> +additionalProperties: true
->> +
->> +examples:
->> +  - |
->> +    hte_irq_consumer {
->> +              hardware-timestamps = <&tegra_hte_lic 0x19>;
->> +              hardware-timestamp-names = "hte-irq";
->> +    };
->> diff --git a/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
->> new file mode 100644
->> index 000000000000..c7d2acdb862e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
->> @@ -0,0 +1,82 @@
->> +# SPDX-License-Identifier: GPL-2.0
-> Dual license.
->
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hte/nvidia,tegra194-hte.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Tegra194 on chip generic hardware timestamping engine (HTE)
->> +
->> +maintainers:
->> +  - Dipen Patel <dipenp@nvidia.com>
->> +
->> +description: |
-> Don't need '|' if no formatting.
->
->> +  Tegra194 SoC has multiple generic hardware timestamping engines (GTE) which
->> +  can monitor subset of GPIO and on chip IRQ lines for the state change, upon
->> +  detection it will record timestamp (taken from system counter) in its
->> +  internal hardware FIFO. It has a bitmap array arranged in 32bit slices where
->> +  each bit represent signal/line to enable or disable for the hardware
->> +  timestamping.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - nvidia,tegra194-gte-aon
->> +      - nvidia,tegra194-gte-lic
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  nvidia,int-threshold:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      HTE device generates its interrupt based on this u32 FIFO threshold
->> +      value. The recommended value is 1.
->> +    minimum: 1
->> +    maximum: 256
->> +
->> +  nvidia,slices:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      HTE lines are arranged in 32 bit slice where each bit represents different
->> +      line/signal that it can enable/configure for the timestamp. It is u32
->> +      property and depends on the HTE instance in the chip. The value 3 is for
->> +      GPIO GTE and 11 for IRQ GTE.
->> +    enum: [3, 11]
->> +
->> +  '#hardware-timestamp-cells':
->> +    const: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - nvidia,slices
->> +  - "#hardware-timestamp-cells"
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    tegra_hte_aon: hardware-timestamp@c1e0000 {
->> +              compatible = "nvidia,tegra194-gte-aon";
->> +              reg = <0xc1e0000 0x10000>;
->> +              interrupts = <0 13 0x4>;
->> +              nvidia,int-threshold = <1>;
->> +              nvidia,slices = <3>;
->> +              #hardware-timestamp-cells = <1>;
->> +    };
->> +
->> +  - |
->> +    tegra_hte_lic: hardware-timestamp@3aa0000 {
->> +              compatible = "nvidia,tegra194-gte-lic";
->> +              reg = <0x3aa0000 0x10000>;
->> +              interrupts = <0 11 0x4>;
->> +              nvidia,int-threshold = <1>;
->> +              nvidia,slices = <11>;
->> +              #hardware-timestamp-cells = <1>;
->> +    };
->> +
->> +...
->> -- 
->> 2.17.1
->>
->>
+Interesting! This sounds clang's issue, because the make command rebuilds
+the object file including new default.bconf, but the linker (lld?)
+doesn't link it again correctly.
+
+> 
+> llvm-objdump  -s -j .init.data ../out/vmlinux
+> 
+> On target too, /proc/bootconfig shows old data.
+> 
+> > And is that related to CONFIG_LTO? What happen if CONFIG_LTO=n?
+> > 
+> Yes;  CONFIG_LTO_NONE=y  issue not observed even with LLVM binutils.
+
+And this issue is related to LTO. Maybe LTO ignores the '.init.data'
+section update. (Perhaps, LTO only checks the function code hash or
+something like that instead of the timestamp, and ignore whole object
+file if all of them are not updated.)
+
+I've added clang build maintainers. I need their help to solve this issue.
+
+Thank you,
+
+> 
+> Thanks and Regards,
+> Padmanabha.S
+> > Thank you,
+> > 
+> > > 
+> > > PS: Using: GCC version 8.2.1 20180802, LLVM version 13.0.2git.
+> > > 
+> > > Thank you,
+> > > Padmanabha.S
+> > > > Thank you,
+> > > > 
+> > > > > 
+> > > > > Thanks and Regards,
+> > > > > Padmanabha.S
+> > > > 
+> > > > 
+> > > > -- 
+> > > > Masami Hiramatsu <mhiramat@kernel.org>
+> > 
+> > 
+> > -- 
+> > Masami Hiramatsu <mhiramat@kernel.org>
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
