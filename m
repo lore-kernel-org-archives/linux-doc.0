@@ -2,267 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39588C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 16:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F62DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 17:12:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238453AbiCWQKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 12:10:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
+        id S245704AbiCWRNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 13:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238375AbiCWQKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 12:10:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 31BCA2D1F2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 09:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648051720;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
-        b=XtvX8PJjdkUpd5aN+xHXH2kxNaBCgb6l1XZfDne31/qfpIhy5Bc19lNqKlJzCvfJOgU5Ul
-        2q6W5kIPGnuBYLEeirAjhjNL8aPWw46vwiiaYd3l9ZsMWIUoUJyzl9WrLPupb1m98Z8Ime
-        rMnyNqzD9mHnl766SH8pKZd0zxrzmq4=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-FH_gmMcoMSOgRtxLCOWFaw-1; Wed, 23 Mar 2022 12:08:39 -0400
-X-MC-Unique: FH_gmMcoMSOgRtxLCOWFaw-1
-Received: by mail-pj1-f72.google.com with SMTP id mm2-20020a17090b358200b001bf529127dfso1332943pjb.6
-        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 09:08:38 -0700 (PDT)
+        with ESMTP id S237380AbiCWRNi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 13:13:38 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC3A7C140
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id 17so2765472ljw.8
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
+        b=Inx3pPtFVYpWMK7FixLjIbC1jJxntgKxFxZ0jH6X3A3V4DayOw22Ok5qXfcDFVHksW
+         5Z+y3J3Fpxdxt45EqV9ejbfr/BGgUPJVYjAt8PrdQK+Ldu47SVdHIt+TLQqEqo5qaN0k
+         sSquUwe0j+WFE+jhk4cmjc8l4bgrN6x5TUmwzWlBNIgwdrfsm/To1mdKwqgs/hyp3KVw
+         YlmGCRtvtdOGsveQAz8JBAto90omMtMgAZChFdGkZQQCsWMKgJxds1s315znXohhOVRJ
+         BF8FWP31cfszkf7ExpfbNhunzTTF+m1FakIVwVrJu+J6eMnqRRMZJWa0AFxN/aigXAcf
+         Nnbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
-        b=WO9Noh+GtjylzKRm0OtgZsVScLRUGfHnZwTx3bZxAz/RLW0R+UYxWEzz/QPNV4IhuI
-         ia67Jigi1zjrkM+v+7R8PlKTs7ux2QLM5pRSF3ozUTphquc0RpH4+kZNlGb/p4nrurkv
-         O29uar3LLs71jGWn0L7mXM++SAR1quOLi1w324SVnpr0XaApZ/Hf56V9r/wNtAX0OAGp
-         n/2Czz2fP1eZmmu4+zgh+1OOPzYPBwvb2IL1Lp/ykYkQCX0ZfzMmDS/yXbJkpnJVpwpO
-         jfAiz4e9CZDSKlO1sUCpKVXF7QK6nzIrzguz+daGU1DvL/j18nmEFUPB7UzPx0ndEQ6H
-         AJsw==
-X-Gm-Message-State: AOAM53179sA9pgAWXp+LEf1mS/TA+9Hq2UB/FnmudjMkvCgNIk4nXG8n
-        uuFf2pHP1dwpp/e+GQQnz17sJYjRO1xLUBE3covVTqZVW8BoavcK/J73XmEpHii5ZRE4XwU86TK
-        7wso6eyJHpbxoQaiB1ba/bdFv/0kGH1rEjDJJ
-X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id h2-20020a056a00218200b004fa6d20d95dmr255500pfi.83.1648051717774;
-        Wed, 23 Mar 2022 09:08:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXs0W2sqJvvyH5rSFI3YPUX3kkRaojzc998a5Iv1JVOvvGHml++AVdio6zxhwzppY5Sd1fQUrROiDnPqcnr1E=
-X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id
- h2-20020a056a00218200b004fa6d20d95dmr255474pfi.83.1648051717452; Wed, 23 Mar
- 2022 09:08:37 -0700 (PDT)
+        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
+        b=7mf+tjBdwmyiBgABoPBeYjZvuoOYELzvloXQYLpf/waEn+Kj7BryY76imkF4HnTpng
+         zi1tsr+agcftALyeFh0AqWaDB7+T0E/Ws50sNm1tRJzDrZhrijZSqahkEBoNydOqBxCB
+         7jlkfQA7K9HwD0s3mw4kLaAMxDWNUDqWLJYG3AhcH25umhfCHqUzzkIrIcZZPf1FBs9b
+         FTKZxsXNGemT8isP7RcmDQJRVwROphEKEpKppQS58QLQyw2tEAEfOqSAxHpW3jfvCBVv
+         kRuJHbOY+qfdtqq0V0yV/Cv8U8Xk1FtDjM0IAGcGIA3fK9SvA8YSh+4dzOhqRqkR1oxb
+         ef0A==
+X-Gm-Message-State: AOAM530JFIQc5nPflQz2jPecP0qUEfyf3KsWacRLpyZeG+yYNISDS3RD
+        lwzRouYg43iVRCm8UvcIMsv5KIiiW4C19JNKZPTM4g==
+X-Google-Smtp-Source: ABdhPJznpm3ZCA3c5phLjI/3h2MA5pz20oijX4CrsCdzRosKuSDTTPndiUuGKIM12svCeiRr5Los/q9NoNLvrKzo2A0=
+X-Received: by 2002:a2e:904c:0:b0:23e:d7ad:3fdd with SMTP id
+ n12-20020a2e904c000000b0023ed7ad3fddmr805064ljg.239.1648055525198; Wed, 23
+ Mar 2022 10:12:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
- <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
-In-Reply-To: <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 23 Mar 2022 17:08:25 +0100
-Message-ID: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
- descriptor from an eBPF program
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
+References: <164724890153.731226.1478494969800777757.stgit@devnote2>
+ <164724892075.731226.14103557516176115189.stgit@devnote2> <20220316191649.GA11547@pswork>
+ <20220318101445.fdb151efe58c6c3a1c572500@kernel.org> <20220321183500.GA4065@pswork>
+ <20220322120311.690f237b63ddfd9c0e4f78ec@kernel.org> <20220322190219.GA26859@pswork>
+ <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+In-Reply-To: <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 23 Mar 2022 10:11:53 -0700
+Message-ID: <CAKwvOdk8is=R2qhgKuS_CddvtZzgeJC1Uht84x--TcYykfaiHw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file in kernel
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Cc:     Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexei,
-
-On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Tue, Mar 22, 2022 at 5:16 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
 >
-> On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
+> On Tue, 22 Mar 2022 20:02:19 +0100
+> Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+>
+> > Hello Masami Hiramatsu,
 > >
-> > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-> > +{
-> > +       int ret;
-> > +       struct hid_bpf_ctx_kern ctx = {
-> > +               .type = HID_BPF_RDESC_FIXUP,
-> > +               .hdev = hdev,
-> > +               .size = *size,
-> > +       };
-> > +
-> > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
-> > +               goto ignore_bpf;
-> > +
-> > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
-> > +       if (!ctx.data)
-> > +               goto ignore_bpf;
-> > +
-> > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
-> > +
-> > +       ret = hid_bpf_run_progs(hdev, &ctx);
-> > +       if (ret)
-> > +               goto ignore_bpf;
-> > +
-> > +       if (ctx.size > ctx.allocated_size)
-> > +               goto ignore_bpf;
-> > +
-> > +       *size = ctx.size;
-> > +
-> > +       if (*size) {
-> > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
-> > +       } else {
-> > +               rdesc = NULL;
-> > +               kfree(ctx.data);
-> > +       }
-> > +
-> > +       return rdesc;
-> > +
-> > + ignore_bpf:
-> > +       kfree(ctx.data);
-> > +       return kmemdup(rdesc, *size, GFP_KERNEL);
-> > +}
-> > +
-> >  int __init hid_bpf_module_init(void)
-> >  {
-> >         struct bpf_hid_hooks hooks = {
-> >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
-> >                 .pre_link_attach = hid_bpf_pre_link_attach,
-> > +               .post_link_attach = hid_bpf_post_link_attach,
-> >                 .array_detach = hid_bpf_array_detach,
-> >         };
+> > On Tue, Mar 22, 2022 at 12:03:11PM +0900, Masami Hiramatsu wrote:
+> > > On Mon, 21 Mar 2022 19:35:00 +0100
+> > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+> > >
+> > > > Hello Masami Hiramatsu,
+> > > >
+> > > > On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
+> > > > > On Wed, 16 Mar 2022 20:16:49 +0100
+> > > > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+> > > > >
+> > > > > > Hello Masami Hiramatsu,
+> > > > > >
+> > > > > > Also noted that a change in default.bconf requries a clean build, is it
+> > > > > > expected behaviour?
+> > > > >
+> > > > > default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
+> > > > > do incremental build. (I tested it with the incremental build environment)
+> > > > >
+> > > >
+> > > > Thanks, your observation made me to further experiment ther incremental build.
+> > > >
+> > > > Below are the observations I have:
+> > > >
+> > > > When I use GCC for a build; yes, the modified default.conf was observed on
+> > > > the target.
+> > > >
+> > > > But when I use clang; either with FULL or THIN LTO, the modified
+> > > > default.conf doesnt get reflected on the target.
+> > >
+> > > Hmm, curious. So you just add 'CC=clang' on the make command line, right?
+> > Yes, CC=clang ARCH=arm64 LLVM=1. As specified here:
+> > https://docs.kernel.org/kbuild/llvm.html.
+
+You should just need LLVM=1 (and ARCH=arm64) at this point. LLVM=1
+implies CC=clang.
+
+Also, here's the start of the lore thread for folks:
+https://lore.kernel.org/linux-doc/164724892075.731226.14103557516176115189.stgit@devnote2/
+
 > >
-> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > index 937fab7eb9c6..3182c39db006 100644
-> > --- a/drivers/hid/hid-core.c
-> > +++ b/drivers/hid/hid-core.c
-> > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
-> >                 return -ENODEV;
-> >         size = device->dev_rsize;
+> > > Can you confirm that following line in your build log,
+> > >
+> > >   GEN     lib/default.bconf
+> > >
+> > Yes, I do see above line. Indeed lib/default.bconf will get incremental
+> > change.
 > >
-> > -       buf = kmemdup(start, size, GFP_KERNEL);
-> > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
-> > +       buf = hid_bpf_report_fixup(device, start, &size);
+> >   GEN     lib/default.bconf
+> >   CC      lib/bootconfig.o
+> >   AR      lib/lib.a
+> >
+> > > and the timestamp of lib/bootconfig.o is built after lib/default.bconf file?
+> > >
+> > Yes, verified timestamp for all above artifacts including vmlinux.o.
+> >
+> > ex:
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 22K Mar 22 14:50
+> > ../out/lib/bootconfig.o
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 355 Mar 22 14:50
+> > ../out/lib/default.bconf
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 54M Mar 22 14:50 ../out/vmlinux.o
+> >
+> > As said incremnetal change was refelected in artifact default.bconf.
+> > But not in vmlinux.o/vmlinux, used below command to verify.
 >
-> Looking at this patch and the majority of other patches...
-> the code is doing a lot of work to connect HID side with bpf.
-> At the same time the evolution of the patch series suggests
-> that these hook points are not quite stable. More hooks and
-> helpers are being added.
-> It tells us that it's way too early to introduce a stable
-> interface between HID and bpf.
+> Interesting! This sounds clang's issue, because the make command rebuilds
+> the object file including new default.bconf, but the linker (lld?)
+> doesn't link it again correctly.
 
-I understand that you might be under the impression that the interface
-is changing a lot, but this is mostly due to my poor knowledge of all
-the arcanes of eBPF.
-The overall way HID-BPF works is to work on a single array, and we
-should pretty much be sorted out. There are a couple of helpers to be
-able to communicate with the device, but the API has been stable in
-the kernel for those for quite some time now.
+Sounds like missing FORCE directives in the Makefiles, perhaps?
 
-The variations in the hooks is mostly because I don't know what is the
-best representation we can use in eBPF for those, and the review
-process is changing that.
-
-> We suggest to use __weak global functions and unstable kfunc helpers
-> to achieve the same goal.
-> This way HID side and bpf side can evolve without introducing
-> stable uapi burden.
-> For example this particular patch can be compressed to:
-> __weak int hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc,
-> unsigned int *size)
-> {
->    return 0;
-> }
-> ALLOW_ERROR_INJECTION(ALLOW_ERROR_INJECTION, ERRNO);
->
-> - buf = kmemdup(start, size, GFP_KERNEL);
-> + if (!hid_bpf_report_fixup(device, start, &size))
-> +   buf = kmemdup(start, size, GFP_KERNEL);
->
-> Then bpf program can replace hid_bpf_report_fixup function and adjust its
-> return value while reading args.
-
-I appreciate the suggestion and gave it a try, but AFAICT this doesn't
-work for HID (please correct me if I am wrong):
-
-- I tried to use __weak to replace the ugly struct bpf_hid_hooks
-
-This struct is in place simply because the HID module can be compiled
-in as a kernel module and we might not have the symbols available from
-kernel/bpf when it is a separate module.
-Either I did something wrong, but it seems that when we load the
-module in the kernel, there is no magic that overrides the weak
-symbols from the ones from the modules.
-
-- for hid_bpf_report_fixup(), this would mean that a BPF program could
-overwrite the function
-
-This is great, but I need to have one program per device, not one
-globally defined function.
-I can not have a generic report_fixup in the system, simply because
-you might need 2 different functions for 2 different devices.
-
-We could solve that by auto-generating the bpf program based on which
-devices are available, but that would mean that users will see a
-reconnect of all of their input devices when they plug in a new one,
-and will also require them to have LLVM installed, which I do not
-want.
-
-- for stuff like hid_bpf_raw_event(), I want to have multiple programs
-attached to the various devices, and not necessarily the same across
-devices.
-
-This is basically the same as above, except that I need to chain programs.
-
-For instance, we could have a program that "fixes" one device, but I
-also want to attach a tracing program on top of it to monitor what is
-happening.
+Sami, do you recall any issues like this when implementing
+commit dc5723b02e52 ("kbuild: add support for Clang LTO")
+?
 
 >
-> Similar approach can be done with all other hooks.
+> >
+> > llvm-objdump  -s -j .init.data ../out/vmlinux
+> >
+> > On target too, /proc/bootconfig shows old data.
+> >
+> > > And is that related to CONFIG_LTO? What happen if CONFIG_LTO=n?
+> > >
+> > Yes;  CONFIG_LTO_NONE=y  issue not observed even with LLVM binutils.
 >
-> Once api between HID and bpf stabilizes we can replace nop functions
-> with writeable tracepoints to make things a bit more stable
-> while still allowing for change of the interface in the future.
->
-> The amount of bpf specific code in HID core will be close to zero
-> while bpf can be used to flexibly tweak it.
+> And this issue is related to LTO. Maybe LTO ignores the '.init.data'
+> section update. (Perhaps, LTO only checks the function code hash or
+> something like that instead of the timestamp, and ignore whole object
+> file if all of them are not updated.)
 
-Again, I like the idea, but I clearly don't see where you want to go.
-From what I see, this is incompatible with the use cases I have.
-
->
-> kfunc is a corresponding mechanism to introduce unstable api
-> from bpf into the kernel instead of stable helpers.
-> Just whitelist some functions as unstable kfunc helpers and call them
-> from bpf progs.
-> See net/bpf/test_run.c and bpf_kfunc_call* for inspiration.
->
-
-I also like this idea.
-
-However, for hid_hw_raw_request() I can not blindly enable that
-function in all program types. This function makes the kernel sleep,
-and so we can not use it while in IRQ context.
-I think I can detect if we are in IRQ or not, but is it really worth
-enabling it across all BPF program types when we know that only
-SEC("hid/user_event") will use it?
-
-Also, I am not sure how we can make bpf_hid_get_data() work with that.
-We need to teach the verifier how much memory is provided, and I do
-not see how you can do that with kfunc.
-
-Cheers,
-Benjamin
-
+Sounds like this is a result of the above issue?
+-- 
+Thanks,
+~Nick Desaulniers
