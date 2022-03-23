@@ -2,393 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F326BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 15:56:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39588C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 16:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbiCWP6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 11:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43302 "EHLO
+        id S238453AbiCWQKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 12:10:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245303AbiCWP5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 11:57:52 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 969747A9A2;
-        Wed, 23 Mar 2022 08:56:21 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id b15so2386556edn.4;
-        Wed, 23 Mar 2022 08:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0aWaZxBTzYpNIUBH9wQAOnNCPts4qWbCBV5YqOTvja0=;
-        b=IgaE3lrjA8Bffchqyozx0JLt1zJzBjaTu/e56bzPTfGHd0j+mJvesHSRXjmgSQhn2b
-         7vsb0mx+Z47knytiHqGNld/811DI7bColRAyM+kDxX6tlx7mgyjRQZMFMab/zWuRK7cp
-         vMDRmjhNS99ceIa1whpT/ripktHeL39u9ZnUGyAc/GGM9VuoRjEgKRq8TECUp4xhtcwK
-         9t9apvw51xk98n5LzfZQbUH7qN73UxivlNNt3B/ixYXgHPkPII9Vd6aTmyNl5ZilHaT/
-         C2wL7iYq1cDqkTbfmh8Y3euFsElCpCJdzBcvwVjBLUu0mfOmPIvcIkFjOTK/b/Lt47R6
-         Cwgw==
+        with ESMTP id S238375AbiCWQKM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 12:10:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 31BCA2D1F2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 09:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648051720;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
+        b=XtvX8PJjdkUpd5aN+xHXH2kxNaBCgb6l1XZfDne31/qfpIhy5Bc19lNqKlJzCvfJOgU5Ul
+        2q6W5kIPGnuBYLEeirAjhjNL8aPWw46vwiiaYd3l9ZsMWIUoUJyzl9WrLPupb1m98Z8Ime
+        rMnyNqzD9mHnl766SH8pKZd0zxrzmq4=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-462-FH_gmMcoMSOgRtxLCOWFaw-1; Wed, 23 Mar 2022 12:08:39 -0400
+X-MC-Unique: FH_gmMcoMSOgRtxLCOWFaw-1
+Received: by mail-pj1-f72.google.com with SMTP id mm2-20020a17090b358200b001bf529127dfso1332943pjb.6
+        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 09:08:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0aWaZxBTzYpNIUBH9wQAOnNCPts4qWbCBV5YqOTvja0=;
-        b=AsMTlbpHjhExcYONO5M1yyT+ANWC3/ClVnYBpFobYfwojKR4NIyU5SnUuwhoMW/zby
-         euiPHG3vbQfzZKkOt59en/Vb3rFxFCsF92DIfpB8OH2a/8Ft8bmSq1OASA316TDmp8sG
-         Q97CypO3daE+A7RtkDJOWDiJhYMoZT36gVj7kHTSyUKEHvHiON0s6+YMrOAQvRSiyiuf
-         VLEZiuJEK4cDHGSs+hVXpYyaOBsxLiSktfOgmeUrj8nooa+JIR/VOO82Ro7P+lcYLhA+
-         rAWCJLN/ovXcBzaXSHGtTKAMSLMY3Mg2wQFpDw3XCja4fMCtswB6ixWfqqoTtn30VFf1
-         6mzA==
-X-Gm-Message-State: AOAM5317pPYZtKdL7VbvtHlVl1bH/zuLZPXbdY+bM2tiFT0jZjOIoX++
-        VnExspZzJVC28ihGPe1nv/8=
-X-Google-Smtp-Source: ABdhPJwTd6qV2FZLwCrjso3bxDjo+1Gas5YUbwNfO5ahMgWzVnPxRjagrsB/ofAuJqYy70/vLMIWXA==
-X-Received: by 2002:aa7:d6ca:0:b0:419:2804:d094 with SMTP id x10-20020aa7d6ca000000b004192804d094mr939569edr.388.1648050979869;
-        Wed, 23 Mar 2022 08:56:19 -0700 (PDT)
-Received: from pswork ([62.96.250.75])
-        by smtp.gmail.com with ESMTPSA id z6-20020a056402274600b004194fc1b7casm147440edd.48.2022.03.23.08.56.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 08:56:19 -0700 (PDT)
-Date:   Wed, 23 Mar 2022 16:56:18 +0100
-From:   Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file
- in kernel
-Message-ID: <20220323155618.GA11364@pswork>
-References: <164724890153.731226.1478494969800777757.stgit@devnote2>
- <164724892075.731226.14103557516176115189.stgit@devnote2>
- <20220316191649.GA11547@pswork>
- <20220318101445.fdb151efe58c6c3a1c572500@kernel.org>
- <20220321183500.GA4065@pswork>
- <20220322120311.690f237b63ddfd9c0e4f78ec@kernel.org>
- <20220322190219.GA26859@pswork>
- <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jojw5f7wnm9EHe+O1hZXC5y0oSm+5NVhYv4rzpOxMAw=;
+        b=WO9Noh+GtjylzKRm0OtgZsVScLRUGfHnZwTx3bZxAz/RLW0R+UYxWEzz/QPNV4IhuI
+         ia67Jigi1zjrkM+v+7R8PlKTs7ux2QLM5pRSF3ozUTphquc0RpH4+kZNlGb/p4nrurkv
+         O29uar3LLs71jGWn0L7mXM++SAR1quOLi1w324SVnpr0XaApZ/Hf56V9r/wNtAX0OAGp
+         n/2Czz2fP1eZmmu4+zgh+1OOPzYPBwvb2IL1Lp/ykYkQCX0ZfzMmDS/yXbJkpnJVpwpO
+         jfAiz4e9CZDSKlO1sUCpKVXF7QK6nzIrzguz+daGU1DvL/j18nmEFUPB7UzPx0ndEQ6H
+         AJsw==
+X-Gm-Message-State: AOAM53179sA9pgAWXp+LEf1mS/TA+9Hq2UB/FnmudjMkvCgNIk4nXG8n
+        uuFf2pHP1dwpp/e+GQQnz17sJYjRO1xLUBE3covVTqZVW8BoavcK/J73XmEpHii5ZRE4XwU86TK
+        7wso6eyJHpbxoQaiB1ba/bdFv/0kGH1rEjDJJ
+X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id h2-20020a056a00218200b004fa6d20d95dmr255500pfi.83.1648051717774;
+        Wed, 23 Mar 2022 09:08:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXs0W2sqJvvyH5rSFI3YPUX3kkRaojzc998a5Iv1JVOvvGHml++AVdio6zxhwzppY5Sd1fQUrROiDnPqcnr1E=
+X-Received: by 2002:a05:6a00:2182:b0:4fa:6d20:d95d with SMTP id
+ h2-20020a056a00218200b004fa6d20d95dmr255474pfi.83.1648051717452; Wed, 23 Mar
+ 2022 09:08:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+In-Reply-To: <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 23 Mar 2022 17:08:25 +0100
+Message-ID: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 09:16:17AM +0900, Masami Hiramatsu wrote:
-> On Tue, 22 Mar 2022 20:02:19 +0100
-> Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
-> 
-> > Hello Masami Hiramatsu,
-> > 
-> > On Tue, Mar 22, 2022 at 12:03:11PM +0900, Masami Hiramatsu wrote:
-> > > On Mon, 21 Mar 2022 19:35:00 +0100
-> > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
-> > > 
-> > > > Hello Masami Hiramatsu,
-> > > > 
-> > > > On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
-> > > > > On Wed, 16 Mar 2022 20:16:49 +0100
-> > > > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
-> > > > > 
-> > > > > > Hello Masami Hiramatsu,
-> > > > > > 
-> > > > > > On Mon, Mar 14, 2022 at 06:08:41PM +0900, Masami Hiramatsu wrote:
-> > > > > > > This allows kernel developer to embed a default bootconfig file in
-> > > > > > > the kernel instead of embedding it in the initrd. This will be good
-> > > > > > > for who are using the kernel without initrd, or who needs a default
-> > > > > > > bootconfigs.
-> > > > > > > This needs to set two kconfigs: CONFIG_EMBED_BOOT_CONFIG=y and set
-> > > > > > > the file path to CONFIG_EMBED_BOOT_CONFIG_FILE.
-> > > > > > > 
-> > > > > > > Note that you still need 'bootconfig' command line option to load the
-> > > > > > > embedded bootconfig. Also if you boot using an initrd with a different
-> > > > > > > bootconfig, the kernel will use the bootconfig in the initrd, instead
-> > > > > > > of the default bootconfig.
-> > > > > > > 
-> > > > > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > > > > ---
-> > > > > > >  include/linux/bootconfig.h |   10 ++++++++++
-> > > > > > >  init/Kconfig               |   21 +++++++++++++++++++++
-> > > > > > >  init/main.c                |   13 ++++++++-----
-> > > > > > >  lib/.gitignore             |    1 +
-> > > > > > >  lib/Makefile               |   12 ++++++++++++
-> > > > > > >  lib/bootconfig.c           |   23 +++++++++++++++++++++++
-> > > > > > >  6 files changed, 75 insertions(+), 5 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
-> > > > > > > index a4665c7ab07c..5dbda5e3e9bb 100644
-> > > > > > > --- a/include/linux/bootconfig.h
-> > > > > > > +++ b/include/linux/bootconfig.h
-> > > > > > > @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
-> > > > > > >  /* XBC cleanup data structures */
-> > > > > > >  void __init xbc_exit(void);
-> > > > > > >  
-> > > > > > > +/* XBC embedded bootconfig data in kernel */
-> > > > > > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
-> > > > > > > +char * __init xbc_get_embedded_bootconfig(size_t *size);
-> > > > > > > +#else
-> > > > > > > +static inline char *xbc_get_embedded_bootconfig(size_t *size)
-> > > > > > > +{
-> > > > > > > +	return NULL;
-> > > > > > > +}
-> > > > > > > +#endif
-> > > > > > > +
-> > > > > > >  #endif
-> > > > > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > > > > index e9119bf54b1f..70440804874d 100644
-> > > > > > > --- a/init/Kconfig
-> > > > > > > +++ b/init/Kconfig
-> > > > > > > @@ -1357,6 +1357,27 @@ config BOOT_CONFIG
-> > > > > > >  
-> > > > > > >  	  If unsure, say Y.
-> > > > > > >  
-> > > > > > > +config EMBED_BOOT_CONFIG
-> > > > > > > +	bool "Embed bootconfig file in the kernel"
-> > > > > > > +	depends on BOOT_CONFIG
-> > > > > > > +	default n
-> > > > > > > +	help
-> > > > > > > +	  Embed a bootconfig file given by EMBED_BOOT_CONFIG_FILE in the
-> > > > > > > +	  kernel. Usually, the bootconfig file is loaded with the initrd
-> > > > > > > +	  image. But if the system doesn't support initrd, this option will
-> > > > > > > +	  help you by embedding a bootconfig file while building the kernel.
-> > > > > > > +
-> > > > > > > +	  If unsure, say N.
-> > > > > > > +
-> > > > > > > +config EMBED_BOOT_CONFIG_FILE
-> > > > > > > +	string "Embedded bootconfig file path"
-> > > > > > > +	default ""
-> > > > > > > +	depends on EMBED_BOOT_CONFIG
-> > > > > > > +	help
-> > > > > > > +	  Specify a bootconfig file which will be embedded to the kernel.
-> > > > > > > +	  This bootconfig will be used if there is no initrd or no other
-> > > > > > > +	  bootconfig in the initrd.
-> > > > > > > +
-> > > > > > >  choice
-> > > > > > >  	prompt "Compiler optimization level"
-> > > > > > >  	default CC_OPTIMIZE_FOR_PERFORMANCE
-> > > > > > > diff --git a/init/main.c b/init/main.c
-> > > > > > > index 421050be5039..3803bf2e22ea 100644
-> > > > > > > --- a/init/main.c
-> > > > > > > +++ b/init/main.c
-> > > > > > > @@ -265,7 +265,7 @@ static int __init loglevel(char *str)
-> > > > > > >  early_param("loglevel", loglevel);
-> > > > > > >  
-> > > > > > >  #ifdef CONFIG_BLK_DEV_INITRD
-> > > > > > > -static void * __init get_boot_config_from_initrd(u32 *_size)
-> > > > > > > +static void * __init get_boot_config_from_initrd(size_t *_size)
-> > > > > > >  {
-> > > > > > >  	u32 size, csum;
-> > > > > > >  	char *data;
-> > > > > > > @@ -411,12 +411,15 @@ static void __init setup_boot_config(void)
-> > > > > > >  	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
-> > > > > > >  	const char *msg;
-> > > > > > >  	int pos;
-> > > > > > > -	u32 size;
-> > > > > > > +	size_t size;
-> > > > > > >  	char *data, *err;
-> > > > > > >  	int ret;
-> > > > > > >  
-> > > > > > >  	/* Cut out the bootconfig data even if we have no bootconfig option */
-> > > > > > >  	data = get_boot_config_from_initrd(&size);
-> > > > > > > +	/* If there is no bootconfig in initrd, try embedded one. */
-> > > > > > > +	if (!data)
-> > > > > > > +		data = xbc_get_embedded_bootconfig(&size);
-> > > > > > >  
-> > > > > > >  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-> > > > > > >  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> > > > > > > @@ -435,8 +438,8 @@ static void __init setup_boot_config(void)
-> > > > > > >  	}
-> > > > > > >  
-> > > > > > >  	if (size >= XBC_DATA_MAX) {
-> > > > > > > -		pr_err("bootconfig size %d greater than max size %d\n",
-> > > > > > > -			size, XBC_DATA_MAX);
-> > > > > > > +		pr_err("bootconfig size %ld greater than max size %d\n",
-> > > > > > > +			(long)size, XBC_DATA_MAX);
-> > > > > > >  		return;
-> > > > > > >  	}
-> > > > > > >  
-> > > > > > > @@ -449,7 +452,7 @@ static void __init setup_boot_config(void)
-> > > > > > >  				msg, pos);
-> > > > > > >  	} else {
-> > > > > > >  		xbc_get_info(&ret, NULL);
-> > > > > > > -		pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
-> > > > > > > +		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
-> > > > > > >  		/* keys starting with "kernel." are passed via cmdline */
-> > > > > > >  		extra_command_line = xbc_make_cmdline("kernel");
-> > > > > > >  		/* Also, "init." keys are init arguments */
-> > > > > > > diff --git a/lib/.gitignore b/lib/.gitignore
-> > > > > > > index e5e217b8307b..30a2a5db7033 100644
-> > > > > > > --- a/lib/.gitignore
-> > > > > > > +++ b/lib/.gitignore
-> > > > > > > @@ -6,3 +6,4 @@
-> > > > > > >  /oid_registry_data.c
-> > > > > > >  /test_fortify.log
-> > > > > > >  /test_fortify/*.log
-> > > > > > > +/default.bconf
-> > > > > > > diff --git a/lib/Makefile b/lib/Makefile
-> > > > > > > index 300f569c626b..8183785ee99d 100644
-> > > > > > > --- a/lib/Makefile
-> > > > > > > +++ b/lib/Makefile
-> > > > > > > @@ -279,6 +279,18 @@ $(foreach file, $(libfdt_files), \
-> > > > > > >  	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
-> > > > > > >  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
-> > > > > > >  
-> > > > > > > +ifeq ($(CONFIG_EMBED_BOOT_CONFIG),y)
-> > > > > > > +# Since the specified bootconfig file can be switched, we forcibly update the
-> > > > > > > +# default.bconf file always.
-> > > > > > > +$(obj)/default.bconf: FORCE
-> > > > > > > +	$(call cmd,defbconf)
-> > > > > > > +
-> > > > > > > +quiet_cmd_defbconf = GEN     $@
-> > > > > > > +      cmd_defbconf = cat < /dev/null $(CONFIG_EMBED_BOOT_CONFIG_FILE) > $@
-> > > > > > > +clean-files	+= default.bconf
-> > > > > > > +$(obj)/bootconfig.o: $(obj)/default.bconf
-> > > > > > > +endif
-> > > > > > > +
-> > > > > > >  lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-> > > > > > >  
-> > > > > > >  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
-> > > > > > > diff --git a/lib/bootconfig.c b/lib/bootconfig.c
-> > > > > > > index 74f3201ab8e5..3a3bf3a208e3 100644
-> > > > > > > --- a/lib/bootconfig.c
-> > > > > > > +++ b/lib/bootconfig.c
-> > > > > > > @@ -12,6 +12,29 @@
-> > > > > > >  #include <linux/kernel.h>
-> > > > > > >  #include <linux/memblock.h>
-> > > > > > >  #include <linux/string.h>
-> > > > > > > +
-> > > > > > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
-> > > > > > > +asm (
-> > > > > > > +"	.pushsection .init.data, \"aw\"			\n"
-> > > > > > > +"	.global embedded_bootconfig_data		\n"
-> > > > > > > +"embedded_bootconfig_data:				\n"
-> > > > > > > +"	.incbin \"lib/default.bconf\"			\n"
-> > > > > > > +"	.global embedded_bootconfig_data_end		\n"
-> > > > > > > +"embedded_bootconfig_data_end:				\n"
-> > > > > > > +"	.popsection					\n"
-> > > > > > > +);
-> > > > > > > +
-> > > > > > > +extern __visible char embedded_bootconfig_data[];
-> > > > > > > +extern __visible char embedded_bootconfig_data_end[];
-> > > > > > > +
-> > > > > > > +char * __init xbc_get_embedded_bootconfig(size_t *size)
-> > > > > > > +{
-> > > > > > > +	*size = embedded_bootconfig_data_end - embedded_bootconfig_data;
-> > > > > > > +	return (*size) ? embedded_bootconfig_data : NULL;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +#endif
-> > > > > > > +
-> > > > > > >  #else /* !__KERNEL__ */
-> > > > > > >  /*
-> > > > > > >   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
-> > > > > > >
-> > > > > > 
-> > > > > > Thanks tested the implemation, it works as expected.
-> > > > > 
-> > > > > Great!
-> > > > > 
-> > > > > > 
-> > > > > > Also noted that a change in default.bconf requries a clean build, is it
-> > > > > > expected behaviour?
-> > > > > 
-> > > > > default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
-> > > > > do incremental build. (I tested it with the incremental build environment)
-> > > > >
-> > > > 
-> > > > Thanks, your observation made me to further experiment ther incremental build.
-> > > > 
-> > > > Below are the observations I have:
-> > > > 
-> > > > When I use GCC for a build; yes, the modified default.conf was observed on
-> > > > the target.
-> > > > 
-> > > > But when I use clang; either with FULL or THIN LTO, the modified
-> > > > default.conf doesnt get reflected on the target.
-> > > 
-> > > Hmm, curious. So you just add 'CC=clang' on the make command line, right?
-> > Yes, CC=clang ARCH=arm64 LLVM=1. As specified here:
-> > https://docs.kernel.org/kbuild/llvm.html.
-> > 
-> > > Can you confirm that following line in your build log,
-> > > 
-> > >   GEN     lib/default.bconf
-> > >
-> > Yes, I do see above line. Indeed lib/default.bconf will get incremental
-> > change.
-> > 
-> >   GEN     lib/default.bconf
-> >   CC      lib/bootconfig.o
-> >   AR      lib/lib.a
-> > 
-> > > and the timestamp of lib/bootconfig.o is built after lib/default.bconf file?
-> > > 
-> > Yes, verified timestamp for all above artifacts including vmlinux.o.
-> > 
-> > ex:
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 22K Mar 22 14:50
-> > ../out/lib/bootconfig.o
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 355 Mar 22 14:50
-> > ../out/lib/default.bconf
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 54M Mar 22 14:50 ../out/vmlinux.o
-> > 
-> > As said incremnetal change was refelected in artifact default.bconf.
-> > But not in vmlinux.o/vmlinux, used below command to verify.
-> 
-> Interesting! This sounds clang's issue, because the make command rebuilds
-> the object file including new default.bconf, but the linker (lld?)
-> doesn't link it again correctly.
-> 
-> > 
-> > llvm-objdump  -s -j .init.data ../out/vmlinux
-> > 
-> > On target too, /proc/bootconfig shows old data.
-> > 
-> > > And is that related to CONFIG_LTO? What happen if CONFIG_LTO=n?
-> > > 
-> > Yes;  CONFIG_LTO_NONE=y  issue not observed even with LLVM binutils.
-> 
-> And this issue is related to LTO. Maybe LTO ignores the '.init.data'
-> section update. (Perhaps, LTO only checks the function code hash or
-> something like that instead of the timestamp, and ignore whole object
-> file if all of them are not updated.)
-Thanks for the reasoning, seems to be. The same symptom observed with
-/proc/config.gz too.
+Hi Alexei,
 
-Thank you,
-Padmanabha.S
-> 
-> I've added clang build maintainers. I need their help to solve this issue.
-> 
-> Thank you,
-> 
-> > 
-> > Thanks and Regards,
-> > Padmanabha.S
-> > > Thank you,
-> > > 
-> > > > 
-> > > > PS: Using: GCC version 8.2.1 20180802, LLVM version 13.0.2git.
-> > > > 
-> > > > Thank you,
-> > > > Padmanabha.S
-> > > > > Thank you,
-> > > > > 
-> > > > > > 
-> > > > > > Thanks and Regards,
-> > > > > > Padmanabha.S
-> > > > > 
-> > > > > 
-> > > > > -- 
-> > > > > Masami Hiramatsu <mhiramat@kernel.org>
-> > > 
-> > > 
-> > > -- 
-> > > Masami Hiramatsu <mhiramat@kernel.org>
-> 
-> 
-> -- 
-> Masami Hiramatsu <mhiramat@kernel.org>
+On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > +{
+> > +       int ret;
+> > +       struct hid_bpf_ctx_kern ctx = {
+> > +               .type = HID_BPF_RDESC_FIXUP,
+> > +               .hdev = hdev,
+> > +               .size = *size,
+> > +       };
+> > +
+> > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > +               goto ignore_bpf;
+> > +
+> > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > +       if (!ctx.data)
+> > +               goto ignore_bpf;
+> > +
+> > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > +
+> > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > +       if (ret)
+> > +               goto ignore_bpf;
+> > +
+> > +       if (ctx.size > ctx.allocated_size)
+> > +               goto ignore_bpf;
+> > +
+> > +       *size = ctx.size;
+> > +
+> > +       if (*size) {
+> > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > +       } else {
+> > +               rdesc = NULL;
+> > +               kfree(ctx.data);
+> > +       }
+> > +
+> > +       return rdesc;
+> > +
+> > + ignore_bpf:
+> > +       kfree(ctx.data);
+> > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > +}
+> > +
+> >  int __init hid_bpf_module_init(void)
+> >  {
+> >         struct bpf_hid_hooks hooks = {
+> >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > +               .post_link_attach = hid_bpf_post_link_attach,
+> >                 .array_detach = hid_bpf_array_detach,
+> >         };
+> >
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 937fab7eb9c6..3182c39db006 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> >                 return -ENODEV;
+> >         size = device->dev_rsize;
+> >
+> > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > +       buf = hid_bpf_report_fixup(device, start, &size);
+>
+> Looking at this patch and the majority of other patches...
+> the code is doing a lot of work to connect HID side with bpf.
+> At the same time the evolution of the patch series suggests
+> that these hook points are not quite stable. More hooks and
+> helpers are being added.
+> It tells us that it's way too early to introduce a stable
+> interface between HID and bpf.
+
+I understand that you might be under the impression that the interface
+is changing a lot, but this is mostly due to my poor knowledge of all
+the arcanes of eBPF.
+The overall way HID-BPF works is to work on a single array, and we
+should pretty much be sorted out. There are a couple of helpers to be
+able to communicate with the device, but the API has been stable in
+the kernel for those for quite some time now.
+
+The variations in the hooks is mostly because I don't know what is the
+best representation we can use in eBPF for those, and the review
+process is changing that.
+
+> We suggest to use __weak global functions and unstable kfunc helpers
+> to achieve the same goal.
+> This way HID side and bpf side can evolve without introducing
+> stable uapi burden.
+> For example this particular patch can be compressed to:
+> __weak int hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc,
+> unsigned int *size)
+> {
+>    return 0;
+> }
+> ALLOW_ERROR_INJECTION(ALLOW_ERROR_INJECTION, ERRNO);
+>
+> - buf = kmemdup(start, size, GFP_KERNEL);
+> + if (!hid_bpf_report_fixup(device, start, &size))
+> +   buf = kmemdup(start, size, GFP_KERNEL);
+>
+> Then bpf program can replace hid_bpf_report_fixup function and adjust its
+> return value while reading args.
+
+I appreciate the suggestion and gave it a try, but AFAICT this doesn't
+work for HID (please correct me if I am wrong):
+
+- I tried to use __weak to replace the ugly struct bpf_hid_hooks
+
+This struct is in place simply because the HID module can be compiled
+in as a kernel module and we might not have the symbols available from
+kernel/bpf when it is a separate module.
+Either I did something wrong, but it seems that when we load the
+module in the kernel, there is no magic that overrides the weak
+symbols from the ones from the modules.
+
+- for hid_bpf_report_fixup(), this would mean that a BPF program could
+overwrite the function
+
+This is great, but I need to have one program per device, not one
+globally defined function.
+I can not have a generic report_fixup in the system, simply because
+you might need 2 different functions for 2 different devices.
+
+We could solve that by auto-generating the bpf program based on which
+devices are available, but that would mean that users will see a
+reconnect of all of their input devices when they plug in a new one,
+and will also require them to have LLVM installed, which I do not
+want.
+
+- for stuff like hid_bpf_raw_event(), I want to have multiple programs
+attached to the various devices, and not necessarily the same across
+devices.
+
+This is basically the same as above, except that I need to chain programs.
+
+For instance, we could have a program that "fixes" one device, but I
+also want to attach a tracing program on top of it to monitor what is
+happening.
+
+>
+> Similar approach can be done with all other hooks.
+>
+> Once api between HID and bpf stabilizes we can replace nop functions
+> with writeable tracepoints to make things a bit more stable
+> while still allowing for change of the interface in the future.
+>
+> The amount of bpf specific code in HID core will be close to zero
+> while bpf can be used to flexibly tweak it.
+
+Again, I like the idea, but I clearly don't see where you want to go.
+From what I see, this is incompatible with the use cases I have.
+
+>
+> kfunc is a corresponding mechanism to introduce unstable api
+> from bpf into the kernel instead of stable helpers.
+> Just whitelist some functions as unstable kfunc helpers and call them
+> from bpf progs.
+> See net/bpf/test_run.c and bpf_kfunc_call* for inspiration.
+>
+
+I also like this idea.
+
+However, for hid_hw_raw_request() I can not blindly enable that
+function in all program types. This function makes the kernel sleep,
+and so we can not use it while in IRQ context.
+I think I can detect if we are in IRQ or not, but is it really worth
+enabling it across all BPF program types when we know that only
+SEC("hid/user_event") will use it?
+
+Also, I am not sure how we can make bpf_hid_get_data() work with that.
+We need to teach the verifier how much memory is provided, and I do
+not see how you can do that with kfunc.
+
+Cheers,
+Benjamin
+
