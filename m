@@ -2,109 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C80C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 21:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D30AFC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 22:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345056AbiCWV7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 17:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47794 "EHLO
+        id S1345112AbiCWWI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 18:08:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345055AbiCWV7f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 17:59:35 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3682628;
-        Wed, 23 Mar 2022 14:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=89YbAuXI9BbNTOLNzdMzv6qYGRqw+m92TMqbl+MwwvM=; b=lKqQyKLwsV18YK3hle2Y60Jr2Y
-        Z7lGfQiD0+Och7CcgW1JZVR64mRGIh/cM4hazTGwnUAweDegUIR4j3IVCQw0vNzy0oM3xi7vZgVOg
-        Bd9HZLxmicGWUA09CvHGI9ujA5RumuHLOzTJzs5EGrAg1FTm8R2goxnjmB8wyZsXpc/BSIsf+mN3Y
-        gZKjrQM67Yr9TQb2BcfESbTsZttu2xr4T9IHVEdh/a2C7IUws9LmIAUjiXwPoQ088BKmFIJXM3XFT
-        PuijAQ62VyNZDH5hQimp7xkEPFBS9EobXzOslAcYkaoXVrBcHudaMma8jxYA7b9vsJ5S9tK6tqwV8
-        rj9RBR2g==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nX8zN-00Eutj-SC; Wed, 23 Mar 2022 21:57:57 +0000
-Date:   Wed, 23 Mar 2022 14:57:57 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Muchun Song <songmuchun@bytedance.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, linux-doc@vger.kernel.org,
+        with ESMTP id S238850AbiCWWI1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 18:08:27 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E92FA5C657;
+        Wed, 23 Mar 2022 15:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648073216; x=1679609216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5s1qopCxdkYmFefmU0dSFgayuEQVpBsi4yLTT+cXSbo=;
+  b=Zb9baPiT4nu9ikiih2Hqo/FzfGstbbvXm6MefxkhdhjhriUdSQTV0xjr
+   FR1pBX24AOzLaDiubz6bwOL4VAqRB0qpMYFjUMQmPTKzmJoHVtSRMeUF4
+   qe3zOM8VY9fGKpWM8B0hbdE4PB+uzvrBcVfgN8fZax9tQzrMqK53H9h4n
+   +gzXPHXm5uDjhFP7jHZECw/IWG+7QyldCHM1mbDyaNb839V731chGi5jF
+   qBs4bX77Kvg/ZShbsGaj7U3TDmwm1u59hs8dNJX5AURpTnyd/OlMrc8J0
+   Z9CREzWUMQOrH4gNG7Vb5P9qmnG4eTQFnUctcwnkjwF9jYMhFiA9SI/3y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="245712689"
+X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
+   d="scan'208";a="245712689"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 15:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
+   d="scan'208";a="693101127"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2022 15:06:52 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nX980-000KPK-9L; Wed, 23 Mar 2022 22:06:52 +0000
+Date:   Thu, 24 Mar 2022 06:06:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com
+Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v5 0/4] add hugetlb_free_vmemmap sysctl
-Message-ID: <YjuX5WCHNsjxgcCM@bombadil.infradead.org>
-References: <20220323125523.79254-1-songmuchun@bytedance.com>
+        duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v5 1/4] mm: hugetlb_vmemmap: introduce
+ STRUCT_PAGE_SIZE_IS_POWER_OF_2
+Message-ID: <202203240546.MHJzsBaO-lkp@intel.com>
+References: <20220323125523.79254-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220323125523.79254-1-songmuchun@bytedance.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <20220323125523.79254-2-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Masahiro,
+Hi Muchun,
 
-can I trouble you to help review the first patch here? I thought
-something like this might be possible, and Muchun has done some good
-work to try it. If anyone can find hole on that kconfig hack it would
-be you. I'll bounce you a copy of the patches.
+Thank you for the patch! Yet something to improve:
 
-  Luis
+[auto build test ERROR on hnaz-mm/master]
+[also build test ERROR on linus/master next-20220323]
+[cannot apply to mcgrof/sysctl-next v5.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-On Wed, Mar 23, 2022 at 08:55:19PM +0800, Muchun Song wrote:
-> This series is based on next-20220310.
-> 
-> This series amis to add hugetlb_free_vmemmap sysctl to enable the feature
-> of freeing vmemmap pages of HugeTLB pages.
-> 
-> v5:
->   - Fix not working properly if one is workig off of a very clean build
->     reported by Luis Chamberlain.
->   - Add Suggested-by for Luis Chamberlain.
-> 
-> Thanks.
-> 
-> v4:
->   - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
-> 
-> v3:
->   - Add pr_warn_once() (Mike).
->   - Handle the transition from enabling to disabling (Luis)
-> 
-> v2:
->   - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
->     test robot <lkp@intel.com>.
->   - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
-> 
-> Muchun Song (4):
->   mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
->   mm: memory_hotplug: override memmap_on_memory when
->     hugetlb_free_vmemmap=on
->   sysctl: allow to set extra1 to SYSCTL_ONE
->   mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
-> 
->  Documentation/admin-guide/sysctl/vm.rst |  14 +++++
->  Kbuild                                  |  14 +++++
->  fs/Kconfig                              |   1 +
->  include/linux/memory_hotplug.h          |   9 +++
->  include/linux/mm_types.h                |   2 +
->  kernel/sysctl.c                         |   2 +-
->  mm/Kconfig                              |   3 +
->  mm/hugetlb_vmemmap.c                    | 107 ++++++++++++++++++++++++--------
->  mm/hugetlb_vmemmap.h                    |   4 +-
->  mm/memory_hotplug.c                     |  27 ++++++--
->  mm/struct_page_size.c                   |  19 ++++++
->  scripts/check_struct_page_po2.sh        |   9 +++
->  12 files changed, 177 insertions(+), 34 deletions(-)
->  create mode 100644 mm/struct_page_size.c
->  create mode 100755 scripts/check_struct_page_po2.sh
-> 
-> -- 
-> 2.11.0
-> 
+url:    https://github.com/0day-ci/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
+base:   https://github.com/hnaz/linux-mm master
+config: arc-randconfig-r043-20220323 (https://download.01.org/0day-ci/archive/20220324/202203240546.MHJzsBaO-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/64211be650af117819368a26d7b86c33df5deea4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
+        git checkout 64211be650af117819368a26d7b86c33df5deea4
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc prepare
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> cc1: fatal error: cannot open 'kernel/bounds.s' for writing: No such file or directory
+   compilation terminated.
+   make[2]: *** [scripts/Makefile.build:127: kernel/bounds.s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1261: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
