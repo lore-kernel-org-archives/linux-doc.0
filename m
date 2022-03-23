@@ -2,172 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F62DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 17:12:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 924F9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 17:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245704AbiCWRNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 13:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42730 "EHLO
+        id S1343760AbiCWRqh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 13:46:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237380AbiCWRNi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 13:13:38 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC3A7C140
-        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id 17so2765472ljw.8
-        for <linux-doc@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
-        b=Inx3pPtFVYpWMK7FixLjIbC1jJxntgKxFxZ0jH6X3A3V4DayOw22Ok5qXfcDFVHksW
-         5Z+y3J3Fpxdxt45EqV9ejbfr/BGgUPJVYjAt8PrdQK+Ldu47SVdHIt+TLQqEqo5qaN0k
-         sSquUwe0j+WFE+jhk4cmjc8l4bgrN6x5TUmwzWlBNIgwdrfsm/To1mdKwqgs/hyp3KVw
-         YlmGCRtvtdOGsveQAz8JBAto90omMtMgAZChFdGkZQQCsWMKgJxds1s315znXohhOVRJ
-         BF8FWP31cfszkf7ExpfbNhunzTTF+m1FakIVwVrJu+J6eMnqRRMZJWa0AFxN/aigXAcf
-         Nnbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
-        b=7mf+tjBdwmyiBgABoPBeYjZvuoOYELzvloXQYLpf/waEn+Kj7BryY76imkF4HnTpng
-         zi1tsr+agcftALyeFh0AqWaDB7+T0E/Ws50sNm1tRJzDrZhrijZSqahkEBoNydOqBxCB
-         7jlkfQA7K9HwD0s3mw4kLaAMxDWNUDqWLJYG3AhcH25umhfCHqUzzkIrIcZZPf1FBs9b
-         FTKZxsXNGemT8isP7RcmDQJRVwROphEKEpKppQS58QLQyw2tEAEfOqSAxHpW3jfvCBVv
-         kRuJHbOY+qfdtqq0V0yV/Cv8U8Xk1FtDjM0IAGcGIA3fK9SvA8YSh+4dzOhqRqkR1oxb
-         ef0A==
-X-Gm-Message-State: AOAM530JFIQc5nPflQz2jPecP0qUEfyf3KsWacRLpyZeG+yYNISDS3RD
-        lwzRouYg43iVRCm8UvcIMsv5KIiiW4C19JNKZPTM4g==
-X-Google-Smtp-Source: ABdhPJznpm3ZCA3c5phLjI/3h2MA5pz20oijX4CrsCdzRosKuSDTTPndiUuGKIM12svCeiRr5Los/q9NoNLvrKzo2A0=
-X-Received: by 2002:a2e:904c:0:b0:23e:d7ad:3fdd with SMTP id
- n12-20020a2e904c000000b0023ed7ad3fddmr805064ljg.239.1648055525198; Wed, 23
- Mar 2022 10:12:05 -0700 (PDT)
+        with ESMTP id S236472AbiCWRqg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 13:46:36 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93ED6EB3A;
+        Wed, 23 Mar 2022 10:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648057506; x=1679593506;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=NCWVugIzR4LXdQtjJlb1q/cqx0VTEXBYJ+E77MstKbc=;
+  b=Kt3sau7t4UVEx7MQuTQB5reAHiY9X3SO4j7Bxk2bykUHYcGXlaVKatIY
+   YCwvSooIKuxWXGdPhxP0cuyZWor5oWBu4x67uFe7BUPoLJjmzFiPBnqWX
+   9AfOHMpEcdAkhDHRH3MzCgIDDB/PQPdC63trGK+fUpoxa7XEcfR1dTvwd
+   4jGKvcuWZgZI3EM3iMWXi7phFCi9rcVTx1KnqamxqCl7vwZ80Ar+KIOqx
+   smKtIWGKkQrYhgvnK2tQ2ryg+wsjorwWmTHPDrHpHAAPO2CI1XoxNTP7+
+   VE616YE++hJVDQF8EBwkjkV7xoFXMFeMbGJyodhqXs50zSzLuMShZsZQ/
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="321384640"
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
+   d="scan'208";a="321384640"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 10:45:06 -0700
+X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
+   d="scan'208";a="647569488"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 10:45:06 -0700
+Date:   Wed, 23 Mar 2022 10:47:13 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Tianfei Zhang <tianfei.zhang@intel.com>
+cc:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org
+Subject: Re: [PATCH v5 1/2] fpga: dfl: check feature type before parse irq
+ info
+In-Reply-To: <20220323085102.2297964-2-tianfei.zhang@intel.com>
+Message-ID: <alpine.DEB.2.22.394.2203231046240.1238697@rhweight-WRK1>
+References: <20220323085102.2297964-1-tianfei.zhang@intel.com> <20220323085102.2297964-2-tianfei.zhang@intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <164724890153.731226.1478494969800777757.stgit@devnote2>
- <164724892075.731226.14103557516176115189.stgit@devnote2> <20220316191649.GA11547@pswork>
- <20220318101445.fdb151efe58c6c3a1c572500@kernel.org> <20220321183500.GA4065@pswork>
- <20220322120311.690f237b63ddfd9c0e4f78ec@kernel.org> <20220322190219.GA26859@pswork>
- <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
-In-Reply-To: <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 23 Mar 2022 10:11:53 -0700
-Message-ID: <CAKwvOdk8is=R2qhgKuS_CddvtZzgeJC1Uht84x--TcYykfaiHw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file in kernel
-To:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Cc:     Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 5:16 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
->
-> On Tue, 22 Mar 2022 20:02:19 +0100
-> Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
->
-> > Hello Masami Hiramatsu,
-> >
-> > On Tue, Mar 22, 2022 at 12:03:11PM +0900, Masami Hiramatsu wrote:
-> > > On Mon, 21 Mar 2022 19:35:00 +0100
-> > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
-> > >
-> > > > Hello Masami Hiramatsu,
-> > > >
-> > > > On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
-> > > > > On Wed, 16 Mar 2022 20:16:49 +0100
-> > > > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
-> > > > >
-> > > > > > Hello Masami Hiramatsu,
-> > > > > >
-> > > > > > Also noted that a change in default.bconf requries a clean build, is it
-> > > > > > expected behaviour?
-> > > > >
-> > > > > default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
-> > > > > do incremental build. (I tested it with the incremental build environment)
-> > > > >
-> > > >
-> > > > Thanks, your observation made me to further experiment ther incremental build.
-> > > >
-> > > > Below are the observations I have:
-> > > >
-> > > > When I use GCC for a build; yes, the modified default.conf was observed on
-> > > > the target.
-> > > >
-> > > > But when I use clang; either with FULL or THIN LTO, the modified
-> > > > default.conf doesnt get reflected on the target.
-> > >
-> > > Hmm, curious. So you just add 'CC=clang' on the make command line, right?
-> > Yes, CC=clang ARCH=arm64 LLVM=1. As specified here:
-> > https://docs.kernel.org/kbuild/llvm.html.
 
-You should just need LLVM=1 (and ARCH=arm64) at this point. LLVM=1
-implies CC=clang.
 
-Also, here's the start of the lore thread for folks:
-https://lore.kernel.org/linux-doc/164724892075.731226.14103557516176115189.stgit@devnote2/
+On Wed, 23 Mar 2022, Tianfei Zhang wrote:
 
-> >
-> > > Can you confirm that following line in your build log,
-> > >
-> > >   GEN     lib/default.bconf
-> > >
-> > Yes, I do see above line. Indeed lib/default.bconf will get incremental
-> > change.
-> >
-> >   GEN     lib/default.bconf
-> >   CC      lib/bootconfig.o
-> >   AR      lib/lib.a
-> >
-> > > and the timestamp of lib/bootconfig.o is built after lib/default.bconf file?
-> > >
-> > Yes, verified timestamp for all above artifacts including vmlinux.o.
-> >
-> > ex:
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 22K Mar 22 14:50
-> > ../out/lib/bootconfig.o
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 355 Mar 22 14:50
-> > ../out/lib/default.bconf
-> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 54M Mar 22 14:50 ../out/vmlinux.o
-> >
-> > As said incremnetal change was refelected in artifact default.bconf.
-> > But not in vmlinux.o/vmlinux, used below command to verify.
->
-> Interesting! This sounds clang's issue, because the make command rebuilds
-> the object file including new default.bconf, but the linker (lld?)
-> doesn't link it again correctly.
+> From: Tianfei zhang <tianfei.zhang@intel.com>
 
-Sounds like missing FORCE directives in the Makefiles, perhaps?
+Hi Tianfei,
 
-Sami, do you recall any issues like this when implementing
-commit dc5723b02e52 ("kbuild: add support for Clang LTO")
-?
+Your fix is much better than mine.
+
 
 >
-> >
-> > llvm-objdump  -s -j .init.data ../out/vmlinux
-> >
-> > On target too, /proc/bootconfig shows old data.
-> >
-> > > And is that related to CONFIG_LTO? What happen if CONFIG_LTO=n?
-> > >
-> > Yes;  CONFIG_LTO_NONE=y  issue not observed even with LLVM binutils.
+> Previously the feature IDs defined are unique, no matter
+> which feature type. But currently we want to extend its
+> usage to have a per-type feature ID space, so this patch
+> adds feature type checking as well just before look into
+> feature ID for different features which have irq info.
 >
-> And this issue is related to LTO. Maybe LTO ignores the '.init.data'
-> section update. (Perhaps, LTO only checks the function code hash or
-> something like that instead of the timestamp, and ignore whole object
-> file if all of them are not updated.)
-
-Sounds like this is a result of the above issue?
--- 
-Thanks,
-~Nick Desaulniers
+> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
+Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+> v4:
+>  - Fix the git commit from Hao's comments.
+>  - Split documentation into another patch.
+> v3:
+>  - Remove "Fixes" in commit log with Hao's comment, this is a
+>    extension not a bug fix.
+> v2:
+>  - add DFL Feature ID Registry in documentation.
+> ---
+> drivers/fpga/dfl.c | 38 ++++++++++++++++++++++----------------
+> 1 file changed, 22 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index 599bb21d86af..6bff39ff21a0 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -940,9 +940,12 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> {
+> 	void __iomem *base = binfo->ioaddr + ofst;
+> 	unsigned int i, ibase, inr = 0;
+> +	enum dfl_id_type type;
+> 	int virq;
+> 	u64 v;
+>
+> +	type = feature_dev_id_type(binfo->feature_dev);
+> +
+> 	/*
+> 	 * Ideally DFL framework should only read info from DFL header, but
+> 	 * current version DFL only provides mmio resources information for
+> @@ -957,22 +960,25 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> 	 * code will be added. But in order to be compatible to old version
+> 	 * DFL, the driver may still fall back to these quirks.
+> 	 */
+> -	switch (fid) {
+> -	case PORT_FEATURE_ID_UINT:
+> -		v = readq(base + PORT_UINT_CAP);
+> -		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> -		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> -		break;
+> -	case PORT_FEATURE_ID_ERROR:
+> -		v = readq(base + PORT_ERROR_CAP);
+> -		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> -		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> -		break;
+> -	case FME_FEATURE_ID_GLOBAL_ERR:
+> -		v = readq(base + FME_ERROR_CAP);
+> -		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> -		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> -		break;
+> +	if (type == PORT_ID) {
+> +		switch (fid) {
+> +		case PORT_FEATURE_ID_UINT:
+> +			v = readq(base + PORT_UINT_CAP);
+> +			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> +			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +			break;
+> +		case PORT_FEATURE_ID_ERROR:
+> +			v = readq(base + PORT_ERROR_CAP);
+> +			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> +			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +			break;
+> +		}
+> +	} else if (type == FME_ID) {
+> +		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> +			v = readq(base + FME_ERROR_CAP);
+> +			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> +			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> +		}
+> 	}
+>
+> 	if (!inr) {
+> -- 
+> 2.26.2
+>
+>
