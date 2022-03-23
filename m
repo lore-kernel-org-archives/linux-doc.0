@@ -2,152 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 924F9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 17:45:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C80C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Mar 2022 21:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343760AbiCWRqh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 13:46:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
+        id S1345056AbiCWV7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 17:59:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236472AbiCWRqg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 13:46:36 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93ED6EB3A;
-        Wed, 23 Mar 2022 10:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648057506; x=1679593506;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=NCWVugIzR4LXdQtjJlb1q/cqx0VTEXBYJ+E77MstKbc=;
-  b=Kt3sau7t4UVEx7MQuTQB5reAHiY9X3SO4j7Bxk2bykUHYcGXlaVKatIY
-   YCwvSooIKuxWXGdPhxP0cuyZWor5oWBu4x67uFe7BUPoLJjmzFiPBnqWX
-   9AfOHMpEcdAkhDHRH3MzCgIDDB/PQPdC63trGK+fUpoxa7XEcfR1dTvwd
-   4jGKvcuWZgZI3EM3iMWXi7phFCi9rcVTx1KnqamxqCl7vwZ80Ar+KIOqx
-   smKtIWGKkQrYhgvnK2tQ2ryg+wsjorwWmTHPDrHpHAAPO2CI1XoxNTP7+
-   VE616YE++hJVDQF8EBwkjkV7xoFXMFeMbGJyodhqXs50zSzLuMShZsZQ/
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="321384640"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="321384640"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 10:45:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="647569488"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 10:45:06 -0700
-Date:   Wed, 23 Mar 2022 10:47:13 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Tianfei Zhang <tianfei.zhang@intel.com>
-cc:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, rdunlap@infradead.org
-Subject: Re: [PATCH v5 1/2] fpga: dfl: check feature type before parse irq
- info
-In-Reply-To: <20220323085102.2297964-2-tianfei.zhang@intel.com>
-Message-ID: <alpine.DEB.2.22.394.2203231046240.1238697@rhweight-WRK1>
-References: <20220323085102.2297964-1-tianfei.zhang@intel.com> <20220323085102.2297964-2-tianfei.zhang@intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S1345055AbiCWV7f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 17:59:35 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3682628;
+        Wed, 23 Mar 2022 14:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=89YbAuXI9BbNTOLNzdMzv6qYGRqw+m92TMqbl+MwwvM=; b=lKqQyKLwsV18YK3hle2Y60Jr2Y
+        Z7lGfQiD0+Och7CcgW1JZVR64mRGIh/cM4hazTGwnUAweDegUIR4j3IVCQw0vNzy0oM3xi7vZgVOg
+        Bd9HZLxmicGWUA09CvHGI9ujA5RumuHLOzTJzs5EGrAg1FTm8R2goxnjmB8wyZsXpc/BSIsf+mN3Y
+        gZKjrQM67Yr9TQb2BcfESbTsZttu2xr4T9IHVEdh/a2C7IUws9LmIAUjiXwPoQ088BKmFIJXM3XFT
+        PuijAQ62VyNZDH5hQimp7xkEPFBS9EobXzOslAcYkaoXVrBcHudaMma8jxYA7b9vsJ5S9tK6tqwV8
+        rj9RBR2g==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nX8zN-00Eutj-SC; Wed, 23 Mar 2022 21:57:57 +0000
+Date:   Wed, 23 Mar 2022 14:57:57 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Muchun Song <songmuchun@bytedance.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v5 0/4] add hugetlb_free_vmemmap sysctl
+Message-ID: <YjuX5WCHNsjxgcCM@bombadil.infradead.org>
+References: <20220323125523.79254-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220323125523.79254-1-songmuchun@bytedance.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Masahiro,
 
+can I trouble you to help review the first patch here? I thought
+something like this might be possible, and Muchun has done some good
+work to try it. If anyone can find hole on that kconfig hack it would
+be you. I'll bounce you a copy of the patches.
 
-On Wed, 23 Mar 2022, Tianfei Zhang wrote:
+  Luis
 
-> From: Tianfei zhang <tianfei.zhang@intel.com>
-
-Hi Tianfei,
-
-Your fix is much better than mine.
-
-
->
-> Previously the feature IDs defined are unique, no matter
-> which feature type. But currently we want to extend its
-> usage to have a per-type feature ID space, so this patch
-> adds feature type checking as well just before look into
-> feature ID for different features which have irq info.
->
-> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
+On Wed, Mar 23, 2022 at 08:55:19PM +0800, Muchun Song wrote:
+> This series is based on next-20220310.
+> 
+> This series amis to add hugetlb_free_vmemmap sysctl to enable the feature
+> of freeing vmemmap pages of HugeTLB pages.
+> 
+> v5:
+>   - Fix not working properly if one is workig off of a very clean build
+>     reported by Luis Chamberlain.
+>   - Add Suggested-by for Luis Chamberlain.
+> 
+> Thanks.
+> 
 > v4:
->  - Fix the git commit from Hao's comments.
->  - Split documentation into another patch.
+>   - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
+> 
 > v3:
->  - Remove "Fixes" in commit log with Hao's comment, this is a
->    extension not a bug fix.
+>   - Add pr_warn_once() (Mike).
+>   - Handle the transition from enabling to disabling (Luis)
+> 
 > v2:
->  - add DFL Feature ID Registry in documentation.
-> ---
-> drivers/fpga/dfl.c | 38 ++++++++++++++++++++++----------------
-> 1 file changed, 22 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index 599bb21d86af..6bff39ff21a0 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -940,9 +940,12 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
-> {
-> 	void __iomem *base = binfo->ioaddr + ofst;
-> 	unsigned int i, ibase, inr = 0;
-> +	enum dfl_id_type type;
-> 	int virq;
-> 	u64 v;
->
-> +	type = feature_dev_id_type(binfo->feature_dev);
-> +
-> 	/*
-> 	 * Ideally DFL framework should only read info from DFL header, but
-> 	 * current version DFL only provides mmio resources information for
-> @@ -957,22 +960,25 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
-> 	 * code will be added. But in order to be compatible to old version
-> 	 * DFL, the driver may still fall back to these quirks.
-> 	 */
-> -	switch (fid) {
-> -	case PORT_FEATURE_ID_UINT:
-> -		v = readq(base + PORT_UINT_CAP);
-> -		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> -		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> -		break;
-> -	case PORT_FEATURE_ID_ERROR:
-> -		v = readq(base + PORT_ERROR_CAP);
-> -		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> -		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> -		break;
-> -	case FME_FEATURE_ID_GLOBAL_ERR:
-> -		v = readq(base + FME_ERROR_CAP);
-> -		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> -		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> -		break;
-> +	if (type == PORT_ID) {
-> +		switch (fid) {
-> +		case PORT_FEATURE_ID_UINT:
-> +			v = readq(base + PORT_UINT_CAP);
-> +			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> +			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> +			break;
-> +		case PORT_FEATURE_ID_ERROR:
-> +			v = readq(base + PORT_ERROR_CAP);
-> +			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> +			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> +			break;
-> +		}
-> +	} else if (type == FME_ID) {
-> +		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
-> +			v = readq(base + FME_ERROR_CAP);
-> +			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> +			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> +		}
-> 	}
->
-> 	if (!inr) {
+>   - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
+>     test robot <lkp@intel.com>.
+>   - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
+> 
+> Muchun Song (4):
+>   mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
+>   mm: memory_hotplug: override memmap_on_memory when
+>     hugetlb_free_vmemmap=on
+>   sysctl: allow to set extra1 to SYSCTL_ONE
+>   mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
+> 
+>  Documentation/admin-guide/sysctl/vm.rst |  14 +++++
+>  Kbuild                                  |  14 +++++
+>  fs/Kconfig                              |   1 +
+>  include/linux/memory_hotplug.h          |   9 +++
+>  include/linux/mm_types.h                |   2 +
+>  kernel/sysctl.c                         |   2 +-
+>  mm/Kconfig                              |   3 +
+>  mm/hugetlb_vmemmap.c                    | 107 ++++++++++++++++++++++++--------
+>  mm/hugetlb_vmemmap.h                    |   4 +-
+>  mm/memory_hotplug.c                     |  27 ++++++--
+>  mm/struct_page_size.c                   |  19 ++++++
+>  scripts/check_struct_page_po2.sh        |   9 +++
+>  12 files changed, 177 insertions(+), 34 deletions(-)
+>  create mode 100644 mm/struct_page_size.c
+>  create mode 100755 scripts/check_struct_page_po2.sh
+> 
 > -- 
-> 2.26.2
->
->
+> 2.11.0
+> 
