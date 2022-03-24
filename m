@@ -2,73 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA525C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 23:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07200C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 23:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355597AbiCXXFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 19:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
+        id S1355651AbiCXXOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 19:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346914AbiCXXFe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 19:05:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F7FC1CB2A;
-        Thu, 24 Mar 2022 16:04:02 -0700 (PDT)
+        with ESMTP id S1344431AbiCXXOv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 19:14:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26CA2314C;
+        Thu, 24 Mar 2022 16:13:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A089561679;
-        Thu, 24 Mar 2022 23:04:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF66EC340EC;
-        Thu, 24 Mar 2022 23:04:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 79685616DC;
+        Thu, 24 Mar 2022 23:13:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8478EC340F4;
+        Thu, 24 Mar 2022 23:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648163041;
-        bh=TU26cq1OfZeGc7sMNsqoZvVuxIL8l02NH5svgPEtQII=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oUR4c1bEzAGEay1rJpZUVunyvYPejXi3X7f2SBF7OiuVle/PdIOrYHI+60uQAXrgB
-         HqL3Wxt1xtEt4kpxBngBuEfLeidSCLo6aGOHD+nNumu7gM3JA0KMiMBWnzgUzAlZYY
-         BC6pXC5doUVKq7nizoWNgNgEVK7aqvjxNrtg6gK7fNNMrj8X/qVUKhPIQIDaJVZW+g
-         R5gGHfIjEpCWp4e580IpsRN6aG9MNaxRPHzVGU9UPyA6jtvDTfgEvmDQNI0RmGfYa3
-         byta2kA9C7wtD2AKyAViZ7k8FecTS/gA9OjgwxvVG/DTG0ZMbfAEjFHniRfy5TSRip
-         cHNY2keZ6Z16g==
-Date:   Thu, 24 Mar 2022 16:03:59 -0700
+        s=k20201202; t=1648163597;
+        bh=atjFBt8VU5T87V0X7UdkvbIcScNDasrBMeD0jNl+PD4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TBnT6AgG4b1MI6YNQMSKKMYMeFN0RZpDlqAJm9XXPcywakWAPgqiKzxw8xLo4rKU+
+         8htmL3LadNVG8GO/+9pRZQ2blO67wd+wIE5U+S34N59wApnlfOOWThDww85XK6DI9B
+         9TfsEAIMPWTQK9m2UoYX4B0LuWqxMehGxKlT9P6OOJf2OkVrgISU4lTEsWBJR0jFPt
+         Ri1kequFmPUEVtCHQopBu5ToE7bE9xDkA/TZb+QmoDF/zUFGctxq26fKPtF6ycv2X1
+         5JZ1rPhwNoQMxzjW9sbHQxn/YA+xuK1N57+c89ytUXqs+/iu4S+eY4R09ev7AGN9wG
+         kdscNSIPrEp6g==
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jonathan Toppins <jtoppins@redhat.com>
-Cc:     netdev@vger.kernel.org, Long Xin <lxin@redhat.com>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] bond: add mac filter option for balance-xor
-Message-ID: <20220324160359.667e13d4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
-References: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        imagedong@tencent.com, edumazet@google.com, dsahern@kernel.org,
+        talalahmad@google.com, linux-doc@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [RFC v2 1/3] skbuff: add a basic intro doc
+Date:   Thu, 24 Mar 2022 16:13:10 -0700
+Message-Id: <20220324231312.2241166-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220324231312.2241166-1-kuba@kernel.org>
+References: <20220324231312.2241166-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Mar 2022 11:54:41 -0400 Jonathan Toppins wrote:
-> Attempt to replicate the OvS SLB Bonding[1] feature by preventing
-> duplicate frame delivery on a bond whos members are connected to
-> physically different switches.
-> 
-> Combining this feature with vlan+srcmac hash policy allows a user to
-> create an access network without the need to use expensive switches that
-> support features like Cisco's VCP.
+Add basic skb documentation. It's mostly an intro to the subsequent
+patches - it would looks strange if we documented advanced topics
+without covering the basics in any way.
 
-# Form letter - net-next is closed
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/networking/skbuff.rst | 25 ++++++++++++++++++
+ include/linux/skbuff.h              | 40 +++++++++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 Documentation/networking/skbuff.rst
 
-We have already sent the networking pull request for 5.18
-and therefore net-next is closed for new drivers, features,
-code refactoring and optimizations. We are currently accepting
-bug fixes only.
+diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
+new file mode 100644
+index 000000000000..b4a008feceb4
+--- /dev/null
++++ b/Documentation/networking/skbuff.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++struct sk_buff
++==============
++
++:c:type:`sk_buff` is the main networking structure representing
++a packet.
++
++Basic sk_buff geometry
++----------------------
++
++.. kernel-doc:: include/linux/skbuff.h
++   :doc: Basic sk_buff geometry
++
++Shared skbs and skb clones
++--------------------------
++
++:c:member:`sk_buff.users` is a simple refcount allowing multiple entities
++to keep a struct sk_buff alive. skbs with a ``sk_buff.users != 1`` are referred
++to as shared skbs (see skb_shared()).
++
++skb_clone() allows for fast duplication of skbs. None of the data buffers
++get copied, but caller gets a new metadata struct (struct sk_buff).
++&skb_shared_info.refcount indicates the number of skbs pointing at the same
++packet data (i.e. clones).
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 3a30cae8b0a5..3951071f2bb4 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -764,6 +764,46 @@ typedef unsigned int sk_buff_data_t;
+ typedef unsigned char *sk_buff_data_t;
+ #endif
+ 
++/**
++ * DOC: Basic sk_buff geometry
++ *
++ * struct sk_buff itself is a metadata structure and does not hold any packet
++ * data. All the data is held in associated buffers.
++ *
++ * &sk_buff.head points to the main "head" buffer. The head buffer is divided
++ * into two parts:
++ *
++ *  - data buffer, containing headers and sometimes payload;
++ *    this is the part of the skb operated on by the common helpers
++ *    such as skb_put() or skb_pull();
++ *  - shared info (struct skb_shared_info) which holds an array of pointers
++ *    to read-only data in the (page, offset, length) format.
++ *
++ * Optionally &skb_shared_info.frag_list may point to another skb.
++ *
++ * Basic diagram may look like this::
++ *
++ *                                  ---------------
++ *                                 | sk_buff       |
++ *                                  ---------------
++ *     ,---------------------------  + head
++ *    /          ,-----------------  + data
++ *   /          /      ,-----------  + tail
++ *  |          |      |            , + end
++ *  |          |      |           |
++ *  v          v      v           v
++ *   -----------------------------------------------
++ *  | headroom | data |  tailroom | skb_shared_info |
++ *   -----------------------------------------------
++ *                                 + [page frag]
++ *                                 + [page frag]
++ *                                 + [page frag]
++ *                                 + [page frag]       ---------
++ *                                 + frag_list    --> | sk_buff |
++ *                                                     ---------
++ *
++ */
++
+ /**
+  *	struct sk_buff - socket buffer
+  *	@next: Next buffer in list
+-- 
+2.34.1
 
-Please repost when net-next reopens after 5.18-rc1 is cut.
-
-RFC patches sent for review only are obviously welcome at any time.
