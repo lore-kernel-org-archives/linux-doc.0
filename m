@@ -2,88 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FC3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 18:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC1DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 22:12:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243893AbiCXSc4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 14:32:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44160 "EHLO
+        id S1355261AbiCXWN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 18:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352288AbiCXScu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 14:32:50 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F71DAF1D2;
-        Thu, 24 Mar 2022 11:31:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S240339AbiCXWN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 18:13:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BA1F8AF1D3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 15:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648159944;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kVBjsNb2VDJLwgcDZYe43jQSQ0QHWlb+IMiUnQWI++k=;
+        b=Xjir/MOWTkMQQWhbf4+lec1P10/pPTlhY4Uz+8OGrkiVaMjDYB6CarcAQSZMJ+Nw8ndGhD
+        ccwNYNd9KVTeJBlFEn+GFb0s38YEZXdIwcRPb7emmsS/N52J99XR7T0rgTMnnIO/AidSeU
+        6mtjhLus/zkmKSbDcGtbo+cF2Hulf3s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-mogqiX2INry9iokN0gUTXw-1; Thu, 24 Mar 2022 18:12:18 -0400
+X-MC-Unique: mogqiX2INry9iokN0gUTXw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 17125B8250A;
-        Thu, 24 Mar 2022 18:31:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF63C340EC;
-        Thu, 24 Mar 2022 18:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648146675;
-        bh=jK/n2An+Oirig9bmO5kKG8nx46/EBs7+Ye6ENtAtATs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Cx9gltK7PGmvdJNUBTfsNGU4XivYWJE/AVDEGJuwFiSA9s9ilAOMIlC4n0mJ02BCp
-         vqIttj3GtIN0Fnd7Y7nuEEbgwyIBAgNSVdM11YHq3H1pZYjpr+bDe8SH7qu3HfzH9l
-         5PUw+Vl/unNCEEFw7qlOG3nXngDq4U09Es6vrjcqqVmjwqSjx4sYN0/4+CW1ifUO31
-         sfoxMjE+0/E+9wuRu54t8OoSmaKzgT1wOZFCz3AmG/UyBfNzRupedMA1OFjdiOoP59
-         X+fD75EIyW9KZqL3RMCJWmtC7WCbPhR8cKiTV41oAL/b2TTuUoev3YBRy8eyAcQe7a
-         SxSr1CQE+vC5Q==
-Date:   Thu, 24 Mar 2022 11:31:14 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Paolo Abeni <pabeni@redhat.com>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, corbet@lwn.net,
-        imagedong@tencent.com, edumazet@google.com, dsahern@kernel.org,
-        talalahmad@google.com, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 2/3] skbuff: rewrite the doc for data-only skbs
-Message-ID: <20220324113114.3d3e6ba8@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <a172a650b503f69d3de49586de2fdec2d6a71e7a.camel@redhat.com>
-References: <20220323233715.2104106-1-kuba@kernel.org>
-        <20220323233715.2104106-3-kuba@kernel.org>
-        <a172a650b503f69d3de49586de2fdec2d6a71e7a.camel@redhat.com>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E77CD381D8A0;
+        Thu, 24 Mar 2022 22:12:17 +0000 (UTC)
+Received: from jsavitz-csb.redhat.com (unknown [10.22.33.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9CA8E40E7F02;
+        Thu, 24 Mar 2022 22:12:15 +0000 (UTC)
+From:   Joel Savitz <jsavitz@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
+Date:   Thu, 24 Mar 2022 18:11:56 -0400
+Message-Id: <20220324221156.44813-1-jsavitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Mar 2022 09:50:06 +0100 Paolo Abeni wrote:
-> > +/**
-> > + * DOC: dataref and headerless skbs
-> > + *
-> > + * Transport layers send out clones of data skbs they hold for retransmissions.
-> > + * To allow lower layers of the stack to prepend their headers
-> > + * we split &skb_shared_info.dataref into two halves.
-> > + * The lower 16 bits count the overall number of references.
-> > + * The higher 16 bits indicate number of data-only references.
-> > + * skb_header_cloned() checks if skb is allowed to add / write the headers.  
-> 
-> Thank you very much for the IMHO much needed documentation!
-> 
-> Please allow me to do some non-native-english-speaker biased comments;)
-> 
-> The previous patch uses the form  "payload data" instead of data-only,
-> I think it would be clearer using consistently one or the other. I
-> personally would go for "payload-data-only" (which is probably a good
-> reason to pick a different option).
+commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
+introduced a new systctl but no accompanying documentation.
 
-That starts to get long. Let me go for payload everywhere.
+Add a simple entry to the documentation.
 
-> > - * All users must obey the rule that the skb->data reference count must be
-> > - * greater than or equal to the payload reference count.
-> > + * The creator of the skb (e.g. TCP) marks its data-only skb as &sk_buff.nohdr
-> > + * (via __skb_header_release()). Any clone created from marked skb will get
-> > + * &sk_buff.hdr_len populated with the available headroom.
-> > + * If it's the only clone in existence it's able to modify the headroom at will.  
-> 
-> I think it would be great if we explicitly list the expected sequence,
-> e.g.
-> 	<alloc skb>
-> 	skb_reserve
-> 	__skb_header_release
-> 	skb_clone
+Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Will do!
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 803c60bf21d3..4e48139b9a34 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -781,6 +781,13 @@ is useful to define the root cause of RCU stalls using a vmcore.
+ 1 panic() after printing RCU stall messages.
+ = ============================================================
+ 
++max_rcu_stall_to_panic
++======================
++
++When ``panic_on_rcu_stall`` is set to 1, this value determines the
++number of times that RCU can stall before panic() is called.
++
++When ``panic_on_rcu_stall`` is set to 0, this value is has no effect.
+ 
+ perf_cpu_time_max_percent
+ =========================
+-- 
+2.27.0
+
