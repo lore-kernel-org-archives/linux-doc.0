@@ -2,91 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC1DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 22:12:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA525C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 23:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355261AbiCXWN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 18:13:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
+        id S1355597AbiCXXFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 19:05:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240339AbiCXWN6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 18:13:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BA1F8AF1D3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 15:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648159944;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=kVBjsNb2VDJLwgcDZYe43jQSQ0QHWlb+IMiUnQWI++k=;
-        b=Xjir/MOWTkMQQWhbf4+lec1P10/pPTlhY4Uz+8OGrkiVaMjDYB6CarcAQSZMJ+Nw8ndGhD
-        ccwNYNd9KVTeJBlFEn+GFb0s38YEZXdIwcRPb7emmsS/N52J99XR7T0rgTMnnIO/AidSeU
-        6mtjhLus/zkmKSbDcGtbo+cF2Hulf3s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-mogqiX2INry9iokN0gUTXw-1; Thu, 24 Mar 2022 18:12:18 -0400
-X-MC-Unique: mogqiX2INry9iokN0gUTXw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S1346914AbiCXXFe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 19:05:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F7FC1CB2A;
+        Thu, 24 Mar 2022 16:04:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E77CD381D8A0;
-        Thu, 24 Mar 2022 22:12:17 +0000 (UTC)
-Received: from jsavitz-csb.redhat.com (unknown [10.22.33.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9CA8E40E7F02;
-        Thu, 24 Mar 2022 22:12:15 +0000 (UTC)
-From:   Joel Savitz <jsavitz@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
-Date:   Thu, 24 Mar 2022 18:11:56 -0400
-Message-Id: <20220324221156.44813-1-jsavitz@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A089561679;
+        Thu, 24 Mar 2022 23:04:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF66EC340EC;
+        Thu, 24 Mar 2022 23:04:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648163041;
+        bh=TU26cq1OfZeGc7sMNsqoZvVuxIL8l02NH5svgPEtQII=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oUR4c1bEzAGEay1rJpZUVunyvYPejXi3X7f2SBF7OiuVle/PdIOrYHI+60uQAXrgB
+         HqL3Wxt1xtEt4kpxBngBuEfLeidSCLo6aGOHD+nNumu7gM3JA0KMiMBWnzgUzAlZYY
+         BC6pXC5doUVKq7nizoWNgNgEVK7aqvjxNrtg6gK7fNNMrj8X/qVUKhPIQIDaJVZW+g
+         R5gGHfIjEpCWp4e580IpsRN6aG9MNaxRPHzVGU9UPyA6jtvDTfgEvmDQNI0RmGfYa3
+         byta2kA9C7wtD2AKyAViZ7k8FecTS/gA9OjgwxvVG/DTG0ZMbfAEjFHniRfy5TSRip
+         cHNY2keZ6Z16g==
+Date:   Thu, 24 Mar 2022 16:03:59 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jonathan Toppins <jtoppins@redhat.com>
+Cc:     netdev@vger.kernel.org, Long Xin <lxin@redhat.com>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] bond: add mac filter option for balance-xor
+Message-ID: <20220324160359.667e13d4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
+References: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
-introduced a new systctl but no accompanying documentation.
+On Thu, 24 Mar 2022 11:54:41 -0400 Jonathan Toppins wrote:
+> Attempt to replicate the OvS SLB Bonding[1] feature by preventing
+> duplicate frame delivery on a bond whos members are connected to
+> physically different switches.
+> 
+> Combining this feature with vlan+srcmac hash policy allows a user to
+> create an access network without the need to use expensive switches that
+> support features like Cisco's VCP.
 
-Add a simple entry to the documentation.
+# Form letter - net-next is closed
 
-Signed-off-by: Joel Savitz <jsavitz@redhat.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+We have already sent the networking pull request for 5.18
+and therefore net-next is closed for new drivers, features,
+code refactoring and optimizations. We are currently accepting
+bug fixes only.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 803c60bf21d3..4e48139b9a34 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -781,6 +781,13 @@ is useful to define the root cause of RCU stalls using a vmcore.
- 1 panic() after printing RCU stall messages.
- = ============================================================
- 
-+max_rcu_stall_to_panic
-+======================
-+
-+When ``panic_on_rcu_stall`` is set to 1, this value determines the
-+number of times that RCU can stall before panic() is called.
-+
-+When ``panic_on_rcu_stall`` is set to 0, this value is has no effect.
- 
- perf_cpu_time_max_percent
- =========================
--- 
-2.27.0
+Please repost when net-next reopens after 5.18-rc1 is cut.
 
+RFC patches sent for review only are obviously welcome at any time.
