@@ -2,93 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDB8C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 10:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FDAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 10:40:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349517AbiCXKdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 06:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39646 "EHLO
+        id S244226AbiCXKmV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 06:42:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349628AbiCXKdH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 06:33:07 -0400
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A201A0BF6
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 03:31:32 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KPM2p55BhzMqNND;
-        Thu, 24 Mar 2022 11:31:30 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4KPM2m27YJzljsTY;
-        Thu, 24 Mar 2022 11:31:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1648117890;
-        bh=07InghFBQQsMZIwhzNxbiMPO0RvgGZQgEQaSuD90ZRQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=wLPLtVakEdY3ntCVFa9PR0CP5WrSV7xM8w1zvacrOnr9A2aY8r+oZton40dAdqJjg
-         ZSEJFmOmQTFYG9qt6Eg4a0KEcBChePGf7b0iCeCkzVrkLSpwSfCz7k0h/zYT5BHrBn
-         stZ01j3MOm4b19vDHne2l6nYVK085p2lLPCxdBmA=
-Message-ID: <f8f5ef29-4446-8f19-08a3-b9e080855405@digikod.net>
-Date:   Thu, 24 Mar 2022 11:31:32 +0100
-MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v1 06/11] landlock: Add support for file reparenting with
- LANDLOCK_ACCESS_FS_REFER
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
+        with ESMTP id S234052AbiCXKmU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 06:42:20 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C4368BE08;
+        Thu, 24 Mar 2022 03:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648118449; x=1679654449;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=NfLzqS0dQ7BYanFIKknfOLxjWK1epR1PMzWFpmr71Ic=;
+  b=NRgIK0LJ/5eu/KDg577qX8gUIWtI8AOL/WxE7s61QVZDSH8p8Mk81SGj
+   zGG7REKq1wQ7Xggp0RLZwSjuU7pLy970bkMtyfENYH3SsrxhjMc4na8it
+   u6kYxAAZt/Ab68sfAKuaP7bxA/palnqhauiMaVjtFtgeHgD85hWwUbr4M
+   TbUYxffURgU6WvyYtaPbHuIGOtZxhNoFBofEKyFHYwJtZnlGGb8GG8Ajp
+   StNiXAwDKfBoaaommwBYCFMU+CUakKFfB48G2AB28CZsyxyjBGtDdWB3J
+   uFZmE7U6I7gew4c/3rR7AFLBfg2u36SZtQLOd6fhle3GOdl0gwglPRbB7
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="245820739"
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; 
+   d="scan'208";a="245820739"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2022 03:40:48 -0700
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400"; 
+   d="scan'208";a="561320061"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.249.174.249]) ([10.249.174.249])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2022 03:40:44 -0700
+Subject: Re: [PATCH v5 1/4] mm: hugetlb_vmemmap: introduce
+ STRUCT_PAGE_SIZE_IS_POWER_OF_2
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        kernel test robot <lkp@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-References: <20220221212522.320243-1-mic@digikod.net>
- <20220221212522.320243-7-mic@digikod.net>
- <CAHC9VhSFXN39EuVG5aVK0jtgCOmzM2FSCoVa2Xrs=oJQ4AkWMQ@mail.gmail.com>
- <588e0fec-6a45-db81-e411-ae488b29e533@digikod.net>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <588e0fec-6a45-db81-e411-ae488b29e533@digikod.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>, kbuild-all@lists.01.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>
+References: <20220323125523.79254-2-songmuchun@bytedance.com>
+ <202203240546.MHJzsBaO-lkp@intel.com>
+ <20220323151311.289dd405440932e1d6d80f30@linux-foundation.org>
+ <7872f093-e26d-3403-d6cf-c6c1a782242b@intel.com>
+ <CAMZfGtXqETxQPqPLebu=0b2P8RBfKiPymraJZCSK1UGAFGo=dw@mail.gmail.com>
+From:   "Chen, Rong A" <rong.a.chen@intel.com>
+Message-ID: <4bf80e3a-ada7-942b-5bc1-2a1d2fee17c8@intel.com>
+Date:   Thu, 24 Mar 2022 18:40:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <CAMZfGtXqETxQPqPLebu=0b2P8RBfKiPymraJZCSK1UGAFGo=dw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 17/03/2022 13:04, Mickaël Salaün wrote:
-> 
-> On 17/03/2022 02:26, Paul Moore wrote:
 
-[...]
-
->>> @@ -269,16 +270,188 @@ static inline bool is_nouser_or_private(const 
->>> struct dentry *dentry)
->>>                           
->>> unlikely(IS_PRIVATE(d_backing_inode(dentry))));
->>>   }
->>>
->>> -static int check_access_path(const struct landlock_ruleset *const 
->>> domain,
->>> -               const struct path *const path,
->>> +static inline access_mask_t get_handled_accesses(
->>> +               const struct landlock_ruleset *const domain)
->>> +{
->>> +       access_mask_t access_dom = 0;
->>> +       unsigned long access_bit;
+On 3/24/2022 6:20 PM, Muchun Song wrote:
+> On Thu, Mar 24, 2022 at 5:40 PM Chen, Rong A <rong.a.chen@intel.com> wrote:
 >>
->> Would it be better to declare @access_bit as an access_mask_t type?
->> You're not using any macros like for_each_set_bit() in this function
->> so I believe it should be safe.
+>>
+>>
+>> On 3/24/2022 6:13 AM, Andrew Morton wrote:
+>>> On Thu, 24 Mar 2022 06:06:41 +0800 kernel test robot <lkp@intel.com> wrote:
+>>>
+>>>> Hi Muchun,
+>>>>
+>>>> Thank you for the patch! Yet something to improve:
+>>>>
+>>>> [auto build test ERROR on hnaz-mm/master]
+>>>> [also build test ERROR on linus/master next-20220323]
+>>>> [cannot apply to mcgrof/sysctl-next v5.17]
+>>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>>> And when submitting patch, we suggest to use '--base' as documented in
+>>>> https://git-scm.com/docs/git-format-patch]
+>>>>
+>>>> url:    https://github.com/0day-ci/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
+>>>> base:   https://github.com/hnaz/linux-mm master
+>>>> config: arc-randconfig-r043-20220323 (https://download.01.org/0day-ci/archive/20220324/202203240546.MHJzsBaO-lkp@intel.com/config)
+>>>> compiler: arc-elf-gcc (GCC) 11.2.0
+>>>> reproduce (this is a W=1 build):
+>>>>           wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>>>           chmod +x ~/bin/make.cross
+>>>>           # https://github.com/0day-ci/linux/commit/64211be650af117819368a26d7b86c33df5deea4
+>>>>           git remote add linux-review https://github.com/0day-ci/linux
+>>>>           git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
+>>>>           git checkout 64211be650af117819368a26d7b86c33df5deea4
+>>>>           # save the config file to linux build tree
+>>>>           mkdir build_dir
+>>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc prepare
+>>>>
+>>>> If you fix the issue, kindly add following tag as appropriate
+>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>
+>>>> All errors (new ones prefixed by >>):
+>>>>
+>>>>>> cc1: fatal error: cannot open 'kernel/bounds.s' for writing: No such file or directory
+>>>
+>>> It would take a lot of talent for Munchun to have caused this!
+>>>
+>>> Methinks you just ran out of disk space?
+>>
+>> Hi Andrew,
+>>
+>> Thanks for the reply, I tried to apply this patch to the head of
+>> mainline and I still can reproduce the error in my local machine:
+>>
+>> $ wget -q -O -
+>> https://lore.kernel.org/lkml/20220323125523.79254-2-songmuchun@bytedance.com/raw
+>> | git apply -v
+>> $ mkdir build_dir && wget
+>> https://download.01.org/0day-ci/archive/20220324/202203240546.MHJzsBaO-lkp@intel.com/config
+>> -O build_dir/.config
+>> $ COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross
+>> O=build_dir ARCH=arc olddefconfig prepare
+>> make --keep-going CONFIG_OF_ALL_DTBS=y CONFIG_DTC=y
+>> CROSS_COMPILE=/home/nfs/0day/gcc-11.2.0-nolibc/arc-elf/bin/arc-elf-
+>> --jobs=72 O=build_dir ARCH=arc olddefconfig prepare
+>> ...
+>> cc1: fatal error: cannot open 'kernel/bounds.s' for writing: No such
+>> file or directory
+>> compilation terminated.
+>> make[3]: *** [../scripts/Makefile.build:121: kernel/bounds.s] Error 1
+>> make[3]: Target '__build' not remade because of errors.
+>> make[2]: *** [../Makefile:1191: prepare0] Error 2
+>> make[2]: Target 'prepare' not remade because of errors.
+>>
 > 
-> Right, I'll change that.
+> Would you help me to test the following patch?  Thanks.
 
-Well, thinking about it again, access_bit is not an access mask but an 
-index in such mask. access_mask_t gives enough space for such index but 
-it is definitely not the right semantic. The best type should be size_t, 
-but I prefer to stick to unsigned long (used for size_t anyway) for 
-consistency with the other access_bit variable types. There is no need 
-to use for_each_set_bit() here now but that could change, and I prefer 
-to do my best to prevent future issues. ;)
-Anyway, I guess the compiler can optimize such code.
+I have confirmed the patch can fix the issue.
+
+Best Regards,
+Rong Chen
+
+> 
+> diff --git a/Kbuild b/Kbuild
+> index 21415c3b2728..a8477c011b1d 100644
+> --- a/Kbuild
+> +++ b/Kbuild
+> @@ -42,7 +42,7 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+>   struct_page_size-file := include/generated/struct_page_size.h
+> 
+>   always-y := $(struct_page_size-file)
+> -targets := mm/struct_page_size.s
+> +targets += mm/struct_page_size.s
+> 
+>   mm/struct_page_size.s: $(timeconst-file) $(bounds-file)
+> 
+
