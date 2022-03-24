@@ -2,79 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B482C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 13:00:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 213CFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 14:16:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344395AbiCXNCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 09:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54834 "EHLO
+        id S245655AbiCXOSW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 10:18:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350354AbiCXNCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 09:02:00 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB93F90CEA;
-        Thu, 24 Mar 2022 06:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=YG01IvqBzypFttWyr61/58YsVshIZUGldKDL1nfzsRk=;
-        t=1648126828; x=1649336428; b=DuhBj2JSpSD9rd/13a4sA3PxCrlZTitxsNZPmMuyP8GHczM
-        HbnJCN1qUqUa/FXw5hTf/MxZd61rL2ugJ2M6X0bAE/+6Hm0VAHZjkfU5Azw7cz17seJQpaVIADgJK
-        Lj6tC5YMLATzMVB78XYdl8kELZMHpxcVP2ZuWEcKV+95raCTwe49e+LyNCfmEEkNVHUPVby8Cvd8q
-        vb27xv6T4J/WgwpGCjJFdJAU4gvbHCfqjds+SfvP+QvkWLJngVELiktioaWiVTYuzpQDyRKtqa22q
-        RXR8SN9AaqL1Z2wz69tTzFBD+0Y5Iv2HC8Q70YUgfLqBVU4HB9X/GiaOE4+2QPcw==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.95)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1nXN4V-00HWDe-B6;
-        Thu, 24 Mar 2022 14:00:11 +0100
-Message-ID: <7f405d8d09a83954aa3411eff8b71ee687c7ec33.camel@sipsolutions.net>
-Subject: Re: [RFC v1 01/10] roadtest: import libvhost-user from QEMU
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Vincent Whitchurch <vincent.whitchurch@axis.com>,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@axis.com, devicetree@vger.kernel.org,
-        linux-um@lists.infradead.org, shuah@kernel.org,
-        brendanhiggins@google.com, linux-kselftest@vger.kernel.org,
-        jic23@kernel.org, linux-iio@vger.kernel.org, lgirdwood@gmail.com,
-        broonie@kernel.org, a.zummo@towertech.it,
-        alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Date:   Thu, 24 Mar 2022 14:00:10 +0100
-In-Reply-To: <20220311162445.346685-2-vincent.whitchurch@axis.com>
-References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
-         <20220311162445.346685-2-vincent.whitchurch@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+        with ESMTP id S236272AbiCXOSW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 10:18:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B96985B1;
+        Thu, 24 Mar 2022 07:16:50 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0733F383;
+        Thu, 24 Mar 2022 14:16:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0733F383
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1648131410; bh=yS1ubCJTHIR2926NxuT8v2aGs1iGi1pDc1Z66+ccMkg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=B/lbbzHJuDVfPqmId7ZMMxqmZxyzjCEqVM+5zxdpiMPjti70pPwPq3euvSkx+JEkz
+         aZ8rzFHnOZvsLUeYVueu4+QRYls67x/4Arb8lza6gxAFjtCPK0NrwfaDYX8SGrgMSy
+         ffC7Qe+f1NujLNR7XW5NALantF/uIzxiUNS8oxupD3W/FxqEtu6paV05qA2U7VOR93
+         FhG0CnQ3q5yCjiYxkJei4VaEp81JQIui7loWdTkSRgHr66NT5EDF71WaR61CXPgKqp
+         Fu/LIiZ4FWm4+i3lpuIIQuG0//SdtkGri0S0usR3r86e19WmorOjCSlX393yOc9dN4
+         kK+IEHEWeFEow==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, pabeni@redhat.com, imagedong@tencent.com,
+        edumazet@google.com, dsahern@kernel.org, talalahmad@google.com,
+        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [RFC net-next 1/3] skbuff: add a basic intro doc
+In-Reply-To: <20220323233715.2104106-2-kuba@kernel.org>
+References: <20220323233715.2104106-1-kuba@kernel.org>
+ <20220323233715.2104106-2-kuba@kernel.org>
+Date:   Thu, 24 Mar 2022 08:16:49 -0600
+Message-ID: <87a6dfigfi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-03-11 at 17:24 +0100, Vincent Whitchurch wrote:
-> Import the libvhost-user from QEMU for use in the implementation of the
-> virtio devices in the roadtest backend.
-> 
+Jakub Kicinski <kuba@kernel.org> writes:
 
-So hm, I wonder if this is the sensible thing to do?
+> Add basic skb documentation. It's mostly an intro to the subsequent
+> patches - it would looks strange if we documented advanced topics
+> without covering the basics in any way.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Not that I mind importing qemu code, but:
+Glad to see improved docs!  One nit...
 
- 1) the implementation is rather complex in some places, and has support
-    for a LOT of virtio/vhost-user features that are really not needed
-    in these cases, for performance etc. It's also close to 4k LOC.
+>  Documentation/networking/skbuff.rst | 25 ++++++++++++++++++
+>  include/linux/skbuff.h              | 40 +++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+)
+>  create mode 100644 Documentation/networking/skbuff.rst
+>
+> diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
+> new file mode 100644
+> index 000000000000..7c6be64f486a
+> --- /dev/null
+> +++ b/Documentation/networking/skbuff.rst
+> @@ -0,0 +1,25 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +struct sk_buff
+> +==============
+> +
+> +:c:type:`struct sk_buff` is the main networking structure representing
+> +a packet.
 
- 2) the implementation doesn't support time-travel mode which might come
-    in handy
+You shouldn't need :c:type: here, our magic stuff should see "struct
+sk_buff" and generate the cross reference.  Of course, it will be a
+highly local reference in this case...
 
-We have another implementation that might be simpler:
-https://github.com/linux-test-project/usfstl/blob/main/src/vhost.c
+Thanks,
 
-but it probably has dependencies on other things in this library, but
-vhost.c itself is only ~1k LOC. (But I need to update it, I'm sure we
-have some unpublished bugfixes etc. in this code)
-
-johannes
+jon
