@@ -2,105 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D10C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 01:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A4D2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 02:32:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347111AbiCXBNA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Mar 2022 21:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57556 "EHLO
+        id S237587AbiCXCeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Mar 2022 22:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347157AbiCXBM5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 21:12:57 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECB591AF4;
-        Wed, 23 Mar 2022 18:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648084287; x=1679620287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x9Y+ZVR9L2dUK89RM1SaeuSyuI0EqbEz3AxQWL4lxVg=;
-  b=QUxw/mTSBTzDNbhCQt72jEWJi0SGuTwg2N3idzrsLGQMd7BY1HFKQJ9i
-   Y4BL7PZJlHoE0LuPYWBamc1LLeEsfWXvqcc+yu7KptAqfUg4zhUzz5UA8
-   wUQyr8Ufaz7ppF6c0vu4C8k6B86wOxxYCBOXbYU5X7sUfgKeME/a0EjvJ
-   KAJkF5i9xcndMkva6QbZDzmEgKNOmF8tPDoE6uinSatIZcgvXhmUMvr/a
-   KIG5WAQkAs5Kx4IpJD7b/Yja3nsvPmSEG2fNW/eWFUhlByJEnU2WGw0g4
-   SD++Bmx+5G/k9FW8hrqzbfdZpmvFAzkndxLW6JQFfJjDX6qx0QEvH5oMZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="238863984"
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
-   d="scan'208";a="238863984"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 18:11:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
-   d="scan'208";a="637678469"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Mar 2022 18:11:23 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nXC0Y-000KXd-RV; Thu, 24 Mar 2022 01:11:22 +0000
-Date:   Thu, 24 Mar 2022 09:11:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v5 1/4] mm: hugetlb_vmemmap: introduce
- STRUCT_PAGE_SIZE_IS_POWER_OF_2
-Message-ID: <202203240912.6ZaeXSiH-lkp@intel.com>
-References: <20220323125523.79254-2-songmuchun@bytedance.com>
+        with ESMTP id S234745AbiCXCeI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Mar 2022 22:34:08 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D51939B1;
+        Wed, 23 Mar 2022 19:32:34 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id k14so2740136pga.0;
+        Wed, 23 Mar 2022 19:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0JCu2rchO2mLo2ocjFa7FXnEzu0+qIWGmr+CpcJYkME=;
+        b=omFiFyrBIaDd9kG2A8zDsIjZricwiOad7au0Id2doy9ddFqy8Ez55YIQlO2T5Aradx
+         SydyoSdKGKqmae7v8YDImg9Sp975lTYxFMn8DdYIkkOCCT3pDt9a/1OYryomUkYPAa0v
+         FEkBNpEjKjfetnegTq1FVqOlqhqTjRuFBHOOTdSCYePx4WkFeRd4eRsrd3GdkzzaWf9w
+         XBioUYa/2dV7xuvLD/CzWzYJ7RcJglipJPd5ve8jxcBiRcc5I1okYlV3BKKuvNB+49uv
+         wA0GGDYk9C/muZ4Vhk4ymS1cpqAQa8KE7z1Dl3qiKDVoZR1ZYOVYmLkZJhUb7jtYNRL9
+         Gbnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0JCu2rchO2mLo2ocjFa7FXnEzu0+qIWGmr+CpcJYkME=;
+        b=RRnTE+FgfK/BTrWFpZV8hZcS994Zi5y4a83gWRo7q+kmt10O6zndlBU3v+MjEplXbj
+         TuAOjD33H+qz4R1vxxcsAvMcC8q8572VlnYC7GOc1l7XI8p8hzTb4j9ZvBbVxORdz66L
+         21wY6VsYTCtgRModPv/tejnEnEJAW4G5F5SVEiInr6apRKuQcCHR5hb+NjYjrPhOaJrm
+         GR3DJNnlr7rd/KDX3aknggBFraCZwnpmekns0aoysU8aK6WnHQkNl9F2nbK5ZRZzX5hz
+         xL1DVZ3kNYBlsko9dA75A9maRn5dSXRXM07l0HdHcUtK019DAL70sS6bGEz1kxm4Z3/G
+         AzbQ==
+X-Gm-Message-State: AOAM532oHHeBDFAKFHTS6GWRsB/ePiwa6m831R8AVCzMCRCnPN6/M0F2
+        q+dHCSh8uEJBwN9zhhMKUXjIt0/QGvfgA4hzURuicCPHjCCHqQ==
+X-Google-Smtp-Source: ABdhPJxrz0JrJ37/ep6Ttsy6vk1ZKwcClvYc1axasbbOj9eEuClvembSfrhUCbYMq1lxtzZ5cu223yAUtTTJ58wNHqQ=
+X-Received: by 2002:a05:6a00:890:b0:4f6:686e:a8a9 with SMTP id
+ q16-20020a056a00089000b004f6686ea8a9mr2958051pfj.83.1648089153763; Wed, 23
+ Mar 2022 19:32:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220323125523.79254-2-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220319142759.1026237-1-chenhuacai@loongson.cn>
+ <20220319143817.1026708-1-chenhuacai@loongson.cn> <20220319143817.1026708-6-chenhuacai@loongson.cn>
+ <CAK8P3a2kroHVN3fTabuFVMz08SXytz-SC8X11BxxszsUCksJ4g@mail.gmail.com>
+ <CAAhV-H6zE7p6Tq8rg1Fq5cK5L38z-VHjxsZ+qm8+Cp5x=u_bUQ@mail.gmail.com>
+ <CAK8P3a38nUyAt8gGEYregqivdP7NsXS0RuU1NX4_EAVvwGQBWA@mail.gmail.com> <20220322160234.hxyiugzm3qstyun2@wittgenstein>
+In-Reply-To: <20220322160234.hxyiugzm3qstyun2@wittgenstein>
+From:   Feiyang Chen <chris.chenfeiyang@gmail.com>
+Date:   Thu, 24 Mar 2022 10:32:22 +0800
+Message-ID: <CACWXhKmh7=mTZRgV=7PMxnMub1hTaLZ==Fo996Qggns=dSHTMg@mail.gmail.com>
+Subject: Re: [PATCH V8 13/22] LoongArch: Add system call support
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <brauner@kernel.org>
+Cc:     Huacai Chen <chenhuacai@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        "H.J. Lu" <hjl.tools@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Muchun,
+On Wed, 23 Mar 2022 at 00:02, Christian Brauner <brauner@kernel.org> wrote:
+>
+> On Mon, Mar 21, 2022 at 10:47:49AM +0100, Arnd Bergmann wrote:
+> > On Mon, Mar 21, 2022 at 10:41 AM Huacai Chen <chenhuacai@kernel.org> wrote:
+> > > On Mon, Mar 21, 2022 at 5:01 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > >
+> > > > On Sat, Mar 19, 2022 at 3:38 PM Huacai Chen <chenhuacai@kernel.org> wrote:
+> > > > >
+> > > > > This patch adds system call support and related uaccess.h for LoongArch.
+> > > > >
+> > > > > Q: Why keep __ARCH_WANT_NEW_STAT definition while there is statx:
+> > > > > A: Until the latest glibc release (2.34), statx is only used for 32-bit
+> > > > >    platforms, or 64-bit platforms with 32-bit timestamp. I.e., Most 64-
+> > > > >    bit platforms still use newstat now.
+> > > > >
+> > > > > Q: Why keep _ARCH_WANT_SYS_CLONE definition while there is clone3:
+> > > > > A: The latest glibc release (2.34) has some basic support for clone3 but
+> > > > >    it isn't complete. E.g., pthread_create() and spawni() have converted
+> > > > >    to use clone3 but fork() will still use clone. Moreover, some seccomp
+> > > > >    related applications can still not work perfectly with clone3.
+> > > >
+> > > > Please leave those out of the mainline kernel support though: Any users
+> > > > of existing glibc binaries can keep using patched kernels for the moment,
+> > > > and then later drop those pages when the proper glibc support gets
+> > > > merged.
+> > > The glibc commit d8ea0d0168b190bdf138a20358293c939509367f ("Add an
+> > > internal wrapper for clone, clone2 and clone3") modified nearly
+> > > everything in order to move to clone3(), except arch_fork() which used
+> > > by fork(). And I cannot find any submitted patches to solve it. So I
+> > > don't think this is just a forget, maybe there are other fundamental
+> > > problems?
+> >
+> > I don't think there are fundamental issues, they probably did not consider
+> > it necessary because so far all architectures supported clone().
+> >
+> > Adding Christian Brauner and H.J. Lu for clarificatoin.
+>
+> Probably, yes. I don't know of any fundamental problems there either.
+>
 
-Thank you for the patch! Yet something to improve:
+Hi, Arnd, Christian,
 
-[auto build test ERROR on hnaz-mm/master]
-[also build test ERROR on linus/master next-20220323]
-[cannot apply to mcgrof/sysctl-next v5.17]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+As far as I know, software that uses the linux sandbox is still using clone(),
+such as chromium:
 
-url:    https://github.com/0day-ci/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
-base:   https://github.com/hnaz/linux-mm master
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220324/202203240912.6ZaeXSiH-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/64211be650af117819368a26d7b86c33df5deea4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220323-205902
-        git checkout 64211be650af117819368a26d7b86c33df5deea4
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 prepare
+commit 218438259dd795456f0a48f67cbe5b4e520db88b
+Author: Matthew Denton <mpdenton@chromium.org>
+Date: Thu Jun 3 20:06:13 2021 +0000
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+    Linux sandbox: return ENOSYS for clone3
 
-All errors (new ones prefixed by >>):
+    Because clone3 uses a pointer argument rather than a flags argument, we
+    cannot examine the contents with seccomp, which is essential to
+    preventing sandboxed processes from starting other processes. So, we
+    won't be able to support clone3 in Chromium. This CL modifies the
+    BPF policy to return ENOSYS for clone3 so glibc always uses the fallback
+    to clone.
 
->> cc1: fatal error: can't open 'kernel/bounds.s' for writing: No such file or directory
-   compilation terminated.
-   make[2]: *** [scripts/Makefile.build:127: kernel/bounds.s] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1261: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+    Bug: 1213452
+    Change-Id: I7c7c585a319e0264eac5b1ebee1a45be2d782303
+    Reviewed-on:
+https://chromium-review.googlesource.com/c/chromium/src/+/2936184
+    Reviewed-by: Robert Sesek <rsesek@chromium.org>
+    Commit-Queue: Matthew Denton <mpdenton@chromium.org>
+    Cr-Commit-Position: refs/heads/master@{#888980}
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Besides arch_fork(), I think removing clone() may lead to more problems.
+
+Thanks,
+Feiyang
