@@ -2,83 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 213CFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 14:16:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 455B9C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 15:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245655AbiCXOSW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 10:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53712 "EHLO
+        id S229827AbiCXPRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 11:17:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236272AbiCXOSW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 10:18:22 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B96985B1;
-        Thu, 24 Mar 2022 07:16:50 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        with ESMTP id S234493AbiCXPRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 11:17:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFA3ABF4C;
+        Thu, 24 Mar 2022 08:16:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0733F383;
-        Thu, 24 Mar 2022 14:16:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0733F383
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648131410; bh=yS1ubCJTHIR2926NxuT8v2aGs1iGi1pDc1Z66+ccMkg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=B/lbbzHJuDVfPqmId7ZMMxqmZxyzjCEqVM+5zxdpiMPjti70pPwPq3euvSkx+JEkz
-         aZ8rzFHnOZvsLUeYVueu4+QRYls67x/4Arb8lza6gxAFjtCPK0NrwfaDYX8SGrgMSy
-         ffC7Qe+f1NujLNR7XW5NALantF/uIzxiUNS8oxupD3W/FxqEtu6paV05qA2U7VOR93
-         FhG0CnQ3q5yCjiYxkJei4VaEp81JQIui7loWdTkSRgHr66NT5EDF71WaR61CXPgKqp
-         Fu/LIiZ4FWm4+i3lpuIIQuG0//SdtkGri0S0usR3r86e19WmorOjCSlX393yOc9dN4
-         kK+IEHEWeFEow==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, pabeni@redhat.com, imagedong@tencent.com,
-        edumazet@google.com, dsahern@kernel.org, talalahmad@google.com,
-        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [RFC net-next 1/3] skbuff: add a basic intro doc
-In-Reply-To: <20220323233715.2104106-2-kuba@kernel.org>
-References: <20220323233715.2104106-1-kuba@kernel.org>
- <20220323233715.2104106-2-kuba@kernel.org>
-Date:   Thu, 24 Mar 2022 08:16:49 -0600
-Message-ID: <87a6dfigfi.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 69672617F2;
+        Thu, 24 Mar 2022 15:16:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90AEDC340F2;
+        Thu, 24 Mar 2022 15:16:08 +0000 (UTC)
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Grant Likely <grant.likely@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] Documentation/process: Update ARM contact for embargoed hardware issues
+Date:   Thu, 24 Mar 2022 15:16:05 +0000
+Message-Id: <20220324151605.266645-1-catalin.marinas@arm.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+With Grant taking a prominent role in Linaro, I will take over as the
+process ambassador for ARM w.r.t. embargoed hardware issues.
 
-> Add basic skb documentation. It's mostly an intro to the subsequent
-> patches - it would looks strange if we documented advanced topics
-> without covering the basics in any way.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Grant Likely <grant.likely@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Glad to see improved docs!  One nit...
-
->  Documentation/networking/skbuff.rst | 25 ++++++++++++++++++
->  include/linux/skbuff.h              | 40 +++++++++++++++++++++++++++++
->  2 files changed, 65 insertions(+)
->  create mode 100644 Documentation/networking/skbuff.rst
->
-> diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
-> new file mode 100644
-> index 000000000000..7c6be64f486a
-> --- /dev/null
-> +++ b/Documentation/networking/skbuff.rst
-> @@ -0,0 +1,25 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +struct sk_buff
-> +==============
-> +
-> +:c:type:`struct sk_buff` is the main networking structure representing
-> +a packet.
-
-You shouldn't need :c:type: here, our magic stuff should see "struct
-sk_buff" and generate the cross reference.  Of course, it will be a
-highly local reference in this case...
-
-Thanks,
-
-jon
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 6f8f36e10e8b..41a2afaaea75 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
+ an involved disclosed party. The current ambassadors list:
+ 
+   ============= ========================================================
+-  ARM           Grant Likely <grant.likely@arm.com>
++  ARM		Catalin Marinas <catalin.marinas@arm.com>
+   AMD		Tom Lendacky <tom.lendacky@amd.com>
+   IBM Z         Christian Borntraeger <borntraeger@de.ibm.com>
+   IBM Power     Anton Blanchard <anton@linux.ibm.com>
