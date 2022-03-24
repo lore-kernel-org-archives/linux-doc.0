@@ -2,244 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C51A3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 08:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D910AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 08:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348843AbiCXIPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 04:15:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
+        id S1345328AbiCXIvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 04:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348852AbiCXIPh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 04:15:37 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011BA6D3B9;
-        Thu, 24 Mar 2022 01:14:03 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id k10so4692018edj.2;
-        Thu, 24 Mar 2022 01:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=etzSqv0/9aE5pl3dptR4Y8mgC5YpOiktHoANWy6nVdw=;
-        b=Hc7dpeqOaV8CbCzshfeBcroqqi9BWzXZNnC75s6jVj4ou7A/Az8JJZcWxp9eXEaPJ2
-         DLQecJ3yjC64JAw39a3YrNXqEFckso4ovxJ0+w5xoMWAE+2H+O07V6akUaLfbRNNmIQg
-         H2J1URluwCxdDV05AQ5GAkvCo71xyKd3D21tTUK87RVYfmG7CVBtdGOwXYDrgu+m3sJU
-         iEkbSMfx2q3Py7p1y3ieK7GpQao70xTEEzmoUDttUWEq744IaIc/w6DCFylRiV3u2BsC
-         QtVEwXhrqauOPnOsrmMmE8mKu0GmUa3pfGX8cUlIJBBbjJfAoWXIuyUNWAwxTLB+UjnA
-         Dx6A==
+        with ESMTP id S1344234AbiCXIvn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 04:51:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1727F64BFC
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 01:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648111811;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XFmTwcROswlvrmagzZ2qWGa6g3J0PQJ5ANS3C7aiKE4=;
+        b=QCJ5gLDmCUTeIdm1AIRmkj0v7KGjoKyHGeXvv2SIZSPXcCGbDkJvDcIWf+HnWpgvY3GfEg
+        2DZIOuhw5n0mO1zJSdmCzxfooe1ukCK9uYRKN2E0RyCwLfh6IfHMd7PiABx0hS9r7osVwV
+        D5knhHKhhhAAF5khYpT2bhpMVFBeObQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-S6Naold5MYOSyro_aiZ1iw-1; Thu, 24 Mar 2022 04:50:09 -0400
+X-MC-Unique: S6Naold5MYOSyro_aiZ1iw-1
+Received: by mail-wr1-f71.google.com with SMTP id f18-20020adf9f52000000b00203d86759beso1445552wrg.11
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 01:50:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=etzSqv0/9aE5pl3dptR4Y8mgC5YpOiktHoANWy6nVdw=;
-        b=l5D1h4nIzphQMrdi4oObgwyLCGVDj21cq4L+IVGSjn++JvxWi2ly75/DCpeYjr7Kf4
-         7YsC+rIXxXBjVUkL+XX/SgAjmIQUVsZdSojAPARuK+ytAElH6q3aweBa7EHvlUOVrh9x
-         +TrPhhVttHeab/NSPYwOOB/6ZKpt9rXIocCkBHdQTalylAR+3bFPis2Ajd+Q1PkXuCgK
-         12KLxFCaG63KyTxR6DPl/806khoO95mhi5+E8w1HqKT4cVTpZxz7L/aJToVAZW4NwL/v
-         OduxESOVdIGxpfYAoa5VPpez92hOz7lbozXDFYZVx2DohkLy/RXotnyG0pktodLJ/UZA
-         IaqA==
-X-Gm-Message-State: AOAM531lqP/rOLKx6PgMR/q0/Dm3eLoZfHbAp3mI4heuG22sQBHBTSqq
-        yKPNruIfrP5Pq9Tji8I8W6mpo7lCSavbutTDVfA=
-X-Google-Smtp-Source: ABdhPJxB9yM2gtllAWM/wn6zYLnJI+r0tWFlQ5gSs9AFZo0W3max2hZtxlTeTG9Es8ssycmuut12zhjOu6WdRn5durE=
-X-Received: by 2002:a50:fe0d:0:b0:415:e2ee:65af with SMTP id
- f13-20020a50fe0d000000b00415e2ee65afmr5075480edt.383.1648109642312; Thu, 24
- Mar 2022 01:14:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-7-yuzhao@google.com>
- <CAGsJ_4xfL7h6M92WGusxbTxQzHOJDj4X4AuC=0HgrEyAYJaJFg@mail.gmail.com>
- <CAOUHufbiSShp=khZFL6BmJKNNkG-LBrsPoLwYxewcgtZhi5tFg@mail.gmail.com>
- <CAGsJ_4zeNtAsq7E9SKVwuKaXnKj80BP2NPHdjtd1i=098M6eDw@mail.gmail.com> <CAOUHufazsjhp3GzV7QFOqEeG98zJyRWd+HocyYR1FP3nk-Ho0Q@mail.gmail.com>
-In-Reply-To: <CAOUHufazsjhp3GzV7QFOqEeG98zJyRWd+HocyYR1FP3nk-Ho0Q@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Thu, 24 Mar 2022 21:13:48 +1300
-Message-ID: <CAGsJ_4y=TkCGoWWtWSAptW4RDFUEBeYXwfwu=fUFvV4Sa4VA4A@mail.gmail.com>
-Subject: Re: [PATCH v9 06/14] mm: multi-gen LRU: minimal implementation
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=XFmTwcROswlvrmagzZ2qWGa6g3J0PQJ5ANS3C7aiKE4=;
+        b=hpYsekPCWUTEh8DRj4jzqdDppiamAT9GCO5NT8z6PJsVuNuHoHzwwzdyhvvguJF8NM
+         seMVgwyKPH3AQmaMszvFEI6mG2nm89836/p3qkVFlMfzevy2hRFtpUppxoJHVwuvrosm
+         2dpJS8hMvdRZZ+lRNzSRGQc2dDZSAp5dg3MH1IiB4O8FhxWbh6xA8z60Sv3R1FNWj0ua
+         onHecueE0JkZGqsblFHBzxx5S9lpIskYFxrP9tmvJQDBPlJGVQTnBXvfO/vYG9k2a/kx
+         IqKDjwIKFf9jMc4qwZA30MTOrIhNoeKmEfm0/LgqJxdxGBAnxpOgF9TfqyfE7oPWXaKo
+         bUwQ==
+X-Gm-Message-State: AOAM530x2VFWCqZtf5VNiOsWnhcZW4QK7Kl4USoF4xUE0ZN60t8C4Onz
+        lbx2jWbQXHhoWSCfzVju6qc//AMxDJKXkHumy0eB/86ghoBEfMDzmI72PvImn/ZXrUY5/luL+Lk
+        wNxqJH0GXT6FSJ32mglLP
+X-Received: by 2002:a05:600c:19ca:b0:38c:a190:9a0f with SMTP id u10-20020a05600c19ca00b0038ca1909a0fmr13273808wmq.57.1648111808553;
+        Thu, 24 Mar 2022 01:50:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0LkC56n2G8fuZkptTU7TdHyfx14ik08ajkkKHwja6x8PBC/I7KmmTnEFLmh0MYtRbmySdlg==
+X-Received: by 2002:a05:600c:19ca:b0:38c:a190:9a0f with SMTP id u10-20020a05600c19ca00b0038ca1909a0fmr13273783wmq.57.1648111808262;
+        Thu, 24 Mar 2022 01:50:08 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-232-135.dyn.eolo.it. [146.241.232.135])
+        by smtp.gmail.com with ESMTPSA id u11-20020a5d6acb000000b002058148822bsm2947375wrw.63.2022.03.24.01.50.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 01:50:07 -0700 (PDT)
+Message-ID: <a172a650b503f69d3de49586de2fdec2d6a71e7a.camel@redhat.com>
+Subject: Re: [RFC net-next 2/3] skbuff: rewrite the doc for data-only skbs
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, corbet@lwn.net, imagedong@tencent.com,
+        edumazet@google.com, dsahern@kernel.org, talalahmad@google.com,
+        linux-doc@vger.kernel.org
+Date:   Thu, 24 Mar 2022 09:50:06 +0100
+In-Reply-To: <20220323233715.2104106-3-kuba@kernel.org>
+References: <20220323233715.2104106-1-kuba@kernel.org>
+         <20220323233715.2104106-3-kuba@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 24, 2022 at 7:24 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Wed, Mar 23, 2022 at 1:47 AM Barry Song <21cnbao@gmail.com> wrote:
-> >
-> > On Sat, Mar 19, 2022 at 4:11 PM Yu Zhao <yuzhao@google.com> wrote:
-> > >
-> > > On Fri, Mar 18, 2022 at 9:01 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > >
-> > > > > +static int folio_inc_gen(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
-> > > > > +{
-> > > > > +       unsigned long old_flags, new_flags;
-> > > > > +       int type = folio_is_file_lru(folio);
-> > > > > +       struct lru_gen_struct *lrugen = &lruvec->lrugen;
-> > > > > +       int new_gen, old_gen = lru_gen_from_seq(lrugen->min_seq[type]);
-> > > > > +
-> > > > > +       do {
-> > > > > +               new_flags = old_flags = READ_ONCE(folio->flags);
-> > > > > +               VM_BUG_ON_FOLIO(!(new_flags & LRU_GEN_MASK), folio);
-> > > > > +
-> > > > > +               new_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-> > > > > +               new_gen = (old_gen + 1) % MAX_NR_GENS;
-> > > >
-> > > > new_gen is assigned twice, i assume you mean
-> > > >                old_gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-> > > >                new_gen = (old_gen + 1) % MAX_NR_GENS;
-> > > >
-> > > > or do you always mean new_gen =  lru_gen_from_seq(min_seq) + 1?
-> > >
-> > > Thanks a lot for your attention to details!
-> > >
-> > > The first line should be in the next patch but I overlooked during the
-> > > last refactoring:
-> >
-> > Thanks for the clarification. So an unmapped file-backed page which is
-> > accessed only by system call will always be in either min_seq or
-> > min_seq + 1? it has no chance to be in max_seq like a faulted-in
-> > mapped file page?
->
-> That's right. The rationale is documented here under the `Assumptions`
-> section [1]. This is also related to Aneesh's question about why MGLRU
-> doesn't need additional heuristics for VM_EXEC pages [2]. Unmapped
-> file pages weaken the protection of executable pages under heavy
-> buffered IO workloads like Java NIO.
+Hello,
 
-ok. This is probably right.
-i will also run a test by maltreating unmapped page in vanilla LRU, the
-PoC code is like (not been tested yet):
+On Wed, 2022-03-23 at 16:37 -0700, Jakub Kicinski wrote:
+> The comment about shinfo->dataref split is really unhelpful,
+> at least to me. Rewrite it and render it to skb documentation.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  Documentation/networking/index.rst  |  1 +
+>  Documentation/networking/skbuff.rst |  6 ++++++
+>  include/linux/skbuff.h              | 33 +++++++++++++++++++----------
+>  3 files changed, 29 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index ce017136ab05..1b3c45add20d 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -96,6 +96,7 @@ Linux Networking Documentation
+>     sctp
+>     secid
+>     seg6-sysctl
+> +   skbuff
+>     smc-sysctl
+>     statistics
+>     strparser
+> diff --git a/Documentation/networking/skbuff.rst b/Documentation/networking/skbuff.rst
+> index 7c6be64f486a..581e5561c362 100644
+> --- a/Documentation/networking/skbuff.rst
+> +++ b/Documentation/networking/skbuff.rst
+> @@ -23,3 +23,9 @@ skb_clone() allows for fast duplication of skbs. None of the data buffers
+>  get copied, but caller gets a new metadata struct (struct sk_buff).
+>  &skb_shared_info.refcount indicates the number of skbs pointing at the same
+>  packet data (i.e. clones).
+> +
+> +dataref and headerless skbs
+> +---------------------------
+> +
+> +.. kernel-doc:: include/linux/skbuff.h
+> +   :doc: dataref and headerless skbs
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 5431be4aa309..5b838350931c 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -691,16 +691,25 @@ struct skb_shared_info {
+>  	skb_frag_t	frags[MAX_SKB_FRAGS];
+>  };
+>  
+> -/* We divide dataref into two halves.  The higher 16 bits hold references
+> - * to the payload part of skb->data.  The lower 16 bits hold references to
+> - * the entire skb->data.  A clone of a headerless skb holds the length of
+> - * the header in skb->hdr_len.
+> +/**
+> + * DOC: dataref and headerless skbs
+> + *
+> + * Transport layers send out clones of data skbs they hold for retransmissions.
+> + * To allow lower layers of the stack to prepend their headers
+> + * we split &skb_shared_info.dataref into two halves.
+> + * The lower 16 bits count the overall number of references.
+> + * The higher 16 bits indicate number of data-only references.
+> + * skb_header_cloned() checks if skb is allowed to add / write the headers.
 
-Subject: [PATCH 1/1] mm: vmscan: maltreat unmapped file-backed pages
+Thank you very much for the IMHO much needed documentation!
 
-[This patch has not been tested yet.]
+Please allow me to do some non-native-english-speaker biased comments;)
 
-A lesson we learned from MGLRU is that mapped filed-backed pages
-are much more important than unmapped ones.
-So this patch doesn't move the second accessed unmapped pages to
-the active list, alternatively, it keeps the pages in the inactive
-list. And we abuse PG_workingset to let the memory reclaim this
-is a relatively hot file-backed page, so the reclaim should keep
-the pages in the inactive list.
+The previous patch uses the form  "payload data" instead of data-only,
+I think it would be clearer using consistently one or the other. I
+personally would go for "payload-data-only" (which is probably a good
+reason to pick a different option).
 
----
- mm/swap.c   | 34 ++++++++++++++++++++++------------
- mm/vmscan.c |  6 ++++--
- 2 files changed, 26 insertions(+), 14 deletions(-)
+>   *
+> - * All users must obey the rule that the skb->data reference count must be
+> - * greater than or equal to the payload reference count.
+> + * The creator of the skb (e.g. TCP) marks its data-only skb as &sk_buff.nohdr
+> + * (via __skb_header_release()). Any clone created from marked skb will get
+> + * &sk_buff.hdr_len populated with the available headroom.
+> + * If it's the only clone in existence it's able to modify the headroom at will.
 
-diff --git a/mm/swap.c b/mm/swap.c
-index e65e7520bebf..cb0c6e704f2e 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -470,18 +470,28 @@ void folio_mark_accessed(struct folio *folio)
-  * evictable page accessed has no effect.
-  */
-  } else if (!folio_test_active(folio)) {
-- /*
-- * If the page is on the LRU, queue it for activation via
-- * lru_pvecs.activate_page. Otherwise, assume the page is on a
-- * pagevec, mark it active and it'll be moved to the active
-- * LRU on the next drain.
-- */
-- if (folio_test_lru(folio))
-- folio_activate(folio);
-- else
-- __lru_cache_activate_folio(folio);
-- folio_clear_referenced(folio);
-- workingset_activation(folio);
-+ if (folio_mapped(folio)) {
-+ /*
-+ * If the mapped page is on the LRU, queue it for activation via
-+ * lru_pvecs.activate_page. Otherwise, assume the page is on a
-+ * pagevec, mark it active and it'll be moved to the active
-+ * LRU on the next drain.
-+ */
-+ if (folio_test_lru(folio))
-+ folio_activate(folio);
-+ else
-+ __lru_cache_activate_folio(folio);
-+ folio_clear_referenced(folio);
-+ workingset_activation(folio);
-+ } else {
-+ /*
-+ * we maltreat unmmaped file-backed pages and abuse PG_workingset
-+ * flag to let the eviction know this page is a relatively hot file
-+ * page, thus, the eviction can move it back to the head of the
-+ * inactive list
-+ */
-+ folio_set_workingset(folio);
-+ }
-  }
-  if (folio_test_idle(folio))
-  folio_clear_idle(folio);
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index d6f3c9812f97..56a66eb4a3f7 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -1393,12 +1393,14 @@ enum page_references {
- static enum page_references page_check_references(struct page *page,
-    struct scan_control *sc)
- {
-- int referenced_ptes, referenced_page;
-+ int referenced_ptes, referenced_page, workingset;
-  unsigned long vm_flags;
+I think it would be great if we explicitly list the expected sequence,
+e.g.
+	<alloc skb>
+	skb_reserve
+	__skb_header_release
+	skb_clone
 
-  referenced_ptes = page_referenced(page, 1, sc->target_mem_cgroup,
-    &vm_flags);
-  referenced_page = TestClearPageReferenced(page);
-+ workingset = page_is_file_lru(page) && !page_mapped(page) &&
-+ TestClearPageWorkingset(page);
 
-  /*
-  * Mlock lost the isolation race with us.  Let try_to_unmap()
-@@ -1438,7 +1440,7 @@ static enum page_references
-page_check_references(struct page *page,
+Thanks!
 
-  /* Reclaim if clean, defer dirty pages to writeback */
-  if (referenced_page && !PageSwapBacked(page))
-- return PAGEREF_RECLAIM_CLEAN;
-+ return workingset ?  PAGEREF_KEEP : PAGEREF_RECLAIM_CLEAN;
+Paolo
 
-  return PAGEREF_RECLAIM;
- }
-
->
-> [1] https://lore.kernel.org/linux-mm/20220309021230.721028-15-yuzhao@google.com/
-> [2] https://lore.kernel.org/linux-mm/CAOUHufYfpiGdLSdffvzDqaD5oYFG99oDJ2xgQd2Ph77OFR5NAA@mail.gmail.com/
-
-Thanks
-Barry
