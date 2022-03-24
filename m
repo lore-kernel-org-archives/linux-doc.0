@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3414AC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 10:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D85A3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Mar 2022 10:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346765AbiCXKHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 06:07:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60626 "EHLO
+        id S1349469AbiCXKW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 06:22:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235422AbiCXKHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 06:07:24 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10BA9F6D9
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 03:05:52 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-2e6650cde1bso44953727b3.12
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 03:05:52 -0700 (PDT)
+        with ESMTP id S241029AbiCXKWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 06:22:25 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F82C3B562
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 03:20:53 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id j2so7683122ybu.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 03:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6bv5JJorVRmW6dCmxnx8S5NTjYP3/PgiSEly+T//n5I=;
-        b=PETwV25Y0Zjl0fzvfBVhFmYZhz86bj+JjkCdM6nwdhPHtZxOfBJvM5FgoGKm+8Iey5
-         B1lC7TdYxhe+tXa6SAk4+oxpw2PaBw5rniAwdx7sqP+KdYJMI3brvXmnntobIDlvRk98
-         td5Qtw+qcZbT/fsL1amHR9cYXKyZ6n123Eo6dn+gjbLY1J+e4uBTM28G8HSoNLjjwkjZ
-         Q0XzttG9Ck5mnHF/+SKqq9NjkIxVY6vwUyeSvonUlWeI/JX2q1Yn7oxL3pQlPxQT9Q4q
-         SJsHCoW2WxnQSB7QVWMyGXzV3AUwiznSMOV5IQ3Lm+JjxgNQaKHkETXsu16t9UImjD5D
-         zwKA==
+        bh=36h/S0Clp/nvCxukvPy6/XtW8cB+pJjrm8iQozTySag=;
+        b=18LkZ9Hc285ByXPq0/0j55IK8HSByCsj9085mstrKDAU69p5SwkZqlQirwZk4Wqlki
+         dXCx9XJcKQUoOaArx+6svMWM8t5p7oKhLLl7oZnet4RFaeGrJLtC6etD5netypUNf0s4
+         Q2s+FnB8TpdZzyPszrrc263pjeQfTCLhZsui1OKGYespyEmZtxQIAYFMyeYmjWkSDXrA
+         hFcnh3leASVLQTCKO8YwDo0mL9bspI/aG4abfEZFrbB9q6pwHH+b2Bmeoe3bx+kGgqIN
+         Mpfwa0qFNYWvJ028OCqoLaXa6nVEEQJCNtW+qNXZ4wfhckFgf3NycOHXn4bmhD6/G8zw
+         LDWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6bv5JJorVRmW6dCmxnx8S5NTjYP3/PgiSEly+T//n5I=;
-        b=DjNkpD+N4nlQdg8rdUc8R8zeAa1GSsNp78aySLRABxkCqmelQaIgmNGCULvggeh4QF
-         M6BSECrCZ2fsoOVOXu0ajNAJ2su+YqMVvRi/k/UBPiF29PpKyyOMJgJx2Tna47E+MKpz
-         bcR4bvPTa7thTIyRyzRC+oN4DoMxlhM88TDqnBa0PuH/uIKfouFerOs6LIKnW2xO6FjQ
-         oTL2F6liJ1rmEOrJc6tBmUkURUtK3tHmatHcOBLTYXURpY9VvK2IcQmATvjLt61/O0Jx
-         UNSXcTxAiYmW37dyKSg2Rz6gbuuFLVtsU92whp3IaGb4yk5+u2jvbkYNCTNvcZl8Edxc
-         NWZg==
-X-Gm-Message-State: AOAM530vn3N8eImNLBuS5q2JZsGti5UK3d0z+VAXQMcUfvgJ4w70lLhW
-        /0x4kmS2V7kp1gUwhek+taJOPw99aXGI2eA19CEhCA==
-X-Google-Smtp-Source: ABdhPJzuzNNBFuEu6Lvk2gVmyx0qgGn0g1wagWz2hVnsvNpcbTCPj7RAzR96bGe8pUt1QfEyqmy7w7jieldQx6vmQKw=
-X-Received: by 2002:a0d:ccca:0:b0:2e6:2b53:3f16 with SMTP id
- o193-20020a0dccca000000b002e62b533f16mr3916253ywd.35.1648116352160; Thu, 24
- Mar 2022 03:05:52 -0700 (PDT)
+        bh=36h/S0Clp/nvCxukvPy6/XtW8cB+pJjrm8iQozTySag=;
+        b=A2V2WjtbVsLOjSKmg/G6wtiNP3ahZNPdOY+zTvHolle6csRI+EMMPcRd+bdfROK6Qg
+         KHtaCaMW26zs09Zs5zCuiBliIsFogbEKVNncAnEV2P2Q2emcq9em7/GRbEl1bZweefEZ
+         COiLTb5aghle4VxG5GaiHDhj/0yv1UX5gU9uLQSSwL3KSfR/VwzFw/JjnXFfQ/taIIno
+         whFQjsovjSbPx/uxu9Siz2Mm0q+HzwKTJ0N5MfuvAMPMHZ4vRGJI55rRgfsfu0yOFjMg
+         mpKXbrC48hNsNLkE0B6zRbkTF/OutkK3wD/IaJvrCUGiqgYlUmDXDU+6EedT8eGYjigF
+         hnHw==
+X-Gm-Message-State: AOAM532B9tAMPRIlCEVaXShetDEzTcGMFDGwwo68B74TAJnhZ69VAbVS
+        OgDNbmWWLg2Xob+xGOwM+1OaCXRrpa+EuO82SgoO4w==
+X-Google-Smtp-Source: ABdhPJwPfcfR+M5O4R9dVdnVq3WebHGUoiCYhSM5Bf+/TkR8Se9p66Hs9pH9OnD1qghnQG5+q/vGoPVZ/XISdQ6WsjY=
+X-Received: by 2002:a25:24d:0:b0:633:6b37:bea1 with SMTP id
+ 74-20020a25024d000000b006336b37bea1mr3561472ybc.427.1648117252551; Thu, 24
+ Mar 2022 03:20:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220323125523.79254-2-songmuchun@bytedance.com>
  <202203240546.MHJzsBaO-lkp@intel.com> <20220323151311.289dd405440932e1d6d80f30@linux-foundation.org>
  <7872f093-e26d-3403-d6cf-c6c1a782242b@intel.com>
 In-Reply-To: <7872f093-e26d-3403-d6cf-c6c1a782242b@intel.com>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 24 Mar 2022 18:05:15 +0800
-Message-ID: <CAMZfGtWcTrK_=953jy-3mrpG+U5-ZySoKiyox+-p4u1cK17nyw@mail.gmail.com>
+Date:   Thu, 24 Mar 2022 18:20:15 +0800
+Message-ID: <CAMZfGtXqETxQPqPLebu=0b2P8RBfKiPymraJZCSK1UGAFGo=dw@mail.gmail.com>
 Subject: Re: [PATCH v5 1/4] mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
 To:     "Chen, Rong A" <rong.a.chen@intel.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -143,4 +143,17 @@ On Thu, Mar 24, 2022 at 5:40 PM Chen, Rong A <rong.a.chen@intel.com> wrote:
 > make[2]: Target 'prepare' not remade because of errors.
 >
 
-I'll look at this, thanks for your report.
+Would you help me to test the following patch?  Thanks.
+
+diff --git a/Kbuild b/Kbuild
+index 21415c3b2728..a8477c011b1d 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -42,7 +42,7 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+ struct_page_size-file := include/generated/struct_page_size.h
+
+ always-y := $(struct_page_size-file)
+-targets := mm/struct_page_size.s
++targets += mm/struct_page_size.s
+
+ mm/struct_page_size.s: $(timeconst-file) $(bounds-file)
