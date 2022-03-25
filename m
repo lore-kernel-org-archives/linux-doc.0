@@ -2,94 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 343E8C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 14:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E49D7C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 16:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359283AbiCYOG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 10:06:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
+        id S1357435AbiCYQqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 12:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359278AbiCYOGz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 10:06:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B45D8F48;
-        Fri, 25 Mar 2022 07:05:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1344203AbiCYQqR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 12:46:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78A983B02A
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 09:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648226682;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=645Y/OtWrXfu94ghKzgX/CYbJeHjL6KM1tOHVX36Llw=;
+        b=gqi31fETvZTVfob8BwFHWktM7Dasp8+2Zwwmp6gz5uIGcPgUNJIc1QcXiP47iHABycu5pT
+        3Eer5KeCFn4nIBZMpZ7ejaUbl9Ot307TqlwSVY3wh2N5904Om2fwMoCsUcjLQrLZZxByYD
+        N3XAnZ8kLTXtmzyjy0gcyD3jJpBRyhU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-330-HScAVXZTN_-2Y2yNBxpRZg-1; Fri, 25 Mar 2022 12:44:41 -0400
+X-MC-Unique: HScAVXZTN_-2Y2yNBxpRZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8AE6BB82892;
-        Fri, 25 Mar 2022 14:05:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B137C340F3;
-        Fri, 25 Mar 2022 14:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648217118;
-        bh=2D/dTzYT0VeIm/mTkB4UUkqS1y1RpVZCZTgMnIjY/m8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=roKqEQZa30ZCjFSe95w3/zNnmw+s1QUTJp2189zfM8KvKmzCoxEQ41BdGgjrlHBFG
-         BKZsA8b09FAaMAaBCLp6b0JrOZ2ZDwFh3sKPdCKRKr6gSgcIF00hbYgtIh2ue+dLHR
-         jDvNi1XtAFP/G+jEo7NxfBCyxcXuM927rA+66C2Zy6OPHQ2XX/enFcavFZAOMt7Pyv
-         tCX9gEKHxjB+L63m6fyJ2RhvU6ZrrWRFwD6WAS0DUasmGXjySRzxWzGi6CBKJUXMEB
-         QfwOVFNtIYmxmeAMKoeCcgt7JwRiAF5mIO3GpVSbI1I339BuYOU3SyD2zSv+MpHCjm
-         E/HHdXT5jlQbw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nXkZ1-00Axyw-PW; Fri, 25 Mar 2022 15:05:15 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] docs: kernel_abi.py: add sphinx build dependencies
-Date:   Fri, 25 Mar 2022 15:05:12 +0100
-Message-Id: <2c53fbfe3c02a47a5eae4beb298a6db0c95be54a.1648216561.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1648216561.git.mchehab@kernel.org>
-References: <cover.1648216561.git.mchehab@kernel.org>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34372280D417;
+        Fri, 25 Mar 2022 16:44:40 +0000 (UTC)
+Received: from jsavitz-csb.redhat.com (unknown [10.22.33.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 33E5640CF8EC;
+        Fri, 25 Mar 2022 16:44:39 +0000 (UTC)
+From:   Joel Savitz <jsavitz@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "zhangyi (F)" <yi.zhang@huawei.com>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/sysctl: document page_lock_unfairness
+Date:   Fri, 25 Mar 2022 12:44:37 -0400
+Message-Id: <20220325164437.120246-1-jsavitz@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ensure that Sphinx-build will handle the files parsed by
-get_abi.pl as dependencies. This way, if they are touched,
-the ABI output will be regenerated.
+commit 5ef64cc8987a ("mm: allow a controlled amount of unfairness in the page lock")
+introduced a new systctl but no accompanying documentation.
 
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Add a simple entry to the documentation.
+
+Signed-off-by: Joel Savitz <jsavitz@redhat.com>
 ---
+ Documentation/admin-guide/sysctl/vm.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v2 0/4] at: https://lore.kernel.org/all/cover.1648216561.git.mchehab@kernel.org/
-
- Documentation/sphinx/kernel_abi.py | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index 4392b3cb4020..efab9b14a9f5 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -128,6 +128,7 @@ class KernelCmd(Directive):
-         return out
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index f4804ce37c58..747e325ebcd0 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -62,6 +62,7 @@ Currently, these files are in /proc/sys/vm:
+ - overcommit_memory
+ - overcommit_ratio
+ - page-cluster
++- page_lock_unfairness
+ - panic_on_oom
+ - percpu_pagelist_high_fraction
+ - stat_interval
+@@ -754,6 +755,14 @@ extra faults and I/O delays for following faults if they would have been part of
+ that consecutive pages readahead would have brought in.
  
-     def nestedParse(self, lines, fname):
-+        env = self.state.document.settings.env
-         content = ViewList()
-         node = nodes.section()
  
-@@ -154,6 +155,9 @@ class KernelCmd(Directive):
-                     self.do_parse(content, node)
-                     content = ViewList()
- 
-+                    # Add the file to Sphinx build dependencies
-+                    env.note_dependency(os.path.abspath(f))
++page_lock_unfairness
++====================
 +
-                 f = new_f
++This value determines the number of times that the page lock can be
++stolen from under a waiter. After the lock is stolen the number of times
++specified in this file (default is 5), the "fair lock handoff" semantics
++will apply, and the waiter will only be awakened if the lock can be taken.
++
+ panic_on_oom
+ ============
  
-                 # sphinx counts lines from 0
 -- 
-2.35.1
+2.27.0
 
