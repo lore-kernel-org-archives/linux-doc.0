@@ -2,99 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E49D7C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 16:44:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32466C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 17:00:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357435AbiCYQqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 12:46:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S1359532AbiCYRCL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 13:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344203AbiCYQqR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 12:46:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78A983B02A
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 09:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648226682;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=645Y/OtWrXfu94ghKzgX/CYbJeHjL6KM1tOHVX36Llw=;
-        b=gqi31fETvZTVfob8BwFHWktM7Dasp8+2Zwwmp6gz5uIGcPgUNJIc1QcXiP47iHABycu5pT
-        3Eer5KeCFn4nIBZMpZ7ejaUbl9Ot307TqlwSVY3wh2N5904Om2fwMoCsUcjLQrLZZxByYD
-        N3XAnZ8kLTXtmzyjy0gcyD3jJpBRyhU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-330-HScAVXZTN_-2Y2yNBxpRZg-1; Fri, 25 Mar 2022 12:44:41 -0400
-X-MC-Unique: HScAVXZTN_-2Y2yNBxpRZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34372280D417;
-        Fri, 25 Mar 2022 16:44:40 +0000 (UTC)
-Received: from jsavitz-csb.redhat.com (unknown [10.22.33.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 33E5640CF8EC;
-        Fri, 25 Mar 2022 16:44:39 +0000 (UTC)
-From:   Joel Savitz <jsavitz@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        "zhangyi (F)" <yi.zhang@huawei.com>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation/sysctl: document page_lock_unfairness
-Date:   Fri, 25 Mar 2022 12:44:37 -0400
-Message-Id: <20220325164437.120246-1-jsavitz@redhat.com>
+        with ESMTP id S231269AbiCYRCK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 13:02:10 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 781E24D264;
+        Fri, 25 Mar 2022 10:00:35 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id d62so9551148iog.13;
+        Fri, 25 Mar 2022 10:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ko4mIxnXaw4yoPYh8PjrmsoS3HvZSH7ww79WhJnpMH4=;
+        b=RZcwA6fQAdjrf7FF2zVeX7H/SIgQ1V7SEWgnpQS/0BC3ukM/0D/WwG6gGAbQG5ImZc
+         UGmTvS87mlznXBvJ1kVI3hPtKqXgHOm0ptW8ycyayeL6iwlw++KIQrcRrAkOdqdTwBzr
+         alue6QBo0GDPgl00OiuO0Qx5tERXuLtAYW9RqQ5LR9KCGpkaqAPpcAD1wmEK9OIeQgHK
+         0Pva+Bl+da6MTyOaVyi9vgELNuIQBy6rUBK2Foqor5PgKGQPEPphLzveoreHurQ28Rxn
+         p6A472lXQuuSwzJVR6xaiWkMF2V9eAIf3VItaO3j6u22XpTetxZwZ9YfAFKzka+BEErN
+         XTvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ko4mIxnXaw4yoPYh8PjrmsoS3HvZSH7ww79WhJnpMH4=;
+        b=yjJCq26Tysas8gvKBu9614Xwjj8vuqiJzwifNceVnNlXtOt/A1uazSKgBFjOspoguT
+         +qi9AeFR/dCVxV711L3+O0UHSPzC1cO9+8ruVzUvnZBOmgZxGZANWAf3+Ex2eWJKqORq
+         yJk8ApDMokTerOdy79afxGpl2DfvAz77U2qqxwQWKU44VCsQVOgFd6QLyLf1lCOKaQQs
+         UL2+DPUlGX5yWsxP80u4r7uz07l9jGcfxEO6MUUFocDzR7NgYVOZVR9hLxcd1W8NqRM3
+         8KcZ1SlFlFlAV72rt9Zyoph738XwNNZlmci1c5/RJ/m3tZ23x1mgbwc1IpU4W5kpfoSg
+         hQJw==
+X-Gm-Message-State: AOAM533IlxBEkN6mHmA5yKoRoXIkNi70lLyDSLNHnn8prI4XUJmhExie
+        +JGpPJsUDiILE9iOY/x35TyrA5aO0KhU+7oX4YA=
+X-Google-Smtp-Source: ABdhPJwtmZHUYpe+l+4rcOPjK1FPYXhd0eg1b12cJ7I7RJnY7A8ZlX9X9KSb+nUZXQfEUq4sX7mt2noF9X8EP60JQSk=
+X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
+ d26-20020a056602185a00b00645d91435e9mr6152428ioi.154.1648227634763; Fri, 25
+ Mar 2022 10:00:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+ <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
+In-Reply-To: <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 25 Mar 2022 10:00:23 -0700
+Message-ID: <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit 5ef64cc8987a ("mm: allow a controlled amount of unfairness in the page lock")
-introduced a new systctl but no accompanying documentation.
+On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Alexei,
+>
+> On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+> <alexei.starovoitov@gmail.com> wrote:
+> >
+> > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > >
+> > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > > +{
+> > > +       int ret;
+> > > +       struct hid_bpf_ctx_kern ctx = {
+> > > +               .type = HID_BPF_RDESC_FIXUP,
+> > > +               .hdev = hdev,
+> > > +               .size = *size,
+> > > +       };
+> > > +
+> > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > > +               goto ignore_bpf;
+> > > +
+> > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > > +       if (!ctx.data)
+> > > +               goto ignore_bpf;
+> > > +
+> > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > > +
+> > > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > > +       if (ret)
+> > > +               goto ignore_bpf;
+> > > +
+> > > +       if (ctx.size > ctx.allocated_size)
+> > > +               goto ignore_bpf;
+> > > +
+> > > +       *size = ctx.size;
+> > > +
+> > > +       if (*size) {
+> > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > > +       } else {
+> > > +               rdesc = NULL;
+> > > +               kfree(ctx.data);
+> > > +       }
+> > > +
+> > > +       return rdesc;
+> > > +
+> > > + ignore_bpf:
+> > > +       kfree(ctx.data);
+> > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > > +}
+> > > +
+> > >  int __init hid_bpf_module_init(void)
+> > >  {
+> > >         struct bpf_hid_hooks hooks = {
+> > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> > >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > > +               .post_link_attach = hid_bpf_post_link_attach,
+> > >                 .array_detach = hid_bpf_array_detach,
+> > >         };
+> > >
+> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > index 937fab7eb9c6..3182c39db006 100644
+> > > --- a/drivers/hid/hid-core.c
+> > > +++ b/drivers/hid/hid-core.c
+> > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> > >                 return -ENODEV;
+> > >         size = device->dev_rsize;
+> > >
+> > > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > > +       buf = hid_bpf_report_fixup(device, start, &size);
+> >
+> > Looking at this patch and the majority of other patches...
+> > the code is doing a lot of work to connect HID side with bpf.
+> > At the same time the evolution of the patch series suggests
+> > that these hook points are not quite stable. More hooks and
+> > helpers are being added.
+> > It tells us that it's way too early to introduce a stable
+> > interface between HID and bpf.
+>
+> I understand that you might be under the impression that the interface
+> is changing a lot, but this is mostly due to my poor knowledge of all
+> the arcanes of eBPF.
+> The overall way HID-BPF works is to work on a single array, and we
+> should pretty much be sorted out. There are a couple of helpers to be
+> able to communicate with the device, but the API has been stable in
+> the kernel for those for quite some time now.
+>
+> The variations in the hooks is mostly because I don't know what is the
+> best representation we can use in eBPF for those, and the review
+> process is changing that.
 
-Add a simple entry to the documentation.
+I think such a big feature as this one, especially that most BPF folks
+are (probably) not familiar with the HID subsystem in the kernel,
+would benefit from a bit of live discussion during BPF office hours.
+Do you think you can give a short overview of what you are trying to
+achieve with some background context on HID specifics at one of the
+next BPF office hours? We have a meeting scheduled every week on
+Thursday, 9am Pacific time. But people need to put their topic onto
+the agenda, otherwise the meeting is cancelled. See [0] for
+spreadsheet and links to Zoom meeting, agenda, etc.
 
-Signed-off-by: Joel Savitz <jsavitz@redhat.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+  [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index f4804ce37c58..747e325ebcd0 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -62,6 +62,7 @@ Currently, these files are in /proc/sys/vm:
- - overcommit_memory
- - overcommit_ratio
- - page-cluster
-+- page_lock_unfairness
- - panic_on_oom
- - percpu_pagelist_high_fraction
- - stat_interval
-@@ -754,6 +755,14 @@ extra faults and I/O delays for following faults if they would have been part of
- that consecutive pages readahead would have brought in.
- 
- 
-+page_lock_unfairness
-+====================
-+
-+This value determines the number of times that the page lock can be
-+stolen from under a waiter. After the lock is stolen the number of times
-+specified in this file (default is 5), the "fair lock handoff" semantics
-+will apply, and the waiter will only be awakened if the lock can be taken.
-+
- panic_on_oom
- ============
- 
--- 
-2.27.0
-
+[...]
