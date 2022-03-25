@@ -2,81 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EE2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 14:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AFBCC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 14:05:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359266AbiCYOGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 10:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
+        id S1359273AbiCYOGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 10:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347601AbiCYOGx (ORCPT
+        with ESMTP id S1359264AbiCYOGx (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 10:06:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BFC5D8F48;
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53AC4D8F4B;
         Fri, 25 Mar 2022 07:05:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD05461B1C;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E551D61AFB;
         Fri, 25 Mar 2022 14:05:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E3AC340F1;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4396AC340F5;
         Fri, 25 Mar 2022 14:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1648217118;
-        bh=pta3b2i458q4DOeFSWpPG82xTqU/eugW9Qk2+QMRASE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ekOFR67PakEopy/yHzEcEG+xRkdoyZGGm+lpSLTpZDmTOhA95V16uKBqlNvkRCABM
-         lero2MrA6tEwo8AIm+0yJ+QPQFh9KdBhK+5GUQ4+gUNvrw4aHEmFJSFmAYFhKWF0Yz
-         sPj1ixL/QbwdD7bch47OqNsLANqGEMXzmbOks6ngCzmF3FvEZAwOJ6dUtdbALSrV33
-         S+KXWJ9hZrKnJg5lDayOKc0LutO2ZDLCrqwS5fdFKGkAeutCBqkNXM1Icj7W7bYJqV
-         hzTroxjJUJDfPGR8k25ZCgir9j8c+YxTqBufVfj3IZ4jbPcuYNYELfkhRca5rWUmq/
-         HJN8YEDvHotWw==
+        bh=WUbC8iv4z1FG3/dSJ3crKi1kvQQgoCPRCCQlmTdH6fM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VrsvSUsJfXJ8qBH/DFssjDNCvUv3ZrJdlq+jA6yYU4rWDt89hoIdFF4g8HB2vBZHa
+         eyBPxVIirW6iquG4DcAOQfqwY3v6Z8GviMCJy6ZHPtMFx/cASuarYLBZxjNuOgef5m
+         +FTXX3EGNh5/hmPxg9SgM6MaamOiw4d0t2n5LzGzSmSqJQPB6SkYbGzhrfecPSohux
+         iP+32gh8wEyWzEiBxlzkGi8yZlVuMM6GCV0oFJqedt7VEP159hVAoYZ5wJ0YEBZk0r
+         ezG3jjX4ylfFONrr3NKS6dtm4W+6JohqdgcpNm+/2Ub7rDpzoxNKobI8hyeZbWnsTN
+         346I1xwlWUzEg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1nXkZ1-00Axyq-Le; Fri, 25 Mar 2022 15:05:15 +0100
+        id 1nXkZ1-00Axz1-Rb; Fri, 25 Mar 2022 15:05:15 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2 0/4] Better handle dependencies on Sphinx extensions
-Date:   Fri, 25 Mar 2022 15:05:10 +0100
-Message-Id: <cover.1648216561.git.mchehab@kernel.org>
+        "Hans de Goede" <hdegoede@redhat.com>,
+        "Stephen Rothwell" <sfr@canb.auug.org.au>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 3/4] docs: kernel_feat.py: add build dependencies
+Date:   Fri, 25 Mar 2022 15:05:13 +0100
+Message-Id: <c4684a9a6ddd59e894b3f2776044f713b53ee9ca.1648216561.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1648216561.git.mchehab@kernel.org>
+References: <cover.1648216561.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx has its own way to identify the need of rebuilding the documentation.
-It means that extensions need to use an internal API in order to notify about
-the need to consider other files.
+Ensure that the feature files will be regenerated if any
+changes happen at the Documentation/features files that were
+processed by gen_feat.pl.
 
-The kerneldoc.py extension already does that, maintainers_include.py doesn't
-need (as it uses an API that internally does that), and kfigure.py does it on a
-different way.  So, those are already safe.
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-However, other extensions don't notify nor implement their own checks,
-so, when a file that was parsed by them is changed, the corresponding 
-documentation won't be rebuilt.
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v2 0/4] at: https://lore.kernel.org/all/cover.1648216561.git.mchehab@kernel.org/
 
-This series add support for it for ABI, features and kernel-include.
+ Documentation/sphinx/kernel_feat.py | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-Mauro Carvalho Chehab (4):
-  scripts/get_feat.pl: allow output the parsed file names
-  docs: kernel_abi.py: add sphinx build dependencies
-  docs: kernel_feat.py: add build dependencies
-  docs: kernel_include.py: add sphinx build dependencies
-
- Documentation/sphinx/kernel_abi.py     |  4 ++++
- Documentation/sphinx/kernel_feat.py    | 20 ++++++++++++++++++--
- Documentation/sphinx/kernel_include.py |  3 +++
- scripts/get_feat.pl                    | 11 +++++++++++
- 4 files changed, 36 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
+index 8138d69a6987..6b40ac1806bb 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -33,6 +33,7 @@ u"""
+ 
+ import codecs
+ import os
++import re
+ import subprocess
+ import sys
+ 
+@@ -82,7 +83,7 @@ class KernelFeat(Directive):
+ 
+         env = doc.settings.env
+         cwd = path.dirname(doc.current_source)
+-        cmd = "get_feat.pl rest --dir "
++        cmd = "get_feat.pl rest --enable-fname --dir "
+         cmd += self.arguments[0]
+ 
+         if len(self.arguments) > 1:
+@@ -102,7 +103,22 @@ class KernelFeat(Directive):
+         shell_env["srctree"] = srctree
+ 
+         lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
+-        nodeList = self.nestedParse(lines, fname)
++
++        line_regex = re.compile("^#define FILE (\S+)$")
++
++        out_lines = ""
++
++        for line in lines.split("\n"):
++            match = line_regex.search(line)
++            if match:
++                fname = match.group(1)
++
++                # Add the file to Sphinx build dependencies
++                env.note_dependency(os.path.abspath(fname))
++            else:
++                out_lines += line + "\n"
++
++        nodeList = self.nestedParse(out_lines, fname)
+         return nodeList
+ 
+     def runCmd(self, cmd, **kwargs):
 -- 
 2.35.1
-
 
