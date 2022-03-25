@@ -2,176 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2751C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 21:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED9BC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 23:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233637AbiCYWAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 18:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
+        id S234159AbiCYXWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 19:22:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233635AbiCYWAS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 18:00:18 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9404C118F5A;
-        Fri, 25 Mar 2022 14:58:43 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        with ESMTP id S234158AbiCYXWx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 19:22:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE256255142;
+        Fri, 25 Mar 2022 16:21:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 454BB2C3;
-        Fri, 25 Mar 2022 21:58:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 454BB2C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648245523; bh=hsYCabDYG9BsnSr6aIERiuj385zksjChMI7/4113Z3I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=VrC4nDK2COPGZVaDKnzQ0RIroS8+LdFo30Izn8Ow21Zvvjs6AqQjlDJVidAdf4GsO
-         SVp8q2DV2vdvwXDMXrYcOnCR+7JQcqksOye/BVL/VSsQ4ExGakHB5wDu7TI59QEntr
-         8Y0SN1IqWmveU5eCyRyg6JuBCyt0Ky9DQigJT0p1yfgjemOTeEdkMshz5qptfIODsq
-         Ba6yF7SNSH6EF5vft5y7yrnb5nDZDxAZ0keNFYmMyCfbsdVdSLRTKjfPxC+88NwKyG
-         Ljfm/tbMjb6OVuKq82e3Vm8m0gqjM95BaDh6rH+nDwdd5/4Ys1Ecka/FtELk6jcKQ8
-         jnqG8bh59RWMQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        by ams.source.kernel.org (Postfix) with ESMTPS id 80989B82A30;
+        Fri, 25 Mar 2022 23:21:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4193C2BBE4;
+        Fri, 25 Mar 2022 23:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648250476;
+        bh=T97WJXCnYEDDn5hncIAUzSD8BkDfJNMw5R6hXkYf4i4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=iM/jTENA/Y751A9VQQDdN7tRMZZ4y2TUpPeNnt3cFNjysTJv+9DB4hh8UJ2bhjTOM
+         2gkn6uTTMv4hfNjGcGR8+uGORXQv72gYMxqIzl1iMgh3NchDCp7aWOxhM2YJZ/SiN9
+         LxAr04nH9S9PWBZc6ygXelsDxnZ31sb37epXjH9rah+gui0Nhb1NWTMJmcDCZowYpI
+         02+V1dTk7tmi5cUOLfyfPnDMovhIwZupltRFTXqv7CEWw22mGlxDsHZgHqTzzD8N2z
+         lVSCWBODHFzgqmSdGCHtc9wGnA25/5NdNCxW0NOVn0blGbPC8LtYuyubWSN7HKq+bV
+         YtcmNzLmZ4j0A==
+Date:   Sat, 26 Mar 2022 00:21:09 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: Add a document on how to fix a messy diffstat
-Date:   Fri, 25 Mar 2022 15:58:42 -0600
-Message-ID: <87wnghd78t.fsf@meer.lwn.net>
+Subject: Re: [PATCH v2 1/4] scripts/get_feat.pl: allow output the parsed
+ file names
+Message-ID: <20220326002109.2cda0402@coco.lan>
+In-Reply-To: <874k3lg7r3.fsf@meer.lwn.net>
+References: <cover.1648216561.git.mchehab@kernel.org>
+        <a924b46a80d750d808c28a27adffaa5d5a983e5c.1648216561.git.mchehab@kernel.org>
+        <874k3lg7r3.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A branch with merges in will sometimes create a diffstat containing a lot
-of unrelated work at "git request-pull" time.  Create a document based on
-Linus's advice (found in the links below) and add it to the maintainer
-manual in the hope of saving some wear on Linus's keyboard going forward.
+Em Fri, 25 Mar 2022 13:19:28 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Link: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
-Link: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
-[If this passes muster I'll likely toss a version onto LWN as well]
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+> 
+> > Such output could be helpful while debugging it, but its main
+> > goal is to tell kernel_feat.py about what files were used
+> > by the script. Thie way, kernel_feat.py can add those as
+> > documentation dependencies.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>  
+> 
+> So I think these are worth getting into 5.18, 
 
- Documentation/maintainer/index.rst          |  1 +
- Documentation/maintainer/messy-diffstat.rst | 96 +++++++++++++++++++++
- 2 files changed, 97 insertions(+)
- create mode 100644 Documentation/maintainer/messy-diffstat.rst
+Yeah, agreed.
 
-diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
-index f0a60435b124..3e03283c144e 100644
---- a/Documentation/maintainer/index.rst
-+++ b/Documentation/maintainer/index.rst
-@@ -12,6 +12,7 @@ additions to this manual.
-    configure-git
-    rebasing-and-merging
-    pull-requests
-+   messy-diffstat
-    maintainer-entry-profile
-    modifying-patches
- 
-diff --git a/Documentation/maintainer/messy-diffstat.rst b/Documentation/maintainer/messy-diffstat.rst
-new file mode 100644
-index 000000000000..970eac087f67
---- /dev/null
-+++ b/Documentation/maintainer/messy-diffstat.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
-+Handling messy pull-request diffstats
-+=====================================
-+
-+Subsystem maintainers routinely use ``git request-pull`` as part of the
-+process of sending work upstream.  Normally, the result includes a nice
-+diffstat listing showing which files will be touched and how much of each
-+will be changed.  Occasionally, though, a repository with a relatively
-+complicated development history will yield a massive diffstat containing a
-+great deal of unrelated work.  The result looks ugly and obscures what the
-+pull request is actually doing.  This document describes what is happening
-+and how to fix things up; it is derived from The Wisdom of Linus Torvalds,
-+found in Linus1_ and Linus2_.
-+
-+.. _Linus1: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
-+.. _Linus2: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
-+
-+A Git development history proceeds as a series of commits.  In a simplified
-+manner, mainline kernel development looks like this::
-+
-+  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-+
-+If one wants to see what has changed between two points, a command like
-+will do the job::
-+
-+  $ git diff --stat --summary vN-rc2..vN-rc3
-+
-+Here, there are two clear points in the history; Git will essentially
-+"subtract" the beginning point from the end point and display the resulting
-+differences.  The requested operation is unambiguous and easy enough to
-+understand.
-+
-+When a subsystem maintainer creates a branch and commits changes to it, the
-+result in the simplest case is a history that looks like::
-+
-+  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-+                          |
-+                          +-- c1 --- c2 --- ... --- cN
-+
-+If that maintainer now uses ``git diff`` to see what has changed between
-+the mainline branch (let's call it "linus") and cN, there are still two
-+clear endpoints, and the result is as expected.  So a pull request
-+generated with ``git request-pull`` will also be as expected.  But now
-+consider a slightly more complex development history::
-+
-+  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-+                |         |
-+                |         +-- c1 --- c2 --- ... --- cN
-+                |                   /
-+                +-- x1 --- x2 --- x3
-+
-+Our maintainer has created one branch at vN-rc1 and another at vN-rc2; the
-+two were then subsequently merged into c2.  Now a pull request generated
-+for cN may end up being messy indeed, and developers often end up wondering
-+why.
-+
-+What is happening here is that there are no longer two clear end points for
-+the ``git diff`` operation to use.  The development culminating in cN
-+started in two different places; to generate the diffstat, ``git diff``
-+ends up having pick one of them and hoping for the best.  If the diffstat
-+starts at vN-rc1, it may end up including all of the changes between there
-+and the second origin end point (vN-rc2), which is certainly not what our
-+maintainer had in mind.  With all of that extra junk in the diffstat, it
-+may be impossible to tell what actually happened in the changes leading up
-+to cN.
-+
-+Maintainers often try to resolve this problem by, for example, rebasing the
-+branch or performing another merge with the linus branch, then recreating
-+the pull request.  This approach tends not to lead to joy at the receiving
-+end of that pull request; rebasing and/or merging just before pushing
-+upstream is a well-known way to get a grumpy response.
-+
-+So what is to be done?  The best response when confronted with this
-+situation is to indeed to a merge, but to do it privately, as if it were
-+the source of shame.  Create a new, throwaway branch and do the merge
-+there::
-+
-+  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-+                |         |                                      |
-+                |         +-- c1 --- c2 --- ... --- cN           |
-+                |                   /               |            |
-+                +-- x1 --- x2 --- x3                +------------+-- TEMP
-+
-+The merge operation resolves all of the complications resulting from the
-+multiple beginning points, yielding a coherent result that contains only
-+the differences from the mainline branch.  Now it will be possible to
-+generate a diffstat with the desired information::
-+
-+  $ git diff -C --stat --summary linus..TEMP
-+
-+Save the output from this command, then simply delete the TEMP branch;
-+definitely do not expose it to the outside world.  Take the saved diffstat
-+output and edit it into the messy pull request, yielding a result that
-+shows what is really going on.  That request can then be sent upstream.
--- 
-2.35.1
+> but I do have one question:
+> 
+> > @@ -95,6 +97,10 @@ sub parse_feat {
+> >  	return if ($file =~ m,($prefix)/arch-support.txt,);
+> >  	return if (!($file =~ m,arch-support.txt$,));
+> >  
+> > +	if ($enable_fname) {
+> > +		printf "#define FILE %s\n", abs_path($file);
+> > +	}
+> > +  
+> 
+> Why do you output the file names in this format?  This isn't input to
+> the C preprocessor, so the #define just seems strange.  What am I
+> missing here?
 
+Well, I didn't think much about that... I just ended using a way that is
+already used on get_abi.pl, and was originally imported from kernel-doc :-)
+
+It could be using whatever other tag, but I would keep those three scripts 
+using a similar markup string for file names and line numbers:
+
+scripts/get_abi.pl:
+    printf "#define LINENO %s%s#%s\n\n", $prefix, $file[0], $data{$what}->{line_no};
+
+scripts/kernel-doc:
+    print "#define LINENO " . $lineno . "\n";
+
+Thanks,
+Mauro
