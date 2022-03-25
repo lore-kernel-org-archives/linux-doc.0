@@ -2,859 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E47CBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 00:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73CF4C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 25 Mar 2022 01:39:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357072AbiCYAvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Mar 2022 20:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45180 "EHLO
+        id S1357596AbiCYBlO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Mar 2022 21:41:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240383AbiCYAvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 20:51:45 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98EFC7091D
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 17:50:11 -0700 (PDT)
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 082B53F0EC
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 00:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1648169404;
-        bh=vW2uiFi4Owf4Y0WZunIGfR72ibo0Z88XaHvRsbPLOPs=;
-        h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-         Content-Type:Date:Message-ID;
-        b=p3ZRR34wFdvno75CEzKgQ/SL60Jv1Gtao/V8lgKbcz5cSxeCVS0jlEw4+Vjdsb30c
-         s+7dMYsQu2cgjRDnX/hzYP5BdOWvYK3yrFiwiIVvHCECdMBr4I/iMYZ7SgL11NvYUf
-         K6Or1LHyaFZWsBIfkxUeLHqxowVJlP0ATVJauOrDxPwrc6jrIA8LgzTxqY/jBCf3H0
-         c63Z0OC9AeV7LvtfbD6ljgJEPLH0DEuHKAfK5r7e5zCr6te5N6SSVKcrokDPOAKfAg
-         IcZo9+g8dCTC9MwBuwercRq4a2sYqI5TlmIEds01grjcbETbx5kfYGH8bXDSeeG+ou
-         GwxbxFshEujGA==
-Received: by mail-pg1-f199.google.com with SMTP id k71-20020a636f4a000000b00382a7c27856so3063213pgc.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 17:50:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
-         :comments:mime-version:content-id:content-transfer-encoding:date
-         :message-id;
-        bh=vW2uiFi4Owf4Y0WZunIGfR72ibo0Z88XaHvRsbPLOPs=;
-        b=2LTUmDT/+msYImUxTsH8R2ueblzIHtJuVdG9EM0hHO1pJz8EPz0Udoknb385cUJVdY
-         pQflRs00MDQQNCuKRL9u76OxN8ShK3GmkW6KVINj9jTmTqBqoRR8GpAzxB9SC3JAbgSl
-         dJM+1ZKHhLurkAgI7EMt5I1VPhUvc7FMAxHXAh5s3NR0y29IlBB6GCno45hmJnJdU6Nl
-         /jkD9LzSPykakVVpwP5ncMbnXp4JQatdA/I79FkdK/LW/vdzHbW1kb1uaoA345eWh5jV
-         +OeE0xUEvfn+eFO1mh48w3YWqoKNL3EfnxvNAgHHU9qyltzKCCYevYQyiXZLGUmkfqBW
-         Ewbw==
-X-Gm-Message-State: AOAM530e7IPDjwsqtvLQThtYkaZTHZ+4u/5LaGUSUr7MBsiA34eIfoZH
-        YOWOXDfsfWp59Ln4V5zYJ9ook56PsNQjzfufN+N404uECVQqIE1lNvlFVC3sT9RfV8xhEWUzdOs
-        vTLF11wE5b5lgPShFsehCUQKFK/p7IoXoU9JVjA==
-X-Received: by 2002:a63:5b63:0:b0:378:5645:90f6 with SMTP id l35-20020a635b63000000b00378564590f6mr5900873pgm.505.1648169402453;
-        Thu, 24 Mar 2022 17:50:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRwdWWmUSzACldZ1e2BspTq/MatGVgjxrUDK0i3uo+IzxWxg7k/EjXdugLGuPu93mnvtwtrg==
-X-Received: by 2002:a63:5b63:0:b0:378:5645:90f6 with SMTP id l35-20020a635b63000000b00378564590f6mr5900850pgm.505.1648169402069;
-        Thu, 24 Mar 2022 17:50:02 -0700 (PDT)
-Received: from famine.localdomain ([50.125.80.157])
-        by smtp.gmail.com with ESMTPSA id h17-20020a63df51000000b0036b9776ae5bsm3562172pgj.85.2022.03.24.17.50.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 Mar 2022 17:50:01 -0700 (PDT)
-Received: by famine.localdomain (Postfix, from userid 1000)
-        id 38B706093D; Thu, 24 Mar 2022 17:50:01 -0700 (PDT)
-Received: from famine (localhost [127.0.0.1])
-        by famine.localdomain (Postfix) with ESMTP id 32FEAA0B18;
-        Thu, 24 Mar 2022 17:50:01 -0700 (PDT)
-From:   Jay Vosburgh <jay.vosburgh@canonical.com>
-To:     Jonathan Toppins <jtoppins@redhat.com>
-cc:     netdev@vger.kernel.org, Long Xin <lxin@redhat.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] bond: add mac filter option for balance-xor
-In-reply-to: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
-References: <b03f0896e1a0b65cc1b278aecc9d080b2ec9d8a6.1648136359.git.jtoppins@redhat.com>
-Comments: In-reply-to Jonathan Toppins <jtoppins@redhat.com>
-   message dated "Thu, 24 Mar 2022 11:54:41 -0400."
-X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
+        with ESMTP id S1358008AbiCYBj6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Mar 2022 21:39:58 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE504EA1A
+        for <linux-doc@vger.kernel.org>; Thu, 24 Mar 2022 18:36:37 -0700 (PDT)
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KPl5K1wqhzfb2S;
+        Fri, 25 Mar 2022 09:35:01 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 25 Mar 2022 09:36:36 +0800
+Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 25 Mar
+ 2022 09:36:29 +0800
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
+        Tang Yizhou <tangyizhou@huawei.com>
+Subject: [PATCH] docs/zh_CN: Add schedutil Chinese translation
+Date:   Fri, 25 Mar 2022 10:10:51 +0800
+Message-ID: <20220325021051.24958-1-tangyizhou@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <12685.1648169401.1@famine>
-Content-Transfer-Encoding: quoted-printable
-Date:   Thu, 24 Mar 2022 17:50:01 -0700
-Message-ID: <12686.1648169401@famine>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Considering this as an RFC given that net-next is closed...
-	=
+Translate scheduler/schedutil.rst into Chinese.
 
-Jonathan Toppins <jtoppins@redhat.com> wrote:
-
->Attempt to replicate the OvS SLB Bonding[1] feature by preventing
->duplicate frame delivery on a bond whos members are connected to
->physically different switches.
->
->Combining this feature with vlan+srcmac hash policy allows a user to
->create an access network without the need to use expensive switches that
->support features like Cisco's VCP.
-
-	Could you describe this use case / implementation in a bit more
-detail?  I.e., how exactly that configuration works.  I don't think this
-patch is replicating everything in the OVS SLB documentation.
-
->[1] https://docs.openvswitch.org/en/latest/topics/bonding/#slb-bonding
->
->Co-developed-by: Long Xin <lxin@redhat.com>
->Signed-off-by: Long Xin <lxin@redhat.com>
->Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
->---
-> Documentation/networking/bonding.rst  |  19 +++
-> drivers/net/bonding/Makefile          |   2 +-
-> drivers/net/bonding/bond_mac_filter.c | 222 ++++++++++++++++++++++++++
-> drivers/net/bonding/bond_mac_filter.h |  40 +++++
-> drivers/net/bonding/bond_main.c       |  26 +++
-> drivers/net/bonding/bond_netlink.c    |  13 ++
-> drivers/net/bonding/bond_options.c    |  58 ++++++-
-> drivers/net/bonding/bonding_priv.h    |   1 +
-> include/net/bond_options.h            |   1 +
-> include/net/bonding.h                 |   3 +
-> include/uapi/linux/if_link.h          |   1 +
-> 11 files changed, 384 insertions(+), 2 deletions(-)
-> create mode 100644 drivers/net/bonding/bond_mac_filter.c
-> create mode 100644 drivers/net/bonding/bond_mac_filter.h
->
->diff --git a/Documentation/networking/bonding.rst b/Documentation/network=
-ing/bonding.rst
->index 525e6842dd33..a5a1669d3efe 100644
->--- a/Documentation/networking/bonding.rst
->+++ b/Documentation/networking/bonding.rst
->@@ -550,6 +550,25 @@ lacp_rate
-> =
-
-> 	The default is slow.
-> =
-
->+mac_filter
->+
->+	Tells the bonding device to drop frames received who's source MAC
->+	address	matches entries in a filter table. The filter table is
->+	populated when the bond transmits frames. This is similar in
->+	concept to the MAC learning table implemented in the bridge code.
->+
->+	This filtering is only enabled for the balance-xor bonding mode.
->+
->+	off or 0
->+		Turns the feature off
->+
->+	number
->+		A number greater than zero turns the feature on and sets
->+		the maximum number of MAC addresses to store in the hash
->+		table.
->+
->+	The default is off.
->+
-> max_bonds
-> =
-
-> 	Specifies the number of bonding devices to create for this
->diff --git a/drivers/net/bonding/Makefile b/drivers/net/bonding/Makefile
->index 30e8ae3da2da..5dbc360a8522 100644
->--- a/drivers/net/bonding/Makefile
->+++ b/drivers/net/bonding/Makefile
->@@ -5,7 +5,7 @@
-> =
-
-> obj-$(CONFIG_BONDING) +=3D bonding.o
-> =
-
->-bonding-objs :=3D bond_main.o bond_3ad.o bond_alb.o bond_sysfs.o bond_sy=
-sfs_slave.o bond_debugfs.o bond_netlink.o bond_options.o
->+bonding-objs :=3D bond_main.o bond_3ad.o bond_alb.o bond_sysfs.o bond_sy=
-sfs_slave.o bond_debugfs.o bond_netlink.o bond_options.o bond_mac_filter.o
-> =
-
-> proc-$(CONFIG_PROC_FS) +=3D bond_procfs.o
-> bonding-objs +=3D $(proc-y)
->diff --git a/drivers/net/bonding/bond_mac_filter.c b/drivers/net/bonding/=
-bond_mac_filter.c
->new file mode 100644
->index 000000000000..a16a1a000f05
->--- /dev/null
->+++ b/drivers/net/bonding/bond_mac_filter.c
->@@ -0,0 +1,222 @@
->+// SPDX-License-Identifier: GPL-2.0-only
->+/*
->+ * Filter received frames based on MAC addresses "behind" the bond.
->+ */
->+
->+#include "bonding_priv.h"
->+
->+/* -------------- Cache Management -------------- */
-
-	I don't think this header adds anything, given that there's not
-really a lot in the section.
-
->+static struct kmem_cache *bond_mac_cache __read_mostly;
->+
->+int __init bond_mac_cache_init(void)
->+{
->+	bond_mac_cache =3D kmem_cache_create("bond_mac_cache",
->+					   sizeof(struct bond_mac_cache_entry),
->+					   0, SLAB_HWCACHE_ALIGN, NULL);
->+	if (!bond_mac_cache)
->+		return -ENOMEM;
->+	return 0;
->+}
->+
->+void bond_mac_cache_destroy(void)
->+{
->+	kmem_cache_destroy(bond_mac_cache);
->+}
-
-	There are a lot of the above sort of wrapper functions that are
-only ever called once.  Some of these, e.g., mac_delete, below, I agree
-with, as the call site is nested fairly deep and the function is
-non-trivial; or, mac_delete_rcu, which is used as a callback.
-
-	The above two, though, I don't see a justification for, along
-with hold_time and maybe a couple others, below.  In my opinion,
-over-abstracting these trivial things with one call site makes the code
-harder to follow.
-
->+
->+/* -------------- Hash Table Management -------------- */
->+
->+static const struct rhashtable_params bond_rht_params =3D {
->+	.head_offset         =3D offsetof(struct bond_mac_cache_entry, rhnode),
->+	.key_offset          =3D offsetof(struct bond_mac_cache_entry, key),
->+	.key_len             =3D sizeof(struct mac_addr),
->+	.automatic_shrinking =3D true,
->+};
->+
->+static inline unsigned long hold_time(const struct bonding *bond)
->+{
->+	return msecs_to_jiffies(5000);
->+}
-
-	This shouldn't be a magic number, and if it's an important
-timeout, should it be configurable?
-
->+
->+static bool has_expired(const struct bonding *bond,
->+			struct bond_mac_cache_entry *mac)
->+{
->+	return time_before_eq(mac->used + hold_time(bond), jiffies);
->+}
->+
->+static void mac_delete_rcu(struct callback_head *head)
->+{
->+	kmem_cache_free(bond_mac_cache,
->+			container_of(head, struct bond_mac_cache_entry, rcu));
->+}
->+
->+static int mac_delete(struct bonding *bond,
->+		      struct bond_mac_cache_entry *entry)
->+{
->+	int ret;
->+
->+	ret =3D rhashtable_remove_fast(bond->mac_filter_tbl,
->+				     &entry->rhnode,
->+				     bond->mac_filter_tbl->p);
->+	set_bit(BOND_MAC_DEAD, &entry->flags);
->+	call_rcu(&entry->rcu, mac_delete_rcu);
->+	return ret;
->+}
->+
->+void bond_mac_hash_release_entries(struct work_struct *work)
->+{
->+	struct bonding *bond =3D container_of(work, struct bonding,
->+				mac_work.work);
->+	struct rhashtable_iter iter;
->+	struct bond_mac_cache_entry *entry;
->+	unsigned long flags;
->+
->+	rhashtable_walk_enter(bond->mac_filter_tbl, &iter);
->+	rhashtable_walk_start(&iter);
->+	while ((entry =3D rhashtable_walk_next(&iter)) !=3D NULL) {
->+		if (IS_ERR(entry))
->+			continue;
->+
->+		spin_lock_irqsave(&entry->lock, flags);
->+		if (has_expired(bond, entry))
->+			mac_delete(bond, entry);
->+		spin_unlock_irqrestore(&entry->lock, flags);
->+	}
->+	rhashtable_walk_stop(&iter);
->+	rhashtable_walk_exit(&iter);
->+	queue_delayed_work(bond->wq, &bond->mac_work,
->+			   msecs_to_jiffies(5 * 60 * 1000));
->+}
->+
->+int bond_mac_hash_init(struct bonding *bond)
->+{
->+	int rc;
-
-	As a point of style, (almost) everywhere else in bonding uses
-"ret" for a return value.  The exceptions are largely my doing, but,
-still, it'd be nice to be mostly consistent in nomenclature.
-
->+
->+	netdev_dbg(bond->dev, "mac_filter: alloc memory for hash table\n");
->+	bond->mac_filter_tbl =3D kzalloc(sizeof(*bond->mac_filter_tbl),
->+				       GFP_KERNEL);
->+	if (!bond->mac_filter_tbl)
->+		return -ENOMEM;
->+
->+	rc =3D rhashtable_init(bond->mac_filter_tbl, &bond_rht_params);
->+	if (rc)
->+		kfree(bond->mac_filter_tbl);
->+
->+	return rc;
->+}
->+
->+static void bond_mac_free_entry(void *entry, void *ctx)
->+{
->+	kmem_cache_free((struct kmem_cache *)ctx, entry);
->+}
->+
->+void bond_mac_hash_destroy(struct bonding *bond)
->+{
->+	if (bond->mac_filter_tbl) {
->+		rhashtable_free_and_destroy(bond->mac_filter_tbl,
->+					    bond_mac_free_entry,
->+					    bond_mac_cache);
->+		kfree(bond->mac_filter_tbl);
->+		bond->mac_filter_tbl =3D NULL;
->+	}
->+}
->+
->+static int mac_create(struct bonding *bond, const u8 *addr)
->+{
->+	struct bond_mac_cache_entry *entry;
->+	int ret;
->+
->+	entry =3D kmem_cache_alloc(bond_mac_cache, GFP_ATOMIC);
->+	if (!entry)
->+		return -ENOMEM;
->+	spin_lock_init(&entry->lock);
->+	memcpy(&entry->key, addr, sizeof(entry->key));
->+	entry->used =3D jiffies;
->+	ret =3D rhashtable_lookup_insert_fast(bond->mac_filter_tbl,
->+					    &entry->rhnode,
->+					    bond->mac_filter_tbl->p);
->+	if (ret) {
->+		kmem_cache_free(bond_mac_cache, entry);
->+		entry =3D NULL;
->+		if (ret =3D=3D -EEXIST)
->+			return 0;
->+		pr_err_once("Failed to insert mac entry %d\n", ret);
->+	}
->+	return ret;
->+}
->+
->+static struct bond_mac_cache_entry *mac_find(struct bonding *bond,
->+					     const u8 *addr)
->+{
->+	struct mac_addr key;
->+
->+	memcpy(&key, addr, sizeof(key));
->+	return rhashtable_lookup(bond->mac_filter_tbl, &key,
->+				 bond->mac_filter_tbl->p);
->+}
->+
->+inline void mac_update(struct bond_mac_cache_entry *entry)
->+{
->+	entry->used =3D jiffies;
->+}
->+
->+int bond_mac_insert(struct bonding *bond, const u8 *addr)
->+{
->+	struct bond_mac_cache_entry *entry;
->+	int rc =3D 0;
->+
->+	if (!is_valid_ether_addr(addr))
->+		return -EINVAL;
->+
->+	rcu_read_lock();
->+	entry =3D mac_find(bond, addr);
->+	if (entry) {
->+		unsigned long flags;
->+
->+		spin_lock_irqsave(&entry->lock, flags);
->+		if (!test_bit(BOND_MAC_DEAD, &entry->flags)) {
->+			mac_update(entry);
->+			spin_unlock_irqrestore(&entry->lock, flags);
->+			goto out;
->+		}
->+		spin_unlock_irqrestore(&entry->lock, flags);
-
-	This seems really expensive, as it will add a spin_lock_irqsave
-round trip for almost every packet transmitted when mac_filter is
-enabled (as this will be called by bond_xmit_3ad_xor_slave_get).
-
->+	}
->+
->+	rc =3D mac_create(bond, addr);
->+
->+out:
->+	rcu_read_unlock();
->+	return rc;
->+}
->+
->+int bond_xor_recv(const struct sk_buff *skb, struct bonding *bond,
->+		  struct slave *slave)
->+{
->+	const struct ethhdr *mac_hdr;
->+	struct bond_mac_cache_entry *entry;
->+	int rc =3D RX_HANDLER_PASS;
->+
->+	mac_hdr =3D (struct ethhdr *)skb_mac_header(skb);
->+	rcu_read_lock();
->+	if (is_multicast_ether_addr(mac_hdr->h_dest) &&
->+	    slave !=3D rcu_dereference(bond->curr_active_slave)) {
->+		rc =3D RX_HANDLER_CONSUMED;
->+		goto out;
->+	}
->+
->+	entry =3D mac_find(bond, mac_hdr->h_source);
->+	if (entry) {
->+		unsigned long flags;
->+		bool expired;
->+
->+		spin_lock_irqsave(&entry->lock, flags);
->+		expired =3D has_expired(bond, entry);
->+		spin_unlock_irqrestore(&entry->lock, flags);
->+		if (!expired)
->+			rc =3D RX_HANDLER_CONSUMED;
->+	}
-
-	As above, really expensive, except for incoming packets here
-(since this is called as the recv_probe).
-
->+
->+out:
->+	rcu_read_unlock();
->+	return rc;
->+}
->diff --git a/drivers/net/bonding/bond_mac_filter.h b/drivers/net/bonding/=
-bond_mac_filter.h
->new file mode 100644
->index 000000000000..0cfcc5653e7e
->--- /dev/null
->+++ b/drivers/net/bonding/bond_mac_filter.h
->@@ -0,0 +1,40 @@
->+/* SPDX-License-Identifier: GPL-2.0-only
->+ *
->+ * Filter received frames based on MAC addresses "behind" the bond.
->+ */
->+
->+#ifndef _BOND_MAC_FILTER_H
->+#define _BOND_MAC_FILTER_H
->+#include <net/bonding.h>
->+#include <linux/spinlock.h>
->+#include <linux/rhashtable.h>
->+
->+enum {
->+	BOND_MAC_DEAD,
->+	BOND_MAC_LOCKED,
->+	BOND_MAC_STATIC,
->+};
->+
->+struct bond_mac_cache_entry {
->+	struct rhash_head	rhnode;
->+	struct mac_addr		key;
->+
->+	spinlock_t		lock; /* protects used member */
->+	unsigned long		flags;
->+	unsigned long		used;
->+	struct rcu_head		rcu;
->+};
->+
->+int __init bond_mac_cache_init(void);
->+void bond_mac_cache_destroy(void);
->+
->+void bond_mac_hash_release_entries(struct work_struct *work);
->+int bond_mac_hash_init(struct bonding *bond);
->+void bond_mac_hash_destroy(struct bonding *bond);
->+
->+int bond_mac_insert(struct bonding *bond, const u8 *addr);
->+int bond_xor_recv(const struct sk_buff *skb,
->+		  struct bonding *bond,
->+		  struct slave *slave);
->+
->+#endif
->diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_m=
-ain.c
->index 15eddca7b4b6..f5a8a50e9116 100644
->--- a/drivers/net/bonding/bond_main.c
->+++ b/drivers/net/bonding/bond_main.c
->@@ -1549,6 +1549,10 @@ static rx_handler_result_t bond_handle_frame(struc=
-t sk_buff **pskb)
-> 		return RX_HANDLER_EXACT;
-> 	}
-> =
-
->+	/* this function should not rely on the recv_probe to set ret
->+	 * correctly
->+	 */
->+	ret =3D RX_HANDLER_ANOTHER;
-
-	This change is overriding the return from a recv_probe added by
-this patch (bond_xor_recv can return RX_HANDLER_PASS).  Why?
-
-	Also, I don't agree with the comment; the recv_probe return
-value by design affects the return value from bond_handle_frame.
-
-> 	skb->dev =3D bond->dev;
-> =
-
-> 	if (BOND_MODE(bond) =3D=3D BOND_MODE_ALB &&
->@@ -4117,6 +4121,7 @@ void bond_work_init_all(struct bonding *bond)
-> 	INIT_DELAYED_WORK(&bond->arp_work, bond_arp_monitor);
-> 	INIT_DELAYED_WORK(&bond->ad_work, bond_3ad_state_machine_handler);
-> 	INIT_DELAYED_WORK(&bond->slave_arr_work, bond_slave_arr_handler);
->+	INIT_DELAYED_WORK(&bond->mac_work, bond_mac_hash_release_entries);
-> }
-> =
-
-> static void bond_work_cancel_all(struct bonding *bond)
->@@ -4127,6 +4132,7 @@ static void bond_work_cancel_all(struct bonding *bo=
-nd)
-> 	cancel_delayed_work_sync(&bond->ad_work);
-> 	cancel_delayed_work_sync(&bond->mcast_work);
-> 	cancel_delayed_work_sync(&bond->slave_arr_work);
->+	cancel_delayed_work_sync(&bond->mac_work);
-> }
-> =
-
-> static int bond_open(struct net_device *bond_dev)
->@@ -4174,6 +4180,11 @@ static int bond_open(struct net_device *bond_dev)
-> 		bond_3ad_initiate_agg_selection(bond, 1);
-> 	}
-> =
-
->+	if (bond->params.mac_filter) {
->+		bond->recv_probe =3D bond_xor_recv;
->+		queue_delayed_work(bond->wq, &bond->mac_work, 0);
->+	}
->+
-> 	if (bond_mode_can_use_xmit_hash(bond))
-> 		bond_update_slave_arr(bond, NULL);
-> =
-
->@@ -5043,6 +5054,13 @@ static struct slave *bond_xmit_3ad_xor_slave_get(s=
-truct bonding *bond,
-> 	if (unlikely(!count))
-> 		return NULL;
-> =
-
->+	if (bond->params.mac_filter) {
->+		const struct ethhdr *mac_hdr;
->+
->+		mac_hdr =3D (struct ethhdr *)skb_mac_header(skb);
->+		if (bond_mac_insert(bond, mac_hdr->h_source))
->+			return NULL;
->+	}
-> 	slave =3D slaves->arr[hash % count];
-> 	return slave;
-> }
->@@ -5660,6 +5678,8 @@ static void bond_destructor(struct net_device *bond=
-_dev)
-> =
-
-> 	if (bond->rr_tx_counter)
-> 		free_percpu(bond->rr_tx_counter);
->+
->+	bond_mac_hash_destroy(bond);
-> }
-> =
-
-> void bond_setup(struct net_device *bond_dev)
->@@ -6115,6 +6135,7 @@ static int bond_check_params(struct bond_params *pa=
-rams)
-> 	params->downdelay =3D downdelay;
-> 	params->peer_notif_delay =3D 0;
-> 	params->use_carrier =3D use_carrier;
->+	params->mac_filter =3D 0;
-> 	params->lacp_active =3D 1;
-> 	params->lacp_fast =3D lacp_fast;
-> 	params->primary[0] =3D 0;
->@@ -6317,6 +6338,10 @@ static int __init bonding_init(void)
-> 			goto err;
-> 	}
-> =
-
->+	res =3D bond_mac_cache_init();
->+	if (res)
->+		goto err;
->+
-> 	skb_flow_dissector_init(&flow_keys_bonding,
-> 				flow_keys_bonding_keys,
-> 				ARRAY_SIZE(flow_keys_bonding_keys));
->@@ -6346,6 +6371,7 @@ static void __exit bonding_exit(void)
-> 	/* Make sure we don't have an imbalance on our netpoll blocking */
-> 	WARN_ON(atomic_read(&netpoll_block_tx));
-> #endif
->+	bond_mac_cache_destroy();
-> }
-> =
-
-> module_init(bonding_init);
->diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/bon=
-d_netlink.c
->index f427fa1737c7..249d79b6e21a 100644
->--- a/drivers/net/bonding/bond_netlink.c
->+++ b/drivers/net/bonding/bond_netlink.c
->@@ -113,6 +113,7 @@ static const struct nla_policy bond_policy[IFLA_BOND_=
-MAX + 1] =3D {
-> 	[IFLA_BOND_PEER_NOTIF_DELAY]    =3D { .type =3D NLA_U32 },
-> 	[IFLA_BOND_MISSED_MAX]		=3D { .type =3D NLA_U8 },
-> 	[IFLA_BOND_NS_IP6_TARGET]	=3D { .type =3D NLA_NESTED },
->+	[IFLA_BOND_MAC_FILTER]		=3D { .type =3D NLA_U8 },
-> };
-> =
-
-> static const struct nla_policy bond_slave_policy[IFLA_BOND_SLAVE_MAX + 1=
-] =3D {
->@@ -498,6 +499,14 @@ static int bond_changelink(struct net_device *bond_d=
-ev, struct nlattr *tb[],
-> 		if (err)
-> 			return err;
-> 	}
->+	if (data[IFLA_BOND_MAC_FILTER]) {
->+		u8 mac_filter =3D nla_get_u8(data[IFLA_BOND_MAC_FILTER]);
->+
->+		bond_opt_initval(&newval, mac_filter);
->+		err =3D __bond_opt_set(bond, BOND_OPT_MAC_FILTER, &newval);
->+		if (err)
->+			return err;
->+	}
-> =
-
-> 	return 0;
-> }
->@@ -565,6 +574,7 @@ static size_t bond_get_size(const struct net_device *=
-bond_dev)
-> 						/* IFLA_BOND_NS_IP6_TARGET */
-> 		nla_total_size(sizeof(struct nlattr)) +
-> 		nla_total_size(sizeof(struct in6_addr)) * BOND_MAX_NS_TARGETS +
->+		nla_total_size(sizeof(u8)) +	/* IFLA_BOND_MAC_FILTER */
-> 		0;
-> }
-> =
-
->@@ -723,6 +733,9 @@ static int bond_fill_info(struct sk_buff *skb,
-> 	if (nla_put_u8(skb, IFLA_BOND_MISSED_MAX,
-> 		       bond->params.missed_max))
-> 		goto nla_put_failure;
->+	if (nla_put_u8(skb, IFLA_BOND_MAC_FILTER,
->+		       bond->params.mac_filter))
->+		goto nla_put_failure;
-> =
-
-> 	if (BOND_MODE(bond) =3D=3D BOND_MODE_8023AD) {
-> 		struct ad_info info;
->diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bon=
-d_options.c
->index 64f7db2627ce..0f6036ff7b86 100644
->--- a/drivers/net/bonding/bond_options.c
->+++ b/drivers/net/bonding/bond_options.c
->@@ -15,6 +15,7 @@
-> #include <linux/sched/signal.h>
-> =
-
-> #include <net/bonding.h>
->+#include "bonding_priv.h"
-> =
-
-> static int bond_option_active_slave_set(struct bonding *bond,
-> 					const struct bond_opt_value *newval);
->@@ -84,6 +85,8 @@ static int bond_option_ad_user_port_key_set(struct bond=
-ing *bond,
-> 					    const struct bond_opt_value *newval);
-> static int bond_option_missed_max_set(struct bonding *bond,
-> 				      const struct bond_opt_value *newval);
->+static int bond_option_mac_filter_set(struct bonding *bond,
->+				      const struct bond_opt_value *newval);
-> =
-
-> =
-
-> static const struct bond_opt_value bond_mode_tbl[] =3D {
->@@ -226,6 +229,12 @@ static const struct bond_opt_value bond_missed_max_t=
-bl[] =3D {
-> 	{ NULL,		-1,	0},
-> };
-> =
-
->+static const struct bond_opt_value bond_mac_filter_tbl[] =3D {
->+	{ "off",	0,	BOND_VALFLAG_MIN | BOND_VALFLAG_DEFAULT},
->+	{ "maxval",	18,	BOND_VALFLAG_MAX},
-
-	What's the magic number 18?
-
->+	{ NULL,		-1,	0}
->+};
->+
-> static const struct bond_option bond_opts[BOND_OPT_LAST] =3D {
-> 	[BOND_OPT_MODE] =3D {
-> 		.id =3D BOND_OPT_MODE,
->@@ -482,7 +491,16 @@ static const struct bond_option bond_opts[BOND_OPT_L=
-AST] =3D {
-> 		.desc =3D "Delay between each peer notification on failover event, in =
-milliseconds",
-> 		.values =3D bond_intmax_tbl,
-> 		.set =3D bond_option_peer_notif_delay_set
->-	}
->+	},
->+	[BOND_OPT_MAC_FILTER] =3D {
->+		.id =3D BOND_OPT_MAC_FILTER,
->+		.name =3D "mac_filter",
->+		.unsuppmodes =3D BOND_MODE_ALL_EX(BIT(BOND_MODE_XOR)),
->+		.desc =3D "filter received frames based on MAC addresses that have tra=
-nsmitted from the bond, number of MAC addresses to track",
->+		.flags =3D BOND_OPTFLAG_NOSLAVES | BOND_OPTFLAG_IFDOWN,
->+		.values =3D bond_mac_filter_tbl,
->+		.set =3D bond_option_mac_filter_set
->+	},
-> };
-> =
-
-> /* Searches for an option by name */
->@@ -1035,6 +1053,44 @@ static int bond_option_use_carrier_set(struct bond=
-ing *bond,
-> 	return 0;
-> }
-> =
-
->+static int bond_option_mac_filter_set(struct bonding *bond,
->+				      const struct bond_opt_value *newval)
->+{
->+	int rc =3D 0;
->+	u8 prev =3D bond->params.mac_filter;
->+
->+	if (newval->value && bond->params.arp_interval) {
->+		netdev_err(bond->dev, "ARP monitoring cannot be used with MAC Filterin=
-g.\n");
->+		rc =3D -EPERM;
->+		goto err;
->+	}
-
-	What happens if a user (a) switches to ARP monitor with
-arp_validate in balance-xor mode after mac_filter is enabled, or, (b)
-changes the mode to something other than balance-xor with mac_filter
-enabled (both by changing the configuration in real time)?
-
-	-J
-
->+
->+	netdev_dbg(bond->dev, "Setting mac_filter to %llu\n",
->+		   newval->value);
->+	bond->params.mac_filter =3D newval->value;
->+
->+	if (prev =3D=3D 0 && bond->params.mac_filter > 0) {
->+		rc =3D bond_mac_hash_init(bond);
->+		if (rc)
->+			goto err;
->+	} else if (prev > 0 && bond->params.mac_filter =3D=3D 0)
->+		bond_mac_hash_destroy(bond);
->+
->+	if (bond->mac_filter_tbl) {
->+		bond->mac_filter_tbl->p.max_size =3D
->+			1 << bond->params.mac_filter;
->+		netdev_dbg(bond->dev, "mac_filter hash table size: %d\n",
->+			   bond->mac_filter_tbl->p.max_size);
->+	}
->+
->+out:
->+	return rc;
->+
->+err:
->+	bond->params.mac_filter =3D 0;
->+	goto out;
->+}
->+
-> /* There are two tricky bits here.  First, if ARP monitoring is activate=
-d, then
->  * we must disable MII monitoring.  Second, if the ARP timer isn't runni=
-ng,
->  * we must start it.
->diff --git a/drivers/net/bonding/bonding_priv.h b/drivers/net/bonding/bon=
-ding_priv.h
->index 48cdf3a49a7d..0299f8bcb5fd 100644
->--- a/drivers/net/bonding/bonding_priv.h
->+++ b/drivers/net/bonding/bonding_priv.h
->@@ -15,6 +15,7 @@
-> #ifndef _BONDING_PRIV_H
-> #define _BONDING_PRIV_H
-> #include <generated/utsrelease.h>
->+#include "bond_mac_filter.h"
-> =
-
-> #define DRV_NAME	"bonding"
-> #define DRV_DESCRIPTION	"Ethernet Channel Bonding Driver"
->diff --git a/include/net/bond_options.h b/include/net/bond_options.h
->index 61b49063791c..42e3e676b9c2 100644
->--- a/include/net/bond_options.h
->+++ b/include/net/bond_options.h
->@@ -67,6 +67,7 @@ enum {
-> 	BOND_OPT_LACP_ACTIVE,
-> 	BOND_OPT_MISSED_MAX,
-> 	BOND_OPT_NS_TARGETS,
->+	BOND_OPT_MAC_FILTER,
-> 	BOND_OPT_LAST
-> };
-> =
-
->diff --git a/include/net/bonding.h b/include/net/bonding.h
->index b14f4c0b4e9e..5bc3e7b5a2af 100644
->--- a/include/net/bonding.h
->+++ b/include/net/bonding.h
->@@ -125,6 +125,7 @@ struct bond_params {
-> 	int miimon;
-> 	u8 num_peer_notif;
-> 	u8 missed_max;
->+	u8 mac_filter;
-> 	int arp_interval;
-> 	int arp_validate;
-> 	int arp_all_targets;
->@@ -248,6 +249,7 @@ struct bonding {
-> 	struct   delayed_work alb_work;
-> 	struct   delayed_work ad_work;
-> 	struct   delayed_work mcast_work;
->+	struct   delayed_work mac_work;
-> 	struct   delayed_work slave_arr_work;
-> #ifdef CONFIG_DEBUG_FS
-> 	/* debugging support via debugfs */
->@@ -260,6 +262,7 @@ struct bonding {
-> 	spinlock_t ipsec_lock;
-> #endif /* CONFIG_XFRM_OFFLOAD */
-> 	struct bpf_prog *xdp_prog;
->+	struct rhashtable *mac_filter_tbl;
-> };
-> =
-
-> #define bond_slave_get_rcu(dev) \
->diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
->index cc284c048e69..9291df89581f 100644
->--- a/include/uapi/linux/if_link.h
->+++ b/include/uapi/linux/if_link.h
->@@ -929,6 +929,7 @@ enum {
-> 	IFLA_BOND_AD_LACP_ACTIVE,
-> 	IFLA_BOND_MISSED_MAX,
-> 	IFLA_BOND_NS_IP6_TARGET,
->+	IFLA_BOND_MAC_FILTER,
-> 	__IFLA_BOND_MAX,
-> };
-> =
-
->-- =
-
->2.27.0
->
-
+Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
 ---
-	-Jay Vosburgh, jay.vosburgh@canonical.com
+ .../translations/zh_CN/scheduler/index.rst    |   1 +
+ .../zh_CN/scheduler/schedutil.rst             | 165 ++++++++++++++++++
+ 2 files changed, 166 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/scheduler/schedutil.rst
+
+diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
+index 5c0e07aee299..a8eaa7325f54 100644
+--- a/Documentation/translations/zh_CN/scheduler/index.rst
++++ b/Documentation/translations/zh_CN/scheduler/index.rst
+@@ -25,6 +25,7 @@ Linux调度器
+     sched-domains
+     sched-capacity
+     sched-energy
++    schedutil
+     sched-nice-design
+     sched-stats
+     sched-debug
+diff --git a/Documentation/translations/zh_CN/scheduler/schedutil.rst b/Documentation/translations/zh_CN/scheduler/schedutil.rst
+new file mode 100644
+index 000000000000..82855ee3f66a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/scheduler/schedutil.rst
+@@ -0,0 +1,165 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/scheduler/schedutil.rst
++
++:翻译:
++
++  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
++
++=========
++Schedutil
++=========
++
++.. note::
++
++   本文所有内容都假设频率和工作算力之间存在线性关系。我们知道这是有缺陷的，
++   但这是最可行的近似处理。
++
++PELT（实体负载跟踪，Per Entity Load Tracking）
++==============================================
++
++通过PELT，我们跟踪了各种调度器实体的一些指标，从单个任务到任务组分片到CPU
++运行队列。我们使用指数加权移动平均数（Exponentially Weighted Moving Average，
++EWMA）作为其基础，每个周期（1024us）都会衰减，衰减速率满足y^32 = 0.5。
++也就是说，最近的32ms贡献负载的一半，而历史上的其它时间则贡献另一半。
++
++具体而言：
++
++  ewma_sum(u) := u_0 + u_1*y + u_2*y^2 + ...
++
++  ewma(u) = ewma_sum(u) / ewma_sum(1)
++
++由于这本质上是一个无限几何级数的累加，结果是可组合的，即ewma(A) + ewma(B) = ewma(A+B)。
++这个属性是关键，因为它提供了在任务迁移时重新组合平均数的能力。
++
++请注意，阻塞态的任务仍然对累加值（任务组分片和CPU运行队列）有贡献，这反映了
++它们在恢复运行后的预期贡献。
++
++利用这一点，我们跟踪2个关键指标：“运行”和“可运行”。“运行”反映了一个调度实体
++在CPU上花费的时间，而“可运行”反映了一个调度实体在运行队列中花费的时间。当只有
++一个任务时，这两个指标是相同的，但一旦出现对CPU的争用，“运行”将减少以反映每个
++任务在CPU上花费的时间，而“可运行”将增加以反映争用的激烈程度。
++
++更多细节见：kernel/sched/pelt.c
++
++
++频率 / CPU不变性
++================
++
++因为CPU频率在1GHz时利用率为50%和CPU频率在2GHz时利用率为50%是不一样的，同样
++在小核上运行时利用率为50%和在大核上运行时利用率为50%是不一样的，我们允许架构
++以两个比率来伸缩时间差，其中一个是动态电压频率升降（Dynamic Voltage and
++Frequency Scaling，DVFS）比率，另一个是微架构比率。
++
++对于简单的DVFS架构（软件有完全控制能力），我们可以很容易地计算该比率为::
++
++            f_cur
++  r_dvfs := -----
++            f_max
++
++对于由硬件控制DVFS的更多动态系统，我们使用硬件计数器（Intel APERF/MPERF，
++ARMv8.4-AMU）来计算这一比率。具体到Intel，我们使用::
++
++           APERF
++  f_cur := ----- * P0
++           MPERF
++
++             4C-turbo;  如果可用并且使能了turbo
++  f_max := { 1C-turbo;  如果使能了turbo
++             P0;        其它情况
++
++                    f_cur
++  r_dvfs := min( 1, ----- )
++                    f_max
++
++我们选择4C turbo而不是1C turbo，以使其更持久性略微更强。
++
++r_cpu被定义为当前CPU的最高性能水平与系统中任何其它CPU的最高性能水平的比率。
++
++  r_tot = r_dvfs * r_cpu
++
++其结果是，上述“运行”和“可运行”的指标变成DVFS无关和CPU型号无关了。也就是说，
++我们可以在CPU之间转移和比较它们。
++
++更多细节见:
++
++ - kernel/sched/pelt.h:update_rq_clock_pelt()
++ - arch/x86/kernel/smpboot.c:"APERF/MPERF frequency ratio computation."
++ - Documentation/scheduler/sched-capacity.rst:"1. CPU Capacity + 2. Task utilization"
++
++
++UTIL_EST / UTIL_EST_FASTUP
++==========================
++
++由于周期性任务的平均数在睡眠时会衰减，而在运行时其预期利用率会和睡眠前相同，
++因此它们在再次运行后会面临（DVFS）的上涨。
++
++为了缓解这个问题，（一个默认使能的编译选项）UTIL_EST驱动一个无限脉冲响应
++（Infinite Impulse Response，IIR）的EWMA，“运行”值在出队时是最高的。
++另一个默认使能的编译选项UTIL_EST_FASTUP修改了IIR滤波器，使其允许立即增加，
++仅在利用率下降时衰减。
++
++进一步，运行队列的（可运行任务的）利用率之和由下式计算：
++
++  util_est := \Sum_t max( t_running, t_util_est_ewma )
++
++更多细节见: kernel/sched/fair.c:util_est_dequeue()
++
++
++UCLAMP
++======
++
++可以在每个CFS或RT任务上设置有效的u_min和u_max clamp值（译注：clamp可以理解
++为类似滤波器的能力，它定义了有效取值范围的最大值和最小值）；运行队列为所有正在
++运行的任务保持这些clamp的最大聚合值。
++
++更多细节见: include/uapi/linux/sched/types.h
++
++
++Schedutil / DVFS
++================
++
++每当调度器的负载跟踪被更新时（任务唤醒、任务迁移、时间流逝），我们都会调用
++schedutil来更新硬件DVFS状态。
++
++其基础是CPU运行队列的“运行”指标，根据上面的内容，它是CPU的频率不变的利用率
++估计值。由此我们计算出一个期望的频率，如下::
++
++             max( running, util_est );  如果使能UTIL_EST
++  u_cfs := { running;                   其它情况
++
++               clamp( u_cfs + u_rt, u_min, u_max );  如果使能UCLAMP_TASK
++  u_clamp := { u_cfs + u_rt;                         其它情况
++
++  u := u_clamp + u_irq + u_dl;		[估计值。更多细节见源代码]
++
++  f_des := min( f_max, 1.25 u * f_max )
++
++关于IO-wait的说明：当发生更新是因为任务从IO完成中唤醒时，我们提升上面的“u”。
++
++然后，这个频率被用来选择一个P-state或OPP，或者直接混入一个发给硬件的CPPC式
++请求。
++
++关于截止期限调度器的说明: 截止期限任务（偶发任务模型）使我们能够计算出满足
++工作负荷所需的硬f_min值。
++
++因为这些回调函数是直接来自调度器的，所以DVFS的硬件交互应该是“快速”和非阻塞的。
++在硬件交互缓慢和昂贵的时候，schedutil支持DVFS请求限速，不过会降低效率。
++
++更多信息见: kernel/sched/cpufreq_schedutil.c
++
++
++注意
++====
++
++ - 在低负载场景下，DVFS是最相关的，“运行”的值将密切反映利用率。
++
++ - 在负载饱和的场景下，任务迁移会导致一些瞬时性的使用率下降。假设我们有一个
++   CPU，有4个任务占用导致其饱和，接下来我们将一个任务迁移到另一个空闲CPU上，
++   旧的CPU的“运行”值将为0.75，而新的CPU将获得0.25。这是不可避免的，而且随着
++   时间流逝将自动修正。另注，由于没有空闲时间，我们还能保证f_max值吗？
++
++ - 上述大部分内容为，避免DVFS下滑，以及独立的DVFS域发生负载迁移时不得不
++   重新学习/提升频率。
++
+-- 
+2.17.1
+
