@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DABFC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 20:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EABB4C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 21:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbiCZUzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 16:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54604 "EHLO
+        id S231683AbiCZVEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 17:04:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232556AbiCZUzH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 16:55:07 -0400
+        with ESMTP id S229757AbiCZVEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 17:04:54 -0400
 Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52502AE6
-        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:53:28 -0700 (PDT)
-Received: by mail-vk1-xa2f.google.com with SMTP id j204so6018825vkj.8
-        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:53:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F16BEF
+        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 14:03:16 -0700 (PDT)
+Received: by mail-vk1-xa2f.google.com with SMTP id 47so655518vki.12
+        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 14:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pcKa0lFs61IqH0Q2OuV1GgPXmb8CKZ6CqPPFd4s4Pdo=;
-        b=Xspes3HTVVdABfoVajMr3OEvWhBDkkTooZMWaUYGSrZFUpahQoYkrv1Q9EzqmaKA6V
-         kg+1PcsBi4kGIrJg+pUt5M4OOn6UA49m2MCMFBuj6JiDN0sEwAGFnY+hoW9QEgu1rVpQ
-         o2guAsbCVInzLWGCRoOj7XPHcpFsZU+vWVk3XpAyXieCwDkxD7S52atyPdGYgPbtP6tv
-         fm78xa7C1zsHUPJGF83xIy0WJq7gTKNnZSE7OX8g2mR8Yy75CgDLFXEugTIfZNO880bs
-         ThSuTnxmSYG0/DYmWqUQ1ylGBwUJgyRojWOMdyLGd+zQijI7sjenkZgM7B9GZjqL8hYY
-         Z3fg==
+        bh=J8s39Hf+0zr8egKm//Mqpb+5/kH7X9BGZ05be3kJ96k=;
+        b=cOVN4o+wgdD7dvKIYdB98sVRw16J+6jzP953f8PKKcHbIu7AgloP8MACx5VtPZm5+k
+         sHDebP5KI0MEGXzKdpagdhmL9ec0ZIp0XSko3YKKQoJSR47669gqTTk+3whwAsVMzRIb
+         cX7MuHhqhJOuPYojwwuxD/ifznzZCfMujTx1hTBOBXGKKrMHcvbfxlE8qrY7jnqg4FSk
+         LanKficLPing2dBDIU3ydpVrdwgNgl50JFncIP1pOy/F76W3tZBx42zDZWFDNjTwVeCU
+         8736ztS7wIO72EtxaxJ0lh9K53yF+n07XUFgmOcl2i4NLyBgHXaXEgCuqw/NO/p/6Rd3
+         GllA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pcKa0lFs61IqH0Q2OuV1GgPXmb8CKZ6CqPPFd4s4Pdo=;
-        b=UpvK+y9+HpUL2E0eazSJGMtDlrK+f4XPyod5KIua0hIJhyeEQJFiUhBETVZznzwjHS
-         iZXmWcu/WjdRpPaYWLv76sd2sBUbzXAoRIo9CUVtFaDzeMkIuPmfKpUiI+335YQmtr+K
-         w6TCITT0ZOuYO8G9WeGqV4tPM+me/Xifw0Z7VwreyclOk4OHtXyGj+Whj92beYNOMD0g
-         2wYhm+YuZmhwU3ac8YZ3+LPFGo5/dF5gR9jZSgqVazk+QZnOjeDCsIDf9T5sdA9acjji
-         T1/XqnVm8ir1q2gGe+CVxuaUfhKo/NvffgHH9EvIdIJ0E95HBj5jv1lspDoPuRgraBvr
-         LzPQ==
-X-Gm-Message-State: AOAM530ANamN96P2XRQndKvqCIdkRC/JfLt6T0BbPG1fIMymxfWz8WYa
-        DfEh5uuen+m1SXSQXKnj6z1tapmKVRDPieogEX3Xqg==
-X-Google-Smtp-Source: ABdhPJyBTheGCd1/qWmKwHBWy11nbe8qMWIxCfeR6u/YZP/6FIuOSSlgRCNPyk+BnY3kdnzeEIN3aw8VCvkZ7FRAqak=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr7482497vkf.35.1648328007397; Sat, 26 Mar
- 2022 13:53:27 -0700 (PDT)
+        bh=J8s39Hf+0zr8egKm//Mqpb+5/kH7X9BGZ05be3kJ96k=;
+        b=pnGpPIA7M1879GbM9imAFpTKig0Jo6iBTbYhDk83814sTnv8+K13j0ugJTQ9REygsx
+         /ql2MiUzvoFXdY48NJ0QgDv4LL6A3CEVkdk250BbHwOsABo4cPeLBJ7jmG8ij60aEeW7
+         0YYI5uONMbRdzyVJENeRls/tcaNdtsOVuP9Rlb+AHhgxiRlWj04rTqOriPS3VXR+kaLG
+         TVtoVcHThBDqK7CHY211BF9Zzadx2PTEVDsnZr6r1buJ5EkSLOFzX/W+/BIfUW5c0N6r
+         +crAr8dOvQ/Ujvew651SWFB0H/cq+QuWt1RgTAzeZUThsRj6aMP2m6gQqEyyMNZhW2n2
+         TH2w==
+X-Gm-Message-State: AOAM532ibBCz3z8YGHKm1YbJ63Bn7/BQIYH0KQZuZnp/gBluO58OlJsv
+        irt0NE4ulap3vBEQoQR2r++6DwiFHCf1+tj4eKbWcg==
+X-Google-Smtp-Source: ABdhPJwagl7oEUUX31C3s4tj4gQK/i+pmRpDRgvmBdJJLJAvyM7y8gSo5aR2CqsTEOZb6pMz6zw8hoW9RMAq4c+uORg=
+X-Received: by 2002:a1f:a9cb:0:b0:33e:d145:85f0 with SMTP id
+ s194-20020a1fa9cb000000b0033ed14585f0mr7726646vke.7.1648328595748; Sat, 26
+ Mar 2022 14:03:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220326010003.3155137-1-yuzhao@google.com> <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
- <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com> <CAHk-=whbdpeeKbCYggJqfk0ExEPyxSW-yXSsNUqsGpd5ozt-Kg@mail.gmail.com>
-In-Reply-To: <CAHk-=whbdpeeKbCYggJqfk0ExEPyxSW-yXSsNUqsGpd5ozt-Kg@mail.gmail.com>
+ <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com> <20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org>
+In-Reply-To: <20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Sat, 26 Mar 2022 14:53:16 -0600
-Message-ID: <CAOUHufa8aDno3tSF3cuxCe2+FiuBG8gjBED=kAwY6PhkGfrkoQ@mail.gmail.com>
+Date:   Sat, 26 Mar 2022 15:03:04 -0600
+Message-ID: <CAOUHufYU2m5UFbcvLDK7vNdqmh2utbwGK+fvDKYHz4rhw4WYXw@mail.gmail.com>
 Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Barry Song <baohua@kernel.org>,
         Brian Geffon <bgeffon@google.com>,
@@ -96,17 +96,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 26, 2022 at 2:28 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Sat, Mar 26, 2022 at 2:49 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> On Fri, Mar 25, 2022 at 6:16 PM Yu Zhao <yuzhao@google.com> wrote:
+> On Fri, 25 Mar 2022 19:16:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > On Fri, Mar 25, 2022 at 7:07 PM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > On Fri, Mar 25, 2022 at 6:00 PM Yu Zhao <yuzhao@google.com> wrote:
+> > > >
+> > > > This is more of an option than a request for 5.18. I'm sending it to
+> > > > you directly because, in my judgement, it's now as ready as it'll ever
+> > > > be.
+> > >
+> > > So I do expect to merge this, but I don't think it has been in
+> > > linux-next, has it?
 > >
 > > No. I could ask Stephen to see if he is willing to take this series. I
 > > was hoping to go through Andrew since his tree is what most MM
 > > developers test. I haven't heard from Andrew, so I assume he has no
 > > strong opinion and I don't want to put him in a different position.
 >
-> So I'd definitely want to see this in linux-next for a while, which
-> implies it's not ready for this merge window.
+> hm, sorry, something in the headers here fooled my (elaborate) procmail
+> rules :(
+>
+> Please yes, let's have a cycle in -next.  I thought we decided to do
+> that in discussion with Matthew Wilcox?
 
-Thanks for the clear instructions. Will follow them.
+Will do.
+
+> Also, sorry, but I'm not seeing many commonly-seen names amongst the
+> reviewers.  I'd be more comfortable if people who have done most work on
+> page reclaim up to this time have had time to review and comment.
+
+Me too :) Unfortunately I can't dictate others' priorities or
+methodologies. So I have reset my expectations from getting their
+reviewed-by's to not getting their NAKs.
