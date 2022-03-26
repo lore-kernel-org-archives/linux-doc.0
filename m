@@ -2,79 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42933C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 00:03:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 903A9C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 01:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbiCZAES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 20:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41294 "EHLO
+        id S229789AbiCZBBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 21:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiCZADq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 20:03:46 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984AA58E74;
-        Fri, 25 Mar 2022 17:02:10 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2B3CB740;
-        Sat, 26 Mar 2022 00:02:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2B3CB740
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648252930; bh=cUM0bA6twXDq+rLcbYqfzIlfhUvjvLtmgZEyHL8oBlI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kbw/RodfhLjNlgWGazhjMkzxiNUUD/f5JK8pu41IDDOrqD+AUHU9lR4QwZvFi/zqy
-         vI/G8Gww56Hs9cWcfOBeQDazJ7+9XoimECCTVGLfl+ESqRyzx74XeyU/KmJ3Dt3uC/
-         Wksqv/2G0BmR/UX8jZUxgFgP+ncUj+5ZcyXN9LhLpnIBUXbMIJ4uXwthrWi/WqgZLd
-         TZ8pjvLSak6k8tXVwrjEKJKT7X6dif72hzsA+IhtJeatPWp7XqVBMDESXjEGkxe+QW
-         Cf1vj196xU4Fw5XEdMPYCY6YibgaErv2x8tAAc9qf9olCBuGlD71KFvsIKYVxeiL4o
-         HLezU6G/2L85A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] scripts/get_feat.pl: allow output the parsed
- file names
-In-Reply-To: <20220326003050.50750c75@coco.lan>
-References: <cover.1648216561.git.mchehab@kernel.org>
- <a924b46a80d750d808c28a27adffaa5d5a983e5c.1648216561.git.mchehab@kernel.org>
- <874k3lg7r3.fsf@meer.lwn.net> <20220326002109.2cda0402@coco.lan>
- <20220326003050.50750c75@coco.lan>
-Date:   Fri, 25 Mar 2022 18:02:09 -0600
-Message-ID: <874k3ld1j2.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S229746AbiCZBBw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 21:01:52 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667004990B
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:00:16 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2e6aaf57a0eso66391587b3.11
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=W/ClygQLeJR/GjVzXq75kHiIvruhnm90EJigIUb5rZw=;
+        b=qvXvN7ja3CcCfay9zb0Q2CDseDpfbRINVIQt1YTD06ESglVUby/9ezmskzn7/w1Koa
+         un04IA9WyKGhKOEc48VCnthy3cleHZGP3rbESDpwCOCC8cMPwrC04Nwg4XT8NqqZ0EIW
+         Z61UGzTYFCU6LrZ+Sqe6Mxyoq5iZhYg8G9xKg8X1GpqgKy73kbsuOoJsFiNHsISuc/1R
+         l6JOVgQ4OfTV2WC2GMTRta4NclDnXa7DOGbcok6OLgUqeJ6+7N9ZncSFkivTW/gIf0k4
+         HKF4UqSzmR88sKi0dZ9pasMRPcAEiNM4shQ9OE32PQcXH6tOS4P2bQoFVGjAf+7m8Eut
+         TyBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=W/ClygQLeJR/GjVzXq75kHiIvruhnm90EJigIUb5rZw=;
+        b=4Rp1gVEmVEvnJ8xcqBundSZHXxFoXhWruY2m3aRrKZRSlk4AZEizvLf1N8S9kxhIYJ
+         ay7mJ2/8v9XNMWNwYWMkIB/ZhEENKCTm+UZiEvqYvQ8cF9+zdC0j+Ro40zOU3xq4xMmE
+         dwkvf0mrjGeC4Of1PpiajH/c4TeY6BGUnBrdPqg0tSKXfZUnou3a0ZOxZUm9V7C6YPtO
+         PBnULhqw/BID9X6n6v/S75QPOvBfcozTNiaCJGp65WN78y5HssIojwrJUQSAYUItZJaw
+         WWszLWr9pemdn9zZoLznJt2uNzS74pJdswh66gqIS1nn92+uI6z+n8l5swiMpvNmjY0y
+         IQ6w==
+X-Gm-Message-State: AOAM5322Qm07XsEIHyGAQqwVh7EmdTiUCf7P2M9OiOi9U4/NtRhfIFP1
+        i5w7LuIeJMiWoQVxIbtDziMTtRZwvUA=
+X-Google-Smtp-Source: ABdhPJy2mX78Uhkpp5sqymv1JurScdsIpF4FkonUhkkFsQjtO+6MfpQJTJvSqsJUsyMITIzOvH5PK27R4IE=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:cd78:b0cd:6717:696d])
+ (user=yuzhao job=sendgmr) by 2002:a25:1f88:0:b0:633:6acc:ebff with SMTP id
+ f130-20020a251f88000000b006336accebffmr14039337ybf.377.1648256415541; Fri, 25
+ Mar 2022 18:00:15 -0700 (PDT)
+Date:   Fri, 25 Mar 2022 19:00:03 -0600
+Message-Id: <20220326010003.3155137-1-yuzhao@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+Subject: [GIT PULL] Multi-gen LRU for 5.18-rc1
+From:   Yu Zhao <yuzhao@google.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <baohua@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Donald Carr <d@chaos-reins.com>,
+        Hillf Danton <hdanton@sina.com>,
+        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
+        <holger@applied-asynchrony.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Rik van Riel <riel@surriel.com>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Yu Zhao <yuzhao@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+Hi Linus,
 
-> Btw, maybe we could replace them tree with a Sphinx comment, like:
->
-> get_feat.pl:
-> 	.. FILE <file_name>
-> kernel-doc:
-> 	.. LINE <line_number>
-> get_abi.pl:
-> 	.. FILE_LINE <file_name>:<line_number>
->
-> (or something similar)
->
-> Just let me know what you prefer and I can take care of the needed
-> changes on this patch and, if it is the case, writing the extra patches
-> in order to use the same model on kernel-doc and get_abi.pl.
+This is more of an option than a request for 5.18. I'm sending it to
+you directly because, in my judgement, it's now as ready as it'll ever
+be.
 
-If it were just me, I'd just put "FILE <name>" or something simple.
+Thanks!
 
-I don't really have a strong opinion on the matter though; it's not like
-people have to actually look at these things.  I was mostly curious as
-to why you'd done it that way.  I can take the original patches or any
-of the variants above; just let me know which you like best and we'll
-get this done.
+The following changes since commit 46f538bf2404ee9c32648deafb886f49144bfd5e:
 
-Thanks,
+  Merge tag 'backlight-next-5.18' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight (2022-03-25 14:01:23 -0700)
 
-jon
+are available in the Git repository at:
+
+  https://linux-mm.googlesource.com/mglru/ tags/mglru-for-5.18-rc1
+
+for you to fetch changes up to bcf5f2a801b85f09ad691d07460fdf3fbef8404d:
+
+  mm: multi-gen LRU: design doc (2022-03-25 15:30:50 -0600)
+
+----------------------------------------------------------------
+Multi-gen LRU for 5.18-rc1
+
+This series was retested on top of 5.18-ed4643521e6a. All previous
+comments have been addressed.
+
+Changes since v8 [1]
+  * Removed two user-hostile config options (suggested by Linus
+    Torvalds).
+
+Changes since v9 [2]
+  * Resolved the conflicts with the latest folio changes.
+  * Switched to spin_trylock() to move onto the next page table rather
+    than spin on the current one when trying to clear the accessed
+    bit on many page tables.
+  * Added introductory paragraphs to the admin guide and the design
+    doc (suggested by Mike Rapoport).
+  * Expanded comments in get_nr_evictable() (suggested by Barry Song
+    and Aneesh Kumar).
+  * Expanded comments in inc_max_seq() (suggested by Barry Song).
+
+[1] https://lkml.kernel.org/r/20220308234723.3834941-1-yuzhao@google.com
+[2] https://lkml.kernel.org/r/20220309021230.721028-1-yuzhao@google.com
+
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+
+----------------------------------------------------------------
+Yu Zhao (14):
+      mm: x86, arm64: add arch_has_hw_pte_young()
+      mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+      mm/vmscan.c: refactor shrink_node()
+      Revert "include/linux/mm_inline.h: fold __update_lru_size() into its sole caller"
+      mm: multi-gen LRU: groundwork
+      mm: multi-gen LRU: minimal implementation
+      mm: multi-gen LRU: exploit locality in rmap
+      mm: multi-gen LRU: support page table walks
+      mm: multi-gen LRU: optimize multiple memcgs
+      mm: multi-gen LRU: kill switch
+      mm: multi-gen LRU: thrashing prevention
+      mm: multi-gen LRU: debugfs interface
+      mm: multi-gen LRU: admin guide
+      mm: multi-gen LRU: design doc
+
+ Documentation/admin-guide/mm/index.rst        |    1 +
+ Documentation/admin-guide/mm/multigen_lru.rst |  152 ++
+ Documentation/vm/index.rst                    |    1 +
+ Documentation/vm/multigen_lru.rst             |  160 ++
+ arch/Kconfig                                  |    9 +
+ arch/arm64/include/asm/pgtable.h              |   14 +-
+ arch/x86/Kconfig                              |    1 +
+ arch/x86/include/asm/pgtable.h                |    9 +-
+ arch/x86/mm/pgtable.c                         |    5 +-
+ fs/exec.c                                     |    2 +
+ fs/fuse/dev.c                                 |    3 +-
+ include/linux/cgroup.h                        |   15 +-
+ include/linux/memcontrol.h                    |   36 +
+ include/linux/mm.h                            |    7 +
+ include/linux/mm_inline.h                     |  217 +-
+ include/linux/mm_types.h                      |   78 +
+ include/linux/mmzone.h                        |  211 ++
+ include/linux/nodemask.h                      |    1 +
+ include/linux/page-flags-layout.h             |   11 +-
+ include/linux/page-flags.h                    |    4 +-
+ include/linux/pgtable.h                       |   17 +-
+ include/linux/sched.h                         |    4 +
+ include/linux/swap.h                          |    4 +
+ kernel/bounds.c                               |    7 +
+ kernel/cgroup/cgroup-internal.h               |    1 -
+ kernel/exit.c                                 |    1 +
+ kernel/fork.c                                 |    9 +
+ kernel/sched/core.c                           |    1 +
+ mm/Kconfig                                    |   26 +
+ mm/huge_memory.c                              |    3 +-
+ mm/internal.h                                 |    1 +
+ mm/memcontrol.c                               |   27 +
+ mm/memory.c                                   |   39 +-
+ mm/mm_init.c                                  |    6 +-
+ mm/mmzone.c                                   |    2 +
+ mm/rmap.c                                     |    7 +
+ mm/swap.c                                     |   55 +-
+ mm/vmscan.c                                   | 3102 +++++++++++++++++++++++--
+ mm/workingset.c                               |  119 +-
+ 39 files changed, 4097 insertions(+), 271 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
+ create mode 100644 Documentation/vm/multigen_lru.rst
