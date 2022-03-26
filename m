@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0BCC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 06:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C67C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 06:28:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbiCZG3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 02:29:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53884 "EHLO
+        id S231631AbiCZG35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 02:29:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231489AbiCZG3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 02:29:17 -0400
+        with ESMTP id S231504AbiCZG3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 02:29:20 -0400
 Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A07A2E68F;
-        Fri, 25 Mar 2022 23:27:42 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KQTXJ1VSHz1GD1t;
-        Sat, 26 Mar 2022 14:27:28 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D392E68F;
+        Fri, 25 Mar 2022 23:27:44 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.53])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KQTXM0QM2z1GD24;
+        Sat, 26 Mar 2022 14:27:31 +0800 (CST)
 Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 26 Mar 2022 14:27:40 +0800
+ 15.1.2308.21; Sat, 26 Mar 2022 14:27:43 +0800
 Received: from localhost.localdomain (10.175.112.125) by
  dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sat, 26 Mar 2022 14:27:38 +0800
+ 15.1.2308.21; Sat, 26 Mar 2022 14:27:41 +0800
 From:   Wupeng Ma <mawupeng1@huawei.com>
 To:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
         <will@kernel.org>, <corbet@lwn.net>
@@ -42,9 +42,9 @@ CC:     <ardb@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
         <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH 5/9] mm: Ratelimited mirrored memory related warning messages
-Date:   Sat, 26 Mar 2022 14:46:28 +0800
-Message-ID: <20220326064632.131637-6-mawupeng1@huawei.com>
+Subject: [PATCH 7/9] mm: Calc the right pfn if page size is not 4K
+Date:   Sat, 26 Mar 2022 14:46:30 +0800
+Message-ID: <20220326064632.131637-8-mawupeng1@huawei.com>
 X-Mailer: git-send-email 2.18.0.huawei.25
 In-Reply-To: <20220326064632.131637-1-mawupeng1@huawei.com>
 References: <20220326064632.131637-1-mawupeng1@huawei.com>
@@ -60,41 +60,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ma Wupeng <mawupeng1@huawei.com>
 
-If system has mirrored memory, memblock will try to allocate mirrored
-memory firstly and fallback to non-mirrored memory when fails, but if with
-limited mirrored memory or some numa node without mirrored memory, lots of
-warning message about memblock allocation will occur.
-
-This patch ratelimit the warning message to avoid a very long print during
-bootup.
+Pervious 0x100000 is used to check the 4G limit in
+find_zone_movable_pfns_for_nodes(). This is right in x86 because
+the page size can only be 4K. But 16K and 64K are available in
+arm64. So replate it with SIZE_4G >> PAGE_SHIFT.
 
 Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
 ---
- mm/memblock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/page_alloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index b12a364f2766..19ae4a63fc08 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -327,7 +327,7 @@ static phys_addr_t __init_memblock memblock_find_in_range(phys_addr_t start,
- 					    NUMA_NO_NODE, flags);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 6e0b4596cde9..41fd987b5b93 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -7811,7 +7811,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
  
- 	if (!ret && (flags & MEMBLOCK_MIRROR)) {
--		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
-+		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
- 			&size);
- 		flags &= ~MEMBLOCK_MIRROR;
- 		goto again;
-@@ -1385,7 +1385,7 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
+ 			usable_startpfn = memblock_region_memory_base_pfn(r);
  
- 	if (flags & MEMBLOCK_MIRROR) {
- 		flags &= ~MEMBLOCK_MIRROR;
--		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
-+		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
- 			&size);
- 		goto again;
- 	}
+-			if (usable_startpfn < 0x100000) {
++			if (usable_startpfn < (SZ_4G >> PAGE_SHIFT)) {
+ 				mem_below_4gb_not_mirrored = true;
+ 				continue;
+ 			}
 -- 
 2.18.0.huawei.25
 
