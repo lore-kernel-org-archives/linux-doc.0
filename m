@@ -2,63 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F92EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 01:07:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21394C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 01:16:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbiCZBJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 21:09:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44004 "EHLO
+        id S229997AbiCZBSE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 21:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiCZBJY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 21:09:24 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1069715282E
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:49 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id bi12so18464435ejb.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:48 -0700 (PDT)
+        with ESMTP id S230025AbiCZBSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 21:18:04 -0400
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE3721960A5
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:16:27 -0700 (PDT)
+Received: by mail-vk1-xa36.google.com with SMTP id w189so5119945vke.10
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NseqcOErFtU1LljXK411YTLgt9GH8dQMTY4dlb6RFSk=;
-        b=LNgmEMCn1XnxX/EFBHUQ2zGxHvMCFBgu+ZpE3CiC2daiCLlILuCJLO7tuHRQ4w19+G
-         zouO12+LwuYUNeyDQXrfeVBAI4OThT+BsSQLmjTA4r/9D4Ajgbdmr5vbulOZz7lXV5yM
-         ZTs47phBmakG6v9VF47l0+hTPTc3c8ssjfmXs=
+        bh=sWh9Ea2SfYQLuMecAvYHl1bg2ANjarcukEX42J9T3Q4=;
+        b=Fw839jtTa+ujk4jaMx/ShkgCxzwfRNSxWAk1ruX8Ob/eJXDJFBhPGjXAAk+FVw/2LD
+         1kkvuDrQPXXVn+rumYNup3U6BtAAPWRoyhFcg0kO3hsunKH3VxtyTHPCFebKfCeW/CFk
+         QILcrPPXH7kIgjswUfQses1yTPTfPXbFXZZbnzzoLdyCofXYJ8VIlebS43mnBqVPD9k0
+         b6b5YwV40H+IPneGBDe0iuP3KmBalqQVuKTK4vUJ0NEf4u254ahc8xuxGXT97hG1V9q5
+         ft+V2omAMeXN+Ts1DHIoUOI9fawa+p36cwhJJno0y+ZmyXkVneFIfwc50mgyA3ckVAxI
+         K41Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NseqcOErFtU1LljXK411YTLgt9GH8dQMTY4dlb6RFSk=;
-        b=H6f7o3Misj6A3IKRtpVGy1dgk+T5RDu5jf7S+JaxzgmrliOSSew/dBi09kAMZzjgsC
-         cF0XqVyTIK/OBoi+QNxaaKeWcdOU1vpUYMqyiD1p12qsS2Soyheg2g3LQBCG+oy0p1Ch
-         CWerbTQXyGKvCtglGzn64C0+S+qjP9hWfZRpaNj7LPfhABnRsuZfbV4ih1c4cNXypyw2
-         6DtG0beIkOiJux3lGuEOZ/CqrU5COTdGLQLtstYVXi0ii8ucxsScT3wyi21EAREH0rE0
-         EoW2oZF4N+Qh80VpuxNHEI85KmHjWU8ZQT/pjHI6Szr+2o5V3vCw9p1rnXzZ10zTUaG6
-         j8bA==
-X-Gm-Message-State: AOAM531djHIcI1UI9uev1q2libIeGOvpBj045X7UHpfL/Xx+Kq5+VbYp
-        a7isGdvX6HxxgXxTlrg+/hU9/yWs0+LpL12AULeUdg==
-X-Google-Smtp-Source: ABdhPJzmp2Fvx8HvIrYvzZLug+YwlHo5lh2kq3HbpFLQ/832eNAGB53chiPnx7hdOac3i+MjU8qAfg==
-X-Received: by 2002:a17:907:7f0b:b0:6e0:a336:a3f5 with SMTP id qf11-20020a1709077f0b00b006e0a336a3f5mr6151941ejc.541.1648256867305;
-        Fri, 25 Mar 2022 18:07:47 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id qa44-20020a17090786ac00b006dbcd7c9656sm2920418ejc.172.2022.03.25.18.07.45
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Mar 2022 18:07:46 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id bq8so4451332ejb.10
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:45 -0700 (PDT)
-X-Received: by 2002:a2e:9904:0:b0:247:ec95:fdee with SMTP id
- v4-20020a2e9904000000b00247ec95fdeemr10483376lji.291.1648256855004; Fri, 25
- Mar 2022 18:07:35 -0700 (PDT)
+        bh=sWh9Ea2SfYQLuMecAvYHl1bg2ANjarcukEX42J9T3Q4=;
+        b=NiilDbhzFZ0wTA2cQdgi3t5Yl9ctdwqovSYwa4eJhZI0qwc/7imzPrrbW6POhXSRPd
+         7E7eixJEo9/CnqKMx4ryOBWbU0dZz68IAxa8A8udEAgJKEjgYzuMn4UddU0ZKucoUkXu
+         fCh85FN22H3Vc3J11ljcjiCAV3nZVq91GzcPUgPADYprBGzOZ7ZESjqgxepW1vHFxF7e
+         Hln7AFRUJtEZYfmyfHJmGVtiU+0d4wS8dUO0ge/B7jtcAqRH748UDkTkSUfaPPK228ex
+         Gdwv2TgsOZlZyI1++h0VTnXd30eMJDShtJBBWCGWU+jl6Kl0RM0+Hgm0HO4xcJOwu719
+         cw/g==
+X-Gm-Message-State: AOAM531+SQbiPC32kBxUD5uGyZfPzccsnWjeWzGO5tJJNi0CduNpCbdQ
+        d4DZC5E/u0UiXrTkAwBq47VyJ5BzMgURMkg1u7KNQg==
+X-Google-Smtp-Source: ABdhPJzsZZY01w8F9FI02pR0G+qwcUxzDSqfau5PVajQtOT0uIUI+36L5FVD4NKAgdVasVtVUjzFr849CtqouiU0xZc=
+X-Received: by 2002:a1f:a9cb:0:b0:33e:d145:85f0 with SMTP id
+ s194-20020a1fa9cb000000b0033ed14585f0mr6593027vke.7.1648257386623; Fri, 25
+ Mar 2022 18:16:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220326010003.3155137-1-yuzhao@google.com>
-In-Reply-To: <20220326010003.3155137-1-yuzhao@google.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 25 Mar 2022 18:07:18 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
-Message-ID: <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
-Subject: Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
-To:     Yu Zhao <yuzhao@google.com>
+References: <20220326010003.3155137-1-yuzhao@google.com> <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Fri, 25 Mar 2022 19:16:15 -0600
+Message-ID: <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
+Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -102,21 +95,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 25, 2022 at 6:00 PM Yu Zhao <yuzhao@google.com> wrote:
+On Fri, Mar 25, 2022 at 7:07 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> This is more of an option than a request for 5.18. I'm sending it to
-> you directly because, in my judgement, it's now as ready as it'll ever
-> be.
+> On Fri, Mar 25, 2022 at 6:00 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > This is more of an option than a request for 5.18. I'm sending it to
+> > you directly because, in my judgement, it's now as ready as it'll ever
+> > be.
+>
+> So I do expect to merge this, but I don't think it has been in
+> linux-next, has it?
 
-So I do expect to merge this, but I don't think it has been in
-linux-next, has it?
-
-I would really like to see it get that linux-next workout with various
-automation bots going after it.
-
-I'd also like to see explicit acks from the usual suspects, or at
-least make sure we don't have any explicit NAK's coming in.
-
-Andrew & co?
-
-                   Linus
+No. I could ask Stephen to see if he is willing to take this series. I
+was hoping to go through Andrew since his tree is what most MM
+developers test. I haven't heard from Andrew, so I assume he has no
+strong opinion and I don't want to put him in a different position.
