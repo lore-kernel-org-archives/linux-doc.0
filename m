@@ -2,99 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C965EC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 13:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF52C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 14:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233140AbiCZN7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 09:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
+        id S232835AbiCZOxg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 10:53:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232543AbiCZN7D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 09:59:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DDDCDF4BC;
-        Sat, 26 Mar 2022 06:57:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0998A60ECC;
-        Sat, 26 Mar 2022 13:57:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38069C340EE;
-        Sat, 26 Mar 2022 13:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648303046;
-        bh=HOkf7BpuW7qajUziuSzll9yU+W0M8a5zkgH+oxR3DWg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U6Wj317tVd3AyMzFoTmf+nKzV4OKlWThsgcIwY5E0UM/pDcJzNS9yCA5JS7otIYw7
-         frT1XFE+94ZF087u+xjRV9nG4/fMhI7iSwToRH8QOq3sGffKU7LwDtT+BjqVQGbGus
-         8pkkFKc5yIqmJ4EC+PWPHdqwJ4cyPpb1NklemlrNahuj5Sv1yBOH3rB4KtRWWXFQV8
-         qmK3kAClKQXQncYsi1mRHJB8szWmgHqFWV39sPENg7JCFcE6erM9pr71OGeHMxMOIW
-         auDzVWxZqMAKTyOGbZGjzPIBoSji8SaVWgNViIejLpzLAp4e9SnEUU2wlhSS7sjrzx
-         Eb+MsaFjaOvIA==
-Date:   Sat, 26 Mar 2022 14:57:21 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] Documentation: sphinx: replace "Introduction"
- chapter heading with page title
-Message-ID: <20220326145708.7926b29d@coco.lan>
-In-Reply-To: <20220326123337.642536-3-bagasdotme@gmail.com>
-References: <20220326123337.642536-1-bagasdotme@gmail.com>
-        <20220326123337.642536-3-bagasdotme@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        with ESMTP id S232561AbiCZOxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 10:53:35 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F76F2467D3;
+        Sat, 26 Mar 2022 07:51:59 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id c62so12204361edf.5;
+        Sat, 26 Mar 2022 07:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QC7lpceM/y6F2YdxeUftCt81nuxEH4oJpSeNcs9ScEE=;
+        b=dRJ9I0aonPR3CSesQY6EcQrKEahhdKcTcz0dA+Ahj52EFLkftPkKIq+UGdVWHvcqqe
+         Q9+8LnRB0b/lLTEmQEmh6kvdaDv+k7R3COWOs0jzfHNIqFip2f75KFTzudBnOKVnqnxe
+         w2Wq92Pxncdsr4SbOTfpx3WbKzDk38sRVwb947CsET3q6TLFhVIM5RmE4NfKJiVC2zZB
+         59weh67YjT/wDRUTMQJpOz79e5JOrq/RvLw0hQgSgEvSQGsuGeFiuTSEva7nnfTqf6Tj
+         EmPu/9DkJ0GJF4Ku1R9nv8FQ3Ray5xFi7zyEMYjs+f+1TWU/2qE2QfZn2JxJ5oDnu4mT
+         yg/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QC7lpceM/y6F2YdxeUftCt81nuxEH4oJpSeNcs9ScEE=;
+        b=AgwHUzJrVY31DLwMJDFkUAuiqKG+DyAxnfJrIHugH0IdpsLgD8gG6hS05E36E5o2Pa
+         xjBijQdP/2MBn4L90EejZTV51hGKyJJqxMzq84k9OgdnNJZl/gD6/DxFDvcCzbZSbb+g
+         JhSYaRSD7ZzYumvRYZChc2fKunk84IIWLesKBf7BGKHAANqJXItOcdLKdYeyBDDXDQhL
+         Etw8KM7Wxkw6HffW65tkUdbuJTBUMeP5rj6OSVN7ZAsBEtoeIR16qMQIWGPUkwGIEqsA
+         N6CrtX1yxT3DvjbJ+ZcLa7JnyhDQB5t2vKJqXT6LMVVIaH0HqHqK4H/kUZfY+I0PfXG4
+         Zx7A==
+X-Gm-Message-State: AOAM531/7xuQGB73xnW14Dp48WzJOOyL8AIkXH68ttt6g4BZEkBGANiQ
+        Ba8ecn64ysw3eYrtT4oGvUc=
+X-Google-Smtp-Source: ABdhPJzIit+M7R8fykG/wzhFP7QOkIxuiqF5kA3aCKQAOYv0dyZBDF4ejeEnImnTjNRW1lhDz8TbrQ==
+X-Received: by 2002:a05:6402:3495:b0:419:1ff6:95d9 with SMTP id v21-20020a056402349500b004191ff695d9mr4914039edc.249.1648306318032;
+        Sat, 26 Mar 2022 07:51:58 -0700 (PDT)
+Received: from fedora ([95.180.24.23])
+        by smtp.gmail.com with ESMTPSA id g21-20020a056402115500b00413c824e422sm4248148edw.72.2022.03.26.07.51.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Mar 2022 07:51:57 -0700 (PDT)
+Date:   Sat, 26 Mar 2022 15:51:55 +0100
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (aquacomputer_d5next) Add support for
+ Aquacomputer Octo
+Message-ID: <Yj8oi/2gvMb0nsgQ@fedora>
+References: <20220326101250.8076-1-savicaleksa83@gmail.com>
+ <083c2e34-dd56-07b1-543f-1627bd77acf2@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <083c2e34-dd56-07b1-543f-1627bd77acf2@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 26 Mar 2022 19:33:38 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
+Hi Guenter,
 
-> Replace first chapter heading ("Introduction") with page title named
-> "Using Sphinx for kernel documentation". This way, the first-level TOC
-> for doc-guide contains title instead of chapter headings for this page.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Akira Yokosawa <akiyks@gmail.com>
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Thanks the for the review. The missing break; statements are my
+oversight, I'd never omit them otherwise. Will fix in v3.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Yes, those should be centi-percent if I'm not mistaken... For
+example, 47.52% is read as 4752 from the device, so that's
+divided by 100 and scaled to PWM.
 
-> ---
->  Documentation/doc-guide/sphinx.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index bb36f18ae9ac3e..2ff1ab4158d48e 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -1,7 +1,8 @@
->  .. _sphinxdoc:
->  
-> -Introduction
-> -============
-> +=====================================
-> +Using Sphinx for kernel documentation
-> +=====================================
->  
->  The Linux kernel uses `Sphinx`_ to generate pretty documentation from
->  `reStructuredText`_ files under ``Documentation``. To build the documentation in
-
-
-
-Thanks,
-Mauro
+Aleksa
