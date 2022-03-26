@@ -2,76 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484A3C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 12:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3B5C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 13:13:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232999AbiCZM6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 08:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
+        id S231591AbiCZNPO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 09:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232993AbiCZM6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 08:58:42 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35034D256;
-        Sat, 26 Mar 2022 05:57:02 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id r23so12035637edb.0;
-        Sat, 26 Mar 2022 05:57:02 -0700 (PDT)
+        with ESMTP id S233020AbiCZNPO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 09:15:14 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 195592610C;
+        Sat, 26 Mar 2022 06:13:34 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id c11so8619742pgu.11;
+        Sat, 26 Mar 2022 06:13:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+IqwQrreaIW02AJS03/xoNmlaUlmZ/vkoMhCtmeGgTY=;
-        b=d0L1mFtnsWjkMbp1xeTZO4YLbtRG3luGFyq51W2lvdnCjC90b6HlUw4oDmRuFvyc7+
-         +A622rpmAHOWESqkmAWdkdku6NAY3rBo51vzQSC4MTVZf9SnvDMflXXR8cU5H5mlyjKn
-         E7FDjggoKQtZkCz9r2UOuDgfuxS8EHOPTIh+/DiLFNKdH4oCVaQ+qFdOTwRx/2qa/D+v
-         2LjpknmG3SuOnKQrAQ//g48ottG98DxLBAJmUR7GL5xvdQdBjn56WpYuomFsoB8yes/d
-         owzQU/zU7Xr1vUI2e6FzpQ7b4AcXh3iMhaX/1a0ZD/r9s1ujHtbLHlLeLJF2DYKXDmw8
-         dhQg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2+eIxZqOe1Mjhf8cNcbX7USgWsl2vUVVnTGEjRC7N0w=;
+        b=EhbOaNm9b/gV+8+y0Y/4ONHt1vg8NQxn1EYZZo5K3DIjtbs0J6QA+ODLeHVRk4XbEs
+         QXqdUi820CxbqTzTO0hrvxxrt34d8aKJuv0yj/1R85tnMzA7MhDXJnGQZ/jbTszN/BV2
+         Z8WfAgDMrVTkATtJiOfpgJoqi5Ws+Ui7XeIPGrxwZ0ZJHcBjphDofOm2Mv64zorRZcrF
+         k0X4qiDSdAe3IQyiMr6qNVrlLUd7+ezVVyyCeI7vi0IYC5+cDSPOiucNurnSfjjsZpYA
+         Meb5+PWZ9g6n++SXjSnOuJKRvVvCGk4WEkowL6/AeYynyL1ezQ4Pb67gdi4aYBpCetlF
+         7V5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+IqwQrreaIW02AJS03/xoNmlaUlmZ/vkoMhCtmeGgTY=;
-        b=PMkqUMZBWAXXhsiul84YjZ+A5QGuhyHsa+CFgshh3eBIVZvOqhc1XzBE7t85aeZLqQ
-         3I1kyB+4KNZo691loM/o4kJal/zXq6d3AcMqfxAaen9R0Xjqy0TAdiZ6EqMeBuhPELKR
-         qvbbFPVnYFvF+TUzCEiVo8xAq6M550z0+JHhkr/ZtX1rFUq3n72d9gEu1qqOFm59AW5C
-         D9RmFTHA3VUkK4V3f+9byz3cT6X4kJfQmpm/sl/h8ryy38jRL1M7P1AGOsCsTo+cyYD4
-         IPkVQ/oVeKeAUDV4J8eYuhlx+8/u0A35xY+G/SiS2DIZCCnrQqbYqwsU/I7v8IWFzQkq
-         d27Q==
-X-Gm-Message-State: AOAM532CYf+ItG0kKTux8gzlrX6Bnw9pRLOIWhIlwP3REZ762NAU4cuo
-        ygCtUJndmy9Ka+o+2Ms7OkY=
-X-Google-Smtp-Source: ABdhPJxr0dkQZIrXSHuQZKoprFCK5SlvrCOgT6kBLhnZZAJezIzj7jUgr6MBFobFAhnoto6sj+vKgg==
-X-Received: by 2002:a05:6402:1385:b0:413:2bc6:4400 with SMTP id b5-20020a056402138500b004132bc64400mr4520809edv.94.1648299421216;
-        Sat, 26 Mar 2022 05:57:01 -0700 (PDT)
-Received: from fedora ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170906780400b006ce69ff6050sm3504795ejm.69.2022.03.26.05.57.00
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2+eIxZqOe1Mjhf8cNcbX7USgWsl2vUVVnTGEjRC7N0w=;
+        b=L/YsAQ5GgYYspUkReocOkVGyOoKQFjm7bSbGwhbDSu2sAxbsuRnfjnMHrB3PoQUjxc
+         oGqrMdZhMGkhLYPMblBZPf8qeZlpTNo9Muqd3vv8QH2HAr9oIGpHXqc5mQB+KirHbRCI
+         NtazLbDu6XF2icjVSYizrdi3/IjHhd/ugGkVuLIpreXJOs1U4vvG95EsmmvGyA7PSlxk
+         7YcQNEf8kiyDK1Tnifsc3MIxB8E6E2XbVQyds0NL6CJYcRO9YLyTK4rR71IzprOXVwnc
+         ioVI3obyX9ixbSpDRQgh2nysrld3iV+QwVcaebzWp6+oZh+49v60eyRc7+xX9HXR9DUw
+         JW8g==
+X-Gm-Message-State: AOAM533y6np2aAWu70T093Ti2874OW7cF49lYGwCvP8GjOufC+sEh/WT
+        qusLk4aNdoTDAvgb+5bwgRZH52Zv4fkAq6b/
+X-Google-Smtp-Source: ABdhPJxITfRKtGZ+rCAWC+cPUlLWbvPlZgN4OMToB2Ca8oZRwme+PxNZWWOCjusVc5kHV4rHg1jMJw==
+X-Received: by 2002:a63:5014:0:b0:380:132:6b25 with SMTP id e20-20020a635014000000b0038001326b25mr3415576pgb.211.1648300413220;
+        Sat, 26 Mar 2022 06:13:33 -0700 (PDT)
+Received: from ubuntu.mate (subs32-116-206-28-2.three.co.id. [116.206.28.2])
+        by smtp.gmail.com with ESMTPSA id k3-20020a056a00168300b004f7e60da26csm10689421pfc.182.2022.03.26.06.13.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Mar 2022 05:57:00 -0700 (PDT)
-Date:   Sat, 26 Mar 2022 13:56:58 +0100
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     linux-hwmon@vger.kernel.org, llvm@lists.linux.dev,
-        kbuild-all@lists.01.org, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Sat, 26 Mar 2022 06:13:32 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Octo
-Message-ID: <Yj8Nmhw7gITs+I6U@fedora>
-References: <20220326101250.8076-1-savicaleksa83@gmail.com>
- <202203262032.UaIhk6RY-lkp@intel.com>
+Subject: [PATCH] Documentation: arch_pgtable_helpers: demote pgtable list headings
+Date:   Sat, 26 Mar 2022 20:13:14 +0700
+Message-Id: <20220326131313.691027-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202203262032.UaIhk6RY-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+Demote pgtable list headings from title heading to chapter heading.
 
-Sorry for the mess, this one is on me. :(
-Please ignore, I'll fix and resend a proper patch later.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Aleksa
+diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
+index f8b225fc919047..cbaee9e592410f 100644
+--- a/Documentation/vm/arch_pgtable_helpers.rst
++++ b/Documentation/vm/arch_pgtable_helpers.rst
+@@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
+ boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
+ test need to be in sync.
+ 
+-======================
++
+ PTE Page Table Helpers
+ ======================
+ 
+@@ -79,7 +79,7 @@ PTE Page Table Helpers
+ | ptep_set_access_flags     | Converts into a more permissive PTE              |
+ +---------------------------+--------------------------------------------------+
+ 
+-======================
++
+ PMD Page Table Helpers
+ ======================
+ 
+@@ -153,7 +153,7 @@ PMD Page Table Helpers
+ | pmdp_set_access_flags     | Converts into a more permissive PMD              |
+ +---------------------------+--------------------------------------------------+
+ 
+-======================
++
+ PUD Page Table Helpers
+ ======================
+ 
+@@ -209,7 +209,7 @@ PUD Page Table Helpers
+ | pudp_set_access_flags     | Converts into a more permissive PUD              |
+ +---------------------------+--------------------------------------------------+
+ 
+-==========================
++
+ HugeTLB Page Table Helpers
+ ==========================
+ 
+@@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
+ | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
+ +---------------------------+--------------------------------------------------+
+ 
+-========================
++
+ SWAP Page Table Helpers
+ ========================
+ 
+
+base-commit: f443e374ae131c168a065ea1748feac6b2e76613
+-- 
+An old man doll... just what I always wanted! - Clara
+
