@@ -2,54 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 903A9C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 01:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F92EC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 01:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbiCZBBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 25 Mar 2022 21:01:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S229437AbiCZBJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 25 Mar 2022 21:09:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbiCZBBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 21:01:52 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667004990B
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:00:16 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2e6aaf57a0eso66391587b3.11
-        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:00:16 -0700 (PDT)
+        with ESMTP id S229836AbiCZBJY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Mar 2022 21:09:24 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1069715282E
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:49 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id bi12so18464435ejb.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=W/ClygQLeJR/GjVzXq75kHiIvruhnm90EJigIUb5rZw=;
-        b=qvXvN7ja3CcCfay9zb0Q2CDseDpfbRINVIQt1YTD06ESglVUby/9ezmskzn7/w1Koa
-         un04IA9WyKGhKOEc48VCnthy3cleHZGP3rbESDpwCOCC8cMPwrC04Nwg4XT8NqqZ0EIW
-         Z61UGzTYFCU6LrZ+Sqe6Mxyoq5iZhYg8G9xKg8X1GpqgKy73kbsuOoJsFiNHsISuc/1R
-         l6JOVgQ4OfTV2WC2GMTRta4NclDnXa7DOGbcok6OLgUqeJ6+7N9ZncSFkivTW/gIf0k4
-         HKF4UqSzmR88sKi0dZ9pasMRPcAEiNM4shQ9OE32PQcXH6tOS4P2bQoFVGjAf+7m8Eut
-         TyBg==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NseqcOErFtU1LljXK411YTLgt9GH8dQMTY4dlb6RFSk=;
+        b=LNgmEMCn1XnxX/EFBHUQ2zGxHvMCFBgu+ZpE3CiC2daiCLlILuCJLO7tuHRQ4w19+G
+         zouO12+LwuYUNeyDQXrfeVBAI4OThT+BsSQLmjTA4r/9D4Ajgbdmr5vbulOZz7lXV5yM
+         ZTs47phBmakG6v9VF47l0+hTPTc3c8ssjfmXs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=W/ClygQLeJR/GjVzXq75kHiIvruhnm90EJigIUb5rZw=;
-        b=4Rp1gVEmVEvnJ8xcqBundSZHXxFoXhWruY2m3aRrKZRSlk4AZEizvLf1N8S9kxhIYJ
-         ay7mJ2/8v9XNMWNwYWMkIB/ZhEENKCTm+UZiEvqYvQ8cF9+zdC0j+Ro40zOU3xq4xMmE
-         dwkvf0mrjGeC4Of1PpiajH/c4TeY6BGUnBrdPqg0tSKXfZUnou3a0ZOxZUm9V7C6YPtO
-         PBnULhqw/BID9X6n6v/S75QPOvBfcozTNiaCJGp65WN78y5HssIojwrJUQSAYUItZJaw
-         WWszLWr9pemdn9zZoLznJt2uNzS74pJdswh66gqIS1nn92+uI6z+n8l5swiMpvNmjY0y
-         IQ6w==
-X-Gm-Message-State: AOAM5322Qm07XsEIHyGAQqwVh7EmdTiUCf7P2M9OiOi9U4/NtRhfIFP1
-        i5w7LuIeJMiWoQVxIbtDziMTtRZwvUA=
-X-Google-Smtp-Source: ABdhPJy2mX78Uhkpp5sqymv1JurScdsIpF4FkonUhkkFsQjtO+6MfpQJTJvSqsJUsyMITIzOvH5PK27R4IE=
-X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:cd78:b0cd:6717:696d])
- (user=yuzhao job=sendgmr) by 2002:a25:1f88:0:b0:633:6acc:ebff with SMTP id
- f130-20020a251f88000000b006336accebffmr14039337ybf.377.1648256415541; Fri, 25
- Mar 2022 18:00:15 -0700 (PDT)
-Date:   Fri, 25 Mar 2022 19:00:03 -0600
-Message-Id: <20220326010003.3155137-1-yuzhao@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
-Subject: [GIT PULL] Multi-gen LRU for 5.18-rc1
-From:   Yu Zhao <yuzhao@google.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NseqcOErFtU1LljXK411YTLgt9GH8dQMTY4dlb6RFSk=;
+        b=H6f7o3Misj6A3IKRtpVGy1dgk+T5RDu5jf7S+JaxzgmrliOSSew/dBi09kAMZzjgsC
+         cF0XqVyTIK/OBoi+QNxaaKeWcdOU1vpUYMqyiD1p12qsS2Soyheg2g3LQBCG+oy0p1Ch
+         CWerbTQXyGKvCtglGzn64C0+S+qjP9hWfZRpaNj7LPfhABnRsuZfbV4ih1c4cNXypyw2
+         6DtG0beIkOiJux3lGuEOZ/CqrU5COTdGLQLtstYVXi0ii8ucxsScT3wyi21EAREH0rE0
+         EoW2oZF4N+Qh80VpuxNHEI85KmHjWU8ZQT/pjHI6Szr+2o5V3vCw9p1rnXzZ10zTUaG6
+         j8bA==
+X-Gm-Message-State: AOAM531djHIcI1UI9uev1q2libIeGOvpBj045X7UHpfL/Xx+Kq5+VbYp
+        a7isGdvX6HxxgXxTlrg+/hU9/yWs0+LpL12AULeUdg==
+X-Google-Smtp-Source: ABdhPJzmp2Fvx8HvIrYvzZLug+YwlHo5lh2kq3HbpFLQ/832eNAGB53chiPnx7hdOac3i+MjU8qAfg==
+X-Received: by 2002:a17:907:7f0b:b0:6e0:a336:a3f5 with SMTP id qf11-20020a1709077f0b00b006e0a336a3f5mr6151941ejc.541.1648256867305;
+        Fri, 25 Mar 2022 18:07:47 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id qa44-20020a17090786ac00b006dbcd7c9656sm2920418ejc.172.2022.03.25.18.07.45
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Mar 2022 18:07:46 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id bq8so4451332ejb.10
+        for <linux-doc@vger.kernel.org>; Fri, 25 Mar 2022 18:07:45 -0700 (PDT)
+X-Received: by 2002:a2e:9904:0:b0:247:ec95:fdee with SMTP id
+ v4-20020a2e9904000000b00247ec95fdeemr10483376lji.291.1648256855004; Fri, 25
+ Mar 2022 18:07:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220326010003.3155137-1-yuzhao@google.com>
+In-Reply-To: <20220326010003.3155137-1-yuzhao@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 25 Mar 2022 18:07:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+Message-ID: <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+Subject: Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
+To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -60,8 +69,7 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Donald Carr <d@chaos-reins.com>,
         Hillf Danton <hdanton@sina.com>,
-        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
-        <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Jens Axboe <axboe@kernel.dk>,
         Jesse Barnes <jsbarnes@google.com>,
@@ -83,117 +91,32 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+On Fri, Mar 25, 2022 at 6:00 PM Yu Zhao <yuzhao@google.com> wrote:
+>
+> This is more of an option than a request for 5.18. I'm sending it to
+> you directly because, in my judgement, it's now as ready as it'll ever
+> be.
 
-This is more of an option than a request for 5.18. I'm sending it to
-you directly because, in my judgement, it's now as ready as it'll ever
-be.
+So I do expect to merge this, but I don't think it has been in
+linux-next, has it?
 
-Thanks!
+I would really like to see it get that linux-next workout with various
+automation bots going after it.
 
-The following changes since commit 46f538bf2404ee9c32648deafb886f49144bfd5e:
+I'd also like to see explicit acks from the usual suspects, or at
+least make sure we don't have any explicit NAK's coming in.
 
-  Merge tag 'backlight-next-5.18' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight (2022-03-25 14:01:23 -0700)
+Andrew & co?
 
-are available in the Git repository at:
-
-  https://linux-mm.googlesource.com/mglru/ tags/mglru-for-5.18-rc1
-
-for you to fetch changes up to bcf5f2a801b85f09ad691d07460fdf3fbef8404d:
-
-  mm: multi-gen LRU: design doc (2022-03-25 15:30:50 -0600)
-
-----------------------------------------------------------------
-Multi-gen LRU for 5.18-rc1
-
-This series was retested on top of 5.18-ed4643521e6a. All previous
-comments have been addressed.
-
-Changes since v8 [1]
-  * Removed two user-hostile config options (suggested by Linus
-    Torvalds).
-
-Changes since v9 [2]
-  * Resolved the conflicts with the latest folio changes.
-  * Switched to spin_trylock() to move onto the next page table rather
-    than spin on the current one when trying to clear the accessed
-    bit on many page tables.
-  * Added introductory paragraphs to the admin guide and the design
-    doc (suggested by Mike Rapoport).
-  * Expanded comments in get_nr_evictable() (suggested by Barry Song
-    and Aneesh Kumar).
-  * Expanded comments in inc_max_seq() (suggested by Barry Song).
-
-[1] https://lkml.kernel.org/r/20220308234723.3834941-1-yuzhao@google.com
-[2] https://lkml.kernel.org/r/20220309021230.721028-1-yuzhao@google.com
-
-Signed-off-by: Yu Zhao <yuzhao@google.com>
-
-----------------------------------------------------------------
-Yu Zhao (14):
-      mm: x86, arm64: add arch_has_hw_pte_young()
-      mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
-      mm/vmscan.c: refactor shrink_node()
-      Revert "include/linux/mm_inline.h: fold __update_lru_size() into its sole caller"
-      mm: multi-gen LRU: groundwork
-      mm: multi-gen LRU: minimal implementation
-      mm: multi-gen LRU: exploit locality in rmap
-      mm: multi-gen LRU: support page table walks
-      mm: multi-gen LRU: optimize multiple memcgs
-      mm: multi-gen LRU: kill switch
-      mm: multi-gen LRU: thrashing prevention
-      mm: multi-gen LRU: debugfs interface
-      mm: multi-gen LRU: admin guide
-      mm: multi-gen LRU: design doc
-
- Documentation/admin-guide/mm/index.rst        |    1 +
- Documentation/admin-guide/mm/multigen_lru.rst |  152 ++
- Documentation/vm/index.rst                    |    1 +
- Documentation/vm/multigen_lru.rst             |  160 ++
- arch/Kconfig                                  |    9 +
- arch/arm64/include/asm/pgtable.h              |   14 +-
- arch/x86/Kconfig                              |    1 +
- arch/x86/include/asm/pgtable.h                |    9 +-
- arch/x86/mm/pgtable.c                         |    5 +-
- fs/exec.c                                     |    2 +
- fs/fuse/dev.c                                 |    3 +-
- include/linux/cgroup.h                        |   15 +-
- include/linux/memcontrol.h                    |   36 +
- include/linux/mm.h                            |    7 +
- include/linux/mm_inline.h                     |  217 +-
- include/linux/mm_types.h                      |   78 +
- include/linux/mmzone.h                        |  211 ++
- include/linux/nodemask.h                      |    1 +
- include/linux/page-flags-layout.h             |   11 +-
- include/linux/page-flags.h                    |    4 +-
- include/linux/pgtable.h                       |   17 +-
- include/linux/sched.h                         |    4 +
- include/linux/swap.h                          |    4 +
- kernel/bounds.c                               |    7 +
- kernel/cgroup/cgroup-internal.h               |    1 -
- kernel/exit.c                                 |    1 +
- kernel/fork.c                                 |    9 +
- kernel/sched/core.c                           |    1 +
- mm/Kconfig                                    |   26 +
- mm/huge_memory.c                              |    3 +-
- mm/internal.h                                 |    1 +
- mm/memcontrol.c                               |   27 +
- mm/memory.c                                   |   39 +-
- mm/mm_init.c                                  |    6 +-
- mm/mmzone.c                                   |    2 +
- mm/rmap.c                                     |    7 +
- mm/swap.c                                     |   55 +-
- mm/vmscan.c                                   | 3102 +++++++++++++++++++++++--
- mm/workingset.c                               |  119 +-
- 39 files changed, 4097 insertions(+), 271 deletions(-)
- create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
- create mode 100644 Documentation/vm/multigen_lru.rst
+                   Linus
