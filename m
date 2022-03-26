@@ -2,66 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 272B9C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 20:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89201C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 20:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235266AbiCZUfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 16:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32974 "EHLO
+        id S232862AbiCZUvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 16:51:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiCZUfj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 16:35:39 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDA913DF1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:34:01 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id bg10so21472536ejb.4
-        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Q3ovlUP9oP3KOPVRzS2l45i5ewEnSWL0JFQ06/HulGU=;
-        b=EmBMPQsMUA/1s+ovtWl8b3YvOukUQkZ8xl1UXloUpExBp4rGI43A1Je+tUV+cRKiCs
-         MZXcIt7SEOhjabvrFz2BkMNoPF+8JlbkcPB2EVhcnkKiGSmZBXbDrviIJkNTfaxbNUlO
-         hDoO/biIc7wr4gpcE+jcufS7I4ZTgOMJ2mfcc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Q3ovlUP9oP3KOPVRzS2l45i5ewEnSWL0JFQ06/HulGU=;
-        b=tf3fqjog3MPn0ec7z8hNCPxEU556BYU23vaJPc+hYRYL0cYUa911lsRwWvmRUsOXiU
-         ziUEas7K1QiC3pjyeUSbL6jxeoabgBqC8/h6ES6+QLazXtmmaWVfhV65zQHSVT8+8tfQ
-         XvTClkfKet9Aw0wJu40vtj/IFsFIuSZF9oh99nKcrK2uLeCMJhwiMjl7TzkKJFD3EDja
-         kCAUNyg76rneW/fgeKcNI/tE14VZvep7eQoVaICOq1khIVwchAiKjFGwxQFHRVyUPaH6
-         EFMUI9IqMLDTKPnGXbdqZ9uAcKzQH01UvLo8W6rr4E29+xd2vRXvIzMlB/E8+bEGe1qo
-         uOXg==
-X-Gm-Message-State: AOAM532ViboIZTIY3c993lpXS44GxTi3zxRC1NhKgz/Jg6PK/O3GaM9n
-        8eNwM6fJrv+jXksrNMCL55RoH5gA3tJ8yj7KUBg=
-X-Google-Smtp-Source: ABdhPJwBErA0eCVyHj4n5eysXiRGyov8EzOms2T5cEwazkkt10TpIby3KzQkDjS4o9rbr3Naacu/rg==
-X-Received: by 2002:a17:907:1c10:b0:6da:6316:d009 with SMTP id nc16-20020a1709071c1000b006da6316d009mr18862957ejc.621.1648326839898;
-        Sat, 26 Mar 2022 13:33:59 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id rh26-20020a17090720fa00b006e0da7ef847sm944572ejb.13.2022.03.26.13.33.59
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Mar 2022 13:33:59 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id r13so15053563wrr.9
-        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:33:59 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d8f:b0:44a:2c65:8323 with SMTP id
- k15-20020a0565123d8f00b0044a2c658323mr13197197lfv.52.1648326480783; Sat, 26
- Mar 2022 13:28:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220326010003.3155137-1-yuzhao@google.com> <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
- <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
-In-Reply-To: <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 26 Mar 2022 13:27:44 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whbdpeeKbCYggJqfk0ExEPyxSW-yXSsNUqsGpd5ozt-Kg@mail.gmail.com>
-Message-ID: <CAHk-=whbdpeeKbCYggJqfk0ExEPyxSW-yXSsNUqsGpd5ozt-Kg@mail.gmail.com>
-Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
+        with ESMTP id S230431AbiCZUvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 16:51:10 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C599F2F1;
+        Sat, 26 Mar 2022 13:49:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71E59B80B3B;
+        Sat, 26 Mar 2022 20:49:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA042C340E8;
+        Sat, 26 Mar 2022 20:49:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1648327770;
+        bh=IktWC4ucg9Ce3DLRBDeCA8ID2ASlrSP7xzkWdP13BC4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WBDi+wSf82980ZGn1NEqQPX4O7U7OdIYhHFLaHrA9l3hMmq+nGE3CXLZaIy/MxCSD
+         ZYlhiNsONhPR44QGsKc7ONbwsGO07gWzYWmEijdQYog+S8gBKrzlLZzuHeh71WRPCf
+         TQNHb13unOP2P7K2yM1QihDyHRP4N5u7+eBHNpC8=
+Date:   Sat, 26 Mar 2022 13:49:28 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
 To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Barry Song <baohua@kernel.org>,
         Brian Geffon <bgeffon@google.com>,
@@ -70,7 +41,8 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Donald Carr <d@chaos-reins.com>,
         Hillf Danton <hdanton@sina.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Jens Axboe <axboe@kernel.dk>,
         Jesse Barnes <jsbarnes@google.com>,
@@ -98,24 +70,46 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Linux-MM <linux-mm@kvack.org>,
         Kernel Page Reclaim v2 <page-reclaim@google.com>,
         "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
+Message-Id: <20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org>
+In-Reply-To: <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
+References: <20220326010003.3155137-1-yuzhao@google.com>
+        <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+        <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 25, 2022 at 6:16 PM Yu Zhao <yuzhao@google.com> wrote:
->
+On Fri, 25 Mar 2022 19:16:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
+
+> On Fri, Mar 25, 2022 at 7:07 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Fri, Mar 25, 2022 at 6:00 PM Yu Zhao <yuzhao@google.com> wrote:
+> > >
+> > > This is more of an option than a request for 5.18. I'm sending it to
+> > > you directly because, in my judgement, it's now as ready as it'll ever
+> > > be.
+> >
+> > So I do expect to merge this, but I don't think it has been in
+> > linux-next, has it?
+> 
 > No. I could ask Stephen to see if he is willing to take this series. I
 > was hoping to go through Andrew since his tree is what most MM
 > developers test. I haven't heard from Andrew, so I assume he has no
 > strong opinion and I don't want to put him in a different position.
 
-So I'd definitely want to see this in linux-next for a while, which
-implies it's not ready for this merge window.
+hm, sorry, something in the headers here fooled my (elaborate) procmail
+rules :(
 
-I'm not convinced linux-next sees a lot of runtime testing (but it
-gets *some* of that too, certainly), but it does get a fair amount of
-at least build verification with a lot of odd configurations and a lot
-of different architectures.
+Please yes, let's have a cycle in -next.  I thought we decided to do
+that in discussion with Matthew Wilcox?
 
-                Linus
+Also, sorry, but I'm not seeing many commonly-seen names amongst the
+reviewers.  I'd be more comfortable if people who have done most work on
+page reclaim up to this time have had time to review and comment.
+
