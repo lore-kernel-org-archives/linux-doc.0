@@ -2,154 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EB5C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 10:41:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F64C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 11:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231437AbiCZKn3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 06:43:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37134 "EHLO
+        id S232716AbiCZLrr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 07:47:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbiCZKn3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 06:43:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CEF17C428;
-        Sat, 26 Mar 2022 03:41:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BA22AB80092;
-        Sat, 26 Mar 2022 10:41:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8A9C340E8;
-        Sat, 26 Mar 2022 10:41:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648291310;
-        bh=xZlqMQzbCehxyiw/2qVRxOkQ4fbRXjYYQYkq9DJvrmk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qiAsocXDmguA8lIiNPnNwP9a4acGqVo5i7MA3DdFFEsdMoOsR12SIOv6lQdzXaduL
-         DzJ41+2ktcMf0VQ6cirHh/7iEoCGlgieIW7Gzv49tGi/Zfl4NV20G9AVzLFjf9kcwj
-         oLzKmrsrSvuDNEEbrgrQinXAfJne1/w9N6uOxsxW8uFbs289+i5K0qzCeKGj9iFiJ7
-         mk2AWHu4+ssUM6sP8Y21Ttd5YTR1PCB5j5uAaotsj0fDvdOD+JUHd/2hgsIAHVhbC0
-         HSL8akFCiRrvM8UOkgGIvDDkfn6xJ7/ReifxKuHzuQnXHwZ+nqdrDYxvJkz3VMg4G/
-         JSxxqizXeva9w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nY3rg-00CpK6-4G; Sat, 26 Mar 2022 11:41:48 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Yury Norov <yury.norov@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] lib/bitmap.c make bitmap_print_bitmask_to_buf parseable
-Date:   Sat, 26 Mar 2022 11:41:46 +0100
-Message-Id: <f6372a2f880c6e8597a8f070eb031d4cd451d37e.1648291287.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S232715AbiCZLrr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 07:47:47 -0400
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01olkn2033.outbound.protection.outlook.com [40.92.53.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F338C5044D;
+        Sat, 26 Mar 2022 04:46:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kWqhRkXSo+oP3qbWI3cR2rlScWAm7rfFjVdlYSk5XuVHwL12Yba30n3UCv+0K1MCC1mwyLxuNfGReovY4lbghLMPaxnAuCzA+SiYJU/PG8e/PAviC3+nxnQfpFYGrGdY79MTcfL2cT95Nga9MccQnPzfobjJPHl/husQNjnOKMPqtyZrkiSd9ykaeFU9Bv4jScLcfZJvm+vrMOU/a4zttgFE1UIE2SeNmSplY/ddJp2cu+KCp1qv/kambLADwAT5HWiUvDlADVSh3eRvMbdoNYAbclM+rbQbikQ7AeVN2tQpXPuiRxjNWnRA2BTgP6htM0TXCLlyE8V0k0tLpc9SFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iyKrp7I82f3wYzsbQR/1Jeu1cFgJoa6hSbBVeuarAhw=;
+ b=BvFw5UxNDqBhKPc1RMKVtTyQDbOCxrp6du/oQ6tLwWQxFlpGg+2P5VORgvgZzxU0ZwFk1ylwx9Jiy1k0iEs6OxcdaTuFsb9V13gnYBXCqtmzWknqJCXsi7b5ePPpO4i8s1CMirFb8ry8avemo8JCsmj8/9SdQ2tj9bdVXv1YSUka0dZ3mU2/BxuCqF6h+ejsY/9sday2waVN69s1a5oITY98eqL2Mk5bJIOuGiCyInGWLcf34x7MOhf+MxTTCfiWysgByV9SCTzJdPD3P6fzfAxpr5/1DmCe7gwZqLFy/sxC/iGaBzQhIlq+I1M2nkZoOu/N5SxpTJsz6rmd/WGc+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iyKrp7I82f3wYzsbQR/1Jeu1cFgJoa6hSbBVeuarAhw=;
+ b=hjxvWUn6bGhMky47CgB0umFijQNAN7lN22XPrTNgSWeOGyjstQF86/fsj8SwvmjLgVzqpSBwpi3k/A0+sy7L0UAxOPurmapEnJ9lXubwa9XV8syaTkJ+oM/F4d6voT94cUVOCQm3DKh2YaYN1sCS/parmjeaw8dKlIMb1IEp55bGIFii8CJNtMPxklThbFpXpXSXOaB+XTkEkDZzo58Bk5ugvGcKJoWiI9aoo7RjI2voH/QM5IZWP3/QZvAuAbSkyzDvtGNszsRcZHNsJBtdEoOEVG8Orq1nzi1G+j24m10Ncc0mPNd8w0JP62CZtQl0tFmCZ67XvHYgZIDFpEjgSQ==
+Received: from TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:8::7) by SG2PR01MB2061.apcprd01.prod.exchangelabs.com
+ (2603:1096:3:21::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Sat, 26 Mar
+ 2022 11:46:03 +0000
+Received: from TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ ([fe80::8dd1:e105:311a:ce51]) by TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ ([fe80::8dd1:e105:311a:ce51%3]) with mapi id 15.20.5102.022; Sat, 26 Mar 2022
+ 11:46:03 +0000
+Message-ID: <TYZPR01MB39356D38FACC73ACB99B47BEF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
+Subject: [ PATCH ] Documentation: fixed some doc-build warnings
+From:   kushagra765@outlook.com
+To:     linux-doc@vger.kernel.org, corbet@lwn.net
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        balbi@kernel.org, gregkh@linuxfoundation.org, dhowells@redhat.com,
+        mcgrof@kernel.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, arnd@arndb.de,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-cachefs@redhat.com
+Date:   Sat, 26 Mar 2022 17:15:50 +0530
+Content-Type: text/plain
+User-Agent: Evolution 3.36.5-0ubuntu1 
+Content-Transfer-Encoding: base64
+X-TMN:  [2essGCoMYUavK24/KHylj7OZS/k1rlk3giwXyI4m6gM=]
+X-ClientProxiedBy: BM1PR01CA0081.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1::21) To TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:8::7)
+X-Microsoft-Original-Message-ID: <2f72251802e01eb81e5ef71e16b55f71728a0a5b.camel@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 939fb3c8-71c9-4d2f-39b7-08da0f1e346e
+X-MS-TrafficTypeDiagnostic: SG2PR01MB2061:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CY46gVzwVdWJBqm9rKtymP4igUWXQfhNJDKoKpItVrrYmwAHBrXKPxArzjSQLhZh5XIuZe1LMzkEGCU26r6RRMHmAGLp+heXXCyLP2aErN5ql9PBhlHNTaJa63m3XCexYgDpk852uNtfF4laLhq2GOUVOhOJYC28fDrv9ANhQTE4yJ32rhvhrMLsi/vdS93C+7/SObqNPWE7Q/UbY4QXi3DjiFKw2cXs8y/4I+fPAXMV8uJa1RiH9bB2ApeLjvJ2pYBKmIJnb81XlQ7mN7PrOP36Y1JbyE7SARum28kqrIOYj9qLohft29c+VL9b1Qc5
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?60JgILX2rR0fqEQ8P/HL0e8Oo7D9h11fb762lcww7FwPQ27Qr4kh2+JVlyy1?=
+ =?us-ascii?Q?wdPv0htp0dFd50Rnmb+D4Jpt0fIS0yZVSN0o1nKcTdlrf+RcxMXU5Y7SH7Ap?=
+ =?us-ascii?Q?6PnYq16gk4/j8zmH4mx2PGfBQWqrnJXqANFOvHQ+cxkcQM7Lb8/iWIo0htIe?=
+ =?us-ascii?Q?KXOPY68zUoL6UMzmCpgIsEU/rR23uyP+c7PcpZsQ3qE2PSTe3PeMaS0pOJWw?=
+ =?us-ascii?Q?/m03Hb7MkKR8oThVEqtKbl8yF4ri82BR+vQiTXt5AV4RYetfZzxjtxjO1v/Z?=
+ =?us-ascii?Q?qQ8lhpJSTG+m/Rwv+qkqjPi7y2040X8PN416e74Y+AytoWVpuJlevfuiu1MF?=
+ =?us-ascii?Q?EkeagogTN0BwBy1iIOsP08mOpWKrfDs8TH+xT7AzWQuj7UU7kb0dxEW8yesQ?=
+ =?us-ascii?Q?fCTfDvmHvfeYjb2G6KyIUxS7W+Sb9F63VXH8kz72/xGCWEeBXvXwTe1HHBdT?=
+ =?us-ascii?Q?bd1WnJmiHVL6YwNocVuS6FD8DMjC/R4q3FvW/9XWHCYNB0jLGJgoAoxK4tiF?=
+ =?us-ascii?Q?mukaYpQoxxhBqOFZSlV1Jkt4Pm1Wzd0vE55qTKlSiWRfiVX8QmCD+Pklpn48?=
+ =?us-ascii?Q?Ik2NUlrDMG2Fzhd2TZ5MOInHUele1LbI4eFjJ/8Iga9iWqbj+VfkiV97H1eF?=
+ =?us-ascii?Q?OwY+uDZwLSWUCtACCuyKP/iw4Hn4x6iOr60iP0Z10Bpduu3e7yT2pJ6RGWUR?=
+ =?us-ascii?Q?AamkSszZAJDJoXS5fo29WXjmd1ljECjhMB05gmHc6vWERMgVbKe6q2AXc2QD?=
+ =?us-ascii?Q?MbO8RVayZCGgRyPZfUFZ5fEiXXeRYOulYSLVBxE1of4+DZfPf7OaJpxTkvS1?=
+ =?us-ascii?Q?KfzFox9hbmq2crifs7jhUgsLCL2tCSa//PkURvBM1ZbDz41BgdAoHbIcOJ7Q?=
+ =?us-ascii?Q?Ghk+cd1KzRUJgQjtFV+3gG8wtpL3FYsbGa/ETZpHkoa4BR4+q8mExBKCQRQB?=
+ =?us-ascii?Q?uyyni0ZbAqxiexj53dOJoyF6W49X3RRWOYMdRw3l486J60eldcMuht7qFXlj?=
+ =?us-ascii?Q?qBZl71UbJZqgBo3QTF+fn5A7lKdUQwOtv87cGoAoX5EwL6VlhxPGQUNADpAz?=
+ =?us-ascii?Q?JEDzyBmbbZvRpIAb25ZaGQNOAwXq5q2Dxv5lcSAigmfPnno5ABuMHT6qRUfn?=
+ =?us-ascii?Q?eG5dFoT+aCKGlU2tIKwQ8AKBlRMuH3M1ZzbrM68mvtHIhMWTlSVPWgurZY6F?=
+ =?us-ascii?Q?diGJOGQbLZGV12+rYz1AqqejGRFoJ1cJS/5rodxrG/phDNb5jWeBhDHi8v/B?=
+ =?us-ascii?Q?UPdU2Rq9yiiu8KD7dx67hxFzMKBIc99Lf0G+llFhnhIwgxVInndz8bksJ/qF?=
+ =?us-ascii?Q?ThUdoZY1G/JDGV/vphjo6IRVr9AtHyUAavVs2DKtyx9NgDlw62WeqoYVbEYN?=
+ =?us-ascii?Q?/qaykQjntHLcpZ1whmVM4+Zd41uh4x5fNdq6USo7Iagx5wrddpHWIjuadZz8?=
+ =?us-ascii?Q?h470LTZX0aUNLD12ze1nYsx4KV97tx1G?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 939fb3c8-71c9-4d2f-39b7-08da0f1e346e
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR01MB3935.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2022 11:46:03.3482
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB2061
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation of such function is not on a proper ReST format,
-as reported by Sphinx:
+DQo=
 
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Unexpected indentation.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:526: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:533: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:542: WARNING: Unexpected indentation.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:543: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Unexpected indentation.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:545: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:545: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Inline emphasis start-string without end-string.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:554: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:556: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/core-api/kernel-api:81: ./lib/bitmap.c:580: WARNING: Unexpected indentation.
-
-So, the produced output at:
-
-	https://www.kernel.org/doc/html/latest/core-api/kernel-api.html?#c.bitmap_print_bitmask_to_buf
-
-is broken. Fix it by adding spaces and marking the literal blocks.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- lib/bitmap.c | 33 ++++++++++++++++++++-------------
- 1 file changed, 20 insertions(+), 13 deletions(-)
-
-diff --git a/lib/bitmap.c b/lib/bitmap.c
-index 0d5c2ece0bcb..8ebe508580ea 100644
---- a/lib/bitmap.c
-+++ b/lib/bitmap.c
-@@ -527,33 +527,39 @@ static int bitmap_print_to_buf(bool list, char *buf, const unsigned long *maskp,
-  * cpumap_print_to_pagebuf() or directly by drivers to export hexadecimal
-  * bitmask and decimal list to userspace by sysfs ABI.
-  * Drivers might be using a normal attribute for this kind of ABIs. A
-- * normal attribute typically has show entry as below:
-- * static ssize_t example_attribute_show(struct device *dev,
-+ * normal attribute typically has show entry as below::
-+ *
-+ *   static ssize_t example_attribute_show(struct device *dev,
-  * 		struct device_attribute *attr, char *buf)
-- * {
-+ *   {
-  * 	...
-  * 	return bitmap_print_to_pagebuf(true, buf, &mask, nr_trig_max);
-- * }
-+ *   }
-+ *
-  * show entry of attribute has no offset and count parameters and this
-  * means the file is limited to one page only.
-  * bitmap_print_to_pagebuf() API works terribly well for this kind of
-- * normal attribute with buf parameter and without offset, count:
-- * bitmap_print_to_pagebuf(bool list, char *buf, const unsigned long *maskp,
-+ * normal attribute with buf parameter and without offset, count::
-+ *
-+ *   bitmap_print_to_pagebuf(bool list, char *buf, const unsigned long *maskp,
-  * 			   int nmaskbits)
-- * {
-- * }
-+ *   {
-+ *   }
-+ *
-  * The problem is once we have a large bitmap, we have a chance to get a
-  * bitmask or list more than one page. Especially for list, it could be
-  * as complex as 0,3,5,7,9,... We have no simple way to know it exact size.
-  * It turns out bin_attribute is a way to break this limit. bin_attribute
-- * has show entry as below:
-- * static ssize_t
-- * example_bin_attribute_show(struct file *filp, struct kobject *kobj,
-+ * has show entry as below::
-+ *
-+ *   static ssize_t
-+ *   example_bin_attribute_show(struct file *filp, struct kobject *kobj,
-  * 		struct bin_attribute *attr, char *buf,
-  * 		loff_t offset, size_t count)
-- * {
-+ *   {
-  * 	...
-- * }
-+ *   }
-+ *
-  * With the new offset and count parameters, this makes sysfs ABI be able
-  * to support file size more than one page. For example, offset could be
-  * >= 4096.
-@@ -577,6 +583,7 @@ static int bitmap_print_to_buf(bool list, char *buf, const unsigned long *maskp,
-  * This function is not a replacement for sprintf() or bitmap_print_to_pagebuf().
-  * It is intended to workaround sysfs limitations discussed above and should be
-  * used carefully in general case for the following reasons:
-+ *
-  *  - Time complexity is O(nbits^2/count), comparing to O(nbits) for snprintf().
-  *  - Memory complexity is O(nbits), comparing to O(1) for snprintf().
-  *  - @off and @count are NOT offset and number of bits to print.
--- 
-2.35.1
 
