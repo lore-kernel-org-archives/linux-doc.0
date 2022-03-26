@@ -2,77 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF52C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 14:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA65C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 26 Mar 2022 20:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbiCZOxg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 26 Mar 2022 10:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
+        id S234860AbiCZUE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 26 Mar 2022 16:04:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232561AbiCZOxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 10:53:35 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F76F2467D3;
-        Sat, 26 Mar 2022 07:51:59 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id c62so12204361edf.5;
-        Sat, 26 Mar 2022 07:51:59 -0700 (PDT)
+        with ESMTP id S232824AbiCZUE4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Mar 2022 16:04:56 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0102918B7AD
+        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:03:19 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id g24so14306586lja.7
+        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:03:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QC7lpceM/y6F2YdxeUftCt81nuxEH4oJpSeNcs9ScEE=;
-        b=dRJ9I0aonPR3CSesQY6EcQrKEahhdKcTcz0dA+Ahj52EFLkftPkKIq+UGdVWHvcqqe
-         Q9+8LnRB0b/lLTEmQEmh6kvdaDv+k7R3COWOs0jzfHNIqFip2f75KFTzudBnOKVnqnxe
-         w2Wq92Pxncdsr4SbOTfpx3WbKzDk38sRVwb947CsET3q6TLFhVIM5RmE4NfKJiVC2zZB
-         59weh67YjT/wDRUTMQJpOz79e5JOrq/RvLw0hQgSgEvSQGsuGeFiuTSEva7nnfTqf6Tj
-         EmPu/9DkJ0GJF4Ku1R9nv8FQ3Ray5xFi7zyEMYjs+f+1TWU/2qE2QfZn2JxJ5oDnu4mT
-         yg/A==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RdtkPgU1voLQTS9FCim5FFJxxR81mf9841pxK7k3myQ=;
+        b=HKBnL7ySerUq68vRo6aQmLshwvFK/rcXIzSMmhlBaamj7BLtH40huPt2ygtyf+Zj+k
+         mxfE9j4GpdJ7DBWLyGYLOEN0Yi8Fz6e5YaKsaIVKZK/WwB80kUT2vmwX9GNOHswu5+0u
+         5rGv+yW+pbAV+aEzUUH71wFh5tUI3w7e3856s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QC7lpceM/y6F2YdxeUftCt81nuxEH4oJpSeNcs9ScEE=;
-        b=AgwHUzJrVY31DLwMJDFkUAuiqKG+DyAxnfJrIHugH0IdpsLgD8gG6hS05E36E5o2Pa
-         xjBijQdP/2MBn4L90EejZTV51hGKyJJqxMzq84k9OgdnNJZl/gD6/DxFDvcCzbZSbb+g
-         JhSYaRSD7ZzYumvRYZChc2fKunk84IIWLesKBf7BGKHAANqJXItOcdLKdYeyBDDXDQhL
-         Etw8KM7Wxkw6HffW65tkUdbuJTBUMeP5rj6OSVN7ZAsBEtoeIR16qMQIWGPUkwGIEqsA
-         N6CrtX1yxT3DvjbJ+ZcLa7JnyhDQB5t2vKJqXT6LMVVIaH0HqHqK4H/kUZfY+I0PfXG4
-         Zx7A==
-X-Gm-Message-State: AOAM531/7xuQGB73xnW14Dp48WzJOOyL8AIkXH68ttt6g4BZEkBGANiQ
-        Ba8ecn64ysw3eYrtT4oGvUc=
-X-Google-Smtp-Source: ABdhPJzIit+M7R8fykG/wzhFP7QOkIxuiqF5kA3aCKQAOYv0dyZBDF4ejeEnImnTjNRW1lhDz8TbrQ==
-X-Received: by 2002:a05:6402:3495:b0:419:1ff6:95d9 with SMTP id v21-20020a056402349500b004191ff695d9mr4914039edc.249.1648306318032;
-        Sat, 26 Mar 2022 07:51:58 -0700 (PDT)
-Received: from fedora ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id g21-20020a056402115500b00413c824e422sm4248148edw.72.2022.03.26.07.51.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Mar 2022 07:51:57 -0700 (PDT)
-Date:   Sat, 26 Mar 2022 15:51:55 +0100
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Octo
-Message-ID: <Yj8oi/2gvMb0nsgQ@fedora>
-References: <20220326101250.8076-1-savicaleksa83@gmail.com>
- <083c2e34-dd56-07b1-543f-1627bd77acf2@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RdtkPgU1voLQTS9FCim5FFJxxR81mf9841pxK7k3myQ=;
+        b=y9p31fAR0FB46Wu7MRDVfOc1lBHSmhyEjxmloIY7Ahsc8BoBuX4Y4OIRtP2pJCOJso
+         haNxAEFgio+t8J5koKMRjv3UpnoTMng1EbiyEm8+0jQB1Z6U1T3PE2sbUya9whaY0WB/
+         ec/JtdfVv1cmrEJtFqyBG73EMc0O7CvKb+kl/0DjejNFotHhOv5PsOicUaufNAJUxxCm
+         Kn9w8GKw/4lNsllVR2afB2J3ebg5e74HOe2U4qUdVSv8rR2j0eRi28AIJDbv7lKNmIBQ
+         EQghFrAsdIpfUaMSBbu/8phqVaVZgBEANa1gQ/DL7xeQyuaVVWNJ7LQn/dgWXMe+rCqF
+         wfqw==
+X-Gm-Message-State: AOAM533VOwM8FglNuAGevG+InyxP+bhK0Yr3IXbY+qxKiL5RlhqYaqZR
+        FE7Qi2OQL66TY3i8IwOSoeoGmDFuayNeQSJAAuk=
+X-Google-Smtp-Source: ABdhPJx4AgnEP2BmrFGCA6EASoGecRT7Zpy/pk4iRcs+53TMzfNDcXbV840dBnn2yOZstHyG9rDQAw==
+X-Received: by 2002:a2e:a693:0:b0:24a:c41a:a3e3 with SMTP id q19-20020a2ea693000000b0024ac41aa3e3mr3533868lje.330.1648324998048;
+        Sat, 26 Mar 2022 13:03:18 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id br32-20020a056512402000b0044a1fdb8e85sm1150439lfb.134.2022.03.26.13.03.17
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Mar 2022 13:03:17 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id m3so18600198lfj.11
+        for <linux-doc@vger.kernel.org>; Sat, 26 Mar 2022 13:03:17 -0700 (PDT)
+X-Received: by 2002:ac2:4f92:0:b0:448:7eab:c004 with SMTP id
+ z18-20020ac24f92000000b004487eabc004mr13322047lfs.27.1648324996731; Sat, 26
+ Mar 2022 13:03:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <083c2e34-dd56-07b1-543f-1627bd77acf2@roeck-us.net>
+References: <87wnghd78t.fsf@meer.lwn.net>
+In-Reply-To: <87wnghd78t.fsf@meer.lwn.net>
+From:   Linus Torvalds <torvalds@linuxfoundation.org>
+Date:   Sat, 26 Mar 2022 13:03:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whhSE3eaA55qfuT+3hVik2hbixEd=1OY=e66p4hia5Hrw@mail.gmail.com>
+Message-ID: <CAHk-=whhSE3eaA55qfuT+3hVik2hbixEd=1OY=e66p4hia5Hrw@mail.gmail.com>
+Subject: Re: [PATCH] docs: Add a document on how to fix a messy diffstat
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+On Fri, Mar 25, 2022 at 2:58 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> [If this passes muster I'll likely toss a version onto LWN as well]
 
-Thanks the for the review. The missing break; statements are my
-oversight, I'd never omit them otherwise. Will fix in v3.
+Thanks for doing this, but I think the target audience, not me, should
+answer that question.
 
-Yes, those should be centi-percent if I'm not mistaken... For
-example, 47.52% is read as 4752 from the device, so that's
-divided by 100 and scaled to PWM.
+That said, I think that second link in the commit description is
+corrupt somehow, I get "Not found".
 
-Aleksa
+Oddly, it seems to be correct in the doc itself. I did not sit down
+and compare the random noise in the links side-by-side, though.
+
+            Linus
