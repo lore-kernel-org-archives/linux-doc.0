@@ -2,146 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6748DC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 16:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 181B3C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 16:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235937AbiC0QGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Mar 2022 12:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
+        id S236034AbiC0Qag (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Mar 2022 12:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235916AbiC0QGx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 12:06:53 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4560412617;
-        Sun, 27 Mar 2022 09:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648397115; x=1679933115;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4kVnz1StqYwtIiK0sGUtMho1ruRvS+EEC0bWGTQBMMI=;
-  b=Jh8ORDWMcOHHKywwbscWr+A85Hb38m3zJDPpJPNLf1T83QJrtT52Y1JN
-   NHBAyOAqiiRckPN7rwZNmvF6zevzaHZ0niIi7QkZSFNHQoZg7ELso3i7+
-   MCfK5NiGz/gWALYWKU10s+JzycygbmvZMUhU12qtKMJ3USbioSVO9y4QX
-   Suy0nILFwlUGNkfypdPz4S2aGkZICE3Ga4gvHDQoeZ+MLQnVS5Grn3osj
-   zn6UwcKESoQJjfOuHttQABoPzO+wREVUTFbSAlQkdUx1fGMtyMevKaXTi
-   cNs/izEemF05RJIWB22DbzyyxV7SzeR8Y/6KJpWTCMnwA0k6Yuhw1x6fN
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="241014017"
-X-IronPort-AV: E=Sophos;i="5.90,215,1643702400"; 
-   d="scan'208";a="241014017"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2022 09:05:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,215,1643702400"; 
-   d="scan'208";a="520723351"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 27 Mar 2022 09:05:12 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nYVOB-0001D7-Aj; Sun, 27 Mar 2022 16:05:11 +0000
-Date:   Mon, 28 Mar 2022 00:05:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atishp@rivosinc.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>, linux-doc@vger.kernel.org
-Subject: arch/riscv/kernel/cpu.c:113: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202203272341.NC73YmTW-lkp@intel.com>
+        with ESMTP id S236028AbiC0Qaf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 12:30:35 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7851120AC;
+        Sun, 27 Mar 2022 09:28:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=r8ugo9cIQwH74OLJMoSLkZZbBVAk6G/YwHzpXPj4M/A=; b=xKTHUzlt2u+ReO4qBywWT+CEvG
+        GIhO1tkvcRJ7w/Ao563360iwsj3ro8bRuR/31WoNjmX4QR4Dt7ksHTENbxBhAdzYzkBCqlJlGUjse
+        ZqxYlPmxfiwB00GVIw7OhbEtPqUs9Qekms5ZHFAO0jaqWANA2bT+w9SvuguZbgXbF2lo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nYVkp-00Cu1b-Oj; Sun, 27 Mar 2022 18:28:35 +0200
+Date:   Sun, 27 Mar 2022 18:28:35 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        f.fainelli@gmail.com
+Subject: Re: [PATCH net 03/13] docs: netdev: move the patch marking section up
+Message-ID: <YkCQs2kKE0CIzmC2@lunn.ch>
+References: <20220327025400.2481365-1-kuba@kernel.org>
+ <20220327025400.2481365-4-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220327025400.2481365-4-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f022814633e1c600507b3a99691b4d624c2813f0
-commit: a9b202606c69312cdaa4db187837820ebf7213b2 RISC-V: Improve /proc/cpuinfo output for ISA extensions
-date:   10 days ago
-config: riscv-randconfig-r042-20220327 (https://download.01.org/0day-ci/archive/20220327/202203272341.NC73YmTW-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a9b202606c69312cdaa4db187837820ebf7213b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a9b202606c69312cdaa4db187837820ebf7213b2
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/ drivers/perf/
+> +How do I indicate which tree (net vs. net-next) my patch should be in?
+> +----------------------------------------------------------------------
+> +To help maintainers and CI bots you should explicitly mark which tree
+> +your patch is targeting. Assuming that you use git, use the prefix
+> +flag::
+> +
+> +  git format-patch --subject-prefix='PATCH net-next' start..finish
+> +
+> +Use ``net`` instead of ``net-next`` (always lower case) in the above for
+> +bug-fix ``net`` content.  If you don't use git, then note the only magic
+> +in the above is just the subject text of the outgoing e-mail, and you
+> +can manually change it yourself with whatever MUA you are comfortable
+> +with.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Maybe we should consider removing the 'If you don't use git...' text.
 
-All warnings (new ones prefixed by >>):
+We want people to use git.
 
-   arch/riscv/kernel/cpu.c:89: warning: cannot understand function prototype: 'struct riscv_isa_ext_data isa_ext_arr[] = '
->> arch/riscv/kernel/cpu.c:113: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * These are the only valid base (single letter) ISA extensions as per the spec.
+Anybody who can correctly format a patch and get it passed their MTU
+and mail system without it getting corrupted not using git should be
+able to figure out how to set the subject line correctly.
 
-
-vim +113 arch/riscv/kernel/cpu.c
-
-    65	
-    66	#ifdef CONFIG_PROC_FS
-    67	#define __RISCV_ISA_EXT_DATA(UPROP, EXTID) \
-    68		{							\
-    69			.uprop = #UPROP,				\
-    70			.isa_ext_id = EXTID,				\
-    71		}
-    72	/**
-    73	 * Here are the ordering rules of extension naming defined by RISC-V
-    74	 * specification :
-    75	 * 1. All extensions should be separated from other multi-letter extensions
-    76	 *    from other multi-letter extensions by an underscore.
-    77	 * 2. The first letter following the 'Z' conventionally indicates the most
-    78	 *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-    79	 *    If multiple 'Z' extensions are named, they should be ordered first
-    80	 *    by category, then alphabetically within a category.
-    81	 * 3. Standard supervisor-level extensions (starts with 'S') should be
-    82	 *    listed after standard unprivileged extensions.  If multiple
-    83	 *    supervisor-level extensions are listed, they should be ordered
-    84	 *    alphabetically.
-    85	 * 4. Non-standard extensions (starts with 'X') must be listed after all
-    86	 *    standard extensions. They must be separated from other multi-letter
-    87	 *    extensions by an underscore.
-    88	 */
-  > 89	static struct riscv_isa_ext_data isa_ext_arr[] = {
-    90		__RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
-    91	};
-    92	
-    93	static void print_isa_ext(struct seq_file *f)
-    94	{
-    95		struct riscv_isa_ext_data *edata;
-    96		int i = 0, arr_sz;
-    97	
-    98		arr_sz = ARRAY_SIZE(isa_ext_arr) - 1;
-    99	
-   100		/* No extension support available */
-   101		if (arr_sz <= 0)
-   102			return;
-   103	
-   104		for (i = 0; i <= arr_sz; i++) {
-   105			edata = &isa_ext_arr[i];
-   106			if (!__riscv_isa_extension_available(NULL, edata->isa_ext_id))
-   107				continue;
-   108			seq_printf(f, "_%s", edata->uprop);
-   109		}
-   110	}
-   111	
-   112	/**
- > 113	 * These are the only valid base (single letter) ISA extensions as per the spec.
-   114	 * It also specifies the canonical order in which it appears in the spec.
-   115	 * Some of the extension may just be a place holder for now (B, K, P, J).
-   116	 * This should be updated once corresponding extensions are ratified.
-   117	 */
-   118	static const char base_riscv_exts[13] = "imafdqcbkjpvh";
-   119	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+	Andrew
