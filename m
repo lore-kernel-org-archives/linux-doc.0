@@ -2,132 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8783C433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 05:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2825C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 06:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234414AbiC0F3G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Mar 2022 01:29:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52852 "EHLO
+        id S235494AbiC0GSg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Mar 2022 02:18:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230244AbiC0F3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 01:29:05 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63201EACC;
-        Sat, 26 Mar 2022 22:27:26 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id z128so9746810pgz.2;
-        Sat, 26 Mar 2022 22:27:26 -0700 (PDT)
+        with ESMTP id S231522AbiC0GSd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 02:18:33 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED8BCCC;
+        Sat, 26 Mar 2022 23:16:53 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id x2so12142266plm.7;
+        Sat, 26 Mar 2022 23:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=E8NTt7ig1pU1hSZ1U5qlamHZutvLAHUXQA1+pTFB7LQ=;
-        b=DBzTXJyy/uzYtS/GWMtT4TwhEt19ty3BMTfcsETZ0mJ33m4jWoq/+aw16lttOSVRB+
-         vcxYWGRspvX74scpSZAF5bBCmmFRZGgg4jLEo8ZfwnKEpcs5nA5tgiLCsLWRfNIlq9dC
-         02HLn29GDI/JgALE9F2rZyqDHFoAg31RPwbNDatVwBQt0LKDsTb6mYvmEWXH0R8da5al
-         MvjsXYtzBMJZoNbvIUpDMLZABqnbObaXkyAjlRiIcKm5/sSU6cOIthQ39lUH+strxAbx
-         jhF1HSkdV8d0jW1c6ROXNpfEMkbP3uZh6LwIg0nr+a58fpxg2djYvLS++dHj0WGA9DLN
-         vA4Q==
+        bh=FFXAZ+ZCLg1E07+7aFn5xO35cDp1vs/vKSMlzwaorB8=;
+        b=Rty7PjuEP4K8mBkWYBe2djpwG0fYPjUVS1Uc1H9kROTxTAzED0s6oPHAhhspyV58H7
+         QiIdK4it5w0iWaA5W0KBKitGH7Sb9pVn4/Xf5q28ewpipyL3ti54EQzltsVKvdu3Hmk1
+         88+w0ChS+j+YQ7bCW6AafREYI6vOru4zx4n57XDFTL8SiKmAWv7O8nHJd9M9qCqm61Ie
+         JEg5Ppcde1b9zDfmCmi82p5HdPoS4RYYPIjRPWB9cq2YK3AkQD5R2p+ZWh5uof141lWj
+         A1hQpFlqV4aJsd0NsdWU7MCYq7s6em+/1pmnjonJlX4Rc7k8TvXWRnF467MzK1zYjJhR
+         zx5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=E8NTt7ig1pU1hSZ1U5qlamHZutvLAHUXQA1+pTFB7LQ=;
-        b=1F3TdSE95avh1U2sANQtX999B158q+ALsy5IcScLt38xOJzL/RiAdgE0xejykeDCBq
-         ReSHyqe+Pc89ddtOqhXKK0woCJ/qDIw4gMosk7H9zAS8vpYA80ZLdLB6oiJa/LvAjEgb
-         67QoUUj2UKK5EzPeJgxuo/G4V1JdKBrnH5HM4IWjV8k3MjEnrpife+zLyyJBiZ/4Gv5L
-         bg6PlslD1ACLV+YvUadyK+UzJxQ6P5YPib60oLBmq45f+6a24hhZqwfn4yPurcPPV5Yh
-         Ln0NJgMlBG2XjRxUAL7g4UJfG5R7+mln+GqCN9da4OiJ2ptPSegH6XVwDPDneouiEz/K
-         7/Zw==
-X-Gm-Message-State: AOAM532wcOAvPT+/8qAwTiG0fa5wnQ3N0V1RBb/NH0DXsakSDXLKxBs/
-        YtyTg4dDYucLkGABxiy/Ff0=
-X-Google-Smtp-Source: ABdhPJzbD5EsXIw7aOaiiFtQxTNjlryX9D5y4t13BB7E98bVXDll3Mnci1izQFCEiLImPlb1UzxgXA==
-X-Received: by 2002:a05:6a00:2186:b0:4f7:5544:1cc9 with SMTP id h6-20020a056a00218600b004f755441cc9mr17621539pfi.62.1648358846240;
-        Sat, 26 Mar 2022 22:27:26 -0700 (PDT)
+        bh=FFXAZ+ZCLg1E07+7aFn5xO35cDp1vs/vKSMlzwaorB8=;
+        b=WSv5EavR2YFHQP1agPQpV1Vao5uHQyX7SichNxyYINypfL8vsqGBGkz2yyHYrczrmV
+         WTZ9NDENi7RmzDmi9OEMFON3FjzHZ0POJ29d4IIOpead9elbNrswvKZOzCPu8tgIc2+Y
+         P7sqwSZh+foR23Qo3jVSHhOLaM7ZOno+kss7tvSj6wiuTcxgUwkOP+ygwQyWYKHoSUD9
+         R6aXcXJzZ8zTl60t2IOSDqZEhL5dNU8Wa3lzzdtQTAqY2ip1QopRqM45JMI6lg7COHwB
+         KZdvj5mZnZoqp4jXUbq9hEmB40YWFG6zba081LXXBxNmEtAKKVMKEMgN4opGoeXtgo4o
+         WDOQ==
+X-Gm-Message-State: AOAM530rO2S5wwyZtCzH3R9Tw+a9owDN/5xK6GzONLWAKmJdCEXQXD4M
+        rPqipPj4eUzlp1GoIP7L1UQ=
+X-Google-Smtp-Source: ABdhPJwK5F1pt++klpew6iP/jI6WmfaSJ7D9iE9lboar4F92qzgiXyRBBeauoMsJ4lVYhUnpZRtivA==
+X-Received: by 2002:a17:902:d2c8:b0:154:2b02:a499 with SMTP id n8-20020a170902d2c800b001542b02a499mr20134427plc.168.1648361813442;
+        Sat, 26 Mar 2022 23:16:53 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-21.three.co.id. [180.214.233.21])
-        by smtp.gmail.com with ESMTPSA id t18-20020a17090ad51200b001c71bec7b22sm10051853pju.23.2022.03.26.22.27.22
+        by smtp.gmail.com with ESMTPSA id kk11-20020a17090b4a0b00b001c73933d803sm17608212pjb.10.2022.03.26.23.16.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Mar 2022 22:27:25 -0700 (PDT)
-Message-ID: <49829de5-efe5-9065-d87a-2494d16b9465@gmail.com>
-Date:   Sun, 27 Mar 2022 12:27:20 +0700
+        Sat, 26 Mar 2022 23:16:52 -0700 (PDT)
+Message-ID: <bd8eb95a-1af7-1925-d3f2-0baa91b55526@gmail.com>
+Date:   Sun, 27 Mar 2022 13:16:38 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/2] Documentation: kernel-doc: Promote "Writing
- kernel-doc comments" to page title
+Subject: Re: [PATCH] docs: Add a document on how to fix a messy diffstat
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org
-References: <20220326123337.642536-1-bagasdotme@gmail.com>
- <20220326123337.642536-2-bagasdotme@gmail.com>
- <20220326145332.0698a849@coco.lan>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+References: <87wnghd78t.fsf@meer.lwn.net>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220326145332.0698a849@coco.lan>
+In-Reply-To: <87wnghd78t.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26/03/22 20.56, Mauro Carvalho Chehab wrote:
-> Hmm... I can't really see any differences... What this patch seems to be
-> doing is to just change the markups for each level.
-> 
-> See, on Sphinx, the first markup (whatever it is) is level 1, level 2
-> the second different markup and so on.
-> 
-> So, before this patch, kernel-doc.rst had:
-> 
-> 	level 1: Writing kernel-doc comments
-> 	=====================================
-> 
-> 	level 2: How to format kernel-doc comments
-> 	------------------------------------------
-> 
-> 	level 3: Function parameters
-> 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> And after it, it will have:
-> 
-> 	====================================
-> 	level 1: Writing kernel-doc comments
-> 	====================================
-> 
-> 	level 2: How to format kernel-doc comments
-> 	==========================================
-> 
-> 	level 3: Function parameters
-> 	----------------------------
-> 
-> No semantic changes at all.
-> 
-> The only (eventual) value of a change like that would be to make the
-> levels more uniform, but IMO, it is not worth to apply a change like
-> that, as:
-> 
-> 	1. There are a lot other documents that don't use the more commonly
-> 	   used level standard;
-> 
-> 	2. Making all .rst files to use the same definitions is hard;
-> 
-> 	3. Even if we place everything using identical markups for every
-> 	   level, as new stuff gets added, different (still valid)
-> 	   markups could be used on newer documents.
-> 
-> Regards,
-> Mauro
-> 
+On 26/03/22 04.58, Jonathan Corbet wrote:
+> +So what is to be done?  The best response when confronted with this
+> +situation is to indeed to a merge, but to do it privately, as if it were
+> +the source of shame.  Create a new, throwaway branch and do the merge
+> +there::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +                |         |                                      |
+> +                |         +-- c1 --- c2 --- ... --- cN           |
+> +                |                   /               |            |
+> +                +-- x1 --- x2 --- x3                +------------+-- TEMP
+> +
 
-Indeed, fixing heading levels when adding title heading is required because
-without it, Sphinx will complain "indentation inconsistency" error.
-
-Maybe better splitting indentation level changes into its own patch, right?
+A merge from the mainline, right? Or merge from what?
 
 -- 
 An old man doll... just what I always wanted! - Clara
