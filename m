@@ -2,165 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFDDC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 10:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6748DC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 27 Mar 2022 16:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232482AbiC0K6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Mar 2022 06:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48042 "EHLO
+        id S235937AbiC0QGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Mar 2022 12:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbiC0K6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 06:58:22 -0400
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn2103.outbound.protection.outlook.com [40.92.107.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D99113FA6;
-        Sun, 27 Mar 2022 03:56:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JBvgZZufKa0oI4WkHzjHew4ACzhGJoUOJ1IMcz/OmJ/xQRvV4MziC/2YetIf5O4pu/Ae2GWREhbQBgf0T4IYrMmBBk9CPAZrZpgzSGxuP37E7dsL8klxK8jNNOL6nrOdWm6J04bia+Tm1ePEcIqERarJeeuv5w0jkLS8Efv9QR09kToV+ufEeq8hJv4bz7NQqmRwMqIEIO3QKed4cR+pzVqDUBZzb7JhfnheGy8GP0jOfJBuBmaHvdb5DdbL3h9yfd96Zq9Qmui81cBTYDGsFERYSHn/HLZZuQEQ/8STxU3aGlxPwtClPyulDzXn2e7+n5fck01G+FIsRaUfVu6IiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oz1hykK7G5ExqM3oCQgjn0eepPCsyUCZLc14Ohbw7jA=;
- b=YSN9+LhyE808jYA5aiFQYGEZhS7jBCBwnDqji8m6nBLWgWqyfiVeUnElTeQiTBih9XyBWjm3KX6aFUU8wX4WcfOls/l/bv3wl5MfdQzbdRCaPUV28t5TLOAVuS9s0ecrZVtcXsiTFOfaGRa1eQXfd5QVsO1FN3u29U2V7cwb0G74TMCoY/IE4sSJ6sM8qjzDqKZjZOLtkUNBQyLl6jW2NIuUNg/1rG/Tvdqn//C+DezfawlOU+3wjTai3vc92LhzsZ0Dvr2Bc8GUBoMijrSk6tU2r6pL0h/QkbELTQulhihgBKWUJPR6y/usqUw1jNvFQe8HkWhGwNeeXH3JUOn/0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Oz1hykK7G5ExqM3oCQgjn0eepPCsyUCZLc14Ohbw7jA=;
- b=KmawTcaxKEFei/BZDErM5ceo4KzfB0q5lRHyIjDiXes9ixF7a+PltAxMvxvto8AWyGX3b/epBrbHWLEbGarXEct3BSzmpghSHRdzCShGQTNxOyH8cu6BQGYgee9fic4bMXwyJKbUmOGHKqRssiJ6cZvCoC0xgRuNBM0HwOMc3Kt7DRRwBBs+Awb/8I22khRxT6R1rFahZYKiRv86+vrytFxU0FHcKhWdVy2heWKcq/aaW0BgjIRHH9s71jg6fP2tSvO15P6bUwtwu9B3j9TagUrgn4VDmMFcMHk2c+m6Anf0IWvzTQRY9c5YtNkAcdZ8ZVjaXmhLCTXZE8OOkHH3rQ==
-Received: from SI2PR01MB3929.apcprd01.prod.exchangelabs.com
- (2603:1096:4:106::5) by SEYPR01MB4438.apcprd01.prod.exchangelabs.com
- (2603:1096:101:5e::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Sun, 27 Mar
- 2022 10:56:38 +0000
-Received: from SI2PR01MB3929.apcprd01.prod.exchangelabs.com
- ([fe80::d179:ecb6:188c:f9a]) by SI2PR01MB3929.apcprd01.prod.exchangelabs.com
- ([fe80::d179:ecb6:188c:f9a%4]) with mapi id 15.20.5102.022; Sun, 27 Mar 2022
- 10:56:38 +0000
-Message-ID: <SI2PR01MB392995043CACD80884A13764F81C9@SI2PR01MB3929.apcprd01.prod.exchangelabs.com>
-Subject: [PATCH] USB / dwc3: Fix three doc-build warnings
-From:   Kushagra Verma <kushagra765@outlook.com>
-To:     linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sun, 27 Mar 2022 16:26:33 +0530
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
-Content-Transfer-Encoding: 7bit
-X-TMN:  [AYzAduKns8k2Sgspb/MG7taEPVA2cxCf92n5CGJrRY4=]
-X-ClientProxiedBy: BMXPR01CA0084.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::24) To SI2PR01MB3929.apcprd01.prod.exchangelabs.com
- (2603:1096:4:106::5)
-X-Microsoft-Original-Message-ID: <c22b74b26f19efd1ea8acba7e3f55302e62d49f0.camel@outlook.com>
+        with ESMTP id S235916AbiC0QGx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 12:06:53 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4560412617;
+        Sun, 27 Mar 2022 09:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648397115; x=1679933115;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4kVnz1StqYwtIiK0sGUtMho1ruRvS+EEC0bWGTQBMMI=;
+  b=Jh8ORDWMcOHHKywwbscWr+A85Hb38m3zJDPpJPNLf1T83QJrtT52Y1JN
+   NHBAyOAqiiRckPN7rwZNmvF6zevzaHZ0niIi7QkZSFNHQoZg7ELso3i7+
+   MCfK5NiGz/gWALYWKU10s+JzycygbmvZMUhU12qtKMJ3USbioSVO9y4QX
+   Suy0nILFwlUGNkfypdPz4S2aGkZICE3Ga4gvHDQoeZ+MLQnVS5Grn3osj
+   zn6UwcKESoQJjfOuHttQABoPzO+wREVUTFbSAlQkdUx1fGMtyMevKaXTi
+   cNs/izEemF05RJIWB22DbzyyxV7SzeR8Y/6KJpWTCMnwA0k6Yuhw1x6fN
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="241014017"
+X-IronPort-AV: E=Sophos;i="5.90,215,1643702400"; 
+   d="scan'208";a="241014017"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2022 09:05:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,215,1643702400"; 
+   d="scan'208";a="520723351"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 27 Mar 2022 09:05:12 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nYVOB-0001D7-Aj; Sun, 27 Mar 2022 16:05:11 +0000
+Date:   Mon, 28 Mar 2022 00:05:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atishp@rivosinc.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Palmer Dabbelt <palmer@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>, linux-doc@vger.kernel.org
+Subject: arch/riscv/kernel/cpu.c:113: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203272341.NC73YmTW-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d2292d59-efb1-4aa1-d0c9-08da0fe077bb
-X-MS-TrafficTypeDiagnostic: SEYPR01MB4438:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SDNE+XKTNytXmR8eR/YveuTiMQlHTPz4oIr5AV/brdh87AMwPd40wJvMZajjvvn0GeBoHwO4aAJuSK5YhmxSHWNiiLB1PY8cpg99gQToxjw2J7LJnaBzb1bswvn+c0y3jC3dosgt4qOwgKQIL9b93RF62/aSSCy4IYlQ3cXyKJb30X8E14k6Qh23iipuUX1mWqLHPIDGkIbDldvKe0UtwBP7JDaZp4qCDtGTW2Q0FnKIg/2bmTFCwMX9ynvRVMeTRNA5ehXSmmZduz9fMhF6PlsRxQnx45Ts/kbHgmEOEvpOToPDixmvSyNUPVchbbCDEhyDTZiLSMMgj03zZ6jIBCw9AHwLO6X5+cbcvqhHEs+p5hXksVxR2OE6ykZqRi83zM/hP+laacCpTvA3PB8TB2fvCzyAScKslcZHlmKAAreGopu8tMdyyO3SbNI4Zfvkq65YZrMW3sLoE5llztUxJXXmGqptQfr11mf5pyP2AiIq4DlI6qlbLtREXTRv1G4pGaq7d64/1A4WwuZOKY3vtI/Xd3U2xlbABRUX1Kf9TNo8WPUrpQPbWJV5VAYQjp4fi+yo8Van2h9GwdVxXIvp9A==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTFicWEyenhSYjlraEJ6QTJIVTg2MkRSTGJVdm1JMktXVGtYY0VMNEFrdnJ4?=
- =?utf-8?B?dEdvZXE2ZDUwcUNlSVluQmF6UHBidTdIeXpjTTJzVGZ3NVFBSExUNy9DQVI1?=
- =?utf-8?B?RWU2MkRFUDdpSDFzVElESXUrR0xHQmhuTjBncGwySmpsTU9vK2dicjhEeHZB?=
- =?utf-8?B?Zzl1TUdsVlB4YWx4REI0eklRNkp5UjQ1a2szTjRvU1NXOFpUOXFQTEpraGdY?=
- =?utf-8?B?TlM4TCt3NWtwTm5lQUQxRW5uV250N3JjMCtSRlZSQ0kxVk5PbDlUTXJwTDhP?=
- =?utf-8?B?VkxXc041R2w2VnNoWVR0MDJud1BkNUZjODJzMFVmY3hzc0tTdk9qNEEvZFhF?=
- =?utf-8?B?QkNmNnZYbjY2UG1aQ3NvMGZUL3ZQSVE3bnorajRFT0Vrclk4ZFRLdEg4THdD?=
- =?utf-8?B?KzVNWjVtZ0I3d0ZLcjZObU9VRTZxTDY2SGFpcVlvU0UrL0taTU56NU1FRDU0?=
- =?utf-8?B?Q1NNVFRGOWtPc0phbUNuL1NvckVuY1I0blh5OUF4MjQ5WXYwWTlZeXk4WUh0?=
- =?utf-8?B?TVdBUnZmRXhMWHZlSVMzajJkQlZRVUVscjJqK1BGVEdueFdWdnFTcW1LSGhs?=
- =?utf-8?B?dXJ5cnR2Tm9iN0hwdVJsTGFEZld5K1JTaGtGRlp6R2x3RXJMYnJpVVU3Vzl3?=
- =?utf-8?B?MStXdmw1eTIwQkoxVjJka05DV3lnaFRxY0V6R2lkNWo5eExpeGphZnRLYTJC?=
- =?utf-8?B?VTdqTklwMkRoZFNkcE84ZE5Ybm1YOTJleERvZ2EraDlpYXFuRGJNU2VFakdH?=
- =?utf-8?B?T1EzaWdCdi9qWmI0Ti9jSWlaTDhPWGh2MHl1bDFRampWUWpWc1piZGswdnZp?=
- =?utf-8?B?L3JLYUlJeXUvakYrN2lKRlpzNFVWWEpQOVFLR3lKQWFvQUVkN0taM0piWS81?=
- =?utf-8?B?NEhZVTgrbXErSGk2UnhiSnJaVWkvTXRpSUVGSVJvTzJwRUJBVEc5NDNkTzdR?=
- =?utf-8?B?UjVzL0pIYlFZNGJMZ2JzVzh3aDgvV0IxK1NLOFgrcHJBWVFRWGl6VldnSTJ0?=
- =?utf-8?B?bHBQa3BNOVpoOFN5U2NLNlRUWEpJZmtrNDNrVkovdmcxdUxIK0lKRDdsbFNI?=
- =?utf-8?B?azNITXZ6Z0YyVjJ4TWlJRnovUTAyTzFDcG5RM1czZDFubG5tNFI5QXFWSDV6?=
- =?utf-8?B?Z2VidVZ6bjkvRzlpYndpNkgveHV2bWNIbnRJMjZHcUVZOURxZENsTnowdGFQ?=
- =?utf-8?B?T01uNVZvVFRQMUhxemt2WEU4T25VWXoyODNEVThxK1dqcjlQR0NBTW9BRVdr?=
- =?utf-8?B?bmM2cndYKy9lcC9xVjZ3ZFFFQkVwdCtnMFdTS2hhR1gycElWazVJTUV0VDlE?=
- =?utf-8?B?MklKM0tOc002bXhQbDVRdUU2d3JaZ2lFOWFVY2wrOWM1MHBXUGZpek52Y2xK?=
- =?utf-8?B?YmxCR29TY1oyQStVQVVSVktvQmVxUnZiQ1NyN2ppNWtFZFdYOTVuR1M5VmpN?=
- =?utf-8?B?dU56VUI1VWdVSXNoalJLTGFtVGFrWTVLZmo0Uzk5MUR1QUVwWDhIYlovcWln?=
- =?utf-8?B?dzNVR1pkRUpjbDM5azVZVlhFUE5udG9OWHdCWEUrd2JTNWdMWmxvVnB3K1RX?=
- =?utf-8?B?OFdVZ3BTdVNwQXZZYmUwcXpKSkxubmtwQWRWd3hQaHU2elJNTzk3Q2R5c1o2?=
- =?utf-8?B?WFFlYjhLQVdLUUFXSk8rQzVSdzc3Y1AxRlVISXU2TitCbFFUT00zTEQwaHVq?=
- =?utf-8?B?eXlXNGEvWTh3UUJzcHNlV3VpcWovOGEvUVdQMFlIR0dKL1k3d2pPTG1ZcVJi?=
- =?utf-8?B?bTBCWTdTSURBc0pLdmIzdThzaVkrOGtnOGk0Y251R1BycXR6ZGRYa2M2TmdZ?=
- =?utf-8?B?OXNZTjFZd085TGVTbVRIZ1VEdjdNZjFOU1huOVZTZ1d0TmU4eWhEbEVyNkZI?=
- =?utf-8?B?M2JrNVVodUNHMG16cjFMNFZtdllWRGxRckU0bTBEUEIzSEk3VW42UGVDSER2?=
- =?utf-8?Q?toQ3rI4yhllBw6lirDSoyne9rX7ZwYG4?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2292d59-efb1-4aa1-d0c9-08da0fe077bb
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB3929.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2022 10:56:38.3484
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR01MB4438
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Two kerneldoc comments in gadget.c have excess function parameter description or wrong
-prototype name and one kerneldoc comment in core.c has an excess function parameter
-description, resulting in these three doc-build warnings:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f022814633e1c600507b3a99691b4d624c2813f0
+commit: a9b202606c69312cdaa4db187837820ebf7213b2 RISC-V: Improve /proc/cpuinfo output for ISA extensions
+date:   10 days ago
+config: riscv-randconfig-r042-20220327 (https://download.01.org/0day-ci/archive/20220327/202203272341.NC73YmTW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a9b202606c69312cdaa4db187837820ebf7213b2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a9b202606c69312cdaa4db187837820ebf7213b2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/ drivers/perf/
 
-   1. ./drivers/usb/dwc3/gadget.c:675: warning: Excess function parameter
-        'nfifos' description in 'dwc3_gadget_calc_tx_fifo_size'
-   2. ./drivers/usb/dwc3/gadget.c:700: warning: expecting prototype for
-        dwc3_gadget_clear_tx_fifo_size(). Prototype was for dwc3_gadget_clear_tx_fifos()
-        instead
-   3. ./drivers/usb/dwc3/core.c:347: warning: Excess function parameter 'ref_clk_per'
-        description in 'dwc3_ref_clk_period'
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Fix the warnings by correcting the prototype name and removing excess parameter descriptions.
+All warnings (new ones prefixed by >>):
 
-Signed-off-by: Kushagra Verma <kushagra765@outlook.com>
----
- drivers/usb/dwc3/core.c   | 1 -
- drivers/usb/dwc3/gadget.c | 3 +--
- 2 files changed, 1 insertion(+), 3 deletions(-)
+   arch/riscv/kernel/cpu.c:89: warning: cannot understand function prototype: 'struct riscv_isa_ext_data isa_ext_arr[] = '
+>> arch/riscv/kernel/cpu.c:113: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * These are the only valid base (single letter) ISA extensions as per the spec.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 1170b800acdc..87a6cb37dfd0 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -341,7 +341,6 @@ static void dwc3_frame_length_adjustment(struct dwc3 *dwc)
-  *		from the default, this will set clock period in DWC3_GUCTL
-  *		register.
-  * @dwc: Pointer to our controller context structure
-- * @ref_clk_per: reference clock period in ns
-  */
- static void dwc3_ref_clk_period(struct dwc3 *dwc)
- {
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index ab725d2262d6..66a256c47514 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -657,7 +657,6 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
- /**
-  * dwc3_gadget_calc_tx_fifo_size - calculates the txfifo size value
-  * @dwc: pointer to the DWC3 context
-- * @nfifos: number of fifos to calculate for
-  *
-  * Calculates the size value based on the equation below:
-  *
-@@ -690,7 +689,7 @@ static int dwc3_gadget_calc_tx_fifo_size(struct dwc3 *dwc, int mult)
- }
- 
- /**
-- * dwc3_gadget_clear_tx_fifo_size - Clears txfifo allocation
-+ * dwc3_gadget_clear_tx_fifos - Clears txfifo allocation
-  * @dwc: pointer to the DWC3 context
-  *
-  * Iterates through all the endpoint registers and clears the previous txfifo
+
+vim +113 arch/riscv/kernel/cpu.c
+
+    65	
+    66	#ifdef CONFIG_PROC_FS
+    67	#define __RISCV_ISA_EXT_DATA(UPROP, EXTID) \
+    68		{							\
+    69			.uprop = #UPROP,				\
+    70			.isa_ext_id = EXTID,				\
+    71		}
+    72	/**
+    73	 * Here are the ordering rules of extension naming defined by RISC-V
+    74	 * specification :
+    75	 * 1. All extensions should be separated from other multi-letter extensions
+    76	 *    from other multi-letter extensions by an underscore.
+    77	 * 2. The first letter following the 'Z' conventionally indicates the most
+    78	 *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
+    79	 *    If multiple 'Z' extensions are named, they should be ordered first
+    80	 *    by category, then alphabetically within a category.
+    81	 * 3. Standard supervisor-level extensions (starts with 'S') should be
+    82	 *    listed after standard unprivileged extensions.  If multiple
+    83	 *    supervisor-level extensions are listed, they should be ordered
+    84	 *    alphabetically.
+    85	 * 4. Non-standard extensions (starts with 'X') must be listed after all
+    86	 *    standard extensions. They must be separated from other multi-letter
+    87	 *    extensions by an underscore.
+    88	 */
+  > 89	static struct riscv_isa_ext_data isa_ext_arr[] = {
+    90		__RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
+    91	};
+    92	
+    93	static void print_isa_ext(struct seq_file *f)
+    94	{
+    95		struct riscv_isa_ext_data *edata;
+    96		int i = 0, arr_sz;
+    97	
+    98		arr_sz = ARRAY_SIZE(isa_ext_arr) - 1;
+    99	
+   100		/* No extension support available */
+   101		if (arr_sz <= 0)
+   102			return;
+   103	
+   104		for (i = 0; i <= arr_sz; i++) {
+   105			edata = &isa_ext_arr[i];
+   106			if (!__riscv_isa_extension_available(NULL, edata->isa_ext_id))
+   107				continue;
+   108			seq_printf(f, "_%s", edata->uprop);
+   109		}
+   110	}
+   111	
+   112	/**
+ > 113	 * These are the only valid base (single letter) ISA extensions as per the spec.
+   114	 * It also specifies the canonical order in which it appears in the spec.
+   115	 * Some of the extension may just be a place holder for now (B, K, P, J).
+   116	 * This should be updated once corresponding extensions are ratified.
+   117	 */
+   118	static const char base_riscv_exts[13] = "imafdqcbkjpvh";
+   119	
+
 -- 
-2.25.1
-
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
