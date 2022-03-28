@@ -2,132 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C501C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 07:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A67C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 07:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238930AbiC1HsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 03:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S238955AbiC1HwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 03:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238932AbiC1HsE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 03:48:04 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B48D52E38;
-        Mon, 28 Mar 2022 00:46:24 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id x2so14094011plm.7;
-        Mon, 28 Mar 2022 00:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UUGs7NfPknNjnP5jCgmZr4i/5kdZ8T8lluTC77iESeA=;
-        b=pGB1XQ2xgJ565xgWHPM86WjBPm0Lt996wPbI/0QZlHmpJeFNzH+EHAIrPO5I4zmCln
-         isdEtMUpktmwkgxhsY1EkgRRFv4zl56dn8SUfaix3VMnLOE8+e1CKhT9D2bIMcZpxDea
-         PBiBaqA1KI6F1SiDVddHK+y7b/g1tbnvgoErVDjZhYx31NpagmkHK5D/TZ0uuAuyHnxk
-         LOBG/ZxePYk2T68ZvoL3I8urv2ykYC5k7ti1/zFD1JET4d0VxtsdeQcvqQrSoBv3zCL+
-         4fAnvxXC2SRkYtK84H/pdX9LayMrnJciBYRIin9f8ORHF5ogi4WP6DxaQlQ2XMhGSsYU
-         HhaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=UUGs7NfPknNjnP5jCgmZr4i/5kdZ8T8lluTC77iESeA=;
-        b=wXNQQoeqLEpiHzbSlnLSnIinwFYyGi6WPaxTR8wRrl7bL8ZbFF/lUPywOFcKKWNEZV
-         jYsoSdIYeus3VonWM9nNqU0xrWh6dBoIZtOAlar+1wy7BCPABUzGgw+kMEGm8Y1jjGaR
-         fI78qF+nyVkB7XzQ1D1R7lpvXAjq88bMUGkyfKlr93BN9Khgkbi8mGbWwjTq8VqncLRM
-         RwjKzTvV0cuS+4u/tuITVmWG08I8twuR5wOWYTETPvwbTtJLbFrZg3Ky8nHz9PIsGRrV
-         3HF+bQh2f8FwvEsqAun07K3VwFiXg9ppYYI4VcThcIHoocmYjgaaHn/3q/8vVgco0O48
-         2uVg==
-X-Gm-Message-State: AOAM533YKR8/5YC1jEcgBg+EVEQtDpPP9biPdXCN0GVEgh0EEjzlO8Mq
-        6pWa0PXLi6tUiXalubuRPXE=
-X-Google-Smtp-Source: ABdhPJwmadm8JhIfIAooCaf1RF76zUjIQH1s2IWFwwOfZKGrgW+OCSBJZ8UTXGuaYo+TlbXp9tLCRA==
-X-Received: by 2002:a17:90a:a593:b0:1c9:b837:e77d with SMTP id b19-20020a17090aa59300b001c9b837e77dmr1876668pjq.205.1648453583984;
-        Mon, 28 Mar 2022 00:46:23 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ip1-20020a17090b314100b001c7b10fe359sm13896861pjb.5.2022.03.28.00.46.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Mar 2022 00:46:23 -0700 (PDT)
-Message-ID: <6a5ce717-cc0a-9b7c-ba08-88e3b9f760bb@gmail.com>
-Date:   Mon, 28 Mar 2022 16:46:16 +0900
+        with ESMTP id S238953AbiC1HwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 03:52:24 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D0552E33;
+        Mon, 28 Mar 2022 00:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648453845; x=1679989845;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jlKlj0NQNWN05aZExDwr/vExb1oiL3GMzMEuXefJ6b8=;
+  b=Nkd0l+yoGr7efem7+WlSZXXxaE3p/hJm23bjIcbgBQ4hafCtb4eCAjUi
+   n2xKWCOSfym+5w11GpAGfj6asa4jgNz0APh1Fvbbc569fX4sQ1ljnCMaS
+   7lNLdpJfURl/0Ws2r9GAYLOV1si+NonRJ2bHLAfFRUnoRjNNrfESEU4DQ
+   yh5uLefCAsvEh28pSTL07X2vS21ncXdOM1qB+04HogeFypeuBhG3sgUTa
+   uSkU5w/6+whhpUyhBVniaIpst4rFliT2rNUosjND2ngAngTPsjwzLIFb+
+   hR+AT2oWFwHBFEKLnHcRXEh029OCNtnMt7UGdFYXQBOJ1wsPMYTsTgsTY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="246426619"
+X-IronPort-AV: E=Sophos;i="5.90,216,1643702400"; 
+   d="scan'208";a="246426619"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2022 00:50:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,216,1643702400"; 
+   d="scan'208";a="502423396"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 28 Mar 2022 00:50:40 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nYk99-0001qz-Ol; Mon, 28 Mar 2022 07:50:39 +0000
+Date:   Mon, 28 Mar 2022 15:49:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atishp@rivosinc.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>, linux-doc@vger.kernel.org
+Subject: arch/riscv/kernel/cpu.c:113: warning: This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202203281524.uFcj0Opf-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 1/2] Documentation: kernel-doc: Promote two chapter
- headings to page title
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20220328065030.24936-1-bagasdotme@gmail.com>
- <20220328065030.24936-2-bagasdotme@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220328065030.24936-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Mar 2022 13:50:30 +0700,
-Bagas Sanjaya wrote:
-> Promote two chapter headings, named "Writing kernel-doc comments" and
-> "Including kernel-doc comments" to page title. These titles deserve
-> their own chapters in PDF output, although these will also appear as two
-> separate titles in table of contents in HTML output.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
+commit: a9b202606c69312cdaa4db187837820ebf7213b2 RISC-V: Improve /proc/cpuinfo output for ISA extensions
+date:   11 days ago
+config: riscv-randconfig-r042-20220328 (https://download.01.org/0day-ci/archive/20220328/202203281524.uFcj0Opf-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a9b202606c69312cdaa4db187837820ebf7213b2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a9b202606c69312cdaa4db187837820ebf7213b2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/ drivers/perf/
 
-As Mauro and I have pointed out, this change won't have any effect
-in the resulting HTML and PDF docs.  No difference *at all*.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Why do you think this change is worthwhile.
+All warnings (new ones prefixed by >>):
 
-Please convince us!
+   arch/riscv/kernel/cpu.c:89: warning: cannot understand function prototype: 'struct riscv_isa_ext_data isa_ext_arr[] = '
+>> arch/riscv/kernel/cpu.c:113: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * These are the only valid base (single letter) ISA extensions as per the spec.
 
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Akira Yokosawa <akiyks@gmail.com>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: linux-kernel@vger.kernel.org
-> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
 
-Please don't put this Suggested-by: at the moment.
+vim +113 arch/riscv/kernel/cpu.c
 
-        Thanks, Akira
+   111	
+   112	/**
+ > 113	 * These are the only valid base (single letter) ISA extensions as per the spec.
+   114	 * It also specifies the canonical order in which it appears in the spec.
+   115	 * Some of the extension may just be a place holder for now (B, K, P, J).
+   116	 * This should be updated once corresponding extensions are ratified.
+   117	 */
+   118	static const char base_riscv_exts[13] = "imafdqcbkjpvh";
+   119	
 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/doc-guide/kernel-doc.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index 79aaa55d6bcf2b..a7cb2afd799007 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -1,3 +1,4 @@
-> +===========================
->  Writing kernel-doc comments
->  ===========================
->  
-> @@ -436,6 +437,7 @@ The title following ``DOC:`` acts as a heading within the source file, but also
->  as an identifier for extracting the documentation comment. Thus, the title must
->  be unique within the file.
->  
-> +=============================
->  Including kernel-doc comments
->  =============================
->  
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
