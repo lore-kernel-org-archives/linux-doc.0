@@ -2,66 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA301C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 20:01:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD885C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 20:02:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245473AbiC1UDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 16:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59002 "EHLO
+        id S236244AbiC1UEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 16:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344345AbiC1UCv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 16:02:51 -0400
+        with ESMTP id S234908AbiC1UEd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 16:04:33 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4778668FB4;
-        Mon, 28 Mar 2022 13:00:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27D83BA5E;
+        Mon, 28 Mar 2022 13:02:52 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E7E6E37A;
-        Mon, 28 Mar 2022 20:00:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E7E6E37A
+        by ms.lwn.net (Postfix) with ESMTPSA id 47C3E37A;
+        Mon, 28 Mar 2022 20:02:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 47C3E37A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648497648; bh=Snyp6ooM0JYXk19YcbpMhdr8RnS/Lw19Orqa6QdQGts=;
+        t=1648497772; bh=PwIBFic52cB+8cV6Ms4Smf/K/c9Y0vVMor8KDA0YN2c=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=MJUsnoi0Om1wtvUQLRqGY/M/Pv0vNDW3VdKdiL7k4LbqE2qvWnFYDekb/tXHvJpWp
-         GU4JSyYmHwTbWsXQalCAJlTBbnhViFcpW9GBnyurYWeMzK0+fL38ljEpdhmoVrKfHW
-         ryrKuJmkFEKvWfUx+yyYY/xtcIzy/oQfc7SXXZCubziCpryrRA4RtsG+LljxkqlshJ
-         EX068KSZQYhMhQ6S9RDpfyeG0UHgmyt69vfVxAoZfHpcCFh218zs+LIfT4hFEl56Ib
-         3yhOgXaP3YiUomaE2TY3mVDUf3fAGjTMXSlZKbz9KvmSAzirberU4HPlPncOvjLiI3
-         EcXRgqUrWJHUA==
+        b=k0xDbu41Pd0W0r93jSo7/AJ7ki4ya8GQbyZgUmEkPeyKGxfaG9oZGu3jCV2gnVR5k
+         WEPyPkuKiwawV2DwNKfy4R79Ba/VXT/lpm5iWEJj0fJsmM7huBYJlDkByq7pZLFXO8
+         l5qLkfHUQlIuFeFSg+9JD9rNTzIZMMlRd2qhsjkawHcLnwev4QnmRzIWSWekooKQgJ
+         YitPxnxFVB8hjUUp6Fbq3U3pdQw+YuPyohNG3gavAnOnTn6WfQ1dpQFbUgKFMjIJbY
+         9oOKg7aIK+SzBfORYABsnkVU0ahODzR8+UP+/73O8gr8FcR8WXYrOQ/v7FgSDpqXNx
+         /0DSV5XcbxGZQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v3 0/6] Better handle dependencies on Sphinx extensions
-In-Reply-To: <cover.1648290305.git.mchehab@kernel.org>
-References: <cover.1648290305.git.mchehab@kernel.org>
-Date:   Mon, 28 Mar 2022 14:00:47 -0600
-Message-ID: <87v8vx7spc.fsf@meer.lwn.net>
+To:     David Gow <davidgow@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>
+Cc:     David Gow <davidgow@google.com>, Marco Elver <elver@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kunit: Fix cross-referencing warnings
+In-Reply-To: <20220326054414.637293-1-davidgow@google.com>
+References: <20220326054414.637293-1-davidgow@google.com>
+Date:   Mon, 28 Mar 2022 14:02:51 -0600
+Message-ID: <87r16l7slw.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+David Gow <davidgow@google.com> writes:
 
-> Sphinx has its own way to identify the need of rebuilding the documentation.
-> It means that extensions need to use an internal API in order to notify about
-> the need to consider other files.
+> The Architecture chapter of the KUnit documentation tried to include
+> copies of the kernel-doc for a couple of things, despite these already
+> existing in the API documentation. This lead to some warnings:
 >
-> The kerneldoc.py extension already does that, maintainers_include.py doesn't
-> need (as it uses an API that internally does that), and kfigure.py does it on a
-> different way.  So, those are already safe.
+> architecture:31: ./include/kunit/test.h:3: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:66.
+> Declaration is '.. c:struct:: kunit_case'.
+> architecture:163: ./include/kunit/test.h:1217: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:1217.
+> Declaration is '.. c:macro:: KUNIT_ARRAY_PARAM'.
+> architecture.rst:3: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:66.
+> Declaration is '.. c:struct:: kunit_case'.
+> architecture.rst:1217: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:1217.
+> Declaration is '.. c:macro:: KUNIT_ARRAY_PARAM'.
 >
-> However, other extensions don't notify nor implement their own checks,
-> so, when a file that was parsed by them is changed, the corresponding 
-> documentation won't be rebuilt.
+> Get rid of these, and cleanup the mentions of the struct and macro in
+> question so that sphinx generates a link to the existing copy of the
+> documentation in the api/test document.
 >
-> This series add support for it for ABI, features and kernel-include.
+> Fixes: bc145b370c ("Documentation: KUnit: Added KUnit Architecture")
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>  Documentation/dev-tools/kunit/architecture.rst | 13 ++-----------
+>  1 file changed, 2 insertions(+), 11 deletions(-)
 
-Series applied, thanks.
+Applied, thanks.
 
 jon
