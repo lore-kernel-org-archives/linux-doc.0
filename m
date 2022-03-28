@@ -2,294 +2,317 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C3E4C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 18:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B6EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 18:40:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245210AbiC1SaU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 14:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50026 "EHLO
+        id S245271AbiC1Sll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 14:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240336AbiC1SaT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 14:30:19 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D71313E1E
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 11:28:37 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id bg10so30471277ejb.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 11:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8WaH8oTp9zQ4RiMod88tKNM8FNGzolc7NDGliqXEyFM=;
-        b=RA1LFZlyqYnQKlZhfG5eW4EytFq6FXGfsjb2/DOkWkAoisIvQquLsZTwb8nBtNlht8
-         ZHqiJ/MOFhcB+HyYDg4DOrCFHvXKNreT5wQEPJ7PzPnMoI2QrObdeAd08uOLLZhCsV8Y
-         oo/fwNelFB8E06amjBdYhwsR2VhATbyd3kx12XlxxP1sGczHl+YWk9N47mzb48HohD17
-         d9HYqBqtvUEw1TYZH7O9tEkaSoRyqnabxydRHWLDA8W6lAvtHgHxiIUB7dc49IG+TBgi
-         G8ykTzQvXQ9aD4+tQHre6cRAhm0yoObw1rfkn0AAPUuFF1ZU/BUjCdEdRxBpKxz80uJg
-         RymA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8WaH8oTp9zQ4RiMod88tKNM8FNGzolc7NDGliqXEyFM=;
-        b=SFTK/xvVprNG9BgBWQzzKYc0lQ68ryALZAFh3P/F0S9nvWpv8sBQ5Uc/TDzLGPybAM
-         GSkUNYZ6yX42q7qWj7xGUEJd6ZxqrAe72NsGt21FUfX3p6+J9w3RsTNGEPUaN2EnbdQT
-         LR2Wx4OVH2FzrR49/Vavqj1S/kGgNK3NGUZxTHHU/gOXBWCcvxjDq2CiQAb9aH8ekliD
-         RXYSVUF0CsXJRrmGvJ3+DByJC6b4CfEztiuAi2OGk8yRELXDxGAkJZwHWVNuY03a2YPa
-         Vkkuif3mrvpnLLW0TX3WiWrJf3av82DqHJNp7j8NpLIUgwKG80OXNas1sxW1xCLcZ2cd
-         ws6g==
-X-Gm-Message-State: AOAM533pq4y+aWgbriSO+7aEs0fdcaxayhmCdm31u9gzw26/+X5SgCnz
-        FQsrVORbcp7N9l02uNW9gS1ze9gbNDKpe+Du9YCAXA==
-X-Google-Smtp-Source: ABdhPJz3R1rYGKfMgCT8Xw+uvi6MQu9Vw8tO6cBRgeUu+llCkBBC4HKzRw85BEQANrPE+Bd5D9ZFeLO+o1zCssURxAk=
-X-Received: by 2002:a17:906:9754:b0:6da:7d72:1353 with SMTP id
- o20-20020a170906975400b006da7d721353mr29368499ejy.273.1648492115577; Mon, 28
- Mar 2022 11:28:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-5-tjmercier@google.com> <YkHH/0Use7F30UUE@phenom.ffwll.local>
-In-Reply-To: <YkHH/0Use7F30UUE@phenom.ffwll.local>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 28 Mar 2022 11:28:24 -0700
-Message-ID: <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
-Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
- cgroup charging
-To:     "T.J. Mercier" <tjmercier@google.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
+        with ESMTP id S243749AbiC1Sll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 14:41:41 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B5D914026;
+        Mon, 28 Mar 2022 11:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1648492796; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QmieihZbGB29NOEkXombMlBt3Ij7l+yxxQPdnPvDlbM=;
+        b=oBUY8yaDcgU5YYatcQr7/GNeFWvb5DzhkdvXEQunAKpWhRoGQxcwo5cuBZKwXRj32FyE0g
+        aqkOUpQRJiVkD5tz92uU0wyEMy0yjca22p+Vb1Kfoy1iLLosOikPwArTdhlSoKBjLxbbH8
+        jQ/rWoaM4qDFtKJWq6t51AwDAxoThy0=
+Date:   Mon, 28 Mar 2022 19:39:45 +0100
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 02/12] iio: buffer-dma: Enable buffer write support
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Message-Id: <96XG9R.3NOIIEN7IS001@crapouillou.net>
+In-Reply-To: <20220328182409.1e959386@jic23-huawei>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+        <20220207125933.81634-3-paul@crapouillou.net>
+        <20220328182409.1e959386@jic23-huawei>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 28, 2022 at 7:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Mar 28, 2022 at 03:59:43AM +0000, T.J. Mercier wrote:
-> > From: Hridya Valsaraju <hridya@google.com>
-> >
-> > All DMA heaps now register a new GPU cgroup device upon creation, and t=
-he
-> > system_heap now exports buffers associated with its GPU cgroup device f=
-or
-> > tracking purposes.
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >
-> > ---
-> > v3 changes
-> > Use more common dual author commit message format per John Stultz.
-> >
-> > v2 changes
-> > Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-> > heap to a single dma-buf function for all heaps per Daniel Vetter and
-> > Christian K=C3=B6nig.
->
-> Apologies for being out of the loop quite a bit. I scrolled through this
-> all and I think it looks good to get going.
->
-> The only thing I have is whether we should move the cgroup controllers ou=
-t
-> of dma-buf heaps, since that's rather android centric. E.g.
-> - a system gpucg_device which is used by all the various single page
->   allocators (dma-buf heap but also shmem helpers and really anything
->   else)
-> - same for cma, again both for dma-buf heaps and also for the gem cma
->   helpers in drm
+Hi Jonathan,
 
-Thanks Daniel, in general that makes sense to me as an approach to
-making this more universal. However for the Android case I'm not sure
-if the part about a single system gpucg_device would be sufficient,
-because there are at least 12 different graphics related heaps that
-could potentially be accounted/limited differently. [1]  So that
-raises the question of how fine grained we want this to be... I tend
-towards separating them all, but I haven't formed a strong opinion
-about this at the moment. It sounds like you are in favor of a
-smaller, more rigidly defined set of them? Either way, we need to add
-code for accounting at points where we know memory is specifically for
-graphics use and not something else right? (I.E. Whether it is a
-dma-buf heap or somewhere like drm_gem_object_init.) So IIUC the only
-question is what to use for the gpucg_device(s) at these locations.
+Le lun., mars 28 2022 at 18:24:09 +0100, Jonathan Cameron=20
+<jic23@kernel.org> a =E9crit :
+> On Mon,  7 Feb 2022 12:59:23 +0000
+> Paul Cercueil <paul@crapouillou.net> wrote:
+>=20
+>>  Adding write support to the buffer-dma code is easy - the write()
+>>  function basically needs to do the exact same thing as the read()
+>>  function: dequeue a block, read or write the data, enqueue the block
+>>  when entirely processed.
+>>=20
+>>  Therefore, the iio_buffer_dma_read() and the new=20
+>> iio_buffer_dma_write()
+>>  now both call a function iio_buffer_dma_io(), which will perform=20
+>> this
+>>  task.
+>>=20
+>>  The .space_available() callback can return the exact same value as=20
+>> the
+>>  .data_available() callback for input buffers, since in both cases we
+>>  count the exact same thing (the number of bytes in each available
+>>  block).
+>>=20
+>>  Note that we preemptively reset block->bytes_used to the buffer's=20
+>> size
+>>  in iio_dma_buffer_request_update(), as in the future the
+>>  iio_dma_buffer_enqueue() function won't reset it.
+>>=20
+>>  v2: - Fix block->state not being reset in
+>>        iio_dma_buffer_request_update() for output buffers.
+>>      - Only update block->bytes_used once and add a comment about=20
+>> why we
+>>        update it.
+>>      - Add a comment about why we're setting a different state for=20
+>> output
+>>        buffers in iio_dma_buffer_request_update()
+>>      - Remove useless cast to bool (!!) in iio_dma_buffer_io()
+>>=20
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
+> One comment inline.
+>=20
+> I'd be tempted to queue this up with that fixed, but do we have
+> any users?  Even though it's trivial I'm not that keen on code
+> upstream well in advance of it being used.
 
-[1] https://cs.android.com/android/platform/superproject/+/master:hardware/=
-google/graphics/common/libion/ion.cpp;l=3D39-50
+There's a userspace user in libiio. On the kernel side we do have=20
+drivers that use it in ADI's downstream kernel, that we plan to=20
+upstream in the long term (but it can take some time, as we need to=20
+upstream other things first, like JESD204B support).
 
->
-> Otherwise this will only work on non-upstream android where gpu drivers
-> allocate everything from dma-buf heap. If you use something like the x86
-> android project with mesa drivers, then driver-internal buffers will be
-> allocated through gem and not through dma-buf heaps. Or at least I think
-> that's how it works.
->
-> But also meh, we can fix this fairly easily later on by adding these
-> standard gpucg_dev somwehere with a bit of kerneldoc.
+>=20
+>>  ---
+>>   drivers/iio/buffer/industrialio-buffer-dma.c | 88=20
+>> ++++++++++++++++----
+>>   include/linux/iio/buffer-dma.h               |  7 ++
+>>   2 files changed, 79 insertions(+), 16 deletions(-)
+>>=20
+>>  diff --git a/drivers/iio/buffer/industrialio-buffer-dma.c=20
+>> b/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  index 1fc91467d1aa..a9f1b673374f 100644
+>>  --- a/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  +++ b/drivers/iio/buffer/industrialio-buffer-dma.c
+>>  @@ -195,6 +195,18 @@ static void _iio_dma_buffer_block_done(struct=20
+>> iio_dma_buffer_block *block)
+>>   		block->state =3D IIO_BLOCK_STATE_DONE;
+>>   }
+>>=20
+>>  +static void iio_dma_buffer_queue_wake(struct iio_dma_buffer_queue=20
+>> *queue)
+>>  +{
+>>  +	__poll_t flags;
+>>  +
+>>  +	if (queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN)
+>>  +		flags =3D EPOLLIN | EPOLLRDNORM;
+>>  +	else
+>>  +		flags =3D EPOLLOUT | EPOLLWRNORM;
+>>  +
+>>  +	wake_up_interruptible_poll(&queue->buffer.pollq, flags);
+>>  +}
+>>  +
+>>   /**
+>>    * iio_dma_buffer_block_done() - Indicate that a block has been=20
+>> completed
+>>    * @block: The completed block
+>>  @@ -212,7 +224,7 @@ void iio_dma_buffer_block_done(struct=20
+>> iio_dma_buffer_block *block)
+>>   	spin_unlock_irqrestore(&queue->list_lock, flags);
+>>=20
+>>   	iio_buffer_block_put_atomic(block);
+>>  -	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN |=20
+>> EPOLLRDNORM);
+>>  +	iio_dma_buffer_queue_wake(queue);
+>>   }
+>>   EXPORT_SYMBOL_GPL(iio_dma_buffer_block_done);
+>>=20
+>>  @@ -241,7 +253,7 @@ void iio_dma_buffer_block_list_abort(struct=20
+>> iio_dma_buffer_queue *queue,
+>>   	}
+>>   	spin_unlock_irqrestore(&queue->list_lock, flags);
+>>=20
+>>  -	wake_up_interruptible_poll(&queue->buffer.pollq, EPOLLIN |=20
+>> EPOLLRDNORM);
+>>  +	iio_dma_buffer_queue_wake(queue);
+>>   }
+>>   EXPORT_SYMBOL_GPL(iio_dma_buffer_block_list_abort);
+>>=20
+>>  @@ -335,8 +347,24 @@ int iio_dma_buffer_request_update(struct=20
+>> iio_buffer *buffer)
+>>   			queue->fileio.blocks[i] =3D block;
+>>   		}
+>>=20
+>>  -		block->state =3D IIO_BLOCK_STATE_QUEUED;
+>>  -		list_add_tail(&block->head, &queue->incoming);
+>>  +		/*
+>>  +		 * block->bytes_used may have been modified previously, e.g. by
+>>  +		 * iio_dma_buffer_block_list_abort(). Reset it here to the
+>>  +		 * block's so that iio_dma_buffer_io() will work.
+>>  +		 */
+>>  +		block->bytes_used =3D block->size;
+>>  +
+>>  +		/*
+>>  +		 * If it's an input buffer, mark the block as queued, and
+>>  +		 * iio_dma_buffer_enable() will submit it. Otherwise mark it as
+>>  +		 * done, which means it's ready to be dequeued.
+>>  +		 */
+>>  +		if (queue->buffer.direction =3D=3D IIO_BUFFER_DIRECTION_IN) {
+>>  +			block->state =3D IIO_BLOCK_STATE_QUEUED;
+>>  +			list_add_tail(&block->head, &queue->incoming);
+>>  +		} else {
+>>  +			block->state =3D IIO_BLOCK_STATE_DONE;
+>>  +		}
+>>   	}
+>>=20
+>>   out_unlock:
+>>  @@ -465,20 +493,12 @@ static struct iio_dma_buffer_block=20
+>> *iio_dma_buffer_dequeue(
+>>   	return block;
+>>   }
+>>=20
+>>  -/**
+>>  - * iio_dma_buffer_read() - DMA buffer read callback
+>>  - * @buffer: Buffer to read form
+>>  - * @n: Number of bytes to read
+>>  - * @user_buffer: Userspace buffer to copy the data to
+>>  - *
+>>  - * Should be used as the read callback for iio_buffer_access_ops
+>>  - * struct for DMA buffers.
+>>  - */
+>>  -int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
+>>  -	char __user *user_buffer)
+>>  +static int iio_dma_buffer_io(struct iio_buffer *buffer,
+>>  +			     size_t n, char __user *user_buffer, bool is_write)
+>>   {
+>>   	struct iio_dma_buffer_queue *queue =3D iio_buffer_to_queue(buffer);
+>>   	struct iio_dma_buffer_block *block;
+>>  +	void *addr;
+>>   	int ret;
+>>=20
+>>   	if (n < buffer->bytes_per_datum)
+>>  @@ -501,8 +521,13 @@ int iio_dma_buffer_read(struct iio_buffer=20
+>> *buffer, size_t n,
+>>   	n =3D rounddown(n, buffer->bytes_per_datum);
+>>   	if (n > block->bytes_used - queue->fileio.pos)
+>>   		n =3D block->bytes_used - queue->fileio.pos;
+>>  +	addr =3D block->vaddr + queue->fileio.pos;
+>>=20
+>>  -	if (copy_to_user(user_buffer, block->vaddr + queue->fileio.pos,=20
+>> n)) {
+>>  +	if (is_write)
+>>  +		ret =3D copy_from_user(addr, user_buffer, n);
+>>  +	else
+>>  +		ret =3D copy_to_user(user_buffer, addr, n);
+>>  +	if (ret) {
+>>   		ret =3D -EFAULT;
+>>   		goto out_unlock;
+>>   	}
+>>  @@ -521,8 +546,39 @@ int iio_dma_buffer_read(struct iio_buffer=20
+>> *buffer, size_t n,
+>>=20
+>>   	return ret;
+>>   }
+>>  +
+>>  +/**
+>>  + * iio_dma_buffer_read() - DMA buffer read callback
+>>  + * @buffer: Buffer to read form
+>>  + * @n: Number of bytes to read
+>>  + * @user_buffer: Userspace buffer to copy the data to
+>>  + *
+>>  + * Should be used as the read callback for iio_buffer_access_ops
+>>  + * struct for DMA buffers.
+>>  + */
+>>  +int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
+>>  +	char __user *user_buffer)
+>>  +{
+>>  +	return iio_dma_buffer_io(buffer, n, user_buffer, false);
+>>  +}
+>>   EXPORT_SYMBOL_GPL(iio_dma_buffer_read);
+>>=20
+>>  +/**
+>>  + * iio_dma_buffer_write() - DMA buffer write callback
+>>  + * @buffer: Buffer to read form
+>>  + * @n: Number of bytes to read
+>>  + * @user_buffer: Userspace buffer to copy the data from
+>>  + *
+>>  + * Should be used as the write callback for iio_buffer_access_ops
+>>  + * struct for DMA buffers.
+>>  + */
+>>  +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
+>>  +			 const char __user *user_buffer)
+>>  +{
+>>  +	return iio_dma_buffer_io(buffer, n, (__force char *)user_buffer,=20
+>> true);
+>=20
+> Casting away the const is a little nasty.   Perhaps it's worth adding=20
+> a
+> parameter to iio_dma_buffer_io so you can have different parameters
+> for the read and write cases and hence keep the const in place?
+> return iio_dma_buffer_io(buffer, n, NULL, user_buffer, true);
+> and
+> return iio_dma_buffer_io(buffer,n, user_buffer, NULL, false);
 
-This is what I was thinking would happen next, but IDK if anyone sees
-a more central place to do this type of use-specific accounting.
+I can do that.
 
->
-> Anyway has my all my ack, but don't count this as my in-depth review :-)
-> -Daniel
+Cheers,
+-Paul
 
-Thanks again for taking a look!
->
-> > ---
-> >  drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++++
-> >  drivers/dma-buf/heaps/system_heap.c |  3 +++
-> >  include/linux/dma-heap.h            | 11 +++++++++++
-> >  3 files changed, 41 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index 8f5848aa144f..885072427775 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -7,6 +7,7 @@
-> >   */
-> >
-> >  #include <linux/cdev.h>
-> > +#include <linux/cgroup_gpu.h>
-> >  #include <linux/debugfs.h>
-> >  #include <linux/device.h>
-> >  #include <linux/dma-buf.h>
-> > @@ -31,6 +32,7 @@
-> >   * @heap_devt                heap device node
-> >   * @list             list head connecting to list of heaps
-> >   * @heap_cdev                heap char device
-> > + * @gpucg_dev                gpu cgroup device for memory accounting
-> >   *
-> >   * Represents a heap of memory from which buffers can be made.
-> >   */
-> > @@ -41,6 +43,9 @@ struct dma_heap {
-> >       dev_t heap_devt;
-> >       struct list_head list;
-> >       struct cdev heap_cdev;
-> > +#ifdef CONFIG_CGROUP_GPU
-> > +     struct gpucg_device gpucg_dev;
-> > +#endif
-> >  };
-> >
-> >  static LIST_HEAD(heap_list);
-> > @@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap *hea=
-p)
-> >       return heap->name;
-> >  }
-> >
-> > +#ifdef CONFIG_CGROUP_GPU
-> > +/**
-> > + * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap.
-> > + * @heap: DMA-Heap to get the gpucg_device struct for.
-> > + *
-> > + * Returns:
-> > + * The gpucg_device struct for the heap. NULL if the GPU cgroup contro=
-ller is
-> > + * not enabled.
-> > + */
-> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > +{
-> > +     return &heap->gpucg_dev;
-> > +}
-> > +#else /* CONFIG_CGROUP_GPU */
-> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > +{
-> > +     return NULL;
-> > +}
-> > +#endif /* CONFIG_CGROUP_GPU */
-> > +
-> >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_i=
-nfo)
-> >  {
-> >       struct dma_heap *heap, *h, *err_ret;
-> > @@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
-_export_info *exp_info)
-> >       list_add(&heap->list, &heap_list);
-> >       mutex_unlock(&heap_list_lock);
-> >
-> > +     gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info->nam=
-e);
-> > +
-> >       return heap;
-> >
-> >  err2:
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
-s/system_heap.c
-> > index ab7fd896d2c4..752a05c3cfe2 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(struct =
-dma_heap *heap,
-> >       exp_info.ops =3D &system_heap_buf_ops;
-> >       exp_info.size =3D buffer->len;
-> >       exp_info.flags =3D fd_flags;
-> > +#ifdef CONFIG_CGROUP_GPU
-> > +     exp_info.gpucg_dev =3D dma_heap_get_gpucg_dev(heap);
-> > +#endif
-> >       exp_info.priv =3D buffer;
-> >       dmabuf =3D dma_buf_export(&exp_info);
-> >       if (IS_ERR(dmabuf)) {
-> > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> > index 0c05561cad6e..e447a61d054e 100644
-> > --- a/include/linux/dma-heap.h
-> > +++ b/include/linux/dma-heap.h
-> > @@ -10,6 +10,7 @@
-> >  #define _DMA_HEAPS_H
-> >
-> >  #include <linux/cdev.h>
-> > +#include <linux/cgroup_gpu.h>
-> >  #include <linux/types.h>
-> >
-> >  struct dma_heap;
-> > @@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
-> >   */
-> >  const char *dma_heap_get_name(struct dma_heap *heap);
-> >
-> > +/**
-> > + * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_device=
- for the
-> > + * heap.
-> > + * @heap: DMA-Heap to retrieve gpucg_device for.
-> > + *
-> > + * Returns:
-> > + * The gpucg_device struct for the heap.
-> > + */
-> > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap);
-> > +
-> >  /**
-> >   * dma_heap_add - adds a heap to dmabuf heaps
-> >   * @exp_info:                information needed to register this heap
-> > --
-> > 2.35.1.1021.g381101b075-goog
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+>>  +}
+>>  +EXPORT_SYMBOL_GPL(iio_dma_buffer_write);
+>>  +
+>>   /**
+>>    * iio_dma_buffer_data_available() - DMA buffer data_available=20
+>> callback
+>>    * @buf: Buffer to check for data availability
+>>  diff --git a/include/linux/iio/buffer-dma.h=20
+>> b/include/linux/iio/buffer-dma.h
+>>  index 18d3702fa95d..490b93f76fa8 100644
+>>  --- a/include/linux/iio/buffer-dma.h
+>>  +++ b/include/linux/iio/buffer-dma.h
+>>  @@ -132,6 +132,8 @@ int iio_dma_buffer_disable(struct iio_buffer=20
+>> *buffer,
+>>   	struct iio_dev *indio_dev);
+>>   int iio_dma_buffer_read(struct iio_buffer *buffer, size_t n,
+>>   	char __user *user_buffer);
+>>  +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
+>>  +			 const char __user *user_buffer);
+>>   size_t iio_dma_buffer_data_available(struct iio_buffer *buffer);
+>>   int iio_dma_buffer_set_bytes_per_datum(struct iio_buffer *buffer,=20
+>> size_t bpd);
+>>   int iio_dma_buffer_set_length(struct iio_buffer *buffer, unsigned=20
+>> int length);
+>>  @@ -142,4 +144,9 @@ int iio_dma_buffer_init(struct=20
+>> iio_dma_buffer_queue *queue,
+>>   void iio_dma_buffer_exit(struct iio_dma_buffer_queue *queue);
+>>   void iio_dma_buffer_release(struct iio_dma_buffer_queue *queue);
+>>=20
+>>  +static inline size_t iio_dma_buffer_space_available(struct=20
+>> iio_buffer *buffer)
+>>  +{
+>>  +	return iio_dma_buffer_data_available(buffer);
+>>  +}
+>>  +
+>>   #endif
+>=20
+
+
