@@ -2,195 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 072A6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 01:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94009C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 03:09:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234664AbiC1Bcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Mar 2022 21:32:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47722 "EHLO
+        id S237758AbiC1DLD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Mar 2022 23:11:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234256AbiC1Bcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 21:32:31 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BEA17E3C;
-        Sun, 27 Mar 2022 18:30:51 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id gp15-20020a17090adf0f00b001c7cd11b0b3so8410227pjb.3;
-        Sun, 27 Mar 2022 18:30:51 -0700 (PDT)
+        with ESMTP id S237719AbiC1DLD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 23:11:03 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED68B35A97
+        for <linux-doc@vger.kernel.org>; Sun, 27 Mar 2022 20:09:22 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2e68c95e0f9so134944637b3.0
+        for <linux-doc@vger.kernel.org>; Sun, 27 Mar 2022 20:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=iaxB6e7brfKhObU9tXvhEhwSdXocJ3IGqdgj3hSkeGQ=;
-        b=kmsUTnLRisb5IYlJnYlfbHb+ZQOjH5jmuhhE+Jhb2HE7PEQROvP/a0zyus2dndvGxE
-         vlCqrSZlvG2Lm3twpQBZyK/pykw32glqoW8ovvyuyx8pp0NUlLPSePTRFJrYIvU8q9ED
-         t/hkoFH9DoB5rzw8PpjZLS3un22cX8bve4/5yOWStDHatFN0FYVLlmN20+jApg4rz3cI
-         a+ckM+TGCsjYImNaZVvOUKuR97hxyKkut3t9tTQL3tXNvWs0+Rab3CtWgKbg4Z2+iCYx
-         SulsIcqlgJ+tY2WBqXgS5bd3zarb2FXfn60Nw5av0gAGeI1Jx7F6S3PqFZjUVCZQoLDM
-         DWyg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=y96h4VuSG9g6RlivjtUIXwF4RDRoR3ln9YKFkHuvqK4=;
+        b=dXImdMTu07+vDaeBYriI+N9DNI5GN32K44/DK828FdNilztugOPMzA1DtTuNRjTw3H
+         tTMGyKJQhD4fFDqae1uTNvprn+dlOeznMfvbKOk9a8Fzp/a/iTaW2oefH3lT9CijJ3cN
+         spZ3bW3GfzFEKkPZ0BuA/gyEJMxnmlqa7q8Y9d4ESVjnHTJE3FQ1M7MBPzp/ZuYn4YUC
+         /LacX2t4yaB9Y5q0ajKnTd2WpvyIfPFNKeDya5g+DH9t7tSaKyCiwgvjbQC6HtuyTuol
+         PGUzq3iA5oWG1qzVaWBcsG+zv6j53OuiOREGKPQR3s0dkI1h0R88znkZTE6Qt+sznjT6
+         vUfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=iaxB6e7brfKhObU9tXvhEhwSdXocJ3IGqdgj3hSkeGQ=;
-        b=I+1lQDf8lvWGsNW85Q3UEEUL5NngO+A+YQE+Hw99cF5AF0AVgV2mxQ2SKVMp4SPLP1
-         CGZecaRLr6TOwuJnvlXahsPh3kz1C0+BRZqMv/LfaqhKCf0s18RNaH6uFOQ8pLgx5fNA
-         Vk1Z27b8c+53ez4lHAAsEto4d3A7iuyVF29PAZBidkLXyKd1lDvh4cMSAv5H+JPiZgBy
-         7wJtlTJFKrQxSePWNREuCKFaIpL0Yej77lCpot/eWbPx/08BtAHldeLRIPgdsKbmwUAh
-         KNx693oDVdzIAAsALwUNY0r6GRgQhNZsGGWd7biRXEMNyPbc4/dpKt9BEd6ijFitdGd3
-         VDPw==
-X-Gm-Message-State: AOAM532aU6k4PIGWDXo6671y8KmjkqMKYO6oVQgYzFSECt9bxCFx4kzh
-        NNHLYzqDiGGg4/T3po/bQM8=
-X-Google-Smtp-Source: ABdhPJxpQ1vOBc6ZpZ4cHDRqiwv6CAhGJMTPwzkkr1bPWbOk8n/qsWx22vVbxEpHXLItnDEz6wp5Vg==
-X-Received: by 2002:a17:90b:1e01:b0:1c6:cabc:b2d4 with SMTP id pg1-20020a17090b1e0100b001c6cabcb2d4mr26602091pjb.64.1648431050791;
-        Sun, 27 Mar 2022 18:30:50 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id g1-20020a17090adac100b001c67cedd84esm12010581pjx.42.2022.03.27.18.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Mar 2022 18:30:50 -0700 (PDT)
-Message-ID: <add46954-ee8d-dffb-d311-02368484ef36@gmail.com>
-Date:   Mon, 28 Mar 2022 10:30:46 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=y96h4VuSG9g6RlivjtUIXwF4RDRoR3ln9YKFkHuvqK4=;
+        b=WAdY3by8iETXL/4Oa4EOyIuEBtJoAfCkT666ZiHRyLZ4OKZrFU5/h0Yp2c2MV43gEl
+         Xp4TVICmFIDwqRiJfkTvlfJSi2nDp/xJ7sO4cWJX1UNMK+J2gh46hinq9dbFf7I+VX2U
+         1AGddvu1Ojs4vFtC60SZF8XFwZQonAZfDSWiHDr8o9rPxtGpcYt22U/WAezCv2WJ93mu
+         R5YWte9kxzLSmyu4djo3h3ncLRfkV+9I4dkFZ72xew0Q6mamHDAtle2/lzQoxSEBXtoM
+         lYG0BPRG5zZ6lqf2il9eg+OMIsO5mZRd446JNBSUoL5XqbecSG1b8mXCB6/OM73wXzTL
+         tjhw==
+X-Gm-Message-State: AOAM530vkafjOxRhXIwBj59pe7paJf8tPG0zy7rJCtsyQjq3KBDLdIHR
+        ODIAQNqMwq0V8UrQriCTAt/ToehKUBejvr6Cv2w=
+X-Google-Smtp-Source: ABdhPJytJYK8tNwHMiQXwlX3WzmHOtGtmhojDS1BVCmJU/F5wo/40hQL1i1RXAripfZDDXrxQMp4SgUIKCT1K6e92f0=
+X-Received: by 2002:a81:14d8:0:b0:2e6:37d5:8b5d with SMTP id
+ 207-20020a8114d8000000b002e637d58b5dmr23108519ywu.398.1648436961974; Sun, 27
+ Mar 2022 20:09:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        torvalds@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
-References: <87wnghd78t.fsf@meer.lwn.net>
-Subject: Re: [PATCH] docs: Add a document on how to fix a messy diffstat
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87wnghd78t.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220325021051.24958-1-tangyizhou@huawei.com>
+In-Reply-To: <20220325021051.24958-1-tangyizhou@huawei.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 28 Mar 2022 11:08:58 +0800
+Message-ID: <CAEensMyJuwwv9_BfG=maHtsuf0JMMsZDcEtUs1miq23ei2c4YQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: Add schedutil Chinese translation
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
+        Yeechou Tang <tangyeechou@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
-Minor nits.  Please find inline comments bellow.
-
-On Fri, 25 Mar 2022 15:58:42 -0600,
-Jonathan Corbet <corbet@lwn.net> wrote:
-[...]
-> diff --git a/Documentation/maintainer/messy-diffstat.rst b/Documentation/maintainer/messy-diffstat.rst
-> new file mode 100644
-> index 000000000000..970eac087f67
-> --- /dev/null
-> +++ b/Documentation/maintainer/messy-diffstat.rst
-> @@ -0,0 +1,96 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================================
-> +Handling messy pull-request diffstats
-> +=====================================
-> +
-> +Subsystem maintainers routinely use ``git request-pull`` as part of the
-> +process of sending work upstream.  Normally, the result includes a nice
-> +diffstat listing showing which files will be touched and how much of each
-
-        ... listing showing ... took half a second for me to parse.
-How about dropping either "listing" or "showing" ?
-
-> +will be changed.  Occasionally, though, a repository with a relatively
-> +complicated development history will yield a massive diffstat containing a
-> +great deal of unrelated work.  The result looks ugly and obscures what the
-> +pull request is actually doing.  This document describes what is happening
-> +and how to fix things up; it is derived from The Wisdom of Linus Torvalds,
-> +found in Linus1_ and Linus2_.
-> +
-> +.. _Linus1: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
-> +.. _Linus2: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
-> +
-> +A Git development history proceeds as a series of commits.  In a simplified
-> +manner, mainline kernel development looks like this::
-> +
-> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-> +
-> +If one wants to see what has changed between two points, a command like
-> +will do the job::
-
-Looks incomplete.  How about
-
-   this will do the job::
-,or
-   below will do the job::
-
-?  (Humble suggestion of a non-native)
-
-> +
-> +  $ git diff --stat --summary vN-rc2..vN-rc3
-> +
-> +Here, there are two clear points in the history; Git will essentially
-> +"subtract" the beginning point from the end point and display the resulting
-> +differences.  The requested operation is unambiguous and easy enough to
-> +understand.
-> +
-> +When a subsystem maintainer creates a branch and commits changes to it, the
-> +result in the simplest case is a history that looks like::
-> +
-> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-> +                          |
-> +                          +-- c1 --- c2 --- ... --- cN
-> +
-> +If that maintainer now uses ``git diff`` to see what has changed between
-> +the mainline branch (let's call it "linus") and cN, there are still two
-> +clear endpoints, and the result is as expected.  So a pull request
-> +generated with ``git request-pull`` will also be as expected.  But now
-> +consider a slightly more complex development history::
-> +
-> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-> +                |         |
-> +                |         +-- c1 --- c2 --- ... --- cN
-> +                |                   /
-> +                +-- x1 --- x2 --- x3
-> +
-> +Our maintainer has created one branch at vN-rc1 and another at vN-rc2; the
-> +two were then subsequently merged into c2.  Now a pull request generated
-> +for cN may end up being messy indeed, and developers often end up wondering
-> +why.
-> +
-> +What is happening here is that there are no longer two clear end points for
-> +the ``git diff`` operation to use.  The development culminating in cN
-> +started in two different places; to generate the diffstat, ``git diff``
-> +ends up having pick one of them and hoping for the best.  If the diffstat
-> +starts at vN-rc1, it may end up including all of the changes between there
-> +and the second origin end point (vN-rc2), which is certainly not what our
-> +maintainer had in mind.  With all of that extra junk in the diffstat, it
-> +may be impossible to tell what actually happened in the changes leading up
-> +to cN.
-> +
-> +Maintainers often try to resolve this problem by, for example, rebasing the
-> +branch or performing another merge with the linus branch, then recreating
-> +the pull request.  This approach tends not to lead to joy at the receiving
-> +end of that pull request; rebasing and/or merging just before pushing
-> +upstream is a well-known way to get a grumpy response.
-> +
-> +So what is to be done?  The best response when confronted with this
-> +situation is to indeed to a merge, but to do it privately, as if it were
-                          do
-
-        Thanks, Akira
-
-> +the source of shame.  Create a new, throwaway branch and do the merge
-> +there::
-> +
-> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
-> +                |         |                                      |
-> +                |         +-- c1 --- c2 --- ... --- cN           |
-> +                |                   /               |            |
-> +                +-- x1 --- x2 --- x3                +------------+-- TEMP
-> +
-> +The merge operation resolves all of the complications resulting from the
-> +multiple beginning points, yielding a coherent result that contains only
-> +the differences from the mainline branch.  Now it will be possible to
-> +generate a diffstat with the desired information::
-> +
-> +  $ git diff -C --stat --summary linus..TEMP
-> +
-> +Save the output from this command, then simply delete the TEMP branch;
-> +definitely do not expose it to the outside world.  Take the saved diffstat
-> +output and edit it into the messy pull request, yielding a result that
-> +shows what is really going on.  That request can then be sent upstream.
-> -- 
-
+VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMuW5tDPmnIgyNeaXpeWR
+qOS6lCAwOTozNuWGmemBk++8mg0KPg0KPiBUcmFuc2xhdGUgc2NoZWR1bGVyL3NjaGVkdXRpbC5y
+c3QgaW50byBDaGluZXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lp
+emhvdUBodWF3ZWkuY29tPg0KPiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1
+bGVyL2luZGV4LnJzdCAgICB8ICAgMSArDQo+ICAuLi4vemhfQ04vc2NoZWR1bGVyL3NjaGVkdXRp
+bC5yc3QgICAgICAgICAgICAgfCAxNjUgKysrKysrKysrKysrKysrKysrDQo+ICAyIGZpbGVzIGNo
+YW5nZWQsIDE2NiBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
+dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL3NjaGVkdXRpbC5yc3QNCj4NCj4gZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVkdWxlci9pbmRl
+eC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgu
+cnN0DQo+IGluZGV4IDVjMGUwN2FlZTI5OS4uYThlYWE3MzI1ZjU0IDEwMDY0NA0KPiAtLS0gYS9E
+b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgucnN0DQo+ICsr
+KyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVkdWxlci9pbmRleC5yc3QN
+Cj4gQEAgLTI1LDYgKzI1LDcgQEAgTGludXjosIPluqblmagNCj4gICAgICBzY2hlZC1kb21haW5z
+DQo+ICAgICAgc2NoZWQtY2FwYWNpdHkNCj4gICAgICBzY2hlZC1lbmVyZ3kNCj4gKyAgICBzY2hl
+ZHV0aWwNCj4gICAgICBzY2hlZC1uaWNlLWRlc2lnbg0KPiAgICAgIHNjaGVkLXN0YXRzDQo+ICAg
+ICAgc2NoZWQtZGVidWcNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL3NjaGVkdWxlci9zY2hlZHV0aWwucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vc2NoZWR1bGVyL3NjaGVkdXRpbC5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
+Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi44Mjg1NWVlM2Y2NmENCj4gLS0tIC9kZXYvbnVsbA0KPiAr
+KysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWR1dGls
+LnJzdA0KPiBAQCAtMCwwICsxLDE2NSBAQA0KPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6
+IEdQTC0yLjANCj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+
+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vc2NoZWR1bGVyL3NjaGVkdXRpbC5yc3QNCj4gKw0K
+PiArOue/u+ivkToNCj4gKw0KPiArICDllJDoibroiJ8gVGFuZyBZaXpob3UgPHRhbmd5ZWVjaG91
+QGdtYWlsLmNvbT4NCj4gKw0KPiArPT09PT09PT09DQo+ICtTY2hlZHV0aWwNCj4gKz09PT09PT09
+PQ0KPiArDQo+ICsuLiBub3RlOjoNCj4gKw0KPiArICAg5pys5paH5omA5pyJ5YaF5a656YO95YGH
+6K6+6aKR546H5ZKM5bel5L2c566X5Yqb5LmL6Ze05a2Y5Zyo57q/5oCn5YWz57O744CC5oiR5Lus
+55+l6YGT6L+Z5piv5pyJ57y66Zm355qE77yMDQpob3cgYWJvdXQg6L+Z5piv5pyJ55GV55a155qE
+L+S4jeWujOe+jueahO+8nw0K5pyJ57y66Zm355qEICDmmL7lvpfor63msJTov4fph43kuobjgIIN
+Cj4gKyAgIOS9hui/meaYr+acgOWPr+ihjOeahOi/keS8vOWkhOeQhuOAgg0KPiArDQo+ICtQRUxU
+77yI5a6e5L2T6LSf6L296Lef6Liq77yMUGVyIEVudGl0eSBMb2FkIFRyYWNraW5n77yJDQo+ICs9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gK+mA
+mui/h1BFTFTvvIzmiJHku6zot5/ouKrkuoblkITnp43osIPluqblmajlrp7kvZPnmoTkuIDkupvm
+jIfmoIfvvIzku47ljZXkuKrku7vliqHliLDku7vliqHnu4TliIbniYfliLBDUFUNCj4gK+i/kOih
+jOmYn+WIl+OAguaIkeS7rOS9v+eUqOaMh+aVsOWKoOadg+enu+WKqOW5s+Wdh+aVsO+8iEV4cG9u
+ZW50aWFsbHkgV2VpZ2h0ZWQgTW92aW5nIEF2ZXJhZ2XvvIwNCj4gK0VXTUHvvInkvZzkuLrlhbbl
+n7rnoYDvvIzmr4/kuKrlkajmnJ/vvIgxMDI0dXPvvInpg73kvJroobDlh4/vvIzoobDlh4/pgJ/n
+jofmu6HotrN5XjMyID0gMC4144CCDQo+ICvkuZ/lsLHmmK/or7TvvIzmnIDov5HnmoQzMm1z6LSh
+54yu6LSf6L2955qE5LiA5Y2K77yM6ICM5Y6G5Y+y5LiK55qE5YW25a6D5pe26Ze05YiZ6LSh54yu
+5Y+m5LiA5Y2K44CCDQo+ICsNCj4gK+WFt+S9k+iAjOiogO+8mg0KPiArDQo+ICsgIGV3bWFfc3Vt
+KHUpIDo9IHVfMCArIHVfMSp5ICsgdV8yKnleMiArIC4uLg0KPiArDQo+ICsgIGV3bWEodSkgPSBl
+d21hX3N1bSh1KSAvIGV3bWFfc3VtKDEpDQo+ICsNCj4gK+eUseS6jui/meacrOi0qOS4iuaYr+S4
+gOS4quaXoOmZkOWHoOS9lee6p+aVsOeahOe0r+WKoO+8jOe7k+aenOaYr+WPr+e7hOWQiOeahO+8
+jOWNs2V3bWEoQSkgKyBld21hKEIpID0gZXdtYShBK0Ip44CCDQo+ICvov5nkuKrlsZ7mgKfmmK/l
+hbPplK7vvIzlm6DkuLrlroPmj5DkvpvkuoblnKjku7vliqHov4Hnp7vml7bph43mlrDnu4TlkIjl
+ubPlnYfmlbDnmoTog73lipvjgIINCmhvdyBhYm91dCDov5nmmK/kuKrlhbPplK7lsZ7mgKfvvJ8N
+Cj4gKw0KPiAr6K+35rOo5oSP77yM6Zi75aGe5oCB55qE5Lu75Yqh5LuN54S25a+557Sv5Yqg5YC8
+77yI5Lu75Yqh57uE5YiG54mH5ZKMQ1BV6L+Q6KGM6Zif5YiX77yJ5pyJ6LSh54yu77yM6L+Z5Y+N
+5pig5LqGDQo+ICvlroPku6zlnKjmgaLlpI3ov5DooYzlkI7nmoTpooTmnJ/otKHnjK7jgIINCj4g
+Kw0KPiAr5Yip55So6L+Z5LiA54K577yM5oiR5Lus6Lef6LiqMuS4quWFs+mUruaMh+agh++8muKA
+nOi/kOihjOKAneWSjOKAnOWPr+i/kOihjOKAneOAguKAnOi/kOihjOKAneWPjeaYoOS6huS4gOS4
+quiwg+W6puWunuS9kw0KPiAr5ZyoQ1BV5LiK6Iqx6LS555qE5pe26Ze077yM6ICM4oCc5Y+v6L+Q
+6KGM4oCd5Y+N5pig5LqG5LiA5Liq6LCD5bqm5a6e5L2T5Zyo6L+Q6KGM6Zif5YiX5Lit6Iqx6LS5
+55qE5pe26Ze044CC5b2T5Y+q5pyJDQo+ICvkuIDkuKrku7vliqHml7bvvIzov5nkuKTkuKrmjIfm
+oIfmmK/nm7jlkIznmoTvvIzkvYbkuIDml6blh7rnjrDlr7lDUFXnmoTkuonnlKjvvIzigJzov5Do
+oYzigJ3lsIblh4/lsJHku6Xlj43mmKDmr4/kuKoNCj4gK+S7u+WKoeWcqENQVeS4iuiKsei0ueea
+hOaXtumXtO+8jOiAjOKAnOWPr+i/kOihjOKAneWwhuWinuWKoOS7peWPjeaYoOS6ieeUqOeahOa/
+gOeDiOeoi+W6puOAgg0KPiArDQo+ICvmm7TlpJrnu4boioLop4HvvJprZXJuZWwvc2NoZWQvcGVs
+dC5jDQo+ICsNCj4gKw0KPiAr6aKR546HIC8gQ1BV5LiN5Y+Y5oCnDQo+ICs9PT09PT09PT09PT09
+PT09DQo+ICsNCj4gK+WboOS4ukNQVemikeeOh+WcqDFHSHrml7bliKnnlKjnjofkuLo1MCXlkoxD
+UFXpopHnjoflnKgyR0h65pe25Yip55So546H5Li6NTAl5piv5LiN5LiA5qC355qE77yM5ZCM5qC3
+DQo+ICvlnKjlsI/moLjkuIrov5DooYzml7bliKnnlKjnjofkuLo1MCXlkozlnKjlpKfmoLjkuIro
+v5DooYzml7bliKnnlKjnjofkuLo1MCXmmK/kuI3kuIDmoLfnmoTvvIzmiJHku6zlhYHorrjmnrbm
+noQNCj4gK+S7peS4pOS4quavlOeOh+adpeS8uOe8qeaXtumXtOW3ru+8jOWFtuS4reS4gOS4quaY
+r+WKqOaAgeeUteWOi+mikeeOh+WNh+mZje+8iER5bmFtaWMgVm9sdGFnZSBhbmQNCj4gK0ZyZXF1
+ZW5jeSBTY2FsaW5n77yMRFZGU++8ieavlOeOh++8jOWPpuS4gOS4quaYr+W+ruaetuaehOavlOeO
+h+OAgg0KPiArDQo+ICvlr7nkuo7nroDljZXnmoREVkZT5p625p6E77yI6L2v5Lu25pyJ5a6M5YWo
+5o6n5Yi26IO95Yqb77yJ77yM5oiR5Lus5Y+v5Lul5b6I5a655piT5Zyw6K6h566X6K+l5q+U546H
+5Li6OjoNCj4gKw0KPiArICAgICAgICAgICAgZl9jdXINCj4gKyAgcl9kdmZzIDo9IC0tLS0tDQo+
+ICsgICAgICAgICAgICBmX21heA0KPiArDQo+ICvlr7nkuo7nlLHnoazku7bmjqfliLZEVkZT55qE
+5pu05aSa5Yqo5oCB57O757uf77yM5oiR5Lus5L2/55So56Gs5Lu26K6h5pWw5Zmo77yISW50ZWwg
+QVBFUkYvTVBFUkbvvIwNCj4gK0FSTXY4LjQtQU1V77yJ5p2l6K6h566X6L+Z5LiA5q+U546H44CC
+5YW35L2T5YiwSW50ZWzvvIzmiJHku6zkvb/nlKg6Og0KPiArDQo+ICsgICAgICAgICAgIEFQRVJG
+DQo+ICsgIGZfY3VyIDo9IC0tLS0tICogUDANCj4gKyAgICAgICAgICAgTVBFUkYNCj4gKw0KPiAr
+ICAgICAgICAgICAgIDRDLXR1cmJvOyAg5aaC5p6c5Y+v55So5bm25LiU5L2/6IO95LqGdHVyYm8N
+Cj4gKyAgZl9tYXggOj0geyAxQy10dXJibzsgIOWmguaenOS9v+iDveS6hnR1cmJvDQo+ICsgICAg
+ICAgICAgICAgUDA7ICAgICAgICDlhbblroPmg4XlhrUNCj4gKw0KPiArICAgICAgICAgICAgICAg
+ICAgICBmX2N1cg0KPiArICByX2R2ZnMgOj0gbWluKCAxLCAtLS0tLSApDQo+ICsgICAgICAgICAg
+ICAgICAgICAgIGZfbWF4DQo+ICsNCj4gK+aIkeS7rOmAieaLqTRDIHR1cmJv6ICM5LiN5pivMUMg
+dHVyYm/vvIzku6Xkvb/lhbbmm7TmjIHkuYXmgKfnlaXlvq7mm7TlvLrjgIINCj4gKw0KPiArcl9j
+cHXooqvlrprkuYnkuLrlvZPliY1DUFXnmoTmnIDpq5jmgKfog73msLTlubPkuI7ns7vnu5/kuK3k
+u7vkvZXlhbblroNDUFXnmoTmnIDpq5jmgKfog73msLTlubPnmoTmr5TnjofjgIINCj4gKw0KPiAr
+ICByX3RvdCA9IHJfZHZmcyAqIHJfY3B1DQo+ICsNCj4gK+WFtue7k+aenOaYr++8jOS4iui/sOKA
+nOi/kOihjOKAneWSjOKAnOWPr+i/kOihjOKAneeahOaMh+agh+WPmOaIkERWRlPml6DlhbPlkoxD
+UFXlnovlj7fml6DlhbPkuobjgILkuZ/lsLHmmK/or7TvvIwNCj4gK+aIkeS7rOWPr+S7peWcqENQ
+VeS5i+mXtOi9rOenu+WSjOavlOi+g+Wug+S7rOOAgg0KPiArDQo+ICvmm7TlpJrnu4boioLop4E6
+DQo+ICsNCj4gKyAtIGtlcm5lbC9zY2hlZC9wZWx0Lmg6dXBkYXRlX3JxX2Nsb2NrX3BlbHQoKQ0K
+PiArIC0gYXJjaC94ODYva2VybmVsL3NtcGJvb3QuYzoiQVBFUkYvTVBFUkYgZnJlcXVlbmN5IHJh
+dGlvIGNvbXB1dGF0aW9uLiINCj4gKyAtIERvY3VtZW50YXRpb24vc2NoZWR1bGVyL3NjaGVkLWNh
+cGFjaXR5LnJzdDoiMS4gQ1BVIENhcGFjaXR5ICsgMi4gVGFzayB1dGlsaXphdGlvbiINCldlIGFs
+cmVhZHkgaGF2ZSBhIENoaW5lc2UgdmVyc2lvbiBvZiB0aGUgZG9jdW1lbnQsIHNvIHdoYXQgYXJl
+IHlvdQ0Kd2FpdGluZyBmb3I/ICA6KQ0KPiArDQo+ICsNCj4gK1VUSUxfRVNUIC8gVVRJTF9FU1Rf
+RkFTVFVQDQo+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArDQo+ICvnlLHkuo7lkajm
+nJ/mgKfku7vliqHnmoTlubPlnYfmlbDlnKjnnaHnnKDml7bkvJroobDlh4/vvIzogIzlnKjov5Do
+oYzml7blhbbpooTmnJ/liKnnlKjnjofkvJrlkoznnaHnnKDliY3nm7jlkIzvvIwNCj4gK+WboOat
+pOWug+S7rOWcqOWGjeasoei/kOihjOWQjuS8mumdouS4tO+8iERWRlPvvInnmoTkuIrmtqjjgIIN
+Cj4gKw0KPiAr5Li65LqG57yT6Kej6L+Z5Liq6Zeu6aKY77yM77yI5LiA5Liq6buY6K6k5L2/6IO9
+55qE57yW6K+R6YCJ6aG577yJVVRJTF9FU1TpqbHliqjkuIDkuKrml6DpmZDohInlhrLlk43lupQN
+Cj4gK++8iEluZmluaXRlIEltcHVsc2UgUmVzcG9uc2XvvIxJSVLvvInnmoRFV01B77yM4oCc6L+Q
+6KGM4oCd5YC85Zyo5Ye66Zif5pe25piv5pyA6auY55qE44CCDQo+ICvlj6bkuIDkuKrpu5jorqTk
+vb/og73nmoTnvJbor5HpgInpoblVVElMX0VTVF9GQVNUVVDkv67mlLnkuoZJSVLmu6Tms6Llmajv
+vIzkvb/lhbblhYHorrjnq4vljbPlop7liqDvvIwNCj4gK+S7heWcqOWIqeeUqOeOh+S4i+mZjeaX
+tuihsOWHj+OAgg0KPiArDQo+ICvov5vkuIDmraXvvIzov5DooYzpmJ/liJfnmoTvvIjlj6/ov5Do
+oYzku7vliqHnmoTvvInliKnnlKjnjofkuYvlkoznlLHkuIvlvI/orqHnrpfvvJoNCj4gKw0KPiAr
+ICB1dGlsX2VzdCA6PSBcU3VtX3QgbWF4KCB0X3J1bm5pbmcsIHRfdXRpbF9lc3RfZXdtYSApDQo+
+ICsNCj4gK+abtOWkmue7huiKguingToga2VybmVsL3NjaGVkL2ZhaXIuYzp1dGlsX2VzdF9kZXF1
+ZXVlKCkNCj4gKw0KPiArDQo+ICtVQ0xBTVANCj4gKz09PT09PQ0KPiArDQo+ICvlj6/ku6XlnKjm
+r4/kuKpDRlPmiJZSVOS7u+WKoeS4iuiuvue9ruacieaViOeahHVfbWlu5ZKMdV9tYXggY2xhbXDl
+gLzvvIjor5Hms6jvvJpjbGFtcOWPr+S7peeQhuinow0KPiAr5Li657G75Ly85ruk5rOi5Zmo55qE
+6IO95Yqb77yM5a6D5a6a5LmJ5LqG5pyJ5pWI5Y+W5YC86IyD5Zu055qE5pyA5aSn5YC85ZKM5pyA
+5bCP5YC877yJ77yb6L+Q6KGM6Zif5YiX5Li65omA5pyJ5q2j5ZyoDQo+ICvov5DooYznmoTku7vl
+iqHkv53mjIHov5nkuptjbGFtcOeahOacgOWkp+iBmuWQiOWAvOOAgg0KPiArDQo+ICvmm7TlpJrn
+u4boioLop4E6IGluY2x1ZGUvdWFwaS9saW51eC9zY2hlZC90eXBlcy5oDQo+ICsNCj4gKw0KPiAr
+U2NoZWR1dGlsIC8gRFZGUw0KPiArPT09PT09PT09PT09PT09PQ0KPiArDQo+ICvmr4/lvZPosIPl
+uqblmajnmoTotJ/ovb3ot5/ouKrooqvmm7TmlrDml7bvvIjku7vliqHllKTphpLjgIHku7vliqHo
+v4Hnp7vjgIHml7bpl7TmtYHpgJ3vvInvvIzmiJHku6zpg73kvJrosIPnlKgNCj4gK3NjaGVkdXRp
+bOadpeabtOaWsOehrOS7tkRWRlPnirbmgIHjgIINCj4gKw0KPiAr5YW25Z+656GA5pivQ1BV6L+Q
+6KGM6Zif5YiX55qE4oCc6L+Q6KGM4oCd5oyH5qCH77yM5qC55o2u5LiK6Z2i55qE5YaF5a6577yM
+5a6D5pivQ1BV55qE6aKR546H5LiN5Y+Y55qE5Yip55So546HDQo+ICvkvLDorqHlgLzjgILnlLHm
+raTmiJHku6zorqHnrpflh7rkuIDkuKrmnJ/mnJvnmoTpopHnjofvvIzlpoLkuIs6Og0KPiArDQo+
+ICsgICAgICAgICAgICAgbWF4KCBydW5uaW5nLCB1dGlsX2VzdCApOyAg5aaC5p6c5L2/6IO9VVRJ
+TF9FU1QNCj4gKyAgdV9jZnMgOj0geyBydW5uaW5nOyAgICAgICAgICAgICAgICAgICDlhbblroPm
+g4XlhrUNCj4gKw0KPiArICAgICAgICAgICAgICAgY2xhbXAoIHVfY2ZzICsgdV9ydCwgdV9taW4s
+IHVfbWF4ICk7ICDlpoLmnpzkvb/og71VQ0xBTVBfVEFTSw0KPiArICB1X2NsYW1wIDo9IHsgdV9j
+ZnMgKyB1X3J0OyAgICAgICAgICAgICAgICAgICAgICAgICDlhbblroPmg4XlhrUNCj4gKw0KPiAr
+ICB1IDo9IHVfY2xhbXAgKyB1X2lycSArIHVfZGw7ICAgICAgICAgW+S8sOiuoeWAvOOAguabtOWk
+mue7huiKguingea6kOS7o+eggV0NCj4gKw0KPiArICBmX2RlcyA6PSBtaW4oIGZfbWF4LCAxLjI1
+IHUgKiBmX21heCApDQo+ICsNCj4gK+WFs+S6jklPLXdhaXTnmoTor7TmmI7vvJrlvZPlj5HnlJ/m
+m7TmlrDmmK/lm6DkuLrku7vliqHku45JT+WujOaIkOS4reWUpOmGkuaXtu+8jOaIkeS7rOaPkOWN
+h+S4iumdoueahOKAnHXigJ3jgIINCj4gKw0KPiAr54S25ZCO77yM6L+Z5Liq6aKR546H6KKr55So
+5p2l6YCJ5oup5LiA5LiqUC1zdGF0ZeaIlk9QUO+8jOaIluiAheebtOaOpea3t+WFpeS4gOS4quWP
+kee7meehrOS7tueahENQUEPlvI8NCj4gK+ivt+axguOAgg0KPiArDQo+ICvlhbPkuo7miKrmraLm
+nJ/pmZDosIPluqblmajnmoTor7TmmI46IOaIquatouacn+mZkOS7u+WKoe+8iOWBtuWPkeS7u+WK
+oeaooeWei++8ieS9v+aIkeS7rOiDveWkn+iuoeeul+WHuua7oei2sw0KPiAr5bel5L2c6LSf6I23
+5omA6ZyA55qE56GsZl9taW7lgLzjgIINCj4gKw0KPiAr5Zug5Li66L+Z5Lqb5Zue6LCD5Ye95pWw
+5piv55u05o6l5p2l6Ieq6LCD5bqm5Zmo55qE77yM5omA5LulRFZGU+eahOehrOS7tuS6pOS6kuW6
+lOivpeaYr+KAnOW/q+mAn+KAneWSjOmdnumYu+WhnueahOOAgg0KPiAr5Zyo56Gs5Lu25Lqk5LqS
+57yT5oWi5ZKM5piC6LS155qE5pe25YCZ77yMc2NoZWR1dGls5pSv5oyBRFZGU+ivt+axgumZkOmA
+n++8jOS4jei/h+S8mumZjeS9juaViOeOh+OAgg0KPiArDQo+ICvmm7TlpJrkv6Hmga/op4E6IGtl
+cm5lbC9zY2hlZC9jcHVmcmVxX3NjaGVkdXRpbC5jDQo+ICsNCj4gKw0KPiAr5rOo5oSPDQo+ICs9
+PT09DQo+ICsNCj4gKyAtIOWcqOS9jui0n+i9veWcuuaZr+S4i++8jERWRlPmmK/mnIDnm7jlhbPn
+moTvvIzigJzov5DooYzigJ3nmoTlgLzlsIblr4bliIflj43mmKDliKnnlKjnjofjgIINCj4gKw0K
+PiArIC0g5Zyo6LSf6L296aWx5ZKM55qE5Zy65pmv5LiL77yM5Lu75Yqh6L+B56e75Lya5a+86Ie0
+5LiA5Lqb556s5pe25oCn55qE5L2/55So546H5LiL6ZmN44CC5YGH6K6+5oiR5Lus5pyJ5LiA5Liq
+DQo+ICsgICBDUFXvvIzmnIk05Liq5Lu75Yqh5Y2g55So5a+86Ie05YW26aWx5ZKM77yM5o6l5LiL
+5p2l5oiR5Lus5bCG5LiA5Liq5Lu75Yqh6L+B56e75Yiw5Y+m5LiA5Liq56m66ZeyQ1BV5LiK77yM
+DQo+ICsgICDml6fnmoRDUFXnmoTigJzov5DooYzigJ3lgLzlsIbkuLowLjc177yM6ICM5paw55qE
+Q1BV5bCG6I635b6XMC4yNeOAgui/meaYr+S4jeWPr+mBv+WFjeeahO+8jOiAjOS4lOmaj+edgA0K
+PiArICAg5pe26Ze05rWB6YCd5bCG6Ieq5Yqo5L+u5q2j44CC5Y+m5rOo77yM55Sx5LqO5rKh5pyJ
+56m66Zey5pe26Ze077yM5oiR5Lus6L+Y6IO95L+d6K+BZl9tYXjlgLzlkJfvvJ8NCj4gKw0KPiAr
+IC0g5LiK6L+w5aSn6YOo5YiG5YaF5a655Li677yM6YG/5YWNRFZGU+S4i+a7ke+8jOS7peWPiueL
+rOeri+eahERWRlPln5/lj5HnlJ/otJ/ovb3ov4Hnp7vml7bkuI3lvpfkuI0NCuS4iui/sOWkp+mD
+qOWIhuWGheWuueaYr+WFs+S6jumBv+WFjURWRlPkuIvmu5HigKbigKYNCg0KVGhhbmtzLA0KWWFu
+dGVuZw0K
