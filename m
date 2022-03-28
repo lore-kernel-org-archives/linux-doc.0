@@ -2,109 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 240EEC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 14:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56997C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 14:30:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243812AbiC1O3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 10:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53488 "EHLO
+        id S240327AbiC1Obl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 10:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231512AbiC1O3R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 10:29:17 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3EB05DE45;
-        Mon, 28 Mar 2022 07:27:34 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 2DFC81F383;
-        Mon, 28 Mar 2022 14:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1648477653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UWVLFeQC4kA035pwDBpIgSp59rb4pB2eEE0xn69bb5I=;
-        b=rCYZ4U8dxMLGxYFPnI9nfisVI+RD7AnoasPPCHQDnHAWmxGH+LxvS6NV1kPXspBlsnULaR
-        8+ALMjD925t8A+pcJtCZ43VOZjo1WcN093zbAF2Fod7bqBFv01tDetyh0LGJhKrIayPqeO
-        mWveBdOIDpV1bdqg8vBIOqhRwElbZPs=
-Received: from suse.cz (unknown [10.100.201.86])
+        with ESMTP id S243854AbiC1Obj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 10:31:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F08F3EF13;
+        Mon, 28 Mar 2022 07:29:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id C989DA3B87;
-        Mon, 28 Mar 2022 14:27:30 +0000 (UTC)
-Date:   Mon, 28 Mar 2022 16:27:27 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <baohua@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Donald Carr <d@chaos-reins.com>,
-        Hillf Danton <hdanton@sina.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Rik van Riel <riel@surriel.com>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
-Message-ID: <YkHFz1f+s8+b5Qws@dhcp22.suse.cz>
-References: <20220326010003.3155137-1-yuzhao@google.com>
- <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
- <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
- <20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org>
- <400edaab-7c6c-f4d1-9a94-e8d0803857fa@redhat.com>
- <YkG7mD8kT0uAk3Iy@casper.infradead.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B9BE6122F;
+        Mon, 28 Mar 2022 14:29:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD272C004DD;
+        Mon, 28 Mar 2022 14:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648477794;
+        bh=byiE8FZ883BrjGw8gfIztJdTINfyzJFcS+KRzQJss3M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rrgEezYG/4cPc4oou3FM0jWLFHkwN45btCIqU4Bx0pGbjxjngdZuXXlLPbcdE8Rq7
+         FmBtEZfNY+CLpzWy99qk17y3bvylWiF3OCR/eO6ZZAT0yj1J26QSr3vowekLj91s+X
+         QzZV2tq5M6WB3LxDG+Yk+Ywoxv3W25S+eOoKtAxqTKZXjp2KU+LD6uptY17KiWnK9I
+         U2zM0IMs3ODG9gesiN/d3xglAwNrfMo0UI4/Ordt6O8SH4T2/mcmAybZa4wVhW6++e
+         H+6eMQFTG+wkv6EV4zd2Uu1X7gi0EJmrl4txArc+Bbt2oFdBYsOErx5Syw25UQuutr
+         /5fBWENqK7hkA==
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: [PATCH v5 0/3] bootconfig: Support embedding a bootconfig in kernel for non initrd boot
+Date:   Mon, 28 Mar 2022 23:29:49 +0900
+Message-Id: <164847778869.3060675.8115416881394543419.stgit@devnote2>
+X-Mailer: git-send-email 2.25.1
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkG7mD8kT0uAk3Iy@casper.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 28-03-22 14:43:52, Matthew Wilcox wrote:
-> On Mon, Mar 28, 2022 at 02:29:20PM +0200, David Hildenbrand wrote:
-> > I'd appreciate if we could merge most MM-related stuff through the -MM
-> > tree; it exists for a reason IMHO. Andrew, you usually have a very good
-> > feeling when something's ready to be merged upstream (sufficient review
-> > from relevant folks, sufficient exposure via -mm and -next, ...).
-> 
-> The problem is that the MM tree is completely unusable when patches going
-> in through other trees need to be based on it.  The MM workflow clearly
-> works well for Andrew, but it doesn't work well for us as a community.
+Hi,
 
-This is not the first time this has been brought up over years. We have
-discussed the existing workflow at the LSFMM two years ago without a
-larger consensus. I believe we want/need to resurrect those discussions
-again. IMHO the existing workflow is more and more hitting its limits
-so we should really think about a long term solution.
--- 
-Michal Hocko
-SUSE Labs
+Here are the 5th version of the patchset to enable kernel embedded bootconfig
+for non-initrd kernel boot environment. This version fixes to sort .gitignore
+and fixes lib/Makefile to cleanup default.bconf correctly and to allow user
+to specify a relative path to CONFIG_EMBED_BOOT_CONFIG_FILE. (Thanks Masahiro!)
+Also this update the document patch about the relative path.
+Here is the previous thread [1].
+
+[1] https://lore.kernel.org/all/164833878595.2575750.1483106296151574233.stgit@devnote2/T/#u
+
+You can embed a bootconfig file into the kernel as a default bootconfig,
+which will be used if there is no initrd or no bootconfig is attached to initrd. 
+
+This needs 2 options: CONFIG_EMBED_BOOT_CONFIG=y and set the file
+path to CONFIG_EMBED_BOOT_CONFIG_FILE. Even if you embed the bootconfig file
+to the kernel, it will not be enabled unless you pass "bootconfig" kernel
+command line option at boot. Moreover, since this is just a "default"
+bootconfig, you can override it with a new bootconfig if you attach another
+bootconfig to the initrd (if possible).
+CONFIG_EMBED_BOOT_CONFIG_FILE can take both absolute and relative path, but
+to simplify and make it independent from the build environment, I recommend
+you to use an absolute path for that.
+
+This is requested by Padmanabha at the below thread[2];
+
+[2] https://lore.kernel.org/all/20220307184011.GA2570@pswork/T/#u
+
+
+KNOWN ISSUE:
+
+According to the report from Padmanabha[3] and my analysis [4], the embedded
+bootconfig data may not be updated if you do incremental build the kernel
+with CONFIG_LTO_CLANG_THIN.
+
+[3] https://lore.kernel.org/all/20220321183500.GA4065@pswork/T/#u
+[4] https://lore.kernel.org/all/20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org/
+
+This seems like clang's LTO Thin mode issue. It may not detect the inline
+asm depends on external files.
+
+I think the possible workaround is to split the inline asm which includes
+'.incbin' directive into an asm file. But this should be done in another
+seires because there are other features which uses '.incbin'. (e.g.
+/proc/config.gz)
+
+Thank you,
+
+---
+
+Masami Hiramatsu (3):
+      bootconfig: Check the checksum before removing the bootconfig from initrd
+      bootconfig: Support embedding a bootconfig file in kernel
+      docs: bootconfig: Add how to embed the bootconfig into kernel
+
+
+ Documentation/admin-guide/bootconfig.rst |   31 +++++++++++++++++++++++++++---
+ include/linux/bootconfig.h               |   10 ++++++++++
+ init/Kconfig                             |   21 ++++++++++++++++++++
+ init/main.c                              |   31 +++++++++++++++---------------
+ lib/.gitignore                           |    1 +
+ lib/Makefile                             |    9 +++++++++
+ lib/bootconfig.c                         |   23 ++++++++++++++++++++++
+ 7 files changed, 108 insertions(+), 18 deletions(-)
+
+--
+Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
