@@ -2,209 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D21C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 22:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EF7C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 22:36:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbiC1WN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 18:13:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37678 "EHLO
+        id S229970AbiC1WiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 18:38:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbiC1WNZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 18:13:25 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3332B35843;
-        Mon, 28 Mar 2022 15:02:01 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id z7so18864960iom.1;
-        Mon, 28 Mar 2022 15:02:01 -0700 (PDT)
+        with ESMTP id S229942AbiC1WiH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 18:38:07 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9495F4755F
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 15:36:24 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id e22so18913230ioe.11
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 15:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Zku73QpalQjK7mBNfRnqmkOyZliZDHv6CNwYX93bSZc=;
-        b=W+nx2Rs6t4ExOmIqnQeOQD4iJiAsZfVSjiPnDOEoC/PKN0duaeeK+1RfeOBQOF0bYR
-         zIVxDalhLdptimGuGHIEcTFR8MpB8preZuosCSp+LNTX5eHhwGbdhODb9JTnZcLPuT1I
-         QLOMdrrNMAqatCzNY/tm4cqE5mqSjVp0Q/Tu8PY7CF8uCnSmvjGF1mYwh7HEitLEIxWD
-         sI6mZA/N2BW2IsplbUB42Bz0gdBt4R2fZZP1qMmENIuO5OiIC+b0U4MAt6670q1CDugT
-         6PPJTaNT+2GePra2dTPgvFff94DWcxW3cdhHlYkEX8UXDhvu6QOPGNs/qFv8HpxukLcj
-         /I4g==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=AExd4vaFTbJ590yLTEsxZaq1Tm0Bzwb1nLh9ynuGeIw=;
+        b=DTRFn7+l1UKGJysQuFvGqP5W+I598Bx27SczkLubNCt0VlS2qdgUPay/HmX8b6XpGC
+         PTu66/GD01WGJz9u0XQ35hx2zataUVLZX413a+wYt3JptVnM1+bb2pnMkZFqWgVlM2je
+         s4wGDP20Dm3uuXw4kmJXTzk4OU+xgUe94XwiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Zku73QpalQjK7mBNfRnqmkOyZliZDHv6CNwYX93bSZc=;
-        b=pdqIzV06jo8SuEFXfdXAT24GbBjOdrLTiH9csBtepeqvT1dJFRX/20EhU+1IKOX8AI
-         w3Y1RbVevhUugNZnjbiytYwsbXj31mGKAVIE8EHewFtuAE7xoBFBl2lnmRX3sswsjbM0
-         5FNRlQgQdA/IA3Iu0jkTYwRatCbdVvrPakVJBW9yIk428y6K7VIGckMKxH1Be2bPECyN
-         /F3ZPg1NhW3bqa0Q0SJ+3ct6VRMkBXKdKgaDJiwKisJdm+dsEmD9LWD4xx35y9AZ+uJp
-         HDArddwVU7y8aZ3ymkYnYATSE2DHdpcFQq9kcmp46EngiMjefqTXQWm9/KOsdWKqwYxJ
-         R7ZQ==
-X-Gm-Message-State: AOAM531DMSrArzbqz4JDBhWCNJIm30453f2DY9Tsq73GWJtIpRx/hhxY
-        x61zTWerfb738B/jmIKuDYZNP5iQ6akyk5SH3KXWiT2m
-X-Google-Smtp-Source: ABdhPJyta6fjjW/oHgljQRh12/jOLrq4xulwQgvJrCe6paXK4K0lFuDYs3HHKwvHP2IIgblrMB9kJD1xtRWcuN06kfM=
-X-Received: by 2002:a05:6e02:1562:b0:2c9:cb97:9a4 with SMTP id
- k2-20020a056e02156200b002c9cb9709a4mr1324007ilu.71.1648503345774; Mon, 28 Mar
- 2022 14:35:45 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AExd4vaFTbJ590yLTEsxZaq1Tm0Bzwb1nLh9ynuGeIw=;
+        b=z2YM/tG+d3cPTufH6m3io0UJHjQm2w7I72dOrTqcA4cUoeOlLmMy1T0XOi/+/QV9rA
+         o6xgru8NPLUT77lOEhkyAW27os7OyqrH8eTw74bUYkKqM/jG7jIo4d9+TbYOWC/Mqxb8
+         Gj1ScFGEmBPGeBollRi3fWRE34LrvdEkBaVNFirfd0oY+v6j+WeWjCJTyS0oconBZgsz
+         GOUvZWZoCFs/Hc+5hZrwE8YrkkvmPdkEOC4RHH5/O+DiijTEqg99Z77oS3ExzAQteFCh
+         wD940wgXXGXIykNvJGmpq4xyXw1UJLaIKepm2WQAmB4EcHt3s2mcQMThgl8bPYRiYUTJ
+         pCfQ==
+X-Gm-Message-State: AOAM530bNFtb2VdIkEEx2wrKYa83kpMMxDv5Q7PflqnkN66xskxgXMHO
+        1fK293LN+LfgrQzcZc3PYqsrdGWBpMKJFw==
+X-Google-Smtp-Source: ABdhPJxHgbesdx6T5wcEa6Fn7Cv//g3Oqi2VOyXANaYIxT1Jk5KGVgEj1yKkQN/+2BN4fxIYPra8Lw==
+X-Received: by 2002:a02:cb0d:0:b0:321:4041:f680 with SMTP id j13-20020a02cb0d000000b003214041f680mr13781718jap.162.1648506983900;
+        Mon, 28 Mar 2022 15:36:23 -0700 (PDT)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id y20-20020a5d94d4000000b00640843474e2sm8434240ior.10.2022.03.28.15.36.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Mar 2022 15:36:23 -0700 (PDT)
+Subject: Re: [PATCH] Documentation: dev-tools: Add a section for static
+ analysis tools
+To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>, corbet@lwn.net,
+        mchehab+huawei@kernel.org, dlatypov@google.com, davidgow@google.com
+Cc:     linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
+        cocci@inria.fr, smatch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <6f1e410e-4b35-eb37-153a-8f5959ef0a49@linuxfoundation.org>
+Date:   Mon, 28 Mar 2022 16:36:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
- <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
- <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
- <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com> <CAO-hwJKPxKCzxCKGpH85j5VG3bQk+7axDYpxYoy-12yL7AQj2w@mail.gmail.com>
-In-Reply-To: <CAO-hwJKPxKCzxCKGpH85j5VG3bQk+7axDYpxYoy-12yL7AQj2w@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Mon, 28 Mar 2022 14:35:34 -0700
-Message-ID: <CAEf4BzZA7Wmg=N42ib_r9Jm8THXuGGR3CPgTqMyw9n2=gd_+Kg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
- descriptor from an eBPF program
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 27, 2022 at 11:57 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Fri, Mar 25, 2022 at 6:00 PM Andrii Nakryiko
-> <andrii.nakryiko@gmail.com> wrote:
-> >
-> > On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > Hi Alexei,
-> > >
-> > > On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
-> > > <alexei.starovoitov@gmail.com> wrote:
-> > > >
-> > > > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
-> > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > >
-> > > > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-> > > > > +{
-> > > > > +       int ret;
-> > > > > +       struct hid_bpf_ctx_kern ctx = {
-> > > > > +               .type = HID_BPF_RDESC_FIXUP,
-> > > > > +               .hdev = hdev,
-> > > > > +               .size = *size,
-> > > > > +       };
-> > > > > +
-> > > > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
-> > > > > +               goto ignore_bpf;
-> > > > > +
-> > > > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
-> > > > > +       if (!ctx.data)
-> > > > > +               goto ignore_bpf;
-> > > > > +
-> > > > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
-> > > > > +
-> > > > > +       ret = hid_bpf_run_progs(hdev, &ctx);
-> > > > > +       if (ret)
-> > > > > +               goto ignore_bpf;
-> > > > > +
-> > > > > +       if (ctx.size > ctx.allocated_size)
-> > > > > +               goto ignore_bpf;
-> > > > > +
-> > > > > +       *size = ctx.size;
-> > > > > +
-> > > > > +       if (*size) {
-> > > > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
-> > > > > +       } else {
-> > > > > +               rdesc = NULL;
-> > > > > +               kfree(ctx.data);
-> > > > > +       }
-> > > > > +
-> > > > > +       return rdesc;
-> > > > > +
-> > > > > + ignore_bpf:
-> > > > > +       kfree(ctx.data);
-> > > > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
-> > > > > +}
-> > > > > +
-> > > > >  int __init hid_bpf_module_init(void)
-> > > > >  {
-> > > > >         struct bpf_hid_hooks hooks = {
-> > > > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
-> > > > >                 .pre_link_attach = hid_bpf_pre_link_attach,
-> > > > > +               .post_link_attach = hid_bpf_post_link_attach,
-> > > > >                 .array_detach = hid_bpf_array_detach,
-> > > > >         };
-> > > > >
-> > > > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > > > > index 937fab7eb9c6..3182c39db006 100644
-> > > > > --- a/drivers/hid/hid-core.c
-> > > > > +++ b/drivers/hid/hid-core.c
-> > > > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
-> > > > >                 return -ENODEV;
-> > > > >         size = device->dev_rsize;
-> > > > >
-> > > > > -       buf = kmemdup(start, size, GFP_KERNEL);
-> > > > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
-> > > > > +       buf = hid_bpf_report_fixup(device, start, &size);
-> > > >
-> > > > Looking at this patch and the majority of other patches...
-> > > > the code is doing a lot of work to connect HID side with bpf.
-> > > > At the same time the evolution of the patch series suggests
-> > > > that these hook points are not quite stable. More hooks and
-> > > > helpers are being added.
-> > > > It tells us that it's way too early to introduce a stable
-> > > > interface between HID and bpf.
-> > >
-> > > I understand that you might be under the impression that the interface
-> > > is changing a lot, but this is mostly due to my poor knowledge of all
-> > > the arcanes of eBPF.
-> > > The overall way HID-BPF works is to work on a single array, and we
-> > > should pretty much be sorted out. There are a couple of helpers to be
-> > > able to communicate with the device, but the API has been stable in
-> > > the kernel for those for quite some time now.
-> > >
-> > > The variations in the hooks is mostly because I don't know what is the
-> > > best representation we can use in eBPF for those, and the review
-> > > process is changing that.
-> >
-> > I think such a big feature as this one, especially that most BPF folks
-> > are (probably) not familiar with the HID subsystem in the kernel,
-> > would benefit from a bit of live discussion during BPF office hours.
-> > Do you think you can give a short overview of what you are trying to
-> > achieve with some background context on HID specifics at one of the
-> > next BPF office hours? We have a meeting scheduled every week on
-> > Thursday, 9am Pacific time. But people need to put their topic onto
-> > the agenda, otherwise the meeting is cancelled. See [0] for
-> > spreadsheet and links to Zoom meeting, agenda, etc.
->
-> This sounds like a good idea. I just added my topic on the agenda and
-> will prepare some slides.
->
+On 3/28/22 3:19 PM, Marcelo Schmitt wrote:
+> Complement the Kernel Testing Guide documentation page by adding a
+> section about static analysis tools.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> ---
+> Hey everyone,
+> 
+> I think this patch can be a good addition to the documentation as
+> discussed in the thread for the testing guide documentation page:
+> Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
+> 
+> If you think it would be worth it, I can try making something more
+> elaborated. Maybe provide some guidance on when to use each tool.
+> I've been studying how Linux device drivers are tested.
+> Here's a post I wrote talking about some testing tools.
+> Link: https://marcelosc.gitlab.io/how-is-linux-tested/
+> 
+> Best regards,
+> Marcelo
+> 
 
-Great! Unfortunately I personally have a conflict this week and won't
-be able to attend, so I'll have to catch up somehow through word of
-mouth :( Next week's BPF office hours would be best, but I don't want
-to delay discussions just because of me.
+This a good addition to the testing overview doc. Please see a couple of
+comments below
 
-> Cheers,
-> Benjamin
->
-> >
-> >   [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
-> >
-> > [...]
-> >
->
+>   Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
+> 
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> index 65feb81edb14..b00511109a9d 100644
+> --- a/Documentation/dev-tools/testing-overview.rst
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
+>   Some of these tools integrate with KUnit or kselftest and will
+>   automatically fail tests if an issue is detected.
+>   
+> +Static Analysis Tools
+> +======================
+> +
+> +In addition to testing a running kernel, one may also scout for bugs by
+> +analyzing the source code semantics. Three tools are well known for serving this
+> +purpose.
+> +
+> +Sparse can help test the kernel by performing type-checking, lock checking,
+> +value range checking, in addition to reporting various errors and warnings while
+> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
+> +page for details on how to use it.
+> +> +Smatch extends Sparse and provides additional checks for programming logic
+> +mistakes such as missing breaks in switch statements, unused return values on
+> +error checking, forgetting to set an error code in the return of an error path,
+> +etc. Smatch also has tests against more serious issues such as integer
+> +overflows, null pointer dereferences, and memory leaks. See the project page at
+> +http://smatch.sourceforge.net/.
+> +
+> +We also have Coccinelle as an option within static analyzers. Coccinelle is
+> +often used to aid collateral evolution of source code, but it can also help to
+> +avoid certain bugs that have been expressed semantically. The types of tests
+> +available include API tests, tests for correct usage of kernel iterators, checks
+> +for the soundness of free operations, analysis of locking behavior, and further
+> +tests known to help keep consistent kernel usage. See the
+> +Documentation/dev-tools/coccinelle.rst documentation page for details.
+> +
+> +These static analysis tools support running tests on the whole source tree or
+> +over a specific file or directory.
+> 
+
+You can also add a couple of sentences along the lines to clarify why static
+analysis is beneficial:
+
+"It is easier to detect and fix problems during the development process."
+
+Also add a word of caution:
+
+"Static analysis tools suffer from false positives and errors and warns need to
+  be evaluated carefully before attempting to fix them."
+  
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
