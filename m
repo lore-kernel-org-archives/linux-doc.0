@@ -2,190 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A612C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 01:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 072A6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 01:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233262AbiC1BNR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 27 Mar 2022 21:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53920 "EHLO
+        id S234664AbiC1Bcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 27 Mar 2022 21:32:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbiC1BNQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 21:13:16 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C198A4EF71;
-        Sun, 27 Mar 2022 18:11:36 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id t2so11142983qtw.9;
-        Sun, 27 Mar 2022 18:11:36 -0700 (PDT)
+        with ESMTP id S234256AbiC1Bcb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Mar 2022 21:32:31 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BEA17E3C;
+        Sun, 27 Mar 2022 18:30:51 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id gp15-20020a17090adf0f00b001c7cd11b0b3so8410227pjb.3;
+        Sun, 27 Mar 2022 18:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=KtsnSy9eDNDheJpfFbAak/H2pkDZ6a4cufga2qircQ0=;
-        b=Uu9nf9ZsRA5F7g2AqCTnuAhuGg1Y4Zi54ZHXwmXpmbMHpTWNaFHjYrE5pu/8834SFm
-         iQF4P36pTxGUD/q43x8ON73Csy4DV99NFlfMgJbgqZUxMU+o+BwtED7V7DZU0AyWKlZf
-         2fqMv/pPrGud3phFu8G2xJgFhqxPIvUqde0iW7f5bw9+RotoVhn6ybyNbu4GgZltrLFh
-         mAmJCw3sJbSp5Pi4os4iEuTgxSvk+bfGgY3SWu1Z3WudnEypCOJKhCjwr39NJZuLWPjF
-         NPkkcKzLuRkwMCwbApihVgEMGG862iJREvsga6rz/TeqU8Mg4uw6s9N/QNFgxAZud8EY
-         0e5Q==
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=iaxB6e7brfKhObU9tXvhEhwSdXocJ3IGqdgj3hSkeGQ=;
+        b=kmsUTnLRisb5IYlJnYlfbHb+ZQOjH5jmuhhE+Jhb2HE7PEQROvP/a0zyus2dndvGxE
+         vlCqrSZlvG2Lm3twpQBZyK/pykw32glqoW8ovvyuyx8pp0NUlLPSePTRFJrYIvU8q9ED
+         t/hkoFH9DoB5rzw8PpjZLS3un22cX8bve4/5yOWStDHatFN0FYVLlmN20+jApg4rz3cI
+         a+ckM+TGCsjYImNaZVvOUKuR97hxyKkut3t9tTQL3tXNvWs0+Rab3CtWgKbg4Z2+iCYx
+         SulsIcqlgJ+tY2WBqXgS5bd3zarb2FXfn60Nw5av0gAGeI1Jx7F6S3PqFZjUVCZQoLDM
+         DWyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KtsnSy9eDNDheJpfFbAak/H2pkDZ6a4cufga2qircQ0=;
-        b=NwZiiVSv2MzRydV2ozAyNxh1zLQ49jde/+YRPwgkzHrGl7Ae57nofiYzsCAjMXlUUv
-         +xLPDQ2YTVwybghR4nC0GiPWu9IiQ+1Rb8c8ZzJGZuvffTXDWq65deN4lE0rsV7B0Tm4
-         gmXAsHBmRrqcE1PY+ZJZwPK5hYbcm7S5NtZp7Ozrm38hUw/OD19UmHWdDSxtUC+lojgb
-         ryNTpdFgXM1mEcEpqtzyHH+jElvvwAAzE1crixCRI5vpKUfkzGC3POfaHjB+ALQafrDe
-         laAd+ZObxGbKehcMteKtMd7ksbT6ApgVhvb8YIsWDwZTX7bcN+F7Ai1RBLUskDu0kgT4
-         oeJA==
-X-Gm-Message-State: AOAM532tApzKVrZWSOJOBqioJq5bKSZSPqN6+jG7PQqV6EcZcoSbklJX
-        7+4A/PxpIgMjxlDi4//bPn8=
-X-Google-Smtp-Source: ABdhPJwgFJFjW4jIXkf4oGFMdCNFSc2ftB3G5GuhsYddulUJCyoUheALpHxUNK4OEnpcSKNHnkUjDw==
-X-Received: by 2002:ac8:5805:0:b0:2e1:cea3:3ca2 with SMTP id g5-20020ac85805000000b002e1cea33ca2mr19355247qtg.33.1648429895838;
-        Sun, 27 Mar 2022 18:11:35 -0700 (PDT)
-Received: from localhost ([98.242.64.6])
-        by smtp.gmail.com with ESMTPSA id g200-20020a379dd1000000b0067d76e714f5sm7315986qke.35.2022.03.27.18.11.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Mar 2022 18:11:35 -0700 (PDT)
-Date:   Sun, 27 Mar 2022 18:11:33 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] lib/bitmap.c make bitmap_print_bitmask_to_buf parseable
-Message-ID: <YkELRUfrwSYap4Mr@yury-laptop>
-References: <f6372a2f880c6e8597a8f070eb031d4cd451d37e.1648291287.git.mchehab@kernel.org>
- <CAHp75Vc50ko7F0ZT_uWf6+f3atj0mg+RdFP9-sX_PLUtPqk3Eg@mail.gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=iaxB6e7brfKhObU9tXvhEhwSdXocJ3IGqdgj3hSkeGQ=;
+        b=I+1lQDf8lvWGsNW85Q3UEEUL5NngO+A+YQE+Hw99cF5AF0AVgV2mxQ2SKVMp4SPLP1
+         CGZecaRLr6TOwuJnvlXahsPh3kz1C0+BRZqMv/LfaqhKCf0s18RNaH6uFOQ8pLgx5fNA
+         Vk1Z27b8c+53ez4lHAAsEto4d3A7iuyVF29PAZBidkLXyKd1lDvh4cMSAv5H+JPiZgBy
+         7wJtlTJFKrQxSePWNREuCKFaIpL0Yej77lCpot/eWbPx/08BtAHldeLRIPgdsKbmwUAh
+         KNx693oDVdzIAAsALwUNY0r6GRgQhNZsGGWd7biRXEMNyPbc4/dpKt9BEd6ijFitdGd3
+         VDPw==
+X-Gm-Message-State: AOAM532aU6k4PIGWDXo6671y8KmjkqMKYO6oVQgYzFSECt9bxCFx4kzh
+        NNHLYzqDiGGg4/T3po/bQM8=
+X-Google-Smtp-Source: ABdhPJxpQ1vOBc6ZpZ4cHDRqiwv6CAhGJMTPwzkkr1bPWbOk8n/qsWx22vVbxEpHXLItnDEz6wp5Vg==
+X-Received: by 2002:a17:90b:1e01:b0:1c6:cabc:b2d4 with SMTP id pg1-20020a17090b1e0100b001c6cabcb2d4mr26602091pjb.64.1648431050791;
+        Sun, 27 Mar 2022 18:30:50 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id g1-20020a17090adac100b001c67cedd84esm12010581pjx.42.2022.03.27.18.30.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Mar 2022 18:30:50 -0700 (PDT)
+Message-ID: <add46954-ee8d-dffb-d311-02368484ef36@gmail.com>
+Date:   Mon, 28 Mar 2022 10:30:46 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vc50ko7F0ZT_uWf6+f3atj0mg+RdFP9-sX_PLUtPqk3Eg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        torvalds@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
+References: <87wnghd78t.fsf@meer.lwn.net>
+Subject: Re: [PATCH] docs: Add a document on how to fix a messy diffstat
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87wnghd78t.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 27, 2022 at 11:04:21PM +0300, Andy Shevchenko wrote:
-> On Sat, Mar 26, 2022 at 8:39 PM Mauro Carvalho Chehab
-> <mchehab@kernel.org> wrote:
-> >
-> > The documentation of such function is not on a proper ReST format,
-> > as reported by Sphinx:
-> >
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Unexpected indentation.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:526: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:532: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:533: WARNING: Block quote ends without a blank line; unexpected unindent.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Definition list ends without a blank line; unexpected unindent.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:542: WARNING: Unexpected indentation.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:536: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:543: WARNING: Block quote ends without a blank line; unexpected unindent.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Unexpected indentation.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:545: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:545: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:552: WARNING: Inline emphasis start-string without end-string.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:554: WARNING: Block quote ends without a blank line; unexpected unindent.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:556: WARNING: Definition list ends without a blank line; unexpected unindent.
-> >     Documentation/core-api/kernel-api:81: ./lib/bitmap.c:580: WARNING: Unexpected indentation.
-> >
-> > So, the produced output at:
-> >
-> >         https://www.kernel.org/doc/html/latest/core-api/kernel-api.html?#c.bitmap_print_bitmask_to_buf
-> >
-> > is broken. Fix it by adding spaces and marking the literal blocks.
-> 
-> LGTM,
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Thanks!
-> 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Hi Jon,
+Minor nits.  Please find inline comments bellow.
 
-Applied to bitmap branch
-https://github.com/norov/linux/tree/bitmap
+On Fri, 25 Mar 2022 15:58:42 -0600,
+Jonathan Corbet <corbet@lwn.net> wrote:
+[...]
+> diff --git a/Documentation/maintainer/messy-diffstat.rst b/Documentation/maintainer/messy-diffstat.rst
+> new file mode 100644
+> index 000000000000..970eac087f67
+> --- /dev/null
+> +++ b/Documentation/maintainer/messy-diffstat.rst
+> @@ -0,0 +1,96 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================================
+> +Handling messy pull-request diffstats
+> +=====================================
+> +
+> +Subsystem maintainers routinely use ``git request-pull`` as part of the
+> +process of sending work upstream.  Normally, the result includes a nice
+> +diffstat listing showing which files will be touched and how much of each
 
-Thanks,
-Yury
+        ... listing showing ... took half a second for me to parse.
+How about dropping either "listing" or "showing" ?
 
-> > ---
-> >  lib/bitmap.c | 33 ++++++++++++++++++++-------------
-> >  1 file changed, 20 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/lib/bitmap.c b/lib/bitmap.c
-> > index 0d5c2ece0bcb..8ebe508580ea 100644
-> > --- a/lib/bitmap.c
-> > +++ b/lib/bitmap.c
-> > @@ -527,33 +527,39 @@ static int bitmap_print_to_buf(bool list, char *buf, const unsigned long *maskp,
-> >   * cpumap_print_to_pagebuf() or directly by drivers to export hexadecimal
-> >   * bitmask and decimal list to userspace by sysfs ABI.
-> >   * Drivers might be using a normal attribute for this kind of ABIs. A
-> > - * normal attribute typically has show entry as below:
-> > - * static ssize_t example_attribute_show(struct device *dev,
-> > + * normal attribute typically has show entry as below::
-> > + *
-> > + *   static ssize_t example_attribute_show(struct device *dev,
-> >   *             struct device_attribute *attr, char *buf)
-> > - * {
-> > + *   {
-> >   *     ...
-> >   *     return bitmap_print_to_pagebuf(true, buf, &mask, nr_trig_max);
-> > - * }
-> > + *   }
-> > + *
-> >   * show entry of attribute has no offset and count parameters and this
-> >   * means the file is limited to one page only.
-> >   * bitmap_print_to_pagebuf() API works terribly well for this kind of
-> > - * normal attribute with buf parameter and without offset, count:
-> > - * bitmap_print_to_pagebuf(bool list, char *buf, const unsigned long *maskp,
-> > + * normal attribute with buf parameter and without offset, count::
-> > + *
-> > + *   bitmap_print_to_pagebuf(bool list, char *buf, const unsigned long *maskp,
-> >   *                        int nmaskbits)
-> > - * {
-> > - * }
-> > + *   {
-> > + *   }
-> > + *
-> >   * The problem is once we have a large bitmap, we have a chance to get a
-> >   * bitmask or list more than one page. Especially for list, it could be
-> >   * as complex as 0,3,5,7,9,... We have no simple way to know it exact size.
-> >   * It turns out bin_attribute is a way to break this limit. bin_attribute
-> > - * has show entry as below:
-> > - * static ssize_t
-> > - * example_bin_attribute_show(struct file *filp, struct kobject *kobj,
-> > + * has show entry as below::
-> > + *
-> > + *   static ssize_t
-> > + *   example_bin_attribute_show(struct file *filp, struct kobject *kobj,
-> >   *             struct bin_attribute *attr, char *buf,
-> >   *             loff_t offset, size_t count)
-> > - * {
-> > + *   {
-> >   *     ...
-> > - * }
-> > + *   }
-> > + *
-> >   * With the new offset and count parameters, this makes sysfs ABI be able
-> >   * to support file size more than one page. For example, offset could be
-> >   * >= 4096.
-> > @@ -577,6 +583,7 @@ static int bitmap_print_to_buf(bool list, char *buf, const unsigned long *maskp,
-> >   * This function is not a replacement for sprintf() or bitmap_print_to_pagebuf().
-> >   * It is intended to workaround sysfs limitations discussed above and should be
-> >   * used carefully in general case for the following reasons:
-> > + *
-> >   *  - Time complexity is O(nbits^2/count), comparing to O(nbits) for snprintf().
-> >   *  - Memory complexity is O(nbits), comparing to O(1) for snprintf().
-> >   *  - @off and @count are NOT offset and number of bits to print.
-> > --
-> > 2.35.1
-> >
-> 
-> 
+> +will be changed.  Occasionally, though, a repository with a relatively
+> +complicated development history will yield a massive diffstat containing a
+> +great deal of unrelated work.  The result looks ugly and obscures what the
+> +pull request is actually doing.  This document describes what is happening
+> +and how to fix things up; it is derived from The Wisdom of Linus Torvalds,
+> +found in Linus1_ and Linus2_.
+> +
+> +.. _Linus1: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
+> +.. _Linus2: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
+> +
+> +A Git development history proceeds as a series of commits.  In a simplified
+> +manner, mainline kernel development looks like this::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +
+> +If one wants to see what has changed between two points, a command like
+> +will do the job::
+
+Looks incomplete.  How about
+
+   this will do the job::
+,or
+   below will do the job::
+
+?  (Humble suggestion of a non-native)
+
+> +
+> +  $ git diff --stat --summary vN-rc2..vN-rc3
+> +
+> +Here, there are two clear points in the history; Git will essentially
+> +"subtract" the beginning point from the end point and display the resulting
+> +differences.  The requested operation is unambiguous and easy enough to
+> +understand.
+> +
+> +When a subsystem maintainer creates a branch and commits changes to it, the
+> +result in the simplest case is a history that looks like::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +                          |
+> +                          +-- c1 --- c2 --- ... --- cN
+> +
+> +If that maintainer now uses ``git diff`` to see what has changed between
+> +the mainline branch (let's call it "linus") and cN, there are still two
+> +clear endpoints, and the result is as expected.  So a pull request
+> +generated with ``git request-pull`` will also be as expected.  But now
+> +consider a slightly more complex development history::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +                |         |
+> +                |         +-- c1 --- c2 --- ... --- cN
+> +                |                   /
+> +                +-- x1 --- x2 --- x3
+> +
+> +Our maintainer has created one branch at vN-rc1 and another at vN-rc2; the
+> +two were then subsequently merged into c2.  Now a pull request generated
+> +for cN may end up being messy indeed, and developers often end up wondering
+> +why.
+> +
+> +What is happening here is that there are no longer two clear end points for
+> +the ``git diff`` operation to use.  The development culminating in cN
+> +started in two different places; to generate the diffstat, ``git diff``
+> +ends up having pick one of them and hoping for the best.  If the diffstat
+> +starts at vN-rc1, it may end up including all of the changes between there
+> +and the second origin end point (vN-rc2), which is certainly not what our
+> +maintainer had in mind.  With all of that extra junk in the diffstat, it
+> +may be impossible to tell what actually happened in the changes leading up
+> +to cN.
+> +
+> +Maintainers often try to resolve this problem by, for example, rebasing the
+> +branch or performing another merge with the linus branch, then recreating
+> +the pull request.  This approach tends not to lead to joy at the receiving
+> +end of that pull request; rebasing and/or merging just before pushing
+> +upstream is a well-known way to get a grumpy response.
+> +
+> +So what is to be done?  The best response when confronted with this
+> +situation is to indeed to a merge, but to do it privately, as if it were
+                          do
+
+        Thanks, Akira
+
+> +the source of shame.  Create a new, throwaway branch and do the merge
+> +there::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +                |         |                                      |
+> +                |         +-- c1 --- c2 --- ... --- cN           |
+> +                |                   /               |            |
+> +                +-- x1 --- x2 --- x3                +------------+-- TEMP
+> +
+> +The merge operation resolves all of the complications resulting from the
+> +multiple beginning points, yielding a coherent result that contains only
+> +the differences from the mainline branch.  Now it will be possible to
+> +generate a diffstat with the desired information::
+> +
+> +  $ git diff -C --stat --summary linus..TEMP
+> +
+> +Save the output from this command, then simply delete the TEMP branch;
+> +definitely do not expose it to the outside world.  Take the saved diffstat
+> +output and edit it into the messy pull request, yielding a result that
+> +shows what is really going on.  That request can then be sent upstream.
 > -- 
-> With Best Regards,
-> Andy Shevchenko
+
