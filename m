@@ -2,112 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBBEC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 06:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1102AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 06:57:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238584AbiC1Gwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 02:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
+        id S238625AbiC1G6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 02:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238572AbiC1Gwj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 02:52:39 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B673C4F9EB;
-        Sun, 27 Mar 2022 23:50:59 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id gb19so13127446pjb.1;
-        Sun, 27 Mar 2022 23:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QdM4cL37RSuglpJuskBFKNTuLb+4KsQrXFdLYdudj7c=;
-        b=piModocVnb2Lvf2pSrRSaV9PrBYf2Voogc+/VCKAZ6OwzdK2+xV6hG1P8kZZyt+GAg
-         7OOxSJfpt5KR0vGLTsjRpL25RCi8s/BvJ9hYE9FRtQWQcZfyxgHnoWuK97cgljKMtc0c
-         oRF2bgiSYATQFfyEhbGpkqyVeSTl6m2laLE5ZUYS0mvwPWz3Msp1so0a5VHTET8sleYa
-         3Nk16NXiQ2EwqkONUKGF5xCV+ibb/bQbicC2oZnm/exLnb8PoxSOig/fs+4UaxNhU0LR
-         7IzkQzuCH8Ewto9rvYR+Ka+rYbxgX0XQ4gU1m/iBlqgQOZjhRnMBOM2NoQRrGy3vkXbS
-         CNiQ==
+        with ESMTP id S238611AbiC1G6m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 02:58:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0DBF54FC51
+        for <linux-doc@vger.kernel.org>; Sun, 27 Mar 2022 23:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648450621;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GXnAjkr/2A5EMowmWRXznPohqOX2kcPUCHlbiRHmv8Q=;
+        b=SgDT5okSRrZPvir2r4ShkmrkucqjOo9NOP15LUQNMCzXTJt9AyvLhC0kEB6v3V9gn5OCff
+        W0BGrHqq6vVVgOZkVXS9gvh5+0+mDrj2m64MaGSVa5lJUb57p7KVnpscumKIhjxBDDA0PY
+        xZizM+iK0fdYRH1e+ARhfdMgjaNCY9o=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-619-5ssp6OrIM-qBmEC5pBCmvQ-1; Mon, 28 Mar 2022 02:56:59 -0400
+X-MC-Unique: 5ssp6OrIM-qBmEC5pBCmvQ-1
+Received: by mail-pg1-f199.google.com with SMTP id r28-20020a63205c000000b00398344a2582so1257371pgm.20
+        for <linux-doc@vger.kernel.org>; Sun, 27 Mar 2022 23:56:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QdM4cL37RSuglpJuskBFKNTuLb+4KsQrXFdLYdudj7c=;
-        b=j0m6G8PpK2ZR8R3/LJV3c2AGPyHQZjwxaj0Cm5HG3BcCOhXtCkFZgRarQtMvldkHhw
-         +xl7PvZRZO/s8tSs0b1++r3lJRm8F/1kpAfiWrm8hDY/RIzyA2IGLeDrveRcALBRpMC5
-         FAgD2/jRuldzCQCfXRtY6X+fLR3Z+TCQV/tzD2D661jOrZ2Gl6JcX4ih94+p/I5Dltkw
-         HLfMDxVDVICPG0ub+qksb43oGPihZ5fC6IT93YpjU20tP8azVTVuiJlGWkutn88cu9Nd
-         1d4Orn+czCZpWRQeoY8DLX7ztIWnin3yuSHkbYx0+xnU8aaAEaeQji8oHbxQjlObgxid
-         rteA==
-X-Gm-Message-State: AOAM530hGkTnlu8tLvV+RkeGkSckSOPxdYApFrMN2wArVa8YckPONdQb
-        03zwkmibcZCJ5Wwo6L9MhsUf5SMYZSW3qA==
-X-Google-Smtp-Source: ABdhPJzpvgfIblXEmSmwLCWtUn+QQ9KFwLJc0uyKtr8UrJFG6ztiurWo/6XkkYGei/MOfv+MUoZZ0Q==
-X-Received: by 2002:a17:90a:9f0b:b0:1c6:a876:4157 with SMTP id n11-20020a17090a9f0b00b001c6a8764157mr27399274pjp.173.1648450258881;
-        Sun, 27 Mar 2022 23:50:58 -0700 (PDT)
-Received: from ubuntu.mate (subs09a-223-255-225-67.three.co.id. [223.255.225.67])
-        by smtp.gmail.com with ESMTPSA id il7-20020a17090b164700b001c779d50699sm17653551pjb.55.2022.03.27.23.50.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Mar 2022 23:50:58 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] Documentation: sphinx: replace "Introduction" chapter heading with page title
-Date:   Mon, 28 Mar 2022 13:50:31 +0700
-Message-Id: <20220328065030.24936-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220328065030.24936-1-bagasdotme@gmail.com>
-References: <20220328065030.24936-1-bagasdotme@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GXnAjkr/2A5EMowmWRXznPohqOX2kcPUCHlbiRHmv8Q=;
+        b=2U3aX3pIOTmcuDB7BE3zShQJLaN/SiYKaTYlo3xFLxZGXe+t7X1SCIdACFKEwZaTdV
+         T21YaYulsnPtM1K2mookFk9cwEPda74U6mkMcf8U9nW4TXJkl/uNxmCLWD8ENk0296wZ
+         WGtUQQ/V6x+4jjZRsFkO+ehAhXyn0LhfFQuFtxXIhp9Dai3jRJ6hNI5W+83cdL8ITODR
+         SZgNJpQ29x4iAGdX7xMuBNRYA5tN/rw3Tf/jSTAcr0drq8GFt5MjYNfbunD8J39fqKFB
+         X8v7lGJSu9UZ/20uBkaiZ8byCklWTNMo6MSPW5kqcmwH1w5d5RP1VfcGDHSoxu0iQugv
+         6FCg==
+X-Gm-Message-State: AOAM532IRVDluDU/XDf/z2QiIan0DUZoPSv5kvQep9V+hWRLN77vaLEm
+        6u3nrAlIK+ZjeO+YYplEQsssUaDVC27tvW8Xv1Ofbbl8rFq451OtRxMZkl+x0RSpCmuUKbuHazA
+        ssX3gGjF9ysd17TkG5CceaNXDk8vXWMmQhRp0
+X-Received: by 2002:a65:5bc3:0:b0:378:4f82:d73d with SMTP id o3-20020a655bc3000000b003784f82d73dmr9382962pgr.191.1648450617857;
+        Sun, 27 Mar 2022 23:56:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDGbONhbKlNHbKmZvjyqzr931S0/Je+LVeiwY6d3dsfsR2Cx5iTxfjSUu6T4LVTWjACMclHlLj0nzrfl8wGhM=
+X-Received: by 2002:a65:5bc3:0:b0:378:4f82:d73d with SMTP id
+ o3-20020a655bc3000000b003784f82d73dmr9382922pgr.191.1648450617255; Sun, 27
+ Mar 2022 23:56:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+ <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com> <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+In-Reply-To: <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 28 Mar 2022 08:56:46 +0200
+Message-ID: <CAO-hwJKPxKCzxCKGpH85j5VG3bQk+7axDYpxYoy-12yL7AQj2w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace first chapter heading ("Introduction") with page title named
-"Using Sphinx for kernel documentation". This way, the first-level TOC
-for doc-guide contains title instead of chapter headings for this page.
+On Fri, Mar 25, 2022 at 6:00 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > Hi Alexei,
+> >
+> > On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > > > +{
+> > > > +       int ret;
+> > > > +       struct hid_bpf_ctx_kern ctx = {
+> > > > +               .type = HID_BPF_RDESC_FIXUP,
+> > > > +               .hdev = hdev,
+> > > > +               .size = *size,
+> > > > +       };
+> > > > +
+> > > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > > > +       if (!ctx.data)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > > > +
+> > > > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > > > +       if (ret)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       if (ctx.size > ctx.allocated_size)
+> > > > +               goto ignore_bpf;
+> > > > +
+> > > > +       *size = ctx.size;
+> > > > +
+> > > > +       if (*size) {
+> > > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > > > +       } else {
+> > > > +               rdesc = NULL;
+> > > > +               kfree(ctx.data);
+> > > > +       }
+> > > > +
+> > > > +       return rdesc;
+> > > > +
+> > > > + ignore_bpf:
+> > > > +       kfree(ctx.data);
+> > > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > > > +}
+> > > > +
+> > > >  int __init hid_bpf_module_init(void)
+> > > >  {
+> > > >         struct bpf_hid_hooks hooks = {
+> > > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> > > >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > > > +               .post_link_attach = hid_bpf_post_link_attach,
+> > > >                 .array_detach = hid_bpf_array_detach,
+> > > >         };
+> > > >
+> > > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > > index 937fab7eb9c6..3182c39db006 100644
+> > > > --- a/drivers/hid/hid-core.c
+> > > > +++ b/drivers/hid/hid-core.c
+> > > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> > > >                 return -ENODEV;
+> > > >         size = device->dev_rsize;
+> > > >
+> > > > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > > > +       buf = hid_bpf_report_fixup(device, start, &size);
+> > >
+> > > Looking at this patch and the majority of other patches...
+> > > the code is doing a lot of work to connect HID side with bpf.
+> > > At the same time the evolution of the patch series suggests
+> > > that these hook points are not quite stable. More hooks and
+> > > helpers are being added.
+> > > It tells us that it's way too early to introduce a stable
+> > > interface between HID and bpf.
+> >
+> > I understand that you might be under the impression that the interface
+> > is changing a lot, but this is mostly due to my poor knowledge of all
+> > the arcanes of eBPF.
+> > The overall way HID-BPF works is to work on a single array, and we
+> > should pretty much be sorted out. There are a couple of helpers to be
+> > able to communicate with the device, but the API has been stable in
+> > the kernel for those for quite some time now.
+> >
+> > The variations in the hooks is mostly because I don't know what is the
+> > best representation we can use in eBPF for those, and the review
+> > process is changing that.
+>
+> I think such a big feature as this one, especially that most BPF folks
+> are (probably) not familiar with the HID subsystem in the kernel,
+> would benefit from a bit of live discussion during BPF office hours.
+> Do you think you can give a short overview of what you are trying to
+> achieve with some background context on HID specifics at one of the
+> next BPF office hours? We have a meeting scheduled every week on
+> Thursday, 9am Pacific time. But people need to put their topic onto
+> the agenda, otherwise the meeting is cancelled. See [0] for
+> spreadsheet and links to Zoom meeting, agenda, etc.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Daniel Borkmann <daniel@iogearbox.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: linux-kernel@vger.kernel.org
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/doc-guide/sphinx.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+This sounds like a good idea. I just added my topic on the agenda and
+will prepare some slides.
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index bb36f18ae9ac3e..2ff1ab4158d48e 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -1,7 +1,8 @@
- .. _sphinxdoc:
- 
--Introduction
--============
-+=====================================
-+Using Sphinx for kernel documentation
-+=====================================
- 
- The Linux kernel uses `Sphinx`_ to generate pretty documentation from
- `reStructuredText`_ files under ``Documentation``. To build the documentation in
--- 
-An old man doll... just what I always wanted! - Clara
+Cheers,
+Benjamin
+
+>
+>   [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
+>
+> [...]
+>
 
