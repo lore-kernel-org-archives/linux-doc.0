@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B81B5C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 09:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0D8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 09:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238756AbiC1KAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 06:00:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46996 "EHLO
+        id S238866AbiC1KAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 06:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238452AbiC1KA3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 06:00:29 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D0F2E6AB
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:49 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id t5so12131945pfg.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:49 -0700 (PDT)
+        with ESMTP id S238452AbiC1KAd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 06:00:33 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DFD2E6AB
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:52 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id k14so11889024pga.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L2gPV0F/03w1jItK70XO3UddjLcx3kD0WXvWhviOE9M=;
-        b=ORtZPlYTp4+Mn3tJPkSU2c52OfuJB4VK5wi68mHzx9BbduPCiLu8rTSQqkZcYYBSXR
-         WDKtjn4W8zNTbIN5dtMVBUr0iJrtlDGsVqw5zhK1KcE51QxSKKE4fy7QMsc/q3H+0p2K
-         Vw9JWOJ+NhH2RphD4t1/FSQ5m4QibFQfSMf3vYL5I0JTen32NP5SojTwJh/luXne7gMJ
-         aYrFlWL5xIWDnsb8y78KV2M/Wi5YShSiTet3vNfYlG3aI6lqFjMMV3v7bL4zsIOg40hg
-         JzO1UsDgyeX/R2U1/VVD4At95R0HUp/mjDF6fD2bla+tVAHihVHZT5ujAHabwt6V0MQN
-         SK7w==
+        bh=0coquMDLrQc24ZzTIrfgrMEG4fd6k8TZrcclpqmJN4Y=;
+        b=qVOTobRRQXUwqQFGaT/c2zaTowpXLL+06RZAAhOMhNFlN8Eal9jV4uqkiADEIZqm4D
+         h4DWUegBAmEwEBByF2TfZheSkwFiqQNKa9TM1gR0X8vts+fcmpS5XBu06LDNAuAOUDVK
+         0tuvf3GuCk7chTZOcsVuS1Fvqd4n13tSnMoksxqsYrF1Fe6OxuhF4Yf9poQu4qtrOYi6
+         Z5gEhAt4uLTYosBO4IWrlIS+pq6s40NpTEg16X1WTAqopAI2wK2RBJlpsYcOjEDWBAqU
+         H7gveU9BvOCB2ZHJbI1UebAbUnkTlQCJYHtz231DCrgXn/SB2pcXOpve7VRP2GrKEGkA
+         /QJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L2gPV0F/03w1jItK70XO3UddjLcx3kD0WXvWhviOE9M=;
-        b=uC+S2XGLJLvKLRdJkT5KkAldM3xHBR9hJN7Bc3d3rsrsVhQr6novLA6bEi5i5W8qUv
-         dfraOB7QxfHa+HVzrUzoVAPDX+0Fp/+URcCzLnMAiVdXy2NZTqhXNhGqv8glWy2RBYZE
-         EfP7vL7KKaf7J5hQGXj+n7gjBv/Q4U5Hx/1wE/1k62xIEAUl9JIlI/m2hEXV7t3u8G6T
-         j0J4Frhxn/EEXEka7Yb4SyLf4rvv5ZrfMEDrp2d232Ebqb1XynnMbxyasXkbsesGEEnS
-         THimp9Y9ZGYNN6u07yQtA3vmKctEiAjfd/cOTQU+gINFqoN/txEuEbOCmikWJux934XH
-         9Z+Q==
-X-Gm-Message-State: AOAM532ctyNr7DYmJg4fYiKIwJvb57SkM4En0i4mAJz0nrsFOWyB4I8+
-        1iQX2IcqsLUhxNDM0AX0EOyzUaLGDQuyIhy8
-X-Google-Smtp-Source: ABdhPJw8+kjcdzmoQzGsZdjYUcIofUDCL+6q80gBvskqI8zas+V6Hk+6z+72Eq3f+04Ls8yn2cn7ug==
-X-Received: by 2002:a05:6a00:3496:b0:4fa:e48e:3d02 with SMTP id cp22-20020a056a00349600b004fae48e3d02mr23077718pfb.26.1648461528444;
-        Mon, 28 Mar 2022 02:58:48 -0700 (PDT)
+        bh=0coquMDLrQc24ZzTIrfgrMEG4fd6k8TZrcclpqmJN4Y=;
+        b=6z6YSF/W+Eq3ABk3srIU/tFD67Bf9DcrgRT8/rmsD0vQOnCtvUJcUWa4kiIl1Wuf44
+         XP/gK44JgiqAybPVSy41t8NexWVZZLsLuTDtMsMGQLFWzpFpZVA/QGpYnrr3VsYQHVbA
+         eI5m58I7A7AFtH9S2yveCL6P+dkLJsm47cFKvtV2ThC8wTKA55sxZWSsibskNe9uWgrf
+         tkMpg7Jj3rFI9T/Chgmh7aIo6Dokj27h1vPgHKImpTr+J4Ltg5BWLif/9sqnxw72aCGz
+         TUo89NRqEm2XDL7xTYolqI4WBM/uE1JExQeYNthmBimxwVVMquFNDv+HWRvaX07FanFO
+         wtHQ==
+X-Gm-Message-State: AOAM5322YpIywIhlvmFlieC6GNaPg/E+sgMdVxe6If0EChhHAim/fevB
+        zc9fHxPzp9FnoypjKXrMIok=
+X-Google-Smtp-Source: ABdhPJyzIz79YIhvwQnpPQAMoKYMaOhHg84TbaA49BFNwpcIUXsIzOvOi88HneMzDk+d+Vg/IWuwWg==
+X-Received: by 2002:a05:6a00:2354:b0:4fa:f195:b0c9 with SMTP id j20-20020a056a00235400b004faf195b0c9mr19987594pfj.33.1648461532059;
+        Mon, 28 Mar 2022 02:58:52 -0700 (PDT)
 Received: from localhost.localdomain (111-250-2-155.dynamic-ip.hinet.net. [111.250.2.155])
-        by smtp.gmail.com with ESMTPSA id 8-20020a17090a174800b001c7d8b160f0sm10526637pjm.51.2022.03.28.02.58.44
+        by smtp.gmail.com with ESMTPSA id 8-20020a17090a174800b001c7d8b160f0sm10526637pjm.51.2022.03.28.02.58.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 02:58:48 -0700 (PDT)
+        Mon, 28 Mar 2022 02:58:51 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 01/12] docs/zh_CN: add vm frontswap translation
-Date:   Mon, 28 Mar 2022 17:59:43 +0800
-Message-Id: <cd3fb38a3dff27f676e5ff789624f882096fbf32.1648458742.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 02/12] docs/zh_CN: add vm hwpoison translation
+Date:   Mon, 28 Mar 2022 17:59:44 +0800
+Message-Id: <41853e4068a2f6c6de37bd23708b8b154cd17716.1648458742.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1648458742.git.siyanteng@loongson.cn>
 References: <cover.1648458742.git.siyanteng@loongson.cn>
@@ -68,23 +68,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate .../vm/_free_page_reporting.rst into Chinese.
+Translate .../vm/hwpoison.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../translations/zh_CN/vm/frontswap.rst       | 196 ++++++++++++++++++
+ .../translations/zh_CN/vm/hwpoison.rst        | 166 ++++++++++++++++++
  Documentation/translations/zh_CN/vm/index.rst |   2 +-
- 2 files changed, 197 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/frontswap.rst
+ 2 files changed, 167 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/hwpoison.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/frontswap.rst b/Documentation/translations/zh_CN/vm/frontswap.rst
+diff --git a/Documentation/translations/zh_CN/vm/hwpoison.rst b/Documentation/translations/zh_CN/vm/hwpoison.rst
 new file mode 100644
-index 000000000000..3eb07870e2ef
+index 000000000000..c6e1e7bdb05b
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/frontswap.rst
-@@ -0,0 +1,196 @@
-+:Original: Documentation/vm/_free_page_reporting.rst
++++ b/Documentation/translations/zh_CN/vm/hwpoison.rst
+@@ -0,0 +1,166 @@
++
++:Original: Documentation/vm/hwpoison.rst
 +
 +:翻译:
 +
@@ -92,211 +92,181 @@ index 000000000000..3eb07870e2ef
 +
 +:校译:
 +
-+=========
-+Frontswap
-+=========
 +
-+Frontswap为交换页提供了一个 “transcendent memory” 的接口。在一些环境中，由
-+于交换页被保存在RAM（或类似RAM的设备）中，而不是交换磁盘，因此可以获得巨大的性能
-+节省（提高）。
++========
++hwpoison
++========
 +
-+.. _Transcendent memory in a nutshell: https://lwn.net/Articles/454795/
-+
-+Frontswap之所以这么命名，是因为它可以被认为是与swap设备的“back”存储相反。存
-+储器被认为是一个同步并发安全的面向页面的“伪RAM设备”，符合transcendent memory
-+（如Xen的“tmem”，或内核内压缩内存，又称“zcache”，或未来的类似RAM的设备）的要
-+求；这个伪RAM设备不能被内核直接访问或寻址，其大小未知且可能随时间变化。驱动程序通过
-+调用frontswap_register_ops将自己与frontswap链接起来，以适当地设置frontswap_ops
-+的功能，它提供的功能必须符合某些策略，如下所示:
-+
-+一个 “init” 将设备准备好接收与指定的交换设备编号（又称“类型”）相关的frontswap
-+交换页。一个 “store” 将把该页复制到transcendent memory，并与该页的类型和偏移
-+量相关联。一个 “load” 将把该页，如果找到的话，从transcendent memory复制到内核
-+内存，但不会从transcendent memory中删除该页。一个 “invalidate_page” 将从
-+transcendent memory中删除该页，一个 “invalidate_area” 将删除所有与交换类型
-+相关的页（例如，像swapoff）并通知 “device” 拒绝进一步存储该交换类型。
-+
-+一旦一个页面被成功存储，在该页面上的匹配加载通常会成功。因此，当内核发现自己处于需
-+要交换页面的情况时，它首先尝试使用frontswap。如果存储的结果是成功的，那么数据就已
-+经成功的保存到了transcendent memory中，并且避免了磁盘写入，如果后来再读回数据，
-+也避免了磁盘读取。如果存储返回失败，transcendent memory已经拒绝了该数据，且该页
-+可以像往常一样被写入交换空间。
-+
-+请注意，如果一个页面被存储，而该页面已经存在于transcendent memory中（一个 “重复”
-+的存储），要么存储成功，数据被覆盖，要么存储失败，该页面被废止。这确保了旧的数据永远
-+不会从frontswap中获得。
-+
-+如果配置正确，对frontswap的监控是通过 `/sys/kernel/debug/frontswap` 目录下的
-+debugfs完成的。frontswap的有效性可以通过以下方式测量（在所有交换设备中）:
-+
-+``failed_stores``
-+	有多少次存储的尝试是失败的
-+
-+``loads``
-+	尝试了多少次加载（应该全部成功）
-+
-+``succ_stores``
-+	有多少次存储的尝试是成功的
-+
-+``invalidates``
-+	尝试了多少次作废
-+
-+后台实现可以提供额外的指标。
-+
-+经常问到的问题
-+==============
-+
-+* 价值在哪里?
-+
-+当一个工作负载开始交换时，性能就会下降。Frontswap通过提供一个干净的、动态的接口来
-+读取和写入交换页到 “transcendent memory”，从而大大增加了许多这样的工作负载的性
-+能，否则内核是无法直接寻址的。当数据被转换为不同的形式和大小（比如压缩）或者被秘密
-+移动（对于一些类似RAM的设备来说，这可能对写平衡很有用）时，这个接口是理想的。交换
-+页（和被驱逐的页面缓存页）是这种比RAM慢但比磁盘快得多的“伪RAM设备”的一大用途。
-+
-+Frontswap对内核的影响相当小，为各种系统配置中更动态、更灵活的RAM利用提供了巨大的
-+灵活性：
-+
-+在单一内核的情况下，又称“zcache”，页面被压缩并存储在本地内存中，从而增加了可以安
-+全保存在RAM中的匿名页面总数。Zcache本质上是用压缩/解压缩的CPU周期换取更好的内存利
-+用率。Benchmarks测试显示，当内存压力较低时，几乎没有影响，而在高内存压力下的一些
-+工作负载上，则有明显的性能改善（25%以上）。
-+
-+“RAMster” 在zcache的基础上增加了对集群系统的 “peer-to-peer” transcendent memory
-+的支持。Frontswap页面像zcache一样被本地压缩，但随后被“remotified” 到另一个系
-+统的RAM。这使得RAM可以根据需要动态地来回负载平衡，也就是说，当系统A超载时，它可以
-+交换到系统B，反之亦然。RAMster也可以被配置成一个内存服务器，因此集群中的许多服务器
-+可以根据需要动态地交换到配置有大量内存的单一服务器上......而不需要预先配置每个客户
-+有多少内存可用
-+
-+在虚拟情况下，虚拟化的全部意义在于统计地将物理资源在多个虚拟机的不同需求之间进行复
-+用。对于RAM来说，这真的很难做到，而且在不改变内核的情况下，要做好这一点的努力基本上
-+是失败的（除了一些广为人知的特殊情况下的工作负载）。具体来说，Xen Transcendent Memory
-+后端允许管理器拥有的RAM “fallow”，不仅可以在多个虚拟机之间进行“time-shared”，
-+而且页面可以被压缩和重复利用，以优化RAM的利用率。当客户操作系统被诱导交出未充分利用
-+的RAM时（如 “selfballooning”），突然出现的意外内存压力可能会导致交换；frontswap
-+允许这些页面被交换到管理器RAM中或从管理器RAM中交换（如果整体主机系统内存条件允许），
-+从而减轻计划外交换可能带来的可怕的性能影响。
-+
-+一个KVM的实现正在进行中，并且已经被RFC'ed到lkml。而且，利用frontswap，对NVM作为
-+内存扩展技术的调查也在进行中。
-+
-+* 当然，在某些情况下可能有性能上的优势，但frontswap的空间/时间开销是多少？
-+
-+如果 CONFIG_FRONTSWAP 被禁用，每个 frontswap 钩子都会编译成空，唯一的开销是每
-+个 swapon'ed swap 设备的几个额外字节。如果 CONFIG_FRONTSWAP 被启用，但没有
-+frontswap的 “backend” 寄存器，每读或写一个交换页就会有一个额外的全局变量，而不
-+是零。如果 CONFIG_FRONTSWAP 被启用，并且有一个frontswap的backend寄存器，并且
-+后端每次 “store” 请求都失败（即尽管声称可能，但没有提供内存），CPU 的开销仍然可以
-+忽略不计 - 因为每次frontswap失败都是在交换页写到磁盘之前，系统很可能是 I/O 绑定
-+的，无论如何使用一小部分的 CPU 都是不相关的。
-+
-+至于空间，如果CONFIG_FRONTSWAP被启用，并且有一个frontswap的backend注册，那么
-+每个交换设备的每个交换页都会被分配一个比特。这是在内核已经为每个交换设备的每个交换
-+页分配的8位（在2.6.34之前是16位）上增加的。(Hugh Dickins观察到，frontswap可能
-+会偷取现有的8个比特，但是我们以后再来担心这个小的优化问题)。对于标准的4K页面大小的
-+非常大的交换盘（这很罕见），这是每32GB交换盘1MB开销。
-+
-+当交换页存储在transcendent memory中而不是写到磁盘上时，有一个副作用，即这可能会
-+产生更多的内存压力，有可能超过其他的优点。一个backend，比如zcache，必须实现策略
-+来仔细（但动态地）管理内存限制，以确保这种情况不会发生。
-+
-+* 好吧，那就用内核骇客能理解的术语来快速概述一下这个frontswap补丁的作用如何？
-+
-+我们假设在内核初始化过程中，一个frontswap 的 “backend” 已经注册了；这个注册表
-+明这个frontswap 的 “backend” 可以访问一些不被内核直接访问的“内存”。它到底提
-+供了多少内存是完全动态和随机的。
-+
-+每当一个交换设备被交换时，就会调用frontswap_init()，把交换设备的编号（又称“类
-+型”）作为一个参数传给它。这就通知了frontswap，以期待 “store” 与该号码相关的交
-+换页的尝试。
-+
-+每当交换子系统准备将一个页面写入交换设备时（参见swap_writepage()），就会调用
-+frontswap_store。Frontswap与frontswap backend协商，如果backend说它没有空
-+间，frontswap_store返回-1，内核就会照常把页换到交换设备上。注意，来自frontswap
-+backend的响应对内核来说是不可预测的；它可能选择从不接受一个页面，可能接受每九个
-+页面，也可能接受每一个页面。但是如果backend确实接受了一个页面，那么这个页面的数
-+据已经被复制并与类型和偏移量相关联了，而且backend保证了数据的持久性。在这种情况
-+下，frontswap在交换设备的“frontswap_map” 中设置了一个位，对应于交换设备上的
-+页面偏移量，否则它就会将数据写入该设备。
-+
-+当交换子系统需要交换一个页面时（swap_readpage()），它首先调用frontswap_load()，
-+检查frontswap_map，看这个页面是否早先被frontswap backend接受。如果是，该页
-+的数据就会从frontswap后端填充，换入就完成了。如果不是，正常的交换代码将被执行，
-+以便从真正的交换设备上获得这一页的数据。
-+
-+所以每次frontswap backend接受一个页面时，交换设备的读取和（可能）交换设备的写
-+入都被 “frontswap backend store” 和（可能）“frontswap backend loads”
-+所取代，这可能会快得多。
-+
-+* frontswap不能被配置为一个 “特殊的” 交换设备，它的优先级要高于任何真正的交换
-+  设备（例如像zswap，或者可能是swap-over-nbd/NFS）？
-+
-+首先，现有的交换子系统不允许有任何种类的交换层次结构。也许它可以被重写以适应层次
-+结构，但这将需要相当大的改变。即使它被重写，现有的交换子系统也使用了块I/O层，它
-+假定交换设备是固定大小的，其中的任何页面都是可线性寻址的。Frontswap几乎没有触
-+及现有的交换子系统，而是围绕着块I/O子系统的限制，提供了大量的灵活性和动态性。
-+
-+例如，frontswap backend对任何交换页的接受是完全不可预测的。这对frontswap backend
-+的定义至关重要，因为它赋予了backend完全动态的决定权。在zcache中，人们无法预
-+先知道一个页面的可压缩性如何。可压缩性 “差” 的页面会被拒绝，而 “差” 本身也可
-+以根据当前的内存限制动态地定义。
-+
-+此外，frontswap是完全同步的，而真正的交换设备，根据定义，是异步的，并且使用
-+块I/O。块I/O层不仅是不必要的，而且可能进行 “优化”，这对面向RAM的设备来说是
-+不合适的，包括将一些页面的写入延迟相当长的时间。同步是必须的，以确保后端的动
-+态性，并避免棘手的竞争条件，这将不必要地大大增加frontswap和/或块I/O子系统的
-+复杂性。也就是说，只有最初的 “store” 和 “load” 操作是需要同步的。一个独立
-+的异步线程可以自由地操作由frontswap存储的页面。例如，RAMster中的 “remotification”
-+线程使用标准的异步内核套接字，将压缩的frontswap页面移动到远程机器。同样，
-+KVM的客户方实现可以进行客户内压缩，并使用 “batched” hypercalls。
-+
-+在虚拟化环境中，动态性允许管理程序（或主机操作系统）做“intelligent overcommit”。
-+例如，它可以选择只接受页面，直到主机交换可能即将发生，然后强迫客户机做他们
-+自己的交换。
-+
-+transcendent memory规格的frontswap有一个坏处。因为任何 “store” 都可
-+能失败，所以必须在一个真正的交换设备上有一个真正的插槽来交换页面。因此，
-+frontswap必须作为每个交换设备的 “影子” 来实现，它有可能容纳交换设备可能
-+容纳的每一个页面，也有可能根本不容纳任何页面。这意味着frontswap不能包含比
-+swap设备总数更多的页面。例如，如果在某些安装上没有配置交换设备，frontswap
-+就没有用。无交换设备的便携式设备仍然可以使用frontswap，但是这种设备的
-+backend必须配置某种 “ghost” 交换设备，并确保它永远不会被使用。
++什么是hwpoison?
++===============
 +
 +
-+* 为什么会有这种关于 “重复存储” 的奇怪定义？如果一个页面以前被成功地存储过，
-+  难道它不能总是被成功地覆盖吗？
++即将推出的英特尔CPU支持从一些内存错误中恢复（ ``MCA恢复`` ）。这需要操作系统宣布
++一个页面"poisoned"，杀死与之相关的进程，并避免在未来使用它。
 +
-+几乎总是可以的，不，有时不能。考虑一个例子，数据被压缩了，原来的4K页面被压
-+缩到了1K。现在，有人试图用不可压缩的数据覆盖该页，因此会占用整个4K。但是
-+backend没有更多的空间了。在这种情况下，这个存储必须被拒绝。每当frontswap
-+拒绝一个会覆盖的存储时，它也必须使旧的数据作废，并确保它不再被访问。因为交
-+换子系统会把新的数据写到读交换设备上，这是确保一致性的正确做法。
++这个补丁包在虚拟机中实现了必要的(编程)框架。
 +
-+* 为什么frontswap补丁会创建新的头文件swapfile.h？
++引用概述中的评论::
 +
-+frontswap代码依赖于一些swap子系统内部的数据结构，这些数据结构多年来一直
-+在静态和全局之间来回移动。这似乎是一个合理的妥协：将它们定义为全局，但在一
-+个新的包含文件中声明它们，该文件不被包含swap.h的大量源文件所包含。
++	高级机器的检查与处理。处理方法是损坏的页面被硬件报告，通常是由于2位ECC内
++	存或高速缓存故障。
 +
-+Dan Magenheimer，最后更新于2012年4月9日
++	这主要是针对在后台检测到的损坏的页面。当当前的CPU试图访问它时，当前运行的进程
++	可以直接被杀死。因为还没有访问损坏的页面, 如果错误由于某种原因不能被处理，就可
++	以安全地忽略它. 而不是用另外一个机器检查去处理它。
++
++	处理不同状态的页面缓存页。这里棘手的部分是，相对于其他虚拟内存用户， 我们可以异
++	步访问任何页面。因为内存故障可能随时随地发生，可能违反了他们的一些假设。这就是
++	为什么这段代码必须非常小心。一般来说，它试图使用正常的锁规则，如获得标准锁，即使
++	这意味着错误处理可能需要很长的时间。
++
++	这里的一些操作有点低效，并且具有非线性的算法复杂性，因为数据结构没有针对这种情
++	况进行优化。特别是从vma到进程的映射就是这种情况。由于这种情况大概率是罕见的，所
++	以我们希望我们可以摆脱这种情况。
++
++该代码由mm/memory-failure.c中的高级处理程序、一个新的页面poison位和虚拟机中的
++各种检查组成，用来处理poison的页面。
++
++现在主要目标是KVM客户机，但它适用于所有类型的应用程序。支持KVM需要最近的qemu-kvm
++版本。
++
++对于KVM的使用，需要一个新的信号类型，这样KVM就可以用适当的地址将机器检查注入到客户
++机中。这在理论上也允许其他应用程序处理内存故障。我们的期望是，所有的应用程序都不要这
++样做，但一些非常专业的应用程序可能会这样做。
++
++故障恢复模式
++============
++
++有两种（实际上是三种）模式的内存故障恢复可以在。
++
++vm.memory_failure_recovery sysctl 置零:
++	所有的内存故障都会导致panic。请不要尝试恢复。
++
++早期处理
++	(可以在全局和每个进程中控制) 一旦检测到错误，立即向应用程序发送SIGBUS这允许
++	应用程序以温和的方式处理内存错误（例如，放弃受影响的对象） 这是KVM qemu使用的
++	模式。
++
++推迟处理
++	当应用程序运行到损坏的页面时，发送SIGBUS。这对不知道内存错误的应用程序来说是
++	最好的，默认情况下注意一些页面总是被当作late kill处理。
++
++用户控制
++========
++
++vm.memory_failure_recovery
++	参阅 sysctl.txt
++
++vm.memory_failure_early_kill
++	全局启用early kill
++
++PR_MCE_KILL
++	设置early/late kill mode/revert 到系统默认值。
++
++	arg1: PR_MCE_KILL_CLEAR:
++		恢复到系统默认值
++	arg1: PR_MCE_KILL_SET:
++		arg2定义了线程特定模式
++
++		PR_MCE_KILL_EARLY:
++			Early kill
++		PR_MCE_KILL_LATE:
++			Late kill
++		PR_MCE_KILL_DEFAULT
++			使用系统全局默认值
++
++	注意，如果你想有一个专门的线程代表进程处理SIGBUS(BUS_MCEERR_AO)，你应该在
++	指定线程上调用prctl(PR_MCE_KILL_EARLY)。否则，SIGBUS将被发送到主线程。
++
++PR_MCE_KILL_GET
++	返回当前模式
++
++测试
++====
++
++* madvise(MADV_HWPOISON, ....) (as root) - 在测试过程中Poison一个页面
++
++* 通过debugfs ``/sys/kernel/debug/hwpoison/`` hwpoison-inject模块
++
++  corrupt-pfn
++	在PFN处注入hwpoison故障，并echoed到这个文件。这做了一些早期过滤，以避
++	免在测试套件中损坏非预期页面。
++  unpoison-pfn
++	在PFN的Software-unpoison页面对应到这个文件。这样，一个页面可以再次被
++	复用。这只对Linux注入的故障起作用，对真正的内存故障不起作用。
++
++  注意这些注入接口并不稳定，可能会在不同的内核版本中发生变化
++
++  corrupt-filter-dev-major, corrupt-filter-dev-minor
++	只处理与块设备major/minor定义的文件系统相关的页面的内存故障。-1U是通
++	配符值。这应该只用于人工注入的测试。
++
++  corrupt-filter-memcg
++	限制注入到memgroup拥有的页面。由memcg的inode号指定。
++
++	Example::
++
++		mkdir /sys/fs/cgroup/mem/hwpoison
++
++	        usemem -m 100 -s 1000 &
++		echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
++
++		memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
++		echo $memcg_ino > /debug/hwpoison/corrupt-filter-memcg
++
++		page-types -p `pidof init`   --hwpoison  # shall do nothing
++		page-types -p `pidof usemem` --hwpoison  # poison its pages
++
++  corrupt-filter-flags-mask, corrupt-filter-flags-value
++	当指定时，只有在((page_flags & mask) == value)的情况下才会poison页面。
++	这允许对许多种类的页面进行压力测试。page_flags与/proc/kpageflags中的相
++	同。这些标志位在include/linux/kernel-page-flags.h中定义，并在
++	Documentation/admin-guide/mm/pagemap.rst中记录。
++
++* 架构特定的MCE注入器
++
++  x86 有 mce-inject, mce-test
++
++  在mce-test中的一些便携式hwpoison测试程序，见下文。
++
++引用
++====
++
++http://halobates.de/mce-lc09-2.pdf
++	09年LinuxCon的概述演讲
++
++git://git.kernel.org/pub/scm/utils/cpu/mce/mce-test.git
++	测试套件（在tsrc中的hwpoison特定可移植测试）。
++
++git://git.kernel.org/pub/scm/utils/cpu/mce/mce-inject.git
++	x86特定的注入器
++
++
++限制
++====
++- 不是所有的页面类型都被支持，而且永远不会。大多数内核内部对象不能被恢
++  复，目前只有LRU页。
++
++---
++Andi Kleen, 2009年10月
 diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index a1d2f0356cc1..a78060a0c2ed 100644
+index a78060a0c2ed..c5b3d5ba21f1 100644
 --- a/Documentation/translations/zh_CN/vm/index.rst
 +++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -27,11 +27,11 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    free_page_reporting
+@@ -28,12 +28,12 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
     highmem
     ksm
-+   frontswap
+    frontswap
++   hwpoison
  
  TODOLIST:
  * arch_pgtable_helpers
  * free_page_reporting
--* frontswap
  * hmm
- * hwpoison
+-* hwpoison
  * hugetlbfs_reserv
+ * memory-model
+ * mmu_notifier
 -- 
 2.27.0
 
