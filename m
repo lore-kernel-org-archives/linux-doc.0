@@ -2,93 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB127C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 12:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F73C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 13:44:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242624AbiC1Mt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 08:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S243372AbiC1Nqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 09:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239014AbiC1Mt0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 08:49:26 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250D44D9D6
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 05:47:45 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id m22so13948178pja.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 05:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bbgL7VdrRS4nd8vrzhWB69cyGoEtolsn/4UP+ZJ8nb0=;
-        b=hpcdK0CQlIw8tvs3521y31fcWZ99gi2t7fnZEw/2vcWNg1ZK23Og5TwdqkFwYo2nn+
-         BIsT+gKbSIaXsnJk/TEZ0w5OD3ETn7sHGaBAA1iPM7RfA4nwD8DDvSym1pzUFxLNHqMy
-         xjOkdvI8G4WF6+HQF4d2LTuHUvhE/Kt9F0iflqtWUWIIyWWxEcVM9PVIArhZlAr/fdZr
-         KAkYDwS7KpX7eSj2pKgqAclCV6V/Rwzmo801HxoSnxCFrkK4R3CYh7ZD4/zaaowx0Dd3
-         BnD1Vafp3rswlE1aXt2kDUBasJuZaNX8IYOKRd+Q9+hthPmfcdsWSOWVNlgZ2GO9964n
-         Rlng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bbgL7VdrRS4nd8vrzhWB69cyGoEtolsn/4UP+ZJ8nb0=;
-        b=ht5+VYfuMelHY+pzB0sIRAfXfqMdtOQPWreJg/25b7+cGmS8kp7X7TdEwe4AUgb7Jh
-         aF4mqtnW7HgzCXaxaU6qfepVVGMeqtX7lBWbMCkm0mgjQ/gyQhx05e9jqHlKYLf3CkVi
-         D507Tx3oi6WQMYRrnMfAlUGStZFBEnwpz9gwzfLDExNn6EgOgiY6HznVe7iUeP8/FDeZ
-         9Qxpku1/JRQew+1PHFaEsgBqWUy1joA7FvmAij99652N9KmhKkd4lX0X6lqFwCPOTWQk
-         x5+d0fzq09atTCRq3BxuR33GrpvC+Vv5WyMrtA06NO66M0O0L6l6Xz22krMrjwido31I
-         xSCA==
-X-Gm-Message-State: AOAM531aXgfh8WygLKZdQp5osLdDLSfa7uhoJXo6KbyntklcJNhrYAh3
-        2SbW0327keFwcdnpN35Ish8=
-X-Google-Smtp-Source: ABdhPJxS9j4Y1MpOl903aHdC3NNnUvkd5ngoVPkj9JzQe3eh5Oz/zt7D/26dhBAoqicidWQdbfV8Uw==
-X-Received: by 2002:a17:903:3005:b0:154:317:3834 with SMTP id o5-20020a170903300500b0015403173834mr26040694pla.156.1648471664671;
-        Mon, 28 Mar 2022 05:47:44 -0700 (PDT)
-Received: from localhost.localdomain (111-250-2-155.dynamic-ip.hinet.net. [111.250.2.155])
-        by smtp.gmail.com with ESMTPSA id ck13-20020a056a00328d00b004fb1414476bsm11339079pfb.200.2022.03.28.05.47.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 05:47:44 -0700 (PDT)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH v2 3/3] docs/zh_CN/damon: typo fix
-Date:   Mon, 28 Mar 2022 20:48:35 +0800
-Message-Id: <9de68c807d0a27f010c8e1eaf007dd947ec97f8f.1648471647.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1648471647.git.siyanteng@loongson.cn>
-References: <cover.1648471647.git.siyanteng@loongson.cn>
+        with ESMTP id S242157AbiC1Nqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 09:46:35 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B3E21E38;
+        Mon, 28 Mar 2022 06:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=7IJJdkjW4MGrMcE+ZwqPBADegtcLO1s09CtJPZpUSfM=; b=V5vG30XPI45ixAqklBQV8pmSiB
+        yeK7agmim930/Rw32uDEX2mffhfmmmyAPnmcHnkwTizhKFATGULoe3bwejjzQCW6G9WtR+Q5UStRx
+        N9iDwXBnrY7nkor2L1YlaosBVvHY+0Phm7b5+m/mTLYysaRru9KZceHunCXcWZyqMni4GJq5YUbji
+        pjlKzT/9Mwy4vigThQvDwbectXkAi0fs0fYRrLIHGyRyIWEBZcfJG7PSWIYdUDvF6IVWZtZtumuap
+        nAGld0ntJF3E2IWPwF82tZ8IzfSvw+VRCHu8niJQmeH8jM4gSBFKpVrQyebFcEc+y6+AlHM3JZ40K
+        krQ8cbvQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nYpey-00GxwQ-QI; Mon, 28 Mar 2022 13:43:52 +0000
+Date:   Mon, 28 Mar 2022 14:43:52 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <baohua@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Donald Carr <d@chaos-reins.com>,
+        Hillf Danton <hdanton@sina.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Rik van Riel <riel@surriel.com>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [page-reclaim] Re: [GIT PULL] Multi-gen LRU for 5.18-rc1
+Message-ID: <YkG7mD8kT0uAk3Iy@casper.infradead.org>
+References: <20220326010003.3155137-1-yuzhao@google.com>
+ <CAHk-=wjp=jEhjvD9GPnHfuV5Kc1=rUnf84b_qscLJ8fkY74u3Q@mail.gmail.com>
+ <CAOUHufbqum18T4kZ=d_hMehz=N=3iSuNfGrLof5tB8kjGkk8yw@mail.gmail.com>
+ <20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org>
+ <400edaab-7c6c-f4d1-9a94-e8d0803857fa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <400edaab-7c6c-f4d1-9a94-e8d0803857fa@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The word in original doc is: 'enabled', not 'enable'.
+On Mon, Mar 28, 2022 at 02:29:20PM +0200, David Hildenbrand wrote:
+> I'd appreciate if we could merge most MM-related stuff through the -MM
+> tree; it exists for a reason IMHO. Andrew, you usually have a very good
+> feeling when something's ready to be merged upstream (sufficient review
+> from relevant folks, sufficient exposure via -mm and -next, ...).
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../translations/zh_CN/admin-guide/mm/damon/reclaim.rst       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The problem is that the MM tree is completely unusable when patches going
+in through other trees need to be based on it.  The MM workflow clearly
+works well for Andrew, but it doesn't work well for us as a community.
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-index 9e541578f38d..1500bdbf338a 100644
---- a/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst
-@@ -53,8 +53,8 @@ DAMON_RECLAIM找到在特定时间内没有被访问的内存区域并分页。
- 
- 下面是每个参数的描述。
- 
--enable
--------
-+enabled
-+-------
- 
- 启用或禁用DAMON_RECLAIM。
- 
--- 
-2.27.0
-
+Fortunately folios is past that point now, but I fear that maple tree
+will get to that point if it doesn't go in through Andrew's tree this
+cycle, as it may have other users.
