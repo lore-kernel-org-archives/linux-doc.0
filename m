@@ -2,123 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C4AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 14:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7C87C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 14:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243881AbiC1OcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 10:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
+        id S236346AbiC1Oie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 10:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243860AbiC1OcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 10:32:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E6541F84;
-        Mon, 28 Mar 2022 07:30:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D9596122F;
-        Mon, 28 Mar 2022 14:30:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92418C004DD;
-        Mon, 28 Mar 2022 14:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648477827;
-        bh=0fJAVjmpmWefISZQ/CbYY4ljN8LhkUpwEfBUSoXFz/o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q8zOPgsibK2EPWrixhHmPrrsyfIIk1vXGGUX4UZPseQI8k2V40kOCDhMYgf0VUJGR
-         UYhNvemk7Iy8rpsOc/X+s+xFW1CgxLztCugnh5d8wPkMH5zoj/ZahjFE29nto9KXuH
-         VeCiHgQ6IInNTVlrwgFCE0c6drf6NLhKNt6ie4DBpLMfRVc7oXZ7AwitTVJJWp2Wdq
-         M5j5kzDgZFq4WzSp62Dh6ogLVerIPjqs6u1tMw6jQfwu2Mv/6QG6Ur+nD22lmO2YgU
-         cDcwX2z29hmohmMdNlMgfN6l9Rftnp5UVjuBI1DNSWtT2Kr9I3ZJuvbjRvYB8YOq1o
-         zUgMva6949LJw==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: [PATCH v5 3/3] docs: bootconfig: Add how to embed the bootconfig into kernel
-Date:   Mon, 28 Mar 2022 23:30:22 +0900
-Message-Id: <164847782202.3060675.17704713855690661713.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <164847778869.3060675.8115416881394543419.stgit@devnote2>
-References: <164847778869.3060675.8115416881394543419.stgit@devnote2>
-User-Agent: StGit/0.19
+        with ESMTP id S243914AbiC1Oid (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 10:38:33 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED325F4F9
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 07:36:51 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id a1so20690934wrh.10
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 07:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=v/hbcKwqx1gvBKjVXl56S5be+OnNXrcnFIQY2VQf+GQ=;
+        b=P3s83mzPAy1oHFyyIJNDomqrIFEN+HTK2X/xxvM6jHZRRhY1ia7LMcyS1CUq2WRLIt
+         5SoYJ0xl/ZAWRBo9MGjmVgpPNSAyN2Cue489qnIcE9rOOsVfG8KpauNpaa5c3+CHpQSK
+         gw9dIkAY9rZoEPI7OMXBY9dnJLfptFfKQMVcs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=v/hbcKwqx1gvBKjVXl56S5be+OnNXrcnFIQY2VQf+GQ=;
+        b=yG7MwnJNKhfqYWRRJbWeSLNK/8fUJqzC0BkMie5d0T4gg7cxAsS1u7LG0wUqz360Ss
+         YHX2FLyp7qV23FCHHPilnD0mE8ksZWo/9Yw5miqWegPp6t3dq2vVNa7E0cwsrCtR2bcL
+         3jxJXipo1obDfUi5UiWJOJxby5TDW6bomaoChn0oEXmejyORUihSvdV2aP4E97S6Hpvl
+         NC3+E3EMKtwDFD4FU9AOxW0S7RBUk2lVbiyHw0wVAOsEzWwydggYyFxt+x8qBOUKVDCD
+         quyWxRwmhoPXjJJMPy6r7/Ge6QMVZoQBr5YSvZM7QTtimX2Kn+cAE4yjkGZBEh6ymISp
+         ve8A==
+X-Gm-Message-State: AOAM531JdDRTceHgBf2PfU/3HgsFwK7MHLTKm8FAgvgxLUlNCaRGwG/q
+        7bJhO3rjAbF1KbdtJfPoEOrLFA==
+X-Google-Smtp-Source: ABdhPJy2uVCV4k6lowv1jCTyfpTR0BZIIfD37/lbvSmV0qb6ifIlu4g+nMA4zLZtNKGFclvcpohivw==
+X-Received: by 2002:a5d:6d8a:0:b0:204:909:2d9a with SMTP id l10-20020a5d6d8a000000b0020409092d9amr25002730wrs.435.1648478210133;
+        Mon, 28 Mar 2022 07:36:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id n23-20020a05600c3b9700b0038b7c4c0803sm16778890wms.30.2022.03.28.07.36.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 07:36:49 -0700 (PDT)
+Date:   Mon, 28 Mar 2022 16:36:47 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, mkoutny@suse.com, skhan@linuxfoundation.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
+ cgroup charging
+Message-ID: <YkHH/0Use7F30UUE@phenom.ffwll.local>
+Mail-Followup-To: "T.J. Mercier" <tjmercier@google.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>,
+        kaleshsingh@google.com, Kenny.Ho@amd.com, mkoutny@suse.com,
+        skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-5-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220328035951.1817417-5-tjmercier@google.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description how to embed the bootconfig file into kernel.
+On Mon, Mar 28, 2022 at 03:59:43AM +0000, T.J. Mercier wrote:
+> From: Hridya Valsaraju <hridya@google.com>
+> 
+> All DMA heaps now register a new GPU cgroup device upon creation, and the
+> system_heap now exports buffers associated with its GPU cgroup device for
+> tracking purposes.
+> 
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> 
+> ---
+> v3 changes
+> Use more common dual author commit message format per John Stultz.
+> 
+> v2 changes
+> Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+> heap to a single dma-buf function for all heaps per Daniel Vetter and
+> Christian König.
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Changes in v5:
-  - Update CONFIG_EMBED_BOOT_CONFIG_FILE which can accept relative path.
- Changes in v3:
-  - Fix typos.
- Changes in v2:
-  - Corrected the text accoding to Randy's suggestion.
-  - Do not reccomend to use relative path for CONFIG_EMBED_BOOT_CONFIG_FILE.
----
- Documentation/admin-guide/bootconfig.rst |   31 +++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+Apologies for being out of the loop quite a bit. I scrolled through this
+all and I think it looks good to get going.
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index a1860fc0ca88..83a2a0cc9afa 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -158,9 +158,15 @@ Each key-value pair is shown in each line with following style::
- Boot Kernel With a Boot Config
- ==============================
- 
--Since the boot configuration file is loaded with initrd, it will be added
--to the end of the initrd (initramfs) image file with padding, size,
--checksum and 12-byte magic word as below.
-+There are two options to boot the kernel with bootconfig: attaching the
-+bootconfig to the initrd image or embedding it in the kernel itself.
-+
-+Attaching a Boot Config to Initrd
-+---------------------------------
-+
-+Since the boot configuration file is loaded with initrd by default,
-+it will be added to the end of the initrd (initramfs) image file with
-+padding, size, checksum and 12-byte magic word as below.
- 
- [initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
- 
-@@ -196,6 +202,25 @@ To remove the config from the image, you can use -d option as below::
- Then add "bootconfig" on the normal kernel command line to tell the
- kernel to look for the bootconfig at the end of the initrd file.
- 
-+Embedding a Boot Config into Kernel
-+-----------------------------------
-+
-+If you can not use initrd, you can also embed the bootconfig file in the
-+kernel by Kconfig options. In this case, you need to recompile the kernel
-+with the following configs::
-+
-+ CONFIG_EMBED_BOOT_CONFIG=y
-+ CONFIG_EMBED_BOOT_CONFIG_FILE="/PATH/TO/BOOTCONFIG/FILE"
-+
-+``CONFIG_EMBED_BOOT_CONFIG_FILE`` requires an absolute path or a relative
-+path to the bootconfig file from source tree or object tree.
-+The kernel will embed it as the default bootconfig.
-+
-+Just as when attaching the bootconfig to the initrd, you need ``bootconfig``
-+option on the kernel command line to enable the embedded bootconfig.
-+
-+Note that even if you set this option, you can override the embedded
-+bootconfig by another bootconfig which attached to the initrd.
- 
- Kernel parameters via Boot Config
- =================================
+The only thing I have is whether we should move the cgroup controllers out
+of dma-buf heaps, since that's rather android centric. E.g.
+- a system gpucg_device which is used by all the various single page
+  allocators (dma-buf heap but also shmem helpers and really anything
+  else)
+- same for cma, again both for dma-buf heaps and also for the gem cma
+  helpers in drm
 
+Otherwise this will only work on non-upstream android where gpu drivers
+allocate everything from dma-buf heap. If you use something like the x86
+android project with mesa drivers, then driver-internal buffers will be
+allocated through gem and not through dma-buf heaps. Or at least I think
+that's how it works.
+
+But also meh, we can fix this fairly easily later on by adding these
+standard gpucg_dev somwehere with a bit of kerneldoc.
+
+Anyway has my all my ack, but don't count this as my in-depth review :-)
+-Daniel
+
+> ---
+>  drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++++
+>  drivers/dma-buf/heaps/system_heap.c |  3 +++
+>  include/linux/dma-heap.h            | 11 +++++++++++
+>  3 files changed, 41 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 8f5848aa144f..885072427775 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -7,6 +7,7 @@
+>   */
+>  
+>  #include <linux/cdev.h>
+> +#include <linux/cgroup_gpu.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> @@ -31,6 +32,7 @@
+>   * @heap_devt		heap device node
+>   * @list		list head connecting to list of heaps
+>   * @heap_cdev		heap char device
+> + * @gpucg_dev		gpu cgroup device for memory accounting
+>   *
+>   * Represents a heap of memory from which buffers can be made.
+>   */
+> @@ -41,6 +43,9 @@ struct dma_heap {
+>  	dev_t heap_devt;
+>  	struct list_head list;
+>  	struct cdev heap_cdev;
+> +#ifdef CONFIG_CGROUP_GPU
+> +	struct gpucg_device gpucg_dev;
+> +#endif
+>  };
+>  
+>  static LIST_HEAD(heap_list);
+> @@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap *heap)
+>  	return heap->name;
+>  }
+>  
+> +#ifdef CONFIG_CGROUP_GPU
+> +/**
+> + * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap.
+> + * @heap: DMA-Heap to get the gpucg_device struct for.
+> + *
+> + * Returns:
+> + * The gpucg_device struct for the heap. NULL if the GPU cgroup controller is
+> + * not enabled.
+> + */
+> +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
+> +{
+> +	return &heap->gpucg_dev;
+> +}
+> +#else /* CONFIG_CGROUP_GPU */
+> +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
+> +{
+> +	return NULL;
+> +}
+> +#endif /* CONFIG_CGROUP_GPU */
+> +
+>  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>  {
+>  	struct dma_heap *heap, *h, *err_ret;
+> @@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>  	list_add(&heap->list, &heap_list);
+>  	mutex_unlock(&heap_list_lock);
+>  
+> +	gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info->name);
+> +
+>  	return heap;
+>  
+>  err2:
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index ab7fd896d2c4..752a05c3cfe2 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>  	exp_info.ops = &system_heap_buf_ops;
+>  	exp_info.size = buffer->len;
+>  	exp_info.flags = fd_flags;
+> +#ifdef CONFIG_CGROUP_GPU
+> +	exp_info.gpucg_dev = dma_heap_get_gpucg_dev(heap);
+> +#endif
+>  	exp_info.priv = buffer;
+>  	dmabuf = dma_buf_export(&exp_info);
+>  	if (IS_ERR(dmabuf)) {
+> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> index 0c05561cad6e..e447a61d054e 100644
+> --- a/include/linux/dma-heap.h
+> +++ b/include/linux/dma-heap.h
+> @@ -10,6 +10,7 @@
+>  #define _DMA_HEAPS_H
+>  
+>  #include <linux/cdev.h>
+> +#include <linux/cgroup_gpu.h>
+>  #include <linux/types.h>
+>  
+>  struct dma_heap;
+> @@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
+>   */
+>  const char *dma_heap_get_name(struct dma_heap *heap);
+>  
+> +/**
+> + * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_device for the
+> + * heap.
+> + * @heap: DMA-Heap to retrieve gpucg_device for.
+> + *
+> + * Returns:
+> + * The gpucg_device struct for the heap.
+> + */
+> +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap);
+> +
+>  /**
+>   * dma_heap_add - adds a heap to dmabuf heaps
+>   * @exp_info:		information needed to register this heap
+> -- 
+> 2.35.1.1021.g381101b075-goog
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
