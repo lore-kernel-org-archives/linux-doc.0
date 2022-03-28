@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A586C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 09:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F32C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 09:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240107AbiC1KAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 06:00:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47622 "EHLO
+        id S238452AbiC1KAn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 06:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238452AbiC1KAj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 06:00:39 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3044C2E6AB
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:59 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id f10so4007357plr.6
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:58:59 -0700 (PDT)
+        with ESMTP id S240108AbiC1KAm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 06:00:42 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF523617E
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:59:02 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id o68-20020a17090a0a4a00b001c686a48263so11283545pjo.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 02:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+X+i8zfWoKTEaz0v8Tvfm3lJRXbTfYfMCi+b9t0Qu9U=;
-        b=XqjmHi7f1eaMVTKHjoOex1OiiAlqm08VrC9y9DkH6o2ZsG/4QJWDAn49Pk3cf0LwLA
-         udTDqDSUQadHR1sjSvFHmGxTv4NJNl5uuoZh1W1hTjZde1k5SHmWKETWAnlPNUdjl4TG
-         aXSUQMGO1LyIOPbHqysLwzE5Fuj10PgyBjXu0O4WEe7U/Yv+QY9xfVWA4hUQUdoveR5f
-         wmpjPgO4PohJVJ+rmRofZxXppO4V1HPjdXR1C7xHZ3SNlxFqmQgDnQ4RPZ9LTX6P445m
-         mfq184gYAhieMkTmC8NMRECqVJTKwtNZKQxb3AaGmd9wIAiQjtJlcNZU4H1uTPSAueRi
-         s4xA==
+        bh=uNgdiMUUcLYa9pRTyFJz/kemUUXVhOzxc9RJoojao9E=;
+        b=QfFj+mHAPu1K9yoy2bFYqqf83R4i0Ek0eFcw2psEx03MsmDvz+DqZsZOJvwpkkS9Rg
+         qMZq2cNbETVQEphuqnQwehlMNuWd2Sc+kUlGXRnAtxG/srF2maqsqPXVuUOFADOcq1Pm
+         O9JIIE/xzWZe2Lzuxu4X32RPYb7unWKBTDedtLGj/sVaMY52kmVSSUtdW+k9gWxmgj6+
+         +LO4cAoebtiHxBUtCC89QB6g7M/m/MVATWIgCTcuNKhcVKwxZ2VcinzkIetiZITmbVdP
+         mFWq5rq/UccQIX345tLL/ucDUF5EXBKOsKp9xT0xHG6byYPQKYUTYLMieVQKvYHOCq2c
+         WZaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+X+i8zfWoKTEaz0v8Tvfm3lJRXbTfYfMCi+b9t0Qu9U=;
-        b=DNkTmTdELqytCG/NWrmOpITTNTOaqNEbbwgz5sTEZ5toKVXBSuAtDp2TFS1Y4Ywyse
-         /BMk//4ELUFNa09HCPwkMOnjjMBIZSd4tjyoLgQoDvHFz4vpM+hND8PRYOHJZc8VkuD1
-         ChObBHWdY/0h3/L1llRAtbRsd8T8oDgVoe7ntV2cMPtQen4q8lVfNn5PAmiVTp3vDg3M
-         xq53muw3s9tJ0r7Cni8OQnqOtJ8pcX5zorRtju75GRM6fkNYmdFjETZCtgNIdcp5xcvr
-         ppW/0BmiisEoEjI0TqREYNB3ONJh6P0fQ7kpHos51k43ndaRucQoSEISdHOtchnS+5kg
-         LxSg==
-X-Gm-Message-State: AOAM533ARi79SUhso56Hv26dfJWL1HUm+a8xUSo9t/smFkl7dAM65mFs
-        Z2kJxhX9heUyexDVAIfMxaw=
-X-Google-Smtp-Source: ABdhPJyNLmcUdWvwbdEXWT1XuQkr7S5Ci1qCrykXAcTfjh1F7mhZ8jxif3xJIw554hcd+6m/0JcVCg==
-X-Received: by 2002:a17:902:eb8c:b0:153:fb56:1905 with SMTP id q12-20020a170902eb8c00b00153fb561905mr25125854plg.158.1648461538641;
-        Mon, 28 Mar 2022 02:58:58 -0700 (PDT)
+        bh=uNgdiMUUcLYa9pRTyFJz/kemUUXVhOzxc9RJoojao9E=;
+        b=wYH5dpTRG9JPIPFv6BAqC7LDjKO/IczlCMDmF7hkmPFnYQYFE5zDi22n+w0sXCCraa
+         8Ng2WHjF2PZmzBJs4olhewSJcbgxAfg4UtYCW7A/UCNjPbxggFN/3PTFAzDH03aBqeoJ
+         3Etz4eS6ocnj9c6uvdHnoOlQctOIOrXzd5efKJ8g+z09AlWVmN3l255bWeOTgfaZFLQ2
+         iG0Cr6G4ipjT6bX9RnvxStnzROLKKmO4apQ3xTVbC7AXsTE5K7cuDqFiJ3rc0Iy+5wVZ
+         vQ3oS8XiuUqRZ6mhZjBK+A3YQiu7ux9+3o3cF6BNswP5zmlkDRG0ZnKcfE5vmSPNRpn+
+         mw6A==
+X-Gm-Message-State: AOAM533BCT/h3iuj3f2E93X4pigcwdQq+Xl3MpHpU/qzUKNgsusE1ohk
+        k4EGJPo+phVkqD4G4PRzHvnUB9Ge5R7dfP5e
+X-Google-Smtp-Source: ABdhPJxLtboZ0v0L1nElBEvaboX+BebtWUFiF6h0guKiaIBxKDdu1mujgZLoJcj8GkCq0swXd+WeWw==
+X-Received: by 2002:a17:902:cf02:b0:14d:54cf:9a6a with SMTP id i2-20020a170902cf0200b0014d54cf9a6amr25241072plg.137.1648461541926;
+        Mon, 28 Mar 2022 02:59:01 -0700 (PDT)
 Received: from localhost.localdomain (111-250-2-155.dynamic-ip.hinet.net. [111.250.2.155])
-        by smtp.gmail.com with ESMTPSA id 8-20020a17090a174800b001c7d8b160f0sm10526637pjm.51.2022.03.28.02.58.55
+        by smtp.gmail.com with ESMTPSA id 8-20020a17090a174800b001c7d8b160f0sm10526637pjm.51.2022.03.28.02.58.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 02:58:58 -0700 (PDT)
+        Mon, 28 Mar 2022 02:59:01 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 04/12] docs/zh_CN: add vm mmu_notifier translation
-Date:   Mon, 28 Mar 2022 17:59:46 +0800
-Message-Id: <14ad3859f3444143f42884bfc447ce1baa1d80dd.1648458742.git.siyanteng@loongson.cn>
+Subject: [PATCH v3 05/12] docs/zh_CN: add vm overcommit-accounting translation
+Date:   Mon, 28 Mar 2022 17:59:47 +0800
+Message-Id: <3aa0251058c5f2f13946a0295ba0fccc3a58c5c0.1648458742.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1648458742.git.siyanteng@loongson.cn>
 References: <cover.1648458742.git.siyanteng@loongson.cn>
@@ -68,43 +68,43 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate .../vm/mmu_notifier.rst into Chinese.
+Translate .../vm/overcommit-accounting.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- Documentation/translations/zh_CN/vm/index.rst |  3 +-
- .../translations/zh_CN/vm/mmu_notifier.rst    | 97 +++++++++++++++++++
- 2 files changed, 98 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/vm/mmu_notifier.rst
+ Documentation/translations/zh_CN/vm/index.rst |  2 +-
+ .../zh_CN/vm/overcommit-accounting.rst        | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/overcommit-accounting.rst
 
 diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index c1f517da81f4..1fb80aa7a08b 100644
+index 1fb80aa7a08b..1c6ec847a2f3 100644
 --- a/Documentation/translations/zh_CN/vm/index.rst
 +++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -30,14 +30,13 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    frontswap
+@@ -31,6 +31,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
     hwpoison
     memory-model
-+   mmu_notifier
+    mmu_notifier
++   overcommit-accounting
  
  TODOLIST:
  * arch_pgtable_helpers
- * free_page_reporting
+@@ -38,7 +39,6 @@ TODOLIST:
  * hmm
  * hugetlbfs_reserv
--
--* mmu_notifier
  * numa
- * overcommit-accounting
+-* overcommit-accounting
  * page_migration
-diff --git a/Documentation/translations/zh_CN/vm/mmu_notifier.rst b/Documentation/translations/zh_CN/vm/mmu_notifier.rst
+ * page_frags
+ * page_owner
+diff --git a/Documentation/translations/zh_CN/vm/overcommit-accounting.rst b/Documentation/translations/zh_CN/vm/overcommit-accounting.rst
 new file mode 100644
-index 000000000000..b29a37b33628
+index 000000000000..8765cb118f24
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/mmu_notifier.rst
-@@ -0,0 +1,97 @@
-+:Original: Documentation/vm/mmu_notifier.rst
++++ b/Documentation/translations/zh_CN/vm/overcommit-accounting.rst
+@@ -0,0 +1,86 @@
++:Original: Documentation/vm/overcommit-accounting.rst
 +
 +:翻译:
 +
@@ -114,93 +114,82 @@ index 000000000000..b29a37b33628
 +
 +
 +
-+什么时候需要页表锁内通知？
-+==========================
++==============
++超量使用审计
++==============
 +
-+当清除一个pte/pmd时，我们可以选择通过在页表锁下（通知版的\*_clear_flush调用
-+mmu_notifier_invalidate_range）通知事件。但这种通知并不是在所有情况下都需要的。
++Linux内核支持下列超量使用处理模式
 +
-+对于二级TLB（非CPU TLB），如IOMMU TLB或设备TLB（当设备使用类似ATS/PASID的东西让
-+IOMMU走CPU页表来访问进程的虚拟地址空间）。只有两种情况需要在清除pte/pmd时在持有页
-+表锁的同时通知这些二级TLB：
++0
++	启发式超量使用处理。拒绝明显的地址空间超量使用。用于一个典型的系统。
++	它确保严重的疯狂分配失败，同时允许超量使用以减少swap的使用。在这种模式下，
++	允许root分配稍多的内存。这是默认的。
++1
++	总是超量使用。适用于一些科学应用。经典的例子是使用稀疏数组的代码，只是依赖
++	几乎完全由零页组成的虚拟内存
 +
-+  A) 在mmu_notifier_invalidate_range_end()之前，支持页的地址被释放。
-+  B) 一个页表项被更新以指向一个新的页面（COW，零页上的写异常，__replace_page()，...）。
++2
++	不超量使用。系统提交的总地址空间不允许超过swap+一个可配置的物理RAM的数量
++	（默认为50%）。根据你使用的数量，在大多数情况下，这意味着一个进程在访问页面时
++	不会被杀死，但会在内存分配上收到相应的错误。
 +
-+情况A很明显，你不想冒风险让设备写到一个现在可能被一些完全不同的任务使用的页面。
++	对于那些想保证他们的内存分配在未来可用而又不需要初始化每一个页面的应用程序来说
++	是很有用的。
 +
-+情况B更加微妙。为了正确起见，它需要按照以下序列发生:
++超量使用策略是通过sysctl  `vm.overcommit_memory` 设置的。
 +
-+  - 上页表锁
-+  - 清除页表项并通知 ([pmd/pte]p_huge_clear_flush_notify())
-+  - 设置页表项以指向新页
++可以通过 `vm.overcommit_ratio` （百分比）或 `vm.overcommit_kbytes` （绝对值）
++来设置超限数量。这些只有在 `vm.overcommit_memory` 被设置为2时才有效果。
 +
-+如果在设置新的pte/pmd值之前，清除页表项之后没有进行通知，那么你就会破坏设备的C11或
-+C++11等内存模型。
++在 ``/proc/meminfo`` 中可以分别以CommitLimit和Committed_AS的形式查看当前
++的超量使用和提交量。
 +
-+考虑以下情况（设备使用类似于ATS/PASID的功能）。
++陷阱
++====
 +
-+两个地址addrA和addrB，这样|addrA - addrB| >= PAGE_SIZE，我们假设它们是COW的
-+写保护（B的其他情况也适用）。
++C语言的堆栈增长是一个隐含的mremap。如果你想得到绝对的保证，并在接近边缘的地方运行，
++你 **必须** 为你认为你需要的最大尺寸的堆栈进行mmap。对于典型的堆栈使用来说，这并
++不重要，但如果你真的非常关心的话，这就是一个值得关注的案例。
 +
-+::
 +
-+ [Time N] --------------------------------------------------------------------
-+ CPU-thread-0  {尝试写到addrA}
-+ CPU-thread-1  {尝试写到addrB}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {读取addrA并填充设备TLB}
-+ DEV-thread-2  {读取addrB并填充设备TLB}
-+ [Time N+1] ------------------------------------------------------------------
-+ CPU-thread-0  {COW_step0: {mmu_notifier_invalidate_range_start(addrA)}}
-+ CPU-thread-1  {COW_step0: {mmu_notifier_invalidate_range_start(addrB)}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+2] ------------------------------------------------------------------
-+ CPU-thread-0  {COW_step1: {更新页表以指向addrA的新页}}
-+ CPU-thread-1  {COW_step1: {更新页表以指向addrB的新页}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+3] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {preempted}
-+ CPU-thread-2  {写入addrA，这是对新页面的写入}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+3] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {preempted}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {写入addrB，这是一个写入新页的过程}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+4] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {COW_step3: {mmu_notifier_invalidate_range_end(addrB)}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+5] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {从旧页中读取addrA}
-+ DEV-thread-2  {从新页面读取addrB}
++在模式2中，MAP_NORESERVE标志被忽略。
 +
-+所以在这里，因为在N+2的时候，清空页表项没有和通知一起作废二级TLB，设备在看到addrA的新值之前
-+就看到了addrB的新值。这就破坏了设备的总内存序。
 +
-+当改变一个pte的写保护或指向一个新的具有相同内容的写保护页（KSM）时，将mmu_notifier_invalidate_range
-+调用延迟到页表锁外的mmu_notifier_invalidate_range_end()是可以的。即使做页表更新的线程
-+在释放页表锁后但在调用mmu_notifier_invalidate_range_end()前被抢占，也是如此。
++它是如何工作的
++==============
++
++超量使用是基于以下规则
++
++对于文件映射
++	| SHARED or READ-only	-	0 cost (该文件是映射而不是交换)
++	| PRIVATE WRITABLE	-	每个实例的映射大小
++
++对于匿名或者 ``/dev/zero`` 映射
++	| SHARED			-	映射的大小
++	| PRIVATE READ-only	-	0 cost (但作用不大)
++	| PRIVATE WRITABLE	-	每个实例的映射大小
++
++额外的计数
++	| 通过mmap制作可写副本的页面
++	| 从同一池中提取的shmfs内存
++
++状态
++====
++
++*	我们核算mmap内存映射
++*	我们核算mprotect在提交中的变化
++*	我们核算mremap的大小变化
++*	我们的审计 brk
++*	审计munmap
++*	我们在/proc中报告commit 状态
++*	核对并检查分叉的情况
++*	审查堆栈处理/执行中的构建
++*	叙述SHMfs的情况
++*	实现实际限制的执行
++
++待续
++====
++*	ptrace 页计数（这很难）。
 -- 
 2.27.0
 
