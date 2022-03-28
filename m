@@ -2,102 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A67C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 07:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B0BC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 08:18:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238955AbiC1HwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 03:52:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
+        id S229480AbiC1IUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 04:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238953AbiC1HwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 03:52:24 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D0552E33;
-        Mon, 28 Mar 2022 00:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648453845; x=1679989845;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jlKlj0NQNWN05aZExDwr/vExb1oiL3GMzMEuXefJ6b8=;
-  b=Nkd0l+yoGr7efem7+WlSZXXxaE3p/hJm23bjIcbgBQ4hafCtb4eCAjUi
-   n2xKWCOSfym+5w11GpAGfj6asa4jgNz0APh1Fvbbc569fX4sQ1ljnCMaS
-   7lNLdpJfURl/0Ws2r9GAYLOV1si+NonRJ2bHLAfFRUnoRjNNrfESEU4DQ
-   yh5uLefCAsvEh28pSTL07X2vS21ncXdOM1qB+04HogeFypeuBhG3sgUTa
-   uSkU5w/6+whhpUyhBVniaIpst4rFliT2rNUosjND2ngAngTPsjwzLIFb+
-   hR+AT2oWFwHBFEKLnHcRXEh029OCNtnMt7UGdFYXQBOJ1wsPMYTsTgsTY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10299"; a="246426619"
-X-IronPort-AV: E=Sophos;i="5.90,216,1643702400"; 
-   d="scan'208";a="246426619"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2022 00:50:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,216,1643702400"; 
-   d="scan'208";a="502423396"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Mar 2022 00:50:40 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nYk99-0001qz-Ol; Mon, 28 Mar 2022 07:50:39 +0000
-Date:   Mon, 28 Mar 2022 15:49:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atishp@rivosinc.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>, linux-doc@vger.kernel.org
-Subject: arch/riscv/kernel/cpu.c:113: warning: This comment starts with
- '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202203281524.uFcj0Opf-lkp@intel.com>
+        with ESMTP id S232905AbiC1IUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 04:20:30 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B76173878F
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 01:18:49 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id m67so24676471ybm.4
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 01:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KN3NlsusYlj9N26C/gStdQpdQztLVqGqPSjH582Z8Is=;
+        b=f5kPrf1YEYWTUjrAsXoZeVa0j1pbs4sWLIYYSY6jja5KKcAL3s/v2ZmB2QM0n8tpRR
+         iosLmgDFstqYfSiG4mjWbR0WcHeOAvbhS6/3riyZBwu1/+VJBJVnTEZicvKBNiEpKCGe
+         R5HN4G9b+BTDyGfRl3vXkmNQMHk/HAzrABiC9fitD5xdCwAR4V7+gyHqt/n1OgAGs6Pe
+         sMKQIbUbdfbbM2QFJZSzkPOjb60W8ckBGiUj7CCarmBXg55rEKIb99I+C5au9VV9iw6u
+         AanPrS6/QbzVoBvY1YMRHPS/69QxSLHiEApBgjfChES6P6U3D65m3Mao2TeaV1WUfwDp
+         xwQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KN3NlsusYlj9N26C/gStdQpdQztLVqGqPSjH582Z8Is=;
+        b=ARc1v7B3wwQvu9ZdwO0SIfilzjF6k2/2gh92eX7X3ieH0POXLNMFoE9Y8peVwEKa/l
+         kI76IHdyo2JnIMOMZI2WEdyC48b4NjMxOfZYAxYwLSiJnhcBDHAYTKDimpcUjZb5c8hk
+         XKNUMPEgQsfAMp7f6GwAl0v/V2vx5+2Lnq5sTnWlNw+sRh5UyQnCdtU5kI09oM9VWo69
+         A3+DAbHmIdfmfgkO78S02opv8rQkFLGRvcIN/socNKfPwf/HqSn+iNdSu98f81Col3rs
+         QpNpoqWfUTKjufJt7KQKOx6R/M/Xm9NbX2iH/hD75RH0erzTC9clT1ThJ5ibehdXofki
+         ooGg==
+X-Gm-Message-State: AOAM5332KUuYijTFWPczw0iioL6B9xPaBvEuYbIM2H9JMGt3ag1swfd8
+        kbHfC+SFabuQWiqw8ya3TEzFdJ8PH28sjlDCw2Q=
+X-Google-Smtp-Source: ABdhPJxzL3G2+wl2PaQc7fUqNTocBeTYBfDvYidCI43v6oVIxCoczbdML1WPfTW8oO7NH/nWifWvuZELJ/cTv3SXbYg=
+X-Received: by 2002:a25:6b0f:0:b0:633:d1a3:9dbf with SMTP id
+ g15-20020a256b0f000000b00633d1a39dbfmr21972484ybc.216.1648455528918; Mon, 28
+ Mar 2022 01:18:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1647498763.git.siyanteng@loongson.cn> <cffe009c8b94682200c46fb4d80313f603a65cb6.1647498763.git.siyanteng@loongson.cn>
+ <CAJy-AmnCfb+TvFmYfXmTCYSWYQS_w7Q01pg7RQX2Ry3Q7Q7fwA@mail.gmail.com>
+In-Reply-To: <CAJy-AmnCfb+TvFmYfXmTCYSWYQS_w7Q01pg7RQX2Ry3Q7Q7fwA@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 28 Mar 2022 16:18:25 +0800
+Message-ID: <CAEensMwG7YcVxUQkkfHDkoO=6fUOQTjPkm7ut5HULYiHkLtjUA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/12] docs/zh_CN: add vm mmu_notifier translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: a9b202606c69312cdaa4db187837820ebf7213b2 RISC-V: Improve /proc/cpuinfo output for ISA extensions
-date:   11 days ago
-config: riscv-randconfig-r042-20220328 (https://download.01.org/0day-ci/archive/20220328/202203281524.uFcj0Opf-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a9b202606c69312cdaa4db187837820ebf7213b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a9b202606c69312cdaa4db187837820ebf7213b2
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/ drivers/perf/
+Alex Shi <seakeel@gmail.com> =E4=BA=8E2022=E5=B9=B43=E6=9C=8823=E6=97=A5=E5=
+=91=A8=E4=B8=89 20:44=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, Mar 17, 2022 at 2:51 PM Yanteng Si <siyanteng01@gmail.com> wrote:
+> >
+> > From: Yanteng Si <siyanteng01@gmail.com>
+> >
+> > Translate .../vm/mmu_notifier.rst into Chinese.
+> >
+> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > Reviewed-by: Alex Shi <alexs@kernel.org>
+> > ---
+> >  Documentation/translations/zh_CN/vm/index.rst |  3 +-
+> >  .../translations/zh_CN/vm/mmu_notifier.rst    | 97 +++++++++++++++++++
+> >  2 files changed, 98 insertions(+), 2 deletions(-)
+> >  create mode 100644 Documentation/translations/zh_CN/vm/mmu_notifier.rs=
+t
+> >
+> > diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentat=
+ion/translations/zh_CN/vm/index.rst
+> > index c1f517da81f4..1fb80aa7a08b 100644
+> > --- a/Documentation/translations/zh_CN/vm/index.rst
+> > +++ b/Documentation/translations/zh_CN/vm/index.rst
+> > @@ -30,14 +30,13 @@ TODO:=E5=BE=85=E5=BC=95=E7=94=A8=E6=96=87=E6=A1=A3=
+=E9=9B=86=E8=A2=AB=E7=BF=BB=E8=AF=91=E5=AE=8C=E6=AF=95=E5=90=8E=E8=AF=B7=E5=
+=8F=8A=E6=97=B6=E4=BF=AE=E6=94=B9=E6=AD=A4=E5=A4=84=EF=BC=89
+> >     frontswap
+> >     hwpoison
+> >     memory-model
+> > +   mmu_notifier
+> >
+> >  TODOLIST:
+> >  * arch_pgtable_helpers
+> >  * free_page_reporting
+> >  * hmm
+> >  * hugetlbfs_reserv
+> > -
+> > -* mmu_notifier
+> >  * numa
+> >  * overcommit-accounting
+> >  * page_migration
+> > diff --git a/Documentation/translations/zh_CN/vm/mmu_notifier.rst b/Doc=
+umentation/translations/zh_CN/vm/mmu_notifier.rst
+> > new file mode 100644
+> > index 000000000000..9a85d6acb249
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/vm/mmu_notifier.rst
+> > @@ -0,0 +1,97 @@
+> > +:Original: Documentation/vm/mmu_notifier.rst
+> > +
+> > +:=E7=BF=BB=E8=AF=91:
+> > +
+> > + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> > +
+> > +:=E6=A0=A1=E8=AF=91:
+> > +
+> > +
+> > +
+> > +=E4=BB=80=E4=B9=88=E6=97=B6=E5=80=99=E9=9C=80=E8=A6=81=E9=80=9A=E7=9F=
+=A5=E5=86=85=E9=A1=B5=E8=A1=A8=E9=94=81=EF=BC=9F
+>
+> Is it better to translate as "=E4=BB=80=E4=B9=88=E6=97=B6=E5=80=99=E9=9C=
+=80=E8=A6=81=E9=A1=B5=E8=A1=A8=E9=94=81=E5=86=85=E9=80=9A=E7=9F=A5"?
+OK!,Thanks.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   arch/riscv/kernel/cpu.c:89: warning: cannot understand function prototype: 'struct riscv_isa_ext_data isa_ext_arr[] = '
->> arch/riscv/kernel/cpu.c:113: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * These are the only valid base (single letter) ISA extensions as per the spec.
-
-
-vim +113 arch/riscv/kernel/cpu.c
-
-   111	
-   112	/**
- > 113	 * These are the only valid base (single letter) ISA extensions as per the spec.
-   114	 * It also specifies the canonical order in which it appears in the spec.
-   115	 * Some of the extension may just be a place holder for now (B, K, P, J).
-   116	 * This should be updated once corresponding extensions are ratified.
-   117	 */
-   118	static const char base_riscv_exts[13] = "imafdqcbkjpvh";
-   119	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks,
+Yanteng
+>
+> Thanks
+> Alex
