@@ -2,151 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 669BEC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 20:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 882F3C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 21:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbiC1VA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 17:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
+        id S229510AbiC1VVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 17:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiC1VA5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 17:00:57 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDE56D97B;
-        Mon, 28 Mar 2022 13:59:16 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r23so18426861edb.0;
-        Mon, 28 Mar 2022 13:59:15 -0700 (PDT)
+        with ESMTP id S229501AbiC1VVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 17:21:48 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7BBDE0AA;
+        Mon, 28 Mar 2022 14:20:03 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id 12so17040074oix.12;
+        Mon, 28 Mar 2022 14:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XpihMQW3ITEGr80CFfEgsPwVbFmNePy8AVTnWzohyno=;
-        b=fo6+o9w1krLj+t9+r6Huq6bmXGajiPbFdocT5kBjC0HNvq2kYhvbOf+nwkdlfWEihJ
-         XFooInFSC2XxwxaaFa5j9dwDixiymZ80ntOov64y6VfCVLgnJO/ZKY2Y57ZVmLhKjQWJ
-         /KiPBhfmc7+I7hQnJ5dkX1W+4t2UZg3u6kMkRFqCqCVPhQ6RAQKAFjgRGHqMLB2uj0J1
-         bAKOtVu2J7GY58NXTNyhxAYfj6hhJe2dRqp72oCdamCZpoQ8mDte3MIkEJY+8gATJy1v
-         gtJBcT/a+PdVy6KIgnUbTPGh402e++/1EUXLTSuiE81atZEQGIJeIuaDtouqgj4tt2Pu
-         FUjg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=9qRB0II6Ytegh9oDXsqAEWbvdBJG2QMLk1XoynhcSdc=;
+        b=dxqQd6nql5QXzoESlASrLi1QNkobaBAfzSkh02IyFE7xIQp9LayDWrLjad2/e4NV3e
+         xhjRuCUBFwECfaR20P33Z4CpX1MdPjRdQRUuTFiOJFcKXeBjA5r+bizltdaNZWuiSWD6
+         hn1f33L5SfUYyaf5iJIsYYAl/bx+r9sHzE1xKxI4L2A6dDqoobwqfBGMLODhu52x7k5D
+         QHqWvOHY9zBJ3N9mSrpxkEqkw5dBK70UBub3nxP9Zqnztjjy+jv21M5JKOtmDNr9/cF5
+         B5PQm8obEdKDAtVCwldxSMJh4cU1a5C9t2Aw6KmO9bB0SAvfuTQvRrz4YjkoE0rpSa29
+         dRmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XpihMQW3ITEGr80CFfEgsPwVbFmNePy8AVTnWzohyno=;
-        b=JxYnhAcyYoBWzRPwwq5YecQrZXK++pXXuxljOioLi4DMW3cpfhPrnvW3k3EUT2pLfA
-         qAzJf7bW8gJHkMGc2MrjwS7gBcyBkqfg0CLe0KujhR2wv/5GuLb6OsVBVcRGoTo+nIpo
-         Oa2kOIsGKbG8/g67LMuHyPXJioNNVG+zLy1DPdegRgBxM5VD5Mqf2hLVJ005FDIKyuwZ
-         ZRw3XzyzgAAgS/1DxUc0gCFSi6bvp1sizpHS5OA3UNyOY2l/vCOe7XCAISs7nQ+xTUgz
-         CD53p8LhEQHzvDZkxYljZtawGkDEt13fiMjaGLnWFxYWP7kugSUOtqfXwPq1RKVuE0eL
-         qOEw==
-X-Gm-Message-State: AOAM532Jc/a2RdUlxcK9N4a/UhbKWu7PtbaX0OUw0tFcFFRhjmJ82yis
-        TYLCz9bxiBjyNCtr+4D/rPQK6HxiFoBv1kVSuOI=
-X-Google-Smtp-Source: ABdhPJxpdmWGnFCQvTKGOD9NOQ2vNgNaejcUttwdkmLsXR8JqVRfOJExLnuVhfUYDvEwh561/7+o05VS6CAtac5wV6c=
-X-Received: by 2002:a05:6402:d7:b0:413:673:ba2f with SMTP id
- i23-20020a05640200d700b004130673ba2fmr18962285edu.29.1648501154526; Mon, 28
- Mar 2022 13:59:14 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=9qRB0II6Ytegh9oDXsqAEWbvdBJG2QMLk1XoynhcSdc=;
+        b=s8CYnYUe04PlkSPi7KP7Uft8PjbZkDdrZVhH4ewb0XBE/6JTiOPtpZNN+ZPDwzVo4K
+         45fkufdR3Nf3hGd1siHqdE+fp5TF+TUHHNVDtPNM4fEHmhPnRB5k75qfDIU5i6O7Y3QI
+         LRMA91LBPgL9oITDZLE0R3iMjM08s7FYyAp7Ea9waUGqf3uG8/O52DVBCJJN1YLot6eM
+         EY8cUUdSKi9OviR2EKqv+y+b1AZoD4MX7cwO2RaaG4jLJMp2ml6Mjf1eoFAAQKN/Nxp1
+         7gKrHZ8AjMpDCMgk8XbGfknBNogQjr1BrnnNukWS4phbhj+ZV/uaq4ZUkJzF1TlwzxLo
+         jh+Q==
+X-Gm-Message-State: AOAM530i+eWTPG2cad6racpyf2hhMyJ2vqhVpDKe+Pm+1bqhK4pGed5J
+        epWyM+4ekCkFXAhLQJITujxjZ1yOdEB/qw==
+X-Google-Smtp-Source: ABdhPJyfDVaw45zbC+ieRzXi6qjNPLAoCc7QpjVc07EsaBBdS2dXFzBmXSZZyWt4sD5iyArPPUtkew==
+X-Received: by 2002:aca:705:0:b0:2d9:6bb6:5b0 with SMTP id 5-20020aca0705000000b002d96bb605b0mr621876oih.11.1648502402818;
+        Mon, 28 Mar 2022 14:20:02 -0700 (PDT)
+Received: from marsc.168.1.7 ([2804:d57:1503:f300:282c:2283:f732:e1c7])
+        by smtp.gmail.com with ESMTPSA id q9-20020a4ae649000000b00320d35fc91dsm7408930oot.24.2022.03.28.14.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 14:20:02 -0700 (PDT)
+Date:   Mon, 28 Mar 2022 18:19:56 -0300
+From:   Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To:     corbet@lwn.net, mchehab+huawei@kernel.org, dlatypov@google.com,
+        davidgow@google.com
+Cc:     linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
+        cocci@inria.fr, smatch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: [PATCH] Documentation: dev-tools: Add a section for static analysis
+ tools
+Message-ID: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
 MIME-Version: 1.0
-References: <20220207125933.81634-1-paul@crapouillou.net> <20220207125933.81634-8-paul@crapouillou.net>
- <20220328185425.56b51f4a@jic23-huawei> <1VYG9R.1JAKRTCN4I411@crapouillou.net>
-In-Reply-To: <1VYG9R.1JAKRTCN4I411@crapouillou.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 28 Mar 2022 23:58:38 +0300
-Message-ID: <CAHp75VcWisAaHJUKedT7BWGNA8_5xye8-dyCv5Fq_kQWu7m7ew@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] iio: buffer-dma: Use DMABUFs instead of custom solution
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 28, 2022 at 11:30 PM Paul Cercueil <paul@crapouillou.net> wrote=
-:
-> Le lun., mars 28 2022 at 18:54:25 +0100, Jonathan Cameron
-> <jic23@kernel.org> a =C3=A9crit :
-> > On Mon,  7 Feb 2022 12:59:28 +0000
-> > Paul Cercueil <paul@crapouillou.net> wrote:
-> >
-> >>  Enhance the current fileio code by using DMABUF objects instead of
-> >>  custom buffers.
-> >>
-> >>  This adds more code than it removes, but:
-> >>  - a lot of the complexity can be dropped, e.g. custom kref and
-> >>    iio_buffer_block_put_atomic() are not needed anymore;
-> >>  - it will be much easier to introduce an API to export these DMABUF
-> >>    objects to userspace in a following patch.
+Complement the Kernel Testing Guide documentation page by adding a
+section about static analysis tools.
 
-> > I'm a bit rusty on dma mappings, but you seem to have
-> > a mixture of streaming and coherent mappings going on in here.
->
-> That's OK, so am I. What do you call "streaming mappings"?
+Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+---
+Hey everyone,
 
-dma_*_coherent() are for coherent mappings (usually you do it once and
-cache coherency is guaranteed by accessing this memory by device or
-CPU).
-dma_map_*() are for streaming, which means that you often want to map
-arbitrary pages during the transfer (usually used for the cases when
-you want to keep previous data and do something with a new coming, or
-when a new coming data is supplied by different virtual address, and
-hence has to be mapped for DMA).
+I think this patch can be a good addition to the documentation as
+discussed in the thread for the testing guide documentation page:
+Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
 
-> > Is it the case that the current code is using the coherent mappings
-> > and a potential 'other user' of the dma buffer might need
-> > streaming mappings?
->
-> Something like that. There are two different things; on both cases,
-> userspace needs to create a DMABUF with IIO_BUFFER_DMABUF_ALLOC_IOCTL,
-> and the backing memory is allocated with dma_alloc_coherent().
->
-> - For the userspace interface, you then have a "cpu access" IOCTL
-> (DMA_BUF_IOCTL_SYNC), that allows userspace to inform when it will
-> start/finish to process the buffer in user-space (which will
-> sync/invalidate the data cache if needed). A buffer can then be
-> enqueued for DMA processing (TX or RX) with the new
-> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL.
->
-> - When the DMABUF created via the IIO core is sent to another driver
-> through the driver's custom DMABUF import function, this driver will
-> call dma_buf_attach(), which will call iio_buffer_dma_buf_map(). Since
-> it has to return a "struct sg_table *", this function then simply
-> creates a sgtable with one entry that points to the backing memory.
+If you think it would be worth it, I can try making something more
+elaborated. Maybe provide some guidance on when to use each tool.
+I've been studying how Linux device drivers are tested.
+Here's a post I wrote talking about some testing tools.
+Link: https://marcelosc.gitlab.io/how-is-linux-tested/
 
-...
+Best regards,
+Marcelo
 
-> >>  +   ret =3D dma_map_sgtable(at->dev, &dba->sg_table, dma_dir, 0);
-> >>  +   if (ret) {
-> >>  +           kfree(dba);
-> >>  +           return ERR_PTR(ret);
-> >>  +   }
+ Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-Missed DMA mapping error check.
+diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+index 65feb81edb14..b00511109a9d 100644
+--- a/Documentation/dev-tools/testing-overview.rst
++++ b/Documentation/dev-tools/testing-overview.rst
+@@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
+ Some of these tools integrate with KUnit or kselftest and will
+ automatically fail tests if an issue is detected.
+ 
++Static Analysis Tools
++======================
++
++In addition to testing a running kernel, one may also scout for bugs by
++analyzing the source code semantics. Three tools are well known for serving this
++purpose.
++
++Sparse can help test the kernel by performing type-checking, lock checking,
++value range checking, in addition to reporting various errors and warnings while
++examining the code. See the Documentation/dev-tools/sparse.rst documentation
++page for details on how to use it.
++
++Smatch extends Sparse and provides additional checks for programming logic
++mistakes such as missing breaks in switch statements, unused return values on
++error checking, forgetting to set an error code in the return of an error path,
++etc. Smatch also has tests against more serious issues such as integer
++overflows, null pointer dereferences, and memory leaks. See the project page at
++http://smatch.sourceforge.net/.
++
++We also have Coccinelle as an option within static analyzers. Coccinelle is
++often used to aid collateral evolution of source code, but it can also help to
++avoid certain bugs that have been expressed semantically. The types of tests
++available include API tests, tests for correct usage of kernel iterators, checks
++for the soundness of free operations, analysis of locking behavior, and further
++tests known to help keep consistent kernel usage. See the
++Documentation/dev-tools/coccinelle.rst documentation page for details.
++
++These static analysis tools support running tests on the whole source tree or
++over a specific file or directory.
+-- 
+2.35.1
 
-> >>  +
-> >>  +   return &dba->sg_table;
-> >>  +}
-
-...
-
-> >>  -   /* Must not be accessed outside the core. */
-> >>  -   struct kref kref;
-
-
-> >>  +   struct dma_buf *dmabuf;
-
-Is it okay to access outside the core? If no, why did you remove
-(actually not modify) the comment?
-
---=20
-With Best Regards,
-Andy Shevchenko
