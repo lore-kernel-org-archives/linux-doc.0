@@ -2,77 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD885C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 20:02:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44990C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 20:40:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236244AbiC1UEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 16:04:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39508 "EHLO
+        id S1345240AbiC1Ulx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 16:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234908AbiC1UEd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 16:04:33 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27D83BA5E;
-        Mon, 28 Mar 2022 13:02:52 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 47C3E37A;
-        Mon, 28 Mar 2022 20:02:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 47C3E37A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648497772; bh=PwIBFic52cB+8cV6Ms4Smf/K/c9Y0vVMor8KDA0YN2c=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=k0xDbu41Pd0W0r93jSo7/AJ7ki4ya8GQbyZgUmEkPeyKGxfaG9oZGu3jCV2gnVR5k
-         WEPyPkuKiwawV2DwNKfy4R79Ba/VXT/lpm5iWEJj0fJsmM7huBYJlDkByq7pZLFXO8
-         l5qLkfHUQlIuFeFSg+9JD9rNTzIZMMlRd2qhsjkawHcLnwev4QnmRzIWSWekooKQgJ
-         YitPxnxFVB8hjUUp6Fbq3U3pdQw+YuPyohNG3gavAnOnTn6WfQ1dpQFbUgKFMjIJbY
-         9oOKg7aIK+SzBfORYABsnkVU0ahODzR8+UP+/73O8gr8FcR8WXYrOQ/v7FgSDpqXNx
-         /0DSV5XcbxGZQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     David Gow <davidgow@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     David Gow <davidgow@google.com>, Marco Elver <elver@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kunit: Fix cross-referencing warnings
-In-Reply-To: <20220326054414.637293-1-davidgow@google.com>
-References: <20220326054414.637293-1-davidgow@google.com>
-Date:   Mon, 28 Mar 2022 14:02:51 -0600
-Message-ID: <87r16l7slw.fsf@meer.lwn.net>
+        with ESMTP id S1345349AbiC1Uk4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 16:40:56 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E47644C4;
+        Mon, 28 Mar 2022 13:39:15 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id z92so18314778ede.13;
+        Mon, 28 Mar 2022 13:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xw6/eHXGYfyQo41MlHn2HdfwjJIHINXKEO94qSppq28=;
+        b=b9iImZGKfs3WXC8l0oFuFZaIT4EL8lWv990T7tzJDZ/JCoZfmiHuaQdc0wBbjADKgP
+         pz9RoVFnLZtDqu7juxQR8eaS+NrrHwSFtVfQnijQAPH7NQqVwEKLMFwF6KCJnha01cku
+         ZjxUGFM7SRxzSdQ05IFVG9EOK7WDaJ/nAVrd++ogw+D7GI52yQ4rkQ7SdzBX+DjMEH+o
+         A1nKxj05unPlW0bLqxImCIf4qHc+PnsNdSxmO/Vak6uZtNRINsHJxAVyoY8TDxEFTy/w
+         NGcv1jpMb8yBJGbzyXpIApg/IrNqwllJ310kyJZd3kogLQT8ziLRofCJhNUjSmwSm2Jk
+         pdBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xw6/eHXGYfyQo41MlHn2HdfwjJIHINXKEO94qSppq28=;
+        b=3usLX8XxP8xdqZ5gORVT2mdi/ItXvXnu6vIMbKuaaTIfOUr1zEfrGH59NKaZqs0zYe
+         IiHFD+OTANmleKhohbZcPx3GyGzrTjR4qpTkMqms0ADP1q1QbYbhtrkpdAv6UsZXVZz7
+         ncoPHZAaIYW0ynwcYgl+bAQzE95W4P/Mh08SkAMIoEIMzPrj6hJzjXcsEs8Mrx8Tzup1
+         e/jsGSGVfYIHyrOLvVTy4igNdxE7/t509D4YYFQKlhEc57takHLBJKGbX2xeP5J6CDk/
+         gNTzeZS6Lu1rWJZgMLrDltyGLIYtHiwLs059a8LYtYGSPvMhFtSmxSL500ihjG6QLUm4
+         +qhQ==
+X-Gm-Message-State: AOAM530Oss3uW0mQrhg7TAQwiJoeXLvaNjrqb6nolpEj63Ik0/SMeGvu
+        mB3D9rdGOXmVqbZRWecbbbnZChTII/vTJGwNUpE=
+X-Google-Smtp-Source: ABdhPJxNcNGSt0E34cJpbJ65P1lTtbFVtcXgaCXAMxqv38Y+bWSTAANcprjUbbcH+2VeLvdVtVd+xFb4arFR+965IIg=
+X-Received: by 2002:a05:6402:27d1:b0:419:1b02:4a04 with SMTP id
+ c17-20020a05640227d100b004191b024a04mr18437384ede.218.1648499953845; Mon, 28
+ Mar 2022 13:39:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220207125933.81634-1-paul@crapouillou.net> <20220207125933.81634-3-paul@crapouillou.net>
+In-Reply-To: <20220207125933.81634-3-paul@crapouillou.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 28 Mar 2022 23:38:38 +0300
+Message-ID: <CAHp75VeE2_D39X3gWidPTd49v=bdkgnMeoSBh60enp2hKJ-KPw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/12] iio: buffer-dma: Enable buffer write support
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Gow <davidgow@google.com> writes:
+On Wed, Feb 9, 2022 at 9:10 AM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Adding write support to the buffer-dma code is easy - the write()
+> function basically needs to do the exact same thing as the read()
+> function: dequeue a block, read or write the data, enqueue the block
+> when entirely processed.
+>
+> Therefore, the iio_buffer_dma_read() and the new iio_buffer_dma_write()
+> now both call a function iio_buffer_dma_io(), which will perform this
+> task.
+>
+> The .space_available() callback can return the exact same value as the
+> .data_available() callback for input buffers, since in both cases we
+> count the exact same thing (the number of bytes in each available
+> block).
+>
+> Note that we preemptively reset block->bytes_used to the buffer's size
+> in iio_dma_buffer_request_update(), as in the future the
+> iio_dma_buffer_enqueue() function won't reset it.
 
-> The Architecture chapter of the KUnit documentation tried to include
-> copies of the kernel-doc for a couple of things, despite these already
-> existing in the API documentation. This lead to some warnings:
->
-> architecture:31: ./include/kunit/test.h:3: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:66.
-> Declaration is '.. c:struct:: kunit_case'.
-> architecture:163: ./include/kunit/test.h:1217: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:1217.
-> Declaration is '.. c:macro:: KUNIT_ARRAY_PARAM'.
-> architecture.rst:3: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:66.
-> Declaration is '.. c:struct:: kunit_case'.
-> architecture.rst:1217: WARNING: Duplicate C declaration, also defined at dev-tools/kunit/api/test:1217.
-> Declaration is '.. c:macro:: KUNIT_ARRAY_PARAM'.
->
-> Get rid of these, and cleanup the mentions of the struct and macro in
-> question so that sphinx generates a link to the existing copy of the
-> documentation in the api/test document.
->
-> Fixes: bc145b370c ("Documentation: KUnit: Added KUnit Architecture")
-> Signed-off-by: David Gow <davidgow@google.com>
+...
+
+> v2: - Fix block->state not being reset in
+>       iio_dma_buffer_request_update() for output buffers.
+>     - Only update block->bytes_used once and add a comment about why we
+>       update it.
+>     - Add a comment about why we're setting a different state for output
+>       buffers in iio_dma_buffer_request_update()
+>     - Remove useless cast to bool (!!) in iio_dma_buffer_io()
+
+Usual place for changelog is after the cutter '--- ' line below...
+
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
 > ---
->  Documentation/dev-tools/kunit/architecture.rst | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
 
-Applied, thanks.
+...somewhere here.
 
-jon
+>  drivers/iio/buffer/industrialio-buffer-dma.c | 88 ++++++++++++++++----
+>  include/linux/iio/buffer-dma.h               |  7 ++
+
+...
+
+> +static int iio_dma_buffer_io(struct iio_buffer *buffer,
+> +                            size_t n, char __user *user_buffer, bool is_write)
+
+I believe there is a room for size_t n on the previous line.
+
+...
+
+> +       if (is_write)
+
+I would name it is_from_user.
+
+> +               ret = copy_from_user(addr, user_buffer, n);
+> +       else
+> +               ret = copy_to_user(user_buffer, addr, n);
+
+...
+
+> +int iio_dma_buffer_write(struct iio_buffer *buffer, size_t n,
+> +                        const char __user *user_buffer)
+> +{
+> +       return iio_dma_buffer_io(buffer, n, (__force char *)user_buffer, true);
+
+Why do you drop address space markers?
+
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
