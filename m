@@ -2,95 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C20D1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 12:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0793C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 12:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242447AbiC1M17 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 08:27:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54502 "EHLO
+        id S236054AbiC1Mak (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 08:30:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242479AbiC1M1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 08:27:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 26E134D269
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 05:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648470374;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iTjwmJF+3k+khwx6D8oLjFZKu5VissWtc8nbGOTpT9Q=;
-        b=ezky1Tg6LXWdKS8KPWQsZXicEBS8r12RYHrYq5RndlrLwdscDTIXwb+JLJD+x2GyifiZn4
-        YnRIYw7SstBqov3QXbZj5Bu+HAIpk4hGOdtlYM7VIVRc3pAkzOV4n2eo0AnbnhQ4Wn8ig8
-        P91jFk6KeKvvWW63IrtnEULDvlVPNBo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645--5RnXKeuOIybH1S_rZd2zA-1; Mon, 28 Mar 2022 08:26:09 -0400
-X-MC-Unique: -5RnXKeuOIybH1S_rZd2zA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 303B3299E743;
-        Mon, 28 Mar 2022 12:26:01 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A28697AC3;
-        Mon, 28 Mar 2022 12:25:40 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
-References: <TYZPR01MB3935D1963BFD458E85412E4DF81B9@TYZPR01MB3935.apcprd01.prod.exchangelabs.com>
-To:     kushagra765@outlook.com
-Cc:     dhowells@redhat.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        balbi@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
-        mcgrof@kernel.org, akpm@linux-foundation.org,
-        viro@zeniv.linux.org.uk, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-cachefs@redhat.com
-Subject: Re: [ PATCH ] Documentation: fixed doc-build warnings
+        with ESMTP id S235479AbiC1Mak (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 08:30:40 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6477F3F32C;
+        Mon, 28 Mar 2022 05:28:59 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id j8so4455618pll.11;
+        Mon, 28 Mar 2022 05:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=UN/c7heCX4G+HDlDy0x1Dxd2U1JFyiXh5dPqJmGWYYs=;
+        b=c2Bp5/OZHVFxTeufOZjGiOn/KeIdo/jlct+jN5ahnW0LIIKBZKh0TPm00+4xYUGsCi
+         F2HjoTQc6brIoUvRMERPiP2P8y559PqIseBru2gc4meKz1BXLBb2UwFCRWVI9gJrCSX8
+         gONUNQ08D5uxuOQ9Bv1HQRTed0iEl1U+bx5GsgB3onVWASKVL/vgQ4KdtABZl83ek9A5
+         EHPaKGW62vo+pRovrs733nWfVgCpcZk42Sm/YOi8cQ2HpHfiHMWpInpj/u2XVOlK8ARt
+         QXMt2WmWmiB0ZXauFJhpix+frq8Hxn0yWAHz42XsY6P7skDbGrC6/qT9t99i+fopsNSq
+         rgpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=UN/c7heCX4G+HDlDy0x1Dxd2U1JFyiXh5dPqJmGWYYs=;
+        b=lejlhvo5PUp5RUIZqCWPnKHLfELss9dwxiks2p4LPvQNINP9usqLrwj2qtEyfX29mq
+         BtFKqmYGsTvx65LOjWyq3MaROjKyWp3TPQGd3N/ijaem66wZ6sVk4qkLVJqPyq6pwH2K
+         fmwWyZGfagNnqpAgAFVPd76MKuP247M5IN8++/X1b+i8JvDD7/EtGhYFWbFMzRBr9eNW
+         yHtnfeK3aAeQuw8NT4uhpzJ4IdJIoGcQSryiys4EJ9LDJ+ERtcnjrdouPKdHAcli2c/E
+         czRNi1bWsFChWZyVseaf0mZGZfAGkMmrT7SzqNOr/dRImSdLTkib4jZv8n8mgR/MahVl
+         gdgw==
+X-Gm-Message-State: AOAM530mgJZ2GPf4hdR72OX05sdqAiAz1NivMqUZGF8AOegSnTNiAa2l
+        LJhGZ2dv2zQzBmsaAKnKtgg=
+X-Google-Smtp-Source: ABdhPJzZEahGfsJQjcanSeJERGTpHIaRWLIzcoqAJvR8tOW60Rmtwq3efE6CXQAlYkI0yAnV9kkfNw==
+X-Received: by 2002:a17:90b:4c44:b0:1c7:109c:b419 with SMTP id np4-20020a17090b4c4400b001c7109cb419mr28603706pjb.113.1648470538965;
+        Mon, 28 Mar 2022 05:28:58 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
+        by smtp.gmail.com with ESMTPSA id u10-20020a17090a2b8a00b001c6594e5ddcsm14514331pjd.15.2022.03.28.05.28.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Mar 2022 05:28:58 -0700 (PDT)
+Message-ID: <b92e00a1-04e4-c1e2-42a8-16d87d3d0183@gmail.com>
+Date:   Mon, 28 Mar 2022 19:28:51 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2581030.1648470339.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Mon, 28 Mar 2022 13:25:39 +0100
-Message-ID: <2581031.1648470339@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 1/2] Documentation: kernel-doc: Promote two chapter
+ headings to page title
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220328065030.24936-1-bagasdotme@gmail.com>
+ <20220328065030.24936-2-bagasdotme@gmail.com>
+ <6a5ce717-cc0a-9b7c-ba08-88e3b9f760bb@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <6a5ce717-cc0a-9b7c-ba08-88e3b9f760bb@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kushagra765@outlook.com wrote:
+On 28/03/22 14.46, Akira Yokosawa wrote:
+> On Mon, 28 Mar 2022 13:50:30 +0700,
+> Bagas Sanjaya wrote:
+>> Promote two chapter headings, named "Writing kernel-doc comments" and
+>> "Including kernel-doc comments" to page title. These titles deserve
+>> their own chapters in PDF output, although these will also appear as two
+>> separate titles in table of contents in HTML output.
+> 
+> As Mauro and I have pointed out, this change won't have any effect
+> in the resulting HTML and PDF docs.  No difference *at all*.
+> 
+> Why do you think this change is worthwhile.
+> 
+> Please convince us!
+> 
 
-> @@ -256,7 +256,6 @@ struct fscache_cookie *fscache_acquire_cookie(struct=
- fscache_volume *volume,
->  =
+My intention is to give page title for kernel-doc.rst, according to
+documentation guideline at [1].
 
->  /**
->   * fscache_use_cookie - Request usage of cookie attached to an object
-> - * @object: Object description
->   * @will_modify: If cache is expected to be modified locally
->   *
->   * Request usage of the cookie attached to an object.  The caller shoul=
-d tell
-> @@ -272,7 +271,6 @@ static inline void fscache_use_cookie(struct fscache=
-_cookie *cookie,
->  =
+>>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: "David S. Miller" <davem@davemloft.net>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+>> Cc: Vinod Koul <vkoul@kernel.org>
+>> Cc: Daniel Borkmann <daniel@iogearbox.net>
+>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> Cc: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+>> Cc: Jens Axboe <axboe@kernel.dk>
+>> Cc: linux-kernel@vger.kernel.org
+>> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+> 
+> Please don't put this Suggested-by: at the moment.
+> 
+>          Thanks, Akira
+> 
 
->  /**
->   * fscache_unuse_cookie - Cease usage of cookie attached to an object
-> - * @object: Object description
->   * @aux_data: Updated auxiliary data (or NULL)
->   * @object_size: Revised size of the object (or NULL)
->   *
+OK, will drop the trailer.
 
-Just deleting these lines is the wrong thing to do.  They should instead
-mention the cookie parameter.
-
-David
-
+-- 
+An old man doll... just what I always wanted! - Clara
