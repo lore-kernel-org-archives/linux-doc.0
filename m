@@ -2,152 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2812C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 09:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 322C4C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 09:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbiC2J0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 05:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
+        id S234232AbiC2Jt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 05:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234633AbiC2J0g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 05:26:36 -0400
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F6B67D35;
-        Tue, 29 Mar 2022 02:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Seqputb8Xv1GwdRmvmieUMnfPxxMla3k1qIwl65EEFs=;
-  b=sf4mYk9lw+WDDFmTWFMz2NgYHLPpS9FliBgadKVZmohes+xktTkbJNsQ
-   aSpyoxIes9CjErv3Rdop2u6u7Oh9eA+o1bKj1+w2vFNC6tRRoJMaj4oPp
-   bdpBlpdKbRahYoNgt6lCfMsnt4fNtxWAVuLP1Scjy6MKIMOtSP9YvR4XU
-   E=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,219,1643670000"; 
-   d="scan'208";a="28851376"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 11:24:50 +0200
-Date:   Tue, 29 Mar 2022 11:24:50 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-cc:     Daniel Latypov <dlatypov@google.com>,
-        Marcelo Schmitt <marcelo.schmitt1@gmail.com>, corbet@lwn.net,
-        mchehab+huawei@kernel.org, davidgow@google.com,
-        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [cocci] [PATCH] Documentation: dev-tools: Add a section for
- static analysis tools
-In-Reply-To: <20220329090721.GW3293@kadam>
-Message-ID: <alpine.DEB.2.22.394.2203291122290.3490@hadrien>
-References: <YkImfPbNOzQBq5ZD@marsc.168.1.7> <CAGS_qxpjj1W54BM7v2Cszne4nh5kUXZt89Dq-5nO3nD7RWhsRQ@mail.gmail.com> <20220329090721.GW3293@kadam>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S233341AbiC2Jt0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 05:49:26 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0AF523B3F8;
+        Tue, 29 Mar 2022 02:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1648547260; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e8RgERyOiW+i+GwydncfsHV1G1M1TmxHobeUS8u9jq4=;
+        b=Z/BO0tiDIQpKj0a5aKQmLM7Y9WyMII/XnpqKHAjueN1dLp3XhBsqxs4GcLXarRrNnn07Gv
+        Kmskxk6LAOg9r/RBxVE3j29PkKi8Myc0t4dAA4CVEKmTjhCA7Lvap82oM26LP4xTWMshGB
+        RfDhQY5k2tc5ylIDMTc25PAUZQfTE08=
+Date:   Tue, 29 Mar 2022 10:47:23 +0100
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 12/12] Documentation: iio: Document high-speed DMABUF
+ based API
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>
+Message-Id: <Z63I9R.MKYUKBH4V8L41@crapouillou.net>
+In-Reply-To: <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+        <20220207130140.81891-1-paul@crapouillou.net>
+        <20220207130140.81891-2-paul@crapouillou.net>
+        <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Daniel,
+
+Le mar., mars 29 2022 at 10:54:43 +0200, Daniel Vetter=20
+<daniel@ffwll.ch> a =E9crit :
+> On Mon, Feb 07, 2022 at 01:01:40PM +0000, Paul Cercueil wrote:
+>>  Document the new DMABUF based API.
+>>=20
+>>  v2: - Explicitly state that the new interface is optional and is
+>>        not implemented by all drivers.
+>>      - The IOCTLs can now only be called on the buffer FD returned by
+>>        IIO_BUFFER_GET_FD_IOCTL.
+>>      - Move the page up a bit in the index since it is core stuff=20
+>> and not
+>>        driver-specific.
+>>=20
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+>>   Documentation/driver-api/dma-buf.rst |  2 +
+>>   Documentation/iio/dmabuf_api.rst     | 94=20
+>> ++++++++++++++++++++++++++++
+>>   Documentation/iio/index.rst          |  2 +
+>>   3 files changed, 98 insertions(+)
+>>   create mode 100644 Documentation/iio/dmabuf_api.rst
+>>=20
+>>  diff --git a/Documentation/driver-api/dma-buf.rst=20
+>> b/Documentation/driver-api/dma-buf.rst
+>>  index 2cd7db82d9fe..d3c9b58d2706 100644
+>>  --- a/Documentation/driver-api/dma-buf.rst
+>>  +++ b/Documentation/driver-api/dma-buf.rst
+>>  @@ -1,3 +1,5 @@
+>>  +.. _dma-buf:
+>>  +
+>>   Buffer Sharing and Synchronization
+>>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>=20
+>>  diff --git a/Documentation/iio/dmabuf_api.rst=20
+>> b/Documentation/iio/dmabuf_api.rst
+>>  new file mode 100644
+>>  index 000000000000..43bb2c1b9fdc
+>>  --- /dev/null
+>>  +++ b/Documentation/iio/dmabuf_api.rst
+>>  @@ -0,0 +1,94 @@
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +High-speed DMABUF interface for IIO
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +1. Overview
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +The Industrial I/O subsystem supports access to buffers through a=20
+>> file-based
+>>  +interface, with read() and write() access calls through the IIO=20
+>> device's dev
+>>  +node.
+>>  +
+>>  +It additionally supports a DMABUF based interface, where the=20
+>> userspace
+>>  +application can allocate and append DMABUF objects to the buffer's=20
+>> queue.
+>>  +This interface is however optional and is not available in all=20
+>> drivers.
+>>  +
+>>  +The advantage of this DMABUF based interface vs. the read()
+>>  +interface, is that it avoids an extra copy of the data between the
+>>  +kernel and userspace. This is particularly useful for high-speed
+>>  +devices which produce several megabytes or even gigabytes of data=20
+>> per
+>>  +second.
+>>  +
+>>  +The data in this DMABUF interface is managed at the granularity of
+>>  +DMABUF objects. Reducing the granularity from byte level to block=20
+>> level
+>>  +is done to reduce the userspace-kernelspace synchronization=20
+>> overhead
+>>  +since performing syscalls for each byte at a few Mbps is just not
+>>  +feasible.
+>>  +
+>>  +This of course leads to a slightly increased latency. For this=20
+>> reason an
+>>  +application can choose the size of the DMABUFs as well as how many=20
+>> it
+>>  +allocates. E.g. two DMABUFs would be a traditional double buffering
+>>  +scheme. But using a higher number might be necessary to avoid
+>>  +underflow/overflow situations in the presence of scheduling=20
+>> latencies.
+>=20
+> So this reads a lot like reinventing io-uring with pre-registered=20
+> O_DIRECT
+> memory ranges. Except it's using dma-buf and hand-rolling a lot of=20
+> pieces
+> instead of io-uring and O_DIRECT.
+
+I don't see how io_uring would help us. It's an async I/O framework,=20
+does it allow us to access a kernel buffer without copying the data?=20
+Does it allow us to zero-copy the data to a network interface?
+
+> At least if the entire justification for dma-buf support is zero-copy
+> support between the driver and userspace it's _really_ not the right=20
+> tool
+> for the job. dma-buf is for zero-copy between devices, with cpu access
+> from userpace (or kernel fwiw) being very much the exception (and=20
+> often
+> flat-out not supported at all).
+
+We want both. Using dma-bufs for the driver/userspace interface is a=20
+convenience as we then have a unique API instead of two distinct ones.
+
+Why should CPU access from userspace be the exception? It works fine=20
+for IIO dma-bufs. You keep warning about this being a terrible design,=20
+but I simply don't see it.
+
+Cheers,
+-Paul
+
+>>  +
+>>  +2. User API
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *)``
+>>  +----------------------------------------------------------------
+>>  +
+>>  +Each call will allocate a new DMABUF object. The return value (if=20
+>> not
+>>  +a negative errno value as error) will be the file descriptor of=20
+>> the new
+>>  +DMABUF.
+>>  +
+>>  +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
+>>  +--------------------------------------------------------
+>>  +
+>>  +Place the DMABUF object into the queue pending for hardware=20
+>> process.
+>>  +
+>>  +These two IOCTLs have to be performed on the IIO buffer's file
+>>  +descriptor, obtained using the `IIO_BUFFER_GET_FD_IOCTL` ioctl.
+>>  +
+>>  +3. Usage
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +To access the data stored in a block by userspace the block must be
+>>  +mapped to the process's memory. This is done by calling mmap() on=20
+>> the
+>>  +DMABUF's file descriptor.
+>>  +
+>>  +Before accessing the data through the map, you must use the
+>>  +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+>>  +DMA_BUF_SYNC_START flag, to make sure that the data is available.
+>>  +This call may block until the hardware is done with this block.=20
+>> Once
+>>  +you are done reading or writing the data, you must use this ioctl=20
+>> again
+>>  +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+>>  +kernel's queue.
+>>  +
+>>  +If you need to know when the hardware is done with a DMABUF, you=20
+>> can
+>>  +poll its file descriptor for the EPOLLOUT event.
+>>  +
+>>  +Finally, to destroy a DMABUF object, simply call close() on its=20
+>> file
+>>  +descriptor.
+>>  +
+>>  +For more information about manipulating DMABUF objects, see:=20
+>> :ref:`dma-buf`.
+>>  +
+>>  +A typical workflow for the new interface is:
+>>  +
+>>  +    for block in blocks:
+>>  +      DMABUF_ALLOC block
+>>  +      mmap block
+>>  +
+>>  +    enable buffer
+>>  +
+>>  +    while !done
+>>  +      for block in blocks:
+>>  +        DMABUF_ENQUEUE block
+>>  +
+>>  +        DMABUF_SYNC_START block
+>>  +        process data
+>>  +        DMABUF_SYNC_END block
+>>  +
+>>  +    disable buffer
+>>  +
+>>  +    for block in blocks:
+>>  +      close block
+>>  diff --git a/Documentation/iio/index.rst=20
+>> b/Documentation/iio/index.rst
+>>  index 58b7a4ebac51..669deb67ddee 100644
+>>  --- a/Documentation/iio/index.rst
+>>  +++ b/Documentation/iio/index.rst
+>>  @@ -9,4 +9,6 @@ Industrial I/O
+>>=20
+>>      iio_configfs
+>>=20
+>>  +   dmabuf_api
+>>  +
+>>      ep93xx_adc
+>>  --
+>>  2.34.1
+>>=20
+>=20
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 
-On Tue, 29 Mar 2022, Dan Carpenter wrote:
-
-> On Mon, Mar 28, 2022 at 05:37:28PM -0500, Daniel Latypov wrote:
-> > On Mon, Mar 28, 2022 at 4:20 PM Marcelo Schmitt
-> > <marcelo.schmitt1@gmail.com> wrote:
-> > >
-> > > Complement the Kernel Testing Guide documentation page by adding a
-> > > section about static analysis tools.
-> > >
-> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> >
-> >
-> > > ---
-> > > Hey everyone,
-> > >
-> > > I think this patch can be a good addition to the documentation as
-> > > discussed in the thread for the testing guide documentation page:
-> > > Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
-> > >
-> > > If you think it would be worth it, I can try making something more
-> >
-> > Nice!
-> > This is definitely worth including, but I'm out of my depth here.
-> > Some ideas below in case they're helpful.
-> >
-> > Acked-by: Daniel Latypov <dlatypov@google.com>
-> >
-> > > elaborated. Maybe provide some guidance on when to use each tool.
-> > > I've been studying how Linux device drivers are tested.
-> > > Here's a post I wrote talking about some testing tools.
-> > > Link: https://marcelosc.gitlab.io/how-is-linux-tested/
-> > >
-> > > Best regards,
-> > > Marcelo
-> > >
-> > >  Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
-> > >  1 file changed, 29 insertions(+)
-> > >
-> > > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> > > index 65feb81edb14..b00511109a9d 100644
-> > > --- a/Documentation/dev-tools/testing-overview.rst
-> > > +++ b/Documentation/dev-tools/testing-overview.rst
-> > > @@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
-> > >  Some of these tools integrate with KUnit or kselftest and will
-> > >  automatically fail tests if an issue is detected.
-> > >
-> > > +Static Analysis Tools
-> > > +======================
-> > > +
-> > > +In addition to testing a running kernel, one may also scout for bugs by
-> > > +analyzing the source code semantics. Three tools are well known for serving this
-> > > +purpose.
-> > > +
-> > > +Sparse can help test the kernel by performing type-checking, lock checking,
-> > > +value range checking, in addition to reporting various errors and warnings while
-> > > +examining the code. See the Documentation/dev-tools/sparse.rst documentation
-> > > +page for details on how to use it.
-> > > +
-> > > +Smatch extends Sparse and provides additional checks for programming logic
-> >
-> > Coming from a place of ignorance, when should I use sparse vs smatch?
-> > Is there an existing consensus on this, or is that a controversial question?
->
-> I am the author of Smatch.
->
-> Sparse is a compiler which can print static checker warnings.  Smatch
-> uses Sparse as a C front end.
->
-> Sparse is useful for type checking, detecting places which use __user
-> pointers improperly or endian bugs.  Sparse is much faster than Smatch.
->
-> Smatch does flow analysis and if you build the DB, then it does
-> cross function analysis.  Smatch tries to answer questions like where is
-> this buffer allocated?  How big is it?  Can this index be controlled by
-> the user?  Is this variable larger than that variable?  I feel like it's
-> generally easier to write checks in Smatch than it is to write checks in
-> Sparse.
->
-> Coccinelle is probably the easiest for writing checks.  It works before
-> the pre-compiler so it easier to check for bugs in macros using
-> Coccinelle.  Coccinelle also writes patches fixes for you which no one
-> else does.
->
-> There are sometimes overlap in their checks.  But I'm not going to
-> re-implement Sparse's check in Smatch because Sparse already does that
-> well.  If it's just way easier to write the check with Coccinelle then
-> do that.
->
-> With Coccinelle you can do a mass conversion from
-> kmalloc(x * size, GFP_KERNEL) to kmalloc_array(x, size, GFP_KERNEL); and
-> that's really useful.  If you just created a Smatch warning and try to
-> push the work of converting on to the maintainers they would be annoyed.
-> You'd have to argue about each warning if can really overflow or not.
-
-Coccinelle does no analysis of variable values, which is the strong point
-of smatch.  On the other hand, as Dan points out, it allows you to do
-simple things in a simple way.
-
-julia
