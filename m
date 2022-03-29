@@ -2,87 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A87C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 15:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A183AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 15:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236341AbiC2P2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 11:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
+        id S233871AbiC2Pd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 11:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233601AbiC2P2u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 11:28:50 -0400
+        with ESMTP id S238672AbiC2Pd1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 11:33:27 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F317E1271;
-        Tue, 29 Mar 2022 08:27:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EB0CA0D4
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 08:31:44 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EDBAC732;
-        Tue, 29 Mar 2022 15:27:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EDBAC732
+        by ms.lwn.net (Postfix) with ESMTPSA id D9C8A537;
+        Tue, 29 Mar 2022 15:31:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D9C8A537
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648567627; bh=J4BwUFEnERHD+GXWZTxjovQvtNqH+5sYie0SgwCqXpk=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=W1k6RhGshgO420otQc6BSAwtuJAMUaHZ616+tM0WyzUJd5CAQvaLB2JaBTXbDIs8K
-         Dhz1TobDSQhos4+TFz2cD4rhdW2VE27WkDEqq/FBCIhPjqWGPoZQ9w3lGy+V/9nyeN
-         sTlSxFxfSLzYskogQfuYd5vTyn3bSFAN7EXKxBb4jRFq2G5IuZ2UlqLBGcZ7+kns0c
-         DMVzd+8p6fYQLKe24gjotWXGSvAXgWhWvQXXtsWWgUB0B+oReA0jURqFnr8jFUwTzm
-         cK+BeIcUBVPe2OWlnWNXOyaxRK3kUXjbSr/3Y6DhWUuygMO0iec1mwCwKaNvldCc6F
-         JPdfv1ZApDjsQ==
+        t=1648567904; bh=euuCBi4h/a2Jl+Q3Krb+H8O+bWHEuW0j7Cy1QFUMznU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=BP40kBtGdnyh4CQa/WmdCX9nkGWCxv8IeS8do3UF+x2qn1gjq0DA98vNn8cvXV8Mb
+         sHwrxrLjyw6SEeGDcH1PZBJYIQeuiueQ5tHKeIcqq0SnsWpNC8g1CCGxtPG0F84k7q
+         wFAAzzp+m1nrYLDzvNl+YTUE9BNxAYFQh6mo5beqtirJsQoz6pLS74BBUwZXfqnmSu
+         zpxrueWEJCa+n8fk2FPcKgctdsIpyd7L/1b8PCkm5ttIqEr87LnXo1EToZVZUNuekk
+         Rtrln5ZROU//OvK4RNrx2h0yjNLIdyxQIbW/UE2bCo4NpVaWvq8TbKB5ZDaUEUE2w8
+         2LHKmGjXkvmBw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, smangipudi@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, warthog618@gmail.com,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [PATCH v5 01/11] Documentation: Add HTE subsystem guide
-In-Reply-To: <db81d120-039d-f49f-9a48-c91e96777a61@gmail.com>
-References: <20220329054521.14420-1-dipenp@nvidia.com>
- <20220329054521.14420-2-dipenp@nvidia.com>
- <db81d120-039d-f49f-9a48-c91e96777a61@gmail.com>
-Date:   Tue, 29 Mar 2022 09:27:06 -0600
-Message-ID: <875ynw7p9x.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+In-Reply-To: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+Date:   Tue, 29 Mar 2022 09:31:43 -0600
+Message-ID: <871qyk7p28.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> On 29/03/22 12.45, Dipen Patel wrote:
->> +============================================
->> +The Linux Hardware Timestamping Engine (HTE)
->> +============================================
->> +
->> +:Author: Dipen Patel
->> +
+> jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
+> This looks like the result of deprecating Python 3.6.
+> It has been tested against Sphinx 4.3.0 and later later.
+
+*Sigh*.  I wish this stuff didn't feel like such a house of cards
+sometimes... 
+
+> Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
+> including Sphinx 2.4.4.
 >
-> Please learn how to convey semantics with rst format, see further comments
-> below.
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-doc@vger.kernel.org
+> ---
+> Or we can bump the requirement to Sphinx>=4.0.
+> Thoughts?
 
-That is the Sphinx "field list" syntax; it's pretty heavily used
-throughout the kernel documentation and doesn't seem to merit that sort
-of response...?
+It's probably time to consider a bump there, but that is a bigger one
+than I would want to do at this point.  So I'll just fast-track this
+patch in; dropping it into the stable updates probably makes sense too.
 
-[...]
-
->> +The struct hte_ts_data is used to pass timestamp details between the consumers
->> +and the providers. It expresses timestamp data in nanoseconds in u64 data
->> +type. For now all the HTE APIs using struct hte_ts_data require tsc to be in
->> +nanoseconds. An example of the typical hte_ts_data data life cycle, for the
->> +GPIO line is as follows::
->> +
->
-> When we talk about name terms found in actual code (like keywords or variable
-> names), it is customary to enclose them inside inline code (for example,
-> ``struct what`` or ``u64 what``).
-
-It's also customary to minimize markup.  In the case of "struct
-whatever" the markup is actively harmful since it interferes with the
-automatic recognition and cross-referencing of the type.
+Thanks,
 
 jon
