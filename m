@@ -2,260 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B94C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 03:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9771C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 04:09:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbiC2DeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 23:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57088 "EHLO
+        id S231927AbiC2EKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 00:10:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbiC2DeC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 23:34:02 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368D323F3A8
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 20:32:20 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id i65so13133962qkd.7
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 20:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :mime-version;
-        bh=2fIJHgtwQJCcepgLU3AMUprrMX5GU5EmSB2H27stKPM=;
-        b=SmVKUEZ1LkpmvnRIJnTFWd7ejo5fcpvZCXUAtZkQQXtFPRfoU5jeq4z86IAc17OG7g
-         UhQzj5BcjQKC4nCfymC/u8iADVdrN+7q09XD22IRyxwArXunmtvh9Hp7jMLryllQUzHn
-         aPHaLvbx+66kP5CYVciVLrG1OOGn5GncHsZskfray387nMaSvKsMT8EH4Jr3++Q4H8pC
-         SjD6govujccTnI60GL41fKUlpIJfaYaJ+GsWV41hlgEslrURHn9YebjXd/8pAHI19m05
-         PPBF6M97lMNhz092R+XU6Hg93xGs2Djqj/OueMgQXWLH+G7Hq+I2SuSWzSbQVuAkKsY6
-         +/LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:mime-version;
-        bh=2fIJHgtwQJCcepgLU3AMUprrMX5GU5EmSB2H27stKPM=;
-        b=Eq8xw/bvFwSiGqcM8cUgQIdRfsqe8LbcB5LRJQtGFjV/VXPhrCbDtuF+tQQfxE8fOr
-         XKFgZLvJ0EErOY3mI3WgOqayQ7gJ2ijbLuiFM1ekDKBGvzlK3GYkkDZwgGZAD3d5NIVi
-         wPo+CW6uFKSjklWetuYo/EGw6ZFTLLXd++KLX0YGWwtIY7THzxJUARDWL50Q1NcXKHSh
-         qr9Hze1F7yBOCUZLJjRc5Mo/Z1wzDjEKqIFMQrEIutyK3S+w3hIfflhHcyB9JyeQCWMI
-         2K1iH1a7r2CycL/+nTiqno2dyYwkVRIkzYCOKJTSHH2Be50QstvBovDX0CW/byEwlrsQ
-         O/LA==
-X-Gm-Message-State: AOAM533Tra2BO1iLQQdKO3TsflqbXe1i19FhS452sKrV1CD6SwubMLBT
-        BvlfcPajKGIwo3z1SuMXDrOruA==
-X-Google-Smtp-Source: ABdhPJxEZW9mmU2WInv3wXEngGk9GdQSAQVhEYyNxhXgD2Le/31tnluGvw7ZBAHkvl/CHFiIE31ggA==
-X-Received: by 2002:a37:e109:0:b0:680:a307:d4dc with SMTP id c9-20020a37e109000000b00680a307d4dcmr16938597qkm.198.1648524739088;
-        Mon, 28 Mar 2022 20:32:19 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id q8-20020a05622a04c800b002e06d7c1eabsm14100784qtx.16.2022.03.28.20.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 20:32:18 -0700 (PDT)
-Date:   Mon, 28 Mar 2022 20:32:07 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To:     Matthew Wilcox <willy@infradead.org>
-cc:     Hugh Dickins <hughd@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: linux-next: build warnings after merge of the akpm-current
- tree
-In-Reply-To: <YkI+4SzcoaqZIQIG@casper.infradead.org>
-Message-ID: <db6177a5-1f1-9f2a-3c6e-fbc9563c3e3e@google.com>
-References: <20220209170245.08968c92@canb.auug.org.au> <d2701072-99e6-762b-bc80-64bda193c792@google.com> <YkI+4SzcoaqZIQIG@casper.infradead.org>
+        with ESMTP id S231919AbiC2EKn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 00:10:43 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825141DA4A;
+        Mon, 28 Mar 2022 21:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648526940; x=1680062940;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=II+YlVdtYYb+Q/uCpREGOhsf8Od4153BKeY2Dz+3nsc=;
+  b=MAshLrMYSKt/K6fiqPK3zP/azTgXW9UNShqvleeRW7kb1o6jM5wtgQXS
+   Ch2eqc37Zm8o1y8WWKNKL+udLBPCLsYcCxbKfL/2ZSOkZ1k1UYlqJTHMx
+   oeWdgTJak1cXc5Vs/RyEZcphYPkWR0WS8q0hLRb0iinDNSZV25252KtS9
+   47dakaw/QhSueFdwgrR9vXXY69u8aYwQEjZHSDNrx3QS9zvMbJNKHom+2
+   ksDD+EPSx6L8uJY+fBw0fDkXaGZIXbYHmHifiU0bgy85D/ylH3EV0MBk/
+   QacIY1D/DbGeOwcLYQJpf+J1SiUjBlqf5YvAG0cJsBe8AcGFp49kYVgAE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="284051281"
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; 
+   d="scan'208";a="284051281"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2022 21:09:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; 
+   d="scan'208";a="585427795"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2022 21:08:54 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nZ3A6-0002d5-7k; Tue, 29 Mar 2022 04:08:54 +0000
+Date:   Tue, 29 Mar 2022 12:08:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>, corbet@lwn.net,
+        viro@zeniv.linux.org.uk, ast@kernel.org, daniel@iogearbox.net,
+        andrii@kernel.org, kpsingh@kernel.org, shuah@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+        zohar@linux.ibm.com
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH 16/18] bpf-preload: Do kernel mount to ensure that pinned
+ objects don't disappear
+Message-ID: <202203291256.TUOyKEtD-lkp@intel.com>
+References: <20220328175033.2437312-17-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328175033.2437312-17-roberto.sassu@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Mar 2022, Matthew Wilcox wrote:
-> On Wed, Feb 09, 2022 at 08:03:26AM -0800, Hugh Dickins wrote:
-> > On Wed, 9 Feb 2022, Stephen Rothwell wrote:
-> > > include/linux/mm_types.h:272: warning: Function parameter or member '__filler' not described in 'folio'
-> > > include/linux/mm_types.h:272: warning: Function parameter or member 'mlock_count' not described in 'folio'
-> > 
-> > Thank you for including the patches and reporting this, Stephen.
-> > Is this a warning you can live with for a week or two?
-> > 
-> > I've never tried generating htmldocs (I'm tempted just to replace a few
-> > "/**"s by "/*"s!), and I'm fairly sure Matthew will have strong feelings
-> > about how this new union (or not) will be better foliated - me messing
-> > around with doc output here is unlikely to be helpful at this moment.
-> 
-> I have a substantial question, and then some formatting / appearance
-> questions.
+Hi Roberto,
 
-I think that substantial question will soon need its own thread,
-rather than here in this htmldocs thread.
+Thank you for the patch! Yet something to improve:
 
-But while we are here, let's include a link into our previous discussion:
-https://lore.kernel.org/linux-mm/3c6097a7-df8c-f39c-36e8-8b5410e76c8a@google.com/
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on linus/master next-20220328]
+[cannot apply to bpf/master v5.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> 
-> The first is, what does mlock_count represent for a multi-page folio
-> that is partially mlocked?  If you allocate an order-9 page then mmap()
-> 13 pages of it and mlockall(), does mlock_count increase by 1, 13 or 512?
+url:    https://github.com/intel-lab-lkp/linux/commits/Roberto-Sassu/bpf-Secure-and-authenticated-preloading-of-eBPF-programs/20220329-015829
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+config: hexagon-randconfig-r041-20220328 (https://download.01.org/0day-ci/archive/20220329/202203291256.TUOyKEtD-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/eddbb1ec1e92ba00c4acc9f123769265e17e8e40
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Roberto-Sassu/bpf-Secure-and-authenticated-preloading-of-eBPF-programs/20220329-015829
+        git checkout eddbb1ec1e92ba00c4acc9f123769265e17e8e40
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
-You won't like the answer: none of the above; the current answer is 0.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Because before your folio work implementing readahead into compound pages,
-we had order-0 pages (mapped by PTEs), and (speaking x86_64 language)
-order-9 pages which (typically) get mapped by PMDs.
+All errors (new ones prefixed by >>):
 
-And Kirill attended to the issue of PTE mappings of huge pages by leaving
-them out of the Mlocked accounting, and leaving huge pages mapped that way
-on evictable LRUs, so that they could be split under memory pressure.
+   kernel/bpf/inode.c:25:37: error: use of undeclared identifier 'CONFIG_BPF_PRELOAD_LIST'
+   static char *bpf_preload_list_str = CONFIG_BPF_PRELOAD_LIST;
+                                       ^
+>> kernel/bpf/inode.c:1026:13: error: redefinition of 'mount_bpffs'
+   void __init mount_bpffs(void)
+               ^
+   include/linux/bpf.h:1146:27: note: previous definition is here
+   static inline void __init mount_bpffs(void)
+                             ^
+   2 errors generated.
 
-And I've carried that forward in the mm/munlock series - though I claim
-to have simpified and improved it, by leaving PageDoubleMap out of it,
-keeping PMD mappings as Mlocked even if there are also PTE mappings.
 
-I think none of us have attended to PageCompound folio mappings changing
-the balance of probabilities: they are being left out of the mlocked
-accounting just like PTE mappings of THPs are.
+vim +/mount_bpffs +1026 kernel/bpf/inode.c
 
-If you'd like a number bigger than 0 there, I guess I can add a patch
-to, what, not skip PTE mappings of compound pages if !PageSwapBacked?
-Although it would be much nicer not to distinguish by PageSwapBacked,
-I suspect testing and page reclaim issues require us to make the
-distinction, for now at least.
+  1025	
+> 1026	void __init mount_bpffs(void)
 
-Then the answer to your question would be mlock_count 13
-(but Mlocked 2048 kB).
-
-As I said in the linked mail: it doesn't matter at all how you count them
-in mlock_count, just so long as they are counted up and down consistently.
-Since it's simplest just to count 1 in mlock_count for each PMD or PTE,
-I prefer that (as I did with THPs); but if you prefer to count PMDs up
-and down by HUGE_PMD_NR, that works too.
-
-mlock_count is just an internal implementation detail.
-
-Mlocked and Unevictable amounts are visible to the user (and to various
-tests no doubt) but still just numbers shown; more important is whether
-a sparsely mlocked compound page can be split under memory pressure and
-its unmlocked portions reclaimed.
-
-I don't know where the folio work stands with splitting (but I think you
-have a patch which removes the !PageSwapBacked splitting of huge pages
-from vmscan.c - I've a separate mail to send you on that); but it looks
-like a lot of huge_memory.c is still HPAGE_PMD_NR-based (I'd say rightly,
-because PMD issues are traditional THP's main concern).
-
-If we do move sparsely mlocked folios to the "Unevictable LRU", I'm
-not sure how long we can get away with them being invisible to page
-reclaim: it will probably need someone (I'm not volunteering) to write
-a shrinker for them, along the lines of anon THP's deferred split list,
-or shmem THP's unused-beyond-EOF split list.
-
-> 
-> Then we have a tradeoff between prettiness of the source code and
-> prettiness of the htmldocs.  At one maximum, we can make it look like
-> this in the htmldocs:
-> 
-> struct folio {
->   unsigned long flags;
->   struct list_head lru;
->   unsigned int mlock_count;
->   struct address_space *mapping;
->   pgoff_t index;
->   void *private;
->   atomic_t _mapcount;
->   atomic_t _refcount;
-> #ifdef CONFIG_MEMCG;
->   unsigned long memcg_data;
-> #endif;
-> };
-> 
-> but at the cost of making the source code look like this:
-> 
-> struct folio {
->         /* private: don't document the anon union */
->         union {
->                 struct {
->         /* public: */
->                         unsigned long flags;
->         /* private: */
->                         union {
->         /* public: */
->                                 struct list_head lru;
->         /* private: */
->                                 struct {
->                                         void *__filler;
->         /* public: */
->                                         unsigned int mlock_count;
->         /* private: */
->                                 };
->                         };
->         /* public: */
->                         struct address_space *mapping;
-> 
-> At the other extreme, the htmldocs can look more complicated:
-> 
-> struct folio {
->   unsigned long flags;
->   union {
->     struct list_head lru;
->     struct {
->       unsigned int mlock_count;
->     };
->   };
->   struct address_space *mapping;
->   pgoff_t index;
->   void *private;
->   atomic_t _mapcount;
->   atomic_t _refcount;
-> #ifdef CONFIG_MEMCG;
->   unsigned long memcg_data;
-> #endif;
-> };
-> 
-> with the source code changes being merely:
-> 
-> @@ -227,6 +227,7 @@ struct page {
->   * struct folio - Represents a contiguous set of bytes.
->   * @flags: Identical to the page flags.
->   * @lru: Least Recently Used list; tracks how recently this folio was used.
-> + * @mlock_count: Number of times any page in this folio is mlocked.
->   * @mapping: The file this page belongs to, or refers to the anon_vma for
->   *    anonymous memory.
->   * @index: Offset within the file, in units of pages.  For anonymous memory,
-> @@ -256,7 +257,9 @@ struct folio {
->                         union {
->                                 struct list_head lru;
->                                 struct {
-> +       /* private: */
->                                         void *__filler;
-> +       /* public: */
->                                         unsigned int mlock_count;
->                                 };
->                         };
-> 
-> Various steps in between are possible, such as removing the anonymous
-> struct from the documentation, but leaving the union.  We could also
-> choose to document __filler, but that seems like a poor choice to me.
-> 
-> Anyway, that's all arguable and not really too important.  My mild
-> preference is for the private/public markers around __filler alone,
-> but I'll happily abide by the preferences of others.
-
-Same here: mild preference for this, but defer to others.
-
-> 
-> The important part is what mlock_count really means.  We can be
-> reasonably verbose here (two or three lines of text, I'd suggest).
-
-mlock_count aims to be the number of page table entries in VM_LOCKED
-VMAs for this folio, but may undercount.
-
-That's of course an over-simplification, skirting issues mentioned
-above, and that it can only be relied on when PageLRU PageUnevictable;
-but let's not get into those here.
-
-But I wrote that "mlock_count aims" sentence above without seeing your
- * @mlock_count: Number of times any page in this folio is mlocked.
-
-Yes, I think I prefer the brevity of what you wrote to mine.
-
-Thanks,
-Hugh
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
