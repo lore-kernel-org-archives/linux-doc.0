@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C08C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 12:51:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC41C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 12:51:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236925AbiC2MxX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 08:53:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35808 "EHLO
+        id S233521AbiC2MxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 08:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237197AbiC2MxB (ORCPT
+        with ESMTP id S237190AbiC2MxB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 08:53:01 -0400
-Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [84.16.66.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 478EA1CB2B
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 05:51:08 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KSTvb4K4XzMpylX;
-        Tue, 29 Mar 2022 14:51:07 +0200 (CEST)
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C675117E19
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 05:51:05 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KSTvV64p7zMq17p;
+        Tue, 29 Mar 2022 14:51:02 +0200 (CEST)
 Received: from localhost (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4KSTvb2X1mzlhSMV;
-        Tue, 29 Mar 2022 14:51:07 +0200 (CEST)
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4KSTvV04V8zlhMCD;
+        Tue, 29 Mar 2022 14:51:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1648558267;
-        bh=Myv+feEqRMvVi5vshp42PeNetgkHZQ6w/RvawsOsgJ4=;
+        s=20191114; t=1648558262;
+        bh=nD9Oyi8gxV+B05hDwh7Il4DQJP6sBS/TgNM+vfS7Y1w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BPARrTXoCBwk6sr/GS0DLrE1KC/kkizLhv/i3QRLmTTo0b1uBLDU/Ra1OqXy17jDV
-         takscT6ICLibCT6uhpFy0hOxVdA2AQjn1XyaLWBBX+vJg/VaL/XHATt5DJNcHqRCsr
-         wMHwzK0Vo3yQI28HNmmTdU5ffh3GZaCRqQamrww4=
+        b=SJz9xJy1mTLZyhh5q/Y0cuFvDpXd7N543mBzSV/zqGkBIQSe1gFMy43TM+axrlVuF
+         KCAVW8tlavOpYHUxkCM7Vi0M6RVUOAWQfG3WHgSG2SY/nJ7l5S4WX7NLCKSuIuJIBb
+         3fkXylEC7knef6XSARV4m8NmaXoKcuy75sP0MmDQ=
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>
@@ -42,10 +42,11 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-security-module@vger.kernel.org,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
         =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v2 11/12] landlock: Document good practices about filesystem policies
-Date:   Tue, 29 Mar 2022 14:51:16 +0200
-Message-Id: <20220329125117.1393824-12-mic@digikod.net>
+Subject: [PATCH v2 06/12] LSM: Remove double path_rename hook calls for RENAME_EXCHANGE
+Date:   Tue, 29 Mar 2022 14:51:11 +0200
+Message-Id: <20220329125117.1393824-7-mic@digikod.net>
 In-Reply-To: <20220329125117.1393824-1-mic@digikod.net>
 References: <20220329125117.1393824-1-mic@digikod.net>
 MIME-Version: 1.0
@@ -57,48 +58,211 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mickaël Salaün <mic@linux.microsoft.com>
 
-Reviewed-by: Paul Moore <paul@paul-moore.com>
+In order to be able to identify a file exchange with renameat2(2) and
+RENAME_EXCHANGE, which will be useful for Landlock [1], propagate the
+rename flags to LSMs.  This may also improve performance because of the
+switch from two set of LSM hook calls to only one, and because LSMs
+using this hook may optimize the double check (e.g. only one lock,
+reduce the number of path walks).
+
+AppArmor, Landlock and Tomoyo are updated to leverage this change.  This
+should not change the current behavior (same check order), except
+(different level of) speed boosts.
+
+[1] https://lore.kernel.org/r/20220221212522.320243-1-mic@digikod.net
+
+Cc: James Morris <jmorris@namei.org>
+Cc: Kentaro Takeda <takedakn@nttdata.co.jp>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Serge E. Hallyn <serge@hallyn.com>
+Acked-by: John Johansen <john.johansen@canonical.com>
+Acked-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20220329125117.1393824-12-mic@digikod.net
+Link: https://lore.kernel.org/r/20220329125117.1393824-7-mic@digikod.net
 ---
 
 Changes since v1:
-* Add Reviewed-by: Paul Moore.
+* Import patch from
+  https://lore.kernel.org/r/20220222175332.384545-1-mic@digikod.net
+* Add Acked-by: Tetsuo Handa.
+* Add Acked-by: John Johansen.
 ---
- Documentation/userspace-api/landlock.rst | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ include/linux/lsm_hook_defs.h |  2 +-
+ include/linux/lsm_hooks.h     |  1 +
+ security/apparmor/lsm.c       | 30 +++++++++++++++++++++++++-----
+ security/landlock/fs.c        | 12 ++++++++++--
+ security/security.c           |  9 +--------
+ security/tomoyo/tomoyo.c      | 11 ++++++++++-
+ 6 files changed, 48 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index b066d281f9f2..4b22c8cd76b4 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -156,6 +156,27 @@ ruleset.
+diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+index 819ec92dc2a8..d8b49c9c3a8a 100644
+--- a/include/linux/lsm_hook_defs.h
++++ b/include/linux/lsm_hook_defs.h
+@@ -100,7 +100,7 @@ LSM_HOOK(int, 0, path_link, struct dentry *old_dentry,
+ 	 const struct path *new_dir, struct dentry *new_dentry)
+ LSM_HOOK(int, 0, path_rename, const struct path *old_dir,
+ 	 struct dentry *old_dentry, const struct path *new_dir,
+-	 struct dentry *new_dentry)
++	 struct dentry *new_dentry, unsigned int flags)
+ LSM_HOOK(int, 0, path_chmod, const struct path *path, umode_t mode)
+ LSM_HOOK(int, 0, path_chown, const struct path *path, kuid_t uid, kgid_t gid)
+ LSM_HOOK(int, 0, path_chroot, const struct path *path)
+diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+index 3bf5c658bc44..32cd2a7fe9fc 100644
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -358,6 +358,7 @@
+  *	@old_dentry contains the dentry structure of the old link.
+  *	@new_dir contains the path structure for parent of the new link.
+  *	@new_dentry contains the dentry structure of the new link.
++ *	@flags may contain rename options such as RENAME_EXCHANGE.
+  *	Return 0 if permission is granted.
+  * @path_chmod:
+  *	Check for permission to change a mode of the file @path. The new
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index 4f0eecb67dde..900bc540656a 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -354,13 +354,16 @@ static int apparmor_path_link(struct dentry *old_dentry, const struct path *new_
+ }
  
- Full working code can be found in `samples/landlock/sandboxer.c`_.
+ static int apparmor_path_rename(const struct path *old_dir, struct dentry *old_dentry,
+-				const struct path *new_dir, struct dentry *new_dentry)
++				const struct path *new_dir, struct dentry *new_dentry,
++				const unsigned int flags)
+ {
+ 	struct aa_label *label;
+ 	int error = 0;
  
-+Good practices
-+--------------
+ 	if (!path_mediated_fs(old_dentry))
+ 		return 0;
++	if ((flags & RENAME_EXCHANGE) && !path_mediated_fs(new_dentry))
++		return 0;
+ 
+ 	label = begin_current_label_crit_section();
+ 	if (!unconfined(label)) {
+@@ -374,10 +377,27 @@ static int apparmor_path_rename(const struct path *old_dir, struct dentry *old_d
+ 			d_backing_inode(old_dentry)->i_mode
+ 		};
+ 
+-		error = aa_path_perm(OP_RENAME_SRC, label, &old_path, 0,
+-				     MAY_READ | AA_MAY_GETATTR | MAY_WRITE |
+-				     AA_MAY_SETATTR | AA_MAY_DELETE,
+-				     &cond);
++		if (flags & RENAME_EXCHANGE) {
++			struct path_cond cond_exchange = {
++				i_uid_into_mnt(mnt_userns, d_backing_inode(new_dentry)),
++				d_backing_inode(new_dentry)->i_mode
++			};
 +
-+It is recommended setting access rights to file hierarchy leaves as much as
-+possible.  For instance, it is better to be able to have ``~/doc/`` as a
-+read-only hierarchy and ``~/tmp/`` as a read-write hierarchy, compared to
-+``~/`` as a read-only hierarchy and ``~/tmp/`` as a read-write hierarchy.
-+Following this good practice leads to self-sufficient hierarchies that don't
-+depend on their location (i.e. parent directories).  This is particularly
-+relevant when we want to allow linking or renaming.  Indeed, having consistent
-+access rights per directory enables to change the location of such directory
-+without relying on the destination directory access rights (except those that
-+are required for this operation, see `LANDLOCK_ACCESS_FS_REFER` documentation).
-+Having self-sufficient hierarchies also helps to tighten the required access
-+rights to the minimal set of data.  This also helps avoid sinkhole directories,
-+i.e.  directories where data can be linked to but not linked from.  However,
-+this depends on data organization, which might not be controlled by developers.
-+In this case, granting read-write access to ``~/tmp/``, instead of write-only
-+access, would potentially allow to move ``~/tmp/`` to a non-readable directory
-+and still keep the ability to list the content of ``~/tmp/``.
++			error = aa_path_perm(OP_RENAME_SRC, label, &new_path, 0,
++					     MAY_READ | AA_MAY_GETATTR | MAY_WRITE |
++					     AA_MAY_SETATTR | AA_MAY_DELETE,
++					     &cond_exchange);
++			if (!error)
++				error = aa_path_perm(OP_RENAME_DEST, label, &old_path,
++						     0, MAY_WRITE | AA_MAY_SETATTR |
++						     AA_MAY_CREATE, &cond_exchange);
++		}
 +
- Layers of file path access rights
- ---------------------------------
++		if (!error)
++			error = aa_path_perm(OP_RENAME_SRC, label, &old_path, 0,
++					     MAY_READ | AA_MAY_GETATTR | MAY_WRITE |
++					     AA_MAY_SETATTR | AA_MAY_DELETE,
++					     &cond);
+ 		if (!error)
+ 			error = aa_path_perm(OP_RENAME_DEST, label, &new_path,
+ 					     0, MAY_WRITE | AA_MAY_SETATTR |
+diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+index 57dc3fb0c557..4422789814ed 100644
+--- a/security/landlock/fs.c
++++ b/security/landlock/fs.c
+@@ -617,10 +617,12 @@ static int hook_path_link(struct dentry *const old_dentry,
+ static int hook_path_rename(const struct path *const old_dir,
+ 		struct dentry *const old_dentry,
+ 		const struct path *const new_dir,
+-		struct dentry *const new_dentry)
++		struct dentry *const new_dentry,
++		const unsigned int flags)
+ {
+ 	const struct landlock_ruleset *const dom =
+ 		landlock_get_current_domain();
++	u32 exchange_access = 0;
+ 
+ 	if (!dom)
+ 		return 0;
+@@ -628,11 +630,17 @@ static int hook_path_rename(const struct path *const old_dir,
+ 	if (old_dir->dentry != new_dir->dentry)
+ 		/* Gracefully forbids reparenting. */
+ 		return -EXDEV;
++	if (flags & RENAME_EXCHANGE) {
++		if (unlikely(d_is_negative(new_dentry)))
++			return -ENOENT;
++		exchange_access =
++			get_mode_access(d_backing_inode(new_dentry)->i_mode);
++	}
+ 	if (unlikely(d_is_negative(old_dentry)))
+ 		return -ENOENT;
+ 	/* RENAME_EXCHANGE is handled because directories are the same. */
+ 	return check_access_path(dom, old_dir, maybe_remove(old_dentry) |
+-			maybe_remove(new_dentry) |
++			maybe_remove(new_dentry) | exchange_access |
+ 			get_mode_access(d_backing_inode(old_dentry)->i_mode));
+ }
+ 
+diff --git a/security/security.c b/security/security.c
+index 22261d79f333..8634da4cfd46 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -1184,15 +1184,8 @@ int security_path_rename(const struct path *old_dir, struct dentry *old_dentry,
+ 		     (d_is_positive(new_dentry) && IS_PRIVATE(d_backing_inode(new_dentry)))))
+ 		return 0;
+ 
+-	if (flags & RENAME_EXCHANGE) {
+-		int err = call_int_hook(path_rename, 0, new_dir, new_dentry,
+-					old_dir, old_dentry);
+-		if (err)
+-			return err;
+-	}
+-
+ 	return call_int_hook(path_rename, 0, old_dir, old_dentry, new_dir,
+-				new_dentry);
++				new_dentry, flags);
+ }
+ EXPORT_SYMBOL(security_path_rename);
+ 
+diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
+index b6a31901f289..71e82d855ebf 100644
+--- a/security/tomoyo/tomoyo.c
++++ b/security/tomoyo/tomoyo.c
+@@ -264,17 +264,26 @@ static int tomoyo_path_link(struct dentry *old_dentry, const struct path *new_di
+  * @old_dentry: Pointer to "struct dentry".
+  * @new_parent: Pointer to "struct path".
+  * @new_dentry: Pointer to "struct dentry".
++ * @flags: Rename options.
+  *
+  * Returns 0 on success, negative value otherwise.
+  */
+ static int tomoyo_path_rename(const struct path *old_parent,
+ 			      struct dentry *old_dentry,
+ 			      const struct path *new_parent,
+-			      struct dentry *new_dentry)
++			      struct dentry *new_dentry,
++			      const unsigned int flags)
+ {
+ 	struct path path1 = { .mnt = old_parent->mnt, .dentry = old_dentry };
+ 	struct path path2 = { .mnt = new_parent->mnt, .dentry = new_dentry };
+ 
++	if (flags & RENAME_EXCHANGE) {
++		const int err = tomoyo_path2_perm(TOMOYO_TYPE_RENAME, &path2,
++				&path1);
++
++		if (err)
++			return err;
++	}
+ 	return tomoyo_path2_perm(TOMOYO_TYPE_RENAME, &path1, &path2);
+ }
  
 -- 
 2.35.1
