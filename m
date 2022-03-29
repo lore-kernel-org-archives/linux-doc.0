@@ -2,351 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D71C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 17:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D4BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 19:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240349AbiC2RyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 13:54:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
+        id S241075AbiC2TxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 15:53:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240351AbiC2RyQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 13:54:16 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90B31DA8ED
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 10:52:31 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id r13so36671834ejd.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 10:52:31 -0700 (PDT)
+        with ESMTP id S241106AbiC2TxI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 15:53:08 -0400
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFF718CD3F
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 12:51:20 -0700 (PDT)
+Received: by mail-vs1-xe34.google.com with SMTP id t123so20267109vst.13
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 12:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6WzK0iEK1tA2vwWOojnK+sRWtG13aOccwS9qWJMzFmw=;
-        b=eRTnso2DqyGizkbBzNBOPjTRvAPn3ud895nlnWhPZ4UjGAm0OZxfB37FkU+nLvw6Cx
-         OjNt45Va6PSjR4jK/bub1G1Q3eTo2GeQB+9pmTpO4CEGMm7rql+cSZ6Fk7LljiP+p10C
-         lxPJry/Sh5OS2akJE+Ov36FPSfFSIUMNK+CUkcmjeNbw5ebd8aKUtviSH7NrYxnUal9v
-         ZfK1nt8TTht/oGsn1JXKfPS1WbWw3Q7+dKjy0p0lvMt7OfpCHQtlvvmCSVRY3NAuMarF
-         eEYs9Y4FfbPI1RoXStyWd/49c6fAbwgFa8ui0Ba0QbKPeSvOkII27LGSKggdYimqvZpK
-         U24g==
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=6KN4lGULDBsmAO8WThInhf6RYTnI5drESVjIjVz8PHc=;
+        b=GdQvZT+cRoZIRbqYEvwgpZe9nM/H19BwopzQDlTvbYaUPlH9LGSxU/i3gNMBD2jSnQ
+         rHLwWsnenUoE1vKS64nOoic4sDSuUFSiEv4d1Wa6pIkvnqxW1CS8TZP77hHsuT2ekbBe
+         CYKVYwlIr3ekjwLW5X1qh/7M05P9ptL0agopo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6WzK0iEK1tA2vwWOojnK+sRWtG13aOccwS9qWJMzFmw=;
-        b=3UdJsEuTHdDeHxT1qNqFKddhXyw1CavKCtpSKP8lYAvt7IkHIK77jHvWFKqEsqh5wc
-         apCrVekv++AeWIjsTDQ4nw1PppfmRlhlgjVR4pV+jwdRQLUsjPbVgHbqt/ifMw4Vm+ms
-         9VA5FLU6VtIhdXJwkKguFn8bX6/aySFSyc5wqPTMQBIvmhD2cWFWv6qzvrTTlbxBY7KU
-         fIi0G8oQeAbk8Hi3iYxRvE+lnZXNY4RNTLas+/NxjhtLH/huFdK5vQTJFi0ipUZkGWex
-         OIj6WR8qRZKPM6ieUBKVnMT9fmMzyThOgTF7NJPSuki0+EbDRCVdNaK57JL+hqnwPrbO
-         KHFg==
-X-Gm-Message-State: AOAM531nWFa6CSpOHbdxf++Y+sbPSmbZIcBzZcaI8FJLRiUQFfoEiO/5
-        L/0pCHxl1NglwAaaYYiYSY+6sUOIwdmTNdZsIRXdtA==
-X-Google-Smtp-Source: ABdhPJzx0jIB+gd95cXgDa86T7iu7mfLoNBMM7kkuNLnofhq390upFsiPfmT/1TUlLYpMv2RfthsZvb3eTbeyPWrUYk=
-X-Received: by 2002:a17:906:5d08:b0:6da:b4ea:937 with SMTP id
- g8-20020a1709065d0800b006dab4ea0937mr37059399ejt.446.1648576349854; Tue, 29
- Mar 2022 10:52:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=6KN4lGULDBsmAO8WThInhf6RYTnI5drESVjIjVz8PHc=;
+        b=w+TJWWyoNPparMhsq7s6RL2rCvaEBKrCpwAxSPS6aeuDZ+4xCRpjy5g2w7iJuhuA0r
+         7Ya2uenoT67ejpv9bNFqVSMXpFnogKP0s6gO2/3NJSKMvtDWpXKFvCPvXAy65UdJPOr7
+         T6C5DqmcgdI8SwUBqQJAGI26yw5A+9st8J9pECP8oPcK43SdUUFDB0CIxlQmcH2M26MP
+         ULXY1jbedZPuz+LeXn/0AQBLP/x5o3TMrxtONSymSult1XetUiwCIWESziyjpJp/Y8XI
+         p/lXqyM3T6ybyQnlMVMn5tUeyD1S0wsBtpBsys9FrzTg0GSyr9yKMvgKq/MFKmWZvqS6
+         5e2w==
+X-Gm-Message-State: AOAM533l34iDSIPKeLP+2+8MnH0BQW2PVoVLNAk/vPQ7yrF4xjFmWhYY
+        Ezjwp029RLoW2Yxb53fuiZ4a7Wr6qvNkbA==
+X-Google-Smtp-Source: ABdhPJzmokjNJZMEhATEPoPFN5QTKP5EuXkayczo45VGQFgBWWNLyktfB7rENHAJV3aHOLdcRmlTgg==
+X-Received: by 2002:a67:cf0d:0:b0:325:7e1e:60e7 with SMTP id y13-20020a67cf0d000000b003257e1e60e7mr13325078vsl.13.1648583479909;
+        Tue, 29 Mar 2022 12:51:19 -0700 (PDT)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-32-216-209-220-127.dsl.bell.ca. [216.209.220.127])
+        by smtp.gmail.com with ESMTPSA id l76-20020a1ffe4f000000b0034330308d00sm220873vki.43.2022.03.29.12.51.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 12:51:18 -0700 (PDT)
+Date:   Tue, 29 Mar 2022 15:51:17 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: [PATCH] Documentation: kernel-hacking: minor edits for style
+Message-ID: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5772; h=from:subject;
+ bh=Wa5/59CNpSEJn9Xl9p23TnXz0O9e8A8DvCs/HEwQWOI=;
+ b=owGbwMvMwCW27YjM47CUmTmMp9WSGJKck06arr3K/ubUDoMdq7fLuz1+v6G3fRcf/+m3XcKLZLN+
+ 6c5v7yhlYRDjYpAVU2Qp2xe7KajwoYdceo8pzBxWJpAhDFycAjARZS6GvxI6Jw4ebXyYJHOyLKNpQ+
+ WNIxL1nYuPrLMoFZkmUx+id4SR4eZyfe7NfxX5p9/+rXXF9YaGUsdlpV132AvXfHwXfZfDjREA
+X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
+ fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-5-tjmercier@google.com> <YkHH/0Use7F30UUE@phenom.ffwll.local>
- <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com> <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
-In-Reply-To: <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 29 Mar 2022 10:52:18 -0700
-Message-ID: <CABdmKX3gTAohaOwkNccGrQyXN9tzT-oEVibO5ZPF+eP+Vq=AOg@mail.gmail.com>
-Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
- cgroup charging
-To:     "T.J. Mercier" <tjmercier@google.com>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 29, 2022 at 1:42 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Mar 28, 2022 at 11:28:24AM -0700, T.J. Mercier wrote:
-> > On Mon, Mar 28, 2022 at 7:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Mon, Mar 28, 2022 at 03:59:43AM +0000, T.J. Mercier wrote:
-> > > > From: Hridya Valsaraju <hridya@google.com>
-> > > >
-> > > > All DMA heaps now register a new GPU cgroup device upon creation, a=
-nd the
-> > > > system_heap now exports buffers associated with its GPU cgroup devi=
-ce for
-> > > > tracking purposes.
-> > > >
-> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > >
-> > > > ---
-> > > > v3 changes
-> > > > Use more common dual author commit message format per John Stultz.
-> > > >
-> > > > v2 changes
-> > > > Move dma-buf cgroup charge transfer from a dma_buf_op defined by ev=
-ery
-> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
-nd
-> > > > Christian K=C3=B6nig.
-> > >
-> > > Apologies for being out of the loop quite a bit. I scrolled through t=
-his
-> > > all and I think it looks good to get going.
-> > >
-> > > The only thing I have is whether we should move the cgroup controller=
-s out
-> > > of dma-buf heaps, since that's rather android centric. E.g.
-> > > - a system gpucg_device which is used by all the various single page
-> > >   allocators (dma-buf heap but also shmem helpers and really anything
-> > >   else)
-> > > - same for cma, again both for dma-buf heaps and also for the gem cma
-> > >   helpers in drm
-> >
-> > Thanks Daniel, in general that makes sense to me as an approach to
-> > making this more universal. However for the Android case I'm not sure
-> > if the part about a single system gpucg_device would be sufficient,
-> > because there are at least 12 different graphics related heaps that
-> > could potentially be accounted/limited differently. [1]  So that
-> > raises the question of how fine grained we want this to be... I tend
-> > towards separating them all, but I haven't formed a strong opinion
-> > about this at the moment. It sounds like you are in favor of a
-> > smaller, more rigidly defined set of them? Either way, we need to add
-> > code for accounting at points where we know memory is specifically for
-> > graphics use and not something else right? (I.E. Whether it is a
-> > dma-buf heap or somewhere like drm_gem_object_init.) So IIUC the only
-> > question is what to use for the gpucg_device(s) at these locations.
->
-> We don't have 12 in upstream, so this is a lot easier here :-)
->
-> I'm not exactly sure why you have such a huge pile of them.
->
-> For gem buffers it would be fairly similar to what you've done for dma-bu=
-f
-> heaps I think, with the various helper libraries (drivers stopped
-> hand-rolling their gem buffer) setting the right accounting group. And
-> yeah for system memory I think we'd need to have standard ones, for drive=
-r
-> specific ones it's kinda different.
->
-> > [1] https://cs.android.com/android/platform/superproject/+/master:hardw=
-are/google/graphics/common/libion/ion.cpp;l=3D39-50
-> >
-> > >
-> > > Otherwise this will only work on non-upstream android where gpu drive=
-rs
-> > > allocate everything from dma-buf heap. If you use something like the =
-x86
-> > > android project with mesa drivers, then driver-internal buffers will =
-be
-> > > allocated through gem and not through dma-buf heaps. Or at least I th=
-ink
-> > > that's how it works.
-> > >
-> > > But also meh, we can fix this fairly easily later on by adding these
-> > > standard gpucg_dev somwehere with a bit of kerneldoc.
-> >
-> > This is what I was thinking would happen next, but IDK if anyone sees
-> > a more central place to do this type of use-specific accounting.
->
-> Hm I just realized ... are the names in the groups abi? If yes then I
-> think we need to fix this before we merge anything.
-> -Daniel
+Rusty's kernel-hacking guides provide important information, however
+they are written in a narrative style that some readers may interpret as
+off-putting. Since the goal is to make kernel documentation accessible
+to as many new developers as possible, it's best to avoid the turns of
+phrase that require a specific cultural context to properly understand.
 
-Do you mean the set of possible names being part of the ABI for GPU
-cgroups? I'm not exactly sure what you mean here.
+Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+ Documentation/kernel-hacking/hacking.rst | 36 ++++++++++++------------
+ Documentation/kernel-hacking/locking.rst |  5 +---
+ 2 files changed, 19 insertions(+), 22 deletions(-)
 
-The name is a settable string inside the gpucg_device struct, and
-right now the docs say it must be from a string literal but this can
-be changed. The only one this patchset adds is "system", which comes
-from the name field in its dma_heap_export_info struct when it's first
-created (and that string is hardcoded). The heap gpucg_devices are all
-registered from one spot in dma-heap.c, so maybe we should append
-"-heap" to the gpucg_device names there so "system" is available for a
-standardized name. Let me make those two changes, and I will also
-rebase this series before resending.
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index 55bd37a2efb0..ebd9d90882ea 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -112,8 +112,7 @@ time, although different tasklets can run simultaneously.
+ .. warning::
+ 
+     The name 'tasklet' is misleading: they have nothing to do with
+-    'tasks', and probably more to do with some bad vodka Alexey
+-    Kuznetsov had at the time.
++    'tasks'.
+ 
+ You can tell you are in a softirq (or tasklet) using the
+ :c:func:`in_softirq()` macro (``include/linux/preempt.h``).
+@@ -290,8 +289,8 @@ userspace.
+     Unlike :c:func:`put_user()` and :c:func:`get_user()`, they
+     return the amount of uncopied data (ie. 0 still means success).
+ 
+-[Yes, this moronic interface makes me cringe. The flamewar comes up
+-every year or so. --RR.]
++[Yes, this objectionable interface makes me cringe. The flamewar comes
++up every year or so. --RR.]
+ 
+ The functions may sleep implicitly. This should never be called outside
+ user context (it makes no sense), with interrupts disabled, or a
+@@ -645,8 +644,9 @@ names in development kernels; this is not done just to keep everyone on
+ their toes: it reflects a fundamental change (eg. can no longer be
+ called with interrupts on, or does extra checks, or doesn't do checks
+ which were caught before). Usually this is accompanied by a fairly
+-complete note to the linux-kernel mailing list; search the archive.
+-Simply doing a global replace on the file usually makes things **worse**.
++complete note to the appropriate kernel development mailing list; search
++the archives. Simply doing a global replace on the file usually makes
++things **worse**.
+ 
+ Initializing structure members
+ ------------------------------
+@@ -723,14 +723,14 @@ Putting Your Stuff in the Kernel
+ In order to get your stuff into shape for official inclusion, or even to
+ make a neat patch, there's administrative work to be done:
+ 
+--  Figure out whose pond you've been pissing in. Look at the top of the
+-   source files, inside the ``MAINTAINERS`` file, and last of all in the
+-   ``CREDITS`` file. You should coordinate with this person to make sure
+-   you're not duplicating effort, or trying something that's already
+-   been rejected.
++-  Figure out who are the owners of the code you've been modifying. Look
++   at the top of the source files, inside the ``MAINTAINERS`` file, and
++   last of all in the ``CREDITS`` file. You should coordinate with these
++   people to make sure you're not duplicating effort, or trying something
++   that's already been rejected.
+ 
+-   Make sure you put your name and EMail address at the top of any files
+-   you create or mangle significantly. This is the first place people
++   Make sure you put your name and email address at the top of any files
++   you create or modify significantly. This is the first place people
+    will look when they find a bug, or when **they** want to make a change.
+ 
+ -  Usually you want a configuration option for your kernel hack. Edit
+@@ -748,11 +748,11 @@ make a neat patch, there's administrative work to be done:
+    can usually just add a "obj-$(CONFIG_xxx) += xxx.o" line. The syntax
+    is documented in ``Documentation/kbuild/makefiles.rst``.
+ 
+--  Put yourself in ``CREDITS`` if you've done something noteworthy,
+-   usually beyond a single file (your name should be at the top of the
+-   source files anyway). ``MAINTAINERS`` means you want to be consulted
+-   when changes are made to a subsystem, and hear about bugs; it implies
+-   a more-than-passing commitment to some part of the code.
++-  Put yourself in ``CREDITS`` if you consider what you've done
++   noteworthy, usually beyond a single file (your name should be at the
++   top of the source files anyway). ``MAINTAINERS`` means you want to be
++   consulted when changes are made to a subsystem, and hear about bugs;
++   it implies a more-than-passing commitment to some part of the code.
+ 
+ -  Finally, don't forget to read
+    ``Documentation/process/submitting-patches.rst`` and possibly
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index 4cbd50edf277..6805ae6e86e6 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -941,8 +941,7 @@ lock.
+ 
+ A classic problem here is when you provide callbacks or hooks: if you
+ call these with the lock held, you risk simple deadlock, or a deadly
+-embrace (who knows what the callback will do?). Remember, the other
+-programmers are out to get you, so don't do this.
++embrace (who knows what the callback will do?).
+ 
+ Overzealous Prevention Of Deadlocks
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -952,8 +951,6 @@ grabs a read lock, searches a list, fails to find what it wants, drops
+ the read lock, grabs a write lock and inserts the object has a race
+ condition.
+ 
+-If you don't see why, please stay away from my code.
+-
+ Racing Timers: A Kernel Pastime
+ -------------------------------
+ 
+-- 
+2.35.1
 
-
-
->
-> >
-> > >
-> > > Anyway has my all my ack, but don't count this as my in-depth review =
-:-)
-> > > -Daniel
-> >
-> > Thanks again for taking a look!
-> > >
-> > > > ---
-> > > >  drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++=
-++
-> > > >  drivers/dma-buf/heaps/system_heap.c |  3 +++
-> > > >  include/linux/dma-heap.h            | 11 +++++++++++
-> > > >  3 files changed, 41 insertions(+)
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.=
-c
-> > > > index 8f5848aa144f..885072427775 100644
-> > > > --- a/drivers/dma-buf/dma-heap.c
-> > > > +++ b/drivers/dma-buf/dma-heap.c
-> > > > @@ -7,6 +7,7 @@
-> > > >   */
-> > > >
-> > > >  #include <linux/cdev.h>
-> > > > +#include <linux/cgroup_gpu.h>
-> > > >  #include <linux/debugfs.h>
-> > > >  #include <linux/device.h>
-> > > >  #include <linux/dma-buf.h>
-> > > > @@ -31,6 +32,7 @@
-> > > >   * @heap_devt                heap device node
-> > > >   * @list             list head connecting to list of heaps
-> > > >   * @heap_cdev                heap char device
-> > > > + * @gpucg_dev                gpu cgroup device for memory accounti=
-ng
-> > > >   *
-> > > >   * Represents a heap of memory from which buffers can be made.
-> > > >   */
-> > > > @@ -41,6 +43,9 @@ struct dma_heap {
-> > > >       dev_t heap_devt;
-> > > >       struct list_head list;
-> > > >       struct cdev heap_cdev;
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +     struct gpucg_device gpucg_dev;
-> > > > +#endif
-> > > >  };
-> > > >
-> > > >  static LIST_HEAD(heap_list);
-> > > > @@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap =
-*heap)
-> > > >       return heap->name;
-> > > >  }
-> > > >
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +/**
-> > > > + * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap=
-.
-> > > > + * @heap: DMA-Heap to get the gpucg_device struct for.
-> > > > + *
-> > > > + * Returns:
-> > > > + * The gpucg_device struct for the heap. NULL if the GPU cgroup co=
-ntroller is
-> > > > + * not enabled.
-> > > > + */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > > > +{
-> > > > +     return &heap->gpucg_dev;
-> > > > +}
-> > > > +#else /* CONFIG_CGROUP_GPU */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > > > +{
-> > > > +     return NULL;
-> > > > +}
-> > > > +#endif /* CONFIG_CGROUP_GPU */
-> > > > +
-> > > >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *e=
-xp_info)
-> > > >  {
-> > > >       struct dma_heap *heap, *h, *err_ret;
-> > > > @@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_=
-heap_export_info *exp_info)
-> > > >       list_add(&heap->list, &heap_list);
-> > > >       mutex_unlock(&heap_list_lock);
-> > > >
-> > > > +     gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info-=
->name);
-> > > > +
-> > > >       return heap;
-> > > >
-> > > >  err2:
-> > > > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/=
-heaps/system_heap.c
-> > > > index ab7fd896d2c4..752a05c3cfe2 100644
-> > > > --- a/drivers/dma-buf/heaps/system_heap.c
-> > > > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > > > @@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(str=
-uct dma_heap *heap,
-> > > >       exp_info.ops =3D &system_heap_buf_ops;
-> > > >       exp_info.size =3D buffer->len;
-> > > >       exp_info.flags =3D fd_flags;
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +     exp_info.gpucg_dev =3D dma_heap_get_gpucg_dev(heap);
-> > > > +#endif
-> > > >       exp_info.priv =3D buffer;
-> > > >       dmabuf =3D dma_buf_export(&exp_info);
-> > > >       if (IS_ERR(dmabuf)) {
-> > > > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> > > > index 0c05561cad6e..e447a61d054e 100644
-> > > > --- a/include/linux/dma-heap.h
-> > > > +++ b/include/linux/dma-heap.h
-> > > > @@ -10,6 +10,7 @@
-> > > >  #define _DMA_HEAPS_H
-> > > >
-> > > >  #include <linux/cdev.h>
-> > > > +#include <linux/cgroup_gpu.h>
-> > > >  #include <linux/types.h>
-> > > >
-> > > >  struct dma_heap;
-> > > > @@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap=
-);
-> > > >   */
-> > > >  const char *dma_heap_get_name(struct dma_heap *heap);
-> > > >
-> > > > +/**
-> > > > + * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_de=
-vice for the
-> > > > + * heap.
-> > > > + * @heap: DMA-Heap to retrieve gpucg_device for.
-> > > > + *
-> > > > + * Returns:
-> > > > + * The gpucg_device struct for the heap.
-> > > > + */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)=
-;
-> > > > +
-> > > >  /**
-> > > >   * dma_heap_add - adds a heap to dmabuf heaps
-> > > >   * @exp_info:                information needed to register this h=
-eap
-> > > > --
-> > > > 2.35.1.1021.g381101b075-goog
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
