@@ -2,81 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E88DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 15:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23287C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 15:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233740AbiC2Pi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 11:38:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
+        id S238696AbiC2Pjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 11:39:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239134AbiC2PiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 11:38:24 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2ED1BD83B
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 08:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=/sYa/wjFbH9UOVAzJ1A/HyPpDpIUp+pYrzFG+QKERao=; b=UGyLHAxgmGoSwU6HZXv7QWODY3
-        AjzuZWFmKm5oNhIsIlxzlhxcbbKl9hakQgbTAJrjLiszS3PuuDYilCljaF7JnNORPFgUCT3oXL0zc
-        X0h65e0fQ++vyz+m2Q8fcJJjUxRMdhBiQfFBiLXkX6N/eO2H30xluKbwTfVoV70k5mJODbkD/gN23
-        k3G4kSqji8Iz5zY4RKFOLDi2u1dD7tzqOnL0JpUuFAL4Vi70F//y/q9v0NagZCTngHwsAjMjg2eem
-        JsABmKLvYbUGEISbr60p1H0+U8+m/wG8HNgTD/826XTviq+YeekFVG06yShrspkwQvMx/2rlEyzI0
-        730yw4RQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nZDtV-005wfE-Il; Tue, 29 Mar 2022 15:36:29 +0000
-Message-ID: <42ae72ad-70db-719b-ed0b-8afedf50121d@infradead.org>
-Date:   Tue, 29 Mar 2022 08:36:23 -0700
+        with ESMTP id S238886AbiC2Pja (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 11:39:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA78324F2A1;
+        Tue, 29 Mar 2022 08:37:45 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 89F04732;
+        Tue, 29 Mar 2022 15:37:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 89F04732
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1648568265; bh=LgqYNts+7wvT/aAKZ340NN7yfd+hMq7kPJubjS/JS6E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Y305iODNnNT5eTqKcaYOJebWLpfgVS/GlQsI4TxgjwQxgmjm64XMIlthMkV0ZhsXm
+         +ODVEARtBBXxsSxteGHpyjdZAirBHKdf5sK3Ds0dFNRgdydmnYtj4qwWTVuiWYF8CX
+         MIwPgQGYSRs28aw8aRdv6H+BmxWLuaPOe+CViWAyvZZXXxxnZh5+XG1HVVOggzZXjm
+         VZiMjlkw7vPLgEAVVnmML3eje617Hdc13hAD4nmAS0XXP3wj2ErKmImnysbp+OQbr1
+         qMTMdZWGWRQ89n/97+nApaYDmNavPOFDSpGNZLFloFA30XoCI6SD7f/N2o3kbogRWf
+         u+on9alYZDw/g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2] docs: Add a document on how to fix a messy diffstat
+Date:   Tue, 29 Mar 2022 09:37:45 -0600
+Message-ID: <87wngc6a7q.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <871qyk7p28.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+A branch with merges in will sometimes create a diffstat containing a lot
+of unrelated work at "git request-pull" time.  Create a document based on
+Linus's advice (found in the links below) and add it to the maintainer
+manual in the hope of saving some wear on Linus's keyboard going forward.
 
+Link: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
+Link: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
+Acked-by: Borislav Petkov <bp@suse.de>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+v2: Various tweaks suggested by Borislav, Bagas, and Akira
 
-On 3/29/22 08:31, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
->> This looks like the result of deprecating Python 3.6.
->> It has been tested against Sphinx 4.3.0 and later later.
-> 
-> *Sigh*.  I wish this stuff didn't feel like such a house of cards
-> sometimes... 
+ Documentation/maintainer/index.rst          |  1 +
+ Documentation/maintainer/messy-diffstat.rst | 96 +++++++++++++++++++++
+ 2 files changed, 97 insertions(+)
+ create mode 100644 Documentation/maintainer/messy-diffstat.rst
 
-ack.
-
->> Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
->> including Sphinx 2.4.4.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: linux-doc@vger.kernel.org
->> ---
->> Or we can bump the requirement to Sphinx>=4.0.
->> Thoughts?
-> 
-> It's probably time to consider a bump there, but that is a bigger one
-> than I would want to do at this point.  So I'll just fast-track this
-> patch in; dropping it into the stable updates probably makes sense too.
-
-Yeah, some of us don't have Python4 installed...
-
+diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
+index f0a60435b124..3e03283c144e 100644
+--- a/Documentation/maintainer/index.rst
++++ b/Documentation/maintainer/index.rst
+@@ -12,6 +12,7 @@ additions to this manual.
+    configure-git
+    rebasing-and-merging
+    pull-requests
++   messy-diffstat
+    maintainer-entry-profile
+    modifying-patches
+ 
+diff --git a/Documentation/maintainer/messy-diffstat.rst b/Documentation/maintainer/messy-diffstat.rst
+new file mode 100644
+index 000000000000..c015f66d7621
+--- /dev/null
++++ b/Documentation/maintainer/messy-diffstat.rst
+@@ -0,0 +1,96 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================================
++Handling messy pull-request diffstats
++=====================================
++
++Subsystem maintainers routinely use ``git request-pull`` as part of the
++process of sending work upstream.  Normally, the result includes a nice
++diffstat that shows which files will be touched and how much of each will
++be changed.  Occasionally, though, a repository with a relatively
++complicated development history will yield a massive diffstat containing a
++great deal of unrelated work.  The result looks ugly and obscures what the
++pull request is actually doing.  This document describes what is happening
++and how to fix things up; it is derived from The Wisdom of Linus Torvalds,
++found in Linus1_ and Linus2_.
++
++.. _Linus1: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
++.. _Linus2: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
++
++A Git development history proceeds as a series of commits.  In a simplified
++manner, mainline kernel development looks like this::
++
++  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
++
++If one wants to see what has changed between two points, a command like
++this will do the job::
++
++  $ git diff --stat --summary vN-rc2..vN-rc3
++
++Here, there are two clear points in the history; Git will essentially
++"subtract" the beginning point from the end point and display the resulting
++differences.  The requested operation is unambiguous and easy enough to
++understand.
++
++When a subsystem maintainer creates a branch and commits changes to it, the
++result in the simplest case is a history that looks like::
++
++  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
++                          |
++                          +-- c1 --- c2 --- ... --- cN
++
++If that maintainer now uses ``git diff`` to see what has changed between
++the mainline branch (let's call it "linus") and cN, there are still two
++clear endpoints, and the result is as expected.  So a pull request
++generated with ``git request-pull`` will also be as expected.  But now
++consider a slightly more complex development history::
++
++  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
++                |         |
++                |         +-- c1 --- c2 --- ... --- cN
++                |                   /
++                +-- x1 --- x2 --- x3
++
++Our maintainer has created one branch at vN-rc1 and another at vN-rc2; the
++two were then subsequently merged into c2.  Now a pull request generated
++for cN may end up being messy indeed, and developers often end up wondering
++why.
++
++What is happening here is that there are no longer two clear end points for
++the ``git diff`` operation to use.  The development culminating in cN
++started in two different places; to generate the diffstat, ``git diff``
++ends up having pick one of them and hoping for the best.  If the diffstat
++starts at vN-rc1, it may end up including all of the changes between there
++and the second origin end point (vN-rc2), which is certainly not what our
++maintainer had in mind.  With all of that extra junk in the diffstat, it
++may be impossible to tell what actually happened in the changes leading up
++to cN.
++
++Maintainers often try to resolve this problem by, for example, rebasing the
++branch or performing another merge with the linus branch, then recreating
++the pull request.  This approach tends not to lead to joy at the receiving
++end of that pull request; rebasing and/or merging just before pushing
++upstream is a well-known way to get a grumpy response.
++
++So what is to be done?  The best response when confronted with this
++situation is to indeed to do a merge with the branch you intend your work
++to be pulled into, but to do it privately, as if it were the source of
++shame.  Create a new, throwaway branch and do the merge there::
++
++  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
++                |         |                                      |
++                |         +-- c1 --- c2 --- ... --- cN           |
++                |                   /               |            |
++                +-- x1 --- x2 --- x3                +------------+-- TEMP
++
++The merge operation resolves all of the complications resulting from the
++multiple beginning points, yielding a coherent result that contains only
++the differences from the mainline branch.  Now it will be possible to
++generate a diffstat with the desired information::
++
++  $ git diff -C --stat --summary linus..TEMP
++
++Save the output from this command, then simply delete the TEMP branch;
++definitely do not expose it to the outside world.  Take the saved diffstat
++output and edit it into the messy pull request, yielding a result that
++shows what is really going on.  That request can then be sent upstream.
 -- 
-~Randy
+2.35.1
+
