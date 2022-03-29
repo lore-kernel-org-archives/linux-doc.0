@@ -2,107 +2,297 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2824C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 14:08:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB9AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 14:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236587AbiC2OKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 10:10:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57104 "EHLO
+        id S237765AbiC2OMc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 10:12:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235996AbiC2OKU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 10:10:20 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956B162E3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:08:35 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id j8so7546284pll.11
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:08:35 -0700 (PDT)
+        with ESMTP id S237775AbiC2OMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 10:12:32 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E423B55C
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:10:48 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id h23so25007055wrb.8
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:10:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=fSzpUQbRwHRGbPWeSORzt+RYqF3DUc3kCsoJMuZ3omg=;
-        b=RSNV/BrLLk0F7CnHXVmRWTySCtMe2PssRBz1fG/d+2d2KXEshs5GqtsnHeIajJHlL1
-         5Dtvwhl3VfigwdzPaMwEIichLw+BfyHJfJ05F4z4yrbMi4Eij3oG9siiJrpYkEcTSTop
-         TgazRbDJLpT1o0nY+HfEtzCU1RaMZZ9WrMcEVfILNVAf9bnBC2iV8x8uB37WpMnpzh0V
-         d9jZouLtYAYkbuQNUJjntlSIdC3NI7L7cRNZ9jo1hUv0Woa6W0DAoYFWu7P7ZZWq1KYS
-         gQHyR4BYLePS9KDFHZxJR33vPEnxh3XRWQQay9ztU0IdzIHAqUJ4OUrPsmijZkDfcnKP
-         RtyQ==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Jpn95VpEwqe9LKeHWyblbqM6jwwK7W2+waTN1xRVPXQ=;
+        b=FCbILTsIeftcx9Jt0BEtLLHXxEr/T0XF35/erIBoKOW226wDqlmzTJQPPejMew+mhd
+         UlyRNka/Ra4EuqJADzu2GHuKEYKymT8PcEY403+mP8iE6I6bZNLs3UEDiydXVbaWBGD7
+         mz/tEVk+bpiGqc9fg1niAF7oUn+LfldzxaVuE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=fSzpUQbRwHRGbPWeSORzt+RYqF3DUc3kCsoJMuZ3omg=;
-        b=CgIz6JDfa70MxXcCtkWWWIGwRDrmScS5xYt76d3K4vgvLOb95ZWDS8/ViN0XawVuEH
-         Fo7SXTN7wmNl7oJo2yPbok/l99YE7sP8U0QWmW57vFYiXZAPnxJ1e2il1GDxJjSKOmDE
-         q45+GV4VZa3404zJNg5pT5P4vrem47And0Ja4rMkX8A0HERne4nAhypeSKSYMhqJigIO
-         jkPjeskVvoulG+v491QGgn6e0D0BrjlMHWclhlGtGNyY4kjDIoWU1uJmWzQNHYdAFW9E
-         UpJ+5B0WCPUXoDfoJBg+QuPya0YCSiknyAPUNSFCglqdiEtyl/auHaHivtu916yGdwXl
-         SaXg==
-X-Gm-Message-State: AOAM530bemUTEJQhQLSTUCxtRgT5leIdKlHA3lM5LF2AYaEqxSpKNZIY
-        OluRQtgW5KnKbk8+BO/A0cUCr+hV7TQ=
-X-Google-Smtp-Source: ABdhPJxd8Oj+XvJu8qtnxJyKjEPH8egLbeto6zvX7WAn2UAP3ujdcKhz6Dw5x826HoWmsDRSu+UvXg==
-X-Received: by 2002:a17:902:ea04:b0:154:54f0:172b with SMTP id s4-20020a170902ea0400b0015454f0172bmr30756339plg.149.1648562915071;
-        Tue, 29 Mar 2022 07:08:35 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id v8-20020a056a00148800b004fa9bd7ddc9sm20127601pfu.113.2022.03.29.07.08.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 07:08:34 -0700 (PDT)
-Message-ID: <3cf78b3e-3336-b0fa-6f2f-5b4e64c73302@gmail.com>
-Date:   Tue, 29 Mar 2022 23:08:32 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=Jpn95VpEwqe9LKeHWyblbqM6jwwK7W2+waTN1xRVPXQ=;
+        b=3Zkf1CcITHgH4TnU/MOc0w/AEftLOfc0j568h8Ysln17ZrUN1J7lzZBm7MiT2xp5Vj
+         YjwL8OkMwTDbBq8IjWlBeZ1o7n8ADxRyHGUpk2WePWcb68QKz68rPdKGmYgL8jik8SVP
+         Aj8OQ4Ek3SATaNy08RzuB9BAttCLMtx2AfgjR1un+QYRRCAQZKPzzHtHKcm9PtOIboub
+         22vaCQvC3BXTyUpQr9KJRgoi5zS2H5gn2uYcVqqEsyAkAYiJ+1F3dV+f4EXkrAfQ8wa6
+         SPidyOFDCZbOZw//TvVCE2OhHOqRQ/EmpVW9wVeMZO2fIe+6A3pcK5dZBy0AqoCaTO0t
+         ahHQ==
+X-Gm-Message-State: AOAM532Gw5kOq1yMXrbztKPihtxk7zD16KXgbbgN24awtYF6iV8T45HV
+        X4NQ44C5wIai7IrMKTti4zI73A==
+X-Google-Smtp-Source: ABdhPJwiAiFHH9tvrLS6DxzHY+xXbg+mD5m1uI9ysyIBJJOZ4xC59b3stmOq2en/769fX0REs3phaQ==
+X-Received: by 2002:adf:e88c:0:b0:204:b1d:317a with SMTP id d12-20020adfe88c000000b002040b1d317amr31487688wrm.634.1648563046644;
+        Tue, 29 Mar 2022 07:10:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id d14-20020a056000186e00b0020405198faasm17330362wri.52.2022.03.29.07.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 07:10:46 -0700 (PDT)
+Date:   Tue, 29 Mar 2022 16:10:44 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based
+ API
+Message-ID: <YkMTZLea4+X39Fp8@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220213184616.669b490b@jic23-huawei>
+ <N8XC7R.5FP2M8552CGT3@crapouillou.net>
+ <YkLEXJzs8ukrxG8s@phenom.ffwll.local>
+ <QI1I9R.GDPWLM86I45S@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <02a00556-d885-7532-64ad-14027a4b5e33@gmail.com>
- <87ee2k7t9m.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87ee2k7t9m.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <QI1I9R.GDPWLM86I45S@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Mar 2022 08:00:53 -0600,
-Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, Mar 29, 2022 at 10:11:14AM +0100, Paul Cercueil wrote:
+> Hi Daniel,
 > 
->> On 29/03/22 13.07, Akira Yokosawa wrote:
->>> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
->>> index 9a35f50798a6..2c573541ab71 100644
->>> --- a/Documentation/sphinx/requirements.txt
->>> +++ b/Documentation/sphinx/requirements.txt
->>> @@ -1,2 +1,4 @@
->>> +# jinja2>=3.1 is not compatible with Sphinx<4.0
->>> +jinja2<3.1
->>>   sphinx_rtd_theme
->>>   Sphinx==2.4.4
->>>
->>
->> I see that we had already pinned the exact Sphinx version to 2.4.4 (or am
->> I read the requirements wrong?), so this only matters when people use Sphinx
->> from distribution packages, rather than using virtualenv as recommended.
+> Le mar., mars 29 2022 at 10:33:32 +0200, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Tue, Feb 15, 2022 at 05:43:35PM +0000, Paul Cercueil wrote:
+> > >  Hi Jonathan,
+> > > 
+> > >  Le dim., févr. 13 2022 at 18:46:16 +0000, Jonathan Cameron
+> > >  <jic23@kernel.org> a écrit :
+> > >  > On Mon,  7 Feb 2022 12:59:21 +0000
+> > >  > Paul Cercueil <paul@crapouillou.net> wrote:
+> > >  >
+> > >  > >  Hi Jonathan,
+> > >  > >
+> > >  > >  This is the V2 of my patchset that introduces a new userspace
+> > >  > > interface
+> > >  > >  based on DMABUF objects to complement the fileio API, and adds
+> > >  > > write()
+> > >  > >  support to the existing fileio API.
+> > >  >
+> > >  > Hi Paul,
+> > >  >
+> > >  > It's been a little while. Perhaps you could summarize the various
+> > > view
+> > >  > points around the appropriateness of using DMABUF for this?
+> > >  > I appreciate it is a tricky topic to distil into a brief summary
+> > > but
+> > >  > I know I would find it useful even if no one else does!
+> > > 
+> > >  So we want to have a high-speed interface where buffers of samples
+> > > are
+> > >  passed around between IIO devices and other devices (e.g. USB or
+> > > network),
+> > >  or made available to userspace without copying the data.
+> > > 
+> > >  DMABUF is, at least in theory, exactly what we need. Quoting the
+> > >  documentation
+> > >  (https://www.kernel.org/doc/html/v5.15/driver-api/dma-buf.html):
+> > >  "The dma-buf subsystem provides the framework for sharing buffers
+> > > for
+> > >  hardware (DMA) access across multiple device drivers and
+> > > subsystems, and for
+> > >  synchronizing asynchronous hardware access. This is used, for
+> > > example, by
+> > >  drm “prime” multi-GPU support, but is of course not limited to GPU
+> > > use
+> > >  cases."
+> > > 
+> > >  The problem is that right now DMABUF is only really used by DRM,
+> > > and to
+> > >  quote Daniel, "dma-buf looks like something super generic and
+> > > useful, until
+> > >  you realize that there's a metric ton of gpu/accelerator bagage
+> > > piled in".
+> > > 
+> > >  Still, it seems to be the only viable option. We could add a custom
+> > >  buffer-passing interface, but that would mean implementing the same
+> > >  buffer-passing interface on the network and USB stacks, and before
+> > > we know
+> > >  it we re-invented DMABUFs.
+> > 
+> > dma-buf also doesn't support sharing with network and usb stacks, so I'm
+> > a
+> > bit confused why exactly this is useful?
 > 
-> We have been suggesting 2.4.4 simply because it's much faster than the
-> later releases, but it's not a requirement.
+> There is an attempt to get dma-buf support in the network stack, called
+> "zctap". Last patchset was sent last november. USB stack does not support
+> dma-buf, but we can add it later I guess.
+> 
+> > So yeah unless there's some sharing going on with gpu stuff (for data
+> > processing maybe) I'm not sure this makes a lot of sense really. Or at
+> > least some zero-copy sharing between drivers, but even that would
+> > minimally require a dma-buf import ioctl of some sorts. Which I either
+> > missed or doesn't exist.
+> 
+> We do want zero-copy between drivers, the network stack, and the USB stack.
+> It's not just about having a userspace interface.
 
-There was a time when Sphinx 3.x.x was memory hungry and slower than 2.4.4.
-Nowadays, Sphinx 4.x.x is getting much better and actually is much faster
-than 2.4.4 in my experience.  Might depend on the underlying Python
-release, though.
+I think in that case we need these other pieces too. And we need acks from
+relevant subsystems that these other pieces are a) ready for upstream
+merging and also that the dma-buf side of things actually makes sense.
 
-Sphinx 4.5.0 released yesterday works just fine.
+> > If there's none of that then just hand-roll your buffer handling code
+> > (xarray is cheap to use in terms of code for this), you can always add
+> > dma-buf import/export later on when the need arises.
+> > 
+> > Scrolling through patches you only have dma-buf export, but no
+> > importing,
+> > so the use-case that works is with one of the existing subsystems that
+> > supporting dma-buf importing.
+> > 
+> > I think minimally we need the use-case (in form of code) that needs the
+> > buffer sharing here.
+> 
+> I'll try with zctap and report back.
 
-        Thanks, Akira
+Do you have a link for this? I just checked dri-devel on lore, and it's
+not there. Nor anywhere else.
+
+We really need all the pieces, and if block layer reaction is anything to
+judge by, dma-buf wont happen for networking either. There's some really
+nasty and fairly fundamental issues with locking and memory reclaim that
+make this utter pain or outright impossible.
+-Daniel
 
 > 
-> Thanks,
+> Cheers,
+> -Paul
 > 
-> jon
+> > >  > >
+> > >  > >  Changes since v1:
+> > >  > >
+> > >  > >  - the patches that were merged in v1 have been (obviously)
+> > > dropped
+> > >  > > from
+> > >  > >    this patchset;
+> > >  > >  - the patch that was setting the write-combine cache setting
+> > > has
+> > >  > > been
+> > >  > >    dropped as well, as it was simply not useful.
+> > >  > >  - [01/12]:
+> > >  > >      * Only remove the outgoing queue, and keep the incoming
+> > > queue,
+> > >  > > as we
+> > >  > >        want the buffer to start streaming data as soon as it is
+> > >  > > enabled.
+> > >  > >      * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now
+> > > functionally
+> > >  > > the
+> > >  > >        same as IIO_BLOCK_STATE_DONE.
+> > >  > >  - [02/12]:
+> > >  > >      * Fix block->state not being reset in
+> > >  > >        iio_dma_buffer_request_update() for output buffers.
+> > >  > >      * Only update block->bytes_used once and add a comment
+> > > about
+> > >  > > why we
+> > >  > >        update it.
+> > >  > >      * Add a comment about why we're setting a different state
+> > > for
+> > >  > > output
+> > >  > >        buffers in iio_dma_buffer_request_update()
+> > >  > >      * Remove useless cast to bool (!!) in iio_dma_buffer_io()
+> > >  > >  - [05/12]:
+> > >  > >      Only allow the new IOCTLs on the buffer FD created with
+> > >  > >      IIO_BUFFER_GET_FD_IOCTL().
+> > >  > >  - [12/12]:
+> > >  > >      * Explicitly state that the new interface is optional and
+> > > is
+> > >  > >        not implemented by all drivers.
+> > >  > >      * The IOCTLs can now only be called on the buffer FD
+> > > returned by
+> > >  > >        IIO_BUFFER_GET_FD_IOCTL.
+> > >  > >      * Move the page up a bit in the index since it is core
+> > > stuff
+> > >  > > and not
+> > >  > >        driver-specific.
+> > >  > >
+> > >  > >  The patches not listed here have not been modified since v1.
+> > >  > >
+> > >  > >  Cheers,
+> > >  > >  -Paul
+> > >  > >
+> > >  > >  Alexandru Ardelean (1):
+> > >  > >    iio: buffer-dma: split iio_dma_buffer_fileio_free() function
+> > >  > >
+> > >  > >  Paul Cercueil (11):
+> > >  > >    iio: buffer-dma: Get rid of outgoing queue
+> > >  > >    iio: buffer-dma: Enable buffer write support
+> > >  > >    iio: buffer-dmaengine: Support specifying buffer direction
+> > >  > >    iio: buffer-dmaengine: Enable write support
+> > >  > >    iio: core: Add new DMABUF interface infrastructure
+> > >  > >    iio: buffer-dma: Use DMABUFs instead of custom solution
+> > >  > >    iio: buffer-dma: Implement new DMABUF based userspace API
+> > >  > >    iio: buffer-dmaengine: Support new DMABUF based userspace API
+> > >  > >    iio: core: Add support for cyclic buffers
+> > >  > >    iio: buffer-dmaengine: Add support for cyclic buffers
+> > >  > >    Documentation: iio: Document high-speed DMABUF based API
+> > >  > >
+> > >  > >   Documentation/driver-api/dma-buf.rst          |   2 +
+> > >  > >   Documentation/iio/dmabuf_api.rst              |  94 +++
+> > >  > >   Documentation/iio/index.rst                   |   2 +
+> > >  > >   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+> > >  > >   drivers/iio/buffer/industrialio-buffer-dma.c  | 610
+> > >  > > ++++++++++++++----
+> > >  > >   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+> > >  > >   drivers/iio/industrialio-buffer.c             |  60 ++
+> > >  > >   include/linux/iio/buffer-dma.h                |  38 +-
+> > >  > >   include/linux/iio/buffer-dmaengine.h          |   5 +-
+> > >  > >   include/linux/iio/buffer_impl.h               |   8 +
+> > >  > >   include/uapi/linux/iio/buffer.h               |  30 +
+> > >  > >   11 files changed, 749 insertions(+), 145 deletions(-)
+> > >  > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > >  > >
+> > >  >
+> > > 
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
