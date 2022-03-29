@@ -2,88 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDE3C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 07:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CF8C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 07:31:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233344AbiC2HYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 03:24:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
+        id S232608AbiC2HdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 03:33:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233343AbiC2HYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 03:24:19 -0400
-Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0244724316E;
-        Tue, 29 Mar 2022 00:22:35 -0700 (PDT)
+        with ESMTP id S229502AbiC2HdE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 03:33:04 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D77F5FF14;
+        Tue, 29 Mar 2022 00:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.jp; i=@amazon.co.jp; q=dns/txt;
-  s=amazon201209; t=1648538556; x=1680074556;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ISy1PdTNl86QIZVHuPS0xM2PPd3z/iaIEXnSylN2poQ=;
-  b=BFDbO9wk58ZQt/RAyv9+XjXntuRqhm5LJMbc2Ukz+KMLwe4HRowg6Wrz
-   kv92ieX7ysjTUsXEg3ELFkXerQHRqajG+DIU/7EAicM9xEKvfIV/2ZNYv
-   5yQXViOAVj7oGqFUO2zn3eE8C8gOQbHsA7yA4s/SJI3tCFGUOfNeG/fPy
-   U=;
-X-IronPort-AV: E=Sophos;i="5.90,219,1643673600"; 
-   d="scan'208";a="188496438"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-pdx-2b-28a78e3f.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6002.iad6.amazon.com with ESMTP; 29 Mar 2022 07:22:34 +0000
-Received: from EX13MTAUWB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-pdx-2b-28a78e3f.us-west-2.amazon.com (Postfix) with ESMTPS id A1E24A2761;
-        Tue, 29 Mar 2022 07:22:33 +0000 (UTC)
-Received: from EX13D04ANC001.ant.amazon.com (10.43.157.89) by
- EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
- id 15.0.1497.32; Tue, 29 Mar 2022 07:22:30 +0000
-Received: from 88665a182662.ant.amazon.com (10.43.160.180) by
- EX13D04ANC001.ant.amazon.com (10.43.157.89) with Microsoft SMTP Server (TLS)
- id 15.0.1497.32; Tue, 29 Mar 2022 07:22:26 +0000
-From:   Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-To:     <kuba@kernel.org>
-CC:     <andrew@lunn.ch>, <bpf@vger.kernel.org>, <corbet@lwn.net>,
-        <davem@davemloft.net>, <f.fainelli@gmail.com>,
-        <kuniyu@amazon.co.jp>, <linux-doc@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <pabeni@redhat.com>
-Subject: Re: [PATCH net 00/13] docs: update and move the netdev-FAQ
-Date:   Tue, 29 Mar 2022 16:22:23 +0900
-Message-ID: <20220329072223.6733-1-kuniyu@amazon.co.jp>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220328215247.69d31c4a@kernel.org>
-References: <20220328215247.69d31c4a@kernel.org>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=uV1VsQUw8/hiJShCoBLImE1CgcmlK7TI/+2RTAssHxE=;
+  b=pWF2BclKX/C60nBjhnp7BY3ojf7Bj8gCjD0KsAkW3M75KWt6DOHtHz63
+   T2mHrMchZWaIiZ1OyW0aAiO0s47R+o1nCk5KBZdNFFt/s8eHkbr1BH/2u
+   JemIQfwLeMQcrrPBmKogPoqGFZcTGrfBVET5bOZ5MkdiH3YRJ7LgoZUAa
+   A=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,219,1643670000"; 
+   d="scan'208";a="28814500"
+Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 09:31:17 +0200
+Date:   Tue, 29 Mar 2022 09:31:17 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+cc:     corbet@lwn.net, mchehab+huawei@kernel.org, dlatypov@google.com,
+        davidgow@google.com, linux-doc@vger.kernel.org,
+        linux-sparse@vger.kernel.org, cocci@inria.fr,
+        smatch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org
+Subject: Re: [cocci] [PATCH] Documentation: dev-tools: Add a section for
+ static analysis tools
+In-Reply-To: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
+Message-ID: <alpine.DEB.2.22.394.2203290930270.3490@hadrien>
+References: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.180]
-X-ClientProxiedBy: EX13D22UWC004.ant.amazon.com (10.43.162.198) To
- EX13D04ANC001.ant.amazon.com (10.43.157.89)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From:   Jakub Kicinski <kuba@kernel.org>
-Date:   Mon, 28 Mar 2022 21:52:47 -0700
-> On Tue, 29 Mar 2022 13:38:08 +0900 Kuniyuki Iwashima wrote:
-> > From:   Jakub Kicinski <kuba@kernel.org>
-> > Date:   Sat, 26 Mar 2022 19:53:47 -0700
-> > > A section of documentation for tree-specific process quirks had
-> > > been created a while back. There's only one tree in it, so far,
-> > > the tip tree, but the contents seem to answer similar questions
-> > > as we answer in the netdev-FAQ. Move the netdev-FAQ.
-> > > 
-> > > Take this opportunity to touch up and update a few sections.  
-> > 
-> > Thanks for update!
-> > 
-> > I would like to clarify one thing about this website.
-> > 
-> >   http://vger.kernel.org/~davem/net-next.html
-> > 
-> > I often check this before submitting patches.  I like this much, but it
-> > seems not working properly for now.  Is this no longer maintained or by
-> > coincidence this time?  If I could help something, please let me know :)
-> 
-> Sorry about that, DaveM has been traveling during this merge window. 
-> He said he'll fix it soon.
 
-Ah, sorry for noise, and thank you!
 
-Have a nice trip, DaveM!
+On Mon, 28 Mar 2022, Marcelo Schmitt wrote:
+
+> Complement the Kernel Testing Guide documentation page by adding a
+> section about static analysis tools.
+>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> ---
+> Hey everyone,
+>
+> I think this patch can be a good addition to the documentation as
+> discussed in the thread for the testing guide documentation page:
+> Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
+>
+> If you think it would be worth it, I can try making something more
+> elaborated. Maybe provide some guidance on when to use each tool.
+> I've been studying how Linux device drivers are tested.
+> Here's a post I wrote talking about some testing tools.
+> Link: https://marcelosc.gitlab.io/how-is-linux-tested/
+>
+> Best regards,
+> Marcelo
+>
+>  Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> index 65feb81edb14..b00511109a9d 100644
+> --- a/Documentation/dev-tools/testing-overview.rst
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
+>  Some of these tools integrate with KUnit or kselftest and will
+>  automatically fail tests if an issue is detected.
+>
+> +Static Analysis Tools
+> +======================
+> +
+> +In addition to testing a running kernel, one may also scout for bugs by
+> +analyzing the source code semantics. Three tools are well known for serving this
+> +purpose.
+> +
+> +Sparse can help test the kernel by performing type-checking, lock checking,
+> +value range checking, in addition to reporting various errors and warnings while
+> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
+> +page for details on how to use it.
+> +
+> +Smatch extends Sparse and provides additional checks for programming logic
+> +mistakes such as missing breaks in switch statements, unused return values on
+> +error checking, forgetting to set an error code in the return of an error path,
+> +etc. Smatch also has tests against more serious issues such as integer
+> +overflows, null pointer dereferences, and memory leaks. See the project page at
+> +http://smatch.sourceforge.net/.
+> +
+> +We also have Coccinelle as an option within static analyzers. Coccinelle is
+> +often used to aid collateral evolution of source code, but it can also help to
+> +avoid certain bugs that have been expressed semantically. The types of tests
+
+"avoid certain bugs that have been expressed semantically" would be better
+as something like "avoid certain bugs that occur in common patterns"
+
+julia
+
+
+
+> +available include API tests, tests for correct usage of kernel iterators, checks
+> +for the soundness of free operations, analysis of locking behavior, and further
+> +tests known to help keep consistent kernel usage. See the
+> +Documentation/dev-tools/coccinelle.rst documentation page for details.
+> +
+> +These static analysis tools support running tests on the whole source tree or
+> +over a specific file or directory.
+> --
+> 2.35.1
+>
+>
