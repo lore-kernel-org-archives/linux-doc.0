@@ -2,352 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DDAC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 13:37:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4B5C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 13:54:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236409AbiC2Nin convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 09:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
+        id S237580AbiC2Nzp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 09:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232707AbiC2Nim (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 09:38:42 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FB94D610;
-        Tue, 29 Mar 2022 06:36:58 -0700 (PDT)
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KSVtJ61gGz67kMk;
-        Tue, 29 Mar 2022 21:35:04 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Tue, 29 Mar 2022 15:36:56 +0200
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
- 2022 14:36:55 +0100
-Date:   Tue, 29 Mar 2022 14:36:53 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Paul Cercueil <paul@crapouillou.net>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Alexandru Ardelean" <ardeleanalex@gmail.com>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>
-Subject: Re: [PATCH v2 05/12] iio: core: Add new DMABUF interface
- infrastructure
-Message-ID: <20220329143653.000057d4@Huawei.com>
-In-Reply-To: <VDXG9R.5IH6K0N3FLTA3@crapouillou.net>
-References: <20220207125933.81634-1-paul@crapouillou.net>
-        <20220207125933.81634-6-paul@crapouillou.net>
-        <20220328183701.02884cc3@jic23-huawei>
-        <VDXG9R.5IH6K0N3FLTA3@crapouillou.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+        with ESMTP id S237561AbiC2Nzm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 09:55:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B30CC1C393F
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 06:53:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648562038;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=un9l7/a+uEq1XogerESBiAijCYeuvtYw94AitMUuZ+M=;
+        b=AYyZ0WcsOIn6CW+DOYGGQZNVjmDFlp606JBzJIcuwR1HyV0/ztFrKgPEI+xBq1suWbIavN
+        TU1+nuqIDQnISVOj/2dMjdIRIXYrRgAYOBvzsA4sFiTHRIvll/zv1Pf13qWlfANFADzi+r
+        4ZQqq6jABNBfmagPlURBfhk9kl3WqE4=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-p3OhJGg-PjmvwgwX61RzvA-1; Tue, 29 Mar 2022 09:53:57 -0400
+X-MC-Unique: p3OhJGg-PjmvwgwX61RzvA-1
+Received: by mail-pl1-f200.google.com with SMTP id s5-20020a170902b18500b00155d6fbf4d4so4144704plr.18
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 06:53:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=un9l7/a+uEq1XogerESBiAijCYeuvtYw94AitMUuZ+M=;
+        b=FCileBzIhWDUtt+2ykX5cgzOSBwRSbuRArWsBijVN4kme78CHTR1cMSwvafqEDTrdm
+         qPcP4encDJL0iN+M61HMOTWj1K9ShX9CHNo6zb2NCiThEr6TiVON5OwbFn9AhzeON7Jw
+         3XNRswEDJKXFwKndBqJZOwdygFhqxCe4HtVnxronI7Ei+GqG05e2CFl5X7oeUw7o7uVy
+         bJpv/cGL0CBjrVuKPD+aYZHNE4L3np9WzpkHjnaBuJXlu61E7rQsnkJG7LS6h4e9MjZe
+         jUyCLIGFd9yqh9M67Y6dcTfDvDuCjmIejIJt2RTUjYqepWKVPoEZrlIxzU/mPJxYg1Bq
+         1oGg==
+X-Gm-Message-State: AOAM530bRdfZAT16bOBlrzLbKspkHcotaAmiucYbCeM+8B39rDRTewi5
+        LqawjKcrHkNFdss23aggcWGuE4jtMzlNR7nTcbODoHMlUQ27DKmrRksV7nIXugIs5+cKRmK4UGW
+        /LTvl7c581q+mqCzq7oXJeDjIn+cgUA93Z+gc
+X-Received: by 2002:a63:6c0a:0:b0:398:6bd2:a16a with SMTP id h10-20020a636c0a000000b003986bd2a16amr2123297pgc.191.1648562033311;
+        Tue, 29 Mar 2022 06:53:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGa8CCAa74guVnbIRav3BJCOquPXCu+LU4JQHK3SKWdmRtYE+byETFimsO7Lw1QDDW65u4gI5INxlQXDHGp68=
+X-Received: by 2002:a63:6c0a:0:b0:398:6bd2:a16a with SMTP id
+ h10-20020a636c0a000000b003986bd2a16amr2123264pgc.191.1648562032802; Tue, 29
+ Mar 2022 06:53:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml751-chm.china.huawei.com (10.201.108.201) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com>
+ <20220318161528.1531164-7-benjamin.tissoires@redhat.com> <CAADnVQLvhWxEtHETg0tasJ7Fp5JHNRYWdjhnxi1y1gBpXS=bvQ@mail.gmail.com>
+ <CAO-hwJJXR3jtAvLF1phUa5pKZzVkDxAAHO5+7R50hL-fVhDYyA@mail.gmail.com>
+ <CAEf4BzYVu9JVJvKZK3S9HGwpyPiWrwKPGsTz3wXC_+vmRYGdNw@mail.gmail.com>
+ <CAO-hwJKPxKCzxCKGpH85j5VG3bQk+7axDYpxYoy-12yL7AQj2w@mail.gmail.com> <CAEf4BzZA7Wmg=N42ib_r9Jm8THXuGGR3CPgTqMyw9n2=gd_+Kg@mail.gmail.com>
+In-Reply-To: <CAEf4BzZA7Wmg=N42ib_r9Jm8THXuGGR3CPgTqMyw9n2=gd_+Kg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 29 Mar 2022 15:53:41 +0200
+Message-ID: <CAO-hwJKnnVkJPG6wtLJ6t7ojv5=vS0NGt14un6+nRmxzj+xifw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 06/17] HID: allow to change the report
+ descriptor from an eBPF program
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Mar 2022 19:44:19 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
+On Mon, Mar 28, 2022 at 11:35 PM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Sun, Mar 27, 2022 at 11:57 PM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > On Fri, Mar 25, 2022 at 6:00 PM Andrii Nakryiko
+> > <andrii.nakryiko@gmail.com> wrote:
+> > >
+> > > On Wed, Mar 23, 2022 at 9:08 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > Hi Alexei,
+> > > >
+> > > > On Tue, Mar 22, 2022 at 11:51 PM Alexei Starovoitov
+> > > > <alexei.starovoitov@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, Mar 18, 2022 at 9:16 AM Benjamin Tissoires
+> > > > > <benjamin.tissoires@redhat.com> wrote:
+> > > > > >
+> > > > > > +u8 *hid_bpf_report_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
+> > > > > > +{
+> > > > > > +       int ret;
+> > > > > > +       struct hid_bpf_ctx_kern ctx = {
+> > > > > > +               .type = HID_BPF_RDESC_FIXUP,
+> > > > > > +               .hdev = hdev,
+> > > > > > +               .size = *size,
+> > > > > > +       };
+> > > > > > +
+> > > > > > +       if (bpf_hid_link_empty(&hdev->bpf, BPF_HID_ATTACH_RDESC_FIXUP))
+> > > > > > +               goto ignore_bpf;
+> > > > > > +
+> > > > > > +       ctx.data = kmemdup(rdesc, HID_MAX_DESCRIPTOR_SIZE, GFP_KERNEL);
+> > > > > > +       if (!ctx.data)
+> > > > > > +               goto ignore_bpf;
+> > > > > > +
+> > > > > > +       ctx.allocated_size = HID_MAX_DESCRIPTOR_SIZE;
+> > > > > > +
+> > > > > > +       ret = hid_bpf_run_progs(hdev, &ctx);
+> > > > > > +       if (ret)
+> > > > > > +               goto ignore_bpf;
+> > > > > > +
+> > > > > > +       if (ctx.size > ctx.allocated_size)
+> > > > > > +               goto ignore_bpf;
+> > > > > > +
+> > > > > > +       *size = ctx.size;
+> > > > > > +
+> > > > > > +       if (*size) {
+> > > > > > +               rdesc = krealloc(ctx.data, *size, GFP_KERNEL);
+> > > > > > +       } else {
+> > > > > > +               rdesc = NULL;
+> > > > > > +               kfree(ctx.data);
+> > > > > > +       }
+> > > > > > +
+> > > > > > +       return rdesc;
+> > > > > > +
+> > > > > > + ignore_bpf:
+> > > > > > +       kfree(ctx.data);
+> > > > > > +       return kmemdup(rdesc, *size, GFP_KERNEL);
+> > > > > > +}
+> > > > > > +
+> > > > > >  int __init hid_bpf_module_init(void)
+> > > > > >  {
+> > > > > >         struct bpf_hid_hooks hooks = {
+> > > > > >                 .hdev_from_fd = hid_bpf_fd_to_hdev,
+> > > > > >                 .pre_link_attach = hid_bpf_pre_link_attach,
+> > > > > > +               .post_link_attach = hid_bpf_post_link_attach,
+> > > > > >                 .array_detach = hid_bpf_array_detach,
+> > > > > >         };
+> > > > > >
+> > > > > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > > > > index 937fab7eb9c6..3182c39db006 100644
+> > > > > > --- a/drivers/hid/hid-core.c
+> > > > > > +++ b/drivers/hid/hid-core.c
+> > > > > > @@ -1213,7 +1213,8 @@ int hid_open_report(struct hid_device *device)
+> > > > > >                 return -ENODEV;
+> > > > > >         size = device->dev_rsize;
+> > > > > >
+> > > > > > -       buf = kmemdup(start, size, GFP_KERNEL);
+> > > > > > +       /* hid_bpf_report_fixup() ensures we work on a copy of rdesc */
+> > > > > > +       buf = hid_bpf_report_fixup(device, start, &size);
+> > > > >
+> > > > > Looking at this patch and the majority of other patches...
+> > > > > the code is doing a lot of work to connect HID side with bpf.
+> > > > > At the same time the evolution of the patch series suggests
+> > > > > that these hook points are not quite stable. More hooks and
+> > > > > helpers are being added.
+> > > > > It tells us that it's way too early to introduce a stable
+> > > > > interface between HID and bpf.
+> > > >
+> > > > I understand that you might be under the impression that the interface
+> > > > is changing a lot, but this is mostly due to my poor knowledge of all
+> > > > the arcanes of eBPF.
+> > > > The overall way HID-BPF works is to work on a single array, and we
+> > > > should pretty much be sorted out. There are a couple of helpers to be
+> > > > able to communicate with the device, but the API has been stable in
+> > > > the kernel for those for quite some time now.
+> > > >
+> > > > The variations in the hooks is mostly because I don't know what is the
+> > > > best representation we can use in eBPF for those, and the review
+> > > > process is changing that.
+> > >
+> > > I think such a big feature as this one, especially that most BPF folks
+> > > are (probably) not familiar with the HID subsystem in the kernel,
+> > > would benefit from a bit of live discussion during BPF office hours.
+> > > Do you think you can give a short overview of what you are trying to
+> > > achieve with some background context on HID specifics at one of the
+> > > next BPF office hours? We have a meeting scheduled every week on
+> > > Thursday, 9am Pacific time. But people need to put their topic onto
+> > > the agenda, otherwise the meeting is cancelled. See [0] for
+> > > spreadsheet and links to Zoom meeting, agenda, etc.
+> >
+> > This sounds like a good idea. I just added my topic on the agenda and
+> > will prepare some slides.
+> >
+>
+> Great! Unfortunately I personally have a conflict this week and won't
+> be able to attend, so I'll have to catch up somehow through word of
+> mouth :( Next week's BPF office hours would be best, but I don't want
+> to delay discussions just because of me.
 
-> Hi Jonathan,
-> 
-> Le lun., mars 28 2022 at 18:37:01 +0100, Jonathan Cameron 
-> <jic23@kernel.org> a écrit :
-> > On Mon,  7 Feb 2022 12:59:26 +0000
-> > Paul Cercueil <paul@crapouillou.net> wrote:
-> >   
-> >>  Add the necessary infrastructure to the IIO core to support a new
-> >>  optional DMABUF based interface.
-> >> 
-> >>  The advantage of this new DMABUF based interface vs. the read()
-> >>  interface, is that it avoids an extra copy of the data between the
-> >>  kernel and userspace. This is particularly userful for high-speed  
-> > 
-> > useful
-> >   
-> >>  devices which produce several megabytes or even gigabytes of data 
-> >> per
-> >>  second.
-> >> 
-> >>  The data in this new DMABUF interface is managed at the granularity 
-> >> of
-> >>  DMABUF objects. Reducing the granularity from byte level to block 
-> >> level
-> >>  is done to reduce the userspace-kernelspace synchronization overhead
-> >>  since performing syscalls for each byte at a few Mbps is just not
-> >>  feasible.
-> >> 
-> >>  This of course leads to a slightly increased latency. For this 
-> >> reason an
-> >>  application can choose the size of the DMABUFs as well as how many 
-> >> it
-> >>  allocates. E.g. two DMABUFs would be a traditional double buffering
-> >>  scheme. But using a higher number might be necessary to avoid
-> >>  underflow/overflow situations in the presence of scheduling 
-> >> latencies.
-> >> 
-> >>  As part of the interface, 2 new IOCTLs have been added:
-> >> 
-> >>  IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *):
-> >>   Each call will allocate a new DMABUF object. The return value (if 
-> >> not
-> >>   a negative errno value as error) will be the file descriptor of 
-> >> the new
-> >>   DMABUF.
-> >> 
-> >>  IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
-> >>   Place the DMABUF object into the queue pending for hardware 
-> >> process.
-> >> 
-> >>  These two IOCTLs have to be performed on the IIO buffer's file
-> >>  descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.  
-> > 
-> > Just to check, do they work on the old deprecated chardev route? 
-> > Normally
-> > we can directly access the first buffer without the ioctl.  
-> 
-> They do not. I think it's fine this way, since as you said, the old 
-> chardev route is deprecated. But I can add support for it with enough 
-> peer pressure.
-Agreed. Definitely fine to not support the 'old way'.
+OK. FWIW, I'll have slides publicly available once I'll do a final
+roundup on them. Hopefully that will give you enough context on HID to
+understand the problem.
+If there are too many conflicts we can surely delay by a week, but I
+would rather have the discussion happening sooner :/
 
-J
-> 
-> >> 
-> >>  To access the data stored in a block by userspace the block must be
-> >>  mapped to the process's memory. This is done by calling mmap() on 
-> >> the
-> >>  DMABUF's file descriptor.
-> >> 
-> >>  Before accessing the data through the map, you must use the
-> >>  DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
-> >>  DMA_BUF_SYNC_START flag, to make sure that the data is available.
-> >>  This call may block until the hardware is done with this block. Once
-> >>  you are done reading or writing the data, you must use this ioctl 
-> >> again
-> >>  with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
-> >>  kernel's queue.
-> >> 
-> >>  If you need to know when the hardware is done with a DMABUF, you can
-> >>  poll its file descriptor for the EPOLLOUT event.
-> >> 
-> >>  Finally, to destroy a DMABUF object, simply call close() on its file
-> >>  descriptor.
-> >> 
-> >>  A typical workflow for the new interface is:
-> >> 
-> >>    for block in blocks:
-> >>      DMABUF_ALLOC block
-> >>      mmap block
-> >> 
-> >>    enable buffer
-> >> 
-> >>    while !done
-> >>      for block in blocks:
-> >>        DMABUF_ENQUEUE block
-> >> 
-> >>        DMABUF_SYNC_START block
-> >>        process data
-> >>        DMABUF_SYNC_END block
-> >> 
-> >>    disable buffer
-> >> 
-> >>    for block in blocks:
-> >>      close block  
-> > 
-> > Given my very limited knowledge of dma-buf, I'll leave commenting
-> > on the flow to others who know if this looks 'standards' or not ;)
-> > 
-> > Code looks sane to me..  
-> 
-> Thanks.
-> 
-> Cheers,
-> -Paul
-> 
-> >> 
-> >>  v2: Only allow the new IOCTLs on the buffer FD created with
-> >>      IIO_BUFFER_GET_FD_IOCTL().
-> >> 
-> >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> >>  ---
-> >>   drivers/iio/industrialio-buffer.c | 55 
-> >> +++++++++++++++++++++++++++++++
-> >>   include/linux/iio/buffer_impl.h   |  8 +++++
-> >>   include/uapi/linux/iio/buffer.h   | 29 ++++++++++++++++
-> >>   3 files changed, 92 insertions(+)
-> >> 
-> >>  diff --git a/drivers/iio/industrialio-buffer.c 
-> >> b/drivers/iio/industrialio-buffer.c
-> >>  index 94eb9f6cf128..72f333a519bc 100644
-> >>  --- a/drivers/iio/industrialio-buffer.c
-> >>  +++ b/drivers/iio/industrialio-buffer.c
-> >>  @@ -17,6 +17,7 @@
-> >>   #include <linux/fs.h>
-> >>   #include <linux/cdev.h>
-> >>   #include <linux/slab.h>
-> >>  +#include <linux/mm.h>
-> >>   #include <linux/poll.h>
-> >>   #include <linux/sched/signal.h>
-> >> 
-> >>  @@ -1520,11 +1521,65 @@ static int iio_buffer_chrdev_release(struct 
-> >> inode *inode, struct file *filep)
-> >>   	return 0;
-> >>   }
-> >> 
-> >>  +static int iio_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
-> >>  +				     struct iio_dmabuf __user *user_buf)
-> >>  +{
-> >>  +	struct iio_dmabuf dmabuf;
-> >>  +
-> >>  +	if (!buffer->access->enqueue_dmabuf)
-> >>  +		return -EPERM;
-> >>  +
-> >>  +	if (copy_from_user(&dmabuf, user_buf, sizeof(dmabuf)))
-> >>  +		return -EFAULT;
-> >>  +
-> >>  +	if (dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
-> >>  +		return -EINVAL;
-> >>  +
-> >>  +	return buffer->access->enqueue_dmabuf(buffer, &dmabuf);
-> >>  +}
-> >>  +
-> >>  +static int iio_buffer_alloc_dmabuf(struct iio_buffer *buffer,
-> >>  +				   struct iio_dmabuf_alloc_req __user *user_req)
-> >>  +{
-> >>  +	struct iio_dmabuf_alloc_req req;
-> >>  +
-> >>  +	if (!buffer->access->alloc_dmabuf)
-> >>  +		return -EPERM;
-> >>  +
-> >>  +	if (copy_from_user(&req, user_req, sizeof(req)))
-> >>  +		return -EFAULT;
-> >>  +
-> >>  +	if (req.resv)
-> >>  +		return -EINVAL;
-> >>  +
-> >>  +	return buffer->access->alloc_dmabuf(buffer, &req);
-> >>  +}
-> >>  +
-> >>  +static long iio_buffer_chrdev_ioctl(struct file *filp,
-> >>  +				    unsigned int cmd, unsigned long arg)
-> >>  +{
-> >>  +	struct iio_dev_buffer_pair *ib = filp->private_data;
-> >>  +	struct iio_buffer *buffer = ib->buffer;
-> >>  +	void __user *_arg = (void __user *)arg;
-> >>  +
-> >>  +	switch (cmd) {
-> >>  +	case IIO_BUFFER_DMABUF_ALLOC_IOCTL:
-> >>  +		return iio_buffer_alloc_dmabuf(buffer, _arg);
-> >>  +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
-> >>  +		/* TODO: support non-blocking enqueue operation */
-> >>  +		return iio_buffer_enqueue_dmabuf(buffer, _arg);
-> >>  +	default:
-> >>  +		return IIO_IOCTL_UNHANDLED;
-> >>  +	}
-> >>  +}
-> >>  +
-> >>   static const struct file_operations iio_buffer_chrdev_fileops = {
-> >>   	.owner = THIS_MODULE,
-> >>   	.llseek = noop_llseek,
-> >>   	.read = iio_buffer_read,
-> >>   	.write = iio_buffer_write,
-> >>  +	.unlocked_ioctl = iio_buffer_chrdev_ioctl,
-> >>  +	.compat_ioctl = compat_ptr_ioctl,
-> >>   	.poll = iio_buffer_poll,
-> >>   	.release = iio_buffer_chrdev_release,
-> >>   };
-> >>  diff --git a/include/linux/iio/buffer_impl.h 
-> >> b/include/linux/iio/buffer_impl.h
-> >>  index e2ca8ea23e19..728541bc2c63 100644
-> >>  --- a/include/linux/iio/buffer_impl.h
-> >>  +++ b/include/linux/iio/buffer_impl.h
-> >>  @@ -39,6 +39,9 @@ struct iio_buffer;
-> >>    *                      device stops sampling. Calles are balanced 
-> >> with @enable.
-> >>    * @release:		called when the last reference to the buffer is 
-> >> dropped,
-> >>    *			should free all resources allocated by the buffer.
-> >>  + * @alloc_dmabuf:	called from userspace via ioctl to allocate one 
-> >> DMABUF.
-> >>  + * @enqueue_dmabuf:	called from userspace via ioctl to queue this 
-> >> DMABUF
-> >>  + *			object to this buffer. Requires a valid DMABUF fd.
-> >>    * @modes:		Supported operating modes by this buffer type
-> >>    * @flags:		A bitmask combination of INDIO_BUFFER_FLAG_*
-> >>    *
-> >>  @@ -68,6 +71,11 @@ struct iio_buffer_access_funcs {
-> >> 
-> >>   	void (*release)(struct iio_buffer *buffer);
-> >> 
-> >>  +	int (*alloc_dmabuf)(struct iio_buffer *buffer,
-> >>  +			    struct iio_dmabuf_alloc_req *req);
-> >>  +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
-> >>  +			      struct iio_dmabuf *block);
-> >>  +
-> >>   	unsigned int modes;
-> >>   	unsigned int flags;
-> >>   };
-> >>  diff --git a/include/uapi/linux/iio/buffer.h 
-> >> b/include/uapi/linux/iio/buffer.h
-> >>  index 13939032b3f6..e4621b926262 100644
-> >>  --- a/include/uapi/linux/iio/buffer.h
-> >>  +++ b/include/uapi/linux/iio/buffer.h
-> >>  @@ -5,6 +5,35 @@
-> >>   #ifndef _UAPI_IIO_BUFFER_H_
-> >>   #define _UAPI_IIO_BUFFER_H_
-> >> 
-> >>  +#include <linux/types.h>
-> >>  +
-> >>  +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000000
-> >>  +
-> >>  +/**
-> >>  + * struct iio_dmabuf_alloc_req - Descriptor for allocating IIO 
-> >> DMABUFs
-> >>  + * @size:	the size of a single DMABUF
-> >>  + * @resv:	reserved
-> >>  + */
-> >>  +struct iio_dmabuf_alloc_req {
-> >>  +	__u64 size;
-> >>  +	__u64 resv;
-> >>  +};
-> >>  +
-> >>  +/**
-> >>  + * struct iio_dmabuf - Descriptor for a single IIO DMABUF object
-> >>  + * @fd:		file descriptor of the DMABUF object
-> >>  + * @flags:	one or more IIO_BUFFER_DMABUF_* flags
-> >>  + * @bytes_used:	number of bytes used in this DMABUF for the data 
-> >> transfer.
-> >>  + *		If zero, the full buffer is used.
-> >>  + */
-> >>  +struct iio_dmabuf {
-> >>  +	__u32 fd;
-> >>  +	__u32 flags;
-> >>  +	__u64 bytes_used;
-> >>  +};
-> >>  +
-> >>   #define IIO_BUFFER_GET_FD_IOCTL			_IOWR('i', 0x91, int)
-> >>  +#define IIO_BUFFER_DMABUF_ALLOC_IOCTL		_IOW('i', 0x92, struct 
-> >> iio_dmabuf_alloc_req)
-> >>  +#define IIO_BUFFER_DMABUF_ENQUEUE_IOCTL		_IOW('i', 0x93, struct 
-> >> iio_dmabuf)
-> >> 
-> >>   #endif /* _UAPI_IIO_BUFFER_H_ */  
-> >   
-> 
-> 
+Cheers,
+Benjamin
+
+> >
+> > >
+> > >   [0] https://docs.google.com/spreadsheets/d/1LfrDXZ9-fdhvPEp_LHkxAMYyxxpwBXjywWa0AejEveU
+> > >
+> > > [...]
+> > >
+> >
+>
 
