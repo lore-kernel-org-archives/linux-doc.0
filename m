@@ -2,94 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3AFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 16:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6192BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 16:50:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237993AbiC2Qsk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 12:48:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55238 "EHLO
+        id S237931AbiC2QwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 12:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239836AbiC2Qsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 12:48:39 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7053DA6E3E
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 09:46:56 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id s8so16357067pfk.12
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 09:46:56 -0700 (PDT)
+        with ESMTP id S239932AbiC2QwU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 12:52:20 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CC1D6E;
+        Tue, 29 Mar 2022 09:50:37 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id jx9so18055992pjb.5;
+        Tue, 29 Mar 2022 09:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:date:message-id:mime-version:content-transfer-encoding:cc
-         :from:to;
-        bh=mjUJmj4POHLc72j+uESMrPipTUvziFqTLssOqNZTKng=;
-        b=16bvm3mK5BVPEq0QsKQh8+GZ+eE3roFJbDhcdsWwz8Ho+JKpMBeJgHQBc5vEXGZTl5
-         MyoYHuyex5gP78CXssjDemtj7S6fPfK7X8eP3FYhNjPAf3AI5lE0tnJANGvwoZzqP/Pw
-         WxmltKzSxZV1WZB8zTh3uOTnae0eIbiGn+1aSmAZsDV/311oVeTG/Bgc1ltg8bJ+0fAN
-         vp4pJaVXVGunFXuZZzGlPrAs7OxLKBy17is1ZCMJTGsvR8LfDSyu54kgns9+5vH0Z8eQ
-         luAFgyJnoyCxTYL+/zKEBfV/IF3hV/kSxOHalp6TjtfIIehSJ5o099fb+cko7bEnMX7+
-         9LEQ==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
+        b=fon/v7xEg/MG9yKo0ZhFyVDd8Pi8tu6+Ushj4CQ5i5ZK7JvGdhYA+9e/SNRbZmP9Sv
+         pCKmTk3lb6hjAAWbXCrUihV4aR6Osupca5LKufEEjFzjS5dKaHLe0jNplTFUZ36iHnVk
+         sTubKidTh4TFkPcklY8dTxB8YzPtwQKC9XMO0UBR3PrCLB/DdkbgqeffVh5WeCzY1Kz3
+         JiapQ7p+VMjbsVZb1XgQylMCEerXzU91lVY69si8AUutSOzJsBTatSYV6g7QbeGrvQUa
+         oPrdqMZejb1WJMC3kUMFa0DQeBm3jfo1vJfKQPQsi7YcylRvBDYfhLYmZlW2miVTOKKE
+         o0Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:date:message-id:mime-version
-         :content-transfer-encoding:cc:from:to;
-        bh=mjUJmj4POHLc72j+uESMrPipTUvziFqTLssOqNZTKng=;
-        b=cM8aTzHa7FhfshSBCiq/PrCvIwjLtF9Xu6zAfyQIBBJ04ulsj6q4C0wQpF/6eA2JVT
-         3qYLPpbmluHznJw2pA1WyS7FhbsoxCYn8CR1JBzdARQgQ6KoE8jZROZKo1pas1U11TDo
-         w9/v9oltS7PLF+bCS9M4YAZXNnHX6nMZTVMUzZRtMcrmib3HprIlXeslWAq0ctSvzl7M
-         p+qhGUYy9GM5uAlTRAbVPlEXKCwpFCv8Z/IjFfTn0+XTCwOFBn0diYIxndcY+9XPIhga
-         vkqA6xf2dmqtsKGNhuuCmgYnLEjgDZf+cVqrWj1qeoggW13dsgqtFsAWNIARiPLMKg5s
-         1u/g==
-X-Gm-Message-State: AOAM533Gpy53n1HTxApNCY1JKpcg9W3x81G5qMv7MyrXj8RAcxM+TJuS
-        /IpZHuP8HEYQg9nGUM5Bw7GviQ==
-X-Google-Smtp-Source: ABdhPJxTUNdlC9idt9aofzdeF/SqBgQafoUThLB6TuhkEmYTEqzNhlqRyTH3BuFi+mQCqEe8rTs57Q==
-X-Received: by 2002:a62:4e4e:0:b0:4fa:b1d4:3405 with SMTP id c75-20020a624e4e000000b004fab1d43405mr28627061pfb.71.1648572415934;
-        Tue, 29 Mar 2022 09:46:55 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id e12-20020a056a001a8c00b004fab88d7de8sm20243658pfv.132.2022.03.29.09.46.52
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
+        b=of4CBxGLiYVg4mpUN7JvzLc5RxuPon3AaxLPNTbxrY92cW9iV0KuU9QaTNpNvnp84s
+         Eed/MFTnP/bbvTNnEOAr5AO5JjMGS7iZ/HXolNVhRUbRIsi85iHnbvPuEXe7LycMwc1h
+         VPdnm82OVAbBx1i7PC6jKMwOWzN6qUIJYGwJXQN8tkx354ruhOEVujFzV/s8LNQcVu19
+         3VE2hGxd6eA5Ya60CguEq80HmBPArjLeEjMRcdmkx/CQa5uTHyPGFtAeRk595ctOUNLd
+         8zfZI55J1gYiFWPKfrcBXpP767DIkRdQyG0w/8eTUpTenpn4TTf38jV1aNixNCNV8uLC
+         HknA==
+X-Gm-Message-State: AOAM5328TIf4HR7HrGJfg69rLyfSYhBGozBVQ+RDWO/2EHu/cGK+BvHe
+        BBmskWlAy/FZcEUIp9mrV8Q=
+X-Google-Smtp-Source: ABdhPJwK34gym8LY0bVce8JYqwr3XDALjGLRfStGWGhzeJS7utaFiUFkwfefNjUZnxfhL3wq68o19Q==
+X-Received: by 2002:a17:903:246:b0:153:87f0:a93e with SMTP id j6-20020a170903024600b0015387f0a93emr31382772plh.171.1648572636435;
+        Tue, 29 Mar 2022 09:50:36 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:7749])
+        by smtp.gmail.com with ESMTPSA id b25-20020a637159000000b00381fda49d15sm17968864pgn.39.2022.03.29.09.50.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 09:46:52 -0700 (PDT)
-Subject: [PATCH] doc: RISC-V: Remove pmu/ from the toctree
-Date:   Tue, 29 Mar 2022 09:45:44 -0700
-Message-Id: <20220329164544.29367-1-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 29 Mar 2022 09:50:35 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 29 Mar 2022 06:50:34 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     "T.J. Mercier" <tjmercier@google.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
+ cgroup charging
+Message-ID: <YkM42vdq3mdIP9Zl@slm.duckdns.org>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-5-tjmercier@google.com>
+ <YkHH/0Use7F30UUE@phenom.ffwll.local>
+ <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
+ <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        alex@ghiti.fr, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:         linux-riscv@lists.infradead.org,
-            Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+On Tue, Mar 29, 2022 at 10:42:20AM +0200, Daniel Vetter wrote:
+> Hm I just realized ... are the names in the groups abi? If yes then I
+> think we need to fix this before we merge anything.
 
-This subdir no longer exists: it was there to document some of the
-quirks and paths forward for handling them, but those have been dealt
-with as of Atish's recent patch set.
+Yes.
 
-Fixes: 23b1f18326ec ("Documentation: riscv: Remove the old documentation")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- Documentation/riscv/index.rst | 1 -
- 1 file changed, 1 deletion(-)
+Thanks.
 
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index ea915c196048..e23b876ad6eb 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -7,7 +7,6 @@ RISC-V architecture
- 
-     boot-image-header
-     vm-layout
--    pmu
-     patch-acceptance
- 
-     features
 -- 
-2.34.1
-
+tejun
