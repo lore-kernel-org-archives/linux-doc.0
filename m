@@ -2,126 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CF8C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 07:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E81B7C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 08:06:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232608AbiC2HdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 03:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
+        id S233737AbiC2IIc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 04:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiC2HdE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 03:33:04 -0400
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D77F5FF14;
-        Tue, 29 Mar 2022 00:31:19 -0700 (PDT)
+        with ESMTP id S233736AbiC2IIc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 04:08:32 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C552332993;
+        Tue, 29 Mar 2022 01:06:49 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id n63-20020a1c2742000000b0038d0c31db6eso958687wmn.1;
+        Tue, 29 Mar 2022 01:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=uV1VsQUw8/hiJShCoBLImE1CgcmlK7TI/+2RTAssHxE=;
-  b=pWF2BclKX/C60nBjhnp7BY3ojf7Bj8gCjD0KsAkW3M75KWt6DOHtHz63
-   T2mHrMchZWaIiZ1OyW0aAiO0s47R+o1nCk5KBZdNFFt/s8eHkbr1BH/2u
-   JemIQfwLeMQcrrPBmKogPoqGFZcTGrfBVET5bOZ5MkdiH3YRJ7LgoZUAa
-   A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,219,1643670000"; 
-   d="scan'208";a="28814500"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 09:31:17 +0200
-Date:   Tue, 29 Mar 2022 09:31:17 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-cc:     corbet@lwn.net, mchehab+huawei@kernel.org, dlatypov@google.com,
-        davidgow@google.com, linux-doc@vger.kernel.org,
-        linux-sparse@vger.kernel.org, cocci@inria.fr,
-        smatch@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org
-Subject: Re: [cocci] [PATCH] Documentation: dev-tools: Add a section for
- static analysis tools
-In-Reply-To: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
-Message-ID: <alpine.DEB.2.22.394.2203290930270.3490@hadrien>
-References: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=25jdPIUFHHKil9p2jrTlL8YhE3fNBfgJbp+Rf3KdpNE=;
+        b=ZI17cIoc/2JKqkowlmyH1j9jeuJrXPsEZ3O01/CI/Xk/mxC8DhW/muUZtt7EJPzNBp
+         EoGu1naPr2ZG/3S4OqkXzpyL6QeEYy2EgrSL4P1paVjbI9wc5HAyy1cXdwx2exXeHS2T
+         2x+4HDg7BWxSjCIX4+Y41K7q286HiDb0+tSSGfgX+vC9iyuyUqXjAQ2Cq1HedOF+QKDm
+         tnLdkPT79EB/l/4+a0t7wmuud2vXNawqdX8e7B7I0L0tHhgVqkBY5Owwq8D7Fh+swF7w
+         UYilQgY2753FXWDJs9eeibNCmX0AGzBUYUjNdJoDKTe+43zGlB5eV8AJURt4DWW1qQGg
+         QmaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=25jdPIUFHHKil9p2jrTlL8YhE3fNBfgJbp+Rf3KdpNE=;
+        b=bDHQbeRqWzBL8Yp9EHrggo7tRZYX4X3oaAgSVKLlsOVabFQLgbTWXMveXjbdZjzZ+X
+         6eoKwIlQTL8AMU3zw8e7T7IkaBUdNs7RKZ9A8N43v16S25HsG8PVBxJ1ebiThk1ut34P
+         EqZ1MYE8iT/dHdVm03BJ9PxadJax47y72VFV5nYnIj2cYgWOX2Eya+YioQzZY14A6MR6
+         1lQKpPnxpMo9bN2/88R0ma48RqNDCNvO9AOonNNAJvjKjEunzoP4jr/nlKkYKE6vdWoz
+         XgBE+HyfC0C07oGGNdkRLAoZgaNy6Yi0dVoomu1PRe+fKTQuY+k2zgXLB6yra1DtB3nb
+         nDdQ==
+X-Gm-Message-State: AOAM53207zmMkKjet7SjSSfsX/UDiCXiB0I3RpW7Kcz/w++iHLtL78AJ
+        Sid6jWudEZkIGs5qWKrX1IM=
+X-Google-Smtp-Source: ABdhPJwdbRTaoW/68CCiCYb+e4cJKfiB8lOPYuMDNNVzhxO3ilyfbQSCDp5AJwmZGdXsG1EEuRRqGA==
+X-Received: by 2002:a05:600c:3b98:b0:38c:b19d:59f2 with SMTP id n24-20020a05600c3b9800b0038cb19d59f2mr5128495wms.205.1648541208241;
+        Tue, 29 Mar 2022 01:06:48 -0700 (PDT)
+Received: from gmail.com ([81.168.73.77])
+        by smtp.gmail.com with ESMTPSA id j5-20020a05600c1c0500b0038ca4fdf7a5sm2336558wms.9.2022.03.29.01.06.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 29 Mar 2022 01:06:47 -0700 (PDT)
+Date:   Tue, 29 Mar 2022 09:06:45 +0100
+From:   Martin Habets <habetsm.xilinx@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        andrew@lunn.ch, f.fainelli@gmail.com
+Subject: Re: [PATCH net 04/13] docs: netdev: turn the net-next closed into a
+ Warning
+Message-ID: <20220329080645.v5xg4s3zo5zcog4q@gmail.com>
+Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
+        netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org, andrew@lunn.ch,
+        f.fainelli@gmail.com
+References: <20220327025400.2481365-1-kuba@kernel.org>
+ <20220327025400.2481365-5-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220327025400.2481365-5-kuba@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Mon, 28 Mar 2022, Marcelo Schmitt wrote:
-
-> Complement the Kernel Testing Guide documentation page by adding a
-> section about static analysis tools.
->
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+On Sat, Mar 26, 2022 at 07:53:51PM -0700, Jakub Kicinski wrote:
+> Use the sphinx Warning box to make the net-next being closed
+> stand out more.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
-> Hey everyone,
->
-> I think this patch can be a good addition to the documentation as
-> discussed in the thread for the testing guide documentation page:
-> Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
->
-> If you think it would be worth it, I can try making something more
-> elaborated. Maybe provide some guidance on when to use each tool.
-> I've been studying how Linux device drivers are tested.
-> Here's a post I wrote talking about some testing tools.
-> Link: https://marcelosc.gitlab.io/how-is-linux-tested/
->
-> Best regards,
-> Marcelo
->
->  Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> index 65feb81edb14..b00511109a9d 100644
-> --- a/Documentation/dev-tools/testing-overview.rst
-> +++ b/Documentation/dev-tools/testing-overview.rst
-> @@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
->  Some of these tools integrate with KUnit or kselftest and will
->  automatically fail tests if an issue is detected.
->
-> +Static Analysis Tools
-> +======================
-> +
-> +In addition to testing a running kernel, one may also scout for bugs by
-> +analyzing the source code semantics. Three tools are well known for serving this
-> +purpose.
-> +
-> +Sparse can help test the kernel by performing type-checking, lock checking,
-> +value range checking, in addition to reporting various errors and warnings while
-> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
-> +page for details on how to use it.
-> +
-> +Smatch extends Sparse and provides additional checks for programming logic
-> +mistakes such as missing breaks in switch statements, unused return values on
-> +error checking, forgetting to set an error code in the return of an error path,
-> +etc. Smatch also has tests against more serious issues such as integer
-> +overflows, null pointer dereferences, and memory leaks. See the project page at
-> +http://smatch.sourceforge.net/.
-> +
-> +We also have Coccinelle as an option within static analyzers. Coccinelle is
-> +often used to aid collateral evolution of source code, but it can also help to
-> +avoid certain bugs that have been expressed semantically. The types of tests
+>  Documentation/networking/netdev-FAQ.rst | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/networking/netdev-FAQ.rst
+> index 0bff899f286f..c1683ed1faca 100644
+> --- a/Documentation/networking/netdev-FAQ.rst
+> +++ b/Documentation/networking/netdev-FAQ.rst
+> @@ -73,8 +73,9 @@ relating to vX.Y
+>  An announcement indicating when ``net-next`` has been closed is usually
+>  sent to netdev, but knowing the above, you can predict that in advance.
+>  
+> -IMPORTANT: Do not send new ``net-next`` content to netdev during the
+> -period during which ``net-next`` tree is closed.
+> +.. warning::
+> +  Do not send new ``net-next`` content to netdev during the
+> +  period during which ``net-next`` tree is closed.
 
-"avoid certain bugs that have been expressed semantically" would be better
-as something like "avoid certain bugs that occur in common patterns"
+Similar to the comment from Kuniyuki I was missing a reference to
+ http://vger.kernel.org/~davem/net-next.html
+here.
 
-julia
+Martin
 
-
-
-> +available include API tests, tests for correct usage of kernel iterators, checks
-> +for the soundness of free operations, analysis of locking behavior, and further
-> +tests known to help keep consistent kernel usage. See the
-> +Documentation/dev-tools/coccinelle.rst documentation page for details.
-> +
-> +These static analysis tools support running tests on the whole source tree or
-> +over a specific file or directory.
-> --
-> 2.35.1
->
->
+>  
+>  Shortly after the two weeks have passed (and vX.Y-rc1 is released), the
+>  tree for ``net-next`` reopens to collect content for the next (vX.Y+1)
+> -- 
+> 2.34.1
