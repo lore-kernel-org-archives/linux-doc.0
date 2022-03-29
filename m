@@ -2,73 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FF4C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 04:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C6BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 04:52:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232178AbiC2Eye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 00:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
+        id S232190AbiC2Eyf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 00:54:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232176AbiC2Eyd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 00:54:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F2435AAE;
-        Mon, 28 Mar 2022 21:52:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05034B80E5E;
-        Tue, 29 Mar 2022 04:52:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F86C340ED;
-        Tue, 29 Mar 2022 04:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648529568;
-        bh=nqtB51WbL533ssiMiWnXoFzRKK3tHm0SboYWFYoGas8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AITz1Q/fLsZb40JAq2rmZd7/yGi8qkxegN30pgF3p9QYTlW6I4UbbfHPZW8XFkP2P
-         r7cGTbZyUfDaV8GacobSTIx+onP1T1//5gNnw9jXnoCAYSlzooJNOmMLngbTzU6aBV
-         e3p+zn0StVWXFbX0xykcR7nfcQzNTfNkBa8HZ82UGusFWuPtktOaVl/J6DyXyBJSk0
-         Glkh2j/ZlLCMWB/d22Pxrkk4ZNzTkQdw6eaX1kVy41jrdPYHBRzWoqJrcrYkT+2ghx
-         FsolsnNgFXqm5TJxAGjRJLjPTZCZMfiOJHLQt0+QJV7QjupOvOudzbRa+IJAYR5XNj
-         XgRwW19rOmOfg==
-Date:   Mon, 28 Mar 2022 21:52:47 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-Cc:     <andrew@lunn.ch>, <bpf@vger.kernel.org>, <corbet@lwn.net>,
-        <davem@davemloft.net>, <f.fainelli@gmail.com>,
-        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <pabeni@redhat.com>
-Subject: Re: [PATCH net 00/13] docs: update and move the netdev-FAQ
-Message-ID: <20220328215247.69d31c4a@kernel.org>
-In-Reply-To: <20220329043808.95053-1-kuniyu@amazon.co.jp>
-References: <20220327025400.2481365-1-kuba@kernel.org>
-        <20220329043808.95053-1-kuniyu@amazon.co.jp>
+        with ESMTP id S232173AbiC2Eyc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 00:54:32 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5C753587B;
+        Mon, 28 Mar 2022 21:52:50 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id j13so16576517plj.8;
+        Mon, 28 Mar 2022 21:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Cn5Hv/ZbYD+xp2LZxzR8cBJSv3MLt46oZ80SDrAJKl8=;
+        b=lIwSAhNQCFILvYvRA3aqlSYAy3KW0RcWwLptXWtg49/LUC7sNEIKiFvD1fGZUyRHjZ
+         GqG5Xv0C0tMPcVrBBCqsAMrbfDndRQNSfyaFV6rHonu85Czx0Qbb0oVe0rgm4Ggd39Uq
+         dmQXWlDT8wYLww7C9+rO9PDqnF42pK4jBoYQ2/dYmA/ezMVdqALjT3dc5WHwAWNDnb5d
+         6y5L85zKsbvGmWR8WT0SpCOmqf8ikNOMtnyDIDhtgBK+VoRl38hGdgpbYiavmBqPQCe/
+         gwqvGfHeS8TXD3d52d1ywQjXJm5NPnCHLFrIIURA+YPcmUgJ1Hwn1U+gdr4OTXr8x5NA
+         hj5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Cn5Hv/ZbYD+xp2LZxzR8cBJSv3MLt46oZ80SDrAJKl8=;
+        b=UK/z+p31ElfONkELAp4BWWt7Kd+EILzGZ3tN55Qxx6zfuS+6ZPmi0AYzHHmWcGjAFz
+         kwmnwGU045MZwhscxXqrLt0TWMt+ZJC7oZ1eZ4IuEcB8rYxVHN66BCKJWhHD2NmnQbZK
+         x1oliZCo0eD9Guz444Rq/i5Bvdv6yHBxTRPbz8Ki7KHdoEdy4tz+hlyMG8Q+Q08Ovwlx
+         OrMiQhCQ8lTWPEqXbMIV4ot1cKz7Y/7QXlvNTCYk7uVZdsDWnjQxlMhjsjm62bM/EIoP
+         3hCneUxIvHZAhcjFCs+q1Ytq60pIz7FDGrnIhmN5uts5NclEk1dJNCIbQ2VDTXrP4K7u
+         1B6A==
+X-Gm-Message-State: AOAM5310z/4xx5yKx4YcsQl4zt7VpEobCgKUPEhlHoEOWH/uzrMtyFQR
+        KshcaRB1EeQwNxQHRS1w+/sxuQi88+A8pG49
+X-Google-Smtp-Source: ABdhPJyZZH9mDfh0m8GiECnPTskINIPoRPBf+5JV6ac625BsfoWiJx1AcxN7VS3pcoT1I91gnc2XIw==
+X-Received: by 2002:a17:902:ec86:b0:154:4f9:f938 with SMTP id x6-20020a170902ec8600b0015404f9f938mr28514719plg.5.1648529569775;
+        Mon, 28 Mar 2022 21:52:49 -0700 (PDT)
+Received: from ubuntu.mate (subs02-180-214-232-80.three.co.id. [180.214.232.80])
+        by smtp.gmail.com with ESMTPSA id f16-20020a056a00229000b004fabe756ba6sm19327282pfe.54.2022.03.28.21.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 21:52:49 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/2] Documentation: kernel-doc: Promote two chapter headings to page title
+Date:   Tue, 29 Mar 2022 11:52:34 +0700
+Message-Id: <20220329045235.11879-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220329045235.11879-1-bagasdotme@gmail.com>
+References: <20220329045235.11879-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Mar 2022 13:38:08 +0900 Kuniyuki Iwashima wrote:
-> From:   Jakub Kicinski <kuba@kernel.org>
-> Date:   Sat, 26 Mar 2022 19:53:47 -0700
-> > A section of documentation for tree-specific process quirks had
-> > been created a while back. There's only one tree in it, so far,
-> > the tip tree, but the contents seem to answer similar questions
-> > as we answer in the netdev-FAQ. Move the netdev-FAQ.
-> > 
-> > Take this opportunity to touch up and update a few sections.  
-> 
-> Thanks for update!
-> 
-> I would like to clarify one thing about this website.
-> 
->   http://vger.kernel.org/~davem/net-next.html
-> 
-> I often check this before submitting patches.  I like this much, but it
-> seems not working properly for now.  Is this no longer maintained or by
-> coincidence this time?  If I could help something, please let me know :)
+Promote "Writing kernel-doc comments" heading to page title, in
+accordance to kernel documentation guidelines. Also promote "Including
+kernel-doc comments" heading because both headings deserve their own
+chapters in PDF output.
 
-Sorry about that, DaveM has been traveling during this merge window. 
-He said he'll fix it soon.
+There is no differences in the resulting output except formatting
+semantics.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/doc-guide/kernel-doc.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 79aaa55d6bcf2b..a7cb2afd799007 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -1,3 +1,4 @@
++===========================
+ Writing kernel-doc comments
+ ===========================
+ 
+@@ -436,6 +437,7 @@ The title following ``DOC:`` acts as a heading within the source file, but also
+ as an identifier for extracting the documentation comment. Thus, the title must
+ be unique within the file.
+ 
++=============================
+ Including kernel-doc comments
+ =============================
+ 
+-- 
+An old man doll... just what I always wanted! - Clara
+
