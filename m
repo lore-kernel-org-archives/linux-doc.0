@@ -2,165 +2,352 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B22C9C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 13:16:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DDAC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 13:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237164AbiC2NSd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 09:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57914 "EHLO
+        id S236409AbiC2Nin convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 09:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbiC2NSd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 09:18:33 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C588A639B;
-        Tue, 29 Mar 2022 06:16:47 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id z128so14781290pgz.2;
-        Tue, 29 Mar 2022 06:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=w3815+MGXaDijvWMYtqcYwozP7wYjHgBU5ZGj2ffCo4=;
-        b=fCJ6lzlVxTfVgqckkBqb1S/nzl583ie/5M/JHaHBfoHc7by/n3+u6k/2uLuhJLX9kz
-         LoYV8tw4CbW3gC0Mtsb8bSIqTaVWZ2lmdR91CGnXpYlysrL7q5o+W+kCLKV7hVIQxfSN
-         4u45i720kDEBKzlXLZJ68/DJGmNfR9cYax+DosToVi7LFXoeW+otnOZ7lOul7yUgC/El
-         DN56g8OmHth+8F6zsnpr+a0+GE5msp7tQiw6r2HaFCn3WA4Jq/NxiL5M7AXP8DfHgtIT
-         oMLZpUOd6JUoBNj858rV7JFL5xcuLF4oaUhW1rXbl4BpjHGZ1V3+Gq35LgxMDpe2x4di
-         Ei3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=w3815+MGXaDijvWMYtqcYwozP7wYjHgBU5ZGj2ffCo4=;
-        b=LiyMGyFokLzHc/sAMSqEyzJ+q04K2ezByfTQuIfbwxLc+j0qM3ByeFHTl04tYoQigG
-         7mZMe9OKIjt0F4F/g/818e1gTMmGfaktTg/Hs9cR7oj29RD0/cTii6stAEeEHoidXmy3
-         3Ad0nBes7FJ3tMNDbOEAiaDaq0TR4f6Bxxr1siQJqNnJAJpCSguTLQTL9ezlr4ryUsfz
-         zAd3HFERMddZ6fzr1ivKq+XTy+IAUYELTsE/TVzg8Buu7y6TSgtfbM4m/UOK32RcX7lP
-         aAXj18wmjsxlw+LZkEsMbDgG59+tN6KNWnD4FJjKZWDUK986O1V8GvVsazPqrT6H0xHr
-         itAQ==
-X-Gm-Message-State: AOAM532HVkcqYRRWH4VvzWZn0ij5wHGzgFYYXmCIuvVtM/fJEmRzomZk
-        MJnoY9T3wHLQZJ/pNSHArzo=
-X-Google-Smtp-Source: ABdhPJwj/kTm0nl1gtMSWtdIMVETbuj+vIm8n6hboEbzzsDKKNVmImwLB0nynmcYk2YzKzlK7Q4Q6Q==
-X-Received: by 2002:a05:6a00:2408:b0:4f7:a8cb:9b63 with SMTP id z8-20020a056a00240800b004f7a8cb9b63mr27846870pfh.33.1648559807221;
-        Tue, 29 Mar 2022 06:16:47 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-29.three.co.id. [180.214.232.29])
-        by smtp.gmail.com with ESMTPSA id j16-20020a63e750000000b00373598b8cbfsm15932192pgk.74.2022.03.29.06.16.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 06:16:46 -0700 (PDT)
-Message-ID: <db81d120-039d-f49f-9a48-c91e96777a61@gmail.com>
-Date:   Tue, 29 Mar 2022 20:16:42 +0700
+        with ESMTP id S232707AbiC2Nim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 09:38:42 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FB94D610;
+        Tue, 29 Mar 2022 06:36:58 -0700 (PDT)
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KSVtJ61gGz67kMk;
+        Tue, 29 Mar 2022 21:35:04 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Tue, 29 Mar 2022 15:36:56 +0200
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
+ 2022 14:36:55 +0100
+Date:   Tue, 29 Mar 2022 14:36:53 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Paul Cercueil <paul@crapouillou.net>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Alexandru Ardelean" <ardeleanalex@gmail.com>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>
+Subject: Re: [PATCH v2 05/12] iio: core: Add new DMABUF interface
+ infrastructure
+Message-ID: <20220329143653.000057d4@Huawei.com>
+In-Reply-To: <VDXG9R.5IH6K0N3FLTA3@crapouillou.net>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+        <20220207125933.81634-6-paul@crapouillou.net>
+        <20220328183701.02884cc3@jic23-huawei>
+        <VDXG9R.5IH6K0N3FLTA3@crapouillou.net>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 01/11] Documentation: Add HTE subsystem guide
-Content-Language: en-US
-To:     Dipen Patel <dipenp@nvidia.com>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, smangipudi@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, warthog618@gmail.com,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org
-References: <20220329054521.14420-1-dipenp@nvidia.com>
- <20220329054521.14420-2-dipenp@nvidia.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220329054521.14420-2-dipenp@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml751-chm.china.huawei.com (10.201.108.201) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/03/22 12.45, Dipen Patel wrote:
-> +============================================
-> +The Linux Hardware Timestamping Engine (HTE)
-> +============================================
-> +
-> +:Author: Dipen Patel
-> +
+On Mon, 28 Mar 2022 19:44:19 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Please learn how to convey semantics with rst format, see further comments
-below.
+> Hi Jonathan,
+> 
+> Le lun., mars 28 2022 at 18:37:01 +0100, Jonathan Cameron 
+> <jic23@kernel.org> a écrit :
+> > On Mon,  7 Feb 2022 12:59:26 +0000
+> > Paul Cercueil <paul@crapouillou.net> wrote:
+> >   
+> >>  Add the necessary infrastructure to the IIO core to support a new
+> >>  optional DMABUF based interface.
+> >> 
+> >>  The advantage of this new DMABUF based interface vs. the read()
+> >>  interface, is that it avoids an extra copy of the data between the
+> >>  kernel and userspace. This is particularly userful for high-speed  
+> > 
+> > useful
+> >   
+> >>  devices which produce several megabytes or even gigabytes of data 
+> >> per
+> >>  second.
+> >> 
+> >>  The data in this new DMABUF interface is managed at the granularity 
+> >> of
+> >>  DMABUF objects. Reducing the granularity from byte level to block 
+> >> level
+> >>  is done to reduce the userspace-kernelspace synchronization overhead
+> >>  since performing syscalls for each byte at a few Mbps is just not
+> >>  feasible.
+> >> 
+> >>  This of course leads to a slightly increased latency. For this 
+> >> reason an
+> >>  application can choose the size of the DMABUFs as well as how many 
+> >> it
+> >>  allocates. E.g. two DMABUFs would be a traditional double buffering
+> >>  scheme. But using a higher number might be necessary to avoid
+> >>  underflow/overflow situations in the presence of scheduling 
+> >> latencies.
+> >> 
+> >>  As part of the interface, 2 new IOCTLs have been added:
+> >> 
+> >>  IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *):
+> >>   Each call will allocate a new DMABUF object. The return value (if 
+> >> not
+> >>   a negative errno value as error) will be the file descriptor of 
+> >> the new
+> >>   DMABUF.
+> >> 
+> >>  IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+> >>   Place the DMABUF object into the queue pending for hardware 
+> >> process.
+> >> 
+> >>  These two IOCTLs have to be performed on the IIO buffer's file
+> >>  descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.  
+> > 
+> > Just to check, do they work on the old deprecated chardev route? 
+> > Normally
+> > we can directly access the first buffer without the ioctl.  
+> 
+> They do not. I think it's fine this way, since as you said, the old 
+> chardev route is deprecated. But I can add support for it with enough 
+> peer pressure.
+Agreed. Definitely fine to not support the 'old way'.
 
-> +This document describes the API that can be used by hardware timestamping
-> +engine provider and consumer drivers that want to use the hardware timestamping
-> +engine (HTE) framework. Both consumers and providers must include
-> +#include <linux/hte.h>.
-> +
+J
+> 
+> >> 
+> >>  To access the data stored in a block by userspace the block must be
+> >>  mapped to the process's memory. This is done by calling mmap() on 
+> >> the
+> >>  DMABUF's file descriptor.
+> >> 
+> >>  Before accessing the data through the map, you must use the
+> >>  DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+> >>  DMA_BUF_SYNC_START flag, to make sure that the data is available.
+> >>  This call may block until the hardware is done with this block. Once
+> >>  you are done reading or writing the data, you must use this ioctl 
+> >> again
+> >>  with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+> >>  kernel's queue.
+> >> 
+> >>  If you need to know when the hardware is done with a DMABUF, you can
+> >>  poll its file descriptor for the EPOLLOUT event.
+> >> 
+> >>  Finally, to destroy a DMABUF object, simply call close() on its file
+> >>  descriptor.
+> >> 
+> >>  A typical workflow for the new interface is:
+> >> 
+> >>    for block in blocks:
+> >>      DMABUF_ALLOC block
+> >>      mmap block
+> >> 
+> >>    enable buffer
+> >> 
+> >>    while !done
+> >>      for block in blocks:
+> >>        DMABUF_ENQUEUE block
+> >> 
+> >>        DMABUF_SYNC_START block
+> >>        process data
+> >>        DMABUF_SYNC_END block
+> >> 
+> >>    disable buffer
+> >> 
+> >>    for block in blocks:
+> >>      close block  
+> > 
+> > Given my very limited knowledge of dma-buf, I'll leave commenting
+> > on the flow to others who know if this looks 'standards' or not ;)
+> > 
+> > Code looks sane to me..  
+> 
+> Thanks.
+> 
+> Cheers,
+> -Paul
+> 
+> >> 
+> >>  v2: Only allow the new IOCTLs on the buffer FD created with
+> >>      IIO_BUFFER_GET_FD_IOCTL().
+> >> 
+> >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> >>  ---
+> >>   drivers/iio/industrialio-buffer.c | 55 
+> >> +++++++++++++++++++++++++++++++
+> >>   include/linux/iio/buffer_impl.h   |  8 +++++
+> >>   include/uapi/linux/iio/buffer.h   | 29 ++++++++++++++++
+> >>   3 files changed, 92 insertions(+)
+> >> 
+> >>  diff --git a/drivers/iio/industrialio-buffer.c 
+> >> b/drivers/iio/industrialio-buffer.c
+> >>  index 94eb9f6cf128..72f333a519bc 100644
+> >>  --- a/drivers/iio/industrialio-buffer.c
+> >>  +++ b/drivers/iio/industrialio-buffer.c
+> >>  @@ -17,6 +17,7 @@
+> >>   #include <linux/fs.h>
+> >>   #include <linux/cdev.h>
+> >>   #include <linux/slab.h>
+> >>  +#include <linux/mm.h>
+> >>   #include <linux/poll.h>
+> >>   #include <linux/sched/signal.h>
+> >> 
+> >>  @@ -1520,11 +1521,65 @@ static int iio_buffer_chrdev_release(struct 
+> >> inode *inode, struct file *filep)
+> >>   	return 0;
+> >>   }
+> >> 
+> >>  +static int iio_buffer_enqueue_dmabuf(struct iio_buffer *buffer,
+> >>  +				     struct iio_dmabuf __user *user_buf)
+> >>  +{
+> >>  +	struct iio_dmabuf dmabuf;
+> >>  +
+> >>  +	if (!buffer->access->enqueue_dmabuf)
+> >>  +		return -EPERM;
+> >>  +
+> >>  +	if (copy_from_user(&dmabuf, user_buf, sizeof(dmabuf)))
+> >>  +		return -EFAULT;
+> >>  +
+> >>  +	if (dmabuf.flags & ~IIO_BUFFER_DMABUF_SUPPORTED_FLAGS)
+> >>  +		return -EINVAL;
+> >>  +
+> >>  +	return buffer->access->enqueue_dmabuf(buffer, &dmabuf);
+> >>  +}
+> >>  +
+> >>  +static int iio_buffer_alloc_dmabuf(struct iio_buffer *buffer,
+> >>  +				   struct iio_dmabuf_alloc_req __user *user_req)
+> >>  +{
+> >>  +	struct iio_dmabuf_alloc_req req;
+> >>  +
+> >>  +	if (!buffer->access->alloc_dmabuf)
+> >>  +		return -EPERM;
+> >>  +
+> >>  +	if (copy_from_user(&req, user_req, sizeof(req)))
+> >>  +		return -EFAULT;
+> >>  +
+> >>  +	if (req.resv)
+> >>  +		return -EINVAL;
+> >>  +
+> >>  +	return buffer->access->alloc_dmabuf(buffer, &req);
+> >>  +}
+> >>  +
+> >>  +static long iio_buffer_chrdev_ioctl(struct file *filp,
+> >>  +				    unsigned int cmd, unsigned long arg)
+> >>  +{
+> >>  +	struct iio_dev_buffer_pair *ib = filp->private_data;
+> >>  +	struct iio_buffer *buffer = ib->buffer;
+> >>  +	void __user *_arg = (void __user *)arg;
+> >>  +
+> >>  +	switch (cmd) {
+> >>  +	case IIO_BUFFER_DMABUF_ALLOC_IOCTL:
+> >>  +		return iio_buffer_alloc_dmabuf(buffer, _arg);
+> >>  +	case IIO_BUFFER_DMABUF_ENQUEUE_IOCTL:
+> >>  +		/* TODO: support non-blocking enqueue operation */
+> >>  +		return iio_buffer_enqueue_dmabuf(buffer, _arg);
+> >>  +	default:
+> >>  +		return IIO_IOCTL_UNHANDLED;
+> >>  +	}
+> >>  +}
+> >>  +
+> >>   static const struct file_operations iio_buffer_chrdev_fileops = {
+> >>   	.owner = THIS_MODULE,
+> >>   	.llseek = noop_llseek,
+> >>   	.read = iio_buffer_read,
+> >>   	.write = iio_buffer_write,
+> >>  +	.unlocked_ioctl = iio_buffer_chrdev_ioctl,
+> >>  +	.compat_ioctl = compat_ptr_ioctl,
+> >>   	.poll = iio_buffer_poll,
+> >>   	.release = iio_buffer_chrdev_release,
+> >>   };
+> >>  diff --git a/include/linux/iio/buffer_impl.h 
+> >> b/include/linux/iio/buffer_impl.h
+> >>  index e2ca8ea23e19..728541bc2c63 100644
+> >>  --- a/include/linux/iio/buffer_impl.h
+> >>  +++ b/include/linux/iio/buffer_impl.h
+> >>  @@ -39,6 +39,9 @@ struct iio_buffer;
+> >>    *                      device stops sampling. Calles are balanced 
+> >> with @enable.
+> >>    * @release:		called when the last reference to the buffer is 
+> >> dropped,
+> >>    *			should free all resources allocated by the buffer.
+> >>  + * @alloc_dmabuf:	called from userspace via ioctl to allocate one 
+> >> DMABUF.
+> >>  + * @enqueue_dmabuf:	called from userspace via ioctl to queue this 
+> >> DMABUF
+> >>  + *			object to this buffer. Requires a valid DMABUF fd.
+> >>    * @modes:		Supported operating modes by this buffer type
+> >>    * @flags:		A bitmask combination of INDIO_BUFFER_FLAG_*
+> >>    *
+> >>  @@ -68,6 +71,11 @@ struct iio_buffer_access_funcs {
+> >> 
+> >>   	void (*release)(struct iio_buffer *buffer);
+> >> 
+> >>  +	int (*alloc_dmabuf)(struct iio_buffer *buffer,
+> >>  +			    struct iio_dmabuf_alloc_req *req);
+> >>  +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
+> >>  +			      struct iio_dmabuf *block);
+> >>  +
+> >>   	unsigned int modes;
+> >>   	unsigned int flags;
+> >>   };
+> >>  diff --git a/include/uapi/linux/iio/buffer.h 
+> >> b/include/uapi/linux/iio/buffer.h
+> >>  index 13939032b3f6..e4621b926262 100644
+> >>  --- a/include/uapi/linux/iio/buffer.h
+> >>  +++ b/include/uapi/linux/iio/buffer.h
+> >>  @@ -5,6 +5,35 @@
+> >>   #ifndef _UAPI_IIO_BUFFER_H_
+> >>   #define _UAPI_IIO_BUFFER_H_
+> >> 
+> >>  +#include <linux/types.h>
+> >>  +
+> >>  +#define IIO_BUFFER_DMABUF_SUPPORTED_FLAGS	0x00000000
+> >>  +
+> >>  +/**
+> >>  + * struct iio_dmabuf_alloc_req - Descriptor for allocating IIO 
+> >> DMABUFs
+> >>  + * @size:	the size of a single DMABUF
+> >>  + * @resv:	reserved
+> >>  + */
+> >>  +struct iio_dmabuf_alloc_req {
+> >>  +	__u64 size;
+> >>  +	__u64 resv;
+> >>  +};
+> >>  +
+> >>  +/**
+> >>  + * struct iio_dmabuf - Descriptor for a single IIO DMABUF object
+> >>  + * @fd:		file descriptor of the DMABUF object
+> >>  + * @flags:	one or more IIO_BUFFER_DMABUF_* flags
+> >>  + * @bytes_used:	number of bytes used in this DMABUF for the data 
+> >> transfer.
+> >>  + *		If zero, the full buffer is used.
+> >>  + */
+> >>  +struct iio_dmabuf {
+> >>  +	__u32 fd;
+> >>  +	__u32 flags;
+> >>  +	__u64 bytes_used;
+> >>  +};
+> >>  +
+> >>   #define IIO_BUFFER_GET_FD_IOCTL			_IOWR('i', 0x91, int)
+> >>  +#define IIO_BUFFER_DMABUF_ALLOC_IOCTL		_IOW('i', 0x92, struct 
+> >> iio_dmabuf_alloc_req)
+> >>  +#define IIO_BUFFER_DMABUF_ENQUEUE_IOCTL		_IOW('i', 0x93, struct 
+> >> iio_dmabuf)
+> >> 
+> >>   #endif /* _UAPI_IIO_BUFFER_H_ */  
+> >   
+> 
+> 
 
-Maybe it's better to write as `... providers must ``#include <linux/hte.h>```.
-
-> +The HTE framework APIs for the providers
-> +----------------------------------------
-> +
-> +.. kernel-doc:: drivers/hte/hte.c
-> +   :functions: devm_hte_register_chip hte_push_ts_ns
-> +
-> +The HTE framework APIs for the consumers
-> +----------------------------------------
-> +
-> +.. kernel-doc:: drivers/hte/hte.c
-> +   :functions: devm_of_hte_request_ts_ns hte_req_ts_by_linedata_ns hte_release_ts hte_enable_ts hte_disable_ts hte_get_clk_src_info
-> +
-> +The HTE framework public structures
-> +-----------------------------------
-> +.. kernel-doc:: include/linux/hte.h
-> +
-> +More on the HTE timestamp data
-> +------------------------------
-> +The struct hte_ts_data is used to pass timestamp details between the consumers
-> +and the providers. It expresses timestamp data in nanoseconds in u64 data
-> +type. For now all the HTE APIs using struct hte_ts_data require tsc to be in
-> +nanoseconds. An example of the typical hte_ts_data data life cycle, for the
-> +GPIO line is as follows::
-> +
-
-When we talk about name terms found in actual code (like keywords or variable
-names), it is customary to enclose them inside inline code (for example,
-``struct what`` or ``u64 what``).
-
-> + - Monitors GPIO line change.
-> + - Detects the state change on GPIO line.
-> + - Converts timestamps in nanoseconds and stores it in tsc.
-> + - Stores GPIO raw level in raw_level variable if the provider has that
-> + hardware capability.
-> + - Pushes this hte_ts_data object to HTE subsystem.
-> + - HTE subsystem increments seq counter and invokes consumer provided callback.
-> + Based on callback return value, the HTE core invokes secondary callback in
-> + the thread context.
-> +
-> +HTE subsystem debugfs attributes
-> +--------------------------------
-> +HTE subsystem creates debugfs attributes at ``/sys/kernel/debug/hte/``.
-> +It also creates line/signal-related debugfs attributes at
-> +``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
-> +
-> +`ts_requested`
-> +		The total number of entities requested from the given provider,
-> +		where entity is specified by the provider and could represent
-> +		lines, GPIO, chip signals, buses etc...
-> +                The attribute will be available at
-> +		``/sys/kernel/debug/hte/<provider>/``.
-> +
-> +		Read-only value
-> +
-> +`total_ts`
-> +		The total number of entities supported by the provider.
-> +                The attribute will be available at
-> +		``/sys/kernel/debug/hte/<provider>/``.
-> +
-> +		Read-only value
-> +
-> +`dropped_timestamps`
-> +		The dropped timestamps for a given line.
-> +                The attribute will be available at
-> +		``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
-> +
-> +		Read-only value
-
-Since all these debugfs variables are read-only, we can say "Note that all
-these values are read-only".
-
--- 
-An old man doll... just what I always wanted! - Clara
