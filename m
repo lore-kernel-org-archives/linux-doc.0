@@ -2,53 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC69C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 12:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F351C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 12:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237068AbiC2M5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 08:57:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52360 "EHLO
+        id S236833AbiC2M6t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 08:58:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237037AbiC2M4p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 08:56:45 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6656225C64;
-        Tue, 29 Mar 2022 05:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=1Mlt4jgKjj/rNLkdgKpc8EIxOQq5LjjUIgForipMaQw=; b=mzESZkgLu1hlfrCMYVyR7tdyQM
-        J7zzm+wV36G9QDXIMRUFSO0yB0OAQaG9LpN3XKrftsPkelQWQPFTiFLOolHc4AcEO8PeQbUuq9DDT
-        WRHthaildAR+wzz6MBHQKa97y0gBlCUKCMpZUvtpQwDL6RtvdPntF3VR/0tWQHSNCIcw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nZBLW-00DACi-Df; Tue, 29 Mar 2022 14:53:14 +0200
-Date:   Tue, 29 Mar 2022 14:53:14 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        f.fainelli@gmail.com
-Subject: Re: [PATCH net v2 05/14] docs: netdev: note that RFC postings are
- allowed any time
-Message-ID: <YkMBOhF3csCOxMIu@lunn.ch>
-References: <20220329050830.2755213-1-kuba@kernel.org>
- <20220329050830.2755213-6-kuba@kernel.org>
+        with ESMTP id S237214AbiC2M60 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 08:58:26 -0400
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207965FE8
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 05:56:40 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KSTvS2GXJzMq0vs;
+        Tue, 29 Mar 2022 14:51:00 +0200 (CEST)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4KSTvS0TrszlhMCC;
+        Tue, 29 Mar 2022 14:51:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1648558260;
+        bh=Z7Dv4Wuaux19f4A4TfPGhRhJCwQox2If8Ghi9nfOU5U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BPgLnbzLEtVqYdu82o/LrMMKpglq4vbp4cDMZDbbpGTCK/qXfX+hN979Kzg7RSemC
+         mqTCwSSjVy9B0hddHLSPClVb4zdiAHu2ZeynsROXlVX83Lag+EgkmPC4VbYgKCKYR1
+         qOY4Q9SBuD0W92d9w8ftcJ+q+ScciBbdNzmxz/RA=
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
+Subject: [PATCH v2 03/12] landlock: Create find_rule() from unmask_layers()
+Date:   Tue, 29 Mar 2022 14:51:08 +0200
+Message-Id: <20220329125117.1393824-4-mic@digikod.net>
+In-Reply-To: <20220329125117.1393824-1-mic@digikod.net>
+References: <20220329125117.1393824-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220329050830.2755213-6-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 28, 2022 at 10:08:21PM -0700, Jakub Kicinski wrote:
-> Document that RFCs are allowed during the merge window.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+From: Mickaël Salaün <mic@linux.microsoft.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+This refactoring will be useful in a following commit.
 
-    Andrew
+Reviewed-by: Paul Moore <paul@paul-moore.com>
+Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+Link: https://lore.kernel.org/r/20220329125117.1393824-4-mic@digikod.net
+---
+
+Changes since v1:
+* Add Reviewed-by: Paul Moore.
+---
+ security/landlock/fs.c | 39 +++++++++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
+
+diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+index 4048e3c04d75..0bcb27f2360a 100644
+--- a/security/landlock/fs.c
++++ b/security/landlock/fs.c
+@@ -180,23 +180,36 @@ int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
+ 
+ /* Access-control management */
+ 
+-static inline layer_mask_t unmask_layers(
++/*
++ * The lifetime of the returned rule is tied to @domain.
++ *
++ * Returns NULL if no rule is found or if @dentry is negative.
++ */
++static inline const struct landlock_rule *find_rule(
+ 		const struct landlock_ruleset *const domain,
+-		const struct path *const path,
+-		const access_mask_t access_request, layer_mask_t layer_mask)
++		const struct dentry *const dentry)
+ {
+ 	const struct landlock_rule *rule;
+ 	const struct inode *inode;
+-	size_t i;
+ 
+-	if (d_is_negative(path->dentry))
+-		/* Ignore nonexistent leafs. */
+-		return layer_mask;
+-	inode = d_backing_inode(path->dentry);
++	/* Ignores nonexistent leafs. */
++	if (d_is_negative(dentry))
++		return NULL;
++
++	inode = d_backing_inode(dentry);
+ 	rcu_read_lock();
+ 	rule = landlock_find_rule(domain,
+ 			rcu_dereference(landlock_inode(inode)->object));
+ 	rcu_read_unlock();
++	return rule;
++}
++
++static inline layer_mask_t unmask_layers(
++		const struct landlock_rule *const rule,
++		const access_mask_t access_request, layer_mask_t layer_mask)
++{
++	size_t layer_level;
++
+ 	if (!rule)
+ 		return layer_mask;
+ 
+@@ -207,8 +220,9 @@ static inline layer_mask_t unmask_layers(
+ 	 * the remaining layers for each inode, from the first added layer to
+ 	 * the last one.
+ 	 */
+-	for (i = 0; i < rule->num_layers; i++) {
+-		const struct landlock_layer *const layer = &rule->layers[i];
++	for (layer_level = 0; layer_level < rule->num_layers; layer_level++) {
++		const struct landlock_layer *const layer =
++			&rule->layers[layer_level];
+ 		const layer_mask_t layer_bit = BIT_ULL(layer->level - 1);
+ 
+ 		/* Checks that the layer grants access to the full request. */
+@@ -266,8 +280,9 @@ static int check_access_path(const struct landlock_ruleset *const domain,
+ 	while (true) {
+ 		struct dentry *parent_dentry;
+ 
+-		layer_mask = unmask_layers(domain, &walker_path,
+-				access_request, layer_mask);
++		layer_mask = unmask_layers(find_rule(domain,
++					walker_path.dentry), access_request,
++				layer_mask);
+ 		if (layer_mask == 0) {
+ 			/* Stops when a rule from each layer grants access. */
+ 			allowed = true;
+-- 
+2.35.1
+
