@@ -2,159 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2230C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Mar 2022 22:37:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A49C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 00:31:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbiC1WjY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Mar 2022 18:39:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60364 "EHLO
+        id S231403AbiC2Ac7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Mar 2022 20:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbiC1WjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 18:39:23 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AD74925B
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 15:37:41 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id b15so18646923edn.4
-        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 15:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=koFN17ulxhdVtMhymKzO/TIc0UlPzvBHq58ZjJYY7jM=;
-        b=AIfvTei1IeVbt+Bk9bsDu8i0OAjWtkFUIv7yu6nVy8c08SnnefFP7cH85NLEj/wNCw
-         i2/jbg5t6KzHaYJu21vb1zZZOPfSMKIAjkR+wE9H95LVEpePX5UnIgZg54doj1ggCPBc
-         +E5bTjIsBu2ynhVqQIXJaZyKH5zDOCTzn7NjYEQi1hJkAah/ZByHz5rUdih+9IMXoZKn
-         kj1nSrlWjgLfiTlk1zuDCj6eG9iDc1KzyG+e9pGVIJXj8bktP0wojYEZJz2sgMCIF8R4
-         iQhNT1pJbGBi/pDON8VfwJv3viJtAZLBCCh4o1dGEvU7Ij2Ep6L7qPMlleiNsd5gbyl1
-         8vAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=koFN17ulxhdVtMhymKzO/TIc0UlPzvBHq58ZjJYY7jM=;
-        b=w1hOSuS8Rn/TeXVMm98WXYrPX0nCdcOioexi4BpEbwejBaOLVsqi99ChDa0w3O17dw
-         FHzdG304IXWXQ3cxkC06NhENgy3P0pOAXw1jB9GLBD67of4eEO7q+evCFmaW+eSyDGze
-         10orVm95+qdRqKUkyhUy8jB1grKkOYFs3d15SGjtwa93SB6CrYFk0TmQa3bnx7MR5gFN
-         KZS4wzR4GwSAhVMF7vOTzHCdYx4U29xw5HpI6YZq9zzu+GzDmFSSW4eF1vfdaASwpKjy
-         s44sgj5YP6feewlrJ13VfSL2NwKc850VgtYFJ1/gEa604UHuEKnYAIlC/NpVkRl23JQA
-         Mwyg==
-X-Gm-Message-State: AOAM533O+Bh72wF/23iu27PBzneibOgvGjCEemoeCTJHZ44G3z9r1j6L
-        GKxy01Jonq5y410sIaHmPoMI5e0RHTmff732UifJKA==
-X-Google-Smtp-Source: ABdhPJy4H1cvLXKft5SWJwyRx3X+cyr/G//Qw0QJiCqbwIOBZEWToj35RPb4cu1OUszYCjHF8kvRJgf830piojgobh0=
-X-Received: by 2002:a50:c307:0:b0:418:ec3b:2242 with SMTP id
- a7-20020a50c307000000b00418ec3b2242mr147905edb.229.1648507059439; Mon, 28 Mar
- 2022 15:37:39 -0700 (PDT)
+        with ESMTP id S231400AbiC2Ac6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Mar 2022 20:32:58 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250B451E64
+        for <linux-doc@vger.kernel.org>; Mon, 28 Mar 2022 17:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=SZETBU7GW+Nogq+UKGx3PPRIl4yZ4UUcAQevL4kL+l4=; b=iWa42Q6MB+5OY4+LJZpXvGEVV7
+        7/3gyVtErCnuGod02yIBZUtCnKMydaIfRYLoAerK7WLrGmiJMZhRwEehuJy96ySZSQVUgrw2o1TfL
+        UmKRy6+jm8ycGID5kG8iCf7ZTMz8Q2M5O0AHBe8FYy+k4Tj3RxrekSLHv227pT0ShH0Tq2+arv+y3
+        5qtVIUi0p+kevoPt2+geWrbuICK8r+FojcEiIqHtaffOFo52X6QOjoJ3bkD48BYK3Q9eVzHkIlKen
+        619jDr+tZtgVZfZeaiCj9zyK+slOmceTfnx4R+u3b8C8E6ocG5sdjUFCLU+JOn76ow/wkUTWElvCg
+        HHx4MeyQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nYzlR-00HPKu-Ri; Tue, 29 Mar 2022 00:31:14 +0000
+Date:   Tue, 29 Mar 2022 01:31:13 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     linux-mm@kvack.org
+Cc:     linux-doc@vger.kernel.org
+Subject: Fixing doc warnings for struct folio
+Message-ID: <YkJTUWCNh3YxhvQ1@casper.infradead.org>
 MIME-Version: 1.0
-References: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
-In-Reply-To: <YkImfPbNOzQBq5ZD@marsc.168.1.7>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Mon, 28 Mar 2022 17:37:28 -0500
-Message-ID: <CAGS_qxpjj1W54BM7v2Cszne4nh5kUXZt89Dq-5nO3nD7RWhsRQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: dev-tools: Add a section for static
- analysis tools
-To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc:     corbet@lwn.net, mchehab+huawei@kernel.org, davidgow@google.com,
-        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 28, 2022 at 4:20 PM Marcelo Schmitt
-<marcelo.schmitt1@gmail.com> wrote:
->
-> Complement the Kernel Testing Guide documentation page by adding a
-> section about static analysis tools.
->
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+I realised this didn't have a cc to linux-mm.
 
+For that matter, linux-doc might have some opinions.
 
-> ---
-> Hey everyone,
->
-> I think this patch can be a good addition to the documentation as
-> discussed in the thread for the testing guide documentation page:
-> Link: https://lore.kernel.org/linux-doc/CABVgOS=2iYtqTVdxwH=mcFpcSuLP4cpJ4s6PKP4Gc-SH6jidgQ@mail.gmail.com/
->
-> If you think it would be worth it, I can try making something more
+----- Forwarded message from Matthew Wilcox <willy@infradead.org> -----
 
-Nice!
-This is definitely worth including, but I'm out of my depth here.
-Some ideas below in case they're helpful.
+Date: Tue, 29 Mar 2022 00:04:01 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Hugh Dickins <hughd@google.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Andrew Morton
+	<akpm@linux-foundation.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, Linux Next Mailing List
+	<linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warnings after merge of the akpm-current tree
 
-Acked-by: Daniel Latypov <dlatypov@google.com>
+On Wed, Feb 09, 2022 at 08:03:26AM -0800, Hugh Dickins wrote:
+> On Wed, 9 Feb 2022, Stephen Rothwell wrote:
+> > include/linux/mm_types.h:272: warning: Function parameter or member '__filler' not described in 'folio'
+> > include/linux/mm_types.h:272: warning: Function parameter or member 'mlock_count' not described in 'folio'
+> 
+> Thank you for including the patches and reporting this, Stephen.
+> Is this a warning you can live with for a week or two?
+> 
+> I've never tried generating htmldocs (I'm tempted just to replace a few
+> "/**"s by "/*"s!), and I'm fairly sure Matthew will have strong feelings
+> about how this new union (or not) will be better foliated - me messing
+> around with doc output here is unlikely to be helpful at this moment.
 
-> elaborated. Maybe provide some guidance on when to use each tool.
-> I've been studying how Linux device drivers are tested.
-> Here's a post I wrote talking about some testing tools.
-> Link: https://marcelosc.gitlab.io/how-is-linux-tested/
->
-> Best regards,
-> Marcelo
->
->  Documentation/dev-tools/testing-overview.rst | 29 ++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> index 65feb81edb14..b00511109a9d 100644
-> --- a/Documentation/dev-tools/testing-overview.rst
-> +++ b/Documentation/dev-tools/testing-overview.rst
-> @@ -115,3 +115,32 @@ that none of these errors are occurring during the test.
->  Some of these tools integrate with KUnit or kselftest and will
->  automatically fail tests if an issue is detected.
->
-> +Static Analysis Tools
-> +======================
-> +
-> +In addition to testing a running kernel, one may also scout for bugs by
-> +analyzing the source code semantics. Three tools are well known for serving this
-> +purpose.
-> +
-> +Sparse can help test the kernel by performing type-checking, lock checking,
-> +value range checking, in addition to reporting various errors and warnings while
-> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
-> +page for details on how to use it.
-> +
-> +Smatch extends Sparse and provides additional checks for programming logic
+I have a substantial question, and then some formatting / appearance
+questions.
 
-Coming from a place of ignorance, when should I use sparse vs smatch?
-Is there an existing consensus on this, or is that a controversial question?
+The first is, what does mlock_count represent for a multi-page folio
+that is partially mlocked?  If you allocate an order-9 page then mmap()
+13 pages of it and mlockall(), does mlock_count increase by 1, 13 or 512?
 
-I assume other newcomers like me will have the same question and be
-unsure if they should spend time learning about sparse.
-In general, I think the main point of this page is to explain both
-what the tools do and give an idea of _why_ someone might want to
-consider using them.
+Then we have a tradeoff between prettiness of the source code and
+prettiness of the htmldocs.  At one maximum, we can make it look like
+this in the htmldocs:
 
-> +mistakes such as missing breaks in switch statements, unused return values on
-> +error checking, forgetting to set an error code in the return of an error path,
-> +etc. Smatch also has tests against more serious issues such as integer
-> +overflows, null pointer dereferences, and memory leaks. See the project page at
-> +http://smatch.sourceforge.net/.
-> +
-> +We also have Coccinelle as an option within static analyzers. Coccinelle is
-> +often used to aid collateral evolution of source code, but it can also help to
-> +avoid certain bugs that have been expressed semantically. The types of tests
-> +available include API tests, tests for correct usage of kernel iterators, checks
-> +for the soundness of free operations, analysis of locking behavior, and further
-> +tests known to help keep consistent kernel usage. See the
-> +Documentation/dev-tools/coccinelle.rst documentation page for details.
-> +
-> +These static analysis tools support running tests on the whole source tree or
-> +over a specific file or directory.
+struct folio {
+  unsigned long flags;
+  struct list_head lru;
+  unsigned int mlock_count;
+  struct address_space *mapping;
+  pgoff_t index;
+  void *private;
+  atomic_t _mapcount;
+  atomic_t _refcount;
+#ifdef CONFIG_MEMCG;
+  unsigned long memcg_data;
+#endif;
+};
 
-Personal preference:
-I'd personally put this up before we go into details about each tool.
+but at the cost of making the source code look like this:
 
-E.g. perhaps like
+struct folio {
+        /* private: don't document the anon union */
+        union {
+                struct {
+        /* public: */
+                        unsigned long flags;
+        /* private: */
+                        union {
+        /* public: */
+                                struct list_head lru;
+        /* private: */
+                                struct {
+                                        void *__filler;
+        /* public: */
+                                        unsigned int mlock_count;
+        /* private: */
+                                };
+                        };
+        /* public: */
+                        struct address_space *mapping;
 
-In addition to testing a running kernel, one can also analyze kernel
-source code directly (the whole tree or specific files) using **static
-analysis** tools.
-Some tools commonly used in the kernel are ...
+At the other extreme, the htmldocs can look more complicated:
 
-> --
-> 2.35.1
->
+struct folio {
+  unsigned long flags;
+  union {
+    struct list_head lru;
+    struct {
+      unsigned int mlock_count;
+    };
+  };
+  struct address_space *mapping;
+  pgoff_t index;
+  void *private;
+  atomic_t _mapcount;
+  atomic_t _refcount;
+#ifdef CONFIG_MEMCG;
+  unsigned long memcg_data;
+#endif;
+};
+
+with the source code changes being merely:
+
+@@ -227,6 +227,7 @@ struct page {
+  * struct folio - Represents a contiguous set of bytes.
+  * @flags: Identical to the page flags.
+  * @lru: Least Recently Used list; tracks how recently this folio was used.
++ * @mlock_count: Number of times any page in this folio is mlocked.
+  * @mapping: The file this page belongs to, or refers to the anon_vma for
+  *    anonymous memory.
+  * @index: Offset within the file, in units of pages.  For anonymous memory,
+@@ -256,7 +257,9 @@ struct folio {
+                        union {
+                                struct list_head lru;
+                                struct {
++       /* private: */
+                                        void *__filler;
++       /* public: */
+                                        unsigned int mlock_count;
+                                };
+                        };
+
+Various steps in between are possible, such as removing the anonymous
+struct from the documentation, but leaving the union.  We could also
+choose to document __filler, but that seems like a poor choice to me.
+
+Anyway, that's all arguable and not really too important.  My mild
+preference is for the private/public markers around __filler alone,
+but I'll happily abide by the preferences of others.
+
+The important part is what mlock_count really means.  We can be
+reasonably verbose here (two or three lines of text, I'd suggest).
+
+----- End forwarded message -----
