@@ -2,260 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 322C4C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 09:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B8EC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 11:03:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234232AbiC2Jt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 05:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S235514AbiC2LF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 07:05:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233341AbiC2Jt0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 05:49:26 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0AF523B3F8;
-        Tue, 29 Mar 2022 02:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1648547260; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=e8RgERyOiW+i+GwydncfsHV1G1M1TmxHobeUS8u9jq4=;
-        b=Z/BO0tiDIQpKj0a5aKQmLM7Y9WyMII/XnpqKHAjueN1dLp3XhBsqxs4GcLXarRrNnn07Gv
-        Kmskxk6LAOg9r/RBxVE3j29PkKi8Myc0t4dAA4CVEKmTjhCA7Lvap82oM26LP4xTWMshGB
-        RfDhQY5k2tc5ylIDMTc25PAUZQfTE08=
-Date:   Tue, 29 Mar 2022 10:47:23 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 12/12] Documentation: iio: Document high-speed DMABUF
- based API
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>
-Message-Id: <Z63I9R.MKYUKBH4V8L41@crapouillou.net>
-In-Reply-To: <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
-References: <20220207125933.81634-1-paul@crapouillou.net>
-        <20220207130140.81891-1-paul@crapouillou.net>
-        <20220207130140.81891-2-paul@crapouillou.net>
-        <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
+        with ESMTP id S231437AbiC2LFZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 07:05:25 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F071A82E;
+        Tue, 29 Mar 2022 04:03:39 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KSRWF10D9z1GD1m;
+        Tue, 29 Mar 2022 19:03:21 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 29 Mar 2022 19:03:37 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.21; Tue, 29 Mar 2022 19:03:35 +0800
+Message-ID: <4136ec1c-51a9-3874-9bf3-c81cd88e868a@huawei.com>
+Date:   Tue, 29 Mar 2022 19:03:35 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 0/9] introduce mirrored memory support for arm64
+To:     <ardb@kernel.org>
+CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zyccr.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <rppt@kernel.org>, <paulmck@kernel.org>,
+        <peterz@infradead.org>, <jroedel@suse.de>,
+        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
+        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
+        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
+        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
+        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20220326064632.131637-1-mawupeng1@huawei.com>
+ <CAMj1kXEwzJE8V-tqJJwZ-RqHB3atKJvoRZ8C6_EVM7caNbttxw@mail.gmail.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <CAMj1kXEwzJE8V-tqJJwZ-RqHB3atKJvoRZ8C6_EVM7caNbttxw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
-
-Le mar., mars 29 2022 at 10:54:43 +0200, Daniel Vetter=20
-<daniel@ffwll.ch> a =E9crit :
-> On Mon, Feb 07, 2022 at 01:01:40PM +0000, Paul Cercueil wrote:
->>  Document the new DMABUF based API.
->>=20
->>  v2: - Explicitly state that the new interface is optional and is
->>        not implemented by all drivers.
->>      - The IOCTLs can now only be called on the buffer FD returned by
->>        IIO_BUFFER_GET_FD_IOCTL.
->>      - Move the page up a bit in the index since it is core stuff=20
->> and not
->>        driver-specific.
->>=20
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   Documentation/driver-api/dma-buf.rst |  2 +
->>   Documentation/iio/dmabuf_api.rst     | 94=20
->> ++++++++++++++++++++++++++++
->>   Documentation/iio/index.rst          |  2 +
->>   3 files changed, 98 insertions(+)
->>   create mode 100644 Documentation/iio/dmabuf_api.rst
->>=20
->>  diff --git a/Documentation/driver-api/dma-buf.rst=20
->> b/Documentation/driver-api/dma-buf.rst
->>  index 2cd7db82d9fe..d3c9b58d2706 100644
->>  --- a/Documentation/driver-api/dma-buf.rst
->>  +++ b/Documentation/driver-api/dma-buf.rst
->>  @@ -1,3 +1,5 @@
->>  +.. _dma-buf:
->>  +
->>   Buffer Sharing and Synchronization
->>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>=20
->>  diff --git a/Documentation/iio/dmabuf_api.rst=20
->> b/Documentation/iio/dmabuf_api.rst
->>  new file mode 100644
->>  index 000000000000..43bb2c1b9fdc
->>  --- /dev/null
->>  +++ b/Documentation/iio/dmabuf_api.rst
->>  @@ -0,0 +1,94 @@
->>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  +High-speed DMABUF interface for IIO
->>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  +
->>  +1. Overview
->>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  +
->>  +The Industrial I/O subsystem supports access to buffers through a=20
->> file-based
->>  +interface, with read() and write() access calls through the IIO=20
->> device's dev
->>  +node.
->>  +
->>  +It additionally supports a DMABUF based interface, where the=20
->> userspace
->>  +application can allocate and append DMABUF objects to the buffer's=20
->> queue.
->>  +This interface is however optional and is not available in all=20
->> drivers.
->>  +
->>  +The advantage of this DMABUF based interface vs. the read()
->>  +interface, is that it avoids an extra copy of the data between the
->>  +kernel and userspace. This is particularly useful for high-speed
->>  +devices which produce several megabytes or even gigabytes of data=20
->> per
->>  +second.
->>  +
->>  +The data in this DMABUF interface is managed at the granularity of
->>  +DMABUF objects. Reducing the granularity from byte level to block=20
->> level
->>  +is done to reduce the userspace-kernelspace synchronization=20
->> overhead
->>  +since performing syscalls for each byte at a few Mbps is just not
->>  +feasible.
->>  +
->>  +This of course leads to a slightly increased latency. For this=20
->> reason an
->>  +application can choose the size of the DMABUFs as well as how many=20
->> it
->>  +allocates. E.g. two DMABUFs would be a traditional double buffering
->>  +scheme. But using a higher number might be necessary to avoid
->>  +underflow/overflow situations in the presence of scheduling=20
->> latencies.
->=20
-> So this reads a lot like reinventing io-uring with pre-registered=20
-> O_DIRECT
-> memory ranges. Except it's using dma-buf and hand-rolling a lot of=20
-> pieces
-> instead of io-uring and O_DIRECT.
-
-I don't see how io_uring would help us. It's an async I/O framework,=20
-does it allow us to access a kernel buffer without copying the data?=20
-Does it allow us to zero-copy the data to a network interface?
-
-> At least if the entire justification for dma-buf support is zero-copy
-> support between the driver and userspace it's _really_ not the right=20
-> tool
-> for the job. dma-buf is for zero-copy between devices, with cpu access
-> from userpace (or kernel fwiw) being very much the exception (and=20
-> often
-> flat-out not supported at all).
-
-We want both. Using dma-bufs for the driver/userspace interface is a=20
-convenience as we then have a unique API instead of two distinct ones.
-
-Why should CPU access from userspace be the exception? It works fine=20
-for IIO dma-bufs. You keep warning about this being a terrible design,=20
-but I simply don't see it.
-
-Cheers,
--Paul
-
->>  +
->>  +2. User API
->>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  +
->>  +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *)``
->>  +----------------------------------------------------------------
->>  +
->>  +Each call will allocate a new DMABUF object. The return value (if=20
->> not
->>  +a negative errno value as error) will be the file descriptor of=20
->> the new
->>  +DMABUF.
->>  +
->>  +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
->>  +--------------------------------------------------------
->>  +
->>  +Place the DMABUF object into the queue pending for hardware=20
->> process.
->>  +
->>  +These two IOCTLs have to be performed on the IIO buffer's file
->>  +descriptor, obtained using the `IIO_BUFFER_GET_FD_IOCTL` ioctl.
->>  +
->>  +3. Usage
->>  +=3D=3D=3D=3D=3D=3D=3D=3D
->>  +
->>  +To access the data stored in a block by userspace the block must be
->>  +mapped to the process's memory. This is done by calling mmap() on=20
->> the
->>  +DMABUF's file descriptor.
->>  +
->>  +Before accessing the data through the map, you must use the
->>  +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
->>  +DMA_BUF_SYNC_START flag, to make sure that the data is available.
->>  +This call may block until the hardware is done with this block.=20
->> Once
->>  +you are done reading or writing the data, you must use this ioctl=20
->> again
->>  +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
->>  +kernel's queue.
->>  +
->>  +If you need to know when the hardware is done with a DMABUF, you=20
->> can
->>  +poll its file descriptor for the EPOLLOUT event.
->>  +
->>  +Finally, to destroy a DMABUF object, simply call close() on its=20
->> file
->>  +descriptor.
->>  +
->>  +For more information about manipulating DMABUF objects, see:=20
->> :ref:`dma-buf`.
->>  +
->>  +A typical workflow for the new interface is:
->>  +
->>  +    for block in blocks:
->>  +      DMABUF_ALLOC block
->>  +      mmap block
->>  +
->>  +    enable buffer
->>  +
->>  +    while !done
->>  +      for block in blocks:
->>  +        DMABUF_ENQUEUE block
->>  +
->>  +        DMABUF_SYNC_START block
->>  +        process data
->>  +        DMABUF_SYNC_END block
->>  +
->>  +    disable buffer
->>  +
->>  +    for block in blocks:
->>  +      close block
->>  diff --git a/Documentation/iio/index.rst=20
->> b/Documentation/iio/index.rst
->>  index 58b7a4ebac51..669deb67ddee 100644
->>  --- a/Documentation/iio/index.rst
->>  +++ b/Documentation/iio/index.rst
->>  @@ -9,4 +9,6 @@ Industrial I/O
->>=20
->>      iio_configfs
->>=20
->>  +   dmabuf_api
->>  +
->>      ep93xx_adc
->>  --
->>  2.34.1
->>=20
->=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 
 
+在 2022/3/29 16:26, Ard Biesheuvel 写道:
+> On Sat, 26 Mar 2022 at 07:27, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>>
+>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>
+>> Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
+>> introduced mirrored memory support for x86. This support rely on UEFI to
+>> report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
+>>
+>>    http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
+>>
+>> Arm64 can support this too. So mirrored memory support is added to support
+>> arm64.
+>>
+> 
+> What is the point of this if the kernel itself is not loaded in
+> EFI_MORE_RELIABLE memory? On x86, this is handled by the decompressor,
+> but that does not exist on arm64.
+
+Do you mean this is x86, commit c05cd79750fb
+("x86/boot/KASLR: Prefer mirrored memory regions for the kernel physical address").
+This scenario is not considered.
+
+>  
+> The problem here is that UEFI defines this as a memory *attribute*
+> rather than a memory *type*, which means you cannot allocate
+> EFI_MORE_RELIABLE memory easily: you have to iterate over the memory
+> map and look for regions with the desired attribute, and allocate
+> those pages explicitly. I'd prefer to implement this in the
+> bootloader, and only add minimal logic to the stub to respect the
+> placement of the kernel by the loader if the loader signals it to do
+> so (there are other reasons for this - I will cc you on a patch
+> shortly that implements this)
+
+Thanks for your incoming patch.
+
+> 
+> This also means that the fake_mem stuff is not going to work: the
+> memory map observed by the stub comes straight from the firmware, and
+> if the stub needs to be involved in placing (or respecting the
+> placement by the loader of) the kernel image, it needs to observe
+> those EFI_MORE_RELIABLE regions too. If you don't have access to a
+> machine that actually exposes EFI_MORE_RELIABLE memory, I suggest you
+> prototype it in QEMU/edk2 instead.
+
+You are right fake_mem stuff is not going to work. But, efi_fake_mem is
+used for testing mirrored features and will not be used in production
+environment. This test features can fake memory's attribute values.
+
+The reason why efi_fake_mem support is put first is that memory's attribute
+is reported by BIOS which is hard to simulate. With this support, any arm64
+machines with efi support can easily test mirrored features.
+
+> 
+> In fact, we have been trying very hard not to touch the firmware
+> provided memory map at all on ARM, rather than use it as a scratchpad
+> for all kinds of annotations. This means, for instance, that kexec is
+> idempotent - the next kernel should not be affected by modifications
+> to the memory map applied by the previous kernel.
+
+Yes, you're absolutely right. Efi_fake_mem is incompatible with kdump which
+will use kexec. But we can remove specify cmdline(efi_fake_mem=xx) by
+modofing /etc/sysconfig/kdump. Efi_fake_mem is only used for testing and
+will not be used in production environment.
+
+> 
+> In summary, implementing kernelcore=mirror for arm64 is fine with me,
+> but there are some issues we need to address first.
+>
+Can you be clear what the issues are?
+
+The main purpose of this patchset is to introduce mirrored support for
+arm64 and we have already fixed the problems we had which is shown in
+patch #5 to patch #7 and try to bring total isolation in patch #8 which
+will disable mirror feature if kernelcore is not specified.
+
+Thanks for reviewing.
+
+> 
+> 
+> 
+>> Patch #1-#2 introduce efi_fake_mem support for arm64.
+>> Patch #3-#4 introduce mirrored memory support form arm64.
+>> Patch #5-#7 fix some bugs for arm64 if memory reliable is enabled.
+>> Patch #8 disable mirror feature if kernelcore is not specified.
+>> Patch #9 remove some redundant code in ia64 efi_init.
+>>
+>> Ma Wupeng (9):
+>>    efi: Make efi_print_memmap() public
+>>    arm64: efi: Add fake memory support
+>>    efi: Make efi_find_mirror() public
+>>    arm64/mirror: arm64 enabling - find mirrored memory ranges
+>>    mm: Ratelimited mirrored memory related warning messages
+>>    mm: Demote warning message in vmemmap_verify() to debug level
+>>    mm: Calc the right pfn if page size is not 4K
+>>    efi: Disable mirror feature if kernelcore is not specified
+>>    ia64/efi: Code simplification in efi_init
+>>
+>>   .../admin-guide/kernel-parameters.txt         |  4 +-
+>>   arch/arm64/kernel/setup.c                     |  3 ++
+>>   arch/ia64/kernel/efi.c                        | 37 +-----------------
+>>   arch/x86/include/asm/efi.h                    |  5 ---
+>>   arch/x86/platform/efi/efi.c                   | 39 -------------------
+>>   drivers/firmware/efi/Kconfig                  |  2 +-
+>>   drivers/firmware/efi/efi.c                    | 26 +++++++++++++
+>>   drivers/firmware/efi/memmap.c                 | 16 ++++++++
+>>   include/linux/efi.h                           |  4 ++
+>>   include/linux/mm.h                            |  2 +
+>>   mm/memblock.c                                 |  4 +-
+>>   mm/page_alloc.c                               |  4 +-
+>>   mm/sparse-vmemmap.c                           |  2 +-
+>>   13 files changed, 60 insertions(+), 88 deletions(-)
+>>
+>> --
+>> 2.18.0.huawei.25
+>>
+> .
