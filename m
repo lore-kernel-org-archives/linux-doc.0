@@ -2,71 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C06C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 14:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDE1C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 14:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237690AbiC2OCi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 10:02:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57912 "EHLO
+        id S235844AbiC2ODa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 10:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237686AbiC2OCh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 10:02:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816B7257
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:00:54 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C3A64537;
-        Tue, 29 Mar 2022 14:00:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3A64537
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648562453; bh=8os4ebVcjE6IeWWOLoxkjNeVF7hNVlOGN+kiHEabqIc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jYuqQ7fiHcM9tEfZ84hdbydR3oj16opPWi5PKaGEgoLaSx4zKs9rsljNLVLxumlfM
-         4bBUorLaOHeCvv9mMfN2Nj5pCRmGEW+tXdM1Fubr2gn8gWIgZr9cNg1IrV0kH7arR0
-         jIU/hqOKgYJpN8MI3e7Kd3T/EvwWS2XBShMHhOLRhjci3Z2S//stpkcH/vFahVLYWQ
-         HV0ldj5nMQ58l9TuLaA+UyuhwrsgIuPEENyziWZKjmy2W5Whbwa47z9eoKe6/3r3Mk
-         Nb2k/JdBEu+zhQGDpWD7nRCEhl+viZvgabM4OrDhzAaoEQrDnTL7u46Wkma4KXfx7K
-         g7B37PgKw+Ngg==
-From:   Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S237825AbiC2ODZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 10:03:25 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F19E206ED1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:01:42 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id u22so15990518pfg.6
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 07:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=qafIyoVjp2/zCF801IEp6SD6JfsriSZH8sbLRcResCA=;
+        b=gQvCeV9fg9bIfgMNTQE6F+WDn3DIsUpRnzMIJ/djVEMWcDBu85YiakbF9q/kIvflpr
+         NNhLQXCPRbncFAju6rFZT3rLqt8QvFZqqb81qFiZQdntySBeN5TJnTAi/vfUjLfY98qo
+         WsMOpWymVWX21cmwpVZhW6rg8JJStVwP6uoIfDlkWh1JdIWrA+I/9j8HzHfA9Pez23mx
+         VV6da90EZHhTkiJaGmo6YQxTo+eEB/gLLI6L+WAD2Pn/j3P49S0YAnWLO/LOw7+BbQBv
+         EpESCXGL120Zqlhl8CS66wwvg8Zx7cLgl45E03C/l7KKE4kIrjENawTcUVY/eCSholng
+         cDxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=qafIyoVjp2/zCF801IEp6SD6JfsriSZH8sbLRcResCA=;
+        b=GlCp8wHla5NgLp84dj3Y2xW4+Yvj4d40IF9y/ZBL0vnZfRGswWOUnAOH23Yx+doEpN
+         zV/kFdBJU+rYoTJe2BQqzXjolQ815ls6+hJVS99n0dVBNgWrGHmtCPWwaFbmfOwXbfbR
+         ITI/Axux89v6mMpdvoeq+FmwO4zvPFlc1OH7Hjdy3u24XyhZuFbW4+K4DtGRj3XD8JbK
+         dV8v+u8ydc2vqeYC7bUqAj8KmlpHhSfMUen5MHywIqlA1YYWZVnhN5FACvtfH1oi/Myy
+         dSvYUY7hLxJVYEE+rrPReUcIOgVFXFAE7fNKYirH63ln/W/5/vquWkYH+WUTEUl494R5
+         oIvA==
+X-Gm-Message-State: AOAM531C4PEizA8zEBajit7ZOEMDcfyvLlDvRNnJkbCSATaZI7Tv0T13
+        8Izj256v4WaGLs7ObYWGBH9j7XzjhE4=
+X-Google-Smtp-Source: ABdhPJxK3GXjtwZEy5B8NnEVWrqTz6ygZ7aVexhAIH/BOm3/UgqBXfbRKVYRM9ZyuwWxDWHQygzL+g==
+X-Received: by 2002:a63:ad45:0:b0:382:2459:5bc6 with SMTP id y5-20020a63ad45000000b0038224595bc6mr2185862pgo.474.1648562501466;
+        Tue, 29 Mar 2022 07:01:41 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f6-20020a056a00238600b004fae79a3cbfsm20441137pfc.100.2022.03.29.07.01.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 07:01:41 -0700 (PDT)
+Message-ID: <7de98030-c154-416c-ef80-17a2fd812dd1@gmail.com>
+Date:   Tue, 29 Mar 2022 23:01:37 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+Content-Language: en-US
 To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Akira Yokosawa <akiyks@gmail.com>
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-In-Reply-To: <02a00556-d885-7532-64ad-14027a4b5e33@gmail.com>
 References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
  <02a00556-d885-7532-64ad-14027a4b5e33@gmail.com>
-Date:   Tue, 29 Mar 2022 08:00:53 -0600
-Message-ID: <87ee2k7t9m.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <02a00556-d885-7532-64ad-14027a4b5e33@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
-
+On Tue, 29 Mar 2022 20:01:46 +0700,
+Bagas Sanjaya wrote:
 > On 29/03/22 13.07, Akira Yokosawa wrote:
->> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+>> diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sph=
+inx/requirements.txt
 >> index 9a35f50798a6..2c573541ab71 100644
 >> --- a/Documentation/sphinx/requirements.txt
 >> +++ b/Documentation/sphinx/requirements.txt
 >> @@ -1,2 +1,4 @@
->> +# jinja2>=3.1 is not compatible with Sphinx<4.0
+>> +# jinja2>=3D3.1 is not compatible with Sphinx<4.0
 >> +jinja2<3.1
->>   sphinx_rtd_theme
->>   Sphinx==2.4.4
->> 
->
-> I see that we had already pinned the exact Sphinx version to 2.4.4 (or am
-> I read the requirements wrong?), so this only matters when people use Sphinx
-> from distribution packages, rather than using virtualenv as recommended.
+>> =C2=A0 sphinx_rtd_theme
+>> =C2=A0 Sphinx=3D=3D2.4.4
+>>
+>=20
+> I see that we had already pinned the exact Sphinx version to 2.4.4 (or =
+am
+> I read the requirements wrong?), so this only matters when people use S=
+phinx
+> from distribution packages, rather than using virtualenv as recommended=
+=2E
 
-We have been suggesting 2.4.4 simply because it's much faster than the
-later releases, but it's not a requirement.
+On the contrary!
 
-Thanks,
+This matters when you do fresh-install of Sphinx 2.4.4 using virtualenv.
+Please try it without the limit of inja2<3.1.
+If you can't reproduce the breakage, I might be missing something
+something important.
 
-jon
+I guess you had your Sphinx installed before jinja2 3.1.0
+was released (March 24, 2022), didn't you?
+
+        Thanks, Akira
+
