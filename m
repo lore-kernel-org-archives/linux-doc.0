@@ -2,86 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D252C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 23:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91895C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Mar 2022 23:51:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241152AbiC2Xuc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 19:50:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33052 "EHLO
+        id S241336AbiC2Xxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 19:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241096AbiC2Xu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 19:50:27 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C52B1893
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 16:48:43 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id o10so38251014ejd.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 16:48:43 -0700 (PDT)
+        with ESMTP id S241304AbiC2Xx0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 19:53:26 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C68A21795E
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 16:51:34 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id mp6-20020a17090b190600b001c6841b8a52so420303pjb.5
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 16:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HjRkKcTIdEtSJ5qdAlFxYDjytEDuq9kJF/JdJHhM/W0=;
-        b=Npg9tE2QGOUSet55NeMISOUe/KIPJ3btjDh/22dgXKu1PpUjyv7Vk4Y/oRPiEkY82w
-         hcBWY3k/GnJzyqfD4xQV4QmOaihQ9S571CWdWE6Cu8zWij4iaT8ZVKe3C07i5W1s9yHA
-         u4s+WgscKOGxKTYoLeUTkD75HZzK1F9xtclR9/zvyzyl8m6FfkdAbAJxj6cFf3Qy5Q6y
-         BCC2yBo3UCRTBxjsP+uR8EWlc+sD8rIIGt0T5lBt4cOWoPSu3m+SUniVC/lX0MAT5zCl
-         k6YdzBgp18h/6qfbpOIIuQ9CDuXGv22P10E/2zK5bCpdPdeAZVEvspBdUAunRZvcM3Wm
-         mI8A==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=lCbPZgZ5F9lpxHcM9arOFaznEWqI3PfUhqJRCKwipNo=;
+        b=UeigN0ENRj7P25JOugWlJkEU3i6OiFiv/I2j8KAuLnF/iaJBhxRnk9DCbeya8gV4Mz
+         0UUmo1seprOcbsciRO0hkS3uiOswkF1zIJsBeGDpso406y2eRdNo/4oAUr0FKY9jQ8MA
+         qNqJUwtx4PihGoNZ9uyRdCjCW+I6MJGhrRqJCyNKZLPi+bFOyd7FuzXSJ/VdpxoC70CY
+         QRTOXBjnoQwXLWb2B9Jd/xHTtlhQpLPpWMthxwjHdE/lUI3MM6+nEjQyCKQbFDe0UrK0
+         aCVL5q+McBcDh+VJYxPdZJ8OVM/ElNdeMLMdazEx1cNLM9A2dGp27BvbqFTZDydHOw28
+         G7zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HjRkKcTIdEtSJ5qdAlFxYDjytEDuq9kJF/JdJHhM/W0=;
-        b=21SuJrsuSYKlM0Jshj2RHNWtOf2ymZpVgYxn0ygI/Sx5a85ltuF5TUF/VvyCJzD29h
-         PfrZ0xG9zucJvgaDk8uxanq1caJ+Cr8KprspLleXwWAnTl7vPocjpxRkfyoahjVHqL2P
-         LdwhLz5CQSL85iTYD9KpqG28KKF8K7e1Rb9y8T7thuIn0ZOoj3V/Z/HK5E7mWcdW6sQQ
-         Cdax6w1EmFKVejwdChWIzmFXebei92/1gAaidEZ9Bvi2Q8aX/W8+BUXMJbJFFiu63jT/
-         Oe63CR7rPTkHzDpOavFMa0J2eWqzV1krMO1FQg/DXCdCvKYflL65sFt91eLTnmLKQV8z
-         so3g==
-X-Gm-Message-State: AOAM533rPfA8o2gjiL2P9Rg/aCo1xD6QuhlwSXJUqCFzGaV0vbXvgiaR
-        qT6AB+WbYC0WzGMe0c0yQKN28CqI4FyP4v5x7d6F/w==
-X-Google-Smtp-Source: ABdhPJzx3gWELIECgfbIZ7X/BnP3w6wKOVDzcjJ3/ACk+h5YKfJf8FHobuoDG15x3ba5Y2mpQHNA+QM/IqRkoW+athY=
-X-Received: by 2002:a17:907:1622:b0:6df:d1a2:d4a3 with SMTP id
- hb34-20020a170907162200b006dfd1a2d4a3mr35877982ejc.542.1648597722027; Tue, 29
- Mar 2022 16:48:42 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=lCbPZgZ5F9lpxHcM9arOFaznEWqI3PfUhqJRCKwipNo=;
+        b=y0/GJg2at4K6Jfg26RJjYk35vj+xaW8hKj/C4PiAV0ZRW+KcA5Mkvu08OKy2RW2GAW
+         JrF2LayIZstlo14KU5I+saei8Rsjm7mZEL92nl/7d/s7temf/eKQwN5ng5Cd0sXZjFoZ
+         R6k3fYJtLne8IyCKvm5I+Q/RlMZYqwc5ds7GOOtdL9wOQoa9GYabmmkq4SYSPZkXLSw8
+         Erodw1d56s+B8r9Qb91SGvyisnZhKF8lC5MVyfIuav5Rl7lnksdXGqog8lH+Y4FSXI0I
+         mo/zCeGSHCiLq/emgMeAK0gFxzbLcuCclK7qXT7YEtkM3DnTDu1pwDq/cjTu+mmxhUAj
+         ObFA==
+X-Gm-Message-State: AOAM533Nq7DiSfOk41n66Of/nZUWnEF9SoLYGdlS3fdtClyJvZMLuLtl
+        E9WWiw+S0HCo/UNOp0m6eug0N/JsJ24=
+X-Google-Smtp-Source: ABdhPJzhPP/cZnj5Cr+rQctCOAlM2ZR64fCKGl4dbyQ1CU82sxe59MxpIdmmO/LG412U57Y5jsjFfQ==
+X-Received: by 2002:a17:90b:1b4f:b0:1c6:d91b:9d0 with SMTP id nv15-20020a17090b1b4f00b001c6d91b09d0mr1766370pjb.72.1648597893876;
+        Tue, 29 Mar 2022 16:51:33 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id e1-20020a17090a118100b001c9ee116c35sm657727pja.16.2022.03.29.16.51.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 16:51:33 -0700 (PDT)
+Message-ID: <83cd3e27-a40e-d6d5-c3b3-180d00edeead@gmail.com>
+Date:   Wed, 30 Mar 2022 08:51:28 +0900
 MIME-Version: 1.0
-References: <cover.1648593132.git.marcelo.schmitt1@gmail.com> <9b8233e89227617a2cb47d85c654603c6583323d.1648593132.git.marcelo.schmitt1@gmail.com>
-In-Reply-To: <9b8233e89227617a2cb47d85c654603c6583323d.1648593132.git.marcelo.schmitt1@gmail.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Tue, 29 Mar 2022 18:48:30 -0500
-Message-ID: <CAGS_qxoEZmAHVHQHJsnaALXmmODQono24qLbQr98FKqRUXmCNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] Documentation: dev-tools: Add a section for static
- analysis tools
-To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc:     corbet@lwn.net, mchehab+huawei@kernel.org, davidgow@google.com,
-        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        dan.carpenter@oracle.com, julia.lawall@inria.fr
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+ <871qyk7p28.fsf@meer.lwn.net>
+ <42ae72ad-70db-719b-ed0b-8afedf50121d@infradead.org>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <42ae72ad-70db-719b-ed0b-8afedf50121d@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 29, 2022 at 6:22 PM Marcelo Schmitt
-<marcelo.schmitt1@gmail.com> wrote:
->
-> Complement the Kernel Testing Guide documentation page by adding a
-> section about static analysis tools.
->
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> Acked-by: Daniel Latypov <dlatypov@google.com>
-> Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
-> Change log:
-> - Brought generic tool characteristics to the intro paragraph
-> - Made explicit that these tools run at compile time
-> - Added a note of caution about false positives
-> - Updated Coccinelle info to make it sound better and be more skimmable
+On Tue, 29 Mar 2022 08:36:23 -0700,
+Randy Dunlap wrote:
+> 
+> On 3/29/22 08:31, Jonathan Corbet wrote:
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>>
+>>> jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
+>>> This looks like the result of deprecating Python 3.6.
+>>> It has been tested against Sphinx 4.3.0 and later later.
+>>
+>> *Sigh*.  I wish this stuff didn't feel like such a house of cards
+>> sometimes... 
+> 
+> ack.
+> 
+>>> Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
+>>> including Sphinx 2.4.4.
+>>>
+>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>> Cc: linux-doc@vger.kernel.org
+>>> ---
+>>> Or we can bump the requirement to Sphinx>=4.0.
+>>> Thoughts?
+>>
+>> It's probably time to consider a bump there, but that is a bigger one
+>> than I would want to do at this point.  So I'll just fast-track this
+>> patch in; dropping it into the stable updates probably makes sense too.
+> 
+> Yeah, some of us don't have Python4 installed...
 
-This looks a lot nicer to me!
-Thanks for doing this.
+You can run Sphinx 4.5.0 with Python>=3.6.
+(jinja2>3.1 requires Python>=3.7, though.)
 
-Daniel
+A requirement list for installing latest Sphinx for kerneldoc would be
+a single line of:
+
+----
+sphinx_rtd_theme
+----
+
+Or for Python 3.6,
+
+----
+jinja2<3.1
+sphinx_rtd_theme
+----
+
+should work (tested with Python 3.6.9 on Ubuntu 18.04).
+That is, give or take the occasional breakages caused by a conflict
+between updated dependent packages or updated dependencies.
+
+We can't be safe just by pinning Sphinx version.  Old Sphinx can't
+know of breakages by future updates in its dependencies.
+To avoid this, we need to pin every dependent package.
+I'm not sure this is the right thing to do, though...
+
+        Thanks, Akira
+
+> 
