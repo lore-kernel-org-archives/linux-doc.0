@@ -2,102 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C440C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 00:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A992DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 00:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231516AbiC3A1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 20:27:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34698 "EHLO
+        id S241491AbiC3AwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 20:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbiC3A1Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 20:27:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1AAB6E76
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 17:25:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF5CD6062B
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 00:25:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 280A3C340ED;
-        Wed, 30 Mar 2022 00:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648599939;
-        bh=R7P+nzFf0s9I0Gqw7eDFcD1W2WgUXG/7wBedWpiVoms=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WGlNwx4i0mqUPRSiJncM7+tPmW1f8OPto6LVAxwULWzKA2jkpgAiCB2hfejCKew4j
-         fxs2yvvp/QNu5tJxmw76lzQi8NxiKOzHMRaVsbgImBD2+a6z2KqOmp/MDvKLA4uvty
-         j5wiix3jYmQCJcOJ3uw7V8ZeAeuOBUWmemWmeogsQMrV1s0PUHU9j7UlfV2Gkl0LtY
-         RhMhpFsR1ZFQXGXrD8GDBCLLFxvwnN+5/hJ5G4heqgWYV+HiDqZzMDxHf42WZ+mUta
-         2pOnHKMdC5OwCeGPNfLpvvaDtgSBd0qFpJJjvPbaeX05Ep57Yu3/KS+liTUdxS2ZCi
-         UukVV1b5v/6Ng==
-Date:   Wed, 30 Mar 2022 02:25:34 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-Message-ID: <20220330022534.10ac0a50@coco.lan>
-In-Reply-To: <871qyk7p28.fsf@meer.lwn.net>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
-        <871qyk7p28.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        with ESMTP id S241490AbiC3AwC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 20:52:02 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613237EA1C
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 17:50:18 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id a16so2206453plh.13
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 17:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=axtens.net; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eT0MeMyajG5bIz1AIsmqOI8u1ZS3KpxbDfVQyKevREE=;
+        b=glosbfJnyVdJhuvX0pA9Vc69rYKOhKa1XDLiv4cPj3AhWEHTB8QprWfRPxMLonaS5l
+         QDLdQYDTkqAPc4FvClEiCjxv+yjj7BZU7dBwHiB35XJsT1yT6TqGiomFk5sViaLe8+Ya
+         C0P/UPVTCl0uqbr7lfPEmtT9LrDd0NyfoEmfk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eT0MeMyajG5bIz1AIsmqOI8u1ZS3KpxbDfVQyKevREE=;
+        b=T0yVGBz/rJj2BVsY/Iq8Ehif8JU45AdfSDoVKUttd2X8WIPOi0YOyMGF4vPVI/J/bR
+         2snJP0mA6Rys82G/uYTZrIiWO2HRfROrp6DVXTDp7682T4YIwKPx8uABezitTkVNR30S
+         geqHRJHr+a8gtIiFl3E73JRwdjPY9KZWmBd1pHMj8Qp0cKr+BKekLw6qhR2I6Y0XXsER
+         zj9FEozwgQcA1aEIz6drgFkQPiGBdGVcahk5QxK/oKf+82q63Uk38TrQHgioe6Ck+F4R
+         xNzDeCGTiUMmXwcXLk70JgUCZAZFnidHprztZdMCIK9D9S7/7v0ogAjxtxb/7Rs13Tld
+         js/g==
+X-Gm-Message-State: AOAM530zHgDmSbPKEXAUJvRxosBPpvqb+kYL+eO397Mdz70engMsle0v
+        x8R3i7+HgT7YkVSGuZx8R7zcDg==
+X-Google-Smtp-Source: ABdhPJxNg9M7rZr3IAGHxXmao5fKjmdSwnqjp1hqMlC9FqastDXDrKbZklDTnnMqU6uCYhILFHGbSg==
+X-Received: by 2002:a17:90a:3181:b0:1c7:6d18:391a with SMTP id j1-20020a17090a318100b001c76d18391amr2024849pjb.30.1648601417790;
+        Tue, 29 Mar 2022 17:50:17 -0700 (PDT)
+Received: from localhost ([2001:4479:e000:e400:e2b8:da3a:1007:145d])
+        by smtp.gmail.com with ESMTPSA id a71-20020a63904a000000b00398666dcf8esm5680440pge.40.2022.03.29.17.50.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 17:50:17 -0700 (PDT)
+From:   Daniel Axtens <dja@axtens.net>
+To:     konstantin@linuxfoundation.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Daniel Axtens <dja@axtens.net>,
+        Emily Strickland <linux@emily.st>
+Subject: Re: [PATCH] Documentation: kernel-hacking: minor edits for style
+Date:   Wed, 30 Mar 2022 11:50:12 +1100
+Message-Id: <20220330005012.3899821-1-dja@axtens.net>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
+References: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+Hi Konstantin,
 
-Em Tue, 29 Mar 2022 09:31:43 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+I agree the document could do with some love. I've got some suggestions to
+make the tips a bit more useful, regardless of where we land on Rusty's
+'iconic' prose.
 
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
-> > jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
-> > This looks like the result of deprecating Python 3.6.
-> > It has been tested against Sphinx 4.3.0 and later later.  
-> 
-> *Sigh*.  I wish this stuff didn't feel like such a house of cards
-> sometimes... 
-> 
-> > Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
-> > including Sphinx 2.4.4.
-> >
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> > Or we can bump the requirement to Sphinx>=4.0.
-> > Thoughts?  
-> 
-> It's probably time to consider a bump there, but that is a bigger one
-> than I would want to do at this point. 
+---
 
-Doing a bump at Documentation/sphinx/requirements.txt doesn't mean that people 
-using have older versions would need to upgrade, as we don't need to bump the
-minimal requirement at Documentation/conf.py, nor the versions suggested by 
-scripts/sphinx-pre-install.
+Subject: [PATCH] hacking.rst: update for modern git-based workflows
 
-So, I don't see a problem on setting it to use sphinx==4.3.2 (or some other 
-version).
+The tips are fun, but they predate git. With git we do things differently.
+Document something closer to what we do.
 
-Yet, I would keep using a known-to-be-good version, instead of letting
-pip to just get the latest one.
+Reported-by: Emily Strickland <linux@emily.st>
+Signed-off-by: Daniel Axtens <dja@axtens.net>
+---
+ Documentation/kernel-hacking/hacking.rst | 59 +++++++++++++++++++-----
+ 1 file changed, 47 insertions(+), 12 deletions(-)
 
-We need to verify both PDF and html generation, though, as I remember
-that some 4.x versions had/(have?) issues with the C domain and duplicate
-symbols detection.
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index 55bd37a2efb0..a4f7d717de3c 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -723,15 +723,9 @@ Putting Your Stuff in the Kernel
+ In order to get your stuff into shape for official inclusion, or even to
+ make a neat patch, there's administrative work to be done:
+ 
+--  Figure out whose pond you've been pissing in. Look at the top of the
+-   source files, inside the ``MAINTAINERS`` file, and last of all in the
+-   ``CREDITS`` file. You should coordinate with this person to make sure
+-   you're not duplicating effort, or trying something that's already
+-   been rejected.
+-
+-   Make sure you put your name and EMail address at the top of any files
+-   you create or mangle significantly. This is the first place people
+-   will look when they find a bug, or when **they** want to make a change.
++-  Read ``Documentation/process/submitting-patches.rst``. Kernel developers are
++   a picky bunch, and that document attempts to list what we do and do not like
++   in our patches.
+ 
+ -  Usually you want a configuration option for your kernel hack. Edit
+    ``Kconfig`` in the appropriate directory. The Config language is
+@@ -748,15 +742,56 @@ make a neat patch, there's administrative work to be done:
+    can usually just add a "obj-$(CONFIG_xxx) += xxx.o" line. The syntax
+    is documented in ``Documentation/kbuild/makefiles.rst``.
+ 
++- Finally, re-read
++  ``Documentation/process/submitting-patches.rst``. Seriously. Do it.
++
++
++Historical Notes
++----------------
++
++These were previous tips. They've largely become outdated by the adoption of git
++in the kernel, and creation better tooling generally, but in homage to Rusty's
++iconic prose, you can still read them here in annotated form.
++
++-  Figure out whose pond you've been pissing in. Look at the top of the
++   source files, inside the ``MAINTAINERS`` file, and last of all in the
++   ``CREDITS`` file. You should coordinate with this person to make sure
++   you're not duplicating effort, or trying something that's already
++   been rejected.
++
++.. note::
++
++    Use ``scripts/get_maintainer.pl`` these days, don't try to read
++    ``MAINTAINERS`` manually. Coordinating big changes is still a good idea: use
++    a mailing list suggested by the script for this purpose. The lists should
++    have searchable archives as well.
++
++   Make sure you put your name and EMail address at the top of any files
++   you create or mangle significantly. This is the first place people
++   will look when they find a bug, or when **they** want to make a change.
++
++.. note::
++
++    With git, putting your name at the top of the file is now less useful.
++    People will do ``git log`` and ``git blame`` to if they need to find a
++    specific individual. Still put your name on new files, but only add it to
++    existing files if you've done really significant changes.
++
+ -  Put yourself in ``CREDITS`` if you've done something noteworthy,
+    usually beyond a single file (your name should be at the top of the
+    source files anyway). ``MAINTAINERS`` means you want to be consulted
+    when changes are made to a subsystem, and hear about bugs; it implies
+    a more-than-passing commitment to some part of the code.
+ 
+--  Finally, don't forget to read
+-   ``Documentation/process/submitting-patches.rst`` and possibly
+-   ``Documentation/process/submitting-drivers.rst``.
++.. note::
++
++    ``CREDITS`` is now more of a honour roll of former maintainers. Your
++    contribution will be immortalised in the git history, you don't need to add
++    yourself to ``CREDITS`` as well.
++
++- As well as reading ``Documentation/process/submitting-patches.rst``,
++  ``Documentation/process/submitting-drivers.rst`` is possibly useful.
++
+ 
+ Kernel Cantrips
+ ===============
+-- 
+2.32.0
 
-Also, it could be worth to check the build time with 2.4.4 and with
-whatever newer version we stick.
-
-> So I'll just fast-track this
-> patch in; dropping it into the stable updates probably makes sense too.
-
-Agreed.
-
-Thanks,
-Mauro
