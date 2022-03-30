@@ -2,104 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB8CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 14:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54168C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 15:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347751AbiC3PA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 11:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
+        id S238687AbiC3POr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 11:14:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347762AbiC3PA4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 11:00:56 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33F265B6
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 07:59:09 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id o3-20020a17090a3d4300b001c6bc749227so218208pjf.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 07:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=B00n0M/i9NX5RvWSmesoI+V1XtRyUppHboNQIjK1cn8=;
-        b=k/NNmjTzE/wzl+Vj+dn3JRXGbPW2bVW/E6NPeov5lQWOpL/XY7T0bigyxa4olSThwJ
-         nA/W3snB8LgIYe26dY0ngactPpEv9eLRZz+REYl+bfhn+Eb15mj8N0ZJSZGLQc44BrRH
-         Ej5ZpVD8dtd0UQCeba1QHQEygwkDTI7LyeHZRt2QyKUrfv7VG/cpG4RCMuNCI+VF2kK+
-         a9eBm9ZtZHmXhN4x7rwJF1/AtLRZCOqLriAgz7Vo0uVG308eT1An6DC9BgvzSTHkXaru
-         dmb2YufGbMP2TYK26Nw6DGigLSSoRoiJ3uIc86qSQjTk5weoJHeu6CpCoIxCRCAxp+rE
-         AwOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=B00n0M/i9NX5RvWSmesoI+V1XtRyUppHboNQIjK1cn8=;
-        b=ZCYMsO3qFsoNCcS8rD6xCaNbSYO/Bo+aM0MemruQETLQntCYXXWaDWzJIsg+zx+AZi
-         bp4HcFHx7GOfaOwE2VpGVCjj0KE227Q6x2/tBhoEEOmigI6MDPhN3H2A9Ln920z6GA+O
-         TzInYPRt2MD9XuEnIig5gVXfNoY2Ny5ZELqc1LJBN51ATnV+3HraThduaTMBVMh4jA5y
-         1TsXwEWeIHWh/p0lPGSwzcRIQT5uEJvWjOIzkkdBi8NjME7kJuor5i41S89fLKyceq8V
-         y5RKHG1l+44rhtHf8oBXuRVXdnaH4C98nLEq7+GY98etPW67YUm8XWnYfYqUzwaV6xP6
-         l3Dw==
-X-Gm-Message-State: AOAM532O6b14mUNp3J3On6d3E8Mbnv4YR2zkMLG014AKgeacgh6uSyR6
-        Kqd/ZhJwWDfE2keWfRBLJrk=
-X-Google-Smtp-Source: ABdhPJwcxc9MpgfLW6vV4Ih3nq/3chP+/VNAfSEhCj7/RrpYwZjx+NihDvJG+SCMOFCyg6/Ddjf/gA==
-X-Received: by 2002:a17:902:9046:b0:14d:5c9d:e7df with SMTP id w6-20020a170902904600b0014d5c9de7dfmr35719132plz.65.1648652349398;
-        Wed, 30 Mar 2022 07:59:09 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id j70-20020a638b49000000b003985b5ddaa1sm8917806pge.49.2022.03.30.07.59.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Mar 2022 07:59:09 -0700 (PDT)
-Message-ID: <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
-Date:   Wed, 30 Mar 2022 23:59:05 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+        with ESMTP id S1346432AbiC3POo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 11:14:44 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEEDA10663B;
+        Wed, 30 Mar 2022 08:12:58 -0700 (PDT)
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KT8z54Vvqz67yhs;
+        Wed, 30 Mar 2022 23:11:29 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 30 Mar 2022 17:12:57 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Wed, 30 Mar 2022 17:12:57 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        KP Singh <kpsingh@kernel.org>, "Shuah Khan" <shuah@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 05/18] bpf-preload: Generate static variables
+Thread-Topic: [PATCH 05/18] bpf-preload: Generate static variables
+Thread-Index: AQHYQsyWLcVpB05sakWRWVPVfsSzdqzW6LQAgACiZ4CAAH9p4A==
+Date:   Wed, 30 Mar 2022 15:12:57 +0000
+Message-ID: <af5e27aeef544581804b578032fc1b4e@huawei.com>
+References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
+ <20220328175033.2437312-6-roberto.sassu@huawei.com>
+ <CAEf4BzY9d0pUP2TFkOY41dbjyYrsr5S+sNCpynPtg_9XZHFb-Q@mail.gmail.com> 
+Accept-Language: en-US
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net> <20220330022534.10ac0a50@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220330022534.10ac0a50@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.81.211.106]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
-
-On Wed, 30 Mar 2022 02:25:34 +0200,
-Mauro Carvalho Chehab wrote:
-[...]
-> We need to verify both PDF and html generation, though, as I remember
-> that some 4.x versions had/(have?) issues with the C domain and duplicate
-> symbols detection.
-
-Can you elaborate on the issue you observed?
-In which document did you see it?
-
-Verification of generated HTML and PDF can be hard.
-
-Different Sphinx might generate slightly different .html or .tex
-files with no visible effect in the final rendering.  Hmm...
-
-Do you have an idea for automated regression testing?
-
-> 
-> Also, it could be worth to check the build time with 2.4.4 and with
-> whatever newer version we stick.
-
-I agree. I'll see what I can do.
-
-        Thanks, Akira
-
-> 
->> So I'll just fast-track this
->> patch in; dropping it into the stable updates probably makes sense too.
-> 
-> Agreed.
-> 
-> Thanks,
-> Mauro
+PiBGcm9tOiBSb2JlcnRvIFNhc3N1DQo+IFNlbnQ6IFdlZG5lc2RheSwgTWFyY2ggMzAsIDIwMjIg
+OTo0NSBBTQ0KPiA+IEZyb206IEFuZHJpaSBOYWtyeWlrbyBbbWFpbHRvOmFuZHJpaS5uYWtyeWlr
+b0BnbWFpbC5jb21dDQo+ID4gU2VudDogV2VkbmVzZGF5LCBNYXJjaCAzMCwgMjAyMiAxOjUyIEFN
+DQo+ID4gT24gTW9uLCBNYXIgMjgsIDIwMjIgYXQgMTA6NTIgQU0gUm9iZXJ0byBTYXNzdQ0KPiA+
+IDxyb2JlcnRvLnNhc3N1QGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IFRoZSBmaXJz
+dCBwYXJ0IG9mIHRoZSBwcmVsb2FkIGNvZGUgZ2VuZXJhdGlvbiBjb25zaXN0cyBpbiBnZW5lcmF0
+aW5nIHRoZQ0KPiA+ID4gc3RhdGljIHZhcmlhYmxlcyB0byBiZSB1c2VkIGJ5IHRoZSBjb2RlIGl0
+c2VsZjogdGhlIGxpbmtzIGFuZCBtYXBzIHRvIGJlDQo+ID4gPiBwaW5uZWQsIGFuZCB0aGUgc2tl
+bGV0b24uIEdlbmVyYXRpb24gb2YgdGhlIHByZWxvYWQgdmFyaWFibGVzIGFuZA0KPiA+IG1ldGhv
+ZHMNCj4gPiA+IGlzIGVuYWJsZWQgd2l0aCB0aGUgb3B0aW9uIC1QIGFkZGVkIHRvICdicGZ0b29s
+IGdlbiBza2VsZXRvbicuDQo+ID4gPg0KPiA+ID4gVGhlIGV4aXN0aW5nIHZhcmlhYmxlcyBtYXBz
+X2xpbmsgYW5kIHByb2dzX2xpbmtzIGluIGJwZl9wcmVsb2FkX2tlcm4uYw0KPiA+IGhhdmUNCj4g
+PiA+IGJlZW4gcmVuYW1lZCByZXNwZWN0aXZlbHkgdG8gZHVtcF9icGZfbWFwX2xpbmsgYW5kDQo+
+ID4gZHVtcF9icGZfcHJvZ19saW5rLCB0bw0KPiA+ID4gbWF0Y2ggdGhlIG5hbWUgb2YgdGhlIHZh
+cmlhYmxlcyBpbiB0aGUgbWFpbiBzdHJ1Y3R1cmUgb2YgdGhlIGxpZ2h0DQo+ID4gPiBza2VsZXRv
+bi4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnRvIFNhc3N1IDxyb2JlcnRvLnNh
+c3N1QGh1YXdlaS5jb20+DQo+ID4gPiAtLS0NCj4gPiA+ICBrZXJuZWwvYnBmL3ByZWxvYWQvYnBm
+X3ByZWxvYWRfa2Vybi5jICAgICAgICAgfCAgMzUgKy0NCj4gPiA+ICBrZXJuZWwvYnBmL3ByZWxv
+YWQvaXRlcmF0b3JzL01ha2VmaWxlICAgICAgICAgfCAgIDIgKy0NCj4gPiA+ICAuLi4vYnBmL3By
+ZWxvYWQvaXRlcmF0b3JzL2l0ZXJhdG9ycy5sc2tlbC5oICAgfCAzNzggKysrKysrKysrLS0tLS0t
+LS0tDQo+ID4gPiAgLi4uL2JwZi9icGZ0b29sL0RvY3VtZW50YXRpb24vYnBmdG9vbC1nZW4ucnN0
+IHwgICA1ICsNCj4gPiA+ICB0b29scy9icGYvYnBmdG9vbC9iYXNoLWNvbXBsZXRpb24vYnBmdG9v
+bCAgICAgfCAgIDIgKy0NCj4gPiA+ICB0b29scy9icGYvYnBmdG9vbC9nZW4uYyAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgMjcgKysNCj4gPiA+ICB0b29scy9icGYvYnBmdG9vbC9tYWluLmMgICAg
+ICAgICAgICAgICAgICAgICAgfCAgIDcgKy0NCj4gPiA+ICB0b29scy9icGYvYnBmdG9vbC9tYWlu
+LmggICAgICAgICAgICAgICAgICAgICAgfCAgIDEgKw0KPiA+ID4gIDggZmlsZXMgY2hhbmdlZCwg
+MjU0IGluc2VydGlvbnMoKyksIDIwMyBkZWxldGlvbnMoLSkNCj4gPiA+DQo+ID4NCj4gPiBbLi4u
+XQ0KPiA+DQo+ID4gPiArX19hdHRyaWJ1dGVfXygodW51c2VkKSkgc3RhdGljIHZvaWQNCj4gPiA+
+ICtpdGVyYXRvcnNfYnBmX19hc3NlcnQoc3RydWN0IGl0ZXJhdG9yc19icGYgKnMpDQo+ID4gPiAr
+ew0KPiA+ID4gKyNpZmRlZiBfX2NwbHVzcGx1cw0KPiA+ID4gKyNkZWZpbmUgX1N0YXRpY19hc3Nl
+cnQgc3RhdGljX2Fzc2VydA0KPiA+ID4gKyNlbmRpZg0KPiA+ID4gKyNpZmRlZiBfX2NwbHVzcGx1
+cw0KPiA+ID4gKyN1bmRlZiBfU3RhdGljX2Fzc2VydA0KPiA+ID4gKyNlbmRpZg0KPiA+ID4gK30N
+Cj4gPiA+ICsNCj4gPiA+ICtzdGF0aWMgc3RydWN0IGJwZl9saW5rICpkdW1wX2JwZl9tYXBfbGlu
+azsNCj4gPiA+ICtzdGF0aWMgc3RydWN0IGJwZl9saW5rICpkdW1wX2JwZl9wcm9nX2xpbms7DQo+
+ID4gPiArc3RhdGljIHN0cnVjdCBpdGVyYXRvcnNfYnBmICpza2VsOw0KPiA+DQo+ID4gSSBkb24n
+dCB1bmRlcnN0YW5kIHdoYXQgaXMgdGhpcyBhbmQgd2hhdCBmb3I/IFlvdSBhcmUgbWFraW5nIGFu
+DQo+ID4gYXNzdW1wdGlvbiB0aGF0IGxpZ2h0IHNrZWxldG9uIGNhbiBiZSBpbnN0YW50aWF0ZWQg
+anVzdCBvbmNlLCB3aHk/IEFuZA0KPiA+IGFkZGluZyBleHRyYSBicGZ0b29sIG9wdGlvbiB0byBs
+aWdodCBza2VsZXRvbiBjb2RlZ2VuIGp1c3QgdG8gc2F2ZSBhDQo+ID4gYml0IG9mIHR5cGluZyBh
+dCB0aGUgcGxhY2Ugd2hlcmUgbGlnaHQgc2tlbGV0b24gaXMgYWN0dWFsbHkNCj4gPiBpbnN0YW50
+aWF0ZWQgYW5kIHVzZWQgZG9lc24ndCBzZWVtcyBsaWtlIGEgcmlnaHQgYXBwcm9hY2guDQo+IA0K
+PiBUcnVlLCBpdGVyYXRvcl9icGYgaXMgc2ltcGxlLiBXcml0aW5nIHRoZSBwcmVsb2FkaW5nIGNv
+ZGUNCj4gZm9yIGl0IGlzIHNpbXBsZS4gQnV0LCB3aGF0IGlmIHlvdSB3YW50ZWQgdG8gcHJlbG9h
+ZCBhbiBMU00NCj4gd2l0aCAxMCBob29rcyBvciBtb3JlPw0KPiANCj4gT2ssIHJlZ2FyZGluZyB3
+aGVyZSB0aGUgcHJlbG9hZGluZyBjb2RlIHNob3VsZCBiZSwgSSB3aWxsDQo+IHRyeSB0byBtb3Zl
+IHRoZSBnZW5lcmF0ZWQgY29kZSB0byB0aGUga2VybmVsIG1vZHVsZSBpbnN0ZWFkDQo+IG9mIHRo
+ZSBsaWdodCBza2VsZXRvbi4NCg0KRG9uZS4gSSBtb3ZlZCBldmVyeXRoaW5nIGZyb20gdGhlIGxp
+Z2h0IHNrZWxldG9uIHRvIHRoZSBrZXJuZWwNCm1vZHVsZS4gVGhlIGNoYW5nZXMgbm93IGFyZSBh
+bHNvIHdlbGwgc2VwYXJhdGVkLCBhbmQNCnJlZ2VuZXJhdGlvbiBvZiB0aGUga2VybmVsIG1vZHVs
+ZSBvY2N1cnMgb25seSBhZnRlciBhbGwgdGhlDQpnZW5lcmF0aW9uIGNvZGUgaXMgYWRkZWQgdG8g
+YnBmdG9vbC4NCg0KSSBwdXNoZWQgYSBuZXcgYnJhbmNoOg0KDQpodHRwczovL2dpdGh1Yi5jb20v
+cm9iZXJ0b3Nhc3N1L2xpbnV4L2NvbW1pdHMvYnBmLXByZWxvYWQtdjItZGV2ZWwtdjINCg0KUm9i
+ZXJ0bw0KDQpIVUFXRUkgVEVDSE5PTE9HSUVTIER1ZXNzZWxkb3JmIEdtYkgsIEhSQiA1NjA2Mw0K
+TWFuYWdpbmcgRGlyZWN0b3I6IExpIFBlbmcsIFpob25nIFJvbmdodWENCg==
