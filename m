@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE15C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 11:53:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 832E2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 11:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244270AbiC3Lzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S244486AbiC3Lzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 30 Mar 2022 07:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345541AbiC3Lyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 07:54:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9D1282B38;
-        Wed, 30 Mar 2022 04:51:23 -0700 (PDT)
+        with ESMTP id S1344951AbiC3Lxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 07:53:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D941E27CE2D;
+        Wed, 30 Mar 2022 04:50:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 405D9615F5;
-        Wed, 30 Mar 2022 11:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D6AC36AE5;
-        Wed, 30 Mar 2022 11:51:20 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 39BDDB81C35;
+        Wed, 30 Mar 2022 11:50:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9334DC34112;
+        Wed, 30 Mar 2022 11:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648641081;
+        s=k20201202; t=1648641004;
         bh=2gFQR24PiGDBVtJN+cyLU8brXWtqq6yATgfmqkV8Szs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fFQGDgD2mjY5MVf1ve2sG27tKKDQ/3GmPNhbCs3o5zh0hBP8EFv3dALP6gWoJ8yv4
-         QCnFWNyteQKchhZ4ATcp6yFaqekBkTtgHig314JKT//ppsa2qKsuvxkN6GBplpULSg
-         56djSDQn9/eIOzZzZ0RYoWHwjNDt2jFOYSQYszUsLnevS/Fy4NeycbkslB5P2a9Xpm
-         mNxzoExXsIYj2DCwDB6tyUppcbYJ5HB5JJN3PFIAF6WHr6Sr72Nfz+oPUTQyxyjFuy
-         D3AdnnwmntEuflADWvM1p1g59QhH/g1OTOkM4aNx4z6BqxtRzL/AyC+3gzObJJvrXm
-         kgllOKRP7zV8Q==
+        b=ROXzdo6/vJyhRx19MlQvKCIoVtFsCwyg39R00ZGGvVVtEE/tZsr/EODiyaqbzc07n
+         0usispoujcw70y1cHjd8FULhmgxGJLTzg06wqU065AdiO933bLZUb3S1rxY7GFRueO
+         5B8+aQYHNp9jVEOFPg2u7M16dXsbUXdJ8OwNSLnSSj7UjDMfKpTik6RE1VNepgaEaK
+         7e7zbA7LUTcyCbQG8oO4ky+T7N+V0IHizpV8hroBhZqWsb2nO/es4yAX2TS1lq/4VC
+         K3CcEHvuvi0xdCvER8n/gq7iAkgLtxyq0ViK1d82FHQJqUT5PA4e5C1KSfYUDs3fFh
+         Jqe6W3jRw3Wyw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Matt Kramer <mccleetus@gmail.com>, Takashi Iwai <tiwai@suse.de>,
         Sasha Levin <sashal@kernel.org>, perex@perex.cz,
         tiwai@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        sudipm.mukherjee@gmail.com, sylee@canonical.com,
+        sylee@canonical.com, sudipm.mukherjee@gmail.com,
         hui.wang@canonical.com, alsa-devel@alsa-project.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 50/50] ALSA: hda/realtek: Add alc256-samsung-headphone fixup
-Date:   Wed, 30 Mar 2022 07:50:04 -0400
-Message-Id: <20220330115005.1671090-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 59/59] ALSA: hda/realtek: Add alc256-samsung-headphone fixup
+Date:   Wed, 30 Mar 2022 07:48:31 -0400
+Message-Id: <20220330114831.1670235-59-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330115005.1671090-1-sashal@kernel.org>
-References: <20220330115005.1671090-1-sashal@kernel.org>
+In-Reply-To: <20220330114831.1670235-1-sashal@kernel.org>
+References: <20220330114831.1670235-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
