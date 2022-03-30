@@ -2,57 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6AB3C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 13:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA50BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 13:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345399AbiC3Nb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 09:31:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41158 "EHLO
+        id S1346217AbiC3NnU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 09:43:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344108AbiC3Nby (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 09:31:54 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C454D15A10;
-        Wed, 30 Mar 2022 06:30:08 -0700 (PDT)
+        with ESMTP id S1346242AbiC3Nmz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 09:42:55 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63BA2253D;
+        Wed, 30 Mar 2022 06:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648647008; x=1680183008;
+  t=1648647670; x=1680183670;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tW1fLo6jCq3/8fTF55IDRQFyF2oxcC5H24BleOxUSr4=;
-  b=gSIqUX2sSZqq1vC5f74ZnH80n1qgxPSe3ueZYd1YC4gsGvR20VnAyiRs
-   fdd0YFPp4Y9j1JaVwSx9KwabGGJmzwiS/4GlQdFx9ibOT8X+DrIdGbHl5
-   FVZM6wPIrBiup3cdwStch6AHXNOjKObai5Ux96/jtkUyvkH2M5Zrw3PGi
-   s73BCBaHhfxAtA5FgC3fBc9qXuVggpjvlbC7qck7EUVbkgnytXKT1/NiR
-   mMt//HOUPQcntgfd8N3UBOJ3UbXk50DdXoLY24Nkxg3A1/lN3Eo1N276V
-   OJW8cNpl0z+rSwK/z8nvSUCkZDka1EUSK4pNrujEcwzzIwDkbkgxFnawz
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="257121281"
+  bh=obCSO7FCOC/HkRFABSryn0g3TBJLEO480/LOICcRXZ4=;
+  b=Nan4HP0K169yn3u8+64VvL4G4Lw+aUUbfcZ+ulLDZE7uJ/dfx2ZeWetA
+   PXS5WYpX9GrkNRc5Ek/jfAR+W2n1qQEWASkcUdnBA5TFMw5SqQafCtOcD
+   jGiXo4aGy7abzJpa7qfzVmlR1DqrzsBYe9/VKRdlmbbGUtfq7ZXkSLbaH
+   Pul8ABNVY87kCKpT5fps2tJ3tCCsILTjpGLGK8QRXiBhJ4y3RrLxACTGU
+   5w46RpKuC3+6HN5BGxxFJ/1InKCrsVIYW3/uBIlOO9nHRW7KC1w139BWN
+   6vSqOuGRhI3SgqxabWof5vWUhyvT8nPpgzj+yQUH6raYcTsgu+AkVvP/D
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="259517539"
 X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
-   d="scan'208";a="257121281"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 06:30:08 -0700
+   d="scan'208";a="259517539"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 06:41:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
-   d="scan'208";a="521891558"
+   d="scan'208";a="719978893"
 Received: from lkp-server02.sh.intel.com (HELO 56431612eabd) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2022 06:30:04 -0700
+  by orsmga005.jf.intel.com with ESMTP; 30 Mar 2022 06:41:05 -0700
 Received: from kbuild by 56431612eabd with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1nZYOh-00001W-Hs;
-        Wed, 30 Mar 2022 13:30:03 +0000
-Date:   Wed, 30 Mar 2022 21:29:53 +0800
+        id 1nZYZM-000020-90;
+        Wed, 30 Mar 2022 13:41:04 +0000
+Date:   Wed, 30 Mar 2022 21:40:18 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     cgel.zte@gmail.com, akpm@linux-foundation.org, david@redhat.com,
         willy@infradead.org
-Cc:     kbuild-all@lists.01.org, corbet@lwn.net, yang.yang29@zte.com.cn,
-        yang.shi@linux.alibaba.com, dave.hansen@linux.intel.com,
-        jhubbard@nvidia.com, saravanand@fb.com, minchan@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, xu xin <xu.xin16@zte.com.cn>,
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, corbet@lwn.net,
+        yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
+        dave.hansen@linux.intel.com, jhubbard@nvidia.com,
+        saravanand@fb.com, minchan@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        xu xin <xu.xin16@zte.com.cn>,
         Ran Xiaokai <ran.xiaokai@zte.com.cn>
 Subject: Re: [PATCH v4] mm/vmstat: add events for ksm cow
-Message-ID: <202203302122.cFR0tu2M-lkp@intel.com>
+Message-ID: <202203302113.QzkSLwzk-lkp@intel.com>
 References: <20220330082640.2381401-1-yang.yang29@zte.com.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -71,8 +72,8 @@ Thank you for the patch! Yet something to improve:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/cgel-zte-gmail-com/mm-vmstat-add-events-for-ksm-cow/20220330-162859
 base:   https://github.com/hnaz/linux-mm master
-config: nios2-buildonly-randconfig-r001-20220330 (https://download.01.org/0day-ci/archive/20220330/202203302122.cFR0tu2M-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+config: hexagon-buildonly-randconfig-r006-20220330 (https://download.01.org/0day-ci/archive/20220330/202203302113.QzkSLwzk-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -82,18 +83,17 @@ reproduce (this is a W=1 build):
         git checkout 48bd13bff24d30af750dd9429638a2563b758611
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'do_wp_page':
->> mm/memory.c:3336:32: error: 'COW_KSM' undeclared (first use in this function)
-    3336 |                 count_vm_event(COW_KSM);
-         |                                ^~~~~~~
-   mm/memory.c:3336:32: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/memory.c:3336:18: error: use of undeclared identifier 'COW_KSM'
+                   count_vm_event(COW_KSM);
+                                  ^
+   1 error generated.
 
 
 vim +/COW_KSM +3336 mm/memory.c
