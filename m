@@ -2,124 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF9FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 04:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AB5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 05:07:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242593AbiC3E1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 00:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39728 "EHLO
+        id S242761AbiC3FJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 01:09:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242546AbiC3E1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 00:27:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7A1E0B2;
-        Tue, 29 Mar 2022 21:25:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C1F6F61557;
-        Wed, 30 Mar 2022 04:25:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB920C340EE;
-        Wed, 30 Mar 2022 04:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648614319;
-        bh=rr/JfM01NA9fTgIIQTyL0hc+z3aaAIbMCzadjNz0JKg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F5oCGCMRhcZ6iJy2SN2x04M4PxF03Ww4fA1Xyis8ISwYMpR/RJ+S9qT3kpHx8K2+7
-         WCO2xOH96xt0L0goZGDm3kiP0MnMkEN5HQ4FCf2MsFYBiJQvbgEWSw8PFH/jmfs6Xu
-         rfRL/1jhA8rYH75/0fzJ/NUUJ/1RJmdfbsBq/MaiviDD1TK6QSoSzyq/xk/MzAby1l
-         EW7WBGUCq9FRr5j2rdlnWwZn+7U5S9AaMbnAab5FjYAGzlPHoxyIn4rUbR1eWvezfs
-         BUR2nZmyxxx45XYrVDVpuZDhzIzWhiXM/YKA/9/upfo6uF33W2YC3dhFkXY+YBAyGX
-         yVYjMtSBNAoeg==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org, andrew@lunn.ch,
-        f.fainelli@gmail.com, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net v3 14/14] docs: netdev: move the netdev-FAQ to the process pages
-Date:   Tue, 29 Mar 2022 21:25:05 -0700
-Message-Id: <20220330042505.2902770-15-kuba@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330042505.2902770-1-kuba@kernel.org>
-References: <20220330042505.2902770-1-kuba@kernel.org>
+        with ESMTP id S242783AbiC3FJ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 01:09:27 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F5E109A74;
+        Tue, 29 Mar 2022 22:07:40 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id bx5so19542819pjb.3;
+        Tue, 29 Mar 2022 22:07:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=tWWVuDo0btT2/lfOVBqa8oH2n81md+EvVR8wHxl5xx4=;
+        b=YuNG3uW4ShT4sdTce8FW9Pou99jKMiqr8ocFlc2GkuZysX9qw7gfg0PCS+Bu9pceyK
+         c656XzzvcIa2uCkLRZHyggPgYD9j9dIgQ1mE2LJNq92eGGADXP82I9HnbEwyGnUIosRL
+         FIh3tKBLbBwr8pUEArmWqCnwh1LO/03o+LBL5OFtAsWLrNvkrGH6lT8UhFtVY1ldTj0x
+         wfsuGs6M541ZLGPJDIB40MMyeWZCdz/bpCtv/t2DOVxbrIoU3yk6GIjszrZfUAUhOaCy
+         8OoqDrwsCqci8T4hFccUQU496UOlKU7hw0SwSU/MYFjFzgWeNddVM4oKInu3OBvb2SqF
+         kfHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=tWWVuDo0btT2/lfOVBqa8oH2n81md+EvVR8wHxl5xx4=;
+        b=xtIXqn2cwXpurYw6PVsBpkxTVajVf/F+h4BogOnqMUFMfibdsplroYJgHcsJkJn08K
+         E1GGNyz8bXFiWAsZk06eHv3i+Zl1DewezsiEcNV2obGB82z2m8HR9rHHoY1SLANXT3gn
+         GCMFvTYuYuKQe+qcy06+SrOFySYV2QNBUKUegqKkC868fAmcMleR975if2bH1cLZ8wR1
+         4ze0bOD/IsOUZohyghk78Z4Q1uSvF34VdlztUyT7AgcqOKPmBH8x6JZHmKXHmZJ6Gt8z
+         72Q06QtXlNW68+z+s0Hm7DmWQ8QtGmz9TaNABLIEFzaAaf6nsegaaDP2qivCp8y1m0vu
+         Sazw==
+X-Gm-Message-State: AOAM533IcetttkLMmVfISPKj7022oNj5CL09Q0vGmp6m6VVg9PmBcsZy
+        i+0bC19oF1tcoGEDMXbiIno=
+X-Google-Smtp-Source: ABdhPJyp9QWNhTgc5Twv6R+6yIXZ1rugcdXetn4aug9PJA/QV/6TBKRY3GmdKm7HdxmQIdDKRHnY1A==
+X-Received: by 2002:a17:90b:250c:b0:1c9:8dbf:e730 with SMTP id ns12-20020a17090b250c00b001c98dbfe730mr3042455pjb.104.1648616859934;
+        Tue, 29 Mar 2022 22:07:39 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id k137-20020a633d8f000000b0039800918b00sm13730948pga.77.2022.03.29.22.07.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 22:07:39 -0700 (PDT)
+Message-ID: <476370b7-9325-21a3-2696-d74e326bf160@gmail.com>
+Date:   Wed, 30 Mar 2022 12:07:25 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] docs: Add a document on how to fix a messy diffstat
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <87wngc6a7q.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87wngc6a7q.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation for the tip tree is really in quite a similar
-spirit to the netdev-FAQ. Move the netdev-FAQ to the process docs
-as well.
+On 29/03/22 22.37, Jonathan Corbet wrote:
+> +So what is to be done?  The best response when confronted with this
+> +situation is to indeed to do a merge with the branch you intend your work
+> +to be pulled into, but to do it privately, as if it were the source of
+> +shame.  Create a new, throwaway branch and do the merge there::
+> +
+> +  ... vM --- vN-rc1 --- vN-rc2 --- vN-rc3 --- ... --- vN-rc7 --- vN
+> +                |         |                                      |
+> +                |         +-- c1 --- c2 --- ... --- cN           |
+> +                |                   /               |            |
+> +                +-- x1 --- x2 --- x3                +------------+-- TEMP
+> +
+> +The merge operation resolves all of the complications resulting from the
+> +multiple beginning points, yielding a coherent result that contains only
+> +the differences from the mainline branch.  Now it will be possible to
+> +generate a diffstat with the desired information::
+> +
+> +  $ git diff -C --stat --summary linus..TEMP
+> +
+> +Save the output from this command, then simply delete the TEMP branch;
+> +definitely do not expose it to the outside world.  Take the saved diffstat
+> +output and edit it into the messy pull request, yielding a result that
+> +shows what is really going on.  That request can then be sent upstream.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
----
- Documentation/bpf/bpf_devel_QA.rst                             | 2 +-
- Documentation/networking/index.rst                             | 3 ++-
- Documentation/process/maintainer-handbooks.rst                 | 1 +
- .../netdev-FAQ.rst => process/maintainer-netdev.rst}           | 0
- MAINTAINERS                                                    | 1 +
- 5 files changed, 5 insertions(+), 2 deletions(-)
- rename Documentation/{networking/netdev-FAQ.rst => process/maintainer-netdev.rst} (100%)
+Looks OK.
 
-diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-index 253496af8fef..761474bd7fe6 100644
---- a/Documentation/bpf/bpf_devel_QA.rst
-+++ b/Documentation/bpf/bpf_devel_QA.rst
-@@ -658,7 +658,7 @@ Otherwise, you can use ``bpf`` target. Additionally, you *must* use bpf target
- 
- .. Links
- .. _Documentation/process/: https://www.kernel.org/doc/html/latest/process/
--.. _netdev-FAQ: ../networking/netdev-FAQ.rst
-+.. _netdev-FAQ: Documentation/process/maintainer-netdev.rst
- .. _selftests:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/
- .. _Documentation/dev-tools/kselftest.rst:
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index ce017136ab05..72cf33579b78 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -1,12 +1,13 @@
- Linux Networking Documentation
- ==============================
- 
-+Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
-+
- Contents:
- 
- .. toctree::
-    :maxdepth: 2
- 
--   netdev-FAQ
-    af_xdp
-    bareudp
-    batman-adv
-diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
-index 6af1abb0da48..d783060b4cc6 100644
---- a/Documentation/process/maintainer-handbooks.rst
-+++ b/Documentation/process/maintainer-handbooks.rst
-@@ -16,3 +16,4 @@ which is supplementary to the general development process handbook
-    :maxdepth: 2
- 
-    maintainer-tip
-+   maintainer-netdev
-diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/process/maintainer-netdev.rst
-similarity index 100%
-rename from Documentation/networking/netdev-FAQ.rst
-rename to Documentation/process/maintainer-netdev.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d91f6c6e3d3b..00dd58fc8bf3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13661,6 +13661,7 @@ B:	mailto:netdev@vger.kernel.org
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
- F:	Documentation/networking/
-+F:	Documentation/process/maintainer-netdev.rst
- F:	include/linux/in.h
- F:	include/linux/net.h
- F:	include/linux/netdevice.h
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
 -- 
-2.34.1
-
+An old man doll... just what I always wanted! - Clara
