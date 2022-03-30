@@ -2,134 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0020C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 17:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6426AC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 18:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231586AbiC3RJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 13:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42702 "EHLO
+        id S243226AbiC3SHJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 14:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244956AbiC3RJR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 13:09:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0395546145
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 10:07:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AD1ACB81DA8
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 17:07:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF74C340EE;
-        Wed, 30 Mar 2022 17:07:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648660049;
-        bh=lPBt1qdHRnf9hgD4+I+2qpHMJZasYYfalluKXphu1AA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nhdPawYch0j4LKUCUo2sVDwbdZRWeneLmxzyShRoeChwdLFep9ETYChlvkXGeLt3H
-         9c2OucTY5F8hKaz0jEDn5aMstJDs8x2vnqHRwIVMuyY4nYWsvhbPD2Vd/n7miGfOCd
-         vQ6eiLCmplsBDjOUOjpBNb/0Q0eqz9oGP3OyO0BeyB7W/jZXnzkbEB/2+sCmS8dVnw
-         R2gFAb06UQJeLOMzSSRoBESHTSvQ4LvoLr5EF5dTN2t976dooNcEN7TeqzxoSuulYX
-         OUmIOEE+L4lCQh+9k6poxs2XkqAQ87kBkdbWO8joc55jp6jWdwDneAjppWWlSh0E69
-         2s7Xxs6D28KFA==
-Date:   Wed, 30 Mar 2022 19:07:24 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-Message-ID: <20220330190724.1596e01a@coco.lan>
-In-Reply-To: <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
-        <871qyk7p28.fsf@meer.lwn.net>
-        <20220330022534.10ac0a50@coco.lan>
-        <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        with ESMTP id S1349669AbiC3SGz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 14:06:55 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAF173A729
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 11:05:08 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id h11so28772562ljb.2
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 11:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h1gCGwBlFlPL7xlbgg8fVcArt1vxjlSJemINBQ6Dyvg=;
+        b=pMOXFcNHgVw7MlgZ7yYEI8OIqBpCv7hHzDMln+BSnSNY+w1UBH0/mnhDTZYa2wz++N
+         IVZAMs/0+Z7g4aFR7yNZrUVVucG6aeelreqX9D7ZHzcKwl0F7oYarSvbe0tnlzrgvk+6
+         W0K/ANA7r6PjVTNIuVEDV7Cys+j8mpQwF7lLgTlgIL0FYGJD7tQGEPqGPYk9j0eVvPiW
+         eWgbjzjR2B/gVYNdkAUT5ViAdlRMOBHxjDroMB7/wYDFp+qjh11p4MipYiygqNY/hK1W
+         fQ4RILJY0OH1PCnJ/3CWJ4F5ZjF8Q3G96ruwjh2RHp5Ni34Y+kG+Znu09MLeRmtxEh8R
+         rgUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h1gCGwBlFlPL7xlbgg8fVcArt1vxjlSJemINBQ6Dyvg=;
+        b=AjyxaEDolnLZblAJVx5VMm0sQHuvYEZ8OyAr52T+XWXzouU3fz03wUCCje+NCeHELR
+         4V7ycCofVu+pRRv3mpgKveQj4uXZm5cQJp6pY4ZFEvf44c1Ns+FzzU7S4UKRBXUuM+v9
+         LaSuta8TEReWRUFTFFasjG5Gu4Ijp7xQZsJykAZluZBwvPq0jjqqw3C+YEt/tCiPYVOQ
+         MOH2IfDraqnjKBPZgIXzzJOCttRuKcbJYnKB/IFocm9vGryxkTJMNEBNvSuJEJZ3OsvL
+         dsZbJJsEIzNjrJonEqx9dPyxpZ5u8T+KInP8LjaDFFe3v8iXLIluRS7fIBLSivEVGFdH
+         AclQ==
+X-Gm-Message-State: AOAM530wd0uybBedPlbfV1GGsOomzRJOYByahdQGA6zgLLDDMyO6Is4G
+        NoeVpvrp0/GsnxqS0SYox24Z759G2Zxn+9D0IejL2w==
+X-Google-Smtp-Source: ABdhPJzOPCdLzAuEzhP8+XwDRinp5ZhGqb9riWqDAp9YgXyUtPNaoWWz9lFTRmIqu6uYrLte8Tx/X6kn1S35WUT6kUU=
+X-Received: by 2002:a2e:7808:0:b0:24a:eacb:ab9f with SMTP id
+ t8-20020a2e7808000000b0024aeacbab9fmr3138533ljc.468.1648663501997; Wed, 30
+ Mar 2022 11:05:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <164847778869.3060675.8115416881394543419.stgit@devnote2>
+In-Reply-To: <164847778869.3060675.8115416881394543419.stgit@devnote2>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 30 Mar 2022 11:04:50 -0700
+Message-ID: <CAKwvOdmAYQZtzGudBjmiRZNjT+VixTdNbJmYmxc7-gQNCsHfrA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] bootconfig: Support embedding a bootconfig in
+ kernel for non initrd boot
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 30 Mar 2022 23:59:05 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Mon, Mar 28, 2022 at 7:29 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> KNOWN ISSUE:
+>
+> According to the report from Padmanabha[3] and my analysis [4], the embedded
+> bootconfig data may not be updated if you do incremental build the kernel
+> with CONFIG_LTO_CLANG_THIN.
+>
+> [3] https://lore.kernel.org/all/20220321183500.GA4065@pswork/T/#u
+> [4] https://lore.kernel.org/all/20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org/
+>
+> This seems like clang's LTO Thin mode issue. It may not detect the inline
+> asm depends on external files.
+>
+> I think the possible workaround is to split the inline asm which includes
+> '.incbin' directive into an asm file. But this should be done in another
+> seires because there are other features which uses '.incbin'. (e.g.
+> /proc/config.gz)
 
-> Hi Mauro,
-> 
-> On Wed, 30 Mar 2022 02:25:34 +0200,
-> Mauro Carvalho Chehab wrote:
-> [...]
-> > We need to verify both PDF and html generation, though, as I remember
-> > that some 4.x versions had/(have?) issues with the C domain and duplicate
-> > symbols detection.  
-> 
-> Can you elaborate on the issue you observed?
-> In which document did you see it?
+Hi Masami,
+I saw Padmanabha's report (thanks for the report); sorry for not
+responding sooner, I've been traveling recently for a funeral.
 
-Sorry, it was on Sphinx 3.x, although the most complete fix got
-merged on 4.0, I guess. This patch is related to it:
+Any chance we can use
 
-	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
+CFLAGS_REMOVE_<file>.o := $(CC_FLAGS_LTO)
 
-Basically, the Sphinx maintainer for the C domain rewrote the code,
-causing all references generated by kernel-doc to be broken, and
-almost all references at the media docs as well. Before the changes,
-there were just one domain for C code references, used for functions,
-structs, enums, etc. After the change, each one requires a different
-tag. The kerneldoc script has gained support for Sphinx version when
-such issue was addressed.
+a la
+commit d2dcd3e37475 ("x86, cpu: disable LTO for cpu.c")
 
-Another consequence of such change is that you can't have more than
-one "read()" function inside the entire Kernel. While this makes
-sense on userspace, It doesn't at Kernelspace, as different subsystems
-may handle read/write/ioctl/... syscalls on their particular ways.
-So, building docs were causing warnings about duplicated symbols.
+with a comment linking to
+https://github.com/ClangBuiltLinux/linux/issues/1618
 
-There were some changes that went on 4.x to fix it, when 
-".. c:namespace::" got merged. I don't remember when it was added.
+for the Translation Units using .incbin, until we have had more time
+to triage+fix?
 
-> Verification of generated HTML and PDF can be hard.
-> 
-> Different Sphinx might generate slightly different .html or .tex
-> files with no visible effect in the final rendering.  Hmm...
-
-That was not the case on that time. We had to stick to Sphinx up to
-version 2.4 for a couple of Kernel release cycles, in order to fix, as the
-changes weren't trivial.
-
-> Do you have an idea for automated regression testing?
-
-Except for doing periodic html and pdf builds and reporting build errors,
-no.
-
-For html, perhaps some regression testing could be done by using pandoc
-to convert html back into ReST (or to some other format) and compare if the
-output from the same source with different Sphinx versions are identical 
-(or similar enough). On such case, I would get rid of using read the docs
-style, using the simplest possible one. That's easier said than done, though,
-as such conversion could produce errors due to problems on pandoc - or some
-minor differences - So, whomever would be running such tests would likely
-need to add something in order to handle similar but different outputs and
-exclude false-positives.
-
-> 
-> > 
-> > Also, it could be worth to check the build time with 2.4.4 and with
-> > whatever newer version we stick.  
-> 
-> I agree. I'll see what I can do.
-> 
->         Thanks, Akira
-> 
-> >   
-> >> So I'll just fast-track this
-> >> patch in; dropping it into the stable updates probably makes sense too.  
-> > 
-> > Agreed.
-> > 
-> > Thanks,
-> > Mauro  
-
-
-
+-- 
 Thanks,
-Mauro
+~Nick Desaulniers
