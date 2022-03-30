@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7E1C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 15:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD8EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 15:38:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348277AbiC3PkI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 11:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
+        id S1348291AbiC3PkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 11:40:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348276AbiC3PkH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 11:40:07 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBAF33F8AF
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 08:38:21 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id e5so20759173pls.4
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 08:38:21 -0700 (PDT)
+        with ESMTP id S1348293AbiC3PkM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 11:40:12 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 405656BDE4
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 08:38:27 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id p8so19053625pfh.8
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 08:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IKVFgArMfLAYb/4tYUuGf6KEnDE92hMEQ9mU5hp/SXo=;
-        b=y426lP1h9/gpMDvFsvkQcsWTR6r4t0uNFPGCXcCkQ0w4bDDfbd2I6w3MPvmSngD5aQ
-         9UHKY99m4xTMn2S+VEWYRysvmEDjOdp+p+AaJE9UQlAtOAg9nnObmnt7SD/llMP+ydXX
-         tEoTC4CvY+Alaz3nGiPuulcsMVs4yV+CghqyvhjrIdjT4SEbjXtkkYdOiUQNNPovNO65
-         zooFZEF1EAKY+iSmwmGDYeeIlMmOyMmQg3y3cSgjUo/6mm1bLvfygA1ZudpOBLvdKOnK
-         IAyYWShhvc4qIrg9j5+ZR6S93sOYQk7CUSaTKoYVYl/japXdL0WlkQnS9qvagsSwyJE5
-         F5Uw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=h81o0zrOo3MmiqLhXNQs++uBdbtx9emPgi7EUEIWoeg=;
+        b=JXogY18B9Li/QyeeQ4h7enOzye+7Wr8M0oHfdOsyIxsicMR+wphDN2S28Ok7Vv8mdR
+         eL333WRR6cAOAplCN9S83Sr/2pct5HkiQuApm024TGDeF3zdy8gDMgcbfc1C4EWTGo+T
+         CTLxjMbvCmzR069ibJLzijcoTpRYGVpzxPsRdVmJoP5NfbwjQNyJuFizCykL4QX3yARm
+         0RFDiHzSa8dfgySYTeGQ56ULbR4LK+K0YRzlfqicbWDG0uk832apkSH7eRbg3+x2l9mB
+         I9TRDPNd6KyLjydqjWKxWy+paxKkoOpVdsmEEcnwesmyFej03cLc66wlWa+RVW1qDRdE
+         Fzkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IKVFgArMfLAYb/4tYUuGf6KEnDE92hMEQ9mU5hp/SXo=;
-        b=WT+Zc7KMfy30ezgXcGZ39LCsVPNFy7kuczROms2eHDg+TXV+XyN/wtK36nd4LBkm2k
-         Ua+BIt69x88gnVkQnA6HyFO5QnlJZGmR0MIQIkhVk+rQDjAA/A81PkdkSFrAq7QVnkQf
-         vm65CGY5FtJdJtlHlW5xm5L9pl0h0Ezc3AP4GRPkrMp9vDSSnI7j8jMqB95tsOx01h0S
-         8GTmx+DBuS61G3KXHZ/XyIzcTx9XJX4PAOaCmsCGyA63xjNJEw8+J23uZFW+HHv5ET+I
-         6bW77DQcCWkuZ+nvrNHFAYMhTea+PyN7c99Vntn4fXcph8OXFFRtB1Lije3kJn3gJB0i
-         KQzQ==
-X-Gm-Message-State: AOAM532h4s/gOur/hQQnVqpBcJlTKyFihxvFb7GFjfnesQ/pefdPRbCY
-        N5hmoA1Ei9cKsI32HKGLl6Fv8g==
-X-Google-Smtp-Source: ABdhPJyx8KyO7z1oyOwVys9x6GkHA4ruaJjbZc4MyGqZcrWkQvN5DIzM1+TzQgmsyw0Tgim4c9azmA==
-X-Received: by 2002:a17:902:d3c5:b0:154:a3b5:d918 with SMTP id w5-20020a170902d3c500b00154a3b5d918mr161632plb.91.1648654701358;
-        Wed, 30 Mar 2022 08:38:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=h81o0zrOo3MmiqLhXNQs++uBdbtx9emPgi7EUEIWoeg=;
+        b=EQSkUK7R2TrD3cgfqt/5HwrNR7wYzJ0gh9o3exVktnd09ujw3OqxSpQWXhxTLb9RCb
+         8+8YJbWYM/9cRLypFIiFYKdYTZhaGVAQrvr6uSlbisfLR5has8qehxG3H2MPI/EN5rgw
+         SBen7OtBr+QoKKxcrgDrMw6w2dNgPSHVRBb4tMTklv//UCtX9e0VRnDVQcy35USQgY8C
+         vVVJSFO4KNLrkobDMznUDSukPVobAI84U3phaZGCa5HgVhiiTkkZOvoE2AlhlC0cLiBZ
+         ozeWm2ETdO+PyR4yL7/hnXZzf4Sp8btIYK8EvWP/s5KBO/pMsjANZyEKGh1EJY1mLCsR
+         euVw==
+X-Gm-Message-State: AOAM530ZJ1cJ6bjgmebIxq/v3Et1mCjY90mQg0HlE61D7DOtysnJgGUx
+        NC1yZp1tzCccQ08FYprJrP97yCesS8EXUA==
+X-Google-Smtp-Source: ABdhPJw76LGvWldqRycLoo/x5V2Cwand9sJPfGmDuBBYpLXujydBQNXxINbnTmeUG6iu8MQAG80cQg==
+X-Received: by 2002:a63:520c:0:b0:382:2953:a338 with SMTP id g12-20020a63520c000000b003822953a338mr6618861pgb.610.1648654706651;
+        Wed, 30 Mar 2022 08:38:26 -0700 (PDT)
 Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id y8-20020a17090aa40800b001c6ccb2c395sm6686039pjp.9.2022.03.30.08.38.15
+        by smtp.gmail.com with ESMTPSA id y8-20020a17090aa40800b001c6ccb2c395sm6686039pjp.9.2022.03.30.08.38.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 08:38:21 -0700 (PDT)
+        Wed, 30 Mar 2022 08:38:26 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
@@ -54,63 +54,193 @@ To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v6 0/4] add hugetlb_free_vmemmap sysctl
-Date:   Wed, 30 Mar 2022 23:37:41 +0800
-Message-Id: <20220330153745.20465-1-songmuchun@bytedance.com>
+Subject: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
+Date:   Wed, 30 Mar 2022 23:37:42 +0800
+Message-Id: <20220330153745.20465-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20220330153745.20465-1-songmuchun@bytedance.com>
+References: <20220330153745.20465-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series is based on next-20220310.
+If the size of "struct page" is not the power of two and this
+feature is enabled, then the vmemmap pages of HugeTLB will be
+corrupted after remapping (panic is about to happen in theory).
+But this only exists when !CONFIG_MEMCG && !CONFIG_SLUB on
+x86_64.  However, it is not a conventional configuration nowadays.
+So it is not a real word issue, just the result of a code review.
+But we have to prevent anyone from configuring that combined
+configuration.  In order to avoid many checks like "is_power_of_2
+(sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce
+STRUCT_PAGE_SIZE_IS_POWER_OF_2 to detect if the size of struct
+page is power of 2 and make this feature depends on this new
+macro.  Then we could prevent anyone do any unexpected
+configuration.
 
-This series amis to add hugetlb_free_vmemmap sysctl to enable the feature
-of freeing vmemmap pages of HugeTLB pages.
-
-v6:
-  - Remove "make syncconfig" from Kbuild.
-
-v5:
-  - Fix not working properly if one is workig off of a very clean build
-    reported by Luis Chamberlain.
-  - Add Suggested-by for Luis Chamberlain.
-
-Thanks.
-
-v4:
-  - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
-
-v3:
-  - Add pr_warn_once() (Mike).
-  - Handle the transition from enabling to disabling (Luis)
-
-v2:
-  - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
-    test robot <lkp@intel.com>.
-  - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
-
-Muchun Song (4):
-  mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
-  mm: memory_hotplug: override memmap_on_memory when
-    hugetlb_free_vmemmap=on
-  sysctl: allow to set extra1 to SYSCTL_ONE
-  mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
-
- Documentation/admin-guide/sysctl/vm.rst |  14 ++++
- Kbuild                                  |  15 ++++-
- include/linux/memory_hotplug.h          |   9 +++
- include/linux/mm_types.h                |   2 +
- include/linux/page-flags.h              |   3 +-
- kernel/sysctl.c                         |   2 +-
- mm/hugetlb_vmemmap.c                    | 109 ++++++++++++++++++++++++--------
- mm/hugetlb_vmemmap.h                    |   8 ++-
- mm/memory_hotplug.c                     |  27 ++++++--
- mm/struct_page_size.c                   |  20 ++++++
- 10 files changed, 171 insertions(+), 38 deletions(-)
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ Kbuild                     | 15 ++++++++++++++-
+ include/linux/mm_types.h   |  2 ++
+ include/linux/page-flags.h |  3 ++-
+ mm/hugetlb_vmemmap.c       |  8 ++------
+ mm/hugetlb_vmemmap.h       |  4 ++--
+ mm/struct_page_size.c      | 20 ++++++++++++++++++++
+ 6 files changed, 42 insertions(+), 10 deletions(-)
  create mode 100644 mm/struct_page_size.c
 
+diff --git a/Kbuild b/Kbuild
+index fa441b98c9f6..7f90ba21dd51 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -24,6 +24,19 @@ $(timeconst-file): kernel/time/timeconst.bc FORCE
+ 	$(call filechk,gentimeconst)
+ 
+ #####
++# Generate struct_page_size.h.
++
++struct_page_size-file := include/generated/struct_page_size.h
++
++always-y += $(struct_page_size-file)
++targets += mm/struct_page_size.s
++
++mm/struct_page_size.s: $(timeconst-file) $(bounds-file)
++
++$(struct_page_size-file): mm/struct_page_size.s FORCE
++	$(call filechk,offsets,__LINUX_STRUCT_PAGE_SIZE_H__)
++
++#####
+ # Generate asm-offsets.h
+ 
+ offsets-file := include/generated/asm-offsets.h
+@@ -31,7 +44,7 @@ offsets-file := include/generated/asm-offsets.h
+ always-y += $(offsets-file)
+ targets += arch/$(SRCARCH)/kernel/asm-offsets.s
+ 
+-arch/$(SRCARCH)/kernel/asm-offsets.s: $(timeconst-file) $(bounds-file)
++arch/$(SRCARCH)/kernel/asm-offsets.s: $(timeconst-file) $(bounds-file) $(struct_page_size-file)
+ 
+ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+ 	$(call filechk,offsets,__ASM_OFFSETS_H__)
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 8834e38c06a4..5fbff44a4310 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -223,6 +223,7 @@ struct page {
+ #endif
+ } _struct_page_alignment;
+ 
++#ifndef __GENERATING_STRUCT_PAGE_SIZE_IS_POWER_OF_2_H
+ /**
+  * struct folio - Represents a contiguous set of bytes.
+  * @flags: Identical to the page flags.
+@@ -844,5 +845,6 @@ enum fault_flag {
+ 	FAULT_FLAG_INSTRUCTION =	1 << 8,
+ 	FAULT_FLAG_INTERRUPTIBLE =	1 << 9,
+ };
++#endif /* !__GENERATING_STRUCT_PAGE_SIZE_IS_POWER_OF_2_H */
+ 
+ #endif /* _LINUX_MM_TYPES_H */
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index fc4f294cc8d7..15fcdff0e7ee 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -12,6 +12,7 @@
+ #ifndef __GENERATING_BOUNDS_H
+ #include <linux/mm_types.h>
+ #include <generated/bounds.h>
++#include <generated/struct_page_size.h>
+ #endif /* !__GENERATING_BOUNDS_H */
+ 
+ /*
+@@ -190,7 +191,7 @@ enum pageflags {
+ 
+ #ifndef __GENERATING_BOUNDS_H
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++#if defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP) && defined(STRUCT_PAGE_SIZE_IS_POWER_OF_2)
+ DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON,
+ 			 hugetlb_free_vmemmap_enabled_key);
+ 
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 791626983c2e..951cf83010c7 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -178,6 +178,7 @@
+ 
+ #include "hugetlb_vmemmap.h"
+ 
++#ifdef STRUCT_PAGE_SIZE_IS_POWER_OF_2
+ /*
+  * There are a lot of struct page structures associated with each HugeTLB page.
+  * For tail pages, the value of compound_head is the same. So we can reuse first
+@@ -194,12 +195,6 @@ EXPORT_SYMBOL(hugetlb_free_vmemmap_enabled_key);
+ 
+ static int __init early_hugetlb_free_vmemmap_param(char *buf)
+ {
+-	/* We cannot optimize if a "struct page" crosses page boundaries. */
+-	if (!is_power_of_2(sizeof(struct page))) {
+-		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+-		return 0;
+-	}
+-
+ 	if (!buf)
+ 		return -EINVAL;
+ 
+@@ -302,3 +297,4 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+ 	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
+ 		h->name);
+ }
++#endif /* STRUCT_PAGE_SIZE_IS_POWER_OF_2 */
+diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+index cb2bef8f9e73..b137fd8b6ba4 100644
+--- a/mm/hugetlb_vmemmap.h
++++ b/mm/hugetlb_vmemmap.h
+@@ -10,7 +10,7 @@
+ #define _LINUX_HUGETLB_VMEMMAP_H
+ #include <linux/hugetlb.h>
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++#if defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP) && defined(STRUCT_PAGE_SIZE_IS_POWER_OF_2)
+ int alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
+ void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+ void hugetlb_vmemmap_init(struct hstate *h);
+@@ -41,5 +41,5 @@ static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
+ {
+ 	return 0;
+ }
+-#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
++#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP && STRUCT_PAGE_SIZE_IS_POWER_OF_2 */
+ #endif /* _LINUX_HUGETLB_VMEMMAP_H */
+diff --git a/mm/struct_page_size.c b/mm/struct_page_size.c
+new file mode 100644
+index 000000000000..6fc29c1227a0
+--- /dev/null
++++ b/mm/struct_page_size.c
+@@ -0,0 +1,20 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Generate definitions needed by the preprocessor.
++ * This code generates raw asm output which is post-processed
++ * to extract and format the required data.
++ */
++
++#define __GENERATING_STRUCT_PAGE_SIZE_IS_POWER_OF_2_H
++/* Include headers that define the enum constants of interest */
++#include <linux/mm_types.h>
++#include <linux/kbuild.h>
++#include <linux/log2.h>
++
++int main(void)
++{
++	if (is_power_of_2(sizeof(struct page)))
++		DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, is_power_of_2(sizeof(struct page)));
++
++	return 0;
++}
 -- 
 2.11.0
 
