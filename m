@@ -2,115 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D0DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 01:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FDBC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 01:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241634AbiC3Ba4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 21:30:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
+        id S241706AbiC3Bpn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 21:45:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238211AbiC3Baz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 21:30:55 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBDEB1AAA
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id e5so19183157pls.4
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
+        with ESMTP id S241703AbiC3Bpm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 21:45:42 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4096476;
+        Tue, 29 Mar 2022 18:43:58 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id y10so14138224pfa.7;
+        Tue, 29 Mar 2022 18:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vdcHUSnfczDmZ92O3lL/dDt7YGRkLfEex18Xs8F30qI=;
-        b=O1j2QAl7SuyX3NTphMvJj4YeqFmV9fx+UApUt1v9oieM+FJ5/DA4peyz9HQhXBvCLm
-         698nxhPVpyhjR2/d8sMfb5aqAgrnS38bfEYmjU4d8Jdscd1zWhe8/xlsLiJdQDjwjMbe
-         OdZMpdD0q0Ht/oEDCR6mMbBtRkHZRXOGrh1FBnV1wTCYPsq7I+N+EMJuMqBCezpsujyg
-         5q8TZGsnxSvB9ixsWZV7/Qj16cY5F52tfKZfhTZoH/JMFdedkV0SSGh9LmXw82TEoIFa
-         VqRb5mK8qBjJ3AGmMUlQ/z1J6vx0t5hk/O3jdRZkpyYK4JvCdccgwNP+ds/GOuZV0LNx
-         Uwmg==
+        bh=JqKr/dTx137KLola/7A49s2uL7z/Ma6HdQ5kniz2p5o=;
+        b=mnv7549VlSPsTZw/dOJDZ+WAhRuKqUG1B4gyLxpABZoIGSwSG16xhrdjRf4Gu/CUy1
+         S1N2rLPbhDAIjVThGQkRksw6burBh6rd8h6PIfUMTx7Rk6i547bqcgEW9AwGiPi5zxYs
+         joeieRV6G+g9EJ842B9Xw4ST5fR4CSWjMVtBFACRFuqRstnFYNqCXUUgV+sk4n9B47Yn
+         5uc2xoQwYT9SjJXgyfX22nDZ0GyGHyq7yRm5NR4gVG2O1VqyDJH9wm34mOkjs+gzrUxv
+         2xGMMGS+5Dmuqdkn+R071AH4Yu3WElPxVMSj70gMLN2WmjD2+z68tr13LuAM0jazNilP
+         dFxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=vdcHUSnfczDmZ92O3lL/dDt7YGRkLfEex18Xs8F30qI=;
-        b=oZ4EzC+G+rmRCEGyUHSn+1B47jfJgWZ0M92LQSd9Y/I4kxqPvqXU67DTAgLq311+NJ
-         TUcJiOjBZNKR48BzRDN8y8Ezo4TR+os2zAH6hxDxLgIFGNLja4PNqoQLZu8w9Yz4gfZN
-         RPn93A5pOVoqmlVz0849CifjJAy5BBBnrvsiSkbt/+ZJeXFi8wznQu/zGMYWPHVEcACg
-         PIY1Af8iqfp8UR7RYBn8NJLtxA0G3OlPRJwuxZr9CBg50IlAqVo/1pxLxv1yR2oVX6gN
-         HCMy5VF1oYmPS6Vi9EbGwYGIB4jqXUMxOt5miudN5tF8BKkaXsckT9Sp15b8P23McVUe
-         XYYg==
-X-Gm-Message-State: AOAM532Q8Hqd36ppr2h1TIiRGgmWLb6HKSeghZsuuM4Th2Jr5lC7v6XB
-        gMp4I+QACVypkMvoJX8TsBs=
-X-Google-Smtp-Source: ABdhPJxc3oSeAVc1d3oLDs3CSQCoo85+dLQjHIp9SQ+fq31E1ksltTH63GkVvp6HMo/trS4q6VqtBA==
-X-Received: by 2002:a17:903:240a:b0:14e:dad4:5ce4 with SMTP id e10-20020a170903240a00b0014edad45ce4mr33874758plo.125.1648603751406;
-        Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
+        bh=JqKr/dTx137KLola/7A49s2uL7z/Ma6HdQ5kniz2p5o=;
+        b=YN0xP2B9mGovi6qMtGIfW72D7+iuYW06CB2y4MCxEy4pP0mEEEQm5FgtzHCkKiJunA
+         jf8r2fOUcKHcZqT2oc5NKI9hAnFT1+B3LdJ3e4ZDnB+0g4p39dhoccfDv6mzFXJsXv2+
+         Z+2Up5KymjWW5Q3nIVN8uP8XeBY+WoMrnN/tCWi8U+pC6Yx9IeNLWisyj4+S8Vui+h4W
+         QFB2yfw8Po7atCkC6boWrTRkBau4MgYHauJgXM72qP/exMyK2NZW1CC7wlIuUVUSVk6z
+         NWGV+aD/I5szOk6Szp1IxplpYYXwjvl05BWVEVGjtTKYwIzUu9zSkqp7qFtGQv4dJIAr
+         7ouw==
+X-Gm-Message-State: AOAM532N4ybi13RuUWBfT/bRAxw+Cac87AHapT4sgmastTfUM6xH0pCL
+        0ZdC2JBQRBCVn2Imo/lWTAg=
+X-Google-Smtp-Source: ABdhPJyhpoi2BBuNQZTHzfRUkXVsw90dHi5ViQxmTuNrtB3H3xqi9Ey0XLJQFn7NIrYSFeuVOUEqKA==
+X-Received: by 2002:a63:c10e:0:b0:381:6a51:6231 with SMTP id w14-20020a63c10e000000b003816a516231mr4133872pgf.189.1648604637911;
+        Tue, 29 Mar 2022 18:43:57 -0700 (PDT)
 Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id nu16-20020a17090b1b1000b001c77c6a391csm4340571pjb.26.2022.03.29.18.29.09
+        by smtp.gmail.com with ESMTPSA id g3-20020a056a001a0300b004fa65cbbf4esm21542294pfv.63.2022.03.29.18.43.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
-Message-ID: <29a61fd1-d736-4dc2-58d7-3cfec6e2bcfe@gmail.com>
-Date:   Wed, 30 Mar 2022 10:29:05 +0900
+        Tue, 29 Mar 2022 18:43:57 -0700 (PDT)
+Message-ID: <a619a0da-bd86-e57d-789d-51ee85125be5@gmail.com>
+Date:   Wed, 30 Mar 2022 10:43:54 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+Subject: Re: [PATCH v2] docs: Add a document on how to fix a messy diffstat
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+References: <87wngc6a7q.fsf@meer.lwn.net>
 From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <871qyk7p28.fsf@meer.lwn.net>
+In-Reply-To: <87wngc6a7q.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Mar 2022 09:31:43 -0600,
+On Tue, 29 Mar 2022 09:37:45 -0600,
 Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
+> A branch with merges in will sometimes create a diffstat containing a lot
+> of unrelated work at "git request-pull" time.  Create a document based on
+> Linus's advice (found in the links below) and add it to the maintainer
+> manual in the hope of saving some wear on Linus's keyboard going forward.
 > 
->> jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
->> This looks like the result of deprecating Python 3.6.
->> It has been tested against Sphinx 4.3.0 and later later.
-Oh, I made a staccato here.
-Thank you for amending it.
-> 
-> *Sigh*.  I wish this stuff didn't feel like such a house of cards
-> sometimes... 
-> 
->> Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
->> including Sphinx 2.4.4.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: linux-doc@vger.kernel.org
->> ---
->> Or we can bump the requirement to Sphinx>=4.0.
->> Thoughts?
-> 
-> It's probably time to consider a bump there, but that is a bigger one
-> than I would want to do at this point.  So I'll just fast-track this
-> patch in; dropping it into the stable updates probably makes sense too.
+> Link: https://lore.kernel.org/lkml/CAHk-=wg3wXH2JNxkQi+eLZkpuxqV+wPiHhw_Jf7ViH33Sw7PHA@mail.gmail.com/
+> Link: https://lore.kernel.org/lkml/CAHk-=wgXbSa8yq8Dht8at+gxb_idnJ7X5qWZQWRBN4_CUPr=eQ@mail.gmail.com/
+> Acked-by: Borislav Petkov <bp@suse.de>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+> v2: Various tweaks suggested by Borislav, Bagas, and Akira
 
-This can be applied cleanly for Linux>=5.15.
-For 5.10.x, there is a dependent commit:
-
-    37397b092e7f ("docs: sphinx-requirements: Move sphinx_rtd_theme to top")
-
-Linux 5.4.x needs another one:
-
-    d5afc9640a6d ("docs: update recommended Sphinx version to 2.4.4")
-
-... and so on.
-
-How far do you want to backport this?
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
         Thanks, Akira
 > 
-> Thanks,
+>  Documentation/maintainer/index.rst          |  1 +
+>  Documentation/maintainer/messy-diffstat.rst | 96 +++++++++++++++++++++
+>  2 files changed, 97 insertions(+)
+>  create mode 100644 Documentation/maintainer/messy-diffstat.rst
 > 
-> jon
+
+[...]
