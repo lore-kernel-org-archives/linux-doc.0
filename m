@@ -2,98 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 050E9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 16:01:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0020C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 17:07:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239223AbiC3QDL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 12:03:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
+        id S231586AbiC3RJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 13:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348497AbiC3QDK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 12:03:10 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25B1593B6;
-        Wed, 30 Mar 2022 09:01:24 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2e5e9025c20so224445667b3.7;
-        Wed, 30 Mar 2022 09:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kjZketVP9CFkspy1PCl99/PtzZngJWwIzjlL5Zl64m0=;
-        b=n1FphQ40TOVvrDwgCRv9ZKYtjg1Pg2dsYmXFyUPdaRqirnSzRi2WzoqjjNPwajEZlv
-         ecDpkUjaXQuRrfNMThba/BUeePs1cwMbdNILgCbAdunjosL5oxqIbWc16WuZUZhrjGnT
-         zRJ+5+5yl1k03MewnrDpaGatwBhdFD6AISoRmmey8/tS6cTIi/7N349FreaYkDzP1hR9
-         D3j8wpneeHZ9cOYVBEf20MqD3Dng+CLh6jZ5buQn/uls4p6EbWGfknkc6k/Ue5tG7dqK
-         j03AYd0TbpNaUNHKCScJcA/pNQKqwILlkZ56DphYyG87xw5Jl8nf6TBejVaaEEqbmRER
-         x4cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kjZketVP9CFkspy1PCl99/PtzZngJWwIzjlL5Zl64m0=;
-        b=c9lzT5KB8ji7GHNsmuMiGlzh5snmeBhzVWyAAU/d5K/ahTWqUEPSXb6DE5YUdBPoix
-         qN9gC94BFjZTdSVMO3z9KgVxanJFjiQLBDCr/63GiGXRdZsAjIxPb6WFfKB7HZMOHSh7
-         kDbQVPxl5brs1ApnePrFyHwBmFogcdLyDdwvfjQNLzSPxe6k2QEEYyezjozTkWhpmz99
-         r03dYeaTfrS0nm3s6KJO2lKjXsxjRSNER8zJugj5Ap8LfgfNaZ3ySbmixa6zylBM8dvL
-         VdUKdS4npy9VUShYkv+6X2VwJGzX+2rFFG3SozWVxSRkVtGLwyxvcNSSzukzY/YjzH7t
-         SbaA==
-X-Gm-Message-State: AOAM5301wmH6W6UXPt3Hkb8avnAqwsz3jX9VssWQ1QGcsXtXgSc4afvu
-        JeKtg8Aa2n3rr8MsGy1zdC/OcJ8+2lfOnUt1DI0i3SRQpNM=
-X-Google-Smtp-Source: ABdhPJwXtdByR/9hUinxGFuk8X+7vugCI3mUN2zADV8B2V9ek2t+ILN5fwvIBlxq3GlpTIjvTeXltjGHjTGpmvFteaM=
-X-Received: by 2002:a81:7983:0:b0:2e5:9d0a:1c52 with SMTP id
- u125-20020a817983000000b002e59d0a1c52mr269047ywc.411.1648656083991; Wed, 30
- Mar 2022 09:01:23 -0700 (PDT)
+        with ESMTP id S244956AbiC3RJR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 13:09:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0395546145
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 10:07:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AD1ACB81DA8
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 17:07:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF74C340EE;
+        Wed, 30 Mar 2022 17:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648660049;
+        bh=lPBt1qdHRnf9hgD4+I+2qpHMJZasYYfalluKXphu1AA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nhdPawYch0j4LKUCUo2sVDwbdZRWeneLmxzyShRoeChwdLFep9ETYChlvkXGeLt3H
+         9c2OucTY5F8hKaz0jEDn5aMstJDs8x2vnqHRwIVMuyY4nYWsvhbPD2Vd/n7miGfOCd
+         vQ6eiLCmplsBDjOUOjpBNb/0Q0eqz9oGP3OyO0BeyB7W/jZXnzkbEB/2+sCmS8dVnw
+         R2gFAb06UQJeLOMzSSRoBESHTSvQ4LvoLr5EF5dTN2t976dooNcEN7TeqzxoSuulYX
+         OUmIOEE+L4lCQh+9k6poxs2XkqAQ87kBkdbWO8joc55jp6jWdwDneAjppWWlSh0E69
+         2s7Xxs6D28KFA==
+Date:   Wed, 30 Mar 2022 19:07:24 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+Message-ID: <20220330190724.1596e01a@coco.lan>
+In-Reply-To: <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+        <871qyk7p28.fsf@meer.lwn.net>
+        <20220330022534.10ac0a50@coco.lan>
+        <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-3-jiangshanlai@gmail.com>
-In-Reply-To: <20220330132152.4568-3-jiangshanlai@gmail.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Thu, 31 Mar 2022 00:01:12 +0800
-Message-ID: <CAJhGHyBajHJ8hDy--7mofH=25Ji6L2+jUvfZ1oTQ2gcqqupyFA@mail.gmail.com>
-Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
- expanded pagetable
-To:     LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     Lai Jiangshan <jiangshan.ljs@antgroup.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 30, 2022 at 9:21 PM Lai Jiangshan <jiangshanlai@gmail.com> wrote:
+Em Wed, 30 Mar 2022 23:59:05 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> @@ -1713,7 +1721,7 @@ static struct kvm_mmu_page *kvm_mmu_alloc_page(struct kvm_vcpu *vcpu, gfn_t gfn,
->
->         sp = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_page_header_cache);
->         sp->spt = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_shadow_page_cache);
-> -       if (!role.direct)
-> +       if (role.glevel == role.level)
->                 sp->gfns = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_gfn_array_cache);
->         set_page_private(virt_to_page(sp->spt), (unsigned long)sp);
->
-> @@ -2054,6 +2062,8 @@ static struct kvm_mmu_page *kvm_mmu_get_page(struct kvm_vcpu *vcpu,
->                 quadrant &= (1 << ((PT32_PT_BITS - PT64_PT_BITS) * level)) - 1;
->                 role.quadrant = quadrant;
->         }
-> +       if (level < role.glevel)
-> +               role.glevel = level;
+> Hi Mauro,
+> 
+> On Wed, 30 Mar 2022 02:25:34 +0200,
+> Mauro Carvalho Chehab wrote:
+> [...]
+> > We need to verify both PDF and html generation, though, as I remember
+> > that some 4.x versions had/(have?) issues with the C domain and duplicate
+> > symbols detection.  
+> 
+> Can you elaborate on the issue you observed?
+> In which document did you see it?
 
-missing:
+Sorry, it was on Sphinx 3.x, although the most complete fix got
+merged on 4.0, I guess. This patch is related to it:
 
-if (direct)
-   role.glevel = 0;
+	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
 
->
->         sp_list = &vcpu->kvm->arch.mmu_page_hash[kvm_page_table_hashfn(gfn)];
->         for_each_valid_sp(vcpu->kvm, sp, sp_list) {
+Basically, the Sphinx maintainer for the C domain rewrote the code,
+causing all references generated by kernel-doc to be broken, and
+almost all references at the media docs as well. Before the changes,
+there were just one domain for C code references, used for functions,
+structs, enums, etc. After the change, each one requires a different
+tag. The kerneldoc script has gained support for Sphinx version when
+such issue was addressed.
+
+Another consequence of such change is that you can't have more than
+one "read()" function inside the entire Kernel. While this makes
+sense on userspace, It doesn't at Kernelspace, as different subsystems
+may handle read/write/ioctl/... syscalls on their particular ways.
+So, building docs were causing warnings about duplicated symbols.
+
+There were some changes that went on 4.x to fix it, when 
+".. c:namespace::" got merged. I don't remember when it was added.
+
+> Verification of generated HTML and PDF can be hard.
+> 
+> Different Sphinx might generate slightly different .html or .tex
+> files with no visible effect in the final rendering.  Hmm...
+
+That was not the case on that time. We had to stick to Sphinx up to
+version 2.4 for a couple of Kernel release cycles, in order to fix, as the
+changes weren't trivial.
+
+> Do you have an idea for automated regression testing?
+
+Except for doing periodic html and pdf builds and reporting build errors,
+no.
+
+For html, perhaps some regression testing could be done by using pandoc
+to convert html back into ReST (or to some other format) and compare if the
+output from the same source with different Sphinx versions are identical 
+(or similar enough). On such case, I would get rid of using read the docs
+style, using the simplest possible one. That's easier said than done, though,
+as such conversion could produce errors due to problems on pandoc - or some
+minor differences - So, whomever would be running such tests would likely
+need to add something in order to handle similar but different outputs and
+exclude false-positives.
+
+> 
+> > 
+> > Also, it could be worth to check the build time with 2.4.4 and with
+> > whatever newer version we stick.  
+> 
+> I agree. I'll see what I can do.
+> 
+>         Thanks, Akira
+> 
+> >   
+> >> So I'll just fast-track this
+> >> patch in; dropping it into the stable updates probably makes sense too.  
+> > 
+> > Agreed.
+> > 
+> > Thanks,
+> > Mauro  
+
+
+
+Thanks,
+Mauro
