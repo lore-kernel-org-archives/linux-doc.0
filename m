@@ -2,168 +2,378 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA7CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 08:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D006C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 09:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244006AbiC3IaA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 04:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52488 "EHLO
+        id S244732AbiC3JVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 05:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232801AbiC3IaA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 04:30:00 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5EDF1;
-        Wed, 30 Mar 2022 01:28:15 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id i4so17456964qti.7;
-        Wed, 30 Mar 2022 01:28:15 -0700 (PDT)
+        with ESMTP id S244006AbiC3JVO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 05:21:14 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B1D2AC77
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 02:19:27 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id l7-20020a05600c1d0700b0038c99618859so817776wms.2
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 02:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1H14edHrexPdZSsbFfB5+DKs6PQ4z+rHst+0leIL3Cw=;
-        b=i7x2SIOEfBJv2Erzs9AxsTqiUf701YydhIxCj1fTKKaFN0qYV0gp/MQNT9h3UwXKRC
-         xV3XDXqW2EXCiJT9G9Rx5Cfobn95y2WQGBxAbcWtdnQNRSrzwrgG8ehwxdMpmYdX6okR
-         wGGjBO3V/Mjme2aJdXwoU4Yx/vJOx6NU6lYb44qpk9ECHH1Dd9Gg4GcoLI1B8DCz7/ed
-         3yqMS0E+FdhP96QjyLPbuPbBHg5aAZnYXOwEShyTBpLqLf+hyOxLxTWPexM+xgI5hyk6
-         kNGAhLDIDcfC1zu7pt05sUI+npHrSPPemlweu5duUlRSmEb0ZCjHtCGekZ+SiH6GbPfX
-         YvMA==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=BjvaahtIsng/TZTSS+ZLGH9DkC6uyw+QOr3R4CbvEwA=;
+        b=PvZ2uaOMM804ZV6olrT1ose8FexLJBR86tzLTmt96xq+4DEZIepwKKqPLJGvhXkAk1
+         ODIHx0dQWKaaX2xuMogIgrrOOr+hU9N+hGDuKq0vjvAYtj1+IJ1lOqQLEaShnODcLGPr
+         HZjfBDaJb1ETDaXHPJp7q1z5KLR5oa62e926c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1H14edHrexPdZSsbFfB5+DKs6PQ4z+rHst+0leIL3Cw=;
-        b=NyAHjcG7WyVE1/q6vDII3oJbgQ47gavSFLArRKvhu/jlvidkQHQ6PRi9/CCYJsh8pK
-         tZpX0VjICHIssH4tWg0Cs34h/foYg3Jr4umG9RCCDmQHZn5e1K1U/XsewkC21SAxEYn0
-         Y2kb4X92bvNiDxYJ+SBLQi1+ZWDBvcruLhHC+a9SmmYwdZIwk4lL43ANByYJCAosI37A
-         jpaLmw/KTUqXbfs1vqh2wHkKd1mb+dgAMcCVW1uMNxihZIk/mYe6TPXD5VOrpM/oRLsK
-         eBV3PLB2HnxYikRiwpuO+Ha/1Zliu54T/Wxdl+rjZp3DHKnA6IqW+AKIIkPFlFN0xzm9
-         0DZQ==
-X-Gm-Message-State: AOAM532BaGPKLhLIvrL6nka3+Qokttp/Ff/sA1lSs+zhxkw1ZA6YCg5G
-        35kP215WSRkKO8dg6aOaVdQ=
-X-Google-Smtp-Source: ABdhPJwRlfo0Y8TA4yle0PUfqmJwdRVeb7L11mlOl/AfeZ/BE1DHPAj/1gDlLvVv3D8gTQB9emF2UQ==
-X-Received: by 2002:ac8:5787:0:b0:2e1:c837:64ed with SMTP id v7-20020ac85787000000b002e1c83764edmr31903754qta.98.1648628894609;
-        Wed, 30 Mar 2022 01:28:14 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id d11-20020a05620a166b00b0067e380258e7sm10403966qko.73.2022.03.30.01.28.09
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=BjvaahtIsng/TZTSS+ZLGH9DkC6uyw+QOr3R4CbvEwA=;
+        b=GJazUBR8YB3SJcF+ZXV16wTojCzljJ3BkWiGNvqRSrNYHKS3w4Y0i6+tEd+GRHVZFU
+         ipGtqcdCin8gk/YyPsefjr/F6yhyKSGC2LkE/ffS/qTQ3Aqhw70qn5QUXBcov+1t9cTL
+         7fBpy5N8TSXrRfAvLUKPe1EySnStwAZ7rnzcgr+nSCtTWTwQ7BkIH8ObymBb0p9j8FZK
+         9lN6qGH04YcOtw3lJBwbnKjTkMS1M/xrhl72Xzo2V5zCkLHO5HZF/dKiYWAFPh3EiV/E
+         19x0ernx8DAJ1Bn8cRZpF++DipQ0Z6wpi+lTlojC7ARmGU1OmSirgbxBGWCNDvO5+KwS
+         xkEQ==
+X-Gm-Message-State: AOAM531RCAOsfbZmKb9B/GJuHruMCpYl0biArzQhmvG+ORRGjUO20Vfz
+        ctfOWHZAvNOERUGKtmJH/AQc4g==
+X-Google-Smtp-Source: ABdhPJy+LT8MMat8kRBweRrDpiWhyLK1kwpF4rETyVQeSR73vutuwtBN875Ec14LZ77RQUXeBlbHKw==
+X-Received: by 2002:a05:600c:4ec9:b0:38b:f1fd:b6b9 with SMTP id g9-20020a05600c4ec900b0038bf1fdb6b9mr3412692wmq.7.1648631966316;
+        Wed, 30 Mar 2022 02:19:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id v5-20020adfe4c5000000b001edc1e5053esm16383776wrm.82.2022.03.30.02.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 01:28:13 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     akpm@linux-foundation.org, david@redhat.com, willy@infradead.org
-Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
-        dave.hansen@linux.intel.com, jhubbard@nvidia.com,
-        saravanand@fb.com, minchan@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        xu xin <xu.xin16@zte.com.cn>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>
-Subject: [PATCH v4] mm/vmstat: add events for ksm cow
-Date:   Wed, 30 Mar 2022 08:26:41 +0000
-Message-Id: <20220330082640.2381401-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        Wed, 30 Mar 2022 02:19:25 -0700 (PDT)
+Date:   Wed, 30 Mar 2022 11:19:23 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based
+ API
+Message-ID: <YkQgmxlCMCzCWq8c@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220213184616.669b490b@jic23-huawei>
+ <N8XC7R.5FP2M8552CGT3@crapouillou.net>
+ <YkLEXJzs8ukrxG8s@phenom.ffwll.local>
+ <QI1I9R.GDPWLM86I45S@crapouillou.net>
+ <YkMTZLea4+X39Fp8@phenom.ffwll.local>
+ <80OI9R.QH1992Y5TBBX1@crapouillou.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <80OI9R.QH1992Y5TBBX1@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+On Tue, Mar 29, 2022 at 06:16:56PM +0100, Paul Cercueil wrote:
+> Hi Daniel,
+> 
+> Le mar., mars 29 2022 at 16:10:44 +0200, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Tue, Mar 29, 2022 at 10:11:14AM +0100, Paul Cercueil wrote:
+> > >  Hi Daniel,
+> > > 
+> > >  Le mar., mars 29 2022 at 10:33:32 +0200, Daniel Vetter
+> > > <daniel@ffwll.ch> a
+> > >  écrit :
+> > >  > On Tue, Feb 15, 2022 at 05:43:35PM +0000, Paul Cercueil wrote:
+> > >  > >  Hi Jonathan,
+> > >  > >
+> > >  > >  Le dim., févr. 13 2022 at 18:46:16 +0000, Jonathan Cameron
+> > >  > >  <jic23@kernel.org> a écrit :
+> > >  > >  > On Mon,  7 Feb 2022 12:59:21 +0000
+> > >  > >  > Paul Cercueil <paul@crapouillou.net> wrote:
+> > >  > >  >
+> > >  > >  > >  Hi Jonathan,
+> > >  > >  > >
+> > >  > >  > >  This is the V2 of my patchset that introduces a new
+> > > userspace
+> > >  > >  > > interface
+> > >  > >  > >  based on DMABUF objects to complement the fileio API, and
+> > > adds
+> > >  > >  > > write()
+> > >  > >  > >  support to the existing fileio API.
+> > >  > >  >
+> > >  > >  > Hi Paul,
+> > >  > >  >
+> > >  > >  > It's been a little while. Perhaps you could summarize the
+> > > various
+> > >  > > view
+> > >  > >  > points around the appropriateness of using DMABUF for this?
+> > >  > >  > I appreciate it is a tricky topic to distil into a brief
+> > > summary
+> > >  > > but
+> > >  > >  > I know I would find it useful even if no one else does!
+> > >  > >
+> > >  > >  So we want to have a high-speed interface where buffers of
+> > > samples
+> > >  > > are
+> > >  > >  passed around between IIO devices and other devices (e.g. USB
+> > > or
+> > >  > > network),
+> > >  > >  or made available to userspace without copying the data.
+> > >  > >
+> > >  > >  DMABUF is, at least in theory, exactly what we need. Quoting
+> > > the
+> > >  > >  documentation
+> > >  > >
+> > > (https://www.kernel.org/doc/html/v5.15/driver-api/dma-buf.html):
+> > >  > >  "The dma-buf subsystem provides the framework for sharing
+> > > buffers
+> > >  > > for
+> > >  > >  hardware (DMA) access across multiple device drivers and
+> > >  > > subsystems, and for
+> > >  > >  synchronizing asynchronous hardware access. This is used, for
+> > >  > > example, by
+> > >  > >  drm “prime” multi-GPU support, but is of course not limited to
+> > > GPU
+> > >  > > use
+> > >  > >  cases."
+> > >  > >
+> > >  > >  The problem is that right now DMABUF is only really used by
+> > > DRM,
+> > >  > > and to
+> > >  > >  quote Daniel, "dma-buf looks like something super generic and
+> > >  > > useful, until
+> > >  > >  you realize that there's a metric ton of gpu/accelerator bagage
+> > >  > > piled in".
+> > >  > >
+> > >  > >  Still, it seems to be the only viable option. We could add a
+> > > custom
+> > >  > >  buffer-passing interface, but that would mean implementing the
+> > > same
+> > >  > >  buffer-passing interface on the network and USB stacks, and
+> > > before
+> > >  > > we know
+> > >  > >  it we re-invented DMABUFs.
+> > >  >
+> > >  > dma-buf also doesn't support sharing with network and usb stacks,
+> > > so I'm
+> > >  > a
+> > >  > bit confused why exactly this is useful?
+> > > 
+> > >  There is an attempt to get dma-buf support in the network stack,
+> > > called
+> > >  "zctap". Last patchset was sent last november. USB stack does not
+> > > support
+> > >  dma-buf, but we can add it later I guess.
+> > > 
+> > >  > So yeah unless there's some sharing going on with gpu stuff (for
+> > > data
+> > >  > processing maybe) I'm not sure this makes a lot of sense really.
+> > > Or at
+> > >  > least some zero-copy sharing between drivers, but even that would
+> > >  > minimally require a dma-buf import ioctl of some sorts. Which I
+> > > either
+> > >  > missed or doesn't exist.
+> > > 
+> > >  We do want zero-copy between drivers, the network stack, and the
+> > > USB stack.
+> > >  It's not just about having a userspace interface.
+> > 
+> > I think in that case we need these other pieces too. And we need acks
+> > from
+> > relevant subsystems that these other pieces are a) ready for upstream
+> > merging and also that the dma-buf side of things actually makes sense.
+> 
+> Ok...
+> 
+> > >  > If there's none of that then just hand-roll your buffer handling
+> > > code
+> > >  > (xarray is cheap to use in terms of code for this), you can
+> > > always add
+> > >  > dma-buf import/export later on when the need arises.
+> > >  >
+> > >  > Scrolling through patches you only have dma-buf export, but no
+> > >  > importing,
+> > >  > so the use-case that works is with one of the existing subsystems
+> > > that
+> > >  > supporting dma-buf importing.
+> > >  >
+> > >  > I think minimally we need the use-case (in form of code) that
+> > > needs the
+> > >  > buffer sharing here.
+> > > 
+> > >  I'll try with zctap and report back.
+> > 
+> > Do you have a link for this? I just checked dri-devel on lore, and it's
+> > not there. Nor anywhere else.
+> 
+> The code is here: https://github.com/jlemon/zctap_kernel
+> 
+> I know Jonathan Lemon (Cc'd) was working on upstreaming it, I saw a few
+> patchsets.
 
-Users may use ksm by calling madvise(, , MADV_MERGEABLE) when they want
-to save memory, it's a tradeoff by suffering delay on ksm cow. Users can
-get to know how much memory ksm saved by reading
-/sys/kernel/mm/ksm/pages_sharing, but they don't know what's the costs
-of ksm cow, and this is important of some delay sensitive tasks.
+Yeah if the goal here is to zero-copy from iio to network sockets, then I
+think we really need the full picture first, at least as a prototype.
 
-So add ksm cow events to help users evaluate whether or how to use ksm.
-Also update /Documentation/admin-guide/mm/ksm.rst with new added events.
+And also a rough consensus among all involved subsystems that this is the
+right approach and that there's no fundamental issues. I really have no
+clue about network to make a call there.
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-Reviewed-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
----
-v2:
-- fix compile error when CONFIG_KSM is not set
-v3:
-- delete KSM_COW_FAIL event
-v4:
-- modify /Documentation/admin-guide/mm/ksm.rst. And let cow_ksm before
-- ksm_swpin_copy, so if new cow_* event could add before cow_ksm.
----
- Documentation/admin-guide/mm/ksm.rst | 18 ++++++++++++++++++
- include/linux/vm_event_item.h        |  1 +
- mm/memory.c                          |  4 ++++
- mm/vmstat.c                          |  1 +
- 4 files changed, 24 insertions(+)
+I'm bringing this up because a few folks wanted to look into zero-copy
+between gpu and nvme, using dma-buf. And after lots of
+head-banging-against-solid-concrete-walls, at least my conclusion is that
+due to locking issues it's really not possible without huge changes to the
+block i/o. And those are not on the table.
+-Daniel
 
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index 97d816791aca..b244f0202a03 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -184,6 +184,24 @@ The maximum possible ``pages_sharing/pages_shared`` ratio is limited by the
- ``max_page_sharing`` tunable. To increase the ratio ``max_page_sharing`` must
- be increased accordingly.
- 
-+Monitoring KSM events
-+=====================
-+
-+There are some counters in /proc/vmstat that may be used to monitor KSM events.
-+KSM might help save memory, it's a tradeoff by may suffering delay on KSM COW
-+or on swapping in copy. Those events could help users evaluate whether or how
-+to use KSM. For example, if cow_ksm increases too fast, user may decrease the
-+range of madvise(, , MADV_MERGEABLE).
-+
-+cow_ksm
-+	is incremented every time a KSM page triggers copy on write (COW)
-+	when users try to write to a KSM page, we have to make a copy.
-+
-+ksm_swpin_copy
-+	is incremented every time a KSM page is copied when swapping in
-+	note that KSM page might be copied when swapping in because do_swap_page()
-+	cannot do all the locking needed to reconstitute a cross-anon_vma KSM page.
-+
- --
- Izik Eidus,
- Hugh Dickins, 17 Nov 2009
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 16a0a4fd000b..74ec4b6a9ed0 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -130,6 +130,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		SWAP_RA,
- 		SWAP_RA_HIT,
- #ifdef CONFIG_KSM
-+		COW_KSM,
- 		KSM_SWPIN_COPY,
- #endif
- #endif
-diff --git a/mm/memory.c b/mm/memory.c
-index 4111f97c91a0..12925ceaf745 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3339,6 +3339,10 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
- 	get_page(vmf->page);
- 
- 	pte_unmap_unlock(vmf->pte, vmf->ptl);
-+#ifdef CONFIG_KSM
-+	if (PageKsm(vmf->page))
-+		count_vm_event(COW_KSM);
-+#endif
- 	return wp_page_copy(vmf);
- }
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index d5cc8d739fac..250ae0652740 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1389,6 +1389,7 @@ const char * const vmstat_text[] = {
- 	"swap_ra",
- 	"swap_ra_hit",
- #ifdef CONFIG_KSM
-+	"cow_ksm",
- 	"ksm_swpin_copy",
- #endif
- #endif
+> 
+> Cheers,
+> -Paul
+> 
+> > We really need all the pieces, and if block layer reaction is anything
+> > to
+> > judge by, dma-buf wont happen for networking either. There's some really
+> > nasty and fairly fundamental issues with locking and memory reclaim that
+> > make this utter pain or outright impossible.
+> > -Daniel
+> > 
+> > > 
+> > >  Cheers,
+> > >  -Paul
+> > > 
+> > >  > >  > >
+> > >  > >  > >  Changes since v1:
+> > >  > >  > >
+> > >  > >  > >  - the patches that were merged in v1 have been (obviously)
+> > >  > > dropped
+> > >  > >  > > from
+> > >  > >  > >    this patchset;
+> > >  > >  > >  - the patch that was setting the write-combine cache
+> > > setting
+> > >  > > has
+> > >  > >  > > been
+> > >  > >  > >    dropped as well, as it was simply not useful.
+> > >  > >  > >  - [01/12]:
+> > >  > >  > >      * Only remove the outgoing queue, and keep the
+> > > incoming
+> > >  > > queue,
+> > >  > >  > > as we
+> > >  > >  > >        want the buffer to start streaming data as soon as
+> > > it is
+> > >  > >  > > enabled.
+> > >  > >  > >      * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now
+> > >  > > functionally
+> > >  > >  > > the
+> > >  > >  > >        same as IIO_BLOCK_STATE_DONE.
+> > >  > >  > >  - [02/12]:
+> > >  > >  > >      * Fix block->state not being reset in
+> > >  > >  > >        iio_dma_buffer_request_update() for output buffers.
+> > >  > >  > >      * Only update block->bytes_used once and add a comment
+> > >  > > about
+> > >  > >  > > why we
+> > >  > >  > >        update it.
+> > >  > >  > >      * Add a comment about why we're setting a different
+> > > state
+> > >  > > for
+> > >  > >  > > output
+> > >  > >  > >        buffers in iio_dma_buffer_request_update()
+> > >  > >  > >      * Remove useless cast to bool (!!) in
+> > > iio_dma_buffer_io()
+> > >  > >  > >  - [05/12]:
+> > >  > >  > >      Only allow the new IOCTLs on the buffer FD created
+> > > with
+> > >  > >  > >      IIO_BUFFER_GET_FD_IOCTL().
+> > >  > >  > >  - [12/12]:
+> > >  > >  > >      * Explicitly state that the new interface is optional
+> > > and
+> > >  > > is
+> > >  > >  > >        not implemented by all drivers.
+> > >  > >  > >      * The IOCTLs can now only be called on the buffer FD
+> > >  > > returned by
+> > >  > >  > >        IIO_BUFFER_GET_FD_IOCTL.
+> > >  > >  > >      * Move the page up a bit in the index since it is core
+> > >  > > stuff
+> > >  > >  > > and not
+> > >  > >  > >        driver-specific.
+> > >  > >  > >
+> > >  > >  > >  The patches not listed here have not been modified since
+> > > v1.
+> > >  > >  > >
+> > >  > >  > >  Cheers,
+> > >  > >  > >  -Paul
+> > >  > >  > >
+> > >  > >  > >  Alexandru Ardelean (1):
+> > >  > >  > >    iio: buffer-dma: split iio_dma_buffer_fileio_free()
+> > > function
+> > >  > >  > >
+> > >  > >  > >  Paul Cercueil (11):
+> > >  > >  > >    iio: buffer-dma: Get rid of outgoing queue
+> > >  > >  > >    iio: buffer-dma: Enable buffer write support
+> > >  > >  > >    iio: buffer-dmaengine: Support specifying buffer
+> > > direction
+> > >  > >  > >    iio: buffer-dmaengine: Enable write support
+> > >  > >  > >    iio: core: Add new DMABUF interface infrastructure
+> > >  > >  > >    iio: buffer-dma: Use DMABUFs instead of custom solution
+> > >  > >  > >    iio: buffer-dma: Implement new DMABUF based userspace
+> > > API
+> > >  > >  > >    iio: buffer-dmaengine: Support new DMABUF based
+> > > userspace API
+> > >  > >  > >    iio: core: Add support for cyclic buffers
+> > >  > >  > >    iio: buffer-dmaengine: Add support for cyclic buffers
+> > >  > >  > >    Documentation: iio: Document high-speed DMABUF based API
+> > >  > >  > >
+> > >  > >  > >   Documentation/driver-api/dma-buf.rst          |   2 +
+> > >  > >  > >   Documentation/iio/dmabuf_api.rst              |  94 +++
+> > >  > >  > >   Documentation/iio/index.rst                   |   2 +
+> > >  > >  > >   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+> > >  > >  > >   drivers/iio/buffer/industrialio-buffer-dma.c  | 610
+> > >  > >  > > ++++++++++++++----
+> > >  > >  > >   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+> > >  > >  > >   drivers/iio/industrialio-buffer.c             |  60 ++
+> > >  > >  > >   include/linux/iio/buffer-dma.h                |  38 +-
+> > >  > >  > >   include/linux/iio/buffer-dmaengine.h          |   5 +-
+> > >  > >  > >   include/linux/iio/buffer_impl.h               |   8 +
+> > >  > >  > >   include/uapi/linux/iio/buffer.h               |  30 +
+> > >  > >  > >   11 files changed, 749 insertions(+), 145 deletions(-)
+> > >  > >  > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > >  > >  > >
+> > >  > >  >
+> > >  > >
+> > >  > >
+> > >  >
+> > >  > --
+> > >  > Daniel Vetter
+> > >  > Software Engineer, Intel Corporation
+> > >  > http://blog.ffwll.ch
+> > > 
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
+> 
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
