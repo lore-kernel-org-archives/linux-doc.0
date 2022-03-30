@@ -2,132 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C08C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 21:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8655C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 23:40:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351388AbiC3Vvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 17:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58666 "EHLO
+        id S234158AbiC3XmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 19:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351386AbiC3Vvv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 17:51:51 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2029452E4A;
-        Wed, 30 Mar 2022 14:50:05 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id a17-20020a9d3e11000000b005cb483c500dso15841487otd.6;
-        Wed, 30 Mar 2022 14:50:05 -0700 (PDT)
+        with ESMTP id S234133AbiC3XmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 19:42:14 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 332DD59A79;
+        Wed, 30 Mar 2022 16:40:28 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id l4-20020a17090a49c400b001c6840df4a3so1867666pjm.0;
+        Wed, 30 Mar 2022 16:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/Bthg0jq8/Diwhpq69bZsSJ8jzbwEA8PqoPE66yQfog=;
-        b=Nfga8Hiai6jnPWHrcn37JnCAYeEsSoYIS9lAUi9RUj2zZYm6zwUuleYAr7hSaiQ+g1
-         ezHH1BNKWxE5sAnlDb/uVvp0fX1dtnGpx8Y+6IFrxHZxQaJY2tyB3TivVEKNXAe6UIsU
-         Hx99eHfTEChpbiQP+3UPY/45nATjnpWrkSQXHOos+OBwIqEa6Z/H1Cf+fmpQCy7PF/y6
-         r8aMcAl4DO8EOa36fBm9jnaV19bmtTp6vEv6abQBDv+tXv1DrOf/J+I3eH28D9Ru3QoD
-         ucw4pTnSDYCTLLdjqV7iWlyghBr7hm1mpL+ZqHkcsQVfU6W9/AbMFC+hyAwt5tVsgDp1
-         UVcQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ESNpQhzFSLsOcth58annqGYG18Nay0vUW1K+23pWJtA=;
+        b=XISyYeGgzdKF8UVxXO+7u26KDVp17Fl9ATmlBo7Byz7vZI6aHQnhDPwvJNRXREVQ+E
+         5t5KAgwoKJRqC2P1TndECW3XGy+2PLJQExOYL7wOU0o3sAmZulMveCdCWHH27XwNcGvj
+         wi/Y0a+xe+4phvUX/6gdbUPif7qDKuzW/Im69e944WnpMTJbdR5nqIbjxU1cDCSdFbnS
+         nB5h1zvF0ZDg8V7DI1o17crsv4j6kC+eBN9Pi42ju5UcJO1hvqKE1vlUSBSc1VF6rad6
+         SH9AnRM1Uy6f4+KvowvQQ1+/CqWFiV9a2PFLv3WWXSuIdmEMPMHhY9V81lyFvIiFGC7X
+         ZPuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/Bthg0jq8/Diwhpq69bZsSJ8jzbwEA8PqoPE66yQfog=;
-        b=gwuwp4i137raIWUEryehgHk+kJpAvsL9tSWhDb8clvF9riz0tgmwLyG2sxrGORdrgF
-         yZB7UDhwcASsux+9i5YWvf0Xk1JlRtDjnEAR7Y1rVxIO8/OaUY7+DaZvIpcrQbXOudl6
-         JuuonlfIndE2HW2nNfIM0I3SbjYo0Etgr0IQ4b/og1oLMPIYITAtkYJt4Ljwlfjcm6ls
-         l9DONRrbe+qT1zya6ug4qqJFG3lxQVrxuX72VY623Culv6TqKc0cXt5KrHY7WX9b6Wnf
-         fPjr1DlSEOsSOwne/QJjTkWnMxkZfg6LT6/4Dyw4N2deve/TtX9FwpuvuqK0xHlbrV2T
-         4iKQ==
-X-Gm-Message-State: AOAM530un3pnM8oawvKnsnWl5W1osTawdHRJwul/fOQr2NpVihO8bzWb
-        hyBHXvrdZu33u6nyA+SZqew=
-X-Google-Smtp-Source: ABdhPJzYJPepEvTuy6SmKbubOCp4UcpWJ95SWPN6CgROFQTdx2QTEQRmi4KeYdD9Ta8dyzx18zTjfQ==
-X-Received: by 2002:a05:6830:2478:b0:5c9:289c:597f with SMTP id x56-20020a056830247800b005c9289c597fmr4244500otr.130.1648677004423;
-        Wed, 30 Mar 2022 14:50:04 -0700 (PDT)
-Received: from marsc.168.1.7 ([2804:30c:b6b:3900:e3fc:1545:cb91:17fb])
-        by smtp.gmail.com with ESMTPSA id w4-20020a4adec4000000b0032109de628esm10535874oou.6.2022.03.30.14.50.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 14:50:03 -0700 (PDT)
-Date:   Wed, 30 Mar 2022 18:49:59 -0300
-From:   Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To:     corbet@lwn.net, mchehab+huawei@kernel.org, dlatypov@google.com,
-        davidgow@google.com
-Cc:     linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-        dan.carpenter@oracle.com, julia.lawall@inria.fr
-Subject: [PATCH v3 2/2] Documentation: dev-tools: Enhance static analysis
- section with discussion
-Message-ID: <62f461a20600b95e694016c4e5348ef2e260fa87.1648674305.git.marcelo.schmitt1@gmail.com>
-References: <cover.1648674305.git.marcelo.schmitt1@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ESNpQhzFSLsOcth58annqGYG18Nay0vUW1K+23pWJtA=;
+        b=taRfaKRsJtHN6BHms+cZS1KYALnbnvamjrW8GWy7hngEd0zIzmhWnFYwbW36TcG++A
+         1q0njmg/zJdSz6shxKTgomL15fPNg1a7+NrzVwlemQb/rwFbvjbBWCXtydLqS6yvp8iY
+         0MD/+a4dRPBAy+/Zz+XFNnrhG4MvfZ4JL4wBwW7ozzQuol/Q0ZRZPKi5F3kfA/z2PqZK
+         3tAeFt39bRSVne+0AIEQwy3hLQv8eQjFRtxxVAMQDo8CM24sF29mP8DG2Bmd7UEhmSbd
+         B2RE650zDf4X5WLxJuAfwmqosErh8qx5G3vtn7uiC/MhveAwu7JYC82Me5XosVZQfhdF
+         vKag==
+X-Gm-Message-State: AOAM532aowspeD9sMYA2s8oBtu0N6/wpCjcyt4EWIwemDmw53unlu1/3
+        fLFP54TftITRc6iPHsapOfM=
+X-Google-Smtp-Source: ABdhPJzijuWQmZqQ+YXRg4Y6AH8a2MzUA94cNLI5J1zE6HtWoOfwXcFWwLdNnZBUvM6pqce98I7MzQ==
+X-Received: by 2002:a17:90b:4b89:b0:1c8:105a:2262 with SMTP id lr9-20020a17090b4b8900b001c8105a2262mr2488044pjb.225.1648683627664;
+        Wed, 30 Mar 2022 16:40:27 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id h2-20020a056a00170200b004fae65cf154sm24808745pfc.219.2022.03.30.16.40.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 16:40:26 -0700 (PDT)
+Message-ID: <620db39a-d634-9a35-26b2-d348953482d9@gmail.com>
+Date:   Wed, 30 Mar 2022 16:40:22 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1648674305.git.marcelo.schmitt1@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH net v3 08/14] docs: netdev: rephrase the 'should I update
+ patchwork' question
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org, andrew@lunn.ch
+References: <20220330042505.2902770-1-kuba@kernel.org>
+ <20220330042505.2902770-9-kuba@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20220330042505.2902770-9-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enhance the static analysis tools section with a discussion on when to
-use each of them.
+On 3/29/22 21:24, Jakub Kicinski wrote:
+> Make the question shorter and adjust the start of the answer accordingly.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-This was mainly taken from Dan Carpenter and Julia Lawall's comments on
-a previous documentation patch for static analysis tools.
-
-Lore: https://lore.kernel.org/linux-doc/20220329090911.GX3293@kadam/T/#mb97770c8e938095aadc3ee08f4ac7fe32ae386e6
-
-Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Acked-by: David Gow <davidgow@google.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>
----
-Change log v2 -> v3:
-- Changed the paragraph about Sparse to make it sound better (hopefully)
-- Minor adjusts to make the considerations about Coccinelle sound better
-  and be precise
-
- Documentation/dev-tools/testing-overview.rst | 32 ++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-index b5e02dd3fd94..0aaf6ea53608 100644
---- a/Documentation/dev-tools/testing-overview.rst
-+++ b/Documentation/dev-tools/testing-overview.rst
-@@ -146,3 +146,35 @@ Documentation/dev-tools/coccinelle.rst documentation page for details.
- 
- Beware, though, that static analysis tools suffer from **false positives**.
- Errors and warns need to be evaluated carefully before attempting to fix them.
-+
-+When to use Sparse and Smatch
-+-----------------------------
-+
-+Sparse does type checking, such as verifying that annotated variables do not
-+cause endianness bugs, detecting places that use ``__user`` pointers improperly,
-+and analyzing the compatibility of symbol initializers.
-+
-+Smatch does flow analysis and, if allowed to build the function database, it
-+also does cross function analysis. Smatch tries to answer questions like where
-+is this buffer allocated? How big is it? Can this index be controlled by the
-+user? Is this variable larger than that variable?
-+
-+It's generally easier to write checks in Smatch than it is to write checks in
-+Sparse. Nevertheless, there are some overlaps between Sparse and Smatch checks.
-+
-+Strong points of Smatch and Coccinelle
-+--------------------------------------
-+
-+Coccinelle is probably the easiest for writing checks. It works before the
-+pre-processor so it's easier to check for bugs in macros using Coccinelle.
-+Coccinelle also creates patches for you, which no other tool does.
-+
-+For example, with Coccinelle you can do a mass conversion from
-+``kmalloc(x * size, GFP_KERNEL)`` to ``kmalloc_array(x, size, GFP_KERNEL)``, and
-+that's really useful. If you just created a Smatch warning and try to push the
-+work of converting on to the maintainers they would be annoyed. You'd have to
-+argue about each warning if can really overflow or not.
-+
-+Coccinelle does no analysis of variable values, which is the strong point of
-+Smatch. On the other hand, Coccinelle allows you to do simple things in a simple
-+way.
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.35.1
-
+Florian
