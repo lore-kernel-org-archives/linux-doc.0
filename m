@@ -2,70 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD32C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 19:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3889C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 20:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230084AbiC3Tpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 15:45:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55610 "EHLO
+        id S1348425AbiC3U6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 16:58:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229923AbiC3Tpw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 15:45:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F164338B
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 12:44:06 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1E0F0732;
-        Wed, 30 Mar 2022 19:44:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1E0F0732
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1648669446; bh=47F2MjwMpR+EX8JHricGZIG1m+iz4vXWVyu5fB/95kc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=A38UzKJoySXwVGK3ZveJp18CG62bU1QzFSilHijE59SL0JTh6i5VTE2EmgqpZRUtz
-         R005QRmuGvA78tSRa07CA+U940M8lT861h7F5alc63ag/2ETT19brdomzLM6OodDRG
-         Tkhhd5b9tKYmaUCJZGGCxHsV0cS9g0F//mQxZYQ4E+4DMS/awPDXilvHmWV1RTE0h9
-         m/0kVru+bkx8kOR8iX1EDYtUMJ5/z/MIRp8zmF/cKtzDc1DVS7LIiPBNboB5FcOn0r
-         yoLSkYrMp2ASkXV+fkbXcCaYN2Ho2S9hsDQUAhuJLrqsP3DpGbLaG1wQnD+dbbwbgh
-         B3ExKbTUuBKng==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-In-Reply-To: <29a61fd1-d736-4dc2-58d7-3cfec6e2bcfe@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net>
- <29a61fd1-d736-4dc2-58d7-3cfec6e2bcfe@gmail.com>
-Date:   Wed, 30 Mar 2022 13:44:05 -0600
-Message-ID: <87lewr2pkq.fsf@meer.lwn.net>
+        with ESMTP id S1351271AbiC3U6I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 16:58:08 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15256140E4
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 13:56:22 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id a17so25900419edm.9
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 13:56:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nrCvj7Yq7SSib6FwgrmdzFU7UXWII5P9ju8EtUscCW0=;
+        b=boNOk7s9MFWRe9Q5TIHyCBcLZAL3UIEBNmLOOWFhXw6emE+CwKKHdvhC0KffHeh0nF
+         M6pQueP4aCRuJFI7dDzsd8w7oMHmH5zQ1LRTPvQqJiDWbX35wE19ft4HqpfvXL9C1Got
+         NCX+Q7kxCou/I+IrAEJ9Str9SLE8Vpfu1F+nizveKZzqZBmp0ZbLt4163c8iNRc9oq8L
+         +OvcysVAV7F4grrtlsY0RpODotiBIJhRyklfusZBaq0zNt0ADmOlhrzyjpVkba5kg+sN
+         XtIoUFtjlMDxb5pCPzyxnwJLsJ9yaQfPKTqYXEV4ifVXSG43LsveuoFab9UFC5oCyEkr
+         VAUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nrCvj7Yq7SSib6FwgrmdzFU7UXWII5P9ju8EtUscCW0=;
+        b=au3YgTcMEZOizBJUtes3JDT0x4OGEGCa97mX677Fdiev2Ilwbt0F4xgculYAlqLoyR
+         rXHzyvn4njSbFf+HxlECC5dhnBWCM02W7SulAgpj95S5JCk8GvJHiiN1kmhuJ39lEe72
+         eThNeO/tk/1wQTI0+zYog9qryPb8pJMfT9/4BuyqashVNUypTf4pKr1pVkcScQPO7JUG
+         NI6kLLrC76Q6YEkeEmhL87z/xUbj4/VI2VzcYem2pPgTeF/JYNFPH93drPSQ+maqYmkL
+         PkfWOcCYX56rwhEt8J0vGKxcUueMKSEIb6pyrzuQJBSWLZlGjWWOJG2ITJoCt0ZlpqE+
+         flZQ==
+X-Gm-Message-State: AOAM531mktu+qkieKWROLcX/uhWuvaJ5wXgNDwrRxtOGdCwYpwmqWG5R
+        0Ktnd4+h5306pesz19uXI7VRFfXMvvIQZbTo9WtZsg==
+X-Google-Smtp-Source: ABdhPJxrjw92bYCs2jMACCLJM4/KOh2wxHOU9997F7UwcQsMWyUFgKpYWFcmr9tg4GWCYtbl/45JU/IvvXHerOIfRxk=
+X-Received: by 2002:a05:6402:3452:b0:418:f963:42a3 with SMTP id
+ l18-20020a056402345200b00418f96342a3mr13302952edc.12.1648673780493; Wed, 30
+ Mar 2022 13:56:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-3-tjmercier@google.com> <YkM6/57mVxoNfSvm@slm.duckdns.org>
+In-Reply-To: <YkM6/57mVxoNfSvm@slm.duckdns.org>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 30 Mar 2022 13:56:09 -0700
+Message-ID: <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com>
+Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
+ attribution of GPU memory
+To:     Tejun Heo <tj@kernel.org>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Tue, Mar 29, 2022 at 9:59 AM Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello,
 
->> It's probably time to consider a bump there, but that is a bigger one
->> than I would want to do at this point.  So I'll just fast-track this
->> patch in; dropping it into the stable updates probably makes sense too.
->
-> This can be applied cleanly for Linux>=5.15.
-> For 5.10.x, there is a dependent commit:
->
->     37397b092e7f ("docs: sphinx-requirements: Move sphinx_rtd_theme to top")
->
-> Linux 5.4.x needs another one:
->
->     d5afc9640a6d ("docs: update recommended Sphinx version to 2.4.4")
->
-> ... and so on.
->
-> How far do you want to backport this?
+I'm sorry for the delay Tejun, my test device stopped working and my
+attention has been occupied with that.
 
-Ah...thanks for pointing that out.  I don't think it's worth dragging in
-other commits, so 5.15 is it, I guess.
+>
+> On Mon, Mar 28, 2022 at 03:59:41AM +0000, T.J. Mercier wrote:
+> > The API/UAPI can be extended to set per-device/total allocation limits
+> > in the future.
+>
+> This total thing kinda bothers me. Can you please provide some concrete
+> examples of how this and per-device limits would be used?
 
-jon
+The use case we have for accounting the total (separate from the
+individual devices) is to include the value as part of bugreports, for
+understanding the system-wide amount of dmabuf allocations. I'm not
+aware of an existing need to limit the total. Admittedly this is just
+the sum over the devices, but we currently maintain out of tree code
+to do this sort of thing today. [1]
+
+The per-device limits would be used to restrict the amount of each
+type of allocation charged to an individual application to prevent
+hogging or to completely prevent access. This limitation is not
+something we have implemented today, but it is on our roadmap.
+
+[1] https://android-review.googlesource.com/c/kernel/common/+/1566704/3/drivers/dma-buf/dma-heap.c
+
+>
+> Thanks.
+>
+> --
+> tejun
