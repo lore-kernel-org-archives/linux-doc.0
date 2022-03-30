@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5ECC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 11:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E959CC4167E
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 11:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244532AbiC3Lzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 07:55:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59912 "EHLO
+        id S1344355AbiC3L5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 07:57:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344300AbiC3Lwg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 07:52:36 -0400
+        with ESMTP id S1345909AbiC3LzL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 07:55:11 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E60496274;
-        Wed, 30 Mar 2022 04:48:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BAF266B6C;
+        Wed, 30 Mar 2022 04:52:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C7D996137A;
-        Wed, 30 Mar 2022 11:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C249FC340F3;
-        Wed, 30 Mar 2022 11:48:28 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 53E9A61703;
+        Wed, 30 Mar 2022 11:52:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20545C36AE3;
+        Wed, 30 Mar 2022 11:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648640910;
-        bh=C/6vszzsIcvJ2zFrmoHTuFlxJe5pkxocbcyOi1y5Nq8=;
+        s=k20201202; t=1648641144;
+        bh=BcA92V2ojBSNfXM65Q3xXu5tkigqU+hfjma6OoeF744=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jPDqKJj897XozyoGLX6ClpiZMmLxHlpNFOyUw9b5IWbry9yy9mCSzXZ83NCmuuFuP
-         N6YYYREjnumC76b3itKfQarHfIQc3q7WXcQWg+FceiVxo2tPn/KNNx6PJxDYForDx/
-         +D/9CdBmGythgw2UVFsjsfyrn6xklF7G7z270leV5U7j3Z8usdybB+g6deimDvvEQF
-         vlw0RZfm02f5rF7+m+NHTYz8x6Kv70zbk/VlJ8E8GZ1LqQpAz56kAPnAIQp/2B4C+J
-         DqYMCFa1VSFrq0ESa1Ox61j7RHS668C2dWqIl5JFHXmRXTV19mWDe/dZBWGidf64VZ
-         IuJE7kpCyuPLw==
+        b=VF+H3DvjuLzH6cVPp0x8WM5P8T6YMd1OyqGOz/shydiceU9IJUjQSU7KAzuZsioOi
+         EyntQ2mlSijf6y08w6SJai1hz56p0nHr251vJVwghauxRnF3SJvogTYd5i4CyE9La+
+         ZERjHNVi9ELgiEcgysOx39X6xnuctYHM371vvqfEmSd7ZPnmtngjwvCG2C/YdUscFp
+         ii/pcgAw8HnGfzzK4TSKdgzZ5Y2ms4rwIqKEKMWu/29V9YiyVth1484E5hguAqYIsu
+         3kzBFqul4YPUjkgPlV/+Lu1cfM50x8UjVzmf67WUue2lEFl9i6EvoU9eRlFzdgyGiQ
+         C5p9z5AAESIdg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Matt Kramer <mccleetus@gmail.com>, Takashi Iwai <tiwai@suse.de>,
         Sasha Levin <sashal@kernel.org>, perex@perex.cz,
         tiwai@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        sudipm.mukherjee@gmail.com, hui.wang@canonical.com,
-        sylee@canonical.com, alsa-devel@alsa-project.org,
+        sudipm.mukherjee@gmail.com, sylee@canonical.com,
+        hui.wang@canonical.com, alsa-devel@alsa-project.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 66/66] ALSA: hda/realtek: Add alc256-samsung-headphone fixup
-Date:   Wed, 30 Mar 2022 07:46:45 -0400
-Message-Id: <20220330114646.1669334-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 37/37] ALSA: hda/realtek: Add alc256-samsung-headphone fixup
+Date:   Wed, 30 Mar 2022 07:51:22 -0400
+Message-Id: <20220330115122.1671763-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330114646.1669334-1-sashal@kernel.org>
-References: <20220330114646.1669334-1-sashal@kernel.org>
+In-Reply-To: <20220330115122.1671763-1-sashal@kernel.org>
+References: <20220330115122.1671763-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,10 +88,10 @@ index d25335993e55..9b52f50a6854 100644
  ALC66x/67x/892
  ==============
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 75ff7e8498b8..2230b0e92e43 100644
+index 3bd37c02ce0e..fadf4f32877e 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -6948,6 +6948,7 @@ enum {
+@@ -6762,6 +6762,7 @@ enum {
  	ALC236_FIXUP_HP_MUTE_LED,
  	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
  	ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
@@ -99,7 +99,7 @@ index 75ff7e8498b8..2230b0e92e43 100644
  	ALC295_FIXUP_ASUS_MIC_NO_PRESENCE,
  	ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS,
  	ALC269VC_FIXUP_ACER_HEADSET_MIC,
-@@ -8273,6 +8274,14 @@ static const struct hda_fixup alc269_fixups[] = {
+@@ -8083,6 +8084,14 @@ static const struct hda_fixup alc269_fixups[] = {
  			{ }
  		},
  	},
@@ -114,7 +114,7 @@ index 75ff7e8498b8..2230b0e92e43 100644
  	[ALC295_FIXUP_ASUS_MIC_NO_PRESENCE] = {
  		.type = HDA_FIXUP_PINS,
  		.v.pins = (const struct hda_pintbl[]) {
-@@ -9054,6 +9063,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -8835,6 +8844,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
  	SND_PCI_QUIRK(0x144d, 0xc740, "Samsung Ativ book 8 (NP870Z5G)", ALC269_FIXUP_ATIV_BOOK_8),
  	SND_PCI_QUIRK(0x144d, 0xc812, "Samsung Notebook Pen S (NT950SBE-X58)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
  	SND_PCI_QUIRK(0x144d, 0xc830, "Samsung Galaxy Book Ion (NT950XCJ-X716A)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
@@ -122,7 +122,7 @@ index 75ff7e8498b8..2230b0e92e43 100644
  	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
  	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
  	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
-@@ -9400,6 +9410,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
+@@ -9177,6 +9187,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
  	{.id = ALC298_FIXUP_HUAWEI_MBX_STEREO, .name = "huawei-mbx-stereo"},
  	{.id = ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE, .name = "alc256-medion-headset"},
  	{.id = ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET, .name = "alc298-samsung-headphone"},
