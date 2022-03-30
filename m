@@ -2,168 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A992DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 00:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D0DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 01:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241491AbiC3AwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Mar 2022 20:52:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39132 "EHLO
+        id S241634AbiC3Ba4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Mar 2022 21:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241490AbiC3AwC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 20:52:02 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613237EA1C
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 17:50:18 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id a16so2206453plh.13
-        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 17:50:18 -0700 (PDT)
+        with ESMTP id S238211AbiC3Baz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Mar 2022 21:30:55 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBDEB1AAA
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id e5so19183157pls.4
+        for <linux-doc@vger.kernel.org>; Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=axtens.net; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eT0MeMyajG5bIz1AIsmqOI8u1ZS3KpxbDfVQyKevREE=;
-        b=glosbfJnyVdJhuvX0pA9Vc69rYKOhKa1XDLiv4cPj3AhWEHTB8QprWfRPxMLonaS5l
-         QDLdQYDTkqAPc4FvClEiCjxv+yjj7BZU7dBwHiB35XJsT1yT6TqGiomFk5sViaLe8+Ya
-         C0P/UPVTCl0uqbr7lfPEmtT9LrDd0NyfoEmfk=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=vdcHUSnfczDmZ92O3lL/dDt7YGRkLfEex18Xs8F30qI=;
+        b=O1j2QAl7SuyX3NTphMvJj4YeqFmV9fx+UApUt1v9oieM+FJ5/DA4peyz9HQhXBvCLm
+         698nxhPVpyhjR2/d8sMfb5aqAgrnS38bfEYmjU4d8Jdscd1zWhe8/xlsLiJdQDjwjMbe
+         OdZMpdD0q0Ht/oEDCR6mMbBtRkHZRXOGrh1FBnV1wTCYPsq7I+N+EMJuMqBCezpsujyg
+         5q8TZGsnxSvB9ixsWZV7/Qj16cY5F52tfKZfhTZoH/JMFdedkV0SSGh9LmXw82TEoIFa
+         VqRb5mK8qBjJ3AGmMUlQ/z1J6vx0t5hk/O3jdRZkpyYK4JvCdccgwNP+ds/GOuZV0LNx
+         Uwmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eT0MeMyajG5bIz1AIsmqOI8u1ZS3KpxbDfVQyKevREE=;
-        b=T0yVGBz/rJj2BVsY/Iq8Ehif8JU45AdfSDoVKUttd2X8WIPOi0YOyMGF4vPVI/J/bR
-         2snJP0mA6Rys82G/uYTZrIiWO2HRfROrp6DVXTDp7682T4YIwKPx8uABezitTkVNR30S
-         geqHRJHr+a8gtIiFl3E73JRwdjPY9KZWmBd1pHMj8Qp0cKr+BKekLw6qhR2I6Y0XXsER
-         zj9FEozwgQcA1aEIz6drgFkQPiGBdGVcahk5QxK/oKf+82q63Uk38TrQHgioe6Ck+F4R
-         xNzDeCGTiUMmXwcXLk70JgUCZAZFnidHprztZdMCIK9D9S7/7v0ogAjxtxb/7Rs13Tld
-         js/g==
-X-Gm-Message-State: AOAM530zHgDmSbPKEXAUJvRxosBPpvqb+kYL+eO397Mdz70engMsle0v
-        x8R3i7+HgT7YkVSGuZx8R7zcDg==
-X-Google-Smtp-Source: ABdhPJxNg9M7rZr3IAGHxXmao5fKjmdSwnqjp1hqMlC9FqastDXDrKbZklDTnnMqU6uCYhILFHGbSg==
-X-Received: by 2002:a17:90a:3181:b0:1c7:6d18:391a with SMTP id j1-20020a17090a318100b001c76d18391amr2024849pjb.30.1648601417790;
-        Tue, 29 Mar 2022 17:50:17 -0700 (PDT)
-Received: from localhost ([2001:4479:e000:e400:e2b8:da3a:1007:145d])
-        by smtp.gmail.com with ESMTPSA id a71-20020a63904a000000b00398666dcf8esm5680440pge.40.2022.03.29.17.50.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 17:50:17 -0700 (PDT)
-From:   Daniel Axtens <dja@axtens.net>
-To:     konstantin@linuxfoundation.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Daniel Axtens <dja@axtens.net>,
-        Emily Strickland <linux@emily.st>
-Subject: Re: [PATCH] Documentation: kernel-hacking: minor edits for style
-Date:   Wed, 30 Mar 2022 11:50:12 +1100
-Message-Id: <20220330005012.3899821-1-dja@axtens.net>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
-References: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vdcHUSnfczDmZ92O3lL/dDt7YGRkLfEex18Xs8F30qI=;
+        b=oZ4EzC+G+rmRCEGyUHSn+1B47jfJgWZ0M92LQSd9Y/I4kxqPvqXU67DTAgLq311+NJ
+         TUcJiOjBZNKR48BzRDN8y8Ezo4TR+os2zAH6hxDxLgIFGNLja4PNqoQLZu8w9Yz4gfZN
+         RPn93A5pOVoqmlVz0849CifjJAy5BBBnrvsiSkbt/+ZJeXFi8wznQu/zGMYWPHVEcACg
+         PIY1Af8iqfp8UR7RYBn8NJLtxA0G3OlPRJwuxZr9CBg50IlAqVo/1pxLxv1yR2oVX6gN
+         HCMy5VF1oYmPS6Vi9EbGwYGIB4jqXUMxOt5miudN5tF8BKkaXsckT9Sp15b8P23McVUe
+         XYYg==
+X-Gm-Message-State: AOAM532Q8Hqd36ppr2h1TIiRGgmWLb6HKSeghZsuuM4Th2Jr5lC7v6XB
+        gMp4I+QACVypkMvoJX8TsBs=
+X-Google-Smtp-Source: ABdhPJxc3oSeAVc1d3oLDs3CSQCoo85+dLQjHIp9SQ+fq31E1ksltTH63GkVvp6HMo/trS4q6VqtBA==
+X-Received: by 2002:a17:903:240a:b0:14e:dad4:5ce4 with SMTP id e10-20020a170903240a00b0014edad45ce4mr33874758plo.125.1648603751406;
+        Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id nu16-20020a17090b1b1000b001c77c6a391csm4340571pjb.26.2022.03.29.18.29.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 18:29:11 -0700 (PDT)
+Message-ID: <29a61fd1-d736-4dc2-58d7-3cfec6e2bcfe@gmail.com>
+Date:   Wed, 30 Mar 2022 10:29:05 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+ <871qyk7p28.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <871qyk7p28.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Konstantin,
+On Tue, 29 Mar 2022 09:31:43 -0600,
+Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> jinja2 release 3.1.0 (March 24, 2022) broke Sphinx<4.0.
+>> This looks like the result of deprecating Python 3.6.
+>> It has been tested against Sphinx 4.3.0 and later later.
+Oh, I made a staccato here.
+Thank you for amending it.
+> 
+> *Sigh*.  I wish this stuff didn't feel like such a house of cards
+> sometimes... 
+> 
+>> Setting an upper limit of <3.1 to junja2 can unbreak Sphinx<4.0
+>> including Sphinx 2.4.4.
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Cc: linux-doc@vger.kernel.org
+>> ---
+>> Or we can bump the requirement to Sphinx>=4.0.
+>> Thoughts?
+> 
+> It's probably time to consider a bump there, but that is a bigger one
+> than I would want to do at this point.  So I'll just fast-track this
+> patch in; dropping it into the stable updates probably makes sense too.
 
-I agree the document could do with some love. I've got some suggestions to
-make the tips a bit more useful, regardless of where we land on Rusty's
-'iconic' prose.
+This can be applied cleanly for Linux>=5.15.
+For 5.10.x, there is a dependent commit:
 
----
+    37397b092e7f ("docs: sphinx-requirements: Move sphinx_rtd_theme to top")
 
-Subject: [PATCH] hacking.rst: update for modern git-based workflows
+Linux 5.4.x needs another one:
 
-The tips are fun, but they predate git. With git we do things differently.
-Document something closer to what we do.
+    d5afc9640a6d ("docs: update recommended Sphinx version to 2.4.4")
 
-Reported-by: Emily Strickland <linux@emily.st>
-Signed-off-by: Daniel Axtens <dja@axtens.net>
----
- Documentation/kernel-hacking/hacking.rst | 59 +++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 12 deletions(-)
+... and so on.
 
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 55bd37a2efb0..a4f7d717de3c 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -723,15 +723,9 @@ Putting Your Stuff in the Kernel
- In order to get your stuff into shape for official inclusion, or even to
- make a neat patch, there's administrative work to be done:
- 
---  Figure out whose pond you've been pissing in. Look at the top of the
--   source files, inside the ``MAINTAINERS`` file, and last of all in the
--   ``CREDITS`` file. You should coordinate with this person to make sure
--   you're not duplicating effort, or trying something that's already
--   been rejected.
--
--   Make sure you put your name and EMail address at the top of any files
--   you create or mangle significantly. This is the first place people
--   will look when they find a bug, or when **they** want to make a change.
-+-  Read ``Documentation/process/submitting-patches.rst``. Kernel developers are
-+   a picky bunch, and that document attempts to list what we do and do not like
-+   in our patches.
- 
- -  Usually you want a configuration option for your kernel hack. Edit
-    ``Kconfig`` in the appropriate directory. The Config language is
-@@ -748,15 +742,56 @@ make a neat patch, there's administrative work to be done:
-    can usually just add a "obj-$(CONFIG_xxx) += xxx.o" line. The syntax
-    is documented in ``Documentation/kbuild/makefiles.rst``.
- 
-+- Finally, re-read
-+  ``Documentation/process/submitting-patches.rst``. Seriously. Do it.
-+
-+
-+Historical Notes
-+----------------
-+
-+These were previous tips. They've largely become outdated by the adoption of git
-+in the kernel, and creation better tooling generally, but in homage to Rusty's
-+iconic prose, you can still read them here in annotated form.
-+
-+-  Figure out whose pond you've been pissing in. Look at the top of the
-+   source files, inside the ``MAINTAINERS`` file, and last of all in the
-+   ``CREDITS`` file. You should coordinate with this person to make sure
-+   you're not duplicating effort, or trying something that's already
-+   been rejected.
-+
-+.. note::
-+
-+    Use ``scripts/get_maintainer.pl`` these days, don't try to read
-+    ``MAINTAINERS`` manually. Coordinating big changes is still a good idea: use
-+    a mailing list suggested by the script for this purpose. The lists should
-+    have searchable archives as well.
-+
-+   Make sure you put your name and EMail address at the top of any files
-+   you create or mangle significantly. This is the first place people
-+   will look when they find a bug, or when **they** want to make a change.
-+
-+.. note::
-+
-+    With git, putting your name at the top of the file is now less useful.
-+    People will do ``git log`` and ``git blame`` to if they need to find a
-+    specific individual. Still put your name on new files, but only add it to
-+    existing files if you've done really significant changes.
-+
- -  Put yourself in ``CREDITS`` if you've done something noteworthy,
-    usually beyond a single file (your name should be at the top of the
-    source files anyway). ``MAINTAINERS`` means you want to be consulted
-    when changes are made to a subsystem, and hear about bugs; it implies
-    a more-than-passing commitment to some part of the code.
- 
---  Finally, don't forget to read
--   ``Documentation/process/submitting-patches.rst`` and possibly
--   ``Documentation/process/submitting-drivers.rst``.
-+.. note::
-+
-+    ``CREDITS`` is now more of a honour roll of former maintainers. Your
-+    contribution will be immortalised in the git history, you don't need to add
-+    yourself to ``CREDITS`` as well.
-+
-+- As well as reading ``Documentation/process/submitting-patches.rst``,
-+  ``Documentation/process/submitting-drivers.rst`` is possibly useful.
-+
- 
- Kernel Cantrips
- ===============
--- 
-2.32.0
+How far do you want to backport this?
 
+        Thanks, Akira
+> 
+> Thanks,
+> 
+> jon
