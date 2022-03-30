@@ -2,134 +2,272 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E959CC4167E
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 11:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 312A3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Mar 2022 13:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344355AbiC3L5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 07:57:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58168 "EHLO
+        id S1345897AbiC3NXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 09:23:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345909AbiC3LzL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 07:55:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BAF266B6C;
-        Wed, 30 Mar 2022 04:52:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 53E9A61703;
-        Wed, 30 Mar 2022 11:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20545C36AE3;
-        Wed, 30 Mar 2022 11:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648641144;
-        bh=BcA92V2ojBSNfXM65Q3xXu5tkigqU+hfjma6OoeF744=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VF+H3DvjuLzH6cVPp0x8WM5P8T6YMd1OyqGOz/shydiceU9IJUjQSU7KAzuZsioOi
-         EyntQ2mlSijf6y08w6SJai1hz56p0nHr251vJVwghauxRnF3SJvogTYd5i4CyE9La+
-         ZERjHNVi9ELgiEcgysOx39X6xnuctYHM371vvqfEmSd7ZPnmtngjwvCG2C/YdUscFp
-         ii/pcgAw8HnGfzzK4TSKdgzZ5Y2ms4rwIqKEKMWu/29V9YiyVth1484E5hguAqYIsu
-         3kzBFqul4YPUjkgPlV/+Lu1cfM50x8UjVzmf67WUue2lEFl9i6EvoU9eRlFzdgyGiQ
-         C5p9z5AAESIdg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Matt Kramer <mccleetus@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-        Sasha Levin <sashal@kernel.org>, perex@perex.cz,
-        tiwai@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        sudipm.mukherjee@gmail.com, sylee@canonical.com,
-        hui.wang@canonical.com, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 37/37] ALSA: hda/realtek: Add alc256-samsung-headphone fixup
-Date:   Wed, 30 Mar 2022 07:51:22 -0400
-Message-Id: <20220330115122.1671763-37-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330115122.1671763-1-sashal@kernel.org>
-References: <20220330115122.1671763-1-sashal@kernel.org>
+        with ESMTP id S1345969AbiC3NXG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 09:23:06 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65ED1488AB;
+        Wed, 30 Mar 2022 06:21:20 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id g9-20020a17090ace8900b001c7cce3c0aeso2086679pju.2;
+        Wed, 30 Mar 2022 06:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=c+K9A9T1MT5Pu4zwSaAayliqn5gty12AfuascxX8vj4=;
+        b=nEtLG65GgDBD2ThZgHCDsZSsWRfepUZEr5TeRQW+HtYt93+fIBsLwgJEoJ+SrOVbsx
+         I3DpuEUxZPrVmRiHyTmTZ3k2yh+BkJ57O3gLmdc0LtMWpE9Q+uUco6nio+wdSFHbMBHt
+         D4/hR/62epIpkTU7rrMrS1WhkTGD8MYRXv0IMGIsd53JvKVUXkF4fYMMGcWEevaH7M/8
+         k306OdR8OwTQs9qkiHnjwTXmYDuJenGzIvsOxBfB+f+o+b4moEVER02SmAwgPju/EP1c
+         NcKiUJ24zRt6c/SZMteODK5UJZKGBwpbApoi1ZhFEf3FMAYSA5bpdNr1DOuB1ZSTy9aX
+         GjmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=c+K9A9T1MT5Pu4zwSaAayliqn5gty12AfuascxX8vj4=;
+        b=pG6gjLl4bhH01L6PqU6C16WXi9ivhyXBrAuDkBfv7EluGg4F1Mey+/SQB0kfodow56
+         cXohSU3tsUF7rawrIRydAHtKy9SWMDqn7wLYQiud5Qb6LcldQqCcs62q9Ky4c9NWZvMQ
+         hD/Qkk45qAFxjFuy2Q/QjI0yPHGITt18/IRvwNX9Js6xpaZpd6sKTGyIfgSpnC80rb4m
+         XH8OAHMwAi9nPtnaGIgEEefZU3y5evfS7Jf5cDMVHHgO8pk+CMt6ekW+y+/UdbO8S5Rz
+         GHxw3afy+G5pCSFeuW59fK8uR9c7IWJgQw4szjo61sXsQpfpuBJgOSQ5cv6pYi/NsONS
+         I/VQ==
+X-Gm-Message-State: AOAM532lUfXpoB+UJc9n0bkOrqk0bLkuoDigiCD2fMW7k6U/9OXC6K0A
+        7mwkFeboGqFNmw8rg/4cU70uSNfwlEc=
+X-Google-Smtp-Source: ABdhPJyH4MR2bW42j1R3tqij52APbZ6yL1b9+zWFJQj/5rP4QGk3QtQkM5+iX50/sGAz6Uus6QIn4Q==
+X-Received: by 2002:a17:90a:1548:b0:1c9:8181:9e70 with SMTP id y8-20020a17090a154800b001c981819e70mr5089434pja.78.1648646479563;
+        Wed, 30 Mar 2022 06:21:19 -0700 (PDT)
+Received: from localhost ([198.11.178.15])
+        by smtp.gmail.com with ESMTPSA id x29-20020aa79a5d000000b004f0ef1822d3sm23525250pfj.128.2022.03.30.06.21.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Mar 2022 06:21:19 -0700 (PDT)
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+To:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Subject: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level expanded pagetable
+Date:   Wed, 30 Mar 2022 21:21:50 +0800
+Message-Id: <20220330132152.4568-3-jiangshanlai@gmail.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
+In-Reply-To: <20220330132152.4568-1-jiangshanlai@gmail.com>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matt Kramer <mccleetus@gmail.com>
+From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 
-[ Upstream commit ef248d9bd616b04df8be25539a4dc5db4b6c56f4 ]
+Level expansion occurs when mmu->shadow_root_level > mmu->root_level.
 
-This fixes the near-silence of the headphone jack on the ALC256-based
-Samsung Galaxy Book Flex Alpha (NP730QCJ). The magic verbs were found
-through trial and error, using known ALC298 hacks as inspiration. The
-fixup is auto-enabled only when the NP730QCJ is detected. It can be
-manually enabled using model=alc256-samsung-headphone.
+There are several cases that can cuase level expansion:
 
-Signed-off-by: Matt Kramer <mccleetus@gmail.com>
-Link: https://lore.kernel.org/r/3168355.aeNJFYEL58@linus
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+shadow mmu (shadow paging for 32 bit guest):
+	case1:	gCR0_PG=1,gEFER_LMA=0,gCR4_PSE=0
+
+shadow nested NPT (for 32bit L1 hypervisor):
+	case2:	gCR0_PG=1,gEFER_LMA=0,gCR4_PSE=0,hEFER_LMA=0
+	case3:	gCR0_PG=1,gEFER_LMA=0,hEFER_LMA=1
+
+shadow nested NPT (for 64bit L1 hypervisor):
+	case4:	gEFER_LMA=1,gCR4_LA57=0,hEFER_LMA=1,hCR4_LA57=1
+
+When level expansion occurs (32bit guest, case1-3), special roots are
+often used.  But case4 is not using special roots.  It uses shadow page
+without fully aware of the specialty.  It might work accidentally:
+	1) The root_page (root_sp->spt) is allocated with level = 5,
+	   and root_sp->spt[0] is allocated with the same gfn and the
+	   same role except role.level = 4.  Luckly that they are
+	   different shadow pages.
+	2) FNAME(walk_addr_generic) sets walker->table_gfn[4] and
+	   walker->pt_access[4], which are normally unused when
+	   mmu->shadow_root_level == mmu->root_level == 4, so that
+	   FNAME(fetch) can use them to allocate shadow page for
+	   root_sp->spt[0] and link them when shadow_root_level == 5.
+
+But it has problems.
+If the guest switches from gCR4_LA57=0 to gCR4_LA57=1 (or vice verse)
+and uses the same gfn as the root for the nNPT before and after
+switching gCR4_LA57.  The host (hCR4_LA57=1) wold use the same root_sp
+for guest even guest switches gCR4_LA57.  The guest will see unexpected
+page mapped and L2 can hurts L1.  It is lucky the the problem can't
+hurt L0.
+
+The root_sp should be like role.direct=1 sometimes: its contents are
+not backed by gptes, root_sp->gfns is meaningless.  For a normal high
+level sp, sp->gfns is often unused and kept zero, but it could be
+relevant and meaningful when sp->gfns is used because they are back
+by concret gptes.  For expanded root_sp described before, root_sp
+is just a portal to contribute root_sp->spt[0], and root_sp should not
+have root_sp->gfns and root_sp->spt[0] should not be dropped if gpte[0]
+of the root gfn is changed.
+
+This patch adds role.glevel to address the two problems.
+With the new role.glevel, passthrough sp can be created for expanded
+shadow pagetable: 0 < role.glevel < role.level.
+
+An alternative way to fix the problem of case4 is that: also using the
+special root pml5_root for it.  But it would required to change many
+other places because it is assumption that special roots is only used
+for 32bit guests.
+
+This patch also paves the way to use passthrough shadow page for
+case1-3, but that requires the special handling or PAE paging, so the
+extensive usage of it is in later patches.
+
+Signed-off-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 ---
- Documentation/sound/hd-audio/models.rst |  4 ++++
- sound/pci/hda/patch_realtek.c           | 11 +++++++++++
- 2 files changed, 15 insertions(+)
+ Documentation/virt/kvm/mmu.rst  |  7 +++++++
+ arch/x86/include/asm/kvm_host.h |  5 +++--
+ arch/x86/kvm/mmu/mmu.c          | 21 +++++++++++++++++----
+ arch/x86/kvm/mmu/paging_tmpl.h  |  1 +
+ 4 files changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/sound/hd-audio/models.rst b/Documentation/sound/hd-audio/models.rst
-index d25335993e55..9b52f50a6854 100644
---- a/Documentation/sound/hd-audio/models.rst
-+++ b/Documentation/sound/hd-audio/models.rst
-@@ -261,6 +261,10 @@ alc-sense-combo
- huawei-mbx-stereo
-     Enable initialization verbs for Huawei MBX stereo speakers;
-     might be risky, try this at your own risk
-+alc298-samsung-headphone
-+    Samsung laptops with ALC298
-+alc256-samsung-headphone
-+    Samsung laptops with ALC256
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 5b1ebad24c77..dee0e96d694a 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -202,6 +202,13 @@ Shadow pages contain the following information:
+     Is 1 if the MMU instance cannot use A/D bits.  EPT did not have A/D
+     bits before Haswell; shadow EPT page tables also cannot use A/D bits
+     if the L1 hypervisor does not enable them.
++  role.glevel:
++    The level in guest pagetable if the sp is indirect.  Is 0 if the sp
++    is direct without corresponding guest pagetable, like TDP or !CR0.PG.
++    When role.level > guest paging level, indirect sp is created on the
++    top with role.glevel = guest paging level and acks as passthrough sp
++    and its contents are specially installed rather than the translations
++    of the corresponding guest pagetable.
+   gfn:
+     Either the guest page table containing the translations shadowed by this
+     page, or the base page frame for linear translations.  See role.direct.
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 9694dd5e6ccc..67e1bccaf472 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -314,7 +314,7 @@ struct kvm_kernel_irq_routing_entry;
+  *     cr0_wp=0, therefore these three bits only give rise to 5 possibilities.
+  *
+  * Therefore, the maximum number of possible upper-level shadow pages for a
+- * single gfn is a bit less than 2^13.
++ * single gfn is a bit less than 2^15.
+  */
+ union kvm_mmu_page_role {
+ 	u32 word;
+@@ -331,7 +331,8 @@ union kvm_mmu_page_role {
+ 		unsigned smap_andnot_wp:1;
+ 		unsigned ad_disabled:1;
+ 		unsigned guest_mode:1;
+-		unsigned :6;
++		unsigned glevel:4;
++		unsigned :2;
  
- ALC66x/67x/892
- ==============
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 3bd37c02ce0e..fadf4f32877e 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6762,6 +6762,7 @@ enum {
- 	ALC236_FIXUP_HP_MUTE_LED,
- 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
- 	ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
-+	ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET,
- 	ALC295_FIXUP_ASUS_MIC_NO_PRESENCE,
- 	ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS,
- 	ALC269VC_FIXUP_ACER_HEADSET_MIC,
-@@ -8083,6 +8084,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET] = {
-+		.type = HDA_FIXUP_VERBS,
-+		.v.verbs = (const struct hda_verb[]) {
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x08},
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x2fcf},
-+			{ }
-+		},
-+	},
- 	[ALC295_FIXUP_ASUS_MIC_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8835,6 +8844,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc740, "Samsung Ativ book 8 (NP870Z5G)", ALC269_FIXUP_ATIV_BOOK_8),
- 	SND_PCI_QUIRK(0x144d, 0xc812, "Samsung Notebook Pen S (NT950SBE-X58)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
- 	SND_PCI_QUIRK(0x144d, 0xc830, "Samsung Galaxy Book Ion (NT950XCJ-X716A)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
-+	SND_PCI_QUIRK(0x144d, 0xc832, "Samsung Galaxy Book Flex Alpha (NP730QCJ)", ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
- 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
-@@ -9177,6 +9187,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC298_FIXUP_HUAWEI_MBX_STEREO, .name = "huawei-mbx-stereo"},
- 	{.id = ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE, .name = "alc256-medion-headset"},
- 	{.id = ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET, .name = "alc298-samsung-headphone"},
-+	{.id = ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET, .name = "alc256-samsung-headphone"},
- 	{.id = ALC255_FIXUP_XIAOMI_HEADSET_MIC, .name = "alc255-xiaomi-headset"},
- 	{.id = ALC274_FIXUP_HP_MIC, .name = "alc274-hp-mic-detect"},
- 	{.id = ALC245_FIXUP_HP_X360_AMP, .name = "alc245-hp-x360-amp"},
+ 		/*
+ 		 * This is left at the top of the word so that
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 02eae110cbe1..d53037df8177 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -737,8 +737,12 @@ static void mmu_free_pte_list_desc(struct pte_list_desc *pte_list_desc)
+ 
+ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+ {
+-	if (!sp->role.direct)
++	if (!sp->role.direct) {
++		if (unlikely(sp->role.glevel < sp->role.level))
++			return sp->gfn;
++
+ 		return sp->gfns[index];
++	}
+ 
+ 	return sp->gfn + (index << ((sp->role.level - 1) * PT64_LEVEL_BITS));
+ }
+@@ -746,6 +750,11 @@ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+ static void kvm_mmu_page_set_gfn(struct kvm_mmu_page *sp, int index, gfn_t gfn)
+ {
+ 	if (!sp->role.direct) {
++		if (unlikely(sp->role.glevel < sp->role.level)) {
++			WARN_ON_ONCE(gfn != sp->gfn);
++			return;
++		}
++
+ 		sp->gfns[index] = gfn;
+ 		return;
+ 	}
+@@ -1674,8 +1683,7 @@ static void kvm_mmu_free_page(struct kvm_mmu_page *sp)
+ 	hlist_del(&sp->hash_link);
+ 	list_del(&sp->link);
+ 	free_page((unsigned long)sp->spt);
+-	if (!sp->role.direct)
+-		free_page((unsigned long)sp->gfns);
++	free_page((unsigned long)sp->gfns);
+ 	kmem_cache_free(mmu_page_header_cache, sp);
+ }
+ 
+@@ -1713,7 +1721,7 @@ static struct kvm_mmu_page *kvm_mmu_alloc_page(struct kvm_vcpu *vcpu, gfn_t gfn,
+ 
+ 	sp = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_page_header_cache);
+ 	sp->spt = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_shadow_page_cache);
+-	if (!role.direct)
++	if (role.glevel == role.level)
+ 		sp->gfns = kvm_mmu_memory_cache_alloc(&vcpu->arch.mmu_gfn_array_cache);
+ 	set_page_private(virt_to_page(sp->spt), (unsigned long)sp);
+ 
+@@ -2054,6 +2062,8 @@ static struct kvm_mmu_page *kvm_mmu_get_page(struct kvm_vcpu *vcpu,
+ 		quadrant &= (1 << ((PT32_PT_BITS - PT64_PT_BITS) * level)) - 1;
+ 		role.quadrant = quadrant;
+ 	}
++	if (level < role.glevel)
++		role.glevel = level;
+ 
+ 	sp_list = &vcpu->kvm->arch.mmu_page_hash[kvm_page_table_hashfn(gfn)];
+ 	for_each_valid_sp(vcpu->kvm, sp, sp_list) {
+@@ -4817,6 +4827,7 @@ kvm_calc_shadow_root_page_role_common(struct kvm_vcpu *vcpu,
+ 	role.base.smep_andnot_wp = role.ext.cr4_smep && !____is_cr0_wp(regs);
+ 	role.base.smap_andnot_wp = role.ext.cr4_smap && !____is_cr0_wp(regs);
+ 	role.base.has_4_byte_gpte = ____is_cr0_pg(regs) && !____is_cr4_pae(regs);
++	role.base.glevel = role_regs_to_root_level(regs);
+ 
+ 	return role;
+ }
+@@ -5312,6 +5323,8 @@ static void kvm_mmu_pte_write(struct kvm_vcpu *vcpu, gpa_t gpa,
+ 	++vcpu->kvm->stat.mmu_pte_write;
+ 
+ 	for_each_gfn_indirect_valid_sp(vcpu->kvm, sp, gfn) {
++		if (sp->role.glevel < sp->role.level)
++			continue;
+ 		if (detect_write_misaligned(sp, gpa, bytes) ||
+ 		      detect_write_flooding(sp)) {
+ 			kvm_mmu_prepare_zap_page(vcpu->kvm, sp, &invalid_list);
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 8621188b46df..67489a060eba 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -1042,6 +1042,7 @@ static int FNAME(sync_page)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp)
+ 		.level = 0xf,
+ 		.access = 0x7,
+ 		.quadrant = 0x3,
++		.glevel = 0xf,
+ 	};
+ 
+ 	/*
 -- 
-2.34.1
+2.19.1.6.gb485710b
 
