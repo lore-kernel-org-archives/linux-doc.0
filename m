@@ -2,174 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D4DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3EEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229914AbiCaEJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 00:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51066 "EHLO
+        id S229964AbiCaEOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 00:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiCaEJU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:09:20 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C53C170084;
-        Wed, 30 Mar 2022 20:56:59 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id g8so18827481qke.2;
-        Wed, 30 Mar 2022 20:56:59 -0700 (PDT)
+        with ESMTP id S229979AbiCaEOH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:14:07 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BEF928EA29
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 20:46:06 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2eafabbc80aso24801277b3.11
+        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 20:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tYlHPxM0iDi5VXE98hgeozahqYJk78JaFFeV+qzNw5U=;
-        b=mTmT7+N63PXuIwB75+CKvFI6cw/jzFICsKFlmrX98DCY4KgVobDxkUkLrPbILjWEVd
-         zOpsJzohasYTU2cri3mhczLOHO+85IFJWAcIzlnZ8sYbVwKoGAyN3ZrI0vtWoa7Qu3eu
-         CsqMCtZFWjlutPRNC7lKg6mZUe8Sh5MDsmm5GAacxLBCKifK/EA4n2cFQBko12jzZ9sS
-         WKQUNIcMTTE9y9FtrLpqhMIlKbYvWdq1U+ww/1au0hwzkHBamg7+Phf1Jd5WuYcisENx
-         lCO2kL34hCyKaR+8Rf8wpTYtiFvSRdvzMZ6EfRXAZk+xbijJO3mI2cpMPxQ0aZw2TTYf
-         kybg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8+ueIIKq75xrOgcbpQGCP0Xp5hXOruV4yiy78MzdsaM=;
+        b=xF/J7v97bhv1UsQTHnB+oBqMfeIAD9hShTLRksgabyqK2tVhgKtDtkLmc5GQKPQhfo
+         dnm1DcIGeLSIDCQ/OkLHR4kYPHLDVeVa1G/NKeXdtKoyJubynsPePbmIvtT6tsPIElCv
+         xhatSYIul1FpQ+5luE2LftI/IaNtqtDgcwiMiEJRe2lSE4op1T4f203G18T5JZRVM+WQ
+         Y+1+SFuF6v00ObQ0dQyfehBxjpDArKxpBsg8GF2ZDtDKHMqQgsoVXTUUr9+/Hw5QtlLD
+         llIC04kkVwqvRIAmy7WDCVRlb/tq4OGtEMZcFd7bbhdxjMxxf+GON+jNTy2a6YdUgXpy
+         PAgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tYlHPxM0iDi5VXE98hgeozahqYJk78JaFFeV+qzNw5U=;
-        b=STUmnVhXh3Sl9XglOkQc0q42kfRim7WNYEzUWi3rEpWsak8Bo6/GdGb0uFif48+39l
-         MDu5uiw2YHoHws3uWmyTOkkceq6y3WAr8IPjocqb1k/rJXFV9Z7RH3T4eylr/ke3QcjJ
-         XK4AmlGHGuqjb/+YfFGBCVh5z9MjAdpe5+SE17gIZyiZEnfqxJ35AYpVBnacvZPzq1Om
-         IY8P6NLbrP/GEH/X/6fh1xel6nG34idP+lZDZBQrAmfPZ/OG/YzwO6lG3mxybkTgXqGk
-         AfhCaNbvBUJvVi8UqZPPH/yVDw1kXCkGnxNN8f2quvDKfJ+F5A+BMkkittxpkhMtKVIB
-         B1xQ==
-X-Gm-Message-State: AOAM5317i4sAHqNIthshm6txwNYl0SRLQpYDUY9za6OmGu3zO+ivoggd
-        bUXnHg0JH+c2n+y8Qwb3nQGP/gc3O/o=
-X-Google-Smtp-Source: ABdhPJzyPrz0p+L/ALJneQJkAZo6ZUHwvs4kf6iDO0DACiqXPcs8bbEYZ5Igo5IyJWR4z4os6/CMDA==
-X-Received: by 2002:a37:9503:0:b0:67e:977:9ff6 with SMTP id x3-20020a379503000000b0067e09779ff6mr2101575qkd.10.1648699018774;
-        Wed, 30 Mar 2022 20:56:58 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id f17-20020ac87f11000000b002e1e831366asm18698404qtk.77.2022.03.30.20.56.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 20:56:57 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     akpm@linux-foundation.org, david@redhat.com, willy@infradead.org
-Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
-        dave.hansen@linux.intel.com, saravanand@fb.com, minchan@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, jhubbard@nvidia.com,
-        xu xin <xu.xin16@zte.com.cn>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>
-Subject: [PATCH v5] mm/vmstat: add events for ksm cow
-Date:   Thu, 31 Mar 2022 03:56:17 +0000
-Message-Id: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8+ueIIKq75xrOgcbpQGCP0Xp5hXOruV4yiy78MzdsaM=;
+        b=O9IjvN86Nw/M4+GOa6/vpcdUkw4qXZ0NMb5wx2JwgoHu0lwQarK29JYy2xXRsZ7sbV
+         FyX4OReF8md5OYk77Wl0atBk01qG3qrSI4YBw70pIe69/ojMmtMVuHbnGlqhagwR+JtS
+         gf197i9jw/ZEXU2h+pjYnABNqElNach9Sp0gJVm3/mTK19Xxz7E24nv13W30t+QiqPKN
+         H9YcBjExHB3bLV9iw7RxxWPkcf4QtpIgZeSoHP3N5R/B8BByddHOZMEsfyQK7wRfM0zR
+         guOPfbeuOVfu5YfkPdVSCYySjqnO2Ugzn78ZEYDdvBRnmdZklcNYCHwG3me2pV85AOdQ
+         6HKA==
+X-Gm-Message-State: AOAM532aGxTJvNZHH/W8J0EXnmuksV8X79nW+s7e2GX85HcQIJ7m8Sy4
+        voFXSNmbfU1/JNrBd/d9WyyulLaKCFF3+wQTabF7iQ==
+X-Google-Smtp-Source: ABdhPJzAjwosvewbJoeV/iiCgGlooRUtsyvcPlkFEVpMn3m+Ye5MVLmT/reJ4+CbJIPHMSFZy+YQ1bp1/u/2GLohUgY=
+X-Received: by 2002:a81:3756:0:b0:2e3:3db4:7de1 with SMTP id
+ e83-20020a813756000000b002e33db47de1mr3232544ywa.458.1648698365817; Wed, 30
+ Mar 2022 20:46:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220330153745.20465-1-songmuchun@bytedance.com>
+ <20220330153745.20465-5-songmuchun@bytedance.com> <20220330193657.88f68bbf13fb198fb189bc15@linux-foundation.org>
+In-Reply-To: <20220330193657.88f68bbf13fb198fb189bc15@linux-foundation.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 31 Mar 2022 11:45:29 +0800
+Message-ID: <CAMZfGtWqaM5n38kSvjTJxCSYVq-ic30-VmshrYK9xXsF=Fe10A@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+On Thu, Mar 31, 2022 at 10:37 AM Andrew Morton
+<akpm@linux-foundation.org> wrote:
+>
+> On Wed, 30 Mar 2022 23:37:45 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> > We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
+> > server to enable the feature of freeing vmemmap pages of HugeTLB
+> > pages.  Rebooting usually takes a long time.  Add a sysctl to enable
+> > or disable the feature at runtime without rebooting.
+>
+> I forget, why did we add the hugetlb_free_vmemmap option in the first
+> place? Why not just leave the feature enabled in all cases?
 
-Users may use ksm by calling madvise(, , MADV_MERGEABLE) when they want
-to save memory, it's a tradeoff by suffering delay on ksm cow. Users can
-get to know how much memory ksm saved by reading
-/sys/kernel/mm/ksm/pages_sharing, but they don't know what's the costs
-of ksm cow, and this is important of some delay sensitive tasks.
+The 1st reason is because we disable PMD/huge page mapping
+of vmemmap pages (in the original version) which increase page
+table pages.  So if a user/sysadmin only  uses a small number of
+HugeTLB pages (as a percentage of system memory), they could
+end up using more memory with hugetlb_free_vmemmap on as
+opposed to off.  Now this tradeoff is gone.
 
-So add ksm cow events to help users evaluate whether or how to use ksm.
-Also update Documentation/admin-guide/mm/ksm.rst with new added events.
+The 2nd reason is this feature adds more overhead in the path of
+HugeTLB allocation/freeing from/to the buddy system.  As Mike said
+in the link [1].
+"
+There are still some instances where huge pages
+are allocated 'on the fly' instead of being pulled from the pool.  Michal
+pointed out the case of page migration.  It is also possible for someone to
+use hugetlbfs without pre-allocating huge pages to the pool.  I remember the
+use case pointed out in commit 099730d67417.  It says, "I have a hugetlbfs
+user which is never explicitly allocating huge pages with 'nr_hugepages'.
+They only set 'nr_overcommit_hugepages' and then let the pages be allocated
+from the buddy allocator at fault time."  In this case, I suspect they were
+using 'page fault' allocation for initialization much like someone using
+/proc/sys/vm/nr_hugepages.  So, the overhead may not be as noticeable.
+"
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-Reviewed-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
----
-v2:
-- fix compile error when CONFIG_KSM is not set
-v3:
-- delete KSM_COW_FAIL event
-v4:
-- modify /Documentation/admin-guide/mm/ksm.rst. And let cow_ksm before
-- ksm_swpin_copy, so if new cow_* event could add before cow_ksm.
-v5:
-- fix compile error when CONFIG_SWAP is not set
----
- Documentation/admin-guide/mm/ksm.rst | 18 ++++++++++++++++++
- include/linux/vm_event_item.h        |  3 +++
- mm/memory.c                          |  4 ++++
- mm/vmstat.c                          |  3 +++
- 4 files changed, 28 insertions(+)
+For those different workloads, we introduce hugetlb_free_vmemmap and
+expect users to make decisions based on their workloads.
 
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index 97d816791aca..b244f0202a03 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -184,6 +184,24 @@ The maximum possible ``pages_sharing/pages_shared`` ratio is limited by the
- ``max_page_sharing`` tunable. To increase the ratio ``max_page_sharing`` must
- be increased accordingly.
- 
-+Monitoring KSM events
-+=====================
-+
-+There are some counters in /proc/vmstat that may be used to monitor KSM events.
-+KSM might help save memory, it's a tradeoff by may suffering delay on KSM COW
-+or on swapping in copy. Those events could help users evaluate whether or how
-+to use KSM. For example, if cow_ksm increases too fast, user may decrease the
-+range of madvise(, , MADV_MERGEABLE).
-+
-+cow_ksm
-+	is incremented every time a KSM page triggers copy on write (COW)
-+	when users try to write to a KSM page, we have to make a copy.
-+
-+ksm_swpin_copy
-+	is incremented every time a KSM page is copied when swapping in
-+	note that KSM page might be copied when swapping in because do_swap_page()
-+	cannot do all the locking needed to reconstitute a cross-anon_vma KSM page.
-+
- --
- Izik Eidus,
- Hugh Dickins, 17 Nov 2009
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 16a0a4fd000b..e83967e4c20e 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -133,6 +133,9 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		KSM_SWPIN_COPY,
- #endif
- #endif
-+#ifdef CONFIG_KSM
-+		COW_KSM,
-+#endif
- #ifdef CONFIG_X86
- 		DIRECT_MAP_LEVEL2_SPLIT,
- 		DIRECT_MAP_LEVEL3_SPLIT,
-diff --git a/mm/memory.c b/mm/memory.c
-index 4111f97c91a0..12925ceaf745 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3339,6 +3339,10 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
- 	get_page(vmf->page);
- 
- 	pte_unmap_unlock(vmf->pte, vmf->ptl);
-+#ifdef CONFIG_KSM
-+	if (PageKsm(vmf->page))
-+		count_vm_event(COW_KSM);
-+#endif
- 	return wp_page_copy(vmf);
- }
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index d5cc8d739fac..79015f144b15 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1392,6 +1392,9 @@ const char * const vmstat_text[] = {
- 	"ksm_swpin_copy",
- #endif
- #endif
-+#ifdef CONFIG_KSM
-+	"cow_ksm",
-+#endif
- #ifdef CONFIG_X86
- 	"direct_map_level2_splits",
- 	"direct_map_level3_splits",
--- 
-2.25.1
+[1] https://patchwork.kernel.org/comment/23752641/
 
+>
+> Furthermore, why would anyone want to tweak this at runtime?  What is
+> the use case?  Where is the end-user value in all of this?
+
+If the workload is changed in the future on a server.  The users need to
+adapt this at runtime without rebooting the server.
+
+>
+> > Disabling requires there is no any optimized HugeTLB page in the
+> > system.  If you fail to disable it, you can set "nr_hugepages" to 0
+> > and then retry.
+> >
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -561,6 +561,20 @@ Change the minimum size of the hugepage pool.
+> >  See Documentation/admin-guide/mm/hugetlbpage.rst
+> >
+> >
+> > +hugetlb_free_vmemmap
+> > +====================
+> > +
+> > +Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap
+> > +pages associated with each HugeTLB page.  Once true, the vmemmap pages of
+> > +subsequent allocation of HugeTLB pages from buddy system will be optimized,
+> > +whereas already allocated HugeTLB pages will not be optimized.  If you fail
+> > +to disable this feature, you can set "nr_hugepages" to 0 and then retry
+> > +since it is only allowed to be disabled after there is no any optimized
+> > +HugeTLB page in the system.
+> > +
+>
+> Pity the poor user who is looking at this and wondering whether it will
+> improve or worsen things.  If we don't tell them, who will?  Are they
+> supposed to just experiment?
+>
+> What can we add here to help them understand whether this might be
+> beneficial?
+>
+
+My bad. I should explain more details to let users make better decisions.
+
+Thanks.
