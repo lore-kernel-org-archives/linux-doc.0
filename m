@@ -2,320 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B01C2C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 07:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E637C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 08:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232151AbiCaHXA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 03:23:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
+        id S232611AbiCaIQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 04:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232047AbiCaHWv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 03:22:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C261E31A7;
-        Thu, 31 Mar 2022 00:21:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B6174B81EA0;
-        Thu, 31 Mar 2022 07:21:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15669C340F2;
-        Thu, 31 Mar 2022 07:20:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648711261;
-        bh=qjNjEbUBrdLs50AHIuc+pd6M1krGCKQ6Ip1cy6iwHWM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cLxzl+StS0GApIA6tVj8R/amrIY1/eqVHyDcFyTx1qZDTekUha1tlKUyt377hKxml
-         LRXOqNf92I/iBmZXDOW1emtp0qOMueBXJa1vgpPNcO1OX+rApl2oLTlUYXIawQ7Jl9
-         MORHzeg+ykN3SL+xfIxPWQ4ezyfuUVP3XSk73jpbytd7JX/UokapAzraI+7Vpj/bFf
-         idem8sKH1EsrIjkMJSrbPEffKaW4j3CWLt5a5f5Zha4bb+sCMSteGzTxQoezmYqTiK
-         +cwOuU7ZsBQ5zcOF/8Ps1fF/Ub92v/Yxax9GRSl27GT3v3zDh2U1UinqaqLJGwqID9
-         Qm9VgESYj+ldA==
-Date:   Thu, 31 Mar 2022 16:20:56 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
+        with ESMTP id S232594AbiCaIQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 04:16:25 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C0C5C84F;
+        Thu, 31 Mar 2022 01:14:36 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V4e0bb030419;
+        Thu, 31 Mar 2022 08:14:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=oX1YHHz64X01rWaYta9PxOZA+Y+SF6YtCioIoccBc88=;
+ b=fYOeXyNSnMVKirKQoKM07WPB4ThZ/5GPksyMhF4yeOEFMSxYZqOQQhPwbvWcnKPtB8EP
+ 4UE+afi5lMHHQ5DJcROl4TWbZ/UlPr5uGUprul5zFVmYEekttyO6rLlekuYSCqlijgi6
+ rkoqdKyDcwBwIBIy2dK+pdxF0EaIpvaeBXHaHOThHPMXQDsO7dqWv5RuKLcHWkNU+apa
+ 92IjMUlzeuh8AuF8cX0R9pT2jElekB63p2NyMhyq+uSUKbaLf93amA3Q3dM72/ryDQYq
+ gamUTFZcY2febbxzbUjcD8jN9ZCljZ9YwCwGUZzhl4wB0zLf68mOykmx3w7BHrschznX 5w== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3f1se0kmhq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 31 Mar 2022 08:14:25 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22V8BJrv026171;
+        Thu, 31 Mar 2022 08:14:25 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f1s94g9rr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 31 Mar 2022 08:14:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TflrrQO+sl4hlwUCCl5UsUnUpyreUDtIwFihLkTjM4uz9keJ3hHRRsXhuaVW6s50dp13xQvvcpWiDkNSwKyxkIVPfHXBPnWB2oVhwqaUkvPMTuQnln7coxPnjvmMTAZ8npISLXxW4SPQAOHqC0bwgUmlbdmxi9qj5rcQgQqd1TvAdW15PWY2WBniLa0ZtQm8quO9DO1dJ1+/1DjoT39eQtx4Qn3Tiskf5XBM4cwovIVAgiIIb7xm+yaWQT/HylJ7qOPKRKU+rVV9mC7+yJkkOeuqiri6Yt8TTO/H64t/djShGimzih9RZw4EV2ACoZMI+FNiVAKWeS+VOS4llAjujw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oX1YHHz64X01rWaYta9PxOZA+Y+SF6YtCioIoccBc88=;
+ b=G+XPdjT0N9oCLsSbJSJ7W04f5GJ6EZZDelWX3Ro9PYNQ67NeWZPIusMSBmRAR9gryruoyf2b+XuKQyk2VuPkLB/NlsnKJYNHfgMCI0gI12Pm6MXoVdIMJtQnJtF+PtYJCWpPhtXyPhQ/4nicia3mlf/IBqb3hyDoAmizJvWgv0/vacFf6HuuCWKGl3ipe5c/MUeW3YSfFl0oBU7vYscLJtI0ektzOKPWDtBPzoOZqf8zsRlWF5kFZ39JtNK0+fqdCUnr3RBPnh7O62ZJPMTPVinlRJScwu1Dsp+CRLZ2Dq4knhLBzFiIadJstfE8YYeM2Vi0T4BfOV735uIy+16kdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oX1YHHz64X01rWaYta9PxOZA+Y+SF6YtCioIoccBc88=;
+ b=pdxM2Pg8k1PXxwNU8QW1zycqIT+gMB37hiZQuSHL+01nNZe0qz4b5agU+11/4ZhTblWlexg2dqywSwueExwnvsx+SE3In0izgT6RT2HNY8xs9HSAoMfzsfZJj4vPL7xoAKYF2HOpZEEnwDs9qnvl63neYW74AQLBER49Px3taQw=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BN8PR10MB3508.namprd10.prod.outlook.com
+ (2603:10b6:408:ae::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.20; Thu, 31 Mar
+ 2022 08:14:22 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Thu, 31 Mar 2022
+ 08:14:22 +0000
+Date:   Thu, 31 Mar 2022 11:14:10 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     David Gow <davidgow@google.com>
+Cc:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Daniel Latypov <dlatypov@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v6 3/4] bootconfig: Support embedding a bootconfig file
- in kernel
-Message-Id: <20220331162056.43b06415962bc116daa260db@kernel.org>
-In-Reply-To: <CAK7LNARvO2i7k7bSgCiE944yUXvK=J3bo_=MiDa6TZuqY87p_A@mail.gmail.com>
-References: <164870615889.127053.9055569952366814752.stgit@devnote2>
-        <164870619150.127053.3677457860116913262.stgit@devnote2>
-        <CAK7LNARfcVt9L=BBmB7N8GNBHHU_LZx7mjMF9zW0ozfW3WNfeg@mail.gmail.com>
-        <20220331154918.67fdd2b2c18262631588e07c@kernel.org>
-        <CAK7LNARvO2i7k7bSgCiE944yUXvK=J3bo_=MiDa6TZuqY87p_A@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        linux-sparse@vger.kernel.org, cocci@inria.fr,
+        smatch@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>, julia.lawall@inria.fr
+Subject: Re: [PATCH v2 2/2] Documentation: dev-tools: Enhance static analysis
+ section with discussion
+Message-ID: <20220331081409.GY12805@kadam>
+References: <cover.1648593132.git.marcelo.schmitt1@gmail.com>
+ <11f4750c6d4c175994dfd36d1ff385f68f61bd02.1648593132.git.marcelo.schmitt1@gmail.com>
+ <CABVgOSkb5CpnXDF_m7iy=A7RmN+KmY0T38TeZ4hKbmkdQgt6Yw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABVgOSkb5CpnXDF_m7iy=A7RmN+KmY0T38TeZ4hKbmkdQgt6Yw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR1P264CA0099.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:50::22) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aa49396f-e3b7-4d41-9416-08da12ee7632
+X-MS-TrafficTypeDiagnostic: BN8PR10MB3508:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR10MB3508FDEE7612F9ED9DF5F4778EE19@BN8PR10MB3508.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vZAhi1ZLinwFEoI48C33dpXnFXPITxP2Uz/jYKTQSov08wM6tkUFqsG0isTBafC0q1Dq+LtVqeoDXlDrcH4mKaktdnymHbBboyLuUPKgnfdHip7M9AewtxNucdq20ge7EKrnXh1SI2YNJ0b4gj3l7w8oSGQYB/siN29bGGmyg9kqU3KEqCg0TSmgsQ7tMcGxuKW5kX0bzm7U4V4uwdMdNjiysSvo7Chj52HR+Na7GguSlfwtsjo+9VVryuRCmpPGWsu3e72PWxUVHdMxWy9ULh0EBg5CJTq2ax3EqBzUQsQxjV41GvdCWk2CoI+xYEsu12HrBdaCIbhXEeW2JNykViyVQONVJp+nDwpxNxVZCp/oIVw1IqAfkV6CVehdjsUp4glu1KFUIjVq18ONIgtzTrcHYLJsYi6yzB8fs+5d0z6QiRq4NSE1VMUYF+WUOtsj+TbW1jRs5heTaaiRW85u1TW+xBRVkW91Ou4GSn8vX9uqQll/IKgpod16bxP7g7DTIKG1/1/tpzP0zJvc3KJugWg/R28Hjci6DtSzKgZheqCxYK3hYl28Th4aV25NNbWgYm9jORQV8J+91Q24dXLhsFM7yYWtNsOWpi9bfwU4LfLsGayb7fFDBvBNbSM+YrbhTPyotz0sIf4Rzwl1E6kJBhzTz7m1MfJ9Uxe4/jL/ed1Qymscj2zGaxIjSOlL1/dasTk+pCrW9YSLubYDLb3DWw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6506007)(2906002)(186003)(26005)(52116002)(6512007)(9686003)(1076003)(33716001)(83380400001)(8936002)(6486002)(6916009)(66476007)(38350700002)(38100700002)(7416002)(5660300002)(86362001)(66556008)(66946007)(4326008)(44832011)(8676002)(54906003)(6666004)(316002)(508600001)(33656002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2wqaQw5/ep0g1M3lTV6HpEqNIbTqVnFtxi20+338QMilbWymwfai/joWnXT6?=
+ =?us-ascii?Q?zIeZYNYfY2yzupqbrbtDZaalXM4ObXhF7RSSop37gLOFBCOYEURlqaC9T9AS?=
+ =?us-ascii?Q?3DR9YzkXJCeOsNAMO73hFKtHZIDwo5FXJQFgMdDm/iBvGEvMcY5s4k29MZTR?=
+ =?us-ascii?Q?RMEIe5xO7rlxO3xRo8HMLpI+qN5WvRMdFdRfLx+nBv0uR6qMrBd7nAlNG6zN?=
+ =?us-ascii?Q?lME1v95IUPvH4MB13aXpccuGgaALFfbFR1EYfZB8YjciePbPTwSP2pcXQwfR?=
+ =?us-ascii?Q?xBQjhXvYabL/gb5fpTFReDtKEQ9B+hW9L5QRct17tABqYZhlLupj1PJuvcAw?=
+ =?us-ascii?Q?oS3RRA1/RsaPq5TyvGI89XW76BbgXha2aH48pSP1w/zt4UqKFqUoysFElFKl?=
+ =?us-ascii?Q?7Bsa+hFdbHmTOGD8Ex6p/vx6CZuFU1wMthFOyD9ILnjxDwbWIWyV5GDaMp6z?=
+ =?us-ascii?Q?/mIL5CyG94CipPqGbF/D7Tqn5kYl1P+D/39mLbdr0elfZkaaHnv8uXWXx72W?=
+ =?us-ascii?Q?l+CLSKse96zZrC1XQVTTYv9dAvi1dqtyRnVxEN5fPrWT0VYDQC9O9ojieq9z?=
+ =?us-ascii?Q?5eZ11VEOO8L72OXvk6/OpvSh2rxKYvOSfRSpymSXQYEs/24tElLWT8B6lSDp?=
+ =?us-ascii?Q?gBdwQZL4dMcWvoIaPTkVegIw/cYoIUuKj6l7BR2tbL9nC/OTTena981mv88Y?=
+ =?us-ascii?Q?ZPc5S1JUXySho9CEgQUPx5QiBeshIhzmwUU/BOAJpfjZY4EPWubWu1DTZKCN?=
+ =?us-ascii?Q?3KvO45c7DF83mOjgSQoLcrI5oHhEqTBm5t6kSoBzMzE3jQ+LOfLq+14ArHqh?=
+ =?us-ascii?Q?9LJ3OcB+IOarp9ifrtDqS2an83EYtaSD5WUlPIepNDiJlT3EgHbixzSyYFKG?=
+ =?us-ascii?Q?BBxSQGi5JSyJHbrAsTr9VBzu5yuxp+fkK6TiTQGC8JMxS+mduV2AqfRN1yaS?=
+ =?us-ascii?Q?Gx3J8k66RBobv+79U250klXZX56hmOxb05HxsjIRcJwvifOZQIV1D8coY8LW?=
+ =?us-ascii?Q?4vqQk/V/aVRs3LwuMP+5Zso4qc/uBswqUUVfskOytzFgu6AqQKJm5KDAa7wM?=
+ =?us-ascii?Q?4kTfVXqmpUTYrkjpuwPsbEsYQOY8Ic2qu/hLUvCVD2eVHzOvWL7RoIUacMNj?=
+ =?us-ascii?Q?/D/JcZhjQE1qFkn1NdWC9DLSWZuM1zNftE+zKBiZYjHxsT6a7mZ5Jvr8SBcT?=
+ =?us-ascii?Q?n5z3eSTSsYALB0FsQMEiMgGJMzYreRAADiKsBcgMUVugTqEcD4l3QtzQzBN7?=
+ =?us-ascii?Q?J2X6FJ8MZ6xwPnTDchxLg85edFmbzCrxvEH/tVI4UXx28WkloM5ALAuYrPCI?=
+ =?us-ascii?Q?NJI4M9qP+vp7fMz0/tZayXEjYdrG+S4ZcSWyX8YcjD/jU9aznrIO3Yc0udpN?=
+ =?us-ascii?Q?zJ4TMvWm950kgeLTW+exQ+uzMMfQHYcHpzRHxN1JQxKwqVBgbgdxzwDLlBRb?=
+ =?us-ascii?Q?wAEcp/ZhrS/ltg2JpkEZKrh7gqc+0piOCG5JltlqtJGOo1fxrrNxK1TcWKhH?=
+ =?us-ascii?Q?yRmnBLDsvBSzpkTJYaVTDFfX0rYchj8d0gXiYUcBAoNUSrOTYuXKAcdCBDJZ?=
+ =?us-ascii?Q?WU4o55LlGhenJKUn7U1DRjQX7JaTldXwdcM5NckZhBxOxafEEzEUPtzeoRGK?=
+ =?us-ascii?Q?ahNlVsCmYSVd5MrvpG9ivukBQ2js8uU0nXlcpqbLUGnKS2kGWw/CWus4eEvm?=
+ =?us-ascii?Q?J7xLsKSA/eNSHMOep67a8KOgidMD5xyR0BkQ34JhwjzQXEAabIbxVxbhQBpP?=
+ =?us-ascii?Q?IGeUMzQlZYWutEhx0Isrpn/6SyOU/OI=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa49396f-e3b7-4d41-9416-08da12ee7632
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 08:14:22.4326
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LbxbJbjzcG81nOYdorxr2rFcLqiya/PWssueqPKYkW/mvHdnRYfzqIyqRMyqujSuTlXahvyg+6zr6NadDEVGFNQ2fihXCD7lQLxE5UIguQ8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR10MB3508
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-03-31_03:2022-03-29,2022-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203310045
+X-Proofpoint-ORIG-GUID: qHsypwRQde9I_185KKpu-b7QVC0_Zfn0
+X-Proofpoint-GUID: qHsypwRQde9I_185KKpu-b7QVC0_Zfn0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 31 Mar 2022 15:54:40 +0900
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Wed, Mar 30, 2022 at 10:48:13AM +0800, David Gow wrote:
+> > +
+> > +Smatch does flow analysis and, if allowed to build the function database, it
+> > +also does cross function analysis. Smatch tries to answer questions like where
+> > +is this buffer allocated? How big is it? Can this index be controlled by the
+> > +user? Is this variable larger than that variable?
+> > +
+> > +It's generally easier to write checks in Smatch than it is to write checks in
+> > +Sparse. Nevertheless, there are some overlaps between Sparse and Smatch checks
+> > +because there is no reason for re-implementing Sparse's check in Smatch.
+> 
+> This last sentence isn't totally clear to me. Should this "because" be "so"?
+> 
 
-> On Thu, Mar 31, 2022 at 3:49 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> >
-> > On Thu, 31 Mar 2022 15:27:56 +0900
-> > Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > > On Thu, Mar 31, 2022 at 2:56 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > > >
-> > > > This allows kernel developer to embed a default bootconfig file in
-> > > > the kernel instead of embedding it in the initrd. This will be good
-> > > > for who are using the kernel without initrd, or who needs a default
-> > > > bootconfigs.
-> > > > This needs to set two kconfigs: CONFIG_EMBED_BOOT_CONFIG=y and set
-> > > > the file path to CONFIG_EMBED_BOOT_CONFIG_FILE.
-> > > >
-> > > > Note that you still need 'bootconfig' command line option to load the
-> > > > embedded bootconfig. Also if you boot using an initrd with a different
-> > > > bootconfig, the kernel will use the bootconfig in the initrd, instead
-> > > > of the default bootconfig.
-> > > >
-> > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > > ---
-> > > >  Changes in v6:
-> > > >   - Split out the .incbin asm part as bootconfig-data.S according to
-> > > >     Masahiro's comment.
-> > > >  Changes in v5:
-> > > >   - Fix .gitignore to be sorted alphabetically.
-> > > >   - Make default.bconf is cleaned up correctly.
-> > > >   - Allow user to specify relative path to CONFIG_EMBED_BOOT_CONFIG_FILE.
-> > > >     (Thanks Masahiro!)
-> > > >  Changes in v4:
-> > > >   - Avoid updating the default.bconf if the file is not changed.
-> > > > ---
-> > > >  MAINTAINERS                |    1 +
-> > > >  include/linux/bootconfig.h |   10 ++++++++++
-> > > >  init/Kconfig               |   21 +++++++++++++++++++++
-> > > >  init/main.c                |   13 ++++++++-----
-> > > >  lib/.gitignore             |    1 +
-> > > >  lib/Makefile               |    8 ++++++++
-> > > >  lib/bootconfig-data.S      |   11 +++++++++++
-> > > >  lib/bootconfig.c           |   13 +++++++++++++
-> > > >  8 files changed, 73 insertions(+), 5 deletions(-)
-> > > >  create mode 100644 lib/bootconfig-data.S
-> > > >
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index b555a5e8704f..9b4910685412 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -7350,6 +7350,7 @@ S:        Maintained
-> > > >  F:     Documentation/admin-guide/bootconfig.rst
-> > > >  F:     fs/proc/bootconfig.c
-> > > >  F:     include/linux/bootconfig.h
-> > > > +F:     lib/bootconfig-data.S
-> > > >  F:     lib/bootconfig.c
-> > > >  F:     tools/bootconfig/*
-> > > >  F:     tools/bootconfig/scripts/*
-> > > > diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
-> > > > index a4665c7ab07c..5dbda5e3e9bb 100644
-> > > > --- a/include/linux/bootconfig.h
-> > > > +++ b/include/linux/bootconfig.h
-> > > > @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
-> > > >  /* XBC cleanup data structures */
-> > > >  void __init xbc_exit(void);
-> > > >
-> > > > +/* XBC embedded bootconfig data in kernel */
-> > > > +#ifdef CONFIG_EMBED_BOOT_CONFIG
-> > > > +char * __init xbc_get_embedded_bootconfig(size_t *size);
-> > > > +#else
-> > > > +static inline char *xbc_get_embedded_bootconfig(size_t *size)
-> > > > +{
-> > > > +       return NULL;
-> > > > +}
-> > > > +#endif
-> > > > +
-> > > >  #endif
-> > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > index 97463a33baa7..f5d14a78cfce 100644
-> > > > --- a/init/Kconfig
-> > > > +++ b/init/Kconfig
-> > > > @@ -1361,6 +1361,27 @@ config BOOT_CONFIG
-> > > >
-> > > >           If unsure, say Y.
-> > > >
-> > > > +config EMBED_BOOT_CONFIG
-> > > > +       bool "Embed bootconfig file in the kernel"
-> > > > +       depends on BOOT_CONFIG
-> > > > +       default n
-> > > > +       help
-> > > > +         Embed a bootconfig file given by EMBED_BOOT_CONFIG_FILE in the
-> > > > +         kernel. Usually, the bootconfig file is loaded with the initrd
-> > > > +         image. But if the system doesn't support initrd, this option will
-> > > > +         help you by embedding a bootconfig file while building the kernel.
-> > > > +
-> > > > +         If unsure, say N.
-> > > > +
-> > > > +config EMBED_BOOT_CONFIG_FILE
-> > > > +       string "Embedded bootconfig file path"
-> > > > +       default ""
-> > > > +       depends on EMBED_BOOT_CONFIG
-> > > > +       help
-> > > > +         Specify a bootconfig file which will be embedded to the kernel.
-> > > > +         This bootconfig will be used if there is no initrd or no other
-> > > > +         bootconfig in the initrd.
-> > > > +
-> > > >  choice
-> > > >         prompt "Compiler optimization level"
-> > > >         default CC_OPTIMIZE_FOR_PERFORMANCE
-> > > > diff --git a/init/main.c b/init/main.c
-> > > > index 266d61bc67b0..a5db3e36b809 100644
-> > > > --- a/init/main.c
-> > > > +++ b/init/main.c
-> > > > @@ -266,7 +266,7 @@ static int __init loglevel(char *str)
-> > > >  early_param("loglevel", loglevel);
-> > > >
-> > > >  #ifdef CONFIG_BLK_DEV_INITRD
-> > > > -static void * __init get_boot_config_from_initrd(u32 *_size)
-> > > > +static void * __init get_boot_config_from_initrd(size_t *_size)
-> > > >  {
-> > > >         u32 size, csum;
-> > > >         char *data;
-> > > > @@ -412,12 +412,15 @@ static void __init setup_boot_config(void)
-> > > >         static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
-> > > >         const char *msg;
-> > > >         int pos;
-> > > > -       u32 size;
-> > > > +       size_t size;
-> > > >         char *data, *err;
-> > > >         int ret;
-> > > >
-> > > >         /* Cut out the bootconfig data even if we have no bootconfig option */
-> > > >         data = get_boot_config_from_initrd(&size);
-> > > > +       /* If there is no bootconfig in initrd, try embedded one. */
-> > > > +       if (!data)
-> > > > +               data = xbc_get_embedded_bootconfig(&size);
-> > > >
-> > > >         strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-> > > >         err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> > > > @@ -436,8 +439,8 @@ static void __init setup_boot_config(void)
-> > > >         }
-> > > >
-> > > >         if (size >= XBC_DATA_MAX) {
-> > > > -               pr_err("bootconfig size %d greater than max size %d\n",
-> > > > -                       size, XBC_DATA_MAX);
-> > > > +               pr_err("bootconfig size %ld greater than max size %d\n",
-> > > > +                       (long)size, XBC_DATA_MAX);
-> > > >                 return;
-> > > >         }
-> > > >
-> > > > @@ -450,7 +453,7 @@ static void __init setup_boot_config(void)
-> > > >                                 msg, pos);
-> > > >         } else {
-> > > >                 xbc_get_info(&ret, NULL);
-> > > > -               pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
-> > > > +               pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
-> > > >                 /* keys starting with "kernel." are passed via cmdline */
-> > > >                 extra_command_line = xbc_make_cmdline("kernel");
-> > > >                 /* Also, "init." keys are init arguments */
-> > > > diff --git a/lib/.gitignore b/lib/.gitignore
-> > > > index e5e217b8307b..54596b634ecb 100644
-> > > > --- a/lib/.gitignore
-> > > > +++ b/lib/.gitignore
-> > > > @@ -1,6 +1,7 @@
-> > > >  # SPDX-License-Identifier: GPL-2.0-only
-> > > >  /crc32table.h
-> > > >  /crc64table.h
-> > > > +/default.bconf
-> > > >  /gen_crc32table
-> > > >  /gen_crc64table
-> > > >  /oid_registry_data.c
-> > > > diff --git a/lib/Makefile b/lib/Makefile
-> > > > index 08053df16c7c..2a82cc324f91 100644
-> > > > --- a/lib/Makefile
-> > > > +++ b/lib/Makefile
-> > > > @@ -280,6 +280,14 @@ $(foreach file, $(libfdt_files), \
-> > > >  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
-> > > >
-> > > >  obj-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-> > > > +obj-$(CONFIG_EMBED_BOOT_CONFIG) += bootconfig-data.o
-> > > > +
-> > > > +$(obj)/bootconfig-data.o: $(obj)/default.bconf
-> > > > +
-> > > > +targets += default.bconf
-> > > > +filechk_defbconf = cat $(or $(real-prereqs), /dev/null)
-> > > > +$(obj)/default.bconf: $(CONFIG_EMBED_BOOT_CONFIG_FILE) FORCE
-> > > > +       $(call filechk,defbconf)
-> > > >
-> > > >  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
-> > > >  obj-$(CONFIG_INTERVAL_TREE_TEST) += interval_tree_test.o
-> > > > diff --git a/lib/bootconfig-data.S b/lib/bootconfig-data.S
-> > > > new file mode 100644
-> > > > index 000000000000..df674ea7d8be
-> > > > --- /dev/null
-> > > > +++ b/lib/bootconfig-data.S
-> > > > @@ -0,0 +1,11 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > > +/*
-> > > > + * Embed default bootconfig in the kernel.
-> > > > + */
-> > > > +       .pushsection .init.data, "aw"
-> > > > +       .global embedded_bootconfig_data
-> > > > +embedded_bootconfig_data:
-> > > > +       .incbin "lib/default.bconf"
-> > > > +       .global embedded_bootconfig_data_end
-> > > > +embedded_bootconfig_data_end:
-> > > > +       .popsection
-> > >
-> > >
-> > >
-> > > You used  .pushsection / .popsection because it was
-> > > previously located in bootconfig.c, where there are
-> > > functions, which should go to the ".text" section.
-> >
-> > Oops, yes. I have made a dumb copy from the inline asm...
-> >
-> > > Now that you split this into a separate compilation unit,
-> > > there is only one ".init.data" section in the file.
-> > >
-> > >
-> > >      .section  .init.data, "aw"
-> > >
-> > > should be enough.
-> >
-> > OK.
-> >
-> > > BTW, is it reasonable/possible to make it explicitly read-only?
-> > >
-> > > I have not tested this patch at all. Nor do I have enough insight.
-> > >
-> > >      .section  .init.rodata, "a"
-> > >
-> > > I am not sure whether this is possible or not.
-> >
-> > Yes, it can be. The data is passed via 'const char *'.
-> 
-> But, you didn't add "const" in the C code:
-> 
-> extern __visible char embedded_bootconfig_data[];
-> extern __visible char embedded_bootconfig_data_end[];
-> 
-> 
-> Is it possible to use "const char" ?
+I stopped reading your email when you wrote "Cheers, David" but I should
+have scrolled down.
 
-Yes, I need to update C part too, and that is not a problem. :)
+There is not very much overlap between Sparse and Smatch.  Both have a
+warning for if (!x & y).  That is a tiny thing.  The big overlap is when
+it comes to the locking checks.  The Smatch check for locking is
+honestly way better and more capable.
 
-Thank you!
+I always run both Sparse and Smatch on my patches.  I should run
+Coccinelle as well, but I'm more familiar with Sparse and Smatch.
 
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+regards,
+dan carpenter
 
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
