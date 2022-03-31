@@ -2,196 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02EEEC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 14:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2804C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 15:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233249AbiCaOed (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 10:34:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
+        id S233606AbiCaP3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 11:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231605AbiCaOed (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 10:34:33 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3281E5205
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 07:32:45 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id n18so23568659plg.5
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 07:32:45 -0700 (PDT)
+        with ESMTP id S233594AbiCaP3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 11:29:00 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DB021BC64
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 08:27:12 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id x20so79872ybi.5
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 08:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7Ic7Zcg2hlIe1MxVHVupwGddd/M8f+eZCeloBe/VoYM=;
-        b=MQ3FgIpNh+sakI0vBRtZW9mjsU6+hRbWetrltJV8ywuxcwDR8VAFCq0D/pziC8ifgq
-         ZTj7/mBOxFicZr/i+95Ft6m3Oj1l5YkaHtiu1aMQWPvMLfdm8B3/ceIu6Z29D8TtdJfR
-         AO+NJID4DDKwpRxLY3q2S8YRdVkxOXJCHCox+6w7Cwj0WtqcLuhGUwi657JSR6/EDhKJ
-         GoLHOPGbmnSBNu9c+nlwGsrbMrTuJsgGzrKg7VE/d9qRCEoDb2XXpv/wWHifl3wXlX1B
-         eR/AhcEdOoeJKyIFDtkBG3pDBchVU+PjrUKnZTN2ONUCOXf5KPxqwRZ7cz8RcqaJwxpb
-         rTkg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cx/jntd5MtnfHbFJ6wQ9WBx8f0jFn2F4QMSwBKsbTL4=;
+        b=mVdPagKPXbg/QhIYsGWCJRl0DmguSrdOwYYbfPnVMr1G3le8ZKSu5YjOddra9OGvI7
+         H9MV7C9xeMksTMeKlBwk8ErYL7URvVvdSuLRw2UkyQ+3z+/O/CkQoyU0eJvmk5hR9cnK
+         4WPPALU0TjTgMtGG4XODtRfqfxn6IWI+Nyd1X6vtR9Mr+tiZZkVmXliVn7kafwcCZtX2
+         hOboxmDzcDt3etSfNC8CVZF+ZAlam97F+dEOljJfqRohQB9bnHL3oj5SyOUYb0sfZ+3Q
+         sp3maiD42lL+bTsT89OqAzWD/e8MwLwGi77A/KNGlJnd8Tp7K0o32Wt9ZRt9GZTus2lh
+         ga1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7Ic7Zcg2hlIe1MxVHVupwGddd/M8f+eZCeloBe/VoYM=;
-        b=n7jXnu7J0jLu89Ng0gCu8RT06NQxUudLEPa7dD5YNl5jTkuULD2wVUWd7fAkYbMx8v
-         XK0ee8cHVhEt8CJ32jQ4Je1wKy2T1rIEtH3Mxu+nPD4/rPRMke/6SmcbR3ysYPR2hHYM
-         flsOJ1sg1Tsr/wUG5kOc1y5ehGI26c9bA0ALBS0quh9h2GmHZi9vmiq82fEvN1TzJLTN
-         kKgnCGLkNOwTf2Tr3euW7ed6Nr2t/+i7VcSr3wf3eq1qVsR+Jpoq5X8IziyI1C+gKN7G
-         ++DjSDxGw5Br20fcfZylCOmcW0PfBhR3b8xzlWMfxLlpK5axOnOTDlFzvL9LbRFRGt2s
-         BlnQ==
-X-Gm-Message-State: AOAM5328pm7SZShcOnG/G3GFr+XXLe6dESpopKFTgGtlodrhXaDbs/5H
-        8obZITSNzQqxsKwrGEEjMmo=
-X-Google-Smtp-Source: ABdhPJygL92rpyJBHIcqY5595uLrRy2nvpWKm58uoVYzM07q+9ei0XsVBct5FkgFpbnWcsApn4EUPA==
-X-Received: by 2002:a17:902:d714:b0:153:2e9:3bcc with SMTP id w20-20020a170902d71400b0015302e93bccmr5680332ply.83.1648737165249;
-        Thu, 31 Mar 2022 07:32:45 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id m12-20020a17090a2c0c00b001bc4cf0107esm10304702pjd.53.2022.03.31.07.32.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Mar 2022 07:32:44 -0700 (PDT)
-Message-ID: <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
-Date:   Thu, 31 Mar 2022 23:32:41 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cx/jntd5MtnfHbFJ6wQ9WBx8f0jFn2F4QMSwBKsbTL4=;
+        b=or8Qyya7h1zFcYiwL3liHqMzmjVt0VpEk8UdP1iJsMOBUdVOLATAixCRNF3kKOwPjI
+         7Lqe6muwvQSCJmB676QJSl5nYvylOvvzKtS8oNVePhZGndsRWC7dAIXdzW0ADFL5/Tu9
+         JDGhOxMJMvTXqCrXm8BTi4GDsqNrPBfq9bAxFNd6ExF050cRVIR+Kvwi+GZY7jB1ELNd
+         hUw/iqaJPuwQJPa497ZHqi/xBNTwpy4ObXn+rfH9pNzjAimjJoD0gj/1yXjZ0CZLSHM+
+         Arf99oZcCR/NehK/55n25jKQfhEmvYB82rVWpTQJpG0uHoNNmsjhZhq6b7cf+mb5IJSv
+         gt1Q==
+X-Gm-Message-State: AOAM532NsZXxLjaxO/oSm46u4OxgA86m41UHIhKoeXiroGUpDNKweT47
+        L68L7f6guKRaTP8fLpUQirA0RbDC6VLZN+KhtXQHMQ==
+X-Google-Smtp-Source: ABdhPJymbOBZrreddHigBujDJlMqXgN3WqeEPo+QbNHV7yN5YOS5zGWkPHsxrYDAlBtOVDuhB3tZPjTB/KwbHkmJyuc=
+X-Received: by 2002:a25:cdca:0:b0:633:c810:6ca with SMTP id
+ d193-20020a25cdca000000b00633c81006camr4561768ybf.261.1648740431209; Thu, 31
+ Mar 2022 08:27:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] docs: sphinx/requirements: Limit jinja2<3.1
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net> <20220330022534.10ac0a50@coco.lan>
- <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
- <20220330190724.1596e01a@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220330190724.1596e01a@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220330153745.20465-2-songmuchun@bytedance.com> <202203312010.ct30oFE6-lkp@intel.com>
+In-Reply-To: <202203312010.ct30oFE6-lkp@intel.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 31 Mar 2022 23:26:35 +0800
+Message-ID: <CAMZfGtU7ctporSD=U-MGFX7H+x=12ZSSOe-ds5qyFQakg4po0w@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
+To:     kernel test robot <lkp@intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        kbuild-all@lists.01.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Muchun Song <smuchun@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Mar 2022 19:07:24 +0200,
-Mauro Carvalho Chehab wrote:
-> Em Wed, 30 Mar 2022 23:59:05 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> Hi Mauro,
->>
->> On Wed, 30 Mar 2022 02:25:34 +0200,
->> Mauro Carvalho Chehab wrote:
->> [...]
->>> We need to verify both PDF and html generation, though, as I remember
->>> that some 4.x versions had/(have?) issues with the C domain and duplicate
->>> symbols detection.  
->>
->> Can you elaborate on the issue you observed?
->> In which document did you see it?
-> 
-> Sorry, it was on Sphinx 3.x, although the most complete fix got
-> merged on 4.0, I guess. This patch is related to it:
-> 
-> 	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
-> 
-> Basically, the Sphinx maintainer for the C domain rewrote the code,
-> causing all references generated by kernel-doc to be broken, and
-> almost all references at the media docs as well. Before the changes,
-> there were just one domain for C code references, used for functions,
-> structs, enums, etc. After the change, each one requires a different
-> tag. The kerneldoc script has gained support for Sphinx version when
-> such issue was addressed.
-> 
-> Another consequence of such change is that you can't have more than
-> one "read()" function inside the entire Kernel. While this makes
-> sense on userspace, It doesn't at Kernelspace, as different subsystems
-> may handle read/write/ioctl/... syscalls on their particular ways.
-> So, building docs were causing warnings about duplicated symbols.
-> 
-> There were some changes that went on 4.x to fix it, when 
-> ".. c:namespace::" got merged. I don't remember when it was added.
+On Thu, Mar 31, 2022 at 8:40 PM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Muchun,
+>
+> Thank you for the patch! Yet something to improve:
+>
+> [auto build test ERROR on hnaz-mm/master]
+> [also build test ERROR on mcgrof/sysctl-next linus/master next-20220331]
+> [cannot apply to v5.17]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220330-234018
+> base:   https://github.com/hnaz/linux-mm master
+> config: ia64-randconfig-s031-20220331 (https://download.01.org/0day-ci/archive/20220331/202203312010.ct30oFE6-lkp@intel.com/config)
+> compiler: ia64-linux-gcc (GCC) 11.2.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-dirty
+>         # https://github.com/intel-lab-lkp/linux/commit/5164c566d4fbdb808689ee4552ed95eab421522e
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220330-234018
+>         git checkout 5164c566d4fbdb808689ee4552ed95eab421522e
+>         # save the config file to linux build tree
+>         mkdir build_dir
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 prepare
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/ia64/include/asm/thread_info.h:10,
+>                     from include/linux/thread_info.h:60,
+>                     from include/asm-generic/preempt.h:5,
+>                     from ./arch/ia64/include/generated/asm/preempt.h:1,
+>                     from include/linux/preempt.h:78,
+>                     from include/linux/spinlock.h:55,
+>                     from include/linux/kref.h:16,
+>                     from include/linux/mm_types.h:8,
+>                     from mm/struct_page_size.c:10:
+> >> arch/ia64/include/asm/asm-offsets.h:1:10: fatal error: generated/asm-offsets.h: No such file or directory
+>        1 | #include <generated/asm-offsets.h>
+>          |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    compilation terminated.
+>    make[2]: *** [scripts/Makefile.build:127: mm/struct_page_size.s] Error 1
+>    make[2]: Target '__build' not remade because of errors.
+>    make[1]: *** [Makefile:1261: prepare0] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:226: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+>
 
-Thank you for the detailed explanation.
-
-So I compared logs from "make SPHINXDIRS=driver-api htmldocs" with
-Sphinx 2.4.4 and 4.5.0 on current docs-next.
-
-There are 8 more lines in the log from 4.5.0 than from 2.4.4, give
-or take minor format differences.
-
-Here are those extra 8 lines (long lines are kept):
-
-----
-/wk/Documentation/driver-api/usb/usb.rst:967: WARNING: Duplicate C declaration, also defined at usb/gadget:775.
-Declaration is '.. c:struct:: usb_string'.
-/wk/Documentation/driver-api/miscellaneous:48: ./drivers/pwm/core.c:679: WARNING: Duplicate C declaration, also defined at miscellaneous:305.
-Declaration is '.. c:function:: int pwm_capture (struct pwm_device *pwm, struct pwm_capture *result, unsigned long timeout)'.
-/wk/Documentation/driver-api/surface_aggregator/client-api:25: ./drivers/platform/surface/aggregator/controller.c:1689: WARNING: Duplicate C declaration, also defined at surface_aggregator/client-api:105.
-Declaration is '.. c:function:: int ssam_request_sync (struct ssam_controller *ctrl, const struct ssam_request *spec, struct ssam_response *rsp)'.
-/wk/Documentation/driver-api/80211/mac80211:109: ./include/net/mac80211.h:4811: WARNING: Duplicate C declaration, also defined at 80211/mac80211:1024.
-Declaration is '.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)'.
-----
-
-So those "WARNING: Duplicate C declaration" messages are what you
-mentioned earlier, aren't they?
-
-I'm looking at Documentation/driver-api/usb/usb.rst:967 and
-usb/gadget.rst:775, but can't figure out what is/are wrong.
-
-How am I supposed to interpret those messages?
-Are those line counts of intermediate files or some such?
-
-> 
->> Verification of generated HTML and PDF can be hard.
->>
->> Different Sphinx might generate slightly different .html or .tex
->> files with no visible effect in the final rendering.  Hmm...
-> 
-> That was not the case on that time. We had to stick to Sphinx up to
-> version 2.4 for a couple of Kernel release cycles, in order to fix, as the
-> changes weren't trivial.
-> 
->> Do you have an idea for automated regression testing?
-> 
-> Except for doing periodic html and pdf builds and reporting build errors,
-> no.
-
-Ah, by "PDF and html generation", you meant build errors.
-Now I understand what you said.
-
-> 
-> For html, perhaps some regression testing could be done by using pandoc
-> to convert html back into ReST (or to some other format) and compare if the
-> output from the same source with different Sphinx versions are identical 
-> (or similar enough). On such case, I would get rid of using read the docs
-> style, using the simplest possible one. That's easier said than done, though,
-> as such conversion could produce errors due to problems on pandoc - or some
-> minor differences - So, whomever would be running such tests would likely
-> need to add something in order to handle similar but different outputs and
-> exclude false-positives.
-
-This sounds hard if not impossible...
-
-        Thanks, Akira
-
-> 
->>
->>>
->>> Also, it could be worth to check the build time with 2.4.4 and with
->>> whatever newer version we stick.  
->>
->> I agree. I'll see what I can do.
->>
->>         Thanks, Akira
->>
->>>   
->>>> So I'll just fast-track this
->>>> patch in; dropping it into the stable updates probably makes sense too.  
->>>
->>> Agreed.
->>>
->>> Thanks,
->>> Mauro  
-> 
-> 
-> 
-> Thanks,
-> Mauro
+It is a circular dependency issue, I'll fix this in the next version.
+Thanks for your report.
