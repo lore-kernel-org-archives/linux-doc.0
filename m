@@ -2,140 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E09CAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C76C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 05:56:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbiCaEZc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 00:25:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
+        id S230293AbiCaF57 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 01:57:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbiCaEZY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:25:24 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6EB18021D;
-        Wed, 30 Mar 2022 21:14:47 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id o10so45505399ejd.1;
-        Wed, 30 Mar 2022 21:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cHLGkaQYu4o1VuLVe04VP5C9UOK2Y5HybQ/7vFAycP4=;
-        b=IejV0elzv/fR5v4FKPqWNBF8faVRUyD4+g73zFNzDj84EhCzmnV+cYKflwLA4Otjfi
-         VtFOlbHiTPkKvxrwAoDgW53yCHYhQKLJktKQclamHJcHFen5tWhCTdc51fR0fCQxbv92
-         dNAYMM275Is6y+5unL7BXYt5RP4MunPV3xMDYp9cgc/vOJGyWud0IsknBQVLOpbSnUHV
-         5dDeGZ1Dn3kb/K8CpwisW5DiEaBGUJGNpTwjy3oha1/ImqmlAhyrc6TRaDNh+YEBxHbc
-         K7QrSfpP6hKCiv4ttnd7bzOLXob/N2aHt1fzc4xSEcz3LTqwedqPL6O1ONAEBwPc7HGl
-         p42g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cHLGkaQYu4o1VuLVe04VP5C9UOK2Y5HybQ/7vFAycP4=;
-        b=DPqxpStyk9JVTOPZD7PH8tDWhe8Jsku9lOlxybpnU/M98blfsxMh4tNAEViV6vCgGe
-         sk6Wdnl0L6rR66lRxV4p09BzhfmA081itM5aehB+DdMIsj5aiv09AJ5z7QHH56Ifw02o
-         5c4iNaJQ+0yGOynWkEGtVeH8gdeEjJ28WyHMmP2nfSV6ZdN5DqketmLXc0LUS6PcPKMP
-         26NwA8eo6HkoTKJHPOIAyQtcb9zwKhh0wIo8WmDkySzq3h0hW/BjJgtRWFQEzrUtjNl+
-         vCoxu42E9zpRhTp0D67Wd0SUkujMd08HUo0hkHCRXRxCVMbCzdaMTpqCSAqwUb1jWKr5
-         5ZTg==
-X-Gm-Message-State: AOAM533tX99T+v1RMAsMNNfaLutZnQBl9ZdZ87Gg9FC2l0Sy4Iivgki7
-        +/R12+9Pcr62wjEFoMZgS5E2uoG9kIyZ90i8gRw=
-X-Google-Smtp-Source: ABdhPJylV+qIHEhgIiC8pc2ZyVs4dIvULSo9dP3vfdc/QTV15d7mrqgXEUvxiupeD7GQsWsqPD8b71wB8duOxbnPqTU=
-X-Received: by 2002:a17:906:3a15:b0:6cf:ea4e:a1cc with SMTP id
- z21-20020a1709063a1500b006cfea4ea1ccmr3304474eje.753.1648700086306; Wed, 30
- Mar 2022 21:14:46 -0700 (PDT)
+        with ESMTP id S230273AbiCaF54 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 01:57:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29EC19752C;
+        Wed, 30 Mar 2022 22:56:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DA3A6158C;
+        Thu, 31 Mar 2022 05:56:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C072C340ED;
+        Thu, 31 Mar 2022 05:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648706164;
+        bh=Xfm8BU7UOmG+kisIrZuuaFL9DNbvA4ifq7sBlUpiS3I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TeY8XoPxTSxTBBsuLMFC3yf5U/iVPiW1uinSGKoqsUSsba+vu6fOH1B+afZggvbED
+         l7XCagxF3jFF/vvAEu2j9c43ZTdyPIPe+0C5WR6evY1D9t+rn+jHPAaUhXxBUFgP3Z
+         myMhmV+CGZr5QxQntfiRI9xETMNak8cbTOqYr+GTYXlM0dx+lQaYdBJtM9Av2pWXJr
+         pP8hJ0CxcW8Q5sxdIdgK1Lie2UTtA/bPylFBdjA8squuFgaV88p/60VO7mCNoAy6vb
+         G00jN6sb9Eb1Ldu9TfShlLyzDz/j8QqPcWVG79Z+dHtEuptoPyq8uOOFFIc4qvvDjx
+         urLVx2NUsHcCQ==
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: [PATCH v6 0/4] bootconfig: Support embedding a bootconfig in kernel for non initrd boot
+Date:   Thu, 31 Mar 2022 14:55:59 +0900
+Message-Id: <164870615889.127053.9055569952366814752.stgit@devnote2>
+X-Mailer: git-send-email 2.25.1
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-References: <cover.1648674305.git.marcelo.schmitt1@gmail.com> <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
-In-Reply-To: <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-Date:   Thu, 31 Mar 2022 12:14:19 +0800
-Message-ID: <CAD-N9QVvgCqbwiebjVX2_81pH_YhK+j4hhJPG3fbWbAtzFVJTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] Documentation: dev-tools: Add a section for static
- analysis tools
-To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        dlatypov@google.com, davidgow@google.com,
-        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        skhan@linuxfoundation.org,
-        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 12:07 PM Marcelo Schmitt
-<marcelo.schmitt1@gmail.com> wrote:
->
-> Complement the Kernel Testing Guide documentation page by adding a
-> section about static analysis tools.
->
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> Acked-by: Daniel Latypov <dlatypov@google.com>
-> Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Acked-by: Julia Lawall <julia.lawall@inria.fr>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
-> Change log v2 -> v3:
-> - Added Julia's acknowledgment tag
->
-> Change log v1 -> v2:
-> - Brought generic tool characteristics to the intro paragraph
-> - Made explicit that these tools run at compile time
-> - Added a note of caution about false positives
-> - Updated Coccinelle info to make it sound better and be more skimmable
->
->  Documentation/dev-tools/testing-overview.rst | 31 ++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
-> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
-> index 65feb81edb14..b5e02dd3fd94 100644
-> --- a/Documentation/dev-tools/testing-overview.rst
-> +++ b/Documentation/dev-tools/testing-overview.rst
-> @@ -115,3 +115,34 @@ that none of these errors are occurring during the test.
->  Some of these tools integrate with KUnit or kselftest and will
->  automatically fail tests if an issue is detected.
->
-> +Static Analysis Tools
-> +=====================
-> +
-> +In addition to testing a running kernel, one can also analyze kernel source code
-> +directly (**at compile time**) using **static analysis** tools. The tools
-> +commonly used in the kernel allow one to inspect the whole source tree or just
-> +specific files within it. They make it easier to detect and fix problems during
-> +the development process.
-> +
-> +Sparse can help test the kernel by performing type-checking, lock checking,
-> +value range checking, in addition to reporting various errors and warnings while
-> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
-> +page for details on how to use it.
-> +
-> +Smatch extends Sparse and provides additional checks for programming logic
-> +mistakes such as missing breaks in switch statements, unused return values on
-> +error checking, forgetting to set an error code in the return of an error path,
-> +etc. Smatch also has tests against more serious issues such as integer
-> +overflows, null pointer dereferences, and memory leaks. See the project page at
-> +http://smatch.sourceforge.net/.
-> +
-> +Coccinelle is another static analyzer at our disposal. Coccinelle is often used
-> +to aid refactoring and collateral evolution of source code, but it can also help
-> +to avoid certain bugs that occur in common code patterns. The types of tests
-> +available include API tests, tests for correct usage of kernel iterators, checks
-> +for the soundness of free operations, analysis of locking behavior, and further
-> +tests known to help keep consistent kernel usage. See the
-> +Documentation/dev-tools/coccinelle.rst documentation page for details.
-> +
-> +Beware, though, that static analysis tools suffer from **false positives**.
-> +Errors and warns need to be evaluated carefully before attempting to fix them.
+Hi,
 
-Hi Marcelo,
+Here are the 6th version of the patchset to enable kernel embedded bootconfig
+for non-initrd kernel boot environment. This version adds a new patch to use
+obj-y instead of lib-y for bootconfig([1/4]) and split the inline asm code into
+independent asm file for incremental build with LTO THIN mode issue(*), which
+was reported in the previous version [1].
 
-Should we include static analysis tools based on LLVM? For example,
-Clang static analysis.
+[1] https://lore.kernel.org/all/164847778869.3060675.8115416881394543419.stgit@devnote2/T/#u
 
-> --
-> 2.35.1
->
+You can embed a bootconfig file into the kernel as a default bootconfig,
+which will be used if there is no initrd or no bootconfig is attached to initrd. 
+
+This needs 2 options: CONFIG_EMBED_BOOT_CONFIG=y and set the file
+path to CONFIG_EMBED_BOOT_CONFIG_FILE. Even if you embed the bootconfig file
+to the kernel, it will not be enabled unless you pass "bootconfig" kernel
+command line option at boot. Moreover, since this is just a "default"
+bootconfig, you can override it with a new bootconfig if you attach another
+bootconfig to the initrd (if possible).
+CONFIG_EMBED_BOOT_CONFIG_FILE can take both absolute and relative path, but
+to simplify and make it independent from the build environment, I recommend
+you to use an absolute path for that.
+
+This is requested by Padmanabha at the below thread[2];
+
+[2] https://lore.kernel.org/all/20220307184011.GA2570@pswork/T/#u
+
+(*) this issue has been reported to github ClangBuiltLinux project [3]
+
+[3] https://github.com/ClangBuiltLinux/linux/issues/1618
+
+and Nick told me that we can avoid this by disabling LTO on that file.
+
+CFLAGS_REMOVE_<file>.o := $(CC_FLAGS_LTO)
+
+But I chose Masahiro's idea to split the inline asm into an independent
+asm file, since that can also simplify the Makefile.
+The above mitigation should be applied to kernel/configs.c and kernel/kheaders.c
+but that should be another story (maybe LTO bugfix?).
+
+
+Thank you,
+
+---
+
+Masami Hiramatsu (4):
+      bootconfig: Make the bootconfig.o as a normal object file
+      bootconfig: Check the checksum before removing the bootconfig from initrd
+      bootconfig: Support embedding a bootconfig file in kernel
+      docs: bootconfig: Add how to embed the bootconfig into kernel
+
+
+ Documentation/admin-guide/bootconfig.rst |   31 +++++++++++++++++++++++++++---
+ MAINTAINERS                              |    1 +
+ include/linux/bootconfig.h               |   10 ++++++++++
+ init/Kconfig                             |   21 ++++++++++++++++++++
+ init/main.c                              |   31 +++++++++++++++---------------
+ lib/.gitignore                           |    1 +
+ lib/Makefile                             |   10 +++++++++-
+ lib/bootconfig-data.S                    |   11 +++++++++++
+ lib/bootconfig.c                         |   13 +++++++++++++
+ 9 files changed, 110 insertions(+), 19 deletions(-)
+ create mode 100644 lib/bootconfig-data.S
+
+--
+Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
