@@ -2,246 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 163EEC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 08:42:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82184C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 09:30:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233146AbiCaInq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 04:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33614 "EHLO
+        id S232580AbiCaJcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 05:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232590AbiCaInp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 04:43:45 -0400
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355731F6F10
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 01:41:58 -0700 (PDT)
-Received: by mail-pf1-x449.google.com with SMTP id g145-20020a625297000000b004fb2cf9d380so9057772pfb.22
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 01:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=dJR2UF7wpFVBWBgJ9O65H/XFooxj9+B28f9BB5t99yU=;
-        b=Uw8yGthrisayNeORy4SJ0M18Sm95p4V7hygwzdHg6T2IFLejLl/kkfy77e3J2MZghG
-         QIAja02cdJ6iGsot5VfVtPIlTLtEHl8iJJz6E3NX8tpU6bejFYq4Fz5wQ8MAKSrbfY92
-         O1TrJHO1sbNGFv3kKywVlM1Gj4SviJ2ra9aY43blbOD1K+xzRSX9Y7n5FfEtLw/qOMbt
-         Qq0KyErJpuLjD3ZLTF8tHweLvo2o96Q6o18wIaXW2wvG9b4yUYwLgXPiq1XRRf+OdWJ1
-         gIQ5YW1B/+3pIWYyO8ZH0YxFklgV/aPPnq80r9V1XXbgyj2wkf9ekrYoqSRcvCyLWnBh
-         CAeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=dJR2UF7wpFVBWBgJ9O65H/XFooxj9+B28f9BB5t99yU=;
-        b=U+9fWrcV25JKBhpBM8UlWO57vzwwJK/ZaXeciabJVsn5hBXm5wrtLzpOVNUDh08BG3
-         873SvmxpbqZ1EEOVsk/MB0jrV8dGiPbDzlsfz2y9uqpQo4QZ9E/COP4zrMDayegqcgA+
-         N0NpAaq7HyBEei1XfJbCvEGJC+6fUJorHM0Np7DSlohAulmNqPaAkwMS84CSsh+E8hZW
-         XxKlnadaEDSOwBKDKr80okop0OkjlcnVqlzNstsCNHejlam1SHb3JMQlXfHKoXrAGd1Q
-         kzSW4GjTTV/4/bSkATsZoccNQB0SaakxmrZnopbmDLOMbirj4bNeoFnhsU5OL14mdjIj
-         Zdfw==
-X-Gm-Message-State: AOAM531+1CvQsHRmZf2VHyjfT3V32lVm6Sl+IhGX4K6YyfHMWXZXY+JE
-        8ss1WfwMZAW38zjjfpFFSSfmYI3g6aR9wzMV
-X-Google-Smtp-Source: ABdhPJx+5hJ7dlHIY+PAfuvlN3r6vNUT2fJuTbeGOFggvCUmI3ysuol8PaUWv+9qjjLMsEw0140rcQDfL3zk+Hcq
-X-Received: from yosry.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:2327])
- (user=yosryahmed job=sendgmr) by 2002:a17:902:da88:b0:156:2b13:81c5 with SMTP
- id j8-20020a170902da8800b001562b1381c5mr4282286plx.138.1648716117730; Thu, 31
- Mar 2022 01:41:57 -0700 (PDT)
-Date:   Thu, 31 Mar 2022 08:41:51 +0000
-Message-Id: <20220331084151.2600229-1-yosryahmed@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
-Subject: [PATCH resend] memcg: introduce per-memcg reclaim interface
-From:   Yosry Ahmed <yosryahmed@google.com>
-To:     Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
-        Yosry Ahmed <yosryahmed@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S233161AbiCaJcE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 05:32:04 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6831B1959C4;
+        Thu, 31 Mar 2022 02:30:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 124E8B82014;
+        Thu, 31 Mar 2022 09:30:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B949EC340F3;
+        Thu, 31 Mar 2022 09:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648719014;
+        bh=FvvM5BIaN0Tlqtjuez0sKOLUrS6aTrHpEXTSTkI/TxI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=hqWejYGFzcPZcPvr1BiLXs6bjSUkth294jBUvBLcYg465Slf6qfU5GWPkDwPcO2bu
+         2BAbO1I2j75tAf8lgctfbR+QT87PtAnc6C2F6/C2uodCjOOH9FEPvOjTf4D93/LCL7
+         312wL6NBCTST7kAHJ33ZVo8XiXz9syo+p2VSbzxAiMFXwvH/9cljE8upKECmDcT1tX
+         3+OVfhOtuWjNCgtX81hm1w8Fk6vgnuymLNItt7X3urZYX1CGb6ukrHBGX4x/KfK7n7
+         H03k1m3lPWgmniO5Ke2p4omTGqwgHZwMz9vd+yN4HYq12ei6CPieXtEQs3PcBolOZW
+         rDN5CVj5oYMeg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9D967F03848;
+        Thu, 31 Mar 2022 09:30:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3 00/14] docs: update and move the netdev-FAQ
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164871901464.21222.10495458574563491451.git-patchwork-notify@kernel.org>
+Date:   Thu, 31 Mar 2022 09:30:14 +0000
+References: <20220330042505.2902770-1-kuba@kernel.org>
+In-Reply-To: <20220330042505.2902770-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        andrew@lunn.ch, f.fainelli@gmail.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Shakeel Butt <shakeelb@google.com>
+Hello:
 
-Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+This series was applied to netdev/net.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
 
-Use case: Proactive Reclaim
----------------------------
+On Tue, 29 Mar 2022 21:24:51 -0700 you wrote:
+> A section of documentation for tree-specific process quirks had
+> been created a while back. There's only one tree in it, so far,
+> the tip tree, but the contents seem to answer similar questions
+> as we answer in the netdev-FAQ. Move the netdev-FAQ.
+> 
+> Take this opportunity to touch up and update a few sections.
+> 
+> [...]
 
-A userspace proactive reclaimer can continuously probe the memcg to
-reclaim a small amount of memory. This gives more accurate and
-up-to-date workingset estimation as the LRUs are continuously
-sorted and can potentially provide more deterministic memory
-overcommit behavior. The memory overcommit controller can provide
-more proactive response to the changing behavior of the running
-applications instead of being reactive.
+Here is the summary with links:
+  - [net,v3,01/14] docs: netdev: replace references to old archives
+    https://git.kernel.org/netdev/net/c/50386f7526dd
+  - [net,v3,02/14] docs: netdev: minor reword
+    https://git.kernel.org/netdev/net/c/30cddd30532a
+  - [net,v3,03/14] docs: netdev: move the patch marking section up
+    https://git.kernel.org/netdev/net/c/c82d90b14f6c
+  - [net,v3,04/14] docs: netdev: turn the net-next closed into a Warning
+    https://git.kernel.org/netdev/net/c/2fd4c50dbff1
+  - [net,v3,05/14] docs: netdev: note that RFC postings are allowed any time
+    https://git.kernel.org/netdev/net/c/0e242e3fb7a7
+  - [net,v3,06/14] docs: netdev: shorten the name and mention msgid for patch status
+    https://git.kernel.org/netdev/net/c/5d84921ac750
+  - [net,v3,07/14] docs: netdev: rephrase the 'Under review' question
+    https://git.kernel.org/netdev/net/c/8f785c1bb84f
+  - [net,v3,08/14] docs: netdev: rephrase the 'should I update patchwork' question
+    https://git.kernel.org/netdev/net/c/724c1a7443c5
+  - [net,v3,09/14] docs: netdev: add a question about re-posting frequency
+    https://git.kernel.org/netdev/net/c/b8ba106378a0
+  - [net,v3,10/14] docs: netdev: make the testing requirement more stringent
+    https://git.kernel.org/netdev/net/c/3eca381457ca
+  - [net,v3,11/14] docs: netdev: add missing back ticks
+    https://git.kernel.org/netdev/net/c/a30059731877
+  - [net,v3,12/14] docs: netdev: call out the merge window in tag checking
+    https://git.kernel.org/netdev/net/c/99eba4e5cbd4
+  - [net,v3,13/14] docs: netdev: broaden the new vs old code formatting guidelines
+    https://git.kernel.org/netdev/net/c/08767a26f095
+  - [net,v3,14/14] docs: netdev: move the netdev-FAQ to the process pages
+    https://git.kernel.org/netdev/net/c/8df0136376dc
 
-A userspace reclaimer's purpose in this case is not a complete replacement
-for kswapd or direct reclaim, it is to proactively identify memory savings
-opportunities and reclaim some amount of cold pages set by the policy
-to free up the memory for more demanding jobs or scheduling new jobs.
-
-A user space proactive reclaimer is used in Google data centers.
-Additionally, Meta's TMO paper recently referenced a very similar
-interface used for user space proactive reclaim:
-https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
-
-Benefits of a user space reclaimer:
------------------------------------
-
-1) More flexible on who should be charged for the cpu of the memory
-reclaim. For proactive reclaim, it makes more sense to be centralized.
-
-2) More flexible on dedicating the resources (like cpu). The memory
-overcommit controller can balance the cost between the cpu usage and
-the memory reclaimed.
-
-3) Provides a way to the applications to keep their LRUs sorted, so,
-under memory pressure better reclaim candidates are selected. This also
-gives more accurate and uptodate notion of working set for an
-application.
-
-Why memory.high is not enough?
-------------------------------
-
-- memory.high can be used to trigger reclaim in a memcg and can
-  potentially be used for proactive reclaim.
-  However there is a big downside in using memory.high. It can potentially
-  introduce high reclaim stalls in the target application as the
-  allocations from the processes or the threads of the application can hit
-  the temporary memory.high limit.
-
-- Userspace proactive reclaimers usually use feedback loops to decide
-  how much memory to proactively reclaim from a workload. The metrics
-  used for this are usually either refaults or PSI, and these metrics
-  will become messy if the application gets throttled by hitting the
-  high limit.
-
-- memory.high is a stateful interface, if the userspace proactive
-  reclaimer crashes for any reason while triggering reclaim it can leave
-  the application in a bad state.
-
-- If a workload is rapidly expanding, setting memory.high to proactively
-  reclaim memory can result in actually reclaiming more memory than
-  intended.
-
-The benefits of such interface and shortcomings of existing interface
-were further discussed in this RFC thread:
-https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
-
-Interface:
-----------
-
-Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
-trigger reclaim in the target memory cgroup.
-
-
-Possible Extensions:
---------------------
-
-- This interface can be extended with an additional parameter or flags
-  to allow specifying one or more types of memory to reclaim from (e.g.
-  file, anon, ..).
-
-- The interface can also be extended with a node mask to reclaim from
-  specific nodes. This has use cases for reclaim-based demotion in memory
-  tiering systens.
-
-- A similar per-node interface can also be added to support proactive
-  reclaim and reclaim-based demotion in systems without memcg.
-
-For now, let's keep things simple by adding the basic functionality.
-
-[yosryahmed@google.com: refreshed to current master, updated commit
-message based on recent discussions and use cases]
-Signed-off-by: Shakeel Butt <shakeelb@google.com>
-Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  9 ++++++
- mm/memcontrol.c                         | 37 +++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 69d7a6983f78..925aaabb2247 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1208,6 +1208,15 @@ PAGE_SIZE multiple when read back.
- 	high limit is used and monitored properly, this limit's
- 	utility is limited to providing the final safety net.
- 
-+  memory.reclaim
-+	A write-only file which exists on non-root cgroups.
-+
-+	This is a simple interface to trigger memory reclaim in the
-+	target cgroup. Write the number of bytes to reclaim to this
-+	file and the kernel will try to reclaim that much memory.
-+	Please note that the kernel can over or under reclaim from
-+	the target cgroup.
-+
-   memory.oom.group
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default value is "0".
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 725f76723220..994849fab7df 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -6355,6 +6355,38 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
- 	return nbytes;
- }
- 
-+static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
-+			      size_t nbytes, loff_t off)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
-+	unsigned long nr_to_reclaim, nr_reclaimed = 0;
-+	int err;
-+
-+	buf = strstrip(buf);
-+	err = page_counter_memparse(buf, "", &nr_to_reclaim);
-+	if (err)
-+		return err;
-+
-+	while (nr_reclaimed < nr_to_reclaim) {
-+		unsigned long reclaimed;
-+
-+		if (signal_pending(current))
-+			break;
-+
-+		reclaimed = try_to_free_mem_cgroup_pages(memcg,
-+						nr_to_reclaim - nr_reclaimed,
-+						GFP_KERNEL, true);
-+
-+		if (!reclaimed && !nr_retries--)
-+			break;
-+
-+		nr_reclaimed += reclaimed;
-+	}
-+
-+	return nbytes;
-+}
-+
- static struct cftype memory_files[] = {
- 	{
- 		.name = "current",
-@@ -6413,6 +6445,11 @@ static struct cftype memory_files[] = {
- 		.seq_show = memory_oom_group_show,
- 		.write = memory_oom_group_write,
- 	},
-+	{
-+		.name = "reclaim",
-+		.flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
-+		.write = memory_reclaim,
-+	},
- 	{ }	/* terminate */
- };
- 
+You are awesome, thank you!
 -- 
-2.35.1.1021.g381101b075-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
