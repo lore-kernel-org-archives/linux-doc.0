@@ -2,89 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE95C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 11:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E1AFC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 12:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235286AbiCaLq1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 07:46:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57736 "EHLO
+        id S235248AbiCaMMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 08:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235275AbiCaLq0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 07:46:26 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC4E20826E;
-        Thu, 31 Mar 2022 04:44:39 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id s11so21738271pfu.13;
-        Thu, 31 Mar 2022 04:44:39 -0700 (PDT)
+        with ESMTP id S234646AbiCaMMT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 08:12:19 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401F61EA289;
+        Thu, 31 Mar 2022 05:10:32 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-df22f50e0cso7853899fac.3;
+        Thu, 31 Mar 2022 05:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LqhDZuJaNJExg2VbnXlWCRZCk4FonU0BDi79M0pNs1Y=;
-        b=a6w2jv0j2IXRlMA//J2ZPX5zjw/iXkppXRq2fKn/qS8pSuRYMsyjoCL+nv/nI9iAwD
-         N05hjD3IhkfxgHzuA698es7oPx2BStKmYMj60ly7yidR7KxB2neoJnlS9LGQBaDgqCoL
-         MBxNC55jtG1C8fOjS8esl4UTQaA5YDXYWmWSSn1BvsXJNoHrZeL7E0eD97K3HTCki8qB
-         ciM73YG3g1YVlz/CpKlRhnQ6swh5Z7kKOdOqbaG6cnmS/bHRzg5YokctD5gCsPDpx+8j
-         4r0GaPfu4L7ZqZPeqUrHsZNayHgwg4cRILMVbGm39YSXO4+IGWkPHV6W95959WMdOTWc
-         r83w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JMLH4roAssjYlqt9tXdE/1yhUcCtf54ytNBqcciXIlM=;
+        b=ijUCtOM1m7OVkDb45cGiWdBHuwTxDGwfxBnUwPRC7Q1GuaBWYJJ84njX/3Z25x3GSr
+         YfEYYMSpdZI/Z/eDfTbYg3rOnsgZCm1mXxZFCTLRt82RVayttX4XtuYMNgNGX8kfSdH0
+         LutWf5upxYJPzKRymQvj9WrsefH68XJtF68wZ8VWkklhRaxoNASjbb2wbLO++plJQToG
+         3o1gNdNICkrS07zCMwwCiTKMy6SbfeEmu9zRhQNNO+G+nmNRS3kL7db2aPEQrhuHXANd
+         Yk092aFTrKJxizm62StO2coJTxXptU0L9HkdjxFfesC1HC3id8m0pHEYauQfWfFviwmH
+         rXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LqhDZuJaNJExg2VbnXlWCRZCk4FonU0BDi79M0pNs1Y=;
-        b=4bwK3aZUcs6KbrRWkLARfre+TrW7wPerniezK298q4iM1Ms80KreU2ToCopxzl5E/K
-         yMcqAz9EjT8NqYkoUNE5s+AguCyTw7D1Z1x0/JOz/VySf7Oa1AmmJj0OOaDBdbkcd4tj
-         zKdLd0bHkfonfUGQUJ6QjhX1w9WckfPYBgLDoCV6e/qNc2uvsYrNoevdf6Wp7SNO2bfH
-         FoT6W3W4spl6n4zhMt7xamrN7r8h/2Sjmfokq9Oz2MYXFQsodWA3N0mHDY5yxUy5QPCF
-         Gyym8zy5t2DmsZXWojV27jFZp/4GqXPXsoW4NZHgKVCi3zPsMFYchYCg/IZCTxeS7q2b
-         fjdw==
-X-Gm-Message-State: AOAM533lcof8J44BdIDx2rhFXanJIW1ohUk2t+BoRdyf+PzzCabpigz9
-        SiQmmL92TykeLYZUtBHmpDjA8KAjy5WtbHgd
-X-Google-Smtp-Source: ABdhPJxswSNI4AFf4/OrTS5MowKZtDxmx8p8EIyMB33KcexfRHfuEpizNXIuzy6WINO1d1YmWjQJsQ==
-X-Received: by 2002:a63:ec47:0:b0:382:692a:dc04 with SMTP id r7-20020a63ec47000000b00382692adc04mr10417542pgj.352.1648727078998;
-        Thu, 31 Mar 2022 04:44:38 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-30.three.co.id. [180.214.232.30])
-        by smtp.gmail.com with ESMTPSA id t15-20020a63b70f000000b00381510608e9sm22520962pgf.14.2022.03.31.04.44.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Mar 2022 04:44:38 -0700 (PDT)
-Message-ID: <a4f42004-7c99-8c4e-259b-903254501529@gmail.com>
-Date:   Thu, 31 Mar 2022 18:44:31 +0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JMLH4roAssjYlqt9tXdE/1yhUcCtf54ytNBqcciXIlM=;
+        b=lHXfgI1Y7AnOUZOyJhfQkF8Uf8nlbj/67eyFgQs+DovGwXvUgE9zcukmoIa/oS2HCy
+         9CL7UWJBBt7h/zMIV17a6Xez/iXbZA1+Iwy7o63AZFnhd0z0ajvw+ySCQsPP3/JZTQWl
+         w66Y17PgnKptixagGWxhuP/cT8eFTaoag8LnUF0QivZBcoYYRHs3uMNvEqbQfg+Qu9Fb
+         XBBwNw3AWsMp+nG7jJLsbzRB29w1AmiGlDkoW9duSBxbTxTutKoczICsRT1OgDCxXuzk
+         WDrJR7HHOLBZ2hcBDiqE05/Chp2pI4AdkU2URUW4tHwfaxPVawSeQwrT8O2bo5qzV1F+
+         /4Pg==
+X-Gm-Message-State: AOAM5337YHLGvVN/hVF5GvypCNDgadvM3F79FhcTWFq0EBcaaCIEtm9x
+        O/U5OQG8s1KFAjicm2adFgsHcZYiiHr8yg==
+X-Google-Smtp-Source: ABdhPJwn78KkNRG8XbMBkWr82a2KaLcdLc7slrebULAC9oc6l6CKGpxbuISsQmNj7yszzscXqH2tiw==
+X-Received: by 2002:a05:6871:85:b0:d9:ac7a:7a5a with SMTP id u5-20020a056871008500b000d9ac7a7a5amr2499111oaa.9.1648728630062;
+        Thu, 31 Mar 2022 05:10:30 -0700 (PDT)
+Received: from marsc.168.1.7 ([2804:d57:1500:3a00:7d51:e2a5:f339:2aa7])
+        by smtp.gmail.com with ESMTPSA id v13-20020a4ae6cd000000b00328882a2388sm2978034oot.14.2022.03.31.05.10.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 05:10:29 -0700 (PDT)
+Date:   Thu, 31 Mar 2022 09:10:23 -0300
+From:   Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To:     Dongliang Mu <mudongliangabcd@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        dlatypov@google.com, davidgow@google.com,
+        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
+        cocci@inria.fr, smatch@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        skhan@linuxfoundation.org,
+        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
+Subject: Re: [PATCH v3 1/2] Documentation: dev-tools: Add a section for
+ static analysis tools
+Message-ID: <YkWaL26K7UjKB0sa@marsc.168.1.7>
+References: <cover.1648674305.git.marcelo.schmitt1@gmail.com>
+ <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
+ <CAD-N9QVvgCqbwiebjVX2_81pH_YhK+j4hhJPG3fbWbAtzFVJTQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5] mm/vmstat: add events for ksm cow
-Content-Language: en-US
-To:     cgel.zte@gmail.com, akpm@linux-foundation.org, david@redhat.com,
-        willy@infradead.org
-Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
-        dave.hansen@linux.intel.com, saravanand@fb.com, minchan@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, jhubbard@nvidia.com,
-        xu xin <xu.xin16@zte.com.cn>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>
-References: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD-N9QVvgCqbwiebjVX2_81pH_YhK+j4hhJPG3fbWbAtzFVJTQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/03/22 10.56, cgel.zte@gmail.com wrote:
-> +Monitoring KSM events
-> +=====================
-> +
-> +There are some counters in /proc/vmstat that may be used to monitor KSM events.
-> +KSM might help save memory, it's a tradeoff by may suffering delay on KSM COW
-> +or on swapping in copy. Those events could help users evaluate whether or how
-> +to use KSM. For example, if cow_ksm increases too fast, user may decrease the
-> +range of madvise(, , MADV_MERGEABLE).
-> +
+Hi Dongliang,
 
-Did you mean "tradeoff between possible delay on KSM COW and swapping
-in copy"?
+On 03/31, Dongliang Mu wrote:
+> On Thu, Mar 31, 2022 at 12:07 PM Marcelo Schmitt
+> <marcelo.schmitt1@gmail.com> wrote:
+> >
+> > Complement the Kernel Testing Guide documentation page by adding a
+> > section about static analysis tools.
+> >
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> > Acked-by: Daniel Latypov <dlatypov@google.com>
+> > Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Acked-by: Julia Lawall <julia.lawall@inria.fr>
+> > Reviewed-by: David Gow <davidgow@google.com>
+> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> > ---
+> > Change log v2 -> v3:
+> > - Added Julia's acknowledgment tag
+> >
+> > Change log v1 -> v2:
+> > - Brought generic tool characteristics to the intro paragraph
+> > - Made explicit that these tools run at compile time
+> > - Added a note of caution about false positives
+> > - Updated Coccinelle info to make it sound better and be more skimmable
+> >
+> >  Documentation/dev-tools/testing-overview.rst | 31 ++++++++++++++++++++
+> >  1 file changed, 31 insertions(+)
+> >
+> > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> > index 65feb81edb14..b5e02dd3fd94 100644
+> > --- a/Documentation/dev-tools/testing-overview.rst
+> > +++ b/Documentation/dev-tools/testing-overview.rst
+> > @@ -115,3 +115,34 @@ that none of these errors are occurring during the test.
+> >  Some of these tools integrate with KUnit or kselftest and will
+> >  automatically fail tests if an issue is detected.
+> >
+> > +Static Analysis Tools
+> > +=====================
+> > +
+> > +In addition to testing a running kernel, one can also analyze kernel source code
+> > +directly (**at compile time**) using **static analysis** tools. The tools
+> > +commonly used in the kernel allow one to inspect the whole source tree or just
+> > +specific files within it. They make it easier to detect and fix problems during
+> > +the development process.
+> > +
+> > +Sparse can help test the kernel by performing type-checking, lock checking,
+> > +value range checking, in addition to reporting various errors and warnings while
+> > +examining the code. See the Documentation/dev-tools/sparse.rst documentation
+> > +page for details on how to use it.
+> > +
+> > +Smatch extends Sparse and provides additional checks for programming logic
+> > +mistakes such as missing breaks in switch statements, unused return values on
+> > +error checking, forgetting to set an error code in the return of an error path,
+> > +etc. Smatch also has tests against more serious issues such as integer
+> > +overflows, null pointer dereferences, and memory leaks. See the project page at
+> > +http://smatch.sourceforge.net/.
+> > +
+> > +Coccinelle is another static analyzer at our disposal. Coccinelle is often used
+> > +to aid refactoring and collateral evolution of source code, but it can also help
+> > +to avoid certain bugs that occur in common code patterns. The types of tests
+> > +available include API tests, tests for correct usage of kernel iterators, checks
+> > +for the soundness of free operations, analysis of locking behavior, and further
+> > +tests known to help keep consistent kernel usage. See the
+> > +Documentation/dev-tools/coccinelle.rst documentation page for details.
+> > +
+> > +Beware, though, that static analysis tools suffer from **false positives**.
+> > +Errors and warns need to be evaluated carefully before attempting to fix them.
+> 
+> Hi Marcelo,
+> 
+> Should we include static analysis tools based on LLVM? For example,
+> Clang static analysis.
 
--- 
-An old man doll... just what I always wanted! - Clara
+I think that would be a good addition. I haven't checked out Clang tools
+though, so it would take me a bit more time to write something about that.
+
+> 
+> > --
+> > 2.35.1
+> >
