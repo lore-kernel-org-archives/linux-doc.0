@@ -2,133 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFD1C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 12:38:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6393EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 12:40:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232890AbiCaMkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 08:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40162 "EHLO
+        id S236235AbiCaMmE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 08:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232865AbiCaMkU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 08:40:20 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DC21012;
-        Thu, 31 Mar 2022 05:38:28 -0700 (PDT)
-Received: from zn.tnic (p2e55dff8.dip0.t-ipconnect.de [46.85.223.248])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4A9F81EC04E0;
-        Thu, 31 Mar 2022 14:38:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1648730303;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=qVvXjz2kdMebKf9AM1/GDPf0UZu1N4kVDrHOoUj1qBM=;
-        b=PRFvTUMxwiqJihEJnhUgEV2eYFlpxYktmFrjSRGTK/nC4hqoRniVW1jcf6UPlrWnpTJgfS
-        0YgjLsiZl24D0xe494AZa1WtC9WSio3hwkCzpQHa19fwd1jA4GjWu6J2tiUNoKU36j6baa
-        NQDwVys8nbCF5IHrVSFDpAOqARHiqQw=
-Date:   Thu, 31 Mar 2022 14:38:23 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@suse.de>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] [RFC] Documentation/process: Add testing section to tip
- handbook
-Message-ID: <YkWgv1yBGtcAbPVj@zn.tnic>
-References: <20220314183552.1446911-1-dave.hansen@linux.intel.com>
+        with ESMTP id S236220AbiCaMmA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 08:42:00 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D8B144B6D;
+        Thu, 31 Mar 2022 05:40:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648730413; x=1680266413;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CJqdXwNo9v6/Qr4UTWxir9h956p2ApzEQvHPOUPXUPE=;
+  b=hWEzodKAlB9VT8StNQVTdF55thwdxJ1fPjsG/YTLXgPqL1vfGkunAeWU
+   0Zdc0OF0jJCIO81n5nfyxUzE941rjK24kbnEIb4WRLj2Ozglr2coEYfx7
+   2X8djIBi9QjC2xDv1zLrQI0xf2XiSmCo7jJtsQzc5iH2VlJfjL8nF9FBK
+   8C9b8HSHy4AgLjPFaXZ4kEmDk6kA+REpQwtWGk1WZ/d7uFce5ghjbU3Y0
+   0Gg+QAAX9m9my4sctf638zibqdYBKmRIkIFv1UW4zzrnNoocdpFRLd/Sn
+   T/XOUa6CVDo7oaTFJP9Wv4YQEbfA5j93nX1EghjA0besme3e0Tpof8tgv
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259535728"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="259535728"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 05:40:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="840157894"
+Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 31 Mar 2022 05:40:09 -0700
+Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nZu5w-0000G4-Cy;
+        Thu, 31 Mar 2022 12:40:08 +0000
+Date:   Thu, 31 Mar 2022 20:39:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
+Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce
+ STRUCT_PAGE_SIZE_IS_POWER_OF_2
+Message-ID: <202203312010.ct30oFE6-lkp@intel.com>
+References: <20220330153745.20465-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220314183552.1446911-1-dave.hansen@linux.intel.com>
+In-Reply-To: <20220330153745.20465-2-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 14, 2022 at 11:35:52AM -0700, Dave Hansen wrote:
-> From: Dave Hansen <dave.hansen@linux.intel.com>
-> 
-> The kernel has a wide variety of debugging options to help catch
-> and squash bugs.  However, new debugging is added all the time and
-> the existing options can be hard to find.
-> 
-> Add a list of debugging options which tip maintainers expect to be
-> used to test contributions.
-> 
-> This should make it easier for contributors to test their code and
-> find issues before submission.
-> 
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Borislav Petkov <bp@suse.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: x86@kernel.org
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/process/maintainer-tip.rst | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-> index c74f4a81588b..75f86b0f1cf0 100644
-> --- a/Documentation/process/maintainer-tip.rst
-> +++ b/Documentation/process/maintainer-tip.rst
-> @@ -437,6 +437,30 @@ in a private repository which allows interested people to easily pull the
->  series for testing. The usual way to offer this is a git URL in the cover
->  letter of the patch series.
->  
-> +Testing
-> +^^^^^^^
-> +
-> +Code should be tested before submitting to the tip maintainers.  Anything
-> +other than minor changes should be built, booted and tested with the
-> +following set of comprehensive (and heavyweight) set of kernel debugging
-> +options enabled.
-> +
-> +	CONFIG_X86_DEBUG_FPU=y
-> +	CONFIG_LOCK_STAT=y
-> +	CONFIG_DEBUG_VM=y
-> +	CONFIG_DEBUG_VM_VMACACHE=y
-> +	CONFIG_DEBUG_VM_RB=y
-> +	CONFIG_DEBUG_SLAB=y
-> +	CONFIG_DEBUG_KMEMLEAK=y
-> +	CONFIG_DEBUG_PAGEALLOC=y
-> +	CONFIG_SLUB_DEBUG_ON=y
-> +	CONFIG_KMEMCHECK=y
-> +	CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=y
-> +	CONFIG_GCOV_KERNEL=y
-> +	CONFIG_LOCKDEP=y
-> +	CONFIG_PROVE_LOCKING=y
-> +	CONFIG_SCHEDSTATS=y
-> +	CONFIG_VMLINUX_VALIDATION=y
+Hi Muchun,
 
-It would be cool if there were a command I can run so that I can enable
-all those. Example:
+Thank you for the patch! Yet something to improve:
 
-$ grep CONFIG_VMLINUX_VALIDATION .config
-$ ./scripts/config --enable CONFIG_VMLINUX_VALIDATION
-$ grep CONFIG_VMLINUX_VALIDATION .config
-CONFIG_VMLINUX_VALIDATION=y
-$ make oldconfig
-#
-# configuration written to .config
-#
-$ grep CONFIG_VMLINUX_VALIDATION .config
-$
+[auto build test ERROR on hnaz-mm/master]
+[also build test ERROR on mcgrof/sysctl-next linus/master next-20220331]
+[cannot apply to v5.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Needs other options.
+url:    https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220330-234018
+base:   https://github.com/hnaz/linux-mm master
+config: ia64-randconfig-s031-20220331 (https://download.01.org/0day-ci/archive/20220331/202203312010.ct30oFE6-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/5164c566d4fbdb808689ee4552ed95eab421522e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_free_vmemmap-sysctl/20220330-234018
+        git checkout 5164c566d4fbdb808689ee4552ed95eab421522e
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 prepare
 
-Maybe you could create a .config snippet which we can merge
-with scripts/kconfig/merge_config.sh... or maybe start from
-arch/x86/configs/x86_64_defconfig, add all those and call it
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-arch/x86/configs/x86_64_testconfig
+All errors (new ones prefixed by >>):
 
-or so.
+   In file included from arch/ia64/include/asm/thread_info.h:10,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/ia64/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:55,
+                    from include/linux/kref.h:16,
+                    from include/linux/mm_types.h:8,
+                    from mm/struct_page_size.c:10:
+>> arch/ia64/include/asm/asm-offsets.h:1:10: fatal error: generated/asm-offsets.h: No such file or directory
+       1 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[2]: *** [scripts/Makefile.build:127: mm/struct_page_size.s] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1261: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +1 arch/ia64/include/asm/asm-offsets.h
+
+559df2e0210352f Sam Ravnborg 2009-04-19 @1  #include <generated/asm-offsets.h>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://01.org/lkp
