@@ -2,57 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3EEC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04620C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiCaEOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 00:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
+        id S229587AbiCaETF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 00:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229979AbiCaEOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:14:07 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BEF928EA29
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 20:46:06 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-2eafabbc80aso24801277b3.11
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 20:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8+ueIIKq75xrOgcbpQGCP0Xp5hXOruV4yiy78MzdsaM=;
-        b=xF/J7v97bhv1UsQTHnB+oBqMfeIAD9hShTLRksgabyqK2tVhgKtDtkLmc5GQKPQhfo
-         dnm1DcIGeLSIDCQ/OkLHR4kYPHLDVeVa1G/NKeXdtKoyJubynsPePbmIvtT6tsPIElCv
-         xhatSYIul1FpQ+5luE2LftI/IaNtqtDgcwiMiEJRe2lSE4op1T4f203G18T5JZRVM+WQ
-         Y+1+SFuF6v00ObQ0dQyfehBxjpDArKxpBsg8GF2ZDtDKHMqQgsoVXTUUr9+/Hw5QtlLD
-         llIC04kkVwqvRIAmy7WDCVRlb/tq4OGtEMZcFd7bbhdxjMxxf+GON+jNTy2a6YdUgXpy
-         PAgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8+ueIIKq75xrOgcbpQGCP0Xp5hXOruV4yiy78MzdsaM=;
-        b=O9IjvN86Nw/M4+GOa6/vpcdUkw4qXZ0NMb5wx2JwgoHu0lwQarK29JYy2xXRsZ7sbV
-         FyX4OReF8md5OYk77Wl0atBk01qG3qrSI4YBw70pIe69/ojMmtMVuHbnGlqhagwR+JtS
-         gf197i9jw/ZEXU2h+pjYnABNqElNach9Sp0gJVm3/mTK19Xxz7E24nv13W30t+QiqPKN
-         H9YcBjExHB3bLV9iw7RxxWPkcf4QtpIgZeSoHP3N5R/B8BByddHOZMEsfyQK7wRfM0zR
-         guOPfbeuOVfu5YfkPdVSCYySjqnO2Ugzn78ZEYDdvBRnmdZklcNYCHwG3me2pV85AOdQ
-         6HKA==
-X-Gm-Message-State: AOAM532aGxTJvNZHH/W8J0EXnmuksV8X79nW+s7e2GX85HcQIJ7m8Sy4
-        voFXSNmbfU1/JNrBd/d9WyyulLaKCFF3+wQTabF7iQ==
-X-Google-Smtp-Source: ABdhPJzAjwosvewbJoeV/iiCgGlooRUtsyvcPlkFEVpMn3m+Ye5MVLmT/reJ4+CbJIPHMSFZy+YQ1bp1/u/2GLohUgY=
-X-Received: by 2002:a81:3756:0:b0:2e3:3db4:7de1 with SMTP id
- e83-20020a813756000000b002e33db47de1mr3232544ywa.458.1648698365817; Wed, 30
- Mar 2022 20:46:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220330153745.20465-1-songmuchun@bytedance.com>
- <20220330153745.20465-5-songmuchun@bytedance.com> <20220330193657.88f68bbf13fb198fb189bc15@linux-foundation.org>
-In-Reply-To: <20220330193657.88f68bbf13fb198fb189bc15@linux-foundation.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 31 Mar 2022 11:45:29 +0800
-Message-ID: <CAMZfGtWqaM5n38kSvjTJxCSYVq-ic30-VmshrYK9xXsF=Fe10A@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] mm: hugetlb_vmemmap: add hugetlb_free_vmemmap sysctl
-To:     Andrew Morton <akpm@linux-foundation.org>
+        with ESMTP id S229704AbiCaESx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:18:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0096628E361;
+        Wed, 30 Mar 2022 21:12:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C74160C66;
+        Thu, 31 Mar 2022 02:58:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB7AC340F0;
+        Thu, 31 Mar 2022 02:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1648695480;
+        bh=1bvfiThee0tfMwL06GiQ3KTUBZtkZQn6o1lFExVrqDo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=h6Bf7sLuGVVxS0o9LcX8augarAdxfWvVTaPw+3LTeFkr+c6mOBOY8KKJEAP6N6pt8
+         SyIJCpdHm7EqsTFoGkhIZcVtvy7ILpeaSP/0dQMq8MaJ/uZ2SwgKDpoABzAdCfrfTK
+         f6/NiQeO3XBjoBUgKMJyB03PFjNQLTMrREM+88tQ=
+Date:   Wed, 30 Mar 2022 19:57:59 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -66,90 +44,42 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linux Memory Management List <linux-mm@kvack.org>,
         Xiongchun duan <duanxiongchun@bytedance.com>,
         Muchun Song <smuchun@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce
+ STRUCT_PAGE_SIZE_IS_POWER_OF_2
+Message-Id: <20220330195759.6da783a678229008ac2a6851@linux-foundation.org>
+In-Reply-To: <CAMZfGtXsMZ7ZwAzV5yZ39TB-=Q7Lw8oyjq2m65SXqHGwHQfj9w@mail.gmail.com>
+References: <20220330153745.20465-1-songmuchun@bytedance.com>
+        <20220330153745.20465-2-songmuchun@bytedance.com>
+        <20220330192827.4b95e3d7fb149ef9cc687ccb@linux-foundation.org>
+        <CAMZfGtXsMZ7ZwAzV5yZ39TB-=Q7Lw8oyjq2m65SXqHGwHQfj9w@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 10:37 AM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Wed, 30 Mar 2022 23:37:45 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
->
-> > We must add "hugetlb_free_vmemmap=on" to boot cmdline and reboot the
-> > server to enable the feature of freeing vmemmap pages of HugeTLB
-> > pages.  Rebooting usually takes a long time.  Add a sysctl to enable
-> > or disable the feature at runtime without rebooting.
->
-> I forget, why did we add the hugetlb_free_vmemmap option in the first
-> place? Why not just leave the feature enabled in all cases?
+On Thu, 31 Mar 2022 10:52:58 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 
-The 1st reason is because we disable PMD/huge page mapping
-of vmemmap pages (in the original version) which increase page
-table pages.  So if a user/sysadmin only  uses a small number of
-HugeTLB pages (as a percentage of system memory), they could
-end up using more memory with hugetlb_free_vmemmap on as
-opposed to off.  Now this tradeoff is gone.
-
-The 2nd reason is this feature adds more overhead in the path of
-HugeTLB allocation/freeing from/to the buddy system.  As Mike said
-in the link [1].
-"
-There are still some instances where huge pages
-are allocated 'on the fly' instead of being pulled from the pool.  Michal
-pointed out the case of page migration.  It is also possible for someone to
-use hugetlbfs without pre-allocating huge pages to the pool.  I remember the
-use case pointed out in commit 099730d67417.  It says, "I have a hugetlbfs
-user which is never explicitly allocating huge pages with 'nr_hugepages'.
-They only set 'nr_overcommit_hugepages' and then let the pages be allocated
-from the buddy allocator at fault time."  In this case, I suspect they were
-using 'page fault' allocation for initialization much like someone using
-/proc/sys/vm/nr_hugepages.  So, the overhead may not be as noticeable.
-"
-
-For those different workloads, we introduce hugetlb_free_vmemmap and
-expect users to make decisions based on their workloads.
-
-[1] https://patchwork.kernel.org/comment/23752641/
-
->
-> Furthermore, why would anyone want to tweak this at runtime?  What is
-> the use case?  Where is the end-user value in all of this?
-
-If the workload is changed in the future on a server.  The users need to
-adapt this at runtime without rebooting the server.
-
->
-> > Disabling requires there is no any optimized HugeTLB page in the
-> > system.  If you fail to disable it, you can set "nr_hugepages" to 0
-> > and then retry.
+> > > +int main(void)
+> > > +{
+> > > +     if (is_power_of_2(sizeof(struct page)))
+> > > +             DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, is_power_of_2(sizeof(struct page)));
 > >
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -561,6 +561,20 @@ Change the minimum size of the hugepage pool.
-> >  See Documentation/admin-guide/mm/hugetlbpage.rst
+> > Why not
 > >
+> >         DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, 1);
 > >
-> > +hugetlb_free_vmemmap
-> > +====================
-> > +
-> > +Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap
-> > +pages associated with each HugeTLB page.  Once true, the vmemmap pages of
-> > +subsequent allocation of HugeTLB pages from buddy system will be optimized,
-> > +whereas already allocated HugeTLB pages will not be optimized.  If you fail
-> > +to disable this feature, you can set "nr_hugepages" to 0 and then retry
-> > +since it is only allowed to be disabled after there is no any optimized
-> > +HugeTLB page in the system.
-> > +
->
-> Pity the poor user who is looking at this and wondering whether it will
-> improve or worsen things.  If we don't tell them, who will?  Are they
-> supposed to just experiment?
->
-> What can we add here to help them understand whether this might be
-> beneficial?
->
+> 
+> Yep, this is more simple.  But the 2nd parameter of DEFINE() will
+> go into the comments.  I want to make it more clear when someone
+> reads the code of this macro.  The two different sentences will
+> generate the following two different comments.  Which one do
+> you think is better?
+> 
+> #define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /*
+> is_power_of_2(sizeof(struct page)) */
+> #define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /* 1 */
 
-My bad. I should explain more details to let users make better decisions.
-
-Thanks.
+The former ;)
