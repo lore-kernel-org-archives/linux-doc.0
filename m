@@ -2,137 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE55C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 02:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D4DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbiCaC57 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 22:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
+        id S229914AbiCaEJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 00:09:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbiCaC5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 22:57:52 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D318B1207F6
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 19:55:59 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id v35so40026250ybi.10
-        for <linux-doc@vger.kernel.org>; Wed, 30 Mar 2022 19:55:59 -0700 (PDT)
+        with ESMTP id S229610AbiCaEJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:09:20 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C53C170084;
+        Wed, 30 Mar 2022 20:56:59 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id g8so18827481qke.2;
+        Wed, 30 Mar 2022 20:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LDGcIKDDCWfntxIrDwg9NeEeCU9Lt3ZtVZJtgLcXbjo=;
-        b=ehvnGf0k3aAoq9MC2JYKyRY0i4dKaTVRiQuSZTvJKKIQkMCypskYgzN4Xm/JZ52RC/
-         vK4R4fZ/MtrdkHepjo7BcnI12BnCd+kS2eiqIJB2uoKfcoKGfxcSryGLZzFQXRB/SSqA
-         WxQDRxBwkq47q9kYArRurS3/a/bs9pEhxJ4HWxa/v1mvrJrPsrZgUm21pX5NOE+NCmYP
-         NTDa4hYvbaVQvfUj7MoHdxT+X99VAM/tHihgKAzlBkVVtDaqc9MOOPAHACpZtT83gCk9
-         cRehK8HZzQ+ywONbDwHF9mFr7g1MEi3Q4cFY7IJOnk+VwX8lXE1NdbVVHaR6WIZUAUdT
-         nC0w==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tYlHPxM0iDi5VXE98hgeozahqYJk78JaFFeV+qzNw5U=;
+        b=mTmT7+N63PXuIwB75+CKvFI6cw/jzFICsKFlmrX98DCY4KgVobDxkUkLrPbILjWEVd
+         zOpsJzohasYTU2cri3mhczLOHO+85IFJWAcIzlnZ8sYbVwKoGAyN3ZrI0vtWoa7Qu3eu
+         CsqMCtZFWjlutPRNC7lKg6mZUe8Sh5MDsmm5GAacxLBCKifK/EA4n2cFQBko12jzZ9sS
+         WKQUNIcMTTE9y9FtrLpqhMIlKbYvWdq1U+ww/1au0hwzkHBamg7+Phf1Jd5WuYcisENx
+         lCO2kL34hCyKaR+8Rf8wpTYtiFvSRdvzMZ6EfRXAZk+xbijJO3mI2cpMPxQ0aZw2TTYf
+         kybg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LDGcIKDDCWfntxIrDwg9NeEeCU9Lt3ZtVZJtgLcXbjo=;
-        b=IhhD5cfmPCKOEPgpkmv0guTIjx0f6XSrvaRuVczjBkvIpx0r/WSXbSFF3RbS8M6AWx
-         oA1oGzq/GANdpbRTMR5BY9gxrgIIFi0gkRur3BbJJjOf2RqPy5MslkKwE6NR4js+e7Fb
-         2mHe8q8MFw3rS7eDT+V3nuY1zw5DPpKzBX2Q15BDC5QxIu7+g/k/ldYIMkf9fX2mIdI2
-         dQSZIq4Y8kjy+JoULvSo2WMpXGE5b/7+b3qNrJeyUOV44VX8axIGqbVT12+EuWB1RvIH
-         oG/LMj2QR1Ya64njYBYeanBe+G5x7jDUyRif4AlDr5Ujg/kf4narOajqDNMyeqC7PUor
-         17Rg==
-X-Gm-Message-State: AOAM532FLOc8wqYvb4CNAQ3g+sEC4FuhKz/ct5Yg/poZknqi/qGPQTh8
-        LaSPb6kFErYafEclWDQfkXVbug4oDrqbAhmG8VUqSg==
-X-Google-Smtp-Source: ABdhPJxAoUYq0gy2PYb5dAIdtttQkFTZaQDjRFIKDP9yxDhDCV22s3LsslKjxvT4uh0wdtnGs1uY4ySHCJU1/VDmZh8=
-X-Received: by 2002:a25:e70e:0:b0:634:1a47:4ff2 with SMTP id
- e14-20020a25e70e000000b006341a474ff2mr2484276ybh.89.1648695213764; Wed, 30
- Mar 2022 19:53:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tYlHPxM0iDi5VXE98hgeozahqYJk78JaFFeV+qzNw5U=;
+        b=STUmnVhXh3Sl9XglOkQc0q42kfRim7WNYEzUWi3rEpWsak8Bo6/GdGb0uFif48+39l
+         MDu5uiw2YHoHws3uWmyTOkkceq6y3WAr8IPjocqb1k/rJXFV9Z7RH3T4eylr/ke3QcjJ
+         XK4AmlGHGuqjb/+YfFGBCVh5z9MjAdpe5+SE17gIZyiZEnfqxJ35AYpVBnacvZPzq1Om
+         IY8P6NLbrP/GEH/X/6fh1xel6nG34idP+lZDZBQrAmfPZ/OG/YzwO6lG3mxybkTgXqGk
+         AfhCaNbvBUJvVi8UqZPPH/yVDw1kXCkGnxNN8f2quvDKfJ+F5A+BMkkittxpkhMtKVIB
+         B1xQ==
+X-Gm-Message-State: AOAM5317i4sAHqNIthshm6txwNYl0SRLQpYDUY9za6OmGu3zO+ivoggd
+        bUXnHg0JH+c2n+y8Qwb3nQGP/gc3O/o=
+X-Google-Smtp-Source: ABdhPJzyPrz0p+L/ALJneQJkAZo6ZUHwvs4kf6iDO0DACiqXPcs8bbEYZ5Igo5IyJWR4z4os6/CMDA==
+X-Received: by 2002:a37:9503:0:b0:67e:977:9ff6 with SMTP id x3-20020a379503000000b0067e09779ff6mr2101575qkd.10.1648699018774;
+        Wed, 30 Mar 2022 20:56:58 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id f17-20020ac87f11000000b002e1e831366asm18698404qtk.77.2022.03.30.20.56.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Mar 2022 20:56:57 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     akpm@linux-foundation.org, david@redhat.com, willy@infradead.org
+Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
+        dave.hansen@linux.intel.com, saravanand@fb.com, minchan@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, jhubbard@nvidia.com,
+        xu xin <xu.xin16@zte.com.cn>,
+        Ran Xiaokai <ran.xiaokai@zte.com.cn>
+Subject: [PATCH v5] mm/vmstat: add events for ksm cow
+Date:   Thu, 31 Mar 2022 03:56:17 +0000
+Message-Id: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220330153745.20465-1-songmuchun@bytedance.com>
- <20220330153745.20465-2-songmuchun@bytedance.com> <20220330192827.4b95e3d7fb149ef9cc687ccb@linux-foundation.org>
-In-Reply-To: <20220330192827.4b95e3d7fb149ef9cc687ccb@linux-foundation.org>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 31 Mar 2022 10:52:58 +0800
-Message-ID: <CAMZfGtXsMZ7ZwAzV5yZ39TB-=Q7Lw8oyjq2m65SXqHGwHQfj9w@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 10:28 AM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Wed, 30 Mar 2022 23:37:42 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
->
-> > If the size of "struct page" is not the power of two and this
-> > feature is enabled,
->
-> What is "this feature"?   Let's spell it out?
+From: Yang Yang <yang.yang29@zte.com.cn>
 
-Will do.
+Users may use ksm by calling madvise(, , MADV_MERGEABLE) when they want
+to save memory, it's a tradeoff by suffering delay on ksm cow. Users can
+get to know how much memory ksm saved by reading
+/sys/kernel/mm/ksm/pages_sharing, but they don't know what's the costs
+of ksm cow, and this is important of some delay sensitive tasks.
 
->
-> > then the vmemmap pages of HugeTLB will be
-> > corrupted after remapping (panic is about to happen in theory).
-> > But this only exists when !CONFIG_MEMCG && !CONFIG_SLUB on
-> > x86_64.  However, it is not a conventional configuration nowadays.
-> > So it is not a real word issue, just the result of a code review.
-> > But we have to prevent anyone from configuring that combined
-> > configuration.  In order to avoid many checks like "is_power_of_2
-> > (sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce
-> > STRUCT_PAGE_SIZE_IS_POWER_OF_2 to detect if the size of struct
-> > page is power of 2 and make this feature depends on this new
-> > macro.  Then we could prevent anyone do any unexpected
-> > configuration.
-> >
-> > ...
-> >
-> > --- /dev/null
-> > +++ b/mm/struct_page_size.c
-> > @@ -0,0 +1,20 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Generate definitions needed by the preprocessor.
-> > + * This code generates raw asm output which is post-processed
-> > + * to extract and format the required data.
-> > + */
-> > +
-> > +#define __GENERATING_STRUCT_PAGE_SIZE_IS_POWER_OF_2_H
-> > +/* Include headers that define the enum constants of interest */
-> > +#include <linux/mm_types.h>
-> > +#include <linux/kbuild.h>
-> > +#include <linux/log2.h>
-> > +
-> > +int main(void)
-> > +{
-> > +     if (is_power_of_2(sizeof(struct page)))
-> > +             DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, is_power_of_2(sizeof(struct page)));
->
-> Why not
->
->         DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, 1);
->
+So add ksm cow events to help users evaluate whether or how to use ksm.
+Also update Documentation/admin-guide/mm/ksm.rst with new added events.
 
-Yep, this is more simple.  But the 2nd parameter of DEFINE() will
-go into the comments.  I want to make it more clear when someone
-reads the code of this macro.  The two different sentences will
-generate the following two different comments.  Which one do
-you think is better?
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+---
+v2:
+- fix compile error when CONFIG_KSM is not set
+v3:
+- delete KSM_COW_FAIL event
+v4:
+- modify /Documentation/admin-guide/mm/ksm.rst. And let cow_ksm before
+- ksm_swpin_copy, so if new cow_* event could add before cow_ksm.
+v5:
+- fix compile error when CONFIG_SWAP is not set
+---
+ Documentation/admin-guide/mm/ksm.rst | 18 ++++++++++++++++++
+ include/linux/vm_event_item.h        |  3 +++
+ mm/memory.c                          |  4 ++++
+ mm/vmstat.c                          |  3 +++
+ 4 files changed, 28 insertions(+)
 
-#define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /*
-is_power_of_2(sizeof(struct page)) */
-#define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /* 1 */
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index 97d816791aca..b244f0202a03 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -184,6 +184,24 @@ The maximum possible ``pages_sharing/pages_shared`` ratio is limited by the
+ ``max_page_sharing`` tunable. To increase the ratio ``max_page_sharing`` must
+ be increased accordingly.
+ 
++Monitoring KSM events
++=====================
++
++There are some counters in /proc/vmstat that may be used to monitor KSM events.
++KSM might help save memory, it's a tradeoff by may suffering delay on KSM COW
++or on swapping in copy. Those events could help users evaluate whether or how
++to use KSM. For example, if cow_ksm increases too fast, user may decrease the
++range of madvise(, , MADV_MERGEABLE).
++
++cow_ksm
++	is incremented every time a KSM page triggers copy on write (COW)
++	when users try to write to a KSM page, we have to make a copy.
++
++ksm_swpin_copy
++	is incremented every time a KSM page is copied when swapping in
++	note that KSM page might be copied when swapping in because do_swap_page()
++	cannot do all the locking needed to reconstitute a cross-anon_vma KSM page.
++
+ --
+ Izik Eidus,
+ Hugh Dickins, 17 Nov 2009
+diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+index 16a0a4fd000b..e83967e4c20e 100644
+--- a/include/linux/vm_event_item.h
++++ b/include/linux/vm_event_item.h
+@@ -133,6 +133,9 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ 		KSM_SWPIN_COPY,
+ #endif
+ #endif
++#ifdef CONFIG_KSM
++		COW_KSM,
++#endif
+ #ifdef CONFIG_X86
+ 		DIRECT_MAP_LEVEL2_SPLIT,
+ 		DIRECT_MAP_LEVEL3_SPLIT,
+diff --git a/mm/memory.c b/mm/memory.c
+index 4111f97c91a0..12925ceaf745 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3339,6 +3339,10 @@ static vm_fault_t do_wp_page(struct vm_fault *vmf)
+ 	get_page(vmf->page);
+ 
+ 	pte_unmap_unlock(vmf->pte, vmf->ptl);
++#ifdef CONFIG_KSM
++	if (PageKsm(vmf->page))
++		count_vm_event(COW_KSM);
++#endif
+ 	return wp_page_copy(vmf);
+ }
+ 
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index d5cc8d739fac..79015f144b15 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1392,6 +1392,9 @@ const char * const vmstat_text[] = {
+ 	"ksm_swpin_copy",
+ #endif
+ #endif
++#ifdef CONFIG_KSM
++	"cow_ksm",
++#endif
+ #ifdef CONFIG_X86
+ 	"direct_map_level2_splits",
+ 	"direct_map_level3_splits",
+-- 
+2.25.1
 
-Thanks.
