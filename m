@@ -2,84 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04620C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E09CAC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 04:23:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiCaETF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 00:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41230 "EHLO
+        id S230075AbiCaEZc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 00:25:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiCaESx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:18:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0096628E361;
-        Wed, 30 Mar 2022 21:12:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C74160C66;
-        Thu, 31 Mar 2022 02:58:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB7AC340F0;
-        Thu, 31 Mar 2022 02:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1648695480;
-        bh=1bvfiThee0tfMwL06GiQ3KTUBZtkZQn6o1lFExVrqDo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=h6Bf7sLuGVVxS0o9LcX8augarAdxfWvVTaPw+3LTeFkr+c6mOBOY8KKJEAP6N6pt8
-         SyIJCpdHm7EqsTFoGkhIZcVtvy7ILpeaSP/0dQMq8MaJ/uZ2SwgKDpoABzAdCfrfTK
-         f6/NiQeO3XBjoBUgKMJyB03PFjNQLTMrREM+88tQ=
-Date:   Wed, 30 Mar 2022 19:57:59 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Muchun Song <songmuchun@bytedance.com>
+        with ESMTP id S229882AbiCaEZY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 00:25:24 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6EB18021D;
+        Wed, 30 Mar 2022 21:14:47 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id o10so45505399ejd.1;
+        Wed, 30 Mar 2022 21:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cHLGkaQYu4o1VuLVe04VP5C9UOK2Y5HybQ/7vFAycP4=;
+        b=IejV0elzv/fR5v4FKPqWNBF8faVRUyD4+g73zFNzDj84EhCzmnV+cYKflwLA4Otjfi
+         VtFOlbHiTPkKvxrwAoDgW53yCHYhQKLJktKQclamHJcHFen5tWhCTdc51fR0fCQxbv92
+         dNAYMM275Is6y+5unL7BXYt5RP4MunPV3xMDYp9cgc/vOJGyWud0IsknBQVLOpbSnUHV
+         5dDeGZ1Dn3kb/K8CpwisW5DiEaBGUJGNpTwjy3oha1/ImqmlAhyrc6TRaDNh+YEBxHbc
+         K7QrSfpP6hKCiv4ttnd7bzOLXob/N2aHt1fzc4xSEcz3LTqwedqPL6O1ONAEBwPc7HGl
+         p42g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cHLGkaQYu4o1VuLVe04VP5C9UOK2Y5HybQ/7vFAycP4=;
+        b=DPqxpStyk9JVTOPZD7PH8tDWhe8Jsku9lOlxybpnU/M98blfsxMh4tNAEViV6vCgGe
+         sk6Wdnl0L6rR66lRxV4p09BzhfmA081itM5aehB+DdMIsj5aiv09AJ5z7QHH56Ifw02o
+         5c4iNaJQ+0yGOynWkEGtVeH8gdeEjJ28WyHMmP2nfSV6ZdN5DqketmLXc0LUS6PcPKMP
+         26NwA8eo6HkoTKJHPOIAyQtcb9zwKhh0wIo8WmDkySzq3h0hW/BjJgtRWFQEzrUtjNl+
+         vCoxu42E9zpRhTp0D67Wd0SUkujMd08HUo0hkHCRXRxCVMbCzdaMTpqCSAqwUb1jWKr5
+         5ZTg==
+X-Gm-Message-State: AOAM533tX99T+v1RMAsMNNfaLutZnQBl9ZdZ87Gg9FC2l0Sy4Iivgki7
+        +/R12+9Pcr62wjEFoMZgS5E2uoG9kIyZ90i8gRw=
+X-Google-Smtp-Source: ABdhPJylV+qIHEhgIiC8pc2ZyVs4dIvULSo9dP3vfdc/QTV15d7mrqgXEUvxiupeD7GQsWsqPD8b71wB8duOxbnPqTU=
+X-Received: by 2002:a17:906:3a15:b0:6cf:ea4e:a1cc with SMTP id
+ z21-20020a1709063a1500b006cfea4ea1ccmr3304474eje.753.1648700086306; Wed, 30
+ Mar 2022 21:14:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1648674305.git.marcelo.schmitt1@gmail.com> <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
+In-Reply-To: <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Thu, 31 Mar 2022 12:14:19 +0800
+Message-ID: <CAD-N9QVvgCqbwiebjVX2_81pH_YhK+j4hhJPG3fbWbAtzFVJTQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] Documentation: dev-tools: Add a section for static
+ analysis tools
+To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        Muchun Song <smuchun@gmail.com>
-Subject: Re: [PATCH v6 1/4] mm: hugetlb_vmemmap: introduce
- STRUCT_PAGE_SIZE_IS_POWER_OF_2
-Message-Id: <20220330195759.6da783a678229008ac2a6851@linux-foundation.org>
-In-Reply-To: <CAMZfGtXsMZ7ZwAzV5yZ39TB-=Q7Lw8oyjq2m65SXqHGwHQfj9w@mail.gmail.com>
-References: <20220330153745.20465-1-songmuchun@bytedance.com>
-        <20220330153745.20465-2-songmuchun@bytedance.com>
-        <20220330192827.4b95e3d7fb149ef9cc687ccb@linux-foundation.org>
-        <CAMZfGtXsMZ7ZwAzV5yZ39TB-=Q7Lw8oyjq2m65SXqHGwHQfj9w@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        dlatypov@google.com, davidgow@google.com,
+        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
+        cocci@inria.fr, smatch@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        skhan@linuxfoundation.org,
+        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 31 Mar 2022 10:52:58 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+On Thu, Mar 31, 2022 at 12:07 PM Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
+>
+> Complement the Kernel Testing Guide documentation page by adding a
+> section about static analysis tools.
+>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> Acked-by: Daniel Latypov <dlatypov@google.com>
+> Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Acked-by: Julia Lawall <julia.lawall@inria.fr>
+> Reviewed-by: David Gow <davidgow@google.com>
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+> Change log v2 -> v3:
+> - Added Julia's acknowledgment tag
+>
+> Change log v1 -> v2:
+> - Brought generic tool characteristics to the intro paragraph
+> - Made explicit that these tools run at compile time
+> - Added a note of caution about false positives
+> - Updated Coccinelle info to make it sound better and be more skimmable
+>
+>  Documentation/dev-tools/testing-overview.rst | 31 ++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> index 65feb81edb14..b5e02dd3fd94 100644
+> --- a/Documentation/dev-tools/testing-overview.rst
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -115,3 +115,34 @@ that none of these errors are occurring during the test.
+>  Some of these tools integrate with KUnit or kselftest and will
+>  automatically fail tests if an issue is detected.
+>
+> +Static Analysis Tools
+> +=====================
+> +
+> +In addition to testing a running kernel, one can also analyze kernel source code
+> +directly (**at compile time**) using **static analysis** tools. The tools
+> +commonly used in the kernel allow one to inspect the whole source tree or just
+> +specific files within it. They make it easier to detect and fix problems during
+> +the development process.
+> +
+> +Sparse can help test the kernel by performing type-checking, lock checking,
+> +value range checking, in addition to reporting various errors and warnings while
+> +examining the code. See the Documentation/dev-tools/sparse.rst documentation
+> +page for details on how to use it.
+> +
+> +Smatch extends Sparse and provides additional checks for programming logic
+> +mistakes such as missing breaks in switch statements, unused return values on
+> +error checking, forgetting to set an error code in the return of an error path,
+> +etc. Smatch also has tests against more serious issues such as integer
+> +overflows, null pointer dereferences, and memory leaks. See the project page at
+> +http://smatch.sourceforge.net/.
+> +
+> +Coccinelle is another static analyzer at our disposal. Coccinelle is often used
+> +to aid refactoring and collateral evolution of source code, but it can also help
+> +to avoid certain bugs that occur in common code patterns. The types of tests
+> +available include API tests, tests for correct usage of kernel iterators, checks
+> +for the soundness of free operations, analysis of locking behavior, and further
+> +tests known to help keep consistent kernel usage. See the
+> +Documentation/dev-tools/coccinelle.rst documentation page for details.
+> +
+> +Beware, though, that static analysis tools suffer from **false positives**.
+> +Errors and warns need to be evaluated carefully before attempting to fix them.
 
-> > > +int main(void)
-> > > +{
-> > > +     if (is_power_of_2(sizeof(struct page)))
-> > > +             DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, is_power_of_2(sizeof(struct page)));
-> >
-> > Why not
-> >
-> >         DEFINE(STRUCT_PAGE_SIZE_IS_POWER_OF_2, 1);
-> >
-> 
-> Yep, this is more simple.  But the 2nd parameter of DEFINE() will
-> go into the comments.  I want to make it more clear when someone
-> reads the code of this macro.  The two different sentences will
-> generate the following two different comments.  Which one do
-> you think is better?
-> 
-> #define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /*
-> is_power_of_2(sizeof(struct page)) */
-> #define STRUCT_PAGE_SIZE_IS_POWER_OF_2 1 /* 1 */
+Hi Marcelo,
 
-The former ;)
+Should we include static analysis tools based on LLVM? For example,
+Clang static analysis.
+
+> --
+> 2.35.1
+>
