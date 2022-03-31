@@ -2,182 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E056C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 02:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C42A2C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 02:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235444AbiCaCQp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Mar 2022 22:16:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34250 "EHLO
+        id S229639AbiCaC3W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Mar 2022 22:29:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231567AbiCaCQo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 22:16:44 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7256D673D7;
-        Wed, 30 Mar 2022 19:14:57 -0700 (PDT)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 22V2EQMo007232;
-        Thu, 31 Mar 2022 11:14:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 22V2EQMo007232
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648692866;
-        bh=BaRp588wc7dVUEEVQWMHZfUjZMtEZadbAHPcQ/hMAkU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xXyuTg2uoeV2iCeOmdsJ3N8arzhbN9bqVGxPbQZuLke8JuBeDl25ey6+I8Bhiup2r
-         bEp8nhzKYiQezWa6jVAxTf3/309UtXKzwfo9CNoQp14fsutq7RFxcixfgSbMm9B8qd
-         8G1ybyjJoPcvmMGUvmPxKOzmD8Fhf+lrPcbZJOAsBe1T95qk1lfGa0l0AM+BCm1H0W
-         XXAU0Gux3QsatzGQJFZLe55zYZRqPyHPqgDdLLlkN+5BMMKed8zrXRgajttGAmEA5D
-         oLzcqSs0RRzWhgh+7F0p0Q6zjZAJ5x6b/j9mziA/5FBsP49FVnLFWJQAz9q8NU1IQm
-         fbBpsRPTRCZ+w==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id y16so9871898pju.4;
-        Wed, 30 Mar 2022 19:14:26 -0700 (PDT)
-X-Gm-Message-State: AOAM531H/KWHfUOq0La8l1fC3z549m2ck16alUUZKLP5VD1gamLJfYUK
-        RPdWWeR0myUdsfQJB5n3y2kbdb50mjMPaTXyoxw=
-X-Google-Smtp-Source: ABdhPJy4I4mU1PAohqgbK9L5D4+YKEnUO4wM8Bl+1FwbZgKiyiaUdcBZngVQ9P62sngmvcBIIuH8+cw4h4/oOZGLhrU=
-X-Received: by 2002:a17:902:b68c:b0:153:bd06:85ad with SMTP id
- c12-20020a170902b68c00b00153bd0685admr2957565pls.99.1648692865835; Wed, 30
- Mar 2022 19:14:25 -0700 (PDT)
+        with ESMTP id S230223AbiCaC3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Mar 2022 22:29:20 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EC67C7BA;
+        Wed, 30 Mar 2022 19:27:32 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id mp6-20020a17090b190600b001c6841b8a52so1351960pjb.5;
+        Wed, 30 Mar 2022 19:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=brGSPXAAKZq1zv7Rz5aMBtmTUSadoAJBmC11PEMAvD8=;
+        b=nlbLJK1J/O6nYUq8evC9fJ339K6x4bHJN538DoapkFJy/VjamB+dwe1Px9feUd1F62
+         AuQA+r+MLCydK2yozMl9JBakx4tVgx+dfV8Gdj/+JlJ2s2PcpC4CMNPP5jLvJ+K0I6D/
+         58ZJKgDGq1VRIj1iby3BwAtIS+ZYXz1m49h/ISmaUaj8PnLMI0kAPXSIXPcLdRTC0j8J
+         U6i3turNOHHTzB3JHSrY9OZO6U8/hg8niDEnBammYq4EML8DPZ5FMpqH75sa8up49yfJ
+         k9LF6ybIF0vVv8TCzRBoa6wHQVGrUOF8KESVyx/8Ef7n7ki7hsvStej2Hwrh4SjR6gie
+         b89Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=brGSPXAAKZq1zv7Rz5aMBtmTUSadoAJBmC11PEMAvD8=;
+        b=DVRXoFphc7gbHAFB1qIcASb6DLjHiTJzwj2bGxTEaaZ34E9ApZMEVor1YGZLkktlar
+         NPqNrbkIvtBvts50S6U48ENs8/kwiCERqbw1lqWhQweX0r+SRV0rQ38B97ormaKs5dd9
+         GSgCC1PVMVfCI4Q5VliqXdoumEHCgYKz+XamQQZsEmwj33cFKmgjLWQYT5bQ8mwv2JpI
+         SwjHll9hfgkMiwm1UkT9kn93pTYYppCCRc8VR2kORYjJ4wa7njSqye7Sk9H38Q8o8Ajt
+         8ibBPsMWF5Pfx4HUH2H9belWSmuMwznv7998XZmsZAM3FTI/+tFUd0z8qV78SYLXk+Gt
+         TnlA==
+X-Gm-Message-State: AOAM5329OTfmj/kAcYd75End/6WfKixomIF9vbTYEv50/zBXfNT1VZzT
+        kDs9iWQKnJFIlIAZG/x15+vJ2R+eCUk=
+X-Google-Smtp-Source: ABdhPJyn/9RKDnn9ebHKMw2O6x7J/GpkAo9yaxB7FFrh7CXFQi1SCyOQyd83zRQ7s2yhmAiT/9wZaA==
+X-Received: by 2002:a17:90b:4a48:b0:1c7:bb62:446c with SMTP id lb8-20020a17090b4a4800b001c7bb62446cmr3463303pjb.146.1648693651949;
+        Wed, 30 Mar 2022 19:27:31 -0700 (PDT)
+Received: from MBP-98dd607d3435.dhcp.thefacebook.com ([2620:10d:c090:400::5:756c])
+        by smtp.gmail.com with ESMTPSA id f16-20020a056a00229000b004fabe756ba6sm27342617pfe.54.2022.03.30.19.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Mar 2022 19:27:31 -0700 (PDT)
+Date:   Wed, 30 Mar 2022 19:27:27 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     corbet@lwn.net, viro@zeniv.linux.org.uk, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, kpsingh@kernel.org,
+        shuah@kernel.org, mcoquelin.stm32@gmail.com,
+        alexandre.torgue@foss.st.com, zohar@linux.ibm.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
+ programs
+Message-ID: <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
+References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-References: <164847778869.3060675.8115416881394543419.stgit@devnote2>
- <CAKwvOdmAYQZtzGudBjmiRZNjT+VixTdNbJmYmxc7-gQNCsHfrA@mail.gmail.com> <20220331104531.81d0edf9a85a4f69020a9f13@kernel.org>
-In-Reply-To: <20220331104531.81d0edf9a85a4f69020a9f13@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 31 Mar 2022 11:13:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQU4-CNUJGzsO_kx4SrwNWrd=vnObWkuyV063imZcGFsw@mail.gmail.com>
-Message-ID: <CAK7LNAQU4-CNUJGzsO_kx4SrwNWrd=vnObWkuyV063imZcGFsw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] bootconfig: Support embedding a bootconfig in
- kernel for non initrd boot
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328175033.2437312-1-roberto.sassu@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 10:45 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
->
-> Hi Nick,
->
-> On Wed, 30 Mar 2022 11:04:50 -0700
-> Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> > On Mon, Mar 28, 2022 at 7:29 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > >
-> > > KNOWN ISSUE:
-> > >
-> > > According to the report from Padmanabha[3] and my analysis [4], the embedded
-> > > bootconfig data may not be updated if you do incremental build the kernel
-> > > with CONFIG_LTO_CLANG_THIN.
-> > >
-> > > [3] https://lore.kernel.org/all/20220321183500.GA4065@pswork/T/#u
-> > > [4] https://lore.kernel.org/all/20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org/
-> > >
-> > > This seems like clang's LTO Thin mode issue. It may not detect the inline
-> > > asm depends on external files.
-> > >
-> > > I think the possible workaround is to split the inline asm which includes
-> > > '.incbin' directive into an asm file. But this should be done in another
-> > > seires because there are other features which uses '.incbin'. (e.g.
-> > > /proc/config.gz)
-> >
-> > Hi Masami,
-> > I saw Padmanabha's report (thanks for the report); sorry for not
-> > responding sooner, I've been traveling recently for a funeral.
->
-> Oh, sorry about that. I think this is not so hurry.
->
-> >
-> > Any chance we can use
-> >
-> > CFLAGS_REMOVE_<file>.o := $(CC_FLAGS_LTO)
-> >
-> > a la
-> > commit d2dcd3e37475 ("x86, cpu: disable LTO for cpu.c")
->
-> Hm, this looks good to me. Let me confirm that works.
-> (Does this mean the bootconfig.o will be compiled to elf binary?)
+On Mon, Mar 28, 2022 at 07:50:15PM +0200, Roberto Sassu wrote:
+> eBPF already allows programs to be preloaded and kept running without
+> intervention from user space. There is a dedicated kernel module called
+> bpf_preload, which contains the light skeleton of the iterators_bpf eBPF
+> program. If this module is enabled in the kernel configuration, its loading
+> will be triggered when the bpf filesystem is mounted (unless the module is
+> built-in), and the links of iterators_bpf are pinned in that filesystem
+> (they will appear as the progs.debug and maps.debug files).
+> 
+> However, the current mechanism, if used to preload an LSM, would not offer
+> the same security guarantees of LSMs integrated in the security subsystem.
+> Also, it is not generic enough to be used for preloading arbitrary eBPF
+> programs, unless the bpf_preload code is heavily modified.
+> 
+> More specifically, the security problems are:
+> - any program can be pinned to the bpf filesystem without limitations
+>   (unless a MAC mechanism enforces some restrictions);
+> - programs being executed can be terminated at any time by deleting the
+>   pinned objects or unmounting the bpf filesystem.
 
+So many things to untangle here.
 
-Why are you using  ".incbin" in the C file in the first place?
+The above paragraphs are misleading and incorrect.
+The commit log sounds like there are security issues that this
+patch set is fixing.
+This is not true.
+Looks like there is a massive misunderstanding on what bpffs is.
+It's a file system to pin and get bpf objects with normal
+file access permissions. Nothing else.
+Do NOT use it to pin LSM or any other security sensitive bpf programs
+and then complain that root can unpin them.
+Yes. Root can and should be able to 'rm -rf' anything in bpffs instance.
 
+> The usability problems are:
+> - only a fixed amount of links can be pinned;
 
-You might have mimicked  kernel/configs.c
-but there was a reason;  kernel/configs.c can be a module,
-but we cannot put MODULE_LICENSE() in *.S  file.
-(commit 13610aa908dcfce77135bb799c0a10d0172da6ba)
+where do you see this limit?
 
+> - only links can be pinned, other object types are not supported;
 
-In this case, CONFIG_EMBED_BOOT_CONFIG is a bool
-option.
+really? progs, maps can be pinned as well.
 
-Why don't you simply move the asm() part to a separate
-bootconfig-data.S ?
+> - code to pin objects has to be written manually;
 
-Clang lto flags are only passed to *.c files,
-so we do not need to be worried about  .incbin in *.S files.
+huh?
 
+> Solve the security problems by mounting the bpf filesystem from the kernel,
+> by preloading authenticated kernel modules (e.g. with module.sig_enforce)
+> and by pinning objects to that filesystem. This particular filesystem
+> instance guarantees that desired eBPF programs run until the very end of
+> the kernel lifecycle, since even root cannot interfere with it.
 
-Then, Makefile will be even cleaner (no ifeq-block)
+No.
 
+I suspect there is huge confusion on what these two "progs.debug"
+and "maps.debug" files are in a bpffs instance.
+They are debug files to pretty pring loaded maps and progs for folks who
+like to use 'cat' to examine the state of the system instead of 'bpftool'.
+The root can remove these files from bpffs.
 
-lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-obj-$(CONFIG_EMBED_BOOT_CONFIG) += bootconfig-data.o
+There is no reason for kernel module to pin its bpf progs.
+If you want to develop DIGLIM as a kernel module that uses light skeleton
+just do:
+#include <linux/init.h>
+#include <linux/module.h>
+#include "diglim.lskel.h"
 
-$(obj)/bootconfig-data.o: $(obj)/default.bconf
+static struct diglim_bpf *skel;
 
-targets += default.bconf
-filechk_defbconf = cat $(or $(real-prereqs), /dev/null)
-$(obj)/default.bconf: $(CONFIG_EMBED_BOOT_CONFIG_FILE) FORCE
-        $(call filechk,defbconf)
+static int __init load(void)
+{
+        skel = diglim_bpf__open_and_load();
+        err = diglim_bpf__attach(skel);
+}
+/* detach skel in __fini */
 
+It's really that short.
 
+Then you will be able to
+- insmod diglim.ko -> will load and attach bpf progs.
+- rmmod diglim -> will detach them.
 
-
-
-BTW, why lib-$(CONFIG_BOOT_CONFIG),
-instead of obj-$(CONFIG_BOOT_CONFIG)  ?
-
-
-
->
-> >
-> > with a comment linking to
-> > https://github.com/ClangBuiltLinux/linux/issues/1618
->
-> Thanks for reporting!
->
-> >
-> > for the Translation Units using .incbin, until we have had more time
-> > to triage+fix?
->
-> Yes. For this series, I can update with above one, but it doesn't cover the
-> other parts. And since this issue is independent from the bootconfig,
-> I think we need a wider patch series to mitigate this issue on config.gz
-> (and other .incbin users) too.
->
-> Thank you,
->
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
->
->
-> --
-> Masami Hiramatsu <mhiramat@kernel.org>
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Independantly from these two mistunderstandings of bpffs and light skel
+we've been talking about auto exposing loaded bpf progs, maps, links
+in a bpffs without incrementing refcnt of them.
+When progs get unloaded the files will disappear.
+Some folks believe that doing 'ls' in a directory and see one file
+for each bpf prog loaded and then doing 'cat' on that file would be
+useful for debugging. That idea wasn't rejected. We're still thinking
+what would be the best way to auto-expose all bpf objects for debugging
+and whether it's actually makes sense to do considering that
+bpftool already has commands to list all progs, maps, links, etc
+with great detail.
+It's pretty much an argument between 'cat+ls' believers and
+'bpftool' cmdline believers.
+That discussion is orthogonal and should not be mixed with bpffs, lsm,
+security or anything else.
