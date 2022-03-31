@@ -2,67 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A09FAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 19:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16A4FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 19:25:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239382AbiCaTPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 15:15:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44968 "EHLO
+        id S234692AbiCaT1D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 15:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240607AbiCaTOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 15:14:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F9223C0C8;
-        Thu, 31 Mar 2022 12:13:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2307619A6;
-        Thu, 31 Mar 2022 19:12:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 506CFC340F2;
-        Thu, 31 Mar 2022 19:12:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648753979;
-        bh=oHt2Bi4UNwgZ34wXp+/zVqZ2sH9aXbNzf6jU81i592I=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=o4vPWoIj4Kq204P2ZmcQF8O9uVIcS5DVotFzkFlzYNdocZDGKRpIab8hY3Oc1uNQo
-         R8LfG8+7nAwrlsuElsBeCGUi/fA2z8r6BdUFeJq+U1gRSb0JTLVs7B6XTDRW53lWls
-         yg1iduTUvLr8aTcX+/WbJML3pCFFM/pSaPPU8ENM9oBBmIltIyYUd0GVZ12I19fR0b
-         Gxz48pr/jLvnYh9U9mw0ro+QaUAIR/5IAlX8jMwdQiGkvoW/cXUN/1RHcKyrM3/w1w
-         CTj3hMIuY7B2DHhc0/eCMm0K65UyIkgLKLIZHv/kwG6XPpm2UN9A9bU8M5lAU52RvY
-         q47Gq4Q3HMIWQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3E1E7EAC09B;
-        Thu, 31 Mar 2022 19:12:59 +0000 (UTC)
-Subject: Re: [GIT PULL] More docs for 5.18
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87fsmy15qm.fsf@meer.lwn.net>
-References: <87fsmy15qm.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87fsmy15qm.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.18-2
-X-PR-Tracked-Commit-Id: 022bb490c79799229ef467d9ccc3e5966001b0ae
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b4a5ea09b29371c2e6a10783faa3593428404343
-Message-Id: <164875397925.22373.6462977148329962680.pr-tracker-bot@kernel.org>
-Date:   Thu, 31 Mar 2022 19:12:59 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S234668AbiCaT1C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 15:27:02 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371FFDFF82
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 12:25:14 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id v15so362733qkg.8
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 12:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vyEyFUKqryt9zBzJe2Z7xpXuyc7SpWk9id19kGwXgKM=;
+        b=mEMZuaiSHC0FBEUUP25G6KwZkLY4fMTbC8nkggOHXCQ/rM2A8QlY/nhB4znsxN8X9w
+         0jeQiv+bQGLWX0qeKRehzPVnXaW+Q8ZCCepBvbNi3xIV8pEDnpbycgEhOGONjdxalGsx
+         9pYzWnpcjILDPK/VxTHTnMbiOIl/m/ZDNCyBhP+rCo6pD7FSWUgRr9B1F2mzbadBoEOq
+         MENdNcglup1LzOJdJaWye2ZZlN3INJM9XB+m7+M5ya+XfHYGoDkDEbbJ6rdk+qi8Z+lS
+         yUX/W/uL/945ytaEli3+xdaOUNHQdReLI2rZXgPFC7SQ7uLSX4in12E1YEzscjaqpQdU
+         ZyDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vyEyFUKqryt9zBzJe2Z7xpXuyc7SpWk9id19kGwXgKM=;
+        b=X5PuQ3r8hFT+EN0GD4F35eELjXCFXBXDNIjLwvJEDmV5xO0Weg7zkGB7BdFQL5nKBC
+         1eHXMCkVt35Oql2q1CMiaLD9q1EzqU32nU1TKpbFlM69ApmAs6R/eGGepRf+o3DbsfhY
+         yieceUOp7aO4Mq4vnfJX9WHVzY5PMnDQLPsIDZvtCo3yWHiQDqUFT17yfUQEcZ67K/bl
+         Bo5R5TQranqqY8tm+VtGpVPokdkhlneZfz+LEZfFp5ypcjfN+aP/B240rCoFauw3W0hN
+         9SFNP4lItKjymyAlrINp4449LUJ4Wl+6wmP+dAOKQu9XFgrmb1e1pPRg/Rp4T3XIlnRV
+         5afw==
+X-Gm-Message-State: AOAM530jdZ/g9GY7XDGcSTsC9Ox19RLLmnAT3KrKozXbeqzMGO7cVLXN
+        FoeAmtfElOhuBvWHnKYEBoavRg==
+X-Google-Smtp-Source: ABdhPJyzPs3CSu4BAynvB5YsY/AnOTZRmDgsGtbExxW+CfN83047fy7Y8GbQcqNJxNI7NWzQ7xeS0g==
+X-Received: by 2002:a37:c20b:0:b0:67b:3585:4687 with SMTP id i11-20020a37c20b000000b0067b35854687mr4363466qkm.280.1648754712603;
+        Thu, 31 Mar 2022 12:25:12 -0700 (PDT)
+Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
+        by smtp.gmail.com with ESMTPSA id v3-20020a05622a014300b002e1dcd4cfa9sm173876qtw.64.2022.03.31.12.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 12:25:12 -0700 (PDT)
+Date:   Thu, 31 Mar 2022 15:25:11 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+Message-ID: <YkYAFxTgo4OsL4q4@cmpxchg.org>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220331084151.2600229-1-yosryahmed@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Thu, 31 Mar 2022 09:50:09 -0600:
+On Thu, Mar 31, 2022 at 08:41:51AM +0000, Yosry Ahmed wrote:
+> From: Shakeel Butt <shakeelb@google.com>
+> 
+> Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+> 
+> Use case: Proactive Reclaim
+> ---------------------------
+> 
+> A userspace proactive reclaimer can continuously probe the memcg to
+> reclaim a small amount of memory. This gives more accurate and
+> up-to-date workingset estimation as the LRUs are continuously
+> sorted and can potentially provide more deterministic memory
+> overcommit behavior. The memory overcommit controller can provide
+> more proactive response to the changing behavior of the running
+> applications instead of being reactive.
+> 
+> A userspace reclaimer's purpose in this case is not a complete replacement
+> for kswapd or direct reclaim, it is to proactively identify memory savings
+> opportunities and reclaim some amount of cold pages set by the policy
+> to free up the memory for more demanding jobs or scheduling new jobs.
+> 
+> A user space proactive reclaimer is used in Google data centers.
+> Additionally, Meta's TMO paper recently referenced a very similar
+> interface used for user space proactive reclaim:
+> https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
+> 
+> Benefits of a user space reclaimer:
+> -----------------------------------
+> 
+> 1) More flexible on who should be charged for the cpu of the memory
+> reclaim. For proactive reclaim, it makes more sense to be centralized.
+> 
+> 2) More flexible on dedicating the resources (like cpu). The memory
+> overcommit controller can balance the cost between the cpu usage and
+> the memory reclaimed.
+> 
+> 3) Provides a way to the applications to keep their LRUs sorted, so,
+> under memory pressure better reclaim candidates are selected. This also
+> gives more accurate and uptodate notion of working set for an
+> application.
+> 
+> Why memory.high is not enough?
+> ------------------------------
+> 
+> - memory.high can be used to trigger reclaim in a memcg and can
+>   potentially be used for proactive reclaim.
+>   However there is a big downside in using memory.high. It can potentially
+>   introduce high reclaim stalls in the target application as the
+>   allocations from the processes or the threads of the application can hit
+>   the temporary memory.high limit.
+> 
+> - Userspace proactive reclaimers usually use feedback loops to decide
+>   how much memory to proactively reclaim from a workload. The metrics
+>   used for this are usually either refaults or PSI, and these metrics
+>   will become messy if the application gets throttled by hitting the
+>   high limit.
+> 
+> - memory.high is a stateful interface, if the userspace proactive
+>   reclaimer crashes for any reason while triggering reclaim it can leave
+>   the application in a bad state.
+> 
+> - If a workload is rapidly expanding, setting memory.high to proactively
+>   reclaim memory can result in actually reclaiming more memory than
+>   intended.
+> 
+> The benefits of such interface and shortcomings of existing interface
+> were further discussed in this RFC thread:
+> https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
+> 
+> Interface:
+> ----------
+> 
+> Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
+> trigger reclaim in the target memory cgroup.
+> 
+> 
+> Possible Extensions:
+> --------------------
+> 
+> - This interface can be extended with an additional parameter or flags
+>   to allow specifying one or more types of memory to reclaim from (e.g.
+>   file, anon, ..).
+> 
+> - The interface can also be extended with a node mask to reclaim from
+>   specific nodes. This has use cases for reclaim-based demotion in memory
+>   tiering systens.
+> 
+> - A similar per-node interface can also be added to support proactive
+>   reclaim and reclaim-based demotion in systems without memcg.
+> 
+> For now, let's keep things simple by adding the basic functionality.
+> 
+> [yosryahmed@google.com: refreshed to current master, updated commit
+> message based on recent discussions and use cases]
+> Signed-off-by: Shakeel Butt <shakeelb@google.com>
+> Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
 
-> git://git.lwn.net/linux.git tags/docs-5.18-2
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b4a5ea09b29371c2e6a10783faa3593428404343
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks for compiling all the history and arguments around this change!
