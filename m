@@ -2,103 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82184C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 09:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE95C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 11:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232580AbiCaJcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 05:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47694 "EHLO
+        id S235286AbiCaLq1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 07:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233161AbiCaJcE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 05:32:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6831B1959C4;
-        Thu, 31 Mar 2022 02:30:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 124E8B82014;
-        Thu, 31 Mar 2022 09:30:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B949EC340F3;
-        Thu, 31 Mar 2022 09:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648719014;
-        bh=FvvM5BIaN0Tlqtjuez0sKOLUrS6aTrHpEXTSTkI/TxI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=hqWejYGFzcPZcPvr1BiLXs6bjSUkth294jBUvBLcYg465Slf6qfU5GWPkDwPcO2bu
-         2BAbO1I2j75tAf8lgctfbR+QT87PtAnc6C2F6/C2uodCjOOH9FEPvOjTf4D93/LCL7
-         312wL6NBCTST7kAHJ33ZVo8XiXz9syo+p2VSbzxAiMFXwvH/9cljE8upKECmDcT1tX
-         3+OVfhOtuWjNCgtX81hm1w8Fk6vgnuymLNItt7X3urZYX1CGb6ukrHBGX4x/KfK7n7
-         H03k1m3lPWgmniO5Ke2p4omTGqwgHZwMz9vd+yN4HYq12ei6CPieXtEQs3PcBolOZW
-         rDN5CVj5oYMeg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9D967F03848;
-        Thu, 31 Mar 2022 09:30:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S235275AbiCaLq0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 07:46:26 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC4E20826E;
+        Thu, 31 Mar 2022 04:44:39 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id s11so21738271pfu.13;
+        Thu, 31 Mar 2022 04:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=LqhDZuJaNJExg2VbnXlWCRZCk4FonU0BDi79M0pNs1Y=;
+        b=a6w2jv0j2IXRlMA//J2ZPX5zjw/iXkppXRq2fKn/qS8pSuRYMsyjoCL+nv/nI9iAwD
+         N05hjD3IhkfxgHzuA698es7oPx2BStKmYMj60ly7yidR7KxB2neoJnlS9LGQBaDgqCoL
+         MBxNC55jtG1C8fOjS8esl4UTQaA5YDXYWmWSSn1BvsXJNoHrZeL7E0eD97K3HTCki8qB
+         ciM73YG3g1YVlz/CpKlRhnQ6swh5Z7kKOdOqbaG6cnmS/bHRzg5YokctD5gCsPDpx+8j
+         4r0GaPfu4L7ZqZPeqUrHsZNayHgwg4cRILMVbGm39YSXO4+IGWkPHV6W95959WMdOTWc
+         r83w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LqhDZuJaNJExg2VbnXlWCRZCk4FonU0BDi79M0pNs1Y=;
+        b=4bwK3aZUcs6KbrRWkLARfre+TrW7wPerniezK298q4iM1Ms80KreU2ToCopxzl5E/K
+         yMcqAz9EjT8NqYkoUNE5s+AguCyTw7D1Z1x0/JOz/VySf7Oa1AmmJj0OOaDBdbkcd4tj
+         zKdLd0bHkfonfUGQUJ6QjhX1w9WckfPYBgLDoCV6e/qNc2uvsYrNoevdf6Wp7SNO2bfH
+         FoT6W3W4spl6n4zhMt7xamrN7r8h/2Sjmfokq9Oz2MYXFQsodWA3N0mHDY5yxUy5QPCF
+         Gyym8zy5t2DmsZXWojV27jFZp/4GqXPXsoW4NZHgKVCi3zPsMFYchYCg/IZCTxeS7q2b
+         fjdw==
+X-Gm-Message-State: AOAM533lcof8J44BdIDx2rhFXanJIW1ohUk2t+BoRdyf+PzzCabpigz9
+        SiQmmL92TykeLYZUtBHmpDjA8KAjy5WtbHgd
+X-Google-Smtp-Source: ABdhPJxswSNI4AFf4/OrTS5MowKZtDxmx8p8EIyMB33KcexfRHfuEpizNXIuzy6WINO1d1YmWjQJsQ==
+X-Received: by 2002:a63:ec47:0:b0:382:692a:dc04 with SMTP id r7-20020a63ec47000000b00382692adc04mr10417542pgj.352.1648727078998;
+        Thu, 31 Mar 2022 04:44:38 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-30.three.co.id. [180.214.232.30])
+        by smtp.gmail.com with ESMTPSA id t15-20020a63b70f000000b00381510608e9sm22520962pgf.14.2022.03.31.04.44.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Mar 2022 04:44:38 -0700 (PDT)
+Message-ID: <a4f42004-7c99-8c4e-259b-903254501529@gmail.com>
+Date:   Thu, 31 Mar 2022 18:44:31 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v3 00/14] docs: update and move the netdev-FAQ
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164871901464.21222.10495458574563491451.git-patchwork-notify@kernel.org>
-Date:   Thu, 31 Mar 2022 09:30:14 +0000
-References: <20220330042505.2902770-1-kuba@kernel.org>
-In-Reply-To: <20220330042505.2902770-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        andrew@lunn.ch, f.fainelli@gmail.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5] mm/vmstat: add events for ksm cow
+Content-Language: en-US
+To:     cgel.zte@gmail.com, akpm@linux-foundation.org, david@redhat.com,
+        willy@infradead.org
+Cc:     corbet@lwn.net, yang.yang29@zte.com.cn, yang.shi@linux.alibaba.com,
+        dave.hansen@linux.intel.com, saravanand@fb.com, minchan@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, jhubbard@nvidia.com,
+        xu xin <xu.xin16@zte.com.cn>,
+        Ran Xiaokai <ran.xiaokai@zte.com.cn>
+References: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220331035616.2390805-1-yang.yang29@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On 31/03/22 10.56, cgel.zte@gmail.com wrote:
+> +Monitoring KSM events
+> +=====================
+> +
+> +There are some counters in /proc/vmstat that may be used to monitor KSM events.
+> +KSM might help save memory, it's a tradeoff by may suffering delay on KSM COW
+> +or on swapping in copy. Those events could help users evaluate whether or how
+> +to use KSM. For example, if cow_ksm increases too fast, user may decrease the
+> +range of madvise(, , MADV_MERGEABLE).
+> +
 
-This series was applied to netdev/net.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
+Did you mean "tradeoff between possible delay on KSM COW and swapping
+in copy"?
 
-On Tue, 29 Mar 2022 21:24:51 -0700 you wrote:
-> A section of documentation for tree-specific process quirks had
-> been created a while back. There's only one tree in it, so far,
-> the tip tree, but the contents seem to answer similar questions
-> as we answer in the netdev-FAQ. Move the netdev-FAQ.
-> 
-> Take this opportunity to touch up and update a few sections.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net,v3,01/14] docs: netdev: replace references to old archives
-    https://git.kernel.org/netdev/net/c/50386f7526dd
-  - [net,v3,02/14] docs: netdev: minor reword
-    https://git.kernel.org/netdev/net/c/30cddd30532a
-  - [net,v3,03/14] docs: netdev: move the patch marking section up
-    https://git.kernel.org/netdev/net/c/c82d90b14f6c
-  - [net,v3,04/14] docs: netdev: turn the net-next closed into a Warning
-    https://git.kernel.org/netdev/net/c/2fd4c50dbff1
-  - [net,v3,05/14] docs: netdev: note that RFC postings are allowed any time
-    https://git.kernel.org/netdev/net/c/0e242e3fb7a7
-  - [net,v3,06/14] docs: netdev: shorten the name and mention msgid for patch status
-    https://git.kernel.org/netdev/net/c/5d84921ac750
-  - [net,v3,07/14] docs: netdev: rephrase the 'Under review' question
-    https://git.kernel.org/netdev/net/c/8f785c1bb84f
-  - [net,v3,08/14] docs: netdev: rephrase the 'should I update patchwork' question
-    https://git.kernel.org/netdev/net/c/724c1a7443c5
-  - [net,v3,09/14] docs: netdev: add a question about re-posting frequency
-    https://git.kernel.org/netdev/net/c/b8ba106378a0
-  - [net,v3,10/14] docs: netdev: make the testing requirement more stringent
-    https://git.kernel.org/netdev/net/c/3eca381457ca
-  - [net,v3,11/14] docs: netdev: add missing back ticks
-    https://git.kernel.org/netdev/net/c/a30059731877
-  - [net,v3,12/14] docs: netdev: call out the merge window in tag checking
-    https://git.kernel.org/netdev/net/c/99eba4e5cbd4
-  - [net,v3,13/14] docs: netdev: broaden the new vs old code formatting guidelines
-    https://git.kernel.org/netdev/net/c/08767a26f095
-  - [net,v3,14/14] docs: netdev: move the netdev-FAQ to the process pages
-    https://git.kernel.org/netdev/net/c/8df0136376dc
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+An old man doll... just what I always wanted! - Clara
