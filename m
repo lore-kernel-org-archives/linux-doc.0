@@ -2,98 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CA9C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 05:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85999C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 05:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238796AbiDAFuJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 01:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
+        id S245238AbiDAF7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 01:59:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245143AbiDAFuI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 01:50:08 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3224695
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 22:48:19 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id c23so1636964plo.0
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 22:48:19 -0700 (PDT)
+        with ESMTP id S237271AbiDAF7t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 01:59:49 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D22258FEF;
+        Thu, 31 Mar 2022 22:57:59 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id w7so1650249pfu.11;
+        Thu, 31 Mar 2022 22:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=IoN5OW0GPMyNKhfJHxjrgrng3C1JZIFnvHz1IL9aqL0=;
-        b=gzra+Gj7zny6GDST1NIVsloNkLAFDEeEq1VcvTUubL+8Jc1EgX8tT68AGrJEpf7ix0
-         x8G/lpELGbRo2se7C6S/yZ8/VGXwwSyFACRa9PhDry16grS3tUUNT77rnuwnLOXl4qpp
-         ffYr2UJhCWSiIVjJaSRWurm6465iMPV4HlM/417TRGlias/qZNKwSw4+QZYCElOec8zl
-         atvvIxcHI4kM/4GeVhDlk9ciQfdldr5SdCqCNTtlUpC1caICGCZXN7hlKjS8xkIErFex
-         KVb9+fX0JewKMWWVvTZh5yPDOIe4epYQTTmeU52UUnk9/CMy/8QfCRlTgzWyo+TD2j+y
-         FZDw==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=2goerCXFIjJfRhdsQA7H1cbzpZCM5jdQytvLfoXzf9I=;
+        b=M/+9D16q/zvVvZPUM76N+Q/ECCI9Ey09mr5VSHiUnT0iJdutYgmJUmFbw9dhps+blM
+         Z5b1K+gWKiE/oPTLuc1jO7K05hvGLIC2qvNV81UuJzjBv7vTl3VFGBrBs2/gVBj7WKGT
+         dffQXCb6szBFcgWGu0yDyqGirBFfinu8pOmrLZd1527uEnEL3L5cQ7PcXm4/Z9+tXkGa
+         2QTWDz55dfgFJFUYlOeJ1LbfmLXsq04kp8cPJb3cohGHLreediS4DgCwfUy9L9m24npI
+         pt91s66KiS4tC6VVECjKOFvW6C4kIN3jTfNugDxiHT14Uf1J/32o/DBzKOZR3abDUleA
+         YYIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=IoN5OW0GPMyNKhfJHxjrgrng3C1JZIFnvHz1IL9aqL0=;
-        b=RpDpURcLknjLdqdP6aLZdFCOmNJ4ZbUiubMH0yIhjQE32yCuQg2TbuRB/RTsL5yss3
-         addCWI0IL96JWa0Xezf7nO+VX+H54bQajzhLM0BPprdEjVhzJMguBF2psi9dKqufV2qA
-         FX72H4y4KUriLXHTaUTDAndZikEwTIKH97XlddESSE6E6H42ygKPwuGx+cCyaS+9RKwO
-         vtGae8u02k4ugJeeg3yp9lCVxmuFcG2TWKXWsmbX7pJoIv6+f4MUGGeGmWEcRun0+wuD
-         Ri3LYMV36LoRAHIF8OUHaau1EZia0wOfoV5smDJ4dscz4k4HnkmcKnQ89G36T+tH7BZ7
-         6KfA==
-X-Gm-Message-State: AOAM530DYoJPe7//sY5HtDLtaK9tPySRIUZH20FnR48bQoy1+e0Vj0EV
-        VrgnQIHkr6q8FdiYmw1Gk1mI8nQG7jU=
-X-Google-Smtp-Source: ABdhPJxSuw2HTHPWjIvY2IsSWuG1ZqHooYY9RonWt/RyMHdFq5n/Z1JRP1aA9aQrrzKimg85VkHzvQ==
-X-Received: by 2002:a17:90b:4012:b0:1c9:ba31:5364 with SMTP id ie18-20020a17090b401200b001c9ba315364mr10194466pjb.98.1648792098649;
-        Thu, 31 Mar 2022 22:48:18 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=2goerCXFIjJfRhdsQA7H1cbzpZCM5jdQytvLfoXzf9I=;
+        b=tDsF2vEbsG7N6bstYcoR3vZhzjT4ZdX3qQn6MJumV0linOZ+M/xUuCriikqQky4jC6
+         Ehs2oDopC3IEnIQXILHI9d5/e2csVST1vQ35103LGAyeufryN/exnd5IYmU0rR5ldF7A
+         vst/rOd8z+v1ePV512s92NMHbswknl9PXwxOVHWJexkvKiVJP+lYyGEv814qUSwHKdKA
+         maDWh6ndKqLQtfLCVP8vwZTi4v73R7Kh1E/8ImhanP3qPCWKj3dq8FpdCTKevO/d5Pty
+         bs32j49lFtII0D7JcS7XspCFPMGMTtOFfV5NnNcUi4I6/uPQIQszu9XjbGkIhsWKvYi8
+         4N2g==
+X-Gm-Message-State: AOAM533kIL7tbAxt77DHbTA2bm0j8ZJFu/N1y4F8K4fhQj+/ahZnImj+
+        IPgnjJzXVqamhcENUQ9gFFE=
+X-Google-Smtp-Source: ABdhPJxWzeDVS8xBfJp7EzS6sGdBaSQiZhITr9tSXxxyNN5e9ZsqIE2Tfy02Z3WdOjnGFXyQQmLpeQ==
+X-Received: by 2002:a05:6a00:1a06:b0:4fc:d6c5:f3d7 with SMTP id g6-20020a056a001a0600b004fcd6c5f3d7mr9204515pfv.53.1648792679389;
+        Thu, 31 Mar 2022 22:57:59 -0700 (PDT)
 Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id gt15-20020a17090af2cf00b001c755f3078dsm1056980pjb.50.2022.03.31.22.48.16
+        by smtp.gmail.com with ESMTPSA id f14-20020a056a0022ce00b004fabe9fac23sm1495139pfj.151.2022.03.31.22.57.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Mar 2022 22:48:18 -0700 (PDT)
-Message-ID: <ad15e1e0-96c8-3ba6-2731-112e9f92553b@gmail.com>
-Date:   Fri, 1 Apr 2022 14:48:14 +0900
+        Thu, 31 Mar 2022 22:57:58 -0700 (PDT)
+Message-ID: <e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gmail.com>
+Date:   Fri, 1 Apr 2022 14:57:54 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <73d98132-1d08-ef29-edb7-9e062b9154b8@infradead.org>
-Subject: Re: doc. warning question
 Content-Language: en-US
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Akira Yokosawa <akiyks@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <73d98132-1d08-ef29-edb7-9e062b9154b8@infradead.org>
+Subject: [PATCH -pm] docs: driver-api/thermal/intel_dptf: Include isonum.txt
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+For the "|copy|" substitution to work, need to include isonum.txt.
+
+Fixes: 16c02447f3e1 ("Documentation: thermal: DPTF Documentation")
+Reported by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: linux-pm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
 Hi,
 
-On Thu, 31 Mar 2022 19:13:37 -0700,
-Randy Dunlap wrote:
-> Hi,
-> 
-> I'm seeing this warning:
-> 
-> linux-next-20220331/Documentation/driver-api/thermal/intel_dptf.rst:7: WARNING: Undefined substitution referenced: "copy".
-> 
-> which says:
-> :Copyright: |copy| 2022 Intel Corporation
-> 
-> 
-> (and have been seeing it for awhile).
-> 
-> I don't see what is different or peculiar about this one. There are several similar
-> instances in other files in Documentation/driver-api/.
-> 
-> Any ideas?
-
-I think I know the answer.
-I'm preparing a fix.
+This fixes a doc build warning reported by Randy at
+https://lore.kernel.org/r/73d98132-1d08-ef29-edb7-9e062b9154b8@infradead.org/.
 
         Thanks, Akira
+--
+ Documentation/driver-api/thermal/intel_dptf.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> thanks.
-> -- 
-> ~Randy
+diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
+index 96668dca753a..2df82719c5be 100644
+--- a/Documentation/driver-api/thermal/intel_dptf.rst
++++ b/Documentation/driver-api/thermal/intel_dptf.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++.. include:: <isonum.txt>
++
+ ===============================================================
+ Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
+ ===============================================================
+-- 
+2.25.1
 
