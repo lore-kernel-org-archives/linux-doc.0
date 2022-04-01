@@ -2,171 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C992DC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 13:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A03CC43219
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 14:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346569AbiDAN4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 09:56:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
+        id S238624AbiDAOfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 10:35:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346560AbiDAN4t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 09:56:49 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DCE31DEA96;
-        Fri,  1 Apr 2022 06:54:59 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id CF9901FD00;
-        Fri,  1 Apr 2022 13:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1648821297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Frp3tIInEka3P2Yr15DFPHMIzz3d44O44QCWyD0Pr5c=;
-        b=PDXrAaej6QpQVD7IiCDYtXp8jX4AEsXSuJr27twRHZcxS5CjCoDTKkdTfsGU37Nj2kezwE
-        Rb3A9Nw0y6VvRZnolWrXOHyzp1cXzmPB98fySjUhUhsKVjp9FuMqWAa7B2+Wj5dFMibqMC
-        Cc/IydVHKdStWNk37bnYbWX7Qp333HE=
-Received: from suse.cz (unknown [10.100.201.86])
+        with ESMTP id S1347400AbiDAOcb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 10:32:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 562141EB83D;
+        Fri,  1 Apr 2022 07:28:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 9D223A3B82;
-        Fri,  1 Apr 2022 13:54:57 +0000 (UTC)
-Date:   Fri, 1 Apr 2022 15:54:57 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Yosry Ahmed <yosryahmed@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-Message-ID: <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
-References: <20220331084151.2600229-1-yosryahmed@google.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id F03FBB8250E;
+        Fri,  1 Apr 2022 14:28:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D67C36AE2;
+        Fri,  1 Apr 2022 14:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648823329;
+        bh=6Ul5pp7XIfNXKABwQ047h2r/t7RmSYZJneM1eZnztl8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ud4T8fx7Byeq8FaZjoBkAFahxSdfMKd+aF4E2hTGa4gi30af0LfuxiQYgu2tad+Ag
+         zNr88f6FpwoaicirSrFgt3BpdBwO0FpNzdfmYvFAN5FkP8LP8/Z/rkLQe3NvOHlAVR
+         y2kU+85sZgzIgYYBOegoJHOhnmmcQOv5axPu8FjxHGhdG9LMQlDAPgzlEwH68GJk/n
+         1w/TPQ7KcZAEz1+eHrMTx6KsoU9/n6CulDQu5KKESh9MUVj6wm+X6woxaWbw8AqeWI
+         oC6OqIYFEXpR9GGNCc0xNs+pasNzoyBMpGvBeG7ZlZNYUJg7UrtRuhE8HkwUHhxgWx
+         TEiib36xWKhFw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Marc Zyngier <maz@kernel.org>,
+        Alexandru Elisei <alexandru.elisei@arm.com>,
+        Sasha Levin <sashal@kernel.org>, pbonzini@redhat.com,
+        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        oupton@google.com, drjones@redhat.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu
+Subject: [PATCH AUTOSEL 5.17 059/149] KVM: arm64: Do not change the PMU event filter after a VCPU has run
+Date:   Fri,  1 Apr 2022 10:24:06 -0400
+Message-Id: <20220401142536.1948161-59-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
+References: <20220401142536.1948161-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331084151.2600229-1-yosryahmed@google.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
-> From: Shakeel Butt <shakeelb@google.com>
-> 
-> Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
-> 
-> Use case: Proactive Reclaim
-> ---------------------------
-> 
-> A userspace proactive reclaimer can continuously probe the memcg to
-> reclaim a small amount of memory. This gives more accurate and
-> up-to-date workingset estimation as the LRUs are continuously
-> sorted and can potentially provide more deterministic memory
-> overcommit behavior. The memory overcommit controller can provide
-> more proactive response to the changing behavior of the running
-> applications instead of being reactive.
-> 
-> A userspace reclaimer's purpose in this case is not a complete replacement
-> for kswapd or direct reclaim, it is to proactively identify memory savings
-> opportunities and reclaim some amount of cold pages set by the policy
-> to free up the memory for more demanding jobs or scheduling new jobs.
-> 
-> A user space proactive reclaimer is used in Google data centers.
-> Additionally, Meta's TMO paper recently referenced a very similar
-> interface used for user space proactive reclaim:
-> https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
-> 
-> Benefits of a user space reclaimer:
-> -----------------------------------
-> 
-> 1) More flexible on who should be charged for the cpu of the memory
-> reclaim. For proactive reclaim, it makes more sense to be centralized.
-> 
-> 2) More flexible on dedicating the resources (like cpu). The memory
-> overcommit controller can balance the cost between the cpu usage and
-> the memory reclaimed.
-> 
-> 3) Provides a way to the applications to keep their LRUs sorted, so,
-> under memory pressure better reclaim candidates are selected. This also
-> gives more accurate and uptodate notion of working set for an
-> application.
-> 
-> Why memory.high is not enough?
-> ------------------------------
-> 
-> - memory.high can be used to trigger reclaim in a memcg and can
->   potentially be used for proactive reclaim.
->   However there is a big downside in using memory.high. It can potentially
->   introduce high reclaim stalls in the target application as the
->   allocations from the processes or the threads of the application can hit
->   the temporary memory.high limit.
-> 
-> - Userspace proactive reclaimers usually use feedback loops to decide
->   how much memory to proactively reclaim from a workload. The metrics
->   used for this are usually either refaults or PSI, and these metrics
->   will become messy if the application gets throttled by hitting the
->   high limit.
-> 
-> - memory.high is a stateful interface, if the userspace proactive
->   reclaimer crashes for any reason while triggering reclaim it can leave
->   the application in a bad state.
-> 
-> - If a workload is rapidly expanding, setting memory.high to proactively
->   reclaim memory can result in actually reclaiming more memory than
->   intended.
-> 
-> The benefits of such interface and shortcomings of existing interface
-> were further discussed in this RFC thread:
-> https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
-> 
-> Interface:
-> ----------
-> 
-> Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
-> trigger reclaim in the target memory cgroup.
-> 
-> 
-> Possible Extensions:
-> --------------------
-> 
-> - This interface can be extended with an additional parameter or flags
->   to allow specifying one or more types of memory to reclaim from (e.g.
->   file, anon, ..).
-> 
-> - The interface can also be extended with a node mask to reclaim from
->   specific nodes. This has use cases for reclaim-based demotion in memory
->   tiering systens.
-> 
-> - A similar per-node interface can also be added to support proactive
->   reclaim and reclaim-based demotion in systems without memcg.
-> 
-> For now, let's keep things simple by adding the basic functionality.
+From: Marc Zyngier <maz@kernel.org>
 
-Yes, I am for the simplicity and this really looks like a bare minumum
-interface. But it is not really clear who do you want to add flags on
-top of it?
+[ Upstream commit 5177fe91e4cf78a659aada2c9cf712db4d788481 ]
 
-I am not really sure we really need a node aware interface for memcg.
-The global reclaim interface will likely need a different node because
-we do not want to make this CONFIG_MEMCG constrained.
+Userspace can specify which events a guest is allowed to use with the
+KVM_ARM_VCPU_PMU_V3_FILTER attribute. The list of allowed events can be
+identified by a guest from reading the PMCEID{0,1}_EL0 registers.
+
+Changing the PMU event filter after a VCPU has run can cause reads of the
+registers performed before the filter is changed to return different values
+than reads performed with the new event filter in place. The architecture
+defines the two registers as read-only, and this behaviour contradicts
+that.
+
+Keep track when the first VCPU has run and deny changes to the PMU event
+filter to prevent this from happening.
+
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+[ Alexandru E: Added commit message, updated ioctl documentation ]
+Signed-off-by: Alexandru Elisei <alexandru.elisei@arm.com>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Link: https://lore.kernel.org/r/20220127161759.53553-2-alexandru.elisei@arm.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/virt/kvm/devices/vcpu.rst |  2 +-
+ arch/arm64/include/asm/kvm_host.h       |  1 +
+ arch/arm64/kvm/arm.c                    |  4 +++
+ arch/arm64/kvm/pmu-emul.c               | 33 +++++++++++++++----------
+ 4 files changed, 26 insertions(+), 14 deletions(-)
+
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+index 60a29972d3f1..d063aaee5bb7 100644
+--- a/Documentation/virt/kvm/devices/vcpu.rst
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -70,7 +70,7 @@ irqchip.
+ 	 -ENODEV  PMUv3 not supported or GIC not initialized
+ 	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
+ 	 	  configured as required prior to calling this attribute
+-	 -EBUSY   PMUv3 already initialized
++	 -EBUSY   PMUv3 already initialized or a VCPU has already run
+ 	 -EINVAL  Invalid filter range
+ 	 =======  ======================================================
  
-> [yosryahmed@google.com: refreshed to current master, updated commit
-> message based on recent discussions and use cases]
-> Signed-off-by: Shakeel Butt <shakeelb@google.com>
-> Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
-
-All that being said. I haven't been a great fan for explicit reclaim
-triggered from the userspace but I do recognize that limitations of the 
-existing interfaces is just too restrictive.
-
-Acked-by: Michal Hocko <mhocko@suse.com>
-
-Thanks!
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 031e3a2537fc..8234626a945a 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -136,6 +136,7 @@ struct kvm_arch {
+ 
+ 	/* Memory Tagging Extension enabled for the guest */
+ 	bool mte_enabled;
++	bool ran_once;
+ };
+ 
+ struct kvm_vcpu_fault_info {
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 4dca6ffd03d4..85a2a75f4498 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -634,6 +634,10 @@ int kvm_arch_vcpu_run_pid_change(struct kvm_vcpu *vcpu)
+ 	if (kvm_vm_is_protected(kvm))
+ 		kvm_call_hyp_nvhe(__pkvm_vcpu_init_traps, vcpu);
+ 
++	mutex_lock(&kvm->lock);
++	kvm->arch.ran_once = true;
++	mutex_unlock(&kvm->lock);
++
+ 	return ret;
+ }
+ 
+diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+index fbcfd4ec6f92..bc771bc1a041 100644
+--- a/arch/arm64/kvm/pmu-emul.c
++++ b/arch/arm64/kvm/pmu-emul.c
+@@ -924,6 +924,8 @@ static bool pmu_irq_is_valid(struct kvm *kvm, int irq)
+ 
+ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ {
++	struct kvm *kvm = vcpu->kvm;
++
+ 	if (!kvm_vcpu_has_pmu(vcpu))
+ 		return -ENODEV;
+ 
+@@ -941,7 +943,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ 		int __user *uaddr = (int __user *)(long)attr->addr;
+ 		int irq;
+ 
+-		if (!irqchip_in_kernel(vcpu->kvm))
++		if (!irqchip_in_kernel(kvm))
+ 			return -EINVAL;
+ 
+ 		if (get_user(irq, uaddr))
+@@ -951,7 +953,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ 		if (!(irq_is_ppi(irq) || irq_is_spi(irq)))
+ 			return -EINVAL;
+ 
+-		if (!pmu_irq_is_valid(vcpu->kvm, irq))
++		if (!pmu_irq_is_valid(kvm, irq))
+ 			return -EINVAL;
+ 
+ 		if (kvm_arm_pmu_irq_initialized(vcpu))
+@@ -966,7 +968,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ 		struct kvm_pmu_event_filter filter;
+ 		int nr_events;
+ 
+-		nr_events = kvm_pmu_event_mask(vcpu->kvm) + 1;
++		nr_events = kvm_pmu_event_mask(kvm) + 1;
+ 
+ 		uaddr = (struct kvm_pmu_event_filter __user *)(long)attr->addr;
+ 
+@@ -978,12 +980,17 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ 		     filter.action != KVM_PMU_EVENT_DENY))
+ 			return -EINVAL;
+ 
+-		mutex_lock(&vcpu->kvm->lock);
++		mutex_lock(&kvm->lock);
++
++		if (kvm->arch.ran_once) {
++			mutex_unlock(&kvm->lock);
++			return -EBUSY;
++		}
+ 
+-		if (!vcpu->kvm->arch.pmu_filter) {
+-			vcpu->kvm->arch.pmu_filter = bitmap_alloc(nr_events, GFP_KERNEL_ACCOUNT);
+-			if (!vcpu->kvm->arch.pmu_filter) {
+-				mutex_unlock(&vcpu->kvm->lock);
++		if (!kvm->arch.pmu_filter) {
++			kvm->arch.pmu_filter = bitmap_alloc(nr_events, GFP_KERNEL_ACCOUNT);
++			if (!kvm->arch.pmu_filter) {
++				mutex_unlock(&kvm->lock);
+ 				return -ENOMEM;
+ 			}
+ 
+@@ -994,17 +1001,17 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
+ 			 * events, the default is to allow.
+ 			 */
+ 			if (filter.action == KVM_PMU_EVENT_ALLOW)
+-				bitmap_zero(vcpu->kvm->arch.pmu_filter, nr_events);
++				bitmap_zero(kvm->arch.pmu_filter, nr_events);
+ 			else
+-				bitmap_fill(vcpu->kvm->arch.pmu_filter, nr_events);
++				bitmap_fill(kvm->arch.pmu_filter, nr_events);
+ 		}
+ 
+ 		if (filter.action == KVM_PMU_EVENT_ALLOW)
+-			bitmap_set(vcpu->kvm->arch.pmu_filter, filter.base_event, filter.nevents);
++			bitmap_set(kvm->arch.pmu_filter, filter.base_event, filter.nevents);
+ 		else
+-			bitmap_clear(vcpu->kvm->arch.pmu_filter, filter.base_event, filter.nevents);
++			bitmap_clear(kvm->arch.pmu_filter, filter.base_event, filter.nevents);
+ 
+-		mutex_unlock(&vcpu->kvm->lock);
++		mutex_unlock(&kvm->lock);
+ 
+ 		return 0;
+ 	}
 -- 
-Michal Hocko
-SUSE Labs
+2.34.1
+
