@@ -2,125 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A5EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 06:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD69BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 08:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245393AbiDAG2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 02:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
+        id S243894AbiDAIlm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 04:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233382AbiDAG2T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 02:28:19 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD76E25FD5E
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 23:26:29 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id r13so2678117wrr.9
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 23:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=79X7EtfQCqwMr9U+t9hQNmDXR2b/b+GMQS5utWvmVGQ=;
-        b=fmfXk+Tv4xoqeekZzf6ZPTtQTZzHuzsEiNhIbI99tXJEhnC/b+7H7/6zXj3xUr3Gk1
-         d7AiW1f/qw/y5HSVcIGSlkjHg5+2XT2CtNk9FW5dCbsF6Gh/RnvSVzGWJuJ5+8ikninc
-         Jh5BQrsxGB93d3lgswATCM7ggLH3Ho4K6b2roHHWA9wytrD5u8mGLDjESgELUx+9fUAn
-         9zBXebPeViMHI+GTxJDVicHYBwg/a41E116freioQua2oX9WgeVY74IRTx7UNpiYJ9qW
-         bW6WXv2TyTeHljiOY7cbryPfWDEOzNK8LFM+cZbFtNiQRGIig5RB+XRc8iRFUN+qmZii
-         Sc0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=79X7EtfQCqwMr9U+t9hQNmDXR2b/b+GMQS5utWvmVGQ=;
-        b=3YzZ1+CIevbYYilSw8FOH7cc8l/d1ngq7PnLQJgXw6XyWqvVt+P2o5QODzMV+COqzR
-         pV4OWLsC5Xfmt8nJtJ0WMj94nGcT1j0c/alstf7yBxMCt0o3dvt5028KxKJ1qOA4Qh2G
-         b6kqREYbOUU7ehktoeKozxneKoRIikJ1bqXv1UZJpqB7CxmbfHuTzSkNhyDcHCe61eMa
-         XB2TZIAEeMO48jAC2Tmns+p+3e63sa/w0l05SF403ThhZUq0/wF55QorG2MNc8APo7cT
-         vfHhqXml4zPQKi+nRr7ionFpAZJCNZEcXwXBakt641koOGlaJfXx2L0z8DvXUYD/eeLh
-         9U9A==
-X-Gm-Message-State: AOAM531vwKnDdI3arEIPJSQUz+9vIgtY+U+kjwyhIzKcace1JxagzmZD
-        OXS1IDrajUIEPOpokxmh4KWEdgDjVF/HphEFjrC3JA==
-X-Google-Smtp-Source: ABdhPJxnCUH3DJN5Nhe1ho/cqLXP0iSBxtKYIuNCsF9SlZXn6TImxlu2h66ypv37iXWHmKcGWs6XmmUw8zB+duCMT7A=
-X-Received: by 2002:a05:6000:2c7:b0:205:cb41:2a82 with SMTP id
- o7-20020a05600002c700b00205cb412a82mr6304240wry.395.1648794388277; Thu, 31
- Mar 2022 23:26:28 -0700 (PDT)
+        with ESMTP id S230512AbiDAIll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 04:41:41 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0E84AE2E;
+        Fri,  1 Apr 2022 01:39:51 -0700 (PDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2318BD9T007910;
+        Fri, 1 Apr 2022 08:39:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=G5ux5PrsqjCTdlNQQ3/bauu6+cMr/v2RVE88yklbG+E=;
+ b=Qnyfejn1aUQcBYsQhL85YqKJSbN56nBITnvu9+GgL94Qa/kNf4DYzoNNM3W1GMsS/qmi
+ VejqjlbGKw+W3HaXb+j8d9eYn7Fj01jAjbnJEZjTirOTsUNbrn+29S4Fv9ftx6smO+Fr
+ Ujsm0Tb9gaB6XhsyeKOSU+SOC9rJu1VvbyCENboE4ZUHuOpmQY+2dPcveCREuVb1szdC
+ 0fIHTSvR9y46SQ5K6Jvhl+FgUYG61lyYCLAgir8Xj3TXV7t3oZp2wGiVcro6TK0dhGEE
+ uEhEZI6lcGqbfnFbSLynbzcmOMHECGyNOyHxM1RqsRSYoZWc3EKVBoR4orIWS3sr5rKA bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f58a4jyc1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 01 Apr 2022 08:39:41 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2318a6YB023665;
+        Fri, 1 Apr 2022 08:39:40 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f58a4jyb1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 01 Apr 2022 08:39:40 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2318T1bY030174;
+        Fri, 1 Apr 2022 08:39:38 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma01fra.de.ibm.com with ESMTP id 3f1tf8tn5s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 01 Apr 2022 08:39:37 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2318dZ5O46268794
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 1 Apr 2022 08:39:35 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8C50411C04A;
+        Fri,  1 Apr 2022 08:39:35 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 56E1B11C05E;
+        Fri,  1 Apr 2022 08:39:27 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.211.58.125])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Fri,  1 Apr 2022 08:39:26 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Fri, 01 Apr 2022 14:09:25 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Yosry Ahmed <yosryahmed@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+In-Reply-To: <20220331084151.2600229-1-yosryahmed@google.com>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+Date:   Fri, 01 Apr 2022 14:09:25 +0530
+Message-ID: <874k3d6vuq.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-References: <20220401024707.10550-1-rdunlap@infradead.org>
-In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 1 Apr 2022 14:26:16 +0800
-Message-ID: <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: fYnMBbHf2fqcpAFgRl4OOAvzPxfRlFzw
+X-Proofpoint-GUID: mFsW9vQ_hD_8f3vLjzxT3jZrMrJO2cNt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-01_03,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=718
+ clxscore=1011 spamscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204010037
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 1, 2022 at 10:47 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+
+Yosry Ahmed <yosryahmed@google.com> writes:
+> From: Shakeel Butt <shakeelb@google.com>
 >
-> Fix Sphinx complaints about code-block directive missing an argument.
-> For start.rst, add "none" since that is already heavily used in that
-> file. For run_wrapper.rst, use the simpler "::" literal block instead.
->
-> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
->
-> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
->
-> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
-> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Brendan Higgins <brendanhiggins@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Harinder Singh <sharinder@google.com>
-> Cc: Tim Bird <tim.bird@sony.com>
-> ---
+> Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+<snip>
 
-Thanks for fixing these.
+> +
+> +	while (nr_reclaimed < nr_to_reclaim) {
+> +		unsigned long reclaimed;
+> +
+> +		if (signal_pending(current))
+> +			break;
+> +
+> +		reclaimed = try_to_free_mem_cgroup_pages(memcg,
+> +						nr_to_reclaim - nr_reclaimed,
+> +						GFP_KERNEL, true);
+> +
+> +		if (!reclaimed && !nr_retries--)
+> +			break;
+> +
+> +		nr_reclaimed += reclaimed;
 
-Out of curiosity, is there a particular config option or version you
-need to set in sphinx to get these warnings? My setup (with Sphinx
-4.3.2) doesn't warn on this.
+I think there should be a cond_resched() in this loop before
+try_to_free_mem_cgroup_pages() to have better chances of reclaim
+succeding early.
 
-Nevertheless, I'll keep a closer eye on code-block directives in future.
+<snip>
 
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
+-- 
+Cheers
+~ Vaibhav
