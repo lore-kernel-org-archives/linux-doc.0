@@ -2,116 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F137C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 00:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C25AC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 00:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243203AbiDAAHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 20:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36884 "EHLO
+        id S243406AbiDAAVF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 20:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243196AbiDAAHI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 20:07:08 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383A3DBD09
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:05:20 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id e5so1038354pls.4
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:05:20 -0700 (PDT)
+        with ESMTP id S243402AbiDAAVC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 20:21:02 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D94036E13
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:19:12 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id k124-20020a1ca182000000b0038c9cf6e2a6so590429wme.0
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p1Kk4asKnMlrLdFRP7KKaRA1SmfSqVpzna8bIJo/9fM=;
-        b=Fo+F2q273Jom1d6+49Kn4y8sS3JIWP9Hm5KfaGS7UuL7ZN/g1Qc65G1IUtU+Txwf3t
-         NpieS75qeiyyqlsPakJVqEqZrH89XLxR3qd1c1Y5WDMAbmFNR6W6Fy9HGIJo62QbdoKC
-         hJFWcH09JN4eisXcydwjq+0r9v2qwE9hNm7ONJIgQZYak8OJhNvsYeHj6Gey41Nqb8+C
-         xdmR2Ag69ccHTmG3MpBKMewdek8eWwewZnpEJNMv6SsjQg1CY8B5FCc4iQzz19t6u7et
-         btanDcsTBRfl/tQFniC6gpNnfUEIbGZFNd4n55V5agn4e0QFPklp56aqROGoZLBrCsa4
-         njZw==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=topTsn3BbDfEubVD1cikcVfyc0RXu7k2rZg0bc7HcHo=;
+        b=kvy8iUb1fFHIuiK+XjgqcekL+X6UMxEzYpsrUiZ8Stm1VLlUJIAam6VAhMQAdmAbk6
+         bsSEg1aUauNnoglAjYIxKaP44MwOs+4OT4XmY7G2oqXPdj84UhOfYQ5Y08GbxveQbkvz
+         4A6Jy7qjdcj50NkLOrU34POwuYAJMBy0IPJa6ro2Gy1LkwjtLESG305tN64Rn9BcXZM1
+         amKusHf8M9dHjLnKptYtkvVO3FjH0xMZxBOuCDyPsHJK+2wK/wHwWIPCBVXdEMCTyWXt
+         ysi8ByznGhqNnsBdZySNf279wyWen3egCdQgHfElynmekbwZNfLEP9ZqBYZXFpS4AmDy
+         xuTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=p1Kk4asKnMlrLdFRP7KKaRA1SmfSqVpzna8bIJo/9fM=;
-        b=W2BD7ihEddwdaKx6IPKDSvM6vFZZbS5Gk2xJZLnWaRqBIaXzJ+pxbb5iXXv1qsj4Bq
-         4WPTN4GDu4S/cJjziX1xXK7E9mJETOCxVunbHBS+5RJwo8EtM9Tp4i5Yign907YDy19+
-         kCqohZlNv+Q4db/TnOiZ56J0sQHohmHvPXNgVxqF2rVooXxVPUuP/cP2ZBHvobyH15Ab
-         i+VfQ8njxeObxpZtmO/vWwXW4KY9c37F4YGNzBF3OnLU1luxIqzw0I1T75Wp6XTYRYcm
-         LlM6BS3Ew1bT/dFlhE8UXvdjtQzBW890UjWKFpojZxzwq6PC7KFaJJLJUBFJ57XWeEAZ
-         6wrA==
-X-Gm-Message-State: AOAM531p3U4NtEft+5xQH1HNc/jopRHyZSHW6d9Acxy//F71GsET5jSv
-        PTLvaZcuDAzvMItk53skt3y/p0mj78Ke8w==
-X-Google-Smtp-Source: ABdhPJxe1BJPhMA/qe+O/I1I6VTtI0vPk9DRXRO2Bb5f18M5jyRjbCnZzywP9UowAOFfgdvjVyYn/w==
-X-Received: by 2002:a17:902:d3c5:b0:154:a3b5:d918 with SMTP id w5-20020a170902d3c500b00154a3b5d918mr7696913plb.91.1648771519308;
-        Thu, 31 Mar 2022 17:05:19 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id 123-20020a620681000000b004fa7c20d732sm593121pfg.133.2022.03.31.17.05.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 17:05:18 -0700 (PDT)
-Date:   Thu, 31 Mar 2022 17:05:18 -0700 (PDT)
-X-Google-Original-Date: Thu, 31 Mar 2022 16:19:20 PDT (-0700)
-Subject:     Re: [PATCH] Documentation: riscv: remove non-existent document from table of contents
-In-Reply-To: <20220329084428.376003-1-bagasdotme@gmail.com>
-CC:     linux-doc@vger.kernel.org, bagasdotme@gmail.com,
-        Paul Walmsley <paul@pwsan.com>,
-        Atish Patra <atishp@rivosinc.com>, atishp@atishpatra.org,
-        Atish Patra <atishp@rivosinc.com>,
-        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     bagasdotme@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Message-ID: <mhng-cda2a9b2-2e3a-41a8-8df9-ee3d05d47a1a@palmer-mbp2014>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=topTsn3BbDfEubVD1cikcVfyc0RXu7k2rZg0bc7HcHo=;
+        b=V+YB7obhqUrlOw30Ho+OHUZdZiQQQimJNuefRR+CvXU7mCWn2P3w/4Yu98OI3zi69m
+         2Im7r5I3vUoSNLeZmBixmHdCdy4rtsl+DRzhfohzVR1+tRBXCct32G3hju5/hXOL5+X+
+         UbWTdhXKPeHrPNEzz+AofQurzJs1jR18hkHqYcQrrcx6CBs40YLbW/LWkeL6ke5g2b8n
+         mwJu/Ug+TXdoJSDsdUiE9PFJrqW/E6Idv3TvnWVSRTHulD+ygF9YYdkIYEkXi6O28y4n
+         EyLBWWxzatEejA+A0VCaVaGVjppkY/oKD0fcVjFsiBpScFa8yfeUxY4NbVPRqbNRd1cL
+         Wjkg==
+X-Gm-Message-State: AOAM53050TUlIfjb048M+EGaac8Zjpn+OqHBNnDbdGP2GCBjeG1CiU+O
+        pTVBRHBJctzB7MmmSI9QubDsi/PEjMte+Av6JO3wrw==
+X-Google-Smtp-Source: ABdhPJyU3aKfRMYGV4rQcmjJvbX4vx4GEoEzj2qPFt8IMYkbdKqPXLe0iMTVT88ha5fBbWcwRUdML5nEDifkS+vkK+w=
+X-Received: by 2002:a05:600c:6004:b0:38c:6c00:4316 with SMTP id
+ az4-20020a05600c600400b0038c6c004316mr6700826wmb.6.1648772350645; Thu, 31 Mar
+ 2022 17:19:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1648593132.git.marcelo.schmitt1@gmail.com>
+ <11f4750c6d4c175994dfd36d1ff385f68f61bd02.1648593132.git.marcelo.schmitt1@gmail.com>
+ <CABVgOSkb5CpnXDF_m7iy=A7RmN+KmY0T38TeZ4hKbmkdQgt6Yw@mail.gmail.com> <YkSv1eUfS9MxotOz@marsc.168.1.7>
+In-Reply-To: <YkSv1eUfS9MxotOz@marsc.168.1.7>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 1 Apr 2022 08:18:59 +0800
+Message-ID: <CABVgOSnP0OXjyX5x=F4L9okDnxUYuhWuf--LZ7fcmVmg2MDmLw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Documentation: dev-tools: Enhance static analysis
+ section with discussion
+To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Daniel Latypov <dlatypov@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, cocci@inria.fr,
+        smatch@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 29 Mar 2022 01:44:28 PDT (-0700), bagasdotme@gmail.com wrote:
-> Remove reference to non-existent pmu.rst from table of contents tree
-> in Documentation/riscv/index.rst.
+On Thu, Mar 31, 2022 at 3:30 AM Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
 >
-> Fixes: 23b1f18326ec ("Documentation: riscv: Remove the old
-> documentation")
-> Link: https://lore.kernel.org/linux-next/20220329133412.591d6882@canb.auug.org.au/
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Paul Walmsley <paul@pwsan.com>
-> Cc: Atish Patra <atish.patra@wdc.com>
-> Cc: Atish Patra <atishp@atishpatra.org>
-> Cc: Atish Patra <atishp@rivosinc.com>
-> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
-> Cc: linux-riscv@lists.infradead.org
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/riscv/index.rst | 1 -
->  1 file changed, 1 deletion(-)
+> On 03/30, David Gow wrote:
+> > On Wed, Mar 30, 2022 at 7:23 AM Marcelo Schmitt
+> > <marcelo.schmitt1@gmail.com> wrote:
+> > >
+> > > Enhance the static analysis tools section with a discussion on when to
+> > > use each of them.
+> > >
+> > > This was mainly taken from Dan Carpenter and Julia Lawall's comments on
+> > > the previous documentation patch for static analysis tools.
+> > >
+> > > Lore: https://lore.kernel.org/linux-doc/20220329090911.GX3293@kadam/T/#mb97770c8e938095aadc3ee08f4ac7fe32ae386e6
+> > >
+> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> > > Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> > > Cc: Julia Lawall <julia.lawall@inria.fr>
+> > > ---
+> >
+> > Thanks: this sort of "when to use which tool" information is really
+> > what the testing guide page needs.
+> >
+> > I'm not familiar enough with these tools that I can really review the
+> > details properly, but nothing stands out as obviously wrong to me.
+> > I've made a few comments below regardless, but feel free to ignore
+> > them if they're not quite right.
+> >
+> > Acked-by: David Gow <davidgow@google.com>
+> >
+> > Cheers,
+> > -- David
+> >
+> > >  Documentation/dev-tools/testing-overview.rst | 33 ++++++++++++++++++++
+> > >  1 file changed, 33 insertions(+)
+> > >
+> > > diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/dev-tools/testing-overview.rst
+> > > index b5e02dd3fd94..91e479045d3a 100644
+> > > --- a/Documentation/dev-tools/testing-overview.rst
+> > > +++ b/Documentation/dev-tools/testing-overview.rst
+> > > @@ -146,3 +146,36 @@ Documentation/dev-tools/coccinelle.rst documentation page for details.
+> > >
+> > >  Beware, though, that static analysis tools suffer from **false positives**.
+> > >  Errors and warns need to be evaluated carefully before attempting to fix them.
+> > > +
+> > > +When to use Sparse and Smatch
+> > > +-----------------------------
+> > > +
+> > > +Sparse is useful for type checking, detecting places that use ``__user``
+> > > +pointers improperly, or finding endianness bugs. Sparse runs much faster than
+> > > +Smatch.
+> >
+> > Given that the __user pointer and endianness stuff is found as a
+> > result of Sparse's type checking support, would rewording this as
+> > "Sparse does type checking, such as [detecting places...]" or similar
+> > be more clear?
 >
-> diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-> index ea915c1960488a..e23b876ad6ebb6 100644
-> --- a/Documentation/riscv/index.rst
-> +++ b/Documentation/riscv/index.rst
-> @@ -7,7 +7,6 @@ RISC-V architecture
+> Myabe. I tried changing it a little while adding a bit of information from
+> https://lwn.net/Articles/689907/
 >
->      boot-image-header
->      vm-layout
-> -    pmu
->      patch-acceptance
+> "Sparse does type checking, such as verifying that annotated variables do not
+> cause endianness bugs, detecting places that use ``__user`` pointers improperly,
+> and analyzing the compatibility of symbol initializers."
 >
->      features
+> Does it sound better?
 >
-> base-commit: 1930a6e739c4b4a654a69164dbe39e554d228915
 
-Adding the doc folks.
+Yeah: that sounds much better to me. Thanks!
 
-I'm going to go ahead and just take this via the RISC-V tree, as I just 
-broke things.  I'd usually wait for longer for an ack/review, but IMO 
-it's saner to just get this into rc1 so builds don't break.  My version 
-[1] was sent at the same time and was CC'd to the right place, but I'm 
-going to take this one instead.
+> >
+> > > +
+> > > +Smatch does flow analysis and, if allowed to build the function database, it
+> > > +also does cross function analysis. Smatch tries to answer questions like where
+> > > +is this buffer allocated? How big is it? Can this index be controlled by the
+> > > +user? Is this variable larger than that variable?
+> > > +
+> > > +It's generally easier to write checks in Smatch than it is to write checks in
+> > > +Sparse. Nevertheless, there are some overlaps between Sparse and Smatch checks
+> > > +because there is no reason for re-implementing Sparse's check in Smatch.
+> >
+> > This last sentence isn't totally clear to me. Should this "because" be "so"?
+>
+> Smatch uses (is shipped with) a modified Sparse implementation which it uses as
+> a C parser. Apparently, Sparse does some checkings while parsing the code for
+> Smatch so that's why we have some overlapping between the checks made when we
+> run Smatch and the ones made when we run Sparse alone.
+>
+> I didn't dig into the code, but I guess further modifying Sparse to prevent it
+> from doing some types of cheks wouldn't add much to Smatch. That last saying
+> should've reflected this fact, but it seems to cause confusion without a proper
+> context. Reading the sentence back again, I think we could just drop the last
+> part:
+>
+> "Nevertheless, there are some overlaps between Sparse and Smatch checks."
+>
 
-[1]: https://lore.kernel.org/lkml/20220329164544.29367-1-palmer@rivosinc.com/
+Yeah, I do think that makes more sense. I don't think the fact that
+some of the checks overlap causes any problems at all, to be honest,
+so you _could_ get rid of the whole sentence without losing too much,
+but I'm also happy with it as it is in v3.
 
-Thanks!
+
+> >
+> > > +
+> > > +Strong points of Smatch and Coccinelle
+> > > +--------------------------------------
+> > > +
+> > > +Coccinelle is probably the easiest for writing checks. It works before the
+> > > +pre-compiler so it's easier to check for bugs in macros using Coccinelle.
+> > > +Coccinelle also writes patches fixes for you which no other tool does.
+> > > +
+> > > +With Coccinelle you can do a mass conversion from
+> >
+> > (Maybe start this with "For example," just to make it clear that this
+> > paragraph is mostly following on from how useful it is that Coccinelle
+> > produces fixes, not just warnings.)
+>
+> Will do
+>
+> >
+> > > +``kmalloc(x * size, GFP_KERNEL)`` to ``kmalloc_array(x, size, GFP_KERNEL)``, and
+> > > +that's really useful. If you just created a Smatch warning and try to push the
+> > > +work of converting on to the maintainers they would be annoyed. You'd have to
+> > > +argue about each warning if can really overflow or not.
+> > > +
+> > > +Coccinelle does no analysis of variable values, which is the strong point of
+> > > +Smatch. On the other hand, Coccinelle allows you to do simple things in a simple
+> > > +way.
+> > > --
+> > > 2.35.1
+> > >
