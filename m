@@ -2,237 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9EEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 12:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17244C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 13:03:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243116AbiDAM6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 08:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52242 "EHLO
+        id S1346113AbiDANFE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 09:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346008AbiDAM6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 08:58:34 -0400
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14CFF27680F
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 05:56:43 -0700 (PDT)
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S245752AbiDANFB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 09:05:01 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F5962706E5;
+        Fri,  1 Apr 2022 06:03:12 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 0CD4E1FCFF;
+        Fri,  1 Apr 2022 13:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1648818191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L8Fv6ZDQ8m+qPC8dDpr3Y/+f6kvNVrRdMcIsE+f6ZEU=;
+        b=lubng6AuK16ZqODySVuFbAIiNelcW5AfzZgr4sNsal07K8TvFn3bNcchUYwkoBlOMOeKLp
+        BtLjH2snjDWIO1W3RF9RbkPDG+a/s+0v1MjSq4/BODP/3y/3mddKI4fF4Hxdnm1mZcB+1b
+        hW0uhc+1XDp1BKTMZ1QPAnz025krtu8=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 6E9C93F7F9
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 12:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1648817802;
-        bh=oz27duE5Ryo8jJ1fge3md1VX7PuJsZs6ffNWaIrGhqo=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=mye6/+uva7C28e6zBCtTdHDCYypnz+A60648rsUU3TVSODh28V9H0pFQPmj6PfYUW
-         xEe3DSe1QBBNSB5FmSgN/5xzo1zetb7J7ooqbyP0VKA0Bu3Tij1xzmdsmL+VML4SVk
-         dW7AulY7J+RUx4xYF91lz9QJXBl3bKPoBqlK5T6rEwrGt74FyIaZfZHcKM/GvVomPU
-         VPsYdCZtV2oEFJzJCPJiRYwbUODkrh51xYM0kxbN3MpeuOukO21NFIwMYxr4rBmGmg
-         9qHZt7yZDNVFlmdtC1CTmmIbtPVsuTS1SJv3bMevX5YtIEww8B6o63ssSKb2+vDEsJ
-         sKsXWY3WiKF/g==
-Received: by mail-ed1-f70.google.com with SMTP id b71-20020a509f4d000000b00418d658e9d1so1452349edf.19
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 05:56:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oz27duE5Ryo8jJ1fge3md1VX7PuJsZs6ffNWaIrGhqo=;
-        b=uasfJftZFiHjQixKiFbIc9NxCLqN4bBXF9P4GREmw35kAc4S2EbwXpwAD8zbDALz9a
-         n5vAN0DtqpUNMzP5HdbgnBuFKhhLqUT8L107LyndjVhNmW2whW7kFvBFsKOP+vHY00LC
-         0NJOChTg2WbpePIjygRrIEZ042WTRJTHowNJCYQEoGdHcpC4i6Cpo1gSniTzDKrgjWuK
-         A9fQbU0gFamJW6yV/v1Wii/tio96iabRlRe4ZGbx4lycyoEOos4fBgQypgC1QCNmloSe
-         MMK71G/aFNffK0txiK3BfMhtVcJffHao3oF6KF7MFw+RVUDsy7bmTxPjvv+girWzSIa5
-         xJTw==
-X-Gm-Message-State: AOAM530px+NODr6yPbfTtrN1FzbifEVEpz5VkiZchVAfT0KejEFOwpHI
-        p3Z0Mq999OvjprsLGVnjonSXrOgg/FXowyyq1Kh/lDvkKFW0ZyCyGW5Y0sPnnUmZ6sziQMJeH1E
-        Rji+xEkly3od89Kd6b+fGlXiCUY/Q8KjBvqZoRwS/cIn8NEKMqxM2Ug==
-X-Received: by 2002:a17:907:6d90:b0:6e4:de0d:462 with SMTP id sb16-20020a1709076d9000b006e4de0d0462mr1479980ejc.297.1648817802130;
-        Fri, 01 Apr 2022 05:56:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3UOVWoFjs/8J+LCeSjgOBZWMsxpLRT/MRpcKhhW7WGYKzTlQ7ENxIvkntR92kvsH+XxHiD2o6KQi3CkOW2X0=
-X-Received: by 2002:a17:907:6d90:b0:6e4:de0d:462 with SMTP id
- sb16-20020a1709076d9000b006e4de0d0462mr1479957ejc.297.1648817801897; Fri, 01
- Apr 2022 05:56:41 -0700 (PDT)
+        by relay2.suse.de (Postfix) with ESMTPS id 59DE7A3B87;
+        Fri,  1 Apr 2022 13:03:10 +0000 (UTC)
+Date:   Fri, 1 Apr 2022 15:03:09 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Wei Xu <weixugc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+Message-ID: <Ykb4DVt0eKrstDWv@dhcp22.suse.cz>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <20220331173350.1fe09370479a4a6f916b477d@linux-foundation.org>
+ <CAAPL-u-_Da0qe7h_o70HCz4gPtjT8_bjx4rVNdgKZh3KNruzpA@mail.gmail.com>
+ <CAJD7tkarUYM6fjty8FXn9gtR=RVWgksa3LNwswi1Ug1LPnLt4g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <mhng-cdec292e-aea2-4b76-8853-b8465521e94f@palmer-ri-x1c9>
- <CA+zEjCuTSjOCmNExSN1jO50tsuXNzL9x6K6jWjG4+vVky5eWsw@mail.gmail.com>
- <CA+zEjCuTYmk-dLPhJ=9CkNrqf7VbCNyRDSZUGYkJSUWqZDWHpA@mail.gmail.com> <CA+zEjCt04OV++qK5ar+p8HwqOfEgkSN8YFfxwRiCFw1FeJv2rg@mail.gmail.com>
-In-Reply-To: <CA+zEjCt04OV++qK5ar+p8HwqOfEgkSN8YFfxwRiCFw1FeJv2rg@mail.gmail.com>
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Fri, 1 Apr 2022 14:56:30 +0200
-Message-ID: <CA+zEjCuyEsB0cHoL=zepejcRbn9Rwg9nRXLMZCOXe_daSWbvig@mail.gmail.com>
-Subject: Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
-        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
-        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        keescook@chromium.org, guoren@linux.alibaba.com,
-        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJD7tkarUYM6fjty8FXn9gtR=RVWgksa3LNwswi1Ug1LPnLt4g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 18, 2022 at 11:45 AM Alexandre Ghiti
-<alexandre.ghiti@canonical.com> wrote:
->
-> Hi Palmer,
->
-> On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
-> <alexandre.ghiti@canonical.com> wrote:
+On Fri 01-04-22 02:17:28, Yosry Ahmed wrote:
+> On Thu, Mar 31, 2022 at 8:38 PM Wei Xu <weixugc@google.com> wrote:
 > >
-> > On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
-> > <alexandre.ghiti@canonical.com> wrote:
+> > On Thu, Mar 31, 2022 at 5:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > > >
-> > > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> > > On Thu, 31 Mar 2022 08:41:51 +0000 Yosry Ahmed <yosryahmed@google.com> wrote:
+> > >
+> > > > --- a/mm/memcontrol.c
+> > > > +++ b/mm/memcontrol.c
+> > > > @@ -6355,6 +6355,38 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
+> > > >       return nbytes;
+> > > >  }
 > > > >
-> > > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
-> > > > > * Please note notable changes in memory layouts and kasan population *
-> > > > >
-> > > > > This patchset allows to have a single kernel for sv39 and sv48 without
-> > > > > being relocatable.
-> > > > >
-> > > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
-> > > > > that is mapping the kernel to the end of the address space, which allows
-> > > > > the kernel to be linked at the same address for both sv39 and sv48 and
-> > > > > then does not require to be relocated at runtime.
-> > > > >
-> > > > > This implements sv48 support at runtime. The kernel will try to
-> > > > > boot with 4-level page table and will fallback to 3-level if the HW does not
-> > > > > support it. Folding the 4th level into a 3-level page table has almost no
-> > > > > cost at runtime.
-> > > > >
-> > > > > Note that kasan region had to be moved to the end of the address space
-> > > > > since its location must be known at compile-time and then be valid for
-> > > > > both sv39 and sv48 (and sv57 that is coming).
-> > > > >
-> > > > > Tested on:
-> > > > >   - qemu rv64 sv39: OK
-> > > > >   - qemu rv64 sv48: OK
-> > > > >   - qemu rv64 sv39 + kasan: OK
-> > > > >   - qemu rv64 sv48 + kasan: OK
-> > > > >   - qemu rv32: OK
-> > > > >
-> > > > > Changes in v3:
-> > > > >   - Fix SZ_1T, thanks to Atish
-> > > > >   - Fix warning create_pud_mapping, thanks to Atish
-> > > > >   - Fix k210 nommu build, thanks to Atish
-> > > > >   - Fix wrong rebase as noted by Samuel
-> > > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
-> > > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
-> > > > >
-> > > > > Changes in v2:
-> > > > >   - Rebase onto for-next
-> > > > >   - Fix KASAN
-> > > > >   - Fix stack canary
-> > > > >   - Get completely rid of MAXPHYSMEM configs
-> > > > >   - Add documentation
-> > > > >
-> > > > > Alexandre Ghiti (13):
-> > > > >   riscv: Move KASAN mapping next to the kernel mapping
-> > > > >   riscv: Split early kasan mapping to prepare sv48 introduction
-> > > > >   riscv: Introduce functions to switch pt_ops
-> > > > >   riscv: Allow to dynamically define VA_BITS
-> > > > >   riscv: Get rid of MAXPHYSMEM configs
-> > > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-> > > > >   riscv: Implement sv48 support
-> > > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
-> > > > >   riscv: Explicit comment about user virtual address space size
-> > > > >   riscv: Improve virtual kernel memory layout dump
-> > > > >   Documentation: riscv: Add sv48 description to VM layout
-> > > > >   riscv: Initialize thread pointer before calling C functions
-> > > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
-> > > > >
-> > > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
-> > > > >  arch/riscv/Kconfig                            |  37 +-
-> > > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
-> > > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
-> > > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
-> > > > >  arch/riscv/include/asm/csr.h                  |   3 +-
-> > > > >  arch/riscv/include/asm/fixmap.h               |   1
-> > > > >  arch/riscv/include/asm/kasan.h                |  11 +-
-> > > > >  arch/riscv/include/asm/page.h                 |  20 +-
-> > > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
-> > > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
-> > > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
-> > > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
-> > > > >  arch/riscv/kernel/cpu.c                       |  23 +-
-> > > > >  arch/riscv/kernel/head.S                      |   4 +-
-> > > > >  arch/riscv/mm/context.c                       |   4 +-
-> > > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
-> > > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
-> > > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
-> > > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
-> > > > >  include/asm-generic/pgalloc.h                 |  24 +-
-> > > > >  include/linux/sizes.h                         |   1
-> > > > >  22 files changed, 833 insertions(+), 209 deletions(-)
-> > > >
-> > > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
-> > > > handful of trivial fixes for configs that were failing to build/boot and
-> > > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
-> > > > it'd be easier to backport.  This is bigger than something I'd normally like to
-> > > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
-> > > > and it looks like folks have been testing this I'm just going to go with it.
-> > > >
+> > > > +static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+> > > > +                           size_t nbytes, loff_t off)
+> > > > +{
+> > > > +     struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+> > > > +     unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+> > > > +     unsigned long nr_to_reclaim, nr_reclaimed = 0;
+> > > > +     int err;
+> > > > +
+> > > > +     buf = strstrip(buf);
+> > > > +     err = page_counter_memparse(buf, "", &nr_to_reclaim);
+> > > > +     if (err)
+> > > > +             return err;
+> > > > +
+> > > > +     while (nr_reclaimed < nr_to_reclaim) {
+> > > > +             unsigned long reclaimed;
+> > > > +
+> > > > +             if (signal_pending(current))
+> > > > +                     break;
+> > > > +
+> > > > +             reclaimed = try_to_free_mem_cgroup_pages(memcg,
+> > > > +                                             nr_to_reclaim - nr_reclaimed,
+> > > > +                                             GFP_KERNEL, true);
+> > > > +
+> > > > +             if (!reclaimed && !nr_retries--)
+> > > > +                     break;
+> > > > +
+> > > > +             nr_reclaimed += reclaimed;
+> > > > +     }
 > > >
-> > > Yes yes yes! That's fantastic news :)
-> > >
-> > > > Let me know if there's any issues with the merge, it was a bit hairy.
-> > > > Probably best to just send along a fixup patch at this point.
-> > >
-> > > I'm going to take a look at that now, and I'll fix anything that comes
-> > > up quickly :)
+> > > Is there any way in which this can be provoked into triggering the
+> > > softlockup detector?
 > >
-> > I see in for-next that you did not take the following patches:
-> >
-> >   riscv: Improve virtual kernel memory layout dump
-> >   Documentation: riscv: Add sv48 description to VM layout
-> >   riscv: Initialize thread pointer before calling C functions
-> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
-> >
-> > I'm not sure this was your intention. If it was, I believe that at
-> > least the first 2 patches are needed in this series, the 3rd one is a
-> > useful fix and we can discuss the 4th if that's an issue for you.
->
-> Can you confirm that this was intentional and maybe explain the
-> motivation behind it? Because I see value in those patches.
+> > memory.reclaim is similar to memory.high w.r.t. reclaiming memory,
+> > except that memory.reclaim is stateless, while the kernel remembers
+> > the state set by memory.high.  So memory.reclaim should not bring in
+> > any new risks of triggering soft lockup, if any.
 
-Palmer,
+Memory reclaim already has cond_resched even if there is nothing
+reclaimable. See shrink_node_memcgs
 
-I read that you were still taking patches for 5.18, so I confirm again
-that the patches above are needed IMO.
-
-Maybe even the relocatable series?
-
-Thanks,
-
-Alex
-
->
-> Thanks,
->
-> Alex
->
+> > > Is it optimal to do the MAX_RECLAIM_RETRIES loop in the kernel?
+> > > Would additional flexibility be gained by letting userspace handle
+> > > retrying?
 > >
-> > I tested for-next on both sv39 and sv48 successfully, I took a glance
-> > at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
-> > that. Otherwise nothing obvious has popped.
-> >
-> > Thanks again,
-> >
-> > Alex
-> >
-> > >
-> > > Thanks!
-> > >
-> > > Alex
-> > >
-> > > >
-> > > > Thanks!
+> > I agree it is better to retry from the userspace.
+> 
+> Thanks Andrew and Wei for looking at this. IIUC the
+> MAX_RECLAIM_RETRIES loop was modeled after the loop in memory.high as
+> well. Is there a reason why it should be different here?
+
+No, I would go with the same approach other interfaces use. I am not a
+great fan of MAX_RECLAIM_RETRIES - especially when we have a bail out on
+signals - but if we are to change this then let's do it consisently.
+
+-- 
+Michal Hocko
+SUSE Labs
