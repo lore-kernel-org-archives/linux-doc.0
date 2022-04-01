@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31378C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 09:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA18EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 09:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbiDAJOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 05:14:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46200 "EHLO
+        id S1344413AbiDAJSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 05:18:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344389AbiDAJOT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 05:14:19 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0D3265EAD
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 02:12:28 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id o3-20020a17090a3d4300b001c6bc749227so1971529pjf.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 02:12:28 -0700 (PDT)
+        with ESMTP id S243987AbiDAJSI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 05:18:08 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712B01CABC0
+        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 02:16:18 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id t13so1945669pgn.8
+        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 02:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TTgjpbxi+atnp9axNVFkq7OGFubJ8g3qn22nFzknXc0=;
-        b=BJ7yd3RqMpeyZP/nXaJIqtS0xR9zz6WFUei6+PbJx29crBeMBoajAHTDBFqT/NP/E9
-         oDskgt1nDRh5HaFRpNsKLfCBPspbWgH8cCGdFcCBdjHXQsgZe7KYIL2BHqwf89YC2KqE
-         FU1D88az6OaXiSSpAJa0xhtQvr3n9BKcuFwA/YBZ/Jyf7/x9liXJJ0BGx8kvbP4eC8sV
-         bnF/eQBu+fZeYpJPE1wiLaT1wHA93zccpcqbztUDXVgRcYURXvHnX+RbafbV1iWb4j5D
-         gn0lTg7NhGi/NMUl3PMdZ11PMU3EVUfR9yFC1YuR3rOGIjL/88llWWZvDc4Oi9MsFlpW
-         BsNQ==
+        bh=mVtM4JSAbem5vI9+iuqfBK73jb3O87WJ5L8y1a9lG0k=;
+        b=qBhXowGyC8QPVrqYIiBrDRqGidNxRPybkTr1qpdVQuxv2f1BsLDxISO4qXFuFcNK7k
+         CjkH1IIsBGXG5QGrrQilYhMyUyVQ6Ffguxz8o4aPErdkR+RyesWbakUcwsTVHuRnggU5
+         41PA8xIK8/aT4fT3MRjvLBsVrYLlprc8AQiOzUWqTvvbWJjGQ6I/nhZQoH/ahBpr5noN
+         O2+Eq72KeLQLXtISp5EFkDKwDOvhw5J4Wx3vr2sHnwgWl4dGDROEQ3tfLw7yGl0x5C+q
+         XLbIfJS6nMf3DsP5oxD6k4cHALXNs2ggeBrQWfkIHsrAf++kuBxMf6i5Pqxf1SogT8Mo
+         nUVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TTgjpbxi+atnp9axNVFkq7OGFubJ8g3qn22nFzknXc0=;
-        b=hrshgv9kz3QV9Ke/qbhBqitHXhnPqCdi/rMvra/ztVNiIoCZNZRZm4gq8sICktDFGw
-         6KDD+KSxC1GMW2mjobfqC+9IiSj1tHpvmxheteloEe2ZUq916lAI3FH1mVkRsb082B3t
-         zuLfr2H7zqiSY/C6qSuSG1dpE8g/ADHChF3cx8D2bOJwK1zzfroybLlmyAxZlgMLlj7+
-         VccKlX/hWvnw7FkMb5puv7Atllhfu60MamPrfUr8qifLWUTPbzfMm3jWx/68gWyP7fSV
-         6JPl/OPhd4MdsKbInLvIoA6zhnLUA/fEAQmmD5nTDQCS6QrFZ7hIEKlHQHq9gwYw7p8O
-         NWSg==
-X-Gm-Message-State: AOAM532ocEwKPanVmlz6HJlsWFWl7fV400f6qTLQt8fXk9pXJbFtkpfb
-        k2REhsNHZ9Iok1SmZ/Yi+H67DboJdHY2rMr1dwq72w==
-X-Google-Smtp-Source: ABdhPJzopBl16/r1LJ0fm04p7JCvGevCb43y19JegZ3PEwne5+cHWxKVLGwBpnfGLKYJXujMrPBfvrr2QbDLUvnpMww=
-X-Received: by 2002:a17:902:f24b:b0:154:de5:a24c with SMTP id
- j11-20020a170902f24b00b001540de5a24cmr9507262plc.162.1648804348061; Fri, 01
- Apr 2022 02:12:28 -0700 (PDT)
+        bh=mVtM4JSAbem5vI9+iuqfBK73jb3O87WJ5L8y1a9lG0k=;
+        b=bNmyx0moGCwwSt8Jn4CwoBMogyTFzMc4cniGd4hSJzXAXLnylKbDrd1WeNgS4E/4Y+
+         pFeYfbg0Ibqg9CfifUofy4rKcwQGBltWXDiXs71v6OVSUFUKORnosiu1eYoFA1/CCcM3
+         prN9A/ftD0iMpVZQddoJ4WOcp/sb2CYSc4WwcF31eUl0nxziD/DlcOn0CYaEvhKBoMgL
+         KBgs1pXmZcRTeoqXv7E30zpuazJir/ZBtsFhFO/14NwfAwPQsxZBdBbpuhbvuo0LPGXB
+         uiBvsmdQLBCmg89CZY7oOdqMxz6r8YaeV52mvXMK3ogfMCVQBQOR1h7dYHG+ZtHpgEsX
+         sCQg==
+X-Gm-Message-State: AOAM531CW/sLeNChnhNYqxwrg5NXM3fV7lUSKscDA7jGuVoKhTayrKmm
+        Q6gHNFNxngXJ66FZhOnmK2d5gkzMKnfwKr88DCEZfQ==
+X-Google-Smtp-Source: ABdhPJxVpSge4lhANEie6/fjIW+bzMrkYinehipLbgvk+7CkO338yLhmViJP9F1aNuuv60tpEIk5t5ZrXK2q7845Y2c=
+X-Received: by 2002:a63:ff63:0:b0:386:327:5353 with SMTP id
+ s35-20020a63ff63000000b0038603275353mr14022888pgk.401.1648804577681; Fri, 01
+ Apr 2022 02:16:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220331084151.2600229-1-yosryahmed@google.com> <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com>
 In-Reply-To: <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com>
 From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Fri, 1 Apr 2022 02:11:51 -0700
-Message-ID: <CAJD7tkYVpnf1+sa9vRAQCw5H0LUH6zE6_yhNAFwKF3sW0BLzEA@mail.gmail.com>
+Date:   Fri, 1 Apr 2022 02:15:41 -0700
+Message-ID: <CAJD7tkZxqWg2NRi=83wSWLiykZBfrP8Kx_C5JWy48=rZoBWoHw@mail.gmail.com>
 Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
 To:     Roman Gushchin <roman.gushchin@linux.dev>
 Cc:     Johannes Weiner <hannes@cmpxchg.org>,
@@ -171,15 +171,6 @@ On Thu, Mar 31, 2022 at 10:25 AM Roman Gushchin
 > Also, please please add a test to selftests/cgroup/memcg tests.
 > It will also provide an example on how the userspace can use the feature.
 >
-
-Hi Roman, thanks for taking the time to review this!
-
-A timeout can be a good extension, I will add it to the commit message
-in the next version in possible extensions.
-
-I will add a test in v2, thanks!
-
->
 > >
 > > For now, let's keep things simple by adding the basic functionality.
 >
@@ -188,24 +179,10 @@ I will add a test in v2, thanks!
 > reasonable to me, so we'll likely have to implement them soon. So let's think
 > about the extensibility now.
 >
-
-My idea is to have these extensions as optional positional arguments
-(like Wei suggested), so that the interface does not get too
-complicated for users who don't care about tuning these options. If
-this is the case then I think there is nothing to worry about.
-Otherwise, if you think some of these options make sense to be a
-required argument instead, we can rethink the initial interface.
-
 > I wonder if it makes more sense to introduce a sys_reclaim() syscall instead?
 > In the end, such a feature might make sense on the system level too.
 > Yes, there is the drop_caches sysctl, but it's too radical for many cases.
 >
-
-I think in the RFC discussion there was consensus to add both a
-per-memcg knob, as well as per-node / per-system knobs (through sysfs
-or syscalls) later. Wei also points out that it's not common for a
-syscall to have a cgroup argument.
-
 > >
 > > [yosryahmed@google.com: refreshed to current master, updated commit
 > > message based on recent discussions and use cases]
@@ -289,3 +266,11 @@ syscall to have a cgroup argument.
 > > +             .write = memory_reclaim,
 >
 > Btw, why not on root?
+
+I missed the root question in my first reply. I think this was
+originally modeled after the memory.high interface, but I don't know
+if there are other reasons. Shakeel would know better.
+
+AFAIK this should work naturally on root as well, but I think it makes
+more sense then to use a global interface (hopefully introduced soon)?
+I don't have an opinion here let me know what you prefer for v2.
