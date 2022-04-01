@@ -2,225 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B891C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 16:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7451FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 16:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239306AbiDAQh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 12:37:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41174 "EHLO
+        id S1346597AbiDAQ60 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 12:58:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349610AbiDAQgx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 12:36:53 -0400
-Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA43189A04;
-        Fri,  1 Apr 2022 09:11:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
-        s=Selector; t=1648829506; i=@motorola.com;
-        bh=YeQIqoGThc8urtgwTdfFd0hpcomzfYgoZUG1awzffy8=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-         Content-Transfer-Encoding;
-        b=bJjZ6jkCnh6BuOkrrwput47dSxinVaUQMipkQcdzu9nAMZMar3EX5vrMuKcLegg5L
-         XVDlMHVKYcRuFIH1xycCGtqaR5le7BevvL9U5hpVB0f27lXYT/xLlxFmnya86R1/BU
-         /bd0xte5kpnnbR7LvT+FwyFAi8TxCtaJxVGHMj9wgaweK3rES9ijxB6n2X9/b299Er
-         GFeHo8HUIy733uA+tbstdEJ6xhOYsqy2rRPOffYe2Chz+5RdIQ1mZfVC78o8OC/1tV
-         e9u27JL9zZwo0zEkLdxv7epleb79AdqPujlyKb4HE3uwr0uOeMQK6kR4jBKBJw3YK1
-         qFtffvQ59swfQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRWlGSWpSXmKPExsWS8eKJuK6jinu
-  SwZcNChbH2p6wW8zZHG3x5EA7o0Xz4vVsFp0Tl7BbLGxbwmJxedccNotFy1qZLR7Ovspo8fbO
-  dBYHLo/ZHTNZPTav0PLYtKqTzWP/3DXsHov7JrN6fN4k53Fo+xu2APYo1sy8pPyKBNaMddMLC
-  95oVGzo38LWwDhTqYuRi0NIYAaTRNO3aawQzlImiXNnv7F0MXJysAmoSSx4vYoZxBYRkJU4fO
-  U3M0gRs0AHs8TP9YvZQRLCAgESkzqXghWxCKhK7Do9B6yZV8Bc4vT2jYwgtoSAvMSpZQeZIOK
-  CEidnPgGrYQaKN2+dzTyBkXsWktQsJKkFjEyrGK2TijLTM0pyEzNzdA0NDHQNDU10zUx1DS2N
-  9RKrdBP1Sot1UxOLS3SN9BLLi/VSi4v1iitzk3NS9PJSSzYxAsM4pcjx4A7GQ6t+6h1ilORgU
-  hLlnavkniTEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgveSAlBOsCg1PbUiLTMHGFMwaQkOHiUR3o
-  eyQGne4oLE3OLMdIjUKUZdjkuHruxlFmLJy89LlRLn5VAGKhIAKcoozYMbAYvvS4yyUsK8jAw
-  MDEI8BalFuZklqPKvGMU5GJWEecVApvBk5pXAbXoFdAQT0BH6N1xBjihJREhJNTDd9lpdp7Tt
-  sIERo3z1k2t3ukWypWOL469uLc2Njl7hs2SRZ1JgzvLuTp/LTx9/+9e7iyXXpvvx+i8XTh5fW
-  V5VHGvhfTblS8iTjP4Uo8iCdcoHjMU/iC2bw9zQ8F11Rlaj1hGuG2InbiQtT1/1dE2I9/S3C9
-  n9mBfuCi7seaSV6LXo1A+Zxf032QKFFJ4UZZ71nGS05cmBhz9ffk8Wk1ptw7v/McdRUUXRGQa
-  fs6qKcq9GHF3wfOKhtrvZdwTWvNmiaZtdvllu6+VtsU18i96y6O9jWSfaHfPGpnQ5O3/g4WXf
-  +Pwbd/e0x3SG+pUYMa2s8ntw0kbx+YI09k9vVux5N/3y94qIbWc5FDMZlfYqsRRnJBpqMRcVJ
-  wIAQeYN+moDAAA=
-X-Env-Sender: w36195@motorola.com
-X-Msg-Ref: server-3.tower-715.messagelabs.com!1648829505!14608!1
-X-Originating-IP: [104.232.228.23]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.85.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 29768 invoked from network); 1 Apr 2022 16:11:45 -0000
-Received: from unknown (HELO va32lpfpp03.lenovo.com) (104.232.228.23)
-  by server-3.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Apr 2022 16:11:45 -0000
-Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by va32lpfpp03.lenovo.com (Postfix) with ESMTPS id 4KVQCj0xTlz50WfM;
-        Fri,  1 Apr 2022 16:11:45 +0000 (UTC)
-Received: from p1g3.. (unknown [10.45.5.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: w36195)
-        by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4KVQCh55QWzf6f8;
-        Fri,  1 Apr 2022 16:11:44 +0000 (UTC)
-From:   Dan Vacura <w36195@motorola.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Dan Vacura <w36195@motorola.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2] usb: gadget: uvc: allow changing interface name via configfs
-Date:   Fri,  1 Apr 2022 11:04:45 -0500
-Message-Id: <20220401160447.5919-1-w36195@motorola.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S1349587AbiDAQ6M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 12:58:12 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5292D118619
+        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 09:56:21 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id x9so2386916ilc.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 09:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AocYHkt1MbaGb+EzbKia8sCXii4deKplOa2PaIkASDE=;
+        b=YDqVBVNEE8HcVFjurxrYb5hOycjVTxK7fOeL/e4ZGq8suMwkA1++G6q7Opq8eNnXmv
+         alhVqf6Q7sfMLjETKtpr386gqUSGhJX2C6o2VvqlJ8p7HtB5bwcIcNB0XRLlv6htt1PB
+         6hec/drOZlO2WnMOaNRiPlu1yfFknBkU60wZ93cfloTZc/pNROVqNWR8vRewZz+ln2Yz
+         GlgZw6Iv28fbArfWaavfo1YtdgqBkQ2LbR1nzQx/nUEoG9vwDenS8VHv7x3IpHv6BiGC
+         VOvSWmSoJUdtRtes52igqYpgxtIqlBQo6hHyvFe36ewT2/HlDIhhe/hMWBPT6zWryEwJ
+         /Aqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AocYHkt1MbaGb+EzbKia8sCXii4deKplOa2PaIkASDE=;
+        b=Il0VQzV9kQMSiTmtHvLgvel3mLp3Jwx85PF+YdpOiR4GbTlrp7La3tU6K+oiqiRKhy
+         H/7Idv+T9MQ0Lc4pFKEHcZS669t7Eq4AQhZgQVNoa7aRi4EAKAyyFcTcRD1XmkYs7+zq
+         yIXMpbjIBiqciSEcijH7ivpRnDWUn6KXdAivdVqtPTMMjw5n5pmWW/5c0GRM90Wlec9S
+         ha5fEK3nrZHat/IdvJtWr9+bdjIK6or+oEBZIJW53bU6VOXw992YtsIfiYBtmV1I1dTg
+         KstfQEaM3bSS3uomfNL8ZdbN3Wtf5yuFgyP1iC3ad2M11cd3Uv2pMuME4xL0ZLSmhCuQ
+         MVag==
+X-Gm-Message-State: AOAM530ZTB0aF5rGdzd60qb2lWY+rjWmbZ1nnOXsj3uFL5B1PEWCmy+i
+        FkK65WjuePnwGBq6LlgcCUbLsy88Q/Ahz4xqM0U15Q==
+X-Google-Smtp-Source: ABdhPJzSqAvEGZ84kfSPUS4u/aBoCuEYziFNCF1E0HAsnpfVQ8pj/c5nHIXH+rK38nN3J+0RORQPCdedCZH1BwcUCGw=
+X-Received: by 2002:a05:6e02:1b8f:b0:2ca:9c6:434a with SMTP id
+ h15-20020a056e021b8f00b002ca09c6434amr342958ili.303.1648832180377; Fri, 01
+ Apr 2022 09:56:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220331084151.2600229-1-yosryahmed@google.com> <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+In-Reply-To: <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+From:   Wei Xu <weixugc@google.com>
+Date:   Fri, 1 Apr 2022 09:56:08 -0700
+Message-ID: <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a configfs entry, "function_name", to change the iInterface field
-for VideoControl. This name is used on host devices for user selection,
-useful when multiple cameras are present. The default will remain "UVC
-Camera".
+On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+> > From: Shakeel Butt <shakeelb@google.com>
+> >
+> > Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+> >
+> > Use case: Proactive Reclaim
+> > ---------------------------
+> >
+> > A userspace proactive reclaimer can continuously probe the memcg to
+> > reclaim a small amount of memory. This gives more accurate and
+> > up-to-date workingset estimation as the LRUs are continuously
+> > sorted and can potentially provide more deterministic memory
+> > overcommit behavior. The memory overcommit controller can provide
+> > more proactive response to the changing behavior of the running
+> > applications instead of being reactive.
+> >
+> > A userspace reclaimer's purpose in this case is not a complete replacement
+> > for kswapd or direct reclaim, it is to proactively identify memory savings
+> > opportunities and reclaim some amount of cold pages set by the policy
+> > to free up the memory for more demanding jobs or scheduling new jobs.
+> >
+> > A user space proactive reclaimer is used in Google data centers.
+> > Additionally, Meta's TMO paper recently referenced a very similar
+> > interface used for user space proactive reclaim:
+> > https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
+> >
+> > Benefits of a user space reclaimer:
+> > -----------------------------------
+> >
+> > 1) More flexible on who should be charged for the cpu of the memory
+> > reclaim. For proactive reclaim, it makes more sense to be centralized.
+> >
+> > 2) More flexible on dedicating the resources (like cpu). The memory
+> > overcommit controller can balance the cost between the cpu usage and
+> > the memory reclaimed.
+> >
+> > 3) Provides a way to the applications to keep their LRUs sorted, so,
+> > under memory pressure better reclaim candidates are selected. This also
+> > gives more accurate and uptodate notion of working set for an
+> > application.
+> >
+> > Why memory.high is not enough?
+> > ------------------------------
+> >
+> > - memory.high can be used to trigger reclaim in a memcg and can
+> >   potentially be used for proactive reclaim.
+> >   However there is a big downside in using memory.high. It can potentially
+> >   introduce high reclaim stalls in the target application as the
+> >   allocations from the processes or the threads of the application can hit
+> >   the temporary memory.high limit.
+> >
+> > - Userspace proactive reclaimers usually use feedback loops to decide
+> >   how much memory to proactively reclaim from a workload. The metrics
+> >   used for this are usually either refaults or PSI, and these metrics
+> >   will become messy if the application gets throttled by hitting the
+> >   high limit.
+> >
+> > - memory.high is a stateful interface, if the userspace proactive
+> >   reclaimer crashes for any reason while triggering reclaim it can leave
+> >   the application in a bad state.
+> >
+> > - If a workload is rapidly expanding, setting memory.high to proactively
+> >   reclaim memory can result in actually reclaiming more memory than
+> >   intended.
+> >
+> > The benefits of such interface and shortcomings of existing interface
+> > were further discussed in this RFC thread:
+> > https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
+> >
+> > Interface:
+> > ----------
+> >
+> > Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
+> > trigger reclaim in the target memory cgroup.
+> >
+> >
+> > Possible Extensions:
+> > --------------------
+> >
+> > - This interface can be extended with an additional parameter or flags
+> >   to allow specifying one or more types of memory to reclaim from (e.g.
+> >   file, anon, ..).
+> >
+> > - The interface can also be extended with a node mask to reclaim from
+> >   specific nodes. This has use cases for reclaim-based demotion in memory
+> >   tiering systens.
+> >
+> > - A similar per-node interface can also be added to support proactive
+> >   reclaim and reclaim-based demotion in systems without memcg.
+> >
+> > For now, let's keep things simple by adding the basic functionality.
+>
+> Yes, I am for the simplicity and this really looks like a bare minumum
+> interface. But it is not really clear who do you want to add flags on
+> top of it?
+>
+> I am not really sure we really need a node aware interface for memcg.
+> The global reclaim interface will likely need a different node because
+> we do not want to make this CONFIG_MEMCG constrained.
 
-Signed-off-by: Dan Vacura <w36195@motorola.com>
----
-Changes in v2: 
-- remove stable cc
+A nodemask argument for memory.reclaim can be useful for memory
+tiering between NUMA nodes with different performance.  Similar to
+proactive reclaim, it can allow a userspace daemon to drive
+memcg-based proactive demotion via the reclaim-based demotion
+mechanism in the kernel.
 
- .../ABI/testing/configfs-usb-gadget-uvc       |  1 +
- Documentation/usb/gadget-testing.rst          |  1 +
- drivers/usb/gadget/function/f_uvc.c           |  4 +-
- drivers/usb/gadget/function/u_uvc.h           |  1 +
- drivers/usb/gadget/function/uvc_configfs.c    | 41 +++++++++++++++++++
- 5 files changed, 47 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 889ed45be4ca..611b23e6488d 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,7 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		function_name		string [32]
- 		===================	=============================
- 
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index c6d034abce3a..1c37159fa171 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -787,6 +787,7 @@ The uvc function provides these attributes in its function directory:
- 	streaming_maxpacket maximum packet size this endpoint is capable of
- 			    sending or receiving when this configuration is
- 			    selected
-+	function_name       name of the interface
- 	=================== ================================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dba..50e6e7a58b41 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -44,7 +44,7 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
- #define UVC_STRING_STREAMING_IDX		1
- 
- static struct usb_string uvc_en_us_strings[] = {
--	[UVC_STRING_CONTROL_IDX].s = "UVC Camera",
-+	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
- 	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
- 	{  }
- };
-@@ -676,6 +676,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 
-+	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
- 	us = usb_gstrings_attach(cdev, uvc_function_strings,
- 				 ARRAY_SIZE(uvc_en_us_strings));
- 	if (IS_ERR(us)) {
-@@ -866,6 +867,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
- 
- 	ret = uvcg_attach_configfs(opts);
- 	if (ret < 0) {
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 9a01a7d4f17f..24b8681b0d6f 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -27,6 +27,7 @@ struct f_uvc_opts {
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-+	char						function_name[32];
- 
- 	/*
- 	 * Control descriptors array pointers for full-/high-speed and
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 77d64031aa9c..63b8d3758b38 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -2425,10 +2425,51 @@ UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
- 
- #undef UVCG_OPTS_ATTR
- 
-+#define UVCG_OPTS_STRING_ATTR(cname, aname)				\
-+static ssize_t f_uvc_opts_string_##cname##_show(struct config_item *item,\
-+					 char *page)			\
-+{									\
-+	struct f_uvc_opts *opts = to_f_uvc_opts(item);			\
-+	int result;							\
-+									\
-+	mutex_lock(&opts->lock);					\
-+	result = snprintf(page, sizeof(opts->aname), "%s", opts->aname);\
-+	mutex_unlock(&opts->lock);					\
-+									\
-+	return result;							\
-+}									\
-+									\
-+static ssize_t f_uvc_opts_string_##cname##_store(struct config_item *item,\
-+					  const char *page, size_t len)	\
-+{									\
-+	struct f_uvc_opts *opts = to_f_uvc_opts(item);			\
-+	int ret = 0;							\
-+									\
-+	mutex_lock(&opts->lock);					\
-+	if (opts->refcnt) {						\
-+		ret = -EBUSY;						\
-+		goto end;						\
-+	}								\
-+									\
-+	ret = snprintf(opts->aname, min(sizeof(opts->aname), len),	\
-+			"%s", page);					\
-+									\
-+end:									\
-+	mutex_unlock(&opts->lock);					\
-+	return ret;							\
-+}									\
-+									\
-+UVC_ATTR(f_uvc_opts_string_, cname, aname)
-+
-+UVCG_OPTS_STRING_ATTR(function_name, function_name);
-+
-+#undef UVCG_OPTS_STRING_ATTR
-+
- static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_interval,
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
-+	&f_uvc_opts_string_attr_function_name,
- 	NULL,
- };
- 
--- 
-2.32.0
-
+> > [yosryahmed@google.com: refreshed to current master, updated commit
+> > message based on recent discussions and use cases]
+> > Signed-off-by: Shakeel Butt <shakeelb@google.com>
+> > Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+>
+> All that being said. I haven't been a great fan for explicit reclaim
+> triggered from the userspace but I do recognize that limitations of the
+> existing interfaces is just too restrictive.
+>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+>
+> Thanks!
+> --
+> Michal Hocko
+> SUSE Labs
