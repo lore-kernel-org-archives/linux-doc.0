@@ -2,316 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 932D2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 09:37:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3ED5C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 09:49:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344678AbiDAJjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 05:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46042 "EHLO
+        id S1344535AbiDAJux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 05:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344653AbiDAJjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 05:39:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B749C26B3AD
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 02:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1648805840;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0M8G++tCAQg6E5BcGRGJH27i6pTcxL9PU4K81djE3PY=;
-        b=RWlgAC5DDbvO8XcoUraZDurzFrNMUCswGFji3Tdivpxm851Gqkg32o5QrHaoYboDUZ8NN3
-        Cf9SHXKAd55TT9tffa6cHVljv22yB+W+h3o8v9n1Z5XPvT8RXY/tHZYcuw71ZZyZ+jXOor
-        5wySFY+Yr4vSQHZtMsH6YerQiiBz4iI=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-SovaJnDTPlebY8Xs1iIfkw-1; Fri, 01 Apr 2022 05:37:19 -0400
-X-MC-Unique: SovaJnDTPlebY8Xs1iIfkw-1
-Received: by mail-pj1-f72.google.com with SMTP id o15-20020a17090aac0f00b001c6595a43dbso1284563pjq.4
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 02:37:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0M8G++tCAQg6E5BcGRGJH27i6pTcxL9PU4K81djE3PY=;
-        b=SchcPcSAfTkyMWEe9Jh++Wfx/VIKky1GBxyN4y1vYm2SC6EGV+rUZGtwmIz4mRU53R
-         uCNS6Wcz7VtrGJf2l9dcfPBywQvanSgp772wX8ZHkeRn9t3kDsMgvt7cmhk+onnxIR5h
-         OXibEtjxIhZiQ2CN2XmawcfXB/JZ9IbdlrGRGZs9oKgZE3tdEbFrhQBMbyn7c5nKNbP2
-         Zqx7oz0W6HZgtxoxe2O3A19V+b7HR7K92naN6r7eN5kRYsTAuvF8duN3p7mMqWu6WAhL
-         JrE05exLEOrxXJnFHLHdx9FCt0q3sjduMD9MYj4DuESCiRcGpxalfS+o6pVwrEcNK2OH
-         nuEw==
-X-Gm-Message-State: AOAM532vHDFPWQXUJY350awlpEY85oZZBGdW4YO76J25edB5xPsuw6Xy
-        DRNfRNL9inxCKLfSwa7uLaYujQhibvGWYJn5uxvoYZKRazKM9BgZMrZvc00Rx2zw/iDhrIbPOcz
-        KMEkeDFuOvgx0Glxub+rWzRV5Q8iy19rEvW21
-X-Received: by 2002:a63:416:0:b0:386:66e:33d9 with SMTP id 22-20020a630416000000b00386066e33d9mr14527111pge.146.1648805838546;
-        Fri, 01 Apr 2022 02:37:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNl+VbItEjD1pMRpgDlFu7TBQ5+iIqlAzQoVMfN+lwbwix5VCsshPmNK4HcxorDlicGYEtlxZYENovQ3UeUKk=
-X-Received: by 2002:a63:416:0:b0:386:66e:33d9 with SMTP id 22-20020a630416000000b00386066e33d9mr14527085pge.146.1648805838169;
- Fri, 01 Apr 2022 02:37:18 -0700 (PDT)
+        with ESMTP id S244173AbiDAJuw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 05:50:52 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 612545130A;
+        Fri,  1 Apr 2022 02:49:02 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KVFjh2F1ZzdZVZ;
+        Fri,  1 Apr 2022 17:48:40 +0800 (CST)
+Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 1 Apr 2022 17:49:00 +0800
+Received: from [10.174.178.178] (10.174.178.178) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 1 Apr 2022 17:48:59 +0800
+Message-ID: <bd926b17-45c2-53bc-3c61-cda3ae442312@huawei.com>
+Date:   Fri, 1 Apr 2022 17:48:59 +0800
 MIME-Version: 1.0
-References: <20220318161528.1531164-1-benjamin.tissoires@redhat.com> <0a30942b-e6c9-72fb-d012-4b8a6a16ae42@linux.intel.com>
-In-Reply-To: <0a30942b-e6c9-72fb-d012-4b8a6a16ae42@linux.intel.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 1 Apr 2022 11:37:06 +0200
-Message-ID: <CAO-hwJKTxPGc3BO0g2ui5MiN6J9aWybuyRnhyZPWBntnF5ng8A@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 00/17] Introduce eBPF support for HID devices
-To:     Tero Kristo <tero.kristo@linux.intel.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     Yosry Ahmed <yosryahmed@google.com>
+CC:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <2025405d-c32b-338a-b668-48b07a34e4ef@huawei.com>
+ <CAJD7tkZHxRY0GEhcRoa8PqLM7pnsu44_U9XKV-9u==iGqwf3=g@mail.gmail.com>
+From:   Chen Wandun <chenwandun@huawei.com>
+In-Reply-To: <CAJD7tkZHxRY0GEhcRoa8PqLM7pnsu44_U9XKV-9u==iGqwf3=g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.178]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tero,
 
-On Tue, Mar 29, 2022 at 3:04 PM Tero Kristo <tero.kristo@linux.intel.com> wrote:
->
-> Hi Benjamin,
->
-> I tested this iteration of the set, and I faced couple of problems with it.
->
-> 1) There were some conflicts as I could not figure out the correct
-> kernel commit on which to apply the series on. I applied this on top of
-> last weeks bpf-next (see below) with some local merge fixes.
 
-Right, there was a new conflict in bpf-next, but you managed it :)
-
+在 2022/4/1 17:20, Yosry Ahmed 写道:
+> On Thu, Mar 31, 2022 at 8:05 PM Chen Wandun <chenwandun@huawei.com> wrote:
+>>
+>>
+>> 在 2022/3/31 16:41, Yosry Ahmed 写道:
+>>> From: Shakeel Butt <shakeelb@google.com>
+>>>
+>>> Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+>>>
+>>> Use case: Proactive Reclaim
+>>> ---------------------------
+>>>
+>>> A userspace proactive reclaimer can continuously probe the memcg to
+>>> reclaim a small amount of memory. This gives more accurate and
+>>> up-to-date workingset estimation as the LRUs are continuously
+>>> sorted and can potentially provide more deterministic memory
+>>> overcommit behavior. The memory overcommit controller can provide
+>>> more proactive response to the changing behavior of the running
+>>> applications instead of being reactive.
+>>>
+>>> A userspace reclaimer's purpose in this case is not a complete replacement
+>>> for kswapd or direct reclaim, it is to proactively identify memory savings
+>>> opportunities and reclaim some amount of cold pages set by the policy
+>>> to free up the memory for more demanding jobs or scheduling new jobs.
+>>>
+>>> A user space proactive reclaimer is used in Google data centers.
+>>> Additionally, Meta's TMO paper recently referenced a very similar
+>>> interface used for user space proactive reclaim:
+>>> https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
+>>>
+>>> Benefits of a user space reclaimer:
+>>> -----------------------------------
+>>>
+>>> 1) More flexible on who should be charged for the cpu of the memory
+>>> reclaim. For proactive reclaim, it makes more sense to be centralized.
+>>>
+>>> 2) More flexible on dedicating the resources (like cpu). The memory
+>>> overcommit controller can balance the cost between the cpu usage and
+>>> the memory reclaimed.
+>>>
+>>> 3) Provides a way to the applications to keep their LRUs sorted, so,
+>>> under memory pressure better reclaim candidates are selected. This also
+>>> gives more accurate and uptodate notion of working set for an
+>>> application.
+>>>
+>>> Why memory.high is not enough?
+>>> ------------------------------
+>>>
+>>> - memory.high can be used to trigger reclaim in a memcg and can
+>>>     potentially be used for proactive reclaim.
+>>>     However there is a big downside in using memory.high. It can potentially
+>>>     introduce high reclaim stalls in the target application as the
+>>>     allocations from the processes or the threads of the application can hit
+>>>     the temporary memory.high limit.
+>>>
+>>> - Userspace proactive reclaimers usually use feedback loops to decide
+>>>     how much memory to proactively reclaim from a workload. The metrics
+>>>     used for this are usually either refaults or PSI, and these metrics
+>>>     will become messy if the application gets throttled by hitting the
+>>>     high limit.
+>>>
+>>> - memory.high is a stateful interface, if the userspace proactive
+>>>     reclaimer crashes for any reason while triggering reclaim it can leave
+>>>     the application in a bad state.
+>>>
+>>> - If a workload is rapidly expanding, setting memory.high to proactively
+>>>     reclaim memory can result in actually reclaiming more memory than
+>>>     intended.
+>>>
+>>> The benefits of such interface and shortcomings of existing interface
+>>> were further discussed in this RFC thread:
+>>> https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
+>>>
+>>> Interface:
+>>> ----------
+>>>
+>>> Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
+>>> trigger reclaim in the target memory cgroup.
+>>>
+>>>
+>>> Possible Extensions:
+>>> --------------------
+>>>
+>>> - This interface can be extended with an additional parameter or flags
+>>>     to allow specifying one or more types of memory to reclaim from (e.g.
+>>>     file, anon, ..).
+>>>
+>>> - The interface can also be extended with a node mask to reclaim from
+>>>     specific nodes. This has use cases for reclaim-based demotion in memory
+>>>     tiering systens.
+>>>
+>>> - A similar per-node interface can also be added to support proactive
+>>>     reclaim and reclaim-based demotion in systems without memcg.
+>>>
+>>> For now, let's keep things simple by adding the basic functionality.
+>>>
+>>> [yosryahmed@google.com: refreshed to current master, updated commit
+>>> message based on recent discussions and use cases]
+>>> Signed-off-by: Shakeel Butt <shakeelb@google.com>
+>>> Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+>>> ---
+>>>    Documentation/admin-guide/cgroup-v2.rst |  9 ++++++
+>>>    mm/memcontrol.c                         | 37 +++++++++++++++++++++++++
+>>>    2 files changed, 46 insertions(+)
+>>>
+>>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>>> index 69d7a6983f78..925aaabb2247 100644
+>>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>>> @@ -1208,6 +1208,15 @@ PAGE_SIZE multiple when read back.
+>>>        high limit is used and monitored properly, this limit's
+>>>        utility is limited to providing the final safety net.
+>>>
+>>> +  memory.reclaim
+>>> +     A write-only file which exists on non-root cgroups.
+>>> +
+>>> +     This is a simple interface to trigger memory reclaim in the
+>>> +     target cgroup. Write the number of bytes to reclaim to this
+>>> +     file and the kernel will try to reclaim that much memory.
+>>> +     Please note that the kernel can over or under reclaim from
+>>> +     the target cgroup.
+>>> +
+>>>      memory.oom.group
+>>>        A read-write single value file which exists on non-root
+>>>        cgroups.  The default value is "0".
+>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>>> index 725f76723220..994849fab7df 100644
+>>> --- a/mm/memcontrol.c
+>>> +++ b/mm/memcontrol.c
+>>> @@ -6355,6 +6355,38 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
+>>>        return nbytes;
+>>>    }
+>>>
+>>> +static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+>>> +                           size_t nbytes, loff_t off)
+>>> +{
+>>> +     struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+>>> +     unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+>>> +     unsigned long nr_to_reclaim, nr_reclaimed = 0;
+>>> +     int err;
+>>> +
+>>> +     buf = strstrip(buf);
+>>> +     err = page_counter_memparse(buf, "", &nr_to_reclaim);
+>>> +     if (err)
+>>> +             return err;
+>>> +
+>>> +     while (nr_reclaimed < nr_to_reclaim) {
+>>> +             unsigned long reclaimed;
+>>> +
+>>> +             if (signal_pending(current))
+>>> +                     break;
+>>> +
+>>> +             reclaimed = try_to_free_mem_cgroup_pages(memcg,
+>>> +                                             nr_to_reclaim - nr_reclaimed,
+>>> +                                             GFP_KERNEL, true);
+>> In some scenario there are lots of page cache,  and we only want to
+>> reclaim page cache,
+>> how about add may_swap option?
+> Thanks for taking a look at this!
 >
-> commit 2af7e566a8616c278e1d7287ce86cd3900bed943 (bpf-next/master,
-> bpf-next/for-next)
-> Author: Saeed Mahameed <saeedm@nvidia.com>
-> Date:   Tue Mar 22 10:22:24 2022 -0700
->
->      net/mlx5e: Fix build warning, detected write beyond size of field
->
-> 2) hid_is_valid_access() causes some trouble and it rejects pretty much
-> every BPF program which tries to use ctx->retval. This appears to be
-> because prog->expected_attach_type is not populated, I had to apply
-> below local tweak to overcome this problem:
->
-> diff --git a/kernel/bpf/hid.c b/kernel/bpf/hid.c
-> index 30a62e8e0f0a..bf64411e6e9b 100644
-> --- a/kernel/bpf/hid.c
-> +++ b/kernel/bpf/hid.c
-> @@ -180,8 +180,7 @@ static bool hid_is_valid_access(int off, int size,
->          case offsetof(struct hid_bpf_ctx, retval):
->                  if (size != size_default)
->                          return false;
-> -               return (prog->expected_attach_type == BPF_HID_USER_EVENT ||
-> -                       prog->expected_attach_type == BPF_HID_DRIVER_EVENT);
-> +               return true;
->          default:
->                  if (size != size_default)
->                          return false;
->
-> Proper fix would probably be to actually populate the
-> expected_attach_type, but I could not figure out quickly where this
-> should be done, or whether it is actually done on some other base commit.
+> The first listed extension is an argument/flags to specify the type of
+do you mean nbytes in  memory_reclaim? it decide the amount of memory
+to reclaim.
 
-Hmm, this is not what I would have expected. Anyway, "return true"
-would be a valid solution too, but...
+one more argument such as may_swap can be add into memory_reclaim, and
+pass this argument to try_to_free_mem_cgroup_pages in order to replace the
+default "true"
 
+Thanks.
+
+> memory that we want to reclaim, I think this covers this use case, or
+> am I missing something?
 >
-> With those, for the whole series:
->
-> Tested-by: Tero Kristo <tero.kristo@linux.intel.com>
-
-Thanks a lot. Unfortunately, if you saw the discussion with Alexei in
-patch 6/17, you'll see that there is a push toward a slightly
-different implementation.
-
-I had a meeting with Alexei, and a few other BPF folks yesterday, and
-they convinced me that this series is implementing a BPF feature the
-"old way", and that we should aim at having HID using standard BPF
-facilities instead of having HID messing up with bpf-core.
-
-This will be beneficial in the long term as we won't depend on BPF to
-be able to add new UAPI, being BPF calls or functions.
-
-I'll reply in more detail on 6/17.
-
-Cheers,
-Benjamin
-
->
-> On 18/03/2022 18:15, Benjamin Tissoires wrote:
-> > Hi,
-> >
-> > This is a followup of my v1 at [0] and v2 at [1].
-> >
-> > The short summary of the previous cover letter and discussions is that
-> > HID could benefit from BPF for the following use cases:
-> >
-> > - simple fixup of report descriptor:
-> >    benefits are faster development time and testing, with the produced
-> >    bpf program being shipped in the kernel directly (the shipping part
-> >    is *not* addressed here).
-> >
-> > - Universal Stylus Interface:
-> >    allows a user-space program to define its own kernel interface
-> >
-> > - Surface Dial:
-> >    somehow similar to the previous one except that userspace can decide
-> >    to change the shape of the exported device
-> >
-> > - firewall:
-> >    still partly missing there, there is not yet interception of hidraw
-> >    calls, but it's coming in a followup series, I promise
-> >
-> > - tracing:
-> >    well, tracing.
-> >
-> >
-> > I think I addressed the comments from the previous version, but there are
-> > a few things I'd like to note here:
-> >
-> > - I did not take the various rev-by and tested-by (thanks a lot for those)
-> >    because the uapi changed significantly in v3, so I am not very confident
-> >    in taking those rev-by blindly
-> >
-> > - I mentioned in my discussion with Song that I'll put a summary of the uapi
-> >    in the cover letter, but I ended up adding a (long) file in the Documentation
-> >    directory. So please maybe start by reading 17/17 to have an overview of
-> >    what I want to achieve
-> >
-> > - I added in the libbpf and bpf the new type BPF_HID_DRIVER_EVENT, even though
-> >    I don't have a user of it right now in the kernel. I wanted to have them in
-> >    the docs, but we might not want to have them ready here.
-> >    In terms of code, it just means that we can attach such programs types
-> >    but that they will never get triggered.
-> >
-> > Anyway, I have been mulling on this for the past 2 weeks, and I think that
-> > maybe sharing this now is better than me just starring at the code over and
-> > over.
-> >
-> >
-> > Short summary of changes:
-> >
-> > v3:
-> > ===
-> >
-> > - squashed back together most of the libbpf and bpf changes into bigger
-> >    commits that give a better overview of the whole interactions
-> >
-> > - reworked the user API to not expose .data as a directly accessible field
-> >    from the context, but instead forces everyone to use hid_bpf_get_data (or
-> >    get/set_bits)
-> >
-> > - added BPF_HID_DRIVER_EVENT (see note above)
-> >
-> > - addressed the various nitpicks from v2
-> >
-> > - added a big Documentation file (and so adding now the doc maintainers to the
-> >    long list of recipients)
-> >
-> > v2:
-> > ===
-> >
-> > - split the series by subsystem (bpf, HID, libbpf, selftests and
-> >    samples)
-> >
-> > - Added an extra patch at the beginning to not require CAP_NET_ADMIN for
-> >    BPF_PROG_TYPE_LIRC_MODE2 (please shout if this is wrong)
-> >
-> > - made the bpf context attached to HID program of dynamic size:
-> >    * the first 1 kB will be able to be addressed directly
-> >    * the rest can be retrieved through bpf_hid_{set|get}_data
-> >      (note that I am definitivey not happy with that API, because there
-> >      is part of it in bits and other in bytes. ouch)
-> >
-> > - added an extra patch to prevent non GPL HID bpf programs to be loaded
-> >    of type BPF_PROG_TYPE_HID
-> >    * same here, not really happy but I don't know where to put that check
-> >      in verifier.c
-> >
-> > - added a new flag BPF_F_INSERT_HEAD for BPF_LINK_CREATE syscall when in
-> >    used with HID program types.
-> >    * this flag is used for tracing, to be able to load a program before
-> >      any others that might already have been inserted and that might
-> >      change the data stream.
-> >
-> > Cheers,
-> > Benjamin
-> >
-> >
-> >
-> > [0] https://lore.kernel.org/linux-input/20220224110828.2168231-1-benjamin.tissoires@redhat.com/T/#t
-> > [1] https://lore.kernel.org/linux-input/20220304172852.274126-1-benjamin.tissoires@redhat.com/T/#t
-> >
-> >
-> > Benjamin Tissoires (17):
-> >    bpf: add new is_sys_admin_prog_type() helper
-> >    bpf: introduce hid program type
-> >    bpf/verifier: prevent non GPL programs to be loaded against HID
-> >    libbpf: add HID program type and API
-> >    HID: hook up with bpf
-> >    HID: allow to change the report descriptor from an eBPF program
-> >    selftests/bpf: add tests for the HID-bpf initial implementation
-> >    selftests/bpf: add report descriptor fixup tests
-> >    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
-> >    selftests/bpf: add test for user call of HID bpf programs
-> >    samples/bpf: add new hid_mouse example
-> >    bpf/hid: add more HID helpers
-> >    HID: bpf: implement hid_bpf_get|set_bits
-> >    HID: add implementation of bpf_hid_raw_request
-> >    selftests/bpf: add tests for hid_{get|set}_bits helpers
-> >    selftests/bpf: add tests for bpf_hid_hw_request
-> >    Documentation: add HID-BPF docs
-> >
-> >   Documentation/hid/hid-bpf.rst                | 444 +++++++++++
-> >   Documentation/hid/index.rst                  |   1 +
-> >   drivers/hid/Makefile                         |   1 +
-> >   drivers/hid/hid-bpf.c                        | 328 ++++++++
-> >   drivers/hid/hid-core.c                       |  34 +-
-> >   include/linux/bpf-hid.h                      | 127 +++
-> >   include/linux/bpf_types.h                    |   4 +
-> >   include/linux/hid.h                          |  36 +-
-> >   include/uapi/linux/bpf.h                     |  67 ++
-> >   include/uapi/linux/bpf_hid.h                 |  71 ++
-> >   include/uapi/linux/hid.h                     |  10 +
-> >   kernel/bpf/Makefile                          |   3 +
-> >   kernel/bpf/btf.c                             |   1 +
-> >   kernel/bpf/hid.c                             | 728 +++++++++++++++++
-> >   kernel/bpf/syscall.c                         |  27 +-
-> >   kernel/bpf/verifier.c                        |   7 +
-> >   samples/bpf/.gitignore                       |   1 +
-> >   samples/bpf/Makefile                         |   4 +
-> >   samples/bpf/hid_mouse_kern.c                 | 117 +++
-> >   samples/bpf/hid_mouse_user.c                 | 129 +++
-> >   tools/include/uapi/linux/bpf.h               |  67 ++
-> >   tools/lib/bpf/libbpf.c                       |  23 +-
-> >   tools/lib/bpf/libbpf.h                       |   2 +
-> >   tools/lib/bpf/libbpf.map                     |   1 +
-> >   tools/testing/selftests/bpf/config           |   3 +
-> >   tools/testing/selftests/bpf/prog_tests/hid.c | 788 +++++++++++++++++++
-> >   tools/testing/selftests/bpf/progs/hid.c      | 205 +++++
-> >   27 files changed, 3204 insertions(+), 25 deletions(-)
-> >   create mode 100644 Documentation/hid/hid-bpf.rst
-> >   create mode 100644 drivers/hid/hid-bpf.c
-> >   create mode 100644 include/linux/bpf-hid.h
-> >   create mode 100644 include/uapi/linux/bpf_hid.h
-> >   create mode 100644 kernel/bpf/hid.c
-> >   create mode 100644 samples/bpf/hid_mouse_kern.c
-> >   create mode 100644 samples/bpf/hid_mouse_user.c
-> >   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
-> >   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
-> >
->
+>>> +
+>>> +             if (!reclaimed && !nr_retries--)
+>>> +                     break;
+>>> +
+>>> +             nr_reclaimed += reclaimed;
+>>> +     }
+>>> +
+>>> +     return nbytes;
+>>> +}
+>>> +
+>>>    static struct cftype memory_files[] = {
+>>>        {
+>>>                .name = "current",
+>>> @@ -6413,6 +6445,11 @@ static struct cftype memory_files[] = {
+>>>                .seq_show = memory_oom_group_show,
+>>>                .write = memory_oom_group_write,
+>>>        },
+>>> +     {
+>>> +             .name = "reclaim",
+>>> +             .flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
+>>> +             .write = memory_reclaim,
+>>> +     },
+>>>        { }     /* terminate */
+>>>    };
+>>>
+> .
 
