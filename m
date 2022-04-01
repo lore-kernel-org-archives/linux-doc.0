@@ -2,94 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEB4C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 06:04:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF371C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 06:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240289AbiDAGGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 02:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57848 "EHLO
+        id S235432AbiDAGNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 02:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233051AbiDAGGh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 02:06:37 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB5F34EA1C;
-        Thu, 31 Mar 2022 23:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=9zoMua7h1PBXReWbBpOpCKn/FklmpzaPyQL5ZjfOtww=; b=VafaguL0uaw8Xr/1iwnucZIENi
-        MC8SJkuwDZX30tHc5RugcgtPFM2u7BlFyz6rhJ9I1ZcZ7gWwE9QsHHsoHpDbG7AtCExHJvaQHhI1J
-        7O2kN0nol9+DZwFT/DJmcnLpbZcBTq5ainprR1h1saUM3RN35APZNk8/BsZTVZaP1i1d/zNTob5Jw
-        w3cVNxViD5rZZCA+jHsMKi9B9oMqbe8OzNZ5YPy3UYQrp53rvCODnvH2/wDDAmw7XkluUPEFqeQEK
-        QAGU7D6TSN/58z//QU4ac6T4sfP0qdPs8MGE8/0mufkSIMmu1VGLxtL8BcIgz4RRWapZYCwX7MyLK
-        oEZssGSQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1naAOj-000I8j-MS; Fri, 01 Apr 2022 06:04:38 +0000
-Message-ID: <4c814e46-5a0a-1b1d-4814-90759d31e384@infradead.org>
-Date:   Thu, 31 Mar 2022 23:04:32 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH -pm] docs: driver-api/thermal/intel_dptf: Include
- isonum.txt
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S231276AbiDAGND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 02:13:03 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B79C954F87
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 23:11:14 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 4B1761FCFE;
+        Fri,  1 Apr 2022 06:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1648793473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Aoj4r4viFslO1DDiR9In4xWGea8lsy82pkp6YsvrMzA=;
+        b=azw3hKyNgUivcyyoiSwosZClCFBsouwbO/hvqjdHCXYbneGHOVzychvgmjTwXHD9MXQpEq
+        Jsxt2VDUA41mH0hiNq2KTeBLyFmxP5FSDE0WnkF1c1jhCi/jvLcwHQ+uPD77CRajB8xb5W
+        +oouyUILN3zo7QwVveJjXVsP2cagpR4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1648793473;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Aoj4r4viFslO1DDiR9In4xWGea8lsy82pkp6YsvrMzA=;
+        b=SYKFJAj86m1SlYe37iPpqtCNsUM8JjJcspAu52eFCOvU+7Io2I33uDWamwwPMyisoVxYB1
+        JRIG3Xw9sRFNIiAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DAF0F132C1;
+        Fri,  1 Apr 2022 06:11:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id xhv6JH+XRmLcAQAAMHmgww
+        (envelope-from <neilb@suse.de>); Fri, 01 Apr 2022 06:11:11 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+From:   "NeilBrown" <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] MM: minor improvements to readahead documentation
+Date:   Fri, 01 Apr 2022 17:11:08 +1100
+Message-id: <164879346851.25542.18299715584610241983@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+- use "readahead" consistently - not "read-ahead" or "read ahead".
+- clarify some sections that, on reflection, weren't very clear
+- minor punctuation/spelling fixes.
 
-On 3/31/22 22:57, Akira Yokosawa wrote:
-> For the "|copy|" substitution to work, need to include isonum.txt.
-> 
-> Fixes: 16c02447f3e1 ("Documentation: thermal: DPTF Documentation")
-> Reported by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
+Signed-off-by: NeilBrown <neilb@suse.de>
+---
+ mm/readahead.c | 39 ++++++++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-Thanks.
-
-> ---
-> Hi,
-> 
-> This fixes a doc build warning reported by Randy at
-> https://lore.kernel.org/r/73d98132-1d08-ef29-edb7-9e062b9154b8@infradead.org/.
-> 
->         Thanks, Akira
-> --
->  Documentation/driver-api/thermal/intel_dptf.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
-> index 96668dca753a..2df82719c5be 100644
-> --- a/Documentation/driver-api/thermal/intel_dptf.rst
-> +++ b/Documentation/driver-api/thermal/intel_dptf.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> +.. include:: <isonum.txt>
-> +
->  ===============================================================
->  Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
->  ===============================================================
-
+diff --git a/mm/readahead.c b/mm/readahead.c
+index d3a47546d17d..83f4345a400d 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -18,24 +18,24 @@
+  * it. In that case a simple ->readpage() will be requested.
+  *
+  * Readahead is triggered when an application read request (whether a
+- * systemcall or a page fault) finds that the requested page is not in
++ * system call or a page fault) finds that the requested page is not in
+  * the page cache, or that it is in the page cache and has the
+  * %PG_readahead flag set.  This flag indicates that the page was loaded
+- * as part of a previous read-ahead request and now that it has been
+- * accessed, it is time for the next read-ahead.
++ * as part of a previous readahead request and now that it has been
++ * accessed, it is time for the next readahead.
+  *
+  * Each readahead request is partly synchronous read, and partly async
+- * read-ahead.  This is reflected in the struct file_ra_state which
++ * readahead.  This is reflected in the struct file_ra_state which
+  * contains ->size being to total number of pages, and ->async_size
+- * which is the number of pages in the async section.  The first page in
+- * this async section will have %PG_readahead set as a trigger for a
+- * subsequent read ahead.  Once a series of sequential reads has been
+- * established, there should be no need for a synchronous component and
+- * all read ahead request will be fully asynchronous.
++ * which is the number of pages in the async section.  The %PG_readahead
++ * flag will be set on the first page in this async section as a trigger
++ * for a subsequent readahead.  Once a series of sequential reads has
++ * been established, there should be no need for a synchronous component
++ * and all readahead requests will be fully asynchronous.
+  *
+  * When either of the triggers causes a readahead, three numbers need to
+- * be determined: the start of the region, the size of the region, and
+- * the size of the async tail.
++ * be determined: the start of the region to read, the size of the
++ * region, and the size of the async tail.
+  *
+  * The start of the region is simply the first page address at or after
+  * the accessed address, which is not currently populated in the page
+@@ -45,7 +45,7 @@
+  * was explicitly requested from the determined request size, unless
+  * this would be less than zero - then zero is used.  NOTE THIS
+  * CALCULATION IS WRONG WHEN THE START OF THE REGION IS NOT THE ACCESSED
+- * PAGE.
++ * PAGE.  ALSO THIS CALCULATION IS NOT USED CONSISTENTLY.
+  *
+  * The size of the region is normally determined from the size of the
+  * previous readahead which loaded the preceding pages.  This may be
+@@ -65,13 +65,14 @@
+  * larger than the current request, and it is not scaled up, unless it
+  * is at the start of file.
+  *
+- * In general read ahead is accelerated at the start of the file, as
++ * In general, readahead is accelerated at the start of the file, as
+  * reads from there are often sequential.  There are other minor
+- * adjustments to the read ahead size in various special cases and these
++ * adjustments to the readahead size in various special cases and these
+  * are best discovered by reading the code.
+  *
+- * The above calculation determines the readahead, to which any requested
+- * read size may be added.
++ * The above calculation, based on the previous readahead size,
++ * determines the size of the readahead, to which any requested read
++ * size may be added.
+  *
+  * Readahead requests are sent to the filesystem using the ->readahead()
+  * address space operation, for which mpage_readahead() is a canonical
+@@ -82,7 +83,7 @@
+  * from this will be final.
+  *
+  * ->readahead() will generally call readahead_page() repeatedly to get
+- * each page from those prepared for read ahead.  It may fail to read a
++ * each page from those prepared for readahead.  It may fail to read a
+  * page by:
+  *
+  * * not calling readahead_page() sufficiently many times, effectively
+@@ -107,9 +108,9 @@
+  * In this case it is best to use delete_from_page_cache() to remove the
+  * pages from the page cache as is automatically done for pages that
+  * were not fetched with readahead_page().  This will allow a
+- * subsequent synchronous read ahead request to try them again.  If they
++ * subsequent synchronous readahead request to try them again.  If they
+  * are left in the page cache, then they will be read individually using
+- * ->readpage().
++ * ->readpage() which may be less efficient.
+  *
+  */
+ 
 -- 
-~Randy
+2.35.1
+
