@@ -2,108 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDF1C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 00:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D29C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 00:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243519AbiDAAVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 20:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60654 "EHLO
+        id S242662AbiDAAYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 20:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243459AbiDAAV0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 20:21:26 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6E43BBD9
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:19:26 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id r64so735379wmr.4
-        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:19:26 -0700 (PDT)
+        with ESMTP id S231857AbiDAAYG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 20:24:06 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14FC323F3E6
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:22:18 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id n35so734474wms.5
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PlnMpYOXkJb3MsWMx3t3Karvr7oM4CxvFXYgLvSP2H0=;
-        b=kbN4drDWXGTqRpuC4U+JxL0qNBRMGx952a73rWLXDa3Hlm4aUdgJ31IqJEf0Jx+ckC
-         1aJEH9r0xzziPwQvQ5yR1zUgu8b/A3UaeJj9uHP6ugBk9il8p0uWsatZhH3m63SU1PVb
-         LN+cROaanx5Hz6L2eD/KARZEowFji8nqD3SDTP8xKSDNd/A+2m2aG1X7n3oXXmbJXACF
-         hWT+lCd9PhmgX7/cm4cn2k1BfRaTONAJdglMtzT2LRzqKs1SgYRqmfcpiohHool4PHfC
-         eBuxx0iSCjIKVM+oUt93JFB24big5m2lNXVTPtPBTXmCA350ONdXl0t25CsLDpnjccyz
-         jRDw==
+        bh=SKqz1Mdn+a76YTOAN4pkLcsDdxqMIb341GyJ1mMbn4g=;
+        b=r7/0P+gLeJObOX79hjnX/5UuEQeJl4zuAbrJGyhV08YNdiRMj8TzrvJbe5YkmUAGWY
+         mZhA9emHoEHCn4lEv4EvNc8fqo4nqUyfDQFq4BEwCQx/DTtnpWDwjd3/IaEZsI8pSqyS
+         WjpMp3DpVBxwsEJ95nCBJ+/pczjqk7ilCSfpnVILZ7SWNsYZmbp3MDKNhETQzOYksHYF
+         qhGFQxDs8lUwKxvSdlJn+vSLlyHqbuXTRb1N11WJyph0kUPERw3FVbCryrZTBj2Tweo9
+         RJpGE7f0J9S2buBc0BEs6Q2CQdJ5UwjnCB//QwYVmRQoKId9dxhttnNc/CCDe/PtT7UL
+         PY6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PlnMpYOXkJb3MsWMx3t3Karvr7oM4CxvFXYgLvSP2H0=;
-        b=ji7mxE4cmGv3/9iWR4boRlDMDm6HZg1yD3y/foNpxgLsDCbV4zetKCQE+sVR6/uvSx
-         Opz1+9/2xKA9FOprdGhAEt4P2b31Ujabzvmyhe535AsRjTc10TfGsp2c7Gwnt4Hq7+C6
-         bAAKAa2flTClhCATBvxCRBbWyHFLkrgDR47VS/mcBBdYEbmkI9M1cRnYbAKqN19kPf/W
-         JcR2SPNSZoSrzQ36v8tSPUvS9EUEjlYVLExbuTnFIWHSGhqQqFKh1cyMK/KEC22D73hY
-         CYPk3/ZImjBPQY56L84yiWq6WLINUR27tIr+FU7RVpULY2ojZoyo1ylXI08VWApXuttG
-         rU6w==
-X-Gm-Message-State: AOAM530JKXE2hlcONuzFFftOOEEz8aNVAVvZrkNQ5BVLztK5Np5e09Je
-        bnZ2VWxsw4c8rR2gb9o1Fr1NFKbx4ftttcgVzfKuWA==
-X-Google-Smtp-Source: ABdhPJxATEUZYxO0stl0ueoGYAY1YKf0hGiTqAZL1ta/p5x+yRtL2fXZ3p8DLYTHHVSN7tIVp+IEj9AzjRy7KIMBcrY=
-X-Received: by 2002:a05:600c:40f:b0:38c:be5c:9037 with SMTP id
- q15-20020a05600c040f00b0038cbe5c9037mr6618416wmb.44.1648772365332; Thu, 31
- Mar 2022 17:19:25 -0700 (PDT)
+        bh=SKqz1Mdn+a76YTOAN4pkLcsDdxqMIb341GyJ1mMbn4g=;
+        b=skr3sruwbi3dgwYk/sgkrVZzFkH+dEnhlDwRwb1Rdf91g5KZjIE/+Qd3Q1jrtH79Vj
+         7J7eRkt4TroPN8EgfSEYOXYLOKmlrfenVvNBdNtEFv2tjqJpYsjru65+vICkMuoRM1+9
+         0XO2ffO/0qmFjNsMsEpHQfjXvra6YMf7F2e/BVGdhiUA1hwCeO9vU1aQEj0g2cCxDJgg
+         6ahNpyM6VNsmRPvlgSQhE8RMbCIHGsw/foETQeQ5ROB3rmDP4rO/pmSqIywmhuUWNcP5
+         fFKEs0Uzhtla6eDe4RrPvBy2wYo+UpF21q1csmROGkJUffVpLqwJoXy1PugBGhAViZ5n
+         pmLQ==
+X-Gm-Message-State: AOAM532lVRGnOe5bZgKK6OwIyiZgfUAeTMd1rqPB/V1pr0ROJvT10tbX
+        AVcBe6HcmUYO9B63aCdcEai9aRA7Q2twRUQFJN0rrg==
+X-Google-Smtp-Source: ABdhPJyXs2kiijhvj7ZEIkf4LgFEBAL3bNGbwnp9Hp9Ce+KJcEqlpKTa5nUQk4PlzawW8Gaz7vFgZm/0MW22sAEhJh4=
+X-Received: by 2002:a05:600c:4f48:b0:38c:a460:cb6 with SMTP id
+ m8-20020a05600c4f4800b0038ca4600cb6mr6654078wmq.96.1648772536629; Thu, 31 Mar
+ 2022 17:22:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1648593132.git.marcelo.schmitt1@gmail.com>
- <11f4750c6d4c175994dfd36d1ff385f68f61bd02.1648593132.git.marcelo.schmitt1@gmail.com>
- <CABVgOSkb5CpnXDF_m7iy=A7RmN+KmY0T38TeZ4hKbmkdQgt6Yw@mail.gmail.com> <20220331081409.GY12805@kadam>
-In-Reply-To: <20220331081409.GY12805@kadam>
+References: <cover.1648674305.git.marcelo.schmitt1@gmail.com> <62f461a20600b95e694016c4e5348ef2e260fa87.1648674305.git.marcelo.schmitt1@gmail.com>
+In-Reply-To: <62f461a20600b95e694016c4e5348ef2e260fa87.1648674305.git.marcelo.schmitt1@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Fri, 1 Apr 2022 08:19:13 +0800
-Message-ID: <CABVgOS=uaNJq8SivkxY_4L+HRh9bwadGRqF8_tQP_UNGNbmY3g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] Documentation: dev-tools: Enhance static analysis
+Date:   Fri, 1 Apr 2022 08:22:05 +0800
+Message-ID: <CABVgOSktSP6GwU+zfJLC7A-UZUKT0QHSmACG-ScFDhb34Jf-aw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: Enhance static analysis
  section with discussion
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Daniel Latypov <dlatypov@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         linux-sparse@vger.kernel.org, cocci@inria.fr,
         smatch@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>, julia.lawall@inria.fr
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 4:14 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Thu, Mar 31, 2022 at 5:50 AM Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
 >
-> On Wed, Mar 30, 2022 at 10:48:13AM +0800, David Gow wrote:
-> > > +
-> > > +Smatch does flow analysis and, if allowed to build the function database, it
-> > > +also does cross function analysis. Smatch tries to answer questions like where
-> > > +is this buffer allocated? How big is it? Can this index be controlled by the
-> > > +user? Is this variable larger than that variable?
-> > > +
-> > > +It's generally easier to write checks in Smatch than it is to write checks in
-> > > +Sparse. Nevertheless, there are some overlaps between Sparse and Smatch checks
-> > > +because there is no reason for re-implementing Sparse's check in Smatch.
-> >
-> > This last sentence isn't totally clear to me. Should this "because" be "so"?
-> >
+> Enhance the static analysis tools section with a discussion on when to
+> use each of them.
 >
-> I stopped reading your email when you wrote "Cheers, David" but I should
-> have scrolled down.
+> This was mainly taken from Dan Carpenter and Julia Lawall's comments on
+> a previous documentation patch for static analysis tools.
 >
-> There is not very much overlap between Sparse and Smatch.  Both have a
-> warning for if (!x & y).  That is a tiny thing.  The big overlap is when
-> it comes to the locking checks.  The Smatch check for locking is
-> honestly way better and more capable.
+> Lore: https://lore.kernel.org/linux-doc/20220329090911.GX3293@kadam/T/#mb97770c8e938095aadc3ee08f4ac7fe32ae386e6
 >
-> I always run both Sparse and Smatch on my patches.  I should run
-> Coccinelle as well, but I'm more familiar with Sparse and Smatch.
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> Acked-by: David Gow <davidgow@google.com>
+> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> Cc: Julia Lawall <julia.lawall@inria.fr>
+> ---
+> Change log v2 -> v3:
+> - Changed the paragraph about Sparse to make it sound better (hopefully)
+> - Minor adjusts to make the considerations about Coccinelle sound better
+>   and be precise
 
-Makes sense. I agree that the overlap doesn't seem particularly
-important: it's the differences which should be more evident.
+These (plus the cut down note on Sparse/Smatch overlaps) are
+definitely an improvement.
 
-v3[1] of the patch cuts this down to just "Nevertheless, there are
-some overlaps between Sparse and Smatch checks.", which I think is an
-improvement.
+Assuming no-one with more knowledge of these that me objects, I think
+this is good-to-go!
 
 Thanks,
 -- David
-
-[1]: https://lore.kernel.org/all/62f461a20600b95e694016c4e5348ef2e260fa87.1648674305.git.marcelo.schmitt1@gmail.com/
