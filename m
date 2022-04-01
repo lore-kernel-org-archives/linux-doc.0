@@ -2,105 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D4CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 21:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A36CC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 23:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351640AbiDAVxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 17:53:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S1349818AbiDAXVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 19:21:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345926AbiDAVxe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 17:53:34 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAB821FC5D
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 14:51:43 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id d65so3207976qke.5
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 14:51:43 -0700 (PDT)
+        with ESMTP id S1348462AbiDAXVB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 19:21:01 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872F91A770E;
+        Fri,  1 Apr 2022 16:19:11 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id g6-20020a17090a128600b001ca5c2477cbso80524pja.0;
+        Fri, 01 Apr 2022 16:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=M11X+y56T/1F4fHNq5auQu00TlcNFHXDYbY/RsKteOE=;
-        b=c99U3qkEZHhIEc7ajhsZpxJqU4l3cAi/NL5cixEEbUy7C6XoKYSnxPRQBhDUZTmgW3
-         CdaWd0g1Bby07fp/jIyG1J3+95Fzgp/LQjARdfXbFBUkPZqyz7od9HefPpO8KeihaS2q
-         AlvwqXjClIn82Ow/qtMIqMEuy5CmEAoKGT4g+DwYdedW4fXEssdeJNdj65X6UuIG3Gye
-         uo1vCgIZbKpkm4ga/owAOGsj/OUuejccn7DdhxMou/c44twsSE4v7r5tzRnQ3jKJpheT
-         vGlmiuBEeWfJ6E0nzDdCP0Neo+0FVxArhDDUs374m/wmtChQS97scg1pGgtlfoHSbhwi
-         XX8Q==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:from:to:cc
+         :subject:content-transfer-encoding;
+        bh=JzoLiDpzKa7W1p5akpLIliye1Kl0aJ+omhs1Hnbktzk=;
+        b=PJ60DbjAxo2h7nAn2P5hX4dp48iJ8MUHuiyTIu0io/RxZwUbM3zHQNvg/IfCifRpH8
+         Y/Pjljz9+3b8flZvrPwKC4XW6G5mVfWSZumxr3sz2r1SsFNUPJSfauvSs0KaJXqZ8i6L
+         OWsh4D7F6NA9FlpiFQuk3pjoJG7vmRdwwfxFcBGb/OSiXsRng9EbpcLKFXUf3BqLk44q
+         YNaWNu8u5Jc/T3rwwzDVofV5uAJKeGsEnd21C7xltBkBFPyNNGhVkV9fJ7O8WW73AQZ8
+         eCjbfXNqOs/K7b3jXkfYVRwJcFuNyIl4xppQo/lqVH/SERU8m4/Pl6hHlDMnvXzZvt1w
+         nA5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=M11X+y56T/1F4fHNq5auQu00TlcNFHXDYbY/RsKteOE=;
-        b=uGXQcJuka0Gg0zV2wLD4Hc9DOwZwsOt/eyuwH3EbiFDXvV+lRv3zt9efXYZRZgdtQV
-         frbNiq7934zebT82HyU8dsOkflAXeUGTIrU3n2d5LjFVN+YpcLcouUo0JgBJR0TLO+zu
-         MKU7lIdNkmBrrnNjwvIR2cSWZsthatzW99ozWo0CYOTwnNVrCktDuRNKkQe7CaP1xZou
-         23/oTa70gjJxzvEyB5/o4rdg9PIyxznTobsQDjSNyMQO7VplWRnwPCZ67nVwpJqEqxzY
-         wJmlvoenY7TcdELVBQeJjSHBqiJSstTVzPySrKT3U7DSVssUMqzxMhq1PP+wzx2O5nN6
-         iVTA==
-X-Gm-Message-State: AOAM531ijBZxOMNvhZ9nli+iLVJKQwLMEv61hDsqG7muSbhJWPKVaNqJ
-        d9uC+Q5OYrjBtYgu5p6qim9dhA==
-X-Google-Smtp-Source: ABdhPJz5e+/qhWGXkOB2Pdg+sYmL/Wm7bmIqKPSDgyhO5CcEvxS029Di2b+ofW5VEbb4r0PJYsKguA==
-X-Received: by 2002:a05:620a:25a:b0:67d:43a6:8892 with SMTP id q26-20020a05620a025a00b0067d43a68892mr7881250qkn.659.1648849902837;
-        Fri, 01 Apr 2022 14:51:42 -0700 (PDT)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id 188-20020a3709c5000000b0067b147584c2sm1897184qkj.102.2022.04.01.14.51.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 14:51:42 -0700 (PDT)
-Date:   Fri, 1 Apr 2022 17:51:41 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Roman Gushchin <roman.gushchin@linux.dev>
-Cc:     Yosry Ahmed <yosryahmed@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-Message-ID: <Ykdz7fiMFZeFltYy@cmpxchg.org>
-References: <YkdrEG5FlL7Gq2Vi@cmpxchg.org>
- <243A0156-D26A-47C9-982A-C8B0CDD69DA2@linux.dev>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:from:to:cc:subject:content-transfer-encoding;
+        bh=JzoLiDpzKa7W1p5akpLIliye1Kl0aJ+omhs1Hnbktzk=;
+        b=li0FtBSYSL18IlBfz6mpvZqSgkiYm4l4adLm53VRaJ0zz41gTaPcgtiTkRvm0x/TQv
+         X61UZL1DEAA1F36wHwGgOJJ9ekh58FPH/7DfeTvNmpc8AviFNTexP3fMfeu1kOH34NiX
+         6pTBXGjXos0mhSwh/5sLtKs98uoRbCQKBdCrNjUOI0kuHxcoamMUfwQlWDgj+wZhj4HU
+         wss/EOVjQLX7MwUwGS8dXdJqLzTs5qbikyCo9XTdLj4vUcPFjYWwP1MjZn+zOKJA/KSR
+         qGNhaXJtGj0M1X1JL5r0haSNQDRPZNuJVcewwnWMJr2lssRWlyehgpnJdywyAaAjKLGr
+         PaBA==
+X-Gm-Message-State: AOAM530VHG1w+nCRQ2u6MhEUGFTq7uEHUgyBG74CBxu3fCYXGB39BmuV
+        MrFO3hQjnWyt0HDeojhftiPt8TROiC4=
+X-Google-Smtp-Source: ABdhPJwh8ywVm2q2SwIysx0eYKOkTQWmHo3y/y+rk9yEaBsDtdXMF90J/p0T4RSTLU9F7u6l0+hveg==
+X-Received: by 2002:a17:902:d4c8:b0:154:2416:218b with SMTP id o8-20020a170902d4c800b001542416218bmr12868799plg.139.1648855151012;
+        Fri, 01 Apr 2022 16:19:11 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id y63-20020a638a42000000b0039870096849sm3339369pgd.63.2022.04.01.16.19.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Apr 2022 16:19:10 -0700 (PDT)
+Message-ID: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
+Date:   Sat, 2 Apr 2022 08:19:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <243A0156-D26A-47C9-982A-C8B0CDD69DA2@linux.dev>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -pm v2] docs: driver-api/thermal/intel_dptf: Use copyright
+ symbol
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 01, 2022 at 02:21:52PM -0700, Roman Gushchin wrote:
-> > On Apr 1, 2022, at 2:13 PM, Johannes Weiner <hannes@cmpxchg.org> wrote:
-> > 
-> > ﻿On Fri, Apr 01, 2022 at 11:39:30AM -0700, Roman Gushchin wrote:
-> >> The interface you're proposing is not really extensible, so we'll likely need to
-> >> introduce a new interface like memory.reclaim_ext very soon. Why not create
-> >> an extensible API from scratch?
-> >> 
-> >> I'm looking at cgroup v2 documentation which describes various interface files
-> >> formats and it seems like given the number of potential optional arguments
-> >> the best option is nested keyed (please, refer to the Interface Files section).
-> >> 
-> >> E.g. the format can be:
-> >> echo "1G type=file nodemask=1-2 timeout=30s" > memory.reclaim
-> > 
-> > Yeah, that syntax looks perfect.
-> > 
-> > But why do you think it's not extensible from the current patch? We
-> > can add those arguments one by one as we agree on them, and return
-> > -EINVAL if somebody passes an unknown parameter.
-> > 
-> > It seems to me the current proposal is forward-compatible that way
-> > (with the current set of keyword pararms being the empty set :-))
-> 
-> It wasn’t obvious to me. We spoke about positional arguments and then it wasn’t clear how to add them in a backward-compatible way. The last thing we want is a bunch of memory.reclaim* interfaces :)
-> 
-> So yeah, let’s just describe it properly in the documentation, no code changes are needed.
+Using a substitution pattern of "|copy|" without including
+isonum.txt causes a doc build warning.
 
-Sounds good to me!
+Using the symbol "=C2=A9" itself is a better choice for those
+who read .rst sources.
+
+Fixes: 16c02447f3e1 ("Documentation: thermal: DPTF Documentation")
+Reported by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: linux-pm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+Changes since v1 [1]:
+
+  - Use =C2=A9 instead of including isonum.txt (Jon).
+  - Amend title and changelog.
+
+v1 [1]: https://lore.kernel.org/r/e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gm=
+ail.com/
+---
+ Documentation/driver-api/thermal/intel_dptf.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentat=
+ion/driver-api/thermal/intel_dptf.rst
+index 96668dca753a..372bdb4d04c6 100644
+--- a/Documentation/driver-api/thermal/intel_dptf.rst
++++ b/Documentation/driver-api/thermal/intel_dptf.rst
+@@ -4,7 +4,7 @@
+ Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-:Copyright: |copy| 2022 Intel Corporation
++:Copyright: =C2=A9 2022 Intel Corporation
+=20
+ :Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+=20
+--=20
+2.25.1
+
