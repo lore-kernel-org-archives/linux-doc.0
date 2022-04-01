@@ -2,248 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BAB0C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 18:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DA0C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 18:39:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244006AbiDASNc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 14:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
+        id S1351295AbiDASll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 14:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240995AbiDASNb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 14:13:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450A7144B4E
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 11:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9ewXUzXXHRK5ASrjbgUPLH+r5wr18GSbGAgNboofTr8=; b=B7/O42F5kP1XBVHtP1ijLUAZvz
-        WGNfBlbIIjNVRpoujdb7T5E+PRUwXt45JPZdaLrn6gY+lLJWbvNP2n45Tdzjcq5fpGQBFnc4NI313
-        f7/YexjIKWM7zHbvITbt3/7tokxc4aBln74uWV+oa6mu26GG39/odZhmynIL8I7Mwgl9Mcj5yfkzk
-        ADUp9Vo4g0lqTGrDINBS0p5t6IP4F3JCS/G4mvA8w/jRiBSmG47faBEcHBHvLkDm6Wfmj0vVp4j/L
-        KqCkSMkxtvrWYq42stkB2gw4099eiQ3zFHY8i86vT3er7aC5CZb25zbG282OH8/YDKeIDNzAHTN/M
-        0z0mJS7g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1naLkC-003SIC-FC; Fri, 01 Apr 2022 18:11:32 +0000
-Date:   Fri, 1 Apr 2022 19:11:32 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] MM: minor improvements to readahead documentation
-Message-ID: <YkdAVDJVLmyAZ263@casper.infradead.org>
-References: <164879346851.25542.18299715584610241983@noble.neil.brown.name>
+        with ESMTP id S1349570AbiDASll (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 14:41:41 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E081C648D
+        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 11:39:49 -0700 (PDT)
+Date:   Fri, 1 Apr 2022 11:39:30 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1648838379;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6MXwbAGbQP70Qk5CWwghKxNTCCf5Db8LdlAQSCU25Lc=;
+        b=vujg/j2hWKeqP8EtI7uVXt5LCe+pnOAJ1RZX27gn84Aji9T/TsxpWa83IyUU1iEXxb6Nu1
+        8odRVt2wjEoQKfOJY03nDiwIOplwiGAmAsIHjvKcBRDhukRrSqb7l4YqsX3W8ftpgXUfBy
+        5aC9HYQGD3RcMeSHLYIWNC95i8+wKhw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Roman Gushchin <roman.gushchin@linux.dev>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+Message-ID: <YkdG4nv/uKI0EtMp@carbon.dhcp.thefacebook.com>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com>
+ <CAJD7tkYVpnf1+sa9vRAQCw5H0LUH6zE6_yhNAFwKF3sW0BLzEA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <164879346851.25542.18299715584610241983@noble.neil.brown.name>
+In-Reply-To: <CAJD7tkYVpnf1+sa9vRAQCw5H0LUH6zE6_yhNAFwKF3sW0BLzEA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 01, 2022 at 05:11:08PM +1100, NeilBrown wrote:
+On Fri, Apr 01, 2022 at 02:11:51AM -0700, Yosry Ahmed wrote:
+> On Thu, Mar 31, 2022 at 10:25 AM Roman Gushchin
+> <roman.gushchin@linux.dev> wrote:
+> >
+> > On Thu, Mar 31, 2022 at 08:41:51AM +0000, Yosry Ahmed wrote:
+> > > From: Shakeel Butt <shakeelb@google.com>
+> > >
+> > > Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+> > >
+> > > Use case: Proactive Reclaim
+> > > ---------------------------
+> > >
+> > > A userspace proactive reclaimer can continuously probe the memcg to
+> > > reclaim a small amount of memory. This gives more accurate and
+> > > up-to-date workingset estimation as the LRUs are continuously
+> > > sorted and can potentially provide more deterministic memory
+> > > overcommit behavior. The memory overcommit controller can provide
+> > > more proactive response to the changing behavior of the running
+> > > applications instead of being reactive.
+> > >
+> > > A userspace reclaimer's purpose in this case is not a complete replacement
+> > > for kswapd or direct reclaim, it is to proactively identify memory savings
+> > > opportunities and reclaim some amount of cold pages set by the policy
+> > > to free up the memory for more demanding jobs or scheduling new jobs.
+> > >
+> > > A user space proactive reclaimer is used in Google data centers.
+> > > Additionally, Meta's TMO paper recently referenced a very similar
+> > > interface used for user space proactive reclaim:
+> > > https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
+> > >
+> > > Benefits of a user space reclaimer:
+> > > -----------------------------------
+> > >
+> > > 1) More flexible on who should be charged for the cpu of the memory
+> > > reclaim. For proactive reclaim, it makes more sense to be centralized.
+> > >
+> > > 2) More flexible on dedicating the resources (like cpu). The memory
+> > > overcommit controller can balance the cost between the cpu usage and
+> > > the memory reclaimed.
+> > >
+> > > 3) Provides a way to the applications to keep their LRUs sorted, so,
+> > > under memory pressure better reclaim candidates are selected. This also
+> > > gives more accurate and uptodate notion of working set for an
+> > > application.
+> > >
+> > > Why memory.high is not enough?
+> > > ------------------------------
+> > >
+> > > - memory.high can be used to trigger reclaim in a memcg and can
+> > >   potentially be used for proactive reclaim.
+> > >   However there is a big downside in using memory.high. It can potentially
+> > >   introduce high reclaim stalls in the target application as the
+> > >   allocations from the processes or the threads of the application can hit
+> > >   the temporary memory.high limit.
+> > >
+> > > - Userspace proactive reclaimers usually use feedback loops to decide
+> > >   how much memory to proactively reclaim from a workload. The metrics
+> > >   used for this are usually either refaults or PSI, and these metrics
+> > >   will become messy if the application gets throttled by hitting the
+> > >   high limit.
+> > >
+> > > - memory.high is a stateful interface, if the userspace proactive
+> > >   reclaimer crashes for any reason while triggering reclaim it can leave
+> > >   the application in a bad state.
+> > >
+> > > - If a workload is rapidly expanding, setting memory.high to proactively
+> > >   reclaim memory can result in actually reclaiming more memory than
+> > >   intended.
+> > >
+> > > The benefits of such interface and shortcomings of existing interface
+> > > were further discussed in this RFC thread:
+> > > https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
+> >
+> > Hello!
+> >
+> > I'm totally up for the proposed feature! It makes total sense and is proved
+> > to be useful, let's add it.
+> >
+> > >
+> > > Interface:
+> > > ----------
+> > >
+> > > Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
+> > > trigger reclaim in the target memory cgroup.
+> > >
+> > >
+> > > Possible Extensions:
+> > > --------------------
+> > >
+> > > - This interface can be extended with an additional parameter or flags
+> > >   to allow specifying one or more types of memory to reclaim from (e.g.
+> > >   file, anon, ..).
+> > >
+> > > - The interface can also be extended with a node mask to reclaim from
+> > >   specific nodes. This has use cases for reclaim-based demotion in memory
+> > >   tiering systens.
+> > >
+> > > - A similar per-node interface can also be added to support proactive
+> > >   reclaim and reclaim-based demotion in systems without memcg.
+> >
+> > Maybe an option to specify a timeout? That might simplify the userspace part.
+> > Also, please please add a test to selftests/cgroup/memcg tests.
+> > It will also provide an example on how the userspace can use the feature.
+> >
 > 
-> - use "readahead" consistently - not "read-ahead" or "read ahead".
-> - clarify some sections that, on reflection, weren't very clear
-> - minor punctuation/spelling fixes.
+> Hi Roman, thanks for taking the time to review this!
+> 
+> A timeout can be a good extension, I will add it to the commit message
+> in the next version in possible extensions.
+> 
+> I will add a test in v2, thanks!
 
-Coincidentally, I had a number of other changes to this documentation
-which conflicted throughout with yours.  Here's a merge of the two:
+Great, thank you!
 
-@@ -13,29 +13,29 @@
-  *
-  * Readahead is used to read content into the page cache before it is
-  * explicitly requested by the application.  Readahead only ever
-- * attempts to read pages that are not yet in the page cache.  If a
-- * page is present but not up-to-date, readahead will not try to read
-+ * attempts to read folios that are not yet in the page cache.  If a
-+ * folio is present but not up-to-date, readahead will not try to read
-  * it. In that case a simple ->readpage() will be requested.
-  *
-  * Readahead is triggered when an application read request (whether a
-- * systemcall or a page fault) finds that the requested page is not in
-+ * system call or a page fault) finds that the requested folio is not in
-  * the page cache, or that it is in the page cache and has the
-- * %PG_readahead flag set.  This flag indicates that the page was loaded
-- * as part of a previous read-ahead request and now that it has been
-- * accessed, it is time for the next read-ahead.
-+ * readahead flag set.  This flag indicates that the folio was read
-+ * as part of a previous readahead request and now that it has been
-+ * accessed, it is time for the next readahead.
-  *
-  * Each readahead request is partly synchronous read, and partly async
-- * read-ahead.  This is reflected in the struct file_ra_state which
-- * contains ->size being to total number of pages, and ->async_size
-- * which is the number of pages in the async section.  The first page in
-- * this async section will have %PG_readahead set as a trigger for a
-- * subsequent read ahead.  Once a series of sequential reads has been
-+ * readahead.  This is reflected in the struct file_ra_state which
-+ * contains ->size being the total number of pages, and ->async_size
-+ * which is the number of pages in the async section.  The readahead
-+ * flag will be set on the first folio in this async section to trigger
-+ * a subsequent readahead.  Once a series of sequential reads has been
-  * established, there should be no need for a synchronous component and
-- * all read ahead request will be fully asynchronous.
-+ * all readahead request will be fully asynchronous.
-  *
-- * When either of the triggers causes a readahead, three numbers need to
-- * be determined: the start of the region, the size of the region, and
-- * the size of the async tail.
-+ * When either of the triggers causes a readahead, three numbers need
-+ * to be determined: the start of the region to read, the size of the
-+ * region, and the size of the async tail.
-  *
-  * The start of the region is simply the first page address at or after
-  * the accessed address, which is not currently populated in the page
-@@ -45,14 +45,14 @@
-  * was explicitly requested from the determined request size, unless
-  * this would be less than zero - then zero is used.  NOTE THIS
-  * CALCULATION IS WRONG WHEN THE START OF THE REGION IS NOT THE ACCESSED
-- * PAGE.
-+ * PAGE.  ALSO THIS CALCULATION IS NOT USED CONSISTENTLY.
-  *
-  * The size of the region is normally determined from the size of the
-  * previous readahead which loaded the preceding pages.  This may be
-  * discovered from the struct file_ra_state for simple sequential reads,
-  * or from examining the state of the page cache when multiple
-  * sequential reads are interleaved.  Specifically: where the readahead
-- * was triggered by the %PG_readahead flag, the size of the previous
-+ * was triggered by the readahead flag, the size of the previous
-  * readahead is assumed to be the number of pages from the triggering
-  * page to the start of the new readahead.  In these cases, the size of
-  * the previous readahead is scaled, often doubled, for the new
-@@ -65,52 +65,52 @@
-  * larger than the current request, and it is not scaled up, unless it
-  * is at the start of file.
-  *
-- * In general read ahead is accelerated at the start of the file, as
-+ * In general readahead is accelerated at the start of the file, as
-  * reads from there are often sequential.  There are other minor
-- * adjustments to the read ahead size in various special cases and these
-+ * adjustments to the readahead size in various special cases and these
-  * are best discovered by reading the code.
-  *
-- * The above calculation determines the readahead, to which any requested
-- * read size may be added.
-+ * The above calculation, based on the previous readahead size,
-+ * determines the size of the readahead, to which any requested read
-+ * size may be added.
-  *
-  * Readahead requests are sent to the filesystem using the ->readahead()
-  * address space operation, for which mpage_readahead() is a canonical
-  * implementation.  ->readahead() should normally initiate reads on all
-- * pages, but may fail to read any or all pages without causing an IO
-+ * folios, but may fail to read any or all folios without causing an I/O
-  * error.  The page cache reading code will issue a ->readpage() request
-- * for any page which ->readahead() does not provided, and only an error
-+ * for any folio which ->readahead() did not read, and only an error
-  * from this will be final.
-  *
-- * ->readahead() will generally call readahead_page() repeatedly to get
-- * each page from those prepared for read ahead.  It may fail to read a
-- * page by:
-+ * ->readahead() will generally call readahead_folio() repeatedly to get
-+ * each folio from those prepared for readahead.  It may fail to read a
-+ * folio by:
-  *
-- * * not calling readahead_page() sufficiently many times, effectively
-- *   ignoring some pages, as might be appropriate if the path to
-+ * * not calling readahead_folio() sufficiently many times, effectively
-+ *   ignoring some folios, as might be appropriate if the path to
-  *   storage is congested.
-  *
-- * * failing to actually submit a read request for a given page,
-+ * * failing to actually submit a read request for a given folio,
-  *   possibly due to insufficient resources, or
-  *
-  * * getting an error during subsequent processing of a request.
-  *
-- * In the last two cases, the page should be unlocked to indicate that
-- * the read attempt has failed.  In the first case the page will be
-- * unlocked by the caller.
-+ * In the last two cases, the folio should be unlocked by the filesystem
-+ * to indicate that the read attempt has failed.  In the first case the
-+ * folio will be unlocked by the VFS.
-  *
-- * Those pages not in the final ``async_size`` of the request should be
-+ * Those folios not in the final ``async_size`` of the request should be
-  * considered to be important and ->readahead() should not fail them due
-  * to congestion or temporary resource unavailability, but should wait
-  * for necessary resources (e.g.  memory or indexing information) to
-- * become available.  Pages in the final ``async_size`` may be
-+ * become available.  Folios in the final ``async_size`` may be
-  * considered less urgent and failure to read them is more acceptable.
-- * In this case it is best to use delete_from_page_cache() to remove the
-- * pages from the page cache as is automatically done for pages that
-- * were not fetched with readahead_page().  This will allow a
-- * subsequent synchronous read ahead request to try them again.  If they
-+ * In this case it is best to use filemap_remove_folio() to remove the
-+ * folios from the page cache as is automatically done for folios that
-+ * were not fetched with readahead_folio().  This will allow a
-+ * subsequent synchronous readahead request to try them again.  If they
-  * are left in the page cache, then they will be read individually using
-- * ->readpage().
-- *
-+ * ->readpage() which may be less efficient.
-  */
+> 
+> >
+> > >
+> > > For now, let's keep things simple by adding the basic functionality.
+> >
+> > What I'm worried about is how we gonna extend it? How do you see the interface
+> > with 2-3 extensions from the list above? All these extensions look very
+> > reasonable to me, so we'll likely have to implement them soon. So let's think
+> > about the extensibility now.
+> >
+> 
+> My idea is to have these extensions as optional positional arguments
+> (like Wei suggested), so that the interface does not get too
+> complicated for users who don't care about tuning these options. If
+> this is the case then I think there is nothing to worry about.
+> Otherwise, if you think some of these options make sense to be a
+> required argument instead, we can rethink the initial interface.
 
- #include <linux/kernel.h>
-@@ -157,7 +157,7 @@ static void read_pages(struct readahead_control *rac)
-                aops->readahead(rac);
-                /*
-                 * Clean up the remaining pages.  The sizes in ->ra
--                * maybe be used to size next read-ahead, so make sure
-+                * maybe be used to size next readahead, so make sure
-                 * they accurately reflect what happened.
-                 */
-                while ((page = readahead_page(rac))) {
-@@ -420,7 +420,7 @@ static pgoff_t count_history_pages(struct address_space *mapping,
- }
+The interface you're proposing is not really extensible, so we'll likely need to
+introduce a new interface like memory.reclaim_ext very soon. Why not create
+an extensible API from scratch?
 
- /*
-- * page cache context based read-ahead
-+ * page cache context based readahead
-  */
- static int try_context_readahead(struct address_space *mapping,
-                                 struct file_ra_state *ra,
-@@ -671,9 +671,9 @@ void page_cache_sync_ra(struct readahead_control *ractl,
-        bool do_forced_ra = ractl->file && (ractl->file->f_mode & FMODE_RANDOM);
+I'm looking at cgroup v2 documentation which describes various interface files
+formats and it seems like given the number of potential optional arguments
+the best option is nested keyed (please, refer to the Interface Files section).
 
-        /*
--        * Even if read-ahead is disabled, issue this request as read-ahead
-+        * Even if readahead is disabled, issue this request as readahead
-         * as we'll need it to satisfy the requested range. The forced
--        * read-ahead will do the right thing and limit the read to just the
-+        * readahead will do the right thing and limit the read to just the
-         * requested range, which we'll set to 1 page for this case.
-         */
-        if (!ractl->ra->ra_pages || blk_cgroup_congested()) {
-@@ -689,7 +689,6 @@ void page_cache_sync_ra(struct readahead_control *ractl,
-                return;
-        }
+E.g. the format can be:
+echo "1G type=file nodemask=1-2 timeout=30s" > memory.reclaim
 
--       /* do read-ahead */
-        ondemand_readahead(ractl, NULL, req_count);
- }
- EXPORT_SYMBOL_GPL(page_cache_sync_ra);
-@@ -697,7 +696,7 @@ EXPORT_SYMBOL_GPL(page_cache_sync_ra);
- void page_cache_async_ra(struct readahead_control *ractl,
-                struct folio *folio, unsigned long req_count)
- {
--       /* no read-ahead */
-+       /* no readahead */
-        if (!ractl->ra->ra_pages)
-                return;
+We can say that now we don't support any keyed arguments, but they can be
+added in the future.
 
-@@ -712,7 +711,6 @@ void page_cache_async_ra(struct readahead_control *ractl,
-        if (blk_cgroup_congested())
-                return;
+Basically you don't even need to change any code, only document the interface
+properly, so we can extend it later without breaking the API.
 
--       /* do read-ahead */
-        ondemand_readahead(ractl, folio, req_count);
- }
- EXPORT_SYMBOL_GPL(page_cache_async_ra);
+> 
+> > I wonder if it makes more sense to introduce a sys_reclaim() syscall instead?
+> > In the end, such a feature might make sense on the system level too.
+> > Yes, there is the drop_caches sysctl, but it's too radical for many cases.
+> >
+> 
+> I think in the RFC discussion there was consensus to add both a
+> per-memcg knob, as well as per-node / per-system knobs (through sysfs
+> or syscalls) later. Wei also points out that it's not common for a
+> syscall to have a cgroup argument.
 
+Actually there are examples (e.g. sys_bpf), but my only point is to make
+the API extensible, so maybe syscall is not the best idea.
+
+I'd add the root level interface from scratch: the code change is simple
+and it makes sense as a feature. Then likely we don't really need another
+system-level interface at all.
+
+Thanks!
