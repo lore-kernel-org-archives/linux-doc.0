@@ -2,214 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A69CBC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 15:04:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5A4C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 15:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344675AbiDAPGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 11:06:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
+        id S1348807AbiDAPGI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 11:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349157AbiDAOpi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 10:45:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24035299A4B;
-        Fri,  1 Apr 2022 07:35:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S1350581AbiDAPAM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 11:00:12 -0400
+Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F359185444;
+        Fri,  1 Apr 2022 07:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
+        s=Selector; t=1648824482; i=@motorola.com;
+        bh=WROaxWWWhA/Ka6VGT9NzyKO1Nh1SHOr11ZyLRrXkfR8=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Type:In-Reply-To;
+        b=YT9MHsIuTMP2sKtPAnUbU0aitOxqst3UA6DNHLU8FJfIZhJs2z5MLzgJ36d//TE0D
+         Dy9bSmjDl8rJQzHru+mHwo/wtYC6H+jpOW05rfNoS9FtUx6I9VBQujTMrKWykQ6D0N
+         UaiZKF9Omck/NXOkcKnss+ieA6tdETflC9/37mtxr/881LKMNdpb+66GjZBQnCkRD7
+         b5OAniYpPD0ev5qRTg/Bzq5S41jlf8wtF+/9OzhH2L2oUGjOAZVe3qkBqtaVflDO4E
+         0tjqPvHJpHo5gVJAqFwbGDI712b2GHLfeBmJUqvByMIbAgxz4nZmZ5snLvaIc7/I1h
+         KCz6tnMYj/hPg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRWlGSWpSXmKPExsWS8eKJqO5CAfc
+  kgwm7dS2OtT1ht5izOdriyYF2RovmxevZLDonLmG3WNi2hMXi8q45bBaLlrUyWzycfZXR4u2d
+  6SwWCzY+YnTg9pjdMZPVY/MKLY9NqzrZPPbPXcPusbhvMqvH501yHoe2v2ELYI9izcxLyq9IY
+  M248+w1U8F01orOT/+ZGhins3QxcnEICUxnknh4o4sZwlnEJLFrx1Egh5ODRUBF4s7MnywgNp
+  uAmsSC16vA4iICxhL9Z2exg9jMAk+ZJCbO4gOxhQWCJNq6/4LFeQWUJZ58W8YIYgsJhEv8XbC
+  cFSIuKHFy5hMWiF4tiRv/XjJ1MXIA2dISy/9xgIQ5BTQl2hdvY5nAyDsLSccsJB2zEDoWMDKv
+  YrROKspMzyjJTczM0TU0MNA1NDTRNTfUNTI00kus0k3UKy3WTU0sLtEFcsuL9VKLi/WKK3OTc
+  1L08lJLNjECoyKlyP3KDsb7K3/qHWKU5GBSEuW9vMEtSYgvKT+lMiOxOCO+qDQntfgQowwHh5
+  IELx+fe5KQYFFqempFWmYOMEJh0hIcPEoivIasQGne4oLE3OLMdIjUKUZFKXHeIyB9AiCJjNI
+  8uDZYUrjEKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh3Ez/QFJ7MvBK46a+AFjMBLda/4Qqy
+  uCQRISXVwORdufPntCVVDsll+msvc+y9vsjfK4PbbNZirX3zFCsbJxjkGiilrNDWq2334HJ2m
+  2CatKWG5dX9i3UNqQwOOVGPeL01X7sc7fS2Kjgc4nb7/KK1EzTn2zRbr7z6I3C+6SMla9WtlR
+  YvbnoYvZDXSlx+pum74VqtTf338s6GGwQz3n42L8+M+c90/d7oNNFTWzbO2WbYz/BP68/T0B+
+  /X3S+O3xG4/qDSy2eAcVXtvmo3nl9pi972yU5P+uUE8mPs/bnhNa+MggS0pv39MbaRMXbK6Vu
+  V3XpP+D89tyZnyHuynT5gy4u8c4sgfYyZb1Klvdvn3hoJJ/QmrG85SN7Sk74ufXi9gc4mi9yV
+  nwOV2Ipzkg01GIuKk4EALAcgk2FAwAA
+X-Env-Sender: w36195@motorola.com
+X-Msg-Ref: server-8.tower-715.messagelabs.com!1648824481!21610!1
+X-Originating-IP: [104.232.228.21]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 20062 invoked from network); 1 Apr 2022 14:48:01 -0000
+Received: from unknown (HELO va32lpfpp01.lenovo.com) (104.232.228.21)
+  by server-8.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Apr 2022 14:48:01 -0000
+Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4KVNM52X3GzgNVf;
+        Fri,  1 Apr 2022 14:48:01 +0000 (UTC)
+Received: from p1g3 (unknown [10.45.5.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A9C4F60A3D;
-        Fri,  1 Apr 2022 14:34:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83411C340F2;
-        Fri,  1 Apr 2022 14:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648823695;
-        bh=h6tEdTEiLa3QMvSfq+L4/ZRy7SJQezJ633iJ7+1klsM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EKZP1uH6QieLhU1pKEh5QHV6RWg5Wn4FfbYgBQttlgxK6eVkX1PLtQ4ObTM5lWEbL
-         JiHCFX7swmVdIsAx0XZrVjXCCd+WjM/mdpKK/JTHsDhaNkRLQylKxJYUgcsNskVLdK
-         0e9HKKGNpviJ6+G2ALc/6mN3HiAdGLYD+/3IMDyUBShSzSbqRZNAD4SJPQ5xWWteP3
-         HFWDb7aVeFy80u+duOMleA9xYyzH7aiVk1G/Qe4JPoSGbCOtQlVkKXuSvR2vi8VUoA
-         odI6C/1oPjEPgzewb5L8qMbqmFUdI3bPWu+9VbyLN3Ddc3TCNXdKMkaZ0LNrGl4sOb
-         8eC3XRWGeFbvQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marc Zyngier <maz@kernel.org>,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        Sasha Levin <sashal@kernel.org>, pbonzini@redhat.com,
-        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        oupton@google.com, drjones@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu
-Subject: [PATCH AUTOSEL 5.16 042/109] KVM: arm64: Do not change the PMU event filter after a VCPU has run
-Date:   Fri,  1 Apr 2022 10:31:49 -0400
-Message-Id: <20220401143256.1950537-42-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401143256.1950537-1-sashal@kernel.org>
-References: <20220401143256.1950537-1-sashal@kernel.org>
+        (Authenticated sender: w36195)
+        by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4KVNM46W96zf6f8;
+        Fri,  1 Apr 2022 14:48:00 +0000 (UTC)
+Date:   Fri, 1 Apr 2022 09:47:54 -0500
+From:   Dan Vacura <w36195@motorola.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YkcQmrm30D7cNPDo@p1g3>
+References: <20220331211155.412906-1-w36195@motorola.com>
+ <YkaZcSsadjHp1yJZ@kroah.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkaZcSsadjHp1yJZ@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Marc Zyngier <maz@kernel.org>
+On Fri, Apr 01, 2022 at 08:19:29AM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Mar 31, 2022 at 04:11:50PM -0500, Dan Vacura wrote:
+> > Add a configfs entry, "function_name", to change the iInterface field
+> > for VideoControl. This name is used on host devices for user selection,
+> > useful when multiple cameras are present. The default will remain "UVC
+> > Camera".
+> > 
+> > Cc: <stable@vger.kernel.org> # 5.10+
+> 
+> Why is adding a new feature a stable kernel issue?
+> 
+> confused,
+> 
+> greg k-h
 
-[ Upstream commit 5177fe91e4cf78a659aada2c9cf712db4d788481 ]
+The intention is to get this change integrated into the Android GKI 5.10
+and 5.15 release lines.
 
-Userspace can specify which events a guest is allowed to use with the
-KVM_ARM_VCPU_PMU_V3_FILTER attribute. The list of allowed events can be
-identified by a guest from reading the PMCEID{0,1}_EL0 registers.
+Sorry for the confusion or if I misunderstood the process,
 
-Changing the PMU event filter after a VCPU has run can cause reads of the
-registers performed before the filter is changed to return different values
-than reads performed with the new event filter in place. The architecture
-defines the two registers as read-only, and this behaviour contradicts
-that.
-
-Keep track when the first VCPU has run and deny changes to the PMU event
-filter to prevent this from happening.
-
-Signed-off-by: Marc Zyngier <maz@kernel.org>
-[ Alexandru E: Added commit message, updated ioctl documentation ]
-Signed-off-by: Alexandru Elisei <alexandru.elisei@arm.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
-Link: https://lore.kernel.org/r/20220127161759.53553-2-alexandru.elisei@arm.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/virt/kvm/devices/vcpu.rst |  2 +-
- arch/arm64/include/asm/kvm_host.h       |  1 +
- arch/arm64/kvm/arm.c                    |  4 +++
- arch/arm64/kvm/pmu-emul.c               | 33 +++++++++++++++----------
- 4 files changed, 26 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
-index 60a29972d3f1..d063aaee5bb7 100644
---- a/Documentation/virt/kvm/devices/vcpu.rst
-+++ b/Documentation/virt/kvm/devices/vcpu.rst
-@@ -70,7 +70,7 @@ irqchip.
- 	 -ENODEV  PMUv3 not supported or GIC not initialized
- 	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
- 	 	  configured as required prior to calling this attribute
--	 -EBUSY   PMUv3 already initialized
-+	 -EBUSY   PMUv3 already initialized or a VCPU has already run
- 	 -EINVAL  Invalid filter range
- 	 =======  ======================================================
- 
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index d016f27af6da..8c7ba346d713 100644
---- a/arch/arm64/include/asm/kvm_host.h
-+++ b/arch/arm64/include/asm/kvm_host.h
-@@ -137,6 +137,7 @@ struct kvm_arch {
- 
- 	/* Memory Tagging Extension enabled for the guest */
- 	bool mte_enabled;
-+	bool ran_once;
- };
- 
- struct kvm_vcpu_fault_info {
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index 1eadf9088880..6f3be4d44abe 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -629,6 +629,10 @@ static int kvm_vcpu_first_run_init(struct kvm_vcpu *vcpu)
- 	if (kvm_vm_is_protected(kvm))
- 		kvm_call_hyp_nvhe(__pkvm_vcpu_init_traps, vcpu);
- 
-+	mutex_lock(&kvm->lock);
-+	kvm->arch.ran_once = true;
-+	mutex_unlock(&kvm->lock);
-+
- 	return ret;
- }
- 
-diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-index a5e4bbf5e68f..c996fc562da4 100644
---- a/arch/arm64/kvm/pmu-emul.c
-+++ b/arch/arm64/kvm/pmu-emul.c
-@@ -921,6 +921,8 @@ static bool pmu_irq_is_valid(struct kvm *kvm, int irq)
- 
- int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- {
-+	struct kvm *kvm = vcpu->kvm;
-+
- 	if (!kvm_vcpu_has_pmu(vcpu))
- 		return -ENODEV;
- 
-@@ -938,7 +940,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- 		int __user *uaddr = (int __user *)(long)attr->addr;
- 		int irq;
- 
--		if (!irqchip_in_kernel(vcpu->kvm))
-+		if (!irqchip_in_kernel(kvm))
- 			return -EINVAL;
- 
- 		if (get_user(irq, uaddr))
-@@ -948,7 +950,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- 		if (!(irq_is_ppi(irq) || irq_is_spi(irq)))
- 			return -EINVAL;
- 
--		if (!pmu_irq_is_valid(vcpu->kvm, irq))
-+		if (!pmu_irq_is_valid(kvm, irq))
- 			return -EINVAL;
- 
- 		if (kvm_arm_pmu_irq_initialized(vcpu))
-@@ -963,7 +965,7 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- 		struct kvm_pmu_event_filter filter;
- 		int nr_events;
- 
--		nr_events = kvm_pmu_event_mask(vcpu->kvm) + 1;
-+		nr_events = kvm_pmu_event_mask(kvm) + 1;
- 
- 		uaddr = (struct kvm_pmu_event_filter __user *)(long)attr->addr;
- 
-@@ -975,12 +977,17 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- 		     filter.action != KVM_PMU_EVENT_DENY))
- 			return -EINVAL;
- 
--		mutex_lock(&vcpu->kvm->lock);
-+		mutex_lock(&kvm->lock);
-+
-+		if (kvm->arch.ran_once) {
-+			mutex_unlock(&kvm->lock);
-+			return -EBUSY;
-+		}
- 
--		if (!vcpu->kvm->arch.pmu_filter) {
--			vcpu->kvm->arch.pmu_filter = bitmap_alloc(nr_events, GFP_KERNEL_ACCOUNT);
--			if (!vcpu->kvm->arch.pmu_filter) {
--				mutex_unlock(&vcpu->kvm->lock);
-+		if (!kvm->arch.pmu_filter) {
-+			kvm->arch.pmu_filter = bitmap_alloc(nr_events, GFP_KERNEL_ACCOUNT);
-+			if (!kvm->arch.pmu_filter) {
-+				mutex_unlock(&kvm->lock);
- 				return -ENOMEM;
- 			}
- 
-@@ -991,17 +998,17 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
- 			 * events, the default is to allow.
- 			 */
- 			if (filter.action == KVM_PMU_EVENT_ALLOW)
--				bitmap_zero(vcpu->kvm->arch.pmu_filter, nr_events);
-+				bitmap_zero(kvm->arch.pmu_filter, nr_events);
- 			else
--				bitmap_fill(vcpu->kvm->arch.pmu_filter, nr_events);
-+				bitmap_fill(kvm->arch.pmu_filter, nr_events);
- 		}
- 
- 		if (filter.action == KVM_PMU_EVENT_ALLOW)
--			bitmap_set(vcpu->kvm->arch.pmu_filter, filter.base_event, filter.nevents);
-+			bitmap_set(kvm->arch.pmu_filter, filter.base_event, filter.nevents);
- 		else
--			bitmap_clear(vcpu->kvm->arch.pmu_filter, filter.base_event, filter.nevents);
-+			bitmap_clear(kvm->arch.pmu_filter, filter.base_event, filter.nevents);
- 
--		mutex_unlock(&vcpu->kvm->lock);
-+		mutex_unlock(&kvm->lock);
- 
- 		return 0;
- 	}
--- 
-2.34.1
+Dan
 
