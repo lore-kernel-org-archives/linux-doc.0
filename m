@@ -2,223 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 825C2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Mar 2022 21:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F137C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 00:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235317AbiCaVPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Mar 2022 17:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38172 "EHLO
+        id S243203AbiDAAHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Mar 2022 20:07:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235305AbiCaVPG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 17:15:06 -0400
-Received: from mail1.bemta35.messagelabs.com (mail1.bemta35.messagelabs.com [67.219.250.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647885FD6;
-        Thu, 31 Mar 2022 14:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
-        s=Selector; t=1648761196; i=@motorola.com;
-        bh=Oscoe//5oQimSy5iSL2jY5wOLa/t9XXDwFLpzHlYKyA=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-         Content-Transfer-Encoding;
-        b=Nxqwf7klgQcmTZbCrwzM70Nw+3R9FucqaRz5KOEIs2YTRRLfCxzPxIUzpPrX6X8Hx
-         YLyb1PSek+a7J88lNyFfmORbgcFKXzk1VdNjk34zn4dDqi4CDM7yZ/YvJEfj4Dhyu/
-         ECg3vNA17WTXfXk+zqYV9TM37FaO6PFjRBKiYdAuTNpI+8elRJ5VUZmxN8iY4JsQ5b
-         iXcdQuqvOJEWdBsIV0eFYDhwiTbQppT5gnx8YCWir1k0JI8aX8QR0hmr7xEjN2/efq
-         sANN6pKqgi3rIKykciVNsBz9C6a+ieLiOOPPaBPvL+XVIZfSVS9vHhwVEIyeftRYfT
-         XcdxTycQDCb6w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHIsWRWlGSWpSXmKPExsWS8eKJqG62pFu
-  SwfNZghbH2p6wW8zZHG3x5EA7o0Xz4vVsFp0Tl7BbLGxbwmJxedccNotFy1qZLR7Ovspo8fbO
-  dBaLBRsfMTpwe8zumMnqsXmFlsemVZ1sHvvnrmH3WNw3mdXj8yY5j0Pb37AFsEexZuYl5Vcks
-  GZcW3qEpeCtRsXn3l6mBsb5Sl2MXBxCAtOZJE6c+80I4Sxlkjiy9gKQw8nBJqAmseD1KmYQW0
-  RAVuLwld/MIEXMAguZJd7+fsYKkhAW8JV4++w2C4jNIqAqMWfeRXYQm1fAUmLxhvNgcQkBeYl
-  Tyw4yQcQFJU7OfAIWZwaKN2+dzTyBkXsWktQsJKkFjEyrGG2SijLTM0pyEzNzdA0NDHQNDU2A
-  tBGQttBLrNJN1Cst1i1PLS7RNdJLLC/WSy0u1iuuzE3OSdHLSy3ZxAgM6pSitLIdjG39P/UOM
-  UpyMCmJ8jocck0S4kvKT6nMSCzOiC8qzUktPsQow8GhJMF7QsQtSUiwKDU9tSItMwcYYTBpCQ
-  4eJRHeCDGgNG9xQWJucWY6ROoUoy7HpUNX9jILseTl56VKifNySwAVCYAUZZTmwY2ARfslRlk
-  pYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8ISBTeDLzSuA2vQI6ggnoCP0briBHlCQipKQamK6U
-  ZjWbtH7lFTRlsgthXpna7+3Gen2zekPavE/yV+bNqnx6evqdGPmdimd6PR/LGa3MufdoQ9XbM
-  yGpR2evSVj11vuw9deJIrrvX3Ae285sXD35JfPHCU76HAt/W9XO+tPqzvp1gkL/zAMXqjZ/Cd
-  v8quVz6Nq4O0XHCzqKNrL1/HRsZZzKMM93ubrYqegCjuc+nt0P5BtP6xjOcPf1b9i0I1nsVnC
-  EK/+ed7sl5Xe7tFQ6Vc3u23Fmfk3UUddM5TP5GRlmggrxC5tuzC0q0K6eyB0w6YT+rIcWSW9d
-  4y5ce6gunODluUPjDrNTu/WN9y3vfy9bHNeXLL9hWiDrJ5Zf/1Z1TiyZ7KQU3sCzTomlOCPRU
-  Iu5qDgRAIXdMEBxAwAA
-X-Env-Sender: w36195@motorola.com
-X-Msg-Ref: server-6.tower-636.messagelabs.com!1648761194!43693!1
-X-Originating-IP: [104.232.228.21]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.85.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 10518 invoked from network); 31 Mar 2022 21:13:15 -0000
-Received: from unknown (HELO va32lpfpp01.lenovo.com) (104.232.228.21)
-  by server-6.tower-636.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 31 Mar 2022 21:13:15 -0000
-Received: from va32lmmrp02.lenovo.com (va32lmmrp02.mot.com [10.62.176.191])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4KTwy21XdRzldQp;
-        Thu, 31 Mar 2022 21:13:14 +0000 (UTC)
-Received: from p1g3.. (unknown [10.45.4.253])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: w36195)
-        by va32lmmrp02.lenovo.com (Postfix) with ESMTPSA id 4KTwy159SZzf6Wh;
-        Thu, 31 Mar 2022 21:13:13 +0000 (UTC)
-From:   Dan Vacura <w36195@motorola.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Dan Vacura <w36195@motorola.com>, stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] usb: gadget: uvc: allow changing interface name via configfs
-Date:   Thu, 31 Mar 2022 16:11:50 -0500
-Message-Id: <20220331211155.412906-1-w36195@motorola.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
+        with ESMTP id S243196AbiDAAHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Mar 2022 20:07:08 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383A3DBD09
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:05:20 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id e5so1038354pls.4
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 17:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p1Kk4asKnMlrLdFRP7KKaRA1SmfSqVpzna8bIJo/9fM=;
+        b=Fo+F2q273Jom1d6+49Kn4y8sS3JIWP9Hm5KfaGS7UuL7ZN/g1Qc65G1IUtU+Txwf3t
+         NpieS75qeiyyqlsPakJVqEqZrH89XLxR3qd1c1Y5WDMAbmFNR6W6Fy9HGIJo62QbdoKC
+         hJFWcH09JN4eisXcydwjq+0r9v2qwE9hNm7ONJIgQZYak8OJhNvsYeHj6Gey41Nqb8+C
+         xdmR2Ag69ccHTmG3MpBKMewdek8eWwewZnpEJNMv6SsjQg1CY8B5FCc4iQzz19t6u7et
+         btanDcsTBRfl/tQFniC6gpNnfUEIbGZFNd4n55V5agn4e0QFPklp56aqROGoZLBrCsa4
+         njZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=p1Kk4asKnMlrLdFRP7KKaRA1SmfSqVpzna8bIJo/9fM=;
+        b=W2BD7ihEddwdaKx6IPKDSvM6vFZZbS5Gk2xJZLnWaRqBIaXzJ+pxbb5iXXv1qsj4Bq
+         4WPTN4GDu4S/cJjziX1xXK7E9mJETOCxVunbHBS+5RJwo8EtM9Tp4i5Yign907YDy19+
+         kCqohZlNv+Q4db/TnOiZ56J0sQHohmHvPXNgVxqF2rVooXxVPUuP/cP2ZBHvobyH15Ab
+         i+VfQ8njxeObxpZtmO/vWwXW4KY9c37F4YGNzBF3OnLU1luxIqzw0I1T75Wp6XTYRYcm
+         LlM6BS3Ew1bT/dFlhE8UXvdjtQzBW890UjWKFpojZxzwq6PC7KFaJJLJUBFJ57XWeEAZ
+         6wrA==
+X-Gm-Message-State: AOAM531p3U4NtEft+5xQH1HNc/jopRHyZSHW6d9Acxy//F71GsET5jSv
+        PTLvaZcuDAzvMItk53skt3y/p0mj78Ke8w==
+X-Google-Smtp-Source: ABdhPJxe1BJPhMA/qe+O/I1I6VTtI0vPk9DRXRO2Bb5f18M5jyRjbCnZzywP9UowAOFfgdvjVyYn/w==
+X-Received: by 2002:a17:902:d3c5:b0:154:a3b5:d918 with SMTP id w5-20020a170902d3c500b00154a3b5d918mr7696913plb.91.1648771519308;
+        Thu, 31 Mar 2022 17:05:19 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id 123-20020a620681000000b004fa7c20d732sm593121pfg.133.2022.03.31.17.05.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 17:05:18 -0700 (PDT)
+Date:   Thu, 31 Mar 2022 17:05:18 -0700 (PDT)
+X-Google-Original-Date: Thu, 31 Mar 2022 16:19:20 PDT (-0700)
+Subject:     Re: [PATCH] Documentation: riscv: remove non-existent document from table of contents
+In-Reply-To: <20220329084428.376003-1-bagasdotme@gmail.com>
+CC:     linux-doc@vger.kernel.org, bagasdotme@gmail.com,
+        Paul Walmsley <paul@pwsan.com>,
+        Atish Patra <atishp@rivosinc.com>, atishp@atishpatra.org,
+        Atish Patra <atishp@rivosinc.com>,
+        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-riscv@lists.infradead.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     bagasdotme@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Message-ID: <mhng-cda2a9b2-2e3a-41a8-8df9-ee3d05d47a1a@palmer-mbp2014>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a configfs entry, "function_name", to change the iInterface field
-for VideoControl. This name is used on host devices for user selection,
-useful when multiple cameras are present. The default will remain "UVC
-Camera".
+On Tue, 29 Mar 2022 01:44:28 PDT (-0700), bagasdotme@gmail.com wrote:
+> Remove reference to non-existent pmu.rst from table of contents tree
+> in Documentation/riscv/index.rst.
+>
+> Fixes: 23b1f18326ec ("Documentation: riscv: Remove the old
+> documentation")
+> Link: https://lore.kernel.org/linux-next/20220329133412.591d6882@canb.auug.org.au/
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Paul Walmsley <paul@pwsan.com>
+> Cc: Atish Patra <atish.patra@wdc.com>
+> Cc: Atish Patra <atishp@atishpatra.org>
+> Cc: Atish Patra <atishp@rivosinc.com>
+> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+> Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
+> Cc: linux-riscv@lists.infradead.org
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/riscv/index.rst | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+> index ea915c1960488a..e23b876ad6ebb6 100644
+> --- a/Documentation/riscv/index.rst
+> +++ b/Documentation/riscv/index.rst
+> @@ -7,7 +7,6 @@ RISC-V architecture
+>
+>      boot-image-header
+>      vm-layout
+> -    pmu
+>      patch-acceptance
+>
+>      features
+>
+> base-commit: 1930a6e739c4b4a654a69164dbe39e554d228915
 
-Cc: <stable@vger.kernel.org> # 5.10+
-Signed-off-by: Dan Vacura <w36195@motorola.com>
----
- .../ABI/testing/configfs-usb-gadget-uvc       |  1 +
- Documentation/usb/gadget-testing.rst          |  1 +
- drivers/usb/gadget/function/f_uvc.c           |  4 +-
- drivers/usb/gadget/function/u_uvc.h           |  1 +
- drivers/usb/gadget/function/uvc_configfs.c    | 41 +++++++++++++++++++
- 5 files changed, 47 insertions(+), 1 deletion(-)
+Adding the doc folks.
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 889ed45be4ca..611b23e6488d 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,7 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		function_name		string [32]
- 		===================	=============================
- 
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index c6d034abce3a..1c37159fa171 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -787,6 +787,7 @@ The uvc function provides these attributes in its function directory:
- 	streaming_maxpacket maximum packet size this endpoint is capable of
- 			    sending or receiving when this configuration is
- 			    selected
-+	function_name       name of the interface
- 	=================== ================================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dba..50e6e7a58b41 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -44,7 +44,7 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
- #define UVC_STRING_STREAMING_IDX		1
- 
- static struct usb_string uvc_en_us_strings[] = {
--	[UVC_STRING_CONTROL_IDX].s = "UVC Camera",
-+	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
- 	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
- 	{  }
- };
-@@ -676,6 +676,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
- 
-+	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
- 	us = usb_gstrings_attach(cdev, uvc_function_strings,
- 				 ARRAY_SIZE(uvc_en_us_strings));
- 	if (IS_ERR(us)) {
-@@ -866,6 +867,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
- 
- 	ret = uvcg_attach_configfs(opts);
- 	if (ret < 0) {
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 9a01a7d4f17f..24b8681b0d6f 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -27,6 +27,7 @@ struct f_uvc_opts {
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-+	char						function_name[32];
- 
- 	/*
- 	 * Control descriptors array pointers for full-/high-speed and
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 77d64031aa9c..63b8d3758b38 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -2425,10 +2425,51 @@ UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
- 
- #undef UVCG_OPTS_ATTR
- 
-+#define UVCG_OPTS_STRING_ATTR(cname, aname)				\
-+static ssize_t f_uvc_opts_string_##cname##_show(struct config_item *item,\
-+					 char *page)			\
-+{									\
-+	struct f_uvc_opts *opts = to_f_uvc_opts(item);			\
-+	int result;							\
-+									\
-+	mutex_lock(&opts->lock);					\
-+	result = snprintf(page, sizeof(opts->aname), "%s", opts->aname);\
-+	mutex_unlock(&opts->lock);					\
-+									\
-+	return result;							\
-+}									\
-+									\
-+static ssize_t f_uvc_opts_string_##cname##_store(struct config_item *item,\
-+					  const char *page, size_t len)	\
-+{									\
-+	struct f_uvc_opts *opts = to_f_uvc_opts(item);			\
-+	int ret = 0;							\
-+									\
-+	mutex_lock(&opts->lock);					\
-+	if (opts->refcnt) {						\
-+		ret = -EBUSY;						\
-+		goto end;						\
-+	}								\
-+									\
-+	ret = snprintf(opts->aname, min(sizeof(opts->aname), len),	\
-+			"%s", page);					\
-+									\
-+end:									\
-+	mutex_unlock(&opts->lock);					\
-+	return ret;							\
-+}									\
-+									\
-+UVC_ATTR(f_uvc_opts_string_, cname, aname)
-+
-+UVCG_OPTS_STRING_ATTR(function_name, function_name);
-+
-+#undef UVCG_OPTS_STRING_ATTR
-+
- static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_interval,
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
-+	&f_uvc_opts_string_attr_function_name,
- 	NULL,
- };
- 
--- 
-2.32.0
+I'm going to go ahead and just take this via the RISC-V tree, as I just 
+broke things.  I'd usually wait for longer for an ack/review, but IMO 
+it's saner to just get this into rc1 so builds don't break.  My version 
+[1] was sent at the same time and was CC'd to the right place, but I'm 
+going to take this one instead.
 
+[1]: https://lore.kernel.org/lkml/20220329164544.29367-1-palmer@rivosinc.com/
+
+Thanks!
