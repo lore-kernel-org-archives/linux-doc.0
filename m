@@ -2,93 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFB0C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 16:19:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7ECC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 16:28:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354787AbiDAQUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 12:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
+        id S234406AbiDAQa2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 12:30:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349158AbiDAQRp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 12:17:45 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AAF81C4B32
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 08:41:23 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id o13so2656998pgc.12
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 08:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pqJWbvvbg0qdWklwqs2qhrfKKi69liUYvCt62FUbnWk=;
-        b=Fn5jpMZAmMPReAvL0Tyf7tj5rAcmThNhnq1xKoKFkJI0vR0fJhwRbtqFchPRvfX4q1
-         ONoUm1fDJi9X/SdotI5xdBPmgeBbrWo8/YaW2ybUubSt1izJy97NcFaxs+dJxWC0WBMf
-         6z+iwlN+sbK2nfsp4T5xwzKsl3sE9+883flPy03nnksy67+Yj2ZYN4oSkYQiIHtJaUUH
-         6+GoJw85rhIbSF3mvBhZg+VFZFkJaWhhkPhJhHoJqg/NLIlaGVi7lJF460tom7CJNf71
-         QLXswXjH3yWTPwjM8DWIfiObLitVJeSiXu0UH1DAOa8qNyI5WVPl/7tgONlEth6eYrLf
-         Uwag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pqJWbvvbg0qdWklwqs2qhrfKKi69liUYvCt62FUbnWk=;
-        b=oczrah+jYhEX1e4DT9nVmw8pWItwC8fPYDAwTUkDOOaaTkfV/gO40hLVrQ9kLVgRf1
-         IiPy9bVtKyiuGZEoAdqbAJ+3rbPBAzi6Jdz1ldNVyFJgoG2uUg+05XQPtirCRlFoaqNX
-         LkdmImKAqiSFuiwUquItznDnYi/RL+moACiCWtpkEoQjHqFXTTW7y8VLu1Plbib54NkI
-         bnToI/uWLFRmBJGDU8zrz4v+mQkiMmnWo9m8SAdk2xtesGiWc+Hpg+80uVDV8h4txAao
-         1QfDfLHqS9emFLpur87XDP2jGFxpgtyAy2wv0EXzB5yzWlliVC2YJqMuL/Ebo7j4QgNw
-         7zdA==
-X-Gm-Message-State: AOAM533kt9QkA1yZlg1Os8oQCJb7BdUQXMslDGQtrRbVZy7DkyXr7S2K
-        MpGARDU1aklr25Ix5757GVuMJhx5OS+YQ17RVra23A==
-X-Google-Smtp-Source: ABdhPJxICFXuqj/lX5mtK0KnO7e8FwZzOC70mH0krkoDwxL8TroQr5Ghmg+DK+Zw9WUBYtZMvmLXl8GvFlOCo2bG5as=
-X-Received: by 2002:a05:6a00:2392:b0:4fa:dcd2:5bc1 with SMTP id
- f18-20020a056a00239200b004fadcd25bc1mr11451248pfc.8.1648827682692; Fri, 01
- Apr 2022 08:41:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com> <CAJD7tkZxqWg2NRi=83wSWLiykZBfrP8Kx_C5JWy48=rZoBWoHw@mail.gmail.com>
-In-Reply-To: <CAJD7tkZxqWg2NRi=83wSWLiykZBfrP8Kx_C5JWy48=rZoBWoHw@mail.gmail.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Fri, 1 Apr 2022 08:41:11 -0700
-Message-ID: <CALvZod7TSQ2RdL4iKx5egYOtDvZdGY--T90As_guZK+BoBvAOw@mail.gmail.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     Yosry Ahmed <yosryahmed@google.com>
-Cc:     Roman Gushchin <roman.gushchin@linux.dev>,
+        with ESMTP id S1344678AbiDAQaA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 12:30:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C32182AF9;
+        Fri,  1 Apr 2022 09:03:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 766F761AF8;
+        Fri,  1 Apr 2022 16:03:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83596C2BBE4;
+        Fri,  1 Apr 2022 16:03:07 +0000 (UTC)
+Date:   Fri, 1 Apr 2022 12:03:05 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-s390@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ia64@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <lenb@kernel.org>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Jonathan Corbet <corbet@lwn.net>,
-        Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3 v2] Docs: admin/kernel-parameters: edit a few boot
+ options
+Message-ID: <20220401120305.00076d14@gandalf.local.home>
+In-Reply-To: <20220401030927.12023-2-rdunlap@infradead.org>
+References: <20220401030927.12023-1-rdunlap@infradead.org>
+        <20220401030927.12023-2-rdunlap@infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 1, 2022 at 2:16 AM Yosry Ahmed <yosryahmed@google.com> wrote:
->
-[...]
-> > > +     {
-> > > +             .name = "reclaim",
-> > > +             .flags = CFTYPE_NOT_ON_ROOT | CFTYPE_NS_DELEGATABLE,
-> > > +             .write = memory_reclaim,
-> >
-> > Btw, why not on root?
->
-> I missed the root question in my first reply. I think this was
-> originally modeled after the memory.high interface, but I don't know
-> if there are other reasons. Shakeel would know better.
->
-> AFAIK this should work naturally on root as well, but I think it makes
-> more sense then to use a global interface (hopefully introduced soon)?
-> I don't have an opinion here let me know what you prefer for v2.
+On Thu, 31 Mar 2022 20:09:25 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-We will follow the psi example which is exposed for root as well as
-for system level in procfs but both of these (for memory.reclaim) are
-planned as the followup feature.
+> @@ -5908,6 +5910,8 @@
+>  	trace_buf_size=nn[KMG]
+>  			[FTRACE] will set tracing buffer size on each cpu.
+>  
+> +	trace_clock=	[FTRACE] See Documentation/trace/ftrace.rst
+
+	trace_clock=	[FTRACE] Set the clock used for tracing events
+			at boot up.
+			local - Use the per CPU time stamp counter
+				(converted into nanoseconds). Fast, but
+				depending on the architecture, may not be
+				in sync between CPUs.
+			global - Event time stamps are synchronize across
+				CPUs. May be slower than the local clock,
+				but better for some race conditions.
+			counter - Simple counting of events (1, 2, ..)
+				note, some counts may be skipped due to the
+				infrastructure grabbing the clock more than
+				once per event.
+			uptime - Use jiffies as the time stamp.
+			perf - Use the same clock that perf uses.
+			mono - Use ktime_get_mono_fast_ns() for time stamps.
+			mono_raw - Use ktime_get_raw_fast_ns() for time
+				stamps.
+			boot - Use ktime_get_boot_fast_ns() for time stamps.
+			Architectures may add more clocks. See
+			Documentation/trace/ftrace.rst for more details.
+
+-- Steve
+
+
+> +
+>  	trace_event=[event-list]
+>  			[FTRACE] Set and start specified trace events in order
+>  			to facilitate early boot debugging. The event-list is a
