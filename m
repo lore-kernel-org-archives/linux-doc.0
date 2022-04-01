@@ -2,65 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B26EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 06:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A5EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 06:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237321AbiDAGVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 02:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46776 "EHLO
+        id S245393AbiDAG2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 02:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235485AbiDAGVY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 02:21:24 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0D512F157;
-        Thu, 31 Mar 2022 23:19:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 0D9A7CE2402;
-        Fri,  1 Apr 2022 06:19:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CC5C340EE;
-        Fri,  1 Apr 2022 06:19:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1648793972;
-        bh=UNO2VY2szv3tnY2SSi44aAJ9/bbdp19Fi5sMykNkswE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DCHiplod743wmDADlym8FzwvFReEK1+BjoT6lMvXmE87rEM0nZFG4Tz9I7BzUNlGD
-         Q9oWAYymPkNL5IP7WKoTMSERvTZjLP41m+gQB1J5VZ7qey10gG/MJCnedYqM4ubey7
-         0quqtvVpnGcS7tEddZVn5qkvi2vFtC8DQ8K/3mv8=
-Date:   Fri, 1 Apr 2022 08:19:29 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Dan Vacura <w36195@motorola.com>
-Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: uvc: allow changing interface name via
- configfs
-Message-ID: <YkaZcSsadjHp1yJZ@kroah.com>
-References: <20220331211155.412906-1-w36195@motorola.com>
+        with ESMTP id S233382AbiDAG2T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 02:28:19 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD76E25FD5E
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 23:26:29 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id r13so2678117wrr.9
+        for <linux-doc@vger.kernel.org>; Thu, 31 Mar 2022 23:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=79X7EtfQCqwMr9U+t9hQNmDXR2b/b+GMQS5utWvmVGQ=;
+        b=fmfXk+Tv4xoqeekZzf6ZPTtQTZzHuzsEiNhIbI99tXJEhnC/b+7H7/6zXj3xUr3Gk1
+         d7AiW1f/qw/y5HSVcIGSlkjHg5+2XT2CtNk9FW5dCbsF6Gh/RnvSVzGWJuJ5+8ikninc
+         Jh5BQrsxGB93d3lgswATCM7ggLH3Ho4K6b2roHHWA9wytrD5u8mGLDjESgELUx+9fUAn
+         9zBXebPeViMHI+GTxJDVicHYBwg/a41E116freioQua2oX9WgeVY74IRTx7UNpiYJ9qW
+         bW6WXv2TyTeHljiOY7cbryPfWDEOzNK8LFM+cZbFtNiQRGIig5RB+XRc8iRFUN+qmZii
+         Sc0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=79X7EtfQCqwMr9U+t9hQNmDXR2b/b+GMQS5utWvmVGQ=;
+        b=3YzZ1+CIevbYYilSw8FOH7cc8l/d1ngq7PnLQJgXw6XyWqvVt+P2o5QODzMV+COqzR
+         pV4OWLsC5Xfmt8nJtJ0WMj94nGcT1j0c/alstf7yBxMCt0o3dvt5028KxKJ1qOA4Qh2G
+         b6kqREYbOUU7ehktoeKozxneKoRIikJ1bqXv1UZJpqB7CxmbfHuTzSkNhyDcHCe61eMa
+         XB2TZIAEeMO48jAC2Tmns+p+3e63sa/w0l05SF403ThhZUq0/wF55QorG2MNc8APo7cT
+         vfHhqXml4zPQKi+nRr7ionFpAZJCNZEcXwXBakt641koOGlaJfXx2L0z8DvXUYD/eeLh
+         9U9A==
+X-Gm-Message-State: AOAM531vwKnDdI3arEIPJSQUz+9vIgtY+U+kjwyhIzKcace1JxagzmZD
+        OXS1IDrajUIEPOpokxmh4KWEdgDjVF/HphEFjrC3JA==
+X-Google-Smtp-Source: ABdhPJxnCUH3DJN5Nhe1ho/cqLXP0iSBxtKYIuNCsF9SlZXn6TImxlu2h66ypv37iXWHmKcGWs6XmmUw8zB+duCMT7A=
+X-Received: by 2002:a05:6000:2c7:b0:205:cb41:2a82 with SMTP id
+ o7-20020a05600002c700b00205cb412a82mr6304240wry.395.1648794388277; Thu, 31
+ Mar 2022 23:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331211155.412906-1-w36195@motorola.com>
+References: <20220401024707.10550-1-rdunlap@infradead.org>
+In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 1 Apr 2022 14:26:16 +0800
+Message-ID: <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Harinder Singh <sharinder@google.com>,
+        Tim Bird <tim.bird@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 04:11:50PM -0500, Dan Vacura wrote:
-> Add a configfs entry, "function_name", to change the iInterface field
-> for VideoControl. This name is used on host devices for user selection,
-> useful when multiple cameras are present. The default will remain "UVC
-> Camera".
-> 
-> Cc: <stable@vger.kernel.org> # 5.10+
+On Fri, Apr 1, 2022 at 10:47 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix Sphinx complaints about code-block directive missing an argument.
+> For start.rst, add "none" since that is already heavily used in that
+> file. For run_wrapper.rst, use the simpler "::" literal block instead.
+>
+> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+>
+> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+>
+> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
+> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Brendan Higgins <brendanhiggins@google.com>
+> Cc: linux-kselftest@vger.kernel.org
+> Cc: kunit-dev@googlegroups.com
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Harinder Singh <sharinder@google.com>
+> Cc: Tim Bird <tim.bird@sony.com>
+> ---
 
-Why is adding a new feature a stable kernel issue?
+Thanks for fixing these.
 
-confused,
+Out of curiosity, is there a particular config option or version you
+need to set in sphinx to get these warnings? My setup (with Sphinx
+4.3.2) doesn't warn on this.
 
-greg k-h
+Nevertheless, I'll keep a closer eye on code-block directives in future.
+
+Reviewed-by: David Gow <davidgow@google.com>
+
+Cheers,
+-- David
