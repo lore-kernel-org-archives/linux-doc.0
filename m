@@ -2,87 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB9BC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 21:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0714C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Apr 2022 21:35:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348641AbiDAVXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 17:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34582 "EHLO
+        id S235549AbiDAVhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Apr 2022 17:37:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237505AbiDAVXs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 17:23:48 -0400
-Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 300091C3935;
-        Fri,  1 Apr 2022 14:21:58 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1648848115;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RheG54Ou/GCQ9HYC/0tkyW4FKtlSnlhACvpquuW6JiY=;
-        b=C9f2RCuoO8F6qaHAYQpqz7jL5PucFQfwU/3ammN/mL2rYcntPCt7BTtkpbezWZSwxFr7A6
-        mf+PgUfJRw4OntsGYKHLRPjtjRq0oX8YZ4BQ/GmKn5N5YMAho3xAZY/Ols+1fVA3dou8ph
-        O01NqbVchl5UCEMLOAf4yCTprThcg/Q=
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S235288AbiDAVhH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 17:37:07 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D715DEF2;
+        Fri,  1 Apr 2022 14:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=yW4grdHD49Z7KPR5NBuetJtNbEOexe8H6wsJfW/kHRw=; b=RUx3NW+0l3qtEYYyEtnhRFhovU
+        vLKpaTsQj8vuYQTLUcOQb8pf+kNeWeeg7Z2Dqlou2kV+necde4wmuUkDBNHnFDAEJNveOkP8GU7mF
+        8/DFAVR/kuUqvuxWeiBke+eS0tIsrg05tcDhMM3kOna1ziUUHUaXw9wxZoa/cSBBMWNo6lsidFwje
+        3oYbOvWDnnDPBQLYC8JfQCzwjuT9n5psY/QMx3p6O8AguVBdoD3dA7nn2A8m06hT0gJp7k4kTaIBB
+        uFCgXB96IH5XTHipevqPLIkZkGkbPc3jW/7CE0kbY1y8cdUyN5OaSBGCDjhQMWsyZUT6GNPWQpaik
+        aBXQqqmA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1naOv9-007PHF-Uz; Fri, 01 Apr 2022 21:35:03 +0000
+Date:   Fri, 1 Apr 2022 14:35:03 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Cc:     corbet@lwn.net, keescook@chromium.org, yzaikin@google.com,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux@rasmusvillemoes.dk, ebiggers@google.com,
+        peterz@infradead.org, ying.huang@intel.com, gpiccoli@igalia.com,
+        mchehab+huawei@kernel.org, Jason@zx2c4.com, daniel@iogearbox.net,
+        robh@kernel.org, wangqing@vivo.com, prestwoj@gmail.com,
+        dsahern@kernel.org, stephen.s.brennan@oracle.com
+Subject: Re: [RFC 1/1] kernel/sysctl: Add sysctl entry for
+ crash_kexec_post_notifiers
+Message-ID: <YkdwB4Yh0hNgEyOa@bombadil.infradead.org>
+References: <20220401202300.12660-1-alejandro.j.jimenez@oracle.com>
+ <20220401202300.12660-2-alejandro.j.jimenez@oracle.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-In-Reply-To: <YkdrEG5FlL7Gq2Vi@cmpxchg.org>
-Date:   Fri, 1 Apr 2022 14:21:52 -0700
-Cc:     Yosry Ahmed <yosryahmed@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Message-Id: <243A0156-D26A-47C9-982A-C8B0CDD69DA2@linux.dev>
-References: <YkdrEG5FlL7Gq2Vi@cmpxchg.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220401202300.12660-2-alejandro.j.jimenez@oracle.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Apr 1, 2022, at 2:13 PM, Johannes Weiner <hannes@cmpxchg.org> wrote:
->=20
-> =EF=BB=BFOn Fri, Apr 01, 2022 at 11:39:30AM -0700, Roman Gushchin wrote:
->> The interface you're proposing is not really extensible, so we'll likely n=
-eed to
->> introduce a new interface like memory.reclaim_ext very soon. Why not crea=
-te
->> an extensible API from scratch?
->>=20
->> I'm looking at cgroup v2 documentation which describes various interface f=
-iles
->> formats and it seems like given the number of potential optional argument=
-s
->> the best option is nested keyed (please, refer to the Interface Files sec=
-tion).
->>=20
->> E.g. the format can be:
->> echo "1G type=3Dfile nodemask=3D1-2 timeout=3D30s" > memory.reclaim
->=20
-> Yeah, that syntax looks perfect.
->=20
-> But why do you think it's not extensible from the current patch? We
-> can add those arguments one by one as we agree on them, and return
-> -EINVAL if somebody passes an unknown parameter.
->=20
-> It seems to me the current proposal is forward-compatible that way
-> (with the current set of keyword pararms being the empty set :-))
+On Fri, Apr 01, 2022 at 04:23:00PM -0400, Alejandro Jimenez wrote:
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 830aaf8ca08e..8e0be72b5fba 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -2339,6 +2339,13 @@ static struct ctl_table kern_table[] = {
+>  		.extra2		= SYSCTL_INT_MAX,
+>  	},
+>  #endif
+> +	{
+> +		.procname	= "crash_kexec_post_notifiers",
+> +		.data		= &crash_kexec_post_notifiers,
+> +		.maxlen		= sizeof(int),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dobool,
+> +	},
+>  	{ }
 
-It wasn=E2=80=99t obvious to me. We spoke about positional arguments and the=
-n it wasn=E2=80=99t clear how to add them in a backward-compatible way. The l=
-ast thing we want is a bunch of memory.reclaim* interfaces :)
+Please don't add any new sysctls to this file anymore. See
+sysctl-testing which trims its uses. Plenty of examples for you
+to see what to do, hopefully [0].
 
-So yeah, let=E2=80=99s just describe it properly in the documentation, no co=
-de changes are needed.=
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/log/?h=sysctl-testing
+
+  Luis
