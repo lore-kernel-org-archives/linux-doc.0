@@ -2,86 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0BAC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 06:24:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5035FC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 06:25:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236962AbiDBG0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Apr 2022 02:26:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51698 "EHLO
+        id S237588AbiDBG1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Apr 2022 02:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiDBG0i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 02:26:38 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E32C65006E;
-        Fri,  1 Apr 2022 23:24:46 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id s72so3975409pgc.5;
-        Fri, 01 Apr 2022 23:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OWpfUOyThc7LArwewOiHCOHI8uXy/pwCBjcxkPQ5nkg=;
-        b=gKmS//GkAbvcxWrNqvbM61ubaXxXErDvbMjllwiKsNgqMd6zNKkTpfeBPzRKR66br7
-         Y5G7wqTW1m+7dl2Gnqqd1QzIs6dxZIeSXhySCNQHFni8GSZvfUeXpP5GZLudd8xMGcLW
-         xI9naEr3xSXWvEKJ2JD3UK9v0vdEk1MvC2OmQIwQKfDU50Vp5ctJFr/zuicmXoHLp7y0
-         K5QZA5nfR3EBecitV2lkb/xF281yADm9oG3CflOgSHCxi6D5iS6o+CqGKDSMDStvV/aa
-         tjiLPWAlW+7FGllI74o96D5qljRCpp9NJnjiKvNUMPUFqPLtyjcaRMRgaKOmG0rg7i8H
-         sN9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=OWpfUOyThc7LArwewOiHCOHI8uXy/pwCBjcxkPQ5nkg=;
-        b=uNThoOAlf/yilLwx2pfs17go29Lrk/5sJ2uK8QAOmwCGvIb/3oWDobFBOh+pCAcqP1
-         VNxXnyxMUAjPQ5+r9QZYKLUG8vjqxm29XVH38L9jZ51BvwxFvkIrgXqfC52oNyWdIIl9
-         vTYgmlkJ7+3UuSzL6YkZpc7+ghYTYdv5/2h9qP2YCT24yqtWk5RYSvFCKCor/hQDhPTi
-         yMujzqLfJG5++aRjq8vzxyBjorISLwNK9hCL/5CuC4JfjE3x6KIm/YKh4NeqVuLaqgCB
-         M1LsAoDSEJdBN7MiMcGhCuE5ZIymymjd9wzdC3Wq3VJZGgQmQqbse3f8QWkJmvIhY/Pe
-         FhGQ==
-X-Gm-Message-State: AOAM530kqBO4VOZxFxM1MUAeJohK5fqvt1fbbvg9jadEi6ryRkFVgefN
-        wyPc2XxvCnskbPgooUs+dVcmTwe95Vv2eg==
-X-Google-Smtp-Source: ABdhPJxtCRIFD7zxVumioDxpCN3lIDhVvtSfNNQksNPRIsNajPrUE7Nh25hsWDs6FwDAmy5NQklrVw==
-X-Received: by 2002:a63:fc01:0:b0:398:d3fe:20bb with SMTP id j1-20020a63fc01000000b00398d3fe20bbmr7277256pgi.174.1648880686383;
-        Fri, 01 Apr 2022 23:24:46 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-29.three.co.id. [180.214.232.29])
-        by smtp.gmail.com with ESMTPSA id k11-20020a056a00168b00b004f7e1555538sm4937553pfc.190.2022.04.01.23.24.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 23:24:45 -0700 (PDT)
-Message-ID: <6773799d-57b1-8c74-d936-f7723b302ef7@gmail.com>
-Date:   Sat, 2 Apr 2022 13:24:40 +0700
+        with ESMTP id S229714AbiDBG1F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 02:27:05 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694E01A61E2;
+        Fri,  1 Apr 2022 23:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=3/eAlUSKNeuyto+OqATxwA7fPEqfTlSEsY0k898No9g=; b=kYdgkgSXPhG28/+ZJKZiRlpPm6
+        74MbM/JrXRMX4bl0Brhe4U6rTRydE7bUNMhDyi8nEW360vr85ClBGt6HnWhjOS1kegy7NB4i5fbph
+        yeqVt78azp21+RlhWSUAHq46Ldg/P8+53PnrTAdWeXDE8huPQC9VJMWlQQOpitVyXOjyId5DDhfT/
+        c8B9Kj9/FPWebTZgWs3OHgXoLkX3KKn1wDePSv4vM62qdTXJaXUbZfWnyXvSII05SIeGXREFkRwy/
+        Nrr1lSaBGHx7UPiutfjW8mOjTN571OTae4XgB01D4+IRvYW2lBk6GnzyCP7KCAEdzTSfpu9OR2tG9
+        7G9mH1gw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1naXC4-000m9U-6B; Sat, 02 Apr 2022 06:25:05 +0000
+Message-ID: <87010ada-86a2-4fb4-7ffd-8db1b656598d@infradead.org>
+Date:   Fri, 1 Apr 2022 23:24:58 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH -pm v2] docs: driver-api/thermal/intel_dptf: Use copyright
- symbol
+Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
 Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     David Gow <davidgow@google.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Harinder Singh <sharinder@google.com>,
+        Tim Bird <tim.bird@sony.com>
+References: <20220401024707.10550-1-rdunlap@infradead.org>
+ <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/04/22 06.19, Akira Yokosawa wrote:
-> Using a substitution pattern of "|copy|" without including
-> isonum.txt causes a doc build warning.
+Hi David,
+
+On 3/31/22 23:26, David Gow wrote:
+> On Fri, Apr 1, 2022 at 10:47 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> Fix Sphinx complaints about code-block directive missing an argument.
+>> For start.rst, add "none" since that is already heavily used in that
+>> file. For run_wrapper.rst, use the simpler "::" literal block instead.
+>>
+>> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>>
+>> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
+>> 1 argument(s) required, 0 supplied.
+>>
+>> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
+>> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Brendan Higgins <brendanhiggins@google.com>
+>> Cc: linux-kselftest@vger.kernel.org
+>> Cc: kunit-dev@googlegroups.com
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: Harinder Singh <sharinder@google.com>
+>> Cc: Tim Bird <tim.bird@sony.com>
+>> ---
 > 
-> Using the symbol "©" itself is a better choice for those
-> who read .rst sources.
+> Thanks for fixing these.
 > 
+> Out of curiosity, is there a particular config option or version you
+> need to set in sphinx to get these warnings? My setup (with Sphinx
+> 4.3.2) doesn't warn on this.
 
-Hmm, where is isonum.txt as you mentioned?
+No options. I expect that it's just an older version of Sphinx that
+is causing this. I have v1.8.5 installed (comes with OpenSUSE Leap 15.3).
 
-Why not (c) instead?
+> Nevertheless, I'll keep a closer eye on code-block directives in future.
+> 
+> Reviewed-by: David Gow <davidgow@google.com>
 
+thanks.
 -- 
-An old man doll... just what I always wanted! - Clara
+~Randy
