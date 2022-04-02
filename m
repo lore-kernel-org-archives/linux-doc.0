@@ -2,235 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC343C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 01:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 298CFC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 06:20:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347945AbiDBBFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Apr 2022 21:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49430 "EHLO
+        id S232762AbiDBGVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Apr 2022 02:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiDBBFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Apr 2022 21:05:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5491B218C
-        for <linux-doc@vger.kernel.org>; Fri,  1 Apr 2022 18:03:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B35A961C2F
-        for <linux-doc@vger.kernel.org>; Sat,  2 Apr 2022 01:03:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C70DC3411E
-        for <linux-doc@vger.kernel.org>; Sat,  2 Apr 2022 01:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648861401;
-        bh=IbghA2dqiYhWXecxL6uJJ7n1Ce58U1f1jXhOOf0w2DA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qPl5O8et+RIxSlDAMF72fgkZo7E89yXN33hp7R1sFEJRZZh6BeuGyYbe31+nsWmEc
-         lychCTK8y19hzo5zGw/lQUyLA5bXYC+qm8B/x1xWmXJghINq1ML6faKem1ZKnr3Fzc
-         E4cQrFis0nHEZi3xseZkYRPa7elL5NcohH7lQQ7r+2iEzl1P0tMRmgHDZHLzsErNtJ
-         KmjV23iGdMxELFec+B39s1RFnuv2CDg0FC9xCqwdGsndiKVJ79eqpVFPnT1bZab+iP
-         ma3WLnbA+HHVnjUB12xWtiKT9qYsEOKIaAyJ9tPqbEp8SekXaLpN+ybqnhsVVVhbE/
-         ro2upEuXCL9lw==
-Received: by mail-ej1-f50.google.com with SMTP id k23so5729623ejd.3
-        for <linux-doc@vger.kernel.org>; Fri, 01 Apr 2022 18:03:21 -0700 (PDT)
-X-Gm-Message-State: AOAM533Mr7JQiW1HSshkwtAekR2OqGRNfKzWlJSci2hsbpHMeNfvnGqN
-        0qZJZEL7QP5/mgYX1TtwVf3K3o1K30y60QpGbp7HtA==
-X-Google-Smtp-Source: ABdhPJzC1xfADMf8KlFXGnU+O10yqjuLNdQMD6B8hDbX9K5RYwHPXDVlmYgGwvXzZmJ1+ZDG91LG6SDOelwAvnQH2J4=
-X-Received: by 2002:a17:907:3f9e:b0:6da:842e:873e with SMTP id
- hr30-20020a1709073f9e00b006da842e873emr2038636ejc.383.1648861399066; Fri, 01
- Apr 2022 18:03:19 -0700 (PDT)
+        with ESMTP id S229714AbiDBGVv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 02:21:51 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701C9176640;
+        Fri,  1 Apr 2022 23:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=itmtQB8D2+JJbf4Uv6O2VeVcRlFlftGRty5bG22BMpo=; b=A8/ZT6VHlIqvweKWuDEGMwfCs7
+        oF466WT0mKONiz7JrHNK0w5kTmAhwCHpWIl1UJU4ou/40IPB7mTpTVOQThZRaOvS7IvkpMOtrl57M
+        G4BWJuwlHq5PxGZK4tFlWcVyudgmsZcjkNDomHoDQVqZKL1ZBvvqz5WPQD7QysUd2zacJsTGk+Jnr
+        YhcPb9PplWmI7yQYIEaiX3aoSsWLxvzhiDbjk+Q1B5etw09dfU9YuvWgg+ulbb8wPXVLpk5NGERky
+        gSeQLnwEtnna2IJmvCbeN+IU7S91FnHTc52K7Rh/dMhfj+Og1c2KwyEECdSyi6caYObXIRG9T2D5M
+        gKJEe0Yw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1naX6s-000m6w-Up; Sat, 02 Apr 2022 06:19:43 +0000
+Message-ID: <56f92044-9aca-0c03-7b70-c2ee1eabbb22@infradead.org>
+Date:   Fri, 1 Apr 2022 23:19:36 -0700
 MIME-Version: 1.0
-References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
- <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
- <b9f5995f96da447c851f7c9db8232a9b@huawei.com> <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
-In-Reply-To: <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
-From:   KP Singh <kpsingh@kernel.org>
-Date:   Sat, 2 Apr 2022 03:03:08 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
-Message-ID: <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
-Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF programs
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Roberto Sassu <roberto.sassu@huawei.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH -pm v2] docs: driver-api/thermal/intel_dptf: Use copyright
+ symbol
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 2, 2022 at 1:55 AM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Thu, Mar 31, 2022 at 08:25:22AM +0000, Roberto Sassu wrote:
-> > > From: Alexei Starovoitov [mailto:alexei.starovoitov@gmail.com]
-> > > Sent: Thursday, March 31, 2022 4:27 AM
-> > > On Mon, Mar 28, 2022 at 07:50:15PM +0200, Roberto Sassu wrote:
-> > > > eBPF already allows programs to be preloaded and kept running without
-> > > > intervention from user space. There is a dedicated kernel module called
-> > > > bpf_preload, which contains the light skeleton of the iterators_bpf eBPF
-> > > > program. If this module is enabled in the kernel configuration, its loading
-> > > > will be triggered when the bpf filesystem is mounted (unless the module is
-> > > > built-in), and the links of iterators_bpf are pinned in that filesystem
-> > > > (they will appear as the progs.debug and maps.debug files).
-> > > >
-> > > > However, the current mechanism, if used to preload an LSM, would not
-> > > offer
-> > > > the same security guarantees of LSMs integrated in the security
-> > > subsystem.
-> > > > Also, it is not generic enough to be used for preloading arbitrary eBPF
-> > > > programs, unless the bpf_preload code is heavily modified.
-> > > >
-> > > > More specifically, the security problems are:
-> > > > - any program can be pinned to the bpf filesystem without limitations
-> > > >   (unless a MAC mechanism enforces some restrictions);
-> > > > - programs being executed can be terminated at any time by deleting the
-> > > >   pinned objects or unmounting the bpf filesystem.
-> > >
-> > > So many things to untangle here.
-> >
-> > Hi Alexei
-> >
-> > thanks for taking the time to provide such detailed
-> > explanation.
-> >
-> > > The above paragraphs are misleading and incorrect.
-> > > The commit log sounds like there are security issues that this
-> > > patch set is fixing.
-> > > This is not true.
+Hi,
 
-+1 these are not security issues. They are limitations of your MAC policy.
+On 4/1/22 16:19, Akira Yokosawa wrote:
+> Using a substitution pattern of "|copy|" without including
+> isonum.txt causes a doc build warning.
+> 
+> Using the symbol "©" itself is a better choice for those
+> who read .rst sources.
+> 
+> Fixes: 16c02447f3e1 ("Documentation: thermal: DPTF Documentation")
+> Reported by: Randy Dunlap <rdunlap@infradead.org>
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
 
-> >
-> > I reiterate the goal: enforce a mandatory policy with
-> > an out-of-tree LSM (a kernel module is fine), with the
-> > same guarantees of LSMs integrated in the security
-> > subsystem.
->
-> To make it 100% clear:
-> Any in-kernel feature that benefits out-of-tree module will be rejected.
->
-> > The root user is not part of the TCB (i.e. is untrusted),
-> > all the changes that user wants to make must be subject
-> > of decision by the LSM enforcing the mandatory policy.
-> >
-> > I thought about adding support for LSMs from kernel
-> > modules via a new built-in LSM (called LoadLSM), but
+Looks good. Thanks.
 
-Kernel modules cannot implement LSMs, this has already been
-proposed on the lists and has been rejected.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
->
-> Such approach will be rejected. See above.
->
-> > > I suspect there is huge confusion on what these two "progs.debug"
-> > > and "maps.debug" files are in a bpffs instance.
-> > > They are debug files to pretty pring loaded maps and progs for folks who
-> > > like to use 'cat' to examine the state of the system instead of 'bpftool'.
-> > > The root can remove these files from bpffs.
-> > >
-> > > There is no reason for kernel module to pin its bpf progs.
-> > > If you want to develop DIGLIM as a kernel module that uses light skeleton
-> > > just do:
-> > > #include <linux/init.h>
-> > > #include <linux/module.h>
-> > > #include "diglim.lskel.h"
-> > >
-> > > static struct diglim_bpf *skel;
-> > >
-> > > static int __init load(void)
-> > > {
-> > >         skel = diglim_bpf__open_and_load();
-> > >         err = diglim_bpf__attach(skel);
-> > > }
-> > > /* detach skel in __fini */
-> > >
-> > > It's really that short.
-> > >
-> > > Then you will be able to
-> > > - insmod diglim.ko -> will load and attach bpf progs.
-> > > - rmmod diglim -> will detach them.
-> >
-> > root can stop the LSM without consulting the security
-> > policy. The goal of having root untrusted is not achieved.
+> ---
+> Changes since v1 [1]:
+> 
+>   - Use © instead of including isonum.txt (Jon).
+>   - Amend title and changelog.
+> 
+> v1 [1]: https://lore.kernel.org/r/e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gmail.com/
+> ---
+>  Documentation/driver-api/thermal/intel_dptf.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
+> index 96668dca753a..372bdb4d04c6 100644
+> --- a/Documentation/driver-api/thermal/intel_dptf.rst
+> +++ b/Documentation/driver-api/thermal/intel_dptf.rst
+> @@ -4,7 +4,7 @@
+>  Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
+>  ===============================================================
+>  
+> -:Copyright: |copy| 2022 Intel Corporation
+> +:Copyright: © 2022 Intel Corporation
+>  
+>  :Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>  
 
-Ofcourse, this is an issue, if you are using BPF to define a MAC
-policy, the policy
-needs to be comprehensive to prevent itself from being overridden. This is why
-We have so many LSM hooks. If you think some are missing, let's add them.
-
-This is why implementing a policy is not trivial, but we need to allow
-users to build
-such policies with the help from the kernel and not by using
-out-of-tree modules.
-
-I do think we can add some more helpers (e.g. for modifying xattrs
-from BPF) that
-would help us build complex policies.
-
->
-> Out-of-tree module can do any hack.
-> For example:
-> 1. don't do detach skel in __fini
->   rmmod will remove the module, but bpf progs will keep running.
-> 2. do module_get(THIS_MODULE) in __init
->   rmmod will return EBUSY
->   and have some out-of-band way of dropping mod refcnt.
-> 3. hack into sys_delete_module. if module_name==diglem return EBUSY.
-> 4. add proper LSM hook to delete_module
-
-+1 I recommend this (but not from an out of tree module)
-
->
-> > My point was that pinning progs seems to be the
-> > recommended way of keeping them running.
->
-> Not quite. bpf_link refcnt is what keeps progs attached.
-> bpffs is mainly used for:
-> - to pass maps/links from one process to another
-> when passing fd is not possible.
-> - to solve the case of crashing user space.
-> The user space agent will restart and will pick up where
-> it's left by reading map, link, prog FDs from bpffs.
-> - pinning bpf iterators that are later used to 'cat' such files.
-> That is what bpf_preload is doing by creating two debug
-> files "maps.debug" and "progs.debug".
->
-> > Pinning
-> > them to unreachable inodes intuitively looked the
-> > way to go for achieving the stated goal.
->
-> We can consider inodes in bpffs that are not unlinkable by root
-> in the future, but certainly not for this use case.
-
-Can this not be already done by adding a BPF_LSM program to the
-inode_unlink LSM hook?
-
->
-> > Or maybe I
-> > should just increment the reference count of links
-> > and don't decrement during an rmmod?
->
-> I suggest to abandon out-of-tree goal.
-> Only then we can help and continue this discussion.
-
-+1
+-- 
+~Randy
