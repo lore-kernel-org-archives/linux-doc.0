@@ -2,120 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5035FC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 06:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF85C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 08:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237588AbiDBG1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Apr 2022 02:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53628 "EHLO
+        id S240450AbiDBIPO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Apr 2022 04:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiDBG1F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 02:27:05 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694E01A61E2;
-        Fri,  1 Apr 2022 23:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=3/eAlUSKNeuyto+OqATxwA7fPEqfTlSEsY0k898No9g=; b=kYdgkgSXPhG28/+ZJKZiRlpPm6
-        74MbM/JrXRMX4bl0Brhe4U6rTRydE7bUNMhDyi8nEW360vr85ClBGt6HnWhjOS1kegy7NB4i5fbph
-        yeqVt78azp21+RlhWSUAHq46Ldg/P8+53PnrTAdWeXDE8huPQC9VJMWlQQOpitVyXOjyId5DDhfT/
-        c8B9Kj9/FPWebTZgWs3OHgXoLkX3KKn1wDePSv4vM62qdTXJaXUbZfWnyXvSII05SIeGXREFkRwy/
-        Nrr1lSaBGHx7UPiutfjW8mOjTN571OTae4XgB01D4+IRvYW2lBk6GnzyCP7KCAEdzTSfpu9OR2tG9
-        7G9mH1gw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1naXC4-000m9U-6B; Sat, 02 Apr 2022 06:25:05 +0000
-Message-ID: <87010ada-86a2-4fb4-7ffd-8db1b656598d@infradead.org>
-Date:   Fri, 1 Apr 2022 23:24:58 -0700
+        with ESMTP id S229948AbiDBIPN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 04:15:13 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4874ECC7;
+        Sat,  2 Apr 2022 01:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648887202; x=1680423202;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=tUJDWtBsVmdyxP5li7Z+DxSKC/ML2/OMaCS+cELECpE=;
+  b=Tot79oCv9KXklW3aXS5YkJ3ZXltkr65lzGhnDHD6RjoWmIyszZoeLtY2
+   3AYh+Fbgm5VQqrghqFZib373pZVJHR+ilkmDuS1L1iCIyvZ7liC7hidOt
+   mb7O11xcMlVhGVTUGUK5cMTNXY74kAf6YJJj+cq7hwrM+j5fmtepGn/xD
+   tPGPco9PtMHv56ro3csSPn9TWNtO1tV2zZTJ0WLixnrkFrhyamKG/2BGR
+   TvW7+It7IOo52ryvzA4ycBGGctH4I/E2xTxEB9MfSNJ+yglly4kOXAly1
+   8ZQtbU01tqYY0+EUNL80IVwLHwNPT1Bg3HqM8cr9Y3jEmPY8hNimfPlgt
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="260274263"
+X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; 
+   d="scan'208";a="260274263"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 01:13:21 -0700
+X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; 
+   d="scan'208";a="568127496"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.94])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 01:13:17 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Wei Xu <weixugc@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+        <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+        <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+Date:   Sat, 02 Apr 2022 16:13:15 +0800
+In-Reply-To: <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+        (Wei Xu's message of "Fri, 1 Apr 2022 09:56:08 -0700")
+Message-ID: <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-Content-Language: en-US
-To:     David Gow <davidgow@google.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-References: <20220401024707.10550-1-rdunlap@infradead.org>
- <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CABVgOSk-8O9jLZncbJvsZdTaA9VjBKbByktnwhPCNJHWME2Nug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi David,
+Wei Xu <weixugc@google.com> writes:
 
-On 3/31/22 23:26, David Gow wrote:
-> On Fri, Apr 1, 2022 at 10:47 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
 >>
->> Fix Sphinx complaints about code-block directive missing an argument.
->> For start.rst, add "none" since that is already heavily used in that
->> file. For run_wrapper.rst, use the simpler "::" literal block instead.
->>
->> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->>
->> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->>
->> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
->> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Brendan Higgins <brendanhiggins@google.com>
->> Cc: linux-kselftest@vger.kernel.org
->> Cc: kunit-dev@googlegroups.com
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Harinder Singh <sharinder@google.com>
->> Cc: Tim Bird <tim.bird@sony.com>
->> ---
-> 
-> Thanks for fixing these.
-> 
-> Out of curiosity, is there a particular config option or version you
-> need to set in sphinx to get these warnings? My setup (with Sphinx
-> 4.3.2) doesn't warn on this.
+>> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+>> > From: Shakeel Butt <shakeelb@google.com>
+>> >
 
-No options. I expect that it's just an older version of Sphinx that
-is causing this. I have v1.8.5 installed (comes with OpenSUSE Leap 15.3).
+[snip]
 
-> Nevertheless, I'll keep a closer eye on code-block directives in future.
-> 
-> Reviewed-by: David Gow <davidgow@google.com>
+>> > Possible Extensions:
+>> > --------------------
+>> >
+>> > - This interface can be extended with an additional parameter or flags
+>> >   to allow specifying one or more types of memory to reclaim from (e.g.
+>> >   file, anon, ..).
+>> >
+>> > - The interface can also be extended with a node mask to reclaim from
+>> >   specific nodes. This has use cases for reclaim-based demotion in memory
+>> >   tiering systens.
+>> >
+>> > - A similar per-node interface can also be added to support proactive
+>> >   reclaim and reclaim-based demotion in systems without memcg.
+>> >
+>> > For now, let's keep things simple by adding the basic functionality.
+>>
+>> Yes, I am for the simplicity and this really looks like a bare minumum
+>> interface. But it is not really clear who do you want to add flags on
+>> top of it?
+>>
+>> I am not really sure we really need a node aware interface for memcg.
+>> The global reclaim interface will likely need a different node because
+>> we do not want to make this CONFIG_MEMCG constrained.
+>
+> A nodemask argument for memory.reclaim can be useful for memory
+> tiering between NUMA nodes with different performance.  Similar to
+> proactive reclaim, it can allow a userspace daemon to drive
+> memcg-based proactive demotion via the reclaim-based demotion
+> mechanism in the kernel.
 
-thanks.
--- 
-~Randy
+I am not sure whether nodemask is a good way for demoting pages between
+different types of memory.  For example, for a system with DRAM and
+PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+is the meaning of specifying PMEM node? reclaiming to disk?
+
+In general, I have no objection to the idea in general.  But we should
+have a clear and consistent interface.  Per my understanding the default
+memcg interface is for memory, regardless of memory types.  The memory
+reclaiming means reduce the memory usage, regardless of memory types.
+We need to either extending the semantics of memory reclaiming (to
+include memory demoting too), or add another interface for memory
+demoting.
+
+Best Regards,
+Huang, Ying
+
+[snip]
