@@ -2,90 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD22C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 10:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2150C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Apr 2022 11:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237740AbiDBKJG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Apr 2022 06:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43124 "EHLO
+        id S240557AbiDBL0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Apr 2022 07:26:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230344AbiDBKJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 06:09:06 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F7415CB79
-        for <linux-doc@vger.kernel.org>; Sat,  2 Apr 2022 03:07:14 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id d29so1357256wra.10
-        for <linux-doc@vger.kernel.org>; Sat, 02 Apr 2022 03:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=39W2WA7bUOkMwy0BPM0nlS8ZVhAhS2zd7iYkZyMTI+A=;
-        b=zXbJKei7ikyS/sIkHRTaolngqejiFymFzHFY9Q5a8gOdtTBWJG+Ifxxg8pbiAdKrQ9
-         vNWNnZ1o92mf+8q2nJD9zsHkw1rCu0RTsAe//AlwlF/p6s9P2DpJ7eAHdx6QGnaBUL/G
-         QfUpCdrvmsioiyNFgNxjSfrw2vmgpLaFmVElCQ8AGtPWkFLRUws5crhVFY5pF4aPii4B
-         BzxC4fdPJtu5dhtOXdy1OpaPpTaZ/pNSuujdWT2IlDcZNMp/lXr4wcalnDSohBvJ+T7r
-         5KUOwi3vwl3ICsmQtwvrxILQRDYj89E44Tqgt+G7CFxTRztmqmBezsKOaiJvpaIf9agq
-         Dxfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=39W2WA7bUOkMwy0BPM0nlS8ZVhAhS2zd7iYkZyMTI+A=;
-        b=f1yKVeXu9VXeYpeUKMQYlutlHQbxuZytVr/l3quPGhnuJzT3DeOm72lpsJFGcsm+yT
-         GwjlE0vDyJKhccwfI78yCahTWnRUiNQK8FtgeYjjeCJseI+9wb/UMixS/tfk6cK6GD0i
-         s3Xr5aIVV9ArewTZcAFw/79IKsQuSQLV64/ZtygEymY0tLV8G9O9G56cJLW5jfD9qzA8
-         +VOBVmIOeC5taHx/B97U4jWoVbVM1SNIlNAdPeH7sH1ie9zxAVIaTmIZlxNwgzC6/lIM
-         VMF8seOwz7avw2KB1PfQQag1uXmkynC+00CcYnXpfEwItLM2yNAPuxqOUnpEcBpQlIfc
-         EIbA==
-X-Gm-Message-State: AOAM532TcDeNphIOFBXn2E7dorwCeu9KEMqQ3qQ0wXv0K/K5VlaCPiav
-        p0rf1USSqAV8/qAnqxVxag0/Ow==
-X-Google-Smtp-Source: ABdhPJx44Frh2pj/E+dvH2rYWUZX6RXCPE4jN10WUb1rG9+Ahq39C5cL3jlsCulMyQbspRxeeRn9AQ==
-X-Received: by 2002:a05:6000:1868:b0:204:1e4f:7f9a with SMTP id d8-20020a056000186800b002041e4f7f9amr10809767wri.106.1648894033467;
-        Sat, 02 Apr 2022 03:07:13 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id n22-20020a05600c4f9600b0038c6ec42c38sm4084761wmq.6.2022.04.02.03.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 03:07:12 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] Documentation/process: mention patch changelog in review process
-Date:   Sat,  2 Apr 2022 12:07:06 +0200
-Message-Id: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S237246AbiDBL0Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Apr 2022 07:26:24 -0400
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 006001A488C;
+        Sat,  2 Apr 2022 04:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description; bh=piEcQKp69tsqp6f1AmqC7AayDxYUhW60pSCM0aWFEeo=; b=eIzu7
+        jixZN9WJBpZDw+WDPLuM9EnqlUhsdn2C2Jn/oMsVAfB5TpDbocqkJK2ctQ6QJCJA37lfB2Emg8UhD
+        r/n8OHlrEaqyKHkCVTVz0lAVZ+gLmVhikrF0oA+g2jJl4e1KUO7dRqhlRVSNqYRtYDAwU1GRjOxQg
+        pkoXvvf4McrSfcfenv4FfR/cbPQXhXsuRxpT5zF0mqqbfVo0MExPcZE65nFhW/mI/JUE3trHP/KSR
+        rue09fXK4Vgr1RxZKXo5HbwUYEID3sxJhhQVhbKQqei5uGjdr31m5gc8PCj/hksyAedXJAIA9vHh3
+        RSSu3l/Ezw++UBYulMEiZNCXapZfQ==;
+Received: from [81.174.171.191] (helo=donbot)
+        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <john@metanate.com>)
+        id 1nabrn-0007hO-Qf; Sat, 02 Apr 2022 12:24:27 +0100
+Date:   Sat, 2 Apr 2022 12:24:23 +0100
+From:   John Keeping <john@metanate.com>
+To:     Dan Vacura <w36195@motorola.com>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YkgyZ6BrSX/7pDry@donbot>
+References: <20220401160447.5919-1-w36195@motorola.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220401160447.5919-1-w36195@motorola.com>
+X-Authenticated: YES
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the "Respond to review comments" section of "Submitting patches"
-with reference to patch changelogs.
+On Fri, Apr 01, 2022 at 11:04:45AM -0500, Dan Vacura wrote:
+> Add a configfs entry, "function_name", to change the iInterface field
+> for VideoControl. This name is used on host devices for user selection,
+> useful when multiple cameras are present. The default will remain "UVC
+> Camera".
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/process/submitting-patches.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> index 71bb5e477dba..50e6e7a58b41 100644
+> --- a/drivers/usb/gadget/function/f_uvc.c
+> +++ b/drivers/usb/gadget/function/f_uvc.c
+> @@ -44,7 +44,7 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
+>  #define UVC_STRING_STREAMING_IDX		1
+>  
+>  static struct usb_string uvc_en_us_strings[] = {
+> -	[UVC_STRING_CONTROL_IDX].s = "UVC Camera",
+> +	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
+>  	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
+>  	{  }
+>  };
+> @@ -676,6 +676,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+>  	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+>  	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+>  
+> +	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
+>  	us = usb_gstrings_attach(cdev, uvc_function_strings,
+>  				 ARRAY_SIZE(uvc_en_us_strings));
+>  	if (IS_ERR(us)) {
+> @@ -866,6 +867,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
+>  
+>  	opts->streaming_interval = 1;
+>  	opts->streaming_maxpacket = 1024;
+> +	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index fb496b2ebfd3..9bb4e8c0f635 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -318,7 +318,10 @@ understands what is going on.
- Be sure to tell the reviewers what changes you are making and to thank them
- for their time.  Code review is a tiring and time-consuming process, and
- reviewers sometimes get grumpy.  Even in that case, though, respond
--politely and address the problems they have pointed out.
-+politely and address the problems they have pointed out.  When sending a next
-+version, add a ``patch changelog`` to the cover letter or to individual patches
-+explaining difference aganst previous submission (see
-+:ref:`the_canonical_patch_format`).
- 
- See Documentation/process/email-clients.rst for recommendations on email
- clients and mailing list etiquette.
--- 
-2.32.0
+This only allows a single language to be specified.  I know that's what
+the existing string uses, but for other strings which can be set by
+userspace multiple languages are supported.
 
+Should we be making USB_CONFIG_STRINGS_LANG more generic so that it can
+be used by functions as well as the core configfs code?
