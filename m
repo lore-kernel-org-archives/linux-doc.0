@@ -2,78 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C17CEC433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 12:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4426C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 14:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236158AbiDCMMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 08:12:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
+        id S1359094AbiDCOz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 10:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236114AbiDCMMF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 08:12:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1444F27B0D;
-        Sun,  3 Apr 2022 05:10:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF366111A;
-        Sun,  3 Apr 2022 12:10:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1529C34112;
-        Sun,  3 Apr 2022 12:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648987810;
-        bh=0bblxPPvXqMxXV6Zwsr68c3xzusz/3jsIzxstdgbKEE=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=FLOpMBCFUbIpIahn9bPzgK5WyqPNRfyQ9vDdw4OR0VRWduBwIvmv7c8UdyV4fYwVY
-         rqKjAz8jgIDtTU/YwfbXEwnuiHF7gJQOz9MYj9O/SPfMwj/vIqbNPD0WF6QY9qTo2e
-         hahcbq849DTrPSzs9d4kGxKSJFRrIUr66P2SX5nGsXPSm780SOf9FAFH/nraB1ZdWv
-         2PvF7kUJB32JrS/6OtQ9wSoHoqZsYh6UTlLtmfkeW8COs4aeRrfD+NxgYgGKHC5x+7
-         gtE42BDerGc5n998R+h32IPM5bBRjx9+rOoKU46AxShZX/pDN0Rc+uEOauTnZAYKEl
-         BUFDetNZaD+aw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE63AE7BB0B;
-        Sun,  3 Apr 2022 12:10:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1359090AbiDCOz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 10:55:28 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86770DF9E;
+        Sun,  3 Apr 2022 07:53:33 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net [108.7.220.252])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 233ErMOV020998
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 3 Apr 2022 10:53:22 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 216F115C3E9D; Sun,  3 Apr 2022 10:53:22 -0400 (EDT)
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     "wangjianjian (C)" <wangjianjian3@huawei.com>,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org
+Cc:     "Theodore Ts'o" <tytso@mit.edu>
+Subject: Re: [PATCH] ext4, doc: Fix incorrect h_reserved size
+Date:   Sun,  3 Apr 2022 10:53:18 -0400
+Message-Id: <164899700423.964485.10135107702486060180.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <92fcc3a6-7d77-8c09-4126-377fcb4c46a5@huawei.com>
+References: <34889f32-7dd9-125e-2f7a-734faa395d20@huawei.com> <92fcc3a6-7d77-8c09-4126-377fcb4c46a5@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] docs: net: dsa: fix minor grammar and punctuation issues
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164898781071.6266.2536082680283988294.git-patchwork-notify@kernel.org>
-Date:   Sun, 03 Apr 2022 12:10:10 +0000
-References: <20220402144623.202965-1-helgaas@kernel.org>
-In-Reply-To: <20220402144623.202965-1-helgaas@kernel.org>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, vladimir.oltean@nxp.com, f.fainelli@gmail.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bhelgaas@google.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Sat,  2 Apr 2022 09:46:23 -0500 you wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
+On Fri, 1 Apr 2022 20:07:35 +0800, wangjianjian (C) wrote:
+> According to document and code, ext4_xattr_header's size is 32 bytes, so
+> h_reserved size should be 3.
 > 
-> Fix a few typos and minor grammatical issues.
 > 
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
->  Documentation/networking/dsa/dsa.rst | 64 ++++++++++++++--------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
 
-Here is the summary with links:
-  - docs: net: dsa: fix minor grammar and punctuation issues
-    https://git.kernel.org/netdev/net/c/5a48b7433a5a
+Applied, thanks!
 
-You are awesome, thank you!
+[1/1] ext4, doc: Fix incorrect h_reserved size
+      commit: e830f1a05b203e8b9b81606caf6b5d68458ba732
+
+Note that this patch was whitespace damaged, so I had to manually
+apply the patch.  It appears that all TAB characters had been replaced
+with the bytes 0xC2 0x020, which is the UTF-8 encoding for U+0082, aka
+'BREAK PERMITTED HERE'.  That seems.... wierd; I don't know how that
+would ever be considered a valid character set transformation.
+
+In any case, you might want to look at your Mail User Agent and see if
+there are some settings you can adjust.
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Theodore Ts'o <tytso@mit.edu>
