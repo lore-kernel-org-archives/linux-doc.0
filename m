@@ -2,127 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB56C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 08:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C17CEC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 12:10:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355580AbiDCIUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 04:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
+        id S236158AbiDCMMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 08:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355545AbiDCIUw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 04:20:52 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878B817045
-        for <linux-doc@vger.kernel.org>; Sun,  3 Apr 2022 01:18:58 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id b24so7581280edu.10
-        for <linux-doc@vger.kernel.org>; Sun, 03 Apr 2022 01:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zjIw75ZQdp7MJvbRG37XmPoOfYXyjdA6z7hzyGD4X7U=;
-        b=ePbICS4Nle9krQ+1Rw4HQyX79qmYd5Y221gZjaVTJvdlNHPktyvE5Gi4Mt8eA/NfPK
-         2MPL4t97PWBF1uhGusHLmw7YAgcT10uZwLbyqVS73Eyed2AB7t0JEXXDuEwG2Y2pfcum
-         pPZJ8sjztYp5rVW8Inf30lNYjFpfqerZdWnIMb3nofUj90nC+Q5Gbpj3Apsclfbgqs3S
-         RiV5zf8d4mNffHjjz4uZHNGCruemhNoEjqFItbmlrtYCrDASHsNIWcRhD9xEp3Tp98yV
-         AE5+OmVi1+3CDwmJGentyBNpHKMkLR7FXFFYIFs3ulQE26eCSObSecW7ynV9/A+FgMQZ
-         uUJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zjIw75ZQdp7MJvbRG37XmPoOfYXyjdA6z7hzyGD4X7U=;
-        b=3mgO64/6Nes612yXiVutczqezerrsIGAkRG3YDzmi+ea5lR8OM5/oj620LMCIaeDMR
-         uFAECakgR1hq5l290+nSPqT0g5ol2bWgIJPoj4Y4RB0YcAvdFoZoD0ZGEg/pRYGqNOnw
-         LJb3tiptQZyU2SOjzg5YvC//7Se9IntvVEifJxkjg1ws8NU0o+7VpuVJNRKftQ98yOkh
-         hyFwbngZAFYCJiQCBOZ8Zrs6VIF+05J3oc8pc0f48GNZn/tbIOB1/phLFoq+4XOw0Sd0
-         5havJVX57EXtyCarwFo+NGUI0CFnxVNOguP+vNtiVkQx81pDEDyXvStzzTyC62UwtKzz
-         UG2Q==
-X-Gm-Message-State: AOAM5338NZvXSP2lKFi8UDY4D1V3YCZ8ai/IEF4Kzy/jQ2l0zwxg1SbA
-        ucFasZnrO9zqeXj+oHvacuaBzQ==
-X-Google-Smtp-Source: ABdhPJyUcj/hNd1jzIjhAS8rb3fkZUbOOSwJm17iYVjG9Wltzxe6juoL3P9jZSILUNIiF8zkB5tYuQ==
-X-Received: by 2002:a05:6402:3496:b0:419:82d5:f1d9 with SMTP id v22-20020a056402349600b0041982d5f1d9mr28246795edc.36.1648973933569;
-        Sun, 03 Apr 2022 01:18:53 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id h7-20020a1709066d8700b006d4b4d137fbsm2989105ejt.50.2022.04.03.01.18.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 01:18:53 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] docs: dt: writing-schema: mention coding style
-Date:   Sun,  3 Apr 2022 10:18:49 +0200
-Message-Id: <20220403081849.8051-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220403081849.8051-1-krzysztof.kozlowski@linaro.org>
-References: <20220403081849.8051-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S236114AbiDCMMF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 08:12:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1444F27B0D;
+        Sun,  3 Apr 2022 05:10:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BF366111A;
+        Sun,  3 Apr 2022 12:10:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1529C34112;
+        Sun,  3 Apr 2022 12:10:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648987810;
+        bh=0bblxPPvXqMxXV6Zwsr68c3xzusz/3jsIzxstdgbKEE=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=FLOpMBCFUbIpIahn9bPzgK5WyqPNRfyQ9vDdw4OR0VRWduBwIvmv7c8UdyV4fYwVY
+         rqKjAz8jgIDtTU/YwfbXEwnuiHF7gJQOz9MYj9O/SPfMwj/vIqbNPD0WF6QY9qTo2e
+         hahcbq849DTrPSzs9d4kGxKSJFRrIUr66P2SX5nGsXPSm780SOf9FAFH/nraB1ZdWv
+         2PvF7kUJB32JrS/6OtQ9wSoHoqZsYh6UTlLtmfkeW8COs4aeRrfD+NxgYgGKHC5x+7
+         gtE42BDerGc5n998R+h32IPM5bBRjx9+rOoKU46AxShZX/pDN0Rc+uEOauTnZAYKEl
+         BUFDetNZaD+aw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE63AE7BB0B;
+        Sun,  3 Apr 2022 12:10:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] docs: net: dsa: fix minor grammar and punctuation issues
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164898781071.6266.2536082680283988294.git-patchwork-notify@kernel.org>
+Date:   Sun, 03 Apr 2022 12:10:10 +0000
+References: <20220402144623.202965-1-helgaas@kernel.org>
+In-Reply-To: <20220402144623.202965-1-helgaas@kernel.org>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, vladimir.oltean@nxp.com, f.fainelli@gmail.com,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bhelgaas@google.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mention the usage of YAML coding style.  Describe explicitly that
-four-space indentation in DTS examples is preferred, because:
-1. The YAML's default two-space indentation for DTS code makes it
-   significantly less readable.
-2. Linux coding style tabs would introduce inconsistency (entire file is
-   indented with spaces).
-3. On the other hand, eight spaces would not align with example's
-   opening '  - |' part.  Four spaces makes the code nicely aligned with
-   it.
+Hello:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/example-schema.yaml        | 14 +++++++-------
- .../devicetree/bindings/writing-schema.rst         |  6 ++++++
- 2 files changed, 13 insertions(+), 7 deletions(-)
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/Documentation/devicetree/bindings/example-schema.yaml b/Documentation/devicetree/bindings/example-schema.yaml
-index 80a28781845d..8e1a8b19d429 100644
---- a/Documentation/devicetree/bindings/example-schema.yaml
-+++ b/Documentation/devicetree/bindings/example-schema.yaml
-@@ -249,13 +249,13 @@ examples:
-   # be overridden or an appropriate parent bus node should be shown (such as on
-   # i2c buses).
-   #
--  # Any includes used have to be explicitly included.
-+  # Any includes used have to be explicitly included. Use 4-space indentation.
-   - |
-     node@1000 {
--          compatible = "vendor,soc4-ip", "vendor,soc1-ip";
--          reg = <0x1000 0x80>,
--                <0x3000 0x80>;
--          reg-names = "core", "aux";
--          interrupts = <10>;
--          interrupt-controller;
-+        compatible = "vendor,soc4-ip", "vendor,soc1-ip";
-+        reg = <0x1000 0x80>,
-+              <0x3000 0x80>;
-+        reg-names = "core", "aux";
-+        interrupts = <10>;
-+        interrupt-controller;
-     };
-diff --git a/Documentation/devicetree/bindings/writing-schema.rst b/Documentation/devicetree/bindings/writing-schema.rst
-index 95ecf55559e5..2916edf829db 100644
---- a/Documentation/devicetree/bindings/writing-schema.rst
-+++ b/Documentation/devicetree/bindings/writing-schema.rst
-@@ -108,6 +108,12 @@ The YAML Devicetree format also makes all string values an array and scalar
- values a matrix (in order to define groupings) even when only a single value
- is present. Single entries in schemas are fixed up to match this encoding.
- 
-+Coding style
-+------------
-+
-+Use YAML coding style (two-space indentation). For DTS examples in the schema,
-+preferred is four-space indentation.
-+
- Testing
- -------
- 
+On Sat,  2 Apr 2022 09:46:23 -0500 you wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> Fix a few typos and minor grammatical issues.
+> 
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> ---
+>  Documentation/networking/dsa/dsa.rst | 64 ++++++++++++++--------------
+>  1 file changed, 32 insertions(+), 32 deletions(-)
+
+Here is the summary with links:
+  - docs: net: dsa: fix minor grammar and punctuation issues
+    https://git.kernel.org/netdev/net/c/5a48b7433a5a
+
+You are awesome, thank you!
 -- 
-2.32.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
