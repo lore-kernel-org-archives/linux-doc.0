@@ -2,100 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 428E7C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 05:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D075C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 06:13:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233690AbiDCGAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 02:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54384 "EHLO
+        id S1347341AbiDCGPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 02:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230501AbiDCGAN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 02:00:13 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14EAE287;
-        Sat,  2 Apr 2022 22:58:20 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id t4so5718416pgc.1;
-        Sat, 02 Apr 2022 22:58:20 -0700 (PDT)
+        with ESMTP id S232663AbiDCGPE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 02:15:04 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2AAD32ED5;
+        Sat,  2 Apr 2022 23:13:10 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id s8so6104398pfk.12;
+        Sat, 02 Apr 2022 23:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=YXwQ+k39kV8MTJdL0uwWm6r+cjDkWPDQbE11claVeoE=;
-        b=OoRx6DVEbSCME9Spbp+EEF3z8Cq8UkNCpcTD5zx4/gAyUIdZLI4PGHtrakwMR6a1NP
-         0pjGuFAVjS40+x1EkolRh9s18J/SWxSvEQw2VJg/4zPdVLU1Mvd+rGDDaZTI6mw5dhYw
-         DBhx7/JVFpxdK8ovNYAue3R2/E6jvlAQVqr5TtsfuJ6D/jhJ0U94t/LKrZat+UQHM5em
-         JKEyovUPV7BuxoO12dj10h6B1pLFnxUFB9SIo8q4msuGFHmjmifOI2mpznjUJKoU4EIk
-         xqqwZPxdYyPT0BuAShn8gnTacyFtYy3wu7HAAR7/tX2hdbV7Y+ni1TogOuPZ5yXe/rdL
-         Uqdg==
+        bh=iqcYjJqeAGHOxk9rC6rzT/4cJTQjLiPEBtPtNallgoU=;
+        b=Ai6HzXtHc0uKlmt9INXqJSUeKr9EH33Q2j4WBafh/MJdcKXtU0DsIuf5qXLmcGjIr+
+         J/x/VNKPKCXAhvRydsIj90akhWtP1MHD0J7XBlSOtYsl6q2uceHO0ylFipwZn1ZjngDk
+         Mm/wuon+Aa+5OxEfI0iWet/706W/9GsH5T4CXKCASsAd/D39tnslez+5IiuZMNcPKt6k
+         kbSqOuEhUZ+57C8ZP7eOyaVYaRXZ4Cmqa0pbeMrcfURj0WDwEOZiUAnDFBV5dNiIPDA2
+         nr7zN6ZoAmkxiOoYgBIBgN3hDVDknq92mwhWLwh3kzcU0lhiyITzQWqwIaSCS2cUoF1K
+         ORYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=YXwQ+k39kV8MTJdL0uwWm6r+cjDkWPDQbE11claVeoE=;
-        b=FTqvod6CcMe9glpwp9UWwjUdpd0XC1dyZwbgYtuLvGd1Im/+do1aAqVJyR/4AZzoFS
-         vNiW9eqrHyL2IbeHeqRcP+k+VLi859JNrAt6jp9hPd0QgMcSxHAiPZtw+9Ve7P61/ELh
-         KqRderedbFxPFROxMrLvXNnY9M2aPR7ZgTpwzlbcoNhXyh7FBVElK2/9lAh3eNC3Jdq6
-         mX2D2AfbB+5veSK61sgcCQvTCSSLEHPQmTGfYyeOqlTlg7lfjI0gD0jx1W74Ejurr5l3
-         DnG/oD0vEuxXercXxKp9t6EyNHbsUxZ2LcyRl2EodX4DoWyZmcAHNqwyZdc6SMJ9gC36
-         K5mQ==
-X-Gm-Message-State: AOAM5316wgSY6wA8cBCJqWwPQnJ+N2LzN8bVdSHAvyxOQ5p7o1rqkbsT
-        894MlTQ+vu2zVgp4Lk2aVP4=
-X-Google-Smtp-Source: ABdhPJwHmDnHJZLVAAjdOzUFr0Lf8D2K3vLpnvrmujIr7Enj1O9SPTwX+R/SIwB1tk+Y4WvvVkvyUw==
-X-Received: by 2002:a63:5ce:0:b0:382:1f05:c8b1 with SMTP id 197-20020a6305ce000000b003821f05c8b1mr21131901pgf.19.1648965499591;
-        Sat, 02 Apr 2022 22:58:19 -0700 (PDT)
+        bh=iqcYjJqeAGHOxk9rC6rzT/4cJTQjLiPEBtPtNallgoU=;
+        b=nOoJH+JcFfGfvASEwIt+UZMBT2zVZcDtDMVhVmatwYgYLtBHhnnHusGctxVsOwjeVK
+         cvWK6vhF5CpC+lnEoaH/bc3ZgFI8xOjcVNJes4exuUjLy8PUqK/Zdyqr7VGLxieH6Chm
+         LlpYwX1waBnfcx0nlqjl8VZmeGdlIdQ+wvh8kfiH1ERQx+yIeBBfixTc/biCsm9f+RCX
+         YyxvlHHko41s2xMOdnfXWZjB5VvcEkKOLm1mtRl1YoDT3skPKvr6NkaI83yJuwu+WJud
+         k87XQZEQ4AtPpcjJ7z6yoPxoz0IW3UFuetHzms4djBHqHLe1AiHYJphqkauiO/2peyOS
+         zePw==
+X-Gm-Message-State: AOAM531FWAatauy9FcdAJBuYM5zU2wQmbd9zWQBBdZ/7AsHgyRvPfQDz
+        5uiglf+uuCIYP8L0V1ApICI=
+X-Google-Smtp-Source: ABdhPJyRIpXteTf1cloPvJlVcVw9JuXei83O10GMNROZ3VtoU9KoPyHLol5rNJHhPhQscANAd70X3A==
+X-Received: by 2002:a05:6a00:1581:b0:4fa:e6d4:c3e6 with SMTP id u1-20020a056a00158100b004fae6d4c3e6mr18173399pfk.84.1648966390229;
+        Sat, 02 Apr 2022 23:13:10 -0700 (PDT)
 Received: from [192.168.43.80] (subs02-180-214-232-68.three.co.id. [180.214.232.68])
-        by smtp.gmail.com with ESMTPSA id 16-20020a17090a005000b001c7511dc31esm6610845pjb.41.2022.04.02.22.58.17
+        by smtp.gmail.com with ESMTPSA id c63-20020a624e42000000b004fa9ee41b7bsm7720108pfb.217.2022.04.02.23.13.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Apr 2022 22:58:19 -0700 (PDT)
-Message-ID: <c3ea5966-cfc3-8e36-3f0d-dbaf1b1665b9@gmail.com>
-Date:   Sun, 3 Apr 2022 12:58:15 +0700
+        Sat, 02 Apr 2022 23:13:09 -0700 (PDT)
+Message-ID: <f4377408-ace7-a041-084f-5863bcfb7184@gmail.com>
+Date:   Sun, 3 Apr 2022 13:13:02 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] Documentation/process: mention patch changelog in review
- process
+Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
+ configfs
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stephen Boyd <sboyd@kernel.org>
-References: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
+To:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220401160447.5919-1-w36195@motorola.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220401160447.5919-1-w36195@motorola.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/04/22 17.07, Krzysztof Kozlowski wrote:
-> Extend the "Respond to review comments" section of "Submitting patches"
-> with reference to patch changelogs.
+On 01/04/22 23.04, Dan Vacura wrote:
+> Add a configfs entry, "function_name", to change the iInterface field
+> for VideoControl. This name is used on host devices for user selection,
+> useful when multiple cameras are present. The default will remain "UVC
+> Camera".
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Dan Vacura <w36195@motorola.com>
 > ---
->   Documentation/process/submitting-patches.rst | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> Changes in v2:
+> - remove stable cc
 > 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index fb496b2ebfd3..9bb4e8c0f635 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -318,7 +318,10 @@ understands what is going on.
->   Be sure to tell the reviewers what changes you are making and to thank them
->   for their time.  Code review is a tiring and time-consuming process, and
->   reviewers sometimes get grumpy.  Even in that case, though, respond
-> -politely and address the problems they have pointed out.
-> +politely and address the problems they have pointed out.  When sending a next
-> +version, add a ``patch changelog`` to the cover letter or to individual patches
-> +explaining difference aganst previous submission (see
-> +:ref:`the_canonical_patch_format`).
->   
->   See Documentation/process/email-clients.rst for recommendations on email
->   clients and mailing list etiquette.
+>   .../ABI/testing/configfs-usb-gadget-uvc       |  1 +
+>   Documentation/usb/gadget-testing.rst          |  1 +
+>   drivers/usb/gadget/function/f_uvc.c           |  4 +-
+>   drivers/usb/gadget/function/u_uvc.h           |  1 +
+>   drivers/usb/gadget/function/uvc_configfs.c    | 41 +++++++++++++++++++
+>   5 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> index 889ed45be4ca..611b23e6488d 100644
+> --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> @@ -7,6 +7,7 @@ Description:	UVC function directory
+>   		streaming_maxburst	0..15 (ss only)
+>   		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
+>   		streaming_interval	1..16
+> +		function_name		string [32]
+>   		===================	=============================
 
-What about range-diffs?
+Since you mention that default function_name is "UVC Camera", why don't you
+mention it in the documentation?
 
 -- 
 An old man doll... just what I always wanted! - Clara
