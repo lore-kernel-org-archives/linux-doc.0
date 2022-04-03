@@ -2,223 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FCCC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 05:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 428E7C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 05:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240912AbiDCFuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 01:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39222 "EHLO
+        id S233690AbiDCGAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 02:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240151AbiDCFuW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 01:50:22 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BCF0BCC;
-        Sat,  2 Apr 2022 22:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=WQNoMJjopelVAEED89ffOV+of291eaLHpcsVbmVHuRQ=; b=0es1+Ejv35t67D4PBnvSGY/rZV
-        sJrcHTVDcmzHeR/+6K+lfakLc/aI1HB5TCGmW2QfOxFshZaHOM9tBYnyq1dKNQVwIh1RbuLidkD/w
-        AKpCI1yVgPrc8TMLHLgaISKIp/FvU0QNPAa/TT8DhzcpnF/Xv18GC6R+sKr0LmPgtSuKJxfrwzXoh
-        95PZe1xZM8K/4VwRIi7niem8fIJVOee8liypxnGE3mA8ppSNpdEkDK9Y/zz1FnmlrXWdqZR5UauPn
-        kKFTLTTBEW3/3kTLqSt8Y949sWFATGlnXJo2RVOYvfrXw6JAwEP0VRLASyk/EDnEiKidW/mwKeGse
-        8CkrguFA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nat68-00Amnh-OU; Sun, 03 Apr 2022 05:48:24 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        linux-s390@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ia64@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <lenb@kernel.org>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 1/3 v3] Docs: admin/kernel-parameters: edit a few boot options
-Date:   Sat,  2 Apr 2022 22:48:20 -0700
-Message-Id: <20220403054822.16868-2-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220403054822.16868-1-rdunlap@infradead.org>
-References: <20220403054822.16868-1-rdunlap@infradead.org>
+        with ESMTP id S230501AbiDCGAN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 02:00:13 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14EAE287;
+        Sat,  2 Apr 2022 22:58:20 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id t4so5718416pgc.1;
+        Sat, 02 Apr 2022 22:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=YXwQ+k39kV8MTJdL0uwWm6r+cjDkWPDQbE11claVeoE=;
+        b=OoRx6DVEbSCME9Spbp+EEF3z8Cq8UkNCpcTD5zx4/gAyUIdZLI4PGHtrakwMR6a1NP
+         0pjGuFAVjS40+x1EkolRh9s18J/SWxSvEQw2VJg/4zPdVLU1Mvd+rGDDaZTI6mw5dhYw
+         DBhx7/JVFpxdK8ovNYAue3R2/E6jvlAQVqr5TtsfuJ6D/jhJ0U94t/LKrZat+UQHM5em
+         JKEyovUPV7BuxoO12dj10h6B1pLFnxUFB9SIo8q4msuGFHmjmifOI2mpznjUJKoU4EIk
+         xqqwZPxdYyPT0BuAShn8gnTacyFtYy3wu7HAAR7/tX2hdbV7Y+ni1TogOuPZ5yXe/rdL
+         Uqdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=YXwQ+k39kV8MTJdL0uwWm6r+cjDkWPDQbE11claVeoE=;
+        b=FTqvod6CcMe9glpwp9UWwjUdpd0XC1dyZwbgYtuLvGd1Im/+do1aAqVJyR/4AZzoFS
+         vNiW9eqrHyL2IbeHeqRcP+k+VLi859JNrAt6jp9hPd0QgMcSxHAiPZtw+9Ve7P61/ELh
+         KqRderedbFxPFROxMrLvXNnY9M2aPR7ZgTpwzlbcoNhXyh7FBVElK2/9lAh3eNC3Jdq6
+         mX2D2AfbB+5veSK61sgcCQvTCSSLEHPQmTGfYyeOqlTlg7lfjI0gD0jx1W74Ejurr5l3
+         DnG/oD0vEuxXercXxKp9t6EyNHbsUxZ2LcyRl2EodX4DoWyZmcAHNqwyZdc6SMJ9gC36
+         K5mQ==
+X-Gm-Message-State: AOAM5316wgSY6wA8cBCJqWwPQnJ+N2LzN8bVdSHAvyxOQ5p7o1rqkbsT
+        894MlTQ+vu2zVgp4Lk2aVP4=
+X-Google-Smtp-Source: ABdhPJwHmDnHJZLVAAjdOzUFr0Lf8D2K3vLpnvrmujIr7Enj1O9SPTwX+R/SIwB1tk+Y4WvvVkvyUw==
+X-Received: by 2002:a63:5ce:0:b0:382:1f05:c8b1 with SMTP id 197-20020a6305ce000000b003821f05c8b1mr21131901pgf.19.1648965499591;
+        Sat, 02 Apr 2022 22:58:19 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-68.three.co.id. [180.214.232.68])
+        by smtp.gmail.com with ESMTPSA id 16-20020a17090a005000b001c7511dc31esm6610845pjb.41.2022.04.02.22.58.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Apr 2022 22:58:19 -0700 (PDT)
+Message-ID: <c3ea5966-cfc3-8e36-3f0d-dbaf1b1665b9@gmail.com>
+Date:   Sun, 3 Apr 2022 12:58:15 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] Documentation/process: mention patch changelog in review
+ process
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stephen Boyd <sboyd@kernel.org>
+References: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Clean up some of admin-guide/kernel-parameters.txt:
+On 02/04/22 17.07, Krzysztof Kozlowski wrote:
+> Extend the "Respond to review comments" section of "Submitting patches"
+> with reference to patch changelogs.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   Documentation/process/submitting-patches.rst | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index fb496b2ebfd3..9bb4e8c0f635 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -318,7 +318,10 @@ understands what is going on.
+>   Be sure to tell the reviewers what changes you are making and to thank them
+>   for their time.  Code review is a tiring and time-consuming process, and
+>   reviewers sometimes get grumpy.  Even in that case, though, respond
+> -politely and address the problems they have pointed out.
+> +politely and address the problems they have pointed out.  When sending a next
+> +version, add a ``patch changelog`` to the cover letter or to individual patches
+> +explaining difference aganst previous submission (see
+> +:ref:`the_canonical_patch_format`).
+>   
+>   See Documentation/process/email-clients.rst for recommendations on email
+>   clients and mailing list etiquette.
 
-a. "smt" should be "smt=" (S390)
-b. (dropped)
-c. Sparc supports the vdso= boot option
-d. make the tp_printk options (2) formatting similar to other options
-   by adding spacing
-e. add "trace_clock=" with a reference to Documentation/trace/ftrace.rst
-f. use [IA-64] as documented instead of [ia64]
-g. fix formatting and text for test_suspend=
-h. fix formatting for swapaccount=
-i. fix formatting and grammar for video.brightness_switch_enabled=
+What about range-diffs?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Sven Schnelle <svens@linux.ibm.com>
-Cc: linux-s390@vger.kernel.org
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: sparclinux@vger.kernel.org
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: linux-ia64@vger.kernel.org
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Len Brown <lenb@kernel.org>
-Cc: linux-pm@vger.kernel.org
-Cc: linux-acpi@vger.kernel.org
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-v3: add trace_clock= specifics (Steven)
-v2: drop "smt-enabled" for arch/powerpc/ (Michael)
-
- Documentation/admin-guide/kernel-parameters.txt |   47 ++++++++++----
- 1 file changed, 36 insertions(+), 11 deletions(-)
-
---- linux-next-20220331.orig/Documentation/admin-guide/kernel-parameters.txt
-+++ linux-next-20220331/Documentation/admin-guide/kernel-parameters.txt
-@@ -2814,7 +2814,7 @@
- 			different yeeloong laptops.
- 			Example: machtype=lemote-yeeloong-2f-7inch
- 
--	max_addr=nn[KMG]	[KNL,BOOT,ia64] All physical memory greater
-+	max_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory greater
- 			than or equal to this physical address is ignored.
- 
- 	maxcpus=	[SMP] Maximum number of processors that	an SMP kernel
-@@ -3057,7 +3057,7 @@
- 
- 	mga=		[HW,DRM]
- 
--	min_addr=nn[KMG]	[KNL,BOOT,ia64] All physical memory below this
-+	min_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory below this
- 			physical address is ignored.
- 
- 	mini2440=	[ARM,HW,KNL]
-@@ -5388,7 +5388,7 @@
- 				1: Fast pin select (default)
- 				2: ATC IRMode
- 
--	smt		[KNL,S390] Set the maximum number of threads (logical
-+	smt=		[KNL,S390] Set the maximum number of threads (logical
- 			CPUs) to use per physical CPU on systems capable of
- 			symmetric multithreading (SMT). Will be capped to the
- 			actual hardware limit.
-@@ -5774,8 +5774,9 @@
- 			This parameter controls use of the Protected
- 			Execution Facility on pSeries.
- 
--	swapaccount=[0|1]
--			[KNL] Enable accounting of swap in memory resource
-+	swapaccount=	[KNL]
-+			Format: [0|1]
-+			Enable accounting of swap in memory resource
- 			controller if no parameter or 1 is given or disable
- 			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
- 
-@@ -5821,7 +5822,8 @@
- 
- 	tdfx=		[HW,DRM]
- 
--	test_suspend=	[SUSPEND][,N]
-+	test_suspend=	[SUSPEND]
-+			Format: { "mem" | "standby" | "freeze" }[,N]
- 			Specify "mem" (for Suspend-to-RAM) or "standby" (for
- 			standby suspend) or "freeze" (for suspend type freeze)
- 			as the system sleep state during system startup with
-@@ -5908,6 +5910,28 @@
- 	trace_buf_size=nn[KMG]
- 			[FTRACE] will set tracing buffer size on each cpu.
- 
-+	trace_clock=	[FTRACE] Set the clock used for tracing events
-+			at boot up.
-+			local - Use the per CPU time stamp counter
-+				(converted into nanoseconds). Fast, but
-+				depending on the architecture, may not be
-+				in sync between CPUs.
-+			global - Event time stamps are synchronize across
-+				CPUs. May be slower than the local clock,
-+				but better for some race conditions.
-+			counter - Simple counting of events (1, 2, ..)
-+				note, some counts may be skipped due to the
-+				infrastructure grabbing the clock more than
-+				once per event.
-+			uptime - Use jiffies as the time stamp.
-+			perf - Use the same clock that perf uses.
-+			mono - Use ktime_get_mono_fast_ns() for time stamps.
-+			mono_raw - Use ktime_get_raw_fast_ns() for time
-+				stamps.
-+			boot - Use ktime_get_boot_fast_ns() for time stamps.
-+			Architectures may add more clocks. See
-+			Documentation/trace/ftrace.rst for more details.
-+
- 	trace_event=[event-list]
- 			[FTRACE] Set and start specified trace events in order
- 			to facilitate early boot debugging. The event-list is a
-@@ -5930,7 +5954,7 @@
- 			See also Documentation/trace/ftrace.rst "trace options"
- 			section.
- 
--	tp_printk[FTRACE]
-+	tp_printk	[FTRACE]
- 			Have the tracepoints sent to printk as well as the
- 			tracing ring buffer. This is useful for early boot up
- 			where the system hangs or reboots and does not give the
-@@ -5952,7 +5976,7 @@
- 			frequency tracepoints such as irq or sched, can cause
- 			the system to live lock.
- 
--	tp_printk_stop_on_boot[FTRACE]
-+	tp_printk_stop_on_boot [FTRACE]
- 			When tp_printk (above) is set, it can cause a lot of noise
- 			on the console. It may be useful to only include the
- 			printing of events during boot up, as user space may
-@@ -6301,7 +6325,7 @@
- 					HIGHMEM regardless of setting
- 					of CONFIG_HIGHPTE.
- 
--	vdso=		[X86,SH]
-+	vdso=		[X86,SH,SPARC]
- 			On X86_32, this is an alias for vdso32=.  Otherwise:
- 
- 			vdso=1: enable VDSO (the default)
-@@ -6327,11 +6351,12 @@
- 	video=		[FB] Frame buffer configuration
- 			See Documentation/fb/modedb.rst.
- 
--	video.brightness_switch_enabled= [0,1]
-+	video.brightness_switch_enabled= [ACPI]
-+			Format: [0|1]
- 			If set to 1, on receiving an ACPI notify event
- 			generated by hotkey, video driver will adjust brightness
- 			level and then send out the event to user space through
--			the allocated input device; If set to 0, video driver
-+			the allocated input device. If set to 0, video driver
- 			will only send out the event without touching backlight
- 			brightness level.
- 			default: 1
+-- 
+An old man doll... just what I always wanted! - Clara
