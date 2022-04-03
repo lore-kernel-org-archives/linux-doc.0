@@ -2,105 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45799C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 07:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84905C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Apr 2022 08:18:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbiDCHtX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 03:49:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55796 "EHLO
+        id S235720AbiDCIUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 04:20:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355101AbiDCHtW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 03:49:22 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F47E31DC3
-        for <linux-doc@vger.kernel.org>; Sun,  3 Apr 2022 00:47:29 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id bg10so14044148ejb.4
-        for <linux-doc@vger.kernel.org>; Sun, 03 Apr 2022 00:47:28 -0700 (PDT)
+        with ESMTP id S234591AbiDCIUt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 04:20:49 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269D813CD8
+        for <linux-doc@vger.kernel.org>; Sun,  3 Apr 2022 01:18:54 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id p23so69902edi.8
+        for <linux-doc@vger.kernel.org>; Sun, 03 Apr 2022 01:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GvEskk/jcFfdPgnj5+oAPUcqZMlMyOlYENCxSeZGj6Y=;
-        b=rzHiUiDaJUoD6+l9WKV3gPvtiOf8MK9qRru6WhD4es4aAL04tQhPT99W5GCiC0p9yu
-         e8Hmiur5SShzMicWAFPczjfvPTV0K0V/trCLiZyFxZpxZmCUIsbSIc97AvkTmWJ5bdGP
-         HNWa/B5bKwD30fUyU6UHV6JozZtY0VWVufZc1AI6t8yFpmAD2nC6YmbwdrBD2VNNrQk8
-         N6Pk1RWrQSuFXCJjxu/NpbI2zTu1mruzw0lSW1xlCbzTSI+1CYdvMtP5g+WQwoLMOPsy
-         ZSZYcoO5dbhcSGAb93UDyIGLeyNowEmRV2bIOHRouqZiSnLdzTXSn/0SIvemeCPqjXrZ
-         dfXA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aVdE1T1dEZD7+sLQEHxxXp/voC607490GFsl2AtLabg=;
+        b=hyXhY6k329Nl/PViwduqVY57b9feTjjD+LB2X6SmITUPdg26R5F9OdUbcGDlH6ftqy
+         0pOO5mwt1BL9v55eXjX1YvuZGgi3HtoDXTA/+k9ZDE8GubQUSnxddd+v/YED5cvTASnS
+         cCa2BvPbrBx/jJuvjkggTRv6eySm2+YR/rmb+T22SkK5+//wBL5ZxNUsNvK51PulX6GF
+         /3HxZFdJ2c18i8MBtbBIysjN1J4x+3BUNibV/RNEU/JHAWvnZ8lQGI1mX4/Sss11vXEt
+         XalF65KxXJ6V6dHZFWLxdGxaNv+vvabrvHUjpU3JabDANDBmAke0WE2TwOU00FhEgO27
+         sSzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GvEskk/jcFfdPgnj5+oAPUcqZMlMyOlYENCxSeZGj6Y=;
-        b=CLKbqKL/ejo4HmMCw6ZujvkmiYefjec2pI0ncSnsnpaGXuuWEnTPPd1MYV6vb9i3qB
-         C/kgdxJi31qp+uwpDZIhiZRpjr2rSVAJ5SeCX/AXZWBZwVjKCcT4746ZGQqzo5nuIIwy
-         QLDMHamqoVTHYbZEFo6kcaj8fpwBxl2WJvCLnxkzt4aJ72KPIdVhquWlxRl8KXarscSI
-         ONT/QQHcz5QVNgZeTeIYXc1x2CHrPJ7mbSCIjr6pftsr6Feqxj96h26KN3JUoR6jTNZ5
-         YI8I4P8HrYsw5U0pH7e2zwQ1+FgY4ViTVDLp60cXEtIJT7T/zqnI+1UQJPSAWj8xOTAY
-         7v2g==
-X-Gm-Message-State: AOAM530i06y6cuEZ83ylVAjSuuuGV1mqJ27HKN0l3HUZE5B2RzLn32rt
-        2gl9F0bCpcRBC8B+mUbWFT7HP4UOWwK2Njix
-X-Google-Smtp-Source: ABdhPJzlXrY3xRevI4ad0Zmz1UB26BYq2l/c2aldwLrSIH8K44mLl/k8ZHF0I/zMrZND8R/D+uQL8w==
-X-Received: by 2002:a17:907:6284:b0:6e0:f895:15a with SMTP id nd4-20020a170907628400b006e0f895015amr6379638ejc.713.1648972047581;
-        Sun, 03 Apr 2022 00:47:27 -0700 (PDT)
-Received: from [192.168.0.171] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id dn4-20020a17090794c400b006dbec4f4acbsm2950582ejc.6.2022.04.03.00.47.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 00:47:27 -0700 (PDT)
-Message-ID: <3eddb954-3d90-8fa8-31e5-4e6c356a7421@linaro.org>
-Date:   Sun, 3 Apr 2022 09:47:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] Documentation/process: mention patch changelog in review
- process
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stephen Boyd <sboyd@kernel.org>
-References: <20220402100706.57507-1-krzysztof.kozlowski@linaro.org>
- <c3ea5966-cfc3-8e36-3f0d-dbaf1b1665b9@gmail.com>
+        bh=aVdE1T1dEZD7+sLQEHxxXp/voC607490GFsl2AtLabg=;
+        b=NQ28NJBH7/ji5OouiIe+w4//Vz4M2uD3IGwU5HkMGv0rNz1XUmLtb+XPyljJOTcqnU
+         ULeFPy94Agig2SMHVdFbR7/IIyCaWCRHG77Ssfzcn6frpSEQCIeLS0WbSe24zmk+Q63u
+         sklunL9Pw5cWIa7bvv5S3J20WEUMmstwL70RjEjQtJP4VRUvyJpS4wugs9sFKBAVgXdJ
+         8nDM8b71+OaUcIhS3wYJsh+m44isdInqKe55UJO4bkLbMwutEhrzF4bPOgBreyKj0OT7
+         ooEwu1GyI+TUEloQxFf6hBFC88JLigGFfp+98zzTml4oQNyWwdolaICqXSc3AYxwQPah
+         MH1g==
+X-Gm-Message-State: AOAM533Ihvsj2U9CP7jogUhhkxCqelfCJ7QWGvjFHxXuvNIxlaFlWNBP
+        PyqumcyVWeUmNX3Yz+BUp9noGg==
+X-Google-Smtp-Source: ABdhPJye6QN3inePdO3Kw+NS6rWVXTH8+gMeNFVDOkRAHbmCusD5nXKKJxrIPn+K1wNZ41qBAb/Vdg==
+X-Received: by 2002:a05:6402:42c6:b0:419:276a:dded with SMTP id i6-20020a05640242c600b00419276addedmr28242895edc.2.1648973932759;
+        Sun, 03 Apr 2022 01:18:52 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id h7-20020a1709066d8700b006d4b4d137fbsm2989105ejt.50.2022.04.03.01.18.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Apr 2022 01:18:52 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <c3ea5966-cfc3-8e36-3f0d-dbaf1b1665b9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] docs: dt: writing-bindings: describe typical cases
+Date:   Sun,  3 Apr 2022 10:18:48 +0200
+Message-Id: <20220403081849.8051-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/04/2022 07:58, Bagas Sanjaya wrote:
-> On 02/04/22 17.07, Krzysztof Kozlowski wrote:
->> Extend the "Respond to review comments" section of "Submitting patches"
->> with reference to patch changelogs.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>   Documentation/process/submitting-patches.rst | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
->> index fb496b2ebfd3..9bb4e8c0f635 100644
->> --- a/Documentation/process/submitting-patches.rst
->> +++ b/Documentation/process/submitting-patches.rst
->> @@ -318,7 +318,10 @@ understands what is going on.
->>   Be sure to tell the reviewers what changes you are making and to thank them
->>   for their time.  Code review is a tiring and time-consuming process, and
->>   reviewers sometimes get grumpy.  Even in that case, though, respond
->> -politely and address the problems they have pointed out.
->> +politely and address the problems they have pointed out.  When sending a next
->> +version, add a ``patch changelog`` to the cover letter or to individual patches
->> +explaining difference aganst previous submission (see
->> +:ref:`the_canonical_patch_format`).
->>   
->>   See Documentation/process/email-clients.rst for recommendations on email
->>   clients and mailing list etiquette.
-> 
-> What about range-diffs?
+Add a chapter for caveats or typical mistakes.  Source: Rob Herring's
+(Devicetree bindings maintainer) comments on LKML.
 
-What about it? I extend here the versioning of patches, which does not
-come with range-diffs.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/writing-bindings.rst  | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/writing-bindings.rst b/Documentation/devicetree/bindings/writing-bindings.rst
+index 18d9e0689d49..5465eced2af1 100644
+--- a/Documentation/devicetree/bindings/writing-bindings.rst
++++ b/Documentation/devicetree/bindings/writing-bindings.rst
+@@ -58,6 +58,31 @@ Properties
+ - DO define properties in terms of constraints. How many entries? What are
+   possible values? What is the order?
+ 
++Typical cases and caveats
++=========================
++
++- Phandle entries, like clocks/dmas/interrupts/resets, should always be
++  explicitly ordered. Include the {clock,dma,interrupt,reset}-names if there is
++  more than one phandle. When used, both of these fields need the same
++  constraints (e.g.  list of items).
++
++- For names used in {clock,dma,interrupt,reset}-names, do not add any suffix,
++  e.g.: "tx" instead of "txirq" (for interrupt).
++
++- Properties without schema types (e.g. without standard suffix or not defined
++  by schema) need the type, even if this is an enum.
++
++- If schema includes other schema (e.g. /schemas/i2c/i2c-controller.yaml) use
++  "unevaluatedProperties:false". In other cases, usually use
++  "additionalProperties:false".
++
++- For sub-blocks/components of bigger device (e.g. SoC blocks) use rather
++  device-based compatible (e.g. SoC-based compatible), instead of custom
++  versioning of that component.
++  For example use "vendor,soc1234-i2c" instead of "vendor,i2c-v2".
++
++- "syscon" is not a generic property. Use vendor and type, e.g.
++  "vendor,power-manager-syscon".
+ 
+ Board/SoC .dts Files
+ ====================
+-- 
+2.32.0
+
