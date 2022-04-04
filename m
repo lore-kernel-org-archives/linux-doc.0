@@ -2,137 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D5CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 22:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BB5C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 23:11:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231955AbiDDWg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 18:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52744 "EHLO
+        id S235725AbiDDXNX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 19:13:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235927AbiDDWen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 18:34:43 -0400
-Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE65541B9;
-        Mon,  4 Apr 2022 14:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
-        s=Selector; t=1649109158; i=@motorola.com;
-        bh=FC1k8RXkwsdD29iqlfP9VRrjSDl1IA59BmUkMvuR3So=;
-        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-         Content-Type:In-Reply-To;
-        b=DmiZ9Z/qOz36dBP3mupQj/+M+0S4TTv5JA2vt7F4+cpsl+xyG0/LPSKueiUZeuEs3
-         7tmgbqlN6XOSuQbX7geToECPjK4rYINOa0oPGpeMvEZCfHEXp3rY6z6iPhQBGicXV8
-         0GV9XUUWwJK2Q1gQ4LhWWEWmg7UNW15A7Inaztd/Cg/yrRWnB+Yl680gv965YGOexk
-         8WUpjY6bypKkQ3yvSc68gox9MJK2vJYzkyKBgFpfKlPueCdxDCiOON6oOqZwBKuO0+
-         GW11kIZNg3kWmOxmwifx5Yqv0EyD7ZC9fJ0xXm9WeKx0Y3WdsmBew/gN13HPayeTSE
-         hhm6e4JR4CiZA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleJIrShJLcpLzFFi42LJePFEQndphne
-  SweFuLYtjbU/YLeZsjrZ4cqCd0aJ58Xo2i/ebprBadE5cwm6xsG0Ji8XlXXPYLBYta2W2eDj7
-  KqPF2zvTWRy4PWZ3zGT12LxCy2PTqk42j/1z17B7LO6bzOqxacotVo/Pm+Q8Dm1/wxbAEcWam
-  ZeUX5HAmrGr/QZrwSWhiiN397A3MN7n72Lk4hASmMIkcfZ5JxOEs5BJ4vStNcxdjJwcLAIqEu
-  sfLGEEsdkE1CQWvF4FFhcBiv+708IGYjML/GeS6P7oAmILC4RKzJw8CayeV0BZYs+Rw+wgtpB
-  AkMTbs72sEHFBiZMzn7BA9GpJ3Pj3EmgxB5AtLbH8HwdImBNo1dMdN9knMPLOQtIxC0nHLISO
-  BYzMqxitk4oy0zNKchMzc3QNDQx0DQ1NdM1MdQ0tDfUSq3QT9UqLdVMTi0t0jfQSy4v1UouL9
-  Yorc5NzUvTyUks2MQLjI6XIcf8Oxp2rfuodYpTkYFIS5T3j6p0kxJeUn1KZkVicEV9UmpNafI
-  hRhoNDSYI3JBUoJ1iUmp5akZaZA4xVmLQEB4+SCK+4I1Cat7ggMbc4Mx0idYpRl+PSoSt7mYV
-  Y8vLzUqXEebvSgYoEQIoySvPgRsDSxiVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrxbQKbw
-  ZOaVwG16BXQEE9AR7854ghxRkoiQkmpgUivyznzVsljaIyt+U6aTwi27D4dWf818fqClf8nFZ
-  7smr7nsHlClG+H2Y+H+3Ec7rCZ9mCfO/P1anryxw564+tmHUy9f4rq57rkcw+Vb3LsnZB36b/
-  6EpWTKUntWyXL38MkLmmf+aWedG6g5Td/FxFSt8Pa3ZEeO13+W8QldfvSB8fzjGzmvXT5533B
-  evcdYIbrUVlOVu+HVl4/bGgQn/z2i+qM9UFmUbUMnS3K8Svl/MQ77YBPjy8tOfdJPWNz29Jnp
-  envl88Kffj1y+Wf+9fne3B9hdvOPVSjbq8ufE5P8tkFiAgtT8TmF82rmyT9MDVIPl5StacxZ2
-  L3shIkyd2+7UfVMvngfg8/dXziPKLEUZyQaajEXFScCAGWVNMWWAwAA
-X-Env-Sender: w36195@motorola.com
-X-Msg-Ref: server-5.tower-715.messagelabs.com!1649109157!2020!1
-X-Originating-IP: [104.232.228.24]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.85.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 30282 invoked from network); 4 Apr 2022 21:52:37 -0000
-Received: from unknown (HELO va32lpfpp04.lenovo.com) (104.232.228.24)
-  by server-5.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Apr 2022 21:52:37 -0000
-Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by va32lpfpp04.lenovo.com (Postfix) with ESMTPS id 4KXPdd24JKzgMXh;
-        Mon,  4 Apr 2022 21:52:37 +0000 (UTC)
-Received: from p1g3 (unknown [10.45.5.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: w36195)
-        by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4KXPdc6bglzbrlP;
-        Mon,  4 Apr 2022 21:52:36 +0000 (UTC)
-Date:   Mon, 4 Apr 2022 16:52:35 -0500
-From:   Dan Vacura <w36195@motorola.com>
-To:     John Keeping <john@metanate.com>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Carlos Bilbao <bilbao@vt.edu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
- configfs
-Message-ID: <YktoowtOyRcCBLOb@p1g3>
-References: <20220401160447.5919-1-w36195@motorola.com>
- <YkgyZ6BrSX/7pDry@donbot>
+        with ESMTP id S243817AbiDDXLn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 19:11:43 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 162182CCBE;
+        Mon,  4 Apr 2022 15:49:21 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id n18so9354987plg.5;
+        Mon, 04 Apr 2022 15:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DiZpMTn/EVNY/pnuPoizyqHMne6cPx1y5mye2ibx/ok=;
+        b=bgnp+RZ4/8nfeh0NMWErXmEtEshX86JerNFp8dq/RD44FxWiFAl972gOEJDqV++XyA
+         By4VZtAU4QVALrso+XOALjElN48YFB3TiZeU9RcQxb+9XSdszdEltEwvn9K8oecLmXTQ
+         TQQfzdCYgQyp4jsdjY5EwU/Uh3faCKJvnJbzu8VpGOGyjkhm+VjdOWOKNFg2CdC9WIHu
+         9qKlg3mhSFcqJlntThMyi4VG3ISf3oNk+2Ry4A/oRGT+IxjxU5e24QVPCkZiEspbB6Ae
+         CcLSJd1INuQNNkvMz1KILSOVf2EODqUP+szWpO3DLZgvPGzGiBVeiL6R9WCUXhOUmtMv
+         ed7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DiZpMTn/EVNY/pnuPoizyqHMne6cPx1y5mye2ibx/ok=;
+        b=nSCgURZ9JtxcJTR+gACePQ7grQ99Rs3SQJCalGLbJ+at5C/uDs3SiSxMp25l1hEy06
+         vLzTo/Y4/4+bIaiHf4ryPBEyur+gKx+PC6L1CE8BwZbRj1v33J5h6stAYgHNs1dQyC27
+         EEtaLda69g5EbVG5ZavTivO78JyH/thLvgSkEkgkS8KiWK07yg4GpV91nWfONClwId0q
+         9gakhqxUbknXKhWvStYfxRkG8VVJuWJl/HfEUAlN7dB0bXdiq4uehDEUDTQ9HW9oMQky
+         VTbYsyEOuNUHHJAhDmZoN2BXvagxwZnZel7ozHsvqg5F45QmItecDpsHPAcLpBw+DDDh
+         5Puw==
+X-Gm-Message-State: AOAM531MhNqDQmgeDTREiYYf8WTj6/maWDYT/GssIs2GpwqiBtA595Yi
+        lPvLCizoW27lrkeKoGvYVMEs47HZn3ALs1YRYD0=
+X-Google-Smtp-Source: ABdhPJw6yLez+Pola3pnCcu1X++dRI9Dtud1fwRlNqRru6KsE9kQoMKYHIIF+h1m/5FNxuqFspqfjNyXq2uiHfs7URQ=
+X-Received: by 2002:a17:902:ba83:b0:154:727e:5fc5 with SMTP id
+ k3-20020a170902ba8300b00154727e5fc5mr475882pls.55.1649112560582; Mon, 04 Apr
+ 2022 15:49:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkgyZ6BrSX/7pDry@donbot>
+References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
+ <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <b9f5995f96da447c851f7c9db8232a9b@huawei.com> <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
+ <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com> <c2e57f10b62940eba3cfcae996e20e3c@huawei.com>
+In-Reply-To: <c2e57f10b62940eba3cfcae996e20e3c@huawei.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Mon, 4 Apr 2022 15:49:09 -0700
+Message-ID: <CAADnVQJSso+GSXC-QmNmj0GBPZzxRCRfqAcQbqD-6y0CtMSopQ@mail.gmail.com>
+Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF programs
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     Djalal Harouni <tixxdz@gmail.com>, KP Singh <kpsingh@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 02, 2022 at 12:24:23PM +0100, John Keeping wrote:
-> On Fri, Apr 01, 2022 at 11:04:45AM -0500, Dan Vacura wrote:
-> > Add a configfs entry, "function_name", to change the iInterface field
-> > for VideoControl. This name is used on host devices for user selection,
-> > useful when multiple cameras are present. The default will remain "UVC
-> > Camera".
-> 
-> > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> > index 71bb5e477dba..50e6e7a58b41 100644
-> > --- a/drivers/usb/gadget/function/f_uvc.c
-> > +++ b/drivers/usb/gadget/function/f_uvc.c
-> > @@ -44,7 +44,7 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
-> >  #define UVC_STRING_STREAMING_IDX		1
-> >  
-> >  static struct usb_string uvc_en_us_strings[] = {
-> > -	[UVC_STRING_CONTROL_IDX].s = "UVC Camera",
-> > +	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
-> >  	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
-> >  	{  }
-> >  };
-> > @@ -676,6 +676,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
-> >  	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
-> >  	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
-> >  
-> > +	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
-> >  	us = usb_gstrings_attach(cdev, uvc_function_strings,
-> >  				 ARRAY_SIZE(uvc_en_us_strings));
-> >  	if (IS_ERR(us)) {
-> > @@ -866,6 +867,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
-> >  
-> >  	opts->streaming_interval = 1;
-> >  	opts->streaming_maxpacket = 1024;
-> > +	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
-> 
-> This only allows a single language to be specified.  I know that's what
-> the existing string uses, but for other strings which can be set by
-> userspace multiple languages are supported.
-> 
-> Should we be making USB_CONFIG_STRINGS_LANG more generic so that it can
-> be used by functions as well as the core configfs code?
+On Mon, Apr 4, 2022 at 10:21 AM Roberto Sassu <roberto.sassu@huawei.com> wrote:
+>
+> > From: Djalal Harouni [mailto:tixxdz@gmail.com]
+> > Sent: Monday, April 4, 2022 9:45 AM
+> > On Sun, Apr 3, 2022 at 5:42 PM KP Singh <kpsingh@kernel.org> wrote:
+> > >
+> > > On Sat, Apr 2, 2022 at 1:55 AM Alexei Starovoitov
+> > > <alexei.starovoitov@gmail.com> wrote:
+> > ...
+> > > >
+> > > > > Pinning
+> > > > > them to unreachable inodes intuitively looked the
+> > > > > way to go for achieving the stated goal.
+> > > >
+> > > > We can consider inodes in bpffs that are not unlinkable by root
+> > > > in the future, but certainly not for this use case.
+> > >
+> > > Can this not be already done by adding a BPF_LSM program to the
+> > > inode_unlink LSM hook?
+> > >
+> >
+> > Also, beside of the inode_unlink... and out of curiosity: making sysfs/bpffs/
+> > readonly after pinning, then using bpf LSM hooks
+> > sb_mount|remount|unmount...
+> > family combining bpf() LSM hook... isn't this enough to:
+> > 1. Restrict who can pin to bpffs without using a full MAC
+> > 2. Restrict who can delete or unmount bpf filesystem
+> >
+> > ?
+>
+> I'm thinking to implement something like this.
+>
+> First, I add a new program flag called
+> BPF_F_STOP_ONCONFIRM, which causes the ref count
+> of the link to increase twice at creation time. In this way,
+> user space cannot make the link disappear, unless a
+> confirmation is explicitly sent via the bpf() system call.
+>
+> Another advantage is that other LSMs can decide
+> whether or not they allow a program with this flag
+> (in the bpf security hook).
+>
+> This would work regardless of the method used to
+> load the eBPF program (user space or kernel space).
+>
+> Second, I extend the bpf() system call with a new
+> subcommand, BPF_LINK_CONFIRM_STOP, which
+> decreases the ref count for the link of the programs
+> with the BPF_F_STOP_ONCONFIRM flag. I will also
+> introduce a new security hook (something like
+> security_link_confirm_stop), so that an LSM has the
+> opportunity to deny the stop (the bpf security hook
+> would not be sufficient to determine exactly for
+> which link the confirmation is given, an LSM should
+> be able to deny the stop for its own programs).
+>
+> What do you think?
 
-Agree that adding support for more than one language would be ideal.
-Looking through the gadget functions, most seem to be hardcoded to en-us
-locale and don't provide a way to change the exposed names. Recently
-this was just accepted, which I modeled my change after:
-https://lore.kernel.org/all/20220122112446.1415547-2-t123yh.xyz@gmail.com/
-so at least making USB_CONFIG_STRINGS_LANG more generic would benefit
-the uac and uvc gadgets.
-
+Hack upon a hack? Makes no sense.
