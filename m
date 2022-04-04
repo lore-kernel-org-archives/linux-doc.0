@@ -2,208 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA53BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6F1C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380487AbiDDV1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49412 "EHLO
+        id S1379384AbiDDV2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:28:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379593AbiDDRnx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:43:53 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AFA931DE7;
-        Mon,  4 Apr 2022 10:41:56 -0700 (PDT)
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXJ2M5Zdkz683S6;
-        Tue,  5 Apr 2022 01:40:11 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 4 Apr 2022 19:41:53 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Mon, 4 Apr 2022 19:41:53 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     KP Singh <kpsingh@kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
- programs
-Thread-Topic: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
- programs
-Thread-Index: AQHYQsxoL5kXhl8+JE6PJPNWV+NOTqzYppqAgABrSsCAAo7zgIAAEt0AgARYGMA=
-Date:   Mon, 4 Apr 2022 17:41:53 +0000
-Message-ID: <b702f57ee63640d987055438ec77a016@huawei.com>
-References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
- <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
- <b9f5995f96da447c851f7c9db8232a9b@huawei.com>
- <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
- <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
-In-Reply-To: <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.81.208.245]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S1379654AbiDDRqT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:19 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA37217A93;
+        Mon,  4 Apr 2022 10:44:19 -0700 (PDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234Famfj007508;
+        Mon, 4 Apr 2022 17:44:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=JYqmHVIWAw5o9aOl34JHls+mAicB8Hc5RtAv/xB2qSU=;
+ b=eP0LOLoprXM9lEIy/U5F1xJ/Y4XJhYD1QA4APQMPWDhg+QaXA/dcAo4SiDIcnQgPmWsF
+ 9CowbtnMZbJLiXV6olinVbK47dgv1nqB2LAR6DPu7BadXZGpge6SrKB9Qr/GdIxhrkqZ
+ +4XGKKHRXx/nPy8WPnvxEBMcmlgffiQfln7a2gZUGPsBy/KIDjhWbpRyoXvUx2NdhMT4
+ X7jfiSkAG9UJVLUjnTCtAOMoSlf/O2IUHYsCgT1gx0wEmfcm7qe0HuP8xIppzBYwNt83
+ 3tEml5yBIgyK3EdZr+Zky035F4cqaPZww8YbHb6uOR5MSqaSYnlIAFbkstr9X7ciOxyQ xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6yupcwt3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:18 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234HMo6i014971;
+        Mon, 4 Apr 2022 17:44:17 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6yupcwsr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:17 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234Hh3v8002370;
+        Mon, 4 Apr 2022 17:44:17 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+        by ppma03wdc.us.ibm.com with ESMTP id 3f6e48s68c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:16 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234HiFax35324396
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Apr 2022 17:44:15 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C0036136059;
+        Mon,  4 Apr 2022 17:44:15 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BC0C413604F;
+        Mon,  4 Apr 2022 17:44:13 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  4 Apr 2022 17:44:13 +0000 (GMT)
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+To:     linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 08/21] s390/pci: stash associated GISA designation
+Date:   Mon,  4 Apr 2022 13:43:36 -0400
+Message-Id: <20220404174349.58530-9-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2iZKRaYl_8hfnKzRB2JtiBuqppaTMBdc
+X-Proofpoint-ORIG-GUID: JyaXT67d6GHG3QN6ygX_EIJK5_pds70n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ phishscore=0 adultscore=0 clxscore=1015 mlxlogscore=859 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 spamscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204040099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBLUCBTaW5naCBbbWFpbHRvOmtwc2luZ2hAa2VybmVsLm9yZ10NCj4gU2VudDogU2F0
-dXJkYXksIEFwcmlsIDIsIDIwMjIgMzowMyBBTQ0KPiBPbiBTYXQsIEFwciAyLCAyMDIyIGF0IDE6
-NTUgQU0gQWxleGVpIFN0YXJvdm9pdG92DQo+IDxhbGV4ZWkuc3Rhcm92b2l0b3ZAZ21haWwuY29t
-PiB3cm90ZToNCj4gPg0KPiA+IE9uIFRodSwgTWFyIDMxLCAyMDIyIGF0IDA4OjI1OjIyQU0gKzAw
-MDAsIFJvYmVydG8gU2Fzc3Ugd3JvdGU6DQo+ID4gPiA+IEZyb206IEFsZXhlaSBTdGFyb3ZvaXRv
-diBbbWFpbHRvOmFsZXhlaS5zdGFyb3ZvaXRvdkBnbWFpbC5jb21dDQo+ID4gPiA+IFNlbnQ6IFRo
-dXJzZGF5LCBNYXJjaCAzMSwgMjAyMiA0OjI3IEFNDQo+ID4gPiA+IE9uIE1vbiwgTWFyIDI4LCAy
-MDIyIGF0IDA3OjUwOjE1UE0gKzAyMDAsIFJvYmVydG8gU2Fzc3Ugd3JvdGU6DQo+ID4gPiA+ID4g
-ZUJQRiBhbHJlYWR5IGFsbG93cyBwcm9ncmFtcyB0byBiZSBwcmVsb2FkZWQgYW5kIGtlcHQgcnVu
-bmluZw0KPiB3aXRob3V0DQo+ID4gPiA+ID4gaW50ZXJ2ZW50aW9uIGZyb20gdXNlciBzcGFjZS4g
-VGhlcmUgaXMgYSBkZWRpY2F0ZWQga2VybmVsIG1vZHVsZQ0KPiBjYWxsZWQNCj4gPiA+ID4gPiBi
-cGZfcHJlbG9hZCwgd2hpY2ggY29udGFpbnMgdGhlIGxpZ2h0IHNrZWxldG9uIG9mIHRoZSBpdGVy
-YXRvcnNfYnBmDQo+IGVCUEYNCj4gPiA+ID4gPiBwcm9ncmFtLiBJZiB0aGlzIG1vZHVsZSBpcyBl
-bmFibGVkIGluIHRoZSBrZXJuZWwgY29uZmlndXJhdGlvbiwgaXRzDQo+IGxvYWRpbmcNCj4gPiA+
-ID4gPiB3aWxsIGJlIHRyaWdnZXJlZCB3aGVuIHRoZSBicGYgZmlsZXN5c3RlbSBpcyBtb3VudGVk
-ICh1bmxlc3MgdGhlDQo+IG1vZHVsZSBpcw0KPiA+ID4gPiA+IGJ1aWx0LWluKSwgYW5kIHRoZSBs
-aW5rcyBvZiBpdGVyYXRvcnNfYnBmIGFyZSBwaW5uZWQgaW4gdGhhdCBmaWxlc3lzdGVtDQo+ID4g
-PiA+ID4gKHRoZXkgd2lsbCBhcHBlYXIgYXMgdGhlIHByb2dzLmRlYnVnIGFuZCBtYXBzLmRlYnVn
-IGZpbGVzKS4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEhvd2V2ZXIsIHRoZSBjdXJyZW50IG1lY2hh
-bmlzbSwgaWYgdXNlZCB0byBwcmVsb2FkIGFuIExTTSwgd291bGQNCj4gbm90DQo+ID4gPiA+IG9m
-ZmVyDQo+ID4gPiA+ID4gdGhlIHNhbWUgc2VjdXJpdHkgZ3VhcmFudGVlcyBvZiBMU01zIGludGVn
-cmF0ZWQgaW4gdGhlIHNlY3VyaXR5DQo+ID4gPiA+IHN1YnN5c3RlbS4NCj4gPiA+ID4gPiBBbHNv
-LCBpdCBpcyBub3QgZ2VuZXJpYyBlbm91Z2ggdG8gYmUgdXNlZCBmb3IgcHJlbG9hZGluZyBhcmJp
-dHJhcnkgZUJQRg0KPiA+ID4gPiA+IHByb2dyYW1zLCB1bmxlc3MgdGhlIGJwZl9wcmVsb2FkIGNv
-ZGUgaXMgaGVhdmlseSBtb2RpZmllZC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IE1vcmUgc3BlY2lm
-aWNhbGx5LCB0aGUgc2VjdXJpdHkgcHJvYmxlbXMgYXJlOg0KPiA+ID4gPiA+IC0gYW55IHByb2dy
-YW0gY2FuIGJlIHBpbm5lZCB0byB0aGUgYnBmIGZpbGVzeXN0ZW0gd2l0aG91dCBsaW1pdGF0aW9u
-cw0KPiA+ID4gPiA+ICAgKHVubGVzcyBhIE1BQyBtZWNoYW5pc20gZW5mb3JjZXMgc29tZSByZXN0
-cmljdGlvbnMpOw0KPiA+ID4gPiA+IC0gcHJvZ3JhbXMgYmVpbmcgZXhlY3V0ZWQgY2FuIGJlIHRl
-cm1pbmF0ZWQgYXQgYW55IHRpbWUgYnkgZGVsZXRpbmcNCj4gdGhlDQo+ID4gPiA+ID4gICBwaW5u
-ZWQgb2JqZWN0cyBvciB1bm1vdW50aW5nIHRoZSBicGYgZmlsZXN5c3RlbS4NCj4gPiA+ID4NCj4g
-PiA+ID4gU28gbWFueSB0aGluZ3MgdG8gdW50YW5nbGUgaGVyZS4NCj4gPiA+DQo+ID4gPiBIaSBB
-bGV4ZWkNCj4gPiA+DQo+ID4gPiB0aGFua3MgZm9yIHRha2luZyB0aGUgdGltZSB0byBwcm92aWRl
-IHN1Y2ggZGV0YWlsZWQNCj4gPiA+IGV4cGxhbmF0aW9uLg0KPiA+ID4NCj4gPiA+ID4gVGhlIGFi
-b3ZlIHBhcmFncmFwaHMgYXJlIG1pc2xlYWRpbmcgYW5kIGluY29ycmVjdC4NCj4gPiA+ID4gVGhl
-IGNvbW1pdCBsb2cgc291bmRzIGxpa2UgdGhlcmUgYXJlIHNlY3VyaXR5IGlzc3VlcyB0aGF0IHRo
-aXMNCj4gPiA+ID4gcGF0Y2ggc2V0IGlzIGZpeGluZy4NCj4gPiA+ID4gVGhpcyBpcyBub3QgdHJ1
-ZS4NCj4gDQo+ICsxIHRoZXNlIGFyZSBub3Qgc2VjdXJpdHkgaXNzdWVzLiBUaGV5IGFyZSBsaW1p
-dGF0aW9ucyBvZiB5b3VyIE1BQyBwb2xpY3kuDQo+IA0KPiA+ID4NCj4gPiA+IEkgcmVpdGVyYXRl
-IHRoZSBnb2FsOiBlbmZvcmNlIGEgbWFuZGF0b3J5IHBvbGljeSB3aXRoDQo+ID4gPiBhbiBvdXQt
-b2YtdHJlZSBMU00gKGEga2VybmVsIG1vZHVsZSBpcyBmaW5lKSwgd2l0aCB0aGUNCj4gPiA+IHNh
-bWUgZ3VhcmFudGVlcyBvZiBMU01zIGludGVncmF0ZWQgaW4gdGhlIHNlY3VyaXR5DQo+ID4gPiBz
-dWJzeXN0ZW0uDQo+ID4NCj4gPiBUbyBtYWtlIGl0IDEwMCUgY2xlYXI6DQo+ID4gQW55IGluLWtl
-cm5lbCBmZWF0dXJlIHRoYXQgYmVuZWZpdHMgb3V0LW9mLXRyZWUgbW9kdWxlIHdpbGwgYmUgcmVq
-ZWN0ZWQuDQo+ID4NCj4gPiA+IFRoZSByb290IHVzZXIgaXMgbm90IHBhcnQgb2YgdGhlIFRDQiAo
-aS5lLiBpcyB1bnRydXN0ZWQpLA0KPiA+ID4gYWxsIHRoZSBjaGFuZ2VzIHRoYXQgdXNlciB3YW50
-cyB0byBtYWtlIG11c3QgYmUgc3ViamVjdA0KPiA+ID4gb2YgZGVjaXNpb24gYnkgdGhlIExTTSBl
-bmZvcmNpbmcgdGhlIG1hbmRhdG9yeSBwb2xpY3kuDQo+ID4gPg0KPiA+ID4gSSB0aG91Z2h0IGFi
-b3V0IGFkZGluZyBzdXBwb3J0IGZvciBMU01zIGZyb20ga2VybmVsDQo+ID4gPiBtb2R1bGVzIHZp
-YSBhIG5ldyBidWlsdC1pbiBMU00gKGNhbGxlZCBMb2FkTFNNKSwgYnV0DQo+IA0KPiBLZXJuZWwg
-bW9kdWxlcyBjYW5ub3QgaW1wbGVtZW50IExTTXMsIHRoaXMgaGFzIGFscmVhZHkgYmVlbg0KPiBw
-cm9wb3NlZCBvbiB0aGUgbGlzdHMgYW5kIGhhcyBiZWVuIHJlamVjdGVkLg0KDQpMb29raW5nIGF0
-IGNvbW1pdCBjYjgwZGRjNjcxNTIgKCJicGY6IENvbnZlcnQgYnBmX3ByZWxvYWQua28NCnRvIHVz
-ZSBsaWdodCBza2VsZXRvbi4iKSwgSSBnb3QgdGhhdCBpdCBpcyB0aGUgbW9zdCBlZmZpY2llbnQg
-d2F5DQp0byBsb2FkIGFuIGVCUEYgcHJvZ3JhbSAoZG9lcyBub3QgZXZlbiByZXF1aXJlIGxpYmJw
-ZikuDQoNCkFub3RoZXIgYWR2YW50YWdlIHdhcyB0aGF0IHdlIGdldCBpbnRlZ3JpdHkgdmVyaWZp
-Y2F0aW9uDQpmcm9tIHRoZSBtb2R1bGUgaW5mcmFzdHJ1Y3R1cmUuIFRoaXMgd291bGQgaGF2ZSBi
-ZWVuIHRoZQ0Kb3B0aW1hbCBzb2x1dGlvbiBpbiB0ZXJtcyBvZiBkZXBlbmRlbmNpZXMuIEVuZm9y
-Y2luZw0KaW50ZWdyaXR5IGNvdWxkIGJlIHR1cm5lZCBvbiB3aXRoIHRoZSBtb2R1bGUuc2lnX2Vu
-Zm9yY2UNCmtlcm5lbCBvcHRpb24uDQoNCklmIHdlIHN3aXRjaCB0byB1c2VyIHNwYWNlLCB0aGUg
-Y2hvaWNlIHdvdWxkIGJlIElNQS4NCkhvd2V2ZXIsIGluIG15IHVzZSBjYXNlIChESUdMSU0pIGl0
-IHdvdWxkIGJlIHVzZWQganVzdA0KZm9yIHRoZSBwdXJwb3NlIG9mIGRvaW5nIGludGVncml0eSB2
-ZXJpZmljYXRpb25zIHByZS1pbml0Lg0KDQpUaGlua2luZyB3aGljaCBwb2xpY3kgY291bGQgYmUg
-aW1wbGVtZW50ZWQgZm9yIHN1Y2ggcHVycG9zZSwNCm1heWJlIHNvbWV0aGluZyBsaWtlIGFwcHJh
-aXNlIGV2ZXJ5IHByb2Nlc3MgdGhhdCBpcyBub3QgbGlua2VkDQp0byBhbiBleGVjdXRhYmxlPyBB
-bmQgc2luY2UgdGhlcmUgYXJlIG5vIHhhdHRycyBpbiB0aGUgaW5pdGlhbA0KcmFtIGRpc2ssIGNv
-dWxkIEkgYXBwZW5kIGEgbW9kdWxlIHNpZ25hdHVyZSB0byBhbiBFTEYgYmluYXJ5Pw0KDQpUaGFu
-a3MNCg0KUm9iZXJ0bw0KDQpIVUFXRUkgVEVDSE5PTE9HSUVTIER1ZXNzZWxkb3JmIEdtYkgsIEhS
-QiA1NjA2Mw0KTWFuYWdpbmcgRGlyZWN0b3I6IExpIFBlbmcsIFpob25nIFJvbmdodWENCg0KPiA+
-IFN1Y2ggYXBwcm9hY2ggd2lsbCBiZSByZWplY3RlZC4gU2VlIGFib3ZlLg0KPiA+DQo+ID4gPiA+
-IEkgc3VzcGVjdCB0aGVyZSBpcyBodWdlIGNvbmZ1c2lvbiBvbiB3aGF0IHRoZXNlIHR3byAicHJv
-Z3MuZGVidWciDQo+ID4gPiA+IGFuZCAibWFwcy5kZWJ1ZyIgZmlsZXMgYXJlIGluIGEgYnBmZnMg
-aW5zdGFuY2UuDQo+ID4gPiA+IFRoZXkgYXJlIGRlYnVnIGZpbGVzIHRvIHByZXR0eSBwcmluZyBs
-b2FkZWQgbWFwcyBhbmQgcHJvZ3MgZm9yIGZvbGtzDQo+IHdobw0KPiA+ID4gPiBsaWtlIHRvIHVz
-ZSAnY2F0JyB0byBleGFtaW5lIHRoZSBzdGF0ZSBvZiB0aGUgc3lzdGVtIGluc3RlYWQgb2YgJ2Jw
-ZnRvb2wnLg0KPiA+ID4gPiBUaGUgcm9vdCBjYW4gcmVtb3ZlIHRoZXNlIGZpbGVzIGZyb20gYnBm
-ZnMuDQo+ID4gPiA+DQo+ID4gPiA+IFRoZXJlIGlzIG5vIHJlYXNvbiBmb3Iga2VybmVsIG1vZHVs
-ZSB0byBwaW4gaXRzIGJwZiBwcm9ncy4NCj4gPiA+ID4gSWYgeW91IHdhbnQgdG8gZGV2ZWxvcCBE
-SUdMSU0gYXMgYSBrZXJuZWwgbW9kdWxlIHRoYXQgdXNlcyBsaWdodA0KPiBza2VsZXRvbg0KPiA+
-ID4gPiBqdXN0IGRvOg0KPiA+ID4gPiAjaW5jbHVkZSA8bGludXgvaW5pdC5oPg0KPiA+ID4gPiAj
-aW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gPiA+ICNpbmNsdWRlICJkaWdsaW0ubHNrZWwu
-aCINCj4gPiA+ID4NCj4gPiA+ID4gc3RhdGljIHN0cnVjdCBkaWdsaW1fYnBmICpza2VsOw0KPiA+
-ID4gPg0KPiA+ID4gPiBzdGF0aWMgaW50IF9faW5pdCBsb2FkKHZvaWQpDQo+ID4gPiA+IHsNCj4g
-PiA+ID4gICAgICAgICBza2VsID0gZGlnbGltX2JwZl9fb3Blbl9hbmRfbG9hZCgpOw0KPiA+ID4g
-PiAgICAgICAgIGVyciA9IGRpZ2xpbV9icGZfX2F0dGFjaChza2VsKTsNCj4gPiA+ID4gfQ0KPiA+
-ID4gPiAvKiBkZXRhY2ggc2tlbCBpbiBfX2ZpbmkgKi8NCj4gPiA+ID4NCj4gPiA+ID4gSXQncyBy
-ZWFsbHkgdGhhdCBzaG9ydC4NCj4gPiA+ID4NCj4gPiA+ID4gVGhlbiB5b3Ugd2lsbCBiZSBhYmxl
-IHRvDQo+ID4gPiA+IC0gaW5zbW9kIGRpZ2xpbS5rbyAtPiB3aWxsIGxvYWQgYW5kIGF0dGFjaCBi
-cGYgcHJvZ3MuDQo+ID4gPiA+IC0gcm1tb2QgZGlnbGltIC0+IHdpbGwgZGV0YWNoIHRoZW0uDQo+
-ID4gPg0KPiA+ID4gcm9vdCBjYW4gc3RvcCB0aGUgTFNNIHdpdGhvdXQgY29uc3VsdGluZyB0aGUg
-c2VjdXJpdHkNCj4gPiA+IHBvbGljeS4gVGhlIGdvYWwgb2YgaGF2aW5nIHJvb3QgdW50cnVzdGVk
-IGlzIG5vdCBhY2hpZXZlZC4NCj4gDQo+IE9mY291cnNlLCB0aGlzIGlzIGFuIGlzc3VlLCBpZiB5
-b3UgYXJlIHVzaW5nIEJQRiB0byBkZWZpbmUgYSBNQUMNCj4gcG9saWN5LCB0aGUgcG9saWN5DQo+
-IG5lZWRzIHRvIGJlIGNvbXByZWhlbnNpdmUgdG8gcHJldmVudCBpdHNlbGYgZnJvbSBiZWluZyBv
-dmVycmlkZGVuLiBUaGlzIGlzDQo+IHdoeQ0KPiBXZSBoYXZlIHNvIG1hbnkgTFNNIGhvb2tzLiBJ
-ZiB5b3UgdGhpbmsgc29tZSBhcmUgbWlzc2luZywgbGV0J3MgYWRkIHRoZW0uDQo+IA0KPiBUaGlz
-IGlzIHdoeSBpbXBsZW1lbnRpbmcgYSBwb2xpY3kgaXMgbm90IHRyaXZpYWwsIGJ1dCB3ZSBuZWVk
-IHRvIGFsbG93DQo+IHVzZXJzIHRvIGJ1aWxkDQo+IHN1Y2ggcG9saWNpZXMgd2l0aCB0aGUgaGVs
-cCBmcm9tIHRoZSBrZXJuZWwgYW5kIG5vdCBieSB1c2luZw0KPiBvdXQtb2YtdHJlZSBtb2R1bGVz
-Lg0KPiANCj4gSSBkbyB0aGluayB3ZSBjYW4gYWRkIHNvbWUgbW9yZSBoZWxwZXJzIChlLmcuIGZv
-ciBtb2RpZnlpbmcgeGF0dHJzDQo+IGZyb20gQlBGKSB0aGF0DQo+IHdvdWxkIGhlbHAgdXMgYnVp
-bGQgY29tcGxleCBwb2xpY2llcy4NCj4gDQo+ID4NCj4gPiBPdXQtb2YtdHJlZSBtb2R1bGUgY2Fu
-IGRvIGFueSBoYWNrLg0KPiA+IEZvciBleGFtcGxlOg0KPiA+IDEuIGRvbid0IGRvIGRldGFjaCBz
-a2VsIGluIF9fZmluaQ0KPiA+ICAgcm1tb2Qgd2lsbCByZW1vdmUgdGhlIG1vZHVsZSwgYnV0IGJw
-ZiBwcm9ncyB3aWxsIGtlZXAgcnVubmluZy4NCj4gPiAyLiBkbyBtb2R1bGVfZ2V0KFRISVNfTU9E
-VUxFKSBpbiBfX2luaXQNCj4gPiAgIHJtbW9kIHdpbGwgcmV0dXJuIEVCVVNZDQo+ID4gICBhbmQg
-aGF2ZSBzb21lIG91dC1vZi1iYW5kIHdheSBvZiBkcm9wcGluZyBtb2QgcmVmY250Lg0KPiA+IDMu
-IGhhY2sgaW50byBzeXNfZGVsZXRlX21vZHVsZS4gaWYgbW9kdWxlX25hbWU9PWRpZ2xlbSByZXR1
-cm4gRUJVU1kuDQo+ID4gNC4gYWRkIHByb3BlciBMU00gaG9vayB0byBkZWxldGVfbW9kdWxlDQo+
-IA0KPiArMSBJIHJlY29tbWVuZCB0aGlzIChidXQgbm90IGZyb20gYW4gb3V0IG9mIHRyZWUgbW9k
-dWxlKQ0KPiANCj4gPg0KPiA+ID4gTXkgcG9pbnQgd2FzIHRoYXQgcGlubmluZyBwcm9ncyBzZWVt
-cyB0byBiZSB0aGUNCj4gPiA+IHJlY29tbWVuZGVkIHdheSBvZiBrZWVwaW5nIHRoZW0gcnVubmlu
-Zy4NCj4gPg0KPiA+IE5vdCBxdWl0ZS4gYnBmX2xpbmsgcmVmY250IGlzIHdoYXQga2VlcHMgcHJv
-Z3MgYXR0YWNoZWQuDQo+ID4gYnBmZnMgaXMgbWFpbmx5IHVzZWQgZm9yOg0KPiA+IC0gdG8gcGFz
-cyBtYXBzL2xpbmtzIGZyb20gb25lIHByb2Nlc3MgdG8gYW5vdGhlcg0KPiA+IHdoZW4gcGFzc2lu
-ZyBmZCBpcyBub3QgcG9zc2libGUuDQo+ID4gLSB0byBzb2x2ZSB0aGUgY2FzZSBvZiBjcmFzaGlu
-ZyB1c2VyIHNwYWNlLg0KPiA+IFRoZSB1c2VyIHNwYWNlIGFnZW50IHdpbGwgcmVzdGFydCBhbmQg
-d2lsbCBwaWNrIHVwIHdoZXJlDQo+ID4gaXQncyBsZWZ0IGJ5IHJlYWRpbmcgbWFwLCBsaW5rLCBw
-cm9nIEZEcyBmcm9tIGJwZmZzLg0KPiA+IC0gcGlubmluZyBicGYgaXRlcmF0b3JzIHRoYXQgYXJl
-IGxhdGVyIHVzZWQgdG8gJ2NhdCcgc3VjaCBmaWxlcy4NCj4gPiBUaGF0IGlzIHdoYXQgYnBmX3By
-ZWxvYWQgaXMgZG9pbmcgYnkgY3JlYXRpbmcgdHdvIGRlYnVnDQo+ID4gZmlsZXMgIm1hcHMuZGVi
-dWciIGFuZCAicHJvZ3MuZGVidWciLg0KPiA+DQo+ID4gPiBQaW5uaW5nDQo+ID4gPiB0aGVtIHRv
-IHVucmVhY2hhYmxlIGlub2RlcyBpbnR1aXRpdmVseSBsb29rZWQgdGhlDQo+ID4gPiB3YXkgdG8g
-Z28gZm9yIGFjaGlldmluZyB0aGUgc3RhdGVkIGdvYWwuDQo+ID4NCj4gPiBXZSBjYW4gY29uc2lk
-ZXIgaW5vZGVzIGluIGJwZmZzIHRoYXQgYXJlIG5vdCB1bmxpbmthYmxlIGJ5IHJvb3QNCj4gPiBp
-biB0aGUgZnV0dXJlLCBidXQgY2VydGFpbmx5IG5vdCBmb3IgdGhpcyB1c2UgY2FzZS4NCj4gDQo+
-IENhbiB0aGlzIG5vdCBiZSBhbHJlYWR5IGRvbmUgYnkgYWRkaW5nIGEgQlBGX0xTTSBwcm9ncmFt
-IHRvIHRoZQ0KPiBpbm9kZV91bmxpbmsgTFNNIGhvb2s/DQo+IA0KPiA+DQo+ID4gPiBPciBtYXli
-ZSBJDQo+ID4gPiBzaG91bGQganVzdCBpbmNyZW1lbnQgdGhlIHJlZmVyZW5jZSBjb3VudCBvZiBs
-aW5rcw0KPiA+ID4gYW5kIGRvbid0IGRlY3JlbWVudCBkdXJpbmcgYW4gcm1tb2Q/DQo+ID4NCj4g
-PiBJIHN1Z2dlc3QgdG8gYWJhbmRvbiBvdXQtb2YtdHJlZSBnb2FsLg0KPiA+IE9ubHkgdGhlbiB3
-ZSBjYW4gaGVscCBhbmQgY29udGludWUgdGhpcyBkaXNjdXNzaW9uLg0KPiANCj4gKzENCg==
+For passthrough devices, we will need to know the GISA designation of the
+guest if interpretation facilities are to be used.  Setup to stash this in
+the zdev and set a default of 0 (no GISA designation) for now; a subsequent
+patch will set a valid GISA designation for passthrough devices.
+Also, extend mpcific routines to specify this stashed designation as part
+of the mpcific command.
+
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+---
+ arch/s390/include/asm/pci.h     | 1 +
+ arch/s390/include/asm/pci_clp.h | 3 ++-
+ arch/s390/pci/pci.c             | 6 ++++++
+ arch/s390/pci/pci_clp.c         | 5 +++++
+ arch/s390/pci/pci_irq.c         | 5 +++++
+ 5 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
+index fdb9745ee998..42a4a312a6dd 100644
+--- a/arch/s390/include/asm/pci.h
++++ b/arch/s390/include/asm/pci.h
+@@ -123,6 +123,7 @@ struct zpci_dev {
+ 	enum zpci_state state;
+ 	u32		fid;		/* function ID, used by sclp */
+ 	u32		fh;		/* function handle, used by insn's */
++	u32		gisa;		/* GISA designation for passthrough */
+ 	u16		vfn;		/* virtual function number */
+ 	u16		pchid;		/* physical channel ID */
+ 	u8		pfgid;		/* function group ID */
+diff --git a/arch/s390/include/asm/pci_clp.h b/arch/s390/include/asm/pci_clp.h
+index 1f4b666e85ee..f3286bc5ba6e 100644
+--- a/arch/s390/include/asm/pci_clp.h
++++ b/arch/s390/include/asm/pci_clp.h
+@@ -173,7 +173,8 @@ struct clp_req_set_pci {
+ 	u16 reserved2;
+ 	u8 oc;				/* operation controls */
+ 	u8 ndas;			/* number of dma spaces */
+-	u64 reserved3;
++	u32 reserved3;
++	u32 gisa;			/* GISA designation */
+ } __packed;
+ 
+ /* Set PCI function response */
+diff --git a/arch/s390/pci/pci.c b/arch/s390/pci/pci.c
+index e563cb65c0c4..a86cd1cbb80e 100644
+--- a/arch/s390/pci/pci.c
++++ b/arch/s390/pci/pci.c
+@@ -120,6 +120,7 @@ int zpci_register_ioat(struct zpci_dev *zdev, u8 dmaas,
+ 	fib.pba = base;
+ 	fib.pal = limit;
+ 	fib.iota = iota | ZPCI_IOTA_RTTO_FLAG;
++	fib.gd = zdev->gisa;
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc)
+ 		zpci_dbg(3, "reg ioat fid:%x, cc:%d, status:%d\n", zdev->fid, cc, status);
+@@ -133,6 +134,8 @@ int zpci_unregister_ioat(struct zpci_dev *zdev, u8 dmaas)
+ 	struct zpci_fib fib = {0};
+ 	u8 cc, status;
+ 
++	fib.gd = zdev->gisa;
++
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc)
+ 		zpci_dbg(3, "unreg ioat fid:%x, cc:%d, status:%d\n", zdev->fid, cc, status);
+@@ -160,6 +163,7 @@ int zpci_fmb_enable_device(struct zpci_dev *zdev)
+ 	atomic64_set(&zdev->unmapped_pages, 0);
+ 
+ 	fib.fmb_addr = virt_to_phys(zdev->fmb);
++	fib.gd = zdev->gisa;
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc) {
+ 		kmem_cache_free(zdev_fmb_cache, zdev->fmb);
+@@ -178,6 +182,8 @@ int zpci_fmb_disable_device(struct zpci_dev *zdev)
+ 	if (!zdev->fmb)
+ 		return -EINVAL;
+ 
++	fib.gd = zdev->gisa;
++
+ 	/* Function measurement is disabled if fmb address is zero */
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc == 3) /* Function already gone. */
+diff --git a/arch/s390/pci/pci_clp.c b/arch/s390/pci/pci_clp.c
+index 1057d7af4a55..deed35edea14 100644
+--- a/arch/s390/pci/pci_clp.c
++++ b/arch/s390/pci/pci_clp.c
+@@ -229,12 +229,16 @@ static int clp_set_pci_fn(struct zpci_dev *zdev, u32 *fh, u8 nr_dma_as, u8 comma
+ {
+ 	struct clp_req_rsp_set_pci *rrb;
+ 	int rc, retries = 100;
++	u32 gisa = 0;
+ 
+ 	*fh = 0;
+ 	rrb = clp_alloc_block(GFP_KERNEL);
+ 	if (!rrb)
+ 		return -ENOMEM;
+ 
++	if (command != CLP_SET_DISABLE_PCI_FN)
++		gisa = zdev->gisa;
++
+ 	do {
+ 		memset(rrb, 0, sizeof(*rrb));
+ 		rrb->request.hdr.len = sizeof(rrb->request);
+@@ -243,6 +247,7 @@ static int clp_set_pci_fn(struct zpci_dev *zdev, u32 *fh, u8 nr_dma_as, u8 comma
+ 		rrb->request.fh = zdev->fh;
+ 		rrb->request.oc = command;
+ 		rrb->request.ndas = nr_dma_as;
++		rrb->request.gisa = gisa;
+ 
+ 		rc = clp_req(rrb, CLP_LPS_PCI);
+ 		if (rrb->response.hdr.rsp == CLP_RC_SETPCIFN_BUSY) {
+diff --git a/arch/s390/pci/pci_irq.c b/arch/s390/pci/pci_irq.c
+index f2b3145b6697..a2b42a63a53b 100644
+--- a/arch/s390/pci/pci_irq.c
++++ b/arch/s390/pci/pci_irq.c
+@@ -43,6 +43,7 @@ static int zpci_set_airq(struct zpci_dev *zdev)
+ 	fib.fmt0.aibvo = 0;	/* each zdev has its own interrupt vector */
+ 	fib.fmt0.aisb = virt_to_phys(zpci_sbv->vector) + (zdev->aisb / 64) * 8;
+ 	fib.fmt0.aisbo = zdev->aisb & 63;
++	fib.gd = zdev->gisa;
+ 
+ 	return zpci_mod_fc(req, &fib, &status) ? -EIO : 0;
+ }
+@@ -54,6 +55,8 @@ static int zpci_clear_airq(struct zpci_dev *zdev)
+ 	struct zpci_fib fib = {0};
+ 	u8 cc, status;
+ 
++	fib.gd = zdev->gisa;
++
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc == 3 || (cc == 1 && status == 24))
+ 		/* Function already gone or IRQs already deregistered. */
+@@ -72,6 +75,7 @@ static int zpci_set_directed_irq(struct zpci_dev *zdev)
+ 	fib.fmt = 1;
+ 	fib.fmt1.noi = zdev->msi_nr_irqs;
+ 	fib.fmt1.dibvo = zdev->msi_first_bit;
++	fib.gd = zdev->gisa;
+ 
+ 	return zpci_mod_fc(req, &fib, &status) ? -EIO : 0;
+ }
+@@ -84,6 +88,7 @@ static int zpci_clear_directed_irq(struct zpci_dev *zdev)
+ 	u8 cc, status;
+ 
+ 	fib.fmt = 1;
++	fib.gd = zdev->gisa;
+ 	cc = zpci_mod_fc(req, &fib, &status);
+ 	if (cc == 3 || (cc == 1 && status == 24))
+ 		/* Function already gone or IRQs already deregistered. */
+-- 
+2.27.0
+
