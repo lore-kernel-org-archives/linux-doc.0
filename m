@@ -2,111 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF42C49EA2
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:25:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB61CC3527D
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344386AbiDDV1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:27:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35558 "EHLO
+        id S1379184AbiDDV10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379690AbiDDRvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:51:22 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976D724BC6
-        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 10:49:25 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id l26so5237069ejx.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 10:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vABpGBhTQYtFSOzIwpkJiQp51DmO237fnb6hvRyBNdc=;
-        b=kq6Yz32DSK9zOJ7bPFvcjQc80bzG6ufNST/PLxnAZDgUll2EsHl/7DOBySFQGPGQBO
-         KMODRAMzGVkg4wqeYXpIEQMsuSa51JzFJkHYQV/My/8bthoa0wEAwWm7JnYdhKy4f0IT
-         IYKHfXxzGnqGNhFnMBgVhoIPXAaka/SXRk3ohySgOUIybytsG3xyO6h2D7l0K9voeYoc
-         FYu5KchV6tYEpdQHe9DyEGR2HYvvOlDHDoh49SMaDGfn3ZJuDuFq+z31146fxq/I3vjU
-         3Dn3Z+2p5l8tnkxwc2V2sRlJAeC27tWtZrvSRD17I4uVRkSVjpL8J+bR+U9LjYMfhu8d
-         puPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vABpGBhTQYtFSOzIwpkJiQp51DmO237fnb6hvRyBNdc=;
-        b=kTKwDb+SkrCnYOXGaaa4UGdLD8PWFxxlCEtXB6sn/VamvjezZIuvV93LLVImmPkARY
-         Lg9SzPZudVDKy0bqSzsUI6I3qEm9gmCk7se/uZFIhBW9gFPx6Fx8WbLh3uTJ+r+90lvV
-         XaXWB0lseE45LkRGPHZRUwU55VSAsDaPhrAueamm/QLQofeQuCDNXkb8RXzxuNdXKbG7
-         wF1Kmb5f+hFZRgAHfJJRYxmCa575FuJh2kHhcn+ADTfzFFtayW6pwe9ZxCc6QunWt/W2
-         Gb7MfV8GMNER9j8pb/zGfVtIjE40VbxeZH9ywThPqUgggQINJUidTgy5JZYM/EonqTc6
-         jrvA==
-X-Gm-Message-State: AOAM530spspOjScumVYM7DrBF9zT65BaygynIfyp8G1cPgiEsEqfUf9J
-        AuRs24J5XNDrXhMETIUs4YIG0+gnu3iL8pPBbmUFGQ==
-X-Google-Smtp-Source: ABdhPJxeKG3vf8CXWCkQRoUM6NvTL32UYsKMz1d5IhptaAJYwGgG3KUfWseo+ekkT3O/3+91ErXB7keFFH7bAAKG860=
-X-Received: by 2002:a17:906:7304:b0:6da:9243:865 with SMTP id
- di4-20020a170906730400b006da92430865mr1195561ejc.665.1649094563498; Mon, 04
- Apr 2022 10:49:23 -0700 (PDT)
+        with ESMTP id S1379667AbiDDRqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:35 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE0413EBA;
+        Mon,  4 Apr 2022 10:44:39 -0700 (PDT)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234He88O029286;
+        Mon, 4 Apr 2022 17:44:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=PuQofBb7+tIYgxq4WjR9Y7Armh4WYhCMUVtj9AtLoyE=;
+ b=cnS9XcMz+V76DUhFjJ89tylwb5/2riwtL9jR0bJT4QT6CYxyEKjPGup8AcRR7xmJ2XwX
+ sx3P8bo4Mq96Or9ER4fFHT1a6xY8WKptJJ2OADHxBRQfj4A1N1/YHLt6S/U2qTRIVc5R
+ JnD9HQIGkrVcVSeIHimMxf3zqeCgoM7uEKijoi6YYSg7PmSlr28DVYD1jK4xf8zKxUNw
+ /O2TXuCiL8+MlBh4Zi+7WhAuuKlZppqXq5mg86C2SsygVtIMbbHRFKSF8MiM9eShuJr5
+ wz88+FWzUN5OfcEuBcGzbDMGNWLcjimEbeP04k00c/QSlpEa2FwNAR+x7MIDV1trvxKh eA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f81v978c8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:38 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234HicwC022661;
+        Mon, 4 Apr 2022 17:44:38 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f81v978b5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:38 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234HhLYW026088;
+        Mon, 4 Apr 2022 17:44:37 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+        by ppma01dal.us.ibm.com with ESMTP id 3f6e49ng8n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:37 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234HiZGc9044354
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Apr 2022 17:44:36 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D86C1136055;
+        Mon,  4 Apr 2022 17:44:35 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 85D99136051;
+        Mon,  4 Apr 2022 17:44:33 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  4 Apr 2022 17:44:33 +0000 (GMT)
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+To:     linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 17/21] vfio-pci/zdev: add function handle to clp base capability
+Date:   Mon,  4 Apr 2022 13:43:45 -0400
+Message-Id: <20220404174349.58530-18-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-3-tjmercier@google.com> <YkM6/57mVxoNfSvm@slm.duckdns.org>
- <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com> <Ykst5K/cI+DUVc94@slm.duckdns.org>
-In-Reply-To: <Ykst5K/cI+DUVc94@slm.duckdns.org>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 4 Apr 2022 10:49:12 -0700
-Message-ID: <CABdmKX3LR1h_tac+UCCXf57hhDQ9CmmmYe2ymS8ZFiDA9Mcv4w@mail.gmail.com>
-Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
- attribution of GPU memory
-To:     Tejun Heo <tj@kernel.org>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: D6dD33uBEkCkzYVDBFpLQLLCmJ-UXAro
+X-Proofpoint-ORIG-GUID: bCJlpt2SngnaCmqJ1ZsZTkuTIkibVIHG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 clxscore=1015 impostorscore=0 phishscore=0 adultscore=0
+ mlxlogscore=969 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204040099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 4, 2022 at 10:42 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Wed, Mar 30, 2022 at 01:56:09PM -0700, T.J. Mercier wrote:
-> > The use case we have for accounting the total (separate from the
-> > individual devices) is to include the value as part of bugreports, for
-> > understanding the system-wide amount of dmabuf allocations. I'm not
-> > aware of an existing need to limit the total. Admittedly this is just
-> > the sum over the devices, but we currently maintain out of tree code
-> > to do this sort of thing today. [1]
->
-> So, drop this part?
+The function handle is a system-wide unique identifier for a zPCI
+device.  It is used as input for various zPCI operations.
 
-Ok, will do - I'll drop the "total" limitation text from the series.
->
-> Thanks.
->
-> --
-> tejun
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+---
+ drivers/vfio/pci/vfio_pci_zdev.c | 5 +++--
+ include/uapi/linux/vfio_zdev.h   | 3 +++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/vfio/pci/vfio_pci_zdev.c b/drivers/vfio/pci/vfio_pci_zdev.c
+index ea4c0d2b0663..4a653ce480c7 100644
+--- a/drivers/vfio/pci/vfio_pci_zdev.c
++++ b/drivers/vfio/pci/vfio_pci_zdev.c
+@@ -23,14 +23,15 @@ static int zpci_base_cap(struct zpci_dev *zdev, struct vfio_info_cap *caps)
+ {
+ 	struct vfio_device_info_cap_zpci_base cap = {
+ 		.header.id = VFIO_DEVICE_INFO_CAP_ZPCI_BASE,
+-		.header.version = 1,
++		.header.version = 2,
+ 		.start_dma = zdev->start_dma,
+ 		.end_dma = zdev->end_dma,
+ 		.pchid = zdev->pchid,
+ 		.vfn = zdev->vfn,
+ 		.fmb_length = zdev->fmb_length,
+ 		.pft = zdev->pft,
+-		.gid = zdev->pfgid
++		.gid = zdev->pfgid,
++		.fh = zdev->fh
+ 	};
+ 
+ 	return vfio_info_add_capability(caps, &cap.header, sizeof(cap));
+diff --git a/include/uapi/linux/vfio_zdev.h b/include/uapi/linux/vfio_zdev.h
+index b4309397b6b2..78c022af3d29 100644
+--- a/include/uapi/linux/vfio_zdev.h
++++ b/include/uapi/linux/vfio_zdev.h
+@@ -29,6 +29,9 @@ struct vfio_device_info_cap_zpci_base {
+ 	__u16 fmb_length;	/* Measurement Block Length (in bytes) */
+ 	__u8 pft;		/* PCI Function Type */
+ 	__u8 gid;		/* PCI function group ID */
++	/* End of version 1 */
++	__u32 fh;		/* PCI function handle */
++	/* End of version 2 */
+ };
+ 
+ /**
+-- 
+2.27.0
+
