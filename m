@@ -2,72 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1710C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 14:33:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F8DC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 14:59:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346755AbiDDOff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 10:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
+        id S1357928AbiDDPA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 11:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349018AbiDDOfe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 10:35:34 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7600CB36;
-        Mon,  4 Apr 2022 07:33:34 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id p15so20346773ejc.7;
-        Mon, 04 Apr 2022 07:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=A6ZKWiB8I5M3lzcB/2FclWNwcHmfaxvPuNrwRz+p3L0=;
-        b=DDBYGAa8jgRjFHHIRay7N+XCJqZbhF+ucEYop10+z0gj4BmoSIePmHHqnTGduLv6x8
-         88/UDzxtXvDJpoqgPb7SFb7FF2QymMIQL7Z8ftS5kDDbbyg13kP65audUjsi8jAu0kXH
-         cp4ffBJU3nSRtaJ8qgDcaHkQkluAUZ2JunmFEXF3slHRgK4c7MQDMeqMycJKOEquGRiq
-         1qFaYON7/nmgRQZO0UzE5ORSWmW7EckOjuJ01LHGew4Qdw+PFyWy/qMbgfHTySLkeh7/
-         DfoB0m2r2hJXPe27bMOgGmj21e4awfXJOGUuUanrdOK2lhW3nX45E/zMfYgFUzqhby7t
-         s2UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=A6ZKWiB8I5M3lzcB/2FclWNwcHmfaxvPuNrwRz+p3L0=;
-        b=Ybezob/9xNwPSH6VaTWuMg+VVQ+qBZrhsNM+p4AH0/qDmcstCu+9s/x++EFniyOGiW
-         tCqqyA7FyfE+6pAIWu1TBuvZN+wnO+8ZTHKQEPVGbEJ3i3kFO97Bbwa8Q3IcuALBr33L
-         2vZDcDiYZXGdxuoonWbJQuH0FlN7bJE0rXR9dvjeT6kBRhWSGZYX3PfAUyDHOIltaMWt
-         KpH1Z4i0tn8KmXBJkJj6TaoBan6yT7ERAvUUDNk4lQoTftRtVm9KjFR3rw3YY9Q7Vx3I
-         Bxmp3LgcViEvqMK89Pld2QEF5Z309Q2b8XM2j1tsRCCEjirbfs/51IB1KNT1OnUEd3re
-         6yhQ==
-X-Gm-Message-State: AOAM5310you5mCAo3VDiQ9dUdEYgPK3KrkOdcAe7hLRxUfHTHt1gh0P8
-        /crEnCMrvWB+i3LDgvGn01U=
-X-Google-Smtp-Source: ABdhPJyV6jFP4PFp0F4ukAS+Pz3sVvHdOiTpHInr1obDz5xfyJi4fNElteCbEWhIBo/NNCZtjj8frw==
-X-Received: by 2002:a17:907:6d15:b0:6e7:7c12:b06d with SMTP id sa21-20020a1709076d1500b006e77c12b06dmr347815ejc.594.1649082812812;
-        Mon, 04 Apr 2022 07:33:32 -0700 (PDT)
-Received: from fedora ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id sa19-20020a170906edb300b006e7fd5bfd51sm635338ejb.177.2022.04.04.07.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 07:33:32 -0700 (PDT)
-Date:   Mon, 4 Apr 2022 16:33:30 +0200
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Octo
-Message-ID: <YksBulZ/zU/4aB+N@fedora>
-References: <20220404134212.9690-1-savicaleksa83@gmail.com>
- <20220404135707.GA3283128@roeck-us.net>
+        with ESMTP id S1378321AbiDDPAy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 11:00:54 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40A2DEFB;
+        Mon,  4 Apr 2022 07:58:56 -0700 (PDT)
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXDQK2q0hz687B7;
+        Mon,  4 Apr 2022 22:57:13 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 16:58:54 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 15:58:52 +0100
+From:   John Garry <john.garry@huawei.com>
+To:     <damien.lemoal@opensource.wdc.com>, <hch@lst.de>
+CC:     <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        John Garry <john.garry@huawei.com>
+Subject: [PATCH v2 1/2] libata: Use scsi cmnd budget token for qc tag for SAS host
+Date:   Mon, 4 Apr 2022 22:53:09 +0800
+Message-ID: <1649083990-207133-2-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
+References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220404135707.GA3283128@roeck-us.net>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+For attaining a qc tag for a SAS host we need to allocate a bit in
+ata_port.sas_tag_allocated bitmap.
 
-Thank you!
+However we already have a unique tag per device in range
+[0, ATA_MAX_QUEUE) in the scsi cmnd budget token, so just use that
+instead.
 
-Aleksa
+Signed-off-by: John Garry <john.garry@huawei.com>
+---
+ drivers/ata/libata-core.c | 14 +++++---------
+ drivers/ata/libata-sata.c | 25 ++++---------------------
+ drivers/ata/libata-scsi.c |  2 +-
+ drivers/ata/libata.h      |  7 +++----
+ include/linux/libata.h    |  1 -
+ 5 files changed, 13 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index cceedde51126..1067b2e2be28 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -4566,14 +4566,15 @@ void swap_buf_le16(u16 *buf, unsigned int buf_words)
+ /**
+  *	ata_qc_new_init - Request an available ATA command, and initialize it
+  *	@dev: Device from whom we request an available command structure
+- *	@tag: tag
++ *	@scmd: scmd for which to get qc
+  *
+  *	LOCKING:
+  *	None.
+  */
+ 
+-struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
++struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, struct scsi_cmnd *scmd)
+ {
++	int tag = scsi_cmd_to_rq(scmd)->tag;
+ 	struct ata_port *ap = dev->link->ap;
+ 	struct ata_queued_cmd *qc;
+ 
+@@ -4583,7 +4584,7 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
+ 
+ 	/* libsas case */
+ 	if (ap->flags & ATA_FLAG_SAS_HOST) {
+-		tag = ata_sas_allocate_tag(ap);
++		tag = ata_sas_get_tag(scmd);
+ 		if (tag < 0)
+ 			return NULL;
+ 	}
+@@ -4611,19 +4612,14 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
+  */
+ void ata_qc_free(struct ata_queued_cmd *qc)
+ {
+-	struct ata_port *ap;
+ 	unsigned int tag;
+ 
+ 	WARN_ON_ONCE(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
+-	ap = qc->ap;
+ 
+ 	qc->flags = 0;
+ 	tag = qc->tag;
+-	if (ata_tag_valid(tag)) {
++	if (ata_tag_valid(tag))
+ 		qc->tag = ATA_TAG_POISON;
+-		if (ap->flags & ATA_FLAG_SAS_HOST)
+-			ata_sas_free_tag(tag, ap);
+-	}
+ }
+ 
+ void __ata_qc_complete(struct ata_queued_cmd *qc)
+diff --git a/drivers/ata/libata-sata.c b/drivers/ata/libata-sata.c
+index 044a16daa2d4..c3e9fd7d920c 100644
+--- a/drivers/ata/libata-sata.c
++++ b/drivers/ata/libata-sata.c
+@@ -1268,29 +1268,12 @@ int ata_sas_queuecmd(struct scsi_cmnd *cmd, struct ata_port *ap)
+ }
+ EXPORT_SYMBOL_GPL(ata_sas_queuecmd);
+ 
+-int ata_sas_allocate_tag(struct ata_port *ap)
++int ata_sas_get_tag(struct scsi_cmnd *scmd)
+ {
+-	unsigned int max_queue = ap->host->n_tags;
+-	unsigned int i, tag;
++	if (WARN_ON_ONCE(scmd->budget_token >= ATA_MAX_QUEUE))
++		return -1;
+ 
+-	for (i = 0, tag = ap->sas_last_tag + 1; i < max_queue; i++, tag++) {
+-		tag = tag < max_queue ? tag : 0;
+-
+-		/* the last tag is reserved for internal command. */
+-		if (ata_tag_internal(tag))
+-			continue;
+-
+-		if (!test_and_set_bit(tag, &ap->sas_tag_allocated)) {
+-			ap->sas_last_tag = tag;
+-			return tag;
+-		}
+-	}
+-	return -1;
+-}
+-
+-void ata_sas_free_tag(unsigned int tag, struct ata_port *ap)
+-{
+-	clear_bit(tag, &ap->sas_tag_allocated);
++	return scmd->budget_token;
+ }
+ 
+ /**
+diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
+index 06c9d90238d9..61dd7f7c7743 100644
+--- a/drivers/ata/libata-scsi.c
++++ b/drivers/ata/libata-scsi.c
+@@ -640,7 +640,7 @@ static struct ata_queued_cmd *ata_scsi_qc_new(struct ata_device *dev,
+ {
+ 	struct ata_queued_cmd *qc;
+ 
+-	qc = ata_qc_new_init(dev, scsi_cmd_to_rq(cmd)->tag);
++	qc = ata_qc_new_init(dev, cmd);
+ 	if (qc) {
+ 		qc->scsicmd = cmd;
+ 		qc->scsidone = scsi_done;
+diff --git a/drivers/ata/libata.h b/drivers/ata/libata.h
+index c9c2496d91ea..92e52090165b 100644
+--- a/drivers/ata/libata.h
++++ b/drivers/ata/libata.h
+@@ -44,7 +44,7 @@ static inline void ata_force_cbl(struct ata_port *ap) { }
+ #endif
+ extern u64 ata_tf_to_lba(const struct ata_taskfile *tf);
+ extern u64 ata_tf_to_lba48(const struct ata_taskfile *tf);
+-extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag);
++extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, struct scsi_cmnd *scmd);
+ extern int ata_build_rw_tf(struct ata_taskfile *tf, struct ata_device *dev,
+ 			   u64 block, u32 n_block, unsigned int tf_flags,
+ 			   unsigned int tag, int class);
+@@ -93,10 +93,9 @@ extern unsigned int ata_read_log_page(struct ata_device *dev, u8 log,
+ 
+ /* libata-sata.c */
+ #ifdef CONFIG_SATA_HOST
+-int ata_sas_allocate_tag(struct ata_port *ap);
+-void ata_sas_free_tag(unsigned int tag, struct ata_port *ap);
++int ata_sas_get_tag(struct scsi_cmnd *scmd);
+ #else
+-static inline int ata_sas_allocate_tag(struct ata_port *ap)
++static inline int ata_sas_get_tag(struct scsi_cmnd *scmd)
+ {
+ 	return -EOPNOTSUPP;
+ }
+diff --git a/include/linux/libata.h b/include/linux/libata.h
+index 9b1d3d8b1252..16107122e587 100644
+--- a/include/linux/libata.h
++++ b/include/linux/libata.h
+@@ -820,7 +820,6 @@ struct ata_port {
+ 	unsigned int		cbl;	/* cable type; ATA_CBL_xxx */
+ 
+ 	struct ata_queued_cmd	qcmd[ATA_MAX_QUEUE + 1];
+-	unsigned long		sas_tag_allocated; /* for sas tag allocation only */
+ 	u64			qc_active;
+ 	int			nr_active_links; /* #links with active qcs */
+ 	unsigned int		sas_last_tag;	/* track next tag hw expects */
+-- 
+2.26.2
+
