@@ -2,343 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1542C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E74DC4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380208AbiDDV2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54028 "EHLO
+        id S1380285AbiDDV2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379669AbiDDRqk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:40 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C0C13EBA;
-        Mon,  4 Apr 2022 10:44:44 -0700 (PDT)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234Haknx033485;
-        Mon, 4 Apr 2022 17:44:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=AjtQsh5rW+jDZVIqwf3G/i+49LUHP0WqDT2JEw/jxhA=;
- b=QuTWcXTVWgZdG1CjdQttCsqwViFZo2xbB/R08eEcnKZb6l3VUAJP24bzXrZ5d0XilMV+
- 2/xsTuPe4j3zKkJ5Ir4Ju+Deph+EMiar444sYavCUim2FzfB3sR5kHFgAb/ibyxGXyka
- QtREaMvwp3BGZ7fhNTvzZpZkL9sru8HbC18jL3a77y25JE8TiMIMTlJ4zMpq3IkJudGM
- fSNYjWovds8R0l6QXo3UxBZJv0JSZNr42CFZjk7Zswvb2onh0DpzajHG+QuZZ2NiFNEH
- oLSI4JdQDahZ8SBnaJTnjYtyqmZ6/AeB0ixUCqJe8936xHmwQeMcdMytDz0XaeFH2o6S 5A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f82rbwm0j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:43 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234Hf1km008436;
-        Mon, 4 Apr 2022 17:44:43 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f82rbwm00-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:43 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234HhLKX026081;
-        Mon, 4 Apr 2022 17:44:42 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma01dal.us.ibm.com with ESMTP id 3f6e49ng92-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:42 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234Hiew313959424
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 4 Apr 2022 17:44:40 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 50FF113605E;
-        Mon,  4 Apr 2022 17:44:40 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 432CC136051;
-        Mon,  4 Apr 2022 17:44:38 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  4 Apr 2022 17:44:38 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 19/21] KVM: s390: add KVM_S390_ZPCI_OP to manage guest zPCI devices
-Date:   Mon,  4 Apr 2022 13:43:47 -0400
-Message-Id: <20220404174349.58530-20-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+        with ESMTP id S1379526AbiDDRW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:22:59 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4081E3E9;
+        Mon,  4 Apr 2022 10:21:02 -0700 (PDT)
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXHYv3f92z67MtS;
+        Tue,  5 Apr 2022 01:18:59 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 19:20:59 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Mon, 4 Apr 2022 19:20:59 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Djalal Harouni <tixxdz@gmail.com>, KP Singh <kpsingh@kernel.org>
+CC:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
+ programs
+Thread-Topic: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
+ programs
+Thread-Index: AQHYQsxoL5kXhl8+JE6PJPNWV+NOTqzYppqAgABrSsCAAo7zgIAAEt0AgAOU8YCAALoz0A==
+Date:   Mon, 4 Apr 2022 17:20:59 +0000
+Message-ID: <c2e57f10b62940eba3cfcae996e20e3c@huawei.com>
+References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
+ <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <b9f5995f96da447c851f7c9db8232a9b@huawei.com>
+ <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
+ <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com>
+In-Reply-To: <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.81.208.245]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _QYHELKmVqeGwRvnaizSRh1Me4cnqxV4
-X-Proofpoint-ORIG-GUID: 4CJU_bN5gQ91uAu6kADft5KeALA-Llx-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204040099
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The KVM_S390_ZPCI_OP ioctl provides a mechanism for managing
-hardware-assisted virtualization features for s390X zPCI passthrough.
-Add the first 2 operations, which can be used to enable/disable
-the specified device for Adapter Event Notification interpretation.
-
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- Documentation/virt/kvm/api.rst | 45 +++++++++++++++++++++++
- arch/s390/kvm/kvm-s390.c       | 23 ++++++++++++
- arch/s390/kvm/pci.c            | 65 ++++++++++++++++++++++++++++++++++
- arch/s390/kvm/pci.h            |  2 ++
- include/uapi/linux/kvm.h       | 31 ++++++++++++++++
- 5 files changed, 166 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d13fa6600467..474f502c2ea0 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5645,6 +5645,51 @@ enabled with ``arch_prctl()``, but this may change in the future.
- The offsets of the state save areas in struct kvm_xsave follow the contents
- of CPUID leaf 0xD on the host.
- 
-+4.135 KVM_S390_ZPCI_OP
-+--------------------
-+
-+:Capability: KVM_CAP_S390_ZPCI_OP
-+:Architectures: s390
-+:Type: vcpu ioctl
-+:Parameters: struct kvm_s390_zpci_op (in)
-+:Returns: 0 on success, <0 on error
-+
-+Used to manage hardware-assisted virtualization features for zPCI devices.
-+
-+Parameters are specified via the following structure::
-+
-+  struct kvm_s390_zpci_op {
-+	/* in */
-+	__u32 fh;		/* target device */
-+	__u8  op;		/* operation to perform */
-+	__u8  pad[3];
-+	union {
-+		/* for KVM_S390_ZPCIOP_REG_AEN */
-+		struct {
-+			__u64 ibv;	/* Guest addr of interrupt bit vector */
-+			__u64 sb;	/* Guest addr of summary bit */
-+			__u32 flags;
-+			__u32 noi;	/* Number of interrupts */
-+			__u8 isc;	/* Guest interrupt subclass */
-+			__u8 sbo;	/* Offset of guest summary bit vector */
-+			__u16 pad;
-+		} reg_aen;
-+		__u64 reserved[8];
-+	} u;
-+  };
-+
-+The type of operation is specified in the "op" field.
-+KVM_S390_ZPCIOP_REG_AEN is used to register the VM for adapter event
-+notification interpretation, which will allow firmware delivery of adapter
-+events directly to the vm, with KVM providing a backup delivery mechanism;
-+KVM_S390_ZPCIOP_DEREG_AEN is used to subsequently disable interpretation of
-+adapter event notifications.
-+
-+The target zPCI function must also be specified via the "fh" field.  For the
-+KVM_S390_ZPCIOP_REG_AEN operation, additional information to establish firmware
-+delivery must be provided via the "reg_aen" struct.
-+
-+The "reserved" field is meant for future extensions.
- 
- 5. The kvm_run structure
- ========================
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index 704d85214f4f..65a53e22f686 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -616,6 +616,12 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_S390_PROTECTED:
- 		r = is_prot_virt_host();
- 		break;
-+	case KVM_CAP_S390_ZPCI_OP:
-+		if (kvm_s390_pci_interp_allowed())
-+			r = 1;
-+		else
-+			r = 0;
-+		break;
- 	default:
- 		r = 0;
- 	}
-@@ -2621,6 +2627,23 @@ long kvm_arch_vm_ioctl(struct file *filp,
- 			r = -EFAULT;
- 		break;
- 	}
-+	case KVM_S390_ZPCI_OP: {
-+		struct kvm_s390_zpci_op args;
-+
-+		r = -EINVAL;
-+		if (!IS_ENABLED(CONFIG_VFIO_PCI))
-+			break;
-+		if (copy_from_user(&args, argp, sizeof(args))) {
-+			r = -EFAULT;
-+			break;
-+		}
-+		r = kvm_s390_pci_zpci_op(kvm, &args);
-+		if (r)
-+			break;
-+		if (copy_to_user(argp, &args, sizeof(args)))
-+			r = -EFAULT;
-+		break;
-+	}
- 	default:
- 		r = -ENOTTY;
- 	}
-diff --git a/arch/s390/kvm/pci.c b/arch/s390/kvm/pci.c
-index 66565f5f3f43..d941657bcb39 100644
---- a/arch/s390/kvm/pci.c
-+++ b/arch/s390/kvm/pci.c
-@@ -588,6 +588,71 @@ void kvm_s390_pci_clear_list(struct kvm *kvm)
- 		unregister_kvm(kzdev->zdev);
- }
- 
-+static struct kvm_zdev *get_kzdev_by_fh(struct kvm *kvm, u32 fh)
-+{
-+	struct kvm_zdev *kzdev, *retval = NULL;
-+
-+	spin_lock(&kvm->arch.kzdev_list_lock);
-+	list_for_each_entry(kzdev, &kvm->arch.kzdev_list, entry) {
-+		if (kzdev->zdev->fh == fh) {
-+			retval = kzdev;
-+			break;
-+		}
-+	}
-+	spin_unlock(&kvm->arch.kzdev_list_lock);
-+
-+	return retval;
-+}
-+
-+static int kvm_s390_pci_zpci_reg_aen(struct zpci_dev *zdev,
-+				     struct kvm_s390_zpci_op *args)
-+{
-+	struct zpci_fib fib = {};
-+
-+	fib.fmt0.aibv = args->u.reg_aen.ibv;
-+	fib.fmt0.isc = args->u.reg_aen.isc;
-+	fib.fmt0.noi = args->u.reg_aen.noi;
-+	if (args->u.reg_aen.sb != 0) {
-+		fib.fmt0.aisb = args->u.reg_aen.sb;
-+		fib.fmt0.aisbo = args->u.reg_aen.sbo;
-+		fib.fmt0.sum = 1;
-+	} else {
-+		fib.fmt0.aisb = 0;
-+		fib.fmt0.aisbo = 0;
-+		fib.fmt0.sum = 0;
-+	}
-+
-+	if (args->u.reg_aen.flags & KVM_S390_ZPCIOP_REGAEN_HOST)
-+		return kvm_s390_pci_aif_enable(zdev, &fib, true);
-+	else
-+		return kvm_s390_pci_aif_enable(zdev, &fib, false);
-+}
-+
-+int kvm_s390_pci_zpci_op(struct kvm *kvm, struct kvm_s390_zpci_op *args)
-+{
-+	struct kvm_zdev *kzdev;
-+	struct zpci_dev *zdev;
-+	int r;
-+
-+	kzdev = get_kzdev_by_fh(kvm, args->fh);
-+	if (!kzdev)
-+		return -ENODEV;
-+	zdev = kzdev->zdev;
-+
-+	switch (args->op) {
-+	case KVM_S390_ZPCIOP_REG_AEN:
-+		r = kvm_s390_pci_zpci_reg_aen(zdev, args);
-+		break;
-+	case KVM_S390_ZPCIOP_DEREG_AEN:
-+		r = kvm_s390_pci_aif_disable(zdev, false);
-+		break;
-+	default:
-+		r = -EINVAL;
-+	}
-+
-+	return r;
-+}
-+
- int kvm_s390_pci_init(void)
- {
- 	aift = kzalloc(sizeof(struct zpci_aift), GFP_KERNEL);
-diff --git a/arch/s390/kvm/pci.h b/arch/s390/kvm/pci.h
-index cb5ec3208923..b053b50c0904 100644
---- a/arch/s390/kvm/pci.h
-+++ b/arch/s390/kvm/pci.h
-@@ -59,6 +59,8 @@ void kvm_s390_pci_aen_exit(void);
- void kvm_s390_pci_init_list(struct kvm *kvm);
- void kvm_s390_pci_clear_list(struct kvm *kvm);
- 
-+int kvm_s390_pci_zpci_op(struct kvm *kvm, struct kvm_s390_zpci_op *args);
-+
- int kvm_s390_pci_init(void);
- 
- static inline bool kvm_s390_pci_interp_allowed(void)
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 91a6fe4e02c0..014adb30d42c 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1144,6 +1144,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_S390_MEM_OP_EXTENSION 211
- #define KVM_CAP_PMU_CAPABILITY 212
- #define KVM_CAP_DISABLE_QUIRKS2 213
-+#define KVM_CAP_S390_ZPCI_OP 214
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-@@ -2060,4 +2061,34 @@ struct kvm_stats_desc {
- /* Available with KVM_CAP_XSAVE2 */
- #define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
- 
-+/* Available with KVM_CAP_S390_ZPCI_OP */
-+#define KVM_S390_ZPCI_OP	  _IOW(KVMIO,  0xd0, struct kvm_s390_zpci_op)
-+
-+struct kvm_s390_zpci_op {
-+	/* in */
-+	__u32 fh;		/* target device */
-+	__u8  op;		/* operation to perform */
-+	__u8  pad[3];
-+	union {
-+		/* for KVM_S390_ZPCIOP_REG_AEN */
-+		struct {
-+			__u64 ibv;	/* Guest addr of interrupt bit vector */
-+			__u64 sb;	/* Guest addr of summary bit */
-+			__u32 flags;
-+			__u32 noi;	/* Number of interrupts */
-+			__u8 isc;	/* Guest interrupt subclass */
-+			__u8 sbo;	/* Offset of guest summary bit vector */
-+			__u16 pad;
-+		} reg_aen;
-+		__u64 reserved[8];
-+	} u;
-+};
-+
-+/* types for kvm_s390_zpci_op->op */
-+#define KVM_S390_ZPCIOP_REG_AEN		0
-+#define KVM_S390_ZPCIOP_DEREG_AEN	1
-+
-+/* flags for kvm_s390_zpci_op->u.reg_aen.flags */
-+#define KVM_S390_ZPCIOP_REGAEN_HOST	(1 << 0)
-+
- #endif /* __LINUX_KVM_H */
--- 
-2.27.0
-
+PiBGcm9tOiBEamFsYWwgSGFyb3VuaSBbbWFpbHRvOnRpeHhkekBnbWFpbC5jb21dDQo+IFNlbnQ6
+IE1vbmRheSwgQXByaWwgNCwgMjAyMiA5OjQ1IEFNDQo+IE9uIFN1biwgQXByIDMsIDIwMjIgYXQg
+NTo0MiBQTSBLUCBTaW5naCA8a3BzaW5naEBrZXJuZWwub3JnPiB3cm90ZToNCj4gPg0KPiA+IE9u
+IFNhdCwgQXByIDIsIDIwMjIgYXQgMTo1NSBBTSBBbGV4ZWkgU3Rhcm92b2l0b3YNCj4gPiA8YWxl
+eGVpLnN0YXJvdm9pdG92QGdtYWlsLmNvbT4gd3JvdGU6DQo+IC4uLg0KPiA+ID4NCj4gPiA+ID4g
+UGlubmluZw0KPiA+ID4gPiB0aGVtIHRvIHVucmVhY2hhYmxlIGlub2RlcyBpbnR1aXRpdmVseSBs
+b29rZWQgdGhlDQo+ID4gPiA+IHdheSB0byBnbyBmb3IgYWNoaWV2aW5nIHRoZSBzdGF0ZWQgZ29h
+bC4NCj4gPiA+DQo+ID4gPiBXZSBjYW4gY29uc2lkZXIgaW5vZGVzIGluIGJwZmZzIHRoYXQgYXJl
+IG5vdCB1bmxpbmthYmxlIGJ5IHJvb3QNCj4gPiA+IGluIHRoZSBmdXR1cmUsIGJ1dCBjZXJ0YWlu
+bHkgbm90IGZvciB0aGlzIHVzZSBjYXNlLg0KPiA+DQo+ID4gQ2FuIHRoaXMgbm90IGJlIGFscmVh
+ZHkgZG9uZSBieSBhZGRpbmcgYSBCUEZfTFNNIHByb2dyYW0gdG8gdGhlDQo+ID4gaW5vZGVfdW5s
+aW5rIExTTSBob29rPw0KPiA+DQo+IA0KPiBBbHNvLCBiZXNpZGUgb2YgdGhlIGlub2RlX3VubGlu
+ay4uLiBhbmQgb3V0IG9mIGN1cmlvc2l0eTogbWFraW5nIHN5c2ZzL2JwZmZzLw0KPiByZWFkb25s
+eSBhZnRlciBwaW5uaW5nLCB0aGVuIHVzaW5nIGJwZiBMU00gaG9va3MNCj4gc2JfbW91bnR8cmVt
+b3VudHx1bm1vdW50Li4uDQo+IGZhbWlseSBjb21iaW5pbmcgYnBmKCkgTFNNIGhvb2suLi4gaXNu
+J3QgdGhpcyBlbm91Z2ggdG86DQo+IDEuIFJlc3RyaWN0IHdobyBjYW4gcGluIHRvIGJwZmZzIHdp
+dGhvdXQgdXNpbmcgYSBmdWxsIE1BQw0KPiAyLiBSZXN0cmljdCB3aG8gY2FuIGRlbGV0ZSBvciB1
+bm1vdW50IGJwZiBmaWxlc3lzdGVtDQo+IA0KPiA/DQoNCkknbSB0aGlua2luZyB0byBpbXBsZW1l
+bnQgc29tZXRoaW5nIGxpa2UgdGhpcy4NCg0KRmlyc3QsIEkgYWRkIGEgbmV3IHByb2dyYW0gZmxh
+ZyBjYWxsZWQNCkJQRl9GX1NUT1BfT05DT05GSVJNLCB3aGljaCBjYXVzZXMgdGhlIHJlZiBjb3Vu
+dA0Kb2YgdGhlIGxpbmsgdG8gaW5jcmVhc2UgdHdpY2UgYXQgY3JlYXRpb24gdGltZS4gSW4gdGhp
+cyB3YXksDQp1c2VyIHNwYWNlIGNhbm5vdCBtYWtlIHRoZSBsaW5rIGRpc2FwcGVhciwgdW5sZXNz
+IGENCmNvbmZpcm1hdGlvbiBpcyBleHBsaWNpdGx5IHNlbnQgdmlhIHRoZSBicGYoKSBzeXN0ZW0g
+Y2FsbC4NCg0KQW5vdGhlciBhZHZhbnRhZ2UgaXMgdGhhdCBvdGhlciBMU01zIGNhbiBkZWNpZGUN
+CndoZXRoZXIgb3Igbm90IHRoZXkgYWxsb3cgYSBwcm9ncmFtIHdpdGggdGhpcyBmbGFnDQooaW4g
+dGhlIGJwZiBzZWN1cml0eSBob29rKS4NCg0KVGhpcyB3b3VsZCB3b3JrIHJlZ2FyZGxlc3Mgb2Yg
+dGhlIG1ldGhvZCB1c2VkIHRvDQpsb2FkIHRoZSBlQlBGIHByb2dyYW0gKHVzZXIgc3BhY2Ugb3Ig
+a2VybmVsIHNwYWNlKS4NCg0KU2Vjb25kLCBJIGV4dGVuZCB0aGUgYnBmKCkgc3lzdGVtIGNhbGwg
+d2l0aCBhIG5ldw0Kc3ViY29tbWFuZCwgQlBGX0xJTktfQ09ORklSTV9TVE9QLCB3aGljaA0KZGVj
+cmVhc2VzIHRoZSByZWYgY291bnQgZm9yIHRoZSBsaW5rIG9mIHRoZSBwcm9ncmFtcw0Kd2l0aCB0
+aGUgQlBGX0ZfU1RPUF9PTkNPTkZJUk0gZmxhZy4gSSB3aWxsIGFsc28NCmludHJvZHVjZSBhIG5l
+dyBzZWN1cml0eSBob29rIChzb21ldGhpbmcgbGlrZQ0Kc2VjdXJpdHlfbGlua19jb25maXJtX3N0
+b3ApLCBzbyB0aGF0IGFuIExTTSBoYXMgdGhlDQpvcHBvcnR1bml0eSB0byBkZW55IHRoZSBzdG9w
+ICh0aGUgYnBmIHNlY3VyaXR5IGhvb2sNCndvdWxkIG5vdCBiZSBzdWZmaWNpZW50IHRvIGRldGVy
+bWluZSBleGFjdGx5IGZvcg0Kd2hpY2ggbGluayB0aGUgY29uZmlybWF0aW9uIGlzIGdpdmVuLCBh
+biBMU00gc2hvdWxkDQpiZSBhYmxlIHRvIGRlbnkgdGhlIHN0b3AgZm9yIGl0cyBvd24gcHJvZ3Jh
+bXMpLg0KDQpXaGF0IGRvIHlvdSB0aGluaz8NCg0KVGhhbmtzDQoNClJvYmVydG8NCg0KSFVBV0VJ
+IFRFQ0hOT0xPR0lFUyBEdWVzc2VsZG9yZiBHbWJILCBIUkIgNTYwNjMNCk1hbmFnaW5nIERpcmVj
+dG9yOiBMaSBQZW5nLCBaaG9uZyBSb25naHVhDQo=
