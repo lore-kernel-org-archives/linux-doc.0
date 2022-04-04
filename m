@@ -2,131 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63564C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD6ADC47081
 	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354742AbiDDV3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51858 "EHLO
+        id S1380726AbiDDV3U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379622AbiDDRqG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:06 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4054011A2E;
-        Mon,  4 Apr 2022 10:44:09 -0700 (PDT)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234G1aQ9015889;
-        Mon, 4 Apr 2022 17:44:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=yVRiK2dJrmcSAHiytdAhpWrONM5oxs4ddUK16F5sTK4=;
- b=ivAfoFmDVa1zsBdcZdr0n54JdvBTgaaP2iTC1Q4Kpkl1I0O3CymeLKwSu5X6MR+Br97S
- 6KF8m0kNv6WxFs/xZBRLI0/hsiTrSgBkodIjG/883BnbnoPQnmZegTwsA33u/g8vBJBK
- TdyIcEIE6e07IFuwqH8DMLI1traXG500I0gu365S67siMozX3BEzrQbICGybExt8yFC7
- wlGIDqyXBGQaiS6588w0SqTIVig7uGbyK+VGMwRifatY0393xf37gMeSzlOz5FZqYbrx
- VpZImYYjUYKPgA3tTQsXi+F1t04r+TSj2KNW2PJsh6qPKpebAAExYSPfyVTgAQ2ym4fG cQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f70ee3wh7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:07 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234H7GOD020264;
-        Mon, 4 Apr 2022 17:44:06 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f70ee3wgk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:06 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234HgvHq006415;
-        Mon, 4 Apr 2022 17:44:05 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma01wdc.us.ibm.com with ESMTP id 3f6tyrw9qt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:05 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234Hi43A22085926
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 4 Apr 2022 17:44:04 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9948213605D;
-        Mon,  4 Apr 2022 17:44:04 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A5F8313604F;
-        Mon,  4 Apr 2022 17:44:02 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  4 Apr 2022 17:44:02 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 03/21] s390/sclp: detect the AENI facility
-Date:   Mon,  4 Apr 2022 13:43:31 -0400
-Message-Id: <20220404174349.58530-4-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+        with ESMTP id S1380495AbiDDUUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 16:20:07 -0400
+Received: from mail1.bemta35.messagelabs.com (mail1.bemta35.messagelabs.com [67.219.250.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A169F33EB0;
+        Mon,  4 Apr 2022 13:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
+        s=Selector; t=1649103490; i=@motorola.com;
+        bh=HjU38nkBnog1s1+qEhVPWweGItlXZ0yZ/MkTX/2KKcY=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Type:In-Reply-To;
+        b=JgxHpzXeRX/rEomq+ceeQwd2OF5dFASmLTkx26pv8MT/4AIPg2vezlmBGGVygv/vH
+         Xuj107OJZxTk7rmVjlPemvaM/2sh5VM1ySvmszMxkmleGDFAEJiq+eUN0cmr8ECHpc
+         MetP6tMMHy7ALrwmcvUgCeB8XEpQ4UeuYeTx3t5e4D+tkPGqJAiAEvUPwB+BBXCNQX
+         cyQZcmWmuDB2aBB4kGyQkiBfs24F6S67m5XZgdiQnW7k5fmwqoPff8PlO7ikr/+Re7
+         +krbywpJyYX2Ycx/952q25W/Kh3OjAzE7kqy/DvXFrPJp1U7nKy3+eKRIzjuM2RuYq
+         y97Vjl0zUU/4A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRWlGSWpSXmKPExsUyYU+Ds25jkHe
+  SQfNsIYupjYwWx9qesFvM2Rxt8eRAO6NF8+L1bBadE5ewWyxsW8JicXnXHDaLRctamS0ezr7K
+  aPH2znQWB26PnbPusnvM7pjJ6rF5hZbHplWdbB77565h91jcN5nV4/MmOY9D29+wBXBEsWbmJ
+  eVXJLBmPP5XWPCDr+L73z2sDYzTeLoYuTiEBKYxSey985wZwlnEJPFh+gGmLkZODhYBFYlN3T
+  +ZQWw2ATWJBa9XgdkiAhoSJzf/YAexmQX+M0l0f3QBsYUFQiVmTp7ECGLzCihLnH54khXEFhL
+  IlJizv5cFIi4ocXLmExaIXi2JG/9eAu3iALKlJZb/4wAJcwrYSrx9tIxlAiPvLCQds5B0zELo
+  WMDIvIrRJqkoMz2jJDcxM0fX0MBA19DQBEgb6hoZGuolVukm6pUW65anFpfoGukllhfrpRYX6
+  xVX5ibnpOjlpZZsYgRGR0pR6uUdjDP6f+odYpTkYFIS5T3j6p0kxJeUn1KZkVicEV9UmpNafI
+  hRhoNDSYL3uy9QTrAoNT21Ii0zBxipMGkJDh4lEV5xR6A0b3FBYm5xZjpE6hSjopQ4768AoIQ
+  ASCKjNA+uDZYcLjHKSgnzMjIwMAjxFKQW5WaWoMq/YhTnYFQS5tUHmcKTmVcCN/0V0GImoMXv
+  zniCLC5JREhJNTBN+mQj6qo1jWcfS8ycCd8Y/l5U3bTD+I1lWOmHB1aS8TPPPdlyUGDri+UZb
+  /4uiuQ/KVK2cKqYy6EJ0wI6v31RPxL7osRe/EP5rBLV8xl/NJze+WzuiZIy5YrWsdr1Sbvf+v
+  GH37dnF6adMpmwLfmHnEvxue/K1yutJF5H2mk8rvTpbbM8sds7/MaVLwGr2Bdv1xHa69jJvEa
+  Q/Sbf46lb43WCFrDks2cI73E0uZ+90X922pdjU++0v1lwpv3bot4IJjn7K0v4Gm3unTj+5NKf
+  ZTPmMzuLFgdrpPs0yJstuaiww+PLabfWZSyKMyyz93qkf7hxdy+rvxT791cqF8UOq6d9kfidv
+  PyJ0A6BL6yxSizFGYmGWsxFxYkAbteYz4kDAAA=
+X-Env-Sender: w36195@motorola.com
+X-Msg-Ref: server-15.tower-636.messagelabs.com!1649103488!14751!1
+X-Originating-IP: [144.188.128.67]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 1481 invoked from network); 4 Apr 2022 20:18:09 -0000
+Received: from unknown (HELO ilclpfpp01.lenovo.com) (144.188.128.67)
+  by server-15.tower-636.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Apr 2022 20:18:09 -0000
+Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by ilclpfpp01.lenovo.com (Postfix) with ESMTPS id 4KXMXb5SCYzfBZq;
+        Mon,  4 Apr 2022 20:18:07 +0000 (UTC)
+Received: from p1g3 (unknown [10.45.5.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: w36195)
+        by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4KXMXb19QPzf6f0;
+        Mon,  4 Apr 2022 20:18:07 +0000 (UTC)
+Date:   Mon, 4 Apr 2022 15:17:48 -0500
+From:   Dan Vacura <w36195@motorola.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YktSbDcPLhaUycE+@p1g3>
+References: <20220401160447.5919-1-w36195@motorola.com>
+ <f4377408-ace7-a041-084f-5863bcfb7184@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gwNzjSGhUfYPIkS6_EiQZFdn160eQkGp
-X-Proofpoint-ORIG-GUID: zMRpkxJtvwiuhWIcG9wp8ZMojP9HBKLO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- mlxscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=950
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204040099
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f4377408-ace7-a041-084f-5863bcfb7184@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Detect the Adapter Event Notification Interpretation facility.
+On Sun, Apr 03, 2022 at 01:13:02PM +0700, Bagas Sanjaya wrote:
+> On 01/04/22 23.04, Dan Vacura wrote:
+> > Add a configfs entry, "function_name", to change the iInterface field
+> > for VideoControl. This name is used on host devices for user selection,
+> > useful when multiple cameras are present. The default will remain "UVC
+> > Camera".
+> > 
+> > Signed-off-by: Dan Vacura <w36195@motorola.com>
+> > ---
+> > Changes in v2:
+> > - remove stable cc
+> > 
+> >   .../ABI/testing/configfs-usb-gadget-uvc       |  1 +
+> >   Documentation/usb/gadget-testing.rst          |  1 +
+> >   drivers/usb/gadget/function/f_uvc.c           |  4 +-
+> >   drivers/usb/gadget/function/u_uvc.h           |  1 +
+> >   drivers/usb/gadget/function/uvc_configfs.c    | 41 +++++++++++++++++++
+> >   5 files changed, 47 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> > index 889ed45be4ca..611b23e6488d 100644
+> > --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> > +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> > @@ -7,6 +7,7 @@ Description:	UVC function directory
+> >   		streaming_maxburst	0..15 (ss only)
+> >   		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
+> >   		streaming_interval	1..16
+> > +		function_name		string [32]
+> >   		===================	=============================
+> 
+> Since you mention that default function_name is "UVC Camera", why don't you
+> mention it in the documentation?
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- arch/s390/include/asm/sclp.h   | 1 +
- drivers/s390/char/sclp_early.c | 1 +
- 2 files changed, 2 insertions(+)
+Good question. The rest of the file didn't contain any default values
+and I wasn't sure what the process is for keeping things like this in
+sync between source and documentation. Looking through most of the other
+usb function files I don't see any mention of the hardcoded default
+values either, so maybe it's intentional to not include.
 
-diff --git a/arch/s390/include/asm/sclp.h b/arch/s390/include/asm/sclp.h
-index be14644fe113..ff359df62154 100644
---- a/arch/s390/include/asm/sclp.h
-+++ b/arch/s390/include/asm/sclp.h
-@@ -89,6 +89,7 @@ struct sclp_info {
- 	unsigned char has_dirq : 1;
- 	unsigned char has_zpci_lsi : 1;
- 	unsigned char has_aisii : 1;
-+	unsigned char has_aeni : 1;
- 	unsigned int ibc;
- 	unsigned int mtid;
- 	unsigned int mtid_cp;
-diff --git a/drivers/s390/char/sclp_early.c b/drivers/s390/char/sclp_early.c
-index 29fee179e197..e9af01b4c97a 100644
---- a/drivers/s390/char/sclp_early.c
-+++ b/drivers/s390/char/sclp_early.c
-@@ -46,6 +46,7 @@ static void __init sclp_early_facilities_detect(void)
- 	sclp.has_hvs = !!(sccb->fac119 & 0x80);
- 	sclp.has_kss = !!(sccb->fac98 & 0x01);
- 	sclp.has_aisii = !!(sccb->fac118 & 0x40);
-+	sclp.has_aeni = !!(sccb->fac118 & 0x20);
- 	sclp.has_zpci_lsi = !!(sccb->fac118 & 0x01);
- 	if (sccb->fac85 & 0x02)
- 		S390_lowcore.machine_flags |= MACHINE_FLAG_ESOP;
--- 
-2.27.0
-
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
