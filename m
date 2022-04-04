@@ -2,141 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1FBC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C509DC4321E
 	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380467AbiDDV3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41872 "EHLO
+        id S1380418AbiDDV3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379530AbiDDRYh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:24:37 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66C21E3E9;
-        Mon,  4 Apr 2022 10:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=WDmJkzTOV5prGKHUXnERasOZdVdKCXK3OjDlEOEABJc=; b=iWojZFEXJ3Tl8QRYvsfIwbtRiG
-        m+GXCj5t1/iaGiXDjdTwSbEX5AylKweLk7pVDRDRHMPgCDYMTtal8uqRaAmNeZ5hHiHf96eFklEFP
-        tVCvbFA4PmgIPnH75yc4L73oX3dY2ITGV5FlvR+2PQJzO4+LCn1mEjkumILoSzBn7XWqtjVauGKwq
-        Qn86GUMtaEBnpcu7HB1y48Y3h0+f54ICyb8N7/aZGjpNmdXZMsGMglishjW1DJJBCW6KKVoAERi29
-        u7MPL84TP4KDNGX/imbgNDzdd5RrAhNHwVnEDhHANyjzbDAGW4P+/LQmOeC922QavueASF1yZaE1B
-        NDQBZE4g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nbQPT-005uxA-WC; Mon, 04 Apr 2022 17:22:36 +0000
-Date:   Mon, 4 Apr 2022 18:22:35 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     Miaohe Lin <linmiaohe@huawei.com>, NeilBrown <neilb@suse.de>
-Subject: [RFC] Documentation for folio_lock() and friends
-Message-ID: <YkspW4HDL54xEg69@casper.infradead.org>
+        with ESMTP id S1379204AbiDDQnT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 12:43:19 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A450F35856;
+        Mon,  4 Apr 2022 09:41:22 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 2E1961F390;
+        Mon,  4 Apr 2022 16:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1649090481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bei0JZDnlsbNqP4J+qIzBne1zsUAj2g0RJqQ6r2Qiqw=;
+        b=i0ObrEE+b2RebhFzMnlcKdL0BqgE865TCRWCuhUnAv17qBxbGvIcJplUrQaMTs8YblHn+x
+        JVYozogrIS2Flhw1EeDSlj69/ISgAxaOJXo8Mn306ngj4wFWuSk/ION7LdkcmFuho1kt6R
+        AVD9SLP//1+twgSKqikQFnTX4ieiAgM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1649090481;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bei0JZDnlsbNqP4J+qIzBne1zsUAj2g0RJqQ6r2Qiqw=;
+        b=pjR4WFPCNtrEDWu4FIUpx1x9XcuuyDgEQPSsLzovOSperD09sJK2XCWlVGiXuHNbagn1dx
+        JIOhyrVxO5bavqCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC0B112FC5;
+        Mon,  4 Apr 2022 16:41:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id yPnrOLAfS2LjfAAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 04 Apr 2022 16:41:20 +0000
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     David Rientjes <rientjes@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Oliver Glitta <glittao@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Imran Khan <imran.f.khan@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: [PATCH v3 6/6] slab, documentation: add description of debugfs files for SLUB caches
+Date:   Mon,  4 Apr 2022 18:41:12 +0200
+Message-Id: <20220404164112.18372-7-vbabka@suse.cz>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220404164112.18372-1-vbabka@suse.cz>
+References: <20220404164112.18372-1-vbabka@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3418; i=vbabka@suse.cz; h=from:subject; bh=aiEHhTlwaPsxqCPnZoF+zACTkJmNyiCa8U4FMIlm4hU=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBiSx+n9eEtd8BOf/2A9Gbbt9oR1Y/79g1fBU4U6ywZ pM9StUiJATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYksfpwAKCRDgIcpz8YmpEECtB/ 9deLfjoG4HXeZchPe/4/vX8Z2LlMjZ83wdxrA0d76J0Ln8c9FtzXuvRCjAhEdYj2UCH80jXW7fMBWF NDqQnwSChm4yVLEyZ9tpycx4qYoRFuoLCug2IVu6YKqglXKFFdMelZXfeqQT7YszkiDYbUTrfmShc/ fZp5U2dZ32SnH3TCbuM+x9Pe8K1tl9FEX0d4pl7xGrHArnPkyB3cA2wLoFleb0C/ZnuJ8R8cCuZQfG 9VHsYtj7qeRn1sgF6cqJ/ycMZf443uHFR6U/7Up+st7X33szxhjIQPP0hto8IlaHBeI2PS+sRU8viJ kT0X6iWUw5xO/W47QkjQckQ7Ozq0xe
+X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's a shame to not have these functions documented.  I'm sure I've
-missed a few things that would be useful to document here.
+From: Oliver Glitta <glittao@gmail.com>
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index ab47579af434..47b7851f1b64 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -888,6 +888,18 @@ bool __folio_lock_or_retry(struct folio *folio, struct mm_struct *mm,
- void unlock_page(struct page *page);
- void folio_unlock(struct folio *folio);
+Add description of debugfs files alloc_traces and free_traces
+to SLUB cache documentation.
+
+[ vbabka@suse.cz: some rewording ]
+
+Signed-off-by: Oliver Glitta <glittao@gmail.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ Documentation/vm/slub.rst | 64 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+
+diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
+index d3028554b1e9..43063ade737a 100644
+--- a/Documentation/vm/slub.rst
++++ b/Documentation/vm/slub.rst
+@@ -384,5 +384,69 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
+       40,60`` range will plot only samples collected between 40th and
+       60th seconds).
  
-+/**
-+ * folio_trylock() - Attempt to lock a folio.
-+ * @folio: The folio to attempt to lock.
-+ *
-+ * Sometimes it is undesirable to wait for a folio to be unlocked (eg
-+ * when the locks are being taken in the wrong order, or if making
-+ * progress through a batch of folios is more important than processing
-+ * them in order).  Usually folio_lock() is the correct function to call.
-+ *
-+ * Context: Any context.
-+ * Return: Whether the lock was successfully acquired.
-+ */
- static inline bool folio_trylock(struct folio *folio)
- {
- 	return likely(!test_and_set_bit_lock(PG_locked, folio_flags(folio, 0)));
-@@ -901,6 +913,26 @@ static inline int trylock_page(struct page *page)
- 	return folio_trylock(page_folio(page));
- }
- 
-+/**
-+ * folio_lock() - Lock this folio.
-+ * @folio: The folio to lock.
-+ *
-+ * The folio lock protects against many things, probably more than it
-+ * should.  It is primarily held while a folio is being read from storage,
-+ * either from its backing file or from swap.  It is also held while a
-+ * folio is being truncated from its address_space.
-+ *
-+ * Holding the lock usually prevents the contents of the folio from being
-+ * modified by other kernel users, although it does not prevent userspace
-+ * from modifying data if it's mapped.  The lock is not consistently held
-+ * while a folio is being modified by DMA.
-+ *
-+ * Context: May sleep.  If you need to acquire the locks of two or
-+ * more folios, they must be in order of ascending index, if they are
-+ * in the same address_space.  If they are in different address_spaces,
-+ * acquire the lock of the folio which belongs to the address_space which
-+ * has the lowest address in memory first.
-+ */
- static inline void folio_lock(struct folio *folio)
- {
- 	might_sleep();
-@@ -908,6 +940,17 @@ static inline void folio_lock(struct folio *folio)
- 		__folio_lock(folio);
- }
- 
-+/**
-+ * lock_page() - Lock the folio containing this page.
-+ * @page: The page to lock.
-+ *
-+ * See folio_lock() for a description of what the lock protects.
-+ * This is a legacy function and new code should probably use folio_lock()
-+ * instead.
-+ *
-+ * Context: May sleep.  Pages in the same folio share a lock, so do not
-+ * attempt to lock two pages which share a folio.
-+ */
- static inline void lock_page(struct page *page)
- {
- 	struct folio *folio;
-@@ -918,6 +961,16 @@ static inline void lock_page(struct page *page)
- 		__folio_lock(folio);
- }
- 
-+/**
-+ * folio_lock_killable() - Lock this folio, interruptible by a fatal signal.
-+ * @folio: The folio to lock.
-+ *
-+ * Attempts to lock the folio, like folio_lock(), except that the sleep
-+ * to acquire the lock is interruptible by a fatal signal.
-+ *
-+ * Context: May sleep; see folio_lock().
-+ * Return: 0 if the lock was acquired; -EINTR if a fatal signal was received.
-+ */
- static inline int folio_lock_killable(struct folio *folio)
- {
- 	might_sleep();
-@@ -964,8 +1017,8 @@ int folio_wait_bit_killable(struct folio *folio, int bit_nr);
-  * Wait for a folio to be unlocked.
-  *
-  * This must be called with the caller "holding" the folio,
-- * ie with increased "page->count" so that the folio won't
-- * go away during the wait..
-+ * ie with increased folio reference count so that the folio won't
-+ * go away during the wait.
-  */
- static inline void folio_wait_locked(struct folio *folio)
- {
++
++DebugFS files for SLUB
++======================
++
++For more information about current state of SLUB caches with the user tracking
++debug option enabled, debugfs files are available, typically under
++/sys/kernel/debug/slab/<cache>/ (created only for caches with enabled user
++tracking). There are 2 types of these files with the following debug
++information:
++
++1. alloc_traces::
++
++    Prints information about unique allocation traces of the currently
++    allocated objects. The output is sorted by frequency of each trace.
++
++    Information in the output:
++    Number of objects, allocating function, minimal/average/maximal jiffies since alloc,
++    pid range of the allocating processes, cpu mask of allocating cpus, and stack trace.
++
++    Example:::
++
++    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
++	__slab_alloc+0x6d/0x90
++	kmem_cache_alloc_trace+0x2eb/0x300
++	populate_error_injection_list+0x97/0x110
++	init_error_injection+0x1b/0x71
++	do_one_initcall+0x5f/0x2d0
++	kernel_init_freeable+0x26f/0x2d7
++	kernel_init+0xe/0x118
++	ret_from_fork+0x22/0x30
++
++
++2. free_traces::
++
++    Prints information about unique freeing traces of the currently allocated
++    objects. The freeing traces thus come from the previous life-cycle of the
++    objects and are reported as not available for objects allocated for the first
++    time. The output is sorted by frequency of each trace.
++
++    Information in the output:
++    Number of objects, freeing function, minimal/average/maximal jiffies since free,
++    pid range of the freeing processes, cpu mask of freeing cpus, and stack trace.
++
++    Example:::
++
++    1980 <not-available> age=4294912290 pid=0 cpus=0
++    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
++	kfree+0x2db/0x420
++	acpi_ut_update_ref_count+0x6a6/0x782
++	acpi_ut_update_object_reference+0x1ad/0x234
++	acpi_ut_remove_reference+0x7d/0x84
++	acpi_rs_get_prt_method_data+0x97/0xd6
++	acpi_get_irq_routing_table+0x82/0xc4
++	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
++	acpi_pci_irq_lookup+0x3a/0x1e0
++	acpi_pci_irq_enable+0x77/0x240
++	pcibios_enable_device+0x39/0x40
++	do_pci_enable_device.part.0+0x5d/0xe0
++	pci_enable_device_flags+0xfc/0x120
++	pci_enable_device+0x13/0x20
++	virtio_pci_probe+0x9e/0x170
++	local_pci_probe+0x48/0x80
++	pci_device_probe+0x105/0x1c0
++
+ Christoph Lameter, May 30, 2007
+ Sergey Senozhatsky, October 23, 2015
+-- 
+2.35.1
 
