@@ -2,210 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A6BC54EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAE1C35295
 	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379257AbiDDV12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
+        id S1379359AbiDDV1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379663AbiDDRq1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:27 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C37817077;
-        Mon,  4 Apr 2022 10:44:30 -0700 (PDT)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234GXR7Q002493;
-        Mon, 4 Apr 2022 17:44:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=Gy1yl0bL6hxrWlYqP6IhnqV6LjI7MGPXuF4DqxDIgrk=;
- b=iy1g/XLfPxpmWa+doJPgwDDaRfVATrx2Ef9Ew/DcdnwIvOhOOBi1QLG+WucoAvnUXUuF
- EdAsvmABhkKneHCbPVPZXwmL3f7k4K/niv8PH/+fyCxDchXInK22fYFrvhfPiHQSuj0y
- fMAUcc53p+x90KVOhKqN6dlCNezgtm3yGyJiipVUKz809YaEIt3faGTe09wVyFNVtS1B
- eE/WoL2bafQT2VuTCEI5rAxQIdh1uzbSJlLewaEy7aTPgSw+F2lI0lxYveBUjv7hyi8i
- E8r3Qh8yqJPvq2EsoFG8S/ljgHZhySD2ZGyZI1vQ6VAmsB8gMW6fZUZ/beJ40d+W8v+6 vA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6yv6c95g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:28 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234HEgtk030568;
-        Mon, 4 Apr 2022 17:44:28 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6yv6c954-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:28 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234Hh3vA002370;
-        Mon, 4 Apr 2022 17:44:27 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma03wdc.us.ibm.com with ESMTP id 3f6e48s694-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:27 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234HiQH112124488
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 4 Apr 2022 17:44:26 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9691D136053;
-        Mon,  4 Apr 2022 17:44:26 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8960C136060;
-        Mon,  4 Apr 2022 17:44:24 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  4 Apr 2022 17:44:24 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 13/21] KVM: s390: mechanism to enable guest zPCI Interpretation
-Date:   Mon,  4 Apr 2022 13:43:41 -0400
-Message-Id: <20220404174349.58530-14-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+        with ESMTP id S1379474AbiDDRM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:12:28 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8A71DA48
+        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 10:10:31 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id s11so4270537pla.8
+        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 10:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p/iyktzXudPCfsWubC5IGLZO/YpQQ0A/MFOUPzzm2b0=;
+        b=mW/8Tu6ZltQOiQBFgHuiFl7Pk1NcBx+SPbJ3DvfPZWtRFVLA6QDIvkx5RmvEpQJSFS
+         PMCkiVebbjN2ZHLZo4qC7OkKkwUevM+/pdELqWBhsiRlT1IqR5OJNEM7nBIEgeh0Baiq
+         cI+wSLIwiNZ1HuCVps5Z/l0IHHZat2g6JPQLkBLWT3v3nr61u76MH12Mhcsrme4V+BCM
+         cLAu8Ow+7epFHYar0KsG9PmFRJWXInORNEB39EAIQT8PLnj7XIAvCcBL9l5fVuE6qYzM
+         4CEAvbJCOiTRoKgT7aBbbYoJTPGfu6murdWXn5/A/R4cmFPhtpH7ySDp3OV54nOmeGBM
+         VHmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p/iyktzXudPCfsWubC5IGLZO/YpQQ0A/MFOUPzzm2b0=;
+        b=n8GpGEREzPd+YCwPJkn+7SgTSAfJXu4CzhB95a0dKSuzSfx8jixr+uQeJQvhHdYu3a
+         9jQo20yqQn2MOt1nTpsN7QsRpuDrJdDXhzIHbyX+gNQ/t3TotEXr3lR4vD4nx/VlceQc
+         TVDPL6HnD2pE69J6z5ChRgaHBdATSTxHWJcEcmX5Vv8XpoP8catemJh9/H6TEr9jZLLn
+         +cV1asN6KmKceVP874wDbsG+tfoUevNumlItOpTG3muBWkTpeUVmIrYuHAiWDQOjP1cu
+         1z8yLEfBqczsVSzygt168vNNbqyjKeLRfiNB8mmfr4tlHhTrEI3tMaHuFxBNcc2LbtNt
+         MVdA==
+X-Gm-Message-State: AOAM5336uugn7Oh6uIKnAtZBeQYkEMUUK7mWp7s+jkqosqrkQ3WAZhMa
+        DYMnS5gtxxO8cUPJbUAUGfBOHw8fpgHpfTPKTHtN6w==
+X-Google-Smtp-Source: ABdhPJyju8nI9e9dz95e2I+lLL7NMzf+BoB6I6s5E4QtUsBp3vMbpsM7h8MEDcsIwxS9dwtj6Byii7k0P8adQzRZTc0=
+X-Received: by 2002:a17:903:2351:b0:156:a562:b3f8 with SMTP id
+ c17-20020a170903235100b00156a562b3f8mr631655plh.81.1649092230248; Mon, 04 Apr
+ 2022 10:10:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: LzANiZft-v5hrapsiHNwB1866GrR3nZ_
-X-Proofpoint-GUID: knmzdSR7GD2EfFBEqxWdlxSzUpt2Jz9q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 suspectscore=0 phishscore=0 adultscore=0
- mlxscore=0 bulkscore=0 malwarescore=0 impostorscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204040099
+References: <20220331084151.2600229-1-yosryahmed@google.com> <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+In-Reply-To: <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Mon, 4 Apr 2022 10:09:54 -0700
+Message-ID: <CAJD7tkZrOYsT1bsFB2ge5_wGccGhpS99y+OkzQHhRVgZwexL4A@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Jonathan Corbet <corbet@lwn.net>,
+        Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The guest must have access to certain facilities in order to allow
-interpretive execution of zPCI instructions and adapter event
-notifications.  However, there are some cases where a guest might
-disable interpretation -- provide a mechanism via which we can defer
-enabling the associated zPCI interpretation facilities until the guest
-indicates it wishes to use them.
+On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+> > From: Shakeel Butt <shakeelb@google.com>
+> >
+> > Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+> >
+> > Use case: Proactive Reclaim
+> > ---------------------------
+> >
+> > A userspace proactive reclaimer can continuously probe the memcg to
+> > reclaim a small amount of memory. This gives more accurate and
+> > up-to-date workingset estimation as the LRUs are continuously
+> > sorted and can potentially provide more deterministic memory
+> > overcommit behavior. The memory overcommit controller can provide
+> > more proactive response to the changing behavior of the running
+> > applications instead of being reactive.
+> >
+> > A userspace reclaimer's purpose in this case is not a complete replacement
+> > for kswapd or direct reclaim, it is to proactively identify memory savings
+> > opportunities and reclaim some amount of cold pages set by the policy
+> > to free up the memory for more demanding jobs or scheduling new jobs.
+> >
+> > A user space proactive reclaimer is used in Google data centers.
+> > Additionally, Meta's TMO paper recently referenced a very similar
+> > interface used for user space proactive reclaim:
+> > https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
+> >
+> > Benefits of a user space reclaimer:
+> > -----------------------------------
+> >
+> > 1) More flexible on who should be charged for the cpu of the memory
+> > reclaim. For proactive reclaim, it makes more sense to be centralized.
+> >
+> > 2) More flexible on dedicating the resources (like cpu). The memory
+> > overcommit controller can balance the cost between the cpu usage and
+> > the memory reclaimed.
+> >
+> > 3) Provides a way to the applications to keep their LRUs sorted, so,
+> > under memory pressure better reclaim candidates are selected. This also
+> > gives more accurate and uptodate notion of working set for an
+> > application.
+> >
+> > Why memory.high is not enough?
+> > ------------------------------
+> >
+> > - memory.high can be used to trigger reclaim in a memcg and can
+> >   potentially be used for proactive reclaim.
+> >   However there is a big downside in using memory.high. It can potentially
+> >   introduce high reclaim stalls in the target application as the
+> >   allocations from the processes or the threads of the application can hit
+> >   the temporary memory.high limit.
+> >
+> > - Userspace proactive reclaimers usually use feedback loops to decide
+> >   how much memory to proactively reclaim from a workload. The metrics
+> >   used for this are usually either refaults or PSI, and these metrics
+> >   will become messy if the application gets throttled by hitting the
+> >   high limit.
+> >
+> > - memory.high is a stateful interface, if the userspace proactive
+> >   reclaimer crashes for any reason while triggering reclaim it can leave
+> >   the application in a bad state.
+> >
+> > - If a workload is rapidly expanding, setting memory.high to proactively
+> >   reclaim memory can result in actually reclaiming more memory than
+> >   intended.
+> >
+> > The benefits of such interface and shortcomings of existing interface
+> > were further discussed in this RFC thread:
+> > https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
+> >
+> > Interface:
+> > ----------
+> >
+> > Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
+> > trigger reclaim in the target memory cgroup.
+> >
+> >
+> > Possible Extensions:
+> > --------------------
+> >
+> > - This interface can be extended with an additional parameter or flags
+> >   to allow specifying one or more types of memory to reclaim from (e.g.
+> >   file, anon, ..).
+> >
+> > - The interface can also be extended with a node mask to reclaim from
+> >   specific nodes. This has use cases for reclaim-based demotion in memory
+> >   tiering systens.
+> >
+> > - A similar per-node interface can also be added to support proactive
+> >   reclaim and reclaim-based demotion in systems without memcg.
+> >
+> > For now, let's keep things simple by adding the basic functionality.
+>
+> Yes, I am for the simplicity and this really looks like a bare minumum
+> interface. But it is not really clear who do you want to add flags on
+> top of it?
+>
 
-Acked-by: Pierre Morel <pmorel@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- arch/s390/include/asm/kvm_host.h |  4 ++++
- arch/s390/kvm/kvm-s390.c         | 37 ++++++++++++++++++++++++++++++++
- arch/s390/kvm/kvm-s390.h         | 10 +++++++++
- 3 files changed, 51 insertions(+)
+Mostly I (or someone at Google) will follow-up with patches to add
+most of these features. We just wanted to get consensus on the bare
+minimum interface first, and to avoid derailing this discussion with
+whether or not we need each of those features and what the best way to
+implement them is.
 
-diff --git a/arch/s390/include/asm/kvm_host.h b/arch/s390/include/asm/kvm_host.h
-index c1518a505060..8e381603b6a7 100644
---- a/arch/s390/include/asm/kvm_host.h
-+++ b/arch/s390/include/asm/kvm_host.h
-@@ -254,7 +254,10 @@ struct kvm_s390_sie_block {
- #define ECB2_IEP	0x20
- #define ECB2_PFMFI	0x08
- #define ECB2_ESCA	0x04
-+#define ECB2_ZPCI_LSI	0x02
- 	__u8    ecb2;                   /* 0x0062 */
-+#define ECB3_AISI	0x20
-+#define ECB3_AISII	0x10
- #define ECB3_DEA 0x08
- #define ECB3_AES 0x04
- #define ECB3_RI  0x01
-@@ -940,6 +943,7 @@ struct kvm_arch{
- 	int use_cmma;
- 	int use_pfmfi;
- 	int use_skf;
-+	int use_zpci_interp;
- 	int user_cpu_state_ctrl;
- 	int user_sigp;
- 	int user_stsi;
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index a9eb8b75af93..327649ddddce 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -1029,6 +1029,41 @@ static int kvm_s390_vm_set_crypto(struct kvm *kvm, struct kvm_device_attr *attr)
- 	return 0;
- }
- 
-+static void kvm_s390_vcpu_pci_setup(struct kvm_vcpu *vcpu)
-+{
-+	/* Only set the ECB bits after guest requests zPCI interpretation */
-+	if (!vcpu->kvm->arch.use_zpci_interp)
-+		return;
-+
-+	vcpu->arch.sie_block->ecb2 |= ECB2_ZPCI_LSI;
-+	vcpu->arch.sie_block->ecb3 |= ECB3_AISII + ECB3_AISI;
-+}
-+
-+/* Must be called with kvm->lock held */
-+void kvm_s390_vcpu_pci_enable_interp(struct kvm *kvm)
-+{
-+	struct kvm_vcpu *vcpu;
-+	unsigned long i;
-+
-+	/*
-+	 * If host is configured for PCI and the necessary facilities are
-+	 * available, turn on interpretation for the life of this guest
-+	 */
-+	if (!kvm_s390_pci_interp_allowed())
-+		return;
-+
-+	kvm->arch.use_zpci_interp = 1;
-+
-+	kvm_s390_vcpu_block_all(kvm);
-+
-+	kvm_for_each_vcpu(i, vcpu, kvm) {
-+		kvm_s390_vcpu_pci_setup(vcpu);
-+		kvm_s390_sync_request(KVM_REQ_VSIE_RESTART, vcpu);
-+	}
-+
-+	kvm_s390_vcpu_unblock_all(kvm);
-+}
-+
- static void kvm_s390_sync_request_broadcast(struct kvm *kvm, int req)
- {
- 	unsigned long cx;
-@@ -3329,6 +3364,8 @@ static int kvm_s390_vcpu_setup(struct kvm_vcpu *vcpu)
- 
- 	kvm_s390_vcpu_crypto_setup(vcpu);
- 
-+	kvm_s390_vcpu_pci_setup(vcpu);
-+
- 	mutex_lock(&vcpu->kvm->lock);
- 	if (kvm_s390_pv_is_protected(vcpu->kvm)) {
- 		rc = kvm_s390_pv_create_cpu(vcpu, &uvrc, &uvrrc);
-diff --git a/arch/s390/kvm/kvm-s390.h b/arch/s390/kvm/kvm-s390.h
-index 497d52a83c78..975cffaf13de 100644
---- a/arch/s390/kvm/kvm-s390.h
-+++ b/arch/s390/kvm/kvm-s390.h
-@@ -507,6 +507,16 @@ void kvm_s390_reinject_machine_check(struct kvm_vcpu *vcpu,
-  */
- void kvm_s390_vcpu_crypto_reset_all(struct kvm *kvm);
- 
-+/**
-+ * kvm_s390_vcpu_pci_enable_interp
-+ *
-+ * Set the associated PCI attributes for each vcpu to allow for zPCI Load/Store
-+ * interpretation as well as adapter interruption forwarding.
-+ *
-+ * @kvm: the KVM guest
-+ */
-+void kvm_s390_vcpu_pci_enable_interp(struct kvm *kvm);
-+
- /**
-  * diag9c_forwarding_hz
-  *
--- 
-2.27.0
+> I am not really sure we really need a node aware interface for memcg.
+> The global reclaim interface will likely need a different node because
+> we do not want to make this CONFIG_MEMCG constrained.
+>
 
+The main use case, as Wei mentioned, is memcg-based proactive demotion
+via the reclaim-based demotion
+mechanism in the kernel. We can still have a nodemask argument to the
+global reclaim interface as well.
+
+
+> > [yosryahmed@google.com: refreshed to current master, updated commit
+> > message based on recent discussions and use cases]
+> > Signed-off-by: Shakeel Butt <shakeelb@google.com>
+> > Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+>
+> All that being said. I haven't been a great fan for explicit reclaim
+> triggered from the userspace but I do recognize that limitations of the
+> existing interfaces is just too restrictive.
+>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+>
+> Thanks!
+> --
+> Michal Hocko
+> SUSE Labs
