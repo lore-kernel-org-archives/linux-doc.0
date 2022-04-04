@@ -2,174 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C509DC4321E
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 840AAC46467
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380418AbiDDV3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:29:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
+        id S1380557AbiDDV3H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:29:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379204AbiDDQnT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 12:43:19 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A450F35856;
-        Mon,  4 Apr 2022 09:41:22 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2E1961F390;
-        Mon,  4 Apr 2022 16:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1649090481; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bei0JZDnlsbNqP4J+qIzBne1zsUAj2g0RJqQ6r2Qiqw=;
-        b=i0ObrEE+b2RebhFzMnlcKdL0BqgE865TCRWCuhUnAv17qBxbGvIcJplUrQaMTs8YblHn+x
-        JVYozogrIS2Flhw1EeDSlj69/ISgAxaOJXo8Mn306ngj4wFWuSk/ION7LdkcmFuho1kt6R
-        AVD9SLP//1+twgSKqikQFnTX4ieiAgM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1649090481;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bei0JZDnlsbNqP4J+qIzBne1zsUAj2g0RJqQ6r2Qiqw=;
-        b=pjR4WFPCNtrEDWu4FIUpx1x9XcuuyDgEQPSsLzovOSperD09sJK2XCWlVGiXuHNbagn1dx
-        JIOhyrVxO5bavqCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC0B112FC5;
-        Mon,  4 Apr 2022 16:41:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id yPnrOLAfS2LjfAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 04 Apr 2022 16:41:20 +0000
-From:   Vlastimil Babka <vbabka@suse.cz>
-To:     David Rientjes <rientjes@google.com>,
-        Christoph Lameter <cl@linux.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Oliver Glitta <glittao@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Imran Khan <imran.f.khan@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: [PATCH v3 6/6] slab, documentation: add description of debugfs files for SLUB caches
-Date:   Mon,  4 Apr 2022 18:41:12 +0200
-Message-Id: <20220404164112.18372-7-vbabka@suse.cz>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220404164112.18372-1-vbabka@suse.cz>
-References: <20220404164112.18372-1-vbabka@suse.cz>
+        with ESMTP id S1379666AbiDDRqd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:33 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A55913EBA;
+        Mon,  4 Apr 2022 10:44:37 -0700 (PDT)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234H2Hkr018511;
+        Mon, 4 Apr 2022 17:44:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=qgtgYuMsbJbzVpHQdKu6lYWj+NBGkMa5mOitkgEJkBQ=;
+ b=Pu6RL24T7FVtvt8INHEmces5EOSfjCk9cSNh0baOtlZonjQo1hLyjpYQ36Xla/9W2+Mx
+ USs80vUY4GVX5x8j0bfmZAiMoQmPRP6fErkhXB//fGI0ZZWlYnisfOPNbsTqfahgU4Zj
+ KKIWadn/DxypQQBDG2J1HfvpenxHRZ9gRtyuCpDyOy2EYZg8M0+QjVGYwOivz1x3h2YQ
+ 9iRUwlr6/qfsZqQAkFkcD7DtfFqE/SXvhX15X4IbS++RV7YI349nxNLAyo9s88kBO6e7
+ lP3MYbOjoVE/nqA0I4OYgzvzICC5m3yoU4uGdG/EQWz8ZhbngVX1RT+GA5V5vxzsE3O3 hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f80hxj3rb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:35 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234HP1Ij006082;
+        Mon, 4 Apr 2022 17:44:35 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f80hxj3r1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:35 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234Hh1kG003864;
+        Mon, 4 Apr 2022 17:44:34 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma05wdc.us.ibm.com with ESMTP id 3f6e48s7f2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:34 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234HiXZx13959652
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Apr 2022 17:44:33 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 64BCB136051;
+        Mon,  4 Apr 2022 17:44:33 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2064613605E;
+        Mon,  4 Apr 2022 17:44:31 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  4 Apr 2022 17:44:31 +0000 (GMT)
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+To:     linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 16/21] KVM: vfio: add s390x hook to register KVM guest designation
+Date:   Mon,  4 Apr 2022 13:43:44 -0400
+Message-Id: <20220404174349.58530-17-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3418; i=vbabka@suse.cz; h=from:subject; bh=aiEHhTlwaPsxqCPnZoF+zACTkJmNyiCa8U4FMIlm4hU=; b=owEBbQGS/pANAwAIAeAhynPxiakQAcsmYgBiSx+n9eEtd8BOf/2A9Gbbt9oR1Y/79g1fBU4U6ywZ pM9StUiJATMEAAEIAB0WIQSNS5MBqTXjGL5IXszgIcpz8YmpEAUCYksfpwAKCRDgIcpz8YmpEECtB/ 9deLfjoG4HXeZchPe/4/vX8Z2LlMjZ83wdxrA0d76J0Ln8c9FtzXuvRCjAhEdYj2UCH80jXW7fMBWF NDqQnwSChm4yVLEyZ9tpycx4qYoRFuoLCug2IVu6YKqglXKFFdMelZXfeqQT7YszkiDYbUTrfmShc/ fZp5U2dZ32SnH3TCbuM+x9Pe8K1tl9FEX0d4pl7xGrHArnPkyB3cA2wLoFleb0C/ZnuJ8R8cCuZQfG 9VHsYtj7qeRn1sgF6cqJ/ycMZf443uHFR6U/7Up+st7X33szxhjIQPP0hto8IlaHBeI2PS+sRU8viJ kT0X6iWUw5xO/W47QkjQckQ7Ozq0xe
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp; fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: umeWfGKREChKMCQXQCnboqh-OHG799lV
+X-Proofpoint-ORIG-GUID: zvczu5mprSfycHxwd1h0Cf-eYxiiyTyx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204040099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Oliver Glitta <glittao@gmail.com>
+At the time a KVM is associated with a vfio group, s390x zPCI devices
+must register a special guest indication (GISA designation) to allow
+for the use of interpretive execution facilities.  This indication is
+used to ensure that only the specified KVM can interact with the device.
+Similarly, the indication must be removed once the KVM is no longer
+associated with the device.
 
-Add description of debugfs files alloc_traces and free_traces
-to SLUB cache documentation.
+This patch adds an s390-specific hook to invoke a KVM registration routine
+for each device associated with the iommu group; in reality, it will be a
+NOP for all but zPCI devices on s390x.
 
-[ vbabka@suse.cz: some rewording ]
-
-Signed-off-by: Oliver Glitta <glittao@gmail.com>
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 ---
- Documentation/vm/slub.rst | 64 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ virt/kvm/vfio.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index d3028554b1e9..43063ade737a 100644
---- a/Documentation/vm/slub.rst
-+++ b/Documentation/vm/slub.rst
-@@ -384,5 +384,69 @@ c) Execute ``slabinfo-gnuplot.sh`` in '-t' mode, passing all of the
-       40,60`` range will plot only samples collected between 40th and
-       60th seconds).
+diff --git a/virt/kvm/vfio.c b/virt/kvm/vfio.c
+index 8fcbc50221c2..2efe5be5a6ee 100644
+--- a/virt/kvm/vfio.c
++++ b/virt/kvm/vfio.c
+@@ -106,7 +106,7 @@ static bool kvm_vfio_group_is_coherent(struct vfio_group *vfio_group)
+ 	return ret > 0;
+ }
  
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) || defined(CONFIG_S390)
+ static int kvm_vfio_external_user_iommu_id(struct vfio_group *vfio_group)
+ {
+ 	int (*fn)(struct vfio_group *);
+@@ -133,7 +133,9 @@ static struct iommu_group *kvm_vfio_group_get_iommu_group(
+ 
+ 	return iommu_group_get_by_id(group_id);
+ }
++#endif
+ 
++#ifdef CONFIG_SPAPR_TCE_IOMMU
+ static void kvm_spapr_tce_release_vfio_group(struct kvm *kvm,
+ 		struct vfio_group *vfio_group)
+ {
+@@ -147,6 +149,24 @@ static void kvm_spapr_tce_release_vfio_group(struct kvm *kvm,
+ }
+ #endif
+ 
++#ifdef CONFIG_S390
++static int kvm_s390_register_kvm(struct vfio_group *vfio_group,
++				  struct kvm *kvm)
++{
++	int rc;
 +
-+DebugFS files for SLUB
-+======================
++	struct iommu_group *grp = kvm_vfio_group_get_iommu_group(vfio_group);
 +
-+For more information about current state of SLUB caches with the user tracking
-+debug option enabled, debugfs files are available, typically under
-+/sys/kernel/debug/slab/<cache>/ (created only for caches with enabled user
-+tracking). There are 2 types of these files with the following debug
-+information:
++	if (WARN_ON_ONCE(!grp))
++		return -EPERM;
 +
-+1. alloc_traces::
++	rc = iommu_group_for_each_dev(grp, kvm, kvm_s390_pci_register_kvm);
++	iommu_group_put(grp);
 +
-+    Prints information about unique allocation traces of the currently
-+    allocated objects. The output is sorted by frequency of each trace.
++	return rc;
++}
++#endif
 +
-+    Information in the output:
-+    Number of objects, allocating function, minimal/average/maximal jiffies since alloc,
-+    pid range of the allocating processes, cpu mask of allocating cpus, and stack trace.
+ /*
+  * Groups can use the same or different IOMMU domains.  If the same then
+  * adding a new group may change the coherency of groups we've previously
+@@ -223,6 +243,16 @@ static int kvm_vfio_set_group(struct kvm_device *dev, long attr, u64 arg)
+ 			return -ENOMEM;
+ 		}
+ 
++#ifdef CONFIG_S390
++		ret = kvm_s390_register_kvm(vfio_group, dev->kvm);
++		if (ret) {
++			kfree(kvg);
++			mutex_unlock(&kv->lock);
++			kvm_vfio_group_put_external_user(vfio_group);
++			return ret;
++		}
++#endif
 +
-+    Example:::
-+
-+    1085 populate_error_injection_list+0x97/0x110 age=166678/166680/166682 pid=1 cpus=1::
-+	__slab_alloc+0x6d/0x90
-+	kmem_cache_alloc_trace+0x2eb/0x300
-+	populate_error_injection_list+0x97/0x110
-+	init_error_injection+0x1b/0x71
-+	do_one_initcall+0x5f/0x2d0
-+	kernel_init_freeable+0x26f/0x2d7
-+	kernel_init+0xe/0x118
-+	ret_from_fork+0x22/0x30
-+
-+
-+2. free_traces::
-+
-+    Prints information about unique freeing traces of the currently allocated
-+    objects. The freeing traces thus come from the previous life-cycle of the
-+    objects and are reported as not available for objects allocated for the first
-+    time. The output is sorted by frequency of each trace.
-+
-+    Information in the output:
-+    Number of objects, freeing function, minimal/average/maximal jiffies since free,
-+    pid range of the freeing processes, cpu mask of freeing cpus, and stack trace.
-+
-+    Example:::
-+
-+    1980 <not-available> age=4294912290 pid=0 cpus=0
-+    51 acpi_ut_update_ref_count+0x6a6/0x782 age=236886/237027/237772 pid=1 cpus=1
-+	kfree+0x2db/0x420
-+	acpi_ut_update_ref_count+0x6a6/0x782
-+	acpi_ut_update_object_reference+0x1ad/0x234
-+	acpi_ut_remove_reference+0x7d/0x84
-+	acpi_rs_get_prt_method_data+0x97/0xd6
-+	acpi_get_irq_routing_table+0x82/0xc4
-+	acpi_pci_irq_find_prt_entry+0x8e/0x2e0
-+	acpi_pci_irq_lookup+0x3a/0x1e0
-+	acpi_pci_irq_enable+0x77/0x240
-+	pcibios_enable_device+0x39/0x40
-+	do_pci_enable_device.part.0+0x5d/0xe0
-+	pci_enable_device_flags+0xfc/0x120
-+	pci_enable_device+0x13/0x20
-+	virtio_pci_probe+0x9e/0x170
-+	local_pci_probe+0x48/0x80
-+	pci_device_probe+0x105/0x1c0
-+
- Christoph Lameter, May 30, 2007
- Sergey Senozhatsky, October 23, 2015
+ 		list_add_tail(&kvg->node, &kv->group_list);
+ 		kvg->vfio_group = vfio_group;
+ 
+@@ -258,6 +288,9 @@ static int kvm_vfio_set_group(struct kvm_device *dev, long attr, u64 arg)
+ #ifdef CONFIG_SPAPR_TCE_IOMMU
+ 			kvm_spapr_tce_release_vfio_group(dev->kvm,
+ 							 kvg->vfio_group);
++#endif
++#ifdef CONFIG_S390
++			kvm_s390_register_kvm(vfio_group, NULL);
+ #endif
+ 			kvm_vfio_group_set_kvm(kvg->vfio_group, NULL);
+ 			kvm_vfio_group_put_external_user(kvg->vfio_group);
 -- 
-2.35.1
+2.27.0
 
