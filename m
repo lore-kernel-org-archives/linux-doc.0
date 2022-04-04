@@ -2,201 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AAE1C35295
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 132BBC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379359AbiDDV1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:27:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51304 "EHLO
+        id S1382378AbiDDV2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379474AbiDDRM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:12:28 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8A71DA48
-        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 10:10:31 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id s11so4270537pla.8
-        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 10:10:31 -0700 (PDT)
+        with ESMTP id S1379500AbiDDRQo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:16:44 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BE514019
+        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 10:14:48 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id f3so9590897pfe.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 10:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p/iyktzXudPCfsWubC5IGLZO/YpQQ0A/MFOUPzzm2b0=;
-        b=mW/8Tu6ZltQOiQBFgHuiFl7Pk1NcBx+SPbJ3DvfPZWtRFVLA6QDIvkx5RmvEpQJSFS
-         PMCkiVebbjN2ZHLZo4qC7OkKkwUevM+/pdELqWBhsiRlT1IqR5OJNEM7nBIEgeh0Baiq
-         cI+wSLIwiNZ1HuCVps5Z/l0IHHZat2g6JPQLkBLWT3v3nr61u76MH12Mhcsrme4V+BCM
-         cLAu8Ow+7epFHYar0KsG9PmFRJWXInORNEB39EAIQT8PLnj7XIAvCcBL9l5fVuE6qYzM
-         4CEAvbJCOiTRoKgT7aBbbYoJTPGfu6murdWXn5/A/R4cmFPhtpH7ySDp3OV54nOmeGBM
-         VHmA==
+         :cc:content-transfer-encoding;
+        bh=9G0a90Ep/Bz5OOoDZhbBO26Y5kHqZZt4pCiJoHTyyw4=;
+        b=dbsKFhi7Qrtq/Rq9OZDWGOfaDFXlehFA5Dvy8IhvRrLeU0T4wP85YNiBqYaU9XUcaR
+         eUVN69DjjMnifijLW25m+YKzc/I0odbx2wV1tPCdU+KBxslLKSqFwvkD4pVvTF50IUQa
+         +QaIH7XLXTeNMaw7eguYI4S17J2ihOJkhUqbubb0twU+NF44WOBEs4KEZwuyI2cQ1OWg
+         DjvmsdfzKYHIffEOCxLZBCluUxcZ7//A9FO1lCcnt+AcAMATqSVWgw8Xu0BUE/Jl7VQw
+         rtUspdPnkhbICsCmzGy+IMML4dl30xRIEscdXvevjnn2tvTt7h6mqDEkiKuyZ7Z/UY9Z
+         FpEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p/iyktzXudPCfsWubC5IGLZO/YpQQ0A/MFOUPzzm2b0=;
-        b=n8GpGEREzPd+YCwPJkn+7SgTSAfJXu4CzhB95a0dKSuzSfx8jixr+uQeJQvhHdYu3a
-         9jQo20yqQn2MOt1nTpsN7QsRpuDrJdDXhzIHbyX+gNQ/t3TotEXr3lR4vD4nx/VlceQc
-         TVDPL6HnD2pE69J6z5ChRgaHBdATSTxHWJcEcmX5Vv8XpoP8catemJh9/H6TEr9jZLLn
-         +cV1asN6KmKceVP874wDbsG+tfoUevNumlItOpTG3muBWkTpeUVmIrYuHAiWDQOjP1cu
-         1z8yLEfBqczsVSzygt168vNNbqyjKeLRfiNB8mmfr4tlHhTrEI3tMaHuFxBNcc2LbtNt
-         MVdA==
-X-Gm-Message-State: AOAM5336uugn7Oh6uIKnAtZBeQYkEMUUK7mWp7s+jkqosqrkQ3WAZhMa
-        DYMnS5gtxxO8cUPJbUAUGfBOHw8fpgHpfTPKTHtN6w==
-X-Google-Smtp-Source: ABdhPJyju8nI9e9dz95e2I+lLL7NMzf+BoB6I6s5E4QtUsBp3vMbpsM7h8MEDcsIwxS9dwtj6Byii7k0P8adQzRZTc0=
-X-Received: by 2002:a17:903:2351:b0:156:a562:b3f8 with SMTP id
- c17-20020a170903235100b00156a562b3f8mr631655plh.81.1649092230248; Mon, 04 Apr
- 2022 10:10:30 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9G0a90Ep/Bz5OOoDZhbBO26Y5kHqZZt4pCiJoHTyyw4=;
+        b=6nJs3CVmJA+e6jvsBy4/KEoDcgwq11mP7XSM3tNgQBW/eaSzamiWH+WQ/YuoQL9N3z
+         u8/f/QIazUDSkOUiBqoP9SSq7Ei8A5Z9bXUDC/vpU15sUkGDOOQugabB6KHEO/9m+TNd
+         PZGPXPVv6J25gd9yl00d7PTeJOZ+SZ4dDKk98OLMTLEE3S5BgsiYHu1vlHxM6+pV7ijM
+         s+Xd9hX+byXkuaPttf0wh3HBAaOwiL7wDC6S3qZcJkgNTL0OSk75XPjk8cjsoPqZ5iFK
+         aehygd2C52o3Z+75XQa7q5QEqXi4yNI4CGC0bSPZhfOpoPvs3st/aNE00iwv17YGfTT9
+         cE/w==
+X-Gm-Message-State: AOAM533fYKgBR/APgw0FLYq3RJA4a2gKK/8d+WydLfAzDEzw6SSMjR0T
+        NUjLsscGLBVOYz7md0rOmmBbDVZ3tNDPmsKdcj4evg==
+X-Google-Smtp-Source: ABdhPJwExpdEGnyWDK69sFVEHi5zDLcGulVNorqTNcKNzqhC2Qfdem89xzMoC4eHonTJ3Nemx/2dgOoEjbxz5HBpdFw=
+X-Received: by 2002:a05:6a00:bd1:b0:4fa:a5d7:c082 with SMTP id
+ x17-20020a056a000bd100b004faa5d7c082mr520472pfu.85.1649092487680; Mon, 04 Apr
+ 2022 10:14:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com> <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
-In-Reply-To: <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Mon, 4 Apr 2022 10:09:54 -0700
-Message-ID: <CAJD7tkZrOYsT1bsFB2ge5_wGccGhpS99y+OkzQHhRVgZwexL4A@mail.gmail.com>
+References: <YkdrEG5FlL7Gq2Vi@cmpxchg.org> <243A0156-D26A-47C9-982A-C8B0CDD69DA2@linux.dev>
+ <Ykdz7fiMFZeFltYy@cmpxchg.org>
+In-Reply-To: <Ykdz7fiMFZeFltYy@cmpxchg.org>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Mon, 4 Apr 2022 10:14:36 -0700
+Message-ID: <CALvZod466jLN8Bb67X9=iF5TvjOo-oEsHA-mGhpHnywGCP+WvA@mail.gmail.com>
 Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Roman Gushchin <roman.gushchin@linux.dev>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
         Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, Jonathan Corbet <corbet@lwn.net>,
         Yu Zhao <yuzhao@google.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+On Fri, Apr 1, 2022 at 2:51 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
 >
-> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
-> > From: Shakeel Butt <shakeelb@google.com>
+> On Fri, Apr 01, 2022 at 02:21:52PM -0700, Roman Gushchin wrote:
+> > > On Apr 1, 2022, at 2:13 PM, Johannes Weiner <hannes@cmpxchg.org> wrot=
+e:
+> > >
+> > > =EF=BB=BFOn Fri, Apr 01, 2022 at 11:39:30AM -0700, Roman Gushchin wro=
+te:
+> > >> The interface you're proposing is not really extensible, so we'll li=
+kely need to
+> > >> introduce a new interface like memory.reclaim_ext very soon. Why not=
+ create
+> > >> an extensible API from scratch?
+> > >>
+> > >> I'm looking at cgroup v2 documentation which describes various inter=
+face files
+> > >> formats and it seems like given the number of potential optional arg=
+uments
+> > >> the best option is nested keyed (please, refer to the Interface File=
+s section).
+> > >>
+> > >> E.g. the format can be:
+> > >> echo "1G type=3Dfile nodemask=3D1-2 timeout=3D30s" > memory.reclaim
+> > >
+> > > Yeah, that syntax looks perfect.
+> > >
+> > > But why do you think it's not extensible from the current patch? We
+> > > can add those arguments one by one as we agree on them, and return
+> > > -EINVAL if somebody passes an unknown parameter.
+> > >
+> > > It seems to me the current proposal is forward-compatible that way
+> > > (with the current set of keyword pararms being the empty set :-))
 > >
-> > Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+> > It wasn=E2=80=99t obvious to me. We spoke about positional arguments an=
+d then it wasn=E2=80=99t clear how to add them in a backward-compatible way=
+. The last thing we want is a bunch of memory.reclaim* interfaces :)
 > >
-> > Use case: Proactive Reclaim
-> > ---------------------------
-> >
-> > A userspace proactive reclaimer can continuously probe the memcg to
-> > reclaim a small amount of memory. This gives more accurate and
-> > up-to-date workingset estimation as the LRUs are continuously
-> > sorted and can potentially provide more deterministic memory
-> > overcommit behavior. The memory overcommit controller can provide
-> > more proactive response to the changing behavior of the running
-> > applications instead of being reactive.
-> >
-> > A userspace reclaimer's purpose in this case is not a complete replacement
-> > for kswapd or direct reclaim, it is to proactively identify memory savings
-> > opportunities and reclaim some amount of cold pages set by the policy
-> > to free up the memory for more demanding jobs or scheduling new jobs.
-> >
-> > A user space proactive reclaimer is used in Google data centers.
-> > Additionally, Meta's TMO paper recently referenced a very similar
-> > interface used for user space proactive reclaim:
-> > https://dl.acm.org/doi/pdf/10.1145/3503222.3507731
-> >
-> > Benefits of a user space reclaimer:
-> > -----------------------------------
-> >
-> > 1) More flexible on who should be charged for the cpu of the memory
-> > reclaim. For proactive reclaim, it makes more sense to be centralized.
-> >
-> > 2) More flexible on dedicating the resources (like cpu). The memory
-> > overcommit controller can balance the cost between the cpu usage and
-> > the memory reclaimed.
-> >
-> > 3) Provides a way to the applications to keep their LRUs sorted, so,
-> > under memory pressure better reclaim candidates are selected. This also
-> > gives more accurate and uptodate notion of working set for an
-> > application.
-> >
-> > Why memory.high is not enough?
-> > ------------------------------
-> >
-> > - memory.high can be used to trigger reclaim in a memcg and can
-> >   potentially be used for proactive reclaim.
-> >   However there is a big downside in using memory.high. It can potentially
-> >   introduce high reclaim stalls in the target application as the
-> >   allocations from the processes or the threads of the application can hit
-> >   the temporary memory.high limit.
-> >
-> > - Userspace proactive reclaimers usually use feedback loops to decide
-> >   how much memory to proactively reclaim from a workload. The metrics
-> >   used for this are usually either refaults or PSI, and these metrics
-> >   will become messy if the application gets throttled by hitting the
-> >   high limit.
-> >
-> > - memory.high is a stateful interface, if the userspace proactive
-> >   reclaimer crashes for any reason while triggering reclaim it can leave
-> >   the application in a bad state.
-> >
-> > - If a workload is rapidly expanding, setting memory.high to proactively
-> >   reclaim memory can result in actually reclaiming more memory than
-> >   intended.
-> >
-> > The benefits of such interface and shortcomings of existing interface
-> > were further discussed in this RFC thread:
-> > https://lore.kernel.org/linux-mm/5df21376-7dd1-bf81-8414-32a73cea45dd@google.com/
-> >
-> > Interface:
-> > ----------
-> >
-> > Introducing a very simple memcg interface 'echo 10M > memory.reclaim' to
-> > trigger reclaim in the target memory cgroup.
-> >
-> >
-> > Possible Extensions:
-> > --------------------
-> >
-> > - This interface can be extended with an additional parameter or flags
-> >   to allow specifying one or more types of memory to reclaim from (e.g.
-> >   file, anon, ..).
-> >
-> > - The interface can also be extended with a node mask to reclaim from
-> >   specific nodes. This has use cases for reclaim-based demotion in memory
-> >   tiering systens.
-> >
-> > - A similar per-node interface can also be added to support proactive
-> >   reclaim and reclaim-based demotion in systems without memcg.
-> >
-> > For now, let's keep things simple by adding the basic functionality.
+> > So yeah, let=E2=80=99s just describe it properly in the documentation, =
+no code changes are needed.
 >
-> Yes, I am for the simplicity and this really looks like a bare minumum
-> interface. But it is not really clear who do you want to add flags on
-> top of it?
->
+> Sounds good to me!
 
-Mostly I (or someone at Google) will follow-up with patches to add
-most of these features. We just wanted to get consensus on the bare
-minimum interface first, and to avoid derailing this discussion with
-whether or not we need each of those features and what the best way to
-implement them is.
+To summarize for next version:
 
-> I am not really sure we really need a node aware interface for memcg.
-> The global reclaim interface will likely need a different node because
-> we do not want to make this CONFIG_MEMCG constrained.
->
+1) Add selftests.
+2) Add documentation for potential future extension, so whoever adds
+those features in future should follow the key-value format Roman is
+suggesting.
 
-The main use case, as Wei mentioned, is memcg-based proactive demotion
-via the reclaim-based demotion
-mechanism in the kernel. We can still have a nodemask argument to the
-global reclaim interface as well.
-
-
-> > [yosryahmed@google.com: refreshed to current master, updated commit
-> > message based on recent discussions and use cases]
-> > Signed-off-by: Shakeel Butt <shakeelb@google.com>
-> > Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
->
-> All that being said. I haven't been a great fan for explicit reclaim
-> triggered from the userspace but I do recognize that limitations of the
-> existing interfaces is just too restrictive.
->
-> Acked-by: Michal Hocko <mhocko@suse.com>
->
-> Thanks!
-> --
-> Michal Hocko
-> SUSE Labs
+Yosry, once we have agreement on the return value, please send the
+next version resolving these three points.
