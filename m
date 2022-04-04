@@ -2,131 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FC9C35295
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D5CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 22:35:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382408AbiDDV3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51698 "EHLO
+        id S231955AbiDDWg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 18:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379619AbiDDRqD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:03 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2A1FD09;
-        Mon,  4 Apr 2022 10:44:03 -0700 (PDT)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234ElGnF032776;
-        Mon, 4 Apr 2022 17:44:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ShNBro6g9YDFBfPnEFSuqAGYDfTXcS0GIMpWkrLl5DI=;
- b=HKyx9oRmkp/pjTkl4id4Uof91HSGpJ5Hw+TsxA0kMEV0WeJjRhS/WbCOAiZ2SM2FKLC8
- Ymp04WfG1U24SWvSEYiVRJZwozQ7qpKct3qC5F7fsrggv3pZA3rho49jdeRV4xHaSAQH
- LAeW1EtuCviaUsAntTHF0vAQpZvCyolEqiu+PH9RI92Srqp99+uzERivwIEHUr7PjPNo
- 9HJ/stQj9Eeb/kL4qw9BM8H0EQcZjQNkLIE3iZbnKTpCZjWvpEn+p0ruaeI+VDUWW7X2
- pLpYt+JG2/QNLWjtYUO14hJktVc0A1JOidkEFh+3vRWt9CcjNeJBGD1oTJtmGLrbKY4N VQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f82rbwk9x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:03 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234GTUSi016251;
-        Mon, 4 Apr 2022 17:44:02 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3f82rbwk99-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:02 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234Hh26h004941;
-        Mon, 4 Apr 2022 17:44:01 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
-        by ppma02dal.us.ibm.com with ESMTP id 3f6e4a5fb9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 Apr 2022 17:44:01 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234Hi0qF14942710
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 4 Apr 2022 17:44:00 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3CD0E13605E;
-        Mon,  4 Apr 2022 17:44:00 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1D47713604F;
-        Mon,  4 Apr 2022 17:43:58 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  4 Apr 2022 17:43:58 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 01/21] s390/sclp: detect the zPCI load/store interpretation facility
-Date:   Mon,  4 Apr 2022 13:43:29 -0400
-Message-Id: <20220404174349.58530-2-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+        with ESMTP id S235927AbiDDWen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 18:34:43 -0400
+Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE65541B9;
+        Mon,  4 Apr 2022 14:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
+        s=Selector; t=1649109158; i=@motorola.com;
+        bh=FC1k8RXkwsdD29iqlfP9VRrjSDl1IA59BmUkMvuR3So=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Type:In-Reply-To;
+        b=DmiZ9Z/qOz36dBP3mupQj/+M+0S4TTv5JA2vt7F4+cpsl+xyG0/LPSKueiUZeuEs3
+         7tmgbqlN6XOSuQbX7geToECPjK4rYINOa0oPGpeMvEZCfHEXp3rY6z6iPhQBGicXV8
+         0GV9XUUWwJK2Q1gQ4LhWWEWmg7UNW15A7Inaztd/Cg/yrRWnB+Yl680gv965YGOexk
+         8WUpjY6bypKkQ3yvSc68gox9MJK2vJYzkyKBgFpfKlPueCdxDCiOON6oOqZwBKuO0+
+         GW11kIZNg3kWmOxmwifx5Yqv0EyD7ZC9fJ0xXm9WeKx0Y3WdsmBew/gN13HPayeTSE
+         hhm6e4JR4CiZA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleJIrShJLcpLzFFi42LJePFEQndphne
+  SweFuLYtjbU/YLeZsjrZ4cqCd0aJ58Xo2i/ebprBadE5cwm6xsG0Ji8XlXXPYLBYta2W2eDj7
+  KqPF2zvTWRy4PWZ3zGT12LxCy2PTqk42j/1z17B7LO6bzOqxacotVo/Pm+Q8Dm1/wxbAEcWam
+  ZeUX5HAmrGr/QZrwSWhiiN397A3MN7n72Lk4hASmMIkcfZ5JxOEs5BJ4vStNcxdjJwcLAIqEu
+  sfLGEEsdkE1CQWvF4FFhcBiv+708IGYjML/GeS6P7oAmILC4RKzJw8CayeV0BZYs+Rw+wgtpB
+  AkMTbs72sEHFBiZMzn7BA9GpJ3Pj3EmgxB5AtLbH8HwdImBNo1dMdN9knMPLOQtIxC0nHLISO
+  BYzMqxitk4oy0zNKchMzc3QNDQx0DQ1NdM1MdQ0tDfUSq3QT9UqLdVMTi0t0jfQSy4v1UouL9
+  Yorc5NzUvTyUks2MQLjI6XIcf8Oxp2rfuodYpTkYFIS5T3j6p0kxJeUn1KZkVicEV9UmpNafI
+  hRhoNDSYI3JBUoJ1iUmp5akZaZA4xVmLQEB4+SCK+4I1Cat7ggMbc4Mx0idYpRl+PSoSt7mYV
+  Y8vLzUqXEebvSgYoEQIoySvPgRsDSxiVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrxbQKbw
+  ZOaVwG16BXQEE9AR7854ghxRkoiQkmpgUivyznzVsljaIyt+U6aTwi27D4dWf818fqClf8nFZ
+  7smr7nsHlClG+H2Y+H+3Ec7rCZ9mCfO/P1anryxw564+tmHUy9f4rq57rkcw+Vb3LsnZB36b/
+  6EpWTKUntWyXL38MkLmmf+aWedG6g5Td/FxFSt8Pa3ZEeO13+W8QldfvSB8fzjGzmvXT5533B
+  evcdYIbrUVlOVu+HVl4/bGgQn/z2i+qM9UFmUbUMnS3K8Svl/MQ77YBPjy8tOfdJPWNz29Jnp
+  envl88Kffj1y+Wf+9fne3B9hdvOPVSjbq8ufE5P8tkFiAgtT8TmF82rmyT9MDVIPl5StacxZ2
+  L3shIkyd2+7UfVMvngfg8/dXziPKLEUZyQaajEXFScCAGWVNMWWAwAA
+X-Env-Sender: w36195@motorola.com
+X-Msg-Ref: server-5.tower-715.messagelabs.com!1649109157!2020!1
+X-Originating-IP: [104.232.228.24]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 30282 invoked from network); 4 Apr 2022 21:52:37 -0000
+Received: from unknown (HELO va32lpfpp04.lenovo.com) (104.232.228.24)
+  by server-5.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Apr 2022 21:52:37 -0000
+Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by va32lpfpp04.lenovo.com (Postfix) with ESMTPS id 4KXPdd24JKzgMXh;
+        Mon,  4 Apr 2022 21:52:37 +0000 (UTC)
+Received: from p1g3 (unknown [10.45.5.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: w36195)
+        by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4KXPdc6bglzbrlP;
+        Mon,  4 Apr 2022 21:52:36 +0000 (UTC)
+Date:   Mon, 4 Apr 2022 16:52:35 -0500
+From:   Dan Vacura <w36195@motorola.com>
+To:     John Keeping <john@metanate.com>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YktoowtOyRcCBLOb@p1g3>
+References: <20220401160447.5919-1-w36195@motorola.com>
+ <YkgyZ6BrSX/7pDry@donbot>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ALKXFnERttemEjdzLR74APFzkdi6gLGx
-X-Proofpoint-ORIG-GUID: rY_QENMcYmLzS_wOi7nltzSMmBAKwE1B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204040099
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkgyZ6BrSX/7pDry@donbot>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Detect the zPCI Load/Store Interpretation facility.
+On Sat, Apr 02, 2022 at 12:24:23PM +0100, John Keeping wrote:
+> On Fri, Apr 01, 2022 at 11:04:45AM -0500, Dan Vacura wrote:
+> > Add a configfs entry, "function_name", to change the iInterface field
+> > for VideoControl. This name is used on host devices for user selection,
+> > useful when multiple cameras are present. The default will remain "UVC
+> > Camera".
+> 
+> > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> > index 71bb5e477dba..50e6e7a58b41 100644
+> > --- a/drivers/usb/gadget/function/f_uvc.c
+> > +++ b/drivers/usb/gadget/function/f_uvc.c
+> > @@ -44,7 +44,7 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
+> >  #define UVC_STRING_STREAMING_IDX		1
+> >  
+> >  static struct usb_string uvc_en_us_strings[] = {
+> > -	[UVC_STRING_CONTROL_IDX].s = "UVC Camera",
+> > +	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
+> >  	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
+> >  	{  }
+> >  };
+> > @@ -676,6 +676,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+> >  	uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+> >  	uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+> >  
+> > +	uvc_en_us_strings[UVC_STRING_CONTROL_IDX].s = opts->function_name;
+> >  	us = usb_gstrings_attach(cdev, uvc_function_strings,
+> >  				 ARRAY_SIZE(uvc_en_us_strings));
+> >  	if (IS_ERR(us)) {
+> > @@ -866,6 +867,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
+> >  
+> >  	opts->streaming_interval = 1;
+> >  	opts->streaming_maxpacket = 1024;
+> > +	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
+> 
+> This only allows a single language to be specified.  I know that's what
+> the existing string uses, but for other strings which can be set by
+> userspace multiple languages are supported.
+> 
+> Should we be making USB_CONFIG_STRINGS_LANG more generic so that it can
+> be used by functions as well as the core configfs code?
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- arch/s390/include/asm/sclp.h   | 1 +
- drivers/s390/char/sclp_early.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/arch/s390/include/asm/sclp.h b/arch/s390/include/asm/sclp.h
-index 04cb1e7582a6..06c0b5eb8ef5 100644
---- a/arch/s390/include/asm/sclp.h
-+++ b/arch/s390/include/asm/sclp.h
-@@ -87,6 +87,7 @@ struct sclp_info {
- 	unsigned char has_diag318 : 1;
- 	unsigned char has_sipl : 1;
- 	unsigned char has_dirq : 1;
-+	unsigned char has_zpci_lsi : 1;
- 	unsigned int ibc;
- 	unsigned int mtid;
- 	unsigned int mtid_cp;
-diff --git a/drivers/s390/char/sclp_early.c b/drivers/s390/char/sclp_early.c
-index e9943a86c361..b88dd0da1231 100644
---- a/drivers/s390/char/sclp_early.c
-+++ b/drivers/s390/char/sclp_early.c
-@@ -45,6 +45,7 @@ static void __init sclp_early_facilities_detect(void)
- 	sclp.has_gisaf = !!(sccb->fac118 & 0x08);
- 	sclp.has_hvs = !!(sccb->fac119 & 0x80);
- 	sclp.has_kss = !!(sccb->fac98 & 0x01);
-+	sclp.has_zpci_lsi = !!(sccb->fac118 & 0x01);
- 	if (sccb->fac85 & 0x02)
- 		S390_lowcore.machine_flags |= MACHINE_FLAG_ESOP;
- 	if (sccb->fac91 & 0x40)
--- 
-2.27.0
+Agree that adding support for more than one language would be ideal.
+Looking through the gadget functions, most seem to be hardcoded to en-us
+locale and don't provide a way to change the exposed names. Recently
+this was just accepted, which I modeled my change after:
+https://lore.kernel.org/all/20220122112446.1415547-2-t123yh.xyz@gmail.com/
+so at least making USB_CONFIG_STRINGS_LANG more generic would benefit
+the uac and uvc gadgets.
 
