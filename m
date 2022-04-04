@@ -2,102 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD715C4167E
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5D0C43219
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 21:27:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353462AbiDDV2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 17:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43304 "EHLO
+        id S1382367AbiDDV1y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 17:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379964AbiDDS1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 14:27:42 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 616C213F4A;
-        Mon,  4 Apr 2022 11:25:45 -0700 (PDT)
-Date:   Mon, 4 Apr 2022 11:25:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1649096743;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Og7JJS97Y7kZpeaH/i0wuDH1r4Ru5n8sJ0IhUTsaTkc=;
-        b=IFf94GWr/6nr/4HgPNIQTPJGHrC3WBKmIpRxtM36jz9zsR04NOjeL/8OfSzqcvZG0zgjq5
-        bxiztvliLfe6bwYLU/TybmMsDuIL3Dv81VLiVs4OB9hzOhwlSPvHK8CDaU4e7vrJKGzg2u
-        I0k54olorsvEY4ZnPZLQZx8TVXRhjg8=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-Message-ID: <Yks4H1pQx1YN37gH@carbon.dhcp.thefacebook.com>
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com>
- <YkcC3z5ReeQ5vdg9@dhcp22.suse.cz>
- <YkcvU2hosJV3cL8F@carbon.dhcp.thefacebook.com>
- <Ykqv1CvGwgmF2jlT@dhcp22.suse.cz>
+        with ESMTP id S1379656AbiDDRqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 13:46:20 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D76613EBA;
+        Mon,  4 Apr 2022 10:44:24 -0700 (PDT)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234EwA6F018684;
+        Mon, 4 Apr 2022 17:44:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=p9n3cCVIWRebwGgLHVPBdH2sQpucpAX4L74C1vYCuaw=;
+ b=s/7U0EQ2rRVK1at+8mQ9I25dKf/MjCHFLk0JI2b7in3g6mOS5FfUYyGSzuzUbEjkOaVU
+ psXYLo3MGpWDzG9nmzln1nWeygrl/0PGf9bY+EI8F7NOf77jxLzXPCVxd9n49yyigrg2
+ L7+UJ7jnfzbNtuZufu6V4kpQCnD7pKXfjFhdX75lRGHvL1zVDz/V1AV7cr0jampA1800
+ L+tJXRjfSEGeVKOvtSqN+7RHfKyJdnXU/h5xV4wzrsI6g5oS8OAccR9IEHUreAu6uBF7
+ MW86ob+z1FYutqwgYqi9kwCTD8LWlRSBiE41JaNPuEsT1ff2WSUL21fdxnFkP2hLJS5O VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f80hxj3fq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:22 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234HGHSR004807;
+        Mon, 4 Apr 2022 17:44:21 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3f80hxj3f8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:21 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234Hh2SI002353;
+        Mon, 4 Apr 2022 17:44:21 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+        by ppma03wdc.us.ibm.com with ESMTP id 3f6e48s68m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 17:44:21 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 234HiKjF21823762
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Apr 2022 17:44:20 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 077B313605E;
+        Mon,  4 Apr 2022 17:44:20 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0940D136051;
+        Mon,  4 Apr 2022 17:44:18 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.32.125])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  4 Apr 2022 17:44:17 +0000 (GMT)
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+To:     linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 10/21] KVM: s390: pci: add basic kvm_zdev structure
+Date:   Mon,  4 Apr 2022 13:43:38 -0400
+Message-Id: <20220404174349.58530-11-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ykqv1CvGwgmF2jlT@dhcp22.suse.cz>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bHTm7p5UsCgtrZK42O4aYO1JuSkOKcXK
+X-Proofpoint-ORIG-GUID: CNPTI4rOHMrYxkK3NAo-wbFko41B6gG5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_06,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=928 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204040099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 04, 2022 at 10:44:04AM +0200, Michal Hocko wrote:
-> On Fri 01-04-22 09:58:59, Roman Gushchin wrote:
-> > On Fri, Apr 01, 2022 at 03:49:19PM +0200, Michal Hocko wrote:
-> > > On Thu 31-03-22 10:25:23, Roman Gushchin wrote:
-> > > > On Thu, Mar 31, 2022 at 08:41:51AM +0000, Yosry Ahmed wrote:
-> > > [...]
-> > > > > - A similar per-node interface can also be added to support proactive
-> > > > >   reclaim and reclaim-based demotion in systems without memcg.
-> > > > 
-> > > > Maybe an option to specify a timeout? That might simplify the userspace part.
-> > > 
-> > > What do you mean by timeout here? Isn't
-> > > timeout $N echo $RECLAIM > ....
-> > > 
-> > > enough?
-> > 
-> > It's nice and simple when it's a bash script, but when it's a complex
-> > application trying to do the same, it quickly becomes less simple and
-> > likely will require a dedicated thread to avoid blocking the main app
-> > for too long and a mechanism to unblock it by timer/when the need arises.
-> > 
-> > In my experience using correctly such semi-blocking interfaces (semi- because
-> > it's not clearly defined how much time the syscall can take and whether it
-> > makes sense to wait longer) is tricky.
-> 
-> We have the same approach to setting other limits which need to perform
-> the reclaim. Have we ever hit that as a limitation that would make
-> userspace unnecessarily too complex?
+This structure will be used to carry kvm passthrough information related to
+zPCI devices.
 
-The difference here is that some limits are most likely set once and
-never adjusted, e.g. memory.max or memory.low.
-I do definitely remember some issues around memory.high, but as I recall,
-we've fixed them on the kernel side. We've even had a private memory.high.tmp
-interface with a value and a timeout, which later was replaced with
-a memory.reclaim interface similar to what we discuss here.
-But with memory.high we set the limit first, so if a user tries to reclaim
-a lot of hot memory, it will soon put all processes in the cgroup into
-the sleep/direct reclaim. So it's not expected to block for too long.
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+---
+ arch/s390/include/asm/pci.h |  3 +++
+ arch/s390/kvm/Makefile      |  1 +
+ arch/s390/kvm/pci.c         | 38 +++++++++++++++++++++++++++++++++++++
+ arch/s390/kvm/pci.h         | 21 ++++++++++++++++++++
+ 4 files changed, 63 insertions(+)
+ create mode 100644 arch/s390/kvm/pci.c
+ create mode 100644 arch/s390/kvm/pci.h
 
-In general it all comes to the question how hard the kernel should try to
-reclaim the memory before giving up. The userspace might have different
-needs in different cases. But if the interface is defined very vaguely like
-it tries for an undefined amount of time and then gives up, it's hard to
-use it in a predictive manner.
+diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
+index 4c5b8fbc2079..9eb20cebaa18 100644
+--- a/arch/s390/include/asm/pci.h
++++ b/arch/s390/include/asm/pci.h
+@@ -97,6 +97,7 @@ struct zpci_bar_struct {
+ };
+ 
+ struct s390_domain;
++struct kvm_zdev;
+ 
+ #define ZPCI_FUNCTIONS_PER_BUS 256
+ struct zpci_bus {
+@@ -190,6 +191,8 @@ struct zpci_dev {
+ 	struct dentry	*debugfs_dev;
+ 
+ 	struct s390_domain *s390_domain; /* s390 IOMMU domain data */
++
++	struct kvm_zdev *kzdev; /* passthrough data */
+ };
+ 
+ static inline bool zdev_enabled(struct zpci_dev *zdev)
+diff --git a/arch/s390/kvm/Makefile b/arch/s390/kvm/Makefile
+index 26f4a74e5ce4..00cf6853d93f 100644
+--- a/arch/s390/kvm/Makefile
++++ b/arch/s390/kvm/Makefile
+@@ -10,4 +10,5 @@ ccflags-y := -Ivirt/kvm -Iarch/s390/kvm
+ kvm-y += kvm-s390.o intercept.o interrupt.o priv.o sigp.o
+ kvm-y += diag.o gaccess.o guestdbg.o vsie.o pv.o
+ 
++kvm-$(CONFIG_PCI) += pci.o
+ obj-$(CONFIG_KVM) += kvm.o
+diff --git a/arch/s390/kvm/pci.c b/arch/s390/kvm/pci.c
+new file mode 100644
+index 000000000000..213be236c05a
+--- /dev/null
++++ b/arch/s390/kvm/pci.c
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * s390 kvm PCI passthrough support
++ *
++ * Copyright IBM Corp. 2022
++ *
++ *    Author(s): Matthew Rosato <mjrosato@linux.ibm.com>
++ */
++
++#include <linux/kvm_host.h>
++#include <linux/pci.h>
++#include "pci.h"
++
++int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
++{
++	struct kvm_zdev *kzdev;
++
++	kzdev = kzalloc(sizeof(struct kvm_zdev), GFP_KERNEL);
++	if (!kzdev)
++		return -ENOMEM;
++
++	kzdev->zdev = zdev;
++	zdev->kzdev = kzdev;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(kvm_s390_pci_dev_open);
++
++void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
++{
++	struct kvm_zdev *kzdev;
++
++	kzdev = zdev->kzdev;
++	WARN_ON(kzdev->zdev != zdev);
++	zdev->kzdev = 0;
++	kfree(kzdev);
++}
++EXPORT_SYMBOL_GPL(kvm_s390_pci_dev_release);
+diff --git a/arch/s390/kvm/pci.h b/arch/s390/kvm/pci.h
+new file mode 100644
+index 000000000000..ce93978e8913
+--- /dev/null
++++ b/arch/s390/kvm/pci.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * s390 kvm PCI passthrough support
++ *
++ * Copyright IBM Corp. 2022
++ *
++ *    Author(s): Matthew Rosato <mjrosato@linux.ibm.com>
++ */
++
++#ifndef __KVM_S390_PCI_H
++#define __KVM_S390_PCI_H
++
++#include <linux/kvm_host.h>
++#include <linux/pci.h>
++
++struct kvm_zdev {
++	struct zpci_dev *zdev;
++	struct kvm *kvm;
++};
++
++#endif /* __KVM_S390_PCI_H */
+-- 
+2.27.0
 
-Thanks!
