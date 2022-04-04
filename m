@@ -2,116 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F75CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 03:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DC4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 03:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355252AbiDDDsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Apr 2022 23:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59706 "EHLO
+        id S242293AbiDDDxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Apr 2022 23:53:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346615AbiDDDsB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 23:48:01 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A57AA27CF4
-        for <linux-doc@vger.kernel.org>; Sun,  3 Apr 2022 20:46:04 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id l62-20020a1c2541000000b0038e4570af2fso4820392wml.5
-        for <linux-doc@vger.kernel.org>; Sun, 03 Apr 2022 20:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zIEWjwIftCsbXsyVaKrbxiQ3YI3B53hkXz7cL3Cg4Hk=;
-        b=5NLJ/H5VwJU9/XJjgnCvziAUiVTZmUTWR+QTk5YqSNeNhj6yLp5udBH8IXnkRyqfen
-         7ZMH7/kbxkU3fVc6e7d+20rQRfniY5BwYwRN1bTzqBHuoFPd4gjk6Crt17D/Ksd+WFBN
-         YC24GmWYZZrG59JApll5m8/7lxBs3UV9MWI5+k+Od/BrzhtJ2E2QTr8RuOh+yOpBcvhj
-         /gdekB1g6P+n/7lc7AqNcSR7dVbLUBfkvnw+VANgZor1xLG7MbPj6G32g8aEhsgczqTQ
-         nupBrMvFISqcO3bnR+8PmjHidV4jhgdyjY3yxzgHjJt7aB73xNayUU/HkBphiwCVDdLB
-         8GsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zIEWjwIftCsbXsyVaKrbxiQ3YI3B53hkXz7cL3Cg4Hk=;
-        b=KHU5s7KHluctb8AMSyeru1oMGShytwIX02ZAgWdklo7na51kqWNPoeY4eHHqZ+uDbe
-         FZRWENuZ8ekRzqXPpZcKFLxvg6x7k7GJD7xb+1K1yMN+bCayFmxvXP8rnNF0hZrNY7yG
-         UvH/u2W+gTjgGUs45CdKxTTrPz0+EJMQedEFZ0OFXYYCur7r52tL4zYo81ATs0N05T++
-         90i4y5elrkuRa/8W5e7ixEe6yxBTEGl7LFKWSs9CFGysjm7wSgwxO1RhhRj+vKbsSIWX
-         9b1FvGWpW1kmcfsUjNUNaNwbJf1Nj5OCYXdbdz5mrL0qUw1i7D4hv6RnBixx8wyoxBCY
-         fabQ==
-X-Gm-Message-State: AOAM532idNpLB44Iftrzlk0ToLydpnNf2XT7Aq9An+PfBndhrmDebTIh
-        NBK/7CYU7zi5KAwgc2qfj0RwkabJnEtJoFky3iRg+Q==
-X-Google-Smtp-Source: ABdhPJxWy3ASdc1fdzlTkh/icaTSsaUSRXwwU+/7EXnNF1pjk9RZzqkcq+Ab3qtG3iS4I7Z32SL1kMxGGrKs6m5vxIg=
-X-Received: by 2002:a05:600c:6d4:b0:38e:7622:9983 with SMTP id
- b20-20020a05600c06d400b0038e76229983mr450885wmn.93.1649043963147; Sun, 03 Apr
- 2022 20:46:03 -0700 (PDT)
+        with ESMTP id S244598AbiDDDwp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Apr 2022 23:52:45 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376CE2B25E;
+        Sun,  3 Apr 2022 20:50:49 -0700 (PDT)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23421a85025755;
+        Mon, 4 Apr 2022 03:50:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=9dfEKjiqJk7peBrMbPWk18ZVy+8Q9UvJWWfMRHUvo6k=;
+ b=BmhSMTkV4aoD1xA4JdlOkFBk33G1s0UQNOSavGiLW4aOEhSuC4jwUg+FABcgc7aDxbru
+ H99MrhYeN6HqwAnTKjoB1W/DYRIh+k21qapAByc6gB1Bh+IKiJakFbKrVvtKrZPsWUiT
+ 89KRrpPtO00R3pq0xYQHFUwaoo33d8Lw4J7BKawk1bHjIK/4915rerisvd5q2145wg2I
+ 9/8lkLGYhs1ntgmr0Rs48coRyVl+KGHaExQuQbfKR7nvvBNo1JhzWNvyvH7i1M8QtM5w
+ S+U5wecnCelw0GhRnO26XBS1kwbZuL60JZcAKt1x6sL0bC/lifhVhPu/EN99gbmamj0D GA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6nfpvp53-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 03:50:38 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2343UtTf008172;
+        Mon, 4 Apr 2022 03:50:37 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f6nfpvp4u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 03:50:37 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2343l1Cw003155;
+        Mon, 4 Apr 2022 03:50:35 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma06ams.nl.ibm.com with ESMTP id 3f6drhjr7g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 Apr 2022 03:50:35 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2343oXk827066768
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Apr 2022 03:50:33 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 67E074203F;
+        Mon,  4 Apr 2022 03:50:33 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 253F542047;
+        Mon,  4 Apr 2022 03:50:19 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.163.10.247])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Mon,  4 Apr 2022 03:50:18 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Mon, 04 Apr 2022 09:20:16 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+In-Reply-To: <CAJD7tka1UstKYBVrie-_1CgvtaLtVD1uwgzfk5SifxW4FQbOVw@mail.gmail.com>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <874k3d6vuq.fsf@vajain21.in.ibm.com>
+ <CAJD7tka1UstKYBVrie-_1CgvtaLtVD1uwgzfk5SifxW4FQbOVw@mail.gmail.com>
+Date:   Mon, 04 Apr 2022 09:20:16 +0530
+Message-ID: <871qyd7bif.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-References: <20220403065735.23859-1-bagasdotme@gmail.com>
-In-Reply-To: <20220403065735.23859-1-bagasdotme@gmail.com>
-From:   Anup Patel <anup@brainfault.org>
-Date:   Mon, 4 Apr 2022 09:14:53 +0530
-Message-ID: <CAAhSdy0G4o16Qdt2ZPDAD5M6Updopdm43La2q4t6xVA540WXdw@mail.gmail.com>
-Subject: Re: [PATCH RESEND] Documentation: kvm: Add missing line break in api.rst
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        KVM General <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ybb_MQUKKWwZFcBFzRMKgA5MhWXOPkvA
+X-Proofpoint-GUID: tW5oG1MSxam5HKOk6A0N5UjV35bOag7j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_01,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ spamscore=0 mlxscore=0 malwarescore=0 phishscore=0 mlxlogscore=593
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204040018
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 3, 2022 at 12:28 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> Add missing line break separator between literal block and description
-> of KVM_EXIT_RISCV_SBI.
->
-> This fixes:
-> </path/to/linux>/Documentation/virt/kvm/api.rst:6118: WARNING: Literal block ends without a blank line; unexpected unindent.
->
-> Fixes: da40d85805937d (RISC-V: KVM: Document RISC-V specific parts of KVM API, 2021-09-27)
-> Cc: Anup Patel <anup.patel@wdc.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Cc: kvm@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-riscv@lists.infradead.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-For KVM RISC-V related patches, please CC kvm-riscv@lists.infradead.org
+Apologies for the delayed response,
 
-Otherwise, this looks good to me. I have queued this for RC fixes.
+Yosry Ahmed <yosryahmed@google.com> writes:
 
-Thanks,
-Anup
+> On Fri, Apr 1, 2022 at 1:39 AM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+>>
+>>
+>> Yosry Ahmed <yosryahmed@google.com> writes:
+>> > From: Shakeel Butt <shakeelb@google.com>
+>> >
+>> > Introduce an memcg interface to trigger memory reclaim on a memory cgroup.
+>> <snip>
+>>
+>> > +
+>> > +     while (nr_reclaimed < nr_to_reclaim) {
+>> > +             unsigned long reclaimed;
+>> > +
+>> > +             if (signal_pending(current))
+>> > +                     break;
+>> > +
+>> > +             reclaimed = try_to_free_mem_cgroup_pages(memcg,
+>> > +                                             nr_to_reclaim - nr_reclaimed,
+>> > +                                             GFP_KERNEL, true);
+>> > +
+>> > +             if (!reclaimed && !nr_retries--)
+>> > +                     break;
+>> > +
+>> > +             nr_reclaimed += reclaimed;
+>>
+>> I think there should be a cond_resched() in this loop before
+>> try_to_free_mem_cgroup_pages() to have better chances of reclaim
+>> succeding early.
+>>
+> Thanks for taking the time to look at this!
+>
+> I believe this loop is modeled after the loop in memory_high_write()
+> for the memory.high interface. Is there a reason why it should be
+> needed here but not there?
+>
 
-> ---
->  Documentation/virt/kvm/api.rst | 1 +
->  1 file changed, 1 insertion(+)
+memory_high_write() calls drain_all_stock() atleast once before calling
+try_to_free_mem_cgroup_pages(). This would drain all percpu stocks
+for the given memcg and its descendents, giving a high chance
+try_to_free_mem_cgroup_pages() to succeed quickly. Such a functionality
+is missing from this patch.
+
+Adding a cond_resched() would atleast give chance to other processess
+within the memcg to run and make forward progress thereby making more
+pages available for reclaim.
+
+Suggestion is partly based on __perform_reclaim() issues a cond_resche()
+as it may get called repeatedly during direct reclaim path.
+
+
+>> <snip>
+>>
+>> --
+>> Cheers
+>> ~ Vaibhav
 >
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 9f3172376ec3a6..a529f94b61edcd 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6115,6 +6115,7 @@ Valid values for 'type' are:
->                         unsigned long args[6];
->                         unsigned long ret[2];
->                 } riscv_sbi;
-> +
->  If exit reason is KVM_EXIT_RISCV_SBI then it indicates that the VCPU has
->  done a SBI call which is not handled by KVM RISC-V kernel module. The details
->  of the SBI call are available in 'riscv_sbi' member of kvm_run structure. The
->
-> base-commit: f443e374ae131c168a065ea1748feac6b2e76613
-> --
-> An old man doll... just what I always wanted! - Clara
->
+
+-- 
+Cheers
+~ Vaibhav
