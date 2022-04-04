@@ -2,89 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D695C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 08:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DBD2C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 11:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237849AbiDDIqE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 04:46:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
+        id S230407AbiDDMA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 08:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237845AbiDDIqC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 04:46:02 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1FFE67;
-        Mon,  4 Apr 2022 01:44:06 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 503DC1F380;
-        Mon,  4 Apr 2022 08:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1649061845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X0N2SxV6GjMVBOdoERBEDYeu88UwXc3gO4jWk0FL4TE=;
-        b=G27ShgYo1cdjBzpUTqcaG4sKAhfdAMb+RpuR95Gu71a11RnyRiUj34mel/G84IricAzl1X
-        kyXI1UO5gR94PqCsnRxPa/AuFaQunXNCiDC9YAXhbTvnBHFk6MjUBQwrQPN3/Paj6Ur3bl
-        eW8JqnJcBgsgVlF6rexeyRdjGKsJWyE=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id A3109A3B94;
-        Mon,  4 Apr 2022 08:44:04 +0000 (UTC)
-Date:   Mon, 4 Apr 2022 10:44:04 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Roman Gushchin <roman.gushchin@linux.dev>
-Cc:     Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-Message-ID: <Ykqv1CvGwgmF2jlT@dhcp22.suse.cz>
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkXkA+Oh1Bx33PrU@carbon.dhcp.thefacebook.com>
- <YkcC3z5ReeQ5vdg9@dhcp22.suse.cz>
- <YkcvU2hosJV3cL8F@carbon.dhcp.thefacebook.com>
+        with ESMTP id S229459AbiDDMAZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 08:00:25 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5AF4B73;
+        Mon,  4 Apr 2022 04:58:28 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id kw18so2299024pjb.5;
+        Mon, 04 Apr 2022 04:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:cc:content-transfer-encoding;
+        bh=Ryz34qEMQ5WdkUF9th9E6KFUWpiEza21IKgfS/GNkQE=;
+        b=JSIdWcPZQ+LozQNtd4kT3V98R6r+cz6WCggkYyRRSVOnlnjUMoTJwc1s+IGN0NYHXC
+         GO0GSmfjSOBgafLwp7qSrTk3HdJapXbgDHCdO7IVt/nqCYxlP7adq0wv1CpVnvznnZXQ
+         yzjuERvFKvSjCZRMaM2e2JESz+aeVDHkwmyyNU7r4HMckXgsqQdLpSMCpPr+rYWnirYf
+         0ryYVr4okzz19UhDiCBt+aJxZB9/S6O6D8Y6fmlWmHoiwYbdRjWt9lKXEkS8W9rg7RTo
+         7v1aRCZTtQsNq2xoRSBcwX6j9NhkIh1svKNHdgyReqaVpcYtAxZfUq9ym1PfVqUSCW0P
+         QV+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:cc:content-transfer-encoding;
+        bh=Ryz34qEMQ5WdkUF9th9E6KFUWpiEza21IKgfS/GNkQE=;
+        b=X09Mpefbv1ZaRKYEJw5Ss1UrS/6+RfWE1mneG5HFSlcG/9JkiTTB7PUo8m+3GOSJ48
+         2Cby3ZdVRrE6L49xYTUccLQBnuDs6JvibTeiiHzecHRnYPyDKQWy0gAQSkP6MNcsrBcV
+         apVXNsDhAnP4HHqZZms56d4YGXe73W5A9BhqL3m7XyV9MdSeaAYFn8QvF5u5yz4z0HfY
+         Lu2ORrMTNNZtsXoHD2X3Rzmhg44crRLh+X3qEduH1GtdQWmTQNsFn2jnkGsg4P3kZJQX
+         8g2BWjplKeiiD7Rl0nIiI1NAwTinvcXxbTY9wslMgAD+YlDm6lqZlfZwRIfe0ejfpyp+
+         eUiQ==
+X-Gm-Message-State: AOAM531zBvXb5QTyMQ+DVTxrkfuFjt/5tVJSIXa6OvuitjGECJfsbnf+
+        K/HaEP/fbgPaB54dCg6+Hagkdf463b2qXfHR
+X-Google-Smtp-Source: ABdhPJxpbrLNB8v/iWD/bPLPFGjZ59ZyPHfn79PXsZ4wc0t5WF8z3pTGefWr97MmLVEidel4StveYQ==
+X-Received: by 2002:a17:90b:250f:b0:1ca:b9fa:efcd with SMTP id ns15-20020a17090b250f00b001cab9faefcdmr730685pjb.123.1649073507672;
+        Mon, 04 Apr 2022 04:58:27 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id. [180.214.233.68])
+        by smtp.gmail.com with ESMTPSA id h12-20020a056a00230c00b004faf2563bcasm12588934pfh.114.2022.04.04.04.58.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 04:58:26 -0700 (PDT)
+Message-ID: <564f87a9-dd57-d3a1-d476-d81350baf75d@gmail.com>
+Date:   Mon, 4 Apr 2022 18:58:16 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkcvU2hosJV3cL8F@carbon.dhcp.thefacebook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     linux-doc@vger.kernel.org,
+        'Linux Kernel' <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com,
+        linux-iio@vger.kernel.org
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: unexpected indentation warning in Documentation/ABI/testing/sysfs-*
+Cc:     Gao Xiang <hsiangkao@linux.alibaba.com>,
+        Huang Jianan <huangjianan@oppo.com>, Chao Yu <chao@kernel.org>,
+        Divya Bharathi <divya.bharathi@dell.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Kajol Jain <kjain@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "David E. Box" <david.e.box@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 01-04-22 09:58:59, Roman Gushchin wrote:
-> On Fri, Apr 01, 2022 at 03:49:19PM +0200, Michal Hocko wrote:
-> > On Thu 31-03-22 10:25:23, Roman Gushchin wrote:
-> > > On Thu, Mar 31, 2022 at 08:41:51AM +0000, Yosry Ahmed wrote:
-> > [...]
-> > > > - A similar per-node interface can also be added to support proactive
-> > > >   reclaim and reclaim-based demotion in systems without memcg.
-> > > 
-> > > Maybe an option to specify a timeout? That might simplify the userspace part.
-> > 
-> > What do you mean by timeout here? Isn't
-> > timeout $N echo $RECLAIM > ....
-> > 
-> > enough?
-> 
-> It's nice and simple when it's a bash script, but when it's a complex
-> application trying to do the same, it quickly becomes less simple and
-> likely will require a dedicated thread to avoid blocking the main app
-> for too long and a mechanism to unblock it by timer/when the need arises.
-> 
-> In my experience using correctly such semi-blocking interfaces (semi- because
-> it's not clearly defined how much time the syscall can take and whether it
-> makes sense to wait longer) is tricky.
+Hi,
 
-We have the same approach to setting other limits which need to perform
-the reclaim. Have we ever hit that as a limitation that would make
-userspace unnecessarily too complex?
+Doing "make htmldocs" for Linux v5.18-rc1, I get new warnings:
+
+<path/to/linux>/Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: WARNING: Block quote ends without a blank line; unexpected unindent.
+<path/to/linux>/Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: WARNING: Definition list ends without a blank line; unexpected unindent.
+<path/to/linux>/Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-class-firmware-attributes:130: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-class-firmware-attributes:130: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-class-firmware-attributes:130: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-fs-erofs:10: WARNING: Unexpected indentation.
+<path/to/linux>/Documentation/ABI/testing/sysfs-fs-erofs:10: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+Introduced by 2546c60004309e (platform/x86: Add Intel Software Defined
+Silicon driver, 2022-02-11), 2bec6d9aa89cbe (docs: ABI: sysfs-bus-nvdimm:
+Document sysfs event format entries for nvdimm pmu, 2022-02-25),
+e8a60aa7404bfe (platform/x86: Introduce support for Systems Management
+Driver over WMI for Dell Systems), 40452ffca3c1a0 (erofs: add sysfs
+node to control sync decompression strategy, 2021-12-06), and
+4c18a890dff8d9 (iio:proximity:sx9324: Add SX9324 support, 2022-01-01).
+
+Presumably because Sphinx mistakes these documentation files without
+extensions for .rst files? I dunno.
+
+Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
 -- 
-Michal Hocko
-SUSE Labs
+An old man doll... just what I always wanted! - Clara
