@@ -2,133 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03773C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA77EC4167E
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447194AbiDEWfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34418 "EHLO
+        id S235447AbiDEWeA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457612AbiDEQRJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:17:09 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CBB192B9;
-        Tue,  5 Apr 2022 09:15:11 -0700 (PDT)
+        with ESMTP id S1457545AbiDEQJJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:09:09 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6956B25CD
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 09:07:10 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35:2589:2a93:190d:b787])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CDADA30D;
-        Tue,  5 Apr 2022 16:15:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CDADA30D
+        by ms.lwn.net (Postfix) with ESMTPSA id DB27330D;
+        Tue,  5 Apr 2022 16:07:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DB27330D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649175311; bh=rE6rzCNpDJ68w+IwBoDN9Cf1DCDHPiYHstqLXZaFU7k=;
+        t=1649174830; bh=caHmw3d4uc7aoSZGimSPdevTWO+8w9Z+IMtdSwQptio=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=J2Ns1jRSjvyM1mYJSL3V7kG1cTsmgZwyNrjCkiP+k84kUWO3JPqurBKy7zBAjPMyJ
-         Ott5DZyA+QJyeTCEwJKDoMCcshoGoh8CwR/L1ba8KNK4xcW/aA6rXiBpefXdAMte3C
-         PjftgljOkwDF4D29WR8nfffJwfRMAX70J4wLBLgJCLGM+1pb0HUTarmpcgm7YpWYgg
-         Qw3nh1LZ831VdmtW6NcllXeV8I2RpC0CSezs5Hg20lPSITd6kIt6hVyMJ83Q7/8z+m
-         h15UmZZLua6OFynX3VKxyUD5pRB4baQ3+uOlokTwt8cEc0XAdIs24491ouc5FZPpLR
-         1LExVsq2eG6ew==
+        b=i+SQsd3ZYlXspWlFjLmLLGwKXzmzfphPwFdWO6qWAGeyMFoUf6JH5rFXgkg+nZ3Z7
+         0JL+/aTXoRYem9wDwKguI88HsmJpmhqniYppXl4WbkIIsdu3EzxYJsgpEfCr/mlSwG
+         tQAH2hK2zvYV1ChjEXAkM/MimAWMK2v1ApDSr3VInBRrAIISfkrO2XgaV4NPcIUP4H
+         f/EckjZEnjXlgRiwKyXh+0QwoWd+u2FsHJpva/x8IPNJH/EngH1q3jyyLFBrHInKdg
+         dfJ18taYrWCee7ZuEM/Yl0NLHVSt1fqqII3G56rWucKf+N1Fnb2upqmPIw3ZODE7t3
+         a0/FYqVIPR9xg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arch_pgtable_helpers: demote pgtable
- list headings
-In-Reply-To: <20220326131313.691027-1-bagasdotme@gmail.com>
-References: <20220326131313.691027-1-bagasdotme@gmail.com>
-Date:   Tue, 05 Apr 2022 10:15:10 -0600
-Message-ID: <87k0c3ecc1.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng01@gmail.com>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH v2 0/3] docs/zh_CN: update damon translation
+In-Reply-To: <cover.1648471647.git.siyanteng@loongson.cn>
+References: <cover.1648471647.git.siyanteng@loongson.cn>
+Date:   Tue, 05 Apr 2022 10:07:09 -0600
+Message-ID: <87pmlvecpe.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Yanteng Si <siyanteng01@gmail.com> writes:
 
-> Demote pgtable list headings from title heading to chapter heading.
+> v2:
+> * Pick Alex's Reviewed-by tag.
+>
+> v1:
+> * Sync update .../vm/damon/design.rst and .../admin/mm/damon/usage.rst.
+> * Add sysfs interface translation.
+> * Typo fix. (enable -> enabled)
+>
+> Yanteng Si (3):
+>   docs/zh_CN/damon: update outdated term 'regions update interval'
+>   docs/zh_CN/damon: add sysfs interface
+>   docs/zh_CN/damon: typo fix
+>
+>  .../zh_CN/admin-guide/mm/damon/reclaim.rst    |   4 +-
+>  .../zh_CN/admin-guide/mm/damon/usage.rst      | 291 +++++++++++++++++-
+>  .../translations/zh_CN/vm/damon/design.rst    |   7 +-
+>  3 files changed, 287 insertions(+), 15 deletions(-)
 
-This is a classic example of the sort of changelog that says *what* the
-patch does (which we can also see from the patch itself) but not *why*.
-Why do these headings need to be changed?
-
-Thanks,
+Applied, thanks.  I'm glad to see some effort going into maintaining the
+existing translations!
 
 jon
-
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-> index f8b225fc919047..cbaee9e592410f 100644
-> --- a/Documentation/vm/arch_pgtable_helpers.rst
-> +++ b/Documentation/vm/arch_pgtable_helpers.rst
-> @@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
->  boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
->  test need to be in sync.
->  
-> -======================
-> +
->  PTE Page Table Helpers
->  ======================
->  
-> @@ -79,7 +79,7 @@ PTE Page Table Helpers
->  | ptep_set_access_flags     | Converts into a more permissive PTE              |
->  +---------------------------+--------------------------------------------------+
->  
-> -======================
-> +
->  PMD Page Table Helpers
->  ======================
->  
-> @@ -153,7 +153,7 @@ PMD Page Table Helpers
->  | pmdp_set_access_flags     | Converts into a more permissive PMD              |
->  +---------------------------+--------------------------------------------------+
->  
-> -======================
-> +
->  PUD Page Table Helpers
->  ======================
->  
-> @@ -209,7 +209,7 @@ PUD Page Table Helpers
->  | pudp_set_access_flags     | Converts into a more permissive PUD              |
->  +---------------------------+--------------------------------------------------+
->  
-> -==========================
-> +
->  HugeTLB Page Table Helpers
->  ==========================
->  
-> @@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
->  | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
->  +---------------------------+--------------------------------------------------+
->  
-> -========================
-> +
->  SWAP Page Table Helpers
->  ========================
->  
->
-> base-commit: f443e374ae131c168a065ea1748feac6b2e76613
-> -- 
-> An old man doll... just what I always wanted! - Clara
