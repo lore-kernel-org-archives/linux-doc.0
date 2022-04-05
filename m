@@ -2,122 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 877FAC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Apr 2022 23:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE6FEC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 02:36:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241277AbiDDXSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 19:18:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49170 "EHLO
+        id S229911AbiDECi0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 22:38:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234738AbiDDXSZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 19:18:25 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385A5289A2
-        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 16:10:48 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S229853AbiDECiN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 22:38:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99253C0576
+        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 18:37:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id CA98A210E5;
-        Mon,  4 Apr 2022 23:10:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1649113846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=A+BVPy66n8ErIedTq/1vwrjA26ZSdrDU4ZmbYGeUBFg=;
-        b=S1xEWmHkZN49zjH96zxwx5Q4WomGYMvKQg5yJJRVXTo6TAIo3p9GoKyU7YOrwM//BVYW5b
-        cZWP8LhgeJCuszC+k2yx8llXhMxkj3xG/4zqQrsz7fJqZ2YP5gdURZ9P70c+6ZcFsAwvNC
-        zEwoXoYfpxOTXxvxGQPqCQ/6Ki6r7NQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1649113846;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=A+BVPy66n8ErIedTq/1vwrjA26ZSdrDU4ZmbYGeUBFg=;
-        b=kSHk1k1egdAygIIr8enp8LNwSM/ft3X7yjsC9Lukz36qOWimrHcRYk0T5yi1PkJhBGBwPO
-        OZdLJy0YOBqG12CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 230D313216;
-        Mon,  4 Apr 2022 23:10:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id h6rCM/R6S2JGZwAAMHmgww
-        (envelope-from <neilb@suse.de>); Mon, 04 Apr 2022 23:10:44 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5AC0FB81AFE
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 00:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170E1C34117
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 00:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649116837;
+        bh=zFyw1VrfGv7NEuMWOTezqzL8GubbV0WO1PDpwo/w7kk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IzT8pKglPQrYQePYYNDTTvWosEy8MxZkq3wR0piD8u7iSz63ghJ7anCpsXVy8rPww
+         h8sb6BeBAosTUPJfJSBf5tC/Uc9Zc7IhUFp3EN+3Y4bey3Juna89uPMBgdz3W6AXN8
+         KvMFgfyNzawLqWgHmU50yAJKNxBLRXw3d+NWJeiFYcgugGX/GADSzk/5G8g9++kPxr
+         OpF27iOsOSCNOr0NIjmDYXJCtgmcKH1aCT/Qss+bZqX0jw6YqWJZnXdaS1BIF6FzjI
+         YW3kHL8sWBe0nwkHW+VswjM/Okte+nrlOhP3czPdm/y4SX3zE8ViE7mZZZHIzCb+Y/
+         aCTsH/tzvnYAg==
+Received: by mail-ed1-f47.google.com with SMTP id x20so5127006edi.12
+        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 17:00:36 -0700 (PDT)
+X-Gm-Message-State: AOAM530rOuKfU+RfSmRkuCKMVH5hlMYp76wDHBGxT0gBkn3jykQHbboU
+        Ayh+TYDBnNM68/tXiIzSBoKUmrEexv44k3jNEZZhtA==
+X-Google-Smtp-Source: ABdhPJx00CBmV+NQNnGWVZ6pCbTPeYWoi7t9WNITl4M8WQe+QSjOqLEi5/uSRAkUXHVhCjpjoCKilOkyYU4kDA3K4zE=
+X-Received: by 2002:aa7:c157:0:b0:418:f8e3:4c87 with SMTP id
+ r23-20020aa7c157000000b00418f8e34c87mr671966edp.271.1649116835186; Mon, 04
+ Apr 2022 17:00:35 -0700 (PDT)
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Matthew Wilcox" <willy@infradead.org>
-Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Memory Management List" <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] MM: minor improvements to readahead documentation
-In-reply-to: <Ykrx4XjflUitCF0W@casper.infradead.org>
-References: <164879346851.25542.18299715584610241983@noble.neil.brown.name>,
- <YkdAVDJVLmyAZ263@casper.infradead.org>,
- <164904545104.27040.12709890187296939611@noble.neil.brown.name>,
- <Ykrx4XjflUitCF0W@casper.infradead.org>
-Date:   Tue, 05 Apr 2022 09:10:40 +1000
-Message-id: <164911384099.10985.7554281018592465423@noble.neil.brown.name>
+References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
+ <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <b9f5995f96da447c851f7c9db8232a9b@huawei.com> <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
+ <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
+ <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com>
+ <c2e57f10b62940eba3cfcae996e20e3c@huawei.com> <CAADnVQJSso+GSXC-QmNmj0GBPZzxRCRfqAcQbqD-6y0CtMSopQ@mail.gmail.com>
+In-Reply-To: <CAADnVQJSso+GSXC-QmNmj0GBPZzxRCRfqAcQbqD-6y0CtMSopQ@mail.gmail.com>
+From:   KP Singh <kpsingh@kernel.org>
+Date:   Tue, 5 Apr 2022 02:00:24 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ7ZVbL2MG7ugmDEfogSPAHkYYMCHxRO_eBCJJmBZyn6Rw@mail.gmail.com>
+Message-ID: <CACYkzJ7ZVbL2MG7ugmDEfogSPAHkYYMCHxRO_eBCJJmBZyn6Rw@mail.gmail.com>
+Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF programs
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Djalal Harouni <tixxdz@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 04 Apr 2022, Matthew Wilcox wrote:
-> On Mon, Apr 04, 2022 at 02:10:51PM +1000, NeilBrown wrote:
-> > >   * Readahead is triggered when an application read request (whether a
-> > > - * systemcall or a page fault) finds that the requested page is not in
-> > > + * system call or a page fault) finds that the requested folio is not =
-in
-> > >   * the page cache, or that it is in the page cache and has the
-> > > - * %PG_readahead flag set.  This flag indicates that the page was load=
-ed
-> > > - * as part of a previous read-ahead request and now that it has been
-> > > - * accessed, it is time for the next read-ahead.
-> > > + * readahead flag set.  This flag indicates that the folio was read
-> >=20
-> > Ugh.  Why don't you like %PG_readahead?   I absolutely loath the
-> > practice of hiding flags inside accessor functions, and hiding the truth
-> > in documentation is just as bad.  It all makes grepping that much
-> > harder.
-> > I would MUCH prefer that the %PG_ were restored.  Please.
->=20
-> I absolutely loathe it that there are references to PG_* anywhere
-> outside page-flags.h.  We have the abstraction layer, we want people
-> to use it, and we shouldn't needlessly multiply entities by referring
-> to the implementation of the abstraction.  I remove references to PG_
-> flags wherever I find them.  I agree that grepping for page/folio flags
-> doesn't work, and it's something I spend a lot of time thinking about.
-> In particular, I want to produce decent kernel-doc for them.
+On Tue, Apr 5, 2022 at 12:49 AM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, Apr 4, 2022 at 10:21 AM Roberto Sassu <roberto.sassu@huawei.com> wrote:
+> >
+> > > From: Djalal Harouni [mailto:tixxdz@gmail.com]
+> > > Sent: Monday, April 4, 2022 9:45 AM
+> > > On Sun, Apr 3, 2022 at 5:42 PM KP Singh <kpsingh@kernel.org> wrote:
+> > > >
+> > > > On Sat, Apr 2, 2022 at 1:55 AM Alexei Starovoitov
+> > > > <alexei.starovoitov@gmail.com> wrote:
+> > > ...
+> > > > >
+> > > > > > Pinning
+> > > > > > them to unreachable inodes intuitively looked the
+> > > > > > way to go for achieving the stated goal.
+> > > > >
+> > > > > We can consider inodes in bpffs that are not unlinkable by root
+> > > > > in the future, but certainly not for this use case.
+> > > >
+> > > > Can this not be already done by adding a BPF_LSM program to the
+> > > > inode_unlink LSM hook?
+> > > >
+> > >
+> > > Also, beside of the inode_unlink... and out of curiosity: making sysfs/bpffs/
+> > > readonly after pinning, then using bpf LSM hooks
+> > > sb_mount|remount|unmount...
+> > > family combining bpf() LSM hook... isn't this enough to:
+> > > 1. Restrict who can pin to bpffs without using a full MAC
+> > > 2. Restrict who can delete or unmount bpf filesystem
+> > >
 
-Yes, we have an abstraction layer - but WHY do you have an abstraction
-layer?  I can't see that it adds anything other than obfuscation.
+I like this approach better, you will have to restrict the BPF, if you
+want to implement MAC policy using BPF.
 
-Do you WANT to keep the learning curve nice and steep?
+Can you please try implementing something using these hooks?
 
->=20
-> > > - * In the last two cases, the page should be unlocked to indicate that
-> > > - * the read attempt has failed.  In the first case the page will be
-> > > - * unlocked by the caller.
-> > > + * In the last two cases, the folio should be unlocked by the filesyst=
-em
-> > > + * to indicate that the read attempt has failed.  In the first case the
-> > > + * folio will be unlocked by the VFS.
-> >=20
-> > VFS??  The code is in mm/readahead.c, not in fs/*.c
-> > Why didn't you like "caller" ??
->=20
-> I view mm/readahead.c, mm/filemap.c and mm/page-writeback.c as part
-> of the VFS more than as part of the VM.  But that's something that
-> reasonable people can disagree on.  I think from the point of view of
-> the filesystem author, it's all VFS.
->=20
-You didn't answer the second question.
+> > > ?
+> >
+> > I'm thinking to implement something like this.
+> >
+> > First, I add a new program flag called
+> > BPF_F_STOP_ONCONFIRM, which causes the ref count
+> > of the link to increase twice at creation time. In this way,
+> > user space cannot make the link disappear, unless a
+> > confirmation is explicitly sent via the bpf() system call.
 
-NeilBrown
+I don't like this approach, this just sounds like an intentional
+dangling reference, prone to refcounting errors and it does not
+really solve the purpose you want to achieve.
+
+And you will still need a policy around the BPF syscall,
+so why not just use the LSM hooks as suggested above?
+
+> >
+> > Another advantage is that other LSMs can decide
+> > whether or not they allow a program with this flag
+> > (in the bpf security hook).
+> >
+> > This would work regardless of the method used to
+> > load the eBPF program (user space or kernel space).
+> >
+> > Second, I extend the bpf() system call with a new
+> > subcommand, BPF_LINK_CONFIRM_STOP, which
+> > decreases the ref count for the link of the programs
+> > with the BPF_F_STOP_ONCONFIRM flag. I will also
+> > introduce a new security hook (something like
+> > security_link_confirm_stop), so that an LSM has the
+> > opportunity to deny the stop (the bpf security hook
+> > would not be sufficient to determine exactly for
+> > which link the confirmation is given, an LSM should
+> > be able to deny the stop for its own programs).
+> >
+> > What do you think?
+>
+> Hack upon a hack? Makes no sense.
