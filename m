@@ -2,100 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7437C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 08:03:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0A3C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 08:38:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233152AbiDEIFT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 04:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48172 "EHLO
+        id S235540AbiDEIj6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 04:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234466AbiDEH6g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 03:58:36 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E8AA1473;
-        Tue,  5 Apr 2022 00:52:29 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id kw18so4846585pjb.5;
-        Tue, 05 Apr 2022 00:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=TgBLJeTUy6jVJ2xafVPcKSUbrGijHeGdKDekFNJpES0=;
-        b=aSMeYscyjfPJ2j6WMIt8esKgLv+cCuEG4DZPmO25jSIgyFHFNthTEgjQWkML+GAsZo
-         sfyoc9olWYN1DoYbUFMZJz/3xOg9AI+pSaG6rQGNVombA5eN5censAMjYkrUnh0N7cp0
-         VasbFqTcDXjOKc4QvMO3qHl8UxazmUpkfUXfedYDhKa3qmj2oviN65D+MClQTzAc8kW5
-         4U7v6v+wpnTFd/6mazsybeib5GY/iM8b1zIvJ63foPySXQKx7b6zaUEFg5Am08pNPbB1
-         zrqvFH1xVq/0iC0tIEaTAq05uIyEJlRGxNCVYCatVgBpvP6VF2IzpeBmxQ8OLcpjjxWD
-         dREw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=TgBLJeTUy6jVJ2xafVPcKSUbrGijHeGdKDekFNJpES0=;
-        b=7G606hXRhc0SU/ms8DpFDf6iz06FnZodNfV/u9PlyQI+x1VNoNSZ3sxgvREuTn2QMW
-         /5uiG4qh5HSipvaGEuH+x+f24+VVFTsB+3Ra+RbwmWCtWUrr+nqdwprZWbaISaTnlQdO
-         suP5/Aalgkr7Jl10QyHVBTCJ4pUMbILP6aI+g+Pc7L0FpzGFdoM9lp9WpJeqeKK4QPKy
-         iw3Y4Y6eXAJhYnsqE0UcocYcnV1lgT9qS7M74NA36AIZ4H0dCnbSPkFeMlKO/ug65K9I
-         vrwDvzk/BoN1fYWNf+SXmglrWiQk9yc2+cXhxigqaFW5Jrwp4R0obGULxGy/dTRlpQZC
-         cFqQ==
-X-Gm-Message-State: AOAM530d7mxSrjNR9Pc/fWPP5a/oE/Lweduz/DUHubQtBDtsKj3Ebksi
-        1FedWG0RFmWRdwE9rnEqkis=
-X-Google-Smtp-Source: ABdhPJxwe5VM3sjwzmEQs7uSfq/7UjTSJjpOPqAE2YvqWv6No8h0U9MnptFRrXgdvlyfWFHIJLhlTg==
-X-Received: by 2002:a17:902:bf07:b0:150:9b8a:a14f with SMTP id bi7-20020a170902bf0700b001509b8aa14fmr2206809plb.127.1649145148521;
-        Tue, 05 Apr 2022 00:52:28 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-39.three.co.id. [116.206.12.39])
-        by smtp.gmail.com with ESMTPSA id g3-20020a63ad03000000b003821d0f0ef4sm12821367pgf.71.2022.04.05.00.52.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Apr 2022 00:52:27 -0700 (PDT)
-Message-ID: <1b01580f-f888-5725-e571-816073148303@gmail.com>
-Date:   Tue, 5 Apr 2022 14:52:18 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: unexpected indentation warning in
- Documentation/ABI/testing/sysfs-*
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>, linux-doc@vger.kernel.org,
-        'Linux Kernel' <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com,
-        linux-iio@vger.kernel.org
-Cc:     Gao Xiang <hsiangkao@linux.alibaba.com>,
-        Huang Jianan <huangjianan@oppo.com>, Chao Yu <chao@kernel.org>,
-        Divya Bharathi <divya.bharathi@dell.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Kajol Jain <kjain@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "David E. Box" <david.e.box@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>
-References: <564f87a9-dd57-d3a1-d476-d81350baf75d@gmail.com>
- <4df1fc93-2a2a-3482-085f-3a88970440ff@redhat.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <4df1fc93-2a2a-3482-085f-3a88970440ff@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        with ESMTP id S234185AbiDEIYn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 04:24:43 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E0A9FE7;
+        Tue,  5 Apr 2022 01:20:20 -0700 (PDT)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2357drRY009012;
+        Tue, 5 Apr 2022 08:20:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=jvaX86yLEGbCLrrwl/LtphbACiuYVeIpVZHlGhHhu9A=;
+ b=pC2LZtcc2Qv1H41r0/eOKPbXojqTB5fcpkzQRg8jmQBjbQx97WHG8dSnADlTsBn6Jt0t
+ pU+pDRuQs05X5Io3E18RibsrJsN00owZ/h0oj/qtH8KIEGIH4lt6tEUOuEizZZdep9dl
+ tUXvIFqm4naLP2NjSOgW2tq0fR5JSqQInBZQGeHlJq/iVrmnfybPrcFYaeqLZXdFiMrv
+ 12bhRsVs3Rg07mFhL6c8UVGl3ZIKZBZ1/PxUV9ncfra8KaDINdWYKAKFooF2nPGbt9RF
+ C0KJJO5RsyiTa8+hMU38XN9hozCxNnfVt+IkHbaBEfioDHVa+8oYnwbCuACpL4KX5XAa 6w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f705hk73j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Apr 2022 08:20:18 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2358IRKg021885;
+        Tue, 5 Apr 2022 08:20:18 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3f705hk72k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Apr 2022 08:20:17 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2358DRfg020930;
+        Tue, 5 Apr 2022 08:20:15 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma01fra.de.ibm.com with ESMTP id 3f6e48vanb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 05 Apr 2022 08:20:15 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2358KC0U33358080
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 5 Apr 2022 08:20:12 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4241C42041;
+        Tue,  5 Apr 2022 08:20:12 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CEB0D42045;
+        Tue,  5 Apr 2022 08:20:10 +0000 (GMT)
+Received: from sig-9-145-21-185.uk.ibm.com (unknown [9.145.21.185])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue,  5 Apr 2022 08:20:10 +0000 (GMT)
+Message-ID: <8fc611271c6156dee5c5f5b5c2f583d2d7774843.camel@linux.ibm.com>
+Subject: Re: [PATCH v5 10/21] KVM: s390: pci: add basic kvm_zdev structure
+From:   Niklas Schnelle <schnelle@linux.ibm.com>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Tue, 05 Apr 2022 10:20:10 +0200
+In-Reply-To: <20220404174349.58530-11-mjrosato@linux.ibm.com>
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+         <20220404174349.58530-11-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tLpowZUl73C-jlbAU_rgjQIxTiHb2PhV
+X-Proofpoint-ORIG-GUID: Cd9hlDx7RLCspQAJowud_tOMJozcrHjG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_10,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=692
+ adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204050044
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/04/22 19.54, Hans de Goede wrote:
+On Mon, 2022-04-04 at 13:43 -0400, Matthew Rosato wrote:
+> This structure will be used to carry kvm passthrough information related to
+> zPCI devices.
 > 
-> These 2 are fixed by this (pending) patch:
-> https://lore.kernel.org/linux-kernel/20220324165918.22005-4-hdegoede@redhat.com/
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  arch/s390/include/asm/pci.h |  3 +++
+>  arch/s390/kvm/Makefile      |  1 +
+>  arch/s390/kvm/pci.c         | 38 +++++++++++++++++++++++++++++++++++++
+>  arch/s390/kvm/pci.h         | 21 ++++++++++++++++++++
+>  4 files changed, 63 insertions(+)
+>  create mode 100644 arch/s390/kvm/pci.c
+>  create mode 100644 arch/s390/kvm/pci.h
 > 
-> And I also have this pending patch for a pre-existing warning:
-> https://lore.kernel.org/linux-kernel/20220324165918.22005-3-hdegoede@redhat.com/
-> 
-> I'm not sure who should pick these 2 up ?
-> 
+> diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
+> index 4c5b8fbc2079..9eb20cebaa18 100644
+> --- a/arch/s390/include/asm/pci.h
+> +++ b/arch/s390/include/asm/pci.h
+> @@ -97,6 +97,7 @@ struct zpci_bar_struct {
+>  };
+>  
+>  struct s390_domain;
+> +struct kvm_zdev;
+>  
+>  #define ZPCI_FUNCTIONS_PER_BUS 256
+>  struct zpci_bus {
+> @@ -190,6 +191,8 @@ struct zpci_dev {
+>  	struct dentry	*debugfs_dev;
+>  
+>  	struct s390_domain *s390_domain; /* s390 IOMMU domain data */
+> +
+> +	struct kvm_zdev *kzdev; /* passthrough data */
+>  };
 
-I think linux-doc can pick them, if no subsystems do it.
+The struct zpci_dev tries to use semantic groups in its formatting.
+It's not perfect and we probably need to clean this up to remove some
+holes in the future. For now let's put the new kzdev without a blank
+line together with s390_domain and add a "section comment" like
+"IOMMU and passthrough".
+Also I'd drop the "... data" part of the line end comment or even drop
+it entirely, the name is pretty clear already when combined with the
+section comment.
 
--- 
-An old man doll... just what I always wanted! - Clara
+With that Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
+
