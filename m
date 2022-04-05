@@ -2,69 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03EA6C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F1BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238671AbiDEWeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:34:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
+        id S241599AbiDEWeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457471AbiDEQDQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:03:16 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F1A3BA47;
-        Tue,  5 Apr 2022 08:50:20 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35:2589:2a93:190d:b787])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1B761608;
-        Tue,  5 Apr 2022 15:50:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1B761608
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649173820; bh=7+lervbpy6gXxeBrivEVunvIrUU2KhGTP2hBrxL/QTA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=pCL0S9JpbndAJVkCNAkIKwDxISi6nnxklloexQ6eeoGjdVbCYbUcS2nMV1GpRvtu6
-         9NQ0lkceS1cH5tCqvEs/MOTgPSGrtE/fhm9G/sdeNbUoH6dv+wSeuUolH/qe3QCeZc
-         BGUIdIJR1dCJDXfeI3ecF9FM4J1yizFYN59Iixc4w6h1r6XGEoaCDoRx6+2dgdtpr4
-         HSyGRMADKpho8RVLVzR71/bG5fT0y0P0QzF/IUdgqI0K153OheSBzrRR0wL0+8ZYtI
-         5LUw4JAVkkPjZs7rzKwZfgjh2zF0RYX3KTXhpc/6XrHLGjD/uwVbPUBWuG0WyoOPJl
-         5XRazNzgYMahA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        dlatypov@google.com, davidgow@google.com,
-        linux-doc@vger.kernel.org, linux-sparse@vger.kernel.org,
-        cocci@inria.fr, smatch@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        skhan@linuxfoundation.org,
-        Dan Carpenter <dan.carpenter@oracle.com>, julia.lawall@inria.fr
-Subject: Re: [PATCH v3 1/2] Documentation: dev-tools: Add a section for
- static analysis tools
-In-Reply-To: <YkWaL26K7UjKB0sa@marsc.168.1.7>
-References: <cover.1648674305.git.marcelo.schmitt1@gmail.com>
- <7d793c1b9f87d9cb8ac0e858e561e108c2bf0176.1648674305.git.marcelo.schmitt1@gmail.com>
- <CAD-N9QVvgCqbwiebjVX2_81pH_YhK+j4hhJPG3fbWbAtzFVJTQ@mail.gmail.com>
- <YkWaL26K7UjKB0sa@marsc.168.1.7>
-Date:   Tue, 05 Apr 2022 09:50:19 -0600
-Message-ID: <87y20jedhg.fsf@meer.lwn.net>
+        with ESMTP id S1392189AbiDEPft (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:35:49 -0400
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518DA12D;
+        Tue,  5 Apr 2022 06:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1649166488;
+  x=1680702488;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=79rrKpJvSV/IyMMLjk1fyhAdjuzODykc4KbTAF2mUFs=;
+  b=FiOVSqtEplqlpGbV24QKDAr+i8WFGbW038mF84zzzjMGLHloCAF5NPgY
+   spNiGw/JW64vBk2PDKMYeRrzNnvvX9UHBY/B/HepKgx6Ad8lZokZPYdBy
+   7OpaZ9BsvHs1aZCwW+kuNlJhW2Z2+5tJgZDQoPpNYBx3HZTZqRoW8yTb2
+   L/kbhgJPZ67FRSZN5VimMCXaFg5e7MBpW2w5kOfvVuD4jRmwgAUY0TEzv
+   O9FAaZn51Fi/MSdDTB4FNunqqBA9Ty8O7mk1/2xsvz1tde3N99GsfhgrV
+   4GYLxtosbMlYV/YxgZvfwIh/MPM7kvdpyaf1CLkQR25ioPVRlRFcC7BrW
+   w==;
+Date:   Tue, 5 Apr 2022 15:48:05 +0200
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     Jonathan Cameron <jic23@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kernel <kernel@axis.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 08/10] iio: light: vcnl4000: add roadtest
+Message-ID: <20220405134805.GA28574@axis.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-9-vincent.whitchurch@axis.com>
+ <20220320170253.5b946c84@jic23-huawei>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220320170253.5b946c84@jic23-huawei>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Marcelo Schmitt <marcelo.schmitt1@gmail.com> writes:
+On Sun, Mar 20, 2022 at 06:02:53PM +0100, Jonathan Cameron wrote:
+> Very interesting bit of work. My current approach for similar testing
+> is to write a qemu model for the hardware, but that currently
+> requires carefully crafted tests. Most of the time I'm only doing
+> that to verify refactoring of existing drivers. 
 
-> On 03/31, Dongliang Mu wrote:
+Thank you for taking a look!
 
->> Should we include static analysis tools based on LLVM? For example,
->> Clang static analysis.
->
-> I think that would be a good addition. I haven't checked out Clang tools
-> though, so it would take me a bit more time to write something about that.
+> One thing that makes me nervous here is the python element though
+> as I've not written significant python in about 20 years.
+> That is going to be a burden for kernel developers and maintainers...
+> Nothing quite like badly written tests to make for a mess in the long run
+> and I suspect my python for example would be very very badly written :)
 
-That seems like a good topic for a future patch.  Meanwhile I've applied
-this series, thanks.
+There's a bunch of static checkers to ensure that the code follows some
+basic guidelines, and CI can check that the tests work consistently, and
+also calculate metrics such as test execution time and code coverage, so
+even non-idiomatic Python in the tests wouldn't be entirely broken.
 
-jon
+And unlike driver code, if the tests for a particular driver later do
+turn out to be bad (in what way?), we could just throw those particular
+tests out without breaking anybody's system.
+
+> Cut and paste will of course get us a long way...
+
+Isn't some amount of copy/paste followed by modification to be expected
+even if the framework is written in say C (just as there's already
+copy/paste + modification involved when writing drivers)?
+
+As for the core logic of individual driver tests excluding the framework
+bits, I have a hard time imagining what Python syntax looks like to
+someone with no knowledge of Python, so yes, I guess it's going to be
+harder to review.
+
+> I dream of a world where every driver is testable by people with out hardware
+> but I fear it may be a while yet.  Hopefully this will get us a little
+> closer!
+> 
+> I more or less follow what is going on here (good docs btw in the earlier
+> patch definitely helped).
+> 
+> So far I'm thoroughly in favour of road test subject to actually being
+> able to review the tests or getting sufficient support to do so.
+> It's a 'how to scale it' question really...
+
+Would rewriting the framework in C and forcing tests to be written in
+that language mean that maintainers would be able to review tests
+without external support?
