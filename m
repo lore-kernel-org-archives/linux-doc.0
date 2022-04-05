@@ -2,60 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EEBC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CF0C433FE
 	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbiDEWeC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:34:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51914 "EHLO
+        id S237161AbiDEWeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457636AbiDEQXG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:23:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8F670F53;
-        Tue,  5 Apr 2022 09:21:07 -0700 (PDT)
+        with ESMTP id S1457662AbiDEQ2k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:28:40 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB287C166;
+        Tue,  5 Apr 2022 09:26:42 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35:2589:2a93:190d:b787])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 31D34608;
-        Tue,  5 Apr 2022 16:21:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31D34608
+        by ms.lwn.net (Postfix) with ESMTPSA id DA08F608;
+        Tue,  5 Apr 2022 16:26:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DA08F608
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649175667; bh=9FJqupExhv6jdwd0TZ/dWnNU37azUvwEVvEHHFmkmtk=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=l6ePVsg260vqv5CfEvstHtdOQvEpP02ZAhL3wz50QfIA1rHm7SFfL/QZ46w/XUIf8
-         YNtKblkXS2AJ4wWkAVOgrRunP2sEaJ7P6dC33ihFikdKYWyo1mYoQBJEyzh5O9PbOb
-         zjEcoXrOwPN6gc+LWnyXEQ/zZPuatXArODI7zt2KHq/0VMwx22gNhrOsWSbl1ATyYr
-         wTEF+EzKjFio55r0y4D+DCUVVUJN5+WFI/lq49cUK6cY9RLBc6VfK8xE1yeG9PXwjW
-         VAvxWVIBNpyD8+oBlkOmMqIezzanEhasf/NdMfcP/TPz1DNa37OSlq/QJlcY8mEjIo
-         sgK3Rrdr/TNrw==
+        t=1649176002; bh=hdowXzq/NUai0/4J9T9jKyuof812l1GFSJ0ykV3EZkg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=nktbmN+5YYLHdx1ydR8Midr+mqkwl9GMf76yqvmv1uQerX1B+W/BGdR2toWFXiCOb
+         qzH0Lsa3/sMI7VqKP65V8hfYGSTWhsB+s1XkwESyXV3plSKUxgPIq7/BM4S56fnocJ
+         RxJAXwsjS6M38bq7g688zWIzY9/vo+rARpE7EpiellJ+MRTMeCFIC5FbdLK3WgutVV
+         5M22JeWazCuQO+HoZ7E4P7zkMXCu38VIwE+O4Gg9NFTsN2GcskHMRtw9puTl5hkZ3B
+         E7fJCiNJb0n1Rdmaap7B5c3yTWjh+aR/GbcPRQ01xwiSXbRufB6tixq4+H7u0dB2uJ
+         d7rMR5z6VyoEw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Markus Reichl <m.reichl@fivetechno.de>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Markus Reichl <m.reichl@fivetechno.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] w1: w1_therm: Document Maxim MAX31850 thermoelement IF.
-In-Reply-To: <20220321120415.27533-1-m.reichl@fivetechno.de>
-References: <20220321120415.27533-1-m.reichl@fivetechno.de>
-Date:   Tue, 05 Apr 2022 10:21:06 -0600
-Message-ID: <87ee2bec25.fsf@meer.lwn.net>
+To:     Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, x86@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Akihiko Odaki <akihiko.odaki@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH] x86/efi: Remove references of EFI earlyprintk from
+ documentation
+In-Reply-To: <20220321045853.3324-1-akihiko.odaki@gmail.com>
+References: <20220321045853.3324-1-akihiko.odaki@gmail.com>
+Date:   Tue, 05 Apr 2022 10:26:41 -0600
+Message-ID: <87bkxfebsu.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Markus Reichl <m.reichl@fivetechno.de> writes:
+Akihiko Odaki <akihiko.odaki@gmail.com> writes:
 
-> w1_therm driver supports now MAX31850, too. Add it to documentation
-> and fix a small typo.
->
-> Signed-off-by: Markus Reichl <m.reichl@fivetechno.de>
-> ---
->  Documentation/w1/slaves/w1_therm.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> x86 EFI earlyprink was removed with commit 69c1f396f25b ("efi/x86:
+> Convert x86 EFI earlyprintk into generic earlycon implementation").
 
-Applied, thanks.
+So I will confess that I don't know this area well enough to know
+whether this patch makes sense or not.  To help with that, it would have
+been good to CC Ard, who is the author of the patch you cite above.
+Adding him now.
+
+Ard, do you agree with this change (preserved below)?
+
+Thanks,
 
 jon
+
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f5a27f067db9..fb39337f4123 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1252,7 +1252,7 @@
+>  			Append ",keep" to not disable it when the real console
+>  			takes over.
+>  
+> -			Only one of vga, efi, serial, or usb debug port can
+> +			Only one of vga, serial, or usb debug port can
+>  			be used at a time.
+>  
+>  			Currently only ttyS0 and ttyS1 may be specified by
+> @@ -1267,7 +1267,7 @@
+>  			Interaction with the standard serial driver is not
+>  			very good.
+>  
+> -			The VGA and EFI output is eventually overwritten by
+> +			The VGA output is eventually overwritten by
+>  			the real console.
+>  
+>  			The xen option can only be used in Xen domains.
+> -- 
+> 2.35.1
