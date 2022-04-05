@@ -2,159 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE6FEC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 02:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29837C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 02:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbiDECi0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 22:38:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
+        id S230130AbiDECsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Apr 2022 22:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbiDECiN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 22:38:13 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99253C0576
-        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 18:37:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5AC0FB81AFE
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 00:00:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170E1C34117
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 00:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649116837;
-        bh=zFyw1VrfGv7NEuMWOTezqzL8GubbV0WO1PDpwo/w7kk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IzT8pKglPQrYQePYYNDTTvWosEy8MxZkq3wR0piD8u7iSz63ghJ7anCpsXVy8rPww
-         h8sb6BeBAosTUPJfJSBf5tC/Uc9Zc7IhUFp3EN+3Y4bey3Juna89uPMBgdz3W6AXN8
-         KvMFgfyNzawLqWgHmU50yAJKNxBLRXw3d+NWJeiFYcgugGX/GADSzk/5G8g9++kPxr
-         OpF27iOsOSCNOr0NIjmDYXJCtgmcKH1aCT/Qss+bZqX0jw6YqWJZnXdaS1BIF6FzjI
-         YW3kHL8sWBe0nwkHW+VswjM/Okte+nrlOhP3czPdm/y4SX3zE8ViE7mZZZHIzCb+Y/
-         aCTsH/tzvnYAg==
-Received: by mail-ed1-f47.google.com with SMTP id x20so5127006edi.12
-        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 17:00:36 -0700 (PDT)
-X-Gm-Message-State: AOAM530rOuKfU+RfSmRkuCKMVH5hlMYp76wDHBGxT0gBkn3jykQHbboU
-        Ayh+TYDBnNM68/tXiIzSBoKUmrEexv44k3jNEZZhtA==
-X-Google-Smtp-Source: ABdhPJx00CBmV+NQNnGWVZ6pCbTPeYWoi7t9WNITl4M8WQe+QSjOqLEi5/uSRAkUXHVhCjpjoCKilOkyYU4kDA3K4zE=
-X-Received: by 2002:aa7:c157:0:b0:418:f8e3:4c87 with SMTP id
- r23-20020aa7c157000000b00418f8e34c87mr671966edp.271.1649116835186; Mon, 04
- Apr 2022 17:00:35 -0700 (PDT)
+        with ESMTP id S230197AbiDECsL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 22:48:11 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4722517009F
+        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 19:30:34 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id z7so13651187iom.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 19:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JTzIzbrqZyK9WcizVERi7qlxh5xxIEK+9IqWImCqDAY=;
+        b=YcMVYnQMKz2NhQbrK0HjGTOXQmTu+Vk9t1j3Nfgnp7gS4pAl9K8ReC7ZTF3NS0ao62
+         +k6BganfzYE1RHEvww+e/oOwq6C1n3EDSdgXuZrPrUp/3uVwkyfn+h+4qiNGraccB4KQ
+         nIfDzn7o26dbdKpb851QTXPT7ZhljzDSnSko5y404+cDtwPiIHYDokLbazUURxbzDJYf
+         0wCUTDsNI802WAuIUoPq6xTRWniX7nxbPjm5nqHr5UFiVd2OkMiVpH3V//O4UytUclaa
+         R0jpdX1UgmZmW10eiTYtRmFvTG/l/HJtjLd+9wWEiVF0naJ4VQ9kG+1P5NjKQrF+efCb
+         Vk2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JTzIzbrqZyK9WcizVERi7qlxh5xxIEK+9IqWImCqDAY=;
+        b=zZq1WBbDQ5daQfzTj9WSurkv2pC8JntQX+VJP0mURC0fWtv8Nw68VY/9X7VKq4RnVZ
+         j9kw5euM6tg8wNtHbZo8gikrh3ttAWjy018Kp4ajbRdDwmZ5pOmo9YdU3mXVqoM2P3GF
+         RTPCdeYXiJ4PT+RKUuSeqhmkqB4SrvDbGwv8nxcYtv1+aT3cYyasisZjk4gvWNBAs7o6
+         zgycecyV3kuT0FtDcEZAgzzQ/OIEwCObUW4XvJ3ZMUXepMxfy6b6XRI5w3S1/izLzpdz
+         7RUT5tUWICLHPwghKoVgf2keC26ZCpeWowGFHE0fl7RM+n/jfJxdI3AAmkPRkOt8A3G6
+         gjHQ==
+X-Gm-Message-State: AOAM532dn6V45/RsuYGa64SgZZrfR4k7pVzrgQejtZudHppxQwb3/AqE
+        EsIb/Hq0P6uQfTBZwO+4CkGobxvzuAQjHZ6CBy6YSw==
+X-Google-Smtp-Source: ABdhPJwODLum9ilGhChVng+UBA9UPlj2zbdInzRba3Olr4b4wDij4kupJU4FIgzVrCfK1I45tTbjXWS8CK+5nB/27Fs=
+X-Received: by 2002:a02:84c9:0:b0:31a:1cf2:4468 with SMTP id
+ f67-20020a0284c9000000b0031a1cf24468mr806877jai.31.1649125832511; Mon, 04 Apr
+ 2022 19:30:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
- <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
- <b9f5995f96da447c851f7c9db8232a9b@huawei.com> <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
- <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
- <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com>
- <c2e57f10b62940eba3cfcae996e20e3c@huawei.com> <CAADnVQJSso+GSXC-QmNmj0GBPZzxRCRfqAcQbqD-6y0CtMSopQ@mail.gmail.com>
-In-Reply-To: <CAADnVQJSso+GSXC-QmNmj0GBPZzxRCRfqAcQbqD-6y0CtMSopQ@mail.gmail.com>
-From:   KP Singh <kpsingh@kernel.org>
-Date:   Tue, 5 Apr 2022 02:00:24 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ7ZVbL2MG7ugmDEfogSPAHkYYMCHxRO_eBCJJmBZyn6Rw@mail.gmail.com>
-Message-ID: <CACYkzJ7ZVbL2MG7ugmDEfogSPAHkYYMCHxRO_eBCJJmBZyn6Rw@mail.gmail.com>
-Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF programs
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <CAAPL-u8g2qkhdTQtFtBS3GNYz0WnyahWEXvR4g_OSaKv+7EozA@mail.gmail.com>
+ <YkcYq8F6MYlMi+yS@cmpxchg.org> <CAAPL-u-za-TTyyC5uMVev9eQyhxZS7q3pVqaUxCFjqk+Sv9+ig@mail.gmail.com>
+ <CALvZod4-fKfv6vbZPZ3nCE=Bue4FUnC+9t27wsznmyd+JKgDbg@mail.gmail.com>
+In-Reply-To: <CALvZod4-fKfv6vbZPZ3nCE=Bue4FUnC+9t27wsznmyd+JKgDbg@mail.gmail.com>
+From:   Wei Xu <weixugc@google.com>
+Date:   Mon, 4 Apr 2022 19:30:21 -0700
+Message-ID: <CAAPL-u-7Vnq8tmmRNDOz7Jw1ei_Vw=idJaPzMPoq5=sBrpyrRA@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 12:49 AM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Mon, Apr 4, 2022 at 10:08 AM Shakeel Butt <shakeelb@google.com> wrote:
 >
-> On Mon, Apr 4, 2022 at 10:21 AM Roberto Sassu <roberto.sassu@huawei.com> wrote:
+> On Fri, Apr 1, 2022 at 1:14 PM Wei Xu <weixugc@google.com> wrote:
 > >
-> > > From: Djalal Harouni [mailto:tixxdz@gmail.com]
-> > > Sent: Monday, April 4, 2022 9:45 AM
-> > > On Sun, Apr 3, 2022 at 5:42 PM KP Singh <kpsingh@kernel.org> wrote:
-> > > >
-> > > > On Sat, Apr 2, 2022 at 1:55 AM Alexei Starovoitov
-> > > > <alexei.starovoitov@gmail.com> wrote:
-> > > ...
-> > > > >
-> > > > > > Pinning
-> > > > > > them to unreachable inodes intuitively looked the
-> > > > > > way to go for achieving the stated goal.
-> > > > >
-> > > > > We can consider inodes in bpffs that are not unlinkable by root
-> > > > > in the future, but certainly not for this use case.
-> > > >
-> > > > Can this not be already done by adding a BPF_LSM program to the
-> > > > inode_unlink LSM hook?
-> > > >
-> > >
-> > > Also, beside of the inode_unlink... and out of curiosity: making sysfs/bpffs/
-> > > readonly after pinning, then using bpf LSM hooks
-> > > sb_mount|remount|unmount...
-> > > family combining bpf() LSM hook... isn't this enough to:
-> > > 1. Restrict who can pin to bpffs without using a full MAC
-> > > 2. Restrict who can delete or unmount bpf filesystem
-> > >
-
-I like this approach better, you will have to restrict the BPF, if you
-want to implement MAC policy using BPF.
-
-Can you please try implementing something using these hooks?
-
-> > > ?
+> [...]
 > >
-> > I'm thinking to implement something like this.
-> >
-> > First, I add a new program flag called
-> > BPF_F_STOP_ONCONFIRM, which causes the ref count
-> > of the link to increase twice at creation time. In this way,
-> > user space cannot make the link disappear, unless a
-> > confirmation is explicitly sent via the bpf() system call.
-
-I don't like this approach, this just sounds like an intentional
-dangling reference, prone to refcounting errors and it does not
-really solve the purpose you want to achieve.
-
-And you will still need a policy around the BPF syscall,
-so why not just use the LSM hooks as suggested above?
-
-> >
-> > Another advantage is that other LSMs can decide
-> > whether or not they allow a program with this flag
-> > (in the bpf security hook).
-> >
-> > This would work regardless of the method used to
-> > load the eBPF program (user space or kernel space).
-> >
-> > Second, I extend the bpf() system call with a new
-> > subcommand, BPF_LINK_CONFIRM_STOP, which
-> > decreases the ref count for the link of the programs
-> > with the BPF_F_STOP_ONCONFIRM flag. I will also
-> > introduce a new security hook (something like
-> > security_link_confirm_stop), so that an LSM has the
-> > opportunity to deny the stop (the bpf security hook
-> > would not be sufficient to determine exactly for
-> > which link the confirmation is given, an LSM should
-> > be able to deny the stop for its own programs).
-> >
-> > What do you think?
+> > -EAGAIN sounds good, too.  Given that the userspace requests to
+> > reclaim a specified number of bytes, I think it is generally better to
+> > tell the userspace whether the request has been successfully
+> > fulfilled. Ideally, it would be even better to return how many bytes
+> > that have been reclaimed, though that is not easy to do through the
+> > cgroup interface.
 >
-> Hack upon a hack? Makes no sense.
+> What would be the challenge on returning the number of bytes reclaimed
+> through cgroup interface?
+
+write() syscall is used to write the command into memory.reclaim,
+which should return either the number of command bytes written or -1
+(errno is set to indicate the actual error).  I think we should not
+return the number of bytes reclaimed through write().  A new
+sys_reclaim() is better in this regard because we can define its
+return value, though it would need a cgroup argument, which is not
+commonly defined for syscalls.
