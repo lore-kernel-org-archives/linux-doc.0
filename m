@@ -2,83 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BB3C35276
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAA09C43219
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbiDEWde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:33:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49026 "EHLO
+        id S229571AbiDEWdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457534AbiDEQGb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:06:31 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E76DDA;
-        Tue,  5 Apr 2022 09:04:32 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:35:2589:2a93:190d:b787])
+        with ESMTP id S1454002AbiDEP5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:57:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35461166678;
+        Tue,  5 Apr 2022 08:02:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BDB9B30D;
-        Tue,  5 Apr 2022 16:04:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BDB9B30D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649174671; bh=TxBmXjw0W5sHQw6Es3eDilnc949OOAkzg4pcLoQ5pHQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=H4wh1pAW3CX+E4t5+ZvJ1Yzlz+YIDiiBS73DsABifoeqlVDs6pNd0teUfo+bFDHt3
-         wxs4VOMCk4RFH/z7SJCbwXlgXIc8uLCHsklfTIjFr+uvWDb7xONGlSP+PE5HPi2gMd
-         wNJaBTBsvvGnPnAeNTH7JGmXk2UuGIxGs1o8jnUhu+cQH9G5nTg37ZNbr92A5ByNED
-         4WLtnJYOOrXKUnDr8Y8NBH1o2yHtcBTjuZ4IrHCq4DNuzust44nzQJlw1kmFPkEyeA
-         XAdFVNf4xdgfL4HuWs8mk0tumHeL1kdZfTv8WfV4ANcLNb22Da+4hpS9ptiy9OrTk7
-         UYPVArPCpiZNQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] Documentation: doc-guide: Add missing page titles
-In-Reply-To: <20220329045235.11879-1-bagasdotme@gmail.com>
-References: <20220329045235.11879-1-bagasdotme@gmail.com>
-Date:   Tue, 05 Apr 2022 10:04:30 -0600
-Message-ID: <87sfqrectt.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C52656175E;
+        Tue,  5 Apr 2022 15:02:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF555C385A1;
+        Tue,  5 Apr 2022 15:02:44 +0000 (UTC)
+Date:   Tue, 5 Apr 2022 11:02:43 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v7 3/4] bootconfig: Support embedding a bootconfig file
+ in kernel
+Message-ID: <20220405110243.21cdee07@gandalf.local.home>
+In-Reply-To: <20220405235548.38344aba5a7fcb059924c367@kernel.org>
+References: <164871505771.178991.7870442736805590948.stgit@devnote2>
+        <164871509158.178991.12705786877340857725.stgit@devnote2>
+        <20220405235548.38344aba5a7fcb059924c367@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Tue, 5 Apr 2022 23:55:48 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
 
-> The kernel documentation guidelines [1] lists that there should have page
-> title.
->
-> Add missing page title for kernel-doc.rst and sphinx.rst, in accordance
-> to the guideline.
->
-> Changes since v3 [2]:
->   - Clarify that there is no output differences except formatting
->     semantics in [1/2]
->   - Drop Suggested-by trailer from Akira Yokosawa in [1/2] 
->
-> [1]: https://docs.kernel.org/doc-guide/sphinx.html#specific-guidelines-for-the-kernel-documentation
-> [2]:
-> https://lore.kernel.org/linux-doc/20220328065030.24936-1-bagasdotme@gmail.com/
->
-> Bagas Sanjaya (2):
->   Documentation: kernel-doc: Promote two chapter headings to page title
->   Documentation: sphinx: replace "Introduction" chapter heading with
->     page title
->
->  Documentation/doc-guide/kernel-doc.rst | 2 ++
->  Documentation/doc-guide/sphinx.rst     | 5 +++--
->  2 files changed, 5 insertions(+), 2 deletions(-)
+> Have you already picked this series?
 
-OK, I think this improves the situation overall, so I've applied these,
-thanks.
+No I haven't. I do not add any patches until after the merge window, which
+just ended Sunday.
 
-jon
+> 
+> Actually, kernel test robot reported an issue in this patch today.
+> Here is the patch. Should I send v8 including this?
+
+Yes, please send a v8.
+
+Thanks!
+
+-- Steve
