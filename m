@@ -2,168 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EEBEC4167D
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8609EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391673AbiDEWfC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38018 "EHLO
+        id S1442560AbiDEWfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1452047AbiDEPyU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:54:20 -0400
-Received: from sonic314-26.consmr.mail.ne1.yahoo.com (sonic314-26.consmr.mail.ne1.yahoo.com [66.163.189.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0871D1930
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 07:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649170201; bh=wj9b4EM96Nw9uy/BlR8A+kRsw+NxU/IGvlc7WNtaG6Y=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=szLTqN29hH0Fplkr6uAe+MXF5PEA5fsJqTjRbZbWpnvC0Al5xHpu2TN4ooBY38wWJ8uiTpimodlROdpLS5wh+w/cRUkreeUOk4IRrNYkk0oRW0v4kPNiuhgPw1X5zsHOt/MDQkQXGnSVaNgfhv762MM6O896isbhEQuhBvsq1ESOUk/TvdnN2GUdrLh5aQ5PKEy7nh36gPUebwxqWz//ak3Yuw61QLtypYZo2v+UhhO4ojX1rvbwuZSNQau/+CPl1qE7BLh8g5V3Oflo+FP9jLuvjXqyU3z15HyXJgvy6iIksyrZovyQwmLa6sOUWH8w5VOCGholry/lqUHaRfRKYQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649170201; bh=3ZN3cB5DrA9X/nY5OB/U+58iiXHAjbJw4aWJEs1+cuQ=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=DR1WkSMA58A7/84XbZe7tMPfrRoaKZfEofoTrXU55nzLbY4vyUCbCqDRR9vTC/Uadze+3Ih+fk9/OmEKXlLppRWnckXs7yEoDdbb1WxeA2BD+pBqa9ECHGxmWnpbUTNDe1t0cqQNPdRzvApbSFo59cOpx7FQiPfJ45QLXI6P3V1tLvseXsla3JhAphQvqPfea+KVBdU4EfvwaWyXsIKvq9+Q1xBRonm8LG2UkuJEo/kC6kyrnbt/cBHxXPlbLCTtK/dxx9qrMMl1Wm4gBUD0Zkw7Xm6NU1wxUyPD3d1PcroVIC0uhVcDjmLLYKx7g8iQESNTKTMCxrHzntqKfbbmRQ==
-X-YMail-OSG: CFOYxhkVM1m8ajYW0_qAcFcSymFYK7L2a6qwzT9OQ2UUlnv.BUpaBF0wlxuQwal
- Id7mxXvbyHI3SKjYGp5dT0n84hYQnlM1pHkE4PFSYGPgBksboFZsw7oyD2lk5ECMCbr9SWtAVmH0
- .d_7i9b6VeRrpvgGKNa1LydWgjhZ1aF1j0WCXmVAvxhuASrx4AcSwEbxIrf02ZzIpdkF0tRIDiGA
- fIiLtCbvL7HMF.6JTu0hqKSkEm800._UKU74Zj1c8CSy3J6teokbUoLkU9l7KOyyfqPed71COGc.
- Uk6.j4EupI6yx7AEAnyNrmRVsu.lfDRd0uLTdnaAKNWCzNHP0Rk81z_8._7QaZOYHEjwEpEZXCpK
- zI2AD45g77679.Ja5Ys2GLvFXjX3.xp7aclyNNvofR7Jh067Y2gXqzIBDSu87zaEdP2MK837M.xB
- 1OfFnJdnAvbWt_H_q3.Q1tMwL3Kixm_AgnvjlHbLwHBbqA5JOFNcArx5haZqok5xRTl2mf0F1D6l
- .FzSfaWxY3OLo.mtM7g8kOFRLw0CvXlG4TIfXPLXErAlD6mRLM2xXPDwG1nR1vqd_xRYbS9xlKjK
- TuOonIiTKMvOhrUQC02h69nK_tpOB8yYlI4k7YiEMslyPBbGWOFMwySUOrpRH.vBxhe.l6oheiYx
- o5NBcl7BgAa1X3ivsn5SA.3767Hce6hgpq.yEFeQs06Ap8HcIVM14Y7deXwZmV1GWFltSdN_pJF2
- UG58DzAejc8YGRZBu6lz5tuJrea9nd0slrvU3mECSMxrEbsyUTmunNoMIk0rA.aRSWtwaxhHGzuE
- 5DgTgrWYaNzOwZ4VJJOYi.I9idvbKTmuLsXnnv.GOl.FDes9fM1fDSPMyMqXOnQWmSt2QuGgkxiX
- O3J3CdGHIe2rsXRPr.0Wfe80l9txzoYyLA8ixpWlcmwY4mQ_Vp1oIgPvoKW8xWZfwbNjYoK.tVc9
- DtYt_F4pHOqWb50NMKpHgAoi71Doo1u06ukfMzUSZyXaMjeTVIRzpEPEWCbLExiAl0aFBdB5KRBJ
- te6O8QwP6VrOI6itfgkCtp3fEiaVJVMr47S.xuFOxzyKMGKcbgS.ruL8Rhe5lC5utwjw3f0BH0Nx
- buLatAE2DDGm7V3HuuKQpFk1bD_ji9UZYRpnYQzSa7D71taZFqyWUmJWrX7vmBcQv_VN7PkLsFN7
- 5sAQHk0sECA0_fB_g.iQ9WymiEErRe0kN7smNXq4tH.aejcBKLjJ24APkm4dTV1YtYomr_bMNfIv
- nCFfXnwwZJlekUqNVA2hf35UraNh2atZDH4TiV59UQA.MCuGRsJYJqKAN_.CsrXt4u.vY4xBMxSR
- 0u8G8TDu93_d3KzrzuvQ8XAvJl5mGkARGoICNoUrt_93L0kweQfUu97iBOpE7GlVkQXISdhck.eb
- uG3dpWlu2E.v.iFKX4QlMWTlQoWgIfInZY4EB5qlB42SWHhNnJVPQOjEVWIP8ifbVbsZe1l5D04S
- zkOUkmqknYyJhcamDu4OZHYL2IEPc5uiCroAgyfnYpJyyIeebSuq34rjsMoyh7tRQJpuWzizAbyu
- bzNKtWQSCidx6SSyCGFQOCkA_8jUU04P_Xc0CmQk2ex_ev.N6JN3Y.4DoJD1jrqVUt5aphZ6taBL
- hzeQ_wzrLft1yBBY0l2yuxwtSmxLiWmggDDoJA0Ii4HDpiqvKaRUenUxclO3D08BliBCrSyjvWbQ
- sI.Mt6vM9CMIzGrRat4F_GcnzV65o3Y6a4UQ0BR49h2i8dZ9ibBUDd4ZOnCKmgu5ihRalDhHq.Lh
- rDkyZs1_j2MiXKArIEu9GpzofL3tW2XdoYrwJ26iDh.EzUD03dUjgh4I0p0qEw4T4ahxw5BqeoOw
- 4FHGancMHvTfphor.ZGF1SlwVQsXdsYbNebOirRY98B8SaXUn8n0EVeBYFTbp9WnTV_er1Z_HOo6
- e4OSDMPR5Je3vjvIkLFrvbJzkAY5i2ZgAqaqyTn3Qx3ps2lX.ezpy64VwRHmfHzpt_jI2wElf24c
- g4qW1E2DfMNs_nVIhc9rNzqBLSBtdAvROBR18UrN.ss97iy5jq0l.tL1OlKryQTzuvn9Z5oeeg6d
- 5taNSsD3C8P83uZ5Nmlr4jusTx_GmTYgQrZVwfwIPG4piGX3vXgcpSuDdUSLCJqMSr2vUtELUu0N
- iaXJ.aM7Zy3DgaMbDGql5Lp4CxMtioPoU.ZHG.XyM4z5fpCXl_pwMrMic2cooJQ_ylp09Z6_MEB9
- j1_dDjzqt2Yo.6W58FqK16PgxUbxQG6_rkZpUVbZBZ0pvRlI58g--
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ne1.yahoo.com with HTTP; Tue, 5 Apr 2022 14:50:01 +0000
-Received: by hermes--canary-production-bf1-665cdb9985-zm65g (VZM Hermes SMTP Server) with ESMTPA ID 7d2721fd225af1eb62abd539103a7a7f;
-          Tue, 05 Apr 2022 14:49:54 +0000 (UTC)
-Message-ID: <385e4cf4-4cd1-8f41-5352-ea87a1f419ad@schaufler-ca.com>
-Date:   Tue, 5 Apr 2022 07:49:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 00/18] bpf: Secure and authenticated preloading of eBPF
- programs
-Content-Language: en-US
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Djalal Harouni <tixxdz@gmail.com>,
-        KP Singh <kpsingh@kernel.org>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <20220328175033.2437312-1-roberto.sassu@huawei.com>
- <20220331022727.ybj4rui4raxmsdpu@MBP-98dd607d3435.dhcp.thefacebook.com>
- <b9f5995f96da447c851f7c9db8232a9b@huawei.com>
- <20220401235537.mwziwuo4n53m5cxp@MBP-98dd607d3435.dhcp.thefacebook.com>
- <CACYkzJ5QgkucL3HZ4bY5Rcme4ey6U3FW4w2Gz-9rdWq0_RHvgA@mail.gmail.com>
- <CAEiveUcx1KHoJ421Cv+52t=0U+Uy2VF51VC_zfTSftQ4wVYOPw@mail.gmail.com>
- <c2e57f10b62940eba3cfcae996e20e3c@huawei.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <c2e57f10b62940eba3cfcae996e20e3c@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        with ESMTP id S1452429AbiDEPyy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:54:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25A453701C;
+        Tue,  5 Apr 2022 07:55:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AD520616D0;
+        Tue,  5 Apr 2022 14:55:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EC47C385A0;
+        Tue,  5 Apr 2022 14:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649170553;
+        bh=+wsa2KupAHEAkaJ6uGblvMqbej2o+NeI2jwDd8b2QR8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d6d9V8yW4T+WsjbhuU0OTx8kSn0SLRe3XsjGeKmKK46+wPxSrj3/QRhEEV6ZDWfLz
+         7wPYjp8irrCdZLmD/iIXH5LHr+7ctzP8IvPnW32MYfGBuQus3t+cIlRhF+JFFQeFTn
+         Mmf6MKd49IAGmTNg5lf8Ojd98dtZDUEzb3H4JVLDlwnbcSYwVKQ/8Z0TZhL/UtjR5Q
+         tiJMr9+5Wu4n0HQ3EsgMoYIA6dVndFdfsXn2oX0/MEtbELNDgDtvg6Dv8DucmFtLIQ
+         M7VwJEQn5z3mDqGpTcK1YC+spTHrnmexvHpd8lbgVABLJE1dJLk1YvEib8KNZIa3ke
+         xIs/sLUtztryg==
+Date:   Tue, 5 Apr 2022 23:55:48 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v7 3/4] bootconfig: Support embedding a bootconfig file
+ in kernel
+Message-Id: <20220405235548.38344aba5a7fcb059924c367@kernel.org>
+In-Reply-To: <164871509158.178991.12705786877340857725.stgit@devnote2>
+References: <164871505771.178991.7870442736805590948.stgit@devnote2>
+        <164871509158.178991.12705786877340857725.stgit@devnote2>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.20001 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/4/2022 10:20 AM, Roberto Sassu wrote:
->> From: Djalal Harouni [mailto:tixxdz@gmail.com]
->> Sent: Monday, April 4, 2022 9:45 AM
->> On Sun, Apr 3, 2022 at 5:42 PM KP Singh <kpsingh@kernel.org> wrote:
->>> On Sat, Apr 2, 2022 at 1:55 AM Alexei Starovoitov
->>> <alexei.starovoitov@gmail.com> wrote:
->> ...
->>>>> Pinning
->>>>> them to unreachable inodes intuitively looked the
->>>>> way to go for achieving the stated goal.
->>>> We can consider inodes in bpffs that are not unlinkable by root
->>>> in the future, but certainly not for this use case.
->>> Can this not be already done by adding a BPF_LSM program to the
->>> inode_unlink LSM hook?
->>>
->> Also, beside of the inode_unlink... and out of curiosity: making sysfs/bpffs/
->> readonly after pinning, then using bpf LSM hooks
->> sb_mount|remount|unmount...
->> family combining bpf() LSM hook... isn't this enough to:
->> 1. Restrict who can pin to bpffs without using a full MAC
->> 2. Restrict who can delete or unmount bpf filesystem
->>
->> ?
-> I'm thinking to implement something like this.
->
-> First, I add a new program flag called
-> BPF_F_STOP_ONCONFIRM, which causes the ref count
-> of the link to increase twice at creation time. In this way,
-> user space cannot make the link disappear, unless a
-> confirmation is explicitly sent via the bpf() system call.
->
-> Another advantage is that other LSMs can decide
-> whether or not they allow a program with this flag
-> (in the bpf security hook).
->
-> This would work regardless of the method used to
-> load the eBPF program (user space or kernel space).
->
-> Second, I extend the bpf() system call with a new
-> subcommand, BPF_LINK_CONFIRM_STOP, which
-> decreasres the ref count for the link of the programs
-> with the BPF_F_STOP_ONCONFIRM flag. I will also
-> introduce a new security hook (something like
-> security_link_confirm_stop), so that an LSM has the
-> opportunity to deny the stop (the bpf security hook
-> would not be sufficient to determine exactly for
-> which link the confirmation is given, an LSM should
-> be able to deny the stop for its own programs).
+Hi Steve,
 
-Would you please stop referring to a set of eBPF programs
-loaded into the BPF LSM as an LSM? Call it a BPF security
-module (BSM) if you must use an abbreviation. An LSM is a
-provider of security_ hooks. In your case that is BPF. When
-you call the set of eBPF programs an LSM it is like calling
-an SELinux policy an LSM.
+Have you already picked this series?
 
->
-> What do you think?
->
-> Thanks
->
-> Roberto
->
-> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-> Managing Director: Li Peng, Zhong Ronghua
+Actually, kernel test robot reported an issue in this patch today.
+Here is the patch. Should I send v8 including this?
+
+Thank you,
+
+diff --git a/init/main.c b/init/main.c
+index 62dddc4206b4..f7fe7cbb1df8 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -313,7 +313,7 @@ static void * __init get_boot_config_from_initrd(size_t *_size)
+ 	return data;
+ }
+ #else
+-static void * __init get_boot_config_from_initrd(u32 *_size)
++static void * __init get_boot_config_from_initrd(size_t *_size)
+ {
+ 	return NULL;
+ }
+
+On Thu, 31 Mar 2022 17:24:51 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
+
+> This allows kernel developer to embed a default bootconfig file in
+> the kernel instead of embedding it in the initrd. This will be good
+> for who are using the kernel without initrd, or who needs a default
+> bootconfigs.
+> This needs to set two kconfigs: CONFIG_BOOT_CONFIG_EMBED=y and set
+> the file path to CONFIG_BOOT_CONFIG_EMBED_FILE.
+> 
+> Note that you still need 'bootconfig' command line option to load the
+> embedded bootconfig. Also if you boot using an initrd with a different
+> bootconfig, the kernel will use the bootconfig in the initrd, instead
+> of the default bootconfig.
+> 
+> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> ---
+>  Changes in v7:
+>   - Change kconfig option name to share the common prefix so that
+>     we can search it easier.
+>   - Make embedded_bootconfig_data readonly.
+>   - Select CONFIG_BLK_DEV_INITRD only if CONFIG_BOOT_CONFIG_EMBED=n
+>   - Remove redundant default settings for new Kconfig options.
+>  Changes in v6:
+>   - Split out the .incbin asm part as bootconfig-data.S according to
+>     Masahiro's comment.
+>  Changes in v5:
+>   - Fix .gitignore to be sorted alphabetically.
+>   - Make default.bconf is cleaned up correctly.
+>   - Allow user to specify relative path to CONFIG_EMBED_BOOT_CONFIG_FILE.
+>     (Thanks Masahiro!)
+>  Changes in v4:
+>   - Avoid updating the default.bconf if the file is not changed.
+> ---
+>  MAINTAINERS                |    1 +
+>  include/linux/bootconfig.h |   10 ++++++++++
+>  init/Kconfig               |   21 ++++++++++++++++++++-
+>  init/main.c                |   20 +++++++++++---------
+>  lib/.gitignore             |    1 +
+>  lib/Makefile               |    8 ++++++++
+>  lib/bootconfig-data.S      |   10 ++++++++++
+>  lib/bootconfig.c           |   13 +++++++++++++
+>  8 files changed, 74 insertions(+), 10 deletions(-)
+>  create mode 100644 lib/bootconfig-data.S
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b555a5e8704f..9b4910685412 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7350,6 +7350,7 @@ S:	Maintained
+>  F:	Documentation/admin-guide/bootconfig.rst
+>  F:	fs/proc/bootconfig.c
+>  F:	include/linux/bootconfig.h
+> +F:	lib/bootconfig-data.S
+>  F:	lib/bootconfig.c
+>  F:	tools/bootconfig/*
+>  F:	tools/bootconfig/scripts/*
+> diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
+> index a4665c7ab07c..1611f9db878e 100644
+> --- a/include/linux/bootconfig.h
+> +++ b/include/linux/bootconfig.h
+> @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
+>  /* XBC cleanup data structures */
+>  void __init xbc_exit(void);
+>  
+> +/* XBC embedded bootconfig data in kernel */
+> +#ifdef CONFIG_BOOT_CONFIG_EMBED
+> +const char * __init xbc_get_embedded_bootconfig(size_t *size);
+> +#else
+> +static inline const char *xbc_get_embedded_bootconfig(size_t *size)
+> +{
+> +	return NULL;
+> +}
+> +#endif
+> +
+>  #endif
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 97463a33baa7..756872d17fe1 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1351,7 +1351,7 @@ endif
+>  
+>  config BOOT_CONFIG
+>  	bool "Boot config support"
+> -	select BLK_DEV_INITRD
+> +	select BLK_DEV_INITRD if !BOOT_CONFIG_EMBED
+>  	help
+>  	  Extra boot config allows system admin to pass a config file as
+>  	  complemental extension of kernel cmdline when booting.
+> @@ -1361,6 +1361,25 @@ config BOOT_CONFIG
+>  
+>  	  If unsure, say Y.
+>  
+> +config BOOT_CONFIG_EMBED
+> +	bool "Embed bootconfig file in the kernel"
+> +	depends on BOOT_CONFIG
+> +	help
+> +	  Embed a bootconfig file given by BOOT_CONFIG_EMBED_FILE in the
+> +	  kernel. Usually, the bootconfig file is loaded with the initrd
+> +	  image. But if the system doesn't support initrd, this option will
+> +	  help you by embedding a bootconfig file while building the kernel.
+> +
+> +	  If unsure, say N.
+> +
+> +config BOOT_CONFIG_EMBED_FILE
+> +	string "Embedded bootconfig file path"
+> +	depends on BOOT_CONFIG_EMBED
+> +	help
+> +	  Specify a bootconfig file which will be embedded to the kernel.
+> +	  This bootconfig will be used if there is no initrd or no other
+> +	  bootconfig in the initrd.
+> +
+>  choice
+>  	prompt "Compiler optimization level"
+>  	default CC_OPTIMIZE_FOR_PERFORMANCE
+> diff --git a/init/main.c b/init/main.c
+> index 266d61bc67b0..62dddc4206b4 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -266,7 +266,7 @@ static int __init loglevel(char *str)
+>  early_param("loglevel", loglevel);
+>  
+>  #ifdef CONFIG_BLK_DEV_INITRD
+> -static void * __init get_boot_config_from_initrd(u32 *_size)
+> +static void * __init get_boot_config_from_initrd(size_t *_size)
+>  {
+>  	u32 size, csum;
+>  	char *data;
+> @@ -410,14 +410,16 @@ static int __init warn_bootconfig(char *str)
+>  static void __init setup_boot_config(void)
+>  {
+>  	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
+> -	const char *msg;
+> -	int pos;
+> -	u32 size;
+> -	char *data, *err;
+> -	int ret;
+> +	const char *msg, *data;
+> +	int pos, ret;
+> +	size_t size;
+> +	char *err;
+>  
+>  	/* Cut out the bootconfig data even if we have no bootconfig option */
+>  	data = get_boot_config_from_initrd(&size);
+> +	/* If there is no bootconfig in initrd, try embedded one. */
+> +	if (!data)
+> +		data = xbc_get_embedded_bootconfig(&size);
+>  
+>  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+>  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+> @@ -436,8 +438,8 @@ static void __init setup_boot_config(void)
+>  	}
+>  
+>  	if (size >= XBC_DATA_MAX) {
+> -		pr_err("bootconfig size %d greater than max size %d\n",
+> -			size, XBC_DATA_MAX);
+> +		pr_err("bootconfig size %ld greater than max size %d\n",
+> +			(long)size, XBC_DATA_MAX);
+>  		return;
+>  	}
+>  
+> @@ -450,7 +452,7 @@ static void __init setup_boot_config(void)
+>  				msg, pos);
+>  	} else {
+>  		xbc_get_info(&ret, NULL);
+> -		pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
+> +		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
+>  		/* keys starting with "kernel." are passed via cmdline */
+>  		extra_command_line = xbc_make_cmdline("kernel");
+>  		/* Also, "init." keys are init arguments */
+> diff --git a/lib/.gitignore b/lib/.gitignore
+> index e5e217b8307b..54596b634ecb 100644
+> --- a/lib/.gitignore
+> +++ b/lib/.gitignore
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  /crc32table.h
+>  /crc64table.h
+> +/default.bconf
+>  /gen_crc32table
+>  /gen_crc64table
+>  /oid_registry_data.c
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 08053df16c7c..95268d6c75b7 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -280,6 +280,14 @@ $(foreach file, $(libfdt_files), \
+>  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
+>  
+>  obj-$(CONFIG_BOOT_CONFIG) += bootconfig.o
+> +obj-$(CONFIG_BOOT_CONFIG_EMBED) += bootconfig-data.o
+> +
+> +$(obj)/bootconfig-data.o: $(obj)/default.bconf
+> +
+> +targets += default.bconf
+> +filechk_defbconf = cat $(or $(real-prereqs), /dev/null)
+> +$(obj)/default.bconf: $(CONFIG_BOOT_CONFIG_EMBED_FILE) FORCE
+> +	$(call filechk,defbconf)
+>  
+>  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
+>  obj-$(CONFIG_INTERVAL_TREE_TEST) += interval_tree_test.o
+> diff --git a/lib/bootconfig-data.S b/lib/bootconfig-data.S
+> new file mode 100644
+> index 000000000000..ef85ba1a82f4
+> --- /dev/null
+> +++ b/lib/bootconfig-data.S
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Embed default bootconfig in the kernel.
+> + */
+> +	.section .init.rodata, "aw"
+> +	.global embedded_bootconfig_data
+> +embedded_bootconfig_data:
+> +	.incbin "lib/default.bconf"
+> +	.global embedded_bootconfig_data_end
+> +embedded_bootconfig_data_end:
+> diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+> index 74f3201ab8e5..c59d26068a64 100644
+> --- a/lib/bootconfig.c
+> +++ b/lib/bootconfig.c
+> @@ -12,6 +12,19 @@
+>  #include <linux/kernel.h>
+>  #include <linux/memblock.h>
+>  #include <linux/string.h>
+> +
+> +#ifdef CONFIG_BOOT_CONFIG_EMBED
+> +/* embedded_bootconfig_data is defined in bootconfig-data.S */
+> +extern __visible const char embedded_bootconfig_data[];
+> +extern __visible const char embedded_bootconfig_data_end[];
+> +
+> +const char * __init xbc_get_embedded_bootconfig(size_t *size)
+> +{
+> +	*size = embedded_bootconfig_data_end - embedded_bootconfig_data;
+> +	return (*size) ? embedded_bootconfig_data : NULL;
+> +}
+> +#endif
+> +
+>  #else /* !__KERNEL__ */
+>  /*
+>   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
