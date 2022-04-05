@@ -2,96 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 231B9C41535
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 09:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8576DC3527D
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 11:07:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236738AbiDEJPC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 05:15:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34818 "EHLO
+        id S234052AbiDELGM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 07:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236458AbiDEIQq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 04:16:46 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275B970CD3;
-        Tue,  5 Apr 2022 01:04:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AA3C7B81B90;
-        Tue,  5 Apr 2022 08:04:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5DE3C385A9;
-        Tue,  5 Apr 2022 08:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649145849;
-        bh=qsQljiMucqRqUd4z9Wprhd8esh75p1YRIbEPGlFNo3E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tH4wksIOmH925t36apUo4rEAwz/Kw5BXVljl8CZcdvTQHmZK4pXSqxJn7aWRy3ago
-         hgb6L0aVPRUdzTeVnwPDSqXF8v4Ubbrgal+OGCCSJxuagKU2zxkmJFYmlJsGl3o3ZE
-         UNptV5Gw5TUTftVFX/KUs+BSuNKTtjtqtU2qAdKkJmgyO6ahfnMam4xHfBdL7NpMeC
-         LExnO4naFkC6fFTHBM0Dy4BzfLHTcOsbseIVpL9Txm/xlJuCwn8k5I12MAR2Dmx6ta
-         Ror/O5sMJS+FqWH03vZnwylCiXanCpmD8zS0XSZgb11WfLJ2ZRiT9An6qPiV6+M7IP
-         XcPuBvxBNZhPg==
-Date:   Tue, 5 Apr 2022 09:04:04 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: document the boot requirements for MTE
-Message-ID: <Ykv39KMpKXb2Mr6p@sirena.org.uk>
-References: <20220404211858.968452-1-pcc@google.com>
+        with ESMTP id S1353200AbiDEKFv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 06:05:51 -0400
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE20BE9F9
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 02:54:27 -0700 (PDT)
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 234NPFp5001171
+        for <linux-doc@vger.kernel.org>; Tue, 5 Apr 2022 02:54:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=8yR0R6//rrpx6xMSqMgpagKBvzJMhAiTzR7V2rQWi1g=;
+ b=Pchn5Kvi/QKBZ8C5+O1p8jS8Cgbh6dbZgHjcvQtmRB78zcsPLhQBeuBKkEYr+xNj6Jlz
+ no8FTpN9VfB0qKSIR49mbPD8bSSCzIpQefFvQAtFElFq34rLfFFtIwV6a9Prh/8cjldq
+ g6g++CQ4rTl1+wrsbyM+o7ACvRSZwBvIiG4= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3f857x53pm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 02:54:26 -0700
+Received: from twshared41237.03.ash8.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 5 Apr 2022 02:54:25 -0700
+Received: by devbig039.lla1.facebook.com (Postfix, from userid 572232)
+        id E99676D9461F; Tue,  5 Apr 2022 02:54:15 -0700 (PDT)
+From:   Dylan Yudaken <dylany@fb.com>
+To:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     Dylan Yudaken <dylany@fb.com>
+Subject: [PATCH v2] docs: fault-injection: fix defaults
+Date:   Tue, 5 Apr 2022 02:54:14 -0700
+Message-ID: <20220405095414.816060-1-dylany@fb.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="U4yPShB2sk24Ez1L"
-Content-Disposition: inline
-In-Reply-To: <20220404211858.968452-1-pcc@google.com>
-X-Cookie: diplomacy, n:
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: o92smyiKeSlUeVzAB9FZm4ZKqnxVC2XE
+X-Proofpoint-ORIG-GUID: o92smyiKeSlUeVzAB9FZm4ZKqnxVC2XE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_10,2022-03-31_01,2022-02-23_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+ignore-gfp-wait and ignore-gfp-highmem defaults are actually true (Y) in
+both failslab and fail_page_alloc, not false as the docs suggest. See
+page_alloc.c:3762 and failslab.c:13
 
---U4yPShB2sk24Ez1L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+At the same time use 'Y' instead of '1' in the example scripts just for
+consistency. (though 1 would work)
 
-On Mon, Apr 04, 2022 at 02:18:58PM -0700, Peter Collingbourne wrote:
+Signed-off-by: Dylan Yudaken <dylany@fb.com>
+---
 
-> +  For CPUs with the Memory Tagging Extension feature:
-> +
-> +  - If EL3 is present:
-> +
-> +    - SCR_EL3.ATA (bit 26) must be initialised to 0b1.
-> +
-> +  - If the kernel is entered at EL1 and EL2 is present:
-> +
-> +    - HCR_EL2.ATA (bit 56) must be initialised to 0b1.
+v2: reword the docs to explain what happens if 'N' is set.
 
-Very nitpicky but this is only required for FEAT_MTE2 and above, plain
-FEAT_MTE doesn't have these traps.  I don't know that this is a thing
-that anyone's actually implemented and from v8.7 on it's not permitted
-but the above isn't strictly true if someone did for some reason have
-the most basic version.
+ Documentation/fault-injection/fault-injection.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Otherwise
+diff --git a/Documentation/fault-injection/fault-injection.rst b/Document=
+ation/fault-injection/fault-injection.rst
+index 4a25c5eb6f07..eb9c2d9a4f5f 100644
+--- a/Documentation/fault-injection/fault-injection.rst
++++ b/Documentation/fault-injection/fault-injection.rst
+@@ -132,16 +132,16 @@ configuration of fault-injection capabilities.
+=20
+ 	Format: { 'Y' | 'N' }
+=20
+-	default is 'N', setting it to 'Y' won't inject failures into
+-	highmem/user allocations.
++	default is 'Y', setting it to 'N' will also inject failures into
++	highmem/user allocations (__GFP_HIGHMEM allocations).
+=20
+ - /sys/kernel/debug/failslab/ignore-gfp-wait:
+ - /sys/kernel/debug/fail_page_alloc/ignore-gfp-wait:
+=20
+ 	Format: { 'Y' | 'N' }
+=20
+-	default is 'N', setting it to 'Y' will inject failures
+-	only into non-sleep allocations (GFP_ATOMIC allocations).
++	default is 'Y', setting it to 'N' will also inject failures
++	into allocations that can sleep (__GFP_DIRECT_RECLAIM allocations).
+=20
+ - /sys/kernel/debug/fail_page_alloc/min-order:
+=20
+@@ -280,7 +280,7 @@ Application Examples
+     printf %#x -1 > /sys/kernel/debug/$FAILTYPE/times
+     echo 0 > /sys/kernel/debug/$FAILTYPE/space
+     echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
+-    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
++    echo Y > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
+=20
+     faulty_system()
+     {
+@@ -334,8 +334,8 @@ Application Examples
+     printf %#x -1 > /sys/kernel/debug/$FAILTYPE/times
+     echo 0 > /sys/kernel/debug/$FAILTYPE/space
+     echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
+-    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
+-    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
++    echo Y > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
++    echo Y > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
+     echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
+=20
+     trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTE=
+RM EXIT
+--=20
+2.30.2
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---U4yPShB2sk24Ez1L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJL9/AACgkQJNaLcl1U
-h9Advgf+IuZZugXrsq2QTXupthCBNsC0BjU8HXkBBUqx6xRi96h59EIv/TR0K9Tv
-o/Ku1OZjykNhby0S0ts/PhxEWP79+z4mpA+kN13hYiTUp9HytXg4hppOtikWnNE5
-qVieJHkjEL5QLmqaxEOd3zf9MPotutz9n+AXI4UC+Av6p3cYamCKwpalZKcenm66
-1k6/2iJooTZa+U2jEcZE18tokuwbTMC3lkqjyKoNAEXmSq3DkOHbaxblDFm9eXgf
-UeYeYH8GPAU5EO7WASyDs5zYVMouxfO9yFpafW0JoK7HuI/AqlFycD98lwbHvufv
-6rlXx8H0HRoghHMSO92joqBVQymltA==
-=78rB
------END PGP SIGNATURE-----
-
---U4yPShB2sk24Ez1L--
