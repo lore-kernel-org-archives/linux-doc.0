@@ -2,110 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A454C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 394E5C43219
 	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389719AbiDEWe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
+        id S1390599AbiDEWe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573148AbiDESCz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 14:02:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB58EBB9D;
-        Tue,  5 Apr 2022 11:00:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05824B81F46;
-        Tue,  5 Apr 2022 18:00:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E3CC385A9;
-        Tue,  5 Apr 2022 18:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649181653;
-        bh=DEsPoEU/5E2aHVZgQZCveB9mC/4vVgGzX7eDnKQsH1g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WMBUPiXVn4jIQOTsqBIO5vrfkhbqjHt/h5chaD/wedjcngfWcwTLh8h2oi1DE6HDX
-         dzaPOcbmTH8LZnQcfebDxTtYx2gqmevPCKAk4URCFU4AdFBqSRdcVso5GsMpG3wunl
-         eorVXyUYwCq8OJ4dXIzo1OANkewLZNXlZf4ySbWxfEjAqfqp5e85PEiEXkY4fDWO3E
-         wg3Z2xs3ne4ObjHj1ZPtBzQzLqeHHfDB0IuGDztVbIfZY8VOlMi6EXW4Uty471eAkH
-         58TvAlMhDwmLmpkSKu51sdGtU49ep+8xapGkk7+J9U82gXjbzphShbQR5EV0Xooq83
-         VWMHsLVvxbkyQ==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-de48295467so224592fac.2;
-        Tue, 05 Apr 2022 11:00:53 -0700 (PDT)
-X-Gm-Message-State: AOAM5322x8xzMvuoZsOtOxes/AEuidd6XLZhgwhKZZWjyrrfvxnKdGWt
-        3bwn0vFzeWhdA19MJywcTKqvTSAOV4FkrWWlMX0=
-X-Google-Smtp-Source: ABdhPJyVj5hV5enQfSRyb6Ywt5+n+is6l9llY4/UZnczlt0FqbI9Kjr5WpW5ZDCur6hEypd5gKBpIfcsLtQ1wmevZ7g=
-X-Received: by 2002:a05:6870:eaa5:b0:da:b3f:2b45 with SMTP id
- s37-20020a056870eaa500b000da0b3f2b45mr2221796oap.228.1649181652698; Tue, 05
- Apr 2022 11:00:52 -0700 (PDT)
+        with ESMTP id S1443055AbiDEPix (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:38:53 -0400
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F8F143C7C;
+        Tue,  5 Apr 2022 06:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1649166856;
+  x=1680702856;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WhCHZK9GJJLMq21n9Wjs02V4Hy6iol3pV60QmFhYnXI=;
+  b=jOu26AEgH52kLCEHGCDNClrCiuGQsqC0mMbV00LsCQ6D7yvqs5Dp0cZy
+   optIlXUGOYK/V04EhtXgmp6AGk/51aFLQeuyzPywOKdv2JKXA+l+F6zE7
+   jxHOIV1w+04HJPidE7bujX1V1JGCLkwHL1iXL+GF9c51ejPvh7kJHrDJF
+   sWsJXpEG7H3IcBsiHwqDNa1ca2VTQ5eAIIHcwcVTTvxCwHveoCzsrgoBD
+   Qg4rKYHk/O7G0KuyvCJLe6mEPgEtYSv+lMmSdwpvvs1oz0dylwi73F+Ak
+   1fDOQjfbIzc4yDvOAyiXUKMXCl58iv6V6IbDYllLso+PQ6F552TycWKbq
+   w==;
+Date:   Tue, 5 Apr 2022 15:54:12 +0200
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     Johannes Berg <johannes@sipsolutions.net>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kernel <kernel@axis.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 01/10] roadtest: import libvhost-user from QEMU
+Message-ID: <20220405135412.GB28574@axis.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-2-vincent.whitchurch@axis.com>
+ <7f405d8d09a83954aa3411eff8b71ee687c7ec33.camel@sipsolutions.net>
 MIME-Version: 1.0
-References: <20220321045853.3324-1-akihiko.odaki@gmail.com> <87bkxfebsu.fsf@meer.lwn.net>
-In-Reply-To: <87bkxfebsu.fsf@meer.lwn.net>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 5 Apr 2022 20:00:41 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGHQm7yy2QPCEVRiXBzb8HWOHzKMCuoS+mbnBKujEXQnA@mail.gmail.com>
-Message-ID: <CAMj1kXGHQm7yy2QPCEVRiXBzb8HWOHzKMCuoS+mbnBKujEXQnA@mail.gmail.com>
-Subject: Re: [PATCH] x86/efi: Remove references of EFI earlyprintk from documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akihiko Odaki <akihiko.odaki@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, x86@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H . Peter Anvin" <hpa@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <7f405d8d09a83954aa3411eff8b71ee687c7ec33.camel@sipsolutions.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 5 Apr 2022 at 18:26, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Akihiko Odaki <akihiko.odaki@gmail.com> writes:
->
-> > x86 EFI earlyprink was removed with commit 69c1f396f25b ("efi/x86:
-> > Convert x86 EFI earlyprintk into generic earlycon implementation").
->
-> So I will confess that I don't know this area well enough to know
-> whether this patch makes sense or not.  To help with that, it would have
-> been good to CC Ard, who is the author of the patch you cite above.
-> Adding him now.
->
-> Ard, do you agree with this change (preserved below)?
->
+On Thu, Mar 24, 2022 at 02:00:10PM +0100, Johannes Berg wrote:
+> On Fri, 2022-03-11 at 17:24 +0100, Vincent Whitchurch wrote:
+> > Import the libvhost-user from QEMU for use in the implementation of the
+> > virtio devices in the roadtest backend.
+> 
+> So hm, I wonder if this is the sensible thing to do?
+> 
+> Not that I mind importing qemu code, but:
+> 
+>  1) the implementation is rather complex in some places, and has support
+>     for a LOT of virtio/vhost-user features that are really not needed
+>     in these cases, for performance etc. It's also close to 4k LOC.
 
-Yes, it looks fine to me.
+Is this really a problem given that the code is imported as-is?  The
+intention is not to have to make a lot of local modifications to it in
+the kernel tree.  The code is stable and presumably well-tested
+upstream, and upstream maintains it as a separate library (in the QEMU
+source tree though) to encourage reuse.
 
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+>  2) the implementation doesn't support time-travel mode which might come
+>     in handy
 
->
-> > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index f5a27f067db9..fb39337f4123 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -1252,7 +1252,7 @@
-> >                       Append ",keep" to not disable it when the real console
-> >                       takes over.
-> >
-> > -                     Only one of vga, efi, serial, or usb debug port can
-> > +                     Only one of vga, serial, or usb debug port can
-> >                       be used at a time.
-> >
-> >                       Currently only ttyS0 and ttyS1 may be specified by
-> > @@ -1267,7 +1267,7 @@
-> >                       Interaction with the standard serial driver is not
-> >                       very good.
-> >
-> > -                     The VGA and EFI output is eventually overwritten by
-> > +                     The VGA output is eventually overwritten by
-> >                       the real console.
-> >
-> >                       The xen option can only be used in Xen domains.
-> > --
-> > 2.35.1
+True, but I don't see the external time-travel controller stuff being
+too useful for the kinds of tests this framework is targeting.
