@@ -2,104 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5042AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 04:35:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC705C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 05:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbiDEEhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 00:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
+        id S229876AbiDEFuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 01:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbiDEEhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 00:37:16 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2371EB7CC;
-        Mon,  4 Apr 2022 21:34:41 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id i4so9547120qti.7;
-        Mon, 04 Apr 2022 21:34:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
-        b=Nxjgu29NcyoUQQvdWmirHaBDLtseXhtj7lcWJjMk9Iiw47oNWInUQodWc0CG7OOIRo
-         E5vGW0B+56BtG6tZFcHkF/r0qYJ3UR7Q9Y8sSe5yw5CX6UlPZJFQKpbRaVoqivu0/+tK
-         RuLeUYnPEFT2gS7E1rhJ5Oe2oQUJeEgBgxqTQ11WHHYhUwKXjTceIBr7d2gnRMt5Ms+e
-         U2wai/4F4xmnLRgHhz+DUqe1s/iGgyPlxT87VyoldvzSVvIWSbcueJ2mdPNkr19QOUeW
-         5E0+Qefp34+sdPwxkWORuK4+KUoa6vYSoRkU5OPXhEKTo2LZ7q5rQn/mn51+Mm36wIKi
-         ITig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
-        b=PubO/NhdXncb/HflHNhySL39X+g6CHUt+bG/PMtyTx3dwpcVXR3IeSgh94/mLaHKtL
-         P++sLZKOOfThdj4aWNTW0HhGD8EtMTL8e0u/SU2ag92slxdvWjrazwCg0yWI3/6NbFOO
-         QanaBoaugCCsqX6Zey10LzBdCHzQhrtGowjTf+ceQxLtHwxJGY/KVv3CPYkb1GjW7aCF
-         gXw7GfdokADzM9Odv+eSQSi5gi/Hn1A+uBXWV24WnXp9ZSDtp3FoVaWOZ05e+zVhrYzU
-         2SSbmyncTU96r89AWCsPA6933l5ojJ/B3Bc/3pUn5TEHH6hdUYoKFYMLQVr1vADD4CWj
-         vXgw==
-X-Gm-Message-State: AOAM533vlIMn4smct91f/ZXpb9JibD2ILDB/NWFBHNucoibSYCRG3uB4
-        LYsgSnn5WyJ12BoDdTPX8Ru7OJpWZ9DLAQ==
-X-Google-Smtp-Source: ABdhPJzRnztAxZFoPFNYGfQZufiSdZYE3yV4xvWPXjmMbn6lpfGb8r7lTbTB5VYi/wYLefr4FKVxMw==
-X-Received: by 2002:a05:622a:148e:b0:2e2:2ebd:63d9 with SMTP id t14-20020a05622a148e00b002e22ebd63d9mr1438143qtx.601.1649133280094;
-        Mon, 04 Apr 2022 21:34:40 -0700 (PDT)
-Received: from necipappleseed.attlocal.net ([2600:1700:d80:8410:fa3f:95ff:bd13:53a4])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05622a044600b002e1b9be8e6fsm10190386qtx.36.2022.04.04.21.34.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 21:34:39 -0700 (PDT)
-From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
-To:     masahiroy@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, paul@pgazz.com,
-        fazilyildiran@gmail.com
-Subject: [PATCH] docs: kbuild: add references on Kconfig semantics
-Date:   Tue,  5 Apr 2022 00:33:51 -0400
-Message-Id: <20220405043350.12599-1-fazilyildiran@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229731AbiDEFuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 01:50:23 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36C491;
+        Mon,  4 Apr 2022 22:48:25 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 59FF91F38C;
+        Tue,  5 Apr 2022 05:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1649137704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1r2orMrVQp/4ILk838S1tDzUbcjwXJeLpgvBNYW22Ck=;
+        b=HC72URascQxUqzcuXkfB+sEZA54o97vGoK5spXM0ibpz+w23NT1NuCASZtgNDsN+6T6N03
+        9U3bPZKROCgLzp6OKRhIx1UlawtZRAafvcyaSqpXw+9GFLtimOiMLHbegz3+DD6fbHVB79
+        GsHVeMWiOkRmbt0uvvTXSXTZ7FwNd+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1649137704;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1r2orMrVQp/4ILk838S1tDzUbcjwXJeLpgvBNYW22Ck=;
+        b=5wcdIsL9plpl8ZiUGcInouKSsFfnwSu1Ty4HkDbJZLsVBGtcSmEWnrpY/GfvfwnzcHRXiv
+        yy19/2oPrV+i7zBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C070913216;
+        Tue,  5 Apr 2022 05:48:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id gqqVHybYS2KaSAAAMHmgww
+        (envelope-from <neilb@suse.de>); Tue, 05 Apr 2022 05:48:22 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Matthew Wilcox" <willy@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, "Miaohe Lin" <linmiaohe@huawei.com>
+Subject: Re: [RFC] Documentation for folio_lock() and friends
+In-reply-to: <YkspW4HDL54xEg69@casper.infradead.org>
+References: <YkspW4HDL54xEg69@casper.infradead.org>
+Date:   Tue, 05 Apr 2022 15:48:19 +1000
+Message-id: <164913769939.10985.13675614818955421206@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add references to 1) a research paper which provides a definition of
-Kconfig semantics, 2) the kismet tool, which checks for unmet direct
-dependency bugs in Kconfig specifications.
+On Tue, 05 Apr 2022, Matthew Wilcox wrote:
+> It's a shame to not have these functions documented.  I'm sure I've
+> missed a few things that would be useful to document here.
+>=20
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index ab47579af434..47b7851f1b64 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -888,6 +888,18 @@ bool __folio_lock_or_retry(struct folio *folio, struct=
+ mm_struct *mm,
+>  void unlock_page(struct page *page);
+>  void folio_unlock(struct folio *folio);
+> =20
+> +/**
+> + * folio_trylock() - Attempt to lock a folio.
+> + * @folio: The folio to attempt to lock.
+> + *
+> + * Sometimes it is undesirable to wait for a folio to be unlocked (eg
+> + * when the locks are being taken in the wrong order, or if making
+> + * progress through a batch of folios is more important than processing
+> + * them in order).  Usually folio_lock() is the correct function to call.
 
-Signed-off-by: Paul Gazzillo <paul@pgazz.com>
-Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- Documentation/kbuild/kconfig-language.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+Usually?
+I think a "see also" type reference to folio_lock() is useful, but I
+don't think "usually" is helpful.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 93a5b6e1fabd..a7173843a294 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -693,6 +693,8 @@ in documenting basic Kconfig syntax a more precise definition of Kconfig
- semantics is welcomed. One project deduced Kconfig semantics through
- the use of the xconfig configurator [1]_. Work should be done to confirm if
- the deduced semantics matches our intended Kconfig design goals.
-+Another project formalized a denotational semantics of a core subset of
-+the Kconfig language [10]_.
- 
- Having well defined semantics can be useful for tools for practical
- evaluation of dependencies, for instance one such case was work to
-@@ -700,6 +702,8 @@ express in boolean abstraction of the inferred semantics of Kconfig to
- translate Kconfig logic into boolean formulas and run a SAT solver on this to
- find dead code / features (always inactive), 114 dead features were found in
- Linux using this methodology [1]_ (Section 8: Threats to validity).
-+The kismet tool, based on the semantics in [10]_, finds abuses of reverse
-+dependencies and has led to dozens of committed fixes to Linux Kconfig files [11]_.
- 
- Confirming this could prove useful as Kconfig stands as one of the leading
- industrial variability modeling languages [1]_ [2]_. Its study would help
-@@ -738,3 +742,5 @@ https://kernelnewbies.org/KernelProjects/kconfig-sat
- .. [7] https://vamos.cs.fau.de
- .. [8] https://undertaker.cs.fau.de
- .. [9] https://www4.cs.fau.de/Publications/2011/tartler_11_eurosys.pdf
-+.. [10] https://paulgazzillo.com/papers/esecfse21.pdf
-+.. [11] https://github.com/paulgazz/kmax
--- 
-2.25.1
+> + *
+> + * Context: Any context.
+> + * Return: Whether the lock was successfully acquired.
+> + */
+>  static inline bool folio_trylock(struct folio *folio)
+>  {
+>  	return likely(!test_and_set_bit_lock(PG_locked, folio_flags(folio, 0)));
+> @@ -901,6 +913,26 @@ static inline int trylock_page(struct page *page)
+>  	return folio_trylock(page_folio(page));
+>  }
+> =20
+> +/**
+> + * folio_lock() - Lock this folio.
+> + * @folio: The folio to lock.
+> + *
+> + * The folio lock protects against many things, probably more than it
+> + * should.  It is primarily held while a folio is being read from storage,
+> + * either from its backing file or from swap.  It is also held while a
+> + * folio is being truncated from its address_space.
+> + *
+> + * Holding the lock usually prevents the contents of the folio from being
+> + * modified by other kernel users, although it does not prevent userspace
+> + * from modifying data if it's mapped.  The lock is not consistently held
+> + * while a folio is being modified by DMA.
 
+I don't think this paragraph is helpful...  maybe if it listed which
+change *are* prevented by the lock, rather than a few which aren't?
+
+I think it is significant that the lock prevents removal from the page
+cache, and so ->mapping is only stable while the lock is held.  It might
+be worth adding something about that.
+
+> + *
+> + * Context: May sleep.  If you need to acquire the locks of two or
+> + * more folios, they must be in order of ascending index, if they are
+> + * in the same address_space.  If they are in different address_spaces,
+> + * acquire the lock of the folio which belongs to the address_space which
+> + * has the lowest address in memory first.
+> + */
+>  static inline void folio_lock(struct folio *folio)
+>  {
+>  	might_sleep();
+> @@ -908,6 +940,17 @@ static inline void folio_lock(struct folio *folio)
+>  		__folio_lock(folio);
+>  }
+> =20
+> +/**
+> + * lock_page() - Lock the folio containing this page.
+> + * @page: The page to lock.
+> + *
+> + * See folio_lock() for a description of what the lock protects.
+> + * This is a legacy function and new code should probably use folio_lock()
+> + * instead.
+> + *
+> + * Context: May sleep.  Pages in the same folio share a lock, so do not
+> + * attempt to lock two pages which share a folio.
+> + */
+>  static inline void lock_page(struct page *page)
+>  {
+>  	struct folio *folio;
+> @@ -918,6 +961,16 @@ static inline void lock_page(struct page *page)
+>  		__folio_lock(folio);
+>  }
+> =20
+> +/**
+> + * folio_lock_killable() - Lock this folio, interruptible by a fatal signa=
+l.
+> + * @folio: The folio to lock.
+> + *
+> + * Attempts to lock the folio, like folio_lock(), except that the sleep
+> + * to acquire the lock is interruptible by a fatal signal.
+> + *
+> + * Context: May sleep; see folio_lock().
+> + * Return: 0 if the lock was acquired; -EINTR if a fatal signal was receiv=
+ed.
+> + */
+>  static inline int folio_lock_killable(struct folio *folio)
+>  {
+>  	might_sleep();
+> @@ -964,8 +1017,8 @@ int folio_wait_bit_killable(struct folio *folio, int b=
+it_nr);
+>   * Wait for a folio to be unlocked.
+>   *
+>   * This must be called with the caller "holding" the folio,
+> - * ie with increased "page->count" so that the folio won't
+> - * go away during the wait..
+> + * ie with increased folio reference count so that the folio won't
+> + * go away during the wait.
+>   */
+>  static inline void folio_wait_locked(struct folio *folio)
+>  {
+>=20
+>=20
+
+Thanks,
+NeilBrown
