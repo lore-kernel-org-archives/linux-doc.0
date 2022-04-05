@@ -2,85 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 394E5C43219
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6152C35273
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:40:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390599AbiDEWe7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51158 "EHLO
+        id S1443460AbiDEWfM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443055AbiDEPix (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 11:38:53 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F8F143C7C;
-        Tue,  5 Apr 2022 06:54:14 -0700 (PDT)
+        with ESMTP id S1573063AbiDERvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 13:51:10 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB17BD9EB7
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 10:49:11 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id r10so10096613eda.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 10:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1649166856;
-  x=1680702856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WhCHZK9GJJLMq21n9Wjs02V4Hy6iol3pV60QmFhYnXI=;
-  b=jOu26AEgH52kLCEHGCDNClrCiuGQsqC0mMbV00LsCQ6D7yvqs5Dp0cZy
-   optIlXUGOYK/V04EhtXgmp6AGk/51aFLQeuyzPywOKdv2JKXA+l+F6zE7
-   jxHOIV1w+04HJPidE7bujX1V1JGCLkwHL1iXL+GF9c51ejPvh7kJHrDJF
-   sWsJXpEG7H3IcBsiHwqDNa1ca2VTQ5eAIIHcwcVTTvxCwHveoCzsrgoBD
-   Qg4rKYHk/O7G0KuyvCJLe6mEPgEtYSv+lMmSdwpvvs1oz0dylwi73F+Ak
-   1fDOQjfbIzc4yDvOAyiXUKMXCl58iv6V6IbDYllLso+PQ6F552TycWKbq
-   w==;
-Date:   Tue, 5 Apr 2022 15:54:12 +0200
-From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
-To:     Johannes Berg <johannes@sipsolutions.net>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kernel <kernel@axis.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "brendanhiggins@google.com" <brendanhiggins@google.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [RFC v1 01/10] roadtest: import libvhost-user from QEMU
-Message-ID: <20220405135412.GB28574@axis.com>
-References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
- <20220311162445.346685-2-vincent.whitchurch@axis.com>
- <7f405d8d09a83954aa3411eff8b71ee687c7ec33.camel@sipsolutions.net>
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RXCW1evSnb4oJ88sHTAFEYTq0HTuOW2ocRpwnA3InQ4=;
+        b=DFediYf4lKdcEGd6wHnf3P2A1rH9d97LcubT3QP6yRNY6vUA82uDkOevPceh0sN/Wl
+         AzNDVgFuK6V76WaqpSYAiG2hRF9Re4Ov3xlC/Ms7hpW9uCTQ7y898MEv8Ijbqhc6SxXo
+         QvfpY4jywVuV6j8Ii/P3vkQXreEU44Hlqin6E5RTxZAap0ziUpyUXuD83coag22gB7nJ
+         kP94eXAsBC1cr7hK8pVNGZaStSW21SliZd84A/wTh+8QK9KZdm23HHaRa8zC2IVlp4fq
+         sk905jrtMt/I2FOoTaeCu/ArrkOR8UVb6SsiWhRhquLKZ90pI6vt79FBY7MRBMWLMUZ2
+         L8SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RXCW1evSnb4oJ88sHTAFEYTq0HTuOW2ocRpwnA3InQ4=;
+        b=GccxTWJCQ21pN0Lh/wcJ7o2/Y13fb9kX9GtNzV6KTd9rsvfUzv3o2Jq1I2bSMZeMMq
+         EEiK9htKKaaQvikPjat2iTRovGvh6PcBiqOy+o+/p6Q/20jXz4yjjOZuyQ4CB+RjCdnb
+         xV27LMNIn/nJYW9pjqKAwe6ePB0pku1LQIHNpIbPMGB7Q+Gsr+/X7IT5Jg8dENrE5Ndd
+         wOkDjLg1DQCCdjxb+L7A7v9Uai1gPpxhlH2vwrMeFgpIZw9zi9R/6ui/H1YWroguWsdB
+         mEwjd40CoBkoMET1EasMqMiNWDfPIwRYqxWdLULNjnbWNKW9mmCoSsnKaof8mCNOSjDv
+         tIjA==
+X-Gm-Message-State: AOAM531pbLAnB3Z03HTYwftVWry2lbTTSE3B2W9LliQRnf7n+IZ3QQrY
+        0vuDkX25P/hOZ4E6m+AS6WoiUqcn7cQy+7ha8hmbTQ==
+X-Google-Smtp-Source: ABdhPJy3kLISS/qYYRzMDmjCuhPu7OU3AJeQfL+t2mEx7NkNwMYgXC85KD1rOoe+vR5iNyCwy95ZqCXnaDcme/ng0CI=
+X-Received: by 2002:aa7:d98f:0:b0:41c:bf0f:4c45 with SMTP id
+ u15-20020aa7d98f000000b0041cbf0f4c45mr4818393eds.379.1649180950052; Tue, 05
+ Apr 2022 10:49:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <7f405d8d09a83954aa3411eff8b71ee687c7ec33.camel@sipsolutions.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-6-tjmercier@google.com> <20220329152142.GA15794@blackbody.suse.cz>
+ <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com> <20220405121245.GA30368@blackbody.suse.cz>
+In-Reply-To: <20220405121245.GA30368@blackbody.suse.cz>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 5 Apr 2022 10:48:58 -0700
+Message-ID: <CABdmKX0aF5zXozbb7npcEq3PgaeDE=gaGLf+jYY4oRKW9N+46g@mail.gmail.com>
+Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
+To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 24, 2022 at 02:00:10PM +0100, Johannes Berg wrote:
-> On Fri, 2022-03-11 at 17:24 +0100, Vincent Whitchurch wrote:
-> > Import the libvhost-user from QEMU for use in the implementation of the
-> > virtio devices in the roadtest backend.
-> 
-> So hm, I wonder if this is the sensible thing to do?
-> 
-> Not that I mind importing qemu code, but:
-> 
->  1) the implementation is rather complex in some places, and has support
->     for a LOT of virtio/vhost-user features that are really not needed
->     in these cases, for performance etc. It's also close to 4k LOC.
+On Tue, Apr 5, 2022 at 5:12 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
+>
+> On Fri, Apr 01, 2022 at 11:41:36AM -0700, "T.J. Mercier" <tjmercier@googl=
+e.com> wrote:
+> > This link doesn't work for me, but I think you're referring to the
+> > discussion about your "RAM_backed_buffers" comment from March 23rd.
+>
+> (Oops, it's a non-public message. But yes, you guessed it right ;-))
+>
+> > Anyway the test I did goes like this: enable memcg and gpu cgoups
+> > tracking and run a process that allocates 100MiB of dmabufs. Observe
+> > memcg and gpu accounting values before and after the allocation.
+>
+> Thanks for this measurement/dem/demoo.
+>
+> > Before
+> > # cat memory.current gpu.memory.current
+> > 14909440
+> > system 0
+> >
+> > <Test program does the allocation of 100MiB of dmabufs>
+> >
+> > After
+> > # cat memory.current gpu.memory.current
+> > 48025600
+> > system 104857600
+> >
+> > So the memcg value increases by about 30 MiB while the gpu values
+> > increases by 100 MiB.
+>
+> > This is with kmem enabled, and the /proc/maps
+> > file for this process indicates that the majority of that 30 MiB is
+> > kernel memory.
+>
+> > I think this result shows that neither the kernel nor process memory
+> > overlap with the gpu cgroup tracking of these allocations.
+>
+> It depends how the semantics of the 'system' entry is defined, no?
+> As I grasped from other thread, the 'total' is going to be removed, so
+> 'system' represents exclusively device memory?
+>
+That's right. The system charges (soon to be renamed "system-heap")
+result only from an allocator (in this case the system heap) deciding
+to call gpucg_try_charge for the buffer which is entirely device
+memory.
+>
+> > So despite the fact that these buffers are in main memory, they are
+> > allocated in a way that does not result in memcg attribution. (It
+> > looks to me like __GFP_ACCOUNT is not set for these.)
+>
+> (I thought you knew what dmabufs your program used :-p)
+>
+I'm coming up to speed on a lot of new-to-me code here. :)
+Just for completeness, these buffers were allocated with
+libdmabufheap's AllocSystem.
 
-Is this really a problem given that the code is imported as-is?  The
-intention is not to have to make a lot of local modifications to it in
-the kernel tree.  The code is stable and presumably well-tested
-upstream, and upstream maintains it as a separate library (in the QEMU
-source tree though) to encourage reuse.
+> So, the goal is to do the tracking and migrations only via the gpu cg
+> layer, regardless how memcg charges it (or not).
+>
+> (I have no opinion on that, I'm just summing it so that we're on the
+> same page.)
+>
+Yes, this reflects my intention and current state of the code in this serie=
+s.
 
->  2) the implementation doesn't support time-travel mode which might come
->     in handy
+> Michal
 
-True, but I don't see the external time-travel controller stuff being
-too useful for the kinds of tests this framework is targeting.
+Thanks,
+T.J.
