@@ -2,98 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29837C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 02:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5042AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 04:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbiDECsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Apr 2022 22:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48062 "EHLO
+        id S229622AbiDEEhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 00:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbiDECsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Apr 2022 22:48:11 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4722517009F
-        for <linux-doc@vger.kernel.org>; Mon,  4 Apr 2022 19:30:34 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id z7so13651187iom.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Apr 2022 19:30:34 -0700 (PDT)
+        with ESMTP id S229849AbiDEEhQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 00:37:16 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2371EB7CC;
+        Mon,  4 Apr 2022 21:34:41 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id i4so9547120qti.7;
+        Mon, 04 Apr 2022 21:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JTzIzbrqZyK9WcizVERi7qlxh5xxIEK+9IqWImCqDAY=;
-        b=YcMVYnQMKz2NhQbrK0HjGTOXQmTu+Vk9t1j3Nfgnp7gS4pAl9K8ReC7ZTF3NS0ao62
-         +k6BganfzYE1RHEvww+e/oOwq6C1n3EDSdgXuZrPrUp/3uVwkyfn+h+4qiNGraccB4KQ
-         nIfDzn7o26dbdKpb851QTXPT7ZhljzDSnSko5y404+cDtwPiIHYDokLbazUURxbzDJYf
-         0wCUTDsNI802WAuIUoPq6xTRWniX7nxbPjm5nqHr5UFiVd2OkMiVpH3V//O4UytUclaa
-         R0jpdX1UgmZmW10eiTYtRmFvTG/l/HJtjLd+9wWEiVF0naJ4VQ9kG+1P5NjKQrF+efCb
-         Vk2w==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
+        b=Nxjgu29NcyoUQQvdWmirHaBDLtseXhtj7lcWJjMk9Iiw47oNWInUQodWc0CG7OOIRo
+         E5vGW0B+56BtG6tZFcHkF/r0qYJ3UR7Q9Y8sSe5yw5CX6UlPZJFQKpbRaVoqivu0/+tK
+         RuLeUYnPEFT2gS7E1rhJ5Oe2oQUJeEgBgxqTQ11WHHYhUwKXjTceIBr7d2gnRMt5Ms+e
+         U2wai/4F4xmnLRgHhz+DUqe1s/iGgyPlxT87VyoldvzSVvIWSbcueJ2mdPNkr19QOUeW
+         5E0+Qefp34+sdPwxkWORuK4+KUoa6vYSoRkU5OPXhEKTo2LZ7q5rQn/mn51+Mm36wIKi
+         ITig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JTzIzbrqZyK9WcizVERi7qlxh5xxIEK+9IqWImCqDAY=;
-        b=zZq1WBbDQ5daQfzTj9WSurkv2pC8JntQX+VJP0mURC0fWtv8Nw68VY/9X7VKq4RnVZ
-         j9kw5euM6tg8wNtHbZo8gikrh3ttAWjy018Kp4ajbRdDwmZ5pOmo9YdU3mXVqoM2P3GF
-         RTPCdeYXiJ4PT+RKUuSeqhmkqB4SrvDbGwv8nxcYtv1+aT3cYyasisZjk4gvWNBAs7o6
-         zgycecyV3kuT0FtDcEZAgzzQ/OIEwCObUW4XvJ3ZMUXepMxfy6b6XRI5w3S1/izLzpdz
-         7RUT5tUWICLHPwghKoVgf2keC26ZCpeWowGFHE0fl7RM+n/jfJxdI3AAmkPRkOt8A3G6
-         gjHQ==
-X-Gm-Message-State: AOAM532dn6V45/RsuYGa64SgZZrfR4k7pVzrgQejtZudHppxQwb3/AqE
-        EsIb/Hq0P6uQfTBZwO+4CkGobxvzuAQjHZ6CBy6YSw==
-X-Google-Smtp-Source: ABdhPJwODLum9ilGhChVng+UBA9UPlj2zbdInzRba3Olr4b4wDij4kupJU4FIgzVrCfK1I45tTbjXWS8CK+5nB/27Fs=
-X-Received: by 2002:a02:84c9:0:b0:31a:1cf2:4468 with SMTP id
- f67-20020a0284c9000000b0031a1cf24468mr806877jai.31.1649125832511; Mon, 04 Apr
- 2022 19:30:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
+        b=PubO/NhdXncb/HflHNhySL39X+g6CHUt+bG/PMtyTx3dwpcVXR3IeSgh94/mLaHKtL
+         P++sLZKOOfThdj4aWNTW0HhGD8EtMTL8e0u/SU2ag92slxdvWjrazwCg0yWI3/6NbFOO
+         QanaBoaugCCsqX6Zey10LzBdCHzQhrtGowjTf+ceQxLtHwxJGY/KVv3CPYkb1GjW7aCF
+         gXw7GfdokADzM9Odv+eSQSi5gi/Hn1A+uBXWV24WnXp9ZSDtp3FoVaWOZ05e+zVhrYzU
+         2SSbmyncTU96r89AWCsPA6933l5ojJ/B3Bc/3pUn5TEHH6hdUYoKFYMLQVr1vADD4CWj
+         vXgw==
+X-Gm-Message-State: AOAM533vlIMn4smct91f/ZXpb9JibD2ILDB/NWFBHNucoibSYCRG3uB4
+        LYsgSnn5WyJ12BoDdTPX8Ru7OJpWZ9DLAQ==
+X-Google-Smtp-Source: ABdhPJzRnztAxZFoPFNYGfQZufiSdZYE3yV4xvWPXjmMbn6lpfGb8r7lTbTB5VYi/wYLefr4FKVxMw==
+X-Received: by 2002:a05:622a:148e:b0:2e2:2ebd:63d9 with SMTP id t14-20020a05622a148e00b002e22ebd63d9mr1438143qtx.601.1649133280094;
+        Mon, 04 Apr 2022 21:34:40 -0700 (PDT)
+Received: from necipappleseed.attlocal.net ([2600:1700:d80:8410:fa3f:95ff:bd13:53a4])
+        by smtp.gmail.com with ESMTPSA id o6-20020a05622a044600b002e1b9be8e6fsm10190386qtx.36.2022.04.04.21.34.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 21:34:39 -0700 (PDT)
+From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, paul@pgazz.com,
+        fazilyildiran@gmail.com
+Subject: [PATCH] docs: kbuild: add references on Kconfig semantics
+Date:   Tue,  5 Apr 2022 00:33:51 -0400
+Message-Id: <20220405043350.12599-1-fazilyildiran@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <CAAPL-u8g2qkhdTQtFtBS3GNYz0WnyahWEXvR4g_OSaKv+7EozA@mail.gmail.com>
- <YkcYq8F6MYlMi+yS@cmpxchg.org> <CAAPL-u-za-TTyyC5uMVev9eQyhxZS7q3pVqaUxCFjqk+Sv9+ig@mail.gmail.com>
- <CALvZod4-fKfv6vbZPZ3nCE=Bue4FUnC+9t27wsznmyd+JKgDbg@mail.gmail.com>
-In-Reply-To: <CALvZod4-fKfv6vbZPZ3nCE=Bue4FUnC+9t27wsznmyd+JKgDbg@mail.gmail.com>
-From:   Wei Xu <weixugc@google.com>
-Date:   Mon, 4 Apr 2022 19:30:21 -0700
-Message-ID: <CAAPL-u-7Vnq8tmmRNDOz7Jw1ei_Vw=idJaPzMPoq5=sBrpyrRA@mail.gmail.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 4, 2022 at 10:08 AM Shakeel Butt <shakeelb@google.com> wrote:
->
-> On Fri, Apr 1, 2022 at 1:14 PM Wei Xu <weixugc@google.com> wrote:
-> >
-> [...]
-> >
-> > -EAGAIN sounds good, too.  Given that the userspace requests to
-> > reclaim a specified number of bytes, I think it is generally better to
-> > tell the userspace whether the request has been successfully
-> > fulfilled. Ideally, it would be even better to return how many bytes
-> > that have been reclaimed, though that is not easy to do through the
-> > cgroup interface.
->
-> What would be the challenge on returning the number of bytes reclaimed
-> through cgroup interface?
+Add references to 1) a research paper which provides a definition of
+Kconfig semantics, 2) the kismet tool, which checks for unmet direct
+dependency bugs in Kconfig specifications.
 
-write() syscall is used to write the command into memory.reclaim,
-which should return either the number of command bytes written or -1
-(errno is set to indicate the actual error).  I think we should not
-return the number of bytes reclaimed through write().  A new
-sys_reclaim() is better in this regard because we can define its
-return value, though it would need a cgroup argument, which is not
-commonly defined for syscalls.
+Signed-off-by: Paul Gazzillo <paul@pgazz.com>
+Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
+---
+ Documentation/kbuild/kconfig-language.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 93a5b6e1fabd..a7173843a294 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -693,6 +693,8 @@ in documenting basic Kconfig syntax a more precise definition of Kconfig
+ semantics is welcomed. One project deduced Kconfig semantics through
+ the use of the xconfig configurator [1]_. Work should be done to confirm if
+ the deduced semantics matches our intended Kconfig design goals.
++Another project formalized a denotational semantics of a core subset of
++the Kconfig language [10]_.
+ 
+ Having well defined semantics can be useful for tools for practical
+ evaluation of dependencies, for instance one such case was work to
+@@ -700,6 +702,8 @@ express in boolean abstraction of the inferred semantics of Kconfig to
+ translate Kconfig logic into boolean formulas and run a SAT solver on this to
+ find dead code / features (always inactive), 114 dead features were found in
+ Linux using this methodology [1]_ (Section 8: Threats to validity).
++The kismet tool, based on the semantics in [10]_, finds abuses of reverse
++dependencies and has led to dozens of committed fixes to Linux Kconfig files [11]_.
+ 
+ Confirming this could prove useful as Kconfig stands as one of the leading
+ industrial variability modeling languages [1]_ [2]_. Its study would help
+@@ -738,3 +742,5 @@ https://kernelnewbies.org/KernelProjects/kconfig-sat
+ .. [7] https://vamos.cs.fau.de
+ .. [8] https://undertaker.cs.fau.de
+ .. [9] https://www4.cs.fau.de/Publications/2011/tartler_11_eurosys.pdf
++.. [10] https://paulgazzillo.com/papers/esecfse21.pdf
++.. [11] https://github.com/paulgazz/kmax
+-- 
+2.25.1
+
