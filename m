@@ -2,94 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7EA9C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9171EC433FE
 	for <linux-doc@archiver.kernel.org>; Tue,  5 Apr 2022 22:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233433AbiDEWd5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:33:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37282 "EHLO
+        id S231926AbiDEWdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457459AbiDEQDP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:03:15 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D455D1A0;
-        Tue,  5 Apr 2022 08:46:55 -0700 (PDT)
+        with ESMTP id S1457500AbiDEQDS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Apr 2022 12:03:18 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55358655E;
+        Tue,  5 Apr 2022 08:54:58 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35:2589:2a93:190d:b787])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 20691608;
-        Tue,  5 Apr 2022 15:46:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 20691608
+        by ms.lwn.net (Postfix) with ESMTPSA id CEF7930D;
+        Tue,  5 Apr 2022 15:54:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CEF7930D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649173615; bh=kHfYrSzZyDs+Fu27L1LKoiRzei4/RCGk3O/QVQBW1rk=;
+        t=1649174098; bh=8czQkcllnkLc2ffyQYQE6iEWi4lIyDFZArXbdalGqqQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ym15LNvNX+5bNBTOTEfnrPAQERPQL+4Q3JLRjO3chKJgurqlYd90WxSYSbab+74hK
-         r5fkWh/kQQqTfh96JTYHX9Jm4ZvoIDKhcBSNcPIQgF+XHN3iXU4rz9WPOBoOUYAksU
-         ++4u3F3nNERfFWdutVRxQI27DWewR1g5jk7AC/3c/Lkazl4f47H5hZqBjfkzZpegHi
-         jXwVMJ8BqvwpUGapCdr50+Dg8Gke5bX+PaFEffzqGVJdXy7WKib0ztNhbRQGiedDNz
-         p4MsveBUV35qF82ZxnpB1UtqerBoYaqlvgmdeKqBsHQnBhrvx+jlOoKXA5NmKDhCz2
-         dt7e1tX0WOWoQ==
+        b=kFUqBaYuZz6zipwPKAgzM++Hy6GKl8ab8TdkUZtxOp7TXOKSjfl0BzELfDh+xbV91
+         fu1sJA0ht9w31U/xbee5p5yPVbnMY74oGEXnspVK4qlxIguhSFnboFpRtlCrRhUn1x
+         ful+dh5udV1DK80EmuZb5Wuqm0lA6SF4zG6JApZT7aBmYmqtcLssR+aDSV9xt1ZD9J
+         JVsxDvquVMF0fKKYcRl+SE8aWNt50OOpnAlPdpcjKOLPOdJvWB2/V1IF03FYt9yiQO
+         0h4UaKuCCwfVryomAJsfplXQpTCztC6D6LMj9TNQVi3Dk+SVLBtQ0xQMJleRaSD/K1
+         HOkJ7qmbYEZGQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH -pm v2] docs: driver-api/thermal/intel_dptf: Use
- copyright symbol
-In-Reply-To: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
-References: <fffa1d50-f155-b6a4-bf58-22e395d7401c@gmail.com>
-Date:   Tue, 05 Apr 2022 09:46:54 -0600
-Message-ID: <871qybfs7l.fsf@meer.lwn.net>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev
+Subject: Re: [PATCH] Documentation: kernel-hacking: minor edits for style
+In-Reply-To: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
+References: <20220329195117.azs4kaflc6ksfzdh@meerkat.local>
+Date:   Tue, 05 Apr 2022 09:54:57 -0600
+Message-ID: <87v8vned9q.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-> Using a substitution pattern of "|copy|" without including
-> isonum.txt causes a doc build warning.
+> Rusty's kernel-hacking guides provide important information, however
+> they are written in a narrative style that some readers may interpret as
+> off-putting. Since the goal is to make kernel documentation accessible
+> to as many new developers as possible, it's best to avoid the turns of
+> phrase that require a specific cultural context to properly understand.
 >
-> Using the symbol "=C2=A9" itself is a better choice for those
-> who read .rst sources.
->
-> Fixes: 16c02447f3e1 ("Documentation: thermal: DPTF Documentation")
-> Reported by: Randy Dunlap <rdunlap@infradead.org>
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 > ---
-> Changes since v1 [1]:
->
->   - Use =C2=A9 instead of including isonum.txt (Jon).
->   - Amend title and changelog.
->
-> v1 [1]: https://lore.kernel.org/r/e06542af-aa8b-0885-37a3-bb7bc5fafa1e@gm=
-ail.com/
-> ---
->  Documentation/driver-api/thermal/intel_dptf.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentat=
-ion/driver-api/thermal/intel_dptf.rst
-> index 96668dca753a..372bdb4d04c6 100644
-> --- a/Documentation/driver-api/thermal/intel_dptf.rst
-> +++ b/Documentation/driver-api/thermal/intel_dptf.rst
-> @@ -4,7 +4,7 @@
->  Intel(R) Dynamic Platform and Thermal Framework Sysfs Interface
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20=20
-> -:Copyright: |copy| 2022 Intel Corporation
-> +:Copyright: =C2=A9 2022 Intel Corporation
+>  Documentation/kernel-hacking/hacking.rst | 36 ++++++++++++------------
+>  Documentation/kernel-hacking/locking.rst |  5 +---
+>  2 files changed, 19 insertions(+), 22 deletions(-)
 
-Applied, thanks.
+*Sigh*...it's kind of sad to see the character of Rusty's writing being
+chipped away over time; this isn't the first sanitization patch applied
+to this file.  It certainly needs a lot more work than this to match
+current practice.  Oh well, I've applied it, thanks.
 
 jon
