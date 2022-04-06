@@ -2,104 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62721C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 08:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D24B7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 08:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235912AbiDFIeQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 04:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49936 "EHLO
+        id S236522AbiDFJBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 05:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241000AbiDFIbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 04:31:41 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CAA31DE6FF;
-        Tue,  5 Apr 2022 19:30:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B7351CE20C3;
-        Wed,  6 Apr 2022 02:30:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A41C385A1;
-        Wed,  6 Apr 2022 02:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649212253;
-        bh=kMvDwsLnby/GtbPEZOS6QFj4PiJhpG5J89iehidYyqk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=D0s611AuDog/P1rH2bxfW6i93GJXw3xFSVkYcsSK8ZTn0D7N0GXBglI7ZAJYSICcB
-         pIQge7cNsjIzaTtD+sD9FzRgEvGbxSpx44M1DuJO7sumchaLXP1+fCko1rksqEZMws
-         77XREAht9+1A9S3LXIAKqpNvcxHfwRxX3wP8IsCVSVqE7EJmYXWcIKAl6CvA5GANtA
-         v/NC1DudsTJdjhhqXtozbYRjKSTc+4GYSEy9q2kVuGV6iRm9407B6FW6D18mN0ssZR
-         yorREqmSSt30gXRESA20aC9+lqO14XXSqP96aPdjRVzjZShBzyRaNqMdNjLwh8pujL
-         n/M2x3NHuki/Q==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: [PATCH v8 0/4] bootconfig: Support embedding a bootconfig in kernel for non initrd boot
-Date:   Wed,  6 Apr 2022 11:30:48 +0900
-Message-Id: <164921224829.1090670.9700650651725930602.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-User-Agent: StGit/0.19
+        with ESMTP id S1446748AbiDFI4j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 04:56:39 -0400
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6412241FA3A
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 18:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1649209691; x=1680745691;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VuoVmwsM1kjAIgmEzd4iWUN0hXYBPqUPYmlYGxx90q0=;
+  b=kJ1NHzeHl5aQt+tO+r1y0nJkUwR+AyAMkpIc13M4tcbFKjrHIzsjSvUT
+   whZcipRu6mqZAW1I1jMyYd4gmiwzG+ui2UGrOd/FjDcRRQ6yd+2S/c01d
+   2VUYfVzrgaB/ZkXXRmRgJ85ZVf0TMCuo9PXfuEyIHgGhKja2NhKhiZzMV
+   GDpLIkTYdg0xyiBY+ilbBastNQWnyn5FiWETd+ncuRn1y55wqiNI/v2gG
+   MqHRdjbhFJTdB9fKDHfRPjXqCeeksm34Nq3gQfi1nzghnXq8W7fnZhYxo
+   /eaWXJUGLL9+C/G+4+090rqSMbMAs/pa+SaRITDlheqRYARZm7F/QUxvl
+   w==;
+X-IronPort-AV: E=Sophos;i="5.90,238,1643644800"; 
+   d="scan'208";a="202037230"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 09:48:05 +0800
+IronPort-SDR: R5z1LoHBZU495kWQFWRmqeK3ZqNBVdDS3PmggahFJ39ssJmgJ9N8hTjs3U8DIMeKMS0zksUFIW
+ 6v4sbcXeabiJIEnV5ayJh3kWR95MztrX5jtbQM+BrTbep+syMQOG4k0z0TxlXBoPBXZ17STXkC
+ STxTiaA4DVWU4Wj6HBuckv+Aoql/MWAxk2DrnpC6f//VVsfOsgqm/sj6FiqVDk2GIbpg/TIdig
+ 3Eu5XMGKwKO9itXClgN9WXIXJdhb3QjLhXwBM+bCcGVTBi/guLMPFGJkS4d5+Q0pdwQB+c2oi7
+ CdFjIzcRoQgiM2bZVmoqREk5
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Apr 2022 18:18:48 -0700
+IronPort-SDR: 2enYcOEv4x+BAhSneFO+nyP1OFDxxFWtSeJ3xRaF7NL+3cr5fi/ls0o4qlQtNYZVC8EIVSRjrj
+ +OnoU5o4TK/v9j6kBELsG1zf88iss/f5WHP6RIUt4OUsiuJd/iLCyVdrlj6OKE7h2YOLGji3ac
+ 7eSxlncpNA+Zrz80/caTwnxq9mHK6ZTra0fUQnipB6AQSIk8qPF/F1jKhw0ShBh6KNuTXoYrwp
+ ISbQnMmGw+0kNfdHpjI1mRnD1E73wUhtJkRRBxO+gP5EHW4rmAU6PCjvv6i5cYam+iyOFjcqrl
+ ibA=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Apr 2022 18:48:06 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KY6ps52v2z1SVp0
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 18:48:05 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1649209685; x=1651801686; bh=VuoVmwsM1kjAIgmEzd4iWUN0hXYBPqUPYml
+        YGxx90q0=; b=E4UOnw8BjAuFsxgUNz1JVDSZoX8yQLctisFANLe1Z/7C0dFuEJk
+        LfdRZDbW8aSOdPPRAKOLeHbtE6mmG+YYKwab0H3EYIozRVzMTdKBgE2ik7HJHuwe
+        1b/tZXQrhQEBKn14uwEUh3KXtkYU3AwYxZb/cftSIWs4sLb5Ii1/2OmbJOA5JmTM
+        pMTGewU2Q4eeocqSTsJgcr3aFdUI/EEHKR3ZwRZqyhl210d7gKEwFqJzkMZnFvWx
+        sVkMFEpQFSvwkCv/cyub/aWGqmuHgeyvyl77QlJzkoPLP94S2ray/pI2ibZtgHr6
+        MBrtS9l0xhBIHxhWo4d1BYM4S1B2CX7v4tQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 1IITOeN00g7o for <linux-doc@vger.kernel.org>;
+        Tue,  5 Apr 2022 18:48:05 -0700 (PDT)
+Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KY6pr31hmz1Rvlx;
+        Tue,  5 Apr 2022 18:48:04 -0700 (PDT)
+Message-ID: <f7bbb09f-562f-fce2-cd16-a1c67fc334b5@opensource.wdc.com>
+Date:   Wed, 6 Apr 2022 10:48:03 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 2/2] libata: Inline ata_qc_new_init() in
+ ata_scsi_qc_new()
+Content-Language: en-US
+To:     Christoph Hellwig <hch@lst.de>, John Garry <john.garry@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
+References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
+ <1649083990-207133-3-git-send-email-john.garry@huawei.com>
+ <20220405055252.GA23698@lst.de>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220405055252.GA23698@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 4/5/22 14:52, Christoph Hellwig wrote:
+> On Mon, Apr 04, 2022 at 10:53:10PM +0800, John Garry wrote:
+>> From: Christoph Hellwig <hch@lst.de>
+>>
+>> It is a bit pointless to have ata_qc_new_init() in libata-core.c since it
+>> pokes scsi internals, so inline it in ata_scsi_qc_new() (in libata-scsi.c).
+>>
+>> <Christoph, please provide signed-off-by>
+>> [jpg, Take Christoph's change from list and form into a patch]
+>> Signed-off-by: John Garry <john.garry@huawei.com>
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> Although I still think merging the two patches into one to avoid all
+> the churn would be much better.
 
-Here are the 8th version of the patchset to enable kernel embedded bootconfig
-for non-initrd kernel boot environment. This version fixes a build error when
-CONFIG_BLK_DEV_INITRD=n. Previous version is here [1];
-
-[1] https://lore.kernel.org/all/164871505771.178991.7870442736805590948.stgit@devnote2/T/#u
-
-You can embed a bootconfig file into the kernel as a default bootconfig,
-which will be used if there is no initrd or no bootconfig is attached to initrd. 
-
-This needs 2 options: CONFIG_BOOT_CONFIG_EMBED=y and set the file
-path to CONFIG_BOOT_CONFIG_EMBED_FILE. Even if you embed the bootconfig file
-to the kernel, it will not be enabled unless you pass "bootconfig" kernel
-command line option at boot. Moreover, since this is just a "default"
-bootconfig, you can override it with a new bootconfig if you attach another
-bootconfig to the initrd (if possible).
-The CONFIG_BOOT_CONFIG_EMBED_FILE can take both absolute and relative path.
-
-This is requested by Padmanabha at the below thread[2];
-
-[2] https://lore.kernel.org/all/20220307184011.GA2570@pswork/T/#u
-
-Thank you,
-
----
-
-Masami Hiramatsu (4):
-      bootconfig: Make the bootconfig.o as a normal object file
-      bootconfig: Check the checksum before removing the bootconfig from initrd
-      bootconfig: Support embedding a bootconfig file in kernel
-      docs: bootconfig: Add how to embed the bootconfig into kernel
+I agree. Let's merge these 2 patches.
 
 
- Documentation/admin-guide/bootconfig.rst |   31 ++++++++++++++++++++++--
- MAINTAINERS                              |    1 +
- include/linux/bootconfig.h               |   10 ++++++++
- init/Kconfig                             |   21 ++++++++++++++++-
- init/main.c                              |   38 +++++++++++++++---------------
- lib/.gitignore                           |    1 +
- lib/Makefile                             |   10 +++++++-
- lib/bootconfig-data.S                    |   10 ++++++++
- lib/bootconfig.c                         |   13 ++++++++++
- 9 files changed, 111 insertions(+), 24 deletions(-)
- create mode 100644 lib/bootconfig-data.S
-
---
-Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
+-- 
+Damien Le Moal
+Western Digital Research
