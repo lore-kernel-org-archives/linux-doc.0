@@ -2,69 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F34C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 10:47:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCAAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 11:13:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234911AbiDFKtq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 06:49:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40222 "EHLO
+        id S234460AbiDFLPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 07:15:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359019AbiDFKsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 06:48:23 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF07505E5F;
-        Wed,  6 Apr 2022 00:12:13 -0700 (PDT)
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KYFym3T3lz683hj;
-        Wed,  6 Apr 2022 15:10:24 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 6 Apr 2022 09:12:10 +0200
-Received: from [10.47.80.129] (10.47.80.129) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 08:12:09 +0100
-Message-ID: <ab6a13c1-90c4-63f0-c48d-c1faa0ae68fd@huawei.com>
-Date:   Wed, 6 Apr 2022 08:12:08 +0100
+        with ESMTP id S231318AbiDFLOz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 07:14:55 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8656848B45B
+        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 00:38:31 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id t2so2975353qtw.9
+        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 00:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=k8Y4vodv0CNZ+E6YurJoB84BdG8m95GYx1pVvi6XuRk=;
+        b=ZUiuk+yoDjKUvKKUvY5vWf33mUW8G0iYGuWhNH2AZ01Od9XDrYbPaXx6dL/tTJCiwt
+         oqiYLfhgp8Hyn5i7RJWGb7gBBMkyjU8GEFE4KEz3ZU5v7G4bGN1AcZj5fm5ewfrlJ2Xx
+         QGKK51ivW1ObjO8KYKSTq3SB54Eo4BzeXb4rHb6oJlP2hTY+KCQ0PyIhcSHIB8WAMbU4
+         2MqJZtgNfoznyV/mfUJVcT4gs4NNJ8rC1CATm6hIm6PU0j67d1A7OP+hLMdJQSHIB4zO
+         Q+BprlHZ0ea8ByfxPpGu0XC+J4UfOqRvmVUy1K5PVEWh4TnKH8zhYeONq1Fi9k7s7jvv
+         YDIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition;
+        bh=k8Y4vodv0CNZ+E6YurJoB84BdG8m95GYx1pVvi6XuRk=;
+        b=gd/lUWzvIXFDn6CFRYuFCUxosQZ+NqBJIcpl3UjTm9lJHNuaIsvFsYFvVZAEZF+AM6
+         0gabhYyYu9GUi/uV5gl9tspajVWyF3cbUvq91bOjS2cfhiHApUoXo15KZQVrAg40Ro5N
+         0C07E+din4WktiRa9Q/qwdQBx/VlvqjFomMfPbhROZPknFe4qi4dOhPnIU5dbXoLZkO1
+         lIWkqZcWFcOzifEBV2u9oV8XQpTItiup330SxUvoMiZfdznAsjxpxsSdkCoz5/+VO8zD
+         6AhlRFfXi/eHVlu7ogBkpXJarKVlCojoBup4hhJeRJhG6nNMkdiS/BfXJVrD0w4DYqO2
+         MWQg==
+X-Gm-Message-State: AOAM533xCEKzHqKejCdEfZSjXl8emSCVfHKtMJVlsJkWfkMEGRbNhh+0
+        mUqiJze/DZvGM+P7ftT5uY3CUD1WUIM=
+X-Google-Smtp-Source: ABdhPJwaChJrKUWeDTWZSRdclMkM5hs99GWYg2242KcFATAm2Mf0JMLBFJGVV4H9nOyc120MEW9fhg==
+X-Received: by 2002:ac8:7f4d:0:b0:2e1:f94c:32a8 with SMTP id g13-20020ac87f4d000000b002e1f94c32a8mr6264417qtk.663.1649230710193;
+        Wed, 06 Apr 2022 00:38:30 -0700 (PDT)
+Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+        by smtp.gmail.com with ESMTPSA id g9-20020a05620a108900b0067b13036bd5sm9390258qkk.52.2022.04.06.00.38.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 00:38:29 -0700 (PDT)
+Sender: Nick Black <dankamongmen@gmail.com>
+Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
+        by vps.qemfd.net (Postfix) with ESMTP id D07CA2B108;
+        Wed,  6 Apr 2022 03:38:28 -0400 (EDT)
+Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
+        id C142960055D; Wed,  6 Apr 2022 03:38:28 -0400 (EDT)
+Date:   Wed, 6 Apr 2022 03:38:28 -0400
+From:   nick black <nickblack@linux.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: [PATCH] af_xdp: use standard hierarchy for FAQs
+Message-ID: <Yk1DdMnwCf0ThFhY@schwarzgerat.orthanc>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 1/2] libata: Use scsi cmnd budget token for qc tag for
- SAS host
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>, <hch@lst.de>
-CC:     <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-scsi@vger.kernel.org>
-References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
- <1649083990-207133-2-git-send-email-john.garry@huawei.com>
- <a3cce73f-2e91-309d-bee0-a34a30335a18@opensource.wdc.com>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <a3cce73f-2e91-309d-bee0-a34a30335a18@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.80.129]
-X-ClientProxiedBy: lhreml728-chm.china.huawei.com (10.201.108.79) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/04/2022 02:39, Damien Le Moal wrote:
-> On 4/4/22 23:53, John Garry wrote:
->> For attaining a qc tag for a SAS host we need to allocate a bit in
->> ata_port.sas_tag_allocated bitmap.
->>
->> However we already have a unique tag per device in range
->> [0, ATA_MAX_QUEUE) in the scsi cmnd budget token, so just use that
->> instead.
-> 
-> The valid range is [0, ATA_MAX_QUEUE - 1]. Tag ATA_MAX_QUEUE is 
-> ATA_TAG_INTERNAL which is never allocated as a valid device tag but used 
-> directly in ata_exec_internal().
+af_xdp: use standard hierarchy for FAQs
 
-But that is what I have in [0, ATA_MAX_QUEUE), which is same as [0, 
-ATA_MAX_QUEUE - 1].
+The formatting of the AF_XDP FAQ section led to nasty
+HTML. Adopt the scheme used in netdev-FAQ.rst, which
+exploits the standard rst hierarchy.
 
-Thanks,
-john
+Signed-off-by: nick black <nickblack@linux.com>
+---
+ Documentation/networking/af_xdp.rst | 110 ++++++++++++++--------------
+ 1 file changed, 56 insertions(+), 54 deletions(-)
+
+diff --git Documentation/networking/af_xdp.rst Documentation/networking/af_xdp.rst
+index 60b217b436be..f049d7d61c04 100644
+--- Documentation/networking/af_xdp.rst
++++ Documentation/networking/af_xdp.rst
+@@ -560,60 +560,62 @@ code in tools/lib/bpf/xsk.[ch].
+ FAQ
+ =======
+ 
+-Q: I am not seeing any traffic on the socket. What am I doing wrong?
+-
+-A: When a netdev of a physical NIC is initialized, Linux usually
+-   allocates one RX and TX queue pair per core. So on a 8 core system,
+-   queue ids 0 to 7 will be allocated, one per core. In the AF_XDP
+-   bind call or the xsk_socket__create libbpf function call, you
+-   specify a specific queue id to bind to and it is only the traffic
+-   towards that queue you are going to get on you socket. So in the
+-   example above, if you bind to queue 0, you are NOT going to get any
+-   traffic that is distributed to queues 1 through 7. If you are
+-   lucky, you will see the traffic, but usually it will end up on one
+-   of the queues you have not bound to.
+-
+-   There are a number of ways to solve the problem of getting the
+-   traffic you want to the queue id you bound to. If you want to see
+-   all the traffic, you can force the netdev to only have 1 queue, queue
+-   id 0, and then bind to queue 0. You can use ethtool to do this::
+-
+-     sudo ethtool -L <interface> combined 1
+-
+-   If you want to only see part of the traffic, you can program the
+-   NIC through ethtool to filter out your traffic to a single queue id
+-   that you can bind your XDP socket to. Here is one example in which
+-   UDP traffic to and from port 4242 are sent to queue 2::
+-
+-     sudo ethtool -N <interface> rx-flow-hash udp4 fn
+-     sudo ethtool -N <interface> flow-type udp4 src-port 4242 dst-port \
+-     4242 action 2
+-
+-   A number of other ways are possible all up to the capabilities of
+-   the NIC you have.
+-
+-Q: Can I use the XSKMAP to implement a switch betwen different umems
+-   in copy mode?
+-
+-A: The short answer is no, that is not supported at the moment. The
+-   XSKMAP can only be used to switch traffic coming in on queue id X
+-   to sockets bound to the same queue id X. The XSKMAP can contain
+-   sockets bound to different queue ids, for example X and Y, but only
+-   traffic goming in from queue id Y can be directed to sockets bound
+-   to the same queue id Y. In zero-copy mode, you should use the
+-   switch, or other distribution mechanism, in your NIC to direct
+-   traffic to the correct queue id and socket.
+-
+-Q: My packets are sometimes corrupted. What is wrong?
+-
+-A: Care has to be taken not to feed the same buffer in the UMEM into
+-   more than one ring at the same time. If you for example feed the
+-   same buffer into the FILL ring and the TX ring at the same time, the
+-   NIC might receive data into the buffer at the same time it is
+-   sending it. This will cause some packets to become corrupted. Same
+-   thing goes for feeding the same buffer into the FILL rings
+-   belonging to different queue ids or netdevs bound with the
+-   XDP_SHARED_UMEM flag.
++I am not seeing any traffic on the socket. What am I doing wrong?
++-----------------------------------------------------------------
++
++When a netdev of a physical NIC is initialized, Linux usually
++allocates one RX and TX queue pair per core. So on a 8 core system,
++queue ids 0 to 7 will be allocated, one per core. In the AF_XDP
++bind call or the xsk_socket__create libbpf function call, you
++specify a specific queue id to bind to and it is only the traffic
++towards that queue you are going to get on you socket. So in the
++example above, if you bind to queue 0, you are NOT going to get any
++traffic that is distributed to queues 1 through 7. If you are
++lucky, you will see the traffic, but usually it will end up on one
++of the queues you have not bound to.
++
++There are a number of ways to solve the problem of getting the
++traffic you want to the queue id you bound to. If you want to see
++all the traffic, you can force the netdev to only have 1 queue, queue
++id 0, and then bind to queue 0. You can use ethtool to do this::
++
++  sudo ethtool -L <interface> combined 1
++
++If you want to only see part of the traffic, you can program the
++NIC through ethtool to filter out your traffic to a single queue id
++that you can bind your XDP socket to. Here is one example in which
++UDP traffic to and from port 4242 are sent to queue 2::
++
++  sudo ethtool -N <interface> rx-flow-hash udp4 fn
++  sudo ethtool -N <interface> flow-type udp4 src-port 4242 dst-port \
++  4242 action 2
++
++A number of other ways are possible all up to the capabilities of
++the NIC you have.
++
++Can I use the XSKMAP to implement a switch betwen different umems in copy mode?
++-------------------------------------------------------------------------------
++
++The short answer is no, that is not supported at the moment. The
++XSKMAP can only be used to switch traffic coming in on queue id X
++to sockets bound to the same queue id X. The XSKMAP can contain
++sockets bound to different queue ids, for example X and Y, but only
++traffic goming in from queue id Y can be directed to sockets bound
++to the same queue id Y. In zero-copy mode, you should use the
++switch, or other distribution mechanism, in your NIC to direct
++traffic to the correct queue id and socket.
++
++My packets are sometimes corrupted. What is wrong?
++--------------------------------------------------
++
++Care has to be taken not to feed the same buffer in the UMEM into
++more than one ring at the same time. If you for example feed the
++same buffer into the FILL ring and the TX ring at the same time, the
++NIC might receive data into the buffer at the same time it is
++sending it. This will cause some packets to become corrupted. Same
++thing goes for feeding the same buffer into the FILL rings
++belonging to different queue ids or netdevs bound with the
++XDP_SHARED_UMEM flag.
+ 
+ Credits
+ =======
+-- 
+2.35.1
+
