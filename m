@@ -2,124 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B83C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 13:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 562ECC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 13:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232322AbiDFNNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 09:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45194 "EHLO
+        id S232724AbiDFNO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 09:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233910AbiDFNN2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 09:13:28 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B312A4EDC0
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 20:03:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649214229; x=1680750229;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cj9f5X51nG0qgyWme5lawnU3VPcWQN4Wn6alVZfWYqw=;
-  b=hMe7db5tYD7NgZuIpHRWzS0is+fW56lAfjzfgKqaj02RdiG7kJ9k4JRb
-   QIMoDKfmgosJkz/BL6j3pPFKX75L7I84J1R7RN1PBr/KaE+4X0jsayXir
-   Y5hrWccQ8BnHvDucfhv38OM1ERuWjCFH+/7QNQK2rUtP/VUgnfFEYLzOM
-   VAoSsDdQnV0KBAJ/ygfvvVw6I3fKi3F3k5FFUpGjbbsFYKF9Nqu5etmvr
-   VGtf8jsJLZQXfWwUr9v5UeESbxR6I9WLnwhVYIcQoK/MAjgcsm1zyeS7R
-   wtLlI36UVZNr0+kw7WjYl7WEuoXU3RTmhz8nCQsdfqRS2jnFjKzdqAJ/M
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10308"; a="240869155"
-X-IronPort-AV: E=Sophos;i="5.90,238,1643702400"; 
-   d="scan'208";a="240869155"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 20:03:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,238,1643702400"; 
-   d="scan'208";a="549349966"
-Received: from lkp-server02.sh.intel.com (HELO a44fdfb70b94) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 05 Apr 2022 20:03:46 -0700
-Received: from kbuild by a44fdfb70b94 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nbvxR-00040T-Oj;
-        Wed, 06 Apr 2022 03:03:45 +0000
-Date:   Wed, 6 Apr 2022 11:02:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
-        arm@kernel.org, linux-doc@vger.kernel.org
-Subject: [soc:multiplatform-misc-5.18 6/13]
- arch/arm/mach-versatile/spc.c:231: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202204061141.27Z9PAjf-lkp@intel.com>
+        with ESMTP id S233019AbiDFNNz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 09:13:55 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8BFD4C82
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 20:48:37 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-de3ca1efbaso1627480fac.9
+        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 20:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MFmTgxf9WBcNk7Ma/JrKZuUBcy9vPCSbw8pZ9uClHTw=;
+        b=YypRbhtO8BcBmRggboLh9kUJpIeTfFXGKoZsD0ZnoejSfdmmzYTQpP/JfEecm8Y500
+         iJPawkPorpBAekDKLBjzjXCYRoNb8eJH5KnsRc6fKXdcf1TxA/m+CzW/SD1eE6tkqpOM
+         1JRh0QR/OrOvj0toPdgpiEGpVp15+yWg07ogk1JYPsFggabu2oCVws2py+0UrpX23EHP
+         yptHVd51tf46p3eE1TKalnflMbpXBkQ5gNFy8kBVpmM49WAhoFM+zWRnklugDEXdkbbV
+         YJp7r2LY3UX7IqqDvI5gE5Zhqm7VN3wb2VqRTBRvAgMAomXyjzvG3O+2Xl+CtIjVHcTf
+         WLzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MFmTgxf9WBcNk7Ma/JrKZuUBcy9vPCSbw8pZ9uClHTw=;
+        b=YpNrHLwii+7RT1N+89Zs8dWRdj4sZ+mCNTP0OqktOIbMWKPwS4pF2yKAkaukhb4Jqs
+         pKfTt3WPORFJ3yj3c+G/DlBiokq1/5LeotwKkLvF6XrgOZsM2Scr8hpivlufLaKZY1UR
+         yb0qz5mMRJU8mtlLsRwXgJ2bBEgjBzXRf5r6MNhU9Pp30FtPdc3n9mXuFFHlxlojqCZV
+         IEzEUpXk4yLSNE5zIhXzpf5E/nBpZn8F+9/a/5KppB3dV2pEIHJiFIK4INx15CiJPkJS
+         HVqL9uiuXDrvDh0TAeC5sBiqB14EYqzi3c9648DAXYFAfVAtLCjN0Kj3Buu7tHb5FhDQ
+         +SQA==
+X-Gm-Message-State: AOAM532KVgpKHSWqlvFp0MQRAx2TE7JCOc1lQ4HvCy4ESc6tL+2Wgth1
+        oxhpGN8goCigbo/D234LTv7Lob0bG6LoHgD4WNfEvQ==
+X-Google-Smtp-Source: ABdhPJyxAr5hj9JV2vfWacQoXf6sk62oN5mHLsY6YCWNGSyPaLtPyyxS5o+87kuYsiIBa5Fm1g/g/5aaLq72FwNzkuo=
+X-Received: by 2002:a05:6870:95a4:b0:d7:18b5:f927 with SMTP id
+ k36-20020a05687095a400b000d718b5f927mr2948940oao.45.1649216916747; Tue, 05
+ Apr 2022 20:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211020120431.776494-1-hikalium@chromium.org>
+ <874k9bdcrk.wl-maz@kernel.org> <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
+ <87zgpgqnvm.wl-maz@kernel.org>
+In-Reply-To: <87zgpgqnvm.wl-maz@kernel.org>
+From:   Hikaru Nishida <hikalium@google.com>
+Date:   Wed, 6 Apr 2022 12:48:25 +0900
+Message-ID: <CAKULNjVkBDuBn4x=S646nZoKYqSn95ToFsZT_ioVfz0-MsZhxg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Hikaru Nishida <hikalium@chromium.org>,
+        linux-kernel@vger.kernel.org, dme@dme.org,
+        Thomas Gleixner <tglx@linutronix.de>, mlevitsk@redhat.com,
+        linux@roeck-us.net, pbonzini@redhat.com, vkuznets@redhat.com,
+        will@kernel.org, Suleiman Souhlal <suleiman@google.com>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <laijs@linux.alibaba.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        KVM list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
+        x86@kernel.org, Sangwhan Moon <sxm@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git multiplatform-misc-5.18
-head:   a2677c00b0f03b8cad961f785941ca257f454df3
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 [6/13] ARM: dove: multiplatform support
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20220406/202204061141.27Z9PAjf-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
-        git remote add soc https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git
-        git fetch --no-tags soc multiplatform-misc-5.18
-        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
+Hi Marc,
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Thanks for the reply! (And sorry for a late reply...)
 
-All warnings (new ones prefixed by >>):
+On Sun, Dec 5, 2021 at 2:30 AM Marc Zyngier <maz@kernel.org> wrote:
+>
+> Hi Hikaru,
+>
+> Apologies for the much delayed reply.
+>
+> > The problems described by Thomas in the thread was:
+> > - User space or kernel space can observe the stale timestamp before
+> > the adjustment
+> >   - Moving CLOCK_MONOTONIC forward will trigger all sorts of timeouts,
+> > watchdogs, etc...
+> > - The last attempt to make CLOCK_MONOTONIC behave like CLOCK_BOOTTIME
+> > was reverted within 3 weeks. a3ed0e4393d6 ("Revert: Unify
+> > CLOCK_MONOTONIC and CLOCK_BOOTTIME")
+> >   - CLOCK_MONOTONIC correctness (stops during the suspend) should be maintained.
+> >
+> > I agree with the points above. And, the current CLOCK_MONOTONIC
+> > behavior in the KVM guest is not aligned with the statements above.
+> > (it advances during the host's suspension.)
+> > This causes the problems described above (triggering watchdog
+> > timeouts, etc...) so my patches are going to fix this by 2 steps
+> > roughly:
+> > 1. Stopping the guest's clocks during the host's suspension
+> > 2. Adjusting CLOCK_BOOTTIME later
+> > This will make the clocks behave like the host does, not making
+> > CLOCK_MONOTONIC behave like CLOCK_BOOTTIME.
+> >
+> > First one is a bit tricky since the guest can use a timestamp counter
+> > in each CPUs (TSC in x86) and we need to adjust it without stale
+> > values are observed by the guest kernel to prevent rewinding of
+> > CLOCK_MONOTONIC (which is our top priority to make the kernel happy).
+> > To achieve this, my patch adjusts TSCs (and a kvm-clock) before the
+> > first vcpu runs of each vcpus after the resume.
+> >
+> > Second one is relatively safe: since jumping CLOCK_BOOTTIME forward
+> > can happen even before my patches when suspend/resume happens, and
+> > that will not break the monotonicity of the clocks, we can do that
+> > through IRQ.
+> >
+> > [1] shows the flow of the adjustment logic, and [2] shows how the
+> > clocks behave in the guest and the host before/after my patches.
+> > The numbers on each step in [1] corresponds to the timing shown in [2].
+> > The left side of [2] is showing the behavior of the clocks before the
+> > patches, and the right side shows after the patches. Also, upper
+> > charts show the guest clocks, and bottom charts are host clocks.
+> >
+> > Before the patches(left side), CLOCK_MONOTONIC seems to be jumped from
+> > the guest's perspective after the host's suspension. As Thomas says,
+> > large jumps of CLOCK_MONOTONIC may lead to watchdog timeouts and other
+> > bad things that we want to avoid.
+> > With the patches(right side), both clocks will be adjusted (t=4,5) as
+> > if they are stopped during the suspension. This adjustment is done by
+> > the host side and invisible to the guest since it is done before the
+> > first vcpu run after the resume. After that, CLOCK_BOOTTIME will be
+> > adjusted from the guest side, triggered by the IRQ sent from the host.
+> >
+> > [1]: https://hikalium.com/files/kvm_virt_suspend_time_seq.png
+> > [2]: https://hikalium.com/files/kvm_virt_suspend_time_clocks.png
+>
+> Thanks for the very detailed explanation. You obviously have though
+> about this, and it makes sense.
+>
+> My worry is that this looks to be designed for the needs of Linux on
+> x86, and does not match the reality of KVM on arm64, where there is no
+> KVM clock (there is no need for it, and I have no plan to support it),
+> and there is more than a single counter visible to the guest (at least
+> two, and up to four with NV, all with various offsets). This also
+> deals with concepts that are Linux-specific. How would it work for
+> another (arbitrary) guest operating system?
 
->> arch/arm/mach-versatile/spc.c:231: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * ve_spc_cpu_in_wfi(u32 cpu, u32 cluster)
+Whether the architecture has a kvm-clock or not will not be a problem.
+The high-level requirements for implementing this feature are:
+- host hypervisor can adjust the offset of the virtualized hardware
+clocks (tsc and kvm-clock in x86, generic timer in aarch64)
+- host hypervisor can notify guest kernel about the host suspension
+(interrupts etc.)
+- host hypervisor can share the duration to be injected with the guest
+(by shared memory or registers etc...)
+so I believe it can be implemented on aarch64 as well.
 
+This logic is only designed for Linux since the problem we want to
+solve is linux specific.
+(CLOCK_MONOTONIC vs CLOCK_BOOTTIME)
 
-vim +231 arch/arm/mach-versatile/spc.c
+>
+> Can we please take a step back and look at what we want to expose from
+> a hypervisor PoV? It seems to me that all we want is:
+>
+> (1) tell the guest that time has moved forward
+> (2) tell the guest by how much time has moved forward
+>
+> In a way, this isn't different from stolen time, only that it affects
+> the whole VM and not just a single CPU (and for a much longer quantum
+> of time).
+>
 
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  229  
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  230  /**
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25 @231   * ve_spc_cpu_in_wfi(u32 cpu, u32 cluster)
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  232   *
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  233   * @cpu: mpidr[7:0] bitfield describing CPU affinity level within cluster
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  234   * @cluster: mpidr[15:8] bitfield describing cluster affinity level
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  235   *
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  236   * @return: non-zero if and only if the specified CPU is in WFI
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  237   *
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  238   * Take care when interpreting the result of this function: a CPU might
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  239   * be in WFI temporarily due to idle, and is not necessarily safely
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  240   * parked.
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  241   */
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  242  int ve_spc_cpu_in_wfi(u32 cpu, u32 cluster)
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  243  {
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  244  	int ret;
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  245  	u32 mask = standbywfi_cpu_mask(cpu, cluster);
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  246  
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  247  	if (cluster >= MAX_CLUSTERS)
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  248  		return 1;
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  249  
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  250  	ret = readl_relaxed(info->baseaddr + STANDBYWFI_STAT);
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  251  
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  252  	pr_debug("%s: PCFGREG[0x%X] = 0x%08X, mask = 0x%X\n",
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  253  		 __func__, STANDBYWFI_STAT, ret, mask);
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  254  
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  255  	return ret & mask;
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  256  }
-33cb667a00f841 arch/arm/mach-vexpress/spc.c Dave Martin 2013-11-25  257  
+(1) and (2) in the above may be implemented out of the host kernel,
+but there is another most important step (0) is existed:
 
-:::::: The code at line 231 was first introduced by commit
-:::::: 33cb667a00f841fa036ad79f1aaaf7d6380c971d ARM: vexpress/TC2: Implement MCPM power_down_finish()
+(0) adjust the clocks to compensate for how much the clocks have
+incremented over a period of suspension, *before* any vcpu resume.
 
-:::::: TO: Dave Martin <Dave.Martin@arm.com>
-:::::: CC: Olof Johansson <olof@lixom.net>
+(0) is not possible to be done from outside of the host kernel (as far
+as I tried) since there is no way to ensure that we can do the
+adjustment "before the first vcpu runs after the host's resume" in the
+userland.
+Suspending a VM from VMM before the host's suspend will not always
+work, since we can't guarantee that the VMM stopped the VM before the
+host kernel enters into suspend.
+That's why we implemented this feature with a modification in the host side.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+As described in the above, just telling the guest about the time has
+moved forward is not enough to solve the problem (a large jump of
+CLOCK_MONOTONIC forward after the host's suspension will happen, which
+can cause bad things like watchdog timeouts etc...).
+
+> How the event is handled by the guest (what it means for its clocks
+> and all that) is a guest problem. Why should KVM itself adjust the
+> counters? This goes against what the architecture specifies (the
+> counter is in an always-on domain that keeps counting when suspended),
+> and KVM must preserve the architectural guarantees instead of
+> deviating from them.
+>
+
+The counters need to be adjusted by KVM because:
+1. We cannot adjust the guest's CLOCK_MONOTONIC from the guest side
+since it breaks its monotonicity.
+2. The counters are used by the guest userland to provide a fast
+interface to read the clocks (vdso)
+so the only way to adjust the counters without breaking their
+monotonicity is doing that adjustment outside of the guest.
+
+Let's think about this in a different way... For VM migrations, TSC
+offset can be modified since we need to adjust it.
+My patches are doing a similar thing, maybe we can say our patches are
+doing "VM migration on the timeline". In this perspective, the
+architectural restriction from the guest side is not broken since we
+can consider that the VM has been time-traveled forward.
+
+> > > Assuming you solve these, you should model the guest memory access
+> > > similarly to what we do for stolen time. As for injecting an
+> > > interrupt, why can't this be a userspace thing?
+> >
+> > Since CLOCK_BOOTTIME is calculated by adding a gap
+> > (tk->monotonic_to_boot) to CLOCK_MONOTONIC, and there are no way to
+> > change the value from the outside of the guest kernel, we should
+> > implement some mechanism in the kernel to adjust it.
+> > (Actually, I tried to add a sysfs interface to modify the gap [3], but
+> > I learned that that is not a good idea...)
+>
+> It is not what I was suggesting.
+>
+> My suggestion was to have a shared memory between the VMM and the
+> guest again, similar to the way we handle stolen time), let the VMM
+> expose the drift in this shared memory, and inject an interrupt from
+> userspace to signify a wake-up. All this requires is that on suspend,
+> you force the vcpus to exit. On resume, the VMM update the guest
+> visible drift, posts an interrupt, and let things rip.
+>
+> This requires very minimal KVM support, and squarely places the logic
+> in the guest. Why doesn't this work?
+
+Is there a way to know the host is going to suspend from host'
+userland applications?
+If there is a way to do that, it may be possible to implement the
+feature outside of KVM but my knowledge about the Linux kernel was not
+enough to find out how to do that. I would really appreciate it if you
+could tell me how to do that.
+
+>
+> Another question is maybe even more naive: on bare metal, we don't
+> need any of this. The system suspends, resumes, and recovers well
+> enough. Nobody hides anything, and yet everything works just fine.
+> That's because the kernel knows it is being suspended, and it acts
+> accordingly. It looks to me that there is some value in following the
+> same principles, even if this means that the host suspend has to
+> synchronise with the guest being suspended.
+>
+> Thanks,
+>
+>         M.
+>
+> --
+> Without deviation from the norm, progress is not possible.
+
+Thank you,
+--
+Hikaru Nishida
