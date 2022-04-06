@@ -2,262 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C042C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 10:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A1FDC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 10:03:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232712AbiDFKEw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 06:04:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35662 "EHLO
+        id S1349092AbiDFKFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 06:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346935AbiDFKEW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 06:04:22 -0400
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 917E7B12
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 18:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1649209150; x=1680745150;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TT9Q4isZap5oDHSGhYBaqGSoWrgP4fin4Czsfd9WOAQ=;
-  b=W/YXZkufQfg0IaFd5qvAAor1ONKmcVQoQYNjuNepnlI5JS1jpXYS+gbf
-   +Aha+OWZ4Q65Sz6nQZwyp+RXI67pBlvM3ztRkO3NFgLYMjkpeNhSR17Ho
-   A+0TSoCO/8tuz3GXmCZLCe6vvx0QdhrDdG2a49RQzVJ/MpLkNtueNnspy
-   yMVQmBrekPlR5/R3hkTVTuA/ugZDtuPxRnCJBgvErbXYL/wmcte8YCMBS
-   HVdrC4vDghoa99YrmhWZgjS1kRtrNdZ2IvzkdEOgmmZRCnzpXmPm/01Ym
-   iUYNHPTnYTA7etVLuvGZRX9LiA60grPPsz7+jiwD5bAlA8t5CiCF4bcap
+        with ESMTP id S1347888AbiDFKEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 06:04:51 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F0C8148E;
+        Tue,  5 Apr 2022 23:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649226751; x=1680762751;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=DRhUZhi+ke2tCAFDOkKtZrnyyEngvYwmfRdoy6Io8Ts=;
+  b=GyrRfB3FqCkLokIVTf4cQ5+oUUTL1jAX1I1bzJkd/ZZYs6v5M4eyFFFC
+   ak2yTR9dCCmHsn42LosqbTF6ZDX33atsxZ0bppvu714oMHuTlNQD8KVwk
+   mGEB0u3UWSkn6Z+bgOleoB/vgOtIPUH6JQffPQIIJJUYUKcpz9Bp5gIcl
+   r5fsuyJG2ZIzMgZEE1XTCTFWEMDkrHNNvhgFUQ63vFU/v6wBlGWtyPtB5
+   pw0n80F3LvdPfJ3cCutqfVCsLvulbEiH+wH0U2NUr2UmsyXS+yqWkobJ/
+   p8r8Zs8TOy7OfxtwmX4xK02zxWWWD5AtkQQ9i6X4BehgwJiIkZaNdl2tR
    w==;
-X-IronPort-AV: E=Sophos;i="5.90,238,1643644800"; 
-   d="scan'208";a="301359981"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 09:39:08 +0800
-IronPort-SDR: lAl2j+5I5yi1WVgu5wnwaF2pp7mDn7bqbRGT0VptAyTTVZU1RMrWYO+sM7z3NvuvBIiuwJtv0q
- oHOWYtchI5BsU3XdpwryqNcRDW3bgDr/zAnxtE/KBWbeQ9IgaUjC/ho23DQ+2U+/JJEdXIYea6
- W5dNHb3s41GAMNfeZ1LRIKO+pHVs/fuJvMX8ZpCVoxXYUxqKU2bNJmeLWQOH1hHgezX1j+AqIO
- F52BaAHWMcuP68GzDVis7Z5xB+olA0PBlHJs6kCd/xiQB+EmD3YvhWvxXk+28CR1pvwZWtiaGJ
- RwunjSYcrDqDsmt+ohhqszp+
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Apr 2022 18:10:40 -0700
-IronPort-SDR: dulYKObWsyb5Gbz1L49top6qskt+JCmLWyyCRTL0p+vM+wCcwWqxJQqP/3QT3yCZBGdnrckrXY
- Qn/E+GCx+T+YS0oVZinUdGwe7OR4zIBYpz+h3RHb8ucR6wjwsF8TVWo19+5txztNkhhJU45UD6
- HhZXmZhduk2oxJ4vc0O7RasniNcSy3LZcoWYCVhd4QdxwtPQo775dM+PQHZJaNlzd71rHlGwI7
- 61WHMnKQ6uS0Q0KtYs7Vyd8xeP43uSzqu4co24f3eKCKRahdO06PlHzHmVHWapgfolLkiysy86
- cu8=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Apr 2022 18:39:08 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KY6cW3Vz4z1SVp0
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 18:39:07 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1649209146; x=1651801147; bh=TT9Q4isZap5oDHSGhYBaqGSoWrgP4fin4Cz
-        sfd9WOAQ=; b=WRW4DVvNBMFGKtulHYkhDYUO8cUtSlv2Z6c4RPattYWACJpHRzh
-        U5l3AhjRTEaGABj2wJVaAdvg8oi9n9YfxwtbBTWuinQKQefbQbfE8FrPObuLyI46
-        AVjb65oOtG1lYbym+3/7mRr2evI84bo32sZienDORA5jGgOPV+92EzhJ6wB77PZK
-        ZmS3yLbQS3rj6yPyUlDjKJfOXchZRZgEsFO/D4pNFuEa2+U8eHmofHuGf84me0w/
-        XhIM8rm1LQn6N4gLJTpROC9aHrOrnL/QdgdbTHIK+lt1t77kf7XdO9NG/7talRUQ
-        /54J6vBjrTsI4m/XvfaLHiB+0kaH/YrzpQw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 4iCfPkH_FSi1 for <linux-doc@vger.kernel.org>;
-        Tue,  5 Apr 2022 18:39:06 -0700 (PDT)
-Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KY6cT5d2wz1Rvlx;
-        Tue,  5 Apr 2022 18:39:05 -0700 (PDT)
-Message-ID: <a3cce73f-2e91-309d-bee0-a34a30335a18@opensource.wdc.com>
-Date:   Wed, 6 Apr 2022 10:39:04 +0900
+X-IronPort-AV: E=McAfee;i="6200,9189,10308"; a="324134252"
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; 
+   d="scan'208";a="324134252"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 23:32:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; 
+   d="scan'208";a="549408024"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.94])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 23:32:26 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Wei Xu <weixugc@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+        <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+        <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+        <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+        <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+        <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+Date:   Wed, 06 Apr 2022 14:32:24 +0800
+In-Reply-To: <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+        (Wei Xu's message of "Tue, 5 Apr 2022 22:02:03 -0700")
+Message-ID: <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/2] libata: Use scsi cmnd budget token for qc tag for
- SAS host
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, hch@lst.de
-Cc:     linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
-References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
- <1649083990-207133-2-git-send-email-john.garry@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <1649083990-207133-2-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/4/22 23:53, John Garry wrote:
-> For attaining a qc tag for a SAS host we need to allocate a bit in
-> ata_port.sas_tag_allocated bitmap.
-> 
-> However we already have a unique tag per device in range
-> [0, ATA_MAX_QUEUE) in the scsi cmnd budget token, so just use that
-> instead.
+Wei Xu <weixugc@google.com> writes:
 
-The valid range is [0, ATA_MAX_QUEUE - 1]. Tag ATA_MAX_QUEUE is 
-ATA_TAG_INTERNAL which is never allocated as a valid device tag but used 
-directly in ata_exec_internal().
+> On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
+>>
+>> Wei Xu <weixugc@google.com> writes:
+>>
+>> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+>> >>
+>> >> Wei Xu <weixugc@google.com> writes:
+>> >>
+>> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+>> >> >>
+>> >> >> Wei Xu <weixugc@google.com> writes:
+>> >> >>
+>> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+>> >> >> >>
+>> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+>> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
+>> >> >> >> >
+>> >> >>
+>> >> >> [snip]
+>> >> >>
+>> >> >> >> > Possible Extensions:
+>> >> >> >> > --------------------
+>> >> >> >> >
+>> >> >> >> > - This interface can be extended with an additional parameter or flags
+>> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+>> >> >> >> >   file, anon, ..).
+>> >> >> >> >
+>> >> >> >> > - The interface can also be extended with a node mask to reclaim from
+>> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+>> >> >> >> >   tiering systens.
+>> >> >> >> >
+>> >> >> >> > - A similar per-node interface can also be added to support proactive
+>> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+>> >> >> >> >
+>> >> >> >> > For now, let's keep things simple by adding the basic functionality.
+>> >> >> >>
+>> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+>> >> >> >> interface. But it is not really clear who do you want to add flags on
+>> >> >> >> top of it?
+>> >> >> >>
+>> >> >> >> I am not really sure we really need a node aware interface for memcg.
+>> >> >> >> The global reclaim interface will likely need a different node because
+>> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
+>> >> >> >
+>> >> >> > A nodemask argument for memory.reclaim can be useful for memory
+>> >> >> > tiering between NUMA nodes with different performance.  Similar to
+>> >> >> > proactive reclaim, it can allow a userspace daemon to drive
+>> >> >> > memcg-based proactive demotion via the reclaim-based demotion
+>> >> >> > mechanism in the kernel.
+>> >> >>
+>> >> >> I am not sure whether nodemask is a good way for demoting pages between
+>> >> >> different types of memory.  For example, for a system with DRAM and
+>> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+>> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
+>> >> >>
+>> >> >> In general, I have no objection to the idea in general.  But we should
+>> >> >> have a clear and consistent interface.  Per my understanding the default
+>> >> >> memcg interface is for memory, regardless of memory types.  The memory
+>> >> >> reclaiming means reduce the memory usage, regardless of memory types.
+>> >> >> We need to either extending the semantics of memory reclaiming (to
+>> >> >> include memory demoting too), or add another interface for memory
+>> >> >> demoting.
+>> >> >
+>> >> > Good point.  With the "demote pages during reclaim" patch series,
+>> >> > reclaim is already extended to demote pages as well.  For example,
+>> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
+>> >> > shrink_page_list() can demote pages instead of reclaiming pages.
+>> >>
+>> >> These are in-kernel implementation, not the ABI.  So we still have
+>> >> the opportunity to define the ABI now.
+>> >>
+>> >> > Currently, demotion is disabled for memcg reclaim, which I think can
+>> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+>> >> > like to suggest that we extend the semantics of memory.reclaim to
+>> >> > cover memory demotion as well.  A flag can be used to enable/disable
+>> >> > the demotion behavior.
+>> >>
+>> >> If so,
+>> >>
+>> >> # echo A > memory.reclaim
+>> >>
+>> >> means
+>> >>
+>> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
+>> >>    used or not.
+>> >>
+>> >> or
+>> >>
+>> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+>> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+>> >>    number is "A".
+>> >>
+>> >> For me, a) looks more reasonable.
+>> >>
+>> >
+>> > We can use a DEMOTE flag to control the demotion behavior for
+>> > memory.reclaim.  If the flag is not set (the default), then
+>> > no_demotion of scan_control can be set to 1, similar to
+>> > reclaim_pages().
+>>
+>> If we have to use a flag to control the behavior, I think it's better to
+>> have a separate interface (e.g. memory.demote).  But do we really need b)?
+>>
+>
+> I am fine with either approach: a separate interface similar to
+> memory.reclaim, but dedicated to demotion, or multiplexing
+> memory.reclaim for demotion with a flag.
+>
+> My understanding is that with the "demote pages during reclaim"
+> support, b) is the expected behavior, or more precisely, pages that
+> cannot be demoted may be freed or swapped out.  This is reasonable.
+> Demotion-only can also be supported via some arguments to the
+> interface and changes to demotion code in the kernel.  After all, this
+> interface is being designed to be extensible based on the discussions
+> so far.
 
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> ---
->   drivers/ata/libata-core.c | 14 +++++---------
->   drivers/ata/libata-sata.c | 25 ++++---------------------
->   drivers/ata/libata-scsi.c |  2 +-
->   drivers/ata/libata.h      |  7 +++----
->   include/linux/libata.h    |  1 -
->   5 files changed, 13 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-> index cceedde51126..1067b2e2be28 100644
-> --- a/drivers/ata/libata-core.c
-> +++ b/drivers/ata/libata-core.c
-> @@ -4566,14 +4566,15 @@ void swap_buf_le16(u16 *buf, unsigned int buf_words)
->   /**
->    *	ata_qc_new_init - Request an available ATA command, and initialize it
->    *	@dev: Device from whom we request an available command structure
-> - *	@tag: tag
-> + *	@scmd: scmd for which to get qc
->    *
->    *	LOCKING:
->    *	None.
->    */
->   
-> -struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
-> +struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, struct scsi_cmnd *scmd)
->   {
-> +	int tag = scsi_cmd_to_rq(scmd)->tag;
->   	struct ata_port *ap = dev->link->ap;
->   	struct ata_queued_cmd *qc;
->   
-> @@ -4583,7 +4584,7 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
->   
->   	/* libsas case */
->   	if (ap->flags & ATA_FLAG_SAS_HOST) {
-> -		tag = ata_sas_allocate_tag(ap);
-> +		tag = ata_sas_get_tag(scmd);
->   		if (tag < 0)
->   			return NULL;
->   	}
-> @@ -4611,19 +4612,14 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
->    */
->   void ata_qc_free(struct ata_queued_cmd *qc)
->   {
-> -	struct ata_port *ap;
->   	unsigned int tag;
->   
->   	WARN_ON_ONCE(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
-> -	ap = qc->ap;
->   
->   	qc->flags = 0;
->   	tag = qc->tag;
-> -	if (ata_tag_valid(tag)) {
-> +	if (ata_tag_valid(tag))
->   		qc->tag = ATA_TAG_POISON;
-> -		if (ap->flags & ATA_FLAG_SAS_HOST)
-> -			ata_sas_free_tag(tag, ap);
-> -	}
->   }
->   
->   void __ata_qc_complete(struct ata_queued_cmd *qc)
-> diff --git a/drivers/ata/libata-sata.c b/drivers/ata/libata-sata.c
-> index 044a16daa2d4..c3e9fd7d920c 100644
-> --- a/drivers/ata/libata-sata.c
-> +++ b/drivers/ata/libata-sata.c
-> @@ -1268,29 +1268,12 @@ int ata_sas_queuecmd(struct scsi_cmnd *cmd, struct ata_port *ap)
->   }
->   EXPORT_SYMBOL_GPL(ata_sas_queuecmd);
->   
-> -int ata_sas_allocate_tag(struct ata_port *ap)
-> +int ata_sas_get_tag(struct scsi_cmnd *scmd)
->   {
-> -	unsigned int max_queue = ap->host->n_tags;
-> -	unsigned int i, tag;
-> +	if (WARN_ON_ONCE(scmd->budget_token >= ATA_MAX_QUEUE))
-> +		return -1;
->   
-> -	for (i = 0, tag = ap->sas_last_tag + 1; i < max_queue; i++, tag++) {
-> -		tag = tag < max_queue ? tag : 0;
-> -
-> -		/* the last tag is reserved for internal command. */
-> -		if (ata_tag_internal(tag))
-> -			continue;
-> -
-> -		if (!test_and_set_bit(tag, &ap->sas_tag_allocated)) {
-> -			ap->sas_last_tag = tag;
-> -			return tag;
-> -		}
-> -	}
-> -	return -1;
-> -}
-> -
-> -void ata_sas_free_tag(unsigned int tag, struct ata_port *ap)
-> -{
-> -	clear_bit(tag, &ap->sas_tag_allocated);
-> +	return scmd->budget_token;
->   }
->   
->   /**
-> diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-> index 06c9d90238d9..61dd7f7c7743 100644
-> --- a/drivers/ata/libata-scsi.c
-> +++ b/drivers/ata/libata-scsi.c
-> @@ -640,7 +640,7 @@ static struct ata_queued_cmd *ata_scsi_qc_new(struct ata_device *dev,
->   {
->   	struct ata_queued_cmd *qc;
->   
-> -	qc = ata_qc_new_init(dev, scsi_cmd_to_rq(cmd)->tag);
-> +	qc = ata_qc_new_init(dev, cmd);
->   	if (qc) {
->   		qc->scsicmd = cmd;
->   		qc->scsidone = scsi_done;
-> diff --git a/drivers/ata/libata.h b/drivers/ata/libata.h
-> index c9c2496d91ea..92e52090165b 100644
-> --- a/drivers/ata/libata.h
-> +++ b/drivers/ata/libata.h
-> @@ -44,7 +44,7 @@ static inline void ata_force_cbl(struct ata_port *ap) { }
->   #endif
->   extern u64 ata_tf_to_lba(const struct ata_taskfile *tf);
->   extern u64 ata_tf_to_lba48(const struct ata_taskfile *tf);
-> -extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag);
-> +extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, struct scsi_cmnd *scmd);
->   extern int ata_build_rw_tf(struct ata_taskfile *tf, struct ata_device *dev,
->   			   u64 block, u32 n_block, unsigned int tf_flags,
->   			   unsigned int tag, int class);
-> @@ -93,10 +93,9 @@ extern unsigned int ata_read_log_page(struct ata_device *dev, u8 log,
->   
->   /* libata-sata.c */
->   #ifdef CONFIG_SATA_HOST
-> -int ata_sas_allocate_tag(struct ata_port *ap);
-> -void ata_sas_free_tag(unsigned int tag, struct ata_port *ap);
-> +int ata_sas_get_tag(struct scsi_cmnd *scmd);
->   #else
-> -static inline int ata_sas_allocate_tag(struct ata_port *ap)
-> +static inline int ata_sas_get_tag(struct scsi_cmnd *scmd)
->   {
->   	return -EOPNOTSUPP;
->   }
-> diff --git a/include/linux/libata.h b/include/linux/libata.h
-> index 9b1d3d8b1252..16107122e587 100644
-> --- a/include/linux/libata.h
-> +++ b/include/linux/libata.h
-> @@ -820,7 +820,6 @@ struct ata_port {
->   	unsigned int		cbl;	/* cable type; ATA_CBL_xxx */
->   
->   	struct ata_queued_cmd	qcmd[ATA_MAX_QUEUE + 1];
-> -	unsigned long		sas_tag_allocated; /* for sas tag allocation only */
->   	u64			qc_active;
->   	int			nr_active_links; /* #links with active qcs */
->   	unsigned int		sas_last_tag;	/* track next tag hw expects */
+I think we should define the interface not from the current
+implementation point of view, but from the requirement point of view.
+For proactive reclaim, per my understanding, the requirement is,
 
+  we found that there's some cold pages in some workloads, so we can
+  take advantage of the proactive reclaim to reclaim some pages so that
+  other workload can use the freed memory.
 
--- 
-Damien Le Moal
-Western Digital Research
+For proactive demotion, per my understanding, the requirement could be,
+
+  We found that there's some cold pages in fast memory (e.g. DRAM) in
+  some workloads, so we can take advantage of the proactive demotion to
+  demote some pages so that other workload can use the freed fast
+  memory.  Given the DRAM partition support Tim (Cced) is working on.
+
+Why do we need something in the middle?
+
+Best Regards,
+Huang, Ying
+
+>> > The question is then whether we want to rename memory.reclaim to
+>> > something more general.  I think this name is fine if reclaim-based
+>> > demotion is an accepted concept.
+>>
+>> Best Regards,
+>> Huang, Ying
