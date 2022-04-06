@@ -2,199 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F38C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 10:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D52ABC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 10:39:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348885AbiDFKem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 06:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58772 "EHLO
+        id S240475AbiDFKli (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 06:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344608AbiDFKeA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 06:34:00 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD25491D9B;
-        Tue,  5 Apr 2022 23:55:54 -0700 (PDT)
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KYFbx609Tz67VyR;
-        Wed,  6 Apr 2022 14:54:05 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 6 Apr 2022 08:55:52 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Wed, 6 Apr 2022 08:55:52 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "kpsingh@kernel.org" <kpsingh@kernel.org>,
-        "tixxdz@gmail.com" <tixxdz@gmail.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [POC][USER SPACE][PATCH] Introduce LSM to protect pinned objects
-Thread-Topic: [POC][USER SPACE][PATCH] Introduce LSM to protect pinned objects
-Thread-Index: AQHYSO6qHvGxtTZjlkOpBqG6raB3mazhyt4AgACodAA=
-Date:   Wed, 6 Apr 2022 06:55:51 +0000
-Message-ID: <5ed9f7c8fab7426daf400756b2d8ea89@huawei.com>
-References: <CACYkzJ7ZVbL2MG7ugmDEfogSPAHkYYMCHxRO_eBCJJmBZyn6Rw@mail.gmail.com>
-        <20220405131116.3810418-1-roberto.sassu@huawei.com>
- <5ce85845-824c-32fb-3807-6f9ab95ad6fe@schaufler-ca.com>
-In-Reply-To: <5ce85845-824c-32fb-3807-6f9ab95ad6fe@schaufler-ca.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.81.215.171]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S1345449AbiDFKkB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 06:40:01 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C65F4F9165
+        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 00:05:15 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id m17so1237310ilj.13
+        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 00:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8brfd4/xj9n/UUbz1QgkS/+4GSIqfRVY8lKR+Ve02ZQ=;
+        b=JdmbHxbY+8JX8cz01LU1ksij0DZUUY5x8192E1h/BvzuCqmGoiCxSLWZGq/eUFalNQ
+         FvgdOGyW7HR22BregNT2UoSHD0vPqGHLrJwx1aDv9q7U873nHfCuf78RsyUSc+ZcGqrt
+         ARFSoeUGxNOaJsAmv9OWIFVADgnLvreKjzgQ+X/UgBgUjdshdt69STvqXE9ryra9YXcz
+         tlOgUvoN7+ICqARPWqV/H1thtHogeFL8pChzPVxluHKwcdyMd31i0hpCMkVFNkPxtF4+
+         fsNuURlQa2SOtu4YVpsWQIIbmR0826UtJrMtvsmG4M6irpThm4Ca+kXyxBahGpgu1NTy
+         WtYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8brfd4/xj9n/UUbz1QgkS/+4GSIqfRVY8lKR+Ve02ZQ=;
+        b=ZaMUc4JyW9t1W6DZHQGN/85TGxa98uIv/ufRCV6WMI+TTwHrOEzaZ1S2k3g03fuqFo
+         TwWeLGirWd3uykY2EN2lPU8gXveuBUAVlg24nTAp0KPJ51tiuQit08AONky5BwhkEvdn
+         WZAEBpmUxXdDGG2Q561ZGOuXHoWy5gUiEzwH/TNeUBCIMzrLW2UYj3LvqiJK6KZv0Ar7
+         alOpROTg9A3rGJCTD+sNk4m6e1dBrNgDthLyY11BkSh15NVq63hIxD13QDyGZBgGzkfx
+         1Q5NxejO5XeJF+jKNVbmCndoZzYiaJVnVHusclS8yGdtcFgnKkR6dXz5L81gjueFNlFS
+         MxOw==
+X-Gm-Message-State: AOAM533om3c59jXQte744xKWGdrqS45B9HXQEOJCs1QuoCRfl1gtWqdK
+        SnDCMz4tqrfQ2Pd9z6uq8utQ5TM0uA21atqow52S4g==
+X-Google-Smtp-Source: ABdhPJyrivXGrt8+ghdHPltEhU5fpHsONeQ1s+2axYkZ4w0Kr/omf9D2IlBFQgtQEsUmDyutKX0N/t/HwMpd6fu5qzY=
+X-Received: by 2002:a92:cd8b:0:b0:2c9:ded9:f20d with SMTP id
+ r11-20020a92cd8b000000b002c9ded9f20dmr3307152ilb.300.1649228714777; Wed, 06
+ Apr 2022 00:05:14 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+ <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+ <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+ <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+ <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Wei Xu <weixugc@google.com>
+Date:   Wed, 6 Apr 2022 00:05:03 -0700
+Message-ID: <CAAPL-u8u77yazFpc2R216j6ObAiANb0Lfxt7DcT9P=3eg60u9Q@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBDYXNleSBTY2hhdWZsZXIgW21haWx0bzpjYXNleUBzY2hhdWZsZXItY2EuY29tXQ0K
-PiBTZW50OiBXZWRuZXNkYXksIEFwcmlsIDYsIDIwMjIgMTI6NDggQU0NCj4gT24gNC81LzIwMjIg
-NjoxMSBBTSwgUm9iZXJ0byBTYXNzdSB3cm90ZToNCj4gPiBJbnRyb2R1Y2UgYSBuZXcgTFNNIHRv
-IHByb3RlY3QgcGlubmVkIG9iamVjdHMgaW4gYSBicGYgZmlsZXN5c3RlbQ0KPiANCj4gVGhpcyBp
-cyAqbm90IGFuIExTTSouIERvIG5vdCBjYWxsIGl0IGFuIExTTS4gSXQgaXMgYSBzZXQgb2YNCj4g
-ZUJQRiBwcm9ncmFtcy4gV2UgaGF2ZSBhbGwgdGhlIG9wcG9ydHVuaXRpZXMgZm9yIGNvbmZ1c2lv
-bg0KPiB0aGF0IHdlIG5lZWQuIEkgc3VnZ2VzdGVkIHRoYXQgeW91IGNhbGwgdGhpcyBhIEJQRiBz
-ZWN1cml0eQ0KPiBtb2R1bGUgKEJTTSkgZWFybGllciB0b2RheS4gWW91IGhhdmUgYW55IG51bWJl
-ciBvZiB0aGluZ3MNCj4geW91IGNhbiBjYWxsIHRoaXMgdGhhdCB3b24ndCBiZSBvYmplY3Rpb25h
-YmxlLg0KPiANCj4gPiBpbnN0YW5jZS4gVGhpcyBpcyB1c2VmdWwgZm9yIGV4YW1wbGUgdG8gZW5z
-dXJlIHRoYXQgYW4gTFNNIHdpbGwgYWx3YXlzDQo+ID4gZW5mb3JjZSBpdHMgcG9saWN5LCBldmVu
-IGRlc3BpdGUgcm9vdCB0cmllcyB0byB1bmxvYWQgdGhlIGNvcnJlc3BvbmRpbmcNCj4gPiBlQlBG
-IHByb2dyYW0uDQo+IA0KPiBIb3cgaXMgdGhpcyBnb2luZyB0byBlbnN1cmUgdGhhdCBTRUxpbnV4
-IGVuZm9yY2VzIGl0cyBwb2xpY3k/DQoNCkkgc2hvdWxkIGhhdmUgc2FpZCBhYm92ZTogdGhhdCBh
-biBMU00gaW1wbGVtZW50ZWQgd2l0aCBlQlBGLg0KQnVpbHQtaW4gTFNNcyBhcmUgbm90IGFmZmVj
-dGVkIGJ5IHRoaXMgY2hhbmdlLg0KDQpPaywgbmV4dCB0aW1lIEkgY2FsbCBpdCBCU00uDQoNClRo
-YW5rcw0KDQpSb2JlcnRvDQoNCkhVQVdFSSBURUNITk9MT0dJRVMgRHVlc3NlbGRvcmYgR21iSCwg
-SFJCIDU2MDYzDQpNYW5hZ2luZyBEaXJlY3RvcjogTGkgUGVuZywgWmhvbmcgUm9uZ2h1YQ0KDQo+
-IEFwcEFybW9yIGhhcyBubyBlQlBGIHByb2dyYW0gdGhhdCBjb3JyZXNwb25kcyB0byBpdHMgcG9s
-aWN5LA0KPiBuZWl0aGVyIGRvZXMgYW55IG90aGVyIGV4aXN0aW5nIExTTSwgc2F2ZSBCUEYuIFlv
-dXIgY2xhaW0gaXMNCj4gbm9uc2Vuc2ljYWwgaW4gdGhlIGZhY2Ugb2YgTFNNIGJlaGF2aW9yLg0K
-PiANCj4gPiBBY2hpZXZlIHRoZSBwcm90ZWN0aW9uIGJ5IGRlbnlpbmcgaW5vZGUgdW5saW5rIGFu
-ZCB1bm1vdW50IG9mIHRoZQ0KPiA+IHByb3RlY3RlZCBicGYgZmlsZXN5c3RlbSBpbnN0YW5jZS4g
-U2luY2UgcHJvdGVjdGVkIGlub2RlcyBob2xkIGENCj4gPiByZWZlcmVuY2Ugb2YgdGhlIGxpbmsg
-b2YgbG9hZGVkIHByb2dyYW1zIChlLmcuIExTTSBob29rcyksIGRlbnlpbmcNCj4gPiBvcGVyYXRp
-b25zIG9uIHRoZW0gd2lsbCBwcmV2ZW50IHRoZSByZWYgY291bnQgb2YgdGhlIGxpbmtzIGZyb20g
-cmVhY2hpbmcNCj4gPiB6ZXJvLCBlbnN1cmluZyB0aGF0IHRoZSBwcm9ncmFtcyByZW1haW4gYWx3
-YXlzIGFjdGl2ZS4NCj4gPg0KPiA+IEVuYWJsZSB0aGUgcHJvdGVjdGlvbiBvbmx5IGZvciB0aGUg
-aW5zdGFuY2UgY3JlYXRlZCBieSB0aGUgdXNlciBzcGFjZQ0KPiA+IGNvdW50ZXJwYXJ0IG9mIHRo
-ZSBMU00sIGFuZCBkb24ndCBpbnRlcmZlcmUgd2l0aCBvdGhlciBpbnN0YW5jZXMsIHNvDQo+ID4g
-dGhhdCB0aGVpciBiZWhhdmlvciByZW1haW5zIHVuY2hhbmdlZC4NCj4gPg0KPiA+IFN1Z2dlc3Rl
-ZC1ieTogRGphbGFsIEhhcm91bmkgPHRpeHhkekBnbWFpbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1i
-eTogUm9iZXJ0byBTYXNzdSA8cm9iZXJ0by5zYXNzdUBodWF3ZWkuY29tPg0KPiA+IC0tLQ0KPiA+
-ICAgLmdpdGlnbm9yZSAgICAgICB8ICA0ICsrKw0KPiA+ICAgTWFrZWZpbGUgICAgICAgICB8IDE4
-ICsrKysrKysrKysrKysrDQo+ID4gICBicGZmc19sc21fa2Vybi5jIHwgNjMNCj4gKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gICBicGZmc19sc21f
-dXNlci5jIHwgNjANCj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrDQo+ID4gICA0IGZpbGVzIGNoYW5nZWQsIDE0NSBpbnNlcnRpb25zKCspDQo+ID4gICBjcmVh
-dGUgbW9kZSAxMDA2NDQgLmdpdGlnbm9yZQ0KPiA+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IE1ha2Vm
-aWxlDQo+ID4gICBjcmVhdGUgbW9kZSAxMDA2NDQgYnBmZnNfbHNtX2tlcm4uYw0KPiA+ICAgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IGJwZmZzX2xzbV91c2VyLmMNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS8u
-Z2l0aWdub3JlIGIvLmdpdGlnbm9yZQ0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5k
-ZXggMDAwMDAwMDAwMDAwLi43ZmEwMjk2NGYxZGMNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysr
-IGIvLmdpdGlnbm9yZQ0KPiA+IEBAIC0wLDAgKzEsNCBAQA0KPiA+ICsqLm8NCj4gPiArdm1saW51
-eC5oDQo+ID4gK2JwZmZzX2xzbV9rZXJuLnNrZWwuaA0KPiA+ICticGZmc19sc21fdXNlcg0KPiA+
-IGRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmMzZDgwNTc1OWRiMw0KPiA+IC0tLSAvZGV2L251
-bGwNCj4gPiArKysgYi9NYWtlZmlsZQ0KPiA+IEBAIC0wLDAgKzEsMTggQEANCj4gPiArIyBTUERY
-LUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICthbGw6IGJwZmZzX2xzbV91c2VyDQo+
-ID4gKw0KPiA+ICtjbGVhbjoNCj4gPiArCXJtIC1yZiBicGZmc19sc20uc2tlbC5oIHZtbGludXgu
-aCBicGZmc19sc21fa2Vybi5vIGJwZmZzX2xzbV91c2VyDQo+ID4gKw0KPiA+ICt2bWxpbnV4Lmg6
-DQo+ID4gKwkvdXNyL3NiaW4vYnBmdG9vbCBidGYgZHVtcCBmaWxlIC9zeXMva2VybmVsL2J0Zi92
-bWxpbnV4IGZvcm1hdCBjID4gXA0KPiA+ICsJCQkgIHZtbGludXguaA0KPiA+ICsNCj4gPiArYnBm
-ZnNfbHNtX2tlcm4uc2tlbC5oOiBicGZmc19sc21fa2Vybi5vDQo+ID4gKwlicGZ0b29sIGdlbiBz
-a2VsZXRvbiAkPCA+ICRADQo+ID4gKw0KPiA+ICticGZmc19sc21fa2Vybi5vOiBicGZmc19sc21f
-a2Vybi5jIHZtbGludXguaA0KPiA+ICsJY2xhbmcgLVdhbGwgLVdlcnJvciAtZyAtTzIgLXRhcmdl
-dCBicGYgLWMgJDwgLW8gJEANCj4gPiArDQo+ID4gK2JwZmZzX2xzbV91c2VyOiBicGZmc19sc21f
-dXNlci5jIGJwZmZzX2xzbV9rZXJuLnNrZWwuaA0KPiBicGZmc19sc21fa2Vybi5vDQo+ID4gKwlj
-YyAtV2FsbCAtV2Vycm9yIC1nIC1vICRAICQ8IC1sYnBmDQo+ID4gZGlmZiAtLWdpdCBhL2JwZmZz
-X2xzbV9rZXJuLmMgYi9icGZmc19sc21fa2Vybi5jDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
-Cj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmIzY2NiMmE3NWM5NQ0KPiA+IC0tLSAvZGV2L251bGwN
-Cj4gPiArKysgYi9icGZmc19sc21fa2Vybi5jDQo+ID4gQEAgLTAsMCArMSw2MyBAQA0KPiA+ICsv
-LyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICsvKg0KPiA+ICsgKiBDb3B5
-cmlnaHQgKEMpIDIwMjIgSHVhd2VpIFRlY2hub2xvZ2llcyBEdWVzc2VsZG9yZiBHbWJIDQo+ID4g
-KyAqDQo+ID4gKyAqIEF1dGhvcnM6DQo+ID4gKyAqIFJvYmVydG8gU2Fzc3UgPHJvYmVydG8uc2Fz
-c3VAaHVhd2VpLmNvbT4NCj4gPiArICoNCj4gPiArICogSW1wbGVtZW50IGFuIExTTSB0byBwcm90
-ZWN0IGEgYnBmIGZpbGVzeXN0ZW0gaW5zdGFuY2UuDQo+ID4gKyAqLw0KPiA+ICsNCj4gPiArI2lu
-Y2x1ZGUgInZtbGludXguaCINCj4gPiArI2luY2x1ZGUgPGVycm5vLmg+DQo+ID4gKyNpbmNsdWRl
-IDxicGYvYnBmX2hlbHBlcnMuaD4NCj4gPiArI2luY2x1ZGUgPGJwZi9icGZfdHJhY2luZy5oPg0K
-PiA+ICsjaW5jbHVkZSA8YnBmL2JwZl9jb3JlX3JlYWQuaD4NCj4gPiArDQo+ID4gK2NoYXIgX2xp
-Y2Vuc2VbXSBTRUMoImxpY2Vuc2UiKSA9ICJHUEwiOw0KPiA+ICsNCj4gPiArdWludDMyX3QgbW9u
-aXRvcmVkX3BpZCA9IDA7DQo+ID4gKw0KPiA+ICtzdHJ1Y3Qgew0KPiA+ICsJX191aW50KHR5cGUs
-IEJQRl9NQVBfVFlQRV9JTk9ERV9TVE9SQUdFKTsNCj4gPiArCV9fdWludChtYXBfZmxhZ3MsIEJQ
-Rl9GX05PX1BSRUFMTE9DKTsNCj4gPiArCV9fdHlwZShrZXksIGludCk7DQo+ID4gKwlfX3R5cGUo
-dmFsdWUsIHNpemVvZih1aW50OF90KSk7DQo+ID4gK30gaW5vZGVfc3RvcmFnZV9tYXAgU0VDKCIu
-bWFwcyIpOw0KPiA+ICsNCj4gPiArU0VDKCJsc20vc2Jfc2V0X21udF9vcHRzIikNCj4gPiAraW50
-IEJQRl9QUk9HKHNiX3NldF9tbnRfb3B0cywgc3RydWN0IHN1cGVyX2Jsb2NrICpzYiwgdm9pZA0K
-PiAqbW50X29wdHMsDQo+ID4gKwkgICAgIHVuc2lnbmVkIGxvbmcga2Vybl9mbGFncywgdW5zaWdu
-ZWQgbG9uZyAqc2V0X2tlcm5fZmxhZ3MpDQo+ID4gK3sNCj4gPiArCXUzMiBwaWQ7DQo+ID4gKw0K
-PiA+ICsJcGlkID0gYnBmX2dldF9jdXJyZW50X3BpZF90Z2lkKCkgPj4gMzI7DQo+ID4gKwlpZiAo
-cGlkICE9IG1vbml0b3JlZF9waWQpDQo+ID4gKwkJcmV0dXJuIDA7DQo+ID4gKw0KPiA+ICsJaWYg
-KCFicGZfaW5vZGVfc3RvcmFnZV9nZXQoJmlub2RlX3N0b3JhZ2VfbWFwLCBzYi0+c19yb290LQ0K
-PiA+ZF9pbm9kZSwgMCwNCj4gPiArCQkJCSAgIEJQRl9MT0NBTF9TVE9SQUdFX0dFVF9GX0NSRUFU
-RSkpDQo+ID4gKwkJcmV0dXJuIC1FUEVSTTsNCj4gPiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiAr
-fQ0KPiA+ICsNCj4gPiArU0VDKCJsc20vaW5vZGVfdW5saW5rIikNCj4gPiAraW50IEJQRl9QUk9H
-KGlub2RlX3VubGluaywgc3RydWN0IGlub2RlICpkaXIsIHN0cnVjdCBkZW50cnkgKmRlbnRyeSkN
-Cj4gPiArew0KPiA+ICsJaWYgKGJwZl9pbm9kZV9zdG9yYWdlX2dldCgmaW5vZGVfc3RvcmFnZV9t
-YXAsDQo+ID4gKwkJCQkgIGRpci0+aV9zYi0+c19yb290LT5kX2lub2RlLCAwLCAwKSkNCj4gPiAr
-CQlyZXR1cm4gLUVQRVJNOw0KPiA+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0K
-PiA+ICtTRUMoImxzbS9zYl91bW91bnQiKQ0KPiA+ICtpbnQgQlBGX1BST0coc2JfdW1vdW50LCBz
-dHJ1Y3QgdmZzbW91bnQgKm1udCwgaW50IGZsYWdzKQ0KPiA+ICt7DQo+ID4gKwlpZiAoYnBmX2lu
-b2RlX3N0b3JhZ2VfZ2V0KCZpbm9kZV9zdG9yYWdlX21hcCwNCj4gPiArCQkJCSAgbW50LT5tbnRf
-c2ItPnNfcm9vdC0+ZF9pbm9kZSwgMCwgMCkpDQo+ID4gKwkJcmV0dXJuIC1FUEVSTTsNCj4gPiAr
-DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+IGRpZmYgLS1naXQgYS9icGZmc19sc21fdXNl
-ci5jIGIvYnBmZnNfbHNtX3VzZXIuYw0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5k
-ZXggMDAwMDAwMDAwMDAwLi5lMjAxODBjYzVkYjkNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysr
-IGIvYnBmZnNfbHNtX3VzZXIuYw0KPiA+IEBAIC0wLDAgKzEsNjAgQEANCj4gPiArLy8gU1BEWC1M
-aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gPiArLyoNCj4gPiArICogQ29weXJpZ2h0IChD
-KSAyMDIyIEh1YXdlaSBUZWNobm9sb2dpZXMgRHVlc3NlbGRvcmYgR21iSA0KPiA+ICsgKg0KPiA+
-ICsgKiBBdXRob3I6IFJvYmVydG8gU2Fzc3UgPHJvYmVydG8uc2Fzc3VAaHVhd2VpLmNvbT4NCj4g
-PiArICoNCj4gPiArICogSW1wbGVtZW50IHRoZSB1c2VyIHNwYWNlIHNpZGUgb2YgdGhlIExTTSBm
-b3IgYnBmZnMuDQo+ID4gKyAqLw0KPiA+ICsNCj4gPiArI2luY2x1ZGUgPGZjbnRsLmg+DQo+ID4g
-KyNpbmNsdWRlIDx1bmlzdGQuaD4NCj4gPiArI2luY2x1ZGUgPHN0ZGlvLmg+DQo+ID4gKyNpbmNs
-dWRlIDxlcnJuby5oPg0KPiA+ICsjaW5jbHVkZSA8c3RkbGliLmg+DQo+ID4gKyNpbmNsdWRlIDx1
-bmlzdGQuaD4NCj4gPiArI2luY2x1ZGUgPGxpbWl0cy5oPg0KPiA+ICsjaW5jbHVkZSA8c3lzL21v
-dW50Lmg+DQo+ID4gKyNpbmNsdWRlIDxzeXMvc3RhdC5oPg0KPiA+ICsNCj4gPiArI2luY2x1ZGUg
-ImJwZmZzX2xzbV9rZXJuLnNrZWwuaCINCj4gPiArDQo+ID4gKyNkZWZpbmUgTU9VTlRfRkxBR1Mg
-KE1TX05PU1VJRCB8IE1TX05PREVWIHwgTVNfTk9FWEVDIHwNCj4gTVNfUkVMQVRJTUUpDQo+ID4g
-Kw0KPiA+ICtpbnQgbWFpbihpbnQgYXJnYywgY2hhciAqYXJndltdKQ0KPiA+ICt7DQo+ID4gKwlj
-aGFyIG1udHBvaW50W10gPSAiL3RtcC9icGZfcHJpdmF0ZV9tb3VudFhYWFhYWCI7DQo+ID4gKwlj
-aGFyIHBhdGhbUEFUSF9NQVhdOw0KPiA+ICsJc3RydWN0IGJwZmZzX2xzbV9rZXJuICpza2VsOw0K
-PiA+ICsJaW50IHJldCwgaTsNCj4gPiArDQo+ID4gKwlza2VsID0gYnBmZnNfbHNtX2tlcm5fX29w
-ZW5fYW5kX2xvYWQoKTsNCj4gPiArCWlmICghc2tlbCkNCj4gPiArCQlyZXR1cm4gLUVJTlZBTDsN
-Cj4gPiArDQo+ID4gKwlyZXQgPSBicGZmc19sc21fa2Vybl9fYXR0YWNoKHNrZWwpOw0KPiA+ICsJ
-aWYgKHJldCA8IDApDQo+ID4gKwkJZ290byBvdXRfZGVzdHJveTsNCj4gPiArDQo+ID4gKwlta2R0
-ZW1wKG1udHBvaW50KTsNCj4gPiArDQo+ID4gKwlza2VsLT5ic3MtPm1vbml0b3JlZF9waWQgPSBn
-ZXRwaWQoKTsNCj4gPiArCXJldCA9IG1vdW50KG1udHBvaW50LCBtbnRwb2ludCwgImJwZiIsIE1P
-VU5UX0ZMQUdTLCBOVUxMKTsNCj4gPiArCXNrZWwtPmJzcy0+bW9uaXRvcmVkX3BpZCA9IDA7DQo+
-ID4gKw0KPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gKwkJZ290byBvdXRfZGVzdHJveTsNCj4gPiAr
-DQo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgc2tlbC0+c2tlbGV0b24tPnByb2dfY250OyBpKyspIHsN
-Cj4gPiArCQlzbnByaW50ZihwYXRoLCBzaXplb2YocGF0aCksICIlcy8lcyIsIG1udHBvaW50LA0K
-PiA+ICsJCQkgc2tlbC0+c2tlbGV0b24tPnByb2dzW2ldLm5hbWUpOw0KPiA+ICsJCXJldCA9IGJw
-Zl9saW5rX19waW4oKnNrZWwtPnNrZWxldG9uLT5wcm9nc1tpXS5saW5rLCBwYXRoKTsNCj4gPiAr
-CQlpZiAocmV0IDwgMCkNCj4gPiArCQkJZ290byBvdXRfZGVzdHJveTsNCj4gPiArCX0NCj4gPiAr
-DQo+ID4gKwlyZXQgPSAwOw0KPiA+ICtvdXRfZGVzdHJveToNCj4gPiArCWJwZmZzX2xzbV9rZXJu
-X19kZXN0cm95KHNrZWwpOw0KPiA+ICsJcmV0dXJuIHJldDsNCj4gPiArfQ0KDQo=
+On Tue, Apr 5, 2022 at 11:32 PM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Wei Xu <weixugc@google.com> writes:
+>
+> > On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >>
+> >> Wei Xu <weixugc@google.com> writes:
+> >>
+> >> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >>
+> >> >> Wei Xu <weixugc@google.com> writes:
+> >> >>
+> >> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >> >>
+> >> >> >> Wei Xu <weixugc@google.com> writes:
+> >> >> >>
+> >> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+> >> >> >> >>
+> >> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+> >> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
+> >> >> >> >> >
+> >> >> >>
+> >> >> >> [snip]
+> >> >> >>
+> >> >> >> >> > Possible Extensions:
+> >> >> >> >> > --------------------
+> >> >> >> >> >
+> >> >> >> >> > - This interface can be extended with an additional parameter or flags
+> >> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+> >> >> >> >> >   file, anon, ..).
+> >> >> >> >> >
+> >> >> >> >> > - The interface can also be extended with a node mask to reclaim from
+> >> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+> >> >> >> >> >   tiering systens.
+> >> >> >> >> >
+> >> >> >> >> > - A similar per-node interface can also be added to support proactive
+> >> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+> >> >> >> >> >
+> >> >> >> >> > For now, let's keep things simple by adding the basic functionality.
+> >> >> >> >>
+> >> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+> >> >> >> >> interface. But it is not really clear who do you want to add flags on
+> >> >> >> >> top of it?
+> >> >> >> >>
+> >> >> >> >> I am not really sure we really need a node aware interface for memcg.
+> >> >> >> >> The global reclaim interface will likely need a different node because
+> >> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
+> >> >> >> >
+> >> >> >> > A nodemask argument for memory.reclaim can be useful for memory
+> >> >> >> > tiering between NUMA nodes with different performance.  Similar to
+> >> >> >> > proactive reclaim, it can allow a userspace daemon to drive
+> >> >> >> > memcg-based proactive demotion via the reclaim-based demotion
+> >> >> >> > mechanism in the kernel.
+> >> >> >>
+> >> >> >> I am not sure whether nodemask is a good way for demoting pages between
+> >> >> >> different types of memory.  For example, for a system with DRAM and
+> >> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+> >> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
+> >> >> >>
+> >> >> >> In general, I have no objection to the idea in general.  But we should
+> >> >> >> have a clear and consistent interface.  Per my understanding the default
+> >> >> >> memcg interface is for memory, regardless of memory types.  The memory
+> >> >> >> reclaiming means reduce the memory usage, regardless of memory types.
+> >> >> >> We need to either extending the semantics of memory reclaiming (to
+> >> >> >> include memory demoting too), or add another interface for memory
+> >> >> >> demoting.
+> >> >> >
+> >> >> > Good point.  With the "demote pages during reclaim" patch series,
+> >> >> > reclaim is already extended to demote pages as well.  For example,
+> >> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
+> >> >> > shrink_page_list() can demote pages instead of reclaiming pages.
+> >> >>
+> >> >> These are in-kernel implementation, not the ABI.  So we still have
+> >> >> the opportunity to define the ABI now.
+> >> >>
+> >> >> > Currently, demotion is disabled for memcg reclaim, which I think can
+> >> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+> >> >> > like to suggest that we extend the semantics of memory.reclaim to
+> >> >> > cover memory demotion as well.  A flag can be used to enable/disable
+> >> >> > the demotion behavior.
+> >> >>
+> >> >> If so,
+> >> >>
+> >> >> # echo A > memory.reclaim
+> >> >>
+> >> >> means
+> >> >>
+> >> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
+> >> >>    used or not.
+> >> >>
+> >> >> or
+> >> >>
+> >> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+> >> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+> >> >>    number is "A".
+> >> >>
+> >> >> For me, a) looks more reasonable.
+> >> >>
+> >> >
+> >> > We can use a DEMOTE flag to control the demotion behavior for
+> >> > memory.reclaim.  If the flag is not set (the default), then
+> >> > no_demotion of scan_control can be set to 1, similar to
+> >> > reclaim_pages().
+> >>
+> >> If we have to use a flag to control the behavior, I think it's better to
+> >> have a separate interface (e.g. memory.demote).  But do we really need b)?
+> >>
+> >
+> > I am fine with either approach: a separate interface similar to
+> > memory.reclaim, but dedicated to demotion, or multiplexing
+> > memory.reclaim for demotion with a flag.
+> >
+> > My understanding is that with the "demote pages during reclaim"
+> > support, b) is the expected behavior, or more precisely, pages that
+> > cannot be demoted may be freed or swapped out.  This is reasonable.
+> > Demotion-only can also be supported via some arguments to the
+> > interface and changes to demotion code in the kernel.  After all, this
+> > interface is being designed to be extensible based on the discussions
+> > so far.
+>
+> I think we should define the interface not from the current
+> implementation point of view, but from the requirement point of view.
+> For proactive reclaim, per my understanding, the requirement is,
+>
+>   we found that there's some cold pages in some workloads, so we can
+>   take advantage of the proactive reclaim to reclaim some pages so that
+>   other workload can use the freed memory.
+>
+> For proactive demotion, per my understanding, the requirement could be,
+>
+>   We found that there's some cold pages in fast memory (e.g. DRAM) in
+>   some workloads, so we can take advantage of the proactive demotion to
+>   demote some pages so that other workload can use the freed fast
+>   memory.  Given the DRAM partition support Tim (Cced) is working on.
+>
+> Why do we need something in the middle?
+
+Maybe there is some misunderstanding.  As you said, demotion is to
+free up fast memory.  If pages on fast memory cannot be demoted, but
+can still be reclaimed to free some fast memory, it is useful, too.
+Certainly, we can also add the support and configure the policy to
+only demote, not reclaim, from fast memory in such cases.
+
+In any case, we will not reclaim from slow memory for demotion, if
+that is the middle thing you refer to.  This is why nodemask is
+proposed for memory.reclaim to support the demotion use case.  With a
+separate memory.demote interface and memory tiering topology among
+NUMA nodes being well defined by the kernel and shared with the
+userspace, we can omit the nodemask argument.
+
+> Best Regards,
+> Huang, Ying
+>
+> >> > The question is then whether we want to rename memory.reclaim to
+> >> > something more general.  I think this name is fine if reclaim-based
+> >> > demotion is an accepted concept.
+> >>
+> >> Best Regards,
+> >> Huang, Ying
