@@ -2,199 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA56C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 07:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C5FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 07:25:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236987AbiDFHYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 03:24:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56458 "EHLO
+        id S232314AbiDFH0s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 03:26:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1576820AbiDFGqR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 02:46:17 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB659E6140
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 22:02:15 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id d3so1112596ilr.10
-        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 22:02:15 -0700 (PDT)
+        with ESMTP id S1574068AbiDFGpv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 02:45:51 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B158B465FAD;
+        Tue,  5 Apr 2022 21:56:04 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id k14so1286572pga.0;
+        Tue, 05 Apr 2022 21:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ODFzchJR5kzOOfH4oglWE4R0LrU8T2pOGN5A8BVCo3U=;
-        b=iMReHv3tyRw5iMCz8nsm/TtFplAGB7XpTHYj0K2oYkopUO6t4HwextVI8qORbbaGVj
-         EcG+otqi5GlQjjflDzYc/8/cPtEpyqO3dNxlnzJKfu+IR7lNPe3753enKC7p/QIJaoQB
-         E5bNM6wedRbxPbQly/PW5sdWT1jhLumZ1DhChya1ZXjop4FkX/srSN03RigmnkAbxSQy
-         DsSFdZpZENI96/TGkG9xn3EbM1mQlUIGBUGMiA696nNZ5U+rNv3/rX/Ged9OUqbcn0oA
-         2C4qiqpazawaBhaYDkL8Mltvia8Eze08LMWcaSxYL81rjiQFUnfKupEslHqjwoJoipBd
-         dhMw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=XBTdao9jI2D9lmUstuUU/m3zazcNfOzNZk+VV+cPROc=;
+        b=o2agCgrxWu1S/e5lz0xVtEak+ZjQkhVy9NqMyYFzMyY9ik/F5+gNKctB0njKq7ces1
+         aI/9JWwLMVlb+SvDL4nLGYceD8GUnBuB/ONF0LmL/uiVr3LrEJ/UZM7qBmuRV19R/Lqq
+         eEg/JAcATqtsVoCvUWoIIqBN/6e5wq5qRQfvABEdDppWnVMgzARscEEzZjgQeVUdVG5M
+         fxerWuCIAL3EyhOtgbvIVu58ec4jw1A/ts/oS3qgv6TNXThW00V0lAflUITHPoQp0bs6
+         yWv0l3EIHNotko3JivWOqOdwgXH7rq89XnKq9MNou+P2mCs5gQDzXfocQIhR/IjQ0aaJ
+         m8dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ODFzchJR5kzOOfH4oglWE4R0LrU8T2pOGN5A8BVCo3U=;
-        b=TEUT3C4AVKWBsMxU7TjH7OcjcJvLzc0le1EDTYMHQXJQrrV9EVD/IF+jjrUqcsigrc
-         PkM0JyCyNm1TJWaEFywmJtr402dP9DCgMq8zopb4iTmatIDIq79OTN/9bj82EbInzGL0
-         bNtI9xwAKgAxXa8djmWJAH1ZwLuuHcGBZCzfkvWb9+ikJU3TcAvHB1N/XYvQq36f2TsW
-         l4m/XkiSX7JvbrQ1xaAR3px3wOvJq0bq7Ttqa45ubjE506vvSGNcse2crvPQj5MBk4G9
-         XCz8uSoeBv7O6EsNnOsixtfp0uaRtLa1qSRKWseqBLlM+Jos3NTrIM0bL0ZlksOGzi48
-         iF6g==
-X-Gm-Message-State: AOAM532t4AqGy8iUuqbVLUaJ6sQzblntbxvVDfzqQEFweY9F1pJdtTAM
-        j7+8GoXnZ1UCEJhK10hL+XNaZ1UdNSfJtZ3G/YtTbQ==
-X-Google-Smtp-Source: ABdhPJwmuOvaNZWgsnAQnzJtXTjwwmG83FNEFBIyD4x+uWELL3Nws5M3TxO3jqYqbmSel0TB3jot31p6pdHCt7GwWqw=
-X-Received: by 2002:a92:cd8b:0:b0:2c9:ded9:f20d with SMTP id
- r11-20020a92cd8b000000b002c9ded9f20dmr3149531ilb.300.1649221334940; Tue, 05
- Apr 2022 22:02:14 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XBTdao9jI2D9lmUstuUU/m3zazcNfOzNZk+VV+cPROc=;
+        b=RaG2oI9zchAbQ8StOKgKJM4m8kFwVLmYaiWfH8BhPRFLnV4daiDR1WjVBIo5pCTq5G
+         E9pNV4D7NXGvyzrJ4avTzpfKz7MUuvP0T6WbBDjXZ2Ur8Ct9scOessk0vAek7HL671Pc
+         7ERFGhKVUbRSdBSpWFWHXLP5mUZ1hfsK3Jg6fkOpOGZmTgGoCMS/554lMk8NKjM9+sAF
+         Ph6cq5L9eRzTj4CVwPj6acyKfUyaBCvmPEU4QF9sup+T2kaDK5PsVTVDAMx4OsPDMQnV
+         e2y8HVguIXPJ6PbId8fbGawR91876ACW+DpeU6RAZspRARfVUQYs/OUSLlaMd5DPv+aB
+         rpGw==
+X-Gm-Message-State: AOAM531Xe8/J+CrCycYZXi6Ig1Wo7F4XT+tsPUkIB0WotegtkQcI2jCf
+        q3tO6kQDP0EPhkZWtghf90U=
+X-Google-Smtp-Source: ABdhPJytkJ6f/uulz3QgK3M86/NPKKlfRJs2XNZcJl7LiOP0j6bY87u1/erao2AY0FPEkWDZU/f7xw==
+X-Received: by 2002:a63:cf12:0:b0:399:38a7:5063 with SMTP id j18-20020a63cf12000000b0039938a75063mr5592832pgg.311.1649220964192;
+        Tue, 05 Apr 2022 21:56:04 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-9.three.co.id. [180.214.233.9])
+        by smtp.gmail.com with ESMTPSA id s24-20020a17090a441800b001ca9b5724a6sm3858330pjg.36.2022.04.05.21.55.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Apr 2022 21:56:03 -0700 (PDT)
+Message-ID: <bc258b22-71b9-c8af-4045-21d424d978b8@gmail.com>
+Date:   Wed, 6 Apr 2022 11:55:56 +0700
 MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
- <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
- <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
- <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
-In-Reply-To: <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From:   Wei Xu <weixugc@google.com>
-Date:   Tue, 5 Apr 2022 22:02:03 -0700
-Message-ID: <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] Documentation: arch_pgtable_helpers: demote pgtable list
+ headings
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20220326131313.691027-1-bagasdotme@gmail.com>
+ <87k0c3ecc1.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87k0c3ecc1.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
->
-> Wei Xu <weixugc@google.com> writes:
->
-> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >>
-> >> Wei Xu <weixugc@google.com> writes:
-> >>
-> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >>
-> >> >> Wei Xu <weixugc@google.com> writes:
-> >> >>
-> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
-> >> >> >>
-> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
-> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
-> >> >> >> >
-> >> >>
-> >> >> [snip]
-> >> >>
-> >> >> >> > Possible Extensions:
-> >> >> >> > --------------------
-> >> >> >> >
-> >> >> >> > - This interface can be extended with an additional parameter or flags
-> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
-> >> >> >> >   file, anon, ..).
-> >> >> >> >
-> >> >> >> > - The interface can also be extended with a node mask to reclaim from
-> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
-> >> >> >> >   tiering systens.
-> >> >> >> >
-> >> >> >> > - A similar per-node interface can also be added to support proactive
-> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
-> >> >> >> >
-> >> >> >> > For now, let's keep things simple by adding the basic functionality.
-> >> >> >>
-> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
-> >> >> >> interface. But it is not really clear who do you want to add flags on
-> >> >> >> top of it?
-> >> >> >>
-> >> >> >> I am not really sure we really need a node aware interface for memcg.
-> >> >> >> The global reclaim interface will likely need a different node because
-> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
-> >> >> >
-> >> >> > A nodemask argument for memory.reclaim can be useful for memory
-> >> >> > tiering between NUMA nodes with different performance.  Similar to
-> >> >> > proactive reclaim, it can allow a userspace daemon to drive
-> >> >> > memcg-based proactive demotion via the reclaim-based demotion
-> >> >> > mechanism in the kernel.
-> >> >>
-> >> >> I am not sure whether nodemask is a good way for demoting pages between
-> >> >> different types of memory.  For example, for a system with DRAM and
-> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
-> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
-> >> >>
-> >> >> In general, I have no objection to the idea in general.  But we should
-> >> >> have a clear and consistent interface.  Per my understanding the default
-> >> >> memcg interface is for memory, regardless of memory types.  The memory
-> >> >> reclaiming means reduce the memory usage, regardless of memory types.
-> >> >> We need to either extending the semantics of memory reclaiming (to
-> >> >> include memory demoting too), or add another interface for memory
-> >> >> demoting.
-> >> >
-> >> > Good point.  With the "demote pages during reclaim" patch series,
-> >> > reclaim is already extended to demote pages as well.  For example,
-> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
-> >> > shrink_page_list() can demote pages instead of reclaiming pages.
-> >>
-> >> These are in-kernel implementation, not the ABI.  So we still have
-> >> the opportunity to define the ABI now.
-> >>
-> >> > Currently, demotion is disabled for memcg reclaim, which I think can
-> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
-> >> > like to suggest that we extend the semantics of memory.reclaim to
-> >> > cover memory demotion as well.  A flag can be used to enable/disable
-> >> > the demotion behavior.
-> >>
-> >> If so,
-> >>
-> >> # echo A > memory.reclaim
-> >>
-> >> means
-> >>
-> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
-> >>    used or not.
-> >>
-> >> or
-> >>
-> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
-> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
-> >>    number is "A".
-> >>
-> >> For me, a) looks more reasonable.
-> >>
-> >
-> > We can use a DEMOTE flag to control the demotion behavior for
-> > memory.reclaim.  If the flag is not set (the default), then
-> > no_demotion of scan_control can be set to 1, similar to
-> > reclaim_pages().
->
-> If we have to use a flag to control the behavior, I think it's better to
-> have a separate interface (e.g. memory.demote).  But do we really need b)?
->
+On 05/04/22 23.15, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> Demote pgtable list headings from title heading to chapter heading.
+> 
+> This is a classic example of the sort of changelog that says *what* the
+> patch does (which we can also see from the patch itself) but not *why*.
+> Why do these headings need to be changed?
+> 
 
-I am fine with either approach: a separate interface similar to
-memory.reclaim, but dedicated to demotion, or multiplexing
-memory.reclaim for demotion with a flag.
+In this case, before this patch, generated table of contents for
+vm/ contains:
 
-My understanding is that with the "demote pages during reclaim"
-support, b) is the expected behavior, or more precisely, pages that
-cannot be demoted may be freed or swapped out.  This is reasonable.
-Demotion-only can also be supported via some arguments to the
-interface and changes to demotion code in the kernel.  After all, this
-interface is being designed to be extensible based on the discussions
-so far.
+- Active MM
+- Architecture Page Table Helpers
+- PTE Page Table Helpers
+- PMD Page Table Helpers
+- PUD Page Table Helpers
+- HugeTLB Page Table Helpers
+- SWAP Page Table Helpers
+- Memory Balancing
+...
 
-> > The question is then whether we want to rename memory.reclaim to
-> > something more general.  I think this name is fine if reclaim-based
-> > demotion is an accepted concept.
->
-> Best Regards,
-> Huang, Ying
+The headings for PTE, PMD, PUD, HugeTLB, and SWAP Page Table Helpers
+should be subheading of Architecture Page Table Helpers, but these
+were marked up with page title heading instead of chapter heading.
+
+-- 
+An old man doll... just what I always wanted! - Clara
