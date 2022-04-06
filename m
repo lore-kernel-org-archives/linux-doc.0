@@ -2,213 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9896FC43219
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 16:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFB5C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 16:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237155AbiDFQIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 12:08:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57092 "EHLO
+        id S237554AbiDFQVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 12:21:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237972AbiDFQIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 12:08:20 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3352E1970
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 21:24:24 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id i10-20020a17090a2aca00b001ca56c9ab16so3212349pjg.1
-        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 21:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EeYSfZ5xH+IlAcJ+xTcG79IheqB96eU+egCEaXP6x+E=;
-        b=AHF1rXqXob8GH6Q42EmoIPDa3FIN/ShW5cryQ1NF5CsnI3Q4IBqEluwLsG6COLPDx0
-         Z3SWGnP4ihH7x8YNVj62yYfO/96aZU1+aPoiUYoyc1wtms/QghNZFvN1KvjESswg8R2y
-         ZQ1Bqo3CjtDWo0i3JnzVofQ3E0Ldc26N4vNQhVuTq++0u02l+131z6Vr9gQXIBGSmEeg
-         Hykj0SsCvX1UZh9VrWSUeejNNeT6m2/JJx+vx00vsGB7nmgeX0TCZVIbjdYLk7ANs7oO
-         GelNP2wxknJhqLGogdUwWbHfeTPsYaPkfdbjig+bKUNEuOXbK621hVR7CMejpJ8ViiBo
-         e3WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EeYSfZ5xH+IlAcJ+xTcG79IheqB96eU+egCEaXP6x+E=;
-        b=vmDSZDTC0RDjzgdj1nPXCpAFF4P31sCzhmR2f554xxgQcMh5S+li0Gfz42yKwp/GOr
-         SwbibaYbNMbHOiLCZe1cp/v8Gsxl8GVygXLMZXhJsinbMRwgv+ExdAcKDd3Q/8zu+Tuh
-         L9C2SyNpNGBy6n/8y6rZn0vyuUbajKomzHYXqpqqoTKSNh/+EvcFcA6D6rYEFo2Gvlw9
-         UUle9/zexo/fIxuVtdcsp+2O1kbbWZ+oUYi4ZHp2GeMJxmLX21AZRkWk0LqCuFkzH00i
-         9u8lt22YQ2+S+Kjuv4Lb32X6zawXtjFC7nurQpHic+oCYLbMKQp8o/CQLaeCf/xT3NCf
-         SaQA==
-X-Gm-Message-State: AOAM530fKOWvJPhsqYdc12eHEd6dliloQ79xufxe+BPHnWn1LUzZYmsd
-        rdmfaZT9kYKXmx/mdXH6bd9jBw==
-X-Google-Smtp-Source: ABdhPJxtDZ3YxYOmx1j8+U4YCNNKFsjDW1w53GcKKllZ/RrkFc1eKLttBEbYltHxtMDJirkkE7liRQ==
-X-Received: by 2002:a17:90b:4a01:b0:1c9:a552:f487 with SMTP id kk1-20020a17090b4a0100b001c9a552f487mr8001917pjb.68.1649219063598;
-        Tue, 05 Apr 2022 21:24:23 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d008:8bfd:2c57:ced7:5f4:42e2])
-        by smtp.gmail.com with ESMTPSA id l27-20020a63701b000000b0038233e59422sm14437523pgc.84.2022.04.05.21.24.19
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 05 Apr 2022 21:24:22 -0700 (PDT)
-From:   Arun Ajith S <aajith@arista.com>
-To:     netdev@vger.kernel.org
-Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, dsahern@kernel.org,
-        yoshfuji@linux-ipv6.org, gilligan@arista.com,
-        noureddine@arista.com, aajith@arista.com
-Subject: [PATCH net-next] net/ipv6: Introduce accept_unsolicited_na knob to implement router-side changes for RFC9131
-Date:   Wed,  6 Apr 2022 09:53:39 +0530
-Message-Id: <20220406042339.10986-1-aajith@arista.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+        with ESMTP id S237542AbiDFQVX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 12:21:23 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236B02DCCAA;
+        Tue,  5 Apr 2022 19:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649213399; x=1680749399;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=z3FJMwq8joZOXA61vyLoUR6apgy9wvWVJ1HAf2QRlg8=;
+  b=Sq8QeBpXEQhWMifulmiCoQiTwmk46+APSOl/ZDTE40CRdZAaoLVlUJCG
+   KT3rlX3S94SJm5x1NyO6BG56UqjHQJcp/eq0GNZFQ8b6Mup+s6mzT97aa
+   f3fTUB6lAySUKqTyjLPJbQsMcITXIcgLfbkTaT2KvAfLHjw8j5zqlJbf7
+   ThdBvpMhKTazhbbaO5E6mTIpGdVfBzmp5oLAlP9Te5jibUooOO2p4JnlD
+   rRyWAfDLAxVsOCDjIRxsqJR8TIHdx2LfiyOJXam85qmghH97RyW7+GQCz
+   Dky65VskAxeUFm5CXtbJA5/Ige4xX2nDlduOUcJ8eybQVOxLEW/Pac3bm
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10308"; a="240867137"
+X-IronPort-AV: E=Sophos;i="5.90,238,1643702400"; 
+   d="scan'208";a="240867137"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 19:49:58 -0700
+X-IronPort-AV: E=Sophos;i="5.90,238,1643702400"; 
+   d="scan'208";a="570305329"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.94])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 19:49:53 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Wei Xu <weixugc@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+        <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+        <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+        <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+        <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+Date:   Wed, 06 Apr 2022 10:49:51 +0800
+In-Reply-To: <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+        (Wei Xu's message of "Tue, 5 Apr 2022 18:07:49 -0700")
+Message-ID: <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new neighbour cache entry in STALE state for routers on receiving
-an unsolicited (gratuitous) neighbour advertisement with
-source-link-layer-address option specified.
-This is similar to the arp_accept configuration for IPv4.
-A new sysctl endpoint is created to turn on this behaviour:
-/proc/sys/net/ipv6/conf/interface/accept_unsolicited_na.
+Wei Xu <weixugc@google.com> writes:
 
-Signed-off-by: Arun Ajith S <aajith@arista.com>
-Tested-by: Arun Ajith S <aajith@arista.com>
----
- Documentation/networking/ip-sysctl.rst | 23 +++++++++++++++++++++++
- include/linux/ipv6.h                   |  1 +
- include/uapi/linux/ipv6.h              |  1 +
- net/ipv6/addrconf.c                    |  8 ++++++++
- net/ipv6/ndisc.c                       | 20 +++++++++++++++++++-
- 5 files changed, 52 insertions(+), 1 deletion(-)
+> On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+>>
+>> Wei Xu <weixugc@google.com> writes:
+>>
+>> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+>> >>
+>> >> Wei Xu <weixugc@google.com> writes:
+>> >>
+>> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+>> >> >>
+>> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+>> >> >> > From: Shakeel Butt <shakeelb@google.com>
+>> >> >> >
+>> >>
+>> >> [snip]
+>> >>
+>> >> >> > Possible Extensions:
+>> >> >> > --------------------
+>> >> >> >
+>> >> >> > - This interface can be extended with an additional parameter or flags
+>> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+>> >> >> >   file, anon, ..).
+>> >> >> >
+>> >> >> > - The interface can also be extended with a node mask to reclaim from
+>> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+>> >> >> >   tiering systens.
+>> >> >> >
+>> >> >> > - A similar per-node interface can also be added to support proactive
+>> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+>> >> >> >
+>> >> >> > For now, let's keep things simple by adding the basic functionality.
+>> >> >>
+>> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+>> >> >> interface. But it is not really clear who do you want to add flags on
+>> >> >> top of it?
+>> >> >>
+>> >> >> I am not really sure we really need a node aware interface for memcg.
+>> >> >> The global reclaim interface will likely need a different node because
+>> >> >> we do not want to make this CONFIG_MEMCG constrained.
+>> >> >
+>> >> > A nodemask argument for memory.reclaim can be useful for memory
+>> >> > tiering between NUMA nodes with different performance.  Similar to
+>> >> > proactive reclaim, it can allow a userspace daemon to drive
+>> >> > memcg-based proactive demotion via the reclaim-based demotion
+>> >> > mechanism in the kernel.
+>> >>
+>> >> I am not sure whether nodemask is a good way for demoting pages between
+>> >> different types of memory.  For example, for a system with DRAM and
+>> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+>> >> is the meaning of specifying PMEM node? reclaiming to disk?
+>> >>
+>> >> In general, I have no objection to the idea in general.  But we should
+>> >> have a clear and consistent interface.  Per my understanding the default
+>> >> memcg interface is for memory, regardless of memory types.  The memory
+>> >> reclaiming means reduce the memory usage, regardless of memory types.
+>> >> We need to either extending the semantics of memory reclaiming (to
+>> >> include memory demoting too), or add another interface for memory
+>> >> demoting.
+>> >
+>> > Good point.  With the "demote pages during reclaim" patch series,
+>> > reclaim is already extended to demote pages as well.  For example,
+>> > can_reclaim_anon_pages() returns true if demotion is allowed and
+>> > shrink_page_list() can demote pages instead of reclaiming pages.
+>>
+>> These are in-kernel implementation, not the ABI.  So we still have
+>> the opportunity to define the ABI now.
+>>
+>> > Currently, demotion is disabled for memcg reclaim, which I think can
+>> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+>> > like to suggest that we extend the semantics of memory.reclaim to
+>> > cover memory demotion as well.  A flag can be used to enable/disable
+>> > the demotion behavior.
+>>
+>> If so,
+>>
+>> # echo A > memory.reclaim
+>>
+>> means
+>>
+>> a) "A" bytes memory are freed from the memcg, regardless demoting is
+>>    used or not.
+>>
+>> or
+>>
+>> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+>>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+>>    number is "A".
+>>
+>> For me, a) looks more reasonable.
+>>
+>
+> We can use a DEMOTE flag to control the demotion behavior for
+> memory.reclaim.  If the flag is not set (the default), then
+> no_demotion of scan_control can be set to 1, similar to
+> reclaim_pages().
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index b0024aa7b051..92e870693436 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -2467,6 +2467,29 @@ drop_unsolicited_na - BOOLEAN
- 
- 	By default this is turned off.
- 
-+accept_unsolicited_na - BOOLEAN
-+	Add a new neighbour cache entry in STALE state for routers on receiving an
-+	unsolicited neighbour advertisement with source-link-layer address option
-+	specified. This is as per router-side behavior documented in RFC9131.
-+	This has lower precedence than drop_unsolicited_na.
-+	 drop   accept  fwding                   behaviour
-+	 ----   ------  ------  ----------------------------------------------
-+	    1        X       X  Drop NA packet and don't pass up the stack
-+	    0        0       X  Pass NA packet up the stack, don't update NC
-+	    0        1       0  Pass NA packet up the stack, don't update NC
-+	    0        1       1  Pass NA packet up the stack, and add a STALE
-+	                          NC entry
-+	This will optimize the return path for the initial off-link communication
-+	that is initiated by a directly connected host, by ensuring that
-+	the first-hop router which turns on this setting doesn't have to
-+	buffer the initial return packets to do neighbour-solicitation.
-+	The prerequisite is that the host is configured to send
-+	unsolicited neighbour advertisements on interface bringup.
-+	This setting should be used in conjunction with the ndisc_notify setting
-+	on the host to satisfy this prerequisite.
-+
-+	By default this is turned off.
-+
- enhanced_dad - BOOLEAN
- 	Include a nonce option in the IPv6 neighbor solicitation messages used for
- 	duplicate address detection per RFC7527. A received DAD NS will only signal
-diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
-index 16870f86c74d..918bfea4ef5f 100644
---- a/include/linux/ipv6.h
-+++ b/include/linux/ipv6.h
-@@ -61,6 +61,7 @@ struct ipv6_devconf {
- 	__s32		suppress_frag_ndisc;
- 	__s32		accept_ra_mtu;
- 	__s32		drop_unsolicited_na;
-+	__s32		accept_unsolicited_na;
- 	struct ipv6_stable_secret {
- 		bool initialized;
- 		struct in6_addr secret;
-diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
-index d4178dace0bf..549ddeaf788b 100644
---- a/include/uapi/linux/ipv6.h
-+++ b/include/uapi/linux/ipv6.h
-@@ -194,6 +194,7 @@ enum {
- 	DEVCONF_IOAM6_ID,
- 	DEVCONF_IOAM6_ID_WIDE,
- 	DEVCONF_NDISC_EVICT_NOCARRIER,
-+	DEVCONF_ACCEPT_UNSOLICITED_NA,
- 	DEVCONF_MAX
- };
- 
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index b22504176588..e8a50f2c08d7 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -5569,6 +5569,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
- 	array[DEVCONF_IOAM6_ID] = cnf->ioam6_id;
- 	array[DEVCONF_IOAM6_ID_WIDE] = cnf->ioam6_id_wide;
- 	array[DEVCONF_NDISC_EVICT_NOCARRIER] = cnf->ndisc_evict_nocarrier;
-+	array[DEVCONF_ACCEPT_UNSOLICITED_NA] = cnf->accept_unsolicited_na;
- }
- 
- static inline size_t inet6_ifla6_size(void)
-@@ -7019,6 +7020,13 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.extra1		= (void *)SYSCTL_ZERO,
- 		.extra2		= (void *)SYSCTL_ONE,
- 	},
-+	{
-+		.procname	= "accept_unsolicited_na",
-+		.data		= &ipv6_devconf.accept_unsolicited_na,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+	},
- 	{
- 		/* sentinel */
- 	}
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index fcb288b0ae13..254addad0dd3 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -979,6 +979,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 	struct inet6_dev *idev = __in6_dev_get(dev);
- 	struct inet6_ifaddr *ifp;
- 	struct neighbour *neigh;
-+	bool create_neigh;
- 
- 	if (skb->len < sizeof(struct nd_msg)) {
- 		ND_PRINTK(2, warn, "NA: packet too short\n");
-@@ -999,6 +1000,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 	/* For some 802.11 wireless deployments (and possibly other networks),
- 	 * there will be a NA proxy and unsolicitd packets are attacks
- 	 * and thus should not be accepted.
-+	 * drop_unsolicited_na takes precedence over accept_unsolicited_na
- 	 */
- 	if (!msg->icmph.icmp6_solicited && idev &&
- 	    idev->cnf.drop_unsolicited_na)
-@@ -1039,7 +1041,23 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 		in6_ifa_put(ifp);
- 		return;
- 	}
--	neigh = neigh_lookup(&nd_tbl, &msg->target, dev);
-+	/* RFC 9131 updates original Neighbour Discovery RFC 4861.
-+	 * An unsolicited NA can now create a neighbour cache entry
-+	 * on routers if it has Target LL Address option.
-+	 *
-+	 * drop   accept  fwding                   behaviour
-+	 * ----   ------  ------  ----------------------------------------------
-+	 *    1        X       X  Drop NA packet and don't pass up the stack
-+	 *    0        0       X  Pass NA packet up the stack, don't update NC
-+	 *    0        1       0  Pass NA packet up the stack, don't update NC
-+	 *    0        1       1  Pass NA packet up the stack, and add a STALE
-+	 *                          NC entry
-+	 * Note that we don't do a (daddr == all-routers-mcast) check.
-+	 */
-+	create_neigh = !msg->icmph.icmp6_solicited && lladdr &&
-+		       idev && idev->cnf.forwarding &&
-+		       idev->cnf.accept_unsolicited_na;
-+	neigh = __neigh_lookup(&nd_tbl, &msg->target, dev, create_neigh);
- 
- 	if (neigh) {
- 		u8 old_flags = neigh->flags;
--- 
-2.32.0 (Apple Git-132)
+If we have to use a flag to control the behavior, I think it's better to
+have a separate interface (e.g. memory.demote).  But do we really need b)?
 
+> The question is then whether we want to rename memory.reclaim to
+> something more general.  I think this name is fine if reclaim-based
+> demotion is an accepted concept.
+
+Best Regards,
+Huang, Ying
