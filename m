@@ -2,176 +2,291 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F338FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 17:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E25B9C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 21:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238794AbiDFRUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 13:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39436 "EHLO
+        id S234829AbiDFVXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 17:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238605AbiDFRUh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 13:20:37 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A4190B50
-        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 08:18:33 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id c42so3047268edf.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 08:18:33 -0700 (PDT)
+        with ESMTP id S235591AbiDFVWQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 17:22:16 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071EF1B2153
+        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 13:16:40 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id d4so2113859iln.6
+        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 13:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nKwkK10Z219eaNtTvbaclsEiamXSVs+FNo2ty5mHsKo=;
-        b=S1op2j+cyW9lQWw00SOcofbFHdT3E57y5jJKpzzhgK6+y+jrtuTVbjmUjwbeu6IkUN
-         78P1TjwAAvLxVD0Ju8UifXumvgVrNqiVvEIVfizpxQryRR07d2Qkk+VBe+3x9DcvNQhl
-         Lox9myyWXfC5I2yQ9jS5VmipsXUMdqstiVlkA=
+        bh=zeoWEqMCUxiyPlVz6AJGZgs8KEkBrSwU3l3ZTkJ4SDg=;
+        b=TFkVz4+ZAUctG+Jq7AuN8uLpy3f4I7Drtohqwfg8l/R65Q4bXHLQE263Z/vO1xDAcS
+         PY37fYo5q2/G0Qa6b+AUKPQPOpBCNryGYbnTnOrlkWYSN5gn0uYE1gZNuR4LMUidlJfs
+         oebfXoVKkEgWG28+VmhQs3XWl5ZhJ6DjnJ2H92lsdt0IQnLfNM95ipTfpxyCD2PyeDHx
+         k7+yikhlo8+Id719cmCpJOD1V14NULA0xESDyIk7knzX356T6eVKWfyBcZRBBK4CpaDt
+         PzMCHpkYydAKVFWHz5yDgl5wmKNi8j7RXW/49RmGSVEtPB3mDs6GyASoeW/65GvwB2by
+         cT4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nKwkK10Z219eaNtTvbaclsEiamXSVs+FNo2ty5mHsKo=;
-        b=tk4LVZKOK7g7GJUUGBHo2/Cuv5M2qB0DElLL4kXALqkPav/zgnr4OAQg7TMUK3uXG7
-         DCmOfbPa+jjoSb/uw7E24hSD1NOiYLJfEA5Cgv2Ngoeh4GkayqX3/qEcGsOBdEt2dxLp
-         fOECx2+8bmaWCSFdPeNzTPS5eU/ep04q6r7sdRyNyvlEgFtLr8d20x4r9QER5JnKOcNc
-         3DzIoX2C7AIWoQyXC85ALnZxbNG/NnDYl243ugFUH5LQUAbrKeQvCxjaAFt8AgE/Mw6X
-         cye8BTn8DRlir2wcPZ8abUOu/cb4YbDkkfAS2NzxiO9AXO8ByL3cOwQ5Ws4B0XWozhIZ
-         hIcw==
-X-Gm-Message-State: AOAM532RUar6lMgYfrKG7lRhYMFJQTgFgkPuw8F3B/bNraZyEHpUgSrT
-        k1/w5PK5dv6CY3YQMCuwoB5aEmuglF24zix5+ck=
-X-Google-Smtp-Source: ABdhPJz/y09tOXVq0g3F39K7F+5+IR0Z1ohh8fmXEaUG2lvdO+rF+SwPwhs87odxRAcw7OYKdym9XQ==
-X-Received: by 2002:aa7:cd81:0:b0:410:d64e:aa31 with SMTP id x1-20020aa7cd81000000b00410d64eaa31mr9319145edv.167.1649258311260;
-        Wed, 06 Apr 2022 08:18:31 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
-        by smtp.gmail.com with ESMTPSA id c13-20020a17090654cd00b006e0db351d01sm6721462ejp.124.2022.04.06.08.18.26
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Apr 2022 08:18:28 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id b19so3702783wrh.11
-        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 08:18:26 -0700 (PDT)
-X-Received: by 2002:a5d:5551:0:b0:203:f916:e319 with SMTP id
- g17-20020a5d5551000000b00203f916e319mr7123258wrw.422.1649258305814; Wed, 06
- Apr 2022 08:18:25 -0700 (PDT)
+        bh=zeoWEqMCUxiyPlVz6AJGZgs8KEkBrSwU3l3ZTkJ4SDg=;
+        b=WXRWqSkaHURem8brRvthdXqCmo/aVprhBDyBZe309ZP5bSAfM/H0qWQ76xx4htdc8o
+         cinnvaKHf4Jeg+EZ3VSmBcFHox5lyqCSwaRhxL9v/dzL6u1KAo/sQGtzT/5HAP6zcCwa
+         0heSUq4FLhY5yCVoosFDRpppS6KiqNzqw2GZ4W1kBA44rkQwnyIHJ5ECUT1hI6CD5dNZ
+         eXSBvVeoTOEhFhqyLZOAM9LWxbouZICOY5PGmctE2/QVRr6O8eQaDfLcOQFSutdJ3ICE
+         kLPuUKMLfgT8LtXYAv6Vez/twjpxCQlYOdduUwwMq3mQl/IfCHGyIIjpOzR0ve5qYxfr
+         OatA==
+X-Gm-Message-State: AOAM531uBK4S6NfPXZzOzUX1BOf1rJKJZAp9STSzzJb1TOorCQYB+pJA
+        DbbLO7CCBpN2nS5FYOgd07XQ35B3UqvJyw7TiDOl3A==
+X-Google-Smtp-Source: ABdhPJxAYShAcvblkoS8w8ywOORGKh9ljOGiYkcgvgh2oQXQAcGukFb1RbTrD//sy+JJmv14q9dWsi31LAsW8kVya7Q=
+X-Received: by 2002:a92:cd8b:0:b0:2c9:ded9:f20d with SMTP id
+ r11-20020a92cd8b000000b002c9ded9f20dmr4671879ilb.300.1649276199186; Wed, 06
+ Apr 2022 13:16:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org> <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
-In-Reply-To: <CAD=FV=WkgcJA6-niUh0L5_jLNSS=Hv0xrR5QZghPmNriekH7XA@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 6 Apr 2022 08:18:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xa4wW2AH1RzwQRiTZt__Eptr2+Li5SmfZyUjTvNTkOcA@mail.gmail.com>
-Message-ID: <CAD=FV=Xa4wW2AH1RzwQRiTZt__Eptr2+Li5SmfZyUjTvNTkOcA@mail.gmail.com>
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-pwm <linux-pwm@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+ <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+ <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+ <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+ <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8u77yazFpc2R216j6ObAiANb0Lfxt7DcT9P=3eg60u9Q@mail.gmail.com>
+ <8735iqvbov.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <8735iqvbov.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Wei Xu <weixugc@google.com>
+Date:   Wed, 6 Apr 2022 13:16:27 -0700
+Message-ID: <CAAPL-u8tHSPe03bDuU3+mXbEU-3dKgYQt=jFOHdMq8kwjQmGqQ@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
-
-On Thu, Mar 3, 2022 at 2:10 PM Doug Anderson <dianders@chromium.org> wrote:
+On Wed, Apr 6, 2022 at 1:49 AM Huang, Ying <ying.huang@intel.com> wrote:
 >
-> Hi,
+> Wei Xu <weixugc@google.com> writes:
 >
-> On Thu, Mar 3, 2022 at 1:41 PM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
+> > On Tue, Apr 5, 2022 at 11:32 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >>
+> >> Wei Xu <weixugc@google.com> writes:
+> >>
+> >> > On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >>
+> >> >> Wei Xu <weixugc@google.com> writes:
+> >> >>
+> >> >> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >> >>
+> >> >> >> Wei Xu <weixugc@google.com> writes:
+> >> >> >>
+> >> >> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+> >> >> >> >>
+> >> >> >> >> Wei Xu <weixugc@google.com> writes:
+> >> >> >> >>
+> >> >> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+> >> >> >> >> >>
+> >> >> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+> >> >> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
+> >> >> >> >> >> >
+> >> >> >> >>
+> >> >> >> >> [snip]
+> >> >> >> >>
+> >> >> >> >> >> > Possible Extensions:
+> >> >> >> >> >> > --------------------
+> >> >> >> >> >> >
+> >> >> >> >> >> > - This interface can be extended with an additional parameter or flags
+> >> >> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+> >> >> >> >> >> >   file, anon, ..).
+> >> >> >> >> >> >
+> >> >> >> >> >> > - The interface can also be extended with a node mask to reclaim from
+> >> >> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+> >> >> >> >> >> >   tiering systens.
+> >> >> >> >> >> >
+> >> >> >> >> >> > - A similar per-node interface can also be added to support proactive
+> >> >> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+> >> >> >> >> >> >
+> >> >> >> >> >> > For now, let's keep things simple by adding the basic functionality.
+> >> >> >> >> >>
+> >> >> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+> >> >> >> >> >> interface. But it is not really clear who do you want to add flags on
+> >> >> >> >> >> top of it?
+> >> >> >> >> >>
+> >> >> >> >> >> I am not really sure we really need a node aware interface for memcg.
+> >> >> >> >> >> The global reclaim interface will likely need a different node because
+> >> >> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
+> >> >> >> >> >
+> >> >> >> >> > A nodemask argument for memory.reclaim can be useful for memory
+> >> >> >> >> > tiering between NUMA nodes with different performance.  Similar to
+> >> >> >> >> > proactive reclaim, it can allow a userspace daemon to drive
+> >> >> >> >> > memcg-based proactive demotion via the reclaim-based demotion
+> >> >> >> >> > mechanism in the kernel.
+> >> >> >> >>
+> >> >> >> >> I am not sure whether nodemask is a good way for demoting pages between
+> >> >> >> >> different types of memory.  For example, for a system with DRAM and
+> >> >> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+> >> >> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
+> >> >> >> >>
+> >> >> >> >> In general, I have no objection to the idea in general.  But we should
+> >> >> >> >> have a clear and consistent interface.  Per my understanding the default
+> >> >> >> >> memcg interface is for memory, regardless of memory types.  The memory
+> >> >> >> >> reclaiming means reduce the memory usage, regardless of memory types.
+> >> >> >> >> We need to either extending the semantics of memory reclaiming (to
+> >> >> >> >> include memory demoting too), or add another interface for memory
+> >> >> >> >> demoting.
+> >> >> >> >
+> >> >> >> > Good point.  With the "demote pages during reclaim" patch series,
+> >> >> >> > reclaim is already extended to demote pages as well.  For example,
+> >> >> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
+> >> >> >> > shrink_page_list() can demote pages instead of reclaiming pages.
+> >> >> >>
+> >> >> >> These are in-kernel implementation, not the ABI.  So we still have
+> >> >> >> the opportunity to define the ABI now.
+> >> >> >>
+> >> >> >> > Currently, demotion is disabled for memcg reclaim, which I think can
+> >> >> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+> >> >> >> > like to suggest that we extend the semantics of memory.reclaim to
+> >> >> >> > cover memory demotion as well.  A flag can be used to enable/disable
+> >> >> >> > the demotion behavior.
+> >> >> >>
+> >> >> >> If so,
+> >> >> >>
+> >> >> >> # echo A > memory.reclaim
+> >> >> >>
+> >> >> >> means
+> >> >> >>
+> >> >> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
+> >> >> >>    used or not.
+> >> >> >>
+> >> >> >> or
+> >> >> >>
+> >> >> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+> >> >> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+> >> >> >>    number is "A".
+> >> >> >>
+> >> >> >> For me, a) looks more reasonable.
+> >> >> >>
+> >> >> >
+> >> >> > We can use a DEMOTE flag to control the demotion behavior for
+> >> >> > memory.reclaim.  If the flag is not set (the default), then
+> >> >> > no_demotion of scan_control can be set to 1, similar to
+> >> >> > reclaim_pages().
+> >> >>
+> >> >> If we have to use a flag to control the behavior, I think it's better to
+> >> >> have a separate interface (e.g. memory.demote).  But do we really need b)?
+> >> >>
+> >> >
+> >> > I am fine with either approach: a separate interface similar to
+> >> > memory.reclaim, but dedicated to demotion, or multiplexing
+> >> > memory.reclaim for demotion with a flag.
+> >> >
+> >> > My understanding is that with the "demote pages during reclaim"
+> >> > support, b) is the expected behavior, or more precisely, pages that
+> >> > cannot be demoted may be freed or swapped out.  This is reasonable.
+> >> > Demotion-only can also be supported via some arguments to the
+> >> > interface and changes to demotion code in the kernel.  After all, this
+> >> > interface is being designed to be extensible based on the discussions
+> >> > so far.
+> >>
+> >> I think we should define the interface not from the current
+> >> implementation point of view, but from the requirement point of view.
+> >> For proactive reclaim, per my understanding, the requirement is,
+> >>
+> >>   we found that there's some cold pages in some workloads, so we can
+> >>   take advantage of the proactive reclaim to reclaim some pages so that
+> >>   other workload can use the freed memory.
+> >>
+> >> For proactive demotion, per my understanding, the requirement could be,
+> >>
+> >>   We found that there's some cold pages in fast memory (e.g. DRAM) in
+> >>   some workloads, so we can take advantage of the proactive demotion to
+> >>   demote some pages so that other workload can use the freed fast
+> >>   memory.  Given the DRAM partition support Tim (Cced) is working on.
+> >>
+> >> Why do we need something in the middle?
 > >
-> > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> > PMICs from Qualcomm. These PMICs typically comes with 1-8 LPG instances,
-> > with their output being routed to various other components, such as
-> > current sinks or GPIOs.
-> >
-> > Each LPG instance can operate on fixed parameters or based on a shared
-> > lookup-table, altering the duty cycle over time. This provides the means
-> > for hardware assisted transitions of LED brightness.
-> >
-> > A typical use case for the fixed parameter mode is to drive a PWM
-> > backlight control signal, the driver therefor allows each LPG instance
-> > to be exposed to the kernel either through the LED framework or the PWM
-> > framework.
-> >
-> > A typical use case for the LED configuration is to drive RGB LEDs in
-> > smartphones etc, for which the driver supports multiple channels to be
-> > ganged up to a MULTICOLOR LED. In this configuration the pattern
-> > generators will be synchronized, to allow for multi-color patterns.
-> >
-> > The idea of modelling this as a LED driver ontop of a PWM driver was
-> > considered, but setting the properties related to patterns does not fit
-> > in the PWM API. Similarly the idea of just duplicating the lower bits in
-> > a PWM and LED driver separately was considered, but this would not allow
-> > the PWM channels and LEDs to be configured on a per-board basis. The
-> > driver implements the more complex LED interface, and provides a PWM
-> > interface on the side of that, in the same driver.
-> >
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> >
-> > Changes since v13:
-> > - Fixed mixed space/tab indentation in documentation
-> > - Added 0 as to lpg_clk_rates[] to match the hardware state, to avoid + 1 in
-> >   lpg_apply_freq() and - 1 in lpg_pwm_get_state()
-> > - Don't divide with 0 if current clock is 0 in lpg_pwm_get_state(), just return
-> >   period = duty = 0 in this case
-> > - Renamed "clk" in struct lpg_channel to clk_sel
-> > - Renamed "pre_div" in struct lpg_channel to pre_div_sel
-> >
-> > Changes since v12:
-> > - Initialize ret in lpg_pwm_apply()
-> >
-> > Changes since v11:
-> > - Extended commit message to cover decision to put pwm_chip in the LED driver
-> > - Added Documentation, in particular for the hw_pattern format
-> > - Added a lock to synchronize requests from LED and PWM frameworks
-> > - Turned out that the 9bit selector differs per channel in some PMICs, so
-> >   replaced bitmask in lpg_data with lookup based on QPNP SUBTYPE
-> > - Fixed kerneldoc for the struct device pointer in struct lpg
-> > - Rewrote conditional in lut_free() to make it easier to read
-> > - Corrected and deduplicated max_period expression in lpg_calc_freq()
-> > - Extended nom/dom to numerator/denominator in lpg_calc_freq()
-> > - Replaced 1 << 9 with LPG_RESOLUTION in one more place in lpg_calc_freq()
-> > - Use FIELD_PREP() in lpg_apply_freq() as masks was introduced for reading the
-> >   same in get_state()
-> > - Cleaned up the pattern format, to allow specifying both low and high pause
-> >   with and without pingpong mode.
-> > - Only update frequency and pwm_value if PWM channel is enabled in lpg_pwm_apply
-> > - Make lpg_pwm_get_state() read the hardware state, in order to pick up e.g.
-> >   bootloader backlight configuration
-> > - Use devm_bitmap_zalloc() to allocate the lut_bitmap
-> > - Use dev_err_probe() in lpg_probe()
-> > - Extended Kconfig help text to mention module name and satisfy checkpatch
-> >
-> >  Documentation/leds/leds-qcom-lpg.rst |   76 ++
-> >  drivers/leds/Kconfig                 |    3 +
-> >  drivers/leds/Makefile                |    3 +
-> >  drivers/leds/rgb/Kconfig             |   18 +
-> >  drivers/leds/rgb/Makefile            |    3 +
-> >  drivers/leds/rgb/leds-qcom-lpg.c     | 1405 ++++++++++++++++++++++++++
-> >  6 files changed, 1508 insertions(+)
+> > Maybe there is some misunderstanding.  As you said, demotion is to
+> > free up fast memory.  If pages on fast memory cannot be demoted, but
+> > can still be reclaimed to free some fast memory, it is useful, too.
+> > Certainly, we can also add the support and configure the policy to
+> > only demote, not reclaim, from fast memory in such cases.
 >
-> Gets rid of the KASAN error and PWM still works for me, so happy to add back:
+> Yes.  I think it may be better to demote from fast memory nodes only in
+> such cases.  We just free some fast memory proactively.  But we may
+> reclaim from the slow memory node (which are demotion targets) if
+> necessary.
+
+It can be a policy choice whether to reclaim from slow memory nodes
+for demotion, or reclaim the pages directly from fast memory nodes, or
+do nothing, if there isn't enough free space on slow memory nodes for
+a proactive demotion request.  For example, if the file pages on fast
+memory are clean and cold enough, they can be discarded, which should
+be cheaper than reclaiming from slow memory nodes and then demoting
+these pages.  A policy for such behaviors can be specified as an
+argument to the proactive demotion interface when it is desired.
+
+> > In any case, we will not reclaim from slow memory for demotion,
 >
-> Tested-by: Douglas Anderson <dianders@chromium.org>
+> If there's no free pages in the slow memory to accommodate the demoted
+> pages, why not just reclaim some pages in the slow memory?  What are the
+> disadvantages to do that?
+
+We can certainly do what you have described through a policy argument.
+What I meant is that we will not ask directly via the proactive
+demotion interface to reclaim from slow memory nodes and count the
+reclaimed bytes as part of the requested bytes.
+
+> > if that is the middle thing you refer to.
 >
-> I haven't done a full review of the driver but I did a once-over of
-> the changes between v12 and v13 and they look good to me.
+> No.  I mean,
+>
+> If we reclaim "A" pages proactively, we will free "A" pages, maybe from
+> slow memory firstly.  The target is the total memory size of a memcg.
+>
+> If we demote "A" pages proactively, we will demote "A" pages from fast
+> memory to slow memory.  The target is the fast memory size of a memcg.
+> In the process, some slow memory may be reclaimed to accommodate the
+> demoted pages.
+>
+> For me, the middle thing is,
+>
+> If we demote some pages from fast memory to slow memory proactively and
+> free some pages from slow memory at the same time, the total number
+> (demote + free) is "A".  There's no clear target.  I think this is
+> confusing.  Per my understanding, you don't suggest this too.
 
-With v5.18-rc1 released, this seems like it would be an ideal time to
-land this driver and its bindings in a for-next branch for the leds
-subsystem. Is there anything blocking it? Are you the right person to
-land them? Ideally the bindings / driver (patch #1 and #2) from
-Satya's series [1] could land right atop it since it's ready too?
+I agree and don't suggest this middle thing, either.
 
-[1] https://lore.kernel.org/r/1645509309-16142-1-git-send-email-quic_c_skakit@quicinc.com/
-
-Thanks!
-
--Doug
+> > This is why nodemask is
+> > proposed for memory.reclaim to support the demotion use case.  With a
+> > separate memory.demote interface and memory tiering topology among
+> > NUMA nodes being well defined by the kernel and shared with the
+> > userspace, we can omit the nodemask argument.
+>
+> Yes.  Both seems work.
+>
+> Best Regards,
+> Huang, Ying
+>
+> >>
+> >> >> > The question is then whether we want to rename memory.reclaim to
+> >> >> > something more general.  I think this name is fine if reclaim-based
+> >> >> > demotion is an accepted concept.
+> >> >>
+> >> >> Best Regards,
+> >> >> Huang, Ying
