@@ -2,82 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E03FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 11:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489D7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 11:55:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230024AbiDFLzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 07:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34142 "EHLO
+        id S231230AbiDFL5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 07:57:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231251AbiDFLyy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 07:54:54 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF2FC2DBFE7;
-        Wed,  6 Apr 2022 00:16:42 -0700 (PDT)
-Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KYG2L3gttz67tDy;
-        Wed,  6 Apr 2022 15:13:30 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 6 Apr 2022 09:16:27 +0200
-Received: from [10.47.80.129] (10.47.80.129) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 08:16:26 +0100
-Message-ID: <febb03e4-ea1d-c7e1-58a6-fa564c902af0@huawei.com>
-Date:   Wed, 6 Apr 2022 08:16:25 +0100
+        with ESMTP id S231588AbiDFL4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 07:56:49 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E4923213D
+        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 18:08:01 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id k15so905355ils.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 18:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RgvBhB60r34bKOm2tCGx0FLu0SdJzIYZfN+oE6mYW4Y=;
+        b=UCNyZ54P2mgXYG0SUsGZv0scK1xaO99fPJQNVGaOcBBfVEqjvQWJbhpUIt9gU/3XWy
+         i1AIqrFuz6OljshjkJ4io2XcByq5P5phDtENYPHWUiAXdmExOJbEGf4bnIsPloqvrSVp
+         gfVTsJ6ugbeqHqj8t+OgchC3cON2X9yJ4tb8TPAbmr5MyrtpuZFB8QOzD9zlxC7nWjRd
+         0djc5eUqkeqQREev7dlWuZK7CObjNQPhXfsRPHPVaMTGnFug9sCPmEJQgAMVooK/KPYU
+         auxh5Czx04A5jkdZ/uXqiokinos3NqmfNX1n5/a/CgMMMmh4nQvDTOvQxE4YeRMHkAaZ
+         uFdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RgvBhB60r34bKOm2tCGx0FLu0SdJzIYZfN+oE6mYW4Y=;
+        b=QEOWI9kzOtKoul5ZupeVH6qcZBubFkU7RATqnu8KI8HEagNjhkAKDC9YYUGZfmAuJJ
+         PERLWnD2+DqqTtENHF8+OEfiTKd2pWnNi59pcSlquMyoVFCZhSANhodL/IFSiBQImhAl
+         3nHKzr6e5sZGssWzaMZ0e8wUTWS5YSOHcczMWqojGVLr/rHPk1Z2k8hmJind5EB2YgtT
+         Limr1IiKgu4v39NTsR02Z9iDs/M6g7JQaI4nQ+MJ5Aizeoz+4bAfXX8lXiDEJstvjm8e
+         ez6MdInFh6jLhfBZ5HbVat8PiFZArPT4CJi3A3qlBLe+cmkz1JK/JSEA4YMShknNYEu1
+         6V2g==
+X-Gm-Message-State: AOAM532uRTQ/AnS1DhEgQCjmCqfbQm0bCldOnyHpgpXHOuAtEcfc6WZp
+        8Vx5N+hISWinzIIFsVBdax3p3smeWXyFNtgpb974hw==
+X-Google-Smtp-Source: ABdhPJxq3KHZ1VgC8H6k/nkG/PU0tBmZKSI4Zq/E9uh0ebH59q9hVWU4W+VT5mcgO2wHoffP8694DLo9F8gK5lolIXQ=
+X-Received: by 2002:a92:cd8b:0:b0:2c9:ded9:f20d with SMTP id
+ r11-20020a92cd8b000000b002c9ded9f20dmr2825689ilb.300.1649207280627; Tue, 05
+ Apr 2022 18:08:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 2/2] libata: Inline ata_qc_new_init() in
- ata_scsi_qc_new()
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Christoph Hellwig <hch@lst.de>
-CC:     <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-scsi@vger.kernel.org>
-References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
- <1649083990-207133-3-git-send-email-john.garry@huawei.com>
- <20220405055252.GA23698@lst.de>
- <f7bbb09f-562f-fce2-cd16-a1c67fc334b5@opensource.wdc.com>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <f7bbb09f-562f-fce2-cd16-a1c67fc334b5@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.80.129]
-X-ClientProxiedBy: lhreml728-chm.china.huawei.com (10.201.108.79) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+ <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+ <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Wei Xu <weixugc@google.com>
+Date:   Tue, 5 Apr 2022 18:07:49 -0700
+Message-ID: <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/04/2022 02:48, Damien Le Moal wrote:
-> On 4/5/22 14:52, Christoph Hellwig wrote:
->> On Mon, Apr 04, 2022 at 10:53:10PM +0800, John Garry wrote:
->>> From: Christoph Hellwig <hch@lst.de>
->>>
->>> It is a bit pointless to have ata_qc_new_init() in libata-core.c 
->>> since it
->>> pokes scsi internals, so inline it in ata_scsi_qc_new() (in 
->>> libata-scsi.c).
->>>
->>> <Christoph, please provide signed-off-by>
->>> [jpg, Take Christoph's change from list and form into a patch]
->>> Signed-off-by: John Garry <john.garry@huawei.com>
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->>
->> Although I still think merging the two patches into one to avoid all
->> the churn would be much better.
-> 
-> I agree. Let's merge these 2 patches.
+On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Wei Xu <weixugc@google.com> writes:
+>
+> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+> >>
+> >> Wei Xu <weixugc@google.com> writes:
+> >>
+> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+> >> >>
+> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+> >> >> > From: Shakeel Butt <shakeelb@google.com>
+> >> >> >
+> >>
+> >> [snip]
+> >>
+> >> >> > Possible Extensions:
+> >> >> > --------------------
+> >> >> >
+> >> >> > - This interface can be extended with an additional parameter or flags
+> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+> >> >> >   file, anon, ..).
+> >> >> >
+> >> >> > - The interface can also be extended with a node mask to reclaim from
+> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+> >> >> >   tiering systens.
+> >> >> >
+> >> >> > - A similar per-node interface can also be added to support proactive
+> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+> >> >> >
+> >> >> > For now, let's keep things simple by adding the basic functionality.
+> >> >>
+> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+> >> >> interface. But it is not really clear who do you want to add flags on
+> >> >> top of it?
+> >> >>
+> >> >> I am not really sure we really need a node aware interface for memcg.
+> >> >> The global reclaim interface will likely need a different node because
+> >> >> we do not want to make this CONFIG_MEMCG constrained.
+> >> >
+> >> > A nodemask argument for memory.reclaim can be useful for memory
+> >> > tiering between NUMA nodes with different performance.  Similar to
+> >> > proactive reclaim, it can allow a userspace daemon to drive
+> >> > memcg-based proactive demotion via the reclaim-based demotion
+> >> > mechanism in the kernel.
+> >>
+> >> I am not sure whether nodemask is a good way for demoting pages between
+> >> different types of memory.  For example, for a system with DRAM and
+> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+> >> is the meaning of specifying PMEM node? reclaiming to disk?
+> >>
+> >> In general, I have no objection to the idea in general.  But we should
+> >> have a clear and consistent interface.  Per my understanding the default
+> >> memcg interface is for memory, regardless of memory types.  The memory
+> >> reclaiming means reduce the memory usage, regardless of memory types.
+> >> We need to either extending the semantics of memory reclaiming (to
+> >> include memory demoting too), or add another interface for memory
+> >> demoting.
+> >
+> > Good point.  With the "demote pages during reclaim" patch series,
+> > reclaim is already extended to demote pages as well.  For example,
+> > can_reclaim_anon_pages() returns true if demotion is allowed and
+> > shrink_page_list() can demote pages instead of reclaiming pages.
+>
+> These are in-kernel implementation, not the ABI.  So we still have
+> the opportunity to define the ABI now.
+>
+> > Currently, demotion is disabled for memcg reclaim, which I think can
+> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+> > like to suggest that we extend the semantics of memory.reclaim to
+> > cover memory demotion as well.  A flag can be used to enable/disable
+> > the demotion behavior.
+>
+> If so,
+>
+> # echo A > memory.reclaim
+>
+> means
+>
+> a) "A" bytes memory are freed from the memcg, regardless demoting is
+>    used or not.
+>
+> or
+>
+> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+>    number is "A".
+>
+> For me, a) looks more reasonable.
+>
 
-I'd say that they are distinct changes.
+We can use a DEMOTE flag to control the demotion behavior for
+memory.reclaim.  If the flag is not set (the default), then
+no_demotion of scan_control can be set to 1, similar to
+reclaim_pages().
 
-Anyway, if that is the preference then who shall be the author? 
-Considering I did most effort I will be and add Christoph as 
-co-developed-by - please let me know if not ok.
-
-thanks,
-John
+The question is then whether we want to rename memory.reclaim to
+something more general.  I think this name is fine if reclaim-based
+demotion is an accepted concept.
