@@ -2,135 +2,271 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 716AFC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 12:24:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEFCC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 12:44:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232868AbiDFM0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 08:26:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47352 "EHLO
+        id S229455AbiDFMqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 08:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232864AbiDFM0C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 08:26:02 -0400
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 826AC3F9E90
-        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 01:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1649232651; x=1680768651;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=OXlW7XMsm7YkB8BmULX0rKO6acP3cTihzhxzw0jjfqc=;
-  b=kcN2TUI/+EzjGey45MWuvNtbkq0FK4bRBy9dV160jhDrxzn9yNsH5bj4
-   B7bfiPpKquM9Nnnfby3+8b841JgC8BxezPhc82pfaIJG455O04Uw+rBHM
-   IWFSgEcDDI7QJ8jNYoGa7yKsB3Jr6e57RylVXv4pC8n+firxQGPWtbJnT
-   3h2ii8hyO0yFc+3q6vSQHEb9b/5x2JRR4h8tviHeuM5b2QPCICMg2rWxN
-   U9aYJUybM+kw6hQYFlzo8gRvh1edjR4UJIA0GAqQCBtpQOe2DkcUFhPMw
-   M6bB0ZMfrdSOBvj0tAdhwvuRX8fVA2iibTJOq7eR+zwiA4AtuMOPi12wg
-   w==;
-X-IronPort-AV: E=Sophos;i="5.90,239,1643644800"; 
-   d="scan'208";a="197220760"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 16:10:48 +0800
-IronPort-SDR: JhnRQTXvUAPDOi9yRjGbQh47sByupLArqIXceu99snTxfRKI7ntezmd7cMZfGwjfLUvYU1Da9h
- wj3cCRCc/bujlyeXXbRwwoL6ZnPKXz0YY/nkMOfsXUTBpCOnRC8SmhOqF5F7Qqd0GexHq8LZJy
- fO7VYQSb+MUrjue2Lx1GYc+VmmSuTK+M0CJPFzwZz2m9NfcPUSJKphkdrCZGFtEWb+ugTAIg+5
- em6G4Kgf/31tYIVQ6RPh+S8MyzkqYkZPAC2FhYbZQ09Lp5rCJPQRIN9BNThaZMKbIm9Py1KZ7C
- fGpIJELq3etI2Mb0D1UGDqEN
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Apr 2022 00:41:30 -0700
-IronPort-SDR: pkzrX4uIdTN/g11b9iwtTFYr4oYtHllNBrx5eHcBj854avSLjHp/UDmeB7z9ibHfq945HuznWq
- 8X+E7uhENmvNy/WYmtk6f+kEXtkMqzHFmtSaGgN16IF5fOzERBp+kjbvh3dcl/L1LT4/ZBTx3J
- Onk3ABkzO30xdOhM+vSc8m+d171Nh9FqfFB+6oPnxkSNd2dZIQw9O2DKEHZkUq2qZZoztXWz33
- +WUxcodmhqe+6q/McsZ2LZjKiA7Ax+McNp9f0NTi2R/+K96d83oYWDEhXnOgw2xEpIUQJyuy9J
- 5kQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Apr 2022 01:10:49 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYHJS323Bz1SVny
-        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 01:10:48 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1649232647; x=1651824648; bh=OXlW7XMsm7YkB8BmULX0rKO6acP3cTihzhx
-        zw0jjfqc=; b=o4BCjSaKcmUeC3V/ysxboezAk7mt0Fxzqh0MWkY8sT2l+gU7jPB
-        Kdld9C6XDIdwdhu6MiqU1d/sFMaFZp1s88kGT8889lanvnwC5C8AIwciYM+n0oHv
-        v8DNdpfzNAnjxkMmWc8SAOte06L8HEC5Aaq0RJ3++HsG5s0JRjox/1O/RVWyl8QV
-        csjgkizdLNStKiwYAn6XM9sdJYrB3kTdTlk3xh1VqjcLqZnatbHvvIiBNcoawOPo
-        TlPhnPSSi8mM80a14xE+5tRgZNdUKq+STK7pG4aKau780AYeHKeAm1wTs8z6wem3
-        vskcmDgDMic33lD85Uly6zeGQTyojauhR1A==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ehDFtn4Y-3JO for <linux-doc@vger.kernel.org>;
-        Wed,  6 Apr 2022 01:10:47 -0700 (PDT)
-Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYHJR0CwQz1Rvlx;
-        Wed,  6 Apr 2022 01:10:46 -0700 (PDT)
-Message-ID: <a984b4d6-bc7d-ef81-8bd6-34d50127174d@opensource.wdc.com>
-Date:   Wed, 6 Apr 2022 17:10:45 +0900
+        with ESMTP id S230523AbiDFMpb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 08:45:31 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C443A58E558;
+        Wed,  6 Apr 2022 01:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649234967; x=1680770967;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=jD+7cgE98PQmYfE6TYFpIJfwzOpPcHAKULKiD5IVELY=;
+  b=W0Rhim8zFb6tRr4IO3YVNXQYhOazp011fsZk+w3+4dYHDs4F/8/2Xmpz
+   +YfUpMSNvNIqVFBAMEv9miWnfh8VNCCipDOZTO3mOOtndgQuAMkKhHIQp
+   uXqKkovaHVQUG2p7VqQlHVb+iWA8RKy/3KGW/iIb3Fr6kQO/3ylPlmvIu
+   Dtiqld6Qbzw7NqE+bVL7C4W6cI8Z/p2IZSuWxMv8ZnQqv/Qowv6CGqh6n
+   FHVSog09e7GZy5SRn4F30Zl9gIwhtWNadNA3YE2xl/jyt1Vwe4hGnhTKz
+   8xEiOHYe3fpC4QmwxzWI5NoGAUBf8EoEhaY2ZOUskxos+WFKkbk9Q3bYd
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10308"; a="258578296"
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; 
+   d="scan'208";a="258578296"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 01:49:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; 
+   d="scan'208";a="570417999"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.239.13.94])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 01:49:22 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Wei Xu <weixugc@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+        <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+        <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+        <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+        <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+        <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+        <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
+        <CAAPL-u8u77yazFpc2R216j6ObAiANb0Lfxt7DcT9P=3eg60u9Q@mail.gmail.com>
+Date:   Wed, 06 Apr 2022 16:49:20 +0800
+In-Reply-To: <CAAPL-u8u77yazFpc2R216j6ObAiANb0Lfxt7DcT9P=3eg60u9Q@mail.gmail.com>
+        (Wei Xu's message of "Wed, 6 Apr 2022 00:05:03 -0700")
+Message-ID: <8735iqvbov.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/2] libata: Inline ata_qc_new_init() in
- ata_scsi_qc_new()
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, Christoph Hellwig <hch@lst.de>
-Cc:     linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
-References: <1649083990-207133-1-git-send-email-john.garry@huawei.com>
- <1649083990-207133-3-git-send-email-john.garry@huawei.com>
- <20220405055252.GA23698@lst.de>
- <f7bbb09f-562f-fce2-cd16-a1c67fc334b5@opensource.wdc.com>
- <febb03e4-ea1d-c7e1-58a6-fa564c902af0@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <febb03e4-ea1d-c7e1-58a6-fa564c902af0@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ascii
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/6/22 16:16, John Garry wrote:
-> On 06/04/2022 02:48, Damien Le Moal wrote:
->> On 4/5/22 14:52, Christoph Hellwig wrote:
->>> On Mon, Apr 04, 2022 at 10:53:10PM +0800, John Garry wrote:
->>>> From: Christoph Hellwig <hch@lst.de>
->>>>
->>>> It is a bit pointless to have ata_qc_new_init() in libata-core.c 
->>>> since it
->>>> pokes scsi internals, so inline it in ata_scsi_qc_new() (in 
->>>> libata-scsi.c).
->>>>
->>>> <Christoph, please provide signed-off-by>
->>>> [jpg, Take Christoph's change from list and form into a patch]
->>>> Signed-off-by: John Garry <john.garry@huawei.com>
->>>
->>> Signed-off-by: Christoph Hellwig <hch@lst.de>
->>>
->>> Although I still think merging the two patches into one to avoid all
->>> the churn would be much better.
+Wei Xu <weixugc@google.com> writes:
+
+> On Tue, Apr 5, 2022 at 11:32 PM Huang, Ying <ying.huang@intel.com> wrote:
 >>
->> I agree. Let's merge these 2 patches.
-> 
-> I'd say that they are distinct changes.
-> 
-> Anyway, if that is the preference then who shall be the author? 
-> Considering I did most effort I will be and add Christoph as 
-> co-developed-by - please let me know if not ok.
+>> Wei Xu <weixugc@google.com> writes:
+>>
+>> > On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
+>> >>
+>> >> Wei Xu <weixugc@google.com> writes:
+>> >>
+>> >> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
+>> >> >>
+>> >> >> Wei Xu <weixugc@google.com> writes:
+>> >> >>
+>> >> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
+>> >> >> >>
+>> >> >> >> Wei Xu <weixugc@google.com> writes:
+>> >> >> >>
+>> >> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
+>> >> >> >> >>
+>> >> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
+>> >> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
+>> >> >> >> >> >
+>> >> >> >>
+>> >> >> >> [snip]
+>> >> >> >>
+>> >> >> >> >> > Possible Extensions:
+>> >> >> >> >> > --------------------
+>> >> >> >> >> >
+>> >> >> >> >> > - This interface can be extended with an additional parameter or flags
+>> >> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
+>> >> >> >> >> >   file, anon, ..).
+>> >> >> >> >> >
+>> >> >> >> >> > - The interface can also be extended with a node mask to reclaim from
+>> >> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
+>> >> >> >> >> >   tiering systens.
+>> >> >> >> >> >
+>> >> >> >> >> > - A similar per-node interface can also be added to support proactive
+>> >> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
+>> >> >> >> >> >
+>> >> >> >> >> > For now, let's keep things simple by adding the basic functionality.
+>> >> >> >> >>
+>> >> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
+>> >> >> >> >> interface. But it is not really clear who do you want to add flags on
+>> >> >> >> >> top of it?
+>> >> >> >> >>
+>> >> >> >> >> I am not really sure we really need a node aware interface for memcg.
+>> >> >> >> >> The global reclaim interface will likely need a different node because
+>> >> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
+>> >> >> >> >
+>> >> >> >> > A nodemask argument for memory.reclaim can be useful for memory
+>> >> >> >> > tiering between NUMA nodes with different performance.  Similar to
+>> >> >> >> > proactive reclaim, it can allow a userspace daemon to drive
+>> >> >> >> > memcg-based proactive demotion via the reclaim-based demotion
+>> >> >> >> > mechanism in the kernel.
+>> >> >> >>
+>> >> >> >> I am not sure whether nodemask is a good way for demoting pages between
+>> >> >> >> different types of memory.  For example, for a system with DRAM and
+>> >> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
+>> >> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
+>> >> >> >>
+>> >> >> >> In general, I have no objection to the idea in general.  But we should
+>> >> >> >> have a clear and consistent interface.  Per my understanding the default
+>> >> >> >> memcg interface is for memory, regardless of memory types.  The memory
+>> >> >> >> reclaiming means reduce the memory usage, regardless of memory types.
+>> >> >> >> We need to either extending the semantics of memory reclaiming (to
+>> >> >> >> include memory demoting too), or add another interface for memory
+>> >> >> >> demoting.
+>> >> >> >
+>> >> >> > Good point.  With the "demote pages during reclaim" patch series,
+>> >> >> > reclaim is already extended to demote pages as well.  For example,
+>> >> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
+>> >> >> > shrink_page_list() can demote pages instead of reclaiming pages.
+>> >> >>
+>> >> >> These are in-kernel implementation, not the ABI.  So we still have
+>> >> >> the opportunity to define the ABI now.
+>> >> >>
+>> >> >> > Currently, demotion is disabled for memcg reclaim, which I think can
+>> >> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
+>> >> >> > like to suggest that we extend the semantics of memory.reclaim to
+>> >> >> > cover memory demotion as well.  A flag can be used to enable/disable
+>> >> >> > the demotion behavior.
+>> >> >>
+>> >> >> If so,
+>> >> >>
+>> >> >> # echo A > memory.reclaim
+>> >> >>
+>> >> >> means
+>> >> >>
+>> >> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
+>> >> >>    used or not.
+>> >> >>
+>> >> >> or
+>> >> >>
+>> >> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
+>> >> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
+>> >> >>    number is "A".
+>> >> >>
+>> >> >> For me, a) looks more reasonable.
+>> >> >>
+>> >> >
+>> >> > We can use a DEMOTE flag to control the demotion behavior for
+>> >> > memory.reclaim.  If the flag is not set (the default), then
+>> >> > no_demotion of scan_control can be set to 1, similar to
+>> >> > reclaim_pages().
+>> >>
+>> >> If we have to use a flag to control the behavior, I think it's better to
+>> >> have a separate interface (e.g. memory.demote).  But do we really need b)?
+>> >>
+>> >
+>> > I am fine with either approach: a separate interface similar to
+>> > memory.reclaim, but dedicated to demotion, or multiplexing
+>> > memory.reclaim for demotion with a flag.
+>> >
+>> > My understanding is that with the "demote pages during reclaim"
+>> > support, b) is the expected behavior, or more precisely, pages that
+>> > cannot be demoted may be freed or swapped out.  This is reasonable.
+>> > Demotion-only can also be supported via some arguments to the
+>> > interface and changes to demotion code in the kernel.  After all, this
+>> > interface is being designed to be extensible based on the discussions
+>> > so far.
+>>
+>> I think we should define the interface not from the current
+>> implementation point of view, but from the requirement point of view.
+>> For proactive reclaim, per my understanding, the requirement is,
+>>
+>>   we found that there's some cold pages in some workloads, so we can
+>>   take advantage of the proactive reclaim to reclaim some pages so that
+>>   other workload can use the freed memory.
+>>
+>> For proactive demotion, per my understanding, the requirement could be,
+>>
+>>   We found that there's some cold pages in fast memory (e.g. DRAM) in
+>>   some workloads, so we can take advantage of the proactive demotion to
+>>   demote some pages so that other workload can use the freed fast
+>>   memory.  Given the DRAM partition support Tim (Cced) is working on.
+>>
+>> Why do we need something in the middle?
+>
+> Maybe there is some misunderstanding.  As you said, demotion is to
+> free up fast memory.  If pages on fast memory cannot be demoted, but
+> can still be reclaimed to free some fast memory, it is useful, too.
+> Certainly, we can also add the support and configure the policy to
+> only demote, not reclaim, from fast memory in such cases.
 
-Works for me.
+Yes.  I think it may be better to demote from fast memory nodes only in
+such cases.  We just free some fast memory proactively.  But we may
+reclaim from the slow memory node (which are demotion targets) if
+necessary.
 
-> 
-> thanks,
-> John
+> In any case, we will not reclaim from slow memory for demotion,
 
+If there's no free pages in the slow memory to accommodate the demoted
+pages, why not just reclaim some pages in the slow memory?  What are the
+disadvantages to do that?
 
--- 
-Damien Le Moal
-Western Digital Research
+> if that is the middle thing you refer to.
+
+No.  I mean,
+
+If we reclaim "A" pages proactively, we will free "A" pages, maybe from
+slow memory firstly.  The target is the total memory size of a memcg.
+
+If we demote "A" pages proactively, we will demote "A" pages from fast
+memory to slow memory.  The target is the fast memory size of a memcg.
+In the process, some slow memory may be reclaimed to accommodate the
+demoted pages.
+
+For me, the middle thing is,
+
+If we demote some pages from fast memory to slow memory proactively and
+free some pages from slow memory at the same time, the total number
+(demote + free) is "A".  There's no clear target.  I think this is
+confusing.  Per my understanding, you don't suggest this too.
+
+> This is why nodemask is
+> proposed for memory.reclaim to support the demotion use case.  With a
+> separate memory.demote interface and memory tiering topology among
+> NUMA nodes being well defined by the kernel and shared with the
+> userspace, we can omit the nodemask argument.
+
+Yes.  Both seems work.
+
+Best Regards,
+Huang, Ying
+
+>>
+>> >> > The question is then whether we want to rename memory.reclaim to
+>> >> > something more general.  I think this name is fine if reclaim-based
+>> >> > demotion is an accepted concept.
+>> >>
+>> >> Best Regards,
+>> >> Huang, Ying
