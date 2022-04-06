@@ -2,279 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 562ECC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 13:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8079CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 14:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232724AbiDFNO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 09:14:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
+        id S234060AbiDFOGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 10:06:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233019AbiDFNNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 09:13:55 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8BFD4C82
-        for <linux-doc@vger.kernel.org>; Tue,  5 Apr 2022 20:48:37 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-de3ca1efbaso1627480fac.9
-        for <linux-doc@vger.kernel.org>; Tue, 05 Apr 2022 20:48:37 -0700 (PDT)
+        with ESMTP id S234360AbiDFOGJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 10:06:09 -0400
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27E2398880;
+        Wed,  6 Apr 2022 02:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MFmTgxf9WBcNk7Ma/JrKZuUBcy9vPCSbw8pZ9uClHTw=;
-        b=YypRbhtO8BcBmRggboLh9kUJpIeTfFXGKoZsD0ZnoejSfdmmzYTQpP/JfEecm8Y500
-         iJPawkPorpBAekDKLBjzjXCYRoNb8eJH5KnsRc6fKXdcf1TxA/m+CzW/SD1eE6tkqpOM
-         1JRh0QR/OrOvj0toPdgpiEGpVp15+yWg07ogk1JYPsFggabu2oCVws2py+0UrpX23EHP
-         yptHVd51tf46p3eE1TKalnflMbpXBkQ5gNFy8kBVpmM49WAhoFM+zWRnklugDEXdkbbV
-         YJp7r2LY3UX7IqqDvI5gE5Zhqm7VN3wb2VqRTBRvAgMAomXyjzvG3O+2Xl+CtIjVHcTf
-         WLzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MFmTgxf9WBcNk7Ma/JrKZuUBcy9vPCSbw8pZ9uClHTw=;
-        b=YpNrHLwii+7RT1N+89Zs8dWRdj4sZ+mCNTP0OqktOIbMWKPwS4pF2yKAkaukhb4Jqs
-         pKfTt3WPORFJ3yj3c+G/DlBiokq1/5LeotwKkLvF6XrgOZsM2Scr8hpivlufLaKZY1UR
-         yb0qz5mMRJU8mtlLsRwXgJ2bBEgjBzXRf5r6MNhU9Pp30FtPdc3n9mXuFFHlxlojqCZV
-         IEzEUpXk4yLSNE5zIhXzpf5E/nBpZn8F+9/a/5KppB3dV2pEIHJiFIK4INx15CiJPkJS
-         HVqL9uiuXDrvDh0TAeC5sBiqB14EYqzi3c9648DAXYFAfVAtLCjN0Kj3Buu7tHb5FhDQ
-         +SQA==
-X-Gm-Message-State: AOAM532KVgpKHSWqlvFp0MQRAx2TE7JCOc1lQ4HvCy4ESc6tL+2Wgth1
-        oxhpGN8goCigbo/D234LTv7Lob0bG6LoHgD4WNfEvQ==
-X-Google-Smtp-Source: ABdhPJyxAr5hj9JV2vfWacQoXf6sk62oN5mHLsY6YCWNGSyPaLtPyyxS5o+87kuYsiIBa5Fm1g/g/5aaLq72FwNzkuo=
-X-Received: by 2002:a05:6870:95a4:b0:d7:18b5:f927 with SMTP id
- k36-20020a05687095a400b000d718b5f927mr2948940oao.45.1649216916747; Tue, 05
- Apr 2022 20:48:36 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1649237796;
+  x=1680773796;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sKttvewg13jPI0W2V5bQyh9PjPvGiCcvTJm9/+nsTOw=;
+  b=FVSGDEeByy6YZrQAJDkMgNa7hVyMMtb+zcdSqQEFHzm6hmQkaRMDJH9u
+   R3UAoa0EIXmg+I33VRrJiLiOj7nVifpSqQ0L6TMiKsRj5RtwHzjskeBAL
+   WIbm/KEBKKTzD1q3VaMTugPAn4SlRfQTu3++jHfSQyRmbAg/4d/LBc/us
+   q0gBpwGMYkRf3Jsaz6Tv38h7pebWZLwgvyyX4FvOX/UAr4jxt/9UyszNd
+   loiXUY5H/4+PBqK9u6PFIhMm5VnTC63c0EDcaoHhO6aCpHl8T7Bhb4WWE
+   HfgWihd6UL76ZMWxd0Qvn0dShedXkT3RvNt4dxqdmlmzi7oGUxycDeYK3
+   w==;
+From:   Camel Guo <camel.guo@axis.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     <kernel@axis.com>, Camel Guo <camelg@axis.com>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] hwmon: (tmp401) Support extended temperature range
+Date:   Wed, 6 Apr 2022 11:29:01 +0200
+Message-ID: <20220406092901.408861-1-camel.guo@axis.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211020120431.776494-1-hikalium@chromium.org>
- <874k9bdcrk.wl-maz@kernel.org> <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
- <87zgpgqnvm.wl-maz@kernel.org>
-In-Reply-To: <87zgpgqnvm.wl-maz@kernel.org>
-From:   Hikaru Nishida <hikalium@google.com>
-Date:   Wed, 6 Apr 2022 12:48:25 +0900
-Message-ID: <CAKULNjVkBDuBn4x=S646nZoKYqSn95ToFsZT_ioVfz0-MsZhxg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Hikaru Nishida <hikalium@chromium.org>,
-        linux-kernel@vger.kernel.org, dme@dme.org,
-        Thomas Gleixner <tglx@linutronix.de>, mlevitsk@redhat.com,
-        linux@roeck-us.net, pbonzini@redhat.com, vkuznets@redhat.com,
-        will@kernel.org, Suleiman Souhlal <suleiman@google.com>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        Lai Jiangshan <laijs@linux.alibaba.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sean Christopherson <seanjc@google.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        KVM list <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        x86@kernel.org, Sangwhan Moon <sxm@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marc,
+From: Camel Guo <camelg@axis.com>
 
-Thanks for the reply! (And sorry for a late reply...)
+This patch only applies to tmp431 and devicetree configuration.
 
-On Sun, Dec 5, 2021 at 2:30 AM Marc Zyngier <maz@kernel.org> wrote:
->
-> Hi Hikaru,
->
-> Apologies for the much delayed reply.
->
-> > The problems described by Thomas in the thread was:
-> > - User space or kernel space can observe the stale timestamp before
-> > the adjustment
-> >   - Moving CLOCK_MONOTONIC forward will trigger all sorts of timeouts,
-> > watchdogs, etc...
-> > - The last attempt to make CLOCK_MONOTONIC behave like CLOCK_BOOTTIME
-> > was reverted within 3 weeks. a3ed0e4393d6 ("Revert: Unify
-> > CLOCK_MONOTONIC and CLOCK_BOOTTIME")
-> >   - CLOCK_MONOTONIC correctness (stops during the suspend) should be maintained.
-> >
-> > I agree with the points above. And, the current CLOCK_MONOTONIC
-> > behavior in the KVM guest is not aligned with the statements above.
-> > (it advances during the host's suspension.)
-> > This causes the problems described above (triggering watchdog
-> > timeouts, etc...) so my patches are going to fix this by 2 steps
-> > roughly:
-> > 1. Stopping the guest's clocks during the host's suspension
-> > 2. Adjusting CLOCK_BOOTTIME later
-> > This will make the clocks behave like the host does, not making
-> > CLOCK_MONOTONIC behave like CLOCK_BOOTTIME.
-> >
-> > First one is a bit tricky since the guest can use a timestamp counter
-> > in each CPUs (TSC in x86) and we need to adjust it without stale
-> > values are observed by the guest kernel to prevent rewinding of
-> > CLOCK_MONOTONIC (which is our top priority to make the kernel happy).
-> > To achieve this, my patch adjusts TSCs (and a kvm-clock) before the
-> > first vcpu runs of each vcpus after the resume.
-> >
-> > Second one is relatively safe: since jumping CLOCK_BOOTTIME forward
-> > can happen even before my patches when suspend/resume happens, and
-> > that will not break the monotonicity of the clocks, we can do that
-> > through IRQ.
-> >
-> > [1] shows the flow of the adjustment logic, and [2] shows how the
-> > clocks behave in the guest and the host before/after my patches.
-> > The numbers on each step in [1] corresponds to the timing shown in [2].
-> > The left side of [2] is showing the behavior of the clocks before the
-> > patches, and the right side shows after the patches. Also, upper
-> > charts show the guest clocks, and bottom charts are host clocks.
-> >
-> > Before the patches(left side), CLOCK_MONOTONIC seems to be jumped from
-> > the guest's perspective after the host's suspension. As Thomas says,
-> > large jumps of CLOCK_MONOTONIC may lead to watchdog timeouts and other
-> > bad things that we want to avoid.
-> > With the patches(right side), both clocks will be adjusted (t=4,5) as
-> > if they are stopped during the suspension. This adjustment is done by
-> > the host side and invisible to the guest since it is done before the
-> > first vcpu run after the resume. After that, CLOCK_BOOTTIME will be
-> > adjusted from the guest side, triggered by the IRQ sent from the host.
-> >
-> > [1]: https://hikalium.com/files/kvm_virt_suspend_time_seq.png
-> > [2]: https://hikalium.com/files/kvm_virt_suspend_time_clocks.png
->
-> Thanks for the very detailed explanation. You obviously have though
-> about this, and it makes sense.
->
-> My worry is that this looks to be designed for the needs of Linux on
-> x86, and does not match the reality of KVM on arm64, where there is no
-> KVM clock (there is no need for it, and I have no plan to support it),
-> and there is more than a single counter visible to the guest (at least
-> two, and up to four with NV, all with various offsets). This also
-> deals with concepts that are Linux-specific. How would it work for
-> another (arbitrary) guest operating system?
+Signed-off-by: Camel Guo <camelg@axis.com>
+---
+ Documentation/hwmon/tmp401.rst | 13 +++++++++++++
+ drivers/hwmon/tmp401.c         |  5 +++++
+ 2 files changed, 18 insertions(+)
 
-Whether the architecture has a kvm-clock or not will not be a problem.
-The high-level requirements for implementing this feature are:
-- host hypervisor can adjust the offset of the virtualized hardware
-clocks (tsc and kvm-clock in x86, generic timer in aarch64)
-- host hypervisor can notify guest kernel about the host suspension
-(interrupts etc.)
-- host hypervisor can share the duration to be injected with the guest
-(by shared memory or registers etc...)
-so I believe it can be implemented on aarch64 as well.
+diff --git a/Documentation/hwmon/tmp401.rst b/Documentation/hwmon/tmp401.rst
+index 3aacf3d3bdf3..d12e9c9ba40f 100644
+--- a/Documentation/hwmon/tmp401.rst
++++ b/Documentation/hwmon/tmp401.rst
+@@ -78,3 +78,16 @@ some additional features.
+ 
+ TMP432 is compatible with TMP401 and TMP431. It supports two external
+ temperature sensors.
++
++Device tree
++-----------
++TMP431 has support for the device tree parameter "extended-range" which enables
++the extended range in the chip.
++
++Example:
++
++main-temp@4c {
++  compatible = "ti,tmp431";
++  reg = <0x4c>;
++  extended-range;
++};
+diff --git a/drivers/hwmon/tmp401.c b/drivers/hwmon/tmp401.c
+index b86d9df7105d..6efd2475ffda 100644
+--- a/drivers/hwmon/tmp401.c
++++ b/drivers/hwmon/tmp401.c
+@@ -557,6 +557,11 @@ static int tmp401_init_client(struct tmp401_data *data)
+ 	config_orig = config;
+ 	config &= ~TMP401_CONFIG_SHUTDOWN;
+ 
++	if (of_property_read_bool(data->client->dev.of_node, "extended-range")) {
++		/* Enable extended range */
++		config |= TMP401_CONFIG_RANGE;
++	}
++
+ 	data->extended_range = !!(config & TMP401_CONFIG_RANGE);
+ 
+ 	if (config != config_orig)
+-- 
+2.30.2
 
-This logic is only designed for Linux since the problem we want to
-solve is linux specific.
-(CLOCK_MONOTONIC vs CLOCK_BOOTTIME)
-
->
-> Can we please take a step back and look at what we want to expose from
-> a hypervisor PoV? It seems to me that all we want is:
->
-> (1) tell the guest that time has moved forward
-> (2) tell the guest by how much time has moved forward
->
-> In a way, this isn't different from stolen time, only that it affects
-> the whole VM and not just a single CPU (and for a much longer quantum
-> of time).
->
-
-(1) and (2) in the above may be implemented out of the host kernel,
-but there is another most important step (0) is existed:
-
-(0) adjust the clocks to compensate for how much the clocks have
-incremented over a period of suspension, *before* any vcpu resume.
-
-(0) is not possible to be done from outside of the host kernel (as far
-as I tried) since there is no way to ensure that we can do the
-adjustment "before the first vcpu runs after the host's resume" in the
-userland.
-Suspending a VM from VMM before the host's suspend will not always
-work, since we can't guarantee that the VMM stopped the VM before the
-host kernel enters into suspend.
-That's why we implemented this feature with a modification in the host side.
-
-As described in the above, just telling the guest about the time has
-moved forward is not enough to solve the problem (a large jump of
-CLOCK_MONOTONIC forward after the host's suspension will happen, which
-can cause bad things like watchdog timeouts etc...).
-
-> How the event is handled by the guest (what it means for its clocks
-> and all that) is a guest problem. Why should KVM itself adjust the
-> counters? This goes against what the architecture specifies (the
-> counter is in an always-on domain that keeps counting when suspended),
-> and KVM must preserve the architectural guarantees instead of
-> deviating from them.
->
-
-The counters need to be adjusted by KVM because:
-1. We cannot adjust the guest's CLOCK_MONOTONIC from the guest side
-since it breaks its monotonicity.
-2. The counters are used by the guest userland to provide a fast
-interface to read the clocks (vdso)
-so the only way to adjust the counters without breaking their
-monotonicity is doing that adjustment outside of the guest.
-
-Let's think about this in a different way... For VM migrations, TSC
-offset can be modified since we need to adjust it.
-My patches are doing a similar thing, maybe we can say our patches are
-doing "VM migration on the timeline". In this perspective, the
-architectural restriction from the guest side is not broken since we
-can consider that the VM has been time-traveled forward.
-
-> > > Assuming you solve these, you should model the guest memory access
-> > > similarly to what we do for stolen time. As for injecting an
-> > > interrupt, why can't this be a userspace thing?
-> >
-> > Since CLOCK_BOOTTIME is calculated by adding a gap
-> > (tk->monotonic_to_boot) to CLOCK_MONOTONIC, and there are no way to
-> > change the value from the outside of the guest kernel, we should
-> > implement some mechanism in the kernel to adjust it.
-> > (Actually, I tried to add a sysfs interface to modify the gap [3], but
-> > I learned that that is not a good idea...)
->
-> It is not what I was suggesting.
->
-> My suggestion was to have a shared memory between the VMM and the
-> guest again, similar to the way we handle stolen time), let the VMM
-> expose the drift in this shared memory, and inject an interrupt from
-> userspace to signify a wake-up. All this requires is that on suspend,
-> you force the vcpus to exit. On resume, the VMM update the guest
-> visible drift, posts an interrupt, and let things rip.
->
-> This requires very minimal KVM support, and squarely places the logic
-> in the guest. Why doesn't this work?
-
-Is there a way to know the host is going to suspend from host'
-userland applications?
-If there is a way to do that, it may be possible to implement the
-feature outside of KVM but my knowledge about the Linux kernel was not
-enough to find out how to do that. I would really appreciate it if you
-could tell me how to do that.
-
->
-> Another question is maybe even more naive: on bare metal, we don't
-> need any of this. The system suspends, resumes, and recovers well
-> enough. Nobody hides anything, and yet everything works just fine.
-> That's because the kernel knows it is being suspended, and it acts
-> accordingly. It looks to me that there is some value in following the
-> same principles, even if this means that the host suspend has to
-> synchronise with the guest being suspended.
->
-> Thanks,
->
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
-
-Thank you,
---
-Hikaru Nishida
