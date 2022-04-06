@@ -2,84 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A13C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 12:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BECC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 12:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231880AbiDFMII (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 08:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48172 "EHLO
+        id S232633AbiDFMX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 08:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233088AbiDFMHz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 08:07:55 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2887274E59;
-        Tue,  5 Apr 2022 19:31:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 18A49CE2049;
-        Wed,  6 Apr 2022 02:31:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22770C385A1;
-        Wed,  6 Apr 2022 02:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649212263;
-        bh=OEz1OieAEVLpYShok1rv8Y+hnxwh95YbTkBGw64pwW4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rDLdOejqAdW9XOVth+WrjU+baIxSjLNJPcLDSEueYZr2QjP9LMESEcvtOFLlgiewO
-         Ps5fBlEm8jcfnSFUDjLKK2MW1JXiV5NHyKsbPRWzprAxblhXP6HPis+AAOt1Q1AdEq
-         M5gsFaLhjIyTE1JAKGLphHUMKLy/oo+VPYNbfk/otKFbSk3U67nX8OeBlVoIBrYv9b
-         G/iMDtWoX8KafxRdEb/a3aD2QEfzknVMK3HVwr28GGnk1EDt7veCWcOonOCuFSpDlK
-         xusJTTlbBMm9a3uYjtm7F/cU8qm6tFgV2ToNFSRaT4s7iSbF9VzmFd2aTRs1FrO2UX
-         GRec1GFwCjC1A==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: [PATCH v8 1/4] bootconfig: Make the bootconfig.o as a normal object file
-Date:   Wed,  6 Apr 2022 11:30:59 +0900
-Message-Id: <164921225875.1090670.15565363126983098971.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <164921224829.1090670.9700650651725930602.stgit@devnote2>
-References: <164921224829.1090670.9700650651725930602.stgit@devnote2>
-User-Agent: StGit/0.19
+        with ESMTP id S234186AbiDFMXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 08:23:07 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD3C54275F;
+        Wed,  6 Apr 2022 01:11:46 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 207E168BEB; Wed,  6 Apr 2022 10:11:43 +0200 (CEST)
+Date:   Wed, 6 Apr 2022 10:11:42 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     John Garry <john.garry@huawei.com>
+Cc:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] libata: Inline ata_qc_new_init() in
+ ata_scsi_qc_new()
+Message-ID: <20220406081142.GA13272@lst.de>
+References: <1649083990-207133-1-git-send-email-john.garry@huawei.com> <1649083990-207133-3-git-send-email-john.garry@huawei.com> <20220405055252.GA23698@lst.de> <f7bbb09f-562f-fce2-cd16-a1c67fc334b5@opensource.wdc.com> <febb03e4-ea1d-c7e1-58a6-fa564c902af0@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <febb03e4-ea1d-c7e1-58a6-fa564c902af0@huawei.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the APIs defined in the bootconfig.o are not individually used,
-it is meaningless to build it as library by lib-y. Use obj-y for that.
+On Wed, Apr 06, 2022 at 08:16:25AM +0100, John Garry wrote:
+> Anyway, if that is the preference then who shall be the author? Considering 
+> I did most effort I will be and add Christoph as co-developed-by - please 
+> let me know if not ok.
 
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Changes in v6:
-  - Newly added.
----
- lib/Makefile |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/lib/Makefile b/lib/Makefile
-index 353bc09ce38d..4fc48543dc8f 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -276,7 +276,7 @@ $(foreach file, $(libfdt_files), \
- 	$(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
- lib-$(CONFIG_LIBFDT) += $(libfdt_files)
- 
--lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-+obj-$(CONFIG_BOOT_CONFIG) += bootconfig.o
- 
- obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
- obj-$(CONFIG_INTERVAL_TREE_TEST) += interval_tree_test.o
-
+I think the co-developed-by is a bit silly.  Just attribute it to you.
