@@ -2,291 +2,265 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E25B9C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Apr 2022 21:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D86B0C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 01:42:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234829AbiDFVXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 17:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
+        id S239082AbiDGBok (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 21:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235591AbiDFVWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 17:22:16 -0400
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071EF1B2153
-        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 13:16:40 -0700 (PDT)
-Received: by mail-il1-x12d.google.com with SMTP id d4so2113859iln.6
-        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 13:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zeoWEqMCUxiyPlVz6AJGZgs8KEkBrSwU3l3ZTkJ4SDg=;
-        b=TFkVz4+ZAUctG+Jq7AuN8uLpy3f4I7Drtohqwfg8l/R65Q4bXHLQE263Z/vO1xDAcS
-         PY37fYo5q2/G0Qa6b+AUKPQPOpBCNryGYbnTnOrlkWYSN5gn0uYE1gZNuR4LMUidlJfs
-         oebfXoVKkEgWG28+VmhQs3XWl5ZhJ6DjnJ2H92lsdt0IQnLfNM95ipTfpxyCD2PyeDHx
-         k7+yikhlo8+Id719cmCpJOD1V14NULA0xESDyIk7knzX356T6eVKWfyBcZRBBK4CpaDt
-         PzMCHpkYydAKVFWHz5yDgl5wmKNi8j7RXW/49RmGSVEtPB3mDs6GyASoeW/65GvwB2by
-         cT4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zeoWEqMCUxiyPlVz6AJGZgs8KEkBrSwU3l3ZTkJ4SDg=;
-        b=WXRWqSkaHURem8brRvthdXqCmo/aVprhBDyBZe309ZP5bSAfM/H0qWQ76xx4htdc8o
-         cinnvaKHf4Jeg+EZ3VSmBcFHox5lyqCSwaRhxL9v/dzL6u1KAo/sQGtzT/5HAP6zcCwa
-         0heSUq4FLhY5yCVoosFDRpppS6KiqNzqw2GZ4W1kBA44rkQwnyIHJ5ECUT1hI6CD5dNZ
-         eXSBvVeoTOEhFhqyLZOAM9LWxbouZICOY5PGmctE2/QVRr6O8eQaDfLcOQFSutdJ3ICE
-         kLPuUKMLfgT8LtXYAv6Vez/twjpxCQlYOdduUwwMq3mQl/IfCHGyIIjpOzR0ve5qYxfr
-         OatA==
-X-Gm-Message-State: AOAM531uBK4S6NfPXZzOzUX1BOf1rJKJZAp9STSzzJb1TOorCQYB+pJA
-        DbbLO7CCBpN2nS5FYOgd07XQ35B3UqvJyw7TiDOl3A==
-X-Google-Smtp-Source: ABdhPJxAYShAcvblkoS8w8ywOORGKh9ljOGiYkcgvgh2oQXQAcGukFb1RbTrD//sy+JJmv14q9dWsi31LAsW8kVya7Q=
-X-Received: by 2002:a92:cd8b:0:b0:2c9:ded9:f20d with SMTP id
- r11-20020a92cd8b000000b002c9ded9f20dmr4671879ilb.300.1649276199186; Wed, 06
- Apr 2022 13:16:39 -0700 (PDT)
+        with ESMTP id S239107AbiDGBob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 21:44:31 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EB1E9CB3;
+        Wed,  6 Apr 2022 18:40:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iiglgNT7j7aRTiPqkEZ9tJ8rPBJUEJFgMFfAOjwL/R/KFHA4yhqSNM+RueTkyBddW0GZj2kNs2ZrLhGPOvsLDhJYWmfLWBElM0LH6mwUojLSW+fd9NvmhcXtMBX9a4FT9iNgb4gdhYrx/d7yBLtk2OxbKj/8rzLm3qiE5SQ4d2OlVe7vp0ihFrg+ZqJ6dUmj4quhZ237GvzAzIov6a0NQ/9Zq0S3/kqL04p8M5wx6ftkZEeB2E/E56hYRAAgFtpta33tegHoaVb/inb/3iIZgOlw1NIgzjQikEicA88EZ2YKCQ5JguGgXL96yfgQYtqKOd3+99BR6eYz5QOXjgUmgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UkMLMyR1jltJdA8lEbIf8SlcEo+FnDGxjqoZxM7breA=;
+ b=V222wQ5fqRQen4MD/f/QibR/O6MuPliUW/BDFCnWP1EUeUIMdgNZ5q6eGh//+zQHajR1W3deQ3CxFQohOfLrCzq3sfDPRKmeI5PIfgUVsekSnT3fzukUAHHYDQf5rNc8pu/sbG+nS+kKu0VHO+xDCI+yw9b3yKpUvKRwcTvvZvxmCInoZb6eR0/Za4qcSql5CnDgoZswj3tCcl/uQYsSNyXuJj/YLZQMTrgOVQzgwGE9mPwMISjAk8QNcVFzvGPyYyg+cX0FbKxvsgLHIxedB8cdDR3CuGbV4vbFeut1RNfkKvpBGNEOHQzbgMDFQ/3XoS1mnAxZPPebBkM6XF67YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UkMLMyR1jltJdA8lEbIf8SlcEo+FnDGxjqoZxM7breA=;
+ b=N5A/CAgVVfU5Gvymv3gYcnKibAoqiyMsZ57BsoETp1q/TPN/u2OmsDPsM5z4Bc01gCaj8MYz3A3LaFjPyMKuQINkIT6i3vevCaPIp9CoRZv+mNprJdsPjXYcOWgFt/M2FLy9OhHqhrLb4VKVHNjzysn7yi3Sf3ovd0NS7ROXZAtibnOuBMNv/eOTiyyZqlPWN53Rdxym92qocxypFNeT+i1EMPCatqhrwjwwsQeHJUTO2qaBqBLjHqsiM7iG0SLxdzqW0GKShsozI4YZAANTlaV/z+88u32UtkbM1Ts4uMcRJozcuNY9dDmXnbokigxFNCTmzM7ro/u8c6PgJNysyw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
+ by DS7PR12MB5717.namprd12.prod.outlook.com (2603:10b6:8:70::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Thu, 7 Apr
+ 2022 01:40:26 +0000
+Received: from BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::b998:eed3:9088:780c]) by BY5PR12MB4116.namprd12.prod.outlook.com
+ ([fe80::b998:eed3:9088:780c%7]) with mapi id 15.20.5144.021; Thu, 7 Apr 2022
+ 01:40:26 +0000
+Message-ID: <35e1a5da-a35a-cbaa-f70b-44c2f98c63ac@nvidia.com>
+Date:   Wed, 6 Apr 2022 18:40:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 04/11] dt-bindings: Add HTE bindings
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        smangipudi@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        warthog618@gmail.com, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220329054521.14420-1-dipenp@nvidia.com>
+ <20220329054521.14420-5-dipenp@nvidia.com>
+ <YkOVgRBtXX0k9zr1@robh.at.kernel.org>
+ <3b0f3430-bc1c-26df-c93f-517ba395d9e3@nvidia.com>
+ <YkRtzJjHQvmYNlK8@robh.at.kernel.org>
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+In-Reply-To: <YkRtzJjHQvmYNlK8@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR20CA0026.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::39) To BY5PR12MB4116.namprd12.prod.outlook.com
+ (2603:10b6:a03:210::13)
 MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
- <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
- <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
- <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
- <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8u77yazFpc2R216j6ObAiANb0Lfxt7DcT9P=3eg60u9Q@mail.gmail.com>
- <8735iqvbov.fsf@yhuang6-desk2.ccr.corp.intel.com>
-In-Reply-To: <8735iqvbov.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From:   Wei Xu <weixugc@google.com>
-Date:   Wed, 6 Apr 2022 13:16:27 -0700
-Message-ID: <CAAPL-u8tHSPe03bDuU3+mXbEU-3dKgYQt=jFOHdMq8kwjQmGqQ@mail.gmail.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Greg Thelen <gthelen@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 56cb9a6e-d3b0-46df-e6c1-08da183796ab
+X-MS-TrafficTypeDiagnostic: DS7PR12MB5717:EE_
+X-Microsoft-Antispam-PRVS: <DS7PR12MB571740B699A77DC0930ADD77AEE69@DS7PR12MB5717.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1SuZU0scXcyNnXQLabe5VzrBb/bJYOCzqa1XP+y3QSdJkyx9F/A5LYLhJuwsQBpPG5cpVBPKadyXtqpq0lKfn7ph3auGaehEYqC0FpqUUIRo8sldsWQpaFoKrK5jldCDenn1zqVJzPcqfakKYl1EjMFZcrGPv9M1/bzeDd2PbxdO4Wh+53khMqdUTxpv94X4Fcd6F5OpvOsvQNiRi+Ms0fJYOQ6yOwbFXtxUURHpBFd4Tt/ZchdzyIAMa+FUBtzp1WhzVuZTGXMIlssuelhi1vnrpYZwaBwYE26RC3LLYJmSYjvQ6im9lZESrvP7NNOSknOmFIXa6jXE7fDShxjUwOWsVJ9j4oBltmTxg6n2aj3tHimX7yitCaVHd4QoxYaNylpS5FgUKwyPx4UL144AHBZOGduqM6RuEf586amPIF5XXD9ZQtMMXSny0KqbtNFWwP/2jOPwozB3aV4+utBop6RYGNuxzS3UWaGRUYENfQmYSmoAIchIb6yJNpWvVJG12icOWwI/+4JhSATl19A53trh7XW7zJbtAFdbDvAMfmU2u6o3vGzM4sK6SVrm5uGKDzhlV/1RL68Yr69Z9bX7jaoO6lhTkDv1sQkVb2foeHn/qZpY7Idaoijl8sBuUs0bW1+VTCl+xJ1zu9Ge9Zu3DSd1L41kZ10cZE4yX85HDVzO/jepUMrURkl0fuEfN5aZgUtz5qa+L+cjgKUj2e5nUyZHD6AYYfhzUJ9O4JnSdDpQvhMY+oA/2827ad4QAn+ID7c7bs5YbjrCs0HmCCoHqiW3EHDJPx7dXNC8cnbTdtu/Vxl3EqtInTMPagXlClEhj82onF68ud2qg+aDTuS82ZAlWuhMS+nMl//eiop0K21QUQEvUtyiQj8hqXg3fPeL
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4116.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(45080400002)(6916009)(2616005)(6666004)(86362001)(31696002)(38100700002)(26005)(31686004)(36756003)(186003)(966005)(2906002)(6486002)(508600001)(5660300002)(4326008)(53546011)(8676002)(66556008)(66476007)(6512007)(83380400001)(8936002)(66946007)(7416002)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGk1QnJ5bjNWWWd6OXQ3eitYWUo4MjFMRkREenFsZHlndnhwT3ArL25rK3Q5?=
+ =?utf-8?B?eGtzRWJjdGs3Vno5TURLaURUY1ZhTTdkV0YyYXBiVDl5S1ZWOGcrY3lySVdG?=
+ =?utf-8?B?ME1OMFV0emJkRXVUbEQvRGtDM0t3LzlxTXNOaVNUUU5vNTEyV1QrZG5PdXhH?=
+ =?utf-8?B?eTdnK0g5d1ZqSUNhMFlsSjd5KzNCTzErMklkUXo4TWRvV1FEb2NNMm14SkVR?=
+ =?utf-8?B?ZGxGeXB0WUF3TE10cnN1V0hKRC9yeFJtcHhwQVNuaU5lL2MzNnNYRnNrbjhZ?=
+ =?utf-8?B?d05oMm1tbFUyUjNuZ0tGWWs5OEllWEtoMEhtbWJxelBDZlF5b3hpd2ZrUGgx?=
+ =?utf-8?B?MzZwb0Z0aHRXM0NzTlg2SC9GeEtiWG5Ua2FlQ2x4bTh6a2owYmQva1JKT0dr?=
+ =?utf-8?B?Yks4Y1BtMnppU216RlVYMWtHUTlGZVh1ZVRvOWNvMHFpb0NXa3RWNlBFUlRh?=
+ =?utf-8?B?OGxLZmUwbEZ2VGhHdnNNOHFhNTVjNU0xVEl4ZHg3NUZOM3I2UE1GSTRhRXIy?=
+ =?utf-8?B?WlRCdzVMN01UR3lHbWZZci9jZkdpL3BaWEtjR3J2U2ltNnBjcDUyZTF6TTFP?=
+ =?utf-8?B?VmVxSldiL04vK3BuS2tQMUw4MnRja2V6bjBhM0NmSG55dG9iTWdTREJ4NTZp?=
+ =?utf-8?B?RnZOaU5HZi9CM3hwSjFRZnhlV0xtNlNOMUV4djFkam5jdGZqVEpRZk9LSmtE?=
+ =?utf-8?B?OFpuTHdWVWZEbHE4NnFNbWdGMVcyNFo2dExKQlZrc0x2OGV6SmFueGlXTE1C?=
+ =?utf-8?B?QnFqRDVObGlmN291Ym42Sk9KczBxOVJML0VjM1R2Z3laYWN6NFRrVWZKSnpR?=
+ =?utf-8?B?MnQxMVVFS2ZTN082dGtmSFZaelZKUWJseVJrY044Umd0SWdqTENRN1BuTDB6?=
+ =?utf-8?B?c2daMW9sRDZxeW5qb05aNXBpd1VXb3hhWWZJd25DYWxkMkVqRjRnOGFvYjhJ?=
+ =?utf-8?B?VzNESjNNWUFoa282MnRGL01WUnN2ekpIbmVGV1A1NlB2QlhKZUNXSjg0czV5?=
+ =?utf-8?B?MFJUZytHdkNsMmZ5Y1IxS1VNQjg1aExYQTAvN2o0UW1hTldybzZUQmdiWlFi?=
+ =?utf-8?B?cDZRbUxYSWFhMnZ5OFBicTVnVTQ4S2tPbmJIS040MjVxRlJBR0JkSjE5TElV?=
+ =?utf-8?B?dCticTVMWTYyU3ZSOUd4OW54Zy85aDErL3AyRnA1eS9DNVF4eHBVM3VSVC9z?=
+ =?utf-8?B?TklSa2dIMVBMNU1GelJlczhOOGRCZ0FrOGVOODgrNDJVTjFUMUhsWG01ODVi?=
+ =?utf-8?B?Ym5TWnBrYWRrVUdDT09iMnA2bW5NQjdhVVkvTDAxcld0R3dnVDZ2MWkzNUVl?=
+ =?utf-8?B?VU1MSVRBR1dlYTg2ZC9sNlRmODBvc0VtdnlkWGJpcWhRQkNKZndmVHcyRWJy?=
+ =?utf-8?B?N3UrME0rQzJoTU5YNnZVZjJIK0tqanFJaHZxamtGZ3lJeHNtT0tGMmUwS3BV?=
+ =?utf-8?B?bFhIT0VNMjVEb29QTjBwUGc4TXF3NFozVW96OEZWbVB0ME9kOHhnK1FyQkFO?=
+ =?utf-8?B?RmNoZlM1WllaVnZuTEhYaDZSUG9GY0JXSzMzUXNKQStyODBIRWlNZnFRcTd4?=
+ =?utf-8?B?WGlrcFArQklzUmFMaC9McG5qcUVqNGFaTHN5d3ZRaGhYWkhNV0N4U1VNRzZh?=
+ =?utf-8?B?czU4cGRRTE1td1V1SU1teFlIUzFOK3NacDYvbGJua0x5ZVdyZURxL1FUUWdr?=
+ =?utf-8?B?blU3RTQycFZLUWlFUWFlSUREdHA0RWdkVUtlb3JXaVc2K0lNWHpsQ1pNSGFW?=
+ =?utf-8?B?MVh6OHgzTDJaVm5YcXpnU2JvUmVnYitNZjBRbjRCbmx2bzBGdGx5QVE5bE1C?=
+ =?utf-8?B?K0Uyek1hNHhCbVpzK0FJdzVLTSs0MUJWNXlRQndmZHNVY3Q0WWlaQUY4RmlH?=
+ =?utf-8?B?L0ZtdHkwMTI3ZWFWYWRORFhpaXEvTXI0MVJ3UDZwZjRUa3EwcVRqZ01jVDZy?=
+ =?utf-8?B?Z1l2T2RDKzhLYnVSSDJQQWlValFKa2c1M2t3bklXM1NlOVFqMkRmUFQ4VnNR?=
+ =?utf-8?B?eWdDS0d0c25kZDBQc2MyRm5vYUhvTExPM0piMlEwUXdFSzFMVXM1c3VDRG50?=
+ =?utf-8?B?NDhLZ0VqckEzOFA2aFF6RFZGWWQwRmRIeFNNZ1BLdWRkbWRmeHhVVkQxNisx?=
+ =?utf-8?B?RENPcWdzVlJHbUZQVzJGZGNMZ3MwTW5vdTk0S0dDQ1NkbW1nNThHS00wamQy?=
+ =?utf-8?B?MUFnOFVMOXVYd2pjaExzNTEzWHp4MDFQRVJHSGREKzhqMjJKTloyZzcyTHZU?=
+ =?utf-8?B?S3QrcEpNWDcydUxWRzVPMHo3Y1lEUi9ieWVXaktscVkzWC82ODlLN2JVWHNu?=
+ =?utf-8?B?dGtyakUzUUhoRytYMWJUeEk2aUZsbmxleUU4dGUxRS9tTDI4WnZpUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56cb9a6e-d3b0-46df-e6c1-08da183796ab
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 01:40:25.9419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UzxybCjJ4Tp/EPkzIij7mTdbZpGlTbfu24fjv16jY/vI8x9FJzik0ktSoxGKKAcgTi83XtTfxt/RqVXblxNV2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5717
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 6, 2022 at 1:49 AM Huang, Ying <ying.huang@intel.com> wrote:
->
-> Wei Xu <weixugc@google.com> writes:
->
-> > On Tue, Apr 5, 2022 at 11:32 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >>
-> >> Wei Xu <weixugc@google.com> writes:
-> >>
-> >> > On Tue, Apr 5, 2022 at 7:50 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >>
-> >> >> Wei Xu <weixugc@google.com> writes:
-> >> >>
-> >> >> > On Tue, Apr 5, 2022 at 5:49 PM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >> >>
-> >> >> >> Wei Xu <weixugc@google.com> writes:
-> >> >> >>
-> >> >> >> > On Sat, Apr 2, 2022 at 1:13 AM Huang, Ying <ying.huang@intel.com> wrote:
-> >> >> >> >>
-> >> >> >> >> Wei Xu <weixugc@google.com> writes:
-> >> >> >> >>
-> >> >> >> >> > On Fri, Apr 1, 2022 at 6:54 AM Michal Hocko <mhocko@suse.com> wrote:
-> >> >> >> >> >>
-> >> >> >> >> >> On Thu 31-03-22 08:41:51, Yosry Ahmed wrote:
-> >> >> >> >> >> > From: Shakeel Butt <shakeelb@google.com>
-> >> >> >> >> >> >
-> >> >> >> >>
-> >> >> >> >> [snip]
-> >> >> >> >>
-> >> >> >> >> >> > Possible Extensions:
-> >> >> >> >> >> > --------------------
-> >> >> >> >> >> >
-> >> >> >> >> >> > - This interface can be extended with an additional parameter or flags
-> >> >> >> >> >> >   to allow specifying one or more types of memory to reclaim from (e.g.
-> >> >> >> >> >> >   file, anon, ..).
-> >> >> >> >> >> >
-> >> >> >> >> >> > - The interface can also be extended with a node mask to reclaim from
-> >> >> >> >> >> >   specific nodes. This has use cases for reclaim-based demotion in memory
-> >> >> >> >> >> >   tiering systens.
-> >> >> >> >> >> >
-> >> >> >> >> >> > - A similar per-node interface can also be added to support proactive
-> >> >> >> >> >> >   reclaim and reclaim-based demotion in systems without memcg.
-> >> >> >> >> >> >
-> >> >> >> >> >> > For now, let's keep things simple by adding the basic functionality.
-> >> >> >> >> >>
-> >> >> >> >> >> Yes, I am for the simplicity and this really looks like a bare minumum
-> >> >> >> >> >> interface. But it is not really clear who do you want to add flags on
-> >> >> >> >> >> top of it?
-> >> >> >> >> >>
-> >> >> >> >> >> I am not really sure we really need a node aware interface for memcg.
-> >> >> >> >> >> The global reclaim interface will likely need a different node because
-> >> >> >> >> >> we do not want to make this CONFIG_MEMCG constrained.
-> >> >> >> >> >
-> >> >> >> >> > A nodemask argument for memory.reclaim can be useful for memory
-> >> >> >> >> > tiering between NUMA nodes with different performance.  Similar to
-> >> >> >> >> > proactive reclaim, it can allow a userspace daemon to drive
-> >> >> >> >> > memcg-based proactive demotion via the reclaim-based demotion
-> >> >> >> >> > mechanism in the kernel.
-> >> >> >> >>
-> >> >> >> >> I am not sure whether nodemask is a good way for demoting pages between
-> >> >> >> >> different types of memory.  For example, for a system with DRAM and
-> >> >> >> >> PMEM, if specifying DRAM node in nodemask means demoting to PMEM, what
-> >> >> >> >> is the meaning of specifying PMEM node? reclaiming to disk?
-> >> >> >> >>
-> >> >> >> >> In general, I have no objection to the idea in general.  But we should
-> >> >> >> >> have a clear and consistent interface.  Per my understanding the default
-> >> >> >> >> memcg interface is for memory, regardless of memory types.  The memory
-> >> >> >> >> reclaiming means reduce the memory usage, regardless of memory types.
-> >> >> >> >> We need to either extending the semantics of memory reclaiming (to
-> >> >> >> >> include memory demoting too), or add another interface for memory
-> >> >> >> >> demoting.
-> >> >> >> >
-> >> >> >> > Good point.  With the "demote pages during reclaim" patch series,
-> >> >> >> > reclaim is already extended to demote pages as well.  For example,
-> >> >> >> > can_reclaim_anon_pages() returns true if demotion is allowed and
-> >> >> >> > shrink_page_list() can demote pages instead of reclaiming pages.
-> >> >> >>
-> >> >> >> These are in-kernel implementation, not the ABI.  So we still have
-> >> >> >> the opportunity to define the ABI now.
-> >> >> >>
-> >> >> >> > Currently, demotion is disabled for memcg reclaim, which I think can
-> >> >> >> > be relaxed and also necessary for memcg-based proactive demotion.  I'd
-> >> >> >> > like to suggest that we extend the semantics of memory.reclaim to
-> >> >> >> > cover memory demotion as well.  A flag can be used to enable/disable
-> >> >> >> > the demotion behavior.
-> >> >> >>
-> >> >> >> If so,
-> >> >> >>
-> >> >> >> # echo A > memory.reclaim
-> >> >> >>
-> >> >> >> means
-> >> >> >>
-> >> >> >> a) "A" bytes memory are freed from the memcg, regardless demoting is
-> >> >> >>    used or not.
-> >> >> >>
-> >> >> >> or
-> >> >> >>
-> >> >> >> b) "A" bytes memory are reclaimed from the memcg, some of them may be
-> >> >> >>    freed, some of them may be just demoted from DRAM to PMEM.  The total
-> >> >> >>    number is "A".
-> >> >> >>
-> >> >> >> For me, a) looks more reasonable.
-> >> >> >>
-> >> >> >
-> >> >> > We can use a DEMOTE flag to control the demotion behavior for
-> >> >> > memory.reclaim.  If the flag is not set (the default), then
-> >> >> > no_demotion of scan_control can be set to 1, similar to
-> >> >> > reclaim_pages().
-> >> >>
-> >> >> If we have to use a flag to control the behavior, I think it's better to
-> >> >> have a separate interface (e.g. memory.demote).  But do we really need b)?
-> >> >>
-> >> >
-> >> > I am fine with either approach: a separate interface similar to
-> >> > memory.reclaim, but dedicated to demotion, or multiplexing
-> >> > memory.reclaim for demotion with a flag.
-> >> >
-> >> > My understanding is that with the "demote pages during reclaim"
-> >> > support, b) is the expected behavior, or more precisely, pages that
-> >> > cannot be demoted may be freed or swapped out.  This is reasonable.
-> >> > Demotion-only can also be supported via some arguments to the
-> >> > interface and changes to demotion code in the kernel.  After all, this
-> >> > interface is being designed to be extensible based on the discussions
-> >> > so far.
-> >>
-> >> I think we should define the interface not from the current
-> >> implementation point of view, but from the requirement point of view.
-> >> For proactive reclaim, per my understanding, the requirement is,
-> >>
-> >>   we found that there's some cold pages in some workloads, so we can
-> >>   take advantage of the proactive reclaim to reclaim some pages so that
-> >>   other workload can use the freed memory.
-> >>
-> >> For proactive demotion, per my understanding, the requirement could be,
-> >>
-> >>   We found that there's some cold pages in fast memory (e.g. DRAM) in
-> >>   some workloads, so we can take advantage of the proactive demotion to
-> >>   demote some pages so that other workload can use the freed fast
-> >>   memory.  Given the DRAM partition support Tim (Cced) is working on.
-> >>
-> >> Why do we need something in the middle?
-> >
-> > Maybe there is some misunderstanding.  As you said, demotion is to
-> > free up fast memory.  If pages on fast memory cannot be demoted, but
-> > can still be reclaimed to free some fast memory, it is useful, too.
-> > Certainly, we can also add the support and configure the policy to
-> > only demote, not reclaim, from fast memory in such cases.
->
-> Yes.  I think it may be better to demote from fast memory nodes only in
-> such cases.  We just free some fast memory proactively.  But we may
-> reclaim from the slow memory node (which are demotion targets) if
-> necessary.
 
-It can be a policy choice whether to reclaim from slow memory nodes
-for demotion, or reclaim the pages directly from fast memory nodes, or
-do nothing, if there isn't enough free space on slow memory nodes for
-a proactive demotion request.  For example, if the file pages on fast
-memory are clean and cold enough, they can be discarded, which should
-be cheaper than reclaiming from slow memory nodes and then demoting
-these pages.  A policy for such behaviors can be specified as an
-argument to the proactive demotion interface when it is desired.
+On 3/30/22 7:48 AM, Rob Herring wrote:
+> On Tue, Mar 29, 2022 at 05:19:10PM -0700, Dipen Patel wrote:
+>> Hi,
+>>
+>> On 3/29/22 4:25 PM, Rob Herring wrote:
+>>> On Mon, Mar 28, 2022 at 10:45:14PM -0700, Dipen Patel wrote:
+>>>> Introduces HTE devicetree binding details for the HTE subsystem. It
+>>>> includes examples for the consumers, binding details for the providers
+>>>> and specific binding details for the Tegra194 based HTE providers.
+>>>>
+>>>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>>>> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Replace hte with hardware-timestamp for property names
+>>>> - Renamed file
+>>>> - Removed example from the common dt binding file.
+>>>>
+>>>> Changes in v3:
+>>>> - Addressed grammatical errors.
+>>>> - Removed double plural from the respective properties.
+>>>> - Added dual license.
+>>>> - Prefixed "nvidia" in nvidia specific properties.
+>>>>
+>>>> Changes in v4:
+>>>> - Corrected make dt_binding_check error.
+>>>>
+>>>> Changes in v5:
+>>>> - Addressed review comments.
+>>>>
+>>>>  .../hte/hardware-timestamps-common.yaml       | 29 +++++++
+>>>>  .../devicetree/bindings/hte/hte-consumer.yaml | 43 ++++++++++
+>>>>  .../bindings/hte/nvidia,tegra194-hte.yaml     | 82 +++++++++++++++++++
+>>>>  3 files changed, 154 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+>>>>  create mode 100644 Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>>>>  create mode 100644 Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..e8a69ceccd56
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+>>>> @@ -0,0 +1,29 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fhte%2Fhardware-timestamps-common.yaml%23&amp;data=04%7C01%7Cdipenp%40nvidia.com%7C0e094f6ae7b642c970f308da125c64d4%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637842485301457320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=4UcTV375zNF44HeIpQcDV%2Bp3VJXdtjomZYGWWsUJf%2FA%3D&amp;reserved=0
+>>>> +$schema: https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cdipenp%40nvidia.com%7C0e094f6ae7b642c970f308da125c64d4%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637842485301457320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=fGoLuKpVFMNOsh%2BbJ6dLhpky63Y6zQ1oNkiOHDQ%2Bud0%3D&amp;reserved=0
+>>>> +
+>>>> +title: Hardware timestamp providers
+>>>> +
+>>>> +maintainers:
+>>>> +  - Dipen Patel <dipenp@nvidia.com>
+>>>> +
+>>>> +description:
+>>>> +  Some devices/SoCs have hardware time stamping engines which can use hardware
+>>>> +  means to timestamp entity in realtime. The entity could be anything from
+>>>> +  GPIOs, IRQs, Bus and so on. The hardware timestamp engine (HTE) present
+>>>> +  itself as a provider with the bindings described in this document.
+>>>> +
+>>>> +properties:
+>>>> +  $nodename:
+>>>> +    pattern: "^hardware-timestamp(@.*|-[0-9a-f])?$"
+>>>> +
+>>>> +  "#hardware-timestamp-cells":
+>>>> +    description:
+>>>> +      Number of cells in a HTE specifier.
+>>>> +
+>>>> +required:
+>>>> +  - "#hardware-timestamp-cells"
+>>>> +
+>>>> +additionalProperties: true
+>>>> diff --git a/Documentation/devicetree/bindings/hte/hte-consumer.yaml b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..be69f63aa8c3
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>>>> @@ -0,0 +1,43 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fhte%2Fhte-consumer.yaml%23&amp;data=04%7C01%7Cdipenp%40nvidia.com%7C0e094f6ae7b642c970f308da125c64d4%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637842485301457320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=E3fspCvDDE5%2F6opK%2FdtpaY5%2FscsPURvDV7O7%2B%2FdbtEQ%3D&amp;reserved=0
+>>>> +$schema: https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=04%7C01%7Cdipenp%40nvidia.com%7C0e094f6ae7b642c970f308da125c64d4%7C43083d15727340c1b7db39efd9ccc17a%7C0%7C0%7C637842485301457320%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=fGoLuKpVFMNOsh%2BbJ6dLhpky63Y6zQ1oNkiOHDQ%2Bud0%3D&amp;reserved=0
+>>>> +
+>>>> +title: HTE Consumer Device Tree Bindings
+>>>> +
+>>>> +maintainers:
+>>>> +  - Dipen Patel <dipenp@nvidia.com>
+>>>> +
+>>>> +select: true
+>>>> +
+>>>> +description:
+>>>> +  HTE properties should be named "hardware-timestamps". The exact meaning of
+>>>> +  each hardware-timestamps property must be documented in the device tree
+>>> The meaning of the cells needs to be documented. You are documenting the 
+>>> meaning of 'hardware-timestamps' here.
+>> This is for the consumer side, meaning of the cells will be documented in the provider
+>>
+>> binding document.
+> Right cells are opaque to the consumer. What bothered me is 
+> hardware-timestamps already has an 'exact meaning'. You need to me more 
+> exact as to what should be documented. We don't want what 
+> 'hardware-timestamps' is described again. What needs to be documented is 
+> how many entries, what each entry is (for the consumer), and the order.
+>
+>
+>>>> +  binding for each device. An optional property "hardware-timestamp-names" may
+>>>> +  contain a list of strings to label each of the HTE devices listed in the
+>>>> +  "hardware-timestamps" property.
+>>>> +
+>>>> +properties:
+>>>> +  hardware-timestamps:
+>>> I'm wondering if we should just drop 'hardware'. What other kind of 
+>>> timestamps are we going to have in DT? software-timestamps? No.
+>> I believe this makes it explicit and leaves no room for second guess. If
+>>
+>> only timestamps, ambiguity then will be which timestamp it is i.e. through hardware
+>>
+>> engine, pps, ptp and so on...
+> Those aren't hardware timestamps, too? If those needed a similar 
+> binding, couldn't they use this binding? PTP at least is sometimes an 
+> separate, external chip IIRC.
 
-> > In any case, we will not reclaim from slow memory for demotion,
->
-> If there's no free pages in the slow memory to accommodate the demoted
-> pages, why not just reclaim some pages in the slow memory?  What are the
-> disadvantages to do that?
+I am fine with this idea of dropping "hardware" prefix, will update the patch.
 
-We can certainly do what you have described through a policy argument.
-What I meant is that we will not ask directly via the proactive
-demotion interface to reclaim from slow memory nodes and count the
-reclaimed bytes as part of the requested bytes.
+I believe this will be applicable to all other properties for example hardware-timestamp-cell
 
-> > if that is the middle thing you refer to.
->
-> No.  I mean,
->
-> If we reclaim "A" pages proactively, we will free "A" pages, maybe from
-> slow memory firstly.  The target is the total memory size of a memcg.
->
-> If we demote "A" pages proactively, we will demote "A" pages from fast
-> memory to slow memory.  The target is the fast memory size of a memcg.
-> In the process, some slow memory may be reclaimed to accommodate the
-> demoted pages.
->
-> For me, the middle thing is,
->
-> If we demote some pages from fast memory to slow memory proactively and
-> free some pages from slow memory at the same time, the total number
-> (demote + free) is "A".  There's no clear target.  I think this is
-> confusing.  Per my understanding, you don't suggest this too.
+as well, right?
 
-I agree and don't suggest this middle thing, either.
-
-> > This is why nodemask is
-> > proposed for memory.reclaim to support the demotion use case.  With a
-> > separate memory.demote interface and memory tiering topology among
-> > NUMA nodes being well defined by the kernel and shared with the
-> > userspace, we can omit the nodemask argument.
 >
-> Yes.  Both seems work.
->
-> Best Regards,
-> Huang, Ying
->
-> >>
-> >> >> > The question is then whether we want to rename memory.reclaim to
-> >> >> > something more general.  I think this name is fine if reclaim-based
-> >> >> > demotion is an accepted concept.
-> >> >>
-> >> >> Best Regards,
-> >> >> Huang, Ying
+> Rob
