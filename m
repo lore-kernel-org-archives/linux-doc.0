@@ -2,149 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DE1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 04:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BD8C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 07:36:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237045AbiDGFAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 01:00:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47744 "EHLO
+        id S241908AbiDGHiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 03:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236602AbiDGFAk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 01:00:40 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B583A1DB7C6;
-        Wed,  6 Apr 2022 21:58:40 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id t13so3999133pgn.8;
-        Wed, 06 Apr 2022 21:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JP74ztnW9mN5Wx5SZxZ1rwxOY5BhzSJW2zDiwmBFA8c=;
-        b=lf4bCwCADH4PnWz+xVjyrp3OLa2XZn0LE4eJTYa5HRncMriSOQm3kecvJpNID9GKPy
-         0lxfOTBLqW1YFniQs1hOQlicrE6FQOwkk0UgippUw9cy81/+NjCz1LB3smnbIJc75Pn/
-         ukkmK8pWMc3w4B3sMYdYmAsaotLThoZWZmUvptlIY1TpwfCkE/9OMZ36HzshUzFt9HWW
-         NvqKH1oW7yqetneVxt+yXaLcfX5ND5dy5ztbIePf1WXksZro3ANAV061lyHwsuCtVQg2
-         uCuu3WyO2ai+murmZAwE/n+XdcfZhCe+caW5LxctPap+B9uQr6cHhVBQV21h1rrpRpYg
-         iD8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JP74ztnW9mN5Wx5SZxZ1rwxOY5BhzSJW2zDiwmBFA8c=;
-        b=zbCSjL2lZ+ZH6taii1bt7o3PKPBwK2bZ8MWwUIyVGepxLxg8CqNiesvN3QlUkwUfQi
-         LDo5zJHbvszE8/iO5kK1Aw0CIXrS982Wu0Psm938xVrlu8LN7X+Hu6w+ezSUcBGwEezA
-         pshxbbcrbI1ojXZW3u3DLXeiJs3EQtgmeVe1Sq3GpbWhB8D7xtyiEpIynjJ1hLMW7T0z
-         j81BObdsh+jzz0It/n4KjfVMP2jSOMb4/+03JpsT47DUBPlGdP4hswjMjQDOUCNKwzXm
-         eIec4MqgDnqR+iEHjLgro6JC1BRp+rAhJiMMCag1jLuvEaSCgqZzp+W5iIAwGz0+bSge
-         fCUA==
-X-Gm-Message-State: AOAM5323daBoIU/FUp4Di55krA3sn0BkUyeLBo0TRHGLhtBhp08X1Jiu
-        UBajeiQ4/6yegEqZAVnNx+wSSap5Ds2hzbUR
-X-Google-Smtp-Source: ABdhPJzuQb2+diHki7FV0XVGsaaeG3wNIfPoOd/ZJr1T1ATmJeGtjN8t0lkeSC2qqXoYyVv1xRmpLg==
-X-Received: by 2002:a62:4e4e:0:b0:4fa:b1d4:3405 with SMTP id c75-20020a624e4e000000b004fab1d43405mr12409865pfb.71.1649307520038;
-        Wed, 06 Apr 2022 21:58:40 -0700 (PDT)
-Received: from ubuntu.mate (subs02-180-214-232-30.three.co.id. [180.214.232.30])
-        by smtp.gmail.com with ESMTPSA id u14-20020a056a00124e00b004fab8f3245fsm21946356pfi.149.2022.04.06.21.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 21:58:39 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
+        with ESMTP id S241963AbiDGHhd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 03:37:33 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95C74DF4A;
+        Thu,  7 Apr 2022 00:35:33 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 0340B21122;
+        Thu,  7 Apr 2022 07:35:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1649316932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4+V8CVr+PsVvoMRvSRXz1QR100B6sh+pY7exh4j2aBc=;
+        b=o5iaBUNZARcTgJe1NnxGXMIcqlgmG9bsli9PzpUf7DjbZ8YS1jF7HF8ooX2hVuDm3lyZSN
+        2DcYNmsVkwM1UhSNWQUsfsKBwgNocKT+VvJEyTI9AdJ7C8TBU5Lr4WzrxrVrdBGzBPvhW6
+        yBNJheAWgva8zVizVPCwPxEe5A7T1F0=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id F2B1CA3B83;
+        Thu,  7 Apr 2022 07:35:26 +0000 (UTC)
+Date:   Thu, 7 Apr 2022 09:35:30 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Wei Xu <weixugc@google.com>, Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: arch_pgtable_helpers: demote pgtable list headings
-Date:   Thu,  7 Apr 2022 11:58:30 +0700
-Message-Id: <20220407045830.181514-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+Message-ID: <Yk6UQrjqSQnePdxe@dhcp22.suse.cz>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+ <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+ <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+ <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+ <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <CAAPL-u_FVEVE+wTBNYfDibLVKsRuOwEnpigYYRiZ2MbeUs1u8w@mail.gmail.com>
+ <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877d82vi13.fsf@yhuang6-desk2.ccr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All page title headings in arch_pgtable_helpers.txt except
-"Architecture Page Table Helpers" should have been subheadings instead.
+On Wed 06-04-22 14:32:24, Huang, Ying wrote:
+[...]
+> I think we should define the interface not from the current
+> implementation point of view, but from the requirement point of view.
 
-Demote them to chapter headings.
+Agreed!
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Changes since v1 [1]: 
-   - Rebased on v5.18-rc1
-   - Describe why the patch do the job
+> For proactive reclaim, per my understanding, the requirement is,
+> 
+>   we found that there's some cold pages in some workloads, so we can
+>   take advantage of the proactive reclaim to reclaim some pages so that
+>   other workload can use the freed memory.
 
- [1]: https://lore.kernel.org/linux-doc/20220326131313.691027-1-bagasdotme@gmail.com/
- Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+We are talking about memcg here so this is not as much a matter of free
+memory as it is to decrease the amount of charged memory. Demotion
+cannot achieve that.
 
-diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-index f8b225fc919047..cbaee9e592410f 100644
---- a/Documentation/vm/arch_pgtable_helpers.rst
-+++ b/Documentation/vm/arch_pgtable_helpers.rst
-@@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
- boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
- test need to be in sync.
- 
--======================
-+
- PTE Page Table Helpers
- ======================
- 
-@@ -79,7 +79,7 @@ PTE Page Table Helpers
- | ptep_set_access_flags     | Converts into a more permissive PTE              |
- +---------------------------+--------------------------------------------------+
- 
--======================
-+
- PMD Page Table Helpers
- ======================
- 
-@@ -153,7 +153,7 @@ PMD Page Table Helpers
- | pmdp_set_access_flags     | Converts into a more permissive PMD              |
- +---------------------------+--------------------------------------------------+
- 
--======================
-+
- PUD Page Table Helpers
- ======================
- 
-@@ -209,7 +209,7 @@ PUD Page Table Helpers
- | pudp_set_access_flags     | Converts into a more permissive PUD              |
- +---------------------------+--------------------------------------------------+
- 
--==========================
-+
- HugeTLB Page Table Helpers
- ==========================
- 
-@@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
- | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
- +---------------------------+--------------------------------------------------+
- 
--========================
-+
- SWAP Page Table Helpers
- ========================
- 
+> For proactive demotion, per my understanding, the requirement could be,
+> 
+>   We found that there's some cold pages in fast memory (e.g. DRAM) in
+>   some workloads, so we can take advantage of the proactive demotion to
+>   demote some pages so that other workload can use the freed fast
+>   memory.  Given the DRAM partition support Tim (Cced) is working on.
 
-base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+Yes, this is essentially a kernel assisted memory migration. Userspace
+can migrate memory but the issue is that it doesn't have any information
+on the aging so the migration has hard time to find suitable memory to
+migrate. If we really need this functionality then it would deserve a
+separate interface IMHO.
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Michal Hocko
+SUSE Labs
