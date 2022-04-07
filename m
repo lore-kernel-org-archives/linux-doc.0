@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 701C9C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37958C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245446AbiDGMxH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 08:53:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
+        id S245482AbiDGMyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 08:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244128AbiDGMxG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:53:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38BB21799D;
-        Thu,  7 Apr 2022 05:51:05 -0700 (PDT)
+        with ESMTP id S245481AbiDGMys (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:54:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C826259B58;
+        Thu,  7 Apr 2022 05:52:47 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:35::e2d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CFC736A2;
-        Thu,  7 Apr 2022 12:51:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CFC736A2
+        by ms.lwn.net (Postfix) with ESMTPSA id 5390B30D;
+        Thu,  7 Apr 2022 12:52:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5390B30D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1649335863; bh=ed1Yj2sHuJcCEx/tFjo0LHfX5lvHuxVzLRNxW1ZCHkY=;
+        t=1649335966; bh=J6fsWhcIYdB09wzvgZi6AxYIXSAJzCGBEqivzfR46Ss=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=AApfQ/rMNBOyVzv5HogVzu9LOs5/bbm/28NxoRP3bLqI6djr/QVWkvi5Fo33hyocE
-         q0x2QKNOKpZnUwsoMVf95v03EtGhWc2qHPSyDsiUNAnMDNQJQtFESCYrkOZBborm87
-         EpEl1O7XnUA/cqmkxDDLFVZY1rFvbhFkfBBLmOx0UPAmttf7u0C/h1jmmXy9e4eK65
-         RT6QE1JXqirnBs1hCI3lMDZ5YI8/7XdpyCiaYMxxR9+pTq2O/F1KrjJYZnTEF5NmHE
-         fAR6RHcif4P+tb4BdP5G7Y5bzmSy5WbH+XkwHvt57nrOgqQEews2GB0oUAzTb+7pgb
-         Ekn7cTHAxopsw==
+        b=jFKLQQekMDOtJN8dSbnDT5H9DpIjIII0a4/YX7BVTC3rl1zbWzFfWP5DoYkuu+aah
+         89Aw6rqW2QCQ/lMvN07sgjpylKtwLogEsnD9MmwftsfJCN3zwbE7tGfrAmuqRjDAxx
+         bsby11D9TfvO/ca6L7q/ixVgU8WODgk/5FSv97GwkQSRspBu3GQEz/4JfgSDn0qoOn
+         R6qeOk4Wn3MMOtAZO0pbE2EDX3lnXZ4fpMNByp66gx4nHmFf5h0wC4C/5Ntczpb5hJ
+         ZwaLdmte38V7t+sv+XIPJAX+eRpQj+cbdaStVYOyeDdlCRhmuISUmgPFGAe1+6hbu6
+         MAYN2RjDBgysw==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Bagas Sanjaya <bagasdotme@gmail.com>, Yu Zhao <yuzhao@google.com>,
         Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org
@@ -66,13 +66,13 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 13/14] mm: multi-gen LRU: admin guide
-In-Reply-To: <fde38982-a816-567a-3abb-370ec294b2c9@gmail.com>
+Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
+In-Reply-To: <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
 References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-14-yuzhao@google.com>
- <fde38982-a816-567a-3abb-370ec294b2c9@gmail.com>
-Date:   Thu, 07 Apr 2022 06:51:03 -0600
-Message-ID: <871qy99hvs.fsf@meer.lwn.net>
+ <20220407031525.2368067-15-yuzhao@google.com>
+ <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
+Date:   Thu, 07 Apr 2022 06:52:45 -0600
+Message-ID: <87wng1838i.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -82,15 +82,17 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
 > On 07/04/22 10.15, Yu Zhao wrote:
->> Add an admin guide.
+>> Add a design doc.
+>> 
 >
-> Why this documentation be added to admin-guide?
+> Why is this design documentation added?
 
-It appears to describe various parameters that a system administrator
-can tweak to affect how MGLRU works on their system.  So the admin guide
-seems to be the right place.
+...because perhaps other developers might want to understand the design
+of this complex mechanism?
 
-Bagas, why are you questioning this?
+Bagas, it is hard enough to get people to write useful documentation as
+it is.  Could I ask you to please stop adding useless friction to the
+process?
 
 Thanks,
 
