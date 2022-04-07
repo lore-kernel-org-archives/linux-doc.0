@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA76BC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 09:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E44ABC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 09:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236975AbiDGJK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 05:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54708 "EHLO
+        id S243863AbiDGJnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 05:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243593AbiDGJKW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 05:10:22 -0400
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F051F13E41F
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 02:08:18 -0700 (PDT)
-Received: by mail-ua1-x930.google.com with SMTP id az14so3234727uab.8
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 02:08:18 -0700 (PDT)
+        with ESMTP id S235542AbiDGJn1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 05:43:27 -0400
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07BAE996C
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 02:41:27 -0700 (PDT)
+Received: by mail-vs1-xe2e.google.com with SMTP id s19so3081765vso.5
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 02:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6oyzUUsDsP7WzlUuQJplNjzt5un2oXahWVrU3GKQPuI=;
-        b=BEKfjEYesu4xxuGItEJPl+h/svVPiup/e4mDMVBM/crzcZXc/qK8KXuCZaIuRK54Kx
-         Jzj1b892Dg8IaxwsCNIu6NZaNjk8xMFZ2GlcMmHcenRDB6NZoQt03/iELcT9++s6pMrL
-         5TMbLvnB5YKDSikzvv0x0xa66Xb6b+8yIwa//ac1UIhyN8UfHM5BhwbjcW2d+972BwP/
-         OzUhzLgCDQua4+8Yx1DRIMISpG3dSIruPY036DG6mrXI9AafC6X/q+tD9ESuUQyL+4Ud
-         fShCC1270vyTOeN2fRtMC6jm/sM8jn3d/V4YS3pOiP5Tks8JQ6HcgYzgxtHW9i70hs3P
-         9/pA==
+        bh=z7zJJ3dVoUtJLqxQIGYbqRajy422RRa0RyqoMndHc4s=;
+        b=JkMq8F+3HtqO81NBb1mkbEohTJ6kSw94E2HbJldlJImgri78wn/U3VLQp5g3pt4vwu
+         Oe3axNLegualBV2dfsFabBMvpDHS11gaY2Qw29J7JTL8Oa104iEKUtNyybRoQJ2sZ65U
+         HyDQybd4LaFvI+CJyrfhdiDxb7yqzjdImxYove6PUfT25p/HG9P3Pmf5Evcb0ODwU+jS
+         V/WwpuTXm4hM1VYORFumSwU3lEzCPKr+NA2oGfAc0U7FiEiP7MgWSFP9EzlHssjpgL+P
+         pm+hgBbIrLJFdgk1fC7jOMsY4OnDdgy+B2/j8ina8ycxYobiXaeWtaw0biULRtVwzBDw
+         3WKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6oyzUUsDsP7WzlUuQJplNjzt5un2oXahWVrU3GKQPuI=;
-        b=mcGIGRp7cd4c0Nnq23EZcNNhKvcDrkdQQmHxolOzK5UnsQ7he79sK14rlZOnvGiSQp
-         5tsJ3oir/cZswSuyHi8F6nab3imNiO1ZrFF1WYU5B28hgRE61BJYiPZ3rUpSp83rYxqI
-         y4sIhEzgS1wl+Wzf+6nQhknUn/J85FOFLWDHP2M+H2fHmHBIPM7zIxBXeYNiO8rOrLpG
-         C2Sv1KEJzKf1fUA4LdbGI46UYqv2MUozRf4xGU8JkAZrbeSoEPrUes5gpnVtHTxYPBsY
-         nwySLa5fk9Qjd+UxNui0vLRIvor3mUJe40+mDJQ2rpVjaNe7ofbPXQ5j2MUcgAqwdAYr
-         HIqA==
-X-Gm-Message-State: AOAM5314APO0VaIs3wdoqtO0TdoKKT25BFsP9VMFFbRmT38WgYoghk2y
-        mLCFdpL5UQWjoKrRtCsR1dHvWJO028WllZztUcULyA==
-X-Google-Smtp-Source: ABdhPJwRIUxVBC7LgYZPPCGVWUkXd0Jiwm7u+cd4Q61f75FZX/O7eUiX7MXlRBW1fHxpoz/IApfjXak8IwLQEOsL5Qo=
-X-Received: by 2002:a9f:23e4:0:b0:35c:d4cf:c96f with SMTP id
- 91-20020a9f23e4000000b0035cd4cfc96fmr3834873uao.17.1649322497880; Thu, 07 Apr
- 2022 02:08:17 -0700 (PDT)
+        bh=z7zJJ3dVoUtJLqxQIGYbqRajy422RRa0RyqoMndHc4s=;
+        b=L+mLmEa/awYoVFhg0/TDIOT3IRdMILdMauHicCRo+F/+KZVbcBa/mGZdgIzZP/8us4
+         RVLf4Fd1FpZMVWw8prh+WTYGlS/34+9tf5bsSnXPZ5RcHbXurdw3Y1H9ZycbbUiFy15w
+         3IIJlglBQ4KJmRb/AEtHEe6rFOg5PkS36i3Rr/KUnkgb30ZM2TgcV8zMbpMZoTAfRXZ6
+         vcOK4ayubcD5cHlMhOxbzgaYel/TuXSDz4oLcpkrnwtQ4k/ZGpt3Q+tJtEfPIxOjoM5B
+         8LtV1ZdIalFW0gg2NUgnS0zSJklbB8rd3/x78ysy6jAAIVmoYbA/c74KWc/CUVAs7c4j
+         hRfQ==
+X-Gm-Message-State: AOAM5307nysamO7PERM7UV9DXTR45rXAE8KOAKZbRkMZn9xqgA7GesLu
+        plUPJq9bxvacZ0+U/dXTvZFi8jEZHrMl5E8FuwMmLg==
+X-Google-Smtp-Source: ABdhPJznbN/TbVfynuU05EKXVCH2yRC1wZVWoNNxhWpZNDl5eLfDeRuTca6WXDt0On9YhbPtyNMup3nQhkj5pv50cFM=
+X-Received: by 2002:a05:6102:3753:b0:325:c20e:4b1c with SMTP id
+ u19-20020a056102375300b00325c20e4b1cmr4264725vst.84.1649324486928; Thu, 07
+ Apr 2022 02:41:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407031525.2368067-1-yuzhao@google.com> <CAOUHufZ8x5B-e+Wwgrh+qWryf8dAbfMWVEE0s-AfwZ-H7DouQg@mail.gmail.com>
  <20220407183112.2cb5b627@canb.auug.org.au>
 In-Reply-To: <20220407183112.2cb5b627@canb.auug.org.au>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 7 Apr 2022 03:08:06 -0600
-Message-ID: <CAOUHufYdeDV=caQvRv_g0rrPjTm29f0_bCOQJpr+qcFO+vpK6g@mail.gmail.com>
+Date:   Thu, 7 Apr 2022 03:41:15 -0600
+Message-ID: <CAOUHufbaPR3H2KcYywCf0ycFWh=2Nf1PwiO4t8tO6TXB9U1MwA@mail.gmail.com>
 Subject: Re: [PATCH v10 00/14] Multi-Gen LRU Framework
 To:     Stephen Rothwell <sfr@canb.auug.org.au>
 Cc:     Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
@@ -96,7 +96,7 @@ On Thu, Apr 7, 2022 at 2:31 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
 > I get a message saying "This repository is empty. Push to it to show
 > branches and history." :-(
 
-Sorry about that
+Sorry about this. It should work now.
 
 > > My goal is to get additional test coverage before I send a pull
 > > request for 5.19 to Linus.
@@ -136,10 +136,20 @@ Sorry about that
 >
 > Have you done a trial merge with a current linux-next tree to see what
 > sort of mess/pain we may already be in?
->
+
+Yes, the repo I prepared for you is based on the latest linux-next.
+There shouldn't be any conflicts.
+
 > Is it all stable enough now that it could be sent as a patch series for
 > Andrew to include in mmotm (with perhaps just smallish followup patches)?
->
-> --
-> Cheers,
-> Stephen Rothwell
+
+Yes, on multiple occasions, e.g., [1][2][3], I've claimed this
+patchset has an unprecedented test coverage and nobody has proven
+otherwise so far.
+
+Andrew suggested a cycle in linux-next [4]. So here we are :)
+
+[1] https://lore.kernel.org/all/YdSuSHa%2FVjl6bPkg@google.com/
+[2] https://lore.kernel.org/r/YdiKVJlClB3h1Kmg@google.com/
+[3] https://lore.kernel.org/r/YgR+MfXjpg82QyBT@google.com/
+[4] https://lore.kernel.org/r/20220326134928.ad739eeecd5d0855dbdc6257@linux-foundation.org/
