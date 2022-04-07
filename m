@@ -2,218 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3B9C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 07:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A46C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 08:31:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231781AbiDGHrK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 03:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
+        id S243069AbiDGId1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 04:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242080AbiDGHrI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 03:47:08 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50625A205A
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 00:45:08 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id t4so4311772pgc.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 00:45:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzsrWt8j76/wUQw6959z+QyLT3qqPlObCP7Fz9z/YWg=;
-        b=aWZ0k12VGSGltoZCBcUscb9hH8BE31RogvBmbswhcokyKn82bGhYXOTgPtgUB3aosY
-         jEZsgKKTsgs2Dzmy8i8H7IJ1Ts0hl6P1fEAVBZTMKbSEGDYBZYecNdvGdQ5KHZ7D60nb
-         ZU04569AaAJh3qISde5BdYOInbfWVJmqeq2iZnfgaEw/rXplILhFHS9vC6gKW6cPbn0g
-         75uG2jLifZ/rDfHX9XUEAxSYBIb9KS35fVqujTmzb3LEgiW655jJ6UdnwXRJLQAK4lmN
-         Kx63PyBIcaGxoZvVChWvTBG8vyBV0YPCHFfItmu1TscpvgPfLEV4ZYS9xah4kU1OCCKL
-         vrkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzsrWt8j76/wUQw6959z+QyLT3qqPlObCP7Fz9z/YWg=;
-        b=guulhmkL8h1K4MGiGYL0ZoEkZYZ9Om70bUiyb/d5FFODgAeV1Tphq/gLZfF7fjR0Yf
-         KZvsVoLUDg4NnIzIcjOX1W8clcvB+NoeADraADUNv1MgLI1z4e7kGeKKGl3Gr1SBFIN+
-         xEo9UXnjH4phe+Kx5VDLlIGEecaTxEfqLQnpeFGhO+/Qsa/YRadfgKhzVv3djUss9WDp
-         Nlggoeh+F/a/w2G3UxN5Ip1w0uva+AZxUe7eFYX4rQOGFntLl2efvb2WS1iV5vch08OY
-         05WXBUuvkEVv0uJnWX13OvGzm0kBQdgnlVm3NmpgMCYb6hz9xN6L/JRB6mzt2hsfrkhn
-         fKhw==
-X-Gm-Message-State: AOAM530WriOAoEhN9Wp6n5I21YvWH+RNEa8kq7SXzlHkglVoeVLrKjfz
-        lI7R/GPrombVgkQiAXJtCdcTHA==
-X-Google-Smtp-Source: ABdhPJxPZxqzh3ftTit3YDkR8+rA6lXGJptX47km4U9G6HKIfJ1WftNq5lzv57CFUh7WgIMQHx50XQ==
-X-Received: by 2002:a63:6443:0:b0:399:54fe:5184 with SMTP id y64-20020a636443000000b0039954fe5184mr10282377pgb.511.1649317507376;
-        Thu, 07 Apr 2022 00:45:07 -0700 (PDT)
-Received: from localhost.localdomain ([49.37.166.144])
-        by smtp.gmail.com with ESMTPSA id j18-20020a633c12000000b0038204629cc9sm17860802pga.10.2022.04.07.00.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 00:45:05 -0700 (PDT)
-From:   Arun Ajith S <aajith@arista.com>
-To:     netdev@vger.kernel.org
-Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, dsahern@kernel.org,
-        yoshfuji@linux-ipv6.org, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, prestwoj@gmail.com, gilligan@arista.com,
-        noureddine@arista.com, gk@arista.com, aajith@arista.com
-Subject: [PATCH net-next v2] net/ipv6: Introduce accept_unsolicited_na knob to implement router-side changes for RFC9131
-Date:   Thu,  7 Apr 2022 07:44:28 +0000
-Message-Id: <20220407074428.1623-1-aajith@arista.com>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S243045AbiDGIdZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 04:33:25 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C6511728B6;
+        Thu,  7 Apr 2022 01:31:23 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4KYvjY6Rg9z4xZ3;
+        Thu,  7 Apr 2022 18:31:13 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+        s=201702; t=1649320279;
+        bh=sG3iKOR7eX1exkY5m5McEH06+OHvCNrCCmrkW2t6mPw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Tb6aWuQnBAXP6tq8BkXFqkJ9qXQ7j+Ssg31lMCAA3ftBlIlAfTA4TlFldTXWjJhj6
+         UiGPVJxV44LH3mYCfXlb9U7LmX35v9CXzzTK/VHPEgu6Q+HiZmkLo71wAv1z6kKByR
+         lwo5svIrEXZX/6v6J94Lix58+6g2sIbQOheKlI7OwKTSoOx57H8wcVrx/5nPf9vY0x
+         cGOsbRqFmeWeNMeL5U+47uKhAdFImXVQn7FGHeMwNVN/aT9uqcNRwr3F8176aJpGVY
+         LaHvSQJjXveD6JVjgLYF6iiFtWdeOrrLJHQAFzDLx+Op/LIx/Xn0+NnLkZga29q5Gs
+         TLp1u7PGIAHiw==
+Date:   Thu, 7 Apr 2022 18:31:12 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Subject: Re: [PATCH v10 00/14] Multi-Gen LRU Framework
+Message-ID: <20220407183112.2cb5b627@canb.auug.org.au>
+In-Reply-To: <CAOUHufZ8x5B-e+Wwgrh+qWryf8dAbfMWVEE0s-AfwZ-H7DouQg@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+        <CAOUHufZ8x5B-e+Wwgrh+qWryf8dAbfMWVEE0s-AfwZ-H7DouQg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/vv2ccmDjANVQ_zxEAVutc2L";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new neighbour cache entry in STALE state for routers on receiving
-an unsolicited (gratuitous) neighbour advertisement with
-target link-layer-address option specified.
-This is similar to the arp_accept configuration for IPv4.
-A new sysctl endpoint is created to turn on this behaviour:
-/proc/sys/net/ipv6/conf/interface/accept_unsolicited_na.
+--Sig_/vv2ccmDjANVQ_zxEAVutc2L
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Arun Ajith S <aajith@arista.com>
-Tested-by: Arun Ajith S <aajith@arista.com>
----
- Documentation/networking/ip-sysctl.rst | 23 +++++++++++++++++++++++
- include/linux/ipv6.h                   |  1 +
- include/uapi/linux/ipv6.h              |  1 +
- net/ipv6/addrconf.c                    |  8 ++++++++
- net/ipv6/ndisc.c                       | 20 +++++++++++++++++++-
- 5 files changed, 52 insertions(+), 1 deletion(-)
+Hi Yu,
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index b0024aa7b051..9e17efe343ac 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -2467,6 +2467,29 @@ drop_unsolicited_na - BOOLEAN
- 
- 	By default this is turned off.
- 
-+accept_unsolicited_na - BOOLEAN
-+	Add a new neighbour cache entry in STALE state for routers on receiving an
-+	unsolicited neighbour advertisement with target link-layer address option
-+	specified. This is as per router-side behavior documented in RFC9131.
-+	This has lower precedence than drop_unsolicited_na.
-+	 drop   accept  fwding                   behaviour
-+	 ----   ------  ------  ----------------------------------------------
-+	    1        X       X  Drop NA packet and don't pass up the stack
-+	    0        0       X  Pass NA packet up the stack, don't update NC
-+	    0        1       0  Pass NA packet up the stack, don't update NC
-+	    0        1       1  Pass NA packet up the stack, and add a STALE
-+	                          NC entry
-+	This will optimize the return path for the initial off-link communication
-+	that is initiated by a directly connected host, by ensuring that
-+	the first-hop router which turns on this setting doesn't have to
-+	buffer the initial return packets to do neighbour-solicitation.
-+	The prerequisite is that the host is configured to send
-+	unsolicited neighbour advertisements on interface bringup.
-+	This setting should be used in conjunction with the ndisc_notify setting
-+	on the host to satisfy this prerequisite.
-+
-+	By default this is turned off.
-+
- enhanced_dad - BOOLEAN
- 	Include a nonce option in the IPv6 neighbor solicitation messages used for
- 	duplicate address detection per RFC7527. A received DAD NS will only signal
-diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
-index 16870f86c74d..918bfea4ef5f 100644
---- a/include/linux/ipv6.h
-+++ b/include/linux/ipv6.h
-@@ -61,6 +61,7 @@ struct ipv6_devconf {
- 	__s32		suppress_frag_ndisc;
- 	__s32		accept_ra_mtu;
- 	__s32		drop_unsolicited_na;
-+	__s32		accept_unsolicited_na;
- 	struct ipv6_stable_secret {
- 		bool initialized;
- 		struct in6_addr secret;
-diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
-index d4178dace0bf..549ddeaf788b 100644
---- a/include/uapi/linux/ipv6.h
-+++ b/include/uapi/linux/ipv6.h
-@@ -194,6 +194,7 @@ enum {
- 	DEVCONF_IOAM6_ID,
- 	DEVCONF_IOAM6_ID_WIDE,
- 	DEVCONF_NDISC_EVICT_NOCARRIER,
-+	DEVCONF_ACCEPT_UNSOLICITED_NA,
- 	DEVCONF_MAX
- };
- 
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index 1afc4c024981..1b4d278d0454 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -5587,6 +5587,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
- 	array[DEVCONF_IOAM6_ID] = cnf->ioam6_id;
- 	array[DEVCONF_IOAM6_ID_WIDE] = cnf->ioam6_id_wide;
- 	array[DEVCONF_NDISC_EVICT_NOCARRIER] = cnf->ndisc_evict_nocarrier;
-+	array[DEVCONF_ACCEPT_UNSOLICITED_NA] = cnf->accept_unsolicited_na;
- }
- 
- static inline size_t inet6_ifla6_size(void)
-@@ -7037,6 +7038,13 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.extra1		= (void *)SYSCTL_ZERO,
- 		.extra2		= (void *)SYSCTL_ONE,
- 	},
-+	{
-+		.procname	= "accept_unsolicited_na",
-+		.data		= &ipv6_devconf.accept_unsolicited_na,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+	},
- 	{
- 		/* sentinel */
- 	}
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index fcb288b0ae13..254addad0dd3 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -979,6 +979,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 	struct inet6_dev *idev = __in6_dev_get(dev);
- 	struct inet6_ifaddr *ifp;
- 	struct neighbour *neigh;
-+	bool create_neigh;
- 
- 	if (skb->len < sizeof(struct nd_msg)) {
- 		ND_PRINTK(2, warn, "NA: packet too short\n");
-@@ -999,6 +1000,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 	/* For some 802.11 wireless deployments (and possibly other networks),
- 	 * there will be a NA proxy and unsolicitd packets are attacks
- 	 * and thus should not be accepted.
-+	 * drop_unsolicited_na takes precedence over accept_unsolicited_na
- 	 */
- 	if (!msg->icmph.icmp6_solicited && idev &&
- 	    idev->cnf.drop_unsolicited_na)
-@@ -1039,7 +1041,23 @@ static void ndisc_recv_na(struct sk_buff *skb)
- 		in6_ifa_put(ifp);
- 		return;
- 	}
--	neigh = neigh_lookup(&nd_tbl, &msg->target, dev);
-+	/* RFC 9131 updates original Neighbour Discovery RFC 4861.
-+	 * An unsolicited NA can now create a neighbour cache entry
-+	 * on routers if it has Target LL Address option.
-+	 *
-+	 * drop   accept  fwding                   behaviour
-+	 * ----   ------  ------  ----------------------------------------------
-+	 *    1        X       X  Drop NA packet and don't pass up the stack
-+	 *    0        0       X  Pass NA packet up the stack, don't update NC
-+	 *    0        1       0  Pass NA packet up the stack, don't update NC
-+	 *    0        1       1  Pass NA packet up the stack, and add a STALE
-+	 *                          NC entry
-+	 * Note that we don't do a (daddr == all-routers-mcast) check.
-+	 */
-+	create_neigh = !msg->icmph.icmp6_solicited && lladdr &&
-+		       idev && idev->cnf.forwarding &&
-+		       idev->cnf.accept_unsolicited_na;
-+	neigh = __neigh_lookup(&nd_tbl, &msg->target, dev, create_neigh);
- 
- 	if (neigh) {
- 		u8 old_flags = neigh->flags;
--- 
-2.27.0
----
-Changes from v1:
-- Change bad documentation and commit description. (source link-layer-address option -> target link-layer-address option)
-- CCed all maintainers from .scripts/get_maintainer.pl
-- Rebased to latest origin/master
+On Wed, 6 Apr 2022 21:24:27 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> Can you please include this patchset in linux-next? Git repo for you to f=
+etch:
+>=20
+> https://linux-mm.googlesource.com/mglru for-linux-next
+
+I get a message saying "This repository is empty. Push to it to show
+branches and history." :-(
+
+> My goal is to get additional test coverage before I send a pull
+> request for 5.19 to Linus.
+
+Good idea :-)
+
+> I've explored all avenues, but ultimately I've failed to rally
+> substantial support from the MM stakeholders [1]. There are no pending
+> technical issues against this patchset [2]. What is more concerning
+> are the fundamental disagreements on priorities, methodologies, etc.
+> that are not specific to this patchset and have been hindering our
+> progress as a collective. (Cheers to the mutual dissatisfaction.)
+
+I have not been following the discussion as I am not an mm person, but
+this is not a good sign.
+
+> While we plan to discuss those issues during the LSFMM next month, it
+> doesn't seem reasonable to leave this patchset hanging in the air,
+> since it has reached its maturity a while ago and there are strong
+> demands from downstream kernels as well as a large user base. Thus I
+> sent that pull request to Linus a couple of weeks ago, implying that
+> he would have to make the final decision soon.
+>=20
+> I hope this gives enough background about what's been going on with
+> this patchset. If you decide to take it and it causes you any
+> troubles, please feel free to yell at me.
+>=20
+> Thanks!
+>=20
+> [1] https://lore.kernel.org/r/20220104202227.2903605-1-yuzhao@google.com/
+> [2] https://lore.kernel.org/r/20220326010003.3155137-1-yuzhao@google.com/
+
+I had a look at those threads and I guess things are better that your
+comment above implies.
+
+So, a couple of questions:
+
+Have you done a trial merge with a current linux-next tree to see what
+sort of mess/pain we may already be in?
+
+Is it all stable enough now that it could be sent as a patch series for
+Andrew to include in mmotm (with perhaps just smallish followup patches)?
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/vv2ccmDjANVQ_zxEAVutc2L
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJOoVEACgkQAVBC80lX
+0GzE3Qf5AQTCVeynkAsn3+qk9evNVsNw+dWxlovauW3+RjhUcon2308Q6aN7oSPw
+fex528YIkIZ5WBjpCvTqt2qy/wsUfN01Terj/MrmC1NVIWSVdQxQo1xydTpbwRym
+aKXyxU4rcp1o17/P65KZsISf0KXPXFKnLdPAKs5wEbgD6at5eohehdsGYCWk9hnX
+1f/rEP51PEmxl9AE91SbpTvw3Mj5uKz282I3mUJiqQaIDPcNbPv6qM9RLKRYa9Kn
+IOdqR6+UvqVE0BLoi0Q3ikCuC7RI3wSuAsDlKhLL7QtlbRDjKbAT/qTxo408JScg
+pPI07lXejPErRWE6+HSo4yLiLW9+iQ==
+=mvXT
+-----END PGP SIGNATURE-----
+
+--Sig_/vv2ccmDjANVQ_zxEAVutc2L--
