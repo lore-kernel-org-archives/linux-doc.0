@@ -2,317 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A878AC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C3D6C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:31:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233602AbiDGMRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 08:17:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54894 "EHLO
+        id S245133AbiDGMdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 08:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235119AbiDGMRR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:17:17 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786EC643B;
-        Thu,  7 Apr 2022 05:15:12 -0700 (PDT)
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KZ0dm4rTPz686w8;
-        Thu,  7 Apr 2022 20:13:16 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 7 Apr 2022 14:15:06 +0200
-Received: from localhost.localdomain (10.69.192.58) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 7 Apr 2022 13:15:04 +0100
-From:   John Garry <john.garry@huawei.com>
-To:     <damien.lemoal@opensource.wdc.com>, <hch@lst.de>
-CC:     <linux-doc@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, John Garry <john.garry@huawei.com>
-Subject: [PATCH v3] libata: Improve ATA queued command allocation
-Date:   Thu, 7 Apr 2022 20:09:25 +0800
-Message-ID: <1649333365-100672-1-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
+        with ESMTP id S242882AbiDGMdw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:33:52 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84A27111DD9;
+        Thu,  7 Apr 2022 05:31:52 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 237Apxw5009451;
+        Thu, 7 Apr 2022 14:31:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=RkFXAMUowl44G0ueDYkkdPxY3P5C7zGyMGGVecJva2Y=;
+ b=qJPsPhDZNG7ILBg3j48jtq6ErUELDESuHXm8DHNK8PBe/l67FlCniqBVRqsdv4SN28RJ
+ D3rJheR7BVVq0p76whC2zhZ1hK8lvaFDrrp1q0epEIeRAXDNLWqdyh/Ua/Pw7kKQOLDO
+ /Bbw2aMHu1Fm1C4wbvfBqp3R969k50EN9BKcijzI/9NwW+FwbvSK3zV9Gizu//WHmIZ+
+ Pr/OnX4NEaCCX105iMnOydeqq3iqLl7Iumb/XeY75IxYmu0XAViHW1BiIWZeMr1xJUVx
+ KyMoHVxk+wRmdcpM9YgHR6N6Ew1D69ViTlh9xFHjo1h5q5GhIBxrBoAKgHTNiDPZhX8s 7A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f8x4rkxq4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 Apr 2022 14:31:24 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AA063100034;
+        Thu,  7 Apr 2022 14:31:23 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A1A8A21A23E;
+        Thu,  7 Apr 2022 14:31:23 +0200 (CEST)
+Received: from localhost (10.75.127.50) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 7 Apr 2022 14:31:23
+ +0200
+From:   Valentin Caron <valentin.caron@foss.st.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Jiri Slaby <jirislaby@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Erwan Le Ray <erwan.leray@foss.st.com>,
+        Valentin Caron <valentin.caron@foss.st.com>,
+        <linux-serial@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH 2/3] serial: stm32: add KGDB support
+Date:   Thu, 7 Apr 2022 14:31:08 +0200
+Message-ID: <20220407123109.132035-3-valentin.caron@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220407123109.132035-1-valentin.caron@foss.st.com>
+References: <20220407123109.132035-1-valentin.caron@foss.st.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-07_01,2022-04-07_01,2022-02-23_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve ATA queued command allocation as follows:
+Add support for KGDB in stm32 serial driver by implementing characters
+polling callbacks (poll_init, poll_get_char and poll_put_char).
 
-- For attaining a qc tag for a SAS host we need to allocate a bit in
-  ata_port.sas_tag_allocated bitmap.
-
-  However we already have a unique tag per device in range
-  [0, ATA_MAX_QUEUE - 1] in the scsi cmnd budget token, so just use that
-  instead.
-
-- It is a bit pointless to have ata_qc_new_init() in libata-core.c since it
-  pokes scsi internals, so inline it in ata_scsi_qc_new() (in
-  libata-scsi.c). Also update Doc accordingly.
-
-- Use standard SCSI helpers set_host_byte() and set_status_byte() in
-  ata_scsi_qc_new().
-
-Christoph Hellwig originally contributed the change to inline
-ata_qc_new_init().
-
-Signed-off-by: John Garry <john.garry@huawei.com>
+Signed-off-by: Erwan Le Ray <erwan.leray@foss.st.com>
+Signed-off-by: Jean Philippe Romain <jean-philippe.romain@foss.st.com>
+Signed-off-by: Valentin Caron <valentin.caron@foss.st.com>
 ---
-Do not apply on a kernel without "scsi: core: Fix sbitmap depth in
-scsi_realloc_sdev_budget_map()" - hopefully v5.18-rc2 will include it.
+ drivers/tty/serial/stm32-usart.c | 38 ++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-Changes since v2 series:
-- combine into a single patch
-- use scsi helpers (Damien)
-- use inclusive brackets for commit message descripton
-
-diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
-index d477e296bda5..311af516a3fd 100644
---- a/Documentation/driver-api/libata.rst
-+++ b/Documentation/driver-api/libata.rst
-@@ -424,12 +424,6 @@ How commands are issued
- -----------------------
+diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
+index 83895da84891..d2cf789c7997 100644
+--- a/drivers/tty/serial/stm32-usart.c
++++ b/drivers/tty/serial/stm32-usart.c
+@@ -37,6 +37,7 @@
  
- Internal commands
--    First, qc is allocated and initialized using :c:func:`ata_qc_new_init`.
--    Although :c:func:`ata_qc_new_init` doesn't implement any wait or retry
--    mechanism when qc is not available, internal commands are currently
--    issued only during initialization and error recovery, so no other
--    command is active and allocation is guaranteed to succeed.
--
-     Once allocated qc's taskfile is initialized for the command to be
-     executed. qc currently has two mechanisms to notify completion. One
-     is via ``qc->complete_fn()`` callback and the other is completion
-@@ -447,11 +441,6 @@ SCSI commands
-     translated. No qc is involved in processing a simulated scmd. The
-     result is computed right away and the scmd is completed.
+ static void stm32_usart_stop_tx(struct uart_port *port);
+ static void stm32_usart_transmit_chars(struct uart_port *port);
++static void __maybe_unused stm32_usart_console_putchar(struct uart_port *port, unsigned char ch);
  
--    For a translated scmd, :c:func:`ata_qc_new_init` is invoked to allocate a
--    qc and the scmd is translated into the qc. SCSI midlayer's
--    completion notification function pointer is stored into
--    ``qc->scsidone``.
--
-     ``qc->complete_fn()`` callback is used for completion notification. ATA
-     commands use :c:func:`ata_scsi_qc_complete` while ATAPI commands use
-     :c:func:`atapi_qc_complete`. Both functions end up calling ``qc->scsidone``
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index cceedde51126..5e7d6ccad5da 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -4563,42 +4563,6 @@ void swap_buf_le16(u16 *buf, unsigned int buf_words)
- #endif /* __BIG_ENDIAN */
- }
- 
--/**
-- *	ata_qc_new_init - Request an available ATA command, and initialize it
-- *	@dev: Device from whom we request an available command structure
-- *	@tag: tag
-- *
-- *	LOCKING:
-- *	None.
-- */
--
--struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
--{
--	struct ata_port *ap = dev->link->ap;
--	struct ata_queued_cmd *qc;
--
--	/* no command while frozen */
--	if (unlikely(ap->pflags & ATA_PFLAG_FROZEN))
--		return NULL;
--
--	/* libsas case */
--	if (ap->flags & ATA_FLAG_SAS_HOST) {
--		tag = ata_sas_allocate_tag(ap);
--		if (tag < 0)
--			return NULL;
--	}
--
--	qc = __ata_qc_from_tag(ap, tag);
--	qc->tag = qc->hw_tag = tag;
--	qc->scsicmd = NULL;
--	qc->ap = ap;
--	qc->dev = dev;
--
--	ata_qc_reinit(qc);
--
--	return qc;
--}
--
- /**
-  *	ata_qc_free - free unused ata_queued_cmd
-  *	@qc: Command to complete
-@@ -4611,19 +4575,9 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
-  */
- void ata_qc_free(struct ata_queued_cmd *qc)
+ static inline struct stm32_port *to_stm32_port(struct uart_port *port)
  {
--	struct ata_port *ap;
--	unsigned int tag;
--
--	WARN_ON_ONCE(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
--	ap = qc->ap;
--
- 	qc->flags = 0;
--	tag = qc->tag;
--	if (ata_tag_valid(tag)) {
-+	if (ata_tag_valid(qc->tag))
- 		qc->tag = ATA_TAG_POISON;
--		if (ap->flags & ATA_FLAG_SAS_HOST)
--			ata_sas_free_tag(tag, ap);
--	}
- }
- 
- void __ata_qc_complete(struct ata_queued_cmd *qc)
-diff --git a/drivers/ata/libata-sata.c b/drivers/ata/libata-sata.c
-index 044a16daa2d4..7a5fe41aa5ae 100644
---- a/drivers/ata/libata-sata.c
-+++ b/drivers/ata/libata-sata.c
-@@ -1268,31 +1268,6 @@ int ata_sas_queuecmd(struct scsi_cmnd *cmd, struct ata_port *ap)
- }
- EXPORT_SYMBOL_GPL(ata_sas_queuecmd);
- 
--int ata_sas_allocate_tag(struct ata_port *ap)
--{
--	unsigned int max_queue = ap->host->n_tags;
--	unsigned int i, tag;
--
--	for (i = 0, tag = ap->sas_last_tag + 1; i < max_queue; i++, tag++) {
--		tag = tag < max_queue ? tag : 0;
--
--		/* the last tag is reserved for internal command. */
--		if (ata_tag_internal(tag))
--			continue;
--
--		if (!test_and_set_bit(tag, &ap->sas_tag_allocated)) {
--			ap->sas_last_tag = tag;
--			return tag;
--		}
--	}
--	return -1;
--}
--
--void ata_sas_free_tag(unsigned int tag, struct ata_port *ap)
--{
--	clear_bit(tag, &ap->sas_tag_allocated);
--}
--
- /**
-  *	sata_async_notification - SATA async notification handler
-  *	@ap: ATA port where async notification is received
-diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-index 06c9d90238d9..805bca2db16d 100644
---- a/drivers/ata/libata-scsi.c
-+++ b/drivers/ata/libata-scsi.c
-@@ -638,24 +638,49 @@ EXPORT_SYMBOL_GPL(ata_scsi_ioctl);
- static struct ata_queued_cmd *ata_scsi_qc_new(struct ata_device *dev,
- 					      struct scsi_cmnd *cmd)
- {
-+	struct ata_port *ap = dev->link->ap;
- 	struct ata_queued_cmd *qc;
-+	int tag;
- 
--	qc = ata_qc_new_init(dev, scsi_cmd_to_rq(cmd)->tag);
--	if (qc) {
--		qc->scsicmd = cmd;
--		qc->scsidone = scsi_done;
--
--		qc->sg = scsi_sglist(cmd);
--		qc->n_elem = scsi_sg_count(cmd);
-+	if (unlikely(ap->pflags & ATA_PFLAG_FROZEN))
-+		goto fail;
- 
--		if (scsi_cmd_to_rq(cmd)->rq_flags & RQF_QUIET)
--			qc->flags |= ATA_QCFLAG_QUIET;
-+	if (ap->flags & ATA_FLAG_SAS_HOST) {
-+		/*
-+		 * SAS hosts may queue > ATA_MAX_QUEUE commands so use
-+		 * unique per-device budget token as a tag.
-+		 */
-+		if (WARN_ON_ONCE(cmd->budget_token >= ATA_MAX_QUEUE))
-+			goto fail;
-+		tag = cmd->budget_token;
- 	} else {
--		cmd->result = (DID_OK << 16) | SAM_STAT_TASK_SET_FULL;
--		scsi_done(cmd);
-+		tag = scsi_cmd_to_rq(cmd)->tag;
+@@ -1222,6 +1223,34 @@ static void stm32_usart_pm(struct uart_port *port, unsigned int state,
  	}
- 
-+	qc = __ata_qc_from_tag(ap, tag);
-+	qc->tag = qc->hw_tag = tag;
-+	qc->scsicmd = NULL;
-+	qc->ap = ap;
-+	qc->dev = dev;
-+
-+	ata_qc_reinit(qc);
-+
-+	qc->scsicmd = cmd;
-+	qc->scsidone = scsi_done;
-+
-+	qc->sg = scsi_sglist(cmd);
-+	qc->n_elem = scsi_sg_count(cmd);
-+
-+	if (scsi_cmd_to_rq(cmd)->rq_flags & RQF_QUIET)
-+		qc->flags |= ATA_QCFLAG_QUIET;
-+
- 	return qc;
-+
-+fail:
-+	set_host_byte(cmd, DID_OK);
-+	set_status_byte(cmd, SAM_STAT_TASK_SET_FULL);
-+	scsi_done(cmd);
-+	return NULL;
  }
  
- static void ata_qc_set_pc_nbytes(struct ata_queued_cmd *qc)
-diff --git a/drivers/ata/libata.h b/drivers/ata/libata.h
-index c9c2496d91ea..926a7f41303d 100644
---- a/drivers/ata/libata.h
-+++ b/drivers/ata/libata.h
-@@ -44,7 +44,6 @@ static inline void ata_force_cbl(struct ata_port *ap) { }
- #endif
- extern u64 ata_tf_to_lba(const struct ata_taskfile *tf);
- extern u64 ata_tf_to_lba48(const struct ata_taskfile *tf);
--extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag);
- extern int ata_build_rw_tf(struct ata_taskfile *tf, struct ata_device *dev,
- 			   u64 block, u32 n_block, unsigned int tf_flags,
- 			   unsigned int tag, int class);
-@@ -91,18 +90,6 @@ extern unsigned int ata_read_log_page(struct ata_device *dev, u8 log,
++#if defined(CONFIG_CONSOLE_POLL)
++
++ /* Callbacks for characters polling in debug context (i.e. KGDB). */
++static int stm32_usart_poll_init(struct uart_port *port)
++{
++	struct stm32_port *stm32_port = to_stm32_port(port);
++
++	return clk_prepare_enable(stm32_port->clk);
++}
++
++static int stm32_usart_poll_get_char(struct uart_port *port)
++{
++	struct stm32_port *stm32_port = to_stm32_port(port);
++	const struct stm32_usart_offsets *ofs = &stm32_port->info->ofs;
++	unsigned int ret;
++
++	if (!(readl_relaxed(port->membase + ofs->isr) & USART_SR_RXNE))
++		return NO_POLL_CHAR;
++
++	return readl_relaxed(port->membase + ofs->rdr) & stm32_port->rdr_mask;
++}
++
++static void stm32_usart_poll_put_char(struct uart_port *port, unsigned char ch)
++{
++	stm32_usart_console_putchar(port, ch);
++}
++#endif /* CONFIG_CONSOLE_POLL */
++
+ static const struct uart_ops stm32_uart_ops = {
+ 	.tx_empty	= stm32_usart_tx_empty,
+ 	.set_mctrl	= stm32_usart_set_mctrl,
+@@ -1243,6 +1272,11 @@ static const struct uart_ops stm32_uart_ops = {
+ 	.request_port	= stm32_usart_request_port,
+ 	.config_port	= stm32_usart_config_port,
+ 	.verify_port	= stm32_usart_verify_port,
++#if defined(CONFIG_CONSOLE_POLL)
++	.poll_init      = stm32_usart_poll_init,
++	.poll_get_char	= stm32_usart_poll_get_char,
++	.poll_put_char	= stm32_usart_poll_put_char,
++#endif /* CONFIG_CONSOLE_POLL */
+ };
  
- #define to_ata_port(d) container_of(d, struct ata_port, tdev)
+ /*
+@@ -1640,8 +1674,7 @@ static int stm32_usart_serial_remove(struct platform_device *pdev)
+ 	return 0;
+ }
  
--/* libata-sata.c */
--#ifdef CONFIG_SATA_HOST
--int ata_sas_allocate_tag(struct ata_port *ap);
--void ata_sas_free_tag(unsigned int tag, struct ata_port *ap);
--#else
--static inline int ata_sas_allocate_tag(struct ata_port *ap)
--{
--	return -EOPNOTSUPP;
--}
--static inline void ata_sas_free_tag(unsigned int tag, struct ata_port *ap) { }
--#endif
--
- /* libata-acpi.c */
- #ifdef CONFIG_ATA_ACPI
- extern unsigned int ata_acpi_gtf_filter;
-diff --git a/include/linux/libata.h b/include/linux/libata.h
-index 9b1d3d8b1252..16107122e587 100644
---- a/include/linux/libata.h
-+++ b/include/linux/libata.h
-@@ -820,7 +820,6 @@ struct ata_port {
- 	unsigned int		cbl;	/* cable type; ATA_CBL_xxx */
+-#ifdef CONFIG_SERIAL_STM32_CONSOLE
+-static void stm32_usart_console_putchar(struct uart_port *port, unsigned char ch)
++static void __maybe_unused stm32_usart_console_putchar(struct uart_port *port, unsigned char ch)
+ {
+ 	struct stm32_port *stm32_port = to_stm32_port(port);
+ 	const struct stm32_usart_offsets *ofs = &stm32_port->info->ofs;
+@@ -1658,6 +1691,7 @@ static void stm32_usart_console_putchar(struct uart_port *port, unsigned char ch
+ 	writel_relaxed(ch, port->membase + ofs->tdr);
+ }
  
- 	struct ata_queued_cmd	qcmd[ATA_MAX_QUEUE + 1];
--	unsigned long		sas_tag_allocated; /* for sas tag allocation only */
- 	u64			qc_active;
- 	int			nr_active_links; /* #links with active qcs */
- 	unsigned int		sas_last_tag;	/* track next tag hw expects */
++#ifdef CONFIG_SERIAL_STM32_CONSOLE
+ static void stm32_usart_console_write(struct console *co, const char *s,
+ 				      unsigned int cnt)
+ {
 -- 
-2.26.2
+2.25.1
 
