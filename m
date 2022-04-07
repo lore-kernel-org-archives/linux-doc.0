@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04615C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A715C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245333AbiDGMnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 08:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60534 "EHLO
+        id S236201AbiDGMoN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 08:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbiDGMnV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:43:21 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E3E710D3;
-        Thu,  7 Apr 2022 05:41:21 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id o10so4755400ple.7;
-        Thu, 07 Apr 2022 05:41:21 -0700 (PDT)
+        with ESMTP id S233879AbiDGMoM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:44:12 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D7C7B11E;
+        Thu,  7 Apr 2022 05:42:13 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id ch16-20020a17090af41000b001ca867ef52bso6383718pjb.0;
+        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=jaS/JBzZIALs0V9KDtw1yoad9JspSw+l403SD4bkN2Y=;
-        b=csa4nRm//K/WesvietmNCQ7jO89ExyPjth+tiggaLztdkYkL68+d6Z8tIhmfcwT5m2
-         zMhxPDUf5wRP15CBsCQQSJX6yRKsyzu8ZxK5lvqzx3BGvdXVS386y5ZmVJ8s5UMbCh20
-         cypwRbMzWvFHm6gYfXmh6A1p//xZqpyVPe7OYonq9XF2LeXLhXdgFh6L6vrzxT0F56cQ
-         GfewVc9ngo9vM5yPlyiR3xJ3cLmzfUIL8Afs0TYUvRvZommKcj4xjy/+Hg1sexQcdwvz
-         QaX7Cf3q20aciYDYLh3uDVQD6zcuS1f7+jD9P0XFhf+XzFdydGopOtOdmvXcid81NTsR
-         cI2g==
+        bh=mB8SsRiMpROsDXNQItiMSlnh+Lyw1uf41AvKn9tE3dU=;
+        b=oxzclEJzWFrYJnCBAIhhbeRMs7tHHrALQRomPVvNE1RkyO5yDBKwD6gPeVAQuevj/D
+         qxYvUsv+NVVR+k3Y3sVcaQL9gXMoc8kNtwmJkohZoC9kEtGNAhaznveNOeATAeBzs/5I
+         bDIu8jCWibokzkSIM6Mdi/cOosuZUmbdtgmjWH4WtzL8wt/NsX8UzmY1Hg9HzFCQkXEH
+         +AA9Eth9cVfxFuqeuyHxXYhvfyIT4hGFl3cl++XamiCshB3taPMSAD4zj7HKXHhlO6hV
+         dNXpJOU0vPIxn95dZuCu+hDsYCIILYSG15SL6pwL54CLEHU+lhwvoCW6LWxi6cVtJfCk
+         h/wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=jaS/JBzZIALs0V9KDtw1yoad9JspSw+l403SD4bkN2Y=;
-        b=Kjkk3ziXVpx0nb2QIff698WaNRijXfVzsUvCQct40eZKzy0OFnZV3ILU4UT4h3HatJ
-         XFf02IGzKe/zi8Pud9JVfvzfhKf5d1QfKT8I6UkVjGFeML4TFx9j1cgCqVTgbIPfxdZF
-         N6YWEdy1jZXLOt3C/J/bUfV21J4sxapH/TQ2UoF5rTuPZ0t9Sm6SkAAXkALVvE5YdSxm
-         ZA0C12yfunEJ+Bp08NqL6p9CIA9JHfqR339ewFki//1TUgRo4n4e0Elxdsupyvym9XPu
-         0rCAzh3w5+aOkrsZt6qK2v/4683DlwlMD3fAj5EjN886if4qs/6t55tQ309goenPBpCr
-         VPBA==
-X-Gm-Message-State: AOAM533+jt/nMnZfvyEzTv74q0sw408j1/RlXqqgn0ZHFL20X7vh2oQt
-        lGlx89B/r7Y4YauAtlDnnwI=
-X-Google-Smtp-Source: ABdhPJzigotG3p4Oe0PfSY+DQUikEALOqVHzbWgFp/MNP47LORXbE4OsEkfHv75JzUQXpuGQspiUfQ==
-X-Received: by 2002:a17:902:f64f:b0:156:f1cc:b284 with SMTP id m15-20020a170902f64f00b00156f1ccb284mr6413155plg.147.1649335281157;
-        Thu, 07 Apr 2022 05:41:21 -0700 (PDT)
+        bh=mB8SsRiMpROsDXNQItiMSlnh+Lyw1uf41AvKn9tE3dU=;
+        b=AO9U6G7ttnmiPAcYXKALGSv7vFw8ZTOQfZR5T3sPgeNfy/tVukr8N4ZmeKaxEfV36s
+         AwfyvDksET3bgLudhoH7twRSChgbt0aUcWsZGilTgIcwzB37SQde6CcpTbhnPu5sLaJg
+         S1hgpn9MH9uDP9gkVzT7g0yRaozSs3KmagnkfNhNyl1AKvWqM2H5aOLOZc7PntIpyVUI
+         RZ5k0h8mV5N6UpB+sieCwhmLE6Ce4MPvHsn1F8AqN6I7klHbqwvkmFVL1sbidYe4N0lz
+         1fX1KWC651t2NyTS7mQ8C2YrM2H33BS/oO6jF61YZwQD3S6RELRCFn1V2fg4kDsr7piK
+         JTCQ==
+X-Gm-Message-State: AOAM531N+L1zkxs4Pw4WDh3TzVzsQ6cpTl4MeSRidPGBcKDd6VN6LVSQ
+        k5PdTQFjukJVbq0so9EmHAI+PyLBWcHwsuE2
+X-Google-Smtp-Source: ABdhPJzWmt8WRjQU499EV+dELfJK/w4qDUfFpTg8LsS0VN/D9hqOLaRttBxaJO+s8N4e0wyRQXYQcA==
+X-Received: by 2002:a17:902:b092:b0:156:a40f:f716 with SMTP id p18-20020a170902b09200b00156a40ff716mr13682902plr.72.1649335333331;
+        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id t10-20020a056a00138a00b004fa9c9fda44sm22640511pfg.89.2022.04.07.05.41.08
+        by smtp.gmail.com with ESMTPSA id y5-20020a056a00180500b004faac109225sm24507168pfa.179.2022.04.07.05.42.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 05:41:20 -0700 (PDT)
-Message-ID: <fde38982-a816-567a-3abb-370ec294b2c9@gmail.com>
-Date:   Thu, 7 Apr 2022 19:41:06 +0700
+        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
+Message-ID: <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
+Date:   Thu, 7 Apr 2022 19:41:59 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v10 13/14] mm: multi-gen LRU: admin guide
+Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
 Content-Language: en-US
 To:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
         linux-mm@kvack.org
@@ -92,33 +92,20 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
 References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-14-yuzhao@google.com>
+ <20220407031525.2368067-15-yuzhao@google.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220407031525.2368067-14-yuzhao@google.com>
+In-Reply-To: <20220407031525.2368067-15-yuzhao@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 07/04/22 10.15, Yu Zhao wrote:
-> Add an admin guide.
+> Add a design doc.
 > 
-> Signed-off-by: Yu Zhao <yuzhao@google.com>
-> Acked-by: Brian Geffon <bgeffon@google.com>
-> Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> Acked-by: Steven Barrett <steven@liquorix.net>
-> Acked-by: Suleiman Souhlal <suleiman@google.com>
-> Tested-by: Daniel Byrne <djbyrne@mtu.edu>
-> Tested-by: Donald Carr <d@chaos-reins.com>
-> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
-> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
-> Tested-by: Sofia Trinh <sofia.trinh@edi.works>
-> Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 
-Why this documentation be added to admin-guide?
+Why is this design documentation added?
 
 -- 
 An old man doll... just what I always wanted! - Clara
