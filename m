@@ -2,61 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A715C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701C9C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236201AbiDGMoN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 08:44:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36624 "EHLO
+        id S245446AbiDGMxH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 08:53:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233879AbiDGMoM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:44:12 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D7C7B11E;
-        Thu,  7 Apr 2022 05:42:13 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id ch16-20020a17090af41000b001ca867ef52bso6383718pjb.0;
-        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mB8SsRiMpROsDXNQItiMSlnh+Lyw1uf41AvKn9tE3dU=;
-        b=oxzclEJzWFrYJnCBAIhhbeRMs7tHHrALQRomPVvNE1RkyO5yDBKwD6gPeVAQuevj/D
-         qxYvUsv+NVVR+k3Y3sVcaQL9gXMoc8kNtwmJkohZoC9kEtGNAhaznveNOeATAeBzs/5I
-         bDIu8jCWibokzkSIM6Mdi/cOosuZUmbdtgmjWH4WtzL8wt/NsX8UzmY1Hg9HzFCQkXEH
-         +AA9Eth9cVfxFuqeuyHxXYhvfyIT4hGFl3cl++XamiCshB3taPMSAD4zj7HKXHhlO6hV
-         dNXpJOU0vPIxn95dZuCu+hDsYCIILYSG15SL6pwL54CLEHU+lhwvoCW6LWxi6cVtJfCk
-         h/wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=mB8SsRiMpROsDXNQItiMSlnh+Lyw1uf41AvKn9tE3dU=;
-        b=AO9U6G7ttnmiPAcYXKALGSv7vFw8ZTOQfZR5T3sPgeNfy/tVukr8N4ZmeKaxEfV36s
-         AwfyvDksET3bgLudhoH7twRSChgbt0aUcWsZGilTgIcwzB37SQde6CcpTbhnPu5sLaJg
-         S1hgpn9MH9uDP9gkVzT7g0yRaozSs3KmagnkfNhNyl1AKvWqM2H5aOLOZc7PntIpyVUI
-         RZ5k0h8mV5N6UpB+sieCwhmLE6Ce4MPvHsn1F8AqN6I7klHbqwvkmFVL1sbidYe4N0lz
-         1fX1KWC651t2NyTS7mQ8C2YrM2H33BS/oO6jF61YZwQD3S6RELRCFn1V2fg4kDsr7piK
-         JTCQ==
-X-Gm-Message-State: AOAM531N+L1zkxs4Pw4WDh3TzVzsQ6cpTl4MeSRidPGBcKDd6VN6LVSQ
-        k5PdTQFjukJVbq0so9EmHAI+PyLBWcHwsuE2
-X-Google-Smtp-Source: ABdhPJzWmt8WRjQU499EV+dELfJK/w4qDUfFpTg8LsS0VN/D9hqOLaRttBxaJO+s8N4e0wyRQXYQcA==
-X-Received: by 2002:a17:902:b092:b0:156:a40f:f716 with SMTP id p18-20020a170902b09200b00156a40ff716mr13682902plr.72.1649335333331;
-        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id y5-20020a056a00180500b004faac109225sm24507168pfa.179.2022.04.07.05.42.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 05:42:13 -0700 (PDT)
-Message-ID: <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
-Date:   Thu, 7 Apr 2022 19:41:59 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
-Content-Language: en-US
-To:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
-        linux-mm@kvack.org
+        with ESMTP id S244128AbiDGMxG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:53:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38BB21799D;
+        Thu,  7 Apr 2022 05:51:05 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:35::e2d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CFC736A2;
+        Thu,  7 Apr 2022 12:51:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CFC736A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1649335863; bh=ed1Yj2sHuJcCEx/tFjo0LHfX5lvHuxVzLRNxW1ZCHkY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=AApfQ/rMNBOyVzv5HogVzu9LOs5/bbm/28NxoRP3bLqI6djr/QVWkvi5Fo33hyocE
+         q0x2QKNOKpZnUwsoMVf95v03EtGhWc2qHPSyDsiUNAnMDNQJQtFESCYrkOZBborm87
+         EpEl1O7XnUA/cqmkxDDLFVZY1rFvbhFkfBBLmOx0UPAmttf7u0C/h1jmmXy9e4eK65
+         RT6QE1JXqirnBs1hCI3lMDZ5YI8/7XdpyCiaYMxxR9+pTq2O/F1KrjJYZnTEF5NmHE
+         fAR6RHcif4P+tb4BdP5G7Y5bzmSy5WbH+XkwHvt57nrOgqQEews2GB0oUAzTb+7pgb
+         Ekn7cTHAxopsw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, Yu Zhao <yuzhao@google.com>,
+        Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org
 Cc:     Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -66,7 +41,6 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
         Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
@@ -86,26 +60,38 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        Holger =?utf-8?Q?Hoffst=C3=A4tte?= 
+        <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 13/14] mm: multi-gen LRU: admin guide
+In-Reply-To: <fde38982-a816-567a-3abb-370ec294b2c9@gmail.com>
 References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-15-yuzhao@google.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220407031525.2368067-15-yuzhao@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20220407031525.2368067-14-yuzhao@google.com>
+ <fde38982-a816-567a-3abb-370ec294b2c9@gmail.com>
+Date:   Thu, 07 Apr 2022 06:51:03 -0600
+Message-ID: <871qy99hvs.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/22 10.15, Yu Zhao wrote:
-> Add a design doc.
-> 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Why is this design documentation added?
+> On 07/04/22 10.15, Yu Zhao wrote:
+>> Add an admin guide.
+>
+> Why this documentation be added to admin-guide?
 
--- 
-An old man doll... just what I always wanted! - Clara
+It appears to describe various parameters that a system administrator
+can tweak to affect how MGLRU works on their system.  So the admin guide
+seems to be the right place.
+
+Bagas, why are you questioning this?
+
+Thanks,
+
+jon
