@@ -2,116 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73636C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 23:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA22FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 23:52:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232514AbiDGXNK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 19:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59082 "EHLO
+        id S232611AbiDGXyF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 19:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232395AbiDGXNJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 19:13:09 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB1B1CFDF;
-        Thu,  7 Apr 2022 16:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649373068; x=1680909068;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dUrof2VxTLYM9v29u7hGUQzQzbvw3951Xsun8u5eDL4=;
-  b=mJMpwghtkg8+RC4t+uTG7hFap8ZZ10816fv++IhnmoVAGLcnKqEWFCcI
-   BHbk3g8rh2f4VnqHDjecymjkeKE5RZFozo6IBDSwp8FdQSUVXhVpPzvLf
-   LpCXQ1OcOAOrGAL30xp29Fs5pOQbIhIRRZIRyoT1WY5cwOsyC6GuFGNRN
-   U3At7u5n3YQKtumTArnRKTc6vtWtjHVmLiz4riAoxla05TMCkAfWSeUnX
-   n4lEgNv/8hrXujKlVE8SQUXeigU0pyKWiMvqZXopb4FCqSEkRmTFVer1x
-   FlnBBX4PohqSKJ1MaSCNnCV/PE0pIf3R0TM1tYzI92awE7azS2JN6sHa2
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="347901177"
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
-   d="scan'208";a="347901177"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 16:11:07 -0700
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
-   d="scan'208";a="550276535"
-Received: from schen9-mobl.amr.corp.intel.com ([10.209.71.23])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 16:11:07 -0700
-Message-ID: <df6110a09cacc80ee1cbe905a71273a5f3953e16.camel@linux.intel.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-From:   Tim Chen <tim.c.chen@linux.intel.com>
-To:     Wei Xu <weixugc@google.com>
-Cc:     "Huang, Ying" <ying.huang@intel.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Greg Thelen <gthelen@google.com>
-Date:   Thu, 07 Apr 2022 16:11:06 -0700
-In-Reply-To: <CAAPL-u_aAbDOmATSA8ZvjnfBk_7EoXvLoh0etM0fB0aY1845VQ@mail.gmail.com>
-References: <20220331084151.2600229-1-yosryahmed@google.com>
-         <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
-         <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
-         <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
-         <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
-         <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
-         <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
-         <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
-         <215bd7332aee0ed1092bad4d826a42854ebfd04a.camel@linux.intel.com>
-         <CAAPL-u_aAbDOmATSA8ZvjnfBk_7EoXvLoh0etM0fB0aY1845VQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        with ESMTP id S232660AbiDGXyE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 19:54:04 -0400
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F36FD01
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 16:52:02 -0700 (PDT)
+Received: by mail-vk1-xa2d.google.com with SMTP id d129so3450414vkh.13
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 16:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V2o8XyYQ0xmNcxKBL4HU7d9kJ83bRGbyiA4C3lqn/Jg=;
+        b=pHa9t1vY4G3g2veZzfNaljZ/ODjXhV2qKJlnku7tStXx/0bNUioBEP3vV3f0BDiuK6
+         hH94GBax6Xp/sQJXPDobV4hjMyHFpCJOJaggMaEnDIAAW4ogVzp/3xpwWmhnl/FmXBHo
+         f9FIDTu1gAk8+OOMPOS4KCSGJkzTxlwjzsTeW2yWq86SPpiyjw0UvzuGv2S6NxLXZIKJ
+         +/Oe9syDdzEZuz/BrOKZT0KJEH6QF4YyK93gFRcaGmj715NClbnKJHCwJOqcw4s5H8SC
+         VNHBGY74iMRpwF+Afqjt3G9ynR6r7jacBDvoE93qsSq7iW+qGFGJVpn6Sshd0TVf8skQ
+         QRIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V2o8XyYQ0xmNcxKBL4HU7d9kJ83bRGbyiA4C3lqn/Jg=;
+        b=hxytribmtyxntzgA6HfiU/emMtU4P5hXkaW7l59VlU7d7Ebv8d7lsjAaNcipsjPN27
+         z5H9uwxVCztn+nrGfKUA4VzLDjCj3C7Cki9b6/jL0QoNrjsTkwtxqtauBSb2ZhXFfmzh
+         pdalI+dAkomA/Tj8etYrZPgdnDAQNaG6Du3RRnXNzD6tiMDkdfmrhl9RHzPvLufrfshZ
+         kA1teFWq85h2Mxw2m4IJ/e+QJrtPjnPRDMKrncxf9bapNHpv32mIwJrKolgQyITGAtmi
+         xEo1RFcnaIlBtJmCmxjUVi4j1/B4hKV5KEOryJrDl0Arb7pg5dTHK+NiUqztD+3rYnwL
+         GuhA==
+X-Gm-Message-State: AOAM530lt+nOxCrcw/qqiG8C3r0dYIo48Rw1FDs9o4XWh7yELsOQ+9vC
+        Wi5+Dfru4EriG3QWwD1VuijWodNypSM96uNOFp59dg==
+X-Google-Smtp-Source: ABdhPJw/ZEsQZOlZeReph1+ASuuLZlJIuOVM82pvmZCPJ8cvFd3dbcfY3do0xiB4PlkDl4vZ7xT9XS2v6fqp8nCNOS4=
+X-Received: by 2002:a1f:a9cb:0:b0:33e:d145:85f0 with SMTP id
+ s194-20020a1fa9cb000000b0033ed14585f0mr6025223vke.7.1649375521681; Thu, 07
+ Apr 2022 16:52:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-8-yuzhao@google.com>
+ <CAGsJ_4wVA6G42y4Oj7ToaCoroZTRbS-tU606ELwra3_Sfrgo7w@mail.gmail.com>
+ <CAOUHufbUdoWiBF5x2ZeK104jT39zAuuU0xXKZ51eaU6P8SNUyg@mail.gmail.com> <CAGsJ_4z=vkub4e5J5ggsTN=YN4qsqmXSOpf_gu993oOGreLjPg@mail.gmail.com>
+In-Reply-To: <CAGsJ_4z=vkub4e5J5ggsTN=YN4qsqmXSOpf_gu993oOGreLjPg@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Thu, 7 Apr 2022 17:51:50 -0600
+Message-ID: <CAOUHufbU=Uov54da8u9AqEuP0Y-1T2Khgd5Br-AhTfP=jbM1mA@mail.gmail.com>
+Subject: Re: [PATCH v9 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2022-04-07 at 15:12 -0700, Wei Xu wrote:
+On Wed, Apr 6, 2022 at 9:46 PM Barry Song <21cnbao@gmail.com> wrote:
+>
+> On Thu, Apr 7, 2022 at 3:04 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > On Wed, Apr 6, 2022 at 8:29 PM Barry Song <21cnbao@gmail.com> wrote:
+> > >
+> > > On Wed, Mar 9, 2022 at 3:48 PM Yu Zhao <yuzhao@google.com> wrote:
+> > > >
+> > > > Searching the rmap for PTEs mapping each page on an LRU list (to test
+> > > > and clear the accessed bit) can be expensive because pages from
+> > > > different VMAs (PA space) are not cache friendly to the rmap (VA
+> > > > space). For workloads mostly using mapped pages, the rmap has a high
+> > > > CPU cost in the reclaim path.
+> > > >
+> > > > This patch exploits spatial locality to reduce the trips into the
+> > > > rmap. When shrink_page_list() walks the rmap and finds a young PTE, a
+> > > > new function lru_gen_look_around() scans at most BITS_PER_LONG-1
+> > > > adjacent PTEs. On finding another young PTE, it clears the accessed
+> > > > bit and updates the gen counter of the page mapped by this PTE to
+> > > > (max_seq%MAX_NR_GENS)+1.
+> > >
+> > > Hi Yu,
+> > > It seems an interesting feature to save the cost of rmap. but will it lead to
+> > > possible judging of cold pages as hot pages?
+> > > In case a page is mapped by 20 processes,  and it has been accessed
+> > > by 5 of them, when we look around one of the 5 processes, the page
+> > > will be young and this pte is cleared. but we still have 4 ptes which are not
+> > > cleared. then we don't access the page for a long time, but the 4 uncleared
+> > > PTEs will still make the page "hot" since they are not cleared, we will find
+> > > the page is hot either due to look-arounding the 4 processes or rmapping
+> > > the page later?
+> >
+> > Why are the remaining 4 accessed PTEs skipped? The rmap should check
+> > all the 20 PTEs.
+>
+> for example page A is the neighbour of page B in process 1, when we do rmap
+> for B, we look-around and clear A's pte in process 1. but A's ptes are
+> still set in
+> process 2,3,4,5.
 
-> 
-> (resending in plain-text, sorry).
-> 
-> memory.demote can work with any level of memory tiers if a nodemask
-> argument (or a tier argument if there is a more-explicitly defined,
-> userspace visible tiering representation) is provided.  The semantics
-> can be to demote X bytes from these nodes to their next tier.
-> 
-
-We do need some kind of userspace visible tiering representation.
-Will be nice if I can tell the memory type, nodemask of nodes in tier Y with
-
-cat memory.tier_Y
-
-
-> memory_dram/memory_pmem assumes the hardware for a particular memory
-> tier, which is undesirable.  For example, it is entirely possible that
-> a slow memory tier is implemented by a lower-cost/lower-performance
-> DDR device connected via CXL.mem, not by PMEM.  It is better for this
-> interface to speak in either the NUMA node abstraction or a new tier
-> abstraction.
-
-Just from the perspective of memory.reclaim and memory.demote, I think
-they could work with nodemask.  For ease of management,
-some kind of abstraction of tier information like nodemask, memory type
-and expected performance should be readily accessible by user space.  
-
-Tim
-
-> 
-> It is also desirable to make this interface stateless, i.e. not to
-> require the setting of memory_dram.reclaim_policy.  Any policy can be
-> specified as arguments to the request itself and should only affect
-> that particular request.
-> 
-> Wei
-
+It makes no difference because it's too insignificant. The goal is not
+to give several million pages unique timestamps and sort them; it's to
+partition pages on the orders one tenth to a few seconds and quickly
+find some reasonable candidates. Temporal locality gets weaker
+exponentially over time. Even on small systems, the difference is not
+measurable if several thousand pages used in the last few seconds are
+chosen over another several thousand pages used in the last minute.
