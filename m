@@ -2,57 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB19C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 03:16:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8652CC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 03:16:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240095AbiDGDSc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 23:18:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43372 "EHLO
+        id S239940AbiDGDSh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Apr 2022 23:18:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239751AbiDGDSN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 23:18:13 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2248C6D38A
-        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 20:16:03 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id b16-20020a253410000000b00633b9e71eecso3254022yba.14
-        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 20:16:03 -0700 (PDT)
+        with ESMTP id S240009AbiDGDS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 23:18:27 -0400
+Received: from mail-io1-xd49.google.com (mail-io1-xd49.google.com [IPv6:2607:f8b0:4864:20::d49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08111DCE2C
+        for <linux-doc@vger.kernel.org>; Wed,  6 Apr 2022 20:16:11 -0700 (PDT)
+Received: by mail-io1-xd49.google.com with SMTP id u10-20020a5ec00a000000b00648e5804d5bso2853820iol.12
+        for <linux-doc@vger.kernel.org>; Wed, 06 Apr 2022 20:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc:content-transfer-encoding;
-        bh=0gDL2pvTD5zxTlqUvzGVrkqMwF+WWHMG6CzLJtufS9M=;
-        b=QICSklTnaaKrO6/CXXqJRjo6eUoMfPz4jqJsprXE9+mK/IdywVQeWsiiKfkQzApu8E
-         io4jZTYfk+M2pMZWRjWFCLRIdy4NtX6ZsC2I+g4xsFu5eLUI1hci3N0Drcy7JIguNy5K
-         RLAw+HBz0UxECtKLdy3aUU8a/9UqGtIpri8M0oTvcgQC1m7+xPlp35VoWv8m920YL6NM
-         GjgHvHcdIRjPovqKGoeuusODGjIBEdxv59NO9FePJjy28RshR3nHegG91QPzvdIySuve
-         b1Y7KAmXVj0xLVH0KzccTpDl62qkV19v+SnBwH4Q+yJwvKT+Hq28lrFMCeA3SVYkl+pf
-         AkTA==
+        bh=/BTpyTC3BWITVgtzyo3yWI9ScJ2B23IF80HP+e4RTLs=;
+        b=B+qgdKxMWufdOBeUFvxfs40yxRQ7wr/nUoKevP6v/dym/GHDI4umWm7dakxK+KMyIG
+         pKTbn9qM+ALlw0LJ4lXKe+uPjIn7kNg442HN2penNhVKqSwWJlTgxh2R//+4KwhK4KTy
+         jBR9nB940pfXEwDgg+3Ua63sSMFkbj3UMgy3/VYHTw/jYgQ6u70mJLUanJ/RVtfBv/NM
+         t6pqlQjzQ7a/X2eGtAf+2IQbpPwTu3rMFj1QeOYxKx8t2DFExeZSyJy8pVs9Le8/4hQr
+         Am4uio9JdJDvzBecumGJ552H6Pho70P2bDeqOopqV7jw9A5CayyaMPT3Xdu30OuCXenz
+         PeOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc:content-transfer-encoding;
-        bh=0gDL2pvTD5zxTlqUvzGVrkqMwF+WWHMG6CzLJtufS9M=;
-        b=k9YK31B4stng1LhSWeiMWwzxjVZBA2C1dWyLv6oDJ+9wwxwj4asx1agSg3JKbd1sgi
-         qbezfq4xgntiPLcOCmq0RBk6W1CK6YRQERDvoqyaxFg8M6JCptFzeatB8Vj/0HutXh+e
-         zLrdXo9t5cc6bbb5O3jDuH3AwJkmxxS53SVb3keniZ4DsikapNpU4HvRxQrRidnfAFlS
-         LwDrEze2TmOZlUMwxYBhnRPnWdTnOCX0TlTz2jYmRAl14xKOHUJra6nSemfUahBvrhYc
-         wlfacAMjfbz17MHGqZUEtj887gw9sPc0tweCb3Hxesh9FlqY+WtJ6z3OBgea2eTZ7C0i
-         UpnA==
-X-Gm-Message-State: AOAM531ZT1N66ZfmiRb/wOiQW318CvHkeYGrIfQ8/IAf2zKc8q+mvWjc
-        eq97q2O1B90MNNz336WOeQuLiyKGTIg=
-X-Google-Smtp-Source: ABdhPJy0qDaWGmrAHqYOlAxiHODGv8oSz35pnKw1CmjSNap+V1hJvi+veG0m6uQb5qNeS9I6XInk5X7RAis=
+        bh=/BTpyTC3BWITVgtzyo3yWI9ScJ2B23IF80HP+e4RTLs=;
+        b=AerzkiQDbq5DGGZbIksg4H7IXgzKiJLFZ+CevwjHeOA0bT2m39GMqVcpG1j78/pR6z
+         iuiqoZkbOCryaDzPZT6yFVN/kcQheHKCyi9M6ncVBr7s4xhg/0G4Mn6bvchVW2rX1gOa
+         724t25KFSX/bCTN2M41gioI3cenYu6ux74H8zYmZL+sb84M0VacWme4S6s49jN4XWA1k
+         atv9L2iRUMmJW5fkLkCqabohVk35N0nxtvLqOnkQHbBunQNqOFnFxrSaQnCZcpmMt1Ug
+         GybTxitEPKPQ+vWho87wG4z5mA+8a8+9wd58DomCLKZwQ3MnyZMyyGPU0XLu9B70VBrp
+         StnQ==
+X-Gm-Message-State: AOAM531gHpJHloo1fKOEttYWN2pxTC8/Jp46i4yhwXBdTv5OCUNIHUEe
+        496aq1297RCKTeMNSUiiGoYGreZtu4Y=
+X-Google-Smtp-Source: ABdhPJy3glMkK9W/PAxRI8gGi5IapTHMDsOIhIIaou07CiFi6H6ib0unmvM/k4dP33swU+zixbfwt7mVghs=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:9ea2:c755:ae22:6862])
- (user=yuzhao job=sendgmr) by 2002:a25:3247:0:b0:63d:8e17:ac77 with SMTP id
- y68-20020a253247000000b0063d8e17ac77mr8382368yby.325.1649301362972; Wed, 06
- Apr 2022 20:16:02 -0700 (PDT)
-Date:   Wed,  6 Apr 2022 21:15:16 -0600
+ (user=yuzhao job=sendgmr) by 2002:a05:6638:d88:b0:322:e0cf:cf8e with SMTP id
+ l8-20020a0566380d8800b00322e0cfcf8emr6265712jaj.171.1649301370401; Wed, 06
+ Apr 2022 20:16:10 -0700 (PDT)
+Date:   Wed,  6 Apr 2022 21:15:21 -0600
 In-Reply-To: <20220407031525.2368067-1-yuzhao@google.com>
-Message-Id: <20220407031525.2368067-5-yuzhao@google.com>
+Message-Id: <20220407031525.2368067-10-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20220407031525.2368067-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.35.1.1094.g7c7d902a7c-goog
-Subject: [PATCH v10 04/14] Revert "include/linux/mm_inline.h: fold
- __update_lru_size() into its sole caller"
+Subject: [PATCH v10 09/14] mm: multi-gen LRU: optimize multiple memcgs
 From:   Yu Zhao <yuzhao@google.com>
 To:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org
 Cc:     Andi Kleen <ak@linux.intel.com>,
@@ -97,12 +96,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch undoes the following refactor:
-commit 289ccba18af4 ("include/linux/mm_inline.h: fold __update_lru_size() i=
-nto its sole caller")
+When multiple memcgs are available, it is possible to make better
+choices based on generations and tiers and therefore improve the
+overall performance under global memory pressure. This patch adds a
+rudimentary optimization to select memcgs that can drop single-use
+unmapped clean pages first. Doing so reduces the chance of going into
+the aging path or swapping. These two operations can be costly.
 
-The upcoming changes to include/linux/mm_inline.h will reuse
-__update_lru_size().
+A typical example that benefits from this optimization is a server
+running mixed types of workloads, e.g., heavy anon workload in one
+memcg and heavy buffered I/O workload in the other.
+
+Though this optimization can be applied to both kswapd and direct
+reclaim, it is only added to kswapd to keep the patchset manageable.
+Later improvements will cover the direct reclaim path.
+
+Server benchmark results:
+  Mixed workloads:
+    fio (buffered I/O): +[1, 3]%
+                IOPS         BW
+      patch1-8: 2154k        8415MiB/s
+      patch1-9: 2205k        8613MiB/s
+
+    memcached (anon): +[132, 136]%
+                Ops/sec      KB/sec
+      patch1-8: 819618.49    31838.48
+      patch1-9: 1916516.06   74447.92
+
+  Mixed workloads:
+    fio (buffered I/O): +[59, 61]%
+                IOPS         BW
+      5.18-rc1: 1378k        5385MiB/s
+      patch1-9: 2205k        8613MiB/s
+
+    memcached (anon): +[229, 233]%
+                Ops/sec      KB/sec
+      5.18-rc1: 578946.00    22489.44
+      patch1-9: 1916516.06   74447.92
+
+  Configurations:
+    (changes since patch 6)
+
+    cat mixed.sh
+    modprobe brd rd_nr=3D2 rd_size=3D56623104
+
+    swapoff -a
+    mkswap /dev/ram0
+    swapon /dev/ram0
+
+    mkfs.ext4 /dev/ram1
+    mount -t ext4 /dev/ram1 /mnt
+
+    memtier_benchmark -S /var/run/memcached/memcached.sock \
+      -P memcache_binary -n allkeys --key-minimum=3D1 \
+      --key-maximum=3D50000000 --key-pattern=3DP:P -c 1 -t 36 \
+      --ratio 1:0 --pipeline 8 -d 2000
+
+    fio -name=3Dmglru --numjobs=3D36 --directory=3D/mnt --size=3D1408m \
+      --buffered=3D1 --ioengine=3Dio_uring --iodepth=3D128 \
+      --iodepth_batch_submit=3D32 --iodepth_batch_complete=3D32 \
+      --rw=3Drandread --random_distribution=3Drandom --norandommap \
+      --time_based --ramp_time=3D10m --runtime=3D90m --group_reporting &
+    pid=3D$!
+
+    sleep 200
+
+    memtier_benchmark -S /var/run/memcached/memcached.sock \
+      -P memcache_binary -n allkeys --key-minimum=3D1 \
+      --key-maximum=3D50000000 --key-pattern=3DR:R -c 1 -t 36 \
+      --ratio 0:1 --pipeline 8 --randomize --distinct-client-seed
+
+    kill -INT $pid
+    wait
+
+Client benchmark results:
+  no change (CONFIG_MEMCG=3Dn)
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
 Acked-by: Brian Geffon <bgeffon@google.com>
@@ -118,37 +186,121 @@ Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
 Tested-by: Sofia Trinh <sofia.trinh@edi.works>
 Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 ---
- include/linux/mm_inline.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ mm/vmscan.c | 45 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 41 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
-index ac32125745ab..7c9c2157e9a8 100644
---- a/include/linux/mm_inline.h
-+++ b/include/linux/mm_inline.h
-@@ -32,7 +32,7 @@ static inline int page_is_file_lru(struct page *page)
- 	return folio_is_file_lru(page_folio(page));
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 9e2810a230a4..0663f1a3f72a 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -128,6 +128,13 @@ struct scan_control {
+ 	/* Always discard instead of demoting to lower tier memory */
+ 	unsigned int no_demotion:1;
+=20
++#ifdef CONFIG_LRU_GEN
++	/* help make better choices when multiple memcgs are available */
++	unsigned int memcgs_need_aging:1;
++	unsigned int memcgs_need_swapping:1;
++	unsigned int memcgs_avoid_swapping:1;
++#endif
++
+ 	/* Allocation order */
+ 	s8 order;
+=20
+@@ -4309,6 +4316,22 @@ static void lru_gen_age_node(struct pglist_data *pgd=
+at, struct scan_control *sc)
+=20
+ 	VM_BUG_ON(!current_is_kswapd());
+=20
++	/*
++	 * To reduce the chance of going into the aging path or swapping, which
++	 * can be costly, optimistically skip them unless their corresponding
++	 * flags were cleared in the eviction path. This improves the overall
++	 * performance when multiple memcgs are available.
++	 */
++	if (!sc->memcgs_need_aging) {
++		sc->memcgs_need_aging =3D true;
++		sc->memcgs_avoid_swapping =3D !sc->memcgs_need_swapping;
++		sc->memcgs_need_swapping =3D true;
++		return;
++	}
++
++	sc->memcgs_need_swapping =3D true;
++	sc->memcgs_avoid_swapping =3D true;
++
+ 	current->reclaim_state->mm_walk =3D &pgdat->mm_walk;
+=20
+ 	memcg =3D mem_cgroup_iter(NULL, NULL, NULL);
+@@ -4714,7 +4737,8 @@ static int isolate_folios(struct lruvec *lruvec, stru=
+ct scan_control *sc, int sw
+ 	return scanned;
  }
 =20
--static __always_inline void update_lru_size(struct lruvec *lruvec,
-+static __always_inline void __update_lru_size(struct lruvec *lruvec,
- 				enum lru_list lru, enum zone_type zid,
- 				long nr_pages)
+-static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, in=
+t swappiness)
++static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, in=
+t swappiness,
++			bool *swapped)
  {
-@@ -41,6 +41,13 @@ static __always_inline void update_lru_size(struct lruve=
-c *lruvec,
- 	__mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
- 	__mod_zone_page_state(&pgdat->node_zones[zid],
- 				NR_ZONE_LRU_BASE + lru, nr_pages);
-+}
+ 	int type;
+ 	int scanned;
+@@ -4780,6 +4804,9 @@ static int evict_folios(struct lruvec *lruvec, struct=
+ scan_control *sc, int swap
+=20
+ 	sc->nr_reclaimed +=3D reclaimed;
+=20
++	if (type =3D=3D LRU_GEN_ANON && swapped)
++		*swapped =3D true;
 +
-+static __always_inline void update_lru_size(struct lruvec *lruvec,
-+				enum lru_list lru, enum zone_type zid,
-+				int nr_pages)
-+{
-+	__update_lru_size(lruvec, lru, zid, nr_pages);
- #ifdef CONFIG_MEMCG
- 	mem_cgroup_update_lru_size(lruvec, lru, zid, nr_pages);
- #endif
+ 	return scanned;
+ }
+=20
+@@ -4808,8 +4835,10 @@ static long get_nr_to_scan(struct lruvec *lruvec, st=
+ruct scan_control *sc, bool
+ 	if (!nr_to_scan)
+ 		return 0;
+=20
+-	if (!need_aging)
++	if (!need_aging) {
++		sc->memcgs_need_aging =3D false;
+ 		return nr_to_scan;
++	}
+=20
+ 	/* leave the work to lru_gen_age_node() */
+ 	if (current_is_kswapd())
+@@ -4831,6 +4860,8 @@ static void lru_gen_shrink_lruvec(struct lruvec *lruv=
+ec, struct scan_control *sc
+ {
+ 	struct blk_plug plug;
+ 	long scanned =3D 0;
++	bool swapped =3D false;
++	unsigned long reclaimed =3D sc->nr_reclaimed;
+ 	struct pglist_data *pgdat =3D lruvec_pgdat(lruvec);
+=20
+ 	lru_add_drain();
+@@ -4856,13 +4887,19 @@ static void lru_gen_shrink_lruvec(struct lruvec *lr=
+uvec, struct scan_control *sc
+ 		if (!nr_to_scan)
+ 			break;
+=20
+-		delta =3D evict_folios(lruvec, sc, swappiness);
++		delta =3D evict_folios(lruvec, sc, swappiness, &swapped);
+ 		if (!delta)
+ 			break;
+=20
++		if (sc->memcgs_avoid_swapping && swappiness < 200 && swapped)
++			break;
++
+ 		scanned +=3D delta;
+-		if (scanned >=3D nr_to_scan)
++		if (scanned >=3D nr_to_scan) {
++			if (!swapped && sc->nr_reclaimed - reclaimed >=3D MIN_LRU_BATCH)
++				sc->memcgs_need_swapping =3D false;
+ 			break;
++		}
+=20
+ 		cond_resched();
+ 	}
 --=20
 2.35.1.1094.g7c7d902a7c-goog
 
