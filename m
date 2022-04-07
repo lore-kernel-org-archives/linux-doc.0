@@ -2,147 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30783C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 03:46:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DE1C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 04:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235008AbiDGDsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Apr 2022 23:48:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54442 "EHLO
+        id S237045AbiDGFAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 01:00:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233268AbiDGDsl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Apr 2022 23:48:41 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABEB5BEE;
-        Wed,  6 Apr 2022 20:46:41 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id p15so8161263ejc.7;
-        Wed, 06 Apr 2022 20:46:41 -0700 (PDT)
+        with ESMTP id S236602AbiDGFAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 01:00:40 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B583A1DB7C6;
+        Wed,  6 Apr 2022 21:58:40 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id t13so3999133pgn.8;
+        Wed, 06 Apr 2022 21:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2osYizLMrar7QqOz8LD8setUutp7c0I8CuIlWyU0pBg=;
-        b=cKZ6do/t2L9vKakesKtxffn9PtC9S2qbMr1610jgtP28xQz6M/jTZXicOp3+64uVHX
-         qijM4rThv3VpwivwHnyedSzyRpf3vh4n1k0TQAAJPm/h8Bz9d85Jpr49IYQeUIVlM+cD
-         ZmTFDpFRzm4xJyYGwYoOJ5+X2mqr09Y7sRAuxURsQ/icMKA7Wu8S7D+O6hq1eDEY8BDA
-         VC8YgH7lGf+Yey31F5KelHmIX5na8552lGQkasonqsXOqDgLwPKyDx4wi/yPs6zzQhcB
-         MZZWYzVqqtyDwlF3O6Ax60y95AqQ2heZZg3yOdHV9oD/k0Powk68JmG7cbwav6DWN2zp
-         M2VQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JP74ztnW9mN5Wx5SZxZ1rwxOY5BhzSJW2zDiwmBFA8c=;
+        b=lf4bCwCADH4PnWz+xVjyrp3OLa2XZn0LE4eJTYa5HRncMriSOQm3kecvJpNID9GKPy
+         0lxfOTBLqW1YFniQs1hOQlicrE6FQOwkk0UgippUw9cy81/+NjCz1LB3smnbIJc75Pn/
+         ukkmK8pWMc3w4B3sMYdYmAsaotLThoZWZmUvptlIY1TpwfCkE/9OMZ36HzshUzFt9HWW
+         NvqKH1oW7yqetneVxt+yXaLcfX5ND5dy5ztbIePf1WXksZro3ANAV061lyHwsuCtVQg2
+         uCuu3WyO2ai+murmZAwE/n+XdcfZhCe+caW5LxctPap+B9uQr6cHhVBQV21h1rrpRpYg
+         iD8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2osYizLMrar7QqOz8LD8setUutp7c0I8CuIlWyU0pBg=;
-        b=jZ2QtuS1dYRnxBH0eMk0c70d1/CsfnGSRsVsQztg+PxLQSeBJEFiq9Y8fFGzjGJ5D8
-         7aWTnLbCSojG2sJKYV1GfLCAOyqBI0MOd4KKmU1cNGVCH5hhzVmb5VGk1K0zttSUIOFd
-         WnmpYEqNHjcRYybQKCGJ9M9Ubz7liSJ+uT8KjnMO8vSpqrG4rGZo7n6VeUpHXEPVYZlD
-         O+eAS7R2OAMEpA3VUR3/k52a+PdQrbp8R8J+NRLlePejGvNeMneJjWwD3sOeiBjJClIp
-         kWWq85cfLSk0DGOospaYARzjfaWClnHZ8buQfb5/i2VQzTQmglpM+HIrzJUZ2J0pXjOF
-         Qskg==
-X-Gm-Message-State: AOAM530EIhLPxoBvNWiuvnNdGD+FDsMvtpkykZY30z9zQF09AKwK3uBD
-        ZD7rrCxar/xmXoirdgP8U+Ce0VnNIyslxRtRzcQ=
-X-Google-Smtp-Source: ABdhPJx0JJX3YOy4xz1wSArtme702dUMio1P+UzX3qxTFY7xH4BfET9qWERzTi+yH9291LSd38MyTL22akuCDuMuecM=
-X-Received: by 2002:a17:906:39da:b0:6cf:7f09:a7bc with SMTP id
- i26-20020a17090639da00b006cf7f09a7bcmr11870481eje.457.1649303200136; Wed, 06
- Apr 2022 20:46:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-8-yuzhao@google.com>
- <CAGsJ_4wVA6G42y4Oj7ToaCoroZTRbS-tU606ELwra3_Sfrgo7w@mail.gmail.com> <CAOUHufbUdoWiBF5x2ZeK104jT39zAuuU0xXKZ51eaU6P8SNUyg@mail.gmail.com>
-In-Reply-To: <CAOUHufbUdoWiBF5x2ZeK104jT39zAuuU0xXKZ51eaU6P8SNUyg@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Thu, 7 Apr 2022 15:46:29 +1200
-Message-ID: <CAGsJ_4z=vkub4e5J5ggsTN=YN4qsqmXSOpf_gu993oOGreLjPg@mail.gmail.com>
-Subject: Re: [PATCH v9 07/14] mm: multi-gen LRU: exploit locality in rmap
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JP74ztnW9mN5Wx5SZxZ1rwxOY5BhzSJW2zDiwmBFA8c=;
+        b=zbCSjL2lZ+ZH6taii1bt7o3PKPBwK2bZ8MWwUIyVGepxLxg8CqNiesvN3QlUkwUfQi
+         LDo5zJHbvszE8/iO5kK1Aw0CIXrS982Wu0Psm938xVrlu8LN7X+Hu6w+ezSUcBGwEezA
+         pshxbbcrbI1ojXZW3u3DLXeiJs3EQtgmeVe1Sq3GpbWhB8D7xtyiEpIynjJ1hLMW7T0z
+         j81BObdsh+jzz0It/n4KjfVMP2jSOMb4/+03JpsT47DUBPlGdP4hswjMjQDOUCNKwzXm
+         eIec4MqgDnqR+iEHjLgro6JC1BRp+rAhJiMMCag1jLuvEaSCgqZzp+W5iIAwGz0+bSge
+         fCUA==
+X-Gm-Message-State: AOAM5323daBoIU/FUp4Di55krA3sn0BkUyeLBo0TRHGLhtBhp08X1Jiu
+        UBajeiQ4/6yegEqZAVnNx+wSSap5Ds2hzbUR
+X-Google-Smtp-Source: ABdhPJzuQb2+diHki7FV0XVGsaaeG3wNIfPoOd/ZJr1T1ATmJeGtjN8t0lkeSC2qqXoYyVv1xRmpLg==
+X-Received: by 2002:a62:4e4e:0:b0:4fa:b1d4:3405 with SMTP id c75-20020a624e4e000000b004fab1d43405mr12409865pfb.71.1649307520038;
+        Wed, 06 Apr 2022 21:58:40 -0700 (PDT)
+Received: from ubuntu.mate (subs02-180-214-232-30.three.co.id. [180.214.232.30])
+        by smtp.gmail.com with ESMTPSA id u14-20020a056a00124e00b004fab8f3245fsm21946356pfi.149.2022.04.06.21.58.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 21:58:39 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Documentation: arch_pgtable_helpers: demote pgtable list headings
+Date:   Thu,  7 Apr 2022 11:58:30 +0700
+Message-Id: <20220407045830.181514-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 7, 2022 at 3:04 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Wed, Apr 6, 2022 at 8:29 PM Barry Song <21cnbao@gmail.com> wrote:
-> >
-> > On Wed, Mar 9, 2022 at 3:48 PM Yu Zhao <yuzhao@google.com> wrote:
-> > >
-> > > Searching the rmap for PTEs mapping each page on an LRU list (to test
-> > > and clear the accessed bit) can be expensive because pages from
-> > > different VMAs (PA space) are not cache friendly to the rmap (VA
-> > > space). For workloads mostly using mapped pages, the rmap has a high
-> > > CPU cost in the reclaim path.
-> > >
-> > > This patch exploits spatial locality to reduce the trips into the
-> > > rmap. When shrink_page_list() walks the rmap and finds a young PTE, a
-> > > new function lru_gen_look_around() scans at most BITS_PER_LONG-1
-> > > adjacent PTEs. On finding another young PTE, it clears the accessed
-> > > bit and updates the gen counter of the page mapped by this PTE to
-> > > (max_seq%MAX_NR_GENS)+1.
-> >
-> > Hi Yu,
-> > It seems an interesting feature to save the cost of rmap. but will it lead to
-> > possible judging of cold pages as hot pages?
-> > In case a page is mapped by 20 processes,  and it has been accessed
-> > by 5 of them, when we look around one of the 5 processes, the page
-> > will be young and this pte is cleared. but we still have 4 ptes which are not
-> > cleared. then we don't access the page for a long time, but the 4 uncleared
-> > PTEs will still make the page "hot" since they are not cleared, we will find
-> > the page is hot either due to look-arounding the 4 processes or rmapping
-> > the page later?
->
-> Why are the remaining 4 accessed PTEs skipped? The rmap should check
-> all the 20 PTEs.
+All page title headings in arch_pgtable_helpers.txt except
+"Architecture Page Table Helpers" should have been subheadings instead.
 
-for example page A is the neighbour of page B in process 1, when we do rmap
-for B, we look-around and clear A's pte in process 1. but A's ptes are
-still set in
-process 2,3,4,5.
+Demote them to chapter headings.
 
->
-> Even if they were skipped, it doesn't matter. The same argument could
-> be made for the rest of 1 millions minus 1 pages that have been timely
-> scanned, on a 4GB laptop. The fundamental principle (assumption) of
-> MGLRU is never about making the best choices. Nothing can because it's
-> impossible to predict the future that well, given the complexity of
-> today's workloads, not on a phone, definitely not on a server that
-> runs mixed types of workloads. The primary goal is to avoid the worst
-> choices at a minimum (scanning) cost. The second goal is to pick good
-> ones at an acceptable cost, which probably are a half of all possible
-> choices.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v1 [1]: 
+   - Rebased on v5.18-rc1
+   - Describe why the patch do the job
 
-thanks
-barry
+ [1]: https://lore.kernel.org/linux-doc/20220326131313.691027-1-bagasdotme@gmail.com/
+ Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
+index f8b225fc919047..cbaee9e592410f 100644
+--- a/Documentation/vm/arch_pgtable_helpers.rst
++++ b/Documentation/vm/arch_pgtable_helpers.rst
+@@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
+ boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
+ test need to be in sync.
+ 
+-======================
++
+ PTE Page Table Helpers
+ ======================
+ 
+@@ -79,7 +79,7 @@ PTE Page Table Helpers
+ | ptep_set_access_flags     | Converts into a more permissive PTE              |
+ +---------------------------+--------------------------------------------------+
+ 
+-======================
++
+ PMD Page Table Helpers
+ ======================
+ 
+@@ -153,7 +153,7 @@ PMD Page Table Helpers
+ | pmdp_set_access_flags     | Converts into a more permissive PMD              |
+ +---------------------------+--------------------------------------------------+
+ 
+-======================
++
+ PUD Page Table Helpers
+ ======================
+ 
+@@ -209,7 +209,7 @@ PUD Page Table Helpers
+ | pudp_set_access_flags     | Converts into a more permissive PUD              |
+ +---------------------------+--------------------------------------------------+
+ 
+-==========================
++
+ HugeTLB Page Table Helpers
+ ==========================
+ 
+@@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
+ | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
+ +---------------------------+--------------------------------------------------+
+ 
+-========================
++
+ SWAP Page Table Helpers
+ ========================
+ 
+
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+-- 
+An old man doll... just what I always wanted! - Clara
+
