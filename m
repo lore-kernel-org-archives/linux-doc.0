@@ -2,175 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1453C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:32:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C32DEC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 12:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245184AbiDGMeG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 08:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43300 "EHLO
+        id S245240AbiDGMfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 08:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245180AbiDGMeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:34:05 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE45C118F55;
-        Thu,  7 Apr 2022 05:32:04 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 237Aq3N5030696;
-        Thu, 7 Apr 2022 14:31:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=76SYHV/KtKEG+X8D1Pons/IwXN4U2N6uF+AI+Dz58us=;
- b=5Bx2FHIgAJs3ebrtDjtwx1qrcK+TvTxgsJtwTC2Bm2TNJMBP7odiE3VIgMQChCBLmifw
- z1P847sk7fz4WLZBEedK9rEqD/GELssipSxQ1hFmZAs7Oig45GrtAThvrOjJ6byXWJOL
- xV8gjXxIzpPIQBpg6Y1qsP+8/ABs0D1sfZtJm4DKL6ErjaTznrB7L7zQLSfYmd9IDppt
- chM8h20HIPrnp+5psjWg8ST1C8+8fvgmhNot/+aPA1xK+oPsXaWXfRy+V1nG0T+8AVph
- cNYSZG3V0BS3zmSkDIa3xZVmfPKab23UBet8Q7y2AK8cillGT/epVnnq+WNzzYU0uWZg Eg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f6du14vyw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Apr 2022 14:31:42 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 583FF100034;
-        Thu,  7 Apr 2022 14:31:26 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5092821A23C;
-        Thu,  7 Apr 2022 14:31:26 +0200 (CEST)
-Received: from localhost (10.75.127.50) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 7 Apr 2022 14:31:25
- +0200
-From:   Valentin Caron <valentin.caron@foss.st.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Jiri Slaby <jirislaby@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Erwan Le Ray <erwan.leray@foss.st.com>,
-        Valentin Caron <valentin.caron@foss.st.com>,
-        <linux-serial@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH 3/3] serial: stm32: add earlycon support
-Date:   Thu, 7 Apr 2022 14:31:09 +0200
-Message-ID: <20220407123109.132035-4-valentin.caron@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220407123109.132035-1-valentin.caron@foss.st.com>
-References: <20220407123109.132035-1-valentin.caron@foss.st.com>
+        with ESMTP id S245232AbiDGMfu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 08:35:50 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1BE615EDE5;
+        Thu,  7 Apr 2022 05:33:49 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id q19so4821160pgm.6;
+        Thu, 07 Apr 2022 05:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHuMdd+Tso54IS24zoaKEo7ZF3a1oq8FNtueInQMuKg=;
+        b=TP5m84milVRvG/vEdfXwdoGsaBa4DtHBo313pRzo5ALpNwKykawRcbsU4JHBwG928X
+         n5jRakad5YjG9eFkh+7QyNsQRSSkBceUG9GxSLvPM9ydqymcYFGa8t+cT16wAFVYtn5E
+         Tm0FxsfLb3ONv418/WLIsSgHsnwWPtYG1P7XhsyJBo1/YupRo+2Y1caU5ReQn2FTD9KR
+         oEfNV/qbGhraydqt6xDfrmotxOVI99RtQARty2IARenhNTZHIJ1pa2l7r4GamI/2KkDq
+         BmlszCrdY1v32v0rEq223xFv4QRc6SK6IN5w3cwfPHdg+hY2B1LoYIdhmzMBJnKAfFdl
+         yM+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHuMdd+Tso54IS24zoaKEo7ZF3a1oq8FNtueInQMuKg=;
+        b=bIccdu6pTAJ5HDDEqQ7+/rgLHh3QnrqdfxiO3Y/N/NK1QJ5b2gkqozESyw2MmV9tiA
+         g9THaHKl5unMj4+v4WW81AZNcJwTVIl7rHbnvaZpJuz7sahTGKXkLIPRD69En4dQaTjf
+         KeSKFOtU8mwEj29VszgrV14iVsuuFVoMFJBHj22AcSSNygzAgCZuZ7bephPsquCmO60s
+         0wZ+7D6FAVF+/odjKrYo44/K9u8hbvpJIr1dA1QIVHZ37/vCdmEC7i8P+XPPprgPAt2g
+         bvnTDVpSBaTrYijDqLtKsplifmKGFKBGuED8xukbEME/UQ5L2Y584AQGAs+kyUtuhGtm
+         DQhg==
+X-Gm-Message-State: AOAM533NZjxdT+lpEvz7+Ad5PcFqEXLzjZgQTBwKy3Su03twOtJHJfa/
+        y+qRsIOe/4QRi3I/ynQuj6WyIkeqzGzY7vIj
+X-Google-Smtp-Source: ABdhPJxaB7S5JM7L1Nse63e3q13TrwKZX/zgN6E55DEv72DlYwSESD8Cwg7AsnUwV84IfHCk/CWwgQ==
+X-Received: by 2002:a63:7f50:0:b0:386:2b5c:9d16 with SMTP id p16-20020a637f50000000b003862b5c9d16mr11244153pgn.153.1649334829156;
+        Thu, 07 Apr 2022 05:33:49 -0700 (PDT)
+Received: from ubuntu.mate (subs03-180-214-233-65.three.co.id. [180.214.233.65])
+        by smtp.gmail.com with ESMTPSA id nv11-20020a17090b1b4b00b001c71b0bf18bsm9484966pjb.11.2022.04.07.05.33.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 05:33:48 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>, KVM <kvm@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Anup Patel <anup.patel@wdc.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH v2] Documentation: kvm: Add missing line break in api.rst
+Date:   Thu,  7 Apr 2022 19:33:27 +0700
+Message-Id: <20220407123327.159079-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-07_01,2022-04-07_01,2022-02-23_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add early console support in stm32 uart driver.
+Add missing line break separator between literal block and description
+of KVM_EXIT_RISCV_SBI.
 
-Signed-off-by: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Signed-off-by: Valentin Caron <valentin.caron@foss.st.com>
+This fixes:
+</path/to/linux>/Documentation/virt/kvm/api.rst:6118: WARNING: Literal block ends without a blank line; unexpected unindent.
+
+Fixes: da40d85805937d ("RISC-V: KVM: Document RISC-V specific parts of KVM API")
+Cc: Anup Patel <anup.patel@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  6 +++
- drivers/tty/serial/Kconfig                    |  1 +
- drivers/tty/serial/stm32-usart.c              | 51 +++++++++++++++++++
- 3 files changed, 58 insertions(+)
+ Changes since v1 [1]:
+   - Rebased on v5.18-rc1
+   - Address Fixes tag problems reported by Stephen Rothwell [2] by
+     removing date and quote the original commit
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3f1cc5e317ed..e941c3351c7a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1264,6 +1264,12 @@
- 			address must be provided, and the serial port must
- 			already be setup and configured.
- 
-+		stm32,<addr>
-+			Use early console provided by ST Microelectronics
-+			serial driver for STM32 SoCs. A valid base address
-+			must be provided, and the serial port must already
-+			be setup and configured.
+ [1]: https://lore.kernel.org/linux-doc/20220403065735.23859-1-bagasdotme@gmail.com/
+ [2]: https://lore.kernel.org/linux-next/20220407074844.110f9285@canb.auug.org.au/
+
+ Documentation/virt/kvm/api.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index d13fa66004672c..85c7abc51af521 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6190,6 +6190,7 @@ Valid values for 'type' are:
+ 			unsigned long args[6];
+ 			unsigned long ret[2];
+ 		} riscv_sbi;
 +
- 	earlyprintk=	[X86,SH,ARM,M68k,S390]
- 			earlyprintk=vga
- 			earlyprintk=sclp
-diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-index 6949e883ffab..ed59de8d2e11 100644
---- a/drivers/tty/serial/Kconfig
-+++ b/drivers/tty/serial/Kconfig
-@@ -1443,6 +1443,7 @@ config SERIAL_STM32_CONSOLE
- 	bool "Support for console on STM32"
- 	depends on SERIAL_STM32=y
- 	select SERIAL_CORE_CONSOLE
-+	select SERIAL_EARLYCON
- 
- config SERIAL_MVEBU_UART
- 	bool "Marvell EBU serial port support"
-diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
-index d2cf789c7997..b6852a5a9143 100644
---- a/drivers/tty/serial/stm32-usart.c
-+++ b/drivers/tty/serial/stm32-usart.c
-@@ -1767,6 +1767,57 @@ static struct console stm32_console = {
- #define STM32_SERIAL_CONSOLE NULL
- #endif /* CONFIG_SERIAL_STM32_CONSOLE */
- 
-+#ifdef CONFIG_SERIAL_EARLYCON
-+static void early_stm32_usart_console_putchar(struct uart_port *port, unsigned char ch)
-+{
-+	struct stm32_usart_info *info = port->private_data;
-+
-+	while (!(readl_relaxed(port->membase + info->ofs.isr) & USART_SR_TXE))
-+		cpu_relax();
-+
-+	writel_relaxed(ch, port->membase + info->ofs.tdr);
-+}
-+
-+static void early_stm32_serial_write(struct console *console, const char *s, unsigned int count)
-+{
-+	struct earlycon_device *device = console->data;
-+	struct uart_port *port = &device->port;
-+
-+	uart_console_write(port, s, count, early_stm32_usart_console_putchar);
-+}
-+
-+static int __init early_stm32_h7_serial_setup(struct earlycon_device *device, const char *options)
-+{
-+	if (!(device->port.membase || device->port.iobase))
-+		return -ENODEV;
-+	device->port.private_data = &stm32h7_info;
-+	device->con->write = early_stm32_serial_write;
-+	return 0;
-+}
-+
-+static int __init early_stm32_f7_serial_setup(struct earlycon_device *device, const char *options)
-+{
-+	if (!(device->port.membase || device->port.iobase))
-+		return -ENODEV;
-+	device->port.private_data = &stm32f7_info;
-+	device->con->write = early_stm32_serial_write;
-+	return 0;
-+}
-+
-+static int __init early_stm32_f4_serial_setup(struct earlycon_device *device, const char *options)
-+{
-+	if (!(device->port.membase || device->port.iobase))
-+		return -ENODEV;
-+	device->port.private_data = &stm32f4_info;
-+	device->con->write = early_stm32_serial_write;
-+	return 0;
-+}
-+
-+OF_EARLYCON_DECLARE(stm32, "st,stm32h7-uart", early_stm32_h7_serial_setup);
-+OF_EARLYCON_DECLARE(stm32, "st,stm32f7-uart", early_stm32_f7_serial_setup);
-+OF_EARLYCON_DECLARE(stm32, "st,stm32-uart", early_stm32_f4_serial_setup);
-+#endif /* CONFIG_SERIAL_EARLYCON */
-+
- static struct uart_driver stm32_usart_driver = {
- 	.driver_name	= DRIVER_NAME,
- 	.dev_name	= STM32_SERIAL_NAME,
+ If exit reason is KVM_EXIT_RISCV_SBI then it indicates that the VCPU has
+ done a SBI call which is not handled by KVM RISC-V kernel module. The details
+ of the SBI call are available in 'riscv_sbi' member of kvm_run structure. The
+
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
