@@ -2,140 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80468C43219
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 19:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB190C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 21:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236125AbiDGTQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 15:16:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
+        id S231483AbiDGV2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 17:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347115AbiDGTQ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 15:16:29 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5988B23F9CB;
-        Thu,  7 Apr 2022 12:14:28 -0700 (PDT)
+        with ESMTP id S231444AbiDGV2L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 17:28:11 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28BDB1965CF;
+        Thu,  7 Apr 2022 14:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649358868; x=1680894868;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=EpuU9FnJFmOX+BA1Irm1YxgXVJdK5TXoe/7lCiqp/zk=;
-  b=fzDXd6sZNwydbYFLaIluNQIXkc3fT1qQ3RuZNsgIh13Sm43Uw+3srB8C
-   TIXRzvOhWGSAsqfePpelCftAQqGaT3s8Z7ySu4/65V58zHyVv8PRHY3bT
-   3qsQDtEDl474zmkbXHcFgmMQ1l3LAYA5MKvG4uzLSwtg0t/fFc0HOqPg+
-   iY2FIB0o/z9taV/B3t8UcIpDKQQA3mKdJaCmHeo/u5tRQ5tJZWIFWJfOH
-   U+rWbflyLiuzQRqe/DW04VdEWH24BTuHQ6L6UTyvc1+Fwe5bFQifO1oG5
-   knn4o9jhZ3m2xZll6/rRBtf9GMxtSV6LnB5DfrzNviuL7oEOrdSICSski
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="260255390"
+  t=1649366769; x=1680902769;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=mIX/4V9ZQLO5IL2OJQlDG9+qFrwjCz3AEf+UgwstfB4=;
+  b=efig7LUJ6sEx58XIFO74VFlE8OEWGX/u5wiEAkXaeVykR93D06CXkXFH
+   4mj78yMKAUoDgzgqyQfCV48bycHlHu26ReYGzOv9CgJQszbmI4HQHbwaA
+   dITWjIcDVgHe26w/gzrPk+1NkM34CO8tCRzRQ/joCUJPztenP66KjSyj+
+   Ie1MlpuAYCijGt63CZ767xmygi4AWHoAJQ21NcmiXNnbUxgziKfG/wf0/
+   pI2clGUSB3XpK1tzUoZebin12TN0hGmi6/BS4mdjNcmN8Q2blvh4/yZHW
+   Kcp3FJlyt2f/vhC50FF9SR1Z99/s7FBEEVJFPTyPlkJ7sfLL2gPR4hPQJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="324606428"
 X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
-   d="scan'208";a="260255390"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 12:14:19 -0700
+   d="scan'208";a="324606428"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 14:26:01 -0700
 X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
-   d="scan'208";a="571193735"
-Received: from coffy.sc.intel.com ([10.3.79.166])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 12:14:19 -0700
-From:   Jithu Joseph <jithu.joseph@intel.com>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
-        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev, ravi.v.shankar@intel.com
-Subject: [PATCH v2 10/10] trace: platform/x86/intel/ifs: Add trace point to track Intel IFS operations
-Date:   Thu,  7 Apr 2022 12:13:47 -0700
-Message-Id: <20220407191347.9681-11-jithu.joseph@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220407191347.9681-1-jithu.joseph@intel.com>
-References: <20220407191347.9681-1-jithu.joseph@intel.com>
+   d="scan'208";a="525096736"
+Received: from schen9-mobl.amr.corp.intel.com ([10.209.71.23])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 14:26:01 -0700
+Message-ID: <215bd7332aee0ed1092bad4d826a42854ebfd04a.camel@linux.intel.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+From:   Tim Chen <tim.c.chen@linux.intel.com>
+To:     "Huang, Ying" <ying.huang@intel.com>, Wei Xu <weixugc@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
+Date:   Thu, 07 Apr 2022 14:26:01 -0700
+In-Reply-To: <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+         <YkcEMdsi9G5y8mX4@dhcp22.suse.cz>
+         <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+         <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com>
+         <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+         <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com>
+         <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+         <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tony Luck <tony.luck@intel.com>
+On Wed, 2022-04-06 at 10:49 +0800, Huang, Ying wrote:
+> 
+> > > If so,
+> > > 
+> > > # echo A > memory.reclaim
+> > > 
+> > > means
+> > > 
+> > > a) "A" bytes memory are freed from the memcg, regardless demoting is
+> > >    used or not.
+> > > 
+> > > or
+> > > 
+> > > b) "A" bytes memory are reclaimed from the memcg, some of them may be
+> > >    freed, some of them may be just demoted from DRAM to PMEM.  The total
+> > >    number is "A".
+> > > 
+> > > For me, a) looks more reasonable.
+> > > 
+> > 
+> > We can use a DEMOTE flag to control the demotion behavior for
+> > memory.reclaim.  If the flag is not set (the default), then
+> > no_demotion of scan_control can be set to 1, similar to
+> > reclaim_pages().
+> 
+> If we have to use a flag to control the behavior, I think it's better to
+> have a separate interface (e.g. memory.demote).  But do we really need b)?
+> 
+> > The question is then whether we want to rename memory.reclaim to
+> > something more general.  I think this name is fine if reclaim-based
+> > demotion is an accepted concept.
+> 
 
-Add tracing support which may be useful for debugging systems that fail to complete
-In Field Scan tests.
+memory.demote will work for 2 level of memory tiers.  But when we have 3 level
+of memory (e.g. high bandwidth memory, DRAM and PMEM), 
+it gets ambiguous again of wheter we sould demote from high bandwidth memory
+or DRAM.
 
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
----
- drivers/platform/x86/intel/ifs/runtest.c |  5 ++++
- include/trace/events/intel_ifs.h         | 38 ++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 include/trace/events/intel_ifs.h
+Will something like this be more general?
 
-diff --git a/drivers/platform/x86/intel/ifs/runtest.c b/drivers/platform/x86/intel/ifs/runtest.c
-index f9c98d84183f..b9fac2ac7107 100644
---- a/drivers/platform/x86/intel/ifs/runtest.c
-+++ b/drivers/platform/x86/intel/ifs/runtest.c
-@@ -10,6 +10,9 @@
- 
- #include "ifs.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/intel_ifs.h>
-+
- bool ifs_disabled;
- 
- static int ifs_retry_set(const char *val, const struct kernel_param *kp);
-@@ -204,6 +207,8 @@ static void ifs_work_func(struct work_struct *work)
- 
- 		rdmsrl(MSR_SCAN_STATUS, status.data);
- 
-+		trace_ifs_status(activate, status);
-+
- 		/* Some cases can be retried, give up for others */
- 		if (!can_restart(status))
- 			break;
-diff --git a/include/trace/events/intel_ifs.h b/include/trace/events/intel_ifs.h
-new file mode 100644
-index 000000000000..0611f370cb37
---- /dev/null
-+++ b/include/trace/events/intel_ifs.h
-@@ -0,0 +1,38 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM intel_ifs
-+
-+#if !defined(_TRACE_IFS_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_IFS_H
-+
-+#include <linux/ktime.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(ifs_status,
-+
-+	TP_PROTO(union ifs_scan activate, union ifs_status status),
-+
-+	TP_ARGS(activate, status),
-+
-+	TP_STRUCT__entry(
-+		__field(	u64,	status	)
-+		__field(	u8,	start	)
-+		__field(	u8,	stop	)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->start	= activate.start;
-+		__entry->stop	= activate.stop;
-+		__entry->status	= status.data;
-+	),
-+
-+	TP_printk("start: %.2x, stop: %.2x, status: %llx",
-+		__entry->start,
-+		__entry->stop,
-+		__entry->status)
-+);
-+
-+#endif /* _TRACE_IFS_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
--- 
-2.17.1
+echo X > memory_[dram,pmem,hbm].reclaim
+
+So echo X > memory_dram.reclaim
+means that we want to free up X bytes from DRAM for the mem cgroup.
+
+echo demote > memory_dram.reclaim_policy
+
+This means that we prefer demotion for reclaim instead
+of swapping to disk.
+
+
+Tim
+
 
