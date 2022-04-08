@@ -2,161 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8902C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 16:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0860C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 16:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235438AbiDHQJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 12:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42102 "EHLO
+        id S229523AbiDHQPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 12:15:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232949AbiDHQJ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 12:09:29 -0400
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [45.157.188.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA862B9A31
-        for <linux-doc@vger.kernel.org>; Fri,  8 Apr 2022 09:07:22 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KZjnN5NpVzMprng;
-        Fri,  8 Apr 2022 18:07:20 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4KZjnL3dFHzljsTT;
-        Fri,  8 Apr 2022 18:07:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1649434040;
-        bh=AQy78gX0PZQtfm+zKT+FxKBJBDhXbQUWIRIFqRcVQBc=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=e+d5CfPV6gj0QELwg4qD7JIkq1l+cpTVBSdDVTS2imF6k9O2TGR0K3YmwQv1yhQH7
-         NagJTnN1uKdyquvQHoBTjzavKN8LKjbvoNI7stUFcv9f9d3koltrg0vBcZB0azJAwM
-         3fFDHCJa5/bnc1X6hdpfeQC3AKvQ7BXhgsZq/AUs=
-Message-ID: <3a5495b8-5d69-e327-1dfc-7a99257269ae@digikod.net>
-Date:   Fri, 8 Apr 2022 18:07:17 +0200
-MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Shuah Khan <shuah@kernel.org>,
+        with ESMTP id S230346AbiDHQPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 12:15:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0B148541BD
+        for <linux-doc@vger.kernel.org>; Fri,  8 Apr 2022 09:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649434422;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FxweDGdSiPFYVaaLK6PgKCqH4/CRdU5joOpSS8tgup8=;
+        b=fyjC2baQzHeTf5WZ70coqgwy2lD9TA4hJa0Kg6qJOw5jqTKIBMPoDZK/4JUqHaMrPWc4Nj
+        7aftaHf1YTVV/31ly/BXWV/AvSqKWaXemGUBIrQRlahXNbScieCEBrxgz9aEHDS1EvxkWa
+        EvLAU3U7HErSgQimwgWwpiHcrtEDfV4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546-aRdZZpRYOt-42O5ECAAedA-1; Fri, 08 Apr 2022 12:13:41 -0400
+X-MC-Unique: aRdZZpRYOt-42O5ECAAedA-1
+Received: by mail-wm1-f69.google.com with SMTP id n21-20020a05600c4f9500b0038e3b0aa367so4269737wmq.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Apr 2022 09:13:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FxweDGdSiPFYVaaLK6PgKCqH4/CRdU5joOpSS8tgup8=;
+        b=Io+L/Gr0caRbMyAKv8D+B+cQPhEQrMHq773muZb5hh7LR7Stj4iEphNiq2SFI3Z4my
+         3OPjIIjvK7Z8hHaBPX/VV0LeV16ys4t9Cg0BOM03bauQGAQD8EggO1Ig4eexv3dz1yV4
+         Zi4W4G9d/e3ppsimtQTcw/PoGkXOsk8DTHV/9ZqzlvYGKCcjc6lh56aLGKqoVhlkH5oN
+         mxbkOyU9FCE2anQ/CvLVeag9uByNr6ACJ2/mJhUj9JHI0BuRBwCLvBxbeCo965Zz9gjq
+         wqgHhbAP3F9ARRAE75GQAx9ndhGi9e7x6bIvB6hNpp7t8MtweGqelEkas603igck1GVB
+         7wUw==
+X-Gm-Message-State: AOAM530b4crkmnMKcJ1lay4vO1P9Sam4RHxosmsvsDpCRWKLNQ8Av/SN
+        S+g9D5zxNj1sdC8qPm9fHPiF4GOeUSutlZjS3uj9EHspHfk9zRqkK1fXc92AvEkIBy3MERu8kkv
+        TxtnUxTTWwRbHNlUI37Yp
+X-Received: by 2002:a5d:5918:0:b0:207:9b1d:d577 with SMTP id v24-20020a5d5918000000b002079b1dd577mr1401027wrd.263.1649434419784;
+        Fri, 08 Apr 2022 09:13:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGuPJtm+OK8CRzVMa6iObLDan7gUZy/Va2rhrxWCO/ThvzUASQ21sgFx01F5fPgAK4DQEKmw==
+X-Received: by 2002:a5d:5918:0:b0:207:9b1d:d577 with SMTP id v24-20020a5d5918000000b002079b1dd577mr1400995wrd.263.1649434419456;
+        Fri, 08 Apr 2022 09:13:39 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id t15-20020adfeb8f000000b002060d26c211sm14377455wrn.114.2022.04.08.09.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 09:13:39 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20220329125117.1393824-1-mic@digikod.net>
- <20220329125117.1393824-8-mic@digikod.net>
- <CAHC9VhQpZ12Chgd+xMibUxgvcPjTn9FMnCdMGYbLcWG3eTqDQg@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH v2 07/12] landlock: Add support for file reparenting with
- LANDLOCK_ACCESS_FS_REFER
-In-Reply-To: <CAHC9VhQpZ12Chgd+xMibUxgvcPjTn9FMnCdMGYbLcWG3eTqDQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: [PATCH v2 0/5] Fix some race conditions that exists between fbmem and sysfb
+Date:   Fri,  8 Apr 2022 18:13:17 +0200
+Message-Id: <20220408161322.270176-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
-On 08/04/2022 03:42, Paul Moore wrote:
-> On Tue, Mar 29, 2022 at 8:51 AM Mickaël Salaün <mic@digikod.net> wrote:
->>
->> From: Mickaël Salaün <mic@linux.microsoft.com>
->>
->> Add a new LANDLOCK_ACCESS_FS_REFER access right to enable policy writers
->> to allow sandboxed processes to link and rename files from and to a
->> specific set of file hierarchies.  This access right should be composed
->> with LANDLOCK_ACCESS_FS_MAKE_* for the destination of a link or rename,
->> and with LANDLOCK_ACCESS_FS_REMOVE_* for a source of a rename.  This
->> lift a Landlock limitation that always denied changing the parent of an
->> inode.
->>
->> Renaming or linking to the same directory is still always allowed,
->> whatever LANDLOCK_ACCESS_FS_REFER is used or not, because it is not
->> considered a threat to user data.
->>
->> However, creating multiple links or renaming to a different parent
->> directory may lead to privilege escalations if not handled properly.
->> Indeed, we must be sure that the source doesn't gain more privileges by
->> being accessible from the destination.  This is handled by making sure
->> that the source hierarchy (including the referenced file or directory
->> itself) restricts at least as much the destination hierarchy.  If it is
->> not the case, an EXDEV error is returned, making it potentially possible
->> for user space to copy the file hierarchy instead of moving or linking
->> it.
->>
->> Instead of creating different access rights for the source and the
->> destination, we choose to make it simple and consistent for users.
->> Indeed, considering the previous constraint, it would be weird to
->> require such destination access right to be also granted to the source
->> (to make it a superset).  Moreover, RENAME_EXCHANGE would also add to
->> the confusion because of paths being both a source and a destination.
->>
->> See the provided documentation for additional details.
->>
->> New tests are provided with a following commit.
->>
->> Cc: Paul Moore <paul@paul-moore.com>
->> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->> Link: https://lore.kernel.org/r/20220329125117.1393824-8-mic@digikod.net
->> ---
->>
->> Changes since v1:
->> * Update current_check_access_path() to efficiently handle
->>    RENAME_EXCHANGE thanks to the updated LSM hook (see previous patch).
->>    Only one path walk is performed per rename arguments until their
->>    common mount point is reached.  Superset of access rights is correctly
->>    checked, including when exchanging a file with a directory.  This
->>    requires to store another matrix of layer masks.
->> * Reorder and rename check_access_path_dual() arguments in a more
->>    generic way: switch from src/dst to 1/2.  This makes it easier to
->>    understand the RENAME_EXCHANGE cases alongs with the others.  Update
->>    and improve check_access_path_dual() documentation accordingly.
->> * Clean up the check_access_path_dual() loop: set both allowed_parent*
->>    when reaching internal filesystems and remove a useless one.  This
->>    allows potential renames in internal filesystems (like for other
->>    operations).
->> * Move the function arguments checks from BUILD_BUG_ON() to
->>    WARN_ON_ONCE() to avoid clang build error.
->> * Rename is_superset() to no_more_access() and make it handle superset
->>    checks of source and destination for simple and exchange cases.
->> * Move the layer_masks_child* creation from current_check_refer_path()
->>    to check_access_path_dual(): this is simpler and less error-prone,
->>    especially with RENAME_EXCHANGE.
->> * Remove one optimization in current_check_refer_path() to make the code
->>    simpler, especially with the RENAME_EXCHANGE handling.
->> * Remove overzealous WARN_ON_ONCE() for !access_request check in
->>    init_layer_masks().
->> ---
->>   include/uapi/linux/landlock.h                |  27 +-
->>   security/landlock/fs.c                       | 607 ++++++++++++++++---
->>   security/landlock/limits.h                   |   2 +-
->>   security/landlock/syscalls.c                 |   2 +-
->>   tools/testing/selftests/landlock/base_test.c |   2 +-
->>   tools/testing/selftests/landlock/fs_test.c   |   3 +-
->>   6 files changed, 566 insertions(+), 77 deletions(-)
-> 
-> I'm still not going to claim that I'm a Landlock expert, but this
-> looks sane to me.
-> 
-> Reviewed-by: Paul Moore <paul@paul-moore.com>
+The patches in this series are mostly changes suggested by Daniel Vetter
+to fix some race conditions that exists between the fbdev core (fbmem)
+and sysfb with regard to device registration and removal.
 
-Thanks Paul! I'll send a small update shortly, with some typo fixes, 
-some unlikely() calls, and rebased on the other Landlock patch series.
+For example, it is currently possible for sysfb to register a platform
+device after a real DRM driver was registered and requested to remove the
+conflicting framebuffers.
 
-> 
->> +static inline access_mask_t init_layer_masks(
->> +               const struct landlock_ruleset *const domain,
->> +               const access_mask_t access_request,
->> +               layer_mask_t (*const layer_masks)[LANDLOCK_NUM_ACCESS_FS])
->> +{
->> +       access_mask_t handled_accesses = 0;
->> +       size_t layer_level;
->> +
->> +       memset(layer_masks, 0, sizeof(*layer_masks));
->> +       /* An empty access request can happen because of O_WRONLY | O_RDWR. */
-> 
->   ;)
-> 
+A symptom of this issue, was worked around with by commit fb561bf9abde
+("fbdev: Prevent probing generic drivers if a FB is already registered")
+but that's really a hack and should be reverted.
+
+This series attempt to fix it more properly and revert the mentioned hack.
+That will also unblock a pending patch to not make the num_registered_fb
+variable visible to drivers anymore, since that's internal to fbdev core.
+
+This is a v2 that addresses issues in v1 pointed out by Daniel.
+
+Patch #1 is just a trivial preparatory change.
+
+Patch #2 add sysfb_disable() and sysfb_try_unregister() helpers for fbmem
+to use them.
+
+Patch #3 changes how is dealt with conflicting framebuffers unregistering,
+rather than having a variable to determine if a lock should be take, it
+just drops the lock before unregistering the platform device.
+
+Patch #4 fixes the mentioned race conditions and finally patch #5 is the
+revert patch that was posted by Daniel before but he dropped from his set.
+
+The patches were tested on a rpi4 using different video configurations:
+(simpledrm -> vc4 both builtin, only vc4 builtin, only simpledrm builtin
+and simpledrm builtin with vc4 built as a module).
+
+Best regards,
+Javier
+
+Changes in v2:
+- Rebase on top of latest drm-misc-next and fix conflicts (Daniel Vetter).
+- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Drop RFC prefix since patches were already reviewed by Daniel Vetter.
+- Add Daniel Reviewed-by tags to the patches.
+
+Daniel Vetter (1):
+  Revert "fbdev: Prevent probing generic drivers if a FB is already
+    registered"
+
+Javier Martinez Canillas (4):
+  firmware: sysfb: Make sysfb_create_simplefb() return a pdev pointer
+  firmware: sysfb: Add helpers to unregister a pdev and disable
+    registration
+  fbdev: Restart conflicting fb removal loop when unregistering devices
+  fbdev: Fix some race conditions between fbmem and sysfb
+
+ .../driver-api/firmware/other_interfaces.rst  |  6 ++
+ drivers/firmware/sysfb.c                      | 77 +++++++++++++++++--
+ drivers/firmware/sysfb_simplefb.c             | 16 ++--
+ drivers/video/fbdev/core/fbmem.c              | 57 ++++++++++----
+ drivers/video/fbdev/efifb.c                   | 11 ---
+ drivers/video/fbdev/simplefb.c                | 11 ---
+ include/linux/fb.h                            |  1 -
+ include/linux/sysfb.h                         | 29 +++++--
+ 8 files changed, 150 insertions(+), 58 deletions(-)
+
+-- 
+2.35.1
+
