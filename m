@@ -2,59 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623E0C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 17:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18501C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 20:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238111AbiDHRXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 13:23:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37198 "EHLO
+        id S239404AbiDHULR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 16:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235211AbiDHRXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 13:23:51 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285B339B82
-        for <linux-doc@vger.kernel.org>; Fri,  8 Apr 2022 10:21:46 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id s21so3797043pgv.13
-        for <linux-doc@vger.kernel.org>; Fri, 08 Apr 2022 10:21:46 -0700 (PDT)
+        with ESMTP id S239409AbiDHULP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 16:11:15 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB46353AB3
+        for <linux-doc@vger.kernel.org>; Fri,  8 Apr 2022 13:09:03 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id c2so8666459pga.10
+        for <linux-doc@vger.kernel.org>; Fri, 08 Apr 2022 13:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iM6uzIK2cRc6kF+XG8vLt5tKa+TcH20c4ZrUE/qi6/w=;
-        b=lhsl/nELK+CjK9EjiqEgxM40CNFrd8O33D5yScOZeEFmN2mtYBl1RRyh7teoVon061
-         kj8aY6QVT/NAOTigSUu8Y7225f3BAoDTOIFbFJkqfikA4nBu9W5zKfjzNjscVbUZpCEL
-         TOfbFvs9CWUtBubunb4AJlZmBb5dRqOf9Yk4pxiGSjBWmoRGBB5QRajWXj9az8Q251gb
-         crS7qVsWxwVcQFaYZGkjAOUYH9TaUrXMqf5Y/wuhESvfTMT3NyPb+tqY6eFtedGk1kHC
-         uNhWX+utb/ZtxKPlsJceIR3VICKbc1+Hr9yOvb7P/hl/5YSRR9rMdsoD2qOcmmo91tnf
-         ktpA==
+        bh=lps+VNBxsxLTQEq6nQohZpJYqrkqH9hvkhZrZvs8ibQ=;
+        b=RCf6vfwHloKvazwXoXjT3SbJbG6javpXCWAOqpmzI5xWQaDqYTQcsOMEQ207Cos5B5
+         qO9ltnjeXz+TlC6P6gS5antoHVMaIZrCQ11eHYBSz4eTQ/R5GGKOKUyFI3+806vxMnK1
+         fbXlyPceUpjETNwwV/acg+2NG+XN7k8bQEJSHpWLS+RnyRLA9cOOAyhj2wlwHqa6fXhX
+         5UzERtidt5e1I1tW46oeIC+BAKtd/hL8cz2X59EFfp/FyB0bvhoBiag+huSUtmzW0EGF
+         ZloCHuXwEcJaDEAdLae+GRpT74s5Z5tB2VxWhFW/wTLF+JzkDyExAWJEJn5dCTzRM2C4
+         T/4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iM6uzIK2cRc6kF+XG8vLt5tKa+TcH20c4ZrUE/qi6/w=;
-        b=z8RrfBT1UGUFHUff9DyCLQ+zYyjOV+zk9c0wNkYMjH/2zWAzZo58IoZ8JR6cbRigGU
-         FyhWdUIPkoAzbjoN4OwPODumV1fgJumE1f3Ny/Na5m0OFWPIuRKDP1F0F1009y8YK88S
-         tZCpmE+RBuKSqwdXMJTngB6yQ0WxtnFEpR7rM4hWnsZp+trRumHrw3wAIdXkFp5VxWFY
-         cMsHH8bJvB8sOVP8z2eJXuTCGDE8dw4wketWk8nR0cuGiCigu4UBrl6KrhcmNzlexyaw
-         azqxg5mkCOrB4z7Rc7n283nJ6Jex27ModB0l7IHATTGdTeODbS+3GVjACMJCgSljyujt
-         tBzg==
-X-Gm-Message-State: AOAM531wOHyW/8y/ABuvAHiut2KDMFPSvf7XdNpqYQKhCZEbqBdAIMFf
-        s8TjswBZoSA7tvHNUnzSDmhyxUBDNP6NS4UrJ45Osg==
-X-Google-Smtp-Source: ABdhPJyC7OqfNQfRa6C4f4USe56Z81wNzno+TIeM/lYp3ZM7PQEnEsoenRPgyb0yZY/kqYDC5BKIP2jJs8oo5ma2nH0=
-X-Received: by 2002:a62:e815:0:b0:505:8dbb:2f33 with SMTP id
- c21-20020a62e815000000b005058dbb2f33mr3189854pfi.68.1649438505432; Fri, 08
- Apr 2022 10:21:45 -0700 (PDT)
+        bh=lps+VNBxsxLTQEq6nQohZpJYqrkqH9hvkhZrZvs8ibQ=;
+        b=tcXeBBvvAllLJ9l0mhfFCGF5YTD5NYPH4ey0JnzhUCmlZ28zOeTdo5OuhXtidRVKZd
+         Sj/egs9Ln/mEZGgxKBY7oz7oswaR5Eb9bogOfUYcF0Na+EgsmCGhzxm+ru6BJPi3f9OB
+         9RCVYqrnDuJmQiT0jwtOm13mghOvENWli5IPK/6ZjHHesCWnRzTjUcCB6A+2XwVF8IxJ
+         AGBOQzunhej0ZlB1qp8YyOCQSVzD0ajHlJlcIel4Jjr8BqasnYleMi8SW4XRlOUnn9Ku
+         ZVqqvFL4/GdZRFUvSt0gZRKVi1zFTiVI3J7fxDoCDdFhcmrFClaBGD3iUN39HnnjIXxo
+         wyGw==
+X-Gm-Message-State: AOAM530c3VpDnimd6We/fh733AK2BtPL7ER6lkUZuyMnzhz8ePx47C8R
+        Z+smW2ifMDvYo+wq1emXs0DX35SWShwDzgufBjwvlg==
+X-Google-Smtp-Source: ABdhPJzz7VtU/jWLapetzfgx+tJK9xG2ELYFWCgBlgjsJVs1zlzEQ0TGnJccuDT8XjoFmwm+1J8zGhZZ1ZeuNlXpWT0=
+X-Received: by 2002:a63:ff63:0:b0:386:327:5353 with SMTP id
+ s35-20020a63ff63000000b0038603275353mr16630830pgk.401.1649448542724; Fri, 08
+ Apr 2022 13:09:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220408045743.1432968-1-yosryahmed@google.com>
  <20220408045743.1432968-2-yosryahmed@google.com> <YlA754XNFAmWQcm6@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
-In-Reply-To: <YlA754XNFAmWQcm6@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
+ <YlBCeadBqbeVvALK@dhcp22.suse.cz> <YlBM/HlPyPUZew5N@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
+In-Reply-To: <YlBM/HlPyPUZew5N@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
 From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Fri, 8 Apr 2022 10:21:09 -0700
-Message-ID: <CAJD7tkY8NwjOVeZX30Fc72kp5zRESBWRgXW3Ji-Owp0jjDuEbw@mail.gmail.com>
+Date:   Fri, 8 Apr 2022 13:08:26 -0700
+Message-ID: <CAJD7tkbFjbGJ7CnNogpGq5enh_uhP8T5c0U+ku9PfwMoVLf2gg@mail.gmail.com>
 Subject: Re: [PATCH v3 1/4] memcg: introduce per-memcg reclaim interface
-To:     Dan Schatzberg <schatzberg.dan@gmail.com>
+To:     Dan Schatzberg <schatzberg.dan@gmail.com>,
+        Michal Hocko <mhocko@suse.com>
 Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
         Shakeel Butt <shakeelb@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Roman Gushchin <roman.gushchin@linux.dev>,
@@ -70,75 +71,35 @@ Cc:     Johannes Weiner <hannes@cmpxchg.org>,
         Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>
+        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 8, 2022 at 6:43 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
+On Fri, Apr 8, 2022 at 7:55 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
 >
-> On Fri, Apr 08, 2022 at 04:57:40AM +0000, Yosry Ahmed wrote:
-> > +static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
-> > +                           size_t nbytes, loff_t off)
-> > +{
-> > +     struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-> > +     unsigned int nr_retries = MAX_RECLAIM_RETRIES;
-> > +     unsigned long nr_to_reclaim, nr_reclaimed = 0;
-> > +     int err;
-> > +
-> > +     buf = strstrip(buf);
-> > +     err = page_counter_memparse(buf, "", &nr_to_reclaim);
+> On Fri, Apr 08, 2022 at 04:11:05PM +0200, Michal Hocko wrote:
+> > Regarding "max" as a possible input. I am not really sure to be honest.
+> > I can imagine that it could be legit to simply reclaim all the charges
+> > (e.g. before removing the memcg) which should be achieveable by
+> > reclaiming the reported consumption. Or what exactly should be the
+> > semantic?
 >
-> Is there a reason not to support "max"? Empty string seems odd to me
-> here.
+> Yeah, it just allows you to avoid reading memory.current to just
+> reclaim everything if you can specify "max" - you're still protected
+> by nretries to eventually bail out. Mostly, though I just feel like
+> supporting "max" makes memory.reclaim semetric with a lot of the
+> cgroup memory control files which tend to support "max".
 
-We can certainly support "max" to reclaim as much as we can with
-MAX_RECLAIM_RETRIES, if there are no objections from the maintainers.
+One possible approach here is to have force_empty behavior when we
+write "max" to memory.reclaim. From Google's perspective we don't have
+a preference, but it seems to me like logical behavior. We can do this
+either by directly calling mem_cgroup_force_empty() or just draining
+stock and lrus in memory_reclaim().
 
->
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     while (nr_reclaimed < nr_to_reclaim) {
-> > +             unsigned long reclaimed;
-> > +
-> > +             if (signal_pending(current))
-> > +                     break;
->
-> I think this should be `return -EINTR;`
-
-Yes this makes more sense. I think this was modeled after the if block
-in memory_high_write(), but maybe it makes sense there to just report
-success as the new high limit was set anyway.
-Will change it in the next version.
-
->
-> > +
-> > +             reclaimed = try_to_free_mem_cgroup_pages(memcg,
-> > +                                             nr_to_reclaim - nr_reclaimed,
-> > +                                             GFP_KERNEL, true);
-> > +
-> > +             if (!reclaimed && !nr_retries--)
-> > +                     break;
->
-> Here you can just `return -EAGAIN;`
-
-Will do.
->
-> > +
-> > +             nr_reclaimed += reclaimed;
-> > +     }
-> > +
-> > +     return nr_reclaimed < nr_to_reclaim ? -EAGAIN : nbytes;
->
-> Then this can just be `return nbytes;`
-
-Will do.
-
->
-> I'm very much in favor of this new interface. Thanks for working on
-> it!
-
-Thanks so much for reviewing it!
+This actually brings up another interesting point. Do you think we
+should drain lrus if try_to_free_mem_cgroup_pages() fails to reclaim
+the request amount? We can do this after the first call or before the
+last one. It could introduce more evictable pages for
+try_to_free_mem_cgroup_pages() to free.
