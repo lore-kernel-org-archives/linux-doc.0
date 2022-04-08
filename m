@@ -2,129 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 910F0C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:23:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F0CAC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:48:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231826AbiDHEZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 00:25:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39278 "EHLO
+        id S234334AbiDHEu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 00:50:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231654AbiDHEZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:25:55 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B8BB19C18;
-        Thu,  7 Apr 2022 21:23:52 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 573E211FB;
-        Thu,  7 Apr 2022 21:23:52 -0700 (PDT)
-Received: from [10.163.37.138] (unknown [10.163.37.138])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FA423F718;
-        Thu,  7 Apr 2022 21:23:48 -0700 (PDT)
-Message-ID: <e95dfce9-23a1-7722-7f36-f7ca350e492d@arm.com>
-Date:   Fri, 8 Apr 2022 09:54:19 +0530
+        with ESMTP id S231300AbiDHEuz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:50:55 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94ACBFABC8;
+        Thu,  7 Apr 2022 21:48:52 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id s2so7415936pfh.6;
+        Thu, 07 Apr 2022 21:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=s+UL35WfzSMP+2xZp9ViJx/yOJroVs1rmRwF6Q3Unm4=;
+        b=q0t5/nAt60OyqMBNKQ++uAnrvaALWWqLYOBLTx+WJzhYM5VyQ9OTyOym80McY8xXE7
+         WsiiVk5/T8n8ZdKsS+K/FeLF9CBXGrsm++o7SJoccq/hDBt2FAKrRI5DdUEoNmPsNP3V
+         b6AYP8OBZk/7u4zNRoZtWmB/cjg0yQ+Yo3YYA2Wi/ON/5mMLmuxGkGwboCKbzt9fTr9r
+         quWl+0QlNS6BO3uxBkez3tTxTQ8EV1sBGOZ1NOeacvwpFg28fjKhZSJctrx/gTV2r+YH
+         jniaPDF+QI07VmzUbZyKSvAWIn+NqJ4bSMzPxoyJoVfEMb19JWueferf3NDNRvqvwfV1
+         MN6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=s+UL35WfzSMP+2xZp9ViJx/yOJroVs1rmRwF6Q3Unm4=;
+        b=lO5hKuJgooVVuTLs5/Px4FkQft6XmYHNytdCSTWw7nstIvrryz471OOaMr5TzPd7Dx
+         TuotuH7+FCwYkQ59N3xsNIGbltV/UZP3l651a+qlUpLgAao4Vwha6UPXeInMkRkUNgDz
+         fiPWEtF4Sjvl1OjfAEn5YZdU6CXBjq7tlbeBvmcCuYtbOlQKlxRHbH/BosS1VaCgD1cS
+         GPbVO/mbZsTDaeP/DeGPcsGCnrHoBB1UDX+/dtxbdGge9HcU0x/oQmCeYjEQY/mDjSUI
+         MKuX9wXsF/EDia/rVx9riHQNINXYj6dJB/jcjkiSFWCsDUhWNZKWXmBfklzk/CEUXhuq
+         nvww==
+X-Gm-Message-State: AOAM532V2M2LU7exZEFqPe0j2B/Gccf5lyKaY27yD40dgSn5HShCDoj4
+        JFsjveFsBPpR9VctpzHDTkA=
+X-Google-Smtp-Source: ABdhPJzXCIq8telM9W/w36lyxOuzOEPAH9qgoif+AEcrH5yfRsvy3mg29DtGFZm+iiLV0mHkAotToQ==
+X-Received: by 2002:a63:b55d:0:b0:398:5eeb:e637 with SMTP id u29-20020a63b55d000000b003985eebe637mr13646038pgo.314.1649393331984;
+        Thu, 07 Apr 2022 21:48:51 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-1.three.co.id. [180.214.232.1])
+        by smtp.gmail.com with ESMTPSA id p3-20020a056a000b4300b004faee36ea56sm24799110pfo.155.2022.04.07.21.48.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Apr 2022 21:48:51 -0700 (PDT)
+Message-ID: <0e3f7e6d-80fa-7942-3e3b-c42d114243fe@gmail.com>
+Date:   Fri, 8 Apr 2022 11:48:39 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] Documentation: arch_pgtable_helpers: demote pgtable
- list headings
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
+To:     Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org
+Cc:     Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-References: <20220407045830.181514-1-bagasdotme@gmail.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20220407045830.181514-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, page-reclaim@google.com,
+        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+ <20220407031525.2368067-15-yuzhao@google.com>
+ <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
+ <87wng1838i.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87wng1838i.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 07/04/22 19.52, Jonathan Corbet wrote:
+> Bagas, it is hard enough to get people to write useful documentation as
+> it is.  Could I ask you to please stop adding useless friction to the
+> process?
+> 
 
+OK, thanks for reminding me.
 
-On 4/7/22 10:28, Bagas Sanjaya wrote:
-> All page title headings in arch_pgtable_helpers.txt except
-> "Architecture Page Table Helpers" should have been subheadings instead.
-> 
-> Demote them to chapter headings.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Changes since v1 [1]: 
->    - Rebased on v5.18-rc1
->    - Describe why the patch do the job
-
-I am neutral on this patch, dont have a strong opinion either way.
-
-> 
->  [1]: https://lore.kernel.org/linux-doc/20220326131313.691027-1-bagasdotme@gmail.com/
->  Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-> index f8b225fc919047..cbaee9e592410f 100644
-> --- a/Documentation/vm/arch_pgtable_helpers.rst
-> +++ b/Documentation/vm/arch_pgtable_helpers.rst
-> @@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
->  boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
->  test need to be in sync.
->  
-> -======================
-> +
->  PTE Page Table Helpers
->  ======================
->  
-> @@ -79,7 +79,7 @@ PTE Page Table Helpers
->  | ptep_set_access_flags     | Converts into a more permissive PTE              |
->  +---------------------------+--------------------------------------------------+
->  
-> -======================
-> +
->  PMD Page Table Helpers
->  ======================
->  
-> @@ -153,7 +153,7 @@ PMD Page Table Helpers
->  | pmdp_set_access_flags     | Converts into a more permissive PMD              |
->  +---------------------------+--------------------------------------------------+
->  
-> -======================
-> +
->  PUD Page Table Helpers
->  ======================
->  
-> @@ -209,7 +209,7 @@ PUD Page Table Helpers
->  | pudp_set_access_flags     | Converts into a more permissive PUD              |
->  +---------------------------+--------------------------------------------------+
->  
-> -==========================
-> +
->  HugeTLB Page Table Helpers
->  ==========================
->  
-> @@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
->  | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
->  +---------------------------+--------------------------------------------------+
->  
-> -========================
-> +
->  SWAP Page Table Helpers
->  ========================
->  
-> 
-> base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+-- 
+An old man doll... just what I always wanted! - Clara
