@@ -2,78 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AE0C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 11:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A3C1C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 12:16:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbiDHLWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 07:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40394 "EHLO
+        id S231173AbiDHMS3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 08:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233182AbiDHLWT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 07:22:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11452BF336;
-        Fri,  8 Apr 2022 04:20:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C648EB82A26;
-        Fri,  8 Apr 2022 11:20:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 719E2C385A8;
-        Fri,  8 Apr 2022 11:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649416813;
-        bh=VMfqz1PI0SlcPX2wiDSaLUmAvkMioh7K9Yq27Leg+sE=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=MgEnG/Cn96SvSFO1guc8A4d4YbO6kixpsT/ilSbSsI0h73GNOZO31GKJ3vrs5Fctj
-         +ItSr6PDgy83SJ0TzJD7KLrcWFnErwqRWQDyZHBmXXTaMrnuqCRugqp9khoPpvBMqR
-         oqoNg7r68U7356Ay8WvUnb6ALrSxf69YBBigwB0xyx2OTjqc1G5fQuLCPnG11GygU3
-         pzzZM1TlmPvNTbdQT7pQTQAj5thC1R/goqv0DotrodXtVXCLRzK4VlHFmbsO30Mxjb
-         qHaz+ZoThQbullol8Xw1CfzeB7Kx0ZwXnIx/AB+TH+4VkvXQtLoJWZoWl/XrBUVTp1
-         HLTsxGSHquVow==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 30DDBE6D402;
-        Fri,  8 Apr 2022 11:20:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229762AbiDHMS3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 08:18:29 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF1C387B2;
+        Fri,  8 Apr 2022 05:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649420186; x=1680956186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=87eTft+Sz6HSGuTjM5rCbkbXzq5J5qvbYbVHefQuSh8=;
+  b=hopl63wquftlW/mSaMB/NgCQt/23VzAxrJ8LLKpyRDHW+EgxxtrWg6pB
+   f9GSz2B3Q8uJ1IrdioHgUw4gYM9nq4ILbUH/oHicZYdjogaj1me7oCVGV
+   PXYeuAiQvnwxbB0hOzCKCrhiSaeTpRA5Ugu+dDGVuMhi6co03h9xwxiMN
+   a8XbLR04pnFSZgpMJg9pkPqgGBvQnbkjRbVkEWUqv+I0DyC8M5N7lM1eN
+   BVuqWArQfydqZIoGu1PJcPV4fwHTxylDQzprbmcYKtAFKs++oUDOZXXCB
+   Ey+bY7EucBApUEVXrh1UAX6NiFMTnMGdmIFapDkkNe8sqcYD/pqcbZEGh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="241513046"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
+   d="scan'208";a="241513046"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 05:16:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
+   d="scan'208";a="506538079"
+Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 08 Apr 2022 05:16:23 -0700
+Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ncnXK-0000FP-Na;
+        Fri, 08 Apr 2022 12:16:22 +0000
+Date:   Fri, 8 Apr 2022 20:15:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Luke Wren <wren6991@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Dom Cobley <popcornmix@gmail.com>,
+        Martin Sperl <kernel@martin.sperl.org>,
+        linux-doc@vger.kernel.org
+Subject: [l1k:smsc95xx_5.17 66/887] drivers/misc/bcm2835_smi.c:2: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202204082010.UUsMvtdZ-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] bonding: Update layer2 and layer2+3 hash formula
- documentation
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164941681319.25766.222385477532550731.git-patchwork-notify@kernel.org>
-Date:   Fri, 08 Apr 2022 11:20:13 +0000
-References: <20220406135420.21682-1-gal@nvidia.com>
-In-Reply-To: <20220406135420.21682-1-gal@nvidia.com>
-To:     Gal Pressman <gal@nvidia.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, j.vosburgh@gmail.com, vfalico@gmail.com,
-        andy@greyhouse.net, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+tree:   https://github.com/l1k/linux smsc95xx_5.17
+head:   05d68ced287b30f62f18f95b5476135ef669804a
+commit: 205736282d70963710608138c17b64717470161c [66/887] Add SMI driver
+config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20220408/202204082010.UUsMvtdZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/l1k/linux/commit/205736282d70963710608138c17b64717470161c
+        git remote add l1k https://github.com/l1k/linux
+        git fetch --no-tags l1k smsc95xx_5.17
+        git checkout 205736282d70963710608138c17b64717470161c
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/ drivers/misc/
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-On Wed, 6 Apr 2022 16:54:20 +0300 you wrote:
-> When using layer2 or layer2+3 hash, only the 5th byte of the MAC
-> addresses is used.
-> 
-> Signed-off-by: Gal Pressman <gal@nvidia.com>
-> ---
->  Documentation/networking/bonding.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+All warnings (new ones prefixed by >>):
 
-Here is the summary with links:
-  - bonding: Update layer2 and layer2+3 hash formula documentation
-    https://git.kernel.org/netdev/net/c/2cd1881b9821
+>> drivers/misc/bcm2835_smi.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Broadcom Secondary Memory Interface driver
 
-You are awesome, thank you!
+
+vim +2 drivers/misc/bcm2835_smi.c
+
+   > 2	 * Broadcom Secondary Memory Interface driver
+     3	 *
+     4	 * Written by Luke Wren <luke@raspberrypi.org>
+     5	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
+     6	 *
+     7	 * Redistribution and use in source and binary forms, with or without
+     8	 * modification, are permitted provided that the following conditions
+     9	 * are met:
+    10	 * 1. Redistributions of source code must retain the above copyright
+    11	 *    notice, this list of conditions, and the following disclaimer,
+    12	 *    without modification.
+    13	 * 2. Redistributions in binary form must reproduce the above copyright
+    14	 *    notice, this list of conditions and the following disclaimer in the
+    15	 *    documentation and/or other materials provided with the distribution.
+    16	 * 3. The names of the above-listed copyright holders may not be used
+    17	 *    to endorse or promote products derived from this software without
+    18	 *    specific prior written permission.
+    19	 *
+    20	 * ALTERNATIVELY, this software may be distributed under the terms of the
+    21	 * GNU General Public License ("GPL") version 2, as published by the Free
+    22	 * Software Foundation.
+    23	 *
+    24	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+    25	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+    26	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+    27	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    28	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    29	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    30	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    31	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    32	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    33	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    34	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    35	 */
+    36	
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
