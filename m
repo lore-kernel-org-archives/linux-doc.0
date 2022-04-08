@@ -2,65 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 970C4C43219
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 12:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDE91C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 12:34:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235688AbiDHM3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 08:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53294 "EHLO
+        id S235801AbiDHMgm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 08:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235670AbiDHM33 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 08:29:29 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E390B33DCAA;
-        Fri,  8 Apr 2022 05:27:24 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 238A3ahR022061;
-        Fri, 8 Apr 2022 14:27:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=Z+C6qsQxHAO28SlPFqbWYQOw4PgvzJsq3Eypnf5gKzU=;
- b=DV8jPhv2oQFcW0JI70pCiV/+5meHiG3pEjC7Ya9T2rGFEtbfB/aq4J3XZI3LsJr24iwa
- UefdkkGMVb8BrdkdEpdj+1VeLYy8lTxGZPCqiCjfCgKvlprHZRPDFGrqC/6DscaqiO2p
- JH5Sx6SAKia4JYg/miMUr7h1KcWlRM5Wbaqosjx+8pjYtNccU10YSGSyLqgD0B5AaO/C
- nC18hPtVlNc8do5zy6QeJDu96FhNycWx39RNmzF2u6zbl03RWXRxDZUSwBJgIfS8RHAS
- JjM/3vXEadVxWNwcK/NMDa3h2lOQ/58G/8s12VPKzIzbRn54REl4wysAY+9Drc42P2cz ig== 
+        with ESMTP id S229441AbiDHMgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 08:36:38 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4297D34419D;
+        Fri,  8 Apr 2022 05:34:35 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2389pBUC030712;
+        Fri, 8 Apr 2022 14:34:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=bp+advT6TM4LuIU9sLQaID0/TZyMgJN3G2xJZz8o1AU=;
+ b=eABha4MSL/xg7cgiJru/aiX8yjGl3v7qG+TgqX0x9EsmjR7fprmru21plFCCWv0iUtD/
+ Pc3sf5vj+xJXhbfr6Hgye9ZtH2MTzJu4XZMx2e+hrZyMKtTftOHiKjUhSIu3HQXPrDeN
+ ZwvNLsljApLl40aI69xulJOMayBQbX/6xwqKLoO7Q+MWnRiTwcpjngYQNDjSgkwrdvGr
+ H/KlWHLk60AXq2cTkQMx6LIMZYkIvdgax71qLWkIwMNS57yHVMbH/aAhRxAINsjmY7q8
+ 6sZJLd7wy9k1zskvea3CbUUDVk9wpr+xddm3XTF9d35ul0mBw10+phSsYU8cB3R7UA/j ig== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f8x9gu5ek-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f6du1c173-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Apr 2022 14:27:04 +0200
+        Fri, 08 Apr 2022 14:34:17 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 189A2100039;
-        Fri,  8 Apr 2022 14:27:04 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0FC3C10002A;
+        Fri,  8 Apr 2022 14:34:17 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 105DD21A21E;
-        Fri,  8 Apr 2022 14:27:04 +0200 (CEST)
-Received: from localhost (10.75.127.49) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Fri, 8 Apr 2022 14:27:03
- +0200
-From:   Valentin Caron <valentin.caron@foss.st.com>
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 08C2E21A233;
+        Fri,  8 Apr 2022 14:34:17 +0200 (CEST)
+Received: from [10.201.20.168] (10.75.127.50) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Fri, 8 Apr
+ 2022 14:34:16 +0200
+Message-ID: <01e5e489-024c-89c1-4df0-21a12557401b@foss.st.com>
+Date:   Fri, 8 Apr 2022 14:34:16 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 0/3] serial: stm32: add earlycon and polling mode
+Content-Language: en-US
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>
 CC:     Jiri Slaby <jirislaby@kernel.org>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Alexandre Torgue <alexandre.torgue@foss.st.com>,
         Erwan Le Ray <erwan.leray@foss.st.com>,
-        Valentin Caron <valentin.caron@foss.st.com>,
         <linux-serial@vger.kernel.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH V2 2/3] serial: stm32: add KGDB support
-Date:   Fri, 8 Apr 2022 14:26:35 +0200
-Message-ID: <20220408122636.505737-3-valentin.caron@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220408122636.505737-1-valentin.caron@foss.st.com>
-References: <20220408122636.505737-1-valentin.caron@foss.st.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.49]
+References: <20220407123109.132035-1-valentin.caron@foss.st.com>
+From:   Valentin CARON <valentin.caron@foss.st.com>
+In-Reply-To: <20220407123109.132035-1-valentin.caron@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.50]
 X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -70,92 +71,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for KGDB in stm32 serial driver by implementing characters
-polling callbacks (poll_init, poll_get_char and poll_put_char).
+On 4/7/22 14:31, Valentin Caron wrote:
+> - Add support of early console and polling mode in stm32-usart driver.
+> - Avoid a possible infinite loop in putchar function.
+>
+> Valentin Caron (3):
+>    serial: stm32: remove infinite loop possibility in putchar function
+>    serial: stm32: add KGDB support
+>    serial: stm32: add earlycon support
+>
+>   .../admin-guide/kernel-parameters.txt         |   6 ++
+>   drivers/tty/serial/Kconfig                    |   1 +
+>   drivers/tty/serial/stm32-usart.c              | 101 +++++++++++++++++-
+>   drivers/tty/serial/stm32-usart.h              |   2 +
+>   4 files changed, 105 insertions(+), 5 deletions(-)
+>
+Hi,
 
-Signed-off-by: Erwan Le Ray <erwan.leray@foss.st.com>
-Signed-off-by: Jean Philippe Romain <jean-philippe.romain@foss.st.com>
-Signed-off-by: Valentin Caron <valentin.caron@foss.st.com>
----
- drivers/tty/serial/stm32-usart.c | 37 ++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+Please drop this series, I sent a V2
 
-diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
-index 83895da84891..4307c822afe4 100644
---- a/drivers/tty/serial/stm32-usart.c
-+++ b/drivers/tty/serial/stm32-usart.c
-@@ -37,6 +37,7 @@
- 
- static void stm32_usart_stop_tx(struct uart_port *port);
- static void stm32_usart_transmit_chars(struct uart_port *port);
-+static void __maybe_unused stm32_usart_console_putchar(struct uart_port *port, unsigned char ch);
- 
- static inline struct stm32_port *to_stm32_port(struct uart_port *port)
- {
-@@ -1222,6 +1223,33 @@ static void stm32_usart_pm(struct uart_port *port, unsigned int state,
- 	}
- }
- 
-+#if defined(CONFIG_CONSOLE_POLL)
-+
-+ /* Callbacks for characters polling in debug context (i.e. KGDB). */
-+static int stm32_usart_poll_init(struct uart_port *port)
-+{
-+	struct stm32_port *stm32_port = to_stm32_port(port);
-+
-+	return clk_prepare_enable(stm32_port->clk);
-+}
-+
-+static int stm32_usart_poll_get_char(struct uart_port *port)
-+{
-+	struct stm32_port *stm32_port = to_stm32_port(port);
-+	const struct stm32_usart_offsets *ofs = &stm32_port->info->ofs;
-+
-+	if (!(readl_relaxed(port->membase + ofs->isr) & USART_SR_RXNE))
-+		return NO_POLL_CHAR;
-+
-+	return readl_relaxed(port->membase + ofs->rdr) & stm32_port->rdr_mask;
-+}
-+
-+static void stm32_usart_poll_put_char(struct uart_port *port, unsigned char ch)
-+{
-+	stm32_usart_console_putchar(port, ch);
-+}
-+#endif /* CONFIG_CONSOLE_POLL */
-+
- static const struct uart_ops stm32_uart_ops = {
- 	.tx_empty	= stm32_usart_tx_empty,
- 	.set_mctrl	= stm32_usart_set_mctrl,
-@@ -1243,6 +1271,11 @@ static const struct uart_ops stm32_uart_ops = {
- 	.request_port	= stm32_usart_request_port,
- 	.config_port	= stm32_usart_config_port,
- 	.verify_port	= stm32_usart_verify_port,
-+#if defined(CONFIG_CONSOLE_POLL)
-+	.poll_init      = stm32_usart_poll_init,
-+	.poll_get_char	= stm32_usart_poll_get_char,
-+	.poll_put_char	= stm32_usart_poll_put_char,
-+#endif /* CONFIG_CONSOLE_POLL */
- };
- 
- /*
-@@ -1640,8 +1673,7 @@ static int stm32_usart_serial_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_SERIAL_STM32_CONSOLE
--static void stm32_usart_console_putchar(struct uart_port *port, unsigned char ch)
-+static void __maybe_unused stm32_usart_console_putchar(struct uart_port *port, unsigned char ch)
- {
- 	struct stm32_port *stm32_port = to_stm32_port(port);
- 	const struct stm32_usart_offsets *ofs = &stm32_port->info->ofs;
-@@ -1658,6 +1690,7 @@ static void stm32_usart_console_putchar(struct uart_port *port, unsigned char ch
- 	writel_relaxed(ch, port->membase + ofs->tdr);
- }
- 
-+#ifdef CONFIG_SERIAL_STM32_CONSOLE
- static void stm32_usart_console_write(struct console *co, const char *s,
- 				      unsigned int cnt)
- {
--- 
-2.25.1
-
+Thanks,
+Valentin
