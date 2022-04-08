@@ -2,172 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EEBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 01:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12996C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 02:09:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233518AbiDHBoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 21:44:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
+        id S230468AbiDHCLY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 22:11:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233495AbiDHBoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 21:44:16 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C7F12F16E
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 18:42:13 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id p23so8402529edi.8
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 18:42:13 -0700 (PDT)
+        with ESMTP id S229716AbiDHCLX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 22:11:23 -0400
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28509EAF
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 19:09:20 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id r25so4105229vsa.13
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 19:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xCv5DXX9ijy/PE+Fv/yKOblKDG06N2ROExnKPiddkiU=;
-        b=xHLU3VTS2ptDA+EsiDb9d9GAPmO0xeEyazs1bLbJ/QVB1T+jdO4hti7wvExaysx1NL
-         PoGR5EswnEEgQpsHXqcpfB85DFTiQZtd7CvTzp7uWaKp5nQCHJ3l8X9oAPUCtimQHu3B
-         AZGE59pcru7eafp+3nm5XPQEaX+9Xw03eyr1oylhuISY7jlV+ju4dh9i/JcZFQPOK3eL
-         eVH7g+HkVs0mEGJt9BKjzqCJwjMFrVDrG0/W8Ut9g0YWnbZRAbaBzHXIA9SRbV7DQX1l
-         irC4aEnS+ULqzznFCktV2CDAgS/sEUiWKedCnKSN5FBv5ztl4OmIUA07SK0fdLxONCZk
-         OjWQ==
+         :cc;
+        bh=Z0Qp7Yu0DBCRj1c8Wq8BvL9+iH9DKnierxKEWSMuj1A=;
+        b=Zfdn9yf2N3tSdFK9CPpFN9l1Xg3YPG0WlnBAzf+DH8b2G2orW6EFhxiI0Pr+YgZpth
+         veyUHtT2+2NlwUMOLJOH0uDzGELFgiagnJ1nnejf4FS77CFM5ftoqbaTcLdwz4PsNkxd
+         QsNtImak6ce3HBvVPLjtMoBN7Ozr6WSHSUE7/DSFgUVAKzV2WhP0bBbxRK/yTEd1B2Od
+         o8rY8pYr2Rxyvv61DtledlxZztsIWpGY4DV8NrSLLN+m6xgScP4WtXGePYxgCzIBE7bm
+         xGGPi18ju+WaFsS0ANGoGAULK7heexzzowMR2UIhNtqHLimWCwxgiq/BZpz5//D+HYrn
+         3lGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xCv5DXX9ijy/PE+Fv/yKOblKDG06N2ROExnKPiddkiU=;
-        b=aWbmWMx20L8Y8szVJPsCpdTRbW5eP5ntHAtHXifApVQIaX0mQt4s8aAsrNeZOijOzH
-         SL3JAOOAA6P6I3NxmRjMPVgkzO7tQ6DlnjkDFDRELhdvQnpigJSEN6llpulqlwyCgSBf
-         S4mnR3+zjbBJ8l1ptNpZuDyVXLlBv7nqUx2lfvN+hPMocZhAqMCBBRuVrrZxtjM1cNZY
-         /1aoVvH1TKcqB3T4nn0hmoEkkXtt7o3Z6FW2z+pgBc0szniVQqDs7SU8t5dToEh0oge9
-         FqQ+1LuZaBCr87dWef0MWU3mi/1/UXlv12VUWPtjQQ9+dsMCaKZoNmYKHPilvyUPM1Dx
-         GDYQ==
-X-Gm-Message-State: AOAM531fdyxIUNT2TkU5FoNiqyTxtqTBNRJnY6UFkXEvyUqddCivBatn
-        NioeqQHEe7kpJuo+HUOkpTcvBJEG2PDMaha7l+9+
-X-Google-Smtp-Source: ABdhPJxO+N6oGriDELXQ6Ik1rLFnHwovOpG6Sz/8grFw7AbhwJUqwHvTAcztCZnXDsMAvXbi8gwPJkt7rR9hql0VoiI=
-X-Received: by 2002:a05:6402:35c9:b0:41d:1447:5f9f with SMTP id
- z9-20020a05640235c900b0041d14475f9fmr3711479edc.343.1649382132419; Thu, 07
- Apr 2022 18:42:12 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Z0Qp7Yu0DBCRj1c8Wq8BvL9+iH9DKnierxKEWSMuj1A=;
+        b=OjqIKAlXYbZw6di+8YozX/8+4k65F3HKDwL7KWTU1f74zmvAeNbhvtkwdToWM2lCyL
+         CuiirVCRz/fVe3WqbCxReBNpE/SiWrg5KZkUSh5OQkLPS6UqUrH4KXczjoTBO8kK4lry
+         QE1xcb1QBTTAW6GbfU9bxrtI9ywfI1S6vz6oxaCbZpuS3o9NWr6G6dUb3SzS97z/KQ+w
+         Gdni8T7fhaHmp3sWnnCHOB8OFXNpt/MeOe8XTs8AwBIjpieXXhU1uiBBmtolI0Zo33a0
+         3CbwnMx1c9lgtF09pC/oYdt7uOXKzfjAYTcvQI713sC9wTlcJ8MM2L8xc1702h45Al/0
+         ilXQ==
+X-Gm-Message-State: AOAM533Hv/LaWJmYRJVf00X7iWmC0nukMIOu0ZJjLUW7QrTxKRaY1/Qg
+        9ai+10+FZ9yLFQSJwLRgXjAd4Rmim498iLgyhI887A==
+X-Google-Smtp-Source: ABdhPJwUZIDsaHJwpCof+f66Zu32Q3dHG70av+1BA38l3kjKLGbhm7LjGQqxI88AKvIaDFQrOR5DTJ/8oM8dJZQiSZI=
+X-Received: by 2002:a67:fbcf:0:b0:325:6e61:4290 with SMTP id
+ o15-20020a67fbcf000000b003256e614290mr5275653vsr.22.1649383759039; Thu, 07
+ Apr 2022 19:09:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220329125117.1393824-1-mic@digikod.net> <20220329125117.1393824-8-mic@digikod.net>
-In-Reply-To: <20220329125117.1393824-8-mic@digikod.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 7 Apr 2022 21:42:01 -0400
-Message-ID: <CAHC9VhQpZ12Chgd+xMibUxgvcPjTn9FMnCdMGYbLcWG3eTqDQg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] landlock: Add support for file reparenting with LANDLOCK_ACCESS_FS_REFER
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+References: <20220407031525.2368067-1-yuzhao@google.com> <CAOUHufZ8x5B-e+Wwgrh+qWryf8dAbfMWVEE0s-AfwZ-H7DouQg@mail.gmail.com>
+ <20220407183112.2cb5b627@canb.auug.org.au> <CAOUHufbaPR3H2KcYywCf0ycFWh=2Nf1PwiO4t8tO6TXB9U1MwA@mail.gmail.com>
+ <20220407221354.5acc2711@canb.auug.org.au>
+In-Reply-To: <20220407221354.5acc2711@canb.auug.org.au>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Thu, 7 Apr 2022 20:08:43 -0600
+Message-ID: <CAOUHufafM6kK-UWncn2rVw0qCv1Ap3SoDn7SeT0Efbtmrfyd0Q@mail.gmail.com>
+Subject: Re: [PATCH v10 00/14] Multi-Gen LRU Framework
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 29, 2022 at 8:51 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
+On Thu, Apr 7, 2022 at 6:14 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
 >
-> From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Hi,
 >
-> Add a new LANDLOCK_ACCESS_FS_REFER access right to enable policy writers
-> to allow sandboxed processes to link and rename files from and to a
-> specific set of file hierarchies.  This access right should be composed
-> with LANDLOCK_ACCESS_FS_MAKE_* for the destination of a link or rename,
-> and with LANDLOCK_ACCESS_FS_REMOVE_* for a source of a rename.  This
-> lift a Landlock limitation that always denied changing the parent of an
-> inode.
+> On Thu, 7 Apr 2022 03:41:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > > So, a couple of questions:
+> > >
+> > > Have you done a trial merge with a current linux-next tree to see what
+> > > sort of mess/pain we may already be in?
+> >
+> > Yes, the repo I prepared for you is based on the latest linux-next.
+> > There shouldn't be any conflicts.
 >
-> Renaming or linking to the same directory is still always allowed,
-> whatever LANDLOCK_ACCESS_FS_REFER is used or not, because it is not
-> considered a threat to user data.
+> Ah, that is a problem :-(  I can't merge a branch into linux-next if
+> that branch is based on linux-next itself.  linux-next rebases
+> everyday, so that merge would bring in the previous version of
+> linux-next - including other branches that may have rebased :-(
 >
-> However, creating multiple links or renaming to a different parent
-> directory may lead to privilege escalations if not handled properly.
-> Indeed, we must be sure that the source doesn't gain more privileges by
-> being accessible from the destination.  This is handled by making sure
-> that the source hierarchy (including the referenced file or directory
-> itself) restricts at least as much the destination hierarchy.  If it is
-> not the case, an EXDEV error is returned, making it potentially possible
-> for user space to copy the file hierarchy instead of moving or linking
-> it.
+> All the branches in linux-next need to be based on Linus' tree or some
+> tree that does not rebase (or one you can keep up with if it does
+> rebase).
 >
-> Instead of creating different access rights for the source and the
-> destination, we choose to make it simple and consistent for users.
-> Indeed, considering the previous constraint, it would be weird to
-> require such destination access right to be also granted to the source
-> (to make it a superset).  Moreover, RENAME_EXCHANGE would also add to
-> the confusion because of paths being both a source and a destination.
->
-> See the provided documentation for additional details.
->
-> New tests are provided with a following commit.
->
-> Cc: Paul Moore <paul@paul-moore.com>
-> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> Link: https://lore.kernel.org/r/20220329125117.1393824-8-mic@digikod.net
-> ---
->
-> Changes since v1:
-> * Update current_check_access_path() to efficiently handle
->   RENAME_EXCHANGE thanks to the updated LSM hook (see previous patch).
->   Only one path walk is performed per rename arguments until their
->   common mount point is reached.  Superset of access rights is correctly
->   checked, including when exchanging a file with a directory.  This
->   requires to store another matrix of layer masks.
-> * Reorder and rename check_access_path_dual() arguments in a more
->   generic way: switch from src/dst to 1/2.  This makes it easier to
->   understand the RENAME_EXCHANGE cases alongs with the others.  Update
->   and improve check_access_path_dual() documentation accordingly.
-> * Clean up the check_access_path_dual() loop: set both allowed_parent*
->   when reaching internal filesystems and remove a useless one.  This
->   allows potential renames in internal filesystems (like for other
->   operations).
-> * Move the function arguments checks from BUILD_BUG_ON() to
->   WARN_ON_ONCE() to avoid clang build error.
-> * Rename is_superset() to no_more_access() and make it handle superset
->   checks of source and destination for simple and exchange cases.
-> * Move the layer_masks_child* creation from current_check_refer_path()
->   to check_access_path_dual(): this is simpler and less error-prone,
->   especially with RENAME_EXCHANGE.
-> * Remove one optimization in current_check_refer_path() to make the code
->   simpler, especially with the RENAME_EXCHANGE handling.
-> * Remove overzealous WARN_ON_ONCE() for !access_request check in
->   init_layer_masks().
-> ---
->  include/uapi/linux/landlock.h                |  27 +-
->  security/landlock/fs.c                       | 607 ++++++++++++++++---
->  security/landlock/limits.h                   |   2 +-
->  security/landlock/syscalls.c                 |   2 +-
->  tools/testing/selftests/landlock/base_test.c |   2 +-
->  tools/testing/selftests/landlock/fs_test.c   |   3 +-
->  6 files changed, 566 insertions(+), 77 deletions(-)
+> The only exception is part of Andrew's patch series which is rebased
+> (by me) on top of linux-next each day.
 
-I'm still not going to claim that I'm a Landlock expert, but this
-looks sane to me.
+Gotcha.
 
-Reviewed-by: Paul Moore <paul@paul-moore.com>
+> > > Is it all stable enough now that it could be sent as a patch series for
+> > > Andrew to include in mmotm (with perhaps just smallish followup patches)?
+> >
+> > Yes, on multiple occasions, e.g., [1][2][3], I've claimed this
+> > patchset has an unprecedented test coverage and nobody has proven
+> > otherwise so far.
+> >
+> > Andrew suggested a cycle in linux-next [4]. So here we are :)
+>
+> So the easiest thing for me is if Andrew takes it into his mmotm patch
+> series (most of which ends up in linux-next).
 
-> +static inline access_mask_t init_layer_masks(
-> +               const struct landlock_ruleset *const domain,
-> +               const access_mask_t access_request,
-> +               layer_mask_t (*const layer_masks)[LANDLOCK_NUM_ACCESS_FS]=
-)
-> +{
-> +       access_mask_t handled_accesses =3D 0;
-> +       size_t layer_level;
-> +
-> +       memset(layer_masks, 0, sizeof(*layer_masks));
-> +       /* An empty access request can happen because of O_WRONLY | O_RDW=
-R. */
+Agreed.
 
- ;)
+> Otherwise I am probably
+> at some point going to need help fixing the conflicts.
 
---=20
-paul-moore.com
+Yes, very likely.
+
+I see three options at the moment:
+1. I grab mmotm, rebase it, apply this patchset atop and then route it
+to you. Based on my rough understanding of your workflow, this might
+reduce the work on your side.
+2. I skip linux-next, and when I send the pull request for 5.19, I'll
+include incentive for Linus to potentially forgo the required
+linux-next cycle.
+3. You or Andrew would have to do something you/he might not enjoy :)
+
+Please let me know. Thanks!
