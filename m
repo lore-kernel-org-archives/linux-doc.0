@@ -2,133 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C675C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 05:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A6BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 05:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234538AbiDHFDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 01:03:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48760 "EHLO
+        id S234568AbiDHFEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 01:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234651AbiDHFDJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 01:03:09 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724831AF7FC
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 22:00:57 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id b19so11076333wrh.11
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 22:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KEUIEi9adSNdoXW8KXtclgU3RetFXDHu8Pw4dW2isbA=;
-        b=o7RXxtZ1cDCZRue0sRrHz1TVue0enjTGqt1HjvEk+IA8raVTONQrvfvX0FeTXqSKvX
-         FtSzfFjcRFZtxjtFHjiRKr9z2um3s99f3Jn4Jsb9WAydhWNJHdtJM7igBo8PjX7H3Rjf
-         mqqkKxr+7KexBHf3vNHS9f0qPUmgY37p2YUyp6/AflZqY2NsKxUitAvgrFQyRqvJQyc5
-         KmKCzAK9duyoWb5HnTL7/rqzXKXmJFmeqhaGPBh4Z/8PXETA2bYyWEL3YDL6NLNSN2z3
-         kMv5ynQ4wZtEKiYYloH6n1Z8y/rIw4HEW4YYgpLXpX24QberMRKQ3RVbD3QPsFyyd6Ym
-         K6og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KEUIEi9adSNdoXW8KXtclgU3RetFXDHu8Pw4dW2isbA=;
-        b=PDgptmr7S8D4utzydA2wg253NsTMfUihXvKGjP/Ti0z3hmIw/FnoEV1KGMAdwfyYaQ
-         5vR1UkuEVJ1LRV4KeZB0NGeOx4Oen0T+NUxOfXPsxzl7cQhqN9msjaraZ1yS5I6zXx7R
-         5Ey1YhcZRoHiRE/I/dyecduPb0TwxNpuxFUw0SyCYBziiy7+IKcPV2MFrHEtGBrLgBRP
-         bmem0qldspBq+b0WPyuR/nJt4CA6i0OixS3XAAWYh1CQXPzAbED/r4jwGFwcE9kmlZN3
-         ql+XICf92CGG6mhswLcFknGRt1L1mk/o+WpKOZn5C4lKZKQF7qOdQffIFETY20eVoKhW
-         13Ag==
-X-Gm-Message-State: AOAM532WOgkHfcmW4xFHEqzyli4VUG/bHQixxK0IjMcBLALnpfZZTAqj
-        cAWA1Pg0iyGApvCIydiIXuifgm+hX3n3oU8ntnZo6Q==
-X-Google-Smtp-Source: ABdhPJx8gwwFGKo9JHFub9Glw4ixcEqLNimwl5VmXqky+27dSQgR/DF9ZrdodFvPPP+gdnMxF2HiStZfvRzIoAASGEo=
-X-Received: by 2002:adf:8066:0:b0:206:1563:8b2b with SMTP id
- 93-20020adf8066000000b0020615638b2bmr13333325wrk.582.1649394055492; Thu, 07
- Apr 2022 22:00:55 -0700 (PDT)
+        with ESMTP id S234570AbiDHFET (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 01:04:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01D11ED075;
+        Thu,  7 Apr 2022 22:02:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 45413B8299F;
+        Fri,  8 Apr 2022 05:02:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F015C385A1;
+        Fri,  8 Apr 2022 05:02:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1649394131;
+        bh=8Me5S15U2F7dvfg9grdHqoSj3D7p+UN1Je6bZ9/30xQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1ejXQHolNEw61TXM0OE4CIyklLuxg9JFPBmpT1uzODSwUvl7OLGDDC1ayaKzwItrt
+         Yr++lY1imkBXSlDamHgCnlIjP2f237tfE3jXojGbYltzJswhf8AtTkhJBEjKRnhgCl
+         w00S1Yq6d7zHp0plWsG8KD8zTPwuPVn+BuyXtWqM=
+Date:   Fri, 8 Apr 2022 07:02:08 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jithu Joseph <jithu.joseph@intel.com>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
+        andriy.shevchenko@linux.intel.com, ashok.raj@intel.com,
+        tony.luck@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v2 09/10] platform/x86/intel/ifs: add ABI documentation
+ for IFS
+Message-ID: <Yk/B0D1wQXlQ2MqF@kroah.com>
+References: <20220407191347.9681-1-jithu.joseph@intel.com>
+ <20220407191347.9681-10-jithu.joseph@intel.com>
 MIME-Version: 1.0
-References: <20220407224244.1374102-1-yosryahmed@google.com>
- <20220407224244.1374102-4-yosryahmed@google.com> <CAJD7tkaPaXQ4M_w-YxJizD2DG8co-3Q2bVDfd7_FaG2ivgT6UA@mail.gmail.com>
-In-Reply-To: <CAJD7tkaPaXQ4M_w-YxJizD2DG8co-3Q2bVDfd7_FaG2ivgT6UA@mail.gmail.com>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Thu, 7 Apr 2022 22:00:07 -0700
-Message-ID: <CAJD7tkZNAts_4M9TZx02L1y24hp5ty4H5vgrzryZk4a_uFR=6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] selftests: cgroup: fix alloc_anon_noexit()
- instantly freeing memory
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     David Rientjes <rientjes@google.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
-        Chen Wandun <chenwandun@huawei.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, Huang@google.com,
-        Ying <ying.huang@intel.com>,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org,
-        Michal Hocko <mhocko@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220407191347.9681-10-jithu.joseph@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 7, 2022 at 4:04 PM Yosry Ahmed <yosryahmed@google.com> wrote:
->
-> On Thu, Apr 7, 2022 at 3:43 PM Yosry Ahmed <yosryahmed@google.com> wrote:
-> >
-> > Currently, alloc_anon_noexit() calls alloc_anon() which instantly frees
-> > the allocated memory. alloc_anon_noexit() is usually used with
-> > cg_run_nowait() to run a process in the background that allocates
-> > memory. It makes sense for the background process to keep the memory
-> > allocated and not instantly free it (otherwise there is no point of
-> > running it in the background).
-> >
-> > Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
-> > ---
-> >  tools/testing/selftests/cgroup/test_memcontrol.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-> > index 36ccf2322e21..c1ec71d83af7 100644
-> > --- a/tools/testing/selftests/cgroup/test_memcontrol.c
-> > +++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-> > @@ -211,13 +211,18 @@ static int alloc_pagecache_50M_noexit(const char *cgroup, void *arg)
-> >  static int alloc_anon_noexit(const char *cgroup, void *arg)
-> >  {
-> >         int ppid = getppid();
-> > +       size_t size = (unsigned long)arg;
-> > +       char *buf, *ptr;
-> >
-> > -       if (alloc_anon(cgroup, arg))
-> > -               return -1;
-> > +       buf = malloc(size);
-> > +       for (ptr = buf; ptr < buf + size; ptr += PAGE_SIZE)
-> > +               *ptr = 0;
-> >
-> >         while (getppid() == ppid)
-> >                 sleep(1);
-> >
-> > +       printf("Freeing buffer");
->
-> Hey Andew,
->
-> I am very sorry but I left a debugging printf there by mistake. If
-> it's no hassle, do you mind removing it from the patch (assuming I
-> won't need to send a v3 anyway)?
+On Thu, Apr 07, 2022 at 12:13:46PM -0700, Jithu Joseph wrote:
+> Add the sysfs attributes in ABI/testing for In-Field Scan.
+> 
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
+> ---
+>  .../ABI/testing/sysfs-platform-intel-ifs      | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-platform-intel-ifs b/Documentation/ABI/testing/sysfs-platform-intel-ifs
+> new file mode 100644
+> index 000000000000..54dc6cd75484
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-platform-intel-ifs
+> @@ -0,0 +1,54 @@
+> +What:		/sys/devices/platform/intel_ifs/run_test
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
 
-Never mind I already sent v3 and removed it with other fixes.
->
-> Thanks!
->
-> > +       free(buf);
-> >         return 0;
-> >  }
-> >
-> > --
-> > 2.35.1.1178.g4f1659d476-goog
-> >
+No need for ".0"
+
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	echo <cpu#> to trigger ifs test for all online cores.
+> +		For e.g to test cpu5 do echo 5 > /sys/devices/platform/intel_ifs/run_test
+
+So core numbers are different than cpu numbers here?  How are users
+going to map them?
+
+> +
+> +What:		/sys/devices/platform/intel_ifs/status
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	The status of the last test. It can be one of "pass", "fail"
+> +		or "untested".
+> +
+> +What:		/sys/devices/system/cpu/cpu#/ifs/details
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	Additional information regarding the last test. The details file reports
+> +		the hex value of the SCAN_STATUS MSR. Note that the error_code field
+> +		may contain driver defined software code not defined in the Intel SDM.
+> +
+> +What:		/sys/devices/platform/intel_ifs/image_version
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	Version of loaded IFS binary image.
+
+In what format?
+
+> +
+> +What:		/sys/bus/platform/drivers/intel_ifs/bind
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	echo "intel_ifs" to reload IFS image.
+
+Huh?  Why are you using a common sysfs file for this type of attribute?
+Please do not do so, make it "reload" or something like that.
+
+> +
+> +What:		/sys/module/intel_ifs/parameters/noirq
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	IFS tunable parameter that user can modify before
+> +		the scan run if they wish to override default value.
+
+And where are those parameters documented?  What are valid values here?
+
+> +		When set, system interrupts are not allowed to interrupt an IFS. The
+> +		default state for this parameter is set.
+
+set to what?
+
+> +
+> +What:		/sys/module/intel_ifs/parameters/retry
+> +Date:		April 07, 2022
+> +KernelVersion:	5.19.0
+> +Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
+> +Description:	IFS tunable parameter that user can modify before scan run
+> +		if they wish to override default value.
+> +
+> +		Maximum retry counter when the test is not executed due to an
+> +		event such as interrupt. The default value is 5, it can be set to any
+> +		value from 1 to 20.
+
+Why would anyone ever want to change this value?  Why doesn't it "just
+work" without needing anything tuned?
+
+thanks,
+
+greg k-h
