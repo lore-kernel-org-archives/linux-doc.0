@@ -2,156 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0B1C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 910F0C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234191AbiDHEMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 00:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51160 "EHLO
+        id S231826AbiDHEZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 00:25:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234210AbiDHEMs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:12:48 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834C02042BB
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 21:10:45 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id z6so9369085iot.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 21:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kLJsh09usQM6KN7slbu+hDyAz10KLaAr5TuAGBF1ET8=;
-        b=gBo+/HbruUwOBKndO6LMcDu/iJv+/tOrAmtZhCfGRubv6KuCygoW0XzqGPxgTnIjUE
-         YsTDHr2rrSBBP4YfBA072r25eyCoMDp623Z9qh4T2KJ/8B9Rst7np2vKyRSlZ6aWzWJ9
-         ZrVqZ0kipXK2bXR/XkFovvZKgn4UZJfIehQfiXfSUyIkHnZs4TO8t80L0fJfGBfxdQ0e
-         Ks3hUVwCWQARQLa89WDBX16qmbJeFLC3C+MqOnQu4ghjjxCkOQcnGZUWk62YF7TAP13I
-         8FRV6jbqN0tq1xYnyrUCZVi227qm1C7BkKEQywopeprRzWbJ2f0+P4RyC2+AILgu8SD8
-         MUKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kLJsh09usQM6KN7slbu+hDyAz10KLaAr5TuAGBF1ET8=;
-        b=l3M+jN9Hd2C9qFo42DKzwW4LYWa+Hhwjn3DAZp/K4kB/3AaO/8VyTm1uGg/eteqvQ7
-         mwNknGhv6dtqoewCxvZHOV036k/Es/Ql1QQdBnMSEu4wv0zjztG+axCpPONUok8ukZjG
-         0FGeM8OcZ6G0J6SUiNvHcWUzLv94dO9tvnfRSDKCx+bEgTFwm0wN4szUuPcB1vcLW9Fi
-         vPaSr+IYAE5yBTYNEpd+ZWWk8Mhz7kIxZ0s6gaPb6LItV/o7+gs2RRVgINPTkqYb5Kv0
-         tJEIGH3R0J9dxuuPaJ/tp0HynzXBTyYiH0UuDLNmS9LqP+BzsXQNMLo7DRHI8m+pp6ZW
-         byCA==
-X-Gm-Message-State: AOAM530HRzO/RRTnUdwObP3CNlA5/heyAvZGya3TTw8RfJ+pefCkvz1I
-        naJzYqNW1zFFdQjclmY+8pkl6+a6itLp9n7vr+IyjA==
-X-Google-Smtp-Source: ABdhPJzsHGDQGCBMIEMjZZ+ZfDHTSSvZY148evFFWftTD2yA+ROjdj/6Mou/Sxg7Iwz3kSErR9RaYM0kkHP9g4gRVLk=
-X-Received: by 2002:a5e:dc4c:0:b0:64c:ceff:8916 with SMTP id
- s12-20020a5edc4c000000b0064cceff8916mr7651721iop.117.1649391044303; Thu, 07
- Apr 2022 21:10:44 -0700 (PDT)
+        with ESMTP id S231654AbiDHEZz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:25:55 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B8BB19C18;
+        Thu,  7 Apr 2022 21:23:52 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 573E211FB;
+        Thu,  7 Apr 2022 21:23:52 -0700 (PDT)
+Received: from [10.163.37.138] (unknown [10.163.37.138])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FA423F718;
+        Thu,  7 Apr 2022 21:23:48 -0700 (PDT)
+Message-ID: <e95dfce9-23a1-7722-7f36-f7ca350e492d@arm.com>
+Date:   Fri, 8 Apr 2022 09:54:19 +0530
 MIME-Version: 1.0
-References: <20220331084151.2600229-1-yosryahmed@google.com>
- <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
- <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
- <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
- <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com> <215bd7332aee0ed1092bad4d826a42854ebfd04a.camel@linux.intel.com>
- <CAAPL-u_aAbDOmATSA8ZvjnfBk_7EoXvLoh0etM0fB0aY1845VQ@mail.gmail.com>
- <df6110a09cacc80ee1cbe905a71273a5f3953e16.camel@linux.intel.com>
- <CAAPL-u-oF5HQ26w1czNCmA5VadXOfC54GbGpSppva86YEkefyA@mail.gmail.com> <87y20gtgpf.fsf@yhuang6-desk2.ccr.corp.intel.com>
-In-Reply-To: <87y20gtgpf.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From:   Wei Xu <weixugc@google.com>
-Date:   Thu, 7 Apr 2022 21:10:33 -0700
-Message-ID: <CAAPL-u9hVKx=tgSK7DWLxcbpjJ6oRLyyS=3gqXV9VfKcFmELUQ@mail.gmail.com>
-Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
-To:     "Huang, Ying" <ying.huang@intel.com>
-Cc:     Tim Chen <tim.c.chen@linux.intel.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Yosry Ahmed <yosryahmed@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] Documentation: arch_pgtable_helpers: demote pgtable
+ list headings
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Cgroups <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Greg Thelen <gthelen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20220407045830.181514-1-bagasdotme@gmail.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20220407045830.181514-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 7, 2022 at 8:08 PM Huang, Ying <ying.huang@intel.com> wrote:
->
-> Wei Xu <weixugc@google.com> writes:
->
-> > On Thu, Apr 7, 2022 at 4:11 PM Tim Chen <tim.c.chen@linux.intel.com> wrote:
-> >>
-> >> On Thu, 2022-04-07 at 15:12 -0700, Wei Xu wrote:
-> >>
-> >> >
-> >> > (resending in plain-text, sorry).
-> >> >
-> >> > memory.demote can work with any level of memory tiers if a nodemask
-> >> > argument (or a tier argument if there is a more-explicitly defined,
-> >> > userspace visible tiering representation) is provided.  The semantics
-> >> > can be to demote X bytes from these nodes to their next tier.
-> >> >
-> >>
-> >> We do need some kind of userspace visible tiering representation.
-> >> Will be nice if I can tell the memory type, nodemask of nodes in tier Y with
-> >>
-> >> cat memory.tier_Y
-> >>
-> >>
-> >> > memory_dram/memory_pmem assumes the hardware for a particular memory
-> >> > tier, which is undesirable.  For example, it is entirely possible that
-> >> > a slow memory tier is implemented by a lower-cost/lower-performance
-> >> > DDR device connected via CXL.mem, not by PMEM.  It is better for this
-> >> > interface to speak in either the NUMA node abstraction or a new tier
-> >> > abstraction.
-> >>
-> >> Just from the perspective of memory.reclaim and memory.demote, I think
-> >> they could work with nodemask.  For ease of management,
-> >> some kind of abstraction of tier information like nodemask, memory type
-> >> and expected performance should be readily accessible by user space.
-> >>
-> >
-> > I agree.  The tier information should be provided at the system level.
-> > One suggestion is to have a new directory "/sys/devices/system/tier/"
-> > for tiers, e.g.:
-> >
-> > /sys/devices/system/tier/tier0/memlist: all memory nodes in tier 0.
-> > /sys/devices/system/tier/tier1/memlist: all memory nodes in tier 1.
->
-> I think that it may be sufficient to make tier an attribute of "node".
-> Some thing like,
->
-> /sys/devices/system/node/nodeX/memory_tier
->
 
-This works. If we want additional information about each tier, we can
-then add a tier-specific subtree.
 
-In addition, it would be good to also expose the demotion target nodes
-(node_demotion[]) via sysfs, e.g.:
+On 4/7/22 10:28, Bagas Sanjaya wrote:
+> All page title headings in arch_pgtable_helpers.txt except
+> "Architecture Page Table Helpers" should have been subheadings instead.
+> 
+> Demote them to chapter headings.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Changes since v1 [1]: 
+>    - Rebased on v5.18-rc1
+>    - Describe why the patch do the job
 
-/sys/devices/system/node/nodeX/demotion_path
+I am neutral on this patch, dont have a strong opinion either way.
 
-which returns node_demotion[X].
-
-> Best Regards,
-> Huang, Ying
->
-> > We can discuss this tier representation in a new thread.
-> >
-> >> Tim
-> >>
-> >> >
-> >> > It is also desirable to make this interface stateless, i.e. not to
-> >> > require the setting of memory_dram.reclaim_policy.  Any policy can be
-> >> > specified as arguments to the request itself and should only affect
-> >> > that particular request.
-> >> >
-> >> > Wei
-> >>
->
+> 
+>  [1]: https://lore.kernel.org/linux-doc/20220326131313.691027-1-bagasdotme@gmail.com/
+>  Documentation/vm/arch_pgtable_helpers.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
+> index f8b225fc919047..cbaee9e592410f 100644
+> --- a/Documentation/vm/arch_pgtable_helpers.rst
+> +++ b/Documentation/vm/arch_pgtable_helpers.rst
+> @@ -13,7 +13,7 @@ Following tables describe the expected semantics which can also be tested during
+>  boot via CONFIG_DEBUG_VM_PGTABLE option. All future changes in here or the debug
+>  test need to be in sync.
+>  
+> -======================
+> +
+>  PTE Page Table Helpers
+>  ======================
+>  
+> @@ -79,7 +79,7 @@ PTE Page Table Helpers
+>  | ptep_set_access_flags     | Converts into a more permissive PTE              |
+>  +---------------------------+--------------------------------------------------+
+>  
+> -======================
+> +
+>  PMD Page Table Helpers
+>  ======================
+>  
+> @@ -153,7 +153,7 @@ PMD Page Table Helpers
+>  | pmdp_set_access_flags     | Converts into a more permissive PMD              |
+>  +---------------------------+--------------------------------------------------+
+>  
+> -======================
+> +
+>  PUD Page Table Helpers
+>  ======================
+>  
+> @@ -209,7 +209,7 @@ PUD Page Table Helpers
+>  | pudp_set_access_flags     | Converts into a more permissive PUD              |
+>  +---------------------------+--------------------------------------------------+
+>  
+> -==========================
+> +
+>  HugeTLB Page Table Helpers
+>  ==========================
+>  
+> @@ -235,7 +235,7 @@ HugeTLB Page Table Helpers
+>  | huge_ptep_set_access_flags  | Converts into a more permissive HugeTLB        |
+>  +---------------------------+--------------------------------------------------+
+>  
+> -========================
+> +
+>  SWAP Page Table Helpers
+>  ========================
+>  
+> 
+> base-commit: 3123109284176b1532874591f7c81f3837bbdc17
