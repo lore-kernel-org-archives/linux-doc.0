@@ -2,113 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F0CAC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B8FC43217
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:57:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234334AbiDHEu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 00:50:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
+        id S234397AbiDHE7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 00:59:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231300AbiDHEuz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:50:55 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94ACBFABC8;
-        Thu,  7 Apr 2022 21:48:52 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id s2so7415936pfh.6;
-        Thu, 07 Apr 2022 21:48:52 -0700 (PDT)
+        with ESMTP id S234383AbiDHE7u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:59:50 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC9013D25
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 21:57:46 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id r11-20020a63440b000000b0038068f34b0cso4225024pga.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 21:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=s+UL35WfzSMP+2xZp9ViJx/yOJroVs1rmRwF6Q3Unm4=;
-        b=q0t5/nAt60OyqMBNKQ++uAnrvaALWWqLYOBLTx+WJzhYM5VyQ9OTyOym80McY8xXE7
-         WsiiVk5/T8n8ZdKsS+K/FeLF9CBXGrsm++o7SJoccq/hDBt2FAKrRI5DdUEoNmPsNP3V
-         b6AYP8OBZk/7u4zNRoZtWmB/cjg0yQ+Yo3YYA2Wi/ON/5mMLmuxGkGwboCKbzt9fTr9r
-         quWl+0QlNS6BO3uxBkez3tTxTQ8EV1sBGOZ1NOeacvwpFg28fjKhZSJctrx/gTV2r+YH
-         jniaPDF+QI07VmzUbZyKSvAWIn+NqJ4bSMzPxoyJoVfEMb19JWueferf3NDNRvqvwfV1
-         MN6Q==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=gNaeesmpk/bm+MvfeH4duevmtiNSegapk87qzryE4Rg=;
+        b=VpC1ILFh71v7mqF4BnD526/zj/1F9/XWSKZb9oFAzDRpeFV9yY/r/588MgB3g8zJ6y
+         9815ldbxekiYjWVP/6ssWMPIv1e6OOWSYXhPJD5ehrJh2cPyZkAbco6d9GNMUG8lAvY9
+         dgzR/DFOkStbhSrRdvZxFaSrP/VvGFLF0vj8sLGDEAsNk4dniKdJXCvpc1jyoH8QkyIS
+         7U6YMCqjLB+EJr/Z6ZFDhpBTUOImx4UBG+GjU4uqsmqL9rJOwxWamOcDIMkEfXdfSf8Z
+         iNbxoOtRAxHdZOpmu11faMMTfVi93twrruvLp8IpCeBXtSA9DW3R9D6v0ehQCsPE3Eei
+         dAKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s+UL35WfzSMP+2xZp9ViJx/yOJroVs1rmRwF6Q3Unm4=;
-        b=lO5hKuJgooVVuTLs5/Px4FkQft6XmYHNytdCSTWw7nstIvrryz471OOaMr5TzPd7Dx
-         TuotuH7+FCwYkQ59N3xsNIGbltV/UZP3l651a+qlUpLgAao4Vwha6UPXeInMkRkUNgDz
-         fiPWEtF4Sjvl1OjfAEn5YZdU6CXBjq7tlbeBvmcCuYtbOlQKlxRHbH/BosS1VaCgD1cS
-         GPbVO/mbZsTDaeP/DeGPcsGCnrHoBB1UDX+/dtxbdGge9HcU0x/oQmCeYjEQY/mDjSUI
-         MKuX9wXsF/EDia/rVx9riHQNINXYj6dJB/jcjkiSFWCsDUhWNZKWXmBfklzk/CEUXhuq
-         nvww==
-X-Gm-Message-State: AOAM532V2M2LU7exZEFqPe0j2B/Gccf5lyKaY27yD40dgSn5HShCDoj4
-        JFsjveFsBPpR9VctpzHDTkA=
-X-Google-Smtp-Source: ABdhPJzXCIq8telM9W/w36lyxOuzOEPAH9qgoif+AEcrH5yfRsvy3mg29DtGFZm+iiLV0mHkAotToQ==
-X-Received: by 2002:a63:b55d:0:b0:398:5eeb:e637 with SMTP id u29-20020a63b55d000000b003985eebe637mr13646038pgo.314.1649393331984;
-        Thu, 07 Apr 2022 21:48:51 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-1.three.co.id. [180.214.232.1])
-        by smtp.gmail.com with ESMTPSA id p3-20020a056a000b4300b004faee36ea56sm24799110pfo.155.2022.04.07.21.48.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 21:48:51 -0700 (PDT)
-Message-ID: <0e3f7e6d-80fa-7942-3e3b-c42d114243fe@gmail.com>
-Date:   Fri, 8 Apr 2022 11:48:39 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
-        Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=gNaeesmpk/bm+MvfeH4duevmtiNSegapk87qzryE4Rg=;
+        b=fXtrtR/qTJW4ZS5QLuFVAJk4DgEsULFxq+VT6u6waUOGw4PX/0rDpWTPIHx7dsnYGj
+         SSZ7cTx3/42uven4Q7KPc+TsUT8f8UTuzUOQ5a8JMZ7k5DyOjzXttv/wNaV8mluRFAzO
+         mV5Fu0V/xie4i/dN0jladjlwQhA00IvY2D0xGc0D/W6iGVyk5vvZ0nip0B5qsyJhlMRq
+         bj7rBgKXK79J5qDM1m6JSH6zxwk5ljoMwFyYmEKv8yCoj0eG1ER56lPZALNcUMByZQRh
+         hDfiMQJpvyFxjjxdHpMH2KEud7KjiN0AK004rjYHoEYQ5acpQX3YhTkKDAH2PHaEPY6G
+         GIPA==
+X-Gm-Message-State: AOAM5325jjSdWhAnQpHt9Ueyr4axa+rN7JmXmEpL2jIOwr0/YfkZjPTc
+        3JWRbUCJGQ3v5Aq2t1knWP7BcGn4JHDa0XCk
+X-Google-Smtp-Source: ABdhPJyZ29N+vSD30BVtv+iUBfQdlGsNN2NbT8PHWHlFuN3vXkcsq9aRVlHd3msWZm5B3br+LUtusM05DpEHehps
+X-Received: from yosry.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:2327])
+ (user=yosryahmed job=sendgmr) by 2002:a17:90b:3e82:b0:1c7:2920:7c54 with SMTP
+ id rj2-20020a17090b3e8200b001c729207c54mr20048577pjb.2.1649393865785; Thu, 07
+ Apr 2022 21:57:45 -0700 (PDT)
+Date:   Fri,  8 Apr 2022 04:57:39 +0000
+Message-Id: <20220408045743.1432968-1-yosryahmed@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.1178.g4f1659d476-goog
+Subject: [PATCH v3 0/4] memcg: introduce per-memcg proactive reclaim
+From:   Yosry Ahmed <yosryahmed@google.com>
+To:     Johannes Weiner <hannes@cmpxchg.org>,
         Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, page-reclaim@google.com,
-        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-15-yuzhao@google.com>
- <5ea69d84-be0c-2e9b-02b5-92d9442c8aff@gmail.com>
- <87wng1838i.fsf@meer.lwn.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87wng1838i.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     David Rientjes <rientjes@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        "=?UTF-8?q?Michal=20Koutn=C3=BD?=" <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        Yosry Ahmed <yosryahmed@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/22 19.52, Jonathan Corbet wrote:
-> Bagas, it is hard enough to get people to write useful documentation as
-> it is.  Could I ask you to please stop adding useless friction to the
-> process?
-> 
+This patch series adds a memory.reclaim proactive reclaim interface.
+The rationale behind the interface and how it works are in the first
+patch.
 
-OK, thanks for reminding me.
+---
+
+Changes in V3:
+- Fix cg_write() (in patch 2) to properly return -1 if open() fails
+  and not fail if len == errno.
+- Remove debug printf() in patch 3.
+
+Changes in V2:
+- Add the interface to root as well.
+- Added a selftest.
+- Documented the interface as a nested-keyed interface, which makes
+  adding optional arguments in the future easier (see doc updates in the
+  first patch).
+- Modified the commit message to reflect changes and add a timeout
+  argument as a suggested possible extension
+- Return -EAGAIN if the kernel fails to reclaim the full requested
+  amount.
+
+---
+
+Shakeel Butt (1):
+  memcg: introduce per-memcg reclaim interface
+
+Yosry Ahmed (3):
+  selftests: cgroup: return the errno of write() in cg_write() on
+    failure
+  selftests: cgroup: fix alloc_anon_noexit() instantly freeing memory
+  selftests: cgroup: add a selftest for memory.reclaim
+
+ Documentation/admin-guide/cgroup-v2.rst       | 21 +++++
+ mm/memcontrol.c                               | 37 ++++++++
+ tools/testing/selftests/cgroup/cgroup_util.c  | 32 ++++---
+ .../selftests/cgroup/test_memcontrol.c        | 93 ++++++++++++++++++-
+ 4 files changed, 166 insertions(+), 17 deletions(-)
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.35.1.1178.g4f1659d476-goog
+
