@@ -2,115 +2,321 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D523DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 08:34:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B043C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 09:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbiDHIg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 04:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
+        id S232255AbiDHJOB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 05:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbiDHIgY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 04:36:24 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49052FF599;
-        Fri,  8 Apr 2022 01:34:20 -0700 (PDT)
-Received: from zn.tnic (p200300ea971561a9329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9715:61a9:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5116B1EC0445;
-        Fri,  8 Apr 2022 10:34:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1649406855;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+UM7gmu9BXYvquOX3OamJYimXfFmDeZA/dtmCZUBglw=;
-        b=k1y/zw+J9AQWVow8qwgv05yji5qd8InFZbomSek/ZxF0rApG5eH5fq0qUwCQ5FXz4ni7HF
-        IhPcVjKeKNKkaiAie5vHf5rYNByHSJt4ZoZuogfwB3JVkLi0qaxdvnKjhNR9BbZcB01V1X
-        1oK94rVdY/dg5+zzOYYOC+4r6XIWWwY=
-Date:   Fri, 8 Apr 2022 10:34:13 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jithu Joseph <jithu.joseph@intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, ashok.raj@intel.com,
-        tony.luck@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v2 01/10] x86/microcode/intel: expose
- collect_cpu_info_early() for IFS
-Message-ID: <Yk/zhV3SGib6TaI5@zn.tnic>
-References: <20220407191347.9681-1-jithu.joseph@intel.com>
- <20220407191347.9681-2-jithu.joseph@intel.com>
+        with ESMTP id S233780AbiDHJNC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 05:13:02 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A56B2B04C7;
+        Fri,  8 Apr 2022 02:09:52 -0700 (PDT)
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KZXTD349Hz684Y0;
+        Fri,  8 Apr 2022 17:07:44 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Fri, 8 Apr 2022 11:09:49 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 8 Apr 2022 10:09:47 +0100
+From:   John Garry <john.garry@huawei.com>
+To:     <damien.lemoal@opensource.wdc.com>, <hch@lst.de>
+CC:     <linux-doc@vger.kernel.org>, <linux-ide@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, John Garry <john.garry@huawei.com>
+Subject: [PATCH v4] libata: Improve ATA queued command allocation
+Date:   Fri, 8 Apr 2022 17:04:12 +0800
+Message-ID: <1649408652-217372-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220407191347.9681-2-jithu.joseph@intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 07, 2022 at 12:13:38PM -0700, Jithu Joseph wrote:
-> diff --git a/arch/x86/include/asm/microcode_intel.h b/arch/x86/include/asm/microcode_intel.h
-> index d85a07d7154f..cf0fd1d712b4 100644
-> --- a/arch/x86/include/asm/microcode_intel.h
-> +++ b/arch/x86/include/asm/microcode_intel.h
-> @@ -68,6 +68,10 @@ static inline u32 intel_get_microcode_revision(void)
->  	return rev;
->  }
->  
-> +int cpu_collect_info_early(struct ucode_cpu_info *uci);
-> +bool cpu_signatures_match(unsigned int s1, unsigned int p1,
-> +			  unsigned int s2, unsigned int p2);
-> +
+Improve ATA queued command allocation as follows:
 
-So you can't move the functions to cpu/intel.c but put the
-prototype declarations in the microcode header - they should go to
-arch/x86/include/asm/cpu.h or so.
+- For attaining a qc tag for a SAS host we need to allocate a bit in
+  ata_port.sas_tag_allocated bitmap.
 
+  However we already have a unique tag per device in range
+  [0, ATA_MAX_QUEUE -1] in the scsi cmnd budget token, so just use that
+  instead.
 
->  #ifdef CONFIG_MICROCODE_INTEL
->  extern void __init load_ucode_intel_bsp(void);
->  extern void load_ucode_intel_ap(void);
-> diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-> index 8321c43554a1..2008c8267fd3 100644
-> --- a/arch/x86/kernel/cpu/intel.c
-> +++ b/arch/x86/kernel/cpu/intel.c
-> @@ -181,6 +181,53 @@ static bool bad_spectre_microcode(struct cpuinfo_x86 *c)
->  	return false;
->  }
->  
-> +bool cpu_signatures_match(unsigned int s1, unsigned int p1,
+- It is a bit pointless to have ata_qc_new_init() in libata-core.c since it
+  pokes scsi internals, so inline it in ata_scsi_qc_new() (in
+  libata-scsi.c). Also update Doc accordingly.
 
-That function is Intel-specific:
+- Use standard SCSI helpers set_host_byte() and set_status_byte() in
+  ata_scsi_qc_new().
 
-intel_cpu_signatures_match()
+Christoph Hellwig originally contributed the change to inline
+ata_qc_new_init().
 
-and it is small enough to stick it in the above header and make it an
-inline without the need for an export.
+Signed-off-by: John Garry <john.garry@huawei.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+Do not apply on a kernel without "scsi: core: Fix sbitmap depth in
+scsi_realloc_sdev_budget_map()" - hopefully v5.18-rc2 will include it.
 
-> +			  unsigned int s2, unsigned int p2)
-> +{
-> +	if (s1 != s2)
-> +		return false;
-> +
-> +	/* Processor flags are either both 0 ... */
-> +	if (!p1 && !p2)
-> +		return true;
-> +
-> +	/* ... or they intersect. */
-> +	return p1 & p2;
-> +}
-> +EXPORT_SYMBOL_GPL(cpu_signatures_match);
-> +
-> +int cpu_collect_info_early(struct ucode_cpu_info *uci)
+Changes since v3:
+- Add RB tag (thanks)
+- remove double set of qc->scsicmd (Advised by Christoph)
 
-intel_collect_cpu_info_early()
+Changes since v2 series:
+- combine into a single patch
+- use scsi helpers (Damien)
+- use inclusive brackets for commit message description
 
+diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
+index d477e296bda5..311af516a3fd 100644
+--- a/Documentation/driver-api/libata.rst
++++ b/Documentation/driver-api/libata.rst
+@@ -424,12 +424,6 @@ How commands are issued
+ -----------------------
+ 
+ Internal commands
+-    First, qc is allocated and initialized using :c:func:`ata_qc_new_init`.
+-    Although :c:func:`ata_qc_new_init` doesn't implement any wait or retry
+-    mechanism when qc is not available, internal commands are currently
+-    issued only during initialization and error recovery, so no other
+-    command is active and allocation is guaranteed to succeed.
+-
+     Once allocated qc's taskfile is initialized for the command to be
+     executed. qc currently has two mechanisms to notify completion. One
+     is via ``qc->complete_fn()`` callback and the other is completion
+@@ -447,11 +441,6 @@ SCSI commands
+     translated. No qc is involved in processing a simulated scmd. The
+     result is computed right away and the scmd is completed.
+ 
+-    For a translated scmd, :c:func:`ata_qc_new_init` is invoked to allocate a
+-    qc and the scmd is translated into the qc. SCSI midlayer's
+-    completion notification function pointer is stored into
+-    ``qc->scsidone``.
+-
+     ``qc->complete_fn()`` callback is used for completion notification. ATA
+     commands use :c:func:`ata_scsi_qc_complete` while ATAPI commands use
+     :c:func:`atapi_qc_complete`. Both functions end up calling ``qc->scsidone``
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index cceedde51126..5e7d6ccad5da 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -4563,42 +4563,6 @@ void swap_buf_le16(u16 *buf, unsigned int buf_words)
+ #endif /* __BIG_ENDIAN */
+ }
+ 
+-/**
+- *	ata_qc_new_init - Request an available ATA command, and initialize it
+- *	@dev: Device from whom we request an available command structure
+- *	@tag: tag
+- *
+- *	LOCKING:
+- *	None.
+- */
+-
+-struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
+-{
+-	struct ata_port *ap = dev->link->ap;
+-	struct ata_queued_cmd *qc;
+-
+-	/* no command while frozen */
+-	if (unlikely(ap->pflags & ATA_PFLAG_FROZEN))
+-		return NULL;
+-
+-	/* libsas case */
+-	if (ap->flags & ATA_FLAG_SAS_HOST) {
+-		tag = ata_sas_allocate_tag(ap);
+-		if (tag < 0)
+-			return NULL;
+-	}
+-
+-	qc = __ata_qc_from_tag(ap, tag);
+-	qc->tag = qc->hw_tag = tag;
+-	qc->scsicmd = NULL;
+-	qc->ap = ap;
+-	qc->dev = dev;
+-
+-	ata_qc_reinit(qc);
+-
+-	return qc;
+-}
+-
+ /**
+  *	ata_qc_free - free unused ata_queued_cmd
+  *	@qc: Command to complete
+@@ -4611,19 +4575,9 @@ struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag)
+  */
+ void ata_qc_free(struct ata_queued_cmd *qc)
+ {
+-	struct ata_port *ap;
+-	unsigned int tag;
+-
+-	WARN_ON_ONCE(qc == NULL); /* ata_qc_from_tag _might_ return NULL */
+-	ap = qc->ap;
+-
+ 	qc->flags = 0;
+-	tag = qc->tag;
+-	if (ata_tag_valid(tag)) {
++	if (ata_tag_valid(qc->tag))
+ 		qc->tag = ATA_TAG_POISON;
+-		if (ap->flags & ATA_FLAG_SAS_HOST)
+-			ata_sas_free_tag(tag, ap);
+-	}
+ }
+ 
+ void __ata_qc_complete(struct ata_queued_cmd *qc)
+diff --git a/drivers/ata/libata-sata.c b/drivers/ata/libata-sata.c
+index 044a16daa2d4..7a5fe41aa5ae 100644
+--- a/drivers/ata/libata-sata.c
++++ b/drivers/ata/libata-sata.c
+@@ -1268,31 +1268,6 @@ int ata_sas_queuecmd(struct scsi_cmnd *cmd, struct ata_port *ap)
+ }
+ EXPORT_SYMBOL_GPL(ata_sas_queuecmd);
+ 
+-int ata_sas_allocate_tag(struct ata_port *ap)
+-{
+-	unsigned int max_queue = ap->host->n_tags;
+-	unsigned int i, tag;
+-
+-	for (i = 0, tag = ap->sas_last_tag + 1; i < max_queue; i++, tag++) {
+-		tag = tag < max_queue ? tag : 0;
+-
+-		/* the last tag is reserved for internal command. */
+-		if (ata_tag_internal(tag))
+-			continue;
+-
+-		if (!test_and_set_bit(tag, &ap->sas_tag_allocated)) {
+-			ap->sas_last_tag = tag;
+-			return tag;
+-		}
+-	}
+-	return -1;
+-}
+-
+-void ata_sas_free_tag(unsigned int tag, struct ata_port *ap)
+-{
+-	clear_bit(tag, &ap->sas_tag_allocated);
+-}
+-
+ /**
+  *	sata_async_notification - SATA async notification handler
+  *	@ap: ATA port where async notification is received
+diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
+index 06c9d90238d9..42cecf95a4e5 100644
+--- a/drivers/ata/libata-scsi.c
++++ b/drivers/ata/libata-scsi.c
+@@ -638,24 +638,48 @@ EXPORT_SYMBOL_GPL(ata_scsi_ioctl);
+ static struct ata_queued_cmd *ata_scsi_qc_new(struct ata_device *dev,
+ 					      struct scsi_cmnd *cmd)
+ {
++	struct ata_port *ap = dev->link->ap;
+ 	struct ata_queued_cmd *qc;
++	int tag;
+ 
+-	qc = ata_qc_new_init(dev, scsi_cmd_to_rq(cmd)->tag);
+-	if (qc) {
+-		qc->scsicmd = cmd;
+-		qc->scsidone = scsi_done;
+-
+-		qc->sg = scsi_sglist(cmd);
+-		qc->n_elem = scsi_sg_count(cmd);
++	if (unlikely(ap->pflags & ATA_PFLAG_FROZEN))
++		goto fail;
+ 
+-		if (scsi_cmd_to_rq(cmd)->rq_flags & RQF_QUIET)
+-			qc->flags |= ATA_QCFLAG_QUIET;
++	if (ap->flags & ATA_FLAG_SAS_HOST) {
++		/*
++		 * SAS hosts may queue > ATA_MAX_QUEUE commands so use
++		 * unique per-device budget token as a tag.
++		 */
++		if (WARN_ON_ONCE(cmd->budget_token >= ATA_MAX_QUEUE))
++			goto fail;
++		tag = cmd->budget_token;
+ 	} else {
+-		cmd->result = (DID_OK << 16) | SAM_STAT_TASK_SET_FULL;
+-		scsi_done(cmd);
++		tag = scsi_cmd_to_rq(cmd)->tag;
+ 	}
+ 
++	qc = __ata_qc_from_tag(ap, tag);
++	qc->tag = qc->hw_tag = tag;
++	qc->ap = ap;
++	qc->dev = dev;
++
++	ata_qc_reinit(qc);
++
++	qc->scsicmd = cmd;
++	qc->scsidone = scsi_done;
++
++	qc->sg = scsi_sglist(cmd);
++	qc->n_elem = scsi_sg_count(cmd);
++
++	if (scsi_cmd_to_rq(cmd)->rq_flags & RQF_QUIET)
++		qc->flags |= ATA_QCFLAG_QUIET;
++
+ 	return qc;
++
++fail:
++	set_host_byte(cmd, DID_OK);
++	set_status_byte(cmd, SAM_STAT_TASK_SET_FULL);
++	scsi_done(cmd);
++	return NULL;
+ }
+ 
+ static void ata_qc_set_pc_nbytes(struct ata_queued_cmd *qc)
+diff --git a/drivers/ata/libata.h b/drivers/ata/libata.h
+index c9c2496d91ea..926a7f41303d 100644
+--- a/drivers/ata/libata.h
++++ b/drivers/ata/libata.h
+@@ -44,7 +44,6 @@ static inline void ata_force_cbl(struct ata_port *ap) { }
+ #endif
+ extern u64 ata_tf_to_lba(const struct ata_taskfile *tf);
+ extern u64 ata_tf_to_lba48(const struct ata_taskfile *tf);
+-extern struct ata_queued_cmd *ata_qc_new_init(struct ata_device *dev, int tag);
+ extern int ata_build_rw_tf(struct ata_taskfile *tf, struct ata_device *dev,
+ 			   u64 block, u32 n_block, unsigned int tf_flags,
+ 			   unsigned int tag, int class);
+@@ -91,18 +90,6 @@ extern unsigned int ata_read_log_page(struct ata_device *dev, u8 log,
+ 
+ #define to_ata_port(d) container_of(d, struct ata_port, tdev)
+ 
+-/* libata-sata.c */
+-#ifdef CONFIG_SATA_HOST
+-int ata_sas_allocate_tag(struct ata_port *ap);
+-void ata_sas_free_tag(unsigned int tag, struct ata_port *ap);
+-#else
+-static inline int ata_sas_allocate_tag(struct ata_port *ap)
+-{
+-	return -EOPNOTSUPP;
+-}
+-static inline void ata_sas_free_tag(unsigned int tag, struct ata_port *ap) { }
+-#endif
+-
+ /* libata-acpi.c */
+ #ifdef CONFIG_ATA_ACPI
+ extern unsigned int ata_acpi_gtf_filter;
+diff --git a/include/linux/libata.h b/include/linux/libata.h
+index 9b1d3d8b1252..16107122e587 100644
+--- a/include/linux/libata.h
++++ b/include/linux/libata.h
+@@ -820,7 +820,6 @@ struct ata_port {
+ 	unsigned int		cbl;	/* cable type; ATA_CBL_xxx */
+ 
+ 	struct ata_queued_cmd	qcmd[ATA_MAX_QUEUE + 1];
+-	unsigned long		sas_tag_allocated; /* for sas tag allocation only */
+ 	u64			qc_active;
+ 	int			nr_active_links; /* #links with active qcs */
+ 	unsigned int		sas_last_tag;	/* track next tag hw expects */
 -- 
-Regards/Gruss,
-    Boris.
+2.26.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
