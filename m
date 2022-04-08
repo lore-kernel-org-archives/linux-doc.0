@@ -2,108 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB9AC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0B1C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 04:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234104AbiDHEEz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 00:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56316 "EHLO
+        id S234191AbiDHEMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 00:12:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234188AbiDHEEs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:04:48 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645A812925A
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 21:02:43 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id a19so3200211oie.7
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 21:02:42 -0700 (PDT)
+        with ESMTP id S234210AbiDHEMs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 00:12:48 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834C02042BB
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 21:10:45 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id z6so9369085iot.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 21:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HKC7fONhd8yxLSKitQPoRLoju91CAthR2ex0234j8bY=;
-        b=c0UgyBNNALf5HYbJVeAJP6s9fNsd4XhuALmJCxSjQ+nyhI7op3sqI71/PSTpgiYjrh
-         tJFscOcfWpC0mIQOVOi67yFXv2WSZsvISL+tMkmuRMdNAOZsGgSU/7sVQeAZZxkvH8jr
-         nGb/oZ1Vhs2rdY4MzqXWgtCWVsHHUBIG6Gj2FWweCvN4+rnjNLX1YtVUjSmoBORylHJe
-         iDgc1/HiKgQ1J8Gfes63vKhdTMCslKyC+Q1wfXG6fiKQ1HJZQq+sZ8Xz70nhd16FXsuL
-         6QGz29d5L5SgE4bpMCPEi//AcfBA1G3O/E0KdD9gbGPSqq25BQ89K45fltpKOJxncz5i
-         WbjQ==
+         :cc;
+        bh=kLJsh09usQM6KN7slbu+hDyAz10KLaAr5TuAGBF1ET8=;
+        b=gBo+/HbruUwOBKndO6LMcDu/iJv+/tOrAmtZhCfGRubv6KuCygoW0XzqGPxgTnIjUE
+         YsTDHr2rrSBBP4YfBA072r25eyCoMDp623Z9qh4T2KJ/8B9Rst7np2vKyRSlZ6aWzWJ9
+         ZrVqZ0kipXK2bXR/XkFovvZKgn4UZJfIehQfiXfSUyIkHnZs4TO8t80L0fJfGBfxdQ0e
+         Ks3hUVwCWQARQLa89WDBX16qmbJeFLC3C+MqOnQu4ghjjxCkOQcnGZUWk62YF7TAP13I
+         8FRV6jbqN0tq1xYnyrUCZVi227qm1C7BkKEQywopeprRzWbJ2f0+P4RyC2+AILgu8SD8
+         MUKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HKC7fONhd8yxLSKitQPoRLoju91CAthR2ex0234j8bY=;
-        b=FejznflqNqdfrKGGne0lYLFKOSeqEeDaI/AvD1tnPvBuf69dg8S7KBvuYw9767U15J
-         hpRSQYUwi38b+tIOGZdhJy2s1PkmBb7jl5MONWyUyMxccxEf5Pd0s50KY2EesT2A55/q
-         ODzlYBn5mCBE7Pqwu94SPzzWfDasTwWVvR1kEvdZnUuz6WaGPaBRzUGWKfmLTW16iDA8
-         k4q5qY3/OlMnePsPMdTd85S1H3TCtKzpxzZcWTXwx8+OjQGoAmsnRq+xfX1ZgqyqnzMc
-         65MrfYlh1DabTIZlsmGRjFv2ks1iMifNNBYUMsaKl6I8hyqH1HvHmw1vFdsqN3RBBX/I
-         7udQ==
-X-Gm-Message-State: AOAM5317Z/zJFz3cJ5OlaLVfxyT09OlUwf+VvVQ1VGRVbZg0Ptf1SQ1k
-        FvzzK0rejaS78qkyHVKqyXM8gmprjRc0JUFFuDI=
-X-Google-Smtp-Source: ABdhPJzc9yNSaPjGVc0589T0bs5HY8zjSKAza2+4hLu+rkM2hPBAgPGWNYsYzwL4dabjeoa1HiIULaL6Z8YLpdBPiyg=
-X-Received: by 2002:a54:4d01:0:b0:2ec:b5b7:f1a2 with SMTP id
- v1-20020a544d01000000b002ecb5b7f1a2mr7496192oix.130.1649390562353; Thu, 07
- Apr 2022 21:02:42 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=kLJsh09usQM6KN7slbu+hDyAz10KLaAr5TuAGBF1ET8=;
+        b=l3M+jN9Hd2C9qFo42DKzwW4LYWa+Hhwjn3DAZp/K4kB/3AaO/8VyTm1uGg/eteqvQ7
+         mwNknGhv6dtqoewCxvZHOV036k/Es/Ql1QQdBnMSEu4wv0zjztG+axCpPONUok8ukZjG
+         0FGeM8OcZ6G0J6SUiNvHcWUzLv94dO9tvnfRSDKCx+bEgTFwm0wN4szUuPcB1vcLW9Fi
+         vPaSr+IYAE5yBTYNEpd+ZWWk8Mhz7kIxZ0s6gaPb6LItV/o7+gs2RRVgINPTkqYb5Kv0
+         tJEIGH3R0J9dxuuPaJ/tp0HynzXBTyYiH0UuDLNmS9LqP+BzsXQNMLo7DRHI8m+pp6ZW
+         byCA==
+X-Gm-Message-State: AOAM530HRzO/RRTnUdwObP3CNlA5/heyAvZGya3TTw8RfJ+pefCkvz1I
+        naJzYqNW1zFFdQjclmY+8pkl6+a6itLp9n7vr+IyjA==
+X-Google-Smtp-Source: ABdhPJzsHGDQGCBMIEMjZZ+ZfDHTSSvZY148evFFWftTD2yA+ROjdj/6Mou/Sxg7Iwz3kSErR9RaYM0kkHP9g4gRVLk=
+X-Received: by 2002:a5e:dc4c:0:b0:64c:ceff:8916 with SMTP id
+ s12-20020a5edc4c000000b0064cceff8916mr7651721iop.117.1649391044303; Thu, 07
+ Apr 2022 21:10:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220408033921.GA931@DESKTOP-S4LJL03.localdomain> <CAM9d7cjhHyjM2zOZCOsJm+AU2dFUr3rd7mFK4TKrV+jGOKAGQw@mail.gmail.com>
-In-Reply-To: <CAM9d7cjhHyjM2zOZCOsJm+AU2dFUr3rd7mFK4TKrV+jGOKAGQw@mail.gmail.com>
-From:   Paran Lee <p4ranlee@gmail.com>
-Date:   Fri, 8 Apr 2022 13:02:32 +0900
-Message-ID: <CAM-w3QQGcPyXXr+XfjT-4wgFS=1SzKENKRHn1RMsvdCV9XbpAw@mail.gmail.com>
-Subject: Re: Hangeul translation KLDP document - Unreliable Guide To Hacking
- The Linux Kernel - IAMROOT16 linux kernel study group
-To:     Namhyung Kim <namhyung@kernel.org>
-Cc:     linux-doc@vger.kernel.org, rnjsenwls1@gmail.com,
-        =?UTF-8?B?6rmA6rCc66+4?= <oldkyeom@gmail.com>,
-        jw p <n0isenair@gmail.com>, vvghjk1234@gmail.com,
-        skseofh@gmail.com, 239lsg239@gmail.com,
-        Peter Yoo <jh10.yoo@gmail.com>, mcsmonk@gmail.com,
-        kyle.seungchul@gmail.com, ybgwon@gmail.com
+References: <20220331084151.2600229-1-yosryahmed@google.com>
+ <YkcEMdsi9G5y8mX4@dhcp22.suse.cz> <CAAPL-u_i-Mp-Bo7LtP_4aJscY=1JHG_y1H_-A7N_HRAgtz+arg@mail.gmail.com>
+ <87y20nzyw4.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u8wjtBRE7KZyZjoQ0eTJecnW35uEXAE3KU0M+AvL=5-ug@mail.gmail.com>
+ <87o81fujdc.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAAPL-u_6XqQYtLAMNFvEo+0XU2VR=XYm0T9btL=g6rVVW2h93w@mail.gmail.com>
+ <87bkxfudrk.fsf@yhuang6-desk2.ccr.corp.intel.com> <215bd7332aee0ed1092bad4d826a42854ebfd04a.camel@linux.intel.com>
+ <CAAPL-u_aAbDOmATSA8ZvjnfBk_7EoXvLoh0etM0fB0aY1845VQ@mail.gmail.com>
+ <df6110a09cacc80ee1cbe905a71273a5f3953e16.camel@linux.intel.com>
+ <CAAPL-u-oF5HQ26w1czNCmA5VadXOfC54GbGpSppva86YEkefyA@mail.gmail.com> <87y20gtgpf.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87y20gtgpf.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Wei Xu <weixugc@google.com>
+Date:   Thu, 7 Apr 2022 21:10:33 -0700
+Message-ID: <CAAPL-u9hVKx=tgSK7DWLxcbpjJ6oRLyyS=3gqXV9VfKcFmELUQ@mail.gmail.com>
+Subject: Re: [PATCH resend] memcg: introduce per-memcg reclaim interface
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     Tim Chen <tim.c.chen@linux.intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Yosry Ahmed <yosryahmed@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Cgroups <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Greg Thelen <gthelen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks you, Namhyung Kim!
+On Thu, Apr 7, 2022 at 8:08 PM Huang, Ying <ying.huang@intel.com> wrote:
+>
+> Wei Xu <weixugc@google.com> writes:
+>
+> > On Thu, Apr 7, 2022 at 4:11 PM Tim Chen <tim.c.chen@linux.intel.com> wrote:
+> >>
+> >> On Thu, 2022-04-07 at 15:12 -0700, Wei Xu wrote:
+> >>
+> >> >
+> >> > (resending in plain-text, sorry).
+> >> >
+> >> > memory.demote can work with any level of memory tiers if a nodemask
+> >> > argument (or a tier argument if there is a more-explicitly defined,
+> >> > userspace visible tiering representation) is provided.  The semantics
+> >> > can be to demote X bytes from these nodes to their next tier.
+> >> >
+> >>
+> >> We do need some kind of userspace visible tiering representation.
+> >> Will be nice if I can tell the memory type, nodemask of nodes in tier Y with
+> >>
+> >> cat memory.tier_Y
+> >>
+> >>
+> >> > memory_dram/memory_pmem assumes the hardware for a particular memory
+> >> > tier, which is undesirable.  For example, it is entirely possible that
+> >> > a slow memory tier is implemented by a lower-cost/lower-performance
+> >> > DDR device connected via CXL.mem, not by PMEM.  It is better for this
+> >> > interface to speak in either the NUMA node abstraction or a new tier
+> >> > abstraction.
+> >>
+> >> Just from the perspective of memory.reclaim and memory.demote, I think
+> >> they could work with nodemask.  For ease of management,
+> >> some kind of abstraction of tier information like nodemask, memory type
+> >> and expected performance should be readily accessible by user space.
+> >>
+> >
+> > I agree.  The tier information should be provided at the system level.
+> > One suggestion is to have a new directory "/sys/devices/system/tier/"
+> > for tiers, e.g.:
+> >
+> > /sys/devices/system/tier/tier0/memlist: all memory nodes in tier 0.
+> > /sys/devices/system/tier/tier1/memlist: all memory nodes in tier 1.
+>
+> I think that it may be sufficient to make tier an attribute of "node".
+> Some thing like,
+>
+> /sys/devices/system/node/nodeX/memory_tier
+>
 
-We are going to work together on the iamroot16 kernel study time
-tomorrow, saturday!
+This works. If we want additional information about each tier, we can
+then add a tier-specific subtree.
 
-Have a good day :)
-Namhyung Kim
+In addition, it would be good to also expose the demotion target nodes
+(node_demotion[]) via sysfs, e.g.:
 
+/sys/devices/system/node/nodeX/demotion_path
 
-2022=EB=85=84 4=EC=9B=94 8=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 12:45, N=
-amhyung Kim <namhyung@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+which returns node_demotion[X].
+
+> Best Regards,
+> Huang, Ying
 >
-> Hi Paran Lee,
+> > We can discuss this tier representation in a new thread.
+> >
+> >> Tim
+> >>
+> >> >
+> >> > It is also desirable to make this interface stateless, i.e. not to
+> >> > require the setting of memory_dram.reclaim_policy.  Any policy can be
+> >> > specified as arguments to the request itself and should only affect
+> >> > that particular request.
+> >> >
+> >> > Wei
+> >>
 >
-> Thanks for reaching out to me and your work on the kernel.  I am fine wit=
-h updating it and submitting the translation.  Please go ahead.
->
-> Thanks,
-> Namhyung
->
->
-> On Thu, Apr 7, 2022, 8:39 PM Paran Lee <p4ranlee@gmail.com> wrote:
->>
->> Hello Namhyung Kim! I am the Paran Lee of iamroot 16th, the korea arm64 =
-Linux kernel study group.
->>
->> I have a question for you KLDP Hangeul Translation posting about Rusty R=
-ussell's "Unreliable Guide To Hacking The Linux Kernel" liked in https://wi=
-ki.kldp.org/wiki.php/UnreliableGuideToHackingTheLinuxKernel
->>
->> At the time of Linux kernel v4.13-rc1, original document was moved from =
-`Documentation/DocBook/kernel-hacking.tmpl` to its current location `/Docum=
-entation/kernel-hacking/hacking.rst`, and the contents have changed slightl=
-y. linked in https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-nex=
-t.git/log/Documentation/kernel-hacking/hacking.rst
->>
->> Me and our iamroot 16th study group members will review the contents of =
-the translated KLDP document and check the latest Rusty Russell's docs.
->>
->> Is it ok for our study group to reformat from web document to .rst file =
-and add that file to Documentation/translations/ko_KR, where the korea tran=
-slated documents in upstream linux kernel?
