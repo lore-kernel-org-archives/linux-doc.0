@@ -2,143 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA22FC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Apr 2022 23:52:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B241C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Apr 2022 01:20:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232611AbiDGXyF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Apr 2022 19:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
+        id S233357AbiDHBWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Apr 2022 21:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232660AbiDGXyE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 19:54:04 -0400
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F36FD01
-        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 16:52:02 -0700 (PDT)
-Received: by mail-vk1-xa2d.google.com with SMTP id d129so3450414vkh.13
-        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 16:52:02 -0700 (PDT)
+        with ESMTP id S230169AbiDHBWG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Apr 2022 21:22:06 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58FCD14F12E
+        for <linux-doc@vger.kernel.org>; Thu,  7 Apr 2022 18:20:04 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id k23so14331534ejd.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 Apr 2022 18:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V2o8XyYQ0xmNcxKBL4HU7d9kJ83bRGbyiA4C3lqn/Jg=;
-        b=pHa9t1vY4G3g2veZzfNaljZ/ODjXhV2qKJlnku7tStXx/0bNUioBEP3vV3f0BDiuK6
-         hH94GBax6Xp/sQJXPDobV4hjMyHFpCJOJaggMaEnDIAAW4ogVzp/3xpwWmhnl/FmXBHo
-         f9FIDTu1gAk8+OOMPOS4KCSGJkzTxlwjzsTeW2yWq86SPpiyjw0UvzuGv2S6NxLXZIKJ
-         +/Oe9syDdzEZuz/BrOKZT0KJEH6QF4YyK93gFRcaGmj715NClbnKJHCwJOqcw4s5H8SC
-         VNHBGY74iMRpwF+Afqjt3G9ynR6r7jacBDvoE93qsSq7iW+qGFGJVpn6Sshd0TVf8skQ
-         QRIw==
+         :cc:content-transfer-encoding;
+        bh=CpBl2AGd626FECD+GIqEV6PBhceN/t8eGFzx+f7coUk=;
+        b=3cPiceV6hD/ZvOf4gFgz+/Zbbb1qxTfbkNm4XV6V5+xHRZD/OwWXS0rT8rsxbHD5AA
+         IXmkMGgR23uopQ7vhW5gxFcqnpbiYaxhY71cDh75hcRDbB3kJ98qpB6i+HBgSHyaFoAw
+         poQe6uB/Nk6A7T1dk7kws1/GpzkcuhWzby3KtcTalLTu92PLzXSIfw+wihYnHcDRomq3
+         XiVAzl5h9QxfyyG9nyGkjDICoKwRhiOjGRjpGaQPn70KJgqmpq99q4226V6jiemKN9kt
+         Tc+H08w49VdTo/MxPl0R+CwjOzZO2Y/ATnGJGomCoLfbdpSKA6lue/maVB9gdrRAnUCm
+         U7cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V2o8XyYQ0xmNcxKBL4HU7d9kJ83bRGbyiA4C3lqn/Jg=;
-        b=hxytribmtyxntzgA6HfiU/emMtU4P5hXkaW7l59VlU7d7Ebv8d7lsjAaNcipsjPN27
-         z5H9uwxVCztn+nrGfKUA4VzLDjCj3C7Cki9b6/jL0QoNrjsTkwtxqtauBSb2ZhXFfmzh
-         pdalI+dAkomA/Tj8etYrZPgdnDAQNaG6Du3RRnXNzD6tiMDkdfmrhl9RHzPvLufrfshZ
-         kA1teFWq85h2Mxw2m4IJ/e+QJrtPjnPRDMKrncxf9bapNHpv32mIwJrKolgQyITGAtmi
-         xEo1RFcnaIlBtJmCmxjUVi4j1/B4hKV5KEOryJrDl0Arb7pg5dTHK+NiUqztD+3rYnwL
-         GuhA==
-X-Gm-Message-State: AOAM530lt+nOxCrcw/qqiG8C3r0dYIo48Rw1FDs9o4XWh7yELsOQ+9vC
-        Wi5+Dfru4EriG3QWwD1VuijWodNypSM96uNOFp59dg==
-X-Google-Smtp-Source: ABdhPJw/ZEsQZOlZeReph1+ASuuLZlJIuOVM82pvmZCPJ8cvFd3dbcfY3do0xiB4PlkDl4vZ7xT9XS2v6fqp8nCNOS4=
-X-Received: by 2002:a1f:a9cb:0:b0:33e:d145:85f0 with SMTP id
- s194-20020a1fa9cb000000b0033ed14585f0mr6025223vke.7.1649375521681; Thu, 07
- Apr 2022 16:52:01 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CpBl2AGd626FECD+GIqEV6PBhceN/t8eGFzx+f7coUk=;
+        b=NetjT5Nkt5dPD+MTFQ51kxezfJ3sbUk3xWwmq5YPSR2OUSyWeFFRz7Yo90DjSwGFfI
+         jYQ6MfbfCGl484FlN88xoFNyjbxkaPIcGIBw/iQl20e133wwG1tX1GOeqTYqm29GNMVJ
+         fqasTUoQJMhBzXUwoFPCQi6cTeIC7lPqlsVsODYxXhcfo8DI8qrtk9M4ePyMDSmfbHbG
+         rvtSvmihFxonoZN8JLi0rHzVIBlJQhErCJ7BJhe9g3EWSgDSHwixrxeKWZQZ+vnD7u9f
+         fonsgOcYqfB0TLgt+2IxalAoX8gICP8UbJdUI4uvonGVS7SxlNmCW2lK/lolSSVMzvV+
+         Oj9w==
+X-Gm-Message-State: AOAM532Eg/9unQZLtTdN+p/Im2xwS9aNOtUsyT2ttmP6oP3mOwHEnkZK
+        dDLNEZfZgs3L2K4BI4R/UruiKRWBVv2cyZlkMQLX
+X-Google-Smtp-Source: ABdhPJwNkET74mR679RYTNFG2h05EKTSAGXbm9p/d1NNz5+zhishf2TSABELSlkCZxkK0XW+Qj9Ih8VcPHPiYGE0eec=
+X-Received: by 2002:a17:907:9803:b0:6db:ab21:738e with SMTP id
+ ji3-20020a170907980300b006dbab21738emr15515948ejc.112.1649380802771; Thu, 07
+ Apr 2022 18:20:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220309021230.721028-1-yuzhao@google.com> <20220309021230.721028-8-yuzhao@google.com>
- <CAGsJ_4wVA6G42y4Oj7ToaCoroZTRbS-tU606ELwra3_Sfrgo7w@mail.gmail.com>
- <CAOUHufbUdoWiBF5x2ZeK104jT39zAuuU0xXKZ51eaU6P8SNUyg@mail.gmail.com> <CAGsJ_4z=vkub4e5J5ggsTN=YN4qsqmXSOpf_gu993oOGreLjPg@mail.gmail.com>
-In-Reply-To: <CAGsJ_4z=vkub4e5J5ggsTN=YN4qsqmXSOpf_gu993oOGreLjPg@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 7 Apr 2022 17:51:50 -0600
-Message-ID: <CAOUHufbU=Uov54da8u9AqEuP0Y-1T2Khgd5Br-AhTfP=jbM1mA@mail.gmail.com>
-Subject: Re: [PATCH v9 07/14] mm: multi-gen LRU: exploit locality in rmap
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+References: <20220329125117.1393824-1-mic@digikod.net> <20220329125117.1393824-7-mic@digikod.net>
+In-Reply-To: <20220329125117.1393824-7-mic@digikod.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 7 Apr 2022 21:19:51 -0400
+Message-ID: <CAHC9VhQg0R5ddC_aLSAFyyf9OPs6wSyj3tqh1hwoN=RPpoDFuQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/12] LSM: Remove double path_rename hook calls for RENAME_EXCHANGE
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 6, 2022 at 9:46 PM Barry Song <21cnbao@gmail.com> wrote:
+On Tue, Mar 29, 2022 at 8:51 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
 >
-> On Thu, Apr 7, 2022 at 3:04 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > On Wed, Apr 6, 2022 at 8:29 PM Barry Song <21cnbao@gmail.com> wrote:
-> > >
-> > > On Wed, Mar 9, 2022 at 3:48 PM Yu Zhao <yuzhao@google.com> wrote:
-> > > >
-> > > > Searching the rmap for PTEs mapping each page on an LRU list (to test
-> > > > and clear the accessed bit) can be expensive because pages from
-> > > > different VMAs (PA space) are not cache friendly to the rmap (VA
-> > > > space). For workloads mostly using mapped pages, the rmap has a high
-> > > > CPU cost in the reclaim path.
-> > > >
-> > > > This patch exploits spatial locality to reduce the trips into the
-> > > > rmap. When shrink_page_list() walks the rmap and finds a young PTE, a
-> > > > new function lru_gen_look_around() scans at most BITS_PER_LONG-1
-> > > > adjacent PTEs. On finding another young PTE, it clears the accessed
-> > > > bit and updates the gen counter of the page mapped by this PTE to
-> > > > (max_seq%MAX_NR_GENS)+1.
-> > >
-> > > Hi Yu,
-> > > It seems an interesting feature to save the cost of rmap. but will it lead to
-> > > possible judging of cold pages as hot pages?
-> > > In case a page is mapped by 20 processes,  and it has been accessed
-> > > by 5 of them, when we look around one of the 5 processes, the page
-> > > will be young and this pte is cleared. but we still have 4 ptes which are not
-> > > cleared. then we don't access the page for a long time, but the 4 uncleared
-> > > PTEs will still make the page "hot" since they are not cleared, we will find
-> > > the page is hot either due to look-arounding the 4 processes or rmapping
-> > > the page later?
-> >
-> > Why are the remaining 4 accessed PTEs skipped? The rmap should check
-> > all the 20 PTEs.
+> From: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
 >
-> for example page A is the neighbour of page B in process 1, when we do rmap
-> for B, we look-around and clear A's pte in process 1. but A's ptes are
-> still set in
-> process 2,3,4,5.
+> In order to be able to identify a file exchange with renameat2(2) and
+> RENAME_EXCHANGE, which will be useful for Landlock [1], propagate the
+> rename flags to LSMs.  This may also improve performance because of the
+> switch from two set of LSM hook calls to only one, and because LSMs
+> using this hook may optimize the double check (e.g. only one lock,
+> reduce the number of path walks).
+>
+> AppArmor, Landlock and Tomoyo are updated to leverage this change.  This
+> should not change the current behavior (same check order), except
+> (different level of) speed boosts.
+>
+> [1] https://lore.kernel.org/r/20220221212522.320243-1-mic@digikod.net
+>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Kentaro Takeda <takedakn@nttdata.co.jp>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Acked-by: John Johansen <john.johansen@canonical.com>
+> Acked-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Link: https://lore.kernel.org/r/20220329125117.1393824-7-mic@digikod.net
+> ---
+>
+> Changes since v1:
+> * Import patch from
+>   https://lore.kernel.org/r/20220222175332.384545-1-mic@digikod.net
+> * Add Acked-by: Tetsuo Handa.
+> * Add Acked-by: John Johansen.
+> ---
+>  include/linux/lsm_hook_defs.h |  2 +-
+>  include/linux/lsm_hooks.h     |  1 +
+>  security/apparmor/lsm.c       | 30 +++++++++++++++++++++++++-----
+>  security/landlock/fs.c        | 12 ++++++++++--
+>  security/security.c           |  9 +--------
+>  security/tomoyo/tomoyo.c      | 11 ++++++++++-
+>  6 files changed, 48 insertions(+), 17 deletions(-)
 
-It makes no difference because it's too insignificant. The goal is not
-to give several million pages unique timestamps and sort them; it's to
-partition pages on the orders one tenth to a few seconds and quickly
-find some reasonable candidates. Temporal locality gets weaker
-exponentially over time. Even on small systems, the difference is not
-measurable if several thousand pages used in the last few seconds are
-chosen over another several thousand pages used in the last minute.
+Seems like a nice improvement to me, and while I'm not an AppArmor,
+Tomoyo, or Landlock expert the changes looked pretty straightforward.
+
+Reviewed-by: Paul Moore <paul@paul-moore.com>
+
+--=20
+paul-moore.com
