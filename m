@@ -2,103 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29955C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Apr 2022 01:18:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FFBC433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Apr 2022 01:22:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237616AbiDIBUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Apr 2022 21:20:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35050 "EHLO
+        id S230331AbiDIBYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Apr 2022 21:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiDIBUO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 21:20:14 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430C56398;
-        Fri,  8 Apr 2022 18:18:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 96EF3CE2E75;
-        Sat,  9 Apr 2022 01:18:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F209FC385A3;
-        Sat,  9 Apr 2022 01:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649467085;
-        bh=JDgbXu1r/B28ewr+7REvw/NDIWKfigmu2Yr8qTLopwE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=oMkqk95vMf9qSSqPS3B6245igexQ2zmPBPLB2m/ASzh3TnC6e4FjjA+Jn+8DQ3kNy
-         uXLRF6CHxMJGvVRpdGvHaoK/XcFqUKJY08D8oEzl16F5fSK7EV2aUFKljDvjwIirCk
-         0K3Z71zNI50eW88wneZHvjHpHNA3RlsHNDoOHDmX4vPM7sA7t8goyEyf3an446d6aB
-         RXj0DXXd+Yr9kib8b0UBkLRerzelf8JykaOP4v7UQiRv8Dvw+bpa115QX0agKjkxgq
-         0O6rpNjYX77A9i4KJ4QAwL0AJSB3CzvS+xxW4/hyqkTiKlKhKLjQBQQL6vqSmCA7Hz
-         Zs492SPJefBHA==
-Message-ID: <d7a85a29-0d7f-b5e2-c908-4aa9f89bb476@kernel.org>
-Date:   Fri, 8 Apr 2022 19:18:03 -0600
+        with ESMTP id S237706AbiDIBYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Apr 2022 21:24:39 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B60B02C650
+        for <linux-doc@vger.kernel.org>; Fri,  8 Apr 2022 18:22:33 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id ku13-20020a17090b218d00b001ca8fcd3adeso13383068pjb.2
+        for <linux-doc@vger.kernel.org>; Fri, 08 Apr 2022 18:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I0F2P2ML/pBi824KYgTw5KU1Y45bJmTHodkEFj/msPE=;
+        b=rnIIkb90V9I9bcpVMa5/w0cTf4Gar8GVFDke+JSlU2hEHFp3OsRcTAqk7dfPeFG8tF
+         dDExEmFCxiNoVK2EMa1ylHUlmv7DSThq6XmiX4TNJLDsXoKoUElD/mYy3ENP5lUCX6Cm
+         L0cqaNurq1CWtLL/S3jZRhd8I253TJx1CfvGJLV8g4b2GyGGXfVeqwYyZcNtCYqWoaTJ
+         rljgm3m6gGpplEG1geT3BvdWqZgCrGRUG3e99TyERwVqbDQLP1p54prwkHbmcNQHKk4J
+         2yNkYps6CqNhbHgl2xIZXaESlcelXNqaHtoVajN8GB4WEs0RS7UrQYqzpjddvSoSRqdi
+         sZ6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I0F2P2ML/pBi824KYgTw5KU1Y45bJmTHodkEFj/msPE=;
+        b=qlXSy2q4JuPJPMerOR/JPZn1F3Fa6yIjRXuXjnEXxXMfvt5ycvF/hkvh8sSNp15vI7
+         WdAuRE2JUgpOLy0qkraNlFPEgYaRfXOhF+4w1bkz18KIwRZi7mFnOFC4PbbLwRZXRGi1
+         STZFUcg2eYPxtMiry7jdcKku9R3/1+pkWWjespEIQnX6yRb6WZ/Yx3BogRd+Q5sPEemB
+         CEu+iRXW5rlm+VCT0mk5CU8lf8Lw8oFkk8ClD6uXjL+09WCcN6xCsekwwZXmgJ0tP2cw
+         EK6tOfWvRgAxSxF1gfXMJKzAV30v77VHIG86fXGYAhbRUKu5GwpNdM+K2Hn+y+2sLYWD
+         EE6A==
+X-Gm-Message-State: AOAM530ENwqJ5IVSEjAwt2cmDByscWp6TxoPdRZ0/5hmQvQrJVH3XbfQ
+        96HxN496pDKVgPDEDcAWdMziEp2Pifx5snRbBkIRFQ==
+X-Google-Smtp-Source: ABdhPJyJCUjj5J7R135dzSPAdcxIjuPzJmPklzIABqKF59nyK/U0cF2KfJdhnRS2Ev/Kou5gxn1s4+XTYi7R+kW7BNM=
+X-Received: by 2002:a17:90b:3886:b0:1c7:c935:4447 with SMTP id
+ mu6-20020a17090b388600b001c7c9354447mr25107776pjb.196.1649467351747; Fri, 08
+ Apr 2022 18:22:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH net-next v2] net/ipv6: Introduce accept_unsolicited_na
- knob to implement router-side changes for RFC9131
-Content-Language: en-US
-To:     Arun Ajith S <aajith@arista.com>, netdev@vger.kernel.org
-Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, yoshfuji@linux-ipv6.org,
-        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-        prestwoj@gmail.com, gilligan@arista.com, noureddine@arista.com,
-        gk@arista.com
-References: <20220407074428.1623-1-aajith@arista.com>
-From:   David Ahern <dsahern@kernel.org>
-In-Reply-To: <20220407074428.1623-1-aajith@arista.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220408045743.1432968-1-yosryahmed@google.com> <20220408045743.1432968-3-yosryahmed@google.com>
+In-Reply-To: <20220408045743.1432968-3-yosryahmed@google.com>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Fri, 8 Apr 2022 18:21:55 -0700
+Message-ID: <CAJD7tkb6VJt=pfqnW11r6S7A0r2Vh85a3YZaVso-qyiCM06nDQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] selftests: cgroup: return the errno of write() in
+ cg_write() on failure
+To:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     David Rientjes <rientjes@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/7/22 1:44 AM, Arun Ajith S wrote:
-> Add a new neighbour cache entry in STALE state for routers on receiving
-> an unsolicited (gratuitous) neighbour advertisement with
-> target link-layer-address option specified.
-> This is similar to the arp_accept configuration for IPv4.
-> A new sysctl endpoint is created to turn on this behaviour:
-> /proc/sys/net/ipv6/conf/interface/accept_unsolicited_na.
-> 
-> Signed-off-by: Arun Ajith S <aajith@arista.com>
-> Tested-by: Arun Ajith S <aajith@arista.com>
-
-you don't need the Tested-by line since you wrote the patch; you are
-expected to test it.
-
-
-> diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-> index 1afc4c024981..1b4d278d0454 100644
-> --- a/net/ipv6/addrconf.c
-> +++ b/net/ipv6/addrconf.c
-> @@ -5587,6 +5587,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
->  	array[DEVCONF_IOAM6_ID] = cnf->ioam6_id;
->  	array[DEVCONF_IOAM6_ID_WIDE] = cnf->ioam6_id_wide;
->  	array[DEVCONF_NDISC_EVICT_NOCARRIER] = cnf->ndisc_evict_nocarrier;
-> +	array[DEVCONF_ACCEPT_UNSOLICITED_NA] = cnf->accept_unsolicited_na;
+On Thu, Apr 7, 2022 at 9:57 PM Yosry Ahmed <yosryahmed@google.com> wrote:
+>
+> Currently, cg_write() returns 0 on success and -1 on failure. Modify it
+> to return the errno of write() syscall when write() fails.
+>
+> Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+> ---
+>  tools/testing/selftests/cgroup/cgroup_util.c | 32 +++++++++++---------
+>  1 file changed, 17 insertions(+), 15 deletions(-)
+>
+> diff --git a/tools/testing/selftests/cgroup/cgroup_util.c b/tools/testing/selftests/cgroup/cgroup_util.c
+> index dbaa7aabbb4a..3b6bb09985fa 100644
+> --- a/tools/testing/selftests/cgroup/cgroup_util.c
+> +++ b/tools/testing/selftests/cgroup/cgroup_util.c
+> @@ -38,23 +38,23 @@ static ssize_t read_text(const char *path, char *buf, size_t max_len)
+>         return len;
 >  }
->  
->  static inline size_t inet6_ifla6_size(void)
-> @@ -7037,6 +7038,13 @@ static const struct ctl_table addrconf_sysctl[] = {
->  		.extra1		= (void *)SYSCTL_ZERO,
->  		.extra2		= (void *)SYSCTL_ONE,
->  	},
-> +	{
-> +		.procname	= "accept_unsolicited_na",
-> +		.data		= &ipv6_devconf.accept_unsolicited_na,
-> +		.maxlen		= sizeof(int),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec,
-> +	},
+>
+> -static ssize_t write_text(const char *path, char *buf, ssize_t len)
+> +/*
+> + * Returns:
+> + *     success -> 0
+> + *     open() failure -> -1
+> + *     write() failure -> errno
+> + */
+> +static int write_text(const char *path, char *buf, ssize_t len)
+>  {
+> -       int fd;
+> +       int fd, ret;
+>
+>         fd = open(path, O_WRONLY | O_APPEND);
+>         if (fd < 0)
+>                 return fd;
+>
+> -       len = write(fd, buf, len);
+> -       if (len < 0) {
+> -               close(fd);
+> -               return len;
+> -       }
+> -
+> +       ret = write(fd, buf, len) < 0 ? errno : 0;
+>         close(fd);
+> -
+> -       return len;
+> +       return ret;
+>  }
+>
+>  char *cg_name(const char *root, const char *name)
+> @@ -177,17 +177,19 @@ long cg_read_lc(const char *cgroup, const char *control)
+>         return cnt;
+>  }
+>
+> +/*
+> + * Returns:
+> + *     success -> 0
+> + *     open() failure -> -1
+> + *     write() failure -> errno
+> + */
+>  int cg_write(const char *cgroup, const char *control, char *buf)
+>  {
+>         char path[PATH_MAX];
+>         ssize_t len = strlen(buf);
+>
+>         snprintf(path, sizeof(path), "%s/%s", cgroup, control);
+> -
+> -       if (write_text(path, buf, len) == len)
+> -               return 0;
+> -
+> -       return -1;
+> +       return write_text(path, buf, len);
+>  }
 
-I realize drop_unsolicited_na does not have limits, but this is a new
-sysctl - add the upper and lower bounds via extra1 and extra2 arguments.
+I have changed this in v4 to a cleaner implementation that either
+returns 0 on success or -errno on failure. I also made sure to check
+that the full buffer was being written, and updated cg_read() as well
+for the interface to be consistent.
 
+Will send out once the discussion on patch 1 in v3 reaches a consensus.
 
-
-also, please add test cases under tools/testing/selftests/net. You can
-use fib_tests.sh as a template. mausezahn is already used in a number of
-tests; it should be able to create the NA packets. Be sure to cover
-combinations of drop and accept settings.
+>
+>  int cg_find_unified_root(char *root, size_t len)
+> --
+> 2.35.1.1178.g4f1659d476-goog
+>
