@@ -2,101 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CE2C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Apr 2022 07:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCA6C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Apr 2022 08:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238982AbiDIH4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Apr 2022 03:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46500 "EHLO
+        id S237547AbiDIIP0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Apr 2022 04:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236506AbiDIH4A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Apr 2022 03:56:00 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A03065823;
-        Sat,  9 Apr 2022 00:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RdaGnqMln3670/kDQ7mKAMFJwaZLOEULPAbgvLVVG7U=; b=biNBw+AmPhGVWsLvNIg7LdLyPE
-        Wc63D/ma3GbzIZqb0n5ZnVGBFo1bdg4BwXlt2nEq4GWfm0+AH0bdQ+OLovrDo/yizqEkE0eMZ28Qd
-        W7hGJlAA5dknkANJSCSzuO+p1Hf3i+RGfBKpgCnRuF3RSgKJjA+P1xdMwSdX+8Al6+iRLqPFff4Oh
-        ybI8THGQLShPPXH+pBPD1jVUqkAawRrDup/5UCYrv1Y1VIzm3zdvEg0KfYMDUdAh8oF63XK3/+XYU
-        Dxr6c7fUYTuUGG6++JPc6AsXhv06dDmC/lEdj+yhgsaaznUHHOcaQDIKWYnMPXjhjelqWfGEXPPFr
-        SRMu22OQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nd5uC-00AXsS-IM; Sat, 09 Apr 2022 07:53:12 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5DAE8300299;
-        Sat,  9 Apr 2022 09:53:09 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1C2B820C50BE8; Sat,  9 Apr 2022 09:53:09 +0200 (CEST)
-Date:   Sat, 9 Apr 2022 09:53:09 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     cgel.zte@gmail.com
-Cc:     akpm@linux-foundation.org, david@redhat.com, corbet@lwn.net,
-        bsingharora@gmail.com, mike.kravetz@oracle.com,
-        yang.yang29@zte.com.cn, wang.yong12@zte.com.cn,
-        ran.xiaokai@zte.com.cn, jiang.xuexin@zte.com.cn,
-        thomas.orgis@uni-hamburg.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        sfr@canb.auug.org.au
-Subject: Re: [PATCH v2] delayacct: track delays from write-protect copy
-Message-ID: <YlE7ZVMfAhs4Ba27@hirez.programming.kicks-ass.net>
-References: <20220409014342.2505532-1-yang.yang29@zte.com.cn>
+        with ESMTP id S234210AbiDIIPZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Apr 2022 04:15:25 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116942DD58;
+        Sat,  9 Apr 2022 01:13:20 -0700 (PDT)
+From:   Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1649491997;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=pFzCSKR7Mj3eFHDV5uYg79nOA2mgZ7Z8ghkTdFnmA2M=;
+        b=M6gInquBuYlHQLj4q/VchocaySCfZdv/kJ++HxEh2gqjIKrL1GL9VX0hUP7anUDktyrTRN
+        Su7MP338oGS0Hav7B3qQxsX7BvS9D56YLklP3YNLr+nSfz4k6NmBlzmeZqoYeSn4eXlk45
+        EjLK3CZqtMIgExl9O+92KKzECbdR3UjV4ERGZHy+sHLs+42vtGTnwxCp0zd9zaFL8a/BUA
+        66UrMytVHwsBr536/qNLDeNcODcrwSc6ezAHg6IaBVeqtsjYWEQ7SV/bcefk2htSeDiPso
+        LaiQmsE5fB7SLEuUDRqAV7b8t8cyvQ/J8fcEnmenvglh+HrD/CJqbd2Oz9ei4w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1649491997;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=pFzCSKR7Mj3eFHDV5uYg79nOA2mgZ7Z8ghkTdFnmA2M=;
+        b=9bkcjq9J6pVEfSsRoRfO9VCadpyN+lDsN0thArHJd4KgI5+1f23CRhhsDckGTg+Xcsg8iP
+        ekf4JvL/6a70VFCA==
+To:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kurt Kanzenbach <kurt@linutronix.de>
+Subject: [PATCH 0/3] tracing: Introduce trace clock tai
+Date:   Sat,  9 Apr 2022 10:12:57 +0200
+Message-Id: <20220409081300.4762-1-kurt@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220409014342.2505532-1-yang.yang29@zte.com.cn>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 09, 2022 at 01:43:44AM +0000, cgel.zte@gmail.com wrote:
-> From: Yang Yang <yang.yang29@zte.com.cn>
-> 
-> Delay accounting does not track the delay of write-protect copy. When
-> tasks trigger many write-protect copys(include COW and unsharing of
-> anonymous pages[1]), it may spend a amount of time waiting for them.
-> To get the delay of tasks in write-protect copy, could help users to
-> evaluate the impact of using KSM or fork() or GUP.
-> 
-> Also update tools/accounting/getdelays.c:
-> 
->     / # ./getdelays -dl -p 231
->     print delayacct stats ON
->     listen forever
->     PID     231
-> 
->     CPU             count     real total  virtual total    delay total  delay average
->                      6247     1859000000     2154070021     1674255063          0.268ms
->     IO              count    delay total  delay average
->                         0              0              0ms
->     SWAP            count    delay total  delay average
->                         0              0              0ms
->     RECLAIM         count    delay total  delay average
->                         0              0              0ms
->     THRASHING       count    delay total  delay average
->                         0              0              0ms
->     COMPACT         count    delay total  delay average
->                         3          72758              0ms
->     WPCOPY          count    delay total  delay average
->                      3635      271567604              0ms
-> 
-> [1] commit 31cc5bc4af70("mm: support GUP-triggered unsharing of anonymous pages")
-> 
-> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Jiang Xuexin <jiang.xuexin@zte.com.cn>
-> Reviewed-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
-> Reviewed-by: wangyong <wang.yong12@zte.com.cn>
+Hi,
 
-As per always; I refuse to take patches from cgel.zte@gmail.com. Because
-yet again From and Sender don't match.
+the Linux kernel tracing infrastructure has support for using different clocks
+to generate timestamps for trace events. Especially in TSN networks it's useful
+to have TAI as trace clock, because the application scheduling is done in
+accordance to the network time, which is based on TAI. With a tai trace_clock in
+place, it becomes very convenient to correlate network activity with Linux
+kernel application traces.
 
-If you want me to consider your email, please send from the email
-address you've listed in your SoB.
+However, there's no fast accessor for CLOCK_TAI yet. Therefore, patch #1 is
+adding one. Patch #2 introduces the clock and the last one adds documentation
+for it.
+
+Thanks,
+Kurt
+
+Kurt Kanzenbach (3):
+  timekeeping: Introduce fast accessor to clock tai
+  tracing: Introduce trace clock tai
+  tracing: Add documentation for trace clock tai
+
+ Documentation/trace/ftrace.rst | 12 ++++++++++++
+ include/linux/timekeeping.h    |  1 +
+ kernel/time/timekeeping.c      | 17 +++++++++++++++++
+ kernel/trace/trace.c           |  1 +
+ 4 files changed, 31 insertions(+)
+
+-- 
+2.30.2
+
