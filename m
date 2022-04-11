@@ -2,82 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6836FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 20:58:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8C1C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 21:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243481AbiDKVA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 17:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
+        id S234903AbiDKVID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 17:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234574AbiDKVA4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 17:00:56 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFF325295;
-        Mon, 11 Apr 2022 13:58:40 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1649710718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Y9TgkPsl7PyK9/9vchpS586Qdh2s6nbjRZCiEVa2GjI=;
-        b=Tkj8hb6wjt489YfOjb1WKjifuBNaX7h9jgYodPxy0Cghih4P3z7/3m+qloNvSJkvKwpGc+
-        crmTOCmX5tIP6tWMDxno1pfIweHHzQD/IL2n7ZXXbBhe7WJHWEZ9gltK8mGyY0LpW21em8
-        sA8i9Ir5ew6JsMnVdqv89K8zG44tAcvYw8aa7noFfsQh14868trqSElYzgqWvxZm8sqcZV
-        lOJKJBdSrJIKdLbH9Nin4SG5qSrvazDaskDqKaTQY7p+sBn2GpOMhXfbxxGm4kpC2+zakC
-        ss88EhM5Mgo/6DpVIY+VZR+NT7OvE8atgYPGE9BswVm+9C8WyR7uiXq6Tdljgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1649710718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Y9TgkPsl7PyK9/9vchpS586Qdh2s6nbjRZCiEVa2GjI=;
-        b=hwefFdMZwEuMJZZ27Jxd1Z6uB5hkk5DyvCT2yo+o7TZy24X3gEFEGjz8FKO8ofxk+jTrfN
-        DFU2un8L7G14IVCw==
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] timekeeping: Introduce fast accessor to clock tai
-In-Reply-To: <871qy6hu8q.ffs@tglx>
-References: <20220409081300.4762-1-kurt@linutronix.de>
- <20220409081300.4762-2-kurt@linutronix.de>
- <20220409093727.7dda6371@rorschach.local.home> <871qy6hu8q.ffs@tglx>
-Date:   Mon, 11 Apr 2022 22:58:37 +0200
-Message-ID: <87k0bvfibm.ffs@tglx>
+        with ESMTP id S230074AbiDKVIC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 17:08:02 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E428B1C3;
+        Mon, 11 Apr 2022 14:05:47 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id 88-20020a9d0ee1000000b005d0ae4e126fso12136836otj.5;
+        Mon, 11 Apr 2022 14:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yxvMPm4Er+k4XJD+1T3NqzNOxccKbRO/T6RynpjDsiI=;
+        b=hdB/UTz3V1XEYy9ZsFEeDNEmhNmZyWZdVOugUlwHb/KntYpTlqZ5jjy/JE1m3aJ3RX
+         /0vK/8jKlgXu1ihYZ5yeHWUGyKk5nBeDgs7RFvo9K+vgVMuOBReeIHz6+oEkFS646C1I
+         0Ehoeq+Prd3bbTgrlKfJq22gN5bZULuT78Ns7Od4FRs7FAmewwPBEb9/tx05TpHpKzUa
+         hZiAEyjbcN84orkofRba9VaHml/RSwzi95v+5xMZKpYzgiNcPVCZkhdc24HrMMg1BeMp
+         sZfV1lTlMntFRiE249+yMGMz22VNSYP5vMvQM30AFZHqZQmur3+J9JnP5mh0Kjbr6ukN
+         z3+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yxvMPm4Er+k4XJD+1T3NqzNOxccKbRO/T6RynpjDsiI=;
+        b=RSW8sSpqtn5cRLw3CIi9kqWT0VBZCzD6eMcga1pYADM4AaItYBl2ILCh446Q/wW4/G
+         pVLHlPBLRqwRe+F6oD9fkph5VE+SuXyfsOML4tuvvJlMlq+bSXmhtYDQ/JVpT//IjAWp
+         JL5Bzqgkm+OIVSu+HzsZqVAmGUze3nkCKFG/qG1lwbxG3b8Cfr1cEmMMPJnX2wtQLgto
+         1sNdImdZaq630EV9+czwF+bQhzV2wSrPi4I0I157sPNqEuQoXqLUSIKrnnlsgoZHf+UF
+         0T+/308sWVJKi34aqflsSkiKKxND8bpMT/H3toAExvHFgXbuv4ADG5FjIV1M4svKyAzI
+         hOIQ==
+X-Gm-Message-State: AOAM532NNINuDa/BHQU0eIKtAwiuEaH2kF6I+RCsv5glALrogDD2zE60
+        pn28r1Cu7lE8/Kra0DI3aL0p97RS5hRcRA==
+X-Google-Smtp-Source: ABdhPJyDdgma6U7O/MrlZEQ94di4kWlbOTGUGk8PHodDppNYjdLS4SE3n634uL9fc6swAiDTKdweMQ==
+X-Received: by 2002:a05:6830:11c2:b0:5cd:9272:326a with SMTP id v2-20020a05683011c200b005cd9272326amr11868693otq.102.1649711146712;
+        Mon, 11 Apr 2022 14:05:46 -0700 (PDT)
+Received: from tresc043793.tre-sc.gov.br ([187.94.103.218])
+        by smtp.gmail.com with ESMTPSA id d1-20020a056830138100b005cf2f29d89csm12377462otq.77.2022.04.11.14.05.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Apr 2022 14:05:46 -0700 (PDT)
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, tobias@waldekranz.com, andrew@lunn.ch,
+        f.fainelli@gmail.com, vladimir.oltean@nxp.com, corbet@lwn.net,
+        kuba@kernel.org, davem@davemloft.net,
+        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+        =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+Subject: [PATCH net-next] net: dsa: realtek: add compatible strings for RTL8367RB-VB
+Date:   Mon, 11 Apr 2022 18:04:07 -0300
+Message-Id: <20220411210406.21404-1-luizluca@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 09 2022 at 22:33, Thomas Gleixner wrote:
-> On Sat, Apr 09 2022 at 09:37, Steven Rostedt wrote:
->> On Sat,  9 Apr 2022 10:12:58 +0200
->> Kurt Kanzenbach <kurt@linutronix.de> wrote:
->>
->>> ---
->>>  include/linux/timekeeping.h |  1 +
->>>  kernel/time/timekeeping.c   | 17 +++++++++++++++++
->>>  2 files changed, 18 insertions(+)
->>
->> If the time keeping folks are OK with this and ack it, I'm happy to
->> take this through my tree.
->
-> Go ahead. I just sent a Reviewed-by and I don't see conflicting changes
-> in that area. Famous last words :)
+RTL8367RB-VB was not mentioned in the compatible table, nor in the
+Kconfig help text.
 
-And yes, I have some conflicting changes in the pipeline and just saw
-that this lacks a data_race() annotation like the boot variant from
-which this is derived.
+The driver still detects the variant by itself and ignores which
+compatible string was used to select it. So, any compatible string will
+work for any compatible model.
 
-Let me pick this up into a rc2 based branch. I'll tag it and provide it
-to you for consumption.
+Reported-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+---
+ drivers/net/dsa/realtek/Kconfig        | 3 ++-
+ drivers/net/dsa/realtek/realtek-mdio.c | 1 +
+ drivers/net/dsa/realtek/realtek-smi.c  | 4 ++++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/net/dsa/realtek/Kconfig b/drivers/net/dsa/realtek/Kconfig
+index b7427a8292b2..8eb5148bcc00 100644
+--- a/drivers/net/dsa/realtek/Kconfig
++++ b/drivers/net/dsa/realtek/Kconfig
+@@ -29,7 +29,8 @@ config NET_DSA_REALTEK_RTL8365MB
+ 	depends on NET_DSA_REALTEK_SMI || NET_DSA_REALTEK_MDIO
+ 	select NET_DSA_TAG_RTL8_4
+ 	help
+-	  Select to enable support for Realtek RTL8365MB-VC and RTL8367S.
++	  Select to enable support for Realtek RTL8365MB-VC, RTL8367RB-VB
++	  and RTL8367S.
+ 
+ config NET_DSA_REALTEK_RTL8366RB
+ 	tristate "Realtek RTL8366RB switch subdriver"
+diff --git a/drivers/net/dsa/realtek/realtek-mdio.c b/drivers/net/dsa/realtek/realtek-mdio.c
+index 31e1f100e48e..a36b0d8f17ff 100644
+--- a/drivers/net/dsa/realtek/realtek-mdio.c
++++ b/drivers/net/dsa/realtek/realtek-mdio.c
+@@ -267,6 +267,7 @@ static const struct of_device_id realtek_mdio_of_match[] = {
+ #endif
+ #if IS_ENABLED(CONFIG_NET_DSA_REALTEK_RTL8365MB)
+ 	{ .compatible = "realtek,rtl8365mb", .data = &rtl8365mb_variant, },
++	{ .compatible = "realtek,rtl8367rb", .data = &rtl8365mb_variant, },
+ 	{ .compatible = "realtek,rtl8367s", .data = &rtl8365mb_variant, },
+ #endif
+ 	{ /* sentinel */ },
+diff --git a/drivers/net/dsa/realtek/realtek-smi.c b/drivers/net/dsa/realtek/realtek-smi.c
+index 2243d3da55b2..c2200bd23448 100644
+--- a/drivers/net/dsa/realtek/realtek-smi.c
++++ b/drivers/net/dsa/realtek/realtek-smi.c
+@@ -556,6 +556,10 @@ static const struct of_device_id realtek_smi_of_match[] = {
+ 		.compatible = "realtek,rtl8365mb",
+ 		.data = &rtl8365mb_variant,
+ 	},
++	{
++		.compatible = "realtek,rtl8367rb",
++		.data = &rtl8365mb_variant,
++	},
+ 	{
+ 		.compatible = "realtek,rtl8367s",
+ 		.data = &rtl8365mb_variant,
+-- 
+2.35.1
 
-        tglx
