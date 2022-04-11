@@ -2,111 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DEBC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 20:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6836FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 20:58:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243237AbiDKUIo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 16:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
+        id S243481AbiDKVA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 17:00:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349797AbiDKUIn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 16:08:43 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382AC2DAAD;
-        Mon, 11 Apr 2022 13:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649707588; x=1681243588;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G4z9WMGmzn5R8PACI1EDOWSQ9HwBuIwz18XwcrjNmJ0=;
-  b=mgoU+RddxGAFLkbNONd/hhqvG/gO7BmrJu3tzwhuAZCn5nqFeCN8qLYu
-   4NdQXi8rOP3P5VMZ2cUcaHUk6NvmeV0hkgkh1H5f2LmAfJ1GL0cOegcoC
-   3cyg+MDsoylGPy1+AwF3vFCho4yx5fwutospIJb3RNX0vkXZMKOXk2ICP
-   w=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 11 Apr 2022 13:06:27 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 13:06:26 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 13:06:26 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 13:06:25 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <robh+dt@kernel.org>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
-        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
-        <skakit@codeaurora.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v5 5/5] input: misc: pm8941-pwrkey: simulate missed key press events
-Date:   Mon, 11 Apr 2022 13:05:11 -0700
-Message-ID: <20220411200506.22891-6-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220411200506.22891-1-quic_amelende@quicinc.com>
-References: <20220411200506.22891-1-quic_amelende@quicinc.com>
+        with ESMTP id S234574AbiDKVA4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 17:00:56 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFF325295;
+        Mon, 11 Apr 2022 13:58:40 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1649710718;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y9TgkPsl7PyK9/9vchpS586Qdh2s6nbjRZCiEVa2GjI=;
+        b=Tkj8hb6wjt489YfOjb1WKjifuBNaX7h9jgYodPxy0Cghih4P3z7/3m+qloNvSJkvKwpGc+
+        crmTOCmX5tIP6tWMDxno1pfIweHHzQD/IL2n7ZXXbBhe7WJHWEZ9gltK8mGyY0LpW21em8
+        sA8i9Ir5ew6JsMnVdqv89K8zG44tAcvYw8aa7noFfsQh14868trqSElYzgqWvxZm8sqcZV
+        lOJKJBdSrJIKdLbH9Nin4SG5qSrvazDaskDqKaTQY7p+sBn2GpOMhXfbxxGm4kpC2+zakC
+        ss88EhM5Mgo/6DpVIY+VZR+NT7OvE8atgYPGE9BswVm+9C8WyR7uiXq6Tdljgw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1649710718;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y9TgkPsl7PyK9/9vchpS586Qdh2s6nbjRZCiEVa2GjI=;
+        b=hwefFdMZwEuMJZZ27Jxd1Z6uB5hkk5DyvCT2yo+o7TZy24X3gEFEGjz8FKO8ofxk+jTrfN
+        DFU2un8L7G14IVCw==
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Kurt Kanzenbach <kurt@linutronix.de>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] timekeeping: Introduce fast accessor to clock tai
+In-Reply-To: <871qy6hu8q.ffs@tglx>
+References: <20220409081300.4762-1-kurt@linutronix.de>
+ <20220409081300.4762-2-kurt@linutronix.de>
+ <20220409093727.7dda6371@rorschach.local.home> <871qy6hu8q.ffs@tglx>
+Date:   Mon, 11 Apr 2022 22:58:37 +0200
+Message-ID: <87k0bvfibm.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Collins <collinsd@codeaurora.org>
+On Sat, Apr 09 2022 at 22:33, Thomas Gleixner wrote:
+> On Sat, Apr 09 2022 at 09:37, Steven Rostedt wrote:
+>> On Sat,  9 Apr 2022 10:12:58 +0200
+>> Kurt Kanzenbach <kurt@linutronix.de> wrote:
+>>
+>>> ---
+>>>  include/linux/timekeeping.h |  1 +
+>>>  kernel/time/timekeeping.c   | 17 +++++++++++++++++
+>>>  2 files changed, 18 insertions(+)
+>>
+>> If the time keeping folks are OK with this and ack it, I'm happy to
+>> take this through my tree.
+>
+> Go ahead. I just sent a Reviewed-by and I don't see conflicting changes
+> in that area. Famous last words :)
 
-The status of the keys connected to the KPDPWR_N and RESIN_N pins
-is identified by reading corresponding bits in the interrupt real
-time status register.  If the status has changed by the time that
-the interrupt is handled then a press event will be missed.
+And yes, I have some conflicting changes in the pipeline and just saw
+that this lacks a data_race() annotation like the boot variant from
+which this is derived.
 
-Maintain a last known status variable to find unbalanced release
-events and simulate press events for each accordingly.
+Let me pick this up into a rc2 based branch. I'll tag it and provide it
+to you for consumption.
 
-Signed-off-by: David Collins <collinsd@codeaurora.org>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
- drivers/input/misc/pm8941-pwrkey.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Thanks,
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index 881943ab4d55..3519152759dd 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -76,6 +76,7 @@ struct pm8941_pwrkey {
- 	u32 code;
- 	u32 sw_debounce_time_us;
- 	ktime_t sw_debounce_end_time;
-+	bool last_status;
- 	const struct pm8941_data *data;
- };
- 
-@@ -162,6 +163,16 @@ static irqreturn_t pm8941_pwrkey_irq(int irq, void *_data)
- 		pwrkey->sw_debounce_end_time = ktime_add_us(ktime_get(),
- 						pwrkey->sw_debounce_time_us);
- 
-+	/*
-+	 * Simulate a press event in case a release event occurred without a
-+	 * corresponding press event.
-+	 */
-+	if (!pwrkey->last_status && !sts) {
-+		input_report_key(pwrkey->input, pwrkey->code, 1);
-+		input_sync(pwrkey->input);
-+	}
-+	pwrkey->last_status = sts;
-+
- 	input_report_key(pwrkey->input, pwrkey->code, sts);
- 	input_sync(pwrkey->input);
- 
--- 
-2.35.1
-
+        tglx
