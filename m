@@ -2,52 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E81C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 15:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E567C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 16:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244590AbiDKP7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 11:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48240 "EHLO
+        id S231245AbiDKQQF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 12:16:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235504AbiDKP7o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 11:59:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42B21D320;
-        Mon, 11 Apr 2022 08:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GBHXr14ylwPw0Lr+8W24NLBOrvOV2rbcZxI9Qhlznt4=; b=OIsbWCt4m8lIi7nMztvFrdioGy
-        6r/4lLaSjyLiheoe5dO2W+YKCn1NL4px7rrp8z4z+Isu9Z4kjCIB686zkaPvE3+suPaJybMqHr6hB
-        zChOSYvASsCtK2qiV8dUJP4aPKqVpWdkwJR8IkPhKL3tki86yv23PSXAKHW9g5sMvotFHdzuVWeNg
-        uYNshd9znN3NDaAWsDL8dcAfNKvRUYqmDX2PIQmMnKIU0SeDYlIRCWuXrXwypZ2vdqmh+QBOET+qw
-        fu8+Dk7U4UJgPxPA+rLWo+NDdepFdvTTPp5FiA8XwOYutSaK5uSoY71eRhaNGh8kiFNuWx6BGosY/
-        l3W8U9Gg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ndwPu-009gx2-92; Mon, 11 Apr 2022 15:57:26 +0000
-Date:   Mon, 11 Apr 2022 08:57:26 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] block: print correct sectors in
- printk_all_partitions()
-Message-ID: <YlRP5rlp+eNXhFzf@infradead.org>
-References: <1649475581-12139-1-git-send-email-yangtiezhu@loongson.cn>
- <1649475581-12139-4-git-send-email-yangtiezhu@loongson.cn>
+        with ESMTP id S231284AbiDKQQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 12:16:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93BC2B8;
+        Mon, 11 Apr 2022 09:13:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6EDA0B81704;
+        Mon, 11 Apr 2022 16:13:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76885C385A3;
+        Mon, 11 Apr 2022 16:13:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649693626;
+        bh=S4RgEBNrSyI+ophc0QVA8uNOdYjwnqrns4P7akRNFaI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=u6j2TNukG/Ye5tRQPNUxnV2SOuyDUoYoChUBMIbom+cpoQ0Zn/BEGeeQb3x33QKy6
+         iLS44nfmiV0iqUPciH14pEgtnMGByPaiINkJeyDpGpE+rhUC7ge4KRijekqh1TjRGA
+         qseaDRToWLTReU/pvUu+81XSxrsu93EoG7ecEWegxNmMpJAo8bZYHuyA0fs3ZClIGW
+         QzpjAN1iraiktH0G3WnTmK5oRfuB+thCM6cL9rMJ9OUBvGgu/C7i2Vi8x1wU7eFlw1
+         TZJwZzLxneElwllZsXdw3TPhhi3Xwhrvud+o0n4UdYwgYcQteqaYVLZoaENV7abKUm
+         IqFJ2fHTiw4MA==
+Message-ID: <1d595632-ae6d-39f0-b624-7dfc5bfc1ea7@kernel.org>
+Date:   Mon, 11 Apr 2022 10:13:44 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1649475581-12139-4-git-send-email-yangtiezhu@loongson.cn>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH net-next v2] net/ipv6: Introduce accept_unsolicited_na
+ knob to implement router-side changes for RFC9131
+Content-Language: en-US
+To:     Arun Ajith S <aajith@arista.com>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        yoshfuji@linux-ipv6.org, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, prestwoj@gmail.com, gilligan@arista.com,
+        noureddine@arista.com, gk@arista.com
+References: <20220407074428.1623-1-aajith@arista.com>
+ <d7a85a29-0d7f-b5e2-c908-4aa9f89bb476@kernel.org>
+ <CAOvjArQcH1KRV3B1V9urYEV+6i3ZL6NbmkYjbu1icFBJZ3JVOQ@mail.gmail.com>
+From:   David Ahern <dsahern@kernel.org>
+In-Reply-To: <CAOvjArQcH1KRV3B1V9urYEV+6i3ZL6NbmkYjbu1icFBJZ3JVOQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 09, 2022 at 11:39:41AM +0800, Tiezhu Yang wrote:
-> In the above log, the sectors are not consistent with the output
-> of fdisk command, fix it.
+On 4/11/22 9:41 AM, Arun Ajith S wrote:
+> 
+> mausezahn doesn't have good support for ICMPv6.
+> I tried using --type icmp6 -t icmp6 "type=136, payload=<HEX-PAYLOAD>"
+> to manually craft a NA packet with  the target address and the target
+> ll addr option.
+> But it still doesn't allow me to set the flags to mark it as an
+> unsolicited advertisement.
+> 
+> How about this alternative for a test:
+> 1. Setup a veth tunnel across two namespaces, one end being the host
+> and the other the router.
+> 2. On the host side, I can configure
+> net.ipv6.conf.<interface>.ndisc_notify to send out unsolicited NAs.
+> 3. On the router side, I can try out various combinations of
+> (accept_unsolicited_na, drop_unsolicted_na and forwarding)
+> 
 
-It is however consistent with the output of /proc/partitions.
+that works too. even simpler.
