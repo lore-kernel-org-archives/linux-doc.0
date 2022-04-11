@@ -2,125 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7B8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 22:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB0BC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 23:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350490AbiDKWYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 18:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
+        id S229660AbiDKXFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 19:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350461AbiDKWYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 18:24:38 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175E310FCB;
-        Mon, 11 Apr 2022 15:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649715743; x=1681251743;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oXXoBWTt1Xe5PEiUAYw2pYMljxLFcnpZnLwQ3WTj6sw=;
-  b=kPl84TItKpioIO7FoLBe1Nn0rhAxL5NuB0nYhZE45Kr78eHF/xYsIdcd
-   j2tcYlFbllUGVxA5EJ8bIUmrFe927M1TirGT5rpt+JQKlnR8QFIy6b3Z0
-   1Ua8qZCv1RpDi8mp+zG5wVqcDR/3B51faij1aJ5ZFHPtZ0YeGwgXvUxYq
-   0YNtlFGn837VU9LSTdgY+bAsmxbYX7YCQ3SnEPZfWKZNbZh98F7hIzSpr
-   CM575xyUCZlPV/RqY8bYCesJxIrNtDjbLTdFoOQVwLMlWdwbAbwo3VxA5
-   7enMe8I6VancJWYvKSnPG6F/i3hNI23jaMkZiRrhCSaiDH987O4lhp5K0
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="325139667"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
-   d="scan'208";a="325139667"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 15:22:22 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
-   d="scan'208";a="507292101"
-Received: from lvnguyen-mobl2.amr.corp.intel.com (HELO localhost) ([10.213.163.243])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 15:22:22 -0700
-Date:   Mon, 11 Apr 2022 15:22:21 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        peterz@infradead.org
-Subject: Re: [PATCH] Documentation/vm: Extend "Temporary Virtual Mappings" in
- highmem.rst
-Message-ID: <YlSqHf8Kv23iNp0E@iweiny-desk3>
-References: <20220409184907.25122-1-fmdefrancesco@gmail.com>
- <YlJNI7c9pwq5R0RB@casper.infradead.org>
+        with ESMTP id S229507AbiDKXFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 19:05:48 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A6C1C120;
+        Mon, 11 Apr 2022 16:03:32 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-deb9295679so19010317fac.6;
+        Mon, 11 Apr 2022 16:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3ryqgiSf02C8RME8gbpqdqWHQXz1iF0ms7ybIkewvqM=;
+        b=YYId1C0MNJbZWRPrH9i+16EdBv11RnpvpqQ5TTxAuzo5UpF/pmxZ3/pn83wlhTTe45
+         MO6Cj2kf5LoVXxX2xvyxTNZtXMnV3uyRpH1UcyPeuzO597P0g+UuWMuj/C3gmulVJukr
+         LHxnQVWxLHSJFCmTNC1RFWa4em5ptiRdvhqZQrlfdneH3zZps76s2OCEkJhGYVd9Sb68
+         6uy2GBFIOkaLyvu9ScmkYrdP9Je2QTWg3LI+yQVUglJwWA9iFcI4N4v2pYj5NO8QcEK/
+         YEXguO4fT67rbGzXs34k/aO05B/7MATJQRDQZgYSfmoG6dMwz4PMYRKun6U9lj4yPxDW
+         uh/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3ryqgiSf02C8RME8gbpqdqWHQXz1iF0ms7ybIkewvqM=;
+        b=4krD1NxGcQ6Dv5+/C3DlRgWKRS9CXA2tiQhv0MyhP/iOwhwsI+qXHMSOO3q+BfeOiE
+         4+pf7/34j7BTnTT3Fr02DD/G+RLU1Uq5q/BGUjODdzPt4DquqNAddp2jQNiZQTCyNvBz
+         6kHBNugmejFzJGg0kspLMHtTksL10dkraVxRDKp5yVkdJtqwx5idjWsdn2jq+vOjg+wx
+         oNoRV0uaxqzorcWs887wtfunz/V3e/LlMmmcFmYbhIQCzaXmwEEd9/0bqp68d1LjgeDv
+         3NLxL5B6W8HDKAS46+HiiB4nqHoFlI/f9jNy87OPzweFiJxMFveU9VfJUCSis4q4vxxi
+         DLPg==
+X-Gm-Message-State: AOAM530SnIwbOTKanD/OE8WqerwIQCC8FGdAzHhpbdLHlABWJT3Kym6z
+        JTH3W/V0c3MtxxEUhIDmocgskh2yTtcFew==
+X-Google-Smtp-Source: ABdhPJzN62gzuBU4C6LWY72+1P6SS/FOKr0CxvsG0mVxjvWZoxtxk8d7X87i0QeVXeRRf3nCi/2t8A==
+X-Received: by 2002:a05:6870:f624:b0:e1:c071:121c with SMTP id ek36-20020a056870f62400b000e1c071121cmr828819oab.182.1649718211986;
+        Mon, 11 Apr 2022 16:03:31 -0700 (PDT)
+Received: from tresc043793.tre-sc.gov.br ([187.94.103.218])
+        by smtp.gmail.com with ESMTPSA id p1-20020a05683003c100b005c927b6e645sm12808326otc.20.2022.04.11.16.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Apr 2022 16:03:31 -0700 (PDT)
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, bhelgaas@google.com,
+        vladimir.oltean@nxp.com, corbet@lwn.net, pabeni@redhat.com,
+        kuba@kernel.org, davem@davemloft.net,
+        Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Subject: [PATCH net-next v2] docs: net: dsa: describe issues with checksum offload
+Date:   Mon, 11 Apr 2022 20:03:06 -0300
+Message-Id: <20220411230305.28951-1-luizluca@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YlJNI7c9pwq5R0RB@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 10, 2022 at 04:21:07AM +0100, Matthew Wilcox wrote:
-> On Sat, Apr 09, 2022 at 08:49:07PM +0200, Fabio M. De Francesco wrote:
-> > @@ -52,25 +52,65 @@ Temporary Virtual Mappings
-> >  
-> >  The kernel contains several ways of creating temporary mappings:
-> >  
-> > -* vmap().  This can be used to make a long duration mapping of multiple
-> > -  physical pages into a contiguous virtual space.  It needs global
-> > -  synchronization to unmap.
-> > +* vmap().  This can be used to make a long duration mapping of multiple physical
-> > +  pages into a contiguous virtual space. It needs global synchronization to unmap.
-> 
-> Did you change any words here?  If so, I can't see them.  Please don't
-> gratuitously reformat paragraphs; it obscures the real changes.  Also,
-> 75 characters is a good limit for line length, and you're well past
-> that.  If in doubt, use `fmt`.
-> 
-> > -* kmap().  This permits a short duration mapping of a single page.  It needs
-> > -  global synchronization, but is amortized somewhat.  It is also prone to
-> > -  deadlocks when using in a nested fashion, and so it is not recommended for
-> > -  new code.
-> > +* kmap().  This can be used to make long duration mapping of a single page with
-> 
-> kmap() really isn't for long duration.  But the pointer returned from
-> kmap() is valid across all CPUs, unlike kmap_local() or kmap_atomic().
+DSA tags before IP header (categories 1 and 2) or after the payload (3)
+might introduce offload checksum issues.
 
-I think the problem is in how kmap() is being used now for the long duration
-maps in a couple of places.
+Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+---
+ Documentation/networking/dsa/dsa.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-That said, I agree with Matt that we should not document this fact.  Rather we
-should steer people away from making use of kmap() at all.
+diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
+index ddc1dd039337..ed7fa76e7a40 100644
+--- a/Documentation/networking/dsa/dsa.rst
++++ b/Documentation/networking/dsa/dsa.rst
+@@ -193,6 +193,23 @@ protocol. If not all packets are of equal size, the tagger can implement the
+ default behavior by specifying the correct offset incurred by each individual
+ RX packet. Tail taggers do not cause issues to the flow dissector.
+ 
++Checksum offload should work with category 1 and 2 taggers when the DSA master
++driver declares NETIF_F_HW_CSUM in vlan_features and looks at csum_start and
++csum_offset. For those cases, DSA will shift the checksum start and offset by
++the tag size. If the DSA master driver still uses the legacy NETIF_F_IP_CSUM
++or NETIF_F_IPV6_CSUM in vlan_features, the offload might only work if the
++offload hardware already expects that specific tag (perhaps due to matching
++vendors). DSA slaves inherit those flags from the master port, and it is up to
++the driver to correctly fall back to software checksum when the IP header is not
++where the hardware expects. If that check is ineffective, the packets might go
++to the network without a proper checksum (the checksum field will have the
++pseudo IP header sum). For category 3, when the offload hardware does not
++already expect the switch tag in use, the checksum must be calculated before any
++tag is inserted (i.e. inside the tagger). Otherwise, the DSA master would
++include the tail tag in the (software or hardware) checksum calculation. Then,
++when the tag gets stripped by the switch during transmission, it will leave an
++incorrect IP checksum in place.
++
+ Due to various reasons (most common being category 1 taggers being associated
+ with DSA-unaware masters, mangling what the master perceives as MAC DA), the
+ tagging protocol may require the DSA master to operate in promiscuous mode, to
+-- 
+2.35.1
 
-That said if kmap() goes away what replaces it in the areas of the code which
-require a long term access to a VA?
-
-The addition of PKS like protections on the direct map complicate this.
-
-[snip]
-
-> > +
-> > +* kmap_local_*().  These provide a set of functions similar to kmap_atomic() and
-> > +  are used to require short term mappings. They can be invoked from any context
-> > +  (including interrupts).
-> > +
-> > +  The mapping can only be used in the context which acquired it, it is per thread,
-> > +  CPU local (i.e., migration from one CPU to another is disabled - this is why
-> > +  they are called "local"), but they don't disable preemption. It's valid to take
-> > +  pagefaults in a local kmap region, unless the context in which the local mapping
-> > +  is acquired does not allow it for other reasons.
-> > +
-> > +  If a task holding local kmaps is preempted, the maps are removed on context
-> > +  switch and restored when the task comes back on the CPU. As the maps are strictly
-> > +  CPU local, it is guaranteed that the task stays on the CPU and that the CPU
-> > +  cannot be unplugged until the local kmaps are released.
-> > +
-> > +  Nesting kmap_local.*() and kmap_atomic.*() mappings is allowed to a certain
-> > +  extent (up to KMAP_TYPE_NR). Nested kmap_local.*() and kunmap_local.*()
-> > +  invocations have to be strictly ordered because the map implementation is stack
-> > +  based.
-> 
-> I think the original layout of all this is flawed.  We should start by
-> describing the interface we want people to use first -- kmap_local*(),
-> then say "But if you can't use that, there's kmap_atomic()" and "If
-> you can't use kmap_atomic(), you can use kmap()".
-
-...  If, and only if, one absolutely has to use kmap(), then ok...
-
-Ira
