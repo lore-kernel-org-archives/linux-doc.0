@@ -2,125 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8C1C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 21:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7B8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 22:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234903AbiDKVID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 17:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58410 "EHLO
+        id S1350490AbiDKWYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 18:24:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbiDKVIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 17:08:02 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E428B1C3;
-        Mon, 11 Apr 2022 14:05:47 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id 88-20020a9d0ee1000000b005d0ae4e126fso12136836otj.5;
-        Mon, 11 Apr 2022 14:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yxvMPm4Er+k4XJD+1T3NqzNOxccKbRO/T6RynpjDsiI=;
-        b=hdB/UTz3V1XEYy9ZsFEeDNEmhNmZyWZdVOugUlwHb/KntYpTlqZ5jjy/JE1m3aJ3RX
-         /0vK/8jKlgXu1ihYZ5yeHWUGyKk5nBeDgs7RFvo9K+vgVMuOBReeIHz6+oEkFS646C1I
-         0Ehoeq+Prd3bbTgrlKfJq22gN5bZULuT78Ns7Od4FRs7FAmewwPBEb9/tx05TpHpKzUa
-         hZiAEyjbcN84orkofRba9VaHml/RSwzi95v+5xMZKpYzgiNcPVCZkhdc24HrMMg1BeMp
-         sZfV1lTlMntFRiE249+yMGMz22VNSYP5vMvQM30AFZHqZQmur3+J9JnP5mh0Kjbr6ukN
-         z3+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yxvMPm4Er+k4XJD+1T3NqzNOxccKbRO/T6RynpjDsiI=;
-        b=RSW8sSpqtn5cRLw3CIi9kqWT0VBZCzD6eMcga1pYADM4AaItYBl2ILCh446Q/wW4/G
-         pVLHlPBLRqwRe+F6oD9fkph5VE+SuXyfsOML4tuvvJlMlq+bSXmhtYDQ/JVpT//IjAWp
-         JL5Bzqgkm+OIVSu+HzsZqVAmGUze3nkCKFG/qG1lwbxG3b8Cfr1cEmMMPJnX2wtQLgto
-         1sNdImdZaq630EV9+czwF+bQhzV2wSrPi4I0I157sPNqEuQoXqLUSIKrnnlsgoZHf+UF
-         0T+/308sWVJKi34aqflsSkiKKxND8bpMT/H3toAExvHFgXbuv4ADG5FjIV1M4svKyAzI
-         hOIQ==
-X-Gm-Message-State: AOAM532NNINuDa/BHQU0eIKtAwiuEaH2kF6I+RCsv5glALrogDD2zE60
-        pn28r1Cu7lE8/Kra0DI3aL0p97RS5hRcRA==
-X-Google-Smtp-Source: ABdhPJyDdgma6U7O/MrlZEQ94di4kWlbOTGUGk8PHodDppNYjdLS4SE3n634uL9fc6swAiDTKdweMQ==
-X-Received: by 2002:a05:6830:11c2:b0:5cd:9272:326a with SMTP id v2-20020a05683011c200b005cd9272326amr11868693otq.102.1649711146712;
-        Mon, 11 Apr 2022 14:05:46 -0700 (PDT)
-Received: from tresc043793.tre-sc.gov.br ([187.94.103.218])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056830138100b005cf2f29d89csm12377462otq.77.2022.04.11.14.05.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 14:05:46 -0700 (PDT)
-From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, tobias@waldekranz.com, andrew@lunn.ch,
-        f.fainelli@gmail.com, vladimir.oltean@nxp.com, corbet@lwn.net,
-        kuba@kernel.org, davem@davemloft.net,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH net-next] net: dsa: realtek: add compatible strings for RTL8367RB-VB
-Date:   Mon, 11 Apr 2022 18:04:07 -0300
-Message-Id: <20220411210406.21404-1-luizluca@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S1350461AbiDKWYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 18:24:38 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175E310FCB;
+        Mon, 11 Apr 2022 15:22:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649715743; x=1681251743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oXXoBWTt1Xe5PEiUAYw2pYMljxLFcnpZnLwQ3WTj6sw=;
+  b=kPl84TItKpioIO7FoLBe1Nn0rhAxL5NuB0nYhZE45Kr78eHF/xYsIdcd
+   j2tcYlFbllUGVxA5EJ8bIUmrFe927M1TirGT5rpt+JQKlnR8QFIy6b3Z0
+   1Ua8qZCv1RpDi8mp+zG5wVqcDR/3B51faij1aJ5ZFHPtZ0YeGwgXvUxYq
+   0YNtlFGn837VU9LSTdgY+bAsmxbYX7YCQ3SnEPZfWKZNbZh98F7hIzSpr
+   CM575xyUCZlPV/RqY8bYCesJxIrNtDjbLTdFoOQVwLMlWdwbAbwo3VxA5
+   7enMe8I6VancJWYvKSnPG6F/i3hNI23jaMkZiRrhCSaiDH987O4lhp5K0
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="325139667"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
+   d="scan'208";a="325139667"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 15:22:22 -0700
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
+   d="scan'208";a="507292101"
+Received: from lvnguyen-mobl2.amr.corp.intel.com (HELO localhost) ([10.213.163.243])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 15:22:22 -0700
+Date:   Mon, 11 Apr 2022 15:22:21 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        peterz@infradead.org
+Subject: Re: [PATCH] Documentation/vm: Extend "Temporary Virtual Mappings" in
+ highmem.rst
+Message-ID: <YlSqHf8Kv23iNp0E@iweiny-desk3>
+References: <20220409184907.25122-1-fmdefrancesco@gmail.com>
+ <YlJNI7c9pwq5R0RB@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YlJNI7c9pwq5R0RB@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RTL8367RB-VB was not mentioned in the compatible table, nor in the
-Kconfig help text.
+On Sun, Apr 10, 2022 at 04:21:07AM +0100, Matthew Wilcox wrote:
+> On Sat, Apr 09, 2022 at 08:49:07PM +0200, Fabio M. De Francesco wrote:
+> > @@ -52,25 +52,65 @@ Temporary Virtual Mappings
+> >  
+> >  The kernel contains several ways of creating temporary mappings:
+> >  
+> > -* vmap().  This can be used to make a long duration mapping of multiple
+> > -  physical pages into a contiguous virtual space.  It needs global
+> > -  synchronization to unmap.
+> > +* vmap().  This can be used to make a long duration mapping of multiple physical
+> > +  pages into a contiguous virtual space. It needs global synchronization to unmap.
+> 
+> Did you change any words here?  If so, I can't see them.  Please don't
+> gratuitously reformat paragraphs; it obscures the real changes.  Also,
+> 75 characters is a good limit for line length, and you're well past
+> that.  If in doubt, use `fmt`.
+> 
+> > -* kmap().  This permits a short duration mapping of a single page.  It needs
+> > -  global synchronization, but is amortized somewhat.  It is also prone to
+> > -  deadlocks when using in a nested fashion, and so it is not recommended for
+> > -  new code.
+> > +* kmap().  This can be used to make long duration mapping of a single page with
+> 
+> kmap() really isn't for long duration.  But the pointer returned from
+> kmap() is valid across all CPUs, unlike kmap_local() or kmap_atomic().
 
-The driver still detects the variant by itself and ignores which
-compatible string was used to select it. So, any compatible string will
-work for any compatible model.
+I think the problem is in how kmap() is being used now for the long duration
+maps in a couple of places.
 
-Reported-by: Arınç ÜNAL <arinc.unal@arinc9.com>
-Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
----
- drivers/net/dsa/realtek/Kconfig        | 3 ++-
- drivers/net/dsa/realtek/realtek-mdio.c | 1 +
- drivers/net/dsa/realtek/realtek-smi.c  | 4 ++++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+That said, I agree with Matt that we should not document this fact.  Rather we
+should steer people away from making use of kmap() at all.
 
-diff --git a/drivers/net/dsa/realtek/Kconfig b/drivers/net/dsa/realtek/Kconfig
-index b7427a8292b2..8eb5148bcc00 100644
---- a/drivers/net/dsa/realtek/Kconfig
-+++ b/drivers/net/dsa/realtek/Kconfig
-@@ -29,7 +29,8 @@ config NET_DSA_REALTEK_RTL8365MB
- 	depends on NET_DSA_REALTEK_SMI || NET_DSA_REALTEK_MDIO
- 	select NET_DSA_TAG_RTL8_4
- 	help
--	  Select to enable support for Realtek RTL8365MB-VC and RTL8367S.
-+	  Select to enable support for Realtek RTL8365MB-VC, RTL8367RB-VB
-+	  and RTL8367S.
- 
- config NET_DSA_REALTEK_RTL8366RB
- 	tristate "Realtek RTL8366RB switch subdriver"
-diff --git a/drivers/net/dsa/realtek/realtek-mdio.c b/drivers/net/dsa/realtek/realtek-mdio.c
-index 31e1f100e48e..a36b0d8f17ff 100644
---- a/drivers/net/dsa/realtek/realtek-mdio.c
-+++ b/drivers/net/dsa/realtek/realtek-mdio.c
-@@ -267,6 +267,7 @@ static const struct of_device_id realtek_mdio_of_match[] = {
- #endif
- #if IS_ENABLED(CONFIG_NET_DSA_REALTEK_RTL8365MB)
- 	{ .compatible = "realtek,rtl8365mb", .data = &rtl8365mb_variant, },
-+	{ .compatible = "realtek,rtl8367rb", .data = &rtl8365mb_variant, },
- 	{ .compatible = "realtek,rtl8367s", .data = &rtl8365mb_variant, },
- #endif
- 	{ /* sentinel */ },
-diff --git a/drivers/net/dsa/realtek/realtek-smi.c b/drivers/net/dsa/realtek/realtek-smi.c
-index 2243d3da55b2..c2200bd23448 100644
---- a/drivers/net/dsa/realtek/realtek-smi.c
-+++ b/drivers/net/dsa/realtek/realtek-smi.c
-@@ -556,6 +556,10 @@ static const struct of_device_id realtek_smi_of_match[] = {
- 		.compatible = "realtek,rtl8365mb",
- 		.data = &rtl8365mb_variant,
- 	},
-+	{
-+		.compatible = "realtek,rtl8367rb",
-+		.data = &rtl8365mb_variant,
-+	},
- 	{
- 		.compatible = "realtek,rtl8367s",
- 		.data = &rtl8365mb_variant,
--- 
-2.35.1
+That said if kmap() goes away what replaces it in the areas of the code which
+require a long term access to a VA?
 
+The addition of PKS like protections on the direct map complicate this.
+
+[snip]
+
+> > +
+> > +* kmap_local_*().  These provide a set of functions similar to kmap_atomic() and
+> > +  are used to require short term mappings. They can be invoked from any context
+> > +  (including interrupts).
+> > +
+> > +  The mapping can only be used in the context which acquired it, it is per thread,
+> > +  CPU local (i.e., migration from one CPU to another is disabled - this is why
+> > +  they are called "local"), but they don't disable preemption. It's valid to take
+> > +  pagefaults in a local kmap region, unless the context in which the local mapping
+> > +  is acquired does not allow it for other reasons.
+> > +
+> > +  If a task holding local kmaps is preempted, the maps are removed on context
+> > +  switch and restored when the task comes back on the CPU. As the maps are strictly
+> > +  CPU local, it is guaranteed that the task stays on the CPU and that the CPU
+> > +  cannot be unplugged until the local kmaps are released.
+> > +
+> > +  Nesting kmap_local.*() and kmap_atomic.*() mappings is allowed to a certain
+> > +  extent (up to KMAP_TYPE_NR). Nested kmap_local.*() and kunmap_local.*()
+> > +  invocations have to be strictly ordered because the map implementation is stack
+> > +  based.
+> 
+> I think the original layout of all this is flawed.  We should start by
+> describing the interface we want people to use first -- kmap_local*(),
+> then say "But if you can't use that, there's kmap_atomic()" and "If
+> you can't use kmap_atomic(), you can use kmap()".
+
+...  If, and only if, one absolutely has to use kmap(), then ok...
+
+Ira
