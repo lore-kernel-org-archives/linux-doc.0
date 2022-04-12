@@ -2,123 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 126E9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 03:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774E4C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 04:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238657AbiDLD2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 23:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
+        id S229772AbiDLEPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 00:15:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244664AbiDLD2T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 23:28:19 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2063F2E9D4;
-        Mon, 11 Apr 2022 20:26:02 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 12 Apr
- 2022 11:25:53 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Apr
- 2022 11:25:53 +0800
-From:   Haowen Bai <baihaowen@meizu.com>
-To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-CC:     Haowen Bai <baihaowen@meizu.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-Date:   Tue, 12 Apr 2022 11:25:51 +0800
-Message-ID: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S238728AbiDLEPS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 00:15:18 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56163334C;
+        Mon, 11 Apr 2022 21:13:02 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 66so16009470pga.12;
+        Mon, 11 Apr 2022 21:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XouaEdZvcBl5JhcLfEJdOoGq2NdIyzNMfNEZQJatq/s=;
+        b=EFtFdZ7y4d13N2ivMRqIIqqb0JnEdeAjfMBunTmTBHSVRLOCkZ8A35Pmfl7mk6nBkl
+         1T6oLQQdzOj2n5aYZ3G14GivC+RkV7+R+d3enlq5p+oZvr2jprgNl9VVSmJ4YanHYmPO
+         nymegQKgDIcSR3QFqtRmULd9e5gS0PTBrQjil6e/KE89qGNJls/s1OpVPftVhUYT1J3c
+         b1F0kzj98KKiX8QGGi6mkIW9aukbuJ78xXhkHNZ6LlFVxWW2dPFwV1QPTjR/yaSrQOsn
+         QdYGRc22GyxFbIIYtuDn8ozF94K3sZPMHRz8V5dHS2iVu3g/uMQhRx+k4NyH8nrk51I+
+         wghA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XouaEdZvcBl5JhcLfEJdOoGq2NdIyzNMfNEZQJatq/s=;
+        b=432BEBxsawf4oJNgxQ2Gb5UuVe9ir25uf4MuXNZ4PF5A1V1m2igXTOuHIpAt064TPv
+         UsgVrMZwr5KwcHrFyXDmU4G5Sv18QfTGhB+jDd43Woz7S72AqUR67ccKUmI6l2wPJE5B
+         B69iCRKJjdJkgtsDcNTcPAdZw7BStX7hO0mi7MT7m58/aU/Bfr/gDPW0XLZzm2shADHH
+         bnfwHfkIRPfFxhEugbzdFIE6KBTN6TOag7v7sFLYx/nQ5k92O9y2/5hkhW5b6K3d6Net
+         Vs2oux31RvUIJMaOsO7BuY13LxEbdsEcyCcAqxFtNbxZZvHxyTII8/oQrc2cl7ZIe5mO
+         pZbg==
+X-Gm-Message-State: AOAM531kcCQSwdPciS4RV9lEjl7z0q6YnG7BWc6+5rO7p4i4HZ9Pp+wf
+        UWC8QAYahSqrrbRU5TDj3yWX0X5A8MUm1lrq8WI=
+X-Google-Smtp-Source: ABdhPJyU8FMCZHe4yhFNHb0YvmqzAdA518x9UtFgy1jOoHQkCjon67AUbe2wxlR/3Ds+P80ii2RgzZcstbQcQA6Hxy0=
+X-Received: by 2002:a63:3d0b:0:b0:37f:ef34:1431 with SMTP id
+ k11-20020a633d0b000000b0037fef341431mr28767860pga.547.1649736782072; Mon, 11
+ Apr 2022 21:13:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220411210406.21404-1-luizluca@gmail.com> <YlTFRqY3pq84Fw1i@lunn.ch>
+In-Reply-To: <YlTFRqY3pq84Fw1i@lunn.ch>
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Date:   Tue, 12 Apr 2022 01:12:51 -0300
+Message-ID: <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for RTL8367RB-VB
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Tobias Waldekranz <tobias@waldekranz.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>, corbet@lwn.net,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As the tools/vm/page_owner_sort added some feature and original text
-updated, sync the translation of zh_CN.
+> On Mon, Apr 11, 2022 at 06:04:07PM -0300, Luiz Angelo Daros de Luca wrote:
+> > RTL8367RB-VB was not mentioned in the compatible table, nor in the
+> > Kconfig help text.
+> >
+> > The driver still detects the variant by itself and ignores which
+> > compatible string was used to select it. So, any compatible string will
+> > work for any compatible model.
+>
+> Meaning the compatible string is pointless, and cannot be trusted. So
+> yes, you can add it, but don't actually try to use it for anything,
+> like quirks.
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
-index 9e951fabba9d..0d4f94034db6 100644
---- a/Documentation/translations/zh_CN/vm/page_owner.rst
-+++ b/Documentation/translations/zh_CN/vm/page_owner.rst
-@@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
- 		-m		按总内存排序
- 		-p		按pid排序。
- 		-P		按tgid排序。
-+		-n		按任务名称排序。
- 		-r		按内存释放时间排序。
- 		-s		按堆栈跟踪排序。
- 		-t		按时间排序（默认）。
-+		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
-+						**标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
-+						允许混合使用缩写键和全称键。
-+
-+		Examples:
-+				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
-+				./page_owner_sort <input> <output> --sort=at
- 
-    其它函数:
- 
- 	Cull:
--		-c		通过比较堆栈跟踪而不是总块来进行剔除。
-+		--cull <rules>
-+				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
-+
-+		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
-+				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
-+				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
- 
-+		Examples:
-+				./page_owner_sort <input> <output> --cull=stacktrace
-+				./page_owner_sort <input> <output> --cull=st,pid,name
-+				./page_owner_sort <input> <output> --cull=n,f
- 	Filter:
- 		-f		过滤掉内存已被释放的块的信息。
-+
-+	Select:
-+		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
-+		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
-+		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
-+
-+		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
-+
-+
-+		Examples:
-+				./page_owner_sort <input> <output> --pid=1
-+				./page_owner_sort <input> <output> --tgid=1,2,3
-+				./page_owner_sort <input> <output> --name name1,name2
-+
-+		标准格式说明符
-+==========================
-+--sort 选项:
-+
-+	缩写键	全称键		描述
-+	p		pid			进程 ID
-+	tg		tgid		线程组 ID
-+	n		name		任务名称
-+	st		stacktrace	页面分配的调用栈
-+	T		txt			块的全文
-+	ft		free_ts		页面被释放的时间戳
-+	at		alloc_ts	页面分配的时间戳
-+
-+--curl 选项:
-+
-+	缩写键	全称键		描述
-+	p		pid			进程 ID
-+	tg		tgid		线程组 ID
-+	n		name		任务名称
-+	f		free		该页面是否已被释放
-+	st		stacktrace	页面分配的调用栈
--- 
-2.7.4
+Thanks, Andrew. Those compatible strings are indeed useless for now.
+The driver probes the chip variant. Maybe in the future, if required,
+we could provide a way to either force a model or let it autodetect as
+it does today.
 
+There is no "family name" for those devices. The best we had was
+rtl8367c (with "c" probably meaning 3rd family). I suggested renaming
+the driver to rtl8367c but, in the end, we kept it as the first
+supported device name. My plan is, at least, to allow the user to
+specify the correct model without knowing which model it is equivalent
+to.
+
+Regards,
+
+Luiz
