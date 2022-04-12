@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBEEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 12:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2DDC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 12:13:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351683AbiDLMPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 08:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
+        id S1352648AbiDLMPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 08:15:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354457AbiDLMOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 08:14:07 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B5E8595E
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:11 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id mp16-20020a17090b191000b001cb5efbcab6so2491461pjb.4
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:11 -0700 (PDT)
+        with ESMTP id S1354540AbiDLMOI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 08:14:08 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5EE85BC3
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:17 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id bx5so18147847pjb.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0UA2E7Swg+iesG+ux9AwzGNddrfmiNsjUbQGq/dsMiM=;
-        b=KyuopGe1m1WVOFP9p32hmnKBOcBz7duXJkJk9fS7PkoLF0O/RrKyn0sKqaHT7mwP2o
-         Oemd+xORRsXBp6BQ77rF2ECHQKbcsydrcRVQF+xON0R1Tc3192LcDa9tNR+Yhg72Hcko
-         WDNb0O+5PAynoZQW4wML+O/ykXnlIcgyVq39+gR98yIkZ48xzIJDvoZWzM+bvssO9tUm
-         82+Bu3gpNvE/FAoQFNukD7gOFZ1aOiNOmkU6gSOXM0qJyOIOfevULObXLuMq/Gcki9/P
-         1JI9GHBns+7OgvpyjHhLm8EgsSAg1TAA9L0/viQqSSKRt1/ETaLApAa7XkNdQSziZJcQ
-         FSQg==
+        bh=EfqzshiMxPgqo91bqRrogKECfyK/4BP/Cl7KQelj6Dg=;
+        b=bPeubF5u9edpfnmGs04xInTA5275jlp30BzDSTI+ieNDlG4u7/tJ7Rz5RTrhAeA0DD
+         xb3XM6ti+GrjarPym0NKYWxAGrxIlYSSVfiGUr/dIS0YAfsAa/cWKAEtZ14ZadQw81uF
+         LUS8d+iv9X73VtIOegsMfQm/be60nBbUDvuoouSr3+xA55Dq6i6d0JF+5DrQD+VsGKca
+         gfiglXT5A5ClCVJrA0q6LCJhwh1zeAiWiZ6yptsEyZShruJBkFXplBrDQLtEX9sL3YMz
+         /ydrd5vHe6tt3lhL/kJ/qf7IMVRHgzErt1mIGmZMgxdZtI2MWBEHsAu/Ypq3AsqyPbJ+
+         cBEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0UA2E7Swg+iesG+ux9AwzGNddrfmiNsjUbQGq/dsMiM=;
-        b=PSnmZ3GbMWRinm1+K/JbFBxqW1IgqC64ur++R1qEimgH6n6g0bMYM6IQDErkysZVfO
-         Hcwg0impZ1M7551ZisZSDPl+oXvg+3WvdHgTXmqOXK7zHDDfXfHoWEyGujw41PgJr+Xl
-         UvUfolKxeOVkXOSjN9es3RyX7AvoNhQxXMt20XZt70QtMujhLyeErUNzvJMBAD0zYa+e
-         UUXZKHIGg+7H4+xfVgv5nkXgFPQBsNnZ2unSXJcwq4pEzjYPxxnpso4y6Ilo3j80ygel
-         j8dgCNsc2aQBXuJR3WSnxSlT1cuMHbZwfTr4ck12F6eMXVWucnO9ipFKOTOhL4DU/eqH
-         enPA==
-X-Gm-Message-State: AOAM533jw96VejTFoMQzAdMHjFVtDLbpPHcdk9pCNaWlV52tp3vIB8dz
-        myNspGBmDVGTCcPcorxTH9+EhQ==
-X-Google-Smtp-Source: ABdhPJw0PpvcK/RfW3RHG1GTMBjicwgJXBBNM/iVvZwsd6IE8JTVr0XCaF+IWKEuybeVVBGmHde9Gw==
-X-Received: by 2002:a17:902:c94d:b0:158:4e50:7a32 with SMTP id i13-20020a170902c94d00b001584e507a32mr12971286pla.163.1649762110989;
-        Tue, 12 Apr 2022 04:15:10 -0700 (PDT)
+        bh=EfqzshiMxPgqo91bqRrogKECfyK/4BP/Cl7KQelj6Dg=;
+        b=j4LY4ya0MYZKhTB7vspKJfkCu1BpaViIG8hbS7jVIAytFMlhq74yXqwOIuish1MFkT
+         ZWx8eWgYrn9Bdh8QX6kHHqTMFpWg5pxpvQ5NKdiPe312HUbSTlYCiIEaKUw4AwxuMCNz
+         x+H9beCD4uC5FddpSmZg4D+pPnSLljgok+0Rafo9ItAd+xFsIfnnw4sUWQj7dWHMW+43
+         cKgbsVRfREK43PWMyi59FPj3FmRZUq5P5qd5CVzSHV3Ab/7wJUYMZWsmLaj76ZPM8d08
+         kqRN38WPh8XWnvSKYLoHJWrqHzf2UrgcJ9iAZzULxyXODwRrnevA7+aXDjmmBOhK6w1l
+         Tvrw==
+X-Gm-Message-State: AOAM532j95ihJ0VuYVQDTtUOmebg3i+Wfft8CyNUGlHHlLEpzB8+Wb0t
+        w0OLqNDBBB7YkyAsL5jeYM0SkQ==
+X-Google-Smtp-Source: ABdhPJxzz1f3N9EC3y+nmsxylhXN2TisCoqArOTZmzLYhAtuo5R69JHBs9+2JAq88yjyDr3N5O/qwA==
+X-Received: by 2002:a17:90b:3b86:b0:1cb:c243:aed3 with SMTP id pc6-20020a17090b3b8600b001cbc243aed3mr3678637pjb.202.1649762116200;
+        Tue, 12 Apr 2022 04:15:16 -0700 (PDT)
 Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.229])
-        by smtp.gmail.com with ESMTPSA id l25-20020a635719000000b0039da6cdf82dsm402507pgb.83.2022.04.12.04.15.06
+        by smtp.gmail.com with ESMTPSA id l25-20020a635719000000b0039da6cdf82dsm402507pgb.83.2022.04.12.04.15.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 04:15:10 -0700 (PDT)
+        Tue, 12 Apr 2022 04:15:15 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
@@ -54,9 +54,9 @@ To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 2/4] mm: memory_hotplug: override memmap_on_memory when hugetlb_free_vmemmap=on
-Date:   Tue, 12 Apr 2022 19:14:32 +0800
-Message-Id: <20220412111434.96498-3-songmuchun@bytedance.com>
+Subject: [PATCH v7 3/4] mm: hugetlb_vmemmap: use kstrtobool for hugetlb_vmemmap param parsing
+Date:   Tue, 12 Apr 2022 19:14:33 +0800
+Message-Id: <20220412111434.96498-4-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20220412111434.96498-1-songmuchun@bytedance.com>
 References: <20220412111434.96498-1-songmuchun@bytedance.com>
@@ -66,92 +66,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When "hugetlb_free_vmemmap=on" and "memory_hotplug.memmap_on_memory"
-are both passed to boot cmdline, the variable of "memmap_on_memory"
-will be set to 1 even if the vmemmap pages will not be allocated from
-the hotadded memory since the former takes precedence over the latter.
-In the next patch, we want to enable or disable the feature of freeing
-vmemmap pages of HugeTLB via sysctl.  We need a way to know if the
-feature of memory_hotplug.memmap_on_memory is enabled when enabling
-the feature of freeing vmemmap pages since those two features are not
-compatible, however, the variable of "memmap_on_memory" cannot indicate
-this nowadays.  Do not set "memmap_on_memory" to 1 when both parameters
-are passed to cmdline, in this case, "memmap_on_memory" could indicate
-if this feature is enabled by the users.
-
-Also introduce mhp_memmap_on_memory() helper to move the definition of
-"memmap_on_memory" to the scope of CONFIG_MHP_MEMMAP_ON_MEMORY.  In the
-next patch, mhp_memmap_on_memory() will also be exported to be used in
-hugetlb_vmemmap.c.
+Use kstrtobool rather than open coding "on" and "off" parsing in
+mm/hugetlb_vmemmap.c,  which is more powerful to handle all kinds
+of parameters like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/memory_hotplug.c | 32 ++++++++++++++++++++++++++------
- 1 file changed, 26 insertions(+), 6 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  6 +++---
+ mm/hugetlb_vmemmap.c                            | 10 +++++-----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 74430f88853d..f6eab03397d3 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -42,14 +42,36 @@
- #include "internal.h"
- #include "shuffle.h"
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f3cf9f21f6eb..6ea428023d51 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1669,10 +1669,10 @@
+ 			enabled.
+ 			Allows heavy hugetlb users to free up some more
+ 			memory (7 * PAGE_SIZE for each 2MB hugetlb page).
+-			Format: { on | off (default) }
++			Format: { [oO][Nn]/Y/y/1 | [oO][Ff]/N/n/0 (default) }
  
-+#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-+static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
-+{
-+	if (hugetlb_optimize_vmemmap_enabled())
-+		return 0;
-+	return param_set_bool(val, kp);
-+}
+-			on:  enable the feature
+-			off: disable the feature
++			[oO][Nn]/Y/y/1: enable the feature
++			[oO][Ff]/N/n/0: disable the feature
+ 
+ 			Built with CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y,
+ 			the default is on.
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index be73782cc1cf..4b6a5cf16f11 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -195,15 +195,15 @@ EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
+ 
+ static int __init hugetlb_vmemmap_early_param(char *buf)
+ {
+-	if (!buf)
++	bool enable;
 +
-+static const struct kernel_param_ops memmap_on_memory_ops = {
-+	.flags	= KERNEL_PARAM_OPS_FL_NOARG,
-+	.set	= memmap_on_memory_set,
-+	.get	= param_get_bool,
-+};
++	if (kstrtobool(buf, &enable))
+ 		return -EINVAL;
  
- /*
-  * memory_hotplug.memmap_on_memory parameter
-  */
- static bool memmap_on_memory __ro_after_init;
--#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
--module_param(memmap_on_memory, bool, 0444);
-+module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
- MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
-+
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return memmap_on_memory;
-+}
-+#else
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return false;
-+}
- #endif
+-	if (!strcmp(buf, "on"))
++	if (enable)
+ 		static_branch_enable(&hugetlb_optimize_vmemmap_key);
+-	else if (!strcmp(buf, "off"))
+-		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+ 	else
+-		return -EINVAL;
++		static_branch_disable(&hugetlb_optimize_vmemmap_key);
  
- enum {
-@@ -1272,9 +1294,7 @@ bool mhp_supports_memmap_on_memory(unsigned long size)
- 	 *       altmap as an alternative source of memory, and we do not exactly
- 	 *       populate a single PMD.
- 	 */
--	return memmap_on_memory &&
--	       !hugetlb_optimize_vmemmap_enabled() &&
--	       IS_ENABLED(CONFIG_MHP_MEMMAP_ON_MEMORY) &&
-+	return mhp_memmap_on_memory() &&
- 	       size == memory_block_size_bytes() &&
- 	       IS_ALIGNED(vmemmap_size, PMD_SIZE) &&
- 	       IS_ALIGNED(remaining_size, (pageblock_nr_pages << PAGE_SHIFT));
-@@ -2081,7 +2101,7 @@ static int __ref try_remove_memory(u64 start, u64 size)
- 	 * We only support removing memory added with MHP_MEMMAP_ON_MEMORY in
- 	 * the same granularity it was added - a single memory block.
- 	 */
--	if (memmap_on_memory) {
-+	if (mhp_memmap_on_memory()) {
- 		nr_vmemmap_pages = walk_memory_blocks(start, size, NULL,
- 						      get_nr_vmemmap_pages_cb);
- 		if (nr_vmemmap_pages) {
+ 	return 0;
+ }
 -- 
 2.11.0
 
