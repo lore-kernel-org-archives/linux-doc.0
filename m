@@ -2,103 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB0BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Apr 2022 23:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0ECCC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 00:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiDKXFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 19:05:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53884 "EHLO
+        id S231799AbiDLAUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 20:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiDKXFs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 19:05:48 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9A6C1C120;
-        Mon, 11 Apr 2022 16:03:32 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-deb9295679so19010317fac.6;
-        Mon, 11 Apr 2022 16:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ryqgiSf02C8RME8gbpqdqWHQXz1iF0ms7ybIkewvqM=;
-        b=YYId1C0MNJbZWRPrH9i+16EdBv11RnpvpqQ5TTxAuzo5UpF/pmxZ3/pn83wlhTTe45
-         MO6Cj2kf5LoVXxX2xvyxTNZtXMnV3uyRpH1UcyPeuzO597P0g+UuWMuj/C3gmulVJukr
-         LHxnQVWxLHSJFCmTNC1RFWa4em5ptiRdvhqZQrlfdneH3zZps76s2OCEkJhGYVd9Sb68
-         6uy2GBFIOkaLyvu9ScmkYrdP9Je2QTWg3LI+yQVUglJwWA9iFcI4N4v2pYj5NO8QcEK/
-         YEXguO4fT67rbGzXs34k/aO05B/7MATJQRDQZgYSfmoG6dMwz4PMYRKun6U9lj4yPxDW
-         uh/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ryqgiSf02C8RME8gbpqdqWHQXz1iF0ms7ybIkewvqM=;
-        b=4krD1NxGcQ6Dv5+/C3DlRgWKRS9CXA2tiQhv0MyhP/iOwhwsI+qXHMSOO3q+BfeOiE
-         4+pf7/34j7BTnTT3Fr02DD/G+RLU1Uq5q/BGUjODdzPt4DquqNAddp2jQNiZQTCyNvBz
-         6kHBNugmejFzJGg0kspLMHtTksL10dkraVxRDKp5yVkdJtqwx5idjWsdn2jq+vOjg+wx
-         oNoRV0uaxqzorcWs887wtfunz/V3e/LlMmmcFmYbhIQCzaXmwEEd9/0bqp68d1LjgeDv
-         3NLxL5B6W8HDKAS46+HiiB4nqHoFlI/f9jNy87OPzweFiJxMFveU9VfJUCSis4q4vxxi
-         DLPg==
-X-Gm-Message-State: AOAM530SnIwbOTKanD/OE8WqerwIQCC8FGdAzHhpbdLHlABWJT3Kym6z
-        JTH3W/V0c3MtxxEUhIDmocgskh2yTtcFew==
-X-Google-Smtp-Source: ABdhPJzN62gzuBU4C6LWY72+1P6SS/FOKr0CxvsG0mVxjvWZoxtxk8d7X87i0QeVXeRRf3nCi/2t8A==
-X-Received: by 2002:a05:6870:f624:b0:e1:c071:121c with SMTP id ek36-20020a056870f62400b000e1c071121cmr828819oab.182.1649718211986;
-        Mon, 11 Apr 2022 16:03:31 -0700 (PDT)
-Received: from tresc043793.tre-sc.gov.br ([187.94.103.218])
-        by smtp.gmail.com with ESMTPSA id p1-20020a05683003c100b005c927b6e645sm12808326otc.20.2022.04.11.16.03.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 16:03:31 -0700 (PDT)
-From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, bhelgaas@google.com,
-        vladimir.oltean@nxp.com, corbet@lwn.net, pabeni@redhat.com,
-        kuba@kernel.org, davem@davemloft.net,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Subject: [PATCH net-next v2] docs: net: dsa: describe issues with checksum offload
-Date:   Mon, 11 Apr 2022 20:03:06 -0300
-Message-Id: <20220411230305.28951-1-luizluca@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S240338AbiDLAUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 20:20:34 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286DF1C10D;
+        Mon, 11 Apr 2022 17:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=4JejSNvCJX2CI8+uPW+i37EPrfsaIiLcHqu56LNBXTk=; b=NAvAlHPem2HgX3sTPQ25vElX7Z
+        7VKmILEkx6xnRWdnUcWhzX8eAvzK5H79rs2pLa6zWUaiYRcj6GZlcDsaHdzFtsS5ZjS3zMNflrEWV
+        SgMxIAYKJGDjj5qgQI75uKWZ/cYqZCupIeuei2mSdds537SL8dLkt6myxRcnyGtp/kyM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1ne4EY-00FLah-3D; Tue, 12 Apr 2022 02:18:14 +0200
+Date:   Tue, 12 Apr 2022 02:18:14 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        tobias@waldekranz.com, f.fainelli@gmail.com,
+        vladimir.oltean@nxp.com, corbet@lwn.net, kuba@kernel.org,
+        davem@davemloft.net,
+        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
+ RTL8367RB-VB
+Message-ID: <YlTFRqY3pq84Fw1i@lunn.ch>
+References: <20220411210406.21404-1-luizluca@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411210406.21404-1-luizluca@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DSA tags before IP header (categories 1 and 2) or after the payload (3)
-might introduce offload checksum issues.
+On Mon, Apr 11, 2022 at 06:04:07PM -0300, Luiz Angelo Daros de Luca wrote:
+> RTL8367RB-VB was not mentioned in the compatible table, nor in the
+> Kconfig help text.
+> 
+> The driver still detects the variant by itself and ignores which
+> compatible string was used to select it. So, any compatible string will
+> work for any compatible model.
 
-Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
----
- Documentation/networking/dsa/dsa.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Meaning the compatible string is pointless, and cannot be trusted. So
+yes, you can add it, but don't actually try to use it for anything,
+like quirks.
 
-diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
-index ddc1dd039337..ed7fa76e7a40 100644
---- a/Documentation/networking/dsa/dsa.rst
-+++ b/Documentation/networking/dsa/dsa.rst
-@@ -193,6 +193,23 @@ protocol. If not all packets are of equal size, the tagger can implement the
- default behavior by specifying the correct offset incurred by each individual
- RX packet. Tail taggers do not cause issues to the flow dissector.
- 
-+Checksum offload should work with category 1 and 2 taggers when the DSA master
-+driver declares NETIF_F_HW_CSUM in vlan_features and looks at csum_start and
-+csum_offset. For those cases, DSA will shift the checksum start and offset by
-+the tag size. If the DSA master driver still uses the legacy NETIF_F_IP_CSUM
-+or NETIF_F_IPV6_CSUM in vlan_features, the offload might only work if the
-+offload hardware already expects that specific tag (perhaps due to matching
-+vendors). DSA slaves inherit those flags from the master port, and it is up to
-+the driver to correctly fall back to software checksum when the IP header is not
-+where the hardware expects. If that check is ineffective, the packets might go
-+to the network without a proper checksum (the checksum field will have the
-+pseudo IP header sum). For category 3, when the offload hardware does not
-+already expect the switch tag in use, the checksum must be calculated before any
-+tag is inserted (i.e. inside the tagger). Otherwise, the DSA master would
-+include the tail tag in the (software or hardware) checksum calculation. Then,
-+when the tag gets stripped by the switch during transmission, it will leave an
-+incorrect IP checksum in place.
-+
- Due to various reasons (most common being category 1 taggers being associated
- with DSA-unaware masters, mangling what the master perceives as MAC DA), the
- tagging protocol may require the DSA master to operate in promiscuous mode, to
--- 
-2.35.1
-
+     Andrew
