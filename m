@@ -2,352 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 427B2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 12:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9B6C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353067AbiDLMPw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 08:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41210 "EHLO
+        id S1344645AbiDLNCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 09:02:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354610AbiDLMOJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 08:14:09 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097B485BC6
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:21 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id t4so16964700pgc.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:21 -0700 (PDT)
+        with ESMTP id S1351833AbiDLNCJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:02:09 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528466007E;
+        Tue, 12 Apr 2022 05:40:09 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id l7so31625313ejn.2;
+        Tue, 12 Apr 2022 05:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tOkU/RARB4HzUE+K871kdn+JSt0MwPZIDE1q0TKS/DQ=;
-        b=OKnLJ4QCbkZSQSjqhcW5b0CZeXAOfSeBDKKAKfyreFoxa6pTgaQWKP0BesaFcmYzgF
-         I/UYTZWev+8+PIKP2qq2wamq0V90RFdhK0z1JnJFHDgPJradlTJ7uBV1C1jV4EB/ht2m
-         dKhhpsJ5c7o10KdScpnuFUpfFbGEa1sHsBQumLrPcVpJMirCCADQu6N/wFYxQYtNJRyq
-         Jm5SEyUC7WD93CubrUlN/yY+ukPhZ12oig0i20MKS5RDTacSHxVldY+zULCDcqdmMXZ5
-         wzAWxYt77fWGOyd0gg3SXBmQLJzpsuZPrPoHo40qFZqB7X/3gT+gVrqsop8m3CrRNwwb
-         0zag==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lAPe5KLDjByGGButyDlRAtwWbq0RQOm3lpOxpFEkjZM=;
+        b=kKKwpQym3uM9gA+kAZ3Q2JSdsU6Fj13jhXXwUYhelJ5h/YQZEprLlEo+NFEtbmiZmb
+         y7FUXefqMvevdwxFGVjdfb6xAp/KmwM4zkuCD+WMSH/r1TnwetcGp1wAxzmEW2/kvOSv
+         Y1pZwhX+4+kI83Wy7JLpCIuhjZSaxu+C6fuZoxFVUzNp0rD6ScFbKUtjrLTQJjmhAWiY
+         WDRZuF9Q5s2UhZu8takRrpu9uZvmzbnSm/IiO7OiTFzBtmAFGclpbZkO2DjEtwy5jogu
+         e5lwEvNvy4Vl3vR5hTgFANtMltR9b75mDMSeJIsBdi79bLQ/vpTOZBB+kpEHQhVeiXk0
+         GLlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tOkU/RARB4HzUE+K871kdn+JSt0MwPZIDE1q0TKS/DQ=;
-        b=u5qQuUC7+LD9zbX8AelIHSwV9nuXaRk1xqQGb3OccruBb1oaGjZbBjlv9nfBCbWyHT
-         WufghrSrgOgmFZVLnoYCMDgIYL8xF/GEafJPxVFUZ82jAx+kM/1qaH65nKaj0k9KsVRN
-         8DcCK6052nUh6f3YPc/X1xj76VOO06Er6vmdJi/DRmfV/uLgOn6CHvr8AKkNx4xUwuMc
-         g7BG6VLi57wh74h3/whK5+3PoGfX47hc9R7L4NQ4w1VRUyjvZvfStBALb2WnPoP3sCCV
-         di5+qviUhr+u96PFNSLM0r1olq1gKKv/w998jlBuAgL0fhE3R0bm+ZFBsdk/VnQYIA1J
-         8YRg==
-X-Gm-Message-State: AOAM532xy5R7ErSOCyu49WdKtNWExsEFKG1MQxrA47Mw6bqkqTfqJ+aY
-        bfcsBQsdPCHwVIvGu2wdRXB2wStY8W/iDQ==
-X-Google-Smtp-Source: ABdhPJwTtrUS2x+SQP3CaQv+UzJaK+MYHoLSMznZiPSDVhpNPWgS+Ftk27GJKqldQa/Z8kINzEsRCQ==
-X-Received: by 2002:a63:195f:0:b0:399:1f0e:a21d with SMTP id 31-20020a63195f000000b003991f0ea21dmr29964914pgz.393.1649762121328;
-        Tue, 12 Apr 2022 04:15:21 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.229])
-        by smtp.gmail.com with ESMTPSA id l25-20020a635719000000b0039da6cdf82dsm402507pgb.83.2022.04.12.04.15.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lAPe5KLDjByGGButyDlRAtwWbq0RQOm3lpOxpFEkjZM=;
+        b=XB+UfidMhpcMlAxRAOIB/sAB30uZDZ0/s9ULG3IIP8RaMLPu5h+RzJxMhhxSJe++Lz
+         Y7SETiJHQMymZa4VS9CvBb+ouqv79hskcgTpEjr/Rtm/Xid035ni56JbQNnp1yIcYnOT
+         ooMiAih+HIXj03td/yP+h90hosrdq3pFBjYoq567ZyB5OVt3zGfUCKrxwP9q/qJHLVfR
+         SVP2Uw7AXTX+qPn0/KTuk5k0AOPO2anDo8WY7pnSFopigI89vUS4pdFd9QaiHT1B80EH
+         72DjZiYayP6PSzwSLtqMLtryQzNU1E8bUbwOeZ6HP3bQiagRc1dL68hBLO6Nj97gG7Zi
+         jVEA==
+X-Gm-Message-State: AOAM532AA/KP/2BcacQIKsETUdDt0O/H6soCn1CAAeQ8a8o2sJoriOWp
+        9Xh5LkIYjIGPjuDKrOhzbDI=
+X-Google-Smtp-Source: ABdhPJw3sN0aGYU973pQYZXJ+Nb9hMtQkycLysUpJUaV6hrNy+Bnjgkud/YC0BhJwZzJKUgmkOz3fA==
+X-Received: by 2002:a17:907:160a:b0:6e8:3c5d:9ce5 with SMTP id hb10-20020a170907160a00b006e83c5d9ce5mr23576285ejc.606.1649767207759;
+        Tue, 12 Apr 2022 05:40:07 -0700 (PDT)
+Received: from localhost.localdomain (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
+        by smtp.gmail.com with ESMTPSA id kv22-20020a17090778d600b006e8a072fb1dsm1670417ejc.172.2022.04.12.05.40.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 04:15:21 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap sysctl
-Date:   Tue, 12 Apr 2022 19:14:34 +0800
-Message-Id: <20220412111434.96498-5-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220412111434.96498-1-songmuchun@bytedance.com>
-References: <20220412111434.96498-1-songmuchun@bytedance.com>
+        Tue, 12 Apr 2022 05:40:06 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        SeongJae Park <sj@kernel.org>,
+        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
+        Alistair Popple <apopple@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: [PATCH v2] Documentation/vm: Extend "Temporary Virtual Mappings" section in highmem.rst
+Date:   Tue, 12 Apr 2022 14:40:03 +0200
+Message-Id: <20220412124003.10736-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We must add hugetlb_free_vmemmap=on (or "off") to the boot cmdline and
-reboot the server to enable or disable the feature of optimizing vmemmap
-pages associated with HugeTLB pages.  However, rebooting usually takes a
-long time.  So add a sysctl to enable or disable the feature at runtime
-without rebooting.
+Extend and rework the "Temporary Virtual Mappings" section of the highmem.rst
+documentation.
 
-Once enabled, the vmemmap pages of subsequent allocation of HugeTLB pages
-from buddy allocator will be optimized (7 pages per 2MB HugeTLB page and
-4095 pages per 1GB HugeTLB page), whereas already allocated HugeTLB pages
-will not be optimized.  When those optimized HugeTLB pages are freed from
-the HugeTLB pool to the buddy allocator, the vmemmap pages representing
-that range needs to be remapped again and the vmemmap pages discarded
-earlier need to be rellocated again.  If your use case is that HugeTLB
-pages are allocated 'on the fly' instead of being pulled from the HugeTLB
-pool, you should weigh the benefits of memory savings against the more
-overhead of allocation or freeing HugeTLB pages between the HugeTLB pool
-and the buddy allocator.  Another behavior to note is that if the system
-is under heavy memory pressure, it could prevent the user from freeing
-HugeTLB pages from the HugeTLB pool to the buddy allocator since the
-allocation of vmemmap pages could be failed, you have to retry later if
-your system encounter this situation.
+Do a partial rework of the paragraph related to kmap() and add a new paragraph
+in order to document the set of kmap_local_*() functions. Re-order paragraphs
+in decreasing order of preference of usage.
 
-Once disabled, the vmemmap pages of subsequent allocation of HugeTLB
-pages from buddy allocator will not be optimized, whereas already
-optimized HugeTLB pages will not be affected.  If you want to make sure
-there is no optimized HugeTLB pages, you can set "nr_hugepages" to 0
-first and then disable this.
+Despite the local kmaps were introduced by Thomas Gleixner in October 2020,
+documentation was still missing information about them. These additions rely
+largely on Gleixner's patches, Jonathan Corbet's LWN articles, comments by
+Ira Weiny and Matthew Wilcox, and in-code comments from
+./include/linux/highmem.h.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- Documentation/admin-guide/sysctl/vm.rst | 27 ++++++++++
- include/linux/memory_hotplug.h          |  9 ++++
- mm/hugetlb_vmemmap.c                    | 90 +++++++++++++++++++++++++++++----
- mm/hugetlb_vmemmap.h                    |  4 +-
- mm/memory_hotplug.c                     |  7 +--
- 5 files changed, 121 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 747e325ebcd0..5c804ada85c5 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -562,6 +562,33 @@ Change the minimum size of the hugepage pool.
- See Documentation/admin-guide/mm/hugetlbpage.rst
+v1->v2: According to comments on v1 by Mattew Wilcox and Ira Weiny,
+correct a mistake in text, format paragraphs to stay within the 75
+characters limit, re-order the flow of the same paragraphs in decreasing
+order of preference of usage.
+
+ Documentation/vm/highmem.rst | 67 ++++++++++++++++++++++++++++++------
+ 1 file changed, 56 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
+index 0f69a9fec34d..12dcfbee094d 100644
+--- a/Documentation/vm/highmem.rst
++++ b/Documentation/vm/highmem.rst
+@@ -52,24 +52,69 @@ Temporary Virtual Mappings
  
+ The kernel contains several ways of creating temporary mappings:
  
-+hugetlb_optimize_vmemmap
-+========================
-+
-+Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
-+associated with each HugeTLB page.
-+
-+Once enabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-+buddy allocator will be optimized (7 pages per 2MB HugeTLB page and 4095 pages
-+per 1GB HugeTLB page), whereas already allocated HugeTLB pages will not be
-+optimized.  When those optimized HugeTLB pages are freed from the HugeTLB pool
-+to the buddy allocator, the vmemmap pages representing that range needs to be
-+remapped again and the vmemmap pages discarded earlier need to be rellocated
-+again.  If your use case is that HugeTLB pages are allocated 'on the fly'
-+instead of being pulled from the HugeTLB pool, you should weigh the benefits of
-+memory savings against the more overhead of allocation or freeing HugeTLB pages
-+between the HugeTLB pool and the buddy allocator.  Another behavior to note is
-+that if the system is under heavy memory pressure, it could prevent the user
-+from freeing HugeTLB pages from the HugeTLB pool to the buddy allocator since
-+the allocation of vmemmap pages could be failed, you have to retry later if
-+your system encounter this situation.
-+
-+Once disabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-+buddy allocator will not be optimized, whereas already optimized HugeTLB pages
-+will not be affected.  If you want to make sure there is no optimized HugeTLB
-+pages, you can set "nr_hugepages" to 0 first and then disable this.
-+
-+
- nr_hugepages_mempolicy
- ======================
- 
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 7ab15d6fb227..93f2cbea0f9b 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -348,4 +348,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
- extern bool mhp_supports_memmap_on_memory(unsigned long size);
- #endif /* CONFIG_MEMORY_HOTPLUG */
- 
-+#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-+bool mhp_memmap_on_memory(void);
-+#else
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return false;
-+}
-+#endif
-+
- #endif /* __LINUX_MEMORY_HOTPLUG_H */
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 4b6a5cf16f11..94571d63916d 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -176,6 +176,7 @@
-  */
- #define pr_fmt(fmt)	"HugeTLB: " fmt
- 
-+#include <linux/memory_hotplug.h>
- #include "hugetlb_vmemmap.h"
- 
- #ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
-@@ -189,21 +190,40 @@
- #define RESERVE_VMEMMAP_NR		1U
- #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
- 
-+enum vmemmap_optimize_mode {
-+	VMEMMAP_OPTIMIZE_OFF,
-+	VMEMMAP_OPTIMIZE_ON,
-+};
-+
- DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
- 			hugetlb_optimize_vmemmap_key);
- EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
- 
-+static enum vmemmap_optimize_mode vmemmap_optimize_mode =
-+	IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-+
-+static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-+{
-+	if (vmemmap_optimize_mode == to)
-+		return;
-+
-+	if (to == VMEMMAP_OPTIMIZE_OFF)
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	else
-+		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-+	vmemmap_optimize_mode = to;
-+}
-+
- static int __init hugetlb_vmemmap_early_param(char *buf)
- {
- 	bool enable;
-+	enum vmemmap_optimize_mode mode;
- 
- 	if (kstrtobool(buf, &enable))
- 		return -EINVAL;
- 
--	if (enable)
--		static_branch_enable(&hugetlb_optimize_vmemmap_key);
--	else
--		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-+	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-+	vmemmap_optimize_mode_switch(mode);
- 
- 	return 0;
- }
-@@ -236,8 +256,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
- 	 */
- 	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
- 				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
--	if (!ret)
-+	if (!ret) {
- 		ClearHPageVmemmapOptimized(head);
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	}
- 
- 	return ret;
- }
-@@ -251,6 +273,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- 	if (!vmemmap_pages)
- 		return;
- 
-+	static_branch_inc(&hugetlb_optimize_vmemmap_key);
-+
- 	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
- 	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
- 	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-@@ -260,7 +284,9 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- 	 * to the page which @vmemmap_reuse is mapped to, then free the pages
- 	 * which the range [@vmemmap_addr, @vmemmap_end] is mapped to.
- 	 */
--	if (!vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+	if (vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	else
- 		SetHPageVmemmapOptimized(head);
- }
- 
-@@ -277,9 +303,6 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
- 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- 
--	if (!hugetlb_optimize_vmemmap_enabled())
--		return;
+-* vmap().  This can be used to make a long duration mapping of multiple
+-  physical pages into a contiguous virtual space.  It needs global
+-  synchronization to unmap.
 -
- 	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
- 	/*
- 	 * The head page is not to be freed to buddy allocator, the other tail
-@@ -295,4 +318,53 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	pr_info("can optimize %d vmemmap pages for %s\n",
- 		h->optimize_vmemmap_pages, h->name);
- }
+-* kmap().  This permits a short duration mapping of a single page.  It needs
+-  global synchronization, but is amortized somewhat.  It is also prone to
+-  deadlocks when using in a nested fashion, and so it is not recommended for
+-  new code.
++* kmap_local_*().  These provide a set of functions that are used to require
++  short term mappings. They can be invoked from any context (including
++  interrupts) but the mappings can only be used in the context which acquired
++  it.
 +
-+#ifdef CONFIG_PROC_SYSCTL
-+static int hugetlb_optimize_vmemmap_handler(struct ctl_table *table, int write,
-+					    void *buffer, size_t *length,
-+					    loff_t *ppos)
-+{
-+	int ret;
-+	enum vmemmap_optimize_mode mode;
-+	static DEFINE_MUTEX(sysctl_mutex);
++  These mappings are per thread, CPU local (i.e., migration from one CPU to
++  another is disabled - this is why they are called "local"), but they don't
++  disable preemption. It's valid to take pagefaults in a local kmap region,
++  unless the context in which the local mapping is acquired does not allow
++  it for other reasons.
 +
-+	if (write && !capable(CAP_SYS_ADMIN))
-+		return -EPERM;
++  If a task holding local kmaps is preempted, the maps are removed on context
++  switch and restored when the task comes back on the CPU. As the maps are
++  strictly CPU local, it is guaranteed that the task stays on the CPU and
++  that the CPU cannot be unplugged until the local kmaps are released.
 +
-+	mutex_lock(&sysctl_mutex);
-+	mode = vmemmap_optimize_mode;
-+	table->data = &mode;
-+	ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-+	if (write && !ret)
-+		vmemmap_optimize_mode_switch(mode);
-+	mutex_unlock(&sysctl_mutex);
-+
-+	return ret;
-+}
-+
-+static struct ctl_table hugetlb_vmemmap_sysctls[] = {
-+	{
-+		.procname	= "hugetlb_optimize_vmemmap",
-+		.maxlen		= sizeof(enum vmemmap_optimize_mode),
-+		.mode		= 0644,
-+		.proc_handler	= hugetlb_optimize_vmemmap_handler,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
-+	{ }
-+};
-+
-+static __init int hugetlb_vmemmap_sysctls_init(void)
-+{
-+	/*
-+	 * The vmemmap pages cannot be optimized if
-+	 * "memory_hotplug.memmap_on_memory" is enabled.
-+	 */
-+	if (!mhp_memmap_on_memory())
-+		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-+
-+	return 0;
-+}
-+late_initcall(hugetlb_vmemmap_sysctls_init);
-+#endif /* CONFIG_PROC_SYSCTL */
- #endif /* CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP */
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index 3afae3ff37fa..63ae2766ffe0 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -21,7 +21,9 @@ void hugetlb_vmemmap_init(struct hstate *h);
-  */
- static inline unsigned int hugetlb_optimize_vmemmap_pages(struct hstate *h)
- {
--	return h->optimize_vmemmap_pages;
-+	if (hugetlb_optimize_vmemmap_enabled())
-+		return h->optimize_vmemmap_pages;
-+	return 0;
- }
- #else
- static inline int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index f6eab03397d3..af844a01e956 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -63,15 +63,10 @@ static bool memmap_on_memory __ro_after_init;
- module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
- MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
++  Nesting kmap_local.*() and kmap_atomic.*() mappings is allowed to a certain
++  extent (up to KMAP_TYPE_NR). Nested kmap_local.*() and kunmap_local.*()
++  invocations have to be strictly ordered because the map implementation is
++  stack based.
  
--static inline bool mhp_memmap_on_memory(void)
-+bool mhp_memmap_on_memory(void)
- {
- 	return memmap_on_memory;
- }
--#else
--static inline bool mhp_memmap_on_memory(void)
--{
--	return false;
--}
- #endif
+ * kmap_atomic().  This permits a very short duration mapping of a single
+   page.  Since the mapping is restricted to the CPU that issued it, it
+   performs well, but the issuing task is therefore required to stay on that
+   CPU until it has finished, lest some other task displace its mappings.
  
- enum {
+-  kmap_atomic() may also be used by interrupt contexts, since it is does not
+-  sleep and the caller may not sleep until after kunmap_atomic() is called.
++  kmap_atomic() may also be used by interrupt contexts, since it does not
++  sleep and the caller too can not sleep until after kunmap_atomic() is called.
++  Each call of kmap_atomic() in the kernel creates a non-preemptible section and
++  disable pagefaults.
++
++  This could be a source of unwanted latency, so it should be only used if it is
++  absolutely required, otherwise the corresponding kmap_local_*() variant should
++  be used if it is feasible.
++
++  On 64-bit systems, calls to kmap() and kmap_atomic() have no real work to do
++  because a 64-bit address space is more than sufficient to address all the
++  physical memory, so all of physical memory appears in the direct mapping.
++
++  It is assumed that k[un]map_atomic() won't fail.
+ 
+-  It may be assumed that k[un]map_atomic() won't fail.
++* kmap().  This should be used to make short duration mapping of a single
++  page with no restrictions on preemption or migration. It comes with an
++  overhead as mapping space is restricted and protected by a global lock
++  for synchronization. When mapping is no more needed, the address that
++  the page was mapped to must be released with kunmap().
++
++  Mapping changes must be propagated across all the CPUs. kmap() also
++  requires global TLB invalidation when the kmap's pool wraps and it might
++  block when the mapping space is fully utilized until a slot becomes
++  available. Therefore, kmap() is only callable from preemptible context.
++
++  All the above work is necessary if a mapping must last for a relatively
++  long time but the bulk of high-memory mappings in the kernel are
++  short-lived and only used in one place. This means that the cost of
++  kmap() is mostly wasted in such cases. kmap() was not intended for long
++  term mappings but it has morphed in that direction and its use is
++  strongly discouraged in newer code and the set of the preceding functions
++  should be preferred.
++
++* vmap().  This can be used to make a long duration mapping of multiple
++  physical pages into a contiguous virtual space.  It needs global
++  synchronization to unmap.
+ 
+ 
+ Using kmap_atomic
 -- 
-2.11.0
+2.34.1
 
