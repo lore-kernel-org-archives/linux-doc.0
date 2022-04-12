@@ -2,113 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDD2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7F7C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 10:29:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244230AbiDLJvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 05:51:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
+        id S1354026AbiDLKbu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 06:31:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355641AbiDLH1w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 03:27:52 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805344EDD5;
-        Tue, 12 Apr 2022 00:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=C3gL28B3Gc2aOWbp9TEABQMn0ckE3NlAT3ZMfiId2yM=; b=NX/1HLFCyl0vrt8Ykxe6Lw8tiL
-        ibR3HLppnOGAHLzmEZvRQ/ps/npWEuslAuQ2wxMgrPuhsEQkGaiMW2OiO1XheO1U3zr16ITSbJ8Y+
-        Ae9IZrmFSo1ePtVSKuXbWenTKQO/im6/8EfYem0M57zrvOvDuysy2DB2JtTtAHbPS0gJvq3rTLGCn
-        JABlC1yiyKBFK2laSPj5AeOq1wFEjyTxA5jmTRL8kbQ6/qmVUwnY4arjso2s6ilmC/rusTxHmZQPf
-        mW1ZsqDJP4bqkJcpLqsI2kQVkPz/MBRWHAqfCiikArrTB2F6+jnEO3oGsTxbLbckXcGPgQ4wZQLg5
-        o54RZ5SQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1neAbS-004F4r-Tz; Tue, 12 Apr 2022 07:06:19 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 6172F98619A; Tue, 12 Apr 2022 09:06:16 +0200 (CEST)
-Date:   Tue, 12 Apr 2022 09:06:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
-        linux-mm@kvack.org, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, page-reclaim@google.com,
-        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
-Message-ID: <20220412070616.GT2731@worktop.programming.kicks-ass.net>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-6-yuzhao@google.com>
- <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+        with ESMTP id S1380614AbiDLKUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 06:20:51 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8106D47AE7;
+        Tue, 12 Apr 2022 02:25:18 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 12 Apr
+ 2022 17:25:17 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Apr
+ 2022 17:25:15 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     <alexs@kernel.org>, <corbet@lwn.net>
+CC:     <siyanteng@loongson.cn>, <baihaowen@meizu.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH V2] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Date:   Tue, 12 Apr 2022 17:25:14 +0800
+Message-ID: <1649755514-949-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
+References: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 07:16:15PM -0700, Andrew Morton wrote:
+As the tools/vm/page_owner_sort added some feature and original text
+updated, sync the translation of zh_CN.
 
-> > +{
-> > +	int gen;
-> > +	unsigned long old_flags, new_flags;
-> > +
-> > +	do {
-> > +		new_flags = old_flags = READ_ONCE(folio->flags);
-> > +		if (!(new_flags & LRU_GEN_MASK))
-> > +			return false;
-> > +
-> > +		VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
-> > +		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-> > +
-> > +		gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
-> > +
-> > +		new_flags &= ~LRU_GEN_MASK;
-> > +		/* for shrink_page_list() */
-> > +		if (reclaiming)
-> > +			new_flags &= ~(BIT(PG_referenced) | BIT(PG_reclaim));
-> > +		else if (lru_gen_is_active(lruvec, gen))
-> > +			new_flags |= BIT(PG_active);
-> > +	} while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+V1->V2: fix whitespace warning.
 
-Also; please use the form:
+ Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-	unsigned long new, old = READ_ONCE(folio->flags);
-
-	do {
-		new = /* something */ old;
-	} while (!try_cmpxchg(&folio->flags, &old, new))
+diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+index 9e951fabba9d..0d4f94034db6 100644
+--- a/Documentation/translations/zh_CN/vm/page_owner.rst
++++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+@@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 		-m		按总内存排序
+ 		-p		按pid排序。
+ 		-P		按tgid排序。
++		-n		按任务名称排序。
+ 		-r		按内存释放时间排序。
+ 		-s		按堆栈跟踪排序。
+ 		-t		按时间排序（默认）。
++		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
++						**标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
++						允许混合使用缩写键和全称键。
++
++		Examples:
++				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
++				./page_owner_sort <input> <output> --sort=at
+ 
+    其它函数:
+ 
+ 	Cull:
+-		-c		通过比较堆栈跟踪而不是总块来进行剔除。
++		--cull <rules>
++				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
++
++		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
++				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
++				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+ 
++		Examples:
++				./page_owner_sort <input> <output> --cull=stacktrace
++				./page_owner_sort <input> <output> --cull=st,pid,name
++				./page_owner_sort <input> <output> --cull=n,f
+ 	Filter:
+ 		-f		过滤掉内存已被释放的块的信息。
++
++	Select:
++		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
++		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
++		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
++
++		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
++
++
++		Examples:
++				./page_owner_sort <input> <output> --pid=1
++				./page_owner_sort <input> <output> --tgid=1,2,3
++				./page_owner_sort <input> <output> --name name1,name2
++
++		标准格式说明符
++==========================
++--sort 选项:
++
++	缩写键	全称键		描述
++	p		pid			进程 ID
++	tg		tgid		线程组 ID
++	n		name		任务名称
++	st		stacktrace	页面分配的调用栈
++	T		txt			块的全文
++	ft		free_ts		页面被释放的时间戳
++	at		alloc_ts	页面分配的时间戳
++
++--curl 选项:
++
++	缩写键	全称键		描述
++	p		pid			进程 ID
++	tg		tgid		线程组 ID
++	n		name		任务名称
++	f		free		该页面是否已被释放
++	st		stacktrace	页面分配的调用栈
+-- 
+2.7.4
 
