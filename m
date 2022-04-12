@@ -2,120 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9BB2C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDD2C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240003AbiDLJvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 05:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
+        id S244230AbiDLJvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 05:51:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353701AbiDLHZw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 03:25:52 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED11227B23;
-        Tue, 12 Apr 2022 00:03:46 -0700 (PDT)
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1649747024;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wSOBIIfV1E6zWOf6Ap6BP42f42YeWjssrthGrpaLNqo=;
-        b=yuUXZkDhtS1Q1i49HqF5bGILbELxK/GZnL8Jn+JxafbqH9uRdOYH0XloFzxS4yjiVdcotk
-        j6BOGnhzlnrKxUbopjSVQgMym8UGnW47lBEAeg0dcYHGAhiSXyL34PDMJX8BgXkqMrPGjH
-        xKwz0Kd9qKW+j+XqekCZfFBvC3oYyEt3+PB9XmVfVwb9d6F9NjDeqEQeXehvDMgAVtBSNp
-        WU2dUnTQLEtQbjxLQX3Ia9N89AWj1FKpwBzm5wowwIadQ9LeHAXRwMPz92Od6SxFJuZVbp
-        oYmaRQ0rzzedOvdjHyydXJemNj2kHToiAqAXOiPC6Ck5s+WFs9RlrdekE+iIgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1649747024;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wSOBIIfV1E6zWOf6Ap6BP42f42YeWjssrthGrpaLNqo=;
-        b=eLpfoolnSQcLA7qBjjn0dS096grclyQUpFIj2A+VpoERe0u6v2ABtPMrS2o2T05GUxKV09
-        I3rnJkbs3SmEPGAg==
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        with ESMTP id S1355641AbiDLH1w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 03:27:52 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805344EDD5;
+        Tue, 12 Apr 2022 00:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=C3gL28B3Gc2aOWbp9TEABQMn0ckE3NlAT3ZMfiId2yM=; b=NX/1HLFCyl0vrt8Ykxe6Lw8tiL
+        ibR3HLppnOGAHLzmEZvRQ/ps/npWEuslAuQ2wxMgrPuhsEQkGaiMW2OiO1XheO1U3zr16ITSbJ8Y+
+        Ae9IZrmFSo1ePtVSKuXbWenTKQO/im6/8EfYem0M57zrvOvDuysy2DB2JtTtAHbPS0gJvq3rTLGCn
+        JABlC1yiyKBFK2laSPj5AeOq1wFEjyTxA5jmTRL8kbQ6/qmVUwnY4arjso2s6ilmC/rusTxHmZQPf
+        mW1ZsqDJP4bqkJcpLqsI2kQVkPz/MBRWHAqfCiikArrTB2F6+jnEO3oGsTxbLbckXcGPgQ4wZQLg5
+        o54RZ5SQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1neAbS-004F4r-Tz; Tue, 12 Apr 2022 07:06:19 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6172F98619A; Tue, 12 Apr 2022 09:06:16 +0200 (CEST)
+Date:   Tue, 12 Apr 2022 09:06:16 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
+        linux-mm@kvack.org, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] timekeeping: Introduce fast accessor to clock tai
-In-Reply-To: <87k0bvfibm.ffs@tglx>
-References: <20220409081300.4762-1-kurt@linutronix.de>
- <20220409081300.4762-2-kurt@linutronix.de>
- <20220409093727.7dda6371@rorschach.local.home> <871qy6hu8q.ffs@tglx>
- <87k0bvfibm.ffs@tglx>
-Date:   Tue, 12 Apr 2022 09:03:42 +0200
-Message-ID: <87v8vepyup.fsf@kurt>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, page-reclaim@google.com,
+        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
+Message-ID: <20220412070616.GT2731@worktop.programming.kicks-ass.net>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+ <20220407031525.2368067-6-yuzhao@google.com>
+ <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+On Mon, Apr 11, 2022 at 07:16:15PM -0700, Andrew Morton wrote:
 
-On Mon Apr 11 2022, Thomas Gleixner wrote:
-> On Sat, Apr 09 2022 at 22:33, Thomas Gleixner wrote:
->> On Sat, Apr 09 2022 at 09:37, Steven Rostedt wrote:
->>> On Sat,  9 Apr 2022 10:12:58 +0200
->>> Kurt Kanzenbach <kurt@linutronix.de> wrote:
->>>
->>>> ---
->>>>  include/linux/timekeeping.h |  1 +
->>>>  kernel/time/timekeeping.c   | 17 +++++++++++++++++
->>>>  2 files changed, 18 insertions(+)
->>>
->>> If the time keeping folks are OK with this and ack it, I'm happy to
->>> take this through my tree.
->>
->> Go ahead. I just sent a Reviewed-by and I don't see conflicting changes
->> in that area. Famous last words :)
->
-> And yes, I have some conflicting changes in the pipeline and just saw
-> that this lacks a data_race() annotation like the boot variant from
-> which this is derived.
+> > +{
+> > +	int gen;
+> > +	unsigned long old_flags, new_flags;
+> > +
+> > +	do {
+> > +		new_flags = old_flags = READ_ONCE(folio->flags);
+> > +		if (!(new_flags & LRU_GEN_MASK))
+> > +			return false;
+> > +
+> > +		VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+> > +		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
+> > +
+> > +		gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
+> > +
+> > +		new_flags &= ~LRU_GEN_MASK;
+> > +		/* for shrink_page_list() */
+> > +		if (reclaiming)
+> > +			new_flags &= ~(BIT(PG_referenced) | BIT(PG_reclaim));
+> > +		else if (lru_gen_is_active(lruvec, gen))
+> > +			new_flags |= BIT(PG_active);
+> > +	} while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
 
-Interesting, didn't see that annotation. Anyway, this patch also misses
-the corresponding documentation entry. See below.
+Also; please use the form:
 
-Thanks,
-Kurt
+	unsigned long new, old = READ_ONCE(folio->flags);
 
-diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
-index 729e24864fe7..22ec68f24421 100644
---- a/Documentation/core-api/timekeeping.rst
-+++ b/Documentation/core-api/timekeeping.rst
-@@ -132,6 +132,7 @@ Some additional variants exist for more specialized cases:
- .. c:function:: u64 ktime_get_mono_fast_ns( void )
-                u64 ktime_get_raw_fast_ns( void )
-                u64 ktime_get_boot_fast_ns( void )
-+               u64 ktime_get_tai_fast_ns( void )
-                u64 ktime_get_real_fast_ns( void )
+	do {
+		new = /* something */ old;
+	} while (!try_cmpxchg(&folio->flags, &old, new))
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJVJE4THGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzghWjD/sEeBixzbfdwEh+0NSFI9u11RnAGvC9
-wycvpdO5v5MNsKBgXsnO5Ssq7a1Mzx6i6hRY452BEfUvIuFFK2hvFgnvGzIQpFJZ
-Y5orhocN5IeJTq7jv+Iq75Rk1z4Zbsng9qCaDIVZa2u3pxqeng/HbpvNc8bczx5G
-TFIdkGDHJUXjsNkBa48Wj/p18QInGdrEXqHYua3auKUB+EHF0pEjqhnzXhKTHGsy
-CtZUqRkqCp2ONr5aU8jZhMLm8uNnezWC7dz8x3iN8KhEJkJezKa8X/JK7g2zLiSy
-bTviKsrixxYY7IOaBQbqynuvYPvJL9ESIik8AitJiv0qfEzpfR6ZblSzjJgPrHVS
-h4Fvw1yJZ3hTX3SJXgLcCQAgPfaRDRuwssjVmFVmjBDclZ2BwCqxE31Uo1hucEIw
-ewDwZRa/MKqGSpUGmsZAMm1MP0FW8y8p4qpHgb0BeCCiwxFyKsr6Ky/9YRO+2zAq
-zP9UpKGle8MZXy4n1RB2WZ1uStEujYnAF1+Sgm2kEUYptjTfoWqNxEQb+S12oYYG
-0VOty1agDe+UflrRKveE+I0RS8r9ohMHeSEVda2m/Ae9h+E9KZwPOGlZMGHdJaY8
-264CmK4YqwH3jl7CL3xE3rXlBaOCgGBd+3YhVPP25yOqiCmuRyim4ZuYYd02FK4B
-7CrnH8wL+HCuaA==
-=w1aW
------END PGP SIGNATURE-----
---=-=-=--
