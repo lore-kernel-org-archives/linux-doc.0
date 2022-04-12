@@ -2,59 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0ECCC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 00:18:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D1AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 02:16:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231799AbiDLAUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 20:20:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55204 "EHLO
+        id S235879AbiDLCSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 22:18:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240338AbiDLAUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 20:20:34 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286DF1C10D;
-        Mon, 11 Apr 2022 17:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=4JejSNvCJX2CI8+uPW+i37EPrfsaIiLcHqu56LNBXTk=; b=NAvAlHPem2HgX3sTPQ25vElX7Z
-        7VKmILEkx6xnRWdnUcWhzX8eAvzK5H79rs2pLa6zWUaiYRcj6GZlcDsaHdzFtsS5ZjS3zMNflrEWV
-        SgMxIAYKJGDjj5qgQI75uKWZ/cYqZCupIeuei2mSdds537SL8dLkt6myxRcnyGtp/kyM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1ne4EY-00FLah-3D; Tue, 12 Apr 2022 02:18:14 +0200
-Date:   Tue, 12 Apr 2022 02:18:14 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        tobias@waldekranz.com, f.fainelli@gmail.com,
-        vladimir.oltean@nxp.com, corbet@lwn.net, kuba@kernel.org,
-        davem@davemloft.net,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Message-ID: <YlTFRqY3pq84Fw1i@lunn.ch>
-References: <20220411210406.21404-1-luizluca@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411210406.21404-1-luizluca@gmail.com>
+        with ESMTP id S230271AbiDLCSU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 22:18:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8092A24A;
+        Mon, 11 Apr 2022 19:16:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D1996168C;
+        Tue, 12 Apr 2022 02:16:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5F1C385A4;
+        Tue, 12 Apr 2022 02:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1649729762;
+        bh=tni5PvWyZxUvzvzTtCOxpTSc4Z5BiuG+j4AAUMjSjLw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ypvt4LtLI/wxKQQOhAHailuFJouqrOwDHQdOxKPFUl0+7Q9WuFLM3+RQ0vokvusr7
+         G1Nozi6lKTTm+nfFda9SoF2eedu2cD736RrVrFD96DVmyx49cXTpjMjJWqoYggHVPg
+         NTal9bWOGMDNrGM/13809C+0fKJ4TqG1VRF/+dA4=
+Date:   Mon, 11 Apr 2022 19:15:59 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, page-reclaim@google.com,
+        x86@kernel.org
+Subject: Re: [PATCH v10 00/14] Multi-Gen LRU Framework
+Message-Id: <20220411191559.a844c7140faeba2e68d842b7@linux-foundation.org>
+In-Reply-To: <20220407031525.2368067-1-yuzhao@google.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 06:04:07PM -0300, Luiz Angelo Daros de Luca wrote:
-> RTL8367RB-VB was not mentioned in the compatible table, nor in the
-> Kconfig help text.
-> 
-> The driver still detects the variant by itself and ignores which
-> compatible string was used to select it. So, any compatible string will
-> work for any compatible model.
 
-Meaning the compatible string is pointless, and cannot be trusted. So
-yes, you can add it, but don't actually try to use it for anything,
-like quirks.
+It's pretty clear from the results and from the test coverage to date
+that Linux wants this.
 
-     Andrew
+I do think additional review is needed.  For the usual code quality
+reasons, but also to help others get up to speed with the proposed
+changes and to ensure that we have something which is well maintainable
+going forward.
+
+The code at present is unnecessarily difficult to review and that
+review will be less effective than it might be, because of its lack of
+commentary.
+
+I'll merge the v10 series into -mm and -next for additional runtime
+exposure, but I'll be asking for a broad update.
+
+The data structures appear to be adequately documented (this is rare)
+but the code itself is lacking.  Please go through each and every new
+function and ask "is this function so self-evident that it can be
+presented to a newcomer with no explanatory comments at all".
+
+If "yes" then check again.  If still "yes" then fine.  If "no" then
+let's craft comments which tell the reader things which are not evident
+from the code itself.  Things which are helpful to that reader.  Design
+concepts, side-effects, preconditions, unobvious traps, etc.
+
+Please ensure that the current group of mglru developers review these
+comment additions as closely as they review code changes.
+
+Alas, it's late in the process to be adding these things.  But it can
+be made better.
+
+I'll make some high-level comments on the patches themselves now, but I
+see little point in attempting detailed review when a better-explained
+version is hopefully forthcoming.
+
+
+A few gratuitous notebook entries:
+
+- lru_gen_struct.timestamps works in jiffies?  Why?  jiffies can vary
+  based on platform and config - why add inter-platform and
+  inter-Kconfig variability like this?  Time is measured in seconds!
+
+  And the amount of work which can be performed in one second varies
+  by, guess, 100x on machines which we care about.  This also has
+  potential to introduce tremendous inter-platform variability in the
+  behaviour of this feature.
+
+- did lru_gen_use_mm() really need to test nodes_full()?  Is that
+  likely enough to be a net benefit?
+
+- seq_is_valid() sounds like it belongs to the seq_file() subsystem
+
+- does get_nr_evictable() need to return and use signed types (long)?
+  It sums the contents of lru_gen_struct.nr_pages[][][], which is
+  ulong, so I think "no".
