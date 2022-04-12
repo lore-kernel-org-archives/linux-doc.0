@@ -2,106 +2,249 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E1AC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 16:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AE23C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 22:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344647AbiDLQWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 12:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45860 "EHLO
+        id S229512AbiDLWcX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 18:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357602AbiDLQWk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 12:22:40 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CA05BE7B;
-        Tue, 12 Apr 2022 09:20:22 -0700 (PDT)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23CEn5FQ021037;
-        Tue, 12 Apr 2022 16:20:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qEU12zVRs4pAi1Eg2/tlkTkk47yXp5gWUvuDPN5CPM0=;
- b=iHZq7WfGR7qnVQkGyKsKegckLAonYuz0/O9lmbGZ8Orwc7eARm6BX1H9waVS21dIlNgd
- WximwKK77C1lJYzkz+WHakj0HKHv/AJ4sB/wkhcCG5brUELv4IX6j2l37MqqSzqfkGaW
- hIzH9VBqBgIMq1rX/fgp55Oa/TLU+N5UAiqC1iHqpEzsXEGXu4BqMn0KrqeQ/Q8LoWwH
- hTqJzUroROVXP2z214hN497D6brBc3EE6jYuagpCLD2dlvPK9sNe/MaHEKt9ULO1kIfv
- RM+qsxgtOOus2GQnPHpTmLhfJiqhnfLISbE4vSlZX6KunKuIC2sBeE4XMuAJP5vyp274 rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fdahybu9s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 16:20:21 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23CGEqvp033315;
-        Tue, 12 Apr 2022 16:20:21 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fdahybu8y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 16:20:21 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23CGGJHw006357;
-        Tue, 12 Apr 2022 16:20:19 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma01fra.de.ibm.com with ESMTP id 3fb1s8v7q7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 16:20:18 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23CGKFpr44499282
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 12 Apr 2022 16:20:15 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A26A04C04A;
-        Tue, 12 Apr 2022 16:20:15 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9B6AC4C044;
-        Tue, 12 Apr 2022 16:20:14 +0000 (GMT)
-Received: from [9.171.87.149] (unknown [9.171.87.149])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 12 Apr 2022 16:20:14 +0000 (GMT)
-Message-ID: <7d0a1838-5a2a-bf48-ea0c-809211e69cec@linux.ibm.com>
-Date:   Tue, 12 Apr 2022 18:20:14 +0200
+        with ESMTP id S229495AbiDLWcL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 18:32:11 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4BC1A7732
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 14:17:43 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id r66so18393437pgr.3
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 14:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=knG9M3UYQieXfNA2xBybpWoSnTduc8ITKXA/PJQTuvE=;
+        b=N4Pn9XBMGe+1OSsSvf0TKA+WHDQEDctYbjd2ywUDQay5xt4RobfdJqq/dQLSRXPXY9
+         OZWBNrtQ1rWdIFovQx8BwIg/4TArhupIVUGvLewL/soCnwuyuUIDs1EpK1DnwYBXJLBS
+         GnaMdOyf+EzFITDXdiP6K7eLcSo5DCCmuiMNZdcLy1FhXEQz9AtoBE5+yTmHsc9y4t9h
+         OfKHfLxDZ7SXbcuwCSEpeO/WTnbWEf1s5UepVvBYWpYZviFsywwjr36wXtK1edvX1X/+
+         WqQujedZWJoCgOsDOdSq5hzUBCvKGvsABheFwNk3wYcvQMB9tI+TRMJAFu4P26QFTq+D
+         FpDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=knG9M3UYQieXfNA2xBybpWoSnTduc8ITKXA/PJQTuvE=;
+        b=DPbc0iJVIJPpFm5EYPaKsaEDEtpwD/ksvTBQcYGMfl0wvf/tNVzUvQ6HonqzyVuCYo
+         Tkp0vzPsoLLwRRsWU/9wXASzqZ7Ll3UL7m0kHk546tPMXDYG7WwjdYd2m+ug6b7rRubS
+         dngjcKN/J3fVm8QN00+LUvy1fY9BNKzp/B85HNK2O6g1mlwDqYOGaJJIxWH7YV+r76yr
+         6LtaQzvW76LXbUI+cL7SLkCBbnSzH+fxFjYJnq73n+24HlRUrnAKkt1EsJWknoW3GcS1
+         +EFcd+MNMEvPOKaaQvMIf9/5U6YpicclXY+pnd0TAtUHgQHvUHd4yzPHWAZk+mauAPQm
+         5ndA==
+X-Gm-Message-State: AOAM530HAVNgzhDmzTeInVVDtoKG3e/jeAOaVZRTreqwtVF9CWqhc0QZ
+        7/ABm//ZpM3zgAPmlVAKsNx3xA==
+X-Google-Smtp-Source: ABdhPJwIB/I0m6Z1vpJVIM1zCzFcYNBDyM0Q8/OVLOPqFiN3cPMCp15+J1ilmqJAp824tzokxXjO0g==
+X-Received: by 2002:a65:6a07:0:b0:39d:8c35:426b with SMTP id m7-20020a656a07000000b0039d8c35426bmr5198065pgu.171.1649798071171;
+        Tue, 12 Apr 2022 14:14:31 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x6-20020a17090aa38600b001ca2f87d271sm432615pjp.15.2022.04.12.14.14.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 14:14:30 -0700 (PDT)
+Date:   Tue, 12 Apr 2022 21:14:26 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Lai Jiangshan <jiangshanlai@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+Message-ID: <YlXrshJa2Sd1WQ0P@google.com>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
+ <20220330132152.4568-4-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 10/21] KVM: s390: pci: add basic kvm_zdev structure
-Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
- <20220404174349.58530-11-mjrosato@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220404174349.58530-11-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: G66F49yBnOde7KEIyC3ZOnbNSfttx1kQ
-X-Proofpoint-ORIG-GUID: 8J09If8qnveo03HF1Wji97I3eBSjJC2z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-12_06,2022-04-12_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- mlxscore=0 impostorscore=0 spamscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=866 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204120077
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330132152.4568-4-jiangshanlai@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-Am 04.04.22 um 19:43 schrieb Matthew Rosato:
-> This structure will be used to carry kvm passthrough information related to
-> zPCI devices.
+On Wed, Mar 30, 2022, Lai Jiangshan wrote:
+> From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Currently pae_root is special root page, this patch adds facility to
+> allow using kvm_mmu_get_page() to allocate pae_root shadow page.
 
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+I don't think this will work for shadow paging.  CR3 only has to be 32-byte aligned
+for PAE paging.  Unless I'm missing something subtle in the code, KVM will incorrectly
+reuse a pae_root if the guest puts multiple PAE CR3s on a single page because KVM's
+gfn calculation will drop bits 11:5.
+
+Handling this as a one-off is probably easier.  For TDP, only 32-bit KVM with NPT
+benefits from reusing roots, IMO and shaving a few pages in that case is not worth
+the complexity.
+
+> @@ -332,7 +337,8 @@ union kvm_mmu_page_role {
+>  		unsigned ad_disabled:1;
+>  		unsigned guest_mode:1;
+>  		unsigned glevel:4;
+> -		unsigned :2;
+> +		unsigned pae_root:1;
+
+If we do end up adding a role bit, it can simply be "root", which may or may not
+be useful for other things.  is_pae_root() is then a combo of root+level.  This
+will clean up the code a bit as role.root is (mostly?) hardcoded based on the
+function, e.g. root allocators set it, child allocators clear it.
+
+> +		unsigned :1;
+>  
+>  		/*
+>  		 * This is left at the top of the word so that
+> @@ -699,6 +705,7 @@ struct kvm_vcpu_arch {
+>  	struct kvm_mmu_memory_cache mmu_shadow_page_cache;
+>  	struct kvm_mmu_memory_cache mmu_gfn_array_cache;
+>  	struct kvm_mmu_memory_cache mmu_page_header_cache;
+> +	void *mmu_pae_root_cache;
+>  
+>  	/*
+>  	 * QEMU userspace and the guest each have their own FPU state.
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index d53037df8177..81ccaa7c1165 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -694,6 +694,35 @@ static void walk_shadow_page_lockless_end(struct kvm_vcpu *vcpu)
+>  	}
+>  }
+>  
+> +static int mmu_topup_pae_root_cache(struct kvm_vcpu *vcpu)
+> +{
+> +	struct page *page;
+> +
+> +	if (vcpu->arch.mmu->shadow_root_level != PT32E_ROOT_LEVEL)
+> +		return 0;
+> +	if (vcpu->arch.mmu_pae_root_cache)
+> +		return 0;
+> +
+> +	page = alloc_page(GFP_KERNEL_ACCOUNT | __GFP_ZERO | __GFP_DMA32);
+> +	if (!page)
+> +		return -ENOMEM;
+> +	vcpu->arch.mmu_pae_root_cache = page_address(page);
+> +
+> +	/*
+> +	 * CR3 is only 32 bits when PAE paging is used, thus it's impossible to
+> +	 * get the CPU to treat the PDPTEs as encrypted.  Decrypt the page so
+> +	 * that KVM's writes and the CPU's reads get along.  Note, this is
+> +	 * only necessary when using shadow paging, as 64-bit NPT can get at
+> +	 * the C-bit even when shadowing 32-bit NPT, and SME isn't supported
+> +	 * by 32-bit kernels (when KVM itself uses 32-bit NPT).
+> +	 */
+> +	if (!tdp_enabled)
+> +		set_memory_decrypted((unsigned long)vcpu->arch.mmu_pae_root_cache, 1);
+> +	else
+> +		WARN_ON_ONCE(shadow_me_mask);
+> +	return 0;
+> +}
+> +
+>  static int mmu_topup_memory_caches(struct kvm_vcpu *vcpu, bool maybe_indirect)
+>  {
+>  	int r;
+> @@ -705,6 +734,9 @@ static int mmu_topup_memory_caches(struct kvm_vcpu *vcpu, bool maybe_indirect)
+>  		return r;
+>  	r = kvm_mmu_topup_memory_cache(&vcpu->arch.mmu_shadow_page_cache,
+>  				       PT64_ROOT_MAX_LEVEL);
+> +	if (r)
+> +		return r;
+> +	r = mmu_topup_pae_root_cache(vcpu);
+
+This doesn't need to be called from the common mmu_topup_memory_caches(), e.g. it
+will unnecessarily require allocating another DMA32 page when handling a page fault.
+I'd rather call this directly kvm_mmu_load(), which also makes it more obvious
+that the cache really is only used for roots.
+
+>  	if (r)
+>  		return r;
+>  	if (maybe_indirect) {
+> @@ -717,12 +749,23 @@ static int mmu_topup_memory_caches(struct kvm_vcpu *vcpu, bool maybe_indirect)
+>  					  PT64_ROOT_MAX_LEVEL);
+>  }
+>  
+
+...
+
+>  static void link_shadow_page(struct kvm_vcpu *vcpu, u64 *sptep,
+>  			     struct kvm_mmu_page *sp)
+>  {
+> +	struct kvm_mmu_page *parent_sp = sptep_to_sp(sptep);
+>  	u64 spte;
+>  
+>  	BUILD_BUG_ON(VMX_EPT_WRITABLE_MASK != PT_WRITABLE_MASK);
+>  
+> -	spte = make_nonleaf_spte(sp->spt, sp_ad_disabled(sp));
+> +	if (!parent_sp->role.pae_root)
+
+Hmm, without role.root, this could be:
+
+	if (sp->role.level == (PT32E_ROOT_level - 1) &&
+	    ((__pa(sptep) & PT64_BASE_ADDR_MASK) == vcpu->arch.mmu->root.hpa))
+		spte = make_pae_pdpte(sp->spt);
+	else
+		spte = make_nonleaf_spte(sp->spt, sp_ad_disabled(sp));
+
+Which is gross, but it works.  We could also do FNAME(link_shadow_page) to send
+PAE roots down a dedicated path (also gross).  Point being, I don't think we
+strictly need a "root" flag unless the PAE roots are put in mmu_page_hash.
+
+> +		spte = make_nonleaf_spte(sp->spt, sp_ad_disabled(sp));
+> +	else
+> +		spte = make_pae_pdpte(sp->spt);
+>  
+>  	mmu_spte_set(sptep, spte);
+>  
+> @@ -4782,6 +4847,8 @@ kvm_calc_tdp_mmu_root_page_role(struct kvm_vcpu *vcpu,
+>  	role.base.level = kvm_mmu_get_tdp_level(vcpu);
+>  	role.base.direct = true;
+>  	role.base.has_4_byte_gpte = false;
+> +	if (role.base.level == PT32E_ROOT_LEVEL)
+> +		role.base.pae_root = 1;
+>  
+>  	return role;
+>  }
+> @@ -4848,6 +4915,9 @@ kvm_calc_shadow_mmu_root_page_role(struct kvm_vcpu *vcpu,
+>  	else
+>  		role.base.level = PT64_ROOT_4LEVEL;
+>  
+> +	if (role.base.level == PT32E_ROOT_LEVEL)
+> +		role.base.pae_root = 1;
+> +
+>  	return role;
+>  }
+>  
+> @@ -4893,6 +4963,8 @@ kvm_calc_shadow_npt_root_page_role(struct kvm_vcpu *vcpu,
+>  
+>  	role.base.direct = false;
+>  	role.base.level = kvm_mmu_get_tdp_level(vcpu);
+> +	if (role.base.level == PT32E_ROOT_LEVEL)
+> +		role.base.pae_root = 1;
+>  
+>  	return role;
+>  }
+> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+> index 67489a060eba..1015f33e0758 100644
+> --- a/arch/x86/kvm/mmu/paging_tmpl.h
+> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
+> @@ -1043,6 +1043,7 @@ static int FNAME(sync_page)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp)
+>  		.access = 0x7,
+>  		.quadrant = 0x3,
+>  		.glevel = 0xf,
+> +		.pae_root = 0x1,
+>  	};
+>  
+>  	/*
+> -- 
+> 2.19.1.6.gb485710b
+> 
